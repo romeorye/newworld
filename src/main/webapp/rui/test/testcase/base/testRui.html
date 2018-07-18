@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui Tests</title>
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+
+function testRui_method_namespace() {
+    info('RuiTests : testRui_method_namespace 작동 여부');
+    var i = 'Rui.test'; //String
+    var result = Rui.namespace(i);
+    //return type : Object
+    assertEquals(result, Rui.test);
+}
+function testRui_method_log() {
+    info('RuiTests : testRui_method_log 작동 여부');
+    var msg = null; //String
+    Rui.log('test');
+    //return type : boolean
+    assertTrue(true);
+}
+function testRui_method_trim() {
+    info('RuiTests : testRui_method_trim 작동 여부');
+    var trim = '  ddd '; //string
+    var result = Rui.trim(trim);
+    //return type : string
+    assertEquals(result, 'ddd');
+}
+function testRui_method_emptyFn() {
+    info('RuiTests : testRui_method_emptyFn 작동 여부');
+    var fn = Rui.emptyFn;
+    assertTrue(typeof fn == 'function');
+}
+function testRui_method_extend() {
+    info('RuiTests : testRui_method_extend 작동 여부');
+    Rui.test = function() {
+        
+    }; //Function
+    var superc = { test1: function() {} }; //Function
+    Rui.extend(Rui.test, Rui.util.LEventProvider, superc);
+    
+    var ruiTest = new Rui.test();
+    
+    assertTrue(typeof ruiTest.test1 == 'function');
+}
+function testRui_method_applyObject() {
+    info('RuiTests : testRui_method_applyObject 작동 여부');
+    var r = {}; //Function
+    var s = { aaa: 'ddd'}; //Function
+    Rui.applyObject(r, s);
+    assertNotUndefined(r.aaa);
+}
+function testRui_method_applyPrototype() {
+    warn('RuiTests : testRui_method_applyPrototype 테스트 무시 => 내부에서만 사용');
+}
+function testRui_method_applyIf() {
+    info('RuiTests : testRui_method_applyIf 작동 여부');
+    var obj = {aaa: 'bbb'}; //Object
+    var config = {bbb: 'ccc'}; //Object
+    var result = Rui.applyIf(obj, config);
+    //return type : Object
+    assertNotUndefined(result.bbb);
+}
+function testRui_method_merge() {
+    warn('RuiTests : testRui_method_merge 테스트 무시 => 내부에서만 사용');
+}
+function testRui_method_getDom() {
+    info('RuiTests : testRui_method_getDom 작동 여부');
+    assertNotUndefined(Rui.getDom('bd'));
+}
+function testRui_method_getDoc() {
+    info('RuiTests : testRui_method_getDoc 작동 여부');
+    assertEquals(Rui.getDoc().dom, document);
+}
+function testRui_method_getBody() {
+    info('RuiTests : testRui_method_getBody 작동 여부');
+    assertEquals(Rui.getBody().dom, document.body);
+}
+function testRui_method_onReady() {
+    warn('RuiTests : testRui_method_onReady 테스트 무시 => 테스트할 방법이 없음.');
+}
+function testRui_method_onContentReady() {
+    warn('RuiTests : testRui_method_onContentReady 테스트 무시 => 테스트할 방법이 없음.');
+}
+function testRui_method_ajax() {
+    var isSuccess = false;
+    Rui.ajax({
+        url: './../../../sample/data/code.json',
+        sync: true,
+        success: function(e) {
+            isSuccess = true;
+        },
+        failure: function(e) {
+            isSuccess = false;            
+        }
+    });
+    assertTrue(isSuccess);
+}
+function testRui_method_id() {
+    warn('RuiTests : testRui_method_id 테스트 무시 => 값이 계속 바뀌므로 무시');
+}
+function testRui_method_select() {
+    info('RuiTests : testRui_method_select 작동 여부');
+    var selector = '#bd'; //string
+    var result = Rui.select(selector);
+    //return type : Rui.LElementList
+    assertEquals(result.length, 1);
+}
+function testRui_method_query() {
+    warn('RuiTests : testRui_method_query 테스트 무시 => select 메소드 안에서 처리됨.');
+}
+function testRui_method_each() {
+    warn('RuiTests : testRui_method_each 테스트 무시 => 내부에서만 사용');
+}
+function testRui_method_dump() {
+    warn('RuiTests : testRui_method_dump 테스트 무시 => 디버그용');
+}
+function testRui_method_createElements() {
+    info('RuiTests : testRui_method_createElements 작동 여부');
+    var html = '<div>test</div>'; //String
+    var result = Rui.createElements(html);
+    //return type : Rui.LElementList
+    assertEquals(result.getAt(0).getHtml(), 'test');
+}
+function testRui_method_hasOwnProperty() {
+    warn('RuiTests : testRui_method_hasOwnProperty 테스트 무시 => 내부에서만 사용');
+}
+function testRui_method_get() {
+    info('RuiTests : testRui_method_get 작동 여부');
+    var el = 'bd'; //Mixed
+    assertEquals(Rui.get(el).dom, document.getElementById('bd'));
+}
+
+
+
+function testRui_method_later() {
+    warn('RuiTests : testRui_method_later 테스트 무시 => 테스트 할 수 없음');
+}
+function testRui_method_isValue() {
+    info('RuiTests : testRui_method_isValue 작동 여부');
+    var o = 'dddd'; //any
+    assertEquals(Rui.isValue(o), true);
+}
+function testRui_method_getConfig() {
+    info('RuiTests : testRui_method_getConfig 작동 여부');
+    assertTrue(Rui.getConfig() instanceof Rui.config.LConfiguration);
+}
+function testRui_method_getMessageManager() {
+    info('RuiTests : testRui_method_getMessageManager 작동 여부');
+    assertTrue(Rui.getMessageManager() instanceof Rui.message.LMessageManager);
+}
+function testRui_method_includeJs() {
+    info('RuiTests : testRui_method_includeJs 작동 여부');
+    Rui.includeJs('./../../../js/rui_dev-guide.js');
+    assertTrue(true);
+}
+function testRui_method_includeCss() {
+    info('RuiTests : testRui_method_includeCss 작동 여부');
+    Rui.includeCss('./../../../resources/rui_sample_base.css');
+    assertTrue(true);
+}
+function testRui_method_urlParams() {
+    info('RuiTests : testRui_method_urlParams 작동 여부');
+    var url = Rui.urlParams();
+    assertNotUndefined(url);
+}
+function testRui_method_log() {
+    info('RuiTests : testRui_method_log 작동 여부');
+    var msg = 'test'; //String
+    var result = Rui.log(msg);
+    //return type : boolean
+    assertTrue(true);
+}
+//**************test function 시작*****************
+// testcase 넣을 위치
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui Tests</h1>
+
+    <div id="bd">
+        <a href="javascript:testRui_method_namespace()">namespace</a>
+        <a href="javascript:testRui_method_log()">log</a>
+        <a href="javascript:testRui_method_trim()">trim</a>
+        <a href="javascript:testRui_method_emptyFn()">emptyFn</a>
+        <a href="javascript:testRui_method_extend()">extend</a>
+        <a href="javascript:testRui_method_applyObject()">applyObject</a>
+        <a href="javascript:testRui_method_applyPrototype()">applyPrototype</a>
+        <a href="javascript:testRui_method_applyIf()">applyIf</a>
+        <a href="javascript:testRui_method_merge()">merge</a>
+        <a href="javascript:testRui_method_getDom()">getDom</a>
+        <a href="javascript:testRui_method_getDoc()">getDoc</a>
+        <a href="javascript:testRui_method_getBody()">getBody</a>
+        <a href="javascript:testRui_method_onReady()">onReady</a>
+        <a href="javascript:testRui_method_onContentReady()">onContentReady</a>
+        <a href="javascript:testRui_method_ajax()">ajax</a>
+        <a href="javascript:testRui_method_id()">id</a>
+        <a href="javascript:testRui_method_select()">select</a>
+        <a href="javascript:testRui_method_query()">query</a>
+        <a href="javascript:testRui_method_each()">each</a>
+        <a href="javascript:testRui_method_dump()">dump</a>
+        <a href="javascript:testRui_method_createElements()">createElements</a>
+        <a href="javascript:testRui_method_hasOwnProperty()">hasOwnProperty</a>
+        <a href="javascript:testRui_method_get()">get</a>
+        
+        <a href="javascript:testRui_method_later()">later</a>
+        <a href="javascript:testRui_method_isValue()">isValue</a>
+        <a href="javascript:testRui_method_getConfig()">getConfig</a>
+        <a href="javascript:testRui_method_getMessageManager()">getMessageManager</a>
+        <a href="javascript:testRui_method_includeJs()">includeJs</a>
+        <a href="javascript:testRui_method_includeCss()">includeCss</a>
+        <a href="javascript:testRui_method_urlParams()">urlParams</a>
+        <a href="javascript:testRui_method_log()">log</a>
+    </div>
+</body>
+</html>

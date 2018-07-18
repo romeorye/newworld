@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.tss.rfp">
+	<!-- 연구과제 > RFP요청서 > 요청서 목록 조회  -->
+	<select id="retrieveRfpSearchList" resultType="hashmap" >
+	<![CDATA[
+		select m.*
+		from   (
+				select  a.RFP_ID as rfpId
+				       ,a.TITLE  as  title
+				       ,a.REQ_DATE as reqDate
+					   ,a.RSECH_ENGN as  rsechEngn
+					   ,a.SUBMIT_YN as submitYn
+					   ,dbo.fn_getSabunName(a.RGST_EMP_NO) as rgstNm
+					   ,a.RGST_EMP_NO as rgstEmpNo
+				from   IRIS_OPN_RFP_MST a
+				where   a.DEL_YN ='N'
+			   ) m	
+	    where  1=1	
+	]]>
+	
+	<if test="( title != '' and title !=  null )">
+	       AND m.title LIKE '%'+#{title}+'%'
+	</if>
+	<if test="( rgstNm != '' and rgstNm != null )">
+	       AND m.rgstNm  LIKE '%'+#{rgstNm}+'%'
+	</if>
+	
+	<if test="adminYn.equals('N')">
+	       AND m.rgstEmpNo = #{_userSabun}
+	</if>
+		 ORDER BY m.rfpId desc
+	</select>
+	
+	
+	<select id="retrieveRfpInfo" resultType="hashmap">
+		<![CDATA[
+			select   a.RFP_ID              as  rfpId            
+					,a.TITLE			   as  title			 
+					,a.REQ_DATE			   as  reqDate			 
+					,a.RSECH_ENGN		   as  rsechEngn		 
+					,a.DESC_TCLG		   as  descTclg		 
+					,a.EXPT_APPL		   as  exptAppl		 
+					,a.MAIN_REQ			   as  mainReq			 
+					,a.BENCH_MARK_TCLG	   as  benchMarkTclg	 
+					,a.COLABO_TCLG		   as  colaboTclg		 
+					,a.TIMELINE			   as  timeline			 
+					,a.COMMENTS			   as  comments			 
+					,a.COMPANY_NM		   as  companyNm		 
+					,a.PJT_IMG_VIEW		   as  pjtImgView		 
+					,a.SUBMIT_YN		   as  submitYn		 
+					,a.RGST_EMP_NO		   as  rgstEmpNo		 
+			from IRIS_OPN_RFP_MST a
+			where  a.DEL_YN = 'N'
+			and   a.RFP_ID = #{rfpId}
+		]]>
+	</select>
+	
+	<update id="saveRfpInfo" >
+		MERGE IRIS_OPN_RFP_MST MEM
+	    	USING ( SELECT #{rfpId} AS RFP_ID ) AS Tab1
+			ON  (MEM.RFP_ID = Tab1.RFP_ID)
+			WHEN MATCHED THEN
+		UPDATE SET	 TITLE 			= #{title}		   
+					,REQ_DATE		= #{reqDate}		   
+					,RSECH_ENGN		= #{rsechEngn}   
+					,DESC_TCLG		= #{descTclg}	   
+					,EXPT_APPL		= #{exptAppl}	   
+					,MAIN_REQ		= #{mainReq}		   
+					,BENCH_MARK_TCLG= #{benchMarkTclg}   
+					,COLABO_TCLG 	= #{colaboTclg}	   
+					,TIMELINE  		= #{timeline}		   
+					,COMMENTS		= #{comments}		   
+					,COMPANY_NM		= #{companyNm}	   
+					,PJT_IMG_VIEW 	= #{pjtImgView}	   
+					,RGST_EMP_NO  	= #{_userSabun}   
+					,LAST_MDFY_DT 	= getdate()
+					,LAST_MDFY_ID 	= #{_userId}	
+		WHEN NOT MATCHED THEN
+		INSERT (
+			  TITLE				
+			, REQ_DATE			
+			, RSECH_ENGN		
+			, DESC_TCLG			
+			, EXPT_APPL			
+			, MAIN_REQ			
+			, BENCH_MARK_TCLG	
+			, COLABO_TCLG		
+			, TIMELINE			
+			, COMMENTS			
+			, COMPANY_NM		
+			, PJT_IMG_VIEW		
+			, SUBMIT_YN         
+			, RGST_EMP_NO       
+			, DEL_YN            
+			, FRST_RGST_DT		
+			, FRST_RGST_ID		
+			, LAST_MDFY_DT		
+			, LAST_MDFY_ID	)
+		 VALUES (	
+			  #{title}				
+			, #{reqDate}
+			, #{rsechEngn}		
+			, #{descTclg}			
+			, #{exptAppl}			
+			, #{mainReq}			
+			, #{benchMarkTclg}	
+			, #{colaboTclg}		
+			, #{timeline}			
+			, #{comments}			
+			, #{companyNm}		
+			, #{pjtImgView}		
+			, 'N'         
+			, #{_userSabun}    
+			, 'N'            
+			, getdate()
+			, #{_userId}		
+			, getdate()		
+			, #{_userId}	
+			 );
+	</update>
+	
+	<update id="deleteRfpInfo">
+		update IRIS_OPN_RFP_MST
+		set    del_yn ='Y'
+		      ,FRST_RGST_DT = getdate()
+		      ,LAST_MDFY_ID = #{_userId}
+	    where  RFP_ID = #{rfpId}
+	</update>
+	
+	<update id="submitRfpInfo">
+		update IRIS_OPN_RFP_MST
+		set    SUBMIT_YN ='Y'
+		      ,FRST_RGST_DT = getdate()
+		      ,LAST_MDFY_ID = #{_userId}
+	    where  RFP_ID = #{rfpId}
+	</update>
+	
+	
+</mapper>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LUIComponent Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style type="text/css">
+#uIComponent {
+    background-color: red;
+    display: inline-block;
+    *display: inline;
+    *zoom: 100%;
+}
+</style>
+
+<script type="text/javascript" >
+var uIComponent;
+Rui.onReady(function() {
+    uIComponent = new Rui.ui.LUIComponent({ width: 10, height: 10 });
+    uIComponent.render('uIComponent');
+
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLUIComponent_method_render() {
+    info('LUIComponentTests : testLUIComponent_method_render 작동 여부');
+    assertTrue(true);
+}
+function testLUIComponent_method_destroy() {
+    info('LUIComponentTests : testLUIComponent_method_destroy 작동 여부');
+    var uIComponent1 = new Rui.ui.LUIComponent();
+    uIComponent1.render('destroy');
+    uIComponent1.destroy();
+    assertTrue(true);
+}
+function testLUIComponent_method_setVisibilityMode() {
+    info('LUIComponentTests : testLUIComponent_method_setVisibilityMode 작동 여부');
+    var visMode = true; //boolean
+    uIComponent.setVisibilityMode(visMode);
+    assertTrue(true);
+}
+function testLUIComponent_method_enable() {
+    info('LUIComponentTests : testLUIComponent_method_enable 작동 여부');
+    uIComponent.disable();
+    uIComponent.enable();
+    assertTrue(uIComponent.getContainer().select('.L-disable-mask').length < 1);
+}
+function testLUIComponent_method_disable() {
+    info('LUIComponentTests : testLUIComponent_method_disable 작동 여부');
+    uIComponent.disable();
+    assertTrue(uIComponent.getContainer().select('.L-disable-mask').length > 0);
+}
+function testLUIComponent_method_isShow() {
+    info('LUIComponentTests : testLUIComponent_method_isShow 작동 여부');
+    uIComponent.hide();
+    uIComponent.show();
+    assertEquals(uIComponent.isShow(), true);
+}
+function testLUIComponent_method_show() {
+    info('LUIComponentTests : testLUIComponent_method_show 작동 여부');
+    uIComponent.show();
+    assertEquals(uIComponent.isShow(), true);
+}
+function testLUIComponent_method_hide() {
+    info('LUIComponentTests : testLUIComponent_method_hide 작동 여부');
+    uIComponent.hide();
+    assertEquals(uIComponent.isShow(), false);
+    uIComponent.show();
+}
+function testLUIComponent_method_focus() {
+    info('LUIComponentTests : testLUIComponent_method_focus 작동 여부');
+    uIComponent.focus();
+    assertTrue(true);
+}
+function testLUIComponent_method_blur() {
+    info('LUIComponentTests : testLUIComponent_method_blur 작동 여부');
+    uIComponent.blur();
+    assertTrue(true);
+}
+function testLUIComponent_method_getHeight() {
+    info('LUIComponentTests : testLUIComponent_method_getHeight 작동 여부');
+    assertEquals(uIComponent.getHeight(), 10);
+}
+function testLUIComponent_method_setHeight() {
+    info('LUIComponentTests : testLUIComponent_method_setHeight 작동 여부');
+    var height = 20; //Mixed
+    uIComponent.setHeight(height);
+    assertEquals(uIComponent.getHeight(), height);
+    uIComponent.setHeight(10);
+}
+function testLUIComponent_method_getWidth() {
+    info('LUIComponentTests : testLUIComponent_method_getWidth 작동 여부');
+    assertEquals(uIComponent.getWidth(), 10);
+}
+function testLUIComponent_method_setWidth() {
+    info('LUIComponentTests : testLUIComponent_method_setWidth 작동 여부');
+    var width = 20; //Mixed
+    uIComponent.setWidth(width);
+    assertEquals(uIComponent.getWidth(), 20);
+    uIComponent.setWidth(10);
+}
+function testLUIComponent_method_getLeft() {
+    info('LUIComponentTests : testLUIComponent_method_getLeft 작동 여부');
+    assertTrue(uIComponent.getLeft()> 0);
+}
+function testLUIComponent_method_setLeft() {
+    info('LUIComponentTests : testLUIComponent_method_setLeft 작동 여부');
+    var old = uIComponent.getLeft();
+    var left = 30; //int
+    uIComponent.setLeft(left);
+    assertEquals(uIComponent.getContainer().getStyle('left'), '30px');
+}
+function testLUIComponent_method_getTop() {
+    info('LUIComponentTests : testLUIComponent_method_getTop 작동 여부');
+    assertTrue(uIComponent.getTop() > 0);
+}
+function testLUIComponent_method_setTop() {
+    info('LUIComponentTests : testLUIComponent_method_setTop 작동 여부');
+    var left = 30; //int
+    uIComponent.setTop(left);
+    assertEquals(uIComponent.getContainer().getStyle('top'), '30px');
+}
+function testLUIComponent_method_parent() {
+    info('LUIComponentTests : testLUIComponent_method_parent 작동 여부');
+    var result = uIComponent.parent();
+    //return type : Rui.LElement|HTMLElement
+    assertTrue(result instanceof Rui.LElement);
+}
+function testLUIComponent_method_appendTo() {
+    info('LUIComponentTests : testLUIComponent_method_appendTo 작동 여부');
+    var uIComponent1 = new Rui.ui.LUIComponent();
+    uIComponent1.render('appendTo');
+    var parentNode = 'appendTo1'; //HTMLElement | Element
+    uIComponent1.appendTo(parentNode);
+    assertTrue(Rui.get(parentNode).select('div').length > 0);
+}
+function testLUIComponent_method_select() {
+    info('LUIComponentTests : testLUIComponent_method_select 작동 여부');
+    var selector = 'div'; //String
+    var result = uIComponent.select(selector);
+    //return type : Rui.LElementList
+    assertTrue(result instanceof Rui.LElementList);
+}
+function testLUIComponent_method_query() {
+    info('LUIComponentTests : testLUIComponent_method_query 작동 여부');
+    var selector = 'div'; //String
+    var result = uIComponent.query(selector);
+    //return type : Array
+    assertTrue(Rui.util.LArray.isArray(result));
+}
+function testLUIComponent_method_filter() {
+    info('LUIComponentTests : testLUIComponent_method_filter 작동 여부');
+    var selector = 'div'; //String
+    var result = uIComponent.filter(selector);
+    //return type : Array
+    assertTrue(Rui.util.LArray.isArray(result));
+}
+function testLUIComponent_method_getContainer() {
+    info('LUIComponentTests : testLUIComponent_method_getContainer 작동 여부');
+    var result = uIComponent.getContainer();
+    assertTrue(result instanceof Rui.LElement);
+}
+function testLUIComponent_method_toString() {
+    info('LUIComponentTests : testLUIComponent_method_toString 작동 여부');
+    var result = uIComponent.toString();
+    //return type : String
+    assertEquals(result, 'Rui.ui.LUIComponent(Unknown) L-gen0');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LUIComponent Tests</h1>
+    <div id="uIComponent"></div>
+    <div id="destroy"></div>
+    <div id="appendTo"></div>
+    <div id="appendTo1"></div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLUIComponent_method_render()">render</a>
+            <a href="javascript:testLUIComponent_method_destroy()">destroy</a>
+            <a href="javascript:testLUIComponent_method_setVisibilityMode()">setVisibilityMode</a>
+            <a href="javascript:testLUIComponent_method_enable()">enable</a>
+            <a href="javascript:testLUIComponent_method_disable()">disable</a>
+            <a href="javascript:testLUIComponent_method_isShow()">isShow</a>
+            <a href="javascript:testLUIComponent_method_show()">show</a>
+            <a href="javascript:testLUIComponent_method_hide()">hide</a>
+            <a href="javascript:testLUIComponent_method_focus()">focus</a>
+            <a href="javascript:testLUIComponent_method_blur()">blur</a>
+            <a href="javascript:testLUIComponent_method_getHeight()">getHeight</a>
+            <a href="javascript:testLUIComponent_method_setHeight()">setHeight</a>
+            <a href="javascript:testLUIComponent_method_getWidth()">getWidth</a>
+            <a href="javascript:testLUIComponent_method_setWidth()">setWidth</a>
+            <a href="javascript:testLUIComponent_method_getLeft()">getLeft</a>
+            <a href="javascript:testLUIComponent_method_setLeft()">setLeft</a>
+            <a href="javascript:testLUIComponent_method_getTop()">getTop</a>
+            <a href="javascript:testLUIComponent_method_setTop()">setTop</a>
+            <a href="javascript:testLUIComponent_method_parent()">parent</a>
+            <a href="javascript:testLUIComponent_method_appendTo()">appendTo</a>
+            <a href="javascript:testLUIComponent_method_select()">select</a>
+            <a href="javascript:testLUIComponent_method_query()">query</a>
+            <a href="javascript:testLUIComponent_method_filter()">filter</a>
+            <a href="javascript:testLUIComponent_method_getContainer()">getContainer</a>
+            <a href="javascript:testLUIComponent_method_toString()">toString</a>
+        </div>
+    </div>
+</body>
+</html>

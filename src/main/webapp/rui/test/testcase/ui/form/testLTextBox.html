@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.form.LTextBox Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var textBox = null; 
+var dataSet = null; 
+Rui.onReady(function() {
+    // 소스 넣을 위치
+        textBox = new Rui.ui.form.LTextBox({
+            applyTo : 'textBox1',
+            width : 300,
+            placeholder : 'placeholder 내용이 출력됩니다',
+            invalidBlur : false,
+            useEmptyText: true, 
+            //autoComplete: true, // setDataSet
+            attrs : {
+                tabIndex : 1,
+                maxLength : 10
+            }
+          //includeChars: '123',
+          //inputType: Rui.util.LString.PATTERN_TYPE_KOREAN,
+          // type: 'email', <-- password, url, email
+          // mask: '999-999',
+          //disabled: true,
+        });
+        
+        textBox.on('keyup', function(e){
+           Rui.log('aaa');
+           if(this.getValue().getByteLength() > 10) {
+               var value = this.getValue();
+               var subValue = Rui.util.LString.getByteSubstring(value, 0, 10);
+               this.setValue(subValue);
+               Rui.util.LEvent.stopEvent(e);
+           }
+        });
+       
+        Rui.get('textBox2').on('focus', function(){
+        	this.dom.select();
+        	if(Rui.browser.chrome)
+        	Rui.later(85, this, function(){
+        		Rui.get('textBox2').dom.select();
+        	});
+        });
+        
+
+        Rui.get('textBox2').on('select', function(){
+            Rui.log('selected');
+        });
+    
+       dataSet = new Rui.data.LJsonDataSet({
+           id:'dataSet',
+           timeout: 0.2,
+           fields:[
+               {id:'id'},
+               {id:'col1'},
+               {id:'col2'},
+               {id:'col3'},
+               {id:'col4'},
+               {id:'col5'},
+               {id:'col6'}
+           ]
+       });
+       
+       dataSet.load({
+           url : './../../../../sample/data/data.json'
+       });
+       
+       
+       
+        /******************JsUnit용 소스 시작**********************/
+        //dataSet load event에 넣으면 작동되지 않는다.
+        setUpPageStatus = 'complete';
+        /******************JsUnit용 소스   끝**********************/
+    });
+
+    //setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+    function setUpPage() {
+        setUpPageStatus = 'running';
+    }
+
+    //test function이 실행되기 전에 먼저 실행된다.
+    function setUp() {
+    }
+
+    //모든 test function이 실행된 후 실행된다.
+    function tearDown() {
+    }
+
+    //**************test function 시작*****************
+    // testcase 넣을 위치
+    function testLTextBox_method_destroy() {
+        info('LTextBoxTests : testLTextBox_method_destroy 작동 여부');
+        var textBox2 = new Rui.ui.form.LTextBox({
+            applyTo : 'textBox2',
+            width : 300,
+            placeholder : 'placeholder 내용이 출력됩니다',
+            invalidBlur : false,
+            attrs : {
+                tabIndex : 1,
+                maxLength : 10
+            }
+        }); 
+        
+        textBox2.destroy();
+        assertNotUndefined(true);
+    }
+    function testLTextBox_method_setWidth() {
+        info('LTextBoxTests : testLTextBox_method_setWidth 작동 여부');
+        var w = 450; //int
+        assertUndefined(textBox.setWidth(w)); 
+        assertEquals(textBox.getWidth(), w);
+    }
+    function testLTextBox_method_getWidth() {
+        info('LTextBoxTests : testLTextBox_method_getWidth 작동 여부');
+        assertEquals(textBox.getWidth(), 450);
+    }
+    function testLTextBox_method_listWidth() {
+        info('LTextBoxTests : testLTextBox_method_listWidth 작동 여부');
+         warn('RuiTests : testLTextBox_method_listWidth 테스트 무시 => 메소드 지원하지 않음');
+        //var w = 500; //int
+        //textBox.listWidth(w);
+        //assertNotUndefined(true);
+    }
+    function testLTextBox_method_getListWidth() {
+        info('LTextBoxTests : testLTextBox_method_getListWidth 작동 여부');
+        assertNotNull(textBox.getListWidth()); 
+    }
+    function testLTextBox_method_setAddEmptyText() {
+        info('LTextBoxTests : testLTextBox_method_setAddEmptyText 작동 여부');
+        var useEmptyText = true; //boolean
+        textBox.setAddEmptyText(useEmptyText); 
+        assertEquals(textBox.getAddEmptyText(), true);
+    }
+    function testLTextBox_method_getAddEmptyText() {
+        info('LTextBoxTests : testLTextBox_method_getAddEmptyText 작동 여부');
+        assertEquals(textBox.getAddEmptyText(), true);
+    }
+    function testLTextBox_method_setHeight() {
+        info('LTextBoxTests : testLTextBox_method_setHeight 작동 여부');
+        var w = 500; //String
+        textBox.setHeight(w);  
+        assertEquals(textBox.getHeight(), w);
+    }
+    function testLTextBox_method_getHeight() {
+        info('LTextBoxTests : testLTextBox_method_getHeight 작동 여부');
+        assertNotNull(textBox.getHeight());
+    }
+    function testLTextBox_method_setEditable() {
+        info('LTextBoxTests : testLTextBox_method_setEditable 작동 여부');
+        var isEditable = true; //boolean
+        textBox.setEditable(isEditable); 
+        assertEquals(textBox.cfg.getProperty("editable"), isEditable); 
+    }
+    function testLTextBox_method_focus() {
+        info('LTextBoxTests : testLTextBox_method_focus 작동 여부');
+        textBox.focus();
+        assertNotUndefined(true);
+    }
+    function testLTextBox_method_blur() {
+        info('LTextBoxTests : testLTextBox_method_blur 작동 여부');
+        textBox.blur();
+        assertNotUndefined(true);
+    }
+    function testLTextBox_method_isValid() {
+        info('LTextBoxTests : testLTextBox_method_isValid 작동 여부');
+        assertEquals(textBox.isValid(), true);
+    }
+    function testLTextBox_method_isExpand() {
+        info('LTextBoxTests : testLTextBox_method_isExpand 작동 여부');
+        assertEquals(textBox.isExpand(),false); 
+    }
+    function testLTextBox_method_setDefaultValue() {
+        info('LTextBoxTests : testLTextBox_method_setDefaultValue 작동 여부');
+        var o = 'default'; //String
+        textBox.setDefaultValue(o); 
+        assertEquals(textBox.defaultValue, o); 
+    }
+    function testLTextBox_method_findRowIndex() {
+        info('LTextBoxTests : testLTextBox_method_findRowIndex 작동 여부');
+        var dom = Rui.get('rowTest'); //HTMLElement
+        var y = 1; //int
+        var result = textBox.findRowIndex(dom, y);        
+        assertUndefined(result); 
+    }
+    function testLTextBox_method_clearFilter() {
+        info('LTextBoxTests : testLTextBox_method_clearFilter 작동 여부');
+        textBox.clearFilter();
+        assertNotUndefined(true);
+    }
+    function testLTextBox_method_getValue() {
+        info('LTextBoxTests : testLTextBox_method_getValue 작동 여부');
+        var o = 'test111'; 
+        textBox.setValue(o); 
+        assertEquals(textBox.getValue(), o);
+    }
+    function testLTextBox_method_getDisplayValue() {
+        info('LTextBoxTests : testLTextBox_method_getDisplayValue 작동 여부');
+        textBox.setValue('test111'); 
+        assertEquals(textBox.getDisplayValue(), 'test111');
+    }
+    function testLTextBox_method_setValue() {
+        info('LTextBoxTests : testLTextBox_method_setValue 작동 여부');
+        var o = 'test000'; //String
+        assertUndefined(textBox.setValue(o)); 
+        assertEquals(textBox.getValue(), o);
+    }
+    function testLTextBox_method_getDataSet() {
+        info('LTextBoxTests : testLTextBox_method_getDataSet 작동 여부');
+        assertNotUndefined(textBox.getDataSet()); 
+    }
+    function testLTextBox_method_setDataSet() {
+        info('LTextBoxTests : testLTextBox_method_setDataSet 작동 여부');
+        var newDataSet = dataSet; //Rui.data.LDataSet
+        assertUndefined(textBox.setDataSet(newDataSet)); 
+        assertEquals(textBox.getDataSet(), newDataSet);
+    }
+    //**************test function   끝*****************
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.form.LTextBox Tests</h1>
+
+    <div id="bd">
+        <div>
+        <input type="text" id="textBox1" name="textBox1" >
+        <input type="text" id="textBox2" name="textBox2" >        
+        </div>
+        <div id="rowTest" class="L-list"></div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLTextBox_method_destroy()">destroy</a>
+            <a href="javascript:testLTextBox_method_setWidth()">setWidth</a>
+            <a href="javascript:testLTextBox_method_getWidth()">getWidth</a>
+            <a href="javascript:testLTextBox_method_listWidth()">listWidth</a>
+            <a href="javascript:testLTextBox_method_getListWidth()">getListWidth</a>
+            <a href="javascript:testLTextBox_method_setAddEmptyText()">setAddEmptyText</a>
+            <a href="javascript:testLTextBox_method_getAddEmptyText()">getAddEmptyText</a>
+            <a href="javascript:testLTextBox_method_setHeight()">setHeight</a>
+            <a href="javascript:testLTextBox_method_getHeight()">getHeight</a>
+            <a href="javascript:testLTextBox_method_setEditable()">setEditable</a>
+            <a href="javascript:testLTextBox_method_focus()">focus</a>
+            <a href="javascript:testLTextBox_method_blur()">blur</a>
+            <a href="javascript:testLTextBox_method_isValid()">isValid</a>
+            <a href="javascript:testLTextBox_method_isExpand()">isExpand</a>
+            <a href="javascript:testLTextBox_method_setDefaultValue()">setDefaultValue</a>
+            <a href="javascript:testLTextBox_method_findRowIndex()">findRowIndex</a>
+            <a href="javascript:testLTextBox_method_clearFilter()">clearFilter</a>
+            <a href="javascript:testLTextBox_method_getValue()">getValue</a>
+            <a href="javascript:testLTextBox_method_getDisplayValue()">getDisplayValue</a>
+            <a href="javascript:testLTextBox_method_setValue()">setValue</a>
+            <a href="javascript:testLTextBox_method_getDataSet()">getDataSet</a>
+            <a href="javascript:testLTextBox_method_setDataSet()">setDataSet</a>
+        </div>
+    </div>        
+</body>
+</html>

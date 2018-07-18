@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.pub">
+
+
+    <!-- 사외전문가 리스트  -->
+	<select id="getOutsideSpeciaList" resultType="hashmap">
+		<![CDATA[
+			SELECT
+					 OSCP_SPLT_ID                                           AS 'outSpclId'   /*사외전문가ID*/
+					,INST_NM                                                AS 'instNm'      /*기관명*/
+					,OPS_NM                                                 AS 'opsNm'       /*부서*/
+					,POA_NM                                                 AS 'poaNm'       /*직위*/
+					,SPLT_NM                                                AS 'spltNm'      /*사외전문가명*/
+					,TLOC_NM                                                AS 'tlocNm'      /*소재지*/
+					,CCPC_NO                                                AS 'ccpcNo'      /*연락처*/
+					,EML                                                    AS 'eml'         /*이메일*/
+					,REPN_SPHE                                              AS 'repnSphe'    /*대표분야*/
+					,HMPG                                                   AS 'hmpg'        /*홈페이지*/
+					,TIMP_CARR                                              AS 'timpCarr'    /*주요경력,내용*/
+					,(CASE
+						WHEN (select	count(1)
+						  		from		IRIS_COM_ATTC_FIL
+						  		where		ATTC_FIL_ID = A.ATTC_FILE_ID
+								  and		DEL_YN = 'N') = 0 THEN NULL
+						ELSE  A.ATTC_FILE_ID
+					   END)                                                 AS 'attcFilId'    /*정보제공동의서*/
+					,RGST_ID                                                AS 'rgstId'      /*등록자ID*/
+			        ,dbo.fn_getUserName(RGST_ID)                            AS 'rgstNm'      /*등록자*/
+					,RGST_OPS_ID                                            AS 'rgstOpsId'   /*등록자부서ID*/
+					,DEL_YN                                                 AS 'delYn'       /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)                 AS 'frstRgstDt'  /*등록일*/
+			FROM IRIS_KNLD_OSCP_SPLT A
+			WHERE DEL_YN = 'N'
+		 ]]>
+        <if test="instNm != null and instNm != ''">
+			AND INST_NM like '%${instNm}%'
+		</if>
+        <if test="repnSphe != null and repnSphe != ''">
+			AND REPN_SPHE like '%${repnSphe}%'
+		</if>
+		<if test="spltNm != null and spltNm != ''">
+			AND SPLT_NM like '%${spltNm}%'
+		</if>
+			ORDER BY OSCP_SPLT_ID DESC
+	</select>
+
+
+	<!-- 사외전문가 저장  -->
+	<insert id="insertOutsideSpecialistInfo">
+	<![CDATA[
+		insert into IRIS_KNLD_OSCP_SPLT
+		(			 INST_NM
+					,OPS_NM
+					,POA_NM
+					,SPLT_NM
+					,TLOC_NM
+					,CCPC_NO
+					,EML
+					,REPN_SPHE
+					,HMPG
+					,TIMP_CARR
+		]]>
+		            <if test="( attcFilId != null and attcFilId != '')">
+					,ATTC_FILE_ID
+		            </if>
+    <![CDATA[
+					,RGST_ID
+					,RGST_OPS_ID
+					,DEL_YN
+					, FRST_RGST_ID
+					, FRST_RGST_DT
+					, LAST_MDFY_ID
+					, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{instNm}
+		    , #{opsNm}
+		    , #{poaNm}
+		    , #{spltNm}
+		    , #{tlocNm}
+		    , #{ccpcNo}
+		    , #{eml}
+		    , #{repnSphe}
+		    , #{hmpg}
+		    , #{timpCarr}
+		    ]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+		    , #{attcFilId}
+		    </if>
+		     <![CDATA[
+		    , #{_userId}
+		    , ( SELECT sa_dept_new FROM IRIS_SSO_USER WHERE sa_user = #{_userId} )
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+
+    <!-- 사외전문가 업데이트  -->
+	<update id="updateOutsideSpecialistInfo">
+	<![CDATA[
+		UPDATE IRIS_KNLD_OSCP_SPLT
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , INST_NM = #{instNm}
+		     , OPS_NM = #{opsNm}
+		     , POA_NM = #{poaNm}
+		     , SPLT_NM = #{spltNm}
+		     , TLOC_NM = #{tlocNm}
+		     , CCPC_NO = #{ccpcNo}
+		     , EML = #{eml}
+		     , REPN_SPHE = #{repnSphe}
+		     , HMPG = #{hmpg}
+		     , TIMP_CARR = #{timpCarr}
+	]]>
+		<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID = #{attcFilId}
+	    </if>
+
+	<![CDATA[
+		 WHERE OSCP_SPLT_ID = #{outSpclId}
+	]]>
+	</update>
+
+	<!--  사외전문가 조회건수 업데이트
+	<update id="updateOutsideSpecialistRtrvCnt">
+	<![CDATA[
+		UPDATE IRIS_KNLD_OSCP_SPLT
+		   SET RTRV_CNT = RTRV_CNT + 1
+	]]>
+
+	<![CDATA[
+		 WHERE OSCP_SPLT_ID = #{outSpclId}
+	]]>
+	</update>
+    -->
+
+
+    <!-- 사외전문가 삭제  -->
+	<update id="deleteOutsideSpecialistInfo">
+	<![CDATA[
+		UPDATE IRIS_KNLD_OSCP_SPLT
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE OSCP_SPLT_ID = #{outSpclId}
+	]]>
+	</update>
+
+    <!-- 사외전문가 상세화면  -->
+	<select id="getOutsideSpecialistInfo" resultType="hashmap">
+		<![CDATA[
+			SELECT
+					 OSCP_SPLT_ID                                           AS 'outSpclId'   /*사외전문가ID*/
+					,INST_NM                                                AS 'instNm'      /*기관명*/
+					,OPS_NM                                                 AS 'opsNm'       /*부서*/
+					,POA_NM                                                 AS 'poaNm'       /*직위*/
+					,SPLT_NM                                                AS 'spltNm'      /*사외전문가명*/
+					,TLOC_NM                                                AS 'tlocNm'      /*소재지*/
+					,CCPC_NO                                                AS 'ccpcNo'      /*연락처*/
+					,EML                                                    AS 'eml'         /*이메일*/
+					,REPN_SPHE                                              AS 'repnSphe'    /*대표분야*/
+					,HMPG                                                   AS 'hmpg'        /*홈페이지*/
+					,TIMP_CARR                                              AS 'timpCarr'    /*주요경력,내용*/
+					,ATTC_FILE_ID                                           AS 'attcFilId'   /*정보제공동의서*/
+					,RGST_ID                                           AS 'rgstId'      /*등록자ID*/
+			        ,dbo.fn_getUserName(RGST_ID)                       AS 'rgstNm'      /*등록자*/
+					,RGST_OPS_ID                                       AS 'rgstOpsId'   /*등록자부서ID*/
+					,DEL_YN                                            AS 'delYn'       /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)            AS 'frstRgstDt'  /*등록일*/
+			FROM IRIS_KNLD_OSCP_SPLT  A
+			WHERE DEL_YN = 'N'
+			  AND OSCP_SPLT_ID = #{outSpclId}
+		 ]]>
+
+	</select>
+
+</mapper>

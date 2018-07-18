@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common.code">
+
+    <!--  -->
+    <select id="retrieveCodeValueList" resultType="HashMap">
+        <![CDATA[
+        SELECT A.COM_DTL_CD
+             , A.COM_DTL_NM
+          FROM IRIS_ADM_COM_CD A
+         WHERE A.COM_CD_CD = #{param1}
+           AND A.DEL_YN = 'N'
+         ORDER BY COM_ORD
+        ]]>
+    </select>
+
+</mapper>

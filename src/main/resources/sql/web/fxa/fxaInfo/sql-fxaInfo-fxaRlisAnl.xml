@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fxaInfo.fxaRlisAnl">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 자산실사 목록 조회  -->
+	<select id="retrieveFxaRlisAnlSearchList" resultType="hashmap" >
+		<![CDATA[
+		SELECT FRT.RLIS_TRM_ID 		as "rlisTrmId"
+		      ,FRT.RLIS_TITL 		as "rlisTitl"
+		      ,FRT.FROM_RLIS_DT 	as "fromRlisDt"
+		      ,FRT.TO_RLIS_DT 		as "toRlisDt"
+		      ,FRT.RLIS_CL_CD 		as "rlisClCd"
+		      ,ACC.COM_DTL_NM 		AS "rlisClNm"
+		      ,FRT.RLIS_MGR_ID 		as "rlisMgrId"
+		      ,SU.SA_NAME 			AS "rlisMgrNm"
+		      ,(SELECT COUNT(*)
+		       FROM IRIS_FXA_RLIS_LIST FRL
+		       WHERE FRL.DEL_YN = 'N'
+		       AND   FRL.RLIS_ST_CD = 'APPR'
+		       AND   FRL.RLIS_TRM_ID = FRT.RLIS_TRM_ID) AS "apprCnt"
+		     ,(SELECT COUNT(*)
+		       FROM IRIS_FXA_RLIS_LIST FRL
+		       WHERE FRL.DEL_YN = 'N'
+		       AND  FRL.RLIS_TRM_ID = FRT.RLIS_TRM_ID) AS "totalCnt"
+		FROM IRIS_FXA_RLIS_TRM FRT
+		     LEFT OUTER JOIN
+			IRIS_SSO_USER   SU
+			  ON  FRT.RLIS_MGR_ID = SU.SA_SABUN_NEW
+		     ,IRIS_ADM_COM_CD ACC
+		WHERE FRT.DEL_YN = 'N'
+		AND ACC.COM_CD_CD = 'FXA_RLIS_CL_CD'
+		AND FRT.RLIS_CL_CD = ACC.COM_DTL_CD
+		ORDER BY RLIS_TRM_ID DESC
+		]]>
+	</select>
+
+	<!-- 자산실기간관리 신규등록  -->
+	<insert id="saveFxaRlisAnlInfo"  >
+		<![CDATA[
+		INSERT INTO IRIS_FXA_RLIS_TRM
+			(
+			 FROM_RLIS_DT
+			,TO_RLIS_DT
+			,RLIS_TITL
+			,RLIS_SBC
+			,RLIS_CL_CD
+			,RLIS_FXA_CLSS
+			,RLIS_MGR_ID
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+			)
+			VALUES
+			(
+			 #{fromRlisDt}
+			,#{toRlisDt}
+			,#{rlisTitl}
+			,#{rlisSbc}
+			,#{rlisClCd}
+			,#{rlisFxaClss}
+			,#{_userSabun}
+			,'N'
+			,GETDATE()
+			,#{_userId}
+			,GETDATE()
+			,#{_userId}
+			)
+		]]>
+	</insert>
+
+	<!-- 자산실사 정보 조회  -->
+	<select id="retrieveFxaRlisCrgrList" resultType="hashmap" >
+		<![CDATA[
+			SELECT  FRC.DEPT_CD as "deptCd"
+			       ,FRC.WBS_CD as "wbsCd"
+			       ,FRC.CRGR_ID as "crgrId"
+			       ,IDENT_CURRENT('IRIS_FXA_RLIS_TRM') AS "curRlisTrmId"
+			FROM IRIS_FXA_RLIS_CRGR FRC
+			WHERE FRC.DEL_YN = 'N'
+			AND   FRC.RLIS_CRGR_CL_CD = 'CRGR'  
+		]]>
+	</select>
+	
+	<!-- 자산실사 건수 조회  -->
+	<select id="retrieveFxaCnt" resultType="int" >
+		<![CDATA[
+			SELECT  COUNT(*) AS FXA_CNT
+			FROM  IRIS_FXA_INFO_MST FIM
+			WHERE FIM.FXA_ST_CD = 'USE'
+			AND   FIM.WBS_CD = #{wbsCd} 
+		]]>
+		<if test="( rlisClCd == 'CLSS' )">
+			AND   FIM.FXA_CLSS IN 
+			<foreach collection="fxaClass" item="item" separator="," open="(" close=")">
+					#{item}
+	 		</foreach>
+		</if>
+	</select>
+	
+	<!-- 실사정보 저장  -->
+	<insert id="insertFxaRlisList"  parameterType="hashmap" useGeneratedKeys="true" keyProperty="curFxaRlisId" keyColumn="FXA_RLIS_ID" >
+		<![CDATA[
+			INSERT INTO IRIS_FXA_RLIS_LIST 
+				(DEPT_CD
+				,WBS_CD
+				,RLIS_TRM_ID
+				,RLIS_ST_CD	  
+				,RLIS_RQ_DT
+				,CRGR_ID
+				,DEL_YN
+				,FRST_RGST_DT
+                ,FRST_RGST_ID
+                ,LAST_MDFY_DT
+                ,LAST_MDFY_ID) 
+             VALUES
+               (
+                  #{deptCd}
+                 ,#{wbsCd}
+                 ,#{curRlisTrmId}  
+                 ,'RQ'
+                 ,CONVERT(NVARCHAR(10), GETDATE(), 23)
+                 , #{crgrId}  
+                 ,'N'
+                 ,GETDATE() 
+                 ,#{_userId}  
+                 ,GETDATE() 
+                 ,#{_userId}  
+               )
+		]]>
+	</insert>
+
+	<!-- 자산실사 todo정보 생성 -->
+	<update id="insertFxaRlisTodo" parameterType="map">
+	<![CDATA[
+		EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'FXA', #{curFxaRlisId}, #{crgrId}
+    ]]>
+    </update>
+    
+	<!-- 실사기간과 자산매핑  -->
+	<insert id="insertFxaRlisMapp" >
+		<![CDATA[
+		INSERT INTO IRIS_FXA_RLIS_INFO_MAPP 
+			(FXA_RLIS_ID 
+			,FXA_INFO_ID	
+			,DEL_YN
+			,FRST_RGST_DT
+		    ,FRST_RGST_ID
+		    ,LAST_MDFY_DT
+		    ,LAST_MDFY_ID) 
+		SELECT  #{curFxaRlisId} AS CUR_FXA_RLIS_ID -- CUR_FXA_RLIS_ID
+		        ,FIM.FXA_INFO_ID	 	
+		        ,'N'	AS DEL_YN
+		       ,GETDATE() AS  FRST_RGST_DT
+		       ,#{_userId} AS FRST_RGST_ID    
+		       ,GETDATE() AS  LAST_MDFY_DT
+		       ,#{_userId} AS LAST_MDFY_ID  
+		FROM  IRIS_FXA_INFO_MST	FIM
+		WHERE FIM.FXA_ST_CD = 'USE'
+		AND   FIM.WBS_CD = #{wbsCd} 
+		]]>
+		<if test="( rlisClCd == 'CLSS' )">
+			AND   FIM.FXA_CLSS IN 
+			<foreach collection="fxaClass" item="item" separator="," open="(" close=")">
+					#{item}
+	 		</foreach>
+		</if>
+	</insert>
+
+	<!-- 실사건이 없을 경우 삭제  -->
+	<update id="deleteFxaRlisTrmInfo" >
+		<![CDATA[
+		DELETE IRIS_FXA_RLIS_TRM
+		WHERE  RLIS_TRM_ID = #{curRlisTrmId} 
+		]]>
+	</update>
+	
+	<!-- 실사기간 관리 팝업 정보조회 -->
+	<select id="retrieveFxaRlisAnlInfo" resultType="hashmap" >
+	<![CDATA[
+		SELECT FRT.RLIS_TRM_ID as "rlisTrmId"
+		      ,FRT.RLIS_TITL as "rlisTitl"
+		      ,FRT.FROM_RLIS_DT as "fromRlisDt"
+		      ,FRT.TO_RLIS_DT as "toRlisDt"
+		      ,FRT.RLIS_CL_CD as "rlisClCd"
+		      ,ACC.COM_DTL_NM AS "rlisClNm"
+		      ,FRT.RLIS_MGR_ID as "rlisMgrId"
+		      ,SU.SA_NAME AS "rlisMgrNm"
+		      ,FRT.RLIS_FXA_CLSS as "rlisFxaClss"
+		FROM IRIS_FXA_RLIS_TRM FRT
+		     LEFT OUTER JOIN IRIS_SSO_USER   SU
+			  ON  FRT.RLIS_MGR_ID = SU.SA_SABUN_NEW
+		     ,IRIS_ADM_COM_CD ACC
+		WHERE FRT.DEL_YN = 'N'
+		AND ACC.COM_CD_CD = 'FXA_RLIS_CL_CD'
+		AND FRT.RLIS_CL_CD = ACC.COM_DTL_CD
+		and FRT.RLIS_TRM_ID = #{rlisTrmId}
+    ]]>
+    </select>
+	
+	
+</mapper>

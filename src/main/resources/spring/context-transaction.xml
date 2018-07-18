@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean id="txManagerIris" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourceIris" />
+	</bean>
+	
+	<bean id="txManagerPims" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourcePims" />
+	</bean>
+
+	<!-- XML based Transaction -->
+	<tx:advice id="txAdviceIris" transaction-manager="txManagerIris">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="update*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="create*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="regist*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="save*"	  propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="system*" propagation="REQUIRES_NEW" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<tx:advice id="txAdvicePims" transaction-manager="txManagerPims">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+<!-- 
+		<aop:pointcut id="requiredTx" expression="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="requiredTx" />
+-->		
+		<aop:advisor advice-ref="txAdviceIris" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdviceIris" pointcut="execution(* *..*ServiceImpl.*(..))" />
+		
+		<aop:advisor advice-ref="txAdvicePims" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdvicePims" pointcut="execution(* *..*ServiceImpl.*(..))" />
+	</aop:config>
+	
+	<!-- Annotation based Transaction --> 
+	<tx:annotation-driven transaction-manager="txManagerIris"/>
+	<tx:annotation-driven transaction-manager="txManagerPims"/>
+    
+
+</beans>

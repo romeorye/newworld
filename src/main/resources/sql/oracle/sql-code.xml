@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Code">
+
+    <!-- 공통코드 그룹번호로 조회 -->
+	<select id="searchCodeValue" resultType="HashMap">
+		<![CDATA[
+	    SELECT BASE_CD AS "code",
+	           BASE_CD_NM AS "value"
+	    FROM   WOASIS.TB_BASE_CD 
+	    WHERE  CL_CD = #{code_group}
+	      AND   USE_YN = 'Y'
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD
+		]]>
+	</select>
+
+    <!-- 공통코드 그룹번호로 조회 -->
+	<select id="searchCodeName" resultType="String">
+		<![CDATA[
+	    SELECT BASE_CD_NM AS "value"
+	    FROM   WOASIS.TB_BASE_CD 
+	    WHERE  CL_CD = #{clCd}
+	      AND  BASE_CD = #{baseCd}
+	      AND  USE_YN = 'Y'
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD
+		]]>
+	</select>
+	
+    <!-- 시공공통 코드 가져오기.  -->
+	<select id="searchCodeCnstwList" resultType="HashMap">
+		<![CDATA[
+	    SELECT CNSTW_CD AS "code",
+	           CNSTW_NM AS "value"
+	    FROM   TWMS.TWN_CNSTW_PCE_MST
+	    WHERE  CNSTW_PCE_G_CD = #{codeGroup}
+	      AND   USE_YN = 'Y'
+	    ORDER BY CNSTW_CD
+		]]>
+    </select>
+    
+  	<!-- 입가능최대차종, 진입주차조건, 인도처유형 코드 조회 -->
+	<select id="searchTomCodeValue" resultType="HashMap">
+		<![CDATA[
+		SELECT CODEVALUE AS "code",
+		       CODENAME  AS "value"
+		FROM TOMS.V_CODE  
+		WHERE UPPER_CODE = #{uppdrCd}
+		ORDER BY CODETABLE_SEQ
+		]]>
+	</select>
+  	
+  	<!-- 납기요청일 기본시간 -->
+	<select id="retrieveSelectDayCodeList1" resultType="HashMap">
+		<![CDATA[
+		       SELECT 
+                '' AS "code", 
+                '-----선택-----' AS  "value" 
+              FROM DUAL
+            UNION ALL
+            SELECT *
+              FROM (  SELECT BASE_CD AS CODE, 
+                             BASE_CD_NM AS VALUE
+                        FROM WOASIS.TB_BASE_CD
+                       WHERE SUPI_CL_CD =  '267' /**P*/ 
+                         AND SUPI_BASE_CD =  '001' /**P*/ 
+                         AND USE_YN = 'Y'
+                    ORDER BY IQ_SEQ, CL_CD, BASE_CD)
+		]]>
+	</select>
+  	<!-- 납기요청일  세부시간-->
+	<select id="retrieveSelectDayCodeList2" resultType="HashMap">
+		<![CDATA[
+		    
+            SELECT 
+			   '' AS "code", 
+               '-----선택-----' AS  "value"  
+			  FROM DUAL
+			UNION ALL
+			SELECT *
+			  FROM (  SELECT BASE_CD AS CODE, 
+			                 BASE_CD_NM AS VALUE
+			            FROM WOASIS.TB_BASE_CD
+			           WHERE SUPI_CL_CD =  '267' /**P*/ 
+			             AND SUPI_BASE_CD =  '002' /**P*/ 
+			             AND USE_YN = 'Y'
+			        ORDER BY IQ_SEQ, CL_CD, BASE_CD)
+		]]>
+	</select>
+	
+	<!-- 20121210 김수예s 추가. new glasys 코드들 가져오기.  -->
+  <select id="searchNgpsCodeDetail" resultType="hashmap">
+  <![CDATA[
+	    SELECT A.BASE_CD AS "code"
+	         , A.BASE_CD_NM AS "value"
+	         , A.CL_CD AS CL
+	      FROM NGPS.TGC_BASE_CD A 
+	     WHERE CL_CD = #{code}
+	       AND USE_YN = 'Y' 
+  ]]>
+	       <if test="(code=='304' or code=='324' or code=='344') and (mdlCd != null and mdlCd != '')">
+                AND A.BASE_CD_NM IN ( SELECT DISTINCT
+                                                   TO_CHAR(B.CND_STRT_SCP_VAL)           AS CODE
+                                              FROM ( SELECT A.MDL_CD
+                                                          , C.MTRL_CD
+                                                          , F_MTRL_NM(C.MTRL_CD)
+                                                       FROM TWB_MDL_MST          A
+                                                          , TWB_MDL_MTRLCL_LIKG  B
+                                                          , TWB_MTRLCL_PROD      C
+                                                      WHERE A.MDL_CD     = #{mdlCd}
+                                                        AND A.MDL_CD     = B.MDL_CD
+                                                        AND B.MDL_CD     = C.MDL_CD
+                                                        AND B.RAIL_NO    = C.RAIL_NO
+                                                        AND B.MTRLCL_SN  = C.MTRLCL_SN
+				                                        AND DECODE(B.BSMF_FP_SCN_CD, '01', 1, '02',2, '03', 2, 0) = 
+		                                                              ( SELECT CASE WHEN SF = 2 THEN 2
+		                                                                            WHEN BF = 1 THEN 1
+		                                                                        END AS BSMF_FP_SCN_CD 
+		                                                                  FROM (SELECT MAX(DECODE(B.BSMF_FP_SCN_CD, '01', 1)) AS BF
+		                                                                             , MAX(DECODE(B.BSMF_FP_SCN_CD, '02', 2, '03', 2)) AS SF
+		                                                                           FROM TWB_MDL_MST A, TWB_MDL_MTRLCL_LIKG B, TWB_MTRLCL_PROD C
+		                                                                          WHERE A.MDL_CD     =  #{mdlCd}
+		                                                                            AND A.MDL_CD     = B.MDL_CD
+		                                                                            AND B.MDL_CD     = C.MDL_CD
+		                                                                            AND B.RAIL_NO    = C.RAIL_NO
+		                                                                            AND B.MTRLCL_SN  = C.MTRLCL_SN
+		                                                                            )
+		                                                                )
+                                                      GROUP BY A.MDL_CD, C.MTRL_CD
+                                                      ORDER BY A.MDL_CD, F_MTRL_NM(C.MTRL_CD)
+                                                   )                     A
+                                                 , ( SELECT B.MTRL_CD               AS MTRL_CD          -- 자재코드
+                                                          , F_MTRL_NM(B.MTRL_CD)    AS MTRL_NM          -- 자재코드명
+                                                          , B.CND_STRT_SCP_VAL      AS CND_STRT_SCP_VAL -- 조건FROM
+                                                          , B.CND_FNH_SCP_VAL       AS CND_FNH_SCP_VAL  -- 조건TO
+                                                       FROM ( SELECT B.MTRL_CD           -- 자재코드
+                                                                FROM ( SELECT MTRLCL_CD
+                                                                         FROM TWB_RIFA_CND_MST
+                                                                        WHERE F_GET_CODE_NM(MTRLCL_CD,'65') LIKE 'GB%'
+                                                                        GROUP BY MTRLCL_CD
+                                                                     )                   A
+                                                                   , TWB_RIFA_CND_MST    B
+                                                               WHERE B.SCP_CRTN_VAL_CD   = '03'       -- 범위준값코드(유리두께)
+                                                                 AND F_GET_CODE_NM(B.MTRLCL_CD,'65') LIKE 'GB%'		-- 20101220 박은영, '열 정의 애매' 오류로 MTRLCL_CD에 B.명시. - 확인  필요
+                                                               GROUP BY B.MTRL_CD
+                                                               ORDER BY B.MTRL_CD
+                                                            )                A
+                                                          , TWB_RIFA_CND_MST B
+                                                      WHERE A.MTRL_CD = B.MTRL_CD
+                                                   )                    B
+                                             WHERE A.MTRL_CD = B.MTRL_CD (+)
+                                               AND B.CND_FNH_SCP_VAL IS NOT NULL
+                                             GROUP BY A.MDL_CD, B.MTRL_NM, B.CND_STRT_SCP_VAL, B.CND_FNH_SCP_VAL
+                                           )
+  	</if>
+  	<![CDATA[
+	     ORDER BY IQ_SEQ, BASE_CD
+    ]]>
+    </select>  
+    
+    <select id="searchCodeEtcValue" resultType="hashmap">
+    <![CDATA[
+	    SELECT BASE_CD AS "code",
+	           ETC_VAL_1 AS "value"
+	    FROM   WOASIS.TB_BASE_CD 
+	    WHERE  CL_CD = #{code_group}
+	      AND   USE_YN = 'Y'
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD
+    ]]>
+    </select>
+    
+    <select id="searchCodeEtcCode" resultType="hashmap">
+    <![CDATA[
+	    SELECT ETC_VAL_1 AS "code",
+	           BASE_CD_NM AS "value"
+	    FROM   WOASIS.TB_BASE_CD 
+	    WHERE  CL_CD = #{code_group}
+	      AND   USE_YN = 'Y'
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD
+    ]]>
+    </select>
+	
+	
+    <!-- 납기요청일 상세 리스트 : 2016/07/15 조종민-->
+	<select id="searchCodeSupiValue" resultType="hashmap"><if test="supiClCd=='267'">
+			SELECT *
+			  FROM (  SELECT BASE_CD AS "code", 
+			                 BASE_CD_NM AS "value"
+			            FROM WOASIS.TB_BASE_CD
+			           WHERE SUPI_CL_CD = #{supiClCd} 
+			             AND SUPI_BASE_CD = #{supiBaseCd} 
+			             AND USE_YN = 'Y'
+			        ORDER BY IQ_SEQ, CL_CD, BASE_CD)
+		</if><if test="supiClCd!='267'">
+		    SELECT BASE_CD AS "code",
+		           BASE_CD_NM AS "value"
+		      FROM WOASIS.TB_BASE_CD 
+		     WHERE SUPI_CL_CD = #{supiClCd}
+		       AND SUPI_BASE_CD = #{supiBaseCd} 
+		      AND   USE_YN = 'Y'
+		    ORDER BY IQ_SEQ, CL_CD, BASE_CD
+		</if><![CDATA[
+    ]]></select>	
+    
+    <!-- 공통코드 그룹번호로 전체 조회 -->
+	<select id="searchCodeValueAll" resultType="HashMap">
+		<![CDATA[
+	     SELECT CL_CD		        AS "clCd",		       --분류코드			        
+				BASE_CD		        AS "baseCd",		   --기초코드			        
+				BASE_CD_NM		    AS "baseCdNm",		   --기초코드명			        
+				SUPI_CL_CD		    AS "supiClCd",		   --상위분류코드			      
+				SUPI_BASE_CD		AS "supiBaseCd",	   --상위기초코드			      
+				ETC_VAL_1			AS "etcVal1",		   --기타값1			          
+				ETC_VAL_2			AS "etcVal2",		   --기타값2			          
+				ETC_VAL_3			AS "etcVal3",		   --기타값3			          
+				REM_SBC			    AS "remSbc",		   --비고내용			        
+				IQ_SEQ		        AS "iqSeq",		       --조회순번			        
+				AFFR_SCN			AS "affrScn",		   --완성창 업무구분			
+                BASE_CD             AS "code",
+	            BASE_CD_NM          AS "value"
+	     FROM   WOASIS.TB_BASE_CD 
+	     WHERE  CL_CD = #{code_group}
+	     ]]>
+        <if test="(supiClCd != null and supiClCd != '')">
+            AND SUPI_CL_CD = #{supiClCd}
+        </if>
+        <if test="(supiBaseCd != null and supiBaseCd != '')">
+            AND SUPI_BASE_CD = #{supiBaseCd}
+        </if>     
+        <![CDATA[   	     
+	      AND   USE_YN = 'Y'
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD   
+		]]>
+	</select> 
+	
+	<select id="searchCodeKey" resultType="hashmap">
+	<![CDATA[
+	    SELECT BASE_CD AS "code"
+	    FROM   WOASIS.TB_BASE_CD 
+	    WHERE  CL_CD = #{code_group}
+	      AND   USE_YN = 'Y'      
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD
+    ]]>
+    </select>  
+    
+    
+    <!-- 공통코드에서 핸들/크리센트/스크린의 해당모형코드에 해당하는 첫번째 콤보코드를 전체 조회 -->
+	<select id="searchAllBaseHCS1" resultType="HashMap">
+	-- searchAllBaseHCS1
+		<![CDATA[
+         SELECT CL_CD                 AS "clCd",               --분류코드                    
+                BASE_CD               AS "baseCd",           --기초코드                    
+                BASE_CD_NM            AS "baseCdNm",           --기초코드명                    
+                SUPI_CL_CD            AS "supiClCd",           --상위분류코드                  
+                SUPI_BASE_CD          AS "supiBaseCd",       --상위기초코드                  
+                ETC_VAL_1             AS "etcVal1",           --기타값1                      
+                ETC_VAL_2             AS "etcVal2",           --기타값2                      
+                ETC_VAL_3             AS "etcVal3",           --기타값3                      
+                REM_SBC               AS "remSbc",           --비고내용                    
+                IQ_SEQ                AS "iqSeq",               --조회순번                    
+                AFFR_SCN              AS "affrScn",		   --완성창 업무구분			
+                BASE_CD               AS "code",
+	            BASE_CD_NM            AS "value"
+	     FROM   WOASIS.TB_BASE_CD 
+	     WHERE  CL_CD = #{hClCd}
+	      AND   USE_YN = 'Y'
+          AND   BASE_CD IN 
+							(
+								SELECT DISTINCT firstCode
+								FROM (
+									SELECT C.*
+									     , DECODE( CL_CD , #{hClCd} , BASE_CD   ,
+									                       #{mClCd} , SUPI_BASE_CD ,
+									                       #{bClCd} , REPLACE(C.ETC_VAL_2 , '-'||SUPI_BASE_CD||'-'||BASE_CD , '')
+									       ) AS firstCode                  
+									FROM WOASIS.TB_BASE_CD C , TWB_MDL_LINK_MTRL_GRP  A
+									WHERE C.CL_CD IN (#{hClCd},#{mClCd},#{bClCd})
+									AND C.USE_YN = 'Y'
+									AND C.ETC_VAL_1 = 0
+									AND A.MDL_CD = #{mdlCd}      
+									AND A.MTRL_GRP = #{mtglGrp} -- 01.핸들 , 02.크리센트, 03.스크린  
+									AND A.MTRL_LINK = C.BASE_CD
+								) WHERE firstCode IS NOT NULL
+							)
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD      
+		]]>
+	</select> 
+	
+    <!-- 공통코드에서 핸들/크리센트/스크린의 해당모형코드에 해당하는 두번째 콤보코드를 전체 조회 -->
+	<select id="searchAllBaseHCS2" resultType="HashMap">
+	-- searchAllBaseHCS2
+		<![CDATA[
+         SELECT CL_CD                 AS "clCd",               --분류코드                    
+                BASE_CD               AS "baseCd",           --기초코드                    
+                BASE_CD_NM            AS "baseCdNm",           --기초코드명                    
+                SUPI_CL_CD            AS "supiClCd",           --상위분류코드                  
+                SUPI_BASE_CD          AS "supiBaseCd",       --상위기초코드                  
+                ETC_VAL_1             AS "etcVal1",           --기타값1                      
+                ETC_VAL_2             AS "etcVal2",           --기타값2                      
+                ETC_VAL_3             AS "etcVal3",           --기타값3                      
+                REM_SBC               AS "remSbc",           --비고내용                    
+                IQ_SEQ                AS "iqSeq",               --조회순번                    
+                AFFR_SCN              AS "affrScn",		   --완성창 업무구분			
+                BASE_CD               AS "code",
+	            BASE_CD_NM            AS "value"
+	     FROM   WOASIS.TB_BASE_CD 
+	     WHERE  CL_CD = #{mClCd}
+	      AND   USE_YN = 'Y'
+          AND   BASE_CD IN 
+							(
+								SELECT DISTINCT secondCode
+								FROM (
+									SELECT C.*
+									     , DECODE( CL_CD , #{mClCd} , BASE_CD ,
+									                       #{bClCd} , SUPI_BASE_CD
+									       ) AS secondCode                  
+									FROM WOASIS.TB_BASE_CD C , TWB_MDL_LINK_MTRL_GRP  A
+									WHERE (( C.CL_CD = #{mClCd} AND SUPI_BASE_CD = #{supiBaseCd})
+									         OR ( C.CL_CD = #{bClCd} AND REPLACE(C.ETC_VAL_2 , '-'||SUPI_BASE_CD||'-'||BASE_CD , '') = #{supiBaseCd} )
+									       )
+									AND C.USE_YN = 'Y'
+									AND C.ETC_VAL_1 = 0
+									AND A.MDL_CD = #{mdlCd}      
+									AND A.MTRL_GRP = #{mtglGrp}   -- 01.핸들 , 02.크리센트, 03.스크린
+									AND A.MTRL_LINK = C.BASE_CD
+								) WHERE secondCode IS NOT NULL
+							)
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD     
+		]]>
+	</select> 
+	
+    <!-- 공통코드에서 핸들/크리센트/스크린의 해당모형코드에 해당하는 세번째 콤보코드를 전체 조회 -->
+	<select id="searchAllBaseHCS3" resultType="HashMap">
+	-- searchAllBaseHCS3
+		<![CDATA[
+         SELECT CL_CD                  AS "clCd",               --분류코드                    
+                BASE_CD                AS "baseCd",           --기초코드                    
+                BASE_CD_NM             AS "baseCdNm",           --기초코드명                    
+                SUPI_CL_CD             AS "supiClCd",           --상위분류코드                  
+                SUPI_BASE_CD           AS "supiBaseCd",       --상위기초코드                  
+                ETC_VAL_1              AS "etcVal1",           --기타값1                      
+                ETC_VAL_2              AS "etcVal2",           --기타값2                      
+                ETC_VAL_3              AS "etcVal3",           --기타값3                      
+                REM_SBC                AS "remSbc",           --비고내용                    
+                IQ_SEQ                 AS "iqSeq",               --조회순번                    
+                AFFR_SCN               AS "affrScn",		   --완성창 업무구분			
+                BASE_CD                AS "code",
+	            BASE_CD_NM             AS "value"
+	     FROM   WOASIS.TB_BASE_CD 
+	     WHERE  CL_CD = #{bClCd}
+	      AND   USE_YN = 'Y'
+          AND   BASE_CD IN 
+							(
+								SELECT DISTINCT thirdCode
+								FROM (
+									SELECT C.*
+									     , BASE_CD AS thirdCode                  
+									FROM WOASIS.TB_BASE_CD C , TWB_MDL_LINK_MTRL_GRP  A
+									WHERE C.CL_CD = #{bClCd}
+									AND C.SUPI_BASE_CD = #{supiBaseCd}
+									AND C.USE_YN = 'Y'
+									AND C.ETC_VAL_1 = 0
+									AND A.MDL_CD = #{mdlCd}      
+									AND A.MTRL_GRP = #{mtglGrp}   -- 01.핸들 , 02.크리센트, 03.스크린
+									AND A.MTRL_LINK = C.BASE_CD
+								) WHERE thirdCode IS NOT NULL
+							)
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD    
+		]]>
+	</select> 		 
+	
+	<!-- 사업부 콤보조회 -->
+  	<select id="tspatComboListC" resultType="HashMap">
+  		<![CDATA[
+			-- 사업부 콤보조회
+		SELECT A.TSPAT_SPART AS "code"
+		     , '['||A.TSPAT_SPART||'] '||A.TSPAT_VTEXT AS "value"
+		  FROM TOPICS.TSPAT A
+		     , WOASIS.TB_BASE_CD B
+		 WHERE A.TSPAT_SPART = B.BASE_CD
+		   AND B.CL_CD = '464'
+		 ORDER BY A.TSPAT_SPART
+  		]]>		
+  	</select>
+  	
+  	<!-- 영업팀 콤보조회 -->
+  	<select id="tvkbtComboListC" resultType="HashMap">
+  		<![CDATA[
+			-- 영업팀 콤보조회
+			SELECT TVKBT_VKBUR AS "code"
+     			 , '['||TVKBT_VKBUR||'] '||TVKBT_BEZEI AS "value"
+			  FROM TOPICS.TVKBT
+ 			 WHERE NVL(NEWORG_YN, 'Y') = 'Y'
+ 			   AND TVKBT_SPART = #{tspat}
+ 			 ORDER BY TVKBT_VKBUR
+  		]]>		
+  	</select>
+  	
+  	<!-- 영업그룹 콤보조회 -->
+  	<select id="tvgrtComboListC" resultType="HashMap">
+  		<![CDATA[
+			-- 영업그룹 콤보조회
+			SELECT TVGRT_VKGRP AS "code"
+			     , '['||TVGRT_VKGRP||'] '||TVGRT_BEZEI AS "value"
+			  FROM TOPICS.TVGRT
+			 WHERE NVL(NEWORG_YN, 'Y') = 'Y'
+			   AND TVGRT_VKBUR = #{tvkbt}
+			  ORDER BY TVGRT_VKGRP
+  		]]>		
+  	</select>
+
+    <!-- 공통코드 그룹번호로 조회 -->
+	<select id="searchCodeValueForNotIn" resultType="HashMap">
+		<![CDATA[
+	    SELECT BASE_CD AS "code",
+	           BASE_CD_NM AS "value"
+	    FROM   WOASIS.TB_BASE_CD 
+	    WHERE  CL_CD = #{code_group}
+		]]>
+		<if test="(notIn != null and notIn != '')">
+			AND BASE_CD NOT IN
+			<foreach collection="notIn" index="index" item="item" separator="," open="(" close=")">
+            	'${notIn[index]}'
+        	</foreach>
+        </if>
+        <![CDATA[
+	      AND  USE_YN = 'Y'
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD
+		]]>
+	</select>
+
+    <!-- 담당자정보 조회 -->
+	<select id="searchCrgrList" resultType="HashMap">
+		<![CDATA[
+		  SELECT DISTINCT A.USER_ID AS "code"
+		       , B.SA_NAME||' '||B.SA_JOBX_NAME||
+		         ' ('||B.SA_DEPT_NAME||', 0'||REPLACE(REPLACE(B.SA_PHONE_AREA, '82-', ''), '0', '')||'-'||B.SA_PHONE_O||')' AS "value"
+		    FROM TWC_CRGR_MST A
+		       , TWC_SSO_USER B
+		   WHERE A.USER_ID = B.SA_USER
+		     AND A.AFFR_SCN_CD = '30'
+		     AND A.USE_YN = 'Y'
+		     
+		   UNION ALL 
+		
+		  SELECT 'twms' AS "code"
+		       , 'WINS IT 지원 (02-6930-1395, 1396)'AS "value"
+		    FROM DUAL
+		   
+		   ORDER BY "value" 
+		]]>
+	</select>
+	
+	<select id="checkSwitchOn" resultType="hashmap">
+	<![CDATA[
+		  SELECT BASE_CD AS "baseCd", ETC_VAL_1 AS "etcVal1"
+		    FROM WOASIS.TB_BASE_CD
+		   WHERE CL_CD = #{code_group} 
+		     AND BASE_CD = #{switch_type} 
+		     AND USE_YN = 'Y'
+		ORDER BY IQ_SEQ, CL_CD, BASE_CD		
+    ]]>
+    </select>
+    
+    <select id="searchStatusCnstwEstiCodeList" resultType="hashmap">
+    <![CDATA[
+	    SELECT BASE_CD AS "code",
+	           BASE_CD_NM AS "value"
+	    FROM   WOASIS.TB_BASE_CD 
+	    WHERE  CL_CD = #{code_group}
+	      AND  USE_YN = 'Y'
+	      AND  BASE_CD IN ('10', '20', '30', '90', '91')
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD
+    ]]>
+    </select>
+    
+    <select id="searchStatusCodeMinValue" resultType="hashmap"><![CDATA[
+	    SELECT BASE_CD AS "code",
+	           BASE_CD_NM AS "value"
+	    FROM   WOASIS.TB_BASE_CD 
+	    WHERE  CL_CD = #{code_group}
+	      AND  BASE_CD >= #{start_st_cd}
+	      AND  BASE_CD <= #{end_st_cd}
+	      AND  USE_YN = 'Y'
+	      AND  BASE_CD NOT IN ('245', '250', '259', '295', '296', '297', '298')
+	    ORDER BY IQ_SEQ, CL_CD, BASE_CD
+    ]]>
+    </select>
+    
+    <!-- 공통코드 협력사콤보 조회 -->
+	<select id="searchCofCodeValueByArr" resultType="HashMap">
+		<![CDATA[
+			SELECT CSMR_CD AS "code"
+				 , CSMR_NM AS "value"
+			  FROM V_TWC_CSMR_MST
+			 WHERE 1=1
+	    	   AND CSMR_CD NOT IN (SELECT COF_CD FROM TWO_COF_MST WHERE SCRN_IDCN_YN = 'N')
+		]]>
+		<if test="(custType != null and custType != '')">
+			AND CSMR_SCN_CD IN
+			<foreach collection="custType" index="index" item="item" separator="," open="(" close=")">
+            	'${custType[index]}'
+        	</foreach>
+        </if>
+		<if test="(cofCd != null and cofCd != '')">
+			AND AGEN_CD = #{cofCd}
+        </if>
+	</select>
+	
+	<!-- 20121126 박은영d 추가. new glasys 코드 가져오기.  -->
+	<select id="searchNgpsCodeValue" resultType="hashmap">
+	<![CDATA[
+	    SELECT A.BASE_CD AS "code"
+	         , '['||A.BASE_CD||'] '||A.BASE_CD_NM AS "value"
+	      FROM NGPS.TGC_BASE_CD A 
+	     WHERE CL_CD = #{code_group}
+	       AND USE_YN = 'Y'
+	     ORDER BY IQ_SEQ, BASE_CD
+    ]]>
+    </select>
+    
+</mapper>

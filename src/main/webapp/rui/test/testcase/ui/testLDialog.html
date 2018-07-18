@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LDialog Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+
+var dialog = null; 
+var dialog2 = null;
+var dataSet = null;
+var grid = null;
+Rui.onReady(function() {
+    
+    dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        focusFirstRow: -1,
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'date1', type: 'date' }
+        ]
+    });
+    
+    dataSet.on('load', function(e){
+        grid.selectCell(0, 2);
+        grid.focus();
+    });
+
+    var columnModel = new Rui.ui.grid.LColumnModel({
+        columns: [
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1', sortable:true, width:500 },
+            { field: 'col2', align:'center' , renderer: function(v){
+                return '<a href=\'javascript:testFunction(\'aa bb cc\');\'>' + v + '</a>';
+            }},
+            { field: 'col3', align: 'right', hidden:true },
+            /*<b>*/
+            { id:'btn', field:'col1', label:'Button', renderer: function(val, p, record, row, i){
+                var btnHtml = '';
+                btnHtml += '<button type=\'button\' class=\'L-grid-button\'>수정</button>';
+                btnHtml += '';
+                return btnHtml;
+            }}
+            /*</b>*/
+        ]
+    });
+
+    grid = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet:dataSet,
+        autoWidth: true,
+        height: 400
+    });
+
+    grid.render('defaultGrid');
+    
+    // 소스 넣을 위치
+     dialog = new Rui.ui.LDialog({
+                applyTo: "dialog1", 
+                width: 1000,
+                height: 400,
+                visible: false,
+                cached: false,
+                //pageUrl: './../../../sample/general/fx/fxAttributesSample.html',
+                buttons: [{
+                    text: "Submit",
+                    handler: function(){
+                        this.submit(true);
+                    },
+                    isDefault: true
+                }, {
+                    text: "Cancel",
+                    handler: function(){
+                        this.cancel(true);
+                    }
+                }]
+            });
+     
+     //dialog.setUrl('./../../fx/fxSample.html');
+     //dialog.show(); 
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+function testLDialog_method_setTabLoop() {
+    info('LDialogTests : testLDialog_method_setTabLoop 작동 여부');
+    dialog.setTabLoop();
+    assertNotNull(dialog.lastButton); 
+    assertNotNull(dialog.firstButton); 
+}
+function testLDialog_method_setFirstLastFocusable() {
+    info('LDialogTests : testLDialog_method_setFirstLastFocusable 작동 여부');
+    dialog.setFirstLastFocusable();
+    assertNotUndefined(dialog.firstFormElement);
+}
+function testLDialog_method_getButtons() {
+    info('LDialogTests : testLDialog_method_getButtons 작동 여부');
+    assertTrue(dialog.getButtons().length > 0);
+}
+function testLDialog_method_focusDefaultButton() {
+    info('LDialogTests : testLDialog_method_focusDefaultButton 작동 여부');
+    dialog.focusDefaultButton();
+    assertNotUndefined(true);
+}
+function testLDialog_method_blurButtons() {
+    info('LDialogTests : testLDialog_method_blurButtons 작동 여부');
+    dialog.blurButtons();
+    assertNotUndefined(true);
+}
+function testLDialog_method_focusFirstButton() {
+    info('LDialogTests : testLDialog_method_focusFirstButton 작동 여부');
+    dialog.focusFirstButton();
+    assertNotUndefined(true);
+}
+function testLDialog_method_focusLastButton() {
+    info('LDialogTests : testLDialog_method_focusLastButton 작동 여부');
+    dialog.focusLastButton();
+    assertNotUndefined(true);
+}
+function testLDialog_method_submit() {
+    info('LDialogTests : testLDialog_method_submit 작동 여부');
+    dialog.show(); 
+    var result = dialog.submit(true);
+    //return type : boolean
+    assertEquals(result, true);
+}
+function testLDialog_method_cancel() {
+    info('LDialogTests : testLDialog_method_cancel 작동 여부');
+    dialog.cancel();
+    assertNotUndefined(true);
+}
+function testLDialog_method_getData() {
+    info('LDialogTests : testLDialog_method_getData 작동 여부');
+    assertNotUndefined(dialog.getData()); 
+}
+function testLDialog_method_destroy() {
+    info('LDialogTests : testLDialog_method_destroy 작동 여부');
+    dialog2 = new Rui.ui.LDialog({
+        applyTo: "dialog2",
+        width: 400,
+        height: 370,
+        visible: false,
+        cached: false,
+        pageUrl: './../../../sample/general/fx/fxAttributesSample.html',
+        buttons: [{
+            text: "Submit",
+            handler: function(){
+                this.submit(true);
+            },
+            isDefault: true
+        }, {
+            text: "Cancel",
+            handler: function(){
+                this.cancel(true);
+            }
+        }]
+    });
+    dialog2.destroy();
+    assertNull(dialog2.form);
+}
+function testLDialog_method_toString() {
+    info('LDialogTests : testLDialog_method_toString 작동 여부');
+    var result = dialog.toString();
+    //return type : String
+    assertTrue(result.length > 0);
+}
+function testLDialog_method_show() {
+    info('LDialogTests : testLDialog_method_show 작동 여부');
+    dialog.show();
+    
+    dataSet.load({
+        url: './../../../sample/data/data.json',
+        method: 'get'
+    });
+    
+    //return type : String
+    assertTrue(true);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LDialog Tests</h1>
+
+    <div id="bd">
+
+            <div id="dialog1">
+                <div class="bd">
+                    <div id="defaultGrid"></div>
+                </div>
+            </div>
+            <div id="dialog2"></div>
+
+        <div class="testcase-buttons">
+            <a href="javascript:testLDialog_method_setTabLoop()">setTabLoop</a>
+            <a href="javascript:testLDialog_method_setFirstLastFocusable()">setFirstLastFocusable</a>
+            <a href="javascript:testLDialog_method_getButtons()">getButtons</a>
+            <a href="javascript:testLDialog_method_focusDefaultButton()">focusDefaultButton</a>
+            <a href="javascript:testLDialog_method_blurButtons()">blurButtons</a>
+            <a href="javascript:testLDialog_method_focusFirstButton()">focusFirstButton</a>
+            <a href="javascript:testLDialog_method_focusLastButton()">focusLastButton</a>
+            <a href="javascript:testLDialog_method_submit()">submit</a>
+            <a href="javascript:testLDialog_method_cancel()">cancel</a>
+            <a href="javascript:testLDialog_method_getData()">getData</a>
+            <a href="javascript:testLDialog_method_destroy()">destroy</a>
+            <a href="javascript:testLDialog_method_toString()">toString</a>
+            <a href="javascript:testLDialog_method_show()">show</a>
+        </div>
+    </div>        
+</body>
+</html>

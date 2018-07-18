@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<AS8InitXML>
+	<Product>
+		<Logo></Logo>
+		<Help></Help>
+		<Name></Name>
+		<Info></Info>
+	</Product>
+	<UI>
+		<DeleteCommand></DeleteCommand>
+		<DeleteAccelerator></DeleteAccelerator>
+		<AddAccelerator></AddAccelerator>
+		<CreateMenu></CreateMenu>
+		<AddMenu></AddMenu>
+		<ShowMenu>Yes</ShowMenu>
+		<AddPopupMenu></AddPopupMenu>
+		<ShowPopupMenu>Yes</ShowPopupMenu>
+		<CreateToolbar>filenew fileopen filesave | print printpreview | undo redo | find | hr hyperlink bookmark image activephoto flash | tableribbon tabledraw tableerase | marktable cellbgcolor cellsplit | rowbelowinsert rowdelete | columnrightinsert columndelete | markpara marktag;paralist fontlist fontsizelist | lineheight | charbold charitalic charunderline charcolor charbgcolor charclear | listnumber listbullet | indentincrease indentdecrease | alignleft aligncenter alignright justify;</CreateToolbar>
+		<ToolbarImage></ToolbarImage>
+		<ShowToolbar>1,2</ShowToolbar>
+		<ShowToolTip>Yes</ShowToolTip>
+		<CreateStatus>Modify,EditMode,Control,Insert,</CreateStatus>
+		<ShowStatus>Yes</ShowStatus>
+		<CreateTab>Edit,Source,Preview,</CreateTab>
+		<ShowTab>Yes</ShowTab>
+		<OpenDialogPath></OpenDialogPath>
+		<AnswerAskDialog>SaveAsUnicode:Yes;</AnswerAskDialog>
+	</UI>
+	<Edit>
+		<EditMode>Edit</EditMode>
+		<ImeMode></ImeMode>
+		<KeyboardLayout></KeyboardLayout>
+		<PreformattedTextOpen>No</PreformattedTextOpen>
+		<StopTextPaste>No</StopTextPaste>
+		<ReturnKeyActionBR>Yes</ReturnKeyActionBR>
+	</Edit>
+	<View>
+		<Ruler>Horizontal, Vertical</Ruler>
+	</View>
+	<Document>
+		<NewFile></NewFile>
+		<CharSet>utf-8</CharSet>
+		<BaseURL></BaseURL>
+	</Document>
+	<Paragraph>
+<!-- 		<LineHeight>120%</LineHeight> -->
+<!-- 		<TopMargin>0px</TopMargin> -->
+<!-- 		<BottomMargin>0px</BottomMargin> -->
+	</Paragraph>
+	<MIME>
+		<EncodeRange>Body</EncodeRange>
+		<EncodeFileScope>All</EncodeFileScope>
+		<EncodeFilter>Image,</EncodeFilter>
+		<EncodeType>ForceBase64</EncodeType>
+		<EncodeRandomFileName>No</EncodeRandomFileName>
+	</MIME>
+	<Event>
+		<Mouse>Yes</Mouse>
+		<Keyboard>No</Keyboard>
+		<Command>No</Command>
+	</Event>
+	<Utility>
+		<UseAutomation>Yes</UseAutomation>
+		<ActivePhotoURL></ActivePhotoURL>
+		<ActivePhotoVersion>3</ActivePhotoVersion>
+		<ActivePhotoWidth>953</ActivePhotoWidth>
+		<ActivePhotoHeight>607</ActivePhotoHeight>
+		<TrustURL></TrustURL>
+	</Utility>
+	<Extension>
+		<FilterFileOpen></FilterFileOpen>
+		<FilterFileSave></FilterFileSave>
+		<OpenTextFileType></OpenTextFileType>
+		<CleanTempFolder>No</CleanTempFolder>
+		<TagBlockList></TagBlockList>
+		<AttributeBlockList></AttributeBlockList>
+	</Extension>
+	<Table>
+		<CreateAppendPara>Yes</CreateAppendPara>
+		<NoEmptyTd>No</NoEmptyTd>
+		<CellBorderWidth>1px</CellBorderWidth>
+		<CellBorderColor>#000000</CellBorderColor>
+		<CellBorderStyle>solid</CellBorderStyle>
+		<Collapse>Yes</Collapse>
+	</Table>
+</AS8InitXML>

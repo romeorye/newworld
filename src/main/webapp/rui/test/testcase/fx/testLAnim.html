@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.fx.LAnim Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var anim = null;
+Rui.onReady(function() {
+    anim = new Rui.fx.LAnim({
+        el: 'demo',
+        attributes: {
+            width: {
+                to: 0
+            }
+        }
+    });
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+
+function testLAnim_method_setEl() {
+    info('LAnimTests : testLAnim_method_setEl 작동 여부');
+    anim.setEl('demo2');
+    assertEquals(anim.getEl().id, 'demo2');
+}
+function testLAnim_method_getEl() {
+    info('LAnimTests : testLAnim_method_getEl 작동 여부');
+    anim.setEl('demo');
+    assertEquals(anim.getEl().id, 'demo');
+}
+function testLAnim_method_isAnimated() {
+    info('LAnimTests : testLAnim_method_isAnimated 작동 여부');
+    assertEquals(anim.isAnimated(), false);
+}
+function testLAnim_method_getStartTime() {
+    info('LAnimTests : testLAnim_method_getStartTime 작동 여부');
+    assertTrue(anim.getStartTime() == null);
+}
+function testLAnim_method_animate() {
+    info('LAnimTests : testLAnim_method_animate 작동 여부');
+    anim.animate();
+    assertTrue(anim.isAnimated());
+}
+function testLAnim_method_stop() {
+    info('LAnimTests : testLAnim_method_stop 작동 여부');
+    anim.stop();
+    assertFalse(anim.isAnimated());
+}
+function testLAnim_method_toString() {
+    info('LAnimTests : testLAnim_method_toString 작동 여부');
+    var result = anim.toString();
+    //return type : String
+    assertEquals(result, 'Rui.fx.LAnim: demo');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.fx.LAnim Tests</h1>
+    <div id="demo">Demo</div>
+    <div id="demo2">Demo</div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLAnim_method_setEl()">setEl</a>
+            <a href="javascript:testLAnim_method_getEl()">getEl</a>
+            <a href="javascript:testLAnim_method_isAnimated()">isAnimated</a>
+            <a href="javascript:testLAnim_method_getStartTime()">getStartTime</a>
+            <a href="javascript:testLAnim_method_animate()">animate</a>
+            <a href="javascript:testLAnim_method_stop()">stop</a>
+            <a href="javascript:testLAnim_method_toString()">toString</a>
+        </div>
+    </div>        
+</body>
+</html>

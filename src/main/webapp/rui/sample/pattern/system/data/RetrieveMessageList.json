@@ -1,0 +1,8 @@
+[{
+    "metaData": {
+        "datasetId":"dataSet"
+    },
+    "records": [
+        { "code": "success", "message": "성공" }
+    ]
+}]

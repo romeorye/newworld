@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!--  Paging 환경설정 -->
+	<bean id="pagingPolicyResolver" class="devonframe.paging.policy.PagingPolicyResolver">
+		<property name="globalPolicy" ref="paging.globalPolicy"/>
+	<property name="optionalPolicyMap">
+			<map>
+				<entry key="policy1" value-ref="paging.policy1" />
+				<entry key="policy2" value-ref="paging.policy2" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="paging.globalPolicy" class="devonframe.paging.policy.DefaultPagingPolicy">
+		<property name="rowSize" value="10" />
+		<property name="pageSize" value="10" />
+		<property name="customRowSize" value="5,10,20" />
+	</bean>
+
+	<bean id="paging.policy1" parent="paging.globalPolicy" class="devonframe.paging.policy.DefaultPagingPolicy">
+		<property name="rowSize" value="10" />
+	</bean>
+
+	<bean id="paging.policy2" parent="paging.globalPolicy" class="devonframe.paging.policy.DefaultPagingPolicy">
+		<property name="rowSize" value="10" />
+		<property name="pageSize" value="10" />
+		<property name="customRowSize" value="10,50,100" />
+	</bean>
+<!-- 
+	<mvc:annotation-driven>
+	    <mvc:argument-resolvers>
+	        <bean class="devonframe.paging.resolver.PagingMethodArgumentResolver" >
+	            <property name="pagingPolicyResolver" ref="pagingPolicyResolver"/>
+	        </bean>
+	    </mvc:argument-resolvers>
+	</mvc:annotation-driven>
+ -->
+	<bean id="uiPolicy" class="devonframe.paging.policy.PagingUIPolicyResolver">
+		<property name="globalPolicy" ref="pagingUI.globalPolicy" />
+		<property name="optionalPolicyMap">
+			<map>
+				<entry key="ajax" value-ref="pagingUI.ajax" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="pagingUI.globalPolicy" class="devonframe.paging.policy.DefaultPagingUIPolicy">
+		<property name="uiClassName" value="devonframe.sample.office.uipattern.pp1.ui.SamplePagingUI" />
+		<property name="orderByAsc" value="▲"/>
+		<property name="orderByDesc" value="▼"/>
+		<property name="orderByNone" value=""/>
+		<property name="moveFirstPage" value="[처음페이지]"/>
+		<property name="moveEndPage" value="[끝페이지]"/>
+		<property name="moveBeforePage" value="/resource/images/list_page_previous.gif"/>
+		<property name="moveNextPage" value="/resource/images/list_page_next.gif"/>
+		<property name="moveBeforeIndex" value="◀◀"/>
+		<property name="moveNextIndex" value="▶▶"/>
+		<property name="indexSeperator" value=" "/>
+		<property name="selectedIndexFont" value=""/>
+		<property name="indexFont" value=""/>
+	</bean>
+
+	<bean id="pagingUI.ajax" parent="pagingUI.globalPolicy" class="devonframe.paging.policy.DefaultPagingUIPolicy">
+		<property name="uiClassName" value="devonframe.sample.office.uipattern.pp2.ui.AjaxPagingUI" />
+	</bean>
+
+</beans>

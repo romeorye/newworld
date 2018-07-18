@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>엘지하우시스</title>
+<style>
+@charset "utf-8";
+
+/*==============================default====================*/
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+	color:#7d7d7d; 
+    font-family:'Malgun Gothic','맑은 고딕','Noto Sans KR',
+    'Nanum Gothic','굴림',gulim,'돋움',dotum,'Microsoft NeoGothic', 'Droid sans', sans-serif;
+	font-size:13px; 
+	letter-spacing:-0.20px;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	overflow-y:scroll;
+    font-weight:400;
+    color:#555;
+}
+
+
+/*==============================공통====================*/
+
+.relative{position:relative;}
+.clear {clear:both}
+.bold{font-weight:500;}
+.block{display:block;}
+
+
+a:hover{text-decoration:none;}
+
+
+.clear{clear:both;}
+.clear:before,
+.clear:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+} 
+.clear:after {
+    clear: both;
+} 
+.clear {
+    *zoom: 1;
+}
+
+
+
+/* mail 전송 */
+
+
+#Wrap{width:100%; overflow: -webkit-paged-x; height:100%;}
+
+.mail_layout{margin:0 auto;}
+
+
+.mail_layout .logo{margin-top:15px; margin-left:20px; vertical-align: middle; text-align: left;}
+
+
+.top_line{border-top:2px solid #c40452; width:100%; margin-top: 10px;}
+
+
+.mail_cont{font-size: 12px; color:#666; width: 100%; padding: 20px; min-height: 600px;}
+
+
+</style>
+</head>
+
+<body>
+    
+<div id="Wrap">
+    <div>
+    <!--header-->
+    <div class="mail_layout">
+      <div class="logo"><img src="http://iris.lghausys.com:7030/iris/resource/web/images/newIris/logo.png"  width="104px;" height="44px;"></div>  
+    
+     <div style="clear: both"></div>
+    </div>      
+    <div class="top_line"></div>
+    </div>
+    
+<!--content-->
+	    <div class="mail_cont">
+		안녕하세요. <br/><br/>
+		
+		
+		${yymm}월 'Monthly Focus Report 작성 件에 대해 다음과 같이 공지드리오니,  ${yymm}월 25일까지 송부해 주시길 바랍니다. <br/><br/>
+		1. 안건<br/><br/>
+		
+		     &nbsp;&nbsp;PJT별 Monthly Focus Report 작성 요청<br/><br/>
+		
+		2. 제출 요청일<br/><br/>
+		
+		     &nbsp;&nbsp;${yymm}월 25일 <br/><br/>
+		
+		3. 안내 사항<br/><br/>
+		
+		    &nbsp;&nbsp;- 상단부 : 주요 진행계획 및 이슈(반드시 서술형으로 작성) & 하단부 data 및 그림 외 간단한 설명<br/>
+		
+		    &nbsp;&nbsp;- 유첨 Monthly Focus Report Format File 참조<br/>
+		
+		    &nbsp;&nbsp;- 분량은 반드시 1장 이내로 작성<br/><br/>
+		
+		 4.  ${yymm}월 Monthly Focus Report 요청  <br/><br/>
+		
+		     &nbsp;&nbsp;각 PJT P/L께서는 ${yymm}월  25일까지 작성하시어 송부 부탁드립니다.<br/><br/><br/>
+		
+		감사합니다.<br/>
+
+          </div>
+</div>
+    
+</body>
+</html>

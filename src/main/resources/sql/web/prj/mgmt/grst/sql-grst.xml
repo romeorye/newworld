@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.mgmt.grst">
+
+	<select id="retrieveGrsTempList" resultType="hashmap">
+		<![CDATA[
+		SELECT	 GRS_EV_SN			AS grsEvSn				-- GRS 일련번호   		
+				,GRS_EV_SEQ	 		AS grsEvSeq				--  GRS  순번
+				,EV_PRVS_NM_1       AS evPrvsNm_1           -- 평가항목명1    
+				,EV_PRVS_NM_2       AS evPrvsNm_2           -- 평가항목명2    
+				,EV_CRTN_NM         AS evCrtnNm            -- 평가기준명    
+				,EV_SBC_TXT         AS evSbcTxt             -- 평가내용       
+				,DTL_SBC_TITL_1     AS dtlSbcTitl_1         -- 상세내용1      
+				,DTL_SBC_TITL_2     AS dtlSbcTitl_2         -- 상세내용2      
+				,DTL_SBC_TITL_3     AS dtlSbcTitl_3         -- 상세내용3      
+				,DTL_SBC_TITL_4     AS dtlSbcTitl_4         -- 상세내용4      
+				,DTL_SBC_TITL_5     AS dtlSbcTitl_5         -- 상세내용5      
+				,WGVL               AS wgvl                 -- 가중치       
+				,GRS_Y              AS grsY                 -- 년도          
+				,GRS_TYPE           AS grsType              -- 유형          
+				,dbo.fn_getComDtlNm('GRS_TYPE',GRS_TYPE) grsTypeNm --유형명
+				,EV_SBC_NM          AS evSbcNm              -- 템플릿명       
+				,USE_YN             AS useYn                -- 사용여부      
+				,FRST_RGST_DT       AS frstRgstDt           -- 최초등록일시   
+				,FRST_RGST_ID       AS frstRgstId           -- 최초등록자     
+				,LAST_MDFY_DT       AS lastMdfyDt           -- 최종수정일시   
+				,LAST_MDFY_ID       AS lastMdfyId           -- 최종수정자     
+
+			 FROM IRIS_GRS_EV_STD_MGMT 
+		 ]]>
+			WHERE 1=1
+			<![CDATA[
+			AND   (USE_YN = 'Y' or USE_YN is null or USE_YN = '')
+			 ]]>
+			
+			<choose>
+				<when test="grsEvSn == null">
+					AND GRS_EV_SEQ = 0
+				</when>
+				<otherwise>
+					AND GRS_EV_SN = '${grsEvSn}'
+					AND GRS_EV_SEQ != 0
+				</otherwise>
+			</choose>
+
+         <if test="grsType != null and grsType != ''">
+			AND GRS_TYPE = '${grsType}'
+		</if>
+		 <if test="evSbcNm != null and evSbcNm != ''">
+			AND EV_SBC_NM like '%${evSbcNm}%'
+		</if>
+		 <if test="grsY != null and grsY != '' and grsY != 'null'">
+			AND GRS_Y = '${grsY}'
+		</if>
+		 <if test="useYn != null and useYn != ''">
+			AND USE_YN = '${useYn}'
+		</if>
+		
+		ORDER BY GRS_Y DESC
+		
+	</select>
+	
+	<select id="retrieveGrsTempDtl" resultType="hashmap">
+		<![CDATA[
+		/*retrieveGrsTempDtl*/
+		SELECT	 GRS_EV_SN			AS grsEvSn				-- GRS 일련번호   		
+				,GRS_EV_SEQ	 		AS grsEvSeq				--  GRS  순번
+				,EV_PRVS_NM_1       AS evPrvsNm_1           -- 평가항목명1    
+				,EV_PRVS_NM_2       AS evPrvsNm_2           -- 평가항목명2    
+				,EV_CRTN_NM         AS evCrtnNm             -- 평가기준명    
+				,EV_SBC_TXT         AS evSbcTxt             -- 평가내용       
+				,DTL_SBC_TITL_1     AS dtlSbcTitl_1         -- 상세내용1      
+				,DTL_SBC_TITL_2     AS dtlSbcTitl_2         -- 상세내용2      
+				,DTL_SBC_TITL_3     AS dtlSbcTitl_3         -- 상세내용3      
+				,DTL_SBC_TITL_4     AS dtlSbcTitl_4         -- 상세내용4      
+				,DTL_SBC_TITL_5     AS dtlSbcTitl_5         -- 상세내용5      
+				,WGVL               AS wgvl                 -- 가중치       
+				,GRS_Y              AS grsY                 -- 년도          
+				,GRS_TYPE           AS grsType              -- 유형          
+				,EV_SBC_NM          AS evSbcNm              -- 템플릿명       
+				,USE_YN             AS useYn                -- 사용여부      
+				,FRST_RGST_DT       AS frstRgstDt           -- 최초등록일시   
+				,FRST_RGST_ID       AS frstRgstId           -- 최초등록자     
+				,LAST_MDFY_DT       AS lastMdfyDt           -- 최종수정일시   
+				,LAST_MDFY_ID       AS lastMdfyId           -- 최종수정자     
+
+			 FROM IRIS_GRS_EV_STD_MGMT 
+		 ]]>
+			WHERE 	GRS_EV_SN = '${grsEvSn}'
+			<choose>
+				<when test="grsEvSn == null">
+					AND GRS_EV_SEQ = 0
+				</when>
+				<otherwise>
+					AND GRS_EV_SEQ = '${grsEvSeq}'
+				</otherwise>
+			</choose>
+	
+	</select>
+	 <!-- GRS 템플릿등록-->
+    <update id="saveGrsTemp">
+    <![CDATA[
+        MERGE IRIS_GRS_EV_STD_MGMT WITH (HOLDLOCK) AS A
+         USING  (SELECT #{grsEvSn}   AS GRS_EV_SN , #{grsEvSeq} AS GRS_EV_SEQ) AS B 
+            ON  A.GRS_EV_SN  	= B.GRS_EV_SN
+			AND A.GRS_EV_SEQ  	= B.GRS_EV_SEQ
+          WHEN NOT MATCHED THEN
+        INSERT 
+             (  GRS_EV_SN				  --GRS 일련번호    
+             ,  GRS_EV_SEQ 				  --GRS SEQ     	
+             ,  GRS_Y                     --년도        
+             ,  GRS_TYPE                  --유형        
+             ,  EV_SBC_NM                 --템플릿명     
+             ,  USE_YN                    --사용여부    
+             ,  FRST_RGST_DT              --최초등록일시 
+             ,  FRST_RGST_ID              --최초등록자   
+             ,  LAST_MDFY_DT              --최종수정일시 
+             ,  LAST_MDFY_ID              --최종수정자   
+            ) 
+        VALUES
+             ( (SELECT ISNULL(MAX(X.GRS_EV_SN), 0) + 1 FROM IRIS_GRS_EV_STD_MGMT X )
+         	 , 	0     
+			 ,	#{grsY}         
+			 ,	#{grsType}      
+			 ,	#{evSbcNm}      
+			 ,	#{useYn}        
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+          WHEN MATCHED THEN
+        UPDATE 
+           SET A.GRS_Y 	  = #{grsY}
+             , A.GRS_TYPE 	  = #{grsType}
+             , A.EV_SBC_NM 	  = #{evSbcNm}
+             , A.USE_YN 	  = #{useYn}
+             , A.LAST_MDFY_DT = GETDATE()
+             , A.LAST_MDFY_ID = #{userId}
+             ;
+    ]]>
+    </update>
+	
+	 <!-- GRS 템플릿  목록 등록-->
+    <update id="saveGrsTempLst">
+    <![CDATA[
+         MERGE IRIS_GRS_EV_STD_MGMT WITH (HOLDLOCK) AS A
+         USING  (SELECT #{grsEvSn}   AS GRS_EV_SN , #{grsEvSeq} AS GRS_EV_SEQ) AS B 
+            ON  A.GRS_EV_SN  	= B.GRS_EV_SN
+			AND A.GRS_EV_SEQ  	= B.GRS_EV_SEQ
+          WHEN NOT MATCHED THEN
+        INSERT 
+             (  GRS_EV_SN				  --GRS 일련번호    
+             ,  GRS_EV_SEQ 				  --GRS SEQ     	
+             ,  EV_PRVS_NM_1              --평가항목명1  
+             ,  EV_PRVS_NM_2              --평가항목명2  
+             ,  EV_CRTN_NM                --평가기준명  
+             ,  EV_SBC_TXT                --평가내용     
+             ,  DTL_SBC_TITL_1            --상세내용1    
+             ,  DTL_SBC_TITL_2            --상세내용2    
+             ,  DTL_SBC_TITL_3            --상세내용3    
+             ,  DTL_SBC_TITL_4            --상세내용4    
+             ,  DTL_SBC_TITL_5            --상세내용5    
+             ,  WGVL                      --가중치     
+             ,  FRST_RGST_DT              --최초등록일시 
+             ,  FRST_RGST_ID              --최초등록자   
+             ,  LAST_MDFY_DT              --최종수정일시 
+             ,  LAST_MDFY_ID              --최종수정자   
+            ) 
+        VALUES
+             ( #{grsEvSn}
+         	 , (SELECT ISNULL(MAX(X.GRS_EV_SEQ), 0) + 1 
+         	 	  FROM IRIS_GRS_EV_STD_MGMT X 
+         	 	  WHERE X.GRS_EV_SN 	= #{grsEvSn}
+         	 	  	 )     
+			 ,	#{evPrvsNm_1}   
+			 ,	#{evPrvsNm_2}   
+			 ,	#{evCrtnNm}    
+			 ,	#{evSbcTxt}     
+			 ,	#{dtlSbcTitl_1} 
+			 ,	#{dtlSbcTitl_2} 
+			 ,	#{dtlSbcTitl_3} 
+			 ,	#{dtlSbcTitl_4} 
+			 ,	#{dtlSbcTitl_5} 
+			 ,	#{wgvl}         
+	         , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+          WHEN MATCHED THEN
+        UPDATE 
+           SET A.EV_PRVS_NM_1  = #{evPrvsNm_1}      
+             , A.EV_PRVS_NM_2  = #{evPrvsNm_2}  
+             , A.EV_CRTN_NM    = #{evCrtnNm}
+             , A.EV_SBC_TXT  	= #{evSbcTxt}
+             , A.DTL_SBC_TITL_1 = #{dtlSbcTitl_1}
+             , A.DTL_SBC_TITL_2 = #{dtlSbcTitl_2}   
+             , A.DTL_SBC_TITL_3 = #{dtlSbcTitl_3}
+             , A.DTL_SBC_TITL_4 = #{dtlSbcTitl_4}
+             , A.DTL_SBC_TITL_5 = #{dtlSbcTitl_5}
+             , A.WGVL 	  = #{wgvl}
+             , A.LAST_MDFY_DT = GETDATE()
+             , A.LAST_MDFY_ID = #{userId}
+             ;
+    ]]>
+    </update>
+	
+	
+	
+	<select id="getSeqGrsTemp" resultType="hashmap">
+	  <![CDATA[
+	 	 SELECT max(grs_ev_sn) grsEvSn FROM iris_grs_ev_std_mgmt
+	 ]]>
+	</select>
+	
+	
+	<delete id="deleteGrsTemp">
+	  <![CDATA[
+	  	DELETE FROM iris_grs_ev_std_mgmt WHERE grs_ev_sn = #{grsEvSn} and GRS_EV_SEQ = #{grsEvSeq}
+		]]>
+	</delete>
+	
+</mapper>

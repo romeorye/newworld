@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stat.mchn">
+	
+	<select id="mchnInfoStateList"  resultType="hashmap">
+   		<![CDATA[
+		-- mchnInfoStateList 
+		 WITH DEPT_MST AS
+		(
+		SELECT SD.dept_code		
+				,SD.dept_name
+				,SD.dept_uper
+				,SD.uperdept_name
+				,SD.DEPT_LEVEL AS DEPT_LEVEL
+				, SD.dept_name  AS master_lv1
+				, CAST(null AS NVARCHAR(300)) AS master_lv2
+				, CAST(null AS NVARCHAR(10)) AS master_code_lv2	
+			FROM IRIS_SSO_DEPT SD
+			WHERE SD.dept_code = '50000000'  
+			UNION ALL
+			SELECT SD2.dept_code			
+				,SD2.DEPT_NAME
+				,SD2.dept_uper
+				,SD2.uperdept_name
+				,SD2.DEPT_LEVEL AS DEPT_LEVEL
+				,AEM3.master_lv1
+				,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_name ELSE AEM3.master_lv2 END master_lv2
+				,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_code ELSE AEM3.master_code_lv2 END master_code_lv2	
+			FROM IRIS_SSO_DEPT SD2
+				,DEPT_MST AEM3
+			WHERE  1=1 
+			AND SD2.dept_uper = aem3.dept_code   
+		)
+		SELECT B.MCHN_HAN_NM as mchnHanNm
+		      ,B.MCHN_EN_NM as mchnEnNm
+		      ,B.MCHN_HAN_NM +'('+B.MCHN_EN_NM+')' AS mchnNm
+			  ,AA.COM_DTL_NM AS mchnClNm
+			  ,A.SMPO_NM as smpoNm
+			  ,A.SMPO_QTY as smpoQty
+			  -- ,dbo.fn_getDivisionNm(rgst_dept_cd) as uperDeptNm
+			  ,m.master_lv2	as uperDeptNm
+			  ,M.DEPT_NAME as deptNm  --,C.SA_DEPT_NAME as deptNm
+			  ,C.SA_NAME as rgstNm
+			  ,A.PRCT_DT as prctDt 
+			  ,A.PRCT_FROM_TIM as prctFromTim
+			  ,A.PRCT_TO_TIM as prctToTim
+			  ,A.PRCT_DT+' '+A.PRCT_FROM_TIM AS prctFromDt
+			  ,A.PRCT_DT+' '+A.PRCT_TO_TIM AS prctToDt
+			  ,B.OPN_YN as opnYn
+			  ,B.MCHN_UFE_CL_CD as mchnUfeClCd
+			  ,A.MCHN_UFE AS mchnUfe
+		     , round(cast(DATEDIFF(mi,  A.PRCT_DT+' '+A.PRCT_FROM_TIM ,   A.PRCT_DT+' '+A.PRCT_TO_TIM) as float) / 60, 1)   AS useTim
+		FROM  IRIS_MCHN_PRCT_MST A
+		      INNER JOIN IRIS_MCHN_INFO_MST B
+			  ON B.MCHN_INFO_ID = A.MCHN_INFO_ID
+			  AND A.DEL_YN ='N'
+			  AND A.PRCT_SCN_CD = 'APPR'
+			  INNER JOIN IRIS_SSO_USER C
+			  ON C.SA_SABUN_NEW = A.RGST_ID
+			  INNER JOIN IRIS_SSO_DEPT D
+			  ON D.DEPT_CODE = C.SA_DEPT_NEW
+			  ,IRIS_ADM_COM_CD AA
+			  ,DEPT_MST M
+		WHERE   1=1
+		AND   AA.COM_CD_CD = 'MCHN_CL_CD'
+		AND   AA.COM_DTL_CD = B.MCHN_CL_CD
+		AND	  A.rgst_dept_cd = M.DEPT_CODE
+		AND   A.RGST_DEPT_CD not in ('58141801', '58171352')
+		]]>
+	    <if test="( mchnNm != null and mchnNm != '')">
+			AND ( B.MCHN_HAN_NM LIKE '%'+#{mchnNm}+'%' OR  B.MCHN_EN_NM LIKE '%'+#{mchnNm}+'%'  )
+	    </if>
+		<if test="( prctFrDt != null and prctFrDt != '')">
+			and   A.PRCT_DT between #{prctFrDt} and #{prctToDt}
+	    </if>
+	    ORDER BY A.PRCT_DT DESC, A.PRCT_FROM_TIM DESC, A.PRCT_TO_TIM DESC
+   </select>
+   		
+</mapper>

@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+
+<html style="height:100%;margin:0em">
+<head>
+    <meta charset="utf-8" />
+    <title>TypeScript HTML App</title>
+    <link rel="stylesheet" href="app.css" type="text/css" />
+    <link href="CSS/w3css.css" rel="stylesheet" />
+    <link href="CSS/styles.css" rel="stylesheet" />
+    <link href="Libs/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="Libs/bootstrap/css/bootstrap-theme.css" rel="stylesheet" />
+    <script src="Libs/base64/base64.min.js"></script>
+    <script src="Libs/jquery-2.1.4.min.js"></script>
+    <script src="Libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+    <script src="Libs/bootstrap/js/bootstrap.js"></script>
+    <script src="Libs/hammer.min.js"></script>
+    <script src="Libs/numeral.js"></script>
+    <script src="LGWinCad.js"></script>
+
+    <script>
+        function loaded()
+        {
+            var rarea = document.getElementById("RightArea");
+            U1.WinCad.Panels.PropertyPanel.Current.Show(rarea);
+        }
+        function unLoaded()
+        {
+        }
+        function changeType(winType, w, h, w1, h1, hndlLoc, net)
+        {
+            var isExist = U1.WinCad.Services.LgWinService.Current.SetParams(winType, w, h, w1, h1, hndlLoc, net);
+
+            alert(isExist);
+
+            return isExist;
+        }
+        function SaveImage(estNo, estNos, clSn, windLocSn)
+        {
+            //select JPG_PATH from TWE_CL_WIND_INFO 
+            //where EST_NO = 'EE2016081800019'
+            //and  EST_NOS = '1'
+            //and CL_SN = '1'
+            //and WIND_LOC_SN ='1'
+			
+            U1.WinCad.Services.LgWinService.Current.SaveImage(estNo, estNos, clSn, windLocSn);
+        }
+        //function test() {
+        //    changeType("86"); 
+        //}
+        //function test1() {
+        //    changeType("86", "3000", "2000", "1200", "1850", null, null);
+        //}
+    </script>
+</head>
+<body style="height:100%;margin:0em;font-family:'Malgun Gothic';" onload="loaded();" onunload="unLoaded();">
+
+    <div id="MainArea" style="top:42px">
+        <main id="WorkArea">
+            <canvas id="ViewArea"></canvas>
+            <div id="OverlayArea" clip-rule="evenodd" overflow="hidden">
+            </div>
+        </main>
+        <section id="RightArea"></section>
+    </div>
+
+    <div class="header" style="width:100%;height:42px">
+        <div class="toolbar" id="Toolbar" style="width:100%;height:40px;overflow:hidden">
+            <!--<button onclick="test();">test</button>
+            <button onclick="test1();">test1</button>-->
+        </div>
+    </div>
+    <div class="footer">
+        <p id="Version">Win CAD</p>
+    </div>
+
+</body>
+</html>
+

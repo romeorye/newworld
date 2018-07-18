@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LFormat Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var format = null;
+Rui.onReady(function() {
+    format = Rui.util.LFormat;
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLFormat_method_stringToDate() {
+    info('LFormatTests : testLFormat_method_stringToDate 작동 여부');
+    var oConfig = '2012-02-13'; //Object
+    var result = format.stringToDate(oConfig);
+    //return type : Date
+    assertNotUndefined(result);
+}
+function testLFormat_method_stringToDateByTypeQ() {
+    info('LFormatTests : testLFormat_method_stringToDateByTypeQ 작동 여부');
+    var result = format.stringToDateByTypeQ('2012-02-13');
+    //return type : Date
+    assertNotUndefined(result);
+}
+function testLFormat_method_stringToTimestamp() {
+    info('LFormatTests : testLFormat_method_stringToTimestamp 작동 여부');
+    var oConfig = '2012-02-13 09:00:00'; //Object
+    var result = format.stringToTimestamp(oConfig);
+    //return type : Date
+    assertNotUndefined(result);
+}
+function testLFormat_method_dateToString() {
+    info('LFormatTests : testLFormat_method_dateToString 작동 여부');
+    var oConfig = '2012-02-13'; //Object
+    var result = format.dateToString(oConfig);
+    //return type : String
+    assertNotUndefined(result);
+}
+function testLFormat_method_numberFormat() {
+    info('LFormatTests : testLFormat_method_numberFormat 작동 여부');
+    var oConfig = 1234123; //Object
+    var locale = 'en_US'; //String
+    var result = format.numberFormat(oConfig, locale);
+    //return type : String
+    assertEquals(result, '1,234,123');
+}
+function testLFormat_method_moneyFormat() {
+    info('LFormatTests : testLFormat_method_moneyFormat 작동 여부');
+    var value = 10000;
+    var locale = 'en_US'; //String
+    var result = format.moneyFormat(value, locale);
+    //return type : String
+    assertEquals(result, '$10,000');
+}
+function testLFormat_method_rateFormat() {
+    info('LFormatTests : testLFormat_method_rateFormat 작동 여부');
+    var val = 100
+    var rate = '%'; //String
+    var point = 2; //int
+    var result = format.rateFormat(val, rate, point);
+    //return type : String
+    assertEquals(result, '100.00%');
+}
+function testLFormat_method_timeFormat() {
+    info('LFormatTests : testLFormat_method_timeFormat 작동 여부');
+    var sTime = '140502'; //String
+    var oConfig = null; //Object
+    var result = format.timeFormat(sTime, oConfig);
+    //return type : Object
+    assertEquals(result, '14:05:02');
+}
+function testLFormat_method_weightFormat() {
+    info('LFormatTests : testLFormat_method_weightFormat 작동 여부');
+    var val = 12135.67;
+    var unit = 'kg'; //String
+    var thousandsSeparator = true; //boolean
+    var point = 2; //int
+    var result = format.weightFormat(val, unit, thousandsSeparator, point);
+    //return type : String
+    assertEquals(result, '12,135.67kg');
+}
+function testLFormat_method_lengthFormat() {
+    info('LFormatTests : testLFormat_method_lengthFormat 작동 여부');
+    var val = 1234.12;
+    var unit = 'm'; //String
+    var point = 2; //int
+    var thousandsSeparator = true; //boolean
+    var result = format.lengthFormat(val, unit, point, thousandsSeparator);
+    //return type : String
+    assertEquals(result, '1,234.12m');
+}
+function testLFormat_method_rendererWrapper() {
+    warn('LFormatTests : testLFormat_method_rendererWrapper 테스트 무시 => 렌더러 랩핑 메소드');
+}
+
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LFormat Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLFormat_method_stringToDate()">stringToDate</a>
+            <a href="javascript:testLFormat_method_stringToDateByTypeQ()">stringToDateByTypeQ</a>
+            <a href="javascript:testLFormat_method_stringToTimestamp()">stringToTimestamp</a>
+            <a href="javascript:testLFormat_method_dateToString()">dateToString</a>
+            <a href="javascript:testLFormat_method_numberFormat()">numberFormat</a>
+            <a href="javascript:testLFormat_method_moneyFormat()">moneyFormat</a>
+            <a href="javascript:testLFormat_method_rateFormat()">rateFormat</a>
+            <a href="javascript:testLFormat_method_timeFormat()">timeFormat</a>
+            <a href="javascript:testLFormat_method_weightFormat()">weightFormat</a>
+            <a href="javascript:testLFormat_method_lengthFormat()">lengthFormat</a>
+            <a href="javascript:testLFormat_method_rendererWrapper()">rendererWrapper</a>
+        </div>
+
+    </div>        
+</body>
+</html>

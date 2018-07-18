@@ -1,0 +1,12 @@
+[{
+    "metaData": {
+        "datasetId":"dataSet"
+    },
+    "records": [
+        { "userId": "admin", "password": "1111", "userName": "admin", "userFullName": "admin", 
+        "phoneNo": "", "email": "", "useFlag": "Y", "localecode": "US", "langcode": "en_US", 
+        "langName": "English", "countrycode": "", "countryName": "", "loginDate": "", "loginExpired": "", 
+        "passwordChgDate": "", "passwordExpired": "", "userTypecode": "", "userTypeName": "", 
+        "mobilePhoneNo": "", "userNameEng": "", "divisionName": "", "division1Name": "", "authcode": "A001" }
+    ]
+}]

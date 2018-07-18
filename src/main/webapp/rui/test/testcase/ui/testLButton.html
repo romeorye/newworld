@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LButton Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var button = null; 
+Rui.onReady(function() {
+    // 소스 넣을 위치
+     button = new Rui.ui.LButton('button1',{
+         label:'Test'
+         });
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+
+
+function testLButton_method_focus() {
+    info('LButtonTests : testLButton_method_focus 작동 여부');
+    button.focus();
+    assertNotUndefined(true);
+}
+function testLButton_method_blur() {
+    info('LButtonTests : testLButton_method_blur 작동 여부');
+    button.blur();
+    assertNotUndefined(true);
+}
+function testLButton_method_getForm() {
+    info('LButtonTests : testLButton_method_getForm 작동 여부');
+    assertEquals(button.getForm(), button.getForm());
+}
+
+function testLButton_method_toString() {
+    info('LButtonTests : testLButton_method_toString 작동 여부');
+    var result = button.toString();
+    //return type : String
+    assertEquals(result, button.toString());
+}
+function testLButton_method_enable() {
+    info('LButtonTests : testLButton_method_enable 작동 여부');
+    button.enable();
+    assertNotUndefined(true);
+}
+function testLButton_method_disable() {
+    info('LButtonTests : testLButton_method_disable 작동 여부');
+    button.disable();
+    assertNotUndefined(true);
+}
+function testLButton_method_setLabel() {
+    info('LButtonTests : testLButton_method_setLabel 작동 여부');
+    var label = 'Test1'; //String
+    assertEquals(button.setLabel(label), undefined);
+    assertEquals(button.getLabel(), 'Test1');
+}
+function testLButton_method_getLabel() {
+    info('LButtonTests : testLButton_method_getLabel 작동 여부');
+    assertEquals(button.getLabel(), 'Test1');
+}
+function testLButton_method_click() {
+    info('LButtonTests : testLButton_method_click 작동 여부');
+    button.click();
+    assertNotUndefined(true);
+}
+function testLButton_method_render() {
+    info('LButtonTests : testLButton_method_render 작동 여부');
+    var appendToNode = 'unitTestButton...'; //String|Object
+    button.render(appendToNode);
+    assertNotUndefined(true);
+}
+function testLButton_method_appendTo() {
+    info('LButtonTests : testLButton_method_appendTo 작동 여부');
+    var parentNode = "<div id='testButton'>Unit Test--button</div>"; //HTMLElement | Element
+    button.appendTo(parentNode);
+    assertNotUndefined(true);
+}
+function testLButton_method_getButton() {
+    info('LButtonTests : testLButton_method_getButton 작동 여부');
+    var p_sId = 'button1'; //String
+    assertEquals(Rui.ui.LButton.getButton(p_sId).toString(), Rui.ui.LButton.getButton(p_sId).toString());
+}
+
+function testLButton_method_destroy() {
+    info('LButtonTests : testLButton_method_destroy 작동 여부');
+    button.destroy();
+    assertNotUndefined(true);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LButton Tests</h1>
+
+    <div id="bd">
+    <div class="LblockMarkupCode">
+            <div id='panel'>
+                <form id='frm' name='frm' method='post' action='./../../../sample/data/savedCallback.json'>                 
+                    <input type="button" id="button1" value="Button1" />
+                    <input type="submit" id="button3" value="Button3" /><p></p>
+                </form>
+            </div>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLButton_method_focus()">focus</a>
+            <a href="javascript:testLButton_method_blur()">blur</a>
+            <a href="javascript:testLButton_method_getForm()">getForm</a>
+            <a href="javascript:testLButton_method_destroy()">destroy</a>
+            <a href="javascript:testLButton_method_toString()">toString</a>
+            <a href="javascript:testLButton_method_enable()">enable</a>
+            <a href="javascript:testLButton_method_disable()">disable</a>
+            <a href="javascript:testLButton_method_setLabel()">setLabel</a>
+            <a href="javascript:testLButton_method_getLabel()">getLabel</a>
+            <a href="javascript:testLButton_method_click()">click</a>
+            <a href="javascript:testLButton_method_render()">render</a>
+            <a href="javascript:testLButton_method_appendTo()">appendTo</a>
+            <a href="javascript:testLButton_method_getButton()">getButton</a>
+        </div>
+    </div>        
+</body>
+</html>

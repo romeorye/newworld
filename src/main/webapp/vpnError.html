@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>엘지하우시스</title>
+<style>
+@charset "utf-8";
+
+/*==============================default====================*/
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+	color:#7d7d7d; 
+    font-family:'Malgun Gothic','맑은 고딕','Noto Sans KR',
+    'Nanum Gothic','굴림',gulim,'돋움',dotum,'Microsoft NeoGothic', 'Droid sans', sans-serif;
+	font-size:13px; 
+	letter-spacing:-0.20px;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	overflow-y:scroll;
+    font-weight:400;
+    color:#555;
+}
+
+
+/*==============================공통====================*/
+
+.relative{position:relative;}
+.clear {clear:both}
+.bold{font-weight:500;}
+.block{display:block;}
+
+
+a:hover{text-decoration:none;}
+
+
+.clear{clear:both;}
+.clear:before,
+.clear:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+} 
+.clear:after {
+    clear: both;
+} 
+.clear {
+    *zoom: 1;
+}
+
+
+
+/* mail 전송 */
+
+
+#Wrap{width:100%; overflow: -webkit-paged-x; height:100%;}
+
+.mail_layout{margin:0 auto;}
+
+
+.mail_layout .logo{margin-top:15px; margin-left:20px; vertical-align: middle; text-align: left;}
+
+
+.top_line{border-top:2px solid #c40452; width:100%; margin-top: 10px;}
+
+
+.mail_cont{font-size: 20px; color:#666; width: 100%; padding: 20px; min-height: 400px;}
+
+/* footer*/
+/* main footer */
+.footer{background:#f1f1f1; width:100%; height:49px; line-height:49px; clear:both; margin-top:15px;}
+.footer .mail_layout{padding-left: 10px;}
+.footer img{float:left; margin-top:13px;}
+.footer .copy{color:#888888; font-size:10px; float:left;}
+.footer .copy:before{background:#e2e1e1; height:15px; width:1px; content:''; display:inline-block; margin:0px 22px 0 8px; vertical-align: sub;}
+.footer strong{display:inline-block; color:#69b3b7; font-size:10px; margin-left:22px;}
+.footer strong a{color:#69b3b7; font-size:10px;}    
+
+
+</style>
+</head>
+
+<body>
+    
+<div id="Wrap">
+    <div>
+    <!--header-->
+    <div class="mail_layout">
+      <div class="logo"><img src="http://iris.lghausys.com:7030/iris/resource/web/images/newIris/logo.png" class="fl"></div>  
+    
+     <div style="clear: both"></div>
+    </div>      
+    <div class="top_line"></div>
+    </div>
+    
+    <!--content-->
+    <div class="mail_cont">
+    	<font color="red">IRIS시스템은 VPN접속이 불가능합니다.</font>관리자에게 문의 하세요. <br/>
+    	관련 문의사항은 고객센터(02-6987-7396)에 알려주시면 친절하게 안내해 드리겠습니다. 
+    </div>
+    
+    <!--footer -->
+    <div class="footer">
+        <div class="mail_layout">
+        <a href=""><img src="http://iris.lghausys.com:7030/iris/resource/web/images/newIris/bottom_logo.png"></a>
+            <div class="copy">COPYRIGHT ©  2017 LG HAUSYS ALL RIGHT RESERVED.</div> <strong>개인정보처리방침</strong>
+        </div>    
+    </div>
+
+    
+</div>
+    
+</body>
+</html>

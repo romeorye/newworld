@@ -1,0 +1,48 @@
+<!-- 20160607김진동 수정없이 추가 아래에러부분 duiPathCss,duiPathJs은 loginHeader.jspf 에 정의되어있음-->
+<%@ page language ="java"  pageEncoding="EUC-KR" contentType="text/html; charset=EUC-KR" %>
+
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<!-- script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script -->
+<!-- script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script-->
+
+<link rel="stylesheet" type="text/css" href="<%=duiPathCss%>/jquery-ui.css" />
+<script type="text/javascript" src="<%=duiPathJs%>/jquery.1.4.min.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/jquery.1.8.ui.min.js"></script>
+
+<script language="JavaScript" type="text/javascript">
+ 
+	/*******************************************************************************
+	* FUNCTION 			: displayProcessingLayer 
+	* FUNCTION 		    : display processing layer
+	*******************************************************************************/
+	function displayProcessingLayer2() {
+
+		$("#dialog").display = "block";
+		$("#dialog").dialog({modal:true, width:350, height:170, resizable:false, zIndex:3999});
+	}
+	
+	/*******************************************************************************
+	* FUNCTION 			: concealProcessingLayer  
+	* FUNCTION 		    : conceal processing layer
+	*******************************************************************************/
+	function concealProcessingLayer2() {
+		
+		if(document.getElementById('dialog').style.display == "") {
+			$("#dialog").dialog("close");
+		}
+	}
+
+</script>
+
+<div id="dialog" style="display:none;" title="처리중입니다.">
+<table width="100%" cellpadding="5" cellspacing="5">
+	<tr>
+		<td align="center"><img src="/images/loading5.gif" ></td>
+	</tr>
+	<tr>
+		<td align="center">견적/주문/변경 작업 진행중에 로딩창을 닫는 경우<br>프로세스 진행에 <font color='red'><b>심각한 문제</b></font>가 발생할 수 있습니다.</td>
+	</tr>
+	<tr>
+		<td align="center">문의: 02)6930-1395 ~ 6</td>
+	</tr>
+</table></div>

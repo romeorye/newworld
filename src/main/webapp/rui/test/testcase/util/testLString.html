@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LString Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var string = Rui.util.LString;
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLString_method_trim() {
+    info('LStringTests : testLString_method_trim 작동 여부');
+    var s = 'abc   '; //String
+    var result = Rui.util.LString.trim(s);
+    //return type : String
+    assertEquals(result, 'abc');
+}
+function testLString_method_startsWith() {
+    info('LStringTests : testLString_method_startsWith 작동 여부');
+    var s = 'abcdefgh'; //String
+    var pattern = 'abc'; //String
+    var result = string.startsWith(s, pattern);
+    //return type : boolean
+    assertTrue(result);
+}
+function testLString_method_endsWith() {
+    info('LStringTests : testLString_method_endsWith 작동 여부');
+    var s = 'abcdefgh'; //String
+    var pattern = 'fgh'; //String
+    var result = string.endsWith(s, pattern);
+    //return type : boolean
+    assertTrue(result);
+}
+function testLString_method_lPad() {
+    info('LStringTests : testLString_method_lPad 작동 여부');
+    var x = '123'; //String
+    var pad = '0'; //String
+    var r = 6; //int
+    var result = Rui.util.LString.lPad(x, pad, r);
+    //return type : String
+    assertEquals(result, '000123');
+}
+function testLString_method_rPad() {
+    info('LStringTests : testLString_method_rPad 작동 여부');
+    var x = '123'; //String
+    var pad = '0'; //String
+    var r = 6; //int
+    var result = Rui.util.LString.rPad(x, pad, r);
+    //return type : String
+    assertEquals(result, '123000');
+}
+function testLString_method_cut() {
+    info('LStringTests : testLString_method_cut 작동 여부');
+    var s = 'abcdefgh'; //String
+    var start = 1; //int
+    var length = 2; //int
+    var result = string.cut(s, start, length);
+    //return type : String
+    assertEquals(result, 'adefgh');
+}
+function testLString_method_toDate() {
+    info('LStringTests : testLString_method_toDate 작동 여부');
+    var date = '20121225';
+    var oConfig = 'YYYYmmdd'; //Object
+    var result = string.toDate(date, oConfig);
+    //return type : Date
+    assertEquals(result instanceof Date, true);
+}
+function testLString_method_toXml() {
+    info('LStringTests : testLString_method_toXml 작동 여부');
+    var text = '<?xml version="1.0" encoding="utf-8"?><dataset-list></dataset-list>';
+    var result = string.toXml(text);
+    //return type : object
+    assertNotUndefined(result.nodeName);
+}
+function testLString_method_isString() {
+    info('LStringTests : testLString_method_isString 작동 여부');
+    var o = 'abc'; //Object
+    assertEquals(string.isString(o), true);
+}
+function testLString_method_advancedSplit() {
+    info('LStringTests : testLString_method_advancedSplit 작동 여부');
+    var s = 'abc/def/gh'; //String
+    var delim = '/'; //String
+    var result = string.advancedSplit(s, delim);
+    //return type : Array
+    assertEquals(result[0], 'abc');
+    assertEquals(result[2], 'gh');
+}
+function testLString_method_firstUpperCase() {
+    info('LStringTests : testLString_method_firstUpperCase 작동 여부');
+    var s = 'abcd'; //String
+    var result = string.firstUpperCase(s);
+    //return type : String
+    assertEquals(result, 'Abcd');
+}
+function testLString_method_firstLowerCase() {
+    info('LStringTests : testLString_method_firstLowerCase 작동 여부');
+    var s = 'Abcd'; //String
+    var result = string.firstLowerCase(s);
+    //return type : String
+    assertEquals(result, 'abcd');
+}
+function testLString_method_getByteLength() {
+    info('LStringTests : testLString_method_getByteLength 작동 여부');
+    var s = '한글입니다'; //String
+    var result = string.getByteLength(s);
+    assertEquals(string.getByteLength(s), 15);
+}
+
+
+
+
+function testLString_method_trimAll() {
+    info('LStringTests : testLString_method_trimAll 작동 여부');
+    var result = string.trimAll(' te st ');
+    //return type : String
+    assertEquals(result, 'test');
+}
+function testLString_method_lastCut() {
+    info('LStringTests : testLString_method_lastCut 작동 여부');
+    var s = 'abcdefg'; //String
+    var pos = 3; //int
+    var result = string.lastCut(s, pos);
+    //return type : String
+    assertEquals(result, 'abcd');
+}
+function testLString_method_nvl() {
+    info('LStringTests : testLString_method_nvl 작동 여부');
+    var s = null;
+    var result = string.nvl(s);
+    //return type : String
+    assertEquals(result, '');
+}
+function testLString_method_camelToHungarian() {
+    info('LStringTests : testLString_method_camelToHungarian 작동 여부');
+    var result = string.camelToHungarian('dataSetManager');
+    //return type : String
+    assertEquals(result, 'data_set_manager');
+}
+function testLString_method_isHangul() {
+    info('LStringTests : testLString_method_isHangul 작동 여부');
+    assertEquals(string.isHangul('한글'), true);
+}
+function testLString_method_isEmail() {
+    info('LStringTests : testLString_method_isEmail 작동 여부');
+    assertEquals(string.isEmail('test@test.com'), true);
+}
+function testLString_method_isCsn() {
+    info('LStringTests : testLString_method_isCsn 작동 여부');
+    assertEquals(string.isCsn('2208162517'), true);
+}
+function testLString_method_isSsn() {
+    info('LStringTests : testLString_method_isSsn 작동 여부');
+    assertEquals(string.isSsn('1111111111118'), true);
+}
+function testLString_method_isTime() {
+    info('LStringTests : testLString_method_isTime 작동 여부');
+    assertEquals(string.isTime('12:00'), true);
+}
+function testLString_method_replaceHtml() {
+    info('LStringTests : testLString_method_replaceHtml 작동 여부');
+    var html = '<div>test</div>'; //String
+    var result = string.replaceHtml(html);
+    //return type : String
+    assertEquals(result, '&lt;div&gt;test&lt;/div&gt;');
+}
+function testLString_method_toClipboard() {
+    info('LStringTests : testLString_method_toClipboard 작동 여부');
+    var value = 'test'; //String
+    var result = string.toClipboard(value);
+    //return type : boolean
+    assertTrue(true);
+}
+function testLString_method_getClipboard() {
+    info('LStringTests : testLString_method_getClipboard 작동 여부');
+    string.getClipboard()
+    assertTrue(true);
+}
+function testLString_method_getTimeUrl() {
+    info('LStringTests : testLString_method_getTimeUrl 작동 여부');
+    var url = '/test.rui'; //String
+    assertTrue(string.getTimeUrl(url).indexOf('?_dc=') > 0);
+}
+function testLString_method_getUrlParams() {
+    info('LStringTests : testLString_method_getUrlParams 작동 여부');
+    var url = '/test.rui?aaa=a1&bbb=b1'; //String
+    assertEquals(string.getUrlParams(url).aaa, 'a1');
+}
+
+function testLString_method_getByteSubstring() {
+    info('LStringTests : testLString_method_getByteSubstring 작동 여부');
+    var url = '테ab한 글cde abcde';
+    var value = Rui.util.LString.getByteSubstring(url, 1, 10);
+    assertTrue(value.getByteLength(), 10);
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LString Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLString_method_trim()">trim</a>
+            <a href="javascript:testLString_method_startsWith()">startsWith</a>
+            <a href="javascript:testLString_method_endsWith()">endsWith</a>
+            <a href="javascript:testLString_method_lPad()">lPad</a>
+            <a href="javascript:testLString_method_rPad()">rPad</a>
+            <a href="javascript:testLString_method_cut()">cut</a>
+            <a href="javascript:testLString_method_toDate()">toDate</a>
+            <a href="javascript:testLString_method_toXml()">toXml</a>
+            <a href="javascript:testLString_method_isString()">isString</a>
+            <a href="javascript:testLString_method_advancedSplit()">advancedSplit</a>
+            <a href="javascript:testLString_method_firstUpperCase()">firstUpperCase</a>
+            <a href="javascript:testLString_method_firstLowerCase()">firstLowerCase</a>
+            <a href="javascript:testLString_method_getByteLength()">getByteLength</a>
+            <a href="javascript:testLString_method_trimAll()">trimAll</a>
+            <a href="javascript:testLString_method_lastCut()">lastCut</a>
+            <a href="javascript:testLString_method_nvl()">nvl</a>
+            <a href="javascript:testLString_method_camelToHungarian()">camelToHungarian</a>
+            <a href="javascript:testLString_method_isHangul()">isHangul</a>
+            <a href="javascript:testLString_method_isEmail()">isEmail</a>
+            <a href="javascript:testLString_method_isCsn()">isCsn</a>
+            <a href="javascript:testLString_method_isSsn()">isSsn</a>
+            <a href="javascript:testLString_method_isTime()">isTime</a>
+            <a href="javascript:testLString_method_replaceHtml()">replaceHtml</a>
+            <a href="javascript:testLString_method_toClipboard()">toClipboard</a>
+            <a href="javascript:testLString_method_getClipboard()">getClipboard</a>
+            <a href="javascript:testLString_method_getTimeUrl()">getTimeUrl</a>
+            <a href="javascript:testLString_method_getUrlParams()">getUrlParams</a>
+            <a href="javascript:testLString_method_getByteSubstring()">getByteSubstring</a>
+        </div>
+    </div>        
+</body>
+</html>

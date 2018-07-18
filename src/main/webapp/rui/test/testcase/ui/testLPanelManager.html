@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LPanelManager Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../plugins/ui/LPanelManager.js"></script>
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+
+var panel1 = null; 
+var panel2 = null; 
+var panel3 = null; 
+var panelManager = null;  
+Rui.onReady(function() {
+    // 소스 넣을 위치
+     panel1 = new Rui.ui.LPanel({
+                applyTo: 'panel1',
+                xy: [150,100],
+                visible: false,
+                width: '300px',
+                isDefaultCSS: false
+            });
+        
+            // Build panel2 based on markup
+            panel2 = new Rui.ui.LPanel({
+                applyTo: 'panel2', 
+                xy: [250,200],
+                visible: false,
+                width: '300px',
+                isDefaultCSS: false
+            });
+        
+            // Build panel3 based on markup
+            panel3 = new Rui.ui.LPanel({ 
+                applyTo: 'panel3', 
+                xy: [350,300],
+                visible: false,
+                width: '300px',
+                isDefaultCSS: false
+            });
+
+            /*<b>*/
+            panelManager = new Rui.ui.LPanelManager();
+            //panelManager.register([panel1, panel2, panel3]);
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+function testLPanelManager_method_getActive() {
+    info('LPanelManagerTests : testLPanelManager_method_getActive 작동 여부');
+    panelManager._manageFocus(panel1); 
+    assertNotNull(panelManager.getActive()); 
+}
+
+function testLPanelManager_method_focus() {
+    info('LPanelManagerTests : testLPanelManager_method_focus 작동 여부');
+    assertUndefined(panelManager.focus(panel2)); 
+}
+
+function testLPanelManager_method_remove() {
+    info('LPanelManagerTests : testLPanelManager_method_remove 작동 여부');
+    var panel = panel1; 
+    panelManager.remove(panel);
+    assertNotUndefined(true);
+}
+function testLPanelManager_method_blurAll() {
+    info('LPanelManagerTests : testLPanelManager_method_blurAll 작동 여부');
+    assertUndefined(panelManager.blurAll()); 
+}
+function testLPanelManager_method_register() {
+    info('LPanelManagerTests : testLPanelManager_method_register 작동 여부');
+    var result = panelManager.register([panel1, panel2, panel3]);
+    assertEquals(result, true); 
+}
+function testLPanelManager_method_bringToTop() {
+    info('LPanelManagerTests : testLPanelManager_method_bringToTop 작동 여부');
+    assertUndefined(panelManager.bringToTop(panel2)); 
+}
+function testLPanelManager_method_find() {
+    info('LPanelManagerTests : testLPanelManager_method_find 작동 여부');
+    var result = panelManager.find(panel3);
+    assertEquals(result, panel3);
+}
+function testLPanelManager_method_showAll() {
+    info('LPanelManagerTests : testLPanelManager_method_showAll 작동 여부');
+    assertUndefined(panelManager.showAll()); 
+}
+function testLPanelManager_method_hideAll() {
+    info('LPanelManagerTests : testLPanelManager_method_hideAll 작동 여부');
+    assertUndefined(panelManager.hideAll()); 
+}
+function testLPanelManager_method_toString() {
+    info('LPanelManagerTests : testLPanelManager_method_toString 작동 여부');
+    var result = panelManager.toString();
+    assertNotUndefined(result); 
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LPanelManager Tests</h1>
+
+    <div id="bd">
+            <div class="LblockMarkupCode">
+            <div id="panel1" style="visibility:hidden">
+            <div class="hd">Panel #1 from Markup</div>
+            <div class="bd">This is a Panel that was marked up in the document.</div>
+            <div class="ft">End of Panel #1</div>
+            </div>
+            
+            <div id="panel2" style="visibility:hidden">
+            <div class="hd">Panel #2 from Markup</div>
+            <div class="bd">This is a Panel that was marked up in the document.</div>
+            <div class="ft">End of Panel #2</div>
+            </div>
+            
+            <div id="panel3" style="visibility:hidden">
+            <div class="hd">Panel #3 from Markup</div>
+            <div class="bd">This is a Panel that was marked up in the document.</div>
+            <div class="ft">End of Panel #3</div>
+            </div>
+            
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLPanelManager_method_getActive()">getActive</a>
+            <a href="javascript:testLPanelManager_method_focus()">focus</a>
+            <a href="javascript:testLPanelManager_method_remove()">remove</a>
+            <a href="javascript:testLPanelManager_method_blurAll()">blurAll</a>
+            <a href="javascript:testLPanelManager_method_register()">register</a>
+            <a href="javascript:testLPanelManager_method_bringToTop()">bringToTop</a>
+            <a href="javascript:testLPanelManager_method_find()">find</a>
+            <a href="javascript:testLPanelManager_method_showAll()">showAll</a>
+            <a href="javascript:testLPanelManager_method_hideAll()">hideAll</a>
+            <a href="javascript:testLPanelManager_method_toString()">toString</a>
+        </div>
+    </div>        
+</body>
+</html>

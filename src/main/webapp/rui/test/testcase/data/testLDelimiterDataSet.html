@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.data.LDelimiterDataSet Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var dataSet = null;
+Rui.onReady(function() {
+    dataSet = new Rui.data.LDelimiterDataSet({
+        id: 'dataSet',
+        fields: [
+            {id:'col1'},
+            {id:'col2'},
+            {id:'col3'},
+            {id:'col4'},
+            {id:'col5'},
+            {id:'col6'},
+            {id:'col7'},
+            {id:'col8', type: 'number'},
+            {id:'col9'},
+            {id:'col10'},
+            {id:'col11'},
+            {id:'col12', type: 'date'}
+        ]
+    });
+    
+    dataSet.load({
+        url: './../../../sample/data/delimiterData20.txt',
+        sync: true
+    });
+    
+    dataSet.setNameValue(0, 'col2', 'test');
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLDelimiterDataSet_method_getCount() {
+    info('LDelimiterDataSetTests : testLDelimiterDataSet_method_getCount 작동 여부');
+    assertEquals(dataSet.getCount(), 20);
+}
+function testLDelimiterDataSet_method_getReadDataMulti() {
+    info('LDelimiterDataSetTests : testLDelimiterDataSet_method_getCount 작동 여부');
+    
+    var dataSet1 = new Rui.data.LDelimiterDataSet({
+        id: 'dataSet1',
+        fields: [
+            {id:'col1'},
+            {id:'col2'},
+            {id:'col3'},
+            {id:'col4'},
+            {id:'col5'},
+            {id:'col6'},
+            {id:'col7'},
+            {id:'col8'},
+            {id:'col9'},
+            {id:'col10'},
+            {id:'col11'},
+            {id:'col12'}
+        ]
+    });
+    
+    var dataSet2 = new Rui.data.LDelimiterDataSet({
+        id: 'dataSet2',
+        fields: [
+            {id:'col1'},
+            {id:'col2'},
+            {id:'col3'},
+            {id:'col4'},
+            {id:'col5'},
+            {id:'col6'},
+            {id:'col7'},
+            {id:'col8'},
+            {id:'col9'},
+            {id:'col10'},
+            {id:'col11'},
+            {id:'col12'}
+        ]
+    });
+
+    var dm = new Rui.data.LDataSetManager();
+    dm.loadDataSet({
+        dataSets: [dataSet1, dataSet2],
+        url: './../../../sample/data/delimiterData20.txt',
+        sync: true
+    });
+    assertEquals(dataSet1.getCount(), 20);
+    assertEquals(dataSet2.getCount(), 20);
+}
+function testLDelimiterDataSet_method_get() {
+    info('LDelimiterDataSetTests : testLDelimiterDataSet_method_getAt 작동 여부');
+    assertTrue(dataSet.getAt(2) instanceof Rui.data.LRecord);
+}
+function testLDelimiterDataSet_method_getAt() {
+    info('LDelimiterDataSetTests : testLDelimiterDataSet_method_getAt 작동 여부');
+    var idx = 2; //int
+    assertTrue(dataSet.getAt(idx) instanceof Rui.data.LRecord);
+}
+function testLDelimiterDataSet_method_record_getAt() {
+    info('LDelimiterDataSetTests : testLDelimiterDataSet_method_getAt 작동 여부');
+    var idx = 2; //int
+    var record = dataSet.getAt(idx);
+    assertEquals(record.get('col2'), 'Kaden Q. Delacruz');
+}
+function testLDelimiterDataSet_method_serialize() {
+    info('LDelimiterDataSetTests : testLDelimiterDataSet_method_serialize 작동 여부');
+    var mesasge = dataSet.serialize();
+    Rui.get('log').setValue(mesasge);
+    assertTrue(mesasge.length > 0);
+}
+function testLDelimiterDataSet_method_serializeModified() {
+    info('LDelimiterDataSetTests : testLDelimiterDataSet_method_serializeModified 작동 여부');
+    var mesasge = dataSet.serializeModified();
+    Rui.get('log').setValue(mesasge);
+    assertTrue(mesasge.length > 0);
+}
+function testLDelimiterDataSet_method_serializeModifiedDataSetList() {
+    info('LDelimiterDataSetTests : testLDelimiterDataSet_method_serializeModifiedDataSetList 작동 여부');
+    var mesasge = dataSet.serializeModifiedDataSetList([dataSet]);
+    Rui.get('log').setValue(mesasge);
+    assertTrue(mesasge.length > 0);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.data.LDelimiterDataSet Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLDelimiterDataSet_method_getCount()">getCount</a>
+            <a href="javascript:testLDelimiterDataSet_method_getReadDataMulti()">getReadDataMulti</a>
+            <a href="javascript:testLDelimiterDataSet_method_getAt()">getAt</a>
+            <a href="javascript:testLDelimiterDataSet_method_record_getAt()">record_getAt</a>
+            <a href="javascript:testLDelimiterDataSet_method_get()">get</a>
+            <a href="javascript:testLDelimiterDataSet_method_serialize()">serialize</a>
+            <a href="javascript:testLDelimiterDataSet_method_serializeModified()">serializeModified</a>
+            <a href="javascript:testLDelimiterDataSet_method_serializeModifiedDataSetList()">serializeModifiedDataSetList</a>
+        </div>
+        <textarea id="log" rows="10" cols="80"></textarea>
+    </div>
+</body>
+</html>

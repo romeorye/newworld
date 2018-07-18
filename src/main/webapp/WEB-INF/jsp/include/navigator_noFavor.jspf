@@ -1,0 +1,44 @@
+<%@ page language="java" session="false" pageEncoding="EUC-KR" contentType="text/html; charset=EUC-KR"%>
+<script>
+<%--/*******************************************************************************
+* FUNCTION 명 : myMenu()
+* FUNCTION 기능설명 : 화면 이동
+*******************************************************************************/--%>
+function myMenu(menuId, flag) {
+	var msg = flag == "C" ? "에 등록" : "에서 삭제";
+	
+	if(confirm("즐겨찾기"+ msg +"하시겠습니까?" )){
+		Rui.ajax({
+			params: {menuId: menuId, flag: flag},
+			url: '<c:url value="/system/menu/NwinsFrameMenu/myMenu.do"/>',
+			success: function(e) {
+				var data = eval(e.responseText);
+				var rtnSt = data[0].records[0].rtnSt;
+				var rtnMsg = data[0].records[0].rtnMsg;
+				
+				alert(rtnMsg);
+				return;
+			},
+			failure: function(e) {
+				alert("오류가 발생하였습니다.");
+			}
+		});	
+	}
+}
+</script>
+<div class="titleArea">
+	<h2><c:out value="${menuInfo.menuNm}" /></h2>
+	<ul class="nav">
+		<li><a href="#none">HOME</a></li>
+		<c:if test="${not empty menuInfo.topMenuNm}"><li><a href="#none"><c:out value="${menuInfo.topMenuNm}" /></a></li></c:if>
+		<c:if test="${not empty menuInfo.supiMenuNm}"><li><a href="#none"><c:out value="${menuInfo.supiMenuNm}" /></a></li></c:if>
+		<c:if test="${not empty menuInfo.menuNm}"><li><a href="#none"><c:out value="${menuInfo.menuNm}" /></a></li></c:if>
+	</ul>
+	<div class="favoriteArea">
+		<c:if test="${not empty menuInfo.menuNm}">
+<%-- 		<a href="javascript:myMenu('${menuInfo.menuId}', 'C');">즐겨찾기 등록</a> --%>
+		<%--<em>|</em>--%>
+<%-- 		<a href="javascript:myMenu('${menuInfo.menuId}', 'D');">삭제</a> --%>
+		</c:if>
+	</div>
+</div>

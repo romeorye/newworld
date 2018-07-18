@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LDomSelector Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLDomSelector_method_test() {
+    info('LDomSelectorTests : testLDomSelector_method_test 작동 여부');
+    var node = document.getElementById('bd'); //HTMLElement | String
+    var selector = '.test'; //string
+    var result = Rui.util.LDomSelector.test(node, selector);
+    //return type : boolean
+    assertTrue(result);
+}
+function testLDomSelector_method_filter() {
+    info('LDomSelectorTests : testLDomSelector_method_filter 작동 여부');
+    var nodes = [document.getElementById('bd'), document.getElementById('a1'), document.getElementById('a2'), document.getElementById('a3')]; //array
+    var selector = 'a'; //string
+    var result = Rui.util.LDomSelector.filter(nodes, selector);
+    //return type : array
+    assertTrue(result.length > 0);
+}
+function testLDomSelector_method_query() {
+    info('LDomSelectorTests : testLDomSelector_method_query 작동 여부');
+    var selector = 'a'; //string
+    var result = Rui.util.LDomSelector.query(selector);
+    //return type : Array
+    assertTrue(result.length > 0);
+}
+
+function testLDomSelector_method_data() {
+    info('LDomSelectorTests : testLDomSelector_method_data 작동 여부');
+    var selector = 'div[data-row-*]=1'; //string
+    var result = Rui.util.LDomSelector.query(selector);
+    //return type : Array
+    assertEquals(result.length, 2);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LDomSelector Tests</h1>
+
+    <div id="bd" class="test">
+        <div data-row-index="1" class="dataAttribute"></div>
+        <div data-row-num="2" class="dataAttribute"></div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLDomSelector_method_test()" id="a1">test</a>
+            <a href="javascript:testLDomSelector_method_filter()" id="a2">filter</a>
+            <a href="javascript:testLDomSelector_method_query()" id="a3">query</a>
+            <a href="javascript:testLDomSelector_method_data()" id="a3">data</a>
+        </div>
+    </div>
+</body>
+</html>

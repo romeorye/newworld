@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LConfig Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var config;
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLConfig_method_addProperty() {
+    info('LConfigTests : testLConfig_method_addProperty 작동 여부');
+    config = new Rui.ui.LConfig(this);
+    var key = 'test'; //String
+    var propertyObject =  {
+            value: 'test'
+    }; //Object
+    config.addProperty(key, propertyObject);
+    assertNotUndefined(config.config[key]);
+}
+function testLConfig_method_getConfig() {
+    info('LConfigTests : testLConfig_method_getConfig 작동 여부');
+    testLConfig_method_addProperty();
+    assertEquals(config.getConfig().test, 'test');
+}
+function testLConfig_method_getProperty() {
+    info('LConfigTests : testLConfig_method_getProperty 작동 여부');
+    testLConfig_method_addProperty();
+    var key = 'test'; //String
+    assertEquals(config.getProperty(key), 'test');
+}
+function testLConfig_method_resetProperty() {
+    info('LConfigTests : testLConfig_method_resetProperty 작동 여부');
+    testLConfig_method_addProperty();
+    config.applyConfig({ test: 'test'}, true);
+    var key = 'test'; //String
+    config.setProperty(key, 'test2');
+    config.resetProperty(key);
+    //return type : boolean
+    assertEquals(config.getProperty(key), 'test');
+}
+function testLConfig_method_setProperty() {
+    info('LConfigTests : testLConfig_method_setProperty 작동 여부');
+    testLConfig_method_addProperty();
+    var key = 'test'; //String
+    var value = 'test2'; //String
+    config.setProperty(key, value);
+    assertEquals(config.getProperty(key), value);
+}
+function testLConfig_method_toString() {
+    info('LConfigTests : testLConfig_method_toString 작동 여부');
+    testLConfig_method_addProperty();
+    var result = config.toString();
+    //return type : String
+    assertEquals(result, 'Config [[object Window]]');
+}
+function testLConfig_method_destroy() {
+    info('LConfigTests : testLConfig_method_destroy 작동 여부');
+    testLConfig_method_addProperty();
+    config.destroy();
+    assertTrue(true);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LConfig Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLConfig_method_addProperty()">addProperty</a>
+            <a href="javascript:testLConfig_method_getConfig()">getConfig</a>
+            <a href="javascript:testLConfig_method_getProperty()">getProperty</a>
+            <a href="javascript:testLConfig_method_resetProperty()">resetProperty</a>
+            <a href="javascript:testLConfig_method_setProperty()">setProperty</a>
+            <a href="javascript:testLConfig_method_toString()">toString</a>
+            <a href="javascript:testLConfig_method_destroy()">destroy</a>
+        </div>
+    </div>
+</body>
+</html>

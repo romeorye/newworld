@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="iris">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+	</context:component-scan>
+	
+	<mvc:interceptors>		
+		<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="lang"/>
+		</bean>
+		
+		<mvc:interceptor>		
+			<mvc:mapping path="/**"/>
+			<bean id="loginCheckInterceptor" class="iris.web.system.login.interceptor.LoginCheckInterceptor">
+				<property name="skipUrls">
+					<list>
+                        <value>/common/login/irisDirectLogin.do</value>
+                        <value>/common/login/itgLoginForm.do</value>
+                        <value>/common/login/sessionError.do</value>
+                        <value>/common/login/tryIrisLogin.do</value>
+                        <value>/common/login/tryIrisReLogin.do</value>
+                        <value>/common/login/itgLogout.do</value>
+                        <value>/common/login/itgRepassLoginForm.do</value>
+                        <value>/common/login/updatePassDo.do</value> 
+                        <value>/common/login/vpnError.do</value> 
+                        <value>/index.do</value>
+                        <value>/system/header.do</value>           
+                        <value>/system/body.do</value>
+                        <value>/system/menu/IrisFrameMenu/footer.do</value>
+                        <value>/esti/il/NwinsEstiMstTab/updateZinMallDrwg.do</value>            
+                        <value>/sm/manager/refresh.do</value>
+                        <value>/common/login/tryIrisLoginWoPw.do</value> 
+                        <value>/common/code/refresh.do</value>
+                        <value>/sm/manager/refreshmulti.do</value>
+                    </list>				
+				</property>
+			</bean>
+		</mvc:interceptor>			
+		
+	</mvc:interceptors>	
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath:config/project.properties" />
+		<property name="fileEncoding" value="UTF-8" />
+	</bean>
+
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+		p:viewClass="org.springframework.web.servlet.view.JstlView"
+		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
+
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="warnLogCategory" value="errorLogger" />
+		<property name="defaultErrorView" value="common/error/error" />
+	</bean>	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+
+	<bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1" />
+	<bean id="singleJsonView"	class="iris.web.common.view.SingleJsonListMappingJacksonJsonView" />
+	<bean id="ruiView" class="iris.web.common.view.RUIJsonView" />
+	<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+	
+	<bean id="beanRefreshManager" class="devonframe.refresh.BeanRefreshManager" />
+	<!-- 단일 instance -->
+	<bean name="/sm/manager/refresh.do" class="devonframe.refresh.controller.BeanRefreshController">
+	    <property name="beanRefreshManager" ref="beanRefreshManager" />
+	</bean>
+
+	<!-- 멀티 instance -->
+	<bean name="/sm/manager/refreshmulti.do" class="devonframe.refresh.controller.BeanRefreshMasterController">
+	    <property name="beanRefreshManager" ref="beanRefreshManager" />
+	    <property name="slaveUrls">
+	        <list>
+	        <!-- 
+	            <value>http://wins-l.lghausys.com/sm/manager/refresh.do?beanName=commonDao&amp;beanXmlFile=/WEB-INF/classes/spring/context-mybatis.xml</value>
+	            <value>http://wins-o.lghausys.com/sm/manager/refresh.do?beanName=commonDao&amp;beanXmlFile=/WEB-INF/classes/spring/context-mybatis.xml</value>
+	         -->
+	        <!-- 
+	            <value>http://wins2.devlghausys.com:8080/sm/manager/refresh.do?beanName=commonDao&amp;beanXmlFile=/WEB-INF/classes/spring/context-mybatis.xml</value>
+	            <value>http://165.244.161.97:5083/sm/manager/refresh.do?beanName=commonDao&amp;beanXmlFile=/WEB-INF/classes/spring/context-mybatis.xml</value>
+	         -->
+	        </list>
+	    </property>
+	</bean>
+
+</beans>

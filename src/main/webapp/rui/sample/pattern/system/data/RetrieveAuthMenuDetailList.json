@@ -1,0 +1,10 @@
+[{
+    "metaData": {
+        "datasetId":"dataSet"
+    },
+    "records": [
+        { "menuId": 0, "menuName2": "Manager Auth", "authcode": "A001", "menuLvl": 0, "useFlag": "Y", 
+        "prntmenuId": "", "menuName": "Manager Auth", "retriYn": "Y", "newYn": "Y", "saveYn": "Y", "delYn": "Y", 
+        "prtYn": "Y", "moveYn": "Y", "uploadYn": "Y", "downloadYn": "Y" }
+    ]
+}]

@@ -1,0 +1,30 @@
+<table class="table table_txt_right">    
+	<tbody>
+		<tr>
+			<th align="right">자산번호</th>
+			<td>${fxaNo}</td>
+			<th align="right">자산명</th>
+			<td>${fxaNm}</td>  
+		</tr>       
+		<tr>
+			<th align="right">이전PJT</th>
+			<td>
+				${fromPrjNm}'
+			</td>
+			<th align="right">이전담당자</th>
+			<td>
+				${crgrNm}
+			</td>
+		</tr>                 
+		<tr>                         
+			<th align="right">이관PJT</th>
+			<td>${prjNm}</td>           
+			<th align="right">이관담당자</th>
+			<td>${toCrgrNm}</td>        
+		</tr>                              
+		<tr>                               
+			<th align="right">이관사유</th>
+			<td colspan="3">${trsfRson}</td>
+		</tr>                              
+	</tbody>                               	
+</table>

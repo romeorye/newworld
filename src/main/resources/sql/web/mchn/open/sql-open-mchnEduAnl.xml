@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="open.mchnEduAnl">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 분석기기 > open기기 > 기기교육 > 기기교육관리 목록조회 -->
+	<select id="retrieveMchnEduAnlSearchList" resultType="hashmap" >
+		<![CDATA[
+		SELECT  (CASE WHEN (MEM.PTT_FROM_DT <= CONVERT(NVARCHAR(10), GETDATE(), 23)  AND	MEM.PTT_TO_DT >= CONVERT(NVARCHAR(10), GETDATE(), 23) ) THEN '접수중'
+					 ELSE '마감' END) AS "eduScnNm"
+				,'['+ACC.COM_DTL_NM+'] '+MEM.EDU_NM AS "eduNm"
+				,MEM.PTT_FROM_DT+'~'+PTT_TO_DT AS "pttDt"
+				,MIS.MCHN_HAN_NM as "mchnNm"
+				,MEM.EDU_DT+'('+CONVERT(NVARCHAR(2), EDU_FROM_TIM)+'~'+CONVERT(NVARCHAR(2), EDU_TO_TIM)+'시)' AS "eduDtTim"
+				,MEM.EDU_PL as "eduPl"
+				,convert(nvarchar(3),(SELECT COUNT(*)
+			     FROM   IRIS_MCHN_EDU_DTL MED
+			     WHERE  MED.DEL_YN = 'N'
+			     AND    MED.MCHN_EDU_ID = MEM.MCHN_EDU_ID))+'/'+convert(nvarchar(3), MEM.IVTT_CPSN) as "ivttCpsn"
+				,SU.SA_NAME as "eduCrgrNm"
+				,MEM.MCHN_EDU_ID AS "mchnEduId"
+				,MEM.EDU_SCN_CD as "eduScnCd"
+				,MEM.EDU_CRGR_ID as "eduCrgrId"
+				,MEM.MCHN_INFO_ID as "mchnInfoId"
+		FROM 	IRIS_MCHN_EDU_MST MEM
+		     	LEFT OUTER JOIN	IRIS_SSO_USER   SU
+				ON  MEM.EDU_CRGR_ID = SU.SA_SABUN_NEW
+				,IRIS_MCHN_INFO_MST MIS
+				,IRIS_ADM_COM_CD	ACC
+		WHERE 	MEM.DEL_YN = 'N'
+		AND  	MIS.DEL_YN = 'N'
+		AND  	MEM.MCHN_INFO_ID = MIS.MCHN_INFO_ID
+		AND  	ACC.COM_CD_CD = 'MCHN_EDU_SCN'
+		AND  	MEM.EDU_SCN_CD = ACC.COM_DTL_CD
+		]]>
+
+		<if test="( eduNm != null and eduNm != '')">
+			AND MEM.EDU_NM LIKE '%'+#{eduNm}+'%'
+	    </if>
+		<if test="( mchnNm != null and mchnNm != '')">
+			AND MIS.MCHN_HAN_NM LIKE '%'+#{mchnNm}+'%'
+	    </if>
+		<if test="pttYn == 'IN' ">
+			AND  CONVERT(NVARCHAR(10), GETDATE(), 23) BETWEEN  MEM.PTT_FROM_DT AND MEM.PTT_TO_DT
+	    </if>
+		<if test="pttYn == 'CLS' ">
+			<![CDATA[
+				AND MEM.PTT_TO_DT < CONVERT(NVARCHAR(10), GETDATE(), 23)
+			]]>
+	    </if>
+	    <if test="( eduScnCd == 'NRGL' or eduScnCd == 'REGL' )">
+			AND  MEM.EDU_SCN_CD = #{eduScnCd}
+	    </if>
+	    <![CDATA[
+		ORDER BY MEM.MCHN_EDU_ID DESC
+		]]>
+	</select>
+
+
+	<!-- 분석기기 > open기기 > 기기교육 > 기기교육관리 상세 조회 -->
+	<select id="retrieveEduInfo" resultType="hashmap" >
+		<![CDATA[
+		SELECT  MEM.EDU_NM AS "eduNm"
+		       ,MEM.EDU_SCN_CD  AS "eduScnCd"
+			   ,MIS.MCHN_HAN_NM AS "mchnNm"
+			   ,MIS.MCHN_INFO_ID AS "mchnInfoId"
+			   ,dbo.fn_getSabunName(MEM.EDU_CRGR_ID) AS "eduCrgrNm"
+			   ,MEM.PTT_FROM_DT AS "pttFromDt"
+			   ,MEM.PTT_TO_DT AS "pttToDt"
+			   ,MEM.IVTT_CPSN AS "ivttCpsn"
+			   ,MEM.EDU_DT AS "eduDt"
+			   ,MEM.EDU_FROM_TIM AS "eduFromTim"
+			   ,MEM.EDU_TO_TIM AS "eduToTim"
+			   ,MEM.EDU_PL AS "eduPl"
+			   ,MEM.DTL_SBC AS "dtlSbc"
+			   ,MEM.MCHN_EDU_ID AS "mchnEduId"
+			   ,MEM.ATTC_FIL_ID AS "attcFilId"
+			   ,MEM.EDU_CRGR_ID AS "eduCrgrId"
+			   ,MEM.MCHN_INFO_ID as "mchnInfoId"
+		FROM 	IRIS_MCHN_EDU_MST MEM
+				,IRIS_MCHN_INFO_MST MIS
+				,IRIS_ADM_COM_CD	ACC
+		WHERE 	MEM.DEL_YN = 'N'
+		AND  	MIS.DEL_YN = 'N'
+		AND  	MEM.MCHN_INFO_ID = MIS.MCHN_INFO_ID
+		AND  	ACC.COM_CD_CD = 'MCHN_EDU_SCN'
+		AND  	MEM.EDU_SCN_CD = ACC.COM_DTL_CD
+		AND  	MEM.MCHN_EDU_ID = #{mchnEduId}
+		]]>
+	</select>
+
+	<select id="retrieveMachineList"  resultType="hashmap">
+		<![CDATA[
+		SELECT  MCHN_HAN_NM+'('+MCHN_EN_NM+')' as "mchnNm"
+			   ,MDL_NM as "mdlNm"
+		       ,MKR_NM as "mkrNm"
+		       ,ACC2.COM_DTL_NM   as "mchnClNm"
+			   ,SU.SA_NAME  as "mchnCrgrNm"
+			   ,MCHN_INFO_ID as "mchnInfoId"
+			   ,MCHN_CRGR_ID as  "mchnCrgrId"
+			   ,MCHN_CL_CD as  "mchnClCd"
+		  FROM  IRIS_MCHN_INFO_MST MIM
+				LEFT OUTER JOIN IRIS_SSO_USER   SU
+				ON  MIM.MCHN_CRGR_ID = SU.SA_SABUN_NEW
+			   ,IRIS_ADM_COM_CD ACC
+			   ,IRIS_ADM_COM_CD ACC2
+		  WHERE 1=1 --MIM.DEL_YN = 'N'
+		  AND 	ACC.COM_CD_CD = 'MCHN_PRCT_ST'
+		  AND 	MIM.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
+		  AND 	ACC2.COM_CD_CD = 'MCHN_CL_CD'
+		  AND 	MIM.MCHN_CL_CD = ACC2.COM_DTL_CD
+		]]>
+
+		  <if test="( mchnNm != null and mchnNm != '')">
+			AND (MIM.MCHN_HAN_NM LIKE '%'+#{mchnNm}+'%' or MIM.MCHN_EN_NM LIKE '%'+#{mchnNm}+'%')
+		  </if>
+		  <if test="( mchnCrgrNm != null and mchnCrgrNm != '')">
+			AND SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
+		  </if>
+		  <if test="( mchnClCd == 'YA' or  mchnClCd == 'MA' or mchnClCd == 'HA' or mchnClCd == 'MS' or mchnClCd == 'YM' or mchnClCd == 'JT' )">
+			AND  MIM.MCHN_CL_CD = #{mchnClCd}
+		   </if>
+	</select>
+
+<!-- 교육삭제  -->
+	<update id="updateEduInfo">
+		<![CDATA[
+		UPDATE IRIS_MCHN_EDU_MST
+		SET    DEL_YN = 'Y'
+		      ,LAST_MDFY_DT = GETDATE()
+		      ,LAST_MDFY_ID =#{_userId}
+		WHERE MCHN_EDU_ID = #{mchnEduId}
+		]]>
+	</update>
+
+<!-- 교육신청 저장 및 수정  -->
+	<update id="saveEduInfo">
+	<![CDATA[
+	MERGE IRIS_MCHN_EDU_MST MEM
+			USING ( SELECT #{mchnEduId} AS MCHN_EDU_ID ) AS Tab1
+			ON  (MEM.MCHN_EDU_ID = Tab1.MCHN_EDU_ID)
+			WHEN MATCHED THEN
+	UPDATE SET
+		   MCHN_INFO_ID = #{mchnInfoId}
+	      ,EDU_NM = #{eduNm}
+	      ,EDU_SCN_CD = #{eduScnCd}
+	      ,EDU_PL = #{eduPl}
+	      ,EDU_CRGR_ID = #{eduCrgrId}   -- 세션 사번
+	      ,PTT_FROM_DT = #{pttFromDt}
+	      ,PTT_TO_DT = #{pttToDt}
+	      ,EDU_DT = #{eduDt}
+	      ,IVTT_CPSN = #{ivttCpsn}
+	      ,EDU_FROM_TIM = #{eduFromTim}
+	      ,EDU_TO_TIM = #{eduToTim}
+	      ,DTL_SBC = #{dtlSbc}
+	      ,ATTC_FIL_ID = #{attcFilId}
+	      ,LAST_MDFY_DT = GETDATE()
+	      ,LAST_MDFY_ID =#{_userId}
+	WHEN NOT MATCHED THEN
+	INSERT
+	        (MCHN_INFO_ID
+	        ,EDU_NM
+	        ,EDU_SCN_CD
+	        ,EDU_PL
+	        ,EDU_CRGR_ID
+	        ,PTT_FROM_DT
+	        ,PTT_TO_DT
+	        ,EDU_DT
+	        ,IVTT_CPSN
+	        ,EDU_FROM_TIM
+	        ,EDU_TO_TIM
+	        ,DTL_SBC
+	        ,DEL_YN
+	        ,ATTC_FIL_ID
+	        ,FRST_RGST_DT
+	        ,FRST_RGST_ID
+	        ,LAST_MDFY_DT
+	        ,LAST_MDFY_ID)
+	    VALUES
+	        (#{mchnInfoId}
+	        ,#{eduNm}
+	        ,#{eduScnCd}
+	        ,#{eduPl}
+	        ,#{eduCrgrId} -- 세션 사번
+	        ,#{pttFromDt}
+	        ,#{pttToDt}
+	        ,#{eduDt}
+	        ,#{ivttCpsn}
+	        ,#{eduFromTim}
+	        ,#{eduToTim}
+	        ,#{dtlSbc}
+	        ,'N'
+	        ,#{attcFilId}
+			,GETDATE()
+			,#{_userId}-- 세션id
+			,GETDATE()
+			,#{_userId}
+			); -- 세션 id
+		]]>
+	</update>
+
+
+	<!-- 분석기기 > open기기 > 기기교육 > 기기교육관리 목록조회 -->
+	<select id="retrieveMchnEduAnlRgstList" resultType="hashmap" >
+		<![CDATA[
+		SELECT   SU.SA_NAME as "rgstNm"
+			    ,SU.SA_USER as "rgstId"
+			    ,SU.SA_DEPT_NAME  as "rgstTeam"
+			    ,SU.SA_JOBX_NAME as "rgstJobx"
+			    ,MED.RGST_DT as "rgstDt"
+			    ,MED.CCS_DT as "ccsDt"
+			    ,MED.EDU_ST_CD  AS "eduStCd"
+			    ,ACC.COM_DTL_NM AS "eduStNm"
+			    ,SU2.SA_NAME AS "ccsTrtmNm"
+			    ,MED.CCS_TRTM_ID AS "ccsTrtmId"
+				,MED.EDU_DTL_ID  AS "eduDtlId"
+			    ,MEM.MCHN_INFO_ID  AS "mchnInfoId"
+			    ,MEM.EDU_CRGR_ID AS "eduCrgrId"
+			    ,SU.SA_MAIL AS "saMail"
+			FROM IRIS_MCHN_EDU_MST MEM
+			    ,IRIS_MCHN_EDU_DTL MED
+			     LEFT OUTER JOIN IRIS_SSO_USER SU
+			     ON  MED.RGST_ID = SU.SA_SABUN_NEW
+			     LEFT OUTER JOIN IRIS_SSO_USER SU2
+			     ON MED.CCS_TRTM_ID = SU2.SA_SABUN_NEW
+			    ,IRIS_ADM_COM_CD	ACC
+			WHERE MEM.DEL_YN = 'N'
+			and   MED.DEL_YN = 'N'
+			AND MEM.MCHN_EDU_ID = MED.MCHN_EDU_ID
+			AND  ACC.COM_CD_CD = 'MCHN_EDU_ST_CD'
+			AND  MED.EDU_ST_CD = ACC.COM_DTL_CD
+			AND MEM.MCHN_EDU_ID = #{mchnEduId}
+			ORDER BY RGST_DT DESC
+		]]>
+	</select>
+
+	<!-- 분석기기 > open기기 > 기기교육 > 기기교육관리 목록조회(엑셀용)-->
+	<select id="retrieveMchnEduAnlRgstListExcel" resultType="hashmap" >
+		<![CDATA[
+		SELECT   SU.SA_NAME as "rgstNm"
+			    ,SU.SA_USER as "rgstId"
+			    ,SU.SA_DEPT_NAME  as "rgstTeam"
+			    ,SU.SA_JOBX_NAME as "rgstJobx"
+			    ,MED.RGST_DT as "rgstDt"
+			    ,MED.CCS_DT as "ccsDt"
+			    ,MED.EDU_ST_CD  AS "eduStCd"
+			    ,ACC.COM_DTL_NM AS "eduStNm"
+			    ,SU2.SA_NAME AS "ccsTrtmNm"
+			    ,MED.CCS_TRTM_ID AS "ccsTrtmId"
+				,MED.EDU_DTL_ID  AS "eduDtlId"
+			    ,MEM.MCHN_INFO_ID  AS "mchnInfoId"
+			    ,MEM.EDU_CRGR_ID AS "eduCrgrId"
+			FROM IRIS_MCHN_EDU_MST MEM
+			    ,IRIS_MCHN_EDU_DTL MED
+			     LEFT OUTER JOIN IRIS_SSO_USER SU
+			     ON  MED.RGST_ID = SU.SA_SABUN_NEW
+			     LEFT OUTER JOIN IRIS_SSO_USER SU2
+			     ON MED.CCS_TRTM_ID = SU2.SA_SABUN_NEW
+			    ,IRIS_ADM_COM_CD	ACC
+			WHERE MEM.DEL_YN = 'N'
+			AND MEM.MCHN_EDU_ID = MED.MCHN_EDU_ID
+			AND MEM.MCHN_INFO_ID = #{mchnInfoId}
+			AND ACC.COM_CD_CD = 'MCHN_EDU_ST_CD'
+			AND  MED.EDU_ST_CD = ACC.COM_DTL_CD
+			ORDER BY RGST_DT DESC
+		]]>
+	</select>
+
+
+	<!-- open기기 > 기기교육 > 기기교육관리 > 교육신청관리 수료, 미수료 업데이트-->
+	<update id="updateEduDetailInfo" >
+		<![CDATA[
+		UPDATE IRIS_MCHN_EDU_DTL
+		SET  CCS_TRTM_ID  = #{_userSabun}
+	 		,CCS_DT       = CONVERT(NVARCHAR(10), GETDATE(), 23)
+	 		,EDU_ST_CD    = #{eduStCd}
+	 		,LAST_MDFY_DT = GETDATE()
+	 		,LAST_MDFY_ID = #{_userId}
+		WHERE EDU_DTL_ID = #{eduDtlId}
+		]]>
+	</update>
+
+	<insert id="insertMailHis" >
+		<![CDATA[
+		INSERT INTO IRIS_COM_MAIL_SND_HIS
+			(
+			 MENU_TYPE
+			,SEQ 
+			,ADRE_MAIL
+			,RFP_MAIL
+			,TRR_MAIL 
+			,MAIL_TITL
+			,CRGR_ID
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+			)
+		VALUES
+			(
+			 #{menuType}
+			,#{seq} 
+			,#{adreMail}
+			,#{rfpMail}
+			,#{trrMail}
+			,#{mailTitl}
+			,#{_userId}
+			,GETDATE()
+			,#{_userId}
+			,GETDATE()
+			,#{_userId}
+			)
+		]]>
+	</insert>
+
+</mapper>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fxaInfo.fxaRlis">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 자산실사 목록 조회  -->
+	<select id="retrieveFxaRlisSearchList" resultType="hashmap" >
+		<![CDATA[
+		SELECT FRL.FXA_RLIS_ID					AS "fxaRlisId"
+		      ,FRT.RLIS_TITL					AS "rlisTitl"
+		      ,FRL.DEPT_CD						AS "deptCd"
+		      ,PRJ.PRJ_NM						AS "prjNm"
+		      ,FRT.RLIS_CL_CD					AS "rlisClCd"
+		      ,ACC.COM_DTL_NM 					AS "rlisClNm"
+		      ,FRT.RLIS_FXA_CLSS				AS "rlisFxaClss"
+		      ,FRL.CRGR_ID						AS "crgrId"
+		      ,SU.SA_NAME 						AS "crgrNm"
+		      ,FRL.RLIS_RQ_DT					AS "rlisRqDt"
+		      ,FRL.RLIS_APPR_DT					AS "rlisApprDt"
+		      ,FRL.RLIS_ST_CD					AS "rlisStCd"
+		      ,FRL.RLIS_TRM_ID					AS "rlisTrmId"
+		      ,ACC2.COM_DTL_NM 					AS "rlisStNm"
+		      ,(SELECT COUNT(*)
+		        FROM IRIS_FXA_RLIS_INFO_MAPP MAP
+				WHERE MAP.DEL_YN = 'N'
+				AND    MAP.FXA_RLIS_ID = FRL.FXA_RLIS_ID) AS "fxaRlisCnt"
+			  ,RD.ITG_RDCS_ID AS "itgRdcsId"	
+		FROM IRIS_FXA_RLIS_TRM FRT
+		    ,IRIS_FXA_RLIS_LIST FRL
+		     LEFT OUTER JOIN IRIS_SSO_USER   SU
+			 ON  FRL.CRGR_ID = SU.SA_SABUN_NEW
+			 LEFT OUTER JOIN IRIS_WBS_PJT_IF PRJ
+			 ON PRJ.WBS_CD = FRL.WBS_CD
+			 LEFT OUTER JOIN IRIS_COM_ITG_RDCS RD
+			 ON RD.GUID = 'R'+ CAST(FRL.FXA_RLIS_ID AS NVARCHAR)
+		    ,IRIS_ADM_COM_CD	ACC
+		    ,IRIS_ADM_COM_CD	ACC2
+		WHERE FRT.RLIS_TRM_ID = FRL.RLIS_TRM_ID
+		AND   ACC.COM_CD_CD = 'FXA_RLIS_CL_CD'
+		AND   FRT.RLIS_CL_CD = ACC.COM_DTL_CD
+		AND   ACC2.COM_CD_CD = 'FXA_APPR_RQ_ST'
+		AND   FRL.RLIS_ST_CD = ACC2.COM_DTL_CD
+		]]>
+
+	    <if test="( rlisTrmNm != null and rlisTrmNm != '' )">
+			AND FRT.RLIS_TITL LIKE '%'+#{rlisTrmNm}+'%'
+	    </if>
+		<if test="( rlisClCd == 'CLSS' )">
+			AND FRT.RLIS_CL_CD = #{rlisClCd}
+	    </if>
+	    <if test="( prjNm != null and prjNm != '')">
+			AND PRJ.PRJ_NM LIKE '%'+#{prjNm}+'%'
+	    </if>
+	    <if test="( rlisFxaClss != null and rlisFxaClss != '')">
+			AND FRT.RLIS_FXA_CLSS LIKE '%'+#{rlisFxaClss}+'%'
+	    </if>
+		<if test="( crgrNm != null and crgrNm != '')">
+			AND SU.SA_NAME LIKE '%'+#{crgrNm}+'%'
+	    </if>
+		<if test="( adminChk == 'PER')">
+	        AND FRL.DEPT_CD IN ( SELECT TEAM_DEPT_CODE
+		        	             FROM   VW_SSO_DEPT A
+							    	    INNER JOIN IRIS_SSO_USER B
+								   	    ON 	  B.SA_DEPT_NEW = A.DEPT_CODE
+								        AND   B.SA_SABUN_NEW = #{_userSabun}
+							   )
+	    </if>
+	    <![CDATA[
+	    ORDER BY FRT.RLIS_TRM_ID DESC
+	    ]]>
+	</select>
+
+	<!-- 자산실사> 실사명 combo리스트 조회  -->
+	<select id="retrieveFxaRlisTitlCombo" resultType="hashmap" >
+		<![CDATA[
+			SELECT  RLIS_TRM_ID AS "COM_DTL_CD"
+				   ,RLIS_TITL 	AS "COM_DTL_NM"
+			FROM   IRIS_FXA_RLIS_TRM
+		]]>
+	</select>
+
+
+	<!-- 자산실사> 결재상태 조회 -->
+	<select id="retrieveFxaRlisArrpPopList" resultType="hashmap" >
+		<![CDATA[
+			SELECT  RLIS_TRM_ID AS "COM_DTL_CD"
+				   ,RLIS_TITL 	AS "COM_DTL_NM"
+			FROM   IRIS_FXA_RLIS_TRM
+		]]>
+	</select>
+
+	<!-- 자산실사> 자산실사 To_do 조회 -->
+	<select id="retrieveFxaRlisTodoList" resultType="hashmap" >
+		<![CDATA[
+		SELECT  FMAP.RLIS_MAPP_ID        AS "rlisMappId"
+			   ,FMAP.FXA_INFO_ID	     AS "fxaInfoId"
+			   ,FIM.DEPT_CD              AS "deptCd"
+			   ,PRM.PRJ_NM			     AS "prjNm"
+			   ,FIM.WBS_CD               AS "wbsCd"
+			   ,FIM.FXA_NM               AS "fxaNm"
+			   ,FIM.FXA_NO               AS "fxaNo"
+			   ,FIM.FXA_QTY              AS "fxaQty"
+			   ,FIM.FXA_UTM_NM           AS "fxaUtmNm"
+			   ,FIM.FXA_LOC	             AS "fxaLoc"
+			   ,FIM.FXA_CLSS             AS "fxaClss"
+			   ,RLI.CRGR_ID              AS "crgrId"
+			   ,dbo.fn_getSabunName(RLI.CRGR_ID  ) AS "crgrNm"
+			   ,FIM.RLIS_DT              AS "rlisDt"
+			   ,FMAP.FXA_SSIS_YN         AS "fxaSsisYn"
+			   ,FMAP.FXA_REM             AS "fxaRem"
+		 FROM  IRIS_FXA_RLIS_INFO_MAPP FMAP
+			  ,IRIS_WBS_PJT_IF PRM
+			  ,IRIS_FXA_INFO_MST FIM
+			  ,IRIS_FXA_RLIS_LIST RLI
+		 WHERE FMAP.DEL_YN = 'N'
+		 AND   FMAP.FXA_INFO_ID = FIM.FXA_INFO_ID
+		 AND   FIM.WBS_CD = PRM.WBS_CD
+		 AND   RLI.FXA_RLIS_ID = FMAP.FXA_RLIS_ID
+		 AND   FMAP.FXA_RLIS_ID = #{fxaRlisId}
+		 ORDER BY FIM.FXA_NM 
+		]]>
+	</select>
+	
+	<!-- To_do update  -->
+	<update id="saveFxaRlisTodoInfo" >
+		<![CDATA[
+		UPDATE IRIS_FXA_RLIS_INFO_MAPP
+		SET    FXA_SSIS_YN = #{fxaSsisYn}
+		      ,FXA_REM     = #{fxaRem}
+		      ,FXA_RLIS_DT = CONVERT(NVARCHAR(10), GETDATE(), 23)
+			  ,LAST_MDFY_DT = GETDATE()
+			  ,LAST_MDFY_ID = #{_userId}
+		WHERE  RLIS_MAPP_ID = #{rlisMappId}
+		]]>
+	</update>
+
+
+
+
+</mapper>

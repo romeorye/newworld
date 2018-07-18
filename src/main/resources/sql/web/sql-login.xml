@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="irisLogin">
+
+    <!-- ID/PW 조회  (simpson 처리)-->
+    <select id="evalUser" parameterType="HashMap" resultType="HashMap"><![CDATA[
+        /* ID/PW 조회   sql-login.xml  / irisLogin /  evalUser */
+		SELECT  SU.sa_user
+		FROM IRIS_SSO_USER SU
+		WHERE SU.SA_USER = #{eeId}
+		AND   su.sso_ex_flag != 'D'	
+    ]]></select>
+ 	
+    <!-- USER 상세정보 조회  -->
+    <select id="retrieveUserDetail" parameterType="HashMap" resultType="HashMap"><![CDATA[ 
+        /* 세션정보 생성 위한 user 상세정보 조회   sql-login.xml    / irisLogin / retrieveUserDetail */
+		SELECT sa_user
+			  ,TA.sa_sabun 
+			  ,TA.sa_sabun_new 
+			  ,TA.sa_gubun
+			  ,TA.sa_name
+			  ,TA.sa_dept
+			  ,TA.sa_dept_name
+			  ,TA.sa_jobx
+			  ,TA.sa_jobx_name
+			  ,TA.sa_func
+			  ,TA.sa_func_name
+			  ,TA.sa_mail 
+			  ,(CASE WHEN LEADER_CNT = 0 THEN 
+			  (SELECT SD.dept_uper
+			   FROM IRIS_SSO_DEPT SD
+			   WHERE SD.dept_code = TA.sa_dept)
+			   ELSE 
+			  TA.sa_dept
+			   END ) AS team_dept
+			FROM ( 
+			 SELECT  SU.sa_user
+			   ,SU.sa_sabun_new as 'sa_sabun'
+			   ,SU.sa_sabun_new  /*[EAM추가]*/
+			   ,substring(SU.sa_sabun_new, 1, 1) sa_gubun
+			   ,SU.sa_name
+			   ,SU.sa_dept_new as 'sa_dept'
+			   ,SU.sa_dept_name
+			   ,SU.sa_jobx
+			   ,SU.sa_jobx_name
+			   ,SU.sa_func
+			   ,SU.sa_func_name
+			   ,SU.sa_mail
+			   ,(SELECT COUNT(*)
+			   FROM IRIS_SSO_USER SU2
+			   WHERE  su.sso_ex_flag != 'D'  
+			   AND  SU2.sa_dept_new = SU.SA_DEPT_NEW 
+			   AND  SU2.sa_func IN ('FO0','FG0','FB1') ) AS LEADER_CNT
+			 FROM IRIS_SSO_USER SU
+			 WHERE SU.SA_USER = #{sa_user}
+			 AND   su.sso_ex_flag != 'D'
+			) TA
+    ]]></select>
+    
+    
+    <!-- 개인정보 수집이용/위탁 동의 여부 업데이트  (iris 처리)-->
+  	<update id="updateSecurityInfo" parameterType="HashMap"><![CDATA[
+		UPDATE WOASIS.TB_USER_MST
+		   SET SEC_CONF_YN_WINS = #{seq1}||#{seq2}
+		     , SEC_CONF_DT_WINS = SYSDATE
+		 WHERE SUBSTR(XCMK_CD, 2) = #{xcmkCd}
+		   AND EE_ID = #{eeId} 
+    ]]></update>
+    
+    <!-- 개인정보보호 서약서 업데이트  (iris 처리)-->
+  	<update id="updateVowInfo" parameterType="HashMap"><![CDATA[
+		UPDATE WOASIS.TB_USER_MST
+		   SET SEC_VOW_YN_WINS = #{vow}
+		     , SEC_VOW_DT_WINS = SYSDATE
+		 WHERE SUBSTR(XCMK_CD, 2) = #{xcmkCd}
+		   AND EE_ID = #{eeId} 
+    ]]></update>
+    
+    <!-- 세션 종료일시 기록 -->
+    <insert id="sessionLog" parameterType="HashMap">
+        <![CDATA[
+     	INSERT INTO TWMS.TWC_SESSION_LOG (USER_IP, SESSION_ID, AGEN_CD, USER_ID, SYS_NAME) VALUES (#{userIP},#{sessionId},#{agenCd},#{userID},'TWMS')    
+         ]]>
+    </insert>   
+    
+    <!-- 패스워드 변경일 조회 -->
+  	<select id="retrievePassDt" parameterType="HashMap" resultType="HashMap"><![CDATA[
+      SELECT COUNT(1) AS "cnt" 
+	   FROM WOASIS.TB_USER_MST
+	  WHERE XCMK_CD = #{xcmkCd}
+	    AND EE_ID = #{eeId}
+	    AND SYSDATE - 90 > NVL(PW_MDFY_DT, SYSDATE-99)
+ 	]]></select>    
+ 	
+ 	
+    <!-- 최근 로그인 시간, 로그인 횟수 업데이트하기 -->
+    <update id="updateLoginInfo" parameterType="HashMap"><![CDATA[
+     /* 최근 로그인 시간, 로그인 횟수 업데이트 */    
+    	UPDATE WOASIS.TB_USER_MST
+       	   SET LGI_OFT = NVL(LGI_OFT,0) + 1
+           	 , LAST_LOGIN_DT = SYSDATE
+           	 , LOGIN_FAIL_CNT = 0
+           	 , LOGIN_LOCK = 'N'
+     	WHERE XCMK_CD = #{xcmkCd}
+          AND EE_ID = #{eeId}
+    ]]></update>	
+    
+    <!-- 로그인 실패 기록 및 횟수 리턴 -->
+  	<select id="loginFailureCount" statementType="CALLABLE"  resultType="hashmap"><![CDATA[   
+	    	{call LOGIN_FAILURE_COUNT(
+	    	   #{xcmkCd, jdbcType=VARCHAR, mode=IN}, 
+	    	   #{eeId, jdbcType=VARCHAR, mode=IN},
+			   #{lock, jdbcType=VARCHAR, mode=OUT, javaType=String},
+			   #{failCnt, jdbcType=VARCHAR, mode=OUT, javaType=String},
+			   #{returnCode, jdbcType=VARCHAR, mode=OUT, javaType=String}   
+	        )}
+    ]]></select>
+    
+    
+  <!-- 사용자 상세정보 -->
+  <select id="retrieveUserDetl" resultType="hashmap"><![CDATA[
+    SELECT  EE_ID       as "eeId"            /*사원ID*/
+          , EE_NM       as "eeNm"            /*사원명*/
+          , XCMK_CD     as "xcmkCd"          /*거래선코드*/
+          , PW2         as "pw"              /*비밀번호*/
+          , TWMS_USE_YN as "winsUseYn"       /*윈스 사용여부*/
+          , USE_YN      as "woasisUseYn"     /* 웹오아시스 사용여부*/
+          , OPS_NM      as "opsNm"    /*부서명*/
+          , POA_NM      as "poaNm"    /*직위명*/
+          , TO_DATE(ETCP_DT, 'YYYY-MM-DD') as "etcpDt"    	/* 입사일자*/
+          , TO_DATE(RETR_DT, 'YYYY-MM-DD') as "retrDt"         /*퇴사일자*/
+          , TO_DATE(BRTH_DT, 'YYYY-MM-DD') as "brthDt"         /*출생일자*/
+          , LNC_SOCL_CD as  "lncSoclCd"    /*음력양력코드*/
+          , TO_DATE(MARI_CMMO_DT, 'YYYY-MM-DD')              as "mariCmmoDt"     /*결혼기념일자*/
+          , SUBSTR(POST_NO,1,3) ||'-'|| SUBSTR(POST_NO,4,3)  as "postNo"         /*우편번호*/
+          , POST_NO_ADR as "postNoAdr"    /*우편번호주소*/
+          , DTL_ADR     as "dtlAdr"       /*상세주소*/
+          , EMAIL_NM    as "emailNm"      /*EMAIL명*/
+          , TRIM(SUBSTR(CRRA_TEL_NO, 1, 4)) AS "crraTelNo1"     /*휴대전화번호1*/
+          , TRIM(SUBSTR(CRRA_TEL_NO, 5, 4)) AS "crraTelNo2"     /*휴대전화번호2*/
+          , TRIM(SUBSTR(CRRA_TEL_NO, 9, 4)) AS "crraTelNo3"     /*휴대전화번호3*/
+          , TRIM(SUBSTR(HOME_TEL_NO, 1, 4)) AS "homeTelNo1"     /*자택전화번호1*/
+          , TRIM(SUBSTR(HOME_TEL_NO, 5, 4)) AS "homeTelNo2"     /*자택전화번호2*/
+          , TRIM(SUBSTR(HOME_TEL_NO, 9, 4)) AS "homeTelNo3"     /*자택전화번호3*/
+          , TWMS_AUTH_G_CD       as "twmsAuthGCd"    
+          , RGST_YN              as "rgstYn"    
+          , NVL(PRI_POL_YN, 'N') AS	"priPolYn"     /*개인정보수집동의여부*/
+     FROM WOASIS.TB_USER_MST
+    ]]> 
+    WHERE EE_ID   = #{eeId}
+    <!--  
+    <if test="(uAgenCd != null and uAgenCd != '')">
+		AND XCMK_CD = #{uAgenCd}
+	</if><if test="uAgenCd == ''">
+	 -->
+		AND XCMK_CD= #{_xcmkCd}
+	<!-- </if>  -->
+    </select>
+    
+	<!-- 사용자가 속한 업체의 권한그룹코드 조회  -->
+	<select id="retrieveUserAuthGCdLData"  resultType="java.lang.String">
+		SELECT TWMS_AUTH_G_CD   as "twmsAuthGCd"
+		  FROM WOASIS.TB_USER_MST
+		 WHERE XCMK_CD = #{userXcmkCd}
+		   AND EE_ID = 'master' 
+	</select>          
+	
+    <!-- 사용자 패스워드 수정 -->
+    <update id="updatePassDo">
+	    UPDATE WOASIS.TB_USER_MST
+	       SET  PW              = ''            /* MDBase64비밀번호 */
+	       	  , PW2				= #{pw2}		/* SHA비밀번호  */
+	          , PW_MDFY_DT      = SYSDATE       /* 패스워드 수정일 */
+	     WHERE EE_ID            = #{eeId}       /* 사용자ID */
+	       AND XCMK_CD          = #{_xcmkCd}    /* 대리점코드 */
+    </update>	
+	
+    <!-- 품질 관리 약정 업데이트하기 -->
+    <update id="updateContractInfo" parameterType="HashMap"><![CDATA[
+     /* 품질 관리 약정 업데이트 */    
+	UPDATE HOUSING.TB_GU106
+	   SET AGRE_YENO = #{agreYn}
+	     , AGRE_DATE = SYSDATE
+	 WHERE CUST_CODE = #{xcmkCd}
+    ]]></update> 	
+</mapper>

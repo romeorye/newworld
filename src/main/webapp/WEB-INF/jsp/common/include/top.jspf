@@ -1,0 +1,79 @@
+<%@ page pageEncoding="utf-8" session="false"%>
+<div id="LblockHeader">
+<div id="LblockHeaderIn">
+<div id="LblockTopLogo">
+	<a href="#"><img src="<c:url value='/resource/images/topLogo.jpg'/>" alt="사이트 상단 로고" /></a>
+</div>
+
+<div id="LblockWelcome">
+	<p><span>홍길동</span>님 환영합니다.</p><a href="#">로그아웃</a>
+</div>
+
+<div id="LblockSupportMenu">
+	<ul>
+		<li class="Lfirst"><a href="#">HOME</a></li>
+		<li class="Lidx1"><a href="#">CONTACT</a></li>
+		<li class="Llast"><a href="#">ENGLISH</a></li>
+	</ul>
+</div>
+
+<div id="LblockTotalSearch">
+	<form method="get" action="">
+		<label for="totalSearch">통합검색:</label> <input id="totalSearch" type="text" class="Ltext" size="15" /><input type="image" class="Limage" src="<c:url value='/resource/images/totalSearch_btn.gif'/>" alt="검색" />
+	</form>
+</div>
+
+<div id="LblockTopMenu">
+	<ul class="Lclear">
+		<li class="Lfirst Lcurrent"><span><a href="#" onclick="_topMenu.setCurrent(0);">메인메뉴100</a></span>
+			<ul>
+				<li class="Lfirst Lcurrent"><span><a href="#" onclick="_topMenu.setCurrent(0,0);">메인메뉴110</a></span></li>
+				<li class="Lidx1"><span><a href="#" onclick="_topMenu.setCurrent(0,1);">메인메뉴120</a></span></li>
+				<li class="Lidx2"><span><a href="#" onclick="_topMenu.setCurrent(0,2);">메인메뉴130</a></span></li>
+				<li class="Lidx3"><span><a href="#" onclick="_topMenu.setCurrent(0,3);">메인메뉴140</a></span></li>
+				<li class="Llast"><span><a href="#" onclick="_topMenu.setCurrent(0,4);">메인메뉴150</a></span></li>
+			</ul>
+		</li>
+		<li class="Lidx1"><span><a href="#" onclick="_topMenu.setCurrent(1);">메인메뉴200</a></span>
+			<ul>
+				<li class="Lfirst"><span><a href="#" onclick="_topMenu.setCurrent(1,0);">메인메뉴210</a></span></li>
+				<li class="Lidx1"><span><a href="#" onclick="_topMenu.setCurrent(1,1);">메인메뉴220</a></span></li>
+				<li class="Lidx2"><span><a href="#" onclick="_topMenu.setCurrent(1,2);">메인메뉴230</a></span></li>
+				<li class="Lidx3"><span><a href="#" onclick="_topMenu.setCurrent(1,3);">메인메뉴240</a></span></li>
+				<li class="Llast"><span><a href="#" onclick="_topMenu.setCurrent(1,4);">메인메뉴250</a></span></li>
+			</ul>
+		</li>
+		<li class="Lidx2"><span><a href="#" onclick="_topMenu.setCurrent(2);">메인메뉴300</a></span>
+			<ul>
+				<li class="Lfirst"><span><a href="#" onclick="_topMenu.setCurrent(2,0);">메인메뉴310</a></span></li>
+				<li class="Lidx1"><span><a href="#" onclick="_topMenu.setCurrent(2,1);">메인메뉴320</a></span></li>
+				<li class="Lidx2"><span><a href="#" onclick="_topMenu.setCurrent(2,2);">메인메뉴330</a></span></li>
+				<li class="Lidx3"><span><a href="#" onclick="_topMenu.setCurrent(2,3);">메인메뉴340</a></span></li>
+				<li class="Llast"><span><a href="#" onclick="_topMenu.setCurrent(2,4);">메인메뉴350</a></span></li>
+			</ul>
+		</li>
+		<li class="Lidx3"><span><a href="#" onclick="_topMenu.setCurrent(3);">메인메뉴400</a></span>
+			<ul>
+				<li class="Lfirst"><span><a href="#" onclick="_topMenu.setCurrent(3,0);">메인메뉴410</a></span></li>
+				<li class="Lidx1"><span><a href="#" onclick="_topMenu.setCurrent(3,1);">메인메뉴420</a></span></li>
+				<li class="Lidx2"><span><a href="#" onclick="_topMenu.setCurrent(3,2);">메인메뉴430</a></span></li>
+				<li class="Lidx3"><span><a href="#" onclick="_topMenu.setCurrent(3,3);">메인메뉴440</a></span></li>
+				<li class="Llast"><span><a href="#" onclick="_topMenu.setCurrent(3,4);">메인메뉴450</a></span></li>
+			</ul>
+		</li>
+		<li class="Llast"><span><a href="#" onclick="_topMenu.setCurrent(4);">메인메뉴500</a></span>
+			<ul>
+				<li class="Lfirst"><span><a href="#" onclick="_topMenu.setCurrent(4,0);">메인메뉴510</a></span></li>
+				<li class="Lidx1"><span><a href="#" onclick="_topMenu.setCurrent(4,1);">메인메뉴520</a></span></li>
+				<li class="Lidx2"><span><a href="#" onclick="_topMenu.setCurrent(4,2);">메인메뉴530</a></span></li>
+				<li class="Lidx3"><span><a href="#" onclick="_topMenu.setCurrent(4,3);">메인메뉴540</a></span></li>
+				<li class="Lidx4"><span><a href="#" onclick="_topMenu.setCurrent(4,4);">메인메뉴550</a></span></li>
+				<li class="Llast"><span><a href="#" onclick="_topMenu.setCurrent(4,5);">메인메뉴560</a></span></li>
+			</ul>
+		</li>
+	</ul>
+</div>
+
+</div>
+
+</div>

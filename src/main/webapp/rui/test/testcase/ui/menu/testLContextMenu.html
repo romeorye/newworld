@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.menu.LContextMenu Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../plugins/menu/rui_menu.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../plugins/menu/rui_menu.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var oEweContextMenu = null;
+Rui.onContentReady('clones', function() {
+            /*******************
+             * 변수 및 객체 선언
+             *******************/
+            var oClones = this;
+
+            var oLI = oClones.getElementsByTagName('li')[0];
+            var oEweTemplate = oLI.cloneNode(true);
+
+            var aMenuItems = ['Edit Name', 'Clone', 'Delete'];
+            /*<b>*/
+            oEweContextMenu = new Rui.ui.menu.LContextMenu({
+                applyTo : "ewecontextmenu",
+                trigger : oClones.childNodes,
+                itemdata : aMenuItems,
+                lazyload : true
+            });
+            /*</b>*/
+
+            var oFieldContextMenuItemData = [
+                {
+                    text: 'Field color',
+                    submenu: {
+                        id: 'fieldcolors',
+                        itemdata: [
+                            { text: 'Light Green', onclick: { fn: setFieldColor, obj: '#99cc66' }, checked: true },
+                            { text: 'Medium Green', onclick: { fn: setFieldColor, obj: '#669933'} },
+                            { text: 'Dark Green', onclick: { fn: setFieldColor, obj: '#336600'} }
+                        ]
+                    }
+                },
+                { text: 'Delete all', onclick: { fn: deleteEwes} },
+                { text: 'New Ewe', onclick: { fn: createNewEwe} }
+            ];
+
+            var oFieldContextMenu = new Rui.ui.menu.LContextMenu({
+                //id: "fieldcontextmenu",
+                applyTo : "fieldcontextmenu",
+                trigger : "clones",
+                itemdata : oFieldContextMenuItemData
+            });
+
+            /********************
+             * 사용자 정의 함수
+             ********************/
+            function editEweName(p_oLI) {
+                var oCite = p_oLI.lastChild;
+                if (oCite.nodeType != 1) {
+                    oCite = oCite.previousSibling;
+                }
+
+                var oTextNode = oCite.firstChild;
+                var sName = window.prompt('Dolly의 새로운 이름을 입력해주세요 ',
+                                oTextNode.nodeValue);
+
+                if (sName && sName.length > 0) {
+                    oTextNode.nodeValue = sName;
+                }
+            }
+
+            function cloneEwe(p_oLI, p_oMenu) {
+                var oClone = p_oLI.cloneNode(true);
+                p_oLI.parentNode.appendChild(oClone);
+                p_oMenu.cfg.setProperty('trigger', oClones.childNodes);
+            }
+
+            function deleteEwe(p_oLI) {
+                var oUL = p_oLI.parentNode;
+                oUL.removeChild(p_oLI);
+            }
+
+            function onEweContextMenuClick(p_sType, p_aArgs) {
+                var oItem = p_aArgs[1],
+                        oTarget = this.contextEventTarget,
+                        oLI;
+
+                if (oItem) {
+                    oLI = oTarget.nodeName.toUpperCase() == 'LI' ? oTarget : Rui.util.LDom.getAncestorByTagName(oTarget, 'LI');
+
+                    switch (oItem.index) {
+                        case 0:     // Edit name
+                            editEweName(oLI);
+                            break;
+                        case 1:     // Clone
+                            cloneEwe(oLI, this);
+                            break;
+                        case 2:     // Delete
+                            deleteEwe(oLI);
+                            break;
+                    }
+                }
+            }
+
+            function deleteEwes() {
+                oEweContextMenu.cfg.setProperty('target', null);
+                oClones.innerHTML = '';
+                function onHide(p_sType, p_aArgs, p_oItem) {
+                    p_oItem.cfg.setProperty('disabled', true);
+                    p_oItem.parent.unOn('hide', onHide, p_oItem);
+                }
+                this.parent.on('hide', onHide, this);
+            }
+
+            function createNewEwe() {
+                var oLI = oEweTemplate.cloneNode(true);
+                oClones.appendChild(oLI);
+                this.parent.getItem(1).cfg.setProperty('disabled', false);
+                oEweContextMenu.cfg.setProperty('trigger', oClones.childNodes);
+            }
+
+            function setFieldColor(p_sType, p_aArgs, p_sColor) {
+                var oCheckedItem = this.parent.checkedItem;
+                if (oCheckedItem != this) {
+                    Rui.util.LDom.setStyle('clones', 'backgroundColor', p_sColor);
+                    this.cfg.setProperty('checked', true);
+                    oCheckedItem.cfg.setProperty('checked', false);
+                    this.parent.checkedItem = this;
+                }
+            }
+
+            function onFieldMenuRender(p_sType, p_aArgs) {
+                if (this.parent) {  // submenu
+                    this.checkedItem = this.getItem(0);
+                }
+            }
+
+            /*<b>*/
+            /*******************
+             * 사용자 이벤트 처리
+             *******************/
+            oEweContextMenu.on('render', function(e) {
+                this.on('click', onEweContextMenuClick);
+            });
+            /*</b>*/
+
+            oFieldContextMenu.on('render', onFieldMenuRender);
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLContextMenu_method_cancel() {
+    info('LContextMenuTests : testLContextMenu_method_cancel 작동 여부');
+    assertNotUndefined(oEweContextMenu.cancel());
+}
+function testLContextMenu_method_toString() {
+    info('LContextMenuTests : testLContextMenu_method_toString 작동 여부');
+    var result = oEweContextMenu.toString();
+    //return type : String
+    assertNotUndefined(result);
+}
+function testLContextMenu_method_destroy() {
+    info('LContextMenuTests : testLContextMenu_method_destroy 작동 여부');
+    assertNotUndefined(oEweContextMenu.destroy());
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.menu.LContextMenu Tests</h1>
+    <ul id="clones">
+        <li><a href="http://en.wikipedia.org/wiki/Dolly_%28clone%29">
+            <img src="./../../../../resources/images/dolly.jpg" width="100" height="100" alt="Dolly, a ewe, the first mammal to have been successfully cloned from an adult cell."></a><cite>Dolly</cite>
+        </li>
+    </ul>
+
+    <div id="bd">
+        <div id="ewecontextmenu"></div>
+        <div id="fieldcolors"></div>
+        <div id="fieldcontextmenu"></div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLContextMenu_method_cancel()">cancel</a>
+            <a href="javascript:testLContextMenu_method_toString()">toString</a>
+            <a href="javascript:testLContextMenu_method_destroy()">destroy</a>
+        </div>
+
+    </div>        
+</body>
+</html>

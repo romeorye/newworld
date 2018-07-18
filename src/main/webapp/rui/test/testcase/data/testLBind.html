@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.data.LBind Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var dataSet, bind;
+Rui.onReady(function() {
+    dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col4' },
+            { id: 'col5' },
+            { id: 'col6' },
+            { id: 'col7' },
+            { id: 'col8' },
+            { id: 'col9' },
+            { id: 'col10' },
+            { id: 'code' },
+            { id: 'value' },
+            { id: 'date1', type: 'date' }
+        ]
+    });
+    
+    bind = new Rui.data.LBind({
+        groupId: 'frm',
+        dataSet: dataSet,
+        bind: true,
+        bindInfo: [
+            { id: 'col1', ctrlId: 'col1', value: 'value' },
+            { id: 'col2', ctrlId: 'col2', value: 'value' },
+            { id: 'value', ctrlId: 'col3', value: 'text' },
+            { id: 'col4', ctrlId: 'col4', value: 'value' },
+            { id: 'col5', ctrlId: 'col5', value: 'value' },
+            { id: 'col6', ctrlId: 'col6', value: 'value' },
+            { id: 'code', ctrlId: 'col7', value: 'value' },
+            { id: 'value', ctrlId: 'col8', value: 'value' },
+            { id: 'date1', ctrlId: 'col9', value: 'value' },
+            { id: 'col10', ctrlId: 'col10', value: 'value' },
+            { id: 'col10', ctrlId: 'col11', value: 'value' },
+            { id: 'col6', ctrlId: 'span1', value: 'html', renderer: function(val) {
+                return 'col6:' + val; 
+            }}
+        ]
+    });
+    
+    dataSet.load({
+        url: './../../../sample/data/data.json'
+    });
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLBind_method_rebind() {
+    info('LBindTests : testLBind_method_rebind 작동 여부');
+    bind.rebind();
+    assertTrue(true);
+}
+function testLBind_method_addBindInfo() {
+    info('LBindTests : testLBind_method_addBindInfo 작동 여부');
+    var bindInfo = { id: 'addBindInfo', ctrlId: 'addBindInfo', value: 'value'}; //Object
+    var len = bind.bindInfo.length;
+    bind.addBindInfo(bindInfo);
+    assertEquals(len, bind.bindInfo.length - 1);
+}
+function testLBind_method_clearBindInfoMap() {
+    info('LBindTests : testLBind_method_clearBindInfoMap 작동 여부');
+    var newBind = new Rui.data.LBind({
+        groupId: 'frm',
+        dataSet: dataSet,
+        bind: true,
+        bindInfo: [
+            { id: 'col1', ctrlId: 'col1', value: 'value' }
+        ]
+    });
+    newBind.clearBindInfoMap();
+    assertNull(newBind.bindInfoMap);
+}
+function testLBind_method_load() {
+    info('LBindTests : testLBind_method_load 작동 여부');
+    var row = 1; //int
+    bind.load(row);
+    assertEquals(Rui.get('col1').getValue(), 'Bertha G. Carr');
+}
+function testLBind_method_setDataSet() {
+    info('LBindTests : testLBind_method_setDataSet 작동 여부');
+    bind.setDataSet(dataSet);
+    assertTrue(bind.dataSet === dataSet);
+}
+function testLBind_method_setBind() {
+    info('LBindTests : testLBind_method_setBind 작동 여부');
+    var isBind = true; //boolean
+    bind.setBind(isBind);
+    assertEquals(bind.bind, true);
+}
+function testLBind_method_toString() {
+    info('LBindTests : testLBind_method_toString 작동 여부');
+    var result = bind.toString();
+    //return type : String
+    assertEquals(result, 'Rui.data.LBind frm');
+}
+function testLBind_method_load() {
+    info('LBindTests : testLBind_method_load 작동 여부');
+
+    dataSet.load({
+        url: './../../../sample/data/data.json'
+    });
+
+    assertTrue(true);
+}
+
+function testLBind_method_clearData() {
+    info('LBindTests : testLBind_method_clearData 작동 여부');
+
+    dataSet.clearData();
+
+    assertTrue(true);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.data.LBind Tests</h1>
+    <form id="frm" name="frm" method="post" action="" >
+        <input type="hidden" id="test" />
+        col1: <input type="text" id="col1" name="col1" /><br/>
+        col2: <input type="text" id="col2" /><br/>
+        col4: <input type="radio" id="col41" name="col4" value="R1"/>RADIO1<br/>
+        <input type="radio" id="col42" name="col4" value="R2"/>RADIO2<br/>
+        col5: <input type="checkbox" id="col5" name="col5" value="R1" />CHECKBOX1<br/>
+        col6: <textarea id="col6" rows="3" cols="50"></textarea><br/>
+        col7: 
+        <select id="col7">
+            <option value="code1">CODE1</option>
+            <option value="code2">CODE2</option>
+            <option value="code3">CODE3</option>
+            <option value="code4">CODE4</option>
+            <option value="code5">CODE5</option>
+            <option value="code6">CODE6</option>
+            <option value="code7">CODE7</option>
+            <option value="code8">CODE8</option>
+            <option value="code9">CODE9</option>
+            <option value="code10">CODE10</option>
+        </select><br/>
+        col8: 
+        <input type="text" id="col8"><br/>
+        col9: 
+        <input type="text" id="col9"><br/>
+        col10: 
+        <input type="text" id="col10"><br/>
+        col11: 
+        <input type="text" id="col11"><p>
+        span1: 
+        <span id="span1"></span>
+        <span id="addBindInfo"></span>
+        <input type="text" id="col12"><p>
+    </form>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLBind_method_rebind()">rebind</a>
+            <a href="javascript:testLBind_method_addBindInfo()">addBindInfo</a>
+            <a href="javascript:testLBind_method_clearBindInfoMap()">clearBindInfoMap</a>
+            <a href="javascript:testLBind_method_load()">load</a>
+            <a href="javascript:testLBind_method_setDataSet()">setDataSet</a>
+            <a href="javascript:testLBind_method_setBind()">setBind</a>
+            <a href="javascript:testLBind_method_toString()">toString</a>
+            <a href="javascript:testLBind_method_load()">load</a>
+            <a href="javascript:testLBind_method_clearData()">clearData</a>
+        </div>
+    </div>
+</body>
+</html>

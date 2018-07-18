@@ -1,0 +1,9 @@
+[{
+    "metaData": {
+        "datasetId":"dataSet"
+    },
+    "records": [
+        { "javalocalecode": "US", "localecode": "US", "countrycode": "US", "countryName": "US", 
+        "languagecode": "US", "languageName": "US", "useFlag": "Y" }
+    ]
+}]

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.rsst.ptotprpt">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 지적재산권 목록 조회  -->
+	<select id="retrievePrjPtotPrptSearchInfo" resultType="hashmap" >
+	<![CDATA[
+		SELECT 0               as "chk"
+		     , PRPT_ID         as "prptId"       /*지적재산권ID*/
+		     , PRJ_CD          as "prjCd"        /*프로젝트코드*/    
+		     , WBS_CD          as "wbsCd"        /*WBS코드*/
+		     , PRPT_GOAL_YEAR  as "prptGoalYear" /*목표년도*/
+		     , PRPT_GOAL_CNT   as "prptGoalCnt"  /*목표개수*/
+		     , FRNW_SCN        as "frnwScn"      /*특허구분*/
+		     , 0			   as "patCnt"		 /*실적지적재산권 개수*/
+		  FROM IRIS_PRJ_PTOT_PRPT
+		 WHERE PRJ_CD = #{prjCd}
+		 ORDER BY PRPT_GOAL_YEAR DESC
+	]]>
+	</select>
+	
+	<!-- 지적재산권 삭제  -->
+	<delete id="deletePrjPtotPrptInfo">
+	<![CDATA[
+	     DELETE FROM IRIS_PRJ_PTOT_PRPT
+	      WHERE PRPT_ID = #{prptId}
+	        AND PRJ_CD = #{prjCd}
+	        AND WBS_CD = #{wbsCd}
+	]]>
+	</delete>
+	
+	<!-- 지적재산권 등록  -->
+	<insert id="insertPrjPtotPrptInfo">
+	<![CDATA[
+		INSERT INTO IRIS_PRJ_PTOT_PRPT
+		(
+		   PRJ_CD
+		 , WBS_CD
+		 , PRPT_GOAL_YEAR
+		 , PRPT_GOAL_CNT
+		 , FRNW_SCN
+		 , FRST_RGST_ID 
+		 , FRST_RGST_DT 
+		 , LAST_MDFY_ID 
+		 , LAST_MDFY_DT 
+		)
+		VALUES
+		(
+		   #{prjCd}
+		 , #{wbsCd}
+		 , #{prptGoalYear}
+		 , #{prptGoalCnt}
+		 , #{frnwScn}
+		 , #{_userId}
+		 , getdate()
+		 , #{_userId}
+		 , getdate()
+		)
+    ]]>	
+	</insert>
+	
+	<!-- 지적재산권 수정  -->
+	<update id="updatePrjPtotPrptInfo">
+	<![CDATA[
+		UPDATE IRIS_PRJ_PTOT_PRPT
+	       SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		]]>	     
+		<if test="( prptGoalYear != null and prptGoalYear != '')">
+		     , PRPT_GOAL_YEAR = #{prptGoalYear}
+		</if>
+		<if test="( prptGoalCnt != null and prptGoalCnt != '')">
+		     , PRPT_GOAL_CNT = #{prptGoalCnt}
+		</if>
+		<if test="( frnwScn != null and frnwScn != '')">
+		     , FRNW_SCN = #{frnwScn}
+		</if>
+	<![CDATA[
+		 WHERE PRPT_ID = #{prptId}
+		   AND PRJ_CD = #{prjCd}
+	       AND WBS_CD = #{wbsCd}
+	]]>	
+	</update>
+	
+</mapper>

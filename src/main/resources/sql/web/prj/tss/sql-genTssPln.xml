@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.tss.gen.pln">
+    <!--========================== 일반과제_계획_마스터 ==========================-->
+    <!-- 마스터 WBSCode 중복체크 -->
+    <select id="retrieveDupChkWbsCd" resultType="hashmap">
+    <![CDATA[
+        SELECT COUNT(*) AS wbsCdCnt
+          FROM IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+         WHERE WBS_CD = #{wbsCd}
+    ]]>
+    </select>
+
+
+    <!-- 마스터 WBSCode 중복체크 -->
+    <select id="retrieveDupChkPkWbsCd" resultType="hashmap">
+    <![CDATA[
+        SELECT COUNT(*) AS wbsCdCnt
+          FROM IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+         WHERE PK_WBS_CD = #{pkWbsCd}
+    ]]>
+    </select>
+
+
+	<!-- 계획단계 삭제 시작 -->
+    <!-- 계획단계 삭제 - 마스터테이블 YN -->
+	<update id="deleteGenTssPlnMst1">
+	<![CDATA[
+		UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+		   SET DEL_YN = 'Y'
+		 WHERE TSS_CD = #{tssCd}
+	]]>
+	</update>
+    <!-- 계획단계 삭제 - row 삭제 -->
+	<delete id="deleteGenTssPlnMst2">
+	<![CDATA[
+		 DELETE FROM IRIS_GRS_EV_RSLT_RGST
+		 WHERE TSS_CD = #{tssCd}
+	]]>
+	</delete>
+    <!-- 계획단계 삭제 - row 삭제 -->
+	<delete id="deleteGenTssPlnMst3">
+	<![CDATA[
+		DELETE FROM IRIS_GRS_EV_STD_RSLT_RGST
+		 WHERE TSS_CD = #{tssCd}
+	]]>
+	</delete>
+	<!-- 계획단계 삭제 끝 -->
+
+    <!--========================== 일반과제_계획_개요 ==========================-->
+    <!-- 개요 신규 -->
+    <insert id="insertGenTssPlnSmry">
+    	<!-- insertGenTssPlnSmry -->
+    <![CDATA[
+        INSERT
+          INTO IRIS_TSS_GEN_SMRY  /*일반과제개요*/
+             ( TSS_CD             --과제코드
+             , SMRY_N_TXT         --Needs
+             , SMRY_A_TXT         --Approach
+             , SMRY_B_TXT         --Benefit
+             , SMRY_C_TXT         --Competition
+             , SMRY_D_TXT         --Deliverables
+             , MRKT_SCL_TXT       --시장규모
+             , BIZ_PRFT_PRO       --영업이익율
+             , CTY_OT_PLN_M       --상품출시계획월
+             , SMR_SMRY_TXT
+			 , SMR_GOAL_TXT
+			 , BIZ_PRFT_PRO_Y
+			 , BIZ_PRFT_PRO_Y_1
+			 , BIZ_PRFT_PRO_Y_2
+			 , BIZ_PRFT_PRO_Y_3
+			 , BIZ_PRFT_PRO_Y_4
+             , NPROD_SALS_PLN_Y   --신제품매출계획Y
+             , NPROD_SALS_PLN_Y_1 --신제품매출계획Y+1
+             , NPROD_SALS_PLN_Y_2 --신제품매출계획Y+2
+             , NPROD_SALS_PLN_Y_3 --신제품매출계획Y+3
+             , NPROD_SALS_PLN_Y_4 --신제품매출계획Y+4
+             , PTC_CPSN_Y         --투입인원수Y
+             , PTC_CPSN_Y_1       --투입인원수Y+1
+             , PTC_CPSN_Y_2       --투입인원수Y+2
+             , PTC_CPSN_Y_3       --투입인원수Y+3
+             , PTC_CPSN_Y_4       --투입인원수Y+4
+             , TSS_SMRY_TXT       --과제개요
+             , RSST_DVLP_OUCM_TXT --연구개발성과
+             , NPROD_NM           --신제품명
+             , ANCP_OT_PLN_DT     --예상출시일(계획)
+             , Qgate3_DT          --Qgate3(품질평가단계) 패스일자
+             , FNO_PLN_TXT        --향후 계획
+             , ALTR_RSON_TXT      --변경사유
+             , ADD_RSON_TXT       --추가사유
+             , DCAC_RSON_TXT      --중단사유
+             , ATTC_FIL_ID        --첨부파일ID
+             , PMIS_TXT
+             , FRST_RGST_DT       --최초등록일시
+             , FRST_RGST_ID       --최초등록자
+             , LAST_MDFY_DT       --최종수정일시
+             , LAST_MDFY_ID       --최종수정자
+             )
+        VALUES
+             ( #{tssCd}
+             , #{smryNTxt}
+             , #{smryATxt}
+             , #{smryBTxt}
+             , #{smryCTxt}
+             , #{smryDTxt}
+             , #{mrktSclTxt}
+             , CONVERT(numeric(5, 2), CASE WHEN #{bizPrftPro} = '' THEN '0' ELSE #{bizPrftPro} END)
+             , #{ctyOtPlnM}
+             , #{smrSmryTxt}
+             , #{smrGoalTxt}
+             , #{bizPrftProY}
+             , #{bizPrftProY1}
+             , #{bizPrftProY2}
+             , #{bizPrftProY3}
+             , #{bizPrftProY4}
+             , CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)
+             , CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY1} = '' THEN '0' ELSE #{nprodSalsPlnY1} END)
+             , CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY2} = '' THEN '0' ELSE #{nprodSalsPlnY2} END)
+             , CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY3} = '' THEN '0' ELSE #{nprodSalsPlnY3} END)
+             , CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY4} = '' THEN '0' ELSE #{nprodSalsPlnY4} END)
+             , CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)
+             , CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)
+             , CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)
+             , CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)
+             , CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)
+             , #{tssSmryTxt}
+             , #{rsstDvlpOucmTxt}
+             , #{nprodNm}
+             , #{ancpOtPlnDt}
+             , #{qGate3Dt}
+             , #{fnoPlnTxt}
+             , #{altrRsonTxt}
+             , #{addRsonTxt}
+             , #{dcacRsonTxt}
+             , #{attcFilId}
+             , #{pmisTxt}
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+    ]]>
+    </insert>
+
+
+    <!-- 개요 수정 -->
+    <update id="updateGenTssPlnSmry">
+    <!--updateGenTssPlnSmry-->
+
+        UPDATE IRIS_TSS_GEN_SMRY  /*일반과제개요*/
+           SET
+            <if test="smryNTxt != null and smryNTxt != ''">
+           	SMRY_N_TXT         = #{smryNTxt}                                                                                   --Needs
+            </if>
+            <if test="smryATxt != null and smryATxt != ''">
+             , SMRY_A_TXT         = #{smryATxt}                                                                                   --Approach
+            </if>
+            <if test="smryBTxt != null and smryBTxt != ''">
+             , SMRY_B_TXT         = #{smryBTxt}                                                                                   --Benefit
+            </if>
+            <if test="smryCTxt != null and smryCTxt != ''">
+             , SMRY_C_TXT         = #{smryCTxt}                                                                                   --Competition
+            </if>
+            <if test="smryDTxt != null and smryDTxt != ''">
+             , SMRY_D_TXT         = #{smryDTxt}                                                                                   --Deliverables
+            </if>
+            <if test="pmisTxt != null and pmisTxt != ''">
+             , PMIS_TXT           = #{pmisTxt} 
+            </if>
+          
+             , MRKT_SCL_TXT       = #{mrktSclTxt}                                                                                 --시장규모
+             , BIZ_PRFT_PRO       = CONVERT(numeric(5, 2), CASE WHEN #{bizPrftPro} = '' THEN '0' ELSE #{bizPrftPro} END)          --영업이익율
+             , CTY_OT_PLN_M       = #{ctyOtPlnM}
+             , SMR_SMRY_TXT			= #{smrSmryTxt}
+			 , SMR_GOAL_TXT         = #{smrGoalTxt}
+			 , BIZ_PRFT_PRO_Y       = #{bizPrftProY}
+			 , BIZ_PRFT_PRO_Y_1     = #{bizPrftProY1}
+			 , BIZ_PRFT_PRO_Y_2     = #{bizPrftProY2}
+			 , BIZ_PRFT_PRO_Y_3     = #{bizPrftProY3}
+			 , BIZ_PRFT_PRO_Y_4     = #{bizPrftProY4}
+             , NPROD_SALS_PLN_Y   = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)   --신제품매출계획Y
+             , NPROD_SALS_PLN_Y_1 = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY1} = '' THEN '0' ELSE #{nprodSalsPlnY1} END) --신제품매출계획Y+1
+             , NPROD_SALS_PLN_Y_2 = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY2} = '' THEN '0' ELSE #{nprodSalsPlnY2} END) --신제품매출계획Y+2
+             , NPROD_SALS_PLN_Y_3 = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY3} = '' THEN '0' ELSE #{nprodSalsPlnY3} END) --신제품매출계획Y+3
+             , NPROD_SALS_PLN_Y_4 = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY4} = '' THEN '0' ELSE #{nprodSalsPlnY4} END) --신제품매출계획Y+4
+             , PTC_CPSN_Y         = CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)              --투입인원수Y
+             , PTC_CPSN_Y_1       = CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)            --투입인원수Y+1
+             , PTC_CPSN_Y_2       = CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)            --투입인원수Y+2
+             , PTC_CPSN_Y_3       = CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)            --투입인원수Y+3
+             , PTC_CPSN_Y_4       = CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)            --투입인원수Y+4
+             , ATTC_FIL_ID        = #{attcFilId}                                                                                  --첨부파일ID
+             , LAST_MDFY_DT       = GETDATE()
+             , LAST_MDFY_ID       = #{userId}
+         WHERE TSS_CD = #{tssCd}
+
+    </update>
+
+
+
+    <!--========================== 일반과제_계획_참여연구원 ==========================-->
+
+
+
+    <!--========================== 일반과제_계획_WBS ==========================-->
+    <!-- WBS 조회 -->
+    <select id="retrieveGenTssPlnWBS" resultType="hashmap">
+    <![CDATA[
+WITH w_WBS AS (
+        SELECT TSS_CD       AS tssCd      --과제코드
+             , WBS_SN       AS wbsSn      --WBS일련번호
+             , PID_SN       AS pidSn      --PID
+             , DEPTH        AS depth      --DEPTH
+             , DEPTH_SEQ    AS depthSeq   --순서
+             , TSS_NM       AS tssNm      --과제명
+             , STRT_DT      AS strtDt     --시작일
+             , FNH_DT       AS fnhDt      --종료일
+             , STRT_DT      AS oldStrtDt
+             , FNH_DT       AS oldFnhDt
+             , WGVL         AS wgvl       --가중치
+             , sa_sabun_new AS saSabunNew --담당자
+             , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'USER', sa_sabun_new) , SA_SABUN_NAME) AS saSabunNewNm
+             , VRF_YN       AS vrfYn      --검증
+             , ARSL_CD      AS arslCd     --실적코드
+             , YLD_ITM_NM   AS yldItmNm   --산출물명
+             , YLD_ITM_TXT  AS yldItmTxt  --산출물내용
+             , KWD_TXT      AS kwdTxt     --키워드
+             , DATEDIFF(DD, CONVERT(DATE, STRT_DT), CONVERT(DATE, FNH_DT)) + 1 AS period --기간
+             , CASE WHEN DEPTH = 0 THEN WBS_SN
+                    WHEN DEPTH = 1 THEN PID_SN
+                    WHEN DEPTH = 2 THEN (SELECT X.PID_SN FROM IRIS_TSS_GEN_WBS X WHERE X.TSS_CD = #{tssCd} AND X.WBS_SN = A.PID_SN )
+                    WHEN DEPTH = 3 THEN (SELECT Y.PID_SN FROM IRIS_TSS_GEN_WBS Y WHERE Y.TSS_CD = #{tssCd}
+                                            AND Y.WBS_SN = (SELECT X.PID_SN FROM IRIS_TSS_GEN_WBS X WHERE X.TSS_CD = #{tssCd} AND X.WBS_SN = A.PID_SN))
+                    END AS pidSeq
+             , #{_userId}   AS userId
+          FROM IRIS_TSS_GEN_WBS A  /*일반과제WBS*/
+         WHERE A.TSS_CD = #{tssCd}
+    --     ORDER BY pidSeq, depthSeq
+   )SELECT DENSE_RANK() OVER( ORDER BY  pidSeq )  AS drRow
+ 	, w.*
+    FROM w_WBS w  ORDER BY depthSeq
+    ]]>
+    </select>
+
+
+
+    <!--================== 일반과제_계획_투입예산 ==================-->
+    <!-- 투입예산 마스터 조회 -->
+    <select id="retrieveGenTssPlnTrwiBudgMst" resultType="hashmap">
+    <![CDATA[
+        SELECT TSS_CD        AS tssCd       --과제코드
+		     , PUR_Y         AS purY        --구매년도
+		     , CPSN          AS cpsn        --인원
+		     , IVST          AS ivst        --투자
+		     , STUF_EXP      AS stufExp     --재료비
+		     , QLTY_CKU      AS qltyCku     --품질검사
+		     , MK_MDFY       AS mkMdfy      --금영제작/수정
+		     , FP_BRKD       AS fpTxt       --항목별 주요투자 세부내역
+             , PSNN_RISN_PRO AS psnnRisnPro --
+             , PCE_RISN_PRO  AS pceRisnPro  --
+             , FRST_RGST_ID  AS frstRgstId
+		  FROM IRIS_TSS_GEN_TRWI_BUDG_MST  /*일반과제투입예산마스터*/
+		 WHERE TSS_CD = #{tssCd}
+    ]]>
+    </select>
+
+
+    <!-- 투입예산 마스터 저장 -->
+    <update id="updateGenTssPlnTrwiBudgMst">
+    <![CDATA[
+         MERGE IRIS_TSS_GEN_TRWI_BUDG_MST A  /*일반과제투입예산마스터*/
+		 USING (SELECT #{tssCd} AS TSS_CD, #{purY} AS PUR_Y) B
+		    ON A.TSS_CD = B.TSS_CD
+		   AND A.PUR_Y  = B.PUR_Y
+		  WHEN NOT MATCHED THEN
+		INSERT
+		     ( TSS_CD        --과제코드
+		     , PUR_Y         --구매년도
+		     , CPSN          --인원
+		     , IVST          --투자
+		     , STUF_EXP      --재료비
+		     , QLTY_CKU      --품질검사
+		     , MK_MDFY       --금영제작/수정
+		     , FP_BRKD       --항목별 주요투자 세부내역
+             , PSNN_RISN_PRO --
+             , PCE_RISN_PRO  --
+		     , FRST_RGST_DT  --최초등록일시
+		     , FRST_RGST_ID  --최초등록자
+		     , LAST_MDFY_DT  --최종수정일시
+		     , LAST_MDFY_ID  --최종수정자
+		     )
+		VALUES
+		     ( #{tssCd}
+		     , #{purY}
+		     , CONVERT(numeric(5, 0), #{cpsn})
+		     , CONVERT(numeric(20, 6), #{ivst})
+		     , CONVERT(numeric(20, 6), #{stufExp})
+		     , CONVERT(numeric(20, 6), #{qltyCku})
+		     , CONVERT(numeric(20, 6), #{mkMdfy})
+		     , #{fpTxt}
+             , CONVERT(numeric(5, 2), #{psnnRisnPro})
+             , CONVERT(numeric(5, 2), #{pceRisnPro})
+		     , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+		     )
+		  WHEN MATCHED THEN
+		UPDATE
+		   SET CPSN          = CONVERT(numeric(5, 0), #{cpsn})
+		     , IVST          = CONVERT(numeric(20, 6), #{ivst})
+		     , STUF_EXP      = CONVERT(numeric(20, 6), #{stufExp})
+		     , QLTY_CKU      = CONVERT(numeric(20, 6), #{qltyCku})
+		     , MK_MDFY       = CONVERT(numeric(20, 6), #{mkMdfy})
+		     , FP_BRKD       = #{fpTxt}
+             , PSNN_RISN_PRO = CONVERT(numeric(5, 2), #{psnnRisnPro})
+             , PCE_RISN_PRO  = CONVERT(numeric(5, 2), #{pceRisnPro})
+		     , LAST_MDFY_DT  = GETDATE()
+		     , LAST_MDFY_ID  = #{userId}
+		     ;
+    ]]>
+    </update>
+
+
+    <!-- 투입예산 마스터 삭제 -->
+    <delete id="deleteGenTssPlnTrwiBudgMst">
+    <![CDATA[
+		DELETE
+		  FROM IRIS_TSS_GEN_TRWI_BUDG_MST  /*일반과제투입예산마스터*/
+		 WHERE TSS_CD = #{tssCd}
+		   AND PUR_Y  = #{purY}
+    ]]>
+    </delete>
+
+
+    <!-- 투입예산 기초정보 생성 -->
+	<select id="insertGenTssPlnTrwiBudgRawEdit" resultType="hashmap" statementType="CALLABLE">
+	<![CDATA[
+        DECLARE @return_value CHAR
+		EXEC dbo.sp_genTssPlnTrwiBudgRawEdit #{tssCd}, #{userId}, @return_value OUTPUT
+		SELECT @return_value AS rtVal
+    ]]>
+    </select>
+
+
+    <!-- 투입예산 Info 조회 -->
+	<select id="getGenTssPlnTrwiBudgInfo" resultType="hashmap" statementType="CALLABLE">
+	<![CDATA[
+        DECLARE @return_value INT
+		EXEC dbo.sp_genTssBudgInfoExist #{tssCd}, #{userId}, @return_value OUTPUT
+		SELECT @return_value AS infoCnt
+    ]]>
+    </select>
+
+
+    <!-- 투입예산 생성 -->
+	<select id="insertGenTssPlnTrwiBudg" resultType="hashmap" statementType="CALLABLE">
+	<![CDATA[
+        DECLARE @return_value CHAR
+		EXEC dbo.sp_genTssPlnTrwiBudgInst #{tssCd}, #{userId}, @return_value OUTPUT
+		SELECT @return_value AS rtVal
+    ]]>
+    </select>
+
+
+    <!-- 투입예산 조회 -->
+    <select id="retrieveGenTssPlnTrwiBudg" resultType="hashmap">
+    	<![CDATA[
+        WITH BUDG_LIST AS (
+            SELECT ${pivotTitle}
+                 , ${pivotSum} AS totSum
+    		     , EXP_SCN_CD  AS expScnCd
+    		     , COM_DTL_NM  AS expScnNm
+    		     , TOT_TITLE   AS totTitle
+    		  FROM (SELECT A.EXP_SCN_CD, A.PLN_EXP, B.COM_DTL_NM, C.COM_DTL_NM AS TOT_TITLE
+    		]]>
+    		<if test="choiceYm.equals('yy')">
+    		             , SUBSTRING(YY_MM, 1, 4) AS YY_MM
+    		</if>
+    		<if test="choiceYm.equals('mm')">
+    		             , YY_MM
+    		</if>
+    		<![CDATA[
+    		          FROM IRIS_TSS_GEN_TRWI_BUDG_LIST A  WITH (NOLOCK)
+    		             , IRIS_ADM_COM_CD B
+    		             , IRIS_ADM_COM_CD C
+    		         WHERE A.EXP_SCN_CD = B.COM_DTL_CD
+    		           AND B.COM_CD_CD = C.COM_CD_CD
+    		           AND SUBSTRING(B.COM_DTL_CD, 1, 2) = C.COM_DTL_CD
+    		           AND A.TSS_CD = #{tssCd}
+    		           AND B.COM_CD_CD = 'EXP_SCN_CD'
+    		       ) AS X
+    		 PIVOT (SUM(X.PLN_EXP) FOR YY_MM IN(${pivotTitle})) Y
+        )
+        SELECT ${unionTitle}
+             , ROUND(totSum, 2) AS totSum
+             , expScnCd
+             , expScnNm
+             , totTitle
+             , 1 AS uniSort
+          FROM BUDG_LIST
+         UNION ALL
+        SELECT ${unionSum}
+             , ROUND(SUM(totSum), 2)
+             , '00'
+             , '합계'
+             , '합계'
+             , 2
+          FROM BUDG_LIST
+         ORDER BY uniSort, expScnCd
+    	]]>
+    </select>
+
+
+    <!-- 년도별 예산 정보 생성 -->
+    <insert id="insertGenTssRawEditInfo">
+        <selectKey keyProperty="rawMaxYy" resultType="String" order="BEFORE">
+        <![CDATA[
+            SELECT DISTINCT YY_MM AS rawMaxYy
+              FROM IRIS_TSS_GEN_TRWI_BUDG_RAW_INFO X
+             WHERE YY_MM = #{tssYy}
+        ]]>
+        </selectKey>
+        <![CDATA[
+        INSERT
+          INTO IRIS_TSS_GEN_TRWI_BUDG_EDIT_INFO
+             ( YY           --년
+             , EXP_SCN_CD   --비용구분코드
+             , MM_EXP       --비용
+             , FRST_RGST_DT --최초등록일시
+             , FRST_RGST_ID --최초등록자
+             , LAST_MDFY_DT --최종수정일시
+             , LAST_MDFY_ID --최종수정자
+             )
+        ]]>
+        <if test="!tssYy.equals(rawMaxYy)">
+        <![CDATA[
+        SELECT YY
+             , EXP_SCN_CD
+             , MM_EXP
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+          FROM IRIS_TSS_GEN_TRWI_BUDG_EDIT_INFO A
+             ,
+         WHERE YY_MM = #{tssYy+1}
+        ]]>
+        </if>
+        <if test="tssYy.equals(rawMaxYy)">
+        <![CDATA[
+        SELECT SUBSTRING(A.YY_MM, 1, 4)
+             , A.EXP_SCN_CD
+             , SUM(A.MM_EXP/B.MM_CPSN)/12
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+          FROM IRIS_TSS_GEN_TRWI_BUDG_RAW_INFO A
+          JOIN IRIS_TSS_GEN_TRWI_BUDG_RAW_INFO B
+            ON A.YY_MM = B.YY_MM
+           AND B.EXP_SCN_CD = '99'  --고정값: 99()
+         WHERE A.EXP_SCN_CD != '99' --고정값: 99()
+           AND A.YY_MM <= #{tssYy}+'01'
+           AND A.YY_MM >= #{tssYy}+'12'
+         GROUP BY A.EXP_SCN_CD, SUBSTRING(A.YY_MM, 1, 4)
+        ]]>
+        </if>
+    </insert>
+
+
+
+    <!--========================== 일반과제_계획_목표및산출물 ==========================-->
+
+
+
+    <!--================== 일반과제_계획_품의서 ==================-->
+    <!-- 투입예산 조회 -->
+    <select id="retrieveGenTssPlnBudgGroupYy" resultType="hashmap">
+        <![CDATA[
+        WITH BUDG_LIST AS (
+            SELECT ${pivotTitle}
+                 , ${pivotSum} AS totSum
+                 , COM_DTL_NM  AS expScnNm
+                 , COM_DTL_CD  AS expScnCd
+              FROM (SELECT SUM(A.PLN_EXP) AS PLN_EXP, C.COM_DTL_NM, C.COM_DTL_CD
+                         , SUBSTRING(YY_MM, 1, 4) AS YY_MM
+                      FROM IRIS_TSS_GEN_TRWI_BUDG_LIST A  WITH (NOLOCK)
+                         , IRIS_ADM_COM_CD B
+                         , IRIS_ADM_COM_CD C
+                     WHERE A.EXP_SCN_CD = B.COM_DTL_CD
+                       AND B.COM_CD_CD = C.COM_CD_CD
+                       AND SUBSTRING(B.COM_DTL_CD, 1, 2) = C.COM_DTL_CD
+                       AND A.TSS_CD = #{tssCd}
+                       AND B.COM_CD_CD = 'EXP_SCN_CD'
+                     GROUP BY C.COM_DTL_NM, C.COM_DTL_CD, SUBSTRING(YY_MM, 1, 4)
+                   ) AS X
+             PIVOT (SUM(X.PLN_EXP) FOR YY_MM IN(${pivotTitle})) Y
+        )
+        SELECT expScnNm
+             , ROUND(totSum, 0) AS totSum
+             , ${unionTitle}
+             , expScnCd
+             , 1 AS uniSort
+          FROM BUDG_LIST
+         UNION ALL
+        SELECT '합계'
+             , ROUND(SUM(totSum), 0)
+             , ${unionSum}
+             , '00'
+             , 2
+          FROM BUDG_LIST
+         ORDER BY uniSort, expScnCd
+        ]]>
+    </select>
+</mapper>

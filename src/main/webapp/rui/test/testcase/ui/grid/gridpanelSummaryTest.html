@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="devon-rui-sample" content="yes" />
+    <meta name="devon-rui-keyword" content="그리드(LGridPanel), 소계(Summary), 합계" />
+    <title>Summary</title>
+    <script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+    <script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+    <script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+    <script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+    <script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+    <script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+    <link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+       
+    <script type="text/javascript" src="./../../../../plugins/ui/grid/LTotalSummary.js"></script>
+    <link rel="stylesheet" type="text/css" href="./../../../../plugins/ui/grid/LTotalSummary.css"/>
+
+    <script type="text/javascript" src="./../../../../plugins/ui/grid/LGridStatusBar.js"></script>
+    <link rel="stylesheet" type="text/css" href="./../../../../plugins/ui/grid/LGridStatusBar.css"/>
+    
+    <script type="text/javascript" src="./../../../../sample/general/rui_sample.js"></script>
+
+    <style type="text/css" >
+    </style>
+
+    <script type="text/javascript" class="script-code">
+    var currSearchCnt = 0;
+    var MAX_SEARCH_COUNT = 1;
+    var searchFn = null;
+    var startTime = null;
+    var endTime = null;
+    Rui.onReady(function() {
+        /*******************
+         * 변수 및 객체 선언
+         *******************/
+        var dataSet = new Rui.data.LJsonDataSet({
+            id: 'dataSet',
+            fields: [
+                { id: 'month'},
+                { id: 'company'},
+                { id: 'date', type: 'date' },
+                { id: 'monthSum', type: 'number', defaultValue: 0 },
+                { id: 'balance', type: 'number', defaultValue: 0 },
+                { id: 'assets', type: 'number', defaultValue: 0 }
+            ]
+        });
+        
+        var showLogEl = Rui.get('showLog');
+        dataSet.on('load', function(e) {
+            currSearchCnt++;
+            if(currSearchCnt < MAX_SEARCH_COUNT) {
+                searchFn();
+                showLogEl.html(currSearchCnt + '건');
+            } else {
+                endTime = new Date();
+                showLogEl.html('total time : ' + (endTime.getTime() - startTime.getTime()) + 'ms');
+            }
+        });
+
+        var columnModel = new Rui.ui.grid.LColumnModel({
+            columns: [
+                new Rui.ui.grid.LStateColumn(),
+                new Rui.ui.grid.LSelectionColumn(),
+                new Rui.ui.grid.LNumberColumn(),
+                { field: 'month', label: 'Month', width: 70, sortable: true },
+                { field: 'company', label: 'Company', sortable: true, editor: new Rui.ui.form.LTextBox() },
+                { field: 'date', label: 'Date', align: 'center', renderer: 'date', editor: new Rui.ui.form.LDateBox() },
+                { field: 'monthSum', align: 'right', width: 150, renderer: 'money', /*<b>*/ summary: { ids: [ 'company' ] } /*</b>*/, editor: new Rui.ui.form.LNumberBox() },
+                { field: 'balance', align: 'right', width: 150, renderer: 'money', summary: { ids: [ 'date' ] }, editor: new Rui.ui.form.LNumberBox() },
+                { id: 'difference', width:120, align: 'right', width: 150, renderRow: true, expression: function(val, record) {
+                        return record.get('monthSum') - record.get('balance');
+                    }, renderer: function(val, p, record){
+                        p.css.push('L-grid-bg-color-sum');
+                        return Rui.util.LFormat.moneyFormat(val);
+                    }
+                },
+                { id: 'rate', width: 60, align: 'right', width: 80, renderRow: true, expressionType: 'avg', expression: function(val, record) {
+                        if(record.get('monthSum')) {
+                            return (record.get('monthSum') - record.get('balance')) / record.get('monthSum') * 100;
+                        } else return 0;
+                    }, renderer: function(val, p, record){
+                        p.css.push('L-grid-bg-color-sum');
+                        return Rui.util.LNumber.round(val, 2) + '%';
+                    }
+                },
+                { field: 'assets', width: 120, align: 'right', width: 150, renderer: 'money' }
+            ]
+        });
+    
+        var sumColumns = ['balance', 'monthSum', 'assets'];
+        var summary = new Rui.ui.grid.LTotalSummary();
+        summary.on('renderTotalCell', function(e){
+            if(e.col == 2) {
+                e.value = 'Total';
+            } else {
+                if (Rui.util.LArray.contains(sumColumns, e.colId)) {
+                    // dataSet의 컬럼이 존재할 경우
+                    e.value = Rui.util.LFormat.moneyFormat(dataSet.sum(e.colId));
+                } else if (e.colId == 'difference') {
+                    // dataSet의 컬럼이 없고 GridView에만 존재할 경우
+                    var value = 0;
+                    for (var row = 0; row < dataSet.getCount(); row++) {
+                        var record = dataSet.getAt(row);
+                        var calVal = record.get('monthSum') - record.get('balance');
+                        value += calVal;
+                        record = null;
+                    }
+    
+                    e.value = Rui.util.LFormat.moneyFormat(value);
+                } else if (e.colId == 'rate') {
+                    // dataSet의 컬럼이 없고 GridView에만 존재할 경우
+                    var value = 0;
+                    for (var row = 0; row < dataSet.getCount(); row++) {
+                        var record = dataSet.getAt(row);
+                        var calVal = (record.get('monthSum') - record.get('balance')) / record.get('monthSum') * 100;
+                        value += Rui.util.LNumber.round(calVal, 2);
+                        record = null;
+                    }
+    
+                    value = value > 0 ? value / dataSet.getCount() : 0;
+    
+                    e.value = Rui.util.LNumber.round(value, 2) + '%';
+                }
+            }
+        });
+
+        var grid = new Rui.ui.grid.LGridPanel({
+            columnModel: columnModel,
+            dataSet: dataSet,
+            autoWidth: true,
+            autoToEdit: true,
+            viewConfig: {
+                plugins: [ summary ]
+            },
+            // LGridStatusBar는 샘플용으로 사용
+            footerBar: new Rui.ui.grid.LGridStatusBar(),
+            height: 400
+        });
+    
+        grid.render('defaultGrid');
+
+        /********************
+         * 버튼 선언 및 이벤트
+         ********************/
+        
+        var searchFn = function() {
+            var sUrl = './../../../../sample/data/gridSummary5000.json';
+            dataSet.load({
+                url: sUrl
+            });
+        };
+        
+        var searchBtn = new Rui.ui.LButton('searchBtn');
+        searchBtn.on('click', function(){
+            currSearchCnt = 0;
+            MAX_SEARCH_COUNT = 1;
+            startTime = new Date();
+            searchFn();
+        });
+
+        var search10Btn = new Rui.ui.LButton('search10Btn');
+        search10Btn.on('click', function(){
+            currSearchCnt = 0;
+            MAX_SEARCH_COUNT = 10;
+            startTime = new Date();
+            searchFn();
+        });
+
+        var search100Btn = new Rui.ui.LButton('search100Btn');
+        search100Btn.on('click', function(){
+            currSearchCnt = 0;
+            MAX_SEARCH_COUNT = 100;
+            startTime = new Date();
+            searchFn();
+        });
+    });
+    </script>
+</head>
+<body>
+    <h1>Summary</h1>
+    <h2>Grid의 소계 및 합계를 간편하게 추가할 수 있습니다. </h2>
+    <div class="LblockLine"></div>
+    <div class="LblockDesc">
+        <p>필요한 컬럼에 summary 기능만 정의 하시면 Grid가 스스로 계산한 합계, 평균, 최소, 최대 값들이 소계로 추가됩니다.</p>
+        <p>또한 필요에 따라 값을 직접 계산하여 소계를 추가할 수 있으며, 데이터가 많아도 빠르게 처리됩니다.<p>
+    </div>
+    <div id="bd">
+        <div class="LblockButton" >
+            <button type="button" id="searchBtn" >Search</button>
+            <button type="button" id="search10Btn" >10번 검색</button>
+            <button type="button" id="search100Btn" >100번 검색</button>
+        </div>
+        <div class="LblockMarkupCode">
+            <div id="defaultGrid"></div>
+        </div>
+        <div id="showLog"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LEvent Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLEvent_method_onAvailable() {
+    warn('LEventTests : testLEvent_method_onAvailable 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_onContentReady() {
+    warn('LEventTests : testLEvent_method_onContentReady 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_onDOMReady() {
+    warn('LEventTests : testLEvent_method_onDOMReady 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_addListener() {
+    info('LEventTests : testLEvent_method_addListener 작동 여부');
+    var el = Rui.getDom('bd'); //String|HTMLElement|Array|NodeList
+    var sType = 'click'; //String
+    var fn = function(e) {}; //Function
+    var obj = this; //Object
+    var override = true; //Boolean|object
+    Rui.util.LEvent.addListener(el, sType, fn, obj, override);
+    //return type : boolean
+    assertTrue(true);
+}
+function testLEvent_method_addFocusListener() {
+    info('LEventTests : testLEvent_method_addFocusListener 작동 여부');
+    var el = Rui.getDom('bd'); //String|HTMLElement|Array|NodeList
+    var sType = 'click'; //String
+    var fn = function(e) {}; //Function
+    var obj = this; //Object
+    var override = true; //Boolean|object
+    var result = Rui.util.LEvent.addFocusListener(el, fn, obj, override);
+    //return type : boolean
+    assertTrue(true);
+}
+function testLEvent_method_removeFocusListener() {
+    info('LEventTests : testLEvent_method_removeFocusListener 작동 여부');
+    var el = Rui.getDom('bd'); //String|HTMLElement|Array|NodeList
+    var fn = function(e) {}; //Function
+    var result = Rui.util.LEvent.removeFocusListener(el, fn);
+    //return type : boolean
+    assertTrue(true);
+}
+function testLEvent_method_addBlurListener() {
+    info('LEventTests : testLEvent_method_addBlurListener 작동 여부');
+    var el = Rui.getDom('bd'); //String|HTMLElement|Array|NodeList
+    var sType = 'click'; //String
+    var fn = function(e) {}; //Function
+    var obj = this; //Object
+    var override = true; //Boolean|object
+    var result = Rui.util.LEvent.addBlurListener(el, fn, obj, override);
+    //return type : boolean
+    assertTrue(true);
+}
+function testLEvent_method_removeBlurListener() {
+    info('LEventTests : testLEvent_method_removeBlurListener 작동 여부');
+    var el = Rui.getDom('bd'); //String|HTMLElement|Array|NodeList
+    var fn = function(e) {}; //Function
+    var result = Rui.util.LEvent.removeBlurListener(el, fn);
+    //return type : boolean
+    assertTrue(true);
+}
+function testLEvent_method_removeListener() {
+    info('LEventTests : testLEvent_method_removeListener 작동 여부');
+    var el = Rui.getDom('bd'); //String|HTMLElement|Array|NodeList
+    var sType = 'click'; //String
+    var fn = function(e) {}; //Function
+    var result = Rui.util.LEvent.removeListener(el, sType, fn);
+    //return type : boolean
+    assertTrue(true);
+}
+function testLEvent_method_getTarget() {
+    warn('LEventTests : testLEvent_method_getTarget 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_resolveTextNode() {
+    info('LEventTests : testLEvent_method_resolveTextNode 작동 여부');
+    var node = document.createTextNode('test'); //HTMLElement
+    var result = Rui.util.LEvent.resolveTextNode(node);
+    //return type : HTMLElement
+    assertTrue(true);
+}
+function testLEvent_method_getPageX() {
+    warn('LEventTests : testLEvent_method_getPageX 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_getPageY() {
+    warn('LEventTests : testLEvent_method_getPageY 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_getXY() {
+    warn('LEventTests : testLEvent_method_getXY 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_getRelatedTarget() {
+    warn('LEventTests : testLEvent_method_getRelatedTarget 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_getTime() {
+    info('LEventTests : testLEvent_method_getTime 작동 여부');
+    var ev = {}; //Event
+    Rui.util.LEvent.getTime(ev);
+    assertNotUndefined(ev.time);
+}
+function testLEvent_method_stopEvent() {
+    warn('LEventTests : testLEvent_method_stopEvent 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_stopPropagation() {
+    warn('LEventTests : testLEvent_method_stopPropagation 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_preventDefault() {
+    warn('LEventTests : testLEvent_method_preventDefault 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_getEvent() {
+    warn('LEventTests : testLEvent_method_getEvent 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_getCharCode() {
+    warn('LEventTests : testLEvent_method_getCharCode 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_isSpecialKey() {
+    warn('LEventTests : testLEvent_method_isSpecialKey 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_isNavKey() {
+    warn('LEventTests : testLEvent_method_isNavKey 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_generateId() {
+    info('LEventTests : testLEvent_method_generateId 작동 여부');
+    var result = Rui.util.LEvent.generateId(Rui.getDom('bd'));
+    //return type : string
+    assertNotUndefined(result);
+}
+function testLEvent_method_purgeElement() {
+    warn('LEventTests : testLEvent_method_purgeElement 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_getListeners() {
+    warn('LEventTests : testLEvent_method_getListeners 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLEvent_method_on() {
+    info('LEventTests : testLEvent_method_on 작동 여부');
+    var el = Rui.getDom('bd'); //String|HTMLElement|Array|NodeList
+    var sType = 'click'; //String
+    var fn = function(e) {}; //Function
+    var obj = this; //Object
+    var override = true; //Boolean|object
+    Rui.util.LEvent.on(el, sType, fn, obj, override);
+    assertTrue(true);
+}
+function testLEvent_method_onFocus() {
+    info('LEventTests : testLEvent_method_onFocus 작동 여부');
+    var el = Rui.getDom('bd'); //String|HTMLElement|Array|NodeList
+    var sType = 'click'; //String
+    var fn = function(e) {}; //Function
+    var obj = this; //Object
+    var override = true; //Boolean|object
+    var result = Rui.util.LEvent.onFocus(el, fn, obj, override);
+    assertTrue(true);
+}
+function testLEvent_method_onBlur() {
+    info('LEventTests : testLEvent_method_onBlur 작동 여부');
+    var el = Rui.getDom('bd'); //String|HTMLElement|Array|NodeList
+    var sType = 'click'; //String
+    var fn = function(e) {}; //Function
+    var obj = this; //Object
+    var override = true; //Boolean|object
+    var result = Rui.util.LEvent.onBlur(el, fn, obj, override);
+    assertTrue(true);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LEvent Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLEvent_method_onAvailable()">onAvailable</a>
+            <a href="javascript:testLEvent_method_onContentReady()">onContentReady</a>
+            <a href="javascript:testLEvent_method_onDOMReady()">onDOMReady</a>
+            <a href="javascript:testLEvent_method_addListener()">addListener</a>
+            <a href="javascript:testLEvent_method_addFocusListener()">addFocusListener</a>
+            <a href="javascript:testLEvent_method_removeFocusListener()">removeFocusListener</a>
+            <a href="javascript:testLEvent_method_addBlurListener()">addBlurListener</a>
+            <a href="javascript:testLEvent_method_removeBlurListener()">removeBlurListener</a>
+            <a href="javascript:testLEvent_method_removeListener()">removeListener</a>
+            <a href="javascript:testLEvent_method_getTarget()">getTarget</a>
+            <a href="javascript:testLEvent_method_resolveTextNode()">resolveTextNode</a>
+            <a href="javascript:testLEvent_method_getPageX()">getPageX</a>
+            <a href="javascript:testLEvent_method_getPageY()">getPageY</a>
+            <a href="javascript:testLEvent_method_getXY()">getXY</a>
+            <a href="javascript:testLEvent_method_getRelatedTarget()">getRelatedTarget</a>
+            <a href="javascript:testLEvent_method_getTime()">getTime</a>
+            <a href="javascript:testLEvent_method_stopEvent()">stopEvent</a>
+            <a href="javascript:testLEvent_method_stopPropagation()">stopPropagation</a>
+            <a href="javascript:testLEvent_method_preventDefault()">preventDefault</a>
+            <a href="javascript:testLEvent_method_getEvent()">getEvent</a>
+            <a href="javascript:testLEvent_method_getCharCode()">getCharCode</a>
+            <a href="javascript:testLEvent_method_isSpecialKey()">isSpecialKey</a>
+            <a href="javascript:testLEvent_method_isNavKey()">isNavKey</a>
+            <a href="javascript:testLEvent_method_generateId()">generateId</a>
+            <a href="javascript:testLEvent_method_purgeElement()">purgeElement</a>
+            <a href="javascript:testLEvent_method_getListeners()">getListeners</a>
+            <a href="javascript:testLEvent_method_on()">on</a>
+            <a href="javascript:testLEvent_method_onFocus()">onFocus</a>
+            <a href="javascript:testLEvent_method_onBlur()">onBlur</a>
+        </div>
+    </div>
+</body>
+</html>

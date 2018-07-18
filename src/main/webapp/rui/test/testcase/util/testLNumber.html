@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LNumber Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLNumber_method_isNumber() {
+    info('LNumberTests : testLNumber_method_isNumber 작동 여부');
+    var o = 1234; //Object
+    assertEquals(Rui.util.LNumber.isNumber(o), true);
+}
+function testLNumber_method_format() {
+    info('LNumberTests : testLNumber_method_format 작동 여부');
+    var val = 123456;
+    var oConfig = {thousandsSeparator: ','}; //Object
+    var result = Rui.util.LNumber.format(val, oConfig);
+    //return type : String
+    assertEquals(result, '123,456');
+}
+function testLNumber_method_round() {
+    info('LNumberTests : testLNumber_method_round 작동 여부');
+    var value = 10.11111; //Int/String
+    var precision = 2; //int
+    var result = Rui.util.LNumber.round(value, precision);
+    //return type : int
+    assertEquals(result, 10.11);
+}
+function testLNumber_method_toMoney() {
+    info('LNumberTests : testLNumber_method_toMoney 작동 여부');
+    var value = 10000; //Number/String
+    var result = Rui.util.LNumber.toMoney(value, '$');
+    //return type : String
+    assertEquals(result, '$10,000');
+}
+function testLNumber_method_usMoney() {
+    info('LNumberTests : testLNumber_method_usMoney 작동 여부');
+    var value = 10000; //Number/String
+    var result = Rui.util.LNumber.usMoney(value);
+    //return type : String
+    assertEquals(result, '$10,000.00');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LNumber Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLNumber_method_isNumber()">isNumber</a>
+            <a href="javascript:testLNumber_method_format()">format</a>
+            <a href="javascript:testLNumber_method_round()">round</a>
+            <a href="javascript:testLNumber_method_toMoney()">toMoney</a>
+            <a href="javascript:testLNumber_method_usMoney()">usMoney</a>
+        </div>
+    </div>        
+</body>
+</html>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fxaBatch">
+	
+	<!-- 고정자산 ERP 연동 테이블 저장(일배치)   -->
+   <insert id="insertFxaInfoIF">
+ 	<![CDATA[
+   	INSERT INTO IRIS_FXAINFO_IF
+   	(
+   	 	 ASSET_NO			
+		,ASSET_NM			
+		,CCTR_CD			
+		,ASSET_CLAS		
+		,ASSET_TEXT		
+		,ACQR_DT			
+		,REDM_RATE		
+		,ACQR_BEF			
+		,ACQR_ICDC		
+		,ACQR_BAL			
+		,APPR_BEF			
+		,APPR_ICDC		
+		,APPR_BAL			
+		,THTERM_REDM	
+		,THMM_REDM		
+		,EXSI_YYS			
+		,BOOK_AMT			
+		,INVSM_CD			
+		,BIZ_TRTY			
+		,WBS1					
+		,RULE1				
+		,WBS2					
+		,RULE2				
+		,WBS3					
+		,RULE3				
+		,PERNR				
+		,ENAME				
+		,BWASL				
+		,DEAKT				
+		,MENGE				
+		,MEINS				
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID
+   	)
+   	VALUES
+   	(
+		 #{assetNo}		
+		,#{assetNm}		
+		,#{cctrCd}		
+		,convert(nvarchar(4), cast(#{assetClas} AS INT))	
+		,#{assetText}	
+		,#{acqrDt}		
+		,#{redmRate}	
+		,#{acqrBef}		
+		,#{acqrIcdc}	
+		,#{acqrBal}		
+		,#{apprBef}		
+		,#{apprIcdc}	
+		,#{apprBal}		
+		,#{thtermRedm}
+		,#{thmmRedm}	
+		,#{exsiYys}		
+		,#{bookAmt}		
+		,#{invsmCd}		
+		,#{bizTrty}		
+		,#{wbs1}			
+		,#{rulE1}			
+		,#{wbs2}			
+		,#{rule2}			
+		,#{wbs3}			
+		,#{rule3}			
+		,#{pernr}			
+		,#{ename}			
+		,#{bwasl}			
+		,#{deakt}			
+		,#{menge}			
+		,#{meins}		
+		,GETDATE()
+		,'BATCH'
+		,GETDATE()
+		,'BATCH'
+   	)
+   ]]>
+   </insert>
+
+
+<!-- 고정자산 연동테이블 DELETE -->
+   <update id="deleteFxaInfoIF">
+ 	<![CDATA[
+   		DELETE IRIS_FXAINFO_IF
+   	]]>
+   </update>
+   
+   
+ <!-- 고정자산 IF 데이터 추출-->
+   <select  id="retrieveFxaInfoIF" resultType="hashmap" >
+ 	<![CDATA[
+   		SELECT 	 ASSET_NM	AS fxaNm		 
+				,SUBSTRING(ASSET_NO, 4,9) 	AS fxaNo 
+				,CASE WHEN DEAKT = '0000-00-00' THEN 'USE'
+				      ELSE 'DSU' END AS fxaStCd
+				,WBS1 		AS wbsCd
+				,D.TEAM_DEPT_CODE 	AS deptCd
+				,CAST(CAST(ASSET_CLAS AS INT) AS  NVARCHAR(4)) AS fxaClss
+				,PERNR 		AS crgrId     
+				,CAST(CAST(MENGE AS FLOAT) AS INT) AS fxaQty     
+				,MEINS 		AS fxaUtmNm    
+				,REPLACE(ACQR_BAL, ',','') 	AS obtPce    
+				,REPLACE(BOOK_AMT, ',','') 	AS bkpPce  
+				,CONVERT (DATE, ACQR_DT) AS obtDt      
+				,ASSET_TEXT	AS useUsf  
+				,CASE WHEN DEAKT = '0000-00-00' THEN ''
+				      ELSE DEAKT END AS dsuDt
+		FROM   IRIS_FXAINFO_IF A
+		       LEFT OUTER JOIN IRIS_SSO_USER B
+			   ON B.SA_SABUN_NEW = A.PERNR
+			   LEFT OUTER JOIN VW_SSO_DEPT D
+			   ON D.DEPT_CODE = B.SA_DEPT_NEW
+   	]]>
+   </select>
+   
+   
+ 	<!-- 고정자산 IF 이관 데이터 추출-->
+   <select  id="retrieveFxaTrsfInfo" resultType="hashmap" >
+ 	<![CDATA[
+	   	SELECT '000'+B.FXA_NO 	as fxaNo
+		      ,A.FROM_WBS_CD 	as fromWbsCd
+		      ,A.FROM_CRGR_ID 	as fromCrgrId
+			  ,A.TO_WBS_CD 		as toWbsCd
+			  ,A.TO_CRGR_ID 	as toCrgrId
+		FROM   IRIS_FXA_TRSF_LIST A
+		       INNER JOIN IRIS_FXA_INFO_MST B
+			   ON B.FXA_INFO_ID = A.FXA_INFO_ID
+		WHERE  1=1
+		AND    TRSF_ST_CD = 'APPR'
+		AND    A.LAST_MDFY_DT  > DATEADD(MI,-60,GETDATE())  
+   	]]>
+   </select>
+   
+   <!-- 고정자산 연동테이블 정보 고정자산 테이블에 UPDATE -->
+   <update id="updateFxaInfoMst">
+ 	<![CDATA[
+   		MERGE IRIS_FXA_INFO_MST MEM
+			USING ( SELECT #{fxaNo} AS FXA_NO ) AS Tab1
+			ON  (MEM.FXA_NO = Tab1.FXA_NO)
+			WHEN MATCHED THEN
+	UPDATE SET	 FXA_NM       = #{fxaNm}
+	            ,FXA_ST_CD    = #{fxaStCd}
+				,CRGR_ID	  = #{crgrId}
+				,WBS_CD	      = #{wbsCd}
+				,FXA_CLSS	  = #{fxaClss}
+				,FXA_QTY	  = #{fxaQty}
+				,FXA_UTM_NM	  = #{fxaUtmNm}
+				,OBT_PCE      = #{obtPce}
+				,BKP_PCE 	  = #{bkpPce}
+				,OBT_DT		  = #{obtDt}
+				,USE_USF	  = #{useUsf}
+				,DSU_DT	  	  = #{dsuDt}
+				,DEPT_CD      = #{deptCd}
+				,LAST_MDFY_DT = GETDATE()
+				,LAST_MDFY_ID = 'batch'
+		WHEN NOT MATCHED THEN
+		INSERT (
+		         FXA_NM
+				,FXA_NO
+				,FXA_ST_CD
+				,WBS_CD
+				,PRJ_CD
+				,CRGR_ID
+				,FXA_CLSS
+				,FXA_QTY
+				,FXA_UTM_NM
+				,OBT_PCE
+				,BKP_PCE
+				,OBT_DT
+				,DSU_DT
+				,USE_USF
+				,DEPT_CD 
+				,FRST_RGST_DT
+				,FRST_RGST_ID
+				,LAST_MDFY_DT
+				,LAST_MDFY_ID)
+	       VALUES (
+			     #{fxaNm}
+				,#{fxaNo}
+				,#{fxaStCd}
+				,#{wbsCd}
+				,#{prjCd}
+				,#{crgrId}
+				,#{fxaClss}
+				,#{fxaQty}
+				,#{fxaUtmNm}
+				,#{obtPce}
+				,#{bkpPce}
+				,#{obtDt}
+				,#{dsuDt}
+				,#{useUsf}
+				,#{deptCd}
+				,GETDATE()
+				,'batch'
+				,GETDATE()
+				,'batch'
+			);
+ 
+   ]]>
+   </update>
+   
+   <!-- wbs PRJ 정보테이블에 UPDATE -->
+   <update id="insertWbsPrjIFInfo">
+ 	<![CDATA[
+   		MERGE IRIS_WBS_PJT_IF MEM
+			USING ( SELECT #{wbsCd} AS WBS_CD ) AS Tab1
+			ON  (MEM.WBS_CD = Tab1.WBS_CD)
+			WHEN MATCHED THEN
+	UPDATE SET	 PRJ_NM       = #{prjNm}
+				,LAST_MDFY_DT = GETDATE()
+				,LAST_MDFY_ID = 'batch'
+		WHEN NOT MATCHED THEN
+		INSERT (
+		         WBS_CD
+				,PRJ_NM
+				,FRST_RGST_DT
+				,FRST_RGST_ID
+				,LAST_MDFY_DT
+				,LAST_MDFY_ID)
+	       VALUES (
+			     #{wbsCd}
+				,#{prjNm}
+				,GETDATE()
+				,'batch'
+				,GETDATE()
+				,'batch'
+			);
+   ]]>
+   </update>
+   
+</mapper>

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script type="text/javascript">
+
+/*******************************************************************************
+* FUNCTION 명 : closeWindow
+* FUNCTION 기능설명 : 팝업 닫기 
+*******************************************************************************/
+function closeWindow(){	
+	  if (document.frm.chk.checked) {	  
+	    setCookie("map2Notice","openMap2Top",1); 
+	  }
+	  self.close();
+	}
+
+/*******************************************************************************
+* FUNCTION 명 : setCookie
+* FUNCTION 기능설명 : 오늘하루 열지 않음 
+*******************************************************************************/
+function setCookie( name, value, expiredays ) {
+  var todayDate = new Date();
+  todayDate.setDate( todayDate.getDate() + expiredays );
+
+  document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
+
+</script>
+
+</head>
+<body>
+<img src="map2.jpg" width="570" height="780" border="0" usemap="#Map" />
+<map name="Map" id="Map">
+  <area shape="rect" coords="120,419,441,466" href="https://www.tradesign.net/certificate/terms/cert?from=rapage&amp;raid=lghausys2&amp;cert_type=357" target="_blank" alt="사업자범용 인증서 신청하기" />
+  <area shape="rect" coords="25,614,148,659" href="http://cert.barobill.co.kr/cs/?T1=2" target="_blank" alt="서류 안내" />
+  <area shape="rect" coords="156,614,280,659" href="https://www.tradesign.net/certification/new/user.jsp?rename=knet&amp;craname=barobill" target="_blank" alt="신청서 재출력" />
+  <area shape="rect" coords="290,614,412,660" href="https://www.tradesign.net/uview/certificate/pg/Login.html" target="_blank" alt="요금결제" />
+  <area shape="rect" coords="422,615,544,660" href="https://www.tradesign.net/ra/certification_02.do?setup=suc" target="_blank" alt="인증서 발급" />
+  <area shape="rect" coords="27,705,192,739"  href="http://cert.barobill.co.kr" target="_blank" alt="온라인발급센터 바로가기" />
+  <area shape="rect" coords="201,705,368,739" href="http://as82.kr/knet" target="_blank" alt="1:1 원격지원 바로가기" />
+</map>
+<form name="frm">
+	<table><tr height="2px;"><td></td></tr></table>
+	<div align="right">
+		<input type="checkbox" name="chk" onClick="javascript:closeWindow();">&nbsp;<FONT color="black" size="3">오늘하루 열지 않음&nbsp;&nbsp;</FONT>
+	</div>
+</form>
+</body>
+</html>

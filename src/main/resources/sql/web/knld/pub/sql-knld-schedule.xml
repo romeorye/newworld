@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.schedule">
+
+	<select id="getDayScheduleList" resultType="hashmap">
+		<![CDATA[
+			-- getDayScheduleList 연구소 주요일정 일별 리스트 조회
+			WITH tm(dt, adscDt) AS
+			(
+				SELECT	DATEADD(DD, 0, #{fromAdscDt}) dt
+					   ,CAST(#{fromAdscDt} as nVARCHAR(10)) adscDt
+				UNION ALL
+				SELECT	dt + 1
+					   ,CONVERT(nVARCHAR(10), dt + 1, 120) adscDt
+				FROM	tm
+				WHERE	dt <  DATEADD(DD, 0, #{toAdscDt})
+			)
+			SELECT	KLA.LABT_ADSC_ID																					as labtAdscId
+				   ,tm.adscDt																							as adscDt
+				   ,KLA.ADSC_STRT_TIM + ':' + KLA.ADSC_STRT_MINU + ' ~ ' + KLA.ADSC_FNH_TIM + ':' + KLA.ADSC_FNH_MINU	as adscTim
+				   ,KLA.ADSC_TITL																						as adscTitl
+				   ,dbo.fn_getComDtlNm('ADSC_KIND_CD', KLA.ADSC_KIND_CD)												as adscKindNm
+				   ,dbo.fn_getUserName(KLA.RGST_ID)																		as rgstNm
+				   ,CASE
+						WHEN tm.adscDt = CONVERT(NVARCHAR(10),GETDATE(), 120) THEN 'Y'
+						ELSE 'N'
+				    END																									as isToday
+		 ]]>
+			FROM	tm
+				LEFT OUTER JOIN
+					IRIS_KNLD_LABT_ADSC KLA
+				ON  KLA.ADSC_DT = tm.adscDt
+				   AND  KLA.DEL_YN = 'N'
+				   AND	KLA.ADSC_DT BETWEEN #{fromAdscDt} AND #{toAdscDt}
+        <if test="adscKindCd != null and adscKindCd != ''">
+				   AND KLA.ADSC_KIND_CD = #{adscKindCd}
+		</if>
+			ORDER BY TM.adscDt,
+					 KLA.ADSC_STRT_TIM
+	</select>
+
+	<select id="getMonthScheduleList" resultType="hashmap">
+		<![CDATA[
+			-- getMonthScheduleList 연구소 주요일정 월별 리스트 조회
+			SELECT	LABT_ADSC_ID																		as labtAdscId
+				   ,ADSC_DT																				as adscDt
+				   ,DATENAME(D, ADSC_DT)																as dateNo
+				   ,ADSC_STRT_TIM + ':' + ADSC_STRT_MINU + ' ~ ' + ADSC_FNH_TIM + ':' + ADSC_FNH_MINU	as adscTim
+				   ,ADSC_TITL																			as adscTitl
+				   ,dbo.fn_getComDtlNm('ADSC_KIND_CD', ADSC_KIND_CD)									as adscKindNm
+				   ,dbo.fn_getUserName(RGST_ID)															as rgstNm
+				   ,CASE
+						WHEN ADSC_DT = CONVERT(NVARCHAR(10),GETDATE(), 120) THEN 'Y'
+						ELSE 'N'
+				    END																					as isToday
+			FROM	IRIS_KNLD_LABT_ADSC KLA
+			WHERE	DEL_YN = 'N'
+		 ]]>
+			AND		ADSC_DT like '${adscMonth}%'
+			ORDER BY ADSC_DT,
+					 ADSC_STRT_TIM
+	</select>
+
+	<select id="getScheduleInfo" resultType="hashmap">
+		<![CDATA[
+			-- getScheduleInfo 연구소 주요일정 상세 정보 조회
+			select	LABT_ADSC_ID										 as labtAdscId
+				   ,ADSC_KIND_CD										 as adscKindCd
+				   ,dbo.fn_getComDtlNm('ADSC_KIND_CD', ADSC_KIND_CD)	 as adscKindNm
+				   ,ADSC_DT												 as adscDt
+				   ,ADSC_STRT_TIM										 as adscStrtTim
+				   ,ADSC_STRT_MINU										 as adscStrtMinu
+				   ,ADSC_FNH_TIM										 as adscFnhTim
+				   ,ADSC_FNH_MINU										 as adscFnhMinu
+				   ,LABT_ADSC_GROUP_ID									 as labtAdscGroupId
+				   ,(select count(1)
+					 from	IRIS_KNLD_LABT_ADSC
+					 where	LABT_ADSC_GROUP_ID = a.LABT_ADSC_GROUP_ID
+					 and	DEL_YN = 'N')								 as labtAdscGroupCnt
+				   ,ADSC_TITL											 as adscTitl
+				   ,ADSC_SBC											 as adscSbc
+				   ,RGST_ID												 as rgstId
+				   ,dbo.fn_getUserName(RGST_ID)							 as rgstNm
+				   ,ATTC_FILE_ID										 as attcFileId
+			from	IRIS_KNLD_LABT_ADSC a
+		 ]]>
+			where	LABT_ADSC_ID = ${labtAdscId}
+			and		DEL_YN = 'N'
+	</select>
+
+	<select id="getScheduleGroupId" resultType="int">
+			-- getScheduleGroupId 연구소 주요일정 그룹 ID 생성
+			select next value for knld_labt_adsc_seq
+	</select>
+
+	<insert id="saveSchedule" parameterType="hashmap">
+
+		MERGE INTO IRIS_KNLD_LABT_ADSC a
+		USING (
+			SELECT	#{labtAdscId}			as labtAdscId
+				   ,#{adscKindCd}			as adscKindCd
+				   ,#{adscDt}				as adscDt
+				   ,#{adscStrtTim}			as adscStrtTim
+				   ,#{adscStrtMinu}			as adscStrtMinu
+				   ,#{adscFnhTim}			as adscFnhTim
+				   ,#{adscFnhMinu}			as adscFnhMinu
+				   ,#{labtAdscGroupId}		as labtAdscGroupId
+				   ,#{adscTitl}				as adscTitl
+				   ,#{adscSbc}				as adscSbc
+				   ,#{attcFileId}			as attcFileId
+				   ,#{_userId}				as userId
+			  ) b
+		ON ( a.LABT_ADSC_ID = b.labtAdscId)
+		WHEN MATCHED THEN
+			update set	ADSC_TITL = b.adscTitl,
+						ADSC_KIND_CD = b.adscKindCd,
+						ADSC_DT = b.adscDt,
+						ADSC_STRT_TIM = b.adscStrtTim,
+						ADSC_STRT_MINU = b.adscStrtMinu,
+						ADSC_FNH_TIM = b.adscFnhTim,
+						ADSC_FNH_MINU = b.adscFnhMinu,
+						ADSC_SBC = b.adscSbc,
+						LAST_MDFY_DT = getdate(),
+						LAST_MDFY_ID = b.userId
+		WHEN NOT MATCHED THEN
+			insert (ADSC_KIND_CD
+				   ,ADSC_DT
+				   ,ADSC_STRT_TIM
+				   ,ADSC_STRT_MINU
+				   ,ADSC_FNH_TIM
+				   ,ADSC_FNH_MINU
+				   ,LABT_ADSC_GROUP_ID
+				   ,ADSC_TITL
+				   ,ADSC_SBC
+				   ,RGST_ID
+				   ,ATTC_FILE_ID
+				   ,FRST_RGST_ID
+				   ,LAST_MDFY_ID
+				   )
+			values(b.adscKindCd
+				  ,b.adscDt
+				  ,b.adscStrtTim
+				  ,b.adscStrtMinu
+				  ,b.adscFnhTim
+				  ,b.adscFnhMinu
+				  ,b.labtAdscGroupId
+				  ,b.adscTitl
+				  ,b.adscSbc
+				  ,b.userId
+				  ,b.attcFileId
+				  ,b.userId
+				  ,b.userId
+				  );
+
+	</insert>
+
+	<update id="updateScheduleDelYn">
+
+		update	IRIS_KNLD_LABT_ADSC
+		set		del_yn = 'Y',
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{_userId}
+		<choose>
+			<when test="labtAdscGroupId != null and labtAdscGroupId != ''">
+		where	LABT_ADSC_GROUP_ID = ${labtAdscGroupId}
+		and		DEL_YN = 'N'
+			</when>
+			<otherwise>
+		where	LABT_ADSC_ID = ${labtAdscId}
+			</otherwise>
+		</choose>
+
+	</update>
+
+</mapper>

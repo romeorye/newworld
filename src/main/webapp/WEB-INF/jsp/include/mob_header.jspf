@@ -1,0 +1,125 @@
+<%@ page language="java" session="false" pageEncoding="EUC-KR" contentType="text/html; charset=EUC-KR"%>
+<%@ page 
+  import="devonframe.util.HistorialWatch"
+  import="java.util.HashMap"
+%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="Tag" uri="http://www.dev-on.com/Tag" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
+<%
+	response.setHeader("Pragma", "No-cache");
+	response.setDateHeader("Expires", -1);
+	response.setHeader("Cache-Control", "no-cache");
+
+    pageContext.setAttribute("crlf", "\r\n"); 
+    pageContext.setAttribute("blank", " "); 
+
+    String contextPath = request.getContextPath();
+
+    if ("/".equals(contextPath)) {
+    	contextPath = "";
+    }
+
+    //String imagePath        = contextPath + "/resource/old/images";
+    String imageMobPath        = contextPath + "/resource/mob/images";
+    String cssMobPath          = contextPath + "/resource/mob/css";
+    String scriptMobPath       = contextPath + "/resource/mob/js";
+    
+    String jspPath          = contextPath + "/jsp";
+    //String duiPathJs        = contextPath + "/resource/old/common/js";
+    //String duiPathCss       = contextPath + "/resource/old/common/css";
+    String ruiPathJs        = contextPath + "/rui/js";
+    String ruiPathCss       = contextPath + "/rui/resources";
+    String ruiPathPlugins   = contextPath + "/rui/plugins";
+    
+    String newImagePath     = contextPath + "/resource/images";
+    
+    String scriptPath       = contextPath + "/resource/web/js";
+    
+    String documentTitle = "  :::  지인 창호 통합 시스템(WINS)  :::  ";
+    
+    HistorialWatch historialWatch = (HistorialWatch)request.getAttribute(iris.web.system.base.Constants.SERVLET_STOPWATCH_KEY);
+    if (historialWatch == null) {
+    	historialWatch = new HistorialWatch();
+    }
+    historialWatch.tick("Processing Jsp Begin");
+
+    /* 그리드내 수정가능한 셀 색상지정 : 한민호 : 2010-05-19 */
+    String edCellColor = "#C8FFB5";
+%>
+
+<%   
+	HttpSession session = null;
+	session = request.getSession(false);
+	//LData menuInfo = null;
+	HashMap menuInfo = null;
+	String topMenuNm 	= "";
+	String supiMenuNm 	= "";
+	String menuNm 		= "";
+	String authScnCd 	= "";
+
+    if(request.getSession() != null){
+		session = request.getSession(false);
+		if(session.getAttribute("menuInfoSession") != null) {
+			/* devon.core.collection.LData 삭제로 변경
+			menuInfo = (LData)session.getAttribute("menuInfoSession");
+			topMenuNm 	= menuInfo.getString("topMenuNm");
+			supiMenuNm 	= menuInfo.getString("supiMenuNm");
+			menuNm 		= menuInfo.getString("menuNm");
+			authScnCd 	= menuInfo.getString("authScnCd");
+			*/
+			menuInfo = (HashMap)session.getAttribute("menuInfoSession");
+			
+			topMenuNm 	= menuInfo.get("topMenuNm").toString();
+			supiMenuNm 	= menuInfo.get("supiMenuNm").toString();
+			menuNm 		= menuInfo.get("menuNm").toString();
+			authScnCd 	= menuInfo.get("authScnCd").toString();
+			
+		} 
+	}
+
+%>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr"/>
+<%--
+<link rel="stylesheet" type="text/css" href="<%=ruiPathCss%>/rui.css" />
+<link rel="stylesheet" type="text/css" href="<%=ruiPathCss%>/rui_skin_new.css" />
+ --%>
+<link rel="stylesheet" type="text/css" href="<%=cssMobPath%>/common.css" />
+<link rel="stylesheet" type="text/css" href="<%=cssMobPath%>/reset.css" />
+
+<script type="text/javascript">
+    var contextPath = "<%=contextPath%>";
+
+    <%--// 뒤로가기 방지
+    window.history.forward(1);
+     --%> 
+     
+     <%--//로딩바설정--%>
+    function openMobLoading(){    		 
+   		var loadingUrl = '<c:url value='/mob/system/NwinsMobSystem/mobLoading.mo'/>';
+   		modalWindow.windowId="loadingLayer";
+   		modalWindow.width = 120;
+   		modalWindow.height = 20;
+   		modalWindow.content = "<iframe width='120' height='20' frameborder='0' scrolling='no' allowtransparency='true' src='"+ loadingUrl +"'>&lt/iframe>";
+   		modalWindow.open();
+   	}
+</script>
+
+<%--
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_base.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_core.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_ui.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_form.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_grid.js"></script>
+<script type="text/javascript" src="<%=ruiPathCss%>/rui_config.js"></script>
+<script type="text/javascript" src="<%=ruiPathCss%>/rui_license.js"></script>
+ --%>
+<script type="text/javascript" src="<%=scriptMobPath%>/jquery.js"></script>
+<script type="text/javascript" src="<%=scriptMobPath%>/common.js"></script>
+
+<script type="text/javascript" src="<%=scriptPath%>/nwins_common.js"></script>
+

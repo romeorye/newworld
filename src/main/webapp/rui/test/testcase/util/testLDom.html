@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LDom Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style type="text/css">
+#bd {
+    height: 300px;
+    padding: 10px;
+}
+
+#buttons {
+    margin: 5px;
+}
+</style>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLDom_method_generateId() {
+    info('LDomTests : testLDom_method_generateId 작동 여부');
+    var result = Rui.util.LDom.generateId();
+    //return type : String | Array
+    assertNotUndefined(result);
+}
+function testLDom_method_get() {
+    info('LDomTests : testLDom_method_get 작동 여부');
+    var el = 'bd'; //String | HTMLElement |Array
+    assertNotUndefined(Rui.util.LDom.get(el));
+}
+function testLDom_method_getStyle() {
+    info('LDomTests : testLDom_method_getStyle 작동 여부');
+    var el = 'bd'; //String | HTMLElement |Array
+    var property = 'display'; //String
+    assertEquals(Rui.util.LDom.getStyle(el, property), 'block');
+}
+function testLDom_method_setStyle() {
+    info('LDomTests : testLDom_method_setStyle 작동 여부');
+    var el = 'bd'; //String | HTMLElement |Array
+    var property = 'display'; //String
+    var val = 'inline'; //String
+    Rui.util.LDom.setStyle(el, property, val);
+    assertEquals(Rui.util.LDom.getStyle(el, property), 'inline');
+}
+function testLDom_method_applyStyles() {
+    info('LDomTests : testLDom_method_applyStyles 작동 여부');
+    var el = 'bd'; //String/HTMLElement
+    var styles = { display: 'inline' }; //String/Object/Function
+    Rui.util.LDom.applyStyles(el, styles);
+    assertEquals(Rui.util.LDom.getStyle(el, 'display'), 'inline');
+}
+function testLDom_method_hasClass() {
+    info('LDomTests : testLDom_method_hasClass 작동 여부');
+    var el = 'bd'; //String | HTMLElement | Array
+    var className = 'test'; //String
+    var result = Rui.util.LDom.hasClass(el, className);
+    //return type : Boolean | Array
+    assertEquals(result, true);
+}
+function testLDom_method_addClass() {
+    info('LDomTests : testLDom_method_addClass 작동 여부');
+    var el = 'bd'; //String | HTMLElement | Array
+    var className = 'test1'; //String
+    var result = Rui.util.LDom.addClass(el, className);
+    //return type : Boolean | Array
+    assertEquals(result, true);
+}
+function testLDom_method_removeClass() {
+    info('LDomTests : testLDom_method_removeClass 작동 여부');
+    var el = 'bd'; //String | HTMLElement | Array
+    var className = 'test1'; //String
+    Rui.util.LDom.addClass(el, className);
+    var result = Rui.util.LDom.removeClass(el, className);
+    //return type : Boolean | Array
+    assertEquals(result, true);
+}
+function testLDom_method_replaceClass() {
+    info('LDomTests : testLDom_method_replaceClass 작동 여부');
+    var el = 'bd'; //String | HTMLElement | Array
+    var oldClassName = 'test'; //String
+    var newClassName = 'test2'; //String
+    var result = Rui.util.LDom.replaceClass(el, oldClassName, newClassName);
+    //return type : Boolean | Array
+    assertEquals(result, true);
+}
+function testLDom_method_getElementsByClassName() {
+    info('LDomTests : testLDom_method_getElementsByClassName 작동 여부');
+    var className = 'getElementsByClassName'; //String
+    assertTrue(Rui.util.LDom.getElementsByClassName(className).length > 0);
+}
+function testLDom_method_getElementsBy() {
+    info('LDomTests : testLDom_method_getElementsBy 작동 여부');
+    var method = function(dom){
+        return dom.id == 'bd';
+    }; //Function
+    assertTrue(Rui.util.LDom.getElementsBy(method).length > 0);
+}
+function testLDom_method_getAncestorBy() {
+    info('LDomTests : testLDom_method_getAncestorBy 작동 여부');
+    var node = document.getElementById('buttons'); //HTMLElement
+    var method = function(dom) {
+        return dom.id == 'bd';
+    }; //Function
+    assertEquals(Rui.util.LDom.getAncestorBy(node, method).id, 'bd');
+}
+function testLDom_method_getAncestorByClassName() {
+    info('LDomTests : testLDom_method_getAncestorByClassName 작동 여부');
+    var node = document.getElementById('buttons'); //String | HTMLElement
+    var className = 'getElementsByClassName'; //String
+    assertEquals(Rui.util.LDom.getAncestorByClassName(node, className).id, 'bd');
+}
+function testLDom_method_getAncestorByTagName() {
+    info('LDomTests : testLDom_method_getAncestorByTagName 작동 여부');
+    var node = document.getElementById('buttons'); //String | HTMLElement
+    var tag = 'body'; //String
+    assertEquals(Rui.util.LDom.getAncestorByTagName(node, tag).id, 'body');
+}
+function testLDom_method_isAncestor() {
+    info('LDomTests : testLDom_method_isAncestor 작동 여부');
+    var haystack = document.getElementById('bd'); //String | HTMLElement
+    var needle = document.getElementById('buttons'); //String | HTMLElement
+    assertEquals(Rui.util.LDom.isAncestor(haystack, needle), true);
+}
+function testLDom_method_inDocument() {
+    info('LDomTests : testLDom_method_inDocument 작동 여부');
+    var el = document.getElementById('buttons'); //String | HTMLElement
+    var result = Rui.util.LDom.inDocument(el);
+    //return type : boolean
+    assertTrue(result);
+}
+function testLDom_method_batch() {
+    info('LDomTests : testLDom_method_batch 작동 여부');
+    var el = document.getElementById('buttons'); //String | HTMLElement
+    var method = function(dom){
+        return dom.id == el.id;
+    }; //Function
+    var result = Rui.util.LDom.batch(el, method);
+    //return type : Any | Array
+    assertEquals(result, true);
+}
+function testLDom_method_getChildren() {
+    info('LDomTests : testLDom_method_getChildren 작동 여부');
+    var node = document.getElementById('buttons'); //String | HTMLElement
+    assertTrue(Rui.util.LDom.getChildren(node).length > 0);
+}
+function testLDom_method_getChildrenBy() {
+    info('LDomTests : testLDom_method_getChildrenBy 작동 여부');
+    var node = document.getElementById('bd'); //String | HTMLElement
+    var method = function(dom){
+        return dom.id == 'buttons';
+    }; //Function
+    assertTrue(Rui.util.LDom.getChildrenBy(node, method).length > 0);
+}
+function testLDom_method_getFirstChild() {
+    info('LDomTests : testLDom_method_getFirstChild 작동 여부');
+    var node = document.getElementById('bd'); //String | HTMLElement
+    assertNotUndefined(Rui.util.LDom.getFirstChild(node));
+}
+function testLDom_method_getFirstChildBy() {
+    info('LDomTests : testLDom_method_getFirstChildBy 작동 여부');
+    var node = document.getElementById('bd'); //String | HTMLElement
+    var method = function(dom){
+        return dom.id == 'buttons';
+    }; //Function
+    assertNotUndefined(Rui.util.LDom.getFirstChild(node));
+}
+function testLDom_method_getFirstChildByTagName() {
+    info('LDomTests : testLDom_method_getFirstChildByTagName 작동 여부');
+    var node = document.getElementById('bd'); //String | HTMLElement
+    var tagName = 'div'; //String
+    assertNotUndefined(Rui.util.LDom.getFirstChildByTagName(node, tagName));
+}
+function testLDom_method_getLastChild() {
+    info('LDomTests : testLDom_method_getLastChild 작동 여부');
+    var node = document.getElementById('bd'); //String | HTMLElement
+    assertEquals(Rui.util.LDom.getLastChild(node).tagName, 'DIV');
+}
+function testLDom_method_getLastChildBy() {
+    info('LDomTests : testLDom_method_getLastChildBy 작동 여부');
+    var node = document.getElementById('bd'); //String | HTMLElement
+    var method = function(dom){
+        return dom.id == 'buttons';
+    }; //Function
+    assertEquals(Rui.util.LDom.getLastChildBy(node, method).tagName, 'DIV');
+}
+function testLDom_method_getAllChildrenBy() {
+    info('LDomTests : testLDom_method_getAllChildrenBy 작동 여부');
+    var node = document.getElementById('bd'); //String | HTMLElement
+    var list = [document.getElementById('buttons')]; //Array
+    var method = function(dom){
+        return dom.id == 'buttons';
+    }; //Function
+    assertTrue(Rui.util.LDom.getAllChildrenBy(node, list, method).length > 0);
+}
+function testLDom_method_getPreviousSibling() {
+    info('LDomTests : testLDom_method_getPreviousSibling 작동 여부');
+    var node = document.getElementById('get'); //String | HTMLElement
+    assertEquals(Rui.util.LDom.getPreviousSibling(node).tagName, 'A');
+}
+function testLDom_method_getPreviousSiblingBy() {
+    info('LDomTests : testLDom_method_getPreviousSiblingBy 작동 여부');
+    var node = document.getElementById('get'); //String | HTMLElement
+    var method = function(dom){
+        return dom.tagName == 'A';
+    }; //Function
+    assertEquals(Rui.util.LDom.getPreviousSiblingBy(node, method).tagName, 'A');
+}
+function testLDom_method_getNextSibling() {
+    info('LDomTests : testLDom_method_getNextSibling 작동 여부');
+    var node = document.getElementById('get'); //String | HTMLElement
+    assertEquals(Rui.util.LDom.getNextSibling(node).tagName, 'A');
+}
+function testLDom_method_getNextSiblingBy() {
+    info('LDomTests : testLDom_method_getNextSiblingBy 작동 여부');
+    var node = document.getElementById('get'); //String | HTMLElement
+    var method = function(dom){
+        return dom.tagName == 'A';
+    }; //Function
+    assertEquals(Rui.util.LDom.getNextSiblingBy(node, method).tagName, 'A');
+}
+function testLDom_method_insertFirst() {
+    info('LDomTests : testLDom_method_insertFirst 작동 여부');
+    var newNode = document.createElement('a'); //String/HTMLElement
+    newNode.innerHTML = 'insertFirst test';
+    var referenceNode = document.getElementById('get'); //String/HTMLElement
+    var result = Rui.util.LDom.insertFirst(newNode, referenceNode);
+    //return type : HTMLElement
+    assertEquals(result.tagName, 'A');
+}
+function testLDom_method_insertBefore() {
+    info('LDomTests : testLDom_method_insertBefore 작동 여부');
+    var newNode = document.createElement('a'); //String/HTMLElement
+    newNode.innerHTML = 'insertBefore test';
+    var referenceNode = document.getElementById('get'); //String/HTMLElement
+    var result = Rui.util.LDom.insertBefore(newNode, referenceNode);
+    //return type : HTMLElement
+    assertEquals(result.tagName, 'A');
+}
+function testLDom_method_insertAfter() {
+    info('LDomTests : testLDom_method_insertAfter 작동 여부');
+    var newNode = document.createElement('a'); //String/HTMLElement
+    newNode.innerHTML = 'insertAfter test';
+    var referenceNode = document.getElementById('get'); //String/HTMLElement
+    var result = Rui.util.LDom.insertAfter(newNode, referenceNode);
+    //return type : HTMLElement
+    assertEquals(result.tagName, 'A');
+}
+function testLDom_method_removeNode() {
+    info('LDomTests : testLDom_method_removeNode 작동 여부');
+    var node = document.getElementById('removeNode'); //String/HTMLElement
+    Rui.util.LDom.removeNode(node);
+    assertNull(document.getElementById('removeNode'));
+}
+function testLDom_method_replaceChild() {
+    info('LDomTests : testLDom_method_replaceChild 작동 여부');
+    var parentNode = document.getElementById('buttons'); //HTMLElement
+    var newNode = document.createElement('a'); //HTMLElement
+    newNode.innerHTML = 'replaceChild test';
+    var oldNode = document.getElementById('replaceChild'); //String/HTMLElement
+    var result = Rui.util.LDom.replaceChild(parentNode, newNode, oldNode);
+    //return type : HTMLElement
+    assertEquals(result.tagName, 'A');
+}
+function testLDom_method_appendHtml() {
+    info('LDomTests : testLDom_method_appendHtml 작동 여부');
+    var dom = document.getElementById('bd'); //HTMLElement
+    var html = '<span>appendHtml</span>'; //String
+    Rui.util.LDom.appendHtml(dom, html);
+    assertNotUndefined(true);
+}
+function testLDom_method_createElements() {
+    info('LDomTests : testLDom_method_createElements 작동 여부');
+    var html = '<div>createElements</div>'; //String
+    var result = Rui.util.LDom.createElements(html);
+    //return type : Rui.LElementList
+    assertTrue(result.length > 0);
+}
+function testLDom_method_findParent() {
+    info('LDomTests : testLDom_method_findParent 작동 여부');
+    var node = document.getElementById('get'); //HTMLElement
+    var selector = '#bd'; //String
+    var result = Rui.util.LDom.findParent(node, selector);
+    //return type : HTMLElement
+    assertEquals(result, document.getElementById('bd'));
+}
+function testLDom_method_findParentNode() {
+    info('LDomTests : testLDom_method_findParentNode 작동 여부');
+    var node = document.getElementById('get'); //HTMLElement
+    var selector = '#bd'; //String
+    var result = Rui.util.LDom.findParentNode(node, selector);
+    //return type : HTMLElement
+    assertEquals(result, document.getElementById('bd'));
+}
+function testLDom_method_isDom() {
+    info('LDomTests : testLDom_method_isDom 작동 여부');
+    var id = 'get'; //String
+    assertTrue(Rui.util.LDom.isDom(id));
+}
+function testLDom_method_getXY() {
+    info('LDomTests : testLDom_method_getXY 작동 여부');
+    var el = Rui.getDom('bd'); //String | HTMLElement | Array
+    assertTrue(Rui.util.LDom.getXY(el)[0] > 0);
+}
+function testLDom_method_getX() {
+    info('LDomTests : testLDom_method_getX 작동 여부');
+    var el = Rui.getDom('bd'); //String | HTMLElement | Array
+    assertTrue(Rui.util.LDom.getX(el) > 0);
+}
+function testLDom_method_getY() {
+    info('LDomTests : testLDom_method_getY 작동 여부');
+    var el = Rui.getDom('bd'); //String | HTMLElement | Array
+    assertTrue(Rui.util.LDom.getY(el) > 0);
+}
+function testLDom_method_setXY() {
+    info('LDomTests : testLDom_method_setXY 작동 여부');
+    var el = Rui.getDom('bd'); //String | HTMLElement | Array
+    var pos = 10; //Array
+    Rui.util.LDom.setXY(el, [10, 10]);
+    assertEquals(Rui.util.LDom.getXY(el)[0], 10);
+}
+function testLDom_method_setX() {
+    info('LDomTests : testLDom_method_setX 작동 여부');
+    var el = Rui.getDom('bd'); //String | HTMLElement | Array
+    var x = 10; //int
+    Rui.util.LDom.setX(el, x);
+    assertEquals(Rui.util.LDom.getX(el), 10);
+}
+function testLDom_method_setY() {
+    info('LDomTests : testLDom_method_setY 작동 여부');
+    var el = Rui.getDom('bd'); //String | HTMLElement | Array
+    var y = 10; //int
+    Rui.util.LDom.setY(el, y);
+    assertEquals(Rui.util.LDom.getY(el), 10);
+}
+function testLDom_method_getRegion() {
+    info('LDomTests : testLDom_method_getRegion 작동 여부');
+    var el = Rui.getDom('bd'); //String | HTMLElement | Array
+    assertTrue(Rui.util.LDom.getRegion(el).left > 0);
+}
+function testLDom_method_getClientRegion() {
+    info('LDomTests : testLDom_method_getClientRegion 작동 여부');
+    assertTrue(Rui.util.LDom.getClientRegion().right > 0);
+}
+function testLDom_method_getClientWidth() {
+    info('LDomTests : testLDom_method_getClientWidth 작동 여부');
+    assertTrue(Rui.util.LDom.getClientWidth() > 0);
+}
+function testLDom_method_getClientHeight() {
+    info('LDomTests : testLDom_method_getClientHeight 작동 여부');
+    assertTrue(Rui.util.LDom.getClientHeight() > 0);
+}
+function testLDom_method_getDocumentHeight() {
+    info('LDomTests : testLDom_method_getDocumentHeight 작동 여부');
+    assertTrue(Rui.util.LDom.getDocumentHeight() > 0);
+}
+function testLDom_method_getDocumentWidth() {
+    info('LDomTests : testLDom_method_getDocumentWidth 작동 여부');
+    assertTrue(Rui.util.LDom.getDocumentWidth() > 0);
+}
+function testLDom_method_getDocumentScrollLeft() {
+    info('LDomTests : testLDom_method_getDocumentScrollLeft 작동 여부');
+    assertEquals(Rui.util.LDom.getDocumentScrollLeft(), 0);
+}
+function testLDom_method_getDocumentScrollTop() {
+    info('LDomTests : testLDom_method_getDocumentScrollTop 작동 여부');
+    assertEquals(Rui.util.LDom.getDocumentScrollTop(), 0);
+}
+function testLDom_method_getViewport() {
+    info('LDomTests : testLDom_method_getViewport 작동 여부');
+    assertTrue(Rui.util.LDom.getViewport().width > 0);
+}
+function testLDom_method_getViewportHeight() {
+    info('LDomTests : testLDom_method_getViewportHeight 작동 여부');
+    assertTrue(Rui.util.LDom.getViewportHeight() > 0);
+}
+function testLDom_method_getViewportWidth() {
+    info('LDomTests : testLDom_method_getViewportWidth 작동 여부');
+    assertTrue(Rui.util.LDom.getViewportWidth() > 0);
+}
+function testLDom_method_toPixelNumber() {
+    info('LDomTests : testLDom_method_toPixelNumber 작동 여부');
+    var result = Rui.util.LDom.toPixelNumber('10px');
+    //return type : Number
+    assertEquals(result, '10');
+}
+function testLDom_method_isVisibleSide() {
+    info('LDomTests : testLDom_method_isVisibleSide 작동 여부');
+    var coord = 99; //int
+    var side = 'r'; //String
+    assertEquals(Rui.util.LDom.isVisibleSide(coord, side), true);
+}
+function testLDom_method_setCaretToPos() {
+    info('LDomTests : testLDom_method_setCaretToPos 작동 여부');
+    var dom = Rui.getDom('setCaretToPos'); //HtmlElement
+    var pos = 3; //int
+    Rui.util.LDom.setCaretToPos(dom, pos);
+    assertEquals(Rui.util.LDom.getSelectionInfo(dom).end, 3);
+}
+function testLDom_method_setSelectionRange() {
+    info('LDomTests : testLDom_method_setSelectionRange 작동 여부');
+    var dom = Rui.getDom('setCaretToPos'); //HtmlElement
+    var begin = 3; //int
+    var end = 5; //int
+    Rui.util.LDom.setSelectionRange(dom, begin, end);
+    assertEquals(Rui.util.LDom.getSelectionInfo(dom).end, 5);
+}
+function testLDom_method_getSelectionInfo() {
+    info('LDomTests : testLDom_method_getSelectionInfo 작동 여부');
+    var dom = Rui.getDom('setCaretToPos'); //HtmlElement
+    var begin = 3; //int
+    var end = 5; //int
+    Rui.util.LDom.setSelectionRange(dom, begin, end);
+    assertEquals(Rui.util.LDom.getSelectionInfo(dom).end, 5);
+}
+function testLDom_method_getSelectionStart() {
+    info('LDomTests : testLDom_method_getSelectionStart 작동 여부');
+    var dom = Rui.getDom('setCaretToPos'); //HtmlElement
+    var begin = 3; //int
+    var end = 5; //int
+    Rui.util.LDom.setSelectionRange(dom, begin, end);
+    assertEquals(Rui.util.LDom.getSelectionStart(dom), 3);
+}
+function testLDom_method_getSelectionEnd() {
+    info('LDomTests : testLDom_method_getSelectionEnd 작동 여부');
+    var dom = Rui.getDom('setCaretToPos'); //HtmlElement
+    var begin = 3; //int
+    var end = 5; //int
+    Rui.util.LDom.setSelectionRange(dom, begin, end);
+    assertEquals(Rui.util.LDom.getSelectionEnd(dom), 5);
+}
+function testLDom_method_getFormValues() {
+    info('LDomTests : testLDom_method_getFormValues 작동 여부');
+    var id = 'frm'; //String|HTMLElement
+    assertNotUndefined(Rui.util.LDom.getFormValues(id).setCaretToPos);
+}
+function testLDom_method_getValues() {
+    info('LDomTests : testLDom_method_getValues 작동 여부');
+    var selector = 'input'; //selector
+    var id = 'frm'; //String|HTMLElement
+    assertNotUndefined(Rui.util.LDom.getValues(selector, id).setCaretToPos);
+}
+function testLDom_method_getAvailableHeight() {
+    info('LDomTests : testLDom_method_getAvailableHeight 작동 여부');
+    var id = 'bd'; //HTMLElement
+    var aHeight = Rui.util.LDom.getAvailableHeight(Rui.getDom(id));
+    assertEquals(aHeight, 180);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body id='body'>
+    <h1>Rui.util.LDom Tests</h1>
+    <div id="removeNode">removeNode dom</div>
+    <form id="frm" name="frm">
+        <input type="text" id="setCaretToPos" value="setCaretToPos">
+    </form>
+    <div id="bd" style="display:block" class="test getElementsByClassName">
+        <div class="testcase-buttons" id="buttons">
+            <a href="javascript:testLDom_method_generateId()">generateId</a>
+            <a href="javascript:testLDom_method_get()" id="get">get</a>
+            <a href="javascript:testLDom_method_getStyle()">getStyle</a>
+            <a href="javascript:testLDom_method_setStyle()">setStyle</a>
+            <a href="javascript:testLDom_method_applyStyles()">applyStyles</a>
+            <a href="javascript:testLDom_method_hasClass()">hasClass</a>
+            <a href="javascript:testLDom_method_addClass()">addClass</a>
+            <a href="javascript:testLDom_method_removeClass()">removeClass</a>
+            <a href="javascript:testLDom_method_replaceClass()">replaceClass</a>
+            <a href="javascript:testLDom_method_getElementsByClassName()">getElementsByClassName</a>
+            <a href="javascript:testLDom_method_getElementsBy()">getElementsBy</a>
+            <a href="javascript:testLDom_method_getAncestorBy()">getAncestorBy</a>
+            <a href="javascript:testLDom_method_getAncestorByClassName()">getAncestorByClassName</a>
+            <a href="javascript:testLDom_method_getAncestorByTagName()">getAncestorByTagName</a>
+            <a href="javascript:testLDom_method_isAncestor()">isAncestor</a>
+            <a href="javascript:testLDom_method_inDocument()">inDocument</a>
+            <a href="javascript:testLDom_method_batch()">batch</a>
+            <a href="javascript:testLDom_method_getChildren()">getChildren</a>
+            <a href="javascript:testLDom_method_getChildrenBy()">getChildrenBy</a>
+            <a href="javascript:testLDom_method_getFirstChild()">getFirstChild</a>
+            <a href="javascript:testLDom_method_getFirstChildBy()">getFirstChildBy</a>
+            <a href="javascript:testLDom_method_getFirstChildByTagName()">getFirstChildByTagName</a>
+            <a href="javascript:testLDom_method_getLastChild()">getLastChild</a>
+            <a href="javascript:testLDom_method_getLastChildBy()">getLastChildBy</a>
+            <a href="javascript:testLDom_method_getAllChildrenBy()">getAllChildrenBy</a>
+            <a href="javascript:testLDom_method_getPreviousSibling()">getPreviousSibling</a>
+            <a href="javascript:testLDom_method_getPreviousSiblingBy()">getPreviousSiblingBy</a>
+            <a href="javascript:testLDom_method_getNextSibling()">getNextSibling</a>
+            <a href="javascript:testLDom_method_getNextSiblingBy()">getNextSiblingBy</a>
+            <a href="javascript:testLDom_method_insertFirst()">insertFirst</a>
+            <a href="javascript:testLDom_method_insertBefore()">insertBefore</a>
+            <a href="javascript:testLDom_method_insertAfter()">insertAfter</a>
+            <a href="javascript:testLDom_method_removeNode()">removeNode</a>
+            <a href="javascript:testLDom_method_replaceChild()">replaceChild</a>
+            <a href="javascript:testLDom_method_appendHtml()">appendHtml</a>
+            <a href="javascript:testLDom_method_createElements()">createElements</a>
+            <a href="javascript:testLDom_method_findParent()">findParent</a>
+            <a href="javascript:testLDom_method_findParentNode()">findParentNode</a>
+            <a href="javascript:testLDom_method_isDom()">isDom</a>
+            <a href="javascript:replaceChild()" id="replaceChild">replaceChild dom</a>
+            <a href="javascript:testLDom_method_getXY()">getXY</a>
+            <a href="javascript:testLDom_method_getX()">getX</a>
+            <a href="javascript:testLDom_method_getY()">getY</a>
+            <a href="javascript:testLDom_method_setXY()">setXY</a>
+            <a href="javascript:testLDom_method_setX()">setX</a>
+            <a href="javascript:testLDom_method_setY()">setY</a>
+            <a href="javascript:testLDom_method_getRegion()">getRegion</a>
+            <a href="javascript:testLDom_method_getClientRegion()">getClientRegion</a>
+            <a href="javascript:testLDom_method_getClientWidth()">getClientWidth</a>
+            <a href="javascript:testLDom_method_getClientHeight()">getClientHeight</a>
+            <a href="javascript:testLDom_method_getDocumentHeight()">getDocumentHeight</a>
+            <a href="javascript:testLDom_method_getDocumentWidth()">getDocumentWidth</a>
+            <a href="javascript:testLDom_method_getDocumentScrollLeft()">getDocumentScrollLeft</a>
+            <a href="javascript:testLDom_method_getDocumentScrollTop()">getDocumentScrollTop</a>
+            <a href="javascript:testLDom_method_getViewport()">getViewport</a>
+            <a href="javascript:testLDom_method_getViewportHeight()">getViewportHeight</a>
+            <a href="javascript:testLDom_method_getViewportWidth()">getViewportWidth</a>
+            <a href="javascript:testLDom_method_toPixelNumber()">toPixelNumber</a>
+            <a href="javascript:testLDom_method_isVisibleSide()">isVisibleSide</a>
+            <a href="javascript:testLDom_method_setCaretToPos()">setCaretToPos</a>
+            <a href="javascript:testLDom_method_setSelectionRange()">setSelectionRange</a>
+            <a href="javascript:testLDom_method_getSelectionInfo()">getSelectionInfo</a>
+            <a href="javascript:testLDom_method_getSelectionStart()">getSelectionStart</a>
+            <a href="javascript:testLDom_method_getSelectionEnd()">getSelectionEnd</a>
+            <a href="javascript:testLDom_method_getFormValues()">getFormValues</a>
+            <a href="javascript:testLDom_method_getValues()">getValues</a>
+            <a href="javascript:testLDom_method_getAvailableHeight()">getAvailableHeight</a>
+        </div>
+    </div>
+</body>
+</html>

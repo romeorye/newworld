@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- File Upload : 로컬 -->
+ 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- LOCAL -->
+		<property name="uploadTempDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/temp" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTempDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/temp" /> -->
+		<property name="maxInMemorySize" value="20000"/>
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="fileUpload" class="devonframe.fileupload.FileUpload">
+		<property name="globalPolicy" ref="globalPolicy"/>
+		<property name="optionalPolicyMap">
+			<map>
+				<entry key="anlPolicy" value-ref="anlPolicy"></entry>
+				<entry key="prjPolicy" value-ref="prjPolicy"></entry>
+				<entry key="mchnPolicy" value-ref="mchnPolicy"></entry>
+				<entry key="fxaPolicy" value-ref="fxaPolicy"></entry>
+				<entry key="knldPolicy" value-ref="knldPolicy"></entry>
+				<entry key="knldPolicy2" value-ref="knldPolicy2"></entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="globalPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+	    <!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/default" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/default" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}.{ext}" />
+		<property name="maxTotalFileSize" value="50MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	<bean id="anlPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/anl" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/anl" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="50MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	<bean id="prjPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/prj" /> 
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/prj" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	<bean id="mchnPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/mchn" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/mchn" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	<bean id="fxaPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/fxa" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/fxa" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	<bean id="knldPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/knld" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/knld" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	
+	<bean id="knldPolicy2" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/knld" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/knld" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	
+	
+	<!-- File Upload : 개발 -->
+<!-- 	
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		 <property name="uploadTempDir" value="/WEB-INF/classes/fileupload/temp" />
+		<property name="maxInMemorySize" value="20000"/>
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+	<bean id="fileUpload" class="devonframe.fileupload.FileUpload">
+		<property name="globalPolicy" ref="globalPolicy"/>
+		<property name="optionalPolicyMap">
+			<map>
+				<entry key="estiImgPolicy" value-ref="estiImgPolicy"></entry>
+				<entry key="estiExcelPolicy" value-ref="estiExcelPolicy"></entry>
+				<entry key="boardFilePolicy" value-ref="boardFilePolicy"></entry>
+				<entry key="boardQnaFilePolicy" value-ref="boardQnaFilePolicy"></entry>
+				<entry key="boardScmFilePolicy" value-ref="boardScmFilePolicy"></entry>
+				<entry key="tawoxEstiPolicy" value-ref="tawoxEstiPolicy"></entry>
+				<entry key="cnstwPolicy" value-ref="cnstwPolicy"></entry>
+				<entry key="policy2" value-ref="policy2"></entry>
+				<entry key="boardInfoShareBoardPolicy" value-ref="boardInfoShareBoardPolicy"></entry>
+				<entry key="boardInfoSharePdsPolicy" value-ref="boardInfoSharePdsPolicy"></entry>
+				<entry key="freeChkManagePolicy" value-ref="freeChkManagePolicy"></entry>
+				<entry key="cnstwFirmManagePolicy" value-ref="cnstwFirmManagePolicy"></entry>
+				<entry key="boardCnstwFirmManagePolicy" value-ref="boardCnstwFirmManagePolicy"></entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="globalPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/WEB-INF/classes/fileupload/esti" />
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp"/>
+		<property name="renamePattern" value="{prefix}.{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	<bean id="estiImgPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/WEB-INF/classes/fileupload/esti" />
+		<property name="allowPattern" value="*.jpg; *.gif; *.png; *.jpeg; *.pdf; *.JPG; *.GIF; *.JPEG; *.PNG; *.PDF;"/>
+		<property name="denyPattern" value="*"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="false"/>
+	</bean>
+	
+	<bean id="estiExcelPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/WEB-INF/classes/fileupload/esti" />
+		<property name="allowPattern" value="*.xls; *.xlsx; *.XLS; *.XLSX;"/>
+		<property name="denyPattern" value="*"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="false"/>
+	</bean>
+	
+	<bean id="boardFilePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/upload/board" />
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="false"/>
+	</bean>
+
+	<bean id="boardQnaFilePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/upload/board_qna" />
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="false"/>
+	</bean>
+
+	<bean id="boardScmFilePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/upload/scm" />
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="false"/>
+	</bean>
+
+	<bean id="tawoxEstiPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/upload/esti" />
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="false"/>
+	</bean>
+	
+	<bean id="policy2" parent="globalPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="denyPattern" value="*.exe"/>
+		<property name="renamePattern" value="{prefix}[{ext}].{ext}" />
+		<property name="maxFileSize" value="10KB" />
+		<property name="sequenceAllow" value="false"/>
+	</bean>
+	
+	<bean id="cnstwPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/upload/cnstw/upFile/" />
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+
+	<bean id="boardInfoShareBoardPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/upload/infoShare/board" />
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="false"/>
+	</bean>
+	
+	<bean id="boardInfoSharePdsPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/upload/infoShare/pds" />
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="false"/>
+	</bean>
+	
+	<bean id="freeChkManagePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/upload/qlty/freeChk" />
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="false"/>
+	</bean>
+	
+	<bean id="cnstwFirmManagePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/upload/cnstw/network" />
+		<property name="allowPattern" value="*.jpg; *.gif; *.png; *.jpeg; *.JPG; *.GIF; *.JPEG; *.PNG;"/>
+		<property name="denyPattern" value="*"/>
+		<property name="renamePattern" value="{date:yyyyMMddHHmmssSSS}.{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="false"/>
+	</bean>
+	
+	<bean id="boardCnstwFirmManagePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<property name="uploadTargetDir" value="/upload/cnstw/network" />
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="false"/>
+	</bean> -->
+	
+</beans>

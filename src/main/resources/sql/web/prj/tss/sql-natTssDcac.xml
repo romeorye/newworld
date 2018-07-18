@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.tss.nat.dcac">
+    <!--========================== 국책과제_중단_마스터 ==========================-->
+    <!-- 마스터 수정 -->
+    <update id="updateNatTssDcacMst">
+    <![CDATA[
+        UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+           SET DCAC_B_STRT_DD  = #{dcacBStrtDd} 
+             , DCAC_B_FNH_DD   = #{dcacBFnhDd}
+             , DCAC_NX_STRT_DD = #{dcacNxStrtDd}
+             , DCAC_NX_FNH_DD  = #{dcacNxFnhDd}
+             , LAST_MDFY_DT    = GETDATE()
+             , LAST_MDFY_ID    = #{userId}
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+    </update>
+
+
+
+
+    <!--========================== 국책과제_중단_개요 ==========================-->
+    <!-- 개요 신규 -->
+    <insert id="insertNatTssDcacSmry">
+    <![CDATA[
+        INSERT
+          INTO IRIS_TSS_NAT_PLCY_SMRY  /*국책과제개요*/
+             ( TSS_CD                  --과제코드
+             , TTL_CRRO_STRT_DT        --총수행시작일
+             , TTL_CRRO_FNH_DT         --총수행종료일
+             , STRT_DT                 --과제시작일
+             , FNH_DT                  --과제종료일
+             , FIN_YN                  --최종차수여부
+             , SMRY_TXT                --개발대상기술 및 제품개요
+             , TSS_SMRY_TXT            --과제개요
+             , TSS_SMRY_CTQ_TXT        --과제개요  - CTQ
+             , TSS_SMRY_DVLP_TXT       --과제개요 - 주요연구개발내용
+             , RSST_DVLP_OUCM_TXT      --연구개발성과 - 지재권
+             , RSST_DVLP_OUCM_EFF_TXT  --연구개발성과 - 파급효과
+             , FNO_PLN_TXT             --향후계획
+             , BIZ_EXP_ARSL_TXT        --사업비실적
+             , BIZ_EXP
+             , ALTR_RSON_TXT           --변경사유
+             , ADD_RSON_TXT            --추가사유
+             , DCAC_RSON_TXT           --중단사유
+             , ALTR_ATTC_FIL_ID        --
+             , CMPL_ATTC_FIL_ID        --
+             , DCAC_ATTC_FIL_ID        --
+             , FRST_RGST_DT            --최초등록일시
+             , FRST_RGST_ID            --최초등록자
+             , LAST_MDFY_DT            --최종수정일시
+             , LAST_MDFY_ID            --최종수정자
+			 , STRT_DT_1 
+			 , FNH_DT_1  
+			 , STRT_DT_2 
+			 , FNH_DT_2  
+			 , STRT_DT_3 
+			 , FNH_DT_3  
+			 , STRT_DT_4 
+			 , FNH_DT_4  
+			 , STRT_DT_5 
+			 , FNH_DT_5  
+             )
+        SELECT #{tssCd}
+             , TTL_CRRO_STRT_DT
+             , TTL_CRRO_FNH_DT
+             , STRT_DT
+             , FNH_DT
+             , #{finYn}
+             , #{smryTxt}
+             , #{tssSmryTxt}
+             , #{tssSmryCtqTxt}
+             , #{tssSmryDvlpTxt}
+             , #{rsstDvlpOucmTxt}
+             , #{rsstDvlpOucmEffTxt}
+             , #{fnoPlnTxt}
+             , #{bizExpArslTxt}
+             , #{bizExp}
+             , #{altrRsonTxt}
+             , #{addRsonTxt}
+             , #{dcacRsonTxt}
+             , #{AltrAttcFilId}
+             , #{cmplAttcFilId}
+             , #{attcFilId}
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             , STRT_DT_1 
+			 , FNH_DT_1  
+			 , STRT_DT_2 
+			 , FNH_DT_2  
+			 , STRT_DT_3 
+			 , FNH_DT_3  
+			 , STRT_DT_4 
+			 , FNH_DT_4  
+			 , STRT_DT_5 
+			 , FNH_DT_5  
+          FROM IRIS_TSS_NAT_PLCY_SMRY
+         WHERE TSS_CD = #{pgTssCd}
+    ]]>
+    </insert>
+    
+    
+    <!-- 개요 수정 -->
+    <update id="updateNatTssDcacSmry">
+    <![CDATA[
+        UPDATE IRIS_TSS_NAT_PLCY_SMRY  /*국책과제개요*/
+           SET TSS_SMRY_TXT       = #{tssSmryTxt}            --과제개요
+             , RSST_DVLP_OUCM_TXT = #{rsstDvlpOucmTxt}       --연구개발성과
+             , FNO_PLN_TXT        = #{fnoPlnTxt}             --향후계획
+             , DCAC_RSON_TXT      = #{dcacRsonTxt}           --중단사유
+             , BIZ_EXP_ARSL_TXT   = #{bizExpArslTxt}         --사업비실적
+             , BIZ_EXP            = #{bizExp}
+             , DCAC_ATTC_FIL_ID   = #{attcFilId}         --
+             , LAST_MDFY_DT       = GETDATE()
+             , LAST_MDFY_ID       = #{userId}
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+    </update>
+    
+    
+    
+    <!--========================== 국책과제_중단_품의서 ==========================-->
+    <!-- 품의서 정보 조회 -->
+    <select id="retrieveNatTssDcacInfo" resultType="hashmap">
+    <![CDATA[
+        SELECT TSS_CD
+             , CONVERT(VARCHAR, GETDATE(), 23) AS createDate
+             , (SELECT DATEDIFF(MM, X.STRT_DT, X.FNH_DT) + 1 FROM IRIS_TSS_NAT_PLCY_SMRY X WHERE X.TSS_CD = T2.TSS_CD) AS mMDiff
+             , (SELECT SUM(YY_NOS_CASH1+YY_NOS_ATHG1+YY_NOS_CASH2+YY_NOS_ATHG2+YY_NOS_CASH3+YY_NOS_ATHG3+YY_NOS_CASH4+YY_NOS_ATHG4+YY_NOS_CASH5+YY_NOS_ATHG5) 
+                  FROM IRIS_TSS_NAT_PLCY_BIZ_EXP WHERE TSS_CD = T2.TSS_CD) AS bizAtmSum
+             , STUFF((SELECT DISTINCT
+                             ', ' + dbo.fn_getSabunName(SA_SABUN_NEW)
+                        FROM IRIS_TSS_PTC_RSST_MBR as T1
+                       WHERE T1.TSS_CD = T2.TSS_CD
+                         FOR XML PATH('')), 1, 2, '') AS mbrNmList
+          FROM IRIS_TSS_PTC_RSST_MBR T2
+         WHERE T2.TSS_CD = #{pgTssCd}
+         GROUP BY TSS_CD
+    ]]>
+    </select>
+    
+    <!--목표기술성과 조회 -->
+     <select id="retrieveNatTssDcacCheck"  resultType="String">
+     	<![CDATA[
+     	select  case when a.arslCnt > 0 then 'N' 
+		             else 'Y' end as chkYn
+		from (
+				SELECT  count(*)  as arslCnt
+				FROM IRIS_TSS_GOAL_ARSL  /*과제목표_실적*/
+				WHERE TSS_CD = (select  CASE WHEN A.TSS_SCN_CD = 'N'
+								             THEN (SELECT X.TSS_CD FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = A.PK_WBS_CD AND X.PGS_STEP_CD = 'PG' AND X.TSS_NOS_ST = A.TSS_NOS_ST)
+								             ELSE  (SELECT X.TSS_CD FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = A.PK_WBS_CD AND X.PGS_STEP_CD = 'PG') END  AS pgTssCd --진행과제코드
+								FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
+								          LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
+								            ON A.PRJ_CD = B.PRJ_CD
+								         WHERE A.TSS_CD =  #{tssCd} 
+							   )
+				and  (convert(nvarchar(max), ARSL) = '' or convert(nvarchar(max), ARSL) is null)
+			) a
+		]]>	
+    </select>	
+</mapper>

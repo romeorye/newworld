@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fxaInfo.fxaAnl">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 자산 목록 조회  -->
+	<select id="retrieveFxaAnlSearchList" resultType="hashmap" >
+		<![CDATA[
+		SELECT   A.WBS_CD 				as "wbsCd"
+				,ISNULL(B.PRJ_NM, DBO.FN_GETDEPTNAME(A.DEPT_CD)) as prjNm
+				,A.DEPT_CD			 	AS "deptCd"
+				,A.FXA_INFO_ID 			as "fxaInfoId"
+				,A.FXA_NO 				as "fxaNo"
+				,A.FXA_NM 				as "fxaNm"
+				,A.FXA_QTY 				as "fxaQty"
+				,A.FXA_CLSS 			as "fxaClss"
+				,A.FXA_UTM_NM 			as "fxaUtmNm"
+				,D.SA_NAME  			as "crgrNm"
+				,A.CRGR_ID 				as "crgrId"
+				,A.RLIS_DT  			as "rlisDt"
+				,C.TRSF_APPR_DT 		as "trsfApprDt"
+				,A.OBT_PCE 				as "obtPce"
+				,A.BKP_PCE 				as "bkpPce"
+				,A.FXA_LOC 				as "fxaLoc"
+				,A.TAG_YN 				as "tagYn"
+				,A.LAST_MDFY_ID 		as "lastMdfyId"
+				,D.sa_mail 				as "sendMail"
+				,D.sa_user 				as "saUserId"
+				,C.TRSF_ST_CD 			as "trsfStCd"
+				,CASE WHEN C.TRSF_ST_CD = 'REJ' AND C.DEL_YN = 'N' THEN 'Y'
+					ELSE 'N' END 		as "trsfYn"
+				,F.ATTC_FIL_ID 			as "attcFilId"
+				,F.FIL_PATH 			as "imgFilPath"
+				,F.FIL_NM 				as "imgFilNm"
+				,F.ATTC_FIL_ID 			as "attcFilId"
+				,F.SEQ 					as "seq"
+		FROM   	IRIS_FXA_INFO_MST  A
+				LEFT OUTER JOIN IRIS_WBS_PJT_IF B
+					on B.WBS_CD = A.WBS_CD
+				LEFT OUTER JOIN IRIS_SSO_USER D
+					ON D.SA_SABUN_NEW = A.CRGR_ID
+				LEFT OUTER JOIN VW_SSO_DEPT VSD
+					ON D.sa_dept_new = VSD.DEPT_CODE
+				LEFT OUTER JOIN IRIS_FXA_TRSF_LIST C
+					ON  C.FXA_INFO_ID = A.FXA_INFO_ID
+					AND C.DEL_YN = 'N'
+				LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
+					ON  F.ATTC_FIL_ID = A.ATTC_FIL_ID
+					AND F.DEL_YN = 'N'
+		WHERE   A.FXA_ST_CD = 'USE'
+		]]>
+
+		<if test="( wbsCd != null and wbsCd != '')">
+			AND  A.WBS_CD = #{wbsCd}
+	    </if>
+		<if test="( prjNm != null and prjNm != '')">
+			AND B.PRJ_NM LIKE '%'+#{prjNm}+'%'
+	    </if>
+	    <if test="( fxaNm != null and fxaNm != '')">
+			AND A.FXA_NM LIKE '%'+#{fxaNm}+'%'
+	    </if>
+		<if test="(fxaNo != null and fxaNo != '')">
+			AND A.FXA_NO = #{fxaNo}
+	    </if>
+	    <if test="(crgrNm != null and crgrNm != '')">
+			AND  D.SA_NAME LIKE '%'+#{crgrNm}+'%'
+	    </if>
+	    <if test="(fromDate != null and fromDate != '')">
+			AND  C.TRSF_APPR_DT BETWEEN #{fromDate} AND #{toDate}
+	    </if>
+	   
+	    <![CDATA[
+	   		ORDER BY A.FXA_INFO_ID
+	    ]]>
+	    
+	</select>
+	
+	<!-- 자산상세 조회  -->
+	<select id="retrieveFxaAnlSearchDtl" resultType="hashmap" >
+		<![CDATA[
+		SELECT  A.FXA_INFO_ID as fxaInfoId
+		       ,A.FXA_NO as fxaNo
+			   ,A.FXA_NM as fxaNm
+			   ,A.WBS_CD as wbsCd
+			   ,ISNULL(SUBSTRING(B.PRJ_NM, 8, LEN(B.PRJ_NM)), DBO.FN_GETDEPTNAME(A.DEPT_CD)) as prjNm
+			   ,DBO.FN_GETSABUNNAME(A.CRGR_ID)  as crgrNm
+			   ,A.FXA_CLSS as fxaClss
+			   ,A.FXA_LOC as fxaLoc
+			   ,A.FXA_QTY as fxaQty
+			   ,A.FXA_SPC as fxaSpc
+			   ,A.FXA_ST_CD as fxaStCd
+			   ,A.FXA_UTM_NM as fxaUtmNm
+			   ,A.BKP_PCE as bkpPce
+			   ,A.CRGR_ID as crgrId
+			   ,A.DEPT_CD as deptCd
+			   ,A.DSU_DT as dsuDt
+			   ,A.OBT_PCE as obtPce
+			   ,A.RLIS_DT as rlisDt
+			   ,A.MK_NM as mkNm
+			   ,A.OBT_DT as obtDt
+			   ,A.USE_USF as useUsf
+			   ,ISNULL(A.TAG_YN,'N')	 as tagYn
+			   ,A.PRC_DPT as prcDpt
+			   ,C.TRSF_APPR_DT 			as trsfApprDt
+			   ,CASE WHEN C.TRSF_ST_CD = 'REJ' AND C.DEL_YN = 'N' THEN 'Y'
+							ELSE 'N' END 		as trsfYn
+			   ,F.FIL_PATH 				as imgFilPath
+			   ,F.FIL_NM 				as imgFilNm
+			   ,F.ATTC_FIL_ID 			as attcFilId
+			   ,F.SEQ 					as seq
+		FROM   IRIS_FXA_INFO_MST a
+		       LEFT OUTER JOIN IRIS_WBS_PJT_IF B
+			   	ON B.WBS_CD = A.WBS_CD
+			   LEFT OUTER JOIN IRIS_FXA_TRSF_LIST C
+				ON C.FXA_INFO_ID = A.FXA_INFO_ID
+				AND C.DEL_YN = 'N'
+			   LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
+			   	ON F.ATTC_FIL_ID = A.ATTC_FIL_ID
+			   	AND F.DEL_YN ='N'
+		WHERE   A.FXA_INFO_ID =  #{fxaInfoId}
+		]]>
+	</select>
+	
+ 	<!-- 자산 삭제  -->
+	<update id="deleteFxaInfo">
+		<![CDATA[
+		UPDATE  IRIS_FXA_INFO_MST
+		SET     FXA_ST_CD    = 'DSU'
+		       ,DEL_YN ='Y'
+		       ,LAST_MDFY_ID = #{_userId}
+		       ,LAST_MDFY_DT = GETDATE()
+		WHERE  FXA_INFO_ID = #{fxaInfoId}
+		]]>
+	</update>
+
+	<!-- 자산정보 저장 -->
+	<update id="saveFxaInfo">
+		<![CDATA[
+		MERGE IRIS_FXA_INFO_MST MEM
+			USING ( SELECT #{fxaInfoId} AS FXA_INFO_ID ) AS Tab1
+			ON  (MEM.FXA_INFO_ID = Tab1.FXA_INFO_ID)
+			WHEN MATCHED THEN
+	UPDATE SET	 FXA_ST_CD    = #{fxaStCd}
+				,CRGR_ID	  = #{crgrId}
+				,FXA_LOC	  = #{fxaLoc}
+				,FXA_QTY	  = #{fxaQty}
+				,FXA_UTM_NM	  = #{fxaUtmNm}
+				,OBT_DT		  = #{obtDt}
+				,MK_NM		  = #{mkNm}
+				,USE_USF	  = #{useUsf}
+				,TAG_YN		  = #{tagYn}
+				,ATTC_FIL_ID  = #{attcFilId}
+				,PRC_DPT	  = #{prcDpt}
+				,FXA_SPC	  = #{fxaSpc}
+				,LAST_MDFY_DT = GETDATE()
+				,LAST_MDFY_ID = #{_userId}
+		WHEN NOT MATCHED THEN
+		INSERT (
+		         FXA_NM
+				,FXA_NO
+				,FXA_ST_CD
+				,WBS_CD
+				,CRGR_ID
+				,FXA_LOC
+				,FXA_CLSS
+				,FXA_QTY
+				,FXA_UTM_NM
+				,OBT_PCE
+				,BKP_PCE
+				,OBT_DT
+				,RLIS_DT
+				,DSU_DT
+				,MK_NM
+				,USE_USF
+				,TAG_YN
+				,PRC_DPT
+				,FXA_SPC
+				,IMG_FIL_PATH
+				,IMG_FIL_NM
+				,DEL_YN
+				,ATTC_FIL_ID
+				,FRST_RGST_DT
+				,FRST_RGST_ID
+				,LAST_MDFY_DT
+				,LAST_MDFY_ID)
+	       VALUES (
+			     #{fxaNm}
+				,#{fxaNo}
+				,'USE'
+				,#{wbsCd}
+				,#{crgrId}
+				,#{fxaLoc}
+				,#{fxaClss}
+				,#{fxaQty}
+				,#{fxaUtmNm}
+				,#{obtPce}
+				,#{bkpPce}
+				,#{obtDt}
+				,#{rlisDt}
+				,#{dsuDt}
+				,#{mkNm}
+				,#{useUsf}
+				,#{tagYn}
+				,#{prcDpt}
+				,#{fxaSpc}
+				,#{imgFilPath}
+				,#{imgFilNm}
+				,'N'
+				,#{attcFilId}
+				,GETDATE()
+				,#{_userId}
+				,GETDATE()
+				,#{_userId}
+			);
+		]]>
+	</update>
+
+
+
+</mapper>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.grid.LHeaderContextMenu Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LHeaderContextMenu.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../plugins/ui/grid/LHeaderContextMenu.css"/>
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var headerContextMenu = null;
+Rui.onReady(function() {
+    var dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col4' },
+            { id: 'col5' },
+            { id: 'col6' },
+            { id: 'col7' },
+            { id: 'col8', type: 'number' },
+            { id: 'code' },
+            { id: 'tooltip' },
+            { id: 'date1', type: 'date', defaultValue: new Date() }
+        ]
+    });
+
+    var columnModel = new Rui.ui.grid.LColumnModel({
+        columns: [
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1', vMerge: true, renderer: function(val, p, record){
+                /*<b>*/
+                p.tooltip = (val !== 'Bertha G. Carr');
+                p.tooltipText = (val == 'Felix U. Hill') ? val + ' 사장' : val + ' 직원';
+                /*</b>*/
+                return val;
+            } },
+            { field: 'col2', align: 'center', width: 120, tooltipText:'컬럼 전체 적용된 tooltip 텍스트입니다.'},
+            { field: 'col8', label: 'Col8', align: 'right', sortable: true, editable: false, editor: new Rui.ui.form.LNumberBox({decimalPrecision: 2, minValue: -1, maxValue: 10000 }),
+                renderer:Rui.util.LRenderer.moneyRenderer() },
+            { field: 'date1', align:'center', editor: new Rui.ui.form.LDateBox(), renderer: Rui.util.LRenderer.dateRenderer() }
+        ]
+    });
+
+    var grid = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        headerTools: true,
+        autoToEdit: true,
+        width: 550,
+        height: 300
+    });
+    
+    grid.render('defaultGrid');
+    
+    dataSet.load({
+        sync:true,
+        url: './../../../../sample/data/data11.json'
+    });
+    
+
+    headerContextMenu = grid.getView().headerContextMenu;
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLHeaderContextMenu_method_destroy() {
+    info('LHeaderContextMenuTests : testLHeaderContextMenu_method_destroy 작동 여부');
+    assertNotUndefined(headerContextMenu.destroy());
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.grid.LHeaderContextMenu Tests</h1>
+    <div id="defaultGrid"></div>
+    
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLHeaderContextMenu_method_destroy()">destroy</a>
+        </div>
+    </div>        
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.calendar.LCalendar Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var calendar;
+Rui.onReady(function() {
+    calendar = new Rui.ui.calendar.LCalendar({
+        applyTo: 'calendar1Container',
+        pagedate: '8/2009',
+        navigator: true,
+        close:true,
+        title:'날짜를 선택하세요...'
+    });
+    calendar.render();
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+
+function testLCalendar_method_setProperty() {
+    info('LCalendarTests : testLCalendar_method_setProperty 작동 여부');
+    var strings = {
+        close: 'CLOSE',
+        nextMonth: 'NM',
+        nextYear: 'NY'
+    }
+    calendar.setProperty('strings', strings);
+    var result = calendar.getProperty('strings').close;
+    assertTrue(result == 'CLOSE');
+}
+function testLCalendar_method_getProperty() {
+    info('LCalendarTests : testLCalendar_method_getProperty 작동 여부');
+    assertTrue(typeof calendar.getProperty('strings') === 'object');
+}
+function testLCalendar_method_render() {
+    warn('RuiTests : testLCalendar_method_render 테스트 무시 => 내부사용 기능');
+}
+function testLCalendar_method_getDateByCellId() {
+    info('LCalendarTests : testLCalendar_method_getDateByCellId 작동 여부');
+    var id = 'calendar1Container_cell18'; //String
+    assertEquals(Rui.util.LDate.format(calendar.getDateByCellId(id)), '2009-08-13');
+}
+function testLCalendar_method_getDateFieldsByCellId() {
+    info('LCalendarTests : testLCalendar_method_getDateFieldsByCellId 작동 여부');
+    var id = 'calendar1Container_cell18'; //String
+    assertEquals(calendar.getDateFieldsByCellId(id)[0], 2009);
+}
+function testLCalendar_method_getCellIndex() {
+    info('LCalendarTests : testLCalendar_method_getCellIndex 작동 여부');
+    var date = new Date(2009, 7, 13); //Date
+    assertEquals(calendar.getCellIndex(date), 18);
+}
+function testLCalendar_method_addMonths() {
+    info('LCalendarTests : testLCalendar_method_addMonths 작동 여부');
+    var id = 'calendar1Container_cell18'; //String
+    var count = 1; //Number
+    calendar.addMonths(count);
+    calendar.subtractMonths(count);
+    assertEquals(calendar.getDateFieldsByCellId(id)[1], 8);
+}
+function testLCalendar_method_subtractMonths() {
+    warn('RuiTests : testLCalendar_method_subtractMonths 테스트 무시 => addMonths와 테스트 병합');
+}
+function testLCalendar_method_addYears() {
+    info('LCalendarTests : testLCalendar_method_addYears 작동 여부');
+    var id = 'calendar1Container_cell18'; //String
+    var count = 1; //Number
+    calendar.addYears(count);
+    calendar.subtractYears(count);
+    assertEquals(calendar.getDateFieldsByCellId(id)[0], 2009);
+}
+function testLCalendar_method_subtractYears() {
+    warn('RuiTests : testLCalendar_method_subtractMonths 테스트 무시 => addYears와 테스트 병합');
+}
+function testLCalendar_method_nextMonth() {
+    info('LCalendarTests : testLCalendar_method_nextMonth 작동 여부');
+    calendar.nextMonth();
+    calendar.previousMonth();
+    var id = 'calendar1Container_cell18'; //String
+    assertEquals(calendar.getDateFieldsByCellId(id)[1], 8);
+}
+function testLCalendar_method_previousMonth() {
+    warn('RuiTests : testLCalendar_method_subtractMonths 테스트 무시 => addYears와 테스트 병합');
+}
+function testLCalendar_method_nextYear() {
+    info('LCalendarTests : testLCalendar_method_nextYear 작동 여부');
+    calendar.nextYear();
+    calendar.previousYear();
+    var id = 'calendar1Container_cell18'; //String
+    assertEquals(calendar.getDateFieldsByCellId(id)[0], 2009);
+}
+function testLCalendar_method_previousYear() {
+    warn('RuiTests : testLCalendar_method_subtractMonths 테스트 무시 => nextYear와 테스트 병합');
+}
+function testLCalendar_method_reset() {
+    warn('RuiTests : testLCalendar_method_subtractMonths 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_clear() {
+    info('LCalendarTests : testLCalendar_method_clear 작동 여부');
+    calendar.clear();
+    var id = 'calendar1Container_cell18'; //String
+    assertEquals(calendar.getDateFieldsByCellId(id)[0], new Date().getFullYear());
+    calendar.setYear(2009);
+    calendar.setMonth(7);
+    calendar.render();
+    assertEquals(calendar.getDateFieldsByCellId(id)[0], 2009);
+    assertEquals(calendar.getDateFieldsByCellId(id)[1], 8);
+}
+function testLCalendar_method_select() {
+    warn('RuiTests : testLCalendar_method_select 테스트 무시 => getSelectedDate()에서 테스트');
+}
+function testLCalendar_method_selectCell() {
+    warn('RuiTests : testLCalendar_method_selectCell 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_deselect() {
+    warn('RuiTests : testLCalendar_method_deselect 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_deselectCell() {
+    warn('RuiTests : testLCalendar_method_deselectCell 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_deselectAll() {
+    warn('RuiTests : testLCalendar_method_deselectAll 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_toDate() {
+    info('LCalendarTests : testLCalendar_method_toDate 작동 여부');
+    var d = new Date();
+    var dateFieldArray = [d.getFullYear(), d.getMonth()+1, d.getDate()]; //Number[]
+    var result = calendar.toDate(dateFieldArray);
+    assertEquals(Rui.util.LDate.format(result), Rui.util.LDate.format(new Date()));
+}
+function testLCalendar_method_validate() {
+    calendar.validate();
+    warn('RuiTests : testLCalendar_method_validate 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_resetRenderers() {
+    warn('RuiTests : testLCalendar_method_validate 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_removeRenderers() {
+    warn('RuiTests : testLCalendar_method_validate 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_clearElement() {
+    warn('RuiTests : testLCalendar_method_validate 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_addRenderer() {
+    warn('RuiTests : testLCalendar_method_validate 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_addMonthRenderer() {
+    warn('RuiTests : testLCalendar_method_validate 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_addWeekdayRenderer() {
+    warn('RuiTests : testLCalendar_method_validate 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_clearAllBodyCellStyles() {
+    warn('RuiTests : testLCalendar_method_validate 테스트 무시 => 테스트 불가');
+}
+function testLCalendar_method_setMonth() {
+    warn('RuiTests : testLCalendar_method_setMonth 테스트 무시 => clear()에서 테스트');
+}
+function testLCalendar_method_setYear() {
+    warn('RuiTests : testLCalendar_method_setYear 테스트 무시 => clear()에서 테스트');
+}
+function testLCalendar_method_getSelectedDates() {
+    info('LCalendarTests : testLCalendar_method_getSelectedDates 작동 여부');
+    calendar.select(new Date(2009, 7, 5), true);
+    assertEquals(calendar.getSelectedDates()[0].getTime(), new Date(2009, 7, 5).getTime());
+}
+function testLCalendar_method_hide() {
+    info('LCalendarTests : testLCalendar_method_hide 작동 여부');
+    calendar.hide();
+    assertEquals(Rui.get('calendar1Container').getStyle('display'), 'none');
+}
+function testLCalendar_method_show() {
+    info('LCalendarTests : testLCalendar_method_show 작동 여부');
+    calendar.show();
+    assertEquals(Rui.get('calendar1Container').getStyle('display'), 'block');
+}
+function testLCalendar_method_toString() {
+    info('LCalendarTests : testLCalendar_method_toString 작동 여부');
+    var result = calendar.toString();
+    //return type : String
+    assertEquals(result, 'LCalendar calendar1Container');
+}
+function testLCalendar_method_destroy() {
+    info('LCalendarTests : testLCalendar_method_destroy 작동 여부');
+    var calendar1 = new Rui.ui.calendar.LCalendar({
+        applyTo: 'calendar2Container',
+        pagedate: '8/2009',
+        navigator: true,
+        close:true,
+        title:'날짜를 선택하세요...'
+    });
+    calendar1.render();
+    calendar1.destroy();
+    assertEquals(calendar1.cells, null);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.calendar.LCalendar Tests</h1>
+    <div id="calendar1Container"></div>
+    <div id="calendar2Container"></div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLCalendar_method_setProperty()">setProperty</a>
+            <a href="javascript:testLCalendar_method_getProperty()">getProperty</a>
+            <a href="javascript:testLCalendar_method_render()">render</a>
+            <a href="javascript:testLCalendar_method_getDateByCellId()">getDateByCellId</a>
+            <a href="javascript:testLCalendar_method_getDateFieldsByCellId()">getDateFieldsByCellId</a>
+            <a href="javascript:testLCalendar_method_getCellIndex()">getCellIndex</a>
+            <a href="javascript:testLCalendar_method_addMonths()">addMonths</a>
+            <a href="javascript:testLCalendar_method_subtractMonths()">subtractMonths</a>
+            <a href="javascript:testLCalendar_method_addYears()">addYears</a>
+            <a href="javascript:testLCalendar_method_subtractYears()">subtractYears</a>
+            <a href="javascript:testLCalendar_method_nextMonth()">nextMonth</a>
+            <a href="javascript:testLCalendar_method_previousMonth()">previousMonth</a>
+            <a href="javascript:testLCalendar_method_nextYear()">nextYear</a>
+            <a href="javascript:testLCalendar_method_previousYear()">previousYear</a>
+            <a href="javascript:testLCalendar_method_reset()">reset</a>
+            <a href="javascript:testLCalendar_method_clear()">clear</a>
+            <a href="javascript:testLCalendar_method_select()">select</a>
+            <a href="javascript:testLCalendar_method_selectCell()">selectCell</a>
+            <a href="javascript:testLCalendar_method_deselect()">deselect</a>
+            <a href="javascript:testLCalendar_method_deselectCell()">deselectCell</a>
+            <a href="javascript:testLCalendar_method_deselectAll()">deselectAll</a>
+            <a href="javascript:testLCalendar_method_toDate()">toDate</a>
+            <a href="javascript:testLCalendar_method_validate()">validate</a>
+            <a href="javascript:testLCalendar_method_resetRenderers()">resetRenderers</a>
+            <a href="javascript:testLCalendar_method_removeRenderers()">removeRenderers</a>
+            <a href="javascript:testLCalendar_method_clearElement()">clearElement</a>
+            <a href="javascript:testLCalendar_method_addRenderer()">addRenderer</a>
+            <a href="javascript:testLCalendar_method_addMonthRenderer()">addMonthRenderer</a>
+            <a href="javascript:testLCalendar_method_addWeekdayRenderer()">addWeekdayRenderer</a>
+            <a href="javascript:testLCalendar_method_clearAllBodyCellStyles()">clearAllBodyCellStyles</a>
+            <a href="javascript:testLCalendar_method_setMonth()">setMonth</a>
+            <a href="javascript:testLCalendar_method_setYear()">setYear</a>
+            <a href="javascript:testLCalendar_method_getSelectedDates()">getSelectedDates</a>
+            <a href="javascript:testLCalendar_method_hide()">hide</a>
+            <a href="javascript:testLCalendar_method_show()">show</a>
+            <a href="javascript:testLCalendar_method_toString()">toString</a>
+            <a href="javascript:testLCalendar_method_destroy()">destroy</a>
+        </div>
+        </div>
+    </div>        
+</body>
+</html>

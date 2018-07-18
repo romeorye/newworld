@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.fx.LEasing Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+
+function testLEasing_method_easeNone() {
+    info('LEasingTests : testLEasing_method_easeNone 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.easeNone(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_easeIn() {
+    info('LEasingTests : testLEasing_method_easeIn 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.easeIn(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_easeOut() {
+    info('LEasingTests : testLEasing_method_easeOut 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.easeOut(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_easeBoth() {
+    info('LEasingTests : testLEasing_method_easeBoth 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.easeBoth(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_easeInStrong() {
+    info('LEasingTests : testLEasing_method_easeInStrong 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.easeInStrong(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_easeOutStrong() {
+    info('LEasingTests : testLEasing_method_easeOutStrong 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.easeOutStrong(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_easeBothStrong() {
+    info('LEasingTests : testLEasing_method_easeBothStrong 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.easeBothStrong(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_elasticIn() {
+    info('LEasingTests : testLEasing_method_elasticIn 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.elasticIn(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_elasticOut() {
+    info('LEasingTests : testLEasing_method_elasticOut 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.elasticOut(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_elasticBoth() {
+    info('LEasingTests : testLEasing_method_elasticBoth 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.elasticBoth(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_backIn() {
+    info('LEasingTests : testLEasing_method_backIn 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.backIn(t, b, c, d);
+    assertTrue(result > 500);
+}
+function testLEasing_method_backOut() {
+    info('LEasingTests : testLEasing_method_backOut 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.backOut(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_backBoth() {
+    info('LEasingTests : testLEasing_method_backBoth 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.backBoth(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_bounceIn() {
+    info('LEasingTests : testLEasing_method_bounceIn 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.bounceIn(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_bounceOut() {
+    info('LEasingTests : testLEasing_method_bounceOut 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.bounceOut(t, b, c, d);
+    assertEquals(result, 501);
+}
+function testLEasing_method_bounceBoth() {
+    info('LEasingTests : testLEasing_method_bounceBoth 작동 여부');
+    var t = 1000; //Number
+    var b = 1; //Number
+    var c = 500; //Number
+    var d = 1000; //Number
+    var result = Rui.fx.LEasing.bounceBoth(t, b, c, d);
+    assertEquals(result, 501);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.fx.LEasing Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLEasing_method_easeNone()">easeNone</a>
+            <a href="javascript:testLEasing_method_easeIn()">easeIn</a>
+            <a href="javascript:testLEasing_method_easeOut()">easeOut</a>
+            <a href="javascript:testLEasing_method_easeBoth()">easeBoth</a>
+            <a href="javascript:testLEasing_method_easeInStrong()">easeInStrong</a>
+            <a href="javascript:testLEasing_method_easeOutStrong()">easeOutStrong</a>
+            <a href="javascript:testLEasing_method_easeBothStrong()">easeBothStrong</a>
+            <a href="javascript:testLEasing_method_elasticIn()">elasticIn</a>
+            <a href="javascript:testLEasing_method_elasticOut()">elasticOut</a>
+            <a href="javascript:testLEasing_method_elasticBoth()">elasticBoth</a>
+            <a href="javascript:testLEasing_method_backIn()">backIn</a>
+            <a href="javascript:testLEasing_method_backOut()">backOut</a>
+            <a href="javascript:testLEasing_method_backBoth()">backBoth</a>
+            <a href="javascript:testLEasing_method_bounceIn()">bounceIn</a>
+            <a href="javascript:testLEasing_method_bounceOut()">bounceOut</a>
+            <a href="javascript:testLEasing_method_bounceBoth()">bounceBoth</a>
+        </div>
+    </div>        
+</body>
+</html>

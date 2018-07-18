@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.rsst.mst">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 프로젝트 목록 조회  -->
+	<select id="retrievePrjMstSearchList" resultType="hashmap" >
+		<![CDATA[
+		SELECT *
+		FROM  (
+				SELECT MST.PRJ_CD  AS "prjCd"
+				     , MST.WBS_CD  AS "wbsCd"
+				     , MST.PRJ_NM AS "prjNm"
+				     , MST.PL_EMP_NO AS "plEmpNo"
+				     , EMP.SA_NAME AS "saName"
+				     , MST.DEPT_CD AS "deptCd"
+				     , DET.DEPT_NAME AS "deptName"
+		             , UDET.DEPT_NAME  AS "uperdeptName"
+			         , MST.PRJ_STR_DT AS "prjStrDt"
+				     , MST.PRJ_END_DT AS "prjEndDt"
+				     --, MST.PRJ_CPSN AS "prjCpsn"
+				     /*현재일자에 참여중인 연구원 총수(마감된 프로젝트는 프로젝트종료일)*/
+			    	 , ( SELECT COUNT(DISTINCT X.TMMR_EMP_NO) AS PRJ_CPSN /*팀원수*/
+						   FROM IRIS_PRJ_TMMR_INFO X 
+							    INNER JOIN IRIS_PRJ_RSST_MST Y ON X.PRJ_CD = Y.PRJ_CD
+						  WHERE X.PRJ_CD = MST.PRJ_CD
+						    AND (CASE WHEN CONVERT(CHAR(10), GETDATE(), 23) <= (CASE WHEN MST.PRJ_END_DT IS NULL OR MST.PRJ_END_DT = '' THEN '9999-12-31' ELSE MST.PRJ_END_DT END)
+									  THEN CONVERT(CHAR(10), GETDATE(), 23)
+								 ELSE MST.PRJ_END_DT END)
+						         BETWEEN X.PATC_STR_DT
+								     AND (CASE WHEN ISNULL(X.PATC_END_DT,Y.PRJ_END_DT) IS NULL OR ISNULL(X.PATC_END_DT,MST.PRJ_END_DT) = '' THEN '9999-12-31' 
+										  ELSE ISNULL(X.PATC_END_DT,Y.PRJ_END_DT) END)
+					    ) AS prjCpsn /*팀원수*/
+				     , MST.WBS_CD_A  AS "wbsCdA"	/*WBS코드약어*/
+				     ,MST.FRST_RGST_DT as frstRgstDt
+				  FROM IRIS_PRJ_RSST_MST MST
+				  LEFT OUTER JOIN  IRIS_SSO_DEPT UDET ON MST.DEPT_UPER = UDET.DEPT_CODE
+		          LEFT OUTER JOIN IRIS_SSO_USER EMP ON MST.PL_EMP_NO = EMP.SA_SABUN_NEW
+				  LEFT OUTER JOIN IRIS_SSO_DEPT DET ON MST.DEPT_CD = DET.DEPT_CODE
+				  AND DET.DEPT_LEVEL <> 0
+				 WHERE 1=1
+				]]>
+				<if test="( roleCheck != 'ADM'   )"><!-- Admin 사용자 아니면 로그인 사용자의 팀코드(조직)로 조회 -->
+					   AND MST.DEPT_CD = #{_teamDept}
+				</if>
+				<if test=' ( fromDate != null and fromDate != "" )'>
+					AND MST.PRJ_STR_DT <![CDATA[>=]]> #{fromDate} 
+				</if>
+				<if test= '( toDate != null and toDate != "" )' >
+					AND (CASE WHEN MST.PRJ_END_DT IS NULL OR MST.PRJ_END_DT = '' THEN '9999-12-31' ELSE MST.PRJ_END_DT END) <![CDATA[<=]]> #{toDate}
+				</if>
+			    <if test='(wbsCd != null and wbsCd != "")'>
+					   AND MST.WBS_CD LIKE '%'+#{wbsCd}+'%'
+			    </if>
+			    <if test='(prjNm != null and prjNm != "")'>
+					   AND MST.PRJ_NM LIKE '%'+#{prjNm}+'%'
+			    </if>
+			    <if test='(plEmpNo != null and plEmpNo != "")'>
+					   AND MST.PL_EMP_NO = #{plEmpNo}
+			    </if>
+			    <if test='( saName != null and saName != "")'>
+					   AND EMP.SA_NAME LIKE '%'+#{saName}+'%'
+			    </if>
+		
+			    <if test='(deptCd != null and deptCd != "")'>
+					   AND MST.DEPT_CD = #{deptCd}
+			    </if>
+			    <if test='(uperdeptName != null and uperdeptName != "")'>
+					   AND UDET.DEPT_NAME LIKE '%'+#{uperdeptName}+'%'
+			    </if>
+			  ) a 
+	     where 1=1 
+		<if test="_roleId == 'WORK_IRI_T16' ">
+		and  uperdeptName LIKE'%'+#{_userDeptName}+'%'
+		</if>	   
+		ORDER BY a.frstRgstDt DESC, a.prjStrDt DESC
+	</select>
+
+	<!-- 프로젝트 마스터 개별조회  -->
+	<select id="retrievePrjMstInfo" resultType="hashmap" >
+	<![CDATA[
+		SELECT MST.PRJ_CD          AS "prjCd"
+		     , MST.WBS_CD          AS "wbsCd"
+		     , MST.PRJ_NM          AS "prjNm"
+		     , MST.PL_EMP_NO       AS "plEmpNo"
+		     , [dbo].[fn_getSabunName](MST.PL_EMP_NO)    AS "saName"
+		     , MST.DEPT_CD         AS "deptCd"
+		     , [dbo].[fn_getDeptName](MST.DEPT_CD)     AS "deptName"
+			 , MST.DEPT_UPER       AS "deptUper"       /*상위부서코드*/
+             , [dbo].[fn_getDeptName](MST.DEPT_UPER)   AS "uperdeptName"
+	         , MST.PRJ_STR_DT      AS "prjStrDt"
+		     , MST.PRJ_END_DT      AS "prjEndDt"
+		     , MST.PRJ_CPSN        AS "prjCpsn"        /* 총인원 */
+		     , MST.WBS_CD_A        AS "wbsCdA"	       /*WBS코드약어*/
+		     , CASE WHEN C.PRJ_CLS_YYMM = '' OR C.PRJ_CLS_YYMM IS NULL THEN '미완료'
+			        ELSE '완료' END  AS  aftPgsSt
+		     , CASE WHEN C.PRJ_CLS_YYMM = '' OR C.PRJ_CLS_YYMM IS NULL THEN 'N'
+			        ELSE 'Y' END  AS  aftPgsStYn
+		  FROM  IRIS_PRJ_RSST_MST MST
+		  		LEFT OUTER JOIN IRIS_PRJ_RSST_CLS C
+			    ON   C.PRJ_CD = MST.PRJ_CD
+			    AND  C.PRJ_CLS_YYMM =CONVERT(NVARCHAR(7), DATEADD(MM, -1, #{searchMonth}+'-01 00:00:00'), 23)
+		 WHERE MST.PRJ_CD = #{prjCd}
+	]]>
+	</select>
+
+	<!-- 프로젝트 개요 개별조회  -->
+	<select id="retrievePrjDtlInfo" resultType="hashmap" >
+	<![CDATA[
+		SELECT A.PRJ_CD        as "prjCd"      /*프로젝트코드*/
+		     , A.RSST_DEV_SCP  as "rsstDevScp" /*연구개발범위*/
+			 , A.BIZ_AREA      as "bizArea"    /*사업영역*/
+			 , A.MN_BASE_TCLG  as "mnBaseTclg" /*핵심기반기술*/
+		  FROM IRIS_PRJ_RSST_DTL A
+		 WHERE A.PRJ_CD = #{prjCd}
+ 	]]>
+	</select>
+
+	<!-- 조직 총 인원수 조회  -->
+	<select id="retrieveDeptUserCntInfo" resultType="hashmap" >
+	<![CDATA[
+		  SELECT COUNT(1) as deptCnt
+		    FROM IRIS_SSO_USER A
+		   WHERE A.SA_DEPT_NEW IN (
+								   SELECT DEPT_CODE FROM IRIS_SSO_DEPT A WHERE A.DEPT_CODE = #{_teamDept}
+								   UNION ALL
+								   SELECT DEPT_CODE FROM IRIS_SSO_DEPT A WHERE A.DEPT_UPER = #{_teamDept}
+		                          )
+		     AND A.SA_USER IS NOT NULL AND A.SA_USER != ''  /* 유저ID없는 유저 제거 */                     
+	]]>
+	</select>
+	
+	<!-- 팀정보 조회  -->
+	<select id="retrieveTeamDeptInfo" resultType="hashmap" >
+	<![CDATA[
+		  SELECT TOP 1
+		         A.DEPT_CODE        as deptCode
+		       , A.DEPT_NAME        as deptName
+		       , A.DEPT_UPER        as deptUper
+		       , A.UPERDEPT_NAME    as uperdeptName
+		       , B.SA_SABUN_NEW     as plSaSabunNew
+			   , B.SA_NAME          as plSaName
+			   , 0                  as teamUserCnt /*팀원 총인원*/
+			   , 'N'                as isTeamPrj   /*팀 프로젝트 존재여부*/
+			   , C.DEPT_UPER_CODE_A as deptCodeA   /*부서약어코드*/
+		    FROM IRIS_SSO_DEPT A
+		         INNER JOIN IRIS_SSO_USER B ON A.DEPT_CODE = B.SA_DEPT_NEW AND B.SA_FUNC IN ('FO0', 'FG0', 'FB1') /* 연구팀 리더코드 */
+		         LEFT OUTER JOIN IRIS_DEPT_UPER_CD_A_MGMT C ON A.DEPT_CODE = C.DEPT_CODE AND C.USE_YN = 'Y'
+		   WHERE A.DEPT_CODE = #{_teamDept}
+	]]>
+	</select>
+
+	<!-- PRJ_RSST_MST 저장  -->
+	<insert id="insertPrjRsstMstInfo">
+	<![CDATA[
+		insert into IRIS_PRJ_RSST_MST
+		(     PRJ_CD
+	        , WBS_CD
+			, PRJ_NM
+			, PL_EMP_NO
+			, DEPT_CD
+			]]>
+			<if test="( filId != null and filId != '')">
+            , FIL_ID
+            </if>
+            <![CDATA[
+			, PRJ_STR_DT
+			, PRJ_END_DT
+			, PRJ_CPSN
+			, FRST_RGST_ID
+			, FRST_RGST_DT
+			, LAST_MDFY_ID
+			, LAST_MDFY_DT
+			, WBS_CD_A
+			, DEPT_UPER
+		)
+		values
+		(
+		      (SELECT  ISNULL('PRJ'+  REPLICATE('0', 5 - len(convert(nvarchar,substring(MAX(PRJ_CD), 4,8)+1)))+ convert(nvarchar,substring(MAX(PRJ_CD), 4,8)+1),'PRJ00001')
+                FROM IRIS_PRJ_RSST_MST)
+		    , #{wbsCd}
+		    , #{prjNm}
+		    , #{plEmpNo}
+		    , #{deptCd}
+		    ]]>
+			<if test="( filId != null and filId != '')">
+		    , #{filId}
+		    </if>
+            <![CDATA[
+		    , #{prjStrDt}
+		    , #{prjEndDt}
+		    , #{prjCpsn}
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		    , #{wbsCdA}
+		    , #{deptUper}
+		)
+	]]>
+	</insert>
+
+	<!-- PRJ_RSST_MST 업데이트  -->
+	<update id="updatePrjRsstMstInfo">
+	<![CDATA[
+		UPDATE IRIS_PRJ_RSST_MST
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+	]]>
+		<if test="( plEmpNo != null and plEmpNo != '')">
+		     , PL_EMP_NO = #{plEmpNo}
+		</if>
+		<if test="( deptCd != null and deptCd != '')">
+		     , DEPT_CD = #{deptCd}
+		</if>
+        <if test="( wbsCd != null and wbsCd != '')">
+			, WBS_CD = #{wbsCd}
+	    </if>
+		<if test="( prjNm != null and prjNm != '')">
+		     , PRJ_NM = #{prjNm}
+		 </if>
+		 <if test="( prjStrDt != null and prjStrDt != '')">
+		     , PRJ_STR_DT = #{prjStrDt}
+		 </if>
+		 <!-- <if test="( prjEndDt != null and prjEndDt != '')"> -->
+		 <if test="( prjEndDt != null)">
+		     , PRJ_END_DT = #{prjEndDt}
+		 </if>
+		 <if test="( prjCpsn != null and prjCpsn != '')">
+		     , PRJ_CPSN = #{prjCpsn}
+		 </if>
+		 <if test="( wbsCdA != null and wbsCdA != '')">
+			, WBS_CD_A = #{wbsCdA}
+	    </if>
+	<![CDATA[
+		 WHERE PRJ_CD = #{prjCd}
+	]]>
+	</update>
+
+	<!-- 프로젝트코드 조회  -->
+	<select id="retrievePrjCd" resultType="hashMap" >
+	<![CDATA[
+		SELECT ISNULL('PRJ'+  REPLICATE('0', 5 - len(convert(nvarchar,substring(MAX(PRJ_CD), 4,8))))+ convert(nvarchar,substring(MAX(PRJ_CD), 4,8)),'PRJ00001') as "prjCd"
+		  FROM IRIS_PRJ_RSST_MST
+	]]>
+	</select>
+
+	<!-- IRIS_PRJ_RSST_DTL(프로젝트 개요 상세) 저장  -->
+	<insert id="insertPrjRsstDtlInfo">
+	<![CDATA[
+		INSERT INTO IRIS_PRJ_RSST_DTL
+		(
+			  PRJ_CD
+			, WBS_CD
+			, RSST_DEV_SCP
+			, BIZ_AREA
+			, MN_BASE_TCLG
+			, FRST_RGST_ID
+			, FRST_RGST_DT
+			, LAST_MDFY_ID
+			, LAST_MDFY_DT
+		)
+		VALUES
+		(
+			  #{prjCd}
+			, #{wbsCd}
+			, #{rsstDevScp}
+			, #{bizArea}
+			, #{mnBaseTclg}
+		    , #{_userId}
+			, getdate()
+			, #{_userId}
+			, getdate()
+		)
+	]]>
+	</insert>
+
+	<!-- IRIS_PRJ_RSST_DTL 업데이트  -->
+	<update id="updatePrjRsstDtlInfo">
+	<![CDATA[
+		UPDATE IRIS_PRJ_RSST_DTL
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+			]]>
+			<if test="( wbsCd != null and wbsCd != '')">
+			 , WBS_CD = #{wbsCd}
+			 </if>
+			<if test="( rsstDevScp != null and rsstDevScp != '')">
+			 , RSST_DEV_SCP = #{rsstDevScp}
+			 </if>
+			<if test="( bizArea != null and bizArea != '')">
+			 , BIZ_AREA = #{bizArea}
+			</if>
+			<if test="( mnBaseTclg != null and mnBaseTclg != '')">
+			 , MN_BASE_TCLG = #{mnBaseTclg}
+			</if>
+			<![CDATA[
+		 WHERE PRJ_CD = #{prjCd}
+	]]>
+	</update>
+
+	<!-- 프로젝트 조회팝업 목록조회  -->
+	<select id="retrievePrjSearchPopupSearchList" resultType="hashmap" >
+	<![CDATA[
+		/* 조직계층 */
+		WITH DEPT_HIE(DEPT_CODE, DEPT_NAME, DEPT_UPER, UPERDEPT_NAME, level)
+		AS
+		(
+		SELECT A.DEPT_CODE, A.DEPT_NAME, A.DEPT_UPER, A.UPERDEPT_NAME, 0 FROM IRIS_SSO_DEPT A WHERE (A.DEPT_UPER = '' OR A.DEPT_UPER IS NULL)
+		UNION ALL
+		SELECT A1.DEPT_CODE, A1.DEPT_NAME, A1.DEPT_UPER, A1.UPERDEPT_NAME, A2.level+1
+		  FROM IRIS_SSO_DEPT A1 INNER JOIN DEPT_HIE A2 ON A1.DEPT_UPER = A2.DEPT_CODE
+		WHERE A1.DEPT_UPER IS NOT NULL
+		)
+		SELECT AA.TYPE           as 'type'
+		     , AA.PRJ_CD         as 'prjCd'      /*프로젝트코드*/
+		     , AA.WBS_CD	     as 'wbsCd'	     /*WBS코드*/
+			 , AA.PRJ_NM	     as 'prjNm'	     /*프로젝트명*/
+			 , AA.DEPT_CD	     as 'deptCd'	 /*팀코드*/ 
+			 , AA.DEPT_NAME	     as 'deptName'   /*팀명*/
+			 , AA.DEPT_CNT	     as 'deptCnt'	 /*팀총인원수*/
+			 , AA.DEPT_UPER      as 'upDeptCd'	 /*조직(상위)코드*/ 
+			 , AA.UPERDEPT_NAME	 as 'upDeptName' /*조직(상위)명*/
+			 , AA.PL_EMP_NO	     as 'plEmpNo'	 /*PL사번*/
+			 , AA.PL_EMP_NAME    as 'plEmpName'  /*PL명*/
+			 , AA.PRJ_STR_DT     as 'prjStrDt'   /*프로젝트시작일(yyyy-mm-dd)*/
+			 , AA.PRJ_END_DT     as 'prjEndDt'   /*프로젝트종료일(yyyy-mm-dd)*/
+			 , AA.WBS_CD_A		 as 'wbsCdA'	 /*WBS코드약어*/
+		  FROM (
+				/* 프로젝트 */
+				SELECT 1 AS TYPE
+				     , A.PRJ_CD
+					 , A.WBS_CD
+					 , A.PRJ_NM
+					 , A.DEPT_CD
+					 , B.DEPT_NAME
+					 , B.DEPT_UPER
+					 , B.UPERDEPT_NAME
+					 , A.PRJ_CPSN as DEPT_CNT
+					 , A.PL_EMP_NO
+					 , C.SA_NAME AS PL_EMP_NAME
+					 , A.PRJ_STR_DT
+					 , A.PRJ_END_DT
+					 , A.WBS_CD_A
+				  FROM IRIS_PRJ_RSST_MST A
+					   LEFT OUTER JOIN IRIS_SSO_DEPT B ON A.DEPT_CD = B.DEPT_CODE
+					   LEFT OUTER JOIN IRIS_SSO_USER C ON A.PL_EMP_NO = C.SA_SABUN_NEW
+			     WHERE GETDATE() BETWEEN A.PRJ_STR_DT 
+			           AND (CASE WHEN A.PRJ_END_DT IS NULL OR A.PRJ_END_DT = '' THEN '9999-12-31' ELSE A.PRJ_END_DT END) /*프로젝트 기간 내*/
+				UNION ALL
+				/* 조직 */
+				SELECT 2 AS TYPE
+				     , '' AS PRJ_CD
+					 , '' AS WBS_CD
+					 , A.DEPT_NAME     AS PRJ_NM
+					 , A.DEPT_CODE     AS DEPT_CD
+					 , A.DEPT_NAME
+					 , A.DEPT_UPER
+					 , A.UPERDEPT_NAME
+					 /*아래 파트인원 모두포함한 총인원*/
+					 , ( 
+						SELECT SUM(S.UCNT) 
+						  FROM (
+							    SELECT COUNT(1)  AS UCNT FROM IRIS_SSO_USER WHERE SA_DEPT_NEW = A.DEPT_CODE 
+								   AND SA_USER IS NOT NULL AND SA_USER != '' /* 유저ID없는 유저 제거 */ 
+								UNION ALL
+								SELECT COUNT(1) AS UCNT FROM IRIS_SSO_USER WHERE SA_DEPT_NEW IN (SELECT DEPT_CODE FROM IRIS_SSO_DEPT WHERE DEPT_UPER =  A.DEPT_CODE  )
+								  AND SA_USER IS NOT NULL AND SA_USER != '' /* 유저ID없는 유저 제거 */ 
+							) S
+						) as DEPT_CNT
+					 , B.SA_SABUN_NEW  AS PL_EMP_NO
+					 , B.SA_NAME       AS PL_EMP_NAME
+					 , '' AS PRJ_STR_DT
+					 , '' AS PRJ_END_DT
+					 , ISNULL(C.DEPT_UPER_CODE_A,'') AS WBS_CD_A /*부서약어코드*/
+				  FROM DEPT_HIE A
+					   INNER JOIN IRIS_SSO_USER B ON A.DEPT_CODE = B.SA_DEPT_NEW AND B.SA_FUNC IN ('FO0', 'FG0', 'FB1') /* 리더가 존재하는 조직만 조회(팀 아래 파트조직은 제거) */
+					     AND DEPT_CODE IN (SELECT DISTINCT SU.SA_DEPT_NEW
+								             FROM IRIS_SSO_USER SU
+								            WHERE SU.SA_GSBER = '1100'
+								          )
+					   LEFT OUTER JOIN IRIS_DEPT_UPER_CD_A_MGMT C ON A.DEPT_CODE = C.DEPT_CODE AND C.USE_YN = 'Y'		          
+				 WHERE NOT EXISTS ( /* 프로젝트마스터 중복제거 */
+									SELECT 1 FROM IRIS_PRJ_RSST_MST WHERE DEPT_CD = A.DEPT_CODE )
+		) AA
+		WHERE 1=1
+	]]>
+		<if test='( searchType == null or searchType == "") '>
+			   AND AA.TYPE = 1
+	    </if>
+	    <if test='(prjNm != null and prjNm != "")'>
+			   AND AA.PRJ_NM LIKE '%'+#{prjNm}+'%'
+	    </if>
+	    <if test='(deptCd != null and deptCd != "")'>
+			   AND AA.DEPT_CD = #{deptCd}
+	    </if>
+	<![CDATA[
+		ORDER BY AA.PRJ_NM DESC
+	]]>
+	</select>
+	
+	<!-- WBS_CD 중복여부  -->
+	<select id="retrieveDupPrjWbsCd" resultType="hashmap" >
+	<![CDATA[
+		SELECT (CASE WHEN A.DUP_CNT > 0 THEN 'Y' ELSE 'N' END) as dupYn
+		  FROM (
+				SELECT COUNT(1) as DUP_CNT
+				  FROM IRIS_PRJ_RSST_MST
+				 WHERE WBS_CD = #{wbsCd}
+		       ) A
+	]]>
+	</select>
+	
+	<!-- WBS 약어 수정 -->
+	<update id = "updatePrjDeptCdA" >
+		update IRIS_PRJ_RSST_MST 
+		set  WBS_CD_A = #{deptUperCodeA}
+		 	, LAST_MDFY_ID = #{userId}
+		    , LAST_MDFY_DT = getdate()
+		where DEPT_CD = #{deptCode}
+	</update>
+
+	<!-- 프로젝트신규 전용팝업창 -->
+	<select id="retrievePrjPopupSearchList" resultType="hashmap" >
+		<![CDATA[
+			WITH DEPT_MST AS
+			(
+			SELECT SD.dept_code		
+					,SD.dept_name
+					,SD.dept_uper
+					,SD.uperdept_name
+					,SD.DEPT_LEVEL AS DEPT_LEVEL
+					, SD.dept_name  AS master_lv1
+					, CAST(null AS NVARCHAR(300)) AS master_lv2
+					, CAST(null AS NVARCHAR(10)) AS master_code_lv2	
+				FROM IRIS_SSO_DEPT SD
+				WHERE SD.dept_code = '50000000'  
+				UNION ALL
+				SELECT SD2.dept_code			
+					,SD2.DEPT_NAME
+					,SD2.dept_uper
+					,SD2.uperdept_name
+					,SD2.DEPT_LEVEL AS DEPT_LEVEL
+					,AEM3.master_lv1
+					,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_name ELSE AEM3.master_lv2 END master_lv2
+					,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_code ELSE AEM3.master_code_lv2 END master_code_lv2	
+				FROM IRIS_SSO_DEPT SD2
+					,DEPT_MST AEM3
+				WHERE  1=1 
+				AND SD2.dept_uper = aem3.dept_code   
+			)
+		SELECT A.SA_SABUN_NEW 	as plEmpNo
+		      ,A.SA_NAME 		as plEmpName
+		      ,A.SA_DEPT_NAME 	as prjNm
+		      ,A.SA_DEPT_NEW 	as deptCd
+			  ,D.MASTER_CODE_LV2 as upDeptCd
+			  ,D.MASTER_LV2	 	as upDeptName
+			  ,ISNULL(E.DEPT_UPER_CODE_A, '') AS wbsCdA
+			  ,(SELECT COUNT(SU.SA_SABUN_NEW)
+			    FROM   IRIS_SSO_USER SU
+				WHERE  SU.SA_DEPT_NEW = A.SA_DEPT_NEW
+				AND    (SU.SA_USER <> '' OR SU.SA_USER IS NOT NULL)
+		
+				) AS deptCnt
+		
+		FROM   IRIS_SSO_USER A
+		       INNER JOIN  IRIS_SSO_DEPT B
+			   ON B.DEPT_CODE = A.SA_DEPT_NEW
+			   AND B.DEPT_LEVEL <> 0
+			   AND B.PS_FLAG <> 'D'
+			   INNER JOIN DEPT_MST D
+			   ON D.DEPT_CODE = B.DEPT_CODE
+			   LEFT OUTER JOIN IRIS_DEPT_UPER_CD_A_MGMT E
+			   ON E.DEPT_CODE = B.DEPT_CODE
+			   AND  E.USE_YN ='Y'
+		WHERE  1=1
+		AND    A.SA_FUNC IN ('FO0', 'FG0', 'FB1')
+		AND    A.SA_GSBER = '1100'
+		]]>
+			<if test='(prjNm != null and prjNm != "")'>
+			AND    A.SA_DEPT_NAME  LIKE '%'+#{prjNm}+'%'
+			</if>
+		
+		<![CDATA[
+		ORDER BY D.MASTER_CODE_LV2
+		]]>
+	</select>
+	
+	<update id="savePrjPimsInfo">
+	MERGE INTO tb_ea101_PMIS MEM
+			USING dual
+			ON  (MEM.WBS_CODE = #{wbsCd} )
+			WHEN MATCHED THEN
+	UPDATE SET	 WBS_NAME     = #{prjNm}
+				,PJT_INTERNAL = #{prjNm}
+				,WBS_INERNAL  = #{prjNm}
+				,PJT_LEADER	  = #{plEmpNo}
+				,WBS_PSDATE	  = replace(#{prjStrDt}, '-', '')
+				,WBS_PEDATE	  = replace(#{prjEndDt}, '-', '')
+				,REC_STATUS	  = 1
+				,MODIFY_DATE  = sysdate
+		WHEN NOT MATCHED THEN
+		INSERT (
+		         WBS_CODE
+				,WBS_NAME     
+				,PJT_INTERNAL 
+				,WBS_INERNAL  
+				,PJT_LEADER	  
+				,WBS_PSDATE	  
+				,WBS_PEDATE	  
+				,REC_STATUS	  
+				,ENTRY_DATE
+				,MODIFY_DATE
+				)
+	       VALUES (
+			     #{wbsCd}
+				,#{prjNm}
+				,#{prjNm}
+				,#{prjNm}
+				,#{plEmpNo}
+				,replace(#{prjStrDt}, '-', '')
+				,replace(#{prjEndDt}, '-', '')
+				, 1
+				,sysdate
+				,sysdate
+			)
+	</update>
+	
+</mapper>

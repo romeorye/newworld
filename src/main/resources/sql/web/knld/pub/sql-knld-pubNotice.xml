@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.pub">
+
+	<select id="getPubNoticeList" resultType="hashmap">
+		<![CDATA[
+			-- getPubNoticeList 공지사항 리스트 조회
+			SELECT
+				PWI_ID											AS 'pwiId',
+				TITL_NM											AS 'titlNm',
+				(CASE WHEN UGY_YN = 'U' THEN '[긴급] ' + TITL_NM
+				      ELSE TITL_NM END)           				AS 'titlNm2',
+				PWI_SCN_CD										AS 'pwiScnCd',
+				dbo.fn_getComDtlNm('PWI_SCN_CD', A.PWI_SCN_CD)  AS 'pwiScnNm',
+				SBC_NM						    				AS 'sbcNm',
+				RTRV_CNT										AS 'rtrvCnt',
+				KEYWORD_NM										AS 'keywordNm',
+				(CASE
+					WHEN (select	count(1)
+						  from		IRIS_COM_ATTC_FIL
+						  where		ATTC_FIL_ID = A.ATTC_FILE_ID
+						  and		DEL_YN = 'N') = 0 THEN NULL
+					ELSE  A.ATTC_FILE_ID
+				END)                            				AS 'attcFilId',
+				UGY_YN						    				AS 'ugyYn',
+				(CASE WHEN UGY_YN = 'U' THEN
+				      '긴급' ELSE
+				      '일반' END)               				AS 'ugyYnNm',
+				RGST_ID						    				AS 'rgstId',
+				dbo.fn_getUserName(RGST_ID)						AS 'rgstNm',
+				RGST_OPS_ID										AS 'rgstOpsId',
+				convert(varchar(20),FRST_RGST_DT,23) 			AS 'frstRgstDt'
+
+			FROM	IRIS_KNLD_PWI_IMTR A
+		 ]]>
+			WHERE	DEL_YN = 'N'
+        <if test="titlNm != null and titlNm != ''">
+			AND TITL_NM like '%${titlNm}%'
+		</if>
+        <if test="rgstNm != null and rgstNm != ''">
+			AND dbo.fn_getUserName(RGST_ID) like '${rgstNm}%'
+		</if>
+        <if test="pwiScnCd != null and pwiScnCd != ''">
+			AND PWI_SCN_CD = '${pwiScnCd}'
+		</if>
+
+			ORDER BY UGY_YN DESC, PWI_ID DESC
+	</select>
+
+	<!-- 공지사항 저장  -->
+	<insert id="insertPubNoticeInfo">
+	<![CDATA[
+		insert into IRIS_KNLD_PWI_IMTR
+		(     TITL_NM
+	        , PWI_SCN_CD
+			, SBC_NM
+			, RTRV_CNT
+			, KEYWORD_NM
+			]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+            , ATTC_FILE_ID
+            </if>
+            <![CDATA[
+			, UGY_YN
+			, RGST_ID
+			, RGST_OPS_ID
+			, DEL_YN
+			, FRST_RGST_ID
+			, FRST_RGST_DT
+			, LAST_MDFY_ID
+			, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{titlNm}
+		    , #{pwiScnCd}
+		    , #{sbcNm}
+		    , 0
+		    , #{keywordNm}
+		    ]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+		    , #{attcFilId}
+		    </if>
+		    , #{ugyYn}
+		     <![CDATA[
+		    , #{_userId}
+		    , ( SELECT sa_dept_new FROM IRIS_SSO_USER WHERE sa_user = #{_userId} )
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+
+	<!-- 공지사항 업데이트  -->
+	<update id="updatePubNoticeInfo">
+	<![CDATA[
+		UPDATE IRIS_KNLD_PWI_IMTR
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , TITL_NM = #{titlNm}
+		     , PWI_SCN_CD = #{pwiScnCd}
+		     , UGY_YN = #{ugyYn}
+		     , SBC_NM = #{sbcNm}
+		     , KEYWORD_NM = #{keywordNm}
+		     , ATTC_FILE_ID = #{attcFilId}
+	]]>
+
+
+	<![CDATA[
+		 WHERE PWI_ID = #{pwiId}
+	]]>
+	</update>
+
+	<!-- 공지사항 조회건수 업데이트  -->
+	<update id="updatePubNoticeRtrvCnt">
+	<![CDATA[
+		UPDATE IRIS_KNLD_PWI_IMTR
+		   SET RTRV_CNT = RTRV_CNT + 1
+	]]>
+
+	<![CDATA[
+		 WHERE PWI_ID = #{pwiId}
+	]]>
+	</update>
+
+	<!-- 공지사항 긴급여부 업데이트  -->
+	<update id="updatePubNoticeUgyYn">
+	<![CDATA[
+		UPDATE IRIS_KNLD_PWI_IMTR
+		   SET UGY_YN = (CASE WHEN UGY_YN = 'U' THEN 'C' ELSE 'U' END)
+	]]>
+
+	<![CDATA[
+		 WHERE PWI_ID = #{pwiId}
+	]]>
+	</update>
+
+	<!-- 공지사항 삭제  -->
+	<update id="deletePubNoticeInfo">
+	<![CDATA[
+		UPDATE IRIS_KNLD_PWI_IMTR
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE PWI_ID = #{pwiId}
+	]]>
+	</update>
+
+	<select id="getPubNoticeInfo" resultType="hashmap">
+		<![CDATA[
+			-- getPwiImtrList 공지사항 상세 조회
+			SELECT
+				PWI_ID							AS 'pwiId',
+				TITL_NM							AS 'titlNm',
+				(CASE WHEN UGY_YN = 'Y' THEN
+				      '[긴급]' + TITL_NM  ELSE
+				       TITL_NM END)             AS 'titlNm2',
+				PWI_SCN_CD						AS 'pwiScnCd',
+				dbo.fn_getComDtlNm('PWI_SCN_CD', A.PWI_SCN_CD) AS 'pwiScnNm',
+				SBC_NM						    AS 'sbcNm',
+				RTRV_CNT						AS 'rtrvCnt',
+				KEYWORD_NM						AS 'keywordNm',
+				ATTC_FILE_ID					AS 'attcFilId',
+				UGY_YN						    AS 'ugyYn',
+				(CASE WHEN UGY_YN = 'U' THEN
+				      '긴급' ELSE
+				      '일반' END)             AS 'ugyYnNm',
+				RGST_ID						    AS 'rgstId',
+				dbo.fn_getUserName(RGST_ID)		AS 'rgstNm',
+				RGST_OPS_ID						AS 'rgstOpsId',
+				convert(varchar(20),FRST_RGST_DT,23) AS 'frstRgstDt'
+
+			FROM	IRIS_KNLD_PWI_IMTR A
+			WHERE	DEL_YN = 'N'
+			  AND   PWI_ID = '${pwiId}'
+		 ]]>
+
+	</select>
+
+</mapper>

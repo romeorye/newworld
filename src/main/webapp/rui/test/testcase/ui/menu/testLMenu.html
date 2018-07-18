@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.menu.LMenu Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../plugins/menu/rui_menu.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../plugins/menu/rui_menu.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var menu = null;
+var dataSet = null;
+Rui.onReady(function() {
+    menu = new Rui.ui.menu.LMenu('menuDiv');
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLMenu_method_positionOffScreen() {
+    warn('LMenuTests : testLMenu_method_positionOffScreen 테스트 무시 => 내부에서만 사용');
+}
+function testLMenu_method_clearContent() {
+    info('LMenuTests : testLMenu_method_clearContent 작동 여부');
+    assertNotUndefined(menu.clearContent());
+}
+function testLMenu_method_getRoot() {
+    info('LMenuTests : testLMenu_method_getRoot 작동 여부');
+    assertNotUndefined(menu.getRoot());
+}
+function testLMenu_method_toString() {
+    info('LMenuTests : testLMenu_method_toString 작동 여부');
+    var result = menu.toString();
+    //return type : String
+    assertNotUndefined(result);
+}
+function testLMenu_method_setItemGroupTitle() {
+    info('LMenuTests : testLMenu_method_setItemGroupTitle 작동 여부');
+    var p_sGroupTitle = null; //String
+    var p_nGroupIndex = null; //Number
+    assertNotUndefined(menu.setItemGroupTitle(p_sGroupTitle, p_nGroupIndex));
+}
+function testLMenu_method_addItem() {
+    info('LMenuTests : testLMenu_method_addItem 작동 여부');
+    var p_oItem = 'test'; //String
+    var p_nGroupIndex = null; //Number
+    var result = menu.addItem(p_oItem, p_oItem, p_oItem, p_nGroupIndex);
+    //return type : Rui.ui.menu.LMenuItem
+    assertNotUndefined(result);
+}
+function testLMenu_method_addItems() {
+    info('LMenuTests : testLMenu_method_addItems 작동 여부');
+    var p_aItems = ['123', '456']; //Array
+    var p_nGroupIndex = null; //Number
+    var result = menu.addItems(p_aItems, p_nGroupIndex);
+    //return type : Array
+    assertNotUndefined(result);
+}
+function testLMenu_method_addItemsByDataSet() {
+    info('LMenuTests : testLMenu_method_addItemsByDataSet 작동 여부');
+    var result = menu.addItemsByDataSet();
+    //return type : Array
+    assertNotUndefined(result);
+}
+function testLMenu_method_insertItem() {
+    info('LMenuTests : testLMenu_method_insertItem 작동 여부');
+    var p_oItem = '1234'; //String
+    var p_nItemIndex = null; //Number
+    var p_nGroupIndex = null; //Number
+    var result = menu.insertItem(p_oItem, p_nItemIndex, p_nGroupIndex);
+    //return type : Rui.ui.menu.LMenuItem
+    assertNotUndefined(result);
+}
+function testLMenu_method_getItems() {
+    info('LMenuTests : testLMenu_method_getItems 작동 여부');
+    assertNotUndefined(menu.getItems());
+}
+function testLMenu_method_getItemGroups() {
+    info('LMenuTests : testLMenu_method_getItemGroups 작동 여부');
+    assertNotUndefined(menu.getItemGroups());
+}
+function testLMenu_method_getItem() {
+    info('LMenuTests : testLMenu_method_getItem 작동 여부');
+    var p_nItemIndex = 0; //Number
+    var p_nGroupIndex = null; //Number
+    assertNotUndefined(menu.getItem(p_nItemIndex, p_nGroupIndex));
+}
+function testLMenu_method_getSubmenus() {
+    info('LMenuTests : testLMenu_method_getSubmenus 작동 여부');
+    assertNotUndefined(menu.getSubmenus());
+}
+function testLMenu_method_setInitialFocus() {
+    info('LMenuTests : testLMenu_method_setInitialFocus 작동 여부');
+    assertNotUndefined(menu.setInitialFocus());
+}
+function testLMenu_method_setInitialSelection() {
+    info('LMenuTests : testLMenu_method_setInitialSelection 작동 여부');
+    assertNotUndefined(menu.setInitialSelection());
+}
+function testLMenu_method_clearActiveItem() {
+    info('LMenuTests : testLMenu_method_clearActiveItem 작동 여부');
+    var p_bBlur = null; //boolean
+    assertNotUndefined(menu.clearActiveItem(p_bBlur));
+}
+function testLMenu_method_focus() {
+    info('LMenuTests : testLMenu_method_focus 작동 여부');
+    assertNotUndefined(menu.focus());
+}
+function testLMenu_method_blur() {
+    info('LMenuTests : testLMenu_method_blur 작동 여부');
+    assertNotUndefined(menu.blur());
+}
+function testLMenu_method_hasFocus() {
+    info('LMenuTests : testLMenu_method_hasFocus 작동 여부');
+    var result = menu.hasFocus();
+    //return type : boolean
+    assertNotUndefined(result);
+}
+function testLMenu_method_disable() {
+    info('LMenuTests : testLMenu_method_disable 작동 여부');
+    assertNotUndefined(menu.disable());
+}
+function testLMenu_method_enable() {
+    info('LMenuTests : testLMenu_method_enable 작동 여부');
+    assertNotUndefined(menu.enable());
+}
+function testLMenu_method_subscribe() {
+    warn('LMenuTests : testLMenu_method_subscribe 테스트 무시 => 이벤트 처리 관련 메소드');
+}
+function testLMenu_method_destroy() {
+    warn('LMenuTests : testLMenu_method_destroy 테스트 무시 => 내부에서만 사용');
+}
+function testLMenu_method_removeItem() {
+    info('LMenuTests : testLMenu_method_removeItem 작동 여부');
+    var p_oObject = null; //Rui.ui.menu.LMenuItem
+    var p_oObject = null; //Number
+    var p_nGroupIndex = null; //Number
+    var result = menu.removeItem(p_oObject, p_oObject, p_nGroupIndex);
+    //return type : Rui.ui.menu.LMenuItem
+    assertNotUndefined(result);
+}
+
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.menu.LMenu Tests</h1>
+    <div id="menuDiv"></div>
+    <div id="bd">
+            <a href="javascript:testLMenu_method_getRoot()">getRoot</a>
+            <a href="javascript:testLMenu_method_toString()">toString</a>
+            <a href="javascript:testLMenu_method_setItemGroupTitle()">setItemGroupTitle</a>
+            <a href="javascript:testLMenu_method_addItem()">addItem</a>
+            <a href="javascript:testLMenu_method_addItems()">addItems</a>
+            <a href="javascript:testLMenu_method_addItemsByDataSet()">addItemsByDataSet</a>
+            <a href="javascript:testLMenu_method_insertItem()">insertItem</a>
+            <a href="javascript:testLMenu_method_removeItem()">removeItem</a>
+            <a href="javascript:testLMenu_method_getItems()">getItems</a>
+            <a href="javascript:testLMenu_method_getItemGroups()">getItemGroups</a>
+            <a href="javascript:testLMenu_method_getItem()">getItem</a>
+            <a href="javascript:testLMenu_method_getSubmenus()">getSubmenus</a>
+            <a href="javascript:testLMenu_method_clearContent()">clearContent</a>
+            <a href="javascript:testLMenu_method_setInitialFocus()">setInitialFocus</a>
+            <a href="javascript:testLMenu_method_setInitialSelection()">setInitialSelection</a>
+            <a href="javascript:testLMenu_method_clearActiveItem()">clearActiveItem</a>
+            <a href="javascript:testLMenu_method_focus()">focus</a>
+            <a href="javascript:testLMenu_method_blur()">blur</a>
+            <a href="javascript:testLMenu_method_hasFocus()">hasFocus</a>
+            <a href="javascript:testLMenu_method_disable()">disable</a>
+            <a href="javascript:testLMenu_method_enable()">enable</a>
+            <a href="javascript:testLMenu_method_subscribe()">subscribe</a>
+            <a href="javascript:testLMenu_method_destroy()">destroy</a>
+
+    </div>        
+</body>
+</html>

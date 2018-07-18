@@ -1,0 +1,88 @@
+<%@ page language="java" session="false" pageEncoding="EUC-KR" contentType="text/html; charset=EUC-KR"%>
+<%
+    pageContext.setAttribute("crlf", "\r\n");
+    pageContext.setAttribute("blank", " ");
+
+    String contextRootPath = request.getContextPath();
+
+    if ("/".equals(contextRootPath)) {
+    	contextRootPath = "";
+    }
+
+    //String dhtmlxPath       = contextRootPath + "/common/dhtmlEnterprise";
+    //String scriptUsePath    = contextRootPath + "/common/js";
+    
+    String dhtmlxPath       = contextRootPath + "/resource/old/common/dhtmlEnterprise";
+    String scriptUsePath    = contextRootPath + "/resource/old/common/js";    
+%>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR"/>
+
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxGrid/codebase/dhtmlxgrid.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/codebase/dhtmlxgrid_skins.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxCalendar/codebase/dhtmlxcalendar.css">
+<link rel="stylesheet" type="text/css" href="<%=dhtmlxPath%>/dhtmlxCalendar/codebase/dhtmlxcalendar_skins.css"/>
+
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxCombo/codebase/dhtmlxcombo.css">
+
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxCombo/codebase/ext/dhtmlxgrid_pgn_bricks.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_modernblack.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_modernblue.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_modernred.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_aquadark.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_aquaorange.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_aquasky.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_clear_blue.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_clearblue.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_cleargreen.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_clearsilver.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_dhx_black.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_dhx_blue.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_glassy_blue.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_standard.css">
+<link rel="STYLESHEET" type="text/css" href="<%=dhtmlxPath%>/dhtmlxMenu/codebase/skins/dhtmlxmenu_dhx_skyblue.css">
+
+
+<style>
+    .grid_hover {
+        background-color:#E6E6FA;
+        font-size:20px;
+    }
+</style>
+
+
+<script src="<%=dhtmlxPath%>/dhtmlxCalendar/codebase/dhtmlxcommon.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxCombo/codebase/dhtmlxcombo.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxCombo/codebase/dhtmlxcommon.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxConnector/codebase/connector.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxCombo/codebase/ext/dhtmlxcombo_extra.js"></script>
+
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/dhtmlxcommon.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/dhtmlxgrid.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_hmenu.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/dhtmlxgridcell.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxCombo/codebase/dhtmlxcombo.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_splt.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_srnd.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_filter.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_nxml.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_selection.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_drag.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_mcol.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_fast.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/excells/dhtmlxgrid_excell_link.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_pgn.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/dhtmlxcommon.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxToolbar/codebase/dhtmlxtoolbar.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/excells/dhtmlxgrid_excell_ra_str.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxCalendar/codebase/dhtmlxcalendar.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/excells/dhtmlxgrid_excell_dhxcalendar.js"></script>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_validation.js"></script>		<%-- 그리드 내 validation체크 --%>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/excells/dhtmlxgrid_excell_sub_row.js"></script>	<%-- 서브그리드  --%>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_rowspan.js"></script>	<%-- 그리드 rowspan --%>
+<script src="<%=dhtmlxPath%>/dhtmlxGrid/codebase/ext/dhtmlxgrid_group.js"></script>	<%-- 그리드 group --%>
+<script>
+	var dhtmlxPath = '<%=dhtmlxPath%>';
+</script>
+<script type="text/javascript" src="<%=scriptUsePath%>/dhtmlxGrid.js"></script>
+<script language="JavaScript" src="<%=dhtmlxPath%>/dhtmlxMenu/codebase/dhtmlxmenu.js"></script>
+

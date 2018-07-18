@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.tab.LTabView Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../plugins/tab/rui_tab.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../plugins/tab/rui_tab.css" />
+
+<script type="text/javascript" src="./../../../../plugins/tree/rui_tree.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../plugins/tree/rui_tree.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style>
+.L-nav-selected {
+    font-weight: bold;
+}
+</style>
+
+<script type="text/javascript" >
+var tabView = null; 
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    tabView = new Rui.ui.tab.LTabView({
+        contentHeight: 300,
+        tabs: [
+            {
+                label: '<img src="./../../../../resources/images/tab/leaf.gif" style="border:0;" onclick="tabIconClick(0);"/>lorem',
+                content: '<div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat.</div>'
+            },
+            {
+                id: 'div-content-test',
+                label: '<img src="./../../../../resources/images/tab/leaf.gif" style="border:0;" onclick="tabIconClick(1);"/>Dom & TreeView',
+                active: true
+            },
+            {
+                label: '<img src="./../../../../resources/images/tab/leaf.gif" style="border:0;" onclick="tabIconClick(2);"/>gridview',
+                content: '<div><div id="defaultGrid"></div></div>'
+            },
+            {
+                label: '<img src="./../../../../resources/images/tab/leaf.gif" style="border:0;" onclick="tabIconClick(3);"/>grid pager',
+                content: '<div>Grid2<div id="defaultGrid2"></div></div>'
+            }
+        ]
+    });
+/*
+    tabView.addTab(new Rui.ui.tab.LTab({
+        label: '<img src="./../../../../resources/images/tab/leaf.gif" style="border:0;" onclick="tabIconClick();"/>test',
+        content: '<h3>추가된 Tab 입니다.</h3>',
+        active: true
+    }));
+    */
+    tabView.render('tab-container');
+
+    var dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col4' },
+            { id: 'date1', type: 'date' }
+        ]
+    });
+
+    var dataSetTree = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'menuId', type: 'number' },
+            { id: 'seq', type: 'number' },
+            { id: 'parentMenuId', type: 'number' },
+            { id: 'name' },
+            { id: 'url' }
+        ]
+    });
+
+    var tree = new Rui.ui.tree.LTreeView({
+        width: 200,
+        height: 250,
+        dataSet: dataSetTree
+    });
+
+    tree.render('treeDiv1');
+
+    var columnModel = new Rui.ui.grid.LColumnModel({
+        columns: [
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { id: 'group1' },
+            { field: 'col1', label: 'Col1', groupId: 'group1', autoWidth: true, maxAutoWidth: 400, editor: new Rui.ui.form.LTextBox() },
+            { field: 'col2', sortable: true, groupId: 'group1', width: 200, align: 'center' },
+            { field: 'col3', align: 'right', hidden: true },
+            { field: 'col4' },
+            { field: 'date1' , align: 'center', minWidth: 150, autoWidth: true, renderer: function(v){
+                return '<font color="red">' + v + '</font>';
+            }}
+        ]
+    });
+
+    var grid = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        autoWidth: true,
+        width: 500,
+        height: 298
+    });
+
+    grid.render('defaultGrid');
+    
+    var dataSet2 = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'date1', type: 'date' }
+        ]
+    });
+
+    var columnModel2 = new Rui.ui.grid.LColumnModel({
+        columns: [
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1' },
+            { field: 'col2', sortable: true, align: 'center', editor: new Rui.ui.form.LTextBox() },
+            { field: 'col3', align: 'right', hidden: true },
+            { field: 'date1' , align: 'center', renderer: Rui.util.LRenderer.dateRenderer() }
+        ]
+    });
+    
+/*
+    var grid2 = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel2,
+        dataSet: dataSet2,
+        autoWidth: true,
+        height: 250
+    });
+    grid2.render('defaultGrid2');
+*/
+    
+    dataSetTree.load({
+        url: './../../../../sample/data/menu.json',
+        sync: true
+   }); 
+    
+    dataSet.load({
+        url: './../../../../sample/data/data.json',
+        sync: true
+   }); 
+    
+    dataSet2.load({
+        url: './../../../../sample/data/data.json',
+        sync: true
+   }); 
+
+    /*
+    dataSetTree.load({ url: './../../../../sample/data/menu.json' });
+    dataSet.load({ url: './../../../../sample/data/data.json' });
+    dataSet2.load({ url: './../../../../sample/data/data.json' });
+    */
+
+function tabIconClick(idx){
+    if(idx != undefined)
+        alert(idx + ' tab index ' + idx + '의 label icon clicked !');
+}
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+function testLTabView_method_get() {
+    info('LTabViewTests : testLTabView_method_get 작동 여부');
+    var key = 'testKey' //String
+    tabView.set(key,'test'); 
+    assertEquals(tabView.get(key), 'test');
+}
+function testLTabView_method_set() {
+    info('LTabViewTests : testLTabView_method_set 작동 여부');
+    var key = 'testkey1'; //String
+    var value = '1234'; //Any
+    var silent = true; //boolean
+    assertEquals(tabView.set(key, value, silent), true);
+    assertEquals(tabView.get(key), value);
+}
+function testLTabView_method_addClass() {
+    info('LTabViewTests : testLTabView_method_addClass 작동 여부');
+    var className = 'L-content-tab'; //String
+    tabView.removeClass(className);     
+    
+    var result = tabView.addClass(className);
+    assertTrue(result.el.className == className);
+}
+function testLTabView_method_removeClass() {
+    info('LTabViewTests : testLTabView_method_removeClass 작동 여부');
+    var className = 'L-content-tab2'; //String
+    var result =  tabView.removeClass(className);
+    assertNotNull(result); 
+     
+}
+function testLTabView_method_addTab() {
+    info('LTabViewTests : testLTabView_method_addTab 작동 여부');
+    var str = '<h3>추가된 Tab 입니다.</h3>'; 
+    tabView.addTab(new Rui.ui.tab.LTab({
+        label: '<img src="./../../../../resources/images/tab/leaf.gif" style="border:0;" onclick="tabIconClick();"/>test',
+        content: '<h3>추가된 Tab 입니다.</h3>',
+        active: true
+    }));
+    
+    var newtab = tabView.get('tabs');
+    var result = newtab[newtab.length-1].content; 
+    assertEquals(result, str); 
+    
+}
+function testLTabView_method_addTabs() {
+    info('LTabViewTests : testLTabView_method_addTabs 작동 여부');
+    
+    var tabs = tabView.get('tabs');
+    var len = tabs.length; 
+    tabView.mTabs = tabs.slice(); 
+    tabView.tabs = []; 
+     
+    tabView.cfg.setProperty('tabs',tabView.tabs); 
+    
+    for (var i = 0;  i < len; i++) {                    
+       tabView.addTab(new Rui.ui.tab.LTab(tabView.mTabs[i]));
+    }
+    
+    var tabs2 = tabView.get('tabs'); 
+    
+    assertTrue(tabs2.length > 0); 
+}
+function testLTabView_method_addTabsByChild() {
+    info('LTabViewTests : testLTabView_method_addTabsByChild 작동 여부');
+    tabView.addTabsByChild(Rui.get('testAddTab').dom);
+    assertTrue(tabView.addedChild); 
+}
+function testLTabView_method_getTab() {
+    info('LTabViewTests : testLTabView_method_getTab 작동 여부');
+    var index = 2; //Integer
+    assertNotNull(tabView.getTab(index)); 
+}
+function testLTabView_method_getTabIndex() {
+    info('LTabViewTests : testLTabView_method_getTabIndex 작동 여부');
+    var tab = tabView.getTab(0); //Rui.ui.tab.LTab
+    assertTrue(tabView.getTabIndex(tab) == 0);
+}
+function testLTabView_method_getTabCount() {
+    info('LTabViewTests : testLTabView_method_getTabCount 작동 여부');
+    assertTrue(tabView.getTabCount() > 0);
+}
+function testLTabView_method_removeTab() {
+    info('LTabViewTests : testLTabView_method_removeTab 작동 여부');
+    
+    var preCnt = tabView.getTabCount(); 
+    var tab = tabView.getTab(1); 
+    tabView.removeTab(tab); 
+    var curCnt = tabView.getTabCount();
+    assertTrue(preCnt > curCnt); 
+        
+}
+function testLTabView_method_removeAt() {
+    info('LTabViewTests : testLTabView_method_removeAt 작동 여부');
+    var preCnt = tabView.getTabCount(); 
+    tabView.removeAt(tabView.getTabCount() - 1);
+    var curCnt = tabView.getTabCount();
+    assertTrue(preCnt > curCnt); 
+}
+function testLTabView_method_toString() {
+    info('LTabViewTests : testLTabView_method_toString 작동 여부');
+    var result = tabView.toString();
+    //return type : String
+    assertTrue(result.length > 0);
+}
+function testLTabView_method__getValidActiveIndex() {
+    info('LTabViewTests : testLTabView_method__getValidActiveIndex 작동 여부');
+    tabView.selectTab(1);
+    assertTrue(tabView._getValidActiveIndex(0) > 0); 
+}
+function testLTabView_method_deselectTab() {
+    info('LTabViewTests : testLTabView_method_deselectTab 작동 여부');
+    var index = 1; //int
+    tabView.deselectTab(index);
+    assertNotNull(tabView.cfg.getProperty('activeTab')); 
+}
+function testLTabView_method_selectTab() {
+    info('LTabViewTests : testLTabView_method_selectTab 작동 여부');
+    var index = 0; //int
+    tabView.selectTab(index);
+    assertNotNull(tabView.cfg.getProperty('activeTab')); 
+}
+function testLTabView_method_getActiveIndex() {
+    info('LTabViewTests : testLTabView_method_getActiveIndex 작동 여부');
+    tabView.cfg.setProperty('activeIndex', 0); 
+    assertTrue(tabView.getActiveIndex() > -1);
+}
+function testLTabView_method_getActiveTab() {
+    info('LTabViewTests : testLTabView_method_getActiveTab 작동 여부');
+    assertNotNull(tabView.getActiveTab()); 
+}
+function testLTabView_method_setLabel() {
+    info('LTabViewTests : testLTabView_method_setLabel 작동 여부');
+    tabView.getTab(1).setLabel('test');
+    assertTrue(true); 
+}
+function testLTabView_method_destroy() {
+    info('LTabViewTests : testLTabView_method_destroy 작동 여부');
+    tabView.destroy();
+    assertNull(tabView.el); 
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.tab.LTabView Tests</h1>
+
+    <div id="bd">
+      <div class="LblockMarkupCode">
+            <div id="tab-container">
+            </div>
+            <div id="div-content-test">test용 텍스트 입니다.
+            <div id="treeDiv1"></div>
+            </div>
+            <div id="testAddTab">Add tab demo1
+                <div id = "Korea">Korea</div>
+                <div id = "Japan">Japan</div>
+            </div>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLTabView_method_get()">get</a>
+            <a href="javascript:testLTabView_method_set()">set</a>
+            <a href="javascript:testLTabView_method_addClass()">addClass</a>
+            <a href="javascript:testLTabView_method_removeClass()">removeClass</a>
+            <a href="javascript:testLTabView_method_addTab()">addTab</a>
+            <a href="javascript:testLTabView_method_addTabs()">addTabs</a>
+            <a href="javascript:testLTabView_method_addTabsByChild()">addTabsByChild</a>
+            <a href="javascript:testLTabView_method_getTab()">getTab</a>
+            <a href="javascript:testLTabView_method_getTabIndex()">getTabIndex</a>
+            <a href="javascript:testLTabView_method_getTabCount()">getTabCount</a>
+            <a href="javascript:testLTabView_method_removeTab()">removeTab</a>
+            <a href="javascript:testLTabView_method_removeAt()">removeAt</a>
+            <a href="javascript:testLTabView_method_toString()">toString</a>
+            <a href="javascript:testLTabView_method__getValidActiveIndex()">_getValidActiveIndex</a>
+            <a href="javascript:testLTabView_method_deselectTab()">deselectTab</a>
+            <a href="javascript:testLTabView_method_selectTab()">selectTab</a>
+            <a href="javascript:testLTabView_method_getActiveIndex()">getActiveIndex</a>
+            <a href="javascript:testLTabView_method_getActiveTab()">getActiveTab</a>
+            <a href="javascript:testLTabView_method_setLabel()">setLabel</a>
+            <a href="javascript:testLTabView_method_destroy()">destroy</a>
+        </div>
+    </div>        
+</body>
+</html>

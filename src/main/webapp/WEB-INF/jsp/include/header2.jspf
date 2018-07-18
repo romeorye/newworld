@@ -1,0 +1,158 @@
+<%@ page language="java" session="false" pageEncoding="EUC-KR" contentType="text/html; charset=EUC-KR"%>
+<%@ page 
+  import="devonframe.util.HistorialWatch"
+  import="java.util.HashMap"
+  import="lghausys.twms.util.*"
+%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="Tag" uri="http://www.dev-on.com/Tag" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
+<%
+    pageContext.setAttribute("crlf", "\r\n"); 
+    pageContext.setAttribute("blank", " "); 
+
+    String contextPath = request.getContextPath();
+
+    if ("/".equals(contextPath)) {
+    	contextPath = "";
+    }
+    /* 기존소스 
+    String imagePath        = contextPath + "/images";
+    String cssPath          = contextPath + "/css";
+    String scriptPath       = contextPath + "/js";
+    String jspPath          = contextPath + "/jsp";
+    String duiPathJs        = contextPath + "/common/js";
+    String duiPathCss       = contextPath + "/common/css";
+    */
+
+    String imagePath        = contextPath + "/resource/old/images";
+    String cssPath          = contextPath + "/css";
+    String scriptPath       = contextPath + "/js";
+    String scriptPath2       = contextPath + "/resource/web/js";
+    String jspPath          = contextPath + "/jsp";
+    String duiPathJs        = contextPath + "/resource/old/common/js";
+    String duiPathCss       = contextPath + "/resource/old/common/css";
+    String ruiPathJs        = contextPath + "/rui/js";
+    String ruiPathCss       = contextPath + "/rui/resources";
+    String ruiPathPlugins   = contextPath + "/rui/plugins";
+    
+    String newImagePath     = contextPath + "/resource/images";
+    
+    String documentTitle = "  :::  지인 창호 통합 시스템(WINS)  :::  ";
+    
+    HistorialWatch historialWatch = (HistorialWatch)request.getAttribute(iris.web.system.base.Constants.SERVLET_STOPWATCH_KEY);
+    if (historialWatch == null) {
+    	historialWatch = new HistorialWatch();
+    }
+    historialWatch.tick("Processing Jsp Begin");
+
+    /* 그리드내 수정가능한 셀 색상지정 : 한민호 : 2010-05-19 */
+    String edCellColor = "#C8FFB5";
+%>
+
+<%   
+	HttpSession session = null;
+	session = request.getSession(false);
+	//LData menuInfo = null;
+	HashMap menuInfo = null;
+	String topMenuNm 	= "";
+	String supiMenuNm 	= "";
+	String menuNm 		= "";
+	String authScnCd 	= "";
+
+    if(request.getSession() != null){
+		session = request.getSession(false);
+		if(session.getAttribute("menuInfoSession") != null) {
+			/* devon.core.collection.LData 삭제로 변경
+			menuInfo = (LData)session.getAttribute("menuInfoSession");
+			topMenuNm 	= menuInfo.getString("topMenuNm");
+			supiMenuNm 	= menuInfo.getString("supiMenuNm");
+			menuNm 		= menuInfo.getString("menuNm");
+			authScnCd 	= menuInfo.getString("authScnCd");
+			*/
+			menuInfo = (HashMap)session.getAttribute("menuInfoSession");
+			
+			topMenuNm 	= menuInfo.get("topMenuNm").toString();
+			supiMenuNm 	= menuInfo.get("supiMenuNm").toString();
+			menuNm 		= menuInfo.get("menuNm").toString();
+			authScnCd 	= menuInfo.get("authScnCd").toString();
+			
+		} 
+	}
+
+%>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr"/>
+<link rel="stylesheet" type="text/css" href="<%=duiPathCss%>/base.css" />
+<link rel="stylesheet" type="text/css" href="<%=duiPathCss%>/global_style.css" />
+<link rel="stylesheet" type="text/css" href="<%=duiPathCss%>/global_layout.css" />
+<link rel="stylesheet" type="text/css" href="<%=duiPathCss%>/page_style.css" />
+<link rel="stylesheet" type="text/css" href="<%=duiPathCss%>/page_layout.css" />
+<link rel="stylesheet" type="text/css" href="<%=duiPathCss%>/page_common.css" />
+
+<!-- <link rel="stylesheet" type="text/css" href="<%=ruiPathCss%>/rui.css" />  -->
+<!-- <link rel="stylesheet" type="text/css" href="<%=ruiPathCss%>/rui_skin1.css" /> -->
+
+
+
+<script type="text/javascript">
+    var contextPath = "<%=contextPath%>";
+</script>
+<script type="text/javascript" src="<%=duiPathJs%>/common.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/oem_common.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/xsync_twms.js"></script>
+<%-- DevOn UI WebValidator 이용시 필요한 js 추가(prototype.js,dui_base.js, dui_webvalidator*.js) --%>
+<script type="text/javascript" src="<%=duiPathJs%>/prototype.js"></script>
+
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_base.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_core.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_form.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_grid.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_ui.js"></script>
+
+<script type="text/javascript" src="<%=ruiPathCss%>/rui_config.js"></script>
+<script type="text/javascript" src="<%=ruiPathCss%>/rui_license.js"></script>
+
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_license.js"></script> 
+<%-- <script type="text/javascript" src="<%=ruiPathJs%>/rui_base.js"></script> --%>
+<%-- <script type="text/javascript" src="<%=ruiPathJs%>/rui_core.js"></script> --%>
+<%-- <script type="text/javascript" src="<%=ruiPathJs%>/rui_ui.js"></script> --%>
+<%-- <script type="text/javascript" src="<%=ruiPathJs%>/rui_form.js"></script> --%>
+<%-- <script type="text/javascript" src="<%=ruiPathJs%>/rui_grid.js"></script> --%>
+<%-- <script type="text/javascript" src="<%=ruiPathJs%>/rui_config.js"></script> --%>
+<%-- <link rel="stylesheet" type="text/css" href="<%=duiPathCss%>/rui.css" /> --%>
+
+<%-- <script type="text/javascript" src="<%=ruiPathPlugins%>/tab/rui_tab.js"></script> --%>
+<%-- <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/tab/rui_tab.css" /> --%>
+
+<%-- <script type="text/javascript" src="<%=ruiPathPlugins%>/tree/rui_tree.js"></script> --%>
+<%-- <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/plugins/tree/rui_tree.css" /> --%>
+
+<%-- <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/LPager.js"></script> --%>
+
+
+
+<script type="text/javascript" src="<%=scriptPath%>/jquery.js"></script>
+<script type="text/javascript" src="<%=scriptPath2%>/jquery.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/jquery.iframeResizer.min.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_base.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_webvalidator.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_webvalidator_msg_ko.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_effect.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_dragndrop.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_hhmenu.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_tree.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_slidemenu.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_tab.js"></script>
+
+<script type="text/javascript" src="<%=duiPathJs%>/epjs.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/calendar.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/calendarPopup.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/lgchem.js"></script>
+<script type="text/javascript" src="<%=duiPathJs %>/saymessage.js"></script>
+<script type="text/javascript" src="<%=duiPathJs %>/twms.js"></script> 
+
+<script type="text/javascript" src="<%=contextPath%>/common/xjos/xjos.js"></script>

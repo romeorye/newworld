@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.fx.LAnimManager Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var anim = null;
+Rui.onReady(function() {
+    anim = new Rui.fx.LAnim({
+        el: 'demo',
+        attributes: {
+            width: {
+                to: 0
+            }
+        }
+    });
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLAnimManager_method_registerElement() {
+    warn('RuiTests : testLAnimManager_method_registerElement 테스트 무시 => 내부에서만 사용');
+}
+function testLAnimManager_method_start() {
+    info('LAnimManagerTests : testLAnimManager_method_start 작동 여부');
+    Rui.fx.LAnimManager.registerElement(anim);
+    Rui.fx.LAnimManager.start();
+    assertTrue(true);
+}
+function testLAnimManager_method_stop() {
+    info('LAnimManagerTests : testLAnimManager_method_stop 작동 여부');
+    Rui.fx.LAnimManager.registerElement(anim);
+    Rui.fx.LAnimManager.stop();
+    assertTrue(true);
+}
+function testLAnimManager_method_run() {
+    info('LAnimManagerTests : testLAnimManager_method_run 작동 여부');
+    Rui.fx.LAnimManager.registerElement(anim);
+    Rui.fx.LAnimManager.run();
+    assertTrue(true);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.fx.LAnimManager Tests</h1>
+    <div id="demo">Demo</div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLAnimManager_method_registerElement()">registerElement</a>
+            <a href="javascript:testLAnimManager_method_start()">start</a>
+            <a href="javascript:testLAnimManager_method_stop()">stop</a>
+            <a href="javascript:testLAnimManager_method_run()">run</a>
+        </div>
+    </div>        
+</body>
+</html>

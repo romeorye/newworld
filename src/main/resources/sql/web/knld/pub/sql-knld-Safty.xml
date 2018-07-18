@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.pub">
+
+
+    <!-- 안전환경보건 리스트  -->
+	<select id="getSaftyList" resultType="hashmap">
+		<![CDATA[
+			SELECT
+					SFT_ENV_ID                                              AS 'saftyId'     /*안전환경보건ID*/
+					,TITL_NM                                                AS 'titlNm'      /*제목*/
+					,SFT_ENV_SCN_CD                                         AS 'sftEnvScnCd' /*구분코드*/
+					,dbo.fn_getComDtlNm('SFT_ENV_SCN_CD', A.SFT_ENV_SCN_CD) AS 'sftEnvScnNm' /*구분이름*/
+					,ENFC_DT                                                AS 'enfcDt'      /*시행일*/
+					,RFRM_SBC                                               AS 'rfrmSbc'     /*개정내용*/
+					,SBC_NM                                                 AS 'sbcNm'       /*내용*/
+					,RTRV_CNT                                               AS 'rtrvCnt'     /*조회수*/
+					,KEYWORD_NM                                             AS 'keywordNm'   /*키워드*/
+					,(CASE
+						WHEN (select	count(1)
+						  		from		IRIS_COM_ATTC_FIL
+						  		where		ATTC_FIL_ID = A.ATTC_FILE_ID
+								  and		DEL_YN = 'N') = 0 THEN NULL
+						ELSE  A.ATTC_FILE_ID
+					   END)                                                 AS 'attcFilId'    /*첨부파일*/
+					,RGST_ID                                                AS 'rgstId'      /*등록자ID*/
+			        ,dbo.fn_getUserName(RGST_ID)                            AS 'rgstNm'      /*등록자*/
+					,RGST_OPS_ID                                            AS 'rgstOpsId'   /*등록자부서ID*/
+					,DEL_YN                                                 AS 'delYn'       /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)                 AS 'frstRgstDt'  /*등록일*/
+			FROM IRIS_KNLD_SFTY_ENV  A
+			WHERE DEL_YN = 'N'
+		 ]]>
+        <if test="titlNm != null and titlNm != ''">
+			AND TITL_NM like '%${titlNm}%'
+		</if>
+        <if test="rgstNm != null and rgstNm != ''">
+			AND dbo.fn_getUserName(RGST_ID) like '%${rgstNm}%'
+		</if>
+        <if test="sftEnvScnCd != null and sftEnvScnCd != ''">
+			AND SFT_ENV_SCN_CD = '${sftEnvScnCd}'
+		</if>
+		<if test="( enfcStrtDt != null and enfcStrtDt != '')">
+			AND ENFC_DT >= #{enfcStrtDt}
+		</if>
+		<if test="( enfcFnhDt != null and enfcFnhDt != '')">
+			AND ENFC_DT <![CDATA[<]]>= #{enfcFnhDt}
+		</if>
+			ORDER BY SFT_ENV_ID DESC
+	</select>
+
+
+	<!-- 안전환경보건 저장  -->
+	<insert id="insertSaftyInfo">
+	<![CDATA[
+		insert into IRIS_KNLD_SFTY_ENV
+		(			 TITL_NM
+					,SFT_ENV_SCN_CD
+					,ENFC_DT
+					,RFRM_SBC
+					,SBC_NM
+					,RTRV_CNT
+					,KEYWORD_NM
+		]]>
+		            <if test="( attcFilId != null and attcFilId != '')">
+					,ATTC_FILE_ID
+		            </if>
+    <![CDATA[
+					,RGST_ID
+					,RGST_OPS_ID
+					,DEL_YN
+					, FRST_RGST_ID
+					, FRST_RGST_DT
+					, LAST_MDFY_ID
+					, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{titlNm}
+		    , #{sftEnvScnCd}
+		    , #{enfcDt}
+		    , #{rfrmSbc}
+		    , #{sbcNm}
+		    , 0
+		    , #{keywordNm}
+		    ]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+		    , #{attcFilId}
+		    </if>
+		     <![CDATA[
+		    , #{_userId}
+		    , ( SELECT sa_dept_new FROM IRIS_SSO_USER WHERE sa_user = #{_userId} )
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+
+    <!-- 안전환경보건 업데이트  -->
+	<update id="updateSaftyInfo">
+	<![CDATA[
+		UPDATE IRIS_KNLD_SFTY_ENV
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , TITL_NM = #{titlNm}
+		     , SFT_ENV_SCN_CD = #{sftEnvScnCd}
+	         , ENFC_DT = #{enfcDt}
+	         , RFRM_SBC = #{rfrmSbc}
+		     , SBC_NM = #{sbcNm}
+		     , KEYWORD_NM = #{keywordNm}
+	]]>
+		<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID = #{attcFilId}
+	    </if>
+
+	<![CDATA[
+		 WHERE SFT_ENV_ID = #{saftyId}
+	]]>
+	</update>
+
+	<!--  안전환경보건 조회건수 업데이트  -->
+	<update id="updateSaftyRtrvCnt">
+	<![CDATA[
+		UPDATE IRIS_KNLD_SFTY_ENV
+		   SET RTRV_CNT = RTRV_CNT + 1
+	]]>
+
+	<![CDATA[
+		 WHERE SFT_ENV_ID = #{saftyId}
+	]]>
+	</update>
+
+
+
+    <!-- 안전환경보건 삭제  -->
+	<update id="deleteSaftyInfo">
+	<![CDATA[
+		UPDATE IRIS_KNLD_SFTY_ENV
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE SFT_ENV_ID = #{saftyId}
+	]]>
+	</update>
+
+    <!-- 안전환경보건 상세화면  -->
+	<select id="getSaftyInfo" resultType="hashmap">
+		<![CDATA[
+			SELECT
+					SFT_ENV_ID                                              AS 'saftyId'     /*안전환경보건ID*/
+					,TITL_NM                                                AS 'titlNm'      /*제목*/
+					,SFT_ENV_SCN_CD                                         AS 'sftEnvScnCd' /*구분코드*/
+					,dbo.fn_getComDtlNm('SFT_ENV_SCN_CD', A.SFT_ENV_SCN_CD) AS 'sftEnvScnNm' /*구분이름*/
+					,ENFC_DT                                                AS 'enfcDt'      /*시작일*/
+					,RFRM_SBC                                               AS 'rfrmSbc'     /*개정내용*/
+					,SBC_NM                                            AS 'sbcNm'       /*내용*/
+					,RTRV_CNT                                          AS 'rtrvCnt'     /*조회수*/
+					,KEYWORD_NM                                        AS 'keywordNm'   /*키워드*/
+					,ATTC_FILE_ID                                      AS 'attcFilId'   /*첨부파일*/
+					,RGST_ID                                           AS 'rgstId'      /*등록자ID*/
+			        ,dbo.fn_getUserName(RGST_ID)                       AS 'rgstNm'      /*등록자*/
+					,RGST_OPS_ID                                       AS 'rgstOpsId'   /*등록자부서ID*/
+					,DEL_YN                                            AS 'delYn'       /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)            AS 'frstRgstDt'  /*등록일*/
+			FROM IRIS_KNLD_SFTY_ENV A
+			WHERE DEL_YN = 'N'
+			  AND SFT_ENV_ID = #{saftyId}
+		 ]]>
+	</select>
+
+</mapper>

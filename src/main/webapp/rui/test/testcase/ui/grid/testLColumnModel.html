@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.grid.LColumnModel Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LGridView.js"></script>
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LGridPanelExt.js"></script>
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style type="text/css">
+.testcase-buttons {
+    margin-top: 20px;
+}
+</style>
+
+<script type="text/javascript" >
+var columnModel;
+Rui.onReady(function() {
+    var dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col4' },
+            { id: 'col5' },
+            { id: 'col6' },
+            { id: 'col7' },
+            { id: 'col8', type: 'number' },
+            { id: 'code' },
+            { id: 'date1', type: 'date', defaultValue: new Date() }
+        ]
+    });
+
+    columnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        freezeColumnId: 'code',
+        columns: [
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { id: 'group1' },
+            { field: 'col1', label: 'Col1', groupId: 'group1' },
+            { field: 'col2', sortable: true, align: 'center', editable: true, width: 120 },
+            { field: 'code', align: 'center', maxAutoWidth: true },
+            { field: 'col3', align: 'right' },
+            { field: 'col5', align: 'center', hidden: true },
+            { field: 'col6', label: 'Col6', width: 200 },
+            { field: 'col8', label: 'Col8', align: 'right', renderer:Rui.util.LRenderer.moneyRenderer() },
+            { field: 'date1', align:'center', renderer: Rui.util.LRenderer.dateRenderer(), vMerge: true }
+        ]
+    });
+
+    var grid = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        autoWidth: true,
+        height:300
+    });
+
+    grid.render('defaultGrid');
+
+    dataSet.load({
+        url: './../../../../sample/data/data.json',
+        sync: true
+    });
+
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLColumnModel_method_getColumnById() {
+    info('LColumnModelTests : testLColumnModel_method_getColumnById 작동 여부');
+    var id = 'col1'; //String
+    assertTrue(columnModel.getColumnById(id) instanceof Rui.ui.grid.LColumn);
+}
+function testLColumnModel_method_getColumnAt() {
+    info('LColumnModelTests : testLColumnModel_method_getColumnAt 작동 여부');
+    assertTrue(columnModel.getColumnAt(3) instanceof Rui.ui.grid.LColumn);
+}
+function testLColumnModel_method_isHidden() {
+    info('LColumnModelTests : testLColumnModel_method_isHidden 작동 여부');
+    var col = 7; //int
+    assertEquals(columnModel.isHidden(col), true);
+}
+function testLColumnModel_method_getIndexById() {
+    info('LColumnModelTests : testLColumnModel_method_getIndexById 작동 여부');
+    var id = 'col1'; //String
+    assertEquals(columnModel.getIndexById(id), 3);
+}
+function testLColumnModel_method_getIndex() {
+    info('LColumnModelTests : testLColumnModel_method_getIndex 작동 여부');
+    var column = columnModel.getColumnAt(3);
+    assertEquals(columnModel.getIndex(column), 3);
+}
+function testLColumnModel_method_getColumnByField() {
+    info('LColumnModelTests : testLColumnModel_method_getColumnByField 작동 여부');
+    var field = 'col1'; //String
+    assertTrue(columnModel.getColumnByField(field) instanceof Rui.ui.grid.LColumn);
+}
+function testLColumnModel_method_moveColumn() {
+    info('LColumnModelTests : testLColumnModel_method_moveColumn 작동 여부');
+    var oldIndex = 6; //int
+    var newIndex = 7; //int
+    columnModel.moveColumn(oldIndex, newIndex);
+    var column = columnModel.getColumnById('col6');
+    assertEquals(columnModel.getIndex(column), 7);
+}
+function testLColumnModel_method_getColumnsWidth() {
+    info('LColumnModelTests : testLColumnModel_method_getColumnsWidth 작동 여부');
+    var column = columnModel.getColumnAt(3);
+    var columns = [column]; //Array
+    assertEquals(columnModel.getColumnsWidth(columns), 100);
+}
+function testLColumnModel_method_getFirstColumns() {
+    info('LColumnModelTests : testLColumnModel_method_getFirstColumns 작동 여부');
+    assertEquals(columnModel.getFirstColumns().length, 6);
+}
+function testLColumnModel_method_getFirstColumnsWidth() {
+    info('LColumnModelTests : testLColumnModel_method_getFirstColumnsWidth 작동 여부');
+    assertEquals(columnModel.getFirstColumnsWidth(), 398);
+}
+function testLColumnModel_method_getLastColumns() {
+    info('LColumnModelTests : testLColumnModel_method_getLastColumns 작동 여부');
+    assertEquals(columnModel.getLastColumns().length, 5);
+}
+function testLColumnModel_method_getLastColumnsWidth() {
+    info('LColumnModelTests : testLColumnModel_method_getLastColumnsWidth 작동 여부');
+    assertEquals(columnModel.getLastColumnsWidth(), 600);
+}
+function testLColumnModel_method_getTotalWidth() {
+    info('LColumnModelTests : testLColumnModel_method_getTotalWidth 작동 여부');
+    assertEquals(columnModel.getTotalWidth(), 998);
+}
+function testLColumnModel_method_getFirstColumnCount() {
+    info('LColumnModelTests : testLColumnModel_method_getFirstColumnCount 작동 여부');
+    assertEquals(columnModel.getFirstColumnCount(), 6);
+}
+function testLColumnModel_method_getLastColumnCount() {
+    info('LColumnModelTests : testLColumnModel_method_getLastColumnCount 작동 여부');
+    assertEquals(columnModel.getLastColumnCount(), 5);
+}
+function testLColumnModel_method_getColumnCount() {
+    info('LColumnModelTests : testLColumnModel_method_getColumnCount 작동 여부');
+    assertEquals(columnModel.getColumnCount(), 11);
+}
+function testLColumnModel_method_setCellConfig() {
+    info('LColumnModelTests : testLColumnModel_method_setCellConfig 작동 여부');
+    var row = 9; //int
+    var col = 'col2'; //int|String
+    var key = 'editable'; //String
+    var value = false; //Object
+    columnModel.setCellConfig(row, col, key, value);
+    assertEquals(columnModel.getCellConfig(row, col, key), false);
+    columnModel.setCellConfig(row, col, key, !value);
+}
+function testLColumnModel_method_getCellConfig() {
+    info('LColumnModelTests : testLColumnModel_method_getCellConfig 작동 여부');
+    var row = 9; //int
+    var col = 'col2'; //int|String
+    var key = 'editable'; //String
+    assertEquals(columnModel.getCellConfig(row, col, key), true);
+}
+function testLColumnModel_method_clearCellConfig() {
+    info('LColumnModelTests : testLColumnModel_method_clearCellConfig 작동 여부');
+    var row = 9; //int
+    var col = 'col2'; //int|String
+    var key = 'editable'; //String
+    var value = false; //Object
+    columnModel.setCellConfig(row, col, key, value);
+    columnModel.clearCellConfig();
+    assertUndefined(columnModel.getCellConfig(row, col, key));
+}
+function testLColumnModel_method_hasFreezeColumn() {
+    info('LColumnModelTests : testLColumnModel_method_hasFreezeColumn 작동 여부');
+    var result = columnModel.hasFreezeColumn();
+    //return type : boolean
+    assertTrue(result);
+}
+function testLColumnModel_method_isMultiheader() {
+    info('LColumnModelTests : testLColumnModel_method_isMultiheader 작동 여부');
+    assertEquals(columnModel.isMultiheader(), true);
+}
+function testLColumnModel_method_setColumns() {
+    info('LColumnModelTests : testLColumnModel_method_setColumns 작동 여부');
+    var columns = {
+        groupMerge: true,
+        freezeColumnId: 'code',
+        columns: [
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { id: 'group1' },
+            { field: 'col1', label: 'Col1', groupId: 'group1' },
+            { field: 'col2', sortable: true, align: 'center', editable: true, width: 120 },
+            { field: 'code', align: 'center', maxAutoWidth: true },
+            { field: 'col3', align: 'right' },
+            { field: 'col5', align: 'center', hidden: true },
+            { field: 'col6', label: 'Col6', width: 200 },
+            { field: 'col8', label: 'Col8', align: 'right', renderer:Rui.util.LRenderer.moneyRenderer() },
+            { field: 'date1' , align:'center', renderer: Rui.util.LRenderer.dateRenderer() }
+        ]
+    };
+    
+    var newColumnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        freezeColumnId: 'code',
+        columns: [
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LNumberColumn()
+        ]
+    });
+    newColumnModel.setColumns(columns);
+    assertEquals(newColumnModel.getColumnCount(), 11);
+}
+function testLColumnModel_method_isMerged() {
+    info('LColumnModelTests : testLColumnModel_method_isMerged 작동 여부');
+    assertEquals(columnModel.isMerged(), true);
+}
+function testLColumnModel_method_setFreezeColumnId() {
+    info('LColumnModelTests : testLColumnModel_method_setFreezeColumnId 작동 여부');
+    var id = 'col2'; //String
+    columnModel.setFreezeColumnId(id);
+    assertEquals(columnModel.freezeColumnId, id);
+    columnModel.setFreezeColumnId('code');
+}
+function testLColumnModel_method_toString() {
+    info('LColumnModelTests : testLColumnModel_method_toString 작동 여부');
+    var result = columnModel.toString();
+    //return type : String
+    assertEquals(result, 'Rui.ui.grid.LColumnModel undefined');
+}
+function testLColumnModel_method_destroy() {
+    info('LColumnModelTests : testLColumnModel_method_destroy 작동 여부');
+    var newColumnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        freezeColumnId: 'code',
+        columns: [
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LNumberColumn()
+        ]
+    });
+
+    newColumnModel.destroy();
+    assertNotUndefined(true);
+}
+function testLColumnModel_method_createExcelColumnModel() {
+    info('LColumnModelTests : testLColumnModel_method_createExcelColumnModel 작동 여부');
+    var result = columnModel.createExcelColumnModel();
+    //return type : Rui.ui.grid.LColumnModel
+    assertTrue(result instanceof Rui.ui.grid.LColumnModel);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.grid.LColumnModel Tests</h1>
+
+    <div id="bd">
+        <div id="defaultGrid"></div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLColumnModel_method_getColumnById()">getColumnById</a>
+            <a href="javascript:testLColumnModel_method_getColumnAt()">getColumnAt</a>
+            <a href="javascript:testLColumnModel_method_isHidden()">isHidden</a>
+            <a href="javascript:testLColumnModel_method_getIndexById()">getIndexById</a>
+            <a href="javascript:testLColumnModel_method_getIndex()">getIndex</a>
+            <a href="javascript:testLColumnModel_method_getColumnByField()">getColumnByField</a>
+            <a href="javascript:testLColumnModel_method_moveColumn()">moveColumn</a>
+            <a href="javascript:testLColumnModel_method_getColumnsWidth()">getColumnsWidth</a>
+            <a href="javascript:testLColumnModel_method_getFirstColumns()">getFirstColumns</a>
+            <a href="javascript:testLColumnModel_method_getFirstColumnsWidth()">getFirstColumnsWidth</a>
+            <a href="javascript:testLColumnModel_method_getLastColumns()">getLastColumns</a>
+            <a href="javascript:testLColumnModel_method_getLastColumnsWidth()">getLastColumnsWidth</a>
+            <a href="javascript:testLColumnModel_method_getTotalWidth()">getTotalWidth</a>
+            <a href="javascript:testLColumnModel_method_getFirstColumnCount()">getFirstColumnCount</a>
+            <a href="javascript:testLColumnModel_method_getLastColumnCount()">getLastColumnCount</a>
+            <a href="javascript:testLColumnModel_method_getColumnCount()">getColumnCount</a>
+            <a href="javascript:testLColumnModel_method_setCellConfig()">setCellConfig</a>
+            <a href="javascript:testLColumnModel_method_getCellConfig()">getCellConfig</a>
+            <a href="javascript:testLColumnModel_method_clearCellConfig()">clearCellConfig</a>
+            <a href="javascript:testLColumnModel_method_hasFreezeColumn()">hasFreezeColumn</a>
+            <a href="javascript:testLColumnModel_method_isMultiheader()">isMultiheader</a>
+            <a href="javascript:testLColumnModel_method_setColumns()">setColumns</a>
+            <a href="javascript:testLColumnModel_method_isMerged()">isMerged</a>
+            <a href="javascript:testLColumnModel_method_setFreezeColumnId()">setFreezeColumnId</a>
+            <a href="javascript:testLColumnModel_method_toString()">toString</a>
+            <a href="javascript:testLColumnModel_method_destroy()">destroy</a>
+            <a href="javascript:testLColumnModel_method_createExcelColumnModel()">createExcelColumnModel</a>
+        </div>
+    </div>
+</body>
+</html>

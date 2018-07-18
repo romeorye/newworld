@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.LBase64 Tests</title>
+<script type="text/javascript" src="./../../../js/rui_bootstrap.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+    
+    var dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col7' },
+            { id: 'col8' },
+            { id: 'date1', type: 'date' }
+        ]
+    });
+
+    /*<b>*/
+    var columnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        autoWidth: true,
+        columns: [
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1', sortable: true, width: 200},
+            { field: 'col3', label: 'Col3', sortable: true, width: 60, align: 'center', autoWidth: true, renderer: function(value){
+                return '<font color="red">' + value + '</font>';
+            }},
+            { field: 'col2', label: 'Col2', sortable: true, width: 130, align: 'center', renderer: function(value){
+                if(!value || value.length < 13) return value;
+                return value.substring(0, 6) + '-' + value.substring(6);
+            }},
+            { field: 'col7', width: 160, sortable: true, renderer: function(value){
+                return '<a href="javascript:alert(\'' + value + '\');">' + value + '</a>';
+            }},
+            { field: 'col8', width: 80, align: 'right', sortable: true, renderer: 'money'},
+            { field: 'date1', width: 200, align: 'left'}
+        ]
+    });
+
+    var grid = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        autoWidth: true,
+        // LGridStatusBar는 샘플용으로 사용
+        width: 600,
+        height: 300
+    });
+
+    grid.render('defaultGrid');
+    
+    dataSet.load({
+        url: './../../../sample/data/data.json'
+    });
+    
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLBootstrap_method_reloadPageForDebug() {
+    info('LBootstrapTests : testLBootstrap_method_reloadPageForDebug 작동 여부');
+    assertTrue(typeof Rui.ui.grid.LBufferGridView != 'undefined');
+}
+
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.LBase64 Tests</h1>
+    <span id="defaultGrid"></span>
+    <div id="bd">
+        <div class="testcase-button">
+            <a href="javascript:testLBootstrap_method_reloadPageForDebug()">reloadPageForDebug</a>
+        </div>
+    </div>        
+</body>
+</html>

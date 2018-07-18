@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.rsst.mbo">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- MBO 목록 조회  -->
+	<select id="retrievePrjRsstMboSearchInfo" resultType="hashmap" >
+	<![CDATA[
+		SELECT 0             as "chk"
+		     , PRJ_CD        as "prjCd"        /*프로젝트코드*/
+		     , WBS_CD        as "wbsCd"        /*WBS_CODE*/
+		     , SEQ           as "seq"          /*MBO번호*/
+		     , MBO_GOAL_YEAR as "mboGoalYear"  /*목표년도YYYY*/
+		     , MBO_GOAL_ALTP as "mboGoalAltp"  /*목표배점*/
+		     , MBO_GOAL_PRVS as "mboGoalPrvs"  /*목표항목*/
+		     , MBO_GOAL_L    as "mboGoalL"     /*목표수준*/
+		     , ARLS_YEAR_MON as "arlsYearMon"  /*실적년월YYYY-MM*/
+		     , ARLS_STTS     as "arlsStts"     /*진척현황*/
+		     , FIL_ID        as "filId"        /*첨부파일ID*/
+		     , (CASE WHEN FIL_ID IS NOT NULL AND FIL_ID != ''
+			          AND (SELECT COUNT(1) FROM IRIS_COM_ATTC_FIL F WHERE  F.ATTC_FIL_ID = FIL_ID AND DEL_YN = 'N' ) > 0 THEN 'Y'
+			    ELSE 'N' END) as 'filYn'       /*첨부파일여부*/
+			 , GOAL_SEQ      as goalSeq	       /*목표시퀀스*/
+			 , DENSE_RANK() OVER(PARTITION BY PRJ_CD, MBO_GOAL_YEAR ORDER BY GOAL_SEQ ASC) as goalNo  /*목표번호*/
+		  FROM IRIS_PRJ_RSST_MBO
+		 WHERE PRJ_CD = #{prjCd}
+	]]>
+	<if test="( searchMonth != null and searchMonth != '' )">
+	       AND ARLS_YEAR_MON = #{searchMonth}
+	</if>
+	<![CDATA[
+		 ORDER BY MBO_GOAL_YEAR DESC, GOAL_SEQ ASC, ARLS_YEAR_MON DESC, SEQ DESC
+	]]>
+	</select>
+	
+	<!-- MBO 단건 조회  -->
+	<select id="retrievePrjRsstMboSearchDtlInfo" resultType="hashmap" >
+	<![CDATA[
+		SELECT PRJ_CD        as "prjCd"        /*프로젝트코드*/
+		     , WBS_CD        as "wbsCd"        /*WBS_CODE*/
+		     , SEQ           as "seq"          /*순서*/
+		     , MBO_GOAL_YEAR as "mboGoalYear"  /*목표년도YYYY*/
+		     , MBO_GOAL_ALTP as "mboGoalAltp"  /*목표배점*/
+		     , MBO_GOAL_PRVS as "mboGoalPrvs"  /*목표항목*/
+		     , MBO_GOAL_L    as "mboGoalL"     /*목표수준*/
+		     , ARLS_YEAR_MON as "arlsYearMon"  /*실적년월YYYY-MM*/
+		     , ARLS_STTS     as "arlsStts"     /*진척현황*/
+		     , FIL_ID        as "filId"        /*첨부파일ID*/
+		     , GOAL_SEQ      as goalSeq	       /*목표번호*/   
+		  FROM IRIS_PRJ_RSST_MBO
+		 WHERE PRJ_CD = #{prjCd}
+		 AND  SEQ = #{seq}
+	]]>
+	</select>
+
+	<!-- MBO 삭제  -->
+	<delete id="deletePrjRsstMboInfo">
+	<![CDATA[
+	     DELETE FROM IRIS_PRJ_RSST_MBO
+	      WHERE PRJ_CD =#{prjCd}
+	      AND   SEQ = #{seq}
+	]]>
+	</delete>
+	
+	<!-- MBO 등록  -->
+	<insert id="insertPrjRsstMboInfo">
+	<![CDATA[
+		INSERT INTO IRIS_PRJ_RSST_MBO
+		     ( PRJ_CD 
+		     , WBS_CD
+		     , SEQ  
+		     , MBO_GOAL_YEAR
+		     , MBO_GOAL_ALTP
+		     , MBO_GOAL_PRVS
+		     , MBO_GOAL_L
+			 , ARLS_YEAR_MON
+		     , ARLS_STTS
+		     , FIL_ID
+		     , FRST_RGST_ID 
+		     , FRST_RGST_DT 
+		     , LAST_MDFY_ID 
+		     , LAST_MDFY_DT 
+		     , GOAL_SEQ         /*목표번호*/   
+		     )
+		VALUES
+		     (
+		       #{prjCd}
+		     , #{wbsCd}
+		     , (SELECT ISNULL(MAX(SEQ)+1,1) FROM IRIS_PRJ_RSST_MBO)
+		     , #{mboGoalYear}
+		     , #{mboGoalAltp}
+		     , #{mboGoalPrvs}
+		     , #{mboGoalL}
+			 , #{arlsYearMon}
+			 , #{arlsStts}
+			 , #{filId}
+		     , #{_userId}
+		     , getdate()
+		     , #{_userId}
+		     , getdate()
+		     , ( CASE WHEN #{goalSeq} IS NOT NULL AND #{goalSeq} != '' OR #{goalSeq} != 0 THEN #{goalSeq}
+		              ELSE  (SELECT ISNULL(MAX(GOAL_SEQ)+1,1) FROM IRIS_PRJ_RSST_MBO WHERE PRJ_CD =  #{prjCd} AND MBO_GOAL_YEAR = #{mboGoalYear} ) END )
+		     )
+    ]]>	
+	</insert>
+	
+	<!-- MBO 수정  -->
+	<update id="updatePrjRsstMboInfo">
+	<![CDATA[
+		UPDATE IRIS_PRJ_RSST_MBO
+	       SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		]]>	     
+		<if test="( mboGoalYear != null and mboGoalYear != '')">
+		     , MBO_GOAL_YEAR = #{mboGoalYear}
+		</if>
+		<if test="( mboGoalAltp != null and mboGoalAltp != '')">
+		     , MBO_GOAL_ALTP = #{mboGoalAltp}
+		</if>
+		<if test="( mboGoalPrvs != null and mboGoalPrvs != '')">
+		     , MBO_GOAL_PRVS = #{mboGoalPrvs}
+		</if>
+		<if test="( mboGoalL != null and mboGoalL != '')">
+		     , MBO_GOAL_L = #{mboGoalL}
+		</if>
+		<if test="( arlsYearMon != null and arlsYearMon != '')">
+		     , ARLS_YEAR_MON = #{arlsYearMon}
+		</if>
+		<if test="( arlsStts != null and arlsStts != '')">
+		     , ARLS_STTS = #{arlsStts}
+		</if>
+		<if test="( filId != null and filId != '')">
+		     , FIL_ID = #{filId}
+		</if>
+	<![CDATA[
+		 WHERE SEQ = #{seq}
+	]]>
+	</update>
+	
+	<!-- MBO 단건 조회  -->
+	<select id="getMboDupYn" resultType="String" >
+	<![CDATA[
+		SELECT (CASE WHEN COUNT(1) > 0 THEN 'Y' ELSE 'N' END) mboDupYn
+		  FROM IRIS_PRJ_RSST_MBO A
+		 WHERE A.PRJ_CD = #{prjCd}
+		   AND A.MBO_GOAL_YEAR = #{mboGoalYear}
+		   AND A.ARLS_YEAR_MON = #{arlsYearMon}
+		   AND A.GOAL_SEQ = #{goalSeq}
+	]]>
+	</select>
+	
+	<!-- MBO 단건 조회  -->
+	<select id="getMboGoalCnt" resultType="java.lang.Integer">
+	<![CDATA[
+		SELECT COUNT(1) mboGoalCnt
+		  FROM IRIS_PRJ_RSST_MBO A
+		 WHERE A.PRJ_CD = #{prjCd}
+		   AND A.MBO_GOAL_YEAR = #{mboGoalYear}
+		   AND A.GOAL_SEQ = #{goalSeq}
+	]]>
+	</select>
+	
+	<!-- MBO 실적(실적년월,실적현황,첨부파일) 수정  -->
+	<update id="updatePrjRsstMboArlsInfo">
+	<![CDATA[
+		UPDATE IRIS_PRJ_RSST_MBO
+	       SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , ARLS_YEAR_MON = #{arlsYearMon}
+		     , ARLS_STTS = #{arlsStts}
+		     , FIL_ID = #{filId}
+		 WHERE SEQ = #{seq}
+	]]>
+	</update>
+
+</mapper>

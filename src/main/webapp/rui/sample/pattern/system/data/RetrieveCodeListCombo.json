@@ -1,0 +1,12 @@
+[{
+    "metaData": {
+        "datasetId":"dataSet"
+    },
+    "records": [
+        { "code": "code1", "value": "코드1" },
+        { "code": "code2", "value": "코드2" },
+        { "code": "code3", "value": "코드3" },
+        { "code": "code4", "value": "코드4" },
+        { "code": "code5", "value": "코드5" }
+    ]
+}]

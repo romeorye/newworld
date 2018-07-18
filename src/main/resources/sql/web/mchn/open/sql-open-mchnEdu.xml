@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="open.mchnEdu">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 분석기기 > open기기 > 기기교육 > 기기교육목록조회 -->
+	<select id="retrieveMchnEduSearchList" resultType="hashmap" >
+		<![CDATA[
+		SELECT  (CASE WHEN (MEM.PTT_FROM_DT <= CONVERT(NVARCHAR(10), GETDATE(), 23)  AND	MEM.PTT_TO_DT >= CONVERT(NVARCHAR(10), GETDATE(), 23) ) THEN '접수중'
+					 ELSE '마감' END) AS "eduScnNm"
+				,'['+ACC.COM_DTL_NM+'] '+MEM.EDU_NM AS "eduNm"
+				,MEM.PTT_FROM_DT+'~'+PTT_TO_DT AS "pttDt"
+				,MIS.MCHN_HAN_NM as "mchnNm"
+				,MEM.EDU_DT+'('+CONVERT(NVARCHAR(2), EDU_FROM_TIM)+'~'+CONVERT(NVARCHAR(2), EDU_TO_TIM)+'시)' AS "eduDtTim"
+				,MEM.EDU_PL as "eduPl"
+				--,MEM.IVTT_CPSN as "ivttCpsn"
+				,convert(nvarchar(3),(SELECT COUNT(*)
+			     FROM   IRIS_MCHN_EDU_DTL MED
+			     WHERE  MED.DEL_YN = 'N'
+			     AND    MED.MCHN_EDU_ID = MEM.MCHN_EDU_ID))+'/'+convert(nvarchar(3), MEM.IVTT_CPSN) as "ivttCpsn"
+				,SU.SA_NAME as "eduCrgrNm"
+				,MEM.MCHN_EDU_ID AS "mchnEduId"
+				,MEM.EDU_SCN_CD as "eduScnCd"
+				,MEM.MCHN_INFO_ID as "mchnInfoId"
+		FROM 	IRIS_MCHN_EDU_MST MEM
+		     	LEFT OUTER JOIN	IRIS_SSO_USER   SU
+				ON  MEM.EDU_CRGR_ID = SU.SA_SABUN_NEW
+				,IRIS_MCHN_INFO_MST MIS
+				,IRIS_ADM_COM_CD	ACC
+		WHERE 	MEM.DEL_YN = 'N'
+		AND  	MIS.DEL_YN = 'N'
+		AND  	MEM.MCHN_INFO_ID = MIS.MCHN_INFO_ID
+		AND  	ACC.COM_CD_CD = 'MCHN_EDU_SCN'
+		AND  	MEM.EDU_SCN_CD = ACC.COM_DTL_CD
+		]]>
+
+		<if test="( eduNm != null and eduNm != '')">
+			AND MEM.EDU_NM LIKE '%'+#{eduNm}+'%'
+	    </if>
+		<if test="pttYn == 'IN' ">
+			AND  CONVERT(NVARCHAR(10), GETDATE(), 23) BETWEEN  MEM.PTT_FROM_DT AND MEM.PTT_TO_DT
+	    </if>
+		<if test="pttYn == 'CLS' ">
+			<![CDATA[
+				AND MEM.PTT_TO_DT < CONVERT(NVARCHAR(10), GETDATE(), 23)
+			]]>
+	    </if>
+		<if test="( eduScnCd == 'NRGL' or eduScnCd == 'REGL' )">
+			AND  MEM.EDU_SCN_CD = #{eduScnCd}
+	    </if>
+		<if test="( frEduDt != '' or frEduDt != null )">
+			AND  MEM.EDU_DT BETWEEN  #{frEduDt} AND #{toEduDt}
+	    </if>
+	    <![CDATA[
+		ORDER BY MEM.MCHN_EDU_ID DESC
+		]]>
+
+	</select>
+
+
+	<!-- 기기교육 개요 상세 조회 -->
+	<select id="retrieveEduInfo" resultType="hashmap" >
+		<![CDATA[
+		SELECT  MEM.EDU_NM AS "eduNm"
+		       ,MIS.MCHN_HAN_NM AS "mchnNm"
+		       ,MEM.MCHN_EDU_ID AS "mchnEduId"
+		       ,MEM.EDU_CRGR_ID AS "eduCrgrId"
+		       ,dbo.fn_getSabunName(MEM.EDU_CRGR_ID) AS "eduCrgrNm"
+			   ,MEM.PTT_FROM_DT AS "pttFromDt"
+			   ,MEM.PTT_TO_DT AS "pttToDt"
+			   ,(SELECT COUNT(*)
+			     FROM   IRIS_MCHN_EDU_DTL MED
+			     WHERE  MED.DEL_YN = 'N'
+			     AND    MED.MCHN_EDU_ID = MEM.MCHN_EDU_ID) AS "pttCpsn"
+			   ,MEM.IVTT_CPSN AS "ivttCpsn"
+			   ,MEM.EDU_DT AS "eduDt"
+			   ,MEM.EDU_FROM_TIM AS "eduFromTim"
+			   ,MEM.EDU_TO_TIM AS "eduToTim"
+			   ,MEM.EDU_PL AS "eduPl"
+			   ,MEM.DTL_SBC AS "dtlSbc"
+			   ,ACC.COM_DTL_NM AS "eduScnNm"
+			   ,MEM.EDU_SCN_CD AS "eduScnCd"
+		       ,(CASE  WHEN (MEM.PTT_FROM_DT <= convert(nvarchar(10), getdate(), 23)  AND MEM.PTT_TO_DT >= convert(nvarchar(10), getdate(), 23) ) THEN 'IN'
+			           ELSE 'CLS'  END) AS "eduPttStCd"
+			   ,(CASE  WHEN (MEM.PTT_FROM_DT <= convert(nvarchar(10), getdate(), 23)  AND MEM.PTT_TO_DT >= convert(nvarchar(10), getdate(), 23) ) THEN '모집중'
+			          ELSE '모집마감'   END) AS "eduPttStNm"
+		       ,MEM.ATTC_FIL_ID AS "attcFilId"
+		       ,MEM.MCHN_INFO_ID  AS "mchnInfoId"
+		FROM 	IRIS_MCHN_EDU_MST MEM
+			   ,IRIS_MCHN_INFO_MST MIS
+			   ,IRIS_ADM_COM_CD	ACC
+		WHERE 	MEM.DEL_YN = 'N'
+		AND  	MEM.MCHN_INFO_ID = MIS.MCHN_INFO_ID
+		AND  	ACC.COM_CD_CD = 'MCHN_EDU_SCN'
+		AND  	MEM.EDU_SCN_CD = ACC.COM_DTL_CD
+		AND  	MEM.MCHN_EDU_ID = #{mchnEduId}
+		]]>
+	</select>
+
+	<select id="retrieveEduInfoCnt"  resultType="int">
+		SELECT COUNT(*) as "cnt"
+		FROM IRIS_MCHN_EDU_DTL MED
+		WHERE MED.DEL_YN = 'N'
+		AND  MED.MCHN_EDU_ID = #{mchnEduId}
+		AND  MED.RGST_ID = #{_userSabun}
+	</select>
+
+
+	<insert id="insertEduInfoDetail">
+	INSERT INTO IRIS_MCHN_EDU_DTL
+        (MCHN_EDU_ID
+        ,RGST_ID
+        ,RGST_DT
+        ,EDU_ST_CD
+        ,DEL_YN
+        ,FRST_RGST_DT
+        ,FRST_RGST_ID
+        ,LAST_MDFY_DT
+        ,LAST_MDFY_ID)
+    VALUES
+        (#{mchnEduId}
+        ,#{_userSabun}  -- 세션 사번
+        ,CONVERT(NVARCHAR(10), GETDATE(), 23)
+        ,'RQ'
+        ,'N'
+        ,GETDATE()
+        ,#{_userId}  -- 세션 사번
+        ,GETDATE()
+        ,#{_userId}  -- 세션 사번
+        )
+	</insert>
+
+	<update id ='updateEduCancel' >
+		UPDATE IRIS_MCHN_EDU_DTL
+		SET    DEL_YN ='Y'
+		      ,LAST_MDFY_DT = GETDATE()
+	   		  ,LAST_MDFY_ID = #{_userId}
+		WHERE  MCHN_EDU_ID = #{mchnEduId}
+		AND    RGST_ID = #{_userSabun}    
+	</update>
+
+
+
+</mapper>

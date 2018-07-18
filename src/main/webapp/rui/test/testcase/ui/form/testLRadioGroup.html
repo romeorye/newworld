@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.form.LRadioGroup Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var radio1 = null;
+var radioGroup = null;
+Rui.onReady(function() {
+    radio1 = new Rui.ui.form.LRadio({
+        name: 'col1',
+        label: 'R1',
+        value: 'R1'
+    });
+    
+    radioGroup = new Rui.ui.form.LRadioGroup({
+        applyTo: 'radio1',
+        width: 200,
+        name: 'col1',
+        items: [
+            radio1, 
+            {
+                label: 'R2',
+                value: 'R2'
+            }
+        ]
+    });
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLRadioGroup_method_clearAllChecked() {
+    info('LRadioGroupTests : testLRadioGroup_method_clearAllChecked 작동 여부');
+    assertNotUndefined(radioGroup.clearAllChecked());
+}
+function testLRadioGroup_method_getCheckedItem() {
+    info('LRadioGroupTests : testLRadioGroup_method_getCheckedItem 작동 여부');
+    assertNotUndefined(radioGroup.getCheckedItem());
+}
+function testLRadioGroup_method_getCheckedIndex() {
+    info('LRadioGroupTests : testLRadioGroup_method_getCheckedIndex 작동 여부');
+    assertNotUndefined(radioGroup.getCheckedIndex());
+}
+function testLRadioGroup_method_setCheckedIndex() {
+    info('LRadioGroupTests : testLRadioGroup_method_setCheckedIndex 작동 여부');
+    var idx = 0; //int
+    assertNotUndefined(radioGroup.setCheckedIndex(idx));
+    assertEquals(radioGroup.getCheckedIndex(), 0);
+}
+function testLRadioGroup_method_setValue() {
+    info('LRadioGroupTests : testLRadioGroup_method_setValue 작동 여부');
+    var val = 'R2'; //String
+    assertNotUndefined(radioGroup.setValue(val));
+    assertEquals(radioGroup.getValue(), 'R2');
+}
+function testLRadioGroup_method_getValue() {
+    info('LRadioGroupTests : testLRadioGroup_method_getValue 작동 여부');
+    radioGroup.setValue('R1');
+    assertEquals(radioGroup.getValue(), 'R1');
+}
+function testLRadioGroup_method_getRadioElByVal() {
+    info('LRadioGroupTests : testLRadioGroup_method_getRadioElByVal 작동 여부');
+    assertNotUndefined(radioGroup.getRadioElByVal('R1'));
+}
+function testLRadioGroup_method_before() {
+    info('LRadioGroupTests : testLRadioGroup_method_before 작동 여부');
+    radioGroup.setValue('R2');
+    assertNotUndefined(radioGroup.before());
+}
+function testLRadioGroup_method_next() {
+    info('LRadioGroupTests : testLRadioGroup_method_next 작동 여부');
+    radioGroup.setValue('R1');
+    assertNotUndefined(radioGroup.next());
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.form.LRadioGroup Tests</h1>
+    <label for="radio1">
+        Radio
+    </label>
+    <div id="radio1">
+    </div>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLRadioGroup_method_clearAllChecked()">clearAllChecked</a>
+            <a href="javascript:testLRadioGroup_method_getCheckedItem()">getCheckedItem</a>
+            <a href="javascript:testLRadioGroup_method_getCheckedIndex()">getCheckedIndex</a>
+            <a href="javascript:testLRadioGroup_method_setCheckedIndex()">setCheckedIndex</a>
+            <a href="javascript:testLRadioGroup_method_setValue()">setValue</a>
+            <a href="javascript:testLRadioGroup_method_getValue()">getValue</a>
+            <a href="javascript:testLRadioGroup_method_getRadioElByVal()">getRadioElByVal</a>
+            <a href="javascript:testLRadioGroup_method_before()">before</a>
+            <a href="javascript:testLRadioGroup_method_next()">next</a>
+        </div>
+    </div>        
+</body>
+</html>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.rsst.trwibudg">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 비용/예산 1년 통계 조회  -->
+	<select id="retrievePrjTrwiBudgSearchInfo" resultType="hashmap" >
+	<![CDATA[
+		select   t1.EXP_SCN_CD as expScnCd
+		        ,t1.EXP_SCN_CD_NM as expScnCdNm
+				,t1.UP_EXP_SCN_CD as upExpScnCd
+				,t1.UP_EXP_SCN_CD_NM as upExpScnCdNm
+				,t1.type as  type
+				,round(isnull(t1.m01, 0), 2) as  m01
+				,round(isnull(t1.m02, 0), 2) as  m02
+				,round(isnull(t1.m03, 0), 2) as  m03
+				,round(isnull(t1.m04, 0), 2) as  m04
+				,round(isnull(t1.m05, 0), 2) as  m05
+				,round(isnull(t1.m06, 0), 2) as  m06
+				,round(isnull(t1.m07, 0), 2) as  m07
+				,round(isnull(t1.m08, 0), 2) as  m08
+				,round(isnull(t1.m09, 0), 2) as  m09
+				,round(isnull(t1.m10, 0), 2) as  m10
+				,round(isnull(t1.m11, 0), 2) as  m11
+				,round(isnull(t1.m12, 0), 2) as  m12
+				,round(isnull(t1.m01+t1.m02+t1.m03+t1.m04+t1.m05+t1.m06+t1.m07+t1.m08+t1.m09+t1.m10+t1.m11+t1.m12, 0), 2) as monthSum
+		from  (
+				select    aa.EXP_SCN_CD       
+						, aa.EXP_SCN_CD_NM    
+						, aa.UP_EXP_SCN_CD    
+						, aa.UP_EXP_SCN_CD_NM 
+						,'계획' as type
+						,sum(aa.mm1)  as m01 
+						,sum(aa.mm2)  as m02
+						,sum(aa.mm3)  as m03
+						,sum(aa.mm4)  as m04
+						,sum(aa.mm5)  as m05
+						,sum(aa.mm6)  as m06
+						,sum(aa.mm7)  as m07
+						,sum(aa.mm8)  as m08
+						,sum(aa.mm9)  as m09
+						,sum(aa.mm10) as m10
+						,sum(aa.mm11) as m11
+						,sum(aa.mm12) as m12
+						
+				from  (
+						select    YY_MM
+						         ,EXP_SCN_CD       
+								, EXP_SCN_CD_NM    
+								, UP_EXP_SCN_CD    
+								, UP_EXP_SCN_CD_NM 
+							   ,case when substring(a.yy_mm, 5,6) = '01' then sum(a.PLN_EXP) end 'mm1'  
+							   ,case when substring(a.yy_mm, 5,6) = '02' then sum(a.PLN_EXP) end 'mm2'
+							   ,case when substring(a.yy_mm, 5,6) = '03' then sum(a.PLN_EXP) end 'mm3'
+							   ,case when substring(a.yy_mm, 5,6) = '04' then sum(a.PLN_EXP) end 'mm4'
+							   ,case when substring(a.yy_mm, 5,6) = '05' then sum(a.PLN_EXP) end 'mm5'
+							   ,case when substring(a.yy_mm, 5,6) = '06' then sum(a.PLN_EXP) end 'mm6'
+							   ,case when substring(a.yy_mm, 5,6) = '07' then sum(a.PLN_EXP) end 'mm7'
+							   ,case when substring(a.yy_mm, 5,6) = '08' then sum(a.PLN_EXP) end 'mm8'
+							   ,case when substring(a.yy_mm, 5,6) = '09' then sum(a.PLN_EXP) end 'mm9'
+							   ,case when substring(a.yy_mm, 5,6) = '10' then sum(a.PLN_EXP) end 'mm10'
+							   ,case when substring(a.yy_mm, 5,6) = '11' then sum(a.PLN_EXP) end 'mm11'
+							   ,case when substring(a.yy_mm, 5,6) = '12' then sum(a.PLN_EXP) end 'mm12'
+						from (
+								SELECT	YY_MM
+										,EXP_SCN_CD
+										, PLN_EXP /*소수점2자리 반올림*/
+										, dbo.fn_getComDtlNm('EXP_SCN_CD', EXP_SCN_CD) AS EXP_SCN_CD_NM
+										, LEFT(EXP_SCN_CD,2) AS UP_EXP_SCN_CD
+										, dbo.fn_getComDtlNm('EXP_SCN_CD', LEFT(EXP_SCN_CD,2)) AS UP_EXP_SCN_CD_NM
+								FROM IRIS_TSS_GEN_TRWI_BUDG_LIST  WITH (NOLOCK)
+								WHERE TSS_CD IN ( SELECT M.TSS_CD 
+												  FROM  IRIS_TSS_MGMT_MST M 
+														INNER JOIN IRIS_PRJ_RSST_MST P
+														ON M.PRJ_CD = P.PRJ_CD
+												  WHERE P.PRJ_CD =  #{prjCd}
+												 )
+								AND    TSS_CD LIKE '%2' 
+								AND   YY_MM LIKE '%'+#{searchYear}+'%'   
+								) a
+				group by  YY_MM
+						,EXP_SCN_CD       
+					   , EXP_SCN_CD_NM    
+					   , UP_EXP_SCN_CD    
+					   , UP_EXP_SCN_CD_NM 
+						) aa
+				group by  aa.EXP_SCN_CD       
+						, aa.EXP_SCN_CD_NM    
+						, aa.UP_EXP_SCN_CD    
+						, aa.UP_EXP_SCN_CD_NM 
+				union 
+				select   aa.EXP_SCN_CD       
+						, aa.EXP_SCN_CD_NM    
+						, aa.UP_EXP_SCN_CD    
+						, aa.UP_EXP_SCN_CD_NM 
+						,'실적' as type
+						,sum(aa.mm1)  as m01 
+						,sum(aa.mm2)  as m02
+						,sum(aa.mm3)  as m03
+						,sum(aa.mm4)  as m04
+						,sum(aa.mm5)  as m05
+						,sum(aa.mm6)  as m06
+						,sum(aa.mm7)  as m07
+						,sum(aa.mm8)  as m08
+						,sum(aa.mm9)  as m09
+						,sum(aa.mm10) as m10
+						,sum(aa.mm11) as m11
+						,sum(aa.mm12) as m12
+				from  (
+						select    YY_MM
+						        , EXP_SCN_CD       
+								, EXP_SCN_CD_NM    
+								, UP_EXP_SCN_CD    
+								, UP_EXP_SCN_CD_NM 
+							   ,case when substring(a.yy_mm, 5,6) = '01' then sum(a.ARSL_EXP) end 'mm1'  
+							   ,case when substring(a.yy_mm, 5,6) = '02' then sum(a.ARSL_EXP) end 'mm2'
+							   ,case when substring(a.yy_mm, 5,6) = '03' then sum(a.ARSL_EXP) end 'mm3'
+							   ,case when substring(a.yy_mm, 5,6) = '04' then sum(a.ARSL_EXP) end 'mm4'
+							   ,case when substring(a.yy_mm, 5,6) = '05' then sum(a.ARSL_EXP) end 'mm5'
+							   ,case when substring(a.yy_mm, 5,6) = '06' then sum(a.ARSL_EXP) end 'mm6'
+							   ,case when substring(a.yy_mm, 5,6) = '07' then sum(a.ARSL_EXP) end 'mm7'
+							   ,case when substring(a.yy_mm, 5,6) = '08' then sum(a.ARSL_EXP) end 'mm8'
+							   ,case when substring(a.yy_mm, 5,6) = '09' then sum(a.ARSL_EXP) end 'mm9'
+							   ,case when substring(a.yy_mm, 5,6) = '10' then sum(a.ARSL_EXP) end 'mm10'
+							   ,case when substring(a.yy_mm, 5,6) = '11' then sum(a.ARSL_EXP) end 'mm11'
+							   ,case when substring(a.yy_mm, 5,6) = '12' then sum(a.ARSL_EXP) end 'mm12'
+						from (
+								SELECT	YY_MM
+										,EXP_SCN_CD
+										, ARSL_EXP /*소수점2자리 반올림*/
+										, dbo.fn_getComDtlNm('EXP_SCN_CD', EXP_SCN_CD) AS EXP_SCN_CD_NM
+										, LEFT(EXP_SCN_CD,2) AS UP_EXP_SCN_CD
+										, dbo.fn_getComDtlNm('EXP_SCN_CD', LEFT(EXP_SCN_CD,2)) AS UP_EXP_SCN_CD_NM
+								FROM IRIS_TSS_GEN_TRWI_BUDG_LIST  WITH (NOLOCK)
+								WHERE TSS_CD IN ( SELECT M.TSS_CD 
+												  FROM  IRIS_TSS_MGMT_MST M 
+														INNER JOIN IRIS_PRJ_RSST_MST P
+														ON M.PRJ_CD = P.PRJ_CD
+												  WHERE P.PRJ_CD =  #{prjCd}
+												 )
+								AND    TSS_CD LIKE '%2' 
+								 AND   YY_MM LIKE '%'+#{searchYear}+'%'    
+								) a
+					group by  YY_MM
+							, EXP_SCN_CD       
+							, EXP_SCN_CD_NM    
+							, UP_EXP_SCN_CD    
+							, UP_EXP_SCN_CD_NM 
+						) aa
+				group by  aa.EXP_SCN_CD       
+						, aa.EXP_SCN_CD_NM    
+						, aa.UP_EXP_SCN_CD    
+						, aa.UP_EXP_SCN_CD_NM 
+		) t1
+		
+		union 
+		SELECT '9999' as "expScnCd"
+				     , '합계' as "expScnCdNm"
+					 , '9999' as "upExpScnCd"
+					 , '합계' as "upExpScnCdNm"
+					 , A1.type
+				     , round(isnull(SUM(A1.m01), 0), 2) AS 'm01'
+					 , round(isnull(SUM(A1.m02), 0), 2) AS 'm02'
+					 , round(isnull(SUM(A1.m03), 0), 2) AS 'm03'
+					 , round(isnull(SUM(A1.m04), 0), 2) AS 'm04'
+					 , round(isnull(SUM(A1.m05), 0), 2) AS 'm05'
+					 , round(isnull(SUM(A1.m06), 0), 2) AS 'm06'
+					 , round(isnull(SUM(A1.m07), 0), 2) AS 'm07'
+					 , round(isnull(SUM(A1.m08), 0), 2) AS 'm08'
+					 , round(isnull(SUM(A1.m09), 0), 2) AS 'm09'
+					 , round(isnull(SUM(A1.m10), 0), 2) AS 'm10'
+					 , round(isnull(SUM(A1.m11), 0), 2) AS 'm11'
+					 , round(isnull(SUM(A1.m12), 0), 2) AS 'm12'
+					 , round((SUM(ISNULL(A1.m01,0)) + SUM(ISNULL(A1.m02,0)) + SUM(ISNULL(A1.m03,0)) + SUM(ISNULL(A1.m04,0)) + SUM(ISNULL(A1.m05,0)) + SUM(ISNULL(A1.m06,0))
+					  + SUM(ISNULL(A1.m07,0)) + SUM(ISNULL(A1.m08,0)) + SUM(ISNULL(A1.m09,0)) + SUM(ISNULL(A1.m10,0)) + SUM(ISNULL(A1.m11,0)) + SUM(ISNULL(A1.m12,0))), 2) as 'monthSum'
+				  FROM (
+				        SELECT '계획' as 'type'
+							 , [${searchYear}01] as m01, [${searchYear}02] as m02, [${searchYear}03] as m03, [${searchYear}04] as m04, [${searchYear}05] as m05,[${searchYear}06] as m06
+					         , [${searchYear}07] as m07 ,[${searchYear}08] as m08, [${searchYear}09] as m09, [${searchYear}10] as m10, [${searchYear}11] as m11,[${searchYear}12] as m12
+						  FROM (
+						        SELECT YY_MM, EXP_SCN_CD, PLN_EXP /*소수점2자리 반올림*/
+						          FROM IRIS_TSS_GEN_TRWI_BUDG_LIST  WITH (NOLOCK)
+						         WHERE TSS_CD IN ( SELECT M.TSS_CD FROM  IRIS_TSS_MGMT_MST M INNER JOIN IRIS_PRJ_RSST_MST P
+											           ON M.PRJ_CD = P.PRJ_CD
+											        WHERE P.PRJ_CD =   #{prjCd}
+										         )
+                                 AND    TSS_CD LIKE '%2' 
+								 AND   YY_MM LIKE '%'+#{searchYear}+'%'            
+						       ) AS A
+						 PIVOT ( SUM(PLN_EXP) FOR YY_MM IN ([${searchYear}01],[${searchYear}02],[${searchYear}03],[${searchYear}04],[${searchYear}05],[${searchYear}06]
+				                                           ,[${searchYear}07],[${searchYear}08],[${searchYear}09],[${searchYear}10],[${searchYear}11],[${searchYear}12]) ) A
+						UNION
+						SELECT '실적' AS 'type'
+							 , [${searchYear}01] as m01, [${searchYear}02] as m02, [${searchYear}03] as m03, [${searchYear}04] as m04, [${searchYear}05] as m05,[${searchYear}06] as m06
+					         , [${searchYear}07] as m07 ,[${searchYear}08] as m08, [${searchYear}09] as m09, [${searchYear}10] as m10, [${searchYear}11] as m11,[${searchYear}12] as m12
+						  FROM (
+								SELECT YY_MM, EXP_SCN_CD, ARSL_EXP   /*소수점2자리 반올림*/
+								  FROM IRIS_TSS_GEN_TRWI_BUDG_LIST  WITH (NOLOCK)
+							     WHERE TSS_CD IN ( SELECT M.TSS_CD FROM  IRIS_TSS_MGMT_MST M INNER JOIN IRIS_PRJ_RSST_MST P
+													   ON M.PRJ_CD = P.PRJ_CD
+													 WHERE P.PRJ_CD =  #{prjCd}
+												 )
+                                 AND    TSS_CD LIKE '%2' 
+								 AND   YY_MM LIKE '%'+#{searchYear}+'%'   			 
+						       ) AS A
+						    
+						 PIVOT ( SUM(ARSL_EXP) FOR YY_MM IN ([${searchYear}01],[${searchYear}02],[${searchYear}03],[${searchYear}04],[${searchYear}05],[${searchYear}06]
+				                                            ,[${searchYear}07],[${searchYear}08],[${searchYear}09],[${searchYear}10],[${searchYear}11],[${searchYear}12]) ) Ak
+				) A1
+				GROUP BY type
+	]]>
+	</select>
+
+</mapper>

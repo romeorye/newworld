@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.form.LForm Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var form = null; 
+var tmpRecord = null; 
+var controls =  ['name', 'pwd'];
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    form = new Rui.ui.form.LForm('frm');
+    
+    var data = {
+            col1: '값1',
+            col2: '값2'
+        }; 
+    
+    tmpRecord = new Rui.data.LRecord(data, { state: Rui.data.LRecord.STATE_INSERT } );
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+function testLForm_method_setValidatorManager() {
+    info('LFormTests : testLForm_method_setValidatorManager 작동 여부');
+    var validatorManager = new Rui.validate.LValidatorManager({
+        validators:[
+            { id: 'date1', validExp:'날짜:true:minDate=20081111'}
+        ]
+    });
+    
+    assertUndefined(form.setValidatorManager(validatorManager)); 
+    assertNotUndefined(form.validatorManager);
+}
+function testLForm_method_submit() {
+    info('LFormTests : testLForm_method_submit 작동 여부');
+    form.submit();
+    assertNotUndefined(true);
+}
+function testLForm_method_reset() {
+    info('LFormTests : testLForm_method_reset 작동 여부');
+    form.reset();
+    assertNotUndefined(true);
+}
+function testLForm_method_clearInvalid() {
+    info('LFormTests : testLForm_method_clearInvalid 작동 여부');
+    form.clearInvalid();
+    assertNotUndefined(true);
+}
+function testLForm_method_enable() {
+    info('LFormTests : testLForm_method_enable 작동 여부');
+    var children = controls; //Array
+    form.enable(children);
+    assertNotUndefined(true);
+}
+function testLForm_method_disable() {
+    info('LFormTests : testLForm_method_disable 작동 여부');
+    var children = controls; //Array
+    form.disable(children);
+    assertNotUndefined(true);
+}
+function testLForm_method_isDisable() {
+    info('LFormTests : testLForm_method_isDisable 작동 여부');
+    var children = controls; //Array
+    assertEquals(form.isDisable(children), true);
+}
+function testLForm_method_getValues() {
+    info('LFormTests : testLForm_method_getValues 작동 여부');
+    assertNotUndefined(form.getValues()); 
+}
+function testLForm_method_setValues() {
+    info('LFormTests : testLForm_method_setValues 작동 여부');
+    var children = controls; //Array
+    assertUndefined(form.setValues(children)); 
+    assertNotUndefined(form.getValues()); 
+}
+function testLForm_method_findField() {
+    info('LFormTests : testLForm_method_findField 작동 여부');
+    var id = 'name'; //String
+    var result = form.findField(id);
+    //return type : HTMLElement
+    assertNotUndefined(result); 
+}
+function testLForm_method_isValid() {
+    info('LFormTests : testLForm_method_isValid 작동 여부');
+    assertEquals(form.isValid(), true);
+}
+function testLForm_method_destroy() {
+    info('LFormTests : testLForm_method_destroy 작동 여부');
+    var form1 = new Rui.ui.form.LForm('frm');
+    form1.destroy();
+    assertNotUndefined(true);
+}
+function testLForm_method_updateRecord() {
+    info('LFormTests : testLForm_method_updateRecord 작동 여부');
+    var record = tmpRecord; //Rui.data.LRecord
+    form.updateRecord(record);
+    assertNotUndefined(true);
+}
+function testLForm_method_loadRecord() {
+    info('LFormTests : testLForm_method_loadRecord 작동 여부');
+    var record = tmpRecord; //Rui.data.LRecord
+    var result = form.loadRecord(record);    
+    assertNotUndefined(result); 
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.form.LForm Tests</h1>
+
+    <div id="bd">
+        <div id="panel">
+            <form class="LblockMarkupCode" id="frm" name="frm" method="post"
+                action="./../../../../sample/data/savedCallback.json">
+                <fieldset>
+                    <legend>로그인 폼</legend>
+                    <input type="hidden" id="test" name="test" /> <label for="state">state</label>
+                    <input type="text" id="state" name="state" /> <br />
+                    <input type="text" id="name" name="name" /> <br />
+                    <input type="text" id="pwd" name="password" /> <br />
+                </fieldset>
+            </form>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLForm_method_setValidatorManager()">setValidatorManager</a>
+            <a href="javascript:testLForm_method_submit()">submit</a>
+            <a href="javascript:testLForm_method_reset()">reset</a>
+            <a href="javascript:testLForm_method_clearInvalid()">clearInvalid</a>
+            <a href="javascript:testLForm_method_enable()">enable</a>
+            <a href="javascript:testLForm_method_disable()">disable</a>
+            <a href="javascript:testLForm_method_isDisable()">isDisable</a>
+            <a href="javascript:testLForm_method_getValues()">getValues</a>
+            <a href="javascript:testLForm_method_setValues()">setValues</a>
+            <a href="javascript:testLForm_method_findField()">findField</a>
+            <a href="javascript:testLForm_method_isValid()">isValid</a>
+            <a href="javascript:testLForm_method_destroy()">destroy</a>
+            <a href="javascript:testLForm_method_updateRecord()">updateRecord</a>
+            <a href="javascript:testLForm_method_loadRecord()">loadRecord</a>
+        </div>
+    </div>        
+</body>
+</html>

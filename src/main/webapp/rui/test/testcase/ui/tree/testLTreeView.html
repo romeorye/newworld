@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.tree.LTreeView Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../plugins/menu/rui_menu.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../plugins/menu/rui_menu.css" />
+
+<script type="text/javascript" src="./../../../../plugins/tree/rui_tree.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../plugins/tree/rui_tree.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var treeView = null; 
+Rui.onReady(function() {
+    // 소스 넣을 위치
+     var dataSet = new Rui.data.LJsonDataSet({
+                id: 'dataSet',
+                focusFirstRow:false,
+                fields: [
+                    { id: 'menuId', type: 'number' }, 
+                    { id: 'seq', type: 'number' }, 
+                    { id: 'parentMenuId', type: 'number' }, 
+                    { id: 'name' }, 
+                    { id: 'url' }
+                ]
+            });
+
+            /*<b>*/
+            treeView = new Rui.ui.tree.LTreeView({
+                dataSet: dataSet,
+              
+                renderer : function(v,record){
+                    return '<font color=\"blue\">' + v + '</font>';
+                },
+                fields: {
+                    rootValue: null,
+                    parentId: 'parentMenuId',
+                    id: 'menuId',
+                    label: 'name',
+                    order:'seq'
+                },
+                width:200,
+                height:300,
+                nodeType: 'checkbox'
+               
+            });
+
+            treeView.render('divUl');
+            
+            dataSet.load({ url: './../../../../sample/data/menu.json' });
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+function testLTreeView_method_destroy() {
+    info('LTreeViewTests : testLTreeView_method_destroy 작동 여부');
+    treeView.enable(); 
+    treeView.destroy(); 
+    assertTrue(treeView.el == null)
+}
+
+function testLTreeView_method_getChildNodes() {
+    info('LTreeViewTests : testLTreeView_method_getChildNodes 작동 여부');
+    var node = treeView.getFocusNode();
+    if(node) {
+        parent = node.getParentNode();
+        if(parent)
+            parent.getChildNodes();
+    }
+    assertTrue(true);
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.tree.LTreeView Tests</h1>
+
+    <div id="bd">
+        <div class="LblockMarkupCode">
+            <div id="divUl"></div>
+            <div id="frm">
+                <input type="text" id="name" name="name" /> <input type="text"
+                    id="seq" name="seq" />
+            </div>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLTreeView_method_destroy()">destroy</a>
+            <a href="javascript:testLTreeView_method_getChildNodes()">getChildNodes</a>
+        </div>
+    </div>        
+</body>
+</html>

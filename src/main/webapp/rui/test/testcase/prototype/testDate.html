@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>prototype.Date Tests</title>
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+	
+	Rui.getMessageManager().setLocale('ko_KR');
+	
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testDate_method_format() {
+    info('DateTests : testDate_method_format 작동 여부');
+    var date = new Date(2013, 0, 1);
+    date = date.format('%Y%m%d');
+    assertEquals(date, '20130101');
+}
+function testDate_method_add() {
+    info('DateTests : testDate_method_add 작동 여부');
+    var date = new Date(2012, 1, 1); //Date 2012/2/1
+    var field = Rui.util.LDate.DAY; //String
+    var amount = 1; //Number
+    var result = date.add(field, amount);
+    //return type : Date
+    assertEquals(result.getTime(), new Date(2012, 1, 2).getTime());
+}
+function testDate_method_equals() {
+    info('DateTests : testDate_method_equals 작동 여부');
+    var date1 = new Date(2013,2,5); //Date
+    var date2 = new Date(2013,2,5); //Date
+    var result = date1.equals(date2);
+    assertTrue(result);
+}
+function testDate_method_compareTo() {
+    info('DateTests : testDate_method_compareTo 작동 여부');
+    var date = new Date(2013, 0, 1); //Date
+    var result = date.compareTo(new Date(2013, 0, 2));
+    //return type : int
+    assertEquals(result, -1);
+}
+function testDate_method_getDayInMonth() {
+    info('DateTests : testDate_method_getDayInMonth 작동 여부');
+    assertEquals(new Date(2013, 0, 1).getDayInMonth(0).getTime(), new Date(2013, 0, 31).getTime());
+}
+function testDate_method_clone() {
+    info('DateTests : testDate_method_clone 작동 여부');
+    var date = new Date();
+    var result = date.clone();
+    assertEquals(result.getDate(), date.getDate());
+}
+function testDate_method_between() {
+    info('DateTests : testDate_method_between 작동 여부');
+    var date = new Date(2013, 0, 11); //Date
+    var dateBegin = new Date(2013, 0, 1); //Date
+    var dateEnd = new Date(2013, 0, 31); //Date
+    var result = date.between(dateBegin, dateEnd);
+    assertTrue(result);
+}
+function testDate_method_compareString() {
+    info('DateTests : testDate_method_compareString 작동 여부');
+    var date1 = new Date(2013, 0, 1); //Date
+    var date2 = new Date(2013, 0, 1); //Date
+    var pattern = '%x'; //Date
+    var result = date1.compareString(date2, pattern);
+    assertTrue(result);
+}
+function testDate_method_getFirstDayOfMonth() {
+    info('DateTests : testDate_method_getFirstDayOfMonth 작동 여부');
+    var date = new Date(2013, 0, 11); //Date
+    assertEquals(date.getFirstDayOfMonth().getTime(), new Date(2013, 0, 1).getTime());
+}
+function testDate_method_getLastDayOfMonth() {
+    info('DateTests : testDate_method_getLastDayOfMonth 작동 여부');
+    var date = new Date(2013, 0, 11); //Date
+    assertEquals(date.getLastDayOfMonth().getTime(), new Date(2013, 0, 31).getTime());
+}
+function testDate_method_getFirstDayOfWeek() {
+    info('DateTests : testDate_method_getFirstDayOfWeek 작동 여부');
+    var dt = null; //Date
+    var startOfWeek = null; //Number
+    var date = new Date(2013, 0, 11); //Date
+    assertEquals(date.getFirstDayOfWeek().getTime(), new Date(2013, 0, 6).getTime());
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>prototype.Date Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testDate_method_format()">format</a>
+            <a href="javascript:testDate_method_add()">add</a>
+            <a href="javascript:testDate_method_equals()">equals</a>
+            <a href="javascript:testDate_method_compareTo()">compareTo</a>
+            <a href="javascript:testDate_method_getDayInMonth()">getDayInMonth</a>
+            <a href="javascript:testDate_method_clone()">clone</a>
+            <a href="javascript:testDate_method_between()">between</a>
+            <a href="javascript:testDate_method_compareString()">compareString</a>
+            <a href="javascript:testDate_method_getFirstDayOfMonth()">getFirstDayOfMonth</a>
+            <a href="javascript:testDate_method_getLastDayOfMonth()">getLastDayOfMonth</a>
+            <a href="javascript:testDate_method_getFirstDayOfWeek()">getFirstDayOfWeek</a>
+        </div>
+    </div>        
+</body>
+</html>

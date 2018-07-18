@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>DataSet Tests</title>
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var bind = null;
+var dataSet = null;
+Rui.onReady(function() {
+    /*<b>*/
+    dataSet = new Rui.data.LJsonDataSet({
+        id:'dataSet',
+        fields:[
+            {id:'id'},
+            {id:'col1'},
+            {id:'col2'},
+            {id:'col3'},
+            {id:'col4'},
+            {id:'col5'},
+            {id:'col6'}
+        ]
+    });
+    /*</b>*/
+   
+    bind = new Rui.data.LBind( 
+        {
+            groupId:'frm',
+            dataSet:dataSet,
+            bind:true,
+            bindInfo: [
+                {id:'id', ctrlId:'recordId', value:'value'},
+                {id:'col1', ctrlId:'col1', value:'value'},
+                {id:'col2', ctrlId:'col2', value:'value'},
+                {id:'col3', ctrlId:'col3', value:'value'},
+                {id:'col4', ctrlId:'col4', value:'value'},
+                {id:'col5', ctrlId:'col5', value:'value'},
+                {id:'col6', ctrlId:'col6', value:'value'}
+            ]
+        });
+
+    /*<b>*/
+    dataSet.on('update', function(e) {
+        var modifiedRecords = dataSet.getModifiedRecords();
+        if(modifiedRecords.length < 1) {
+            Rui.getDom('showData').innerHTML = 'no changed';
+            return;
+        }
+
+        var data = '';
+        modifiedRecords.each(function(id) {
+            var record = modifiedRecords.get(id);
+            var changedField = record.getModifiedData();
+            data += Rui.dump(changedField);
+        });
+        Rui.getDom('showData').innerHTML = data;
+    });
+
+    dataSetLoad();
+
+    /*</b>*/
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//**************test function 시작*****************
+
+function testDataSetAddUndo() {
+    info('bindTests : testDataSetUndo 작동 여부');
+
+    var count = dataSet.getCount();
+
+    dataSet.newRecord();
+
+    //assertEquals(dataSet.getCount(), count + 1);    
+
+    dataSet.undo(dataSet.getCount() - 1);
+
+    //assertEquals(dataSet.getCount(), count);
+    assertEvaluatesToTrue(true);
+}
+
+function testDataSetCreateRecord() {
+    var data = {
+            col:'aaa'
+    }
+    var record = dataSet.createRecord(data);
+}
+
+function testDataSetUndo() {
+    info('bindTests : testDataSetUndo 작동 여부');
+
+    dataSet.getAt(0).set('col1', 'test');
+
+    assertEquals(dataSet.getAt(0).get('col1'), 'test');
+
+    dataSet.undo(0);
+
+    assertEquals(dataSet.getAt(0).get('col1'), 'Kaden Q. Delacruz');
+}
+
+function testDataSetUndoAll() {
+    info('bindTests : testDataSetUndoAll 작동 여부');
+
+    dataSet.getAt(0).set('col1', 'test1');
+    dataSet.getAt(1).set('col1', 'test2');
+
+    assertEquals(dataSet.getAt(0).get('col1'), 'test1');
+    assertEquals(dataSet.getAt(1).get('col1'), 'test2');
+
+    dataSet.undoAll();
+    assertEquals(dataSet.getAt(0).get('col1'), 'Kaden Q. Delacruz');
+    assertEquals(dataSet.getAt(1).get('col1'), 'Bertha G. Carr');
+}
+
+function testQuery() {
+    var queryList = dataSet.query(
+            function(id, record) {
+                if(record.get('col4') == 'R2')
+                    return true;
+            }
+    );
+
+    queryList.each(function(id, record){
+        Rui.log(id);
+    })
+}
+
+function testFilter() {
+    dataSet.filter(
+            function(id, record) {
+                if(record.get('col4') == 'R2')
+                    return true;
+            }
+    );
+}
+
+function testClearFilter() {
+    dataSet.clearFilter();
+}
+
+function testClone(){
+    var testDataSet = dataSet.clone('testDataSet');
+    Rui.log(testDataSet.getCount());
+}
+
+function testDataSetCommit() {
+    info('bindTests : testDataSetCommit 작동 여부');
+
+    dataSet.getAt(3).set('col1', 'test1');
+    dataSet.getAt(4).set('col1', 'test2');
+
+    assertEquals(dataSet.getAt(3).get('col1'), 'test1');
+    assertEquals(dataSet.getAt(4).get('col1'), 'test2');
+
+    dataSet.commit();
+
+    assertEquals(dataSet.getAt(3).get('col1'), 'test1');
+    assertEquals(dataSet.getAt(4).get('col1'), 'test2');
+}
+
+function testLJsonDataSet_method_serialize() {
+    warn('LJsonDataSetTests : testLJsonDataSet_method_serialize 테스트 무시 => testLDataSet에서 동일하게 처리됨');
+}
+function testLJsonDataSet_method_serializeModified() {
+    warn('LJsonDataSetTests : testLJsonDataSet_method_serializeModified 테스트 무시 => testLDataSet에서 동일하게 처리됨');
+}
+//**************test function   끝*****************
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+function dataSetLoad(){
+    dataSet.load({
+        url : './../../../sample/data/data.json',
+        sync: true
+    });
+}
+</script>
+</head>
+
+<body>
+    <h1>DataSet Basic Sample</h1>
+    <h2>LDataSet을 사용하는 기본 샘플</h2>
+    <div class="LblockLine"></div>
+    <div>
+        <p>데이터셋을 사용하는 기본적인 형태입니다.</p>
+        <p>데이터셋의 이벤트 등을 정의하여 이벤트와 연결된 여러 액션이 가능합니다.</>
+    </div>
+
+    <div id="bd">
+        <div class="LblockMarkupCode">
+            <form id='frm' name='frm' method='post' >
+                <input type='hidden' id='test' />
+                <input type='text' id='recordId' /><br/>
+                <input type='text' id='col1' /><br/>
+                <input type='text' id='col2' /><br/>
+                <select id='col3'>
+                    <option value='all'>ALL</option>
+                    <option value='R1'>TES3</option>
+                    <option value='R2'>TES4</option>
+                </select><br/>
+                <input type='radio' id='col4' value='R1'/>RADIO1<br/>
+                <input type='radio' id='col4' value='R2'/>RADIO2<br/>
+                <input type='checkbox' id='col5' value='R1'/>CHECKBOX1<br/>
+                <textarea id='col6' rows="5" cols="30"></textarea><br/>
+                <button onclick='test()'></button>
+            </form>
+        </div>
+        <div id='showData'>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLJsonDataSet_method_serialize()">serialize</a>
+            <a href="javascript:testLJsonDataSet_method_serializeModified()">serializeModified</a>
+        </div>
+    </div>
+</body>
+</html>

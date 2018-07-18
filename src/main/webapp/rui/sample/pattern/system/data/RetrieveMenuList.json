@@ -1,0 +1,9 @@
+[{
+    "metaData": {
+        "datasetId":"dataSet"
+    },
+    "records": [
+        { "menuId": 1, "prntmenuId": 0, "menucode": "M001", "menuLvl": 0, "menuName": "Manager Auth", "menuSeq": 0 },
+        { "menuId": 2, "prntmenuId": 1, "menucode": "M002", "menuLvl": 0, "menuName": "Manager Auth11", "menuSeq": 1 }
+    ]
+}]

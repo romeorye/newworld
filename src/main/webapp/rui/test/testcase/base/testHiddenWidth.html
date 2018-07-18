@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.tab.LTabView Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="/lib/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../plugins/tab/rui_tab.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../plugins/tab/rui_tab.css" />
+
+<script type="text/javascript" src="./../../../plugins/tree/rui_tree.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../plugins/tree/rui_tree.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style type="text/css">
+#depth3 {
+    position: fixed;
+    display: inline-block;
+}
+</style>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    alert(Rui.get('depth3').getHiddenHeight());
+    /*alert(Rui.get('depth3').getHeight());
+    alert(Rui.get('depth3').getStyle('height'));
+    al*ert($('#depth3').height());*/
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.tab.LTabView Tests</h1>
+
+    <div id="bd">
+      <div class="LblockMarkupCode">
+            <div id="depth1" class="L-hide-display" >
+                depth1
+                <div id="depth2">
+                    depth2
+                    <div id="depth3">
+                        depth3
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLTabView_method_get()">get</a>
+        </div>
+    </div>        
+</body>
+</html>

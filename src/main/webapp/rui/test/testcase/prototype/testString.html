@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>prototype.String Tests</title>
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/locale/lang-ko_KR.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testString_method_trim() {
+    info('StringTests : testString_method_trim 작동 여부');
+    var result = ' t est '.trim();
+    //return type : String
+    assertEquals(result, 't est');
+}
+function testString_method_lPad() {
+    info('StringTests : testString_method_lPad 작동 여부');
+    var pad = '0'; //String
+    var r = 3; //int
+    var result = '3'.lPad(pad, r);
+    //return type : String
+    assertEquals(result, '003');
+}
+function testString_method_rPad() {
+    info('StringTests : testString_method_rPad 작동 여부');
+    var pad = '0'; //String
+    var r = 3; //int
+    var result = '3'.rPad(pad, r);
+    //return type : String
+    assertEquals(result, '300');
+}
+function testString_method_toDate() {
+    info('StringTests : testString_method_toDate 작동 여부');
+    var oConfig = '%Y%m%d'; //Object|String
+    var result = '20130101'.toDate(oConfig);
+    //return type : Date
+    assertTrue(result instanceof Date);
+}
+function testString_method_toXml() {
+    info('StringTests : testString_method_toXml 작동 여부');
+    var result = '<?xml version="1.0" encoding="utf-8"?><dataset-list></dataset-list>'.toXml();
+    //return type : object
+    assertNotUndefined(result.nodeName);
+}
+function testString_method_trimAll() {
+    info('StringTests : testString_method_trimAll 작동 여부');
+    var result = ' t est '.trimAll();
+    //return type : String
+    assertEquals(result, 'test');
+}
+function testString_method_cut() {
+    info('StringTests : testString_method_cut 작동 여부');
+    var start = 3; //int
+    var length = 2; //int
+    var result = 'abcdefg'.cut(start, length);
+    //return type : String
+    assertEquals(result, 'abcfg');
+}
+function testString_method_lastCut() {
+    info('StringTests : testString_method_lastCut 작동 여부');
+    var pos = 3; //int
+    var result = 'abcdefg'.lastCut(pos);
+    //return type : String
+    assertEquals(result, 'abcd');
+}
+function testString_method_startsWith() {
+    info('StringTests : testString_method_startsWith 작동 여부');
+    var pattern = 'abc'; //String
+    var result = 'abcdefg'.startsWith(pattern);
+    //return type : boolean
+    assertTrue(result);
+}
+function testString_method_endsWith() {
+    info('StringTests : testString_method_endsWith 작동 여부');
+    var pattern = 'efg'; //String
+    var result = 'abcdefg'.endsWith(pattern);
+    //return type : boolean
+    assertTrue(true);
+}
+function testString_method_advancedSplit() {
+    info('StringTests : testString_method_advancedSplit 작동 여부');
+    var delim = ';'; //String
+    var options = 'T'
+    var result = 'abc;defg'.advancedSplit(delim);
+    //return type : Array
+    assertEquals(result.length, 2);
+}
+function testString_method_firstUpperCase() {
+    info('StringTests : testString_method_firstUpperCase 작동 여부');
+    var result = 'abc'.firstUpperCase();
+    //return type : String
+    assertEquals(result, 'Abc');
+}
+function testString_method_getByteLength() {
+    info('StringTests : testString_method_getByteLength 작동 여부');
+    assertEquals('한글'.getByteLength(), 6);
+}
+function testString_method_isHangul() {
+    info('StringTests : testString_method_isHangul 작동 여부');
+    assertEquals('한글'.isHangul(), true);
+    assertEquals('abc'.isHangul(), false);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>prototype.String Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testString_method_trim()">trim</a>
+            <a href="javascript:testString_method_lPad()">lPad</a>
+            <a href="javascript:testString_method_rPad()">rPad</a>
+            <a href="javascript:testString_method_toDate()">toDate</a>
+            <a href="javascript:testString_method_toXml()">toXml</a>
+            <a href="javascript:testString_method_trimAll()">trimAll</a>
+            <a href="javascript:testString_method_cut()">cut</a>
+            <a href="javascript:testString_method_lastCut()">lastCut</a>
+            <a href="javascript:testString_method_startsWith()">startsWith</a>
+            <a href="javascript:testString_method_endsWith()">endsWith</a>
+            <a href="javascript:testString_method_advancedSplit()">advancedSplit</a>
+            <a href="javascript:testString_method_firstUpperCase()">firstUpperCase</a>
+            <a href="javascript:testString_method_getByteLength()">getByteLength</a>
+            <a href="javascript:testString_method_isHangul()">isHangul</a>
+        </div>
+    </div>
+</body>
+</html>

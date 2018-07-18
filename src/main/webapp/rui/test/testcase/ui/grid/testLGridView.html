@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.grid.LGridView Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LGridView.js"></script>
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var gridView = null;
+var dataSet = null;
+Rui.onReady(function() {
+    dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col4' },
+            { id: 'col5' },
+            { id: 'col6' },
+            { id: 'col7' },
+            { id: 'col8', type: 'number' },
+            { id: 'code' },
+            { id: 'tooltip' },
+            { id: 'date1', type: 'date', defaultValue: new Date() }
+        ]
+    });
+
+    var columnModel = new Rui.ui.grid.LColumnModel({
+    	freezeColumnId: 'col1',
+        columns: [
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1', vMerge: true, editor: new Rui.ui.form.LTextBox(), renderer: function(val, p, record){
+                /*<b>*/
+                p.tooltip = (val !== 'Bertha G. Carr');
+                p.tooltipText = (val == 'Felix U. Hill') ? val + ' 사장' : val + ' 직원';
+                /*</b>*/
+                return val;
+            } },
+            { field: 'col2', align: 'center', width: 120, tooltipText:'컬럼 전체 적용된 tooltip 텍스트입니다.'},
+            { field: 'tooltip', renderer: function(val, p, record, row) {
+            	if(row >= 2 && row <= 6)
+           		   return val.substring(0, 5) + '<br/>' + val.substring(7) + '<br/>' + val.substring(7);
+          		else return val;
+            } },
+            { field: 'col8', label: 'Col8', align: 'right', sortable: true, editor: new Rui.ui.form.LNumberBox({decimalPrecision: 2, minValue: -1, maxValue: 10000 }),
+                renderer:Rui.util.LRenderer.moneyRenderer() },
+            { field: 'date1', align:'center', editor: new Rui.ui.form.LDateBox(), renderer: Rui.util.LRenderer.dateRenderer() }
+        ]
+    });
+
+    var grid = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        autoToEdit: true,
+        view: new Rui.ui.grid.LGridView({
+            columnModel: columnModel,
+            dataSet: dataSet
+        }),
+        width: 550,
+        height: 300
+    });
+    
+    grid.render('defaultGrid');
+
+    testLGridView_method_loadDataSet();
+    
+    gridView = grid.getView();
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLGridView_method_getRenderBody() {
+    info('LGridViewTests : testLGridView_method_getRenderBody 작동 여부');
+    assertNotUndefined(gridView.getRenderBody());
+}
+function testLGridView_method_getRow() {
+    info('LGridViewTests : testLGridView_method_getRow 작동 여부');
+    var row = 2; //int
+    assertNotUndefined(gridView.getRow(row));
+}
+function testLGridView_method_hasRows() {
+    info('LGridViewTests : testLGridView_method_hasRows 작동 여부');
+    var result = gridView.hasRows();
+    //return type : Boolean
+    assertTrue(result);
+}
+function testLGridView_method_getRows() {
+    info('LGridViewTests : testLGridView_method_getRows 작동 여부');
+    assertNotUndefined(gridView.getRows());
+}
+function testLGridView_method_getCell() {
+    info('LGridViewTests : testLGridView_method_getCell 작동 여부');
+    var row = 1; //int
+    var col = 1; //int
+    assertNotUndefined(gridView.getCell(row, col));
+}
+function testLGridView_method_getRowCell() {
+    info('LGridViewTests : testLGridView_method_getRowCell 작동 여부');
+    var rowDom = gridView.getRow(1,1); //HTMLElement
+    var row = 1; //int
+    var col = 1; //int
+    assertNotUndefined(gridView.getRowCell(rowDom, row, col));
+}
+function testLGridView_method_getScrollerEl() {
+    info('LGridViewTests : testLGridView_method_getScrollerEl 작동 여부');
+    assertNotUndefined(gridView.getScrollerEl());
+}
+
+function testLGridView_method_createFormValues() {
+    info('LGridViewTests : testLGridView_method_createFormValues 작동 여부');
+    gridView.createFormValues();
+    assertTrue(true);
+}
+
+function testLGridView_method_clearFormValues() {
+    info('LGridViewTests : testLGridView_method_clearFormValues 작동 여부');
+    gridView.clearFormValues();
+    assertTrue(true);
+}
+
+function testLGridView_method_clearDataSet(){
+    info('LGridViewTests : testLGridView_method_clearDataSet 작동 여부');
+    dataSet.clearData();
+    assertTrue(true);
+}
+
+function testLGridView_method_loadDataSet(){
+    info('LGridViewTests : testLGridView_method_loadDataSet 작동 여부');
+    dataSet.load({
+        sync:true,
+        url: './../../../../sample/data/data11.json'
+    });
+    assertTrue(true);
+}
+
+function testLGridView_method_addDataSet(){
+    info('LGridViewTests : testLGridView_method_addDataSet 작동 여부');
+    //dataSet.clearData();
+    if(dataSet.getCount() > 2)
+        dataSet.newRecord(1);
+    else
+        dataSet.newRecord();
+    assertTrue(true);
+}
+
+function testLGridView_method_deleteDataSet() {
+    info('LGridViewTests : testLGridView_method_deleteDataSet 작동 여부');
+    if(dataSet.getCount() > 0)
+        dataSet.removeAt(1);
+    assertTrue(true);
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.grid.LGridView Tests</h1>
+    <div id="defaultGrid"></div>
+    
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLGridView_method_getRenderBody()">getRenderBody</a>
+            <a href="javascript:testLGridView_method_getRow()">getRow</a>
+            <a href="javascript:testLGridView_method_hasRows()">hasRows</a>
+            <a href="javascript:testLGridView_method_getRows()">getRows</a>
+            <a href="javascript:testLGridView_method_getCell()">getCell</a>
+            <a href="javascript:testLGridView_method_getRowCell()">getRowCell</a>
+            <a href="javascript:testLGridView_method_getScrollerEl()">getScrollerEl</a>
+            <a href="javascript:testLGridView_method_createFormValues()">createFormValues</a>
+            <a href="javascript:testLGridView_method_clearFormValues()">clearFormValues</a>
+            <a href="javascript:testLGridView_method_clearDataSet()">clearDataSet</a>
+            <a href="javascript:testLGridView_method_loadDataSet()">loadDataSet</a>
+            <a href="javascript:testLGridView_method_addDataSet()">addDataSet</a>
+            <a href="javascript:testLGridView_method_deleteDataSet()">deleteDataSet</a>
+        </div>
+    </div>
+</body>
+</html>

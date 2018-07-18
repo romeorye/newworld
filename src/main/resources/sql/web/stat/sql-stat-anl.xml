@@ -1,0 +1,1032 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stat.anl">
+
+	<select id="getAnlCompleteStateList" resultType="hashmap">
+		<![CDATA[
+			-- getAnlCompleteStateList 분석완료 통계 리스트 조회
+			 WITH DEPT_MST AS
+			(
+			SELECT SD.dept_code		
+					,SD.dept_name					
+					,SD.DEPT_LEVEL AS DEPT_LEVEL
+					, SD.dept_name  AS master_lv1
+					, CAST(null AS NVARCHAR(300)) AS master_lv2
+					, CAST(null AS NVARCHAR(10)) AS master_code_lv2	
+				FROM IRIS_SSO_DEPT SD
+				WHERE SD.dept_code = '50000000'  
+				UNION ALL
+				SELECT SD2.dept_code			
+					,SD2.DEPT_NAME					
+					,SD2.DEPT_LEVEL AS DEPT_LEVEL
+					,AEM3.master_lv1
+					,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_name ELSE AEM3.master_lv2 END master_lv2
+					,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_code ELSE AEM3.master_code_lv2 END master_code_lv2	
+				FROM IRIS_SSO_DEPT SD2
+					,DEPT_MST AEM3
+				WHERE  1=1 
+				AND SD2.dept_uper = aem3.dept_code   
+			)
+			select	dbo.fn_getComDtlNm('ACPC_ST_CD', acpc_st_cd)	as acpcStNm,
+					acpc_no											as acpcNo,
+					rqpr_dept_cd					                as rqprDeptCd,
+					m.master_lv2 									as busiDeptNm,
+					-- dbo.fn_getDivisionNm(rqpr_dept_cd)			as busiDeptNm,
+					-- dbo.fn_getDeptName(rqpr_dept_cd)				as rqprDeptNm,
+					M.DEPT_NAME								as rqprDeptNm,
+					dbo.fn_getUserName(rgst_id)						as rgstNm,
+					dbo.fn_getUserName(anl_chrg_id)					as anlChrgNm,
+					dbo.fn_getComDtlNm('ANL_UGY_YN', anl_ugy_yn)	as anlUgyYnNm,
+					dbo.fn_getComDtlNm('ANL_SCN_CD', anl_scn_cd)	as anlScnNm,
+					anl_name										as anlNm,
+					(select isnull(sum(smpo_qty), 0)
+					 from	iris_anl_rqpr_smpo
+					 where	rqpr_id = mst.rqpr_id
+					 and	del_yn = 'N')							as smpoCnt,
+					(select isnull(sum(smpo_qty), 0)
+					 from	iris_anl_rqpr_expr
+					 where	rqpr_id = mst.rqpr_id
+					 and	del_yn = 'N')							as exprSmpoCnt,
+					(select isnull(sum(expr_exp), 0)
+					 from	iris_anl_rqpr_expr
+					 where	rqpr_id = mst.rqpr_id
+					 and	del_yn = 'N')							as exprExp,
+					acpc_dt											as acpcDt,
+					cmpl_dt											as cmplDt,
+					cmpl_wk_dd_cnt									as cmplWkDdCnt,
+					cmpl_parr_dt									as cmplParrDt,
+					(CASE WHEN cmpl_dt > cmpl_parr_dt THEN 'N'
+						  ELSE 'Y'
+					 END)											as complObservanceYn
+			from	iris_anl_rqpr_mst mst
+					,DEPT_MST M
+		 ]]>
+			where	acpc_st_cd = '07'
+			and		mst.rqpr_dept_cd = M.DEPT_CODE
+        <if test="anlChrgId != null and anlChrgId != ''">
+			and		anl_chrg_id = #{anlChrgId}
+		</if>
+			and		cmpl_dt between #{fromCmplDt} and #{toCmplDt}
+			and		del_yn = 'N'
+			order   by acpc_no			
+			
+	</select>
+
+	<select id="getAnlMchnUseStateList" resultType="hashmap">
+		<![CDATA[
+			-- getAnlMchnUseStateList 분석 기기사용 통계 리스트 조회
+			WITH EXPR_MST AS
+			(
+				SELECT   AEM.EXPR_CD
+						,AEM.EXPR_CD_L
+						,convert(varchar(255), EXPR_NM) as masterPath
+						,AEM.EXPR_NM					as exprLv1Nm
+						,CAST(null AS NVARCHAR(100))	as exprLv2Nm
+						,CAST(null AS NVARCHAR(100))	as exprLv3Nm
+						,CAST(null AS NVARCHAR(100))	as exprLv4Nm
+				FROM IRIS_ANL_EXPR_MST AEM
+				WHERE AEM.DEL_YN = 'N'
+				AND   AEM.SUPI_EXPR_CD = '0'
+				UNION ALL
+				SELECT	 AEM2.EXPR_CD
+						,AEM2.EXPR_CD_L
+						,CAST(AEM3.masterPath + '>' + AEM2.EXPR_NM AS VARCHAR(255))				as masterPath
+						,AEM3.exprLv1Nm		
+						,CASE AEM2.EXPR_CD_L WHEN 2 THEN AEM2.EXPR_NM ELSE AEM3.exprLv2Nm END	as exprLv2Nm
+						,CASE AEM2.EXPR_CD_L WHEN 3 THEN AEM2.EXPR_NM ELSE AEM3.exprLv3Nm END	as exprLv3Nm
+						,CASE AEM2.EXPR_CD_L WHEN 4 THEN AEM2.EXPR_NM ELSE AEM3.exprLv4Nm END	as exprLv4Nm
+				FROM	IRIS_ANL_EXPR_MST AEM2
+					   ,EXPR_MST AEM3
+				WHERE   AEM2.SUPI_EXPR_CD = AEM3.EXPR_CD
+			)
+			,DEPT_MST AS
+			(
+			SELECT SD.dept_code		
+					,SD.dept_name		
+					,SD.DEPT_LEVEL AS DEPT_LEVEL
+					, SD.dept_name  AS master_lv1
+					, CAST(null AS NVARCHAR(300)) AS master_lv2
+					, CAST(null AS NVARCHAR(10)) AS master_code_lv2	
+				FROM IRIS_SSO_DEPT SD
+				WHERE SD.dept_code = '50000000'  
+				UNION ALL
+				SELECT SD2.dept_code			
+					,SD2.DEPT_NAME		
+					,SD2.DEPT_LEVEL AS DEPT_LEVEL
+					,AEM3.master_lv1
+					,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_name ELSE AEM3.master_lv2 END master_lv2
+					,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_code ELSE AEM3.master_code_lv2 END master_code_lv2	
+				FROM IRIS_SSO_DEPT SD2
+					,DEPT_MST AEM3
+				WHERE  1=1 
+				AND SD2.dept_uper = aem3.dept_code   
+			) 
+			SELECT   mst.acpc_no								as acpcNo
+					-- ,dbo.fn_getDivisionNm(mst.rqpr_dept_cd)	    as busiDeptNm
+					,m.master_lv2 								as busiDeptNm
+					-- ,dbo.fn_getDeptName(mst.rqpr_dept_cd)		as rqprDeptNm
+					,M.DEPT_NAME								as rqprDeptNm
+					,dbo.fn_getUserName(mst.rgst_id)			as rgstNm
+					,dbo.fn_getUserName(mst.anl_chrg_id)		as anlChrgNm
+					,mst.cmpl_dt								as cmplDt
+					,EM.exprLv1Nm								as exprLv1Nm
+					,EM.exprLv2Nm								as exprLv2Nm
+					,EM.exprLv3Nm								as exprLv3Nm
+					,EM.exprLv4Nm								as exprLv4Nm
+					,dbo.fn_getMchnInfoName(ARE.MCHN_INFO_ID)+ '('+dbo.fn_getMchnInfoEnName(ARE.MCHN_INFO_ID)+')'	 as mchnInfoNm
+					,ARE.SMPO_QTY								as smpoQty
+					,ARE.EXPR_QTY								as exprQty
+					,ARE.EXPR_TIM								as exprTim
+					--,cast(floor(ARE.EXPR_TIM / 1) as nvarchar(5)) + ':' +  cast(floor(60 * (ARE.EXPR_TIM % 1)) as nvarchar(5))	as exprTim
+					,ARE.EXPR_EXP								as exprExp
+					,ARE.EXPR_STRT_DT							as exprStrtDt
+					,ARE.EXPR_FNH_DT							as exprFnhDt
+			FROM	 EXPR_MST EM
+					,IRIS_ANL_RQPR_EXPR ARE
+					,iris_anl_rqpr_mst mst
+					,DEPT_MST M  
+		 ]]>
+			WHERE	ARE.DEL_YN = 'N'
+			and		ARE.expr_strt_dt between #{fromExprStrtDt} and #{toExprStrtDt}
+			and		EM.EXPR_CD = ARE.EXPR_CD
+			and		ARE.RQPR_ID = mst.rqpr_id
+			and	    mst.rqpr_dept_cd = M.DEPT_CODE
+			and		mst.acpc_st_cd = '07'
+        <if test="anlChrgId != null and anlChrgId != ''">
+			and		mst.anl_chrg_id = #{anlChrgId}
+		</if>
+			and		mst.del_yn = 'N'
+			order by mst.acpc_no, masterPath
+			
+	</select>
+
+	<select id="getAnlBusinessStateList" resultType="hashmap">
+	
+			-- getAnlBusinessStateList 분석 업무현황 통계 리스트 조회
+			SELECT '전체' AS typeUgyNm
+			       ,'평균 완료기간(일)' AS typeNm
+				   ,AVG(CMPL_WK_DD_CNT) AS completeCnt
+				   ,'분석 접수일로부터 검토완료까지 걸린 일자의 평균 값.(주말제외)' AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+			WHERE ARM.DEL_YN = 'N'
+			AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if>
+			AND	ARM.ACPC_ST_CD IN ('07' ) 
+			UNION ALL
+			SELECT '전체' AS typeUgyNm
+			       ,'결과통보 준수율(%)' AS typeNm
+				   ,(CASE WHEN completeCnt = 0 THEN 0
+				    ELSE	ROUND( ( jun_complete_Cnt / convert(float, completeCnt) ) *100 , 1)
+				    END) AS completeCnt	
+				   ,'완료예정일 이내 (예정일 포함하여)에 분석결과가 통보된 비율' AS typeDesc
+			FROM (
+				SELECT COUNT(*) AS completeCnt
+					   ,( SELECT COUNT(*) 
+						  FROM IRIS_ANL_RQPR_MST ARM2
+						  WHERE ARM2.DEL_YN = 'N'
+		<![CDATA[
+						  AND	ARM2.CMPL_PARR_DT >= ARM2.CMPL_DT
+		 ]]>
+			
+						  AND   ARM2.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+						  AND ARM2.ANL_CHRG_ID = #{anlChrgId}
+		</if>
+			
+						  AND   ARM2.ACPC_ST_CD IN ( '07' ) ) AS jun_complete_Cnt
+				FROM IRIS_ANL_RQPR_MST ARM
+				WHERE ARM.DEL_YN = 'N'
+				AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+				AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if>
+				AND	ARM.ACPC_ST_CD IN ('07' )
+			) A
+			UNION ALL
+			SELECT '전체' AS typeUgyNm
+			       ,'긴급 분석율(%)' AS typeNm
+				   ,(CASE WHEN completeCnt = 0 THEN 0
+				    ELSE	ROUND( ( jun_complete_Cnt / convert(float, completeCnt) ) *100 , 1)
+				    END) AS completeCnt	
+					,'긴급 요청된 비율' AS typeDesc
+			FROM (
+				SELECT COUNT(*) AS completeCnt
+					   ,( SELECT COUNT(*) 
+						  FROM IRIS_ANL_RQPR_MST ARM2
+						  WHERE ARM2.DEL_YN = 'N'
+						  AND	ARM2.ANL_UGY_YN = 'U'
+			
+						  AND   ARM2.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+						  AND ARM2.ANL_CHRG_ID = #{anlChrgId}
+		</if>
+			
+						  AND   ARM2.ACPC_ST_CD IN ( '07' ) ) AS jun_complete_Cnt
+				FROM IRIS_ANL_RQPR_MST ARM
+				WHERE ARM.DEL_YN = 'N'
+				AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			    AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if>
+				AND	ARM.ACPC_ST_CD IN ('07' )
+			) A
+			UNION ALL
+			SELECT  '전체' AS typeUgyNm
+			        ,'완료 분석 (건)' AS typeNm
+					,COUNT(*) AS completeCnt  -- completeCnt
+					,'선택기간 분석완료 된 전체 건들의 합계' AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+			WHERE ARM.DEL_YN = 'N'
+			AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if>
+			AND	  ARM.ACPC_ST_CD IN ( '07' )
+			UNION ALL 
+			SELECT  '전체' AS typeUgyNm
+			        ,'완료 시료수 (개)' AS typeNm	
+					,SUM(SMPO_QTY) AS completeCnt  -- completeCnt
+					,'선택기간 분석완료 건들의 총 시료 수 (분석의뢰서 시료정보에 입력된 시료 수 합계)'  AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+				,IRIS_ANL_RQPR_SMPO ARS
+			WHERE ARM.DEL_YN = 'N'
+			AND	  ARS.DEL_YN = 'N'
+			AND	  ARS.RQPR_ID = ARM.RQPR_ID
+			AND	  ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if>
+			AND	  ARM.ACPC_ST_CD IN ( '07' )
+			UNION ALL
+			SELECT  '전체' AS typeUgyNm
+			        ,'완료 실험수 (건)' AS typeNm
+			        ,sum(ARE.SMPO_QTY) AS completeCnt		
+					--,COUNT(*) AS completeCnt  -- completeCnt
+					,'선택기간 당월 분석완료 건들의 총 실험 수 (실험정보 내 입력되는 실험 수 의 합계)' AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+				,IRIS_ANL_RQPR_EXPR ARE
+			WHERE ARM.DEL_YN = 'N'
+			AND	  ARE.DEL_YN = 'N'
+			AND	  ARE.RQPR_ID = ARM.RQPR_ID
+			AND	  ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if>
+			AND	  ARM.ACPC_ST_CD IN ( '07' )
+			UNION ALL
+			select  '전체' AS typeUgyNm
+				    ,a.COM_DTL_NM +'(건)' AS typeNm
+					,count(rqpr_id) as typeNm
+			       ,'' AS typeDesc
+			from   IRIS_ADM_COM_CD a
+			       left outer join IRIS_ANL_RQPR_MST b
+					   on  a.COM_DTL_CD = b.ANL_SCN_CD
+					   and    b.DEL_YN = 'N'
+					   AND	  b.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 )  -- FROM , TO
+					   AND	  b.ACPC_ST_CD IN ( '07' )
+			WHERE A.COM_CD_CD ='ANL_SCN_CD'
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND B.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			GROUP BY COM_DTL_NM
+			UNION ALL
+			SELECT  '전체' AS typeUgyNm
+			        ,'분석 반려 건' AS typeNm
+					,COUNT(*) AS completeCnt  -- completeCnt
+					,'' AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+			WHERE ARM.DEL_YN = 'N'
+			AND	  ARM.ANL_GVB_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			AND	  ARM.ACPC_ST_CD IN ( '04' )
+			UNION ALL
+			SELECT  '전체' AS typeUgyNm
+			        ,'분석 중단 건' AS typeNm
+					,COUNT(*) AS completeCnt  -- completeCnt
+					,'' AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+			WHERE ARM.DEL_YN = 'N'
+			AND	  ARM.ANL_DCAC_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			AND	  ARM.ACPC_ST_CD IN ( '05' )
+			-- 일반분석 시작
+			UNION ALL
+			SELECT '일반분석' AS typeUgyNm
+			       ,'평균 완료기간(일)' AS typeNm
+				   ,AVG(CMPL_WK_DD_CNT) AS completeCnt
+				   ,'일반 분석건의 평균 완료기간.(주말제외)' AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+			WHERE ARM.DEL_YN = 'N'
+			AND	ARM.ANL_UGY_YN = 'C'
+			AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			AND	ARM.ACPC_ST_CD IN ('07' ) 
+			UNION ALL
+			SELECT  '일반분석' AS typeUgyNm
+			        ,'완료 분석 (건)' AS typeNm
+					,COUNT(*) AS completeCnt  -- completeCnt
+					,'선택기간 분석완료 된 전체 건들 중 일반 건의 합계' AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+			WHERE ARM.DEL_YN = 'N'
+			AND	ARM.ANL_UGY_YN = 'C'
+			AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			AND	  ARM.ACPC_ST_CD IN ( '07' )
+			UNION ALL 
+			SELECT  '일반분석' AS typeUgyNm
+			        ,'완료 시료수 (개)' AS typeNm	
+					,SUM(SMPO_QTY) AS completeCnt  -- completeCnt
+					,'선택기간 일반 분석완료 건들의 총 시료 수 (분석의뢰서 시료정보에 입력된 시료 수 합계)'  AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+				,IRIS_ANL_RQPR_SMPO ARS
+			WHERE ARM.DEL_YN = 'N'
+			AND	  ARS.DEL_YN = 'N'
+			AND	  ARM.ANL_UGY_YN = 'C'
+			AND	  ARS.RQPR_ID = ARM.RQPR_ID
+			AND	  ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			AND	  ARM.ACPC_ST_CD IN ( '07' )
+			UNION ALL
+			SELECT  '일반분석' AS typeUgyNm
+					 ,'완료 실험수 (건)' AS typeNm
+					,sum(ARE.SMPO_QTY) AS completeCnt
+			      --,COUNT(*) AS completeCnt  -- completeCnt
+					,'선택기간 일반 분석완료 건들의 총 실험 수 (실험정보 내 입력되는 실험 수 의 합계)' AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+				,IRIS_ANL_RQPR_EXPR ARE
+			WHERE ARM.DEL_YN = 'N'
+			AND	  ARE.DEL_YN = 'N'
+			AND	  ARM.ANL_UGY_YN = 'C'
+			AND	  ARE.RQPR_ID = ARM.RQPR_ID
+			AND	  ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			UNION ALL
+			SELECT  '일반분석' AS typeUgyNm
+				    ,a.COM_DTL_NM +'(건)' AS typeNm
+					,count(rqpr_id) as typeNm
+			       ,'' AS typeDesc
+			FROM   IRIS_ADM_COM_CD a
+			       left outer join IRIS_ANL_RQPR_MST b
+					   on  a.COM_DTL_CD = b.ANL_SCN_CD
+					   and   b.DEL_YN = 'N'
+					   AND	  b.ANL_UGY_YN = 'C'
+					   AND	  b.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+					   AND	  b.ACPC_ST_CD IN ( '07' )
+			WHERE a.COM_CD_CD ='ANL_SCN_CD'
+			<if test="anlChrgId != null and anlChrgId != ''">
+				AND b.ANL_CHRG_ID = #{anlChrgId}
+			</if> 
+			GROUP BY COM_DTL_NM
+			-- 긴급 분석 시작
+			UNION ALL
+			SELECT '긴급분석' AS typeUgyNm
+			       ,'평균 완료기간(일)' AS typeNm
+				   ,AVG(CMPL_WK_DD_CNT) AS completeCnt
+				   ,'일반 분석건의 평균 완료기간.(주말제외)' AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+			WHERE ARM.DEL_YN = 'N'
+			AND	ARM.ANL_UGY_YN = 'U'
+			AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			AND	ARM.ACPC_ST_CD IN ('07' ) 
+			UNION ALL
+			SELECT  '긴급분석' AS typeUgyNm
+			        ,'완료 분석 (건)' AS typeNm
+					,COUNT(*) AS completeCnt  -- completeCnt
+					,'선택기간 분석완료 된 전체 건들 중 긴급 건의 합계' AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+			WHERE ARM.DEL_YN = 'N'
+			AND	ARM.ANL_UGY_YN = 'U'
+			AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			AND	  ARM.ACPC_ST_CD IN ( '07' )
+			UNION ALL 
+			SELECT  '긴급분석' AS typeUgyNm
+			        ,'완료 시료수 (개)' AS typeNm	
+					,SUM(SMPO_QTY) AS completeCnt  -- completeCnt
+					,'선택기간 긴급 분석완료 건들의 총 시료 수 (분석의뢰서 시료정보에 입력된 시료 수 합계)'  AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+				,IRIS_ANL_RQPR_SMPO ARS
+			WHERE ARM.DEL_YN = 'N'
+			AND	  ARS.DEL_YN = 'N'
+			AND	  ARM.ANL_UGY_YN = 'U'
+			AND	  ARS.RQPR_ID = ARM.RQPR_ID
+			AND	  ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			AND	  ARM.ACPC_ST_CD IN ( '07' )
+			UNION ALL
+			SELECT  '긴급분석' AS typeUgyNm
+			        ,'완료 실험수 (건)' AS typeNm		
+			        ,sum(ARE.SMPO_QTY) AS completeCnt
+					,'선택기간 긴급 분석완료 건들의 총 실험 수 (실험정보 내 입력되는 실험 수 의 합계)' AS typeDesc
+			FROM IRIS_ANL_RQPR_MST ARM
+				,IRIS_ANL_RQPR_EXPR ARE
+			WHERE ARM.DEL_YN = 'N'
+			AND	  ARE.DEL_YN = 'N'
+			AND	  ARM.ANL_UGY_YN = 'U'
+			AND	  ARE.RQPR_ID = ARM.RQPR_ID
+			AND	  ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND ARM.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			AND	  ARM.ACPC_ST_CD IN ( '07' )
+			UNION ALL
+			select  '긴급분석' AS typeUgyNm
+				    ,a.COM_DTL_NM +'(건)' AS typeNm
+					,count(rqpr_id) as typeNm
+			       ,'' AS typeDesc
+			from   IRIS_ADM_COM_CD a
+			       left outer join IRIS_ANL_RQPR_MST b
+					   on  a.COM_DTL_CD = b.ANL_SCN_CD
+					   and   b.DEL_YN = 'N'
+					   AND	  b.ANL_UGY_YN = 'U'
+					   AND	  b.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+					   AND	  b.ACPC_ST_CD IN ( '07' )
+			where a.COM_CD_CD ='ANL_SCN_CD'
+        <if test="anlChrgId != null and anlChrgId != ''">
+			AND b.ANL_CHRG_ID = #{anlChrgId}
+		</if> 
+			GROUP by COM_DTL_NM
+			
+	</select>
+
+	<select id="getAnlDivisionStateList_temp" resultType="hashmap">
+	
+			-- getAnlDivisionStateList 분석 사업부 통계 리스트 조회
+			WITH RQPR_TOTAL AS(
+	<choose>
+		<when test="type == 'anl'">
+			SELECT SUM(A.totalCnt) AS totalCnt
+				  ,SUM(A.totalExp) AS totalExp
+				  ,(SELECT  SUM(PM.MCHN_UFE * PM.SMPO_QTY )  
+					FROM  IRIS_MCHN_PRCT_MST PM
+					WHERE DEL_YN = 'N'
+					AND	  PRCT_SCN_CD = 'APPR'
+					AND   PM.RGST_DEPT_CD != '58141801' --  분석팀은 제외함.
+					AND   PRCT_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+					) AS totalMchnUfe
+			FROM ( 
+				SELECT count(*) AS totalCnt
+					  ,(SELECT SUM(E2.EXPR_EXP) AS totalExp				 
+						FROM IRIS_ANL_RQPR_EXPR E2
+						WHERE E2.DEL_YN = 'N'
+						AND	  E2.RQPR_ID = ARM.RQPR_ID) AS totalExp
+				FROM IRIS_ANL_RQPR_MST ARM
+				WHERE ARM.DEL_YN = 'N'
+				AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+				AND	ARM.ACPC_ST_CD = '07' 
+				GROUP BY ARM.RQPR_ID
+				) A
+		</when>
+		<otherwise>
+				SELECT SUM(ARE.EXPR_QTY) AS totalCnt
+						,SUM(ARE.EXPR_EXP) AS totalExp 
+						,(SELECT  SUM(PM.MCHN_UFE * PM.SMPO_QTY )  
+						FROM  IRIS_MCHN_PRCT_MST PM
+						WHERE DEL_YN = 'N'
+						AND	  PRCT_SCN_CD = 'APPR'
+						AND   PM.RGST_DEPT_CD != '58141801' --  분석팀은 제외함.
+						AND   PRCT_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+						) AS totalMchnUfe
+				FROM IRIS_ANL_RQPR_MST ARM
+					,IRIS_ANL_RQPR_EXPR ARE
+				WHERE ARM.DEL_YN = 'N'
+				AND	ARE.DEL_YN = 'N'
+				AND	ARM.RQPR_ID = ARE.RQPR_ID
+				AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+				AND	ARM.ACPC_ST_CD = '07'
+		</otherwise>
+	</choose>
+			) 
+			, RQPR_SUB AS
+			( SELECT dbo.fn_getDivisionStatNm(ARM.RQPR_DEPT_CD) AS divisionNm
+			       ,'분석구분' AS typeNm
+				   ,'합계' AS subContent
+				   ,count(*) AS divisionCnt
+				   ,'' AS typeDesc
+				   ,1 AS typeOrder
+			FROM IRIS_ANL_RQPR_MST ARM	
+			WHERE ARM.DEL_YN = 'N'
+			AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+			AND	ARM.ACPC_ST_CD = '07'
+			GROUP BY ARM.RQPR_DEPT_CD
+			UNION ALL
+			SELECT dbo.fn_getDivisionStatNm(ARM.RQPR_DEPT_CD) AS divisionNm
+			       ,'분석구분' AS typeNm
+				   ,'사업부 비율 (%)' AS subContent
+				   ,(CASE WHEN RT.totalCnt = 0 THEN 0
+				    ELSE	ROUND( ( count(*) / convert(float, RT.totalCnt) ) *100 , 1)
+				    END) AS divisionCnt	
+					,'전체 분석 건 또는 실험 수 중 해당사업부가 차지하는 %' AS typeDesc
+					,2 AS typeOrder
+			FROM IRIS_ANL_RQPR_MST ARM	
+				,RQPR_TOTAL RT
+			WHERE ARM.DEL_YN = 'N'
+			AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+			AND	ARM.ACPC_ST_CD = '07'
+			GROUP BY RT.totalCnt, ARM.RQPR_DEPT_CD
+			UNION ALL
+	<choose>
+		<when test="type == 'anl'">
+			SELECT dbo.fn_getDivisionStatNm(ARM.RQPR_DEPT_CD) AS divisionNm
+			       ,'분석구분' AS typeNm
+				   ,dbo.fn_getComDtlNm('ANL_UGY_YN', ANL_UGY_YN) AS subContent
+				   ,COUNT(*) AS divisionCnt	
+				   ,'' AS typeDesc
+				   ,3 AS typeOrder
+			FROM IRIS_ANL_RQPR_MST ARM	
+			WHERE ARM.DEL_YN = 'N'
+			AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+			AND	ARM.ACPC_ST_CD = '07'
+			GROUP BY ARM.ANL_UGY_YN, ARM.RQPR_DEPT_CD
+		</when>
+		<otherwise>
+			SELECT dbo.fn_getDivisionStatNm(ARM.RQPR_DEPT_CD) AS divisionNm
+			       ,'분석구분' AS typeNm
+				   ,dbo.fn_getComDtlNm('ANL_UGY_YN', ANL_UGY_YN) AS subContent
+				   ,SUM(ARE.EXPR_QTY)AS divisionCnt	
+				   ,'' AS typeDesc
+				   ,3 AS typeOrder
+			FROM IRIS_ANL_RQPR_MST ARM	
+				,IRIS_ANL_RQPR_EXPR ARE
+			WHERE ARM.DEL_YN = 'N'
+			AND	ARE.DEL_YN = 'N'
+			AND	ARM.RQPR_ID = ARE.RQPR_ID
+			AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+			AND	ARM.ACPC_ST_CD = '07'
+			GROUP BY ARM.ANL_UGY_YN, ARM.RQPR_DEPT_CD
+		</otherwise>
+	</choose>
+			UNION ALL
+			SELECT divisionNm AS divisionNm
+			       ,'비용' AS typeNm
+				   ,'비용 총액(원)' AS subContent
+				   , SUM(ISNULL(divisionCnt,0) + ISNULL(totalMchnUfe,0)) AS divisionCnt
+				   ,'' AS typeDesc
+				   ,4 AS typeOrder
+			FROM (
+				SELECT SUM(E.EXPR_EXP)  AS divisionCnt	
+					  ,(SELECT  SUM(PM.MCHN_UFE * PM.SMPO_QTY )  
+						FROM  IRIS_MCHN_PRCT_MST PM
+						WHERE DEL_YN = 'N'
+						AND	  PRCT_SCN_CD = 'APPR'
+						AND   PM.RGST_DEPT_CD != '58141801' --  분석팀은 제외함.			
+						AND   PM.RGST_DEPT_CD = ARM.RQPR_DEPT_CD
+						AND   PRCT_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+						) AS totalMchnUfe	
+						,dbo.fn_getDivisionStatNm(ARM.RQPR_DEPT_CD) AS divisionNm  
+				FROM IRIS_ANL_RQPR_MST ARM	
+					,IRIS_ANL_RQPR_EXPR E 
+				WHERE ARM.DEL_YN = 'N'
+				AND	E.DEL_YN = 'N'
+				AND	ARM.RQPR_ID =  E.RQPR_ID
+				AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+				AND	ARM.ACPC_ST_CD = '07'
+				GROUP BY ARM.RQPR_DEPT_CD
+			) T
+			GROUP BY divisionNm
+			UNION ALL
+			SELECT divisionNm AS divisionNm
+			       ,'비용' AS typeNm
+				   ,'사업부 비율(%)' AS subContent	
+				   ,(CASE WHEN (RT.totalExp +  RT.totalMchnUfe) = 0 THEN 0
+				    ELSE	ROUND( ( SUM(divisionCnt + T.totalMchnUfe) / convert(float, RT.totalExp + RT.totalMchnUfe) ) *100 , 1)
+				    END) AS divisionCnt	
+				   ,'전체 비용 중 해당사업부가 차지하는 비용 총액의 %' AS typeDesc
+				   ,5 AS typeOrder
+			FROM (
+				SELECT SUM(E.EXPR_EXP)  AS divisionCnt	
+					  ,(SELECT  ISNULL( SUM(PM.MCHN_UFE * PM.SMPO_QTY ) ,0)
+						FROM  IRIS_MCHN_PRCT_MST PM
+						WHERE DEL_YN = 'N'
+						AND	  PRCT_SCN_CD = 'APPR'
+						AND   PM.RGST_DEPT_CD != '58141801' --  분석팀은 제외함.		
+						AND   PM.RGST_DEPT_CD = ARM.RQPR_DEPT_CD
+						AND   PRCT_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+						) AS totalMchnUfe	 		 
+						,dbo.fn_getDivisionStatNm(ARM.RQPR_DEPT_CD) AS divisionNm  
+				FROM IRIS_ANL_RQPR_MST ARM	
+					,IRIS_ANL_RQPR_EXPR E 			
+				WHERE ARM.DEL_YN = 'N'
+				AND	E.DEL_YN = 'N'
+				AND	ARM.RQPR_ID =  E.RQPR_ID
+				AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+				AND	ARM.ACPC_ST_CD = '07'
+				GROUP BY ARM.RQPR_DEPT_CD
+			) T
+			,RQPR_TOTAL RT
+			GROUP BY RT.totalExp, RT.totalMchnUfe, divisionNm
+			UNION ALL
+			SELECT dbo.fn_getDivisionStatNm(ARM.RQPR_DEPT_CD) AS divisionNm
+			       ,'비용' AS typeNm
+				   ,'분석비용' AS subContent
+				   ,ISNULL(SUM(E.EXPR_EXP),0) AS divisionCnt	
+				   ,'' AS typeDesc
+				   ,6 AS typeOrder
+			FROM IRIS_ANL_RQPR_MST ARM	
+				,IRIS_ANL_RQPR_EXPR E
+			WHERE ARM.DEL_YN = 'N'
+			AND	E.DEL_YN = 'N'
+			AND	ARM.RQPR_ID =  E.RQPR_ID
+			AND	ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+			AND	ARM.ACPC_ST_CD = '07'
+			GROUP BY ARM.RQPR_DEPT_CD
+			UNION ALL
+			SELECT dbo.fn_getDivisionStatNm(PM.RGST_DEPT_CD) AS divisionNm
+			       ,'비용' AS typeNm
+				   ,'기기 이용료' AS subContent
+				   ,ISNULL(SUM(PM.MCHN_UFE * PM.SMPO_QTY ),0) AS divisionCnt	
+				   ,'' AS typeDesc
+				   ,7 AS typeOrder
+			FROM  IRIS_MCHN_PRCT_MST PM
+			WHERE DEL_YN = 'N'
+			AND	  PRCT_SCN_CD = 'APPR'
+			AND   PM.RGST_DEPT_CD != '58141801' --  분석팀은 제외함.
+			AND   PRCT_DT BETWEEN DATEADD(MM, 0, '${fromCmplDt}-01') AND ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 ) -- FROM , TO
+			GROUP BY PM.RGST_DEPT_CD
+			)
+			SELECT RS.divisionNm	
+				 ,RS.typeNm
+				 ,RS.subContent
+				 ,SUM(RS.divisionCnt) AS divisionCnt
+				 ,RS.typeDesc
+			FROM RQPR_SUB RS
+			GROUP BY RS.divisionNm	
+				 ,RS.typeNm
+				 ,RS.subContent
+				 ,RS.typeDesc
+				 ,RS.typeOrder
+			ORDER BY RS.divisionNm,RS.typeNm,typeOrder
+			
+	</select>
+	
+	<select id="getAnlDivisionStateList" resultType="hashmap">
+	
+			-- getAnlDivisionStateList 분석 사업부 통계 리스트 조회
+			with open_expr as (
+								select  sum(a.gigi) as gigi
+								       ,a.dept_cd
+								from   (
+										select  a.MCHN_INFO_ID
+											   ,sum(a.MCHN_UFE) as gigi
+											   ,dbo.fn_getUpperDeptCd(a.RGST_DEPT_CD) as dept_cd
+										from  IRIS_MCHN_PRCT_MST a
+										where  a.DEL_YN ='N'
+										AND    A.PRCT_SCN_CD = 'APPR'
+										and    a.PRCT_DT between DATEADD(MM, 0, '${fromCmplDt}-01') and ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 )
+										and    a.MCHN_PRCT_ID not in  (select x.MCHN_PRCT_ID 
+																		from IRIS_MCHN_PRCT_MST  x
+																		where x.DEL_YN ='N' 
+																		and  x.PRCT_SCN_CD ='APPR' 
+																		and  x.RGST_DEPT_CD in ('58141801', '58171352') 
+																		and  x.PRCT_DT between DATEADD(MM, 0, '${fromCmplDt}-01') and ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 )
+																	   )
+										group by a.MCHN_INFO_ID, a.RGST_DEPT_CD
+										) a
+								group by a.dept_cd
+								)
+			,  main as (
+						select  m.dept_nm
+						       ,m.dept_cd
+						       ,m.bun
+							   ,m.sil
+							   ,m.suga
+							   ,m.gigi
+							   ,m.suga + m.gigi as tot
+						from   (
+								select  a.dept_cd
+									   ,a.dept_nm 
+									   ,sum(a.bun) as bun
+									   ,sum(a.sil) as sil
+									   ,isnull(sum(a.suga), 0) as suga
+									   ,isnull(b.gigi, 0)  as gigi
+						       from  (
+										select  count(rqpr_id)   as bun
+											   ,dbo.fn_getUpperDeptCd(RQPR_TEAM_CD) as dept_cd
+											   ,dbo.fn_getUpperDeptNm(RQPR_TEAM_CD) as dept_nm
+											   ,( select sum(x.SMPO_QTY) 
+												  from   IRIS_ANL_RQPR_EXPR x
+												  where x.DEL_YN ='N'  
+												  and   x.RQPR_ID = a.RQPR_ID
+												 ) as sil
+											   , ( select sum(x.EXPR_EXP) 
+												   from   IRIS_ANL_RQPR_EXPR x
+												   where x.DEL_YN ='N'  
+												   and   x.RQPR_ID = a.RQPR_ID
+												  ) as suga
+						
+										from  IRIS_ANL_RQPR_MST a
+										where  DEL_YN ='N'
+										and  ACPC_ST_CD = '07'
+										and CMPL_DT between DATEADD(MM, 0, '${fromCmplDt}-01') and ( DATEADD(MM, 1, '${toCmplDt}-01')  -1 )
+										group by a.RQPR_ID, RQPR_TEAM_CD
+									) a
+									left outer join open_expr  b
+									on b.dept_cd = a.dept_cd
+								group by a.dept_cd
+									   , a.dept_nm
+									   , b.gigi
+								) m
+						)
+			, main_last as (
+							select  dept_nm
+							       ,dept_cd
+								   ,bun
+								   ,sil
+								   ,suga
+								   ,gigi
+								   ,tot
+								   ,round((cast(tot as float) / cast((select sum(tot) from main) as float) * 100 ), 2) as av
+							from  main
+			)
+			
+			select  *
+			from   (
+					select  m.dept_nm as deptNm
+						   ,isnull(m.bun, 0 ) as bun
+						   ,isnull(m.sil, 0 ) as sil
+						   ,isnull(m.suga, 0 ) as suga
+						   ,isnull(m.gigi, 0 ) as gigi
+						   ,isnull(m.tot, 0 ) as tot
+						   ,isnull(round(m.av,2), 0 ) as av
+						   ,m.dept_cd
+						   ,isnull(acc.COM_ORD, '99999999') as ord
+					from   (
+							select   dept_nm
+									,bun
+									,sil
+									,suga
+									,gigi
+									,tot
+									,av
+									,dept_cd
+							from  main_last
+							union 
+							select  '합계'
+									,sum(bun) 
+									,sum(sil) 
+									,sum(suga)
+									,sum(gigi)
+									,sum(tot)
+									,sum(av)
+									,'' as dept_cd
+							from    main_last
+							) m
+							left outer join IRIS_ADM_COM_CD acc
+							on     acc.DEL_YN ='N'
+							and    ACC.com_cd_cd = 'DIVISION_STAT_CD'
+							and    m.dept_cd = acc.COM_DTL_CD
+					where  1=1
+					) a
+			order by a.ORD
+						
+	</select>
+	
+
+	<select id="getAnlChrgStateList" resultType="hashmap">
+	-- getAnlChrgStateList 분석 기기사용 통계 리스트 조회
+	with  complateRate  as (
+		SELECT  B.ANL_CHRG_ID
+	           ,(CASE WHEN SUM(B.ANL_07_CNT) = 0 THEN 0
+					  ELSE	ROUND( ( B.ANL_DIFF_COUNT / convert(float, SUM(B.ANL_07_CNT)) ) *100 , 1)
+					  END)										AS avgCmplWkDdRate	-- 결과 준수 율	
+				FROM ( 
+					SELECT A.ANL_CHRG_ID
+						 ,(CASE WHEN A.ACPC_ST_CD = '07'  THEN 
+							COUNT(*)
+						 ELSE 0
+						 END ) AS ANL_07_CNT   -- 완료
+						 ,(SELECT COUNT(*)
+							FROM IRIS_ANL_RQPR_MST ARM2
+							WHERE ARM2.DEL_YN = 'N'
+							AND	ARM2.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromAcpcDt}-01') AND ( DATEADD(MM, 1, '${toAcpcDt}-01')  -1 ) -- FROM , TO
+							AND	ARM2.ACPC_ST_CD IN ('07' ) 
+							AND	ARM2.CMPL_PARR_DT >= ARM2.CMPL_DT
+							AND	ARM2.ANL_CHRG_ID = A.ANL_CHRG_ID
+						) AS ANL_DIFF_COUNT	-- 결과 준수 카운트		
+				    FROM ( 
+						SELECT ARM.ANL_CHRG_ID
+							  ,ARM.ACPC_ST_CD 
+							  ,(SELECT sum(SMPO_QTY)
+							   FROM IRIS_ANL_RQPR_EXPR ARE
+							   WHERE ARE.DEL_YN = 'N'
+							   AND	 ARE.RQPR_ID = ARM.RQPR_ID) AS EXPR_CNT
+						FROM IRIS_ANL_RQPR_MST ARM
+						WHERE ARM.DEL_YN = 'N'
+						<if test="anlChrgId != null and anlChrgId != ''">
+						AND	ARM.ANL_CHRG_ID = #{anlChrgId}
+						</if>
+						AND	  ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromAcpcDt}-01') AND ( DATEADD(MM, 1, '${toAcpcDt}-01')  -1 ) -- FROM , TO
+						AND	  ARM.ACPC_ST_CD IN ('03','05', '06', '07' )
+					) A
+					GROUP BY A.ANL_CHRG_ID, A.ACPC_ST_CD 
+				) B
+				GROUP BY B.ANL_CHRG_ID ,B.ANL_DIFF_COUNT
+	)
+	, avgCmplDate  as (
+		SELECT  B.ANL_CHRG_ID
+	           ,(CASE WHEN SUM(B.ANL_07_CNT) = 0 THEN 0
+					  ELSE	ROUND( ( B.CMPL_WK_DD_CNT / convert(float, SUM(B.ANL_07_CNT)) ) , 1)
+					  END)										AS avgCmplWkDdDate	
+				FROM ( 
+					SELECT A.ANL_CHRG_ID
+						 ,(CASE WHEN A.ACPC_ST_CD = '07'  THEN 
+							COUNT(*)
+						 ELSE 0
+						 END ) AS ANL_07_CNT   -- 완료
+						 ,(SELECT ISNULL(SUM(CMPL_WK_DD_CNT), 0)
+							FROM IRIS_ANL_RQPR_MST ARM2
+							WHERE ARM2.DEL_YN = 'N'
+							AND	ARM2.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromAcpcDt}-01') AND ( DATEADD(MM, 1, '${toAcpcDt}-01')  -1 ) -- FROM , TO
+							AND	ARM2.ACPC_ST_CD IN ('07' ) 
+							AND	ARM2.ANL_CHRG_ID = A.ANL_CHRG_ID) AS CMPL_WK_DD_CNT
+				
+				    FROM ( 
+						SELECT ARM.ANL_CHRG_ID
+							  ,ARM.ACPC_ST_CD 
+							  ,(SELECT sum(SMPO_QTY)
+							   FROM IRIS_ANL_RQPR_EXPR ARE
+							   WHERE ARE.DEL_YN = 'N'
+							   AND	 ARE.RQPR_ID = ARM.RQPR_ID) AS EXPR_CNT
+						FROM IRIS_ANL_RQPR_MST ARM
+						WHERE ARM.DEL_YN = 'N'
+						<if test="anlChrgId != null and anlChrgId != ''">
+						AND	ARM.ANL_CHRG_ID = #{anlChrgId}
+						</if>
+						AND	  ARM.CMPL_DT BETWEEN DATEADD(MM, 0, '${fromAcpcDt}-01') AND ( DATEADD(MM, 1, '${toAcpcDt}-01')  -1 ) -- FROM , TO
+						AND	  ARM.ACPC_ST_CD IN ('03','05', '06', '07' )
+					) A
+					GROUP BY A.ANL_CHRG_ID, A.ACPC_ST_CD 
+				) B
+				GROUP BY B.ANL_CHRG_ID ,B.CMPL_WK_DD_CNT
+	)
+	, beforMon as (
+			SELECT	 ARM.ANL_CHRG_ID
+					 ,COUNT(*) AS TOTAL_CNT 
+				FROM  IRIS_ANL_RQPR_MST ARM
+				WHERE ARM.DEL_YN = 'N'
+				<if test="anlChrgId != null and anlChrgId != ''">
+				AND	ARM.ANL_CHRG_ID = #{anlChrgId}
+				</if>
+				AND	 ARM.ACPC_ST_CD IN ('03','06','07') 
+				AND  ARM.ACPC_DT  BETWEEN DATEADD(MM, -1, '${fromAcpcDt}-01') AND ( DATEADD(MM, 0, '${toAcpcDt}-01')  -1 )
+				<![CDATA[
+				and  (convert(nvarchar(7), arm.ACPC_DT, 23) <>convert(nvarchar(7), arm.CMPL_DT, 23)
+				     or  arm.CMPL_DT is null
+					 or  arm.CMPL_DT = ''
+					 )
+				]]>
+				group by ARM.ANL_CHRG_ID
+	)
+	, exprComplete as (
+				select a.ANL_CHRG_ID
+				      ,sum(b.SMPO_QTY) as TOTAL_CNT
+				from   IRIS_ANL_RQPR_MST a
+				       inner  join IRIS_ANL_RQPR_EXPR b
+					   on   b.DEL_YN ='N'
+					   and  b.RQPR_ID = a.RQPR_ID
+				where  a.DEL_YN ='N'
+				AND	   a.ACPC_ST_CD = '07' 
+				<if test="anlChrgId != null and anlChrgId != ''">
+				AND	   a.ANL_CHRG_ID = #{anlChrgId}
+				</if>
+				AND    a.CMPL_DT  BETWEEN DATEADD(MM, 0, '${fromAcpcDt}-01') AND ( DATEADD(MM, 1, '${toAcpcDt}-01')  -1 )
+				group by a.ANL_CHRG_ID
+	)
+	, complateToMon as (
+				SELECT	ARM.ANL_CHRG_ID
+				       ,COUNT(*) AS TOTAL_CNT 
+				FROM  IRIS_ANL_RQPR_MST ARM
+				WHERE ARM.DEL_YN = 'N'
+				<if test="anlChrgId != null and anlChrgId != ''">
+				AND	ARM.ANL_CHRG_ID = #{anlChrgId}
+				</if>
+				AND	 ARM.ACPC_ST_CD IN ('03','05','06','07') 
+				AND  ARM.CMPL_DT  BETWEEN DATEADD(MM, 0, '${fromAcpcDt}-01') AND ( DATEADD(MM, 1, '${toAcpcDt}-01')  -1 )
+				group by ARM.ANL_CHRG_ID
+	)
+	, deptInfo as (
+		select  ANL_CHRG_ID  
+		from    IRIS_ANL_RQPR_MST  a
+				inner join iris_sso_user b
+				on b.sa_dept_new in ('58141801', '58171352')
+				and  b.sa_user = a.ANL_CHRG_ID
+					
+         <if test="anlChrgId != null and anlChrgId != ''">
+		where a.ANL_CHRG_ID = #{anlChrgId}
+		</if>		
+		group by ANL_CHRG_ID
+	)
+	
+	select   m.anlChrgNm
+	        ,m.IncompleteCnt
+			,m.tatalCnt
+			,m.progressCnt
+			,m.completeCnt
+			,case when m.tatalCnt + m.IncompleteCnt = 0 then 0
+			       else round((cast(m.completeCnt as float) / (cast(m.IncompleteCnt as float) + cast(m.tatalCnt as float) - cast(stopCnt as float)) * 100), 1) end as completeRate
+			,m.stopCnt
+			,m.exprCnt
+			,m.exprCompleteCnt
+			,m.avgCmplWkDdDate
+			,m.avgCmplWkDdRate
+	from  (
+
+		SELECT dbo.fn_getUserName(ANL_CHRG_ID)			AS anlChrgNm
+				,isnull((select x.TOTAL_CNT from beforMon x where x.ANL_CHRG_ID = b.ANL_CHRG_ID), 0) as IncompleteCnt	
+				,SUM(B.TOTAL_CNT)						AS tatalCnt         -- 분석접수		 
+				,SUM(B.ANL_06_CNT)							AS progressCnt		-- 분석진행
+				,isnull((select x.TOTAL_CNT from complateToMon x where x.ANL_CHRG_ID = b.ANL_CHRG_ID), 0) as completeCnt	 -- 분석완료
+				,(CASE WHEN SUM(B.TOTAL_CNT) = 0 THEN 0
+				  ELSE	ROUND( ( SUM(B.ANL_07_CNT) / convert(float, SUM(B.TOTAL_CNT) - SUM(B.ANL_05_CNT) ) ) * 100 , 1)
+				  END)			   							AS completeRate		-- 완료율
+				,SUM(B.ANL_05_CNT)							AS stopCnt		    -- 분석중단
+			     ,SUM(EXPR_CNT)								AS exprCnt			-- 실험진행
+			     ,isnull((select x.TOTAL_CNT from exprComplete x where x.ANL_CHRG_ID = b.ANL_CHRG_ID), 0)  as exprCompleteCnt -- 실험완료	
+				, isnull((select x.avgCmplWkDdDate from avgCmplDate x where x.ANL_CHRG_ID = b.ANL_CHRG_ID), 0)  as avgCmplWkDdDate -- 결과 준수 율	
+				, isnull((select x.avgCmplWkDdRate from complateRate x where x.ANL_CHRG_ID = b.ANL_CHRG_ID), 0)  as avgCmplWkDdRate -- 결과 준수 율	
+			FROM ( 
+				SELECT A.ANL_CHRG_ID
+					 ,COUNT(a.ACPC_ST_CD) AS TOTAL_CNT 		
+					,(CASE WHEN A.ACPC_ST_CD = '03' OR A.ACPC_ST_CD = '06' OR A.ACPC_ST_CD = '05' THEN 
+						COUNT(*)
+					 ELSE 0
+					 END ) AS ANL_06_CNT  	  -- 진행
+					,(CASE WHEN A.ACPC_ST_CD = '05' THEN 
+						COUNT(*)
+					 ELSE 0
+					 END ) AS ANL_05_CNT  	  -- 중단
+					,(CASE WHEN A.ACPC_ST_CD = '07'  THEN 
+						COUNT(*)
+					 ELSE 0
+					 END ) AS ANL_07_CNT   -- 완료
+					--,SUM(EXPR_CNT) AS EXPR_CNT --  실험진행
+					,(CASE WHEN A.ACPC_ST_CD = '03'  THEN 
+						SUM(EXPR_CNT)  
+					 ELSE 0
+					 END ) as EXPR_CNT
+					
+					,(CASE WHEN A.ACPC_ST_CD = '07'  THEN 
+						SUM(EXPR_CNT)  
+					 ELSE 0
+					 END ) AS EXPR_COMPLETE_CNT    -- 실험 완료			
+			         ,(SELECT COUNT(*)
+						FROM IRIS_ANL_RQPR_MST ARM2
+						WHERE ARM2.DEL_YN = 'N'
+						AND	ARM2.ACPC_DT BETWEEN DATEADD(MM, 0, '${fromAcpcDt}-01') AND ( DATEADD(MM, 1, '${toAcpcDt}-01')  -1 ) -- FROM , TO
+						AND	ARM2.ACPC_ST_CD IN ('07' ) 
+						AND	ARM2.CMPL_PARR_DT >= ARM2.CMPL_DT
+						AND	ARM2.ANL_CHRG_ID = A.ANL_CHRG_ID) AS ANL_DIFF_COUNT	-- 결과 준수 카운트		
+			         ,(SELECT ISNULL(SUM(CMPL_WK_DD_CNT), 0)
+						FROM IRIS_ANL_RQPR_MST ARM2
+						WHERE ARM2.DEL_YN = 'N'
+						AND	ARM2.ACPC_DT BETWEEN DATEADD(MM, 0, '${fromAcpcDt}-01') AND ( DATEADD(MM, 1, '${toAcpcDt}-01')  -1 ) -- FROM , TO
+						AND	ARM2.ACPC_ST_CD IN ('07' ) 
+						AND	ARM2.ANL_CHRG_ID = A.ANL_CHRG_ID) AS CMPL_WK_DD_CNT	-- 완료일 합		
+				FROM ( 
+				      select aa.ANL_CHRG_ID
+					       ,bb.ACPC_ST_CD
+						   ,isnull(bb.EXPR_CNT, 0) as EXPR_CNT
+					 from  deptInfo aa
+							left outer join (
+											SELECT ARM.ANL_CHRG_ID
+												  ,ARM.ACPC_ST_CD 
+												  ,(SELECT sum(SMPO_QTY)
+												   FROM IRIS_ANL_RQPR_EXPR ARE
+												   WHERE ARE.DEL_YN = 'N'
+												   AND	 ARE.RQPR_ID = ARM.RQPR_ID) AS EXPR_CNT
+											FROM IRIS_ANL_RQPR_MST ARM
+											WHERE ARM.DEL_YN = 'N'
+											AND	  ARM.ACPC_DT BETWEEN DATEADD(MM, 0, '${fromAcpcDt}-01') AND ( DATEADD(MM, 1, '${toAcpcDt}-01')  -1 ) -- FROM , TO
+											AND	  ARM.ACPC_ST_CD IN ('03','05', '06', '07' )
+											) bb
+					on bb.ANL_CHRG_ID = aa.ANL_CHRG_ID
+				) A
+				GROUP BY A.ANL_CHRG_ID, A.ACPC_ST_CD 
+			) B
+			GROUP BY B.ANL_CHRG_ID ,B.CMPL_WK_DD_CNT,B.ANL_DIFF_COUNT
+		) m	
+	</select>
+	
+</mapper>

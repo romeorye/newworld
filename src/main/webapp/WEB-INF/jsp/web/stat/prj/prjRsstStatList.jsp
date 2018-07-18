@@ -1,0 +1,355 @@
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page import="java.text.*,
+				 java.util.*,
+				 devonframe.util.NullUtil,
+				 devonframe.util.DateUtil"%>
+
+<%--
+/*
+ *************************************************************************
+ * $Id		: prjRsstStatList.jsp
+ * @desc    : 
+ *------------------------------------------------------------------------
+ * VER	DATE		AUTHOR		DESCRIPTION
+ * ---	-----------	----------	-----------------------------------------
+ * 1.0  2017.12.15  
+ * ---	-----------	----------	-----------------------------------------
+ * WINS UPGRADE 1차 프로젝트
+ *************************************************************************
+ */
+--%>
+				 
+<%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridView.js"></script><!-- Lgrid view -->
+
+<title><%=documentTitle%></title>
+
+<style>
+ .bgcolor-gray {background-color: #999999}
+ .bgcolor-white {background-color: #FFFFFF}
+</style>
+
+	<script type="text/javascript">
+        
+		Rui.onReady(function() {
+          
+			var yy = document.aform.yyyy.value;
+			
+//			if(Rui.isEmpty(yy)){
+				document.aform.yyyy.value = new Date().format('%Y');
+//			}
+			
+            /*******************
+             * 변수 및 객체 선언
+            *******************/
+            var dataSet = new Rui.data.LJsonDataSet({
+                id: 'dataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                focusFirstRow: false,
+                fields: [
+                       { id: 'prjCd'}
+           			 , { id: 'wbsCd' }
+           			 , { id: 'deptNm' }       /*조직명*/
+           			 , { id: 'prjNm' }        /*프로젝트명*/
+           			 , { id: 'plEmpName' }    /*PL명*/
+           			 , { id: 'prjCpsn' }      /*팀원수*/
+           			 , { id: 'pduGoalCnt' }   /*Monthly Report 목표개수*/
+           			 , { id: 'arslCnt' }      /*Monthly Report 실적개수*/
+           			 , { id: 'prptGoalCnt' }  /*계획 지적재산권 개수*/
+           		     , { id: 'prptArslCnt' }  /*실적 지적재산권 개수*/
+           			 , { id: 'ttm' }          /*TTM(과제완료률)*/
+           			 , { id: 'tssBudg' }      /*예산(억원)*/
+           			 , { id: 'tssExp' }		  /*비용(억원)*/   
+           		     , { id: 'tssExe' }       /*집행율(%) 소수점1자리*/	
+                ]
+            });
+
+            var columnModel = new Rui.ui.grid.LColumnModel({
+            	groupMerge: true,
+                columns: [
+                      { field: 'deptNm',      	label: '조직명',       	sortable: false,  align:'center', width: 250 }
+                    , { field: 'prjNm',         label: '프로젝트명',   	sortable: false,  align:'left', width: 250 }
+                    , { field: 'plEmpName',     label: 'PL', 			sortable: false,  align:'center', width: 60 }
+                    , { field: 'prjCpsn',      	label: '팀원',         	sortable: false,  align:'right', width: 50 
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '명'
+                    		}else{
+                    			return '0명'
+                    		}
+                    	}
+                      }
+                   /* 
+                    , { id : 'Monthly Report'}
+                    , { field: 'pduGoalCnt',    groupId: 'Monthly Report', label: '계획', 	sortable: false,  align:'center', width: 55
+                    	, renderer: function(value, p, record, row, col){
+                    		var arslCnt = record.get('arslCnt');	// 실적
+                    		
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '건'
+                    		}
+                    		// 실적이 존재하면 0건으로 화면표시
+                    		else if( arslCnt != '' && arslCnt != null && arslCnt != 'undefined' ){
+                    			return '0건'
+                    		}
+                    	}
+                      }
+                    , { field: 'arslCnt',      	groupId: 'Monthly Report', label: '실적',   sortable: false,  align:'center', width: 55
+                    	, renderer: function(value, p, record, row, col){
+                    		var pduGoalCnt = record.get('pduGoalCnt');	// 목표
+                    		
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '건'
+                    		}
+                    		// 목표가 존재하면 0건으로 화면표시
+                    		else if( pduGoalCnt != '' && pduGoalCnt != null && pduGoalCnt != 'undefined' ){
+                    			return '0건'
+                    		}
+                    	}
+                      }
+                     */
+                    , { id : '지적재산권 (국내)'} 
+                    , { field: 'prptGoalCnt',   groupId: '지적재산권 (국내)' ,label: '계획',	sortable: false,  align:'center', width: 55
+                    	, renderer: function(value, p, record, row, col){
+                    		var prptArslCnt = record.get('prptArslCnt');	// 실적
+                    		
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '건';
+                    		}
+                    		// 실적이 존재하면 0건으로 화면표시
+                    		else if( prptArslCnt != '' && prptArslCnt != null && prptArslCnt != 'undefined' ){
+                    			return '0건';
+                    		}
+                    	}
+                      }
+                    , { field: 'prptArslCnt',   groupId: '지적재산권 (국내)' ,label: '실적',    sortable: false,  align:'center', width: 55
+                    	, renderer: function(value, p, record, row, col){
+                    		var prptGoalCnt = record.get('prptGoalCnt');	// 계획
+                    		
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '건';
+                    		}
+                    		// 계획이 존재하면 0건으로 화면표시
+                    		else if( prptGoalCnt != '' && prptGoalCnt != null && prptGoalCnt != 'undefined' ){
+                    			return '0건';
+                    		}
+                    	}
+                      }
+                    , { field: 'ttm',        	label: 'TTM(%)<BR>(개발완료)',          	sortable: false,  align:'center', width: 60 
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '%';
+                    		}
+                    	}
+                      }
+                    , { field: 'tssBudg',     	label: '예산(억원)',         	sortable: false,  align:'right',  width: 70 }
+                    , { field: 'tssExp',      	label: '비용(억원)',         	sortable: false,  align:'right',  width: 70 }
+                    , { field: 'tssExe',    	label: '집행율(%)',       	    sortable: false,  align:'center', width: 70 
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '%';
+                    		}else if( value == 0){
+                    			return value + '%';
+                    		}
+                    	}
+                      }
+                ]
+            });
+
+            var defaultGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: columnModel,
+                dataSet: dataSet,
+                width: 1150,
+                height: 600
+            });
+            
+            defaultGrid.render('defaultGrid');
+            var defaultGridView = defaultGrid.getView();
+            
+            /* 조회 */
+            fnSearch = function() {
+            	
+                dataSet.load({
+                    url: '<c:url value="/stat/prj/retrievePrjRsstStatList.do"/>',
+                    params :{
+                    	yyyy : document.aform.yyyy.value
+                    }
+                });
+            };
+            
+            dataSet.on('load', function(e) {
+   	    		$("#cnt_text").html('총 ' + dataSet.getCount() + '건');
+   	      	});
+            
+        	downloadExcel = function() {
+        		
+        		var excelColumnModel = new Rui.ui.grid.LColumnModel({
+                    gridView: defaultGridView,
+                    	columns: [
+                    		{ field: 'deptNm',      	label: '조직명',       	sortable: false,  align:'center', width: 250 }
+                            , { field: 'prjNm',         label: '프로젝트명',   	sortable: false,  align:'left', width: 250 }
+                            , { field: 'plEmpName',     label: 'PL', 			sortable: false,  align:'center', width: 60 }
+                            , { field: 'prjCpsn',      	label: '팀원',         	sortable: false,  align:'right', width: 50 
+                            	, renderer: function(value, p, record, row, col){
+                            		if( value != '' && value != null && value != 'undefined' ){
+                            			return value + '명'
+                            		}else{
+                            			return '0명'
+                            		}
+                            	}
+                              }
+                            , { id : 'Monthly Report'}
+                            , { field: 'pduGoalCnt',    groupId: 'Monthly Report', label: '계획', 	sortable: false,  align:'center', width: 55
+                            	, renderer: function(value, p, record, row, col){
+                            		var arslCnt = record.get('arslCnt');	// 실적
+                            		
+                            		if( value != '' && value != null && value != 'undefined' ){
+                            			return value + '건'
+                            		}
+                            		// 실적이 존재하면 0건으로 화면표시
+                            		else if( arslCnt != '' && arslCnt != null && arslCnt != 'undefined' ){
+                            			return '0건'
+                            		}
+                            	}
+                              }
+                            , { field: 'arslCnt',      	groupId: 'Monthly Report', label: '실적',   sortable: false,  align:'center', width: 55
+                            	, renderer: function(value, p, record, row, col){
+                            		var pduGoalCnt = record.get('pduGoalCnt');	// 목표
+                            		
+                            		if( value != '' && value != null && value != 'undefined' ){
+                            			return value + '건'
+                            		}
+                            		// 목표가 존재하면 0건으로 화면표시
+                            		else if( pduGoalCnt != '' && pduGoalCnt != null && pduGoalCnt != 'undefined' ){
+                            			return '0건'
+                            		}
+                            	}
+                              }
+                            , { id : '지적재산권 (국내)'} 
+                            , { field: 'prptGoalCnt',   groupId: '지적재산권 (국내)' ,label: '계획',	sortable: false,  align:'center', width: 55
+                            	, renderer: function(value, p, record, row, col){
+                            		var prptArslCnt = record.get('prptArslCnt');	// 실적
+                            		
+                            		if( value != '' && value != null && value != 'undefined' ){
+                            			return value + '건';
+                            		}
+                            		// 실적이 존재하면 0건으로 화면표시
+                            		else if( prptArslCnt != '' && prptArslCnt != null && prptArslCnt != 'undefined' ){
+                            			return '0건';
+                            		}
+                            	}
+                              }
+                            , { field: 'prptArslCnt',   groupId: '지적재산권 (국내)' ,label: '실적',    sortable: false,  align:'center', width: 55
+                            	, renderer: function(value, p, record, row, col){
+                            		var prptGoalCnt = record.get('prptGoalCnt');	// 계획
+                            		
+                            		if( value != '' && value != null && value != 'undefined' ){
+                            			return value + '건';
+                            		}
+                            		// 계획이 존재하면 0건으로 화면표시
+                            		else if( prptGoalCnt != '' && prptGoalCnt != null && prptGoalCnt != 'undefined' ){
+                            			return '0건';
+                            		}
+                            	}
+                              }
+                            , { field: 'ttm',        	label: 'TTM(%)(개발완료)',          	sortable: false,  align:'center', width: 90 
+                            	, renderer: function(value, p, record, row, col){
+                            		if( value != '' && value != null && value != 'undefined' ){
+                            			return value + '%';
+                            		}
+                            	}
+                              }
+                            , { field: 'tssBudg',     	label: '예산(억원)',         	sortable: false,  align:'right',  width: 70 }
+                            , { field: 'tssExp',      	label: '비용(억원)',         	sortable: false,  align:'right',  width: 70 }
+                            , { field: 'tssExe',    	label: '집행율(%)',       	    sortable: false,  align:'center', width: 70 
+                            	, renderer: function(value, p, record, row, col){
+                            		if( value != '' && value != null && value != 'undefined' ){
+                            			return value + '%';
+                            		}else if( value == 0){
+                            			return value + '%';
+                            		}
+                            	}
+                              }
+                        ]
+                });
+
+                var excelColumnModel = excelColumnModel.createExcelColumnModel(false);
+                defaultGrid.saveExcel(encodeURIComponent('통계_프로젝트') + new Date().format('%Y%m%d') + '.xls',{
+                    columnModel: excelColumnModel
+                });
+
+            };
+            
+            fnSearch();
+			
+        });
+
+	</script>
+    </head>
+    <body>
+	<form name="aform" id="aform" method="post">
+		
+   		<div class="contents">
+
+   			<div class="sub-content">
+	   			<div class="titleArea">
+	   				<h2>프로젝트 통계리스트</h2>
+	   			</div>
+   				<table class="searchBox">
+   					<colgroup>
+   						<col style="width:10%;"/>
+   						<col style="width:35%;"/>
+   						<col style="width:10%;"/>
+   						<col style="width:35%;"/>
+   						<col style="width:10%;"/>
+   					</colgroup>
+   					<tbody>
+   						<tr>
+   							<th align="right">연도</th>
+    						<td>
+   								<select id="yyyy">
+   									<!-- <option value="">선택하세요</option> -->
+   									<option value="2009">2009</option>
+									<option value="2010">2010</option>
+									<option value="2011">2011</option>
+									<option value="2012">2012</option>
+									<option value="2013">2013</option>
+									<option value="2014">2014</option>
+									<option value="2015">2015</option>
+									<option value="2016">2016</option>
+									<option value="2017">2017</option>
+									<option value="2018">2018</option>
+									<option value="2019">2019</option>
+									<option value="2020">2020</option>
+									<option value="2021">2021</option>
+									<option value="2022">2022</option>
+									<option value="2023">2023</option>
+   								</select>
+    						</td>
+   							<td class="t_center">
+   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+   							</td>
+   						</tr>
+   					</tbody>
+   				</table>
+   				
+   				<div class="titArea">
+   					<span class="Ltotal" id="cnt_text">총  0건 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sub-tit">조회연도가 '현재년도' 인 경우 '팀원'항목은 현재원 기준으로 조회됩니다.</span>
+   					<div class="LblockButton">
+   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadExcel()">Excel</button>
+   					</div>
+   				</div>
+
+   				<div id="defaultGrid"></div>
+   				
+   			</div><!-- //sub-content -->
+   		</div><!-- //contents -->
+		</form>
+    </body>
+</html>

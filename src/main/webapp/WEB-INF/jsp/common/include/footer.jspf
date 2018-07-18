@@ -1,0 +1,22 @@
+<%@ page pageEncoding="utf-8" session="false"%>
+<div id="LblockFooter">
+<div id="LblockFooterIn">
+<div id="LblockFooterLogo">
+	<a href="#"><img src="<c:url value='/resource/images/footerLogo.gif'/>" alt="사이트 하단 로고" /></a>
+</div>
+
+<div id="LblockFooterMenu">
+	<ul>
+		<li class="Lfirst"><a href="#">HOME</a></li>
+		<li class="Lidx1"><a href="#">CONTACT</a></li>
+		<li class="Llast"><a href="#">ENGLISH</a></li>
+	</ul>
+</div>
+
+<div id="LblockFooterCopyright">
+	<span>Copyright 2014 LG CNS All Rights Reserved.</span>
+</div>
+
+</div>
+
+</div>

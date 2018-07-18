@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.grs">
+	<select id="retrieveGrsReqList" resultType="hashmap">
+		<![CDATA[
+		/*retrieveGrsReqList*/
+			SELECT m.tss_scn_cd       tssScnCd
+				 , dbo.fn_getComDtlNm('TSS_SCN_CD',m.tss_scn_cd) AS tssScnNm
+				 , iif(m.PGS_STEP_CD='PL','SEED-'+m.wbs_cd , m.wbs_cd)           wbsCd
+				 , m.pk_wbs_cd           pkWbsCd
+				 , m.tss_nm           tssNm
+				 , m.BIZ_DPT_CD	      bizDptCd
+				 , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
+				 , g.dlbr_crgr 									 AS dlbrCrgr
+				 --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--심의 담당자				 
+				 , g.sa_sabun_name AS dlbrCrgrNm       --심의 담당자  
+				 , g.dlbr_parr_dt     							 AS dlbrParrDt 
+				 , g.grs_ev_st	   	 							 AS grsEvSt		 	--P1:초기,P2:최종,M:변경 
+				 , m.PGS_STEP_CD  as pgsStepCd   --진행단계코드 PL : 계획 , PG:진행 , CM:완료 , AL: 변경 , DC:중단 
+				 , dbo.fn_getComDtlNm('GRS_EV_ST',g.grs_ev_st)   AS grsEvStNm  
+				 , m.tss_st           							 AS tssSt 
+				-- , dbo.fn_getComDtlNm('TSS_ST',m.tss_st) 		 AS tssStNm
+				 , iif((select count(*) from IRIS_GRS_EV_STD_RSLT_RGST where TSS_CD = g.TSS_CD and TSS_CD_SN = g.TSS_CD_SN) > 0, 'GRS완료', 'GRS요청') AS tssStNm
+				 , m.tss_cd tssCd
+				 , g.tss_cd_sn tssCdSn
+				 , g.grs_ev_sn									 AS grsEvSn
+				 , g.frst_rgst_id								 AS frstRgstId
+
+			 FROM iris_grs_ev_rslt_rgst g
+	   INNER JOIN iris_tss_mgmt_mst m
+			   ON 	g.tss_cd = m.tss_cd
+		 ]]>
+			WHERE	m.tss_st  >= '101'
+			  --AND  m.tss_cd    in   ( SELECT MAX(TSS_CD)  FROM iris_grs_ev_rslt_rgst where  subString(TSS_CD,0,7) = m.PK_WBS_CD)
+        <if test="tssRoleType == null or tssRoleType.equals('') or tssRoleType.equals('S1')">
+           AND 1 = 1
+        </if>
+        <if test="tssRoleType != null and tssRoleType.equals('S2')">
+           AND (1 = 2 OR g.frst_rgst_id = #{_userId})
+        </if>
+        <if test="tssRoleType != null and tssRoleType.equals('S3')">
+           AND (g.dlbr_crgr = #{_userSabun} OR g.frst_rgst_id = #{_userId})
+        </if>
+        <if test="bizDtpCd != null and bizDtpCd != ''">
+			  AND m.biz_dpt_cd = #{bizDtpCd}
+		</if>
+		 <if test="tssNm != null and tssNm != ''">
+		  	  AND m.tss_nm like '%'+#{tssNm}+'%'
+		</if>
+		 <if test="grsEvSt != null and grsEvSt != ''">
+			  AND g.grs_ev_st = #{grsEvSt}
+		</if>
+		 <if test="tssScnCd != null and tssScnCd != ''">
+			  AND m.tss_scn_cd = #{tssScnCd}
+		</if>
+		 <if test="grsSt != null and grsSt != ''">
+			  AND m.tss_st = #{grsSt}
+		</if>
+		 <if test="wbsCd != null and wbsCd != ''">
+			  AND m.WBS_CD = #{wbsCd}
+		</if>
+		 ORDER BY g.dlbr_parr_dt DESC
+	</select>
+
+
+	<!-- GRS Todo 조회 -->
+	<select id="retrieveGrsTodo" resultType="hashmap">
+		<![CDATA[
+		SELECT TODO_SYS_CD      AS todoSysCd        --시스템 코드
+		     , TODO_TYPE_CD     AS todoTypeCd       --ToDo 유형 코드
+		     , TODO_REQ_NO      AS todoReqNo        --연계시스템 내 문서 ID
+		     , TODO_REQ_NM      AS todoReqNm        --ToDo 문서제목
+		     , TODO_REQ_EMP_NO  AS todoReqEmpNo     --ToDo 등록자 ID
+		     , TODO_REQ_DT      AS todoReqDt        --등록시각
+		     , TODO_END_DT      AS todoEndDt        --마감시각
+		     , TODO_STATUS      AS todoStatus       --처리상황명
+		     , TODO_EMP_NO      AS todoEmpNo        --처리담당자 ID
+		     , TODO_SGN_EMP_NO  AS todoSgnEmpNo     --수임담당자 ID
+		     , TODO_RESULT      AS todoResult       --완료여부
+		     , TSS_CD           AS tssCd            --
+		     , TSS_CD_SN        AS tssCdSn          --
+		  FROM VW_GRS_TODO
+		 WHERE TODO_REQ_NO = #{MW_TODO_REQ_NO}
+        ]]>
+	</select>
+
+
+
+    <!-- GRS결과요청 조회 -->
+	<select id="retrieveGrsEvRslt" resultType="hashmap">
+		<![CDATA[
+		/*retrieveGrsEvRslt*/
+        SELECT A.PRJ_CD        AS prjCd      --프로젝트코드
+             , C.PRJ_NM        AS prjNm      --프로젝트명
+             , A.BIZ_DPT_CD    AS bizDptCd   --사업부문코드
+             , dbo.fn_getComDtlNm('BIZ_DPT_CD',A.BIZ_DPT_CD) AS bizDptNm
+             , A.TSS_ATTR_CD   AS tssAttrCd  --과제속성코드
+             , dbo.fn_getComDtlNm('TSS_ATTR_CD',A.TSS_ATTR_CD) AS tssAttrNm
+             , A.TSS_NM        AS tssNm      --과제명
+             , B.GRS_EV_ST     AS grsEvSt    --GRS상태
+             , dbo.fn_getComDtlNm('GRS_EV_ST',B.GRS_EV_ST) AS grsEvStNm
+             , B.GRS_EV_SN     AS grsEvSn    --GRS평가표
+             , (SELECT sm.EV_SBC_NM  FROM IRIS_GRS_EV_STD_MGMT sm WHERE sm.GRS_EV_SN =  B.GRS_EV_SN AND sm.GRS_EV_SEQ = 0)  AS grsEvSnNm    --GRS평가표
+             , B.DLBR_PARR_DT  AS dlbrParrDt --심의예정일
+
+             , B.DLBR_CRGR     AS dlbrCrgr   --심의담당자
+             --, dbo.fn_getSabunName(B.DLBR_CRGR	) AS dlbrCrgrNm
+             , b.sa_sabun_name AS dlbrCrgrNm       --심의 담당자
+             , A.TSS_CD        AS tssCd      --과제코드
+             , B.TSS_CD_SN	   AS tssCdSn
+             , A.PGS_STEP_CD   AS pgsStepCd  --진행단계코드
+             , A.TSS_SCN_CD    AS tssScnCd   --과제구분코드
+             , B.EV_TITL			AS evTitl          	--평가제목
+             , B.CFRN_ATDT_CD_TXT   AS cfrnAtdtCdTxt 	--회의참석자사번
+             , (select stuff((select ',' +
+				  sa_name from IRIS_SSO_USER
+					where sa_sabun_new in  ( SELECT value FROM STRING_SPLIT(convert(nvarchar(4000) ,B.CFRN_ATDT_CD_TXT), ',')  WHERE RTRIM(value) <> '' )
+					order by sa_name
+					FOR XML PATH('')),1,1,''))  AS cfrnAtdtCdTxtNm --회의참석자명
+			 , B.COMM_TXT           AS commTxt         	--Comments
+          	 , B.ATTC_FIL_ID        AS attcFilId      	--첨부파일
+             , A.TSS_ST         AS tssSt --과제상태코드
+             , IIF((SELECT COUNT(*) FROM IRIS_GRS_EV_STD_RSLT_RGST WHERE TSS_CD = B.TSS_CD AND TSS_CD_SN = B.TSS_CD_SN) > 0, 'Y', 'N') AS saveYN
+          FROM IRIS_TSS_MGMT_MST A  /*과제관리마스터*/
+          left JOIN IRIS_PRJ_RSST_MST C  /*프로젝트연구마스터*/
+            ON A.PRJ_CD = C.PRJ_CD
+          LEFT JOIN IRIS_GRS_EV_RSLT_RGST B  /*GRS평가결과등록*/
+            ON A.TSS_CD = B.TSS_CD
+           AND B.TSS_CD_SN = #{tssCdSn}
+         WHERE A.TSS_CD = #{tssCd}
+		 ]]>
+	</select>
+
+
+
+
+    <select id="retrieveGrsReqDtlLst" resultType="hashmap">
+		<![CDATA[
+		/*retrieveGrsReqDtlLst*/
+		SELECT	 sm.GRS_EV_SN			AS grsEvSn			   -- GRS 일련번호
+				,sm.GRS_EV_SEQ	 		AS grsEvSeq			   -- GRS  순번
+				,sm.EV_PRVS_NM_1       AS evPrvsNm_1           -- 평가항목명1
+				,sm.EV_PRVS_NM_2       AS evPrvsNm_2           -- 평가항목명2
+				,sm.EV_CRTN_NM         AS evCrtnNm             -- 평가기준명
+				,sm.EV_SBC_TXT         AS evSbcTxt             -- 평가내용
+				,sm.DTL_SBC_TITL_1     AS dtlSbcTitl_1         -- 상세내용1
+				,sm.DTL_SBC_TITL_2     AS dtlSbcTitl_2         -- 상세내용2
+				,sm.DTL_SBC_TITL_3     AS dtlSbcTitl_3         -- 상세내용3
+				,sm.DTL_SBC_TITL_4     AS dtlSbcTitl_4         -- 상세내용4
+				,sm.DTL_SBC_TITL_5     AS dtlSbcTitl_5         -- 상세내용5
+				,sm.WGVL               AS wgvl                 -- 가중치
+				,sm.GRS_Y              AS grsY                 -- 년도
+				,sm.GRS_TYPE           AS grsType              -- 유형
+				,sm.EV_SBC_NM          AS evSbcNm              -- 템플릿명
+				,sm.USE_YN             AS useYn                -- 사용여부
+				,sm.FRST_RGST_DT       AS frstRgstDt           -- 최초등록일시
+				,sm.FRST_RGST_ID       AS frstRgstId           -- 최초등록자
+				,sm.LAST_MDFY_DT       AS lastMdfyDt           -- 최종수정일시
+				,sm.LAST_MDFY_ID       AS lastMdfyId           -- 최종수정자
+				,(SELECT (srr.EV_SCR)
+				    FROM iris_grs_ev_std_rslt_rgst srr
+				   WHERE sm.GRS_EV_SN	=  srr.GRS_EV_SN
+					 AND sm.GRS_EV_SEQ  =  srr.GRS_EV_SEQ
+					 AND srr.TSS_CD   	=  #{tssCd}
+					 AND srr.tss_cd_sn = #{tssCdSn})  AS evScr
+			 FROM IRIS_GRS_EV_STD_MGMT sm
+		 ]]>
+			WHERE sm.GRS_EV_SN = '${grsEvSn}'
+			AND sm.GRS_EV_SEQ != 0
+
+	</select>
+
+
+
+
+    <!-- GRS평가항목 년도 조회 -->
+	<select id="retrieveGrsEvStdGrsY" resultType="hashmap">
+		<![CDATA[
+        SELECT DISTINCT
+               GRS_Y AS grsY -- 년도
+          FROM IRIS_GRS_EV_STD_MGMT  /*GRS평가표준*/
+         WHERE GRS_Y IS NOT NULL
+		 ]]>
+	</select>
+
+
+    <!-- GRS평가항목 목록 조회 -->
+	<select id="retrieveGrsEvStd" resultType="hashmap">
+		<![CDATA[
+		/*retrieveGrsEvStd*/
+        SELECT GRS_EV_SN      AS grsEvSn     --평가표일련번호
+             , GRS_EV_SEQ     AS grsEvSeq    --평가SEQ
+             , EV_PRVS_NM_1   AS evPrvsNm1   --평가항목명1
+             , EV_PRVS_NM_2   AS evPrvsNm2   --평가항목명2
+             , EV_CRTN_NM     AS evCrtnNm    --평가기준명
+             , EV_SBC_TXT     AS evSbcTxt    --평가내용
+             , DTL_SBC_TITL_1 AS dtlSbcTitl1 --상세내용1
+             , DTL_SBC_TITL_2 AS dtlSbcTitl2 --상세내용2
+             , DTL_SBC_TITL_3 AS dtlSbcTitl3 --상세내용3
+             , DTL_SBC_TITL_4 AS dtlSbcTitl4 --상세내용4
+             , DTL_SBC_TITL_5 AS dtlSbcTitl5 --상세내용5
+             , WGVL           AS wgvl        --가중치
+             , GRS_Y          AS grsY        --년도
+             , GRS_TYPE       AS grsType     --유형
+             , EV_SBC_NM      AS evSbcNm     --템플릿명
+             , USE_YN         AS useYn       --사용여부
+             , FRST_RGST_DT   AS frstRgstDt  --최초등록일시
+             , FRST_RGST_ID   AS frstRgstId  --최초등록자
+             , LAST_MDFY_DT   AS lastMdfyDt  --최종수정일시
+             , LAST_MDFY_ID   AS lastMdfyId  --최종수정자
+          FROM IRIS_GRS_EV_STD_MGMT  /*GRS평가표준*/
+         WHERE GRS_EV_SEQ = 0
+         AND   USE_YN ='Y'
+		 ]]>
+		  <if test="grsY != null and !grsY.equals('')">
+           AND GRS_Y = #{grsY}
+        </if>
+        <if test="grsType != null and !grsType.equals('')">
+           AND GRS_TYPE = #{grsType}
+        </if>
+        <if test="useYn != null and !useYn.equals('')">
+           AND USE_YN = #{useYn}
+        </if>
+        <if test="evSbcNm != null and !evSbcNm.equals('')">
+           AND EV_SBC_NM LIKE '%'+#{evSbcNm}+'%'
+        </if>
+          order by GRS_Y desc
+	</select>
+
+
+    <!-- GRS평가항목 상세 조회 -->
+	<select id="retrieveGrsEvStdDtl" resultType="hashmap">
+		<![CDATA[
+        SELECT A.GRS_EV_SN      AS grsEvSn     --평가표일련번호
+             , A.GRS_EV_SEQ     AS grsEvSeq    --평가SEQ
+             , A.EV_PRVS_NM_1   AS evPrvsNm1   --평가항목명1
+             , A.EV_PRVS_NM_2   AS evPrvsNm2   --평가항목명2
+             , A.EV_CRTN_NM     AS evCrtnNm    --평가기준명
+             , A.EV_SBC_TXT     AS evSbcTxt    --평가내용
+             , A.DTL_SBC_TITL_1 AS dtlSbcTitl1 --상세내용1
+             , A.DTL_SBC_TITL_2 AS dtlSbcTitl2 --상세내용2
+             , A.DTL_SBC_TITL_3 AS dtlSbcTitl3 --상세내용3
+             , A.DTL_SBC_TITL_4 AS dtlSbcTitl4 --상세내용4
+             , A.DTL_SBC_TITL_5 AS dtlSbcTitl5 --상세내용5
+             , A.WGVL           AS wgvl        --가중치
+             , B.GRS_Y          AS grsY        --년도
+             , B.GRS_TYPE       AS grsType     --유형
+             , B.EV_SBC_NM      AS evSbcNm     --템플릿명
+             , B.USE_YN         AS useYn       --사용여부
+          FROM IRIS_GRS_EV_STD_MGMT B  /*GRS평가표준*/
+          LEFT JOIN IRIS_GRS_EV_STD_MGMT A  /*GRS평가표준*/
+            ON B.GRS_EV_SN = A.GRS_EV_SN
+           AND A.GRS_EV_SEQ != '0'
+         WHERE B.GRS_EV_SN = #{grsEvSn}
+           AND B.GRS_EV_SEQ = '0'
+		 ]]>
+	</select>
+
+
+	<!-- GRS평가결과 TODO호출 -->
+	<update id="insertGrsEvRsltTodo" parameterType="map">
+        EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'GRS', #{reqNo}, #{reqSabun}
+    </update>
+
+
+    <!-- GRS평가결과 저장 -->
+    <insert id="insertGrsEvRslt">
+        <selectKey keyProperty="tssCdSn" resultType="String" order="BEFORE">
+        <![CDATA[
+            SELECT ISNULL(MAX(X.TSS_CD_SN), 0) + 1
+              FROM IRIS_GRS_EV_RSLT_RGST X
+             WHERE X.TSS_CD = #{tssCd}
+        ]]>
+        </selectKey>
+        <!-- insertGrsEvRslt -->
+        INSERT
+          INTO IRIS_GRS_EV_RSLT_RGST  /*GRS평가결과등록*/
+             ( TSS_CD           --과제코드
+             , TSS_CD_SN
+             , EV_TITL          --평가제목
+             , DLBR_CRGR        --심의담당자
+             , DLBR_PARR_DT     --심의예정일
+             , GRS_EV_ST        --GRS상태
+             , CFRN_ATDT_CD_TXT --회의참석자코드
+             , COMM_TXT         --Comments
+             , GRS_EV_SN        --평가표
+             , ATTC_FIL_ID
+             , REQ_SABUN        --요청자사번
+             , REQ_DATE         --요청일
+             , FRST_RGST_DT     --최초등록일시
+             , FRST_RGST_ID     --최초등록자
+             , LAST_MDFY_DT     --최종수정일시
+             , LAST_MDFY_ID     --최종수정자
+             , SA_SABUN_NAME
+             )
+        VALUES
+             ( #{tssCd}
+             , #{tssCdSn}
+             , #{evTitl}
+             , #{dlbrCrgr}
+             , #{dlbrParrDt}
+             , #{grsEvSt}
+             , #{cfrnAtdtCdTxt}
+             , #{commTxt}
+             , #{grsEvSn}
+             , #{attcFilId}
+             , #{reqSabun}
+             , GETDATE()
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
+             )
+    </insert>
+
+
+    <!-- GRS평가결과 저장 -->
+    <update id="updateGrsEvRslt">
+<!-- updateGrsEvRslt -->
+          MERGE IRIS_GRS_EV_RSLT_RGST A  /*GRS평가결과등록*/
+         USING (SELECT #{tssCd} AS TSS_CD, ISNULL(#{tssCdSn}, 0) AS TSS_CD_SN) B
+            ON A.TSS_CD    = B.TSS_CD
+           AND A.TSS_CD_SN = B.TSS_CD_SN
+          WHEN NOT MATCHED THEN
+        INSERT
+             ( TSS_CD           --과제코드
+             , TSS_CD_SN
+             , EV_TITL          --평가제목
+             , DLBR_CRGR        --심의담당자
+             , DLBR_PARR_DT     --심의예정일
+              <if test="grsEvSt != null and !grsEvSt.equals('')">
+             , GRS_EV_ST        --GRS상태
+             </if>
+             , CFRN_ATDT_CD_TXT --회의참석자코드
+             , COMM_TXT         --Comments
+             , GRS_EV_SN        --평가표
+             , ATTC_FIL_ID
+             , REQ_SABUN        --요청자사번
+             , REQ_DATE         --요청일
+             , FRST_RGST_DT     --최초등록일시
+             , FRST_RGST_ID     --최초등록자
+             , LAST_MDFY_DT     --최종수정일시
+             , LAST_MDFY_ID     --최종수정자
+             , SA_SABUN_NAME
+             )
+        VALUES
+             ( #{tssCd}
+             , (SELECT ISNULL(MAX(X.TSS_CD_SN), 0) + 1 FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = #{tssCd})
+             , #{evTitl}
+             , #{dlbrCrgr}
+             , #{dlbrParrDt}
+             <if test="grsEvSt != null and !grsEvSt.equals('')">
+             , #{grsEvSt}
+             </if>
+             , #{cfrnAtdtCdTxt}
+             , #{commTxt}
+             , #{grsEvSn}
+             , #{attcFilId}
+             , #{reqSabun}
+             , GETDATE()
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
+             )
+          WHEN MATCHED THEN
+        UPDATE
+           SET EV_TITL          = #{evTitl}
+             , DLBR_CRGR        = #{dlbrCrgr}
+             , DLBR_PARR_DT     = #{dlbrParrDt}
+            <if test="grsEvSt != null and !grsEvSt.equals('')">
+           , GRS_EV_ST        = #{grsEvSt}
+        	</if>
+             , CFRN_ATDT_CD_TXT = #{cfrnAtdtCdTxt}
+             , COMM_TXT         = #{commTxt}
+             , GRS_EV_SN        = #{grsEvSn}
+             , ATTC_FIL_ID      = #{attcFilId}
+             , LAST_MDFY_DT     = GETDATE()
+             , LAST_MDFY_ID     = #{userId}
+             , SA_SABUN_NAME    = (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
+             ;
+    </update>
+
+
+    <!-- GRS평가표준결과 저장 -->
+    <update id="updateGrsEvStdRslt">
+    <![CDATA[
+         MERGE IRIS_GRS_EV_STD_RSLT_RGST A  /*GRS평가표준결과등록*/
+         USING (SELECT #{tssCd} AS TSS_CD, #{grsEvSn} AS GRS_EV_SN, #{grsEvSeq} AS GRS_EV_SEQ, ISNULL(#{tssCdSn}, 0) AS TSS_CD_SN) B
+            ON  A.TSS_CD 		= B.TSS_CD
+            AND A.TSS_CD_SN     = B.TSS_CD_SN
+            AND A.GRS_EV_SN 	= B.GRS_EV_SN
+            AND A.GRS_EV_SEQ 	= B.GRS_EV_SEQ
+          WHEN NOT MATCHED THEN
+        INSERT
+             ( TSS_CD       --과제코드
+             , TSS_CD_SN
+             , GRS_EV_SN    --평가표일련번호
+             , GRS_EV_SEQ   --평가SEQ
+             , EV_SCR       --평가점수
+             , FRST_RGST_DT --최초등록일시
+             , FRST_RGST_ID --최초등록자
+             , LAST_MDFY_DT --최종수정일시
+             , LAST_MDFY_ID --최종수정자
+             )
+        VALUES
+             ( #{tssCd}
+             , #{tssCdSn}
+             , #{grsEvSn}
+             , #{grsEvSeq}
+             , CONVERT(numeric(5,2), CASE WHEN #{evScr} = '' THEN '0' ELSE #{evScr} END)
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+          WHEN MATCHED THEN
+        UPDATE
+           SET EV_SCR       = CONVERT(numeric(5,2), CASE WHEN #{evScr} = '' THEN '0' ELSE #{evScr} END)
+             , LAST_MDFY_DT = GETDATE()
+             , LAST_MDFY_ID = #{userId}
+             ;
+    ]]>
+    </update>
+    
+    <!-- GRS 평가 완료 메일 정보  -->
+    <select id="retrieveGrsMailInfo" resultType="hashmap">
+    	<![CDATA[
+    	select  (select sa_mail from IRIS_SSO_USER where sa_sabun_new = a.sa_sabun_new) as saMail
+		       ,b.GRS_EV_ST as grsCd
+			   ,dbo.fn_getComDtlNm('GRS_EV_ST',b.GRS_EV_ST) as grsNm  
+		from   IRIS_TSS_MGMT_MST a
+		       inner join IRIS_GRS_EV_RSLT_RGST b
+			   on b.TSS_CD = a.TSS_CD
+		where  a.tss_cd = #{tssCd}
+		and    a.tss_st = '102'
+		and    b.TSS_CD_SN   = ( select max( TSS_CD_SN)
+								 from  IRIS_GRS_EV_RSLT_RGST
+								 where  tss_cd = #{tssCd}
+								)
+    	]]>
+    </select>
+    
+    
+</mapper>

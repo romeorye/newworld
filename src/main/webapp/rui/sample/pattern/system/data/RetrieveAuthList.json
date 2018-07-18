@@ -1,0 +1,12 @@
+[{
+    "metaData": {
+        "datasetId":"dataSet"
+    },
+    "records": [
+        { "localecode": "US", "authCode2": "Administrator1", "authNm": "Administrator1", "rmk": "Administrator1", "authcode": "A001" },
+        { "localecode": "US", "authCode2": "Administrator2", "authNm": "Administrator2", "rmk": "Administrator2", "authcode": "A002" },
+        { "localecode": "US", "authCode2": "Administrator3", "authNm": "Administrator3", "rmk": "Administrator3", "authcode": "A003" },
+        { "localecode": "US", "authCode2": "Administrator4", "authNm": "Administrator4", "rmk": "Administrator4", "authcode": "A004" },
+        { "localecode": "US", "authCode2": "Administrator5", "authNm": "Administrator5", "rmk": "Administrator5", "authcode": "A005" }
+    ]
+}]

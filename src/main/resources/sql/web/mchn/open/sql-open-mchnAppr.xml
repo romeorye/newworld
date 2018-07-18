@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="open.mchnAppr">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 분석기기 > open기기 > 기기예약관리 목록조회  -->
+	<select id="retrieveMchnApprSearchList" resultType="hashmap" >
+		<![CDATA[
+		SELECT MPM.MCHN_PRCT_ID as "mchnPrctId"
+		      ,MPM.PRCT_TITL as "prctTitl"
+		      ,CONCAT(MIM.MCHN_HAN_NM ,'(', MIM.MCHN_EN_NM , ')')  AS "mchnNm"
+		      ,MPM.PRCT_DT  AS  "prctDt"
+		      ,MPM.PRCT_FROM_TIM+'~'+MPM.PRCT_TO_TIM as "prctTim"
+		      ,SU.SA_NAME  as "rgstNm"
+		      ,SU.SA_DEPT_NAME as "teamNm"
+		      ,MPM.PRCT_SCN_CD as "prctScnCd"
+		      ,ACC.COM_DTL_NM AS "prctScnNm"
+		      ,MPM.PRCT_FROM_TIM as "prctFromTim"
+		      ,MPM.PRCT_TO_TIM as "prctToTim"
+		      ,dbo.fn_getSabunName(MIM.MCHN_CRGR_ID) AS "mchnCrgrNm"
+			  ,MIM.MCHN_CRGR_ID as "mchnCrgrId"
+		FROM  IRIS_MCHN_INFO_MST MIM
+		     ,IRIS_MCHN_PRCT_MST MPM
+			  LEFT OUTER JOIN IRIS_SSO_USER   SU
+			  ON  MPM.RGST_ID = SU.SA_SABUN_NEW
+			 ,IRIS_ADM_COM_CD	ACC
+		WHERE MIM.DEL_YN = 'N'
+		AND   MPM.DEL_YN ='N'
+		AND	MIM.MCHN_INFO_ID = MPM.MCHN_INFO_ID
+		AND ACC.COM_CD_CD = 'MCHN_APPR_RQ_ST'
+		AND MPM.PRCT_SCN_CD = ACC.COM_DTL_CD
+		]]>
+
+		<if test="( prctTitl != null and prctTitl != '')">
+			AND MPM.PRCT_TITL LIKE '%'+#{prctTitl}+'%'
+	    </if>
+	    <if test="( mchnNm != null and mchnNm != '')">
+			AND ( MIM.MCHN_HAN_NM LIKE '%'+#{mchnNm}+'%' OR  MIM.MCHN_EN_NM LIKE '%'+#{mchnNm}+'%'  )
+	    </if>
+		<if test="( rgstNm != null and rgstNm != '')">
+			AND  SU.SA_NAME LIKE '%'+#{rgstNm}+'%'
+	    </if>
+		<if test="( prctScnCd != null and prctScnCd != '')">
+			AND  MPM.PRCT_SCN_CD = #{prctScnCd}
+	    </if>
+	    <![CDATA[
+		ORDER BY MPM.MCHN_PRCT_ID DESC
+		]]>
+
+	</select>
+
+	<!-- 기기관리 상세 조회 -->
+	<select id="retrieveMchnApprInfo" resultType="hashmap" >
+		<![CDATA[
+		SELECT MPM.MCHN_PRCT_ID as "mchnPrctId"
+			  ,MPM.PRCT_TITL as "prctTitl"
+			  ,MIM.MCHN_HAN_NM as "mchnHanNm"
+			  ,MIM.MCHN_EN_NM as "mchnEnNm"
+			  ,CONCAT(MIM.MCHN_HAN_NM ,'(', MIM.MCHN_EN_NM , ')')  AS "mchnNm"
+			  ,MPM.SMPO_NM as "smpoNm"
+			  ,MPM.SMPO_QTY as "smpoQty"
+			  ,MPM.PRCT_DT as "prctDt"
+			  ,MPM.PRCT_FROM_TIM as "prctFromTim"
+			  ,MPM.PRCT_TO_TIM as "prctToTim"
+			  ,SU.sa_name as "rgstNm"
+			  ,SU.sa_dept_name as "teamNm"
+		      ,SU.SA_MAIL as "rgstMail"
+			  ,MPM.PRCT_SCN_CD as "prctScnCd"
+			  ,ACC.COM_DTL_NM  as "prctScnNm"
+			  ,MPM.DTL_SBC as "dtlSbc"
+			  ,(SELECT CONCAT('수료( 수료일 : ', MAX(MED.CCS_DT) ,')')
+				FROM IRIS_MCHN_EDU_MST  MEM
+					,IRIS_MCHN_EDU_DTL	MED
+				WHERE MEM.MCHN_INFO_ID = MPM.MCHN_INFO_ID
+				AND MEM.MCHN_EDU_ID = MED.MCHN_EDU_ID
+				AND MED.RGST_ID = MPM.RGST_ID
+				AND MED.EDU_ST_CD = 'CCS' )  as "ccsNm"
+		FROM IRIS_MCHN_INFO_MST MIM
+			,IRIS_MCHN_PRCT_MST MPM
+			LEFT OUTER JOIN
+			     IRIS_SSO_USER   SU
+			ON  MPM.RGST_ID = SU.SA_SABUN_NEW
+			,IRIS_ADM_COM_CD	ACC
+		WHERE MIM.DEL_YN = 'N'
+		AND	MIM.MCHN_INFO_ID = MPM.MCHN_INFO_ID
+		AND ACC.COM_CD_CD = 'MCHN_APPR_RQ_ST'
+		AND MPM.PRCT_SCN_CD = ACC.COM_DTL_CD
+		AND MPM.MCHN_PRCT_ID = #{mchnPrctId}
+		]]>
+	</select>
+
+	<!-- 보유기기관리 승인, 반려 업데이트  -->
+	<update id="updateMachineApprInfo">
+		UPDATE    IRIS_MCHN_PRCT_MST
+		SET  	  PRCT_APPR_DT = CONVERT(NVARCHAR(10), GETDATE(), 23)
+				 ,PRCT_SCN_CD  = #{prctScnCd}
+				 ,LAST_MDFY_DT = GETDATE()
+				 ,LAST_MDFY_ID = #{_userId}
+		WHERE     MCHN_PRCT_ID = #{mchnPrctId}
+	</update>
+
+	<insert id="insertMailHist" >
+	<![CDATA[
+	INSERT INTO IRIS_COM_MAIL_SND_HIS
+		(
+		 MENU_TYPE
+		,ADRE_MAIL
+		,RFP_MAIL
+		,TRR_MAIL 
+		,MAIL_TITL
+		,CRGR_ID
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID
+		)
+	VALUES
+		(
+		 #{menuType}
+		,#{adreMail}
+		,#{rfpMail}
+		,#{_userEmail}
+		,#{mailTitl}
+		,#{_userId}
+		,GETDATE()
+		,#{_userId}
+		,GETDATE()
+		,#{_userId}
+		)
+	]]>
+	</insert>
+
+</mapper>

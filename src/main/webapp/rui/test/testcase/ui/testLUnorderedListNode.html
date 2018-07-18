@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LUnorderedListNode Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../plugins/tree/rui_tree.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../plugins/tree/rui_tree.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+
+var unorderedListNode = null; 
+var dataSet = null; 
+
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+     var node = document.createElement("LI"); 
+        var textNode = document.createTextNode("-unorderedListNode test"); 
+        node.appendChild(textNode); 
+        
+        var d = Rui.get('sample'); 
+     
+        
+        dataSet = new Rui.data.LJsonDataSet({
+            id: 'dataSet',
+            fields: [
+                { id: 'menuId', type: 'number' },
+                { id: 'seq', type: 'number' },
+                { id: 'parentMenuId', type: 'number' },
+                { id: 'name' },
+                { id: 'url' },
+                { id: 'hasChild', type: 'number' }
+            ]
+        });
+        
+        
+        var dataSetChild = new Rui.data.LJsonDataSet({
+            id: 'dataSetChild',
+            fields: [
+                { id: 'menuId', type: 'number' },
+                { id: 'seq', type: 'number' },
+                { id: 'parentMenuId', type: 'number' },
+                { id: 'name' },
+                { id: 'url' },
+                { id: 'hasChild', type: 'number' }
+            ]
+        });
+        
+       var  treeView = new Rui.ui.tree.LTreeView({
+            dataSet: dataSet,
+            childDataSet: dataSetChild,
+           
+            fields: {
+                rootValue: null,
+                parentId: 'parentMenuId',
+                id: 'menuId',
+                label: 'name',
+                order:'seq', 
+                hasChild : 'hasChild'
+            }
+      
+        });
+
+        treeView.on('dynamicLoadChild',function(e){
+
+            var node = e.node;
+            var parentId = e.parentId;            
+            dataSetChild.load({ url: '../../../sample/data/treeDynamicChilds.json', params:{parentMenuId:parentId},method: 'get' });
+        });
+        
+        treeView.on('focusChanged', function(e){
+            if(!unorderedListNode)
+            unorderedListNode = e.newNode;  
+        }); 
+
+
+  treeView.render('divUl');   
+  
+  dataSet.load({ url: '../../../sample/data/treeDynamicRoot.json' });
+  
+
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+function testLUnorderedListNode_method_getRecordId() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_getRecordId 작동 여부');
+     warn('RuiTests : testRui_method_dump 테스트 무시 => testLUnorderedListNode_method_getRecordId 이벤트로 값을 전달 받아야 해서 예외처리함. ');
+    
+    // assertUndefined(unorderedListNode.getRecordId()); 
+}
+function testLUnorderedListNode_method_getParentId() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_getParentId 작동 여부');
+    
+    warn('RuiTests : testLUnorderedListNode_method_getParentId 테스트 무시 => 소스 미구현 -- 주석 처리되어있음. ');
+    // assertEquals(unorderedListNode.getParentId(), true);
+}
+function testLUnorderedListNode_method_getParentNode() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_getParentNode 작동 여부');
+    assertNotNull(unorderedListNode.getParentNode());
+}
+function testLUnorderedListNode_method_getIdValue() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_getIdValue 작동 여부');
+    assertNotUndefined(unorderedListNode.getIdValue()); 
+}
+function testLUnorderedListNode_method_getRecord() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_getRecord 작동 여부');
+    assertNotUndefined(unorderedListNode.getRecord()); 
+}
+function testLUnorderedListNode_method_getRow() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_getRow 작동 여부');
+    assertEquals(unorderedListNode.getRow() == 0, true); 
+}
+function testLUnorderedListNode_method_getDepth() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_getDepth 작동 여부');
+    assertEquals(unorderedListNode.getDepth() == 0, true);
+}
+function testLUnorderedListNode_method_hasChild() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_hasChild 작동 여부');
+    var result = unorderedListNode.hasChild();
+    assertEquals(result, true);
+}
+function testLUnorderedListNode_method_isFocus() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_isFocus 작동 여부');
+    assertEquals(unorderedListNode.isFocus(), true);
+}
+function testLUnorderedListNode_method_isMarked() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_isMarked 작동 여부');
+    unorderedListNode.mark(); 
+    assertEquals(unorderedListNode.isMarked(), true); 
+}
+function testLUnorderedListNode_method_mark() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_mark 작동 여부');
+    assertUndefined(unorderedListNode.mark()); 
+   
+}
+function testLUnorderedListNode_method_unmark() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_unmark 작동 여부');
+    unorderedListNode.unmark(); 
+    assertEquals(unorderedListNode.isMarked(), false); 
+    
+}
+function testLUnorderedListNode_method_isLast() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_isLast 작동 여부');
+    assertEquals(unorderedListNode.isLast(), false);
+}
+function testLUnorderedListNode_method_isTop() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_isTop 작동 여부');
+    assertEquals(unorderedListNode.isTop(), true);
+}
+function testLUnorderedListNode_method_isExpand() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_isExpand 작동 여부');
+    
+    assertUndefined(unorderedListNode.expand());  
+}
+function testLUnorderedListNode_method_isCollapse() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_isCollapse 작동 여부');
+    unorderedListNode.collapse(); 
+    assertEquals(unorderedListNode.isCollapse(), true); 
+}
+function testLUnorderedListNode_method_toggleChild() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_toggleChild 작동 여부');
+    assertUndefined(unorderedListNode.toggleChild()); 
+    
+}
+function testLUnorderedListNode_method_expand() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_expand 작동 여부');
+    assertUndefined(unorderedListNode.expand()); 
+}
+function testLUnorderedListNode_method_collapse() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_collapse 작동 여부');
+    unorderedListNode.collapse(); 
+    assertEquals(unorderedListNode.isCollapse(), true); 
+}
+function testLUnorderedListNode_method_collapseAllSibling() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_collapseAllSibling 작동 여부');
+    var exceptIndex = null; //int
+    assertUndefined(unorderedListNode.collapseAllSibling(exceptIndex)); 
+}
+function testLUnorderedListNode_method_getOrder() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_getOrder 작동 여부');
+    assertEquals(unorderedListNode.getOrder(),1); 
+}
+function testLUnorderedListNode_method_getChildNodes() {
+    info('LUnorderedListNodeTests : testLUnorderedListNode_method_getChildNodes 작동 여부');
+    assertNotNull(unorderedListNode.getChildNodes()); 
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LUnorderedListNode Tests</h1>
+
+    <div id="bd">
+        
+        
+    <div class="LblockMarkupCode">
+        <div id="divUl">
+        </div>
+    </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLUnorderedListNode_method_getRecordId()">getRecordId</a>
+            <a href="javascript:testLUnorderedListNode_method_getParentId()">getParentId</a>
+            <a href="javascript:testLUnorderedListNode_method_getParentNode()">getParentNode</a>
+            <a href="javascript:testLUnorderedListNode_method_getIdValue()">getIdValue</a>
+            <a href="javascript:testLUnorderedListNode_method_getRecord()">getRecord</a>
+            <a href="javascript:testLUnorderedListNode_method_getRow()">getRow</a>
+            <a href="javascript:testLUnorderedListNode_method_getDepth()">getDepth</a>
+            <a href="javascript:testLUnorderedListNode_method_hasChild()">hasChild</a>
+            <a href="javascript:testLUnorderedListNode_method_isFocus()">isFocus</a>
+            <a href="javascript:testLUnorderedListNode_method_isMarked()">isMarked</a>
+            <a href="javascript:testLUnorderedListNode_method_mark()">mark</a>
+            <a href="javascript:testLUnorderedListNode_method_unmark()">unmark</a>
+            <a href="javascript:testLUnorderedListNode_method_isLast()">isLast</a>
+            <a href="javascript:testLUnorderedListNode_method_isTop()">isTop</a>
+            <a href="javascript:testLUnorderedListNode_method_isExpand()">isExpand</a>
+            <a href="javascript:testLUnorderedListNode_method_isCollapse()">isCollapse</a>
+            <a href="javascript:testLUnorderedListNode_method_toggleChild()">toggleChild</a>
+            <a href="javascript:testLUnorderedListNode_method_expand()">expand</a>
+            <a href="javascript:testLUnorderedListNode_method_collapse()">collapse</a>
+            <a href="javascript:testLUnorderedListNode_method_collapseAllSibling()">collapseAllSibling</a>
+            <a href="javascript:testLUnorderedListNode_method_getOrder()">getOrder</a>
+            <a href="javascript:testLUnorderedListNode_method_getChildNodes()">getChildNodes</a>
+        </div>
+    </div>        
+</body>
+</html>
