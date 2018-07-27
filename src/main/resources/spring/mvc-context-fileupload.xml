@@ -8,7 +8,7 @@
 	<!-- File Upload : 로컬 -->
  	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- LOCAL -->
-		<property name="uploadTempDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/temp" />
+		<property name="uploadTempDir" value="file:C:/iris_domain/fileupload/temp" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTempDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/temp" /> -->
 		<property name="maxInMemorySize" value="20000"/>
