@@ -205,7 +205,7 @@ function makeMn(sp,arr){
 			str +="<br>";
 		}
 		if(arr[i].mdName!=""){
-			str += "<a href='"+arr[i].mdName+"'>"+arr[i].name+"</a><br/>";
+			str += "<u><a href='"+arr[i].mdName+"'>"+arr[i].name+"</a></u><br/>";
 		} else {
 			str += arr[i].name+ "<br/>";
 		}
