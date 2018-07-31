@@ -1,0 +1,190 @@
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
+
+	<script type="text/javascript">
+
+		Rui.onReady(function() {
+			// 분석 담당자 다이얼로그
+		    var _anlChrgListDialog = new Rui.ui.LDialog({
+		        applyTo: '_anlChrgListDialog', 
+		        width: 450,
+		        visible: false,
+		        postmethod: 'none',
+		        buttons: [
+		            { text:'닫기', isDefault: true, handler: function() {
+		                this.cancel(false);
+		            } } 
+		        ]
+		    });
+			
+			// 분석 담당자 다이얼로그 오픈
+			openAnlChrgListDialog = function(f) {
+				_callback = f;
+
+				_anlChrgListDialog.clearInvalid();
+				_anlChrgListDialog.show(true);
+				
+				$('#_anlChrgListDialog').scrollTop(0);
+			};
+			
+			_setAnlChrgInfo = function(id, name) {
+				var anlChrgInfo = {
+						id : id,
+						name : name
+				};
+				
+				_callback(anlChrgInfo);
+				
+				_anlChrgListDialog.cancel(false);
+			};
+		});
+		
+	</script>
+	
+    <div id="_anlChrgListDialog" style="overflow:auto; height:500px;visibility:hidden;">
+		<table class="table">
+			<colgroup>
+				<col style="width:25%;"/>
+				<col style="width:35%;"/>
+				<col style="width:40%;"/>
+			</colgroup>
+			<tbody>
+				<tr>
+					<th align="center">사업부</th>
+					<th align="center">분석분야</th>
+					<th align="center">담당자</th>
+				</tr>
+				<tr>
+					<th align="center" rowspan="3">중앙연구소</th>
+					<td align="center">형상/무기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('jihee', '손지희')">손지희</a>,
+						<a href="#" onClick="_setAnlChrgInfo('soonbo', '이순보')">이순보</a>,
+						<a href="#" onClick="_setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('suyune', '김수연')">김수연</a>,
+						<a href="#" onClick="_setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유해물질분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
+						<a href="#" onClick="_setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+						<a href="#" onClick="_setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					</td>
+				</tr>
+				<tr>
+					<th align="center" rowspan="3">자동차소재부품</th>
+					<td align="center">형상/무기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('suyune', '김수연')">김수연</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유해물질분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
+						<a href="#" onClick="_setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+						<a href="#" onClick="_setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					</td>
+				</tr>
+				<tr>
+					<th align="center" rowspan="3">고기능소재</th>
+					<td align="center">형상/무기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('jihee', '손지희')">손지희</a>,
+						<a href="#" onClick="_setAnlChrgInfo('soonbo', '이순보')">이순보</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('chlee', '이종한')">이종한</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유해물질분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
+						<a href="#" onClick="_setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+						<a href="#" onClick="_setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					</td>
+				</tr>
+				<tr>
+					<th align="center" rowspan="3">표면소재</th>
+					<td align="center">형상/무기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('soonbo', '이순보')">이순보</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('chlee', '이종한')">이종한</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유해물질분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
+						<a href="#" onClick="_setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+						<a href="#" onClick="_setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					</td>
+				</tr>
+				<tr>
+					<th align="center" rowspan="3">장식재</th>
+					<td align="center">형상/무기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('suyune', '김수연')">김수연</a>,
+						<a href="#" onClick="_setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유해물질분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
+						<a href="#" onClick="_setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+						<a href="#" onClick="_setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					</td>
+				</tr>
+				<tr>
+					<th align="center" rowspan="3">창호재</th>
+					<td align="center">형상/무기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('jihee', '손지희')">손지희</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유기분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('lejaaa', '이은주')">이은주</a>
+					</td>
+				</tr>
+				<tr>
+					<td align="center">유해물질분석</td>
+					<td align="center">
+						<a href="#" onClick="_setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
+						<a href="#" onClick="_setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+						<a href="#" onClick="_setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		* 기타 사업조직 분석의뢰 시, 분석 PJT PL과 상담해주시기 바랍니다.
+    </div>

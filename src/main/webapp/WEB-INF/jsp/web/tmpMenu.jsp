@@ -55,17 +55,17 @@
 {name:"안내", mdName:"", depth:"2",confirm:""},
 
 {name:"신뢰성시험", mdName:"", depth:"1",confirm:""},
-{name:"시험의뢰", mdName:"", depth:"2",confirm:""},
-{name:"시험목록", mdName:"", depth:"2",confirm:""},
-{name:"자료실", mdName:"", depth:"2",confirm:""},
-{name:"안내", mdName:"", depth:"2",confirm:""},
+{name:"시험의뢰", mdName:"/iris/rlab/rlabRqprList.do", depth:"2",confirm:""},
+{name:"시험목록", mdName:"/iris/rlab/rlabRqprList4Chrg.do", depth:"2",confirm:""},
+{name:"자료실", mdName:"/iris/rlab/lib/retrieveRlabLibList.do", depth:"2",confirm:""},
+{name:"안내", mdName:"/iris/rlab/gid/rlabSphereInfo.do", depth:"2",confirm:""},
 
 {name:"공간평가", mdName:"", depth:"1",confirm:""},
-{name:"평가의뢰", mdName:"", depth:"2",confirm:""},
-{name:"평가목록", mdName:"", depth:"2",confirm:""},
+{name:"평가의뢰", mdName:"/iris/space/spaceRqprList.do", depth:"2",confirm:""},
+{name:"평가목록", mdName:"/iris/space/spaceRqprList4Chrg.do", depth:"2",confirm:""},
 {name:"성능 Master", mdName:"", depth:"2",confirm:""},
-{name:"자료실", mdName:"", depth:"2",confirm:""},
-{name:"안내", mdName:"", depth:"2",confirm:""},
+{name:"자료실", mdName:"/iris/space/lib/retrieveSpaceLibList.do", depth:"2",confirm:""},
+{name:"안내", mdName:"/iris/space/gid/spaceSphereInfo.do", depth:"2",confirm:""},
 
 
 //			{name:"통합분석의뢰", mdName:"", depth:"1",confirm:""},
@@ -79,8 +79,8 @@
 
 {name:"관리", mdName:"", depth:"1",confirm:""},
 {name:"기기분석 시험정보관리", mdName:"", depth:"2",confirm:""},
-{name:"신뢰성 시험정보관리", mdName:"", depth:"2",confirm:""},
-{name:"공간평가 시험정보관리", mdName:"", depth:"2",confirm:""},
+{name:"신뢰성 시험정보관리", mdName:"/iris/rlab/rlabExprList.do", depth:"2",confirm:""},
+{name:"공간평가 시험정보관리", mdName:"/iris/space/spaceExprList.do", depth:"2",confirm:""},
 {name:"공간평가 평가법관리", mdName:"", depth:"2",confirm:""}
 ];
 
