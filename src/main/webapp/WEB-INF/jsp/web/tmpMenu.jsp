@@ -81,7 +81,7 @@
 {name:"기기분석 시험정보관리", mdName:"", depth:"2",confirm:""},
 {name:"신뢰성 시험정보관리", mdName:"/iris/rlab/rlabExprList.do", depth:"2",confirm:""},
 {name:"공간평가 시험정보관리", mdName:"/iris/space/spaceExprList.do", depth:"2",confirm:""},
-{name:"공간평가 평가법관리", mdName:"", depth:"2",confirm:""}
+{name:"공간평가 평가법관리", mdName:"/iris/space/spaceEvaluationMgmt.do", depth:"2",confirm:""}
 ];
 
  var menu03 = [

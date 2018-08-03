@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="space.ev">
+	
+	
+	<select id="getSpaceEvBzdvList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvBzdvList 사업부 조회
+		SELECT CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR0
+		WHERE DEL_YN = 'N'
+		]]>
+	</select>
+	
+	
+	<select id="getSpaceEvProdClList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvProdClList 제품군 조회
+		SELECT SUPI_CD AS supiCd
+			,CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR1
+		WHERE DEL_YN = 'N'
+		AND   SUPI_CD =  #{supiCd}
+		]]>
+	</select>
+	
+	<select id="getSpaceEvClList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvClList 분류 조회
+		SELECT SUPI_CD AS supiCd
+			,CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR2
+		WHERE DEL_YN = 'N'
+		AND   SUPI_CD =  #{supiCd}
+		]]>
+	</select>
+	
+	<select id="getSpaceEvProdList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvProdList 제품 조회
+		SELECT SUPI_CD AS supiCd
+			,CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR3
+		WHERE DEL_YN = 'N'
+		AND   SUPI_CD =  #{supiCd}
+		]]>
+	</select>
+	
+	<select id="getSpaceEvMtrlList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvMtrlList 상세리스트
+		]]>
+	</select>
+	
+	
+</mapper>

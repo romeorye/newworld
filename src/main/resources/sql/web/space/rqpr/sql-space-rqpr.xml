@@ -897,4 +897,90 @@
 		AND    OPI_ID =  #{opiId}
 		]]>	
 	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="getSpaceRqprBzdvList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceRqprBzdvList 사업부 조회
+		SELECT CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR0
+		WHERE DEL_YN = 'N'
+		]]>
+	</select>
+	
+	
+	<select id="getSpaceRqprProdClList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceRqprProdClList 제품군 조회
+		SELECT SUPI_CD AS supiCd
+			,CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR1
+		WHERE DEL_YN = 'N'
+		AND   SUPI_CD =  #{supiCd}
+		]]>
+	</select>
+	
+	<select id="getSpaceRqprClList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceRqprClList 분류 조회
+		SELECT SUPI_CD AS supiCd
+			,CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR2
+		WHERE DEL_YN = 'N'
+		AND   SUPI_CD =  #{supiCd}
+		]]>
+	</select>
+	
+	<select id="getSpaceRqprProdList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceRqprProdList 제품 조회
+		SELECT SUPI_CD AS supiCd
+			,CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR3
+		WHERE DEL_YN = 'N'
+		AND   SUPI_CD =  #{supiCd}
+		]]>
+	</select>
+	
+	<select id="getSpaceRqprMtrlList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceRqprMtrlList 상세리스트
+		]]>
+	</select>
+	
+	
 </mapper>
