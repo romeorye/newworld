@@ -39,5 +39,7 @@ public interface SpaceLibService {
 	void updateSpaceQnaRebInfo(List<Map<String, Object>> list);
 
 	void deleteSpaceQnaRebInfo(HashMap<String, String> input);
+	
+	public List<Map<String, Object>> spaceBbsCodeList(HashMap<String, String> input);
 
 }

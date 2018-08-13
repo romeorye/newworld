@@ -102,6 +102,11 @@ public class SpaceLibServiceImpl implements SpaceLibService {
 		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("space.lib.deleteSpaceQnaRebInfo", input);
 	}
+	
+    @Override
+    public List<Map<String, Object>> spaceBbsCodeList(HashMap<String, String> input){
+        return commonDao.selectList("space.lib.spaceBbsCodeList",input);
+    }
 
 
 }
