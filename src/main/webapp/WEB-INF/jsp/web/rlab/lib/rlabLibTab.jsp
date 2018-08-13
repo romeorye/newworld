@@ -55,26 +55,10 @@ var target = "${inputData.target}";
 //                emptyText: '선택',
                width: 150,
                items: [
-            	   { value: 'bbsTitlCode',    text: '제목'},
-                   { value: 'bbsSbcCode',     text: '내용'},
-                   { value: 'rgstNmCode',     text: '작성자'}
+            	   { value: 'bbsTitlSbcCode',    text: '제목 + 내용'},
+                   { value: 'rgstNmCode',     text: '등록자'}
                ]
            });
-
-       	   /*검색 분류 코드*/
-       	   if(bbsCd == '04'){
-	           var anlTlcgClCd = new Rui.ui.form.LCombo({
-	               applyTo: 'anlTlcgClCd',
-	               name: 'anlTlcgClCd',
-	               useEmptyText: true,
-	               emptyText: '전체',
-	               defaultValue: '',
-	               emptyValue: '',
-	               url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ANL_TLCG_CL_CD"/>',
-	               displayField: 'COM_DTL_NM',
-	               valueField: 'COM_DTL_CD'
-	           });
-       	   }
 
            /* 검색 내용 */
            var searchNm = new Rui.ui.form.LTextBox({
@@ -84,11 +68,7 @@ var target = "${inputData.target}";
 
            searchNm.on('keypress', function(e) {
      			if(e.keyCode == 13) {
-     				if(bbsCd == '04'){
-     					getAnlLibList04();
-     				}else {
-	     				getAnlLibList();
-     				}
+	     			getAnlLibList();
      			}
              });
 
@@ -100,6 +80,7 @@ var target = "${inputData.target}";
        	   });
 
            //분석담당자만 등록 버튼 보이기
+           /*
            chkUserRgst = function(display){
         	   if(display) {
         		   rgstBtn.show();
@@ -107,7 +88,8 @@ var target = "${inputData.target}";
 	   	           rgstBtn.hide();
 	   	       }
            };
-
+           */
+           
     	   /** dataSet **/
     	   anlLibDataSet = new Rui.data.LJsonDataSet({
     	       id: 'anlLibDataSet',
@@ -143,23 +125,25 @@ var target = "${inputData.target}";
         	   document.aform.target.value = target ;
 
         	   anlLibDataSet.load({
-                    url: '<c:url value="/anl/lib/updateAnlLibRtrvCnt.do"/>',
+                    url: '<c:url value="/rlab/lib/updateRlabLibRtrvCnt.do"/>',
                     params :{
                     	bbsId : bbsId
                     }
                 });
 
-                nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibInfo.do'/>");
+                nwinsActSubmit(document.aform, "<c:url value='/rlab/lib/rlabLibInfo.do'/>");
                 return;
            }
 
 		   //표준실험절차서
            var columnModel01 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 650 }
-			      , { field: 'sopNo',		label: 'SOP No.', sortable: false, 	align:'center',	width: 315 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
+       		    new Rui.ui.grid.LNumberColumn()
+      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
                ]
            });
 
@@ -173,10 +157,10 @@ var target = "${inputData.target}";
            });
 
            anlLibGrid01.on('cellClick', function(e) {
-
+        	   
 	           if(e.colId == "bbsTitl") {
 	        	   if(roleIdIndex == -1){
-	        		   return false;
+	        		   //return false;
 	        	   }
 	        	   var record = anlLibDataSet.getAt(anlLibDataSet.getRow());
 	        	   document.aform.bbsId.value = record.get("bbsId");
@@ -184,13 +168,13 @@ var target = "${inputData.target}";
 	        	   document.aform.target.value = target ;
 
 	        	   anlLibDataSet.load({
-	                    url: '<c:url value="/anl/lib/updateAnlLibRtrvCnt.do"/>',
+	                    url: '<c:url value="/rlab/lib/updateRlabLibRtrvCnt.do"/>',
 	                    params :{
 	                    	bbsId : record.get("bbsId")
 	                    }
 	                });
 
-                    nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibInfo.do'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/rlab/lib/rlabLibInfo.do'/>");
 
                 }
 
@@ -201,10 +185,12 @@ var target = "${inputData.target}";
            //분석사례
            var columnModel02 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 650 }
-			      , { field: 'docNo',		label: '문서번호',sortable: false, 	align:'center',	width: 315 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
+       		    new Rui.ui.grid.LNumberColumn()
+      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
                ]
            });
 
@@ -226,13 +212,13 @@ var target = "${inputData.target}";
 	        	   document.aform.target.value = target ;
 
 	        	   anlLibDataSet.load({
-	                    url: '<c:url value="/anl/lib/updateAnlLibRtrvCnt.do"/>',
+	                    url: '<c:url value="/rlab/lib/updateRlabLibRtrvCnt.do"/>',
 	                    params :{
 	                    	bbsId : record.get("bbsId")
 	                    }
 	                });
 
-                    nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibInfo.do'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/rlab/lib/rlabLibInfo.do'/>");
                 }
 
            });
@@ -242,10 +228,12 @@ var target = "${inputData.target}";
            //기기메뉴얼
            var columnModel03 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 650 }
-			      , { field: 'docNo',		label: '문서번호',sortable: false, 	align:'center',	width: 315 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
+       		    new Rui.ui.grid.LNumberColumn()
+      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
                ]
            });
 
@@ -268,13 +256,13 @@ var target = "${inputData.target}";
 	        	   document.aform.target.value = target ;
 
 	        	   anlLibDataSet.load({
-	                    url: '<c:url value="/anl/lib/updateAnlLibRtrvCnt.do"/>',
+	                    url: '<c:url value="/rlab/lib/updateRlabLibRtrvCnt.do"/>',
 	                    params :{
 	                    	bbsId : record.get("bbsId")
 	                    }
 	                });
 
-                    nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibInfo.do'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/rlab/lib/rlabLibInfo.do'/>");
                 }
 
            });
@@ -284,11 +272,12 @@ var target = "${inputData.target}";
            //분석기술정보
            var columnModel04 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'anlTlcgClNm', label: '분류',    sortable: false,	align:'center',	width: 150 }
-                  , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 750 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'rtrvCt',	    label: '조회',    sortable: false,	align:'center',	width: 65 }
+       		    new Rui.ui.grid.LNumberColumn()
+      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
                ]
            });
 
@@ -310,13 +299,13 @@ var target = "${inputData.target}";
 	        	   document.aform.target.value = target ;
 
 	        	   anlLibDataSet.load({
-	                    url: '<c:url value="/anl/lib/updateAnlLibRtrvCnt.do"/>',
+	                    url: '<c:url value="/rlab/lib/updateRlabLibRtrvCnt.do"/>',
 	                    params :{
 	                    	bbsId : record.get("bbsId")
 	                    }
 	                });
 
-                    nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibInfo.do'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/rlab/lib/rlabLibInfo.do'/>");
                 }
 
            });
@@ -334,10 +323,10 @@ var target = "${inputData.target}";
            /* 조회, 검색 */
            getAnlLibList = function() {
         	   anlLibDataSet.load({
-                   url: '<c:url value="/anl/lib/getAnlLibList.do"/>',
+                   url: '<c:url value="/rlab/lib/getRlabLibList.do"/>',
                    params :{
                 	   bbsCd : '${inputData.bbsCd}',
-                	   //anlTlcgClCd : escape(encodeURIComponent(document.aform.anlTlcgClCd.value)),
+                	   target : '${inputData.target}',
                 	   searchCd : escape(encodeURIComponent(document.aform.searchCd.value)),
                 	   searchNm : escape(encodeURIComponent(document.aform.searchNm.value))
                    }
@@ -347,7 +336,7 @@ var target = "${inputData.target}";
            /* 조회, 검색 bbsCd04*/
            getAnlLibList04 = function() {
         	   anlLibDataSet.load({
-                   url: '<c:url value="/anl/lib/getAnlLibList.do"/>',
+                   url: '<c:url value="/rlab/lib/getRlabLibList.do"/>',
                    params :{
                 	   bbsCd : '${inputData.bbsCd}',
                 	   anlTlcgClCd : escape(encodeURIComponent(document.aform.anlTlcgClCd.value)),
@@ -357,13 +346,8 @@ var target = "${inputData.target}";
                });
            };
 
-
-           if(bbsCd == '04'){
-        	   getAnlLibList04();
-           }else{
-        	   getAnlLibList();
-           }
-
+           getAnlLibList();
+           
            chkUserRgst(false);
 
 
@@ -391,7 +375,7 @@ function fncAnlLibRgstPage(record) {
 		document.aform.bbsId.value = record.get("bbsId");
 	}
 
-	nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibRgst.do'/>")
+	nwinsActSubmit(document.aform, "<c:url value='/rlab/lib/rlabLibRgst.do'/>")
 
 }
 
@@ -417,25 +401,12 @@ function fncAnlLibRgstPage(record) {
    					</colgroup>
    					<tbody>
    						<tr>
-   							<c:if test="${inputData.bbsCd == '04'}">
-   							<th  align="right">분류</th>
-   							<td>
-   								<div id="anlTlcgClCd"></div>
-   							</td>
-   							</c:if>
    							<td colspan="2">
    								<div id="searchCd"></div>
    								<input type="text" id="searchNm" value="">
    							</td>
    							<td class="t_center">
-   								<c:choose>
-  									<c:when test="${inputData.bbsCd == '04'}">
-   									<a style="cursor: pointer;" onclick="getAnlLibList04();" class="btnL">검색</a>
-   									</c:when>
-   									<c:otherwise>
-   									<a style="cursor: pointer;" onclick="getAnlLibList();" class="btnL">검색</a>
-   									</c:otherwise>
-   								</c:choose>
+   								<a style="cursor: pointer;" onclick="getAnlLibList();" class="btnL">검색</a>
    							</td>
    						</tr>
    					</tbody>

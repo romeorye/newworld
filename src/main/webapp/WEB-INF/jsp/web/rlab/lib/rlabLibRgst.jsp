@@ -33,7 +33,7 @@
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
 
 	<script type="text/javascript">
-	var anlLibRgstDataSet;
+	var rlabLibRgstDataSet;
 	var vm;			//  Validator
 	var userId = '${inputData._userId}';
 	var bbsCd = '${inputData.bbsCd}';
@@ -52,45 +52,30 @@
                 width: 700
             });
 
-//             var sopNo = new Rui.ui.form.LTextBox({
-//             	applyTo: 'sopNo',
-//                 width: 700
-//             });
-
-//             var docNo = new Rui.ui.form.LTextBox({
-//             	applyTo: 'docNo',
-//                 width: 700
-//             });
-
-//             var bbsSbc = new Rui.ui.form.LTextArea({
-//                 applyTo: 'bbsSbc',
-//                 width: 1000,
-//                 height: 200
-//             });
-
             var bbsKwd = new Rui.ui.form.LTextBox({
             	applyTo: 'bbsKwd',
                 width: 700
             });
 
-            if(bbsCd == '04'){
-	            var anlTlcgClCd = new Rui.ui.form.LCombo({
-	                applyTo: 'anlTlcgClCd',
-	                name: 'anlTlcgClCd',
+            if(bbsCd == '01'){
+	            var anlBbsCd = new Rui.ui.form.LCombo({
+	                applyTo: 'anlBbsCd',
+	                name: 'anlBbsCd',
 	                useEmptyText: true,
 	                emptyText: '선택',
 	                defaultValue: '',
 	                emptyValue: '',
 	                listPosition: 'up',
-	                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ANL_TLCG_CL_CD"/>',
+	                url: '<c:url value="/rlab/lib/rlabBbsCodeList.do?comCd=RLAB_BBS_CD"/>',
+	                		
 	                displayField: 'COM_DTL_NM',
 	                valueField: 'COM_DTL_CD'
 	            });
             }
 
             <%-- DATASET --%>
-            anlLibRgstDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlLibRgstDataSet',
+            rlabLibRgstDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabLibRgstDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -105,7 +90,7 @@
 		   			, { id: 'bbsKwd' }      /*키워드*/
 		   			, { id: 'attcFilId' }   /*첨부파일ID*/
 		   			, { id: 'docNo' }       /*문서번호*/
-		   			, { id: 'sopNo' }       /*SOP번호*/
+		   			, { id: 'anlBbsCd' }    /*SOP번호*/
 		   			, { id: 'anlTlcgClCd' } /*분석기술정보분류코드*/
 		   			, { id: 'anlTlcgClNm' } /*분석기술정보분류이름*/
 		   			, { id: 'qnaClCd' }     /*질문답변구분코드*/
@@ -115,28 +100,25 @@
 	   	  		]
             });
 
-            anlLibRgstDataSet.on('load', function(e) {
-            	lvAttcFilId = anlLibRgstDataSet.getNameValue(0, "attcFilId");
+            rlabLibRgstDataSet.on('load', function(e) {
+            	lvAttcFilId = rlabLibRgstDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
-//                 var sbcNm = anlLibRgstDataSet.getNameValue(0, "bbsSbc").replaceAll('\n', '<br/>');
-//                 anlLibRgstDataSet.setNameValue(0, 'bbsSbc', sbcNm);
-
-                if(anlLibRgstDataSet.getNameValue(0, "bbsId")  != "" ||  anlLibRgstDataSet.getNameValue(0, "bbsId")  !=  undefined ){
-    				document.aform.Wec.value=anlLibRgstDataSet.getNameValue(0, "bbsSbc");
+                if(rlabLibRgstDataSet.getNameValue(0, "bbsId")  != "" ||  rlabLibRgstDataSet.getNameValue(0, "bbsId")  !=  undefined ){
+    				document.aform.Wec.value=rlabLibRgstDataSet.getNameValue(0, "bbsSbc");
     			}
             });
 
             /* [DataSet] bind */
             var anlLibRgstBind = new Rui.data.LBind({
                 groupId: 'aform',
-                dataSet: anlLibRgstDataSet,
+                dataSet: rlabLibRgstDataSet,
                 bind: true,
                 bindInfo: [
                       { id: 'bbsTitl',    ctrlId: 'bbsTitl',    value: 'value' }
                     , { id: 'bbsSbc',     ctrlId: 'bbsSbc',     value: 'value' }
                     , { id: 'docNo',      ctrlId: 'docNo',      value: 'value' }
-                    , { id: 'sopNo',      ctrlId: 'sopNo',      value: 'value' }
+                    , { id: 'anlBbsCd',   ctrlId: 'anlBbsCd',   value: 'value' }
                     , { id: 'anlTlcgClCd',ctrlId: 'anlTlcgClCd',value: 'value' }
                     , { id: 'attcFilId',  ctrlId: 'attcFilId',  value: 'value' }
                     , { id: 'bbsKwd',     ctrlId: 'bbsKwd',     value: 'value' }
@@ -202,7 +184,7 @@
 
                 if(Rui.isEmpty(lvAttcFilId)) {
                 	lvAttcFilId =  attachFileList[0].data.attcFilId;
-                	anlLibRgstDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
+                	rlabLibRgstDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
                 }
             };
 
@@ -223,35 +205,22 @@
                 fncInsertAnlLibInfo();
             };
 
-//     		/* [버튼] 목록 */
-//             goAnlLibList = function() {
-//             	$(location).attr('href', '<c:url value="/anl/lib/retrieveAnlLibList.do"/>'+"?bbsCd="+bbsCd);
-//             };
-
             /* [버튼] 목록 */
             goPage = function(target, bbsCd) {
             	$('#bbsCd').val(bbsCd);
             	$('#target').val(target);
-            	tabUrl = "<c:url value='/anl/lib/anlLibTab.do'/>";
+            	tabUrl = "<c:url value='/rlab/lib/rlabLibTab.do'/>";
                 nwinsActSubmit(document.aform, tabUrl, target);
             };
 
             /* 저장/목록 버튼 */
             saveBtn = new Rui.ui.LButton('saveBtn');
-//             butGoList = new Rui.ui.LButton('butGoList');
+            
        	 	goPageBtn = new Rui.ui.LButton('goPageBtn');
 
 		    saveBtn.on('click', function() {
-// 		    	if(confirm("저장하시겠습니까?")){
-		    		anlLibRgstSave();
-// 		    	}
+		    	anlLibRgstSave();
 		     });
-
-// 		    butGoList.on('click', function() {
-// 		    	if(confirm("저장하지 않고 목록으로 돌아가시겠습니까?")){
-// 		    		goAnlLibList();
-// 		    	}
-// 		     });
 
 		    goPageBtn.on('click', function() {
 		    	if(confirm("저장하지 않고 목록으로 돌아가시겠습니까?")){
@@ -303,8 +272,8 @@
 
 	             /* 상세내역 가져오기 */
 	             getAnlLibInfo = function() {
-	            	 anlLibRgstDataSet.load({
-	                     url: '<c:url value="/anl/lib/getAnlLibInfo.do"/>',
+	            	 rlabLibRgstDataSet.load({
+	                     url: '<c:url value="/rlab/lib/getRlabLibInfo.do"/>',
 	                     params :{
 	                    	 bbsId : bbsId
 	                     }
@@ -315,9 +284,9 @@
 
 
 	    	}else if(pageMode == 'C')	{
-	    		anlLibRgstDataSet.newRecord();
+	    		rlabLibRgstDataSet.newRecord();
 
-	    		anlLibRgstDataSet.setNameValue(0, 'bbsCd', bbsCd );
+	    		rlabLibRgstDataSet.setNameValue(0, 'bbsCd', bbsCd );
     		}
 		 }
 
@@ -332,7 +301,7 @@
 	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
 	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
 
-	    	anlLibRgstDataSet.setNameValue(0, 'bbsSbc', document.aform.Wec.bodyValue);
+	    	rlabLibRgstDataSet.setNameValue(0, 'bbsSbc', document.aform.Wec.bodyValue);
             gvSbcNm = document.aform.Wec.bodyValue ;
 
 			document.aform.bbsSbc.value = document.aform.Wec.MIMEValue;
@@ -354,8 +323,8 @@
 		    	if(pageMode == 'V'){
 		    		// update
 		    		dm1.updateDataSet({
-		    	        url: "<c:url value='/anl/lib/insertAnlLibInfo.do'/>",
-		    	        dataSets:[anlLibRgstDataSet],
+		    	        url: "<c:url value='/rlab/lib/insertRlabLibInfo.do'/>",
+		    	        dataSets:[rlabLibRgstDataSet],
 		    	        params: {
 		    	        	bbsId : document.aform.bbsId.value
 		    	        	,bbsSbc : document.aform.Wec.MIMEValue
@@ -363,8 +332,8 @@
 		    	    });
 		    	}else if(pageMode == 'C'){
 		   			dm1.updateDataSet({
-		    	        url: "<c:url value='/anl/lib/insertAnlLibInfo.do'/>",
-		    	        dataSets:[anlLibRgstDataSet],
+		    	        url: "<c:url value='/rlab/lib/insertRlabLibInfo.do'/>",
+		    	        dataSets:[rlabLibRgstDataSet],
 		    	        params: {
 		    	        	bbsSbc : document.aform.Wec.MIMEValue
 		    	        }
@@ -373,10 +342,8 @@
 	    	}
 
 	    	dm1.on('success', function(e) {
-				var resultData = anlLibRgstDataSet.getReadData(e);
+				var resultData = rlabLibRgstDataSet.getReadData(e);
 	            alert(resultData.records[0].rtnMsg);
-
-	            //nwinsActSubmit(window.parent.document.aform, "<c:url value='/anl/lib/retrieveAnlLibList.do'/>"+"?bbsCd="+bbsCd);
 	            goPage(target, bbsCd);
 
 			});
@@ -389,10 +356,6 @@
 	</script>
     </head>
     <body>
-<!--    		<div class="contents" > style="padding-bottom:5px" -->
-<!--    			<div class="sub-content">  style="padding-top:0" -->
-
-
 
 	<form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
@@ -420,36 +383,37 @@
 				        </div>
 				    </div>
    					<tbody>
-   						<c:if test="${inputData.bbsCd=='04'}">
-   						<tr>
-   							<th align="right"><span style="color:red;">* </span>분류</th>
-   							<td colspan="3">
-   								<div id="anlTlcgClCd"></div>
-   							</td>
-   						</tr>
-   						</c:if>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>제목</th>
    							<td colspan="3">
    								<input type="text" id="bbsTitl" value="">
    							</td>
    						</tr>
-   						<c:if test="${inputData.bbsCd == '01'}">
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>SOP No.</th>
-   							<td colspan="3">
-   								<input type="text" id="sopNo" value="" style="width:300px; border:1px solid #e1e1e1;">
+   							<th align="right"><span style="color:red;">* </span>구분</th>
+   							
+   							<c:if test="${inputData.bbsCd == '01'}">
+	   							<td colspan="3">
+	   								<div id="anlBbsCd"></div>
+	   							</td>
+   							</c:if>
+   							<c:if test="${inputData.bbsCd == '02'}">
+	   							<td colspan="3">
+	   								<label>신뢰성DB </label>
+	   							</td>
+   							</c:if>
+   							<c:if test="${inputData.bbsCd == '03'}">
+	   							<td colspan="3">
+	   								<label>신뢰성자료실</label>
+	   							</td>
+   							</c:if>
+   							<c:if test="${inputData.bbsCd == '04'}">
+	   							<td colspan="3">
+	   								<label>신뢰IP</label>
+	   							</td>
+   							</c:if>   							
    							</td>
    						</tr>
-   						</c:if>
-   						<c:if test="${inputData.bbsCd=='02'|| inputData.bbsCd=='03'}">
-   						<tr>
-   							<th align="right"><span style="color:red;">* </span>문서번호</th>
-   							<td colspan="3">
-   								<input type="text" id="docNo" value="" style="width:300px; border:1px solid #e1e1e1;" >
-   							</td>
-   						</tr>
-   						</c:if>
    						<c:if test="${inputData.pageMode=='V'}">
    						<tr>
     						<th align="right">등록자</th>
@@ -464,7 +428,6 @@
    						</c:if>
    						<tr>
    							<td colspan="4">
-<!--    								 <textarea id="bbsSbc"></textarea> -->
    								<div id="namoHtml_DIV"></div>
    							</td>
    						</tr>
@@ -484,7 +447,6 @@
    					</tbody>
    				</table>
 	   </form>
-<!--    			</div>//sub-content -->
-<!--    		 </div>//contents -->
+
     </body>
 </html>

@@ -47,10 +47,10 @@ var refresh = "";
         /* [TAB] */
         tabView = new Rui.ui.tab.LTabView({
         	tabs: [
-        		{ label: '표준실험절차서(SOP)', content: '<div id="tabContent0"></div>' },
-        		{ label: '분석사례',            content: '<div id="tabContent1"></div>' },
-                { label: '기기 매뉴얼',         content: '<div id="tabContent2"></div>' },
-                { label: '분석 기술정보',       content: '<div id="tabContent3"></div>' }
+        		{ label: '전체', content: '<div id="tabContent0"></div>' },
+        		{ label: '신뢰성DB',            content: '<div id="tabContent1"></div>' },
+                { label: '신뢰성자료실',         content: '<div id="tabContent2"></div>' },
+                { label: '신뢰IP',       content: '<div id="tabContent3"></div>' }
             ]
         });
 
@@ -59,7 +59,7 @@ var refresh = "";
         	$('#bbsId').val(bbsId);
         	$('#bbsCd').val(bbsCd);
         	$('#target').val(lvTarget);
-        	tabUrl = "<c:url value='/anl/lib/anlLibTab.do'/>";
+        	tabUrl = "<c:url value='/rlab/lib/rlabLibTab.do'/>";
             nwinsActSubmit(document.aform, tabUrl, target);
         }
 
@@ -81,7 +81,7 @@ var refresh = "";
         	//표준실험절차서(SOP)
         	case 0:
         		refresh  = true;
-        		$('#h2Titl').text('분석자료실 - 표준실험절차서(SOP)');
+        		$('#h2Titl').text('자료실 - 전체');
 
         		if(e.isFirst){
                 	goPage('tabContentIfrm0', '01');
@@ -93,7 +93,7 @@ var refresh = "";
             //분석사례
         	case 1:
         		refresh  = true;
-        		$('#h2Titl').text('분석자료실 - 분석사례');
+        		$('#h2Titl').text('자료실 - 신뢰성DB');
 
                 if(e.isFirst){
                 	goPage('tabContentIfrm1', '02');
@@ -106,7 +106,7 @@ var refresh = "";
         	//기기 매뉴얼
         	case 2:
         		refresh  = true;
-        		$('#h2Titl').text('분석자료실 - 기기 매뉴얼');
+        		$('#h2Titl').text('자료실 - 신뢰성자료실');
 
                 if(e.isFirst){
                 	goPage('tabContentIfrm2', '03');
@@ -119,7 +119,7 @@ var refresh = "";
         	//분석 기술정보
         	case 3:
         		refresh  = true;
-        		$('#h2Titl').text('분석자료실 - 분석 사례정보');
+        		$('#h2Titl').text('자료실 - 신뢰IP');
 
                 if(e.isFirst){
                 	goPage('tabContentIfrm3', '04');
