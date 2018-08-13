@@ -56,7 +56,8 @@
             	applyTo: 'bbsKwd',
                 width: 700
             });
-
+            
+            /*
             if(bbsCd == '01'){
 	            var anlBbsCd = new Rui.ui.form.LCombo({
 	                applyTo: 'anlBbsCd',
@@ -73,6 +74,7 @@
 	                valueField: 'COM_DTL_CD'
 	            });
             }
+            */
 
             <%-- DATASET --%>
             spaceLibRgstDataSet = new Rui.data.LJsonDataSet({
@@ -82,6 +84,7 @@
                 fields: [
 		   		      { id: 'bbsId' }       /*게시판ID*/
 		   			, { id: 'bbsCd' }       /*분석게시판코드*/
+		   			, { id: 'anlBbsCd' }    /*SOP번호*/
 		   			, { id: 'bbsNm' }       /*게시판명*/
 		   			, { id: 'bbsTitl'}      /*게시판제목*/
 		   			, { id: 'bbsSbc' }      /*게시판내용*/
@@ -112,6 +115,7 @@
                 bindInfo: [
                       { id: 'bbsTitl',    ctrlId: 'bbsTitl',    value: 'value' }
                     , { id: 'bbsSbc',     ctrlId: 'bbsSbc',     value: 'value' }
+                    , { id: 'anlBbsCd',   ctrlId: 'anlBbsCd',   value: 'value' }
                     , { id: 'attcFilId',  ctrlId: 'attcFilId',  value: 'value' }
                     , { id: 'bbsKwd',     ctrlId: 'bbsKwd',     value: 'value' }
                     , { id: 'rgstNm',     ctrlId: 'rgstNm',     value: 'html' }     //등록자
@@ -325,6 +329,7 @@
 		    	        params: {
 		    	        	bbsId : document.aform.bbsId.value
 		    	        	,bbsSbc : document.aform.Wec.MIMEValue
+		    	        	, anlBbsCd : document.aform.anlBbsCd.value
 		    	        }
 		    	    });
 		    	}else if(pageMode == 'C'){
@@ -333,6 +338,7 @@
 		    	        dataSets:[spaceLibRgstDataSet],
 		    	        params: {
 		    	        	bbsSbc : document.aform.Wec.MIMEValue
+		    	        	, anlBbsCd : document.aform.anlBbsCd.value
 		    	        }
 		    	    });
 		    	}
@@ -392,12 +398,30 @@
    						
    						<tr>
    							<th align="right"><span style="color:red;">* </span>구분</th>
-   							
+   							<!--  
    							<c:if test="${inputData.bbsCd == '01'}">
 	   							<td colspan="3">
 	   								<div id="anlBbsCd"></div>
 	   							</td>
    							</c:if>
+   							-->
+
+   							<c:if test="${inputData.bbsCd == '01'}">
+	   							<td colspan="3">
+		   							<select name="anlBbsCd" id="anlBbsCd" style="width:200px">
+									    <option value="">선택</option>
+									    <option value="02">공간성능평가 Letter</option>
+									    <option value="03">제도, 법규 자료</option>
+									    <option value="04">연구리포트</option>
+									    <option value="05">논문</option>
+									    <option value="06">메뉴얼</option>
+									    <option value="07">기타</option>
+									    <option value="08">팀전용</option>
+
+									</select>
+	   							</td>
+   							</c:if>   	
+					
    							<c:if test="${inputData.bbsCd == '02'}">
 	   							<td colspan="3">
 	   								<label>공간성능평가 Letter </label>
