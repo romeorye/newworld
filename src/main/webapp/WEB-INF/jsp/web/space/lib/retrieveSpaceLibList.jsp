@@ -47,10 +47,14 @@ var refresh = "";
         /* [TAB] */
         tabView = new Rui.ui.tab.LTabView({
         	tabs: [
-        		{ label: '표준실험절차서(SOP)', content: '<div id="tabContent0"></div>' },
-        		{ label: '분석사례',            content: '<div id="tabContent1"></div>' },
-                { label: '기기 매뉴얼',         content: '<div id="tabContent2"></div>' },
-                { label: '분석 기술정보',       content: '<div id="tabContent3"></div>' }
+        		{ label: '전체', content: '<div id="tabContent0"></div>' },
+        		{ label: '공간성능평가 Letter', content: '<div id="tabContent1"></div>' },
+                { label: '제도, 법규 자료', content: '<div id="tabContent2"></div>' },
+                { label: '연구리포트', content: '<div id="tabContent3"></div>' },
+                { label: '논문', content: '<div id="tabContent4"></div>' },
+                { label: '메뉴얼', content: '<div id="tabContent5"></div>' },
+                { label: '기타', content: '<div id="tabContent6"></div>' },
+                { label: '팀전용', content: '<div id="tabContent7"></div>' }
             ]
         });
 
@@ -59,14 +63,14 @@ var refresh = "";
         	$('#bbsId').val(bbsId);
         	$('#bbsCd').val(bbsCd);
         	$('#target').val(lvTarget);
-        	tabUrl = "<c:url value='/anl/lib/anlLibTab.do'/>";
+        	tabUrl = "<c:url value='/space/lib/spaceLibTab.do'/>";
             nwinsActSubmit(document.aform, tabUrl, target);
         }
 
 
         tabView.on('activeTabChange', function(e){
         	 //iframe 숨기기
-            for(var i = 0; i < 4; i++) {
+            for(var i = 0; i < 8; i++) {
                 if(i == e.activeIndex) {
                     Rui.get('tabContentIfrm' + i).show();
                 }
@@ -78,10 +82,10 @@ var refresh = "";
             var tabUrl = "";
 
         	switch(e.activeIndex){
-        	//표준실험절차서(SOP)
+        	//전체
         	case 0:
         		refresh  = true;
-        		$('#h2Titl').text('분석자료실 - 표준실험절차서(SOP)');
+        		$('#h2Titl').text('자료실 - 전체');
 
         		if(e.isFirst){
                 	goPage('tabContentIfrm0', '01');
@@ -90,10 +94,10 @@ var refresh = "";
         		   	refresh = false;
     		   	}
         		break;
-            //분석사례
+            //공간성능평가 Letter
         	case 1:
         		refresh  = true;
-        		$('#h2Titl').text('분석자료실 - 분석사례');
+        		$('#h2Titl').text('자료실 - 공간성능평가 Letter');
 
                 if(e.isFirst){
                 	goPage('tabContentIfrm1', '02');
@@ -103,10 +107,10 @@ var refresh = "";
     		   	}
 
         		break;
-        	//기기 매뉴얼
+        	//제도, 법규 자료
         	case 2:
         		refresh  = true;
-        		$('#h2Titl').text('분석자료실 - 기기 매뉴얼');
+        		$('#h2Titl').text('자료실 - 제도, 법규 자료');
 
                 if(e.isFirst){
                 	goPage('tabContentIfrm2', '03');
@@ -116,10 +120,10 @@ var refresh = "";
     		   	}
 
         		break;
-        	//분석 기술정보
+        	//연구리포트
         	case 3:
         		refresh  = true;
-        		$('#h2Titl').text('분석자료실 - 분석 사례정보');
+        		$('#h2Titl').text('자료실 - 연구리포트');
 
                 if(e.isFirst){
                 	goPage('tabContentIfrm3', '04');
@@ -129,6 +133,59 @@ var refresh = "";
     		   	}
 
         		break;
+            	//논문
+        	case 4:
+        		refresh  = true;
+        		$('#h2Titl').text('자료실 - 논문');
+
+                if(e.isFirst){
+                	goPage('tabContentIfrm4', '05');
+                }else if(refresh==true){
+                	goPage('tabContentIfrm4', '05');
+        		   	refresh = false;
+    		   	}
+
+        		break;        		
+            	//메뉴얼
+        	case 5:
+        		refresh  = true;
+        		$('#h2Titl').text('자료실 - 메뉴얼');
+
+                if(e.isFirst){
+                	goPage('tabContentIfrm5', '06');
+                }else if(refresh==true){
+                	goPage('tabContentIfrm5', '06');
+        		   	refresh = false;
+    		   	}
+
+        		break;        		
+            	//기타
+        	case 6:
+        		refresh  = true;
+        		$('#h2Titl').text('자료실 - 기타');
+
+                if(e.isFirst){
+                	goPage('tabContentIfrm6', '07');
+                }else if(refresh==true){
+                	goPage('tabContentIfrm6', '07');
+        		   	refresh = false;
+    		   	}
+
+        		break;        		
+            	//팀전용
+        	case 7:
+        		refresh  = true;
+        		$('#h2Titl').text('자료실 - 팀전용');
+
+                if(e.isFirst){
+                	goPage('tabContentIfrm7', '08');
+                }else if(refresh==true){
+                	goPage('tabContentIfrm7', '08');
+        		   	refresh = false;
+    		   	}
+
+        		break;        		
+        		
         	}
         });
 
@@ -147,6 +204,20 @@ var refresh = "";
 		else if(bbsCd == '04'){
 			tabView.selectTab(3);
 		}
+		else if(bbsCd == '05'){
+			tabView.selectTab(4);
+		}
+		else if(bbsCd == '06'){
+			tabView.selectTab(5);
+		}
+		else if(bbsCd == '07'){
+			tabView.selectTab(6);
+		}
+		else if(bbsCd == '08'){
+			tabView.selectTab(7);
+		}
+        
+        
 
        });//onReady 끝
 </script>
@@ -168,6 +239,10 @@ var refresh = "";
  		<iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
  		<iframe name="tabContentIfrm2" id="tabContentIfrm2" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
  		<iframe name="tabContentIfrm3" id="tabContentIfrm3" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
+ 		<iframe name="tabContentIfrm4" id="tabContentIfrm4" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
+ 		<iframe name="tabContentIfrm5" id="tabContentIfrm5" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
+ 		<iframe name="tabContentIfrm6" id="tabContentIfrm6" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
+ 		<iframe name="tabContentIfrm7" id="tabContentIfrm7" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
 
 		</form>
    		</div><!--//content end-->

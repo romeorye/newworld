@@ -33,7 +33,7 @@
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
 
 	<script type="text/javascript">
-	var anlLibRgstDataSet;
+	var spaceLibRgstDataSet;
 	var vm;			//  Validator
 	var userId = '${inputData._userId}';
 	var bbsCd = '${inputData.bbsCd}';
@@ -52,45 +52,31 @@
                 width: 700
             });
 
-//             var sopNo = new Rui.ui.form.LTextBox({
-//             	applyTo: 'sopNo',
-//                 width: 700
-//             });
-
-//             var docNo = new Rui.ui.form.LTextBox({
-//             	applyTo: 'docNo',
-//                 width: 700
-//             });
-
-//             var bbsSbc = new Rui.ui.form.LTextArea({
-//                 applyTo: 'bbsSbc',
-//                 width: 1000,
-//                 height: 200
-//             });
-
             var bbsKwd = new Rui.ui.form.LTextBox({
             	applyTo: 'bbsKwd',
                 width: 700
             });
 
-            if(bbsCd == '04'){
-	            var anlTlcgClCd = new Rui.ui.form.LCombo({
-	                applyTo: 'anlTlcgClCd',
-	                name: 'anlTlcgClCd',
+            if(bbsCd == '01'){
+	            var anlBbsCd = new Rui.ui.form.LCombo({
+	                applyTo: 'anlBbsCd',
+	                name: 'anlBbsCd',
+	                width: 200,
 	                useEmptyText: true,
 	                emptyText: '선택',
 	                defaultValue: '',
 	                emptyValue: '',
 	                listPosition: 'up',
-	                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ANL_TLCG_CL_CD"/>',
+	                url: '<c:url value="/space/lib/spaceBbsCodeList.do?comCd=SPACE_BBS_CD"/>',
+	                		
 	                displayField: 'COM_DTL_NM',
 	                valueField: 'COM_DTL_CD'
 	            });
             }
 
             <%-- DATASET --%>
-            anlLibRgstDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlLibRgstDataSet',
+            spaceLibRgstDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceLibRgstDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -104,40 +90,28 @@
 		   			, { id: 'rtrvCt' }      /*조회건수*/
 		   			, { id: 'bbsKwd' }      /*키워드*/
 		   			, { id: 'attcFilId' }   /*첨부파일ID*/
-		   			, { id: 'docNo' }       /*문서번호*/
-		   			, { id: 'sopNo' }       /*SOP번호*/
-		   			, { id: 'anlTlcgClCd' } /*분석기술정보분류코드*/
-		   			, { id: 'anlTlcgClNm' } /*분석기술정보분류이름*/
-		   			, { id: 'qnaClCd' }     /*질문답변구분코드*/
-		   			, { id: 'qnaClNm' }     /*질문답변구분이름*/
 		   			, { id: 'frstRgstDt'}   /*등록일*/
 		   			, { id: 'delYn' }       /*삭제여부*/
 	   	  		]
             });
 
-            anlLibRgstDataSet.on('load', function(e) {
-            	lvAttcFilId = anlLibRgstDataSet.getNameValue(0, "attcFilId");
+            spaceLibRgstDataSet.on('load', function(e) {
+            	lvAttcFilId = spaceLibRgstDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
-//                 var sbcNm = anlLibRgstDataSet.getNameValue(0, "bbsSbc").replaceAll('\n', '<br/>');
-//                 anlLibRgstDataSet.setNameValue(0, 'bbsSbc', sbcNm);
-
-                if(anlLibRgstDataSet.getNameValue(0, "bbsId")  != "" ||  anlLibRgstDataSet.getNameValue(0, "bbsId")  !=  undefined ){
-    				document.aform.Wec.value=anlLibRgstDataSet.getNameValue(0, "bbsSbc");
+                if(spaceLibRgstDataSet.getNameValue(0, "bbsId")  != "" ||  spaceLibRgstDataSet.getNameValue(0, "bbsId")  !=  undefined ){
+    				document.aform.Wec.value=spaceLibRgstDataSet.getNameValue(0, "bbsSbc");
     			}
             });
 
             /* [DataSet] bind */
-            var anlLibRgstBind = new Rui.data.LBind({
+            var spaceLibRgstBind = new Rui.data.LBind({
                 groupId: 'aform',
-                dataSet: anlLibRgstDataSet,
+                dataSet: spaceLibRgstDataSet,
                 bind: true,
                 bindInfo: [
                       { id: 'bbsTitl',    ctrlId: 'bbsTitl',    value: 'value' }
                     , { id: 'bbsSbc',     ctrlId: 'bbsSbc',     value: 'value' }
-                    , { id: 'docNo',      ctrlId: 'docNo',      value: 'value' }
-                    , { id: 'sopNo',      ctrlId: 'sopNo',      value: 'value' }
-                    , { id: 'anlTlcgClCd',ctrlId: 'anlTlcgClCd',value: 'value' }
                     , { id: 'attcFilId',  ctrlId: 'attcFilId',  value: 'value' }
                     , { id: 'bbsKwd',     ctrlId: 'bbsKwd',     value: 'value' }
                     , { id: 'rgstNm',     ctrlId: 'rgstNm',     value: 'html' }     //등록자
@@ -202,7 +176,7 @@
 
                 if(Rui.isEmpty(lvAttcFilId)) {
                 	lvAttcFilId =  attachFileList[0].data.attcFilId;
-                	anlLibRgstDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
+                	spaceLibRgstDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
                 }
             };
 
@@ -219,39 +193,29 @@
             fn_init();
 
             /* [버튼] 저장 */
-            anlLibRgstSave = function() {
-                fncInsertAnlLibInfo();
+            spaceLibRgstSave = function() {
+                fncInsertSpaceLibInfo();
             };
-
-//     		/* [버튼] 목록 */
-//             goAnlLibList = function() {
-//             	$(location).attr('href', '<c:url value="/anl/lib/retrieveAnlLibList.do"/>'+"?bbsCd="+bbsCd);
-//             };
 
             /* [버튼] 목록 */
             goPage = function(target, bbsCd) {
             	$('#bbsCd').val(bbsCd);
             	$('#target').val(target);
-            	tabUrl = "<c:url value='/anl/lib/anlLibTab.do'/>";
+            	tabUrl = "<c:url value='/space/lib/spaceLibTab.do'/>";
                 nwinsActSubmit(document.aform, tabUrl, target);
             };
 
             /* 저장/목록 버튼 */
             saveBtn = new Rui.ui.LButton('saveBtn');
-//             butGoList = new Rui.ui.LButton('butGoList');
+            
        	 	goPageBtn = new Rui.ui.LButton('goPageBtn');
 
 		    saveBtn.on('click', function() {
-// 		    	if(confirm("저장하시겠습니까?")){
-		    		anlLibRgstSave();
+		    		spaceLibRgstSave();
 // 		    	}
 		     });
 
-// 		    butGoList.on('click', function() {
-// 		    	if(confirm("저장하지 않고 목록으로 돌아가시겠습니까?")){
-// 		    		goAnlLibList();
-// 		    	}
-// 		     });
+
 
 		    goPageBtn.on('click', function() {
 		    	if(confirm("저장하지 않고 목록으로 돌아가시겠습니까?")){
@@ -303,8 +267,8 @@
 
 	             /* 상세내역 가져오기 */
 	             getAnlLibInfo = function() {
-	            	 anlLibRgstDataSet.load({
-	                     url: '<c:url value="/anl/lib/getAnlLibInfo.do"/>',
+	            	 spaceLibRgstDataSet.load({
+	                     url: '<c:url value="/space/lib/getSpaceLibInfo.do"/>',
 	                     params :{
 	                    	 bbsId : bbsId
 	                     }
@@ -315,24 +279,24 @@
 
 
 	    	}else if(pageMode == 'C')	{
-	    		anlLibRgstDataSet.newRecord();
+	    		spaceLibRgstDataSet.newRecord();
 
-	    		anlLibRgstDataSet.setNameValue(0, 'bbsCd', bbsCd );
+	    		spaceLibRgstDataSet.setNameValue(0, 'bbsCd', bbsCd );
     		}
 		 }
 
 	    <%--/*******************************************************************************
-	     * FUNCTION 명 : fncInsertAnlLibInfo (특허 저장)
+	     * FUNCTION 명 : fncInsertSpaceLibInfo (특허 저장)
 	     * FUNCTION 기능설명 : 특허 저장
 	     *******************************************************************************/--%>
-	    fncInsertAnlLibInfo = function(){
+	    fncInsertSpaceLibInfo = function(){
 	    	var pageMode = '${inputData.pageMode}';
 	    	console.log('fncInsertAnlNoticeInfo pageMode='+pageMode);
 
 	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
 	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
 
-	    	anlLibRgstDataSet.setNameValue(0, 'bbsSbc', document.aform.Wec.bodyValue);
+	    	spaceLibRgstDataSet.setNameValue(0, 'bbsSbc', document.aform.Wec.bodyValue);
             gvSbcNm = document.aform.Wec.bodyValue ;
 
 			document.aform.bbsSbc.value = document.aform.Wec.MIMEValue;
@@ -354,8 +318,8 @@
 		    	if(pageMode == 'V'){
 		    		// update
 		    		dm1.updateDataSet({
-		    	        url: "<c:url value='/anl/lib/insertAnlLibInfo.do'/>",
-		    	        dataSets:[anlLibRgstDataSet],
+		    	        url: "<c:url value='/space/lib/insertSpaceLibInfo.do'/>",
+		    	        dataSets:[spaceLibRgstDataSet],
 		    	        params: {
 		    	        	bbsId : document.aform.bbsId.value
 		    	        	,bbsSbc : document.aform.Wec.MIMEValue
@@ -363,8 +327,8 @@
 		    	    });
 		    	}else if(pageMode == 'C'){
 		   			dm1.updateDataSet({
-		    	        url: "<c:url value='/anl/lib/insertAnlLibInfo.do'/>",
-		    	        dataSets:[anlLibRgstDataSet],
+		    	        url: "<c:url value='/space/lib/insertSpaceLibInfo.do'/>",
+		    	        dataSets:[spaceLibRgstDataSet],
 		    	        params: {
 		    	        	bbsSbc : document.aform.Wec.MIMEValue
 		    	        }
@@ -373,10 +337,9 @@
 	    	}
 
 	    	dm1.on('success', function(e) {
-				var resultData = anlLibRgstDataSet.getReadData(e);
+				var resultData = spaceLibRgstDataSet.getReadData(e);
 	            alert(resultData.records[0].rtnMsg);
 
-	            //nwinsActSubmit(window.parent.document.aform, "<c:url value='/anl/lib/retrieveAnlLibList.do'/>"+"?bbsCd="+bbsCd);
 	            goPage(target, bbsCd);
 
 			});
@@ -389,10 +352,6 @@
 	</script>
     </head>
     <body>
-<!--    		<div class="contents" > style="padding-bottom:5px" -->
-<!--    			<div class="sub-content">  style="padding-top:0" -->
-
-
 
 	<form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
@@ -413,6 +372,7 @@
 						<col style="width:15%"/>
 						<col style="width:35%"/>
    					</colgroup>
+
 					<div class="titArea">
 				        <div class="LblockButton">
 				            <button type="button" id="saveBtn" name="saveBtn" >저장</button>
@@ -420,36 +380,63 @@
 				        </div>
 				    </div>
    					<tbody>
-   						<c:if test="${inputData.bbsCd=='04'}">
-   						<tr>
-   							<th align="right"><span style="color:red;">* </span>분류</th>
-   							<td colspan="3">
-   								<div id="anlTlcgClCd"></div>
-   							</td>
-   						</tr>
-   						</c:if>
+
    						<tr>
    							<th align="right"><span style="color:red;">* </span>제목</th>
    							<td colspan="3">
    								<input type="text" id="bbsTitl" value="">
    							</td>
    						</tr>
-   						<c:if test="${inputData.bbsCd == '01'}">
+   						
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>SOP No.</th>
-   							<td colspan="3">
-   								<input type="text" id="sopNo" value="" style="width:300px; border:1px solid #e1e1e1;">
+   							<th align="right"><span style="color:red;">* </span>구분</th>
+   							
+   							<c:if test="${inputData.bbsCd == '01'}">
+   							<br>
+   							<br>
+   							<br>
+	   							<td colspan="3">
+	   								<div id="anlBbsCd"></div>
+	   							</td>
+   							</c:if>
+   							<c:if test="${inputData.bbsCd == '02'}">
+	   							<td colspan="3">
+	   								<label>공간성능평가 Letter </label>
+	   							</td>
+   							</c:if>
+   							<c:if test="${inputData.bbsCd == '03'}">
+	   							<td colspan="3">
+	   								<label>제도, 법규 자료</label>
+	   							</td>
+   							</c:if>
+   							<c:if test="${inputData.bbsCd == '04'}">
+	   							<td colspan="3">
+	   								<label>연구리포트</label>
+	   							</td>
+   							</c:if>   	
+   							<c:if test="${inputData.bbsCd == '05'}">
+	   							<td colspan="3">
+	   								<label>논문</label>
+	   							</td>
+   							</c:if>    							
+   							<c:if test="${inputData.bbsCd == '06'}">
+	   							<td colspan="3">
+	   								<label>메뉴얼</label>
+	   							</td>
+   							</c:if>    							
+   							<c:if test="${inputData.bbsCd == '07'}">
+	   							<td colspan="3">
+	   								<label>기타</label>
+	   							</td>
+   							</c:if> 
+   							<c:if test="${inputData.bbsCd == '08'}">
+	   							<td colspan="3">
+	   								<label>팀전용</label>
+	   							</td>
+   							</c:if>    							   													
    							</td>
-   						</tr>
-   						</c:if>
-   						<c:if test="${inputData.bbsCd=='02'|| inputData.bbsCd=='03'}">
-   						<tr>
-   							<th align="right"><span style="color:red;">* </span>문서번호</th>
-   							<td colspan="3">
-   								<input type="text" id="docNo" value="" style="width:300px; border:1px solid #e1e1e1;" >
-   							</td>
-   						</tr>
-   						</c:if>
+   						</tr>   						
+
    						<c:if test="${inputData.pageMode=='V'}">
    						<tr>
     						<th align="right">등록자</th>
@@ -462,9 +449,9 @@
    							</td>
    						</tr>
    						</c:if>
+   						
    						<tr>
    							<td colspan="4">
-<!--    								 <textarea id="bbsSbc"></textarea> -->
    								<div id="namoHtml_DIV"></div>
    							</td>
    						</tr>
@@ -484,7 +471,5 @@
    					</tbody>
    				</table>
 	   </form>
-<!--    			</div>//sub-content -->
-<!--    		 </div>//contents -->
     </body>
 </html>

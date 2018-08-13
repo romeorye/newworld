@@ -34,7 +34,7 @@
 
 	<script type="text/javascript">
 
-	var anlLibDataSet;
+	var spaceLibDataSet;
 	var bbsId = ${inputData.bbsId};
 	var bbsCd = '${inputData.bbsCd}';
 	var target = '${inputData.target}';
@@ -50,173 +50,9 @@
              *******************/
             var aform = new Rui.ui.form.LForm('aform');
 
-            /* 덧글 내용 */
-            var textArea = new Rui.ui.form.LTextArea({
-                emptyText: ''
-            });
-
-            <%--덧글 DATASET --%>
-            anlQnaRebInfoDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlQnaRebInfoDataSet',
-                remainRemoved: true,
-                lazyLoad: true,
-                fields: [
-				      { id: 'rebId' }            /*덧글ID*/
-					, { id: 'bbsId' }            /*분석Q&AID*/
-					, { id: 'rebNm' }            /*덧글내용*/
-					, { id: 'rgstId' }           /*등록자ID*/
-					, { id: 'rgstNm' }           /*등록자이름*/
-					, { id: 'delYn' }            /*삭제여부*/
-					, { id: 'frstRgstDt' }       /*등록일*/
-				 ]
-            });
-			/* 덧글 그리드 리스트 */
-            getAnlQnaRebInfoList = function() {
-            	anlQnaRebInfoDataSet.load({
-                    url: '<c:url value="/anl/lib/getAnlQnaRebList.do"/>',
-                    params :{
-                    	bbsId : bbsId
-                    }
-                });
-            }
-
-            getAnlQnaRebInfoList();
-
-            var columnModel = new Rui.ui.grid.LColumnModel({
-                columns: [
-                 	  { field: 'frstRgstDt', label: '등록일',  	sortable: false,  align:'center',  width: 120 }
-                    , { field: 'rgstNm',     label: '등록자',  	sortable: false,  align:'center',  width: 120 }
-                    , { field: 'rebNm',	     label: '내용',	    sortable: false,  align:'left',	   width: 800,  editable: true, editor: textArea,
-                    	renderer: function(val, p, record, row, col) {
-                    		return val.replaceAll('\n', '<br/>');
-                    } }
-                ]
-            });
-
-            anlQnaRebGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: columnModel,
-                dataSet: anlQnaRebInfoDataSet,
-                width: 600,
-                height: 200,
-                autoToEdit: true,
-                autoWidth: true
-            });
-
-            //덧글수정하기위해 셀 클릭 가능여부
-            anlQnaRebGrid.on('beforeEdit', function(e) {
-            	if(roleIdIndex != -1) {
-            		return true;
-            	}else {
-	            	if(anlQnaRebInfoDataSet.getNameValue(e.row, 'rgstId') != '${inputData._userId}') {
-	            		return false;
-	            	}
-            	}
-
-            });
-
-            anlQnaRebGrid.render('anlQnaRebGrid');
-
-            /*덧글 저장 & 수정*/
-            qnaRebSave = function(rebMode) {
-            	var row = anlQnaRebInfoDataSet.getRow();
-        	    var record = anlQnaRebInfoDataSet.getAt(row);
-           	    var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-
-            	if(rebMode == "U"){
-            		if(roleIdIndex == -1 && anlQnaRebInfoDataSet.getNameValue(row, 'rgstId') != '${inputData._userId}') {
-                		return false;
-                	}else if(roleIdIndex != -1 || anlQnaRebInfoDataSet.getNameValue(row, 'rgstId') == '${inputData._userId}') {
-
-	            		if(anlQnaRebInfoDataSet.isUpdated() == false){
-	            			alert("변경된 내용이 없습니다.");
-	            			return ;
-	            		}
-
-	                    if(confirm("수정하시겠습니까?")){
-		    	    		//update
-		    	    		dm1.updateDataSet({
-		    	    	        url: "<c:url value='/anl/lib/updateAnlQnaRebInfo.do'/>",
-		    	    	        dataSets: [anlQnaRebInfoDataSet]
-		    	    	    });
-
-	            		 }
-                	}
-
-    	    	}else if(rebMode == "C"){
-
-    	    		if(!validation('aform')){
-    	    	   		return false;
-    	    	   	}
-
-	   	    		if(confirm("등록하시겠습니까?")){
-	    	   		dm1.updateDataSet({
-	    	    	       url: "<c:url value='/anl/lib/insertAnlQnaRebInfo.do'/>",
-	    	    	       params: {
-	    	    	       		bbsId : document.aform.bbsId.value
-	    	    	         	, rebNm : $('#rebNm').val()
-	    	    	       }
-	    	    	   });
-	   	    		}
-    	        }
-
-    	    	dm1.on('success', function(e) {
-    				var resultData = anlQnaRebInfoDataSet.getReadData(e);
-    	            alert(resultData.records[0].rtnMsg);
-
-    	            $('#rebNm').val('');
-
-    	            getAnlQnaRebInfoList();
-
-    			});
-
-    			dm1.on('failure', function(e) {
-    				ruiSessionFail(e);
-
-    				var record = anlQnaInfoDataSet.getAt(anlQnaInfoDataSet.getRow());
-    				record.set("rebNm",record.get("rebNm"));
-    			});
-            };
-
-
-            /* 덧글 삭제 */
-            qnaRebDel = function() {
-            	var row = anlQnaRebInfoDataSet.getRow();
-        	    var record = anlQnaRebInfoDataSet.getAt(row);
-
-            	if(roleIdIndex == -1 && anlQnaRebInfoDataSet.getNameValue(row, 'rgstId') != '${inputData._userId}') {
-            		return false;
-            	}else if(roleIdIndex != -1 || anlQnaRebInfoDataSet.getNameValue(row, 'rgstId') == '${inputData._userId}') {
-
-	                $('#rebId').val(record.get("rebId"));
-
-	        	    var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-
-	        	    if(confirm("삭제하시겠습니까?")){
-			       		dm1.updateDataSet({
-			       	        url: "<c:url value='/anl/lib/deleteAnlQnaRebInfo.do'/>",
-			       	        params: {
-			       	        	rebId : document.aform.rebId.value
-			       	        }
-			   	    	});
-	        	    }
-
-		   	    	dm1.on('success', function(e) {
-		   				var resultData = anlQnaRebInfoDataSet.getReadData(e);
-		   	            alert(resultData.records[0].rtnMsg);
-
-		   	        	getAnlQnaRebInfoList();
-		   			});
-
-		   			dm1.on('failure', function(e) {
-		   				ruiSessionFail(e);
-		   			});
-            	}
-
-	        };
-
             <%-- DATASET --%>
-            anlLibDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlLibDataSet',
+            spaceLibDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceLibDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -230,22 +66,14 @@
 		   			, { id: 'rtrvCt' }      /*조회건수*/
 		   			, { id: 'bbsKwd' }      /*키워드*/
 		   			, { id: 'attcFilId' }   /*첨부파일ID*/
-		   			, { id: 'docNo' }       /*문서번호*/
-		   			, { id: 'sopNo' }       /*SOP번호*/
-		   			, { id: 'anlTlcgClCd' } /*분석기술정보분류코드*/
-		   			, { id: 'anlTlcgClNm' } /*분석기술정보분류이름*/
-		   			, { id: 'qnaClCd' }     /*질문답변구분코드*/
-		   			, { id: 'qnaClNm' }     /*질문답변구분이름*/
 		   			, { id: 'frstRgstDt'}   /*등록일*/
 		   			, { id: 'delYn' }       /*삭제여부*/
   	   	  		]
             });
 
-            anlLibDataSet.on('load', function(e) {
-//             	var bbsSbc = anlLibDataSet.getNameValue(0, "bbsSbc").replaceAll('\n', '<br/>');
-//             	anlLibDataSet.setNameValue(0, 'bbsSbc', bbsSbc);
+            spaceLibDataSet.on('load', function(e) {
 
-                lvAttcFilId = anlLibDataSet.getNameValue(0, "attcFilId");
+                lvAttcFilId = spaceLibDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
                 //roleId가 분석담당자이면 등록자와 사용자가 달라고 수정/삭제 가능
@@ -261,21 +89,21 @@
             });
 
             /* [DataSet] bind */
-            var anlLibInfoBind = new Rui.data.LBind({
+            var spaceLibInfoBind = new Rui.data.LBind({
                 groupId: 'aform',
-                dataSet: anlLibDataSet,
+                dataSet: spaceLibDataSet,
                 bind: true,
                 bindInfo: [
                     { id: 'bbsId',       ctrlId: 'bbsId',      value: 'value'} //공지사항ID
                   , { id: 'bbsTitl',     ctrlId: 'bbsTitl',    value: 'html' } //제목
+                  , { id: 'bbsNm',       ctrlId: 'bbsNm',      value: 'html' } //구분
                   , { id: 'bbsSbc',      ctrlId: 'bbsSbc',     value: 'html' } //내용
                   , { id: 'attcFilId',   ctrlId: 'attcFilId',  value: 'html' } //첨부파일
                   , { id: 'bbsKwd',      ctrlId: 'bbsKwd',     value: 'html' } //키워드
                   , { id: 'rgstNm',      ctrlId: 'rgstNm',     value: 'html' } //등록자
                   , { id: 'frstRgstDt',  ctrlId: 'frstRgstDt', value: 'html' } //등록일
-                  , { id: 'docNo',  	 ctrlId: 'docNo', 	   value: 'html' } //문서번호
-                  , { id: 'sopNo',  	 ctrlId: 'sopNo', 	   value: 'html' } //SOP No.
-                  , { id: 'anlTlcgClNm', ctrlId: 'anlTlcgClNm',value: 'html' } //분석기술정보분류이름
+                  , { id: 'rtrvCt',  	 ctrlId: 'rtrvCt', 	   value: 'html' } //조회건수
+
               ]
             });
 
@@ -329,7 +157,7 @@
 
                 if(Rui.isEmpty(lvAttcFilId)) {
                 	lvAttcFilId =  attachFileList[0].data.attcFilId;
-                	anlLibDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
+                	spaceLibDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
                 }
             };
 
@@ -345,42 +173,38 @@
 
 
              /* 상세내역 가져오기 */
-             getAnlLibInfo = function() {
-            	 anlLibDataSet.load({
-                     url: '<c:url value="/anl/lib/getAnlLibInfo.do"/>',
+             getSpaceLibInfo = function() {
+            	 spaceLibDataSet.load({
+                     url: '<c:url value="/space/lib/getSpaceLibInfo.do"/>',
                      params :{
                     	 bbsId : bbsId
                      }
                  });
              };
 
-             getAnlLibInfo();
+             getSpaceLibInfo();
 
             /* [버튼] 저장 */
-            AnlLibRgstSave = function() {
-         	   var record = anlLibDataSet.getAt(anlLibDataSet.getRow());
+            SpaceLibRgstSave = function() {
+         	   var record = spaceLibDataSet.getAt(spaceLibDataSet.getRow());
         	   document.aform.bbsId.value = record.get("bbsId");
         	   document.aform.bbsCd.value = record.get("bbsCd");
+        	   document.aform.target.value =  target;
         	   document.aform.pageMode.value = 'V';
-	           nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibRgst.do'/>");
+	           nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibRgst.do'/>");
             };
 
             /* [버튼] 삭제 */
-           anlLibRgstDel = function() {
-                fncDeleteAnlLibInfo();
+           spaceLibRgstDel = function() {
+                fncDeleteSpaceLibInfo();
             };
-
-//     		/* [버튼] 목록 */
-//             goAnlLibList = function() {
-//             	$(location).attr('href', '<c:url value="/anl/lib/retrieveAnlLibList.do"/>'+"?bbsCd="+bbsCd);
-//             };
 
             /* [버튼] 목록 */
             goPage = function(target, bbsCd) {
             	$('#bbsId').val('');
             	$('#bbsCd').val(bbsCd);
             	$('#target').val(target);
-            	tabUrl = "<c:url value='/anl/lib/anlLibTab.do'/>";
+            	tabUrl = "<c:url value='/space/lib/spaceLibTab.do'/>";
                 nwinsActSubmit(document.aform, tabUrl, target);
             };
 
@@ -391,12 +215,12 @@
        	 	goPageBtn = new Rui.ui.LButton('goPageBtn');
 
        	    saveBtn.on('click', function() {
-       	    	AnlLibRgstSave();
+       	    	SpaceLibRgstSave();
 		     });
 
 		    delBtn.on('click', function() {
 		    	if(confirm("삭제하시겠습니까?")){
-		    		anlLibRgstDel();
+		    		spaceLibRgstDel();
 		    	}
 		     });
 
@@ -416,8 +240,8 @@
 		    		 saveBtn.show();
 		    		 delBtn.show();
 	 	         }else {
-	 	        	 saveBtn.hide();
-	 	        	 delBtn.hide();
+	 	        	// saveBtn.hide();
+	 	        	// delBtn.hide();
 	 	         }
             }
 
@@ -449,23 +273,22 @@
    	 * FUNCTION 명 : fncDeleteAnlLibInfo (공지사항 삭제)
    	 * FUNCTION 기능설명 : 공지사항 삭제
    	 *******************************************************************************/--%>
-	    fncDeleteAnlLibInfo = function(){
+	    fncDeleteSpaceLibInfo = function(){
 
 	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
     		dm1.updateDataSet({
-    	        url: "<c:url value='/anl/lib/deleteAnlLibInfo.do'/>",
-    	        dataSets:[anlLibDataSet],
+    	        url: "<c:url value='/space/lib/deleteSpaceLibInfo.do'/>",
+    	        dataSets:[spaceLibDataSet],
     	        params: {
     	        	bbsId : bbsId
     	        }
 	    	});
 
 	    	dm1.on('success', function(e) {
-				var resultData = anlLibDataSet.getReadData(e);
+				var resultData = spaceLibDataSet.getReadData(e);
 	            alert(resultData.records[0].rtnMsg);
 
-// 	  	    	nwinsActSubmit(document.aform, "<c:url value='/anl/lib/retrieveAnlLibList.do'/>"+"?bbsCd="+bbsCd);
 				goPage(target, bbsCd)
 			});
 
@@ -514,30 +337,17 @@
    								<span id="bbsTitl"></span>
    							</td>
    						</tr>
-   						<c:if test="${inputData.bbsCd == '01'}">
    						<tr>
-   							<th align="right">SOP No.</th>
-   							<td colspan="3">
-   								<span id="sopNo"></span>
+   							<th align="right">구분</th>
+   							<td>
+   								<span id="bbsNm"></span>
    							</td>
-   						</tr>
-   						</c:if>
-   						<c:if test="${inputData.bbsCd=='02'|| inputData.bbsCd=='03'}">
-   						<tr>
-   							<th align="right">문서번호</th>
-   							<td colspan="3">
-   								<span id="docNo"></span>
+
+   							<th align="right">조회수</th>
+   							<td>
+                            	<span id="rtrvCt"></span>
    							</td>
-   						</tr>
-   						</c:if>
-   						<c:if test="${inputData.bbsCd == '04'}">
-   						<tr>
-   							<th align="right">분류</th>
-   							<td colspan="3">
-   								<span id="anlTlcgClNm"></span>
-   							</td>
-   						</tr>
-   						</c:if>
+   						</tr>   						
    						<tr>
    							<th align="right">등록자</th>
    							<td>
@@ -568,34 +378,6 @@
    					</tbody>
    				</table>
 
-   				<c:if test="${inputData.bbsCd == '04'}">
-   				<br/>
-				<table class="table table_txt_right">
-					<tbody>
-						<tr>
-							<th align="right" width="15%">덧글</th>
-   							<td>
-   								<textarea id="rebNm" style="width:800px; height:50px;" ></textarea>
-   							</td>
-   							<td class="t_center" width="15%" colspan="2">
-   								<a style="cursor: pointer;" onclick="qnaRebSave('C')" class="btn">등록</a>
-   							</td>
-						</tr>
-					</tbody>
-				</table>
-
-				<br/>
-				<div class="titArea">
-					<div class="LblockButton">
- 	   					<button type="button" class="btn"  id="saveBtn2" name="saveBtn2" onclick="qnaRebSave('U')">수정</button>
-	   					<button type="button" class="btn"  id="delBtn2"  name="delBtn2"  onclick="qnaRebDel()">삭제</button>
-   					</div>
-   				</div>
-				<div id="anlQnaRebGrid"></div>
-				</c:if>
-
-<!--    			</div>//sub-content -->
-<!--    		</div>//contents -->
 		</form>
     </body>
 </html>

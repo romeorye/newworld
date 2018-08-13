@@ -35,8 +35,8 @@
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/tab/rui_tab.css" />
 
 <script type="text/javascript">
-var anlLibDataSet;	// 프로젝트 데이터셋
-var anlLibGrid;       // 그리드
+var spaceLibDataSet;	// 프로젝트 데이터셋
+var spaceLibGrid;       // 그리드
 var roleId = '${inputData._roleId}';
 var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
 var bbsId = "${inputData.bbsId}";
@@ -52,29 +52,12 @@ var target = "${inputData.target}";
         	   applyTo: 'searchCd',
                name: 'searchCd',
                useEmptyText: false,
-//                emptyText: '선택',
                width: 150,
                items: [
-            	   { value: 'bbsTitlCode',    text: '제목'},
-                   { value: 'bbsSbcCode',     text: '내용'},
-                   { value: 'rgstNmCode',     text: '작성자'}
+            	   { value: 'bbsTitlSbcCode',    text: '제목 + 내용'},
+                   { value: 'rgstNmCode',     text: '등록자'}
                ]
            });
-
-       	   /*검색 분류 코드*/
-       	   if(bbsCd == '04'){
-	           var anlTlcgClCd = new Rui.ui.form.LCombo({
-	               applyTo: 'anlTlcgClCd',
-	               name: 'anlTlcgClCd',
-	               useEmptyText: true,
-	               emptyText: '전체',
-	               defaultValue: '',
-	               emptyValue: '',
-	               url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ANL_TLCG_CL_CD"/>',
-	               displayField: 'COM_DTL_NM',
-	               valueField: 'COM_DTL_CD'
-	           });
-       	   }
 
            /* 검색 내용 */
            var searchNm = new Rui.ui.form.LTextBox({
@@ -84,11 +67,7 @@ var target = "${inputData.target}";
 
            searchNm.on('keypress', function(e) {
      			if(e.keyCode == 13) {
-     				if(bbsCd == '04'){
-     					getAnlLibList04();
-     				}else {
-	     				getAnlLibList();
-     				}
+	     			getSpaceLibList();
      			}
              });
 
@@ -96,7 +75,7 @@ var target = "${inputData.target}";
        	   var rgstBtn = new Rui.ui.LButton('rgstBtn');
 
        	   rgstBtn.on('click', function() {
-       		   fncAnlLibRgstPage('');
+       		   fncSpaceLibRgstPage('');
        	   });
 
            //분석담당자만 등록 버튼 보이기
@@ -104,13 +83,13 @@ var target = "${inputData.target}";
         	   if(display) {
         		   rgstBtn.show();
 	   	       }else {
-	   	           rgstBtn.hide();
+	   	          // rgstBtn.hide();
 	   	       }
            };
 
     	   /** dataSet **/
-    	   anlLibDataSet = new Rui.data.LJsonDataSet({
-    	       id: 'anlLibDataSet',
+    	   spaceLibDataSet = new Rui.data.LJsonDataSet({
+    	       id: 'spaceLibDataSet',
     	       remainRemoved: true,
     	       lazyLoad: true,
     	       //defaultFailureHandler:false,
@@ -125,12 +104,6 @@ var target = "${inputData.target}";
 		   			, { id: 'rtrvCt' }      /*조회건수*/
 		   			, { id: 'bbsKwd' }      /*키워드*/
 		   			, { id: 'attcFilId' }   /*첨부파일ID*/
-		   			, { id: 'docNo' }       /*문서번호*/
-		   			, { id: 'sopNo' }       /*SOP번호*/
-		   			, { id: 'anlTlcgClCd' } /*분석기술정보분류코드*/
-		   			, { id: 'anlTlcgClNm' } /*분석기술정보분류이름*/
-		   			, { id: 'qnaClCd' }     /*질문답변구분코드*/
-		   			, { id: 'qnaClNm' }     /*질문답변구분이름*/
 		   			, { id: 'frstRgstDt'}   /*등록일*/
 		   			, { id: 'delYn' }       /*삭제여부*/
     	   	  ]
@@ -142,116 +115,125 @@ var target = "${inputData.target}";
         	   document.aform.bbsCd.value = bbsCd ;
         	   document.aform.target.value = target ;
 
-        	   anlLibDataSet.load({
-                    url: '<c:url value="/anl/lib/updateAnlLibRtrvCnt.do"/>',
+        	   spaceLibDataSet.load({
+                    url: '<c:url value="/space/lib/updateSpaceLibRtrvCnt.do"/>',
                     params :{
                     	bbsId : bbsId
                     }
                 });
 
-                nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibInfo.do'/>");
+                nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibInfo.do'/>");
                 return;
            }
 
 		   //표준실험절차서
            var columnModel01 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 650 }
-			      , { field: 'sopNo',		label: 'SOP No.', sortable: false, 	align:'center',	width: 315 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
+          		    new Rui.ui.grid.LNumberColumn()
+          		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                    , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+
                ]
            });
 
-           anlLibGrid01 = new Rui.ui.grid.LGridPanel({
+           spaceLibGrid01 = new Rui.ui.grid.LGridPanel({
         	   columnModel: columnModel01,
-               dataSet: anlLibDataSet,
+               dataSet: spaceLibDataSet,
                width: 600,
                height: 525,
                autoToEdit: false,
                autoWidth: true
            });
 
-           anlLibGrid01.on('cellClick', function(e) {
+           spaceLibGrid01.on('cellClick', function(e) {
 
 	           if(e.colId == "bbsTitl") {
 	        	   if(roleIdIndex == -1){
-	        		   return false;
+	        		  // return false;
 	        	   }
-	        	   var record = anlLibDataSet.getAt(anlLibDataSet.getRow());
+	        	   var record = spaceLibDataSet.getAt(spaceLibDataSet.getRow());
 	        	   document.aform.bbsId.value = record.get("bbsId");
 	        	   document.aform.bbsCd.value = record.get("bbsCd");
 	        	   document.aform.target.value = target ;
 
-	        	   anlLibDataSet.load({
-	                    url: '<c:url value="/anl/lib/updateAnlLibRtrvCnt.do"/>',
+	        	   spaceLibDataSet.load({
+	                    url: '<c:url value="/space/lib/updateSpaceLibRtrvCnt.do"/>',
 	                    params :{
 	                    	bbsId : record.get("bbsId")
 	                    }
 	                });
 
-                    nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibInfo.do'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibInfo.do'/>");
 
                 }
 
            });
 
-           anlLibGrid01.render("anlLibGrid01");
+           spaceLibGrid01.render("spaceLibGrid01");
 
            //분석사례
            var columnModel02 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 650 }
-			      , { field: 'docNo',		label: '문서번호',sortable: false, 	align:'center',	width: 315 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
+          		    new Rui.ui.grid.LNumberColumn()
+          		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                    , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+
                ]
            });
 
-           anlLibGrid02 = new Rui.ui.grid.LGridPanel({
+           spaceLibGrid02 = new Rui.ui.grid.LGridPanel({
         	   columnModel: columnModel02,
-               dataSet: anlLibDataSet,
+               dataSet: spaceLibDataSet,
                width: 600,
                height: 525,
                autoToEdit: false,
                autoWidth: true
            });
 
-           anlLibGrid02.on('cellClick', function(e) {
+           spaceLibGrid02.on('cellClick', function(e) {
 
 	           if(e.colId == "bbsTitl") {
-	        	   var record = anlLibDataSet.getAt(anlLibDataSet.getRow());
+	        	   var record = spaceLibDataSet.getAt(spaceLibDataSet.getRow());
 	        	   document.aform.bbsId.value = record.get("bbsId");
 	        	   document.aform.bbsCd.value = record.get("bbsCd");
 	        	   document.aform.target.value = target ;
 
-	        	   anlLibDataSet.load({
-	                    url: '<c:url value="/anl/lib/updateAnlLibRtrvCnt.do"/>',
+	        	   spaceLibDataSet.load({
+	                    url: '<c:url value="/space/lib/updateSpaceLibRtrvCnt.do"/>',
 	                    params :{
 	                    	bbsId : record.get("bbsId")
 	                    }
 	                });
 
-                    nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibInfo.do'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibInfo.do'/>");
                 }
 
            });
 
-           anlLibGrid02.render("anlLibGrid02");
+           spaceLibGrid02.render("spaceLibGrid02");
 
            //기기메뉴얼
            var columnModel03 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 650 }
-			      , { field: 'docNo',		label: '문서번호',sortable: false, 	align:'center',	width: 315 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
+          		    new Rui.ui.grid.LNumberColumn()
+          		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                    , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+
                ]
            });
 
-           anlLibGrid03 = new Rui.ui.grid.LGridPanel({
+           spaceLibGrid03 = new Rui.ui.grid.LGridPanel({
         	   columnModel: columnModel03,
-               dataSet: anlLibDataSet,
+               dataSet: spaceLibDataSet,
                width: 600,
                height: 525,
                autoToEdit: false,
@@ -259,72 +241,245 @@ var target = "${inputData.target}";
            });
 
 
-           anlLibGrid03.on('cellClick', function(e) {
+           spaceLibGrid03.on('cellClick', function(e) {
 
 	           if(e.colId == "bbsTitl") {
-	        	   var record = anlLibDataSet.getAt(anlLibDataSet.getRow());
+	        	   var record = spaceLibDataSet.getAt(spaceLibDataSet.getRow());
 	        	   document.aform.bbsId.value = record.get("bbsId");
 	        	   document.aform.bbsCd.value = record.get("bbsCd");
 	        	   document.aform.target.value = target ;
 
-	        	   anlLibDataSet.load({
-	                    url: '<c:url value="/anl/lib/updateAnlLibRtrvCnt.do"/>',
+	        	   spaceLibDataSet.load({
+	                    url: '<c:url value="/space/lib/updateSpaceLibRtrvCnt.do"/>',
 	                    params :{
 	                    	bbsId : record.get("bbsId")
 	                    }
 	                });
 
-                    nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibInfo.do'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibInfo.do'/>");
                 }
 
            });
 
-           anlLibGrid03.render("anlLibGrid03");
+           spaceLibGrid03.render("spaceLibGrid03");
 
            //분석기술정보
            var columnModel04 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'anlTlcgClNm', label: '분류',    sortable: false,	align:'center',	width: 150 }
-                  , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 750 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'rtrvCt',	    label: '조회',    sortable: false,	align:'center',	width: 65 }
+          		    new Rui.ui.grid.LNumberColumn()
+          		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                    , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
                ]
            });
 
-           anlLibGrid04 = new Rui.ui.grid.LGridPanel({
+           spaceLibGrid04 = new Rui.ui.grid.LGridPanel({
         	   columnModel: columnModel04,
-               dataSet: anlLibDataSet,
+               dataSet: spaceLibDataSet,
                width: 600,
                height: 525,
                autoToEdit: false,
                autoWidth: true
            });
 
-           anlLibGrid04.on('cellClick', function(e) {
+           spaceLibGrid04.on('cellClick', function(e) {
 
 	           if(e.colId == "bbsTitl") {
-	        	   var record = anlLibDataSet.getAt(anlLibDataSet.getRow());
+	        	   var record = spaceLibDataSet.getAt(spaceLibDataSet.getRow());
 	        	   document.aform.bbsId.value = record.get("bbsId");
 	        	   document.aform.bbsCd.value = record.get("bbsCd");
 	        	   document.aform.target.value = target ;
 
-	        	   anlLibDataSet.load({
-	                    url: '<c:url value="/anl/lib/updateAnlLibRtrvCnt.do"/>',
+	        	   spaceLibDataSet.load({
+	                    url: '<c:url value="/space/lib/updateSpaceLibRtrvCnt.do"/>',
 	                    params :{
 	                    	bbsId : record.get("bbsId")
 	                    }
 	                });
 
-                    nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibInfo.do'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibInfo.do'/>");
                 }
 
            });
 
-           anlLibGrid04.render("anlLibGrid04");
+           spaceLibGrid04.render("spaceLibGrid04");
+           
+           //분석기술정보
+           var columnModel05 = new Rui.ui.grid.LColumnModel({
+        	   columns: [
+          		    new Rui.ui.grid.LNumberColumn()
+          		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                    , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+               ]
+           });
 
-           anlLibDataSet.on('load', function(e) {
-  	    		$("#cnt_text").html('총 ' + anlLibDataSet.getCount() + '건');
+           spaceLibGrid05 = new Rui.ui.grid.LGridPanel({
+        	   columnModel: columnModel05,
+               dataSet: spaceLibDataSet,
+               width: 600,
+               height: 525,
+               autoToEdit: false,
+               autoWidth: true
+           });
+
+           spaceLibGrid05.on('cellClick', function(e) {
+
+	           if(e.colId == "bbsTitl") {
+	        	   var record = spaceLibDataSet.getAt(spaceLibDataSet.getRow());
+	        	   document.aform.bbsId.value = record.get("bbsId");
+	        	   document.aform.bbsCd.value = record.get("bbsCd");
+	        	   document.aform.target.value = target ;
+
+	        	   spaceLibDataSet.load({
+	                    url: '<c:url value="/space/lib/updateSpaceLibRtrvCnt.do"/>',
+	                    params :{
+	                    	bbsId : record.get("bbsId")
+	                    }
+	                });
+
+                    nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibInfo.do'/>");
+                }
+
+           });
+
+           spaceLibGrid05.render("spaceLibGrid05");
+           
+           //분석기술정보
+           var columnModel06 = new Rui.ui.grid.LColumnModel({
+        	   columns: [
+          		    new Rui.ui.grid.LNumberColumn()
+          		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                    , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+               ]
+           });
+
+           spaceLibGrid06 = new Rui.ui.grid.LGridPanel({
+        	   columnModel: columnModel06,
+               dataSet: spaceLibDataSet,
+               width: 600,
+               height: 525,
+               autoToEdit: false,
+               autoWidth: true
+           });
+
+           spaceLibGrid06.on('cellClick', function(e) {
+
+	           if(e.colId == "bbsTitl") {
+	        	   var record = spaceLibDataSet.getAt(spaceLibDataSet.getRow());
+	        	   document.aform.bbsId.value = record.get("bbsId");
+	        	   document.aform.bbsCd.value = record.get("bbsCd");
+	        	   document.aform.target.value = target ;
+
+	        	   spaceLibDataSet.load({
+	                    url: '<c:url value="/space/lib/updateSpaceLibRtrvCnt.do"/>',
+	                    params :{
+	                    	bbsId : record.get("bbsId")
+	                    }
+	                });
+
+                    nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibInfo.do'/>");
+                }
+
+           });
+
+           spaceLibGrid06.render("spaceLibGrid06");
+           
+           //분석기술정보
+           var columnModel07 = new Rui.ui.grid.LColumnModel({
+        	   columns: [
+          		    new Rui.ui.grid.LNumberColumn()
+          		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                    , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+               ]
+           });
+
+           spaceLibGrid07 = new Rui.ui.grid.LGridPanel({
+        	   columnModel: columnModel07,
+               dataSet: spaceLibDataSet,
+               width: 600,
+               height: 525,
+               autoToEdit: false,
+               autoWidth: true
+           });
+
+           spaceLibGrid07.on('cellClick', function(e) {
+
+	           if(e.colId == "bbsTitl") {
+	        	   var record = spaceLibDataSet.getAt(spaceLibDataSet.getRow());
+	        	   document.aform.bbsId.value = record.get("bbsId");
+	        	   document.aform.bbsCd.value = record.get("bbsCd");
+	        	   document.aform.target.value = target ;
+
+	        	   spaceLibDataSet.load({
+	                    url: '<c:url value="/space/lib/updateSpaceLibRtrvCnt.do"/>',
+	                    params :{
+	                    	bbsId : record.get("bbsId")
+	                    }
+	                });
+
+                    nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibInfo.do'/>");
+                }
+
+           });
+
+           spaceLibGrid07.render("spaceLibGrid07");
+           
+           //분석기술정보
+           var columnModel08 = new Rui.ui.grid.LColumnModel({
+        	   columns: [
+          		    new Rui.ui.grid.LNumberColumn()
+          		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
+                    , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
+                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+                    , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+               ]
+           });
+
+           spaceLibGrid08 = new Rui.ui.grid.LGridPanel({
+        	   columnModel: columnModel08,
+               dataSet: spaceLibDataSet,
+               width: 600,
+               height: 525,
+               autoToEdit: false,
+               autoWidth: true
+           });
+
+           spaceLibGrid08.on('cellClick', function(e) {
+
+	           if(e.colId == "bbsTitl") {
+	        	   var record = spaceLibDataSet.getAt(spaceLibDataSet.getRow());
+	        	   document.aform.bbsId.value = record.get("bbsId");
+	        	   document.aform.bbsCd.value = record.get("bbsCd");
+	        	   document.aform.target.value = target ;
+
+	        	   spaceLibDataSet.load({
+	                    url: '<c:url value="/space/lib/updateSpaceLibRtrvCnt.do"/>',
+	                    params :{
+	                    	bbsId : record.get("bbsId")
+	                    }
+	                });
+
+                    nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibInfo.do'/>");
+                }
+
+           });
+
+           spaceLibGrid08.render("spaceLibGrid08");           
+
+           spaceLibDataSet.on('load', function(e) {
+  	    		$("#cnt_text").html('총 ' + spaceLibDataSet.getCount() + '건');
 
   	    		if(roleIdIndex != -1) {
   	    			chkUserRgst(true);
@@ -332,37 +487,19 @@ var target = "${inputData.target}";
   	      	});
 
            /* 조회, 검색 */
-           getAnlLibList = function() {
-        	   anlLibDataSet.load({
-                   url: '<c:url value="/anl/lib/getAnlLibList.do"/>',
+           getSpaceLibList = function() {
+        	   spaceLibDataSet.load({
+                   url: '<c:url value="/space/lib/getSpaceLibList.do"/>',
                    params :{
                 	   bbsCd : '${inputData.bbsCd}',
-                	   //anlTlcgClCd : escape(encodeURIComponent(document.aform.anlTlcgClCd.value)),
+                	   target : '${inputData.target}',
                 	   searchCd : escape(encodeURIComponent(document.aform.searchCd.value)),
                 	   searchNm : escape(encodeURIComponent(document.aform.searchNm.value))
                    }
                });
            };
 
-           /* 조회, 검색 bbsCd04*/
-           getAnlLibList04 = function() {
-        	   anlLibDataSet.load({
-                   url: '<c:url value="/anl/lib/getAnlLibList.do"/>',
-                   params :{
-                	   bbsCd : '${inputData.bbsCd}',
-                	   anlTlcgClCd : escape(encodeURIComponent(document.aform.anlTlcgClCd.value)),
-                	   searchCd : escape(encodeURIComponent(document.aform.searchCd.value)),
-                	   searchNm : escape(encodeURIComponent(document.aform.searchNm.value))
-                   }
-               });
-           };
-
-
-           if(bbsCd == '04'){
-        	   getAnlLibList04();
-           }else{
-        	   getAnlLibList();
-           }
+           getSpaceLibList();
 
            chkUserRgst(false);
 
@@ -374,10 +511,10 @@ var target = "${inputData.target}";
 
 
 <%--/*******************************************************************************
-* FUNCTION 명 : fncAnlLibRgstPage (분석자료실 등록 )
+* FUNCTION 명 : fncSpaceLibRgstPage (분석자료실 등록 )
 * FUNCTION 기능설명 :
 *******************************************************************************/--%>
-function fncAnlLibRgstPage(record) {
+function fncSpaceLibRgstPage(record) {
 	var bbsCd = "${inputData.bbsCd}";
 
 	var pageMode = 'V';	// view
@@ -391,7 +528,7 @@ function fncAnlLibRgstPage(record) {
 		document.aform.bbsId.value = record.get("bbsId");
 	}
 
-	nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlLibRgst.do'/>")
+	nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibRgst.do'/>")
 
 }
 
@@ -405,8 +542,6 @@ function fncAnlLibRgstPage(record) {
 		<input type="hidden" id="target" name="target" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value=""/>
 
-<!--    		<div class="contents"> style="padding-top:10px" -->
-<!--    			<div class="sub-content"> -->
    				<table class="searchBox">
    					<colgroup>
    						<col style="width:10%;"/>
@@ -417,25 +552,12 @@ function fncAnlLibRgstPage(record) {
    					</colgroup>
    					<tbody>
    						<tr>
-   							<c:if test="${inputData.bbsCd == '04'}">
-   							<th  align="right">분류</th>
-   							<td>
-   								<div id="anlTlcgClCd"></div>
-   							</td>
-   							</c:if>
    							<td colspan="2">
    								<div id="searchCd"></div>
    								<input type="text" id="searchNm" value="">
    							</td>
    							<td class="t_center">
-   								<c:choose>
-  									<c:when test="${inputData.bbsCd == '04'}">
-   									<a style="cursor: pointer;" onclick="getAnlLibList04();" class="btnL">검색</a>
-   									</c:when>
-   									<c:otherwise>
-   									<a style="cursor: pointer;" onclick="getAnlLibList();" class="btnL">검색</a>
-   									</c:otherwise>
-   								</c:choose>
+   								<a style="cursor: pointer;" onclick="getSpaceLibList();" class="btnL">검색</a>
    							</td>
    						</tr>
    					</tbody>
@@ -448,13 +570,15 @@ function fncAnlLibRgstPage(record) {
    					</div>
    				</div>
 
-				<c:if test="${inputData.bbsCd == '01'}"><div id="anlLibGrid01"></div></c:if>
-				<c:if test="${inputData.bbsCd == '02'}"><div id="anlLibGrid02"></div></c:if>
-				<c:if test="${inputData.bbsCd == '03'}"><div id="anlLibGrid03"></div></c:if>
-				<c:if test="${inputData.bbsCd == '04'}"><div id="anlLibGrid04"></div></c:if>
+				<c:if test="${inputData.bbsCd == '01'}"><div id="spaceLibGrid01"></div></c:if>
+				<c:if test="${inputData.bbsCd == '02'}"><div id="spaceLibGrid02"></div></c:if>
+				<c:if test="${inputData.bbsCd == '03'}"><div id="spaceLibGrid03"></div></c:if>
+				<c:if test="${inputData.bbsCd == '04'}"><div id="spaceLibGrid04"></div></c:if>
+				<c:if test="${inputData.bbsCd == '05'}"><div id="spaceLibGrid05"></div></c:if>
+				<c:if test="${inputData.bbsCd == '06'}"><div id="spaceLibGrid06"></div></c:if>
+				<c:if test="${inputData.bbsCd == '07'}"><div id="spaceLibGrid07"></div></c:if>
+				<c:if test="${inputData.bbsCd == '08'}"><div id="spaceLibGrid08"></div></c:if>
 
-<!--    			</div>//sub-content -->
-<!--    		</div>//contents -->
 		</form>
     </body>
 </html>
