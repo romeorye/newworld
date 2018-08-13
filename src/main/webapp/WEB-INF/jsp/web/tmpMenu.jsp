@@ -72,8 +72,9 @@
 //			{name:"통합분석자료실", mdName:"", depth:"1",confirm:""},
 
 {name:"통합게시판", mdName:"", depth:"1",confirm:""},
-{name:"공지사항", mdName:"", depth:"2",confirm:""},
-{name:"Q&A", mdName:"", depth:"2",confirm:""},
+{name:"공지사항", mdName:"/iris/anl/bbs/retrieveAnlBbsList.do", depth:"2",confirm:""},
+{name:"Q&A", mdName:"/iris/anl/bbs/retrieveAnlQnaList.do", depth:"2",confirm:""},
+
 
 //			{name:"통합분석안내", mdName:"", depth:"1",confirm:""},
 
@@ -92,7 +93,7 @@
 {name:"기기 교육", mdName:"", depth:"2",confirm:""}, //toolEdu
 
 {name:"신뢰성시험 장비", mdName:"", depth:"1",confirm:""},
-{name:"보유 장비", mdName:"", depth:"2",confirm:"1"}, //tool
+{name:"보유 장비", mdName:"/iris/mchn/open/rlabMchn/retrieveMachineList.do", depth:"2",confirm:""}, //tool
 
 {name:"공간성능평가 Tool", mdName:"", depth:"1",confirm:""},
 {name:"보유 TOOL", mdName:"", depth:"2",confirm:"1"}, //tool
