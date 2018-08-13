@@ -175,16 +175,18 @@
             setAttachFileInfo = function(attachFileList) {
                 $('#attchFileView').html('');
 
-                for(var i = 0; i < attachFileList.length; i++) {
-                    $('#attchFileView').append($('<a/>', {
-                        href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
-                        text: attachFileList[i].data.filNm
-                    })).append('<br/>');
-                }
-
-                if(Rui.isEmpty(lvAttcFilId)) {
-                	lvAttcFilId =  attachFileList[0].data.attcFilId;
-                	rlabLibRgstDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
+                if(attachFileList.length > 0) {
+	                for(var i = 0; i < attachFileList.length; i++) {
+	                    $('#attchFileView').append($('<a/>', {
+	                        href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
+	                        text: attachFileList[i].data.filNm
+	                    })).append('<br/>');
+	                }
+	
+	                if(Rui.isEmpty(lvAttcFilId)) {
+	                	lvAttcFilId =  attachFileList[0].data.attcFilId;
+	                	rlabLibRgstDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
+	                }
                 }
             };
 
