@@ -1112,5 +1112,34 @@ public class RlabLibController  extends IrisBaseController {
 	}
 
 	//분석 Qna 끝
+	
+    @RequestMapping(value="/rlab/lib/rlabBbsCodeList.do")
+    public ModelAndView retrieveCodeListForCache(
+            @RequestParam HashMap<String, String> input,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            ModelMap model
+            ){
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("CodeController - retrieveCodeListForCache [공통코드 캐쉬조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+        
+        
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+            
+        // 공통코드 캐쉬조회
+        
+        System.out.println("\n\n input : "+input);
+        
+        //List codeList = anlBbsService.anlBbsCodeList(NullUtil.nvl(input.get("comCd"), ""));
+        List codeList = rlabLibService.rlabBbsCodeList(input);
+         
+        modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", codeList));
+
+        return modelAndView;
+    }
 
 }//class end

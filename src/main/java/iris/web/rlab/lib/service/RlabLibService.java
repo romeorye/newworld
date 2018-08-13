@@ -39,5 +39,8 @@ public interface RlabLibService {
 	void updateRlabQnaRebInfo(List<Map<String, Object>> list);
 
 	void deleteRlabQnaRebInfo(HashMap<String, String> input);
+	
+	public List<Map<String, Object>> rlabBbsCodeList(HashMap<String, String> input);
+	
 
 }

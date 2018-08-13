@@ -102,6 +102,11 @@ public class RlabLibServiceImpl implements RlabLibService {
 		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("rlab.lib.deleteRlabQnaRebInfo", input);
 	}
+	
+    @Override
+    public List<Map<String, Object>> rlabBbsCodeList(HashMap<String, String> input){
+        return commonDao.selectList("rlab.lib.rlabBbsCodeList",input);
+    }
 
 
 }
