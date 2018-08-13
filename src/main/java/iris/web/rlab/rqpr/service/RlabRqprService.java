@@ -64,8 +64,8 @@ public interface RlabRqprService {
 	/* 분석의뢰 반려/분석중단 처리 */
 	public boolean updateRlabRqprEnd(Map<String,Object> dataMap) throws Exception;
 
-	/* 실험정보 트리 리스트 조회 */
-	public List<Map<String, Object>> getRlabExprTreeList(Map<String, Object> input);
+	/* 신뢰성 시험정보 트리 리스트 조회 */
+	public List<Map<String, Object>> getRlabExatTreeList(Map<String, Object> input);
 
 	/* 실험정보 상세 콤보 리스트 조회 */
 	public List<Map<String, Object>> getRlabExprDtlComboList(Map<String, Object> input);
@@ -85,17 +85,17 @@ public interface RlabRqprService {
 	/* 분석결과 저장 */
 	public boolean saveRlabRqprRslt(Map<String, Object> dataMap) throws Exception;
 	
-	/* 실험 마스터 정보 저장 */
-	public boolean saveRlabExprMst(List<Map<String,Object>> list) throws Exception;
+	/* 신뢰성 시험 마스터 정보 저장 */
+	public boolean saveRlabExatMst(List<Map<String,Object>> list) throws Exception;
 
-	/* 실험 상세 정보 리스트 조회 */
-	public List<Map<String, Object>> getRlabExprDtlList(Map<String, Object> input);
+	/* 신뢰성 시험 상세 정보 리스트 조회 */
+	public List<Map<String, Object>> getRlabExatDtlList(Map<String, Object> input);
 	
-	/* 실험 상세 정보 등록 */
-	public boolean saveRlabExprDtl(List<Map<String,Object>> list) throws Exception;
+	/* 신뢰성시험 상세 정보 등록 */
+	public boolean saveRlabExatDtl(List<Map<String,Object>> list) throws Exception;
 	
-	/* 실험 상세 정보 삭제 */
-	public boolean deleteRlabExprDtl(List<Map<String,Object>> list) throws Exception;
+	/* 신뢰성시험 상세 정보 삭제 */
+	public boolean deleteRlabExatDtl(List<Map<String,Object>> list) throws Exception;
 
 	/* 실험방법 내용 조회*/
 	public String getExprWay(HashMap<String, String> input);
@@ -105,4 +105,7 @@ public interface RlabRqprService {
 
 	/* 통보자 추가 저장*/
 	public void insertRlabRqprInfm(Map<String, Object> dataMap);
+	
+	/* 신뢰성시험 장비 팝업 목록조회 */
+	List<Map<String, Object>> retrieveMachineList(HashMap<String, Object> input);
 }

@@ -465,9 +465,9 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     	}
 	}
 
-	/* 실험정보 트리 리스트 조회 */
-	public List<Map<String, Object>> getRlabExprTreeList(Map<String, Object> input) {
-		return commonDao.selectList("rlab.rqpr.getRlabExprTreeList", input);
+	/* 신뢰성 시험정보 트리 리스트 조회 */
+	public List<Map<String, Object>> getRlabExatTreeList(Map<String, Object> input) {
+		return commonDao.selectList("rlab.rqpr.getRlabExatTreeList", input);
 	}
 
 	/* 실험정보 상세 콤보 리스트 조회 */
@@ -620,9 +620,9 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     	}
 	}
 	
-	/* 실험 마스터 정보 저장 */
-	public boolean saveRlabExprMst(List<Map<String,Object>> list) throws Exception {
-    	if(commonDao.batchInsert("rlab.rqpr.saveRlabExprMst", list) == list.size()) {
+	/* 신뢰성 시험 마스터 정보 저장 */
+	public boolean saveRlabExatMst(List<Map<String,Object>> list) throws Exception {
+    	if(commonDao.batchInsert("rlab.rqpr.saveRlabExatMst", list) == list.size()) {
             return true;
     	}
     	else {
@@ -631,27 +631,27 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 	}
 
 	/* 실험 상세 정보 리스트 조회 */
-	public List<Map<String, Object>> getRlabExprDtlList(Map<String, Object> input) {
-		return commonDao.selectList("rlab.rqpr.getRlabExprDtlList", input);
+	public List<Map<String, Object>> getRlabExatDtlList(Map<String, Object> input) {
+		return commonDao.selectList("rlab.rqpr.getRlabExatDtlList", input);
 	}
 	
-	/* 실험 상세 정보 등록 */
-	public boolean saveRlabExprDtl(List<Map<String,Object>> list) throws Exception {
-    	if(commonDao.batchInsert("rlab.rqpr.saveRlabExprDtl", list) == list.size()) {
+	/* 신뢰성시험 상세 정보 등록 */
+	public boolean saveRlabExatDtl(List<Map<String,Object>> list) throws Exception {
+    	if(commonDao.batchInsert("rlab.rqpr.saveRlabExatDtl", list) == list.size()) {
             return true;
     	}
     	else {
-    		throw new Exception("실험 상세 정보 등록 오류");
+    		throw new Exception("신뢰성시험 상세 정보 등록 오류");
     	}
 	}
 	
-	/* 실험 상세 정보 삭제 */
-	public boolean deleteRlabExprDtl(List<Map<String,Object>> list) throws Exception {
-    	if(commonDao.batchInsert("rlab.rqpr.updateRlabExprDtlDelYn", list) == list.size()) {
+	/* 신뢰성시험 상세 정보 삭제 */
+	public boolean deleteRlabExatDtl(List<Map<String,Object>> list) throws Exception {
+    	if(commonDao.batchInsert("rlab.rqpr.updateRlabExatDtlDelYn", list) == list.size()) {
             return true;
     	}
     	else {
-    		throw new Exception("실험 상세 정보 삭제 오류");
+    		throw new Exception("신뢰성시험 상세 정보 삭제 오류");
     	}
 	}
 	
@@ -691,5 +691,14 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 		
 		commonDao.batchInsert("rlab.rqpr.insertRlabRqprInfm", rlabRqprInfmList);
 	}
+
+	@Override
+	public List<Map<String, Object>> retrieveMachineList(
+			HashMap<String, Object> input) {
+		List<Map<String, Object>> resultList = commonDao.selectList("rlab.rqpr.retrieveMachineList", input);
+		return resultList;
+	}
+
+
 	
 }

@@ -226,6 +226,53 @@ public class RlabRqprController extends IrisBaseController {
 		return "web/rlab/rqpr/rlabRqprSearchPopup";
 	}
 	
+	/**
+	 *   > 신뢰성시험 장비 팝업 화면 호출
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/rlab/retrieveRlabExatMchnInfoPop.do")
+	public String retrieveMchnInfoPop(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+
+		return  "web/rlab/rqpr/rlabExatMchnInfoPop";
+	}
+	
+	
+	/**
+	 *   > 신뢰성시험 장비 팝업 목록조회
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/rlab/retrieveMachineList.do")
+	public ModelAndView retrieveMachineList(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		input = StringUtil.toUtf8(input);
+
+		List<Map<String, Object>> resultList = rlabRqprService.retrieveMachineList(input);
+		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", resultList));
+
+		return  modelAndView;
+	}
+	
 	@RequestMapping(value="/rlab/regstRlabRqpr.do")
 	public ModelAndView regstRlabRqpr(
 			@RequestParam HashMap<String, Object> input,
@@ -902,7 +949,7 @@ public class RlabRqprController extends IrisBaseController {
 		input.put("isMng", "0");
 
 		Map<String,Object> rlabRqprExprInfo = null;
-		List<Map<String,Object>> rlabExprTreeList = rlabRqprService.getRlabExprTreeList(input);
+		List<Map<String,Object>> rlabExprTreeList = rlabRqprService.getRlabExatTreeList(input);
 		
 		if(!"0".equals(input.get("rqprExprId"))) {
 			rlabRqprExprInfo = rlabRqprService.getRlabRqprExprInfo(input);
@@ -1169,10 +1216,10 @@ public class RlabRqprController extends IrisBaseController {
 		
 		model.addAttribute("inputData", input);
 
-		return "web/rlab/rqpr/rlabExprList";
+		return "web/rlab/rqpr/rlabExatList";
 	}
 	
-	@RequestMapping(value="/rlab/getRlabExprMstList.do")
+	@RequestMapping(value="/rlab/getRlabExatMstList.do")
 	public ModelAndView getRlabExprMstList(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request,
@@ -1182,21 +1229,21 @@ public class RlabRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - getRlabExprMstList [실험정보 마스터 리스트 조회]");
+		LOGGER.debug("RlabRqprController - getRlabExprMstList [신뢰성 시험정보 마스터 리스트 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-		List<Map<String,Object>> rlabExprMstList = rlabRqprService.getRlabExprTreeList(input);
+		List<Map<String,Object>> rlabExprMstList = rlabRqprService.getRlabExatTreeList(input);
 
 		modelAndView.addObject("rlabRqprExprMstTreeDataSet", RuiConverter.createDataset("rlabRqprExprMstTreeDataSet", rlabExprMstList));
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/rlab/saveRlabExprMst.do")
-	public ModelAndView saveRlabExprMst(
+	@RequestMapping(value="/rlab/saveRlabExatMst.do")
+	public ModelAndView saveRlabExatMst(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request, 
 			HttpServletResponse response,
@@ -1210,25 +1257,25 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - saveRlabExprMst 실험 마스터 정보 저장");
+		LOGGER.debug("RlabRqprController - saveRlabExatMst 신뢰성 시험 정보 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
 		Map<String,Object> resultMap = new HashMap<String, Object>();
-		List<Map<String,Object>> rlabExprMstTreeDataSet = null;
+		List<Map<String,Object>> rlabExatMstTreeDataSet = null;
 
 		try {
-			rlabExprMstTreeDataSet = RuiConverter.convertToDataSet(request, "rlabExprMstTreeDataSet");
+			rlabExatMstTreeDataSet = RuiConverter.convertToDataSet(request, "rlabExatMstTreeDataSet");
 			
-			for(Map<String,Object> data : rlabExprMstTreeDataSet) {
+			for(Map<String,Object> data : rlabExatMstTreeDataSet) {
 				data.put("userId", input.get("_userId"));
 			}
 			
-			rlabRqprService.saveRlabExprMst(rlabExprMstTreeDataSet);
+			rlabRqprService.saveRlabExatMst(rlabExatMstTreeDataSet);
 
-			resultMap.put("cmd", "saveRlabExprMst");
+			resultMap.put("cmd", "saveRlabExatMst");
 			resultMap.put("resultYn", "Y");
 			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
 		} catch (Exception e) {
@@ -1242,8 +1289,8 @@ public class RlabRqprController extends IrisBaseController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/rlab/getRlabExprDtlList.do")
-	public ModelAndView getRlabExprDtlList(
+	@RequestMapping(value="/rlab/getRlabExatDtlList.do")
+	public ModelAndView getRlabExatDtlList(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -1252,15 +1299,15 @@ public class RlabRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - getRlabExprDtlList [실험정보 상세 리스트 조회]");
+		LOGGER.debug("RlabRqprController - getRlabExatDtlList [신뢰성 시험정보 상세 리스트 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-		List<Map<String,Object>> rlabExprDtlList = rlabRqprService.getRlabExprDtlList(input);
+		List<Map<String,Object>> rlabExatDtlList = rlabRqprService.getRlabExatDtlList(input);
 
-		modelAndView.addObject("rlabExprDtlDataSet", RuiConverter.createDataset("rlabExprDtlDataSet", rlabExprDtlList));
+		modelAndView.addObject("rlabExatDtlDataSet", RuiConverter.createDataset("rlabExatDtlDataSet", rlabExatDtlList));
 		
 		return modelAndView;
 	}
@@ -1316,8 +1363,8 @@ public class RlabRqprController extends IrisBaseController {
 	}
 	
 		
-	@RequestMapping(value="/rlab/saveRlabExprDtl.do")
-	public ModelAndView saveRlabExprDtl(
+	@RequestMapping(value="/rlab/saveRlabExatDtl.do")
+	public ModelAndView saveRlabExatDtl(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request, 
 			HttpServletResponse response,
@@ -1331,25 +1378,25 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - saveRlabExprDtl 실험 상세 정보 저장");
+		LOGGER.debug("RlabRqprController - saveRlabExatDtl 신뢰성시험 상세 정보 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
 		Map<String,Object> resultMap = new HashMap<String, Object>();
-		List<Map<String,Object>> rlabExprDtlDataSet = null;
+		List<Map<String,Object>> rlabExatDtlDataSet = null;
 
 		try {
-			rlabExprDtlDataSet = RuiConverter.convertToDataSet(request, "rlabExprDtlDataSet");
+			rlabExatDtlDataSet = RuiConverter.convertToDataSet(request, "rlabExatDtlDataSet");
 			
-			for(Map<String,Object> data : rlabExprDtlDataSet) {
+			for(Map<String,Object> data : rlabExatDtlDataSet) {
 				data.put("userId", input.get("_userId"));
 			}
 			
-			rlabRqprService.saveRlabExprDtl(rlabExprDtlDataSet);
+			rlabRqprService.saveRlabExatDtl(rlabExatDtlDataSet);
 
-			resultMap.put("cmd", "saveRlabExprDtl");
+			resultMap.put("cmd", "saveRlabExatDtl");
 			resultMap.put("resultYn", "Y");
 			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
 		} catch (Exception e) {
@@ -1363,7 +1410,7 @@ public class RlabRqprController extends IrisBaseController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/rlab/deleteRlabExprDtl.do")
+	@RequestMapping(value="/rlab/deleteRlabExatDtl.do")
 	public ModelAndView deleteRlabExprDtl(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request, 
@@ -1378,25 +1425,25 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - deleteRlabExprDtl 실험 상세 정보 삭제");
+		LOGGER.debug("RlabRqprController - deleteRlabExatDtl 신뢰성시험 상세 정보 삭제");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
 		Map<String,Object> resultMap = new HashMap<String, Object>();
-		List<Map<String,Object>> rlabExprDtlDataSet = null;
+		List<Map<String,Object>> rlabExatDtlDataSet = null;
 
 		try {
-			rlabExprDtlDataSet = RuiConverter.convertToDataSet(request, "rlabExprDtlDataSet");
+			rlabExatDtlDataSet = RuiConverter.convertToDataSet(request, "rlabExatDtlDataSet");
 			
-			for(Map<String,Object> data : rlabExprDtlDataSet) {
+			for(Map<String,Object> data : rlabExatDtlDataSet) {
 				data.put("userId", input.get("_userId"));
 			}
 			
-			rlabRqprService.deleteRlabExprDtl(rlabExprDtlDataSet);
+			rlabRqprService.deleteRlabExatDtl(rlabExatDtlDataSet);
 
-			resultMap.put("cmd", "deleteRlabExprDtl");
+			resultMap.put("cmd", "deleteRlabExatDtl");
 			resultMap.put("resultYn", "Y");
 			resultMap.put("resultMsg", "정상적으로 삭제 되었습니다.");
 		} catch (Exception e) {
@@ -1410,8 +1457,8 @@ public class RlabRqprController extends IrisBaseController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="/rlab/rlabExprExpSimulationPopup.do")
-	public String rlabExprExpSimulationPopup(
+	@RequestMapping(value="/rlab/rlabExatExpSimulationPopup.do")
+	public String rlabExatExpSimulationPopup(
 			@RequestParam HashMap<String, String> input,
 			HttpServletRequest request,
 			HttpSession session,
@@ -1424,7 +1471,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabExprExpSimulationPopup [실험수가 Simulation 팝업]");
+		LOGGER.debug("RlabRqprController - rlabExatExpSimulationPopup [실험수가 Simulation 팝업]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		

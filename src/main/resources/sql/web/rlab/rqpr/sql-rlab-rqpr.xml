@@ -473,61 +473,62 @@
 	
 	</update>
 
-	<select id="getRlabExprTreeList" resultType="hashmap">
+	<select id="getRlabExatTreeList" resultType="hashmap">
 		<![CDATA[
-			-- getRlabExprTreeList 실험정보 트리 리스트 조회
+			-- getRlabExatTreeList 실험정보 트리 리스트 조회
 			WITH expr_tree AS (
-				select	EXPR_CD
-					   ,EXPR_NM
-					   ,SUPI_EXPR_CD
-					   ,EXPR_CD_L
-					   ,SOP_NO
+				select	EXAT_CD
+					   ,EXAT_NM
+					   ,SUPI_EXAT_CD
+					   ,EXAT_CD_L
+					   ,EXAT_MTD_NO
 					   ,UTM_EXP
 					   ,EXP_CRTN_SCN_CD
 					   ,UTM_SMPO_QTY
-					   ,UTM_EXPR_TIM
+					   ,UTM_EXAT_TIM
 					   ,DSP_NO
 					   ,DEL_YN
-					   ,convert(varchar(255), EXPR_NM) path
-					   ,convert(varchar(255), convert(varchar(255), dsp_no + 1000) + EXPR_NM) sort
-				from	iris_anl_expr_mst
-				where	supi_expr_cd = 0
+					   ,convert(varchar(255), EXAT_NM) path
+					   ,convert(varchar(255), convert(varchar(255), dsp_no + 1000) + EXAT_NM) sort
+				from	IRIS_RLAB_EXAT_MST
+				where	supi_exat_cd = 0
 		 ]]>
 	        <if test="isMng == 0">
 				and		del_yn = 'N'
 			</if>
 		<![CDATA[
-			    union all
-				select	mst.EXPR_CD
-					   ,mst.EXPR_NM
-					   ,mst.SUPI_EXPR_CD
-					   ,mst.EXPR_CD_L
-					   ,mst.SOP_NO
+			     union all
+				select	mst.EXAT_CD
+					   ,mst.EXAT_NM
+					   ,mst.SUPI_EXAT_CD
+					   ,mst.EXAT_CD_L
+					   ,mst.EXAT_MTD_NO
 					   ,mst.UTM_EXP
 					   ,mst.EXP_CRTN_SCN_CD
 					   ,mst.UTM_SMPO_QTY
-					   ,mst.UTM_EXPR_TIM
+					   ,mst.UTM_EXAT_TIM
 					   ,mst.DSP_NO
 					   ,mst.DEL_YN
-					   ,convert(varchar(255), tree.path + ' > ' + mst.EXPR_NM) path
-					   ,convert(varchar(255), tree.sort + ' > ' + convert(varchar(255), mst.dsp_no + 1000) + mst.EXPR_NM) sort
-				from	iris_anl_expr_mst mst,
+					   ,convert(varchar(255), tree.path + ' > ' + mst.EXAT_NM) path
+					   ,convert(varchar(255), tree.sort + ' > ' + convert(varchar(255), mst.dsp_no + 1000) + mst.EXAT_NM) sort
+				from	IRIS_RLAB_EXAT_MST mst,
 						expr_tree tree
-				where	mst.supi_expr_cd = tree.expr_cd
+				where	mst.supi_exat_cd = tree.exat_cd
 		 ]]>
 	        <if test="isMng == 0">
 				and		mst.del_yn = 'N'
 			</if>
 			)
-			select	EXPR_CD				   as exprCd
-				   ,EXPR_NM				   as exprNm
-				   ,SUPI_EXPR_CD		   as supiExprCd
-				   ,EXPR_CD_L			   as exprCdL
-				   ,SOP_NO				   as sopNo
+			select (select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd=expr_tree.supi_exat_cd) as supiExatNm
+				   ,EXAT_CD				   as exatCd
+				   ,EXAT_NM				   as exatNm
+				   ,SUPI_EXAT_CD		   as supiExatCd
+				   ,EXAT_CD_L			   as exatCdL
+				   ,EXAT_MTD_NO				   as exatMtdNo
 				   ,UTM_EXP				   as utmExp
 				   ,EXP_CRTN_SCN_CD		   as expCrtnScnCd
 				   ,UTM_SMPO_QTY		   as utmSmpoQty
-				   ,UTM_EXPR_TIM		   as utmExprTim
+				   ,UTM_EXAT_TIM		   as utmExatTim
 				   ,DSP_NO				   as dspNo
 				   ,DEL_YN				   as delYn
 				   ,path
@@ -687,55 +688,55 @@
 	
 	</update>
 	
-	<insert id="saveRlabExprMst" parameterType="map">
+	<insert id="saveRlabExatMst" parameterType="map">
 	
-		MERGE INTO iris_anl_expr_mst a
-		USING ( SELECT	#{exprCd} as exprCd,
-						#{exprNm} as exprNm,
-						#{supiExprCd} as supiExprCd,
-						#{exprCdL} as exprCdL,
-						#{sopNo} as sopNo,
+		MERGE INTO iris_rlab_exat_mst a
+		USING ( SELECT	#{exatCd} as exatCd,
+						#{exatNm} as exatNm,
+						#{supiExatCd} as supiExatCd,
+						#{exatCdL} as exatCdL,
+						#{exatMtdNo} as exatMtdNo,
 						#{utmExp} as utmExp,
 						#{expCrtnScnCd} as expCrtnScnCd,
 						#{utmSmpoQty} as utmSmpoQty,
-						#{utmExprTim} as utmExprTim,
+						#{utmExatTim} as utmExatTim,
 						#{dspNo} as dspNo,
 						#{delYn} as delYn,
 						#{userId} as userId ) b
-		ON ( a.expr_cd = b.exprCd)
+		ON ( a.exat_cd = b.exatCd)
 		WHEN MATCHED THEN
-			update set	expr_nm = b.exprNm,
-						sop_no = b.sopNo,
+			update set	exat_nm = b.exatNm,
+						exat_mtd_no = b.exatMtdNo,
 						utm_exp = b.utmExp,
 						exp_crtn_scn_cd = b.expCrtnScnCd,
 						utm_smpo_qty = b.utmSmpoQty,
-						utm_expr_tim = b.utmExprTim,
+						utm_exat_tim = b.utmExatTim,
 						dsp_no = b.dspNo,
 						del_yn = b.delYn,
 						last_mdfy_dt = getdate(),
 						last_mdfy_id = b.userId
 		WHEN NOT MATCHED THEN
-			insert (expr_nm
-				   ,supi_expr_cd
-				   ,expr_cd_l
-				   ,sop_no
+			insert (exat_nm
+				   ,supi_exat_cd
+				   ,exat_cd_l
+				   ,exat_mtd_no
 				   ,utm_exp
 				   ,exp_crtn_scn_cd
 				   ,utm_smpo_qty
-				   ,utm_expr_tim
+				   ,utm_exat_tim
 				   ,dsp_no
 				   ,del_yn
 				   ,frst_rgst_id
 				   ,last_mdfy_id
 				   )
-			values(b.exprNm
-				  ,b.supiExprCd
-				  ,b.exprCdL
-				  ,b.sopNo
+			values(b.exatNm
+				  ,b.supiExatCd
+				  ,b.exatCdL
+				  ,b.exatMtdNo
 				  ,b.utmExp
 				  ,b.expCrtnScnCd
 				  ,b.utmSmpoQty
-				  ,b.utmExprTim
+				  ,b.utmExatTim
 				  ,b.dspNo
 				  ,b.delYn
 				  ,b.userId
@@ -744,33 +745,36 @@
 	
 	</insert>
 
-	<select id="getRlabExprDtlList" resultType="hashmap">
+	<select id="getRlabExatDtlList" resultType="hashmap">
 		<![CDATA[
-			-- getRlabExprDtlList 실험 상세 정보 리스트 조회
-			select	a.expr_cd										as exprCd
-				   ,a.mchn_info_id									as mchnInfoId
-				   ,b.mchn_han_nm									as mchnInfoNm
-				   ,b.mdl_nm										as mdlNm
-				   ,b.mkr_nm										as mkrNm
-				   ,dbo.fn_getComDtlNm('MCHN_CL_CD', b.mchn_cl_cd)	as mchnClNm
-				   ,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
-			from	iris_anl_expr_dtl a,
-					iris_mchn_info_mst b
+			-- getRlabExatDtlList 신뢰성 시험 상세 정보 리스트 조회
+			select 
+		 		 a.exat_cd as exatCd
+				,a.mchn_info_id as mchnInfoId
+				,b.mchn_han_nm as mchnHanNm
+				,b.mdl_nm as mdlNm
+				,b.mkr_nm as mkrNm
+				,b.MCHN_CL_CD as mchnClCd
+				,dbo.fn_getComDtlNm('MCHN_CL_CD', b.mchn_cl_cd)	as mchnClNm
+				,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
+				,b.MCHN_EXPL as mchnExpl
+		    from iris_rlab_exat_dtl a,
+				 IRIS_RLAB_MCHN_INFO_MGMT b
 		 ]]>
-			where	a.expr_cd = ${exprCd}
-			and		a.del_yn = 'N'
-			and		a.mchn_info_id = b.mchn_info_id
+			where	a.exat_cd = ${exatCd}
+			and a.DEL_YN = 'N'
+and a.MCHN_INFO_ID = b.MCHN_INFO_ID
 	</select>
 	
-	<insert id="saveRlabExprDtl" parameterType="map">
+	<insert id="saveRlabExatDtl" parameterType="map">
 	
-		insert into iris_anl_expr_dtl(
-			EXPR_CD
+		insert into iris_rlab_exat_dtl(
+			EXAT_CD
 		   ,MCHN_INFO_ID
 		   ,FRST_RGST_ID
 		   ,LAST_MDFY_ID
 		)
-		values(${exprCd}
+		values(${exatCd}
 			  ,${mchnInfoId}
 			  ,#{userId}
 			  ,#{userId}
@@ -778,17 +782,50 @@
 	
 	</insert>
 	
-	<update id="updateRlabExprDtlDelYn" parameterType="map">
+	<update id="updateRlabExatDtlDelYn" parameterType="map">
 	
-		update	iris_anl_expr_dtl
+		update	iris_rlab_exat_dtl
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
-		where	expr_cd = ${exprCd}
+		where	exat_cd = ${exatCd}
 		and		mchn_info_id = ${mchnInfoId}
 		and		del_yn = 'N'
 	
 	</update>
+	
+<select id="retrieveMachineList"  resultType="hashmap">
+		<![CDATA[
+		SELECT  MCHN_HAN_NM+'('+MCHN_EN_NM+')' as "mchnNm"
+			   ,MDL_NM as "mdlNm"
+		       ,MKR_NM as "mkrNm"
+		       ,ACC2.COM_DTL_NM   as "mchnClNm"
+			   ,SU.SA_NAME  as "mchnCrgrNm"
+			   ,MCHN_INFO_ID as "mchnInfoId"
+			   ,MCHN_CRGR_ID as  "mchnCrgrId"
+			   ,MCHN_CL_CD as  "mchnClCd"
+		  FROM  IRIS_RLAB_MCHN_INFO_MGMT MIM
+				LEFT OUTER JOIN IRIS_SSO_USER   SU
+				ON  MIM.MCHN_CRGR_ID = SU.SA_SABUN_NEW
+			   ,IRIS_ADM_COM_CD ACC
+			   ,IRIS_ADM_COM_CD ACC2
+		  WHERE 1=1 --MIM.DEL_YN = 'N'
+		  AND 	ACC.COM_CD_CD = 'MCHN_PRCT_ST'
+		  AND 	MIM.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
+		  AND 	ACC2.COM_CD_CD = 'MCHN_CL_CD'
+		  AND 	MIM.MCHN_CL_CD = ACC2.COM_DTL_CD
+		]]>
+
+		  <if test="( mchnNm != null and mchnNm != '')">
+			AND (MIM.MCHN_HAN_NM LIKE '%'+#{mchnNm}+'%' or MIM.MCHN_EN_NM LIKE '%'+#{mchnNm}+'%')
+		  </if>
+		  <if test="( mchnCrgrNm != null and mchnCrgrNm != '')">
+			AND SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
+		  </if>
+		  <if test="( mchnClCd == 'YA' or  mchnClCd == 'MA' or mchnClCd == 'HA' or mchnClCd == 'MS' or mchnClCd == 'YM' or mchnClCd == 'JT' )">
+			AND  MIM.MCHN_CL_CD = #{mchnClCd}
+		   </if>
+	</select>
 
 	<select id="getRlabRqprOpinitionEmailInfo" resultType="iris.web.rlab.rqpr.vo.RlabMailInfo">
 		<![CDATA[
