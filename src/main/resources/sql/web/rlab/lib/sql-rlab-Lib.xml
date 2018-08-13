@@ -10,7 +10,7 @@
 			SELECT
 				   BBS_ID                                                   AS bbsId        /*게시판ID*/
 				  ,BBS_CD                                                   AS bbsCd        /*분석게시판코드*/
-				  ,dbo.fn_getComDtlNm('ANL_BBS_CD', A.BBS_CD)               AS bbsNm        /*분석게시판명*/
+				  ,dbo.fn_getComDtlNm('RLAB_BBS_CD', A.BBS_CD)               AS bbsNm        /*분석게시판명*/
 				  ,BBS_TITL                                                 AS bbsTitl      /*게시판제목*/
 				  ,BBS_SBC                                                  AS bbsSbc       /*게시판내용*/
 				  ,RGST_ID                                                  AS rgstId       /*등록자ID*/
@@ -26,10 +26,15 @@
 				  ,dbo.fn_getComDtlNm('QNA_CL_CD', A.QNA_CL_CD)             AS qnaClNm      /*질문답변구분이름*/
 				  ,convert(varchar(20),A.FRST_RGST_DT,23)                   AS frstRgstDt   /*등록일*/
 				  ,DEL_YN                                                   AS delYn        /*삭제여부*/
-			 FROM IRIS_ANL_BBS_MST A
+			 FROM IRIS_RLAB_BBS_MST A
 			WHERE DEL_YN = 'N'
-			  AND BBS_CD = #{bbsCd}
 		 ]]>
+		 <if test="(bbsCd == '01' or target == 'tabContentIfrm0')">
+			  AND BBS_CD in ('02','03','04')
+		 </if>
+		 <if test="(bbsCd != '01' and target != 'tabContentIfrm0')">
+			  AND BBS_CD = #{bbsCd}
+		 </if>
 		 <if test="searchCd == 'bbsTitlCode'">
 			  AND BBS_TITL like '%${searchNm}%'
 		 </if>
@@ -54,7 +59,7 @@
 			SELECT
 				  BBS_ID                                                   AS bbsId        /*게시판ID*/
 				 ,BBS_CD                                                   AS bbsCd        /*분석게시판코드*/
-				 ,dbo.fn_getComDtlNm('ANL_BBS_CD', A.BBS_CD)               AS bbsNm        /*분석게시판명*/
+				 ,dbo.fn_getComDtlNm('RLAB_BBS_CD', A.BBS_CD)              AS bbsNm        /*분석게시판명*/
 				 ,BBS_TITL                                                 AS bbsTitl      /*게시글제목*/
 				 ,BBS_SBC                                                  AS bbsSbc       /*게시글내용*/
 				 ,RGST_ID                                                  AS rgstId       /*등록자ID*/
@@ -71,7 +76,7 @@
 				 ,dbo.fn_getComDtlNm('QNA_CL_CD', A.QNA_CL_CD)             AS qnaClNm      /*질문답변구분이름*/
 				 ,DEL_YN                                                   AS delYn        /*삭제여부*/
 				 ,convert(varchar(20),A.FRST_RGST_DT,23)                   AS frstRgstDt   /*등록일*/
-			 FROM IRIS_ANL_BBS_MST A
+			 FROM IRIS_RLAB_BBS_MST A
 			WHERE DEL_YN = 'N'
 			  AND BBS_ID = '${bbsId}'
 		 ]]>
@@ -80,14 +85,15 @@
 	<!-- 저장  -->
 	<insert id="insertRlabLibInfo">
 	<![CDATA[
-		insert into IRIS_ANL_BBS_MST
-	    (     BBS_CD
-		    , BBS_TITL
+		insert into IRIS_RLAB_BBS_MST
+	    (     
+		      BBS_TITL
 			, BBS_SBC
 			, RGST_ID
 			, RTRV_CT
             , RLTD_BUL_PATH
 	]]>
+	        , BBS_CD
 			<if test="( bbsKwd != null and bbsKwd != '')">
 			, BBS_KWD
 			</if>
@@ -115,14 +121,21 @@
 		)
 		values
 		(
-		      #{bbsCd}
-		    , #{bbsTitl}
+
+              #{bbsTitl}
 		    , #{bbsSbc}
 		    , #{_userId}
 		    , 0
 		    , #{rltdBulPath}
 
 	]]>
+	
+			<if test="( anlBbsCd != null and anlBbsCd != '')">
+		    , #{anlBbsCd}
+		    </if>
+			<if test="( anlBbsCd == null or anlBbsCd == '')">
+		    , #{bbsCd}
+		    </if>
 			<if test="( bbsKwd != null and bbsKwd != '')">
 		    , #{bbsKwd}
 		    </if>
@@ -154,7 +167,7 @@
     <!-- 업데이트  -->
 	<update id="updateRlabLibInfo">
 	<![CDATA[
-		UPDATE IRIS_ANL_BBS_MST
+		UPDATE IRIS_RLAB_BBS_MST
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
 		     , BBS_TITL = #{bbsTitl}
@@ -189,7 +202,7 @@
 	<!--  조회건수 업데이트  -->
 	<update id="updateRlabLibRtrvCnt">
 	<![CDATA[
-		UPDATE IRIS_ANL_BBS_MST
+		UPDATE IRIS_RLAB_BBS_MST
 		   SET RTRV_CT = RTRV_CT + 1
 	]]>
 
@@ -202,7 +215,7 @@
     <!-- 삭제  -->
 	<update id="deleteRlabLibInfo">
 	<![CDATA[
-		UPDATE IRIS_ANL_BBS_MST
+		UPDATE IRIS_RLAB_BBS_MST
 		   SET DEL_YN = 'Y'
 	]]>
 
@@ -235,7 +248,7 @@
 					,convert(varchar(255), BBS_ID - 10000000000)       sort1
 					,convert(varchar(255), '')                         sort2
 					,1 AS depth
-				FROM	IRIS_ANL_BBS_MST
+				FROM	IRIS_RLAB_BBS_MST
 				WHERE	RLTD_BUL_PATH = 0
 				AND		DEL_YN = 'N'
 				AND     BBS_CD = '05'
@@ -261,14 +274,14 @@
 					,sort1
 				    ,convert(varchar(255), convert(nvarchar,tree.sort2) + ' > ' + convert(varchar(255), qna.BBS_ID + 10000000000)) sort2
 				    ,tree.depth + 1 AS depth
-				FROM	IRIS_ANL_BBS_MST qna, qna_tree tree
+				FROM	IRIS_RLAB_BBS_MST qna, qna_tree tree
 				WHERE	qna.RLTD_BUL_PATH = tree.bbsId
 				AND		qna.DEL_YN = 'N'
 			)
 			SELECT
 					bbsId												 AS 'bbsId'        /*게시판ID*/
 				   ,bbsCd                                                AS 'bbsCd'        /*구분코드*/
-				   ,dbo.fn_getComDtlNm('ANL_BBS_CD', bbsCd)              AS bbsNm          /*분석게시판명*/
+				   ,dbo.fn_getComDtlNm('RLAB_BBS_CD', bbsCd)              AS bbsNm          /*분석게시판명*/
 				   ,rltdBulPath                                          AS 'rltdBulPath'  /*댓글ID*/
 			       ,( CASE
 					   when (a.depth != 1 ) then '[RE] ' + bbsTitl  + IIF ( (SELECT COUNT(*) FROM IRIS_ANL_BBS_REB WHERE BBS_ID = bbsId AND DEL_YN = 'N') > 0,  '[' + convert(char,(SELECT COUNT(*) FROM IRIS_ANL_BBS_REB WHERE BBS_ID = bbsId AND DEL_YN = 'N')) + ']', '' )
@@ -410,6 +423,19 @@
 	</update>
 
 	<!-- 덧글 끝 -->
+	
+	<select id="rlabBbsCodeList" resultType="HashMap">
+        <![CDATA[
+        SELECT A.COM_DTL_CD
+             , A.COM_DTL_NM
+          FROM IRIS_ADM_COM_CD A
+         WHERE A.COM_CD_CD = #{comCd}
+         AND A.DEL_YN = 'N'
+         AND COM_DTL_CD in ('02','03','04')
+         ORDER BY COM_ORD
+        ]]>
+
+    </select>
 
 
 
