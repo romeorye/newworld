@@ -112,7 +112,7 @@
 
 {name:"분석기기 관리", mdName:"", depth:"2",confirm:""},//toolMng
 {name:"신뢰성시험 장비관리", mdName:"", depth:"2",confirm:""},//toolMng
-{name:"공간성능평가 Tool관리", mdName:"", depth:"2",confirm:""}//toolMng
+{name:"공간성능평가 Tool관리", mdName:"/iris/mchn/mgmt/retrieveSpaceEvToolList.do", depth:"2",confirm:""}//toolMng
 ];
 
  var menu04 = [

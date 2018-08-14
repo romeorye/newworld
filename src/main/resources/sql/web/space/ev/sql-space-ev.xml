@@ -74,8 +74,279 @@
 	<select id="getSpaceEvMtrlList" resultType="hashmap">
 		<![CDATA[
 		-- getSpaceEvMtrlList 상세리스트
+		SELECT CTGR0 AS ctgr0
+			,CTGR1 AS ctgr1
+			,CTGR2 AS ctgr2
+			,CTGR3 AS ctgr3
+			,PROD_NM AS prodNm 
+			,SCN     AS scn
+			,PFMC_VAL AS pfmcVal
+			,STRT_VLD_DT AS strtVldDt
+			,FNH_VLD_DT AS fnhVldDt
+			,REM AS rem
+			,ATTC_FILE_ID AS attcFileId
+			,DEL_YN AS delYn
+			,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23) as frstRgstDt
+		FROM IRIS_SPACE_MTRL_UTM_EV EV
+		WHERE DEL_YN = 'N'
 		]]>
+
+		<if test="(supiCd0 != null and supiCd0 != '')">
+			AND EV.CTGR0=#{supiCd0}
+	    </if>
+	    <if test="(supiCd1 != null and supiCd1 != '')">
+			AND EV.CTGR1=#{supiCd1}
+	    </if>
+	    <if test="(supiCd2 != null and supiCd2 != '')">
+			AND EV.CTGR2=#{supiCd2}
+	    </if>
+	    <if test="(supiCd3 != null and supiCd3 != '')">
+			AND EV.CTGR3=#{supiCd3}
+	    </if>
 	</select>
 	
+	<insert id="insertSpaceEvMtrl">
+	INSERT INTO dbo.IRIS_SPACE_MTRL_UTM_EV
+        (CTGR0
+		,CTGR1
+		,CTGR2
+		,CTGR3
+		,PROD_NM
+		,SCN
+		,PFMC_VAL
+		,STRT_VLD_DT
+		,FNH_VLD_DT
+		,REM
+		,ATTC_FILE_ID
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID)
+    VALUES
+        (#{ctgr0}
+		,#{ctgr1}
+		,#{ctgr2}
+		,#{ctgr3}
+		,#{prodNm}
+		,#{scn}
+		,#{pfmcVal}
+		,#{strtVldDt}
+		,#{fnhVldDt}
+		,#{rem}
+		,#{attcFileId}
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        )
+	</insert>
+	
+	<!-- 자재단위평가 삭제 -->
+	<update id="deleteSpaceEvMtrl">
+	<![CDATA[
+		UPDATE IRIS_SPACE_MTRL_UTM_EV
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND CTGR0 = #{supiCd0}
+		   AND CTGR1 = #{supiCd1}
+		   AND CTGR2 = #{supiCd2}
+		   AND CTGR3 = #{supiCd3}
+		   AND SCN = #{scn}
+		   AND PFMC_VAL = #{pfmcVal}
+		   AND STRT_VLD_DT = #{strtVldDt}
+		   AND FNH_VLD_DT = #{fnhVldDt}
+	]]>
+	</update>
+
+	<!-- 사업부 삭제 -->
+	<update id="deleteSpaceEvCtgr0">
+	<![CDATA[
+		UPDATE IRIS_SPACE_EV_CTGR0
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+	
+	<!-- 제품군 삭제 -->
+	<update id="deleteSpaceEvCtgr1">
+	<![CDATA[
+		UPDATE IRIS_SPACE_EV_CTGR1
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+	
+	<!-- 분류 삭제 -->
+	<update id="deleteSpaceEvCtgr2">
+	<![CDATA[
+		UPDATE IRIS_SPACE_EV_CTGR2
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+	
+	<!-- 제품 삭제 -->
+	<update id="deleteSpaceEvCtgr3">
+	<![CDATA[
+		UPDATE IRIS_SPACE_EV_CTGR3
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+	
+	<insert id="insertSpaceEvCtgr0"   parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	INSERT INTO dbo.IRIS_SPACE_EV_CTGR0
+        (CTGR_NM
+		,DEL_YN
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID)
+    VALUES
+        (#{ctgrNm}
+		,'N'
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        )
+	</insert>	
+	
+	<insert id="insertSpaceEvCtgr1"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	INSERT INTO dbo.IRIS_SPACE_EV_CTGR1
+        (SUPI_CD
+        ,CTGR_NM
+		,DEL_YN
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID)
+    VALUES
+        (#{supiCd}
+		,#{ctgrNm}
+		,'N'
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        )
+	</insert>	
+	
+	<insert id="insertSpaceEvCtgr2"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	INSERT INTO dbo.IRIS_SPACE_EV_CTGR2
+        (SUPI_CD
+        ,CTGR_NM
+		,DEL_YN
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID)
+    VALUES
+        (#{supiCd}
+		,#{ctgrNm}
+		,'N'
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        )
+	</insert>
+		
+	<insert id="insertSpaceEvCtgr3"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	INSERT INTO dbo.IRIS_SPACE_EV_CTGR3
+        (SUPI_CD
+        ,CTGR_NM
+		,DEL_YN
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID)
+    VALUES
+        (#{supiCd}
+		,#{ctgrNm}
+		,'N'
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        )
+	</insert>	
+	
+	<!-- 사업부 업데이트저장 -->
+	<update id="updateSpaceEvCtgr0">
+	<![CDATA[
+		UPDATE IRIS_SPACE_EV_CTGR0
+		   SET CTGR_NM = #{ctgrNm}
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+	
+	<!-- 제품군 업데이트저장 -->
+	<update id="updateSpaceEvCtgr1">
+	<![CDATA[
+		UPDATE IRIS_SPACE_EV_CTGR1
+		   SET CTGR_NM = #{ctgrNm}
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+	
+	<!-- 분류 업데이트저장 -->
+	<update id="updateSpaceEvCtgr2">
+	<![CDATA[
+		UPDATE IRIS_SPACE_EV_CTGR2
+		   SET CTGR_NM = #{ctgrNm}
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+	
+	<!-- 제품 업데이트저장 -->
+	<update id="updateSpaceEvCtgr3">
+	<![CDATA[
+		UPDATE IRIS_SPACE_EV_CTGR3
+		   SET CTGR_NM = #{ctgrNm}
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>	
 	
 </mapper>

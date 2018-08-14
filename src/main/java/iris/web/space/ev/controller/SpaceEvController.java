@@ -1,5 +1,6 @@
 package iris.web.space.ev.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,16 +12,24 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import devonframe.message.saymessage.SayMessage;
+import devonframe.util.NullUtil;
 import iris.web.space.ev.service.SpaceEvService;
 import iris.web.common.code.service.CodeCacheManager;
 import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.CommonUtil;
 import iris.web.common.util.DateUtil;
+import iris.web.common.util.MimeDecodeException;
+import iris.web.common.util.NamoMime;
 import iris.web.common.util.StringUtil;
 import iris.web.system.attach.service.AttachFileService;
 import iris.web.system.base.IrisBaseController;
@@ -39,6 +48,9 @@ import iris.web.system.base.IrisBaseController;
 
 @Controller
 public class SpaceEvController extends IrisBaseController {
+	
+	@Resource(name="messageSourceAccessor")
+    private MessageSourceAccessor messageSourceAccessor;
 	
 	@Resource(name = "codeCacheManager")
 	private CodeCacheManager codeCacheManager;
@@ -171,4 +183,395 @@ public class SpaceEvController extends IrisBaseController {
 		LOGGER.debug("getSpaceEvProdList : " + getSpaceEvProdList);
 		return modelAndView;
 	}
+	
+	@RequestMapping(value="/space/spaceEvMtrlList.do")
+	public ModelAndView spaceEvMtrlList(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session,
+			ModelMap model
+			){
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("SpaceEvController - spaceEvMtrlList [공간평가 평가법관리 상세 조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+		
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+    	
+        // 공간평가 평가법관리 상세 조회 
+		List<Map<String,Object>> getSpaceEvMtrlList = spaceEvService.getSpaceEvMtrlList(input);
+		
+		modelAndView.addObject("getSpaceEvMtrlList", RuiConverter.createDataset("getSpaceEvMtrlList", getSpaceEvMtrlList));
+		LOGGER.debug("getSpaceEvMtrlList : " + getSpaceEvMtrlList);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/space/spaceEvMtrlReqPop.do")
+	public String spaceEvMtrlReqPop(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+
+		return  "web/space/rqpr/spaceEvaluationMgmtReqPopup";
+	}	
+	
+	//자재단위평가등록
+	@RequestMapping(value="/space/insertSpaceEvMtrl.do")
+	public ModelAndView insertSpaceEvMtrl(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		/* 반드시 공통 호출 후 작업 */
+        checkSessionObjRUI(input, session, model);
+
+        input = StringUtil.toUtf8(input);
+        
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        Map<String,Object> ds = null;
+        Map<String,Object> resultMap = new HashMap<String, Object>();
+
+        try {
+            ds  = RuiConverter.convertToDataSet(request, "dataSet").get(0);
+            
+            ds.put("cmd", input.get("save"));
+			ds.put("userId", input.get("_userId"));
+            
+			spaceEvService.insertSpaceEvMtrl(ds);
+			
+            resultMap.put("cmd", "saveAnlExprMst");
+			resultMap.put("resultYn", "Y");
+			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
+
+            //ds.get(0).put("rtCd", "SUCCESS");
+            //ds.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+        } catch(Exception e) {
+        	e.printStackTrace();
+			resultMap.put("resultYn", "N");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
+        }
+
+        modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
+
+        return modelAndView;
+	}
+	
+	/** 자재단위평가 삭제 **/
+	@RequestMapping(value="/space/deleteSpaceEvMtrl.do")
+	public ModelAndView deleteSpaceEvMtrl(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		checkSessionRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+
+		// 결과메시지
+		rtnMeaasge.put("rtnSt", "S");
+		rtnMeaasge.put("rtnMsg", "삭제 되었습니다.");
+
+		int totCnt = 0;    							//전체건수
+		try
+		{
+			spaceEvService.deleteSpaceEvMtrl(input);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			rtnMeaasge.put("rtnSt", "F");
+			rtnMeaasge.put("rtnMsg", "삭제가 실패하였습니다.");
+		}
+
+		modelAndView.addObject("spaceEvMtrlListDataSet", RuiConverter.createDataset("spaceEvMtrlListDataSet", rtnMeaasge));
+		return modelAndView;
+	}	
+	
+	/** 사업부 삭제 **/
+	@RequestMapping(value="/space/deleteSpaceEvCtgr0.do")
+	public ModelAndView deleteSpaceEvCtgr0(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		checkSessionRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+
+		// 결과메시지
+		rtnMeaasge.put("rtnSt", "S");
+		rtnMeaasge.put("rtnMsg", "삭제 되었습니다.");
+
+		int totCnt = 0;    							//전체건수
+		try
+		{
+			spaceEvService.deleteSpaceEvCtgr0(input);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			rtnMeaasge.put("rtnSt", "F");
+			rtnMeaasge.put("rtnMsg", "삭제가 실패하였습니다.");
+		}
+
+		modelAndView.addObject("spaceEvBzdvDataSet", RuiConverter.createDataset("spaceEvBzdvDataSet", rtnMeaasge));
+		return modelAndView;
+	}
+	
+	/** 제품군 삭제 **/
+	@RequestMapping(value="/space/deleteSpaceEvCtgr1.do")
+	public ModelAndView deleteSpaceEvCtgr1(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		checkSessionRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+
+		// 결과메시지
+		rtnMeaasge.put("rtnSt", "S");
+		rtnMeaasge.put("rtnMsg", "삭제 되었습니다.");
+
+		int totCnt = 0;    							//전체건수
+		try
+		{
+			spaceEvService.deleteSpaceEvCtgr1(input);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			rtnMeaasge.put("rtnSt", "F");
+			rtnMeaasge.put("rtnMsg", "삭제가 실패하였습니다.");
+		}
+
+		modelAndView.addObject("spaceEvProdClDataSet", RuiConverter.createDataset("spaceEvProdClDataSet", rtnMeaasge));
+		return modelAndView;
+	}
+	
+	/** 분류 삭제 **/
+	@RequestMapping(value="/space/deleteSpaceEvCtgr2.do")
+	public ModelAndView deleteSpaceEvCtgr2(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		checkSessionRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+
+		// 결과메시지
+		rtnMeaasge.put("rtnSt", "S");
+		rtnMeaasge.put("rtnMsg", "삭제 되었습니다.");
+
+		int totCnt = 0;    							//전체건수
+		try
+		{
+			spaceEvService.deleteSpaceEvCtgr2(input);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			rtnMeaasge.put("rtnSt", "F");
+			rtnMeaasge.put("rtnMsg", "삭제가 실패하였습니다.");
+		}
+
+		modelAndView.addObject("spaceEvClDataSet", RuiConverter.createDataset("spaceEvClDataSet", rtnMeaasge));
+		return modelAndView;
+	}
+	
+	/** 제품 삭제 **/
+	@RequestMapping(value="/space/deleteSpaceEvCtgr3.do")
+	public ModelAndView deleteSpaceEvCtgr3(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		checkSessionRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+
+		// 결과메시지
+		rtnMeaasge.put("rtnSt", "S");
+		rtnMeaasge.put("rtnMsg", "삭제 되었습니다.");
+
+		int totCnt = 0;    							//전체건수
+		try
+		{
+			spaceEvService.deleteSpaceEvCtgr3(input);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			rtnMeaasge.put("rtnSt", "F");
+			rtnMeaasge.put("rtnMsg", "삭제가 실패하였습니다.");
+		}
+
+		modelAndView.addObject("spaceEvProdDataSet", RuiConverter.createDataset("spaceEvProdDataSet", rtnMeaasge));
+		return modelAndView;
+	}
+	
+	//사업장등록
+	@RequestMapping(value="/space/saveSpaceEvCtgr0.do")
+	public ModelAndView saveSpaceEvCtgr0(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		/* 반드시 공통 호출 후 작업 */
+        checkSessionObjRUI(input, session, model);
+        
+        input = StringUtil.toUtf8(input);
+        
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+        
+        String userId = (String)input.get("_userId");
+        
+        List<Map<String, Object>> ds = null;
+
+        try {
+            ds  = RuiConverter.convertToDataSet(request, "spaceEvBzdvDataSet");
+            for(Map<String,Object> data : ds) {
+				data.put("userId", userId);
+			}
+            spaceEvService.saveSpaceEvCtgr0(ds);
+            
+            ds.get(0).put("rtCd", "SUCCESS");
+            ds.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+        } catch(Exception e) {
+        	e.printStackTrace();
+            ds.get(0).put("rtCd", "FAIL");
+            ds.get(0).put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+        }
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", ds));
+
+        return modelAndView;
+	}
+	
+	//제품군등록
+	@RequestMapping(value="/space/saveSpaceEvCtgr1.do")
+	public ModelAndView saveSpaceEvCtgr1(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		/* 반드시 공통 호출 후 작업 */
+        checkSessionObjRUI(input, session, model);
+        
+        input = StringUtil.toUtf8(input);
+        
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+        
+        String userId = (String)input.get("_userId");
+        
+        List<Map<String, Object>> ds = null;
+
+        try {
+            ds  = RuiConverter.convertToDataSet(request, "spaceEvProdClDataSet");
+            for(Map<String,Object> data : ds) {
+				data.put("userId", userId);
+			}
+            spaceEvService.saveSpaceEvCtgr1(ds);
+            
+            ds.get(0).put("rtCd", "SUCCESS");
+            ds.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+        } catch(Exception e) {
+        	e.printStackTrace();
+            ds.get(0).put("rtCd", "FAIL");
+            ds.get(0).put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+        }
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", ds));
+
+        return modelAndView;
+	}	
+	
+	//분류등록
+	@RequestMapping(value="/space/saveSpaceEvCtgr2.do")
+	public ModelAndView saveSpaceEvCtgr2(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		/* 반드시 공통 호출 후 작업 */
+        checkSessionObjRUI(input, session, model);
+        
+        input = StringUtil.toUtf8(input);
+        
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+        
+        String userId = (String)input.get("_userId");
+        
+        List<Map<String, Object>> ds = null;
+
+        try {
+            ds  = RuiConverter.convertToDataSet(request, "spaceEvClDataSet");
+            for(Map<String,Object> data : ds) {
+				data.put("userId", userId);
+			}
+            spaceEvService.saveSpaceEvCtgr2(ds);
+            
+            ds.get(0).put("rtCd", "SUCCESS");
+            ds.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+        } catch(Exception e) {
+        	e.printStackTrace();
+            ds.get(0).put("rtCd", "FAIL");
+            ds.get(0).put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+        }
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", ds));
+
+        return modelAndView;
+	}	
+	
+	//제품등록
+	@RequestMapping(value="/space/saveSpaceEvCtgr3.do")
+	public ModelAndView saveSpaceEvCtgr3(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		/* 반드시 공통 호출 후 작업 */
+        checkSessionObjRUI(input, session, model);
+        
+        input = StringUtil.toUtf8(input);
+        
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+        
+        String userId = (String)input.get("_userId");
+        
+        List<Map<String, Object>> ds = null;
+
+        try {
+            ds  = RuiConverter.convertToDataSet(request, "spaceEvProdDataSet");
+            for(Map<String,Object> data : ds) {
+				data.put("userId", userId);
+			}
+            spaceEvService.saveSpaceEvCtgr3(ds);
+            
+            ds.get(0).put("rtCd", "SUCCESS");
+            ds.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+        } catch(Exception e) {
+        	e.printStackTrace();
+            ds.get(0).put("rtCd", "FAIL");
+            ds.get(0).put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+        }
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", ds));
+
+        return modelAndView;
+	}		
 }
