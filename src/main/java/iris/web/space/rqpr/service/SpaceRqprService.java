@@ -65,7 +65,7 @@ public interface SpaceRqprService {
 	public boolean updateSpaceRqprEnd(Map<String,Object> dataMap) throws Exception;
 
 	/* 실험정보 트리 리스트 조회 */
-	public List<Map<String, Object>> getSpaceExprTreeList(Map<String, Object> input);
+	public List<Map<String, Object>> getSpaceExatTreeList(Map<String, Object> input);
 
 	/* 실험정보 상세 콤보 리스트 조회 */
 	public List<Map<String, Object>> getSpaceExprDtlComboList(Map<String, Object> input);
@@ -89,7 +89,7 @@ public interface SpaceRqprService {
 	public boolean saveSpaceExprMst(List<Map<String,Object>> list) throws Exception;
 
 	/* 실험 상세 정보 리스트 조회 */
-	public List<Map<String, Object>> getSpaceExprDtlList(Map<String, Object> input);
+	public List<Map<String, Object>> getSpaceExatDtlList(Map<String, Object> input);
 	
 	/* 실험 상세 정보 등록 */
 	public boolean saveSpaceExprDtl(List<Map<String,Object>> list) throws Exception;

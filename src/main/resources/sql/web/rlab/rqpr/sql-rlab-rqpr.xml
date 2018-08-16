@@ -476,7 +476,7 @@
 	<select id="getRlabExatTreeList" resultType="hashmap">
 		<![CDATA[
 			-- getRlabExatTreeList 실험정보 트리 리스트 조회
-			WITH expr_tree AS (
+			WITH exat_tree AS (
 				select	EXAT_CD
 					   ,EXAT_NM
 					   ,SUPI_EXAT_CD
@@ -512,14 +512,14 @@
 					   ,convert(varchar(255), tree.path + ' > ' + mst.EXAT_NM) path
 					   ,convert(varchar(255), tree.sort + ' > ' + convert(varchar(255), mst.dsp_no + 1000) + mst.EXAT_NM) sort
 				from	IRIS_RLAB_EXAT_MST mst,
-						expr_tree tree
+						exat_tree tree
 				where	mst.supi_exat_cd = tree.exat_cd
 		 ]]>
 	        <if test="isMng == 0">
 				and		mst.del_yn = 'N'
 			</if>
 			)
-			select (select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd=expr_tree.supi_exat_cd) as supiExatNm
+			select (select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd=exat_tree.supi_exat_cd) as supiExatNm
 				   ,EXAT_CD				   as exatCd
 				   ,EXAT_NM				   as exatNm
 				   ,SUPI_EXAT_CD		   as supiExatCd
@@ -533,7 +533,7 @@
 				   ,DEL_YN				   as delYn
 				   ,path
 				   ,sort
-			from	expr_tree
+			from	exat_tree
 			ORDER BY sort
 	</select>
 
@@ -763,7 +763,7 @@
 		 ]]>
 			where	a.exat_cd = ${exatCd}
 			and a.DEL_YN = 'N'
-and a.MCHN_INFO_ID = b.MCHN_INFO_ID
+			and a.MCHN_INFO_ID = b.MCHN_INFO_ID
 	</select>
 	
 	<insert id="saveRlabExatDtl" parameterType="map">

@@ -902,7 +902,7 @@ public class SpaceRqprController extends IrisBaseController {
 		input.put("isMng", "0");
 
 		Map<String,Object> spaceRqprExprInfo = null;
-		List<Map<String,Object>> spaceExprTreeList = spaceRqprService.getSpaceExprTreeList(input);
+		List<Map<String,Object>> spaceExprTreeList = spaceRqprService.getSpaceExatTreeList(input);
 		
 		if(!"0".equals(input.get("rqprExprId"))) {
 			spaceRqprExprInfo = spaceRqprService.getSpaceRqprExprInfo(input);
@@ -1149,7 +1149,7 @@ public class SpaceRqprController extends IrisBaseController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="/space/spaceExprList.do")
+	@RequestMapping(value="/space/spaceExatList.do")
 	public String spaceExprList(
 			@RequestParam HashMap<String, String> input,
 			HttpServletRequest request,
@@ -1169,10 +1169,10 @@ public class SpaceRqprController extends IrisBaseController {
 		
 		model.addAttribute("inputData", input);
 
-		return "web/space/rqpr/spaceExprList";
+		return "web/space/rqpr/spaceExatList";
 	}
 	
-	@RequestMapping(value="/space/getSpaceExprMstList.do")
+	@RequestMapping(value="/space/getSpaceExatMstList.do")
 	public ModelAndView getSpaceExprMstList(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request,
@@ -1182,15 +1182,15 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceExprMstList [실험정보 마스터 리스트 조회]");
+		LOGGER.debug("SpaceRqprController - getSpaceExatMstList [실험정보 마스터 리스트 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-		List<Map<String,Object>> spaceExprMstList = spaceRqprService.getSpaceExprTreeList(input);
+		List<Map<String,Object>> spaceExatMstList = spaceRqprService.getSpaceExatTreeList(input);
 
-		modelAndView.addObject("spaceRqprExprMstTreeDataSet", RuiConverter.createDataset("spaceRqprExprMstTreeDataSet", spaceExprMstList));
+		modelAndView.addObject("spaceRqprExatMstTreeDataSet", RuiConverter.createDataset("spaceRqprExatMstTreeDataSet", spaceExatMstList));
 		
 		return modelAndView;
 	}
@@ -1242,8 +1242,8 @@ public class SpaceRqprController extends IrisBaseController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/space/getSpaceExprDtlList.do")
-	public ModelAndView getSpaceExprDtlList(
+	@RequestMapping(value="/space/getSpaceExatDtlList.do")
+	public ModelAndView getSpaceExatDtlList(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -1252,15 +1252,15 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceExprDtlList [실험정보 상세 리스트 조회]");
+		LOGGER.debug("SpaceRqprController - getSpaceExatDtlList [공간평가 시험정보 상세 리스트 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-		List<Map<String,Object>> spaceExprDtlList = spaceRqprService.getSpaceExprDtlList(input);
+		List<Map<String,Object>> spaceExatDtlList = spaceRqprService.getSpaceExatDtlList(input);
 
-		modelAndView.addObject("spaceExprDtlDataSet", RuiConverter.createDataset("spaceExprDtlDataSet", spaceExprDtlList));
+		modelAndView.addObject("spaceExatDtlDataSet", RuiConverter.createDataset("spaceExatDtlDataSet", spaceExatDtlList));
 		
 		return modelAndView;
 	}

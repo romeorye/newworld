@@ -5,7 +5,7 @@
 
 	<select id="getSpaceRqprList" resultType="hashmap">
 		<![CDATA[
-			-- anlRqprList 분석의뢰 리스트 조회
+			-- spaceRqprList  리스트 조회
 			SELECT
 				RQPR_ID											AS 'rqprId',
 				ACPC_NO											AS 'acpcNo',
@@ -473,66 +473,67 @@
 	
 	</update>
 
-	<select id="getSpaceExprTreeList" resultType="hashmap">
+	<select id="getSpaceExatTreeList" resultType="hashmap">
 		<![CDATA[
-			-- getSpaceExprTreeList 실험정보 트리 리스트 조회
-			WITH expr_tree AS (
-				select	EXPR_CD
-					   ,EXPR_NM
-					   ,SUPI_EXPR_CD
-					   ,EXPR_CD_L
-					   ,SOP_NO
+			-- getSpaceExatTreeList 실험정보 트리 리스트 조회
+			WITH exat_tree AS (
+				select	EXAT_CD
+					   ,EXAT_NM
+					   ,SUPI_EXAT_CD
+					   ,EXAT_CD_L
+					   ,EXAT_MTD_NO
 					   ,UTM_EXP
 					   ,EXP_CRTN_SCN_CD
 					   ,UTM_SMPO_QTY
-					   ,UTM_EXPR_TIM
+					   ,UTM_EXAT_TIM
 					   ,DSP_NO
 					   ,DEL_YN
-					   ,convert(varchar(255), EXPR_NM) path
-					   ,convert(varchar(255), convert(varchar(255), dsp_no + 1000) + EXPR_NM) sort
-				from	iris_anl_expr_mst
-				where	supi_expr_cd = 0
+					   ,convert(varchar(255), EXAT_NM) path
+					   ,convert(varchar(255), convert(varchar(255), dsp_no + 1000) + EXAT_NM) sort
+				from	iris_space_exat_mst
+				where	supi_exat_cd = 0
 		 ]]>
 	        <if test="isMng == 0">
 				and		del_yn = 'N'
 			</if>
 		<![CDATA[
 			    union all
-				select	mst.EXPR_CD
-					   ,mst.EXPR_NM
-					   ,mst.SUPI_EXPR_CD
-					   ,mst.EXPR_CD_L
-					   ,mst.SOP_NO
+				select	mst.EXAT_CD
+					   ,mst.EXAT_NM
+					   ,mst.SUPI_EXAT_CD
+					   ,mst.EXAT_CD_L
+					   ,mst.EXAT_MTD_NO
 					   ,mst.UTM_EXP
 					   ,mst.EXP_CRTN_SCN_CD
 					   ,mst.UTM_SMPO_QTY
-					   ,mst.UTM_EXPR_TIM
+					   ,mst.UTM_EXAT_TIM
 					   ,mst.DSP_NO
 					   ,mst.DEL_YN
-					   ,convert(varchar(255), tree.path + ' > ' + mst.EXPR_NM) path
-					   ,convert(varchar(255), tree.sort + ' > ' + convert(varchar(255), mst.dsp_no + 1000) + mst.EXPR_NM) sort
-				from	iris_anl_expr_mst mst,
-						expr_tree tree
-				where	mst.supi_expr_cd = tree.expr_cd
+					   ,convert(varchar(255), tree.path + ' > ' + mst.EXAT_NM) path
+					   ,convert(varchar(255), tree.sort + ' > ' + convert(varchar(255), mst.dsp_no + 1000) + mst.EXAT_NM) sort
+				from	iris_space_exat_mst mst,
+						exat_tree tree
+				where	mst.supi_exat_cd = tree.exat_cd
 		 ]]>
 	        <if test="isMng == 0">
 				and		mst.del_yn = 'N'
 			</if>
 			)
-			select	EXPR_CD				   as exprCd
-				   ,EXPR_NM				   as exprNm
-				   ,SUPI_EXPR_CD		   as supiExprCd
-				   ,EXPR_CD_L			   as exprCdL
-				   ,SOP_NO				   as sopNo
+			select (select exat_nm from IRIS_SPACE_EXAT_MST where exat_cd=exat_tree.supi_exat_cd) as supiExatNm	
+				   ,EXAT_CD				   as exatCd
+				   ,EXAT_NM				   as exatNm
+				   ,SUPI_EXAT_CD		   as supiExatCd
+				   ,EXAT_CD_L			   as exatCdL
+				   ,EXAT_MTD_NO				   as exatMtdNo
 				   ,UTM_EXP				   as utmExp
 				   ,EXP_CRTN_SCN_CD		   as expCrtnScnCd
 				   ,UTM_SMPO_QTY		   as utmSmpoQty
-				   ,UTM_EXPR_TIM		   as utmExprTim
+				   ,UTM_EXAT_TIM		   as utmExatTim
 				   ,DSP_NO				   as dspNo
 				   ,DEL_YN				   as delYn
 				   ,path
 				   ,sort
-			from	expr_tree
+			from	exat_tree
 			ORDER BY sort
 	</select>
 
@@ -744,22 +745,26 @@
 	
 	</insert>
 
-	<select id="getSpaceExprDtlList" resultType="hashmap">
+	<select id="getSpaceExatDtlList" resultType="hashmap">
 		<![CDATA[
-			-- getSpaceExprDtlList 실험 상세 정보 리스트 조회
-			select	a.expr_cd										as exprCd
-				   ,a.mchn_info_id									as mchnInfoId
-				   ,b.mchn_han_nm									as mchnInfoNm
-				   ,b.mdl_nm										as mdlNm
-				   ,b.mkr_nm										as mkrNm
-				   ,dbo.fn_getComDtlNm('MCHN_CL_CD', b.mchn_cl_cd)	as mchnClNm
-				   ,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
-			from	iris_anl_expr_dtl a,
-					iris_mchn_info_mst b
+			-- getSpaceExatDtlList 실험 상세 정보 리스트 조회
+			select 
+		 		 a.exat_cd as exatCd
+				,a.mchn_info_id as mchnInfoId
+				,b.tool_nm as toolNm
+				,b.ver as ver
+				,b.ev_ctgr as evCtgr 
+				,b.cmpn_nm as cmpnNm
+				,b.ev_way as evWay
+				,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
+				,b.ev_scn as evScn
+				
+		    from iris_space_exat_dtl a,
+				 IRIS_SPCE_MCHN_INFO_MGMT b
 		 ]]>
-			where	a.expr_cd = ${exprCd}
-			and		a.del_yn = 'N'
-			and		a.mchn_info_id = b.mchn_info_id
+			where	a.exat_cd = ${exatCd}
+			and a.DEL_YN = 'N'
+			and a.MCHN_INFO_ID = b.MCHN_INFO_ID
 	</select>
 	
 	<insert id="saveSpaceExprDtl" parameterType="map">

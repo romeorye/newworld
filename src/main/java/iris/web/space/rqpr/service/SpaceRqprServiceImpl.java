@@ -466,8 +466,8 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 	}
 
 	/* 실험정보 트리 리스트 조회 */
-	public List<Map<String, Object>> getSpaceExprTreeList(Map<String, Object> input) {
-		return commonDao.selectList("space.rqpr.getSpaceExprTreeList", input);
+	public List<Map<String, Object>> getSpaceExatTreeList(Map<String, Object> input) {
+		return commonDao.selectList("space.rqpr.getSpaceExatTreeList", input);
 	}
 
 	/* 실험정보 상세 콤보 리스트 조회 */
@@ -631,8 +631,8 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 	}
 
 	/* 실험 상세 정보 리스트 조회 */
-	public List<Map<String, Object>> getSpaceExprDtlList(Map<String, Object> input) {
-		return commonDao.selectList("space.rqpr.getSpaceExprDtlList", input);
+	public List<Map<String, Object>> getSpaceExatDtlList(Map<String, Object> input) {
+		return commonDao.selectList("space.rqpr.getSpaceExatDtlList", input);
 	}
 	
 	/* 실험 상세 정보 등록 */
