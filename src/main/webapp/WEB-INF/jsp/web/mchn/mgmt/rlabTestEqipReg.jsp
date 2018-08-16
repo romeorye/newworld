@@ -143,7 +143,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			name : 'mchnClCd',
 			useEmptyText: true,
 		    emptyText: '선택하세요',
-		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=MCHN_CL_CD"/>',
+		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_CL_CD"/>',
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD'
 		});
@@ -633,7 +633,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 							</td>
 						</tr>
 						<tr>
-							<th align="right"><span style="color:red;">*  </span>분류</th>
+							<th align="right"><span style="color:red;">*  </span>장비분류</th>
 							<td>
 								<div id="mchnClCd"></div>
 							</td>

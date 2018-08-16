@@ -138,7 +138,7 @@
 			defaultValue: '<c:out value="${inputData.mchnClCd}"/>',
 			useEmptyText: true,
 	           emptyText: '전체',
-	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=MCHN_CL_CD"/>',
+	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_CL_CD"/>',
 	    	displayField: 'COM_DTL_NM',
 	    	valueField: 'COM_DTL_CD',
 	    	width : 200
@@ -254,7 +254,7 @@
 						<tr>
 							<th align="right">장비구분</th>
 							<td><input type="text" id="fxaNo" /></td>
-							<th align="right">분류</th>
+							<th align="right">장비분류</th>
 							<td>
 								<select  id="mchnClCd" ></select>
 							</td>

@@ -7,8 +7,8 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlExprList.jsp
- * @desc    : 실험정보 리스트 화면
+ * $Id		: spaceExprList.jsp
+ * @desc    : 공간평가 시험정보 리스트 화면
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -75,22 +75,22 @@
              * 변수 및 객체 선언
              *******************/
             var selectTreeRow = 0;
-            var selectExprCd = -1;
+            var selectExatCd = -1;
             var dm = new Rui.data.LDataSetManager();
             
             dm.on('load', function(e) {
             });
             
             dm.on('success', function(e) {
-                var data = anlExprMstTreeDataSet.getReadData(e);
+                var data = spaceExatMstTreeDataSet.getReadData(e);
                 
                 alert(data.records[0].resultMsg);
                 
                 if(data.records[0].resultYn == 'Y') {
-                	if(data.records[0].cmd == 'saveAnlExprMst') {
-                		getAnlExprMstList();
-                	} else if(data.records[0].cmd == 'saveAnlExprDtl') {
-                		getAnlExprDtlList(selectExprCd);
+                	if(data.records[0].cmd == 'saveSpaceExatMst') {
+                		getSpaceExatMstList();
+                	} else if(data.records[0].cmd == 'saveSpaceExatDtl') {
+                		getSpaceExatDtlList(selectExatCd);
                 	}
                 }
             });
@@ -132,35 +132,36 @@
             
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'exprNm',			validExp: '실험명:true:maxByteLength=100' },
+                { id: 'exatNm',			validExp: '실험명:true:maxByteLength=100' },
                 { id: 'dspNo',			validExp: '순서:true:number' }
                 ]
             });
             
             var vm2 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'exprNm',			validExp: '실험명:true:maxByteLength=100' },
+                { id: 'exatNm',			validExp: '실험명:true:maxByteLength=100' },
                 { id: 'expCrtnScnCd',	validExp: '비용구분:true' },
                 { id: 'utmExp',			validExp: '실험수가:true:number' },
                 { id: 'dspNo',			validExp: '순서:true:number' }
                 ]
             });
             
-            var anlExprMstTreeDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlExprMstTreeDataSet',
+            var spaceExatMstTreeDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceExatMstTreeDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 focusFirstRow: -1,
                 fields: [
-                      { id: 'exprCd', type: 'number' }
-                    , { id: 'exprNm' }
-                    , { id: 'supiExprCd', type: 'number' }
-                    , { id: 'exprCdL', type: 'number' }
-                    , { id: 'sopNo' }
+                      { id: 'exatCd'}
+                    , { id: 'exatNm' }
+                    , { id: 'supiExatNm' }
+                    , { id: 'supiExatCd', type: 'number' }
+                    , { id: 'exatCdL', type: 'number' }
+                    , { id: 'exatMtdNo' }
                     , { id: 'utmExp', type: 'number' }
                     , { id: 'expCrtnScnCd' }
                     , { id: 'utmSmpoQty', type: 'number', defaultValue: 1 }
-                    , { id: 'utmExprTim', type: 'number', defaultValue: 0.5 }
+                    , { id: 'utmExatTim', type: 'number', defaultValue: 0.5 }
                     , { id: 'dspNo', type: 'number' }
                     , { id: 'delYn', defaultValue: 'N' }
                     , { id: 'path' }
@@ -168,42 +169,42 @@
                 ]
             });
             
-            anlExprMstTreeDataSet.on('canRowPosChange', function(e){
-            	var vm = anlExprMstGridDataSetView.getNameValue(anlExprMstGridDataSetView.getRow(), 'exprCdL') == 4 ? vm2 : vm1;
+            spaceExatMstTreeDataSet.on('canRowPosChange', function(e){
+            	var vm = spaceExatMstGridDataSetView.getNameValue(spaceExatMstGridDataSetView.getRow(), 'exatCdL') == 2 ? vm2 : vm1;
             	
-            	if (vm.validateDataSet(anlExprMstGridDataSetView, anlExprMstGridDataSetView.getRow()) == false) {
+            	if (vm.validateDataSet(spaceExatMstGridDataSetView, spaceExatMstGridDataSetView.getRow()) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
                 }
             });
             
-            anlExprMstTreeDataSet.on('rowPosChanged', function (e) {
+            spaceExatMstTreeDataSet.on('rowPosChanged', function (e) {
                 if (e.row > -1) {
-                	if(e.target.getNameValue(e.row, 'exprCdL') == 4) {
+                	if(e.target.getNameValue(e.row, 'exatCdL') == 2) {
                 		e.target.setRow(e.oldRow);
                 	} else {
                 		selectTreeRow = e.row;
-                    	setAnlExprMstDataView(e.row);
+                    	setSpaceExatMstDataView(e.row);
                 	}
                 }
             });
 
-            anlExprMstTreeDataSet.on('load', function () {
+            spaceExatMstTreeDataSet.on('load', function () {
             	if(selectTreeRow > -1) {
-                	anlExprMstTreeDataSet.setRow(selectTreeRow);
+                	spaceExatMstTreeDataSet.setRow(selectTreeRow);
             	}
             	
-            	setAnlExprMstDataView(selectTreeRow);
+            	setSpaceExatMstDataView(selectTreeRow);
             });
 
-            var anlExprMstTreeView = new Rui.ui.tree.LTreeView({
-                id: 'anlExprMstTreeView',
-                dataSet: anlExprMstTreeDataSet,
+            var spaceExatMstTreeView = new Rui.ui.tree.LTreeView({
+                id: 'spaceExatMstTreeView',
+                dataSet: spaceExatMstTreeDataSet,
                 fields: {
                     rootValue: 0,
-                    parentId: 'supiExprCd',
-                    id: 'exprCd',
-                    label: 'exprNm',
+                    parentId: 'supiExatCd',
+                    id: 'exatCd',
+                    label: 'exatNm',
                     order: 'sort'
                 },
                 defaultOpenDepth: -1,
@@ -212,150 +213,154 @@
                 useAnimation: true
             });
             
-            anlExprMstTreeView.render('anlExprMstTreeView');
+            spaceExatMstTreeView.render('spaceExatMstTreeView');
 
-            var anlExprMstTreeColumnModel = new Rui.ui.grid.LColumnModel({
+            var spaceExatMstTreeColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  { field: 'path',			label: 'Path',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 300 }
-                    , { field: 'exprNm',		label: '실험명',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 100 }
-                    , { field: 'sopNo',			label: 'Sop No',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 100 }
+                    , { field: 'exatNm',		label: '시험명(대분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 100 }
+                    , { field: 'exatNm',		label: '시험명(소분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 100 }
+                    , { field: 'exatMtdNo',			label: '시험법No',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 100 }
                     , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: true, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
                     , { field: 'utmSmpoQty',	label: '단위실험수량',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
-                    , { field: 'utmExprTim',	label: '단위실험시간',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
+                    , { field: 'utmExatTim',	label: '시험일수',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
                     , { field: 'utmExp',		label: '실험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 80,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
                     } }
-                    , { field: 'dspNo',			label: '순서',		sortable: false,	editable: true,		editor: numberBox,		align:'center',	width: 50 }
                     , { field: 'delYn',			label: '삭제여부',		sortable: false,	editable: true,		editor: useYn,			align:'center',	width: 60 }
                 ]
             });
 
-            var anlExprMstTreeGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlExprMstTreeColumnModel,
-                dataSet: anlExprMstTreeDataSet,
+            var spaceExatMstTreeGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceExatMstTreeColumnModel,
+                dataSet: spaceExatMstTreeDataSet,
                 visible: false,
                 autoWidth: true
             });
             
-            anlExprMstTreeGrid.render('anlExprMstTreeGrid');
+            spaceExatMstTreeGrid.render('spaceExatMstTreeGrid');
             
-            var anlExprMstGridDataSetView = new Rui.data.LDataSetView({
-                sourceDataSet: anlExprMstTreeDataSet
+            var spaceExatMstGridDataSetView = new Rui.data.LDataSetView({
+                sourceDataSet: spaceExatMstTreeDataSet
             });
             
-            anlExprMstGridDataSetView.on('canRowPosChange', function(e){
-            	var vm = anlExprMstGridDataSetView.getNameValue(anlExprMstGridDataSetView.getRow(), 'exprCdL') == 4 ? vm2 : vm1;
+            spaceExatMstGridDataSetView.on('canRowPosChange', function(e){
+            	var vm = spaceExatMstGridDataSetView.getNameValue(spaceExatMstGridDataSetView.getRow(), 'exatCdL') == 2 ? vm2 : vm1;
             	
-            	if (vm.validateDataSet(anlExprMstGridDataSetView, anlExprMstGridDataSetView.getRow()) == false) {
+            	if (vm.validateDataSet(spaceExatMstGridDataSetView, spaceExatMstGridDataSetView.getRow()) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
                 }
             });
 
-            var anlExprMstColumnModel = new Rui.ui.grid.LColumnModel({
+            var spaceExatMstColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  { field: 'exprNm',		label: '실험명',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 200 }
-                    , { field: 'sopNo',			label: 'Sop No',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 100 }
-                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: true, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
+                	  { field: 'supiExatNm',		label: '시험명(대분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 190 }
+                	, { field: 'exatNm',		label: '시험명(소분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 90 }
+                    , { field: 'exatMtdNo',			label: '시험법No',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 70 }
+                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: true, 	editor: expCrtnScnCd,	align:'center',	width: 70 }
                     , { field: 'utmSmpoQty',	label: '단위실험수량',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
-                    , { field: 'utmExprTim',	label: '단위실험시간',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
+                    , { field: 'utmExatTim',	label: '시험일수',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
                     , { field: 'utmExp',		label: '실험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 80,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
                     } }
-                    , { field: 'dspNo',			label: '순서',		sortable: false,	editable: true,		editor: numberBox,		align:'center',	width: 50 }
-                    , { field: 'delYn',			label: '삭제여부',		sortable: false,	editable: true,		editor: useYn,			align:'center',	width: 60 }
-                    , { field: 'exprCdL',		label: '분석기기',		sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 60,
+                    , { field: 'delYn',			label: '삭제여부',		sortable: false,	editable: true,		editor: useYn,			align:'center',	width: 70 }
+                    , { field: 'exatCdL',		label: '분석기기',		sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 63,
                     	renderer: function(val, p, record, row, i) {
-                    		return (val == 4 && Rui.isEmpty(record.get('exprCd')) == false) ? '<button type="button" class="L-grid-button" onClick="getAnlExprDtlList(' + record.get('exprCd') + ')">관리</button>' : '';
+                    		return (val == 2 && Rui.isEmpty(record.get('exatCd')) == false) ? '<button type="button" class="L-grid-button" onClick="getSpaceExatDtlList(' + record.get('exatCd') + ')">관리</button>' : '';
                     } }
                 ]
             });
 
-            var anlExprMstGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlExprMstColumnModel,
-                dataSet: anlExprMstGridDataSetView,
+            var spaceExatMstGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceExatMstColumnModel,
+                dataSet: spaceExatMstGridDataSetView,
                 width: 810,
                 height: 300,
                 autoToEdit: true,
                 autoWidth: true
             });
             
-            anlExprMstGrid.render('anlExprMstGrid');
+            spaceExatMstGrid.render('spaceExatMstGrid');
 			
-            var anlExprDtlDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlExprDtlDataSet',
+            var spaceExatDtlDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceExatDtlDataSet',
                 remainRemoved: false,
                 lazyLoad: true,
                 fields: [
-					  { id: 'exprCd' }
+					  { id: 'exatCd' }
 					, { id: 'mchnInfoId' }
-					, { id: 'mchnInfoNm' }
-					, { id: 'mdlNm' }
-					, { id: 'mkrNm' }
-					, { id: 'mchnClNm' }
+					, { id: 'toolNm' }
+					, { id: 'ver' }
+					, { id: 'evCtgr' }
+					, { id: 'cmpnNm' }
+					, { id: 'evWay' }
 					, { id: 'mchnCrgrNm' }
+					, { id: 'evScn' }
                 ]
             });
 
-            var anlExprDtlColumnModel = new Rui.ui.grid.LColumnModel({
+            var spaceExatDtlColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'mchnInfoNm',	label: '기기명',		sortable: false,	align:'left',	width: 300 }
-                    , { field: 'mdlNm',			label: '모델명',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'mkrNm',			label: '제조사',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'mchnClNm',		label: '분류',		sortable: false,	align:'center',	width: 150 }
+                    , { field: 'toolNm',	label: '기기명',		sortable: false,	align:'left',	width: 300 }
+                    , { field: 'ver',			label: '버전',		sortable: false,	align:'center',	width: 150 }
+                    , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 150 }
+                    , { field: 'cmpnNm',		label: '기관',		sortable: false,	align:'center',	width: 150 }
+                    , { field: 'evWay',	label: '평가방법',		sortable: false,	align:'center',	width: 80 }
                     , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 80 }
+                    , { field: 'evScn',	label: '구분',		sortable: false,	align:'center',	width: 80 }
                 ]
             });
 
-            var anlExprDtlGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlExprDtlColumnModel,
-                dataSet: anlExprDtlDataSet,
+            var spaceExatDtlGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceExatDtlColumnModel,
+                dataSet: spaceExatDtlDataSet,
                 width: 400,
                 height: 340,
                 autoToEdit: false,
                 autoWidth: true
             });
             
-            anlExprDtlGrid.render('anlExprDtlGrid');
+            spaceExatDtlGrid.render('spaceExatDtlGrid');
             
-            setAnlExprMstDataView = function(row) {
+            setSpaceExatMstDataView = function(row) {
                 var parentId;
                 
                 if (row > -1) {
-                    parentId = anlExprMstTreeDataSet.getAt(row).get('exprCd');
+                    parentId = spaceExatMstTreeDataSet.getAt(row).get('exatCd');
                 } else {
                     parentId = null;
-                    anlExprMstTreeDataSet.setRow(-1);
+                    spaceExatMstTreeDataSet.setRow(-1);
                 }
 
-                anlExprMstGridDataSetView.loadView(function(recordId, record){
-                    if (record.get('exprCd') != parentId && record.get('supiExprCd') == parentId)
+                spaceExatMstGridDataSetView.loadView(function(recordId, record){
+                    if (record.get('exatCd') != parentId && record.get('supiExatCd') == parentId)
                         return true;
                     else
                         return false;
                 });
             };
             
-            getAnlExprMstList = function() {
-                anlExprMstTreeDataSet.load({
-                    url: '<c:url value="/anl/getAnlExprMstList.do"/>',
+            getSpaceExatMstList = function() {
+                spaceExatMstTreeDataSet.load({
+                    url: '<c:url value="/space/getSpaceExatMstList.do"/>',
                     params :{
                     	isMng : 1
                     }
                 });
             };
             
-            getAnlExprDtlList = function(exprCd) {
-            	selectExprCd = exprCd;
+            getSpaceExatDtlList = function(exatCd) {
+            	selectExatCd = exatCd;
             	
-            	anlExprDtlDataSet.load({
-                    url: '<c:url value="/anl/getAnlExprDtlList.do"/>',
+            	spaceExatDtlDataSet.load({
+                    url: '<c:url value="/space/getSpaceExatDtlList.do"/>',
                     params :{
-                    	exprCd : exprCd
+                    	exatCd : exatCd
                     }
                 });
             };
@@ -404,15 +409,15 @@
     	    // 실험수가 Simulation 팝업 끝
             
             setMchnInfo = function(mchnInfo) {
-				if(anlExprDtlDataSet.findRow('mchnInfoId', mchnInfo.get("mchnInfoId")) > -1) {
+				if(spaceExatDtlDataSet.findRow('mchnInfoId', mchnInfo.get("mchnInfoId")) > -1) {
 					alert('이미 존재합니다.');
 					return ;
 				}
     	    	
-            	var row = anlExprDtlDataSet.newRecord();
-            	var record = anlExprDtlDataSet.getAt(row);
+            	var row = spaceExatDtlDataSet.newRecord();
+            	var record = spaceExatDtlDataSet.getAt(row);
             	
-            	record.set('exprCd', selectExprCd);
+            	record.set('exatCd', selectExatCd);
             	record.set('mchnInfoId', mchnInfo.get("mchnInfoId"));
             	record.set('mchnInfoNm', mchnInfo.get("mchnNm"));
             	record.set('mdlNm', mchnInfo.get("mdlNm"));
@@ -421,103 +426,106 @@
             	record.set('mchnCrgrNm', mchnInfo.get("mchnCrgrNm"));
             }
     	    
-            initAnlExprMst = function() {
-            	anlExprMstTreeDataSet.undoAll();
+            initSpaceExatMst = function() {
+            	spaceExatMstTreeDataSet.undoAll();
             };
             
-            addAnlExprMst = function() {
-            	if(anlExprMstTreeDataSet.getRow() == -1) {
+            addSpaceExatMst = function() {
+            	alert(spaceExatMstTreeDataSet.rowPosition);
+            	if(spaceExatMstTreeDataSet.getRow() == -1) {
+            		alert('111');
             		return ;
             	}
             	
-            	var parentRecord = anlExprMstTreeDataSet.getAt(anlExprMstTreeDataSet.getRow());
-            	var exprCdL = parentRecord.get('exprCdL') + 1;
+            	var parentRecord = spaceExatMstTreeDataSet.getAt(spaceExatMstTreeDataSet.getRow());
+            	var exatCdL = parentRecord.get('exatCdL') + 1;
             	var dspNo = 0;
             	
-            	for(var i=0, cnt=anlExprMstGridDataSetView.getCount(); i<cnt; i++) {
-            		if(dspNo < anlExprMstGridDataSetView.getNameValue(i, 'dspNo')) {
-            			dspNo = anlExprMstGridDataSetView.getNameValue(i, 'dspNo');
+            	for(var i=0, cnt=spaceExatMstGridDataSetView.getCount(); i<cnt; i++) {
+            		if(dspNo < spaceExatMstGridDataSetView.getNameValue(i, 'dspNo')) {
+            			dspNo = spaceExatMstGridDataSetView.getNameValue(i, 'dspNo');
             		}
             	}
             	
             	var data = {
-            			supiExprCd : parentRecord.get('exprCd'),
-            			exprCdL : exprCdL,
-            			utmExp : exprCdL == 4 ? 0 : null,
-            			utmSmpoQty : exprCdL == 4 ? 1 : null,
-            			utmExprTim : exprCdL == 4 ? 0.5 : null,
+            			supiExatCd : parentRecord.get('exatCd'),
+            			supiExatNm : parentRecord.get('exatNm'),
+            			exatCdL : exatCdL,
+            			utmExp : exatCdL == 4 ? 0 : null,
+            			utmSmpoQty : exatCdL == 4 ? 1 : null,
+            			utmExatTim : exatCdL == 4 ? 0.5 : null,
             			dspNo : dspNo + 1,
             			delYn : 'N'
             		};
-           		var record = anlExprMstGridDataSetView.createRecord(data);
+           		var record = spaceExatMstGridDataSetView.createRecord(data);
            		
            		record.setState(Rui.data.LRecord.STATE_INSERT);
            		
-           		anlExprMstGridDataSetView.setRow(anlExprMstGridDataSetView.add(record));
+           		spaceExatMstGridDataSetView.setRow(spaceExatMstGridDataSetView.add(record));
             };
             
-            saveAnlExprMst = function() {
-            	var vm = anlExprMstGridDataSetView.getNameValue(anlExprMstGridDataSetView.getRow(), 'exprCdL') == 4 ? vm2 : vm1;
+            saveSpaceExatMst = function() {
+            	var vm = spaceExatMstGridDataSetView.getNameValue(spaceExatMstGridDataSetView.getRow(), 'exatCdL') == 4 ? vm2 : vm1;
             	
-            	if (vm.validateDataSet(anlExprMstGridDataSetView, anlExprMstGridDataSetView.getRow()) == false) {
+            	if (vm.validateDataSet(spaceExatMstGridDataSetView, spaceExatMstGridDataSetView.getRow()) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
                 }
                 
             	if(confirm('저장 하시겠습니까?')) {
                     dm.updateDataSet({
-                        dataSets:[anlExprMstTreeDataSet],
-                        url:'<c:url value="/anl/saveAnlExprMst.do"/>'
+                        dataSets:[spaceExatMstTreeDataSet],
+                        url:'<c:url value="/spacee/saveSpaceExatMst.do"/>'
                     });
             	}
             };
             
             /* 실험정보 리스트 엑셀 다운로드 */
-        	downloadAnlExprMstListExcel = function() {
-        		anlExprMstTreeGrid.saveExcel(encodeURIComponent('실험정보_') + new Date().format('%Y%m%d') + '.xls');
+        	downloadSpaceExatMstListExcel = function() {
+        		spaceExatMstTreeGrid.saveExcel(encodeURIComponent('실험정보_') + new Date().format('%Y%m%d') + '.xls');
             };
             
-            addAnlExprDtl = function() {
-            	if(selectExprCd == -1) {
+            addSpaceExatDtl = function() {
+            	if(selectExatCd == -1) {
             		alert('먼저 실험정보의 분석기기 관리 버튼을 눌러주세요.');
             	} else {
             		openMchnSearchDialog(setMchnInfo);
             	}
             };
             
-            saveAnlExprDtl = function() {
-            	if(selectExprCd == -1) {
+            saveSpaceExatDtl = function() {
+            	if(selectExatCd == -1) {
             		alert('먼저 실험정보의 분석기기 관리 버튼을 눌러주세요.');
-            	} else if(anlExprDtlDataSet.getModifiedRecords().length == 0) {
+            	} else if(spaceExatDtlDataSet.getModifiedRecords().length == 0) {
             		alert('먼저 신규 기기를 추가해주세요.');
             	} else {
                 	if(confirm('저장 하시겠습니까?')) {
                         dm.updateDataSet({
-                            dataSets:[anlExprDtlDataSet],
+                            dataSets:[spaceExatDtlDataSet],
                             url:'<c:url value="/anl/saveAnlExprDtl.do"/>'
                         });
                 	}
             	}
             };
             
-            deleteAnlExprDtl = function() {
-            	if(selectExprCd == -1) {
+            deleteSpaceExatDtl = function() {
+            	if(selectExatCd == -1) {
             		alert('먼저 실험정보의 분석기기 관리 버튼을 눌러주세요.');
-            	} else if(anlExprDtlDataSet.getMarkedCount() == 0) {
+            	} else if(spaceExatDtlDataSet.getMarkedCount() == 0) {
                 	alert('삭제 대상을 선택해주세요.');
                 } else {
                 	if(confirm('삭제 하시겠습니까?')) {
-            	    	anlExprDtlDataSet.removeMarkedRows();
+            	    	spaceExatDtlDataSet.removeMarkedRows();
                     	
                         dm.updateDataSet({
-                            dataSets:[anlExprDtlDataSet],
+                            dataSets:[spaceExatDtlDataSet],
                             url:'<c:url value="/anl/deleteAnlExprDtl.do"/>'
                         });
                 	}
                 }
             };
             
-            getAnlExprMstList();
+            getSpaceExatMstList();
 			
         });
 
@@ -532,25 +540,25 @@
 	   			
    				<div class="titleArea">
 		   			<span class="titleArea" style="display:inline">
-		   				<h2>실험정보 관리</h2>
+		   				<h2>공간평가 시험정보 관리</h2>
 		   			</span>
    					<div class="LblockButton">
-   						<button type="button" class="btn"  id="addAnlExprMstBtn" name="addAnlExprMstBtn" onclick="addAnlExprMst()">신규</button>
-   						<button type="button" class="btn"  id="initAnlExprMstBtn" name="initAnlExprMstBtn" onclick="initAnlExprMst()">초기화</button>
-   						<button type="button" class="btn"  id="saveAnlExprMstBtn" name="saveAnlExprMstBtn" onclick="saveAnlExprMst()">저장</button>
+   						<button type="button" class="btn"  id="addSpaceExatMstBtn" name="addSpaceExatMstBtn" onclick="addSpaceExatMst()">신규</button>
+   						<button type="button" class="btn"  id="initSpaceExatMstBtn" name="initSpaceExatMstBtn" onclick="initSpaceExatMst()">초기화</button>
+   						<button type="button" class="btn"  id="saveSpaceExatMstBtn" name="saveSpaceExatMstBtn" onclick="saveSpaceExatMst()">저장</button>
    						<button type="button" class="btn"  id="openUtmExpSimulationBtn" name="openUtmExpSimulationBtn" onclick="openUtmExpSimulationDialog()">수가계산</button>
-   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadAnlExprMstListExcel()">Excel</button>
+   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadSpaceExatMstListExcel()">Excel</button>
    					</div>
    				</div>
    				
 			    <div id="bd">
 			        <div class="LblockMarkupCode">
 			            <div id="contentWrapper">
-			                <div id="anlExprMstTreeView"></div>
+			                <div id="spaceExatMstTreeView"></div>
 			            </div>
 			            <div id="fieldWrapper">
-			                <div id="anlExprMstTreeGrid"></div>
-			                <div id="anlExprMstGrid"></div>
+			                <div id="spaceExatMstTreeGrid"></div>
+			                <div id="spaceExatMstGrid"></div>
 			            </div>
 			        </div>
 			    </div>
@@ -558,13 +566,13 @@
    				<div class="titArea">
    					<span class="Ltotal">분석기기</span>
    					<div class="LblockButton">
-   						<button type="button" class="btn"  id="addAnlExprDtlBtn" name="addAnlExprDtlBtn" onclick="addAnlExprDtl()">신규</button>
-   						<button type="button" class="btn"  id="saveAnlExprMstBtn" name="saveAnlExprMstBtn" onclick="saveAnlExprDtl()">저장</button>
-   						<button type="button" class="btn"  id="deleteAnlExprDtlBtn" name="deleteAnlExprDtlBtn" onclick="deleteAnlExprDtl()">삭제</button>
+   						<button type="button" class="btn"  id="addSpaceExatDtlBtn" name="addSpaceExatDtlBtn" onclick="addSpaceExatDtl()">신규</button>
+   						<button type="button" class="btn"  id="saveSpaceExatMstBtn" name="saveSpaceExatMstBtn" onclick="saveSpaceExatDtl()">저장</button>
+   						<button type="button" class="btn"  id="deleteSpaceExatDtlBtn" name="deleteSpaceExatDtlBtn" onclick="deleteSpaceExatDtl()">삭제</button>
    					</div>
    				</div>
 
-			    <div id="anlExprDtlGrid"></div>
+			    <div id="spaceExatDtlGrid"></div>
    				
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->

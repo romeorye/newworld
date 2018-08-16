@@ -223,7 +223,7 @@
                     , { field: 'exatMtdNo',			label: '시험법 No',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 100 }
                     , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: true, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
                     , { field: 'utmSmpoQty',	label: '단위실험수량',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
-                    , { field: 'utmExatTim',	label: '단위실험시간',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
+                    , { field: 'utmExatTim',	label: '시험일수',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
                     , { field: 'utmExp',		label: '실험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 80,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
@@ -261,7 +261,7 @@
                     , { field: 'exatMtdNo',	label: '시험법No',		sortable: false,	editable: true, 	editor: textBox,	align:'center',	width: 70 }
                     , { field: 'expCrtnScnCd',	label: '비용구분',	sortable: false,	editable: true,	editor: expCrtnScnCd,		align:'center',	width: 70 }
                     , { field: 'utmSmpoQty',	label: '단위실험수량',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
-                    , { field: 'utmExatTim',	label: '단위실험시간',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
+                    , { field: 'utmExatTim',	label: '시험일수',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
                     , { field: 'utmExp',		label: '실험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 80,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
@@ -399,7 +399,7 @@
     	    utmExpSimulationDialog.render(document.body);
     	
     	    openUtmExpSimulationDialog = function() {
-    	    	utmExpSimulationDialog.setUrl('<c:url value="/anl/anlExprExpSimulationPopup.do"/>');
+    	    	utmExpSimulationDialog.setUrl('<c:url value="/rlab/rlabExatExpSimulationPopup.do"/>');
     	    	utmExpSimulationDialog.show();
     	    };
     	    // 실험수가 Simulation 팝업 끝
@@ -427,6 +427,7 @@
             };
             
             addRlabExatMst = function() {
+            	alert(rlabExatMstTreeDataSet.rowPosition);
             	if(rlabExatMstTreeDataSet.getRow() == -1) {
             		return ;
             	}
