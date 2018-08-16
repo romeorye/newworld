@@ -81,7 +81,7 @@
 {name:"관리", mdName:"", depth:"1",confirm:""},
 {name:"기기분석 시험정보관리", mdName:"", depth:"2",confirm:""},
 {name:"신뢰성 시험정보관리", mdName:"/iris/rlab/rlabExprList.do", depth:"2",confirm:""},
-{name:"공간평가 시험정보관리", mdName:"/iris/space/spaceExprList.do", depth:"2",confirm:""},
+{name:"공간평가 시험정보관리", mdName:"/iris/space/spaceExatList.do", depth:"2",confirm:""},
 {name:"공간평가 평가법관리", mdName:"/iris/space/spaceEvaluationMgmt.do", depth:"2",confirm:""}
 ];
 
@@ -106,9 +106,10 @@
 {name:"관리", mdName:"", depth:"1",confirm:""},
 {name:"분석기기 예약관리", mdName:"", depth:"2",confirm:"1"}, //reqToolMng
 {name:"신뢰성시험장비 예약관리", mdName:"", depth:"2",confirm:""}, //reqToolMng
-{name:"공간평가Tool 사용관리", mdName:"", depth:"2",confirm:""}, //reqToolMng
+{name:"공간평가Tool 사용관리", mdName:"/iris/mchn/mgmt/spaceEvToolUseMgmtList.do", depth:"2",confirm:""}, //reqToolMng
 {name:"분석기기 교육관리", mdName:"", depth:"2",confirm:""}, //toolEduMng
 {name:"소모품 관리", mdName:"", depth:"2",confirm:""},
+{name:"신뢰성시험 장비관리", mdName:"/iris/mchn/mgmt/rlabTestEqipList.do", depth:"2",confirm:""},
 
 {name:"분석기기 관리", mdName:"", depth:"2",confirm:""},//toolMng
 {name:"신뢰성시험 장비관리", mdName:"", depth:"2",confirm:""},//toolMng
