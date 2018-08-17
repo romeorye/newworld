@@ -27,14 +27,14 @@ import iris.web.system.base.IrisBaseController;
 
 /********************************************************************************
  * NAME : RlabRqprController.java 
- * DESC : 신뢰성 시험의뢰 - 신뢰성 시험의뢰 관리 controller
+ * DESC : 분석의뢰 - 분석의뢰 관리 controller
  * PROJ : IRIS UPGRADE 1차 프로젝트
  *------------------------------------------------------------------------------
  *                               MODIFICATION LOG                       
  *------------------------------------------------------------------------------
  *    DATE     AUTHOR                      DESCRIPTION                        
  * ----------  ------  --------------------------------------------------------- 
- * 2018.08.06  정현웅	최초생성     
+ * 2017.08.25  오명철	최초생성     
  *********************************************************************************/
 
 @Controller
@@ -65,7 +65,7 @@ public class RlabRqprController extends IrisBaseController {
 		input = StringUtil.toUtf8(input);
 		
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabRqprList [신뢰성 시험의뢰 리스트 화면 이동]");
+		LOGGER.debug("RlabRqprController - rlabRqprList [분석의뢰 리스트 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -91,13 +91,13 @@ public class RlabRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - getRlabChrgList [신뢰성 시험담당자 리스트 검색]");
+		LOGGER.debug("RlabRqprController - getRlabChrgList [분석담당자 리스트 검색]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
     	
-        // 신뢰성 시험담당자 리스트 조회 
+        // 분석담당자 리스트 조회 
 		List<Map<String,Object>> rlabChrgList = rlabRqprService.getRlabChrgList(input);
 		
 		modelAndView.addObject("rlabChrgDataSet", RuiConverter.createDataset("rlabChrgDataSet", rlabChrgList));
@@ -120,13 +120,13 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - getRlabRqprList [신뢰성 시험의뢰 리스트 검색]");
+		LOGGER.debug("RlabRqprController - getRlabRqprList [분석의뢰 리스트 검색]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
     	
-        // 신뢰성 시험의뢰 리스트 조회 
+        // 분석의뢰 리스트 조회 
 		List<Map<String,Object>> rlabRqprList = rlabRqprService.getRlabRqprList(input);
 		
 		modelAndView.addObject("rlabRqprDataSet", RuiConverter.createDataset("rlabRqprDataSet", rlabRqprList));
@@ -146,11 +146,11 @@ public class RlabRqprController extends IrisBaseController {
 		checkSession(input, session, model);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabRqprRgst [신뢰성 시험의뢰서 등록 화면 이동]");
+		LOGGER.debug("RlabRqprController - rlabRqprRgst [분석의뢰서 등록 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
-		List <Map<String, Object>> infmTypeCdList  = codeCacheManager.retrieveCodeValueListForCache("RLAB_INFM_TYPE_CD"); // 통보유형
+		List <Map<String, Object>> infmTypeCdList  = codeCacheManager.retrieveCodeValueListForCache("INFM_TYPE_CD"); // 통보유형
 		List <Map<String, Object>> smpoTrtmCdList  = codeCacheManager.retrieveCodeValueListForCache("SMPO_TRTM_CD"); // 시료처리구분
 		
 		model.addAttribute("inputData", input);
@@ -159,7 +159,7 @@ public class RlabRqprController extends IrisBaseController {
 
 		return "web/rlab/rqpr/rlabRqprRgst";
 	}
-	
+
 	@RequestMapping(value="/rlab/rlabChrgDialog.do")
 	public String rlabChrgDialog(
 			@RequestParam HashMap<String, String> input,
@@ -172,7 +172,7 @@ public class RlabRqprController extends IrisBaseController {
 		checkSession(input, session, model);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabChrgDialog [신뢰성 시험담당자 리스트 화면 이동]");
+		LOGGER.debug("RlabRqprController - rlabChrgDialog [분석담당자 리스트 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -189,7 +189,7 @@ public class RlabRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - getRlabRqprInfo [신뢰성 시험의로 정보 불러오기]");
+		LOGGER.debug("RlabRqprController - getRlabRqprInfo [분석의로 정보 불러오기]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -213,7 +213,7 @@ public class RlabRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabRqprSearchPopup 신뢰성 시험의뢰 리스트 조회 팝업");
+		LOGGER.debug("RlabRqprController - rlabRqprSearchPopup 분석의뢰 리스트 조회 팝업");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -289,7 +289,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - regstRlabRqpr 신뢰성 시험의뢰 등록");
+		LOGGER.debug("RlabRqprController - regstRlabRqpr 분석의뢰 등록");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -311,14 +311,14 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
 		
 		return modelAndView;
 	}
-		
+
 	@RequestMapping(value="/rlab/rlabRqprDetail.do")
 	public String rlabRqprDetail(
 			@RequestParam HashMap<String, String> input,
@@ -331,11 +331,11 @@ public class RlabRqprController extends IrisBaseController {
 		checkSession(input, session, model);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabRqprDetail [신뢰성 시험의뢰서 상세 화면 이동]");
+		LOGGER.debug("RlabRqprController - rlabRqprDetail [분석의뢰서 상세 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
-		List <Map<String, Object>> infmTypeCdList  = codeCacheManager.retrieveCodeValueListForCache("RLAB_INFM_TYPE_CD"); // 통보유형
+		List <Map<String, Object>> infmTypeCdList  = codeCacheManager.retrieveCodeValueListForCache("INFM_TYPE_CD"); // 통보유형
 		List <Map<String, Object>> smpoTrtmCdList  = codeCacheManager.retrieveCodeValueListForCache("SMPO_TRTM_CD"); // 시료처리구분
 		
 		model.addAttribute("inputData", input);
@@ -355,7 +355,7 @@ public class RlabRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - getRlabRqprDetailInfo [신뢰성 시험의로 상세정보 조회]");
+		LOGGER.debug("RlabRqprController - getRlabRqprDetailInfo [분석의로 상세정보 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -404,7 +404,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - updateRlabRqpr 신뢰성 시험의뢰 수정");
+		LOGGER.debug("RlabRqprController - updateRlabRqpr 분석의뢰 수정");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -429,7 +429,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -452,7 +452,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - requestRlabRqprApproval 신뢰성 시험의뢰 결재요청");
+		LOGGER.debug("RlabRqprController - requestRlabRqprApproval 분석의뢰 결재요청");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -477,7 +477,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -500,7 +500,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - deleteRlabRqpr 신뢰성 시험의뢰 삭제");
+		LOGGER.debug("RlabRqprController - deleteRlabRqpr 분석의뢰 삭제");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -517,7 +517,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -534,7 +534,7 @@ public class RlabRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabRqprOpinitionPopup 신뢰성 시험의뢰 의견 팝업");
+		LOGGER.debug("RlabRqprController - rlabRqprOpinitionPopup 분석의뢰 의견 팝업");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -562,7 +562,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - getRlabRqprOpinitionList [신뢰성 시험의뢰 의견 리스트 검색]");
+		LOGGER.debug("RlabRqprController - getRlabRqprOpinitionList [분석의뢰 의견 리스트 검색]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -590,7 +590,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - saveRlabRqprOpinition 신뢰성 시험의뢰 의견 저장");
+		LOGGER.debug("RlabRqprController - saveRlabRqprOpinition 분석의뢰 의견 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -607,7 +607,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -630,7 +630,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - deleteRlabRqprOpinition 신뢰성 시험의뢰 의견 삭제");
+		LOGGER.debug("RlabRqprController - deleteRlabRqprOpinition 분석의뢰 의견 삭제");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -647,7 +647,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -672,7 +672,7 @@ public class RlabRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - openOpinitionPopup 신뢰성 시험의뢰 의견 상세팝업");
+		LOGGER.debug("RlabRqprController - openOpinitionPopup 분석의뢰 의견 상세팝업");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -700,7 +700,7 @@ public class RlabRqprController extends IrisBaseController {
 		input = StringUtil.toUtf8(input);
 		
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabRqprList4Chrg [신뢰성 시험의뢰 리스트 담당자용 화면 이동]");
+		LOGGER.debug("RlabRqprController - rlabRqprList4Chrg [분석의뢰 리스트 담당자용 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -729,11 +729,11 @@ public class RlabRqprController extends IrisBaseController {
 
 		input = StringUtil.toUtf8(input);
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabRqprDetail4Chrg [신뢰성 시험의뢰서 상세 담당자용 화면 이동]");
+		LOGGER.debug("RlabRqprController - rlabRqprDetail4Chrg [분석의뢰서 상세 담당자용 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
-		List <Map<String, Object>> infmTypeCdList  = codeCacheManager.retrieveCodeValueListForCache("RLAB_INFM_TYPE_CD"); // 통보유형
+		List <Map<String, Object>> infmTypeCdList  = codeCacheManager.retrieveCodeValueListForCache("INFM_TYPE_CD"); // 통보유형
 		List <Map<String, Object>> smpoTrtmCdList  = codeCacheManager.retrieveCodeValueListForCache("SMPO_TRTM_CD"); // 시료처리구분
 		
 		model.addAttribute("inputData", input);
@@ -759,7 +759,7 @@ public class RlabRqprController extends IrisBaseController {
 		input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - saveRlabRqpr 신뢰성 시험의뢰 저장");
+		LOGGER.debug("RlabRqprController - saveRlabRqpr 분석의뢰 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -788,7 +788,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -812,7 +812,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - receiptRlabRqpr 신뢰성 시험의뢰 접수");
+		LOGGER.debug("RlabRqprController - receiptRlabRqpr 분석의뢰 접수");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -834,7 +834,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -853,7 +853,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabRqprEndPopup 신뢰성 시험의뢰 반려/신뢰성 시험중단 팝업");
+		LOGGER.debug("RlabRqprController - rlabRqprEndPopup 분석의뢰 반려/분석중단 팝업");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -881,7 +881,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Output(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - saveRlabRqprEnd 신뢰성 시험의뢰 반려/신뢰성 시험중단 처리");
+		LOGGER.debug("RlabRqprController - saveRlabRqprEnd 분석의뢰 반려/분석중단 처리");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -898,7 +898,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -940,7 +940,7 @@ public class RlabRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - getRlabRqprExprInfo [신뢰성 시험의로 실험정보 불러오기]");
+		LOGGER.debug("RlabRqprController - getRlabRqprExprInfo [분석의로 실험정보 불러오기]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -1000,7 +1000,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - saveRlabRqprExpr 신뢰성 시험결과 실험정보 저장");
+		LOGGER.debug("RlabRqprController - saveRlabRqprExpr 분석결과 실험정보 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -1022,7 +1022,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -1045,7 +1045,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - deleteRlabRqprExpr 신뢰성 시험결과 실험정보 삭제");
+		LOGGER.debug("RlabRqprController - deleteRlabRqprExpr 분석결과 실험정보 삭제");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -1070,7 +1070,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -1088,7 +1088,7 @@ public class RlabRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - getRlabRqprExprList [신뢰성 시험결과 실험정보 리스트 검색]");
+		LOGGER.debug("RlabRqprController - getRlabRqprExprList [분석결과 실험정보 리스트 검색]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -1116,7 +1116,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - saveRlabRqprRslt 신뢰성 시험결과 저장");
+		LOGGER.debug("RlabRqprController - saveRlabRqprRslt 분석결과 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -1139,7 +1139,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -1162,7 +1162,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - requestRlabRqprRsltApproval 신뢰성 시험결과 결재의뢰");
+		LOGGER.debug("RlabRqprController - requestRlabRqprRsltApproval 분석결과 결재의뢰");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -1188,7 +1188,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -1314,7 +1314,7 @@ public class RlabRqprController extends IrisBaseController {
 	
 	
 	/**
-	 *  신뢰성 시험의뢰 완료시 (통보자 추가저장)
+	 *  분석의뢰 완료시 (통보자 추가저장)
 	 */
 	@RequestMapping(value="/rlab/insertRlabRqprInfm.do")
 	public ModelAndView insertRlabRqprInfm(
@@ -1331,7 +1331,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - insertRlabRqprInfm 신뢰성 시험의뢰 완료시 (통보자 추가저장)");
+		LOGGER.debug("RlabRqprController - insertRlabRqprInfm 분석의뢰 완료시 (통보자 추가저장)");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -1354,7 +1354,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -1378,7 +1378,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - saveRlabExprDtl 실험 상세 정보 저장");
+		LOGGER.debug("RlabRqprController - saveRlabExatDtl 신뢰성시험 상세 정보 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -1402,7 +1402,7 @@ public class RlabRqprController extends IrisBaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -1443,13 +1443,13 @@ public class RlabRqprController extends IrisBaseController {
 			
 			rlabRqprService.deleteRlabExatDtl(rlabExatDtlDataSet);
 
-			resultMap.put("cmd", "deleteRlabExprDtl");
+			resultMap.put("cmd", "deleteRlabExatDtl");
 			resultMap.put("resultYn", "Y");
 			resultMap.put("resultMsg", "정상적으로 삭제 되었습니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -1457,8 +1457,8 @@ public class RlabRqprController extends IrisBaseController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="/rlab/rlabExprExpSimulationPopup.do")
-	public String rlabExprExpSimulationPopup(
+	@RequestMapping(value="/rlab/rlabExatExpSimulationPopup.do")
+	public String rlabExatExpSimulationPopup(
 			@RequestParam HashMap<String, String> input,
 			HttpServletRequest request,
 			HttpSession session,
@@ -1471,7 +1471,7 @@ public class RlabRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabExprExpSimulationPopup [실험수가 Simulation 팝업]");
+		LOGGER.debug("RlabRqprController - rlabExatExpSimulationPopup [실험수가 Simulation 팝업]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -1492,7 +1492,7 @@ public class RlabRqprController extends IrisBaseController {
 		checkSession(input, session, model);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - rlabRqprSrchView [신뢰성 시험의뢰서 상세 화면 이동]");
+		LOGGER.debug("RlabRqprController - rlabRqprSrchView [분석의뢰서 상세 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
