@@ -789,8 +789,40 @@
 		where	expr_cd = ${exprCd}
 		and		mchn_info_id = ${mchnInfoId}
 		and		del_yn = 'N'
-
+	
 	</update>
+	
+<select id="retrieveMachineList"  resultType="hashmap">
+		<![CDATA[
+		SELECT  MCHN_HAN_NM+'('+MCHN_EN_NM+')' as "mchnNm"
+			   ,MDL_NM as "mdlNm"
+		       ,MKR_NM as "mkrNm"
+		       ,ACC2.COM_DTL_NM   as "mchnClNm"
+			   ,SU.SA_NAME  as "mchnCrgrNm"
+			   ,MCHN_INFO_ID as "mchnInfoId"
+			   ,MCHN_CRGR_ID as  "mchnCrgrId"
+			   ,MCHN_CL_CD as  "mchnClCd"
+		  FROM  IRIS_RLAB_MCHN_INFO_MGMT MIM
+				LEFT OUTER JOIN IRIS_SSO_USER   SU
+				ON  MIM.MCHN_CRGR_ID = SU.SA_SABUN_NEW
+			   ,IRIS_ADM_COM_CD ACC
+			   ,IRIS_ADM_COM_CD ACC2
+		  WHERE 1=1 --MIM.DEL_YN = 'N'
+		  AND 	ACC.COM_CD_CD = 'MCHN_PRCT_ST'
+		  AND 	MIM.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
+		  AND 	ACC2.COM_CD_CD = 'RLAB_CL_CD'
+		  AND 	MIM.MCHN_CL_CD = ACC2.COM_DTL_CD
+		]]>
+		  <if test="( mchnNm != null and mchnNm != '')">
+			AND (MIM.MCHN_HAN_NM LIKE '%'+#{mchnNm}+'%' or MIM.MCHN_EN_NM LIKE '%'+#{mchnNm}+'%')
+		  </if>
+		  <if test="( mchnCrgrNm != null and mchnCrgrNm != '')">
+			AND SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
+		  </if>
+		  <if test="( mchnClCd == '01' or  mchnClCd == '02' or mchnClCd == '03')">
+			AND  MIM.MCHN_CL_CD = #{mchnClCd}
+		   </if>
+	</select>
 
 	<select id="getRlabRqprOpinitionEmailInfo" resultType="iris.web.rlab.rqpr.vo.RlabMailInfo">
 		<![CDATA[
