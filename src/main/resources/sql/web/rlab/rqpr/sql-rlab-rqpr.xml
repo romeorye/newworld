@@ -44,7 +44,7 @@
 			AND RLAB_CHRG_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${rlabChrgNm}%')
 		</if>
         <if test="acpcNo != null and acpcNo != ''">
-			AND ACPC_NO like '${acpcNo}%' 
+			AND ACPC_NO like '${acpcNo}%'
 		</if>
         <if test="acpcStCd != null and acpcStCd != ''">
 			AND ACPC_ST_CD = #{acpcStCd}
@@ -79,14 +79,14 @@
 			FROM   (SELECT	concat(su.sa_name, ' ',su.sa_jobx_name) AS name
 						   ,su.sa_user AS userId
 					FROM	IRIS_SSO_USER su
-					WHERE 1 = 1 
+					WHERE 1 = 1
 					AND   su.sa_dept_new = '58141801'
 					AND   su.sso_ex_flag !='D'
 					UNION ALL
 					SELECT	concat(su.sa_name, ' ',su.sa_jobx_name) AS name
 						   ,su.sa_user AS userId
 					FROM IRIS_SSO_USER su
-					WHERE 1 = 1 
+					WHERE 1 = 1
 					AND   su.sso_ex_flag !='D'
 					AND   su.sa_dept_new IN (SELECT	SD.dept_code
 											 FROM	IRIS_SSO_DEPT SD
@@ -96,9 +96,9 @@
 			ORDER BY name
 		 ]]>
 	</select>
-	
+
 	<select id="getRlabRqprInfo" resultType="hashmap">
-	
+
 		   SELECT
 				RQPR_ID												AS rqprId,
 				RQPR_DT												AS rqprDt,
@@ -148,21 +148,21 @@
 				 where	rqpr_id = mst.rqpr_Id
 				 and		del_yn = 'N')							AS opinitionCnt,
 				(select	CIR.ITG_RDCS_ID
-				 from	IRIS_COM_ITG_RDCS CIR 
+				 from	IRIS_COM_ITG_RDCS CIR
 				 WHERE	CIR.GUID = 'A' + cast(mst.RQPR_ID as nvarchar)
 				)													AS reqItgRdcsId,
 				(select	CIR.ITG_RDCS_ID
-				 from	IRIS_COM_ITG_RDCS CIR 
+				 from	IRIS_COM_ITG_RDCS CIR
 				 WHERE	CIR.GUID = 'C' + cast(mst.RQPR_ID as nvarchar)
 				)													AS rsltItgRdcsId
-			
+
 			FROM	IRIS_RLAB_RQPR_MST mst
 			WHERE	RQPR_ID = ${rqprId}
-			 
+
 	</select>
-	
+
 	<select id="getRlabRqprSmpoList" resultType="hashmap">
-	
+
 		   SELECT
 				SMPO_ID		AS smpoId,
 				RQPR_ID		AS rqprId,
@@ -173,11 +173,11 @@
 			FROM	IRIS_RLAB_RQPR_SMPO
 			WHERE	RQPR_ID = ${rqprId}
 			AND		DEL_YN = 'N'
-			 
+
 	</select>
-	
+
 	<select id="getRlabRqprRltdList" resultType="hashmap">
-	
+
 		   SELECT
 				rltd.RLTD_ID								AS rltdId,
 				rltd.RQPR_ID								AS rqprId,
@@ -192,11 +192,11 @@
 			WHERE	rltd.RQPR_ID = ${rqprId}
 			AND		rltd.DEL_YN = 'N'
 			AND		rltd.PRE_RQPR_ID = mst.RQPR_ID
-			 
+
 	</select>
-	
+
 	<insert id="insertRlabRqpr" parameterType="hashmap" useGeneratedKeys="true" keyProperty="rqprId" keyColumn="RQPR_ID">
-	
+
 		insert into iris_rlab_rqpr_mst(
 			RQPR_DT
 		   ,RGST_ID
@@ -229,11 +229,11 @@
 			  ,#{userId}
 			  ,#{userId}
 		  )
-	
+
 	</insert>
-	
+
 	<update id="updateRlabRqpr">
-	
+
 		update	iris_rlab_rqpr_mst
 		set		rlab_name = #{rlabNm},
 				rlab_scn_cd = #{rlabScnCd},
@@ -244,7 +244,7 @@
 				rlab_sbc = #{rlabSbc},
 				acpc_st_cd = #{acpcStCd},
 			<if test="acpcNo == '' and acpcStCd == '03'">
-				acpc_no = (select 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4) 
+				acpc_no = (select 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4)
 						   from   iris_rlab_rqpr_mst
 						   where  acpc_no like 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '%'),
 				acpc_dt = Convert(varchar(10), getdate(), 120),
@@ -254,11 +254,11 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<update id="updateRlabRqprAcpcStCd">
-	
+
 		update	iris_rlab_rqpr_mst
 		set		acpc_st_cd = #{acpcStCd},
 		<if test="acpcStCd == '04'">
@@ -272,19 +272,19 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<update id="updateRlabRqprDelYn">
-	
+
 		update	iris_rlab_rqpr_mst
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<insert id="insertRlabRqprSmpo" parameterType="map">
 	/* 시료정보 등록 */
 		insert into iris_rlab_rqpr_smpo(
@@ -304,9 +304,9 @@
 			  ,#{userId}
 			  ,#{userId}
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateRlabRqprSmpo">
 	/* 시료정보 수정 */
 		update	iris_rlab_rqpr_smpo
@@ -317,9 +317,9 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	smpo_id = ${smpoId}
-	
+
 	</update>
-	
+
 	<update id="updateRlabRqprSmpoDelYn">
 	/* 시료정보 삭제 */
 		update	iris_rlab_rqpr_smpo
@@ -327,11 +327,11 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	smpo_id = ${smpoId}
-	
+
 	</update>
-	
+
 	<insert id="insertRlabRqprRltd" parameterType="map">
-	
+
 		insert into iris_rlab_rqpr_rltd(
 			RQPR_ID
 		   ,PRE_RQPR_ID
@@ -347,11 +347,11 @@
 			  ,#{userId}
 			  ,#{userId}
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateRlabRqprRltd">
-	
+
 		update	iris_rlab_rqpr_rltd
 		set		pre_rqpr_id = #{preRqprId},
 				pre_rlab_name = #{preRlabNm},
@@ -359,21 +359,21 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rltd_id = #{rltdId}
-	
+
 	</update>
-	
+
 	<update id="updateRlabRqprRltdDelYn">
-	
+
 		update	iris_rlab_rqpr_rltd
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rltd_id = #{rltdId}
-	
+
 	</update>
-	
+
 	<insert id="insertRlabRqprInfm" parameterType="map">
-	
+
 		MERGE INTO iris_rlab_rqpr_infm a
 		USING ( SELECT	#{rqprId} as rqprId,
 						#{infmPrsnId} as infmPrsnId,
@@ -390,35 +390,35 @@
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
-	
+
 	<update id="updateRlabRqprInfmDelYn">
-	
+
 		update	iris_rlab_rqpr_infm
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	rqpr_id = #{rqprId}
 		<if test="infmPrsnIdArr != null">
-		and		infm_prsn_id not in 
+		and		infm_prsn_id not in
 			<foreach collection="infmPrsnIdArr" item="item" open="(" close=")" separator=",">
 				#{item}
 			</foreach>
 		</if>
 		and		del_yn = 'N'
-	
+
 	</update>
-	
+
 	<select id="getRlabRqprOpinitionListCnt" resultType="int">
-	
+
 		   select	count(1) cnt
 			from	iris_rlab_rqpr_opi
 			where	rqpr_id = ${rqprId}
 			and		del_yn = 'N'
-			 
+
 	</select>
-	
+
 	<select id="getRlabRqprOpinitionList" resultType="map">
 	/*의견목록*/
 		   select	OPI_ID								  as opiId
@@ -431,9 +431,9 @@
 			where	rqpr_id = ${rqprId}
 			and		del_yn = 'N'
 			order by rgst_dt desc
-			 
+
 	</select>
-	
+
 	<insert id="saveRlabRqprOpinition" parameterType="map">
 	/*의견 등록 수정*/
 		MERGE INTO iris_rlab_rqpr_opi a
@@ -462,9 +462,9 @@
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
-	
+
 	<update id="updateRlabRqprOpinitionDelYn" parameterType="map">
 	/*의견삭제*/
 		update	iris_rlab_rqpr_opi
@@ -472,87 +472,69 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	opi_id = ${opiId}
-	
+
 	</update>
 
-	<select id="getRlabExatTreeList" resultType="hashmap">
+	<select id="getRlabExprTreeList" resultType="hashmap">
 		<![CDATA[
-			-- getRlabExatTreeList 실험정보 트리 리스트 조회
-			WITH exat_tree AS (
-				select	EXAT_CD
-					   ,EXAT_NM
-					   ,SUPI_EXAT_CD
-					   ,EXAT_CD_L
-					   ,EXAT_MTD_NO
+			-- getRlabExprTreeList 실험정보 트리 리스트 조회
+			WITH expr_tree AS (
+				select	EXPR_CD
+					   ,EXPR_NM
+					   ,SUPI_EXPR_CD
+					   ,EXPR_CD_L
+					   ,SOP_NO
 					   ,UTM_EXP
 					   ,EXP_CRTN_SCN_CD
 					   ,UTM_SMPO_QTY
-					   ,UTM_EXAT_TIM
+					   ,UTM_EXPR_TIM
 					   ,DSP_NO
 					   ,DEL_YN
-<<<<<<< .mine
 					   ,convert(varchar(255), EXPR_NM) path
 					   ,convert(varchar(255), convert(varchar(255), dsp_no + 1000) + EXPR_NM) sort
 				from	iris_rlab_expr_mst
 				where	supi_expr_cd = 0
-||||||| .r9
-=======
-					   ,convert(varchar(255), EXAT_NM) path
-					   ,convert(varchar(255), convert(varchar(255), dsp_no + 1000) + EXAT_NM) sort
-				from	IRIS_RLAB_EXAT_MST
-				where	supi_exat_cd = 0
->>>>>>> .r34
 		 ]]>
 	        <if test="isMng == 0">
 				and		del_yn = 'N'
 			</if>
 		<![CDATA[
-			     union all
-				select	mst.EXAT_CD
-					   ,mst.EXAT_NM
-					   ,mst.SUPI_EXAT_CD
-					   ,mst.EXAT_CD_L
-					   ,mst.EXAT_MTD_NO
+			    union all
+				select	mst.EXPR_CD
+					   ,mst.EXPR_NM
+					   ,mst.SUPI_EXPR_CD
+					   ,mst.EXPR_CD_L
+					   ,mst.SOP_NO
 					   ,mst.UTM_EXP
 					   ,mst.EXP_CRTN_SCN_CD
 					   ,mst.UTM_SMPO_QTY
-					   ,mst.UTM_EXAT_TIM
+					   ,mst.UTM_EXPR_TIM
 					   ,mst.DSP_NO
 					   ,mst.DEL_YN
-<<<<<<< .mine
 					   ,convert(varchar(255), tree.path + ' > ' + mst.EXPR_NM) path
 					   ,convert(varchar(255), tree.sort + ' > ' + convert(varchar(255), mst.dsp_no + 1000) + mst.EXPR_NM) sort
 				from	iris_rlab_expr_mst mst,
 						expr_tree tree
 				where	mst.supi_expr_cd = tree.expr_cd
-||||||| .r9
-=======
-					   ,convert(varchar(255), tree.path + ' > ' + mst.EXAT_NM) path
-					   ,convert(varchar(255), tree.sort + ' > ' + convert(varchar(255), mst.dsp_no + 1000) + mst.EXAT_NM) sort
-				from	IRIS_RLAB_EXAT_MST mst,
-						exat_tree tree
-				where	mst.supi_exat_cd = tree.exat_cd
->>>>>>> .r34
 		 ]]>
 	        <if test="isMng == 0">
 				and		mst.del_yn = 'N'
 			</if>
 			)
-			select (select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd=exat_tree.supi_exat_cd) as supiExatNm
-				   ,EXAT_CD				   as exatCd
-				   ,EXAT_NM				   as exatNm
-				   ,SUPI_EXAT_CD		   as supiExatCd
-				   ,EXAT_CD_L			   as exatCdL
-				   ,EXAT_MTD_NO				   as exatMtdNo
+			select	EXPR_CD				   as exprCd
+				   ,EXPR_NM				   as exprNm
+				   ,SUPI_EXPR_CD		   as supiExprCd
+				   ,EXPR_CD_L			   as exprCdL
+				   ,SOP_NO				   as sopNo
 				   ,UTM_EXP				   as utmExp
 				   ,EXP_CRTN_SCN_CD		   as expCrtnScnCd
 				   ,UTM_SMPO_QTY		   as utmSmpoQty
-				   ,UTM_EXAT_TIM		   as utmExatTim
+				   ,UTM_EXPR_TIM		   as utmExprTim
 				   ,DSP_NO				   as dspNo
 				   ,DEL_YN				   as delYn
 				   ,path
 				   ,sort
-			from	exat_tree
+			from	expr_tree
 			ORDER BY sort
 	</select>
 
@@ -627,9 +609,9 @@
 		 ]]>
 			where	rqpr_expr_id = ${rqprExprId}
 	</select>
-	
+
 	<insert id="saveRlabRqprExpr" parameterType="map">
-	
+
 		MERGE INTO iris_rlab_rqpr_expr a
 		USING ( SELECT	#{rqprExprId} as rqprExprId,
 						#{rqprId} as rqprId,
@@ -683,100 +665,89 @@
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
-	
+
 	<update id="updateRlabRqprExprDelYn" parameterType="map">
-	
+
 		update	iris_rlab_rqpr_expr
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rqpr_expr_id = ${rqprExprId}
-	
+
 	</update>
-	
+
 	<update id="saveRlabRqprRslt" parameterType="map">
-	
+
 		update	iris_rlab_rqpr_mst
 		set		rlab_rslt_sbc = #{rlabRsltSbc},
 				rslt_attc_file_id = #{rsltAttcFileId},
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
-	<insert id="saveRlabExatMst" parameterType="map">
-	
-<<<<<<< .mine
+
+	<insert id="saveRlabExprMst" parameterType="map">
+
 		MERGE INTO iris_rlab_expr_mst a
 		USING ( SELECT	#{exprCd} as exprCd,
 						#{exprNm} as exprNm,
 						#{supiExprCd} as supiExprCd,
 						#{exprCdL} as exprCdL,
 						#{sopNo} as sopNo,
-||||||| .r9
-=======
-		MERGE INTO iris_rlab_exat_mst a
-		USING ( SELECT	#{exatCd} as exatCd,
-						#{exatNm} as exatNm,
-						#{supiExatCd} as supiExatCd,
-						#{exatCdL} as exatCdL,
-						#{exatMtdNo} as exatMtdNo,
->>>>>>> .r34
 						#{utmExp} as utmExp,
 						#{expCrtnScnCd} as expCrtnScnCd,
 						#{utmSmpoQty} as utmSmpoQty,
-						#{utmExatTim} as utmExatTim,
+						#{utmExprTim} as utmExprTim,
 						#{dspNo} as dspNo,
 						#{delYn} as delYn,
 						#{userId} as userId ) b
-		ON ( a.exat_cd = b.exatCd)
+		ON ( a.expr_cd = b.exprCd)
 		WHEN MATCHED THEN
-			update set	exat_nm = b.exatNm,
-						exat_mtd_no = b.exatMtdNo,
+			update set	expr_nm = b.exprNm,
+						sop_no = b.sopNo,
 						utm_exp = b.utmExp,
 						exp_crtn_scn_cd = b.expCrtnScnCd,
 						utm_smpo_qty = b.utmSmpoQty,
-						utm_exat_tim = b.utmExatTim,
+						utm_expr_tim = b.utmExprTim,
 						dsp_no = b.dspNo,
 						del_yn = b.delYn,
 						last_mdfy_dt = getdate(),
 						last_mdfy_id = b.userId
 		WHEN NOT MATCHED THEN
-			insert (exat_nm
-				   ,supi_exat_cd
-				   ,exat_cd_l
-				   ,exat_mtd_no
+			insert (expr_nm
+				   ,supi_expr_cd
+				   ,expr_cd_l
+				   ,sop_no
 				   ,utm_exp
 				   ,exp_crtn_scn_cd
 				   ,utm_smpo_qty
-				   ,utm_exat_tim
+				   ,utm_expr_tim
 				   ,dsp_no
 				   ,del_yn
 				   ,frst_rgst_id
 				   ,last_mdfy_id
 				   )
-			values(b.exatNm
-				  ,b.supiExatCd
-				  ,b.exatCdL
-				  ,b.exatMtdNo
+			values(b.exprNm
+				  ,b.supiExprCd
+				  ,b.exprCdL
+				  ,b.sopNo
 				  ,b.utmExp
 				  ,b.expCrtnScnCd
 				  ,b.utmSmpoQty
-				  ,b.utmExatTim
+				  ,b.utmExprTim
 				  ,b.dspNo
 				  ,b.delYn
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
 
-	<select id="getRlabExatDtlList" resultType="hashmap">
+	<select id="getRlabExprDtlList" resultType="hashmap">
 		<![CDATA[
-<<<<<<< .mine
 			-- getRlabExprDtlList 실험 상세 정보 리스트 조회
 			select	a.expr_cd										as exprCd
 				   ,a.mchn_info_id									as mchnInfoId
@@ -787,99 +758,39 @@
 				   ,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
 			from	iris_rlab_expr_dtl a,
 					iris_mchn_info_mst b
-||||||| .r9
-=======
-			-- getRlabExatDtlList 신뢰성 시험 상세 정보 리스트 조회
-			select 
-		 		 a.exat_cd as exatCd
-				,a.mchn_info_id as mchnInfoId
-				,b.mchn_han_nm as mchnHanNm
-				,b.mdl_nm as mdlNm
-				,b.mkr_nm as mkrNm
-				,b.MCHN_CL_CD as mchnClCd
-				,dbo.fn_getComDtlNm('MCHN_CL_CD', b.mchn_cl_cd)	as mchnClNm
-				,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
-				,b.MCHN_EXPL as mchnExpl
-		    from iris_rlab_exat_dtl a,
-				 IRIS_RLAB_MCHN_INFO_MGMT b
->>>>>>> .r34
 		 ]]>
-			where	a.exat_cd = ${exatCd}
-			and a.DEL_YN = 'N'
-			and a.MCHN_INFO_ID = b.MCHN_INFO_ID
+			where	a.expr_cd = ${exprCd}
+			and		a.del_yn = 'N'
+			and		a.mchn_info_id = b.mchn_info_id
 	</select>
-	
-	<insert id="saveRlabExatDtl" parameterType="map">
-	
-<<<<<<< .mine
+
+	<insert id="saveRlabExprDtl" parameterType="map">
+
 		insert into iris_rlab_expr_dtl(
 			EXPR_CD
-||||||| .r9
-=======
-		insert into iris_rlab_exat_dtl(
-			EXAT_CD
->>>>>>> .r34
 		   ,MCHN_INFO_ID
 		   ,FRST_RGST_ID
 		   ,LAST_MDFY_ID
 		)
-		values(${exatCd}
+		values(${exprCd}
 			  ,${mchnInfoId}
 			  ,#{userId}
 			  ,#{userId}
 			  )
-	
+
 	</insert>
-	
-	<update id="updateRlabExatDtlDelYn" parameterType="map">
-	
-<<<<<<< .mine
+
+	<update id="updateRlabExprDtlDelYn" parameterType="map">
+
 		update	iris_rlab_expr_dtl
-||||||| .r9
-=======
-		update	iris_rlab_exat_dtl
->>>>>>> .r34
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
-		where	exat_cd = ${exatCd}
+		where	expr_cd = ${exprCd}
 		and		mchn_info_id = ${mchnInfoId}
 		and		del_yn = 'N'
-	
-	</update>
-	
-<select id="retrieveMachineList"  resultType="hashmap">
-		<![CDATA[
-		SELECT  MCHN_HAN_NM+'('+MCHN_EN_NM+')' as "mchnNm"
-			   ,MDL_NM as "mdlNm"
-		       ,MKR_NM as "mkrNm"
-		       ,ACC2.COM_DTL_NM   as "mchnClNm"
-			   ,SU.SA_NAME  as "mchnCrgrNm"
-			   ,MCHN_INFO_ID as "mchnInfoId"
-			   ,MCHN_CRGR_ID as  "mchnCrgrId"
-			   ,MCHN_CL_CD as  "mchnClCd"
-		  FROM  IRIS_RLAB_MCHN_INFO_MGMT MIM
-				LEFT OUTER JOIN IRIS_SSO_USER   SU
-				ON  MIM.MCHN_CRGR_ID = SU.SA_SABUN_NEW
-			   ,IRIS_ADM_COM_CD ACC
-			   ,IRIS_ADM_COM_CD ACC2
-		  WHERE 1=1 --MIM.DEL_YN = 'N'
-		  AND 	ACC.COM_CD_CD = 'MCHN_PRCT_ST'
-		  AND 	MIM.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
-		  AND 	ACC2.COM_CD_CD = 'MCHN_CL_CD'
-		  AND 	MIM.MCHN_CL_CD = ACC2.COM_DTL_CD
-		]]>
 
-		  <if test="( mchnNm != null and mchnNm != '')">
-			AND (MIM.MCHN_HAN_NM LIKE '%'+#{mchnNm}+'%' or MIM.MCHN_EN_NM LIKE '%'+#{mchnNm}+'%')
-		  </if>
-		  <if test="( mchnCrgrNm != null and mchnCrgrNm != '')">
-			AND SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
-		  </if>
-		  <if test="( mchnClCd == 'YA' or  mchnClCd == 'MA' or mchnClCd == 'HA' or mchnClCd == 'MS' or mchnClCd == 'YM' or mchnClCd == 'JT' )">
-			AND  MIM.MCHN_CL_CD = #{mchnClCd}
-		   </if>
-	</select>
+	</update>
 
 	<select id="getRlabRqprOpinitionEmailInfo" resultType="iris.web.rlab.rqpr.vo.RlabMailInfo">
 		<![CDATA[
@@ -930,7 +841,7 @@
 				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
 				   ,chrg.sa_mail																					as chrgEmail
 				   ,mst.rlab_gvb_rson																				as rlabGvbRson
-				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +	
+				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
 				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
 								                                             where   b.sa_user = mst.rlab_chrg_id))), '') as receivers
@@ -955,7 +866,7 @@
 				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
 				   ,chrg.sa_mail																					as chrgEmail
 				   ,mst.rlab_dcac_rson																				as rlabDcacRson
-				   ,rgst.sa_mail + ',' + isnull(dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+	
+				   ,rgst.sa_mail + ',' + isnull(dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+
 				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
 								                                             where   b.sa_user = mst.rlab_chrg_id))), '') as receivers
@@ -967,8 +878,8 @@
 			and		mst.rgst_id = rgst.sa_user
 			and		mst.rlab_chrg_id = chrg.sa_user
 	</select>
-	
-	
+
+
 	<select id="getExprWay" resultType="String">
 		<![CDATA[
 			-- getExprWay 개발방법 조회
@@ -976,9 +887,9 @@
 		FROM  IRIS_RLAB_RQPR_EXPR
 		WHERE   RQPR_EXPR_ID = ${rqprExprId}
 		AND     RQPR_ID = #{rqprId}
-		]]>	
+		]]>
 	</select>
-	
+
 	<select id="retrieveOpiSbc" resultType="String">
 		<![CDATA[
 			-- retrieveOpiSbc 의견 조회
@@ -986,6 +897,6 @@
 		FROM IRIS_RLAB_RQPR_OPI
 		WHERE  DEL_YN ='N'
 		AND    OPI_ID =  #{opiId}
-		]]>	
+		]]>
 	</select>
 </mapper>
