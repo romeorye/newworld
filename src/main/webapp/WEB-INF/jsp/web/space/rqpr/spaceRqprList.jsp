@@ -7,7 +7,7 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlRqprList.jsp
+ * $Id		: spaceRqprList.jsp
  * @desc    : 분석의뢰관리 리스트
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
@@ -40,21 +40,21 @@
              * 변수 및 객체 선언
              *******************/
             
-            var anlNm = new Rui.ui.form.LTextBox({
-                applyTo: 'anlNm',
+            var spaceNm = new Rui.ui.form.LTextBox({
+                applyTo: 'spaceNm',
                 placeholder: '검색할 분석명을 입력해주세요.',
-                defaultValue: '<c:out value="${inputData.anlNm}"/>',
+                defaultValue: '<c:out value="${inputData.spaceNm}"/>',
                 emptyValue: '',
                 width: 400
             });
             
-            anlNm.on('blur', function(e) {
-            	anlNm.setValue(anlNm.getValue().trim());
+            spaceNm.on('blur', function(e) {
+            	spaceNm.setValue(spaceNm.getValue().trim());
             });
         /*     
-            anlNm.on('keypress', function(e) {
+            spaceNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
-            		getAnlRqprList();
+            		getspaceRqprList();
             	}
             });
             
@@ -86,7 +86,7 @@
           /*   
             acpcNo.on('keypress', function(e) {
             	if(e.keyCode == 13) {
-            		getAnlRqprList();
+            		getspaceRqprList();
             	}
             });
            */  
@@ -101,7 +101,7 @@
 
             fromRqprDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(fromRqprDt.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
+					alert('날짜형식이 올바르지 않습니다.!!');
 					fromRqprDt.setValue(new Date());
 				}
 				
@@ -122,7 +122,7 @@
 			 
 			toRqprDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toRqprDt.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
+					alert('날짜형식이 올바르지 않습니다.!!');
 					toRqprDt.setValue(new Date());
 				}
 				
@@ -133,24 +133,24 @@
 			});
            
 			
-			var anlChrgNm = new Rui.ui.form.LTextBox({
-                applyTo: 'anlChrgNm',
+			var spaceChrgNm = new Rui.ui.form.LTextBox({
+                applyTo: 'spaceChrgNm',
                 placeholder: '검색할 담당자를 입력해주세요.',
-                defaultValue: '<c:out value="${inputData.anlChrgNm}"/>',
+                defaultValue: '<c:out value="${inputData.spaceChrgNm}"/>',
                 emptyValue: '',
                 width: 400
             });
 			
 			
 			/* 
-            var anlChrgNm = new Rui.ui.form.LCombo({
-                applyTo: 'anlChrgNm',
-                name: 'anlChrgNm',
+            var spaceChrgNm = new Rui.ui.form.LCombo({
+                applyTo: 'spaceChrgNm',
+                name: 'spaceChrgNm',
                 useEmptyText: true,
                 emptyText: '전체',
-                defaultValue: '<c:out value="${inputData.anlChrgNm}"/>',
+                defaultValue: '<c:out value="${inputData.spaceChrgNm}"/>',
                 emptyValue: '',
-                url: '<c:url value="/anl/getAnlChrgList.do"/>',
+                url: '<c:url value="/space/getspaceChrgList.do"/>',
                 displayField: 'name',
                 valueField: 'userId'
             });
@@ -170,93 +170,93 @@
             /*******************
              * 변수 및 객체 선언
             *******************/
-            var anlRqprDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprDataSet',
+            var spaceRqprDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
 					  { id: 'rqprId'}
 					, { id: 'acpcNo' }
-					, { id: 'anlScnNm' }
-					, { id: 'anlNm' }
+					, { id: 'spaceScnNm' }
+					, { id: 'spaceNm' }
 					, { id: 'rgstNm' }
-					, { id: 'anlChrgNm' }
+					, { id: 'spaceChrgNm' }
 					, { id: 'rqprDt' }
 					, { id: 'acpcDt' }
 					, { id: 'cmplParrDt' }
 					, { id: 'cmplDt' }
-					, { id: 'anlUgyYnNm' }
+					, { id: 'spaceUgyYnNm' }
 					, { id: 'acpcStNm' }
 					, { id: 'smpoCnt' }
                 ]
             });
 
-            var anlRqprColumnModel = new Rui.ui.grid.LColumnModel({
+            var spaceRqprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                       { field: 'acpcNo',		label: '접수번호',		sortable: true,	align:'center',	width: 80 }
-                    , { field: 'anlScnNm',		label: '분석구분',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'anlNm',			label: '분석명',		sortable: false,	align:'left',	width: 370 }
+                    , { field: 'spaceScnNm',		label: '분석구분',		sortable: false,	align:'center',	width: 80 }
+                    , { field: 'spaceNm',			label: '분석명',		sortable: false,	align:'left',	width: 370 }
                     , { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 50 }
                     , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 70 }
-					, { field: 'anlChrgNm',		label: '담당자',		sortable: false, 	align:'center',	width: 70 }
+					, { field: 'spaceChrgNm',		label: '담당자',		sortable: false, 	align:'center',	width: 70 }
 					, { field: 'rqprDt',		label: '의뢰일',		sortable: true, 	align:'center',	width: 80 }
 					, { field: 'acpcDt',		label: '접수일',		sortable: true, 	align:'center',	width: 80 }
 					, { field: 'cmplParrDt',	label: '완료예정일',	sortable: true, 	align:'center',	width: 80 }
                     , { field: 'cmplDt',		label: '완료일',		sortable: true, 	align:'center',	width: 80 }
-                    , { field: 'anlUgyYnNm',	label: '긴급',		sortable: false,  	align:'center',	width: 40 }
+                    , { field: 'spaceUgyYnNm',	label: '긴급',		sortable: false,  	align:'center',	width: 40 }
 					, { field: 'acpcStNm',		label: '상태',		sortable: false, 	align:'center',	width: 80 }
                 ]
             });
 
-            var anlRqprGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprColumnModel,
-                dataSet: anlRqprDataSet,
+            var spaceRqprGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceRqprColumnModel,
+                dataSet: spaceRqprDataSet,
                 width: 600,
                 height: 520,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            anlRqprGrid.on('cellClick', function(e) {
+            spaceRqprGrid.on('cellClick', function(e) {
 
-            	var record = anlRqprDataSet.getAt(e.row);
+            	var record = spaceRqprDataSet.getAt(e.row);
             	
             	$('#rqprId').val(record.data.rqprId);
             	
-            	nwinsActSubmit(aform, "<c:url value='/anl/anlRqprDetail.do'/>");
+            	nwinsActSubmit(aform, "<c:url value='/space/spaceRqprDetail.do'/>");
             });
             
-            anlRqprGrid.render('anlRqprGrid');
+            spaceRqprGrid.render('spaceRqprGrid');
             
             /* 조회 */
-            getAnlRqprList = function() {
-            	anlRqprDataSet.load({
-                    url: '<c:url value="/anl/getAnlRqprList.do"/>',
+            getspaceRqprList = function() {
+            	spaceRqprDataSet.load({
+                    url: '<c:url value="/space/getspaceRqprList.do"/>',
                     params :{
-                    	anlNm : encodeURIComponent(anlNm.getValue()),
+                    	spaceNm : encodeURIComponent(spaceNm.getValue()),
             		    fromRqprDt : fromRqprDt.getValue(), 
             		    toRqprDt : toRqprDt.getValue(),
             		    rgstNm : encodeURIComponent(rgstNm.getValue()),
-            		    anlChrgNm : encodeURIComponent(anlChrgNm.getValue()),
+            		    spaceChrgNm : encodeURIComponent(spaceChrgNm.getValue()),
             		    acpcNo : encodeURIComponent(acpcNo.getValue()),
             		    acpcStCd : acpcStCd.getValue(),
-            		    isAnlChrg : 0
+            		    isspaceChrg : 0
                     }
                 });
             };
             
-            anlRqprDataSet.on('load', function(e) {
-   	    		$("#cnt_text").html('총 ' + anlRqprDataSet.getCount() + '건');
+            spaceRqprDataSet.on('load', function(e) {
+   	    		$("#cnt_text").html('총 ' + spaceRqprDataSet.getCount() + '건');
    	      	});
             
             /* 등록화면 이동 */
-            goAnlRqprRgst = function() {
-            	nwinsActSubmit(aform, "<c:url value="/anl/anlRqprRgst.do"/>");
+            gospaceRqprRgst = function() {
+            	nwinsActSubmit(aform, "<c:url value="/space/spaceRqprRgst.do"/>");
             };
             
             /* 분석의뢰 리스트 엑셀 다운로드 */
-        	downloadAnlRqprListExcel = function() {
-                anlRqprGrid.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') + '.xls');
+        	downloadspaceRqprListExcel = function() {
+                spaceRqprGrid.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') + '.xls');
             };
     		/* 
             setRgstInfo = function(userInfo) {
@@ -264,13 +264,13 @@
     	    	$('#rgstNm').val(userInfo.saUser);
     	    };
              */
-            getAnlRqprList();
+            getspaceRqprList();
 			
         });
 
 	</script>
     </head>
-    <body onkeypress="if(event.keyCode==13) {getAnlRqprList();}">
+    <body onkeypress="if(event.keyCode==13) {getspaceRqprList();}">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
 		
@@ -293,7 +293,7 @@
    						<tr>
    							<th align="right">분석명</th>
    							<td>
-   								<input type="text" id="anlNm">
+   								<input type="text" id="spaceNm">
    							</td>
    							<th align="right">의뢰일자</th>
     						<td>
@@ -301,18 +301,18 @@
    								<input type="text" id="toRqprDt"/>
     						</td>
    							<td class="t_center" rowspan="3">
-   								<a style="cursor: pointer;" onclick="getAnlRqprList();" class="btnL">검색</a>
+   								<a style="cursor: pointer;" onclick="getspaceRqprList();" class="btnL">검색</a>
    							</td>
    						</tr>
    						<tr>
    							<th align="right">의뢰자</th>
    							<td>
    								<input type="text" id="rgstNm">
-                                <!-- <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'anl');" class="icoBtn">검색</a> -->
+                                <!-- <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'space');" class="icoBtn">검색</a> -->
    							</td>
    							<th align="right">담당자</th>
     						<td>
-    							<input type="text" id="anlChrgNm">
+    							<input type="text" id="spaceChrgNm">
     						</td>
    						</tr>
    						<tr>
@@ -331,14 +331,14 @@
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">
-   						<button type="button" class="btn"  id="rgstBtn" name="rgstBtn" onclick="goAnlRqprRgst()">등록</button>
-   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadAnlRqprListExcel()">Excel</button>
+   						<button type="button" class="btn"  id="rgstBtn" name="rgstBtn" onclick="gospaceRqprRgst()">등록</button>
+   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadspaceRqprListExcel()">Excel</button>
    					</div>
    				</div>
 
-   				<div id="anlRqprGrid"></div>
+   				<div id="spaceRqprGrid"></div>
 				
-				<div id="anlRqprExcelGrid" style="width:10px;height:10px;visibility:hidden;"></div>
+				<div id="spaceRqprExcelGrid" style="width:10px;height:10px;visibility:hidden;"></div>
    				
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->

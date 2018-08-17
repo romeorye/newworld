@@ -403,7 +403,7 @@
     	    utmExpSimulationDialog.render(document.body);
     	
     	    openUtmExpSimulationDialog = function() {
-    	    	utmExpSimulationDialog.setUrl('<c:url value="/anl/anlExprExpSimulationPopup.do"/>');
+    	    	utmExpSimulationDialog.setUrl('<c:url value="/space/spaceExatExpSimulationPopup.do"/>');
     	    	utmExpSimulationDialog.show();
     	    };
     	    // 실험수가 Simulation 팝업 끝
@@ -431,9 +431,7 @@
             };
             
             addSpaceExatMst = function() {
-            	alert(spaceExatMstTreeDataSet.rowPosition);
             	if(spaceExatMstTreeDataSet.getRow() == -1) {
-            		alert('111');
             		return ;
             	}
             	
@@ -475,7 +473,7 @@
             	if(confirm('저장 하시겠습니까?')) {
                     dm.updateDataSet({
                         dataSets:[spaceExatMstTreeDataSet],
-                        url:'<c:url value="/spacee/saveSpaceExatMst.do"/>'
+                        url:'<c:url value="/space/saveSpaceExatMst.do"/>'
                     });
             	}
             };
@@ -487,7 +485,7 @@
             
             addSpaceExatDtl = function() {
             	if(selectExatCd == -1) {
-            		alert('먼저 실험정보의 분석기기 관리 버튼을 눌러주세요.');
+            		alert('먼저 공간평가정보의 분석기기 관리 버튼을 눌러주세요.');
             	} else {
             		openMchnSearchDialog(setMchnInfo);
             	}
@@ -502,7 +500,7 @@
                 	if(confirm('저장 하시겠습니까?')) {
                         dm.updateDataSet({
                             dataSets:[spaceExatDtlDataSet],
-                            url:'<c:url value="/anl/saveAnlExprDtl.do"/>'
+                            url:'<c:url value="/space/saveSpaceExatDtl.do"/>'
                         });
                 	}
             	}
@@ -519,7 +517,7 @@
                     	
                         dm.updateDataSet({
                             dataSets:[spaceExatDtlDataSet],
-                            url:'<c:url value="/anl/deleteAnlExprDtl.do"/>'
+                            url:'<c:url value="/space/deleteSpaceExatDtl.do"/>'
                         });
                 	}
                 }

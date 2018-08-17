@@ -427,7 +427,6 @@
             };
             
             addRlabExatMst = function() {
-            	alert(rlabExatMstTreeDataSet.rowPosition);
             	if(rlabExatMstTreeDataSet.getRow() == -1) {
             		return ;
             	}

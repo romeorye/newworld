@@ -7,7 +7,7 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlExprExpSimulationPopup.jsp
+ * $Id		: spaceExatExpSimulationPopup.jsp
  * @desc    : 실험수가 Simulation 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
@@ -93,7 +93,7 @@
             });
             
             numberBox.on('blur', function(e) {
-                setExprExp();
+                setExatExp();
             });
             
             var expCrtnScnCd = new Rui.ui.form.LCombo({
@@ -104,52 +104,52 @@
                 emptyValue: '',
                 width: 80,
                 items: [
-                    { value: '1', text: '실험수'},
-                    { value: '2', text: '시간'}
+                    { value: '1', text: '공간평가시험수'},
+                    { value: '2', text: '시험일수'}
                 ]
             });
             
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'smpoQty',			validExp: '실험수:true:number' }
+                { id: 'smpoQty',			validExp: '공간평가시험수:true:number' }
                 ]
             });
             
             var vm2 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'exprTim',			validExp: '실험시간:true:number' }
+                { id: 'exatTim',			validExp: '시험일수:true:number' }
                 ]
             });
             
-            var anlExprMstTreeDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlExprMstTreeDataSet',
+            var spaceExatMstTreeDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceExatMstTreeDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 focusFirstRow: -1,
                 fields: [
-                      { id: 'exprCd', type: 'number' }
-                    , { id: 'exprNm' }
-                    , { id: 'supiExprCd', type: 'number' }
-                    , { id: 'exprCdL' }
-                    , { id: 'sopNo' }
+                      { id: 'exatCd', type: 'number' }
+                    , { id: 'exatNm' }
+                    , { id: 'supiExatCd', type: 'number' }
+                    , { id: 'exatCdL' }
+                    , { id: 'exatMtdNo' }
                     , { id: 'utmExp', type: 'number' }
                     , { id: 'expCrtnScnCd' }
                     , { id: 'utmSmpoQty', type: 'number' }
-                    , { id: 'utmExprTim', type: 'number' }
+                    , { id: 'utmExatTim', type: 'number' }
                     , { id: 'dspNo', type: 'number' }
                     , { id: 'path' }
                     , { id: 'sort' }
                 ]
             });
 
-            var anlExprMstTreeView = new Rui.ui.tree.LTreeView({
-                id: 'anlExprMstTreeView',
-                dataSet: anlExprMstTreeDataSet,
+            var spaceExatMstTreeView = new Rui.ui.tree.LTreeView({
+                id: 'spaceExatMstTreeView',
+                dataSet: spaceExatMstTreeDataSet,
                 fields: {
                     rootValue: 0,
-                    parentId: 'supiExprCd',
-                    id: 'exprCd',
-                    label: 'exprNm',
+                    parentId: 'supiExatCd',
+                    id: 'exatCd',
+                    label: 'exatNm',
                     order: 'sort'
                 },
                 defaultOpenDepth: -1,
@@ -158,125 +158,125 @@
                 useAnimation: true
             });
             
-            anlExprMstTreeView.on('labelClick', function(e) {
+            spaceExatMstTreeView.on('labelClick', function(e) {
             	var treeRecord = e.node.getRecord();
             	
-            	if(treeRecord.get('exprCdL') < 4) {
+            	if(treeRecord.get('exatCdL') < 2) {
             		return;
             	}
 
-				if(anlRqprExprDataSet.findRow('exprCd', treeRecord.get('exprCd')) > -1) {
+				if(spaceRqprExatDataSet.findRow('exatCd', treeRecord.get('exatCd')) > -1) {
 					return ;
 				}
 
-            	var row = anlRqprExprDataSet.newRecord();
-            	var record = anlRqprExprDataSet.getAt(row);
+            	var row = spaceRqprExatDataSet.newRecord();
+            	var record = spaceRqprExatDataSet.getAt(row);
             	
-            	record.set('exprCd', treeRecord.get('exprCd'));
-            	record.set('exprNm', treeRecord.get('path'));
+            	record.set('exatCd', treeRecord.get('exatCd'));
+            	record.set('exatNm', treeRecord.get('path'));
             	record.set('expCrtnScnCd', treeRecord.get('expCrtnScnCd'));
             	record.set('utmSmpoQty', treeRecord.get('utmSmpoQty'));
-            	record.set('utmExprTim', treeRecord.get('utmExprTim'));
+            	record.set('utmExatTim', treeRecord.get('utmExatTim'));
             	record.set('utmExp', treeRecord.get('utmExp'));
             	record.set('smpoQty', null);
-            	record.set('exprTim', null);
-            	record.set('exprExp', null);
+            	record.set('exatTim', null);
+            	record.set('exatExp', null);
             });
             
-            anlExprMstTreeView.render('anlExprMstTreeView');
+            spaceExatMstTreeView.render('spaceExatMstTreeView');
             
-            setExprExp = function() {
-            	var row = anlRqprExprDataSet.getRow();
-            	var record = anlRqprExprDataSet.getAt(row);
+            setExatExp = function() {
+            	var row = spaceRqprExatDataSet.getRow();
+            	var record = spaceRqprExatDataSet.getAt(row);
             	
             	if(record.get('expCrtnScnCd') == '1') {
             		var smpoQty = record.get('smpoQty');
             		
             		if(Rui.isNumber(smpoQty)) {
-            			var exprExp = record.get('utmExp') * smpoQty;
+            			var exatExp = record.get('utmExp') * smpoQty;
             			
-            			record.set('exprExp', exprExp);
+            			record.set('exatExp', exatExp);
             		} else {
-            			record.set('exprExp', null);
+            			record.set('exatExp', null);
             		}
             	} else {
-            		var exprTim = record.get('exprTim') / record.get('utmExprTim');
+            		var exatTim = record.get('exatTim') / record.get('utmExatTim');
             		
-            		if(exprTim > 0) {
-            			var exprExp = record.get('utmExp') * exprTim;
+            		if(exatTim > 0) {
+            			var exatExp = record.get('utmExp') * exatTim;
             			
-            			record.set('exprExp', exprExp);
+            			record.set('exatExp', exatExp);
             		} else {
-            			record.set('exprExp', null);
+            			record.set('exatExp', null);
             		}
             	}
             };
 			
-            var anlRqprExprDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprExprDataSet',
+            var spaceRqprExatDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprExatDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
-                	  { id: 'exprCd' }
-					, { id: 'exprNm' }
+                	  { id: 'exatCd' }
+					, { id: 'exatNm' }
                     , { id: 'expCrtnScnCd' }
                     , { id: 'utmSmpoQty', type: 'number' }
-                    , { id: 'utmExprTim', type: 'number' }
+                    , { id: 'utmExatTim', type: 'number' }
                     , { id: 'utmExp', type: 'number' }
 					, { id: 'smpoQty', type: 'number' }
-					, { id: 'exprTim', type: 'number' }
-					, { id: 'exprExp', type: 'number' }
+					, { id: 'exatTim', type: 'number' }
+					, { id: 'exatExp', type: 'number' }
                 ]
             });
 
-            var anlRqprExprColumnModel = new Rui.ui.grid.LColumnModel({
+            var spaceRqprExatColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
-                    , { field: 'exprNm',		label: '실험명',		sortable: false,	editable: false,	editor: null,			align:'left',	width: 290 }
+                    , { field: 'exatNm',		label: '시험명',		sortable: false,	editable: false,	editor: null,			align:'left',	width: 290 }
                     , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: false, 	editor: expCrtnScnCd,	align:'center',	width: 60 }
                     , { field: 'smpoQty',		label: '실험수',		sortable: false,	editable: true,		editor: numberBox,		align:'center',	width: 50,
                     	renderer: function(value, p, record, row, col) {
                             p.editable = record.get('expCrtnScnCd') == '1' ? true : false;
                             return value;
                     } }
-                    , { field: 'exprTim',		label: '실험시간',		sortable: false,	editable: true,		editor: numberBox,		align:'center',	width: 60,
+                    , { field: 'exatTim',		label: '시험일수',		sortable: false,	editable: true,		editor: numberBox,		align:'center',	width: 60,
                     	renderer: function(value, p, record, row, col) {
                             p.editable = record.get('expCrtnScnCd') == '2' ? true : false;
                             return value;
                     } }
-                    , { field: 'exprExp',		label: '실험수가',		sortable: false,	editable: false,	editor: null,			align:'right',	width: 90,
+                    , { field: 'exatExp',		label: '실험수가',		sortable: false,	editable: false,	editor: null,			align:'right',	width: 90,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
                     } }
                 ]
             });
 
-            var anlRqprExprSumColumns = ['smpoQty', 'exprTim', 'exprExp'];
-            var anlRqprExprSummary = new Rui.ui.grid.LTotalSummary();
+            var spaceRqprExatSumColumns = ['smpoQty', 'exatTim', 'exatExp'];
+            var spaceRqprExatSummary = new Rui.ui.grid.LTotalSummary();
 
-            anlRqprExprSummary.on('renderTotalCell', anlRqprExprSummary.renderer({
+            spaceRqprExatSummary.on('renderTotalCell', spaceRqprExatSummary.renderer({
                 label: {
-                    id : 'exprNm',
+                    id : 'exatNm',
                     text : 'Total',
                 }, 
                 columns: {
                 	smpoQty : { type: 'sum', renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') : val;
                     } },
-                	exprTim : { type: 'sum', renderer: function(val, p, record, row, col) {
+                	exatTim : { type: 'sum', renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') : val;
                     } },
-                	exprExp : { type: 'sum', renderer: function(val, p, record, row, col) {
+                	exatExp : { type: 'sum', renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
                     } }
                 }
             }));
 
-            var anlRqprExprGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprExprColumnModel,
-                dataSet: anlRqprExprDataSet,
+            var spaceRqprExatGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceRqprExatColumnModel,
+                dataSet: spaceRqprExatDataSet,
                 viewConfig: {
-                    plugins: [ anlRqprExprSummary ]
+                    plugins: [ spaceRqprExatSummary ]
                 },
                 width: 570,
                 height: 300,
@@ -284,17 +284,17 @@
                 autoWidth: true
             });
             
-            anlRqprExprGrid.render('anlRqprExprGrid');
+            spaceRqprExatGrid.render('spaceRqprExatGrid');
             
-            deleteAnlRqprExpr = function() {
-                if(anlRqprExprDataSet.getMarkedCount() > 0) {
-                	anlRqprExprDataSet.removeMarkedRows();
+            deleteSpaceRqprExat = function() {
+                if(spaceRqprExatDataSet.getMarkedCount() > 0) {
+                	spaceRqprExatDataSet.removeMarkedRows();
                 } else {
                 	alert('삭제 대상을 선택해주세요.');
                 }
             }
             
-            anlExprMstTreeDataSet.load({
+            spaceExatMstTreeDataSet.load({
                 url: '<c:url value="/anl/getAnlExprMstList.do"/>',
                 params :{
                 	isMng : 0
@@ -314,7 +314,7 @@
 	   			
    				<div class="titArea">
    					<div class="LblockButton">
-   						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="deleteAnlRqprExpr()">삭제</button>
+   						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="deleteSpaceRqprExat()">삭제</button>
    						<button type="button" class="btn"  id="closeBtn" name="closeBtn" onclick="parent.utmExpSimulationDialog.cancel()">닫기</button>
    					</div>
    				</div>
@@ -322,10 +322,10 @@
 			    <div id="bd">
 			        <div class="LblockMarkupCode">
 			            <div id="contentWrapper">
-			                <div id="anlExprMstTreeView"></div>
+			                <div id="spaceExatMstTreeView"></div>
 			            </div>
 			            <div id="fieldWrapper">
-			                <div id="anlRqprExprGrid"></div>
+			                <div id="spaceRqprExatGrid"></div>
 			            </div>
 			        </div>
 			    </div>

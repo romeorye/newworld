@@ -110,12 +110,9 @@
 	            name : 'mchnClCd',
 	            items : [
 	            	{label : '전체', 			value : 'ALL'},
-	            	{label : '유기분석', 		value : 'YA'},
-	            	{label : '무기분석', 		value : 'MA'},
-	            	{label : '형상분석', 		value : 'HA'},
-	            	{label : '물성분석', 		value : 'MS'},
-	            	{label : '유해물질분석', 	value : 'YM'},
-	            	{label : '전처리', 			value : 'JT'}
+	            	{label : '신뢰성시험', 		value : '01'},
+	            	{label : '내후성시험', 		value : '02'},
+	            	{label : '측정평가', 		value : '03'}
 	            ]
 	    });
 
