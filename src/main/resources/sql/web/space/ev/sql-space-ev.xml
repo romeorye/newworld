@@ -84,6 +84,7 @@
 			,STRT_VLD_DT AS strtVldDt
 			,FNH_VLD_DT AS fnhVldDt
 			,REM AS rem
+			,OTTP_YN AS ottpYn
 			,ATTC_FILE_ID AS attcFileId
 			,DEL_YN AS delYn
 			,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23) as frstRgstDt
@@ -117,6 +118,7 @@
 		,STRT_VLD_DT
 		,FNH_VLD_DT
 		,REM
+		,OTTP_YN
 		,ATTC_FILE_ID
 		,FRST_RGST_DT
 		,FRST_RGST_ID
@@ -133,6 +135,7 @@
 		,#{strtVldDt}
 		,#{fnhVldDt}
 		,#{rem}
+		,#{ottpYn}
 		,#{attcFileId}
         ,GETDATE()
         ,#{userId}  -- 세션 사번

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mgmt.rlabTestEqipPrctMgmt">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 기기 > 관리 > 신뢰성평가장비 예약관리 목록조회  -->
+	<select id="retrieveRlabTestEqipPrctMgmtList" resultType="hashmap" >
+		<![CDATA[
+		SELECT INFO.MCHN_CL_CD AS mchnClCd 
+		      ,ACC.COM_DTL_NM AS comDtlNm
+		      ,PRCT.MCHN_PRCT_ID AS mchnPrctId 
+		      ,PRCT.PRCT_TITL AS prctTitl
+			  ,INFO.MCHN_HAN_NM AS mchnHanNm
+			  ,PRCT.RGST_TEAM_CD AS rgstTeamCd
+			  --,PRCT.RGST_TEAM_NM 팀명
+			  ,PRCT.RGST_ID AS rgstId
+			  ,SU.SA_NAME AS rgstNm
+		      ,PRCT.PRCT_DT AS prctDt
+		      ,PRCT.PRCT_FROM_DT+' ~ '+ PRCT.PRCT_TO_DT AS prctFromToDt 
+		      ,PRCT.PRCT_FROM_DT AS prctFromDt
+		      ,PRCT.PRCT_TO_DT AS prctToDt
+		      ,PRCT.PRCT_FROM_TIM + ' ~ ' + PRCT.PRCT_TO_TIM as prctFromToTim 
+		      ,PRCT.PRCT_FROM_TIM AS prctFromTim
+		      ,PRCT.PRCT_TO_TIM AS prctToTim
+		      ,PRCT.PRCT_SCN_CD AS prctScnCd
+			  ,INFO.MCHN_CRGR_ID AS mchnCrgrId
+			  ,SU2.SA_NAME AS mchnCrgrNm
+		  FROM IRIS_RLAB_MCHN_PRCT_MST PRCT
+		 INNER JOIN IRIS_RLAB_MCHN_INFO_MGMT INFO
+		    ON PRCT.MCHN_INFO_ID=INFO.MCHN_INFO_ID
+		  LEFT OUTER JOIN IRIS_SSO_USER   SU
+		    ON  INFO.MCHN_CRGR_ID = SU.SA_SABUN_NEW
+		  LEFT OUTER JOIN IRIS_SSO_USER   SU2
+		    ON  PRCT.RGST_ID = SU.SA_SABUN_NEW
+		 INNER JOIN IRIS_ADM_COM_CD	ACC
+		    ON INFO.MCHN_CL_CD=ACC.COM_DTL_CD
+		 WHERE 1=1
+		   AND PRCT.DEL_YN='N'
+		   AND INFO.DEL_YN='N'
+		   AND ACC.DEL_YN='N'
+		   AND ACC.COM_CD_CD='RLAB_CL_CD'
+		]]>
+
+		<if test="( prctTitl != null and prctTitl != '')">
+			AND PRCT.PRCT_TITL LIKE '%'+#{prctTitl}+'%'
+	    </if>
+	    <if test="( mchnNm != null and mchnNm != '')">
+			AND ( INFO.MCHN_HAN_NM LIKE '%'+#{mchnNm}+'%' OR  INFO.MCHN_EN_NM LIKE '%'+#{mchnNm}+'%'  )
+	    </if>
+		<if test="( rgstNm != null and rgstNm != '')">
+			AND  SU.SA_NAME LIKE '%'+#{rgstNm}+'%'
+	    </if>
+		<if test="( prctScnCd != null and prctScnCd != '')">
+			AND  PRCT.PRCT_SCN_CD = #{prctScnCd}
+	    </if>
+	    <if test="( rlabClCd != null and rlabClCd != '')">
+			AND  INFO.MCHN_CL_CD = #{rlabClCd}
+	    </if>
+	    <![CDATA[
+		ORDER BY PRCT.MCHN_PRCT_ID DESC
+		]]>
+
+	</select>
+
+	<!-- 기기관리 상세 조회 -->
+	<select id="retrieveRlabTestEqipPrctDtl" resultType="hashmap" >
+		<![CDATA[
+		SELECT INFO.MCHN_CL_CD AS mchnClCd 
+		      ,ACC.COM_DTL_NM AS comDtlNm
+		      ,PRCT.MCHN_PRCT_ID AS mchnPrctId 
+		      ,PRCT.PRCT_TITL AS prctTitl
+			  ,INFO.MCHN_HAN_NM AS mchnHanNm
+			  ,PRCT.RGST_TEAM_CD AS rgstTeamCd
+			  --,PRCT.RGST_TEAM_NM 팀명
+			  ,PRCT.RGST_ID AS rgstId
+			  ,SU.SA_NAME AS rgstNm
+			  ,SU.SA_DEPT_NAME AS teamNm
+			  ,PRCT.SMPO_NM AS smpoNm
+			  ,PRCT.SMPO_QTY AS smpoQty
+		      ,PRCT.PRCT_DT AS prctDt
+		      ,PRCT.TEST_SPCE_CD AS testSpceCd
+		      ,PRCT.TEST_CND01 + ' ~ ' + TEST_CND02 AS testCnd
+		      ,PRCT.CYCL_FLAG AS cyclFlag
+		      ,PRCT.PRCT_FROM_DT+' ~ '+ PRCT.PRCT_TO_DT AS prctFromToDt 
+		      ,PRCT.PRCT_FROM_DT AS prctFromDt
+		      ,PRCT.PRCT_TO_DT AS prctToDt
+		      ,PRCT.PRCT_FROM_TIM + ' ~ ' + PRCT.PRCT_TO_TIM as prctFromToTim 
+		      ,PRCT.PRCT_FROM_TIM AS prctFromTim
+		      ,PRCT.PRCT_TO_TIM AS prctToTim
+		      ,PRCT.PRCT_SCN_CD AS prctScnCd
+			  ,INFO.MCHN_CRGR_ID AS mchnCrgrId
+			  ,SU2.SA_NAME AS mchnCrgrNm
+		  FROM IRIS_RLAB_MCHN_PRCT_MST PRCT
+		 INNER JOIN IRIS_RLAB_MCHN_INFO_MGMT INFO
+		    ON PRCT.MCHN_INFO_ID=INFO.MCHN_INFO_ID
+		  LEFT OUTER JOIN IRIS_SSO_USER   SU
+		    ON  INFO.MCHN_CRGR_ID = SU.SA_SABUN_NEW
+		  LEFT OUTER JOIN IRIS_SSO_USER   SU2
+		    ON  PRCT.RGST_ID = SU.SA_SABUN_NEW
+		 INNER JOIN IRIS_ADM_COM_CD	ACC
+		    ON INFO.MCHN_CL_CD=ACC.COM_DTL_CD
+		 WHERE 1=1
+		   AND PRCT.DEL_YN='N'
+		   AND INFO.DEL_YN='N'
+		   AND ACC.DEL_YN='N'
+		   AND ACC.COM_CD_CD='RLAB_CL_CD'
+		   AND PRCT.MCHN_PRCT_ID = #{mchnPrctId}
+		]]>
+	</select>
+
+	<!-- 보유기기관리 승인, 반려 업데이트  -->
+	<update id="updateMachineApprInfo">
+		UPDATE    IRIS_MCHN_PRCT_MST
+		SET  	  PRCT_APPR_DT = CONVERT(NVARCHAR(10), GETDATE(), 23)
+				 ,PRCT_SCN_CD  = #{prctScnCd}
+				 ,LAST_MDFY_DT = GETDATE()
+				 ,LAST_MDFY_ID = #{_userId}
+		WHERE     MCHN_PRCT_ID = #{mchnPrctId}
+	</update>
+
+	<insert id="insertMailHist" >
+	<![CDATA[
+	INSERT INTO IRIS_COM_MAIL_SND_HIS
+		(
+		 MENU_TYPE
+		,ADRE_MAIL
+		,RFP_MAIL
+		,TRR_MAIL 
+		,MAIL_TITL
+		,CRGR_ID
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID
+		)
+	VALUES
+		(
+		 #{menuType}
+		,#{adreMail}
+		,#{rfpMail}
+		,#{_userEmail}
+		,#{mailTitl}
+		,#{_userId}
+		,GETDATE()
+		,#{_userId}
+		,GETDATE()
+		,#{_userId}
+		)
+	]]>
+	</insert>
+
+</mapper>

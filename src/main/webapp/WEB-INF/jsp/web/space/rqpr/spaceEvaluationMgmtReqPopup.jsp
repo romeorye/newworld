@@ -56,7 +56,6 @@
 	var ctgr3= window.parent.ctgr3;
 	var prod=ctgrNm01+" > "+ctgrNm02+" > "+ctgrNm03+" > "+ctgrNm04;
 		Rui.onReady(function() {
-	alert(prod);
             /*******************
              * 변수 및 객체 선언
              *******************/
@@ -74,7 +73,7 @@
                  applyTo: 'scn',
                  defaultValue: '',
                  emptyValue: '',
-                 width: 500
+                 width: 200
             });
              
             //성능값
@@ -82,8 +81,21 @@
                  applyTo: 'pfmcVal',
                  defaultValue: '',
                  emptyValue: '',
-                 width: 150
+                 width: 200
             });
+            
+            //공개여부
+    		var cbOttpYnYn = new Rui.ui.form.LCombo({
+    			applyTo : 'ottpYn',
+    			name : 'ottpYn',
+    			defaultValue: '<c:out value="${inputData.ottpYn}"/>',
+    			width : 100,
+    			emptyText: '선택하세요',
+    				items: [
+    	                   { code: 'Y', value: 'Y' }, // value는 생략 가능하며, 생략시 code값을 그대로 사용한다.
+    	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+    	                	]
+    		});
             
             //유효시작일
             strtVldDt = new Rui.ui.form.LDateBox({
@@ -147,6 +159,7 @@
 						, { id: 'frstRgstDt' }
 						, { id: 'strtVldDt' }
 						, { id: 'fnhVldDt' }
+						, { id: 'ottpYn' }
 						, { id: 'attcFilId' }
 						, { id: 'rem' }
      		            ]
@@ -166,6 +179,7 @@
     		         { id: 'frstRgstDt', 			ctrlId: 'frstRgstDt', 			value: 'value' },
     		         { id: 'strtVldDt', 		ctrlId: 'strtVldDt', 		value: 'value' },
     		         { id: 'fnhVldDt', 		    ctrlId: 'fnhVldDt', 	        value: 'value' },
+    		         { id: 'ottpYn', 		ctrlId: 'ottpYn', 		value: 'value' },
     		         { id: 'attcFilId', 		ctrlId: 'attcFilId', 		value: 'value' },
     		         { id: 'rem', 		ctrlId: 'rem', 		value: 'value' }
     		     ]
@@ -328,8 +342,12 @@
    						</tr>
    						<tr>
    							<th align="right">구분</th>
-   							<td colspan="3">
+   							<td>
    								<input type="text" id="scn" value="">
+   							</td>
+   							<th align="right">공개여부</th>
+   							<td>
+   								<select id="ottpYn" name="ottpYn"></select>
    							</td>
    						</tr>
    						<tr>

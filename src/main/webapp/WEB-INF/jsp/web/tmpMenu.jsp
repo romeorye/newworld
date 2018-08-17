@@ -63,7 +63,7 @@
 {name:"공간평가", mdName:"", depth:"1",confirm:""},
 {name:"평가의뢰", mdName:"/iris/space/spaceRqprList.do", depth:"2",confirm:""},
 {name:"평가목록", mdName:"/iris/space/spaceRqprList4Chrg.do", depth:"2",confirm:""},
-{name:"성능 Master", mdName:"", depth:"2",confirm:""},
+{name:"성능 Master", mdName:"/iris/space/spacePfmcMst.do", depth:"2",confirm:""},
 {name:"자료실", mdName:"/iris/space/lib/retrieveSpaceLibList.do", depth:"2",confirm:""},
 {name:"안내", mdName:"/iris/space/gid/spaceSphereInfo.do", depth:"2",confirm:""},
 
@@ -105,7 +105,7 @@
 
 {name:"관리", mdName:"", depth:"1",confirm:""},
 {name:"분석기기 예약관리", mdName:"", depth:"2",confirm:"1"}, //reqToolMng
-{name:"신뢰성시험장비 예약관리", mdName:"", depth:"2",confirm:""}, //reqToolMng
+{name:"신뢰성시험장비 예약관리", mdName:"/iris/mchn/mgmt/retrieveRlabTestEqipPrctMgmtList.do", depth:"2",confirm:""}, //reqToolMng
 {name:"공간평가Tool 사용관리", mdName:"/iris/mchn/mgmt/spaceEvToolUseMgmtList.do", depth:"2",confirm:""}, //reqToolMng
 {name:"분석기기 교육관리", mdName:"", depth:"2",confirm:""}, //toolEduMng
 {name:"소모품 관리", mdName:"", depth:"2",confirm:""},

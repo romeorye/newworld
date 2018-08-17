@@ -115,6 +115,7 @@
 					, { id: 'frstRgstDt' }
 					, { id: 'strtVldDt' }
 					, { id: 'fnhVldDt' }
+					, { id: 'ottpYn' }
 					, { id: 'attcFileId' }
 					, { id: 'rem' }
                 ]
@@ -172,6 +173,7 @@
                     , { field: 'frstRgstDt',	label: '등록일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'strtVldDt',		label: '유효시작일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'fnhVldDt',		label: '유효종료일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
+                    , { field: 'ottpYn',		label: '공개여부',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100 }
                     , { field: 'attcFileId',	label: '파일경로',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'rem',			label: '비고',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                 ]

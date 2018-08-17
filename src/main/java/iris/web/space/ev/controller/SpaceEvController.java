@@ -255,7 +255,7 @@ public class SpaceEvController extends IrisBaseController {
         } catch(Exception e) {
         	e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다.\n관리자에게 문의하세요.");
         }
 
         modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));

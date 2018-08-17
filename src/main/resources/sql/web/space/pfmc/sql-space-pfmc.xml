@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="space.pfmc">
+	
+	
+	<select id="getSpacePfmcMstList" resultType="hashmap">
+		<![CDATA[
+		-- getSpacePfmcMstList 공간성능평가 마스터 조회
+		SELECT CTGR0_CD AS ctgr0Cd
+		      ,CTGR0_NM AS ctgr0Nm
+		      ,CTGR1_CD AS ctgr1Cd 
+		      ,CTGR1_NM AS ctgr1Nm
+		      ,CTGR2_CD AS ctgr2Cd
+		      ,CTGR2_NM AS ctgr2Nm
+		      ,CTGR3_CD AS ctgr3Cd
+		      ,CTGR3_NM AS ctgr3Nm	  
+		  FROM (SELECT CTGR0.CTGR_CD AS CTGR0_CD
+		              ,CTGR0.CTGR_NM AS CTGR0_NM
+		              ,MST.CTGR1_CD 
+		              ,MST.CTGR1_NM
+		              ,MST.CTGR2_CD
+		              ,MST.CTGR2_NM
+		              ,MST.CTGR3_CD
+		              ,MST.CTGR3_NM
+		          FROM (SELECT MAIN.CTGR3_CD
+		                      ,MAIN.CTGR3_NM
+		                      ,MAIN.CTGR2_CD
+		                      ,MAIN.CTGR2_NM
+		                      ,CTGR1.CTGR_CD AS CTGR1_CD 
+		                      ,CTGR1.CTGR_NM AS CTGR1_NM
+		                      ,CTGR1.SUPI_CD AS SUPI1_CD 
+		                  FROM (SELECT CTGR3.CTGR_CD AS CTGR3_CD
+		                              ,CTGR3.CTGR_NM AS CTGR3_NM
+		                              ,CTGR2.CTGR_CD AS CTGR2_CD
+		                              ,CTGR2.CTGR_NM AS CTGR2_NM
+		                              ,CTGR2.SUPI_CD AS SUPI2_CD
+		                          FROM IRIS_SPACE_EV_CTGR3 CTGR3
+		                         INNER JOIN IRIS_SPACE_EV_CTGR2 CTGR2
+		                            ON CTGR3.SUPI_CD=CTGR2.CTGR_CD
+		                         WHERE CTGR3.DEL_YN='N'
+		                           AND CTGR2.DEL_YN='N') MAIN
+		                 INNER JOIN  IRIS_SPACE_EV_CTGR1 CTGR1
+		                    ON MAIN.SUPI2_CD=CTGR1.CTGR_CD
+		                 WHERE CTGR1.DEL_YN='N') MST
+		         INNER JOIN IRIS_SPACE_EV_CTGR0 CTGR0
+		            ON MST.SUPI1_CD=CTGR0.CTGR_CD
+		         WHERE CTGR0.DEL_YN='N') LIST
+		 WHERE 1=1   
+		]]>
+		<if test="(cmbCtgr0 != null and cmbCtgr0 != '')">
+			AND LIST.CTGR0_CD=#{cmbCtgr0}
+	    </if>
+	    <if test="(cmbCtgr1 != null and cmbCtgr1 != '')">
+			AND LIST.CTGR1_CD=#{cmbCtgr1}
+	    </if>
+	    <if test="(cmbCtgr2 != null and cmbCtgr2 != '')">
+			AND LIST.CTGR2_CD=#{cmbCtgr2}
+	    </if>
+	    <if test="(ctgr3Nm != null and ctgr3Nm != '')">
+			AND LIST.CTGR3_NM LIKE '%${ctgr3Nm}%'
+	    </if>
+	</select>
+</mapper>
