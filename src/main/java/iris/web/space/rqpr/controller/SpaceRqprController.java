@@ -1195,8 +1195,8 @@ public class SpaceRqprController extends IrisBaseController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/space/saveSpaceExprMst.do")
-	public ModelAndView saveSpaceExprMst(
+	@RequestMapping(value="/space/saveSpaceExatMst.do")
+	public ModelAndView saveSpaceExatMst(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request, 
 			HttpServletResponse response,
@@ -1210,31 +1210,31 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - saveSpaceExprMst 실험 마스터 정보 저장");
+		LOGGER.debug("SpaceRqprController - saveSpaceExatMst 공간평가시험 마스터 정보 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
 		Map<String,Object> resultMap = new HashMap<String, Object>();
-		List<Map<String,Object>> spaceExprMstTreeDataSet = null;
+		List<Map<String,Object>> spaceExatMstTreeDataSet = null;
 
 		try {
-			spaceExprMstTreeDataSet = RuiConverter.convertToDataSet(request, "spaceExprMstTreeDataSet");
+			spaceExatMstTreeDataSet = RuiConverter.convertToDataSet(request, "spaceExatMstTreeDataSet");
 			
-			for(Map<String,Object> data : spaceExprMstTreeDataSet) {
+			for(Map<String,Object> data : spaceExatMstTreeDataSet) {
 				data.put("userId", input.get("_userId"));
 			}
 			
-			spaceRqprService.saveSpaceExprMst(spaceExprMstTreeDataSet);
+			spaceRqprService.saveSpaceExatMst(spaceExatMstTreeDataSet);
 
-			resultMap.put("cmd", "saveSpaceExprMst");
+			resultMap.put("cmd", "saveSpaceExatMst");
 			resultMap.put("resultYn", "Y");
 			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -1316,8 +1316,8 @@ public class SpaceRqprController extends IrisBaseController {
 	}
 	
 		
-	@RequestMapping(value="/space/saveSpaceExprDtl.do")
-	public ModelAndView saveSpaceExprDtl(
+	@RequestMapping(value="/space/saveSpaceExatDtl.do")
+	public ModelAndView saveSpaceExatDtl(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request, 
 			HttpServletResponse response,
@@ -1331,31 +1331,31 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - saveSpaceExprDtl 실험 상세 정보 저장");
+		LOGGER.debug("SpaceRqprController - saveSpaceExatDtl 공간평가시험 상세 정보 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
 		Map<String,Object> resultMap = new HashMap<String, Object>();
-		List<Map<String,Object>> spaceExprDtlDataSet = null;
+		List<Map<String,Object>> spaceExatDtlDataSet = null;
 
 		try {
-			spaceExprDtlDataSet = RuiConverter.convertToDataSet(request, "spaceExprDtlDataSet");
+			spaceExatDtlDataSet = RuiConverter.convertToDataSet(request, "spaceExatDtlDataSet");
 			
-			for(Map<String,Object> data : spaceExprDtlDataSet) {
+			for(Map<String,Object> data : spaceExatDtlDataSet) {
 				data.put("userId", input.get("_userId"));
 			}
 			
-			spaceRqprService.saveSpaceExprDtl(spaceExprDtlDataSet);
+			spaceRqprService.saveSpaceExatDtl(spaceExatDtlDataSet);
 
-			resultMap.put("cmd", "saveSpaceExprDtl");
+			resultMap.put("cmd", "saveSpaceExatDtl");
 			resultMap.put("resultYn", "Y");
 			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
 		}
 		
 		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
@@ -1363,8 +1363,8 @@ public class SpaceRqprController extends IrisBaseController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/space/deleteSpaceExprDtl.do")
-	public ModelAndView deleteSpaceExprDtl(
+	@RequestMapping(value="/space/deleteSpaceExatDtl.do")
+	public ModelAndView deleteSpaceExatDtl(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request, 
 			HttpServletResponse response,
@@ -1378,25 +1378,25 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - deleteSpaceExprDtl 실험 상세 정보 삭제");
+		LOGGER.debug("SpaceRqprController - deleteSpaceExatDtl 공간평가시험 상세 정보 삭제");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
 		Map<String,Object> resultMap = new HashMap<String, Object>();
-		List<Map<String,Object>> spaceExprDtlDataSet = null;
+		List<Map<String,Object>> spaceExatDtlDataSet = null;
 
 		try {
-			spaceExprDtlDataSet = RuiConverter.convertToDataSet(request, "spaceExprDtlDataSet");
+			spaceExatDtlDataSet = RuiConverter.convertToDataSet(request, "spaceExatDtlDataSet");
 			
-			for(Map<String,Object> data : spaceExprDtlDataSet) {
+			for(Map<String,Object> data : spaceExatDtlDataSet) {
 				data.put("userId", input.get("_userId"));
 			}
 			
-			spaceRqprService.deleteSpaceExprDtl(spaceExprDtlDataSet);
+			spaceRqprService.deleteSpaceExatDtl(spaceExatDtlDataSet);
 
-			resultMap.put("cmd", "deleteSpaceExprDtl");
+			resultMap.put("cmd", "deleteSpaceExatDtl");
 			resultMap.put("resultYn", "Y");
 			resultMap.put("resultMsg", "정상적으로 삭제 되었습니다.");
 		} catch (Exception e) {

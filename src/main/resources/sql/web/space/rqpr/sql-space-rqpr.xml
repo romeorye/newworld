@@ -688,55 +688,55 @@
 	
 	</update>
 	
-	<insert id="saveSpaceExprMst" parameterType="map">
+	<insert id="saveSpaceExatMst" parameterType="map">
 	
-		MERGE INTO iris_anl_expr_mst a
-		USING ( SELECT	#{exprCd} as exprCd,
-						#{exprNm} as exprNm,
-						#{supiExprCd} as supiExprCd,
-						#{exprCdL} as exprCdL,
-						#{sopNo} as sopNo,
+		MERGE INTO iris_space_exat_mst a
+		USING ( SELECT	#{exatCd} as exatCd,
+						#{exatNm} as exatNm,
+						#{supiExatCd} as supiExatCd,
+						#{exatCdL} as exatCdL,
+						#{exatMtdNo} as exatMtdNo,
 						#{utmExp} as utmExp,
 						#{expCrtnScnCd} as expCrtnScnCd,
 						#{utmSmpoQty} as utmSmpoQty,
-						#{utmExprTim} as utmExprTim,
+						#{utmExatTim} as utmExatTim,
 						#{dspNo} as dspNo,
 						#{delYn} as delYn,
 						#{userId} as userId ) b
-		ON ( a.expr_cd = b.exprCd)
+		ON ( a.exat_cd = b.exatCd)
 		WHEN MATCHED THEN
-			update set	expr_nm = b.exprNm,
-						sop_no = b.sopNo,
+			update set	exat_nm = b.exatNm,
+						exat_mtd_no = b.exatMtdNo,
 						utm_exp = b.utmExp,
 						exp_crtn_scn_cd = b.expCrtnScnCd,
 						utm_smpo_qty = b.utmSmpoQty,
-						utm_expr_tim = b.utmExprTim,
+						utm_exat_tim = b.utmExatTim,
 						dsp_no = b.dspNo,
 						del_yn = b.delYn,
 						last_mdfy_dt = getdate(),
 						last_mdfy_id = b.userId
 		WHEN NOT MATCHED THEN
-			insert (expr_nm
-				   ,supi_expr_cd
-				   ,expr_cd_l
-				   ,sop_no
+			insert (exat_nm
+				   ,supi_exat_cd
+				   ,exat_cd_l
+				   ,exat_mtd_no
 				   ,utm_exp
 				   ,exp_crtn_scn_cd
 				   ,utm_smpo_qty
-				   ,utm_expr_tim
+				   ,utm_exat_tim
 				   ,dsp_no
 				   ,del_yn
 				   ,frst_rgst_id
 				   ,last_mdfy_id
 				   )
-			values(b.exprNm
-				  ,b.supiExprCd
-				  ,b.exprCdL
-				  ,b.sopNo
+			values(b.exatNm
+				  ,b.supiExatCd
+				  ,b.exatCdL
+				  ,b.exatMtdNo
 				  ,b.utmExp
 				  ,b.expCrtnScnCd
 				  ,b.utmSmpoQty
-				  ,b.utmExprTim
+				  ,b.utmExatTim
 				  ,b.dspNo
 				  ,b.delYn
 				  ,b.userId
@@ -747,18 +747,17 @@
 
 	<select id="getSpaceExatDtlList" resultType="hashmap">
 		<![CDATA[
-			-- getSpaceExatDtlList 실험 상세 정보 리스트 조회
+			-- getSpaceExatDtlList 공간평가 상세 정보 리스트 조회
 			select 
 		 		 a.exat_cd as exatCd
 				,a.mchn_info_id as mchnInfoId
 				,b.tool_nm as toolNm
 				,b.ver as ver
-				,b.ev_ctgr as evCtgr 
-				,b.cmpn_nm as cmpnNm
-				,b.ev_way as evWay
+				,b.ev_ctgr as evCtgr
+				,b.CMPN_NM as cmpnNm
+				,b.EV_WAY as evWay
 				,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
 				,b.ev_scn as evScn
-				
 		    from iris_space_exat_dtl a,
 				 IRIS_SPCE_MCHN_INFO_MGMT b
 		 ]]>
@@ -767,15 +766,15 @@
 			and a.MCHN_INFO_ID = b.MCHN_INFO_ID
 	</select>
 	
-	<insert id="saveSpaceExprDtl" parameterType="map">
+	<insert id="saveSpaceExatDtl" parameterType="map">
 	
-		insert into iris_anl_expr_dtl(
-			EXPR_CD
+		insert into iris_space_exat_dtl(
+			EXAT_CD
 		   ,MCHN_INFO_ID
 		   ,FRST_RGST_ID
 		   ,LAST_MDFY_ID
 		)
-		values(${exprCd}
+		values(${exatCd}
 			  ,${mchnInfoId}
 			  ,#{userId}
 			  ,#{userId}
@@ -783,13 +782,13 @@
 	
 	</insert>
 	
-	<update id="updateSpaceExprDtlDelYn" parameterType="map">
+	<update id="updateSpaceExatDtlDelYn" parameterType="map">
 	
-		update	iris_anl_expr_dtl
+		update	iris_space_exat_dtl
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
-		where	expr_cd = ${exprCd}
+		where	exat_cd = ${exatCd}
 		and		mchn_info_id = ${mchnInfoId}
 		and		del_yn = 'N'
 	

@@ -30,7 +30,7 @@
 			AND A.MCHN_CL_CD = ACC2.COM_DTL_CD
 			AND ACC2.COM_CD_cD = 'RLAB_CL_CD'
 			AND ACC.COM_CD_CD = 'MCHN_PRCT_ST'
-
+			AND A.DEL_YN = 'N'
 		]]>
 
 		<if test="(mchnNm != null and mchnNm != '')">

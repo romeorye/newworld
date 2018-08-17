@@ -475,206 +475,206 @@
 
 	</update>
 
-	<select id="getRlabExprTreeList" resultType="hashmap">
+	<select id="getRlabExatTreeList" resultType="hashmap">
 		<![CDATA[
-			-- getRlabExprTreeList 실험정보 트리 리스트 조회
-			WITH expr_tree AS (
-				select	EXPR_CD
-					   ,EXPR_NM
-					   ,SUPI_EXPR_CD
-					   ,EXPR_CD_L
-					   ,SOP_NO
+			-- getRlabExatTreeList 실험정보 트리 리스트 조회
+			WITH exat_tree AS (
+				select	EXAT_CD
+					   ,EXAT_NM
+					   ,SUPI_EXAT_CD
+					   ,EXAT_CD_L
+					   ,EXAT_MTD_NO
 					   ,UTM_EXP
 					   ,EXP_CRTN_SCN_CD
 					   ,UTM_SMPO_QTY
-					   ,UTM_EXPR_TIM
+					   ,UTM_EXAT_TIM
 					   ,DSP_NO
 					   ,DEL_YN
-					   ,convert(varchar(255), EXPR_NM) path
-					   ,convert(varchar(255), convert(varchar(255), dsp_no + 1000) + EXPR_NM) sort
-				from	iris_rlab_expr_mst
-				where	supi_expr_cd = 0
+					   ,convert(varchar(255), EXAT_NM) path
+					   ,convert(varchar(255), convert(varchar(255), dsp_no + 1000) + EXAT_NM) sort
+				from	iris_rlab_exat_mst
+				where	supi_exat_cd = 0
 		 ]]>
 	        <if test="isMng == 0">
 				and		del_yn = 'N'
 			</if>
 		<![CDATA[
 			    union all
-				select	mst.EXPR_CD
-					   ,mst.EXPR_NM
-					   ,mst.SUPI_EXPR_CD
-					   ,mst.EXPR_CD_L
-					   ,mst.SOP_NO
+				select	mst.EXAT_CD
+					   ,mst.EXAT_NM
+					   ,mst.SUPI_EXAT_CD
+					   ,mst.EXAT_CD_L
+					   ,mst.EXAT_MTD_NO
 					   ,mst.UTM_EXP
 					   ,mst.EXP_CRTN_SCN_CD
 					   ,mst.UTM_SMPO_QTY
-					   ,mst.UTM_EXPR_TIM
+					   ,mst.UTM_EXAT_TIM
 					   ,mst.DSP_NO
 					   ,mst.DEL_YN
-					   ,convert(varchar(255), tree.path + ' > ' + mst.EXPR_NM) path
-					   ,convert(varchar(255), tree.sort + ' > ' + convert(varchar(255), mst.dsp_no + 1000) + mst.EXPR_NM) sort
-				from	iris_rlab_expr_mst mst,
-						expr_tree tree
-				where	mst.supi_expr_cd = tree.expr_cd
+					   ,convert(varchar(255), tree.path + ' > ' + mst.EXAT_NM) path
+					   ,convert(varchar(255), tree.sort + ' > ' + convert(varchar(255), mst.dsp_no + 1000) + mst.EXAT_NM) sort
+				from	iris_rlab_exat_mst mst,
+						exat_tree tree
+				where	mst.supi_exat_cd = tree.exat_cd
 		 ]]>
 	        <if test="isMng == 0">
 				and		mst.del_yn = 'N'
 			</if>
 			)
-			select	EXPR_CD				   as exprCd
-				   ,EXPR_NM				   as exprNm
-				   ,SUPI_EXPR_CD		   as supiExprCd
-				   ,EXPR_CD_L			   as exprCdL
-				   ,SOP_NO				   as sopNo
+			select	EXAT_CD				   as exatCd
+				   ,EXAT_NM				   as exatNm
+				   ,SUPI_EXAT_CD		   as supiExatCd
+				   ,EXAT_CD_L			   as exatCdL
+				   ,EXAT_MTD_NO				   as exatMtdNo
 				   ,UTM_EXP				   as utmExp
 				   ,EXP_CRTN_SCN_CD		   as expCrtnScnCd
 				   ,UTM_SMPO_QTY		   as utmSmpoQty
-				   ,UTM_EXPR_TIM		   as utmExprTim
+				   ,UTM_EXAT_TIM		   as utmExatTim
 				   ,DSP_NO				   as dspNo
 				   ,DEL_YN				   as delYn
 				   ,path
 				   ,sort
-			from	expr_tree
+			from	exat_tree
 			ORDER BY sort
 	</select>
 
-	<select id="getRlabExprDtlComboList" resultType="hashmap">
+	<select id="getRlabExatDtlComboList" resultType="hashmap">
 		<![CDATA[
-			-- getRlabExprDtlComboList 실험정보 상세 콤보 리스트 조회
+			-- getRlabExatDtlComboList 실험정보 상세 콤보 리스트 조회
 			select	MCHN_INFO_ID							as mchnInfoId
 				   ,dbo.fn_getMchnInfoEnName(MCHN_INFO_ID)	as mchnInfoNm
-			from	iris_rlab_expr_dtl
+			from	iris_rlab_exat_dtl
 		 ]]>
-			where	expr_cd = ${exprCd}
+			where	exat_cd = ${exatCd}
 			and		del_yn = 'N'
 	</select>
 
-	<select id="getRlabRqprExprList" resultType="hashmap">
+	<select id="getRlabRqprExatList" resultType="hashmap">
 		<![CDATA[
-			-- getRlabRqprExprList 분석결과 실험정보 리스트 조회
-			WITH EXPR_MST AS
+			-- getRlabRqprExatList 분석결과 실험정보 리스트 조회
+			WITH EXAT_MST AS
 			(
-			SELECT   AEM.EXPR_CD
-					,AEM.EXPR_CD_L
-					,convert(varchar(255), EXPR_NM) as master_path
-			 FROM IRIS_RLAB_EXPR_MST AEM
+			SELECT   AEM.EXAT_CD
+					,AEM.EXAT_CD_L
+					,convert(varchar(255), EXAT_NM) as master_path
+			 FROM IRIS_RLAB_EXAT_MST AEM
 			 WHERE AEM.DEL_YN = 'N'
-			 AND   AEM.SUPI_EXPR_CD = '0'
+			 AND   AEM.SUPI_EXAT_CD = '0'
 			 UNION ALL
-			 SELECT  AEM2.EXPR_CD
-					,AEM2.EXPR_CD_L
-					,CAST(AEM3.master_path + '>' + AEM2.EXPR_NM AS VARCHAR(255)) master_path
-			 FROM IRIS_RLAB_EXPR_MST AEM2
-			     ,EXPR_MST AEM3
-			 WHERE   AEM2.SUPI_EXPR_CD = AEM3.EXPR_CD
+			 SELECT  AEM2.EXAT_CD
+					,AEM2.EXAT_CD_L
+					,CAST(AEM3.master_path + '>' + AEM2.EXAT_NM AS VARCHAR(255)) master_path
+			 FROM IRIS_RLAB_EXAT_MST AEM2
+			     ,EXAT_MST AEM3
+			 WHERE   AEM2.SUPI_EXAT_CD = AEM3.EXAT_CD
 			 )
-			 SELECT  ARE.RQPR_EXPR_ID							 as rqprExprId
+			 SELECT  ARE.RQPR_EXAT_ID							 as rqprExatId
 					,ARE.RQPR_ID								 as rqprId
-					,ARE.EXPR_CD								 as exprCd
-					,EM.master_path								 as exprNm
+					,ARE.EXAT_CD								 as exatCd
+					,EM.master_path								 as exatNm
 					,ARE.MCHN_INFO_ID							 as mchnInfoId
 					,dbo.fn_getMchnInfoName(ARE.MCHN_INFO_ID)	 as mchnInfoNm
 					,ARE.SMPO_QTY								 as smpoQty
-					,ARE.EXPR_QTY								 as exprQty
-					,ARE.EXPR_TIM								 as exprTim
-					,ARE.EXPR_EXP								 as exprExp
-					,ARE.EXPR_STRT_DT							 as exprStrtDt
-					,ARE.EXPR_FNH_DT							 as exprFnhDt
-					,ARE.EXPR_WAY								 as exprWay
-			 FROM EXPR_MST EM
-				,IRIS_RLAB_RQPR_EXPR ARE
+					,ARE.EXAT_QTY								 as exatQty
+					,ARE.EXAT_TIM								 as exatTim
+					,ARE.EXAT_EXP								 as exatExp
+					,ARE.EXAT_STRT_DT							 as exatStrtDt
+					,ARE.EXAT_FNH_DT							 as exatFnhDt
+					,ARE.EXAT_WAY								 as exatWay
+			 FROM EXAT_MST EM
+				,IRIS_RLAB_RQPR_EXAT ARE
 		 ]]>
-			 WHERE	EM.EXPR_CD_L = 4
+			 WHERE	EM.EXAT_CD_L = 4
 			 AND	ARE.DEL_YN = 'N'
-			 AND	EM.EXPR_CD = ARE.EXPR_CD
+			 AND	EM.EXAT_CD = ARE.EXAT_CD
 			 AND	ARE.RQPR_ID = ${rqprId}
-			 ORDER by RQPR_EXPR_ID
+			 ORDER by RQPR_EXAT_ID
 	</select>
 
-	<select id="getRlabRqprExprInfo" resultType="hashmap">
+	<select id="getRlabRqprExatInfo" resultType="hashmap">
 		<![CDATA[
-			-- getRlabRqprExprInfo 분석결과 실험정보 조회
-			select	RQPR_EXPR_ID	   as rqprExprId
+			-- getRlabRqprExatInfo 분석결과 실험정보 조회
+			select	RQPR_EXAT_ID	   as rqprExatId
 				   ,RQPR_ID			   as rqprId
 				   ,SMPO_QTY		   as smpoQty
-				   ,EXPR_QTY		   as exprQty
-				   ,EXPR_CD			   as exprCd
+				   ,EXAT_QTY		   as exatQty
+				   ,EXAT_CD			   as exatCd
 				   ,MCHN_INFO_ID	   as mchnInfoId
-				   ,EXPR_TIM		   as exprTim
-				   ,EXPR_EXP		   as exprExp
-				   ,EXPR_STRT_DT	   as exprStrtDt
-				   ,EXPR_FNH_DT		   as exprFnhDt
-				   ,EXPR_WAY		   as exprWay
-			from	iris_rlab_rqpr_expr
+				   ,EXAT_TIM		   as exatTim
+				   ,EXAT_EXP		   as exatExp
+				   ,EXAT_STRT_DT	   as exatStrtDt
+				   ,EXAT_FNH_DT		   as exatFnhDt
+				   ,EXAT_WAY		   as exatWay
+			from	iris_rlab_rqpr_exat
 		 ]]>
-			where	rqpr_expr_id = ${rqprExprId}
+			where	rqpr_exat_id = ${rqprExatId}
 	</select>
 
-	<insert id="saveRlabRqprExpr" parameterType="map">
+	<insert id="saveRlabRqprExat" parameterType="map">
 
-		MERGE INTO iris_rlab_rqpr_expr a
-		USING ( SELECT	#{rqprExprId} as rqprExprId,
+		MERGE INTO iris_rlab_rqpr_exat a
+		USING ( SELECT	#{rqprExatId} as rqprExatId,
 						#{rqprId} as rqprId,
-						#{exprCd} as exprCd,
+						#{exatCd} as exatCd,
 						#{mchnInfoId} as mchnInfoId,
 						#{smpoQty} as smpoQty,
-						#{exprQty} as exprQty,
-						#{exprTim} as exprTim,
-						#{exprExp} as exprExp,
-						#{exprStrtDt} as exprStrtDt,
-						#{exprFnhDt} as exprFnhDt,
-						#{exprWay} as exprWay,
+						#{exatQty} as exatQty,
+						#{exatTim} as exatTim,
+						#{exatExp} as exatExp,
+						#{exatStrtDt} as exatStrtDt,
+						#{exatFnhDt} as exatFnhDt,
+						#{exatWay} as exatWay,
 						#{userId} as userId ) b
-		ON ( a.rqpr_expr_id = b.rqprExprId)
+		ON ( a.rqpr_exat_id = b.rqprExatId)
 		WHEN MATCHED THEN
-			update set	expr_cd = b.exprCd,
+			update set	exat_cd = b.exatCd,
 						mchn_info_id = b.mchnInfoId,
 						smpo_qty = b.smpoQty,
-						expr_qty = b.exprQty,
-						expr_tim = b.exprTim,
-						expr_exp = b.exprExp,
-						expr_strt_dt = b.exprStrtDt,
-						expr_fnh_dt = b.exprFnhDt,
-						expr_way = b.exprWay,
+						exat_qty = b.exatQty,
+						exat_tim = b.exatTim,
+						exat_exp = b.exatExp,
+						exat_strt_dt = b.exatStrtDt,
+						exat_fnh_dt = b.exatFnhDt,
+						exat_way = b.exatWay,
 						last_mdfy_dt = getdate(),
 						last_mdfy_id = b.userId
 		WHEN NOT MATCHED THEN
 			insert (rqpr_id
-				   ,expr_cd
+				   ,exat_cd
 				   ,mchn_info_id
 				   ,smpo_qty
-				   ,expr_qty
-				   ,expr_tim
-				   ,expr_exp
-				   ,expr_strt_dt
-				   ,expr_fnh_dt
-				   ,expr_way
+				   ,exat_qty
+				   ,exat_tim
+				   ,exat_exp
+				   ,exat_strt_dt
+				   ,exat_fnh_dt
+				   ,exat_way
 				   ,frst_rgst_id
 				   ,last_mdfy_id
 				   )
 			values(b.rqprId
-				  ,b.exprCd
+				  ,b.exatCd
 				  ,b.mchnInfoId
 				  ,b.smpoQty
-				  ,b.exprQty
-				  ,b.exprTim
-				  ,b.exprExp
-				  ,b.exprStrtDt
-				  ,b.exprFnhDt
-				  ,b.exprWay
+				  ,b.exatQty
+				  ,b.exatTim
+				  ,b.exatExp
+				  ,b.exatStrtDt
+				  ,b.exatFnhDt
+				  ,b.exatWay
 				  ,b.userId
 				  ,b.userId
 				  );
 
 	</insert>
 
-	<update id="updateRlabRqprExprDelYn" parameterType="map">
+	<update id="updateRlabRqprExatDelYn" parameterType="map">
 
-		update	iris_rlab_rqpr_expr
+		update	iris_rlab_rqpr_exat
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
-		where	rqpr_expr_id = ${rqprExprId}
+		where	rqpr_exat_id = ${rqprExatId}
 
 	</update>
 
@@ -689,55 +689,55 @@
 
 	</update>
 
-	<insert id="saveRlabExprMst" parameterType="map">
+	<insert id="saveRlabExatMst" parameterType="map">
 
-		MERGE INTO iris_rlab_expr_mst a
-		USING ( SELECT	#{exprCd} as exprCd,
-						#{exprNm} as exprNm,
-						#{supiExprCd} as supiExprCd,
-						#{exprCdL} as exprCdL,
+		MERGE INTO iris_rlab_exat_mst a
+		USING ( SELECT	#{exatCd} as exatCd,
+						#{exatNm} as exatNm,
+						#{supiExatCd} as supiExatCd,
+						#{exatCdL} as exatCdL,
 						#{sopNo} as sopNo,
 						#{utmExp} as utmExp,
 						#{expCrtnScnCd} as expCrtnScnCd,
 						#{utmSmpoQty} as utmSmpoQty,
-						#{utmExprTim} as utmExprTim,
+						#{utmExatTim} as utmExatTim,
 						#{dspNo} as dspNo,
 						#{delYn} as delYn,
 						#{userId} as userId ) b
-		ON ( a.expr_cd = b.exprCd)
+		ON ( a.exat_cd = b.exatCd)
 		WHEN MATCHED THEN
-			update set	expr_nm = b.exprNm,
+			update set	exat_nm = b.exatNm,
 						sop_no = b.sopNo,
 						utm_exp = b.utmExp,
 						exp_crtn_scn_cd = b.expCrtnScnCd,
 						utm_smpo_qty = b.utmSmpoQty,
-						utm_expr_tim = b.utmExprTim,
+						utm_exat_tim = b.utmExatTim,
 						dsp_no = b.dspNo,
 						del_yn = b.delYn,
 						last_mdfy_dt = getdate(),
 						last_mdfy_id = b.userId
 		WHEN NOT MATCHED THEN
-			insert (expr_nm
-				   ,supi_expr_cd
-				   ,expr_cd_l
+			insert (exat_nm
+				   ,supi_exat_cd
+				   ,exat_cd_l
 				   ,sop_no
 				   ,utm_exp
 				   ,exp_crtn_scn_cd
 				   ,utm_smpo_qty
-				   ,utm_expr_tim
+				   ,utm_exat_tim
 				   ,dsp_no
 				   ,del_yn
 				   ,frst_rgst_id
 				   ,last_mdfy_id
 				   )
-			values(b.exprNm
-				  ,b.supiExprCd
-				  ,b.exprCdL
+			values(b.exatNm
+				  ,b.supiExatCd
+				  ,b.exatCdL
 				  ,b.sopNo
 				  ,b.utmExp
 				  ,b.expCrtnScnCd
 				  ,b.utmSmpoQty
-				  ,b.utmExprTim
+				  ,b.utmExatTim
 				  ,b.dspNo
 				  ,b.delYn
 				  ,b.userId
@@ -746,33 +746,33 @@
 
 	</insert>
 
-	<select id="getRlabExprDtlList" resultType="hashmap">
+	<select id="getRlabExatDtlList" resultType="hashmap">
 		<![CDATA[
-			-- getRlabExprDtlList 실험 상세 정보 리스트 조회
-			select	a.expr_cd										as exprCd
+			-- getRlabExatDtlList 실험 상세 정보 리스트 조회
+			select	a.exat_cd										as exatCd
 				   ,a.mchn_info_id									as mchnInfoId
 				   ,b.mchn_han_nm									as mchnInfoNm
 				   ,b.mdl_nm										as mdlNm
 				   ,b.mkr_nm										as mkrNm
 				   ,dbo.fn_getComDtlNm('MCHN_CL_CD', b.mchn_cl_cd)	as mchnClNm
 				   ,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
-			from	iris_rlab_expr_dtl a,
+			from	iris_rlab_exat_dtl a,
 					iris_mchn_info_mst b
 		 ]]>
-			where	a.expr_cd = ${exprCd}
+			where	a.exat_cd = ${exatCd}
 			and		a.del_yn = 'N'
 			and		a.mchn_info_id = b.mchn_info_id
 	</select>
 
-	<insert id="saveRlabExprDtl" parameterType="map">
+	<insert id="saveRlabExatDtl" parameterType="map">
 
-		insert into iris_rlab_expr_dtl(
-			EXPR_CD
+		insert into iris_rlab_exat_dtl(
+			EXAT_CD
 		   ,MCHN_INFO_ID
 		   ,FRST_RGST_ID
 		   ,LAST_MDFY_ID
 		)
-		values(${exprCd}
+		values(${exatCd}
 			  ,${mchnInfoId}
 			  ,#{userId}
 			  ,#{userId}
@@ -780,13 +780,13 @@
 
 	</insert>
 
-	<update id="updateRlabExprDtlDelYn" parameterType="map">
+	<update id="updateRlabExatDtlDelYn" parameterType="map">
 
-		update	iris_rlab_expr_dtl
+		update	iris_rlab_exat_dtl
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
-		where	expr_cd = ${exprCd}
+		where	exat_cd = ${exatCd}
 		and		mchn_info_id = ${mchnInfoId}
 		and		del_yn = 'N'
 	
@@ -912,12 +912,12 @@
 	</select>
 
 
-	<select id="getExprWay" resultType="String">
+	<select id="getExatWay" resultType="String">
 		<![CDATA[
-			-- getExprWay 개발방법 조회
-		SELECT EXPR_WAY as exprWay
-		FROM  IRIS_RLAB_RQPR_EXPR
-		WHERE   RQPR_EXPR_ID = ${rqprExprId}
+			-- getExatWay 개발방법 조회
+		SELECT EXAT_WAY as exatWay
+		FROM  IRIS_RLAB_RQPR_EXAT
+		WHERE   RQPR_EXAT_ID = ${rqprExatId}
 		AND     RQPR_ID = #{rqprId}
 		]]>
 	</select>
