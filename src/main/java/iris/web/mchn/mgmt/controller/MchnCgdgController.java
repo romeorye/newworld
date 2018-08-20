@@ -30,10 +30,10 @@ public class MchnCgdgController extends IrisBaseController {
 
 	@Resource(name="mchnCgdgService")
 	private MchnCgdgService mchnCgdgService;
-	
+
 	static final Logger LOGGER = LogManager.getLogger(MchnCgdgController.class);
-	
-	
+
+
 	/**
 	 * 분석기기 > 관리 > 소모품 관리 리스트 화면으로 으로
 	 */
@@ -50,10 +50,10 @@ public class MchnCgdgController extends IrisBaseController {
 		input = StringUtil.toUtf8(input);
 
 		model.addAttribute("inputData", input);
-		
+
 		return  "web/mchn/mgmt/cgdsAnl/cgdsAnlList";
 	}
-	
+
 	/**
 	 *  분석기기 > 관리 > 소모품 관리 조회
 	 * @param input
@@ -71,15 +71,15 @@ public class MchnCgdgController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		
+
 		input = StringUtil.toUtf8(input);
-		
+
         List<Map<String, Object>> resultList = mchnCgdgService.retrieveCdgsList(input);
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", resultList));
 
 		return  modelAndView;
 	}
-	
+
 	/**
 	 *  소모품 신규 및 상세 조회
 	 * @param input
@@ -100,7 +100,7 @@ public class MchnCgdgController extends IrisBaseController {
 
         return  "web/mchn/mgmt/cgdsAnl/cgdsAnlReg";
 	}
-	
+
 	/**
 	 *  소모품 신규 및 상세 조회
 	 * @param input
@@ -118,13 +118,13 @@ public class MchnCgdgController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		
+
         HashMap<String, Object> result = mchnCgdgService.retrieveCdgsMst(input);
-		
+
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", result));
         return  modelAndView;
 	}
-	
+
 	/**
 	 *  소모품 정보 저장 및 수정
 	 * @param input
@@ -134,35 +134,30 @@ public class MchnCgdgController extends IrisBaseController {
 	 * @return
 	 */
 	@RequestMapping(value="/mchn/mgmt/saveCgdsMst.do")
-	public ModelAndView saveCgdsAnlInfo(@RequestParam HashMap<String, Object> input,
-			HttpServletRequest request,
-			HttpSession session,
-			ModelMap model
-			){
+	public ModelAndView saveCgdsAnlInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpSession session, ModelMap model) {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		
+
 		String rtnMsg = "";
 		String rtnSt = "F";
-        try{
-        	mchnCgdgService.saveCgdsMst(input);
+		try {
+			mchnCgdgService.saveCgdsMst(input);
+			rtnMsg = "저장되었습니다.";
+			rtnSt = "S";
+		} catch (Exception e) {
+			e.printStackTrace();
+			rtnMsg = "처리중 오류가발생했습니다. 담당자에게 문의해주세요";
+		}
 
-        	rtnMsg = "저장되었습니다.";
-        	rtnSt = "S";
-        }catch(Exception e){
-        	e.printStackTrace();
-        	rtnMsg = "처리중 오류가발생했습니다. 담당자에게 문의해주세요";
-        }
-		
-        rtnMeaasge.put("rtnMsg", rtnMsg);
+		rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
-		
-        return  modelAndView;
-	}   		
-	
+
+		return modelAndView;
+	}
+
 	/**
 	 *  소모품 정보 삭제
 	 * @param input
@@ -181,7 +176,7 @@ public class MchnCgdgController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		
+
 		String rtnMsg = "";
 		String rtnSt = "F";
         try{
@@ -193,14 +188,14 @@ public class MchnCgdgController extends IrisBaseController {
         	e.printStackTrace();
         	rtnMsg = "처리중 오류가발생했습니다. 담당자에게 문의해주세요";
         }
-		
+
         rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
-		
+
         return  modelAndView;
-	}   
-	
+	}
+
 	/**
 	 * 분석기기 > 관리 > 소모품 관리 > 관리 > 소모품 입출력 리스트 화면
 	 */
@@ -215,12 +210,12 @@ public class MchnCgdgController extends IrisBaseController {
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		LOGGER.debug("session="+lsession);
-		
+
 		model.addAttribute("inputData", input);
-		
+
 		return  "web/mchn/mgmt/cgdsAnl/cgdsMgmtList";
 	}
-	
+
 	/**
 	 *  분석기기 > 관리 > 소모품 관리 > 관리 > 소모품 입출력 조회
 	 * @param input
@@ -238,17 +233,17 @@ public class MchnCgdgController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		
+
 		HashMap<String, Object> result = mchnCgdgService.retrieveCdgsMst(input);
        	List<Map<String, Object>> resultList = mchnCgdgService.retrieveCdgsMgmt(input);
-       	
+
        	modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", result));
        	modelAndView.addObject("dataSetList", RuiConverter.createDataset("dataSetList", resultList));
 
 		return  modelAndView;
 	}
-		
-	
+
+
 	/**
 	 *  분석기기 > 관리 > 소모품 관리 > 관리 > 소모품 입출력 > 신규 등록 및 수정 팝업창
 	 * @param input
@@ -268,13 +263,13 @@ public class MchnCgdgController extends IrisBaseController {
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		LOGGER.debug("###############22################################################################ : "+ input);
 		model.addAttribute("inputData", input);
-		
+
 		return "web/mchn/mgmt/cgdsAnl/cgdsMgmtPop";
 	}
-	
-	
+
+
 	/**
-	 *  분석기기 > 관리 > 소모품 관리 > 관리 > 소모품 입출력 > 팝업창 신규정보조회 
+	 *  분석기기 > 관리 > 소모품 관리 > 관리 > 소모품 입출력 > 팝업창 신규정보조회
 	 * @param input
 	 * @param request
 	 * @param session
@@ -290,13 +285,13 @@ public class MchnCgdgController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		
+
 		HashMap<String, Object> result =  mchnCgdgService.retrieveCgdsMgmtPopInfo(input);
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", result));
-		
+
 		return  modelAndView;
 	}
-	
+
 
 
 	/**
@@ -317,22 +312,22 @@ public class MchnCgdgController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		
+
 		String rtnMsg = "";
 		String rtnSt = "F";
-		int totQty = 0; 
-		int qty =  Integer.parseInt(input.get("qty").toString()); 
-		
+		int totQty = 0;
+		int qty =  Integer.parseInt(input.get("qty").toString());
+
 		try{
-			
+
 			totQty = mchnCgdgService.retrieveTotQty(input);
-			
+
 			//출고 및 폐기일 경우 현재고 체크
 			if(!input.get("whioClCd").equals("WHSN")  ){
 				totQty = totQty - qty ;
 				if( totQty < 0  ){
 					rtnMsg = "현재 재고갯수를 확인해주십시오.";
-					throw new Exception(); 
+					throw new Exception();
 				}else{
 					input.put("totQty", totQty);
 				}
@@ -341,7 +336,7 @@ public class MchnCgdgController extends IrisBaseController {
 				input.put("totQty", totQty);
 			}
 			mchnCgdgService.saveCgdsMgmtPopInfo(input);
-			
+
 			rtnMsg = "저장되었습니다.";
 			rtnSt  = "S";
 		}catch(Exception e){
@@ -354,13 +349,13 @@ public class MchnCgdgController extends IrisBaseController {
 		rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
-		
+
 		return  modelAndView;
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 }
