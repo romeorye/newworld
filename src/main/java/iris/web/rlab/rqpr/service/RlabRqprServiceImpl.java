@@ -80,17 +80,17 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 	/* 분석의뢰 등록 */
 	public boolean insertRlabRqpr(Map<String,Object> dataMap) throws Exception {
 		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
-		Map<String, Object> rlabRqprDataSet = (Map<String, Object>)dataMap.get("rlabRqprDataSet");
-		List<Map<String, Object>> rlabRqprSmpoDataSet = (List<Map<String, Object>>)dataMap.get("rlabRqprSmpoDataSet");
-		List<Map<String, Object>> rlabRqprRltdDataSet = (List<Map<String, Object>>)dataMap.get("rlabRqprRltdDataSet");
-		List<Map<String, Object>> rlabRqprInfmList = new ArrayList<Map<String, Object>>();
+		Map<String, Object> rlabRqprDataSet = (Map<String, Object>)dataMap.get("rlabRqprDataSet");	//의뢰정보
+		List<Map<String, Object>> rlabRqprSmpoDataSet = (List<Map<String, Object>>)dataMap.get("rlabRqprSmpoDataSet");	//시료정보
+		List<Map<String, Object>> rlabRqprRltdDataSet = (List<Map<String, Object>>)dataMap.get("rlabRqprRltdDataSet");	//관련분석
+		List<Map<String, Object>> rlabRqprInfmList = new ArrayList<Map<String, Object>>();	//통보자 리스트
 
 		Object userId = input.get("_userId");
 		rlabRqprDataSet.put("userId", userId);
 		rlabRqprDataSet.put("userDeptCd", input.get("_userDept"));
 		rlabRqprDataSet.put("userTeamCd", input.get("_teamDept"));
 
-    	if(commonDao.insert("rlab.rqpr.insertRlabRqpr", rlabRqprDataSet) == 1) {
+    	if(commonDao.insert("rlab.rqpr.insertRlabRqpr", rlabRqprDataSet) == 1) { //의뢰정보 저장
     		Object rqprId = rlabRqprDataSet.get("rqprId");
     		String[] infmPrsnIdArr = ((String)rlabRqprDataSet.get("infmPrsnIds")).split(",");
     		HashMap<String, Object> rlabRqprInfmInfo;
@@ -120,6 +120,7 @@ public class RlabRqprServiceImpl implements RlabRqprService {
         	if(commonDao.batchInsert("rlab.rqpr.insertRlabRqprSmpo", rlabRqprSmpoDataSet) == rlabRqprSmpoDataSet.size()
         			&& commonDao.batchInsert("rlab.rqpr.insertRlabRqprRltd", rlabRqprRltdDataSet) == rlabRqprRltdDataSet.size()
         			&& commonDao.batchInsert("rlab.rqpr.insertRlabRqprInfm", rlabRqprInfmList) == rlabRqprInfmList.size()) {
+        		//시료정보 && 관련분석 &&
         		return true;
         	} else {
         		throw new Exception("분석의뢰 등록 오류");
@@ -418,8 +419,8 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     		
     		mailSender.setFromMailAddress(rlabMailInfo.getChrgEmail(), rlabMailInfo.getChrgNm());
     		mailSender.setToMailAddress(rlabMailInfo.getReceivers().split(","));
-    		mailSender.setSubject("'" + rlabMailInfo.getAnlNm() + "' 분석의뢰 접수 통보");
-    		mailSender.setHtmlTemplate("rlabRqprReceipt", rlabMailInfo);
+    		mailSender.setSubject("'" + rlabMailInfo.getRlabNm() + "' 시험의뢰 접수 통보");
+    		mailSender.setHtmlTemplate("anlRqprReceipt", rlabMailInfo);
     		mailSender.send();
     		
         	return true;

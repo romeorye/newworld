@@ -7,7 +7,7 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlRqprList.jsp
+ * $Id		: rlabRqprList.jsp
  * @desc    : 분석의뢰관리 리스트
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
@@ -40,21 +40,21 @@
              * 변수 및 객체 선언
              *******************/
             
-            var anlNm = new Rui.ui.form.LTextBox({
-                applyTo: 'anlNm',
+            var rlabNm = new Rui.ui.form.LTextBox({
+                applyTo: 'rlabNm',
                 placeholder: '검색할 분석명을 입력해주세요.',
-                defaultValue: '<c:out value="${inputData.anlNm}"/>',
+                defaultValue: '<c:out value="${inputData.rlabNm}"/>',
                 emptyValue: '',
                 width: 400
             });
             
-            anlNm.on('blur', function(e) {
-            	anlNm.setValue(anlNm.getValue().trim());
+            rlabNm.on('blur', function(e) {
+            	rlabNm.setValue(rlabNm.getValue().trim());
             });
         /*     
-            anlNm.on('keypress', function(e) {
+            rlabNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
-            		getAnlRqprList();
+            		getRlabRqprList();
             	}
             });
             
@@ -86,7 +86,7 @@
           /*   
             acpcNo.on('keypress', function(e) {
             	if(e.keyCode == 13) {
-            		getAnlRqprList();
+            		getRlabRqprList();
             	}
             });
            */  
@@ -133,24 +133,24 @@
 			});
            
 			
-			var anlChrgNm = new Rui.ui.form.LTextBox({
-                applyTo: 'anlChrgNm',
+			var rlabChrgNm = new Rui.ui.form.LTextBox({
+                applyTo: 'rlabChrgNm',
                 placeholder: '검색할 담당자를 입력해주세요.',
-                defaultValue: '<c:out value="${inputData.anlChrgNm}"/>',
+                defaultValue: '<c:out value="${inputData.rlabChrgNm}"/>',
                 emptyValue: '',
                 width: 400
             });
 			
 			
 			/* 
-            var anlChrgNm = new Rui.ui.form.LCombo({
-                applyTo: 'anlChrgNm',
-                name: 'anlChrgNm',
+            var rlabChrgNm = new Rui.ui.form.LCombo({
+                applyTo: 'rlabChrgNm',
+                name: 'rlabChrgNm',
                 useEmptyText: true,
                 emptyText: '전체',
-                defaultValue: '<c:out value="${inputData.anlChrgNm}"/>',
+                defaultValue: '<c:out value="${inputData.rlabChrgNm}"/>',
                 emptyValue: '',
-                url: '<c:url value="/anl/getAnlChrgList.do"/>',
+                url: '<c:url value="/rlab/getRlabChrgList.do"/>',
                 displayField: 'name',
                 valueField: 'userId'
             });
@@ -170,93 +170,93 @@
             /*******************
              * 변수 및 객체 선언
             *******************/
-            var anlRqprDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprDataSet',
+            var rlabRqprDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
 					  { id: 'rqprId'}
 					, { id: 'acpcNo' }
-					, { id: 'anlScnNm' }
-					, { id: 'anlNm' }
+					, { id: 'rlabScnNm' }
+					, { id: 'rlabNm' }
 					, { id: 'rgstNm' }
-					, { id: 'anlChrgNm' }
+					, { id: 'rlabChrgNm' }
 					, { id: 'rqprDt' }
 					, { id: 'acpcDt' }
 					, { id: 'cmplParrDt' }
 					, { id: 'cmplDt' }
-					, { id: 'anlUgyYnNm' }
+					, { id: 'rlabUgyYnNm' }
 					, { id: 'acpcStNm' }
 					, { id: 'smpoCnt' }
                 ]
             });
 
-            var anlRqprColumnModel = new Rui.ui.grid.LColumnModel({
+            var rlabRqprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                      { field: 'acpcNo',		label: '접수번호',		sortable: true,	align:'center',	width: 80 }
-                    , { field: 'anlScnNm',		label: '분석구분',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'anlNm',			label: '분석명',		sortable: false,	align:'left',	width: 370 }
+                      { field: 'acpcNo',		label: '접수번호',	sortable: true,		align:'center',	width: 80 }
+                    , { field: 'rlabScnNm',		label: '분석구분',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'rlabNm',		label: '분석명',		sortable: false,	align:'left',	width: 370 }
                     , { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 50 }
                     , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 70 }
-					, { field: 'anlChrgNm',		label: '담당자',		sortable: false, 	align:'center',	width: 70 }
+					, { field: 'rlabChrgNm',	label: '담당자',		sortable: false, 	align:'center',	width: 70 }
 					, { field: 'rqprDt',		label: '의뢰일',		sortable: true, 	align:'center',	width: 80 }
 					, { field: 'acpcDt',		label: '접수일',		sortable: true, 	align:'center',	width: 80 }
 					, { field: 'cmplParrDt',	label: '완료예정일',	sortable: true, 	align:'center',	width: 80 }
                     , { field: 'cmplDt',		label: '완료일',		sortable: true, 	align:'center',	width: 80 }
-                    , { field: 'anlUgyYnNm',	label: '긴급',		sortable: false,  	align:'center',	width: 40 }
+                    , { field: 'rlabUgyYnNm',	label: '긴급',		sortable: false,  	align:'center',	width: 40 }
 					, { field: 'acpcStNm',		label: '상태',		sortable: false, 	align:'center',	width: 80 }
                 ]
             });
 
-            var anlRqprGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprColumnModel,
-                dataSet: anlRqprDataSet,
+            var rlabRqprGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: rlabRqprColumnModel,
+                dataSet: rlabRqprDataSet,
                 width: 600,
                 height: 520,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            anlRqprGrid.on('cellClick', function(e) {
+            rlabRqprGrid.on('cellClick', function(e) {
 
-            	var record = anlRqprDataSet.getAt(e.row);
+            	var record = rlabRqprDataSet.getAt(e.row);
             	
             	$('#rqprId').val(record.data.rqprId);
             	
-            	nwinsActSubmit(aform, "<c:url value='/anl/anlRqprDetail.do'/>");
+            	nwinsActSubmit(aform, "<c:url value='/rlab/rlabRqprDetail.do'/>");
             });
             
-            anlRqprGrid.render('anlRqprGrid');
+            rlabRqprGrid.render('rlabRqprGrid');
             
             /* 조회 */
-            getAnlRqprList = function() {
-            	anlRqprDataSet.load({
-                    url: '<c:url value="/anl/getAnlRqprList.do"/>',
+            getRlabRqprList = function() {
+            	rlabRqprDataSet.load({
+                    url: '<c:url value="/rlab/getRlabRqprList.do"/>',
                     params :{
-                    	anlNm : encodeURIComponent(anlNm.getValue()),
+                    	rlabNm : encodeURIComponent(rlabNm.getValue()),
             		    fromRqprDt : fromRqprDt.getValue(), 
             		    toRqprDt : toRqprDt.getValue(),
             		    rgstNm : encodeURIComponent(rgstNm.getValue()),
-            		    anlChrgNm : encodeURIComponent(anlChrgNm.getValue()),
+            		    rlabChrgNm : encodeURIComponent(rlabChrgNm.getValue()),
             		    acpcNo : encodeURIComponent(acpcNo.getValue()),
             		    acpcStCd : acpcStCd.getValue(),
-            		    isAnlChrg : 0
+            		    isRlabChrg : 0
                     }
                 });
             };
             
-            anlRqprDataSet.on('load', function(e) {
-   	    		$("#cnt_text").html('총 ' + anlRqprDataSet.getCount() + '건');
+            rlabRqprDataSet.on('load', function(e) {
+   	    		$("#cnt_text").html('총 ' + rlabRqprDataSet.getCount() + '건');
    	      	});
             
             /* 등록화면 이동 */
-            goAnlRqprRgst = function() {
-            	nwinsActSubmit(aform, "<c:url value="/anl/anlRqprRgst.do"/>");
+            goRlabRqprRgst = function() {
+            	nwinsActSubmit(aform, "<c:url value="/rlab/rlabRqprRgst.do"/>");
             };
             
             /* 분석의뢰 리스트 엑셀 다운로드 */
-        	downloadAnlRqprListExcel = function() {
-                anlRqprGrid.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') + '.xls');
+        	downloadRlabRqprListExcel = function() {
+                rlabRqprGrid.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') + '.xls');
             };
     		/* 
             setRgstInfo = function(userInfo) {
@@ -264,13 +264,13 @@
     	    	$('#rgstNm').val(userInfo.saUser);
     	    };
              */
-            getAnlRqprList();
+            getRlabRqprList();
 			
         });
 
 	</script>
     </head>
-    <body onkeypress="if(event.keyCode==13) {getAnlRqprList();}">
+    <body onkeypress="if(event.keyCode==13) {getRlabRqprList();}">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
 		
@@ -293,7 +293,7 @@
    						<tr>
    							<th align="right">분석명</th>
    							<td>
-   								<input type="text" id="anlNm">
+   								<input type="text" id="rlabNm">
    							</td>
    							<th align="right">의뢰일자</th>
     						<td>
@@ -301,18 +301,18 @@
    								<input type="text" id="toRqprDt"/>
     						</td>
    							<td class="t_center" rowspan="3">
-   								<a style="cursor: pointer;" onclick="getAnlRqprList();" class="btnL">검색</a>
+   								<a style="cursor: pointer;" onclick="getRlabRqprList();" class="btnL">검색</a>
    							</td>
    						</tr>
    						<tr>
    							<th align="right">의뢰자</th>
    							<td>
    								<input type="text" id="rgstNm">
-                                <!-- <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'anl');" class="icoBtn">검색</a> -->
+                                <!-- <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'rlab');" class="icoBtn">검색</a> -->
    							</td>
    							<th align="right">담당자</th>
     						<td>
-    							<input type="text" id="anlChrgNm">
+    							<input type="text" id="rlabChrgNm">
     						</td>
    						</tr>
    						<tr>
@@ -331,14 +331,14 @@
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">
-   						<button type="button" class="btn"  id="rgstBtn" name="rgstBtn" onclick="goAnlRqprRgst()">등록</button>
-   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadAnlRqprListExcel()">Excel</button>
+   						<button type="button" class="btn"  id="rgstBtn" name="rgstBtn" onclick="goRlabRqprRgst()">등록</button>
+   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadRlabRqprListExcel()">Excel</button>
    					</div>
    				</div>
 
-   				<div id="anlRqprGrid"></div>
+   				<div id="rlabRqprGrid"></div>
 				
-				<div id="anlRqprExcelGrid" style="width:10px;height:10px;visibility:hidden;"></div>
+				<div id="rlabRqprExcelGrid" style="width:10px;height:10px;visibility:hidden;"></div>
    				
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->

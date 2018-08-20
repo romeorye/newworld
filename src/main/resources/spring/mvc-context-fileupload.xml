@@ -20,6 +20,8 @@
 		<property name="optionalPolicyMap">
 			<map>
 				<entry key="anlPolicy" value-ref="anlPolicy"></entry>
+				<entry key="rlabPolicy" value-ref="anlPolicy"></entry>
+				<entry key="spacePolicy" value-ref="anlPolicy"></entry>
 				<entry key="prjPolicy" value-ref="prjPolicy"></entry>
 				<entry key="mchnPolicy" value-ref="mchnPolicy"></entry>
 				<entry key="fxaPolicy" value-ref="fxaPolicy"></entry>
@@ -56,6 +58,35 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="true"/>
 	</bean>
+	
+	<bean id="rlabPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/rlab" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/anl" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="50MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	<bean id="spacePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/space" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/anl" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="50MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
 	
 	<bean id="prjPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->

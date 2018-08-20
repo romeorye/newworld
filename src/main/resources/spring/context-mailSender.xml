@@ -40,6 +40,9 @@
 	            <entry key="mailBatchWbsCdCrdhtml" value-ref="mailBatchWbsCdCrdhtml" />
 	            <entry key="mailBatchWbsCdDelhtml" value-ref="mailBatchWbsCdDelhtml" />
 	            <entry key="mailRfpReqFormhtml" value-ref="mailRfpReqFormhtml" />
+	            
+	            <!-- 신뢰성 메일발송 추가 정현웅 2018.08.17 -->
+	            <entry key="rlabRqprReceipt" value-ref="rlabRqprReceipt" />
 	        </map>
 	    </property>
 	</bean>
@@ -298,6 +301,21 @@
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	    
 	</bean>
+	
+	
+	<!--*************************************************** -->
+	<!--*************** 신뢰성 mail 설정 ************************ -->
+	<!--*************************************************** -->
+	<bean id="rlabRqprReceipt" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/rlab" />
+	    <property name="htmlName" value="rlabRqprReceipt.html" />
+	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+	
 	
 	
 </beans>

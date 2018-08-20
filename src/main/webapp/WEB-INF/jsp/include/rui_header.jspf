@@ -347,8 +347,29 @@
 		    _deptSearchDialog.show();
 	    };
 		// 부서 조회 공통팝업 끝
+		
+		
+		// WBS 코드 조회 공통팝업 시작
+	    _wbsCdSearchDialog = new Rui.ui.LFrameDialog({
+	        id: '_wbsCdSearchDialog',
+	        title: 'WBS 코드 조회',
+	        width: 850,
+	        height: 550,
+	        modal: true,
+	        visible: false
+	    });
 
+	    _wbsCdSearchDialog.render(document.body);
 
+	    openWbsCdSearchDialog = function(f, task) {
+	    	_callback = f;
+
+	    	_wbsCdSearchDialog.setUrl('<c:url value="/system/etc/wbsCdSearchPopup.do?task="/>' + task);
+	    	_wbsCdSearchDialog.show();
+	    };
+		// WBS 코드 조회 공통팝업 끝
+
+		
 		// 첨부파일 공통팝업 시작
 	    var _attachFileApply = function(){
 	        var frameWindow = _attachFileDialog.getFrameWindow();		// Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체

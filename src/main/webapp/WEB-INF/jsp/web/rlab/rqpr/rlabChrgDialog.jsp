@@ -3,12 +3,12 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlChrgDialog.jsp
+ * $Id		: rlabChrgDialog.jsp
  * @desc    : 분석담당자 선택 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2017.08.25  오명철		최초생성
+ * 1.0  2018.08.07  정현웅		최초생성
  * ---	-----------	----------	-----------------------------------------
  * IRIS UPGRADE 1차 프로젝트
  *************************************************************************
@@ -32,14 +32,14 @@
 	<script type="text/javascript">
 
 		setAnlChrgInfo = function(id, name) {
-			var anlChrgInfo = {
+			var rlabChrgInfo = {
 					id : id,
 					name : name
 			};
 
-			parent._callback(anlChrgInfo);
+			parent._callback(rlabChrgInfo);
 
-			parent.anlChrgListDialog.submit(true);
+			parent.rlabChrgListDialog.submit(true);
 		};
 
 	</script>

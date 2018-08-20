@@ -7,14 +7,14 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlRqprSearchPopup.jsp
- * @desc    : 관련분석 리스트 조회 팝업
+ * $Id		: rlabRqprSearchPopup.jsp
+ * @desc    : 관련시험 리스트 조회 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2017.08.25  오명철		최초생성
+ * 1.0  2018.08.13  정현웅		최초생성
  * ---	-----------	----------	-----------------------------------------
- * IRIS UPGRADE 1차 프로젝트
+ * IRIS UPGRADE 2차 프로젝트
  *************************************************************************
  */
 --%>
@@ -47,26 +47,26 @@
              * 변수 및 객체 선언
              *******************/
 			if( '${inputData._userDept}' == "58141801" ){
-				isAnlChrg = 1;
+				isRlabChrg = 1;
 			}else{
-				isAnlChrg = 0;
+				isRlabChrg = 0;
 			}
 
-            var anlNm = new Rui.ui.form.LTextBox({
-                 applyTo: 'anlNm',
-                 placeholder: '검색할 분석명을 입력해주세요.',
+            var rlabNm = new Rui.ui.form.LTextBox({
+                 applyTo: 'rlabNm',
+                 placeholder: '검색할 시험명을 입력해주세요.',
                  defaultValue: '',
                  emptyValue: '',
                  width: 300
             });
             
-            anlNm.on('blur', function(e) {
-            	anlNm.setValue(anlNm.getValue().trim());
+            rlabNm.on('blur', function(e) {
+            	rlabNm.setValue(rlabNm.getValue().trim());
             });
             
-            anlNm.on('keypress', function(e) {
+            rlabNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
-            		getAnlRqprList();
+            		getRlabRqprList();
             	}
             });
              
@@ -84,13 +84,13 @@
             	$('#rgstId').val('');
             });
             
-            var anlChrgId = new Rui.ui.form.LCombo({
-                applyTo: 'anlChrgId',
-                name: 'anlChrgId',
+            var rlabChrgId = new Rui.ui.form.LCombo({
+                applyTo: 'rlabChrgId',
+                name: 'rlabChrgId',
                 emptyText: '전체',
                 defaultValue: '',
                 emptyValue: '',
-                url: '<c:url value="/anl/getAnlChrgList.do"/>',
+                url: '<c:url value="/rlab/getRlabChrgList.do"/>',
                 displayField: 'name',
                 valueField: 'userId'
             });
@@ -109,65 +109,64 @@
             /*******************
              * 변수 및 객체 선언
             *******************/
-            var anlRqprDataSet = new Rui.data.LJsonDataSet({
-                id : 'anlRqprDataSet',
+            var rlabRqprDataSet = new Rui.data.LJsonDataSet({
+                id : 'rlabRqprDataSet',
                 remainRemoved : true,
                 lazyLoad : true,
                 fields : [
 					  { id: 'rqprId'}
 					, { id: 'acpcNo' }
-					, { id: 'anlScnNm' }
-					, { id: 'anlNm' }
+					, { id: 'rlabScnNm' }
+					, { id: 'rlabNm' }
 					, { id: 'rgstId' }
 					, { id: 'rgstNm' }
-					, { id: 'anlChrgNm' }
+					, { id: 'rlabChrgNm' }
 					, { id: 'rqprDt' }
 					, { id: 'acpcDt' }
 					, { id: 'cmplParrDt' }
 					, { id: 'cmplDt' }
-					, { id: 'anlUgyYnNm' }
+					, { id: 'rlabUgyYnNm' }
 					, { id: 'acpcStNm' }
                 ]
             });
 
-            var anlRqprColumnModel = new Rui.ui.grid.LColumnModel({
+            var rlabRqprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns : [
-                      { field: 'acpcNo',		label: '접수번호',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'anlScnNm',		label: '분석구분',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'anlNm',			label: '분석명',		sortable: false,	align:'left',	width: 300 }
+                      { field: 'acpcNo',		label: '접수번호',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'rlabScnNm',		label: '시험구분',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'rlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 300 }
                     , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
-					, { field: 'anlChrgNm',		label: '담당자',		sortable: false, 	align:'center',	width: 80 }
+					, { field: 'rlabChrgNm',	label: '담당자',		sortable: false, 	align:'center',	width: 80 }
                     , { field: 'cmplDt',		label: '완료일',		sortable: false, 	align:'center',	width: 80 }
                 ]
             });
 
-            var anlRqprGrid = new Rui.ui.grid.LGridPanel({
-                columnModel : anlRqprColumnModel,
-                dataSet : anlRqprDataSet,
+            var rlabRqprGrid = new Rui.ui.grid.LGridPanel({
+                columnModel : rlabRqprColumnModel,
+                dataSet : rlabRqprDataSet,
                 width : 700,
                 height : 300,
                 autoToEdit : false,
                 autoWidth : true
             });
 
-            anlRqprGrid.on('cellDblClick', function(e) {
-            	parent.callback(anlRqprDataSet.getAt(e.row).data);
-            	
-            	parent.anlRqprSearchDialog.submit(true);
+            rlabRqprGrid.on('cellDblClick', function(e) {
+            	parent.callback(rlabRqprDataSet.getAt(e.row).data);
+            	parent.rlabRqprSearchDialog.submit(true);
             });
             
-            anlRqprGrid.render('anlRqprGrid');
+            rlabRqprGrid.render('rlabRqprGrid');
             
             /* 조회 */
-            getAnlRqprList = function() {
-            	anlRqprDataSet.load({
-                    url: '<c:url value="/anl/getAnlRqprList.do"/>',
+            getRlabRqprList = function() {
+            	rlabRqprDataSet.load({
+                    url: '<c:url value="/rlab/getRlabRqprList.do"/>',
                     params :{
-                    	anlNm : encodeURIComponent(anlNm.getValue()),
-            		    anlChrgId : anlChrgId.getValue(),
+                    	rlabNm : encodeURIComponent(rlabNm.getValue()),
+            		    rlabChrgId : rlabChrgId.getValue(),
             		    rgstId : $('#rgstId').val(),
             		    acpcStCd : acpcStCd.getValue(),
-            		    isAnlChrg : isAnlChrg
+            		    isRlabChrg : isRlabChrg
                     }
                 });
             };
@@ -177,7 +176,7 @@
     	    	$('#rgstId').val(userInfo.saUser);
     	    }
             
-            getAnlRqprList();
+            getRlabRqprList();
 			
         });
 
@@ -201,23 +200,23 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">분석명</th>
+   							<th align="right">시험명</th>
    							<td>
-   								<input type="text" id="anlNm" value="">
+   								<input type="text" id="rlabNm" value="">
    							</td>
    							<th align="right">담당자</th>
     						<td>
-                                <div id="anlChrgId"></div>
+                                <div id="rlabChrgId"></div>
     						</td>
    							<td class="t_center" rowspan="2">
-   								<a style="cursor: pointer;" onclick="getAnlRqprList();" class="btnL">검색</a>
+   								<a style="cursor: pointer;" onclick="getRlabRqprList();" class="btnL">검색</a>
    							</td>
    						</tr>
    						<tr>
    							<th align="right">의뢰자</th>
    							<td>
    								<input type="text" id="rgstNm" value="">
-                                <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'anl');" class="icoBtn">검색</a>
+                                <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'rlab');" class="icoBtn">검색</a>
    							</td>
    							<th align="right">상태</th>
    							<td>
@@ -227,7 +226,7 @@
    					</tbody>
    				</table>
 
-   				<div id="anlRqprGrid"></div>
+   				<div id="rlabRqprGrid"></div>
    				
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->

@@ -7,14 +7,14 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlRqprDetail.jsp
- * @desc    : 분석의뢰서 상세
+ * $Id		: rlabRqprDetail.jsp
+ * @desc    : 시험의뢰서 상세
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2017.08.25  오명철		최초생성
+ * 1.0  2018.08.16  정현웅		최초생성
  * ---	-----------	----------	-----------------------------------------
- * WINS UPGRADE 1차 프로젝트
+ * WINS UPGRADE 2차 프로젝트
  *************************************************************************
  */
 --%>
@@ -47,7 +47,7 @@
 	<script type="text/javascript">
 
 		var callback;
-		var anlRqprDataSet;
+		var rlabRqprDataSet;
 		
 		Rui.onReady(function() {
             /*******************
@@ -60,7 +60,7 @@
             });
             
             dm.on('success', function(e) {
-                var data = anlRqprSmpoDataSet.getReadData(e);
+                var data = rlabRqprSmpoDataSet.getReadData(e);
                 
                 if(Rui.isEmpty(data.records[0].resultMsg) == false) {
                     alert(data.records[0].resultMsg);
@@ -72,9 +72,9 @@
                 	} else if(data.records[0].cmd == 'requestApproval') {
                     	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00333&approvalLineInform=SUB001&from=iris&guid=A${inputData.rqprId}';
                    		
-                   		openWindow(url, 'anlRqprApprovalPop', 800, 500, 'yes');
+                   		openWindow(url, 'rlabRqprApprovalPop', 800, 500, 'yes');
                 	} else {
-                    	goAnlRqprList();
+                    	goRlabRqprList();
                 	}
                 }
             });
@@ -84,10 +84,10 @@
                 tabs: [ {
                         active: true,
                         label: '의뢰정보',
-                        id: 'anlRqprInfoDiv'
+                        id: 'rlabRqprInfoDiv'
                     }, {
                     	label: '분석결과',
-                        id: 'anlRqprResultDiv'
+                        id: 'rlabRqprResultDiv'
                     }, {
                         label: '의견<span id="opinitionCnt"/>'
                     }]
@@ -106,7 +106,7 @@
 	                break;
 	                
 	            case 1:
-	            	if(anlRqprDataSet.getNameValue(0, 'acpcStCd') != '07') {
+	            	if(rlabRqprDataSet.getNameValue(0, 'acpcStCd') != '07') {
 	            		alert('분석 결과 확인은 분석이 완료 된 후 확인이 가능 합니다.');
 	            		return false;
 	            	}
@@ -114,7 +114,7 @@
 	                break;
 	                
 	            case 2:
-	            	openAnlRqprOpinitionDialog();
+	            	openRlabRqprOpinitionDialog();
 	            	return false;
 	            	
 	                break;
@@ -150,8 +150,8 @@
             
             tabView.render('tabView');
 			
-            anlScnCdDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlScnCdDataSet',
+            rlabScnCdDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabScnCdDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -160,18 +160,18 @@
                 ]
             });
             
-            anlScnCdDataSet.load({
+            rlabScnCdDataSet.load({
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do"/>',
                 params :{
-                	comCd : 'ANL_SCN_CD'
+                	comCd : 'RLAB_SCN_CD'
                 }
             });
             
-        <c:if test="${fn:indexOf(inputData._roleId, 'WORK_IRI_T06') == -1}">
-	        anlScnCdDataSet.on('load', function(e) {
-	        	anlScnCdDataSet.removeAt(anlScnCdDataSet.findRow('COM_DTL_CD', 'O'));
+        /* <c:if test="${fn:indexOf(inputData._roleId, 'WORK_IRI_T06') == -1}">
+	        rlabScnCdDataSet.on('load', function(e) {
+	        	rlabScnCdDataSet.removeAt(rlabScnCdDataSet.findRow('COM_DTL_CD', 'O'));
 	        });
-        </c:if>
+        </c:if> */
             
             var textBox = new Rui.ui.form.LTextBox({
                 emptyValue: ''
@@ -183,16 +183,16 @@
                 maxValue: 99999
             });
             
-            var anlNm = new Rui.ui.form.LTextBox({
-            	applyTo: 'anlNm',
+            var rlabNm = new Rui.ui.form.LTextBox({
+            	applyTo: 'rlabNm',
                 placeholder: '분석명을 입력해주세요.',
                 defaultValue: '',
                 emptyValue: '',
                 width: 400
             });
             
-            var anlChrgNm = new Rui.ui.form.LTextBox({
-            	applyTo: 'anlChrgNm',
+            var rlabChrgNm = new Rui.ui.form.LTextBox({
+            	applyTo: 'rlabChrgNm',
                 placeholder: '분석담당자를 입력해주세요.',
                 defaultValue: '',
                 emptyValue: '',
@@ -200,30 +200,31 @@
                 width: 160
             });
             
-            var anlScnCd = new Rui.ui.form.LCombo({
-                applyTo: 'anlScnCd',
-                name: 'anlScnCd',
+            var rlabScnCd = new Rui.ui.form.LCombo({
+                applyTo: 'rlabScnCd',
+                name: 'rlabScnCd',
                 emptyText: '선택',
                 defaultValue: '',
                 emptyValue: '',
                 width: 110,
-                dataSet: anlScnCdDataSet,
+                dataSet: rlabScnCdDataSet,
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
             
-            var anlUgyYn = new Rui.ui.form.LCombo({
-                applyTo: 'anlUgyYn',
-                name: 'anlUgyYn',
+            var rlabUgyYn = new Rui.ui.form.LCombo({
+                applyTo: 'rlabUgyYn',
+                name: 'rlabUgyYn',
                 emptyText: '선택',
                 defaultValue: '',
                 emptyValue: '',
                 width: 110,
-                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ANL_UGY_YN"/>',
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_UGY_YN"/>',
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
             
+            /*통보유형*/
             var infmTypeCd = new Rui.ui.form.LRadioGroup({
                 applyTo : 'infmTypeCd',
                 name : 'infmTypeCd',
@@ -258,8 +259,8 @@
                 ]
             });
             
-            anlRqprInfmView = new Rui.ui.form.LPopupTextBox({
-                applyTo: 'anlRqprInfmView',
+            rlabRqprInfmView = new Rui.ui.form.LPopupTextBox({
+                applyTo: 'rlabRqprInfmView',
                 width: 400,
                 editable: false,
                 placeholder: '통보자를 입력해주세요.',
@@ -267,12 +268,12 @@
                 enterToPopup: true
             });
             
-            anlRqprInfmView.on('popup', function(e){
-            	openUserSearchDialog(setAnlRqprInfm, 10, anlRqprDataSet.getNameValue(0, 'infmPrsnIds'), 'anl');
+            rlabRqprInfmView.on('popup', function(e){
+            	openUserSearchDialog(setRlabRqprInfm, 10, rlabRqprDataSet.getNameValue(0, 'infmPrsnIds'), 'rlab');
             });
             
-            var anlSbc = new Rui.ui.form.LTextArea({
-                applyTo: 'anlSbc',
+            var rlabSbc = new Rui.ui.form.LTextArea({
+                applyTo: 'rlabSbc',
                 placeholder: '분석배경과 목적, 결과 활용방안을 자세히 기재하여 주시기 바랍니다.',
                 emptyValue: '',
                 width: 980,
@@ -281,14 +282,14 @@
             
             var vm = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'anlNm',				validExp: '분석명:true:maxByteLength=100' },
-                { id: 'anlSbc',				validExp: '분석내용:true' },
-                { id: 'anlScnCd',			validExp: '분석구분:true' },
-                { id: 'anlChrgId',			validExp: '분석담당자:true' },
-                { id: 'anlUgyYn',			validExp: '긴급유무:true' },
+                { id: 'rlabNm',				validExp: '분석명:true:maxByteLength=100' },
+                { id: 'rlabSbc',				validExp: '분석내용:true' },
+                { id: 'rlabScnCd',			validExp: '분석구분:true' },
+                { id: 'rlabChrgId',			validExp: '분석담당자:true' },
+                { id: 'rlabUgyYn',			validExp: '긴급유무:true' },
                 { id: 'infmTypeCd',			validExp: '통보유형:true' },
                 { id: 'smpoTrtmCd',			validExp: '시료처리:true' },
-//                 { id: 'anlRqprInfmView',	validExp: '통보자:true' },
+//                 { id: 'rlabRqprInfmView',	validExp: '통보자:true' },
                 { id: 'smpoNm',				validExp: '시료명:true:maxByteLength=100' },
                 { id: 'mkrNm',				validExp: '제조사:true:maxByteLength=100' },
                 { id: 'mdlNm',				validExp: '모델명:true:maxByteLength=100' },
@@ -296,14 +297,14 @@
                 ]
             });
 			
-            anlRqprDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprDataSet',
+            rlabRqprDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
                 	  { id: 'rqprId' }
-                	, { id: 'anlNm' }
-					, { id: 'anlSbc' }
+                	, { id: 'rlabNm' }
+					, { id: 'rlabSbc' }
 					, { id: 'acpcNo' }
 					, { id: 'acpcStNm' }
 					, { id: 'rgstNm' }
@@ -312,39 +313,39 @@
 					, { id: 'acpcDt' }
 					, { id: 'cmplParrDt' }
 					, { id: 'cmplDt' }
-					, { id: 'anlScnCd' }
-					, { id: 'anlChrgId' }
-					, { id: 'anlChrgNm' }
-					, { id: 'anlUgyYn' }
+					, { id: 'rlabScnCd' }
+					, { id: 'rlabChrgId' }
+					, { id: 'rlabChrgNm' }
+					, { id: 'rlabUgyYn' }
 					, { id: 'infmTypeCd' }
 					, { id: 'smpoTrtmCd' }
 					, { id: 'infmPrsnIds' }
-					, { id: 'anlRqprInfmView' }
-					, { id: 'anlRsltSbc' }
+					, { id: 'rlabRqprInfmView' }
+					, { id: 'rlabRsltSbc' }
 					, { id: 'acpcStCd' }
 					, { id: 'rqprAttcFileId', defaultValue: '' }
 					, { id: 'reqItgRdcsId' }
                 ]
             });
             
-            anlRqprDataSet.on('load', function(e) {
-            	var opinitionCnt = anlRqprDataSet.getNameValue(0, 'opinitionCnt');
-            	var anlRsltSbc = anlRqprDataSet.getNameValue(0, 'anlRsltSbc');
+            rlabRqprDataSet.on('load', function(e) {
+            	var opinitionCnt = rlabRqprDataSet.getNameValue(0, 'opinitionCnt');
+            	var rlabRsltSbc = rlabRqprDataSet.getNameValue(0, 'rlabRsltSbc');
             	
             	if(opinitionCnt > 0) {
             		$('#opinitionCnt').html('(' + opinitionCnt + ')');
             	}
             	
-            	if(Rui.isEmpty(anlRsltSbc) == false) {
-                	anlRqprDataSet.setNameValue(0, 'anlRsltSbc', anlRsltSbc.replaceAll('\n', '<br/>'));
+            	if(Rui.isEmpty(rlabRsltSbc) == false) {
+                	rlabRqprDataSet.setNameValue(0, 'rlabRsltSbc', rlabRsltSbc.replaceAll('\n', '<br/>'));
             	}
             	
-            	if(!Rui.isEmpty(anlRqprDataSet.getNameValue(0, 'reqItgRdcsId'))) {
+            	if(!Rui.isEmpty(rlabRqprDataSet.getNameValue(0, 'reqItgRdcsId'))) {
             		$('#reqApprStateBtn').show();
             	}
             	
             	//button controll
-            	if( anlRqprDataSet.getNameValue(0, 'acpcStCd')  == "07" ){
+            	if( rlabRqprDataSet.getNameValue(0, 'acpcStCd')  == "07" ){
             		 $( '#saveBtn' ).hide();
             		 $( '#approvalBtn' ).hide();
             		 $( '#deleteBtn' ).hide();
@@ -352,44 +353,45 @@
             });
         
             bind = new Rui.data.LBind({
-                groupId: 'anlRqprInfoDiv',
-                dataSet: anlRqprDataSet,
+                groupId: 'rlabRqprInfoDiv',
+                dataSet: rlabRqprDataSet,
                 bind: true,
                 bindInfo: [
-                    { id: 'anlNm',				ctrlId:'anlNm',				value:'value'},
-                    { id: 'anlSbc',				ctrlId:'anlSbc',			value:'value'},
+                    { id: 'rlabNm',				ctrlId:'rlabNm',				value:'value'},
+                    { id: 'rlabSbc',				ctrlId:'rlabSbc',			value:'value'},
                     { id: 'acpcNo',				ctrlId:'acpcNo',			value:'html'},
                     { id: 'rgstNm',				ctrlId:'rgstNm',			value:'html'},
                     { id: 'rqprDeptNm',			ctrlId:'rqprDeptNm',		value:'html'},
                     { id: 'rqprDt',				ctrlId:'rqprDt',			value:'html'},
                     { id: 'acpcDt',				ctrlId:'acpcDt',			value:'html'},
-                    { id: 'anlScnCd',			ctrlId:'anlScnCd',			value:'value'},
-                    { id: 'anlChrgId',			ctrlId:'anlChrgId',			value:'value'},
-                    { id: 'anlChrgNm',			ctrlId:'anlChrgNm',			value:'value'},
-                    { id: 'anlUgyYn',			ctrlId:'anlUgyYn',			value:'value'},
+                    { id: 'rlabScnCd',			ctrlId:'rlabScnCd',			value:'value'},
+                    { id: 'rlabChrgId',			ctrlId:'rlabChrgId',			value:'value'},
+                    { id: 'rlabChrgNm',			ctrlId:'rlabChrgNm',			value:'value'},
+                    { id: 'rlabUgyYn',			ctrlId:'rlabUgyYn',			value:'value'},
                     { id: 'infmTypeCd',			ctrlId:'infmTypeCd',		value:'value'},
                     { id: 'smpoTrtmCd',			ctrlId:'smpoTrtmCd',		value:'value'},
                     { id: 'acpcStNm',			ctrlId:'acpcStNm',			value:'html'},
-                    { id: 'anlRqprInfmView',	ctrlId:'anlRqprInfmView',	value:'value'}
+                    { id: 'rlabRqprInfmView',	ctrlId:'rlabRqprInfmView',	value:'value'}
                 ]
-            });
+            });            
+            
         
             resultBind = new Rui.data.LBind({
-                groupId: 'anlRqprResultDiv',
-                dataSet: anlRqprDataSet,
+                groupId: 'rlabRqprResultDiv',
+                dataSet: rlabRqprDataSet,
                 bind: true,
                 bindInfo: [
-                    { id: 'anlNm',				ctrlId:'anlNm',				value:'html'},
+                    { id: 'rlabNm',				ctrlId:'rlabNm',				value:'html'},
                     { id: 'acpcNo',				ctrlId:'acpcNo',			value:'html'},
                     { id: 'cmplParrDt',			ctrlId:'cmplParrDt',		value:'html'},
                     { id: 'cmplDt',				ctrlId:'cmplDt',			value:'html'},
-                    { id: 'anlRqprInfmView',	ctrlId:'anlRqprInfmView',	value:'html'},
-                    { id: 'anlRsltSbc',			ctrlId:'anlRsltSbc',		value:'html'}
+                    { id: 'rlabRqprInfmView',	ctrlId:'rlabRqprInfmView',	value:'html'},
+                    { id: 'rlabRsltSbc',			ctrlId:'rlabRsltSbc',		value:'html'}
                 ]
             });
 			
-            var anlRqprSmpoDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprSmpoDataSet',
+            var rlabRqprSmpoDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprSmpoDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -402,14 +404,14 @@
                 ]
             });
             
-            anlRqprSmpoDataSet.on('canRowPosChange', function(e){
-            	if (vm.validateDataSet(anlRqprSmpoDataSet, anlRqprSmpoDataSet.getRow()) == false) {
+            rlabRqprSmpoDataSet.on('canRowPosChange', function(e){
+            	if (vm.validateDataSet(rlabRqprSmpoDataSet, rlabRqprSmpoDataSet.getRow()) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
                 }
             });
 
-            var anlRqprSmpoColumnModel = new Rui.ui.grid.LColumnModel({
+            var rlabRqprSmpoColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                 	, new Rui.ui.grid.LStateColumn()
@@ -421,81 +423,81 @@
                 ]
             });
 
-            var anlRqprSmpoGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprSmpoColumnModel,
-                dataSet: anlRqprSmpoDataSet,
+            var rlabRqprSmpoGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: rlabRqprSmpoColumnModel,
+                dataSet: rlabRqprSmpoDataSet,
                 width: 700,
                 height: 400,
                 autoToEdit: true,
                 autoWidth: true
             });
             
-            anlRqprSmpoGrid.render('anlRqprSmpoGrid');
+            rlabRqprSmpoGrid.render('rlabRqprSmpoGrid');
             
             /* 시료정보 추가 */
-            addAnlRqprSmpo = function() {
-				anlRqprSmpoDataSet.newRecord();
+            addRlabRqprSmpo = function() {
+				rlabRqprSmpoDataSet.newRecord();
             };
             
             /* 시료정보 삭제 */
-            deleteAnlRqprSmpo = function() {
-                if(anlRqprSmpoDataSet.getMarkedCount() > 0) {
-                	anlRqprSmpoDataSet.removeMarkedRows();
+            deleteRlabRqprSmpo = function() {
+                if(rlabRqprSmpoDataSet.getMarkedCount() > 0) {
+                	rlabRqprSmpoDataSet.removeMarkedRows();
                 } else {
                 	alert('삭제 대상을 선택해주세요.');
                 }
             };
 			
-            var anlRqprRltdDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprRltdDataSet',
+            var rlabRqprRltdDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprRltdDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
 					  { id: 'rltdId' }
 					, { id: 'rqprId' }
 					, { id: 'preRqprId' }
-					, { id: 'preAnlNm' }
+					, { id: 'preRlabNm' }
 					, { id: 'preAcpcNo' }
-					, { id: 'preAnlChrgNm' }
+					, { id: 'preRlabChrgNm' }
 					, { id: 'preRgstId' }
 					, { id: 'preRgstNm' }
                 ]
             });
 
-            var anlRqprRltdColumnModel = new Rui.ui.grid.LColumnModel({
+            var rlabRqprRltdColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                   	, new Rui.ui.grid.LStateColumn()
                     , new Rui.ui.grid.LNumberColumn()
                     , { field: 'preAcpcNo',		label: '접수번호',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preAnlNm',		label: '분석명',		sortable: false,	align:'left',	width: 300 }
+                    , { field: 'preRlabNm',		label: '분석명',		sortable: false,	align:'left',	width: 300 }
                     , { field: 'preRgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preAnlChrgNm',	label: '분석담당자',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'preRlabChrgNm',	label: '분석담당자',	sortable: false,	align:'center',	width: 80 }
                 ]
             });
 
-            var anlRqprRltdGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprRltdColumnModel,
-                dataSet: anlRqprRltdDataSet,
+            var rlabRqprRltdGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: rlabRqprRltdColumnModel,
+                dataSet: rlabRqprRltdDataSet,
                 width: 540,
                 height: 200,
                 autoToEdit: false,
                 autoWidth: true
             });
             
-            anlRqprRltdGrid.render('anlRqprRltdGrid');
+            rlabRqprRltdGrid.render('rlabRqprRltdGrid');
             
             /* 관련분석 삭제 */
-            deleteAnlRqprRltd = function() {
-                if(anlRqprRltdDataSet.getMarkedCount() > 0) {
-                	anlRqprRltdDataSet.removeMarkedRows();
+            deleteRlabRqprRltd = function() {
+                if(rlabRqprRltdDataSet.getMarkedCount() > 0) {
+                	rlabRqprRltdDataSet.removeMarkedRows();
                 } else {
                 	alert('삭제 대상을 선택해주세요.');
                 }
             };
 			
-            var anlRqprAttachDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprAttachDataSet',
+            var rlabRqprAttachDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprAttachDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -506,39 +508,39 @@
                 ]
             });
 
-            var anlRqprAttachColumnModel = new Rui.ui.grid.LColumnModel({
+            var rlabRqprAttachColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                       new Rui.ui.grid.LNumberColumn()
                     , { field: 'filNm',		label: '파일명',		sortable: false,	align:'left',	width: 470 }
                 ]
             });
 
-            var anlRqprAttachGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprAttachColumnModel,
-                dataSet: anlRqprAttachDataSet,
+            var rlabRqprAttachGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: rlabRqprAttachColumnModel,
+                dataSet: rlabRqprAttachDataSet,
                 width: 300,
                 height: 200,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            anlRqprAttachGrid.on('cellClick', function(e) {
+            rlabRqprAttachGrid.on('cellClick', function(e) {
                 if(e.colId == "filNm") {
-                	downloadAttachFile(anlRqprAttachDataSet.getAt(e.row).data.attcFilId, anlRqprAttachDataSet.getAt(e.row).data.seq);
+                	downloadAttachFile(rlabRqprAttachDataSet.getAt(e.row).data.attcFilId, rlabRqprAttachDataSet.getAt(e.row).data.seq);
                 }
             });
             
-            anlRqprAttachGrid.render('anlRqprAttachGrid');
+            rlabRqprAttachGrid.render('rlabRqprAttachGrid');
     		
     	    // 첨부파일 정보 설정
-    	    setAnlRqprAttach = function(attachFileList) {
-    	    	anlRqprAttachDataSet.clearData();
+    	    setRlabRqprAttach = function(attachFileList) {
+    	    	rlabRqprAttachDataSet.clearData();
     	    	
     	    	if(attachFileList.length > 0) {
-    	    		anlRqprDataSet.setNameValue(0, 'rqprAttcFileId', attachFileList[0].data.attcFilId);
+    	    		rlabRqprDataSet.setNameValue(0, 'rqprAttcFileId', attachFileList[0].data.attcFilId);
     	    		
         	    	for(var i=0; i<attachFileList.length; i++) {
-        	    		anlRqprAttachDataSet.add(attachFileList[i]);
+        	    		rlabRqprAttachDataSet.add(attachFileList[i]);
         	    	}
     	    	}
     	    };
@@ -550,18 +552,18 @@
 				fileDownloadForm.submit();
 			};
 			
-			var anlRqprRsltAttachDataSet = anlRqprAttachDataSet.clone('anlRqprRsltAttachDataSet');
+			var rlabRqprRsltAttachDataSet = rlabRqprAttachDataSet.clone('rlabRqprRsltAttachDataSet');
             
-            anlRqprRsltAttachDataSet.on('load', function(e) {
-				for( var i = 0, size = anlRqprRsltAttachDataSet.getCount(); i < size ; i++ ) {
+            rlabRqprRsltAttachDataSet.on('load', function(e) {
+				for( var i = 0, size = rlabRqprRsltAttachDataSet.getCount(); i < size ; i++ ) {
         	    	$('#rsltAttcFileView').append($('<a/>', {
-        	            href: 'javascript:downloadAttachFile("' + anlRqprRsltAttachDataSet.getAt(i).data.attcFilId + '", "' + anlRqprRsltAttachDataSet.getAt(i).data.seq + '")',
-        	            text: anlRqprRsltAttachDataSet.getAt(i).data.filNm
+        	            href: 'javascript:downloadAttachFile("' + rlabRqprRsltAttachDataSet.getAt(i).data.attcFilId + '", "' + rlabRqprRsltAttachDataSet.getAt(i).data.seq + '")',
+        	            text: rlabRqprRsltAttachDataSet.getAt(i).data.filNm
         	        })).append('<br/>');
 				}
             });
     		
-    	    setAnlRqprInfm = function(userList) {
+    	    setRlabRqprInfm = function(userList) {
     	    	var idList = [];
     	    	var nameList = [];
     	    	
@@ -570,13 +572,13 @@
     	    		nameList.push(userList[i].saName);
     	    	}
     	    	
-    	    	anlRqprInfmView.setValue(nameList.join(', '));
-    	    	anlRqprDataSet.setNameValue(0, 'infmPrsnIds', idList);
+    	    	rlabRqprInfmView.setValue(nameList.join(', '));
+    	    	rlabRqprDataSet.setNameValue(0, 'infmPrsnIds', idList);
     	    };
     	    
 			// 분석 담당자 선택팝업 시작
-		    anlChrgListDialog = new Rui.ui.LFrameDialog({
-		        id: 'anlChrgListDialog',
+		    rlabChrgListDialog = new Rui.ui.LFrameDialog({
+		        id: 'rlabChrgListDialog',
 		        title: '분석담당자',
 		        width: 530,
 		        height: 500,
@@ -589,24 +591,24 @@
 		        ]
 		    });
 
-		    anlChrgListDialog.render(document.body);
+		    rlabChrgListDialog.render(document.body);
 		    
-			openAnlChrgListDialog = function(f) {
+			openRlabChrgListDialog = function(f) {
 				_callback = f;
 
-				anlChrgListDialog.setUrl('<c:url value="/anl/anlChrgDialog.do"/>');
-				anlChrgListDialog.show();
+				rlabChrgListDialog.setUrl('<c:url value="/rlab/rlabChrgDialog.do"/>');
+				rlabChrgListDialog.show();
 			};
 			// 분석 담당자 선택팝업 끝
             
-            setAnlChrgInfo = function(anlChrgInfo) {
-            	anlRqprDataSet.setNameValue(0, 'anlChrgId', anlChrgInfo.id);
-            	anlRqprDataSet.setNameValue(0, 'anlChrgNm', anlChrgInfo.name);
+            setRlabChrgInfo = function(rlabChrgInfo) {
+            	rlabRqprDataSet.setNameValue(0, 'rlabChrgId', rlabChrgInfo.id);
+            	rlabRqprDataSet.setNameValue(0, 'rlabChrgNm', rlabChrgInfo.name);
             };
     	    
     	    // 관련분석 조회 팝업 시작
-    	    anlRqprSearchDialog = new Rui.ui.LFrameDialog({
-    	        id: 'anlRqprSearchDialog', 
+    	    rlabRqprSearchDialog = new Rui.ui.LFrameDialog({
+    	        id: 'rlabRqprSearchDialog', 
     	        title: '관련분석 조회',
     	        width: 750,
     	        height: 470,
@@ -614,37 +616,37 @@
     	        visible: false
     	    });
     	    
-    	    anlRqprSearchDialog.render(document.body);
+    	    rlabRqprSearchDialog.render(document.body);
     	
-    	    openAnlRqprSearchDialog = function(f) {
+    	    openRlabRqprSearchDialog = function(f) {
     	    	callback = f;
     	    	
-    	    	anlRqprSearchDialog.setUrl('<c:url value="/anl/anlRqprSearchPopup.do"/>');
-    		    anlRqprSearchDialog.show();
+    	    	rlabRqprSearchDialog.setUrl('<c:url value="/rlab/rlabRqprSearchPopup.do"/>');
+    		    rlabRqprSearchDialog.show();
     	    };
     	    // 관련분석 조회 팝업 끝
     	    
-    	    setAnlRqprRltd = function(anlRqpr) {
-				if(anlRqprRltdDataSet.findRow('preRqprId', anlRqpr.rqprId) > -1) {
+    	    setRlabRqprRltd = function(rlabRqpr) {
+				if(rlabRqprRltdDataSet.findRow('preRqprId', rlabRqpr.rqprId) > -1) {
 					alert('이미 존재합니다.');
 					return ;
 				}
 				
-				var row = anlRqprRltdDataSet.newRecord();
-				var record = anlRqprRltdDataSet.getAt(row);
+				var row = rlabRqprRltdDataSet.newRecord();
+				var record = rlabRqprRltdDataSet.getAt(row);
                 
-                record.set('rqprId', anlRqprDataSet.getNameValue(0, 'rqprId'));
-				record.set('preRqprId', anlRqpr.rqprId);
-				record.set('preAnlNm', anlRqpr.anlNm);
-				record.set('preAcpcNo', anlRqpr.acpcNo);
-				record.set('preRgstId', anlRqpr.rgstId);
-				record.set('preRgstNm', anlRqpr.rgstNm);
-				record.set('preAnlChrgNm', anlRqpr.anlChrgNm);
+                record.set('rqprId', rlabRqprDataSet.getNameValue(0, 'rqprId'));
+				record.set('preRqprId', rlabRqpr.rqprId);
+				record.set('preRlabNm', rlabRqpr.rlabNm);
+				record.set('preAcpcNo', rlabRqpr.acpcNo);
+				record.set('preRgstId', rlabRqpr.rgstId);
+				record.set('preRgstNm', rlabRqpr.rgstNm);
+				record.set('preRlabChrgNm', rlabRqpr.rlabChrgNm);
     	    };
     	    
     	    // 분석의뢰 의견 팝업 시작
-    	    anlRqprOpinitionDialog = new Rui.ui.LFrameDialog({
-    	        id: 'anlRqprOpinitionDialog', 
+    	    rlabRqprOpinitionDialog = new Rui.ui.LFrameDialog({
+    	        id: 'rlabRqprOpinitionDialog', 
     	        title: '의견 교환',
     	        width: 830,
     	        height: 500,
@@ -652,44 +654,44 @@
     	        visible: false
     	    });
     	    
-    	    anlRqprOpinitionDialog.render(document.body);
+    	    rlabRqprOpinitionDialog.render(document.body);
     	
-    	    openAnlRqprOpinitionDialog = function() {
-    	    	anlRqprOpinitionDialog.setUrl('<c:url value="/anl/anlRqprOpinitionPopup.do?rqprId=${inputData.rqprId}"/>');
-    	    	anlRqprOpinitionDialog.show();
+    	    openRlabRqprOpinitionDialog = function() {
+    	    	rlabRqprOpinitionDialog.setUrl('<c:url value="/rlab/rlabRqprOpinitionPopup.do?rqprId=${inputData.rqprId}"/>');
+    	    	rlabRqprOpinitionDialog.show();
     	    };
     	    // 분석의뢰 의견 팝업 끝
     	    
     	    /* 유효성 검사 */
     	    isValidate = function(type) {
-                if (anlRqprDataSet.getNameValue(0, 'acpcStCd') != '00') {
+                if (rlabRqprDataSet.getNameValue(0, 'acpcStCd') != '00') {
                     alert('작성중 상태일때만 ' + type + ' 할 수 있습니다.');
                     return false;
                 }
             	
-                if (vm.validateDataSet(anlRqprDataSet) == false) {
+                if (vm.validateDataSet(rlabRqprDataSet) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
                 }
 
-                var anlRqprSmpoDataSetCnt = anlRqprSmpoDataSet.getCount();
-                var anlRqprSmpoDataSetDelCnt = 0;
+                var rlabRqprSmpoDataSetCnt = rlabRqprSmpoDataSet.getCount();
+                var rlabRqprSmpoDataSetDelCnt = 0;
                 
-                for(var i=0; i<anlRqprSmpoDataSetCnt; i++) {
-                	if(anlRqprSmpoDataSet.isRowDeleted(i)) {
-                		anlRqprSmpoDataSetDelCnt++;
+                for(var i=0; i<rlabRqprSmpoDataSetCnt; i++) {
+                	if(rlabRqprSmpoDataSet.isRowDeleted(i)) {
+                		rlabRqprSmpoDataSetDelCnt++;
                 	}
                 }
                 
-                if (anlRqprSmpoDataSetCnt == anlRqprSmpoDataSetDelCnt) {
+                if (rlabRqprSmpoDataSetCnt == rlabRqprSmpoDataSetDelCnt) {
                     alert('시료정보를 입력해주세요.');
                     return false;
-                } else if (vm.validateDataSet(anlRqprSmpoDataSet) == false) {
+                } else if (vm.validateDataSet(rlabRqprSmpoDataSet) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
                 }
                 
-//                 if (anlRqprAttachDataSet.getCount() == 0) {
+//                 if (rlabRqprAttachDataSet.getCount() == 0) {
 //                 	alert('시료사진/첨부파일을 첨부해주세요.');
 //                 	return false;
 //                 }
@@ -702,8 +704,8 @@
                 if(isValidate('작성')) {
                 	if(confirm('저장 하시겠습니까?')) {
                         dm.updateDataSet({
-                            dataSets:[anlRqprDataSet, anlRqprSmpoDataSet, anlRqprRltdDataSet],
-                            url:'<c:url value="/anl/updateAnlRqpr.do"/>',
+                            dataSets:[rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet],
+                            url:'<c:url value="/rlab/updateRlabRqpr.do"/>',
                             modifiedOnly: false
                         });
                 	}
@@ -715,8 +717,8 @@
                 if(isValidate('결재의뢰')) {
                 	if(confirm('결재의뢰 하시겠습니까?')) {
                         dm.updateDataSet({
-                            dataSets:[anlRqprDataSet, anlRqprSmpoDataSet, anlRqprRltdDataSet],
-                            url:'<c:url value="/anl/requestAnlRqprApproval.do"/>',
+                            dataSets:[rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet],
+                            url:'<c:url value="/rlab/requestRlabRqprApproval.do"/>',
                             modifiedOnly: false
                         });
                 	}
@@ -724,56 +726,56 @@
             };
             
             /* 삭제 */
-            deleteAnlRqpr = function() {
-                if ('00|04'.indexOf(anlRqprDataSet.getNameValue(0, 'acpcStCd')) == -1) {
+            deleteRlabRqpr = function() {
+                if ('00|04'.indexOf(rlabRqprDataSet.getNameValue(0, 'acpcStCd')) == -1) {
                     alert('작성중, 접수반려 상태일때만 삭제할 수 있습니다.');
                     return false;
                 }
                 
             	if(confirm('삭제 하시겠습니까?')) {
                     dm.updateDataSet({
-                        url:'<c:url value="/anl/deleteAnlRqpr.do"/>',
+                        url:'<c:url value="/rlab/deleteRlabRqpr.do"/>',
                         params: {
-                            rqprId: anlRqprDataSet.getNameValue(0, 'rqprId')
+                            rqprId: rlabRqprDataSet.getNameValue(0, 'rqprId')
                         }
                     });
             	}
             };
     	    
             //통보자 추가 저장
-            addAnlRqprInfm = function(){
-            	if ('07'.indexOf(anlRqprDataSet.getNameValue(0, 'acpcStCd')) == -1) {
+            addRlabRqprInfm = function(){
+            	if ('07'.indexOf(rlabRqprDataSet.getNameValue(0, 'acpcStCd')) == -1) {
                     alert('완료 상태일때만 삭제할 수 있습니다.');
                     return false;
                 }
             	
             	dm.updateDataSet({
-                    url:'<c:url value="/anl/insertAnlRqprInfm.do"/>',
-                    dataSets:[anlRqprDataSet, anlRqprSmpoDataSet, anlRqprRltdDataSet],
+                    url:'<c:url value="/rlab/insertRlabRqprInfm.do"/>',
+                    dataSets:[rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet],
                     params: {
-                        rqprId: anlRqprDataSet.getNameValue(0, 'rqprId')
+                        rqprId: rlabRqprDataSet.getNameValue(0, 'rqprId')
                     }
                 });
             }
             
-    	    goAnlRqprList = function() {
-    	    	$('#searchForm > input[name=anlNm]').val(encodeURIComponent($('#searchForm > input[name=anlNm]').val()));
+    	    goRlabRqprList = function() {
+    	    	$('#searchForm > input[name=rlabNm]').val(encodeURIComponent($('#searchForm > input[name=rlabNm]').val()));
     	    	$('#searchForm > input[name=rgstNm]').val(encodeURIComponent($('#searchForm > input[name=rgstNm]').val()));
-    	    	$('#searchForm > input[name=anlChrgNm]').val(encodeURIComponent($('#searchForm > input[name=anlChrgNm]').val()));
+    	    	$('#searchForm > input[name=rlabChrgNm]').val(encodeURIComponent($('#searchForm > input[name=rlabChrgNm]').val()));
     	    	
-    	    	nwinsActSubmit(searchForm, "<c:url value="/anl/anlRqprList.do"/>");
+    	    	nwinsActSubmit(searchForm, "<c:url value="/rlab/rlabRqprList.do"/>");
     	    };
     	
     	    openApprStatePopup = function(type) {
-    	    	var seq = anlRqprDataSet.getNameValue(0, 'reqItgRdcsId');
+    	    	var seq = rlabRqprDataSet.getNameValue(0, 'reqItgRdcsId');
             	var url = '<%=lghausysPath%>/lgchem/approval.front.approval.RetrieveAppTargetCmd.lgc?seq=' + seq;
            		
            		openWindow(url, 'openApprStatePopup', 800, 250, 'yes');
     	    };
     	    
 	    	dm.loadDataSet({
-                dataSets: [anlRqprDataSet, anlRqprSmpoDataSet, anlRqprRltdDataSet, anlRqprAttachDataSet, anlRqprRsltAttachDataSet],
-                url: '<c:url value="/anl/getAnlRqprDetailInfo.do"/>',
+                dataSets: [rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet, rlabRqprAttachDataSet, rlabRqprRsltAttachDataSet],
+                url: '<c:url value="/rlab/getRlabRqprDetailInfo.do"/>',
                 params: {
                     rqprId: '${inputData.rqprId}'
                 }
@@ -783,12 +785,12 @@
     </head>
     <body>
     <form name="searchForm" id="searchForm">
-		<input type="hidden" name="anlNm" value="${inputData.anlNm}"/>
+		<input type="hidden" name="rlabNm" value="${inputData.rlabNm}"/>
 		<input type="hidden" name="fromRqprDt" value="${inputData.fromRqprDt}"/>
 		<input type="hidden" name="toRqprDt" value="${inputData.toRqprDt}"/>
 		<input type="hidden" name="rgstNm" value="${inputData.rgstNm}"/>
 		<input type="hidden" name="rgstId" value="${inputData.rgstId}"/>
-		<input type="hidden" name="anlChrgNm" value="${inputData.anlChrgNm}"/>
+		<input type="hidden" name="rlabChrgNm" value="${inputData.rlabChrgNm}"/>
 		<input type="hidden" name="acpcNo" value="${inputData.acpcNo}"/>
 		<input type="hidden" name="acpcStCd" value="${inputData.acpcStCd}"/>
     </form>
@@ -803,16 +805,16 @@
 	   				<h2>분석의뢰서 상세</h2>
 	   			</div>
    				<div id="tabView"></div>
-	            <div id="anlRqprInfoDiv">
+	            <div id="rlabRqprInfoDiv">
 				<form name="aform" id="aform" method="post">
-					<input type="hidden" id="anlChrgId" name="anlChrgId" value=""/>
+					<input type="hidden" id="rlabChrgId" name="rlabChrgId" value=""/>
    				<div class="titArea">
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="reqApprStateBtn" name="reqApprStateBtn" onclick="openApprStatePopup()" style="display:none;">결재상태</button>
    						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="save()">저장</button>
    						<button type="button" class="btn"  id="approvalBtn" name="approvalBtn" onclick="approval()">결재</button>
-   						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="deleteAnlRqpr()">삭제</button>
-   						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goAnlRqprList()">목록</button>
+   						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="deleteRlabRqpr()">삭제</button>
+   						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goRlabRqprList()">목록</button>
    					</div>
    				</div>
    				
@@ -827,7 +829,7 @@
    						<tr>
    							<th align="right">분석명</th>
    							<td>
-   								<input type="text" id="anlNm">
+   								<input type="text" id="rlabNm">
    							</td>
    							<th align="right">접수번호</th>
    							<td><span id="acpcNo"/></td>
@@ -835,7 +837,7 @@
    						<tr>
    							<th align="right">분석목적</th>
    							<td colspan="3">
-   								<textarea id="anlSbc"></textarea>
+   								<textarea id="rlabSbc"></textarea>
    							</td>
    						</tr>
    						<tr>
@@ -853,18 +855,18 @@
    						<tr>
    							<th align="right">분석구분</th>
    							<td>
-                                <div id="anlScnCd"></div>
+                                <div id="rlabScnCd"></div>
    							</td>
    							<th align="right">분석담당자</th>
    							<td>
-   								<input type="text" id="anlChrgNm">
-                                <a href="javascript:openAnlChrgListDialog(setAnlChrgInfo);" class="icoBtn">검색</a>
+   								<input type="text" id="rlabChrgNm">
+                                <a href="javascript:openRlabChrgListDialog(setRlabChrgInfo);" class="icoBtn">검색</a>
                             </td>
    						</tr>
    						<tr>
    							<th align="right">긴급유무</th>
    							<td>
-                                <div id="anlUgyYn"></div>
+                                <div id="rlabUgyYn"></div>
    							</td>
    							<th align="right">통보유형</th>
    							<td>
@@ -883,8 +885,8 @@
    							<th align="right">통보자</th>
    							<td colspan="3">
 						        <div class="LblockMarkupCode">
-						            <div id="anlRqprInfmView"></div>
-									<button type="button" class="btn"  id="addAnlRqprInfmBtn" name="addAnlRqprInfmBtn" onclick="addAnlRqprInfm()">저장</button>	
+						            <div id="rlabRqprInfmView"></div>
+									<button type="button" class="btn"  id="addRlabRqprInfmBtn" name="addRlabRqprInfmBtn" onclick="addRlabRqprInfm()">저장</button>	
 						        </div>
    							</td>
    						</tr>
@@ -894,12 +896,12 @@
    				<div class="titArea">
    					<h3>시료정보</h3>
    					<div class="LblockButton">
-   						<button type="button" class="btn"  id="addAnlRqprSmpoBtn" name="addAnlRqprSmpoBtn" onclick="addAnlRqprSmpo()">추가</button>
-   						<button type="button" class="btn"  id="deleteAnlRqprSmpoBtn" name="deleteAnlRqprSmpoBtn" onclick="deleteAnlRqprSmpo()">삭제</button>
+   						<button type="button" class="btn"  id="addRlabRqprSmpoBtn" name="addRlabRqprSmpoBtn" onclick="addRlabRqprSmpo()">추가</button>
+   						<button type="button" class="btn"  id="deleteRlabRqprSmpoBtn" name="deleteRlabRqprSmpoBtn" onclick="deleteRlabRqprSmpo()">삭제</button>
    					</div>
    				</div>
 
-   				<div id="anlRqprSmpoGrid"></div>
+   				<div id="rlabRqprSmpoGrid"></div>
    				
    				<br/>
    				
@@ -915,23 +917,23 @@
 				   				<div class="titArea">
 				   					<h3>관련분석</h3>
 				   					<div class="LblockButton">
-				   						<button type="button" class="btn"  id="addAnlRqprRltdBtn" name="addAnlRqprRltdBtn" onclick="openAnlRqprSearchDialog(setAnlRqprRltd)">추가</button>
-				   						<button type="button" class="btn"  id="deleteAnlRqprRltdBtn" name="deleteAnlRqprRltdBtn" onclick="deleteAnlRqprRltd()">삭제</button>
+				   						<button type="button" class="btn"  id="addRlabRqprRltdBtn" name="addRlabRqprRltdBtn" onclick="openRlabRqprSearchDialog(setRlabRqprRltd)">추가</button>
+				   						<button type="button" class="btn"  id="deleteRlabRqprRltdBtn" name="deleteRlabRqprRltdBtn" onclick="deleteRlabRqprRltd()">삭제</button>
 				   					</div>
 				   				</div>
 				
-				   				<div id="anlRqprRltdGrid"></div>
+				   				<div id="rlabRqprRltdGrid"></div>
    							</td>
    							<td>&nbsp;</td>
    							<td>
 				   				<div class="titArea">
 				   					<h3>시료사진/첨부파일</h3>
 				   					<div class="LblockButton">
-				   						<button type="button" class="btn"  id="addAnlRqprAttachBtn" name="addAnlRqprAttachBtn" onclick="openAttachFileDialog(setAnlRqprAttach, anlRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'anlPolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
+				   						<button type="button" class="btn"  id="addRlabRqprAttachBtn" name="addRlabRqprAttachBtn" onclick="openAttachFileDialog(setRlabRqprAttach, rlabRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'rlabPolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
 				   					</div>
 				   				</div>
 				
-				   				<div id="anlRqprAttachGrid"></div>
+				   				<div id="rlabRqprAttachGrid"></div>
    							</td>
    						</tr>
    					</tbody>
@@ -939,10 +941,10 @@
 				</form>
    				</div>
    				
-   				<div id="anlRqprResultDiv">
+   				<div id="rlabRqprResultDiv">
    				<div class="titArea">
    					<div class="LblockButton">
-   						<button type="button" class="btn"  id="resultTabListBtn" name="resultTabListBtn" onclick="goAnlRqprList()">목록</button>
+   						<button type="button" class="btn"  id="resultTabListBtn" name="resultTabListBtn" onclick="goRlabRqprList()">목록</button>
    					</div>
    				</div>
    				
@@ -956,7 +958,7 @@
    					<tbody>
    						<tr>
    							<th align="right">분석명</th>
-   							<td><span id="anlNm"/></td>
+   							<td><span id="rlabNm"/></td>
    							<th align="right">접수번호</th>
    							<td><span id="acpcNo"/></td>
    						</tr>
@@ -968,11 +970,11 @@
    						</tr>
    						<tr>
    							<th align="right">통보자</th>
-    						<td colspan="3"><span id="anlRqprInfmView"/></td>
+    						<td colspan="3"><span id="rlabRqprInfmView"/></td>
    						</tr>
    						<tr>
    							<th align="right">분석결과</th>
-   							<td colspan="3"><span id="anlRsltSbc"/></td>
+   							<td colspan="3"><span id="rlabRsltSbc"/></td>
    						</tr>
    						<tr>
    							<th align="right">분석결과서</th>

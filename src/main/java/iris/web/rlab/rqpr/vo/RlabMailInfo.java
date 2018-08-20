@@ -18,6 +18,8 @@ public class RlabMailInfo {
 	private String anlGvbRson = "";
 	private String anlDcacRson = "";
 	private String receivers = "";
+	
+	private String rlabNm = "";
 
 	public String getRqprDt() {
 		return rqprDt;
@@ -121,4 +123,11 @@ public class RlabMailInfo {
 	public void setAnlDcacRson(String anlDcacRson) {
 		this.anlDcacRson = anlDcacRson;
 	}
+	public String getRlabNm() {
+		return rlabNm;
+	}
+	public void setRlabNm(String rlabNm) {
+		this.rlabNm = rlabNm;
+	}
+	
 }
