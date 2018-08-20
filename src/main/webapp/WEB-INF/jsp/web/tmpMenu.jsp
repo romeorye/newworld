@@ -10,7 +10,7 @@
 }
 </style>
 <script>
- var menu01 = [			
+ var menu01 = [
 {name:"Project", mdName:"", depth:"0",confirm:""},
 {name:"Main", mdName:"/iris/prj/main.do", depth:"2",confirm:""},
 
@@ -20,13 +20,13 @@
 
 {name:"GRS", mdName:"", depth:"1",confirm:""},
 //				{name:"기본정보관리", mdName:"", depth:"2",confirm:""},
-{name:"GRS관리", mdName:"", depth:"2",confirm:""},
+{name:"GRS관리", mdName:"/iris/prj/grs//listGrsMngInfo.do", depth:"2",confirm:""},
 
 {name:"과제관리", mdName:"", depth:"1",confirm:""},
-{name:"일반과제", mdName:"", depth:"2",confirm:""}, 
-{name:"대외협력과제", mdName:"", depth:"2",confirm:""}, 
+{name:"일반과제", mdName:"", depth:"2",confirm:""},
+{name:"대외협력과제", mdName:"", depth:"2",confirm:""},
 {name:"국책과제", mdName:"", depth:"2",confirm:""}, //natJob
-{name:"개발과제", mdName:"", depth:"2",confirm:""},
+{name:"기술팀과제", mdName:"/iris/prj/tss/tctm/tctmTssList.do", depth:"2",confirm:""},
 {name:"O/I협력과제", mdName:"", depth:"2",confirm:""},
 {name:"RFP요청관리", mdName:"", depth:"2",confirm:""},
 {name:"결재현황", mdName:"", depth:"2",confirm:""}, //jobApprove
@@ -117,7 +117,7 @@
 ];
 
  var menu04 = [
-{name:"고정자산", mdName:"", depth:"0",confirm:""},
+{name:"Fixed Assets", mdName:"", depth:"0",confirm:""},
 {name:"고정자산", mdName:"", depth:"1",confirm:""},
 {name:"자산관리", mdName:"", depth:"2",confirm:""},
 {name:"자산이관목록", mdName:"", depth:"2",confirm:""},
@@ -157,7 +157,7 @@
 ];
 
  var menu06 = [
-{name:"통계", mdName:"", depth:"0",confirm:""},
+{name:"Statistics", mdName:"", depth:"0",confirm:""},
 {name:"연구과제", mdName:"", depth:"1",confirm:""},
 {name:"프로젝트통계", mdName:"", depth:"2",confirm:""},
 {name:"일반과제통계", mdName:"", depth:"2",confirm:""},
@@ -188,7 +188,7 @@
 
 
 function makeMenu(){
-	
+
 }
 $(document).ready(function(){
 	makeMn($("#m01"),menu01)
@@ -215,7 +215,7 @@ function makeMn(sp,arr){
 			str = "<strong>"+str+"</strong>";
 		}
 
-		sp.append(str);	
+		sp.append(str);
 	}
 }
 
@@ -240,5 +240,5 @@ function showTmpMenu(){
 		<span id="m05" style="float: left;margin-right: 20px;"></span>
 		<span id="m05" style="float: left;margin-right: 20px;"></span>
 		<span id="m06" style="float: left;margin-right: 20px;"></span>
-	</div>		
+	</div>
 </div>

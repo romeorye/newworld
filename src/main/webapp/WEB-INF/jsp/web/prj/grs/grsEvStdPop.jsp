@@ -8,7 +8,7 @@
 /*
  *************************************************************************
  * $Id      : grsEvStdPop.jsp
- * @desc    : 
+ * @desc    :
  *------------------------------------------------------------------------
  * VER  DATE        AUTHOR      DESCRIPTION
  * ---  ----------- ----------  -----------------------------------------
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-                 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -40,19 +40,19 @@
 <script type="text/javascript">
     Rui.onReady(function() {
         //년도
-        /* 
+        /*
         grsY = new Rui.ui.form.LCombo({
             applyTo: 'grsY',
             name: 'grsY',
             useEmptyText: true,
             emptyText: '선택',
-            items: [ 
+            items: [
                 <c:forEach var="grsYList" items="${grsYList}">
                 { code: '${grsYList.grsY}', value: '${grsYList.grsY}' },
-                </c:forEach> 
+                </c:forEach>
             ]
         }); */
-        
+
         //유형
         grsType = new Rui.ui.form.LCombo({
             applyTo: 'grsType',
@@ -67,7 +67,7 @@
         });
         grsType.getDataSet().on('load', function(e) {
         });
-        
+
         //상태
        /*  useYn = new Rui.ui.form.LCombo({
             applyTo: 'useYn',
@@ -81,8 +81,8 @@
         });
         useYn.getDataSet().on('load', function(e) {
         }); */
-        
-        
+
+
         //평가명
         evSbcNm = new Rui.ui.form.LTextBox({
             applyTo: 'evSbcNm',
@@ -96,25 +96,25 @@
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-                  { id: 'grsY' }     //년도            
-                , { id: 'grsType' }  //유형             
-                , { id: 'evSbcNm' }  //평가명      
+                  { id: 'grsY' }     //년도
+                , { id: 'grsType' }  //유형
+                , { id: 'evSbcNm' }  //평가명
                 , { id: 'useYn' }    //상태
                 , { id: 'grsEvSn' }  //평가표일련번호
-                , { id: 'grsEvSeq' } //평가SEQ 
+                , { id: 'grsEvSeq' } //평가SEQ
             ]
         });
-        
+
         /* 최초 데이터 셋팅 */
-        if(${resultCnt} > 0) { 
+        if(${resultCnt} > 0) {
             console.log("mst searchData1");
-            dataSet.loadData(${result}); 
+            dataSet.loadData(${result});
         } else {
             console.log("mst searchData2");
             dataSet.newRecord();
         }
-        
-        
+
+
         /* [Grid] 컬럼설정 */
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
@@ -125,14 +125,14 @@
                     p.editable = false;
                     return value;
                 } }
-                , { field: 'evSbcNm', label: '평가명', sortable: false, align:'left', width: 300 }
+                , { field: 'evSbcNm', label: '평가명', sortable: false, align:'left', width: 410 }
                 //, { field: 'useYn',   label: '상태', sortable: false, align:'center', width: 50, editor: useYn, renderer: function(value, p, record, row, col) {
                  //   p.editable = false;
                  //   return value;
                 //} }
             ]
         });
-        
+
 
         /* [Grid] 패널설정 */
         var grid = new Rui.ui.grid.LGridPanel({
@@ -150,11 +150,11 @@
             }
         });
         grid.render('defaultGrid');
-        
+
 
         /* [버튼] 조회 */
         fnSearch = function() {
-            dataSet.load({ 
+            dataSet.load({
                 url: '<c:url value="/prj/grs/retrieveGrsEvStd.do"/>'
               , params : {
                     //grsY : stringNullChk(grsY.getValue())
@@ -164,19 +164,19 @@
                 }
             });
         };
-        
+
 
         /* [버튼] 선택 */
         var btnSel = new Rui.ui.LButton('btnSel');
         btnSel.on('click', function() {
             var chkRow = dataSet.indexOfKey(dataSet.getMarkedRange().keys[0]);   //체크된 row
             var record = dataSet.getAt(chkRow);
-            
+
             if(record.data.useYn == "N") {
                 Rui.alert("상태가 N인건 선택할 수 없습니다.");
                 return;
             }
-            
+
             window.parent.setGrsEvSnInfo(record.data);
             parent.grsEvSnDialog.submit(true);
         });
@@ -216,7 +216,7 @@
                                     </td>
                                     <td rowspan="2" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
                                 </tr>
-                                <!-- 
+                                <!--
                                 <tr>
                                     <th align="right">상태</th>
                                     <td>
@@ -231,16 +231,16 @@
                         </table>
                     </fieldset>
                 </form>
-            </div> 
+            </div>
             <br/>
             <div id="defaultGrid"></div>
-            
+
             <div class="titArea">
                 <div class="LblockButton">
                     <button type="button" id="btnSel" name="btnSel">선택</button>
                 </div>
             </div>
-               
+
         </div>
     </div>
 </body>

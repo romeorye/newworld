@@ -13,13 +13,13 @@
 				 , m.BIZ_DPT_CD	      bizDptCd
 				 , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
 				 , g.dlbr_crgr 									 AS dlbrCrgr
-				 --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--심의 담당자				 
-				 , g.sa_sabun_name AS dlbrCrgrNm       --심의 담당자  
-				 , g.dlbr_parr_dt     							 AS dlbrParrDt 
-				 , g.grs_ev_st	   	 							 AS grsEvSt		 	--P1:초기,P2:최종,M:변경 
-				 , m.PGS_STEP_CD  as pgsStepCd   --진행단계코드 PL : 계획 , PG:진행 , CM:완료 , AL: 변경 , DC:중단 
-				 , dbo.fn_getComDtlNm('GRS_EV_ST',g.grs_ev_st)   AS grsEvStNm  
-				 , m.tss_st           							 AS tssSt 
+				 --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--심의 담당자
+				 , g.sa_sabun_name AS dlbrCrgrNm       --심의 담당자
+				 , g.dlbr_parr_dt     							 AS dlbrParrDt
+				 , g.grs_ev_st	   	 							 AS grsEvSt		 	--P1:초기,P2:최종,M:변경
+				 , m.PGS_STEP_CD  as pgsStepCd   --진행단계코드 PL : 계획 , PG:진행 , CM:완료 , AL: 변경 , DC:중단
+				 , dbo.fn_getComDtlNm('GRS_EV_ST',g.grs_ev_st)   AS grsEvStNm
+				 , m.tss_st           							 AS tssSt
 				-- , dbo.fn_getComDtlNm('TSS_ST',m.tss_st) 		 AS tssStNm
 				 , iif((select count(*) from IRIS_GRS_EV_STD_RSLT_RGST where TSS_CD = g.TSS_CD and TSS_CD_SN = g.TSS_CD_SN) > 0, 'GRS완료', 'GRS요청') AS tssStNm
 				 , m.tss_cd tssCd
@@ -425,13 +425,13 @@
              ;
     ]]>
     </update>
-    
+
     <!-- GRS 평가 완료 메일 정보  -->
     <select id="retrieveGrsMailInfo" resultType="hashmap">
     	<![CDATA[
     	select  (select sa_mail from IRIS_SSO_USER where sa_sabun_new = a.sa_sabun_new) as saMail
 		       ,b.GRS_EV_ST as grsCd
-			   ,dbo.fn_getComDtlNm('GRS_EV_ST',b.GRS_EV_ST) as grsNm  
+			   ,dbo.fn_getComDtlNm('GRS_EV_ST',b.GRS_EV_ST) as grsNm
 		from   IRIS_TSS_MGMT_MST a
 		       inner join IRIS_GRS_EV_RSLT_RGST b
 			   on b.TSS_CD = a.TSS_CD
@@ -443,6 +443,176 @@
 								)
     	]]>
     </select>
-    
-    
+
+
+
+    <!-- GRS 평가 목록 조회 -->
+    <select id="selectGrsList" resultType="hashmap">
+	    <![CDATA[
+		SELECT
+			TSS_CD AS tssCd,
+			WBS_CD AS wbsCd,
+			PK_WBS_CD AS pkWbsCd,
+			PGS_STEP_CD AS pgsStepCd,
+			(SELECT COM_DTL_NM FROM DBO.IRIS_ADM_COM_CD WHERE COM_CD_CD='PGS_STEP_CD' AND GMM.PGS_STEP_CD=COM_DTL_CD) AS pgsStepNm,
+			TSS_ST AS tssSt,
+			(SELECT COM_DTL_NM FROM DBO.IRIS_ADM_COM_CD WHERE COM_CD_CD='TSS_ST' AND GMM.TSS_ST=COM_DTL_CD) AS tssStNm,
+			TSS_NM AS tssNm,
+			PRJ_CD AS prjCd,
+			PRJ_NM AS prjNm,
+			BIZ_DPT_CD AS bizDptCd,
+			PROD_G AS prodG,
+			TSS_SMRY_TXT AS tssSmryTxt,
+			CUST_SQLT AS custSqlt,
+			NPROD_SALS_PLN_Y AS nprodSalsPlnY,
+			CTY_OT_PLN_M AS ctyOtPlnM,
+			TSS_SCN_CD AS tssScnCd,
+			(SELECT COM_DTL_NM FROM DBO.IRIS_ADM_COM_CD WHERE COM_CD_CD='TSS_SCN_CD' AND GMM.TSS_SCN_CD=COM_DTL_CD) AS tssScnNm,
+			SA_SABUN_CD AS saSabunCd,
+			SA_SABUN_NM AS saSabunNm,
+			TSS_STRT_DD AS tssStrtDd,
+			TSS_FNH_DD AS tssFnhDd,
+			TSS_FNH_DD + '~' +  TSS_STRT_DD AS tssDd,
+			GRS_YN AS grsYn,
+			TSS_ATTR_CD AS tssAttrCd,
+			TSS_TYPE AS tssType,
+			SMR_SMRY_TXT AS smrSmryTxt,
+			SMR_GOAL_TXT AS smrGoalTxt,
+			FRST_RGST_DT AS frstRgstDt,
+			FRST_RGST_ID AS frstRgstId,
+			LAST_MDFY_DT AS lastMdfyDt,
+			LAST_MDFY_ID AS lastMdfyId
+  		FROM dbo.IRIS_GRS_MGMT_MST GMM
+    	]]>
+    	<where>
+			<if test="stssScnCd != null and stssScnCd != 'null' and stssScnCd != ''">
+				  AND TSS_SCN_CD = #{stssScnCd}
+			</if>
+			<if test="stssCd != null and stssCd != 'null' and stssCd != ''">
+				  AND TSS_CD LIKE  '%'+#{stssCd}+'%'
+			</if>
+			<if test="tssCd != null and tssCd != 'null' and tssCd != ''">
+				  AND TSS_CD =  #{tssCd}
+			</if>
+			<if test="stssNm != null and stssNm != 'null' and stssNm != ''">
+				  AND TSS_NM LIKE  '%'+#{stssNm}+'%'
+			</if>
+			<if test="sprjNm != null and sprjNm != 'null' and sprjNm != ''">
+				  AND PRJ_NM LIKE  '%'+#{sprjNm}+'%'
+			</if>
+			<if test="ssaSabunNm != null and ssaSabunNm != 'null' and ssaSabunNm != ''">
+				  AND SA_SABUN_NM LIKE  '%'+#{ssaSabunNm}+'%'
+			</if>
+    	</where>
+    	ORDER BY FRST_RGST_DT DESC
+    </select>
+
+    <!-- GRS 기본 정보 등록/수정 -->
+    <insert id="updateGrsInfo">
+	    <![CDATA[
+MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
+    USING (SELECT #{tssCd} AS TSS_CD) src
+    ON (tbl.TSS_CD = src.TSS_CD)
+    WHEN NOT MATCHED THEN
+        ]]>
+        <selectKey keyProperty="newTssCd" resultType="String" order="BEFORE">
+        <![CDATA[
+            SELECT #{pkWbsCd} + REPLICATE('0', 4 - LEN(COUNT(X.TSS_CD)+1)) + CAST(COUNT(X.TSS_CD) + 1 AS NVARCHAR(4))
+              FROM dbo.IRIS_GRS_MGMT_MST X
+             WHERE X.PK_WBS_CD = #{pkWbsCd}
+        ]]>
+        </selectKey>
+        <![CDATA[
+		INSERT
+		       (
+	           TSS_CD,
+	           WBS_CD,
+	           PK_WBS_CD,
+	           PGS_STEP_CD,
+	           TSS_ST,
+	           TSS_SCN_CD,
+	           GRS_YN,
+	           TSS_NM,
+	           PRJ_CD,
+	           PRJ_NM,
+	           BIZ_DPT_CD,
+	           PROD_G,
+	           SA_SABUN_CD,
+	           SA_SABUN_NM,
+	           TSS_STRT_DD,
+	           TSS_FNH_DD,
+	           CUST_SQLT,
+	           TSS_SMRY_TXT,
+	           TSS_ATTR_CD,
+	           TSS_TYPE,
+	           SMR_SMRY_TXT,
+	           SMR_GOAL_TXT,
+	           NPROD_SALS_PLN_Y,
+	           CTY_OT_PLN_M,
+	           FRST_RGST_DT,
+	           FRST_RGST_ID,
+	           LAST_MDFY_DT,
+	           LAST_MDFY_ID
+		       )VALUES(
+				#{newTssCd},
+				#{wbsCd},
+				#{pkWbsCd},
+				#{pgsStepCd},
+				#{tssSt},
+				#{tssScnCd},
+				#{grsYn},
+				#{tssNm},
+				#{prjCd},
+				#{prjNm},
+				#{bizDptCd},
+				#{prodG},
+				#{saSabunCd},
+				#{saSabunNm},
+				#{tssStrtDd},
+				#{tssFnhDd},
+				#{custSqlt},
+				#{tssSmryTxt},
+	           #{tssAttrCd},
+	           #{tssType},
+	           #{smrSmryTxt},
+	           #{smrGoalTxt},
+				iif(isnumeric(#{nprodSalsPlnY})=0,0,#{nprodSalsPlnY}),	-- 숫자가 아닌경우 0처리
+				#{ctyOtPlnM},
+				GETDATE(),
+				'MIGADMIN1',
+				GETDATE(),
+				'MIGADMIN1'
+		       )
+    WHEN MATCHED THEN
+        UPDATE SET
+				GRS_YN = #{grsYn},
+				TSS_NM = #{tssNm},
+				PRJ_CD = #{prjCd},
+				PRJ_NM = #{prjNm},
+				BIZ_DPT_CD = #{bizDptCd},
+				PROD_G = #{prodG},
+				SA_SABUN_CD = #{saSabunCd},
+				SA_SABUN_NM = #{saSabunNm},
+				TSS_STRT_DD = #{tssStrtDd},
+				TSS_FNH_DD = #{tssFnhDd},
+				CUST_SQLT = #{custSqlt},
+				TSS_SMRY_TXT = #{tssSmryTxt},
+				TSS_ATTR_CD = #{tssAttrCd},
+				TSS_TYPE = #{tssType},
+				SMR_SMRY_TXT = #{smrSmryTxt},
+				SMR_GOAL_TXT = #{smrGoalTxt},
+				NPROD_SALS_PLN_Y = #{nprodSalsPlnY},
+				CTY_OT_PLN_M = #{ctyOtPlnM},
+	           LAST_MDFY_DT = GETDATE(),
+	           LAST_MDFY_ID = 'MIGADMIN1'
+    ;
+    	]]>
+    </insert>
+    <!-- GRS 기본 정보 삭제 -->
+    <update id="deleteGrsInfo">
+	    <![CDATA[
+		DELETE FROM dbo.IRIS_GRS_MGMT_MST
+			WHERE TSS_CD = TSS_CD;
+    	]]>
+    </update>
 </mapper>
