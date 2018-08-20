@@ -33,7 +33,7 @@
 
 	<bean id="globalPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 	    <!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/default" />
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/default" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/default" /> -->
 		<property name="allowPattern" value="*"/>
@@ -44,10 +44,10 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="true"/>
 	</bean>
-	
+
 	<bean id="anlPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/anl" />
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/anl" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/anl" /> -->
 		<property name="allowPattern" value="*"/>
@@ -58,7 +58,7 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="true"/>
 	</bean>
-	
+
 	<bean id="rlabPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
 		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/rlab" />
@@ -90,7 +90,7 @@
 	
 	<bean id="prjPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/prj" /> 
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/prj" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/prj" /> -->
 		<property name="allowPattern" value="*"/>
@@ -101,10 +101,10 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="true"/>
 	</bean>
-	
+
 	<bean id="mchnPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/mchn" />
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/mchn" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/mchn" /> -->
 		<property name="allowPattern" value="*"/>
@@ -115,10 +115,10 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="true"/>
 	</bean>
-	
+
 	<bean id="fxaPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/fxa" />
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/fxa" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/fxa" /> -->
 		<property name="allowPattern" value="*"/>
@@ -129,10 +129,10 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="true"/>
 	</bean>
-	
+
 	<bean id="knldPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/knld" />
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/knld" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/knld" /> -->
 		<property name="allowPattern" value="*"/>
@@ -143,11 +143,11 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="true"/>
 	</bean>
-	
-	
+
+
 	<bean id="knldPolicy2" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/knld" />
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/knld" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/knld" /> -->
 		<property name="allowPattern" value="*"/>
@@ -158,11 +158,11 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="true"/>
 	</bean>
-	
-	
-	
+
+
+
 	<!-- File Upload : 개발 -->
-<!-- 	
+<!--
 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		 <property name="uploadTempDir" value="/WEB-INF/classes/fileupload/temp" />
 		<property name="maxInMemorySize" value="20000"/>
@@ -199,7 +199,7 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="true"/>
 	</bean>
-	
+
 	<bean id="estiImgPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<property name="uploadTargetDir" value="/WEB-INF/classes/fileupload/esti" />
 		<property name="allowPattern" value="*.jpg; *.gif; *.png; *.jpeg; *.pdf; *.JPG; *.GIF; *.JPEG; *.PNG; *.PDF;"/>
@@ -210,7 +210,7 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="false"/>
 	</bean>
-	
+
 	<bean id="estiExcelPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<property name="uploadTargetDir" value="/WEB-INF/classes/fileupload/esti" />
 		<property name="allowPattern" value="*.xls; *.xlsx; *.XLS; *.XLSX;"/>
@@ -221,7 +221,7 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="false"/>
 	</bean>
-	
+
 	<bean id="boardFilePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<property name="uploadTargetDir" value="/upload/board" />
 		<property name="allowPattern" value="*"/>
@@ -265,14 +265,14 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="false"/>
 	</bean>
-	
+
 	<bean id="policy2" parent="globalPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<property name="denyPattern" value="*.exe"/>
 		<property name="renamePattern" value="{prefix}[{ext}].{ext}" />
 		<property name="maxFileSize" value="10KB" />
 		<property name="sequenceAllow" value="false"/>
 	</bean>
-	
+
 	<bean id="cnstwPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<property name="uploadTargetDir" value="/upload/cnstw/upFile/" />
 		<property name="allowPattern" value="*"/>
@@ -294,7 +294,7 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="false"/>
 	</bean>
-	
+
 	<bean id="boardInfoSharePdsPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<property name="uploadTargetDir" value="/upload/infoShare/pds" />
 		<property name="allowPattern" value="*"/>
@@ -305,7 +305,7 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="false"/>
 	</bean>
-	
+
 	<bean id="freeChkManagePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<property name="uploadTargetDir" value="/upload/qlty/freeChk" />
 		<property name="allowPattern" value="*"/>
@@ -316,7 +316,7 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="false"/>
 	</bean>
-	
+
 	<bean id="cnstwFirmManagePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<property name="uploadTargetDir" value="/upload/cnstw/network" />
 		<property name="allowPattern" value="*.jpg; *.gif; *.png; *.jpeg; *.JPG; *.GIF; *.JPEG; *.PNG;"/>
@@ -327,7 +327,7 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="false"/>
 	</bean>
-	
+
 	<bean id="boardCnstwFirmManagePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<property name="uploadTargetDir" value="/upload/cnstw/network" />
 		<property name="allowPattern" value="*"/>
@@ -338,5 +338,5 @@
 		<property name="sequenceAllow" value="true"/>
 		<property name="zeroSizeAllow" value="false"/>
 	</bean> -->
-	
+
 </beans>

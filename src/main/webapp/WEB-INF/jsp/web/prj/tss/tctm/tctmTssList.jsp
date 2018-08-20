@@ -434,7 +434,7 @@
         /* [버튼] 과제등록 */
         var butTssNew = new Rui.ui.LButton('butTssNew');
         butTssNew.on('click', function() {
-            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssPlnDetail.do'/>");
+            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/tctm/tctmTssPlnDetail.do'/>");
         });
 
 
