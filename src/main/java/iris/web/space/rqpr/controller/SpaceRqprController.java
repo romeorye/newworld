@@ -27,7 +27,7 @@ import iris.web.system.base.IrisBaseController;
 
 /********************************************************************************
  * NAME : SpaceRqprController.java
- * DESC : 분석의뢰 - 분석의뢰 관리 controller
+ * DESC : 평가의뢰 - 평가의뢰 관리 controller
  * PROJ : IRIS UPGRADE 2차 프로젝트
  *------------------------------------------------------------------------------
  *                               MODIFICATION LOG
@@ -65,7 +65,7 @@ public class SpaceRqprController extends IrisBaseController {
 		input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceRqprList [분석의뢰 리스트 화면 이동]");
+		LOGGER.debug("SpaceRqprController - spaceRqprList [평가의뢰 리스트 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -91,13 +91,13 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceChrgList [분석담당자 리스트 검색]");
+		LOGGER.debug("SpaceRqprController - getSpaceChrgList [평가담당자 리스트 검색]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-        // 분석담당자 리스트 조회
+        // 평가담당자 리스트 조회
 		List<Map<String,Object>> spaceChrgList = spaceRqprService.getSpaceChrgList(input);
 
 		modelAndView.addObject("spaceChrgDataSet", RuiConverter.createDataset("spaceChrgDataSet", spaceChrgList));
@@ -120,13 +120,13 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceRqprList [분석의뢰 리스트 검색]");
+		LOGGER.debug("SpaceRqprController - getSpaceRqprList [평가의뢰 리스트 검색]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-        // 분석의뢰 리스트 조회
+        // 평가의뢰 리스트 조회
 		List<Map<String,Object>> spaceRqprList = spaceRqprService.getSpaceRqprList(input);
 
 		modelAndView.addObject("spaceRqprDataSet", RuiConverter.createDataset("spaceRqprDataSet", spaceRqprList));
@@ -146,7 +146,7 @@ public class SpaceRqprController extends IrisBaseController {
 		checkSession(input, session, model);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceRqprRgst [분석의뢰서 등록 화면 이동]");
+		LOGGER.debug("SpaceRqprController - spaceRqprRgst [평가의뢰서 등록 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -172,7 +172,7 @@ public class SpaceRqprController extends IrisBaseController {
 		checkSession(input, session, model);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceChrgDialog [분석담당자 리스트 화면 이동]");
+		LOGGER.debug("SpaceRqprController - spaceChrgDialog [평가담당자 리스트 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -189,7 +189,7 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceRqprInfo [분석의로 정보 불러오기]");
+		LOGGER.debug("SpaceRqprController - getSpaceRqprInfo [평가의로 정보 불러오기]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -213,7 +213,7 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceRqprSearchPopup 분석의뢰 리스트 조회 팝업");
+		LOGGER.debug("SpaceRqprController - spaceRqprSearchPopup 평가의뢰 리스트 조회 팝업");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -242,7 +242,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - regstSpaceRqpr 분석의뢰 등록");
+		LOGGER.debug("SpaceRqprController - regstSpaceRqpr 평가의뢰 등록");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -284,7 +284,7 @@ public class SpaceRqprController extends IrisBaseController {
 		checkSession(input, session, model);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceRqprDetail [분석의뢰서 상세 화면 이동]");
+		LOGGER.debug("SpaceRqprController - spaceRqprDetail [평가의뢰서 상세 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -308,7 +308,7 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceRqprDetailInfo [분석의로 상세정보 조회]");
+		LOGGER.debug("SpaceRqprController - getSpaceRqprDetailInfo [평가의로 상세정보 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -357,7 +357,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - updateSpaceRqpr 분석의뢰 수정");
+		LOGGER.debug("SpaceRqprController - updateSpaceRqpr 평가의뢰 수정");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -405,7 +405,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - requestSpaceRqprApproval 분석의뢰 결재요청");
+		LOGGER.debug("SpaceRqprController - requestSpaceRqprApproval 평가의뢰 결재요청");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -453,7 +453,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - deleteSpaceRqpr 분석의뢰 삭제");
+		LOGGER.debug("SpaceRqprController - deleteSpaceRqpr 평가의뢰 삭제");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -487,7 +487,7 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceRqprOpinitionPopup 분석의뢰 의견 팝업");
+		LOGGER.debug("SpaceRqprController - spaceRqprOpinitionPopup 평가의뢰 의견 팝업");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -515,7 +515,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceRqprOpinitionList [분석의뢰 의견 리스트 검색]");
+		LOGGER.debug("SpaceRqprController - getSpaceRqprOpinitionList [평가의뢰 의견 리스트 검색]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -543,7 +543,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - saveSpaceRqprOpinition 분석의뢰 의견 저장");
+		LOGGER.debug("SpaceRqprController - saveSpaceRqprOpinition 평가의뢰 의견 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -583,7 +583,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - deleteSpaceRqprOpinition 분석의뢰 의견 삭제");
+		LOGGER.debug("SpaceRqprController - deleteSpaceRqprOpinition 평가의뢰 의견 삭제");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -625,7 +625,7 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - openOpinitionPopup 분석의뢰 의견 상세팝업");
+		LOGGER.debug("SpaceRqprController - openOpinitionPopup 평가의뢰 의견 상세팝업");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -653,7 +653,7 @@ public class SpaceRqprController extends IrisBaseController {
 		input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceRqprList4Chrg [분석의뢰 리스트 담당자용 화면 이동]");
+		LOGGER.debug("SpaceRqprController - spaceRqprList4Chrg [평가의뢰 리스트 담당자용 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -682,7 +682,7 @@ public class SpaceRqprController extends IrisBaseController {
 
 		input = StringUtil.toUtf8(input);
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceRqprDetail4Chrg [분석의뢰서 상세 담당자용 화면 이동]");
+		LOGGER.debug("SpaceRqprController - spaceRqprDetail4Chrg [평가의뢰서 상세 담당자용 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -712,7 +712,7 @@ public class SpaceRqprController extends IrisBaseController {
 		input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - saveSpaceRqpr 분석의뢰 저장");
+		LOGGER.debug("SpaceRqprController - saveSpaceRqpr 평가의뢰 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -765,7 +765,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - receiptSpaceRqpr 분석의뢰 접수");
+		LOGGER.debug("SpaceRqprController - receiptSpaceRqpr 평가의뢰 접수");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -806,7 +806,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceRqprEndPopup 분석의뢰 반려/분석중단 팝업");
+		LOGGER.debug("SpaceRqprController - spaceRqprEndPopup 평가의뢰 반려/평가중단 팝업");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -834,7 +834,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Output(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - saveSpaceRqprEnd 분석의뢰 반려/분석중단 처리");
+		LOGGER.debug("SpaceRqprController - saveSpaceRqprEnd 평가의뢰 반려/평가중단 처리");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -893,7 +893,7 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceRqprExprInfo [분석의로 실험정보 불러오기]");
+		LOGGER.debug("SpaceRqprController - getSpaceRqprExprInfo [평가의로 실험정보 불러오기]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -953,7 +953,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - saveSpaceRqprExpr 분석결과 실험정보 저장");
+		LOGGER.debug("SpaceRqprController - saveSpaceRqprExpr 평가결과 실험정보 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -998,7 +998,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - deleteSpaceRqprExpr 분석결과 실험정보 삭제");
+		LOGGER.debug("SpaceRqprController - deleteSpaceRqprExpr 평가결과 실험정보 삭제");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -1041,7 +1041,7 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceRqprExprList [분석결과 실험정보 리스트 검색]");
+		LOGGER.debug("SpaceRqprController - getSpaceRqprExprList [평가결과 실험정보 리스트 검색]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -1069,7 +1069,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - saveSpaceRqprRslt 분석결과 저장");
+		LOGGER.debug("SpaceRqprController - saveSpaceRqprRslt 평가결과 저장");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -1115,7 +1115,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - requestSpaceRqprRsltApproval 분석결과 결재의뢰");
+		LOGGER.debug("SpaceRqprController - requestSpaceRqprRsltApproval 평가결과 결재의뢰");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -1267,7 +1267,7 @@ public class SpaceRqprController extends IrisBaseController {
 
 
 	/**
-	 *  분석의뢰 완료시 (통보자 추가저장)
+	 *  평가의뢰 완료시 (통보자 추가저장)
 	 */
 	@RequestMapping(value="/space/insertSpaceRqprInfm.do")
 	public ModelAndView insertSpaceRqprInfm(
@@ -1284,7 +1284,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - insertSpaceRqprInfm 분석의뢰 완료시 (통보자 추가저장)");
+		LOGGER.debug("SpaceRqprController - insertSpaceRqprInfm 평가의뢰 완료시 (통보자 추가저장)");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -1445,7 +1445,7 @@ public class SpaceRqprController extends IrisBaseController {
 		checkSession(input, session, model);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceRqprSrchView [분석의뢰서 상세 화면 이동]");
+		LOGGER.debug("SpaceRqprController - spaceRqprSrchView [평가의뢰서 상세 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
