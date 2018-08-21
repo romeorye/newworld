@@ -306,7 +306,7 @@
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'toolNm',	label: '기기명',		sortable: false,	align:'left',	width: 300 }
+                    , { field: 'toolNm',	label: 'TOOL명',		sortable: false,	align:'left',	width: 300 }
                     , { field: 'ver',			label: '버전',		sortable: false,	align:'center',	width: 150 }
                     , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 150 }
                     , { field: 'cmpnNm',		label: '기관',		sortable: false,	align:'center',	width: 150 }
@@ -385,7 +385,7 @@
 
 			openMchnSearchDialog = function(f) {
 		    	_callback = f;
-		    	mchnDialog.setUrl('<c:url value="/mchn/open/eduAnl/retrieveMchnInfoPop.do"/>');
+		    	mchnDialog.setUrl('<c:url value="/space/retrieveSpaceExatMchnInfoPop.do"/>');
 		    	mchnDialog.show();
 		    };
     	    // 분산기기 검색 팝업 끝
@@ -419,11 +419,15 @@
             	
             	record.set('exatCd', selectExatCd);
             	record.set('mchnInfoId', mchnInfo.get("mchnInfoId"));
-            	record.set('mchnInfoNm', mchnInfo.get("mchnNm"));
-            	record.set('mdlNm', mchnInfo.get("mdlNm"));
-            	record.set('mkrNm', mchnInfo.get("mkrNm"));
-            	record.set('mchnClNm', mchnInfo.get("mchnClNm"));
+            	record.set('toolNm', mchnInfo.get("toolNm"));
+            	record.set('ver', mchnInfo.get("ver"));
+            	record.set('evCtgr', mchnInfo.get("evCtgr"));
+            	record.set('cmpnNm', mchnInfo.get("cmpnNm"));
+            	record.set('evWay', mchnInfo.get("evWay"));
             	record.set('mchnCrgrNm', mchnInfo.get("mchnCrgrNm"));
+            	record.set('evScn', mchnInfo.get("evScn"));
+            	
+            	
             }
     	    
             initSpaceExatMst = function() {
@@ -493,9 +497,9 @@
             
             saveSpaceExatDtl = function() {
             	if(selectExatCd == -1) {
-            		alert('먼저 실험정보의 분석기기 관리 버튼을 눌러주세요.');
+            		alert('먼저 시험정보의 분석기기 관리 버튼을 눌러주세요.');
             	} else if(spaceExatDtlDataSet.getModifiedRecords().length == 0) {
-            		alert('먼저 신규 기기를 추가해주세요.');
+            		alert('먼저 신규 Tool을 추가해주세요.');
             	} else {
                 	if(confirm('저장 하시겠습니까?')) {
                         dm.updateDataSet({

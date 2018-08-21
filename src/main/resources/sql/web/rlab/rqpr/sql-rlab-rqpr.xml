@@ -746,22 +746,22 @@
 
 	</insert>
 
-	<select id="getRlabExatDtlList" resultType="hashmap">
+	<select id="getRlabExatDtlList" resultType="hashmap"> 
 		<![CDATA[
-			-- getRlabExatDtlList 실험 상세 정보 리스트 조회
+			-- getRlabExatDtlList 신뢰성시험 상세 정보 리스트 조회
 			select	a.exat_cd										as exatCd
 				   ,a.mchn_info_id									as mchnInfoId
-				   ,b.mchn_han_nm									as mchnInfoNm
+				   ,b.mchn_han_nm									as mchnHanNm
 				   ,b.mdl_nm										as mdlNm
 				   ,b.mkr_nm										as mkrNm
-				   ,dbo.fn_getComDtlNm('MCHN_CL_CD', b.mchn_cl_cd)	as mchnClNm
+				   ,dbo.fn_getComDtlNm('RLAB_CL_CD', b.mchn_cl_cd)	as mchnClNm
 				   ,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
 			from	iris_rlab_exat_dtl a,
-					iris_mchn_info_mst b
+					iris_rlab_mchn_info_mgmt b 
 		 ]]>
 			where	a.exat_cd = ${exatCd}
 			and		a.del_yn = 'N'
-			and		a.mchn_info_id = b.mchn_info_id
+			and		a.mchn_info_id = b.mchn_info_id 
 	</select>
 
 	<insert id="saveRlabExatDtl" parameterType="map">

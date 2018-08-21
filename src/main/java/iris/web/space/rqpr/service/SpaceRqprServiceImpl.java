@@ -621,12 +621,12 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 	}
 	
 	/* 실험 마스터 정보 저장 */
-	public boolean saveSpaceExprMst(List<Map<String,Object>> list) throws Exception {
-    	if(commonDao.batchInsert("space.rqpr.saveSpaceExprMst", list) == list.size()) {
+	public boolean saveSpaceExatMst(List<Map<String,Object>> list) throws Exception {
+    	if(commonDao.batchInsert("space.rqpr.saveSpaceExatMst", list) == list.size()) {
             return true;
     	}
     	else {
-    		throw new Exception("실험 마스터 정보 저장 오류");
+    		throw new Exception("공간평가시험 마스터 정보 저장 오류");
     	}
 	}
 
@@ -636,18 +636,18 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 	}
 	
 	/* 실험 상세 정보 등록 */
-	public boolean saveSpaceExprDtl(List<Map<String,Object>> list) throws Exception {
-    	if(commonDao.batchInsert("space.rqpr.saveSpaceExprDtl", list) == list.size()) {
+	public boolean saveSpaceExatDtl(List<Map<String,Object>> list) throws Exception {
+    	if(commonDao.batchInsert("space.rqpr.saveSpaceExatDtl", list) == list.size()) {
             return true;
     	}
     	else {
-    		throw new Exception("실험 상세 정보 등록 오류");
+    		throw new Exception("공간평가 시험 상세 정보 등록 오류");
     	}
 	}
 	
 	/* 실험 상세 정보 삭제 */
-	public boolean deleteSpaceExprDtl(List<Map<String,Object>> list) throws Exception {
-    	if(commonDao.batchInsert("space.rqpr.updateSpaceExprDtlDelYn", list) == list.size()) {
+	public boolean deleteSpaceExatDtl(List<Map<String,Object>> list) throws Exception {
+    	if(commonDao.batchInsert("space.rqpr.updateSpaceExatDtlDelYn", list) == list.size()) {
             return true;
     	}
     	else {
@@ -690,6 +690,13 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 		}
 		
 		commonDao.batchInsert("space.rqpr.insertSpaceRqprInfm", spaceRqprInfmList);
+	}
+
+	@Override
+	public List<Map<String, Object>> retrieveMachineList(
+			HashMap<String, Object> input) {
+		List<Map<String, Object>> resultList = commonDao.selectList("space.rqpr.retrieveMachineList", input);
+		return resultList;
 	}
 	
 }

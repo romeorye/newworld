@@ -295,7 +295,7 @@
             }
             
             spaceExatMstTreeDataSet.load({
-                url: '<c:url value="/anl/getAnlExprMstList.do"/>',
+                url: '<c:url value="/space/getSpaceExatMstList.do"/>',
                 params :{
                 	isMng : 0
                 }

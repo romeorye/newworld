@@ -986,5 +986,28 @@
 		]]>
 	</select>
 	
+<select id="retrieveMachineList"  resultType="hashmap">
+		<![CDATA[
+		SELECT  TOOL_NM as "toolNm"
+			    ,VER as "ver"
+		        ,EV_CTGR as evCtgr
+				,CMPN_NM as cmpnNm
+				,EV_WAY as evWay
+				,dbo.fn_getSabunName(mchn_crgr_id)	as mchnCrgrNm
+				,EV_SCN as evScn
+				,MCHN_INFO_ID AS mchnInfoId
+		  FROM  IRIS_SPCE_MCHN_INFO_MGMT MIM
+				LEFT OUTER JOIN IRIS_SSO_USER   SU
+				ON  MIM.MCHN_CRGR_ID = SU.SA_SABUN_NEW
+		  WHERE 1=1
+		]]>
+		<if test="( toolNm != null and toolNm != '')">
+			AND (MIM.TOOL_NM LIKE '%'+#{toolNm}+'%')
+		  </if>
+		  <if test="( mchnCrgrNm != null and mchnCrgrNm != '')">
+			AND SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
+		  </if>
+	</select>
+	
 	
 </mapper>

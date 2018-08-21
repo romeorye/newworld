@@ -85,17 +85,17 @@ public interface SpaceRqprService {
 	/* 분석결과 저장 */
 	public boolean saveSpaceRqprRslt(Map<String, Object> dataMap) throws Exception;
 	
-	/* 실험 마스터 정보 저장 */
-	public boolean saveSpaceExprMst(List<Map<String,Object>> list) throws Exception;
+	/* 공간평가시험 마스터 정보 저장 */
+	public boolean saveSpaceExatMst(List<Map<String,Object>> list) throws Exception;
 
 	/* 실험 상세 정보 리스트 조회 */
 	public List<Map<String, Object>> getSpaceExatDtlList(Map<String, Object> input);
 	
-	/* 실험 상세 정보 등록 */
-	public boolean saveSpaceExprDtl(List<Map<String,Object>> list) throws Exception;
+	/* 공간평가시험 상세 정보 등록 */
+	public boolean saveSpaceExatDtl(List<Map<String,Object>> list) throws Exception;
 	
-	/* 실험 상세 정보 삭제 */
-	public boolean deleteSpaceExprDtl(List<Map<String,Object>> list) throws Exception;
+	/* 공간평가시험 상세 정보 삭제 */
+	public boolean deleteSpaceExatDtl(List<Map<String,Object>> list) throws Exception;
 
 	/* 실험방법 내용 조회*/
 	public String getExprWay(HashMap<String, String> input);
@@ -105,4 +105,7 @@ public interface SpaceRqprService {
 
 	/* 통보자 추가 저장*/
 	public void insertSpaceRqprInfm(Map<String, Object> dataMap);
+	
+	/* 공간평가시험 장비 팝업 목록조회 */
+	List<Map<String, Object>> retrieveMachineList(HashMap<String, Object> input);
 }

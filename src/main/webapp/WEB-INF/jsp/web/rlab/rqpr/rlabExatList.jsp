@@ -304,7 +304,7 @@
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'mchnHanNm',	label: '장비명',		sortable: false,	align:'center',	width: 200 }
+                    , { field: 'mchnHanNm',	label: '기기명',		sortable: false,	align:'center',	width: 200 }
                     , { field: 'mdlNm',			label: '모델명',		sortable: false,	align:'center',	width: 150 }
                     , { field: 'mkrNm',			label: '제조사',		sortable: false,	align:'center',	width: 150 }
                     , { field: 'mchnClNm',		label: '분류',		sortable: false,	align:'center',	width: 150 }
