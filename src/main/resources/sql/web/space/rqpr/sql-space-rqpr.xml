@@ -9,30 +9,30 @@
 			SELECT
 				RQPR_ID											AS 'rqprId',
 				ACPC_NO											AS 'acpcNo',
-				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ANL_SCN_CD' and COM_DTL_CD = ANL_SCN_CD) AS 'anlScnNm',
-				ANL_NAME										AS 'anlNm',
+				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'SPACE_SCN_CD' and COM_DTL_CD = SPACE_SCN_CD) AS 'spaceScnNm',
+				SPACE_NAME										AS 'spaceNm',
 				RGST_ID											AS 'rgstId',
 				(select sa_name from iris_sso_user where sa_user = RGST_ID)					AS 'rgstNm',
-				(select sa_name from iris_sso_user where sa_user = ANL_CHRG_ID)						AS 'anlChrgNm',
+				(select sa_name from iris_sso_user where sa_user = SPACE_CHRG_ID)						AS 'spaceChrgNm',
 				RQPR_DT											AS 'rqprDt',
 				ACPC_DT											AS 'acpcDt',
 				CMPL_PARR_DT									AS 'cmplParrDt',
 				CMPL_DT											AS 'cmplDt',
-				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ANL_UGY_YN' and COM_DTL_CD = ANL_UGY_YN) 	AS 'anlUgyYnNm',
+				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'SPACE_UGY_YN' and COM_DTL_CD = SPACE_UGY_YN) 	AS 'spaceUgyYnNm',
 				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ACPC_ST_CD' and COM_DTL_CD = ACPC_ST_CD) 	AS 'acpcStNm',
 				(select isnull(sum(smpo_qty), 0)
-				 from	IRIS_ANL_RQPR_SMPO
+				 from	IRIS_SPACE_RQPR_SMPO
 				 where	rqpr_id = mst.rqpr_id
 				 and	del_yn = 'N'
 				)												AS 'smpoCnt'
-			FROM	IRIS_ANL_RQPR_MST mst
+			FROM	IRIS_SPACE_RQPR_MST mst
 		 ]]>
 			WHERE	1 = 1
         <if test="fromRqprDt != null and fromRqprDt != ''">
 			AND RQPR_DT between #{fromRqprDt} AND #{toRqprDt}
 		</if>
-        <if test="anlNm != null and anlNm != ''">
-			AND ANL_NAME like '%${anlNm}%'
+        <if test="spaceNm != null and spaceNm != ''">
+			AND SPACE_NAME like '%${spaceNm}%'
 		</if>
         <if test="rgstNm != null and rgstNm != ''">
 			AND RGST_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${rgstNm}%')
@@ -40,25 +40,25 @@
         <if test="rqprDeptCd != null and rqprDeptCd != ''">
 			AND RQPR_DEPT_CD = #{rqprDeptCd}
 		</if>
-        <if test="anlChrgNm != null and anlChrgNm != ''">
-			AND ANL_CHRG_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${anlChrgNm}%')
+        <if test="spaceChrgNm != null and spaceChrgNm != ''">
+			AND SPACE_CHRG_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${spaceChrgNm}%')
 		</if>
         <if test="acpcNo != null and acpcNo != ''">
-			AND ACPC_NO like '${acpcNo}%' 
+			AND ACPC_NO like '${acpcNo}%'
 		</if>
         <if test="acpcStCd != null and acpcStCd != ''">
 			AND ACPC_ST_CD = #{acpcStCd}
 		</if>
-		<if test="anlChrgId != null and anlChrgId != ''">
-			AND ANL_CHRG_ID = #{anlChrgId}
+		<if test="spaceChrgId != null and spaceChrgId != ''">
+			AND SPACE_CHRG_ID = #{spaceChrgId}
 		</if>
 		<if test="rgstId != null and rgstId != ''">
 			AND RGST_ID = #{rgstId}
 		</if>
         <choose>
-        	<when test="isAnlChrg == 0">
+        	<when test="isSpaceChrg == 0">
 			AND (MST.RQPR_DEPT_CD =  #{_userDept} or MST.RQPR_ID in (select rqpr_id
-																	from   IRIS_ANL_RQPR_INFM
+																	from   IRIS_SPACE_RQPR_INFM
 																	where  del_yn ='N'
 																	and    infm_prsn_id = #{_userId}
 																	))
@@ -79,14 +79,14 @@
 			FROM   (SELECT	concat(su.sa_name, ' ',su.sa_jobx_name) AS name
 						   ,su.sa_user AS userId
 					FROM	IRIS_SSO_USER su
-					WHERE 1 = 1 
+					WHERE 1 = 1
 					AND   su.sa_dept_new = '58141801'
 					AND   su.sso_ex_flag !='D'
 					UNION ALL
 					SELECT	concat(su.sa_name, ' ',su.sa_jobx_name) AS name
 						   ,su.sa_user AS userId
 					FROM IRIS_SSO_USER su
-					WHERE 1 = 1 
+					WHERE 1 = 1
 					AND   su.sso_ex_flag !='D'
 					AND   su.sa_dept_new IN (SELECT	SD.dept_code
 											 FROM	IRIS_SSO_DEPT SD
@@ -96,9 +96,9 @@
 			ORDER BY name
 		 ]]>
 	</select>
-	
+
 	<select id="getSpaceRqprInfo" resultType="hashmap">
-	
+
 		   SELECT
 				RQPR_ID												AS rqprId,
 				RQPR_DT												AS rqprDt,
@@ -107,18 +107,18 @@
 				RQPR_DEPT_CD										AS rqprDeptCd,
 				--dbo.fn_getDeptName(RQPR_DEPT_CD)					AS rqprDeptNm,
 				DEPT_NM												AS rqprDeptNm,
-				ANL_NAME											AS anlNm,
-				ANL_SCN_CD											AS anlScnCd,
-				dbo.fn_getComDtlNm('ANL_SCN_CD', ANL_SCN_CD)		AS anlScnNm,
-				ANL_UGY_YN											AS anlUgyYn,
-				dbo.fn_getComDtlNm('ANL_UGY_YN', ANL_UGY_YN)		AS anlUgyYnNm,
+				SPACE_NAME											AS spaceNm,
+				SPACE_SCN_CD											AS spaceScnCd,
+				dbo.fn_getComDtlNm('SPACE_SCN_CD', SPACE_SCN_CD)		AS spaceScnNm,
+				SPACE_UGY_YN											AS spaceUgyYn,
+				dbo.fn_getComDtlNm('SPACE_UGY_YN', SPACE_UGY_YN)		AS spaceUgyYnNm,
 				INFM_TYPE_CD										AS infmTypeCd,
 				dbo.fn_getComDtlNm('INFM_TYPE_CD', INFM_TYPE_CD)	AS infmTypeNm,
-				ANL_CHRG_ID											AS anlChrgId,
-				dbo.fn_getUserName(ANL_CHRG_ID)						AS anlChrgNm,
+				SPACE_CHRG_ID											AS spaceChrgId,
+				dbo.fn_getUserName(SPACE_CHRG_ID)						AS spaceChrgNm,
 				SMPO_TRTM_CD										AS smpoTrtmCd,
 				dbo.fn_getComDtlNm('SMPO_TRTM_CD', SMPO_TRTM_CD)	AS smpoTrtmNm,
-				ANL_SBC												AS anlSbc,
+				SPACE_SBC												AS spaceSbc,
 				ACPC_ST_CD											AS acpcStCd,
 				dbo.fn_getComDtlNm('ACPC_ST_CD', ACPC_ST_CD)		AS acpcStNm,
 				RQPR_RDCS_DT										AS rqprRdcsDt,
@@ -131,38 +131,38 @@
 				CMPL_PARR_DT										AS cmplParrDt,
 				CMPL_WK_DD_CNT										AS cmplWkDdCnt,
 				CMPL_DT												AS cmplDt,
-				ANL_RSLT_SBC										AS anlRsltSbc,
-				ANL_RDCS_DT											AS anlRdcsDt,
-				ANL_GVB_DT											AS anlGvbDt,
-				ANL_GVB_RSON										AS anlGvbRson,
-				ANL_DCAC_DT											AS anlDcacDt,
-				ANL_DCAC_RSON										AS anlDcacRson,
-				dbo.fn_getAnlRqprInfmPrsnIds(RQPR_ID)				AS infmPrsnIds,
-				dbo.fn_getAnlRqprInfmPrsnNames(RQPR_ID)				AS anlRqprInfmView,
+				SPACE_RSLT_SBC										AS spaceRsltSbc,
+				SPACE_RDCS_DT											AS spaceRdcsDt,
+				SPACE_GVB_DT											AS spaceGvbDt,
+				SPACE_GVB_RSON										AS spaceGvbRson,
+				SPACE_DCAC_DT											AS spaceDcacDt,
+				SPACE_DCAC_RSON										AS spaceDcacRson,
+				dbo.fn_getSpaceRqprInfmPrsnIds(RQPR_ID)				AS infmPrsnIds,
+				dbo.fn_getSpaceRqprInfmPrsnNames(RQPR_ID)				AS spaceRqprInfmView,
 				RQPR_ATTC_FILE_ID									AS rqprAttcFileId,
 				RSLT_ATTC_FILE_ID									AS rsltAttcFileId,
 				DEL_YN												AS delYn,
 				LAST_MDFY_ID                                        AS lastMdfyId,
 				(select	count(1)
-				 from	iris_anl_rqpr_opi
+				 from	iris_space_rqpr_opi
 				 where	rqpr_id = mst.rqpr_Id
 				 and		del_yn = 'N')							AS opinitionCnt,
 				(select	CIR.ITG_RDCS_ID
-				 from	IRIS_COM_ITG_RDCS CIR 
+				 from	IRIS_COM_ITG_RDCS CIR
 				 WHERE	CIR.GUID = 'A' + cast(mst.RQPR_ID as nvarchar)
 				)													AS reqItgRdcsId,
 				(select	CIR.ITG_RDCS_ID
-				 from	IRIS_COM_ITG_RDCS CIR 
+				 from	IRIS_COM_ITG_RDCS CIR
 				 WHERE	CIR.GUID = 'C' + cast(mst.RQPR_ID as nvarchar)
 				)													AS rsltItgRdcsId
-			
-			FROM	IRIS_ANL_RQPR_MST mst
+
+			FROM	IRIS_SPACE_RQPR_MST mst
 			WHERE	RQPR_ID = ${rqprId}
-			 
+
 	</select>
-	
+
 	<select id="getSpaceRqprSmpoList" resultType="hashmap">
-	
+
 		   SELECT
 				SMPO_ID		AS smpoId,
 				RQPR_ID		AS rqprId,
@@ -170,45 +170,45 @@
 				MKR_NM		AS mkrNm,
 				MDL_NM		AS mdlNm,
 				SMPO_QTY	AS smpoQty
-			FROM	IRIS_ANL_RQPR_SMPO
+			FROM	IRIS_SPACE_RQPR_SMPO
 			WHERE	RQPR_ID = ${rqprId}
 			AND		DEL_YN = 'N'
-			 
+
 	</select>
-	
+
 	<select id="getSpaceRqprRltdList" resultType="hashmap">
-	
+
 		   SELECT
 				rltd.RLTD_ID								AS rltdId,
 				rltd.RQPR_ID								AS rqprId,
 				rltd.PRE_RQPR_ID							AS preRqprId,
-				rltd.PRE_ANL_NAME							AS preAnlNm,
+				rltd.PRE_SPACE_NAME							AS preSpaceNm,
 				mst.ACPC_NO									AS preAcpcNo,
-				dbo.fn_getUserName(mst.ANL_CHRG_ID)			AS preAnlChrgNm,
+				dbo.fn_getUserName(mst.SPACE_CHRG_ID)			AS preSpaceChrgNm,
 				rltd.PRE_RGST_ID							AS preRgstId,
 				dbo.fn_getUserName(rltd.PRE_RGST_ID)		AS preRgstNm
-			FROM	IRIS_ANL_RQPR_RLTD rltd,
-					IRIS_ANL_RQPR_MST mst
+			FROM	IRIS_SPACE_RQPR_RLTD rltd,
+					IRIS_SPACE_RQPR_MST mst
 			WHERE	rltd.RQPR_ID = ${rqprId}
 			AND		rltd.DEL_YN = 'N'
 			AND		rltd.PRE_RQPR_ID = mst.RQPR_ID
-			 
+
 	</select>
-	
+
 	<insert id="insertSpaceRqpr" parameterType="hashmap" useGeneratedKeys="true" keyProperty="rqprId" keyColumn="RQPR_ID">
-	
-		insert into iris_anl_rqpr_mst(
+
+		insert into iris_space_rqpr_mst(
 			RQPR_DT
 		   ,RGST_ID
 		   ,RQPR_DEPT_CD
 		   ,RQPR_TEAM_CD
-		   ,ANL_NAME
-		   ,ANL_SCN_CD
-		   ,ANL_UGY_YN
+		   ,SPACE_NAME
+		   ,SPACE_SCN_CD
+		   ,SPACE_UGY_YN
 		   ,INFM_TYPE_CD
-		   ,ANL_CHRG_ID
+		   ,SPACE_CHRG_ID
 		   ,SMPO_TRTM_CD
-		   ,ANL_SBC
+		   ,SPACE_SBC
 		   ,RQPR_ATTC_FILE_ID
 		   ,FRST_RGST_ID
 		   ,LAST_MDFY_ID)
@@ -216,34 +216,34 @@
 			  ,#{userId}
 			  ,#{userDeptCd}
 			  ,#{userTeamCd}
-			  ,#{anlNm}
-			  ,#{anlScnCd}
-			  ,#{anlUgyYn}
+			  ,#{spaceNm}
+			  ,#{spaceScnCd}
+			  ,#{spaceUgyYn}
 			  ,#{infmTypeCd}
-			  ,#{anlChrgId}
+			  ,#{spaceChrgId}
 			  ,#{smpoTrtmCd}
-			  ,#{anlSbc}
+			  ,#{spaceSbc}
 			  ,#{rqprAttcFileId}
 			  ,#{userId}
 			  ,#{userId}
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateSpaceRqpr">
-	
-		update	iris_anl_rqpr_mst
-		set		anl_name = #{anlNm},
-				anl_scn_cd = #{anlScnCd},
-				anl_ugy_yn = #{anlUgyYn},
+
+		update	iris_space_rqpr_mst
+		set		space_name = #{spaceNm},
+				space_scn_cd = #{spaceScnCd},
+				space_ugy_yn = #{spaceUgyYn},
 				infm_type_cd = #{infmTypeCd},
-				anl_chrg_id = #{anlChrgId},
+				space_chrg_id = #{spaceChrgId},
 				smpo_trtm_cd = #{smpoTrtmCd},
-				anl_sbc = #{anlSbc},
+				space_sbc = #{spaceSbc},
 				acpc_st_cd = #{acpcStCd},
 			<if test="acpcNo == '' and acpcStCd == '03'">
-				acpc_no = (select 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4) 
-						   from   iris_anl_rqpr_mst
+				acpc_no = (select 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4)
+						   from   iris_space_rqpr_mst
 						   where  acpc_no like 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '%'),
 				acpc_dt = Convert(varchar(10), getdate(), 120),
 			</if>
@@ -252,40 +252,40 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<update id="updateSpaceRqprAcpcStCd">
-	
-		update	iris_anl_rqpr_mst
+
+		update	iris_space_rqpr_mst
 		set		acpc_st_cd = #{acpcStCd},
 		<if test="acpcStCd == '04'">
-				anl_gvb_dt = Convert(varchar(10), Current_Timestamp, 120),
-				anl_gvb_rson = #{rson},
+				space_gvb_dt = Convert(varchar(10), Current_Timestamp, 120),
+				space_gvb_rson = #{rson},
 		</if>
 		<if test="acpcStCd == '05'">
-				anl_dcac_dt = Convert(varchar(10), Current_Timestamp, 120),
-				anl_dcac_rson = #{rson},
+				space_dcac_dt = Convert(varchar(10), Current_Timestamp, 120),
+				space_dcac_rson = #{rson},
 		</if>
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<update id="updateSpaceRqprDelYn">
-	
-		update	iris_anl_rqpr_mst
+
+		update	iris_space_rqpr_mst
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<insert id="insertSpaceRqprSmpo" parameterType="map">
-	
-		insert into iris_anl_rqpr_smpo(
+
+		insert into iris_space_rqpr_smpo(
 			RQPR_ID
 		   ,SMPO_NM
 		   ,MKR_NM
@@ -302,12 +302,12 @@
 			  ,#{userId}
 			  ,#{userId}
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateSpaceRqprSmpo">
-	
-		update	iris_anl_rqpr_smpo
+
+		update	iris_space_rqpr_smpo
 		set		smpo_nm = #{smpoNm},
 				mkr_nm = #{mkrNm},
 				mdl_nm = #{mdlNm},
@@ -315,64 +315,64 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	smpo_id = ${smpoId}
-	
+
 	</update>
-	
+
 	<update id="updateSpaceRqprSmpoDelYn">
-	
-		update	iris_anl_rqpr_smpo
+
+		update	iris_space_rqpr_smpo
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	smpo_id = ${smpoId}
-	
+
 	</update>
-	
+
 	<insert id="insertSpaceRqprRltd" parameterType="map">
-	
-		insert into iris_anl_rqpr_rltd(
+
+		insert into iris_space_rqpr_rltd(
 			RQPR_ID
 		   ,PRE_RQPR_ID
-		   ,PRE_ANL_NAME
+		   ,PRE_SPACE_NAME
 		   ,PRE_RGST_ID
 		   ,FRST_RGST_ID
 		   ,LAST_MDFY_ID
 		   )
 		values(#{rqprId}
 			  ,#{preRqprId}
-			  ,#{preAnlNm}
+			  ,#{preSpaceNm}
 			  ,#{preRgstId}
 			  ,#{userId}
 			  ,#{userId}
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateSpaceRqprRltd">
-	
-		update	iris_anl_rqpr_rltd
+
+		update	iris_space_rqpr_rltd
 		set		pre_rqpr_id = #{preRqprId},
-				pre_anl_name = #{preAnlNm},
+				pre_space_name = #{preSpaceNm},
 				pre_rgst_id = #{preRgstId},
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rltd_id = #{rltdId}
-	
+
 	</update>
-	
+
 	<update id="updateSpaceRqprRltdDelYn">
-	
-		update	iris_anl_rqpr_rltd
+
+		update	iris_space_rqpr_rltd
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rltd_id = #{rltdId}
-	
+
 	</update>
-	
+
 	<insert id="insertSpaceRqprInfm" parameterType="map">
-	
-		MERGE INTO iris_anl_rqpr_infm a
+
+		MERGE INTO iris_space_rqpr_infm a
 		USING ( SELECT	#{rqprId} as rqprId,
 						#{infmPrsnId} as infmPrsnId,
 						#{userId} as userId ) b
@@ -388,53 +388,53 @@
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
-	
+
 	<update id="updateSpaceRqprInfmDelYn">
-	
-		update	iris_anl_rqpr_infm
+
+		update	iris_space_rqpr_infm
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	rqpr_id = #{rqprId}
 		<if test="infmPrsnIdArr != null">
-		and		infm_prsn_id not in 
+		and		infm_prsn_id not in
 			<foreach collection="infmPrsnIdArr" item="item" open="(" close=")" separator=",">
 				#{item}
 			</foreach>
 		</if>
 		and		del_yn = 'N'
-	
+
 	</update>
-	
+
 	<select id="getSpaceRqprOpinitionListCnt" resultType="int">
-	
+
 		   select	count(1) cnt
-			from	iris_anl_rqpr_opi
+			from	iris_space_rqpr_opi
 			where	rqpr_id = ${rqprId}
 			and		del_yn = 'N'
-			 
+
 	</select>
-	
+
 	<select id="getSpaceRqprOpinitionList" resultType="map">
-	
+
 		   select	OPI_ID								  as opiId
 				   ,RQPR_ID								  as rqprId
 				   ,RGST_ID								  as rgstId
 				   ,dbo.fn_getUserName(RGST_ID)			  as rgstNm
 				   ,Convert(varchar(10), RGST_DT, 120)	  as rgstDt
 				   ,OPI_SBC								  as opiSbc
-			from	iris_anl_rqpr_opi
+			from	iris_space_rqpr_opi
 			where	rqpr_id = ${rqprId}
 			and		del_yn = 'N'
 			order by rgst_dt desc
-			 
+
 	</select>
-	
+
 	<insert id="saveSpaceRqprOpinition" parameterType="map">
-	
-		MERGE INTO iris_anl_rqpr_opi a
+
+		MERGE INTO iris_space_rqpr_opi a
 		USING ( SELECT	${opiId} as opiId,
 						${rqprId} as rqprId,
 						#{opiSbc} as opiSbc,
@@ -460,17 +460,17 @@
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
-	
+
 	<update id="updateSpaceRqprOpinitionDelYn" parameterType="map">
-	
-		update	iris_anl_rqpr_opi
+
+		update	iris_space_rqpr_opi
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	opi_id = ${opiId}
-	
+
 	</update>
 
 	<select id="getSpaceExatTreeList" resultType="hashmap">
@@ -519,7 +519,7 @@
 				and		mst.del_yn = 'N'
 			</if>
 			)
-			select (select exat_nm from IRIS_SPACE_EXAT_MST where exat_cd=exat_tree.supi_exat_cd) as supiExatNm	
+			select (select exat_nm from IRIS_SPACE_EXAT_MST where exat_cd=exat_tree.supi_exat_cd) as supiExatNm
 				   ,EXAT_CD				   as exatCd
 				   ,EXAT_NM				   as exatNm
 				   ,SUPI_EXAT_CD		   as supiExatCd
@@ -542,7 +542,7 @@
 			-- getSpaceExprDtlComboList 실험정보 상세 콤보 리스트 조회
 			select	MCHN_INFO_ID							as mchnInfoId
 				   ,dbo.fn_getMchnInfoEnName(MCHN_INFO_ID)	as mchnInfoNm
-			from	iris_anl_expr_dtl
+			from	iris_space_expr_dtl
 		 ]]>
 			where	expr_cd = ${exprCd}
 			and		del_yn = 'N'
@@ -556,14 +556,14 @@
 			SELECT   AEM.EXPR_CD
 					,AEM.EXPR_CD_L
 					,convert(varchar(255), EXPR_NM) as master_path
-			 FROM IRIS_ANL_EXPR_MST AEM
+			 FROM IRIS_SPACE_EXPR_MST AEM
 			 WHERE AEM.DEL_YN = 'N'
 			 AND   AEM.SUPI_EXPR_CD = '0'
 			 UNION ALL
 			 SELECT  AEM2.EXPR_CD
 					,AEM2.EXPR_CD_L
 					,CAST(AEM3.master_path + '>' + AEM2.EXPR_NM AS VARCHAR(255)) master_path
-			 FROM IRIS_ANL_EXPR_MST AEM2
+			 FROM IRIS_SPACE_EXPR_MST AEM2
 			     ,EXPR_MST AEM3
 			 WHERE   AEM2.SUPI_EXPR_CD = AEM3.EXPR_CD
 			 )
@@ -581,7 +581,7 @@
 					,ARE.EXPR_FNH_DT							 as exprFnhDt
 					,ARE.EXPR_WAY								 as exprWay
 			 FROM EXPR_MST EM
-				,IRIS_ANL_RQPR_EXPR ARE
+				,IRIS_SPACE_RQPR_EXPR ARE
 		 ]]>
 			 WHERE	EM.EXPR_CD_L = 4
 			 AND	ARE.DEL_YN = 'N'
@@ -604,14 +604,14 @@
 				   ,EXPR_STRT_DT	   as exprStrtDt
 				   ,EXPR_FNH_DT		   as exprFnhDt
 				   ,EXPR_WAY		   as exprWay
-			from	iris_anl_rqpr_expr
+			from	iris_space_rqpr_expr
 		 ]]>
 			where	rqpr_expr_id = ${rqprExprId}
 	</select>
-	
+
 	<insert id="saveSpaceRqprExpr" parameterType="map">
-	
-		MERGE INTO iris_anl_rqpr_expr a
+
+		MERGE INTO iris_space_rqpr_expr a
 		USING ( SELECT	#{rqprExprId} as rqprExprId,
 						#{rqprId} as rqprId,
 						#{exprCd} as exprCd,
@@ -664,32 +664,32 @@
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
-	
+
 	<update id="updateSpaceRqprExprDelYn" parameterType="map">
-	
-		update	iris_anl_rqpr_expr
+
+		update	iris_space_rqpr_expr
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rqpr_expr_id = ${rqprExprId}
-	
+
 	</update>
-	
+
 	<update id="saveSpaceRqprRslt" parameterType="map">
-	
-		update	iris_anl_rqpr_mst
-		set		anl_rslt_sbc = #{anlRsltSbc},
+
+		update	iris_space_rqpr_mst
+		set		space_rslt_sbc = #{spaceRsltSbc},
 				rslt_attc_file_id = #{rsltAttcFileId},
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<insert id="saveSpaceExatMst" parameterType="map">
-	
+
 		MERGE INTO iris_space_exat_mst a
 		USING ( SELECT	#{exatCd} as exatCd,
 						#{exatNm} as exatNm,
@@ -742,13 +742,13 @@
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
 
 	<select id="getSpaceExatDtlList" resultType="hashmap">
 		<![CDATA[
 			-- getSpaceExatDtlList 공간평가 상세 정보 리스트 조회
-			select 
+			select
 		 		 a.exat_cd as exatCd
 				,a.mchn_info_id as mchnInfoId
 				,b.tool_nm as toolNm
@@ -765,9 +765,9 @@
 			and a.DEL_YN = 'N'
 			and a.MCHN_INFO_ID = b.MCHN_INFO_ID
 	</select>
-	
+
 	<insert id="saveSpaceExatDtl" parameterType="map">
-	
+
 		insert into iris_space_exat_dtl(
 			EXAT_CD
 		   ,MCHN_INFO_ID
@@ -779,11 +779,11 @@
 			  ,#{userId}
 			  ,#{userId}
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateSpaceExatDtlDelYn" parameterType="map">
-	
+
 		update	iris_space_exat_dtl
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -791,21 +791,21 @@
 		where	exat_cd = ${exatCd}
 		and		mchn_info_id = ${mchnInfoId}
 		and		del_yn = 'N'
-	
+
 	</update>
 
 	<select id="getSpaceRqprOpinitionEmailInfo" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
 		<![CDATA[
 			-- getSpaceRqprOpinitionEmailInfo 의견 메일 발송 정보 조회
 			select	rqpr_id												as rqprId,
-					anl_name											as anlNm,
+					space_name											as spaceNm,
 					acpc_no												as acpcNo,
 					dbo.fn_getUserEmail(rgst_id) + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(rqpr_team_cd)), '') +
-					isnull(',' + dbo.fn_getUserEmail(anl_chrg_id), '')	+
+					isnull(',' + dbo.fn_getUserEmail(space_chrg_id), '')	+
 					isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
-								                                             where   b.sa_user = anl_chrg_id))), '') as receivers
-			from	iris_anl_rqpr_mst
+								                                             where   b.sa_user = space_chrg_id))), '') as receivers
+			from	iris_space_rqpr_mst
 		 ]]>
 			where	rqpr_id = ${rqprId}
 	</select>
@@ -814,7 +814,7 @@
 		<![CDATA[
 			-- getSpaceRqprReceiptEmailInfo 접수 통보 메일 발송 정보 조회
 			select	mst.rqpr_id																						as rqprId
-				   ,mst.anl_name																					as anlNm
+				   ,mst.space_name																					as spaceNm
 				   ,mst.acpc_no																						as acpcNo
 				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name															as rgstNm
 				   ,dbo.fn_getDeptName(rgst.sa_dept_new)															as rgstDeptNm
@@ -824,95 +824,95 @@
 				   ,mst.acpc_dt																						as acpcDt
 				   ,mst.cmpl_parr_dt																				as cmplParrDt
 				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')	as receivers
-			from	iris_anl_rqpr_mst mst,
+			from	iris_space_rqpr_mst mst,
 					iris_sso_user rgst,
 					iris_sso_user chrg
 		 ]]>
 			where	mst.rqpr_id = ${rqprId}
 			and		mst.rgst_id = rgst.sa_user
-			and		mst.anl_chrg_id = chrg.sa_user
+			and		mst.space_chrg_id = chrg.sa_user
 	</select>
 
 	<select id="getSpaceRqprRejectEmailInfo" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
 		<![CDATA[
 			-- getSpaceRqprRejectEmailInfo 반려 통보 메일 발송 정보 조회
 			select	mst.rqpr_id																						as rqprId
-				   ,mst.anl_name																					as anlNm
+				   ,mst.space_name																					as spaceNm
 				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name															as rgstNm
 				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name															as chrgNm
 				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
 				   ,chrg.sa_mail																					as chrgEmail
-				   ,mst.anl_gvb_rson																				as anlGvbRson
-				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +	
+				   ,mst.space_gvb_rson																				as spaceGvbRson
+				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
 				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
-								                                             where   b.sa_user = mst.anl_chrg_id))), '') as receivers
-			from	iris_anl_rqpr_mst mst,
+								                                             where   b.sa_user = mst.space_chrg_id))), '') as receivers
+			from	iris_space_rqpr_mst mst,
 					iris_sso_user rgst,
 					iris_sso_user chrg
 		 ]]>
 			where	mst.rqpr_id = ${rqprId}
 			and		mst.rgst_id = rgst.sa_user
-			and		mst.anl_chrg_id = chrg.sa_user
+			and		mst.space_chrg_id = chrg.sa_user
 	</select>
 
 	<select id="getSpaceRqprStopEmailInfo" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
 		<![CDATA[
 			-- getSpaceRqprStopEmailInfo 분석중단 통보 메일 발송 정보 조회
 			select	mst.rqpr_id																						as rqprId
-				   ,mst.anl_name																					as anlNm
+				   ,mst.space_name																					as spaceNm
 				   ,mst.acpc_no																						as acpcNo
 				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name															as rgstNm
 				   ,dbo.fn_getDeptName(rgst.sa_dept_new)															as rgstDeptNm
 				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name															as chrgNm
 				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
 				   ,chrg.sa_mail																					as chrgEmail
-				   ,mst.anl_dcac_rson																				as anlDcacRson
-				   ,rgst.sa_mail + ',' + isnull(dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+	
+				   ,mst.space_dcac_rson																				as spaceDcacRson
+				   ,rgst.sa_mail + ',' + isnull(dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+
 				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
-								                                             where   b.sa_user = mst.anl_chrg_id))), '') as receivers
-			from	iris_anl_rqpr_mst mst,
+								                                             where   b.sa_user = mst.space_chrg_id))), '') as receivers
+			from	iris_space_rqpr_mst mst,
 					iris_sso_user rgst,
 					iris_sso_user chrg
 		 ]]>
 			where	mst.rqpr_id = ${rqprId}
 			and		mst.rgst_id = rgst.sa_user
-			and		mst.anl_chrg_id = chrg.sa_user
+			and		mst.space_chrg_id = chrg.sa_user
 	</select>
-	
-	
+
+
 	<select id="getExprWay" resultType="String">
 		<![CDATA[
 			-- getExprWay 개발방법 조회
 		SELECT EXPR_WAY as exprWay
-		FROM  IRIS_ANL_RQPR_EXPR
+		FROM  IRIS_SPACE_RQPR_EXPR
 		WHERE   RQPR_EXPR_ID = ${rqprExprId}
 		AND     RQPR_ID = #{rqprId}
-		]]>	
+		]]>
 	</select>
-	
+
 	<select id="retrieveOpiSbc" resultType="String">
 		<![CDATA[
 			-- retrieveOpiSbc 의견 조회
 		SELECT OPI_SBC AS opiSbc
-		FROM IRIS_ANL_RQPR_OPI
+		FROM IRIS_SPACE_RQPR_OPI
 		WHERE  DEL_YN ='N'
 		AND    OPI_ID =  #{opiId}
-		]]>	
+		]]>
 	</select>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
 	<select id="getSpaceRqprBzdvList" resultType="hashmap">
 		<![CDATA[
 		-- getSpaceRqprBzdvList 사업부 조회
@@ -927,8 +927,8 @@
 		WHERE DEL_YN = 'N'
 		]]>
 	</select>
-	
-	
+
+
 	<select id="getSpaceRqprProdClList" resultType="hashmap">
 		<![CDATA[
 		-- getSpaceRqprProdClList 제품군 조회
@@ -945,7 +945,7 @@
 		AND   SUPI_CD =  #{supiCd}
 		]]>
 	</select>
-	
+
 	<select id="getSpaceRqprClList" resultType="hashmap">
 		<![CDATA[
 		-- getSpaceRqprClList 분류 조회
@@ -962,7 +962,7 @@
 		AND   SUPI_CD =  #{supiCd}
 		]]>
 	</select>
-	
+
 	<select id="getSpaceRqprProdList" resultType="hashmap">
 		<![CDATA[
 		-- getSpaceRqprProdList 제품 조회
@@ -979,13 +979,13 @@
 		AND   SUPI_CD =  #{supiCd}
 		]]>
 	</select>
-	
+
 	<select id="getSpaceRqprMtrlList" resultType="hashmap">
 		<![CDATA[
 		-- getSpaceRqprMtrlList 상세리스트
 		]]>
 	</select>
-	
+
 <select id="retrieveMachineList"  resultType="hashmap">
 		<![CDATA[
 		SELECT  TOOL_NM as "toolNm"
@@ -1008,6 +1008,6 @@
 			AND SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
 		  </if>
 	</select>
-	
-	
+
+
 </mapper>
