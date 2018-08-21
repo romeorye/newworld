@@ -1410,8 +1410,8 @@ public class SpaceRqprController extends IrisBaseController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="/space/spaceExprExpSimulationPopup.do")
-	public String spaceExprExpSimulationPopup(
+	@RequestMapping(value="/space/spaceExatExpSimulationPopup.do")
+	public String spaceExatExpSimulationPopup(
 			@RequestParam HashMap<String, String> input,
 			HttpServletRequest request,
 			HttpSession session,
@@ -1424,7 +1424,7 @@ public class SpaceRqprController extends IrisBaseController {
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceExprExpSimulationPopup [실험수가 Simulation 팝업]");
+		LOGGER.debug("SpaceRqprController - spaceExatExpSimulationPopup [공간평가시험 수가 Simulation 팝업]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -1475,5 +1475,51 @@ public class SpaceRqprController extends IrisBaseController {
 		model.addAttribute("inputData", input);
 
 		return "web/space/rqpr/exprWayPopup";
+	}
+	
+	/**
+	 *   > 공간평가시험 장비 팝업 화면 호출
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/space/retrieveSpaceExatMchnInfoPop.do")
+	public String retrieveMchnInfoPop(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+
+		return  "web/space/rqpr/spaceExatMchnInfoPop";
+	}
+	
+	/**
+	 *   > 공간평가시험 장비 팝업 목록조회
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/space/retrieveMachineList.do")
+	public ModelAndView retrieveMachineList(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		input = StringUtil.toUtf8(input);
+
+		List<Map<String, Object>> resultList = spaceRqprService.retrieveMachineList(input);
+		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", resultList));
+
+		return  modelAndView;
 	}
 }
