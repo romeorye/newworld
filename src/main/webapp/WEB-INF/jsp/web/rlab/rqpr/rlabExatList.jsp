@@ -256,7 +256,7 @@
 
             var rlabExatMstColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  { field: 'supiExatNm',		label: '시험명(대분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 190 }
+                	  { field: 'supiExatNm',		label: '시험명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 190 }
                     , { field: 'exatNm',			label: '시험명(소분류)',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 90 }
                     , { field: 'exatMtdNo',	label: '시험법No',		sortable: false,	editable: true, 	editor: textBox,	align:'center',	width: 70 }
                     , { field: 'expCrtnScnCd',	label: '비용구분',	sortable: false,	editable: true,	editor: expCrtnScnCd,		align:'center',	width: 70 }
@@ -404,6 +404,16 @@
     	    };
     	    // 실험수가 Simulation 팝업 끝
             
+    	    
+    	    setMchnInfoCheck = function(mchnInfo){
+    	    	if(rlabExatDtlDataSet.findRow('mchnInfoId', mchnInfo.get("mchnInfoId")) > -1) {
+    	    		alert('이미 존재합니다.');
+    	    		return false;
+    	    	}else{
+    	    		return true;
+    	    	}
+    	    }
+    	    
             setMchnInfo = function(mchnInfo) {
 				if(rlabExatDtlDataSet.findRow('mchnInfoId', mchnInfo.get("mchnInfoId")) > -1) {
 					alert('이미 존재합니다.');

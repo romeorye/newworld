@@ -759,7 +759,7 @@
 				,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
 				,b.ev_scn as evScn
 		    from iris_space_exat_dtl a,
-				 IRIS_SPCE_MCHN_INFO_MGMT b
+				 IRIS_SPACE_MCHN_INFO_MGMT b
 		 ]]>
 			where	a.exat_cd = ${exatCd}
 			and a.DEL_YN = 'N'
@@ -988,6 +988,8 @@
 
 <select id="retrieveMachineList"  resultType="hashmap">
 		<![CDATA[
+		-- retrieveMachineList ToolÁ¶È¸
+		
 		SELECT  TOOL_NM as "toolNm"
 			    ,VER as "ver"
 		        ,EV_CTGR as evCtgr
@@ -996,16 +998,19 @@
 				,dbo.fn_getSabunName(mchn_crgr_id)	as mchnCrgrNm
 				,EV_SCN as evScn
 				,MCHN_INFO_ID AS mchnInfoId
-		  FROM  IRIS_SPCE_MCHN_INFO_MGMT MIM
+		  FROM  IRIS_SPACE_MCHN_INFO_MGMT MIM
 				LEFT OUTER JOIN IRIS_SSO_USER   SU
 				ON  MIM.MCHN_CRGR_ID = SU.SA_SABUN_NEW
 		  WHERE 1=1
 		]]>
-		<if test="( toolNm != null and toolNm != '')">
+		  <if test="( toolNm != null and toolNm != '')">
 			AND (MIM.TOOL_NM LIKE '%'+#{toolNm}+'%')
 		  </if>
 		  <if test="( mchnCrgrNm != null and mchnCrgrNm != '')">
 			AND SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
+		  </if>
+		  <if test="( evCtgr == 'Simulation' or  evCtgr == 'Mock-up' or evCtgr == 'Certification')">
+			AND  MIM.EV_CTGR LIKE '%'+#{evCtgr}+'%'
 		  </if>
 	</select>
 

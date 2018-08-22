@@ -83,6 +83,9 @@
 			var record = dataSet.getAt(dataSet.getRow());
 
 			if(dataSet.getRow() > -1) {
+				if(!parent.setMchnInfoCheck(record)){
+					return;
+				}
 				parent._callback(record);
 				parent.mchnDialog.submit(true);
 			}
@@ -121,8 +124,8 @@
 				url: '<c:url value="/rlab/retrieveMachineList.do"/>',
 				params :{
 					 mchnNm  : encodeURIComponent(document.aform.mchnNm.value)	//기기명
-					,mchnCrgrNm  : document.aform.mchnCrgrNm.value	//기기교육 id
-					,mchnClCd  : rdMchnClCd.getValue()	//기기교육 id
+					,mchnCrgrNm  : encodeURIComponent(document.aform.mchnCrgrNm.value)	//담당자명
+					,mchnClCd  : rdMchnClCd.getValue()	//기기
 	                }
 			});
 		}

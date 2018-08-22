@@ -87,6 +87,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		           	 ,{ id: 'mchnUsePsblYn'}
 		           	 ,{ id: 'mnScrnDspYn'}
 		           	 ,{ id: 'mchnInfoId'}
+		           	 ,{ id: 'smpoQty'}
 		            ]
 	    });
 
@@ -196,6 +197,15 @@ var faxInfoDialog;	//고정자산관리 팝업
 				       { value: 'Y', text: '삭제'}
 	            ]
 		});
+        
+        //시료수
+		var smpoQty = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
+	        applyTo: 'smpoQty',                           // 해당 DOM Id 위치에 텍스트박스를 적용
+	        width: 200,                                    // 텍스트박스 폭을 설정
+	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
+	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
+	        //inputType: Rui.util.LString.PATTERN_TYPE_KOREAN, // [옵션] 입력문자열로 영문자 입력만 허용
+	    });
 		
 		//메인여부
 		var cbMnScrnDspYn = new Rui.ui.form.LCombo({
@@ -312,9 +322,10 @@ var faxInfoDialog;	//고정자산관리 팝업
 		         { id: 'mchnExpl', 			ctrlId: 'mchnExpl', 		value: 'value' },
 		         { id: 'mchnSmry', 			ctrlId: 'mchnSmry', 		value: 'value' },
 		         { id: 'mchnUsePsblYn', 	ctrlId: 'mchnUsePsblYn', 	value: 'value' },
-		         { id: 'mnScrnDspYn', 		ctrlId: 'mnScrnDspYn', 	value: 'value' },
+		         { id: 'mnScrnDspYn', 		ctrlId: 'mnScrnDspYn', 		value: 'value' },
 		         { id: 'attcFilId', 		ctrlId: 'attcFilId', 		value: 'value' },
-		         { id: 'mchnInfoId', 		ctrlId: 'mchnInfoId', 		value: 'value' }
+		         { id: 'mchnInfoId', 		ctrlId: 'mchnInfoId', 		value: 'value' },
+		         { id: 'smpoQty', 			ctrlId: 'smpoQty', 			value: 'value' }
 		     ]
 		});
 		
@@ -644,11 +655,20 @@ var faxInfoDialog;	//고정자산관리 팝업
 						</tr>
 						
 						<tr>
-							<th align="right"><span style="color:red;">*  </span>장비사용상태 / 삭제여부</th>
+							<th align="right"><span style="color:red;">*  </span>장비사용상태</th>
 							<td>
 								<div id="mchnUsePsblYn"></div>
-								&nbsp / &nbsp
+							</td>
+							<th align="right">삭제여부</th>
+							<td>
 								<div id="delYn"></div>
+								
+							</td>
+						</tr>
+						<tr>
+							<th align="right"><span style="color:red;">*  </span>시료수</th>
+							<td>
+								<input type="text" id="smpoQty" />
 							</td>
 							<th align="right">메인여부</th>
 							<td>

@@ -408,6 +408,17 @@
     	    };
     	    // 실험수가 Simulation 팝업 끝
             
+     	    setMchnInfoCheck = function(mchnInfo){
+    	    	if(spaceExatDtlDataSet.findRow('mchnInfoId', mchnInfo.get("mchnInfoId")) > -1) {
+    	    		alert('이미 존재합니다.');
+    	    		return false;
+    	    		
+    	    	}else{
+    	    		return true;
+    	    	}
+    	    	
+    	    } 
+    	    
             setMchnInfo = function(mchnInfo) {
 				if(spaceExatDtlDataSet.findRow('mchnInfoId', mchnInfo.get("mchnInfoId")) > -1) {
 					alert('이미 존재합니다.');
@@ -484,7 +495,7 @@
             
             /* 실험정보 리스트 엑셀 다운로드 */
         	downloadSpaceExatMstListExcel = function() {
-        		spaceExatMstTreeGrid.saveExcel(encodeURIComponent('실험정보_') + new Date().format('%Y%m%d') + '.xls');
+        		spaceExatMstTreeGrid.saveExcel(encodeURIComponent('공간평가시험정보_') + new Date().format('%Y%m%d') + '.xls');
             };
             
             addSpaceExatDtl = function() {
@@ -566,7 +577,7 @@
 			    </div>
    				
    				<div class="titArea">
-   					<span class="Ltotal">분석기기</span>
+   					<span class="Ltotal">공간평가 Tool</span>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="addSpaceExatDtlBtn" name="addSpaceExatDtlBtn" onclick="addSpaceExatDtl()">신규</button>
    						<button type="button" class="btn"  id="saveSpaceExatMstBtn" name="saveSpaceExatMstBtn" onclick="saveSpaceExatDtl()">저장</button>

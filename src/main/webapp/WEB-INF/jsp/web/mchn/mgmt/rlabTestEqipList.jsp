@@ -45,7 +45,8 @@
 	            { id: 'mchnUsePsblYn' },
 	            { id: 'mchnClNm' },
 	            { id: 'opnYn' },
-	            { id: 'mchnUsePsblNm' }
+	            { id: 'mchnUsePsblNm' },
+	            { id: 'smpoQty' }
 	        ]
 	    });
 
@@ -69,6 +70,7 @@
 	            { field: 'mchnClNm', 		label: '분류', 		sortable: false, align: 'center', width: 70},
 	            { field: 'opnYn', 		label: 'open', 		sortable: false, align: 'center', width: 70},
 	            { field: 'mchnUsePsblNm', 		label: '상태', 		sortable: false, align: 'center', width: 70},
+	            { field: 'smpoQty', 		label: '시료수', 		sortable: false, align: 'center', width: 70},
 	            { field: 'mchnInfoId',  hidden : true}
 	        ]
 	    });

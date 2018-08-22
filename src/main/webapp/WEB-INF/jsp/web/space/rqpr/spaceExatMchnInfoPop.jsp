@@ -59,10 +59,10 @@
 		var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	 , { field: 'toolNm',	label: 'TOOL명',		sortable: false,	align:'left',	width: 300 }
-                 , { field: 'ver',			label: '버전',		sortable: false,	align:'center',	width: 150 }
-                 , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 150 }
-                 , { field: 'cmpnNm',		label: '기관',		sortable: false,	align:'center',	width: 150 }
+	        	 , { field: 'toolNm',	label: 'TOOL명',		sortable: false,	align:'left',	width: 220 }
+                 , { field: 'ver',			label: '버전',		sortable: false,	align:'center',	width: 120 }
+                 , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 120 }
+                 , { field: 'cmpnNm',		label: '기관',		sortable: false,	align:'center',	width: 120 }
                  , { field: 'evWay',	label: '평가방법',		sortable: false,	align:'center',	width: 80 }
                  , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 80 }
                  , { field: 'evScn',	label: '구분',		sortable: false,	align:'center',	width: 80 }
@@ -87,6 +87,9 @@
 			var record = dataSet.getAt(dataSet.getRow());
 
 			if(dataSet.getRow() > -1) {
+				if(!parent.setMchnInfoCheck(record)){
+					return;
+				}
 				parent._callback(record);
 				parent.mchnDialog.submit(true);
 			}
@@ -109,14 +112,14 @@
 	    });
 
 		//분류
-		var rdMchnClCd = new Rui.ui.form.LRadioGroup({
-	            applyTo : 'mchnClCd',
-	            name : 'mchnClCd',
+		var rdEvCtgr = new Rui.ui.form.LRadioGroup({
+	            applyTo : 'evCtgr',
+	            name : 'evCtgr',
 	            items : [
 	            	{label : '전체', 			value : 'ALL'},
-	            	{label : 'Simulation', 		value : ''},
-	            	{label : 'Mock-Up', 		value : ''},
-	            	{label : 'Certification', 		value : ''}
+	            	{label : 'Simulation', 		value : 'Simulation'},
+	            	{label : 'Mock-up', 		value : 'Mock-up'},
+	            	{label : 'Certification', 		value : 'Certification'}
 	            ]
 	    });
 
@@ -125,8 +128,8 @@
 				url: '<c:url value="/space/retrieveMachineList.do"/>',
 				params :{
 					 toolNm  : encodeURIComponent(document.aform.toolNm.value)	//Tool명
-					,mchnCrgrNm  : document.aform.mchnCrgrNm.value	//담당자
-					,mchnClCd  : rdMchnClCd.getValue()	//분류
+					,mchnCrgrNm  : encodeURIComponent(document.aform.mchnCrgrNm.value)	//담당자
+					,evCtgr  : rdEvCtgr.getValue()	//분류
 	                }
 			});
 		}
@@ -169,7 +172,7 @@
 						<tr>
 							<th align="right">분류</th>
 							<td colspan="3">
-								<div id="mchnClCd"></div>
+								<div id=evCtgr></div>
 							</td>
 						</tr>
 					</tbody>

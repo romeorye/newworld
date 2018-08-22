@@ -534,6 +534,7 @@
 				   ,DEL_YN				   as delYn
 				   ,path
 				   ,sort
+				   ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd=exat_tree.supi_exat_cd) as supiExatNm
 			from	exat_tree
 			ORDER BY sort
 	</select>
@@ -794,6 +795,8 @@
 	
 <select id="retrieveMachineList"  resultType="hashmap">
 		<![CDATA[
+		-- retrieveMachineList 신뢰성 장비 조회
+		
 		SELECT  MCHN_HAN_NM+'('+MCHN_EN_NM+')' as "mchnNm"
 			   ,MDL_NM as "mdlNm"
 		       ,MKR_NM as "mkrNm"
