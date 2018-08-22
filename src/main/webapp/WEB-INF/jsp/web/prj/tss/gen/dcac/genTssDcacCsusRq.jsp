@@ -227,7 +227,7 @@
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th>개개발목적 및 배경</th>
+                                    <th>개발목적 및 배경</th>
                                     <th>과제 필요성 및 사업기회</th>
                                     <td><c:out value="${fn:replace(resultSmry.tssSmryTxt, cn, br)}" escapeXml="false"/></td>
                                 </tr>
