@@ -16,14 +16,19 @@
 			  --,PRCT.RGST_TEAM_NM 팀명
 			  ,PRCT.RGST_ID AS rgstId
 			  ,SU.SA_NAME AS rgstNm
-		      ,PRCT.PRCT_DT AS prctDt
-		      ,PRCT.PRCT_FROM_DT+' ~ '+ PRCT.PRCT_TO_DT AS prctFromToDt 
+		      ,CASE WHEN INFO.MCHN_CL_CD='03'
+			        THEN PRCT.PRCT_DT +' ~ '+ PRCT.PRCT_DT 
+					ELSE PRCT.PRCT_FROM_DT+' ~ '+ PRCT.PRCT_TO_DT
+				END AS prctFromToDt 
 		      ,PRCT.PRCT_FROM_DT AS prctFromDt
 		      ,PRCT.PRCT_TO_DT AS prctToDt
-		      ,PRCT.PRCT_FROM_TIM + ' ~ ' + PRCT.PRCT_TO_TIM as prctFromToTim 
+		      ,CASE WHEN INFO.MCHN_CL_CD='03'
+			        THEN PRCT.PRCT_FROM_TIM + ' ~ ' + PRCT.PRCT_TO_TIM
+				END as prctFromToTim
 		      ,PRCT.PRCT_FROM_TIM AS prctFromTim
 		      ,PRCT.PRCT_TO_TIM AS prctToTim
 		      ,PRCT.PRCT_SCN_CD AS prctScnCd
+		      ,ACC2.COM_DTL_NM AS prctScnNm
 			  ,INFO.MCHN_CRGR_ID AS mchnCrgrId
 			  ,SU2.SA_NAME AS mchnCrgrNm
 		  FROM IRIS_RLAB_MCHN_PRCT_MST PRCT
@@ -35,11 +40,15 @@
 		    ON  PRCT.RGST_ID = SU.SA_SABUN_NEW
 		 INNER JOIN IRIS_ADM_COM_CD	ACC
 		    ON INFO.MCHN_CL_CD=ACC.COM_DTL_CD
+		 INNER JOIN IRIS_ADM_COM_CD	ACC2
+		    ON PRCT.PRCT_SCN_CD=ACC2.COM_DTL_CD
 		 WHERE 1=1
 		   AND PRCT.DEL_YN='N'
 		   AND INFO.DEL_YN='N'
 		   AND ACC.DEL_YN='N'
+		   AND ACC2.DEL_YN='N'
 		   AND ACC.COM_CD_CD='RLAB_CL_CD'
+		   AND ACC2.COM_CD_CD='MCHN_APPR_RQ_ST'
 		]]>
 
 		<if test="( prctTitl != null and prctTitl != '')">
@@ -82,13 +91,19 @@
 		      ,PRCT.TEST_SPCE_CD AS testSpceCd
 		      ,PRCT.TEST_CND01 + ' ~ ' + TEST_CND02 AS testCnd
 		      ,PRCT.CYCL_FLAG AS cyclFlag
-		      ,PRCT.PRCT_FROM_DT+' ~ '+ PRCT.PRCT_TO_DT AS prctFromToDt 
+		      ,CASE WHEN INFO.MCHN_CL_CD='03'
+			        THEN PRCT.PRCT_FROM_TIM + ' ~ ' + PRCT.PRCT_TO_TIM
+				END as prctFromToTim
 		      ,PRCT.PRCT_FROM_DT AS prctFromDt
 		      ,PRCT.PRCT_TO_DT AS prctToDt
-		      ,PRCT.PRCT_FROM_TIM + ' ~ ' + PRCT.PRCT_TO_TIM as prctFromToTim 
+		      ,CASE WHEN INFO.MCHN_CL_CD='03'
+			        THEN PRCT.PRCT_DT +' '+ PRCT.PRCT_FROM_TIM + ' ~ ' + PRCT.PRCT_TO_TIM
+					ELSE PRCT.PRCT_FROM_DT+' ~ '+ PRCT.PRCT_TO_DT
+				END AS prctFromToDt 
 		      ,PRCT.PRCT_FROM_TIM AS prctFromTim
 		      ,PRCT.PRCT_TO_TIM AS prctToTim
 		      ,PRCT.PRCT_SCN_CD AS prctScnCd
+		      ,ACC2.COM_DTL_NM AS prctScnNm
 			  ,INFO.MCHN_CRGR_ID AS mchnCrgrId
 			  ,SU2.SA_NAME AS mchnCrgrNm
 		  FROM IRIS_RLAB_MCHN_PRCT_MST PRCT
@@ -100,18 +115,22 @@
 		    ON  PRCT.RGST_ID = SU.SA_SABUN_NEW
 		 INNER JOIN IRIS_ADM_COM_CD	ACC
 		    ON INFO.MCHN_CL_CD=ACC.COM_DTL_CD
+		 INNER JOIN IRIS_ADM_COM_CD	ACC2
+		    ON PRCT.PRCT_SCN_CD=ACC2.COM_DTL_CD
 		 WHERE 1=1
 		   AND PRCT.DEL_YN='N'
 		   AND INFO.DEL_YN='N'
 		   AND ACC.DEL_YN='N'
+		   AND ACC2.DEL_YN='N'
 		   AND ACC.COM_CD_CD='RLAB_CL_CD'
+		   AND ACC2.COM_CD_CD='MCHN_APPR_RQ_ST'
 		   AND PRCT.MCHN_PRCT_ID = #{mchnPrctId}
 		]]>
 	</select>
 
-	<!-- 보유기기관리 승인, 반려 업데이트  -->
-	<update id="updateMachineApprInfo">
-		UPDATE    IRIS_MCHN_PRCT_MST
+	<!-- 신뢰성장비 예약관리 승인, 반려 업데이트  -->
+	<update id="updateRlabTestEqipPrctInfo">
+		UPDATE    IRIS_RLAB_MCHN_PRCT_MST
 		SET  	  PRCT_APPR_DT = CONVERT(NVARCHAR(10), GETDATE(), 23)
 				 ,PRCT_SCN_CD  = #{prctScnCd}
 				 ,LAST_MDFY_DT = GETDATE()

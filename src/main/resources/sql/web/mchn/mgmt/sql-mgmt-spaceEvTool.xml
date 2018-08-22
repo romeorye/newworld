@@ -15,7 +15,7 @@
 			  ,SU.SA_NAME  as "mchnCrgrNm"
 			  ,MCHN_INFO_ID as "mchnInfoId"
 			  ,EV_SCN as "evScn"
-		FROM IRIS_SPCE_MCHN_INFO_MGMT SPCE
+		FROM IRIS_SPACE_MCHN_INFO_MGMT SPCE
 		LEFT OUTER JOIN
 				IRIS_SSO_USER   SU
 			ON  SPCE.MCHN_CRGR_ID = SU.SA_SABUN_NEW
@@ -49,7 +49,7 @@
 				,F.ATTC_FIL_ID     as "attcFilId"
 				,F.SEQ             as "seq"
 				,MCHN_INFO_ID      as "mchnInfoId"
-		FROM    IRIS_SPCE_MCHN_INFO_MGMT SPCE
+		FROM    IRIS_SPACE_MCHN_INFO_MGMT SPCE
 		        INNER JOIN IRIS_SSO_USER SSO
 				ON SSO.SA_SABUN_NEW = SPCE.MCHN_CRGR_ID		        
 				LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
@@ -62,7 +62,7 @@
 	<!-- 공간평가Tool 등록 및 수정  -->
 	<insert id="saveSpaceEvToolInfo" >
 		<![CDATA[
-		MERGE IRIS_SPCE_MCHN_INFO_MGMT SPEC
+		MERGE IRIS_SPACE_MCHN_INFO_MGMT SPEC
 		USING ( SELECT #{mchnInfoId} AS MCHN_INFO_ID ) AS Tab1
 		ON  (SPEC.MCHN_INFO_ID = Tab1.MCHN_INFO_ID)
 		WHEN matched THEN
