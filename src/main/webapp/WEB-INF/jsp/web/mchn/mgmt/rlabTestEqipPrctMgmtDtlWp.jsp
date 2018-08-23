@@ -104,7 +104,7 @@ var mailTitl;
     	    }
     	    
           	dm.updateForm({
-          	    url: "<c:url value='/mchn/open/appr/updateMachineApprInfo.do'/>"
+          		url: "<c:url value='/mchn/mgmt/updateRlabTestEqipPrctInfo.do'/>"
           	   ,form : 'aform'
           	   ,params : {
 	        	    	 mailTitl : mailTitl				//mail title
@@ -175,18 +175,21 @@ var mailTitl;
 						<col style="width: 10%" />
 					</colgroup>
 					<tbody>
-						<tr>
+						<th align="right">장비분류</th>
+							<td>
+								<c:out value='${result.comDtlNm}'/>
+							</td>
 							<th align="right">신청제목</th>
-							<td colspan="3">
+							<td>
 								<c:out value='${result.prctTitl}'/>
 							</td>
 						</tr>
 						<tr>
-							<th align="right">기기명</th>
+							<th align="right">장비명</th>
 							<td>
-								<c:out value='${result.mchnNm}'/>
+								<c:out value='${result.mchnHanNm}'/>
 							</td>
-							<th align="right">신청자</th>
+							<th align="right">예약자</th>
 							<td>
 								<c:out value='${result.rgstNm}'/>(<c:out value='${result.teamNm}'/>)
 							</td>
@@ -202,18 +205,13 @@ var mailTitl;
 							</td>
 						</tr>
 						<tr>
-							<th align="right">예약일시</th>
+							<th align="right">예약일</th>
 							<td>
-								<c:out value='${result.prctDt}'/> <c:out value='${result.prctFromTim}'/>~<c:out value='${result.prctToTim}'/>
+								<c:out value='${result.prctFromToDt}'/>
 							</td>
-							<th align="right">교육여부</th>
+							<th align="right">구분</th>
 							<td>
-								<c:out value='${result.ccsNm}'/>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="4"  class="tabPadding1>
-								<c:out value='${result.dtlSbc}'  escapeXml="false"/>
+								<c:out value='${result.prctScnNm}'/>
 							</td>
 						</tr>
 						</tbody>

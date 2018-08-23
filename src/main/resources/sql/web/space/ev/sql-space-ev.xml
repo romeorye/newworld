@@ -85,7 +85,7 @@
 			,FNH_VLD_DT AS fnhVldDt
 			,REM AS rem
 			,OTTP_YN AS ottpYn
-			,ATTC_FILE_ID AS attcFileId
+			,ATTC_FILE_ID AS attcFilId
 			,DEL_YN AS delYn
 			,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23) as frstRgstDt
 		FROM IRIS_SPACE_MTRL_UTM_EV EV
@@ -136,7 +136,7 @@
 		,#{fnhVldDt}
 		,#{rem}
 		,#{ottpYn}
-		,#{attcFileId}
+		,#{attcFilId}
         ,GETDATE()
         ,#{userId}  -- 세션 사번
         ,GETDATE()

@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
+import iris.web.knld.mgmt.service.ReteriveRequestService;
 import iris.web.space.ev.service.SpaceEvService;
 import iris.web.common.code.service.CodeCacheManager;
 import iris.web.common.converter.RuiConverter;
@@ -60,6 +61,9 @@ public class SpaceEvController extends IrisBaseController {
 	
 	@Resource(name = "attachFileService")
 	private AttachFileService attachFileService;
+	
+	@Resource(name = "knldRtrvRqService")
+	private ReteriveRequestService knldRtrvRqService;
 	
 	static final Logger LOGGER = LogManager.getLogger(SpaceEvController.class);
 
@@ -573,5 +577,5 @@ public class SpaceEvController extends IrisBaseController {
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", ds));
 
         return modelAndView;
-	}		
+	}
 }

@@ -105,7 +105,7 @@ var flag;
     	    }
     	    
           	dm.updateForm({
-          	    url: "<c:url value='/mchn/open/appr/updateMachineApprInfo.do'/>"
+          	    url: "<c:url value='/mchn/mgmt/updateRlabTestEqipPrctInfo.do'/>"
           	   ,form : 'aform'
           	   ,params : {
 	        	    	 mailTitl : mailTitl				//mail title
@@ -217,7 +217,17 @@ var flag;
 							</td>
 							<th align="right">시험조건</th>
 							<td>
-								<c:out value='${result.testCnd}'/>C <input id="checkBox" type="checkbox" disabled >싸이클
+								<c:out value='${result.testCnd}'/>C <input id="checkBox" type="checkbox" disabled > (싸이클)
+							</td>
+						</tr>
+						<tr>
+							<th align="right">예약일</th>
+							<td>
+								<c:out value='${result.prctFromToDt}'/>
+							</td>
+							<th align="right">구분</th>
+							<td>
+								<c:out value='${result.prctScnNm}'/>
 							</td>
 						</tr>
 						</tbody>

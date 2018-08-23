@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
+import iris.web.knld.mgmt.service.ReteriveRequestService;
 import iris.web.space.ev.service.SpaceEvService;
 import iris.web.space.pfmc.service.SpacePfmcMstService;
 import iris.web.common.code.service.CodeCacheManager;
@@ -64,6 +65,9 @@ public class SpacePfmcMstController extends IrisBaseController {
 	
 	@Resource(name = "attachFileService")
 	private AttachFileService attachFileService;
+	
+	@Resource(name = "knldRtrvRqService")
+	private ReteriveRequestService knldRtrvRqService;
 	
 	static final Logger LOGGER = LogManager.getLogger(SpacePfmcMstController.class);
 
@@ -119,6 +123,33 @@ public class SpacePfmcMstController extends IrisBaseController {
 		modelAndView.addObject("spaceEvProdListDataSet", RuiConverter.createDataset("spaceEvProdListDataSet", getSpacePfmcMstList));
 		LOGGER.debug("getSpacePfmcMstList : " + getSpacePfmcMstList);
 		return modelAndView;
+	}
+	
+	@RequestMapping(value="/space/spaceRetrieveRequestInfoPop.do")
+	public String retrieveRequestInfo(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+    	input = StringUtil.toUtf8(input);
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("ReteriveRequestController - retrieveRequestInfo 조회 요청 화면");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+    	
+		HashMap<String, Object> deptInfo = knldRtrvRqService.retrieveDeptDetail(input);
+		
+		input.put("rgstOpsId", deptInfo.get("rgstOpsId"));
+		input.put("rgstOpsNm", deptInfo.get("rgstOpsNm"));
+		
+		model.addAttribute("inputData", input);
+		
+		return "web/space/rqpr/spaceRetrieveRequestInfoPop";
 	}	
 	
 }

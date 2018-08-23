@@ -168,13 +168,19 @@
                 	, { field: 'ctgr2',			hidden : true}
                 	, { field: 'ctgr3',			hidden : true}
                 	, { field: 'prodNm',		hidden : true}
+                	, { field: 'attcFileId',	hidden : true}
                 	, { field: 'scn',			label: '구분',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'pfmcVal',		label: '성능값',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'frstRgstDt',	label: '등록일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'strtVldDt',		label: '유효시작일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'fnhVldDt',		label: '유효종료일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'ottpYn',		label: '공개여부',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100 }
-                    , { field: 'attcFileId',	label: '파일경로',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
+                    , { id: 'attachDownBtn',  label: '첨부',                                          width: 65
+                    	,renderer: function(val, p, record, row, i){
+  		  	    		var param = "?attcFilId=" + record.data.attcFilId + "&seq=" + seq;
+	  		  	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
+	  		  	       	document.aform.submit();
+  		  	    		  return Rui.isUndefined(record.get('attcFilId')) ? '' : '<button type="button"  class="L-grid-button" onclick="'+strBtnFun+'">다운로드</button>'}} 
                     , { field: 'rem',			label: '비고',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                 ]
             });

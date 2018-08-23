@@ -134,7 +134,7 @@
             	spaceEvClDataSet.clearData();
                 var selectctgr1Cd = cmbCtgr1Cd.getValue();
                 spaceEvClDataSet.load({
-                	url: '<c:url value="/space/spaceEvProdClList.do"/>',
+                	url: '<c:url value="/space/spaceEvClList.do"/>',
                     params :{ supiCd:selectctgr1Cd }
                 });
             });
@@ -355,6 +355,53 @@
                 });
             };
             /////////////////////////////////////////////////////////////////////////////////////////
+            retrieveRequestInfoDialog = new Rui.ui.LFrameDialog({
+     	        id: 'retrieveRequestInfoDialog', 
+     	        title: '조회 요청',
+     	        width: 850,
+     	        height: 330,
+     	        modal: true,
+     	        visible: false
+     	    });
+     	    
+     	    retrieveRequestInfoDialog.render(document.body);
+     	    
+     	    fncRq = function(){
+     	    	var record = spaceEvMtrlListDataSet.getAt(spaceEvMtrlListDataSet.rowPosition);
+     	    	var rqDocNm 	= record.data.prodNm + " > 성적서,인증서(자재단위)";
+     	    	var rtrvRqDocCd = "SPACE";
+     	    	var docNo 		= spaceEvMtrlListDataSet.getNameValue(spaceEvMtrlListDataSet.rowPosition, "attcFileId");
+     	    	var pgmPath 	= "Technical Service > 공간평가 > 성능 Master";
+     	    	var rgstId 		= '${inputData._userId}';
+     	    	var rgstNm 		= '${inputData._userNm}';
+     	    	var reUrl 		= spaceEvMtrlListDataSet.getNameValue(spaceEvMtrlListDataSet.rowPosition, "ottpYn");
+         	  
+         	   var params = '?rqDocNm=' + escape(encodeURIComponent(rqDocNm))
+    					   + '&rtrvRqDocCd=' + rtrvRqDocCd
+    					   + '&docNo=' + docNo
+    					   + '&pgmPath=' + escape(encodeURIComponent(pgmPath))
+    					   + '&rgstId=' + rgstId
+    					   + '&docUrl=' + reUrl
+    					   + '&rgstNm=' + escape(encodeURIComponent(rgstNm))
+    					   ;
+     	    	if(Rui.isEmpty(rgstId)){
+     	    		Rui.alert("해당내용은 담당자 부재로 관리자에게 문의하세요");
+     	    		return ;
+     	    	}
+     	    	
+	     	    retrieveRequestInfoDialog.setUrl('<c:url value="/knld/rsst/retrieveRequestInfo.do"/>' + params);
+		    	retrieveRequestInfoDialog.show();
+     	    }
+            spaceEvMtrlListGrid.on('cellClick', function(e) {
+            	if(e.colId == "ottpYn") {
+                    if(spaceEvMtrlListDataSet.getNameValue(e.row, "ottpYn")!='Y'){
+                    	alert(21);
+                    	fncRq();
+                    	
+                    }
+                }
+            });
+            
             //검색
             getSpaceEvProdList = function() {
             	spaceEvProdListDataSet.load({

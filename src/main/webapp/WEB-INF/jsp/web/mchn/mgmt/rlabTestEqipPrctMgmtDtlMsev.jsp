@@ -104,7 +104,7 @@ var mailTitl;
     	    }
     	    
           	dm.updateForm({
-          	    url: "<c:url value='/mchn/open/appr/updateMachineApprInfo.do'/>"
+          		url: "<c:url value='/mchn/mgmt/updateRlabTestEqipPrctInfo.do'/>"
           	   ,form : 'aform'
           	   ,params : {
 	        	    	 mailTitl : mailTitl				//mail title
@@ -175,8 +175,7 @@ var mailTitl;
 						<col style="width: 10%" />
 					</colgroup>
 					<tbody>
-						<tr>
-							<th align="right">장비분류</th>
+						<th align="right">장비분류</th>
 							<td>
 								<c:out value='${result.comDtlNm}'/>
 							</td>
@@ -206,18 +205,13 @@ var mailTitl;
 							</td>
 						</tr>
 						<tr>
-							<th align="right">테스트공간</th>
+							<th align="right">예약일</th>
 							<td>
-								<c:out value='${result.testSpceCd}'/>
+								<c:out value='${result.prctFromToDt}'/>
 							</td>
-							<th align="right">시험조건</th>
+							<th align="right">구분</th>
 							<td>
-								<c:out value='${result.testCnd}'/><input id="checkBox" type="checkbox" value='${result.cyclFlag}'>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="4"  class="tabPadding1>
-								<c:out value='${result.dtlSbc}'  escapeXml="false"/>
+								<c:out value='${result.prctScnNm}'/>
 							</td>
 						</tr>
 						</tbody>

@@ -80,6 +80,7 @@ var firstLoad = "Y";	//화면오픈
 		           	 ,{ id: 'mchnExpl'}
 		           	 ,{ id: 'mchnSmry'}
 		           	 ,{ id: 'attcFilId'}
+		           	 ,{ id: 'mnalFilId'}
 		           	 ,{ id: 'mchnCrgrId'}
 		           	 ,{ id: 'mchnInfoId'}
 		            ]
@@ -260,6 +261,7 @@ var firstLoad = "Y";	//화면오픈
 		         { id: 'mchnSmry', 		    ctrlId: 'mchnSmry', 	        value: 'value' },
 		         { id: 'mchnCrgrId', 		ctrlId: 'mchnCrgrId', 		value: 'value' },
 		         { id: 'attcFilId', 		ctrlId: 'attcFilId', 		value: 'value' },
+		         { id: 'mnalFilId', 		ctrlId: 'mnalFilId', 		value: 'value' },
 		         { id: 'mchnInfoId', 		ctrlId: 'mchnInfoId', 		value: 'value' }
 		     ]
 		});
@@ -311,6 +313,52 @@ var firstLoad = "Y";	//화면오픈
             setAttachFileInfo(attachFileInfoList);
         };
         
+        /* 메뉴얼첨부파일*/
+		var menualFileDataSet = new Rui.data.LJsonDataSet({
+            id: 'menualFileDataSet',
+            remainRemoved: true,
+            lazyLoad: true,
+            fields: [
+				  { id: 'attcFilId'}
+				, { id: 'seq' }
+				, { id: 'filNm' }
+				, { id: 'filSize' }
+            ]
+        });
+
+		var mnalId;
+
+		//dataset에서 첨부파일 정보가 있을경우
+		dataSet.on('load', function(e) {
+			mnalId = dataSet.getNameValue(0, "mnalFilId");
+            if(!Rui.isEmpty(attId)) getMenualFileList();
+        });
+
+		//첨부파일 정보 조회
+   		getMenualFileList = function(){
+			menualFileDataSet.load({
+                url: '<c:url value="/system/attach/getAttachFileList.do"/>' ,
+                params :{
+                    attcFilId : mnalId
+                }
+            });
+		}
+
+		//첨부파일 조회후 load로 정보 호출
+		menualFileDataSet.on('load', function(e) {
+            getMenualFileInfoList();
+        });
+
+		//첨부파일 정보
+		getMenualFileInfoList = function() {
+            var menualFileInfoList = [];
+
+            for( var i = 0, size = menualFileDataSet.getCount(); i < size ; i++ ) {
+                menualFileInfoList.push(menualFileDataSet.getAt(i).clone());
+            }
+            setMenualFileInfo(menualFileInfoList);
+        };
+        
 		//평가카테고리 체크박스 체크	
         evCtgr.on('changed', function(e){
 	        	 var checkedVal=evCtgr.getValue();
@@ -357,6 +405,13 @@ var firstLoad = "Y";	//화면오픈
     	butAttcFil.on('click', function(){
     		var attcFilId = document.aform.attcFilId.value;
     		openAttachFileDialog(setAttachFileInfo, attcFilId,'mchnPolicy', '*');
+    	});
+    	
+    	/* [버튼] : 메뉴얼파일 팝업 호출 */
+    	var butMnalFil = new Rui.ui.LButton('butMnalFil');
+    	butMnalFil.on('click', function(){
+    		var mnalFilId = document.aform.mnalFilId.value;
+    		openAttachFileDialog(setMenualFileInfo, mnalFilId,'mchnPolicy', '*');
     	});
 
     	/* [버튼] : 등록 정보 저장 */
@@ -411,6 +466,24 @@ var firstLoad = "Y";	//화면오픈
            document.aform.attcFilId.value = attcFilList[i].data.attcFilId;
            }
        	};
+       	
+       	setMenualFileInfo = function(mnalFilList) {
+
+            if(mnalFilList.length > 1 ){
+         	   alert("첨부파일은 한개만 가능합니다.");
+         	   return;
+            }else{
+ 	           $('#menualFilVw').html('');
+            }
+            
+            for(var i = 0; i < mnalFilList.length; i++) {
+                $('#menualFilVw').append($('<a/>', {
+                    href: 'javascript:downloadMnalFil("' + mnalFilList[i].data.attcFilId + '", "' + mnalFilList[i].data.seq + '")',
+                    text: mnalFilList[i].data.filNm
+                })).append('<br/>');
+            document.aform.mnalFilId.value = mnalFilList[i].data.attcFilId;
+            }
+        	};
 
        //첨부파일 다운로드
        downloadAttcFil = function(attId, seq){
@@ -425,6 +498,19 @@ var firstLoad = "Y";	//화면오픈
 
        }
 
+       //첨부파일 다운로드
+       downloadMnalFil = function(attId, seq){
+	       var param = "?attcFilId=" + attId + "&seq=" + seq;
+	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
+	       	document.aform.submit();
+    	    /*var param = "?attcFilId="+ attId+"&seq="+seq;
+			Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
+			Rui.get('imgDialTitle').html('기기이미지');
+			imageDialog.clearInvalid();
+			imageDialog.show(true);*/
+
+       }       
+       
        /* [ 이미지 Dialog] */
     	var imageDialog = new Rui.ui.LDialog({
             applyTo: 'imageDialog',
@@ -555,6 +641,7 @@ var firstLoad = "Y";	//화면오픈
 
 				<input type="hidden" id="mchnSmry" name="mchnSmry" />
 				<input type="hidden" id="attcFilId" name="attcFilId" />
+				<input type="hidden" id="mnaulFilId" name="mnalFilId" />
 				<input type="hidden" id="mchnCrgrId" name="mchnCrgrId" />
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" value="<c:out value='${inputData.mchnInfoId}'/>">
 				<input type="hidden" id="evCtgrVal" name="evCtgrVal" />
@@ -631,9 +718,9 @@ var firstLoad = "Y";	//화면오픈
 						</tr>
 						<tr>
 							<th align="right">첨부메뉴얼</th>
-							<td id="atthcFilVw" colspan="2"></td>
+							<td id="menualFilVw" colspan="2"></td>
 							<td>
-								<button type="button" id="butAttcFil">첨부파일등록</button> <b>(280*200)</b>
+								<button type="button" id="butMnalFil">메뉴얼등록</button>
 							</td>
 						</tr>
 						<tr>

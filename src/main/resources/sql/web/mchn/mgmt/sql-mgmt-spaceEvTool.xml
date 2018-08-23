@@ -47,14 +47,19 @@
 				,MCHN_EXPL         as "mchnExpl"
 				,MCHN_SMRY         as "mchnSmry"
 				,F.ATTC_FIL_ID     as "attcFilId"
+				,G.ATTC_FIL_ID     as "mnalFilId"
 				,F.SEQ             as "seq"
+				,G.SEQ             as "mnalSeq"
 				,MCHN_INFO_ID      as "mchnInfoId"
 		FROM    IRIS_SPACE_MCHN_INFO_MGMT SPCE
 		        INNER JOIN IRIS_SSO_USER SSO
 				ON SSO.SA_SABUN_NEW = SPCE.MCHN_CRGR_ID		        
 				LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
 				ON F.ATTC_FIL_ID = SPCE.ATTC_FIL_ID
+				LEFT OUTER JOIN IRIS_COM_ATTC_FIL G
+				ON G.ATTC_FIL_ID = SPCE.MNAL_FIL_ID
 				AND F.DEL_YN ='N'
+				AND G.DEL_YN ='N'
 		WHERE   MCHN_INFO_ID =  #{mchnInfoId};
 		]]>
 	</select>
@@ -77,6 +82,7 @@ UPDATE 	 SET
 				,MCHN_EXPL        = #{mchnExpl}
 				,MCHN_SMRY        = #{mchnSmry}
 				,ATTC_FIL_ID      = #{attcFilId}
+				,MNAL_FIL_ID      = #{mnalFilId}
 				,LAST_MDFY_ID     = #{_userId}
 				,LAST_MDFY_DT     = GETDATE()
 WHEN not matched THEN
@@ -91,6 +97,7 @@ INSERT  (
 		,MCHN_EXPL
 		,MCHN_SMRY
 		,ATTC_FIL_ID
+		,MNAL_FIL_ID
 		,FRST_RGST_DT
 		,FRST_RGST_ID
 		,LAST_MDFY_DT
@@ -108,6 +115,7 @@ INSERT  (
 			,#{mchnExpl}
 			,#{mchnSmry}
 			,#{attcFilId}
+			,#{mnalFilId}
 			,GETDATE()
 			,#{_userId}
 			,GETDATE()
