@@ -13,18 +13,13 @@
 				SPACE_NAME										AS 'spaceNm',
 				RGST_ID											AS 'rgstId',
 				(select sa_name from iris_sso_user where sa_user = RGST_ID)					AS 'rgstNm',
-				(select sa_name from iris_sso_user where sa_user = SPACE_CHRG_ID)						AS 'spaceChrgNm',
 				RQPR_DT											AS 'rqprDt',
 				ACPC_DT											AS 'acpcDt',
 				CMPL_PARR_DT									AS 'cmplParrDt',
 				CMPL_DT											AS 'cmplDt',
-				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'SPACE_UGY_YN' and COM_DTL_CD = SPACE_UGY_YN) 	AS 'spaceUgyYnNm',
-				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ACPC_ST_CD' and COM_DTL_CD = ACPC_ST_CD) 	AS 'acpcStNm',
-				(select isnull(sum(smpo_qty), 0)
-				 from	IRIS_SPACE_RQPR_SMPO
-				 where	rqpr_id = mst.rqpr_id
-				 and	del_yn = 'N'
-				)												AS 'smpoCnt'
+				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ANL_UGY_YN' and COM_DTL_CD = SPACE_UGY_YN) 	AS 'spaceUgyYnNm',
+
+				dbo.fn_getSpaceRqprCrgrNames(RQPR_ID) AS 'spaceChrgNm'
 			FROM	IRIS_SPACE_RQPR_MST mst
 		 ]]>
 			WHERE	1 = 1
@@ -111,7 +106,7 @@
 				SPACE_SCN_CD											AS spaceScnCd,
 				dbo.fn_getComDtlNm('SPACE_SCN_CD', SPACE_SCN_CD)		AS spaceScnNm,
 				SPACE_UGY_YN											AS spaceUgyYn,
-				dbo.fn_getComDtlNm('SPACE_UGY_YN', SPACE_UGY_YN)		AS spaceUgyYnNm,
+				dbo.fn_getComDtlNm('ANL_UGY_YN', SPACE_UGY_YN)		AS spaceUgyYnNm,
 				INFM_TYPE_CD										AS infmTypeCd,
 				dbo.fn_getComDtlNm('INFM_TYPE_CD', INFM_TYPE_CD)	AS infmTypeNm,
 				SPACE_CHRG_ID											AS spaceChrgId,

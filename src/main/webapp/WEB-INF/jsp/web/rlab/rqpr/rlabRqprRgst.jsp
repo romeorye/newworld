@@ -590,6 +590,7 @@
     	    };
     	 	// 관련분석 조회 팝업 끝
 
+    	 	// 관련분석 세팅 //
     	    setRlabRqprRltd = function(rlabRqpr) {
 				if(rlabRqprRltdDataSet.findRow('preRqprId', rlabRqpr.rqprId) > -1) {
 					alert('이미 존재합니다.');

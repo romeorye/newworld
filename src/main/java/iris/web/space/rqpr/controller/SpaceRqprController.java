@@ -172,7 +172,7 @@ public class SpaceRqprController extends IrisBaseController {
 		checkSession(input, session, model);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - spaceChrgDialog [평가담당자 리스트 화면 이동]");
+		LOGGER.debug("SpaceRqprController - spaceChrgDialog [평가방법/담당자 리스트 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 

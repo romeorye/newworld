@@ -6,15 +6,15 @@ import java.util.Map;
 
 
 /*********************************************************************************
- * NAME : SpaceRqprService.java 
+ * NAME : SpaceRqprService.java
  * DESC : 분석의뢰관리 - 분석의뢰관리 Service
- * PROJ : IRIS UPGRADE 1차 프로젝트
+ * PROJ : IRIS UPGRADE 2차 프로젝트
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- * 2017.08.25  오명철	최초생성                 
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ * 2017.08.21  정현웅	최초생성
  *********************************************************************************/
 
 public interface SpaceRqprService {
@@ -33,7 +33,7 @@ public interface SpaceRqprService {
 
 	/* 분석의뢰 관련분석 리스트 조회 */
 	public List<Map<String, Object>> getSpaceRqprRltdList(Map<String, Object> input);
-	
+
 	/* 분석의뢰 등록 */
 	public boolean insertSpaceRqpr(Map<String,Object> dataMap) throws Exception;
 
@@ -48,13 +48,13 @@ public interface SpaceRqprService {
 
 	/* 분석의뢰 의견 리스트 조회 */
 	public List<Map<String, Object>> getSpaceRqprOpinitionList(Map<String, Object> input);
-	
+
 	/* 분석의뢰 의견 저장 */
 	public boolean saveSpaceRqprOpinition(Map<String, Object> input) throws Exception;
-	
+
 	/* 분석의뢰 의견 삭제 */
 	public boolean deleteSpaceRqprOpinition(Map<String, Object> input) throws Exception;
-	
+
 	/* 분석의뢰 저장 */
 	public boolean saveSpaceRqpr(Map<String,Object> dataMap) throws Exception;
 
@@ -75,25 +75,25 @@ public interface SpaceRqprService {
 
 	/* 분석결과 실험정보 조회 */
 	public Map<String, Object> getSpaceRqprExprInfo(Map<String, Object> input);
-	
+
 	/* 분석결과 실험정보 저장 */
 	public boolean saveSpaceRqprExpr(Map<String, Object> dataMap) throws Exception;
-	
+
 	/* 분석결과 실험정보 삭제 */
 	public boolean deleteSpaceRqprExpr(List<Map<String, Object>> list) throws Exception;
-	
+
 	/* 분석결과 저장 */
 	public boolean saveSpaceRqprRslt(Map<String, Object> dataMap) throws Exception;
-	
+
 	/* 공간평가시험 마스터 정보 저장 */
 	public boolean saveSpaceExatMst(List<Map<String,Object>> list) throws Exception;
 
 	/* 실험 상세 정보 리스트 조회 */
 	public List<Map<String, Object>> getSpaceExatDtlList(Map<String, Object> input);
-	
+
 	/* 공간평가시험 상세 정보 등록 */
 	public boolean saveSpaceExatDtl(List<Map<String,Object>> list) throws Exception;
-	
+
 	/* 공간평가시험 상세 정보 삭제 */
 	public boolean deleteSpaceExatDtl(List<Map<String,Object>> list) throws Exception;
 
@@ -105,7 +105,7 @@ public interface SpaceRqprService {
 
 	/* 통보자 추가 저장*/
 	public void insertSpaceRqprInfm(Map<String, Object> dataMap);
-	
+
 	/* 공간평가시험 장비 팝업 목록조회 */
 	List<Map<String, Object>> retrieveMachineList(HashMap<String, Object> input);
 }

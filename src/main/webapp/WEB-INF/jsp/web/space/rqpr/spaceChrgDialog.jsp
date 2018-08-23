@@ -3,14 +3,14 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlChrgDialog.jsp
- * @desc    : 분석담당자 선택 팝업
+ * $Id		: spaceChrgDialog.jsp
+ * @desc    : 평가방법 선택 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2017.08.25  오명철		최초생성
+ * 1.0  2018.08.23  정현웅		최초생성
  * ---	-----------	----------	-----------------------------------------
- * IRIS UPGRADE 1차 프로젝트
+ * IRIS UPGRADE 2차 프로젝트
  *************************************************************************
  */
 --%>
@@ -30,169 +30,114 @@
 </style>
 
 	<script type="text/javascript">
-
-		setAnlChrgInfo = function(id, name) {
-			var anlChrgInfo = {
+		setSpaceChrgInfo = function(spaceEvCtgr, spaceEvPrvs, id, name) {
+			var spaceChrgInfo = {
+					spaceEvCtgr : spaceEvCtgr,
+					spaceEvPrvs : spaceEvPrvs,
 					id : id,
-					name : name
+					name : name,
 			};
 
-			parent._callback(anlChrgInfo);
-
-			parent.anlChrgListDialog.submit(true);
+			parent._callback(spaceChrgInfo);
+			parent.spaceChrgListDialog.submit(true);
 		};
 
 	</script>
     </head>
     <body>
-	* 기타 사업조직 분석의뢰 시, 분석 PJT PL과 상담해주시기 바랍니다.
+	<!-- * 기타 사업조직 분석의뢰 시, 분석 PJT PL과 상담해주시기 바랍니다. -->
 	<table class="table">
 		<colgroup>
 			<col style="width:25%;"/>
-			<col style="width:35%;"/>
-			<col style="width:40%;"/>
+			<col style="width:25%;"/>
+			<col style="width:25%;"/>
+			<col style="width:25%;"/>
 		</colgroup>
 		<tbody>
 			<tr>
-				<th align="center">사업부</th>
-				<th align="center">분석분야</th>
 				<th align="center">담당자</th>
+				<th align="center">Simulation</th>
+				<th align="center">Mock-up</th>
+				<th align="center">Certification</th>
 			</tr>
 			<tr>
-				<th align="center" rowspan="3">중앙연구소</th>
-				<td align="center">형상분석</td>
+				<th align="center">에너지</th>
 				<td align="center">
-<!-- 					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>, -->
-					<a href="#" onClick="setAnlChrgInfo('soonbo', '이순보')">이순보</a>
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a> -->
+					<!--
+					setSpaceChrgInfo( 평가카테고리 , 평가항목 , 담당자아이디 , 담당자명 )
+					평가카테고리 : 01:Simulation, 02:Mock-up, 03:Certification
+					평가항목     : 01:에너지, 02:열, 03:빛, 04:공기질
+					-->
+					<a href="#" onClick="setSpaceChrgInfo('01','01','jollypeas', '송수빈')">송수빈</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('01','01','rumor',     '이진욱')">이진욱</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('01','01','yujilee',   '이유지')">이유지</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('01','01','nhahn',     '안남혁')">안남혁</a>
+				</td>
+				<td align="center">
+					<a href="#" onClick="setSpaceChrgInfo('02','01','hyokeun',    '황효근')">황효근</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','01','yujilee',   '이유지')">이유지</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','01','jollypeas', '송수빈')">송수빈</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','01','rumor',     '이진욱')">이진욱</a>
+				</td>
+				<td align="center">
+					<a href="#" onClick="setSpaceChrgInfo('03','01','shoonpark', '박상훈')">박상훈</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('03','01','nhahn',     '안남혁')">안남혁</a>
 				</td>
 			</tr>
 			<tr>
-				<td align="center">유기분석</td>
+				<th align="center">열</th>
 				<td align="center">
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>, -->
-					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a> -->
+					<a href="#" onClick="setSpaceChrgInfo('01','02','jollypeas', '송수빈')">송수빈</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('01','02','rumor',     '이진욱')">이진욱</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('01','02','yujilee',   '이유지')">이유지</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('01','02','nhahn',     '안남혁')">안남혁</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('01','02','giantsteps','김준혁')">김준혁</a>
+				</td>
+				<td align="center">
+					<a href="#" onClick="setSpaceChrgInfo('02','02','hyokeun',   '황효근')">황효근</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','02','yujilee',   '이유지')">이유지</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','02','jollypeas', '송수빈')">송수빈</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','02','rumor',     '이진욱')">이진욱</a>
+				</td>
+				<td align="center">
+					<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁</a>
 				</td>
 			</tr>
 			<tr>
-				<td align="center">유해물질분석</td>
+				<th align="center">빛</th>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					<a href="#" onClick="setSpaceChrgInfo('01','03','rumor',     '이진욱')">이진욱</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('01','03','giantsteps','김준혁')">김준혁</a>
+				</td>
+				<td align="center">
+					<a href="#" onClick="setSpaceChrgInfo('02','03','shoonpark', '박상훈')">박상훈</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','03','nhahn',     '안남혁')">안남혁</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','03','jollypeas', '송수빈')">송수빈</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','03','rumor',     '이진욱')">이진욱</a>
+				</td>
+				<td align="center">
+					<a href="#" onClick="setSpaceChrgInfo('03','03','shoonpark', '박상훈')">박상훈</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('03','03','nhahn',     '안남혁')">안남혁</a>
 				</td>
 			</tr>
 			<tr>
-				<th align="center" rowspan="3">자동차소재부품</th>
-				<td align="center">형상분석</td>
+				<th align="center">공기질</th>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>
+					<a href="#" onClick="setSpaceChrgInfo('01','04','hyokeun',   '황효근')">황효근</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('01','04','nhahn',     '안남혁')">안남혁</a>
+				</td>
+				<td align="center">
+					<a href="#" onClick="setSpaceChrgInfo('02','04','giantsteps','김준혁')">김준혁</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','04','nhahn',     '안남혁')">안남혁</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','04','jollypeas', '송수빈')">송수빈</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('02','04','rumor',     '이진욱')">이진욱</a>
+				</td>
+				<td align="center">
+					<a href="#" onClick="setSpaceChrgInfo('03','04','shoonpark', '박상훈')">박상훈</a></br>
+					<a href="#" onClick="setSpaceChrgInfo('03','04','nhahn',     '안남혁')">안남혁</a>
 				</td>
 			</tr>
-			<tr>
-				<td align="center">유기분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유해물질분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-				</td>
-			</tr>
-			<tr>
-				<th align="center" rowspan="3">창호</th>
-				<td align="center">형상분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('jihachoi', '최지하')">최지하</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유기분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유해물질분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-				</td>
-			</tr>
-			<tr>
-				<th align="center" rowspan="3">장식재</th>
-				<td align="center">형상분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유기분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
-<!-- 					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a> -->
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유해물질분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-				</td>
-			</tr>
-			<tr>
-				<th align="center" rowspan="3">표면소재</th>
-				<td align="center">형상분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a>,
-					<a href="#" onClick="setAnlChrgInfo('jihachoi', '최지하')">최지하</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유기분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유해물질분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-				</td>
-			</tr>
-<!-- 			<tr> -->
-<!-- 				<th align="center" rowspan="3">고기능소재</th> -->
-<!-- 				<td align="center">형상/무기분석</td> -->
-<!-- 				<td align="center"> -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('soonbo', '이순보')">이순보</a> -->
-<!-- 				</td> -->
-<!-- 			</tr> -->
-<!-- 			<tr> -->
-<!-- 				<td align="center">유기분석</td> -->
-<!-- 				<td align="center"> -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a> -->
-<!-- 				</td> -->
-<!-- 			</tr> -->
-<!-- 			<tr> -->
-<!-- 				<td align="center">유해물질분석</td> -->
-<!-- 				<td align="center"> -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a> -->
-<!-- 				</td> -->
-<!-- 			</tr> -->
 		</tbody>
 	</table>
 	</body>
