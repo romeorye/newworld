@@ -104,22 +104,21 @@
                 emptyValue: '',
                 width: 80,
                 items: [
-                    { value: '1', text: '신뢰성시험수'},
-                    { value: '2', text: '시험일수'}
+                    { value: '1', text: '일'}
                 ]
             });
             
-            var vm1 = new Rui.validate.LValidatorManager({
+/*              var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'smpoQty',			validExp: '신뢰성시험수:true:number' }
                 ]
-            });
+            }); 
             
             var vm2 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'exatTim',			validExp: '시험일수:true:number' }
                 ]
-            });
+            }); */
             
             var rlabExatMstTreeDataSet = new Rui.data.LJsonDataSet({
                 id: 'rlabExatMstTreeDataSet',
@@ -189,17 +188,6 @@
             	var row = rlabRqprExatDataSet.getRow();
             	var record = rlabRqprExatDataSet.getAt(row);
             	
-            	if(record.get('expCrtnScnCd') == '1') {
-            		var smpoQty = record.get('smpoQty');
-            		
-            		if(Rui.isNumber(smpoQty)) {
-            			var exatExp = record.get('utmExp') * smpoQty;
-            			
-            			record.set('exatExp', exatExp);
-            		} else {
-            			record.set('exatExp', null);
-            		}
-            	} else {
             		var exatTim = record.get('exatTim') / record.get('utmExatTim');
             		
             		if(exatTim > 0) {
@@ -209,7 +197,6 @@
             		} else {
             			record.set('exatExp', null);
             		}
-            	}
             };
 			
             var rlabRqprExatDataSet = new Rui.data.LJsonDataSet({
@@ -223,7 +210,6 @@
                     , { id: 'utmSmpoQty', type: 'number' }
                     , { id: 'utmExatTim', type: 'number' }
                     , { id: 'utmExp', type: 'number' }
-					, { id: 'smpoQty', type: 'number' }
 					, { id: 'exatTim', type: 'number' }
 					, { id: 'exatExp', type: 'number' }
                 ]
@@ -233,18 +219,14 @@
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , { field: 'exatNm',		label: '시험명',		sortable: false,	editable: false,	editor: null,			align:'left',	width: 290 }
-                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: false, 	editor: expCrtnScnCd,	align:'center',	width: 60 }
-                    , { field: 'smpoQty',		label: '시험수',		sortable: false,	editable: false,		editor: numberBox,		align:'center',	width: 50,
+                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: false, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
+                    
+                    , { field: 'exatTim',		label: '단위시험일수',		sortable: false,	editable: true,		editor: numberBox,		align:'center',	width: 100,
                     	renderer: function(value, p, record, row, col) {
-                            p.editable = record.get('expCrtnScnCd') == '1' ? true : false;
+                            p.editable = record.get('expCrtnScnCd') == '2' ? true : true;
                             return value;
                     } }
-                    , { field: 'exatTim',		label: '시험일수',		sortable: false,	editable: true,		editor: numberBox,		align:'center',	width: 60,
-                    	renderer: function(value, p, record, row, col) {
-                            p.editable = record.get('expCrtnScnCd') == '2' ? true : false;
-                            return value;
-                    } }
-                    , { field: 'exatExp',		label: '시험수가',		sortable: false,	editable: false,	editor: null,			align:'right',	width: 90,
+                    , { field: 'exatExp',		label: '시험수가',		sortable: false,	editable: false,	editor: null,			align:'right',	width: 100,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
                     } }

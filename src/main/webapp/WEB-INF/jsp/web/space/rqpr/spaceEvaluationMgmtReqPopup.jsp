@@ -250,10 +250,10 @@
             });
 
     		var attId;
-
     		//dataset에서 첨부파일 정보가 있을경우
     		dataSet.on('load', function(e) {
     			attId = dataSet.getNameValue(0, "attcFilId");
+    			alert(attId);
                 if(!Rui.isEmpty(attId)) getAttachFileList();
             });
 

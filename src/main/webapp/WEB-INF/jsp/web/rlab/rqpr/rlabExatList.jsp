@@ -113,8 +113,7 @@
                 emptyValue: '',
                 width: 80,
                 items: [
-                    { value: '1', text: '실험수'},
-                    { value: '2', text: '시간'}
+                    { value: '1', text: '일'}
                 ]
             });
             
@@ -221,10 +220,10 @@
                     , { field: 'exatNm',		label: '시험명(대분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 100 }
                     , { field: 'exatNm',		label: '시험명(소분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 100 }
                     , { field: 'exatMtdNo',			label: '시험법 No',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 100 }
-                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: true, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
-                    , { field: 'utmSmpoQty',	label: '단위실험수량',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
+                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: false, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
+                    , { field: 'utmSmpoQty',	label: '단위시료수량',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
                     , { field: 'utmExatTim',	label: '시험일수',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
-                    , { field: 'utmExp',		label: '실험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 80,
+                    , { field: 'utmExp',		label: '시험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 80,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
                     } }
@@ -256,24 +255,25 @@
 
             var rlabExatMstColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  { field: 'supiExatNm',		label: '시험명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 190 }
-                    , { field: 'exatNm',			label: '시험명(소분류)',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 90 }
-                    , { field: 'exatMtdNo',	label: '시험법No',		sortable: false,	editable: true, 	editor: textBox,	align:'center',	width: 70 }
-                    , { field: 'expCrtnScnCd',	label: '비용구분',	sortable: false,	editable: true,	editor: expCrtnScnCd,		align:'center',	width: 70 }
-                    , { field: 'utmSmpoQty',	label: '단위실험수량',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
-                    , { field: 'utmExatTim',	label: '시험일수',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
-                    , { field: 'utmExp',		label: '실험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 80,
+                	  { field: 'supiExatNm',		label: '시험명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 180 }
+                    , { field: 'exatNm',			label: '시험명(소분류)',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 150 }
+                    , { field: 'exatMtdNo',	label: '시험법No',		sortable: false,	editable: true, 	editor: textBox,	align:'center',	width: 60 }
+                    , { field: 'expCrtnScnCd',	label: '비용구분',	sortable: false,	editable: false,	editor: expCrtnScnCd,		align:'center',	width: 60 }
+                    , { field: 'utmSmpoQty',	label: '단위시료수량',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 75 }
+                    , { field: 'utmExatTim',	label: '시험일수',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 75 }
+                    , { field: 'utmExp',		label: '시험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 75,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
                     } }
-                    , { field: 'delYn',			label: '삭제여부',		sortable: false,	editable: true,		editor: useYn,			align:'center',	width: 70 }
-                    , { field: 'exatCdL',		label: '시험장비',		sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 63,
+                    , { field: 'delYn',			label: '삭제여부',		sortable: false,	editable: true,		editor: useYn,			align:'center',	width: 65}
+                    , { field: 'exatCdL',		label: '시험장비',		sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 70,
                     	renderer: function(val, p, record, row, i) {
                     		return (val == 2 && Rui.isEmpty(record.get('exatCd')) == false) ? '<button type="button" class="L-grid-button" onClick="getRlabExatDtlList(' + record.get('exatCd') + ')">관리</button>' : '';
                     } }
                 ]
             });
-
+            
+           
             var rlabExatMstGrid = new Rui.ui.grid.LGridPanel({
                 columnModel: rlabExatMstColumnModel,
                 dataSet: rlabExatMstGridDataSetView,
@@ -309,7 +309,7 @@
                     , { field: 'mkrNm',			label: '제조사',		sortable: false,	align:'center',	width: 150 }
                     , { field: 'mchnClNm',		label: '분류',		sortable: false,	align:'center',	width: 150 }
                     , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 100 }
-                    , { field: 'mchnExpl',	label: '비고',		sortable: false,	align:'center',	width: 168 }
+                    , { field: 'mchnExpl',	label: '비고',		sortable: false,	align:'center',	width: 368 }
                 ]
             });
 
@@ -340,6 +340,8 @@
                         return false;
                 });
             };
+            
+            
             
             getRlabExatMstList = function() {
                 rlabExatMstTreeDataSet.load({
@@ -491,7 +493,7 @@
             
             addRlabExatDtl = function() {
             	if(selectExatCd == -1) {
-            		alert('먼저 신뢰성정보의 분석기기 관리 버튼을 눌러주세요.');
+            		alert('먼저 신뢰성 시험정보 관리의 시험장비관리 버튼을 눌러주세요.');
             	} else {
             		openMchnSearchDialog(setMchnInfo);
             	}
@@ -499,7 +501,7 @@
                       
             saveRlabExatDtl = function() {
             	if(selectExatCd == -1) {
-            		alert('먼저 신뢰성정보의 분석기기 관리 버튼을 눌러주세요.');
+            		alert('먼저 신뢰성 시험정보 관리의 시험장비관리 버튼을 눌러주세요.');
             	} else if(rlabExatDtlDataSet.getModifiedRecords().length == 0) {
             		alert('먼저 신규 기기를 추가해주세요.');
             	} else {
@@ -514,7 +516,7 @@
             
             deleteRlabExatDtl = function() {
             	if(selectExatCd == -1) {
-            		alert('먼저 신뢰성정보의 분석기기 관리 버튼을 눌러주세요.');
+            		alert('먼저 신뢰성 시험정보 관리의 시험장비관리 버튼을 눌러주세요.');
             	} else if(rlabExatDtlDataSet.getMarkedCount() == 0) {
                 	alert('삭제 대상을 선택해주세요.');
                 } else {
@@ -555,10 +557,11 @@
    					</div>
    				</div>
    				
-			    <div id="bd">
+			    <div id="bd" style="height: 310px">
 			        <div class="LblockMarkupCode">
 			            <div id="contentWrapper">
-			                <div id="rlabExatMstTreeView"></div>
+			            	<div class="L-overlay L-panel L-panel-container L-gen67 L-grid-panel"></div>
+			                	<div id="rlabExatMstTreeView"></div>
 			            </div>
 			            <div id="fieldWrapper">
 			                <div id="rlabExatMstTreeGrid"></div>
@@ -568,7 +571,7 @@
 			    </div>
    				
    				<div class="titArea">
-   					<span class="Ltotal">신뢰성 시험/평가 장비</span>
+   					<span class="Ltotal">신뢰성 시험장비 관리</span>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="addRlabExatDtlBtn" name="addRlabExatDtlBtn" onclick="addRlabExatDtl()">신규</button>
    						<button type="button" class="btn"  id="saveRlabExatMstBtn" name="saveRlabExatMstBtn" onclick="saveRlabExatDtl()">저장</button>
