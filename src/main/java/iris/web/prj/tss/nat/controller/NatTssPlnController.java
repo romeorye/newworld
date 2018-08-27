@@ -188,6 +188,10 @@ public class NatTssPlnController  extends IrisBaseController {
                 smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap(input,smryDs); //에디터데이터 디코딩처리
 
                 smryDecodeDs = StringUtil.toUtf8Input(smryDecodeDs);
+                
+                mstDs.put("tssStrtDd", smryDs.get("ttlCrroStrtDt"));
+                mstDs.put("tssFnhDd", smryDs.get("ttlCrroFnhDt"));
+                
                 natTssService.insertNatTssPlnMst(mstDs, smryDecodeDs, smryDsListLst, upWbsCd);
 
                 mstDs.put("rtCd", "SUCCESS");
@@ -251,6 +255,10 @@ public class NatTssPlnController  extends IrisBaseController {
                 smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap(input,smryDs); //에디터데이터 디코딩처리
 
                 smryDecodeDs = StringUtil.toUtf8Input(smryDecodeDs);
+                
+                mstDs.put("tssStrtDd", smryDs.get("ttlCrroStrtDt"));
+                mstDs.put("tssFnhDd", smryDs.get("ttlCrroFnhDt"));
+                
                 natTssService.updateNatTssPlnMst(mstDs, smryDecodeDs, smryDsListLst, upWbsCd);
 
                 mstDs.put("rtCd", "SUCCESS");
