@@ -106,8 +106,8 @@
     <update id="updateGenTssDcacMst">
     <![CDATA[
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
-           SET DCAC_B_STRT_DD = #{cmplBStrtDd} 
-             , DCAC_B_FNH_DD  = #{cmplBFnhDd}
+           SET DCAC_B_STRT_DD = #{dcacBStrtDd} 
+             , DCAC_B_FNH_DD  = #{dcacBFnhDd}
              , LAST_MDFY_DT   = GETDATE()
              , LAST_MDFY_ID   = #{userId}
          WHERE TSS_CD = #{tssCd}
