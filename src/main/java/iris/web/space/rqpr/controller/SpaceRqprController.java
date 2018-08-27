@@ -253,9 +253,14 @@ public class SpaceRqprController extends IrisBaseController {
 
 		try {
 			dataMap.put("input", input);
-			dataMap.put("spaceRqprDataSet", RuiConverter.convertToDataSet(request, "spaceRqprDataSet").get(0));
+			/*dataMap.put("spaceRqprDataSet", RuiConverter.convertToDataSet(request, "spaceRqprDataSet").get(0));
 			dataMap.put("spaceRqprSmpoDataSet", RuiConverter.convertToDataSet(request, "spaceRqprSmpoDataSet"));
-			dataMap.put("spaceRqprRltdDataSet", RuiConverter.convertToDataSet(request, "spaceRqprRltdDataSet"));
+			dataMap.put("spaceRqprRltdDataSet", RuiConverter.convertToDataSet(request, "spaceRqprRltdDataSet"));*/
+
+			dataMap.put("spaceRqprDataSet", RuiConverter.convertToDataSet(request, "spaceRqprDataSet").get(0));        //메인
+			dataMap.put("spaceRqprWayCrgrDataSet", RuiConverter.convertToDataSet(request, "spaceRqprWayCrgrDataSet")); //평가방법/담당자
+			dataMap.put("spaceRqprProdDataSet", RuiConverter.convertToDataSet(request, "spaceRqprProdDataSet"));       //제품군
+			dataMap.put("spaceRqprRltdDataSet", RuiConverter.convertToDataSet(request, "spaceRqprRltdDataSet"));       //관련평가
 
 			spaceRqprService.insertSpaceRqpr(dataMap);
 

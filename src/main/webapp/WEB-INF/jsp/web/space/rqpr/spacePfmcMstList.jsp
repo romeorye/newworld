@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -42,7 +42,7 @@
 
     </style>
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
             /*******************
             * 변수 및 객체 선언
@@ -78,14 +78,14 @@
                  , { id: 'ctgrNm' }
                 ]
             });
-            
+
             //combo
             /*사업부 조회*/
-            
+
             spaceEvBzdvDataSet.load({
                 url: '<c:url value="/space/spaceEvBzdvList.do"/>'
             });
-            
+
             var cmbCtgr0Cd = new Rui.ui.form.LCombo({
                 applyTo: 'cmbCtgr0Cd',
                 name: 'cmbCtgr0Cd',
@@ -97,7 +97,7 @@
                 displayField: 'ctgrNm',
                 valueField: 'ctgrCd'
             });
-            
+
             cmbCtgr0Cd.on('changed', function(e) {
             	//제품군 초기화
             	spaceEvProdClDataSet.clearData();
@@ -110,13 +110,13 @@
                 });
             });
             /*사업부 조회 끝*/
-            
-            
+
+
             /*제품군 조회*/
             /* spaceEvProdClDataSet.load({
                 url: '<c:url value="/space/spaceEvProdClList.do"/>'
             }); */
-            
+
             var cmbCtgr1Cd = new Rui.ui.form.LCombo({
                 applyTo: 'cmbCtgr1Cd',
                 name: 'cmbCtgr1Cd',
@@ -128,7 +128,7 @@
                 displayField: 'ctgrNm',
                 valueField: 'ctgrCd'
             });
-            
+
             cmbCtgr1Cd.on('changed', function(e) {
             	//분류 초기화
             	spaceEvClDataSet.clearData();
@@ -138,14 +138,14 @@
                     params :{ supiCd:selectctgr1Cd }
                 });
             });
-            /*제품군 조회 끝*/           
-            
+            /*제품군 조회 끝*/
+
             /*분류 조회*/
-            
+
             /* spaceEvProdClDataSet.load({
                 url: '<c:url value="/space/spaceEvProdClList.do"/>'
             }); */
-            
+
             var cmbCtgr2Cd = new Rui.ui.form.LCombo({
                 applyTo: 'cmbCtgr2Cd',
                 name: 'cmbCtgr2Cd',
@@ -158,7 +158,7 @@
                 valueField: 'ctgrCd'
             });
             /*제품군 조회 끝*/
-            
+
             //제품명
 	        var txtCtgr3Nm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	            applyTo: 'txtCtgr3Nm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -170,14 +170,14 @@
 	        txtCtgr3Nm.on('blur', function(e) {
 	        	txtCtgr3Nm.setValue(txtCtgr3Nm.getValue().trim());
             });
-            
+
             /* var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'exprNm',			validExp: '실험명:true:maxByteLength=100' },
                 { id: 'dspNo',			validExp: '순서:true:number' }
                 ]
             });
-            
+
             var vm2 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'exprNm',			validExp: '실험명:true:maxByteLength=100' },
@@ -215,7 +215,7 @@
                 	, { field: 'ctgr3Nm',		label: '제품',		sortable: false,	editable: false,		align:'left',	width: 200 }
                 ]
             });
-            
+
             var spaceEvProdGrid = new Rui.ui.grid.LGridPanel({
                 columnModel: spaceEvProdColumnModel,
                 dataSet: spaceEvProdListDataSet,
@@ -224,14 +224,14 @@
                 autoToEdit: true,
                 autoWidth: true
             });
-            
+
             spaceEvProdGrid.render('spaceEvProdGrid');
-            
+
             /* 제품클릭 성적서 조회 */
             spaceEvProdGrid.on('cellClick', function(e) {
             	//성적서정보 초기화
             	spaceEvMtrlListDataSet.clearData();
-            	
+
             	var record0 = spaceEvProdListDataSet.getAt(spaceEvProdListDataSet.rowPosition);
             	var supiCd0 = record0.data.ctgr0Cd;
             	var supiCd1 = record0.data.ctgr1Cd;
@@ -246,7 +246,7 @@
                     	    }
                 });
             });
-            
+
             /* 자재단위평가 데이터셋 */
             var spaceEvMtrlListDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceEvMtrlListDataSet',
@@ -268,7 +268,7 @@
 					, { id: 'rem' }
                 ]
             });
-            
+
           	//자재단위평가 그리드 컬럼 설정
             var spaceEvMtrlListModel = new Rui.ui.grid.LColumnModel({
                 columns: [
@@ -287,7 +287,7 @@
                     , { field: 'rem',			label: '비고',		sortable: false,	editable: false, 	align:'center',	width: 150 }
                 ]
             });
-          	
+
           	//자재단위평가 그리드 패널 설정
             var spaceEvMtrlListGrid = new Rui.ui.grid.LGridPanel({
                 columnModel: spaceEvMtrlListModel,
@@ -298,7 +298,7 @@
                 autoWidth: true
             });
             spaceEvMtrlListGrid.render('spaceEvMtrlListGrid');
-            
+
 			//////////////////////////////// 통합성능평가결과서부분/////////////////////////////////
             var anlExprDtlDataSet = new Rui.data.LJsonDataSet({
                 id: 'anlExprDtlDataSet',
@@ -341,12 +341,12 @@
                 autoToEdit: false,
                 autoWidth: true
             });
-            
+
             anlExprDtlGrid.render('anlExprDtlGrid');
-            
+
             getAnlExprDtlList = function(exprCd) {
             	selectExprCd = exprCd;
-            	
+
             	anlExprDtlDataSet.load({
                     url: '<c:url value="/anl/getAnlExprDtlList.do"/>',
                     params :{
@@ -356,16 +356,16 @@
             };
             /////////////////////////////////////////////////////////////////////////////////////////
             retrieveRequestInfoDialog = new Rui.ui.LFrameDialog({
-     	        id: 'retrieveRequestInfoDialog', 
+     	        id: 'retrieveRequestInfoDialog',
      	        title: '조회 요청',
      	        width: 850,
      	        height: 330,
      	        modal: true,
      	        visible: false
      	    });
-     	    
+
      	    retrieveRequestInfoDialog.render(document.body);
-     	    
+
      	    fncRq = function(){
      	    	var record = spaceEvMtrlListDataSet.getAt(spaceEvMtrlListDataSet.rowPosition);
      	    	var rqDocNm 	= record.data.prodNm + " > 성적서,인증서(자재단위)";
@@ -375,7 +375,7 @@
      	    	var rgstId 		= '${inputData._userId}';
      	    	var rgstNm 		= '${inputData._userNm}';
      	    	var reUrl 		= spaceEvMtrlListDataSet.getNameValue(spaceEvMtrlListDataSet.rowPosition, "ottpYn");
-         	  
+
          	   var params = '?rqDocNm=' + escape(encodeURIComponent(rqDocNm))
     					   + '&rtrvRqDocCd=' + rtrvRqDocCd
     					   + '&docNo=' + docNo
@@ -388,7 +388,7 @@
      	    		Rui.alert("해당내용은 담당자 부재로 관리자에게 문의하세요");
      	    		return ;
      	    	}
-     	    	
+
 	     	    retrieveRequestInfoDialog.setUrl('<c:url value="/knld/rsst/retrieveRequestInfo.do"/>' + params);
 		    	retrieveRequestInfoDialog.show();
      	    }
@@ -397,11 +397,11 @@
                     if(spaceEvMtrlListDataSet.getNameValue(e.row, "ottpYn")!='Y'){
                     	alert(21);
                     	fncRq();
-                    	
+
                     }
                 }
             });
-            
+
             //검색
             getSpaceEvProdList = function() {
             	spaceEvProdListDataSet.load({
@@ -414,16 +414,16 @@
                     }
                 });
             };
-            
+
             getSpaceEvProdList();
-			
+
         });
 
 	</script>
     </head>
     <body>
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
-		
+
    		<div class="contents">
 
    			<div class="sub-content">
@@ -443,9 +443,9 @@
 	   			<div class="titArea">
 		   			<span class="Ltotal"><h3>제품목록</h3></span>
    				</div>
-	   			
+
 			    <div id="spaceEvProdGrid"></div>
-   				
+
    				<div class="titArea">
    					<span class="Ltotal"><h3>통합성능평가결과서</h3></span>
    					<div style="color:red">○비밀 문서의 경우, 해당 팀장님의 결재를 받고 별도 다운로드 가능합니다.</div>
@@ -458,7 +458,7 @@
    				</div>
 
 			    <div id="spaceEvMtrlListGrid"></div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

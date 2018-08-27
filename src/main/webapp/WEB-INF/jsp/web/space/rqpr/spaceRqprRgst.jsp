@@ -92,8 +92,6 @@
                 emptyValue: '',
                 width: 980
             });
-
-
 			/*평가목적*/
             var spaceSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'spaceSbc',
@@ -102,8 +100,6 @@
                 width: 980,
                 height: 75
             });
-
-
             /* 평가구분 */
         	var spaceScnCd = new Rui.ui.form.LCombo({
                 applyTo: 'spaceScnCd',
@@ -116,8 +112,6 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-
-
             /* WBS 팝업 설정*/
             var spaceRqprWbsCd = new Rui.ui.form.LPopupTextBox({
             	applyTo: 'spaceRqprWbsCd',
@@ -130,8 +124,6 @@
             spaceRqprWbsCd.on('popup', function(e){
             	openWbsCdSearchDialog(setSpaceWbsCd);
             });
-
-
 			/* 긴급유무 */
             var spaceUgyYn = new Rui.ui.form.LCombo({
                 applyTo: 'spaceUgyYn',
@@ -144,8 +136,6 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-
-
 			/* 공개범위 */
 			var oppbScpCd = new Rui.ui.form.LCombo({
                 applyTo: 'oppbScpCd',
@@ -153,13 +143,19 @@
                 emptyText: '선택',
                 defaultValue: '',
                 emptyValue: '',
-                width: 110,
+                width: 80,
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=OPPB_SCP_CD"/>',
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-
-
+			/* 비밀사유 */
+            var scrtRson = new Rui.ui.form.LTextBox({
+            	applyTo: 'scrtRson',
+                placeholder: '',
+                defaultValue: '',
+                emptyValue: '',
+                width: 305
+            });
             /* 통보자 팝업 설정*/
             spaceRqprInfmView = new Rui.ui.form.LPopupTextBox({
                 applyTo: 'spaceRqprInfmView',
@@ -172,6 +168,84 @@
             spaceRqprInfmView.on('popup', function(e){
             	openUserSearchDialog(setSpaceRqprInfm, 10, spaceRqprDataSet.getNameValue(0, 'infmPrsnIds'), 'space');
             });
+
+            /* 평가대상명 */
+            var evSubjNm = new Rui.ui.form.LTextBox({
+            	applyTo: 'evSubjNm',
+                placeholder: '영업, Spec-in : 현장명/개발 : 표준주택모델 혹은 원하는 적용 대상 현장명',
+                defaultValue: '',
+                emptyValue: '',
+                width: 985
+            });
+            /* 제출처 코드 */
+            var sbmpCd = new Rui.ui.form.LCombo({
+                applyTo: 'sbmpCd',
+                name: 'sbmpCd',
+                emptyText: '선택',
+                defaultValue: '',
+                emptyValue: '',
+                width: 120,
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SBMP_CD"/>',
+                displayField: 'COM_DTL_NM',
+                valueField: 'COM_DTL_CD'
+            });
+            /* 제출처 명*/
+            var sbmpNm = new Rui.ui.form.LTextBox({
+            	applyTo: 'sbmpNm',
+                placeholder: '제출기관명 직접 입력',
+                defaultValue: '',
+                emptyValue: '',
+                width: 860
+            });
+            /* 정량지표 */
+            var qtasDpst = new Rui.ui.form.LTextBox({
+            	applyTo: 'qtasDpst',
+                placeholder: '영업, Spec-in 금액, 매출목표 등',
+                defaultValue: '',
+                emptyValue: '',
+                width: 400
+            });
+            /* 정성지표 */
+            var qnasDpst = new Rui.ui.form.LTextBox({
+            	applyTo: 'qnasDpst',
+                placeholder: '*** 개발 연구 등',
+                defaultValue: '',
+                emptyValue: '',
+                width: 395
+            });
+            /* 목표성능 */
+            var goalPfmc = new Rui.ui.form.LTextBox({
+            	applyTo: 'goalPfmc',
+                placeholder: '수도관 온도 및 발코니 실내 온도 0℃이상으로 동파가 발생하지 않는 상태',
+                defaultValue: '',
+                emptyValue: '',
+                width: 400
+            });
+            /* 결과지표 */
+            var rsltDpst = new Rui.ui.form.LTextBox({
+            	applyTo: 'rsltDpst',
+                placeholder: '수도관 내부 유체 온도(℃) / 발코니 실내 온도(℃)',
+                defaultValue: '',
+                emptyValue: '',
+                width: 395
+            });
+            /* 평가 cases(개수) */
+            var evCases = new Rui.ui.form.LTextBox({
+            	applyTo: 'evCases',
+                placeholder: '74A Type , 84A Type, 84B Type 3가지 Cases',
+                defaultValue: '',
+                emptyValue: '',
+                width: 400
+            });
+            /* 평가대상 상세 */
+            var evSubjDtl = new Rui.ui.form.LTextBox({
+            	applyTo: 'evSubjDtl',
+                placeholder: '신제품 유무, 특이사항',
+                defaultValue: '',
+                emptyValue: '',
+                width: 395
+            });
+
 
 
             /* 필수항목 체크 */
@@ -194,15 +268,28 @@
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
-                	  { id: 'spaceNm' }
-  					, { id: 'spaceSbc' }
-                	, { id: 'spaceScnCd' }
-					, { id: 'spaceUgyYn' }
-					, { id: 'infmPrsnIds' } //통보자 아이디
+					  { id: 'spaceName'		}
+					, { id: 'spaceScnCd'	}
+					, { id: 'spaceSbc'		}
+					, { id: 'spaceUgyYn'	}
+					, { id: 'infmPrsnIds'	}
+					, { id: 'oppbScpCd'		}
+					, { id: 'wbsCd'			}
+					, { id: 'scrtRson'		}
+					, { id: 'evSubjNm'		}
+					, { id: 'sbmpCd'		}
+					, { id: 'sbmpNm'		}
+					, { id: 'qtasDpst'		}
+					, { id: 'qnasDpst'		}
+					, { id: 'goalPfmc'		}
+					, { id: 'rsltDpst'		}
+					, { id: 'evCases'		}
+					, { id: 'evSubjDtl'		}
+					, { id: 'tCloud'		}
+                	, { id: 'infmPrsnIds'	} //통보자 아이디
 					, { id: 'spaceRqprInfmView' } //통보자 명
 					, { id: 'rqprAttcFileId', defaultValue: '' }
-					, { id: 'spaceRqprWbsCd' }
-					, { id: 'oppbScpCd' }
+
                 ]
             });
 
@@ -217,19 +304,30 @@
                 dataSet: spaceRqprDataSet,
                 bind: true,
                 bindInfo: [
-                    { id: 'spaceNm',			ctrlId:'spaceNm',			value:'value'},
-                    { id: 'spaceSbc',			ctrlId:'spaceSbc',			value:'value'},
-                    { id: 'spaceScnCd',			ctrlId:'spaceScnCd',		value:'value'},
-                    { id: 'spaceUgyYn',			ctrlId:'spaceUgyYn',		value:'value'},
-                    { id: 'infmPrsnIds',		ctrlId:'infmPrsnIds',		value:'value'},
-                    { id: 'spaceRqprInfmView',	ctrlId:'spaceRqprInfmView',	value:'value'},
-                    { id: 'spaceRqprWbsCd',		ctrlId:'spaceRqprWbsCd',	value:'value'},
-                    { id: 'oppbScpCd',			ctrlId:'oppbScpCd',			value:'value'}
+					{ id: 'spaceName',			ctrlId: 'spaceName',		value:'value'},
+                    { id: 'spaceScnCd',			ctrlId: 'spaceScnCd',		value:'value'},
+                    { id: 'spaceSbc',		 	ctrlId: 'spaceSbc',		 	value:'value'},
+                    { id: 'spaceUgyYn',			ctrlId: 'spaceUgyYn',		value:'value'},
+                    { id: 'infmPrsnIds',		ctrlId: 'infmPrsnIds',		value:'value'},
+                    { id: 'oppbScpCd',			ctrlId: 'oppbScpCd',		value:'value'},
+                    { id: 'wbsCd',				ctrlId: 'wbsCd',			value:'value'},
+                    { id: 'scrtRson',			ctrlId: 'scrtRson',			value:'value'},
+                    { id: 'evSubjNm',			ctrlId: 'evSubjNm',			value:'value'},
+                    { id: 'sbmpCd',				ctrlId: 'sbmpCd',			value:'value'},
+                    { id: 'sbmpNm',				ctrlId: 'sbmpNm',			value:'value'},
+                    { id: 'qtasDpst',			ctrlId: 'qtasDpst',			value:'value'},
+                    { id: 'qnasDpst',		 	ctrlId: 'qnasDpst',		 	value:'value'},
+                    { id: 'goalPfmc',		 	ctrlId: 'goalPfmc',		 	value:'value'},
+                    { id: 'rsltDpst',		 	ctrlId: 'rsltDpst',		 	value:'value'},
+                    { id: 'evCases',			ctrlId: 'evCases',			value:'value'},
+                    { id: 'evSubjDtl',		 	ctrlId: 'evSubjDtl',		value:'value'},
+                    { id: 'tCloud',		 		ctrlId: 'tCloud',		 	value:'value'}
                 ]
             });
             spaceRqprDataSet.newRecord();
 
 
+			/********** 평가방법 설정 **********/
 			// 평가카테고리 combo 설정
 			var evCtgrCombo = new Rui.ui.form.LCombo({
                 rendererField: 'value',
@@ -247,7 +345,6 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-
 
             //평가방법 / 담당자 데이터셋
             var spaceRqprWayCrgrDataSet = new Rui.data.LJsonDataSet({
@@ -323,6 +420,227 @@
 			// 평가 담당자 선택팝업 끝
 
 
+			/***** 제품군 선택 *****/
+			//사업부
+            var spaceEvBzdvDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceEvBzdvDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                   { id: 'ctgrCd' }
+                 , { id: 'ctgrNm' }
+                ]
+            });
+            //제품군
+            var spaceEvProdClDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceEvProdClDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                   { id: 'ctgrCd' }
+                 , { id: 'ctgrNm' }
+                ]
+            });
+            //분류
+            var spaceEvClDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceEvClDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                   { id: 'ctgrCd' }
+                 , { id: 'ctgrNm' }
+                ]
+            });
+            //제품
+            var spaceEvProdDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceEvProdDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                   { id: 'ctgrCd' }
+                 , { id: 'ctgrNm' }
+                ]
+            });
+
+            //combo
+            /*사업부 조회*/
+            spaceEvBzdvDataSet.load({
+                url: '<c:url value="/space/spaceEvBzdvList.do"/>'
+            });
+
+            var cmbCtgr0Cd = new Rui.ui.form.LCombo({
+                applyTo: 'cmbCtgr0Cd',
+                name: 'cmbCtgr0Cd',
+                emptyText: '사업부 선택',
+                defaultValue: '',
+                emptyValue: '',
+                width: 200,
+                dataSet: spaceEvBzdvDataSet,
+                displayField: 'ctgrNm',
+                valueField: 'ctgrCd'
+            });
+
+            cmbCtgr0Cd.on('changed', function(e) {
+            	//제품군 초기화
+            	spaceEvProdClDataSet.clearData();
+            	//분류 초기화
+            	spaceEvClDataSet.clearData();
+                var selectctgr0Cd = cmbCtgr0Cd.getValue();
+                spaceEvProdClDataSet.load({
+                	url: '<c:url value="/space/spaceEvProdClList.do"/>',
+                    params :{ supiCd:selectctgr0Cd }
+                });
+            });
+            /*사업부 조회 끝*/
+
+            /*제품군 조회*/
+            var cmbCtgr1Cd = new Rui.ui.form.LCombo({
+                applyTo: 'cmbCtgr1Cd',
+                name: 'cmbCtgr1Cd',
+                emptyText: '제품군 선택',
+                defaultValue: '',
+                emptyValue: '',
+                width: 200,
+                dataSet: spaceEvProdClDataSet,
+                displayField: 'ctgrNm',
+                valueField: 'ctgrCd'
+            });
+
+            cmbCtgr1Cd.on('changed', function(e) {
+            	//분류 초기화
+            	spaceEvClDataSet.clearData();
+                var selectctgr1Cd = cmbCtgr1Cd.getValue();
+                spaceEvClDataSet.load({
+                	url: '<c:url value="/space/spaceEvClList.do"/>',
+                    params :{ supiCd:selectctgr1Cd }
+                });
+            });
+            /*제품군 조회 끝*/
+
+            /*분류 조회*/
+            var cmbCtgr2Cd = new Rui.ui.form.LCombo({
+                applyTo: 'cmbCtgr2Cd',
+                name: 'cmbCtgr2Cd',
+                emptyText: '분류 선택',
+                defaultValue: '',
+                emptyValue: '',
+                width: 200,
+                dataSet: spaceEvClDataSet,
+                displayField: 'ctgrNm',
+                valueField: 'ctgrCd'
+            });
+
+            cmbCtgr2Cd.on('changed', function(e) {
+            	//분류 초기화
+            	spaceEvProdDataSet.clearData();
+                var selectctgr2Cd = cmbCtgr2Cd.getValue();
+                spaceEvProdDataSet.load({
+                	url: '<c:url value="/space/spaceEvProdList.do"/>',
+                    params :{ supiCd:selectctgr2Cd }
+                });
+            });
+            /*분류 조회 끝*/
+
+            /*제품 조회*/
+            var cmbCtgr3Cd = new Rui.ui.form.LCombo({
+                applyTo: 'cmbCtgr3Cd',
+                name: 'cmbCtgr3Cd',
+                emptyText: '제품 선택',
+                defaultValue: '',
+                emptyValue: '',
+                width: 200,
+                dataSet: spaceEvProdDataSet,
+                displayField: 'ctgrNm',
+                valueField: 'ctgrCd'
+            });
+            /*제품 조회 끝*/
+
+            //제품군 그리드 데이터셋
+            var spaceRqprProdDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprProdDataSet',
+                remainRemoved: false,
+                lazyLoad: true,
+                fields: [
+                	  { id: 'evCtgr0' }
+                	, { id: 'evCtgr1' }
+					, { id: 'evCtgr2' }
+					, { id: 'evCtgr3' }
+					, { id: 'evCtgr0Nm' }
+					, { id: 'evCtgr1Nm' }
+					, { id: 'evCtgr2Nm' }
+					, { id: 'evCtgr3Nm' }
+
+                ]
+            });
+            //제품군 그리드 설정
+            var spaceRqprProdColumnModel = new Rui.ui.grid.LColumnModel({
+                columns: [
+                	  new Rui.ui.grid.LSelectionColumn()
+                    , new Rui.ui.grid.LNumberColumn()
+                	, { field: 'evCtgr0',	label: 'evCtgr0',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
+                	, { field: 'evCtgr1',	label: 'evCtgr1',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
+                	, { field: 'evCtgr2',	label: 'evCtgr2',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
+                    , { field: 'evCtgr3',	label: 'evCtgr3',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
+
+                    , { field: 'evCtgr0Nm',	label: '<span style="color:red;">* </span>사업부',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 230}
+                	, { field: 'evCtgr1Nm',	label: '<span style="color:red;">* </span>제품군',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 235 }
+                	, { field: 'evCtgr2Nm',	label: '<span style="color:red;">* </span>분류',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 235 }
+                    , { field: 'evCtgr3Nm',	label: '<span style="color:red;">* </span>제품',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 400 }
+                ]
+            });
+            var spaceRqprProdGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceRqprProdColumnModel,
+                dataSet: spaceRqprProdDataSet,
+                width: 700,
+                height: 200,
+                autoToEdit: true,
+                autoWidth: true
+            });
+            spaceRqprProdGrid.render('spaceRqprProdGrid');
+
+			/* 제품군 추가 */
+			addSpaceRqprProd = function() {
+
+				if (cmbCtgr0Cd.getValue() == ""){
+					alert("사업부를 선택해 주세요.");
+					return;
+				}else if (cmbCtgr1Cd.getValue() == ""){
+					alert("제품군을 선택해 주세요.");
+					return;
+				}else if (cmbCtgr2Cd.getValue() == ""){
+					alert("분류를 선택해 주세요.");
+					return;
+				}else if (cmbCtgr3Cd.getValue() == ""){
+					alert("제품을 선택해 주세요.");
+					return;
+				}
+
+				//alert(cmbCtgr0Cd.getDisplayValue());
+				spaceRqprProdDataSet.newRecord();
+            	spaceRqprProdDataSet.setNameValue(spaceRqprProdDataSet.getRow(), 'evCtgr0', cmbCtgr0Cd.getValue());
+            	spaceRqprProdDataSet.setNameValue(spaceRqprProdDataSet.getRow(), 'evCtgr1', cmbCtgr1Cd.getValue());
+            	spaceRqprProdDataSet.setNameValue(spaceRqprProdDataSet.getRow(), 'evCtgr2', cmbCtgr2Cd.getValue());
+            	spaceRqprProdDataSet.setNameValue(spaceRqprProdDataSet.getRow(), 'evCtgr3', cmbCtgr3Cd.getValue());
+
+            	spaceRqprProdDataSet.setNameValue(spaceRqprProdDataSet.getRow(), 'evCtgr0Nm', cmbCtgr0Cd.getDisplayValue());
+            	spaceRqprProdDataSet.setNameValue(spaceRqprProdDataSet.getRow(), 'evCtgr1Nm', cmbCtgr1Cd.getDisplayValue());
+            	spaceRqprProdDataSet.setNameValue(spaceRqprProdDataSet.getRow(), 'evCtgr2Nm', cmbCtgr2Cd.getDisplayValue());
+            	spaceRqprProdDataSet.setNameValue(spaceRqprProdDataSet.getRow(), 'evCtgr3Nm', cmbCtgr3Cd.getDisplayValue());
+
+            };
+
+            /* 제품군 삭제 */
+            deleteSpaceRqprProd = function() {
+                if(spaceRqprProdDataSet.getMarkedCount() > 0) {
+                	spaceRqprProdDataSet.removeMarkedRows();
+                } else {
+                	alert('삭제 대상을 선택해주세요.');
+                }
+            };
+            /*****제품군 선택 끝*****/
+
+
+			/* 관련평가 */
             var spaceRqprRltdDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceRqprRltdDataSet',
                 remainRemoved: true,
@@ -492,12 +810,18 @@
 
             /* 초기화 */
             resetAForm = function() {
-            	spaceRqprDataSet.clearData();
+
+            	spaceRqprDataSet.clearData();			//메인 초기화
+            	spaceRqprWayCrgrDataSet.clearData();	//평가방법/담당자 초기화
+            	spaceRqprProdDataSet.clearData();		//제품군 초기화
+            	spaceRqprRltdDataSet.clearData();		//관련평가 초기화
+            	spaceRqprAttachDataSet.clearData();		//첨부파일 초기화
+
+            	/* spaceRqprDataSet.clearData();
             	spaceRqprWayCrgrDataSet.clearData();
             	spaceRqprRltdDataSet.clearData();
             	spaceRqprAttachDataSet.clearData();
-
-            	spaceRqprDataSet.newRecord();
+            	spaceRqprDataSet.newRecord(); */
             };
 
             /* 저장 */
@@ -522,7 +846,7 @@
 
                 if(confirm('저장 하시겠습니까?')) {
                     dm.updateDataSet({
-                        dataSets:[spaceRqprDataSet, spaceRqprWayCrgrDataSet, spaceRqprRltdDataSet],
+                        dataSets:[spaceRqprDataSet, spaceRqprWayCrgrDataSet, spaceRqprProdDataSet, spaceRqprRltdDataSet],
                         url:'<c:url value="/space/regstSpaceRqpr.do"/>',
                         modifiedOnly: false
                     });
@@ -536,6 +860,7 @@
 			//alert(wbsInfo.wbsCd);
 			spaceRqprDataSet.setNameValue(0, "spaceRqprWbsCd", wbsInfo.wbsCd);
 		}
+
 	</script>
     </head>
     <body>
@@ -607,7 +932,7 @@
    							</td>
    							<th align="right"><span style="color:red;">* </span>공개범위</th>
    							<td>
-                                <div id="oppbScpCd"></div>
+                                <div id="oppbScpCd"></div>&nbsp;<input type="text" id="scrtRson">
    							</td>
    						</tr>
    						<tr>
@@ -632,6 +957,89 @@
    				<div id="spaceRqprWayCrgrGrid"></div>
 
    				<br/>
+
+   				<div class="titArea">
+   					<h3><span style="color:red;">* </span>제품군</h3>
+   					<div class="LblockButton">
+   						<select id="cmbCtgr0Cd"></select>
+   						<select id="cmbCtgr1Cd"></select>
+   						<select id="cmbCtgr2Cd"></select>
+   						<select id="cmbCtgr3Cd"></select>
+   						<button type="button" class="btn"  id="addSpaceRqprProdBtn" name="addSpaceRqprProdBtn" onclick="addSpaceRqprProd();">추가</button>
+   						<button type="button" class="btn"  id="deleteSpaceRqprProdBtn" name="deleteSpaceRqprProdBtn" onclick="deleteSpaceRqprProd()">삭제</button>
+   					</div>
+   				</div>
+
+   				<div id="spaceRqprProdGrid"></div>
+
+				<br/>
+
+
+				<div class="titArea">
+   					<h3><span style="color:red;">* </span>평가대상 정보</h3><br/><br/>
+   					&nbsp;&nbsp;제출자료<br/>
+   					&nbsp;&nbsp;1) Simulation <br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;공간단위 : 현장 사진, 평면도, 단면도, 적용자재 Spec (자재 도면, 물성 등) 및 시험성적서<br/>
+					&nbsp;&nbsp;&nbsp;&nbsp;자재단위 : 적용자재 Spec (자재도면, 물성 등) 및 시험 성적서<br/>
+					&nbsp;&nbsp;2) Mock-up : 적용자재 Spec (자재도면, 물성 등) 및 시험 성적서<br/>
+					&nbsp;&nbsp;3) Certification : 적용자재 Spec (자재도면, 물성 등) 및 시험 성적서
+   				</div>
+
+				<table class="table table_txt_right" style="table-layout:fixed;">
+   					<colgroup>
+   						<col style="width:15%;"/>
+   						<col style="width:35%;"/>
+   						<col style="width:15%;"/>
+   						<col style="width:35%;"/>
+   					</colgroup>
+   					<tbody>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>평가대상명</th>
+   							<td colspan="3">
+   								<input type="text" id="evSubjNm">
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>제출처</th>
+   							<td colspan="3">
+   								<div id="sbmpCd"></div>&nbsp;<input type="text" id="sbmpNm">
+   							</td>
+   						</tr>
+
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>목표(정량지표)</th>
+   							<td>
+   								<input type="text" id="qtasDpst">
+   							</td>
+   							<th align="right"><span style="color:red;">* </span>목표(정성지표)</th>
+   							<td>
+                                <input type="text" id="qnasDpst">
+   							</td>
+   						</tr>
+
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>목표성능</th>
+   							<td>
+                                <input type="text" id="goalPfmc">
+   							</td>
+   							<th align="right"><span style="color:red;">* </span>결과지표</th>
+   							<td>
+                                <input type="text" id="rsltDpst">
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>평가 cases(개수)</th>
+   							<td>
+                                <input type="text" id="evCases">
+   							</td>
+   							<th align="right"><span style="color:red;">* </span>평가대상 상세</th>
+   							<td>
+                                <input type="text" id="evSubjDtl">
+   							</td>
+   						</tr>
+   					</tbody>
+   				</table>
+
 
    				<table style="width:100%;border=0;">
    					<colgroup>
