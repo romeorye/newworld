@@ -1,5 +1,7 @@
 package iris.web.prj.grs.controller;
 
+import devonframe.message.saymessage.SayMessage;
+import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.StringUtil;
 import iris.web.prj.grs.service.GrsMngService;
@@ -8,16 +10,6 @@ import iris.web.prj.tss.com.service.TssUserService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.system.base.IrisBaseController;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -27,8 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import devonframe.message.saymessage.SayMessage;
-import devonframe.util.NullUtil;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class GrsMngController extends IrisBaseController {
@@ -66,6 +63,7 @@ public class GrsMngController extends IrisBaseController {
 		LOGGER.debug("###########################################################");
 
 		input = StringUtil.toUtf8(input);
+
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
@@ -141,6 +139,8 @@ public class GrsMngController extends IrisBaseController {
 			e.printStackTrace();
 			rtnMsg = "처리중 오류가발생했습니다. 담당자에게 문의해주세요";
 		}
+
+
 
 		rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);

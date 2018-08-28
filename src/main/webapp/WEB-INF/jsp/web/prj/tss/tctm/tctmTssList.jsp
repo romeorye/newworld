@@ -1,18 +1,13 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
+<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
 /*
  *************************************************************************
- * $Id      : retrieveGenTssList.jsp
- * @desc    :
- *------------------------------------------------------------------------
- * VER  DATE        AUTHOR      DESCRIPTION
- * ---  ----------- ----------  -----------------------------------------
- * 1.0  2017.08.08
- * ---  ----------- ----------  -----------------------------------------
- * IRIS 프로젝트
+ * $Id          :  tctmTssList.jsp
+ * @desc    : 기술팀 과제 목록
  *************************************************************************
  */
 --%>
@@ -332,10 +327,10 @@
 
 
             if(e.colId == "tssNm") {
-                var pTssCd     = dataSet.getNameValue(e.row, "tssCd");     //과제코드
+                var pTssCd = dataSet.getNameValue(e.row, "tssCd");     //과제코드
                 var pPgsStepCd = dataSet.getNameValue(e.row, "pgsStepCd"); //진행상태코드
-                var pTssSt     = dataSet.getNameValue(e.row, "tssSt");     //과제상태
-                var pGrsEvSt   = stringNullChk(dataSet.getNameValue(e.row, "grsEvSt")); //GRS상태
+                var pTssSt = dataSet.getNameValue(e.row, "tssSt");     //과제상태
+                var pGrsEvSt = stringNullChk(dataSet.getNameValue(e.row, "grsEvSt")); //GRS상태
 
                 //진척률
                 var progressrateReal = dataSet.getNameValue(e.row, "progressrateReal");
@@ -354,7 +349,7 @@
 
                 //계획
                 if(pPgsStepCd == "PL") {
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssPlnDetail.do?tssCd="+pTssCd+"'/>");
+                    nwinsActSubmit(document.aform, "<%=request.getContextPath()+ TctmUrl.doView%>?tssCd="+pTssCd);
                 }
                 //진행
                 else if(pPgsStepCd == "PG") {
@@ -415,7 +410,7 @@
         fnSearch = function() {
 
         	dataSet.load({
-                url: '<c:url value="/prj/tss/gen/retrieveGenTssList.do"/>'
+                url: '<%=request.getContextPath()+TctmUrl.doSelectList%>'
               , params : {
                     wbsCd : document.aform.wbsCd.value                        //과제번호
                   , tssNm : encodeURIComponent(document.aform.tssNm.value)    //과제명
@@ -434,7 +429,7 @@
         /* [버튼] 과제등록 */
         var butTssNew = new Rui.ui.LButton('butTssNew');
         butTssNew.on('click', function() {
-            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/tctm/tctmTssPlnDetail.do'/>");
+            nwinsActSubmit(document.aform, "<%=request.getContextPath() + TctmUrl.doView%>");
         });
 
 
@@ -443,10 +438,10 @@
         butExcel.on('click', function() {
 
             if(dataSet.getCount() > 0) {
-               /*  var excelColumnModel = columnModel.createExcelColumnModel(false);
+                 var excelColumnModel = columnModel.createExcelColumnModel(false);
                 grid.saveExcel(encodeURIComponent('과제관리_기술팀과제_') + new Date().format('%Y%m%d') + '.xls', {
                     columnModel: excelColumnModel
-                }); */
+                });
 
             	var excelColumnModel = new Rui.ui.grid.LColumnModel({
                     gridView: columnModel,
@@ -630,7 +625,7 @@ function setDeptInfo(deptInfo) {
             <div class="titArea">
                 <span class="Ltotal" id="cnt_text">총 : 0 </span>
                 <div class="LblockButton">
-                    <button type="button" id="butTssNew" name="itemCreate" class="redBtn">과제등록</button>
+                    <button type="button" id="butTssNew" name="itemCreate" class="redBtn">등록</button>
                     <button type="button" id="butExcel" name="butExcel">EXCEL다운로드</button>
                 </div>
             </div>
