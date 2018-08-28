@@ -96,7 +96,7 @@
 {name:"보유 장비", mdName:"/iris/mchn/open/rlabMchn/retrieveMachineList.do", depth:"2",confirm:""}, //tool
 
 {name:"공간성능평가 Tool", mdName:"", depth:"1",confirm:""},
-{name:"보유 TOOL", mdName:"", depth:"2",confirm:"1"}, //tool
+{name:"보유 TOOL", mdName:"/iris/mchn/open/spaceMchn/retrieveMachineList.do", depth:"2",confirm:"1"}, //tool
 
 
 //			{name:"기기예약", mdName:"", depth:"1",confirm:""},
