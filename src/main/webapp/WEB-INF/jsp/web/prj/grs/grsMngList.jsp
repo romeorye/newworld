@@ -186,7 +186,7 @@
              ]
         });
 
-        /* 상세 bind */
+    /* 상세 bind */
         var etcTssBind = new Rui.data.LBind({
             groupId: 'defTssForm',
             dataSet: infoDataSet,
@@ -290,17 +290,17 @@
         }
 
         fnSearch();
-
  <%--/*******************************************************************************
   * FUNCTION 명 : fnExcel
   * FUNCTION 기능설명 :excel 다운로드
   *******************************************************************************/--%>
+
         fnExcel = function() {
             masterGrid.saveExcel(toUTF8('GRS_심의현황_') + new Date().format('%Y%m%d') + '.xls');
         };
 
-
         form = new Rui.ui.form.LForm('defTssForm', {});
+
 
       /* 기본정보 등록 팝업 */
       etcTssDialog = new Rui.ui.LDialog({
@@ -428,7 +428,6 @@
 
     makeGrsEvPop();
     makeGrsEvTable();
-
     <%--/*******************************************************************************
      * 첨부파일
      *******************************************************************************/--%>
@@ -535,7 +534,6 @@
         });
    }
 
-
  //평가표 팝업 cbf
    function setGrsEvSnInfo(grsInfo) {
 	 $("#evTssForm > #grsEvSn").val(grsInfo.grsEvSn);
@@ -553,278 +551,270 @@
   }
  */
 
-
-
 </script>
 </head>
 
 <!-- <body onload="init();"> -->
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
-  <div class="contents">
-    <div class="titleArea">
-      <h2>GRS 관리</h2>
-    </div>
-    <div class="LblockSearch">
-      <form name="xform" id="xform" method="post">
-
-        <table class="searchBox">
-          <colgroup>
-            <col style="width: 15%;" />
-            <col style="width: 30%;" />
-            <col style="width: 15%;" />
-            <col style="width: 30%;" />
-            <col style="width: 10%;" />
-          </colgroup>
-          <tbody>
-            <tr>
-              <th align="right">과제구분</th>
-              <td><div id="stssScnCd" /></td>
-              <th align="right">과제코드</th>
-              <td><div id="stssCd"/></td>
-              <td class="t_center" rowspan="3">
-              	<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-              </td>
-            </tr>
-            <tr>
-              <th align="right">과제명</th>
-              <td><div id="stssNm"/></td>
-              <th align="right">프로젝트명</th>
-              <td><div id="sprjNm"/></td>
-            </tr>
-            <tr>
-              <th align="right">과제담당자</th>
-              <td><div id="ssaSabunNm"/></td>
-              <th align="right">GRS상태</th>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      </form>
-      <div class="titArea">
-        <span class="Ltotal" id="cnt_text">총 : 0 </span>
-        <div class="LblockButton">
-          <button type="button">품의 요청</button>
-          <button type="button" onclick="addTss()">등록</button>
-          <button type="button" onclick="javascript:fnExcel()">Excel다운로드</button>
-        </div>
-      </div>
-      <div id="listGrid"></div>
-      <!--<div id="masterGrid"></div>-->
-      <!-- 과제 기본정보입력 팝업 시작 -->
-      <div id="divEtcTss" style="visibility: hidden;">
-        <div class="hd">과제기본정보입력</div>
-        <div class="bd">
-          <!-- <div class="titArea"> -->
-          <div class="LblockButton" style="margin-bottom: 10px">
-            <!-- <button type="button" id="butEtcTssClear" name="butEtcTssClear">초기화</button> -->
-            <!-- <button type="button" id="butEtcTssRgst" name="butEtcTssRgst">저장</button> -->
-          </div>
-          <!-- </div> -->
-          <form name="defTssForm" id="defTssForm" method="post">
-            <input type="hidden" name="tssCd" id="tssCd">
-            <input type="hidden" name="prjCd" id="prjCd">
-            <input type="hidden" name="saSabunCd" id="saSabunCd">
-            <input type="hidden" name="deptCode" id="deptCode">
-
-            <table class="table table_txt_right">
-              <colgroup>
-                <col style="width: 15%;" />
-                <col style="width: 30%;" />
-                <col style="width: 15%;" />
-                <col style="width: 30%;" />
-              </colgroup>
-              <tbody>
-                <tr>
-                  <th align="right">과제구분</th>
-                  <td><div id="tssScnCd" /></td>
-                  <th align="right">GRS(P1)수행여부</th>
-                  <td><div id="grsYn" /></td>
-                </tr>
-                <tr>
-                  <th align="right">과제명</th>
-                  <td colspan="3"><input id="tssNm" type="text" style="width: 100%" /></td>
-                </tr>
-                <tr>
-                  <th align="right">프로젝트명<br />(개발부서)
-                  </th>
-                  <td colspan="3"><input type="text" id="prjNm" /></td>
-                </tr>
-                <tr>
-                  <th align="right">사업부</th>
-                  <td><div id="bizDptCd" /></td>
-                  <th align="right">제품군</th>
-                  <td><div id="prodG" /></td>
-                </tr>
-                <tr>
-                  <th align="right">과제담당자</th>
-                  <td><input type="text" id="saSabunNm" /></td>
-                  <th align="right">과제기간</th>
-                  <td><input type="text" id="tssStrtDd"> <em class="gab"> ~ </em>
-                  <input type="text" id="tssFnhDd"></td>
-                </tr>
-                <tr>
-                  <th align="right">고객특성</th>
-                  <td><div id="custSqlt" /></td>
-                  <th align="right">Concept</th>
-                  <td><input id="tssSmryTxt" type="text" style="width: 100%" /></td>
-                </tr>
-                <tr>
-                  <th align="right">과제속성</th>
-                  <td><div id="tssAttrCd" /></td>
-                  <th align="right">신제품 유형</th>
-                  <td><div id="tssType" /></td>
-                </tr>
-                <tr>
-                  <th align="right">Summary 개요</th>
-                  <td colspan="3"><textarea id="smrSmryTxt" name="smrSmryTxt" style="width: 100%; height: 100px"></textarea></td>
-                </tr>
-                <tr>
-                  <th align="right">Summary 목표</th>
-                  <td colspan="3"><textarea id="smrGoalTxt" name="smrGoalTxt" style="width: 100%; height: 100px"></textarea></td>
-                </tr>
-                <tr>
-                  <th align="right">매출계획</th>
-                  <td><input id="nprodSalsPlnY" type="text" /></td>
-                  <th align="right">출시계획</th>
-                  <td><input type="text" id="ctyOtPlnM" /></td>
-                </tr>
-              </tbody>
-            </table>
-          </form>
-        </div>
-      </div>
-      <!-- 과제 기본정보입력 팝업 종료 -->
-      <!--평가 팝업 시작 -->
-      <div id="divEvTss" style="visibility: hidden;">
-        <div class="hd">과제 GRS 평가</div>
-        <div class="bd">
-          <!-- <div class="titArea"> -->
-          <div class="LblockButton" style="margin-bottom: 10px">
-          </div>
-          <!-- </div> -->
-          <form name="evTssForm" id="evTssForm" method="post">
-          <input type="hidden" name="tssCd" id="tssCd">
-          <input type="hidden" name="saSabunCd" id="saSabunCd">
-          <input type="hidden" name="tssCdSn" id="tssCdSn">
-          <input type="hidden" name="grsEvSn" id="grsEvSn">
-            <table class="table table_txt_right">
-              <colgroup>
-                <col style="width: 20%;" />
-                <col style="width: 30%;" />
-                <col style="width: 20%;" />
-                <col style="width: 30%;" />
-              </colgroup>
-              <tbody>
-                <tr>
-                  <th align="right">프로젝트명</th>
-                  <td colspan="3">
-                  <span id="prjNm"/>
-                  </td>
-                </tr>
-                <tr>
-                  <th align="right">과제명</th>
-                  <td><span id="tssNm" /></td>
-                  <th align="right">과제기간</th>
-                  <td><span id="tssDd" /></td>
-                </tr>
-                <tr>
-                  <th align="right">과제구분</th>
-                  <td><span id="tssScnNm" /></td>
-                  <th align="right">과제담당자</th>
-                  <td><span id="saSabunNm" /></td>
-                </tr>
-                <tr>
-                  <th align="right">GRS(P1) 수행여부</th>
-                  <td><span id="grsYn" /></td>
-                  <th align="right">GRS 상태</th>
-                  <td><span id="" /></td>
-                </tr>
-              </tbody>
-            </table>
-
-            <table class="table table_txt_right">
-              <colgroup>
-                <col style="width: 20%" />
-                <col style="width: 20%;" />
-                <col style="width: 60%;" />
-              </colgroup>
-              <tbody>
-                <tr>
-                  <th align="right">회의 일정/장소</th>
-                  <td colspan="2"><div id="evTitl" /></td>
-                </tr>
-                <tr>
-                  <th align="right">회의 참석자</th>
-                  <td colspan="2"><div id="cfrnAtdtCdTxtNm" /></td>
-                </tr>
-                <tr>
-                  <th align="right">Comment</th>
-                  <td colspan="2"><div id="commTxt" /></td>
-                </tr>
-                <tr>
-                    <th align="right">첨부파일</th>
-                    <td id="attchFileView"/>
-                    <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
-                </tr>
-                <tr>
-                  <th align="right">평가표 선택</th>
-                  <td colspan="2"><div id="grsEvSnNm" /></td>
-                </tr>
-              </tbody>
-            </table>
-	          <div id="evTableGrid" style="margin-top:20px"></div>
-          </form>
-        </div>
-      </div>
-      <!-- 평가 팝업 종료 -->
-    </div>
-  </div>
+	<div class="contents">
+		<div class="titleArea">
+			<h2>GRS 관리</h2>
+		</div>
+		<div class="LblockSearch">
+			<form name="xform" id="xform" method="post">
+				<table class="searchBox">
+					<colgroup>
+						<col style="width: 15%;" />
+						<col style="width: 30%;" />
+						<col style="width: 15%;" />
+						<col style="width: 30%;" />
+						<col style="width: 10%;" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th align="right">과제구분</th>
+							<td><div id="stssScnCd" /></td>
+							<th align="right">과제코드</th>
+							<td><div id="stssCd" /></td>
+							<td class="t_center" rowspan="3"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+						</tr>
+						<tr>
+							<th align="right">과제명</th>
+							<td><div id="stssNm" /></td>
+							<th align="right">프로젝트명</th>
+							<td><div id="sprjNm" /></td>
+						</tr>
+						<tr>
+							<th align="right">과제담당자</th>
+							<td><div id="ssaSabunNm" /></td>
+							<th align="right">GRS상태</th>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+			<div class="titArea">
+				<span class="Ltotal" id="cnt_text">총 : 0 </span>
+				<div class="LblockButton">
+					<button type="button">품의 요청</button>
+					<button type="button" onclick="addTss()">등록</button>
+					<button type="button" onclick="javascript:fnExcel()">Excel다운로드</button>
+				</div>
+			</div>
+			<div id="listGrid"></div>
+			<!--<div id="masterGrid"></div>-->
+			<!-- 과제 기본정보입력 팝업 시작 -->
+			<div id="divEtcTss" style="visibility: hidden;">
+				<div class="hd">과제기본정보입력</div>
+				<div class="bd">
+					<!-- <div class="titArea"> -->
+					<div class="LblockButton" style="margin-bottom: 10px">
+						<!-- <button type="button" id="butEtcTssClear" name="butEtcTssClear">초기화</button> -->
+						<!-- <button type="button" id="butEtcTssRgst" name="butEtcTssRgst">저장</button> -->
+					</div>
+					<!-- </div> -->
+					<form name="defTssForm" id="defTssForm" method="post">
+						<input type="hidden" name="tssCd" id="tssCd">
+						<input type="hidden" name="prjCd" id="prjCd">
+						<input type="hidden" name="saSabunCd" id="saSabunCd">
+						<input type="hidden" name="deptCode" id="deptCode">
+						<table class="table table_txt_right">
+							<colgroup>
+								<col style="width: 15%;" />
+								<col style="width: 30%;" />
+								<col style="width: 15%;" />
+								<col style="width: 30%;" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th align="right">과제구분</th>
+									<td><div id="tssScnCd" /></td>
+									<th align="right">GRS(P1)수행여부</th>
+									<td><div id="grsYn" /></td>
+								</tr>
+								<tr>
+									<th align="right">과제명</th>
+									<td colspan="3"><input id="tssNm" type="text" style="width: 100%" /></td>
+								</tr>
+								<tr>
+									<th align="right">프로젝트명<br />(개발부서)
+									</th>
+									<td colspan="3"><input type="text" id="prjNm" /></td>
+								</tr>
+								<tr>
+									<th align="right">사업부</th>
+									<td><div id="bizDptCd" /></td>
+									<th align="right">제품군</th>
+									<td><div id="prodG" /></td>
+								</tr>
+								<tr>
+									<th align="right">과제담당자</th>
+									<td><input type="text" id="saSabunNm" /></td>
+									<th align="right">과제기간</th>
+									<td><input type="text" id="tssStrtDd"> <em class="gab"> ~ </em> <input type="text" id="tssFnhDd"></td>
+								</tr>
+								<tr>
+									<th align="right">고객특성</th>
+									<td><div id="custSqlt" /></td>
+									<th align="right">Concept</th>
+									<td><input id="tssSmryTxt" type="text" style="width: 100%" /></td>
+								</tr>
+								<tr>
+									<th align="right">과제속성</th>
+									<td><div id="tssAttrCd" /></td>
+									<th align="right">신제품 유형</th>
+									<td><div id="tssType" /></td>
+								</tr>
+								<tr>
+									<th align="right">Summary 개요</th>
+									<td colspan="3"><textarea id="smrSmryTxt" name="smrSmryTxt" style="width: 100%; height: 100px"></textarea></td>
+								</tr>
+								<tr>
+									<th align="right">Summary 목표</th>
+									<td colspan="3"><textarea id="smrGoalTxt" name="smrGoalTxt" style="width: 100%; height: 100px"></textarea></td>
+								</tr>
+								<tr>
+									<th align="right">매출계획</th>
+									<td><input id="nprodSalsPlnY" type="text" /></td>
+									<th align="right">출시계획</th>
+									<td><input type="text" id="ctyOtPlnM" /></td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+			</div>
+			<!-- 과제 기본정보입력 팝업 종료 -->
+			<!--평가 팝업 시작 -->
+			<div id="divEvTss" style="visibility: hidden;">
+				<div class="hd">과제 GRS 평가</div>
+				<div class="bd">
+					<!-- <div class="titArea"> -->
+					<div class="LblockButton" style="margin-bottom: 10px"></div>
+					<!-- </div> -->
+					<form name="evTssForm" id="evTssForm" method="post">
+						<input type="hidden" name="tssCd" id="tssCd">
+						<input type="hidden" name="saSabunCd" id="saSabunCd">
+						<input type="hidden" name="tssCdSn" id="tssCdSn">
+						<input type="hidden" name="grsEvSn" id="grsEvSn">
+						<table class="table table_txt_right">
+							<colgroup>
+								<col style="width: 20%;" />
+								<col style="width: 30%;" />
+								<col style="width: 20%;" />
+								<col style="width: 30%;" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th align="right">프로젝트명</th>
+									<td colspan="3"><span id="prjNm" /></td>
+								</tr>
+								<tr>
+									<th align="right">과제명</th>
+									<td><span id="tssNm" /></td>
+									<th align="right">과제기간</th>
+									<td><span id="tssDd" /></td>
+								</tr>
+								<tr>
+									<th align="right">과제구분</th>
+									<td><span id="tssScnNm" /></td>
+									<th align="right">과제담당자</th>
+									<td><span id="saSabunNm" /></td>
+								</tr>
+								<tr>
+									<th align="right">GRS(P1) 수행여부</th>
+									<td><span id="grsYn" /></td>
+									<th align="right">GRS 상태</th>
+									<td><span id="" /></td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="table table_txt_right">
+							<colgroup>
+								<col style="width: 20%" />
+								<col style="width: 20%;" />
+								<col style="width: 60%;" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th align="right">회의 일정/장소</th>
+									<td colspan="2"><div id="evTitl" /></td>
+								</tr>
+								<tr>
+									<th align="right">회의 참석자</th>
+									<td colspan="2"><div id="cfrnAtdtCdTxtNm" /></td>
+								</tr>
+								<tr>
+									<th align="right">Comment</th>
+									<td colspan="2"><div id="commTxt" /></td>
+								</tr>
+								<tr>
+									<th align="right">첨부파일</th>
+									<td id="attchFileView" />
+									<td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
+								</tr>
+								<tr>
+									<th align="right">평가표 선택</th>
+									<td colspan="2"><div id="grsEvSnNm" /></td>
+								</tr>
+							</tbody>
+						</table>
+						<div id="evTableGrid" style="margin-top: 20px"></div>
+					</form>
+				</div>
+			</div>
+			<!-- 평가 팝업 종료 -->
+		</div>
+	</div>
 </body>
 </html>
 <script>
 	/* 검색 */
-	nCombo('stssScnCd','TSS_SCN_CD')		// 과제구분
-	nTextBox('stssCd',300,'과제코드를 입력해주세요');	// 과제코드
-	nTextBox('stssNm',300,'과제명을 입력해주세요');	// 과제명
-	nTextBox('sprjNm',300,'프로젝트명을 입력해주세요');	// 프로젝트명
-	nTextBox('ssaSabunNm',300,'과제담당자명을 입력해주세요');	// 과제명
+	nCombo('stssScnCd', 'TSS_SCN_CD') // 과제구분
+	nTextBox('stssCd', 300, '과제코드를 입력해주세요'); // 과제코드
+	nTextBox('stssNm', 300, '과제명을 입력해주세요'); // 과제명
+	nTextBox('sprjNm', 300, '프로젝트명을 입력해주세요'); // 프로젝트명
+	nTextBox('ssaSabunNm', 300, '과제담당자명을 입력해주세요'); // 과제명
 	/* 등록 */
-  nCombo('tssScnCd','TSS_SCN_CD')		// 과제구분
-  nCombo('grsYn', 'COMM_YN')				// GRS 수행여부
-  nTextBox('tssNm',620,'과제명을 입력해주세요');	// 과제명
-  popProject('prjNm', 'prjCd', 'deptCode', 'prjSearchDialog')	// 프로젝트명
-  nCombo('bizDptCd','BIZ_DPT_CD')		// 사업부
-  nCombo('prodG','PROD_G');			// 제품군
-  popSabun('saSabunNm' ,'saSabunCd')					// 담당자
-  nDateBox('tssStrtDd');						// 과제 시작일
-  nDateBox('tssFnhDd');						// 과제 종료일
-  //고객 특성
-  var custSqlt =  new Rui.ui.form.LCombo({
-      applyTo : 'custSqlt',
-      emptyValue: '',
-      emptyText: '선택',
-      width: 100,
-      defaultValue: '${inputData.custSqlt}',
-    items: [
-      { text: 'B2B제품군', value: '01'},
-      { text: '일반제품군', value: '02'},
-          ]
-  });
-  nTextBox('tssSmryTxt', 257, 'ConCept을 입력해주세요');				// Concept
-  nCombo('tssAttrCd','TSS_ATTR_CD'); 		// 과제속성
-  nCombo('tssType','TSS_TYPE');				// 신제품 유형
-  nTextArea('smrSmryTxt',644, 122, 'Sumarry개요를 입력해주세요');			// Summary 개요
-  nTextArea('smrGoalTxt',644, 122, 'Summary 목표를 입력해주세요'); 		// Summary 목표
-  nTextBox('nprodSalsPlnY', 200);			// 매출 계획 nprodSalsPlnY
-  nMonthBox('ctyOtPlnM');					// 출시계획
+	nCombo('tssScnCd', 'TSS_SCN_CD') // 과제구분
+	nCombo('grsYn', 'COMM_YN') // GRS 수행여부
+	nTextBox('tssNm', 620, '과제명을 입력해주세요'); // 과제명
+	popProject('prjNm', 'prjCd', 'deptCode', 'prjSearchDialog') // 프로젝트명
+	nCombo('bizDptCd', 'BIZ_DPT_CD') // 사업부
+	nCombo('prodG', 'PROD_G'); // 제품군
+	popSabun('saSabunNm', 'saSabunCd') // 담당자
+	nDateBox('tssStrtDd'); // 과제 시작일
+	nDateBox('tssFnhDd'); // 과제 종료일
+	//고객 특성
+	var custSqlt = new Rui.ui.form.LCombo({
+		applyTo : 'custSqlt',
+		emptyValue : '',
+		emptyText : '선택',
+		width : 100,
+		defaultValue : '${inputData.custSqlt}',
+		items : [ {
+			text : 'B2B제품군',
+			value : '01'
+		}, {
+			text : '일반제품군',
+			value : '02'
+		}, ]
+	});
+	nTextBox('tssSmryTxt', 257, 'ConCept을 입력해주세요'); // Concept
+	nCombo('tssAttrCd', 'TSS_ATTR_CD'); // 과제속성
+	nCombo('tssType', 'TSS_TYPE'); // 신제품 유형
+	nTextArea('smrSmryTxt', 644, 122, 'Sumarry개요를 입력해주세요'); // Summary 개요
+	nTextArea('smrGoalTxt', 644, 122, 'Summary 목표를 입력해주세요'); // Summary 목표
+	nTextBox('nprodSalsPlnY', 200); // 매출 계획 nprodSalsPlnY
+	nMonthBox('ctyOtPlnM'); // 출시계획
 
-  /* 평가 */
+	/* 평가 */
 	// 회의 일정/장소
 	nTextBox('evTitl', 580, '회의 일정/장소를 입력해주세요');
 	// 회의 참석자
 	nTextBox('cfrnAtdtCdTxtNm', 580, '회의 참석자를  입력해주세요');
 	// Comment
-	nTextArea('commTxt',580, 122, 'Comment를 입력해주세요');
+	nTextArea('commTxt', 580, 122, 'Comment를 입력해주세요');
 	// 첨부파일
 	//attcFilId
 	// 평가표 선택
