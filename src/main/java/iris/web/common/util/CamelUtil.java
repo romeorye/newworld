@@ -15,55 +15,52 @@ public class CamelUtil {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
 		String[] test = {
-				"PRJ_CD",
-				"TSS_CD",
-				"PGS_STEP_CD",
-				"TSS_SCN_CD",
-				"WBS_CD",
-				"PK_WBS_CD",
-				"dept_code",
-				"PPSL_MBD_CD",
-				"BIZ_DPT_CD",
-				"TSS_NM",
-				"sa_sabun_new",
-				"TSS_ATTR_CD",
-				"TSS_STRT_DD",
-				"TSS_FNH_DD",
-				"ALTR_B_STRT_DD",
-				"ALTR_B_FNH_DD",
-				"ALTR_NX_STRT_DD",
-				"ALTR_NX_FNH_DD",
-				"CMPL_B_STRT_DD",
-				"CMPL_B_FNH_DD",
-				"CMPL_NX_STRT_DD",
-				"CMPL_NX_FNH_DD",
-				"DCAC_B_STRT_DD",
-				"DCAC_B_FNH_DD",
-				"DCAC_NX_STRT_DD",
-				"DCAC_NX_FNH_DD",
-				"COO_INST_CD",
-				"SUPV_OPS_NM",
-				"EXRS_INST_NM",
-				"BIZ_NM",
-				"TSS_ST",
-				"TSS_NOS_ST",
-				"TSS_ST_TXT",
+				"SMR_SMRY_TXT",
+				"SMR_GOAL_TXT",
+				"CTY_OT_PLN_M",
+				"NPROD_SALS_PLN_Y",
+				"ATTC_FIL_ID",
+				"ALTR_RSON_TXT",
+				"ADD_RSON_TXT",
+				"DCAC_RSON_TXT",
+				"ALTR_ATTC_FIL_ID",
+				"CMPL_ATTC_FIL_ID",
+				"DCAC_ATTC_FIL_ID",
 				"FRST_RGST_DT",
 				"FRST_RGST_ID",
 				"LAST_MDFY_DT",
-				"LAST_MDFY_ID",
-				"DEL_YN",
-				"PROD_G",
-				"RSST_SPHE",
-				"TSS_TYPE",
-				"sa_sabun_name",
-				"dept_name",
-				"PRJ_NM"
+				"LAST_MDFY_ID"
 			};
+		System.out.println(insertToCamel(test));
 		System.out.println(selectToCamel(test));
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println(updateToCamel(test));
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+	}
+
+	public static String insertToCamel(String[] arr){
+
+		StringBuffer result = new StringBuffer();
+		result.append("(\n");
+		for (int i = 0; i < arr.length; i++) {
+			result.append(arr[i]);
+			if(i!=arr.length-1){
+				result.append(",\n");
+			}else{
+				result.append("\n");
+			}
+		}
+		result.append(") VALUES (\n");
+		for (int i = 0; i < arr.length; i++) {
+			result.append("#{"+toCamel(arr[i])+"}");
+			if(i!=arr.length-1){
+				result.append(",\n");
+			}else{
+				result.append("\n");
+			}
+		}
+		result.append(")\n");
+		return result.toString();
 	}
 
 	public static String selectToCamel(String[] arr){
