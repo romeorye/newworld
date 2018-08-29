@@ -2,9 +2,7 @@ package iris.web.common.util;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Vector;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -811,5 +809,38 @@ public class CommonUtil {
 		  if (sixBit == 63) return '/';
 		   return '?';
 	 }
+
+    /**
+     *  String Object 변환
+      * @param map
+     * @return
+     */
+    public static Map<String,Object> mapToObj(Map<String,String>map){
+        Map<String, Object> result = new HashMap<>();
+
+        Iterator<String> keys = map.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            result.put(key, map.get(key));
+        }
+        return result;
+    }
+
+    /**
+     * Object String 변환
+     * @param map
+     * @return
+     */
+    public static Map<String,String> mapToString(Map<String,Object>map){
+        Map<String, String> result = new HashMap<>();
+
+        Iterator<String> keys = map.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            result.put(key, (String) map.get(key));
+        }
+        return result;
+    }
+
 
 }
