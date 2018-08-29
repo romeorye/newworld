@@ -74,6 +74,8 @@ var faxInfoDialog;	//고정자산관리 팝업
 		           	 ,{ id: 'mkrNm'}
 		           	 ,{ id: 'mdlNm'}
 		           	 ,{ id: 'mchnClCd'}
+		           	 ,{ id: 'mchnClDtlCd'}
+		           	 ,{ id: 'mchnKindCd'}
 		           	 ,{ id: 'opnYn'}
 		           	 ,{ id: 'delYn'}
 		           	 ,{ id: 'fxaNo'}
@@ -137,11 +139,34 @@ var faxInfoDialog;	//고정자산관리 팝업
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false,                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
-
-		//분류 combo
+		
+		//대분류
 		var cbmchnClCd = new Rui.ui.form.LCombo({
 		 	applyTo : 'mchnClCd',
 			name : 'mchnClCd',
+			useEmptyText: true,
+		    emptyText: '선택하세요',
+		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_CD"/>',
+			displayField: 'COM_DTL_NM',
+			valueField: 'COM_DTL_CD',
+			width: 150
+		});
+		
+		//소분류
+		var cbmchnClCd = new Rui.ui.form.LCombo({
+		 	applyTo : 'mchnClDtlCd',
+			name : 'mchnClDtlCd',
+			useEmptyText: true,
+		    emptyText: '선택하세요',
+		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_DTL_CD"/>',
+			displayField: 'COM_DTL_NM',
+			valueField: 'COM_DTL_CD'
+		});
+
+		//장비종류
+		var cbmchnKindCd = new Rui.ui.form.LCombo({
+		 	applyTo : 'mchnKindCd',
+			name : 'mchnKindCd',
 			useEmptyText: true,
 		    emptyText: '선택하세요',
 		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_CL_CD"/>',
@@ -174,18 +199,6 @@ var faxInfoDialog;	//고정자산관리 팝업
 	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
 	                	]
 		});
-
-/* 		cbOpnYn.on('changed', function(e){
-			if(cbOpnYn.getValue() == "Y"){
-				cbMchnUfeClCd.enable();
-				mchnUfe.enable();
-			}else{
-				cbMchnUfeClCd.setValue('');
-				mchnUfe.setValue('');
-				cbMchnUfeClCd.disable();
-				mchnUfe.disable();
-			}
-        }); */
 
 		//삭제여부
 		var cbDelYn = new Rui.ui.form.LCombo({
@@ -312,6 +325,8 @@ var faxInfoDialog;	//고정자산관리 팝업
 		         { id: 'mkrNm', 			ctrlId: 'mkrNm', 			value: 'value' },
 		         { id: 'mdlNm', 			ctrlId: 'mdlNm', 			value: 'value' },
 		         { id: 'mchnClCd', 			ctrlId: 'mchnClCd', 		value: 'value' },
+		         { id: 'mchnClDtlCd', 		ctrlId: 'mchnClDtlCd', 		value: 'value' },
+		         { id: 'mchnKindCd', 		ctrlId: 'mchnKindCd', 		value: 'value' },
 		         { id: 'opnYn', 			ctrlId: 'opnYn', 		    value: 'value' },
 		         { id: 'delYn', 			ctrlId: 'delYn', 			value: 'value' },
 		         { id: 'fxaNo', 			ctrlId: 'hFxaNo', 			value: 'value' },
@@ -594,6 +609,8 @@ var faxInfoDialog;	//고정자산관리 팝업
 			<form name="searchForm" id="searchForm">
 				<input type="hidden" name="mchnNm" value="${inputData.mchnNm}"/>
 				<input type="hidden" name="mchnClCd" value="${inputData.mchnClCd}"/>
+				<input type="hidden" name="mchnClDtlCd" value="${inputData.mchnClDtlCd}"/>
+				<input type="hidden" name="mchnClCd" value="${inputData.mchnKindCd}"/>
 				<input type="hidden" name="fxaNo" value="${inputData.fxaNo}"/>
 				<input type="hidden" name="opnYn" value="${inputData.opnYn}"/>
 				<input type="hidden" name="mchnCrgrNm" value="${inputData.mchnCrgrNm}"/>
@@ -617,10 +634,10 @@ var faxInfoDialog;	//고정자산관리 팝업
 				</div>
 				<table class="table table_txt_right">
 					<colgroup>
-						<col style="width: 20%" />
+						<col style="width: 18%" />
 						<col style="width: 30%" />
-						<col style="width: 15%" />
-						<col style="width: 10%" />
+						<col style="width: 18%" />
+						<col style="width: 20%" />
 					</colgroup>
 					<tbody>
 						<tr>
@@ -644,13 +661,15 @@ var faxInfoDialog;	//고정자산관리 팝업
 							</td>
 						</tr>
 						<tr>
-							<th align="right"><span style="color:red;">*  </span>장비분류</th>
+							<th align="right"><span style="color:red;">*  </span>대분류 / 소분류</th>
 							<td>
 								<div id="mchnClCd"></div>
+								&nbsp; / &nbsp;
+								<div id="mchnClDtlCd"></div>
 							</td>
-							<th align="right"><span style="color:red;">*  </span>open기기</th>
+							<th align="right"><span style="color:red;">*  </span>장비종류</th>
 							<td>
-								<div id="opnYn"></div>
+								<div id="mchnKindCd"></div>
 							</td>
 						</tr>
 						
@@ -662,7 +681,6 @@ var faxInfoDialog;	//고정자산관리 팝업
 							<th align="right">삭제여부</th>
 							<td>
 								<div id="delYn"></div>
-								
 							</td>
 						</tr>
 						<tr>
@@ -670,10 +688,11 @@ var faxInfoDialog;	//고정자산관리 팝업
 							<td>
 								<input type="text" id="smpoQty" />
 							</td>
-							<th align="right">메인여부</th>
+							<th align="right"><span style="color:red;">*  </span>메인여부 / open기기</th>
 							<td>
 								<select id="mnScrnDspYn"></select>
-								
+								&nbsp; / &nbsp;
+								<div id="opnYn"></div>
 							</td>
 						</tr>
 						<tr>

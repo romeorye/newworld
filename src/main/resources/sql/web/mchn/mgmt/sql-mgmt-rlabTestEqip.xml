@@ -12,12 +12,16 @@
 	  		  ,A.MDL_NM as "mdlNm"
 	  		  ,A.MKR_NM as "mkrNm"
 	  		  ,A.MCHN_CL_CD as "mchnClCd"
+	  		  ,A.MCHN_CL_DTL_CD as "mchnClDtlCd"
+	  		  ,A.MCHN_KIND_CD as "mchnKindCd"
 	  		  ,A.MCHN_CRGR_ID as "mchnCrgrId"
 	  		  ,A.MCHN_SMRY as "mchnsmry"
 	  		  ,B.SA_NAME  as "mchnCrgrNm"
 	  		  ,A.EQIP_SCN as "eqipScn"
 	  		  ,A.MCHN_USE_PSBL_YN as "mchnUsePsblYn"
 	  		  ,ACC2.COM_DTL_NM AS "mchnClNm"
+	  		  ,ACC4.COM_DTL_NM AS "mchnClDtlNm"
+			  ,ACC3.COM_DTL_NM AS "mchnKindNm"
 	  		  ,A.OPN_YN AS "opnYn"
 	  		  ,ACC.COM_DTL_NM AS "mchnUsePsblNm"
 	  		  ,A.SMPO_QTY AS "smpoQty"
@@ -26,10 +30,16 @@
 				 ON  A.MCHN_CRGR_ID = B.SA_SABUN_NEW
 				,IRIS_ADM_COM_CD ACC
 				,IRIS_ADM_COM_CD ACC2
+				,IRIS_ADM_COM_CD ACC3
+				,IRIS_ADM_COM_CD ACC4
 		WHERE 1=1
 			AND A.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
 			AND A.MCHN_CL_CD = ACC2.COM_DTL_CD
-			AND ACC2.COM_CD_cD = 'RLAB_CL_CD'
+			AND A.MCHN_KIND_CD = ACC3.COM_DTL_CD
+			AND A.MCHN_CL_DTL_CD = ACC4.COM_DTL_CD
+			AND ACC2.COM_CD_CD = 'RLAB_EXAT_CL_CD'
+			AND ACC3.COM_CD_CD = 'RLAB_CL_CD'
+			AND ACC4.COM_CD_CD = 'RLAB_EXAT_CL_DTL_CD'
 			AND ACC.COM_CD_CD = 'MCHN_PRCT_ST'
 			AND A.DEL_YN = 'N'
 		]]>
@@ -39,6 +49,9 @@
 	    </if>
 	    <if test="(mchnClCd != null and mchnClCd != '')">
 			AND  A.MCHN_CL_CD = #{mchnClCd}
+	    </if>
+	    <if test="(mchnKindCd != null and mchnKindCd != '')">
+			AND  A.MCHN_KIND_CD = #{mchnKindCd}
 	    </if>
 		<if test="(fxaNo != null and fxaNo != '')">
 			AND  MIM.FXA_NO = #{fxaNo}
@@ -72,6 +85,8 @@ UPDATE 	 SET
 				,MKR_NM           = #{mkrNm}
 				,MDL_NM           = #{mdlNm}
 				,MCHN_CL_CD       = #{mchnClCd}
+				,MCHN_CL_DTL_CD       = #{mchnClDtlCd}
+				,MCHN_KIND_CD       = #{mchnKindCd}
 				,OPN_YN           = #{opnYn}
 				,DEL_YN           = #{delYn}
 				,MCHN_USE_PSBL_YN = #{mchnUsePsblYn}
@@ -92,6 +107,8 @@ INSERT  (
 		,MKR_NM
 		,MDL_NM
 		,MCHN_CL_CD
+		,MCHN_CL_DTL_CD
+		,MCHN_KIND_CD
 		,OPN_YN
 		,FXA_NO
 		,MCHN_CRGR_ID
@@ -115,6 +132,8 @@ INSERT  (
 			,#{mkrNm}
 			,#{mdlNm}
 			,#{mchnClCd}
+			,#{mchnClDtlCd}
+			,#{mchnKindCd}
 			,#{opnYn}
 			,#{fxaNo}
 			,#{mchnCrgrId}
@@ -145,6 +164,8 @@ INSERT  (
 				,MKR_NM            as "mkrNm"
 				,MDL_NM            as "mdlNm"
 				,MCHN_CL_CD        as "mchnClCd"
+				,MCHN_CL_DTL_CD    as "mchnClDtlCd"
+				,MCHN_KIND_CD      as "mchnKindCd"
 				,OPN_YN            as "opnYn"
 				,A.FXA_NO          as "fxaNo"
 				,B.FXA_NM          as "fxaNm"

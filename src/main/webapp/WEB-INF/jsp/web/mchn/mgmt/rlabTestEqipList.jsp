@@ -38,12 +38,16 @@
 	            { id: 'mdlNm' },
 	            { id: 'mkrNm' },
 	            { id: 'mchnClCd' },
+	            { id: 'mchnClDtlCd' },
+	            { id: 'mchnKindCd' },
 	            { id: 'mchnCrgrId' },
 	            { id: 'mchnsmry' },
 	            { id: 'mchnCrgrNm' },
 	            { id: 'eqipScn' },
 	            { id: 'mchnUsePsblYn' },
 	            { id: 'mchnClNm' },
+	            { id: 'mchnClDtlNm' },
+	            { id: 'mchnKindNm' },
 	            { id: 'opnYn' },
 	            { id: 'mchnUsePsblNm' },
 	            { id: 'smpoQty' }
@@ -57,19 +61,22 @@
 	    var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	{ field: 'mchnInfoId', 			label:'장비구분' , 	sortable: false, align: 'center', width: 80},
 	            { field: 'mchnHanNm',  			label:'장비명', 	sortable: false, align: 'center', width: 130},
-	            { field: 'mdlNm',  			label:'모델명', 	sortable: false, align: 'center', width: 120},
-	            { field: 'mkrNm',  			label:'제조사', 	sortable: false, align: 'center', width: 120},
-	            { field: 'mchnClCd', 		label: '분류코드', 		sortable: false, align: 'center', width: 80},
-	            { field: 'mchnsmry',  	label:'비고' , 		sortable: false, align: 'center', width: 120},
-	            { field: 'mchnCrgrNm',  	label:'담당자' , 		sortable: false, align: 'center', width: 70},
-	            { field: 'eqipScn',  	label:'장비구분' , 		sortable: false, align: 'center', width: 70},
-	            { field: 'mchnUsePsblYn',  	label:'기기사용여부' , 		sortable: false, align: 'center', width: 70},
-	            { field: 'mchnClNm', 		label: '분류', 		sortable: false, align: 'center', width: 80},
-	            { field: 'opnYn', 		label: 'open', 		sortable: false, align: 'center', width: 70},
+	            { field: 'mdlNm',  			label:'모델명', 	sortable: false, align: 'center', width: 130},
+	            { field: 'mkrNm',  			label:'제조사', 	sortable: false, align: 'center', width: 130},
+	            { field: 'mchnCrgrNm',  	label:'담당자' , 		sortable: false, align: 'center', width: 50},
+	            { field: 'mchnClNm', 		label: '대분류', 		sortable: false, align: 'center', width: 120},
+	            { field: 'mchnClDtlNm', 		label: '소분류', 		sortable: false, align: 'center', width: 100},
+	            { field: 'mchnKindNm', 		label: '장비종류', 		sortable: false, align: 'center', width: 120},
+	            { field: 'opnYn', 		label: 'open', 		sortable: false, align: 'center', width: 40},
+	            { field: 'mchnUsePsblYn',  	label:'기기사용여부' , 		sortable: false, align: 'center', width: 80},
 	            { field: 'mchnUsePsblNm', 		label: '상태', 		sortable: false, align: 'center', width: 70},
-	            { field: 'smpoQty', 		label: '시료수', 		sortable: false, align: 'center', width: 70},
+	            { field: 'smpoQty', 		label: '시료수', 		sortable: false, align: 'center', width: 50},
+	            { field: 'mchnsmry',  	label:'비고' , 		sortable: false, align: 'center', width: 130},
+	            { field: 'eqipScn',  	hidden : true},
+	            { field: 'mchnClCd', 	hidden : true},
+	            { field: 'mchnClDtlCd', 	hidden : true},
+	            { field: 'mchnKindCd', 	hidden : true},
 	            { field: 'mchnInfoId',  hidden : true}
 	        ]
 	    });
@@ -110,18 +117,22 @@
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
 
-/* 		 //장비구분
-	    var cbEqipYn = new Rui.ui.form.LCombo({
-			applyTo : 'eqipYn',
-			name : 'eqipYn',
-			defaultValue: '<c:out value="${inputData.eqipYn}"/>',
-			width : 200,
-			emptyText: '전체',
-				items: [
-	                   { code: 'Y', value: '시험' }, // value는 생략 가능하며, 생략시 code값을 그대로 사용한다.
-	                   { code: 'N', value: '평가' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
-	                	]
-		}); */
+ 		 //대분류
+	    var cbMchnClCd = new Rui.ui.form.LCombo({
+			applyTo : 'mchnClCd',
+			name : 'mchnClCd',
+			defaultValue: '<c:out value="${inputData.mchnClCd}"/>',
+			useEmptyText: true,
+	           emptyText: '전체',
+	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_CD"/>',
+	    	displayField: 'COM_DTL_NM',
+	    	valueField: 'COM_DTL_CD',
+	    	width : 200
+       	});
+
+		cbMchnClCd.getDataSet().on('load', function(e) {
+	          console.log('cbMchnClCd :: load');
+	    });
 
 		 //담당자명
 	    var mchnCrgrNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
@@ -132,11 +143,11 @@
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
 
-		//분류 combo
-		var cbMchnClCd = new Rui.ui.form.LCombo({
-			applyTo : 'mchnClCd',
-			name : 'mchnClCd',
-			defaultValue: '<c:out value="${inputData.mchnClCd}"/>',
+		//장비종류 combo
+		var cbMchnKindCd = new Rui.ui.form.LCombo({
+			applyTo : 'mchnKindCd',
+			name : 'mchnKindCd',
+			defaultValue: '<c:out value="${inputData.mchnKindCd}"/>',
 			useEmptyText: true,
 	           emptyText: '전체',
 	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_CL_CD"/>',
@@ -145,8 +156,8 @@
 	    	width : 200
        	});
 
-		cbMchnClCd.getDataSet().on('load', function(e) {
-	          console.log('cbMchnClCd :: load');
+		cbMchnKindCd.getDataSet().on('load', function(e) {
+	          console.log('cbMchnKindCd :: load');
 	    });
 
 		// 상태combo
@@ -185,7 +196,7 @@
 	        	params :{
 	        		    mchnNm : encodeURIComponent(document.aform.mchnNm.value)		//장비명
 	        	       ,mchnClCd : document.aform.mchnClCd.value		//분류
-	        	     //  ,eqipYn  : document.aform.eqipYn.value		//장비구분
+	        	       ,mchnKindCd  : document.aform.mchnKindCd.value		//장비종류
 	        	       ,opnYn : document.aform.opnYn.value		//오픈기기 여부
 	        	       ,mchnCrgrNm : encodeURIComponent(document.aform.mchnCrgrNm.value) 	//담당자
 	        	       ,mchnUserPsblYn : document.aform.mchnUsePsblYn.value	//상태
@@ -207,7 +218,7 @@
         saveExcelBtn.on('click', function(){
         	if(dataSet.getCount() > 0 ) {
 	            var excelColumnModel = columnModel.createExcelColumnModel(false);
-	            grid.saveExcel(encodeURIComponent('분석기기_') + new Date().format('%Y%m%d') + '.xls', {
+	            grid.saveExcel(encodeURIComponent('신뢰성시험 장비_') + new Date().format('%Y%m%d') + '.xls', {
 	                columnModel: excelColumnModel
 	            });
         	}else{
@@ -253,11 +264,13 @@
 							<td rowspan="3" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
 						</tr>
 						<tr>
-							<th align="right">장비구분</th>
-							<td><input type="text" id="fxaNo" /></td>
-							<th align="right">장비분류</th>
+							<th align="right">분류</th>
 							<td>
 								<select  id="mchnClCd" ></select>
+							</td>
+							<th align="right">장비종류</th>
+							<td>
+								<select  id="mchnKindCd" ></select>
 							</td>
 						</tr>
 						<tr>
