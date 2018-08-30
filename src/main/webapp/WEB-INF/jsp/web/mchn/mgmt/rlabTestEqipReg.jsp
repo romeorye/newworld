@@ -732,7 +732,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 										CrossEditor.params.UserLang = "auto";
 										var uploadPath = "<%=uploadPath%>"; 
 										
-										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";
+										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조   
 										CrossEditor.params.FullScreen = false;
 										CrossEditor.EditorStart();
 										
