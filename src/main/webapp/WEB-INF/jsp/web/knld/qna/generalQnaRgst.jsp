@@ -120,11 +120,8 @@
             	lvAttcFilId = qnaRgstDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
-//                 var sbcNm = qnaRgstDataSet.getNameValue(0, "sbcNm").replaceAll('\n', '<br/>');
-//                 qnaRgstDataSet.setNameValue(0, 'sbcNm', sbcNm);
-
                 if(qnaRgstDataSet.getNameValue(0, "qnaId")  != "" ||  qnaRgstDataSet.getNameValue(0, "qnaId")  !=  undefined ){
-    				document.aform.Wec.value=qnaRgstDataSet.getNameValue(0, "sbcNm");
+                	CrossEditor.SetBodyValue( qnaRgstDataSet.getNameValue(0, "sbcNm") );
     			}
             });
 
@@ -249,8 +246,6 @@
 		    	}
 		     });
 
-		    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
-
         });//onReady 끝
 
 		<%--/*******************************************************************************
@@ -315,8 +310,6 @@
 	    		qnaRgstDataSet.setNameValue(0, 'qustClNm', '${inputData.qustClNm}');
 	    		qnaRgstDataSet.setNameValue(0, 'qnaClCd', 'A');
 	    		qnaRgstDataSet.setNameValue(0, 'qnaClNm', '답변');
-
-
 	    	}
 
 		 }//function 끝
@@ -329,13 +322,9 @@
 	    	var pageMode = '${inputData.pageMode}';
 	    	console.log('fncInsertQnaInfo pageMode='+pageMode);
 
-	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
-	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
 
-	    	qnaRgstDataSet.setNameValue(0, 'sbcNm', document.aform.Wec.bodyValue);
-            gvSbcNm = document.aform.Wec.bodyValue ;
-
-			document.aform.sbcNm.value = document.aform.Wec.MIMEValue;
+	    	qnaRgstDataSet.setNameValue(0, 'sbcNm', CrossEditor.GetBodyValue());
+            gvSbcNm = CrossEditor.GetBodyValue() ;
 
 	    	// 데이터셋 valid
 			if(!validation('aform')){
@@ -343,7 +332,7 @@
 	   		}
 
 			// 에디터 valid
-			if(gvSbcNm == "" || gvSbcNm == "<P>&nbsp;</P>"){
+			if(gvSbcNm == "" || gvSbcNm == "<p><br></p>"){
 				alert("내용 : 필수 입력 항목 입니다.");
 		   		return false;
 		   	}
@@ -358,7 +347,7 @@
 		    	        dataSets:[qnaRgstDataSet],
 		    	        params: {
 		    	        	qnaId : document.aform.qnaId.value
-		    	        	,sbcNm : document.aform.Wec.MIMEValue
+		    	        	,sbcNm : qnaRgstDataSet.getNameValue(0, "sbcNm") 
 		    	        }
 		    	    });
 		    	}else if(pageMode == 'C' || pageMode == 'A'){
@@ -366,7 +355,7 @@
 		    	        url: "<c:url value='/knld/qna/insertGeneralQnaInfo.do'/>",
 		    	        dataSets:[qnaRgstDataSet],
 		    	        params: {
-		    	        	sbcNm : document.aform.Wec.MIMEValue
+		    	        	sbcNm : qnaRgstDataSet.getNameValue(0, "sbcNm") 
 		    	        }
 		    	    });
 		    	}
@@ -394,7 +383,6 @@
 	</form>
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="qnaId" name="qnaId" value=""/>
-		<input type="hidden" id="sbcNm" name="sbcNm" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
    		<div class="contents">
 
@@ -455,8 +443,27 @@
    						<tr>
     						<!--<th align="right">내용</th> -->
    							<td colspan="4">
-<!--    								 <textarea id="sbcNm"></textarea> -->
-								<div id="namoHtml_DIV"></div>
+								<textarea id="sbcNm"></textarea>
+   								<script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('sbcNm');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										
+										var uploadPath = "<%=uploadPath%>"; 
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"/knld";
+										CrossEditor.params.FullScreen = false;
+										
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											//CrossEditor.ShowToolbar(0,0); 
+											//CrossEditor.ShowToolbar(1,0);
+											//CrossEditor.ShowToolbar(2,0);
+											
+											e.editorTarget.SetBodyValue(document.getElementById("sbcNm").value);
+										}
+									</script>
    							</td>
    						</tr>
     					<tr>

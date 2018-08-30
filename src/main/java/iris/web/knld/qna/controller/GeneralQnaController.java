@@ -1,6 +1,5 @@
 package iris.web.knld.qna.controller;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.LogManager; import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,12 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import devonframe.configuration.ConfigService;
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
-
 import iris.web.common.code.service.CodeCacheManager;
 import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.CommonUtil;
-import iris.web.common.util.DateUtil;
-import iris.web.common.util.NamoMime;
 import iris.web.common.util.StringUtil;
 import iris.web.knld.qna.service.GeneralQnaService;
 import iris.web.system.base.IrisBaseController;
@@ -150,10 +146,6 @@ public class GeneralQnaController  extends IrisBaseController {
 		checkSessionRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		NamoMime mime = new NamoMime();
-
-		String pqnaSbcHtml = "";
-		String pqnaSbcHtml_temp = "";
 
 		// 결과메시지
 		rtnMeaasge.put("rtnSt", "S");
@@ -166,21 +158,6 @@ public class GeneralQnaController  extends IrisBaseController {
 		try{
 			qnaRgstDataSetList = RuiConverter.convertToDataSet(request,"qnaRgstDataSet");
 
-			String uploadUrl = "";
-			String uploadPath = "";
-
-            uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_KNLD");   // 파일명에 세팅되는 경로
-            uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_KNLD");  // 파일이 실제로 업로드 되는 경로
-
-            mime.setSaveURL(uploadUrl);
-            mime.setSavePath(uploadPath);
-            mime.decode(input.get("sbcNm").toString());                  // MIME 디코딩
-            mime.saveFileAtPath(uploadPath+File.separator);
-
-            pqnaSbcHtml = mime.getBodyContent();
-            pqnaSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(pqnaSbcHtml, "<", "@![!@"),">","@!]!@"));
-
-
 			//일반QnA 저장&수정
 			String qnaId = "";
 			qnaRgstDataSetList = RuiConverter.convertToDataSet(request,"qnaRgstDataSet");
@@ -188,7 +165,6 @@ public class GeneralQnaController  extends IrisBaseController {
 			for(Map<String,Object> qnaRgstDataSetMap : qnaRgstDataSetList) {
 
 				qnaRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
-				qnaRgstDataSetMap.put("sbcNm" , NullUtil.nvl(pqnaSbcHtml, ""));
 
 				generalQnaService.insertGeneralQnaInfo(qnaRgstDataSetMap);
 				totCnt++;
