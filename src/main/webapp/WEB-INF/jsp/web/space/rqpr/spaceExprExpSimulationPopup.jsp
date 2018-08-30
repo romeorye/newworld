@@ -108,18 +108,6 @@
                 ]
             });
             
-/*             var vm1 = new Rui.validate.LValidatorManager({
-                validators:[
-                { id: 'smpoQty',			validExp: '공간평가시험수:true:number' }
-                ]
-            });
-            
-            var vm2 = new Rui.validate.LValidatorManager({
-                validators:[
-                { id: 'exatTim',			validExp: '시험일수:true:number' }
-                ]
-            }); */
-            
             var spaceExatMstTreeDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceExatMstTreeDataSet',
                 remainRemoved: true,

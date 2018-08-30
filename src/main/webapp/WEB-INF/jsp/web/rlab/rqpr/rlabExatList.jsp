@@ -296,20 +296,21 @@
 					, { id: 'mdlNm' }
 					, { id: 'mkrNm' }
 					, { id: 'mchnClNm' }
-					, { id: 'mchnCrgrNm' }
-					, { id: 'mchnExpl' }                ]
+					, { id: 'mchnClDtlNm' }
+					, { id: 'mchnCrgrNm' }               
+					]
             });
 
             var rlabExatDtlColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'mchnHanNm',	label: '기기명',		sortable: false,	align:'center',	width: 200 }
-                    , { field: 'mdlNm',			label: '모델명',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'mkrNm',			label: '제조사',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'mchnClNm',		label: '분류',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 100 }
-                    , { field: 'mchnExpl',	label: '비고',		sortable: false,	align:'center',	width: 368 }
+                    , { field: 'mchnHanNm',	label: '기기명',		sortable: false,	align:'center',	width: 210 }
+                    , { field: 'mdlNm',			label: '모델명',		sortable: false,	align:'center',	width: 210 }
+                    , { field: 'mkrNm',			label: '제조사',		sortable: false,	align:'center',	width: 210 }
+                    , { field: 'mchnClNm',		label: '대분류',		sortable: false,	align:'center',	width: 180 }
+                    , { field: 'mchnClDtlNm',		label: '소분류',		sortable: false,	align:'center',	width: 180 }
+                    , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 128 }
                 ]
             });
 
@@ -388,10 +389,10 @@
 		    };
     	    // 신뢰성시험장비 검색 팝업 끝
     	 
-    	    // 실험수가 Simulation 팝업 시작
+    	    // 시험수가 Simulation 팝업 시작
     	    utmExpSimulationDialog = new Rui.ui.LFrameDialog({
     	        id: 'utmExpSimulationDialog', 
-    	        title: '실험수가 Simulation',
+    	        title: '시험수가 Simulation',
     	        width: 920,
     	        height: 430,
     	        modal: true,
@@ -404,7 +405,7 @@
     	    	utmExpSimulationDialog.setUrl('<c:url value="/rlab/rlabExatExpSimulationPopup.do"/>');
     	    	utmExpSimulationDialog.show();
     	    };
-    	    // 실험수가 Simulation 팝업 끝
+    	    // 시험수가 Simulation 팝업 끝
             
     	    
     	    setMchnInfoCheck = function(mchnInfo){
@@ -431,6 +432,7 @@
             	record.set('mdlNm', mchnInfo.get("mdlNm"));
             	record.set('mkrNm', mchnInfo.get("mkrNm"));
             	record.set('mchnClNm', mchnInfo.get("mchnClNm"));
+            	record.set('mchnClDtlNm', mchnInfo.get("mchnClDtlNm"));
             	record.set('mchnCrgrNm', mchnInfo.get("mchnCrgrNm"));
             }
     	    

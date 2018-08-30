@@ -48,7 +48,8 @@
         		 {id: 'mchnNm'}          //기기명
         		,{id: 'mdlNm'}           //모델명
         		,{id: 'mkrNm'}           //제조사
-        		,{id: 'mchnClNm'}        //분류
+        		,{id: 'mchnClNm'}        //대분류
+        		,{id: 'mchnClDtlNm'}        //소분류
         		,{id: 'mchnCrgrNm'}      //담당자
         		,{id: 'mchnInfoId'}      //기기 정보 ID
         		 ]
@@ -57,10 +58,11 @@
 		var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	 {field: 'mchnNm'     ,label:'기기명' ,	sortable: false, align: 'left', width: 380}
+	        	 {field: 'mchnNm'     ,label:'기기명' ,	sortable: false, align: 'center', width: 260}
 	        	,{field: 'mdlNm'      ,label:'모델명' , sortable: false, align: 'center', width: 130}
 	        	,{field: 'mkrNm'      ,label:'제조사' , sortable: false, align: 'center', width: 130}
-	        	,{field: 'mchnClNm'   ,label:'분류'   , sortable: false, align: 'center', width: 100}
+	        	,{field: 'mchnClNm'   ,label:'대분류'   , sortable: false, align: 'center', width: 130}
+	        	,{field: 'mchnClDtlNm'   ,label:'소분류'   , sortable: false, align: 'center', width: 100}
 	        	,{field: 'mchnCrgrNm' ,label:'담당자' , sortable: false, align: 'center', width: 100}
 	        	,{field: 'mchnInfoId' ,hidden : true}
 	        ]
@@ -112,10 +114,12 @@
 	            applyTo : 'mchnClCd',
 	            name : 'mchnClCd',
 	            items : [
-	            	{label : '전체', 			value : 'ALL'},
-	            	{label : '신뢰성시험', 		value : '01'},
-	            	{label : '내후성시험', 		value : '02'},
-	            	{label : '측정평가', 		value : '03'}
+	            	{label : '전체', 				value : 'ALL'},
+	            	{label : '장식재 사계절 시험', 	value : '01'},
+	            	{label : '내후/내광성 시험', 	value : '02'},
+	            	{label : '옥외폭로 시험', 		value : '03'},
+	            	{label : '환경챔버 시험', 		value : '04'},
+	            	{label : '측정,평가,분석', 		value : '05'}
 	            ]
 	    });
 
@@ -163,17 +167,17 @@
 							<td>
 								<div id="mchnCrgrNm"></div>
 							</td>
-							<td rowspan="2" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+							<td rowspan="1" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
 						</tr>
 						<tr>
-							<th align="right">분류</th>
-							<td colspan="3">
+							<th align="right">대분류</th>
+							<td colspan="4">
 								<div id="mchnClCd"></div>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-
+			<BR/>
 			<div id="mhcnGrid"></div>
 
 			</form>

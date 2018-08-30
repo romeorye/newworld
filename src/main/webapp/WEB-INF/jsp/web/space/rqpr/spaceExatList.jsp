@@ -7,7 +7,7 @@
 <%--
 /*
  *************************************************************************
- * $Id		: spaceExprList.jsp
+ * $Id		: spaceExatList.jsp
  * @desc    : 공간평가 시험정보 리스트 화면
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
@@ -255,9 +255,9 @@
 
             var spaceExatMstColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  { field: 'supiExatNm',		label: '평가명(대분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 180 }
+                	  { field: 'supiExatNm',		label: '평가명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 180 }
                 	, { field: 'exatNm',		label: '평가명(소분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 150 }
-                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: true, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
+                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: false, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
                     , { field: 'utmSmpoQty',	label: '단위평가수량',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
                     , { field: 'utmExatTim',	label: '평가일수',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
                     , { field: 'utmExp',		label: '평가수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 80,
@@ -304,10 +304,10 @@
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'toolNm',	label: 'TOOL명',		sortable: false,	align:'left',	width: 275 }
+                    , { field: 'toolNm',	label: 'TOOL명',		sortable: false,	align:'center',	width: 275 }
                     , { field: 'ver',			label: '버전',		sortable: false,	align:'center',	width: 135 }
-                    , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 190 }
                     , { field: 'cmpnNm',		label: '기관',		sortable: false,	align:'center',	width: 150 }
+                    , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 190 }
                     , { field: 'evWay',	label: '평가방법',		sortable: false,	align:'center',	width: 150 }
                     , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 100 }
                     , { field: 'evScn',	label: '구분',		sortable: false,	align:'center',	width: 118 }
@@ -363,7 +363,7 @@
                 });
             };
 
-    	    // 분산기기 검색 팝업 시작
+    	    // 공간평가Tool 검색 팝업 시작
 			mchnDialog = new Rui.ui.LFrameDialog({
 		        id: 'mchnDialog',
 		        title: '분석기기 조회',
@@ -386,12 +386,12 @@
 		    	mchnDialog.setUrl('<c:url value="/space/retrieveSpaceExatMchnInfoPop.do"/>');
 		    	mchnDialog.show();
 		    };
-    	    // 분산기기 검색 팝업 끝
+    	    // 공간평가Tool 검색 팝업 끝
     	    
-    	    // 실험수가 Simulation 팝업 시작
+    	    // 시험수가 Simulation 팝업 시작
     	    utmExpSimulationDialog = new Rui.ui.LFrameDialog({
     	        id: 'utmExpSimulationDialog', 
-    	        title: '실험수가 Simulation',
+    	        title: '시험수가 Simulation',
     	        width: 920,
     	        height: 430,
     	        modal: true,
@@ -404,7 +404,7 @@
     	    	utmExpSimulationDialog.setUrl('<c:url value="/space/spaceExatExpSimulationPopup.do"/>');
     	    	utmExpSimulationDialog.show();
     	    };
-    	    // 실험수가 Simulation 팝업 끝
+    	    // 시험수가 Simulation 팝업 끝
             
      	    setMchnInfoCheck = function(mchnInfo){
     	    	if(spaceExatDtlDataSet.findRow('mchnInfoId', mchnInfo.get("mchnInfoId")) > -1) {
@@ -576,7 +576,7 @@
 			    </div>
    				
    				<div class="titArea">
-   					<span class="Ltotal">공간평가 Tool 관리</span>
+   					<span class="Ltotal">공간평가Tool 관리</span>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="addSpaceExatDtlBtn" name="addSpaceExatDtlBtn" onclick="addSpaceExatDtl()">신규</button>
    						<button type="button" class="btn"  id="saveSpaceExatMstBtn" name="saveSpaceExatMstBtn" onclick="saveSpaceExatDtl()">저장</button>

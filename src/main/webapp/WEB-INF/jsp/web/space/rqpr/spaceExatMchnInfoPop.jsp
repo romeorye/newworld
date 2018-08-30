@@ -59,12 +59,12 @@
 		var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	 , { field: 'toolNm',	label: 'TOOL명',		sortable: false,	align:'left',	width: 220 }
+	        	 , { field: 'toolNm',	label: 'TOOL명',		sortable: false,	align:'center',	width: 220 }
                  , { field: 'ver',			label: '버전',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 120 }
                  , { field: 'cmpnNm',		label: '기관',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'evWay',	label: '평가방법',		sortable: false,	align:'center',	width: 80 }
-                 , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 80 }
+                 , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 100 }
+                 , { field: 'evWay',	label: '평가방법',		sortable: false,	align:'center',	width: 150 }
+                 , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 70 }
                  , { field: 'evScn',	label: '구분',		sortable: false,	align:'center',	width: 80 }
                  , { field: 'mchnInfoId' ,hidden : true}
             ]
@@ -116,10 +116,10 @@
 	            applyTo : 'evCtgr',
 	            name : 'evCtgr',
 	            items : [
-	            	{label : '전체', 			value : 'ALL'},
-	            	{label : 'Simulation', 		value : 'Simulation'},
-	            	{label : 'Mock-up', 		value : 'Mock-up'},
-	            	{label : 'Certification', 		value : 'Certification'}
+	            	{label : '전체', 				value : 'ALL'},
+	            	{label : 'Simulation', 		value : '01'},
+	            	{label : 'Mock-up', 		value : '02'},
+	            	{label : 'Certification', 	value : '03'}
 	            ]
 	    });
 

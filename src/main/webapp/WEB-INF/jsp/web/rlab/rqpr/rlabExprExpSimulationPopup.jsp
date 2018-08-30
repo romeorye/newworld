@@ -107,19 +107,7 @@
                     { value: '1', text: '일'}
                 ]
             });
-            
-/*              var vm1 = new Rui.validate.LValidatorManager({
-                validators:[
-                { id: 'smpoQty',			validExp: '신뢰성시험수:true:number' }
-                ]
-            }); 
-            
-            var vm2 = new Rui.validate.LValidatorManager({
-                validators:[
-                { id: 'exatTim',			validExp: '시험일수:true:number' }
-                ]
-            }); */
-            
+
             var rlabExatMstTreeDataSet = new Rui.data.LJsonDataSet({
                 id: 'rlabExatMstTreeDataSet',
                 remainRemoved: true,
