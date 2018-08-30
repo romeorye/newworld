@@ -1,6 +1,5 @@
 package iris.web.knld.rsst.controller;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +23,6 @@ import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.code.service.CodeCacheManager;
 import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.CommonUtil;
-import iris.web.common.util.NamoMime;
 import iris.web.common.util.StringUtil;
 import iris.web.knld.rsst.service.ProductListService;
 import iris.web.system.base.IrisBaseController;
@@ -148,10 +145,6 @@ public class ProductListController  extends IrisBaseController {
 		checkSessionRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		NamoMime mime = new NamoMime();
-
-		String prdtSbcHtml = "";
-		String prdtSbcHtml_temp = "";
 
 		// 결과메시지
 		rtnMeaasge.put("rtnSt", "S");
@@ -161,33 +154,14 @@ public class ProductListController  extends IrisBaseController {
 		int totCnt = 0;    							//전체건수
 		List<Map<String, Object>> prdtListRgstDataSetList;	// 변경데이터
 
-		try
-		{
-
-			String uploadUrl = "";
-			String uploadPath = "";
-
-            uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_KNLD");   // 파일명에 세팅되는 경로
-            uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_KNLD");  // 파일이 실제로 업로드 되는 경로
-
-            mime.setSaveURL(uploadUrl);
-            mime.setSavePath(uploadPath);
-            mime.decode(input.get("sbcNm").toString());                  // MIME 디코딩
-            mime.saveFileAtPath(uploadPath+File.separator);
-
-            prdtSbcHtml = mime.getBodyContent();
-            prdtSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(prdtSbcHtml, "<", "@![!@"),">","@!]!@"));
-
+		try{
 
 			// 저장&수정
 			String prdtId = "";
 			prdtListRgstDataSetList = RuiConverter.convertToDataSet(request,"prdtListRgstDataSet");
 
 			for(Map<String,Object> productListRgstDataSetMap : prdtListRgstDataSetList) {
-
 				productListRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
-				productListRgstDataSetMap.put("sbcNm" , NullUtil.nvl(prdtSbcHtml, ""));
-
 				productListService.insertProductListInfo(productListRgstDataSetMap);
 				totCnt++;
 			}

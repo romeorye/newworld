@@ -93,7 +93,9 @@
 //                 prdtListRgstDataSet.setNameValue(0, 'sbcNm', sbcNm);
 
                 if(prdtListRgstDataSet.getNameValue(0, "prdtId")  != "" ||  prdtListRgstDataSet.getNameValue(0, "prdtId")  !=  undefined ){
-    				document.aform.Wec.value=prdtListRgstDataSet.getNameValue(0, "sbcNm");
+                	CrossEditor.SetBodyValue( prdtListRgstDataSet.getNameValue(0, "sbcNm") );
+    				//document.aform.Wec.value=prdtListRgstDataSet.getNameValue(0, "sbcNm");
+    				
     			}
 
                 gvAffrNm = prdtListRgstDataSet.getNameValue(0, "affrClNm");
@@ -233,9 +235,7 @@
     	    openKnldAffrTreeSrhRsltDialog = function(f) {
     	    	callback = f;
     	    	var enAffrNm = escape(encodeURIComponent(gvAffrNm));
-//     	    	var affrClNm = prdtListRgstDataSet.getNameValue(0, 'affrClNm');
     	    	knldAffrTreeSrhRsltDialog.setUrl('<c:url value="/knld/rsst/knldAffrTreeSrhRsltPopup.do?affrClNm="/>' + enAffrNm + '&affrClGroup=' + affrClGroup);
-//     	    	knldAffrTreeSrhRsltDialog.setUrl('<c:url value="/knld/rsst/knldAffrTreeSrhRsltPopup.do"/>');
     	    	knldAffrTreeSrhRsltDialog.show();
     	    };
 
@@ -261,9 +261,6 @@
 //     	    }
 
     	    // 트리 윈도우 팝업 끝
-
-		    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
-
 		    fnChildCall = function(affrNmParam , affrClIdParam) {
 		    	prdtListRgstDataSet.setNameValue(0, 'affrClNm', affrNmParam );
 		    	prdtListRgstDataSet.setNameValue(0, 'affrClId', affrClIdParam );
@@ -334,17 +331,8 @@
 	     *******************************************************************************/--%>
 	    fncInsertPrdtListInfo = function(){
 	    	var pageMode = '${inputData.pageMode}';
-	    	console.log('fncInsertPrdtListInfo pageMode='+pageMode);
 
-	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
-	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
-
-	    	prdtListRgstDataSet.setNameValue(0, 'sbcNm', document.aform.Wec.bodyValue);
-            gvSbcNm = document.aform.Wec.bodyValue ;
-
-			document.aform.sbcNm.value = document.aform.Wec.MIMEValue;
-
-// 	    	var alertMsg = "유효하지 않습니다.";
+	    	prdtListRgstDataSet.setNameValue(0, 'sbcNm', CrossEditor.GetBodyValue());
 
 			// 업무분류 valid
 			if(gvAffrNm == "" || gvAffrNm == "<P>&nbsp;</P>"){
@@ -358,20 +346,13 @@
 	   		}
 
 			// 에디터 valid
-			if(gvSbcNm == "" || gvSbcNm == "<P>&nbsp;</P>"){
+			if( prdtListRgstDataSet.getNameValue(0, "sbcNm") == "<p><br></p>" || prdtListRgstDataSet.getNameValue(0, "sbcNm") == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
 				alert("내용 : 필수 입력 항목 입니다.");
-		   		return false;
-		   	}
-
-			// 에디터 글자수 valid
-// 			var sbcNmLength = gvSbcNm.length;
-
-// 			if(sbcNmLength > 4000){
-// 				alert("내용 : 4000Byte 이하로 입력하십시오. (한글은 1333자 이하)");
-// 		   		return false;
-// 		   	}
-
-	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
+			
+			var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
 	    	if(confirm("저장하시겠습니까?")){
 		    	if(pageMode == 'V'){
@@ -381,7 +362,7 @@
 		    	        dataSets:[prdtListRgstDataSet],
 		    	        params: {
 		    	        	prdtId : document.aform.prdtId.value
-		    	        	,sbcNm : document.aform.Wec.MIMEValue
+		    	        	,sbcNm : prdtListRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}else if(pageMode == 'C'){
@@ -389,7 +370,7 @@
 		    	        url: "<c:url value='/knld/rsst/insertProductListInfo.do'/>",
 		    	        dataSets:[prdtListRgstDataSet],
 		    	        params: {
-		    	        	sbcNm : document.aform.Wec.MIMEValue
+		    	        	sbcNm : prdtListRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}
@@ -417,7 +398,6 @@
 	</form>
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="prdtId" name="prdtId" value=""/>
-		<input type="hidden" id="sbcNm" name="sbcNm" value=""/>
 		<input type="hidden" id="affrClId" value="<c:out value='${inputData.affrClId}'/>"/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
    		<div class="contents">
@@ -469,8 +449,27 @@
    						<tr>
     						<!--<th align="right">내용</th> -->
    							<td colspan="4">
-<!--    								 <textarea id="sbcNm"></textarea> -->
-   								 <div id="namoHtml_DIV"></div>
+   								 <textarea id="sbcNm"></textarea>
+   								 <script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('sbcNm');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										
+										var uploadPath = "<%=uploadPath%>"; 
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"/knld";
+										CrossEditor.params.FullScreen = false;
+										
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											//CrossEditor.ShowToolbar(0,0); 
+											//CrossEditor.ShowToolbar(1,0);
+											//CrossEditor.ShowToolbar(2,0);
+											
+											e.editorTarget.SetBodyValue(document.getElementById("sbcNm").value);
+										}
+									</script>
    							</td>
    						</tr>
    						<tr>
