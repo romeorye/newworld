@@ -466,14 +466,14 @@ var openMchnSearchDialog;
     			return false;
     		}
     		
-    		if(!CrossEditor.IsDirty()){ // 크로스에디터 안의 컨텐츠 입력 확인
+    		frm.dtlSbc.value = CrossEditor.GetBodyValue();
+    		
+    		if( frm.dtlSbc.value == "<p><br></p>" || frm.dtlSbc.value == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
     			alert('내용을 입력하여 주십시요.');
      		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
      		    return false;
      		}
-    	
-    		frm.dtlSbc.value = CrossEditor.GetBodyValue();
-
+    		
     		return true;
  		}
 
@@ -510,8 +510,13 @@ var openMchnSearchDialog;
         }
         
         var fncMchnEduAnlList = function(){
-        	document.aform.action='<c:url value="/mchn/open/eduAnl/retrieveEduAdmListList.do"/>';
-   			document.aform.submit();
+        	
+        	$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
+			$('#searchForm > input[name=fxaNm]').val(encodeURIComponent($('#searchForm > input[name=fxaNm]').val()));
+			$('#searchForm > input[name=crgrNm]').val(encodeURIComponent($('#searchForm > input[name=crgrNm]').val()));
+			
+        	document.searchForm.action='<c:url value="/mchn/open/eduAnl/retrieveEduAdmListList.do"/>';
+   			document.searchForm.submit();
         }
 
 	});  //end ready
@@ -611,7 +616,6 @@ var openMchnSearchDialog;
 											//CrossEditor.ShowToolbar(0,0); 
 											//CrossEditor.ShowToolbar(1,0);
 											//CrossEditor.ShowToolbar(2,0);
-											
 											e.editorTarget.SetBodyValue(document.getElementById("dtlSbc").value);
 										}
 									</script>

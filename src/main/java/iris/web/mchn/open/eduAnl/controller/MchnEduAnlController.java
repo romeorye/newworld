@@ -1,6 +1,5 @@
 package iris.web.mchn.open.eduAnl.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import devonframe.configuration.ConfigService;
 import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.CommonUtil;
-import iris.web.common.util.NamoMime;
 import iris.web.common.util.StringUtil;
 import iris.web.mchn.open.edu.service.MchnEduService;
 import iris.web.mchn.open.eduAnl.service.MchnEduAnlService;
@@ -63,6 +60,8 @@ public class MchnEduAnlController  extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
+		
+		LOGGER.debug("#############################retrieveEduAdmListList########################################################");
 		input = StringUtil.toUtf8(input);
 		
 		model.addAttribute("inputData", input);
@@ -138,7 +137,6 @@ public class MchnEduAnlController  extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		input = StringUtil.toUtf8(input);
-		LOGGER.debug("#############################input######################################################## : "+ input);
 		
 		HashMap<String, Object> result = mchnEduAnlService.retrieveEduInfo(input);
 
@@ -250,31 +248,12 @@ public class MchnEduAnlController  extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		NamoMime mime = new NamoMime();
 		
-		String dtlSbcHtml = "";
-		String dtlSbcHtml_temp = "";
 		String rtnSt ="F";
 		String rtnMsg = "";
 		
 		try{
-
-			String uploadPath = "";
-            String uploadUrl = "";
-
-            uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_MCHN");   // 파일명에 세팅되는 경로
-            uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_MCHN");  // 파일이 실제로 업로드 되는 경로
-
-            mime.setSaveURL(uploadUrl);
-            mime.setSavePath(uploadPath);
-            mime.decode(input.get("dtlSbc").toString());                  // MIME 디코딩
-            mime.saveFileAtPath(uploadPath+File.separator);
-
-            dtlSbcHtml = mime.getBodyContent();
-            dtlSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(dtlSbcHtml, "<", "@![!@"),">","@!]!@"));
-
-			input.put("dtlSbc", dtlSbcHtml);
-
+			
 			mchnEduAnlService.saveEduInfo(input);
 			
 			rtnMsg = "저장되었습니다.";
