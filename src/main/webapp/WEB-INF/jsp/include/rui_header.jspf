@@ -39,28 +39,15 @@
     if ("/".equals(contextPath)) {
     	contextPath = "";
     }
-    /* 기존소스
-    String imagePath        = contextPath + "/images";
-    String cssPath          = contextPath + "/css";
-    String scriptPath       = contextPath + "/js";
-    String jspPath          = contextPath + "/jsp";
-    String duiPathJs        = contextPath + "/common/js";
-    String duiPathCss       = contextPath + "/common/css";
-    */
 
-    //String imagePath        = contextPath + "/resource/old/images";
     String imagePath        = contextPath + "/resource/web/images";
     String cssPath          = contextPath + "/resource/web/css";
     String scriptPath       = contextPath + "/resource/web/js";
     String jspPath          = contextPath + "/jsp";
-    //String duiPathJs        = contextPath + "/resource/old/common/js";
-    //String duiPathCss       = contextPath + "/resource/old/common/css";
     String ruiPathJs        = contextPath + "/rui/js";
     String ruiPathCss       = contextPath + "/rui/resources";
     String ruiPathPlugins   = contextPath + "/rui/plugins";
-
     String newImagePath     = contextPath + "/resource/images";
-
     String namoPath         = contextPath + "/namo";
     String documentTitle = "  :::  연구정보통합시스템(IRIS)  :::  ";
     
@@ -90,13 +77,6 @@
     if(request.getSession() != null){
 		session = request.getSession(false);
 		if(session.getAttribute("menuInfoSession") != null) {
-			/* devon.core.collection.LData 삭제로 변경
-			menuInfo = (LData)session.getAttribute("menuInfoSession");
-			topMenuNm 	= menuInfo.getString("topMenuNm");
-			supiMenuNm 	= menuInfo.getString("supiMenuNm");
-			menuNm 		= menuInfo.getString("menuNm");
-			authScnCd 	= menuInfo.getString("authScnCd");
-			*/
 			menuInfo = (HashMap)session.getAttribute("menuInfoSession");
 
 			topMenuNm 	= menuInfo.get("topMenuNm").toString();
@@ -245,8 +225,9 @@
 
 <script type="text/javascript" src="<%=scriptPath%>/iris_common.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/javascript-aes.js"></script>
-
-<script type="text/javascript" src="<%=namoPath%>/NamoWec8.js"></script>
+<script type="text/javascript" src="<%=namoPath%>/js/namo_scripteditor.js"></script>
+<script type="text/javascript" src="<%=namoPath%>/js/namo_connector.js"></script>
+<script type="text/javascript" src="<%=namoPath%>/js/namo_functions.js"></script>
 
 <script type="text/javascript">
 

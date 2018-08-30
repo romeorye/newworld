@@ -98,7 +98,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			cbOpnYn.setValue(dataSet.getNameValue(0,"opnYn"));
 			
 			if(dataSet.getNameValue(0, "mchnInfoId")  != "" ||  dataSet.getNameValue(0, "mchnInfoId")  !=  undefined ){
-				document.aform.Wec.value=dataSet.getNameValue(0, "mchnSmry");
+				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "mchnSmry") );
 			}
 			
 			if(!Rui.isEmpty(dataSet.getNameValue(0, "fxaNo"))){
@@ -570,23 +570,17 @@ var faxInfoDialog;	//고정자산관리 팝업
     			return false;
     		} */
     	
-    		frm.Wec.CleanupOptions = "msoffice | empty | comment";
-    		frm.Wec.value =frm.Wec.CleanupHtml(frm.Wec.value);
-    		frm.mchnSmry.value = frm.Wec.BodyValue;
-
-    		if(frm.mchnSmry.value == "" || frm.mchnSmry.value == "<P>&nbsp;</P>") {
-    			alert('개요내용을 입력하여 주십시요.');
-    			frm.Wec.focus();
-    			return false;
-    		}
-    	
-    		frm.mchnSmry.value = frm.Wec.MIMEValue;		// mime value 설정 : cmd에서 decode 통해 파일을 서버에 업로드하고, 파일 경로를 수정하도록 함. 고, 파일 경로를 수정하도록 함.
+     		if(!CrossEditor.IsDirty()){ // 크로스에디터 안의 컨텐츠 입력 확인
+     		    alert("개요내용을 입력해 주세요!!");
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
+    		
+    		frm.mchnSmry.value = CrossEditor.GetBodyValue();
 
     		return true;
      	} 
      	
-     	createNamoEdit('Wec', '100%', 300, 'namoHtml_DIV');
-
 	});  //end ready
 
 	 //고정자산 callback
@@ -619,8 +613,6 @@ var faxInfoDialog;	//고정자산관리 팝업
 		    
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" />
-
-				<input type="hidden" id="mchnSmry" name="mchnSmry" />
 				<input type="hidden" id="attcFilId" name="attcFilId" />
 				<input type="hidden" id="mchnCrgrId" name="mchnCrgrId" />
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" value="<c:out value='${inputData.mchnInfoId}'/>">
@@ -733,7 +725,19 @@ var faxInfoDialog;	//고정자산관리 팝업
 						<tr>
 							<th  align="right">개요</th>
 							<td colspan="3">
-								<div id="namoHtml_DIV"></div>
+								<textarea id="mchnSmry" name="mchnSmry"></textarea>
+									<script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('mchnSmry');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										CrossEditor.params.ImageSavePath = "/iris/resource/fileupload/mchn";
+										CrossEditor.params.FullScreen = false;
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											e.editorTarget.SetBodyValue(document.getElementById("mchnSmry").value);
+										}
+									</script>
 							</td>
 						</tr>
 						</tbody>
