@@ -748,11 +748,11 @@
 				,a.mchn_info_id as mchnInfoId
 				,b.tool_nm as toolNm
 				,b.ver as ver
-				,b.MCHN_CL_CD as evCtgr
+				,dbo.fn_getComDtlNm('SPACE_EV_CTGR', b.MCHN_CL_CD) as evCtgr
 				,b.CMPN_NM as cmpnNm
-				,b.EV_WAY as evWay
 				,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
 				,b.ev_scn as evScn
+				,dbo.fn_getEvWay(a.mchn_info_id) as evWay
 		    from iris_space_exat_dtl a,
 				 IRIS_SPACE_MCHN_INFO_MGMT b
 		 ]]>
@@ -987,12 +987,12 @@
 		
 		SELECT  TOOL_NM as "toolNm"
 			    ,VER as "ver"
-		        ,MCHN_CL_CD as evCtgr
+		        ,dbo.fn_getComDtlNm('SPACE_EV_CTGR', MIM.MCHN_CL_CD) as evCtgr
 				,CMPN_NM as cmpnNm
-				,EV_WAY as evWay
 				,dbo.fn_getSabunName(mchn_crgr_id)	as mchnCrgrNm
 				,EV_SCN as evScn
 				,MCHN_INFO_ID AS mchnInfoId
+				,dbo.fn_getEvWay(MIM.MCHN_INFO_ID) as evWay
 		  FROM  IRIS_SPACE_MCHN_INFO_MGMT MIM
 				LEFT OUTER JOIN IRIS_SSO_USER   SU
 				ON  MIM.MCHN_CRGR_ID = SU.SA_SABUN_NEW
@@ -1004,8 +1004,8 @@
 		  <if test="( mchnCrgrNm != null and mchnCrgrNm != '')">
 			AND SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
 		  </if>
-		  <if test="( evCtgr == 'Simulation' or  evCtgr == 'Mock-up' or evCtgr == 'Certification')">
-			AND  MIM.MCHN_CL_CD LIKE '%'+#{evCtgr}+'%'
+		  <if test="( evCtgr == '01' or  evCtgr == '02' or evCtgr == '03')">
+			AND  MIM.MCHN_CL_CD = #{evCtgr}
 		  </if>
 	</select>
 
