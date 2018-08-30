@@ -94,8 +94,6 @@
 
                 if(prdtListRgstDataSet.getNameValue(0, "prdtId")  != "" ||  prdtListRgstDataSet.getNameValue(0, "prdtId")  !=  undefined ){
                 	CrossEditor.SetBodyValue( prdtListRgstDataSet.getNameValue(0, "sbcNm") );
-    				//document.aform.Wec.value=prdtListRgstDataSet.getNameValue(0, "sbcNm");
-    				
     			}
 
                 gvAffrNm = prdtListRgstDataSet.getNameValue(0, "affrClNm");
