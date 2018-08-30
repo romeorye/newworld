@@ -131,7 +131,7 @@
             	$('#rtrvRqDocCd').val(record.get('rtrvRqDocCd'));
             	$('#docNo').val(record.get('docNo'));
             	$('#authYn').val(record.get('readFlag'));
-            	$('#docUrl').val(record.get('docUrl'));
+            	$('#reUrl').val(record.get('docUrl'));
             	
             	nwinsActSubmit(aform, "<c:url value="/knld/rsst/knldRtrvRqDetail.do"/>");
             });
@@ -164,7 +164,7 @@
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rtrvRqDocCd" name="rtrvRqDocCd" value=""/>
 		<input type="hidden" id="docNo" name="docNo" value=""/>
-		<input type="hidden" id="docUrl" name="docUrl" value=""/>
+		<input type="hidden" id="reUrl" name="reUrl" value=""/>
 		<input type="hidden" id="authYn" name="authYn" value=""/>
 		
    		<div class="contents">
