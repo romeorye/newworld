@@ -264,8 +264,9 @@
 					, { id: 'strtVldDt' }
 					, { id: 'fnhVldDt' }
 					, { id: 'ottpYn' }
-					, { id: 'attcFileId' }
+					, { id: 'attcFilId' }
 					, { id: 'rem' }
+					, { id: 'evCd' }
                 ]
             });
 
@@ -277,14 +278,25 @@
                 	, { field: 'ctgr2',			hidden : true}
                 	, { field: 'ctgr3',			hidden : true}
                 	, { field: 'prodNm',		hidden : true}
+                	, { field: 'evCd',			hidden : true}
                 	, { field: 'scn',			label: '구분',		sortable: false,	editable: false, 	align:'center',	width: 100 }
                     , { field: 'pfmcVal',		label: '성능값',		sortable: false,	editable: false, 	align:'center',	width: 150 }
                     , { field: 'frstRgstDt',	label: '등록일',		sortable: false,	editable: false, 	align:'center',	width: 150 }
                     , { field: 'strtVldDt',		label: '유효시작일',		sortable: false,	editable: false, 	align:'center',	width: 150 }
                     , { field: 'fnhVldDt',		label: '유효종료일',		sortable: false,	editable: false, 	align:'center',	width: 150 }
                     , { field: 'ottpYn',		label: '공개여부',		sortable: false,	editable: false, 	align:'center',	width: 150 }
-                    , { field: 'attcFileId',	label: '파일경로',	sortable: false,	editable: false, 	align:'center',	width: 150 }
+                    , { id: 'attachDownBtn',  label: '첨부',                                          width: 65
+                    	,renderer: function(val, p, record, row, i){
+  		  	    		  if(!record.get('attcFilId')||record.get('attcFilId').length<1){
+  		  	    			  return '';
+  		  	    		  }else{
+  		  	    			  return '<button type="button"  class="L-grid-button" >다운로드</button>';
+  		  	    		  } 
+  		  	    		 }
+                      }
                     , { field: 'rem',			label: '비고',		sortable: false,	editable: false, 	align:'center',	width: 150 }
+                    , { field: 'attcFilId',	hidden : true}
+                    
                 ]
             });
 
@@ -299,6 +311,25 @@
             });
             spaceEvMtrlListGrid.render('spaceEvMtrlListGrid');
 
+            spaceEvMtrlListGrid.on('cellClick',function(e){
+            	if(e.colId=="attachDownBtn"){
+            		var recordData=spaceEvMtrlListDataSet.getAt(spaceEvMtrlListDataSet.rowPosition);
+            		var attcFilId=recordData.data.attcFilId;
+            		var ottpYn=recordData.data.ottpYn;
+            		if(!attcFilId||attcFilId.length<1){
+            			return;
+            		}else{
+            			if(ottpYn=='Y'){
+	            			var param = "?attcFilId=" + attcFilId;
+	             	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
+	             	       	document.aform.submit();
+            			}else{
+            				fncRq();
+            			}
+            		}         		
+            	}
+            });
+            
 			//////////////////////////////// 통합성능평가결과서부분/////////////////////////////////
             var anlExprDtlDataSet = new Rui.data.LJsonDataSet({
                 id: 'anlExprDtlDataSet',
@@ -312,7 +343,7 @@
 					, { id: 'mkrNm' }
 					, { id: 'mchnClNm' }
 					, { id: 'open' }
-					, { id: 'attcFileId' }
+					, { id: 'attcFilId' }
 					, { id: 'mchnCrgrNm' }
 					, { id: 'rem' }
                 ]
@@ -327,9 +358,10 @@
                     , { field: 'mkrNm',			label: '평가항목',		sortable: false,	align:'center',	width: 150 }
                     , { field: 'mchnClNm',		label: '등록일',		sortable: false,	align:'center',	width: 150 }
                     , { field: 'open',	label: '공개',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'attcFileId',	label: '다운로드',		sortable: false,	align:'center',	width: 80 }
+                    , { field: 'attcFilId',	label: '다운로드',		sortable: false,	align:'center',	width: 80 }
                     , { field: 'mchnCrgrNm',	label: '작성자',		sortable: false,	align:'center',	width: 80 }
                     , { field: 'rem',	label: '비고',		sortable: false,	align:'center',	width: 80 }
+                    , { field: 'attcFilId',	hidden : true}
                 ]
             });
 
@@ -368,13 +400,13 @@
 
      	    fncRq = function(){
      	    	var record = spaceEvMtrlListDataSet.getAt(spaceEvMtrlListDataSet.rowPosition);
-     	    	var rqDocNm 	= record.data.prodNm + " > 성적서,인증서(자재단위)";
+     	    	var rqDocNm 	= record.data.prodNm + " > 성적서,인증서(자재단위) > "+record.data.scn;
      	    	var rtrvRqDocCd = "SPACE";
-     	    	var docNo 		= spaceEvMtrlListDataSet.getNameValue(spaceEvMtrlListDataSet.rowPosition, "attcFileId");
+     	    	var docNo 		= spaceEvMtrlListDataSet.getNameValue(spaceEvMtrlListDataSet.rowPosition, "attcFilId");
      	    	var pgmPath 	= "Technical Service > 공간평가 > 성능 Master";
      	    	var rgstId 		= '${inputData._userId}';
      	    	var rgstNm 		= '${inputData._userNm}';
-     	    	var reUrl 		= spaceEvMtrlListDataSet.getNameValue(spaceEvMtrlListDataSet.rowPosition, "ottpYn");
+     	    	var reUrl 		= '/system/attach/downloadAttachFile.do';
 
          	   var params = '?rqDocNm=' + escape(encodeURIComponent(rqDocNm))
     					   + '&rtrvRqDocCd=' + rtrvRqDocCd
@@ -395,7 +427,6 @@
             spaceEvMtrlListGrid.on('cellClick', function(e) {
             	if(e.colId == "ottpYn") {
                     if(spaceEvMtrlListDataSet.getNameValue(e.row, "ottpYn")!='Y'){
-                    	alert(21);
                     	fncRq();
 
                     }

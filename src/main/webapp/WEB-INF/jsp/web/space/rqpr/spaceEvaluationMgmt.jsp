@@ -116,8 +116,9 @@
 					, { id: 'strtVldDt' }
 					, { id: 'fnhVldDt' }
 					, { id: 'ottpYn' }
-					, { id: 'attcFileId' }
+					, { id: 'attcFilId' }
 					, { id: 'rem' }
+					, { id: 'evCd' }
                 ]
             });
             
@@ -168,7 +169,8 @@
                 	, { field: 'ctgr2',			hidden : true}
                 	, { field: 'ctgr3',			hidden : true}
                 	, { field: 'prodNm',		hidden : true}
-                	, { field: 'attcFileId',	hidden : true}
+                	, { field: 'evCd',		hidden : true}
+                	, { field: 'attcFilId',	hidden : true}
                 	, { field: 'scn',			label: '구분',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'pfmcVal',		label: '성능값',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'frstRgstDt',	label: '등록일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
@@ -177,13 +179,24 @@
                     , { field: 'ottpYn',		label: '공개여부',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100 }
                     , { id: 'attachDownBtn',  label: '첨부',                                          width: 65
                     	,renderer: function(val, p, record, row, i){
-  		  	    		var param = "?attcFilId=" + record.data.attcFilId + "&seq=" + seq;
-	  		  	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
-	  		  	       	document.aform.submit();
-  		  	    		  return Rui.isUndefined(record.get('attcFilId')) ? '' : '<button type="button"  class="L-grid-button" onclick="'+strBtnFun+'">다운로드</button>'}} 
+  		  	    		  if(!record.get('attcFilId')||record.get('attcFilId').length<1){
+  		  	    			  return '';
+  		  	    		  }else{
+  		  	    			  return '<button type="button"  class="L-grid-button" >다운로드</button>';
+  		  	    		  } 
+  		  	    		 }
+                      } 
                     , { field: 'rem',			label: '비고',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                 ]
             });
+            /* strBtnFun = function(){
+            	alert(1);
+            	var record = spaceEvMtrlListDataSet.getAt(spaceEvMtrlListDataSet.rowPosition);
+	            var attId = record.data.attcFilId;
+            	var param = "?attcFilId=" + attId;
+     	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
+     	       	document.aform.submit();
+            } */
             
             //사업부 그리드 패널 설정
             var spaceEvBzdvGrid = new Rui.ui.grid.LGridPanel({
@@ -240,7 +253,19 @@
             });
             spaceEvMtrlListGrid.render('spaceEvMtrlListGrid');
             
-            
+            spaceEvMtrlListGrid.on('cellClick',function(e){
+            	if(e.colId=="attachDownBtn"){
+            		var recordData=spaceEvMtrlListDataSet.getAt(spaceEvMtrlListDataSet.rowPosition);
+            		var attcFilId=recordData.data.attcFilId;
+            		if(!attcFilId||attcFilId.length<1){
+            			return;
+            		}else{
+            			var param = "?attcFilId=" + attcFilId;
+             	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
+             	       	document.aform.submit();
+            		}         		
+            	}
+            });
             
             /* 사업부 조회 */
             getSpaceEvBzdvList = function() {
@@ -654,7 +679,7 @@
             		spaceEvClDataSet.removeAt(spaceEvClDataSet.rowPosition);
             		return;	
             	}
-				var delDate = spaceEvClDataSet.getAt(spaceEvProdClDataSet.rowPosition);
+				var delDate = spaceEvClDataSet.getAt(spaceEvClDataSet.rowPosition);
             	
             	var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
@@ -688,7 +713,7 @@
             		spaceEvProdDataSet.removeAt(spaceEvProdDataSet.rowPosition);
             		return;	
             	}
-				var delDate = spaceEvProdDataSet.getAt(spaceEvProdClDataSet.rowPosition);
+				var delDate = spaceEvProdDataSet.getAt(spaceEvProdDataSet.rowPosition);
             	
             	var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
@@ -838,6 +863,7 @@
 		                    	     ,pfmcVal:delDate.data.pfmcVal
 		                    	     ,strtVldDt:delDate.data.strtVldDt
 		                    	     ,fnhVldDt:delDate.data.fnhVldDt
+		                    	     ,evCd:delDate.data.evCd
 		                    	    }
     	   	        	});
     	   	        }

@@ -1,6 +1,5 @@
 package iris.web.mchn.mgmt.controller;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,16 +21,18 @@ import devonframe.configuration.ConfigService;
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.CommonUtil;
-import iris.web.common.util.NamoMime;
 import iris.web.common.util.StringUtil;
 import iris.web.mchn.mgmt.service.SpaceEvToolService;
+import iris.web.common.code.service.CodeCacheManager;
 import iris.web.system.base.IrisBaseController;
 
 
 @Controller
 public class SpaceEvToolController extends IrisBaseController {
 
+	@Resource(name = "codeCacheManager")
+	private CodeCacheManager codeCacheManager;
+	
 	@Resource(name="messageSourceAccessor")
 	private MessageSourceAccessor messageSourceAccessor;
 
@@ -111,8 +112,9 @@ public class SpaceEvToolController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
-		
+		List <Map<String, Object>> evWayList  = codeCacheManager.retrieveCodeValueListForCache("SPACE_EV_PRVS"); // 평가항목
         model.addAttribute("inputData", input);
+        model.addAttribute("evWayList", evWayList);
 
 		return  "web/mchn/mgmt/spaceEvToolReg";
 	}
@@ -169,28 +171,7 @@ public class SpaceEvToolController extends IrisBaseController {
 			String rtnSt ="F";
 			String rtnMsg = "";
 
-			NamoMime mime = new NamoMime();
-
-			String mchnSmry = "";
-			String mchnSmryHtml = "";
-
 			try{
-
-        		String uploadPath = "";
-                String uploadUrl = "";
-
-                uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_MCHN");   // 파일명에 세팅되는 경로
-                uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_MCHN");  // 파일이 실제로 업로드 되는 경로
-
-                mime.setSaveURL(uploadUrl);
-                mime.setSavePath(uploadPath);
-                mime.decode(input.get("mchnSmry").toString());                  // MIME 디코딩
-                mime.saveFileAtPath(uploadPath+File.separator);
-
-                mchnSmry = mime.getBodyContent();
-                mchnSmryHtml = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(mchnSmry, "<", "@![!@"),">","@!]!@"));
-
-    			input.put("mchnSmry", mchnSmry);
 
     			spaceEvToolService.saveSpaceEvToolInfo(input);
             	

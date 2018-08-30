@@ -74,7 +74,7 @@ var firstLoad = "Y";	//화면오픈
 		           	 ,{ id: 'ver'}
 		           	 ,{ id: 'cmpnNm'}
 		           	 ,{ id: 'mchnCrgrNm'}
-		           	 //,{ id: 'evCtgr'}
+		           	 ,{ id: 'evCtgr'}
 		           	 //,{ id: 'evWay'}
 		           	 ,{ id: 'evScn'}
 		           	 ,{ id: 'mchnExpl'}
@@ -90,31 +90,20 @@ var firstLoad = "Y";	//화면오픈
 			document.aform.mchnCrgrId.value = dataSet.getNameValue(0, "mchnCrgrId");
 			
 			if(dataSet.getNameValue(0, "mchnInfoId")  != "" ||  dataSet.getNameValue(0, "mchnInfoId")  !=  undefined ){
-				document.aform.Wec.value=dataSet.getNameValue(0, "mchnSmry");
+				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "mchnSmry") );
 			}
 			
-			var evCtgrVal = dataSet.getNameValue(0, "evCtgr").split("|");
-			for(var i=0;i<evCtgrVal.length;i++){
-				if(evCtgrVal[i]=="Simulation"){
-					evCtgr.getItem(0).setValue(true);
-				}else if(evCtgrVal[i]=="Mock-up"){
-					evCtgr.getItem(1).setValue(true);
-				}else if(evCtgrVal[i]=="Certification"){
-					evCtgr.getItem(2).setValue(true);
-				}
-			}
-
-			var evWayVal = dataSet.getNameValue(0, "evWay").split("|");
+			var evWayVal = dataSet.getNameValue(0, "evWay").split(",");
 			for(var i=0;i<evWayVal.length;i++){
-				if(evWayVal[i]=="에너지"){
+				if(evWayVal[i]=="01"){
 					evWay.getItem(0).setValue(true);
-				}else if(evWayVal[i]=="열"){
+				}else if(evWayVal[i]=="02"){
 					evWay.getItem(1).setValue(true);
-				}else if(evWayVal[i]=="빛"){
+				}else if(evWayVal[i]=="03"){
 					evWay.getItem(2).setValue(true);
-				}else if(evWayVal[i]=="공기질"){
+				}else if(evWayVal[i]=="04"){
 					evWay.getItem(3).setValue(true);
-				}else if(evWayVal[i]=="음"){
+				}else if(evWayVal[i]=="05"){
 					evWay.getItem(4).setValue(true);
 				}
 			}
@@ -146,26 +135,48 @@ var firstLoad = "Y";	//화면오픈
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false,                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
+		//기기사용쳐부combo
+		var cbMchnUsePsblYn = new Rui.ui.form.LCombo({
+		 	applyTo : 'mchnUsePsblYn',
+			name : 'mchnUsePsblYn',
+			useEmptyText: true,
+		    emptyText: '선택하세요',
+		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=MCHN_PRCT_ST"/>',
+			displayField: 'COM_DTL_NM',
+			valueField: 'COM_DTL_CD'
+		});
 
+		//open 기기
+		var cbOpnYn = new Rui.ui.form.LCombo({
+			applyTo : 'opnYn',
+			name : 'opnYn',
+			emptyText: '선택하세요',
+				items: [
+	                   { code: 'Y', value: 'Y' }, // value는 생략 가능하며, 생략시 code값을 그대로 사용한다.
+	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+	                	]
+		});
+
+		//삭제여부
+		var cbDelYn = new Rui.ui.form.LCombo({
+			applyTo : 'delYn',
+			name : 'delYn',
+			emptyText: '선택하세요',
+				items: [
+					   { value: 'N', text: '미삭제'},
+				       { value: 'Y', text: '삭제'}
+	            ]
+		});
 		//평가카테고리 checkBox
-		var evCtgr = new Rui.ui.form.LCheckBoxGroup({
-		    applyTo: 'evCtgr',
-		    name: 'evCtgr',
-		    items: [
-		        {
-		            label: 'Simulation',
-		            name: 'evCtgr',
-		            width:'90',
-		            value: 'Simulation'
-		        }, {
-		            label: 'Mock-up',
-		            width:'90',
-		            value: 'Mock-up'
-		        }, {
-		            label: 'Certification',
-		            value: 'Certification'
-		        }
-		    ]
+		//분류 combo
+		var evCtgr = new Rui.ui.form.LCombo({
+		 	applyTo : 'evCtgr',
+			name : 'evCtgr',
+			useEmptyText: true,
+		    emptyText: '선택하세요',
+		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_EV_CTGR"/>',
+			displayField: 'COM_DTL_NM',
+			valueField: 'COM_DTL_CD'
 		});
 		
 		//평가항목 checkBox
@@ -173,28 +184,16 @@ var firstLoad = "Y";	//화면오픈
 		    applyTo: 'evWay',
 		    name: 'evWay',
 		    items: [
-		        {
-		            label: '에너지',
-		            name: 'evWay',
-		            width:'60',
-		            value: '에너지'
-		        }, {
-		            label: '열',
-		            width:'40',
-		            value: '열'
-		        }, {
-		            label: '빛',
-		            width:'40',
-		            value: '빛'
-		        }, {
-		            label: '공기질',
-		            width:'60',
-		            value: '공기질'
-		        }, {
-		            label: '음',
-		            width:'40',
-		            value: '음'
-		        }
+				<c:forEach var="data" items="${ evWayList }" varStatus="status">
+					<c:choose>
+						<c:when test="${status.index == 0}">
+					       { label : "${ data.COM_DTL_NM }"+" &nbsp;" , name: "evWay" , value : "${ data.COM_DTL_CD }"}
+						</c:when>
+						<c:otherwise>
+					   	, { label: '${ data.COM_DTL_NM }'+"  &nbsp;", value: '${ data.COM_DTL_CD }'}
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
 		    ]
 		});
 		
@@ -254,7 +253,7 @@ var firstLoad = "Y";	//화면오픈
 		         { id: 'ver', 			ctrlId: 'ver', 		value: 'value' },
 		         { id: 'cmpnNm', 			ctrlId: 'cmpnNm', 			value: 'value' },
 		         { id: 'mchnCrgrNm', 			ctrlId: 'mchnCrgrNm', 			value: 'value' },
-		         //{ id: 'evCtgr', 			ctrlId: 'evCtgr', 		value: 'value' },
+		         { id: 'evCtgr', 			ctrlId: 'evCtgr', 		value: 'value' },
 		         //{ id: 'evWay', 			ctrlId: 'evWay', 		    value: 'value' },
 		         { id: 'evScn', 			ctrlId: 'evScn', 			value: 'value' },
 		         { id: 'mchnExpl', 		ctrlId: 'mchnExpl', 		value: 'value' },
@@ -359,22 +358,6 @@ var firstLoad = "Y";	//화면오픈
             setMenualFileInfo(menualFileInfoList);
         };
         
-		//평가카테고리 체크박스 체크	
-        evCtgr.on('changed', function(e){
-	        	 var checkedVal=evCtgr.getValue();
-	        	 var val=checkedVal.toString();
-	        	 var chkVal=checkedVal.toString();;
-	        	 val=val.replace(/,,/gi,",").replace(/,,/gi,",").replace(/,,/gi,",");
-	        	 if(val.charAt(0)==","){
-	        		 val = val.substring(1,val.length);
-	        	 }
-	        	 if(val.charAt(val.length-1)==","){
-	        		 val = val.substring(0,val.length-1);
-	        	 }
-	        	 val=val.replace(/,/gi,"|");
-	        	 $('#evCtgrVal').val(val);
-        });
-		
       //평가항목 체크박스 체크	
         evWay.on('changed', function(e){
 	        	 var checkedVal=evWay.getValue();
@@ -384,10 +367,10 @@ var firstLoad = "Y";	//화면오픈
 	        	 if(val.charAt(0)==","){
 	        		 val = val.substring(1,val.length);
 	        	 }
-	        	 if(val.charAt(val.length-1)==","){
-	        		 val = val.substring(0,val.length-1);
+	        	 if(val.charAt(val.length-1)!=","){
+	        		 val = val+",";
 	        	 }
-	        	 val=val.replace(/,/gi,"|");
+	        	 //val=val.replace(/,/gi,"|");
 	        	 $('#evWayVal').val(val);
         });		
 
@@ -597,22 +580,18 @@ var firstLoad = "Y";	//화면오픈
     		}
     		*/
     	
-    		frm.Wec.CleanupOptions = "msoffice | empty | comment";
-    		frm.Wec.value =frm.Wec.CleanupHtml(frm.Wec.value);
-    		frm.mchnSmry.value = frm.Wec.BodyValue;
-
-    		if(frm.mchnSmry.value == "" || frm.mchnSmry.value == "<P>&nbsp;</P>") {
-    			alert('개요내용을 입력하여 주십시요.');
-    			frm.Wec.focus();
-    			return false;
-    		}
-    	
-    		frm.mchnSmry.value = frm.Wec.MIMEValue;		// mime value 설정 : cmd에서 decode 통해 파일을 서버에 업로드하고, 파일 경로를 수정하도록 함. 고, 파일 경로를 수정하도록 함.
+     		if(CrossEditor.GetTextValue()==''){ // 크로스에디터 안의 컨텐츠 입력 확인
+     		    alert("개요내용을 입력해 주세요!!");
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
+    		
+    		frm.mchnSmry.value = CrossEditor.GetBodyValue();
 
     		return true;
      	}
      	
-     	createNamoEdit('Wec', '100%', 300, 'namoHtml_DIV');
+     	//createNamoEdit('Wec', '100%', 300, 'namoHtml_DIV');
      	
 
 	});  
@@ -639,7 +618,6 @@ var firstLoad = "Y";	//화면오픈
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" />
 
-				<input type="hidden" id="mchnSmry" name="mchnSmry" />
 				<input type="hidden" id="attcFilId" name="attcFilId" />
 				<input type="hidden" id="mnaulFilId" name="mnalFilId" />
 				<input type="hidden" id="mchnCrgrId" name="mchnCrgrId" />
@@ -655,7 +633,7 @@ var firstLoad = "Y";	//화면오픈
 				</div>
 				<table class="table table_txt_right">
 					<colgroup>
-						<col style="width: 15%" />
+						<col style="width: 20%" />
 						<col style="width: 30%" />
 						<col style="width: 15%" />
 						<col style="width: 10%" />
@@ -663,18 +641,12 @@ var firstLoad = "Y";	//화면오픈
 					<tbody>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>Tool</th>
-							<td colspan="3">
+							<td>
 								<input type="text" id="toolNm" />
 							</td>
-						</tr>
-						<tr>
 							<th align="right"><span style="color:red;">*  </span>버전</th>
 							<td>
 								<input type="text" id="ver" />
-							</td>
-							<th align="right">평가 카테고리</th>
-							<td>
-								<div id="evCtgr"></div>
 							</td>
 						</tr>
 						<tr>
@@ -682,12 +654,31 @@ var firstLoad = "Y";	//화면오픈
 							<td>
 								<div id="cmpnNm"></div>
 							</td>
+							<th align="right">평가 카테고리</th>
+							<td>
+								<div id="evCtgr"></div>
+							</td>
+						</tr>
+						<tr>
+							<th align="right"><span style="color:red;">*  </span>open기기</th>
+							<td>
+								<div id="opnYn"></div>
+							</td>
 							<th align="right"><span style="color:red;">*  </span>평가항목</th>
 							<td>
 								<div id="evWay"></div>
 							</td>
 						</tr>
-						
+						<tr>
+							<th align="right"><span style="color:red;">*  </span>장비사용상태</th>
+							<td>
+								<div id="mchnUsePsblYn"></div>
+							</td>
+							<th align="right">삭제여부</th>
+							<td>
+								<div id="delYn"></div>
+							</td>
+						</tr>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>담당자</th>
 							<td>
@@ -726,7 +717,21 @@ var firstLoad = "Y";	//화면오픈
 						<tr>
 							<th  align="right">개요</th>
 							<td colspan="3">
-								<div id="namoHtml_DIV"></div>
+								<textarea id="mchnSmry" name="mchnSmry"></textarea>
+									<script type="text/javascript" language="javascript">
+									var CrossEditor = new NamoSE('mchnSmry');
+									CrossEditor.params.Width = "100%";
+									CrossEditor.params.UserLang = "auto";
+									var uploadPath = "<%=uploadPath%>"; 
+									
+									CrossEditor.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조   
+									CrossEditor.params.FullScreen = false;
+									CrossEditor.EditorStart();
+									
+									function OnInitCompleted(e){
+										e.editorTarget.SetBodyValue(document.getElementById("mchnSmry").value);
+									}
+									</script>
 							</td>
 						</tr>
 						</tbody>

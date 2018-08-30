@@ -748,7 +748,7 @@
 				,a.mchn_info_id as mchnInfoId
 				,b.tool_nm as toolNm
 				,b.ver as ver
-				,b.ev_ctgr as evCtgr
+				,b.MCHN_CL_CD as evCtgr
 				,b.CMPN_NM as cmpnNm
 				,b.EV_WAY as evWay
 				,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
@@ -987,7 +987,7 @@
 		
 		SELECT  TOOL_NM as "toolNm"
 			    ,VER as "ver"
-		        ,EV_CTGR as evCtgr
+		        ,MCHN_CL_CD as evCtgr
 				,CMPN_NM as cmpnNm
 				,EV_WAY as evWay
 				,dbo.fn_getSabunName(mchn_crgr_id)	as mchnCrgrNm
@@ -1005,7 +1005,7 @@
 			AND SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
 		  </if>
 		  <if test="( evCtgr == 'Simulation' or  evCtgr == 'Mock-up' or evCtgr == 'Certification')">
-			AND  MIM.EV_CTGR LIKE '%'+#{evCtgr}+'%'
+			AND  MIM.MCHN_CL_CD LIKE '%'+#{evCtgr}+'%'
 		  </if>
 	</select>
 

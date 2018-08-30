@@ -42,7 +42,7 @@ var mailTitl;
         });
         
         var prctScnCd = "<c:out value='${inputData.prctScnCd}'/>";
-        mailTitl = "기기예약 신청 결과 안내";
+        mailTitl = "신뢰성시험장비 예약 신청 결과 안내";
 
 		dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 		
@@ -83,8 +83,7 @@ var mailTitl;
 	    		var resultData = resultDataSet.getReadData(e);
 	    		
     			alert(resultData.records[0].rtnMsg);
-	    		
-	    		if( resultData.records[0].rtnSt == "S"){
+	    		if( resultData.records[0].rtnSt == "Y"){
 		    		fncMchnApprList();
 	    		}
 	    	});
@@ -160,6 +159,7 @@ var mailTitl;
 				<input type="hidden" id="prctScnCd" name="prctScnCd" />
 				<input type="hidden" id="toMailAddr" name="toMailAddr" value="<c:out value='${result.rgstMail}'/>">
 				<input type="hidden" id="prctScnNm" name="prctScnNm" >
+				<input type="hidden" id="prctFromToDt" name="prctFromToDt" value="<c:out value='${result.prctFromToDt}'/>">
 				
 				<div class="LblockButton top">
 					<button type="button" id="butSave">승인</button>

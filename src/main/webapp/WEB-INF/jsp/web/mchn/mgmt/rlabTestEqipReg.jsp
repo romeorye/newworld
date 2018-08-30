@@ -569,9 +569,9 @@ var faxInfoDialog;	//고정자산관리 팝업
     			mchnExpl.focus();
     			return false;
     		} */
-    	
-     		if(!CrossEditor.IsDirty()){ // 크로스에디터 안의 컨텐츠 입력 확인
-     		    alert("개요내용을 입력해 주세요!!");
+     		if(CrossEditor.GetTextValue()==''){ // 크로스에디터 안의 컨텐츠 입력 확인
+     		    alert(CrossEditor.GetBodyValue());
+     			alert("개요내용을 입력해 주세요!!");
      		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
      		    return false;
      		}

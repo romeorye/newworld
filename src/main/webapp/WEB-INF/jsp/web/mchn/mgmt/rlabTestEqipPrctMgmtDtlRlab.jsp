@@ -85,7 +85,7 @@ var flag;
 	    		
     			alert(resultData.records[0].rtnMsg);
 	    		
-	    		if( resultData.records[0].rtnSt == "S"){
+	    		if( resultData.records[0].rtnSt == "Y"){
 		    		fncMchnApprList();
 	    		}
 	    	});
@@ -166,6 +166,7 @@ var flag;
 				<input type="hidden" id="prctScnCd" name="prctScnCd" />
 				<input type="hidden" id="toMailAddr" name="toMailAddr" value="<c:out value='${result.rgstMail}'/>">
 				<input type="hidden" id="prctScnNm" name="prctScnNm" >
+				<input type="hidden" id="prctFromToDt" name="prctFromToDt" value="<c:out value='${result.prctFromToDt}'/>">
 				
 				<div class="LblockButton top">
 					<button type="button" id="butSave">승인</button>

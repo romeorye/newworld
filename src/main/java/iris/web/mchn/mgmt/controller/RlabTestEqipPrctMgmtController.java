@@ -171,5 +171,55 @@ public class RlabTestEqipPrctMgmtController extends IrisBaseController {
 		model.addAttribute("inputData", input);
 		
 		return  "web/mchn/mgmt/rlabTestEqipPrctMgmtDtlMsev";
-	}		
+	}
+	
+	/**
+	 *  신뢰성장비 예약관리 승인, 반려 업데이트
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/mchn/mgmt/updateRlabTestEqipPrctInfo.do")
+	public ModelAndView updateRlabTestEqipPrctInfo(@RequestParam HashMap<String, Object> input,
+			//MultipartFile file,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("RlabTestEqipPrctMgmtController - updateRlabTestEqipPrctInfo [공간평가 평가법 관리화면 이동]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+		
+		String rtnMsg = "";
+		String rtnSt = "F";
+		String prctScnCd = input.get("prctScnCd").toString();
+
+		try{
+			rlabTestEqipPrctMgmtService.updateRlabTestEqipPrctInfo(input);
+			
+			if(prctScnCd.equals("APPR")){
+				rtnMsg = "승인되었습니다.";
+			}else{
+				rtnMsg = "반려되었습니다.";
+			}
+	       	rtnSt = "Y";
+		}catch(Exception e){
+			e.printStackTrace();
+			rtnMsg = "처리중 오류가발생했습니다. 담당자에게 문의해주세요";
+		}
+		
+		rtnMeaasge.put("rtnMsg", rtnMsg);
+		rtnMeaasge.put("rtnSt", rtnSt);
+		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
+
+		return  modelAndView;
+	}
+	
 }

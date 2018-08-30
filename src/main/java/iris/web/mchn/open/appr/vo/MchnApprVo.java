@@ -7,6 +7,7 @@ public class MchnApprVo {
 	private String rgstNm;
 	private String prctFromTim;
 	private String prctToTim;
+	private String prctFromToDt;
 	private String prctDt;
 	private String prctScnNm;
 	
@@ -33,6 +34,12 @@ public class MchnApprVo {
 	}
 	public void setPrctToTim(String prctToTim) {
 		this.prctToTim = prctToTim;
+	}
+	public String getPrctFromToDt() {
+		return prctFromToDt;
+	}
+	public void setPrctFromToDt(String prctFromToDt) {
+		this.prctFromToDt = prctFromToDt;
 	}
 	public String getRgstNm() {
 		return rgstNm;

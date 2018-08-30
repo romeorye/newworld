@@ -80,6 +80,7 @@
 		      ,PRCT.MCHN_PRCT_ID AS mchnPrctId 
 		      ,PRCT.PRCT_TITL AS prctTitl
 			  ,INFO.MCHN_HAN_NM AS mchnHanNm
+			  ,INFO.MCHN_EN_NM AS mchnEnNm
 			  ,PRCT.RGST_TEAM_CD AS rgstTeamCd
 			  --,PRCT.RGST_TEAM_NM 팀명
 			  ,PRCT.RGST_ID AS rgstId

@@ -222,6 +222,7 @@
                 dataSet.setNameValue(0, "ctgr2",  ctgr2);
                 dataSet.setNameValue(0, "ctgr3",  ctgr3);
                 dataSet.setNameValue(0, "prodNm",  prod);
+                dataSet.setNameValue(0, "prodNm",  prod);
                 				
                 Rui.confirm({
                     text: '저장하시겠습니까?',
@@ -305,8 +306,21 @@
                        text: attcFilList[i].data.filNm
                    })).append('<br/>');
                document.aform.attcFilId.value = attcFilList[i].data.attcFilId;
+               dataSet.setNameValue(0, "attcFilId",  document.aform.attcFilId.value);
                }
            	};
+          //첨부파일 다운로드
+            downloadMnalFil = function(attId, seq){
+     	       var param = "?attcFilId=" + attId + "&seq=" + seq;
+     	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
+     	       	document.aform.submit();
+         	    /*var param = "?attcFilId="+ attId+"&seq="+seq;
+     			Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
+     			Rui.get('imgDialTitle').html('기기이미지');
+     			imageDialog.clearInvalid();
+     			imageDialog.show(true);*/
+
+            } 
             
         });
 

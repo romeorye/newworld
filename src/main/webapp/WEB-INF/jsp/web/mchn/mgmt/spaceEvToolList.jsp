@@ -37,6 +37,7 @@
 	            { id: 'toolNm' },
 	            { id: 'ver' },
 	            { id: 'evCtgr' },
+	            { id: 'evCtgrNm' },
 	            { id: 'cmpnNm' },
 	            { id: 'evWay' },
 	            { id: 'mchnCrgrNm' },
@@ -54,11 +55,12 @@
 	        columns: [
 	        	{ field: 'toolNm', 			label:'기기명' , 	sortable: false, align: 'left', width: 360},
 	            { field: 'ver',  			label:'버전', 	sortable: false, align: 'center', width: 110},
-	            { field: 'evCtgr',  		label:'평가카테고리', 	sortable: false, align: 'center', width: 140},
+	            { field: 'evCtgrNm',  		label:'평가카테고리', 	sortable: false, align: 'center', width: 140},
 	            { field: 'cmpnNm',  			label:'기관', 	sortable: false, align: 'center', width: 110},
-	            { field: 'evWay', 			label: '평가방법', 		sortable: false, align: 'center', width: 80},
+	            { field: 'evWay', 			label: '평가방법', 		sortable: false, align: 'center', width: 200},
 	            { field: 'mchnCrgrNm', 		label: '담당자',   	sortable: false, align: 'center', width: 60},
 	            { field: 'evScn',  			label:'구분' , 		sortable: false, align: 'center', width: 90},
+	            { field: 'evCtgr',  		hidden : true},
 	            { field: 'mchnInfoId',  hidden : true}
 	        ]
 	    });

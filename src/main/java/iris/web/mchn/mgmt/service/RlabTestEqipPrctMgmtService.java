@@ -15,5 +15,12 @@ public interface RlabTestEqipPrctMgmtService {
 	 * @return
 	 */
 	HashMap<String, Object> retrieveRlabTestEqipPrctDtl(HashMap<String, Object> input);
+	
+	/**
+	 *  신뢰성장비 예약관리 승인, 반려 업데이트
+	 * @param input
+	 * @return
+	 */
+	void updateRlabTestEqipPrctInfo(HashMap<String, Object> input)  throws Exception;
 
 }

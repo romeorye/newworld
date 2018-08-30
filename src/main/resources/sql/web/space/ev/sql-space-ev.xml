@@ -88,6 +88,7 @@
 			,ATTC_FILE_ID AS attcFilId
 			,DEL_YN AS delYn
 			,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23) as frstRgstDt
+			,EV_CD as evCd
 		FROM IRIS_SPACE_MTRL_UTM_EV EV
 		WHERE DEL_YN = 'N'
 		]]>
@@ -106,7 +107,7 @@
 	    </if>
 	</select>
 	
-	<insert id="insertSpaceEvMtrl">
+	<insert id="insertSpaceEvMtrl"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="EV_CD" >
 	INSERT INTO dbo.IRIS_SPACE_MTRL_UTM_EV
         (CTGR0
 		,CTGR1
@@ -153,14 +154,7 @@
 
 	<![CDATA[
 		 WHERE 1=1
-		   AND CTGR0 = #{supiCd0}
-		   AND CTGR1 = #{supiCd1}
-		   AND CTGR2 = #{supiCd2}
-		   AND CTGR3 = #{supiCd3}
-		   AND SCN = #{scn}
-		   AND PFMC_VAL = #{pfmcVal}
-		   AND STRT_VLD_DT = #{strtVldDt}
-		   AND FNH_VLD_DT = #{fnhVldDt}
+		   AND EV_CD = #{evCd}
 	]]>
 	</update>
 
