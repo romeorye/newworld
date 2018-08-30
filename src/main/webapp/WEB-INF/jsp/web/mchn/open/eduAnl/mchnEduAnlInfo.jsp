@@ -602,7 +602,7 @@ var openMchnSearchDialog;
 										
 										var uploadPath = "<%=uploadPath%>"; 
 										
-										CrossEditor.params.ImageSavePath = uploadPath+"mchn";
+										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";
 										CrossEditor.params.FullScreen = false;
 										
 										CrossEditor.EditorStart();

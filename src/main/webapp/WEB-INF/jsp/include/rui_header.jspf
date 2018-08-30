@@ -40,7 +40,7 @@
     	contextPath = "";
     }
 
-    String uploadPath       = contextPath + "/resource/fileupload/";
+    String uploadPath       = contextPath + "/resource/fileupload";
     String imagePath        = contextPath + "/resource/web/images";
     String cssPath          = contextPath + "/resource/web/css";
     String scriptPath       = contextPath + "/resource/web/js";
