@@ -569,9 +569,9 @@ var faxInfoDialog;	//고정자산관리 팝업
     			mchnExpl.focus();
     			return false;
     		} */
+    	
      		if(CrossEditor.GetTextValue()==''){ // 크로스에디터 안의 컨텐츠 입력 확인
-     		    alert(CrossEditor.GetBodyValue());
-     			alert("개요내용을 입력해 주세요!!");
+     		    alert("개요내용을 입력해 주세요!!");
      		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
      		    return false;
      		}
@@ -670,7 +670,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 							<td>
 								<div id="mchnUsePsblYn"></div>
 							</td>
-							<th align="right">삭제여부</th>
+							<th align="right"><span style="color:red;">*  </span>삭제여부</th>
 							<td>
 								<div id="delYn"></div>
 							</td>
@@ -704,13 +704,13 @@ var faxInfoDialog;	//고정자산관리 팝업
 							<td>
 								<input type="text" id="mchnCrgrNm" />
 							</td>
-							<th align="right" ><span style="color:red;">*  </span>위치</th>
+							<th align="right" >위치</th>
 							<td>
 								<input type="text" id="mchnLoc" />
 							</td>
 						</tr>
 						<tr>
-							<th align="right"><span style="color:red;">*  </span>요약설명</th>
+							<th align="right">요약설명</th>
 							<td colspan="3">
 								<textarea id="mchnExpl"></textarea>
 							</td>
@@ -723,7 +723,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 							</td>
 						</tr>
 						<tr>
-							<th  align="right">개요</th>
+							<th  align="right"><span style="color:red;">*  </span>개요</th>
 							<td colspan="3">
 								<textarea id="mchnSmry" name="mchnSmry"></textarea>
 									<script type="text/javascript" language="javascript">
