@@ -80,7 +80,8 @@ var openMchnSearchDialog;
 			rdEduScnCd.setValue(dataSet.getNameValue(0, "eduScnCd"));
 			
 			if(dataSet.getNameValue(0, "mchnEduId")  != "" ||  dataSet.getNameValue(0, "mchnEduId")  !=  undefined ){
-				document.aform.Wec.value = dataSet.getNameValue(0, "dtlSbc");
+				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "dtlSbc") );
+				//document.aform.Wec.value = dataSet.getNameValue(0, "dtlSbc");
 			}
 	    });
 
@@ -401,11 +402,6 @@ var openMchnSearchDialog;
 		var fncVaild = function(){
     	    var frm = document.aform;
 
-    	    frm.Wec.CleanupOptions = "msoffice | empty | comment";
-    		frm.Wec.value =frm.Wec.CleanupHtml(frm.Wec.value);
-
-    		frm.dtlSbc.value = frm.Wec.BodyValue;
-
     		//교육명 
     		if(Rui.isEmpty(eduNm.getValue())){
     			alert("교육명을 입력하세요");
@@ -470,14 +466,13 @@ var openMchnSearchDialog;
     			return false;
     		}
     		
-    		if(frm.dtlSbc.value == "" || frm.dtlSbc.value == "<P>&nbsp;</P>") {
+    		if(!CrossEditor.IsDirty()){ // 크로스에디터 안의 컨텐츠 입력 확인
     			alert('내용을 입력하여 주십시요.');
-    			frm.Wec.focus();
-    			return false;
-    		}
-
-    		frm.dtlSbc.value = frm.Wec.MIMEValue;
-    		//frm.namoHtml.value = frm.Wec.MIMEValue;		// mime value 설정 : cmd에서 decode 통해 파일을 서버에 업로드하고, 파일 경로를 수정하도록 함. 고, 파일 경로를 수정하도록 함.
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
+    	
+    		frm.dtlSbc.value = CrossEditor.GetBodyValue();
 
     		return true;
  		}
@@ -519,8 +514,6 @@ var openMchnSearchDialog;
    			document.aform.submit();
         }
 
-        createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
-       
 	});  //end ready
 
 </script>
@@ -541,7 +534,6 @@ var openMchnSearchDialog;
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" />
 				<input type="hidden" id="attcFilId" name="attcFilId" />
-				<input type="hidden" id="dtlSbc" name="dtlSbc" />
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" />
 				<input type="hidden" id="eduCrgrId" name="eduCrgrId"   />
 				<input type="hidden" id="mchnEduId" name="mchnEduId"  value="<c:out value='${inputData.mchnEduId}'/>">
@@ -602,7 +594,27 @@ var openMchnSearchDialog;
 						</tr>
 						<tr>
 							<td colspan="5">
-								<div id="namoHtml_DIV"></div>
+								<textarea id="dtlSbc" name="dtlSbc"></textarea>
+									<script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('dtlSbc');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										
+										var uploadPath = "<%=uploadPath%>"; 
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"mchn";
+										CrossEditor.params.FullScreen = false;
+										
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											//CrossEditor.ShowToolbar(0,0); 
+											//CrossEditor.ShowToolbar(1,0);
+											//CrossEditor.ShowToolbar(2,0);
+											
+											e.editorTarget.SetBodyValue(document.getElementById("dtlSbc").value);
+										}
+									</script>
 							</td>
 						</tr>
 						<tr>
