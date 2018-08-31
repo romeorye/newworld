@@ -1,20 +1,18 @@
 package iris.web.mailBatch;
 
+import iris.web.common.util.StringUtil;
+import iris.web.mailBatch.service.MailBatchService;
+import iris.web.system.base.IrisBaseController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Controller;
+
+import javax.annotation.Resource;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
-
-import javax.annotation.Resource;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Controller;
-
-import iris.web.common.util.StringUtil;
-import iris.web.mailBatch.service.MailBatchService;
-import iris.web.system.base.IrisBaseController;
 
 /********************************************************************************
  * NAME : MailBatchArsl.java
@@ -55,7 +53,7 @@ public class MailBatchArsl  extends IrisBaseController {
 
         String toDate = date_formatter.format(cal.getTime());
         String toMonth = month_formatter.format(cal.getTime());
-        toMonth = toMonth.replace('.','년');
+        toMonth = toMonth.replace(".","년");
         LOGGER.debug("mailBatchArsl_START-"+toDate);
         input.put("Type", "B");
         input.put("title", toMonth+"월 과제 진척도 입력 요청");
