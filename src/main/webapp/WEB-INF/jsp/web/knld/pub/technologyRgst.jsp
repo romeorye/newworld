@@ -38,7 +38,6 @@
 	var setTechnologyInfo ;
 	var userId = '${inputData._userId}';
 	var lvAttcFilId;
-	var gvSbcNm = "";
 
 		Rui.onReady(function() {
             /*******************
@@ -82,12 +81,6 @@
                 valueField: 'COM_DTL_CD'
             });
 
-//             var sbcNm = new Rui.ui.form.LTextArea({
-//                 applyTo: 'sbcNm'
-//                 //width: 1000,
-//                 //height: 200
-//             });
-
             var infoPrvnNm = new Rui.ui.form.LTextBox({
                 applyTo: 'infoPrvnNm',
                 width: 200
@@ -122,11 +115,8 @@
             	lvAttcFilId = techRgstDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
-//                 var sbcNm = techRgstDataSet.getNameValue(0, "sbcNm").replaceAll('\n', '<br/>');
-//                 techRgstDataSet.setNameValue(0, 'sbcNm', sbcNm);
-
                 if(techRgstDataSet.getNameValue(0, "techId")  != "" ||  techRgstDataSet.getNameValue(0, "techId")  !=  undefined ){
-    				document.aform.Wec.value=techRgstDataSet.getNameValue(0, "sbcNm");
+                	CrossEditor.SetBodyValue( techRgstDataSet.getNameValue(0, "sbcNm") );
     			}
             });
 
@@ -218,7 +208,6 @@
             };
 
            	//첨부파일 끝
-
             fn_init();
 
             /* [버튼] 저장 */
@@ -236,9 +225,7 @@
             butGoList = new Rui.ui.LButton('butGoList');
 
 		    saveBtn.on('click', function() {
-// 		    	if(confirm("저장하시겠습니까?")){
-		    		techRgstSave();
-// 		    	}
+		    	techRgstSave();
 		     });
 		    butGoList.on('click', function() {
 		    	if(confirm("저장하지 않고 목록으로 돌아가시겠습니까?")){
@@ -246,14 +233,12 @@
 		    	}
 		     });
 
-		    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
         });//onReady 끝
 
 		<%--/*******************************************************************************
 		 * FUNCTION 명 : validation
 		 * FUNCTION 기능설명 : 입력 데이터셋 점검
 		 *******************************************************************************/--%>
-
 		/*유효성 검사 validation*/
          vm = new Rui.validate.LValidatorManager({
               validators:[
@@ -264,7 +249,6 @@
     	 	 	  { id: 'keywordNm',      validExp: '키워드:false:maxByteLength=100' }
               ]
          });
-
 
 	    function validation(vForm){
 	    	var vTestForm = vForm;
@@ -277,7 +261,6 @@
 		}
 
 
-
 		<%--/*******************************************************************************
 		 * FUNCTION 명 : initialize
 		 * FUNCTION 기능설명 : 초기 setting
@@ -287,21 +270,17 @@
 			var techId = '${inputData.techId}';
 
 	    	if(pageMode == 'V'){
-
 	             /* 상세내역 가져오기 */
 	             getTechnologyInfo = function() {
 	            	 techRgstDataSet.load({
 	                     url: '<c:url value="/knld/pub/getTechnologyInfo.do"/>',
 	                     params :{
-	                    	 techId : techId,
-	                        // infoPrvnKindCd : document.aform.infoPrvnKindCd.value,
-	                        // techScnCd : document.aform.techScnCd.value
+	                    	 techId : techId
 	                     }
 	                 });
 	             };
 
 	             getTechnologyInfo();
-
 
 	    	}else if(pageMode == 'C')	{
 	    		techRgstDataSet.newRecord();
@@ -314,15 +293,8 @@
 	     *******************************************************************************/--%>
 	    fncInsertTechnologyInfo = function(){
 	    	var pageMode = '${inputData.pageMode}';
-	    	console.log('fncInsertTechnologyInfo pageMode='+pageMode);
 
-	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
-	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
-
-	    	techRgstDataSet.setNameValue(0, 'sbcNm', document.aform.Wec.bodyValue);
-            gvSbcNm = document.aform.Wec.bodyValue ;
-
-			document.aform.sbcNm.value = document.aform.Wec.MIMEValue;
+	    	techRgstDataSet.setNameValue(0, 'sbcNm', CrossEditor.GetBodyValue());
 
 	    	// 데이터셋 valid
 			if(!validation('aform')){
@@ -330,10 +302,11 @@
 	   		}
 
 			// 에디터 valid
-			if(gvSbcNm == "" || gvSbcNm == "<P>&nbsp;</P>"){
+			if( techRgstDataSet.getNameValue(0, "sbcNm") == "<p><br></p>" || techRgstDataSet.getNameValue(0, "sbcNm") == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
 				alert("내용 : 필수 입력 항목 입니다.");
-		   		return false;
-		   	}
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
 
 	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
@@ -345,7 +318,7 @@
 		    	        dataSets:[techRgstDataSet],
 		    	        params: {
 		    	            techId : document.aform.techId.value
-		    	        	,sbcNm : document.aform.Wec.MIMEValue
+		    	        	,sbcNm : techRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}else if(pageMode == 'C'){
@@ -353,7 +326,7 @@
 		    	        url: "<c:url value='/knld/pub/insertTechnologyInfo.do'/>",
 		    	        dataSets:[techRgstDataSet],
 		    	        params: {
-		    	            sbcNm : document.aform.Wec.MIMEValue
+		    	            sbcNm : techRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}
@@ -381,7 +354,6 @@
 	</form>
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="techId" name="techId" value=""/>
-		<input type="hidden" id="sbcNm" name="sbcNm" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
    		<div class="contents">
 
@@ -437,8 +409,29 @@
    						<tr>
     						<!--<th align="right">내용</th> -->
    							<td colspan="4">
-<!--    								 <textarea id="sbcNm"></textarea> -->
-								<div id="namoHtml_DIV"></div>
+   								 <textarea id="sbcNm"></textarea>
+								<script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('sbcNm');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										
+										var uploadPath = "<%=uploadPath%>"; 
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"/knld";
+										CrossEditor.params.FullScreen = false;
+										
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											/* 
+											CrossEditor.ShowToolbar(0,0); 
+											CrossEditor.ShowToolbar(1,0);
+											CrossEditor.ShowToolbar(2,0);
+											CrossEditor.ShowToolbar(3,0);
+											 */
+											e.editorTarget.SetBodyValue(document.getElementById("sbcNm").value);
+										}
+									</script>
    							</td>
    						</tr>
     					<tr>

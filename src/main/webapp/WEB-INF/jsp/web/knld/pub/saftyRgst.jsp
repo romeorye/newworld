@@ -38,7 +38,6 @@
 	var setSaftyInfo ;
 	var userId = '${inputData._userId}';
 	var lvAttcFilId;
-	var gvSbcNm = "";
 
 		Rui.onReady(function() {
             /*******************
@@ -63,20 +62,6 @@
                 valueField: 'COM_DTL_CD'
             });
 
-           /* 개정내역
-           var rfrmSbc = new Rui.ui.form.LTextArea({
-                applyTo: 'rfrmSbc',
-                width: 1000,
-                height: 200
-            });
-           */
-
-//             var sbcNm = new Rui.ui.form.LTextArea({
-//                 applyTo: 'sbcNm'
-//                 //width: 1000,
-//                 //height: 200
-//             });
-
             var keywordNm = new Rui.ui.form.LTextBox({
             	applyTo: 'keywordNm',
                 width: 700
@@ -88,7 +73,6 @@
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
 				defaultValue: new Date(),
-// 				defaultValue : new Date().add('Y', parseInt(-1, 10)),		// default -1년
 				width: 100,
 				dateType: 'string'
 			});
@@ -113,7 +97,6 @@
 					, { id: 'sftEnvScnCd' }      /*구분코드*/
 					, { id: 'sftEnvScnNm' }      /*구분이름*/
 					, { id: 'enfcDt' }           /*시행일*/
-					//, { id: 'rfrmSbc' }          /*개정내역내용*/
 					, { id: 'sbcNm' }            /*본문내용*/
 					, { id: 'rtrvCnt' }          /*조회수*/
 					, { id: 'keywordNm' }        /*키워드*/
@@ -130,11 +113,8 @@
             	lvAttcFilId = saftyRgstDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
-//                 var sbcNm = saftyRgstDataSet.getNameValue(0, "sbcNm").replaceAll('\n', '<br/>');
-//                 saftyRgstDataSet.setNameValue(0, 'sbcNm', sbcNm);
-
                 if(saftyRgstDataSet.getNameValue(0, "saftyId")  != "" ||  saftyRgstDataSet.getNameValue(0, "saftyId")  !=  undefined ){
-    				document.aform.Wec.value=saftyRgstDataSet.getNameValue(0, "sbcNm");
+                	CrossEditor.SetBodyValue( saftyRgstDataSet.getNameValue(0, "sbcNm") );
     			}
             });
 
@@ -148,7 +128,6 @@
                     , { id: 'titlNm',         ctrlId: 'titlNm',          value: 'value' }
                     , { id: 'sftEnvScnCd',    ctrlId: 'sftEnvScnCd',     value: 'value' }
                     , { id: 'enfcDt',         ctrlId: 'enfcDt',          value: 'value' }
-                    //, { id: 'rfrmSbc',        ctrlId: 'rfrmSbc',         value: 'value' } //개정내역
                     , { id: 'sbcNm',          ctrlId: 'sbcNm',           value: 'value' }
                     , { id: 'keywordNm',      ctrlId: 'keywordNm',       value: 'value' }
                     , { id: 'attcFilId',      ctrlId: 'attcFilId',       value: 'value' }
@@ -227,9 +206,7 @@
             };
 
            	//첨부파일 끝
-
             fn_init();
-
 
             /* [버튼] 저장 */
             saftyRgstSave = function() {
@@ -246,17 +223,14 @@
             butGoList = new Rui.ui.LButton('butGoList');
 
 		    saveBtn.on('click', function() {
-// 		    	if(confirm("저장하시겠습니까?")){
-		    		saftyRgstSave();
-// 		    	}
+		    	saftyRgstSave();
 		     });
+		    
 		    butGoList.on('click', function() {
 		    	if(confirm("저장하지 않고 목록으로 돌아가시겠습니까?")){
 		    		goSaftyList();
 		    	}
 		     });
-
-		    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
 
         });//onReady 끝
 
@@ -264,7 +238,6 @@
 		 * FUNCTION 명 : validation
 		 * FUNCTION 기능설명 : 입력 데이터셋 점검
 		 *******************************************************************************/--%>
-
 		 /*유효성 검사 validation*/
          vm = new Rui.validate.LValidatorManager({
              validators:[
@@ -275,9 +248,7 @@
              ]
          });
 
-
 	     function validation(vForm){
-
 		 	var vTestForm = vForm;
 		 	if(vm.validateGroup(vTestForm) == false) {
 		 		alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('') );
@@ -296,7 +267,6 @@
 			var saftyId = '${inputData.saftyId}';
 
 	    	if(pageMode == 'V'){
-
 	             /* 상세내역 가져오기 */
 	             getSaftyInfo = function() {
 	            	 saftyRgstDataSet.load({
@@ -309,7 +279,6 @@
 
 	             getSaftyInfo();
 
-
 	    	}else if(pageMode == 'C')	{
 	    		saftyRgstDataSet.newRecord();
     		}
@@ -321,26 +290,21 @@
 	     *******************************************************************************/--%>
 	    fncInsertSaftyInfo = function(){
 	    	var pageMode = '${inputData.pageMode}';
-	    	console.log('fncInsertSaftyInfo pageMode='+pageMode);
 
-	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
-	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
-
-	    	saftyRgstDataSet.setNameValue(0, 'sbcNm', document.aform.Wec.bodyValue);
-            gvSbcNm = document.aform.Wec.bodyValue ;
-
-			document.aform.sbcNm.value = document.aform.Wec.MIMEValue;
-
-	    	// 데이터셋 valid
-			if(!validation('aform')){
-	   		return false;
-	   		}
+	    	saftyRgstDataSet.setNameValue(0, 'sbcNm', CrossEditor.GetBodyValue());
 
 			// 데이터셋 valid
 			if(!validation('aform')){
-	   		return false;
+	   			return false;
 	   		}
 
+			// 에디터 valid
+			if( saftyRgstDataSet.getNameValue(0, "sbcNm") == "<p><br></p>" || saftyRgstDataSet.getNameValue(0, "sbcNm") == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
+				alert("내용 : 필수 입력 항목 입니다.");
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
+			
 	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
 	    	if(confirm("저장하시겠습니까?")){
@@ -351,7 +315,7 @@
 		    	        dataSets:[saftyRgstDataSet],
 		    	        params: {
 		    	        	saftyId : document.aform.saftyId.value
-		    	        	,sbcNm : document.aform.Wec.MIMEValue
+		    	        	,sbcNm : saftyRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}else if(pageMode == 'C'){
@@ -359,7 +323,7 @@
 		    	        url: "<c:url value='/knld/pub/insertSaftyInfo.do'/>",
 		    	        dataSets:[saftyRgstDataSet],
 		    	        params: {
-		    	        	sbcNm : document.aform.Wec.MIMEValue
+		    	        	sbcNm : saftyRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}
@@ -370,7 +334,6 @@
 	            alert(resultData.records[0].rtnMsg);
 
 	  	    	nwinsActSubmit(document.aform, "<c:url value='/knld/pub/retrieveSaftyList.do'/>");
-
 			});
 
 			dm1.on('failure', function(e) {
@@ -387,7 +350,6 @@
 	</form>
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="saftyId" name="saftyId" value=""/>
-		<input type="hidden" id="sbcNm" name="sbcNm" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
    		<div class="contents">
 
@@ -424,14 +386,6 @@
    								<input type="text" id="enfcDt" />
    							</td>
    						</tr>
-   						<!--
-   						<tr>
-    						<th align="right">개정내역</th>
-   							<td colspan="3">
-   								 <textarea id="rfrmSbc"></textarea>
-   							</td>
-   						</tr>
-   						-->
    						<c:if test="${inputData.pageMode=='V'}">
    						<tr>
     						<th align="right">등록자</th>
@@ -447,8 +401,23 @@
    						<tr>
     						<!--<th align="right">내용</th> -->
    							<td colspan="4">
-<!--    								 <textarea id="sbcNm"></textarea> -->
-								<div id="namoHtml_DIV"></div>
+   								 <textarea id="sbcNm"></textarea>
+								<script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('sbcNm');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										
+										var uploadPath = "<%=uploadPath%>"; 
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"/knld";
+										CrossEditor.params.FullScreen = false;
+										
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											e.editorTarget.SetBodyValue(document.getElementById("sbcNm").value);
+										}
+									</script>
    							</td>
    						</tr>
     					<tr>

@@ -40,7 +40,6 @@
 	var attcFilId = "";
 	var affrClGroup = '${inputData.affrClId}';
 	var callback;
-	var gvSbcNm = "";
 	var gvAffrNm = "";
 
 		Rui.onReady(function() {
@@ -51,11 +50,6 @@
             	applyTo: 'titlNm',
                 width: 600
             });
-
-//             var affrClNm = new Rui.ui.form.LTextBox({
-//             	applyTo: 'affrClNm',
-//                 width: 500
-//             });
 
             var keywordNm = new Rui.ui.form.LTextBox({
             	applyTo: 'keywordNm',
@@ -88,9 +82,6 @@
             prdtListRgstDataSet.on('load', function(e) {
             	lvAttcFilId = prdtListRgstDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
-
-//                 var sbcNm = prdtListRgstDataSet.getNameValue(0, "sbcNm").replaceAll('\n', '<br/>');
-//                 prdtListRgstDataSet.setNameValue(0, 'sbcNm', sbcNm);
 
                 if(prdtListRgstDataSet.getNameValue(0, "prdtId")  != "" ||  prdtListRgstDataSet.getNameValue(0, "prdtId")  !=  undefined ){
                 	CrossEditor.SetBodyValue( prdtListRgstDataSet.getNameValue(0, "sbcNm") );
@@ -132,7 +123,6 @@
                 ]
             });
             attachFileDataSet.on('load', function(e) {
-//             	console.log(attcFilId);
                 getAttachFileInfoList();
             });
 
@@ -188,9 +178,7 @@
             };
 
            	//첨부파일 끝
-
             fn_init();
-
 
             /* [버튼] 저장 */
             prdtListRgstSave = function() {
@@ -207,9 +195,7 @@
             butGoList = new Rui.ui.LButton('butGoList');
 
 		    saveBtn.on('click', function() {
-// 		    	if(confirm("저장하시겠습니까?")){
-		    		prdtListRgstSave();
-// 		    	}
+		    	prdtListRgstSave();
 		     });
 
 		    butGoList.on('click', function() {
@@ -241,22 +227,6 @@
             affrTreeSrh = function() {
             	openKnldAffrTreeSrhRsltDialog(goPrdtListList);
             };
-//     	    업무분류 트리 리스트 검색 팝업 끝
-
-//     	    트리 윈도우 팝업 시작 affrTreeSrhBtn
-
-//     	    affrTreeSrhBtn = new Rui.ui.LButton('affrTreeSrhBtn');
-
-//     	    affrTreeSrhBtn.on('click', function() {
-//     	    	affrTreeSrh();
-// 		     });
-
-//     	    affrTreeSrh = function() {
-//     	    	var enAffrNm = escape(encodeURIComponent(gvAffrNm));
-//     	    	var popupUrl = '<c:url value="/knld/rsst/knldAffrTreeSrhRsltPopup.do?affrClNm="/>' + enAffrNm + '&affrClGroup=' + affrClGroup ;
-//     	    	var popupOption = "width=1500, height=450, top=300, left=400";
-// 				window.open(popupUrl,"",popupOption);
-//     	    }
 
     	    // 트리 윈도우 팝업 끝
 		    fnChildCall = function(affrNmParam , affrClIdParam) {
@@ -277,10 +247,8 @@
             validators:[
             	{ id: 'titlNm',    validExp: '제목:true:maxByteLength=400' },
     			{ id: 'keywordNm', validExp: '키워드:false:maxByteLength=100' }
-//             	,{ id: 'affrClNm', validExp: '업무분류:true:maxByteLength=100'}
             ]
         });
-
 
 	   function validation(vForm){
 		 	var vTestForm = vForm;
@@ -291,8 +259,6 @@
 		 	return true;
 		 }
 
-
-
 		<%--/*******************************************************************************
 		 * FUNCTION 명 : initialize
 		 * FUNCTION 기능설명 : 초기 setting
@@ -302,7 +268,6 @@
 			var prdtId = '${inputData.prdtId}';
 
 	    	if(pageMode == 'V'){
-
 	             /* 상세내역 가져오기 */
 	             getPrdtListInfo = function() {
 	            	 prdtListRgstDataSet.load({
@@ -314,7 +279,6 @@
 	             };
 
 	             getPrdtListInfo();
-
 
 	    	}else if(pageMode == 'C')	{
 	    		prdtListRgstDataSet.newRecord();
@@ -461,10 +425,12 @@
 										CrossEditor.EditorStart();
 										
 										function OnInitCompleted(e){
-											//CrossEditor.ShowToolbar(0,0); 
-											//CrossEditor.ShowToolbar(1,0);
-											//CrossEditor.ShowToolbar(2,0);
-											
+											/* 
+											CrossEditor.ShowToolbar(0,0); 
+											CrossEditor.ShowToolbar(1,0);
+											CrossEditor.ShowToolbar(2,0);
+											CrossEditor.ShowToolbar(3,0);
+											 */
 											e.editorTarget.SetBodyValue(document.getElementById("sbcNm").value);
 										}
 									</script>
