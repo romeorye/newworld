@@ -39,7 +39,6 @@
 	var setQnaInfo ;
 	var userId = '${inputData._userId}';
 	var lvAttcFilId;
-	var gvSbcNm = "";
 
 		Rui.onReady(function() {
             /*******************
@@ -65,12 +64,6 @@
 	                valueField: 'COM_DTL_CD'
 	            });
             }
-
-//             var sbcNm = new Rui.ui.form.LTextArea({
-//                 applyTo: 'sbcNm',
-//                 width: 1000,
-//                 height: 200
-//             });
 
             var keywordNm = new Rui.ui.form.LTextBox({
             	applyTo: 'keywordNm',
@@ -147,7 +140,6 @@
                 ]
             });
 
-
     		//첨부파일 시작
             /* [기능] 첨부파일 조회*/
             var attachFileDataSet = new Rui.data.LJsonDataSet({
@@ -217,9 +209,7 @@
             };
 
            	//첨부파일 끝
-
             fn_init();
-
 
             /* [버튼] 저장 */
             qnaRgstSave = function() {
@@ -252,7 +242,6 @@
 		 * FUNCTION 명 : validation
 		 * FUNCTION 기능설명 : 입력 데이터셋 점검
 		 *******************************************************************************/--%>
-
 		  /*유효성 검사 validation*/
         vm = new Rui.validate.LValidatorManager({
             validators:[
@@ -265,7 +254,6 @@
 
 
 	   function validation(vForm){
-
 		 	var vTestForm = vForm;
 		 	if(vm.validateGroup(vTestForm) == false) {
 		 		alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('') );
@@ -284,7 +272,6 @@
 			var qnaId = '${inputData.qnaId}';
 
 	    	if(pageMode == 'V'){
-
 	             /* 상세내역 가져오기 */
 	             getQnaInfo = function() {
 	            	 qnaRgstDataSet.load({
@@ -294,7 +281,6 @@
 	                     }
 	                 });
 	             };
-
 	             getQnaInfo();
 
 	    	}else if(pageMode == 'C')	{
@@ -320,11 +306,8 @@
 	     *******************************************************************************/--%>
 	    fncInsertQnaInfo = function(){
 	    	var pageMode = '${inputData.pageMode}';
-	    	console.log('fncInsertQnaInfo pageMode='+pageMode);
-
 
 	    	qnaRgstDataSet.setNameValue(0, 'sbcNm', CrossEditor.GetBodyValue());
-            gvSbcNm = CrossEditor.GetBodyValue() ;
 
 	    	// 데이터셋 valid
 			if(!validation('aform')){
@@ -332,10 +315,11 @@
 	   		}
 
 			// 에디터 valid
-			if(gvSbcNm == "" || gvSbcNm == "<p><br></p>"){
+			if( qnaRgstDataSet.getNameValue(0, "sbcNm") == "<p><br></p>" || qnaRgstDataSet.getNameValue(0, "sbcNm") == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
 				alert("내용 : 필수 입력 항목 입니다.");
-		   		return false;
-		   	}
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
 
 	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
