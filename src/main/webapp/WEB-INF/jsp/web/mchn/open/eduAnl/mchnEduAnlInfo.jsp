@@ -81,7 +81,6 @@ var openMchnSearchDialog;
 			
 			if(dataSet.getNameValue(0, "mchnEduId")  != "" ||  dataSet.getNameValue(0, "mchnEduId")  !=  undefined ){
 				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "dtlSbc") );
-				//document.aform.Wec.value = dataSet.getNameValue(0, "dtlSbc");
 			}
 	    });
 
