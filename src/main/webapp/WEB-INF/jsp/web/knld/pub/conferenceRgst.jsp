@@ -41,7 +41,6 @@
 	var setConferenceInfo ;
 	var userId = '${inputData._userId}';
 	var lvAttcFilId;
-	var gvSbcNm = "";
 
 		Rui.onReady(function() {
             /*******************
@@ -66,12 +65,6 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-
-//             var sbcNm = new Rui.ui.form.LTextArea({
-//                 applyTo: 'sbcNm'
-//                 //width: 1000,
-//                 //height: 200
-//             });
 
             var keywordNm = new Rui.ui.form.LTextBox({
             	applyTo: 'keywordNm',
@@ -167,11 +160,8 @@
             	lvAttcFilId = conferenceRgstDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
-//                 var sbcNm = conferenceRgstDataSet.getNameValue(0, "sbcNm").replaceAll('\n', '<br/>');
-//                 conferenceRgstDataSet.setNameValue(0, 'sbcNm', sbcNm);
-
                 if(conferenceRgstDataSet.getNameValue(0, "conferenceId")  != "" ||  conferenceRgstDataSet.getNameValue(0, "conferenceId")  !=  undefined ){
-    				document.aform.Wec.value=conferenceRgstDataSet.getNameValue(0, "sbcNm");
+                	CrossEditor.SetBodyValue( conferenceRgstDataSet.getNameValue(0, "sbcNm") );
     			}
             });
 
@@ -294,8 +284,6 @@
 		    	}
 		     });
 
-		    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
-
         });//onReady 끝
 
 		<%--/*******************************************************************************
@@ -360,15 +348,8 @@
 	     *******************************************************************************/--%>
 	    fncInsertConferenceInfo = function(){
 	    	var pageMode = '${inputData.pageMode}';
-	    	console.log('fncInsertConferenceInfo pageMode='+pageMode);
 
-	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
-	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
-
-            conferenceRgstDataSet.setNameValue(0, 'sbcNm', document.aform.Wec.bodyValue);
-            gvSbcNm = document.aform.Wec.bodyValue ;
-
-			document.aform.sbcNm.value = document.aform.Wec.MIMEValue;
+            conferenceRgstDataSet.setNameValue(0, 'sbcNm', CrossEditor.GetBodyValue());
 
 	    	// 데이터셋 valid
 			if(!validation('aform')){
@@ -376,22 +357,23 @@
 	   		}
 
 			// 에디터 valid
-			if(gvSbcNm == "" || gvSbcNm == "<P>&nbsp;</P>"){
+			if( conferenceRgstDataSet.getNameValue(0, "sbcNm") == "<p><br></p>" || conferenceRgstDataSet.getNameValue(0, "sbcNm") == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
 				alert("내용 : 필수 입력 항목 입니다.");
-		   		return false;
-		   	}
-
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
+			
 	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
 	    	if(confirm("저장하시겠습니까?")){
-		    	if(pageMode == 'V'){
+	    		if(pageMode == 'V'){
 		    		// update
 		    		dm1.updateDataSet({
 		    	        url: "<c:url value='/knld/pub/insertConferenceInfo.do'/>",
 		    	        dataSets:[conferenceRgstDataSet],
 		    	        params: {
 		    	        	conferenceId : document.aform.conferenceId.value
-		    	        	,sbcNm : document.aform.Wec.MIMEValue
+		    	        	,sbcNm : conferenceRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}else if(pageMode == 'C'){
@@ -399,7 +381,7 @@
 		    	        url: "<c:url value='/knld/pub/insertConferenceInfo.do'/>",
 	 	    	        dataSets:[conferenceRgstDataSet],
 	 	    	       	params: {
-		    	        	sbcNm : document.aform.Wec.MIMEValue
+		    	        	sbcNm : conferenceRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}
@@ -429,7 +411,6 @@
 	</form>
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="conferenceId" name="conferenceId" value=""/>
-		<input type="hidden" id="sbcNm" name="sbcNm" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
    		<div class="contents">
 
@@ -485,8 +466,23 @@
    						<tr>
     						<!--<th align="right">내용</th> -->
    							<td colspan="4">
-<!--    								 <textarea id="sbcNm"></textarea> -->
-								<div id="namoHtml_DIV"></div>
+   								 <textarea id="sbcNm"></textarea>
+								<script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('sbcNm');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										
+										var uploadPath = "<%=uploadPath%>"; 
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"/knld";
+										CrossEditor.params.FullScreen = false;
+										
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											e.editorTarget.SetBodyValue(document.getElementById("sbcNm").value);
+										}
+									</script>
    							</td>
    						</tr>
     					<tr>
