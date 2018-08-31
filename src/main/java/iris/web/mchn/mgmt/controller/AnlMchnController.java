@@ -1,6 +1,5 @@
 package iris.web.mchn.mgmt.controller;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +21,6 @@ import devonframe.configuration.ConfigService;
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.CommonUtil;
-import iris.web.common.util.NamoMime;
 import iris.web.common.util.StringUtil;
 import iris.web.mchn.mgmt.service.AnlMchnService;
 import iris.web.system.base.IrisBaseController;
@@ -190,11 +187,6 @@ public class AnlMchnController extends IrisBaseController {
 		String rtnSt ="F";
 		String rtnMsg = "";
 
-		NamoMime mime = new NamoMime();
-
-		String mchnSmry = "";
-		String mchnSmryHtml = "";
-
 		try{
         	//고정자산 목록이 이미 등록이 되어있는지 확인
         	int fxaCnt = 0;
@@ -205,24 +197,8 @@ public class AnlMchnController extends IrisBaseController {
         	if( fxaCnt > 0 ){
         		rtnMsg = "이미 등록되어 있는 고정자산입니다.";
         	}else{
-
-        		String uploadPath = "";
-                String uploadUrl = "";
-
-                uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_MCHN");   // 파일명에 세팅되는 경로
-                uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_MCHN");  // 파일이 실제로 업로드 되는 경로
-
-                mime.setSaveURL(uploadUrl);
-                mime.setSavePath(uploadPath);
-                mime.decode(input.get("mchnSmry").toString());                  // MIME 디코딩
-                mime.saveFileAtPath(uploadPath+File.separator);
-
-                mchnSmry = mime.getBodyContent();
-                mchnSmryHtml = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(mchnSmry, "<", "@![!@"),">","@!]!@"));
-
-    			input.put("mchnSmry", mchnSmry);
-
-                anlMchnService.saveMachineInfo(input);
+        		LOGGER.debug("############################################################################### : "+ input);
+        		anlMchnService.saveMachineInfo(input);
             	
                 rtnMsg = "저장되었습니다.";
             	rtnSt= "S";

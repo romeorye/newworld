@@ -92,8 +92,7 @@ var mailTitl ="보유기기 예약신청";
 	    	var frm = document.aform;
 	    	
 	    	butSave.hide();
-	    	
-	    	frm.Wec.value = dataSet.getNameValue(0, "dtlSbc");
+	    	CrossEditor.SetBodyValue( dataSet.getNameValue(0, "dtlSbc") );
 	    	frm.mchnHanNm.value = dataSet.getNameValue(0, "mchnHanNm");
 	    	frm.mchnEnNm.value = dataSet.getNameValue(0, "mchnEnNm");
 	    	frm.toMailAddr.value = dataSet.getNameValue(0, "crgrMail");
@@ -429,23 +428,18 @@ var mailTitl ="보유기기 예약신청";
 			
 			frm.prctFromTim.value = cbPrctFromHH.getValue()+":"+cbPrctFrommm.getValue();
 			frm.prctToTim.value = cbPrctToHH.getValue()+":"+cbPrctTomm.getValue();
+		
+			frm.dtlSbc.value = CrossEditor.GetBodyValue();
 			
-    	    frm.Wec.CleanupOptions = "msoffice | empty | comment";
-    		frm.Wec.value =frm.Wec.CleanupHtml(frm.Wec.value);
-    		frm.dtlSbc.value = frm.Wec.BodyValue;
-    	
-    		if(frm.dtlSbc.value == "" || frm.dtlSbc.value == "<P>&nbsp;</P>") {
-    			alert('내용을 입력하여 주십시요.');
-    			frm.Wec.focus();
-    			return false;
-    		}
-    		
-    		frm.dtlSbc.value = frm.Wec.MIMEValue;
+			// 에디터 valid
+			if( frm.dtlSbc.value == "<p><br></p>" || frm.dtlSbc.value == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
+				alert('내용을 입력하여 주십시요.');
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
     		
 			return true;
 		}
-		
-		createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
 		
 	}); //end ready
 
@@ -457,7 +451,6 @@ var mailTitl ="보유기기 예약신청";
 		<div class="sub-content">
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="rgstId" name="rgstId" />
-				<input type="hidden" id="dtlSbc" name="dtlSbc" />
 				<input type="hidden" id="rgstNm" name="rgstNm" />
 				<input type="hidden" id="crgrNm" name="crgrNm" />
 				<input type="hidden" id="toMailAddr" name="toMailAddr" />
@@ -601,7 +594,23 @@ var mailTitl ="보유기기 예약신청";
 						</tr>
 						<tr>
 							<td colspan="4">
-								<div id="namoHtml_DIV"></div>
+								<textarea id="dtlSbc" name="dtlSbc"></textarea>
+   								 <script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('dtlSbc');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										
+										var uploadPath = "<%=uploadPath%>"; 
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";
+										CrossEditor.params.FullScreen = false;
+										
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											e.editorTarget.SetBodyValue(document.getElementById("dtlSbc").value);
+										}
+									</script>
 							</td>
 						</tr>
 						

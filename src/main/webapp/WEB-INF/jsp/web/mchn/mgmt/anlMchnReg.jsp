@@ -25,21 +25,9 @@
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LFileBox.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/LFileUploadDialog.js"></script>
-<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LPopupTextBox.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LFileBox.css"/>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/LFileUploadDialog.css"/>
-<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LPopupTextBox.css"/>
-
-<%-- rui Validator --%>
-<script type="text/javascript" src="<%=ruiPathPlugins%>/validate/LCustomValidator.js"></script>
-
-<%
-	response.setHeader("Pragma", "No-cache");
-	response.setDateHeader("Expires", 0);
-	response.setHeader("Cache-Control", "no-cache");
-%>
-
 
 <script type="text/javascript">
 
@@ -97,7 +85,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			cbOpnYn.setValue(dataSet.getNameValue(0,"opnYn"));
 			
 			if(dataSet.getNameValue(0, "mchnInfoId")  != "" ||  dataSet.getNameValue(0, "mchnInfoId")  !=  undefined ){
-				document.aform.Wec.value=dataSet.getNameValue(0, "mchnSmry");
+				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "mchnSmry") );
 			}
 			
 			if(!Rui.isEmpty(dataSet.getNameValue(0, "fxaNo"))){
@@ -455,10 +443,10 @@ var faxInfoDialog;	//고정자산관리 팝업
 
     		if(fncVaild()) {
     			if(confirm("저장 하시겠습니까?")) {
-	            	    dm.updateForm({
+    				dm.updateForm({
 	    	        	    url: "<c:url value='/mchn/mgmt/saveMachineInfo.do'/>",
 	    	        	    form: 'aform'
-	    	        	});
+	    	        });
 	    	    }
     		}
    	 	});
@@ -484,9 +472,6 @@ var faxInfoDialog;	//고정자산관리 팝업
 
        //첨부파일 다운로드
        downloadAttcFil = function(attId, seq){
-	       /* 	var param = "?attcFilId=" + attId + "&seq=" + seq;
-	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
-	       	document.aform.submit(); */
     	    var param = "?attcFilId="+ attId+"&seq="+seq;
 			Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
 			Rui.get('imgDialTitle').html('기기이미지');
@@ -521,7 +506,8 @@ var faxInfoDialog;	//고정자산관리 팝업
      //vaild check
      var fncVaild = function(){
      		var frm = document.aform;
-    		//기기명    vailid
+    		
+     		//기기명    vailid
     		if( Rui.isEmpty(mchnHanNm.getValue())){
     			Rui.alert("기기명(한글)은 필수항목입니다");
     			mchnHanNm.focus();
@@ -577,24 +563,17 @@ var faxInfoDialog;	//고정자산관리 팝업
     			mchnExpl.focus();
     			return false;
     		}
-    	
-    		frm.Wec.CleanupOptions = "msoffice | empty | comment";
-    		frm.Wec.value =frm.Wec.CleanupHtml(frm.Wec.value);
-    		frm.mchnSmry.value = frm.Wec.BodyValue;
 
-    		if(frm.mchnSmry.value == "" || frm.mchnSmry.value == "<P>&nbsp;</P>") {
+    		frm.mchnSmry.value = CrossEditor.GetBodyValue();
+
+    		if(frm.mchnSmry.value == "" || frm.mchnSmry.value == "<p><br></p>") {
     			alert('개요내용을 입력하여 주십시요.');
-    			frm.Wec.focus();
+    			CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
     			return false;
     		}
     	
-    		frm.mchnSmry.value = frm.Wec.MIMEValue;		// mime value 설정 : cmd에서 decode 통해 파일을 서버에 업로드하고, 파일 경로를 수정하도록 함. 고, 파일 경로를 수정하도록 함.
-
     		return true;
      	}
-     	
-     	createNamoEdit('Wec', '100%', 300, 'namoHtml_DIV');
-
 	});  //end ready
 
 	 //고정자산 callback
@@ -625,8 +604,6 @@ var faxInfoDialog;	//고정자산관리 팝업
 		    
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" />
-
-				<input type="hidden" id="mchnSmry" name="mchnSmry" />
 				<input type="hidden" id="attcFilId" name="attcFilId" />
 				<input type="hidden" id="mchnCrgrId" name="mchnCrgrId" />
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" value="<c:out value='${inputData.mchnInfoId}'/>">
@@ -736,7 +713,23 @@ var faxInfoDialog;	//고정자산관리 팝업
 						<tr>
 							<th  align="right">개요</th>
 							<td colspan="3">
-								<div id="namoHtml_DIV"></div>
+								<textarea id="mchnSmry" name="mchnSmry"></textarea>
+   								 <script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('mchnSmry');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										
+										var uploadPath = "<%=uploadPath%>"; 
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";
+										CrossEditor.params.FullScreen = false;
+										
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											e.editorTarget.SetBodyValue(document.getElementById("mchnSmry").value);
+										}
+									</script>
 							</td>
 						</tr>
 						</tbody>

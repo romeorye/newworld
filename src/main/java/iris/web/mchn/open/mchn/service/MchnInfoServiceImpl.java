@@ -1,6 +1,5 @@
 package iris.web.mchn.open.mchn.service;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +15,7 @@ import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
 import devonframe.util.NullUtil;
-import iris.web.common.util.CommonUtil;
-import iris.web.common.util.NamoMime;
+import iris.web.common.mail.service.MailInfoService;
 import iris.web.fxa.anl.service.FxaAnlServiceImpl;
 import iris.web.mchn.open.mchn.vo.MchnInfoVo;
 
@@ -34,6 +32,9 @@ public class MchnInfoServiceImpl implements MchnInfoService {
 	
 	@Resource(name="mailSenderFactory")
 	private MailSenderFactory mailSenderFactory;	// 메일전송 팩토리
+	
+	@Resource(name="mailInfoService")
+    private MailInfoService mailInfoService;
 	
 	
 	/**
@@ -110,29 +111,10 @@ public class MchnInfoServiceImpl implements MchnInfoService {
 			throw new Exception("기존 예약건이 존재합니다.");
 		}
 		
-		NamoMime mime = new NamoMime();
-		//저장 및 수정
-		String dtlSbcHtml = "";
-		String dtlSbcHtml_temp = "";
-		
-		String uploadPath = "";
-        String uploadUrl = "";
-
-        uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_MCHN");   // 파일명에 세팅되는 경로
-        uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_MCHN");  // 파일이 실제로 업로드 되는 경로
-
-        mime.setSaveURL(uploadUrl);
-        mime.setSavePath(uploadPath);
-        mime.decode(input.get("dtlSbc").toString());                  // MIME 디코딩
-        mime.saveFileAtPath(uploadPath+File.separator);
-        dtlSbcHtml = mime.getBodyContent();
-        dtlSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(dtlSbcHtml, "<", "@![!@"),">","@!]!@"));
-
-        input.put("dtlSbc", dtlSbcHtml);
-
         MailSender mailSender = mailSenderFactory.createMailSender(); 
+       
         MchnInfoVo vo = new MchnInfoVo();
-        //LOGGER.debug("#############################input######################################################## : "+ input);   
+
         if(commonDao.update("open.mchnInfo.saveMchnPrctInfo", input) > 0){
 			//기기예약신청 담당자에게 메일 발송
 			mailSender.setFromMailAddress( input.get("_userEmail").toString(), input.get("_userNm").toString());
@@ -153,13 +135,15 @@ public class MchnInfoServiceImpl implements MchnInfoService {
 			mailSender.setHtmlTemplate("mchnApprInfo", vo);
 			mailSender.send(); 
 			
+			input.put("menuType", "mchn");
 			input.put("mailTitl", NullUtil.nvl(input.get("mailTitl").toString(),""));
 			input.put("adreMail", input.get("toMailAddr").toString());
 			input.put("trrMail",  input.get("_userEmail").toString());
 			input.put("_userId", input.get("_userId").toString());
 			input.put("_userEmail", input.get("_userEmail").toString());
 			
-			commonDao.insert("open.mchnEduAnl.insertMailHis", input);
+			mailInfoService.insertMailSndHist(input);
+			
 		}else{
 			throw new Exception("처리중 오류가 발생했습니다. 관리자에게 문의하세요");
 		}
