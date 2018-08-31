@@ -1,6 +1,5 @@
 package iris.web.knld.pub.controller;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +23,6 @@ import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.code.service.CodeCacheManager;
 import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.CommonUtil;
-import iris.web.common.util.NamoMime;
 import iris.web.common.util.StringUtil;
 import iris.web.knld.pub.service.OutsideSpecialistService;
 import iris.web.system.base.IrisBaseController;
@@ -148,11 +145,6 @@ public class OutsideSpecialistController  extends IrisBaseController {
 		checkSessionRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		NamoMime mime = new NamoMime();
-
-		String outSpciSbcHtml = "";
-		String outSpciSbcHtml_temp = "";
-
 
 		// 결과메시지
 		rtnMeaasge.put("rtnSt", "S");
@@ -162,32 +154,13 @@ public class OutsideSpecialistController  extends IrisBaseController {
 		int totCnt = 0;    							//전체건수
 		List<Map<String, Object>> outsideSpecialistRgstDataSetList;	// 변경데이터
 
-		try
-		{
-
-			String uploadUrl = "";
-			String uploadPath = "";
-
-            uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_KNLD");   // 파일명에 세팅되는 경로
-            uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_KNLD");  // 파일이 실제로 업로드 되는 경로
-
-            mime.setSaveURL(uploadUrl);
-            mime.setSavePath(uploadPath);
-            mime.decode(input.get("timpCarr").toString());                  // MIME 디코딩
-            mime.saveFileAtPath(uploadPath+File.separator);
-
-            outSpciSbcHtml = mime.getBodyContent();
-            outSpciSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(outSpciSbcHtml, "<", "@![!@"),">","@!]!@"));
-
+		try{
 			// 저장&수정
 			String outSpclId = "";
 			outsideSpecialistRgstDataSetList = RuiConverter.convertToDataSet(request,"outSpclRgstDataSet");
 
 			for(Map<String,Object> outsideSpecialistRgstDataSetMap : outsideSpecialistRgstDataSetList) {
-
 				outsideSpecialistRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
-				outsideSpecialistRgstDataSetMap.put("timpCarr" , NullUtil.nvl(outSpciSbcHtml, ""));
-
 				outsideSpecialistService.insertOutsideSpecialistInfo(outsideSpecialistRgstDataSetMap);
 				totCnt++;
 			}

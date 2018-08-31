@@ -38,7 +38,6 @@
 	var setEduInfo ;
 	var userId = '${inputData._userId}';
 	var lvAttcFilId;
-	var gvSbcNm = "";
 
 		Rui.onReady(function() {
             /*******************
@@ -67,12 +66,6 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-
-//             var sbcNm = new Rui.ui.form.LTextArea({
-//                 applyTo: 'sbcNm'
-//                 //width: 1000,
-//                 //height: 200
-//             });
 
             var keywordNm = new Rui.ui.form.LTextBox({
             	applyTo: 'keywordNm',
@@ -169,11 +162,8 @@
             	lvAttcFilId = eduRgstDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
-//                 var sbcNm = eduRgstDataSet.getNameValue(0, "sbcNm").replaceAll('\n', '<br/>');
-//                 eduRgstDataSet.setNameValue(0, 'sbcNm', sbcNm);
-
                 if(eduRgstDataSet.getNameValue(0, "eduId")  != "" ||  eduRgstDataSet.getNameValue(0, "eduId")  !=  undefined ){
-    				document.aform.Wec.value=eduRgstDataSet.getNameValue(0, "sbcNm");
+                	CrossEditor.SetBodyValue( eduRgstDataSet.getNameValue(0, "sbcNm") );
     			}
             });
 
@@ -294,8 +284,6 @@
 		    	}
 		     });
 
-		    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
-
         });//onReady 끝
 
 		<%--/*******************************************************************************
@@ -363,16 +351,8 @@
 	     *******************************************************************************/--%>
 	    fncInsertEduInfo = function(){
 	    	var pageMode = '${inputData.pageMode}';
-	    	console.log('fncInsertEduInfo pageMode='+pageMode);
 
-
-	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
-	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
-
-	    	eduRgstDataSet.setNameValue(0, 'sbcNm', document.aform.Wec.bodyValue);
-            gvSbcNm = document.aform.Wec.bodyValue ;
-
-			document.aform.sbcNm.value = document.aform.Wec.MIMEValue;
+	    	eduRgstDataSet.setNameValue(0, 'sbcNm', CrossEditor.GetBodyValue());
 
 	    	// 데이터셋 valid
 			if(!validation('aform')){
@@ -380,10 +360,11 @@
 	   		}
 
 			// 에디터 valid
-			if(gvSbcNm == "" || gvSbcNm == "<P>&nbsp;</P>"){
+			if( eduRgstDataSet.getNameValue(0, "sbcNm") == "<p><br></p>" || eduRgstDataSet.getNameValue(0, "sbcNm") == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
 				alert("내용 : 필수 입력 항목 입니다.");
-		   		return false;
-		   	}
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
 
 	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
@@ -395,7 +376,7 @@
 		    	        dataSets:[eduRgstDataSet],
 		    	        params: {
 		    	            eduId : document.aform.eduId.value
-		    	        	,sbcNm : document.aform.Wec.MIMEValue
+		    	        	,sbcNm : eduRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}else if(pageMode == 'C'){
@@ -403,7 +384,7 @@
 		    	        url: "<c:url value='/knld/pub/insertEduInfo.do'/>",
 		    	        dataSets:[eduRgstDataSet],
 		    	        params: {
-		    	        	sbcNm : document.aform.Wec.MIMEValue
+		    	        	sbcNm : eduRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}
@@ -431,7 +412,6 @@
 	</form>
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="eduId" name="eduId" value=""/>
-		<input type="hidden" id="sbcNm" name="sbcNm" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
    		<div class="contents">
 
@@ -488,8 +468,29 @@
    						<tr>
     						<!--<th align="right">내용</th> -->
    							<td colspan="4">
-<!--    								 <textarea id="sbcNm"></textarea> -->
-								<div id="namoHtml_DIV"></div>
+   								 <textarea id="sbcNm"></textarea>
+								 <script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('sbcNm');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										
+										var uploadPath = "<%=uploadPath%>"; 
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"/knld";
+										CrossEditor.params.FullScreen = false;
+										
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											/* 
+											CrossEditor.ShowToolbar(0,0); 
+											CrossEditor.ShowToolbar(1,0);
+											CrossEditor.ShowToolbar(2,0);
+											CrossEditor.ShowToolbar(3,0);
+											 */
+											e.editorTarget.SetBodyValue(document.getElementById("sbcNm").value);
+										}
+									</script>
    							</td>
    						</tr>
     					<tr>

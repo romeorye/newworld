@@ -38,7 +38,6 @@
 	var setOutSpclInfo ;
 	var userId = '${inputData._userId}';
 	var lvAttcFilId;
-	var gvSbcNm = "";
 
 		Rui.onReady(function() {
             /*******************
@@ -89,13 +88,6 @@
                 width: 450
             });
 
-//             var timpCarr = new Rui.ui.form.LTextArea({
-//                 applyTo: 'timpCarr'
-//                 //width: 1000,
-//                 //height: 200
-//             });
-
-
             <%-- DATASET --%>
             outSpclRgstDataSet = new Rui.data.LJsonDataSet({
                 id: 'outSpclRgstDataSet',
@@ -126,11 +118,8 @@
             	lvAttcFilId = outSpclRgstDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
-//                 var timpCarr = outSpclRgstDataSet.getNameValue(0, "timpCarr").replaceAll('\n', '<br/>');
-//                 outSpclRgstDataSet.setNameValue(0, 'timpCarr', timpCarr);
-
                 if(outSpclRgstDataSet.getNameValue(0, "outSpclId")  != "" ||  outSpclRgstDataSet.getNameValue(0, "outSpclId")  !=  undefined ){
-    				document.aform.Wec.value=outSpclRgstDataSet.getNameValue(0, "timpCarr");
+                	CrossEditor.SetBodyValue( outSpclRgstDataSet.getNameValue(0, "timpCarr") );
     			}
             });
 
@@ -227,9 +216,7 @@
             };
 
            	//첨부파일 끝
-
             fn_init();
-
 
             /* [버튼] 저장 */
             outSpclRgstSave = function() {
@@ -246,17 +233,15 @@
             butGoList = new Rui.ui.LButton('butGoList');
 
 		    saveBtn.on('click', function() {
-// 		    	if(confirm("저장하시겠습니까?")){
-		    		outSpclRgstSave();
-// 		    	}
-		     });
+		    	outSpclRgstSave();
+		    });
+		    
 		    butGoList.on('click', function() {
 		    	if(confirm("저장하지 않고 목록으로 돌아가시겠습니까?")){
 		    		goOutSpclList();
 		    	}
 		     });
 
-		    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
         });//onReady 끝
 
 		<%--/*******************************************************************************
@@ -276,9 +261,7 @@
             ]
         });
 
-
 	   function validation(vForm){
-
 		 	var vTestForm = vForm;
 		 	if(vm.validateGroup(vTestForm) == false) {
 		 		alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('') );
@@ -287,8 +270,6 @@
 
 		 	return true;
 		 }
-
-
 
 		<%--/*******************************************************************************
 		 * FUNCTION 명 : initialize
@@ -299,7 +280,6 @@
 			var outSpclId = '${inputData.outSpclId}';
 
 	    	if(pageMode == 'V'){
-
 	             /* 상세내역 가져오기 */
 	             getOutSpclInfo = function() {
 	            	 outSpclRgstDataSet.load({
@@ -312,7 +292,6 @@
 
 	             getOutSpclInfo();
 
-
 	    	}else if(pageMode == 'C')	{
 	    		outSpclRgstDataSet.newRecord();
     		}
@@ -324,15 +303,8 @@
 	     *******************************************************************************/--%>
 	    fncInsertOutSpclInfo = function(){
 	    	var pageMode = '${inputData.pageMode}';
-	    	console.log('fncInsertOutSpclInfo pageMode='+pageMode);
 
-	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
-	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
-
-	    	outSpclRgstDataSet.setNameValue(0, 'timpCarr', document.aform.Wec.bodyValue);
-            gvSbcNm = document.aform.Wec.bodyValue ;
-
-			document.aform.timpCarr.value = document.aform.Wec.MIMEValue;
+	    	outSpclRgstDataSet.setNameValue(0, 'timpCarr', CrossEditor.GetBodyValue());
 
 	    	// 데이터셋 valid
 			if(!validation('aform')){
@@ -340,10 +312,12 @@
 	   		}
 
 			// 에디터 valid
-			if(gvSbcNm == "" || gvSbcNm == "<P>&nbsp;</P>"){
+			if( outSpclRgstDataSet.getNameValue(0, "timpCarr") == "<p><br></p>" || outSpclRgstDataSet.getNameValue(0, "timpCarr") == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
 				alert("내용 : 필수 입력 항목 입니다.");
-		   		return false;
-		   	}
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
+			
 			if ( Rui.isEmpty(lvAttcFilId) ){
 				alert("정보제공동의서 첨부파일은 필수입니다.");
 				return;
@@ -359,7 +333,7 @@
 		    	        dataSets:[outSpclRgstDataSet],
 		    	        params: {
 		    	        	outSpclId : document.aform.outSpclId.value
-		    	        	,timpCarr : document.aform.Wec.MIMEValue
+		    	        	,timpCarr : outSpclRgstDataSet.getNameValue(0, "timpCarr")
 		    	        }
 		    	    });
 		    	}else if(pageMode == 'C'){
@@ -367,7 +341,7 @@
 		    	        url: "<c:url value='/knld/pub/insertOutsideSpecialistInfo.do'/>",
 		    	        dataSets:[outSpclRgstDataSet],
 		    	        params: {
-		    	        	timpCarr : document.aform.Wec.MIMEValue
+		    	        	timpCarr : outSpclRgstDataSet.getNameValue(0, "timpCarr")
 		    	        }
 		    	    });
 		    	}
@@ -395,7 +369,6 @@
 	</form>
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="outSpclId" name="outSpclId" value=""/>
-		<input type="hidden" id="timpCarr" name="timpCarr" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
    		<div class="contents">
 
@@ -477,8 +450,23 @@
    						<tr>
     						<!--<th align="right">주요경력</th> -->
    							<td colspan="4">
-<!--    								 <textarea id="timpCarr"></textarea> -->
-								<div id="namoHtml_DIV"></div>
+   								 <textarea id="timpCarr"></textarea>
+   								 <script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('timpCarr');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										
+										var uploadPath = "<%=uploadPath%>"; 
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"/knld";
+										CrossEditor.params.FullScreen = false;
+										
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											e.editorTarget.SetBodyValue(document.getElementById("timpCarr").value);
+										}
+									</script>
    							</td>
    						</tr>
    						<tr>

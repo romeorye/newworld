@@ -1,6 +1,5 @@
 package iris.web.knld.pub.controller;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.LogManager; import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,12 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import devonframe.configuration.ConfigService;
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
-
 import iris.web.common.code.service.CodeCacheManager;
 import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.CommonUtil;
-import iris.web.common.util.DateUtil;
-import iris.web.common.util.NamoMime;
 import iris.web.common.util.StringUtil;
 import iris.web.knld.pub.service.ManualService;
 import iris.web.system.base.IrisBaseController;
@@ -149,10 +145,6 @@ public class ManualController  extends IrisBaseController {
 		checkSessionRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		NamoMime mime = new NamoMime();
-
-		String manualSbcHtml = "";
-		String manualSbcHtml_temp = "";
 
 		// 결과메시지
 		rtnMeaasge.put("rtnSt", "S");
@@ -162,32 +154,13 @@ public class ManualController  extends IrisBaseController {
 		int totCnt = 0;    							//전체건수
 		List<Map<String, Object>> manualRgstDataSetList;	//교육세미나 변경데이터
 
-		try
-		{
-			String uploadUrl = "";
-			String uploadPath = "";
-
-            uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_KNLD");   // 파일명에 세팅되는 경로
-            uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_KNLD");  // 파일이 실제로 업로드 되는 경로
-
-            mime.setSaveURL(uploadUrl);
-            mime.setSavePath(uploadPath);
-            mime.decode(input.get("sbcNm").toString());                  // MIME 디코딩
-            mime.saveFileAtPath(uploadPath+File.separator);
-
-            manualSbcHtml = mime.getBodyContent();
-            manualSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(manualSbcHtml, "<", "@![!@"),">","@!]!@"));
-
-
+		try{
 			//교육세미나 저장&수정
 			String manualId = "";
 			manualRgstDataSetList = RuiConverter.convertToDataSet(request,"manualRgstDataSet");
 
 			for(Map<String,Object> manualRgstDataSetMap : manualRgstDataSetList) {
-
 				manualRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
-				manualRgstDataSetMap.put("sbcNm" , NullUtil.nvl(manualSbcHtml, ""));
-
 				manualService.insertManualInfo(manualRgstDataSetMap);
 				totCnt++;
 			}

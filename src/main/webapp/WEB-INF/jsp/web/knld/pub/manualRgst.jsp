@@ -38,7 +38,6 @@
 	var setManualInfo ;
 	var userId = '${inputData._userId}';
 	var lvAttcFilId;
-	var gvSbcNm = "";
 
 		Rui.onReady(function() {
             /*******************
@@ -63,20 +62,6 @@
                 valueField: 'COM_DTL_CD'
             });
 
-           /* 개정내역
-           var rfrmSbc = new Rui.ui.form.LTextArea({
-                applyTo: 'rfrmSbc',
-                width: 1000,
-                height: 200
-            });
-           */
-
-//             var sbcNm = new Rui.ui.form.LTextArea({
-//                 applyTo: 'sbcNm'
-//                 //width: 1000,
-//                 //height: 200
-//             });
-
             var keywordNm = new Rui.ui.form.LTextBox({
             	applyTo: 'keywordNm',
                 width: 700
@@ -88,7 +73,6 @@
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
 				defaultValue: new Date(),
-// 				defaultValue : new Date().add('Y', parseInt(-1, 10)),		// default -1년
 				width: 100,
 				dateType: 'string'
 			});
@@ -131,11 +115,8 @@
             	lvAttcFilId = manualRgstDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
-//                 var sbcNm = manualRgstDataSet.getNameValue(0, "sbcNm").replaceAll('\n', '<br/>');
-//                 manualRgstDataSet.setNameValue(0, 'sbcNm', sbcNm);
-
                 if(manualRgstDataSet.getNameValue(0, "manualId")  != "" ||  manualRgstDataSet.getNameValue(0, "manualId")  !=  undefined ){
-    				document.aform.Wec.value=manualRgstDataSet.getNameValue(0, "sbcNm");
+                	CrossEditor.SetBodyValue( manualRgstDataSet.getNameValue(0, "sbcNm") );
     			}
             });
 
@@ -149,7 +130,6 @@
                     , { id: 'titlNm',         ctrlId: 'titlNm',          value: 'value' }
                     , { id: 'prcpMnlScnCd',   ctrlId: 'prcpMnlScnCd',    value: 'value' }
                     , { id: 'enfcDt',         ctrlId: 'enfcDt',          value: 'value' }
-                    //, { id: 'rfrmSbc',        ctrlId: 'rfrmSbc',         value: 'value' } //개정내역
                     , { id: 'sbcNm',          ctrlId: 'sbcNm',           value: 'value' }
                     , { id: 'keywordNm',      ctrlId: 'keywordNm',       value: 'value' }
                     , { id: 'attcFilId',      ctrlId: 'attcFilId',       value: 'value' }
@@ -256,8 +236,6 @@
 		    	}
 		     });
 
-		    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
-
         });//onReady 끝
 
 		<%--/*******************************************************************************
@@ -323,26 +301,20 @@
 	     *******************************************************************************/--%>
 	    fncInsertManualInfo = function(){
 	    	var pageMode = '${inputData.pageMode}';
-	    	console.log('fncInsertManualInfo pageMode='+pageMode);
 
-	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
-	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
-
-	    	manualRgstDataSet.setNameValue(0, 'sbcNm', document.aform.Wec.bodyValue);
-            gvSbcNm = document.aform.Wec.bodyValue ;
-
-			document.aform.sbcNm.value = document.aform.Wec.MIMEValue;
-
+	    	manualRgstDataSet.setNameValue(0, 'sbcNm', CrossEditor.GetBodyValue());
+	    	
 	    	// 데이터셋 valid
 			if(!validation('aform')){
 	   			return false;
 	   		}
 
 			// 에디터 valid
-			if(gvSbcNm == "" || gvSbcNm == "<P>&nbsp;</P>"){
+			if( manualRgstDataSet.getNameValue(0, "sbcNm") == "<p><br></p>" || manualRgstDataSet.getNameValue(0, "sbcNm") == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
 				alert("내용 : 필수 입력 항목 입니다.");
-		   		return false;
-		   	}
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
 
 	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
@@ -354,7 +326,7 @@
 		    	        dataSets:[manualRgstDataSet],
 		    	        params: {
 		    	        	manualId : document.aform.manualId.value
-		    	        	,sbcNm : document.aform.Wec.MIMEValue
+		    	        	,sbcNm : manualRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}else if(pageMode == 'C'){
@@ -362,7 +334,7 @@
 		    	        url: "<c:url value='/knld/pub/insertManualInfo.do'/>",
 		    	        dataSets:[manualRgstDataSet],
 		    	        params: {
-		    	        	sbcNm : document.aform.Wec.MIMEValue
+		    	        	sbcNm : manualRgstDataSet.getNameValue(0, "sbcNm")
 		    	        }
 		    	    });
 		    	}
@@ -390,7 +362,6 @@
 	</form>
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="manualId" name="manualId" value=""/>
-		<input type="hidden" id="sbcNm" name="sbcNm" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
    		<div class="contents">
 
@@ -450,8 +421,23 @@
    						<tr>
     						<!--<th align="right">내용</th> -->
    							<td colspan="4">
-<!--    								 <textarea id="sbcNm"></textarea> -->
-								<div id="namoHtml_DIV"></div>
+   								 <textarea id="sbcNm"></textarea>
+								 <script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('sbcNm');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										
+										var uploadPath = "<%=uploadPath%>"; 
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"/knld";
+										CrossEditor.params.FullScreen = false;
+										
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											e.editorTarget.SetBodyValue(document.getElementById("sbcNm").value);
+										}
+									</script>
    							</td>
    						</tr>
     					<tr>
