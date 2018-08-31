@@ -26,6 +26,7 @@
 	            <entry key="mchnEduCoures" value-ref="mchnEduCoures" />
 	            <entry key="mchnApprInfo" value-ref="mchnApprInfo" />
 	            <entry key="mchnApprReq" value-ref="mchnApprReq" />
+	            <entry key="rlabApprReq" value-ref="rlabApprReq" />
 	            
 	            <entry key="prjSendMailPopup" value-ref="prjSendMailPopup" /><!-- 프로젝트 메일전송 팝업 템플릿 -->
 	            <entry key="grsSendMail" value-ref="grsSendMail" />
@@ -50,7 +51,7 @@
 	<bean id="mailPolicy" class="devonframe.mail.policy.MailPolicy">
 
 	    <property name="testMode" value="true" />
-	    <property name="testReceivers" value="singkro@lghausys.com" />
+	    <property name="testReceivers" value="dongys@lghausys.com" />
 	    <property name="mailHost" value="subspam.lghausys.com" />
 	    <property name="mailPort" value="25" />
 	    <property name="authenticationEnabled" value="false" />
@@ -173,6 +174,16 @@
 	<bean id="mchnApprReq" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/mchn" />
 	    <property name="htmlName" value="mchnApprReq.html" />
+	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+	
+	<bean id="rlabApprReq" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/mchn" />
+	    <property name="htmlName" value="rlabApprReq.html" />
 	    <property name="imgServerIp" value="127.0.0.1" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
