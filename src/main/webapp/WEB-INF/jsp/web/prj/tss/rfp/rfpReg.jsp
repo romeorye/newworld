@@ -69,8 +69,8 @@
 		
         dataSet.on('load', function(e){
         	if(!Rui.isEmpty(dataSet.getNameValue(0, "pjtImgView")) ){
-				document.aform.Wec.value = dataSet.getNameValue(0, "pjtImgView");
-			}
+				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "pjtImgView") );
+        	}
         
 		 	if(!Rui.isEmpty(dataSet.getNameValue(0, 'rfpId'))){
        			var splitCode =dataSet.getNameValue(0, 'colaboTclg').split(",");		
@@ -227,17 +227,14 @@
 	    fncVaild = function(){
     	    var frm = document.aform;
 
-    	    frm.Wec.CleanupOptions = "msoffice | empty | comment";
-    		frm.Wec.value = frm.Wec.CleanupHtml(frm.Wec.value);
+    		dataSet.setNameValue(0, 'pjtImgView', CrossEditor.GetBodyValue());
 
-    		dataSet.setNameValue(0, 'pjtImgView', frm.Wec.BodyValue) 
-
-    		if(dataSet.getNameValue(0, 'pjtImgView') == "" || dataSet.getNameValue(0, 'pjtImgView') == "<P>&nbsp;</P>") {
-    			alert('내용을 입력하여 주십시요.');
-    			frm.Wec.focus();
-    			return false;
-    		}
-
+			// 에디터 valid
+			if( dataSet.getNameValue(0, "pjtImgView") == "<p><br></p>" || dataSet.getNameValue(0, "pjtImgView") == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
+				alert("내용을 입력해주십시오.");
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
     		// 체크 되어 있는 값 추출
     		var colaboTclgVal = "";
     		
@@ -245,7 +242,6 @@
 				colaboTclgVal = colaboTclgVal+$(this).val()+",";
 			});
 			
-    		dataSet.setNameValue(0, 'pjtImgView', frm.Wec.MIMEValue);
     		dataSet.setNameValue(0, 'colaboTclg', colaboTclgVal);
 	        	
     		return true;
@@ -368,9 +364,6 @@
 	    	nwinsActSubmit(searchForm, "<c:url value="/prj/tss/rfp/retrieveRfp.do"/>");
        	} 
        	
-	    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
-	    
-	    
 	});
 </script>
 </head>
@@ -468,7 +461,23 @@
    				<tr>
    					<th>Output Image & Project Description </th>
    					<td colspan="3">
-   						<div id="namoHtml_DIV"></div>
+   						<textarea id="pjtImgView" name="pjtImgView"></textarea>
+   						<script type="text/javascript" language="javascript">
+							var CrossEditor = new NamoSE('pjtImgView');
+							CrossEditor.params.Width = "100%";
+							CrossEditor.params.UserLang = "auto";
+							
+							var uploadPath = "<%=uploadPath%>"; 
+							
+							CrossEditor.params.ImageSavePath = uploadPath+"/prj";
+							CrossEditor.params.FullScreen = false;
+							
+							CrossEditor.EditorStart();
+							
+							function OnInitCompleted(e){
+								e.editorTarget.SetBodyValue(document.getElementById("pjtImgView").value);
+							}
+						</script>
    					</td>
    				</tr>
 			</tbody>	

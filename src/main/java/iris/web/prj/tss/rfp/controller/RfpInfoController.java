@@ -1,6 +1,5 @@
 package iris.web.prj.tss.rfp.controller;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import devonframe.configuration.ConfigService;
 import iris.web.common.code.service.CodeCacheManager;
 import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.CommonUtil;
-import iris.web.common.util.NamoMime;
 import iris.web.common.util.StringUtil;
 import iris.web.prj.tss.ousdcoo.controller.OusdCooTssAltrController;
 import iris.web.prj.tss.rfp.service.RfpInfoService;
@@ -176,10 +173,6 @@ public class RfpInfoController  extends IrisBaseController {
 		LOGGER.debug("##############################################################################################");
 		
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		NamoMime mime = new NamoMime();
-		
-		String pjtImgViewHtml = "";
-		String pjtImgViewHtml_temp = "";
 		
 		String rtnSt ="F";
 		String rtnMsg = "";
@@ -189,23 +182,6 @@ public class RfpInfoController  extends IrisBaseController {
 			saveDataSet.put("_userId", input.get("_userId"));
 			saveDataSet.put("_userSabun", input.get("_userSabun"));
 			
-			String uploadPath = "";
-            String uploadUrl = "";
-
-            uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_PRJ");   // 파일명에 세팅되는 경로
-            uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_PRJ");  // 파일이 실제로 업로드 되는 경로
-
-            mime.setSaveURL(uploadUrl);
-            mime.setSavePath(uploadPath);
-            mime.decode(saveDataSet.get("pjtImgView").toString());                  // MIME 디코딩
-            mime.saveFileAtPath(uploadPath+File.separator);
-
-            pjtImgViewHtml = mime.getBodyContent();
-            pjtImgViewHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(pjtImgViewHtml, "<", "@![!@"),">","@!]!@"));
-
-            StringUtil.toUtf8Input((HashMap) saveDataSet);
-            saveDataSet.put("pjtImgView", pjtImgViewHtml);
-            
 			rfpInfoService.saveRfpInfo(saveDataSet);
 			
 			rtnMsg = "저장되었습니다.";
