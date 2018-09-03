@@ -7,6 +7,7 @@
 	<!-- 분석기기 > open기기 > 기기교육 > 기기교육목록조회 -->
 	<select id="retrieveMchnEduSearchList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnEduSearchList 분석기기 > open기기 > 기기교육 > 기기교육목록조회
 		SELECT  (CASE WHEN (MEM.PTT_FROM_DT <= CONVERT(NVARCHAR(10), GETDATE(), 23)  AND	MEM.PTT_TO_DT >= CONVERT(NVARCHAR(10), GETDATE(), 23) ) THEN '접수중'
 					 ELSE '마감' END) AS "eduScnNm"
 				,'['+ACC.COM_DTL_NM+'] '+MEM.EDU_NM AS "eduNm"
@@ -62,6 +63,7 @@
 	<!-- 기기교육 개요 상세 조회 -->
 	<select id="retrieveEduInfo" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveEduInfo 기기교육 개요 상세 조회
 		SELECT  MEM.EDU_NM AS "eduNm"
 		       ,MIS.MCHN_HAN_NM AS "mchnNm"
 		       ,MEM.MCHN_EDU_ID AS "mchnEduId"
@@ -99,6 +101,7 @@
 	</select>
 
 	<select id="retrieveEduInfoCnt"  resultType="int">
+	-- retrieveEduInfoCnt
 		SELECT COUNT(*) as "cnt"
 		FROM IRIS_MCHN_EDU_DTL MED
 		WHERE MED.DEL_YN = 'N'
@@ -108,6 +111,7 @@
 
 
 	<insert id="insertEduInfoDetail">
+	-- insertEduInfoDetail
 	INSERT INTO IRIS_MCHN_EDU_DTL
         (MCHN_EDU_ID
         ,RGST_ID
@@ -132,12 +136,13 @@
 	</insert>
 
 	<update id ='updateEduCancel' >
+	-- updateEduCancel
 		UPDATE IRIS_MCHN_EDU_DTL
 		SET    DEL_YN ='Y'
 		      ,LAST_MDFY_DT = GETDATE()
 	   		  ,LAST_MDFY_ID = #{_userId}
 		WHERE  MCHN_EDU_ID = #{mchnEduId}
-		AND    RGST_ID = #{_userSabun}    
+		AND    RGST_ID = #{_userSabun}
 	</update>
 
 

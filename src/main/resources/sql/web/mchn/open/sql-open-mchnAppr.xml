@@ -7,6 +7,7 @@
 	<!-- 분석기기 > open기기 > 기기예약관리 목록조회  -->
 	<select id="retrieveMchnApprSearchList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnApprSearchList 분석기기 > open기기 > 기기예약관리 목록조회
 		SELECT MPM.MCHN_PRCT_ID as "mchnPrctId"
 		      ,MPM.PRCT_TITL as "prctTitl"
 		      ,CONCAT(MIM.MCHN_HAN_NM ,'(', MIM.MCHN_EN_NM , ')')  AS "mchnNm"
@@ -53,6 +54,7 @@
 	<!-- 기기관리 상세 조회 -->
 	<select id="retrieveMchnApprInfo" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnApprInfo 기기관리 상세 조회
 		SELECT MPM.MCHN_PRCT_ID as "mchnPrctId"
 			  ,MPM.PRCT_TITL as "prctTitl"
 			  ,MIM.MCHN_HAN_NM as "mchnHanNm"
@@ -92,6 +94,7 @@
 
 	<!-- 보유기기관리 승인, 반려 업데이트  -->
 	<update id="updateMachineApprInfo">
+	-- updateMachineApprInfo 보유기기관리 승인, 반려 업데이트
 		UPDATE    IRIS_MCHN_PRCT_MST
 		SET  	  PRCT_APPR_DT = CONVERT(NVARCHAR(10), GETDATE(), 23)
 				 ,PRCT_SCN_CD  = #{prctScnCd}
@@ -102,13 +105,13 @@
 
 	<insert id="insertMailHist" >
 	<![CDATA[
---insertMailHist
+	-- insertMailHist
 	INSERT INTO IRIS_COM_MAIL_SND_HIS
 		(
 		 MENU_TYPE
 		,ADRE_MAIL
 		,RFP_MAIL
-		,TRR_MAIL 
+		,TRR_MAIL
 		,MAIL_TITL
 		,CRGR_ID
 		,FRST_RGST_DT

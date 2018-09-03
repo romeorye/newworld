@@ -7,6 +7,7 @@
 	<!-- 분석기기 > open기기 > 기기교육 > 기기교육관리 목록조회 -->
 	<select id="retrieveMchnEduAnlSearchList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnEduAnlSearchList 분석기기 > open기기 > 기기교육 > 기기교육관리 목록조회
 		SELECT  (CASE WHEN (MEM.PTT_FROM_DT <= CONVERT(NVARCHAR(10), GETDATE(), 23)  AND	MEM.PTT_TO_DT >= CONVERT(NVARCHAR(10), GETDATE(), 23) ) THEN '접수중'
 					 ELSE '마감' END) AS "eduScnNm"
 				,'['+ACC.COM_DTL_NM+'] '+MEM.EDU_NM AS "eduNm"
@@ -61,6 +62,7 @@
 	<!-- 분석기기 > open기기 > 기기교육 > 기기교육관리 상세 조회 -->
 	<select id="retrieveEduInfo" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveEduInfo 분석기기 > open기기 > 기기교육 > 기기교육관리 상세 조회
 		SELECT  MEM.EDU_NM AS "eduNm"
 		       ,MEM.EDU_SCN_CD  AS "eduScnCd"
 			   ,MIS.MCHN_HAN_NM AS "mchnNm"
@@ -92,6 +94,7 @@
 
 	<select id="retrieveMachineList"  resultType="hashmap">
 		<![CDATA[
+		-- retrieveMachineList
 		SELECT  MCHN_HAN_NM+'('+MCHN_EN_NM+')' as "mchnNm"
 			   ,MDL_NM as "mdlNm"
 		       ,MKR_NM as "mkrNm"
@@ -126,6 +129,7 @@
 <!-- 교육삭제  -->
 	<update id="updateEduInfo">
 		<![CDATA[
+		-- updateEduInfo 교육삭제
 		UPDATE IRIS_MCHN_EDU_MST
 		SET    DEL_YN = 'Y'
 		      ,LAST_MDFY_DT = GETDATE()
@@ -137,6 +141,7 @@
 <!-- 교육신청 저장 및 수정  -->
 	<update id="saveEduInfo">
 	<![CDATA[
+	-- saveEduInfo 교육신청 저장 및 수정
 	MERGE IRIS_MCHN_EDU_MST MEM
 			USING ( SELECT #{mchnEduId} AS MCHN_EDU_ID ) AS Tab1
 			ON  (MEM.MCHN_EDU_ID = Tab1.MCHN_EDU_ID)
@@ -204,6 +209,7 @@
 	<!-- 분석기기 > open기기 > 기기교육 > 기기교육관리 목록조회 -->
 	<select id="retrieveMchnEduAnlRgstList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnEduAnlRgstList 분석기기 > open기기 > 기기교육 > 기기교육관리 목록조회
 		SELECT   SU.SA_NAME as "rgstNm"
 			    ,SU.SA_USER as "rgstId"
 			    ,SU.SA_DEPT_NAME  as "rgstTeam"
@@ -238,6 +244,7 @@
 	<!-- 분석기기 > open기기 > 기기교육 > 기기교육관리 목록조회(엑셀용)-->
 	<select id="retrieveMchnEduAnlRgstListExcel" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnEduAnlRgstListExcel 분석기기 > open기기 > 기기교육 > 기기교육관리 목록조회(엑셀용)
 		SELECT   SU.SA_NAME as "rgstNm"
 			    ,SU.SA_USER as "rgstId"
 			    ,SU.SA_DEPT_NAME  as "rgstTeam"
@@ -271,6 +278,7 @@
 	<!-- open기기 > 기기교육 > 기기교육관리 > 교육신청관리 수료, 미수료 업데이트-->
 	<update id="updateEduDetailInfo" >
 		<![CDATA[
+		-- updateEduDetailInfo open기기 > 기기교육 > 기기교육관리 > 교육신청관리 수료, 미수료 업데이트
 		UPDATE IRIS_MCHN_EDU_DTL
 		SET  CCS_TRTM_ID  = #{_userSabun}
 	 		,CCS_DT       = CONVERT(NVARCHAR(10), GETDATE(), 23)
@@ -287,10 +295,10 @@
 		INSERT INTO IRIS_COM_MAIL_SND_HIS
 			(
 			 MENU_TYPE
-			,SEQ 
+			,SEQ
 			,ADRE_MAIL
 			,RFP_MAIL
-			,TRR_MAIL 
+			,TRR_MAIL
 			,MAIL_TITL
 			,CRGR_ID
 			,FRST_RGST_DT
@@ -301,7 +309,7 @@
 		VALUES
 			(
 			 #{menuType}
-			,#{seq} 
+			,#{seq}
 			,#{adreMail}
 			,#{rfpMail}
 			,#{trrMail}

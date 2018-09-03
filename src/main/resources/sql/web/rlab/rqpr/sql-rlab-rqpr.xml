@@ -697,7 +697,7 @@
 						#{exatNm} as exatNm,
 						#{supiExatCd} as supiExatCd,
 						#{exatCdL} as exatCdL,
-						#{sopNo} as sopNo,
+						#{exatMtdNo} as exatMtdNo,
 						#{utmExp} as utmExp,
 						#{expCrtnScnCd} as expCrtnScnCd,
 						#{utmSmpoQty} as utmSmpoQty,
@@ -708,7 +708,7 @@
 		ON ( a.exat_cd = b.exatCd)
 		WHEN MATCHED THEN
 			update set	exat_nm = b.exatNm,
-						sop_no = b.sopNo,
+						exat_mtd_no = b.exatMtdNo,
 						utm_exp = b.utmExp,
 						exp_crtn_scn_cd = b.expCrtnScnCd,
 						utm_smpo_qty = b.utmSmpoQty,
@@ -721,7 +721,7 @@
 			insert (exat_nm
 				   ,supi_exat_cd
 				   ,exat_cd_l
-				   ,sop_no
+				   ,exat_mtd_no
 				   ,utm_exp
 				   ,exp_crtn_scn_cd
 				   ,utm_smpo_qty
@@ -734,7 +734,7 @@
 			values(b.exatNm
 				  ,b.supiExatCd
 				  ,b.exatCdL
-				  ,b.sopNo
+				  ,b.exatMtdNo
 				  ,b.utmExp
 				  ,b.expCrtnScnCd
 				  ,b.utmSmpoQty
@@ -747,7 +747,7 @@
 
 	</insert>
 
-	<select id="getRlabExatDtlList" resultType="hashmap"> 
+	<select id="getRlabExatDtlList" resultType="hashmap">
 		<![CDATA[
 			-- getRlabExatDtlList 신뢰성시험 상세 정보 리스트 조회
 			select	a.exat_cd										as exatCd
@@ -759,11 +759,11 @@
 				   ,dbo.fn_getComDtlNm('RLAB_EXAT_CL_DTL_CD', b.mchn_cl_cd)	as mchnClDtlNm
 				   ,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
 			from	iris_rlab_exat_dtl a,
-					iris_rlab_mchn_info_mgmt b 
+					iris_rlab_mchn_info_mgmt b
 		 ]]>
 			where	a.exat_cd = ${exatCd}
 			and		a.del_yn = 'N'
-			and		a.mchn_info_id = b.mchn_info_id 
+			and		a.mchn_info_id = b.mchn_info_id
 	</select>
 
 	<insert id="saveRlabExatDtl" parameterType="map">
@@ -791,13 +791,13 @@
 		where	exat_cd = ${exatCd}
 		and		mchn_info_id = ${mchnInfoId}
 		and		del_yn = 'N'
-	
+
 	</update>
-	
+
 <select id="retrieveMachineList"  resultType="hashmap">
 		<![CDATA[
 		-- retrieveMachineList 신뢰성 장비 조회
-		
+
 		SELECT  MCHN_HAN_NM+'('+MCHN_EN_NM+')' as "mchnNm"
 			   ,MDL_NM as "mdlNm"
 		       ,MKR_NM as "mkrNm"

@@ -7,6 +7,7 @@
 	<!-- 분석기기 > open기기 > 보유기기관리 목록조회  -->
 	<select id="retrieveMchnInfoSearchList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnInfoSearchList 분석기기 > open기기 > 보유기기관리 목록조회
 		SELECT  A.MCHN_INFO_ID AS mchnInfoId
 		       ,A.MCHN_HAN_NM AS mchnHanNm
 			   ,A.MCHN_EN_NM AS mchnEnNm
@@ -30,20 +31,20 @@
 			   AND F.DEL_YN = 'N'
 		       LEFT OUTER JOIN IRIS_SSO_USER   SU
 			   ON SU.SA_SABUN_NEW = A.MCHN_CRGR_ID
-			  ,IRIS_ADM_COM_CD ACC	
-			  ,IRIS_ADM_COM_CD ACC2	 
-		WHERE A.DEL_YN = 'N' 
+			  ,IRIS_ADM_COM_CD ACC
+			  ,IRIS_ADM_COM_CD ACC2
+		WHERE A.DEL_YN = 'N'
 		AND ACC.COM_CD_CD = 'MCHN_PRCT_ST'
 		AND A.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
-		AND ACC2.COM_CD_CD = 'MCHN_CL_CD' 
+		AND ACC2.COM_CD_CD = 'MCHN_CL_CD'
 		AND A.MCHN_CL_CD = ACC2.COM_DTL_CD
 		]]>
 
 		<if test="( cbSrh == 'nm' and srhInput != '' )">
-			AND (A.MCHN_HAN_NM LIKE '%'+#{srhInput}+'%' OR A.MCHN_EN_NM LIKE '%'+#{srhInput}+'%') 
+			AND (A.MCHN_HAN_NM LIKE '%'+#{srhInput}+'%' OR A.MCHN_EN_NM LIKE '%'+#{srhInput}+'%')
 	    </if>
 		<if test="( cbSrh == 'id'  and srhInput != '' )">
-			AND SU.SA_NAME LIKE '%'+#{srhInput}+'%'  
+			AND SU.SA_NAME LIKE '%'+#{srhInput}+'%'
 	    </if>
 		<if test="( mchnClCd != 'ALL' )">
 			AND A.MCHN_CL_CD = #{mchnClCd}
@@ -60,6 +61,7 @@
 	<!-- 보유기기 상세 조회 -->
 	<select id="retrieveMchnInfoDtl" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnInfoDtl 보유기기 상세 조회
 		SELECT  A.MCHN_INFO_ID AS mchnInfoId
 		       ,A.MCHN_HAN_NM AS mchnHanNm
 			   ,A.MCHN_EN_NM AS mchnEnNm
@@ -70,7 +72,7 @@
 			   ,A.MKR_NM AS mkrNm
 			   ,A.MCHN_EXPL AS mchnExpl
 			   ,A.MCHN_LOC AS mchnLoc
-			   ,CASE WHEN A.OPN_YN = 'Y' THEN 'OPEN' 
+			   ,CASE WHEN A.OPN_YN = 'Y' THEN 'OPEN'
 			         ELSE '' END AS opnNm
 			   ,A.OPN_YN  AS opnYn
 			   ,A.MCHN_SMRY AS mchnSmry
@@ -87,20 +89,21 @@
 			   AND F.DEL_YN = 'N'
 		       LEFT OUTER JOIN IRIS_SSO_USER   SU
 			   ON SU.SA_SABUN_NEW = A.MCHN_CRGR_ID
-			  ,IRIS_ADM_COM_CD ACC	
-			  ,IRIS_ADM_COM_CD ACC2	 
-		WHERE A.DEL_YN = 'N' 
+			  ,IRIS_ADM_COM_CD ACC
+			  ,IRIS_ADM_COM_CD ACC2
+		WHERE A.DEL_YN = 'N'
 		AND ACC.COM_CD_CD = 'MCHN_PRCT_ST'
 		AND A.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
-		AND ACC2.COM_CD_CD = 'MCHN_CL_CD' 
+		AND ACC2.COM_CD_CD = 'MCHN_CL_CD'
 		AND A.MCHN_CL_CD = ACC2.COM_DTL_CD
 		AND A.MCHN_INFO_ID = #{mchnInfoId}
 		]]>
 	</select>
-	
+
 	<!-- 보유기기 예약 신규 및 Detail 화면조회-->
 	<select id="retrieveMchnPrctInfo" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnPrctInfo 보유기기 예약 신규 및 Detail 화면조회
 		SELECT  A.MCHN_PRCT_ID  AS mchnPrctId
 		       ,A.MCHN_INFO_ID AS mchnInfoId
 			   ,A.PRCT_TITL AS prctTitl
@@ -121,7 +124,7 @@
 			   ,A.RGST_ID AS rgstId
 			   ,M.MCHN_SMRY AS mchnSmry
 			   ,B.SA_DEPT_NEW AS deptCd
-			   ,DBO.FN_GETSABUNNAME(A.RGST_ID) AS rgstNm 
+			   ,DBO.FN_GETSABUNNAME(A.RGST_ID) AS rgstNm
 			   ,DBO.FN_GETDEPTNAME(B.SA_DEPT_NEW) AS deptNm
 			   ,DBO.FN_GETUSEREMAIL(C.SA_USER) as crgrMail
 			   ,C.SA_NAME AS crgrNm
@@ -138,11 +141,12 @@
 		AND    A.MCHN_PRCT_ID = #{mchnPrctId}
 		]]>
 	</select>
-	
+
 
 	<!-- 분석기기 > open기기 > 보유기기 예약(일정)   -->
 	<select id="retrieveMchnPrctCalInfo" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnPrctCalInfo 분석기기 > open기기 > 보유기기 예약(일정)
 		SELECT A.MCHN_PRCT_ID	  					AS mchnPrctId
 			  ,A.PRCT_FROM_TIM+'~' + A.PRCT_TO_TIM 	AS prctTim
 			  ,A.PRCT_TITL 							AS prctTitl
@@ -160,16 +164,17 @@
 		ORDER BY PRCT_FROM_TIM
 		]]>
 	</select>
-	
+
 	<!-- 기기교육 수료일   -->
 	<select id="retrieveMchnEduInfo" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnEduInfo 기기교육 수료일
 		with mchn_edu as (
 			SELECT	 B.CCS_DT as ccsDt
 					,CASE WHEN B.EDU_ST_CD = 'RQ' THEN '요청'
 						  WHEN B.EDU_ST_CD = 'CCS' THEN '수료'
 						  WHEN B.EDU_ST_CD = 'NCPE' THEN '미수료' END AS eduStNm
-					,B.EDU_ST_CD AS eduStCd	
+					,B.EDU_ST_CD AS eduStCd
 			FROM	IRIS_MCHN_EDU_MST A
 				   ,IRIS_MCHN_EDU_DTL B
 			WHERE   A.DEL_YN ='N'
@@ -190,10 +195,11 @@
 							)
 		]]>
 	</select>
-	
+
 	<!-- 기기예약 중복체크   -->
 	<select id="checkPrctInfo" resultType="int" >
 		<![CDATA[
+		-- checkPrctInfo 기기예약 중복체크
 		SELECT COUNT(*) cnt
 		FROM   IRIS_MCHN_PRCT_MST
 		WHERE  DEL_YN ='N'
@@ -201,14 +207,15 @@
 		AND    MCHN_INFO_ID = #{mchnInfoId}
 		AND    RGST_ID  =  #{rgstId}
 		AND    PRCT_DT =  #{prctDt}
-		AND  ( #{prctFromTim} BETWEEN PRCT_FROM_TIM AND PRCT_TO_TIM 
+		AND  ( #{prctFromTim} BETWEEN PRCT_FROM_TIM AND PRCT_TO_TIM
 		     OR #{prctToTim} BETWEEN  PRCT_FROM_TIM AND PRCT_TO_TIM )
 		]]>
 	</select>
-	
+
 	<!-- 기기교육  신청 및 수정 -->
 	<update id="saveMchnPrctInfo" >
 		<![CDATA[
+		-- saveMchnPrctInfo 기기교육  신청 및 수정
 		MERGE IRIS_MCHN_PRCT_MST MEM
 			USING ( SELECT #{mchnPrctId} AS MCHN_PRCT_ID ) AS Tab1
 			ON  (MEM.MCHN_PRCT_ID = Tab1.MCHN_PRCT_ID)
@@ -257,21 +264,22 @@
 			   ,#{_teamDept}
 			   ,#{_userDept}
 			   ,GETDATE()
-			   , #{_userId} 
+			   , #{_userId}
 			   ,GETDATE()
 			   , #{_userId}
 			);
 		]]>
 	</update>
-	
+
 	<!-- 기기교육 삭제 -->
 	<update id="deleteMchnPrctInfo" >
 		<![CDATA[
+		-- deleteMchnPrctInfo 기기교육 삭제
 		UPDATE IRIS_MCHN_PRCT_MST
 		SET    DEL_YN = 'Y'
 		      ,LAST_MDFY_DT = GETDATE()
-			  ,LAST_MDFY_ID = #{_userId} 
-		WHERE  MCHN_PRCT_ID = #{mchnPrctId} 
+			  ,LAST_MDFY_ID = #{_userId}
+		WHERE  MCHN_PRCT_ID = #{mchnPrctId}
 		]]>
 	</update>
 </mapper>
