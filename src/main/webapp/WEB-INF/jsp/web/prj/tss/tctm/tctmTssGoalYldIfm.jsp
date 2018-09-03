@@ -1,11 +1,12 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
+<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
 /*
  *************************************************************************
- * $Id          :  tctmTssPlnGoalYldIfm.jsp
+ * $Id          :  tctmTssGoalYldIfm.jsp
  * @desc    : 기술팀 과제 상세 목표 Frame
  *************************************************************************
  */
@@ -396,13 +397,15 @@
                 dataSets:[dataSet2]
             });
         });
-    /*     
+/*
+
         //목록
-        var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {                
-            nwinsActSubmit(window.parent.document.mstForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
+        btnList = new Rui.ui.LButton('btnList');
+        btnList.on('click', function() {
+            nwinsActSubmit(window.parent.document.mstForm, "<%=request.getContextPath() + TctmUrl.doList%>");
         });
-      */   
+*/
+
         //조회
         fnSearch = function(targetDs) {
         	if(targetDs == "GOAL") {
@@ -488,7 +491,9 @@ $(window).load(function() {
         <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
     </form>
 </div>
-<div class="titArea">
+
+
+<div class="titArea" style="display: none">
     <span class="sub-tit"><h4>목표기술성과 등록</h4></span>
     <div class="LblockButton">
         <button type="button" id="butGoalAdd" name="">추가</button>
@@ -496,13 +501,14 @@ $(window).load(function() {
     </div>
 </div>
 
-<div id="goalGrid"></div>
+<div id="goalGrid" style="display: none"></div>
 
-<div class="titArea">
+<div class="titArea" style="display: none">
     <div class="LblockButton">
         <button type="button" id="btnGoalSave">저장</button>
     </div>
 </div>
+
 
 <div class="titArea">
     <span class="sub-tit"><h4>필수산출물 등록</h4></span>
@@ -519,11 +525,14 @@ $(window).load(function() {
         <button type="button" id="btnYldSave">저장</button>
     </div>
 </div>
-<!-- 
+<%--
+
 <div class="titArea">
     <div class="LblockButton">
         <button type="button" id="btnList" name="btnList">목록</button>
     </div>
-</div> -->
+</div>
+--%>
+
 </body>
 </html>

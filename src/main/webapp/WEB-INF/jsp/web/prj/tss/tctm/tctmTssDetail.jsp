@@ -6,7 +6,7 @@
 <%--
 /*
  *************************************************************************
- * $Id      : tctmTssPlnDetail.jsp
+ * $Id      : tctmTssDetail.jsp
  * @desc    : 기술팀 과제 상세
  */
  ** 운영반영시
@@ -18,7 +18,6 @@
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 
 <title><%=documentTitle%></title>
-
 <script type="text/javascript" src="<%=ruiPathPlugins%>/tab/rui_tab.js"></script>
 
 <script type="text/javascript">
@@ -415,6 +414,7 @@
             //목표 및 산출물
             case 1:
                 if(e.isFirst) {
+                    console.log(gvTssCd);
                     tabUrl = "<%=request.getContextPath()+TctmUrl.doTabGoal%>?tssCd=" + gvTssCd;
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
                 }
@@ -438,18 +438,23 @@
 
             var errMsg = "";
 
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            console.log(regCntMap);
             //계획
-          	if(regCntMap.genSmryCnt <= 0)       errMsg = "개요를 입력해 주시기 바랍니다.";
-              else if(regCntMap.genWbsCnt < 1)  errMsg = "WBS를 입력해 주시기 바랍니다.";
-              else if(regCntMap.genTrwiCnt <= 0) errMsg = "투입예산을 입력해 주시기 바랍니다.";
-              else if(regCntMap.comGoalCnt < 1) errMsg = "목표를 입력해 주시기 바랍니다.";
-              else if(regCntMap.comMbrCnt <= 0)  errMsg = "참여원구원을 입력해 주시기 바랍니다.";
-              else if(regCntMap.comYldCnt < 2)   errMsg = "산출물을 입력해 주시기 바랍니다.";
+            if (regCntMap.tctmSmryCnt > 0) {
+                if (regCntMap.comYldCnt < 2) errMsg = "산출물을 입력해 주시기 바랍니다.";
+            } else {
+                errMsg = "개요를 입력해 주시기 바랍니다.";
+            }
 
-            if(errMsg != "") alert(errMsg);
-            else {
-                if(regCntMap.gbn == "GRS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do?tssCd="+gvTssCd+"&userId="+gvUserId+"'/>");
-                else if(regCntMap.gbn == "CSUS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPlnCsusRq.do'/>" + "?tssCd="+gvTssCd+"&userId="+gvUserId+"&appCode=APP00332");
+            if (errMsg == "") {
+                if (regCntMap.gbn != "GRS") {
+                    if (regCntMap.gbn == "CSUS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPlnCsusRq.do'/>" + "?tssCd=" + gvTssCd + "&userId=" + gvUserId + "&appCode=APP00332");
+                } else {
+                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do?tssCd="+gvTssCd+"&userId="+gvUserId+"'/>");
+                }
+            } else {
+                alert(errMsg);
             }
         });
 
@@ -568,7 +573,7 @@
                     //수정
                     dm.updateDataSet({
                         modifiedOnly: false,
-                        url: '<c:url value="/prj/tss/gen/updateGenTssPlnMst.do"/>',
+                        url: '<%=request.getContextPath()+TctmUrl.doUpdateInfo%>',
                         dataSets: [dataSet, smryDs],
                         params: {
                             // editorData1: edSmryNTxt
@@ -684,6 +689,7 @@
 <script type="text/javascript">
 //과제리더 팝업 셋팅
 function setLeaderInfo(userInfo) {
+    console.log(userInfo);
     dataSet.setNameValue(0, "saSabunNew", userInfo.saSabun);
     dataSet.setNameValue(0, "saSabunName", userInfo.saName);
 }
@@ -1003,9 +1009,9 @@ function fncGenTssAltrDetail(cd) {
     altrHistDialog.render(document.body);
 
 	function setTestCode(){
-        wbsCd.setValue("R18RH0");
+        // wbsCd.setValue("R18RH0");
         tssNm.setValue("기술팀과제 테스트01");
-        prjNm.setValue("표면소재.연구PJT");
+        // prjNm.setValue("표면소재.연구PJT");
         // $("#prjCd").val("PRJ00003");
         // $("#deptCode").val("58163580");
         // deptName.setValue("표면소재 사업부");
@@ -1021,6 +1027,10 @@ function fncGenTssAltrDetail(cd) {
         rsstSphe.setSelectedIndex(1);
         tssAttrCd.setSelectedIndex(1);
         tssType.setSelectedIndex(1);
+        document.getElementById('tabContent0').contentWindow.smrSmryTxt.setValue("서머리개요");
+        document.getElementById('tabContent0').contentWindow.smrGoalTxt.setValue("서머리목표");
+        document.getElementById('tabContent0').contentWindow.ctyOtPlnM.setValue("2018-09");
+        document.getElementById('tabContent0').contentWindow.nprodSalsPlnY.setValue("5.22");
     }
 
 

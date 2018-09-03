@@ -3,6 +3,7 @@ package iris.web.prj.tss.tctm.controller;
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.CommonUtil;
 import iris.web.common.util.MimeDecodeException;
 import iris.web.common.util.StringUtil;
 import iris.web.common.util.TestConsole;
@@ -57,7 +58,7 @@ public class TctmTssController extends IrisBaseController {
 
 
     @Resource(name = "attachFileService")
-    private AttachFileService attachFileService; // 공통파일 서비스
+    private AttachFileService attachFileService; // 공통파일 서비스IRIS_TSS_TCTM_SMRY
 
     static final Logger LOGGER = LogManager.getLogger(TctmTssController.class);
 
@@ -136,7 +137,7 @@ public class TctmTssController extends IrisBaseController {
 
 
     /**
-     * 과제관리 > 기술팀과제 > 계획 > 마스터 조회
+     * 과제관리 > 기술팀과제 > 계획 > 상세 조회
      *
      * @param input   HashMap<String, String>
      * @param request HttpServletRequest
@@ -220,13 +221,17 @@ public class TctmTssController extends IrisBaseController {
 
         checkSession(input, session, model);
 
-        if (pageMoveChkSession(input.get("_userId"))) {
+        if (pageMoveChkSession(input.get("_userId").toString())) {
             // 데이터 있을 경우
             Map<String, Object> result = null;
             if (!"".equals(input.get("tssCd")) && null != input.get("tssCd")) {
-                result = genTssPlnService.retrieveGenTssPlnSmry(input);
+
+                TestConsole.showMap(CommonUtil.mapToObj(input),"서머리조회 input");
+                result = tctmTssService.selectTctmTssInfoSmry(input);
+                TestConsole.showMap(result,"서머리조회 output");
             }
             result = StringUtil.toUtf8Output((HashMap) result);
+
 
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             list.add(result);
@@ -341,13 +346,11 @@ public class TctmTssController extends IrisBaseController {
                 //SEED WBS_CD 생성
                 int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
                 String seqMaxS = String.valueOf(seqMax + 1);
-                mstDs.put("pkWbsCd", "D" + seqMaxS);
+                mstDs.put("wbsCd", "D" + seqMaxS);
 
 
                 TestConsole.isEmpty("wbsCd", mstDs.get("wbsCd"));
-
                 smryDecodeDs = (HashMap<String, Object>) ousdCooTssService.decodeNamoEditorMap(input, smryDs); //에디터데이터 디코딩처리
-
                 smryDecodeDs = StringUtil.toUtf8Input(smryDecodeDs);
 
 
@@ -355,16 +358,20 @@ public class TctmTssController extends IrisBaseController {
                 TestConsole.isEmptyMap(smryDecodeDs);
 
 
-                // 과제코드가 없는 경우 생성
+                // TSS CD 생성
                 if (mstDs.get("tssCd") == null || mstDs.get("tssCd").equals("")) {
                     String newTssCd = tctmTssService.selectNewTssCdt(mstDs);
                     mstDs.put("tssCd", newTssCd);
                     smryDecodeDs.put("tssCd", newTssCd);
                 }
 
+                // 과제 마스터 등록
                 tctmTssService.updateTctmTssInfo(mstDs);
+                // 과제 개요 등록
                 tctmTssService.updateTctmTssSmryInfo(smryDecodeDs);
-//                genTssPlnService.insertGenTssPlnMst(mstDs, smryDecodeDs);
+                // 산출물 등록
+                tctmTssService.updateTctmTssYld(mstDs);
+
 
                 mstDs.put("rtCd", "SUCCESS");
                 mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.

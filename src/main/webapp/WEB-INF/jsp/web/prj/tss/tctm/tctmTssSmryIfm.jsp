@@ -5,7 +5,7 @@
 <%--
 /*
  *************************************************************************
- * $Id      :  tctmTssPlnSmryIfm.jsp
+ * $Id      :  tctmTssSmryIfm.jsp
  * @desc    : 기술팀 과제 개요 Frame
  *------------------------------------------------------------------------
  * VER  DATE        AUTHOR      DESCRIPTION
@@ -137,14 +137,15 @@
             if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
             var dsNprodSalsPlnY  = (dataSet.getNameValue(0, "nprodSalsPlnY")  / 100000000).toFixed(2);
-
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",dsNprodSalsPlnY);
             nprodSalsPlnY.setValue(dsNprodSalsPlnY);
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",nprodSalsPlnY.getValue());
 
 	        // fncPtcCpsnYDisable(strDt, endDt);
-            setTimeout(function () {
-	            fnGetYAvg("ptc");
-	            fnGetYAvg("biz");
-            }, 1000);
+            // setTimeout(function () {
+	        //     fnGetYAvg("ptc");
+	        //     fnGetYAvg("biz");
+            // }, 1000);
         });
 
         //Form 바인드
@@ -157,7 +158,7 @@
                 , { id: 'smrSmryTxt',       ctrlId: 'smrSmryTxt',       value: 'value' }
                 , { id: 'smrGoalTxt',       ctrlId: 'smrGoalTxt',       value: 'value' }
                 , { id: 'ctyOtPlnM',    ctrlId: 'ctyOtPlnM',    value: 'value' }
-                , { id: 'nprodSalsPlnY',    ctrlId: 'nprodSalsPlnY',    value: 'value' }
+                // , { id: 'nprodSalsPlnY',    ctrlId: 'nprodSalsPlnY',    value: 'value' }
 //                 , { id: 'pmisTxt',       	ctrlId: 'pmisTxt',       	value: 'value' }
                 , { id: 'userId',           ctrlId: 'userId',           value: 'value' }
                 , { id: 'attcFilId',        ctrlId: 'attcFilId',        value: 'value' }
@@ -372,12 +373,4 @@ $(window).load(function() {
     </div>
 </div>
 </body>
-<script>
-    window.onload = function(){
-        smrSmryTxt.setValue("Summary 개요");
-        smrGoalTxt.setValue("Summary  목표");
-        ctyOtPlnM.setValue("2018-09");
-        nprodSalsPlnY.setValue("5.22");
-    }
-</script>
 </html>

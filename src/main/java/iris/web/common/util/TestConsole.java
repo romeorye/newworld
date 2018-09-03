@@ -32,13 +32,19 @@ public class TestConsole {
     }
 
     public static void showMap(Map<String, Object> map) {
+        showMap(map, "");
+    }
+
+
+    public static void showMap(Map<String, Object> map, String txt) {
+        LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + txt);
         Iterator<String> keys = map.keySet().iterator();
-        LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>input");
         while (keys.hasNext()) {
             String key = keys.next();
             LOGGER.debug(key + " = " + map.get(key));
         }
-        LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>input");
+        LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + txt);
     }
+
 
 }
