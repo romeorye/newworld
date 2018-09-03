@@ -26,7 +26,7 @@
 		</if>
 			order by deptNm
 	</select>
-	
+
 	<!-- 조직 계층구조
 	     PARAM : searchType  : default 전체
 	                           DEPT    부서코드로 조회
@@ -36,10 +36,11 @@
 	             searchSabun : 조회사번
 	 -->
 	<sql id="deptHieTable">
+	-- deptHieTable 조직 계층구조
 	    WITH DEPT_HIE(DEPT_CODE, DEPT_NAME, DEPT_UPER, UPERDEPT_NAME, level)
 		AS
 		(
-		SELECT A.DEPT_CODE, A.DEPT_NAME, A.DEPT_UPER, A.UPERDEPT_NAME, 0 FROM IRIS_SSO_DEPT A 
+		SELECT A.DEPT_CODE, A.DEPT_NAME, A.DEPT_UPER, A.UPERDEPT_NAME, 0 FROM IRIS_SSO_DEPT A
 		WHERE 1=1
 		<if test=" searchType == null or searchType == '' ">
 		  AND (A.DEPT_UPER = '' OR A.DEPT_UPER IS NULL)
@@ -61,50 +62,51 @@
 		WHERE A1.DEPT_UPER IS NOT NULL
 		)
 	</sql>
-	
-	
-	
+
+
+
 	 <update id="saveDeptCdA">
     <![CDATA[
+    -- saveDeptCdA
         MERGE IRIS_DEPT_UPER_CD_A_MGMT WITH (HOLDLOCK) AS A
-         USING  (SELECT #{upperDeptCd}   AS dept_uper_code,  #{deptCode}   AS dept_code ) AS B 
+         USING  (SELECT #{upperDeptCd}   AS dept_uper_code,  #{deptCode}   AS dept_code ) AS B
             ON  A.dept_uper_code  	= B.dept_uper_code
 		   and ISNULL(A.dept_code,'') =  ISNULL(B.dept_code,'')
           WHEN NOT MATCHED THEN
-        INSERT 
-             ( 
+        INSERT
+             (
 			 	dept_uper_code
 			 ,	dept_uper_code_a				--부서코드 약어
 			 ,	dept_code
              ,  USE_YN
-             ,  FRST_RGST_DT              --최초등록일시 
-             ,  FRST_RGST_ID              --최초등록자   
-             ,  LAST_MDFY_DT              --최종수정일시 
-             ,  LAST_MDFY_ID              --최종수정자   
-            ) 
+             ,  FRST_RGST_DT              --최초등록일시
+             ,  FRST_RGST_ID              --최초등록자
+             ,  LAST_MDFY_DT              --최종수정일시
+             ,  LAST_MDFY_ID              --최종수정자
+            )
         VALUES
-             (       
-				#{upperDeptCd}			  
+             (
+				#{upperDeptCd}
 			 ,	#{deptUperCodeA}
 			 ,	#{deptCode}
-			 ,	#{useYn}	    
+			 ,	#{useYn}
              , GETDATE()
              , #{userId}
              , GETDATE()
              , #{userId}
              )
           WHEN MATCHED THEN
-        UPDATE 
-           SET          
+        UPDATE
+           SET
 				A.dept_uper_code_a		=	#{deptUperCodeA}
-			,   A.USE_YN				=	#{useYn}		    
+			,   A.USE_YN				=	#{useYn}
             ,	A.LAST_MDFY_DT = GETDATE()
             , 	A.LAST_MDFY_ID = #{userId}
             ;
     ]]>
     </update>
-    
-    
+
+
     <select id="retrieveUpperDeptList" resultType="hashmap"  statementType="CALLABLE">
 	<![CDATA[
 		-- retrieveUpperDeptList 부서 리스트 조회
@@ -112,11 +114,11 @@
                                         , DEPT_LEVEL NUMERIC(10,0), DEPT_CODE NVARCHAR(8), DEPT_NAME NVARCHAR(80))
         INSERT @PROC_TEMP_TB
         EXEC dbo.sp_upperDeptCodeAList
-        
+
         SELECT A.UP_DEPT_LEVEL       AS upperDeptLvl
              , A.UP_DEPT_CODE        AS upperDeptCd
              , A.UP_DEPT_NAME        AS upperDeptNm
-             , A.DEPT_LEVEL          AS deptLvl 
+             , A.DEPT_LEVEL          AS deptLvl
              , A.DEPT_CODE           AS deptCode
              , A.DEPT_NAME           AS deptName
              , B.DEPT_UPER_CODE_A    AS deptUperCodeA

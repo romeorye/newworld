@@ -7,6 +7,7 @@
     <!-- 리스트  -->
 	<select id="getAnlLibList" resultType="hashmap">
 		<![CDATA[
+	-- getAnlLibList 리스트
 			SELECT
 				   BBS_ID                                                   AS bbsId        /*게시판ID*/
 				  ,BBS_CD                                                   AS bbsCd        /*분석게시판코드*/
@@ -51,6 +52,7 @@
 	  <!-- 상세화면  -->
 	<select id="getAnlLibInfo" resultType="hashmap">
 		<![CDATA[
+	-- getAnlLibInfo 상세화면
 			SELECT
 				  BBS_ID                                                   AS bbsId        /*게시판ID*/
 				 ,BBS_CD                                                   AS bbsCd        /*분석게시판코드*/
@@ -80,6 +82,7 @@
 	<!-- 저장  -->
 	<insert id="insertAnlLibInfo">
 	<![CDATA[
+	-- insertAnlLibInfo 저장
 		insert into IRIS_ANL_BBS_MST
 	    (     BBS_CD
 		    , BBS_TITL
@@ -154,6 +157,7 @@
     <!-- 업데이트  -->
 	<update id="updateAnlLibInfo">
 	<![CDATA[
+	-- updateAnlLibInfo 업데이트
 		UPDATE IRIS_ANL_BBS_MST
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -189,6 +193,7 @@
 	<!--  조회건수 업데이트  -->
 	<update id="updateAnlLibRtrvCnt">
 	<![CDATA[
+	-- updateAnlLibRtrvCnt 조회건수 업데이트
 		UPDATE IRIS_ANL_BBS_MST
 		   SET RTRV_CT = RTRV_CT + 1
 	]]>
@@ -202,6 +207,7 @@
     <!-- 삭제  -->
 	<update id="deleteAnlLibInfo">
 	<![CDATA[
+	-- deleteAnlLibInfo 삭제
 		UPDATE IRIS_ANL_BBS_MST
 		   SET DEL_YN = 'Y'
 	]]>
@@ -215,6 +221,7 @@
 	<!-- 분석QnA 리스트  -->
 	<select id="getAnlQnaList" resultType="hashmap">
 		<![CDATA[
+	-- getAnlQnaList 분석QnA 리스트
 			WITH qna_tree AS (
 				SELECT
 				     BBS_ID                                        AS 'bbsId'        /*게시판ID*/
@@ -320,6 +327,7 @@
 	<!-- 덧글 리스트  -->
 	<select id="getAnlLibRebList" resultType="hashmap">
 		<![CDATA[
+	-- getAnlLibRebList 덧글 리스트
 			SELECT
 	                 REB_ID                                                   AS 'rebId'        /*덧글ID*/
 	                ,BBS_ID                                                   AS 'bbsId'        /*QnAID*/
@@ -341,6 +349,7 @@
 	<!-- 덧글 저장  -->
 	<insert id="insertAnlQnaRebInfo">
 	<![CDATA[
+	-- insertAnlQnaRebInfo 덧글 저장
 		insert into IRIS_ANL_BBS_REB
 		(			 BBS_ID
 					,SBC_NM
@@ -368,6 +377,7 @@
     <!-- 덧글 업데이트  -->
 	<update id="updateAnlQnaRebInfo">
 	<![CDATA[
+	-- updateAnlQnaRebInfo 덧글 업데이트
 		UPDATE IRIS_ANL_BBS_REB
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -382,6 +392,7 @@
 	<!-- 덧글 리스트  -->
 	<select id="getAnlQnaRebList" resultType="hashmap">
 		<![CDATA[
+	-- getAnlQnaRebList 덧글 리스트
 			SELECT
 	                 REB_ID                                                   AS 'rebId'        /*덧글ID*/
 	                ,BBS_ID                                                   AS 'bbsId'        /*QnAID*/
@@ -400,6 +411,7 @@
 	<!-- 덧글 삭제 -->
 	<update id="deleteAnlQnaRebInfo">
 	<![CDATA[
+	-- deleteAnlQnaRebInfo 덧글 삭제
 		UPDATE IRIS_ANL_BBS_REB
 		   SET DEL_YN = 'Y'
 	]]>

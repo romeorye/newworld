@@ -9,22 +9,22 @@
 				   ,SEQ				 as seq
 				   ,FIL_NM			 as filNm
 				   ,FIL_SIZE		 as filSize
-				   ,LAST_MDFY_ID     as lastMdfyId   
+				   ,LAST_MDFY_ID     as lastMdfyId
 			from	iris_com_attc_fil
 			where  attc_fil_id = #{attcFilId}
 			and	   DEL_YN = 'N'
 			order by seq
 	</select>
-	
+
 	<select id="getAttachFileInfo" resultType="hashmap">
-	
+	-- getAttachFileInfo
 		   select	MENU_TYPE		 as menuType
 				   ,ATTC_FIL_ID		 as attcFilId
 				   ,SEQ				 as seq
 				   ,FIL_NM			 as filNm
 				   ,FIL_PATH		 as filPath
 				   ,FIL_SIZE		 as filSize
-				   ,LAST_MDFY_ID     as lastMdfyId   
+				   ,LAST_MDFY_ID     as lastMdfyId
 			from	iris_com_attc_fil
 			where  attc_fil_id = #{attcFilId}
 		<if test="seq != null and seq != ''">
@@ -36,23 +36,23 @@
 				${item}
 			</foreach>
 		</if>
-			 
+
 	</select>
-	
+
 	<select id="getAttachFileId" resultType="string">
-	
+	-- getAttachFileId
 		   select convert(nvarchar(4), getdate(), 112)+RIGHT('00000' + CAST(next value for attch_idx  AS VARCHAR(5)), 5) as attcFilId
-			 
+
 	</select>
-	
+
 	<select id="getAttachFileSeq" resultType="int">
-	
+	-- getAttachFileSeq
 		   select	max(seq) + 1 as seq
 			from	iris_com_attc_fil
 			where	ATTC_FIL_ID = #{attcFilId}
-			 
+
 	</select>
-	
+
 	<insert id="insertAttachFile">
 		-- insertAttachFile 첨부파일 등록
 		insert into iris_com_attc_fil
@@ -79,30 +79,31 @@
 			  ,#{userId}
 			  ,getdate()
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateAttachFile">
-	
+	-- updateAttachFile
 		update iris_com_attc_fil
 		set	   del_yn = 'Y'
 			  ,LAST_MDFY_ID = #{userId}
 			  ,LAST_MDFY_DT = getdate()
 		where  attc_fil_id = #{attcFilId}
 		and	   seq = ${seq}
-	
+
 	</update>
-	
+
 	<delete id="deleteAttachFile">
-	
+	-- deleteAttachFile
 		delete	from iris_com_attc_fil
 		where	attc_fil_id = #{attcFilId}
 		and		seq = ${seq}
-	
+
 	</delete>
-	
-	
+
+
 	<select id="retrieveDrmConfig" resultType="hashMap">
+	-- retrieveDrmConfig
 		SELECT A.iCanEdit
 		      ,A.iCanSave
 			  ,A.iDocOpenCount

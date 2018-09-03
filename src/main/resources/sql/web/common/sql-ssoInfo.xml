@@ -10,7 +10,7 @@
 			EXEC dbo.sp_ssoUserIf
 		  ]]>
 	</select>
-	
+
 	<!-- IF 부서테이블 조회  -->
 	<select id="getSsoDept" resultType="hashmap">
 		<![CDATA[
@@ -18,23 +18,25 @@
 			EXEC dbo.sp_ssoDeptIf
 		  ]]>
 	</select>
-	
+
 	<!-- IF 팀명 조회  -->
 	<select id="getSsoTeamInfo" resultType="hashmap">
 		<![CDATA[
-		SELECT   sa_dept_name  		as saDeptName 
-				,sa_dept_new   		as saDeptNew  
+		-- getSsoTeamInfo IF 팀명 조회
+		SELECT   sa_dept_name  		as saDeptName
+				,sa_dept_new   		as saDeptNew
 		FROM   IRIS_SSO_USER
 		WHERE   SSO_EX_FLAG <> 'D'
 		AND     SA_GSBER = '1100'
 		]]>
 	</select>
-	
+
 	<update id="updatePrjNm">
+	-- updatePrjNm
 	 UPDATE IRIS_PRJ_RSST_MST
 	 	SET    PRJ_NM = #{saDeptName}
 	 WHERE  DEPT_CD = #{saDeptNew}
 	</update>
-	
-	
+
+
 </mapper>

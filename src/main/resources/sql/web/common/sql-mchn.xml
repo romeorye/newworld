@@ -5,6 +5,7 @@
 
 	<select id="retrieveCommMchnInfo" resultType="hashmap">
 	<![CDATA[
+	-- retrieveCommMchnInfo
 	SELECT   MCHN_INFO_ID  AS "mchnInfoId"
 			,MCHN_HAN_NM  AS "mchnHanNm"
 			,MCHN_EN_NM  AS "mchnEnNm"

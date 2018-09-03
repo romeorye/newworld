@@ -6,6 +6,7 @@
 
     <!-- 리스트  -->
 	<select id="getAnlBbsList" resultType="hashmap">
+	-- getAnlBbsList 분석게시판 리스트 조회
 		<![CDATA[
 			SELECT
 				   BBS_ID                                                   AS bbsId        /*게시판ID*/
@@ -28,7 +29,7 @@
 				  ,DEL_YN                                                   AS delYn        /*삭제여부*/
 			 FROM IRIS_ANL_BBS_MST A
 			WHERE DEL_YN = 'N'
-			  
+
 		 ]]>
 		 <if test="(bbsCd == '06' or target == 'tabContentIfrm0')">
 			  AND BBS_CD in ('07','08','09')
@@ -36,7 +37,7 @@
 		 <if test="(bbsCd != '06' and target != 'tabContentIfrm0')">
 			  AND BBS_CD = #{bbsCd}
 		 </if>
-		 
+
 		 <if test="searchCd == 'bbsTitlCode'">
 			  AND BBS_TITL like '%${searchNm}%'
 		 </if>
@@ -57,6 +58,7 @@
 
 	  <!-- 상세화면  -->
 	<select id="getAnlBbsInfo" resultType="hashmap">
+	-- getAnlBbsInfo 분석게시판 상세 조회
 		<![CDATA[
 			SELECT
 				  BBS_ID                                                   AS bbsId        /*게시판ID*/
@@ -86,16 +88,17 @@
 
 	<!-- 저장  -->
 	<insert id="insertAnlBbsInfo">
+	-- insertAnlBbsInfo 분석게시판 저장
 	<![CDATA[
 		insert into IRIS_ANL_BBS_MST
-	    (    
+	    (
 		      BBS_TITL
 			, BBS_SBC
 			, RGST_ID
 			, RTRV_CT
             , RLTD_BUL_PATH
 	]]>
-	
+
 	         , BBS_CD
 			<if test="( bbsKwd != null and bbsKwd != '')">
 			, BBS_KWD
@@ -135,7 +138,7 @@
 		    </if>
 			<if test="( anlBbsCd == null or anlBbsCd == '')">
 		    , #{bbsCd}
-		    </if>	
+		    </if>
 			<if test="( bbsKwd != null and bbsKwd != '')">
 		    , #{bbsKwd}
 		    </if>
@@ -166,6 +169,7 @@
 
     <!-- 업데이트  -->
 	<update id="updateAnlBbsInfo">
+	-- updateAnlBbsInfo 분석게시판 업데이트
 	<![CDATA[
 		UPDATE IRIS_ANL_BBS_MST
 		   SET LAST_MDFY_ID = #{_userId}
@@ -201,6 +205,7 @@
 
 	<!--  조회건수 업데이트  -->
 	<update id="updateAnlBbsRtrvCnt">
+	-- updateAnlBbsRtrvCnt 분석게시판 조회건수 업데이트
 	<![CDATA[
 		UPDATE IRIS_ANL_BBS_MST
 		   SET RTRV_CT = RTRV_CT + 1
@@ -214,6 +219,7 @@
 
     <!-- 삭제  -->
 	<update id="deleteAnlBbsInfo">
+	-- deleteAnlBbsInfo 분석게시판 삭제
 	<![CDATA[
 		UPDATE IRIS_ANL_BBS_MST
 		   SET DEL_YN = 'Y'
@@ -227,6 +233,7 @@
 
 	<!-- 분석QnA 리스트  -->
 	<select id="getAnlQnaList" resultType="hashmap">
+	-- getAnlQnaList 분석QnA 리스트 조회
 		<![CDATA[
 			WITH qna_tree AS (
 				SELECT
@@ -339,6 +346,7 @@
 	<!-- 덧글 시작 -->
 	<!-- 덧글 리스트  -->
 	<select id="getAnlBbsRebList" resultType="hashmap">
+	-- getAnlBbsRebList 덧글 리스트 조회
 		<![CDATA[
 			SELECT
 	                 REB_ID                                                   AS 'rebId'        /*덧글ID*/
@@ -362,6 +370,7 @@
 
 	<!-- 덧글 저장  -->
 	<insert id="insertAnlQnaRebInfo">
+	-- insertAnlQnaRebInfo 덧글 리스트 저장
 	<![CDATA[
 		insert into IRIS_ANL_BBS_REB
 		(			 BBS_ID
@@ -389,6 +398,7 @@
 
     <!-- 덧글 업데이트  -->
 	<update id="updateAnlQnaRebInfo">
+	-- updateAnlQnaRebInfo 덧글 업데이트
 	<![CDATA[
 		UPDATE IRIS_ANL_BBS_REB
 		   SET LAST_MDFY_ID = #{_userId}
@@ -403,6 +413,7 @@
 
 	<!-- 덧글 리스트  -->
 	<select id="getAnlQnaRebList" resultType="hashmap">
+	-- getAnlQnaRebList 덧글 리스트
 		<![CDATA[
 			SELECT
 	                 REB_ID                                                   AS 'rebId'        /*덧글ID*/
@@ -421,6 +432,7 @@
 
 	<!-- 덧글 삭제 -->
 	<update id="deleteAnlQnaRebInfo">
+	-- deleteAnlQnaRebInfo 덧글 삭제
 	<![CDATA[
 		UPDATE IRIS_ANL_BBS_REB
 		   SET DEL_YN = 'Y'
@@ -432,9 +444,10 @@
 	</update>
 
 	<!-- 덧글 끝 -->
-	
+
 	    <!-- 리스트  -->
 	<select id="getAnlBbsList2" resultType="hashmap">
+	-- getAnlBbsList2 리스트
 		<![CDATA[
 			SELECT
 				   BBS_ID                                                   AS bbsId        /*게시판ID*/
@@ -458,7 +471,7 @@
 			 FROM IRIS_ANL_BBS_MST A
 			WHERE DEL_YN = 'N'
 		 ]]>
-		 
+
 		<if test="( bbsCd != 'ALL' )">
 			AND BBS_CD = #{bbsCd}
 	    </if>
@@ -479,8 +492,9 @@
 		 </if>
 			  ORDER BY BBS_ID DESC
 	</select>
-	
+
 	<select id="anlBbsCodeList" resultType="HashMap">
+	-- anlBbsCodeList
         <![CDATA[
         SELECT A.COM_DTL_CD
              , A.COM_DTL_NM
@@ -489,10 +503,10 @@
          AND A.DEL_YN = 'N'
         ]]>
          <if test="gubun == 'BBS'">
-			  AND COM_DTL_CD in ('07','08','09') 
+			  AND COM_DTL_CD in ('07','08','09')
 		 </if>
 		 <if test="gubun == 'QNA'">
-			  AND COM_DTL_CD in ('11','12','13') 
+			  AND COM_DTL_CD in ('11','12','13')
 		 </if>
          ORDER BY COM_ORD
     </select>

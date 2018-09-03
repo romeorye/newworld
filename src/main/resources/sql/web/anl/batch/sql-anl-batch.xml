@@ -21,7 +21,7 @@
 			and		mst.anl_chrg_trsf_flag = 'W'
 			and		mst.rgst_id = rgst.sa_user
 			and		mst.anl_chrg_id = chrg.sa_user
-			
+
 	</select>
 
 	<select id="getAnlRsltApprCompleteList" resultType="iris.web.anl.rqpr.vo.AnlMailInfo">
@@ -46,23 +46,23 @@
 			and		mst.rgst_trsf_flag = 'W'
 			and		mst.rgst_id = rgst.sa_user
 			and		mst.anl_chrg_id = chrg.sa_user
-			
+
 	</select>
-	
+
 	<update id="updateAnlChrgTrsfFlag" parameterType="iris.web.anl.rqpr.vo.AnlMailInfo">
-	
+		-- updateAnlChrgTrsfFlag
 		update	iris_anl_rqpr_mst
 		set		anl_chrg_trsf_flag = 'Y'
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<update id="updateRgstTrsfFlag" parameterType="iris.web.anl.rqpr.vo.AnlMailInfo">
-	
+		-- updateRgstTrsfFlag
 		update	iris_anl_rqpr_mst
 		set		rgst_trsf_flag = 'Y'
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 </mapper>

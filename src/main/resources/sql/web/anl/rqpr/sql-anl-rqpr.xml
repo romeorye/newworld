@@ -44,7 +44,7 @@
 			AND ANL_CHRG_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${anlChrgNm}%')
 		</if>
         <if test="acpcNo != null and acpcNo != ''">
-			AND ACPC_NO like '${acpcNo}%' 
+			AND ACPC_NO like '${acpcNo}%'
 		</if>
         <if test="acpcStCd != null and acpcStCd != ''">
 			AND ACPC_ST_CD = #{acpcStCd}
@@ -79,14 +79,14 @@
 			FROM   (SELECT	concat(su.sa_name, ' ',su.sa_jobx_name) AS name
 						   ,su.sa_user AS userId
 					FROM	IRIS_SSO_USER su
-					WHERE 1 = 1 
+					WHERE 1 = 1
 					AND   su.sa_dept_new = '58141801'
 					AND   su.sso_ex_flag !='D'
 					UNION ALL
 					SELECT	concat(su.sa_name, ' ',su.sa_jobx_name) AS name
 						   ,su.sa_user AS userId
 					FROM IRIS_SSO_USER su
-					WHERE 1 = 1 
+					WHERE 1 = 1
 					AND   su.sso_ex_flag !='D'
 					AND   su.sa_dept_new IN (SELECT	SD.dept_code
 											 FROM	IRIS_SSO_DEPT SD
@@ -96,9 +96,9 @@
 			ORDER BY name
 		 ]]>
 	</select>
-	
+
 	<select id="getAnlRqprInfo" resultType="hashmap">
-	
+	-- getAnlRqprInfo
 		   SELECT
 				RQPR_ID												AS rqprId,
 				RQPR_DT												AS rqprDt,
@@ -148,21 +148,21 @@
 				 where	rqpr_id = mst.rqpr_Id
 				 and		del_yn = 'N')							AS opinitionCnt,
 				(select	CIR.ITG_RDCS_ID
-				 from	IRIS_COM_ITG_RDCS CIR 
+				 from	IRIS_COM_ITG_RDCS CIR
 				 WHERE	CIR.GUID = 'A' + cast(mst.RQPR_ID as nvarchar)
 				)													AS reqItgRdcsId,
 				(select	CIR.ITG_RDCS_ID
-				 from	IRIS_COM_ITG_RDCS CIR 
+				 from	IRIS_COM_ITG_RDCS CIR
 				 WHERE	CIR.GUID = 'C' + cast(mst.RQPR_ID as nvarchar)
 				)													AS rsltItgRdcsId
-			
+
 			FROM	IRIS_ANL_RQPR_MST mst
 			WHERE	RQPR_ID = ${rqprId}
-			 
+
 	</select>
-	
+
 	<select id="getAnlRqprSmpoList" resultType="hashmap">
-	
+	-- getAnlRqprSmpoList
 		   SELECT
 				SMPO_ID		AS smpoId,
 				RQPR_ID		AS rqprId,
@@ -173,11 +173,11 @@
 			FROM	IRIS_ANL_RQPR_SMPO
 			WHERE	RQPR_ID = ${rqprId}
 			AND		DEL_YN = 'N'
-			 
+
 	</select>
-	
+
 	<select id="getAnlRqprRltdList" resultType="hashmap">
-	
+	-- getAnlRqprRltdList
 		   SELECT
 				rltd.RLTD_ID								AS rltdId,
 				rltd.RQPR_ID								AS rqprId,
@@ -192,11 +192,11 @@
 			WHERE	rltd.RQPR_ID = ${rqprId}
 			AND		rltd.DEL_YN = 'N'
 			AND		rltd.PRE_RQPR_ID = mst.RQPR_ID
-			 
+
 	</select>
-	
+
 	<insert id="insertAnlRqpr" parameterType="hashmap" useGeneratedKeys="true" keyProperty="rqprId" keyColumn="RQPR_ID">
-	
+	-- insertAnlRqpr
 		insert into iris_anl_rqpr_mst(
 			RQPR_DT
 		   ,RGST_ID
@@ -227,11 +227,11 @@
 			  ,#{userId}
 			  ,#{userId}
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateAnlRqpr">
-	
+	-- updateAnlRqpr
 		update	iris_anl_rqpr_mst
 		set		anl_name = #{anlNm},
 				anl_scn_cd = #{anlScnCd},
@@ -242,7 +242,7 @@
 				anl_sbc = #{anlSbc},
 				acpc_st_cd = #{acpcStCd},
 			<if test="acpcNo == '' and acpcStCd == '03'">
-				acpc_no = (select 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4) 
+				acpc_no = (select 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4)
 						   from   iris_anl_rqpr_mst
 						   where  acpc_no like 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '%'),
 				acpc_dt = Convert(varchar(10), getdate(), 120),
@@ -252,11 +252,11 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<update id="updateAnlRqprAcpcStCd">
-	
+	-- updateAnlRqprAcpcStCd
 		update	iris_anl_rqpr_mst
 		set		acpc_st_cd = #{acpcStCd},
 		<if test="acpcStCd == '04'">
@@ -270,21 +270,21 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<update id="updateAnlRqprDelYn">
-	
+	-- updateAnlRqprDelYn
 		update	iris_anl_rqpr_mst
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<insert id="insertAnlRqprSmpo" parameterType="map">
-	
+	-- insertAnlRqprSmpo
 		insert into iris_anl_rqpr_smpo(
 			RQPR_ID
 		   ,SMPO_NM
@@ -302,11 +302,11 @@
 			  ,#{userId}
 			  ,#{userId}
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateAnlRqprSmpo">
-	
+	-- updateAnlRqprSmpo
 		update	iris_anl_rqpr_smpo
 		set		smpo_nm = #{smpoNm},
 				mkr_nm = #{mkrNm},
@@ -315,21 +315,21 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	smpo_id = ${smpoId}
-	
+
 	</update>
-	
+
 	<update id="updateAnlRqprSmpoDelYn">
-	
+	-- updateAnlRqprSmpoDelYn
 		update	iris_anl_rqpr_smpo
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	smpo_id = ${smpoId}
-	
+
 	</update>
-	
+
 	<insert id="insertAnlRqprRltd" parameterType="map">
-	
+	-- insertAnlRqprRltd
 		insert into iris_anl_rqpr_rltd(
 			RQPR_ID
 		   ,PRE_RQPR_ID
@@ -345,11 +345,11 @@
 			  ,#{userId}
 			  ,#{userId}
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateAnlRqprRltd">
-	
+	-- updateAnlRqprRltd
 		update	iris_anl_rqpr_rltd
 		set		pre_rqpr_id = #{preRqprId},
 				pre_anl_name = #{preAnlNm},
@@ -357,21 +357,21 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rltd_id = #{rltdId}
-	
+
 	</update>
-	
+
 	<update id="updateAnlRqprRltdDelYn">
-	
+	-- updateAnlRqprRltdDelYn
 		update	iris_anl_rqpr_rltd
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rltd_id = #{rltdId}
-	
+
 	</update>
-	
+
 	<insert id="insertAnlRqprInfm" parameterType="map">
-	
+	-- insertAnlRqprInfm
 		MERGE INTO iris_anl_rqpr_infm a
 		USING ( SELECT	#{rqprId} as rqprId,
 						#{infmPrsnId} as infmPrsnId,
@@ -388,37 +388,37 @@
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
-	
+
 	<update id="updateAnlRqprInfmDelYn">
-	
+	-- updateAnlRqprInfmDelYn
 		update	iris_anl_rqpr_infm
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	rqpr_id = #{rqprId}
 		<if test="infmPrsnIdArr != null">
-		and		infm_prsn_id not in 
+		and		infm_prsn_id not in
 			<foreach collection="infmPrsnIdArr" item="item" open="(" close=")" separator=",">
 				#{item}
 			</foreach>
 		</if>
 		and		del_yn = 'N'
-	
+
 	</update>
-	
+
 	<select id="getAnlRqprOpinitionListCnt" resultType="int">
-	
+	-- getAnlRqprOpinitionListCnt
 		   select	count(1) cnt
 			from	iris_anl_rqpr_opi
 			where	rqpr_id = ${rqprId}
 			and		del_yn = 'N'
-			 
+
 	</select>
-	
+
 	<select id="getAnlRqprOpinitionList" resultType="map">
-	
+	-- getAnlRqprOpinitionList
 		   select	OPI_ID								  as opiId
 				   ,RQPR_ID								  as rqprId
 				   ,RGST_ID								  as rgstId
@@ -429,11 +429,11 @@
 			where	rqpr_id = ${rqprId}
 			and		del_yn = 'N'
 			order by rgst_dt desc
-			 
+
 	</select>
-	
+
 	<insert id="saveAnlRqprOpinition" parameterType="map">
-	
+	-- saveAnlRqprOpinition
 		MERGE INTO iris_anl_rqpr_opi a
 		USING ( SELECT	${opiId} as opiId,
 						${rqprId} as rqprId,
@@ -460,17 +460,17 @@
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
-	
+
 	<update id="updateAnlRqprOpinitionDelYn" parameterType="map">
-	
+	-- updateAnlRqprOpinitionDelYn
 		update	iris_anl_rqpr_opi
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{_userId}
 		where	opi_id = ${opiId}
-	
+
 	</update>
 
 	<select id="getAnlExprTreeList" resultType="hashmap">
@@ -607,9 +607,9 @@
 		 ]]>
 			where	rqpr_expr_id = ${rqprExprId}
 	</select>
-	
+
 	<insert id="saveAnlRqprExpr" parameterType="map">
-	
+	-- saveAnlRqprExpr
 		MERGE INTO iris_anl_rqpr_expr a
 		USING ( SELECT	#{rqprExprId} as rqprExprId,
 						#{rqprId} as rqprId,
@@ -663,32 +663,32 @@
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
-	
+
 	<update id="updateAnlRqprExprDelYn" parameterType="map">
-	
+	-- updateAnlRqprExprDelYn
 		update	iris_anl_rqpr_expr
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rqpr_expr_id = ${rqprExprId}
-	
+
 	</update>
-	
+
 	<update id="saveAnlRqprRslt" parameterType="map">
-	
+	-- saveAnlRqprRslt
 		update	iris_anl_rqpr_mst
 		set		anl_rslt_sbc = #{anlRsltSbc},
 				rslt_attc_file_id = #{rsltAttcFileId},
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<insert id="saveAnlExprMst" parameterType="map">
-	
+	-- saveAnlExprMst
 		MERGE INTO iris_anl_expr_mst a
 		USING ( SELECT	#{exprCd} as exprCd,
 						#{exprNm} as exprNm,
@@ -741,7 +741,7 @@
 				  ,b.userId
 				  ,b.userId
 				  );
-	
+
 	</insert>
 
 	<select id="getAnlExprDtlList" resultType="hashmap">
@@ -761,9 +761,9 @@
 			and		a.del_yn = 'N'
 			and		a.mchn_info_id = b.mchn_info_id
 	</select>
-	
+
 	<insert id="saveAnlExprDtl" parameterType="map">
-	
+	-- saveAnlExprDtl
 		insert into iris_anl_expr_dtl(
 			EXPR_CD
 		   ,MCHN_INFO_ID
@@ -775,11 +775,11 @@
 			  ,#{userId}
 			  ,#{userId}
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateAnlExprDtlDelYn" parameterType="map">
-	
+	-- updateAnlExprDtlDelYn
 		update	iris_anl_expr_dtl
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -787,7 +787,7 @@
 		where	expr_cd = ${exprCd}
 		and		mchn_info_id = ${mchnInfoId}
 		and		del_yn = 'N'
-	
+
 	</update>
 
 	<select id="getAnlRqprOpinitionEmailInfo" resultType="iris.web.anl.rqpr.vo.AnlMailInfo">
@@ -839,7 +839,7 @@
 				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
 				   ,chrg.sa_mail																					as chrgEmail
 				   ,mst.anl_gvb_rson																				as anlGvbRson
-				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +	
+				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
 				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
 								                                             where   b.sa_user = mst.anl_chrg_id))), '') as receivers
@@ -864,7 +864,7 @@
 				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
 				   ,chrg.sa_mail																					as chrgEmail
 				   ,mst.anl_dcac_rson																				as anlDcacRson
-				   ,rgst.sa_mail + ',' + isnull(dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+	
+				   ,rgst.sa_mail + ',' + isnull(dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+
 				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
 								                                             where   b.sa_user = mst.anl_chrg_id))), '') as receivers
@@ -876,8 +876,8 @@
 			and		mst.rgst_id = rgst.sa_user
 			and		mst.anl_chrg_id = chrg.sa_user
 	</select>
-	
-	
+
+
 	<select id="getExprWay" resultType="String">
 		<![CDATA[
 			-- getExprWay 개발방법 조회
@@ -885,9 +885,9 @@
 		FROM  IRIS_ANL_RQPR_EXPR
 		WHERE   RQPR_EXPR_ID = ${rqprExprId}
 		AND     RQPR_ID = #{rqprId}
-		]]>	
+		]]>
 	</select>
-	
+
 	<select id="retrieveOpiSbc" resultType="String">
 		<![CDATA[
 			-- retrieveOpiSbc 의견 조회
@@ -895,6 +895,6 @@
 		FROM IRIS_ANL_RQPR_OPI
 		WHERE  DEL_YN ='N'
 		AND    OPI_ID =  #{opiId}
-		]]>	
+		]]>
 	</select>
 </mapper>

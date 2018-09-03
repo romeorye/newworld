@@ -6,6 +6,7 @@
 	<!-- 전자결재 정보 저장 -->
 	<insert id="saveItgRdcsInfo" >
 	<![CDATA[
+	-- saveItgRdcsInfo 전자결재 정보 저장
 		INSERT INTO IRIS_COM_ITG_RDCS
 	           (GUID
 	           ,AFFR_CD
@@ -34,9 +35,9 @@
 	           ,#{approvalDeptname}
 	           ,GETDATE()
 	           ,'' -- APPROVER_PROCESSDATE
-	           ,#{body} 
+	           ,#{body}
 	           ,#{title}
-	           ,''  
+	           ,''
 	           ,GETDATE()
 	           ,''
 	           ,''  )
@@ -46,6 +47,7 @@
 	<!--전자결재 정보 삭제  -->
 	<delete id="deleteItgRdcsInfo">
 		<![CDATA[
+		-- deleteItgRdcsInfo 전자결재 정보 삭제
 		DELETE IRIS_COM_ITG_RDCS
 		WHERE  GUID = #{guId}
 		]]>
