@@ -7,6 +7,7 @@
     <!-- 연구산출물 리스트  -->
 	<select id="getProductList" resultType="hashmap">
 		<![CDATA[
+		-- getProductList 연구산출물 리스트
 			SELECT
 					  A.RSST_DOC_ID                                     AS 'prdtId'       /*산출물ID*/
 					, A.AFFR_CL_ID                                      AS 'affrClId'     /*업무분류ID*/
@@ -39,6 +40,7 @@
  	<!-- 연구산출물 상세화면  -->
 	<select id="getProductListInfo" resultType="hashmap">
 		<![CDATA[
+		-- getProductListInfo 연구산출물 상세화면
 			WITH AFFR_MST AS
 			(
 			SELECT   KAC.AFFR_CL_ID
@@ -82,6 +84,7 @@
 	<!-- 연구산출물 저장  -->
 	<insert id="insertProductListInfo">
 	<![CDATA[
+	-- insertProductListInfo 연구산출물 저장
 		insert into IRIS_KNLD_RSST_DOC
 		(
 			  AFFR_CL_ID
@@ -130,6 +133,7 @@
     <!-- 연구산출물 업데이트  -->
 	<update id="updateProductListInfo">
 	<![CDATA[
+	-- updateProductListInfo 연구산출물 업데이트
 		UPDATE IRIS_KNLD_RSST_DOC
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -149,6 +153,7 @@
 	<!--  연구산출물 조회건수 업데이트-->
 	<update id="updateProductListRtrvCnt">
 	<![CDATA[
+	-- updateProductListRtrvCnt 연구산출물 조회건수 업데이트
 		UPDATE IRIS_KNLD_RSST_DOC
 		   SET RTRV_CNT = RTRV_CNT + 1
 	]]>
@@ -161,6 +166,7 @@
     <!-- 연구산출물 삭제  -->
 	<update id="deleteProductListInfo">
 	<![CDATA[
+	-- deleteProductListInfo 연구산출물 삭제
 		UPDATE IRIS_KNLD_RSST_DOC
 		   SET DEL_YN = 'Y'
 	]]>
@@ -173,6 +179,7 @@
 	<!-- 트리 리스트 조회 -->
 	<select id="getKnldProductTreeList" resultType="hashmap">
 		<![CDATA[
+		-- getKnldProductTreeList 트리 리스트 조회
 			SELECT
 					AFFR_CL_ID			   as affrClId
 				   ,AFFR_CL_NM			   as affrClNm
@@ -191,9 +198,10 @@
 	<!-- 통합검색 조회 권한 체크 -->
 	<select id="getMenuAuthCheck" resultType="String">
 		<![CDATA[
+		-- getMenuAuthCheck 통합검색 조회 권한 체크
 			select [dbo].[fn_getSrchRead](#{_userId}, #{_userSabun}, #{_userDept},  #{docNo},  #{rtrvRqDocCd}) as readYn
 		 ]]>
 	</select>
-	
+
 
 </mapper>

@@ -7,9 +7,10 @@
 	<!-- 기기 > 관리 > 신뢰성평가장비 예약관리 목록조회  -->
 	<select id="retrieveRlabTestEqipPrctMgmtList" resultType="hashmap" >
 		<![CDATA[
-		SELECT INFO.MCHN_CL_CD AS mchnClCd 
+		-- retrieveRlabTestEqipPrctMgmtList 기기 > 관리 > 신뢰성평가장비 예약관리 목록조회
+		SELECT INFO.MCHN_CL_CD AS mchnClCd
 		      ,ACC.COM_DTL_NM AS comDtlNm
-		      ,PRCT.MCHN_PRCT_ID AS mchnPrctId 
+		      ,PRCT.MCHN_PRCT_ID AS mchnPrctId
 		      ,PRCT.PRCT_TITL AS prctTitl
 			  ,INFO.MCHN_HAN_NM AS mchnHanNm
 			  ,PRCT.RGST_TEAM_CD AS rgstTeamCd
@@ -17,9 +18,9 @@
 			  ,PRCT.RGST_ID AS rgstId
 			  ,SU.SA_NAME AS rgstNm
 		      ,CASE WHEN INFO.MCHN_CL_CD='03'
-			        THEN PRCT.PRCT_DT +' ~ '+ PRCT.PRCT_DT 
+			        THEN PRCT.PRCT_DT +' ~ '+ PRCT.PRCT_DT
 					ELSE PRCT.PRCT_FROM_DT+' ~ '+ PRCT.PRCT_TO_DT
-				END AS prctFromToDt 
+				END AS prctFromToDt
 		      ,PRCT.PRCT_FROM_DT AS prctFromDt
 		      ,PRCT.PRCT_TO_DT AS prctToDt
 		      ,CASE WHEN INFO.MCHN_CL_CD='03'
@@ -75,9 +76,10 @@
 	<!-- 기기관리 상세 조회 -->
 	<select id="retrieveRlabTestEqipPrctDtl" resultType="hashmap" >
 		<![CDATA[
-		SELECT INFO.MCHN_CL_CD AS mchnClCd 
+		-- retrieveRlabTestEqipPrctDtl 기기관리 상세 조회
+		SELECT INFO.MCHN_CL_CD AS mchnClCd
 		      ,ACC.COM_DTL_NM AS comDtlNm
-		      ,PRCT.MCHN_PRCT_ID AS mchnPrctId 
+		      ,PRCT.MCHN_PRCT_ID AS mchnPrctId
 		      ,PRCT.PRCT_TITL AS prctTitl
 			  ,INFO.MCHN_HAN_NM AS mchnHanNm
 			  ,INFO.MCHN_EN_NM AS mchnEnNm
@@ -100,7 +102,7 @@
 		      ,CASE WHEN INFO.MCHN_CL_CD='03'
 			        THEN PRCT.PRCT_DT +' '+ PRCT.PRCT_FROM_TIM + ' ~ ' + PRCT.PRCT_TO_TIM
 					ELSE PRCT.PRCT_FROM_DT+' ~ '+ PRCT.PRCT_TO_DT
-				END AS prctFromToDt 
+				END AS prctFromToDt
 		      ,PRCT.PRCT_FROM_TIM AS prctFromTim
 		      ,PRCT.PRCT_TO_TIM AS prctToTim
 		      ,PRCT.PRCT_SCN_CD AS prctScnCd
@@ -131,6 +133,7 @@
 
 	<!-- 신뢰성장비 예약관리 승인, 반려 업데이트  -->
 	<update id="updateRlabTestEqipPrctInfo">
+	-- updateRlabTestEqipPrctInfo 신뢰성장비 예약관리 승인, 반려 업데이트
 		UPDATE    IRIS_RLAB_MCHN_PRCT_MST
 		SET  	  PRCT_APPR_DT = CONVERT(NVARCHAR(10), GETDATE(), 23)
 				 ,PRCT_SCN_CD  = #{prctScnCd}
@@ -140,14 +143,13 @@
 	</update>
 
 	<insert id="insertMailHist" >
-	<![CDATA[
---insertMailHist
+	-- insertMailHist
 	INSERT INTO IRIS_COM_MAIL_SND_HIS
 		(
 		 MENU_TYPE
 		,ADRE_MAIL
 		,RFP_MAIL
-		,TRR_MAIL 
+		,TRR_MAIL
 		,MAIL_TITL
 		,CRGR_ID
 		,FRST_RGST_DT

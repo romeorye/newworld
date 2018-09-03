@@ -6,6 +6,7 @@
 	<!-- 기기관리 목록 조회  -->
 	<select id="retrieveMchnMgmtSearchList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnMgmtSearchList 기기관리 목록 조회
 		SELECT [dbo].[fn_getMchnInfoName](MIG.MCHN_INFO_ID)+' '+' ('+[dbo].[fn_getMchnInfoEnName](MIG.MCHN_INFO_ID) +') ' AS mchnNm
 		      ,MIG.INFO_MGMT_ID as "infoMgmtId"
 		      ,MIG.MCHN_INFO_ID as "mchnInfoId"
@@ -43,6 +44,7 @@
 	<!-- 기기관리 상세 조회 -->
 	<select id="retrieveMchnMgmtInfoSearch" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveMchnMgmtInfoSearch 기기관리 상세 조회
 		SELECT MIG.INFO_MGMT_ID as "infoMgmtId"
 		      ,MIG.MCHN_INFO_ID as "mchnInfoId"
 		      ,MIG.MGMT_DT as "mgmtDt"
@@ -72,6 +74,7 @@
 
 
 	<update id="saveMachineMgmtInfo">
+	-- saveMachineMgmtInfo
 		MERGE IRIS_MCHN_INFO_MGMT MIG
 		USING ( SELECT #{infoMgmtId} AS INFO_MGMT_ID ) AS Tab1
 		ON  (MIG.INFO_MGMT_ID = Tab1.INFO_MGMT_ID)
@@ -125,13 +128,14 @@
 	</update>
 
 	<update id="updateMachineInfo">
-		UPDATE IRIS_MCHN_INFO_MST 
+	-- updateMachineInfo
+		UPDATE IRIS_MCHN_INFO_MST
 		SET    MCHN_USE_PSBL_YN = #{mchnUsePsblYn}
 		      ,LAST_MDFY_DT   	= GETDATE()
 		      ,LAST_MDFY_ID   	= #{_userId}
 		WHERE MCHN_INFO_ID 	  	= #{mchnInfoId}
 	</update>
-	
-	
+
+
 
 </mapper>

@@ -7,7 +7,8 @@
 	<!-- 공간평가 Tool 사용관리 목록 조회  -->
 	<select id="spaceEvToolUseMgmtSearchList" resultType="hashmap" >
 		<![CDATA[
-		SELECT 
+		-- spaceEvToolUseMgmtSearchList 공간평가 Tool 사용관리 목록 조회
+		SELECT
 			A.RGST_ID as rgstId,
 			A.PRCT_TO_DT as prctToDt,
 			A.PRCT_TITL as prctTitl,
@@ -47,8 +48,8 @@
 		ORDER BY prctDt
 		]]>
 	</select>
-	
-	
+
+
 
 
 

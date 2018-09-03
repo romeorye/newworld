@@ -7,6 +7,7 @@
     <!-- 일반QnA 리스트  -->
 	<select id="getGeneralQnaList" resultType="hashmap">
 		<![CDATA[
+		-- getGeneralQnaList 일반QnA 리스트
 			WITH qna_tree AS (
 				SELECT
 				     QNA_ID                                                   AS 'qnaId'        /*QnAID*/
@@ -151,6 +152,7 @@
 	<!-- 일반QnA 상세화면  -->
 	<select id="getGeneralQnaInfo" resultType="hashmap">
 		<![CDATA[
+		-- getGeneralQnaInfo 일반QnA 상세화면
 			SELECT
 	                 QNA_ID                                                   AS 'qnaId'        /*QnAID*/
 	                ,QNA_CL_CD                                                AS 'qnaClCd'      /*QnA구분코드*/
@@ -179,6 +181,7 @@
 	<!--  일반QnA 조회건수 업데이트  -->
 	<update id="updateGeneralQnaRtrvCnt">
 	<![CDATA[
+	-- updateGeneralQnaRtrvCnt 일반QnA 조회건수 업데이트
 		UPDATE IRIS_KNLD_QNA
 		   SET RTRV_CNT = RTRV_CNT + 1
 	]]>
@@ -191,6 +194,7 @@
     <!-- 일반QnA 삭제  -->
 	<update id="deleteGeneralQnaInfo">
 	<![CDATA[
+	-- deleteGeneralQnaInfo 일반QnA 삭제
 		UPDATE IRIS_KNLD_QNA
 		   SET DEL_YN = 'Y'
 	]]>
