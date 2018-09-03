@@ -7,6 +7,7 @@
     <!-- 규정/업무Manual 리스트  -->
 	<select id="getManualList" resultType="hashmap">
 		<![CDATA[
+		-- getManualList 규정/업무Manual 리스트
 			SELECT
 					PRCP_MNL_ID                                               AS 'manualId'     /*규정/업무ManualID*/
 					,TITL_NM                                                  AS 'titlNm'       /*제목*/
@@ -54,6 +55,7 @@
 	<!-- 규정/업무Manual 저장  -->
 	<insert id="insertManualInfo">
 	<![CDATA[
+	-- insertManualInfo 규정/업무Manual 저장
 		insert into IRIS_KNLD_PRCP_MNL
 		(			 TITL_NM
 					,PRCP_MNL_SCN_CD
@@ -103,6 +105,7 @@
     <!-- 규정/업무Manual 업데이트  -->
 	<update id="updateManualInfo">
 	<![CDATA[
+	-- updateManualInfo 규정/업무Manual 업데이트
 		UPDATE IRIS_KNLD_PRCP_MNL
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -125,6 +128,7 @@
 	<!--  규정/업무Manual 조회건수 업데이트  -->
 	<update id="updateManualRtrvCnt">
 	<![CDATA[
+	-- updateManualRtrvCnt 규정/업무Manual 조회건수 업데이트
 		UPDATE IRIS_KNLD_PRCP_MNL
 		   SET RTRV_CNT = RTRV_CNT + 1
 	]]>
@@ -139,6 +143,7 @@
     <!-- 규정/업무Manual 삭제  -->
 	<update id="deleteManualInfo">
 	<![CDATA[
+	-- deleteManualInfo 규정/업무Manual 삭제
 		UPDATE IRIS_KNLD_PRCP_MNL
 		   SET DEL_YN = 'Y'
 	]]>
@@ -151,6 +156,7 @@
     <!-- 규정/업무Manual 상세화면  -->
 	<select id="getManualInfo" resultType="hashmap">
 		<![CDATA[
+		-- getManualInfo 규정/업무Manual 상세화면
 			SELECT
 					PRCP_MNL_ID                                               AS 'manualId'     /*규정/업무ManualID*/
 					,TITL_NM                                                  AS 'titlNm'       /*제목*/

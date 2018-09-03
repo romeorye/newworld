@@ -7,6 +7,7 @@
     <!-- 안전환경보건 리스트  -->
 	<select id="getSaftyList" resultType="hashmap">
 		<![CDATA[
+		-- getSaftyList 안전환경보건 리스트
 			SELECT
 					SFT_ENV_ID                                              AS 'saftyId'     /*안전환경보건ID*/
 					,TITL_NM                                                AS 'titlNm'      /*제목*/
@@ -54,6 +55,7 @@
 	<!-- 안전환경보건 저장  -->
 	<insert id="insertSaftyInfo">
 	<![CDATA[
+	-- insertSaftyInfo 안전환경보건 저장
 		insert into IRIS_KNLD_SFTY_ENV
 		(			 TITL_NM
 					,SFT_ENV_SCN_CD
@@ -103,6 +105,7 @@
     <!-- 안전환경보건 업데이트  -->
 	<update id="updateSaftyInfo">
 	<![CDATA[
+	-- updateSaftyInfo 안전환경보건 업데이트
 		UPDATE IRIS_KNLD_SFTY_ENV
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -125,6 +128,7 @@
 	<!--  안전환경보건 조회건수 업데이트  -->
 	<update id="updateSaftyRtrvCnt">
 	<![CDATA[
+	-- updateSaftyRtrvCnt 안전환경보건 조회건수 업데이트
 		UPDATE IRIS_KNLD_SFTY_ENV
 		   SET RTRV_CNT = RTRV_CNT + 1
 	]]>
@@ -139,6 +143,7 @@
     <!-- 안전환경보건 삭제  -->
 	<update id="deleteSaftyInfo">
 	<![CDATA[
+	-- deleteSaftyInfo 안전환경보건 삭제
 		UPDATE IRIS_KNLD_SFTY_ENV
 		   SET DEL_YN = 'Y'
 	]]>
@@ -151,6 +156,7 @@
     <!-- 안전환경보건 상세화면  -->
 	<select id="getSaftyInfo" resultType="hashmap">
 		<![CDATA[
+		-- getSaftyInfo 안전환경보건 상세화면
 			SELECT
 					SFT_ENV_ID                                              AS 'saftyId'     /*안전환경보건ID*/
 					,TITL_NM                                                AS 'titlNm'      /*제목*/

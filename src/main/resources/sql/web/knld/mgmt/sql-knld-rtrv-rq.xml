@@ -18,15 +18,15 @@
 				   ,APPR_DT												 as apprDt
 				   ,dbo.fn_getUserName(APPR_ID)							 as apprNm
 				   ,(CASE
-						WHEN RQ_APPR_ST_CD = 'APPR' THEN 
+						WHEN RQ_APPR_ST_CD = 'APPR' THEN
 							(CASE
-								WHEN  DATEDIFF(day , RQ_DT, GETDATE())  <= 15 THEN 'Y' 
+								WHEN  DATEDIFF(day , RQ_DT, GETDATE())  <= 15 THEN 'Y'
 								ELSE 'N'
 							 END)
 						ELSE 'N'
 					 END)												 as readFlag
 				   ,DOC_URL												 as docUrl
-			
+
 			from	iris_knld_rtrv_rq
 			where	del_yn = 'N'
 		 ]]>
@@ -41,8 +41,9 @@
 		</if>
 			order by rsstDocId desc
 	</select>
-	
+
 	<select id="getKnldRtrvRqInfo" resultType="hashmap">
+	-- getKnldRtrvRqInfo
 		   select	rtrv_rq.RSST_DOC_ID											 as rsstDocId
 				   ,rtrv_rq.RQ_DOC_NM											 as rqDocNm
 				   ,rtrv_rq.RTRV_RQ_DOC_CD										 as rtrvRqDocCd
@@ -68,17 +69,17 @@
 					iris_sso_user rgst
 			where	rtrv_rq.rsst_doc_id = ${rsstDocId}
 			and		rtrv_rq.rgst_id = rgst.sa_user
-			 
+
 	</select>
-	
+
 	<select id="getKnldRtrvRqRsstDocId" resultType="int">
-	
+	-- getKnldRtrvRqRsstDocId
 		   SELECT IDENT_CURRENT('iris_knld_rtrv_rq') AS rsstDocId
-			 
+
 	</select>
-	
+
 	<insert id="insertKnldRtrvRq" parameterType="map">
-	
+	-- insertKnldRtrvRq
 		insert into iris_knld_rtrv_rq(
 			RQ_DOC_NM
 		   ,RTRV_RQ_DOC_CD
@@ -110,11 +111,11 @@
 			  ,#{userId}
 			  ,#{docUrl}
 			  )
-	
+
 	</insert>
-	
+
 	<update id="updateApproval" parameterType="map">
-	
+	-- updateApproval
 		update	iris_knld_rtrv_rq
 		set		rq_appr_st_cd = #{rqApprStCd},
 				appr_dt = Convert(varchar(10), getdate(), 120),
@@ -123,54 +124,59 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
 		where	rsst_doc_id = ${rsstDocId}
-	
+
 	</update>
-	
+
 	<update id="saveUpMwTodoReq" parameterType="map">
-	
+	-- saveUpMwTodoReq
 		EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'RTV', #{rsstDocId}, #{apprId}
-	
+
 	</update>
-	
+
 	<select id="retrieveDeptDetail" resultType="hashmap">
+	-- retrieveDeptDetail
 		SELECT B.DEPT_CODE AS rgstOpsId
 		      ,B.DEPT_NAME AS rgstOpsNm
 		FROM   IRIS_SSO_USER A
 		       INNER JOIN  VW_SSO_DEPT B
 			   ON B.DEPT_CODE = A.SA_DEPT_NEW
 		WHERE  A.SA_USER = #{rgstId}
-		
+
 	</select>
-	
+
 	<!--퇴사자 체크  -->
 	<select id="retrieveApprCnt" resultType="int">
+	-- retrieveApprCnt 퇴사자 체크
 		SELECT COUNT(SA_SABUN_NEW) AS cnt
 		FROM   IRIS_SSO_USER
 		WHERE  SA_USER = #{rgstId}
 		AND    SSO_EX_FLAG = 'D'
 	</select>
-	
+
 	<!--등록자가 없을경우 체크  -->
 	<select id="retrieveApprCnt2" resultType="int">
+	-- retrieveApprCnt2 등록자가 없을경우 체크
 		SELECT COUNT(SA_SABUN_NEW) AS cnt
 		FROM   IRIS_SSO_USER
 		WHERE  SA_USER = #{rgstId}
 	</select>
-	
+
 	<!--퇴사자, 등록자가  없을경우 기술전략팀장 정보 조회  -->
 	<select id="retrieveApprId" resultType="String">
+	-- retrieveApprId 퇴사자, 등록자가  없을경우 기술전략팀장 정보 조회
 		SELECT SA_USER AS apprId
 		FROM   IRIS_SSO_USER
 		WHERE  SA_DEPT_NEW ='58134871'
 		AND    SA_FUNC = 'FG0'
 	</select>
-	
+
 	<!-- pl 정보 조회  -->
 	<select id="retrieveApprId2" resultType="String">
+	-- retrieveApprId2 pl 정보 조회
 		SELECT SA_USER AS apprId
 		FROM   IRIS_SSO_USER
 		WHERE  SA_USER = #{rgstId}
 		AND    SA_FUNC IN ('FO0','FG0','FB1')
 	</select>
-	
+
 </mapper>

@@ -5,6 +5,7 @@
 
 	<select id="getEduList" resultType="hashmap">
 		<![CDATA[
+		-- getEduList
 			SELECT
 					EDU_SMN_ID                                            AS 'eduId'       /*교육세미나ID*/
 					,TITL_NM                                              AS 'titlNm'      /*제목*/
@@ -53,6 +54,7 @@
 	<!-- 교육세미나 저장  -->
 	<insert id="insertEduInfo">
 	<![CDATA[
+	-- insertEduInfo 교육세미나 저장
 		insert into IRIS_KNLD_EDU_SMN
 		(			 TITL_NM
 					,EDU_PL_SCN_CD
@@ -103,6 +105,7 @@
     <!-- 공지사항 업데이트  -->
 	<update id="updateEduInfo">
 	<![CDATA[
+	-- updateEduInfo 공지사항 업데이트
 		UPDATE IRIS_KNLD_EDU_SMN
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -126,6 +129,7 @@
 	<!-- 공지사항 조회건수 업데이트  -->
 	<update id="updateEduRtrvCnt">
 	<![CDATA[
+	-- updateEduRtrvCnt 공지사항 조회건수 업데이트
 		UPDATE IRIS_KNLD_EDU_SMN
 		   SET RTRV_CNT = RTRV_CNT + 1
 	]]>
@@ -140,6 +144,7 @@
     <!-- 공지사항 삭제  -->
 	<update id="deleteEduInfo">
 	<![CDATA[
+	-- deleteEduInfo 공지사항 삭제
 		UPDATE IRIS_KNLD_EDU_SMN
 		   SET DEL_YN = 'Y'
 	]]>
@@ -151,6 +156,7 @@
 
 	<select id="getEduInfo" resultType="hashmap">
 		<![CDATA[
+		-- getEduInfo
 			SELECT
 					EDU_SMN_ID                                            AS 'eduId'       /*교육세미나ID*/
 					,TITL_NM                                              AS 'titlNm'      /*제목*/

@@ -7,6 +7,7 @@
     <!-- 학회컨퍼런스 리스트  -->
 	<select id="getConferenceList" resultType="hashmap">
 		<![CDATA[
+		-- getConferenceList 학회컨퍼런스 리스트
 			SELECT
 					CFRN_ID                                                   AS 'conferenceId' /*컨퍼런스ID*/
 					,TITL_NM                                                  AS 'titlNm'       /*제목*/
@@ -54,6 +55,7 @@
 	<!-- 학회컨퍼런스 저장  -->
 	<insert id="insertConferenceInfo">
 	<![CDATA[
+	-- insertConferenceInfo 학회컨퍼런스 저장
 		insert into IRIS_KNLD_CFRN
 		(			 TITL_NM
 					,CFRN_LOC_SCN_CD
@@ -103,6 +105,7 @@
     <!-- 학회컨퍼런스 업데이트  -->
 	<update id="updateConferenceInfo">
 	<![CDATA[
+	-- updateConferenceInfo 학회컨퍼런스 업데이트
 		UPDATE IRIS_KNLD_CFRN
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -125,6 +128,7 @@
 	<!--  학회컨퍼런스 조회건수 업데이트  -->
 	<update id="updateConferenceRtrvCnt">
 	<![CDATA[
+	-- updateConferenceRtrvCnt 학회컨퍼런스 조회건수 업데이트
 		UPDATE IRIS_KNLD_CFRN
 		   SET RTRV_CNT = RTRV_CNT + 1
 	]]>
@@ -139,6 +143,7 @@
     <!-- 학회컨퍼런스 삭제  -->
 	<update id="deleteConferenceInfo">
 	<![CDATA[
+	-- deleteConferenceInfo 학회컨퍼런스 삭제
 		UPDATE IRIS_KNLD_CFRN
 		   SET DEL_YN = 'Y'
 	]]>
@@ -151,6 +156,7 @@
     <!-- 학회컨퍼런스 상세화면  -->
 	<select id="getConferenceInfo" resultType="hashmap">
 		<![CDATA[
+		-- getConferenceInfo 학회컨퍼런스 상세화면
 			SELECT
 					CFRN_ID                                                   AS 'conferenceId' /*컨퍼런스ID*/
 					,TITL_NM                                                  AS 'titlNm'       /*제목*/

@@ -51,6 +51,7 @@
 	<!-- 공지사항 저장  -->
 	<insert id="insertPubNoticeInfo">
 	<![CDATA[
+	-- insertPubNoticeInfo 공지사항 저장
 		insert into IRIS_KNLD_PWI_IMTR
 		(     TITL_NM
 	        , PWI_SCN_CD
@@ -98,6 +99,7 @@
 	<!-- 공지사항 업데이트  -->
 	<update id="updatePubNoticeInfo">
 	<![CDATA[
+	-- updatePubNoticeInfo 공지사항 업데이트
 		UPDATE IRIS_KNLD_PWI_IMTR
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -118,6 +120,7 @@
 	<!-- 공지사항 조회건수 업데이트  -->
 	<update id="updatePubNoticeRtrvCnt">
 	<![CDATA[
+	-- updatePubNoticeRtrvCnt 공지사항 조회건수 업데이트
 		UPDATE IRIS_KNLD_PWI_IMTR
 		   SET RTRV_CNT = RTRV_CNT + 1
 	]]>
@@ -130,6 +133,7 @@
 	<!-- 공지사항 긴급여부 업데이트  -->
 	<update id="updatePubNoticeUgyYn">
 	<![CDATA[
+	-- updatePubNoticeUgyYn 공지사항 긴급여부 업데이트
 		UPDATE IRIS_KNLD_PWI_IMTR
 		   SET UGY_YN = (CASE WHEN UGY_YN = 'U' THEN 'C' ELSE 'U' END)
 	]]>
@@ -142,6 +146,7 @@
 	<!-- 공지사항 삭제  -->
 	<update id="deletePubNoticeInfo">
 	<![CDATA[
+	-- deletePubNoticeInfo 공지사항 삭제
 		UPDATE IRIS_KNLD_PWI_IMTR
 		   SET DEL_YN = 'Y'
 	]]>

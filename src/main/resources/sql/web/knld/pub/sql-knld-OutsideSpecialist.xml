@@ -7,6 +7,7 @@
     <!-- 사외전문가 리스트  -->
 	<select id="getOutsideSpeciaList" resultType="hashmap">
 		<![CDATA[
+		-- getOutsideSpeciaList 사외전문가 리스트
 			SELECT
 					 OSCP_SPLT_ID                                           AS 'outSpclId'   /*사외전문가ID*/
 					,INST_NM                                                AS 'instNm'      /*기관명*/
@@ -50,6 +51,7 @@
 	<!-- 사외전문가 저장  -->
 	<insert id="insertOutsideSpecialistInfo">
 	<![CDATA[
+	-- insertOutsideSpecialistInfo 사외전문가 저장
 		insert into IRIS_KNLD_OSCP_SPLT
 		(			 INST_NM
 					,OPS_NM
@@ -105,6 +107,7 @@
     <!-- 사외전문가 업데이트  -->
 	<update id="updateOutsideSpecialistInfo">
 	<![CDATA[
+	-- updateOutsideSpecialistInfo 사외전문가 업데이트
 		UPDATE IRIS_KNLD_OSCP_SPLT
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -145,6 +148,7 @@
     <!-- 사외전문가 삭제  -->
 	<update id="deleteOutsideSpecialistInfo">
 	<![CDATA[
+	-- deleteOutsideSpecialistInfo 사외전문가 삭제
 		UPDATE IRIS_KNLD_OSCP_SPLT
 		   SET DEL_YN = 'Y'
 	]]>
@@ -157,6 +161,7 @@
     <!-- 사외전문가 상세화면  -->
 	<select id="getOutsideSpecialistInfo" resultType="hashmap">
 		<![CDATA[
+		-- getOutsideSpecialistInfo 사외전문가 상세화면
 			SELECT
 					 OSCP_SPLT_ID                                           AS 'outSpclId'   /*사외전문가ID*/
 					,INST_NM                                                AS 'instNm'      /*기관명*/

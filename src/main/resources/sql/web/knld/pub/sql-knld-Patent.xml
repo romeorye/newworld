@@ -7,6 +7,7 @@
     <!-- 특허 리스트  -->
 	<select id="getPatentList" resultType="hashmap">
 		<![CDATA[
+		-- getPatentList 특허 리스트
 			SELECT
 					 PTN_ID                                                 AS 'patentId'    /*특허ID*/
 					,TITL_NM                                                AS 'titlNm'      /*제목*/
@@ -41,6 +42,7 @@
 	<!-- 특허 저장  -->
 	<insert id="insertPatentInfo">
 	<![CDATA[
+	-- insertPatentInfo 특허 저장
 		insert into IRIS_KNLD_PTN
 		(			 TITL_NM
 					,SBC_NM
@@ -84,6 +86,7 @@
     <!-- 특허 업데이트  -->
 	<update id="updatePatentInfo">
 	<![CDATA[
+	-- updatePatentInfo 특허 업데이트
 		UPDATE IRIS_KNLD_PTN
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -103,6 +106,7 @@
 	<!--  특허 조회건수 업데이트  -->
 	<update id="updatePatentRtrvCnt">
 	<![CDATA[
+	-- updatePatentRtrvCnt 특허 조회건수 업데이트
 		UPDATE IRIS_KNLD_PTN
 		   SET RTRV_CNT = RTRV_CNT + 1
 	]]>
@@ -117,6 +121,7 @@
     <!-- 특허 삭제  -->
 	<update id="deletePatentInfo">
 	<![CDATA[
+	-- deletePatentInfo 특허 삭제
 		UPDATE IRIS_KNLD_PTN
 		   SET DEL_YN = 'Y'
 	]]>
@@ -129,6 +134,7 @@
     <!-- 특허 상세화면  -->
 	<select id="getPatentInfo" resultType="hashmap">
 		<![CDATA[
+		-- getPatentInfo 특허 상세화면
 			SELECT
 					 PTN_ID                                            AS 'patentId'    /*특허ID*/
 					,TITL_NM                                           AS 'titlNm'      /*제목*/

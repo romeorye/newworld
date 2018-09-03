@@ -95,7 +95,7 @@
 	</select>
 
 	<insert id="saveSchedule" parameterType="hashmap">
-
+-- saveSchedule
 		MERGE INTO IRIS_KNLD_LABT_ADSC a
 		USING (
 			SELECT	#{labtAdscId}			as labtAdscId
@@ -156,7 +156,7 @@
 	</insert>
 
 	<update id="updateScheduleDelYn">
-
+-- updateScheduleDelYn
 		update	IRIS_KNLD_LABT_ADSC
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),

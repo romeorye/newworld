@@ -7,6 +7,7 @@
     <!-- 전시회 리스트  -->
 	<select id="getShowList" resultType="hashmap">
 		<![CDATA[
+		-- getShowList 전시회 리스트
 			SELECT
 					SWRM_ID                                                 AS 'showId'      /*전시회ID*/
 					,TITL_NM                                                AS 'titlNm'      /*제목*/
@@ -54,6 +55,7 @@
 	<!-- 전시회 저장  -->
 	<insert id="insertShowInfo">
 	<![CDATA[
+	-- insertShowInfo 전시회 저장
 		insert into IRIS_KNLD_SWRM
 		(			 TITL_NM
 					,SWRM_NAT_CD
@@ -103,6 +105,7 @@
     <!-- 전시회 업데이트  -->
 	<update id="updateShowInfo">
 	<![CDATA[
+	-- updateShowInfo 전시회 업데이트
 		UPDATE IRIS_KNLD_SWRM
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -125,6 +128,7 @@
 	<!--  전시회 조회건수 업데이트  -->
 	<update id="updateShowRtrvCnt">
 	<![CDATA[
+	-- updateShowRtrvCnt 전시회 조회건수 업데이트
 		UPDATE IRIS_KNLD_SWRM
 		   SET RTRV_CNT = RTRV_CNT + 1
 	]]>
@@ -139,6 +143,7 @@
     <!-- 전시회 삭제  -->
 	<update id="deleteShowInfo">
 	<![CDATA[
+	-- deleteShowInfo 전시회 삭제
 		UPDATE IRIS_KNLD_SWRM
 		   SET DEL_YN = 'Y'
 	]]>
@@ -151,6 +156,7 @@
     <!-- 전시회 상세화면  -->
 	<select id="getShowInfo" resultType="hashmap">
 		<![CDATA[
+		-- getShowInfo 전시회 상세화면
 			SELECT
 					SWRM_ID                                            AS 'showId'      /*전시회ID*/
 					,TITL_NM                                           AS 'titlNm'      /*제목*/

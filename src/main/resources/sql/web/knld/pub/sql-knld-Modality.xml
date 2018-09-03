@@ -7,6 +7,7 @@
     <!-- 표준양식 리스트  -->
 	<select id="getModalityList" resultType="hashmap">
 		<![CDATA[
+		-- getModalityList 표준양식 리스트
 			SELECT
 					 STD_FMP_ID                                             AS 'modalityId'  /*표준양식ID*/
 					,TITL_NM                                                AS 'titlNm'      /*제목*/
@@ -41,6 +42,7 @@
 	<!-- 표준양식 저장  -->
 	<insert id="insertModalityInfo">
 	<![CDATA[
+	-- insertModalityInfo 표준양식 저장
 		insert into IRIS_KNLD_STD_FMP
 		(			 TITL_NM
 					,SBC_NM
@@ -84,6 +86,7 @@
     <!-- 표준양식 업데이트  -->
 	<update id="updateModalityInfo">
 	<![CDATA[
+	-- updateModalityInfo 표준양식 업데이트
 		UPDATE IRIS_KNLD_STD_FMP
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -103,6 +106,7 @@
 	<!--  표준양식 조회건수 업데이트  -->
 	<update id="updateModalityRtrvCnt">
 	<![CDATA[
+	-- updateModalityRtrvCnt 표준양식 조회건수 업데이트
 		UPDATE IRIS_KNLD_STD_FMP
 		   SET RTRV_CNT = RTRV_CNT + 1
 	]]>
@@ -117,6 +121,7 @@
     <!-- 표준양식 삭제  -->
 	<update id="deleteModalityInfo">
 	<![CDATA[
+	-- deleteModalityInfo 표준양식 삭제
 		UPDATE IRIS_KNLD_STD_FMP
 		   SET DEL_YN = 'Y'
 	]]>
@@ -129,6 +134,7 @@
     <!-- 표준양식 상세화면  -->
 	<select id="getModalityInfo" resultType="hashmap">
 		<![CDATA[
+		-- getModalityInfo 표준양식 상세화면
 			SELECT
 					 STD_FMP_ID                                        AS 'modalityId'  /*표준양식ID*/
 					,TITL_NM                                           AS 'titlNm'      /*제목*/

@@ -5,6 +5,7 @@
 
 	<select id="getTechnologyList" resultType="hashmap">
 		<![CDATA[
+		-- getTechnologyList
 			SELECT
 				MRKT_TCLG_ID                                                     AS 'techId'         /*시장기술정보ID*/
 				  ,TCLG_SCN_CD                                                   AS 'techScnCd'      /*분류코드*/
@@ -52,6 +53,7 @@
 	<!-- 시장/기술정보 저장  -->
 	<insert id="insertTechnologyInfo">
 	<![CDATA[
+	-- insertTechnologyInfo 시장/기술정보 저장
 		insert into IRIS_KNLD_MRKT_TCLG
 		(     TITL_NM
 	        , TCLG_SCN_CD
@@ -100,6 +102,7 @@
     <!-- 시장/기술정보 업데이트  -->
 	<update id="updateTechnologyInfo">
 	<![CDATA[
+	-- updateTechnologyInfo 시장/기술정보 업데이트
 		UPDATE IRIS_KNLD_MRKT_TCLG
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -122,6 +125,7 @@
 	<!-- 시장/기술정보 조회건수 업데이트  -->
 	<update id="updateTechnologyRtrvCnt">
 	<![CDATA[
+	-- updateTechnologyRtrvCnt 시장/기술정보 조회건수 업데이트
 		UPDATE IRIS_KNLD_MRKT_TCLG
 		   SET RTRV_CNT = RTRV_CNT + 1
 	]]>
@@ -136,6 +140,7 @@
     <!-- 시장/기술정보 삭제  -->
 	<update id="deleteTechnologyInfo">
 	<![CDATA[
+	-- deleteTechnologyInfo 시장/기술정보 삭제
 		UPDATE IRIS_KNLD_MRKT_TCLG
 		   SET DEL_YN = 'Y'
 	]]>
@@ -147,6 +152,7 @@
 
 	<select id="getTechnologyInfo" resultType="hashmap">
 		<![CDATA[
+		-- getTechnologyInfo
 			SELECT
 					MRKT_TCLG_ID                           AS 'techId'               /*시장기술정보ID*/
 				   ,TCLG_SCN_CD                            AS 'techScnCd'            /*분류코드*/
