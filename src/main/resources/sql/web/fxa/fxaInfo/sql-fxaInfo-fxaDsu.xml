@@ -7,6 +7,7 @@
 	<!-- 자산폐기 목록 조회  -->
 	<select id="retrieveFxaDsuSearchList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveFxaDsuSearchList 자산폐기 목록 조회
 		SELECT    A.WBS_CD as "wbsCd"
 		         ,A.DEPT_CD as "deptCd"
 				 ,ISNULL(B.PRJ_NM, DBO.FN_GETDEPTNAME(A.DEPT_CD)) as prjNm

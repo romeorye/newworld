@@ -7,6 +7,7 @@
 	<!-- 자산 목록 조회  -->
 	<select id="retrieveFxaAnlSearchList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveFxaAnlSearchList 자산 목록 조회
 		SELECT   A.WBS_CD 				as "wbsCd"
 				,ISNULL(B.PRJ_NM, DBO.FN_GETDEPTNAME(A.DEPT_CD)) as prjNm
 				,A.DEPT_CD			 	AS "deptCd"
@@ -69,16 +70,17 @@
 	    <if test="(fromDate != null and fromDate != '')">
 			AND  C.TRSF_APPR_DT BETWEEN #{fromDate} AND #{toDate}
 	    </if>
-	   
+
 	    <![CDATA[
 	   		ORDER BY A.FXA_INFO_ID
 	    ]]>
-	    
+
 	</select>
-	
+
 	<!-- 자산상세 조회  -->
 	<select id="retrieveFxaAnlSearchDtl" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveFxaAnlSearchDtl 자산상세 조회
 		SELECT  A.FXA_INFO_ID as fxaInfoId
 		       ,A.FXA_NO as fxaNo
 			   ,A.FXA_NM as fxaNm
@@ -121,10 +123,11 @@
 		WHERE   A.FXA_INFO_ID =  #{fxaInfoId}
 		]]>
 	</select>
-	
+
  	<!-- 자산 삭제  -->
 	<update id="deleteFxaInfo">
 		<![CDATA[
+		-- deleteFxaInfo 자산 삭제
 		UPDATE  IRIS_FXA_INFO_MST
 		SET     FXA_ST_CD    = 'DSU'
 		       ,DEL_YN ='Y'
@@ -137,6 +140,7 @@
 	<!-- 자산정보 저장 -->
 	<update id="saveFxaInfo">
 		<![CDATA[
+		-- saveFxaInfo 자산정보 저장
 		MERGE IRIS_FXA_INFO_MST MEM
 			USING ( SELECT #{fxaInfoId} AS FXA_INFO_ID ) AS Tab1
 			ON  (MEM.FXA_INFO_ID = Tab1.FXA_INFO_ID)

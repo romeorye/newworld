@@ -7,6 +7,7 @@
 	<!-- 프로젝트 목록 조회  -->
 	<select id="retrieveFxaInfoSearchList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveFxaInfoSearchList 프로젝트 목록 조회
 		SELECT    A.WBS_CD as "wbsCd"
 		         ,A.PRJ_CD as "prjCd"
 				 ,b.PRJ_NM as "prjNm"
@@ -56,6 +57,7 @@
 	<!-- 연구팀 > 프로젝트 > 고정자산 목록 조회  -->
 	<select id="retrievePrjFxaInfo" resultType="hashmap" >
 		<![CDATA[
+		-- retrievePrjFxaInfo 연구팀 > 프로젝트 > 고정자산 목록 조회
 			SELECT A.FXA_INFO_ID                 as 'fxaInfoId'  /*고정자산 정보 ID*/
 				 , A.FXA_NM				         as 'fxaNm'      /*고정자산 명*/
 				 , A.FXA_NO				         as 'fxaNo'      /*고정자산 번호*/
@@ -93,6 +95,7 @@
 	<!-- 고정자산 상세 조회  -->
 	<select id="retrieveFxaDtlInfo" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveFxaDtlInfo 고정자산 상세 조회
 			SELECT A.FXA_INFO_ID                 as 'fxaInfoId'  /*고정자산 정보 ID*/
 				 , A.FXA_NM				         as 'fxaNm'      /*고정자산 명*/
 				 , A.FXA_NO				         as 'fxaNo'      /*고정자산 번호*/
@@ -139,6 +142,7 @@
 	<!-- 프로젝트 연구원 조회  -->
 	<select id="retrievePrjUserSearch" resultType="hashmap" >
 		<![CDATA[
+		-- retrievePrjUserSearch 프로젝트 연구원 조회
 			SELECT DISTINCT D.TEAM_DEPT_NAME AS "prjNm"
 				 , B.WBS_CD 		AS "wbsCd"
 				 , SA_SABUN_NEW 	AS "saSabun"

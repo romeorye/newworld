@@ -7,6 +7,7 @@
 	<!-- 자산이관 목록 조회  -->
 	<select id="retrieveFxaTrsfSearchList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveFxaTrsfSearchList 자산이관 목록 조회
 		SELECT    B.FXA_NM AS "fxaNm"
 		         ,B.FXA_NO AS "fxaNo"
 		         ,B.FXA_QTY AS "fxaQty"
@@ -35,7 +36,7 @@
 				 ,IRIS_ADM_COM_CD E
 		WHERE  E.COM_CD_CD = 'TRSF_ST_CD'
 		AND    E.COM_DTL_CD = A.TRSF_ST_CD
-		AND    A.DEL_YN = 'N' 
+		AND    A.DEL_YN = 'N'
 		]]>
 
 		<if test="( wbsCd != null and wbsCd != '')">
@@ -54,6 +55,7 @@
 
 	<!-- 자산이관정보 저장 -->
 	<insert id="insertFxaTrsfInfo" parameterType="hashmap" useGeneratedKeys="true" keyProperty="fxaTrsfId" keyColumn="FXA_TRSF_ID" >
+			-- insertFxaTrsfInfo 자산이관정보 저장
 			INSERT INTO IRIS_FXA_TRSF_LIST
 				(
 				 FXA_INFO_ID
@@ -91,15 +93,16 @@
 				,#{_userId}
 				)
 	</insert>
-	
+
 	<!-- 전자결재 요청 시 이관 활성화   -->
 	<update id="">
 		<![CDATA[
+		-- 전자결재 요청 시 이관 활성화
 		UPDATE IRIS_FXA_TRSF_LIST
 		SET    DEL_YN ='N'
 		      ,LAST_MDFY_DT = GETDATE()
 		      ,LAST_MDFY_ID = 'system'
-		WHERE  FXA_TRSF_ID = #{fxaTrsfId}      
+		WHERE  FXA_TRSF_ID = #{fxaTrsfId}
 		]]>
 	</update>
 </mapper>

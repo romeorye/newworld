@@ -7,6 +7,7 @@
 	<!-- 자산실사 목록 조회  -->
 	<select id="retrieveFxaRlisSearchList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveFxaRlisSearchList 자산실사 목록 조회
 		SELECT FRL.FXA_RLIS_ID					AS "fxaRlisId"
 		      ,FRT.RLIS_TITL					AS "rlisTitl"
 		      ,FRL.DEPT_CD						AS "deptCd"
@@ -74,6 +75,7 @@
 	<!-- 자산실사> 실사명 combo리스트 조회  -->
 	<select id="retrieveFxaRlisTitlCombo" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveFxaRlisTitlCombo 자산실사> 실사명 combo리스트 조회
 			SELECT  RLIS_TRM_ID AS "COM_DTL_CD"
 				   ,RLIS_TITL 	AS "COM_DTL_NM"
 			FROM   IRIS_FXA_RLIS_TRM
@@ -84,6 +86,7 @@
 	<!-- 자산실사> 결재상태 조회 -->
 	<select id="retrieveFxaRlisArrpPopList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveFxaRlisArrpPopList 자산실사> 결재상태 조회
 			SELECT  RLIS_TRM_ID AS "COM_DTL_CD"
 				   ,RLIS_TITL 	AS "COM_DTL_NM"
 			FROM   IRIS_FXA_RLIS_TRM
@@ -93,6 +96,7 @@
 	<!-- 자산실사> 자산실사 To_do 조회 -->
 	<select id="retrieveFxaRlisTodoList" resultType="hashmap" >
 		<![CDATA[
+		-- retrieveFxaRlisTodoList 자산실사> 자산실사 To_do 조회
 		SELECT  FMAP.RLIS_MAPP_ID        AS "rlisMappId"
 			   ,FMAP.FXA_INFO_ID	     AS "fxaInfoId"
 			   ,FIM.DEPT_CD              AS "deptCd"
@@ -125,6 +129,7 @@
 	<!-- To_do update  -->
 	<update id="saveFxaRlisTodoInfo" >
 		<![CDATA[
+		-- saveFxaRlisTodoInfo To_do update
 		UPDATE IRIS_FXA_RLIS_INFO_MAPP
 		SET    FXA_SSIS_YN = #{fxaSsisYn}
 		      ,FXA_REM     = #{fxaRem}
