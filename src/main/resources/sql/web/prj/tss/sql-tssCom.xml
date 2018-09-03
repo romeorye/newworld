@@ -6,6 +6,7 @@
 	<!-- 마스터 조회 -->
 	<select id="retrieveTssMst" resultType="hashmap">
     <![CDATA[
+		-- retrieveTss 마스터 조회
         SELECT A.PRJ_CD          AS prjCd        --프로젝트코드
              --, B.PRJ_NM          AS prjNm        --프로젝트명
              , ISNULL(dbo.fn_getNameOnTssPgsStep(A.TSS_CD, 'PRJ', A.PRJ_CD), A.PRJ_NM) AS prjNm        --프로젝트명
@@ -78,6 +79,7 @@
 
 	<!-- 신규저장시 WBS_CD 자동생성 -->
 	<select id="getWbsCdStd" resultType="hashmap">
+--getWbsCdStd 신규저장시 WBS_CD 자동생성
 		WITH WBS_STD AS (
 			SELECT SUBSTRING(DEPT_UPER_CODE_A, 1, 1) + SUBSTRING(CONVERT(VARCHAR, 	GETDATE(), 2), 1, 2)+SUBSTRING(WBS_CD_A, 1, 2) AS WBS_CD_STD
 			     , SUBSTRING(CONVERT(VARCHAR, GETDATE(), 2), 1, 2) AS YY
@@ -114,6 +116,7 @@
         ]]>
 		</selectKey>
     <![CDATA[
+--insertTssMst  마스터 신규
         INSERT
           INTO IRIS_TSS_MGMT_MST  /*과제관리마스터*/
              ( PRJ_CD            --프로젝트코드
@@ -205,6 +208,7 @@
 	<!-- 마스터 수정 -->
 	<update id="updateTssMst">
     <![CDATA[
+-- updateTssMst 마스터 수정
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
            SET PRJ_CD       = #{prjCd}      --프로젝트코드
              , DEPT_CODE    = #{deptCode}   --조직코드(소속)
@@ -231,6 +235,7 @@
 	<!-- 마스터 과제상태 수정 -->
 	<update id="updateTssMstTssSt">
     <![CDATA[
+		--updateTssMstTssSt 마스터 과제상태 수정
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
            SET TSS_ST       = #{tssSt}
              , LAST_MDFY_DT = GETDATE()
@@ -242,6 +247,7 @@
 	<!-- 마스터 WBS코드 수정 -->
 	<update id="updateTssMstWbsCd">
     <![CDATA[
+--updateTssMstWbsCd 마스터 WBS코드 수정
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
            SET WBS_CD       = #{wbsCd}
              , LAST_MDFY_DT = GETDATE()
@@ -253,6 +259,7 @@
 	<!-- 과제기간 년도 조회 -->
 	<select id="retrieveTssTssYy" resultType="hashmap">
     <![CDATA[
+-- retrieveTssTssYy 과제기간 년도 조회
         WITH BASE_YY AS (
             SELECT CAST(SUBSTRING(TSS_STRT_DD, 1, 4) AS INT) AS TSS_YY
                  , CAST(SUBSTRING(TSS_FNH_DD, 1, 4) AS INT) AS E_YY
@@ -271,6 +278,7 @@
 	<!-- 참여연구원 조회 -->
 	<select id="retrieveTssPtcRsstMbr" resultType="hashmap">
     <![CDATA[
+--  retrieveTssPtcRsstMbr   참여연구원 조회
         SELECT TSS_CD          AS tssCd        --과제코드
              , PTC_RSST_MBR_SN AS ptcRsstMbrSn --참여연구원일련번호
              , SA_SABUN_NEW    AS saSabunNew   --연구원사번
@@ -294,6 +302,7 @@
 	<!-- 참여연구원 저장 -->
 	<update id="updateTssPtcRsstMbr">
     <![CDATA[
+-- updateTssPtcRsstMbr 참여연구원 저장
          MERGE IRIS_TSS_PTC_RSST_MBR A  /*과제참여연구원*/
          USING (SELECT #{tssCd} AS TSS_CD, #{ptcRsstMbrSn} AS PTC_RSST_MBR_SN) B
             ON A.TSS_CD          = B.TSS_CD
@@ -347,6 +356,7 @@
 	<!-- 참여연구원 삭제 -->
 	<delete id="deleteTssPtcRsstMbr">
     <![CDATA[
+-- deleteTssPtcRsstMbr 참여연구원 삭제
         DELETE
           FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
          WHERE TSS_CD          = #{tssCd}
@@ -356,6 +366,7 @@
 
 	<delete id="deleteTssPtcRsstMbrAllOfTssCd">
     <![CDATA[
+-- deleteTssPtcRsstMbrAllOfTssCd
         DELETE
           FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
          WHERE TSS_CD          = #{tssCd}
@@ -365,6 +376,7 @@
 	<!-- 과제참여연구원 수 -->
 	<select id="retrieveTssPtcMbrCnt" resultType="hashmap">
     <![CDATA[
+-- retrieveTssPtcMbrCnt 과제참여연구원 수
         SELECT COUNT(DISTINCT SA_SABUN_NEW) AS mbrCnt
           FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
          WHERE TSS_CD = #{tssCd}
@@ -375,6 +387,7 @@
 	<!-- 참여연구원 목록 조회 -->
 	<select id="retrieveChargeMbrList" resultType="hashmap">
     <![CDATA[
+-- retrieveChargeMbrList 참여연구원 목록 조회
         SELECT DISTINCT
                SA_SABUN_NEW AS mbrUserId --연구원사번
              , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'USER', SA_SABUN_NEW), SA_SABUN_NAME) AS mbrUserNm --연구원명
@@ -388,6 +401,7 @@
 	<!-- 목표기술성과 조회 -->
 	<select id="retrieveTssGoal" resultType="hashmap">
     <![CDATA[
+-- retrieveTssGoal 목표기술성과 조회
         SELECT TSS_CD       AS tssCd      --과제코드
              , GOAL_ARSL_SN AS goalArslSn --과제목표일련번호
              , PRVS         AS prvs       --항목
@@ -409,6 +423,7 @@
 	<!-- 목표기술성과 저장 -->
 	<update id="updateTssGoal">
     <![CDATA[
+-- updateTssGoal 목표기술성과 저장
          MERGE IRIS_TSS_GOAL_ARSL A  /*과제목표_실적*/
          USING (SELECT #{tssCd} AS TSS_CD, #{goalArslSn} AS GOAL_ARSL_SN) B
             ON A.TSS_CD       = B.TSS_CD
@@ -466,6 +481,7 @@
 	<!-- 목표기술성과 삭제 -->
 	<delete id="deleteTssGoal">
     <![CDATA[
+-- deleteTssGoal 목표기술성과 삭제
         DELETE
           FROM IRIS_TSS_GOAL_ARSL  /*과제목표_실적*/
          WHERE TSS_CD       = #{tssCd}
@@ -474,6 +490,7 @@
 	</delete>
 	<delete id="deleteTssGoalOfTssCd">
     <![CDATA[
+-- deleteTssGoalOfTssCd
         DELETE
           FROM IRIS_TSS_GOAL_ARSL  /*과제목표_실적*/
          WHERE TSS_CD       = #{tssCd}
@@ -483,6 +500,7 @@
 	<!-- 필수산출물 조회 -->
 	<select id="retrieveTssYld" resultType="hashmap">
     <![CDATA[
+		--retrieveTssYld 필수산출물 조회
         SELECT TSS_CD       AS tssCd      --과제코드
              , YLD_ITM_SN   AS yldItmSn   --과제산출물일련번호
              , GOAL_Y       AS goalY      --목표년도
@@ -509,6 +527,7 @@
 	<!-- 필수산출물 저장 -->
 	<update id="updateTssYld">
     <![CDATA[
+--updateTssYld 필수산출물 저장
          MERGE IRIS_TSS_YLD_ITM A  /*과제산출물*/
          USING (SELECT #{tssCd} AS TSS_CD, #{yldItmSn} AS YLD_ITM_SN) B
             ON A.TSS_CD     = B.TSS_CD
@@ -563,6 +582,7 @@
 	<!-- 필수산출물 삭제 -->
 	<delete id="deleteTssYld">
     <![CDATA[
+-- deleteTssYld 필수산출물 삭제
         DELETE
           FROM IRIS_TSS_YLD_ITM  /*과제산출물*/
          WHERE TSS_CD     = #{tssCd}
@@ -572,6 +592,7 @@
 
 	<delete id="deleteTssYldOfTssCd">
     <![CDATA[
+-- deleteTssYldOfTssCd
         DELETE
           FROM IRIS_TSS_YLD_ITM   /*과제산출물*/
          WHERE TSS_CD     = #{tssCd}
@@ -581,6 +602,7 @@
 	<!--========================== 과제_공통 ========================== -->
 	<select id="retrieveTssPopupList" resultType="hashmap">
     <![CDATA[
+-- retrieveTssPopupList 과제_공통
         SELECT A.PRJ_CD          AS prjCd            --프로젝트코드
              , B.PRJ_NM          AS prjNm            --프로젝트명
              , A.TSS_CD          AS tssCd            --과제코드
@@ -738,6 +760,7 @@
         ]]>
 		</selectKey>
     <![CDATA[
+-- insertTssCsusRq 통합결제 등록
         INSERT
           INTO IRIS_COM_ITG_RDCS
              ( GUID                    --고유코드
@@ -775,6 +798,7 @@
 	<!-- 통합결제 수정 -->
 	<update id="updateTssCsusRq">
     <![CDATA[
+-- updateTssCsusRq 통합결제 수정
         UPDATE IRIS_COM_ITG_RDCS
            SET BODY        = #{body}
              , TITLE       = #{title}
@@ -785,6 +809,7 @@
 
 	<!-- 통합결제 조회 -->
 	<select id="retrieveTssCsus" resultType="hashmap">
+-- retrieveTssCsus 통합결제 조회
 		SELECT TOP 1
 		GUID AS guid
 		, AFFR_CD AS affrCd
@@ -808,6 +833,7 @@
 
 
 	<select id="getTssRole" resultType="hashmap">
+-- getTssRole
 		SELECT dbo.fn_getTssRole(#{userId}, #{roleId}, #{tssCd}) AS tssRoleId
 	</select>
 
@@ -819,6 +845,7 @@
         ]]>
 		</selectKey>
     <![CDATA[
+--         insertTssAttachFile
         insert into iris_com_attc_fil
             (MENU_TYPE
             ,ATTC_FIL_ID
@@ -851,6 +878,7 @@
 	<select id="insertTssAttcFilIdCreate" resultType="hashmap"
 		statementType="CALLABLE">
     <![CDATA[
+-- insertTssAttcFilIdCreate 첨부파일ID 다건 신규 생성
         DECLARE @return_value CHAR
         EXEC dbo.sp_tssAttcFilIdCreate #{tssCd}, #{newAttcFilId}, #{gbn}, #{userId}, @return_value OUTPUT
         SELECT @return_value AS rtVal
@@ -860,6 +888,7 @@
 	<!-- 등록건수 확인 -->
 	<select id="getTssRegistCnt" resultType="hashmap">
     <![CDATA[
+-- getTssRegistCnt 등록건수 확인
         SELECT (SELECT COUNT(*) FROM IRIS_TSS_GEN_SMRY WHERE TSS_CD = #{tssCd})                   AS genSmryCnt
 		     , (SELECT COUNT(*) FROM IRIS_TSS_GEN_WBS WHERE TSS_CD = #{tssCd})                    AS genWbsCnt
 		     , (SELECT COUNT(*) FROM IRIS_TSS_GEN_TRWI_BUDG_LIST WHERE TSS_CD = #{tssCd})         AS genTrwiCnt
@@ -886,6 +915,8 @@
              , (SELECT COUNT(*) FROM IRIS_TSS_PTC_RSST_MBR WHERE TSS_CD = #{pgTssCd})             AS pgComMbrCnt
              , (SELECT COUNT(*) FROM IRIS_TSS_GOAL_ARSL WHERE TSS_CD = #{pgTssCd})                AS pgComGoalCnt
              , (SELECT COUNT(*) FROM IRIS_TSS_YLD_ITM WHERE TSS_CD = #{pgTssCd})                  AS pgComYldCnt
+			  , (SELECT COUNT(*) FROM IRIS_TSS_TCTM_SMRY WHERE TSS_CD = #{tssCd})                   AS tctmSmryCnt
+
     ]]>
 	</select>
 
@@ -893,7 +924,7 @@
 	<!-- 마스터 이름 부서명 수정 -->
 	<update id="updateMstUserNmDeptNm">
     <![CDATA[
-        --updateMstUserNmDeptNm
+        --updateMstUserNmDeptNm 마스터 이름 부서명 수정
         UPDATE T1
 		   SET T1.DEPT_NAME = T3.DEPT_NAME
 		     , T1.SA_SABUN_NAME = T2.SA_NAME
@@ -926,7 +957,7 @@
 	<!-- 멤버 이름 부서명 수정 -->
 	<update id="updateMbrUserNmDeptNm">
     <![CDATA[
-        --updateMbrUserNmDeptNm
+        --updateMbrUserNmDeptNm 멤버 이름 부서명 수정
         UPDATE T1
 		   SET T1.DEPT_NAME = T3.DEPT_NAME
 		     , T1.SA_SABUN_NAME = T2.SA_NAME
@@ -952,7 +983,7 @@
 
    <!--  과제 리더 -GRS 심의후 -->
    <select id="retrieveSendAddrTssGrsPL"  resultType="hashmap">
- -- retrieveSendAddrTssGrsPL
+ -- retrieveSendAddrTssGrsPL 과제 리더 -GRS 심의후
  SELECT  MM.PRJ_CD as prjCd
 	       , (SELECT SSO.SA_MAIL FROM IRIS_SSO_USER SSO WHERE MM.SA_SABUN_NEW  = SSO.SA_SABUN_NEW)  saMail
 		   , RR.GRS_EV_ST as grsCd
@@ -972,6 +1003,7 @@
    	<!-- 변경개요 삭제 -->
    	<delete id="deleteTssSmryAltrListOfTssCd">
     <![CDATA[
+-- deleteTssSmryAltrListOfTssCd 변경개요 삭제
         DELETE
           FROM IRIS_TSS_SMRY_ALTR_LIST  /*변경개요*/
          WHERE TSS_CD = #{tssCd}
@@ -982,6 +1014,7 @@
    	<!-- 과제 마스터 삭제 -->
    	<delete id="deleteTssMstOfTssCd">
     <![CDATA[
+-- deleteTssMstOfTssCd 과제 마스터 삭제
         DELETE
           FROM IRIS_TSS_MGMT_MST  /*과제 마스터*/
          WHERE TSS_CD = #{tssCd}
@@ -990,6 +1023,7 @@
     
      <!-- 변경이력 상세리스트 조회  -->
     <select id="retrieveOusdCooTssAltrList"  resultType="hashmap">
+-- retrieveOusdCooTssAltrList 변경이력 상세리스트 조회
      SELECT    A.TSS_CD       	  AS tssCd      --과제코드
              , A.ALTR_SN      AS altrSn     --변경일련번호
              , A.PRVS         AS prvs       --항목
@@ -1006,6 +1040,7 @@
 
 	<!-- 변경이력 상세 조회 -->
      <select id="ousdCooTssAltrDetailSearch"  resultType="hashmap">
+-- ousdCooTssAltrDetailSearch 변경이력 상세 조회
      SELECT    A.TSS_CD       		AS tssCd      		--과제코드
              , A.ALTR_RSON      AS altrRsonTxt      --변경사유
              , A.ADD_RSON     	AS addRsonTxt    	--추가사유
@@ -1017,6 +1052,7 @@
     
     <!-- 중단, 완료 참여연구원  count 조회 -->
      <select id="retrieveCmDcTssPtcMbrCnt"  resultType="hashMap">
+-- retrieveCmDcTssPtcMbrCnt 중단, 완료 참여연구원  count 조회
      	select count(*) mbrCnt
 		from  (
 				SELECT DISTINCT          
@@ -1042,12 +1078,13 @@
     
     <!--과제 상세 내용  -->
     <select id="retrievePrjSearch" resultType="hashmap">
+-- retrievePrjSearch 과제 상세 내용
 		select a.PRJ_CD as prjCd
 		      ,a.WBS_CD as wbsCd
 			  ,a.PRJ_NM as prjNm
 			  ,a.DEPT_CD as deptCd
 			  ,[dbo].[fn_getDeptName](a.DEPT_CD) as deptName
-			  ,A.PRJ_CPSN as deptCnt
+			  ,A.PRJ_CPSN as deptCntDELETE FROM IRIS_GRS_EV_RSLT_RGST
 			  ,a.DEPT_UPER as upDeptCd
 			  ,[dbo].[fn_getDeptName](a.DEPT_UPER) as upDeptName
 			  ,a.PL_EMP_NO as plEmpNo

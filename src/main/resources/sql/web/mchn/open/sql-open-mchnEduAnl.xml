@@ -283,6 +283,7 @@
 
 	<insert id="insertMailHis" >
 		<![CDATA[
+--insertMailHis
 		INSERT INTO IRIS_COM_MAIL_SND_HIS
 			(
 			 MENU_TYPE

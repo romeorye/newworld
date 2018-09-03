@@ -185,6 +185,7 @@
     <!-- 계획단계 삭제 - row 삭제 -->
 	<delete id="deleteNatTssPlnMst2">
 	<![CDATA[
+--deleteNatTssPlnMst2 계획단계 삭제 - row 삭제
 		 DELETE FROM IRIS_GRS_EV_RSLT_RGST
 		 WHERE TSS_CD = #{tssCd}
 	]]>
@@ -192,6 +193,7 @@
     <!-- 계획단계 삭제 - row 삭제 -->
 	<delete id="deleteNatTssPlnMst3">
 	<![CDATA[
+--deleteNatTssPlnMst3 계획단계 삭제 - row 삭제
 		DELETE FROM IRIS_GRS_EV_STD_RSLT_RGST
 		 WHERE TSS_CD = #{tssCd}
 	]]>

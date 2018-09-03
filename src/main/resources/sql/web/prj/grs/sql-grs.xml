@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="EUC-KR"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="prj.grs">
-	<select id="retrieveGrsReqList" resultType="hashmap">
-		<![CDATA[
+    <select id="retrieveGrsReqList" resultType="hashmap">
+        <![CDATA[
 		/*retrieveGrsReqList*/
+--retrieveGrsReqList GRS ÌèâÍ∞Ä Î™©Î°ù
 			SELECT m.tss_scn_cd       tssScnCd
 				 , dbo.fn_getComDtlNm('TSS_SCN_CD',m.tss_scn_cd) AS tssScnNm
 				 , iif(m.PGS_STEP_CD='PL','SEED-'+m.wbs_cd , m.wbs_cd)           wbsCd
@@ -13,15 +14,15 @@
 				 , m.BIZ_DPT_CD	      bizDptCd
 				 , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
 				 , g.dlbr_crgr 									 AS dlbrCrgr
-				 --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--Ω…¿« ¥„¥Á¿⁄
-				 , g.sa_sabun_name AS dlbrCrgrNm       --Ω…¿« ¥„¥Á¿⁄
+				 --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--Ïã¨Ïùò Îã¥ÎãπÏûê
+				 , g.sa_sabun_name AS dlbrCrgrNm       --Ïã¨Ïùò Îã¥ÎãπÏûê
 				 , g.dlbr_parr_dt     							 AS dlbrParrDt
-				 , g.grs_ev_st	   	 							 AS grsEvSt		 	--P1:√ ±‚,P2:√÷¡æ,M:∫Ø∞Ê
-				 , m.PGS_STEP_CD  as pgsStepCd   --¡¯«‡¥‹∞Ëƒ⁄µÂ PL : ∞Ë»π , PG:¡¯«‡ , CM:øœ∑· , AL: ∫Ø∞Ê , DC:¡ﬂ¥‹
+				 , g.grs_ev_st	   	 							 AS grsEvSt		 	--P1:Ï¥àÍ∏∞,P2:ÏµúÏ¢Ö,M:Î≥ÄÍ≤Ω
+				 , m.PGS_STEP_CD  as pgsStepCd   --ÏßÑÌñâÎã®Í≥ÑÏΩîÎìú PL : Í≥ÑÌöç , PG:ÏßÑÌñâ , CM:ÏôÑÎ£å , AL: Î≥ÄÍ≤Ω , DC:Ï§ëÎã®
 				 , dbo.fn_getComDtlNm('GRS_EV_ST',g.grs_ev_st)   AS grsEvStNm
 				 , m.tss_st           							 AS tssSt
 				-- , dbo.fn_getComDtlNm('TSS_ST',m.tss_st) 		 AS tssStNm
-				 , iif((select count(*) from IRIS_GRS_EV_STD_RSLT_RGST where TSS_CD = g.TSS_CD and TSS_CD_SN = g.TSS_CD_SN) > 0, 'GRSøœ∑·', 'GRSø‰√ª') AS tssStNm
+				 , iif((select count(*) from IRIS_GRS_EV_STD_RSLT_RGST where TSS_CD = g.TSS_CD and TSS_CD_SN = g.TSS_CD_SN) > 0, 'GRSÏôÑÎ£å', 'GRSÏöîÏ≤≠') AS tssStNm
 				 , m.tss_cd tssCd
 				 , g.tss_cd_sn tssCdSn
 				 , g.grs_ev_sn									 AS grsEvSn
@@ -31,243 +32,320 @@
 	   INNER JOIN iris_tss_mgmt_mst m
 			   ON 	g.tss_cd = m.tss_cd
 		 ]]>
-			WHERE	m.tss_st  >= '101'
-			  --AND  m.tss_cd    in   ( SELECT MAX(TSS_CD)  FROM iris_grs_ev_rslt_rgst where  subString(TSS_CD,0,7) = m.PK_WBS_CD)
+        WHERE m.tss_st >= '101'
+        --AND m.tss_cd in ( SELECT MAX(TSS_CD) FROM iris_grs_ev_rslt_rgst where subString(TSS_CD,0,7) = m.PK_WBS_CD)
         <if test="tssRoleType == null or tssRoleType.equals('') or tssRoleType.equals('S1')">
-           AND 1 = 1
+            AND 1 = 1
         </if>
         <if test="tssRoleType != null and tssRoleType.equals('S2')">
-           AND (1 = 2 OR g.frst_rgst_id = #{_userId})
+            AND (1 = 2 OR g.frst_rgst_id = #{_userId})
         </if>
         <if test="tssRoleType != null and tssRoleType.equals('S3')">
-           AND (g.dlbr_crgr = #{_userSabun} OR g.frst_rgst_id = #{_userId})
+            AND (g.dlbr_crgr = #{_userSabun} OR g.frst_rgst_id = #{_userId})
         </if>
         <if test="bizDtpCd != null and bizDtpCd != ''">
-			  AND m.biz_dpt_cd = #{bizDtpCd}
-		</if>
-		 <if test="tssNm != null and tssNm != ''">
-		  	  AND m.tss_nm like '%'+#{tssNm}+'%'
-		</if>
-		 <if test="grsEvSt != null and grsEvSt != ''">
-			  AND g.grs_ev_st = #{grsEvSt}
-		</if>
-		 <if test="tssScnCd != null and tssScnCd != ''">
-			  AND m.tss_scn_cd = #{tssScnCd}
-		</if>
-		 <if test="grsSt != null and grsSt != ''">
-			  AND m.tss_st = #{grsSt}
-		</if>
-		 <if test="wbsCd != null and wbsCd != ''">
-			  AND m.WBS_CD = #{wbsCd}
-		</if>
-		 ORDER BY g.dlbr_parr_dt DESC
-	</select>
+            AND m.biz_dpt_cd = #{bizDtpCd}
+        </if>
+        <if test="tssNm != null and tssNm != ''">
+            AND m.tss_nm like '%'+#{tssNm}+'%'
+        </if>
+        <if test="grsEvSt != null and grsEvSt != ''">
+            AND g.grs_ev_st = #{grsEvSt}
+        </if>
+        <if test="tssScnCd != null and tssScnCd != ''">
+            AND m.tss_scn_cd = #{tssScnCd}
+        </if>
+        <if test="grsSt != null and grsSt != ''">
+            AND m.tss_st = #{grsSt}
+        </if>
+        <if test="wbsCd != null and wbsCd != ''">
+            AND m.WBS_CD = #{wbsCd}
+        </if>
+        ORDER BY g.dlbr_parr_dt DESC
+    </select>
 
 
-	<!-- GRS Todo ¡∂»∏ -->
-	<select id="retrieveGrsTodo" resultType="hashmap">
+    <!-- GRS Todo Ï°∞Ìöå -->
+    <select id="retrieveGrsTodo" resultType="hashmap">
 		<![CDATA[
-		SELECT TODO_SYS_CD      AS todoSysCd        --Ω√Ω∫≈€ ƒ⁄µÂ
-		     , TODO_TYPE_CD     AS todoTypeCd       --ToDo ¿Ø«¸ ƒ⁄µÂ
-		     , TODO_REQ_NO      AS todoReqNo        --ø¨∞ËΩ√Ω∫≈€ ≥ª πÆº≠ ID
-		     , TODO_REQ_NM      AS todoReqNm        --ToDo πÆº≠¡¶∏Ò
-		     , TODO_REQ_EMP_NO  AS todoReqEmpNo     --ToDo µÓ∑œ¿⁄ ID
-		     , TODO_REQ_DT      AS todoReqDt        --µÓ∑œΩ√∞¢
-		     , TODO_END_DT      AS todoEndDt        --∏∂∞®Ω√∞¢
-		     , TODO_STATUS      AS todoStatus       --√≥∏ÆªÛ»≤∏Ì
-		     , TODO_EMP_NO      AS todoEmpNo        --√≥∏Æ¥„¥Á¿⁄ ID
-		     , TODO_SGN_EMP_NO  AS todoSgnEmpNo     --ºˆ¿”¥„¥Á¿⁄ ID
-		     , TODO_RESULT      AS todoResult       --øœ∑·ø©∫Œ
-		     , TSS_CD           AS tssCd            --
-		     , TSS_CD_SN        AS tssCdSn          --
-		  FROM VW_GRS_TODO
-		 WHERE TODO_REQ_NO = #{MW_TODO_REQ_NO}
+--retrieveGrsTodo GRS Todo Ï°∞Ìöå
+        SELECT
+            TODO_SYS_CD     AS todoSysCd        --ÏãúÏä§ÌÖú ÏΩîÎìú
+            ,
+            TODO_TYPE_CD    AS todoTypeCd       --ToDo Ïú†Ìòï ÏΩîÎìú
+            ,
+            TODO_REQ_NO     AS todoReqNo        --Ïó∞Í≥ÑÏãúÏä§ÌÖú ÎÇ¥ Î¨∏ÏÑú ID
+            ,
+            TODO_REQ_NM     AS todoReqNm        --ToDo Î¨∏ÏÑúÏ†úÎ™©
+            ,
+            TODO_REQ_EMP_NO AS todoReqEmpNo     --ToDo Îì±Î°ùÏûê ID
+            ,
+            TODO_REQ_DT     AS todoReqDt        --Îì±Î°ùÏãúÍ∞Å
+            ,
+            TODO_END_DT     AS todoEndDt        --ÎßàÍ∞êÏãúÍ∞Å
+            ,
+            TODO_STATUS     AS todoStatus       --Ï≤òÎ¶¨ÏÉÅÌô©Î™Ö
+            ,
+            TODO_EMP_NO     AS todoEmpNo        --Ï≤òÎ¶¨Îã¥ÎãπÏûê ID
+            ,
+            TODO_SGN_EMP_NO AS todoSgnEmpNo     --ÏàòÏûÑÎã¥ÎãπÏûê ID
+            ,
+            TODO_RESULT     AS todoResult       --ÏôÑÎ£åÏó¨Î∂Ä
+            ,
+            TSS_CD          AS tssCd            --
+            ,
+            TSS_CD_SN       AS tssCdSn --
+        FROM VW_GRS_TODO
+        WHERE TODO_REQ_NO = #{MW_TODO_REQ_NO}
         ]]>
 	</select>
 
 
-
-    <!-- GRS∞·∞˙ø‰√ª ¡∂»∏ -->
-	<select id="retrieveGrsEvRslt" resultType="hashmap">
+    <!-- GRSÍ≤∞Í≥ºÏöîÏ≤≠ Ï°∞Ìöå -->
+    <select id="retrieveGrsEvRslt" resultType="hashmap">
 		<![CDATA[
-		/*retrieveGrsEvRslt*/
-        SELECT A.PRJ_CD        AS prjCd      --«¡∑Œ¡ß∆Æƒ⁄µÂ
-             , C.PRJ_NM        AS prjNm      --«¡∑Œ¡ß∆Æ∏Ì
-             , A.BIZ_DPT_CD    AS bizDptCd   --ªÁæ˜∫ŒπÆƒ⁄µÂ
-             , dbo.fn_getComDtlNm('BIZ_DPT_CD',A.BIZ_DPT_CD) AS bizDptNm
-             , A.TSS_ATTR_CD   AS tssAttrCd  --∞˙¡¶º”º∫ƒ⁄µÂ
-             , dbo.fn_getComDtlNm('TSS_ATTR_CD',A.TSS_ATTR_CD) AS tssAttrNm
-             , A.TSS_NM        AS tssNm      --∞˙¡¶∏Ì
-             , B.GRS_EV_ST     AS grsEvSt    --GRSªÛ≈¬
-             , dbo.fn_getComDtlNm('GRS_EV_ST',B.GRS_EV_ST) AS grsEvStNm
-             , B.GRS_EV_SN     AS grsEvSn    --GRS∆Ú∞°«•
-             , (SELECT sm.EV_SBC_NM  FROM IRIS_GRS_EV_STD_MGMT sm WHERE sm.GRS_EV_SN =  B.GRS_EV_SN AND sm.GRS_EV_SEQ = 0)  AS grsEvSnNm    --GRS∆Ú∞°«•
-             , B.DLBR_PARR_DT  AS dlbrParrDt --Ω…¿«øπ¡§¿œ
+--retrieveGrsEvRslt GRS ÌèâÍ∞Ä ÏÉÅÏÑ∏
+        SELECT
+            A.PRJ_CD                                                                 AS prjCd      --ÌîÑÎ°úÏ†ùÌä∏ÏΩîÎìú
+            ,
+            C.PRJ_NM                                                                 AS prjNm      --ÌîÑÎ°úÏ†ùÌä∏Î™Ö
+            ,
+            A.BIZ_DPT_CD                                                             AS bizDptCd   --ÏÇ¨ÏóÖÎ∂ÄÎ¨∏ÏΩîÎìú
+            ,
+            dbo.fn_getComDtlNm('BIZ_DPT_CD', A.BIZ_DPT_CD)                           AS bizDptNm,
+            A.TSS_ATTR_CD                                                            AS tssAttrCd  --Í≥ºÏ†úÏÜçÏÑ±ÏΩîÎìú
+            ,
+            dbo.fn_getComDtlNm('TSS_ATTR_CD', A.TSS_ATTR_CD)                         AS tssAttrNm,
+            A.TSS_NM                                                                 AS tssNm      --Í≥ºÏ†úÎ™Ö
+            ,
+            B.GRS_EV_ST                                                              AS grsEvSt    --GRSÏÉÅÌÉú
+            ,
+            dbo.fn_getComDtlNm('GRS_EV_ST', B.GRS_EV_ST)                             AS grsEvStNm,
+            B.GRS_EV_SN                                                              AS grsEvSn    --GRSÌèâÍ∞ÄÌëú
+            ,
+            (SELECT sm.EV_SBC_NM
+             FROM IRIS_GRS_EV_STD_MGMT sm
+             WHERE sm.GRS_EV_SN = B.GRS_EV_SN AND sm.GRS_EV_SEQ = 0)                 AS grsEvSnNm    --GRSÌèâÍ∞ÄÌëú
+            ,
+            B.DLBR_PARR_DT                                                           AS dlbrParrDt --Ïã¨ÏùòÏòàÏ†ïÏùº
 
-             , B.DLBR_CRGR     AS dlbrCrgr   --Ω…¿«¥„¥Á¿⁄
-             --, dbo.fn_getSabunName(B.DLBR_CRGR	) AS dlbrCrgrNm
-             , b.sa_sabun_name AS dlbrCrgrNm       --Ω…¿« ¥„¥Á¿⁄
-             , A.TSS_CD        AS tssCd      --∞˙¡¶ƒ⁄µÂ
-             , B.TSS_CD_SN	   AS tssCdSn
-             , A.PGS_STEP_CD   AS pgsStepCd  --¡¯«‡¥‹∞Ëƒ⁄µÂ
-             , A.TSS_SCN_CD    AS tssScnCd   --∞˙¡¶±∏∫–ƒ⁄µÂ
-             , B.EV_TITL			AS evTitl          	--∆Ú∞°¡¶∏Ò
-             , B.CFRN_ATDT_CD_TXT   AS cfrnAtdtCdTxt 	--»∏¿«¬¸ºÆ¿⁄ªÁπ¯
-             , (select stuff((select ',' +
-				  sa_name from IRIS_SSO_USER
-					where sa_sabun_new in  ( SELECT value FROM STRING_SPLIT(convert(nvarchar(4000) ,B.CFRN_ATDT_CD_TXT), ',')  WHERE RTRIM(value) <> '' )
-					order by sa_name
-					FOR XML PATH('')),1,1,''))  AS cfrnAtdtCdTxtNm --»∏¿«¬¸ºÆ¿⁄∏Ì
-			 , B.COMM_TXT           AS commTxt         	--Comments
-          	 , B.ATTC_FIL_ID        AS attcFilId      	--√∑∫Œ∆ƒ¿œ
-             , A.TSS_ST         AS tssSt --∞˙¡¶ªÛ≈¬ƒ⁄µÂ
-             , IIF((SELECT COUNT(*) FROM IRIS_GRS_EV_STD_RSLT_RGST WHERE TSS_CD = B.TSS_CD AND TSS_CD_SN = B.TSS_CD_SN) > 0, 'Y', 'N') AS saveYN
-          FROM IRIS_TSS_MGMT_MST A  /*∞˙¡¶∞¸∏Æ∏∂Ω∫≈Õ*/
-          left JOIN IRIS_PRJ_RSST_MST C  /*«¡∑Œ¡ß∆Æø¨±∏∏∂Ω∫≈Õ*/
-            ON A.PRJ_CD = C.PRJ_CD
-          LEFT JOIN IRIS_GRS_EV_RSLT_RGST B  /*GRS∆Ú∞°∞·∞˙µÓ∑œ*/
-            ON A.TSS_CD = B.TSS_CD
-           AND B.TSS_CD_SN = #{tssCdSn}
-         WHERE A.TSS_CD = #{tssCd}
-		 ]]>
+            ,
+            B.DLBR_CRGR                                                              AS dlbrCrgr   --Ïã¨ÏùòÎã¥ÎãπÏûê
+            --, dbo.fn_getSabunName(B.DLBR_CRGR	) AS dlbrCrgrNm
+            ,
+            b.sa_sabun_name                                                          AS dlbrCrgrNm       --Ïã¨Ïùò Îã¥ÎãπÏûê
+            ,
+            A.TSS_CD                                                                 AS tssCd      --Í≥ºÏ†úÏΩîÎìú
+            ,
+            B.TSS_CD_SN                                                              AS tssCdSn,
+            A.PGS_STEP_CD                                                            AS pgsStepCd  --ÏßÑÌñâÎã®Í≥ÑÏΩîÎìú
+            ,
+            A.TSS_SCN_CD                                                             AS tssScnCd   --Í≥ºÏ†úÍµ¨Î∂ÑÏΩîÎìú
+            ,
+            B.EV_TITL                                                                AS evTitl            --ÌèâÍ∞ÄÏ†úÎ™©
+            ,
+            B.CFRN_ATDT_CD_TXT                                                       AS cfrnAtdtCdTxt    --ÌöåÏùòÏ∞∏ÏÑùÏûêÏÇ¨Î≤à
+            ,
+            (select stuff((select ',' +
+                                  sa_name
+                           from IRIS_SSO_USER
+                           where sa_sabun_new in (SELECT value
+                                                  FROM STRING_SPLIT(convert(nvarchar(4000), B.CFRN_ATDT_CD_TXT), ',')
+                                                  WHERE RTRIM(value) <> '')
+                           order by sa_name
+                           FOR XML PATH ('')), 1, 1, ''))                            AS cfrnAtdtCdTxtNm --ÌöåÏùòÏ∞∏ÏÑùÏûêÎ™Ö
+            ,
+            B.COMM_TXT                                                               AS commTxt            --Comments
+            ,
+            B.ATTC_FIL_ID                                                            AS attcFilId        --Ï≤®Î∂ÄÌååÏùº
+            ,
+            A.TSS_ST                                                                 AS tssSt --Í≥ºÏ†úÏÉÅÌÉúÏΩîÎìú
+            ,
+            IIF((SELECT COUNT(*)
+                 FROM IRIS_GRS_EV_STD_RSLT_RGST
+                 WHERE TSS_CD = B.TSS_CD AND TSS_CD_SN = B.TSS_CD_SN) > 0, 'Y', 'N') AS saveYN
+        FROM IRIS_TSS_MGMT_MST A  /*Í≥ºÏ†úÍ¥ÄÎ¶¨ÎßàÏä§ÌÑ∞*/
+            left JOIN IRIS_PRJ_RSST_MST C  /*ÌîÑÎ°úÏ†ùÌä∏Ïó∞Íµ¨ÎßàÏä§ÌÑ∞*/
+                ON A.PRJ_CD = C.PRJ_CD
+            LEFT JOIN IRIS_GRS_EV_RSLT_RGST B  /*GRSÌèâÍ∞ÄÍ≤∞Í≥ºÎì±Î°ù*/
+                ON A.TSS_CD = B.TSS_CD
+                   AND B.TSS_CD_SN = #{tssCdSn}
+        WHERE A.TSS_CD = #{tssCd}
+        ]]>
 	</select>
-
-
 
 
     <select id="retrieveGrsReqDtlLst" resultType="hashmap">
-		<![CDATA[
-		/*retrieveGrsReqDtlLst*/
-		SELECT	 sm.GRS_EV_SN			AS grsEvSn			   -- GRS ¿œ∑√π¯»£
-				,sm.GRS_EV_SEQ	 		AS grsEvSeq			   -- GRS  º¯π¯
-				,sm.EV_PRVS_NM_1       AS evPrvsNm_1           -- ∆Ú∞°«◊∏Ò∏Ì1
-				,sm.EV_PRVS_NM_2       AS evPrvsNm_2           -- ∆Ú∞°«◊∏Ò∏Ì2
-				,sm.EV_CRTN_NM         AS evCrtnNm             -- ∆Ú∞°±‚¡ÿ∏Ì
-				,sm.EV_SBC_TXT         AS evSbcTxt             -- ∆Ú∞°≥ªøÎ
-				,sm.DTL_SBC_TITL_1     AS dtlSbcTitl_1         -- ªÛºº≥ªøÎ1
-				,sm.DTL_SBC_TITL_2     AS dtlSbcTitl_2         -- ªÛºº≥ªøÎ2
-				,sm.DTL_SBC_TITL_3     AS dtlSbcTitl_3         -- ªÛºº≥ªøÎ3
-				,sm.DTL_SBC_TITL_4     AS dtlSbcTitl_4         -- ªÛºº≥ªøÎ4
-				,sm.DTL_SBC_TITL_5     AS dtlSbcTitl_5         -- ªÛºº≥ªøÎ5
-				,sm.WGVL               AS wgvl                 -- ∞°¡ﬂƒ°
-				,sm.GRS_Y              AS grsY                 -- ≥‚µµ
-				,sm.GRS_TYPE           AS grsType              -- ¿Ø«¸
-				,sm.EV_SBC_NM          AS evSbcNm              -- ≈€«√∏¥∏Ì
-				,sm.USE_YN             AS useYn                -- ªÁøÎø©∫Œ
-				,sm.FRST_RGST_DT       AS frstRgstDt           -- √÷√ µÓ∑œ¿œΩ√
-				,sm.FRST_RGST_ID       AS frstRgstId           -- √÷√ µÓ∑œ¿⁄
-				,sm.LAST_MDFY_DT       AS lastMdfyDt           -- √÷¡æºˆ¡§¿œΩ√
-				,sm.LAST_MDFY_ID       AS lastMdfyId           -- √÷¡æºˆ¡§¿⁄
-				,(SELECT (srr.EV_SCR)
-				    FROM iris_grs_ev_std_rslt_rgst srr
-				   WHERE sm.GRS_EV_SN	=  srr.GRS_EV_SN
-					 AND sm.GRS_EV_SEQ  =  srr.GRS_EV_SEQ
-					 AND srr.TSS_CD   	=  #{tssCd}
-					 AND srr.tss_cd_sn = #{tssCdSn})  AS evScr
-			 FROM IRIS_GRS_EV_STD_MGMT sm
+        <![CDATA[
+--retrieveGrsReqDtlLst GRS ÌèâÍ∞ÄÌëú
+        SELECT
+            sm.GRS_EV_SN                           AS grsEvSn               -- GRS ÏùºÎ†®Î≤àÌò∏
+            ,
+            sm.GRS_EV_SEQ                          AS grsEvSeq               -- GRS  ÏàúÎ≤à
+            ,
+            sm.EV_PRVS_NM_1                        AS evPrvsNm_1           -- ÌèâÍ∞ÄÌï≠Î™©Î™Ö1
+            ,
+            sm.EV_PRVS_NM_2                        AS evPrvsNm_2           -- ÌèâÍ∞ÄÌï≠Î™©Î™Ö2
+            ,
+            sm.EV_CRTN_NM                          AS evCrtnNm             -- ÌèâÍ∞ÄÍ∏∞Ï§ÄÎ™Ö
+            ,
+            sm.EV_SBC_TXT                          AS evSbcTxt             -- ÌèâÍ∞ÄÎÇ¥Ïö©
+            ,
+            sm.DTL_SBC_TITL_1                      AS dtlSbcTitl_1         -- ÏÉÅÏÑ∏ÎÇ¥Ïö©1
+            ,
+            sm.DTL_SBC_TITL_2                      AS dtlSbcTitl_2         -- ÏÉÅÏÑ∏ÎÇ¥Ïö©2
+            ,
+            sm.DTL_SBC_TITL_3                      AS dtlSbcTitl_3         -- ÏÉÅÏÑ∏ÎÇ¥Ïö©3
+            ,
+            sm.DTL_SBC_TITL_4                      AS dtlSbcTitl_4         -- ÏÉÅÏÑ∏ÎÇ¥Ïö©4
+            ,
+            sm.DTL_SBC_TITL_5                      AS dtlSbcTitl_5         -- ÏÉÅÏÑ∏ÎÇ¥Ïö©5
+            ,
+            sm.WGVL                                AS wgvl                 -- Í∞ÄÏ§ëÏπò
+            ,
+            sm.GRS_Y                               AS grsY                 -- ÎÖÑÎèÑ
+            ,
+            sm.GRS_TYPE                            AS grsType              -- Ïú†Ìòï
+            ,
+            sm.EV_SBC_NM                           AS evSbcNm              -- ÌÖúÌîåÎ¶øÎ™Ö
+            ,
+            sm.USE_YN                              AS useYn                -- ÏÇ¨Ïö©Ïó¨Î∂Ä
+            ,
+            sm.FRST_RGST_DT                        AS frstRgstDt           -- ÏµúÏ¥àÎì±Î°ùÏùºÏãú
+            ,
+            sm.FRST_RGST_ID                        AS frstRgstId           -- ÏµúÏ¥àÎì±Î°ùÏûê
+            ,
+            sm.LAST_MDFY_DT                        AS lastMdfyDt           -- ÏµúÏ¢ÖÏàòÏ†ïÏùºÏãú
+            ,
+            sm.LAST_MDFY_ID                        AS lastMdfyId           -- ÏµúÏ¢ÖÏàòÏ†ïÏûê
+            ,
+            (SELECT (srr.EV_SCR)
+             FROM iris_grs_ev_std_rslt_rgst srr
+             WHERE sm.GRS_EV_SN = srr.GRS_EV_SN
+                   AND sm.GRS_EV_SEQ = srr.GRS_EV_SEQ
+                   AND srr.TSS_CD = #{tssCd}
+                   AND srr.tss_cd_sn = #{tssCdSn}) AS evScr
+        FROM IRIS_GRS_EV_STD_MGMT sm
 		 ]]>
 			WHERE sm.GRS_EV_SN = '${grsEvSn}'
-			AND sm.GRS_EV_SEQ != 0
+              AND sm.GRS_EV_SEQ != 0
 
+    </select>
+
+
+    <!-- GRSÌèâÍ∞ÄÌï≠Î™© ÎÖÑÎèÑ Ï°∞Ìöå -->
+    <select id="retrieveGrsEvStdGrsY" resultType="hashmap">
+		<![CDATA[
+--retrieveGrsEvStdGrsY GRSÌèâÍ∞ÄÌï≠Î™© ÎÖÑÎèÑ Ï°∞Ìöå
+        SELECT DISTINCT GRS_Y AS grsY -- ÎÖÑÎèÑ
+        FROM IRIS_GRS_EV_STD_MGMT /*GRSÌèâÍ∞ÄÌëúÏ§Ä*/
+        WHERE GRS_Y IS NOT NULL
+        ]]>
 	</select>
 
 
-
-
-    <!-- GRS∆Ú∞°«◊∏Ò ≥‚µµ ¡∂»∏ -->
-	<select id="retrieveGrsEvStdGrsY" resultType="hashmap">
-		<![CDATA[
-        SELECT DISTINCT
-               GRS_Y AS grsY -- ≥‚µµ
-          FROM IRIS_GRS_EV_STD_MGMT  /*GRS∆Ú∞°«•¡ÿ*/
-         WHERE GRS_Y IS NOT NULL
-		 ]]>
-	</select>
-
-
-    <!-- GRS∆Ú∞°«◊∏Ò ∏Ò∑œ ¡∂»∏ -->
-	<select id="retrieveGrsEvStd" resultType="hashmap">
-		<![CDATA[
-		/*retrieveGrsEvStd*/
-        SELECT GRS_EV_SN      AS grsEvSn     --∆Ú∞°«•¿œ∑√π¯»£
-             , GRS_EV_SEQ     AS grsEvSeq    --∆Ú∞°SEQ
-             , EV_PRVS_NM_1   AS evPrvsNm1   --∆Ú∞°«◊∏Ò∏Ì1
-             , EV_PRVS_NM_2   AS evPrvsNm2   --∆Ú∞°«◊∏Ò∏Ì2
-             , EV_CRTN_NM     AS evCrtnNm    --∆Ú∞°±‚¡ÿ∏Ì
-             , EV_SBC_TXT     AS evSbcTxt    --∆Ú∞°≥ªøÎ
-             , DTL_SBC_TITL_1 AS dtlSbcTitl1 --ªÛºº≥ªøÎ1
-             , DTL_SBC_TITL_2 AS dtlSbcTitl2 --ªÛºº≥ªøÎ2
-             , DTL_SBC_TITL_3 AS dtlSbcTitl3 --ªÛºº≥ªøÎ3
-             , DTL_SBC_TITL_4 AS dtlSbcTitl4 --ªÛºº≥ªøÎ4
-             , DTL_SBC_TITL_5 AS dtlSbcTitl5 --ªÛºº≥ªøÎ5
-             , WGVL           AS wgvl        --∞°¡ﬂƒ°
-             , GRS_Y          AS grsY        --≥‚µµ
-             , GRS_TYPE       AS grsType     --¿Ø«¸
-             , EV_SBC_NM      AS evSbcNm     --≈€«√∏¥∏Ì
-             , USE_YN         AS useYn       --ªÁøÎø©∫Œ
-             , FRST_RGST_DT   AS frstRgstDt  --√÷√ µÓ∑œ¿œΩ√
-             , FRST_RGST_ID   AS frstRgstId  --√÷√ µÓ∑œ¿⁄
-             , LAST_MDFY_DT   AS lastMdfyDt  --√÷¡æºˆ¡§¿œΩ√
-             , LAST_MDFY_ID   AS lastMdfyId  --√÷¡æºˆ¡§¿⁄
-          FROM IRIS_GRS_EV_STD_MGMT  /*GRS∆Ú∞°«•¡ÿ*/
+    <!-- GRSÌèâÍ∞ÄÌï≠Î™© Î™©Î°ù Ï°∞Ìöå -->
+    <select id="retrieveGrsEvStd" resultType="hashmap">
+        <![CDATA[
+--retrieveGrsEvStd GRSÌèâÍ∞ÄÌï≠Î™© Î™©Î°ù Ï°∞Ìöå
+        SELECT GRS_EV_SN      AS grsEvSn     --ÌèâÍ∞ÄÌëúÏùºÎ†®Î≤àÌò∏
+             , GRS_EV_SEQ     AS grsEvSeq    --ÌèâÍ∞ÄSEQ
+             , EV_PRVS_NM_1   AS evPrvsNm1   --ÌèâÍ∞ÄÌï≠Î™©Î™Ö1
+             , EV_PRVS_NM_2   AS evPrvsNm2   --ÌèâÍ∞ÄÌï≠Î™©Î™Ö2
+             , EV_CRTN_NM     AS evCrtnNm    --ÌèâÍ∞ÄÍ∏∞Ï§ÄÎ™Ö
+             , EV_SBC_TXT     AS evSbcTxt    --ÌèâÍ∞ÄÎÇ¥Ïö©
+             , DTL_SBC_TITL_1 AS dtlSbcTitl1 --ÏÉÅÏÑ∏ÎÇ¥Ïö©1
+             , DTL_SBC_TITL_2 AS dtlSbcTitl2 --ÏÉÅÏÑ∏ÎÇ¥Ïö©2
+             , DTL_SBC_TITL_3 AS dtlSbcTitl3 --ÏÉÅÏÑ∏ÎÇ¥Ïö©3
+             , DTL_SBC_TITL_4 AS dtlSbcTitl4 --ÏÉÅÏÑ∏ÎÇ¥Ïö©4
+             , DTL_SBC_TITL_5 AS dtlSbcTitl5 --ÏÉÅÏÑ∏ÎÇ¥Ïö©5
+             , WGVL           AS wgvl        --Í∞ÄÏ§ëÏπò
+             , GRS_Y          AS grsY        --ÎÖÑÎèÑ
+             , GRS_TYPE       AS grsType     --Ïú†Ìòï
+             , EV_SBC_NM      AS evSbcNm     --ÌÖúÌîåÎ¶øÎ™Ö
+             , USE_YN         AS useYn       --ÏÇ¨Ïö©Ïó¨Î∂Ä
+             , FRST_RGST_DT   AS frstRgstDt  --ÏµúÏ¥àÎì±Î°ùÏùºÏãú
+             , FRST_RGST_ID   AS frstRgstId  --ÏµúÏ¥àÎì±Î°ùÏûê
+             , LAST_MDFY_DT   AS lastMdfyDt  --ÏµúÏ¢ÖÏàòÏ†ïÏùºÏãú
+             , LAST_MDFY_ID   AS lastMdfyId  --ÏµúÏ¢ÖÏàòÏ†ïÏûê
+          FROM IRIS_GRS_EV_STD_MGMT  /*GRSÌèâÍ∞ÄÌëúÏ§Ä*/
          WHERE GRS_EV_SEQ = 0
          AND   USE_YN ='Y'
 		 ]]>
-		  <if test="grsY != null and !grsY.equals('')">
-           AND GRS_Y = #{grsY}
+        <if test="grsY != null and !grsY.equals('')">
+            AND GRS_Y = #{grsY}
         </if>
         <if test="grsType != null and !grsType.equals('')">
-           AND GRS_TYPE = #{grsType}
+            AND GRS_TYPE = #{grsType}
         </if>
         <if test="useYn != null and !useYn.equals('')">
-           AND USE_YN = #{useYn}
+            AND USE_YN = #{useYn}
         </if>
         <if test="evSbcNm != null and !evSbcNm.equals('')">
-           AND EV_SBC_NM LIKE '%'+#{evSbcNm}+'%'
+            AND EV_SBC_NM LIKE '%'+#{evSbcNm}+'%'
         </if>
-          order by GRS_Y desc
-	</select>
+        order by GRS_Y desc
+    </select>
 
 
-    <!-- GRS∆Ú∞°«◊∏Ò ªÛºº ¡∂»∏ -->
-	<select id="retrieveGrsEvStdDtl" resultType="hashmap">
+    <!-- GRSÌèâÍ∞ÄÌï≠Î™© ÏÉÅÏÑ∏ Ï°∞Ìöå -->
+    <select id="retrieveGrsEvStdDtl" resultType="hashmap">
 		<![CDATA[
-        SELECT A.GRS_EV_SN      AS grsEvSn     --∆Ú∞°«•¿œ∑√π¯»£
-             , A.GRS_EV_SEQ     AS grsEvSeq    --∆Ú∞°SEQ
-             , A.EV_PRVS_NM_1   AS evPrvsNm1   --∆Ú∞°«◊∏Ò∏Ì1
-             , A.EV_PRVS_NM_2   AS evPrvsNm2   --∆Ú∞°«◊∏Ò∏Ì2
-             , A.EV_CRTN_NM     AS evCrtnNm    --∆Ú∞°±‚¡ÿ∏Ì
-             , A.EV_SBC_TXT     AS evSbcTxt    --∆Ú∞°≥ªøÎ
-             , A.DTL_SBC_TITL_1 AS dtlSbcTitl1 --ªÛºº≥ªøÎ1
-             , A.DTL_SBC_TITL_2 AS dtlSbcTitl2 --ªÛºº≥ªøÎ2
-             , A.DTL_SBC_TITL_3 AS dtlSbcTitl3 --ªÛºº≥ªøÎ3
-             , A.DTL_SBC_TITL_4 AS dtlSbcTitl4 --ªÛºº≥ªøÎ4
-             , A.DTL_SBC_TITL_5 AS dtlSbcTitl5 --ªÛºº≥ªøÎ5
-             , A.WGVL           AS wgvl        --∞°¡ﬂƒ°
-             , B.GRS_Y          AS grsY        --≥‚µµ
-             , B.GRS_TYPE       AS grsType     --¿Ø«¸
-             , B.EV_SBC_NM      AS evSbcNm     --≈€«√∏¥∏Ì
-             , B.USE_YN         AS useYn       --ªÁøÎø©∫Œ
-          FROM IRIS_GRS_EV_STD_MGMT B  /*GRS∆Ú∞°«•¡ÿ*/
-          LEFT JOIN IRIS_GRS_EV_STD_MGMT A  /*GRS∆Ú∞°«•¡ÿ*/
-            ON B.GRS_EV_SN = A.GRS_EV_SN
-           AND A.GRS_EV_SEQ != '0'
-         WHERE B.GRS_EV_SN = #{grsEvSn}
-           AND B.GRS_EV_SEQ = '0'
-		 ]]>
+--retrieveGrsEvStdDtl GRSÌèâÍ∞ÄÌï≠Î™© ÏÉÅÏÑ∏ Ï°∞Ìöå
+        SELECT
+            A.GRS_EV_SN      AS grsEvSn     --ÌèâÍ∞ÄÌëúÏùºÎ†®Î≤àÌò∏
+            ,
+            A.GRS_EV_SEQ     AS grsEvSeq    --ÌèâÍ∞ÄSEQ
+            ,
+            A.EV_PRVS_NM_1   AS evPrvsNm1   --ÌèâÍ∞ÄÌï≠Î™©Î™Ö1
+            ,
+            A.EV_PRVS_NM_2   AS evPrvsNm2   --ÌèâÍ∞ÄÌï≠Î™©Î™Ö2
+            ,
+            A.EV_CRTN_NM     AS evCrtnNm    --ÌèâÍ∞ÄÍ∏∞Ï§ÄÎ™Ö
+            ,
+            A.EV_SBC_TXT     AS evSbcTxt    --ÌèâÍ∞ÄÎÇ¥Ïö©
+            ,
+            A.DTL_SBC_TITL_1 AS dtlSbcTitl1 --ÏÉÅÏÑ∏ÎÇ¥Ïö©1
+            ,
+            A.DTL_SBC_TITL_2 AS dtlSbcTitl2 --ÏÉÅÏÑ∏ÎÇ¥Ïö©2
+            ,
+            A.DTL_SBC_TITL_3 AS dtlSbcTitl3 --ÏÉÅÏÑ∏ÎÇ¥Ïö©3
+            ,
+            A.DTL_SBC_TITL_4 AS dtlSbcTitl4 --ÏÉÅÏÑ∏ÎÇ¥Ïö©4
+            ,
+            A.DTL_SBC_TITL_5 AS dtlSbcTitl5 --ÏÉÅÏÑ∏ÎÇ¥Ïö©5
+            ,
+            A.WGVL           AS wgvl        --Í∞ÄÏ§ëÏπò
+            ,
+            B.GRS_Y          AS grsY        --ÎÖÑÎèÑ
+            ,
+            B.GRS_TYPE       AS grsType     --Ïú†Ìòï
+            ,
+            B.EV_SBC_NM      AS evSbcNm     --ÌÖúÌîåÎ¶øÎ™Ö
+            ,
+            B.USE_YN         AS useYn --ÏÇ¨Ïö©Ïó¨Î∂Ä
+        FROM IRIS_GRS_EV_STD_MGMT B  /*GRSÌèâÍ∞ÄÌëúÏ§Ä*/
+            LEFT JOIN IRIS_GRS_EV_STD_MGMT A  /*GRSÌèâÍ∞ÄÌëúÏ§Ä*/
+                ON B.GRS_EV_SN = A.GRS_EV_SN
+                   AND A.GRS_EV_SEQ != '0'
+        WHERE B.GRS_EV_SN = #{grsEvSn}
+              AND B.GRS_EV_SEQ = '0'
+        ]]>
 	</select>
 
 
-	<!-- GRS∆Ú∞°∞·∞˙ TODO»£√‚ -->
-	<update id="insertGrsEvRsltTodo" parameterType="map">
+    <!-- GRSÌèâÍ∞ÄÍ≤∞Í≥º TODOÌò∏Ï∂ú -->
+    <update id="insertGrsEvRsltTodo" parameterType="map">
+--insertGrsEvRsltTodo GRSÌèâÍ∞ÄÍ≤∞Í≥º TODOÌò∏Ï∂ú
         EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'GRS', #{reqNo}, #{reqSabun}
     </update>
 
 
-    <!-- GRS∆Ú∞°∞·∞˙ ¿˙¿Â -->
+    <!-- GRSÌèâÍ∞ÄÍ≤∞Í≥º Ï†ÄÏû• -->
     <insert id="insertGrsEvRslt">
+--insertGrsEvRslt GRSÌèâÍ∞ÄÍ≤∞Í≥º Ï†ÄÏû•
         <selectKey keyProperty="tssCdSn" resultType="String" order="BEFORE">
-        <![CDATA[
+            <![CDATA[
             SELECT ISNULL(MAX(X.TSS_CD_SN), 0) + 1
               FROM IRIS_GRS_EV_RSLT_RGST X
              WHERE X.TSS_CD = #{tssCd}
@@ -275,180 +353,193 @@
         </selectKey>
         <!-- insertGrsEvRslt -->
         INSERT
-          INTO IRIS_GRS_EV_RSLT_RGST  /*GRS∆Ú∞°∞·∞˙µÓ∑œ*/
-             ( TSS_CD           --∞˙¡¶ƒ⁄µÂ
-             , TSS_CD_SN
-             , EV_TITL          --∆Ú∞°¡¶∏Ò
-             , DLBR_CRGR        --Ω…¿«¥„¥Á¿⁄
-             , DLBR_PARR_DT     --Ω…¿«øπ¡§¿œ
-             , GRS_EV_ST        --GRSªÛ≈¬
-             , CFRN_ATDT_CD_TXT --»∏¿«¬¸ºÆ¿⁄ƒ⁄µÂ
-             , COMM_TXT         --Comments
-             , GRS_EV_SN        --∆Ú∞°«•
-             , ATTC_FIL_ID
-             , REQ_SABUN        --ø‰√ª¿⁄ªÁπ¯
-             , REQ_DATE         --ø‰√ª¿œ
-             , FRST_RGST_DT     --√÷√ µÓ∑œ¿œΩ√
-             , FRST_RGST_ID     --√÷√ µÓ∑œ¿⁄
-             , LAST_MDFY_DT     --√÷¡æºˆ¡§¿œΩ√
-             , LAST_MDFY_ID     --√÷¡æºˆ¡§¿⁄
-             , SA_SABUN_NAME
-             )
+        INTO IRIS_GRS_EV_RSLT_RGST /*GRSÌèâÍ∞ÄÍ≤∞Í≥ºÎì±Î°ù*/
+        ( TSS_CD --Í≥ºÏ†úÏΩîÎìú
+        , TSS_CD_SN
+        , EV_TITL --ÌèâÍ∞ÄÏ†úÎ™©
+        , DLBR_CRGR --Ïã¨ÏùòÎã¥ÎãπÏûê
+        , DLBR_PARR_DT --Ïã¨ÏùòÏòàÏ†ïÏùº
+        , GRS_EV_ST --GRSÏÉÅÌÉú
+        , CFRN_ATDT_CD_TXT --ÌöåÏùòÏ∞∏ÏÑùÏûêÏΩîÎìú
+        , COMM_TXT --Comments
+        , GRS_EV_SN --ÌèâÍ∞ÄÌëú
+        , ATTC_FIL_ID
+        , REQ_SABUN --ÏöîÏ≤≠ÏûêÏÇ¨Î≤à
+        , REQ_DATE --ÏöîÏ≤≠Ïùº
+        , FRST_RGST_DT --ÏµúÏ¥àÎì±Î°ùÏùºÏãú
+        , FRST_RGST_ID --ÏµúÏ¥àÎì±Î°ùÏûê
+        , LAST_MDFY_DT --ÏµúÏ¢ÖÏàòÏ†ïÏùºÏãú
+        , LAST_MDFY_ID --ÏµúÏ¢ÖÏàòÏ†ïÏûê
+        , SA_SABUN_NAME
+        )
         VALUES
-             ( #{tssCd}
-             , #{tssCdSn}
-             , #{evTitl}
-             , #{dlbrCrgr}
-             , #{dlbrParrDt}
-             , #{grsEvSt}
-             , #{cfrnAtdtCdTxt}
-             , #{commTxt}
-             , #{grsEvSn}
-             , #{attcFilId}
-             , #{reqSabun}
-             , GETDATE()
-             , GETDATE()
-             , #{userId}
-             , GETDATE()
-             , #{userId}
-             , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
-             )
+        ( #{tssCd}
+        , #{tssCdSn}
+        , #{evTitl}
+        , #{dlbrCrgr}
+        , #{dlbrParrDt}
+        , #{grsEvSt}
+        , #{cfrnAtdtCdTxt}
+        , #{commTxt}
+        , #{grsEvSn}
+        , #{attcFilId}
+        , #{reqSabun}
+        , GETDATE()
+        , GETDATE()
+        , #{userId}
+        , GETDATE()
+        , #{userId}
+        , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
+        )
     </insert>
 
 
-    <!-- GRS∆Ú∞°∞·∞˙ ¿˙¿Â -->
+    <!-- GRSÌèâÍ∞ÄÍ≤∞Í≥º Ï†ÄÏû• -->
     <update id="updateGrsEvRslt">
-<!-- updateGrsEvRslt -->
-          MERGE IRIS_GRS_EV_RSLT_RGST A  /*GRS∆Ú∞°∞·∞˙µÓ∑œ*/
-         USING (SELECT #{tssCd} AS TSS_CD, ISNULL(#{tssCdSn}, 0) AS TSS_CD_SN) B
-            ON A.TSS_CD    = B.TSS_CD
-           AND A.TSS_CD_SN = B.TSS_CD_SN
-          WHEN NOT MATCHED THEN
+        --updateGrsEvRslt GRSÌèâÍ∞ÄÍ≤∞Í≥ºÎì±Î°ù
+        MERGE IRIS_GRS_EV_RSLT_RGST A
+        USING (SELECT #{tssCd} AS TSS_CD, ISNULL(#{tssCdSn}, 0) AS TSS_CD_SN) B
+        ON A.TSS_CD = B.TSS_CD
+        AND A.TSS_CD_SN = B.TSS_CD_SN
+        WHEN NOT MATCHED THEN
         INSERT
-             ( TSS_CD           --∞˙¡¶ƒ⁄µÂ
-             , TSS_CD_SN
-             , EV_TITL          --∆Ú∞°¡¶∏Ò
-             , DLBR_CRGR        --Ω…¿«¥„¥Á¿⁄
-             , DLBR_PARR_DT     --Ω…¿«øπ¡§¿œ
-              <if test="grsEvSt != null and !grsEvSt.equals('')">
-             , GRS_EV_ST        --GRSªÛ≈¬
-             </if>
-             , CFRN_ATDT_CD_TXT --»∏¿«¬¸ºÆ¿⁄ƒ⁄µÂ
-             , COMM_TXT         --Comments
-             , GRS_EV_SN        --∆Ú∞°«•
-             , ATTC_FIL_ID
-             , REQ_SABUN        --ø‰√ª¿⁄ªÁπ¯
-             , REQ_DATE         --ø‰√ª¿œ
-             , FRST_RGST_DT     --√÷√ µÓ∑œ¿œΩ√
-             , FRST_RGST_ID     --√÷√ µÓ∑œ¿⁄
-             , LAST_MDFY_DT     --√÷¡æºˆ¡§¿œΩ√
-             , LAST_MDFY_ID     --√÷¡æºˆ¡§¿⁄
-             , SA_SABUN_NAME
-             )
+        ( TSS_CD --Í≥ºÏ†úÏΩîÎìú
+        , TSS_CD_SN
+        , EV_TITL --ÌèâÍ∞ÄÏ†úÎ™©
+        , DLBR_CRGR --Ïã¨ÏùòÎã¥ÎãπÏûê
+        , DLBR_PARR_DT --Ïã¨ÏùòÏòàÏ†ïÏùº
+        <if test="grsEvSt != null and !grsEvSt.equals('')">
+            , GRS_EV_ST --GRSÏÉÅÌÉú
+        </if>
+        , CFRN_ATDT_CD_TXT --ÌöåÏùòÏ∞∏ÏÑùÏûêÏΩîÎìú
+        , COMM_TXT --Comments
+        , GRS_EV_SN --ÌèâÍ∞ÄÌëú
+        , ATTC_FIL_ID
+        , REQ_SABUN --ÏöîÏ≤≠ÏûêÏÇ¨Î≤à
+        , REQ_DATE --ÏöîÏ≤≠Ïùº
+        , FRST_RGST_DT --ÏµúÏ¥àÎì±Î°ùÏùºÏãú
+        , FRST_RGST_ID --ÏµúÏ¥àÎì±Î°ùÏûê
+        , LAST_MDFY_DT --ÏµúÏ¢ÖÏàòÏ†ïÏùºÏãú
+        , LAST_MDFY_ID --ÏµúÏ¢ÖÏàòÏ†ïÏûê
+        , SA_SABUN_NAME
+        )
         VALUES
-             ( #{tssCd}
-             , (SELECT ISNULL(MAX(X.TSS_CD_SN), 0) + 1 FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = #{tssCd})
-             , #{evTitl}
-             , #{dlbrCrgr}
-             , #{dlbrParrDt}
-             <if test="grsEvSt != null and !grsEvSt.equals('')">
-             , #{grsEvSt}
-             </if>
-             , #{cfrnAtdtCdTxt}
-             , #{commTxt}
-             , #{grsEvSn}
-             , #{attcFilId}
-             , #{reqSabun}
-             , GETDATE()
-             , GETDATE()
-             , #{userId}
-             , GETDATE()
-             , #{userId}
-             , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
-             )
-          WHEN MATCHED THEN
+        ( #{tssCd}
+        , (SELECT ISNULL(MAX(X.TSS_CD_SN), 0) + 1 FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = #{tssCd})
+        , #{evTitl}
+        , #{dlbrCrgr}
+        , #{dlbrParrDt}
+        <if test="grsEvSt != null and !grsEvSt.equals('')">
+            , #{grsEvSt}
+        </if>
+        , #{cfrnAtdtCdTxt}
+        , #{commTxt}
+        , #{grsEvSn}
+        , #{attcFilId}
+        , #{reqSabun}
+        , GETDATE()
+        , GETDATE()
+        , #{userId}
+        , GETDATE()
+        , #{userId}
+        , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
+        )
+        WHEN MATCHED THEN
         UPDATE
-           SET EV_TITL          = #{evTitl}
-             , DLBR_CRGR        = #{dlbrCrgr}
-             , DLBR_PARR_DT     = #{dlbrParrDt}
-            <if test="grsEvSt != null and !grsEvSt.equals('')">
-           , GRS_EV_ST        = #{grsEvSt}
-        	</if>
-             , CFRN_ATDT_CD_TXT = #{cfrnAtdtCdTxt}
-             , COMM_TXT         = #{commTxt}
-             , GRS_EV_SN        = #{grsEvSn}
-             , ATTC_FIL_ID      = #{attcFilId}
-             , LAST_MDFY_DT     = GETDATE()
-             , LAST_MDFY_ID     = #{userId}
-             , SA_SABUN_NAME    = (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
-             ;
+        SET EV_TITL = #{evTitl}
+        , DLBR_CRGR = #{dlbrCrgr}
+        , DLBR_PARR_DT = #{dlbrParrDt}
+        <if test="grsEvSt != null and !grsEvSt.equals('')">
+            , GRS_EV_ST = #{grsEvSt}
+        </if>
+        , CFRN_ATDT_CD_TXT = #{cfrnAtdtCdTxt}
+        , COMM_TXT = #{commTxt}
+        , GRS_EV_SN = #{grsEvSn}
+        , ATTC_FIL_ID = #{attcFilId}
+        , LAST_MDFY_DT = GETDATE()
+        , LAST_MDFY_ID = #{userId}
+        , SA_SABUN_NAME = (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
+        ;
     </update>
 
 
-    <!-- GRS∆Ú∞°«•¡ÿ∞·∞˙ ¿˙¿Â -->
+    <!-- GRSÌèâÍ∞ÄÌëúÏ§ÄÍ≤∞Í≥º Ï†ÄÏû• -->
     <update id="updateGrsEvStdRslt">
     <![CDATA[
-         MERGE IRIS_GRS_EV_STD_RSLT_RGST A  /*GRS∆Ú∞°«•¡ÿ∞·∞˙µÓ∑œ*/
-         USING (SELECT #{tssCd} AS TSS_CD, #{grsEvSn} AS GRS_EV_SN, #{grsEvSeq} AS GRS_EV_SEQ, ISNULL(#{tssCdSn}, 0) AS TSS_CD_SN) B
-            ON  A.TSS_CD 		= B.TSS_CD
-            AND A.TSS_CD_SN     = B.TSS_CD_SN
-            AND A.GRS_EV_SN 	= B.GRS_EV_SN
-            AND A.GRS_EV_SEQ 	= B.GRS_EV_SEQ
-          WHEN NOT MATCHED THEN
-        INSERT
-             ( TSS_CD       --∞˙¡¶ƒ⁄µÂ
-             , TSS_CD_SN
-             , GRS_EV_SN    --∆Ú∞°«•¿œ∑√π¯»£
-             , GRS_EV_SEQ   --∆Ú∞°SEQ
-             , EV_SCR       --∆Ú∞°¡°ºˆ
-             , FRST_RGST_DT --√÷√ µÓ∑œ¿œΩ√
-             , FRST_RGST_ID --√÷√ µÓ∑œ¿⁄
-             , LAST_MDFY_DT --√÷¡æºˆ¡§¿œΩ√
-             , LAST_MDFY_ID --√÷¡æºˆ¡§¿⁄
-             )
-        VALUES
-             ( #{tssCd}
-             , #{tssCdSn}
-             , #{grsEvSn}
-             , #{grsEvSeq}
-             , CONVERT(numeric(5,2), CASE WHEN #{evScr} = '' THEN '0' ELSE #{evScr} END)
-             , GETDATE()
-             , #{userId}
-             , GETDATE()
-             , #{userId}
-             )
-          WHEN MATCHED THEN
-        UPDATE
-           SET EV_SCR       = CONVERT(numeric(5,2), CASE WHEN #{evScr} = '' THEN '0' ELSE #{evScr} END)
-             , LAST_MDFY_DT = GETDATE()
-             , LAST_MDFY_ID = #{userId}
-             ;
-    ]]>
+--updateGrsEvStdRslt GRSÌèâÍ∞ÄÌëúÏ§ÄÍ≤∞Í≥º Ï†ÄÏû•
+        MERGE IRIS_GRS_EV_STD_RSLT_RGST A  /*GRSÌèâÍ∞ÄÌëúÏ§ÄÍ≤∞Í≥ºÎì±Î°ù*/
+        USING (SELECT
+                   #{tssCd}              AS TSS_CD,
+                   #{grsEvSn}            AS GRS_EV_SN,
+                   #{grsEvSeq}           AS GRS_EV_SEQ,
+                   ISNULL(#{tssCdSn}, 0) AS TSS_CD_SN) B
+        ON A.TSS_CD = B.TSS_CD
+           AND A.TSS_CD_SN = B.TSS_CD_SN
+           AND A.GRS_EV_SN = B.GRS_EV_SN
+           AND A.GRS_EV_SEQ = B.GRS_EV_SEQ
+        WHEN NOT MATCHED THEN
+            INSERT
+            (TSS_CD       --Í≥ºÏ†úÏΩîÎìú
+                , TSS_CD_SN
+                , GRS_EV_SN    --ÌèâÍ∞ÄÌëúÏùºÎ†®Î≤àÌò∏
+                , GRS_EV_SEQ   --ÌèâÍ∞ÄSEQ
+                , EV_SCR       --ÌèâÍ∞ÄÏ†êÏàò
+                , FRST_RGST_DT --ÏµúÏ¥àÎì±Î°ùÏùºÏãú
+                , FRST_RGST_ID --ÏµúÏ¥àÎì±Î°ùÏûê
+                , LAST_MDFY_DT --ÏµúÏ¢ÖÏàòÏ†ïÏùºÏãú
+                , LAST_MDFY_ID --ÏµúÏ¢ÖÏàòÏ†ïÏûê
+            )
+            VALUES
+                (#{tssCd}
+                    , #{tssCdSn}
+                    , #{grsEvSn}
+                    , #{grsEvSeq}
+                    , CONVERT(numeric(5, 2), CASE WHEN #{evScr} = ''
+                    THEN '0'
+                                             ELSE #{evScr} END)
+                    , GETDATE()
+                    , #{userId}
+                    , GETDATE()
+                    , #{userId}
+                )
+        WHEN MATCHED THEN
+            UPDATE
+            SET EV_SCR         = CONVERT(numeric(5, 2), CASE WHEN #{evScr} = ''
+                THEN '0'
+                                                        ELSE #{evScr} END)
+                , LAST_MDFY_DT = GETDATE()
+                , LAST_MDFY_ID = #{userId}
+        ;
+        ]]>
     </update>
 
-    <!-- GRS ∆Ú∞° øœ∑· ∏ﬁ¿œ ¡§∫∏  -->
+    <!-- GRS ÌèâÍ∞Ä ÏôÑÎ£å Î©îÏùº Ï†ïÎ≥¥  -->
     <select id="retrieveGrsMailInfo" resultType="hashmap">
     	<![CDATA[
-    	select  (select sa_mail from IRIS_SSO_USER where sa_sabun_new = a.sa_sabun_new) as saMail
-		       ,b.GRS_EV_ST as grsCd
-			   ,dbo.fn_getComDtlNm('GRS_EV_ST',b.GRS_EV_ST) as grsNm
-		from   IRIS_TSS_MGMT_MST a
-		       inner join IRIS_GRS_EV_RSLT_RGST b
-			   on b.TSS_CD = a.TSS_CD
-		where  a.tss_cd = #{tssCd}
-		and    a.tss_st = '102'
-		and    b.TSS_CD_SN   = ( select max( TSS_CD_SN)
-								 from  IRIS_GRS_EV_RSLT_RGST
-								 where  tss_cd = #{tssCd}
-								)
-    	]]>
+--retrieveGrsMailInfo GRS ÌèâÍ∞Ä ÏôÑÎ£å Î©îÏùº Ï†ïÎ≥¥
+        select
+            (select sa_mail
+             from IRIS_SSO_USER
+             where sa_sabun_new = a.sa_sabun_new)        as saMail,
+            b.GRS_EV_ST                                  as grsCd,
+            dbo.fn_getComDtlNm('GRS_EV_ST', b.GRS_EV_ST) as grsNm
+        from IRIS_TSS_MGMT_MST a
+            inner join IRIS_GRS_EV_RSLT_RGST b
+                on b.TSS_CD = a.TSS_CD
+        where a.tss_cd = #{tssCd}
+              and a.tss_st = '102'
+              and b.TSS_CD_SN = (select max(TSS_CD_SN)
+                                 from IRIS_GRS_EV_RSLT_RGST
+                                 where tss_cd = #{tssCd}
+        )
+        ]]>
     </select>
 
 
-
-    <!-- GRS ∆Ú∞° ∏Ò∑œ ¡∂»∏ -->
+    <!-- GRS ÌèâÍ∞Ä Î™©Î°ù Ï°∞Ìöå -->
     <select id="selectGrsList" resultType="hashmap">
-	    <![CDATA[
+        <![CDATA[
+--selectGrsList GRS ÌèâÍ∞Ä Î™©Î°ù Ï°∞Ìöå
 		SELECT
 			TSS_CD AS tssCd,
 			WBS_CD AS wbsCd,
@@ -484,39 +575,40 @@
 			LAST_MDFY_ID AS lastMdfyId
   		FROM dbo.IRIS_GRS_MGMT_MST GMM
     	]]>
-    	<where>
-			<if test="stssScnCd != null and stssScnCd != 'null' and stssScnCd != ''">
-				  AND TSS_SCN_CD = #{stssScnCd}
-			</if>
-			<if test="stssCd != null and stssCd != 'null' and stssCd != ''">
-				  AND TSS_CD LIKE  '%'+#{stssCd}+'%'
-			</if>
-			<if test="tssCd != null and tssCd != 'null' and tssCd != ''">
-				  AND TSS_CD =  #{tssCd}
-			</if>
-			<if test="stssNm != null and stssNm != 'null' and stssNm != ''">
-				  AND TSS_NM LIKE  '%'+#{stssNm}+'%'
-			</if>
-			<if test="sprjNm != null and sprjNm != 'null' and sprjNm != ''">
-				  AND PRJ_NM LIKE  '%'+#{sprjNm}+'%'
-			</if>
-			<if test="ssaSabunNm != null and ssaSabunNm != 'null' and ssaSabunNm != ''">
-				  AND SA_SABUN_NM LIKE  '%'+#{ssaSabunNm}+'%'
-			</if>
-    	</where>
-    	ORDER BY FRST_RGST_DT DESC
+        <where>
+            <if test="stssScnCd != null and stssScnCd != 'null' and stssScnCd != ''">
+                AND TSS_SCN_CD = #{stssScnCd}
+            </if>
+            <if test="stssCd != null and stssCd != 'null' and stssCd != ''">
+                AND TSS_CD LIKE '%'+#{stssCd}+'%'
+            </if>
+            <if test="tssCd != null and tssCd != 'null' and tssCd != ''">
+                AND TSS_CD = #{tssCd}
+            </if>
+            <if test="stssNm != null and stssNm != 'null' and stssNm != ''">
+                AND TSS_NM LIKE '%'+#{stssNm}+'%'
+            </if>
+            <if test="sprjNm != null and sprjNm != 'null' and sprjNm != ''">
+                AND PRJ_NM LIKE '%'+#{sprjNm}+'%'
+            </if>
+            <if test="ssaSabunNm != null and ssaSabunNm != 'null' and ssaSabunNm != ''">
+                AND SA_SABUN_NM LIKE '%'+#{ssaSabunNm}+'%'
+            </if>
+        </where>
+        ORDER BY FRST_RGST_DT DESC
     </select>
 
-    <!-- GRS ±‚∫ª ¡§∫∏ µÓ∑œ/ºˆ¡§ -->
+    <!-- GRS Í∏∞Î≥∏ Ï†ïÎ≥¥ Îì±Î°ù/ÏàòÏ†ï -->
     <insert id="updateGrsInfo">
-	    <![CDATA[
+        <![CDATA[
+--updateGrsInfo GRS Í∏∞Î≥∏ Ï†ïÎ≥¥ Îì±Î°ù/ÏàòÏ†ï
 MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
     USING (SELECT #{tssCd} AS TSS_CD) src
     ON (tbl.TSS_CD = src.TSS_CD)
     WHEN NOT MATCHED THEN
         ]]>
         <selectKey keyProperty="newTssCd" resultType="String" order="BEFORE">
-        <![CDATA[
+            <![CDATA[
             SELECT #{pkWbsCd} + REPLICATE('0', 4 - LEN(COUNT(X.TSS_CD)+1)) + CAST(COUNT(X.TSS_CD) + 1 AS NVARCHAR(4))
               FROM dbo.IRIS_GRS_MGMT_MST X
              WHERE X.PK_WBS_CD = #{pkWbsCd}
@@ -576,7 +668,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	           #{tssType},
 	           #{smrSmryTxt},
 	           #{smrGoalTxt},
-				iif(isnumeric(#{nprodSalsPlnY})=0,0,#{nprodSalsPlnY}),	-- º˝¿⁄∞° æ∆¥—∞ÊøÏ 0√≥∏Æ
+				iif(isnumeric(#{nprodSalsPlnY})=0,0,#{nprodSalsPlnY}),	-- Ïà´ÏûêÍ∞Ä ÏïÑÎãåÍ≤ΩÏö∞ 0Ï≤òÎ¶¨
 				#{ctyOtPlnM},
 				GETDATE(),
 				'MIGADMIN1',
@@ -608,11 +700,12 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
     ;
     	]]>
     </insert>
-    <!-- GRS ±‚∫ª ¡§∫∏ ªË¡¶ -->
+    <!-- GRS Í∏∞Î≥∏ Ï†ïÎ≥¥ ÏÇ≠Ï†ú -->
     <update id="deleteGrsInfo">
 	    <![CDATA[
-		DELETE FROM dbo.IRIS_GRS_MGMT_MST
-			WHERE TSS_CD = TSS_CD;
-    	]]>
+-- deleteGrsInfo GRS Í∏∞Î≥∏ Ï†ïÎ≥¥ ÏÇ≠Ï†ú
+        DELETE FROM dbo.IRIS_GRS_MGMT_MST
+        WHERE TSS_CD = TSS_CD;
+        ]]>
     </update>
 </mapper>

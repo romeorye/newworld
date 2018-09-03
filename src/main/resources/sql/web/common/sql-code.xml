@@ -6,6 +6,7 @@
     <!--  -->
     <select id="retrieveCodeValueList" resultType="HashMap">
         <![CDATA[
+--retrieveCodeValue
         SELECT A.COM_DTL_CD
              , A.COM_DTL_NM
           FROM IRIS_ADM_COM_CD A

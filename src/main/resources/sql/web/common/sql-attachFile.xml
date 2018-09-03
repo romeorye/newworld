@@ -54,7 +54,7 @@
 	</select>
 	
 	<insert id="insertAttachFile">
-	
+		-- insertAttachFile 첨부파일 등록
 		insert into iris_com_attc_fil
 			(MENU_TYPE
 			,ATTC_FIL_ID

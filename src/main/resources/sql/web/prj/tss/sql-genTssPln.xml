@@ -6,6 +6,7 @@
     <!-- 마스터 WBSCode 중복체크 -->
     <select id="retrieveDupChkWbsCd" resultType="hashmap">
     <![CDATA[
+--retrieveDupChkWbsCd 마스터 WBSCode 중복체크
         SELECT COUNT(*) AS wbsCdCnt
           FROM IRIS_TSS_MGMT_MST  /*과제관리마스터*/
          WHERE WBS_CD = #{wbsCd}
@@ -16,6 +17,7 @@
     <!-- 마스터 WBSCode 중복체크 -->
     <select id="retrieveDupChkPkWbsCd" resultType="hashmap">
     <![CDATA[
+--retrieveDupChkPkWbsCd 마스터 WBSCode 중복체크
         SELECT COUNT(*) AS wbsCdCnt
           FROM IRIS_TSS_MGMT_MST  /*과제관리마스터*/
          WHERE PK_WBS_CD = #{pkWbsCd}
@@ -27,6 +29,7 @@
     <!-- 계획단계 삭제 - 마스터테이블 YN -->
 	<update id="deleteGenTssPlnMst1">
 	<![CDATA[
+--deleteGenTssPlnMst1 계획단계 삭제 - 마스터테이블 Y
 		UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
 		   SET DEL_YN = 'Y'
 		 WHERE TSS_CD = #{tssCd}
@@ -35,6 +38,7 @@
     <!-- 계획단계 삭제 - row 삭제 -->
 	<delete id="deleteGenTssPlnMst2">
 	<![CDATA[
+--deleteGenTssPlnMst2 계획단계 삭제 - row 삭제
 		 DELETE FROM IRIS_GRS_EV_RSLT_RGST
 		 WHERE TSS_CD = #{tssCd}
 	]]>
@@ -42,6 +46,7 @@
     <!-- 계획단계 삭제 - row 삭제 -->
 	<delete id="deleteGenTssPlnMst3">
 	<![CDATA[
+--deleteGenTssPlnMst3 계획단계 삭제 - row 삭제
 		DELETE FROM IRIS_GRS_EV_STD_RSLT_RGST
 		 WHERE TSS_CD = #{tssCd}
 	]]>

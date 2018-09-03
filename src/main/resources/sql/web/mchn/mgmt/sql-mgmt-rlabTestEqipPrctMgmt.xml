@@ -141,6 +141,7 @@
 
 	<insert id="insertMailHist" >
 	<![CDATA[
+--insertMailHist
 	INSERT INTO IRIS_COM_MAIL_SND_HIS
 		(
 		 MENU_TYPE

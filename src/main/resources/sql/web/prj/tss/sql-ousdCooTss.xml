@@ -148,13 +148,15 @@
     <!-- 계획단계 삭제 - row 삭제 -->
 	<delete id="deleteOusdCooTssPlnMst2">
 	<![CDATA[
+--deleteOusdCooTssPlnMst2 계획단계 삭제 - row 삭제
 		 DELETE FROM IRIS_GRS_EV_RSLT_RGST
 		 WHERE TSS_CD = #{tssCd}
 	]]>
 	</delete>
-    <!-- 계획단계 삭제 - row 삭제 -->
+    <!-- 계획단계 삭제 - row 삭제 -->DELETE FROM IRIS_GRS_EV_STD_RSLT_RGST
 	<delete id="deleteOusdCooTssPlnMst3">
 	<![CDATA[
+--deleteOusdCooTssPlnMst3 계획단계 삭제 - row 삭제
 		DELETE FROM IRIS_GRS_EV_STD_RSLT_RGST
 		 WHERE TSS_CD = #{tssCd}
 	]]>
