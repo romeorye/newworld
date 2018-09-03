@@ -12,13 +12,13 @@
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2018.08.09  		
+ * 1.0  2018.08.09
  * ---	-----------	----------	-----------------------------------------
  * IRIS UPGRADE 1차 프로젝트
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -69,7 +69,7 @@
 
     </style>
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
@@ -77,15 +77,15 @@
             var selectTreeRow = 0;
             var selectExatCd = -1;
             var dm = new Rui.data.LDataSetManager();
-            
+
             dm.on('load', function(e) {
             });
-            
+
             dm.on('success', function(e) {
                 var data = rlabExatMstTreeDataSet.getReadData(e);
-                
+
                 alert(data.records[0].resultMsg);
-                
+
                 if(data.records[0].resultYn == 'Y') {
                 	if(data.records[0].cmd == 'saveRlabExatMst') {
                 		getRlabExatMstList();
@@ -94,17 +94,17 @@
                 	}
                 }
             });
-            
+
             var textBox = new Rui.ui.form.LTextBox({
                 emptyValue: ''
             });
-            
+
             var numberBox = new Rui.ui.form.LNumberBox({
                 emptyValue: '',
                 minValue: 0,
                 maxValue: 9999999
             });
-            
+
             var expCrtnScnCd = new Rui.ui.form.LCombo({
                 name: 'expCrtnScnCd',
                 autoMapping: true,
@@ -116,7 +116,7 @@
                     { value: '1', text: '일'}
                 ]
             });
-            
+
             var useYn = new Rui.ui.form.LCombo({
                 name: 'useYn',
                 autoMapping: true,
@@ -128,14 +128,14 @@
                     { value: 'N', text: '미삭제'}
                 ]
             });
-            
+
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'exatNm',			validExp: '시험명:true:maxByteLength=100' },
                 { id: 'dspNo',			validExp: '순서:true:number' }
                 ]
             });
-            
+
             var vm2 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'exatNm',			validExp: '시험명:true:maxByteLength=100' },
@@ -144,7 +144,7 @@
                 { id: 'dspNo',			validExp: '순서:true:number' }
                 ]
             });
-            
+
             var rlabExatMstTreeDataSet = new Rui.data.LJsonDataSet({
                 id: 'rlabExatMstTreeDataSet',
                 remainRemoved: true,
@@ -167,16 +167,16 @@
                     , { id: 'sort' }
                 ]
             });
-            
+
             rlabExatMstTreeDataSet.on('canRowPosChange', function(e){
             	var vm = rlabExatMstGridDataSetView.getNameValue(rlabExatMstGridDataSetView.getRow(), 'exatCdL') == 2 ? vm2 : vm1;
-            	
+
             	if (vm.validateDataSet(rlabExatMstGridDataSetView, rlabExatMstGridDataSetView.getRow()) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
                 }
             });
-            
+
             rlabExatMstTreeDataSet.on('rowPosChanged', function (e) {
                 if (e.row > -1) {
                 	if(e.target.getNameValue(e.row, 'exatCdL') == 2) {
@@ -192,7 +192,7 @@
             	if(selectTreeRow > -1) {
                 	rlabExatMstTreeDataSet.setRow(selectTreeRow);
             	}
-            	
+
             	setRlabExatMstDataView(selectTreeRow);
             });
 
@@ -211,7 +211,7 @@
                 height: 300,
                 useAnimation: true
             });
-            
+
             rlabExatMstTreeView.render('rlabExatMstTreeView');
 
             var rlabExatMstTreeColumnModel = new Rui.ui.grid.LColumnModel({
@@ -237,16 +237,16 @@
                 visible: false,
                 autoWidth: true
             });
-            
+
             rlabExatMstTreeGrid.render('rlabExatMstTreeGrid');
-            
+
             var rlabExatMstGridDataSetView = new Rui.data.LDataSetView({
                 sourceDataSet: rlabExatMstTreeDataSet
             });
-            
+
             rlabExatMstGridDataSetView.on('canRowPosChange', function(e){
             	var vm = rlabExatMstGridDataSetView.getNameValue(rlabExatMstGridDataSetView.getRow(), 'exatCdL') == 2 ? vm2 : vm1;
-            	
+
             	if (vm.validateDataSet(rlabExatMstGridDataSetView, rlabExatMstGridDataSetView.getRow()) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
@@ -258,9 +258,9 @@
                 	  { field: 'supiExatNm',		label: '시험명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 180 }
                     , { field: 'exatNm',			label: '시험명(소분류)',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 150 }
                     , { field: 'exatMtdNo',	label: '시험법No',		sortable: false,	editable: true, 	editor: textBox,	align:'center',	width: 60 }
-                    , { field: 'expCrtnScnCd',	label: '비용구분',	sortable: false,	editable: false,	editor: expCrtnScnCd,		align:'center',	width: 60 }
-                    , { field: 'utmSmpoQty',	label: '단위시료수량',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 75 }
-                    , { field: 'utmExatTim',	label: '시험일수',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 75 }
+                    , { field: 'expCrtnScnCd',	label: '비용구분',	sortable: false,	editable: true,	editor: expCrtnScnCd,		align:'center',	width: 60 }
+                    , { field: 'utmSmpoQty',	label: '단위시료수량',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 75 }
+                    , { field: 'utmExatTim',	label: '시험일수',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 75 }
                     , { field: 'utmExp',		label: '시험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 75,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
@@ -272,8 +272,8 @@
                     } }
                 ]
             });
-            
-           
+
+
             var rlabExatMstGrid = new Rui.ui.grid.LGridPanel({
                 columnModel: rlabExatMstColumnModel,
                 dataSet: rlabExatMstGridDataSetView,
@@ -282,9 +282,9 @@
                 autoToEdit: true,
                 autoWidth: true
             });
-            
+
             rlabExatMstGrid.render('rlabExatMstGrid');
-			
+
              var rlabExatDtlDataSet = new Rui.data.LJsonDataSet({
                 id: 'rlabExatDtlDataSet',
                 remainRemoved: false,
@@ -297,7 +297,7 @@
 					, { id: 'mkrNm' }
 					, { id: 'mchnClNm' }
 					, { id: 'mchnClDtlNm' }
-					, { id: 'mchnCrgrNm' }               
+					, { id: 'mchnCrgrNm' }
 					]
             });
 
@@ -323,10 +323,10 @@
                 autoWidth: true
             });
             rlabExatDtlGrid.render('rlabExatDtlGrid');
-            
+
             setRlabExatMstDataView = function(row) {
                 var parentId;
-                
+
                 if (row > -1) {
                     parentId = rlabExatMstTreeDataSet.getAt(row).get('exatCd');
                 } else {
@@ -341,9 +341,9 @@
                         return false;
                 });
             };
-            
-            
-            
+
+
+
             getRlabExatMstList = function() {
                 rlabExatMstTreeDataSet.load({
                     url: '<c:url value="/rlab/getRlabExatMstList.do"/>',
@@ -352,10 +352,10 @@
                     }
                 });
             };
-            
+
             getRlabExatDtlList = function(exatCd) {
             	selectExatCd = exatCd;
-            	
+
             	rlabExatDtlDataSet.load({
                     url: '<c:url value="/rlab/getRlabExatDtlList.do"/>',
                     params :{
@@ -388,26 +388,26 @@
 		    	mchnDialog.show();
 		    };
     	    // 신뢰성시험장비 검색 팝업 끝
-    	 
+
     	    // 시험수가 Simulation 팝업 시작
     	    utmExpSimulationDialog = new Rui.ui.LFrameDialog({
-    	        id: 'utmExpSimulationDialog', 
+    	        id: 'utmExpSimulationDialog',
     	        title: '시험수가 Simulation',
     	        width: 920,
     	        height: 430,
     	        modal: true,
     	        visible: false
     	    });
-    	    
+
     	    utmExpSimulationDialog.render(document.body);
-    	
+
     	    openUtmExpSimulationDialog = function() {
     	    	utmExpSimulationDialog.setUrl('<c:url value="/rlab/rlabExatExpSimulationPopup.do"/>');
     	    	utmExpSimulationDialog.show();
     	    };
     	    // 시험수가 Simulation 팝업 끝
-            
-    	    
+
+
     	    setMchnInfoCheck = function(mchnInfo){
     	    	if(rlabExatDtlDataSet.findRow('mchnInfoId', mchnInfo.get("mchnInfoId")) > -1) {
     	    		alert('이미 존재합니다.');
@@ -416,16 +416,16 @@
     	    		return true;
     	    	}
     	    }
-    	    
+
             setMchnInfo = function(mchnInfo) {
 				if(rlabExatDtlDataSet.findRow('mchnInfoId', mchnInfo.get("mchnInfoId")) > -1) {
 					alert('이미 존재합니다.');
 					return ;
 				}
-    	    	
+
             	var row = rlabExatDtlDataSet.newRecord();
             	var record = rlabExatDtlDataSet.getAt(row);
-            	
+
             	record.set('exatCd', selectExatCd);
             	record.set('mchnInfoId', mchnInfo.get("mchnInfoId"));
             	record.set('mchnHanNm', mchnInfo.get("mchnNm"));
@@ -435,26 +435,26 @@
             	record.set('mchnClDtlNm', mchnInfo.get("mchnClDtlNm"));
             	record.set('mchnCrgrNm', mchnInfo.get("mchnCrgrNm"));
             }
-    	    
+
     	  initRlabExatMst = function() {
             	rlabExatMstTreeDataSet.undoAll();
             };
-            
+
             addRlabExatMst = function() {
             	if(rlabExatMstTreeDataSet.getRow() == -1) {
             		return ;
             	}
-            	
+
             	var parentRecord = rlabExatMstTreeDataSet.getAt(rlabExatMstTreeDataSet.getRow());
             	var exatCdL = parentRecord.get('exatCdL') + 1;
             	var dspNo = 0;
-            	
+
             	for(var i=0, cnt=rlabExatMstGridDataSetView.getCount(); i<cnt; i++) {
             		if(dspNo < rlabExatMstGridDataSetView.getNameValue(i, 'dspNo')) {
             			dspNo = rlabExatMstGridDataSetView.getNameValue(i, 'dspNo');
             		}
             	}
-            	
+
             	var data = {
             			supiExatCd : parentRecord.get('exatCd'),
             			supiExatNm : parentRecord.get('exatNm'),
@@ -466,20 +466,20 @@
             			delYn : 'N'
             		};
            		var record = rlabExatMstGridDataSetView.createRecord(data);
-           		
+
            		record.setState(Rui.data.LRecord.STATE_INSERT);
-           		
+
            		rlabExatMstGridDataSetView.setRow(rlabExatMstGridDataSetView.add(record));
             };
-            
+
             saveRlabExatMst = function() {
             	var vm = rlabExatMstGridDataSetView.getNameValue(rlabExatMstGridDataSetView.getRow(), 'exatCdL') == 4 ? vm2 : vm1;
-            	
+
             	if (vm.validateDataSet(rlabExatMstGridDataSetView, rlabExatMstGridDataSetView.getRow()) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
                 }
-                
+
             	if(confirm('저장 하시겠습니까?')) {
                     dm.updateDataSet({
                         dataSets:[rlabExatMstTreeDataSet],
@@ -487,12 +487,12 @@
                     });
             	}
             };
-            
+
             /* 신뢰성정보 리스트 엑셀 다운로드 */
          	downloadRlabExatMstListExcel = function() {
         		rlabExatMstTreeGrid.saveExcel(encodeURIComponent('신뢰성정보_') + new Date().format('%Y%m%d') + '.xls');
             };
-            
+
             addRlabExatDtl = function() {
             	if(selectExatCd == -1) {
             		alert('먼저 신뢰성 시험정보 관리의 시험장비관리 버튼을 눌러주세요.');
@@ -500,7 +500,7 @@
             		openMchnSearchDialog(setMchnInfo);
             	}
             };
-                      
+
             saveRlabExatDtl = function() {
             	if(selectExatCd == -1) {
             		alert('먼저 신뢰성 시험정보 관리의 시험장비관리 버튼을 눌러주세요.');
@@ -515,7 +515,7 @@
                 	}
             	}
             };
-            
+
             deleteRlabExatDtl = function() {
             	if(selectExatCd == -1) {
             		alert('먼저 신뢰성 시험정보 관리의 시험장비관리 버튼을 눌러주세요.');
@@ -524,7 +524,7 @@
                 } else {
                 	if(confirm('삭제 하시겠습니까?')) {
             	    	rlabExatDtlDataSet.removeMarkedRows();
-                    	
+
                         dm.updateDataSet({
                             dataSets:[rlabExatDtlDataSet],
                             url:'<c:url value="/rlab/deleteRlabExatDtl.do"/>'
@@ -532,20 +532,20 @@
                 	}
                 }
             };
-            
+
             getRlabExatMstList();
-			
-        });  
+
+        });
 
 	</script>
     </head>
     <body>
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
-		
+
    		<div class="contents">
 
    			<div class="sub-content">
-	   			
+
    				<div class="titleArea">
 		   			<span class="titleArea" style="display:inline">
 		   				<h2>신뢰성 시험정보 관리</h2>
@@ -558,7 +558,7 @@
    						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadRlabExatMstListExcel()">Excel</button>
    					</div>
    				</div>
-   				
+
 			    <div id="bd" style="height: 310px">
 			        <div class="LblockMarkupCode">
 			            <div id="contentWrapper">
@@ -571,7 +571,7 @@
 			            </div>
 			        </div>
 			    </div>
-   				
+
    				<div class="titArea">
    					<span class="Ltotal">신뢰성 시험장비 관리</span>
    					<div class="LblockButton">
@@ -582,7 +582,7 @@
    				</div>
 
 			    <div id="rlabExatDtlGrid"></div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>
