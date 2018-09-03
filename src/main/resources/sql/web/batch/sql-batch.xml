@@ -131,29 +131,32 @@
    	 	<!--  과제 리더 -GRS 심의후 -->
    <select id="retrieveSendAddrTssGrsPL"  resultType="hashmap">   	
 	<![CDATA[
-	 SELECT  MM.PRJ_CD as prjCd
-		       , (SELECT SSO.SA_MAIL FROM IRIS_SSO_USER SSO WHERE MM.SA_SABUN_NEW  = SSO.SA_SABUN_NEW)  saMail
-			   , RR.GRS_EV_ST as grsCd
-			   , dbo.fn_getComDtlNm('GRS_EV_ST',RR.GRS_EV_ST) as grsNm
-			   , mm.PGS_STEP_CD
-		  FROM IRIS_TSS_MGMT_MST MM 
-		 INNER JOIN IRIS_GRS_EV_RSLT_RGST RR
-	 		ON MM.TSS_CD  = RR.TSS_CD
-	  	 WHERE MM.TSS_ST  = '102'
-		   AND DATEDIFF (DD,RR.LAST_MDFY_DT ,GETDATE()) > 7
-		   AND MM.SA_SABUN_NEW !=''
-		   AND  RR.GRS_EV_ST !=''
-		   AND MM.DEL_YN = 'N'
-		   and  mm.wbs_cd not in (
-		                           select wbs_cd 
-								   from   iris_tss_mgmt_mst  x
-								   where  x.PGS_STEP_CD in ('DC', 'CM')
-								   and    x.TSS_ST = '104'
-	                             )
-		 GROUP BY MM.PRJ_CD 
-		 	 , MM.SA_SABUN_NEW 
-		  	 , RR.GRS_EV_ST
-			 , mm.PGS_STEP_CD
+	 select   a.PRJ_CD as prjCd
+		      ,(select SA_MAIL from IRIS_SSO_USER where sa_sabun_new = a.sa_sabun_new) as saMail  
+			  , b.GRS_EV_ST as grsCd
+			  , dbo.fn_getComDtlNm('GRS_EV_ST',b.GRS_EV_ST) as grsNm
+			  , a.PGS_STEP_CD  
+		from   IRIS_TSS_MGMT_MST a
+		       inner join IRIS_GRS_EV_RSLT_RGST b
+			   on a.TSS_CD = b.TSS_CD
+			   and  b.TSS_CD_SN = (
+									select max(TSS_CD_SN) 
+									from IRIS_GRS_EV_RSLT_RGST 
+									where tss_cd = a.TSS_CD
+									)
+		where  a.del_yn ='N'
+		and    a.tss_st = '102'
+		and    a.wbs_cd not in (  select wbs_cd 
+								  from IRIS_TSS_MGMT_MST 
+								  where PGS_STEP_CD in ('DC', 'CM') 
+								  union all
+								  select  wbs_cd
+								  from IRIS_TSS_MGMT_MST 
+								  where  PGS_STEP_CD ='AL' 
+								  and tss_st in ('100', '103')  
+							   )
+        AND DATEDIFF (DD,b.LAST_MDFY_DT ,GETDATE()) > 7							   
+		group by PRJ_CD, GRS_EV_ST, PGS_STEP_CD, sa_sabun_new
 			 ]]>
    	</select>
    	
