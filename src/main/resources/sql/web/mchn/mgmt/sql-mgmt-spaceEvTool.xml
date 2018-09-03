@@ -14,7 +14,7 @@
 			  ,CMPN_NM as "cmpnNm"
 			  ,EV_WAY as "evWayCd"
 			  ,CASE WHEN LEN(EV_WAY)/3=1
-			        THEN (SELECT COM_DTL_NM FROM IRIS_ADM_COM_CD WHERE COM_CD_CD = 'SPACE_EV_PRVS' AND COM_DTL_CD = SUBSTRING(EV_WAY,1,2))					
+			        THEN (SELECT COM_DTL_NM FROM IRIS_ADM_COM_CD WHERE COM_CD_CD = 'SPACE_EV_PRVS' AND COM_DTL_CD = SUBSTRING(EV_WAY,1,2))
 					WHEN LEN(EV_WAY)/3=2
 					THEN (SELECT COM_DTL_NM FROM IRIS_ADM_COM_CD WHERE COM_CD_CD = 'SPACE_EV_PRVS' AND COM_DTL_CD = SUBSTRING(EV_WAY,1,2))+', '+(SELECT COM_DTL_NM FROM IRIS_ADM_COM_CD WHERE COM_CD_CD = 'SPACE_EV_PRVS' AND COM_DTL_CD = SUBSTRING(EV_WAY,4,2))
 					WHEN LEN(EV_WAY)/3=3
@@ -27,6 +27,8 @@
 			  ,SU.SA_NAME  as "mchnCrgrNm"
 			  ,MCHN_INFO_ID as "mchnInfoId"
 			  ,EV_SCN as "evScn"
+			  ,OPN_YN as "opnYn"
+			  ,MCHN_USE_PSBL_YN as "mchnUsePsblYn"
 		FROM IRIS_SPACE_MCHN_INFO_MGMT SPCE
 		LEFT OUTER JOIN
 				IRIS_SSO_USER   SU
@@ -37,14 +39,26 @@
 		<if test="(tool != null and tool != '')">
 			AND SPCE.TOOL_NM LIKE '%'+#{tool}+'%'
 	    </if>
+	    <if test="(ver != null and ver != '')">
+			AND SPCE.VER LIKE '%'+#{ver}+'%'
+	    </if>
 	    <if test="(mchnCrgrNm != null and mchnCrgrNm != '')">
 			AND  SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
+	    </if>
+	    <if test="(opnYn != null and opnYn != '')">
+			AND SPCE.OPN_YN=#{opnYn}
+	    </if>
+	    <if test="(mchnUsePsblYn != null and mchnUsePsblYn != '')">
+			AND SPCE.MCHN_USE_PSBL_YN=#{mchnUsePsblYn}
+	    </if>
+	    <if test="(mchnClCd != null and mchnClCd != '')">
+			AND SPCE.MCHN_CL_CD=#{mchnClCd}
 	    </if>
 	    <![CDATA[
 		ORDER BY SPCE.MCHN_INFO_ID DESC
 		]]>
 	</select>
-	
+
 	<!-- 공간평가Tool 상세 조회  -->
 	<select id="retrieveSpaceEvToolSearchDtl" resultType="hashmap" >
 		<![CDATA[
@@ -65,7 +79,7 @@
 				,MCHN_INFO_ID      as "mchnInfoId"
 		FROM    IRIS_SPACE_MCHN_INFO_MGMT SPCE
 		        LEFT OUTER JOIN IRIS_SSO_USER SSO
-				ON SSO.SA_SABUN_NEW = SPCE.MCHN_CRGR_ID		        
+				ON SSO.SA_SABUN_NEW = SPCE.MCHN_CRGR_ID
 				LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
 				ON F.ATTC_FIL_ID = SPCE.ATTC_FIL_ID
 				LEFT OUTER JOIN IRIS_COM_ATTC_FIL G
@@ -75,7 +89,7 @@
 		WHERE   MCHN_INFO_ID =  #{mchnInfoId};
 		]]>
 	</select>
-	
+
 	<!-- 공간평가Tool 등록 및 수정  -->
 	<insert id="saveSpaceEvToolInfo" >
 		<![CDATA[
@@ -134,7 +148,7 @@ INSERT  (
 			,#{_userId}
 		 );
 		]]>
-	</insert>	
-	
+	</insert>
+
 
 </mapper>

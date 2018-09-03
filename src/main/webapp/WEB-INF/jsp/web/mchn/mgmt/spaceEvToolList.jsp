@@ -77,7 +77,7 @@
 	    grid.on('cellClick', function(e) {
 			var record = dataSet.getAt(dataSet.getRow());
 			var column = columnModel.getColumnAt(e.col, true);
-			
+
 			if(dataSet.getRow() > -1) {
 				var mchnInfoId = record.get("mchnInfoId");
 				document.aform.mchnInfoId.value = mchnInfoId;
@@ -86,7 +86,7 @@
 				document.aform.submit();
 			}
 	 	});
-	 
+
 		//기기명
 	    var tool = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	        applyTo: 'tool',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -96,11 +96,11 @@
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
 
-		 //자산명
-	    var fxaNo = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
-	        applyTo: 'fxaNo',                           // 해당 DOM Id 위치에 텍스트박스를 적용
+	  //ver
+	    var ver = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
+	        applyTo: 'ver',                           // 해당 DOM Id 위치에 텍스트박스를 적용
 	        width: 200,                                    // 텍스트박스 폭을 설정
-	        defaultValue: '<c:out value="${inputData.fxaNo}"/>',
+	        defaultValue: '<c:out value="${inputData.ver}"/>',
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
@@ -121,7 +121,7 @@
 			defaultValue: '<c:out value="${inputData.mchnClCd}"/>',
 			useEmptyText: true,
 	           emptyText: '전체',
-	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=MCHN_CL_CD"/>',
+	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_EV_CTGR"/>',
 	    	displayField: 'COM_DTL_NM',
 	    	valueField: 'COM_DTL_CD',
 	    	width : 200
@@ -147,33 +147,33 @@
 		cbMchnUsePsblYn.getDataSet().on('load', function(e) {
            console.log('cbMchnUsePsblYn :: load');
        	});
-			
+
 		//open 기기
 		var cbOpnYn = new Rui.ui.form.LCombo({
 			applyTo : 'opnYn',
 			name : 'opnYn',
 			defaultValue: '<c:out value="${inputData.opnYn}"/>',
 			width : 200,
-			emptyText: '선택하세요',
+			emptyText: '전체',
 				items: [
 	                   { code: 'Y', value: 'Y' }, // value는 생략 가능하며, 생략시 code값을 그대로 사용한다.
 	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
 	                	]
 		});
-			
+
 	     fnSearch = function() {
 		    	dataSet.load({
 		        //url: '<c:url value="/mchn/mgmt/retrieveAnlMchnSearchList.do"/>' ,
 		        url: '<c:url value="/mchn/mgmt/retrieveSpaceEvToolSearchList.do"/>' ,
 	        	params :{
-	        		
+
 	        		    tool : encodeURIComponent(document.aform.tool.value)		//기기명
 	        	       ,mchnClCd : document.aform.mchnClCd.value		//분류
-	        	       ,fxaNo  : document.aform.fxaNo.value		//자산번호
+	        	       ,ver  : document.aform.ver.value		//자산번호
 	        	       ,opnYn : document.aform.opnYn.value		//오픈기기 여부
 	        	       ,mchnCrgrNm : encodeURIComponent(document.aform.mchnCrgrNm.value) 	//담당자
-	        	       ,mchnUserPsblYn : document.aform.mchnUsePsblYn.value	//상태
-	        	       
+	        	       ,mchnUsePsblYn : document.aform.mchnUsePsblYn.value	//상태
+
 		                }
 	         });
 	     }
@@ -187,7 +187,7 @@
     		document.aform.action="<c:url value="/mchn/mgmt/retrieveSpaceEvToolReg.do"/>";
     		document.aform.submit();
     	});
-    	
+
     	/* [버튼] 분석기기 등록호출 */
     	/*
     	var butAll = new Rui.ui.LButton('butAll');
@@ -241,15 +241,15 @@
 						<tr>
 							<th align="right">기기명</th>
 							<td><input type="text" id="tool"/></td>
+							<th align="right">버전</th>
+							<td><input type="text" id="ver" /></td>
+							<td rowspan="3" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+						</tr>
+						<tr>
 							<th align="right">분류</th>
 							<td>
 								<select  id="mchnClCd" ></select>
 							</td>
-							<td rowspan="3" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-						</tr>
-						<tr>
-							<th align="right">자산번호</th>
-							<td><input type="text" id="fxaNo" /></td>
 							<th align="right">OPEN기기</th>
 							<td>
 								<select id="opnYn" name="opnYn" />
