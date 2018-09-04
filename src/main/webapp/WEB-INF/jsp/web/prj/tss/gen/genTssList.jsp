@@ -346,9 +346,20 @@
                 var rWgvl = numberNullChk(arrPrg[0]) ; //실적
                 var gWgvl = numberNullChk(arrPrg[1]) ; //목표
 
-                if(rWgvl > gWgvl) progressrate = "S";
-                else if(rWgvl < gWgvl) progressrate = "D";
-                else if(rWgvl = gWgvl) progressrate = "N";
+                if(rWgvl > gWgvl){
+                	progressrate = "S";
+                }else if(rWgvl < gWgvl){
+                	rWgvl = rWgvl+3;
+                	
+                	if( rWgvl < gWgvl ){
+	                	progressrate = "D";
+                	}else{
+	                	progressrate = "N";
+                	}
+                	
+                }else if(rWgvl = gWgvl){
+                	progressrate = "N";
+                }
 
                 var urlParam = "?tssCd="+pTssCd+"&progressrateReal="+progressrateReal+"&progressrate="+progressrate;
 
@@ -507,10 +518,17 @@
                          if(rWgvl > gWgvl){
                              pg = pgS ;
                          }else if(rWgvl < gWgvl){
-                             pg = pgD ;
+                         	rWgvl = rWgvl+3;
+                         	
+                         	if( rWgvl < gWgvl ){
+     	                    	pg = pgD ;
+                         	}else{
+     	                        pg = pgN ;
+                         	}
                          }else if(rWgvl = gWgvl){
                              pg = pgN ;
                          }
+                         
                          var pgsStepCd= record.get('pgsStepCd');
 
                          if(pgsStepCd=='PL'){
