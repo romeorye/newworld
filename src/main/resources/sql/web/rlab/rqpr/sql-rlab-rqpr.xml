@@ -98,7 +98,7 @@
 	</select>
 
 	<select id="getRlabRqprInfo" resultType="hashmap">
-
+-- getRlabRqprInfo
 		   SELECT
 				RQPR_ID												AS rqprId,
 				RQPR_DT												AS rqprDt,
@@ -162,7 +162,7 @@
 	</select>
 
 	<select id="getRlabRqprSmpoList" resultType="hashmap">
-
+-- getRlabRqprSmpoList
 		   SELECT
 				SMPO_ID		AS smpoId,
 				RQPR_ID		AS rqprId,
@@ -177,7 +177,7 @@
 	</select>
 
 	<select id="getRlabRqprRltdList" resultType="hashmap">
-
+-- getRlabRqprRltdList
 		   SELECT
 				rltd.RLTD_ID								AS rltdId,
 				rltd.RQPR_ID								AS rqprId,
@@ -196,7 +196,7 @@
 	</select>
 
 	<insert id="insertRlabRqpr" parameterType="hashmap" useGeneratedKeys="true" keyProperty="rqprId" keyColumn="RQPR_ID">
-
+-- insertRlabRqpr
 		insert into iris_rlab_rqpr_mst(
 			RQPR_DT
 		   ,RGST_ID
@@ -233,7 +233,7 @@
 	</insert>
 
 	<update id="updateRlabRqpr">
-
+-- updateRlabRqpr
 		update	iris_rlab_rqpr_mst
 		set		rlab_name = #{rlabNm},
 				rlab_scn_cd = #{rlabScnCd},
@@ -258,7 +258,7 @@
 	</update>
 
 	<update id="updateRlabRqprAcpcStCd">
-
+-- updateRlabRqprAcpcStCd
 		update	iris_rlab_rqpr_mst
 		set		acpc_st_cd = #{acpcStCd},
 		<if test="acpcStCd == '04'">
@@ -276,7 +276,7 @@
 	</update>
 
 	<update id="updateRlabRqprDelYn">
-
+-- updateRlabRqprDelYn
 		update	iris_rlab_rqpr_mst
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -286,7 +286,7 @@
 	</update>
 
 	<insert id="insertRlabRqprSmpo" parameterType="map">
-	/* 시료정보 등록 */
+	/* insertRlabRqprSmpo 시료정보 등록 */
 		insert into iris_rlab_rqpr_smpo(
 			RQPR_ID
 		   ,SMPO_NM
@@ -308,7 +308,7 @@
 	</insert>
 
 	<update id="updateRlabRqprSmpo">
-	/* 시료정보 수정 */
+	/* updateRlabRqprSmpo 시료정보 수정 */
 		update	iris_rlab_rqpr_smpo
 		set		smpo_nm = #{smpoNm},
 				mkr_nm = #{mkrNm},
@@ -321,7 +321,7 @@
 	</update>
 
 	<update id="updateRlabRqprSmpoDelYn">
-	/* 시료정보 삭제 */
+	/* updateRlabRqprSmpoDelYn 시료정보 삭제 */
 		update	iris_rlab_rqpr_smpo
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -331,7 +331,7 @@
 	</update>
 
 	<insert id="insertRlabRqprRltd" parameterType="map">
-
+-- insertRlabRqprRltd
 		insert into iris_rlab_rqpr_rltd(
 			RQPR_ID
 		   ,PRE_RQPR_ID
@@ -351,7 +351,7 @@
 	</insert>
 
 	<update id="updateRlabRqprRltd">
-
+-- updateRlabRqprRltd
 		update	iris_rlab_rqpr_rltd
 		set		pre_rqpr_id = #{preRqprId},
 				pre_rlab_name = #{preRlabNm},
@@ -363,7 +363,7 @@
 	</update>
 
 	<update id="updateRlabRqprRltdDelYn">
-
+-- updateRlabRqprRltdDelYn
 		update	iris_rlab_rqpr_rltd
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -373,7 +373,7 @@
 	</update>
 
 	<insert id="insertRlabRqprInfm" parameterType="map">
-
+-- insertRlabRqprInfm
 		MERGE INTO iris_rlab_rqpr_infm a
 		USING ( SELECT	#{rqprId} as rqprId,
 						#{infmPrsnId} as infmPrsnId,
@@ -394,7 +394,7 @@
 	</insert>
 
 	<update id="updateRlabRqprInfmDelYn">
-
+-- updateRlabRqprInfmDelYn
 		update	iris_rlab_rqpr_infm
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -411,7 +411,7 @@
 	</update>
 
 	<select id="getRlabRqprOpinitionListCnt" resultType="int">
-
+-- getRlabRqprOpinitionListCnt
 		   select	count(1) cnt
 			from	iris_rlab_rqpr_opi
 			where	rqpr_id = ${rqprId}
@@ -420,7 +420,7 @@
 	</select>
 
 	<select id="getRlabRqprOpinitionList" resultType="map">
-	/*의견목록*/
+	/* getRlabRqprOpinitionList 의견목록*/
 		   select	OPI_ID								  as opiId
 				   ,RQPR_ID								  as rqprId
 				   ,RGST_ID								  as rgstId
@@ -435,7 +435,7 @@
 	</select>
 
 	<insert id="saveRlabRqprOpinition" parameterType="map">
-	/*의견 등록 수정*/
+	/* saveRlabRqprOpinition 의견 등록 수정*/
 		MERGE INTO iris_rlab_rqpr_opi a
 		USING ( SELECT	${opiId} as opiId,
 						${rqprId} as rqprId,
@@ -466,7 +466,7 @@
 	</insert>
 
 	<update id="updateRlabRqprOpinitionDelYn" parameterType="map">
-	/*의견삭제*/
+	/* updateRlabRqprOpinitionDelYn 의견삭제*/
 		update	iris_rlab_rqpr_opi
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -612,7 +612,7 @@
 	</select>
 
 	<insert id="saveRlabRqprExat" parameterType="map">
-
+-- saveRlabRqprExat
 		MERGE INTO iris_rlab_rqpr_exat a
 		USING ( SELECT	#{rqprExatId} as rqprExatId,
 						#{rqprId} as rqprId,
@@ -670,7 +670,7 @@
 	</insert>
 
 	<update id="updateRlabRqprExatDelYn" parameterType="map">
-
+-- updateRlabRqprExatDelYn
 		update	iris_rlab_rqpr_exat
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -680,7 +680,7 @@
 	</update>
 
 	<update id="saveRlabRqprRslt" parameterType="map">
-
+-- saveRlabRqprRslt
 		update	iris_rlab_rqpr_mst
 		set		rlab_rslt_sbc = #{rlabRsltSbc},
 				rslt_attc_file_id = #{rsltAttcFileId},
@@ -691,7 +691,7 @@
 	</update>
 
 	<insert id="saveRlabExatMst" parameterType="map">
-
+-- saveRlabExatMst
 		MERGE INTO iris_rlab_exat_mst a
 		USING ( SELECT	#{exatCd} as exatCd,
 						#{exatNm} as exatNm,
@@ -767,7 +767,7 @@
 	</select>
 
 	<insert id="saveRlabExatDtl" parameterType="map">
-
+-- saveRlabExatDtl
 		insert into iris_rlab_exat_dtl(
 			EXAT_CD
 		   ,MCHN_INFO_ID
@@ -783,7 +783,7 @@
 	</insert>
 
 	<update id="updateRlabExatDtlDelYn" parameterType="map">
-
+-- updateRlabExatDtlDelYn
 		update	iris_rlab_exat_dtl
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),

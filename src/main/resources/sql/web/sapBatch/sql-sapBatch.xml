@@ -2,9 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="sapBatch">
-	
+
     <insert id="insertBudgSCost">
     <![CDATA[
+    -- insertBudgSCost
        INSERT INTO IRIS_SAP_BUDG_S_COST
 	   				(ERP_CD
 	   				,YYYYMM
@@ -25,79 +26,81 @@
 	   			,#{koRslt}
    				,GETDATE()
    				,'batch' )
-      
+
     ]]>
-    
+
     </insert>
      <insert id="insertBudgTCost">
     <![CDATA[
-       INSERT INTO IRIS_SAP_BUDG_T_COST  
+    -- insertBudgTCost
+       INSERT INTO IRIS_SAP_BUDG_T_COST
           ( ERP_CD
-           ,PRV_DT	
-           ,ACCT_CD	
-           ,BELNR		
-           ,BUZEI		
-           ,ACCT_NM	
-           ,DLCO_CD	
-           ,DLCO_NM	
-           ,KO_RSLT	
+           ,PRV_DT
+           ,ACCT_CD
+           ,BELNR
+           ,BUZEI
+           ,ACCT_NM
+           ,DLCO_CD
+           ,DLCO_NM
+           ,KO_RSLT
            ,SPOT_RSLT
            ,S_ACCT_CD
            ,S_ACCT_NM
-           ,ERP_NM	
-           ,DESC1		
-           ,DESC2		
-           ,DESC3		
-           ,FISC_YY	
-           ,PROF_DT	
+           ,ERP_NM
+           ,DESC1
+           ,DESC2
+           ,DESC3
+           ,FISC_YY
+           ,PROF_DT
            ,INPUT_ID
            ,SPOT_CURR
-           ,BLART		
-           ,WRTTP		
-           ,BEKNZ		
-           ,AWTYP		
+           ,BLART
+           ,WRTTP
+           ,BEKNZ
+           ,AWTYP
            ,GUBUN
            ,FRST_RGST_DT
-           ,FRST_RGST_ID) 
-           VALUES	
+           ,FRST_RGST_ID)
+           VALUES
            ( #{erpCd}
-            ,#{prvDt}	
-			,#{acctCd}	
-			,#{belnr}	
-			,#{buzei}	
-			,#{acctNm}	
-			,#{dlcoCd}	
-			,#{dlcoNm}	
-			,#{koRslt}	
+            ,#{prvDt}
+			,#{acctCd}
+			,#{belnr}
+			,#{buzei}
+			,#{acctNm}
+			,#{dlcoCd}
+			,#{dlcoNm}
+			,#{koRslt}
 			,#{spotRslt}
 			,#{sAcctCd}
 			,#{sAcctNm}
-			,#{erpNm}	
-			,#{desc1}	
-			,#{desc2}	
-			,#{desc3}	
-			,#{fiscYy}	
-			,#{profDt}	
+			,#{erpNm}
+			,#{desc1}
+			,#{desc2}
+			,#{desc3}
+			,#{fiscYy}
+			,#{profDt}
 			,#{inputId}
 			,#{spotCurr}
-			,#{blart}	
-			,#{wrttp}	
-			,#{beknz}	
-			,#{awtyp}	
-			,#{gubun}	
+			,#{blart}
+			,#{wrttp}
+			,#{beknz}
+			,#{awtyp}
+			,#{gubun}
 			,GETDATE(), 'batch' )
-      
+
     ]]>
-    
+
     </insert>
-    
-    
+
+
     <update id="updateTssGenTrwiBudgMst">
-    UPDATE iris_tss_gen_trwi_budg_list 
+    -- updateTssGenTrwiBudgMst
+    UPDATE iris_tss_gen_trwi_budg_list
        SET arsl_exp = convert(numeric(20,6), convert(numeric(20),KO_RSLT)/1000000)
 		,LAST_MDFY_DT = getdate()
 		,LAST_MDFY_ID = 'sapBatch'
-	FROM 	iris_tss_gen_trwi_budg_list tb 
+	FROM 	iris_tss_gen_trwi_budg_list tb
 		LEFT OUTER JOIN iris_adm_com_cd acc
 			ON tb.exp_scn_cd = acc.com_dtl_cd
 		INNER JOIN IRIS_SAP_BUDG_S_COST cc
@@ -106,7 +109,7 @@
 			and cc.yyyymm = tb.yy_mm
 	WHERE  acc.COM_CD_CD = 'EXP_SCN_CD'
 	and cc.yyyymm=#{yyyymm}
-    
+
     </update>
-   
+
 </mapper>

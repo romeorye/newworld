@@ -4,7 +4,7 @@
 <mapper namespace="rlab.batch">
 
 	<select id="getRlabRqprApprCompleteList" resultType="iris.web.rlab.rqpr.vo.RlabMailInfo">
-			-- getRlabRqprApprCompleteList 분석의뢰 요청 결재 완료 리스트 조회
+			-- getRlabRqprApprCompleteList
 			select	mst.rqpr_id								as rqprId
 				   ,mst.anl_name							as anlNm
 				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name	as rgstNm
@@ -21,11 +21,11 @@
 			and		mst.anl_chrg_trsf_flag = 'W'
 			and		mst.rgst_id = rgst.sa_user
 			and		mst.anl_chrg_id = chrg.sa_user
-			
+
 	</select>
 
 	<select id="getRlabRsltApprCompleteList" resultType="iris.web.rlab.rqpr.vo.RlabMailInfo">
-			-- getRlabRsltApprCompleteList 분석 결과 결재 완료 리스트 조회
+			-- getRlabRsltApprCompleteList
 			select	mst.rqpr_id													as rqprId
 				   ,mst.anl_name												as anlNm
 				   ,mst.acpc_no													as acpcNo
@@ -46,23 +46,23 @@
 			and		mst.rgst_trsf_flag = 'W'
 			and		mst.rgst_id = rgst.sa_user
 			and		mst.anl_chrg_id = chrg.sa_user
-			
+
 	</select>
-	
+
 	<update id="updateRlabChrgTrsfFlag" parameterType="iris.web.rlab.rqpr.vo.RlabMailInfo">
-	
+	-- updateRlabChrgTrsfFlag
 		update	iris_anl_rqpr_mst
 		set		anl_chrg_trsf_flag = 'Y'
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 	<update id="updateRgstTrsfFlag" parameterType="iris.web.rlab.rqpr.vo.RlabMailInfo">
-	
+	-- updateRgstTrsfFlag
 		update	iris_anl_rqpr_mst
 		set		rgst_trsf_flag = 'Y'
 		where	rqpr_id = ${rqprId}
-	
+
 	</update>
-	
+
 </mapper>
