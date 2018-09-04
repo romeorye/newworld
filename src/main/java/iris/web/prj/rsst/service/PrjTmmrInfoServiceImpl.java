@@ -61,7 +61,10 @@ public class PrjTmmrInfoServiceImpl implements PrjTmmrInfoService {
 	public void insertPrjTeamTmmrDeptInfo(Map<String, Object> input) {
 		commonDao.insert("prj.rsst.tmmr.insertPrjTeamTmmrDeptInfo", input);
 		
-		commonDaoPims.insert("prj.rsst.tmmr.insertPrjTeamTmmrDeptInfo", input);
+		//지적재산권 참여연구원 연동
+		List<Map<String,Object>> tmmrList =  commonDao.selectList("prj.rsst.tmmr.selectPrjTeamTmmrInfo", input);
+		commonDaoPims.batchDelete("prj.rsst.tmmr.deletePrjPimsInfo", tmmrList);
+		commonDaoPims.batchInsert("prj.rsst.tmmr.insertPrjPimsInfo", tmmrList);
 	}
 
 }
