@@ -81,5 +81,46 @@
 		   AND A.SA_USER IS NOT NULL AND A.SA_USER != '' /* 유저ID없는 유저 제거 */
     ]]>
 	</insert>
+	
+	
+	<select id="selectPrjTeamTmmrInfo" resultType="hashmap" >
+		<![CDATA[
+			select wbs_cd as wbsCd
+			      ,tmmr_emp_no as tmmrEmpNo
+			from IRIS_PRJ_TMMR_INFO
+			where  wbs_cd = #{wbsCd}	      
+		]]>
+	</select>
+	
+	<!--  프로젝트 변경연구원 지적재산권 삭제  -->
+   	<delete id="deletePrjPimsInfo">
+   	<![CDATA[
+   		delete tb_ea102_PMIS where WBS_CODE = #{wbsCd} and EMP_NO = #{tmmrEmpNo}
+   	]]>
+   	</delete>
+	
+	<!-- 프로젝트 변경연구원 지적재산권 등록 -->
+   	<insert id="insertPrjPimsInfo">
+   		<![CDATA[
+   		INSERT into tb_ea102_PMIS (
+             WBS_CODE
+            ,EMP_NO     
+            ,REC_STATUS   
+            ,ENTRY_ID  
+            ,ENTRY_DATE
+            ,MODIFY_ID
+            ,MODIFY_DATE
+            )
+             VALUES (
+               #{wbsCd}
+              ,#{tmmrEmpNo}
+              , 1
+              ,'IRIS'
+              ,sysdate
+              ,'IRIS'
+              ,sysdate
+          )
+   		]]>
+   	</insert>
 
 </mapper>
