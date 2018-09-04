@@ -266,10 +266,17 @@
                     if(rWgvl > gWgvl){
                         pg = pgS ;
                     }else if(rWgvl < gWgvl){
-                        pg = pgD ;
+                    	rWgvl = rWgvl+3;
+                    	
+                    	if( rWgvl < gWgvl ){
+	                    	pg = pgD ;
+                    	}else{
+	                        pg = pgN ;
+                    	}
                     }else if(rWgvl = gWgvl){
                         pg = pgN ;
                     }
+                    
                     var pgsStepCd= record.get('pgsStepCd');
 
                     if(pgsStepCd=='PL'){
