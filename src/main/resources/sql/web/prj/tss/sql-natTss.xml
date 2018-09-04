@@ -6,6 +6,7 @@
 
     <select id="retrieveNatTssList" resultType="hashmap">
         <![CDATA[
+/*retrieveNatTssList 국책과제 목록*/
         SELECT z.*
 		FROM  (
 		        SELECT M.WBS_CD           AS wbsCd         --과제코드

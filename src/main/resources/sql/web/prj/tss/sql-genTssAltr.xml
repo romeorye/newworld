@@ -540,6 +540,7 @@ WITH w_WBS AS (
     <!-- 투입예산 조회 -->
     <select id="retrieveGenTssAltrBudgGroupYy" resultType="hashmap">
         <![CDATA[
+--retrieveGenTssAltrBudgGroupYy 투입예산 조회
         WITH BUDG_LIST AS (
             SELECT ${pivotTitle}
                  , ${pivotSum} AS totSum

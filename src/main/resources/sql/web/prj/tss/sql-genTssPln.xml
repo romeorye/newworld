@@ -38,7 +38,7 @@
     <!-- 계획단계 삭제 - row 삭제 -->
 	<delete id="deleteGenTssPlnMst2">
 	<![CDATA[
---deleteGenTssPlnMst2 계획단계 삭제 - row 삭제
+--deleteGenTssPlnMst2 계획단계 삭제 - row 삭제 GRS 평가결과 IRIS_GRS_EV_RSLT_RGST
 		 DELETE FROM IRIS_GRS_EV_RSLT_RGST
 		 WHERE TSS_CD = #{tssCd}
 	]]>
@@ -46,7 +46,7 @@
     <!-- 계획단계 삭제 - row 삭제 -->
 	<delete id="deleteGenTssPlnMst3">
 	<![CDATA[
---deleteGenTssPlnMst3 계획단계 삭제 - row 삭제
+--deleteGenTssPlnMst3 계획단계 삭제 - row 삭제 GRS 평가 표준결과 IRIS_GRS_EV_STD_RSLT_RGST
 		DELETE FROM IRIS_GRS_EV_STD_RSLT_RGST
 		 WHERE TSS_CD = #{tssCd}
 	]]>
@@ -483,6 +483,7 @@ WITH w_WBS AS (
     <!-- 투입예산 조회 -->
     <select id="retrieveGenTssPlnBudgGroupYy" resultType="hashmap">
         <![CDATA[
+--retrieveGenTssAltrBudgGroupYy 투입예산 조회
         WITH BUDG_LIST AS (
             SELECT ${pivotTitle}
                  , ${pivotSum} AS totSum

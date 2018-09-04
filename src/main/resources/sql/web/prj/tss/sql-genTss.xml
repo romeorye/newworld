@@ -262,6 +262,7 @@
 	<!-- 일반과제 개요 조회 -->
     <select id="retrieveGenTssSmry" resultType="hashmap">
     <![CDATA[
+--retrieveGenTssSmry 일반과제 개요 조회
         SELECT TSS_CD                 AS tssCd               --과제코드
              , SMRY_N_TXT             AS smryNTxt            --Needs
              , SMRY_A_TXT             AS smryATxt            --Approach

@@ -3,10 +3,10 @@
 
 <mapper namespace="prj.tss.com">
 	<!--========================== 과제_공통_마스터 ========================== -->
-	<!-- 마스터 조회 -->
+	<!-- 과제 공통 마스터 조회 -->
 	<select id="retrieveTssMst" resultType="hashmap">
     <![CDATA[
-		-- retrieveTss 마스터 조회
+		--retrieveTssMst 과제 공통 마스터 조회
         SELECT A.PRJ_CD          AS prjCd        --프로젝트코드
              --, B.PRJ_NM          AS prjNm        --프로젝트명
              , ISNULL(dbo.fn_getNameOnTssPgsStep(A.TSS_CD, 'PRJ', A.PRJ_CD), A.PRJ_NM) AS prjNm        --프로젝트명
@@ -259,7 +259,7 @@
 	<!-- 과제기간 년도 조회 -->
 	<select id="retrieveTssTssYy" resultType="hashmap">
     <![CDATA[
--- retrieveTssTssYy 과제기간 년도 조회
+--retrieveTssTssYy 과제기간 년도 조회
         WITH BASE_YY AS (
             SELECT CAST(SUBSTRING(TSS_STRT_DD, 1, 4) AS INT) AS TSS_YY
                  , CAST(SUBSTRING(TSS_FNH_DD, 1, 4) AS INT) AS E_YY
@@ -278,7 +278,7 @@
 	<!-- 참여연구원 조회 -->
 	<select id="retrieveTssPtcRsstMbr" resultType="hashmap">
     <![CDATA[
---  retrieveTssPtcRsstMbr   참여연구원 조회
+--retrieveTssPtcRsstMbr   참여연구원 조회
         SELECT TSS_CD          AS tssCd        --과제코드
              , PTC_RSST_MBR_SN AS ptcRsstMbrSn --참여연구원일련번호
              , SA_SABUN_NEW    AS saSabunNew   --연구원사번
@@ -401,7 +401,7 @@
 	<!-- 목표기술성과 조회 -->
 	<select id="retrieveTssGoal" resultType="hashmap">
     <![CDATA[
--- retrieveTssGoal 목표기술성과 조회
+--retrieveTssGoal 목표기술성과 조회
         SELECT TSS_CD       AS tssCd      --과제코드
              , GOAL_ARSL_SN AS goalArslSn --과제목표일련번호
              , PRVS         AS prvs       --항목
@@ -809,7 +809,7 @@
 
 	<!-- 통합결제 조회 -->
 	<select id="retrieveTssCsus" resultType="hashmap">
--- retrieveTssCsus 통합결제 조회
+--retrieveTssCsus 통합결제 조회
 		SELECT TOP 1
 		GUID AS guid
 		, AFFR_CD AS affrCd
@@ -885,10 +885,10 @@
     ]]>
 	</select>
 
-	<!-- 등록건수 확인 -->
+	<!-- 과제 탭등록건수 확인 -->
 	<select id="getTssRegistCnt" resultType="hashmap">
     <![CDATA[
--- getTssRegistCnt 등록건수 확인
+--getTssRegistCnt 과제 탭등록건수 확인
         SELECT (SELECT COUNT(*) FROM IRIS_TSS_GEN_SMRY WHERE TSS_CD = #{tssCd})                   AS genSmryCnt
 		     , (SELECT COUNT(*) FROM IRIS_TSS_GEN_WBS WHERE TSS_CD = #{tssCd})                    AS genWbsCnt
 		     , (SELECT COUNT(*) FROM IRIS_TSS_GEN_TRWI_BUDG_LIST WHERE TSS_CD = #{tssCd})         AS genTrwiCnt
@@ -1084,7 +1084,7 @@
 			  ,a.PRJ_NM as prjNm
 			  ,a.DEPT_CD as deptCd
 			  ,[dbo].[fn_getDeptName](a.DEPT_CD) as deptName
-			  ,A.PRJ_CPSN as deptCntDELETE FROM IRIS_GRS_EV_RSLT_RGST
+			  ,A.PRJ_CPSN as deptCnt
 			  ,a.DEPT_UPER as upDeptCd
 			  ,[dbo].[fn_getDeptName](a.DEPT_UPER) as upDeptName
 			  ,a.PL_EMP_NO as plEmpNo

@@ -6,7 +6,7 @@
     <!--  -->
     <select id="retrieveCodeValueList" resultType="HashMap">
         <![CDATA[
-        -- retrieveCodeValueList
+/*retrieveCodeValueList 과제 상태 코드 목록*/
         SELECT A.COM_DTL_CD
              , A.COM_DTL_NM
           FROM IRIS_ADM_COM_CD A
