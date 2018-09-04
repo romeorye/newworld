@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="space.ev">
-	
-	
+
+
 	<select id="getSpaceEvBzdvList" resultType="hashmap">
 		<![CDATA[
 		-- getSpaceEvBzdvList 사업부 조회
@@ -18,8 +18,8 @@
 		WHERE DEL_YN = 'N'
 		]]>
 	</select>
-	
-	
+
+
 	<select id="getSpaceEvProdClList" resultType="hashmap">
 		<![CDATA[
 		-- getSpaceEvProdClList 제품군 조회
@@ -36,7 +36,7 @@
 		AND   SUPI_CD =  #{supiCd}
 		]]>
 	</select>
-	
+
 	<select id="getSpaceEvClList" resultType="hashmap">
 		<![CDATA[
 		-- getSpaceEvClList 분류 조회
@@ -53,7 +53,7 @@
 		AND   SUPI_CD =  #{supiCd}
 		]]>
 	</select>
-	
+
 	<select id="getSpaceEvProdList" resultType="hashmap">
 		<![CDATA[
 		-- getSpaceEvProdList 제품 조회
@@ -70,7 +70,7 @@
 		AND   SUPI_CD =  #{supiCd}
 		]]>
 	</select>
-	
+
 	<select id="getSpaceEvMtrlList" resultType="hashmap">
 		<![CDATA[
 		-- getSpaceEvMtrlList 상세리스트
@@ -78,7 +78,7 @@
 			,CTGR1 AS ctgr1
 			,CTGR2 AS ctgr2
 			,CTGR3 AS ctgr3
-			,PROD_NM AS prodNm 
+			,PROD_NM AS prodNm
 			,SCN     AS scn
 			,PFMC_VAL AS pfmcVal
 			,STRT_VLD_DT AS strtVldDt
@@ -106,8 +106,9 @@
 			AND EV.CTGR3=#{supiCd3}
 	    </if>
 	</select>
-	
+
 	<insert id="insertSpaceEvMtrl"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="EV_CD" >
+	-- insertSpaceEvMtrl
 	INSERT INTO dbo.IRIS_SPACE_MTRL_UTM_EV
         (CTGR0
 		,CTGR1
@@ -144,10 +145,11 @@
         ,#{userId}  -- 세션 사번
         )
 	</insert>
-	
+
 	<!-- 자재단위평가 삭제 -->
 	<update id="deleteSpaceEvMtrl">
 	<![CDATA[
+	-- deleteSpaceEvMtrl 자재단위평가 삭제
 		UPDATE IRIS_SPACE_MTRL_UTM_EV
 		   SET DEL_YN = 'Y'
 	]]>
@@ -161,6 +163,7 @@
 	<!-- 사업부 삭제 -->
 	<update id="deleteSpaceEvCtgr0">
 	<![CDATA[
+	-- deleteSpaceEvCtgr0 사업부 삭제
 		UPDATE IRIS_SPACE_EV_CTGR0
 		   SET DEL_YN = 'Y'
 	]]>
@@ -170,10 +173,11 @@
 		   AND CTGR_CD = #{ctgrCd}
 	]]>
 	</update>
-	
+
 	<!-- 제품군 삭제 -->
 	<update id="deleteSpaceEvCtgr1">
 	<![CDATA[
+	-- deleteSpaceEvCtgr1 제품군 삭제
 		UPDATE IRIS_SPACE_EV_CTGR1
 		   SET DEL_YN = 'Y'
 	]]>
@@ -184,10 +188,11 @@
 		   AND CTGR_CD = #{ctgrCd}
 	]]>
 	</update>
-	
+
 	<!-- 분류 삭제 -->
 	<update id="deleteSpaceEvCtgr2">
 	<![CDATA[
+	-- deleteSpaceEvCtgr2 분류 삭제
 		UPDATE IRIS_SPACE_EV_CTGR2
 		   SET DEL_YN = 'Y'
 	]]>
@@ -198,10 +203,11 @@
 		   AND CTGR_CD = #{ctgrCd}
 	]]>
 	</update>
-	
+
 	<!-- 제품 삭제 -->
 	<update id="deleteSpaceEvCtgr3">
 	<![CDATA[
+	-- deleteSpaceEvCtgr3 제품 삭제
 		UPDATE IRIS_SPACE_EV_CTGR3
 		   SET DEL_YN = 'Y'
 	]]>
@@ -212,8 +218,9 @@
 		   AND CTGR_CD = #{ctgrCd}
 	]]>
 	</update>
-	
+
 	<insert id="insertSpaceEvCtgr0"   parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	-- insertSpaceEvCtgr0
 	INSERT INTO dbo.IRIS_SPACE_EV_CTGR0
         (CTGR_NM
 		,DEL_YN
@@ -229,9 +236,10 @@
         ,GETDATE()
         ,#{userId}  -- 세션 사번
         )
-	</insert>	
-	
+	</insert>
+
 	<insert id="insertSpaceEvCtgr1"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	-- insertSpaceEvCtgr1
 	INSERT INTO dbo.IRIS_SPACE_EV_CTGR1
         (SUPI_CD
         ,CTGR_NM
@@ -249,9 +257,10 @@
         ,GETDATE()
         ,#{userId}  -- 세션 사번
         )
-	</insert>	
-	
+	</insert>
+
 	<insert id="insertSpaceEvCtgr2"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	-- insertSpaceEvCtgr2
 	INSERT INTO dbo.IRIS_SPACE_EV_CTGR2
         (SUPI_CD
         ,CTGR_NM
@@ -270,8 +279,9 @@
         ,#{userId}  -- 세션 사번
         )
 	</insert>
-		
+
 	<insert id="insertSpaceEvCtgr3"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	-- insertSpaceEvCtgr3
 	INSERT INTO dbo.IRIS_SPACE_EV_CTGR3
         (SUPI_CD
         ,CTGR_NM
@@ -289,11 +299,12 @@
         ,GETDATE()
         ,#{userId}  -- 세션 사번
         )
-	</insert>	
-	
+	</insert>
+
 	<!-- 사업부 업데이트저장 -->
 	<update id="updateSpaceEvCtgr0">
 	<![CDATA[
+	-- updateSpaceEvCtgr0 사업부 업데이트저장
 		UPDATE IRIS_SPACE_EV_CTGR0
 		   SET CTGR_NM = #{ctgrNm}
 	]]>
@@ -303,10 +314,11 @@
 		   AND CTGR_CD = #{ctgrCd}
 	]]>
 	</update>
-	
+
 	<!-- 제품군 업데이트저장 -->
 	<update id="updateSpaceEvCtgr1">
 	<![CDATA[
+	-- updateSpaceEvCtgr1 제품군 업데이트저장
 		UPDATE IRIS_SPACE_EV_CTGR1
 		   SET CTGR_NM = #{ctgrNm}
 	]]>
@@ -317,10 +329,11 @@
 		   AND CTGR_CD = #{ctgrCd}
 	]]>
 	</update>
-	
+
 	<!-- 분류 업데이트저장 -->
 	<update id="updateSpaceEvCtgr2">
 	<![CDATA[
+	-- updateSpaceEvCtgr2 분류 업데이트저장
 		UPDATE IRIS_SPACE_EV_CTGR2
 		   SET CTGR_NM = #{ctgrNm}
 	]]>
@@ -331,10 +344,11 @@
 		   AND CTGR_CD = #{ctgrCd}
 	]]>
 	</update>
-	
+
 	<!-- 제품 업데이트저장 -->
 	<update id="updateSpaceEvCtgr3">
 	<![CDATA[
+	-- updateSpaceEvCtgr3 제품 업데이트저장
 		UPDATE IRIS_SPACE_EV_CTGR3
 		   SET CTGR_NM = #{ctgrNm}
 	]]>
@@ -344,6 +358,6 @@
 		   AND SUPI_CD = #{supiCd}
 		   AND CTGR_CD = #{ctgrCd}
 	]]>
-	</update>	
-	
+	</update>
+
 </mapper>

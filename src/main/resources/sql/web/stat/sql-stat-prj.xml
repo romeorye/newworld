@@ -49,10 +49,10 @@
 												where tss_scn_cd ='G' ) X) Y
 										WHERE OVER_STEP_RANK = 1
 										)
-			and   a.PGS_STEP_CD <> 'PL'		
-			--and   a.wbs_cd ='C15HR1'								
+			and   a.PGS_STEP_CD <> 'PL'
+			--and   a.wbs_cd ='C15HR1'
 		)
-		
+
 		select  m.*
 		from  (
 				select   a.tss_cd
@@ -67,12 +67,12 @@
 						,dbo.fn_getComDtlNm('RSST_SPHE', a.RSST_SPHE)                             AS rsstSphe     --연구분야
 						,dbo.fn_getComDtlNm('TSS_TYPE', a.TSS_TYPE)                               AS tssType      --과제유형
 						,dbo.fn_getSabunName(a.SA_SABUN_NEW)                                      AS saUserName   --과제리더명
-						,a.TSS_STRT_DD                                                            AS tssStrtDd    --과제기간시작 
+						,a.TSS_STRT_DD                                                            AS tssStrtDd    --과제기간시작
 						,a.TSS_FNH_DD                                                             AS tssFnhDdPln  --과제종료일-계획
-						,CASE WHEN a.PGS_STEP_CD = 'DC' THEN a.DCAC_B_FNH_DD                      
+						,CASE WHEN a.PGS_STEP_CD = 'DC' THEN a.DCAC_B_FNH_DD
 							  WHEN a.PGS_STEP_CD = 'CM' THEN a.CMPL_B_FNH_DD END                  AS tssFnhDdArsl --과제종료일-실적
 						,DATEDIFF(MM, a.TSS_STRT_DD, a.TSS_FNH_DD)+1                              AS wnedTrmPln   --소요기간-계획
-						,CASE WHEN a.PGS_STEP_CD = 'DC' THEN DATEDIFF(MM, a.TSS_STRT_DD, a.DCAC_B_FNH_DD)+1                 
+						,CASE WHEN a.PGS_STEP_CD = 'DC' THEN DATEDIFF(MM, a.TSS_STRT_DD, a.DCAC_B_FNH_DD)+1
 							  WHEN a.PGS_STEP_CD = 'CM' THEN DATEDIFF(MM, a.TSS_STRT_DD, a.CMPL_B_FNH_DD)+1 END AS wnedTrmArsl  --소요기간-실적
 						,isnull(left(b.CTY_OT_PLN_M, 4), left(c.CTY_OT_PLN_M, 4))  AS ctyOtPlnY    --상품출시년도
 						,isnull(right(b.CTY_OT_PLN_M, 2), right(c.CTY_OT_PLN_M, 2)) AS ctyOtPlnM    --상품출시월
@@ -86,7 +86,7 @@
 						,isnull(b.NPROD_SALS_PLN_Y_2, c.NPROD_SALS_PLN_Y_2 ) AS nprodSalsPlnY2   --매출계획Y2
 						,isnull(b.NPROD_SALS_PLN_Y_3, c.NPROD_SALS_PLN_Y_3 ) AS nprodSalsPlnY3   --매출계획Y3
 						,isnull(b.NPROD_SALS_PLN_Y_4, c.NPROD_SALS_PLN_Y_4 ) AS nprodSalsPlnY4   --매출계획Y4
-						,isnull((b.NPROD_SALS_PLN_Y + b.NPROD_SALS_PLN_Y_1 + b.NPROD_SALS_PLN_Y_2 + b.NPROD_SALS_PLN_Y_3 + b.NPROD_SALS_PLN_Y_4) 
+						,isnull((b.NPROD_SALS_PLN_Y + b.NPROD_SALS_PLN_Y_1 + b.NPROD_SALS_PLN_Y_2 + b.NPROD_SALS_PLN_Y_3 + b.NPROD_SALS_PLN_Y_4)
 							   , (c.NPROD_SALS_PLN_Y + c.NPROD_SALS_PLN_Y_1 + c.NPROD_SALS_PLN_Y_2 + c.NPROD_SALS_PLN_Y_3 + c.NPROD_SALS_PLN_Y_4) )  AS nprodSalsPlnSum --5년평균
 						,ROUND((SELECT SUM(X.PLN_EXP) / 100 FROM IRIS_TSS_GEN_TRWI_BUDG_LIST X WHERE X.TSS_CD = c.TSS_CD AND left(X.YY_MM,4)  = left( #{condYy}, 4)), 1)  AS yYPlnExp        --비용Y년-계획
 						,ROUND((SELECT SUM(X.ARSL_EXP) / 100  FROM IRIS_TSS_GEN_TRWI_BUDG_LIST X WHERE X.TSS_CD = c.TSS_CD AND left(X.YY_MM,4) = left( #{condYy}, 4) ), 1) AS yYArslExp       --비용Y년-실적
@@ -99,7 +99,7 @@
 										   ,y.PTC_CPSN_Y as ptcCpsn
 									from   IRIS_TSS_MGMT_MST x
 										   inner join IRIS_TSS_GEN_SMRY y
-										   on y.TSS_CD = x.TSS_CD 
+										   on y.TSS_CD = x.TSS_CD
 									where  del_yn ='N'
 									and    x.tss_cd = a.pgTss_cd
 									union all
@@ -107,7 +107,7 @@
 										   ,y.PTC_CPSN_Y_1 as ptcCpsn
 									from   IRIS_TSS_MGMT_MST x
 										   inner join IRIS_TSS_GEN_SMRY y
-										   on y.TSS_CD = x.TSS_CD  
+										   on y.TSS_CD = x.TSS_CD
 									where  del_yn ='N'
 									and    x.tss_cd = a.pgTss_cd
 									union all
@@ -115,7 +115,7 @@
 										  ,y.PTC_CPSN_Y_2 as ptcCpsn
 									from   IRIS_TSS_MGMT_MST x
 										   inner join IRIS_TSS_GEN_SMRY y
-										   on y.TSS_CD = x.TSS_CD 
+										   on y.TSS_CD = x.TSS_CD
 									where  del_yn ='N'
 									and    x.tss_cd = a.pgTss_cd
 									union all
@@ -123,7 +123,7 @@
 										  ,y.PTC_CPSN_Y_3 as ptcCpsn
 									from   IRIS_TSS_MGMT_MST x
 										   inner join IRIS_TSS_GEN_SMRY y
-										   on y.TSS_CD = x.TSS_CD 
+										   on y.TSS_CD = x.TSS_CD
 									where  del_yn ='N'
 									and    x.tss_cd = a.pgTss_cd
 									union all
@@ -131,13 +131,13 @@
 										  ,y.PTC_CPSN_Y_4 as ptcCpsn
 									from   IRIS_TSS_MGMT_MST x
 										   inner join IRIS_TSS_GEN_SMRY y
-										   on y.TSS_CD = x.TSS_CD 
+										   on y.TSS_CD = x.TSS_CD
 									where  del_yn ='N'
 									and    x.tss_cd = a.pgTss_cd
 									) a
-							where yyyy = #{condYy} 
+							where yyyy = #{condYy}
 							)  AS mbrCntPln  --투입인원Y년-계획
-						,round(isnull((select round((sum(PTC_PRO) / 100) / (select case when count(distinct mm_yymm) = 0 then 1 else count(distinct mm_yymm) end  from IRIS_MM_CLS where tss_cd = a.pgTss_cd and cls_yn ='Y' and left(MM_YYMM, 4) = #{condYy} ) , 2) from IRIS_MM_CLS where tss_cd  = a.pgTss_cd and left(MM_YYMM, 4) = #{condYy} and cls_yn ='Y'), 0), 1) AS mbrCntArsl --투입인원Y년-실적		    				    		
+						,round(isnull((select round((sum(PTC_PRO) / 100) / (select case when count(distinct mm_yymm) = 0 then 1 else count(distinct mm_yymm) end  from IRIS_MM_CLS where tss_cd = a.pgTss_cd and cls_yn ='Y' and left(MM_YYMM, 4) = #{condYy} ) , 2) from IRIS_MM_CLS where tss_cd  = a.pgTss_cd and left(MM_YYMM, 4) = #{condYy} and cls_yn ='Y'), 0), 1) AS mbrCntArsl --투입인원Y년-실적
 				from    TSS_LIST a
 						inner join IRIS_TSS_GEN_SMRY b
 						on b.tss_cd = a.tss_cd
@@ -154,8 +154,8 @@
         	</if>
 		order by m.deptName, m.prjNm
     </select>
-    
-    
+
+
     <!-- 통계 >  프로젝트 리스트  -->
     <select id="retrievePrjRsstStatList" resultType="hashmap">
     <![CDATA[
@@ -173,23 +173,23 @@
 			  ,ROUND((CASE WHEN m.tssBudg != 0 AND m.tssBudg > 0 THEN (m.tssExp/ m.tssBudg) * 100 ELSE NULL END),1,1)  as tssExe    /* 집행율(%) 소수점1자리*/
 			  ,m.pduGoalCnt
 			  ,m.arslCnt
-			  ,m.wbsCd   
+			  ,m.wbsCd
 		from  (
 				select a.prj_cd as prjCd
 					  ,(select dept_name from IRIS_SSO_DEPT where dept_code = a.DEPT_UPER) as deptNm
 					  ,a.prj_nm as prjNm
 					  ,(select sa_name from  iris_sso_user where sa_sabun_new = a.PL_EMP_NO) as plEmpName
-					  ,case when convert(nvarchar(4), getdate(), 23) = #{yyyy} then (select count(distinct b.TMMR_EMP_NO) 
+					  ,case when convert(nvarchar(4), getdate(), 23) = #{yyyy} then (select count(distinct b.TMMR_EMP_NO)
 																				from   IRIS_PRJ_TMMR_INFO b
 																				where  b.PRJ_CD = a.PRJ_CD
 																				and   (b.patc_end_dt = '' or  b.patc_end_dt is null)
-																			  ) 
-						    else  (select count(distinct b.TMMR_EMP_NO) 
+																			  )
+						    else  (select count(distinct b.TMMR_EMP_NO)
 								from   IRIS_PRJ_TMMR_INFO b
 								where  b.PRJ_CD = a.PRJ_CD
 								and   #{yyyy} between left(b.PATC_STR_DT, 4) and left((case when b.PATC_END_DT = '' or b.PATC_END_DT is null then '9999' else  b.PATC_END_DT end), 4)
-								) end  as prjCpsn  
-					  ,round(isnull((					
+								) end  as prjCpsn
+					  ,round(isnull((
 						SELECT (SUM(ISNULL(A1.m01,0)) + SUM(ISNULL(A1.m02,0)) + SUM(ISNULL(A1.m03,0)) + SUM(ISNULL(A1.m04,0)) + SUM(ISNULL(A1.m05,0)) + SUM(ISNULL(A1.m06,0))
 											  + SUM(ISNULL(A1.m07,0)) + SUM(ISNULL(A1.m08,0)) + SUM(ISNULL(A1.m09,0)) + SUM(ISNULL(A1.m10,0)) + SUM(ISNULL(A1.m11,0)) + SUM(ISNULL(A1.m12,0))) as 'monthSum'
 										  FROM (
@@ -202,8 +202,8 @@
 														ON M.PRJ_CD = P.PRJ_CD
 													WHERE P.PRJ_CD = a.PRJ_CD
 													)
-									AND    TSS_CD LIKE '%2' 
-									AND   YY_MM LIKE '%'+ #{yyyy}+'%'            
+									AND    TSS_CD LIKE '%2'
+									AND   YY_MM LIKE '%'+ #{yyyy}+'%'
 								) AS z
 							PIVOT ( SUM(PLN_EXP) FOR YY_MM IN ([${yyyy}01],[${yyyy}02],[${yyyy}03],[${yyyy}04],[${yyyy}05],[${yyyy}06]
 															,[${yyyy}07],[${yyyy}08],[${yyyy}09],[${yyyy}10],[${yyyy}11],[${yyyy}12]) ) A
@@ -211,7 +211,7 @@
 						),0)/100,1,1) as tssBudg
 						,ROUND(
 										ISNULL((
-											SELECT (ISNULL(SUM(X1.m01),0) + ISNULL(SUM(X1.m02),0) + ISNULL(SUM(X1.m03),0) + ISNULL(SUM(X1.m04),0) + ISNULL(SUM(X1.m05),0) + ISNULL(SUM(X1.m06),0) + 
+											SELECT (ISNULL(SUM(X1.m01),0) + ISNULL(SUM(X1.m02),0) + ISNULL(SUM(X1.m03),0) + ISNULL(SUM(X1.m04),0) + ISNULL(SUM(X1.m05),0) + ISNULL(SUM(X1.m06),0) +
 													ISNULL(SUM(X1.m07),0) + ISNULL(SUM(X1.m08),0) + ISNULL(SUM(X1.m09),0) + ISNULL(SUM(X1.m10),0) + ISNULL(SUM(X1.m11),0) + ISNULL(SUM(X1.m12),0) ) as yearSum
 											  FROM (
 													SELECT ISNULL([${yyyy}01],0) as m01, ISNULL([${yyyy}02],0) as m02, ISNULL([${yyyy}03],0) as m03, ISNULL([${yyyy}04],0) as m04, ISNULL([${yyyy}05],0) as m05,ISNULL([${yyyy}06],0) as m06
@@ -224,17 +224,17 @@
 																				WHERE P.PRJ_CD =  a.PRJ_CD
 																			 )
 																AND TSS_CD LIKE '%2'
-																AND YY_MM LIKE '%'+ #{yyyy}+'%' 															 
+																AND YY_MM LIKE '%'+ #{yyyy}+'%'
 														   ) AS X
 													 PIVOT ( SUM(ARSL_EXP) FOR YY_MM IN ([${yyyy}01],[${yyyy}02],[${yyyy}03],[${yyyy}04],[${yyyy}05],[${yyyy}06]
 																					   ,[${yyyy}07],[${yyyy}08],[${yyyy}09],[${yyyy}10],[${yyyy}11],[${yyyy}12]) ) A
 											) X1
-							),0)/100,1,1)  as tssExp 		/* 과제 총 비용(억원)*/   
-							, ISNULL(b.PRPT_GOAL_CNT,0) AS prptGoalCnt 
+							),0)/100,1,1)  as tssExp 		/* 과제 총 비용(억원)*/
+							, ISNULL(b.PRPT_GOAL_CNT,0) AS prptGoalCnt
 							, 0                         AS prptArslCnt  /*실적 지적재산권 개수*/
-		
+
 							, isnull( ( /*과제완료율 : 계획월수/실행월수 * 100 */
-								SELECT Z.TTM 
+								SELECT Z.TTM
 									FROM (
 									SELECT Y.PRJ_CD
 											, ROUND(
@@ -242,12 +242,12 @@
 															ELSE 0 END )
 													,1,1) as TTM /*TTM(개발완료)*/
 									FROM (
-										SELECT (CASE WHEN CONVERT(DATETIME, X.TSS_FNH_DD) > CONVERT(DATETIME, X.TSS_STRT_DD)  
+										SELECT (CASE WHEN CONVERT(DATETIME, X.TSS_FNH_DD) > CONVERT(DATETIME, X.TSS_STRT_DD)
 												THEN ROUND(CONVERT(float,DATEDIFF (MONTH, CONVERT(DATETIME, X.TSS_STRT_DD) , CONVERT(DATETIME, X.TSS_FNH_DD) )),2,1) + 1
 												ELSE 0 END)  as TSS_PLN_DIFF_MON /*과제계획월수(월단위로 일자 채워서 계산)*/
 												, X.TSS_STRT_DD
 												, X.TSS_FNH_DD
-												, (CASE WHEN CONVERT(DATETIME, X.CMPL_B_FNH_DD) > CONVERT(DATETIME, X.CMPL_B_STRT_DD)  
+												, (CASE WHEN CONVERT(DATETIME, X.CMPL_B_FNH_DD) > CONVERT(DATETIME, X.CMPL_B_STRT_DD)
 														THEN ROUND(CONVERT(float,DATEDIFF (MONTH, CONVERT(DATETIME, X.CMPL_B_STRT_DD) , CONVERT(DATETIME, X.CMPL_B_FNH_DD) )),2,1) + 1
 														ELSE 0 END)  as TSS_CMPL_DIFF_MON /*과제실행월수(월단위로 일자 채워서 계산)*/
 												, X.CMPL_B_STRT_DD
@@ -273,12 +273,12 @@
 										and    YLD_TYPE = '300'
 										and    left(arsl_year_mon, 4) = #{yyyy}
 										) , 0 ) as arslCnt /*Monthly Report 실행개수*/
-							   ,a.wbs_cd as wbsCd		
+							   ,a.wbs_cd as wbsCd
 				from   IRIS_PRJ_RSST_MST a
 					   left outer join  (
 										select  PRPT_GOAL_CNT , PRJ_CD, PRPT_GOAL_YEAR, FRNW_SCN
-										from IRIS_PRJ_PTOT_PRPT 
-							
+										from IRIS_PRJ_PTOT_PRPT
+
 										)  b
 						 on     b.prj_cd =a.prj_cd
 						 and   b.PRPT_GOAL_YEAR = #{yyyy}
@@ -286,18 +286,18 @@
 				where  1=1
 				and    a.PRJ_CD <> 'PRJ00004'
 				and    #{yyyy} between left(a.PRJ_STR_DT, 4) and left((case when a.PRJ_END_DT = '' or a.PRJ_END_DT is null then '9999' else  a.PRJ_END_DT end), 4)
-		
+
 				) m
 			where  1=1
-			]]>	
-			
+			]]>
+
 			<if test="_roleId == 'WORK_IRI_T16' ">
 			AND    m.deptNm LIKE '%'+#{_userDeptName}+'%'
 			</if>
-		
-			order by m.deptNm 
+
+			order by m.deptNm
     </select>
-    
+
     <!-- 대외협력과제 년도별 통계 -->
     <select id="retrieveOusdTssStatList" resultType="hashmap">
     <![CDATA[
@@ -333,7 +333,7 @@
 			 , AA.CNTT_TYPE_NM as cnttTypeNm /*계약유형명*/
 			 , AA.TSS_CD       as tssCd      /*과제코드*/
 			 , AA.TSS_NM       as tssNm      /*과제명*/
-			 , AA.COO_INST_CD  as cooInstCd  /*협력기관코드*/ 
+			 , AA.COO_INST_CD  as cooInstCd  /*협력기관코드*/
 			 , AA.COO_INST_NM  as cooInstNm  /*협력기관명*/
 			 , AA.SPLT_NM      as spltNm     /*협력기관연구책임자*/
 			 , AA.TSS_STRT_DD  as tssStrtDd  /*과제시작일자*/
@@ -341,7 +341,7 @@
 			 , SUBSTRING(CONVERT(CHAR(8), CONVERT(DATETIME, AA.TSS_STRT_DD), 2),1,5) as strTssStrtDd /*화면표시용 과제시작일자*/
 			 , SUBSTRING(CONVERT(CHAR(8), CONVERT(DATETIME, AA.TSS_FNH_DD), 2),1,5)  as strTssFnhDd  /*화면표시용 과제종료일자*/
 			 --, ROUND(CONVERT(float,DATEDIFF (day, CONVERT(DATETIME, AA.TSS_STRT_DD) , CONVERT(DATETIME, AA.TSS_FNH_DD) )) / 31,2,1) as tssDiffMon /*과제소요월수(31일단위로 나눠서 소수점2자리표시)*/
-			 , (CASE WHEN CONVERT(DATETIME, AA.TSS_FNH_DD) > CONVERT(DATETIME, AA.TSS_STRT_DD)  
+			 , (CASE WHEN CONVERT(DATETIME, AA.TSS_FNH_DD) > CONVERT(DATETIME, AA.TSS_STRT_DD)
 				     THEN ROUND(CONVERT(float,DATEDIFF (MONTH, CONVERT(DATETIME, AA.TSS_STRT_DD) , CONVERT(DATETIME, AA.TSS_FNH_DD) )),1,1)  + 1
 				ELSE 0 END)  as tssDiffMon /*과제소요월수(월단위로 일자 채워서 계산)*/
 			 , AA.WBS_CD       as wbsCd      /*(과제)WBS코드*/
@@ -353,16 +353,16 @@
 				SELECT B.BIZ_DPT_CD    /*과제유형코드*/
 					 , (SELECT TOP 1 X.COM_DTL_NM FROM IRIS_ADM_COM_CD X WHERE X.COM_CD_CD = 'BIZ_DPT_CD' AND X.COM_DTL_CD = B.BIZ_DPT_CD) AS BIZ_DPT_NM /*과제유형명*/
 					 , B.DEPT_CODE     /*조직코드*/
-					 , CASE WHEN B.DEPT_NAME IS NULL OR B.DEPT_NAME ='' THEN dbo.fn_getDeptName(E.DEPT_UPER)                                    
-							WHEN B.DEPT_NAME IS NOT NULL OR B.DEPT_NAME !='' THEN B.DEPT_NAME END           		AS DEPT_NAME     --조직명					 
+					 , CASE WHEN B.DEPT_NAME IS NULL OR B.DEPT_NAME ='' THEN dbo.fn_getDeptName(E.DEPT_UPER)
+							WHEN B.DEPT_NAME IS NOT NULL OR B.DEPT_NAME !='' THEN B.DEPT_NAME END           		AS DEPT_NAME     --조직명
 					 , B.PRJ_CD        /*프로젝트코드*/
-					 , CASE WHEN B.PRJ_NM IS NULL OR B.PRJ_NM=''  THEN RIGHT(dbo.fn_getPrjName(B.PRJ_CD),LEN(dbo.fn_getPrjName(B.PRJ_CD))-CHARINDEX('.',dbo.fn_getPrjName(B.PRJ_CD) ))                                         
-							WHEN B.PRJ_NM IS NOT NULL OR B.PRJ_NM !='' THEN RIGHT(B.PRJ_NM,LEN(B.PRJ_NM)-CHARINDEX('.',B.PRJ_NM ))  END							AS PRJ_NM        --소속명(프로젝트명)					 
+					 , CASE WHEN B.PRJ_NM IS NULL OR B.PRJ_NM=''  THEN RIGHT(dbo.fn_getPrjName(B.PRJ_CD),LEN(dbo.fn_getPrjName(B.PRJ_CD))-CHARINDEX('.',dbo.fn_getPrjName(B.PRJ_CD) ))
+							WHEN B.PRJ_NM IS NOT NULL OR B.PRJ_NM !='' THEN RIGHT(B.PRJ_NM,LEN(B.PRJ_NM)-CHARINDEX('.',B.PRJ_NM ))  END							AS PRJ_NM        --소속명(프로젝트명)
 					 , C.CNTT_TYPE_CD /*계약유형코드*/
 					 , (SELECT TOP 1 X.COM_DTL_NM FROM IRIS_ADM_COM_CD X WHERE X.COM_CD_CD = 'CNTT_TYPE_CD' AND X.COM_DTL_CD = C.CNTT_TYPE_CD) AS CNTT_TYPE_NM /*계약유형명*/
 					 , B.TSS_CD
 					 , B.TSS_NM
-					 , B.COO_INST_CD   /*협력기관코드*/ 
+					 , B.COO_INST_CD   /*협력기관코드*/
 					 , (SELECT TOP 1 X.INST_NM FROM IRIS_KNLD_OSCP_SPLT X WHERE X.DEL_YN = 'N' AND X.OSCP_SPLT_ID = B.COO_INST_CD ) AS COO_INST_NM /*협력기관명*/
 					 , (SELECT TOP 1 X.SPLT_NM FROM IRIS_KNLD_OSCP_SPLT X WHERE X.DEL_YN = 'N' AND X.OSCP_SPLT_ID = B.COO_INST_CD ) AS SPLT_NM /*협력기관연구책임자*/
 					 , (CASE WHEN A.PGS_STEP_CD = 'CM' THEN B.CMPL_B_STRT_DD WHEN A.PGS_STEP_CD = 'DC' THEN B.DCAC_B_STRT_DD ELSE B.TSS_STRT_DD END) AS TSS_STRT_DD /*과제시작일자*/
@@ -376,26 +376,26 @@
 				 INNER JOIN IRIS_TSS_MGMT_MST B
 					ON A.TSS_CD = B.TSS_CD
 				 LEFT OUTER JOIN IRIS_PRJ_RSST_MST E
-					ON B.PRJ_CD = E.PRJ_CD					
+					ON B.PRJ_CD = E.PRJ_CD
 				 INNER JOIN IRIS_TSS_OUSD_COO_SMRY C
 					ON A.TSS_CD = C.TSS_CD
 				 WHERE #{searchYyyy} BETWEEN  LEFT(B.TSS_STRT_DD, 4) AND  LEFT(B.TSS_FNH_DD, 4)
 				   AND B.DEL_YN = 'N'
-			) AA	
-			
+			) AA
+
 		 WHERE   1=1
     ]]>
 		 <if test="_roleId == 'WORK_IRI_T16' ">
-		 	AND   AA.DEPT_NAME LIKE '%'+#{_userDeptName}+'%'		
+		 	AND   AA.DEPT_NAME LIKE '%'+#{_userDeptName}+'%'
 		 </if>
 		 ORDER BY AA.BIZ_DPT_NM, AA.DEPT_NAME, AA.PRJ_NM
     </select>
-    
-    
-    <!-- 국책과제 년도별 통계 -->    
+
+
+    <!-- 국책과제 년도별 통계 -->
     <select id="retrieveNatTssStatList" resultType="hashmap">
     <![CDATA[
-        --retrieveNatTssStatList
+        --retrieveNatTssStatList 국책과제 년도별 통계
         WITH TSS_LIST AS (
             SELECT Y.PK_WBS_CD
                  , Y.TSS_CD
@@ -422,29 +422,29 @@
 		FROM  (
 		        SELECT B.WBS_CD                                                                 AS wbsCd        --과제번호
 		             , B.TSS_CD                                                                 AS tssCd        --과제코드
-					 , CASE WHEN B.DEPT_NAME IS NULL OR B.DEPT_NAME ='' THEN dbo.fn_getDeptName(E.DEPT_UPER)                                    
-							WHEN B.DEPT_NAME IS NOT NULL OR B.DEPT_NAME !='' THEN B.DEPT_NAME END           		AS deptName     --조직명					 
-					 , CASE WHEN B.PRJ_NM IS NULL OR B.PRJ_NM=''  THEN RIGHT(dbo.fn_getPrjName(B.PRJ_CD),LEN(dbo.fn_getPrjName(B.PRJ_CD))-CHARINDEX('.',dbo.fn_getPrjName(B.PRJ_CD) ))                                         
-							WHEN B.PRJ_NM IS NOT NULL OR B.PRJ_NM !='' THEN RIGHT(B.PRJ_NM,LEN(B.PRJ_NM)-CHARINDEX('.',B.PRJ_NM ))  END							AS prjNm        --소속명(프로젝트명)            
+					 , CASE WHEN B.DEPT_NAME IS NULL OR B.DEPT_NAME ='' THEN dbo.fn_getDeptName(E.DEPT_UPER)
+							WHEN B.DEPT_NAME IS NOT NULL OR B.DEPT_NAME !='' THEN B.DEPT_NAME END           		AS deptName     --조직명
+					 , CASE WHEN B.PRJ_NM IS NULL OR B.PRJ_NM=''  THEN RIGHT(dbo.fn_getPrjName(B.PRJ_CD),LEN(dbo.fn_getPrjName(B.PRJ_CD))-CHARINDEX('.',dbo.fn_getPrjName(B.PRJ_CD) ))
+							WHEN B.PRJ_NM IS NOT NULL OR B.PRJ_NM !='' THEN RIGHT(B.PRJ_NM,LEN(B.PRJ_NM)-CHARINDEX('.',B.PRJ_NM ))  END							AS prjNm        --소속명(프로젝트명)
 		             , B.BIZ_NM                                                                 AS bizNm        --사업명
 		             , B.SUPV_OPS_NM                                                            AS supvOpsNm    --주관부처
-		             , B.TSS_NM                                                                 AS tssNm        --과제명  
+		             , B.TSS_NM                                                                 AS tssNm        --과제명
 		             , ''                                                               AS tssSmryTxt   --과제개요
-					 , ISNULL(dbo.fn_getNameOnTssPgsStep(B.TSS_CD, 'USER', B.SA_SABUN_NEW) , B.SA_SABUN_NAME) AS saUserName --과제리더명           
+					 , ISNULL(dbo.fn_getNameOnTssPgsStep(B.TSS_CD, 'USER', B.SA_SABUN_NEW) , B.SA_SABUN_NAME) AS saUserName --과제리더명
 		             , D.TTL_CRRO_STRT_DT                                                       AS tssStrtDd    --과제시작일
 		             , D.TTL_CRRO_FNH_DT                                                        AS tssFnhDdPln  --과제종료일-계획
-		             , CASE WHEN B.PGS_STEP_CD = 'DC' THEN B.DCAC_B_FNH_DD                      
+		             , CASE WHEN B.PGS_STEP_CD = 'DC' THEN B.DCAC_B_FNH_DD
 		                    WHEN B.PGS_STEP_CD = 'CM' THEN B.CMPL_B_FNH_DD END                  AS tssFnhDdArsl --과제종료일-실적
-		             , CASE WHEN B.PGS_STEP_CD = 'DC' THEN B.DCAC_NX_FNH_DD                      
+		             , CASE WHEN B.PGS_STEP_CD = 'DC' THEN B.DCAC_NX_FNH_DD
 		                    WHEN B.PGS_STEP_CD = 'CM' THEN B.CMPL_NX_FNH_DD END                 AS tssFnhDdStoa --과제종료일-정산
 		             , DATEDIFF(MM, D.TTL_CRRO_STRT_DT, D.TTL_CRRO_FNH_DT)+1                    AS wnedTrmPln   --소요기간-계획
-		             , CASE WHEN B.PGS_STEP_CD = 'DC'                                           
-		                    THEN DATEDIFF(MM, D.TTL_CRRO_STRT_DT, B.DCAC_B_FNH_DD)+1                 
-		                    WHEN B.PGS_STEP_CD = 'CM'                                           
+		             , CASE WHEN B.PGS_STEP_CD = 'DC'
+		                    THEN DATEDIFF(MM, D.TTL_CRRO_STRT_DT, B.DCAC_B_FNH_DD)+1
+		                    WHEN B.PGS_STEP_CD = 'CM'
 		                    THEN DATEDIFF(MM, D.TTL_CRRO_STRT_DT, B.CMPL_B_FNH_DD)+1 END        AS wnedTrmArsl  --소요기간-실적
-		             , CASE WHEN B.PGS_STEP_CD = 'DC'                                           
-		                    THEN DATEDIFF(MM, D.TTL_CRRO_STRT_DT, B.DCAC_NX_FNH_DD)+1                 
-		                    WHEN B.PGS_STEP_CD = 'CM'                                           
+		             , CASE WHEN B.PGS_STEP_CD = 'DC'
+		                    THEN DATEDIFF(MM, D.TTL_CRRO_STRT_DT, B.DCAC_NX_FNH_DD)+1
+		                    WHEN B.PGS_STEP_CD = 'CM'
 		                    THEN DATEDIFF(MM, D.TTL_CRRO_STRT_DT, B.CMPL_NX_FNH_DD)+1 END       AS wnedTrmStoa  --소요기간-정산
 		             , B.TSS_NOS_ST+'차년도'                                                    AS tssNosSt
 		             , dbo.fn_getComDtlNm('PGS_STEP_CD',B.PGS_STEP_CD)                          AS pgsStepNm    --진행상태
@@ -477,7 +477,7 @@
 		         INNER JOIN IRIS_TSS_MGMT_MST B
 		            ON A.TSS_CD = B.TSS_CD
 				 LEFT OUTER JOIN IRIS_PRJ_RSST_MST E
-					ON B.PRJ_CD = E.PRJ_CD            
+					ON B.PRJ_CD = E.PRJ_CD
 		         INNER JOIN IRIS_TSS_NAT_PLCY_SMRY D
 		            ON A.TSS_CD = D.TSS_CD
 		          LEFT JOIN (SELECT TSS_CD
@@ -506,14 +506,14 @@
 		            ON C.TSS_CD = ISNULL(A.TSS_CD, A.PG_TSS_CD)
 		    ]]>
 		        <if test="condYy != null and !condYy.equals('')">
-		         WHERE #{condYy}  BETWEEN  LEFT(B.TSS_STRT_DD, 4) AND  LEFT(B.TSS_FNH_DD, 4)	
+		         WHERE #{condYy}  BETWEEN  LEFT(B.TSS_STRT_DD, 4) AND  LEFT(B.TSS_FNH_DD, 4)
 		        </if>
 		        ) a
 		       where  1=1
-		       	<if test="_roleId == 'WORK_IRI_T16' ">	
+		       	<if test="_roleId == 'WORK_IRI_T16' ">
 				 AND    deptName LIKE '%'+#{_userDeptName}+'%'
 		    	</if>
 		       ORDER BY a.wbsCd, a.tssNosSt
-		        
+
     </select>
 </mapper>

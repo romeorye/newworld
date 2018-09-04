@@ -93,7 +93,7 @@
 	</select>
 
 	<select id="getSpaceRqprInfo" resultType="hashmap">
-
+	-- getSpaceRqprInfo
 		   SELECT
 				RQPR_ID												AS rqprId,
 				RQPR_DT												AS rqprDt,
@@ -157,7 +157,7 @@
 	</select>
 
 	<select id="getSpaceRqprSmpoList" resultType="hashmap">
-
+	-- getSpaceRqprSmpoList
 		   SELECT
 				SMPO_ID		AS smpoId,
 				RQPR_ID		AS rqprId,
@@ -172,7 +172,7 @@
 	</select>
 
 	<select id="getSpaceRqprRltdList" resultType="hashmap">
-
+	-- getSpaceRqprRltdList
 		   SELECT
 				rltd.RLTD_ID								AS rltdId,
 				rltd.RQPR_ID								AS rqprId,
@@ -191,7 +191,7 @@
 	</select>
 
 	<insert id="insertSpaceRqpr" parameterType="hashmap" useGeneratedKeys="true" keyProperty="rqprId" keyColumn="RQPR_ID">
-
+	-- insertSpaceRqpr
 		insert into iris_space_rqpr_mst(
 			RQPR_DT
 		   ,RGST_ID
@@ -226,7 +226,7 @@
 	</insert>
 
 	<update id="updateSpaceRqpr">
-
+	-- updateSpaceRqpr
 		update	iris_space_rqpr_mst
 		set		space_name = #{spaceNm},
 				space_scn_cd = #{spaceScnCd},
@@ -251,7 +251,7 @@
 	</update>
 
 	<update id="updateSpaceRqprAcpcStCd">
-
+	-- updateSpaceRqprAcpcStCd
 		update	iris_space_rqpr_mst
 		set		acpc_st_cd = #{acpcStCd},
 		<if test="acpcStCd == '04'">
@@ -269,7 +269,7 @@
 	</update>
 
 	<update id="updateSpaceRqprDelYn">
-
+	-- updateSpaceRqprDelYn
 		update	iris_space_rqpr_mst
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -279,7 +279,7 @@
 	</update>
 
 	<insert id="insertSpaceRqprSmpo" parameterType="map">
-
+	-- insertSpaceRqprSmpo
 		insert into iris_space_rqpr_smpo(
 			RQPR_ID
 		   ,SMPO_NM
@@ -301,7 +301,7 @@
 	</insert>
 
 	<update id="updateSpaceRqprSmpo">
-
+	-- updateSpaceRqprSmpo
 		update	iris_space_rqpr_smpo
 		set		smpo_nm = #{smpoNm},
 				mkr_nm = #{mkrNm},
@@ -314,7 +314,7 @@
 	</update>
 
 	<update id="updateSpaceRqprSmpoDelYn">
-
+	-- updateSpaceRqprSmpoDelYn
 		update	iris_space_rqpr_smpo
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -324,7 +324,7 @@
 	</update>
 
 	<insert id="insertSpaceRqprRltd" parameterType="map">
-
+	-- insertSpaceRqprRltd
 		insert into iris_space_rqpr_rltd(
 			RQPR_ID
 		   ,PRE_RQPR_ID
@@ -344,7 +344,7 @@
 	</insert>
 
 	<update id="updateSpaceRqprRltd">
-
+	-- updateSpaceRqprRltd
 		update	iris_space_rqpr_rltd
 		set		pre_rqpr_id = #{preRqprId},
 				pre_space_name = #{preSpaceNm},
@@ -356,7 +356,7 @@
 	</update>
 
 	<update id="updateSpaceRqprRltdDelYn">
-
+	-- updateSpaceRqprRltdDelYn
 		update	iris_space_rqpr_rltd
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -366,7 +366,7 @@
 	</update>
 
 	<insert id="insertSpaceRqprInfm" parameterType="map">
-
+	-- insertSpaceRqprInfm
 		MERGE INTO iris_space_rqpr_infm a
 		USING ( SELECT	#{rqprId} as rqprId,
 						#{infmPrsnId} as infmPrsnId,
@@ -387,7 +387,7 @@
 	</insert>
 
 	<update id="updateSpaceRqprInfmDelYn">
-
+	-- updateSpaceRqprInfmDelYn
 		update	iris_space_rqpr_infm
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -404,7 +404,7 @@
 	</update>
 
 	<select id="getSpaceRqprOpinitionListCnt" resultType="int">
-
+	-- getSpaceRqprOpinitionListCnt
 		   select	count(1) cnt
 			from	iris_space_rqpr_opi
 			where	rqpr_id = ${rqprId}
@@ -413,7 +413,7 @@
 	</select>
 
 	<select id="getSpaceRqprOpinitionList" resultType="map">
-
+	-- getSpaceRqprOpinitionList
 		   select	OPI_ID								  as opiId
 				   ,RQPR_ID								  as rqprId
 				   ,RGST_ID								  as rgstId
@@ -428,7 +428,7 @@
 	</select>
 
 	<insert id="saveSpaceRqprOpinition" parameterType="map">
-
+	-- saveSpaceRqprOpinition
 		MERGE INTO iris_space_rqpr_opi a
 		USING ( SELECT	${opiId} as opiId,
 						${rqprId} as rqprId,
@@ -459,7 +459,7 @@
 	</insert>
 
 	<update id="updateSpaceRqprOpinitionDelYn" parameterType="map">
-
+	-- updateSpaceRqprOpinitionDelYn
 		update	iris_space_rqpr_opi
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -605,7 +605,7 @@
 	</select>
 
 	<insert id="saveSpaceRqprExpr" parameterType="map">
-
+	-- saveSpaceRqprExpr
 		MERGE INTO iris_space_rqpr_expr a
 		USING ( SELECT	#{rqprExprId} as rqprExprId,
 						#{rqprId} as rqprId,
@@ -663,7 +663,7 @@
 	</insert>
 
 	<update id="updateSpaceRqprExprDelYn" parameterType="map">
-
+	-- updateSpaceRqprExprDelYn
 		update	iris_space_rqpr_expr
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -673,7 +673,7 @@
 	</update>
 
 	<update id="saveSpaceRqprRslt" parameterType="map">
-
+	-- saveSpaceRqprRslt
 		update	iris_space_rqpr_mst
 		set		space_rslt_sbc = #{spaceRsltSbc},
 				rslt_attc_file_id = #{rsltAttcFileId},
@@ -684,7 +684,7 @@
 	</update>
 
 	<insert id="saveSpaceExatMst" parameterType="map">
-
+	-- saveSpaceExatMst
 		MERGE INTO iris_space_exat_mst a
 		USING ( SELECT	#{exatCd} as exatCd,
 						#{exatNm} as exatNm,
@@ -762,7 +762,7 @@
 	</select>
 
 	<insert id="saveSpaceExatDtl" parameterType="map">
-
+	-- saveSpaceExatDtl
 		insert into iris_space_exat_dtl(
 			EXAT_CD
 		   ,MCHN_INFO_ID
@@ -778,7 +778,7 @@
 	</insert>
 
 	<update id="updateSpaceExatDtlDelYn" parameterType="map">
-
+	-- updateSpaceExatDtlDelYn
 		update	iris_space_exat_dtl
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -984,7 +984,7 @@
 <select id="retrieveMachineList"  resultType="hashmap">
 		<![CDATA[
 		-- retrieveMachineList ToolÁ¶È¸
-		
+
 		SELECT  TOOL_NM as "toolNm"
 			    ,VER as "ver"
 		        ,dbo.fn_getComDtlNm('SPACE_EV_CTGR', MIM.MCHN_CL_CD) as evCtgr

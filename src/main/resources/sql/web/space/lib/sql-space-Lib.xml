@@ -6,6 +6,7 @@
 
     <!-- 리스트  -->
 	<select id="getSpaceLibList" resultType="hashmap">
+	-- getSpaceLibList 리스트
 		<![CDATA[
 			SELECT
 				   BBS_ID                                                   AS bbsId        /*게시판ID*/
@@ -29,7 +30,7 @@
 		 </if>
 		 <if test="(bbsCd != '01' and target != 'tabContentIfrm0')">
 			  AND BBS_CD = #{bbsCd}
-		 </if>		 
+		 </if>
 		 <if test="searchCd == 'bbsTitlCode'">
 			  AND BBS_TITL like '%${searchNm}%'
 		 </if>
@@ -50,6 +51,7 @@
 
 	  <!-- 상세화면  -->
 	<select id="getSpaceLibInfo" resultType="hashmap">
+	-- getSpaceLibInfo 상세화면
 		<![CDATA[
 			SELECT
 				  BBS_ID                                                   AS bbsId        /*게시판ID*/
@@ -74,6 +76,7 @@
 	<!-- 저장  -->
 	<insert id="insertSpaceLibInfo">
 	<![CDATA[
+	-- insertSpaceLibInfo 저장
 		insert into IRIS_SPACE_BBS_MST
 	    (     BBS_TITL
 			, BBS_SBC
@@ -105,7 +108,7 @@
 		    , 0
 		    , #{rltdBulPath}
 	       ]]>
-	
+
 			<if test="( anlBbsCd != null and anlBbsCd != '')">
 		    , #{anlBbsCd}
 		    </if>
@@ -132,6 +135,7 @@
     <!-- 업데이트  -->
 	<update id="updateSpaceLibInfo">
 	<![CDATA[
+	-- updateSpaceLibInfo 업데이트
 		UPDATE IRIS_SPACE_BBS_MST
 		   SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
@@ -156,6 +160,7 @@
 	<!--  조회건수 업데이트  -->
 	<update id="updateSpaceLibRtrvCnt">
 	<![CDATA[
+	-- updateSpaceLibRtrvCnt 조회건수 업데이트
 		UPDATE IRIS_SPACE_BBS_MST
 		   SET RTRV_CT = RTRV_CT + 1
 	]]>
@@ -169,6 +174,7 @@
     <!-- 삭제  -->
 	<update id="deleteSpaceLibInfo">
 	<![CDATA[
+	-- deleteSpaceLibInfo 삭제
 		UPDATE IRIS_SPACE_BBS_MST
 		   SET DEL_YN = 'Y'
 	]]>
@@ -177,8 +183,9 @@
 		 WHERE BBS_ID = #{bbsId}
 	]]>
 	</update>
-	
+
 	<select id="spaceBbsCodeList" resultType="HashMap">
+	-- spaceBbsCodeList
         <![CDATA[
         SELECT A.COM_DTL_CD
              , A.COM_DTL_NM

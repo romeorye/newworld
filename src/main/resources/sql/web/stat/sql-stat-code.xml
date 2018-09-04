@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="stat.code">
-	
+
 	<!-- 공통코드 조회 -->
 	<select id="retrieveCcomCodeList"  resultType="hashmap">
    		<![CDATA[
+   		-- retrieveCcomCodeList 공통코드 조회
 		SELECT   COM_ID   		AS comId
 				,COM_CD_CD		AS comCdCd
 				,COM_CD_NM		AS comCdNm
@@ -24,16 +25,17 @@
 		WHERE  1=1
 		]]>
 	    <if test="( code != null and code != '')">
-			AND  COM_CD_CD  LIKE '%'+#{code}+'%' 
+			AND  COM_CD_CD  LIKE '%'+#{code}+'%'
 	    </if>
 		<if test="( codeNm != null and codeNm != '')">
 			AND  COM_CD_NM LIKE '%'+#{codeNm}+'%'
 	    </if>
 	</select>
-   	
-   	<!-- 공통코드 등록, 수정 -->	
+
+   	<!-- 공통코드 등록, 수정 -->
 	<update id="saveCodeInfo" >
 		<![CDATA[
+		-- saveCodeInfo 공통코드 등록, 수정
 		MERGE IRIS_ADM_COM_CD MEM
 			USING ( SELECT #{comId} AS COM_ID ) AS Tab1
 			ON  (MEM.COM_ID = Tab1.COM_ID)
@@ -68,5 +70,5 @@
 				,#{_userId}
 			);
 		]]>
-	</update>   		
+	</update>
 </mapper>
