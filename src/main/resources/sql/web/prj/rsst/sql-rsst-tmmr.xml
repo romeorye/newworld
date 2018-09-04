@@ -7,6 +7,7 @@
 	<!-- 프로젝트 팀원 조회  -->
 	<select id="retrievePrjTmmrSearchInfo" resultType="hashmap" >
 	<![CDATA[
+	-- retrievePrjTmmrSearchInfo 프로젝트 팀원 조회
 		SELECT ISNULL(EMP.SA_NAME ,MMR.SA_SABUN_NAME)       as "saName"                     /*연구원명*/
 			 , ISNULL(EMP.SA_JOBX_NAME ,MMR.SA_JOBX_NAME)   as "saJobxName"                 /*직급명*/
 			 , MMR.PATC_STR_DT                              as "patcStrDt"                  /*참여시작일*/
@@ -23,6 +24,7 @@
 	<!-- 프로젝트 팀원 팀삭제  -->
 	<delete id="deletePrjTmmrDeptInfo">
 	<![CDATA[
+	-- deletePrjTmmrDeptInfo 프로젝트 팀원 팀삭제
 	     DELETE FROM IRIS_PRJ_TMMR_INFO
 	      WHERE PRJ_CD = #{prjCd}
 	        AND WBS_CD = #{wbsCd}
@@ -32,6 +34,7 @@
 	<!-- 프로젝트 팀원 전체 팀등록  -->
 	<insert id="insertPrjTmmrDeptInfo">
 	<![CDATA[
+	-- insertPrjTmmrDeptInfo 프로젝트 팀원 전체 팀등록
 		INSERT INTO IRIS_PRJ_TMMR_INFO
 		SELECT #{prjCd}
 		     , #{wbsCd}
@@ -50,10 +53,11 @@
 		 WHERE A.SA_DEPT_NEW = #{deptCd}
     ]]>
 	</insert>
-	
+
 	<!-- 프로젝트 팀원 전체 팀등록(부서로 등록)  -->
 	<insert id="insertPrjTeamTmmrDeptInfo">
 	<![CDATA[
+	-- insertPrjTeamTmmrDeptInfo 프로젝트 팀원 전체 팀등록(부서로 등록)
 		INSERT INTO IRIS_PRJ_TMMR_INFO
 		SELECT #{prjCd}
 		     , #{wbsCd}

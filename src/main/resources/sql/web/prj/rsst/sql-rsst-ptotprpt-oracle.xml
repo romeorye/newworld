@@ -7,6 +7,7 @@
 	<!-- 실적 지적재산권 목록 조회  -->
 	<select id="retrievePrjErpPrptSearchInfo" resultType="hashmap" >
 	<![CDATA[
+	-- retrievePrjErpPrptSearchInfo 실적 지적재산권 목록 조회
 		SELECT A.WBS_CODE                                               as "wbsCode"     /*WBS코드*/
 		     , A.PAT_NO                                                 as "patNo"       /*출원번호*/
 		     , A.PA_HNAME                                               as "paHname"     /*출원명*/
@@ -24,13 +25,14 @@
 	       AND A.PAT_DATE LIKE REPLACE(#{searchMonth}, '-', '') ||'%'
 	</if>
 	<![CDATA[
-		 ORDER BY A.PAT_DATE DESC, A.PAT_NO DESC 
+		 ORDER BY A.PAT_DATE DESC, A.PAT_NO DESC
 	]]>
 	</select>
-	
+
 	<!-- 년도별 실적 지적재산권 출원개수 조회 쿼리  -->
 	<select id="retrievePrjErpPrptByYearList" resultType="hashmap" >
 	<![CDATA[
+	-- retrievePrjErpPrptByYearList 년도별 실적 지적재산권 출원개수 조회 쿼리
 		SELECT A.WBS_CODE              as "wbsCode"     /*WBS코드*/
 		     , SUBSTR(A.PAT_DATE,0,4)  as "patYear"     /*출원년도*/
 		     , COUNT(A.PAT_DATE)       as "patCnt"      /*년도별출원개수*/
@@ -46,5 +48,5 @@
 		  ORDER BY SUBSTR(A.PAT_DATE,0,4)
 	]]>
 	</select>
-	
+
 </mapper>

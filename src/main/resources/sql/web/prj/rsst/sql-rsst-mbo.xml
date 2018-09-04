@@ -7,6 +7,7 @@
 	<!-- MBO 목록 조회  -->
 	<select id="retrievePrjRsstMboSearchInfo" resultType="hashmap" >
 	<![CDATA[
+	-- retrievePrjRsstMboSearchInfo MBO 목록 조회
 		SELECT 0             as "chk"
 		     , PRJ_CD        as "prjCd"        /*프로젝트코드*/
 		     , WBS_CD        as "wbsCd"        /*WBS_CODE*/
@@ -33,10 +34,11 @@
 		 ORDER BY MBO_GOAL_YEAR DESC, GOAL_SEQ ASC, ARLS_YEAR_MON DESC, SEQ DESC
 	]]>
 	</select>
-	
+
 	<!-- MBO 단건 조회  -->
 	<select id="retrievePrjRsstMboSearchDtlInfo" resultType="hashmap" >
 	<![CDATA[
+	-- retrievePrjRsstMboSearchDtlInfo MBO 단건 조회
 		SELECT PRJ_CD        as "prjCd"        /*프로젝트코드*/
 		     , WBS_CD        as "wbsCd"        /*WBS_CODE*/
 		     , SEQ           as "seq"          /*순서*/
@@ -47,7 +49,7 @@
 		     , ARLS_YEAR_MON as "arlsYearMon"  /*실적년월YYYY-MM*/
 		     , ARLS_STTS     as "arlsStts"     /*진척현황*/
 		     , FIL_ID        as "filId"        /*첨부파일ID*/
-		     , GOAL_SEQ      as goalSeq	       /*목표번호*/   
+		     , GOAL_SEQ      as goalSeq	       /*목표번호*/
 		  FROM IRIS_PRJ_RSST_MBO
 		 WHERE PRJ_CD = #{prjCd}
 		 AND  SEQ = #{seq}
@@ -57,19 +59,21 @@
 	<!-- MBO 삭제  -->
 	<delete id="deletePrjRsstMboInfo">
 	<![CDATA[
+	-- deletePrjRsstMboInfo MBO 삭제
 	     DELETE FROM IRIS_PRJ_RSST_MBO
 	      WHERE PRJ_CD =#{prjCd}
 	      AND   SEQ = #{seq}
 	]]>
 	</delete>
-	
+
 	<!-- MBO 등록  -->
 	<insert id="insertPrjRsstMboInfo">
 	<![CDATA[
+	-- insertPrjRsstMboInfo MBO 등록
 		INSERT INTO IRIS_PRJ_RSST_MBO
-		     ( PRJ_CD 
+		     ( PRJ_CD
 		     , WBS_CD
-		     , SEQ  
+		     , SEQ
 		     , MBO_GOAL_YEAR
 		     , MBO_GOAL_ALTP
 		     , MBO_GOAL_PRVS
@@ -77,11 +81,11 @@
 			 , ARLS_YEAR_MON
 		     , ARLS_STTS
 		     , FIL_ID
-		     , FRST_RGST_ID 
-		     , FRST_RGST_DT 
-		     , LAST_MDFY_ID 
-		     , LAST_MDFY_DT 
-		     , GOAL_SEQ         /*목표번호*/   
+		     , FRST_RGST_ID
+		     , FRST_RGST_DT
+		     , LAST_MDFY_ID
+		     , LAST_MDFY_DT
+		     , GOAL_SEQ         /*목표번호*/
 		     )
 		VALUES
 		     (
@@ -102,16 +106,17 @@
 		     , ( CASE WHEN #{goalSeq} IS NOT NULL AND #{goalSeq} != '' OR #{goalSeq} != 0 THEN #{goalSeq}
 		              ELSE  (SELECT ISNULL(MAX(GOAL_SEQ)+1,1) FROM IRIS_PRJ_RSST_MBO WHERE PRJ_CD =  #{prjCd} AND MBO_GOAL_YEAR = #{mboGoalYear} ) END )
 		     )
-    ]]>	
+    ]]>
 	</insert>
-	
+
 	<!-- MBO 수정  -->
 	<update id="updatePrjRsstMboInfo">
 	<![CDATA[
+	-- updatePrjRsstMboInfo MBO 수정
 		UPDATE IRIS_PRJ_RSST_MBO
 	       SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
-		]]>	     
+		]]>
 		<if test="( mboGoalYear != null and mboGoalYear != '')">
 		     , MBO_GOAL_YEAR = #{mboGoalYear}
 		</if>
@@ -137,10 +142,11 @@
 		 WHERE SEQ = #{seq}
 	]]>
 	</update>
-	
+
 	<!-- MBO 단건 조회  -->
 	<select id="getMboDupYn" resultType="String" >
 	<![CDATA[
+	-- getMboDupYn MBO 단건 조회
 		SELECT (CASE WHEN COUNT(1) > 0 THEN 'Y' ELSE 'N' END) mboDupYn
 		  FROM IRIS_PRJ_RSST_MBO A
 		 WHERE A.PRJ_CD = #{prjCd}
@@ -149,10 +155,11 @@
 		   AND A.GOAL_SEQ = #{goalSeq}
 	]]>
 	</select>
-	
+
 	<!-- MBO 단건 조회  -->
 	<select id="getMboGoalCnt" resultType="java.lang.Integer">
 	<![CDATA[
+	-- getMboGoalCnt MBO 단건 조회
 		SELECT COUNT(1) mboGoalCnt
 		  FROM IRIS_PRJ_RSST_MBO A
 		 WHERE A.PRJ_CD = #{prjCd}
@@ -160,10 +167,11 @@
 		   AND A.GOAL_SEQ = #{goalSeq}
 	]]>
 	</select>
-	
+
 	<!-- MBO 실적(실적년월,실적현황,첨부파일) 수정  -->
 	<update id="updatePrjRsstMboArlsInfo">
 	<![CDATA[
+	-- updatePrjRsstMboArlsInfo MBO 실적(실적년월,실적현황,첨부파일) 수정
 		UPDATE IRIS_PRJ_RSST_MBO
 	       SET LAST_MDFY_ID = #{_userId}
 		     , LAST_MDFY_DT = getdate()
