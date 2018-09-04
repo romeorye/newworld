@@ -9,6 +9,7 @@
     <!-- 개요 신규 -->
     <insert id="insertNatTssAltrSmry">
     <![CDATA[
+    -- insertNatTssAltrSmry 개요 신규
         INSERT
           INTO IRIS_TSS_NAT_PLCY_SMRY  /*국책과제개요*/
              ( TSS_CD                  --과제코드
@@ -38,26 +39,26 @@
              , LAST_MDFY_DT            --최종수정일시
              , LAST_MDFY_ID            --최종수정자
 			 , STRT_DT_1
-			 , FNH_DT_1 
+			 , FNH_DT_1
 			 , STRT_DT_2
-			 , FNH_DT_2 
+			 , FNH_DT_2
 			 , STRT_DT_3
-			 , FNH_DT_3 
+			 , FNH_DT_3
 			 , STRT_DT_4
-			 , FNH_DT_4 
+			 , FNH_DT_4
 			 , STRT_DT_5
 			 , FNH_DT_5
              )
         SELECT #{tssCd}
              , TTL_CRRO_STRT_DT
              , TTL_CRRO_FNH_DT
-             , CASE WHEN #{batType} = '01' 
+             , CASE WHEN #{batType} = '01'
                     THEN CASE #{tssNosSt} WHEN '2' THEN STRT_DT_2 WHEN '3' THEN STRT_DT_3 WHEN '4' THEN STRT_DT_4 WHEN '5' THEN STRT_DT_5 END
                     ELSE STRT_DT END
-             , CASE WHEN #{batType} = '01' 
-                    THEN CASE #{tssNosSt} WHEN '2' THEN FNH_DT_2 WHEN '3' THEN FNH_DT_3 WHEN '4' THEN FNH_DT_4 WHEN '5' THEN FNH_DT_5 END 
+             , CASE WHEN #{batType} = '01'
+                    THEN CASE #{tssNosSt} WHEN '2' THEN FNH_DT_2 WHEN '3' THEN FNH_DT_3 WHEN '4' THEN FNH_DT_4 WHEN '5' THEN FNH_DT_5 END
                     ELSE FNH_DT END
-             , CASE WHEN #{batType} = '01' 
+             , CASE WHEN #{batType} = '01'
                     THEN CASE #{tssNosSt} WHEN '2' THEN IIF((LEN(STRT_DT_3) = 0), 'Y', 'N')
                                           WHEN '3' THEN IIF((LEN(STRT_DT_4) = 0), 'Y', 'N')
                                           WHEN '4' THEN IIF((LEN(STRT_DT_5) = 0), 'Y', 'N')
@@ -84,15 +85,15 @@
              , GETDATE()
              , #{userId}
 		     , STRT_DT_1
-		     , FNH_DT_1 
+		     , FNH_DT_1
 		     , STRT_DT_2
-		     , FNH_DT_2 
+		     , FNH_DT_2
 		     , STRT_DT_3
-		     , FNH_DT_3 
+		     , FNH_DT_3
 		     , STRT_DT_4
-		     , FNH_DT_4 
+		     , FNH_DT_4
 		     , STRT_DT_5
-		     , FNH_DT_5 
+		     , FNH_DT_5
           FROM IRIS_TSS_NAT_PLCY_SMRY  /*국책과제개요*/
          WHERE TSS_CD = #{pgTssCd}
     ]]>
@@ -102,6 +103,7 @@
     <!-- 개요 수정(변경탭) -->
     <update id="updateNatTssAltrSmry1">
     <![CDATA[
+    -- updateNatTssAltrSmry1 개요 수정(변경탭)
         UPDATE IRIS_TSS_NAT_PLCY_SMRY  /*국책과제개요*/
            SET ALTR_RSON_TXT    = #{altrRsonTxt}
              , ADD_RSON_TXT     = #{addRsonTxt}
@@ -116,6 +118,7 @@
     <!-- 개요 수정 -->
     <update id="updateNatTssSmry">
     <![CDATA[
+    -- updateNatTssSmry 개요 수정
         UPDATE IRIS_TSS_NAT_PLCY_SMRY  /*국책과제개요*/
            SET TTL_CRRO_STRT_DT = #{ttlCrroStrtDt}  --총수행시작일
 			 , TTL_CRRO_FNH_DT  = #{ttlCrroFnhDt}   --총수행종료일
@@ -142,6 +145,7 @@
     <!-- 변경개요목록 조회 -->
     <select id="retrieveNatTssAltrSmryList" resultType="hashmap">
     <![CDATA[
+    -- retrieveNatTssAltrSmryList 변경개요목록 조회
         SELECT TSS_CD       AS tssCd      --과제코드
              , ALTR_SN      AS altrSn     --변경일련번호
              , PRVS         AS prvs       --항목
@@ -157,6 +161,7 @@
     <!-- 변경개요목록 수정 -->
     <update id="updateNatTssAltrSmryList">
     <![CDATA[
+    -- updateNatTssAltrSmryList 변경개요목록 수정
          MERGE IRIS_TSS_SMRY_ALTR_LIST A  /*변경개요 목록*/
          USING (SELECT #{tssCd} AS TSS_CD, CONVERT(numeric, CASE WHEN #{altrSn} = '' THEN NULL ELSE #{altrSn} END) AS ALTR_SN) B
             ON A.TSS_CD  = B.TSS_CD
@@ -199,6 +204,7 @@
     <!-- 변경개요목록 삭제 -->
     <delete id="deleteNatTssAltrSmryList">
     <![CDATA[
+    -- deleteNatTssAltrSmryList 변경개요목록 삭제
         DELETE
           FROM IRIS_TSS_SMRY_ALTR_LIST  /*변경개요 목록*/
          WHERE TSS_CD  = #{tssCd}
@@ -211,6 +217,7 @@
     <!-- 개요 수행기관 신규 -->
     <insert id="insertNatTssAltrSmryCrrd">
     <![CDATA[
+    -- insertNatTssAltrSmryCrrd 개요 수행기관 신규
         INSERT
           INTO IRIS_TSS_NAT_PLCY_SMRY_CRRO_INST  /*국책과제개요수행기관목록*/
              ( TSS_CD
@@ -240,6 +247,7 @@
     <!-- 참여연구원 신규 -->
     <insert id="insertNatTssAltrPtcRsstMbr">
     <![CDATA[
+    -- insertNatTssAltrPtcRsstMbr 참여연구원 신규
         INSERT
           INTO IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
              ( TSS_CD             --과제코드
@@ -280,6 +288,7 @@
     <!-- 사업비 신규 -->
     <insert id="insertNatTssAltrTrwiBudg">
     <![CDATA[
+    -- insertNatTssAltrTrwiBudg 사업비 신규
         INSERT
           INTO IRIS_TSS_NAT_PLCY_BIZ_EXP  /*국책사업비*/
              ( TSS_CD
@@ -330,6 +339,7 @@
     <!-- 목표 신규 -->
     <insert id="insertNatTssAltrGoal">
     <![CDATA[
+    -- insertNatTssAltrGoal 목표 신규
         INSERT
           INTO IRIS_TSS_GOAL_ARSL  /*과제목표_실적*/
              ( TSS_CD        --과제코드
@@ -368,6 +378,7 @@
     <!-- 산출물 신규 -->
     <insert id="insertNatTssAltrYld">
     <![CDATA[
+    -- insertNatTssAltrYld 산출물 신규
         INSERT
           INTO IRIS_TSS_YLD_ITM  /*과제산출물*/
              ( TSS_CD          --과제코드
@@ -408,6 +419,7 @@
     <!-- 품의서 정보 조회 -->
     <select id="retrieveNatTssAltrInfo" resultType="hashmap">
     <![CDATA[
+    -- retrieveNatTssAltrInfo 품의서 정보 조회
         SELECT TSS_CD
              , CONVERT(VARCHAR, GETDATE(), 23) AS createDate
              , (SELECT DATEDIFF(MM, X.TTL_CRRO_STRT_DT, X.TTL_CRRO_FNH_DT) + 1 FROM IRIS_TSS_NAT_PLCY_SMRY X WHERE X.TSS_CD = T2.TSS_CD) AS mMDiff
@@ -423,7 +435,8 @@
     </select>
 
     <update id="updateNatTssSmryToSelect">
-        UPDATE T1 
+    -- updateNatTssSmryToSelect
+        UPDATE T1
            SET T1.TTL_CRRO_STRT_DT     = T2.TTL_CRRO_STRT_DT
              , T1.TTL_CRRO_FNH_DT      = T2.TTL_CRRO_FNH_DT
              , T1.STRT_DT              = T2.STRT_DT
@@ -432,15 +445,15 @@
              , T1.SMRY_TXT             = T2.SMRY_TXT
              , t1.ATTC_FIL_ID          = t2.ATTC_FIL_ID
              , T1.STRT_DT_1            = t2.STRT_DT_1
-			 , T1.FNH_DT_1             = t2.FNH_DT_1 
+			 , T1.FNH_DT_1             = t2.FNH_DT_1
 			 , T1.STRT_DT_2            = t2.STRT_DT_2
-			 , T1.FNH_DT_2             = t2.FNH_DT_2 
+			 , T1.FNH_DT_2             = t2.FNH_DT_2
 			 , T1.STRT_DT_3            = t2.STRT_DT_3
-			 , T1.FNH_DT_3             = t2.FNH_DT_3 
+			 , T1.FNH_DT_3             = t2.FNH_DT_3
 			 , T1.STRT_DT_4            = t2.STRT_DT_4
-			 , T1.FNH_DT_4             = t2.FNH_DT_4 
+			 , T1.FNH_DT_4             = t2.FNH_DT_4
 			 , T1.STRT_DT_5            = t2.STRT_DT_5
-			 , T1.FNH_DT_5             = t2.FNH_DT_5   
+			 , T1.FNH_DT_5             = t2.FNH_DT_5
           FROM (SELECT TTL_CRRO_STRT_DT
                      , TTL_CRRO_FNH_DT
                      , STRT_DT
@@ -449,15 +462,15 @@
                      , SMRY_TXT
                      , ATTC_FIL_ID
 					 , STRT_DT_1
-					 , FNH_DT_1 
+					 , FNH_DT_1
 					 , STRT_DT_2
-					 , FNH_DT_2 
+					 , FNH_DT_2
 					 , STRT_DT_3
-					 , FNH_DT_3 
+					 , FNH_DT_3
 					 , STRT_DT_4
-					 , FNH_DT_4 
+					 , FNH_DT_4
 					 , STRT_DT_5
-					 , FNH_DT_5 
+					 , FNH_DT_5
                   FROM IRIS_TSS_NAT_PLCY_SMRY
                  WHERE tss_cd =  #{psTssCd} )  T1
              , IRIS_TSS_NAT_PLCY_SMRY T2

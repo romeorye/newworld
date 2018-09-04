@@ -6,7 +6,7 @@
 	<!--========================== 대외협력과제_마스터 ==========================-->
 	<select id="retrieveOusdCooTssList" resultType="hashmap">
     <![CDATA[
-    /*retrieveOusdCooTssList 대회협력과제 목록*/
+    -- retrieveOusdCooTssList
         SELECT  Z.*
 		FROM   (
 				select    M.WBS_CD                                        AS wbsCd        --과제코드
@@ -33,7 +33,7 @@
 						, M.TSS_NOS_ST                                    AS tssNosSt     --과제차수상태코드(1차년도, 2 차년도, 3 차년도, 4차년도, 5차년도:국책과제)
 						, dbo.fn_getComDtlNm('TSS_NOS_ST',M.TSS_NOS_ST)   AS tssNosStNm   --과제차수상태명
 						, (SELECT TOP 1 RTRIM(X.GRS_EV_ST) FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS grsEvSt --GRS상태
-						, CASE WHEN  M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW =  #{_userSabun}) THEN 'Y' 
+						, CASE WHEN  M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW =  #{_userSabun}) THEN 'Y'
 						       when  isnull(m.sa_sabun_name, dbo.fn_getSabunName(m.sa_sabun_new))  = #{_userNm} then 'Y'
 						       ELSE 'N' END AS myTss
 						, M.CMPL_B_STRT_DD                                AS cmplBStrtDd  --완료전시작일
@@ -76,21 +76,21 @@
 								from   IRIS_TSS_MGMT_MST a
 								where   del_yn ='N'
 								and     tss_cd in (
-													select tss_cd 
+													select tss_cd
 													from  IRIS_TSS_PTC_RSST_MBR
 													where  sa_sabun_new = #{_userSabun}
 													)
 								and     tss_scn_cd ='O'
-								     
-								union 
+
+								union
 								select  distinct wbs_cd
 								from    IRIS_TSS_MGMT_MST a
 								where  	del_yn ='N'
 								and     tss_scn_cd ='O'
-								and     sa_sabun_new = #{_userSabun}				
+								and     sa_sabun_new = #{_userSabun}
 							)
 		       or  Z.prjCd in (select prj_cd  from iris_prj_rsst_mst where  pl_emp_no = #{_userSabun})
-			 ) 
+			 )
 	        </if>
 	        <if test="tssRoleType.equals('S3')">
 	           AND z.bizDptCd IN
@@ -114,7 +114,7 @@
 			<if test="tssStrtDd != null and !tssStrtDd.equals('')">
 				<![CDATA[
 				AND #{tssStrtDd} <= convert(nvarchar(7), z.tssStrtDd )
-				]]> 
+				]]>
 			</if>
 			<if test="tssFnhDd != null and !tssFnhDd.equals('')">
 				<![CDATA[
@@ -141,6 +141,7 @@
     <!-- 계획단계 삭제 - 마스터테이블 YN -->
 	<update id="deleteOusdCooTssPlnMst1">
 	<![CDATA[
+	-- deleteOusdCooTssPlnMst1 계획단계 삭제
 		UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
 		   SET DEL_YN = 'Y'
 		 WHERE TSS_CD = #{tssCd}
@@ -168,6 +169,7 @@
     <!-- 대외협력과제 계획 개요 조회 -->
     <select id="retrieveOusdCooTssSmry" resultType="hashmap">
     <![CDATA[
+    -- retrieveOusdCooTssSmry 대외협력과제 계획 개요 조회
 		SELECT A.TSS_CD	             as tssCd             /*과제코드*/
 		     , A.OUCM_PLN_TXT        as oucmPlnTxt        /*목표기술 성과 계획*/
 		     , ISNULL(A.RSST_EXP,0)  as rsstExp          /*연구비(원)*/
@@ -203,6 +205,7 @@
     <!-- 개요 신규 -->
     <insert id="insertOusdCooTssSmry">
     <![CDATA[
+    -- insertOusdCooTssSmry 개요 신규
 		INSERT
 			INTO IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
 			(
@@ -264,6 +267,7 @@
     <!-- 개요 복사 -->
     <insert id="insertCopyOusdCooTssSmry">
     <![CDATA[
+    -- insertCopyOusdCooTssSmry 개요 복사
 		INSERT
 			INTO IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
 			(
@@ -324,6 +328,7 @@
     <!-- 개요 수정 -->
     <update id="updateOusdCooTssSmry">
     <![CDATA[
+    -- updateOusdCooTssSmry 개요 수정
 		UPDATE IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
 		   SET OUCM_PLN_TXT = #{oucmPlnTxt}             /*목표기술 성과 계획*/
 		     , RSST_EXP = CONVERT(numeric(15, 0), CASE WHEN #{rsstExp} = '' THEN '0' ELSE #{rsstExp} END) /*연구비*/
@@ -353,6 +358,7 @@
     <!-- 개요 수정(개요탭) -->
     <update id="updateOusdCooTssPlnSmry">
     <![CDATA[
+    -- updateOusdCooTssPlnSmry 개요 수정(개요탭)
 		UPDATE IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
 		   SET OUCM_PLN_TXT = #{oucmPlnTxt}             /*목표기술 성과 계획*/
 		     , RSST_EXP = CONVERT(numeric(15, 0), CASE WHEN #{rsstExp} = '' THEN '0' ELSE #{rsstExp} END) /*연구비*/
@@ -372,6 +378,7 @@
     <!-- 개요 수정 - 완료 -->
     <update id="updateOusdCooTssCmplSmry">
     <![CDATA[
+    -- updateOusdCooTssCmplSmry 개요 수정 - 완료
         UPDATE IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
            SET SURR_NCSS_TXT = #{surrNcssTxt}           /*연구과제 배경 및 필요성*/
              , SBC_SMRY_TXT = #{sbcSmryTxt}             /*주요 연구개발 내용 요약*/
@@ -389,6 +396,7 @@
     <!-- 개요 수정 - 변경사유 -->
     <update id="updateOusdCooTssAltrSmry">
     <![CDATA[
+    -- updateOusdCooTssAltrSmry 개요 수정 - 변경사유
         UPDATE IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
            SET ALTR_RSON = #{altrRson}
              , ADD_RSON = #{addRson}
@@ -403,6 +411,7 @@
     <update id="updateOusdTssSmryToSelect">
 
     <!-- updateOusdTssSmryToSelect -->
+    -- updateOusdTssSmryToSelect
     UPDATE T1 SET
 			t1.OUCM_PLN_TXT			= t2.OUCM_PLN_TXT
 		   ,t1.RSST_EXP             = t2.RSST_EXP
@@ -439,6 +448,7 @@
     <!-- 대외협력과제 비용지급 조회 -->
     <select id="retrieveOusdCooTssExpStoa" resultType="hashmap">
     <![CDATA[
+    -- retrieveOusdCooTssExpStoa 대외협력과제 비용지급 조회
 		SELECT A.TSS_CD        as tssCd
 			 , A.TTL_CASH	   as ttlCash	 /*총액*/
 			 , A.YY_NOS_CASH1  as yyNosCash1 /*1차현금*/
@@ -461,6 +471,7 @@
     <!-- 대외협력과제 비용지급 저장 -->
     <insert id="insertOusdCooTssExpStoa">
     <![CDATA[
+    -- insertOusdCooTssExpStoa 대외협력과제 비용지급 저장
  		INSERT
 			INTO IRIS_TSS_OUSD_EXP_STOA  /*대외협력과제비용지급*/
 			(
@@ -502,6 +513,7 @@
     <!-- 대외협력과제 비용지급 수정 -->
     <update id="updateOusdCooTssExpStoa">
     <![CDATA[
+    -- updateOusdCooTssExpStoa 대외협력과제 비용지급 수정
 		UPDATE IRIS_TSS_OUSD_EXP_STOA              /*대외협력과제비용지급*/
            SET TTL_CASH = (CASE WHEN #{ttlCash} = NULL OR #{ttlCash} = '' THEN NULL ELSE CONVERT(numeric, #{ttlCash}) END)
              , YY_NOS_CASH1 = (CASE WHEN #{yyNosCash1} = NULL OR #{yyNosCash1} = '' THEN NULL ELSE CONVERT(numeric, #{yyNosCash1}) END)
@@ -521,6 +533,7 @@
     <!-- 대외협력과제 비용지급 삭제 -->
     <delete id="deleteOusdCooTssExpStoa">
     <![CDATA[
+    -- deleteOusdCooTssExpStoa 대외협력과제 비용지급 삭제
 		DELETE FROM IRIS_TSS_OUSD_EXP_STOA              /*대외협력과제비용지급*/
 		 WHERE TSS_CD = #{tssCd}
     ]]>
@@ -529,6 +542,7 @@
     <!-- 대외협력과제 비용지급 복사 -->
     <insert id="insertCopyOusdCooTssExpStoa">
     <![CDATA[
+    -- insertCopyOusdCooTssExpStoa 대외협력과제 비용지급 복사
         INSERT
           INTO IRIS_TSS_OUSD_EXP_STOA  /*대외협력과제비용지급*/
              (
@@ -569,6 +583,7 @@
     <!--  완료 대외협력과제 비용지급 조회 -->
     <select id="retrieveCmplOusdCooTssExpStoa" resultType="hashmap">
     <![CDATA[
+    -- retrieveCmplOusdCooTssExpStoa 완료 대외협력과제 비용지급 조회
 		SELECT A.TSS_CD        as tssCd
 			 , A.TTL_CASH	   as ttlCash	 /*총액*/
 			 , A.YY_NOS_CASH1  as yyNosCash1 /*1차현금*/
@@ -599,6 +614,7 @@
     <!-- 품의서 필요 기타정보 -->
     <select id="retrieveOusdCooRqEtcInfo" resultType="hashmap">
     <![CDATA[
+    -- retrieveOusdCooRqEtcInfo 품의서 필요 기타정보
         SELECT CONVERT(VARCHAR, GETDATE(), 23)            as nowDate
              , ISNULL(dbo.fn_getTssPtcRsstMbrPrsnNames(#{tssCd}),'') as mbrNmList
     ]]>
@@ -609,24 +625,27 @@
 
     <!-- 개요 첨부파일 ID -->
     <select id="getOudsTssFileId" resultType="hashmap">
+    -- getOudsTssFileId 개요 첨부파일 ID
         SELECT ATTC_FIL_ID AS attcFilId
           FROM IRIS_TSS_OUSD_COO_SMRY
          WHERE TSS_CD = #{pgTssCd}
     </select>
-    
-    
+
+
     <!-- 대외협력과제 개요 삭제 -->
     <delete id="deleteOusdCooTssSmryOfTssCd">
     <![CDATA[
+    -- deleteOusdCooTssSmryOfTssCd 대외협력과제 개요 삭제
         DELETE FROM IRIS_TSS_OUSD_COO_SMRY /*대외협력과제 개요*/
          WHERE TSS_CD = #{tssCd}
     ]]>
     </delete>
-    
+
     <!--목표기술성과 조회 -->
      <select id="retrieveOusdCooTssCmplGoalCheck"  resultType="String">
      	<![CDATA[
-     	select  case when a.arslCnt > 0 then 'N' 
+     	-- retrieveOusdCooTssCmplGoalCheck 목표기술성과 조회
+     	select  case when a.arslCnt > 0 then 'N'
 		             else 'Y' end as chkYn
 		from (
 				SELECT  count(*)  as arslCnt
@@ -634,12 +653,13 @@
 				WHERE TSS_CD = left(#{tssCd}, 9)+'2'
 				and  (convert(nvarchar(max), ARSL) = '' or convert(nvarchar(max), ARSL) is null)
 			) a
-		]]>	
-    </select>	
-    
+		]]>
+    </select>
+
     <!-- 필수산출물 count 조회 -->
      <select id="retrieveOusdCooTssCmplItmCheck"  resultType="String">
      	<![CDATA[
+     	-- retrieveOusdCooTssCmplItmCheck 필수산출물 count 조회
      	select  case when a.allCnt - b.attCnt = 0 then 'Y'
                      else 'N' end as chkYn
 		from  (
@@ -657,7 +677,7 @@
 									where  tss_cd = left(#{tssCd}, 9)+'2'
 									)
 			   ) b
-		]]>  
-    </select>	
-    
+		]]>
+    </select>
+
 </mapper>

@@ -4,10 +4,11 @@
 <mapper namespace="prj.tss.ousdcoo.dcac">
 
     <!--========================== 대외협력과제_중단_개요 ==========================-->
-    
+
     <!-- 개요 신규(중단) -->
     <insert id="insertOusdCooTssDcacSmry">
     <![CDATA[
+    -- insertOusdCooTssDcacSmry 개요 신규(중단)
 		INSERT
 			INTO IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
 			(
@@ -43,10 +44,11 @@
 		    )
     ]]>
     </insert>
-    
+
     <!-- 개요 수정(중단) -->
     <update id="updateOusdCooTssDcacSmry">
     <![CDATA[
+    -- updateOusdCooTssDcacSmry 개요 수정(중단)
 		UPDATE IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
 		   SET SURR_NCSS_TXT = #{surrNcssTxt}           /*연구과제 배경 및 필요성*/
 		     , SBC_SMRY_TXT = #{sbcSmryTxt}             /*주요 연구개발 내용 요약*/
@@ -64,7 +66,8 @@
 
 	<select id="retrieveOusdCooTssDcacCheck" resultType="String">
 		<![CDATA[
-			select  case when a.arslCnt > 0 then 'N' 
+		-- retrieveOusdCooTssDcacCheck
+			select  case when a.arslCnt > 0 then 'N'
 			             else 'Y' end as chkYn
 			from (
 					SELECT  count(*)  as arslCnt

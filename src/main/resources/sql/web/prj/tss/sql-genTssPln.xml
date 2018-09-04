@@ -6,7 +6,7 @@
     <!-- 마스터 WBSCode 중복체크 -->
     <select id="retrieveDupChkWbsCd" resultType="hashmap">
     <![CDATA[
---retrieveDupChkWbsCd 마스터 WBSCode 중복체크
+	--retrieveDupChkWbsCd 마스터 WBSCode 중복체크
         SELECT COUNT(*) AS wbsCdCnt
           FROM IRIS_TSS_MGMT_MST  /*과제관리마스터*/
          WHERE WBS_CD = #{wbsCd}
@@ -17,7 +17,7 @@
     <!-- 마스터 WBSCode 중복체크 -->
     <select id="retrieveDupChkPkWbsCd" resultType="hashmap">
     <![CDATA[
---retrieveDupChkPkWbsCd 마스터 WBSCode 중복체크
+	--retrieveDupChkPkWbsCd 마스터 WBSCode 중복체크
         SELECT COUNT(*) AS wbsCdCnt
           FROM IRIS_TSS_MGMT_MST  /*과제관리마스터*/
          WHERE PK_WBS_CD = #{pkWbsCd}
@@ -29,7 +29,7 @@
     <!-- 계획단계 삭제 - 마스터테이블 YN -->
 	<update id="deleteGenTssPlnMst1">
 	<![CDATA[
---deleteGenTssPlnMst1 계획단계 삭제 - 마스터테이블 Y
+	--deleteGenTssPlnMst1 계획단계 삭제 - 마스터테이블 Y
 		UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
 		   SET DEL_YN = 'Y'
 		 WHERE TSS_CD = #{tssCd}
@@ -38,7 +38,7 @@
     <!-- 계획단계 삭제 - row 삭제 -->
 	<delete id="deleteGenTssPlnMst2">
 	<![CDATA[
---deleteGenTssPlnMst2 계획단계 삭제 - row 삭제 GRS 평가결과 IRIS_GRS_EV_RSLT_RGST
+	--deleteGenTssPlnMst2 계획단계 삭제 - row 삭제
 		 DELETE FROM IRIS_GRS_EV_RSLT_RGST
 		 WHERE TSS_CD = #{tssCd}
 	]]>
@@ -46,7 +46,7 @@
     <!-- 계획단계 삭제 - row 삭제 -->
 	<delete id="deleteGenTssPlnMst3">
 	<![CDATA[
---deleteGenTssPlnMst3 계획단계 삭제 - row 삭제 GRS 평가 표준결과 IRIS_GRS_EV_STD_RSLT_RGST
+	--deleteGenTssPlnMst3 계획단계 삭제 - row 삭제
 		DELETE FROM IRIS_GRS_EV_STD_RSLT_RGST
 		 WHERE TSS_CD = #{tssCd}
 	]]>
@@ -56,8 +56,8 @@
     <!--========================== 일반과제_계획_개요 ==========================-->
     <!-- 개요 신규 -->
     <insert id="insertGenTssPlnSmry">
-    	<!-- insertGenTssPlnSmry -->
     <![CDATA[
+    -- insertGenTssPlnSmry 개요 신규
         INSERT
           INTO IRIS_TSS_GEN_SMRY  /*일반과제개요*/
              ( TSS_CD             --과제코드
@@ -152,7 +152,7 @@
     <!-- 개요 수정 -->
     <update id="updateGenTssPlnSmry">
     <!--updateGenTssPlnSmry-->
-
+	-- updateGenTssPlnSmry 개요 수정
         UPDATE IRIS_TSS_GEN_SMRY  /*일반과제개요*/
            SET
             <if test="smryNTxt != null and smryNTxt != ''">
@@ -171,9 +171,9 @@
              , SMRY_D_TXT         = #{smryDTxt}                                                                                   --Deliverables
             </if>
             <if test="pmisTxt != null and pmisTxt != ''">
-             , PMIS_TXT           = #{pmisTxt} 
+             , PMIS_TXT           = #{pmisTxt}
             </if>
-          
+
              , MRKT_SCL_TXT       = #{mrktSclTxt}                                                                                 --시장규모
              , BIZ_PRFT_PRO       = CONVERT(numeric(5, 2), CASE WHEN #{bizPrftPro} = '' THEN '0' ELSE #{bizPrftPro} END)          --영업이익율
              , CTY_OT_PLN_M       = #{ctyOtPlnM}
@@ -211,6 +211,7 @@
     <!-- WBS 조회 -->
     <select id="retrieveGenTssPlnWBS" resultType="hashmap">
     <![CDATA[
+    -- retrieveGenTssPlnWBS WBS 조회
 WITH w_WBS AS (
         SELECT TSS_CD       AS tssCd      --과제코드
              , WBS_SN       AS wbsSn      --WBS일련번호
@@ -253,6 +254,7 @@ WITH w_WBS AS (
     <!-- 투입예산 마스터 조회 -->
     <select id="retrieveGenTssPlnTrwiBudgMst" resultType="hashmap">
     <![CDATA[
+    -- retrieveGenTssPlnTrwiBudgMst 투입예산 마스터 조회
         SELECT TSS_CD        AS tssCd       --과제코드
 		     , PUR_Y         AS purY        --구매년도
 		     , CPSN          AS cpsn        --인원
@@ -273,6 +275,7 @@ WITH w_WBS AS (
     <!-- 투입예산 마스터 저장 -->
     <update id="updateGenTssPlnTrwiBudgMst">
     <![CDATA[
+    -- updateGenTssPlnTrwiBudgMst 투입예산 마스터 저장
          MERGE IRIS_TSS_GEN_TRWI_BUDG_MST A  /*일반과제투입예산마스터*/
 		 USING (SELECT #{tssCd} AS TSS_CD, #{purY} AS PUR_Y) B
 		    ON A.TSS_CD = B.TSS_CD
@@ -330,6 +333,7 @@ WITH w_WBS AS (
     <!-- 투입예산 마스터 삭제 -->
     <delete id="deleteGenTssPlnTrwiBudgMst">
     <![CDATA[
+    -- deleteGenTssPlnTrwiBudgMst 투입예산 마스터 삭제
 		DELETE
 		  FROM IRIS_TSS_GEN_TRWI_BUDG_MST  /*일반과제투입예산마스터*/
 		 WHERE TSS_CD = #{tssCd}
@@ -341,6 +345,7 @@ WITH w_WBS AS (
     <!-- 투입예산 기초정보 생성 -->
 	<select id="insertGenTssPlnTrwiBudgRawEdit" resultType="hashmap" statementType="CALLABLE">
 	<![CDATA[
+	-- insertGenTssPlnTrwiBudgRawEdit 투입예산 기초정보 생성
         DECLARE @return_value CHAR
 		EXEC dbo.sp_genTssPlnTrwiBudgRawEdit #{tssCd}, #{userId}, @return_value OUTPUT
 		SELECT @return_value AS rtVal
@@ -351,6 +356,7 @@ WITH w_WBS AS (
     <!-- 투입예산 Info 조회 -->
 	<select id="getGenTssPlnTrwiBudgInfo" resultType="hashmap" statementType="CALLABLE">
 	<![CDATA[
+	-- getGenTssPlnTrwiBudgInfo 투입예산 Info 조회
         DECLARE @return_value INT
 		EXEC dbo.sp_genTssBudgInfoExist #{tssCd}, #{userId}, @return_value OUTPUT
 		SELECT @return_value AS infoCnt
@@ -361,6 +367,7 @@ WITH w_WBS AS (
     <!-- 투입예산 생성 -->
 	<select id="insertGenTssPlnTrwiBudg" resultType="hashmap" statementType="CALLABLE">
 	<![CDATA[
+	-- insertGenTssPlnTrwiBudg 투입예산 생성
         DECLARE @return_value CHAR
 		EXEC dbo.sp_genTssPlnTrwiBudgInst #{tssCd}, #{userId}, @return_value OUTPUT
 		SELECT @return_value AS rtVal
@@ -371,6 +378,7 @@ WITH w_WBS AS (
     <!-- 투입예산 조회 -->
     <select id="retrieveGenTssPlnTrwiBudg" resultType="hashmap">
     	<![CDATA[
+    	-- retrieveGenTssPlnTrwiBudg 투입예산 조회
         WITH BUDG_LIST AS (
             SELECT ${pivotTitle}
                  , ${pivotSum} AS totSum
@@ -419,6 +427,7 @@ WITH w_WBS AS (
 
     <!-- 년도별 예산 정보 생성 -->
     <insert id="insertGenTssRawEditInfo">
+    -- insertGenTssRawEditInfo 년도별 예산 정보 생성
         <selectKey keyProperty="rawMaxYy" resultType="String" order="BEFORE">
         <![CDATA[
             SELECT DISTINCT YY_MM AS rawMaxYy
@@ -483,7 +492,7 @@ WITH w_WBS AS (
     <!-- 투입예산 조회 -->
     <select id="retrieveGenTssPlnBudgGroupYy" resultType="hashmap">
         <![CDATA[
---retrieveGenTssAltrBudgGroupYy 투입예산 조회
+        -- retrieveGenTssPlnBudgGroupYy 투입예산 조회
         WITH BUDG_LIST AS (
             SELECT ${pivotTitle}
                  , ${pivotSum} AS totSum

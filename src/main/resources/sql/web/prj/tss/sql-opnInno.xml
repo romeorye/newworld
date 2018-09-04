@@ -7,26 +7,27 @@
 	<!-- Open Innovation 협력과제 관리 리스트 조회  -->
 	<select id="retrieveOpnInnoSearchList" resultType="hashmap" >
 	<![CDATA[
-		select   OPN_INNO_ID  	 		as opnInnoId  	  
-				,TSS_NM  		 		as tssNm  			  
-				,PRJ_NM  		 		as prjNm  			  
-				,TSS_EMP_NM  	 		as tssEmpNm  		
-				,TSS_STR_DT  		 	as tssStrDt  		
-				,TSS_END_DT  	 		as tssEndDt  		
-				,DEPT_NM  		 		as deptNm  			
-				,ABRD_INST_NM 	 		as abrdInstNm 	  
-				,ABRD_CRGR_NM 	 		as abrdCrgrNm 	  
-				,OUSD_INST_NM  	 		as ousdInstNm    
-				,OUST_CRGR_NM 	 		as oustCrgrNm 	  
-				,PGS_STEP_CD  	 		as pgsStepCd  	  
-				,TSS_PGS_TXT 	 		as tssPgsTxt 		
-				,TSS_PGS_KEYWORD  		as tssPgsKeyword 		
-				,TSS_FNO_PLN_TXT 		as tssFnoPlnTxt  
-				,TSS_FNO_PLN_KEYWORD 	as tssFnoPlnKeyword  
-				,REM 			 		as rem 					
-				,ATTC_FIL_ID 	 		as attcFilId 	
-		FROM    IRIS_OPN_INNO_MST	
-		WHERE    DEL_YN ='N'	  
+	-- retrieveOpnInnoSearchList Open Innovation 협력과제 관리 리스트 조회
+		select   OPN_INNO_ID  	 		as opnInnoId
+				,TSS_NM  		 		as tssNm
+				,PRJ_NM  		 		as prjNm
+				,TSS_EMP_NM  	 		as tssEmpNm
+				,TSS_STR_DT  		 	as tssStrDt
+				,TSS_END_DT  	 		as tssEndDt
+				,DEPT_NM  		 		as deptNm
+				,ABRD_INST_NM 	 		as abrdInstNm
+				,ABRD_CRGR_NM 	 		as abrdCrgrNm
+				,OUSD_INST_NM  	 		as ousdInstNm
+				,OUST_CRGR_NM 	 		as oustCrgrNm
+				,PGS_STEP_CD  	 		as pgsStepCd
+				,TSS_PGS_TXT 	 		as tssPgsTxt
+				,TSS_PGS_KEYWORD  		as tssPgsKeyword
+				,TSS_FNO_PLN_TXT 		as tssFnoPlnTxt
+				,TSS_FNO_PLN_KEYWORD 	as tssFnoPlnKeyword
+				,REM 			 		as rem
+				,ATTC_FIL_ID 	 		as attcFilId
+		FROM    IRIS_OPN_INNO_MST
+		WHERE    DEL_YN ='N'
 	]]>
 	<if test="( tssNm != null and tssNm != '' )">
 	       AND TSS_NM LIKE '%'+#{tssNm}+'%'
@@ -38,121 +39,124 @@
 		 ORDER BY OPN_INNO_ID
 	]]>
 	</select>
-	
+
 	<!-- Open Innovation 협력과제 관리 상세 조회  -->
 	<select id="retrieveOpnInnoInfo" resultType="hashmap" >
 	<![CDATA[
-		select   OPN_INNO_ID  	 		as opnInnoId  	  
-				,TSS_NM  		 		as tssNm  			  
-				,PRJ_NM  		 		as prjNm  			  
-				,TSS_EMP_NM  	 		as tssEmpNm  		
-				,TSS_STR_DT  	 		as tssStrDt  		
-				,TSS_END_DT  	 		as tssEndDt  		
-				,DEPT_NM  		 		as deptNm  			
-				,ABRD_INST_NM 	 		as abrdInstNm 	  
-				,ABRD_CRGR_NM 	 		as abrdCrgrNm 	  
-				,OUSD_INST_NM  	 		as ousdInstNm    
-				,OUST_CRGR_NM 	 		as oustCrgrNm 	  
-				,PGS_STEP_CD  	 		as pgsStepCd  	  
-				,TSS_PGS_TXT 	 		as tssPgsTxt 		
-				,TSS_PGS_KEYWORD  		as tssPgsKeyword 		
-				,TSS_FNO_PLN_TXT 		as tssFnoPlnTxt  
-				,TSS_FNO_PLN_KEYWORD 	as tssFnoPlnKeyword  
-				,REM 			 		as rem 					
-				,ATTC_FIL_ID 	 		as attcFilId 	
+	-- retrieveOpnInnoInfo Open Innovation 협력과제 관리 상세 조회
+		select   OPN_INNO_ID  	 		as opnInnoId
+				,TSS_NM  		 		as tssNm
+				,PRJ_NM  		 		as prjNm
+				,TSS_EMP_NM  	 		as tssEmpNm
+				,TSS_STR_DT  	 		as tssStrDt
+				,TSS_END_DT  	 		as tssEndDt
+				,DEPT_NM  		 		as deptNm
+				,ABRD_INST_NM 	 		as abrdInstNm
+				,ABRD_CRGR_NM 	 		as abrdCrgrNm
+				,OUSD_INST_NM  	 		as ousdInstNm
+				,OUST_CRGR_NM 	 		as oustCrgrNm
+				,PGS_STEP_CD  	 		as pgsStepCd
+				,TSS_PGS_TXT 	 		as tssPgsTxt
+				,TSS_PGS_KEYWORD  		as tssPgsKeyword
+				,TSS_FNO_PLN_TXT 		as tssFnoPlnTxt
+				,TSS_FNO_PLN_KEYWORD 	as tssFnoPlnKeyword
+				,REM 			 		as rem
+				,ATTC_FIL_ID 	 		as attcFilId
 				,b.TITLE         		as title
 				,b.RFP_ID        		as rfpId
 		FROM    IRIS_OPN_INNO_MST a
 		        left outer join IRIS_OPN_RFP_MST b
 		        on b.RFP_ID = a.RFP_ID
-		WHERE   OPN_INNO_ID = #{opnInnoId}		  
+		WHERE   OPN_INNO_ID = #{opnInnoId}
 	]]>
 	</select>
-	
-	
-	<update id="saveOpnInnoInfo" >  
+
+
+	<update id="saveOpnInnoInfo" >
+	-- saveOpnInnoInfo
 		MERGE iris_opn_inno_mst MEM
 				USING ( SELECT #{opnInnoId} AS OPN_INNO_ID ) AS Tab1
 				ON  (MEM.OPN_INNO_ID = Tab1.OPN_INNO_ID)
 				WHEN MATCHED THEN
-		UPDATE SET	 tss_nm  				= #{tssNm}  			  
-					,prj_nm  				= #{prjNm}  			                       
-					,tss_emp_nm  			= #{tssEmpNm}  		                      
-					,tss_str_dt  			= #{tssStrDt}  		                      
-					,tss_end_dt  			= #{tssEndDt}  		                      
-					,dept_nm  				= #{deptNm}  			                      
-					,abrd_inst_nm 			= #{abrdInstNm} 	                       
-					,abrd_CRGR_nm 			= #{abrdCrgrNm} 	                       
-					,OUSD_inst_nm  			= #{ousdInstNm}                         
-					,oust_crgr_nm 			= #{oustCrgrNm} 	                       
-					,PGS_step_cd  			= #{pgsStepCd}  	                       
-					,tss_pgs_txt 			= #{tssPgsTxt} 
-					,TSS_PGS_KEYWORD 		= #{tssPgsKeyword}		                      
-					,tss_FNO_PLN_TXT		= #{tssFnoPlnTxt} 
-					,TSS_FNO_PLN_KEYWORD	= #{tssFnoPlnKeyword}                      
-					,REM 					= #{rem} 					                      
-					,RFP_ID 				= #{rfpId} 					                      
-					,ATTC_FIL_ID 			= #{attcFilId} 	                       
+		UPDATE SET	 tss_nm  				= #{tssNm}
+					,prj_nm  				= #{prjNm}
+					,tss_emp_nm  			= #{tssEmpNm}
+					,tss_str_dt  			= #{tssStrDt}
+					,tss_end_dt  			= #{tssEndDt}
+					,dept_nm  				= #{deptNm}
+					,abrd_inst_nm 			= #{abrdInstNm}
+					,abrd_CRGR_nm 			= #{abrdCrgrNm}
+					,OUSD_inst_nm  			= #{ousdInstNm}
+					,oust_crgr_nm 			= #{oustCrgrNm}
+					,PGS_step_cd  			= #{pgsStepCd}
+					,tss_pgs_txt 			= #{tssPgsTxt}
+					,TSS_PGS_KEYWORD 		= #{tssPgsKeyword}
+					,tss_FNO_PLN_TXT		= #{tssFnoPlnTxt}
+					,TSS_FNO_PLN_KEYWORD	= #{tssFnoPlnKeyword}
+					,REM 					= #{rem}
+					,RFP_ID 				= #{rfpId}
+					,ATTC_FIL_ID 			= #{attcFilId}
 	                ,LAST_MDFY_DT = GETDATE()
 					,LAST_MDFY_ID = #{_userId}
 			WHEN NOT MATCHED THEN
 			INSERT (
-					  TSS_NM  			
-					 ,PRJ_NM  			
-					 ,TSS_EMP_NM  		
-					 ,TSS_STR_DT  		
-					 ,TSS_END_DT  		
-					 ,DEPT_NM  			
-					 ,ABRD_INST_NM 		
-					 ,ABRD_CRGR_NM 		
-					 ,OUSD_INST_NM  		
-					 ,OUST_CRGR_NM 		
-					 ,PGS_STEP_CD  		
-					 ,TSS_PGS_TXT 		
-					 ,TSS_PGS_KEYWORD 	
-					 ,TSS_FNO_PLN_TXT	
+					  TSS_NM
+					 ,PRJ_NM
+					 ,TSS_EMP_NM
+					 ,TSS_STR_DT
+					 ,TSS_END_DT
+					 ,DEPT_NM
+					 ,ABRD_INST_NM
+					 ,ABRD_CRGR_NM
+					 ,OUSD_INST_NM
+					 ,OUST_CRGR_NM
+					 ,PGS_STEP_CD
+					 ,TSS_PGS_TXT
+					 ,TSS_PGS_KEYWORD
+					 ,TSS_FNO_PLN_TXT
 					 ,TSS_FNO_PLN_KEYWORD
-					 ,REM 				
-					 ,ATTC_FIL_ID 		
-					 ,DEL_YN 
+					 ,REM
+					 ,ATTC_FIL_ID
+					 ,DEL_YN
 					 ,RFP_ID
 					 ,FRST_RGST_DT
 					 ,FRST_RGST_ID
 					 ,LAST_MDFY_DT
 					 ,LAST_MDFY_ID)
 		       VALUES (
-					  #{tssNm}  			
-					 ,#{prjNm}  			
-					 ,#{tssEmpNm}  		
-					 ,#{tssStrDt}  		
-					 ,#{tssEndDt}  		
-					 ,#{deptNm}  			
-					 ,#{abrdInstNm} 		
-					 ,#{abrdCrgrNm} 		
-					 ,#{ousdInstNm}  		
-					 ,#{oustCrgrNm} 		
-					 ,#{pgsStepCd}  		
-					 ,#{tssPgsTxt} 		
-					 ,#{tssPgsKeyword}	
-					 ,#{tssFnoPlnTxt}	
+					  #{tssNm}
+					 ,#{prjNm}
+					 ,#{tssEmpNm}
+					 ,#{tssStrDt}
+					 ,#{tssEndDt}
+					 ,#{deptNm}
+					 ,#{abrdInstNm}
+					 ,#{abrdCrgrNm}
+					 ,#{ousdInstNm}
+					 ,#{oustCrgrNm}
+					 ,#{pgsStepCd}
+					 ,#{tssPgsTxt}
+					 ,#{tssPgsKeyword}
+					 ,#{tssFnoPlnTxt}
 					 ,#{tssFnoPlnKeyword}
-					 ,#{rem} 				
-					 ,#{attcFilId} 	
+					 ,#{rem}
+					 ,#{attcFilId}
 					 ,'N'
-					 ,#{rfpId} 				
+					 ,#{rfpId}
 					 ,GETDATE()
 					 ,#{_userId}
 					 ,GETDATE()
 					 ,#{_userId}
 				);
 	</update>
-	
+
 	<update id="deleteOpnInnoInfo">
+	-- deleteOpnInnoInfo
 		UPDATE IRIS_OPN_INNO_MST
 		SET    DEL_YN ='Y'
 		      ,LAST_MDFY_DT = GETDATE()
 		      ,LAST_MDFY_ID = #{_userId}
-		WHERE  OPN_INNO_ID = #{opnInnoId} 
+		WHERE  OPN_INNO_ID = #{opnInnoId}
 	</update>
-	
+
 </mapper>

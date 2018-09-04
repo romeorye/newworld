@@ -5,6 +5,7 @@
 
 	<select id="retrieveTssItgRdcsList" resultType="hashmap">
 		<![CDATA[
+		-- retrieveTssItgRdcsList
 			select ir.AFFR_CD  			as affrCd
 				 ,ir.APRDOCSTATE  		as aprdocstate			--결재상태코드
 				 ,dbo.fn_getComDtlNm('APRDOCSTATE',ir.APRDOCSTATE)  		as aprdocstateNm			--결재상태코드
@@ -13,10 +14,10 @@
 				 ,ir.APPROVAL_DEPTNAME  as approvalDeptname  	--결재 요청자 부서명
 				 ,ir.APPROVAL_JOBTITLE  as approvalJobtitle 	--결재 요청자 직위
 				 ,ir.APPROVAL_PROCESSDATE as approvalProcessdate--결재 요청 일자
-				 ,ir.APPROVER_PROCESSDATE as approverProcessdate--결재승인일자	
+				 ,ir.APPROVER_PROCESSDATE as approverProcessdate--결재승인일자
 				 ,ir.TITLE  		    as title  				--결재 제목
 				 ,ir.UPDATE_DATE 	    as updateDate			--승인일자
-				 ,mm.WBS_CD             as wbsCd     
+				 ,mm.WBS_CD             as wbsCd
 				 ,mm.TSS_SCN_CD 	    as tssScnCd 			--과제구분코드
 				 ,dbo.fn_getComDtlNm('TSS_SCN_CD',mm.TSS_SCN_CD) tssScnNm
 				 ,mm.PGS_STEP_CD 	    as pgsStepCd			--진행단계코드
@@ -24,8 +25,8 @@
 				 ,mm.TSS_NOS_ST 	    as tssNosSt 			--과제차수상태
 				 ,mm.TSS_NM 		    as tssNm 				--과제명
 				 ,ir.itg_rdcs_id				as itgRdcsId					--결재번호
-			from IRIS_COM_ITG_RDCS ir 
-				  inner join IRIS_TSS_MGMT_MST mm 
+			from IRIS_COM_ITG_RDCS ir
+				  inner join IRIS_TSS_MGMT_MST mm
 						  on ir.AFFR_CD = mm.TSS_CD
 					inner join IRIS_PRJ_RSST_MST a
 					ON mm.PRJ_CD = A.PRJ_CD
@@ -33,20 +34,20 @@
 		   and   APPROVAL_USERNAME <>'관리자'
 		   and   APRDOCSTATE <> ''
 		 ]]>
-		 
+
 		<if test="tssRoleType == null or tssRoleType.equals('') or tssRoleType.equals('S1')">
-           AND 1 = 1 
+           AND 1 = 1
         </if>
         <if test="tssRoleType.equals('S2')">
            AND (a.PL_EMP_NO = #{_userSabun}
             OR mm.SA_SABUN_NEW = #{_userSabun}
-            OR mm.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW = #{_userSabun})) 
+            OR mm.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW = #{_userSabun}))
         </if>
         <if test="tssRoleType.equals('S3')">
-           AND mm.BIZ_DPT_CD IN 
+           AND mm.BIZ_DPT_CD IN
             <foreach collection="tssRoleCd" item="item" open="(" close=")" separator=",">
                 #{item}
-            </foreach> 
+            </foreach>
         </if>
 	    <if test="tssScnCd != null and tssScnCd != ''">
 			AND mm.TSS_SCN_CD = '${tssScnCd}'
@@ -62,9 +63,9 @@
 		</if>
 		 <if test="approvalProcessdate != null and approvalProcessdate != ''">
 			--AND ir.APPROVAL_PROCESSDATE = '${approvalProcessdate}'
-			
+
 			AND  CONVERT(VARCHAR(20),  ir.APPROVAL_PROCESSDATE, 112) = REPLACE('${approvalProcessdate}','-','')
-			
+
 		</if>
 		 <if test="wbsCd != null and wbsCd != ''">
 			AND mm.WBS_CD = #{wbsCd}
@@ -72,6 +73,6 @@
 
 		order by ir.APPROVAL_PROCESSDATE desc
 	</select>
-	
-	
+
+
 </mapper>

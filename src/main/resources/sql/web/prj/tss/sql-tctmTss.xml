@@ -274,6 +274,7 @@
     <!--기술팀 과제 상세 조회 -->
     <select id="selectInfo" resultType="hashmap">
     <![CDATA[
+    -- selectInfo 기술팀 과제 상세 조회
             SELECT A.PRJ_CD          AS prjCd        --프로젝트코드
              --, B.PRJ_NM          AS prjNm        --프로젝트명
              , ISNULL(dbo.fn_getNameOnTssPgsStep(A.TSS_CD, 'PRJ', A.PRJ_CD), A.PRJ_NM) AS prjNm        --프로젝트명

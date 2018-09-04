@@ -6,8 +6,9 @@
     <!-- 변경이력 목록 조회 -->
     <select id="retrieveOusdCooTssPgsAltrHist" resultType="hashmap">
     <![CDATA[
+    -- retrieveOusdCooTssPgsAltrHist 변경이력 목록 조회
         SELECT A.TSS_CD             AS tssCd
-             , A.WBS_CD             AS wbsCd 
+             , A.WBS_CD             AS wbsCd
              , A.PK_WBS_CD          AS pkWbsCd
              , C.PRVS               AS prvs
              , C.ALTR_PRE           AS altrPre
@@ -27,7 +28,7 @@
          WHERE  A.PK_WBS_CD = #{pkWbsCd}
            AND A.PGS_STEP_CD = 'AL' --고정값: AL(변경)
            AND A.TSS_ST = '104'
-          
+
     ]]>
     </select>
 </mapper>

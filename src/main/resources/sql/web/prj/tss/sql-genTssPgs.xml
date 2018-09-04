@@ -3,25 +3,26 @@
 
 <mapper namespace="prj.tss.gen.pgs">
     <!--========================== 일반과제_진행_마스터 ==========================-->
-    
-    
-    
+
+
+
     <!--========================== 일반과제_진행_개요 ==========================-->
 
-    
-    
+
+
     <!--========================== 일반과제_진행_참여연구원 ==========================-->
     <!-- 참여연구원 조회 -->
     <select id="retrieveGenTssPgsPtcRsstMbr" resultType="hashmap">
     <![CDATA[
-        SELECT DISTINCT          
+    -- retrieveGenTssPgsPtcRsstMbr 참여연구원 조회
+        SELECT DISTINCT
                PTC_RSST_MBR_SN AS ptcRsstMbrSn --참여연구원일련번호
-             , SA_SABUN_NEW    AS saSabunNew   --연구원사번        
-             , DEPT_CODE       AS deptCode     --소속              
-             , PTC_STRT_DT     AS ptcStrtDt    --참여시작일        
-             , PTC_FNH_DT      AS ptcFnhDt     --참여종료일        
-             , PTC_ROLE        AS ptcRole      --참여역할          
-             , PTC_ROLE_DTL    AS ptcRoleDtl   --참여역할상세      
+             , SA_SABUN_NEW    AS saSabunNew   --연구원사번
+             , DEPT_CODE       AS deptCode     --소속
+             , PTC_STRT_DT     AS ptcStrtDt    --참여시작일
+             , PTC_FNH_DT      AS ptcFnhDt     --참여종료일
+             , PTC_ROLE        AS ptcRole      --참여역할
+             , PTC_ROLE_DTL    AS ptcRoleDtl   --참여역할상세
              , PTC_PRO         AS ptcPro       --참여율
              , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'USER', SA_SABUN_NEW) , SA_SABUN_NAME) AS saUserName --과제리더명
              , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'DEPT', DEPT_CODE) , DEPT_NAME) AS deptName   --소속명
@@ -32,38 +33,39 @@
          ORDER BY saUserName
     ]]>
     </select>
-            
-    
+
+
     <!--========================== 일반과제_진행_WBS ==========================-->
     <!-- WBS 조회 -->
     <select id="retrieveGenTssPgsWBS" resultType="hashmap">
     <![CDATA[
-WITH w_WBS AS (    
+    -- retrieveGenTssPgsWBS WBS 조회
+WITH w_WBS AS (
 		select  m.*
 		      , case when round(m.arslCd, 0) = 100 then 0
 			         when round(m.arslCd, 0) = 0   then tssPeriod
 					  else round(m.tssPeriod - (cast(m.arslCd as float) * m.period / 100), 0) end delay
 
-		from  ( 
+		from  (
 
-		        SELECT TSS_CD       AS tssCd      --과제코드    
-		             , WBS_SN       AS wbsSn      --WBS일련번호 
-		             , PID_SN       AS pidSn      --PID         
-		             , DEPTH        AS depth      --DEPTH       
-		             , DEPTH_SEQ    AS depthSeq   --순서        
-		             , TSS_NM       AS tssNm      --과제명        
-		             , STRT_DT      AS strtDt     --시작일      
+		        SELECT TSS_CD       AS tssCd      --과제코드
+		             , WBS_SN       AS wbsSn      --WBS일련번호
+		             , PID_SN       AS pidSn      --PID
+		             , DEPTH        AS depth      --DEPTH
+		             , DEPTH_SEQ    AS depthSeq   --순서
+		             , TSS_NM       AS tssNm      --과제명
+		             , STRT_DT      AS strtDt     --시작일
 		             , FNH_DT       AS fnhDt      --종료일
-		             , STRT_DT      AS oldStrtDt      
+		             , STRT_DT      AS oldStrtDt
 		             , FNH_DT       AS oldFnhDt
-		             , WGVL         AS wgvl       --가중치      
+		             , WGVL         AS wgvl       --가중치
 		             , sa_sabun_new AS saSabunNew --담당자
 		             , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'USER', sa_sabun_new), SA_SABUN_NAME) AS saSabunNewNm
-		             , VRF_YN       AS vrfYn      --검증        
-		             , ARSL_CD      AS arslCd     --실적코드    
-		             , ARSL_CD      AS orgArslCd  --실적코드    
-		             , YLD_ITM_NM   AS yldItmNm   --산출물명    
-		             , YLD_ITM_TXT  AS yldItmTxt  --산출물내용  
+		             , VRF_YN       AS vrfYn      --검증
+		             , ARSL_CD      AS arslCd     --실적코드
+		             , ARSL_CD      AS orgArslCd  --실적코드
+		             , YLD_ITM_NM   AS yldItmNm   --산출물명
+		             , YLD_ITM_TXT  AS yldItmTxt  --산출물내용
 		             , DATALENGTH(YLD_ITM_TXT) AS yldItmTxtLen
 		             , KWD_TXT      AS kwdTxt     --키워드
 		             , ATTC_FIL_ID  AS attcFilId  --파일ID
@@ -71,28 +73,29 @@ WITH w_WBS AS (
 		             , (SELECT COUNT(*) FROM iris_com_attc_fil X WHERE X.attc_fil_id = A.ATTC_FIL_ID AND DEL_YN = 'N') AS attcFilCnt
 		             , DATEDIFF(DD, CONVERT(DATE, STRT_DT), CONVERT(DATE, FNH_DT)) + 1 AS period --기간
 		             ,DATEDIFF(DD,convert(DATE,STRT_DT),convert(DATE, FNH_DT))+DATEDIFF(DD,convert(DATE,FNH_DT),  getdate()) as tssPeriod
-		             , CASE WHEN DEPTH = 0 THEN WBS_SN 
+		             , CASE WHEN DEPTH = 0 THEN WBS_SN
 		                    WHEN DEPTH = 1 THEN PID_SN
 		                    WHEN DEPTH = 2 THEN (SELECT X.PID_SN FROM IRIS_TSS_GEN_WBS X WHERE X.TSS_CD = #{tssCd} AND X.WBS_SN = A.PID_SN )
-		                    WHEN DEPTH = 3 THEN (SELECT Y.PID_SN FROM IRIS_TSS_GEN_WBS Y WHERE Y.TSS_CD = #{tssCd} 
+		                    WHEN DEPTH = 3 THEN (SELECT Y.PID_SN FROM IRIS_TSS_GEN_WBS Y WHERE Y.TSS_CD = #{tssCd}
 		                                            AND Y.WBS_SN = (SELECT X.PID_SN FROM IRIS_TSS_GEN_WBS X WHERE X.TSS_CD = #{tssCd} AND X.WBS_SN = A.PID_SN))
 		                    END AS pidSeq
 		             , #{_userId}   AS userId
 		          FROM IRIS_TSS_GEN_WBS A  /*일반과제WBS*/
 		         WHERE A.TSS_CD = #{tssCd}
-		     ) m  
-   )SELECT DENSE_RANK() OVER( ORDER BY  pidSeq )  AS drRow 
-    , w.* 
-    FROM w_WBS w  ORDER BY depthSeq 
+		     ) m
+   )SELECT DENSE_RANK() OVER( ORDER BY  pidSeq )  AS drRow
+    , w.*
+    FROM w_WBS w  ORDER BY depthSeq
     ]]>
     </select>
-    
 
-    
+
+
     <!--================== 일반과제_진행_개발비 ==================-->
     <!-- 개발비 조회 -->
     <select id="retrieveGenTssPgsTrwiBudg" resultType="hashmap">
         <![CDATA[
+        -- retrieveGenTssPgsTrwiBudg 개발비 조회
         WITH BUDG_LIST AS (
             SELECT ${pivotTitle}
                  , ${pivotSum} AS totSum
@@ -117,7 +120,7 @@ WITH w_WBS AS (
                        AND SUBSTRING(B.COM_DTL_CD, 1, 2) = C.COM_DTL_CD
                        AND A.TSS_CD = #{tssCd}
                        AND B.COM_CD_CD = 'EXP_SCN_CD'
-                   ) AS X 
+                   ) AS X
              PIVOT (SUM(X.PLN_EXP) FOR YY_MM IN(${pivotTitle})) Y
              UNION ALL
             SELECT ${pivotTitle}
@@ -143,13 +146,13 @@ WITH w_WBS AS (
                        AND SUBSTRING(B.COM_DTL_CD, 1, 2) = C.COM_DTL_CD
                        AND A.TSS_CD = #{tssCd}
                        AND B.COM_CD_CD = 'EXP_SCN_CD'
-                   ) AS X 
+                   ) AS X
              PIVOT (SUM(X.ARSL_EXP) FOR YY_MM IN(${pivotTitle})) Y
         )
         SELECT ${unionTitle}
              , ROUND(totSum, 2) AS totSum
              , expScnCd
-             , expScnNm  
+             , expScnNm
              , totTitle
              , gbn
              , 1 AS uniSort
@@ -158,8 +161,8 @@ WITH w_WBS AS (
         SELECT ${unionSum}
              , ROUND(SUM(totSum), 2)
              , '00'
-             , '합계'  
-             , '합계'  
+             , '합계'
+             , '합계'
              , gbn
              , 2
           FROM BUDG_LIST
@@ -167,17 +170,18 @@ WITH w_WBS AS (
          ORDER BY uniSort, expScnCd, gbn
         ]]>
     </select>
-    
-    
+
+
     <!--========================== 일반과제_진행_목표및산출물 ==========================-->
-    
-    
+
+
     <!--========================== 일반과제_진행_변경이력 ==========================-->
     <!-- 변경이력 목록 조회 -->
     <select id="retrieveGenTssPgsAltrHist" resultType="hashmap">
     <![CDATA[
+    -- retrieveGenTssPgsAltrHist 변경이력 목록 조회
         SELECT A.TSS_CD             AS tssCd
-             , A.WBS_CD             AS wbsCd 
+             , A.WBS_CD             AS wbsCd
              , A.PK_WBS_CD          AS pkWbsCd
              , C.PRVS               AS prvs
              , C.ALTR_PRE           AS altrPre
@@ -199,16 +203,17 @@ WITH w_WBS AS (
            AND A.TSS_ST = '104'
     ]]>
     </select>
-    
+
     <!-- 변경이력 상세리스트 조회  -->
     <select id="retrieveGenTssAltrList"  resultType="hashmap">
+    -- retrieveGenTssAltrList 변경이력 상세리스트 조회
      SELECT    A.TSS_CD       	  AS tssCd      --과제코드
              , A.ALTR_SN      AS altrSn     --변경일련번호
              , A.PRVS         AS prvs       --항목
              , A.ALTR_PRE     AS altrPre    --변경전
              , A.ALTR_AFT     AS altrAft    --변경후
              , ISNULL(CONVERT(NVARCHAR, D.APPROVER_PROCESSDATE, 23), CONVERT(NVARCHAR, A.LAST_MDFY_DT, 23)) AS altrApprDd
-             , #{_userId}   AS userId 
+             , #{_userId}   AS userId
           FROM IRIS_TSS_SMRY_ALTR_LIST A /*변경개요 목록*/
          	   LEFT OUTER JOIN IRIS_COM_ITG_RDCS D
           		ON A.TSS_CD = D.AFFR_CD
@@ -218,11 +223,12 @@ WITH w_WBS AS (
 
 	<!-- 변경이력 상세 조회 -->
      <select id="genTssAltrDetailSearch"  resultType="hashmap">
+     -- genTssAltrDetailSearch 변경이력 상세 조회
      SELECT    A.TSS_CD       		AS tssCd      		--과제코드
              , A.ALTR_RSON_TXT      AS altrRsonTxt      --변경사유
              , A.ADD_RSON_TXT     	AS addRsonTxt    	--추가사유
              , A.ALTR_ATTC_FIL_ID   AS attcFilId    	--첨부파일
-          FROM IRIS_TSS_GEN_SMRY A 				
+          FROM IRIS_TSS_GEN_SMRY A
          WHERE A.TSS_CD = #{tssCd}
-    </select>	     
+    </select>
 </mapper>

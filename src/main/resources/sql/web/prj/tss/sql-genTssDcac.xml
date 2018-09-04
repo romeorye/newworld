@@ -5,91 +5,92 @@
     <!--========================== 일반과제_중단_마스터 ==========================-->
     <!-- 개요 신규 -->
     <insert id="insertGenTssDcacMst">
+    -- insertGenTssDcacMst 개요 신규
         <selectKey keyProperty="tssCd" resultType="String" order="BEFORE">
         <![CDATA[
             SELECT #{pkWbsCd} + REPLICATE('0', 4 - LEN(COUNT(X.TSS_CD)+1)) + CAST(COUNT(X.TSS_CD) + 1 AS NVARCHAR(4))
-              FROM IRIS_TSS_MGMT_MST X 
+              FROM IRIS_TSS_MGMT_MST X
              WHERE X.PK_WBS_CD = #{pkWbsCd}
         ]]>
-        </selectKey>  
+        </selectKey>
     <![CDATA[
-        INSERT 
+        INSERT
           INTO IRIS_TSS_MGMT_MST  /*과제관리마스터*/
-             ( PRJ_CD            --프로젝트코드  
-             , TSS_CD            --과제코드      
-             , PGS_STEP_CD       --진행단계코드  
-             , TSS_SCN_CD        --과제구분코드  
-             , WBS_CD            --WBS코드   
+             ( PRJ_CD            --프로젝트코드
+             , TSS_CD            --과제코드
+             , PGS_STEP_CD       --진행단계코드
+             , TSS_SCN_CD        --과제구분코드
+             , WBS_CD            --WBS코드
              , PK_WBS_CD         --WBS코드
              , DEPT_CODE         --조직코드(소속)
-             , PPSL_MBD_CD       --발의주체코드  
-             , BIZ_DPT_CD        --사업부문코드  
-             , TSS_NM            --과제명        
-             , SA_SABUN_NEW      --과제리더사번  
-             , TSS_ATTR_CD       --과제속성코드  
-             , TSS_STRT_DD       --과제시작일    
-             , TSS_FNH_DD        --과제종료일    
-             , ALTR_B_STRT_DD    --변경전시작일  
-             , ALTR_B_FNH_DD     --변경전종료일  
-             , ALTR_NX_STRT_DD   --변경후시작일  
-             , ALTR_NX_FNH_DD    --변경후종료일  
-             , CMPL_B_STRT_DD    --중단전시작일  
-             , CMPL_B_FNH_DD     --중단전종료일  
-             , CMPL_NX_STRT_DD   --중단후시작일  
-             , CMPL_NX_FNH_DD    --중단후종료일  
-             , DCAC_B_STRT_DD    --중단전시작일  
-             , DCAC_B_FNH_DD     --중단전종료일  
-             , DCAC_NX_STRT_DD   --중단후시작일  
-             , DCAC_NX_FNH_DD    --중단후종료일  
-             , COO_INST_CD       --협력기관코드  
-             , SUPV_OPS_NM       --주관부서명    
-             , EXRS_INST_NM      --전담기관명    
-             , BIZ_NM            --사업명        
-             , TSS_ST            --과제상태      
+             , PPSL_MBD_CD       --발의주체코드
+             , BIZ_DPT_CD        --사업부문코드
+             , TSS_NM            --과제명
+             , SA_SABUN_NEW      --과제리더사번
+             , TSS_ATTR_CD       --과제속성코드
+             , TSS_STRT_DD       --과제시작일
+             , TSS_FNH_DD        --과제종료일
+             , ALTR_B_STRT_DD    --변경전시작일
+             , ALTR_B_FNH_DD     --변경전종료일
+             , ALTR_NX_STRT_DD   --변경후시작일
+             , ALTR_NX_FNH_DD    --변경후종료일
+             , CMPL_B_STRT_DD    --중단전시작일
+             , CMPL_B_FNH_DD     --중단전종료일
+             , CMPL_NX_STRT_DD   --중단후시작일
+             , CMPL_NX_FNH_DD    --중단후종료일
+             , DCAC_B_STRT_DD    --중단전시작일
+             , DCAC_B_FNH_DD     --중단전종료일
+             , DCAC_NX_STRT_DD   --중단후시작일
+             , DCAC_NX_FNH_DD    --중단후종료일
+             , COO_INST_CD       --협력기관코드
+             , SUPV_OPS_NM       --주관부서명
+             , EXRS_INST_NM      --전담기관명
+             , BIZ_NM            --사업명
+             , TSS_ST            --과제상태
              , TSS_NOS_ST        --과제차수상태
-             , TSS_ST_TXT        --과제상태의견   
+             , TSS_ST_TXT        --과제상태의견
              , PROD_G
              , RSST_SPHE
              , TSS_TYPE
-             , FRST_RGST_DT      --최초등록일시  
-             , FRST_RGST_ID      --최초등록자    
-             , LAST_MDFY_DT      --최종수정일시  
-             , LAST_MDFY_ID      --최종수정자  
+             , FRST_RGST_DT      --최초등록일시
+             , FRST_RGST_ID      --최초등록자
+             , LAST_MDFY_DT      --최종수정일시
+             , LAST_MDFY_ID      --최종수정자
              )
-        SELECT PRJ_CD            
-             , #{tssCd}            
-             , #{pgsStepCd}       
-             , #{tssScnCd}        
-             , WBS_CD   
-             , PK_WBS_CD         
-             , DEPT_CODE         
-             , PPSL_MBD_CD       
-             , BIZ_DPT_CD        
-             , TSS_NM            
-             , SA_SABUN_NEW      
-             , TSS_ATTR_CD       
-             , TSS_STRT_DD       
-             , TSS_FNH_DD        
-             , ALTR_B_STRT_DD    
-             , ALTR_B_FNH_DD     
-             , ALTR_NX_STRT_DD   
-             , ALTR_NX_FNH_DD    
-             , CMPL_B_STRT_DD    
-             , CMPL_B_FNH_DD    
-             , CMPL_NX_STRT_DD   
-             , CMPL_NX_FNH_DD    
-             , #{dcacBStrtDd}    
-             , #{dcacBFnhDd}     
-             , DCAC_NX_STRT_DD   
-             , DCAC_NX_FNH_DD    
-             , COO_INST_CD       
-             , SUPV_OPS_NM       
-             , EXRS_INST_NM      
-             , BIZ_NM            
-             , #{tssSt}            
-             , TSS_NOS_ST        
-             , TSS_ST_TXT       
-             , PROD_G 
+        SELECT PRJ_CD
+             , #{tssCd}
+             , #{pgsStepCd}
+             , #{tssScnCd}
+             , WBS_CD
+             , PK_WBS_CD
+             , DEPT_CODE
+             , PPSL_MBD_CD
+             , BIZ_DPT_CD
+             , TSS_NM
+             , SA_SABUN_NEW
+             , TSS_ATTR_CD
+             , TSS_STRT_DD
+             , TSS_FNH_DD
+             , ALTR_B_STRT_DD
+             , ALTR_B_FNH_DD
+             , ALTR_NX_STRT_DD
+             , ALTR_NX_FNH_DD
+             , CMPL_B_STRT_DD
+             , CMPL_B_FNH_DD
+             , CMPL_NX_STRT_DD
+             , CMPL_NX_FNH_DD
+             , #{dcacBStrtDd}
+             , #{dcacBFnhDd}
+             , DCAC_NX_STRT_DD
+             , DCAC_NX_FNH_DD
+             , COO_INST_CD
+             , SUPV_OPS_NM
+             , EXRS_INST_NM
+             , BIZ_NM
+             , #{tssSt}
+             , TSS_NOS_ST
+             , TSS_ST_TXT
+             , PROD_G
              , RSST_SPHE
              , TSS_TYPE
              , GETDATE()
@@ -100,13 +101,14 @@
          WHERE TSS_CD = #{pgTssCd}
     ]]>
     </insert>
-    
-    
+
+
     <!-- 마스터 수정 -->
     <update id="updateGenTssDcacMst">
     <![CDATA[
+    -- updateGenTssDcacMst 마스터 수정
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
-           SET DCAC_B_STRT_DD = #{dcacBStrtDd} 
+           SET DCAC_B_STRT_DD = #{dcacBStrtDd}
              , DCAC_B_FNH_DD  = #{dcacBFnhDd}
              , LAST_MDFY_DT   = GETDATE()
              , LAST_MDFY_ID   = #{userId}
@@ -121,6 +123,7 @@
     <!-- 개요 조회 -->
     <select id="retrieveGenTssDcacSmry" resultType="hashmap">
     <![CDATA[
+    -- retrieveGenTssDcacSmry 개요 조회
         SELECT TSS_CD                  AS tssCd               --과제코드
              , TSS_SMRY_TXT            AS tssSmryTxt          --과제개요_연구과제배경
              , RSST_DVLP_OUCM_EFF_TXT  AS rsstDvlpOucmEffTxt  --연구개발성과_파급효과
@@ -144,6 +147,7 @@
     <!-- 개요 신규 -->
     <insert id="insertGenTssDcacSmry">
     <![CDATA[
+    -- insertGenTssDcacSmry 개요 신규
         INSERT
           INTO IRIS_TSS_GEN_SMRY  /*일반과제 개요*/
              ( TSS_CD                  --과제코드
@@ -177,11 +181,12 @@
              )
     ]]>
     </insert>
-    
-    
+
+
     <!-- 개요 수정 -->
     <update id="updateGenTssDcacSmry">
     <![CDATA[
+    -- updateGenTssDcacSmry 개요 수정
         UPDATE IRIS_TSS_GEN_SMRY  /*일반과제개요*/
            SET TSS_SMRY_TXT            = #{tssSmryTxt}          --과제개요_연구과제배경
              , TSS_SMRY_DVLP_TXT       = #{tssSmryDvlpTxt}      --과제개요_주요연구개발내용
@@ -196,13 +201,14 @@
          WHERE TSS_CD = #{tssCd}
     ]]>
     </update>
-    
-    
-    
+
+
+
     <!--========================== 일반과제_중단_품의서 ==========================-->
     <!-- 품의서 정보 조회 -->
     <select id="retrieveGenTssDcacInfo" resultType="hashmap">
     <![CDATA[
+    -- retrieveGenTssDcacInfo 품의서 정보 조회
         SELECT TSS_CD
              , mbrNmList
              , plnExp
@@ -224,11 +230,12 @@
                    AND YY_MM BETWEEN SUBSTRING(REPLACE(#{tssStrtDd}, '-', ''), 1, 6) AND SUBSTRING(REPLACE(#{tssFnhDd}, '-', ''), 1, 6)) B
     ]]>
     </select>
-    
+
     <!-- 목표실적 체크  -->
      <select id="retrieveGenTssDcacGoalCheck" resultType="String">
 	    <![CDATA[
-	    select  case when a.arslCnt > 0 then 'N' 
+	    -- retrieveGenTssDcacGoalCheck 목표실적 체크
+	    select  case when a.arslCnt > 0 then 'N'
 		             else 'Y' end as chkYn
 		from (
 				SELECT  count(*)  as arslCnt
@@ -236,28 +243,29 @@
 				WHERE TSS_CD = left(#{tssCd}, 9)+'2'
 				and  (convert(nvarchar(max), ARSL) = '' or convert(nvarchar(max), ARSL) is null)
 			) a
-		]]>	
+		]]>
 	</select>
 
 	<select id="retrieveGenTssDcacItmCheck" resultType="String">
+	-- retrieveGenTssDcacItmCheck
 		select  case when a.sCnt + b.eCnt = 2 then 'Y'
 		             else 'N' end checkItm
-		from   ( 
+		from   (
 				select  case when count(*) > 0 then 1
 			                 else 0 end as sCnt
-				from    IRIS_COM_ATTC_FIL 
+				from    IRIS_COM_ATTC_FIL
 				where   del_yn ='N'
 				and     ATTC_FIL_ID = (
 										select ATTC_FIL_ID
 										from   IRIS_TSS_YLD_ITM
 										where  tss_cd = left(#{tssCd}, 9)+'2'
 										and    YLD_ITM_TYPE = '01'
-										) 
+										)
 		       ) a
 			   ,(
-				select  case when count(*) > 0 then 1 
+				select  case when count(*) > 0 then 1
 			                 else 0 end as eCnt
-				from    IRIS_COM_ATTC_FIL 
+				from    IRIS_COM_ATTC_FIL
 				where   del_yn ='N'
 				and     ATTC_FIL_ID = (
 										select ATTC_FIL_ID

@@ -6,8 +6,9 @@
     <!-- 마스터 수정 -->
     <update id="updateNatTssDcacMst">
     <![CDATA[
+    -- updateNatTssDcacMst 마스터 수정
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
-           SET DCAC_B_STRT_DD  = #{dcacBStrtDd} 
+           SET DCAC_B_STRT_DD  = #{dcacBStrtDd}
              , DCAC_B_FNH_DD   = #{dcacBFnhDd}
              , DCAC_NX_STRT_DD = #{dcacNxStrtDd}
              , DCAC_NX_FNH_DD  = #{dcacNxFnhDd}
@@ -24,6 +25,7 @@
     <!-- 개요 신규 -->
     <insert id="insertNatTssDcacSmry">
     <![CDATA[
+    -- insertNatTssDcacSmry 개요 신규
         INSERT
           INTO IRIS_TSS_NAT_PLCY_SMRY  /*국책과제개요*/
              ( TSS_CD                  --과제코드
@@ -51,16 +53,16 @@
              , FRST_RGST_ID            --최초등록자
              , LAST_MDFY_DT            --최종수정일시
              , LAST_MDFY_ID            --최종수정자
-			 , STRT_DT_1 
-			 , FNH_DT_1  
-			 , STRT_DT_2 
-			 , FNH_DT_2  
-			 , STRT_DT_3 
-			 , FNH_DT_3  
-			 , STRT_DT_4 
-			 , FNH_DT_4  
-			 , STRT_DT_5 
-			 , FNH_DT_5  
+			 , STRT_DT_1
+			 , FNH_DT_1
+			 , STRT_DT_2
+			 , FNH_DT_2
+			 , STRT_DT_3
+			 , FNH_DT_3
+			 , STRT_DT_4
+			 , FNH_DT_4
+			 , STRT_DT_5
+			 , FNH_DT_5
              )
         SELECT #{tssCd}
              , TTL_CRRO_STRT_DT
@@ -87,25 +89,26 @@
              , #{userId}
              , GETDATE()
              , #{userId}
-             , STRT_DT_1 
-			 , FNH_DT_1  
-			 , STRT_DT_2 
-			 , FNH_DT_2  
-			 , STRT_DT_3 
-			 , FNH_DT_3  
-			 , STRT_DT_4 
-			 , FNH_DT_4  
-			 , STRT_DT_5 
-			 , FNH_DT_5  
+             , STRT_DT_1
+			 , FNH_DT_1
+			 , STRT_DT_2
+			 , FNH_DT_2
+			 , STRT_DT_3
+			 , FNH_DT_3
+			 , STRT_DT_4
+			 , FNH_DT_4
+			 , STRT_DT_5
+			 , FNH_DT_5
           FROM IRIS_TSS_NAT_PLCY_SMRY
          WHERE TSS_CD = #{pgTssCd}
     ]]>
     </insert>
-    
-    
+
+
     <!-- 개요 수정 -->
     <update id="updateNatTssDcacSmry">
     <![CDATA[
+    -- updateNatTssDcacSmry 개요 수정
         UPDATE IRIS_TSS_NAT_PLCY_SMRY  /*국책과제개요*/
            SET TSS_SMRY_TXT       = #{tssSmryTxt}            --과제개요
              , RSST_DVLP_OUCM_TXT = #{rsstDvlpOucmTxt}       --연구개발성과
@@ -119,17 +122,18 @@
          WHERE TSS_CD = #{tssCd}
     ]]>
     </update>
-    
-    
-    
+
+
+
     <!--========================== 국책과제_중단_품의서 ==========================-->
     <!-- 품의서 정보 조회 -->
     <select id="retrieveNatTssDcacInfo" resultType="hashmap">
     <![CDATA[
+    -- retrieveNatTssDcacInfo 품의서 정보 조회
         SELECT TSS_CD
              , CONVERT(VARCHAR, GETDATE(), 23) AS createDate
              , (SELECT DATEDIFF(MM, X.STRT_DT, X.FNH_DT) + 1 FROM IRIS_TSS_NAT_PLCY_SMRY X WHERE X.TSS_CD = T2.TSS_CD) AS mMDiff
-             , (SELECT SUM(YY_NOS_CASH1+YY_NOS_ATHG1+YY_NOS_CASH2+YY_NOS_ATHG2+YY_NOS_CASH3+YY_NOS_ATHG3+YY_NOS_CASH4+YY_NOS_ATHG4+YY_NOS_CASH5+YY_NOS_ATHG5) 
+             , (SELECT SUM(YY_NOS_CASH1+YY_NOS_ATHG1+YY_NOS_CASH2+YY_NOS_ATHG2+YY_NOS_CASH3+YY_NOS_ATHG3+YY_NOS_CASH4+YY_NOS_ATHG4+YY_NOS_CASH5+YY_NOS_ATHG5)
                   FROM IRIS_TSS_NAT_PLCY_BIZ_EXP WHERE TSS_CD = T2.TSS_CD) AS bizAtmSum
              , STUFF((SELECT DISTINCT
                              ', ' + dbo.fn_getSabunName(SA_SABUN_NEW)
@@ -141,11 +145,12 @@
          GROUP BY TSS_CD
     ]]>
     </select>
-    
+
     <!--목표기술성과 조회 -->
      <select id="retrieveNatTssDcacCheck"  resultType="String">
      	<![CDATA[
-     	select  case when a.arslCnt > 0 then 'N' 
+     	-- retrieveNatTssDcacCheck 목표기술성과 조회
+     	select  case when a.arslCnt > 0 then 'N'
 		             else 'Y' end as chkYn
 		from (
 				SELECT  count(*)  as arslCnt
@@ -156,10 +161,10 @@
 								FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
 								          LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
 								            ON A.PRJ_CD = B.PRJ_CD
-								         WHERE A.TSS_CD =  #{tssCd} 
+								         WHERE A.TSS_CD =  #{tssCd}
 							   )
 				and  (convert(nvarchar(max), ARSL) = '' or convert(nvarchar(max), ARSL) is null)
 			) a
-		]]>	
-    </select>	
+		]]>
+    </select>
 </mapper>
