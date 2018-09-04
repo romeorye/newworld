@@ -4,12 +4,13 @@
 <mapper namespace="prj.mgmt.smryCl">
     <update id="updateSmryCl">
     <![CDATA[
+    -- updateSmryCl
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
            SET RSST_SPHE    = #{rsstSphe}
-             , TSS_TYPE     = #{tssType} 
+             , TSS_TYPE     = #{tssType}
              , LAST_MDFY_DT = GETDATE()
              , LAST_MDFY_ID = #{userId}
-         WHERE PK_WBS_CD = #{pkWbsCd}  
+         WHERE PK_WBS_CD = #{pkWbsCd}
     ]]>
     </update>
 </mapper>

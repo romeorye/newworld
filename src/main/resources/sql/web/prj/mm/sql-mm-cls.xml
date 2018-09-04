@@ -7,10 +7,11 @@
 	<!-- M/M 입력 목록조회 (내가 참여중인  과제)  -->
 	<select id="retrieveMmInSearchInfo" resultType="hashmap" >
 	<![CDATA[
+	-- retrieveMmInSearchInfo M/M 입력 목록조회 (내가 참여중인  과제)
 		with tmp_tssInfo as (
 				select  wbs_cd
 				       ,max(tss_cd) as tss_cd
-				from   IRIS_TSS_MGMT_MST  
+				from   IRIS_TSS_MGMT_MST
 				where  del_yn ='N'
 				and    tss_scn_cd ='G'
 				and    tss_cd in (
@@ -23,7 +24,7 @@
 				and    prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059')
 				group by wbs_cd
 				)
-				
+
 				select 0 as chk
 				      ,m.PRJ_CD as prjCd
 					  ,m.prj_nm as prjNm
@@ -54,17 +55,17 @@
 							   ,case when a.PGS_STEP_CD = 'DC' then DCAC_B_FNH_DD
 									 when a.PGS_STEP_CD = 'CM' then CMPL_B_FNH_DD
 									 else a.TSS_FNH_DD end TSS_FNH_DD
-				       
+
 						from   iris_tss_mgmt_mst a
 						where   a.tss_cd in (select tss_cd from tmp_tssInfo)
-						union 
+						union
 						select b.PRJ_CD
 							  ,b.prj_nm
 							  ,b.tss_cd
 							  ,b.tss_nm
 							  ,b.WBS_CD
 							  ,b.PATC_STR_DT
-							  ,b.PATC_END_DT  
+							  ,b.PATC_END_DT
 						from  (
 								select a.prj_cd
 									  ,dbo.fn_getPrjName(a.prj_cd) as prj_nm
@@ -73,15 +74,15 @@
 									  ,a.wbs_cd
 									  ,a.PATC_STR_DT
 									  ,case when a.PATC_END_DT = '' or a.PATC_END_DT is null then '9999-12-31'
-											else a.PATC_END_DT end as PATC_END_DT   
+											else a.PATC_END_DT end as PATC_END_DT
 								from   IRIS_PRJ_TMMR_INFO a
 								where  a.TMMR_EMP_NO = #{_userSabun}
 								and    a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059')
 								) b
 						where 1=1
 						and    #{searchMonth} between left(b.PATC_STR_DT, 7) and left(b.PATC_END_DT, 7)
-				
-						union 
+
+						union
 						select  a.prj_cd
 							   ,dbo.fn_getPrjName(a.prj_cd) as prj_nm
 							   ,a.TSS_CD
@@ -101,17 +102,18 @@
 							and b.prj_cd = m.prj_Cd
 							and b.sa_sabun_new =  #{_userSabun}
 							and b.mm_yymm =  #{searchMonth}
-						LEFT OUTER JOIN IRIS_MM_CLS F 
-							ON F.TSS_CD = m.tss_Cd  
+						LEFT OUTER JOIN IRIS_MM_CLS F
+							ON F.TSS_CD = m.tss_Cd
 							and  F.prj_cd = m.prj_Cd
 							AND  F.SA_SABUN_NEW = #{_userSabun}
-							AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)	
-							
+							AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)
+
 	]]>
 	</select>
-	
+
 	<select id="retrieveMmInBeforeSearchInfo"  resultType="hashmap">
 	<![CDATA[
+	-- retrieveMmInBeforeSearchInfo
 		select   0 as 'chk'
 		        ,a.PRJ_CD as prjCd
 				,b.prj_nm as prjNm
@@ -134,20 +136,21 @@
 		        left outer join IRIS_TSS_MGMT_MST c
 				on   c.DEL_YN ='N'
 				and  c.TSS_CD = a.TSS_CD
-				LEFT OUTER JOIN IRIS_MM_CLS F 
-				ON   F.TSS_CD = A.TSS_CD  
+				LEFT OUTER JOIN IRIS_MM_CLS F
+				ON   F.TSS_CD = A.TSS_CD
 				and  F.prj_cd = a.prj_cd
-				AND  F.SA_SABUN_NEW = A.SA_SABUN_NEW 
+				AND  F.SA_SABUN_NEW = A.SA_SABUN_NEW
 				AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)
 		where   a.MM_YYMM = #{searchMonth}
 		and     a.sa_sabun_new = #{_userSabun}
 	]]>
 	</select>
-	
-	
+
+
 	<!-- IRIS_MM_CLS 테이블 저장(M/M 입력 참여율저장)  -->
 	<insert id="insertMmCls">
 	<![CDATA[
+	-- insertMmCls IRIS_MM_CLS 테이블 저장(M/M 입력 참여율저장)
 		INSERT INTO IRIS_MM_CLS
 		(
 		   TSS_CD
@@ -192,14 +195,15 @@
 		)
 	]]>
 	</insert>
-	
+
 	<!-- IRIS_MM_CLS 테이블 업데이트(M/M 입력 참여율 수정)  -->
 	<update id="updateMmCls">
 	<![CDATA[
+	-- updateMmCls IRIS_MM_CLS 테이블 업데이트(M/M 입력 참여율 수정)
 		UPDATE IRIS_MM_CLS
 		       SET LAST_MDFY_ID = #{_userId}
 			     , LAST_MDFY_DT = getdate()
-	]]>	     
+	]]>
 			<if test="( ptcPro != null and ptcPro != '')"><!-- 참여율 -->
 			     , PTC_PRO = #{ptcPro}
 			</if>
@@ -225,14 +229,15 @@
 		 WHERE TSS_CD = #{tssCd}
 	       AND SA_SABUN_NEW = #{saSabunNew}
 	       AND MM_YYMM = #{mmYymm}
-	]]>	
+	]]>
 	</update>
-	
-	
-	
+
+
+
 	<!-- IRIS_MM_CLS  연동  -->
 	<update id="updateMmClsIlck">
 	<![CDATA[
+	-- updateMmClsIlck IRIS_MM_CLS  연동
 		update iris_mm_cls
 		set    ILCK_ST =  'Y'
 		       ,LAST_MDFY_DT = getdate()
@@ -241,13 +246,14 @@
 		and    TSS_CD = #{tssCd}
 		and    MM_YYMM = #{mmYymm}
 		and    sa_sabun_new = #{saSabunNew}
-		
-	]]>	     
+
+	]]>
 	</update>
-	
+
 	<!-- IRIS_MM_CLS 테이블 저장(저장/수정)  -->
 	<insert id="saveMmCls">
 	<![CDATA[
+	-- saveMmCls IRIS_MM_CLS 테이블 저장(저장/수정)
 		MERGE INTO IRIS_MM_CLS A
 			USING ( SELECT	#{saSabunNew} as SA_SABUN_NEW,
 							#{mmYymm}     as MM_YYMM,
@@ -257,7 +263,7 @@
 				UPDATE
 			       SET LAST_MDFY_ID = #{_userId}
 				     , LAST_MDFY_DT = getdate()
-		]]>	     
+		]]>
 				<if test="( ptcPro != null and ptcPro != '')"><!-- 참여율 -->
 				     , PTC_PRO = #{ptcPro}
 				</if>
@@ -279,7 +285,7 @@
 				<if test="( toDoYn != null and toDoYn != '')"><!-- todo완료여부 -->
 			        , TO_DO_YN = #{toDoYn}
 			    </if>
-		<![CDATA[	    
+		<![CDATA[
 			WHEN NOT MATCHED THEN
 				INSERT
 				(
@@ -311,7 +317,7 @@
 				 , #{prjCd}
 				 , #{saSabunNew}
 				 , ISNULL(#{ptcPro},0)
-				 , #{mmYymm} 
+				 , #{mmYymm}
 				 , #{commTxt}
 				 , ISNULL(#{ousdTssYn},'N')
 				 , ISNULL(#{clsYn},'N')
@@ -331,20 +337,21 @@
 				);
 		]]>
 	</insert>
-	
+
 	<!-- M/M 마감 목록조회  -->
 	<select id="retrieveMmClsSearchInfo" resultType="hashmap" >
  	<![CDATA[
+ 	-- retrieveMmClsSearchInfo M/M 마감 목록조회
  	  with tmp_tssInfo as (
 			select  wbs_cd
 			       ,max(tss_cd) as tss_cd
-			from   IRIS_TSS_MGMT_MST  
+			from   IRIS_TSS_MGMT_MST
 			where  del_yn ='N'
 			and    tss_scn_cd ='G'
 			and    tss_cd in (
 							select  a.tss_cd
 							from   IRIS_TSS_PTC_RSST_MBR  a
-							where   1=1  
+							where   1=1
 							and      #{searchMonth} between left(a.PTC_STRT_DT, 7) and left(a.PTC_FNH_DT, 7)
 							)
 			and    PGS_STEP_CD <> 'PL'
@@ -362,7 +369,7 @@
 					   ,b.TMMR_EMP_NO as sa_sabun_new
 					   ,b.PATC_STR_DT
 					   ,case when b.PATC_END_DT = '' then '9999-12-31'
-							when  b.PATC_END_DT is null then '9999-12-31' 
+							when  b.PATC_END_DT is null then '9999-12-31'
 							else  b.PATC_END_DT end PATC_END_DT
 				from  (
 						select prj_cd
@@ -376,7 +383,7 @@
 									  ,wbs_cd
 									  ,PRJ_STR_DT
 									  ,case when PRJ_END_DT = '' then '9999-12-31'
-											when PRJ_END_DT is null then '9999-12-31' 
+											when PRJ_END_DT is null then '9999-12-31'
 											else    PRJ_END_DT end PRJ_END_DT
 									  ,DEPT_CD
 									  ,DEPT_UPER
@@ -433,10 +440,10 @@ from  (
 				,isnull(b.MM_YYMM,  #{searchMonth}) as mmYymm
 				,convert(nvarchar(max), b.comm_txt) as commTxt
 				,isnull(b.TO_DO_YN, 'N') as toDoYn
-				,(select sa_user from iris_sso_user where  sa_sabun_new = m.sa_sabun_new) as mailUser 
+				,(select sa_user from iris_sso_user where  sa_sabun_new = m.sa_sabun_new) as mailUser
 				,(select sa_user from iris_sso_user where  sa_sabun_new = m.sa_sabun_new) as saUser
 				,m.type
-		from  ( 
+		from  (
 				select  1 as type
 					  ,c.prj_cd
 					  ,c.prj_nm
@@ -469,14 +476,14 @@ from  (
 													else a.TSS_FNH_DD end TSS_FNH_DD
 									from   iris_tss_mgmt_mst a
 									where   a.tss_cd in (select tss_cd from tmp_tssInfo)
-								) x	
+								) x
 								where   #{searchMonth} between left(x.TSS_STRT_DD, 7) and left(x.TSS_FNH_DD, 7)
 								) b
 						where  a.tss_cd = b.tss_cd
 						and   #{searchMonth} between left(a.PTC_STRT_DT, 7) and left(a.PTC_FNH_DT, 7)
 						and   (a.sa_sabun_new <> '' or a.sa_sabun_new is not null)
 
-						union 
+						union
 						select  a.prj_cd
 							  ,substring(dbo.fn_getPrjName(a.prj_cd), CHARINDEX ('.', dbo.fn_getPrjName(a.prj_cd)) +1, len(dbo.fn_getPrjName(a.prj_cd))  ) as prj_Nm
 							  , a.tss_cd
@@ -489,7 +496,7 @@ from  (
 						where   a.MM_YYMM =  #{searchMonth}
 						and     a.OUSD_TSS_YN ='Y'
 						) c
-				union 
+				union
 				select  2 as type
 						,a.prj_cd
 						,a.prj_nm
@@ -499,47 +506,48 @@ from  (
 						,a.sa_sabun_new
 				from  prj_main a
 				where  #{searchMonth} between  left(a.PATC_STR_DT, 7) and left(a.PATC_END_DT, 7)
-				
+
 			) m
 			left outer join IRIS_MM_CLS b
 			on b.PRJ_CD = m.prj_cd
 			and b.tss_cd = m.tss_cd
 			and b.sa_sabun_new = m.sa_sabun_new
 			and b.MM_YYMM =  #{searchMonth}
-			LEFT OUTER JOIN IRIS_MM_CLS F 
-			ON F.TSS_CD = m.tss_Cd  
+			LEFT OUTER JOIN IRIS_MM_CLS F
+			ON F.TSS_CD = m.tss_Cd
 			and  F.prj_cd = m.prj_cd
-			AND  F.SA_SABUN_NEW = m.SA_SABUN_NEW 
+			AND  F.SA_SABUN_NEW = m.SA_SABUN_NEW
 			AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,  #{searchMonth}+'-01')), 23)
 		) z
-		
+
 		where 1=1
 		]]>
 		<if test="( roleCheck != 'ADM'   )">
 		       AND z.deptCode = (select team_dept_code from vw_sso_dept where dept_code = #{_userDept})
 		</if>
 		<if test="searchDeptName != null and searchDeptName != '' ">
-				and z.prjNm like '%'+#{searchDeptName}+'%' 
+				and z.prjNm like '%'+#{searchDeptName}+'%'
 		</if>
 		<if test="( chkPtcPro == 'on')">
 		<![CDATA[
-		 and   z.saSabunNew  not in ( select  distinct sa_sabun_new 
+		 and   z.saSabunNew  not in ( select  distinct sa_sabun_new
 			                         from    iris_mm_cls
-									 where   mm_yymm = #{searchMonth} 
+									 where   mm_yymm = #{searchMonth}
 									 and     PTC_PRO >  0
-									 ) 
-		]]>				 
+									 )
+		]]>
 		</if>
 	     order by z.prjCd, z.saName ,z.type
 	</select>
-	
-	
+
+
 	<select id="retrieveMmOutBeforeSearchInfo"  resultType="hashmap">
 	<![CDATA[
+	-- retrieveMmOutBeforeSearchInfo
 		select m.*
 		from   (
 				select  case when left(a.TSS_CD, 3) = 'PRJ' then 2
-				             else 1 end as type 
+				             else 1 end as type
 				       ,a.prj_cd as prjCd
 					   ,isnull(c.TSS_CD, b.PRJ_CD) as tssCd
 					   ,b.PRJ_NM as prjNm
@@ -568,12 +576,12 @@ from  (
 						left outer join IRIS_TSS_MGMT_MST c
 						on   c.DEL_YN ='N'
 						and  c.TSS_CD = a.TSS_CD
-						LEFT OUTER JOIN IRIS_MM_CLS F 
-						ON   F.TSS_CD = A.TSS_CD  
+						LEFT OUTER JOIN IRIS_MM_CLS F
+						ON   F.TSS_CD = A.TSS_CD
 						and  F.prj_cd = a.prj_cd
-						AND  F.SA_SABUN_NEW = A.SA_SABUN_NEW 
+						AND  F.SA_SABUN_NEW = A.SA_SABUN_NEW
 						AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)
-									 
+
 				where   a.MM_YYMM = #{searchMonth}
 				) m
 				where 1=1
@@ -583,23 +591,24 @@ from  (
 				       AND m.deptCode = (select team_dept_code from vw_sso_dept where dept_code = #{_userDept})
 				</if>
 				<if test="searchDeptName != null and searchDeptName != '' ">
-						and  m.prjNm like '%'+#{searchDeptName}+'%' 
+						and  m.prjNm like '%'+#{searchDeptName}+'%'
 				</if>
 				 order by  m.prjCd, m.saName
 	</select>
-	
-	
+
+
 	<!-- M/M 마감 목록조회  -->
 	<select id="retrieveJoinProject" resultType="hashmap" >
 	<![CDATA[
+	-- retrieveJoinProject M/M 마감 목록조회
 		SELECT PRJ_CD as prjCd FROM IRIS_PRJ_RSST_MST WHERE DEPT_CD = #{_userDept}
 	]]>
 	</select>
-	
+
 	<!-- M/M입력 To-Do 대상 뷰리스트 조회 -->
 	<select id="retrieveMmInTodoList" resultType="hashmap">
 	<![CDATA[
-		/*retrieveMmInTodoList*/
+		/*retrieveMmInTodoList M/M입력 To-Do 대상 뷰리스트 조회*/
 		SELECT A.TODO_SYS_CD      as todoSysCd     /* 시스템코드 */
 		     , A.TODO_TYPE_CD     as todoTypeCd    /* ToDo 업무코드 */
 			 , A.TODO_REQ_NO      as todoReqNo     /* 사용자 Unique 값(MW_TODO_REQ_NO) */
@@ -616,11 +625,11 @@ from  (
 		   AND A.TODO_EMP_NO = #{todoEmpNo}
 	]]>
 	</select>
-	
+
 	<!-- M/M마감 To-Do 대상 뷰리스트 조회 -->
 	<select id="retrieveMmClsTodoList" resultType="hashmap">
 	<![CDATA[
-		/*retrieveMmClsTodoList*/
+		/*retrieveMmClsTodoList M/M마감 To-Do 대상 뷰리스트 조회*/
 		SELECT A.TODO_SYS_CD      as todoSysCd     /* 시스템코드 */
 		     , A.TODO_TYPE_CD     as todoTypeCd    /* ToDo 업무코드 */
 			 , A.TODO_REQ_NO      as todoReqNo     /* 사용자 Unique 값(MW_TODO_REQ_NO) */
@@ -637,23 +646,26 @@ from  (
 		   AND A.TODO_EMP_NO = #{todoEmpNo}
 	]]>
 	</select>
-	
+
 	<!-- M/M입력 To-Do 프로시져 실행 --> <!-- todoTypeCd(MMP,MML) todo_req_no(키), todo대상id -->
 	<update id="saveMmpUpMwTodoReq" parameterType="map">
+	-- saveMmpUpMwTodoReq M/M입력 To-Do 프로시져 실행
 			EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'MMP', #{todoReqNo}, #{todoEmpNo}
 	</update>
-	
+
 	<!-- M/M마감 To-Do 프로시져 실행 --> <!-- todoTypeCd(MMP,MML) todo_req_no(키), todo대상id -->
 	<update id="saveMmlUpMwTodoReq" parameterType="map">
+	-- saveMmlUpMwTodoReq M/M마감 To-Do 프로시져 실행
 			EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'MML', #{todoReqNo}, #{todoEmpNo}
 	</update>
 
 	<select id="retrievePrjLeaderEmpNo" resultType="String" >
+	-- retrievePrjLeaderEmpNo
 		select  pl_emp_no
-		from   IRIS_PRJ_RSST_MST 
-		where  DEPT_CD = (select team_dept_code 
-		                  from VW_SSO_DEPT 
+		from   IRIS_PRJ_RSST_MST
+		where  DEPT_CD = (select team_dept_code
+		                  from VW_SSO_DEPT
 		                  where dept_code = #{_userDept})
-	
+
 	</select>
 </mapper>

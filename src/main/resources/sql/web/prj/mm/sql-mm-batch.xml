@@ -3,11 +3,11 @@
 
 <mapper namespace="prj.mm.batch">
 	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
-	
+
 	<!-- M/M입력 To-Do 대상 뷰리스트 조회 -->
 	<select id="retrieveMmInTodoList" resultType="hashmap">
 	<![CDATA[
-		/*retrieveMmInTodoList*/
+		/*retrieveMmInTodoList M/M입력 To-Do 대상 뷰리스트 조회*/
 		SELECT A.TODO_SYS_CD      as todoSysCd     /* 시스템코드 */
 		     , A.TODO_TYPE_CD     as todoTypeCd    /* ToDo 업무코드 */
 			 , A.TODO_REQ_NO      as todoReqNo     /* 사용자 Unique 값(MW_TODO_REQ_NO) */
@@ -23,11 +23,11 @@
 		 WHERE A.TODO_RESULT = 'N'
 	]]>
 	</select>
-	
+
 	<!-- M/M마감 To-Do 대상 뷰리스트 조회 -->
 	<select id="retrieveMmClsTodoList" resultType="hashmap">
 	<![CDATA[
-		/*retrieveMmClsTodoList*/
+		/*retrieveMmClsTodoList M/M마감 To-Do 대상 뷰리스트 조회*/
 		SELECT A.TODO_SYS_CD      as todoSysCd     /* 시스템코드 */
 		     , A.TODO_TYPE_CD     as todoTypeCd    /* ToDo 업무코드 */
 			 , A.TODO_REQ_NO      as todoReqNo     /* 사용자 Unique 값(MW_TODO_REQ_NO) */
@@ -43,15 +43,15 @@
 		 WHERE A.TODO_RESULT = 'N'
 	]]>
 	</select>
-	
+
 	<!-- M/M입력 To-Do 프로시져 실행 --> <!-- todoTypeCd(MMP,MML) todo_req_no(키), todo대상id -->
 	<update id="saveMmpUpMwTodoReq" parameterType="map">
 			EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'MMP', #{todoReqNo}, #{todoEmpNo}
 	</update>
-	
+
 	<!-- M/M마감 To-Do 프로시져 실행 --> <!-- todoTypeCd(MMP,MML) todo_req_no(키), todo대상id -->
 	<update id="saveMmlUpMwTodoReq" parameterType="map">
 			EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'MML', #{todoReqNo}, #{todoEmpNo}
 	</update>
-	
+
 </mapper>
