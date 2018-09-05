@@ -2,6 +2,7 @@
 @import url(reset.css);
 @import url(jquery-ui.css);
 @import url(jquery-ui.theme.css);
+@import url(iris_style.css);
 
 html {height:100%;}
 body{  margin:0 !important; padding:0;}
