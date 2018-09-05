@@ -26,6 +26,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LFileBox.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/LFileUploadDialog.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LPopupTextBox.js"></script>
+<script type="text/javascript" src="/rui/plugins/ui/form/LComboLoader.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LFileBox.css"/>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/LFileUploadDialog.css"/>
@@ -44,7 +45,6 @@
 <script type="text/javascript">
 
 var faxInfoDialog;	//고정자산관리 팝업
-var mchnClDtlCd;
 
 	Rui.onReady(function(){
 
@@ -104,6 +104,18 @@ var mchnClDtlCd;
 			if(!Rui.isEmpty(dataSet.getNameValue(0, "fxaNo"))){
 				document.aform.fxaNo.value = dataSet.getNameValue(0, "fxaNo");
 			}
+
+			var mchnClDtlCd = new Rui.ui.form.LCombo({
+			 	applyTo : 'mchnClDtlCd',
+				name : 'mchnClDtlCd',
+				useEmptyText: true,
+			    emptyText: '선택하세요',
+			    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd="/>'+'RLAB_EXAT_CL_DTL_CD'+dataSet.getNameValue(0, "mchnClCd"),
+				displayField: 'COM_DTL_NM',
+				valueField: 'COM_DTL_CD',
+				width: 180
+			});
+			mchnClDtlCd.setValue(dataSet.getNameValue(0, "mchnClDtlCd"));
 	    });
 
 	    //기기명 한글
@@ -149,44 +161,28 @@ var mchnClDtlCd;
 		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_CD"/>',
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD',
-			width: 150
+			width: 180
 		});
 
 		cbmchnClCd.on('changed', function(e){
 			var i = e.value;
-			if(i==01){
-				var mchnClDtlCd = new Rui.ui.form.LCombo({
-				 	applyTo : 'mchnClDtlCd',
-					name : 'mchnClDtlCd',
-					useEmptyText: true,
-				    emptyText: '선택하세요',
-				    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_DTL_CD01"/>',
-					displayField: 'COM_DTL_NM',
-					valueField: 'COM_DTL_CD'
-				});
-			}else if(i==02){
-				var mchnClDtlCd = new Rui.ui.form.LCombo({
-				 	applyTo : 'mchnClDtlCd',
-					name : 'mchnClDtlCd',
-					useEmptyText: true,
-				    emptyText: '선택하세요',
-				    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_DTL_CD02"/>',
-					displayField: 'COM_DTL_NM',
-					valueField: 'COM_DTL_CD'
-				});
-			}
+			$(function(){
+				$("#mchnClDtlCd").empty();
+			});
+			//소분류
+			var mchnClDtlCd = new Rui.ui.form.LCombo({
+				applyTo : 'mchnClDtlCd',
+				name : 'mchnClDtlCd',
+				useEmptyText: true,
+				emptyText: '선택하세요',
+				url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd="/>'+"RLAB_EXAT_CL_DTL_CD"+i,
+				displayField: 'COM_DTL_NM',
+				valueField: 'COM_DTL_CD',
+				width:180
+			});
+
 		});
 
-		//소분류
-/* 		 var mchnClDtlCd = new Rui.ui.form.LCombo({
-		 	applyTo : 'mchnClDtlCd',
-			name : 'mchnClDtlCd',
-			useEmptyText: true,
-		    emptyText: '선택하세요',
-		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_DTL_CD"/>',
-			displayField: 'COM_DTL_NM',
-			valueField: 'COM_DTL_CD'
-		}); */
 
 		//장비종류
 		var cbmchnKindCd = new Rui.ui.form.LCombo({
@@ -686,12 +682,18 @@ var mchnClDtlCd;
 								&nbsp; / &nbsp;
 								<div id="mchnClDtlCd"></div>
 							</td>
+
+						</tr>
+						<tr>
 							<th align="right"><span style="color:red;">*  </span>장비종류</th>
 							<td>
 								<div id="mchnKindCd"></div>
 							</td>
+							<th align="right"><span style="color:red;">*  </span>open기기</th>
+							<td>
+								<div id="opnYn"></div>
+							</td>
 						</tr>
-
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>장비사용상태</th>
 							<td>
@@ -707,11 +709,9 @@ var mchnClDtlCd;
 							<td>
 								<input type="text" id="smpoQty" />
 							</td>
-							<th align="right"><span style="color:red;">*  </span>메인여부 / open기기</th>
+							<th align="right"><span style="color:red;">*  </span>메인여부</th>
 							<td>
 								<select id="mnScrnDspYn"></select>
-								&nbsp; / &nbsp;
-								<div id="opnYn"></div>
 							</td>
 						</tr>
 						<tr>
