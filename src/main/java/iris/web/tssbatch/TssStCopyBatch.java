@@ -34,95 +34,93 @@ import iris.web.tssbatch.service.TssStCopyService;
  *********************************************************************************/
 
 @Controller
-public class TssStCopyBatch  extends IrisBaseController {
+public class TssStCopyBatch extends IrisBaseController {
 
-    static final Logger LOGGER = LogManager.getLogger(TssStCopyBatch.class);
+	static final Logger LOGGER = LogManager.getLogger(TssStCopyBatch.class);
 
-    Calendar cal = Calendar.getInstance();
-    SimpleDateFormat date_formatter = new SimpleDateFormat("yyyyMMdd", new Locale("ko","KOREA"));
-    SimpleDateFormat month_formatter = new SimpleDateFormat("yyyyMM", new Locale("ko","KOREA"));
-
-
-    @Resource(name = "tssStCopyService")
-    private TssStCopyService tssStCopyService;
+	Calendar cal = Calendar.getInstance();
+	SimpleDateFormat date_formatter = new SimpleDateFormat("yyyyMMdd", new Locale("ko", "KOREA"));
+	SimpleDateFormat month_formatter = new SimpleDateFormat("yyyyMM", new Locale("ko", "KOREA"));
 
 
-    @Resource(name = "genTssPlnService")
-    private GenTssPlnService genTssPlnService;
+	@Resource(name = "tssStCopyService")
+	private TssStCopyService tssStCopyService;
 
-    @Transactional
-    public void batchProcess() throws SQLException, ClassNotFoundException {
 
-        String toDate = date_formatter.format(cal.getTime());
-        LOGGER.debug("GenTssCopyBatch_START-"+toDate);
+	@Resource(name = "genTssPlnService")
+	private GenTssPlnService genTssPlnService;
 
-        String userId = "Batch";
-        HashMap<String, Object> input;
+	@Transactional
+	public void batchProcess() throws SQLException, ClassNotFoundException {
 
-        input =  new HashMap<String, Object>();
+		String toDate = date_formatter.format(cal.getTime());
+		LOGGER.debug("GenTssCopyBatch_START-" + toDate);
 
-        input.put("userId", userId);
+		String userId = "Batch";
+		HashMap<String, Object> input;
 
-        input = StringUtil.toUtf8(input);
+		input = new HashMap<String, Object>();
 
-        Map<String,Object> rtnMap = new HashMap<String, Object>(); // 메시지
+		input.put("userId", userId);
 
-        try {
-            //1. 과제 및 통합결재 조회
-            List<Map<String, Object>> retrieveTssComItgRdcs= tssStCopyService.retrieveTssComItgRdcs();
+		input = StringUtil.toUtf8(input);
 
-            //2. 과제 상태 변경 -> 104
-            for(Map<String, Object> data : retrieveTssComItgRdcs) {
-                String aprdocstate = String.valueOf(data.get("aprdocstate")); //품의상태
+		Map<String, Object> rtnMap = new HashMap<String, Object>(); // 메시지
 
-                if(!StringUtil.isNullString(aprdocstate)) {
-                    String tssSt = "103";
-                    boolean rst = false;
+		try {
+			//1. 과제 및 통합결재 조회
+			List<Map<String, Object>> retrieveTssComItgRdcs = tssStCopyService.retrieveTssComItgRdcs();
 
-                    input.put("tssCd", data.get("affrCd")); //과제코드
+			//2. 과제 상태 변경 -> 104
+			for (Map<String, Object> data : retrieveTssComItgRdcs) {
+				String aprdocstate = String.valueOf(data.get("aprdocstate")); //품의상태
 
-                    if("A02".equals(aprdocstate)) {
-                        if("503".equals(String.valueOf(data.get("tssSt")))) {
-                            tssSt = "504"; //504 정산품의완료,
-                        }else {
-                            tssSt = "104"; //104 품의완료,
-                            rst = true;
-                        }
-                        
-                        input.put("tssSt", tssSt); //상태 코드
-                        genTssPlnService.updateGenTssPlnMstTssSt(input);
-                    }
-                    else if("A03".equals(aprdocstate) || "A04".equals(aprdocstate)) {
-                        
-                    	if( data.get("tssScnCd").equals("N")){
-                    		if(data.get("finYn").equals("Y") || (data.get("tssNosSt").equals("1") && data.get("pgsStepCd").equals("PL")) ){
-                    			tssSt = "102"; // 
-                    		}else{
-                    			tssSt = "100"; // 
-                    		}
-                    	}else{
-                    		tssSt = "102"; // GRS완료
-                    	}
-                        input.put("tssSt", tssSt); //상태 코드
-                        
-                        genTssPlnService.updateGenTssPlnMstTssSt(input);
-                    }
+				if (!StringUtil.isNullString(aprdocstate)) {
+					String tssSt = "103";
+					boolean rst = false;
 
-                    if(rst) {
-                        data.put("userId", userId) ;
-                        //2.2 상태에 따른 tsscd 생성
-                        tssStCopyService.insertTssCopy(data);
-                    }
-                }
-            }
+					input.put("tssCd", data.get("affrCd")); //과제코드
 
-            LOGGER.debug("GenTssCopyBatch_End-"+toDate);
+					if ("A02".equals(aprdocstate)) {
+						if ("503".equals(String.valueOf(data.get("tssSt")))) {
+							tssSt = "504"; //504 정산품의완료,
+						} else {
+							tssSt = "104"; //104 품의완료,
+							rst = true;
+						}
 
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
+						input.put("tssSt", tssSt); //상태 코드
+						genTssPlnService.updateGenTssPlnMstTssSt(input);
+					} else if ("A03".equals(aprdocstate) || "A04".equals(aprdocstate)) {
 
+						if (data.get("tssScnCd").equals("N")) {
+							if (data.get("finYn").equals("Y") || (data.get("tssNosSt").equals("1") && data.get("pgsStepCd").equals("PL"))) {
+								tssSt = "102"; //
+							} else {
+								tssSt = "100"; //
+							}
+						} else {
+							tssSt = "102"; // GRS완료
+						}
+						input.put("tssSt", tssSt); //상태 코드
+
+						genTssPlnService.updateGenTssPlnMstTssSt(input);
+					}
+
+					if (rst) {
+						data.put("userId", userId);
+						//2.2 상태에 따른 tsscd 생성
+						tssStCopyService.insertTssCopy(data);
+					}
+				}
+			}
+
+			LOGGER.debug("GenTssCopyBatch_End-" + toDate);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 
 }

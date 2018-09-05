@@ -4,7 +4,7 @@
 <mapper namespace="prj.tss.gen">
 	<select id="retrieveGenTssList" resultType="hashmap">
     <![CDATA[
-    -- retrieveGenTssList
+    /*retrieveGenTssList 일반과제 목록*/
         select   z.wbs_cd  													as wbsCd
 		        ,z.PK_WBS_CD 												as pkWbsCd
 				,z.tss_cd as tssCd
