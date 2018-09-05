@@ -1,0 +1,165 @@
+@charset "UTF-8"; 
+
+/* ==========================================================================
+   grid & table
+   ========================================================================== */
+div.L-grid-panel.L-panel {border:0 none; border-bottom:1px solid #ccc;}
+div.L-grid-header {background:#ddd;}
+table.L-grid-header-table {border-top:1px solid #c3c3c3;}
+table.L-grid-header-table thead td {/*height: 34px; padding: 3px 0; vertical-align: middle; border: 1px solid #c3c3c3;*/ background:#ddd; color: #666;}
+table .L-grid-row-even {background: #f8f8f8 !important;}
+tr.L-grid-row:first-child td {border-top:0 none !important;}
+
+.L-grid-col-line .L-grid-row td.L-grid-cell {padding-top:2px; padding-bottom:2px; border:1px solid #c3c3c3;}
+.L-grid-cell-sortable img.L-grid-sort-icon {
+    background-image: url(/iris/resource/web/images/img_uxp/ico_sort_both.png);
+    display: inline-block;
+    background-position-x: 5px;
+}
+.L-grid table td {padding:3px 0;}
+.L-grid table td a {color:#3166a2 !important;}
+.L-grid-sort-asc img.L-grid-sort-icon {background-image: url(/iris/resource/web/images/img_uxp/ico_sort_asc.png) !important;}
+.L-grid-sort-desc img.L-grid-sort-icon {background-image: url(/iris/resource/web/images/img_uxp/ico_sort_desc.png) !important;}
+
+.L-grid table td a {
+    color: #666 !important;
+}
+
+.widget-footer {
+    margin-top: 20px;
+}
+.widget-footer:after {
+    display: block;
+    content: "";
+    clear: both;
+}
+.pull-right {
+    float: right!important;
+}
+
+
+.pull-right button, .pull-right button:hover {}
+.titArea {height: 31px; line-height: 31px; margin-bottom: 5px; padding:10px 0 0 0;}
+.redBtn button, .redBtn button:hover {color: #fff!important; background-color: #da1c5a!important; border-color: #da1c5a!important; 
+ padding:0 20px; font-weight:normal;}
+
+.L-button button, .L-button button:hover {height: 27px; color: #333; border-color: #c3c3c3; line-height:23px;}
+
+/* Detail */
+.table {
+    margin-bottom: 0; border-top:0;
+}
+.table > caption + thead > tr:first-child > td, 
+.table > caption + thead > tr:first-child > th, 
+.table > colgroup + thead > tr:first-child > td, 
+.table > colgroup + thead > tr:first-child > th, 
+.table > thead:first-child > tr:first-child > td, 
+.table > thead:first-child > tr:first-child > th {
+    border-top: 1px solid #c3c3c3;
+}
+.table >tbody > tr > td, 
+.table > tbody > tr > th,
+.table > tfoot > tr > td, 
+.table > tfoot > tr > th, 
+.table > thead > tr > td, 
+.table > thead > tr > th {
+    height: 34px;
+    padding: 3px 12px;
+    vertical-align: middle;
+    border: 1px solid #c3c3c3;
+    color: #666;
+}
+.table > tbody > tr > td, 
+.table > tfoot > tr > td, 
+.table > thead > tr > td {
+    padding: 3px 8px;
+}
+.table > thead > tr > th { 
+	text-align: right;
+    background: #e9e9ea;
+    font-weight: bold;
+}
+.table th {background:#e9e9ea; font-weight:bold;}
+.table > td > a {
+    display: inline-block;
+    height: 27px;
+    line-height: 27px;
+    margin: 0 5px;
+    text-decoration: underline;
+    color: #3166a2;
+}
+
+.table tbody th:last-child {border-right:1px solid #c3c3c3;}
+
+
+/* ==========================================================================
+   TAB
+   ========================================================================== */
+#tabView .L-tabview.L-navset {margin-bottom;10px;}
+.L-navset ul.L-nav:before {box-sizing: border-box;}
+.L-navset ul.L-nav:after {clear:both;}
+.L-navset ul.L-nav {margin-top: 10px;margin-bottom: 0; display:block; border-bottom: 1px solid #999;box-sizing: border-box; height: 33px;}
+.L-navset ul.L-nav > li {float:left; position: relative; display: block; margin-bottom:-1px; overflow:hidden; margin-right:4px !important; padding:0; border:0 none;}
+.L-navset ul.L-nav > li > a, 
+.L-navset ul.L-nav > li > a:hover {
+	display:block;
+    border: 1px solid #d8d8d8 ;
+    background: #eee;
+    color: #666;
+    padding: 8px 20px 7px;
+    border-bottom-color: #999;
+     box-sizing: border-box;
+    font-size:12px; 
+}
+.L-navset ul.L-nav > li.L-nav-selected > a, 
+.L-navset ul.L-nav > li.L-nav-selected > a:hover {
+    background: #fff;
+    color: #575757;
+    border: 1px solid #999 !important;
+    border-bottom-color: transparent!important;
+    background-color: white;   
+}
+.L-navset ul.L-nav li em {padding:0;}
+div.L-navset .L-content {border:0; margin-top:0;}
+
+
+table .L-navset .L-nav { margin-bottom: 20px; border-bottom: 1px solid #cccccc; box-sizing: border-box; height: 35px;}
+table .L-navset .L-nav > li {float:left; position: relative; display: block; margin-bottom:-1px; overflow:hidden; margin-right:4px !important; padding:0; border:0 none;}
+table .L-navset .L-nav > li > a, table .L-navset .L-nav > li > a:hover {
+	display:block;
+    padding: 8px 20px; 
+    margin-right: 0;
+    color: #666;
+    border-color: transparent;
+    text-decoration: none;
+    background: transparent; }
+table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-nav-selected > a:hover {
+        border-color: transparent!important;
+    border-bottom: 2px solid #da1c5a!important;
+    background: #fff;
+    color: #da1c5a;
+    height: 35px;
+}
+
+
+/* ==========================================================================
+   POPUP
+   ========================================================================== */
+.L-panel .hd {border-bottom: 1px solid #666666; height:52px; line-height: 50px; padding:0; text-indent:25px; font-size: 14px; color: #4c4c4c;}
+.L-panel .container-close, .L-panel .container-close:hover { background: url(/iris/resource/web/images/newIris/pop_close.png) center center no-repeat; width:20px; height:20px;}
+/*new*/
+.L-panel .pop_conin {padding-bottom:10px}
+
+/* ==========================================================================
+   화면별CSS 
+   ========================================================================== */
+.table.p-admin  thead tr th:after {display:none;}
+.p-admin th {text-align:center !important;}
+.p-admin td {vertical-align:top !important;}
+.p-admin span {display:block; letter-spacing:0; margin:5px 0; line-height:1.5; position:relative; padding-left:10px;}
+.p-admin span:before {content:""; position:absolute; top:7px; left:0; width:12px; height:12px;  background: url(/iris/resource/web/images/newIris/bullet01.png) 0 0 no-repeat;}
+.p-admin span em {color:#06b78c;}
+.p-admin dt {margin:5px 0;}
+.p-admin dd {font-weight:normal; }
+.p-admin dd:last-child {margin-bottom:6px;}
+.p-admin tr td:last-child {border-right:1px solid #c3c3c3;}
