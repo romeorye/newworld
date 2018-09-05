@@ -50,6 +50,10 @@
             	applyTo: 'bbsTitl',
                 width: 700
             });
+            
+            var bbsSbc = new Rui.ui.form.LTextArea({
+                applyTo: 'bbsSbc'
+            });
 
             var bbsKwd = new Rui.ui.form.LTextBox({
             	applyTo: 'bbsKwd',
@@ -103,7 +107,7 @@
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
                 if(anlBbsRgstDataSet.getNameValue(0, "bbsId")  != "" ||  anlBbsRgstDataSet.getNameValue(0, "bbsId")  !=  undefined ){
-    				document.aform.Wec.value=anlBbsRgstDataSet.getNameValue(0, "bbsSbc");
+    				CrossEditor.SetBodyValue( anlBbsRgstDataSet.getNameValue(0, "bbsSbc") );
     			}
             });
 
@@ -230,7 +234,7 @@
 		    	}
 		     });
 
-		    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
+		   // createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
 
         });//onReady 끝
 
@@ -300,13 +304,20 @@
 	    	var pageMode = '${inputData.pageMode}';
 	    	console.log('fncInsertAnlNoticeInfo pageMode='+pageMode);
 
+	    	/*
 	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
 	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
 
 	    	anlBbsRgstDataSet.setNameValue(0, 'bbsSbc', document.aform.Wec.bodyValue);
+	    	
+	    	
             gvSbcNm = document.aform.Wec.bodyValue ;
-
-			document.aform.bbsSbc.value = document.aform.Wec.MIMEValue;
+*/
+			document.aform.bbsSbc.value = CrossEditor.GetBodyValue();
+			
+            anlBbsRgstDataSet.setNameValue(0, 'bbsSbc', CrossEditor.GetBodyValue());
+			
+            gvSbcNm = CrossEditor.GetBodyValue();
 			
 	    	// 데이터셋 valid
 			if(!validation('aform')){
@@ -329,15 +340,16 @@
 		    	        dataSets:[anlBbsRgstDataSet],
 		    	        params: {
 		    	        	bbsId : document.aform.bbsId.value
-		    	        	,bbsSbc : document.aform.Wec.MIMEValue
+		    	        	,bbsSbc : document.aform.bbsSbc.value
 		    	        }
+		    		
 		    	    });
 		    	}else if(pageMode == 'C'){
 		   			dm1.updateDataSet({
 		    	        url: "<c:url value='/anl/bbs/insertAnlBbsInfo.do'/>",
 		    	        dataSets:[anlBbsRgstDataSet],
 		    	        params: {
-		    	        	bbsSbc : document.aform.Wec.MIMEValue
+		    	        	bbsSbc : document.aform.bbsSbc.value
 		    	        }
 		    	    });
 		    	}
@@ -374,7 +386,6 @@
 		<input type="hidden" id="bbsId" name="bbsId" value=""/>
 		<input type="hidden" id="bbsCd" name="bbsCd" value=""/>
 		<input type="hidden" id="target" name="target" value=""/>
-		<input type="hidden" id="bbsSbc" name="bbsSbc" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
 
    				<table class="table table_txt_right">
@@ -423,13 +434,31 @@
    							</c:if>   							
    							</td>
    						</tr>
-
+<!--  
    						<tr>
    							<td colspan="4">
-<!--    								 <textarea id="bbsSbc"></textarea> -->
    								<div id="namoHtml_DIV"></div>
    							</td>
    						</tr>
+   		-->				
+						<tr>
+							<th  align="right">개요</th>
+							<td colspan="3">
+								<textarea id="bbsSbc" name="bbsSbc"></textarea>
+									<script type="text/javascript" language="javascript">
+										var CrossEditor = new NamoSE('bbsSbc');
+										CrossEditor.params.Width = "100%";
+										CrossEditor.params.UserLang = "auto";
+										CrossEditor.params.ImageSavePath = "/iris/resource/fileupload/mchn";
+										CrossEditor.params.FullScreen = false;
+										CrossEditor.EditorStart();
+										
+										function OnInitCompleted(e){
+											e.editorTarget.SetBodyValue(document.getElementById("bbsSbc").value);
+										}
+									</script>
+							</td>
+						</tr>   						
     					<tr>
    							<th align="right">키워드</th>
    							<td colspan="3">
