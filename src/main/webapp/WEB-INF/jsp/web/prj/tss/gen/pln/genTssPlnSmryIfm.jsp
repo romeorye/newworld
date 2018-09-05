@@ -464,12 +464,12 @@
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
             var frm = document.smryForm;
-            frm.smryNTxt.value =  fnEditorGetMimeValue(frm.Wec0.isDirty(),frm.Wec0,'');
-            frm.smryATxt.value =  fnEditorGetMimeValue(frm.Wec1.isDirty(),frm.Wec1,'');
-            frm.smryBTxt.value =  fnEditorGetMimeValue(frm.Wec2.isDirty(),frm.Wec2,'');
-            frm.smryCTxt.value =  fnEditorGetMimeValue(frm.Wec3.isDirty(),frm.Wec3,'');
-            frm.smryDTxt.value =  fnEditorGetMimeValue(frm.Wec4.isDirty(),frm.Wec4,'');
-            
+            frm.smryNTxt.value =  Wec0.GetBodyValue();
+            frm.smryATxt.value =  Wec1.GetBodyValue();
+            frm.smryBTxt.value =  Wec2.GetBodyValue();
+            frm.smryCTxt.value =  Wec3.GetBodyValue();
+            frm.smryDTxt.value =  Wec4.GetBodyValue();
+
             fncEditor();
             dataSet.setNameValue(0, "nprodSalsPlnY" , Math.round(nprodSalsPlnY.getValue()  * 100000000));
             dataSet.setNameValue(0, "nprodSalsPlnY1", Math.round(nprodSalsPlnY1.getValue() * 100000000));
@@ -483,26 +483,31 @@
         fncEditor = function(){
         	var frm = document.smryForm;
         	
-        	frm.Wec0.CleanupOptions = "msoffice | empty | comment";
-        	frm.Wec1.CleanupOptions = "msoffice | empty | comment";
-        	frm.Wec2.CleanupOptions = "msoffice | empty | comment";
-        	frm.Wec3.CleanupOptions = "msoffice | empty | comment";
-        	frm.Wec4.CleanupOptions = "msoffice | empty | comment";
-    		
-        	frm.Wec0.value =frm.Wec0.CleanupHtml(frm.Wec0.value);
-        	frm.Wec1.value =frm.Wec1.CleanupHtml(frm.Wec1.value);
-        	frm.Wec2.value =frm.Wec2.CleanupHtml(frm.Wec2.value);
-        	frm.Wec3.value =frm.Wec3.CleanupHtml(frm.Wec3.value);
-        	frm.Wec4.value =frm.Wec4.CleanupHtml(frm.Wec4.value);
+        	// frm.Wec0.CleanupOptions = "msoffice | empty | comment";
+        	// frm.Wec1.CleanupOptions = "msoffice | empty | comment";
+        	// frm.Wec2.CleanupOptions = "msoffice | empty | comment";
+        	// frm.Wec3.CleanupOptions = "msoffice | empty | comment";
+        	// frm.Wec4.CleanupOptions = "msoffice | empty | comment";
+            //
+        	// frm.Wec0.value =frm.Wec0.CleanupHtml(frm.Wec0.value);
+        	// frm.Wec1.value =frm.Wec1.CleanupHtml(frm.Wec1.value);
+        	// frm.Wec2.value =frm.Wec2.CleanupHtml(frm.Wec2.value);
+        	// frm.Wec3.value =frm.Wec3.CleanupHtml(frm.Wec3.value);
+        	// frm.Wec4.value =frm.Wec4.CleanupHtml(frm.Wec4.value);
         	
         	var jsonString = JSON.stringify(${result});
             var obj = jQuery.parseJSON(jsonString);
 
-            var needs        = fnEditorGetMimeValue(document.smryForm.Wec0.isDirty(),document.smryForm.Wec0,'body');
-            var approach     = fnEditorGetMimeValue(document.smryForm.Wec1.isDirty(),document.smryForm.Wec1,'body');
-            var benefit      = fnEditorGetMimeValue(document.smryForm.Wec2.isDirty(),document.smryForm.Wec2,'body');
-            var competition  = fnEditorGetMimeValue(document.smryForm.Wec3.isDirty(),document.smryForm.Wec3,'body');
-            var deliverables = fnEditorGetMimeValue(document.smryForm.Wec4.isDirty(),document.smryForm.Wec4,'body');
+            var needs        = Wec0.GetBodyValue();
+            var approach     = Wec1.GetBodyValue();
+            var benefit      = Wec2.GetBodyValue();
+            var competition  = Wec3.GetBodyValue();
+            var deliverables = Wec4.GetBodyValue();
+            // var needs        = fnEditorGetMimeValue(document.smryForm.Wec0.IsDirty(),document.smryForm.Wec0,'body');
+            // var approach     = fnEditorGetMimeValue(document.smryForm.Wec1.IsDirty(),document.smryForm.Wec1,'body');
+            // var benefit      = fnEditorGetMimeValue(document.smryForm.Wec2.IsDirty(),document.smryForm.Wec2,'body');
+            // var competition  = fnEditorGetMimeValue(document.smryForm.Wec3.IsDirty(),document.smryForm.Wec3,'body');
+            // var deliverables = fnEditorGetMimeValue(document.smryForm.Wec4.IsDirty(),document.smryForm.Wec4,'body');
 
             if(lvTssCd !='') {
             	if(  needs == "<P>&nbsp;</P>" || needs == "") {
@@ -520,12 +525,20 @@
                 if( deliverables == "<P>&nbsp;</P>" || deliverables == "" ) {
                 	frm.Wec4.value = obj.records[0].smryDTxt;
                 }
-            	
-	        	frm.smryNTxt.value =  frm.Wec0.MIMEValue;
+/*임시
+
+                frm.smryNTxt.value =  frm.Wec0.MIMEValue;
 	            frm.smryATxt.value =  frm.Wec1.MIMEValue;
 	            frm.smryBTxt.value =  frm.Wec2.MIMEValue;
 	            frm.smryCTxt.value =  frm.Wec3.MIMEValue;
 	            frm.smryDTxt.value =  frm.Wec4.MIMEValue;
+*/
+
+                frm.smryNTxt.value =  Wec0.GetBodyValue();
+                frm.smryATxt.value =  Wec1.GetBodyValue();
+                frm.smryBTxt.value =  Wec2.GetBodyValue();
+                frm.smryCTxt.value =  Wec3.GetBodyValue();
+                frm.smryDTxt.value =  Wec4.GetBodyValue();
             }
         }
 
@@ -627,9 +640,9 @@
                     if(index == 0) {
                         initFrameSetHeight("smryFormDiv");
 
-                        setTimeout(function () {
-                            fnSetDataEditor(index);
-                            }, 1000);
+                        // setTimeout(function () {
+                        //     fnSetDataEditor(index);
+                        //     }, 1000);
                     } else {
                         fnSetDataEditor(index);
                     }
@@ -642,10 +655,10 @@
         fnSetDataEditor = function(val){
             var jsonString = JSON.stringify(${result});
             var obj = jQuery.parseJSON(jsonString);
-            var Wec = eval("document.smryForm.Wec"+val);
-
+            var Wec = eval("Wec"+val);
+            console.log(Wec);
             var frm = document.smryForm;
-            Wec.BodyValue  =  Wec.value ;
+            Wec.BodyValue  =  Wec.GetBodyValue() ;
             var txt  ="";
 
             if(lvTssCd !='') {
@@ -663,7 +676,7 @@
                 }
             }
             Wec.BodyValue = txt;
-            Wec.setDirty(false);    // 변경상태 초기화처리
+            // Wec.setDirty(false);    // 변경상태 초기화처리
         }
 
         //editor 설정
@@ -678,14 +691,14 @@
             document.getElementById('divWec3').style.display = 'none';
             document.getElementById('divWec4').style.display = 'none';
         }
-        // 에디터변경여부
+        // 에디터변경여부// 에디터 validation 체크
         fnEditorIsUpdate = function(){
             isUpdate = false;
-            var Wec0 = document.smryForm.Wec0;
-            var Wec1 = document.smryForm.Wec1;
-            var Wec2 = document.smryForm.Wec2;
-            var Wec3 = document.smryForm.Wec3;
-            var Wec4 = document.smryForm.Wec4;
+            // var Wec0 = document.smryForm.Wec0;
+            // var Wec1 = document.smryForm.Wec1;
+            // var Wec2 = document.smryForm.Wec2;
+            // var Wec3 = document.smryForm.Wec3;
+            // var Wec4 = document.smryForm.Wec4;
 
             if( (Wec0 != null && Wec0.IsDirty() == 1) || (Wec1 != null && Wec1.IsDirty() == 1) || (Wec2 != null && Wec2.IsDirty() == 1) ||
                 (Wec3 != null && Wec3.IsDirty() == 1) || (Wec4 != null && Wec4.IsDirty() == 1) ){
@@ -700,15 +713,15 @@
             var returnValue = editor.MIMEValue;
             if(type == 'body'){ returnValue = editor.BodyValue; }
 
-            editor.setDirty(beforeDirty);
+            // editor.setDirty(beforeDirty);
             return returnValue;
         }
         // 에디터 생성
-        createNamoEdit('Wec0', '100%', 400, 'divWec0');
-        createNamoEdit('Wec1', '100%', 400, 'divWec1');
-        createNamoEdit('Wec2', '100%', 400, 'divWec2');
-        createNamoEdit('Wec3', '100%', 400, 'divWec3');
-        createNamoEdit('Wec4', '100%', 400, 'divWec4');
+        // createNamoEdit('Wec0', '100%', 400, 'divWec0');
+        // createNamoEdit('Wec1', '100%', 400, 'divWec1');
+        // createNamoEdit('Wec2', '100%', 400, 'divWec2');
+        // createNamoEdit('Wec3', '100%', 400, 'divWec3');
+        // createNamoEdit('Wec4', '100%', 400, 'divWec4');
         /** ===============================================  Editor End ==================================================================================== **/
 
         tabViewS.render('tabViewS');
@@ -815,19 +828,23 @@
             alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join(''));
             return false;
         }
-
         // 에디터 validation 체크
-        var needs        = fnEditorGetMimeValue(document.smryForm.Wec0.isDirty(),document.smryForm.Wec0,'body');
-        var approach     = fnEditorGetMimeValue(document.smryForm.Wec1.isDirty(),document.smryForm.Wec1,'body');
-        var benefit      = fnEditorGetMimeValue(document.smryForm.Wec2.isDirty(),document.smryForm.Wec2,'body');
-        var competition  = fnEditorGetMimeValue(document.smryForm.Wec3.isDirty(),document.smryForm.Wec3,'body');
-        var deliverables = fnEditorGetMimeValue(document.smryForm.Wec4.isDirty(),document.smryForm.Wec4,'body');
+        // var needs        = fnEditorGetMimeValue(Wec0.IsDirty(),Wec0,'body');
+        // var approach     = fnEditorGetMimeValue(Wec1.IsDirty(),Wec1,'body');
+        // var benefit      = fnEditorGetMimeValue(Wec2.IsDirty(),Wec2,'body');
+        // var competition  = fnEditorGetMimeValue(Wec3.IsDirty(),Wec3,'body');
+        // var deliverables = fnEditorGetMimeValue(Wec4.IsDirty(),Wec4,'body');
+        var needs        =Wec0.GetBodyValue();
+        var approach     =Wec1.GetBodyValue();
+        var benefit      =Wec2.GetBodyValue();
+        var competition  =Wec3.GetBodyValue();
+        var deliverables =Wec4.GetBodyValue();
 
-        var needsEditorMod        = document.smryForm.Wec0.isDirty();
-        var approachEditorMod     = document.smryForm.Wec1.isDirty();
-        var benefitEditorMod      = document.smryForm.Wec2.isDirty();
-        var competitionEditorMod  = document.smryForm.Wec3.isDirty();
-        var deliverablesEditorMod = document.smryForm.Wec4.isDirty();
+        var needsEditorMod        = Wec0.IsDirty();
+        var approachEditorMod     = Wec1.IsDirty();
+        var benefitEditorMod      = Wec2.IsDirty();
+        var competitionEditorMod  = Wec3.IsDirty();
+        var deliverablesEditorMod = Wec4.IsDirty();
 
         if(  needs == "<P>&nbsp;</P>" || needs == "") {
             alert("Needs 는 필수입력입니다.");
@@ -980,11 +997,76 @@ $(window).load(function() {
                         <input type="hidden" id="smryBTxt" name="smryBTxt" >
                         <input type="hidden" id="smryCTxt" name="smryCTxt" >
                         <input type="hidden" id="smryDTxt" name="smryDTxt" >
-                        <div id="divWec0"></div>
-                        <div id="divWec1"></div>
-                        <div id="divWec2"></div>
-                        <div id="divWec3"></div>
-                        <div id="divWec4"></div>
+                        <div id="divWec0">
+                            <script>
+                                Wec0 = new NamoSE('divWec0');
+                                Wec0.params.Width = "100%";
+                                Wec0.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec0.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec0.params.FullScreen = false;
+                                Wec0.EditorStart();
+
+                            </script>
+                        </div>
+                        <div id="divWec1">
+                            <script>
+                                Wec1 = new NamoSE('divWec1');
+                                Wec1.params.Width = "100%";
+                                Wec1.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec1.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec1.params.FullScreen = false;
+                                Wec1.EditorStart();
+
+                            </script>
+                        </div>
+                        <div id="divWec2">
+                            <script>
+                                Wec2 = new NamoSE('divWec2');
+                                Wec2.params.Width = "100%";
+                                Wec2.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec2.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec2.params.FullScreen = false;
+                                Wec2.EditorStart();
+
+                            </script>
+                        </div>
+                        <div id="divWec3">
+                            <script>
+                                Wec3 = new NamoSE('divWec3');
+                                Wec3.params.Width = "100%";
+                                Wec3.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+
+                                Wec3.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec3.params.FullScreen = false;
+                                Wec3.EditorStart();
+
+                            </script>
+                        </div>
+                        <div id="divWec4">
+                            <script>
+                                var Wec4 = new NamoSE('divWec4');
+                                Wec4.params.Width = "100%";
+                                Wec4.params.UserLang = "auto";
+                                var uploadPath = "<%=uploadPath%>";
+                                Wec4.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec4.params.FullScreen = false;
+                                Wec4.EditorStart();
+
+                            </script>
+                        </div>
+                        <script type="text/javascript" language="javascript">
+                            function OnInitCompleted(e){
+                                e.editorTarget.SetBodyValue(document.getElementById("divWec0").value);
+                                e.editorTarget.SetBodyValue(document.getElementById("divWec1").value);
+                                e.editorTarget.SetBodyValue(document.getElementById("divWec2").value);
+                                e.editorTarget.SetBodyValue(document.getElementById("divWec3").value);
+                                e.editorTarget.SetBodyValue(document.getElementById("divWec4").value);
+                            }
+                        </script>                        
                     </td>
                 </tr>
                 <tr>
