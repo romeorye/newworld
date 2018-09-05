@@ -21,7 +21,7 @@
 	  		  ,A.EQIP_SCN as "eqipScn"
 	  		  ,A.MCHN_USE_PSBL_YN as "mchnUsePsblYn"
 	  		  ,ACC2.COM_DTL_NM AS "mchnClNm"
-	  		  ,ACC4.COM_DTL_NM AS "mchnClDtlNm"
+	  		  ,dbo.fn_getComDtlNm('RLAB_EXAT_CL_DTL_CD'+MCHN_CL_CD,MCHN_CL_DTL_CD)   AS "mchnClDtlNm"
 			  ,ACC3.COM_DTL_NM AS "mchnKindNm"
 	  		  ,A.OPN_YN AS "opnYn"
 	  		  ,ACC.COM_DTL_NM AS "mchnUsePsblNm"
@@ -32,15 +32,12 @@
 				,IRIS_ADM_COM_CD ACC
 				,IRIS_ADM_COM_CD ACC2
 				,IRIS_ADM_COM_CD ACC3
-				,IRIS_ADM_COM_CD ACC4
 		WHERE 1=1
 			AND A.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
 			AND A.MCHN_CL_CD = ACC2.COM_DTL_CD
 			AND A.MCHN_KIND_CD = ACC3.COM_DTL_CD
-			AND A.MCHN_CL_DTL_CD = ACC4.COM_DTL_CD
 			AND ACC2.COM_CD_CD = 'RLAB_EXAT_CL_CD'
 			AND ACC3.COM_CD_CD = 'RLAB_CL_CD'
-			AND ACC4.COM_CD_CD = 'RLAB_EXAT_CL_DTL_CD'
 			AND ACC.COM_CD_CD = 'MCHN_PRCT_ST'
 			AND A.DEL_YN = 'N'
 		]]>
