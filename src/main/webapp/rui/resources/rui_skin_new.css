@@ -900,7 +900,7 @@ input[type=text], input[type=password], input[type=month], input[type=date], inp
 }
 /* L-navset
 ---------------------------------------------------------*/
-
+/* 20180830
 .L-navset{
 	position:relative;
 	height: 45px;
@@ -987,7 +987,7 @@ input[type=text], input[type=password], input[type=month], input[type=date], inp
 .L-navset .L-nav li a, .L-navset .L-content{
 	border:0 !important;
 }
-
+*/
 /* L-Tooltip
 ---------------------------------------------------------*/
 .L-stt {
