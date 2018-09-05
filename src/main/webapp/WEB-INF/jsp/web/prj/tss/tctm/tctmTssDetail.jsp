@@ -448,8 +448,10 @@
             }
 
             if (errMsg == "") {
-                if (regCntMap.gbn != "GRS") {
-                    if (regCntMap.gbn == "CSUS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPlnCsusRq.do'/>" + "?tssCd=" + gvTssCd + "&userId=" + gvUserId + "&appCode=APP00332");
+                if (regCntMap.gbn != "GRS") {		//GRS효청
+                    if (regCntMap.gbn == "CSUS"){	//품의서 요청
+                        nwinsActSubmit(document.mstForm, "<%=request.getContextPath()+TctmUrl.doCsusView%>" + "?tssCd=" + gvTssCd + "&userId=" + gvUserId + "&appCode=APP00332");
+					}
                 } else {
                     nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do?tssCd="+gvTssCd+"&userId="+gvUserId+"'/>");
                 }
@@ -735,6 +737,7 @@ function fncGenTssAltrDetail(cd) {
 	<div class="sub-content">
 		<div class="titArea">
 			<div class="LblockButton">
+                <span>TSS_CD : ${inputData.tssCd}</span>
 				<button type="button" id="testBtn" name="testBtn" onclick="setTestCode()">Test입력</button>
 				<button type="button" id="btnDelRq" name="btnDelRq">삭제</button>
 				<button type="button" id="btnGrsRq" name="btnGrsRq">GRS요청</button>

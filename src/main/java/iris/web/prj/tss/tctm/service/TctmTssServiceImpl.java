@@ -49,8 +49,8 @@ public class TctmTssServiceImpl implements TctmTssService {
 	}
 
 	@Override
-	public Map<String, Object> selectTctmTssInfoGoal(HashMap<String, String> input) {
-		return null;
+	public List<Map<String, Object>> selectTctmTssInfoGoal(HashMap<String, String> input) {
+		return commonDao.selectList("prj.tss.com.retrieveTssGoal", input);
 	}
 
 	@Override
@@ -76,21 +76,8 @@ public class TctmTssServiceImpl implements TctmTssService {
 
 	}
 
-	@Override
-	public void updateTctmTssCmplInfo(HashMap<String, Object> input) {
 
 
-	}
-
-	@Override
-	public void updateTctmTssGoalInfo(HashMap<String, Object> input) {
-
-	}
-
-	@Override
-	public void updateTctmTssAltrHisInfo(HashMap<String, Object> input) {
-
-	}
 
 	@Override
 	public void updateTctmTssYld(HashMap<String, Object> input) {
@@ -120,7 +107,6 @@ public class TctmTssServiceImpl implements TctmTssService {
 	}
 
 
-
 	@Override
 	public void deleteTctmTssInfo(HashMap<String, Object> input) {
 		commonDao.delete("prj.tss.tctm.deleteInfo", input);
@@ -134,22 +120,23 @@ public class TctmTssServiceImpl implements TctmTssService {
 
 	@Override
 	public void deleteTctmTssAltrIInfo(HashMap<String, Object> input) {
-
+		commonDao.delete("prj.tss.tctm.deleteAltrInfo", input);
 	}
 
-	@Override
-	public void deleteTctmTssCmplInfo(HashMap<String, Object> input) {
-
-	}
 
 	@Override
 	public void deleteTctmTssGoalInfo(HashMap<String, Object> input) {
-
+		commonDao.delete("prj.tss.tctm.deleteGoalInfo", input);
 	}
 
 	@Override
-	public void deleteTctmTssAltrHisInfo(HashMap<String, Object> input) {
+	public void deleteTctmTssEv(HashMap<String, Object> input) {
+		commonDao.delete("prj.tss.tctm.deleteEv", input);
+	}
 
+	@Override
+	public void deleteTctmTssEvResult(HashMap<String, Object> input) {
+		commonDao.delete("prj.tss.tctm.deleteEvResult", input);
 	}
 
 
@@ -157,4 +144,16 @@ public class TctmTssServiceImpl implements TctmTssService {
 	public String selectNewTssCdt(HashMap<String, Object> input) {
 		return commonDao.select("prj.tss.tctm.selectNewTssCd", input);
 	}
+
+	@Override
+	public List<Map<String, Object>> selectTssPlnTssYyt(HashMap<String, String> input) {
+		return commonDao.selectList("prj.tss.com.retrieveTssTssYy", input);
+	}
+
+	@Override
+	public Map<String, Object> selectTssCsus(Map<String, Object> input) {
+		return commonDao.select("prj.tss.com.retrieveTssCsus", input);
+	}
+
+
 }

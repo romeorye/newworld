@@ -8,6 +8,7 @@ import iris.web.common.util.MimeDecodeException;
 import iris.web.common.util.StringUtil;
 import iris.web.common.util.TestConsole;
 import iris.web.prj.tss.com.service.TssUserService;
+import iris.web.prj.tss.gen.service.GenTssCmplService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.prj.tss.ousdcoo.service.OusdCooTssService;
@@ -59,6 +60,10 @@ public class TctmTssController extends IrisBaseController {
 
     @Resource(name = "attachFileService")
     private AttachFileService attachFileService; // 공통파일 서비스IRIS_TSS_TCTM_SMRY
+
+    @Resource(name = "genTssCmplService")
+    private GenTssCmplService genTssCmplService;
+
 
     static final Logger LOGGER = LogManager.getLogger(TctmTssController.class);
 
@@ -393,6 +398,90 @@ public class TctmTssController extends IrisBaseController {
         return modelAndView;
     }
 
+
+
+	/**
+	 * 과제관리 > 기술팀과제 > 계획 > 품의서요청 화면
+	 *
+	 * @param input HashMap<String, String>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model ModelMap
+	 * @return String
+	 * @throws JSONException
+	 * */
+	@RequestMapping(value=TctmUrl.doCsusView)
+	public String tctmTssPlnCsusRq(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+								  HttpSession session, ModelMap model) throws JSONException {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("tctmTssController - tctmTssPlnGoalYldIfm [과제관리 > 기술팀과제 > 계획 > 품의서요청 화면 ]");
+		LOGGER.debug("###########################################################");
+
+		checkSession(input, session, model);
+
+
+		if(pageMoveChkSession(input.get("_userId"))) {
+			Map<String, Object> resultMst         = tctmTssService.selectTctmTssInfo(input);				// 마스터
+			Map<String, Object> resultSmry        = tctmTssService.selectTctmTssInfoSmry(input);	 	//개요
+			Map<String, Object> resultCsus        = tctmTssService.selectTssCsus(resultMst); 			//품의서 결제 목록
+//			List<Map<String, Object>> resultGoal  = tctmTssService.selectTctmTssInfoGoal(input); 	//목표기술성과
+			List<Map<String, Object>> resultTssYy = tctmTssService.selectTssPlnTssYyt(input); 		//과제년도
+
+
+
+			HashMap<String, String> inputInfo = new HashMap<String, String>();
+			inputInfo.put("tssCd",     String.valueOf(input.get("tssCd")));
+			inputInfo.put("pgTssCd",   String.valueOf(resultMst.get("pgTssCd")));
+			inputInfo.put("tssStrtDd", String.valueOf(resultMst.get("tssStrtDd")));
+			inputInfo.put("tssFnhDd",  String.valueOf(resultMst.get("tssFnhDd")));
+			inputInfo.put("attcFilId", String.valueOf(resultSmry.get("attcFilId")));
+
+			List<Map<String, Object>> resultAttc  = genTssCmplService.retrieveGenTssCmplAttc(inputInfo);
+//
+//			LOGGER.debug("#######################resultBudg #################################### : " + resultBudg);
+
+//			for(int i=0; i < resultBudg.size() ; i++){
+//				if(i == 0 ){
+//					resultSmry.put("ingun", resultBudg.get(i).get("totSum"));
+//				}else if(i == 1 ){
+//					resultSmry.put("ounYoung", resultBudg.get(i).get("totSum"));
+//				}else if(i == 2 ){
+//					resultSmry.put("kungDev", resultBudg.get(i).get("totSum"));
+//				}else if(i == 3 ){
+//					resultSmry.put("gamgaDev", resultBudg.get(i).get("totSum"));
+//				}else if(i == 4 ){
+//					resultSmry.put("total", resultBudg.get(i).get("totSum"));
+//				}
+//			}
+
+			resultMst  = StringUtil.toUtf8Output((HashMap) resultMst);
+			resultSmry = StringUtil.toUtf8Output((HashMap) resultSmry);
+			resultCsus = StringUtil.toUtf8Output((HashMap) resultCsus);
+			//            for(int i = 0; i < resultGoal.size(); i++) {
+			//                StringUtil.toUtf8Input((HashMap)resultGoal.get(i));
+			//            }
+
+			model.addAttribute("inputData", input);
+			model.addAttribute("resultMst", resultMst);
+			model.addAttribute("resultSmry", resultSmry);
+//			model.addAttribute("resultMbr", resultMbr);
+//			model.addAttribute("resultGoal", resultGoal);
+			model.addAttribute("resultTssYy", resultTssYy);
+//			model.addAttribute("resultBudg", resultBudg);
+			model.addAttribute("resultCsus", resultCsus);
+			model.addAttribute("resultAttc", resultAttc);
+
+			//text컬럼을 위한 json변환
+			JSONObject obj = new JSONObject();
+			obj.put("smry", resultSmry);
+//			obj.put("goal", resultGoal);
+
+			request.setAttribute("resultJson", obj);
+		}
+
+		return TctmUrl.jspCsusView;
+	}
 
     /**
      * 페이지 이동시 세션체크

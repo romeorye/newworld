@@ -524,14 +524,60 @@ MERGE INTO IRIS_TSS_TCTM_SMRY tbl
    <!--기술팀 과제 삭제-->
    <delete id="deleteInfo">
    <![CDATA[
--- deleteInfo 기술팀 과제 삭제
+/*deleteInfo 기술팀 과제 삭제*/
+    DELETE
+      FROM IRIS_TSS_MGMT_MST
+     WHERE TSS_CD = #{tssCd}
        ]]>
    </delete>
 
    <!--기술팀 과제 개요 삭제-->
    <delete id="deleteSmryInfo">
    <![CDATA[
---deleteSmryInfo 기술팀 과제 개요 삭제
+/*deleteSmryInfo 기술팀 과제 개요 삭제*/
+    DELETE
+      FROM IRIS_TSS_TCTM_SMRY
+     WHERE TSS_CD = #{tssCd}
+       ]]>
+   </delete>
+
+   <!--기술팀 과제 변경개요 삭제-->
+   <delete id="deleteAltrInfo">
+   <![CDATA[
+/*deleteAltrInfo 기술팀 과제 변경개요 삭제*/
+    DELETE
+      FROM IRIS_TSS_SMRY_ALTR_LIST
+     WHERE TSS_CD = #{tssCd}
+       ]]>
+   </delete>
+
+   <!--기술팀 과제 산출물-->
+   <delete id="deleteGoalInfo">
+   <![CDATA[
+/*deleteGoalInfo 기술팀 과제 산출물*/
+    DELETE
+      FROM IRIS_TSS_YLD_ITM
+     WHERE TSS_CD = #{tssCd}
+       ]]>
+   </delete>
+
+    <!--기술팀 과제 GRS 평가표-->
+    <delete id="deleteEv">
+   <![CDATA[
+/*deleteEv 기술팀 과제 GRS 평가표*/
+    DELETE
+      FROM IRIS_GRS_EV_RSLT_RGST
+         WHERE TSS_CD = #{tssCd}
+       ]]>
+   </delete>
+
+    <!--기술팀 과제 GRS 평가표 점수-->
+    <delete id="deleteEvResult">
+   <![CDATA[
+/*deleteEvResult 기술팀 과제 GRS 평가표 점수*/
+    DELETE
+      FROM IRIS_GRS_EV_STD_RSLT_RGST
+     WHERE TSS_CD = #{tssCd}
        ]]>
    </delete>
 
