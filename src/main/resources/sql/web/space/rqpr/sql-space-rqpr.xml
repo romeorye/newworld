@@ -5,24 +5,34 @@
 
 	<select id="getSpaceRqprList" resultType="hashmap">
 		<![CDATA[
-			-- spaceRqprList  리스트 조회
+			/* spaceRqprList  리스트 조회 */
 			SELECT
-				RQPR_ID											AS 'rqprId',
-				ACPC_NO											AS 'acpcNo',
-				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'SPACE_SCN_CD' and COM_DTL_CD = SPACE_SCN_CD) AS 'spaceScnNm',
-				SPACE_NAME										AS 'spaceNm',
-				RGST_ID											AS 'rgstId',
-				(select sa_name from iris_sso_user where sa_user = RGST_ID)					AS 'rgstNm',
-				RQPR_DT											AS 'rqprDt',
-				ACPC_DT											AS 'acpcDt',
-				CMPL_PARR_DT									AS 'cmplParrDt',
-				CMPL_DT											AS 'cmplDt',
-				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ANL_UGY_YN' and COM_DTL_CD = SPACE_UGY_YN) 	AS 'spaceUgyYnNm',
-
-				dbo.fn_getSpaceRqprCrgrNames(RQPR_ID) AS 'spaceChrgNm'
+				RQPR_ID											AS rqprId,
+				ACPC_NO											AS acpcNo,		--접수번호
+				dbo.fn_getComDtlNm('SPACE_SCN_CD',SPACE_SCN_CD)	AS spaceScnNm,	--평가목적
+				SPACE_NAME										AS spaceNm,		--평가명
+				RGST_ID											AS rgstId,		--등록자
+				dbo.fn_getSpaceCtrgNames(RQPR_Id)				AS CtrgNames,	--평가카테고리
+				dbo.fn_getSpacePrvsNames(RQPR_Id)				AS PrvsNames,	--평가항목
+				dbo.fn_getUserName(RGST_ID) 					AS rgstNm,		--의뢰자
+				RQPR_DT											AS rqprDt,		--의뢰일자
+				ACPC_DT											AS acpcDt,		--접수일자
+				CMPL_PARR_DT									AS cmplParrDt,	--완료예정일
+				CMPL_DT											AS cmplDt,		--완료일
+				dbo.fn_getComDtlNm('ANL_UGY_YN' , SPACE_UGY_YN)	AS spaceUgyYnNm,--긴급유무
+				dbo.fn_getSpaceRqprCrgrNames(RQPR_ID) 			AS spaceChrgNm,	--평가담당자
+				dbo.fn_getComDtlNm('OPPB_SCP_CD' , OPPB_SCP_CD)	AS oppbScpCd,	--공개여부(비밀여부)
+				dbo.fn_getComDtlNm('ACPC_ST_CD' , ACPC_ST_CD)	AS acpcStNm		--상태
 			FROM	IRIS_SPACE_RQPR_MST mst
 		 ]]>
 			WHERE	1 = 1
+		<if test="cmbCtgr0Cd != null and cmbCtgr0Cd != ''">
+			AND RQPR_ID IN (SELECT SP.RQPR_ID FROM IRIS_SPACE_PROD SP WHERE SP.EV_CTGR0 = #{cmbCtgr0Cd})
+		</if>
+		<if test="wbsCd != null and wbsCd != ''">
+			AND WBS_CD = #{wbsCd}
+		</if>
+
         <if test="fromRqprDt != null and fromRqprDt != ''">
 			AND RQPR_DT between #{fromRqprDt} AND #{toRqprDt}
 		</if>
@@ -36,7 +46,7 @@
 			AND RQPR_DEPT_CD = #{rqprDeptCd}
 		</if>
         <if test="spaceChrgNm != null and spaceChrgNm != ''">
-			AND SPACE_CHRG_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${spaceChrgNm}%')
+			AND RQPR_ID IN (SELECT RQPR_ID FROM IRIS_SPACE_WAY_CRGR WHERE INFM_PRSN_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${spaceChrgNm}%'))
 		</if>
         <if test="acpcNo != null and acpcNo != ''">
 			AND ACPC_NO like '${acpcNo}%'
@@ -93,8 +103,9 @@
 	</select>
 
 	<select id="getSpaceRqprInfo" resultType="hashmap">
-	-- getSpaceRqprInfo
-		   SELECT
+
+			/*getSpaceRqprInfo 상세조회*/
+			SELECT
 				RQPR_ID												AS rqprId,
 				RQPR_DT												AS rqprDt,
 				RGST_ID												AS rgstId,
@@ -103,17 +114,11 @@
 				--dbo.fn_getDeptName(RQPR_DEPT_CD)					AS rqprDeptNm,
 				DEPT_NM												AS rqprDeptNm,
 				SPACE_NAME											AS spaceNm,
-				SPACE_SCN_CD											AS spaceScnCd,
-				dbo.fn_getComDtlNm('SPACE_SCN_CD', SPACE_SCN_CD)		AS spaceScnNm,
-				SPACE_UGY_YN											AS spaceUgyYn,
+				SPACE_SCN_CD										AS spaceScnCd,
+				dbo.fn_getComDtlNm('SPACE_SCN_CD', SPACE_SCN_CD)	AS spaceScnNm,
+				SPACE_UGY_YN										AS spaceUgyYn,
 				dbo.fn_getComDtlNm('ANL_UGY_YN', SPACE_UGY_YN)		AS spaceUgyYnNm,
-				INFM_TYPE_CD										AS infmTypeCd,
-				dbo.fn_getComDtlNm('INFM_TYPE_CD', INFM_TYPE_CD)	AS infmTypeNm,
-				SPACE_CHRG_ID											AS spaceChrgId,
-				dbo.fn_getUserName(SPACE_CHRG_ID)						AS spaceChrgNm,
-				SMPO_TRTM_CD										AS smpoTrtmCd,
-				dbo.fn_getComDtlNm('SMPO_TRTM_CD', SMPO_TRTM_CD)	AS smpoTrtmNm,
-				SPACE_SBC												AS spaceSbc,
+				SPACE_SBC											AS spaceSbc,
 				ACPC_ST_CD											AS acpcStCd,
 				dbo.fn_getComDtlNm('ACPC_ST_CD', ACPC_ST_CD)		AS acpcStNm,
 				RQPR_RDCS_DT										AS rqprRdcsDt,
@@ -127,13 +132,13 @@
 				CMPL_WK_DD_CNT										AS cmplWkDdCnt,
 				CMPL_DT												AS cmplDt,
 				SPACE_RSLT_SBC										AS spaceRsltSbc,
-				SPACE_RDCS_DT											AS spaceRdcsDt,
-				SPACE_GVB_DT											AS spaceGvbDt,
+				SPACE_RDCS_DT										AS spaceRdcsDt,
+				SPACE_GVB_DT										AS spaceGvbDt,
 				SPACE_GVB_RSON										AS spaceGvbRson,
-				SPACE_DCAC_DT											AS spaceDcacDt,
+				SPACE_DCAC_DT										AS spaceDcacDt,
 				SPACE_DCAC_RSON										AS spaceDcacRson,
 				dbo.fn_getSpaceRqprInfmPrsnIds(RQPR_ID)				AS infmPrsnIds,
-				dbo.fn_getSpaceRqprInfmPrsnNames(RQPR_ID)				AS spaceRqprInfmView,
+				dbo.fn_getSpaceRqprInfmPrsnNames(RQPR_ID)			AS spaceRqprInfmView,
 				RQPR_ATTC_FILE_ID									AS rqprAttcFileId,
 				RSLT_ATTC_FILE_ID									AS rsltAttcFileId,
 				DEL_YN												AS delYn,
@@ -149,103 +154,167 @@
 				(select	CIR.ITG_RDCS_ID
 				 from	IRIS_COM_ITG_RDCS CIR
 				 WHERE	CIR.GUID = 'C' + cast(mst.RQPR_ID as nvarchar)
-				)													AS rsltItgRdcsId
-
+				)													AS rsltItgRdcsId,
+				OPPB_SCP_CD		as oppbScpCd,		/* 공개범위 코드 */
+				SCRT_RSON		as scrtRson,		/* 비밀 사유 */
+				WBS_CD			as spaceRqprWbsCd,	/* Wbs코드 */
+				EV_SUBJ_NM		as evSubjNm,		/* 평가 대상명 */
+				SBMP_CD			as sbmpCd,			/* 제출처 코드 */
+				SBMP_NM			as sbmpNm,			/* 제출처 명 */
+				QTAS_DPST		as qtasDpst,		/* 정량지표 */
+				QNAS_DPST		as qnasDpst,		/* 정성지표 */
+				GOAL_PFMC		as goalPfmc,		/* 목표성능 */
+				RSLT_DPST		as rsltDpst,		/* 결과지표 */
+				EV_CASES		as evCases,			/* 평가class */
+				EV_SUBJ_DTL		as evSubjDtl,		/* 평가대상 상세 */
+				T_CLOUD			as tCloud			/* T-Cloud Url */
 			FROM	IRIS_SPACE_RQPR_MST mst
 			WHERE	RQPR_ID = ${rqprId}
 
 	</select>
 
-	<select id="getSpaceRqprSmpoList" resultType="hashmap">
-	-- getSpaceRqprSmpoList
-		   SELECT
-				SMPO_ID		AS smpoId,
-				RQPR_ID		AS rqprId,
-				SMPO_NM		AS smpoNm,
-				MKR_NM		AS mkrNm,
-				MDL_NM		AS mdlNm,
-				SMPO_QTY	AS smpoQty
-			FROM	IRIS_SPACE_RQPR_SMPO
+	<select id="getSpaceRqprWayCrgrList" resultType="hashmap">
+			/*getSpaceRqprWayCrgrList 평가방법*/
+			SELECT
+				CRGR_ID       AS crgrId,
+				RQPR_ID       AS rqprId,
+				EV_CTGR       AS evCtgr,
+				EV_PRVS       AS evPrvs,
+				INFM_PRSN_ID  AS infmPrsnId,
+				dbo.fn_getUserName(INFM_PRSN_ID)	AS infmPrsnNm
+			FROM IRIS_SPACE_WAY_CRGR
 			WHERE	RQPR_ID = ${rqprId}
 			AND		DEL_YN = 'N'
 
 	</select>
 
+	<select id="getSpaceRqprProdListList" resultType="hashmap">
+			/*getSpaceRqprProdListList 제품군*/
+			SELECT
+				SP.PROD_ID    AS prodId,
+				SP.RQPR_ID    AS rqprId,
+				SP.EV_CTGR0   AS evCtgr0,
+				SP.EV_CTGR1   AS evCtgr1,
+				SP.EV_CTGR2   AS evCtgr2,
+				SP.EV_CTGR3   AS evCtgr3,
+				(SELECT EC0.CTGR_NM FROM IRIS_SPACE_EV_CTGR0 EC0 WHERE EC0.CTGR_CD = SP.EV_CTGR0) AS evCtgr0Nm,
+				(SELECT EC1.CTGR_NM FROM IRIS_SPACE_EV_CTGR1 EC1 WHERE EC1.CTGR_CD = SP.EV_CTGR1) AS evCtgr1Nm,
+				(SELECT EC2.CTGR_NM FROM IRIS_SPACE_EV_CTGR2 EC2 WHERE EC2.CTGR_CD = SP.EV_CTGR2) AS evCtgr2Nm,
+				(SELECT EC3.CTGR_NM FROM IRIS_SPACE_EV_CTGR3 EC3 WHERE EC3.CTGR_CD = SP.EV_CTGR3) AS evCtgr3Nm
+			FROM IRIS_SPACE_PROD SP
+			WHERE	SP.RQPR_ID = ${rqprId}
+			AND		SP.DEL_YN = 'N'
+
+	</select>
+
 	<select id="getSpaceRqprRltdList" resultType="hashmap">
 	-- getSpaceRqprRltdList
-		   SELECT
+			SELECT
 				rltd.RLTD_ID								AS rltdId,
 				rltd.RQPR_ID								AS rqprId,
 				rltd.PRE_RQPR_ID							AS preRqprId,
 				rltd.PRE_SPACE_NAME							AS preSpaceNm,
 				mst.ACPC_NO									AS preAcpcNo,
-				dbo.fn_getUserName(mst.SPACE_CHRG_ID)			AS preSpaceChrgNm,
+				dbo.fn_getSpaceRqprCrgrNames(mst.rqpr_id) 	AS preSpaceChrgNm,	--평가담당자
 				rltd.PRE_RGST_ID							AS preRgstId,
-				dbo.fn_getUserName(rltd.PRE_RGST_ID)		AS preRgstNm
+				dbo.fn_getUserName(rltd.pre_rgst_id)		AS preRgstNm
 			FROM	IRIS_SPACE_RQPR_RLTD rltd,
 					IRIS_SPACE_RQPR_MST mst
-			WHERE	rltd.RQPR_ID = ${rqprId}
+			WHERE	rltd.RQPR_ID = '7'
 			AND		rltd.DEL_YN = 'N'
 			AND		rltd.PRE_RQPR_ID = mst.RQPR_ID
 
 	</select>
 
 	<insert id="insertSpaceRqpr" parameterType="hashmap" useGeneratedKeys="true" keyProperty="rqprId" keyColumn="RQPR_ID">
-	-- insertSpaceRqpr
-		insert into iris_space_rqpr_mst(
-			RQPR_DT
-		   ,RGST_ID
-		   ,RQPR_DEPT_CD
-		   ,RQPR_TEAM_CD
-		   ,SPACE_NAME
-		   ,SPACE_SCN_CD
-		   ,SPACE_UGY_YN
-		   ,INFM_TYPE_CD
-		   ,SPACE_CHRG_ID
-		   ,SMPO_TRTM_CD
-		   ,SPACE_SBC
-		   ,RQPR_ATTC_FILE_ID
-		   ,FRST_RGST_ID
-		   ,LAST_MDFY_ID)
-		values(Convert(varchar(10), Current_Timestamp, 120)
-			  ,#{userId}
-			  ,#{userDeptCd}
-			  ,#{userTeamCd}
-			  ,#{spaceNm}
-			  ,#{spaceScnCd}
-			  ,#{spaceUgyYn}
-			  ,#{infmTypeCd}
-			  ,#{spaceChrgId}
-			  ,#{smpoTrtmCd}
-			  ,#{spaceSbc}
-			  ,#{rqprAttcFileId}
-			  ,#{userId}
-			  ,#{userId}
-			  )
+
+		/*insertSpaceRqpr 평가의뢰 마스터 등록 */
+		insert into IRIS_SPACE_RQPR_MST(
+			 RQPR_DT				--의뢰일자
+			,RGST_ID				--등록자ID
+			,RQPR_DEPT_CD			--의뢰자부서코드
+			,RQPR_TEAM_CD			--의뢰자팀코드
+			,SPACE_NAME				--평가명
+			,SPACE_SCN_CD			--평가구분코드
+			,SPACE_UGY_YN			--긴급유무코드
+			,SPACE_SBC				--평가목적
+			,RQPR_ATTC_FILE_ID		--의뢰첨부파일ID
+			,FRST_RGST_ID			--최초등록자
+			,LAST_MDFY_ID			--최종수정자
+			,OPPB_SCP_CD			--공개범위 코드
+			,SCRT_RSON				--비밀 사유
+			,WBS_CD					--WBS코드
+			,EV_SUBJ_NM				--평가 대상명
+			,SBMP_CD				--제출처 코드
+			,SBMP_NM				--제출처 명
+			,QTAS_DPST				--정량지표
+			,QNAS_DPST				--정성지표
+			,GOAL_PFMC				--목표성능
+			,RSLT_DPST				--결과지표
+			,EV_CASES				--평가Class
+			,EV_SUBJ_DTL			--평가대상 상세
+			,T_CLOUD				--T-CLOUD URL
+		)values(
+			Convert(varchar(10), Current_Timestamp, 120)
+			,#{userId}
+			,#{userDeptCd}
+			,#{userTeamCd}
+			,#{spaceNm}
+			,#{spaceScnCd}
+			,#{spaceUgyYn}
+			,#{spaceSbc}
+			,#{rqprAttcFileId}
+			,#{userId}
+			,#{userId}
+			,#{oppbScpCd}
+			,#{scrtRson}
+			,#{spaceRqprWbsCd}
+			,#{evSubjNm}
+			,#{sbmpCd}
+			,#{sbmpNm}
+			,#{qtasDpst}
+			,#{qnasDpst}
+			,#{goalPfmc}
+			,#{rsltDpst}
+			,#{evCases}
+			,#{evSubjDtl}
+			,#{tCloud}
+		)
 
 	</insert>
 
 	<update id="updateSpaceRqpr">
-	-- updateSpaceRqpr
-		update	iris_space_rqpr_mst
-		set		space_name = #{spaceNm},
-				space_scn_cd = #{spaceScnCd},
-				space_ugy_yn = #{spaceUgyYn},
-				infm_type_cd = #{infmTypeCd},
-				space_chrg_id = #{spaceChrgId},
-				smpo_trtm_cd = #{smpoTrtmCd},
-				space_sbc = #{spaceSbc},
-				acpc_st_cd = #{acpcStCd},
+
+		/* updateSpaceRqpr 평가 마스터 저장 */
+		update	IRIS_SPACE_RQPR_MST
+		set		space_name = #{spaceNm},		--평가명
+				space_sbc = #{spaceSbc},		--평가목적
+				space_scn_cd = #{spaceScnCd},	--평가구분코드
+				wbs_cd = #{spaceRqprWbsCd},		--WBS코드
+				space_ugy_yn = #{spaceUgyYn},	--긴급유무코드
+				oppb_scp_cd = #{oppbScpCd},		--공개범위 코드
+				scrt_rson = #{scrtRson},		--비밀사유
+				ev_subj_nm = #{evSubjNm},		--평가 대상명
+				sbmp_cd = #{sbmpCd},			--제출처 코드
+				sbmp_nm = #{sbmpNm},			--제출처 명
+				qtas_dpst = #{qtasDpst},		--정량지표
+				qnas_dpst = #{qnasDpst},		--정성지표
+				goal_pfmc = #{goalPfmc},		--목표성능
+				rslt_dpst = #{rsltDpst},		--결과지표
+				ev_cases = #{evCases},			--평가Class
+				ev_subj_dtl = #{evSubjDtl},		--평가대상 상세
+				t_cloud = #{tCloud},			--T-CLOUD URL
+				acpc_st_cd = #{acpcStCd},		--접수상태코드
+				cmpl_parr_dt = #{cmplParrDt},			--완료예정일
+				rqpr_attc_file_id = #{rqprAttcFileId},	--의뢰첨부파일ID
 			<if test="acpcNo == '' and acpcStCd == '03'">
-				acpc_no = (select 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4)
+				acpc_no = (select 'H' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4)
 						   from   iris_space_rqpr_mst
 						   where  acpc_no like 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '%'),
 				acpc_dt = Convert(varchar(10), getdate(), 120),
 			</if>
-				cmpl_parr_dt = #{cmplParrDt},
-				rqpr_attc_file_id = #{rqprAttcFileId},
 				last_mdfy_dt = getdate(),
-				last_mdfy_id = #{userId}
+				last_mdfy_id = #{userId}		--최종수정자
 		where	rqpr_id = ${rqprId}
 
 	</update>
@@ -278,54 +347,103 @@
 
 	</update>
 
-	<insert id="insertSpaceRqprSmpo" parameterType="map">
-	-- insertSpaceRqprSmpo
-		insert into iris_space_rqpr_smpo(
-			RQPR_ID
-		   ,SMPO_NM
-		   ,MKR_NM
-		   ,MDL_NM
-		   ,SMPO_QTY
-		   ,FRST_RGST_ID
-		   ,LAST_MDFY_ID
-		   )
-		values(#{rqprId}
-			  ,#{smpoNm}
-			  ,#{mkrNm}
-			  ,#{mdlNm}
-			  ,#{smpoQty}
-			  ,#{userId}
-			  ,#{userId}
-			  )
+	<insert id="insertSpaceRqprWayCrgr" parameterType="map">
+
+		/*insertSpaceRqprWayCrgr 평가방법 등록*/
+		INSERT INTO IRIS_SPACE_WAY_CRGR(
+			 RQPR_ID		--의뢰ID
+			,EV_CTGR		--평가카테고리
+			,EV_PRVS		--평가항목
+			,INFM_PRSN_ID	--담당자
+			,FRST_RGST_ID	--최초등록자
+			,LAST_MDFY_ID	--최종수정자
+		)values(
+			 #{rqprId}
+    		,#{evCtgr}
+    		,#{evPrvs}
+    		,#{infmPrsnId}
+    		,#{userId}
+    		,#{userId}
+		)
 
 	</insert>
 
-	<update id="updateSpaceRqprSmpo">
-	-- updateSpaceRqprSmpo
-		update	iris_space_rqpr_smpo
-		set		smpo_nm = #{smpoNm},
-				mkr_nm = #{mkrNm},
-				mdl_nm = #{mdlNm},
-				smpo_qty = ${smpoQty},
-				last_mdfy_dt = getdate(),
-				last_mdfy_id = #{userId}
-		where	smpo_id = ${smpoId}
+	<update id="updateSpaceRqprWayCrgr">
+
+		/* updateSpaceRqprWayCrgr 평가정보 수정*/
+		UPDATE	IRIS_SPACE_WAY_CRGR
+		SET		EV_CTGR			= #{evCtgr},	--평가카테고리
+				EV_PRVS			= #{evPrvs},	--평가항목
+				INFM_PRSN_ID	= #{infmPrsnId},--담당자
+				last_mdfy_dt	= getdate(),
+				last_mdfy_id	= #{userId}
+		WHERE	RQPR_ID = ${rqprId}
 
 	</update>
 
-	<update id="updateSpaceRqprSmpoDelYn">
+	<update id="updateSpaceRqprWayCrgrDelYn">
 	-- updateSpaceRqprSmpoDelYn
-		update	iris_space_rqpr_smpo
-		set		del_yn = 'Y',
-				last_mdfy_dt = getdate(),
-				last_mdfy_id = #{userId}
-		where	smpo_id = ${smpoId}
+		/* updateSpaceRqprWayCrgrDelYn 평가정보 삭제*/
+		UPDATE	IRIS_SPACE_WAY_CRGR
+		SET		DEL_YN = 'Y',
+				LAST_MDFY_DT = getdate(),
+				LAST_MDFY_ID = #{userId}
+		WHERE	RQPR_ID = ${rqprId}
+
+	</update>
+
+	<insert id="insertSpaceRqprProd" parameterType="map">
+
+		/* insertSpaceRqprProd 제품군 등록*/
+		INSERT INTO IRIS_SPACE_PROD(
+			 RQPR_ID		--의뢰ID
+			,EV_CTGR0		--사업부
+			,EV_CTGR1		--제품군
+			,EV_CTGR2		--분류
+			,EV_CTGR3		--제품
+			,FRST_RGST_ID	--최초등록자
+			,LAST_MDFY_ID	--최종수정자
+		)VALUES(
+			 #{rqprId}
+			,#{evCtgr0}
+			,#{evCtgr1}
+			,#{evCtgr2}
+			,#{evCtgr3}
+			,#{userId}
+			,#{userId}
+		)
+
+	</insert>
+
+	<update id="updateSpaceRqprProd">
+
+		/* updateSpaceRqprProd 제품군 수정*/
+		UPDATE	IRIS_SPACE_PROD
+		SET		EV_CTGR0		= #{evCtgr0},	--사업부
+				EV_CTGR1		= #{evCtgr1},	--제품군
+				EV_CTGR2		= #{evCtgr2},	--분류
+				EV_CTGR3		= #{evCtgr3},	--제품
+				last_mdfy_dt	= getdate(),
+				last_mdfy_id	= #{userId}
+		WHERE	RQPR_ID = ${rqprId}
+
+	</update>
+
+	<update id="updateSpaceRqprProdDelYn">
+
+		/* updateSpaceRqprProdDelYn 제품군 삭제*/
+		UPDATE	IRIS_SPACE_PROD
+		SET		DEL_YN = 'Y',
+				LAST_MDFY_DT = getdate(),
+				LAST_MDFY_ID = #{userId}
+		WHERE	RQPR_ID = ${rqprId}
 
 	</update>
 
 	<insert id="insertSpaceRqprRltd" parameterType="map">
 	-- insertSpaceRqprRltd
-		insert into iris_space_rqpr_rltd(
+		/* insertSpaceRqprRltd 관련평가 등록*/
+		INSERT INTO IRIS_SPACE_RQPR_RLTD(
 			RQPR_ID
 		   ,PRE_RQPR_ID
 		   ,PRE_SPACE_NAME
@@ -345,28 +463,31 @@
 
 	<update id="updateSpaceRqprRltd">
 	-- updateSpaceRqprRltd
-		update	iris_space_rqpr_rltd
-		set		pre_rqpr_id = #{preRqprId},
-				pre_space_name = #{preSpaceNm},
-				pre_rgst_id = #{preRgstId},
-				last_mdfy_dt = getdate(),
-				last_mdfy_id = #{userId}
-		where	rltd_id = #{rltdId}
+		/* updateSpaceRqprRltd 관련평가 수정*/
+		UPDATE	IRIS_SPACE_RQPR_RLTD
+		SET		PRE_RQPR_ID = #{preRqprId},
+				PRE_SPACE_NAME = #{preSpaceNm},
+				PRE_RGST_ID = #{preRgstId},
+				LAST_MDFY_DT = getdate(),
+				LAST_MDFY_ID = #{userId}
+		WHERE	RLTD_ID = #{rltdId}
 
 	</update>
 
 	<update id="updateSpaceRqprRltdDelYn">
 	-- updateSpaceRqprRltdDelYn
-		update	iris_space_rqpr_rltd
-		set		del_yn = 'Y',
-				last_mdfy_dt = getdate(),
-				last_mdfy_id = #{userId}
-		where	rltd_id = #{rltdId}
+		/* updateSpaceRqprRltdDelYn 관련평가 삭제*/
+		UPDATE	IRIS_SPACE_RQPR_RLTD
+		SET		DEL_YN = 'Y',
+				LAST_MDFY_DT = getdate(),
+				LAST_MDFY_ID = #{userId}
+		WHERE	RLTD_ID = #{rltdId}
 
 	</update>
 
 	<insert id="insertSpaceRqprInfm" parameterType="map">
 	-- insertSpaceRqprInfm
+		/* insertSpaceRqprInfm 통보자 등록/수정 */
 		MERGE INTO iris_space_rqpr_infm a
 		USING ( SELECT	#{rqprId} as rqprId,
 						#{infmPrsnId} as infmPrsnId,
@@ -387,7 +508,8 @@
 	</insert>
 
 	<update id="updateSpaceRqprInfmDelYn">
-	-- updateSpaceRqprInfmDelYn
+
+		/* updateSpaceRqprInfmDelYn 통보자 삭제 */
 		update	iris_space_rqpr_infm
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
@@ -519,7 +641,7 @@
 				   ,EXAT_NM				   as exatNm
 				   ,SUPI_EXAT_CD		   as supiExatCd
 				   ,EXAT_CD_L			   as exatCdL
-				   ,EXAT_MTD_NO				   as exatMtdNo
+				   ,EXAT_MTD_NO			   as exatMtdNo
 				   ,UTM_EXP				   as utmExp
 				   ,EXP_CRTN_SCN_CD		   as expCrtnScnCd
 				   ,UTM_SMPO_QTY		   as utmSmpoQty
@@ -546,43 +668,43 @@
 	<select id="getSpaceRqprExprList" resultType="hashmap">
 		<![CDATA[
 			-- getSpaceRqprExprList 분석결과 실험정보 리스트 조회
-			WITH EXPR_MST AS
+			WITH EXAT_MST AS
 			(
-			SELECT   AEM.EXPR_CD
-					,AEM.EXPR_CD_L
-					,convert(varchar(255), EXPR_NM) as master_path
-			 FROM IRIS_SPACE_EXPR_MST AEM
-			 WHERE AEM.DEL_YN = 'N'
-			 AND   AEM.SUPI_EXPR_CD = '0'
-			 UNION ALL
-			 SELECT  AEM2.EXPR_CD
-					,AEM2.EXPR_CD_L
-					,CAST(AEM3.master_path + '>' + AEM2.EXPR_NM AS VARCHAR(255)) master_path
-			 FROM IRIS_SPACE_EXPR_MST AEM2
-			     ,EXPR_MST AEM3
-			 WHERE   AEM2.SUPI_EXPR_CD = AEM3.EXPR_CD
-			 )
-			 SELECT  ARE.RQPR_EXPR_ID							 as rqprExprId
-					,ARE.RQPR_ID								 as rqprId
-					,ARE.EXPR_CD								 as exprCd
-					,EM.master_path								 as exprNm
-					,ARE.MCHN_INFO_ID							 as mchnInfoId
-					,dbo.fn_getMchnInfoName(ARE.MCHN_INFO_ID)	 as mchnInfoNm
-					,ARE.SMPO_QTY								 as smpoQty
-					,ARE.EXPR_QTY								 as exprQty
-					,ARE.EXPR_TIM								 as exprTim
-					,ARE.EXPR_EXP								 as exprExp
-					,ARE.EXPR_STRT_DT							 as exprStrtDt
-					,ARE.EXPR_FNH_DT							 as exprFnhDt
-					,ARE.EXPR_WAY								 as exprWay
-			 FROM EXPR_MST EM
-				,IRIS_SPACE_RQPR_EXPR ARE
-		 ]]>
-			 WHERE	EM.EXPR_CD_L = 4
-			 AND	ARE.DEL_YN = 'N'
-			 AND	EM.EXPR_CD = ARE.EXPR_CD
-			 AND	ARE.RQPR_ID = ${rqprId}
-			 ORDER by RQPR_EXPR_ID
+			SELECT   AEM.EXAT_CD
+					,AEM.EXAT_CD_L
+					,convert(varchar(255), EXAT_NM) as master_path
+			FROM IRIS_SPACE_EXAT_MST AEM
+			WHERE AEM.DEL_YN = 'N'
+			AND   AEM.SUPI_EXAT_CD = '0'
+			UNION ALL
+			SELECT  AEM2.EXAT_CD
+					,AEM2.EXAT_CD_L
+					,CAST(AEM3.master_path + '>' + AEM2.EXAT_NM AS VARCHAR(255)) master_path
+			FROM IRIS_SPACE_EXAT_MST AEM2
+			     ,EXAT_MST AEM3
+			WHERE   AEM2.SUPI_EXAT_CD = AEM3.EXAT_CD
+			)
+			SELECT   ARE.RQPR_EXAT_ID                           as rqprExatId  --분석평가id
+					,ARE.RQPR_ID                                as rqprId      --의뢰id
+					,ARE.EXAT_MDUL                              as exatMdul    --평가모듈
+					,ARE.EXAT_CASE_QTY                          as exatCaseQty --평가케이스 수
+					,ARE.EXAT_DCT                               as exatDct     --평가일수
+					,ARE.EXAT_CD                                as exatCd      --평가코드
+					,ARE.MCHN_INFO_ID                           as mchnInfoId  --기기 정보 Id
+					,ARE.EXAT_EXP                               as exatExp     --평가비용
+					,ARE.EXAT_STRT_DT                           as exatStrtDt  --평가시작일자
+					,ARE.EXAT_FNH_DT                            as exatFnhDt   --평가종료일자
+					,ARE.EXAT_WAY                               as exatWay     --평가방법
+					,EM.master_path								as exprNm
+					,dbo.fn_getMchnInfoName(ARE.MCHN_INFO_ID)	as mchnInfoNm
+			FROM EXAT_MST EM
+				,IRIS_SPACE_RQPR_EXAT ARE
+		]]>
+			WHERE	EM.EXAT_CD_L = 4
+			AND	ARE.DEL_YN = 'N'
+			AND	EM.EXAT_CD = ARE.EXAT_CD
+			AND	ARE.RQPR_ID = ${rqprId}
+			ORDER by RQPR_EXAT_ID
 	</select>
 
 	<select id="getSpaceRqprExprInfo" resultType="hashmap">
@@ -599,7 +721,7 @@
 				   ,EXPR_STRT_DT	   as exprStrtDt
 				   ,EXPR_FNH_DT		   as exprFnhDt
 				   ,EXPR_WAY		   as exprWay
-			from	iris_space_rqpr_expr
+			from	iris_space_rqpr_exat
 		 ]]>
 			where	rqpr_expr_id = ${rqprExprId}
 	</select>
