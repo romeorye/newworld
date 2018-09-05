@@ -470,13 +470,13 @@ public class SpaceLibController  extends IrisBaseController {
             uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_ANL");   // 파일명에 세팅되는 경로
             uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_ANL");  // 파일이 실제로 업로드 되는 경로
 
-            mime.setSaveURL(uploadUrl);
-            mime.setSavePath(uploadPath);
-            mime.decode(input.get("bbsSbc").toString());                  // MIME 디코딩
-            mime.saveFileAtPath(uploadPath+File.separator);
+            //mime.setSaveURL(uploadUrl);
+            //mime.setSavePath(uploadPath);
+            //mime.decode(input.get("bbsSbc").toString());                  // MIME 디코딩
+            //mime.saveFileAtPath(uploadPath+File.separator);
 
-            spaceLibSbcHtml = mime.getBodyContent();
-            spaceLibSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(spaceLibSbcHtml, "<", "@![!@"),">","@!]!@"));
+            //spaceLibSbcHtml = mime.getBodyContent();
+            //spaceLibSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(spaceLibSbcHtml, "<", "@![!@"),">","@!]!@"));
 
 
 			// 저장&수정
@@ -486,7 +486,7 @@ public class SpaceLibController  extends IrisBaseController {
 			for(Map<String,Object> spaceLibRgstDataSetMap : SpaceLibRgstDataSetList) {
 
 				spaceLibRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
-				spaceLibRgstDataSetMap.put("bbsSbc" , NullUtil.nvl(spaceLibSbcHtml, ""));
+				spaceLibRgstDataSetMap.put("bbsSbc" , input.get("bbsSbc").toString());
 
 				spaceLibService.insertSpaceLibInfo(spaceLibRgstDataSetMap);
 				totCnt++;
