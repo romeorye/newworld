@@ -173,11 +173,11 @@ public class RlabLibController  extends IrisBaseController {
 
             mime.setSaveURL(uploadUrl);
             mime.setSavePath(uploadPath);
-            mime.decode(input.get("bbsSbc").toString());                  // MIME 디코딩
-            mime.saveFileAtPath(uploadPath+File.separator);
+            //mime.decode(input.get("bbsSbc").toString());                  // MIME 디코딩
+            //mime.saveFileAtPath(uploadPath+File.separator);
 
-            rlabLibSbcHtml = mime.getBodyContent();
-            rlabLibSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(rlabLibSbcHtml, "<", "@![!@"),">","@!]!@"));
+            //rlabLibSbcHtml = mime.getBodyContent();
+            //rlabLibSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(rlabLibSbcHtml, "<", "@![!@"),">","@!]!@"));
 
 			// 저장&수정
 			String bbsId = "";
@@ -186,7 +186,7 @@ public class RlabLibController  extends IrisBaseController {
 			for(Map<String,Object> rlabNoticeRgstDataSetMap : RlabNoticeRgstDataSetList) {
 
 				rlabNoticeRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
-				rlabNoticeRgstDataSetMap.put("bbsSbc" , NullUtil.nvl(rlabLibSbcHtml, ""));
+				rlabNoticeRgstDataSetMap.put("bbsSbc" , input.get("bbsSbc").toString());
 
 				rlabLibService.insertRlabLibInfo(rlabNoticeRgstDataSetMap);
 				totCnt++;
@@ -470,13 +470,13 @@ public class RlabLibController  extends IrisBaseController {
             uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_ANL");   // 파일명에 세팅되는 경로
             uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_ANL");  // 파일이 실제로 업로드 되는 경로
 
-            mime.setSaveURL(uploadUrl);
-            mime.setSavePath(uploadPath);
-            mime.decode(input.get("bbsSbc").toString());                  // MIME 디코딩
-            mime.saveFileAtPath(uploadPath+File.separator);
+            //mime.setSaveURL(uploadUrl);
+            //mime.setSavePath(uploadPath);
+            //mime.decode(input.get("bbsSbc").toString());                  // MIME 디코딩
+            //mime.saveFileAtPath(uploadPath+File.separator);
 
-            rlabLibSbcHtml = mime.getBodyContent();
-            rlabLibSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(rlabLibSbcHtml, "<", "@![!@"),">","@!]!@"));
+            //rlabLibSbcHtml = mime.getBodyContent();
+            //rlabLibSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(rlabLibSbcHtml, "<", "@![!@"),">","@!]!@"));
 
 
 			// 저장&수정
@@ -486,7 +486,7 @@ public class RlabLibController  extends IrisBaseController {
 			for(Map<String,Object> rlabLibRgstDataSetMap : RlabLibRgstDataSetList) {
 
 				rlabLibRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
-				rlabLibRgstDataSetMap.put("bbsSbc" , NullUtil.nvl(rlabLibSbcHtml, ""));
+				rlabLibRgstDataSetMap.put("bbsSbc" , input.get("bbsSbc").toString());
 
 				rlabLibService.insertRlabLibInfo(rlabLibRgstDataSetMap);
 				totCnt++;
