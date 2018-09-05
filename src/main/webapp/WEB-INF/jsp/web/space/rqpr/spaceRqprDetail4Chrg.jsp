@@ -73,8 +73,8 @@
                 		;
                 	} else if(data.records[0].cmd == 'receipt') {
                     	goSpaceRqprList4Chrg();
-                	} else if(data.records[0].cmd == 'deleteSpaceRqprExpr') {
-                		getSpaceRqprExprList();
+                	} else if(data.records[0].cmd == 'deleteSpaceRqprExat') {
+                		getSpaceRqprExatList();
                 	} else if(data.records[0].cmd == 'saveSpaceRqprRslt') {
                 		;
                 	} else if(data.records[0].cmd == 'requestRsltApproval') {
@@ -939,8 +939,8 @@
             });
 
     	    /* 실험정보 */
-            var spaceRqprExprDataSet = new Rui.data.LJsonDataSet({
-                id: 'spaceRqprExprDataSet',
+            var spaceRqprExatDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprExatDataSet',
                 remainRemoved: false,
                 lazyLoad: true,
                 fields: [
@@ -955,7 +955,7 @@
             });
 
             /* 평가결과 실험정보 */
-            var spaceRqprExprColumnModel = new Rui.ui.grid.LColumnModel({
+            var spaceRqprExatColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
@@ -969,29 +969,29 @@
                 ]
             });
 
-            var spaceRqprExprGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: spaceRqprExprColumnModel,
-                dataSet: spaceRqprExprDataSet,
+            var spaceRqprExatGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceRqprExatColumnModel,
+                dataSet: spaceRqprExatDataSet,
                 width: 600,
                 height: 200,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            spaceRqprExprGrid.on('cellClick', function(e) {
+            spaceRqprExatGrid.on('cellClick', function(e) {
             	if(e.col == 0) {
             		return ;
             	}
                 if (spaceRqprDataSet.getNameValue(0, 'acpcStCd') != '03') {
                     //alert('평가진행 상태일때만 실험결과를 수정 할 수 있습니다.');
                     //return false;
-                    openExprWayDialog(spaceRqprExprDataSet.getNameValue(e.row, 'rqprExprId'));
+                    openExprWayDialog(spaceRqprExatDataSet.getNameValue(e.row, 'rqprExprId'));
                 }else{
-	            	openSpaceRqprExprRsltDialog(getSpaceRqprExprList, spaceRqprExprDataSet.getNameValue(e.row, 'rqprExprId'));
+	            	openSpaceRqprExatRsltDialog(getSpaceRqprExatList, spaceRqprExatDataSet.getNameValue(e.row, 'rqprExprId'));
                 }
             });
 
-            spaceRqprExprGrid.render('spaceRqprExprGrid');
+            spaceRqprExatGrid.render('spaceRqprExatGrid');
 
             openExprWayDialog = function(rqprExprId) {
     	    	exprWayDialog.setUrl('<c:url value="/space/exprWayPopup.do?rqprId="/>' + spaceRqprDataSet.getNameValue(0, 'rqprId') + '&rqprExprId=' + rqprExprId);
@@ -1080,8 +1080,8 @@
     	    // 평가의뢰 반려/평가중단 팝업 끝
 
     	    // 실험정보 등록/수정 팝업 시작
-    	    spaceRqprExprRsltDialog = new Rui.ui.LFrameDialog({
-    	        id: 'spaceRqprExprRsltDialog',
+    	    spaceRqprExatRsltDialog = new Rui.ui.LFrameDialog({
+    	        id: 'spaceRqprExatRsltDialog',
     	        title: '실험정보 등록/수정',
     	        width: 740,
     	        height: 520,
@@ -1089,13 +1089,13 @@
     	        visible: false
     	    });
 
-    	    spaceRqprExprRsltDialog.render(document.body);
+    	    spaceRqprExatRsltDialog.render(document.body);
 
-    	    openSpaceRqprExprRsltDialog = function(f, rqprExprId) {
+    	    openSpaceRqprExatRsltDialog = function(f, rqprExprId) {
     	    	callback = f;
 
-    	    	spaceRqprExprRsltDialog.setUrl('<c:url value="/space/spaceRqprExprRsltPopup.do?rqprId="/>' + spaceRqprDataSet.getNameValue(0, 'rqprId') + '&rqprExprId=' + rqprExprId);
-    	    	spaceRqprExprRsltDialog.show();
+    	    	spaceRqprExatRsltDialog.setUrl('<c:url value="/space/spaceRqprExatRsltPopup.do?rqprId="/>' + spaceRqprDataSet.getNameValue(0, 'rqprId') + '&rqprExprId=' + rqprExprId);
+    	    	spaceRqprExatRsltDialog.show();
     	    };
     	    // 실험결과 등록/수정 팝업 끝
 
@@ -1204,17 +1204,17 @@
             };
 
             /* 실험결과 등록/수정 팝업 */
-            addSpaceRqprExpr = function() {
+            addSpaceRqprExat = function() {
                 if (spaceRqprDataSet.getNameValue(0, 'acpcStCd') != '03') {
                     alert('평가진행 상태일때만 실험결과를 등록 할 수 있습니다.');
                     return false;
                 }
 
-                openSpaceRqprExprRsltDialog(getSpaceRqprExprList, 0);
+                openSpaceRqprExatRsltDialog(getSpaceRqprExatList, 0);
             };
 
             /* 실험결과 삭제 */
-            deleteSpaceRqprExpr = function() {
+            deleteSpaceRqprExat = function() {
 
 				var chkAcpcSt = spaceRqprDataSet.getNameValue(0, 'acpcStCd');
 
@@ -1227,13 +1227,13 @@
 					return false;
 				}
 
-                if(spaceRqprExprDataSet.getMarkedCount() > 0) {
+                if(spaceRqprExatDataSet.getMarkedCount() > 0) {
                 	if(confirm('삭제 하시겠습니까?')) {
-                    	spaceRqprExprDataSet.removeMarkedRows();
+                    	spaceRqprExatDataSet.removeMarkedRows();
 
                         dm.updateDataSet({
-                            dataSets:[spaceRqprExprDataSet],
-                            url:'<c:url value="/space/deleteSpaceRqprExpr.do"/>'
+                            dataSets:[spaceRqprExatDataSet],
+                            url:'<c:url value="/space/deleteSpaceRqprExat.do"/>'
                         });
                 	}
                 } else {
@@ -1241,9 +1241,9 @@
                 }
             };
 
-            getSpaceRqprExprList = function() {
-            	spaceRqprExprDataSet.load({
-                    url: '<c:url value="/space/getSpaceRqprExprList.do"/>',
+            getSpaceRqprExatList = function() {
+            	spaceRqprExatDataSet.load({
+                    url: '<c:url value="/space/getSpaceRqprExatList.do"/>',
                     params :{
                     	rqprId : '${inputData.rqprId}'
                     }
@@ -1284,7 +1284,7 @@
 							 spaceRqprRltdDataSet,
 							 spaceRqprAttachDataSet,
 							 spaceRqprRsltAttachDataSet,
-							 spaceRqprExprDataSet],
+							 spaceRqprExatDataSet],
                 url: '<c:url value="/space/getSpaceRqprDetailInfo.do"/>',
                 params: {
                     rqprId: '${inputData.rqprId}'
@@ -1617,12 +1617,12 @@
    				<div class="titArea">
    					<h3>실험정보 등록</h3>
    					<div class="LblockButton">
-   						<button type="button" class="btn"  id="addSpaceRqprExprBtn" name="addSpaceRqprExprBtn" onclick="addSpaceRqprExpr()">등록</button>
-   						<button type="button" class="btn"  id="deleteSpaceRqprExprBtn" name="deleteSpaceRqprExprBtn" onclick="deleteSpaceRqprExpr()">삭제</button>
+   						<button type="button" class="btn"  id="addSpaceRqprExatBtn" name="addSpaceRqprExatBtn" onclick="addSpaceRqprExat()">등록</button>
+   						<button type="button" class="btn"  id="deleteSpaceRqprExatBtn" name="deleteSpaceRqprExatBtn" onclick="deleteSpaceRqprExat()">삭제</button>
    					</div>
    				</div>
 
-   				<div id="spaceRqprExprGrid"></div>
+   				<div id="spaceRqprExatGrid"></div>
 
    				<table class="table table_txt_right" style="table-layout:fixed;">
    					<colgroup>
