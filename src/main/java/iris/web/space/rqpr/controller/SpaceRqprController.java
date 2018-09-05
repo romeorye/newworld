@@ -189,17 +189,17 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceRqprInfo [평가의로 정보 불러오기]");
+		LOGGER.debug("SpaceRqprController - getSpaceRqprInfo [평가의뢰 정보 불러오기]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
 		Map<String,Object> spaceRqprInfo = spaceRqprService.getSpaceRqprInfo(input);
-		List<Map<String,Object>> spaceRqprSmpoList = spaceRqprService.getSpaceRqprSmpoList(input);
+		//List<Map<String,Object>> spaceRqprSmpoList = spaceRqprService.getSpaceRqprSmpoList(input);
 
 		modelAndView.addObject("spaceRqprDataSet", RuiConverter.createDataset("spaceRqprDataSet", spaceRqprInfo));
-		modelAndView.addObject("spaceRqprSmpoDataSet", RuiConverter.createDataset("spaceRqprSmpoDataSet", spaceRqprSmpoList));
+		//modelAndView.addObject("spaceRqprSmpoDataSet", RuiConverter.createDataset("spaceRqprSmpoDataSet", spaceRqprSmpoList));
 
 		return modelAndView;
 	}
@@ -288,17 +288,12 @@ public class SpaceRqprController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
 
+		model.addAttribute("inputData", input);
+
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("SpaceRqprController - spaceRqprDetail [평가의뢰서 상세 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-
-		List <Map<String, Object>> infmTypeCdList  = codeCacheManager.retrieveCodeValueListForCache("INFM_TYPE_CD"); // 통보유형
-		List <Map<String, Object>> smpoTrtmCdList  = codeCacheManager.retrieveCodeValueListForCache("SMPO_TRTM_CD"); // 시료처리구분
-
-		model.addAttribute("inputData", input);
-		model.addAttribute("infmTypeCdList", infmTypeCdList);
-		model.addAttribute("smpoTrtmCdList", smpoTrtmCdList);
 
 		return "web/space/rqpr/spaceRqprDetail";
 	}
@@ -313,34 +308,33 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceRqprDetailInfo [평가의로 상세정보 조회]");
+		LOGGER.debug("SpaceRqprController - getSpaceRqprDetailInfo [평가의뢰 상세정보 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		List<Map<String,Object>> spaceRqprDecodeSmpoList = null;
-		List<Map<String,Object>> spaceRqprDecodeRltdList = null;
-		List<Map<String,Object>> spaceRqprDecodeExprList = null;
 
-		Map<String,Object> spaceRqprInfo = spaceRqprService.getSpaceRqprInfo(input);
-		List<Map<String,Object>> spaceRqprSmpoList = spaceRqprService.getSpaceRqprSmpoList(input);
-		List<Map<String,Object>> spaceRqprRltdList = spaceRqprService.getSpaceRqprRltdList(input);
-		List<Map<String,Object>> spaceRqprExprList = spaceRqprService.getSpaceRqprExprList(input);
+		Map<String,Object> spaceRqprInfo = spaceRqprService.getSpaceRqprInfo(input);					//평가의뢰상세
+		List<Map<String,Object>> spaceRqprWayCrgrList = spaceRqprService.spaceRqprWayCrgrList(input);	//평가방법
+		List<Map<String,Object>> spaceRqprProdList = spaceRqprService.spaceRqprProdList(input);			//제품군
+		List<Map<String,Object>> spaceRqprRltdList = spaceRqprService.getSpaceRqprRltdList(input);		//관련평가
+		List<Map<String,Object>> spaceRqprExprList = spaceRqprService.getSpaceRqprExprList(input);		//평가정보
 
 		input.put("attcFilId", spaceRqprInfo.get("rqprAttcFileId"));
-
 		List<Map<String,Object>> rqprAttachFileList = attachFileService.getAttachFileList(input);
 
 		input.put("attcFilId", spaceRqprInfo.get("rsltAttcFileId"));
-
 		List<Map<String,Object>> rsltAttachFileList = attachFileService.getAttachFileList(input);
 
 		spaceRqprInfo = StringUtil.toUtf8Output((HashMap) spaceRqprInfo);
 
+		input.put("acpcStCd", spaceRqprInfo.get("acpcStCd"));
+
 		modelAndView.addObject("spaceRqprDataSet", RuiConverter.createDataset("spaceRqprDataSet", spaceRqprInfo));
-		modelAndView.addObject("spaceRqprSmpoDataSet", RuiConverter.createDataset("spaceRqprSmpoDataSet", spaceRqprSmpoList));
+		modelAndView.addObject("spaceRqprWayCrgrDataSet", RuiConverter.createDataset("spaceRqprWayCrgrDataSet", spaceRqprWayCrgrList));
+		modelAndView.addObject("spaceRqprProdDataSet", RuiConverter.createDataset("spaceRqprProdDataSet", spaceRqprProdList));
 		modelAndView.addObject("spaceRqprRltdDataSet", RuiConverter.createDataset("spaceRqprRltdDataSet", spaceRqprRltdList));
-		modelAndView.addObject("spaceRqprExprDataSet", RuiConverter.createDataset("spaceRqprExprDataSet", spaceRqprExprList));
+		//modelAndView.addObject("spaceRqprExprDataSet", RuiConverter.createDataset("spaceRqprExprDataSet", spaceRqprExprList));
 		modelAndView.addObject("spaceRqprAttachDataSet", RuiConverter.createDataset("spaceRqprAttachDataSet", rqprAttachFileList));
 		modelAndView.addObject("spaceRqprRsltAttachDataSet", RuiConverter.createDataset("spaceRqprRsltAttachDataSet", rsltAttachFileList));
 
@@ -376,7 +370,8 @@ public class SpaceRqprController extends IrisBaseController {
 
 			dataMap.put("input", input);
 			dataMap.put("spaceRqprDataSet", RuiConverter.convertToDataSet(request, "spaceRqprDataSet").get(0));
-			dataMap.put("spaceRqprSmpoDataSet", RuiConverter.convertToDataSet(request, "spaceRqprSmpoDataSet"));
+			dataMap.put("spaceRqprWayCrgrDataSet", RuiConverter.convertToDataSet(request, "spaceRqprWayCrgrDataSet"));
+			dataMap.put("spaceRqprProdDataSet", RuiConverter.convertToDataSet(request, "spaceRqprProdDataSet"));
 			dataMap.put("spaceRqprRltdDataSet", RuiConverter.convertToDataSet(request, "spaceRqprRltdDataSet"));
 
 			spaceRqprService.updateSpaceRqpr(dataMap);
@@ -898,7 +893,7 @@ public class SpaceRqprController extends IrisBaseController {
 			){
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - getSpaceRqprExprInfo [평가의로 실험정보 불러오기]");
+		LOGGER.debug("SpaceRqprController - getSpaceRqprExprInfo [평가의뢰 실험정보 불러오기]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 

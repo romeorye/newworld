@@ -25,7 +25,7 @@ import iris.web.common.util.StringUtil;
 
 /*********************************************************************************
  * NAME : SpaceRqprServiceImpl.java
- * DESC : 분석의뢰 - 분석의뢰관리 ServiceImpl
+ * DESC : 평가의뢰 - 평가의뢰관리 ServiceImpl
  * PROJ : IRIS UPGRADE 1차 프로젝트
  *------------------------------------------------------------------------------
  *                               MODIFICATION LOG
@@ -52,27 +52,32 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 	@Resource(name = "configService")
     private ConfigService configService;
 
-	/* 분석의뢰 리스트 조회 */
+	/* 평가의뢰 리스트 조회 */
 	public List<Map<String, Object>> getSpaceRqprList(Map<String, Object> input) {
 		return commonDao.selectList("space.rqpr.getSpaceRqprList", input);
 	}
 
-	/* 분석의뢰 담당자 리스트 조회 */
+	/* 평가의뢰 담당자 리스트 조회 */
 	public List<Map<String, Object>> getSpaceChrgList(Map<String, Object> input) {
 		return commonDao.selectList("space.rqpr.getSpaceChrgList", input);
 	}
 
-	/* 분석의뢰 정보 조회 */
+	/* 평가의뢰 정보 조회 */
 	public Map<String,Object> getSpaceRqprInfo(Map<String, Object> input) {
 		return commonDao.select("space.rqpr.getSpaceRqprInfo", input);
 	}
 
-	/* 분석의뢰 시료정보 리스트 조회 */
-	public List<Map<String, Object>> getSpaceRqprSmpoList(Map<String, Object> input) {
-		return commonDao.selectList("space.rqpr.getSpaceRqprSmpoList", input);
+	/* 평가의뢰 평가방법 리스트 조회 */
+	public List<Map<String, Object>> spaceRqprWayCrgrList(Map<String, Object> input) {
+		return commonDao.selectList("space.rqpr.getSpaceRqprWayCrgrList", input);
 	}
 
-	/* 분석의뢰 관련분석 리스트 조회 */
+	/* 평가의뢰 평가방법 리스트 조회 */
+	public List<Map<String, Object>> spaceRqprProdList(Map<String, Object> input) {
+		return commonDao.selectList("space.rqpr.getSpaceRqprProdListList", input);
+	}
+
+	/* 평가의뢰 관련평가 리스트 조회 */
 	public List<Map<String, Object>> getSpaceRqprRltdList(Map<String, Object> input) {
 		return commonDao.selectList("space.rqpr.getSpaceRqprRltdList", input);
 	}
@@ -124,8 +129,8 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     			}
     		}
 
-        	if(commonDao.batchInsert("space.rqpr.insertSpaceRqprSmpo", spaceRqprWayCrgrDataSet) == spaceRqprWayCrgrDataSet.size()
-        			&& commonDao.batchInsert("space.rqpr.insertSpaceRqprRltd", spaceRqprProdDataSet) == spaceRqprProdDataSet.size()
+        	if(commonDao.batchInsert("space.rqpr.insertSpaceRqprWayCrgr", spaceRqprWayCrgrDataSet) == spaceRqprWayCrgrDataSet.size()
+        			&& commonDao.batchInsert("space.rqpr.insertSpaceRqprProd", spaceRqprProdDataSet) == spaceRqprProdDataSet.size()
         			&& commonDao.batchInsert("space.rqpr.insertSpaceRqprRltd", spaceRqprRltdDataSet) == spaceRqprRltdDataSet.size()
         			&& commonDao.batchInsert("space.rqpr.insertSpaceRqprInfm", spaceRqprInfmList) == spaceRqprInfmList.size()) {
         		return true;
@@ -137,17 +142,19 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     	}
 	}
 
-	/* 분석의뢰 수정 */
+	/* 평가의뢰 수정 */
 	public boolean updateSpaceRqpr(Map<String,Object> dataMap) throws Exception {
 		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
 		Map<String, Object> spaceRqprDataSet = (Map<String, Object>)dataMap.get("spaceRqprDataSet");
-		List<Map<String, Object>> spaceRqprSmpoDataSet = (List<Map<String, Object>>)dataMap.get("spaceRqprSmpoDataSet");
+		List<Map<String, Object>> spaceRqprWayCrgrDataSet = (List<Map<String, Object>>)dataMap.get("spaceRqprWayCrgrDataSet");
+		List<Map<String, Object>> spaceRqprProdDataSet = (List<Map<String, Object>>)dataMap.get("spaceRqprProdDataSet");
 		List<Map<String, Object>> spaceRqprRltdDataSet = (List<Map<String, Object>>)dataMap.get("spaceRqprRltdDataSet");
 		List<Map<String, Object>> spaceRqprInfmList = new ArrayList<Map<String, Object>>();
 
 		Object userId = input.get("_userId");
 		spaceRqprDataSet.put("userId", userId);
 
+		//Step1. 평가의뢰 마스터 저장
     	if(commonDao.update("space.rqpr.updateSpaceRqpr", spaceRqprDataSet) == 1) {
     		Object rqprId = spaceRqprDataSet.get("rqprId");
     		String[] infmPrsnIdArr = ((String)spaceRqprDataSet.get("infmPrsnIds")).split(",");
@@ -156,8 +163,42 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     		List<Map<String, Object>> updateList = new ArrayList<Map<String, Object>>();
     		List<Map<String, Object>> deleteList = new ArrayList<Map<String, Object>>();
 
-    		for(Map<String, Object> data : spaceRqprSmpoDataSet) {
+
+    		//spaceRqprDataSet,spaceRqprWayCrgrDataSet,spaceRqprProdDataSet,spaceRqprRltdDataSet
+
+    		//Step2. 평가방법 저장
+    		for(Map<String, Object> data : spaceRqprWayCrgrDataSet) {
+
     			data.put("userId", userId);
+    			data.put("rqprId", rqprId);
+
+    			LOGGER.debug("평가방법 : "+data.get("duistate")+" : "+data.get("duistate"));
+
+    			if(RuiConstants.ROW_STATE_INSERT.equals(data.get("duistate"))) {
+    				insertList.add(data);
+    			} else if(RuiConstants.ROW_STATE_UPDATE.equals(data.get("duistate"))) {
+    				updateList.add(data);
+    			} else if(RuiConstants.ROW_STATE_DELETE.equals(data.get("duistate"))) {
+    				deleteList.add(data);
+    			}
+    		}
+    		//insertSpaceRqprWayCrgr , updateSpaceRqprWayCrgr , updateSpaceRqprWayCrgrDelYn   updateSpaceRqprSmpo
+        	if(commonDao.batchInsert("space.rqpr.insertSpaceRqprWayCrgr", insertList) != insertList.size()
+        			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprWayCrgr", updateList) != updateList.size()
+        			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprWayCrgrDelYn", deleteList) != deleteList.size()) {
+        		throw new Exception("평가의뢰 수정 오류");
+        	}
+
+        	insertList.clear();
+        	updateList.clear();
+        	deleteList.clear();
+
+        	//Step3. 제품군 저장
+    		for(Map<String, Object> data : spaceRqprProdDataSet) {
+    			data.put("userId", userId);
+    			data.put("rqprId", rqprId);
+
+    			LOGGER.debug("평가방법 : "+data.get("duistate")+" : "+data.get("duistate"));
 
     			if(RuiConstants.ROW_STATE_INSERT.equals(data.get("duistate"))) {
     				insertList.add(data);
@@ -168,16 +209,17 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     			}
     		}
 
-        	if(commonDao.batchInsert("space.rqpr.insertSpaceRqprSmpo", insertList) != insertList.size()
-        			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprSmpo", updateList) != updateList.size()
-        			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprSmpoDelYn", deleteList) != deleteList.size()) {
-        		throw new Exception("분석의뢰 수정 오류");
+        	if(commonDao.batchInsert("space.rqpr.insertSpaceRqprProd", insertList) != insertList.size()
+        			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprProd", updateList) != updateList.size()
+        			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprProdDelYn", deleteList) != deleteList.size()) {
+        		throw new Exception("평가의뢰 수정 오류");
         	}
 
         	insertList.clear();
         	updateList.clear();
         	deleteList.clear();
 
+        	//Step4. 관련평가 저장
     		for(Map<String, Object> data : spaceRqprRltdDataSet) {
     			data.put("userId", userId);
 
@@ -193,13 +235,14 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
         	if(commonDao.batchInsert("space.rqpr.insertSpaceRqprRltd", insertList) != insertList.size()
         			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprRltd", updateList) != updateList.size()
         			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprRltdDelYn", deleteList) != deleteList.size()) {
-        		throw new Exception("분석의뢰 수정 오류");
+        		throw new Exception("평가의뢰 수정 오류");
         	}
 
         	insertList.clear();
         	updateList.clear();
         	deleteList.clear();
 
+        	//Step5. 통보자 저장
     		for(String infmPrsnId : infmPrsnIdArr) {
     			if(!"".equals(infmPrsnId)) {
         			spaceRqprInfmInfo = new HashMap<String, Object>();
@@ -282,7 +325,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     			itgRdcsInfo.put("approvalJobtitle", input.get("_userJobxName"));
     			itgRdcsInfo.put("approvalDeptname", input.get("_userDeptName"));
     			itgRdcsInfo.put("body", body);
-    			itgRdcsInfo.put("title", "[IRIS/분석의뢰] " + spaceRqprInfo.get("spaceNm"));
+    			itgRdcsInfo.put("title", "[IRIS/평가의뢰] " + spaceRqprInfo.get("spaceNm"));
 
     			commonDao.delete("common.itgRdcs.deleteItgRdcsInfo", itgRdcsInfo);
 
@@ -294,31 +337,31 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
         	return true;
 
     	} else {
-    		throw new Exception("분석의뢰 수정 오류");
+    		throw new Exception("평가의뢰 수정 오류");
     	}
 	}
 
-	/* 분석의뢰 삭제 */
+	/* 평가의뢰 삭제 */
 	public boolean deleteSpaceRqpr(Map<String, Object> input) throws Exception {
 
     	if(commonDao.update("space.rqpr.updateSpaceRqprDelYn", input) == 1) {
         	return true;
     	} else {
-    		throw new Exception("분석의뢰 삭제 오류");
+    		throw new Exception("평가의뢰 삭제 오류");
     	}
 	}
 
-	/* 분석의뢰 의견 리스트 건수 조회 */
+	/* 평가의뢰 의견 리스트 건수 조회 */
 	public int getSpaceRqprOpinitionListCnt(Map<String, Object> input) {
 		return commonDao.select("space.rqpr.getSpaceRqprOpinitionListCnt", input);
 	}
 
-	/* 분석의뢰 의견 리스트 조회 */
+	/* 평가의뢰 의견 리스트 조회 */
 	public List<Map<String, Object>> getSpaceRqprOpinitionList(Map<String, Object> input) {
 		return commonDao.selectList("space.rqpr.getSpaceRqprOpinitionList", input);
 	}
 
-	/* 분석의뢰 의견 저장 */
+	/* 평가의뢰 의견 저장 */
 	public boolean saveSpaceRqprOpinition(Map<String, Object> input) throws Exception {
     	if(commonDao.insert("space.rqpr.saveSpaceRqprOpinition", input) == 1) {
     		String senderNm = input.get("_userNm") + " " + input.get("_userJobxName");
@@ -330,26 +373,26 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
     		mailSender.setFromMailAddress((String)input.get("_userEmail"), senderNm);
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
-    		mailSender.setSubject("'" + spaceMailInfo.getAnlNm() + "' 분석 건에 새 의견이 게시되었습니다.");
+    		mailSender.setSubject("'" + spaceMailInfo.getAnlNm() + "' 평가 건에 새 의견이 게시되었습니다.");
     		mailSender.setHtmlTemplate("spaceRqprOpinition", spaceMailInfo);
     		mailSender.send();
 
         	return true;
     	} else {
-    		throw new Exception("분석의뢰 의견 저장 오류");
+    		throw new Exception("평가의뢰 의견 저장 오류");
     	}
 	}
 
-	/* 분석의뢰 의견 저장 */
+	/* 평가의뢰 의견 저장 */
 	public boolean deleteSpaceRqprOpinition(Map<String, Object> input) throws Exception {
     	if(commonDao.insert("space.rqpr.updateSpaceRqprOpinitionDelYn", input) == 1) {
         	return true;
     	} else {
-    		throw new Exception("분석의뢰 의견 삭제 오류");
+    		throw new Exception("평가의뢰 의견 삭제 오류");
     	}
 	}
 
-	/* 분석의뢰 저장 */
+	/* 평가의뢰 저장 */
 	public boolean saveSpaceRqpr(Map<String,Object> dataMap) throws Exception {
 		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
 		Map<String, Object> spaceRqprDataSet = (Map<String, Object>)dataMap.get("spaceRqprDataSet");
@@ -381,7 +424,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     		if(commonDao.batchInsert("space.rqpr.insertSpaceRqprSmpo", insertList) != insertList.size()
         			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprSmpo", updateList) != updateList.size()
         			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprSmpoDelYn", deleteList) != deleteList.size()) {
-        		throw new Exception("분석의뢰 저장 오류");
+        		throw new Exception("평가의뢰 저장 오류");
         	}
 
     		insertList.clear();
@@ -404,7 +447,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
         	if(commonDao.batchInsert("space.rqpr.insertSpaceRqprRltd", insertList) != insertList.size()
         			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprRltd", updateList) != updateList.size()
         			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprRltdDelYn", deleteList) != deleteList.size()) {
-        		throw new Exception("분석의뢰 저장 오류");
+        		throw new Exception("평가의뢰 저장 오류");
         	}
 
         	insertList.clear();
@@ -413,11 +456,11 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
         	return true;
 		}else {
-    		throw new Exception("분석의뢰 저장 오류");
+    		throw new Exception("평가의뢰 저장 오류");
     	}
 	}
 
-	/* 분석의뢰 접수 */
+	/* 평가의뢰 접수 */
 	public boolean updateReceiptSpaceRqpr(Map<String,Object> dataMap) throws Exception {
     	if(commonDao.update("space.rqpr.updateSpaceRqpr", dataMap) == 1) {
     		SpaceMailInfo spaceMailInfo = commonDao.select("space.rqpr.getSpaceRqprReceiptEmailInfo", dataMap);
@@ -426,17 +469,17 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
     		mailSender.setFromMailAddress(spaceMailInfo.getChrgEmail(), spaceMailInfo.getChrgNm());
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
-    		mailSender.setSubject("'" + spaceMailInfo.getAnlNm() + "' 분석의뢰 접수 통보");
+    		mailSender.setSubject("'" + spaceMailInfo.getAnlNm() + "' 평가의뢰 접수 통보");
     		mailSender.setHtmlTemplate("spaceRqprReceipt", spaceMailInfo);
     		mailSender.send();
 
         	return true;
     	} else {
-    		throw new Exception("분석의뢰 접수 오류");
+    		throw new Exception("평가의뢰 접수 오류");
     	}
 	}
 
-	/* 분석의뢰 반려/분석중단 처리 */
+	/* 평가의뢰 반려/평가중단 처리 */
 	public boolean updateSpaceRqprEnd(Map<String,Object> dataMap) throws Exception {
     	if(commonDao.update("space.rqpr.updateSpaceRqprAcpcStCd", dataMap) == 1) {
     		StringBuffer subject = new StringBuffer();
@@ -448,14 +491,14 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
         		spaceMailInfo.setAnlGvbRson(spaceMailInfo.getAnlGvbRson().replaceAll("\n", "<br/>"));
 
-        		subject.append("'").append(spaceMailInfo.getAnlNm()).append("' 분석의뢰 반려 통보");
+        		subject.append("'").append(spaceMailInfo.getAnlNm()).append("' 평가의뢰 반려 통보");
         		templateNm = "spaceRqprReject";
     		} else {									// 중단
         		spaceMailInfo = commonDao.select("space.rqpr.getSpaceRqprStopEmailInfo", dataMap);
 
         		spaceMailInfo.setAnlDcacRson(spaceMailInfo.getAnlDcacRson().replaceAll("\n", "<br/>"));
 
-        		subject.append("'").append(spaceMailInfo.getAnlNm()).append("' 분석중단 통보");
+        		subject.append("'").append(spaceMailInfo.getAnlNm()).append("' 평가중단 통보");
         		templateNm = "spaceRqprStop";
     		}
 
@@ -469,7 +512,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
         	return true;
     	} else {
-    		throw new Exception("분석의뢰 반려/분석중단 처리 오류");
+    		throw new Exception("평가의뢰 반려/평가중단 처리 오류");
     	}
 	}
 
@@ -483,35 +526,35 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 		return commonDao.selectList("space.rqpr.getSpaceExprDtlComboList", input);
 	}
 
-	/* 분석결과 실험정보 리스트 조회 */
+	/* 평가결과 실험정보 리스트 조회 */
 	public List<Map<String, Object>> getSpaceRqprExprList(Map<String, Object> input) {
 		return commonDao.selectList("space.rqpr.getSpaceRqprExprList", input);
 	}
 
-	/* 분석결과 실험정보 조회 */
+	/* 평가결과 실험정보 조회 */
 	public Map<String, Object> getSpaceRqprExprInfo(Map<String, Object> input) {
 		return commonDao.select("space.rqpr.getSpaceRqprExprInfo", input);
 	}
 
-	/* 분석결과 실험정보 저장 */
+	/* 평가결과 실험정보 저장 */
 	public boolean saveSpaceRqprExpr(Map<String, Object> dataMap) throws Exception {
     	if(commonDao.insert("space.rqpr.saveSpaceRqprExpr", dataMap) == 1) {
         	return true;
     	} else {
-    		throw new Exception("분석결과 실험정보 저장 오류");
+    		throw new Exception("평가결과 실험정보 저장 오류");
     	}
 	}
 
-	/* 분석결과 실험정보 삭제 */
+	/* 평가결과 실험정보 삭제 */
 	public boolean deleteSpaceRqprExpr(List<Map<String, Object>> list) throws Exception {
     	if(commonDao.batchUpdate("space.rqpr.updateSpaceRqprExprDelYn", list) == list.size()) {
         	return true;
     	} else {
-    		throw new Exception("분석결과 실험정보 삭제 오류");
+    		throw new Exception("평가결과 실험정보 삭제 오류");
     	}
 	}
 
-	/* 분석결과 저장 */
+	/* 평가결과 저장 */
 	public boolean saveSpaceRqprRslt(Map<String, Object> dataMap) throws Exception {
     	if(commonDao.insert("space.rqpr.saveSpaceRqprRslt", dataMap) == 1) {
     		if("requestRsltApproval".equals(dataMap.get("cmd"))) {
@@ -613,18 +656,18 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     			itgRdcsInfo.put("approvalJobtitle", dataMap.get("userJobxName"));
     			itgRdcsInfo.put("approvalDeptname", dataMap.get("userDeptName"));
     			itgRdcsInfo.put("body", body);
-    			itgRdcsInfo.put("title", "[IRIS/분석결과] " + spaceRqprInfo.get("spaceNm"));
+    			itgRdcsInfo.put("title", "[IRIS/평가결과] " + spaceRqprInfo.get("spaceNm"));
 
     			commonDao.delete("common.itgRdcs.deleteItgRdcsInfo", itgRdcsInfo);
 
             	if(commonDao.insert("common.itgRdcs.saveItgRdcsInfo", itgRdcsInfo) == 0) {
-            		throw new Exception("분석결과 결재의뢰 정보 등록 오류");
+            		throw new Exception("평가결과 결재의뢰 정보 등록 오류");
             	}
     		}
 
         	return true;
     	} else {
-    		throw new Exception("분석결과 저장 오류");
+    		throw new Exception("평가결과 저장 오류");
     	}
 	}
 

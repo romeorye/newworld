@@ -247,7 +247,6 @@
             });
 
 
-
             /* 필수항목 체크 */
             var vm = new Rui.validate.LValidatorManager({
                 validators:[
@@ -268,13 +267,13 @@
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
-					  { id: 'spaceName'		}
+					  { id: 'spaceNm'		}
 					, { id: 'spaceScnCd'	}
 					, { id: 'spaceSbc'		}
 					, { id: 'spaceUgyYn'	}
 					, { id: 'infmPrsnIds'	}
 					, { id: 'oppbScpCd'		}
-					, { id: 'wbsCd'			}
+					, { id: 'spaceRqprWbsCd'}
 					, { id: 'scrtRson'		}
 					, { id: 'evSubjNm'		}
 					, { id: 'sbmpCd'		}
@@ -286,7 +285,6 @@
 					, { id: 'evCases'		}
 					, { id: 'evSubjDtl'		}
 					, { id: 'tCloud'		}
-                	, { id: 'infmPrsnIds'	} //통보자 아이디
 					, { id: 'spaceRqprInfmView' } //통보자 명
 					, { id: 'rqprAttcFileId', defaultValue: '' }
 
@@ -304,14 +302,15 @@
                 dataSet: spaceRqprDataSet,
                 bind: true,
                 bindInfo: [
-					{ id: 'spaceName',			ctrlId: 'spaceName',		value:'value'},
+					{ id: 'spaceNm',			ctrlId: 'spaceNm',			value:'value'},
                     { id: 'spaceScnCd',			ctrlId: 'spaceScnCd',		value:'value'},
                     { id: 'spaceSbc',		 	ctrlId: 'spaceSbc',		 	value:'value'},
                     { id: 'spaceUgyYn',			ctrlId: 'spaceUgyYn',		value:'value'},
                     { id: 'infmPrsnIds',		ctrlId: 'infmPrsnIds',		value:'value'},
                     { id: 'oppbScpCd',			ctrlId: 'oppbScpCd',		value:'value'},
-                    { id: 'wbsCd',				ctrlId: 'wbsCd',			value:'value'},
+                    { id: 'spaceRqprWbsCd',		ctrlId: 'spaceRqprWbsCd',	value:'value'},
                     { id: 'scrtRson',			ctrlId: 'scrtRson',			value:'value'},
+                    { id: 'spaceRqprInfmView',	ctrlId: 'spaceRqprInfmView',value:'value'},
                     { id: 'evSubjNm',			ctrlId: 'evSubjNm',			value:'value'},
                     { id: 'sbmpCd',				ctrlId: 'sbmpCd',			value:'value'},
                     { id: 'sbmpNm',				ctrlId: 'sbmpNm',			value:'value'},
@@ -852,6 +851,14 @@
                     });
                 }
             };
+
+            goSpaceRqprList = function() {
+    	    	$('#searchForm > input[name=spaceNm]').val(encodeURIComponent($('#searchForm > input[name=spaceNm]').val()));
+    	    	$('#searchForm > input[name=rgstNm]').val(encodeURIComponent($('#searchForm > input[name=rgstNm]').val()));
+    	    	//$('#searchForm > input[name=anlChrgNm]').val(encodeURIComponent($('#searchForm > input[name=anlChrgNm]').val()));
+
+    	    	nwinsActSubmit(searchForm, "<c:url value="/space/spaceRqprList.do"/>");
+    	    };
 
         });
 

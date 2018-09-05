@@ -40,6 +40,82 @@
              * 변수 및 객체 선언
              *******************/
 
+           	/***** 제품군(사업부) *****/
+            var spaceEvBzdvDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceEvBzdvDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                   { id: 'ctgrCd' }
+                 , { id: 'ctgrNm' }
+                ]
+            });
+            spaceEvBzdvDataSet.load({
+                url: '<c:url value="/space/spaceEvBzdvList.do"/>'
+            });
+
+            var cmbCtgr0Cd = new Rui.ui.form.LCombo({
+                applyTo: 'cmbCtgr0Cd',
+                name: 'cmbCtgr0Cd',
+                emptyText: '사업부 선택',
+                defaultValue: '',
+                emptyValue: '',
+                width: 200,
+                dataSet: spaceEvBzdvDataSet,
+                displayField: 'ctgrNm',
+                valueField: 'ctgrCd'
+            });
+
+            /***** 의뢰일자 *****/
+            var fromRqprDt = new Rui.ui.form.LDateBox({
+ 				applyTo: 'fromRqprDt',
+ 				mask: '9999-99-99',
+ 				displayValue: '%Y-%m-%d',
+ 				editable: false,
+ 				width: 100,
+ 				dateType: 'string'
+ 			});
+
+            fromRqprDt.on('blur', function(){
+ 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(fromRqprDt.getValue(),"-","")) ) )  {
+ 					alert('날자형식이 올바르지 않습니다.!!');
+ 					fromRqprDt.setValue(new Date());
+ 				}
+ 				if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
+ 					alert('시작일이 종료일보다 클 수 없습니다.!!');
+ 					fromRqprDt.setValue(toRqprDt.getValue());
+ 				}
+ 			});
+
+            var toRqprDt = new Rui.ui.form.LDateBox({
+ 				applyTo: 'toRqprDt',
+ 				mask: '9999-99-99',
+ 				displayValue: '%Y-%m-%d',
+ 				editable: false,
+ 				width: 100,
+ 				dateType: 'string'
+ 			});
+
+ 			toRqprDt.on('blur', function(){
+ 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toRqprDt.getValue(),"-","")) ) )  {
+ 					alert('날자형식이 올바르지 않습니다.!!');
+ 					toRqprDt.setValue(new Date());
+ 				}
+
+ 				if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
+ 					alert('시작일이 종료일보다 클 수 없습니다.!!');
+ 					fromRqprDt.setValue(toRqprDt.getValue());
+ 				}
+ 			});
+
+ 			var rgstNm = new Rui.ui.form.LTextBox({
+                applyTo: 'wbsCd',
+                placeholder: 'WBS코드를 입력해주세요.',
+                defaultValue: '<c:out value="${inputData.wbsCd}"/>',
+                emptyValue: '',
+                width: 400
+            });
+
             var spaceNm = new Rui.ui.form.LTextBox({
                 applyTo: 'spaceNm',
                 placeholder: '검색할 평가명을 입력해주세요.',
@@ -51,27 +127,15 @@
             spaceNm.on('blur', function(e) {
             	spaceNm.setValue(spaceNm.getValue().trim());
             });
-        /*
-            spaceNm.on('keypress', function(e) {
-            	if(e.keyCode == 13) {
-            		getSpaceRqprList();
-            	}
-            });
 
-             */
             var rgstNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rgstNm',
                 placeholder: '검색할 의뢰자를 입력해주세요.',
                 defaultValue: '<c:out value="${inputData.rgstNm}"/>',
                 emptyValue: '',
-                width: 360
+                width: 400
             });
-          /*
-            rgstNm.on('focus', function(e) {
-            	rgstNm.setValue('');
-            	$('#rgstNm').val('');
-            });
-             */
+
             var acpcNo = new Rui.ui.form.LTextBox({
                 applyTo: 'acpcNo',
                 placeholder: '검색할 접수번호를 입력해주세요.',
@@ -79,59 +143,9 @@
                 emptyValue: '',
                 width: 400
             });
-
             acpcNo.on('blur', function(e) {
             	acpcNo.setValue(acpcNo.getValue().trim());
             });
-          /*
-            acpcNo.on('keypress', function(e) {
-            	if(e.keyCode == 13) {
-            		getSpaceRqprList();
-            	}
-            });
-           */
-            var fromRqprDt = new Rui.ui.form.LDateBox({
-				applyTo: 'fromRqprDt',
-				mask: '9999-99-99',
-				displayValue: '%Y-%m-%d',
-				editable: false,
-				width: 100,
-				dateType: 'string'
-			});
-
-            fromRqprDt.on('blur', function(){
-				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(fromRqprDt.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
-					fromRqprDt.setValue(new Date());
-				}
-
-				if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
-					alert('시작일이 종료일보다 클 수 없습니다.!!');
-					fromRqprDt.setValue(toRqprDt.getValue());
-				}
-			});
-
-            var toRqprDt = new Rui.ui.form.LDateBox({
-				applyTo: 'toRqprDt',
-				mask: '9999-99-99',
-				displayValue: '%Y-%m-%d',
-				editable: false,
-				width: 100,
-				dateType: 'string'
-			});
-
-			toRqprDt.on('blur', function(){
-				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toRqprDt.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
-					toRqprDt.setValue(new Date());
-				}
-
-				if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
-					alert('시작일이 종료일보다 클 수 없습니다.!!');
-					fromRqprDt.setValue(toRqprDt.getValue());
-				}
-			});
-
 
 			var spaceChrgNm = new Rui.ui.form.LTextBox({
                 applyTo: 'spaceChrgNm',
@@ -141,20 +155,6 @@
                 width: 400
             });
 
-
-			/*
-            var spaceChrgNm = new Rui.ui.form.LCombo({
-                applyTo: 'spaceChrgNm',
-                name: 'spaceChrgNm',
-                useEmptyText: true,
-                emptyText: '전체',
-                defaultValue: '<c:out value="${inputData.spaceChrgNm}"/>',
-                emptyValue: '',
-                url: '<c:url value="/space/getSpaceChrgList.do"/>',
-                displayField: 'name',
-                valueField: 'userId'
-            });
-            */
             var acpcStCd = new Rui.ui.form.LCombo({
                 applyTo: 'acpcStCd',
                 name: 'acpcStCd',
@@ -170,42 +170,40 @@
             /*******************
              * 변수 및 객체 선언
             *******************/
-            var spaceRqprDataSet = new Rui.data.LJsonDataSet({
+			var spaceRqprDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceRqprDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
-					  { id: 'rqprId'}
-					, { id: 'acpcNo' }
-					, { id: 'spaceScnNm' }
-					, { id: 'spaceNm' }
-					, { id: 'rgstNm' }
-					, { id: 'spaceChrgNm' }
-					, { id: 'rqprDt' }
-					, { id: 'acpcDt' }
-					, { id: 'cmplParrDt' }
-					, { id: 'cmplDt' }
-					, { id: 'spaceUgyYnNm' }
-					, { id: 'acpcStNm' }
-					, { id: 'smpoCnt' }
+					  { id: 'rqprId'		}
+					, { id: 'acpcNo',		}
+					, { id: 'spaceScnNm',	}
+					, { id: 'spaceNm',		}
+					, { id: 'CtrgNames',	}
+					, { id: 'PrvsNames',	}
+					, { id: 'rgstNm',		}
+					, { id: 'rqprDt',		}
+					, { id: 'cmplDt',		}
+					, { id: 'spaceUgyYnNm',	}
+					, { id: 'oppbScpCd',	}
+					, { id: 'acpcStNm',		}
                 ]
             });
 
             var spaceRqprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                      { field: 'acpcNo',		label: '접수번호',	sortable: true,		align:'center',	width: 80 }
-                    , { field: 'spaceScnNm',	label: '평가구분',	sortable: false,	align:'center',	width: 80 }
-                    , { field: 'spaceNm',		label: '평가명',		sortable: false,	align:'left',	width: 370 }
-                    , { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 50 }
-                    , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 70 }
-					, { field: 'spaceChrgNm',	label: '담당자',		sortable: false, 	align:'center',	width: 70 }
-					, { field: 'rqprDt',		label: '의뢰일',		sortable: true, 	align:'center',	width: 80 }
-					, { field: 'acpcDt',		label: '접수일',		sortable: true, 	align:'center',	width: 80 }
-					, { field: 'cmplParrDt',	label: '완료예정일',	sortable: true, 	align:'center',	width: 80 }
-                    , { field: 'cmplDt',		label: '완료일',		sortable: true, 	align:'center',	width: 80 }
-                    , { field: 'spaceUgyYnNm',	label: '긴급',		sortable: false,  	align:'center',	width: 40 }
-					, { field: 'acpcStNm',		label: '상태',		sortable: false, 	align:'center',	width: 80 }
-                ]
+					  { field: 'acpcNo',		label: '접수번호',		sortable: true,		align:'center',	width: 80 }
+					, { field: 'spaceScnNm',	label: '평가목적',		sortable: false,	align:'center',	width: 80 }
+					, { field: 'spaceNm',		label: '평가명',			sortable: false,	align:'left',	width: 370 }
+					, { field: 'CtrgNames',		label: '평가카테고리',	sortable: false,	align:'center',	width: 120 }
+					, { field: 'PrvsNames',		label: '평가항목',		sortable: false,	align:'center',	width: 100 }
+					, { field: 'rgstNm',		label: '의뢰자',			sortable: false, 	align:'center',	width: 70 }
+					, { field: 'rqprDt',		label: '의뢰일',			sortable: true, 	align:'center',	width: 80 }
+					, { field: 'cmplDt',		label: '완료일',			sortable: true, 	align:'center',	width: 80 }
+					, { field: 'spaceUgyYnNm',	label: '긴급',			sortable: false,  	align:'center',	width: 40 }
+					, { field: 'oppbScpCd',		label: '비밀',			sortable: true, 	align:'center',	width: 80 }
+					, { field: 'acpcStNm',		label: '상태',			sortable: false, 	align:'center',	width: 80 }
+           		]
             });
 
             var spaceRqprGrid = new Rui.ui.grid.LGridPanel({
@@ -233,6 +231,7 @@
             	spaceRqprDataSet.load({
                     url: '<c:url value="/space/getSpaceRqprList.do"/>',
                     params :{
+                    	cmbCtgr0Cd :encodeURIComponent(cmbCtgr0Cd.getValue()),
                     	spaceNm : encodeURIComponent(spaceNm.getValue()),
             		    fromRqprDt : fromRqprDt.getValue(),
             		    toRqprDt : toRqprDt.getValue(),
@@ -258,12 +257,7 @@
         	downloadSpaceRqprListExcel = function() {
                 spaceRqprGrid.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') + '.xls');
             };
-    		/*
-            setRgstInfo = function(userInfo) {
-    	    	rgstNm.setValue(userInfo.saName);
-    	    	$('#rgstNm').val(userInfo.saUser);
-    	    };
-             */
+
             getSpaceRqprList();
 
         });
@@ -291,24 +285,35 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">평가명</th>
+   							<th align="right">제품군</th>
    							<td>
-   								<input type="text" id="spaceNm">
+   								<select id="cmbCtgr0Cd"></select>
    							</td>
    							<th align="right">의뢰일자</th>
     						<td>
    								<input type="text" id="fromRqprDt"/><em class="gab"> ~ </em>
    								<input type="text" id="toRqprDt"/>
     						</td>
-   							<td class="t_center" rowspan="3">
+   							<td class="t_center" rowspan="4">
    								<a style="cursor: pointer;" onclick="getSpaceRqprList();" class="btnL">검색</a>
    							</td>
    						</tr>
+
    						<tr>
-   							<th align="right">의뢰자</th>
+   							<th align="right">WBS Code</th>
    							<td>
-   								<input type="text" id="rgstNm">
-                                <!-- <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'space');" class="icoBtn">검색</a> -->
+   								<input type="text" id="wbsCd">
+   							</td>
+   							<th align="right">의뢰자</th>
+    						<td>
+    							<input type="text" id="rgstNm">
+    						</td>
+   						</tr>
+
+   						<tr>
+   							<th align="right">평가명</th>
+   							<td>
+   								<input type="text" id="spaceNm">
    							</td>
    							<th align="right">담당자</th>
     						<td>
