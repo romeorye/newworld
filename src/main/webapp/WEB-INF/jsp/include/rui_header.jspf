@@ -32,10 +32,10 @@
     pageContext.setAttribute("blank", " ");
 
     String contextPath = request.getContextPath();
-    
+
     WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(pageContext.getServletContext(), FrameworkServlet.SERVLET_CONTEXT_PREFIX + "DispatcherServlet");
     ConfigService configService = (ConfigService) wac.getBean("configService");
-    
+
     if ("/".equals(contextPath)) {
     	contextPath = "";
     }
@@ -51,11 +51,11 @@
     String newImagePath     = contextPath + "/resource/images";
     String namoPath         = contextPath + "/namo";
     String documentTitle = "  :::  연구정보통합시스템(IRIS)  :::  ";
-    
-    
+
+
     String lghausysPath = configService.getString("lghausysPath");
     String lghausysReportPath = configService.getString("lghausysReportPath");
-    
+
     HistorialWatch historialWatch = (HistorialWatch)request.getAttribute(iris.web.system.base.Constants.SERVLET_STOPWATCH_KEY);
 
     if (historialWatch == null) {
@@ -276,36 +276,36 @@
 
 	    openUserSearchDialog = function(f, cnt, userIds, task, width, height) {
 	    	_callback = f;
-	    	
+
 	    	if(cnt == 1) {
 	    	    if(stringNullChk(width) > 0) _userSearchDialog.setWidth(width);
 	    	    if(stringNullChk(height) > 0) _userSearchDialog.setHeight(height);
-	    	        
+
 		        _userSearchDialog.setUrl('<c:url value="/system/user/userSearchPopup.do?cnt=1&userIds=&task="/>' + task);
 		        _userSearchDialog.show();
 	    	} else {
 	    	    if(stringNullChk(width) > 0) _userSearchDialogMulti.setWidth(width);
                 if(stringNullChk(height) > 0) _userSearchDialogMulti.setHeight(height);
-                
+
 	    		_userSearchDialogMulti.setUrl('<c:url value="/system/user/userSearchPopup.do?cnt="/>' + cnt + '&userIds=' + userIds + '&task=' + task);
 	    		_userSearchDialogMulti.show();
 	    	}
 	    };
-	    
+
 	    //사용자 popup Dialog
 	    openUserSearchDialog2 = function(f, cnt, userIds, task) {
 	    	 var params = '?cnt=1&userIds=&task=' + task;
 		   	 var loadingUrl = '<c:url value="/system/user/userSearchPopup2.do"/>'+params;
-		
+
 	 	   	 var sFeatures = "dialogHeight: 600px; dialogWidth:544px";
 	 	   	 if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
 	        	 window.showModalDialog(loadingUrl, self, sFeatures);
 	 	     }else{
             	alert("Internet Explorer browser인지 확인해 주세요");
-             } 
+             }
 	    };
-	    
-	    
+
+
 		// 사용자 조회 공통팝업 끝
 
 		// 부서 조회 공통팝업 시작
@@ -327,8 +327,8 @@
 		    _deptSearchDialog.show();
 	    };
 		// 부서 조회 공통팝업 끝
-		
-		
+
+
 		// WBS 코드 조회 공통팝업 시작
 	    _wbsCdSearchDialog = new Rui.ui.LFrameDialog({
 	        id: '_wbsCdSearchDialog',
@@ -349,7 +349,7 @@
 	    };
 		// WBS 코드 조회 공통팝업 끝
 
-		
+
 		// 첨부파일 공통팝업 시작
 	    var _attachFileApply = function(){
 	        var frameWindow = _attachFileDialog.getFrameWindow();		// Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
@@ -365,11 +365,11 @@
 	        var frameWindow = _attachFileDialog.getFrameWindow();		// Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
 
 	        var attachFileList = frameWindow.getAttachFileInfoList();
-	        
+
 	      	if(attachFileList != ''){
-	      		_callback(attachFileList);	
-	      	}  
-	        
+	      		_callback(attachFileList);
+	      	}
+
 	    };
 
 	    _attachFileDialog = new Rui.ui.LFrameDialog({
@@ -403,32 +403,49 @@
 	    	}
 
 	    	var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
-	    	
+
 	    	if(Rui.isEmpty(title) == false) {
 	    		$('#_attachFileDialog_h').html(title);
 	    	}
 	    	_attachFileDialog.setUrl('<c:url value="/system/attach/attachFilePopup.do"/>' + params);
 		    _attachFileDialog.show();
 	    };
-	    
+
 	    openAttachFileDialog2 = function(f, attcFilId, policy, ext, openMode) {
 	    	_callback = f;
 
 		    var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
 	   		var loadingUrl = '<c:url value="/system/attach/attachFilePopup2.do"/>'+params;
-	
+
  	   		var sFeatures = "dialogHeight: 500px; dialogWidth:430px";
- 	   	 	
+
  	   		if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
- 	        
+
 	   		 window.showModalDialog(loadingUrl, self, sFeatures);
  	   	 	}else{
          	alert("Internet Explorer browser인지 확인해 주세요");
-            } 
+            }
 // 	   		var win =  window.open(loadingUrl ,'win' , 'modal=1,Height=450 , width=400');
 // 	   		win.focus();
-	  	 
+
    	    };
+   	 openAttachFileDialog3 = function(f, attcFilId, policy, ext, openMode, title) {
+	    	_callback = f;
+
+	    	if(openMode == "R") {
+	    	    _attachFileDialog.setWidth(450);
+	    	    _attachFileDialog.setHeight(400);
+	    	    _attachFileDialog.setButtons();
+	    	}
+
+	    	var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
+
+	    	if(Rui.isEmpty(title) == false) {
+	    		$('#_attachFileDialog_h').html(title);
+	    	}
+	    	_attachFileDialog.setUrl('<c:url value="/system/attach/attachFilePopup3.do"/>' + params);
+		    _attachFileDialog.show();
+	    };
     // 첨부파일 공통팝업 끝
 	});
 
