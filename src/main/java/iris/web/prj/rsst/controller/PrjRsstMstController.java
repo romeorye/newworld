@@ -320,8 +320,7 @@ public class PrjRsstMstController  extends IrisBaseController {
 				dataSet01Map.put("newPrjCd", newPrjCd);
 				dataSet01Map.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
 				
-				smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap2(dataSet01Map);//에디터데이터 디코딩처리
-				prjRsstMstInfoService.insertPrjRsstDtlInfo(smryDecodeDs);
+				prjRsstMstInfoService.insertPrjRsstDtlInfo(dataSet01Map);
 				totCnt++;
 			}
 
