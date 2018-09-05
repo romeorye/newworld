@@ -48,7 +48,7 @@ var firstLoad = "Y";	//화면오픈
 
 
 	Rui.onReady(function(){
-		
+
 		<%-- RESULT DATASET --%>
         resultDataSet = new Rui.data.LJsonDataSet({
             id: 'resultDataSet',
@@ -62,7 +62,7 @@ var firstLoad = "Y";	//화면오픈
 
         resultDataSet.on('load', function(e) {
         });
-		
+
 		/*******************
 	     * 변수 및 객체 선언
 	     *******************/
@@ -88,11 +88,11 @@ var firstLoad = "Y";	//화면오픈
 
 	    dataSet.on('load', function(e){
 			document.aform.mchnCrgrId.value = dataSet.getNameValue(0, "mchnCrgrId");
-			
+
 			if(dataSet.getNameValue(0, "mchnInfoId")  != "" ||  dataSet.getNameValue(0, "mchnInfoId")  !=  undefined ){
 				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "mchnSmry") );
 			}
-			
+
 			var evWayVal = dataSet.getNameValue(0, "evWay").split(",");
 			for(var i=0;i<evWayVal.length;i++){
 				if(evWayVal[i]=="01"){
@@ -178,7 +178,7 @@ var firstLoad = "Y";	//화면오픈
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD'
 		});
-		
+
 		//평가항목 checkBox
 		var evWay = new Rui.ui.form.LCheckBoxGroup({
 		    applyTo: 'evWay',
@@ -196,7 +196,7 @@ var firstLoad = "Y";	//화면오픈
 				</c:forEach>
 		    ]
 		});
-		
+
 		//구분combo
 		var evScn = new Rui.ui.form.LCombo({
 		 	applyTo : 'evScn',
@@ -243,7 +243,7 @@ var firstLoad = "Y";	//화면오픈
 	        }
 	       	fnSearch();
 		}
-		
+
 		var bind = new Rui.data.LBind({
 			groupId: 'aform',
 		    dataSet: dataSet,
@@ -311,7 +311,7 @@ var firstLoad = "Y";	//화면오픈
             }
             setAttachFileInfo(attachFileInfoList);
         };
-        
+
         /* 메뉴얼첨부파일*/
 		var menualFileDataSet = new Rui.data.LJsonDataSet({
             id: 'menualFileDataSet',
@@ -357,8 +357,8 @@ var firstLoad = "Y";	//화면오픈
             }
             setMenualFileInfo(menualFileInfoList);
         };
-        
-      //평가항목 체크박스 체크	
+
+      //평가항목 체크박스 체크
         evWay.on('changed', function(e){
 	        	 var checkedVal=evWay.getValue();
 	        	 var val=checkedVal.toString();
@@ -372,7 +372,7 @@ var firstLoad = "Y";	//화면오픈
 	        	 }
 	        	 //val=val.replace(/,/gi,"|");
 	        	 $('#evWayVal').val(val);
-        });		
+        });
 
 
 //************** button *************************************************************************************************/
@@ -382,14 +382,14 @@ var firstLoad = "Y";	//화면오픈
     	butList.on('click', function(){
     		fncSpaceEvToolList();
     	});
-    	
+
     	/* [버튼] : 첨부파일 팝업 호출 */
     	var butAttcFil = new Rui.ui.LButton('butAttcFil');
     	butAttcFil.on('click', function(){
     		var attcFilId = document.aform.attcFilId.value;
-    		openAttachFileDialog(setAttachFileInfo, attcFilId,'mchnPolicy', '*');
+    		openAttachFileDialog3(setAttachFileInfo, attcFilId,'mchnPolicy', '*');
     	});
-    	
+
     	/* [버튼] : 메뉴얼파일 팝업 호출 */
     	var butMnalFil = new Rui.ui.LButton('butMnalFil');
     	butMnalFil.on('click', function(){
@@ -440,7 +440,7 @@ var firstLoad = "Y";	//화면오픈
            }else{
 	           $('#atthcFilVw').html('');
            }
-           
+
            for(var i = 0; i < attcFilList.length; i++) {
                $('#atthcFilVw').append($('<a/>', {
                    href: 'javascript:downloadAttcFil("' + attcFilList[i].data.attcFilId + '", "' + attcFilList[i].data.seq + '")',
@@ -449,7 +449,7 @@ var firstLoad = "Y";	//화면오픈
            document.aform.attcFilId.value = attcFilList[i].data.attcFilId;
            }
        	};
-       	
+
        	setMenualFileInfo = function(mnalFilList) {
 
             if(mnalFilList.length > 1 ){
@@ -458,7 +458,7 @@ var firstLoad = "Y";	//화면오픈
             }else{
  	           $('#menualFilVw').html('');
             }
-            
+
             for(var i = 0; i < mnalFilList.length; i++) {
                 $('#menualFilVw').append($('<a/>', {
                     href: 'javascript:downloadMnalFil("' + mnalFilList[i].data.attcFilId + '", "' + mnalFilList[i].data.seq + '")',
@@ -492,8 +492,8 @@ var firstLoad = "Y";	//화면오픈
 			imageDialog.clearInvalid();
 			imageDialog.show(true);*/
 
-       }       
-       
+       }
+
        /* [ 이미지 Dialog] */
     	var imageDialog = new Rui.ui.LDialog({
             applyTo: 'imageDialog',
@@ -508,17 +508,17 @@ var firstLoad = "Y";	//화면오픈
             ]
         });
     	imageDialog.hide(true);
-    	
+
      //공간평가 Tool 목록 화면으로 이동
        var fncSpaceEvToolList = function(){
     	   	$('#searchForm > input[name=mchnNm]').val(encodeURIComponent($('#searchForm > input[name=mchnNm]').val()));
     	   	$('#searchForm > input[name=mchnCrgrNm]').val(encodeURIComponent($('#searchForm > input[name=mchnCrgrNm]').val()));
-	    	
-	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/retrieveSpaceEvToolList.do"/>");	
+
+	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/retrieveSpaceEvToolList.do"/>");
        }
 
      //vaild check
-     
+
      var fncVaild = function(){
      		var frm = document.aform;
     		//기기명    vailid
@@ -579,23 +579,23 @@ var firstLoad = "Y";	//화면오픈
     			return false;
     		}
     		*/
-    	
+
      		if(CrossEditor.GetTextValue()==''){ // 크로스에디터 안의 컨텐츠 입력 확인
      		    alert("개요내용을 입력해 주세요!!");
      		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
      		    return false;
      		}
-    		
+
     		frm.mchnSmry.value = CrossEditor.GetBodyValue();
 
     		return true;
      	}
-     	
-     	//createNamoEdit('Wec', '100%', 300, 'namoHtml_DIV');
-     	
 
-	});  
-       
+     	//createNamoEdit('Wec', '100%', 300, 'namoHtml_DIV');
+
+
+	});
+
        //end ready
 
 </script>
@@ -614,7 +614,7 @@ var firstLoad = "Y";	//화면오픈
 				<input type="hidden" name="mchnCrgrNm" value="${inputData.mchnCrgrNm}"/>
 				<input type="hidden" name="mchnUsePsblYn" value="${inputData.mchnUsePsblYn}"/>
 		    </form>
-		    
+
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" />
 
@@ -624,9 +624,9 @@ var firstLoad = "Y";	//화면오픈
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" value="<c:out value='${inputData.mchnInfoId}'/>">
 				<input type="hidden" id="evCtgrVal" name="evCtgrVal" />
 				<input type="hidden" id="evWayVal" name="evWayVal" />
-				
+
 				<input type="hidden" id="fxaNo" name="fxaNo" />
-				
+
 				<div class="LblockButton top">
 					<button type="button" id="butSave">저장</button>
 					<button type="button" id="butList">목록</button>
@@ -691,7 +691,7 @@ var firstLoad = "Y";	//화면오픈
 									<option value="code2">CODE2</option>
 									<option value="code3">CODE3</option>
 								</select>
-								
+
 							</td>
 						</tr>
 						<tr>
@@ -722,12 +722,12 @@ var firstLoad = "Y";	//화면오픈
 									var CrossEditor = new NamoSE('mchnSmry');
 									CrossEditor.params.Width = "100%";
 									CrossEditor.params.UserLang = "auto";
-									var uploadPath = "<%=uploadPath%>"; 
-									
-									CrossEditor.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조   
+									var uploadPath = "<%=uploadPath%>";
+
+									CrossEditor.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
 									CrossEditor.params.FullScreen = false;
 									CrossEditor.EditorStart();
-									
+
 									function OnInitCompleted(e){
 										e.editorTarget.SetBodyValue(document.getElementById("mchnSmry").value);
 									}
