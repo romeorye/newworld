@@ -87,6 +87,7 @@ var dataSet01;
 	        contentHeight: 200,
 	        tabs: [
 	            {
+	            	active: true,
 	            	label: '연구개발 범위',
 	                content: ''
 	            }, {
@@ -98,6 +99,7 @@ var dataSet01;
 	            }
 	        ]
 	    });
+	 
 	    tabViewS.on('activeTabChange', function(e){
 	    	var index = e.activeIndex;
 	    	
