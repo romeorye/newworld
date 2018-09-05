@@ -44,10 +44,10 @@
 <script type="text/javascript">
 
 var faxInfoDialog;	//고정자산관리 팝업
-
+var mchnClDtlCd;
 
 	Rui.onReady(function(){
-		
+
 		<%-- RESULT DATASET --%>
         resultDataSet = new Rui.data.LJsonDataSet({
             id: 'resultDataSet',
@@ -61,7 +61,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 
         resultDataSet.on('load', function(e) {
         });
-		
+
 		/*******************
 	     * 변수 및 객체 선언
 	     *******************/
@@ -96,11 +96,11 @@ var faxInfoDialog;	//고정자산관리 팝업
 	    dataSet.on('load', function(e){
 			document.aform.mchnCrgrId.value = dataSet.getNameValue(0, "mchnCrgrId");
 			cbOpnYn.setValue(dataSet.getNameValue(0,"opnYn"));
-			
+
 			if(dataSet.getNameValue(0, "mchnInfoId")  != "" ||  dataSet.getNameValue(0, "mchnInfoId")  !=  undefined ){
 				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "mchnSmry") );
 			}
-			
+
 			if(!Rui.isEmpty(dataSet.getNameValue(0, "fxaNo"))){
 				document.aform.fxaNo.value = dataSet.getNameValue(0, "fxaNo");
 			}
@@ -139,7 +139,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false,                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
-		
+
 		//대분류
 		var cbmchnClCd = new Rui.ui.form.LCombo({
 		 	applyTo : 'mchnClCd',
@@ -151,9 +151,34 @@ var faxInfoDialog;	//고정자산관리 팝업
 			valueField: 'COM_DTL_CD',
 			width: 150
 		});
-		
+
+		cbmchnClCd.on('changed', function(e){
+			var i = e.value;
+			if(i==01){
+				var mchnClDtlCd = new Rui.ui.form.LCombo({
+				 	applyTo : 'mchnClDtlCd',
+					name : 'mchnClDtlCd',
+					useEmptyText: true,
+				    emptyText: '선택하세요',
+				    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_DTL_CD01"/>',
+					displayField: 'COM_DTL_NM',
+					valueField: 'COM_DTL_CD'
+				});
+			}else if(i==02){
+				var mchnClDtlCd = new Rui.ui.form.LCombo({
+				 	applyTo : 'mchnClDtlCd',
+					name : 'mchnClDtlCd',
+					useEmptyText: true,
+				    emptyText: '선택하세요',
+				    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_DTL_CD02"/>',
+					displayField: 'COM_DTL_NM',
+					valueField: 'COM_DTL_CD'
+				});
+			}
+		});
+
 		//소분류
-		var cbmchnClCd = new Rui.ui.form.LCombo({
+/* 		 var mchnClDtlCd = new Rui.ui.form.LCombo({
 		 	applyTo : 'mchnClDtlCd',
 			name : 'mchnClDtlCd',
 			useEmptyText: true,
@@ -161,7 +186,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_DTL_CD"/>',
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD'
-		});
+		}); */
 
 		//장비종류
 		var cbmchnKindCd = new Rui.ui.form.LCombo({
@@ -173,7 +198,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD'
 		});
-		
+
 		//기기사용쳐부combo
 		var cbMchnUsePsblYn = new Rui.ui.form.LCombo({
 		 	applyTo : 'mchnUsePsblYn',
@@ -210,7 +235,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 				       { value: 'Y', text: '삭제'}
 	            ]
 		});
-        
+
         //시료수
 		var smpoQty = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	        applyTo: 'smpoQty',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -219,7 +244,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	        //inputType: Rui.util.LString.PATTERN_TYPE_KOREAN, // [옵션] 입력문자열로 영문자 입력만 허용
 	    });
-		
+
 		//메인여부
 		var cbMnScrnDspYn = new Rui.ui.form.LCombo({
 			applyTo : 'mnScrnDspYn',
@@ -314,7 +339,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 	    });
 
 		faxInfoDialog.render(document.body);
-		
+
 		var bind = new Rui.data.LBind({
 			groupId: 'aform',
 		    dataSet: dataSet,
@@ -343,7 +368,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		         { id: 'smpoQty', 			ctrlId: 'smpoQty', 			value: 'value' }
 		     ]
 		});
-		
+
 
 /*************************첨부파일****************************/
 		/* 첨부파일*/
@@ -408,7 +433,7 @@ var faxInfoDialog;	//고정자산관리 팝업
     	butList.on('click', function(){
     		rlabTestEqipSearchList();
     	});
-    	
+
 		/* [버튼] : 고정자산 초기화 목록 이동 */
     	var butFxaInit = new Rui.ui.LButton('butFxaInit');
 
@@ -423,7 +448,7 @@ var faxInfoDialog;	//고정자산관리 팝업
     	var butAttcFil = new Rui.ui.LButton('butAttcFil');
     	butAttcFil.on('click', function(){
     		var attcFilId = document.aform.attcFilId.value;
-    		openAttachFileDialog(setAttachFileInfo, attcFilId,'mchnPolicy', '*');
+    		openAttachFileDialog3(setAttachFileInfo, attcFilId,'mchnPolicy', '*');
     	});
 
     	/* [버튼] : 등록 정보 저장 */
@@ -464,7 +489,7 @@ var faxInfoDialog;	//고정자산관리 팝업
            }else{
 	           $('#atthcFilVw').html('');
            }
-           
+
            for(var i = 0; i < attcFilList.length; i++) {
                $('#atthcFilVw').append($('<a/>', {
                    href: 'javascript:downloadAttcFil("' + attcFilList[i].data.attcFilId + '", "' + attcFilList[i].data.seq + '")',
@@ -501,13 +526,13 @@ var faxInfoDialog;	//고정자산관리 팝업
             ]
         });
     	imageDialog.hide(true);
-    	
+
      //분석기기 목록 화면으로 이동
        var rlabTestEqipSearchList = function(){
     	   	$('#searchForm > input[name=mchnNm]').val(encodeURIComponent($('#searchForm > input[name=mchnNm]').val()));
     	   	$('#searchForm > input[name=mchnCrgrNm]').val(encodeURIComponent($('#searchForm > input[name=mchnCrgrNm]').val()));
-	    	
-	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/rlabTestEqipList.do"/>");	
+
+	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/rlabTestEqipList.do"/>");
        }
 
       //vaild check
@@ -569,20 +594,21 @@ var faxInfoDialog;	//고정자산관리 팝업
     			mchnExpl.focus();
     			return false;
     		} */
-    		
-    		 
+
+
      		if(CrossEditor.GetBodyValue()=="" || CrossEditor.GetBodyValue()=="<p><br></p>"){
      		    alert("개요내용을 입력해 주세요!!");
      		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
      		    return false;
      		}
-    		
+
     		frm.mchnSmry.value = CrossEditor.GetBodyValue();
 
     		return true;
-     	} 
-     	
-	});  //end ready
+     	}
+
+	});
+	//end ready
 
 	 //고정자산 callback
  	function fncRecall(re){
@@ -611,13 +637,13 @@ var faxInfoDialog;	//고정자산관리 팝업
 				<input type="hidden" name="mchnCrgrNm" value="${inputData.mchnCrgrNm}"/>
 				<input type="hidden" name="mchnUsePsblYn" value="${inputData.mchnUsePsblYn}"/>
 		    </form>
-		    
+
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" />
 				<input type="hidden" id="attcFilId" name="attcFilId" />
 				<input type="hidden" id="mchnCrgrId" name="mchnCrgrId" />
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" value="<c:out value='${inputData.mchnInfoId}'/>">
-				
+
 				<input type="hidden" id="fxaNo" name="fxaNo" />
 				<input type="hidden" id="fxaNm" name="fxaNm" />
 
@@ -665,7 +691,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 								<div id="mchnKindCd"></div>
 							</td>
 						</tr>
-						
+
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>장비사용상태</th>
 							<td>
@@ -731,12 +757,12 @@ var faxInfoDialog;	//고정자산관리 팝업
 										var CrossEditor = new NamoSE('mchnSmry');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
-										var uploadPath = "<%=uploadPath%>"; 
-										
-										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조   
+										var uploadPath = "<%=uploadPath%>";
+
+										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
 										CrossEditor.params.FullScreen = false;
 										CrossEditor.EditorStart();
-										
+
 										function OnInitCompleted(e){
 											e.editorTarget.SetBodyValue(document.getElementById("mchnSmry").value);
 										}
