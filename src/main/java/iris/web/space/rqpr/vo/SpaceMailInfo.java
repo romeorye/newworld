@@ -3,6 +3,7 @@ package iris.web.space.rqpr.vo;
 public class SpaceMailInfo {
 	private String rqprId = "";
 	private String anlNm = "";
+	private String spaceNm = "";
 	private String acpcNo = "";
 	private String senderNm = "";
 	private String rgstNm = "";
@@ -120,5 +121,11 @@ public class SpaceMailInfo {
 	}
 	public void setAnlDcacRson(String anlDcacRson) {
 		this.anlDcacRson = anlDcacRson;
+	}
+	public String getSpaceNm() {
+		return spaceNm;
+	}
+	public void setSpaceNm(String spaceNm) {
+		this.spaceNm = spaceNm;
 	}
 }

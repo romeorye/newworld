@@ -373,7 +373,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
     		mailSender.setFromMailAddress((String)input.get("_userEmail"), senderNm);
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
-    		mailSender.setSubject("'" + spaceMailInfo.getAnlNm() + "' 평가 건에 새 의견이 게시되었습니다.");
+    		mailSender.setSubject("'" + spaceMailInfo.getSpaceNm() + "' 평가 건에 새 의견이 게시되었습니다.");
     		mailSender.setHtmlTemplate("spaceRqprOpinition", spaceMailInfo);
     		mailSender.send();
 

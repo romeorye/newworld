@@ -323,7 +323,7 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 
     		mailSender.setFromMailAddress((String)input.get("_userEmail"), senderNm);
     		mailSender.setToMailAddress(rlabMailInfo.getReceivers().split(","));
-    		mailSender.setSubject("'" + rlabMailInfo.getAnlNm() + "' 분석 건에 새 의견이 게시되었습니다.");
+    		mailSender.setSubject("'" + rlabMailInfo.getRlabNm() + "' 분석 건에 새 의견이 게시되었습니다.");
     		mailSender.setHtmlTemplate("rlabRqprOpinition", rlabMailInfo);
     		mailSender.send();
 
