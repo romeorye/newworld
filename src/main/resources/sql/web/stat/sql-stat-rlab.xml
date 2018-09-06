@@ -23,7 +23,7 @@
 		      ,SUM(m11) AS m11
 		      ,SUM(m12) AS m12
 		      ,SUM(m01)+SUM(m02)+SUM(m03)+SUM(m04)+SUM(m05)+SUM(m06)+SUM(m07)+SUM(m08)+SUM(m09)+SUM(m10)+SUM(m11)+SUM(m12) AS sum
-		      ,'시험구분별' AS etc
+		      ,'해당월말'+char(13)+'완료기준건수' AS etc
 		  FROM (SELECT RLAB_SCN_CD
 		              ,CASE WHEN cmplMonth='01'
 		                    THEN cnt
@@ -111,7 +111,7 @@
 		      ,SUM(m11) AS m11
 		      ,SUM(m12) AS m12
 		      ,SUM(m01)+SUM(m02)+SUM(m03)+SUM(m04)+SUM(m05)+SUM(m06)+SUM(m07)+SUM(m08)+SUM(m09)+SUM(m10)+SUM(m11)+SUM(m12) AS sum
-		      ,'해당월말 ' AS etc
+		      ,'해당월말'+char(13)+'완료기준건수' AS etc
 		  FROM (SELECT RLAB_DZDV_CD
 		              ,CASE WHEN cmplMonth='01'
 		                    THEN cnt
@@ -199,7 +199,7 @@
 		      ,SUM(m11) AS m11
 		      ,SUM(m12) AS m12
 		      ,SUM(m01)+SUM(m02)+SUM(m03)+SUM(m04)+SUM(m05)+SUM(m06)+SUM(m07)+SUM(m08)+SUM(m09)+SUM(m10)+SUM(m11)+SUM(m12) AS sum
-		      ,'시험별' AS etc
+		      ,'해당월말'+char(13)+'완료기준건수' AS etc
 		  FROM (SELECT SUPI_EXAT_CD
 		              ,CASE WHEN cmplMonth='01'
 		                    THEN cnt
@@ -291,7 +291,7 @@
 		      ,SUM(m11) AS m11
 		      ,SUM(m12) AS m12
 		      ,SUM(m01)+SUM(m02)+SUM(m03)+SUM(m04)+SUM(m05)+SUM(m06)+SUM(m07)+SUM(m08)+SUM(m09)+SUM(m10)+SUM(m11)+SUM(m12) AS sum
-		      ,'담당자별' AS etc
+		      ,'해당월말'+char(13)+'완료기준건수' AS etc
 		  FROM (SELECT RLAB_CHRG_ID
 		              ,CASE WHEN cmplMonth='01'
 		                    THEN cnt
@@ -375,85 +375,65 @@
 	<select id="retrieveRlabTermStatList" resultType="hashmap">
 	--retrieveRlabTermStatList 기간별 통계조회
 		<![CDATA[
-		SELECT 'A' AS statGbn
-		       ,ANL_SCN_CD AS cdNm
+		SELECT '시험구분별' AS statGbn
+		       ,dbo.fn_getComDtlNm('RLAB_SCN_CD',RLAB_SCN_CD) AS cdNm
 		       ,COUNT(1) AS cnt
 			   ,'a'+CAST((SELECT COUNT(1)
-			       FROM IRIS_ANL_RQPR_MST
-				  WHERE 1=1
-				    AND  CMPL_PARR_DT IS NOT NULL
-		            AND  CMPL_PARR_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) sum
-		  FROM IRIS_ANL_RQPR_MST
+			                FROM IRIS_RLAB_RQPR_MST
+				           WHERE 1=1
+				             AND CMPL_DT IS NOT NULL
+		                     AND CMPL_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) AS sum
+		  FROM IRIS_RLAB_RQPR_MST
 		 WHERE 1=1
-		   --AND CMPL_DT IS NOT NULL
-		   --AND CMPL_DT BETWEEN '2018-01-01' AND '2018-12-31'
-		   AND  CMPL_PARR_DT IS NOT NULL
-		   AND  CMPL_PARR_DT BETWEEN #{frDt} AND #{toDt}
-		   GROUP BY ANL_SCN_CD
+		   AND CMPL_DT IS NOT NULL
+		   AND CMPL_DT BETWEEN #{frDt} AND #{toDt}
+		   GROUP BY RLAB_SCN_CD
 		   UNION ALL
-		SELECT 'B'
-		       ,ANL_SCN_CD
+		SELECT '사업부별'
+		       ,dbo.fn_getComDtlNm('RLAB_DZDV_CD',RLAB_DZDV_CD)
 		       ,COUNT(1) AS cnt
 			   ,'b'+CAST((SELECT COUNT(1)
-			       FROM IRIS_ANL_RQPR_MST
-				  WHERE 1=1
-				    AND  CMPL_PARR_DT IS NOT NULL
-		            AND  CMPL_PARR_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) sum
-		  FROM IRIS_ANL_RQPR_MST
+			                FROM IRIS_RLAB_RQPR_MST
+				           WHERE 1=1
+				             AND CMPL_DT IS NOT NULL
+		                     AND CMPL_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) AS sum
+		  FROM IRIS_RLAB_RQPR_MST
 		 WHERE 1=1
-		   --AND CMPL_DT IS NOT NULL
-		   --AND CMPL_DT BETWEEN '2018-01-01' AND '2018-12-31'
-		   AND  CMPL_PARR_DT IS NOT NULL
-		   AND  CMPL_PARR_DT BETWEEN #{frDt} AND #{toDt}
-		   GROUP BY ANL_SCN_CD
+		   AND CMPL_DT IS NOT NULL
+		   AND CMPL_DT BETWEEN #{frDt} AND #{toDt}
+		   GROUP BY RLAB_DZDV_CD
 		   UNION ALL
-		SELECT 'C'
-		       ,ANL_SCN_CD
+		SELECT '시험법별'
+		       ,RLABEXAT.SUPI_EXAT_CD
 		       ,COUNT(1) AS cnt
 			   ,'c'+CAST((SELECT COUNT(1)
-			       FROM IRIS_ANL_RQPR_MST
-				  WHERE 1=1
-				    AND  CMPL_PARR_DT IS NOT NULL
-		            AND  CMPL_PARR_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) sum
-		  FROM IRIS_ANL_RQPR_MST
+			                FROM IRIS_RLAB_RQPR_MST
+				           WHERE 1=1
+				             AND CMPL_DT IS NOT NULL
+		                     AND CMPL_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) AS sum
+		  FROM IRIS_RLAB_RQPR_MST RQPRMST
+		 INNER JOIN IRIS_RLAB_RQPR_EXPR RQPREXPR
+            ON RQPRMST.RQPR_ID=RQPREXPR.RQPR_ID
+         INNER JOIN IRIS_RLAB_EXAT_MST RLABEXAT
+            ON RQPREXPR.EXPR_CD=RLABEXAT.EXAT_CD
 		 WHERE 1=1
-		   --AND CMPL_DT IS NOT NULL
-		   --AND CMPL_DT BETWEEN '2018-01-01' AND '2018-12-31'
-		   AND  CMPL_PARR_DT IS NOT NULL
-		   AND  CMPL_PARR_DT BETWEEN #{frDt} AND #{toDt}
-		   GROUP BY ANL_SCN_CD
+		   AND RQPRMST.CMPL_DT IS NOT NULL
+		   AND RQPRMST.CMPL_DT BETWEEN #{frDt} AND #{toDt}
+		   GROUP BY RLABEXAT.SUPI_EXAT_CD
 		   UNION ALL
-		SELECT 'D'
-		       ,ANL_SCN_CD
+		SELECT '시험담당자별'
+		       ,dbo.fn_getUserName(RLAB_CHRG_ID)
 		       ,COUNT(1) AS cnt
 			   ,'d'+CAST((SELECT COUNT(1)
-			       FROM IRIS_ANL_RQPR_MST
-				  WHERE 1=1
-				    AND  CMPL_PARR_DT IS NOT NULL
-		            AND  CMPL_PARR_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) sum
-		  FROM IRIS_ANL_RQPR_MST
+			                FROM IRIS_RLAB_RQPR_MST
+				           WHERE 1=1
+				             AND CMPL_DT IS NOT NULL
+		                     AND CMPL_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) AS sum
+		  FROM IRIS_RLAB_RQPR_MST
 		 WHERE 1=1
-		   --AND CMPL_DT IS NOT NULL
-		   --AND CMPL_DT BETWEEN '2018-01-01' AND '2018-12-31'
-		   AND  CMPL_PARR_DT IS NOT NULL
-		   AND  CMPL_PARR_DT BETWEEN #{frDt} AND #{toDt}
-		   GROUP BY ANL_SCN_CD
-		   UNION ALL
-		SELECT 'E'
-		       ,ANL_SCN_CD
-		       ,COUNT(1) AS cnt
-			   ,'e'+CAST((SELECT COUNT(1)
-			       FROM IRIS_ANL_RQPR_MST
-				  WHERE 1=1
-				    AND  CMPL_PARR_DT IS NOT NULL
-		            AND  CMPL_PARR_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) sum
-		  FROM IRIS_ANL_RQPR_MST
-		 WHERE 1=1
-		   --AND CMPL_DT IS NOT NULL
-		   --AND CMPL_DT BETWEEN '2018-01-01' AND '2018-12-31'
-		   AND  CMPL_PARR_DT IS NOT NULL
-		   AND  CMPL_PARR_DT BETWEEN #{frDt} AND #{toDt}
-		   GROUP BY ANL_SCN_CD
+		   AND CMPL_DT IS NOT NULL
+		   AND CMPL_DT BETWEEN #{frDt} AND #{toDt}
+		   GROUP BY RLAB_CHRG_ID
 		 ]]>
 	</select>
 
