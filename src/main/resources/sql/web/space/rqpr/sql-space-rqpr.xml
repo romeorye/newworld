@@ -542,6 +542,7 @@
 				   ,dbo.fn_getUserName(RGST_ID)			  as rgstNm
 				   ,Convert(varchar(10), RGST_DT, 120)	  as rgstDt
 				   ,OPI_SBC								  as opiSbc
+				   ,ATTC_FIL_ID	                          as attcFilId
 			from	iris_space_rqpr_opi
 			where	rqpr_id = ${rqprId}
 			and		del_yn = 'N'
@@ -555,11 +556,13 @@
 		USING ( SELECT	${opiId} as opiId,
 						${rqprId} as rqprId,
 						#{opiSbc} as opiSbc,
+						#{attcFilId} as attcFilId,
 						#{_userId} as userId ) b
 		ON ( a.opi_id = b.opiId)
 		WHEN MATCHED THEN
 			update set	rgst_dt = getdate(),
 						opi_sbc = b.opiSbc,
+						attc_fil_id = b.attcFilId,
 						last_mdfy_dt = getdate(),
 						last_mdfy_id = b.userId
 		WHEN NOT MATCHED THEN
@@ -567,6 +570,7 @@
 				   ,rgst_id
 				   ,rgst_dt
 				   ,opi_sbc
+				   ,attc_fil_id
 				   ,frst_rgst_id
 				   ,last_mdfy_id
 				   )
@@ -574,6 +578,7 @@
 				  ,b.userId
 				  ,getdate()
 				  ,b.opiSbc
+				  ,b.attcFilId
 				  ,b.userId
 				  ,b.userId
 				  );
@@ -915,14 +920,24 @@
 	<select id="getSpaceRqprOpinitionEmailInfo" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
 		<![CDATA[
 			-- getSpaceRqprOpinitionEmailInfo 의견 메일 발송 정보 조회
-			select	rqpr_id												as rqprId,
-					space_name											as spaceNm,
-					acpc_no												as acpcNo,
-					dbo.fn_getUserEmail(rgst_id) + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(rqpr_team_cd)), '') +
-					isnull(',' + dbo.fn_getUserEmail(space_chrg_id), '')	+
-					isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
-			                                                                 from    iris_sso_user b
-								                                             where   b.sa_user = space_chrg_id))), '') as receivers
+			select rqpr_id												as rqprId
+				  ,space_name											as spaceNm
+				  ,acpc_no												as acpcNo
+				  ,dbo.fn_getUserEmail(rgst_id)
+				   + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(rqpr_team_cd)), '')
+				   + isnull(',' + ( SELECT TOP 1 STUFF((SELECT ',' + DBO.FN_GETUSEREMAIL(INFM_PRSN_ID)
+			                          FROM IRIS_SPACE_WAY_CRGR
+								     WHERE 1=1
+			                           AND RQPR_ID = ${rqprId}
+									   FOR XML PATH('')), 1, 1, '')), '')
+				   + isnull(',' + (SELECT TOP 1 STUFF((SELECT DBO.FN_GETUSEREMAIL(DBO.FN_GETDEPTLEADERID(SA_DEPT_NEW))
+			                                             FROM IRIS_SSO_USER B
+			                                            WHERE B.SA_USER IN (SELECT INFM_PRSN_ID
+			                                                                  FROM IRIS_SPACE_WAY_CRGR
+								                                             WHERE 1=1
+								                                               AND RQPR_ID = ${rqprId})
+			                                            GROUP BY SA_DEPT_NEW
+			                                              FOR XML PATH('')),1,1,'')), '') as receivers
 			from	iris_space_rqpr_mst
 		 ]]>
 			where	rqpr_id = ${rqprId}

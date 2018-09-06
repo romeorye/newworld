@@ -4,7 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-	
+
 	<bean id="mailSenderFactory" class="devonframe.mail.MailSenderFactory">
 	    <property name="globalMailPolicy" ref="mailPolicy" />
 	    <!-- <property name="optionalMailPolicyMap">
@@ -12,7 +12,7 @@
 	            <entry key="mailPolicy2" value-ref="mailPolicy2" />
 	        </map>
 	    </property> -->
-	 
+
 	    <property name="mailTemplateMap">
 	        <map>
 	            <entry key="anlRqprOpinition" value-ref="anlRqprOpinition" />
@@ -21,18 +21,18 @@
 	            <entry key="anlRqprReject" value-ref="anlRqprReject" />
 	            <entry key="anlRqprStop" value-ref="anlRqprStop" />
 	            <entry key="anlRqprResult" value-ref="anlRqprResult" />
-	            
+
 	            <!-- 분석기기 mail template  -->
 	            <entry key="mchnEduCoures" value-ref="mchnEduCoures" />
 	            <entry key="mchnApprInfo" value-ref="mchnApprInfo" />
 	            <entry key="mchnApprReq" value-ref="mchnApprReq" />
 	            <entry key="rlabApprReq" value-ref="rlabApprReq" />
-	            
+
 	            <entry key="prjSendMailPopup" value-ref="prjSendMailPopup" /><!-- 프로젝트 메일전송 팝업 템플릿 -->
 	            <entry key="grsSendMail" value-ref="grsSendMail" />
-	            
+
 	            <!--mail 연구팀  template-->
-	            <entry key="mailBatchArslhtml" value-ref="mailBatchArslhtml" /> 
+	            <entry key="mailBatchArslhtml" value-ref="mailBatchArslhtml" />
 	            <entry key="mailBatchCmTsshtml" value-ref="mailBatchCmTsshtml" />
 	            <entry key="mailBatchGrshtml" value-ref="mailBatchGrshtml" />
 	            <entry key="mailBatchMfrhtml" value-ref="mailBatchMfrhtml" />
@@ -41,25 +41,27 @@
 	            <entry key="mailBatchWbsCdCrdhtml" value-ref="mailBatchWbsCdCrdhtml" />
 	            <entry key="mailBatchWbsCdDelhtml" value-ref="mailBatchWbsCdDelhtml" />
 	            <entry key="mailRfpReqFormhtml" value-ref="mailRfpReqFormhtml" />
-	            
+
 	            <!-- 신뢰성 메일발송 추가 정현웅 2018.08.17 -->
 	            <entry key="rlabRqprReceipt" value-ref="rlabRqprReceipt" />
-	            
+	            <!-- 공간평가의뢰 의견 메일발송 추가 정현웅 2018.08.17 -->
+	            <entry key="spaceRqprOpinition" value-ref="spaceRqprOpinition" />
+
 	            <!-- 신뢰성 시험장비 예약 메일발송 추가 김동욱 2018.09.05 -->
 	            <entry key="rlabMchnAppr01" value-ref="rlabMchnAppr01" />
 	            <entry key="rlabMchnAppr02" value-ref="rlabMchnAppr02" />
 	            <entry key="rlabMchnAppr03" value-ref="rlabMchnAppr03" />
-	            
+
 	            <!-- 공간평가 TOOL 예약 메일발송 추가 김동욱 2018.09.05 -->
 	            <entry key="spaceMchnAppr" value-ref="spaceMchnAppr" />
 	        </map>
 	    </property>
 	</bean>
-	
+
 	<bean id="mailPolicy" class="devonframe.mail.policy.MailPolicy">
 
 	    <property name="testMode" value="true" />
-	    <property name="testReceivers" value="kdwehd@lghausys.com" />
+	    <property name="testReceivers" value="dongys@lghausys.com" />
 	    <property name="mailHost" value="subspam.lghausys.com" />
 	    <property name="mailPort" value="25" />
 	    <property name="authenticationEnabled" value="false" />
@@ -77,7 +79,7 @@
 	    <property name="charsetType" value="UTF-8" />
 	    <property name="encodingType" value="B" />
 	</bean>
-	
+
 	<!-- <bean id="mailPolicy2" class="devonframe.mail.policy.MailPolicy">
 	    <property name="testMode" value="true" />
 	    <property name="testReceivers" value="jykook@lgcns.com,milgarubanjuk@hanmail.net" />
@@ -98,7 +100,7 @@
 	    <property name="charsetType" value="UTF-8" />
 	    <property name="encodingType" value="Q" />
 	</bean> -->
-	
+
 	<bean id="anlRqprOpinition" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprOpinition.html" />
@@ -108,7 +110,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<bean id="anlRqprReceiptRequest" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprReceiptRequest.html" />
@@ -118,7 +120,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<bean id="anlRqprReceipt" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprReceipt.html" />
@@ -128,7 +130,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<bean id="anlRqprReject" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprReject.html" />
@@ -138,7 +140,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<bean id="anlRqprStop" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprStop.html" />
@@ -148,7 +150,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<bean id="anlRqprResult" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprResult.html" />
@@ -158,7 +160,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<bean id="mchnEduCoures" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/mchn" />
 	    <property name="htmlName" value="mchnEdu.html" />
@@ -168,7 +170,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<bean id="mchnApprInfo" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/mchn" />
 	    <property name="htmlName" value="mchnApprInfo.html" />
@@ -178,7 +180,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<bean id="mchnApprReq" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/mchn" />
 	    <property name="htmlName" value="mchnApprReq.html" />
@@ -188,7 +190,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<bean id="rlabApprReq" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/mchn" />
 	    <property name="htmlName" value="rlabApprReq.html" />
@@ -198,7 +200,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-		
+
 	<bean id="prjSendMailPopup" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/mm" />
 	    <property name="htmlName" value="sendMailPopup.html" />
@@ -208,7 +210,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<!--*************************************************** -->
 	<!--*************** mail batch ************************ -->
 	<!--*************************************************** -->
@@ -220,7 +222,7 @@
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
-	    
+
 	</bean>
 	<bean id="mailBatchCmTsshtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
@@ -230,7 +232,7 @@
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
-	    
+
 	</bean>
 	<bean id="mailBatchGrshtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
@@ -240,9 +242,9 @@
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
-	    
+
 	</bean>
-	
+
 	<bean id="mailBatchMfrhtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchMfr.html" />
@@ -251,9 +253,9 @@
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
-	    
+
 	</bean>
-	
+
 	<bean id="mailBatchMmhtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchMm.html" />
@@ -262,9 +264,9 @@
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
-	    
+
 	</bean>
-	
+
 	<bean id="mailBatchMmClshtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchMmCls.html" />
@@ -273,10 +275,10 @@
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
-	    
+
 	</bean>
-	
-	
+
+
 		<bean id="mailBatchWbsCdCrdhtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchWbsCdCrd.html" />
@@ -285,9 +287,9 @@
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
-	    
+
 	</bean>
-	
+
 		<bean id="mailBatchWbsCdDelhtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchWbsCdDel.html" />
@@ -296,9 +298,9 @@
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
-	    
+
 	</bean>
-	
+
 		<bean id="grsSendMail" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="grsSendMail.html" />
@@ -307,9 +309,9 @@
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
-	    
+
 	</bean>
-	
+
 		<bean id="mailRfpReqFormhtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailRfpReqForm.html" />
@@ -318,10 +320,10 @@
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
-	    
+
 	</bean>
-	
-	
+
+
 	<!--*************************************************** -->
 	<!--*************** 신뢰성 mail 설정 ************************ -->
 	<!--*************************************************** -->
@@ -345,7 +347,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<bean id="rlabMchnAppr02" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlabMchn" />
 	    <property name="htmlName" value="rlabMchnAppr02.html" />
@@ -355,7 +357,7 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
 	<bean id="rlabMchnAppr03" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlabMchn" />
 	    <property name="htmlName" value="rlabMchnAppr03.html" />
@@ -364,8 +366,8 @@
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
-	</bean>	
-	
+	</bean>
+
 	<bean id="spaceMchnAppr" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/spaceMchn" />
 	    <property name="htmlName" value="spaceMchnAppr.html" />
@@ -375,5 +377,15 @@
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
-	
+
+	<bean id="spaceRqprOpinition" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/spaceMchn" />
+	    <property name="htmlName" value="spaceRqprOpinition.html" />
+	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+
 </beans>
