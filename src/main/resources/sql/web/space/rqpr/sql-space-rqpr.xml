@@ -22,7 +22,7 @@
 				dbo.fn_getComDtlNm('ANL_UGY_YN' , SPACE_UGY_YN)	AS spaceUgyYnNm,--긴급유무
 				dbo.fn_getSpaceRqprCrgrNames(RQPR_ID) 			AS spaceChrgNm,	--평가담당자
 				dbo.fn_getComDtlNm('OPPB_SCP_CD' , OPPB_SCP_CD)	AS oppbScpCd,	--공개여부(비밀여부)
-				dbo.fn_getComDtlNm('ACPC_ST_CD' , ACPC_ST_CD)	AS acpcStNm		--상태
+				dbo.fn_getComDtlNm('ACPC_ST_CD' , SPACE_ACPC_ST_CD)	AS acpcStNm		--상태
 			FROM	IRIS_SPACE_RQPR_MST mst
 		 ]]>
 			WHERE	1 = 1
@@ -52,7 +52,7 @@
 			AND ACPC_NO like '${acpcNo}%'
 		</if>
         <if test="acpcStCd != null and acpcStCd != ''">
-			AND ACPC_ST_CD = #{acpcStCd}
+			AND SPACE_ACPC_ST_CD = #{acpcStCd}
 		</if>
 		<if test="spaceChrgId != null and spaceChrgId != ''">
 			AND SPACE_CHRG_ID = #{spaceChrgId}
@@ -69,7 +69,7 @@
 																	))
         	</when>
         	<otherwise>
-			AND ACPC_ST_CD != '00'
+			AND SPACE_ACPC_ST_CD != '00'
         	</otherwise>
         </choose>
 			AND DEL_YN = 'N'
@@ -119,8 +119,8 @@
 				SPACE_UGY_YN										AS spaceUgyYn,
 				dbo.fn_getComDtlNm('ANL_UGY_YN', SPACE_UGY_YN)		AS spaceUgyYnNm,
 				SPACE_SBC											AS spaceSbc,
-				ACPC_ST_CD											AS acpcStCd,
-				dbo.fn_getComDtlNm('ACPC_ST_CD', ACPC_ST_CD)		AS acpcStNm,
+				SPACE_ACPC_ST_CD											AS acpcStCd,
+				dbo.fn_getComDtlNm('ACPC_ST_CD', SPACE_ACPC_ST_CD)		AS acpcStNm,
 				RQPR_RDCS_DT										AS rqprRdcsDt,
 				ACPC_GVB_DT											AS acpcGvbDt,
 				ACPC_GVB_RSON										AS acpcGvbRson,
@@ -304,7 +304,7 @@
 				ev_cases = #{evCases},			--평가Class
 				ev_subj_dtl = #{evSubjDtl},		--평가대상 상세
 				t_cloud = #{tCloud},			--T-CLOUD URL
-				acpc_st_cd = #{acpcStCd},		--접수상태코드
+				SPACE_ACPC_ST_CD = #{acpcStCd},		--접수상태코드
 				cmpl_parr_dt = #{cmplParrDt},			--완료예정일
 				rqpr_attc_file_id = #{rqprAttcFileId},	--의뢰첨부파일ID
 			<if test="acpcNo == '' and acpcStCd == '03'">
@@ -322,7 +322,7 @@
 	<update id="updateSpaceRqprAcpcStCd">
 	-- updateSpaceRqprAcpcStCd
 		update	iris_space_rqpr_mst
-		set		acpc_st_cd = #{acpcStCd},
+		set		SPACE_ACPC_ST_CD = #{acpcStCd},
 		<if test="acpcStCd == '04'">
 				space_gvb_dt = Convert(varchar(10), Current_Timestamp, 120),
 				space_gvb_rson = #{rson},
