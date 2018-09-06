@@ -694,7 +694,7 @@
 		<input type="hidden" name="rgstNm" value="${inputData.rgstNm}"/>
 		<input type="hidden" name="rlabChrgNm" value="${inputData.rlabChrgNm}"/>
 		<input type="hidden" name="acpcNo" value="${inputData.acpcNo}"/>
-		<input type="hidden" name="acpcStCd" value="${inputData.acpcStCd}"/>
+		<input type="hidden" name="rlabAcpcStCd" value="${inputData.rlabAcpcStCd}"/>
     </form>
     <form name="fileDownloadForm" id="fileDownloadForm">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>

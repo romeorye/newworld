@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -35,8 +35,8 @@
 
 	<script type="text/javascript">
 	 var getRlabRqprList;
-	 var tmpAcpcStCd = '${inputData.acpcStCd}';
-	 
+	 var tmpAcpcStCd = '${inputData.rlabAcpcStCd}';
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
@@ -68,7 +68,7 @@
              rlabRqprDataSet.on('load', function(e) {
     	    		$("#cnt_text").html('총 ' + rlabRqprDataSet.getCount() + '건');
     	      	});
-             
+
              var rlabRqprColumnModel = new Rui.ui.grid.LColumnModel({
                  columns: [
                        { field: 'acpcNo',		label: '접수번호',		sortable: true,	align:'center',	width: 80 }
@@ -94,9 +94,9 @@
                  autoToEdit: false,
                  autoWidth: true
              });
-             
+
              rlabRqprGrid.render('rlabRqprGrid');
-             
+
             var rlabNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rlabNm',
                 placeholder: '검색할 분석명을 입력해주세요.',
@@ -104,17 +104,17 @@
                 emptyValue: '',
                 width: 200
             });
-           /*  
+           /*
             rlabNm.on('blur', function(e) {
             	rlabNm.setValue(rlabNm.getValue().trim());
             }); */
-          /*   
+          /*
             rlabNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
             		getRlabRqprList();
             	}
             });
-            */ 
+            */
             var rqprDeptNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rqprDeptNm',
                 placeholder: '검색할 의뢰팀을 입력해주세요.',
@@ -123,17 +123,17 @@
 				editable: false,
                 width: 200
             });
-            
+
             rqprDeptNm.on('focus', function(e) {
             	rqprDeptNm.setValue('');
             	$('#rqprDeptCd').val('');
             });
-            
+
             setRqprDeptInfo = function(deptInfo) {
     	    	rqprDeptNm.setValue(deptInfo.deptNm);
     	    	$('#rqprDeptCd').val(deptInfo.deptCd);
     	    };
-            
+
             var rgstNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rgstNm',
                 placeholder: '검색할 의뢰자를 입력해주세요.',
@@ -141,8 +141,8 @@
                 emptyValue: '',
 				width: 200
             });
-            
-            /* 
+
+            /*
             var rgstNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rgstNm',
                 placeholder: '검색할 의뢰자를 입력해주세요.',
@@ -151,12 +151,12 @@
 				editable: false,
                 width: 360
             });
-            
+
             rgstNm.on('focus', function(e) {
             	rgstNm.setValue('');
             	$('#rgstNm').val('');
             });
-           */  
+           */
             var acpcNo = new Rui.ui.form.LTextBox({
                 applyTo: 'acpcNo',
                 placeholder: '검색할 접수번호를 입력해주세요.',
@@ -164,11 +164,11 @@
                 emptyValue: '',
                 width: 200
             });
-          /*   
+          /*
             acpcNo.on('blur', function(e) {
             	acpcNo.setValue(acpcNo.getValue().trim());
             }); */
-            /* 
+            /*
             acpcNo.on('keypress', function(e) {
             	if(e.keyCode == 13) {
             		getRlabRqprList();
@@ -190,7 +190,7 @@
 					alert('날자형식이 올바르지 않습니다.!!');
 					fromRqprDt.setValue(new Date());
 				}
-				
+
 				if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromRqprDt.setValue(toRqprDt.getValue());
@@ -206,19 +206,19 @@
 				width: 100,
 				dateType: 'string'
 			});
-			 
+
 			toRqprDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toRqprDt.getValue(),"-","")) ) )  {
 					alert('날자형식이 올바르지 않습니다.!!');
 					toRqprDt.setValue(new Date());
 				}
-				
+
 				if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromRqprDt.setValue(toRqprDt.getValue());
 				}
 			});
-			
+
 			var rlabChrgNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rlabChrgNm',
                 placeholder: '검색할 담당자를 입력해주세요.',
@@ -228,8 +228,8 @@
                 width: 200,
                 valueField: 'userId'
             });
-			
-         /*    
+
+         /*
             var rlabChrgNm = new Rui.ui.form.LCombo({
                 applyTo: 'rlabChrgNm',
                 name: 'rlabChrgNm',
@@ -240,66 +240,66 @@
                 displayField: 'name',
                 valueField: 'userId'
             });
-            */ 
-            var acpcStCd = new Rui.ui.form.LCombo({
-                applyTo: 'acpcStCd',
-                name: 'acpcStCd',
+            */
+            var rlabAcpcStCd = new Rui.ui.form.LCombo({
+                applyTo: 'rlabAcpcStCd',
+                name: 'rlabAcpcStCd',
                 emptyText: '전체',
-                defaultValue: '<c:out value="${inputData.acpcStCd}"/>',
+                defaultValue: '<c:out value="${inputData.rlabAcpcStCd}"/>',
                 emptyValue: '',
-                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ACPC_ST_CD"/>',
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_ACPC_ST_CD"/>',
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-            
-            acpcStCd.on('load', function(e){
-                
+
+            rlabAcpcStCd.on('load', function(e){
+
             });
-            
+
             rlabRqprGrid.on('cellClick', function(e) {
 
             	var record = rlabRqprDataSet.getAt(e.row);
-            	
+
             	$('#rqprId').val(record.data.rqprId);
-            	
+
             	nwinsActSubmit(aform, "<c:url value='/rlab/rlabRqprDetail4Chrg.do'/>");
             });
-            
-           
-            
+
+
+
             /* 분석의뢰 담당자용 리스트 엑셀 다운로드 */
         	downloadRlabRqprListExcel = function() {
                 rlabRqprGrid.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') + '.xls');
             };
-    		
-    		/* 
+
+    		/*
             setRgstInfo = function(userInfo) {
     	    	rgstNm.setValue(userInfo.saName);
     	    	$('#rgstNm').val(userInfo.saUser);
     	    };
-           */  
-            
+           */
+
             /* 조회 */
             getRlabRqprList = function() {
         	   rlabRqprDataSet.load({
                     url: '<c:url value="/rlab/getRlabRqprList.do"/>',
                     params :{
                     	rlabNm : encodeURIComponent(rlabNm.getValue()),
-            		    fromRqprDt : fromRqprDt.getValue(), 
+            		    fromRqprDt : fromRqprDt.getValue(),
             		    toRqprDt : toRqprDt.getValue(),
             		    rqprDeptCd : $('#rqprDeptCd').val(),
             		    rgstNm : encodeURIComponent(rgstNm.getValue()),
             		    rlabChrgNm : encodeURIComponent(rlabChrgNm.getValue()),
             		    acpcNo : encodeURIComponent(acpcNo.getValue()),
-//            		    acpcStCd : acpcStCd.getValue(),
-            		    acpcStCd : document.aform.acpcStCd.value,
+//            		    rlabAcpcStCd : rlabAcpcStCd.getValue(),
+            		    rlabAcpcStCd : document.aform.rlabAcpcStCd.value,
             		    isRlabChrg : 1
                     }
                 });
             };
-            
+
             getRlabRqprList();
-			
+
         });
 
 	</script>
@@ -308,14 +308,14 @@
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprDeptCd" name="rqprDeptCd" value="<c:out value="${inputData.rqprDeptCd}"/>"/>
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
-		
+
    		<div class="contents">
 
    			<div class="sub-content">
 	   			<div class="titleArea">
 	   				<h2>분석목록</h2>
 	   			</div>
-	   			
+
    				<table class="searchBox">
    					<colgroup>
    						<col style="width:10%;"/>
@@ -359,8 +359,8 @@
    							</td>
    							<th align="right">상태</th>
    							<td>
-   								<select id="acpcStCd"></select>
-                                <!-- <div id="acpcStCd"></div> -->
+   								<select id="rlabAcpcStCd"></select>
+                                <!-- <div id="rlabAcpcStCd"></div> -->
    							</td>
    						</tr>
    						<tr>
@@ -373,7 +373,7 @@
    						</tr>
    					</tbody>
    				</table>
-   				
+
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">
@@ -382,9 +382,9 @@
    				</div>
 
    				<div id="rlabRqprGrid"></div>
-				
+
 				<div id="rlabRqprExcelGrid" style="width:10px;height:10px;visibility:hidden;"></div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>
