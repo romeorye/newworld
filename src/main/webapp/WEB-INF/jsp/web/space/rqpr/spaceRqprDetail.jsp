@@ -1100,7 +1100,7 @@
 		        id: 'opinitionUpdateDialog',
 		        title: '의견 수정',
 		        width:  800,
-		        height: 600,
+		        height: 700,
 		        modal: true,
 		        visible: false,
 		        buttons : [
