@@ -64,7 +64,7 @@
 																	))
         	</when>
         	<otherwise>
-			AND ACPC_ST_CD != '00'
+			AND RLAB_ACPC_ST_CD != '00'
         	</otherwise>
         </choose>
 			AND DEL_YN = 'N'
@@ -120,7 +120,7 @@
 				dbo.fn_getComDtlNm('SMPO_TRTM_CD', SMPO_TRTM_CD)	AS smpoTrtmNm,
 				RLAB_SBC											AS rlabSbc,
 				RLAB_ACPC_ST_CD										AS rlabAcpcStCd,
-				dbo.fn_getComDtlNm('ACPC_ST_CD', ACPC_ST_CD)		AS acpcStNm,
+				dbo.fn_getComDtlNm('ACPC_ST_CD', RLAB_ACPC_ST_CD)		AS acpcStNm,
 				RQPR_RDCS_DT										AS rqprRdcsDt,
 				ACPC_GVB_DT											AS acpcGvbDt,
 				ACPC_GVB_RSON										AS acpcGvbRson,
@@ -242,7 +242,7 @@
 				rlab_chrg_id = #{rlabChrgId},
 				smpo_trtm_cd = #{smpoTrtmCd},
 				rlab_sbc = #{rlabSbc},
-				acpc_st_cd = #{rlabAcpcStCd},
+				rlab_acpc_st_cd = #{rlabAcpcStCd},
 			<if test="acpcNo == '' and rlabAcpcStCd == '03'">
 				acpc_no = (select 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4)
 						   from   iris_rlab_rqpr_mst
