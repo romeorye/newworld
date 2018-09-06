@@ -48,6 +48,8 @@
 
 		var callback;
 		var rlabRqprDataSet;
+		var opiId;
+		var rqprId = '${inputData.rqprId}';
 
 		Rui.onReady(function() {
             /*******************
@@ -89,7 +91,8 @@
                     	label: '분석결과',
                         id: 'rlabRqprResultDiv'
                     }, {
-                        label: '의견<span id="opinitionCnt"/>'
+                        label: '의견<span id="opinitionCnt"/>',
+                        id: 'rlabRqprOpinitionDiv'
                     }]
             });
 
@@ -114,8 +117,6 @@
 	                break;
 
 	            case 2:
-	            	openRlabRqprOpinitionDialog();
-	            	return false;
 
 	                break;
 
@@ -352,6 +353,81 @@
             	}
             });
 
+            var rlabRqprOpinitionDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprOpinitionDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                	  { id: 'opiId' }
+                	, { id: 'rqprId' }
+                	, { id: 'rgstId' }
+                	, { id: 'rgstNm' }
+                	, { id: 'rgstDt' }
+					, { id: 'opiSbc' }
+					, { id: 'attcFilId' }
+                ]
+            });
+
+            rlabRqprOpinitionDataSet.on('load', function(e) {
+            	var cnt = rlabRqprOpinitionDataSet.getCount();
+
+            	parent.$("#opinitionCnt").html(cnt == 0 ? '' : '(' + cnt + ')');
+   	      	});
+
+            var rlabRqprOpinitionColumnModel = new Rui.ui.grid.LColumnModel({
+            	autoWidth:true
+                ,columns: [
+                	  { field: 'rgstNm',		label: '작성자',		sortable: false,	align:'center',	width: 100 }
+                    , { field: 'rgstDt',		label: '작성일',		sortable: false,	align:'center',	width: 100 }
+                    , { field: 'opiSbc',		label: '의견',		sortable: false,	align:'left',	width: 800,
+                    	renderer: function(val, p, record, row, col) {
+                    		var splitVal = val.split('\n');
+                    		if(splitVal.length<=1){
+                    			var rtnStr="";
+                        		//alert(splitVal.length);
+                        		for(var j=0;j<splitVal.length;j++){
+                        			var k=0;
+    	                    		for(var i=0;i<splitVal[j].length;i++){
+    	                    			if(i%66==0&&i!=0){
+    	                    				rtnStr+='\n';
+    	                    				//k=K+1;
+    	                    			}
+    	                    			rtnStr+=splitVal[j].charAt(i);
+    	                    		}
+                        		}
+                    			val=rtnStr;
+                    		}
+
+                    		return val.replaceAll('\n', '<br/>');
+                    } }
+                    , { id: 'attachDownBtn',  label: '첨부파일',  width: 65 ,
+  		  	    	  renderer: function(val, p, record, row, i){
+  		  	    		  var recordFilId = nullToString(record.data.attcFilId);
+  		  	    		  var strBtnFun = "openAttachFileDialog(setAttachFileInfo, "+recordFilId+", 'knldPolicy', '*' ,'R')";
+  		  	    		  //return Rui.isUndefined(record.get('attcFilId')) ? '' : '<button type="button"  class="L-grid-button" onclick="'+strBtnFun+'">다운로드</button>';
+  		  	    			if(record.get('attcFilId').length<1){
+  		  	    				return '';
+	  	    				}else{
+	  	    					return '<button type="button"  class="L-grid-button" onclick="'+strBtnFun+'">다운로드</button>';
+	  	    				}
+                        }}
+                    , { field: 'attcFilId',	hidden : true}
+                    , { field: 'opiId',	hidden : true}
+                ]
+            });
+
+            var rlabRqprOpinitionGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: rlabRqprOpinitionColumnModel,
+                dataSet: rlabRqprOpinitionDataSet,
+                width: 980,
+                height: 380,
+                autoToEdit: true,
+                autoWidth: true,
+                autoHeight: true
+            });
+
+            rlabRqprOpinitionGrid.render('rlabRqprOpinitionGrid');
+
             bind = new Rui.data.LBind({
                 groupId: 'rlabRqprInfoDiv',
                 dataSet: rlabRqprDataSet,
@@ -387,6 +463,17 @@
                     { id: 'cmplDt',				ctrlId:'cmplDt',			value:'html'},
                     { id: 'rlabRqprInfmView',	ctrlId:'rlabRqprInfmView',	value:'html'},
                     { id: 'rlabRsltSbc',			ctrlId:'rlabRsltSbc',		value:'html'}
+                ]
+            });
+
+            opinitionBind = new Rui.data.LBind({
+                groupId: 'rlabRqprOpinitionDiv',
+                dataSet: rlabRqprOpinitionDataSet,
+                bind: true,
+                bindInfo: [
+                    { id: 'rgstNm',				ctrlId:'rgstNm',				value:'html'},
+                    { id: 'rgstDt',				ctrlId:'rgstDt',			value:'html'},
+                    { id: 'opiSbc',				ctrlId:'opiSbc',		value:'html'}
                 ]
             });
 
@@ -661,6 +748,143 @@
     	    	rlabRqprOpinitionDialog.show();
     	    };
     	    // 분석의뢰 의견 팝업 끝
+
+      	  //의견등록팝업///////////////////////////////////////////
+            //의견등록 팝업 저장
+            callChildSave = function() {
+            	opinitionDialog.getFrameWindow().fnSave();
+            }
+
+         	// 의견등록 팝업 시작
+			opinitionDialog = new Rui.ui.LFrameDialog({
+		        id: 'opinitionDialog',
+		        title: '의견 등록',
+		        width:  800,
+		        height: 700,
+		        modal: true,
+		        visible: false,
+		        buttons : [
+		            { text: '저장', handler: callChildSave, isDefault: true },
+		            { text:'닫기', handler: function() {
+		              	this.cancel(false);
+		              }
+		            }
+		        ]
+		    });
+
+			opinitionDialog.render(document.body);
+
+			openOpinitionDialog = function(f) {
+		    	_callback = f;
+		    	opinitionDialog.setUrl('<c:url value="/rlab/openAddOpinitionPopup.do"/>');
+		    	opinitionDialog.show();
+		    };
+
+		    // 등록 버튼
+            opinitionSave = function() {
+            	opiId="0";
+            	openOpinitionDialog(setOpinitionInfo);
+            };
+
+            setOpinitionInfo = function(opinitionInfo) {
+            }
+
+          //의견수정팝업///////////////////////////////////////////
+            //의견수정 팝업 저장
+            callChildUpdate = function() {
+            	opinitionUpdateDialog.getFrameWindow().fnSave();
+            }
+
+            //의견수정 팝업 삭제
+            callChildDel = function() {
+            	opinitionUpdateDialog.getFrameWindow().fnDel();
+            }
+
+         	// 의견수정 팝업 시작
+			opinitionUpdateDialog = new Rui.ui.LFrameDialog({
+		        id: 'opinitionUpdateDialog',
+		        title: '의견 수정',
+		        width:  800,
+		        height: 700,
+		        modal: true,
+		        visible: false,
+		        buttons : [
+		            { text: '저장', handler: callChildUpdate, isDefault: true },
+		            { text: '삭제', handler: callChildDel, isDefault: true },
+		            { text:'닫기', handler: function() {
+		              	this.cancel(false);
+		              }
+		            }
+		        ]
+		    });
+
+			opinitionUpdateDialog.render(document.body);
+
+			openOpinitionUpdateDialog = function(f) {
+		    	_callback = f;
+		    	opinitionUpdateDialog.setUrl('<c:url value="/rlab/openAddOpinitionPopup.do"/>');
+		    	opinitionUpdateDialog.show();
+		    };
+
+		    /* 분석의뢰 의견 리스트 조회 */
+            getRlabRqprOpinitionList = function(msg) {
+            	closePop = function(){
+            		opinitionDialog.cancel(false);
+                	opinitionUpdateDialog.cancel(false);
+                	Rui.alert(msg);
+            	}
+            	rlabRqprOpinitionDataSet.load({
+                    url: '<c:url value="/rlab/getRlabRqprOpinitionList.do"/>',
+                    params :{
+                    	rqprId : '${inputData.rqprId}'
+                    }
+                });
+            	if(!Rui.isUndefined(msg)){
+	            	closePop();
+            	}
+            };
+
+            getRlabRqprOpinitionList();
+
+         	// 수정 버튼
+            opinitionUpdate = function() {
+            	opiId=rlabRqprOpinitionDataSet.getAt(rlabRqprOpinitionDataSet.rowPosition).data.opiId;
+            	openOpinitionUpdateDialog(setOpinitionUpdateInfo);
+            };
+
+            setOpinitionUpdateInfo = function(opinitionUpdateInfo) {
+            }
+          //첨부파일 callback
+    		setAttachFileInfo = function(attcFilList) {
+
+               /* if(attcFilList.length > 1 ){
+            	   alert("첨부파일은 한개만 가능합니다.");
+            	   return;
+               }else{
+    	           $('#atthcFilVw').html('');
+               } */
+
+               /* for(var i = 0; i < attcFilList.length; i++) {
+                   $('#atthcFilVw').append($('<a/>', {
+                       href: 'javascript:downloadAttcFil("' + attcFilList[i].data.attcFilId + '", "' + attcFilList[i].data.seq + '")',
+                       text: attcFilList[i].data.filNm
+                   })).append('<br/>');
+               document.aform.attcFilId.value = attcFilList[i].data.attcFilId;
+               dataSet.setNameValue(0, "attcFilId",  document.aform.attcFilId.value);
+               } */
+           	};
+          	//첨부파일 다운로드
+            downloadMnalFil = function(attId, seq){
+     	       var param = "?attcFilId=" + attId + "&seq=" + seq;
+     	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
+     	       	document.aform.submit();
+         	    /*var param = "?attcFilId="+ attId+"&seq="+seq;
+     			Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
+     			Rui.get('imgDialTitle').html('기기이미지');
+     			imageDialog.clearInvalid();
+     			imageDialog.show(true);*/
+
+            }
 
     	    /* 유효성 검사 */
     	    isValidate = function(type) {
@@ -983,7 +1207,17 @@
    					</tbody>
    				</table>
    				</div>
-
+   				<div id="rlabRqprOpinitionDiv">
+   				<div class="titArea">
+   					<div class="LblockButton">
+   						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="opinitionSave()">추가</button>
+   						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="opinitionUpdate()">수정</button>
+   						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goRlabRqprList()">목록</button>
+   					</div>
+   				</div>
+   				<div id="rlabRqprOpinitionGrid"></div>
+   				<br/>
+   				</div>
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
     </body>

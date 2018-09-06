@@ -427,6 +427,7 @@
 				   ,dbo.fn_getUserName(RGST_ID)			  as rgstNm
 				   ,Convert(varchar(10), RGST_DT, 120)	  as rgstDt
 				   ,OPI_SBC								  as opiSbc
+				   ,ATTC_FIL_ID	                          as attcFilId
 			from	iris_rlab_rqpr_opi
 			where	rqpr_id = ${rqprId}
 			and		del_yn = 'N'
@@ -440,11 +441,13 @@
 		USING ( SELECT	${opiId} as opiId,
 						${rqprId} as rqprId,
 						#{opiSbc} as opiSbc,
+						#{attcFilId} as attcFilId,
 						#{_userId} as userId ) b
 		ON ( a.opi_id = b.opiId)
 		WHEN MATCHED THEN
 			update set	rgst_dt = getdate(),
 						opi_sbc = b.opiSbc,
+						attc_fil_id = b.attcFilId,
 						last_mdfy_dt = getdate(),
 						last_mdfy_id = b.userId
 		WHEN NOT MATCHED THEN
@@ -452,6 +455,7 @@
 				   ,rgst_id
 				   ,rgst_dt
 				   ,opi_sbc
+				   ,attc_fil_id
 				   ,frst_rgst_id
 				   ,last_mdfy_id
 				   )
@@ -459,6 +463,7 @@
 				  ,b.userId
 				  ,getdate()
 				  ,b.opiSbc
+				  ,b.attcFilId
 				  ,b.userId
 				  ,b.userId
 				  );
