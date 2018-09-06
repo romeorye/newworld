@@ -46,8 +46,8 @@
         <if test="acpcNo != null and acpcNo != ''">
 			AND ACPC_NO like '${acpcNo}%'
 		</if>
-        <if test="acpcStCd != null and acpcStCd != ''">
-			AND ACPC_ST_CD = #{acpcStCd}
+        <if test="rlabAcpcStCd != null and rlabAcpcStCd != ''">
+			AND RLAB_ACPC_ST_CD = #{rlabAcpcStCd}
 		</if>
 		<if test="rlabChrgId != null and rlabChrgId != ''">
 			AND RLAB_CHRG_ID = #{rlabChrgId}
@@ -119,7 +119,7 @@
 				SMPO_TRTM_CD										AS smpoTrtmCd,
 				dbo.fn_getComDtlNm('SMPO_TRTM_CD', SMPO_TRTM_CD)	AS smpoTrtmNm,
 				RLAB_SBC											AS rlabSbc,
-				ACPC_ST_CD											AS acpcStCd,
+				RLAB_ACPC_ST_CD										AS rlabAcpcStCd,
 				dbo.fn_getComDtlNm('ACPC_ST_CD', ACPC_ST_CD)		AS acpcStNm,
 				RQPR_RDCS_DT										AS rqprRdcsDt,
 				ACPC_GVB_DT											AS acpcGvbDt,
@@ -242,8 +242,8 @@
 				rlab_chrg_id = #{rlabChrgId},
 				smpo_trtm_cd = #{smpoTrtmCd},
 				rlab_sbc = #{rlabSbc},
-				acpc_st_cd = #{acpcStCd},
-			<if test="acpcNo == '' and acpcStCd == '03'">
+				acpc_st_cd = #{rlabAcpcStCd},
+			<if test="acpcNo == '' and rlabAcpcStCd == '03'">
 				acpc_no = (select 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4)
 						   from   iris_rlab_rqpr_mst
 						   where  acpc_no like 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '%'),
@@ -260,12 +260,12 @@
 	<update id="updateRlabRqprAcpcStCd">
 -- updateRlabRqprAcpcStCd
 		update	iris_rlab_rqpr_mst
-		set		acpc_st_cd = #{acpcStCd},
-		<if test="acpcStCd == '04'">
+		set		RLAB_ACPC_ST_CD = #{rlabAcpcStCd},
+		<if test="rlabAcpcStCd == '04'">
 				rlab_gvb_dt = Convert(varchar(10), Current_Timestamp, 120),
 				rlab_gvb_rson = #{rson},
 		</if>
-		<if test="acpcStCd == '05'">
+		<if test="rlabAcpcStCd == '05'">
 				rlab_dcac_dt = Convert(varchar(10), Current_Timestamp, 120),
 				rlab_dcac_rson = #{rson},
 		</if>
@@ -585,7 +585,7 @@
 			 FROM EXAT_MST EM
 				,IRIS_RLAB_RQPR_EXAT ARE
 		 ]]>
-			 WHERE	EM.EXAT_CD_L = 4
+			 WHERE	EM.EXAT_CD_L = 2
 			 AND	ARE.DEL_YN = 'N'
 			 AND	EM.EXAT_CD = ARE.EXAT_CD
 			 AND	ARE.RQPR_ID = ${rqprId}
