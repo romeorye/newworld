@@ -654,20 +654,20 @@
 			ORDER BY sort
 	</select>
 
-	<select id="getSpaceExprDtlComboList" resultType="hashmap">
+	<select id="getSpaceExatDtlComboList" resultType="hashmap">
 		<![CDATA[
 			-- getSpaceExprDtlComboList 실험정보 상세 콤보 리스트 조회
 			select	MCHN_INFO_ID							as mchnInfoId
 				   ,dbo.fn_getMchnInfoEnName(MCHN_INFO_ID)	as mchnInfoNm
-			from	iris_space_expr_dtl
+			from	iris_space_exat_dtl
 		 ]]>
-			where	expr_cd = ${exprCd}
+			where	exat_cd = ${exatCd}
 			and		del_yn = 'N'
 	</select>
 
-	<select id="getSpaceRqprExprList" resultType="hashmap">
+	<select id="getSpaceRqprExatList" resultType="hashmap">
 		<![CDATA[
-			-- getSpaceRqprExprList 분석결과 실험정보 리스트 조회
+			-- getSpaceRqprExatList 분석결과 실험정보 리스트 조회
 			WITH EXAT_MST AS
 			(
 			SELECT   AEM.EXAT_CD
@@ -695,102 +695,103 @@
 					,ARE.EXAT_STRT_DT                           as exatStrtDt  --평가시작일자
 					,ARE.EXAT_FNH_DT                            as exatFnhDt   --평가종료일자
 					,ARE.EXAT_WAY                               as exatWay     --평가방법
-					,EM.master_path								as exprNm
+					,EM.master_path								as exatNm
 					,dbo.fn_getMchnInfoName(ARE.MCHN_INFO_ID)	as mchnInfoNm
 			FROM EXAT_MST EM
 				,IRIS_SPACE_RQPR_EXAT ARE
 		]]>
-			WHERE	EM.EXAT_CD_L = 4
+			WHERE	EM.EXAT_CD_L = 2
 			AND	ARE.DEL_YN = 'N'
 			AND	EM.EXAT_CD = ARE.EXAT_CD
 			AND	ARE.RQPR_ID = ${rqprId}
 			ORDER by RQPR_EXAT_ID
 	</select>
 
-	<select id="getSpaceRqprExprInfo" resultType="hashmap">
+	<select id="getSpaceRqprExatInfo" resultType="hashmap">
 		<![CDATA[
-			-- getSpaceRqprExprInfo 분석결과 실험정보 조회
-			select	RQPR_EXPR_ID	   as rqprExprId
+			-- getSpaceRqprExatInfo 분석결과 실험정보 조회
+			SELECT	RQPR_EXAT_ID	   as rqprExatId
 				   ,RQPR_ID			   as rqprId
-				   ,SMPO_QTY		   as smpoQty
-				   ,EXPR_QTY		   as exprQty
-				   ,EXPR_CD			   as exprCd
 				   ,MCHN_INFO_ID	   as mchnInfoId
-				   ,EXPR_TIM		   as exprTim
-				   ,EXPR_EXP		   as exprExp
-				   ,EXPR_STRT_DT	   as exprStrtDt
-				   ,EXPR_FNH_DT		   as exprFnhDt
-				   ,EXPR_WAY		   as exprWay
-			from	iris_space_rqpr_exat
+				   ,EXAT_CASE_QTY	   as exatCaseQty
+				   ,EXAT_MDUL          as exatMdul
+				   ,EXAT_CD			   as exatCd
+				   ,MCHN_INFO_ID	   as mchnInfoId
+				   ,EXAT_DCT		   as exatDct
+				   ,EXAT_EXP		   as exatExp
+				   ,EXAT_STRT_DT	   as exatStrtDt
+				   ,EXAT_FNH_DT		   as exatFnhDt
+				   ,EXAT_WAY		   as exatWay
+			FROM	IRIS_SPACE_RQPR_EXAT
 		 ]]>
-			where	rqpr_expr_id = ${rqprExprId}
+			WHERE	RQPR_EXAT_ID = ${rqprExatId}
 	</select>
 
-	<insert id="saveSpaceRqprExpr" parameterType="map">
-	-- saveSpaceRqprExpr
-		MERGE INTO iris_space_rqpr_expr a
-		USING ( SELECT	#{rqprExprId} as rqprExprId,
-						#{rqprId} as rqprId,
-						#{exprCd} as exprCd,
-						#{mchnInfoId} as mchnInfoId,
-						#{smpoQty} as smpoQty,
-						#{exprQty} as exprQty,
-						#{exprTim} as exprTim,
-						#{exprExp} as exprExp,
-						#{exprStrtDt} as exprStrtDt,
-						#{exprFnhDt} as exprFnhDt,
-						#{exprWay} as exprWay,
-						#{userId} as userId ) b
-		ON ( a.rqpr_expr_id = b.rqprExprId)
+	<insert id="saveSpaceRqprExat" parameterType="map">
+		/* saveSpaceRqprExat 실험정보 저장 */
+		MERGE INTO IRIS_SPACE_RQPR_EXAT a
+		USING ( SELECT	#{rqprExatId} as rqprExatId,	 --분석평가ID
+						#{rqprId} as rqprId,             --의뢰ID
+						#{exatCd} as exatCd,             --평가코드
+						#{exatMdul} as exatMdul,         --평가모듈
+						#{mchnInfoId} as mchnInfoId,     --툴 정보 ID
+						#{exatCaseQty} as exatCaseQty,   --평가케이스 수
+						#{exatDct} as exatDct,           --평가일수
+						#{exatExp} as exatExp,           --평가비용
+						#{exatStrtDt} as exatStrtDt,     --평가시작일자
+						#{exatFnhDt} as exatFnhDt,       --평가종료일자
+						#{exatWay} as exatWay,           --평가방법
+						#{userId} as userId ) b          --작성자
+		ON ( a.rqpr_exat_id = b.rqprExatId)
 		WHEN MATCHED THEN
-			update set	expr_cd = b.exprCd,
+			update set	exat_cd = b.exatCd,
+						exat_Mdul = b.exatMdul,
 						mchn_info_id = b.mchnInfoId,
-						smpo_qty = b.smpoQty,
-						expr_qty = b.exprQty,
-						expr_tim = b.exprTim,
-						expr_exp = b.exprExp,
-						expr_strt_dt = b.exprStrtDt,
-						expr_fnh_dt = b.exprFnhDt,
-						expr_way = b.exprWay,
+						exat_case_qty = b.exatCaseQty,
+						exat_dct = b.exatDct,
+						exat_exp = b.exatExp,
+						exat_strt_dt = b.exatStrtDt,
+						exat_fnh_dt = b.exatFnhDt,
+						exat_way = b.exatWay,
 						last_mdfy_dt = getdate(),
 						last_mdfy_id = b.userId
 		WHEN NOT MATCHED THEN
 			insert (rqpr_id
-				   ,expr_cd
+				   ,exat_cd
+				   ,exat_Mdul
 				   ,mchn_info_id
-				   ,smpo_qty
-				   ,expr_qty
-				   ,expr_tim
-				   ,expr_exp
-				   ,expr_strt_dt
-				   ,expr_fnh_dt
-				   ,expr_way
+				   ,exat_case_qty
+				   ,exat_dct
+				   ,exat_exp
+				   ,exat_strt_dt
+				   ,exat_fnh_dt
+				   ,exat_way
 				   ,frst_rgst_id
 				   ,last_mdfy_id
 				   )
 			values(b.rqprId
-				  ,b.exprCd
+				  ,b.exatCd
+				  ,b.exatMdul
 				  ,b.mchnInfoId
-				  ,b.smpoQty
-				  ,b.exprQty
-				  ,b.exprTim
-				  ,b.exprExp
-				  ,b.exprStrtDt
-				  ,b.exprFnhDt
-				  ,b.exprWay
+				  ,b.exatCaseQty
+				  ,b.exatDct
+				  ,b.exatExp
+				  ,b.exatStrtDt
+				  ,b.exatFnhDt
+				  ,b.exatWay
 				  ,b.userId
 				  ,b.userId
 				  );
 
 	</insert>
 
-	<update id="updateSpaceRqprExprDelYn" parameterType="map">
-	-- updateSpaceRqprExprDelYn
-		update	iris_space_rqpr_expr
+	<update id="updateSpaceRqprExatDelYn" parameterType="map">
+	/* updateSpaceRqprExatDelYn 실험정보 삭제*/
+		update	iris_space_rqpr_exat
 		set		del_yn = 'Y',
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId}
-		where	rqpr_expr_id = ${rqprExprId}
+		where	rqpr_exat_id = ${rqprExatId}
 
 	</update>
 
@@ -1002,7 +1003,7 @@
 	<select id="getExprWay" resultType="String">
 		<![CDATA[
 			-- getExprWay 개발방법 조회
-		SELECT EXPR_WAY as exprWay
+		SELECT EXPR_WAY as exatWay
 		FROM  IRIS_SPACE_RQPR_EXPR
 		WHERE   RQPR_EXPR_ID = ${rqprExprId}
 		AND     RQPR_ID = #{rqprId}
@@ -1018,17 +1019,6 @@
 		AND    OPI_ID =  #{opiId}
 		]]>
 	</select>
-
-
-
-
-
-
-
-
-
-
-
 
 	<select id="getSpaceRqprBzdvList" resultType="hashmap">
 		<![CDATA[

@@ -522,23 +522,23 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 	}
 
 	/* 실험정보 상세 콤보 리스트 조회 */
-	public List<Map<String, Object>> getSpaceExprDtlComboList(Map<String, Object> input) {
-		return commonDao.selectList("space.rqpr.getSpaceExprDtlComboList", input);
+	public List<Map<String, Object>> getSpaceExatDtlComboList(Map<String, Object> input) {
+		return commonDao.selectList("space.rqpr.getSpaceExatDtlComboList", input);
 	}
 
 	/* 평가결과 실험정보 리스트 조회 */
-	public List<Map<String, Object>> getSpaceRqprExprList(Map<String, Object> input) {
-		return commonDao.selectList("space.rqpr.getSpaceRqprExprList", input);
+	public List<Map<String, Object>> getSpaceRqprExatList(Map<String, Object> input) {
+		return commonDao.selectList("space.rqpr.getSpaceRqprExatList", input);
 	}
 
 	/* 평가결과 실험정보 조회 */
-	public Map<String, Object> getSpaceRqprExprInfo(Map<String, Object> input) {
-		return commonDao.select("space.rqpr.getSpaceRqprExprInfo", input);
+	public Map<String, Object> getSpaceRqprExatInfo(Map<String, Object> input) {
+		return commonDao.select("space.rqpr.getSpaceRqprExatInfo", input);
 	}
 
 	/* 평가결과 실험정보 저장 */
-	public boolean saveSpaceRqprExpr(Map<String, Object> dataMap) throws Exception {
-    	if(commonDao.insert("space.rqpr.saveSpaceRqprExpr", dataMap) == 1) {
+	public boolean saveSpaceRqprExat(Map<String, Object> dataMap) throws Exception {
+    	if(commonDao.insert("space.rqpr.saveSpaceRqprExat", dataMap) == 1) {
         	return true;
     	} else {
     		throw new Exception("평가결과 실험정보 저장 오류");
@@ -546,8 +546,8 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 	}
 
 	/* 평가결과 실험정보 삭제 */
-	public boolean deleteSpaceRqprExpr(List<Map<String, Object>> list) throws Exception {
-    	if(commonDao.batchUpdate("space.rqpr.updateSpaceRqprExprDelYn", list) == list.size()) {
+	public boolean deleteSpaceRqprExat(List<Map<String, Object>> list) throws Exception {
+    	if(commonDao.batchUpdate("space.rqpr.updateSpaceRqprExatDelYn", list) == list.size()) {
         	return true;
     	} else {
     		throw new Exception("평가결과 실험정보 삭제 오류");
@@ -562,7 +562,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
         		String serverUrl = "http://" + configService.getString("defaultUrl") + ":" + configService.getString("serverPort") + "/" + configService.getString("contextPath");
     			StringBuffer sb = new StringBuffer();
     			Map<String,Object> spaceRqprInfo = commonDao.select("space.rqpr.getSpaceRqprInfo", dataMap);
-    			List<Map<String,Object>> spaceRqprExprList = commonDao.selectList("space.rqpr.getSpaceRqprExprList", dataMap);
+    			List<Map<String,Object>> spaceRqprExatList = commonDao.selectList("space.rqpr.getSpaceRqprExatList", dataMap);
     			List<Map<String,Object>> spaceRqprSmpoList = commonDao.selectList("space.rqpr.getSpaceRqprSmpoList", dataMap);
     			List<Map<String,Object>> spaceRqprRltdList = commonDao.selectList("space.rqpr.getSpaceRqprRltdList", dataMap);
 
@@ -578,7 +578,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     			spaceRqprInfo.put("spaceSbc", ((String)spaceRqprInfo.get("spaceSbc")).replaceAll("\n", "<br/>"));
     			spaceRqprInfo.put("spaceRsltSbc", ((String)spaceRqprInfo.get("spaceRsltSbc")).replaceAll("\n", "<br/>"));
 
-    			for(Map<String, Object> data : spaceRqprExprList) {
+    			for(Map<String, Object> data : spaceRqprExatList) {
     				sb.append("<tr>")
     				  .append("<td>").append(data.get("exprNm")).append("</td>")
     				  .append("<td>").append(data.get("smpoQty")).append("</td>")
@@ -587,7 +587,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     				  .append("</tr>");
     			}
 
-    			spaceRqprInfo.put("spaceRqprExprList", sb.toString());
+    			spaceRqprInfo.put("spaceRqprExatList", sb.toString());
 
     			sb.delete(0, sb.length());
 

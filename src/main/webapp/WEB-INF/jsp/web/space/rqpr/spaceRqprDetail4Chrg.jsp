@@ -375,7 +375,8 @@
 					, { id: 'spaceRqprInfmView' } //통보자 명
 					, { id: 'rqprAttcFileId', defaultValue: '' }
 					, { id: 'acpcStCd'		}
-
+					, { id: 'spaceRsltSbc'	}
+					, { id: 'rsltAttcFileId', defaultValue: '' }
                 ]
             });
 
@@ -410,7 +411,7 @@
 
             /* 의뢰정보 데이터 바인드 */
             bind = new Rui.data.LBind({
-                groupId: 'aform',
+                groupId: 'spaceRqprInfoDiv',
                 dataSet: spaceRqprDataSet,
                 bind: true,
                 bindInfo: [
@@ -931,11 +932,11 @@
 
 
     	    /* 평가결과 */
-    	    var spaceSbc = new Rui.ui.form.LTextArea({
+    	    var spaceRsltSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'spaceRsltSbc',
-                emptyValue: '',
+                emptyValue: '분석결과 내용을 입력해주세요.',
                 width: 980,
-                height: 75
+                height: 175
             });
 
     	    /* 실험정보 */
@@ -944,13 +945,13 @@
                 remainRemoved: false,
                 lazyLoad: true,
                 fields: [
-                	  { id: 'rqprEvId', type: 'number' }
+                	  { id: 'rqprExatId', type: 'number' }
                 	, { id: 'rqprId', type: 'number' }
-					, { id: 'evNm' }
-					, { id: 'evQty' }
-					, { id: 'evDct' }
-					, { id: 'evExp' }
-					, { id: 'evWay' }
+					, { id: 'exatNm' }
+					, { id: 'exatCaseQty' }
+					, { id: 'exatDct' }
+					, { id: 'exatExp' }
+					, { id: 'exatWay' }
                 ]
             });
 
@@ -959,13 +960,13 @@
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'evNm',		label: '평가 실험명',	sortable: false,	align:'left',	width: 400 }
-                    , { field: 'evQty',		label: '평가수',		sortable: false,	align:'center',	width: 70 }
-                    , { field: 'evDct',		label: '평가일',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'evExp',		label: '수가',		sortable: false,	align:'center',	width: 100, renderer: function(val, p, record, row, col) {
+                    , { field: 'exatNm',		label: '평가 실험명',		sortable: false,	align:'left',	width: 380 }
+                    , { field: 'exatCaseQty',	label: '평가케이스수',	sortable: false,	align:'center',	width: 100 }
+                    , { field: 'exatDct',		label: '평가일수',		sortable: false,	align:'center',	width: 80 }
+                    , { field: 'exatExp',		label: '수가',			sortable: false,	align:'center',	width: 100, renderer: function(val, p, record, row, col) {
                     	return Rui.util.LNumber.toMoney(val, '') + '원';
                       } }
-                    , { field: 'evWay',		label: '평가방법',	sortable: false,	align:'left',	width: 430 }
+                    , { field: 'exatWay',		label: '평가방법',		sortable: false,	align:'left',	width: 430 }
                 ]
             });
 
@@ -985,16 +986,16 @@
                 if (spaceRqprDataSet.getNameValue(0, 'acpcStCd') != '03') {
                     //alert('평가진행 상태일때만 실험결과를 수정 할 수 있습니다.');
                     //return false;
-                    openExprWayDialog(spaceRqprExatDataSet.getNameValue(e.row, 'rqprExprId'));
+                    openExprWayDialog(spaceRqprExatDataSet.getNameValue(e.row, 'rqprExatId'));
                 }else{
-	            	openSpaceRqprExatRsltDialog(getSpaceRqprExatList, spaceRqprExatDataSet.getNameValue(e.row, 'rqprExprId'));
+	            	openSpaceRqprExatRsltDialog(getSpaceRqprExatList, spaceRqprExatDataSet.getNameValue(e.row, 'rqprExatId'));
                 }
             });
 
             spaceRqprExatGrid.render('spaceRqprExatGrid');
 
-            openExprWayDialog = function(rqprExprId) {
-    	    	exprWayDialog.setUrl('<c:url value="/space/exprWayPopup.do?rqprId="/>' + spaceRqprDataSet.getNameValue(0, 'rqprId') + '&rqprExprId=' + rqprExprId);
+            openExprWayDialog = function(rqprExatId) {
+    	    	exprWayDialog.setUrl('<c:url value="/space/exprWayPopup.do?rqprId="/>' + spaceRqprDataSet.getNameValue(0, 'rqprId') + '&rqprExatId=' + rqprExatId);
     	    	exprWayDialog.show();
     	    };
 
@@ -1091,10 +1092,10 @@
 
     	    spaceRqprExatRsltDialog.render(document.body);
 
-    	    openSpaceRqprExatRsltDialog = function(f, rqprExprId) {
+    	    openSpaceRqprExatRsltDialog = function(f, rqprExatId) {
     	    	callback = f;
 
-    	    	spaceRqprExatRsltDialog.setUrl('<c:url value="/space/spaceRqprExatRsltPopup.do?rqprId="/>' + spaceRqprDataSet.getNameValue(0, 'rqprId') + '&rqprExprId=' + rqprExprId);
+    	    	spaceRqprExatRsltDialog.setUrl('<c:url value="/space/spaceRqprExatRsltPopup.do?rqprId="/>' + spaceRqprDataSet.getNameValue(0, 'rqprId') + '&rqprExatId=' + rqprExatId);
     	    	spaceRqprExatRsltDialog.show();
     	    };
     	    // 실험결과 등록/수정 팝업 끝

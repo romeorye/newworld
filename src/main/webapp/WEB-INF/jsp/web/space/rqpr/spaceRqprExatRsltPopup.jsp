@@ -88,8 +88,6 @@
             dm.on('success', function(e) {
                 var data = parent.spaceRqprDataSet.getReadData(e);
 
-                alert(data.records[0].resultMsg);
-
                 if(data.records[0].resultYn == 'Y') {
                 	parent.callback();
 
@@ -103,9 +101,18 @@
                 }
             });
 
-            var smpoQty = new Rui.ui.form.LNumberBox({
-            	applyTo: 'smpoQty',
-                placeholder: '실험수를 입력해주세요.',
+
+            var exatMdul = new Rui.ui.form.LTextBox({
+            	applyTo: 'exatMdul',
+                placeholder: 'Sketch up, TRENFLOW(직접입력) ',
+                defaultValue: '',
+                emptyValue: '',
+                width: 310
+            });
+
+            var exatCaseQty = new Rui.ui.form.LNumberBox({
+            	applyTo: 'exatCaseQty',
+                placeholder: '평가케이스 수를 입력해주세요.',
                 defaultValue: '',
                 emptyValue: '',
                 minValue: 0,
@@ -114,13 +121,9 @@
                 width: 310
             });
 
-            smpoQty.on('blur', function(e) {
-                setExatExp();
-            });
-
-            var exatQty = new Rui.ui.form.LNumberBox({
-            	applyTo: 'exatQty',
-                placeholder: '가동횟수를 입력해주세요.',
+            var exatDct = new Rui.ui.form.LNumberBox({
+            	applyTo: 'exatDct',
+                placeholder: '평가일수을 입력해주세요.',
                 defaultValue: '',
                 emptyValue: '',
                 minValue: 0,
@@ -129,22 +132,11 @@
                 width: 310
             });
 
-            var exatTim = new Rui.ui.form.LNumberBox({
-            	applyTo: 'exatTim',
-                placeholder: '실험시간을 입력해주세요.',
-                defaultValue: '',
-                emptyValue: '',
-                minValue: 0,
-                maxValue: 99999,
-                decimalPrecision: 1,
-                width: 310
-            });
-
-            exatTim.on('blur', function(e) {
-            	if(exatTim.getValue() % 0.5) {
-            		alert('0.5시간 단위로 입력해주세요.');
+            exatDct.on('blur', function(e) {
+            	if(exatDct.getValue() % 1) {
+            		alert('1일 단위로 입력해주세요.');
+            		return;
             	}
-
             	setExatExp();
             });
 
@@ -194,7 +186,7 @@
 
             var exatWay = new Rui.ui.form.LTextArea({
                 applyTo: 'exatWay',
-                placeholder: '실험방법을 입력해주세요.',
+                placeholder: '평가방법을 입력해주세요.',
                 emptyValue: '',
                 width: 300,
                 height: 95
@@ -219,19 +211,8 @@
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'mchnInfoId',			validExp: '분석기기:true' },
-                { id: 'smpoQty',			validExp: '실험수:true:number' },
-                { id: 'exatQty',			validExp: '가동횟수:true:number' },
-                { id: 'exatStrtDt',			validExp: '실험기간:true:date=YYYY-MM-DD' },
-                { id: 'exatFnhDt',			validExp: '실험기간:true:date=YYYY-MM-DD' },
-                { id: 'exatWay',			validExp: '실험방법:true:maxByteLength=4000' }
-                ]
-            });
-
-            var vm2 = new Rui.validate.LValidatorManager({
-                validators:[
-                { id: 'mchnInfoId',			validExp: '분석기기:true' },
-                { id: 'exatQty',			validExp: '가동횟수:true:number' },
-                { id: 'exatTim',			validExp: '실험시간:true:number' },
+                { id: 'exatDct',			validExp: '평가일자:true:number' },
+                { id: 'exatCaseQty',		validExp: '평가케이스수:true:number' },
                 { id: 'exatStrtDt',			validExp: '실험기간:true:date=YYYY-MM-DD' },
                 { id: 'exatFnhDt',			validExp: '실험기간:true:date=YYYY-MM-DD' },
                 { id: 'exatWay',			validExp: '실험방법:true:maxByteLength=4000' }
@@ -250,8 +231,8 @@
                     , { id: 'exatCdL', type: 'number' }
                     , { id: 'utmExp', type: 'number' }
                     , { id: 'expCrtnScnCd' }
-                    , { id: 'utmSmpoQty', type: 'number' }
-                    , { id: 'utmExatTim', type: 'number' }
+                    , { id: 'utmSmpoQty', type: 'number' }	//단위평가수량
+                    , { id: 'utmExatTim', type: 'number' } //평가일수
                     , { id: 'dspNo', type: 'number' }
                 ]
             });
@@ -273,9 +254,9 @@
             });
 
             spaceRqprExatTreeView.on('focusChanged', function(e) {
+
             	var treeRecord = e.newNode.getRecord();
-            	//alert(treeRecord.get('exatCd'));
-            	if(treeRecord.get('exatCdL') < 4) {
+            	if(treeRecord.get('exatCdL') < 2) {
             		return;
             	}
 
@@ -283,18 +264,6 @@
 
             	spaceRqprExatDataSet.setNameValue(0, 'exatCd', exatCd);
             	spaceRqprExatDataSet.setNameValue(0, 'exatNm', treeRecord.get('path'));
-        		//spaceRqprExatDataSet.setNameValue(0, 'sopNo', treeRecord.get('sopNo'));
-
-//             	if(treeRecord.get('expCrtnScnCd') == '1') {
-//             		smpoQty.setEditable(true);
-//             		exatTim.setEditable(false);
-//             		exatTim.setValue(null);
-//             	} else {
-//             		smpoQty.setEditable(false);
-//             		exatTim.setEditable(true);
-//             		smpoQty.setValue(null);
-//             	}
-
         		setExatExp();
 
             	mchnInfoId.setValue('');
@@ -306,6 +275,7 @@
 
             spaceRqprExatTreeView.render('spaceRqprExatTreeView');
 
+            /*수가 계산*/
             setExatExp = function() {
             	var row = spaceRqprExatMstTreeDataSet.getRow();
 
@@ -317,22 +287,10 @@
             	var exatRecord = spaceRqprExatDataSet.getAt(0);
 
             	if(treeRecord.get('expCrtnScnCd') == '1') {
-            		var smpoQty = exatRecord.get('smpoQty');
+            		var exatDct = exatRecord.get('exatDct');
 
-            		if(Rui.isNumber(smpoQty)) {
-            			var exatExp = treeRecord.get('utmExp') * smpoQty;
-
-            			exatRecord.set('exatExp', exatExp);
-            			exatRecord.set('exatExpView', Rui.util.LNumber.toMoney(exatExp, '') + '원');
-            		} else {
-            			exatRecord.set('exatExp', null);
-            			exatRecord.set('exatExpView', null);
-            		}
-            	} else {
-            		var exatTim = exatRecord.get('exatTim') / treeRecord.get('utmExatTim');
-
-            		if(exatTim > 0) {
-            			var exatExp = treeRecord.get('utmExp') * exatTim;
+            		if(Rui.isNumber(exatDct)) {
+            			var exatExp = treeRecord.get('utmExp') * exatDct;
 
             			exatRecord.set('exatExp', exatExp);
             			exatRecord.set('exatExpView', Rui.util.LNumber.toMoney(exatExp, '') + '원');
@@ -352,11 +310,10 @@
                 	, { id: 'rqprId', type: 'number', defaultValue: ${inputData.rqprId} }
 					, { id: 'exatCd' }
 					, { id: 'exatNm' }
-					//, { id: 'sopNo' }
+					, { id: 'exatMdul' }
 					, { id: 'mchnInfoId' }
-					, { id: 'smpoQty', type: 'number' }
-					, { id: 'exatQty', type: 'number' }
-					, { id: 'exatTim', type: 'number' }
+					, { id: 'exatCaseQty', type: 'number' }
+					, { id: 'exatDct', type: 'number' }
 					, { id: 'exatExp' }
 					, { id: 'exatExpView' }
 					, { id: 'exatStrtDt' }
@@ -366,6 +323,7 @@
             });
 
             spaceRqprExatDataSet.on('load', function(e) {
+            	//alert( spaceRqprExatDataSet.getNameValue(0, 'rqprExatId') );
             	if(Rui.isNumber(spaceRqprExatDataSet.getNameValue(0, 'rqprExatId'))) {
             		spaceRqprExatTreeView.setFocusById(spaceRqprExatDataSet.getNameValue(0, 'exatCd'));
             	} else {
@@ -380,11 +338,10 @@
                 bind: true,
                 bindInfo: [
                     { id: 'exatNm',				ctrlId:'exatNm',			value:'html'},
-                    //{ id: 'sopNo',				ctrlId:'sopNo',				value:'html'},
+                    { id: 'exatMdul',			ctrlId:'exatMdul',			value:'value'},
                     { id: 'mchnInfoId',			ctrlId:'mchnInfoId',		value:'value'},
-                    { id: 'smpoQty',			ctrlId:'smpoQty',			value:'value'},
-                    { id: 'exatQty',			ctrlId:'exatQty',			value:'value'},
-                    { id: 'exatTim',			ctrlId:'exatTim',			value:'value'},
+                    { id: 'exatCaseQty',		ctrlId:'exatCaseQty',		value:'value'},
+                    { id: 'exatDct',			ctrlId:'exatDct',			value:'value'},
                     { id: 'exatExpView',		ctrlId:'exatExpView',		value:'html'},
                     { id: 'exatStrtDt',			ctrlId:'exatStrtDt',		value:'value'},
                     { id: 'exatFnhDt',			ctrlId:'exatFnhDt',			value:'value'},
@@ -453,20 +410,20 @@
 			   							<td><span id="exatNm"/></td>
 			   						</tr>
 			   						<tr>
-			   							<th align="right">분석기기</th>
+			   							<th align="right">평가TOOL</th>
 			   							<td><div id="mchnInfoId"></div></td>
 			   						</tr>
 			   						<tr>
-			   							<th align="right">실험수</th>
-			   							<td><input type="text" id="smpoQty"></td>
+			   							<th align="right">평가모듈</th>
+			   							<td><input type="text" id="exatMdul"></td>
 			   						</tr>
 			   						<tr>
-			   							<th align="right">가동횟수</th>
-			   							<td><input type="text" id="exatQty"></td>
+			   							<th align="right">평가<br/>케이스수</th>
+			   							<td><input type="text" id="exatCaseQty"></td>
 			   						</tr>
 			   						<tr>
-			   							<th align="right">실험시간</th>
-			   							<td><input type="text" id="exatTim"></td>
+			   							<th align="right">평가일수</th>
+			   							<td><input type="text" id="exatDct"></td>
 			   						</tr>
 			   						<tr>
 			   							<th align="right">실험수가</th>
@@ -480,7 +437,7 @@
 			   							</td>
 			   						</tr>
 			   						<tr>
-			   							<th align="right">실험방법</th>
+			   							<th align="right">평가방법</th>
 			   							<td>
 			   								<textarea id="exatWay"></textarea>
 			   							</td>

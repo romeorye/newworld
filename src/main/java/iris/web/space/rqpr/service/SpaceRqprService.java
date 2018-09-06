@@ -71,19 +71,19 @@ public interface SpaceRqprService {
 	public List<Map<String, Object>> getSpaceExatTreeList(Map<String, Object> input);
 
 	/* 실험정보 상세 콤보 리스트 조회 */
-	public List<Map<String, Object>> getSpaceExprDtlComboList(Map<String, Object> input);
+	public List<Map<String, Object>> getSpaceExatDtlComboList(Map<String, Object> input);
 
 	/* 평가결과 실험정보 리스트 조회 */
-	public List<Map<String, Object>> getSpaceRqprExprList(Map<String, Object> input);
+	public List<Map<String, Object>> getSpaceRqprExatList(Map<String, Object> input);
 
 	/* 평가결과 실험정보 조회 */
-	public Map<String, Object> getSpaceRqprExprInfo(Map<String, Object> input);
+	public Map<String, Object> getSpaceRqprExatInfo(Map<String, Object> input);
 
 	/* 평가결과 실험정보 저장 */
-	public boolean saveSpaceRqprExpr(Map<String, Object> dataMap) throws Exception;
+	public boolean saveSpaceRqprExat(Map<String, Object> dataMap) throws Exception;
 
 	/* 평가결과 실험정보 삭제 */
-	public boolean deleteSpaceRqprExpr(List<Map<String, Object>> list) throws Exception;
+	public boolean deleteSpaceRqprExat(List<Map<String, Object>> list) throws Exception;
 
 	/* 평가결과 저장 */
 	public boolean saveSpaceRqprRslt(Map<String, Object> dataMap) throws Exception;
