@@ -85,6 +85,14 @@
                 }
             });
 
+    	    /* 평가결과 */
+    	    var spaceRsltSbc = new Rui.ui.form.LTextArea({
+                applyTo: 'spaceRsltSbc',
+                emptyValue: '분석결과 내용을 입력해주세요.',
+                width: 980,
+                height: 175
+            });
+
             var tabView = new Rui.ui.tab.LTabView({
             	height: 1250,
                 tabs: [ {
@@ -929,15 +937,6 @@
         	        })).append('<br/>');
     	    	}
     	    };
-
-
-    	    /* 평가결과 */
-    	    var spaceRsltSbc = new Rui.ui.form.LTextArea({
-                applyTo: 'spaceRsltSbc',
-                emptyValue: '분석결과 내용을 입력해주세요.',
-                width: 980,
-                height: 175
-            });
 
     	    /* 실험정보 */
             var spaceRqprExatDataSet = new Rui.data.LJsonDataSet({
