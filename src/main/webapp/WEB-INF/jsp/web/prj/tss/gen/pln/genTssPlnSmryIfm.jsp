@@ -360,6 +360,13 @@
             nprodSalsPlnY3.setValue(dsNprodSalsPlnY3);
             nprodSalsPlnY4.setValue(dsNprodSalsPlnY4);
 
+
+            Wec0.SetBodyValue( dataSet.getNameValue(0, "smryNTxt") );
+            Wec1.SetBodyValue( dataSet.getNameValue(0, "smryATxt") );
+            Wec2.SetBodyValue( dataSet.getNameValue(0, "smryBTxt") );
+            Wec3.SetBodyValue( dataSet.getNameValue(0, "smryCTxt") );
+            Wec4.SetBodyValue( dataSet.getNameValue(0, "smryDTxt") );
+
 	        fncPtcCpsnYDisable(strDt, endDt);
             setTimeout(function () {
 	            fnGetYAvg("ptc");
@@ -525,6 +532,9 @@
                 if( deliverables == "<P>&nbsp;</P>" || deliverables == "" ) {
                 	frm.Wec4.value = obj.records[0].smryDTxt;
                 }
+
+
+
 /*임시
 
                 frm.smryNTxt.value =  frm.Wec0.MIMEValue;

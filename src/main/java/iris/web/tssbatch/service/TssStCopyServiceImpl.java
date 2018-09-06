@@ -76,27 +76,26 @@ public class TssStCopyServiceImpl implements  TssStCopyService{
         String tssCd = (String) input.get("affrCd");
         String psTssCd = "";
 
-        if("PL".equals(input.get("pgsStepCd"))) {
+        if ("PL".equals(input.get("pgsStepCd"))) {
+            /*******************계획*******************/
             //1. 계획 -> 진행
             String wbsCd = this.createWbsCd(input);
-            if(wbsCd != null) {
-                input.put("pgsStepCd", "PG");
-                input.put("tssSt", "100");
+            if (wbsCd != null) {
+                input.put("pgsStepCd", "PG");   //진행
+                input.put("tssSt", "100");             //진행중
                 input.put("pgTssCd", tssCd);
                 input.put("wbsCd", wbsCd);
 
-                if("G".equals(input.get("tssScnCd"))) { //일반과제
+                if ("G".equals(input.get("tssScnCd"))) { //일반과제
                     this.insertGenData(input);
-                }
-                else  if("O".equals(input.get("tssScnCd"))) {//대외협력과제
+                } else if ("O".equals(input.get("tssScnCd"))) {//대외협력과제
                     this.insertOusdData(input);
-                }
-                else  if("N".equals(input.get("tssScnCd"))) {//국책과제
+                } else if ("N".equals(input.get("tssScnCd"))) {//국책과제
                     this.insertNatData(input);
                 }
             }
-        }
-        else if("AL".equals(input.get("pgsStepCd"))) {
+        } else if ("AL".equals(input.get("pgsStepCd"))) {
+            /*******************변경*******************/
             psTssCd = this.getRetrievePgTss(tssCd);
 
             //변경 데이터 진행에 update
@@ -104,41 +103,37 @@ public class TssStCopyServiceImpl implements  TssStCopyService{
             input.put("pgTssCd", psTssCd);
             input.put("tssCd", tssCd);
 
-            if("G".equals(input.get("tssScnCd"))) { //일반과제
+            if ("G".equals(input.get("tssScnCd"))) { //일반과제
                 this.updateGenData(input);
-            }
-            else  if("O".equals(input.get("tssScnCd"))) {//대외협력과제
+            } else if ("O".equals(input.get("tssScnCd"))) {//대외협력과제
                 this.updateOusdData(input);
-            }
-            else  if("N".equals(input.get("tssScnCd"))) {//국책과제
+            } else if ("N".equals(input.get("tssScnCd"))) {//국책과제
                 this.updateNatData(input);
             }
-            
+
             //변경시 과제리더 업데이트 처리
             String pmisSaSabunNew = "";
             pmisSaSabunNew = commonDao.select("batch.getPmisSaSabunNew", input);
-            
-            if(!"".equals(pmisSaSabunNew)){
-            	input.put("pmisSaSabunNew", pmisSaSabunNew);
-            	commonDao.update("batch.updateTssMstSabunNew", input);
+
+            if (!"".equals(pmisSaSabunNew)) {
+                input.put("pmisSaSabunNew", pmisSaSabunNew);
+                commonDao.update("batch.updateTssMstSabunNew", input);
             }
-        }
-        else if("CM".equals(input.get("pgsStepCd"))) {
-            if("G".equals(input.get("tssScnCd"))) { //일반과제
+        } else if ("CM".equals(input.get("pgsStepCd"))) {
+            /*******************완료*******************/
+            if ("G".equals(input.get("tssScnCd"))) { //일반과제
                 this.updateGenNmData(input);
-            }
-            else if("O".equals(input.get("tssScnCd"))) {//대외협력과제
+            } else if ("O".equals(input.get("tssScnCd"))) {//대외협력과제
                 this.updateOusdNmData(input);
-            }
-            else if("N".equals(input.get("tssScnCd"))) {//국책과제
+            } else if ("N".equals(input.get("tssScnCd"))) {//국책과제
                 this.updateNatNmData(input);
 
                 psTssCd = this.getRetrievePgTss(tssCd);
 
                 String finYn = String.valueOf(input.get("finYn")).trim();
-                if(!"Y".equals(finYn)) {
-                    input.put("pgsStepCd", "PL");
-                    input.put("tssSt", "104");
+                if (!"Y".equals(finYn)) {                       // 최종차수 여부
+                    input.put("pgsStepCd", "PL");       // 계획
+                    input.put("tssSt", "104");                  // 품의완료
                     input.put("pgTssCd", psTssCd);
 
                     int tssNosSt = Integer.parseInt(String.valueOf(input.get("tssNosSt")).trim());
@@ -146,33 +141,31 @@ public class TssStCopyServiceImpl implements  TssStCopyService{
 
                     input.put("batType", "01"); //차수 값 null로 입력
                     this.insertNatData(input);
-                   
+
                     //계획 -> 진행으로 바로 변경
                     input.put("batType", "");
-                    
-                    input.put("pgsStepCd", "PG");
-                    input.put("tssSt", "100");
+
+                    input.put("pgsStepCd", "PG");       // 진행
+                    input.put("tssSt", "100");                  //진행중
                     input.put("pgTssCd", input.get("tssCd"));
 
                     this.insertNatData(input);
                 }
             }
-        }
-        else if("DC".equals(input.get("pgsStepCd"))) {
-            if("G".equals(input.get("tssScnCd"))) { //일반과제
+        } else if ("DC".equals(input.get("pgsStepCd"))) {
+            /*******************중단*******************/
+            if ("G".equals(input.get("tssScnCd"))) { //일반과제
                 this.updateGenNmData(input);
-            }
-            else if("O".equals(input.get("tssScnCd"))) {//대외협력과제
+            } else if ("O".equals(input.get("tssScnCd"))) {//대외협력과제
                 this.updateOusdNmData(input);
-            }
-            else if("N".equals(input.get("tssScnCd"))) {//국책과제
+            } else if ("N".equals(input.get("tssScnCd"))) {//국책과제
                 this.updateNatNmData(input);
             }
         }
-        
+
         //과제 생성시 지적재산권
         this.saveTssPimsInfo(input);
-        
+
         return 0;
     }
 
@@ -472,126 +465,119 @@ public class TssStCopyServiceImpl implements  TssStCopyService{
     public String createWbsCd(Map<String, Object> input) {
         boolean errYn = false;
         String errMsg = "";
-        String errCd  = "";
+        String errCd = "";
         String wbsCdSeq = null;
         String wbsCd = null;
 
         String wbsCdSeqS = null;
-        String tssScnCd  = null;
+        String tssScnCd = null;
 
         HashMap<String, Object> getWbs = commonDao.select("prj.tss.com.getWbsCdStd", input);
 
         int matchSeq = -1;
 
         //상위사업부코드 약어 확인
-        if(getWbs == null || getWbs.size() <= 0) {
-            errYn  = true;
-            errCd  = "E001";
+        if (getWbs == null || getWbs.size() <= 0) {
+            errYn = true;
+            errCd = "E001";
             errMsg = "상위사업부코드 또는 Project약어를 먼저 생성해 주시기 바랍니다.";
         }
         //seq가 max인지 확인
         else {
             wbsCdSeqS = String.valueOf(getWbs.get("wbsCdSeq"));
-            tssScnCd  = String.valueOf(input.get("tssScnCd"));
+            tssScnCd = String.valueOf(input.get("tssScnCd"));
 
-            if(!"".equals(wbsCdSeqS) && null != wbsCdSeqS && !"null".equals(wbsCdSeqS)) {
-                if("G".equals(tssScnCd)) {
-                    if(wbsCdSeqS.charAt(0) >= 78) errYn = true; //78:N
-                }
-                else if("O".equals(tssScnCd)) {
-                    if(wbsCdSeqS.charAt(0) >= 87) errYn = true; //87:W
-                }
-                else if("N".equals(tssScnCd)) {
-                    if(wbsCdSeqS.charAt(0) >= 90) errYn = true; //90:Z
+            if (!"".equals(wbsCdSeqS) && null != wbsCdSeqS && !"null".equals(wbsCdSeqS)) {
+                if ("G".equals(tssScnCd)) {
+                    if (wbsCdSeqS.charAt(0) >= 78) errYn = true; //78:N
+                } else if ("O".equals(tssScnCd)) {
+                    if (wbsCdSeqS.charAt(0) >= 87) errYn = true; //87:W
+                } else if ("N".equals(tssScnCd)) {
+                    if (wbsCdSeqS.charAt(0) >= 90) errYn = true; //90:Z
                 }
 
-                errCd  = "E002";
+                errCd = "E002";
                 errMsg = "과제를 더이상 생성할 수 없습니다. 과제 개수를 확인해 주세요.";
             }
         }
 
 
-        if(errYn) {
-            input.put("btchNm",  "TssStCopy_createWbsCd");
-            input.put("errCd",   errCd);
-            input.put("errMsg",  errMsg);
+        if (errYn) {
+            input.put("btchNm", "TssStCopy_createWbsCd");
+            input.put("errCd", errCd);
+            input.put("errMsg", errMsg);
             input.put("errPath", input.get("affrCd"));
-            input.put("userId",  "Batch");
+            input.put("userId", "Batch");
 
             this.insertErrLog(input);
-        }
-        else {
+        } else {
             //seq가 null일 경우
-            if("".equals(wbsCdSeqS) || null == wbsCdSeqS || "null".equals(wbsCdSeqS)) {
+            if ("".equals(wbsCdSeqS) || null == wbsCdSeqS || "null".equals(wbsCdSeqS)) {
                 matchSeq = 0;
             }
 
             //일반과제
-            if("G".equals(tssScnCd)) {
-                if(matchSeq != 0) {
+            if ("G".equals(tssScnCd)) {
+                if (matchSeq != 0) {
                     //1~9 사이 숫자 비교
-                    for(int i = 1; i <= 9; i++) {
-                        if(String.valueOf(i).equals(wbsCdSeqS)) {
+                    for (int i = 1; i <= 9; i++) {
+                        if (String.valueOf(i).equals(wbsCdSeqS)) {
                             matchSeq = i;
                             break;
                         }
                     }
 
                     //A~N 사이 문자 비교
-                    for(int i = 65; i < 78; i++) {
-                        if(wbsCdSeqS.charAt(0) == i) {
+                    for (int i = 65; i < 78; i++) {
+                        if (wbsCdSeqS.charAt(0) == i) {
                             matchSeq = i;
                             break;
                         }
                     }
                 }
 
-                if(matchSeq < 9) {
+                if (matchSeq < 9) {
                     wbsCdSeq = String.valueOf(matchSeq + 1);
-                }
-                else if(matchSeq == 9) {
+                } else if (matchSeq == 9) {
                     wbsCdSeq = "A";
-                }
-                else {
-                    wbsCdSeq = String.valueOf((char)(matchSeq + 1));
+                } else {
+                    wbsCdSeq = String.valueOf((char) (matchSeq + 1));
                 }
             }
             //대외협력과제
-            else if("O".equals(tssScnCd)) {
+            else if ("O".equals(tssScnCd)) {
                 //O~W 사이 문자 비교
-                if(matchSeq != 0) {
-                    for(int i = 79; i < 87; i++) {
-                        if(wbsCdSeqS.charAt(0) == i) {
+                if (matchSeq != 0) {
+                    for (int i = 79; i < 87; i++) {
+                        if (wbsCdSeqS.charAt(0) == i) {
                             matchSeq = i;
                             break;
                         }
                     }
                 }
 
-                if(matchSeq == 0) {
-                    wbsCdSeq = String.valueOf((char)79);
-                }
-                else {
-                    wbsCdSeq = String.valueOf((char)(matchSeq + 1));
+                if (matchSeq == 0) {
+                    wbsCdSeq = String.valueOf((char) 79);
+                } else {
+                    wbsCdSeq = String.valueOf((char) (matchSeq + 1));
                 }
             }
             //국책과제
-            else if("N".equals(tssScnCd)) {
+            else if ("N".equals(tssScnCd)) {
                 //X,Y,Z 문자 비교
-                if(matchSeq != 0) {
-                    for(int i = 88; i < 90; i++) {
-                        if(wbsCdSeqS.charAt(0) == i) {
+                if (matchSeq != 0) {
+                    for (int i = 88; i < 90; i++) {
+                        if (wbsCdSeqS.charAt(0) == i) {
                             matchSeq = i;
                             break;
                         }
                     }
                 }
 
-                if(matchSeq == 0) {
-                    wbsCdSeq = String.valueOf((char)88);
-                }
-                else {
-                    wbsCdSeq = String.valueOf((char)(matchSeq + 1));
+                if (matchSeq == 0) {
+                    wbsCdSeq = String.valueOf((char) 88);
+                } else {
+                    wbsCdSeq = String.valueOf((char) (matchSeq + 1));
                 }
             }
 

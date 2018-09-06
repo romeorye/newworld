@@ -90,15 +90,6 @@ public class TctmTssServiceImpl implements TctmTssService {
 		input.put("arslYymm",  input.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(yy), 2));
 		commonDao.update("prj.tss.com.updateTssYld", input);
 
-//		String pmisDt = CommonUtil.getMonthSearch_1( CommonUtil.replace(input.get("tssFnhDd").toString(), "-", ""));
-
-//		//지적재산권
-//		input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
-//		input.put("yldItmType", "05");
-//		input.put("arslYymm",  CommonUtil.getFormattedDate(pmisDt, "-").substring(0, 7));
-//		commonDao.update("prj.tss.com.updateTssYld", input);
-
-
 		//중단 완료 보고서
 		input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
 		input.put("yldItmType", "03");
