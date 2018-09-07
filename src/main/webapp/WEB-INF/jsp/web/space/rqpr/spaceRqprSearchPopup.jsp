@@ -8,7 +8,7 @@
 /*
  *************************************************************************
  * $Id		: anlRqprSearchPopup.jsp
- * @desc    : 관련분석 리스트 조회 팝업
+ * @desc    : 관련평가 리스트 조회 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -54,7 +54,7 @@
 
             var anlNm = new Rui.ui.form.LTextBox({
                  applyTo: 'anlNm',
-                 placeholder: '검색할 분석명을 입력해주세요.',
+                 placeholder: '검색할 평가명을 입력해주세요.',
                  defaultValue: '',
                  emptyValue: '',
                  width: 300
@@ -133,8 +133,8 @@
             var anlRqprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns : [
                       { field: 'acpcNo',		label: '접수번호',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'anlScnNm',		label: '분석구분',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'anlNm',			label: '분석명',		sortable: false,	align:'left',	width: 300 }
+                    , { field: 'anlScnNm',		label: '평가구분',		sortable: false,	align:'center',	width: 80 }
+                    , { field: 'anlNm',			label: '평가명',		sortable: false,	align:'left',	width: 300 }
                     , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
 					, { field: 'anlChrgNm',		label: '담당자',		sortable: false, 	align:'center',	width: 80 }
                     , { field: 'cmplDt',		label: '완료일',		sortable: false, 	align:'center',	width: 80 }
@@ -201,7 +201,7 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">분석명</th>
+   							<th align="right">평가명</th>
    							<td>
    								<input type="text" id="anlNm" value="">
    							</td>

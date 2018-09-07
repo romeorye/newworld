@@ -8,7 +8,7 @@
 /*
  *************************************************************************
  * $Id		: anlRqprEndPopup.jsp
- * @desc    : 관련분석 반려/분석중단 팝업
+ * @desc    : 관련평가 반려/평가중단 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -81,7 +81,7 @@
                 ]
             });
 
-            /* 분석의뢰 반려/분석중단 처리 */
+            /* 평가의뢰 반려/평가중단 처리 */
             save = function(type) {
                 if (vm.validateGroup('aform') == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
@@ -121,7 +121,7 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">분석명</th>
+   							<th align="right">평가명</th>
    							<td id="anlNm"></td>
    						</tr>
    						<tr>

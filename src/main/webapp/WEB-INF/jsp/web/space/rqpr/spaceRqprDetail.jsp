@@ -1121,7 +1121,7 @@
 		    	opinitionUpdateDialog.show();
 		    };
 
-		    /* 분석의뢰 의견 리스트 조회 */
+		    /* 평가의뢰 의견 리스트 조회 */
             getSpaceRqprOpinitionList = function(msg) {
             	closePop = function(){
             		opinitionDialog.cancel(false);

@@ -45,7 +45,7 @@
 	</script>
     </head>
     <body>
-	<!-- * 기타 사업조직 분석의뢰 시, 분석 PJT PL과 상담해주시기 바랍니다. -->
+	<!-- * 기타 사업조직 평가의뢰 시, 평가 PJT PL과 상담해주시기 바랍니다. -->
 	<table class="table">
 		<colgroup>
 			<col style="width:25%;"/>

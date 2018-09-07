@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
@@ -8,7 +8,7 @@
 /*
  *************************************************************************
  * $Id		: anlRqprSrchView.jsp
- * @desc    : 분석의뢰서 상세
+ * @desc    : 평가의뢰서 상세
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -45,20 +45,20 @@
 		var callback;
 		var anlRqprDataSet;
 		var rsltAttcFileId;
-		
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
              *******************/
              rsltAttcFileId = '${inputDat}';
             var dm = new Rui.data.LDataSetManager();
-            
+
             dm.on('load', function(e) {
             });
-            
+
             dm.on('success', function(e) {
             });
-			
+
             anlRqprDataSet = new Rui.data.LJsonDataSet({
                 id: 'anlRqprDataSet',
                 remainRemoved: true,
@@ -85,11 +85,11 @@
 					, { id: 'lastMdfyId' }
                 ]
             });
-            
+
             anlRqprDataSet.on('load', function(e) {
             	var anlSbc = anlRqprDataSet.getNameValue(0, 'anlSbc');
             	var idChk = anlRqprDataSet.getNameValue(0, 'lastMdfyId');
-            	
+
             	if(Rui.isEmpty(anlSbc) == false) {
             		if(Rui.isEmpty(idChk) == false) {
             			if(idChk != "MIG"){
@@ -98,7 +98,7 @@
             		}
             	}
             });
-        
+
             bind = new Rui.data.LBind({
                 groupId: 'aform',
                 dataSet: anlRqprDataSet,
@@ -122,7 +122,7 @@
                     { id: 'anlRsltSbc',			ctrlId:'anlRsltSbc',		value:'html'}
                 ]
             });
-			
+
             var anlRqprSmpoDataSet = new Rui.data.LJsonDataSet({
                 id: 'anlRqprSmpoDataSet',
                 remainRemoved: true,
@@ -155,9 +155,9 @@
                 autoToEdit: false,
                 autoWidth: true
             });
-            
+
             anlRqprSmpoGrid.render('anlRqprSmpoGrid');
-			
+
             var anlRqprRltdDataSet = new Rui.data.LJsonDataSet({
                 id: 'anlRqprRltdDataSet',
                 remainRemoved: true,
@@ -178,9 +178,9 @@
                 columns: [
                 	  new Rui.ui.grid.LNumberColumn()
                     , { field: 'preAcpcNo',		label: '접수번호',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preAnlNm',		label: '분석명',		sortable: false,	align:'left',	width: 300 }
+                    , { field: 'preAnlNm',		label: '평가명',		sortable: false,	align:'left',	width: 300 }
                     , { field: 'preRgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preAnlChrgNm',	label: '분석담당자',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'preAnlChrgNm',	label: '평가담당자',	sortable: false,	align:'center',	width: 80 }
                 ]
             });
 
@@ -192,10 +192,10 @@
                 autoToEdit: false,
                 autoWidth: true
             });
-            
+
             anlRqprRltdGrid.render('anlRqprRltdGrid');
-            
-            
+
+
             var anlRqprExprDataSet = new Rui.data.LJsonDataSet({
                 id: 'anlRqprExprDataSet',
                 remainRemoved: false,
@@ -209,7 +209,7 @@
 					, { id: 'exprExp' }
                 ]
             });
-			
+
             var anlRqprExprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
@@ -231,10 +231,10 @@
                 autoToEdit: false,
                 autoWidth: true
             });
-           	
+
             anlRqprExprGrid.render('anlRqprExprGrid');
-            
-            
+
+
             var anlRqprAttachDataSet = new Rui.data.LJsonDataSet({
                 id: 'anlRqprAttachDataSet',
                 remainRemoved: true,
@@ -262,22 +262,22 @@
                 autoToEdit: false,
                 autoWidth: true
             });
-            
+
             anlRqprAttachGrid.on('cellClick', function(e) {
                 if(e.colId == "filNm") {
                 	downloadAttachFile(anlRqprAttachDataSet.getAt(e.row).data.attcFilId, anlRqprAttachDataSet.getAt(e.row).data.seq);
                 }
             });
-            
+
             anlRqprAttachGrid.render('anlRqprAttachGrid');
-			
+
 			downloadAttachFile = function(attcFilId, seq) {
 				fileDownloadForm.action = '<c:url value='/system/attach/downloadAttachFile.do'/>';
 				$('#attcFilId', fileDownloadForm).val(attcFilId);
 				$('#seq', fileDownloadForm).val(seq);
 				fileDownloadForm.submit();
 			};
-    	    
+
             var anlRqprRsltAttachDataSet = new Rui.data.LJsonDataSet({
                 id: 'anlRqprRsltAttachDataSet',
                 remainRemoved: true,
@@ -289,11 +289,11 @@
 					, { id: 'filSize' }
                 ]
             });
-            
+
             anlRqprRsltAttachDataSet.on('load', function(e) {
             	if( anlRqprRsltAttachDataSet.getCount() > 0  ){
            			$('#rsltAttcFileView').html('');
-           		
+
            			for(var i = 0; i < anlRqprRsltAttachDataSet.getCount(); i++) {
                         $('#rsltAttcFileView').append($('<a/>', {
                             href: 'javascript:downloadAttachFile("' + anlRqprRsltAttachDataSet.getNameValue(i, "attcFilId") + '", "' +  anlRqprRsltAttachDataSet.getNameValue(i, "seq") + '")',
@@ -302,8 +302,8 @@
                     }
            		}
             });
-       		
-			
+
+
 	    	dm.loadDataSet({
                 dataSets: [anlRqprDataSet, anlRqprSmpoDataSet, anlRqprRltdDataSet, anlRqprAttachDataSet, anlRqprExprDataSet,anlRqprRsltAttachDataSet],
                 url: '<c:url value="/anl/getAnlRqprDetailInfo.do"/>',
@@ -311,7 +311,7 @@
                     rqprId: '${inputData.rqprId}'
                 }
             });
-			
+
         });
 	</script>
     </head>
@@ -325,10 +325,10 @@
 		<input type="hidden" id="seq" name="seq" value=""/>
     </form>
    		<div class="contents">
-   		
+
    			<div class="sub-content">
 				<form name="aform" id="aform" method="post">
-   				
+
    				<table class="table table_txt_right" style="table-layout:fixed;">
    					<colgroup>
    						<col style="width:15%;"/>
@@ -338,13 +338,13 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">분석명</th>
+   							<th align="right">평가명</th>
    							<td><span id="anlNm"/></td>
    							<th align="right">접수번호</th>
    							<td><span id="acpcNo"/></td>
    						</tr>
    						<tr>
-   							<th align="right">분석목적</th>
+   							<th align="right">평가목적</th>
    							<td colspan="3"><span id="anlSbc"/></td>
    						</tr>
    						<tr>
@@ -366,9 +366,9 @@
     						<td><span id="cmplDt"/></td>
    						</tr>
    						<tr>
-   							<th align="right">분석구분</th>
+   							<th align="right">평가구분</th>
    							<td><span id="anlScnNm"/></td>
-   							<th align="right">분석담당자</th>
+   							<th align="right">평가담당자</th>
    							<td><span id="anlChrgNm"/></td>
    						</tr>
    						<tr>
@@ -385,15 +385,15 @@
    						</tr>
    					</tbody>
    				</table>
-   				
+
    				<div class="titArea">
    					<span class="Ltotal">시료정보</span>
    				</div>
 
    				<div id="anlRqprSmpoGrid"></div>
-   				
+
    				<br/>
-   				
+
    				<table style="width:100%;border=0;">
    					<colgroup>
    						<col style="width:49%;">
@@ -404,9 +404,9 @@
    						<tr>
    							<td>
 				   				<div class="titArea">
-				   					<span class="Ltotal">관련분석</span>
+				   					<span class="Ltotal">관련평가</span>
 				   				</div>
-				
+
 				   				<div id="anlRqprRltdGrid"></div>
    							</td>
    							<td>&nbsp;</td>
@@ -414,22 +414,22 @@
 				   				<div class="titArea">
 				   					<span class="Ltotal">시료사진/첨부파일</span>
 				   				</div>
-				
+
 				   				<div id="anlRqprAttachGrid"></div>
    							</td>
    						</tr>
    					</tbody>
    				</table>
-   				
+
    				<br/>
    				<div class="titArea">
    					<span class="Ltotal">실험정보 등록</span>
    				</div>
-   				
+
    				<div>
    					<div id="anlRqprExprGrid"></div>
    				</div>
-   				
+
    				<table class="table table_txt_right" style="table-layout:fixed;">
    					<colgroup>
    						<col style="width:15%;"/>
@@ -439,17 +439,17 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">분석결과</th>
+   							<th align="right">평가결과</th>
    							<td colspan="3"><span id="anlRsltSbc"/></td>
    						</tr>
    						<tr>
-   							<th align="right">분석결과서</th>
+   							<th align="right">평가결과서</th>
    							<td colspan="3"><span id="rsltAttcFileView"/></td>
    						</tr>
    					</tbody>
    				</table>
 				</form>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
     </body>

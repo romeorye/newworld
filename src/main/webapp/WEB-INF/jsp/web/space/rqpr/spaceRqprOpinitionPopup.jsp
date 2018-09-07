@@ -8,7 +8,7 @@
 /*
  *************************************************************************
  * $Id		: anlRqprOpinitionPopup.jsp
- * @desc    : 관련분석 의견 팝업
+ * @desc    : 관련평가 의견 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -41,37 +41,37 @@
 </style>
 
 	<script type="text/javascript">
-        
+
 	var opinitionDialog;
-	
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
              *******************/
-             
+
             var dm = new Rui.data.LDataSetManager();
-            
+
             dm.on('load', function(e) {
             });
-            
+
             dm.on('success', function(e) {
                 var data = anlRqprOpinitionDataSet.getReadData(e);
-                
+
                 alert(data.records[0].resultMsg);
-                
+
                 if(data.records[0].resultYn == 'Y') {
                 	if(data.records[0].event == 'I') {
                 		opiSbc.setValue('');
                 	}
-                	
+
                 	getAnlRqprOpinitionList();
                 }
             });
-             
+
             var textArea = new Rui.ui.form.LTextArea({
                 emptyValue: ''
             });
-             
+
             var opiSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'opiSbc',
                 placeholder: '의견을 입력해주세요.',
@@ -79,17 +79,17 @@
                 width: 537,
                 height: 55
             });
-            
+
             opiSbc.on('blur', function(e) {
             	opiSbc.setValue(opiSbc.getValue().trim());
             });
-            
+
             var vm = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'opiSbc',				validExp: '의견:true:maxByteLength=4000' }
                 ]
             });
-			
+
             var anlRqprOpinitionDataSet = new Rui.data.LJsonDataSet({
                 id: 'anlRqprOpinitionDataSet',
                 remainRemoved: true,
@@ -103,13 +103,13 @@
 					, { id: 'opiSbc' }
                 ]
             });
-            
+
             anlRqprOpinitionDataSet.on('load', function(e) {
             	var cnt = anlRqprOpinitionDataSet.getCount();
-            	
+
             	parent.$("#opinitionCnt").html(cnt == 0 ? '' : '(' + cnt + ')');
    	      	});
-            
+
             anlRqprOpinitionDataSet.on('canRowPosChange', function(e){
             	if (vm.validateDataSet(anlRqprOpinitionDataSet, anlRqprOpinitionDataSet.getRow()) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
@@ -136,50 +136,50 @@
                 autoToEdit: true,
                 autoWidth: true
             });
-            
+
             anlRqprOpinitionGrid.on('beforeEdit', function(e) {
             	if(anlRqprOpinitionDataSet.getNameValue(e.row, 'rgstId') != '${inputData._userId}') {
             		return false;
             	}
             });
-            
+
             anlRqprOpinitionGrid.render('anlRqprOpinitionGrid');
-            
-          
+
+
             anlRqprOpinitionGrid.on('cellClick', function(e) {
 
             	var record = anlRqprOpinitionDataSet.getAt(e.row);
             	openOpinitionDialog(anlRqprOpinitionDataSet.getNameValue(e.row, 'opiId'));
             });
-            
+
             openOpinitionDialog = function(opiId) {
             	opinitionDialog.setUrl('<c:url value="/anl/openOpinitionPopup.do?opiId="/>' + opiId);
             	opinitionDialog.show();
     	    };
-    	    
+
          	// 실험방법 팝업
           	 opinitionDialog = new Rui.ui.LFrameDialog({
-          	        id: 'opinitionDialog', 
+          	        id: 'opinitionDialog',
           	        title: '의견상세',
           	        width: 640,
           	        height: 350,
           	        modal: true,
           	        visible: false
           	 });
-       	    
+
           	opinitionDialog.render(document.body);
-            
+
             /* 의견 저장 */
             saveAnlRqprOpinition = function(type) {
             	var pOpiId;
             	var pOpiSbc;
-            	
+
             	if(type == 'I') {
                     if (vm.validateGroup('aform') == false) {
                         alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                         return false;
                     }
-                    
+
                     pOpiId = 0;
                     pOpiSbc = opiSbc.getValue();
             	} else {
@@ -187,18 +187,18 @@
             			alert('변경된 내용이 없습니다.');
             			return false;
             		}
-            		
+
                     if (vm.validateDataSet(anlRqprOpinitionDataSet) == false) {
                         alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                         return false;
                     }
-                    
+
                     var row = anlRqprOpinitionDataSet.getRow();
-                    
+
                     pOpiId = anlRqprOpinitionDataSet.getNameValue(row, 'opiId');
                     pOpiSbc = anlRqprOpinitionDataSet.getNameValue(row, 'opiSbc');
             	}
-                
+
 //             	if(confirm('저장 하시겠습니까?')) {
                     dm.updateDataSet({
                         url:'<c:url value="/anl/saveAnlRqprOpinition.do"/>',
@@ -210,15 +210,15 @@
                     });
 //             	}
             };
-            
+
             /* 의견 삭제 */
             deleteAnlRqprOpinition = function() {
             	var row = anlRqprOpinitionDataSet.getRow();
-            	
+
             	if(anlRqprOpinitionDataSet.getNameValue(row, 'rgstId') != '${inputData._userId}') {
             		return false;
             	}
-                
+
             	if(confirm('삭제 하시겠습니까?')) {
                     dm.updateDataSet({
                         url:'<c:url value="/anl/deleteAnlRqprOpinition.do"/>',
@@ -228,8 +228,8 @@
                     });
             	}
             };
-            
-            /* 분석의뢰 의견 리스트 조회 */
+
+            /* 평가의뢰 의견 리스트 조회 */
             getAnlRqprOpinitionList = function() {
             	anlRqprOpinitionDataSet.load({
                     url: '<c:url value="/anl/getAnlRqprOpinitionList.do"/>',
@@ -238,9 +238,9 @@
                     }
                 });
             };
-            
+
             getAnlRqprOpinitionList();
-			
+
         });
 
 	</script>
@@ -249,11 +249,11 @@
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
 		<input type="hidden" id="rqprId" name="rqprId" value="${inputData.rqprId}"/>
 		<input type="hidden" id="opiSbcDtl" name="opiSbcDtl"/>
-		
+
    		<div class="LblockMainBody">
 
    			<div class="sub-content">
-	   			
+
    				<table class="searchBox">
    					<colgroup>
    						<col style="width:15%;"/>
@@ -272,7 +272,7 @@
    						</tr>
    					</tbody>
    				</table>
-   				
+
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">의견</span>
    					<div class="LblockButton">
@@ -282,7 +282,7 @@
    				</div>
 
    				<div id="anlRqprOpinitionGrid"></div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

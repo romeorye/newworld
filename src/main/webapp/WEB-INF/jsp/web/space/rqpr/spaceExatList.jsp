@@ -366,7 +366,7 @@
     	    // 공간평가Tool 검색 팝업 시작
 			mchnDialog = new Rui.ui.LFrameDialog({
 		        id: 'mchnDialog',
-		        title: '분석기기 조회',
+		        title: '평가TOOL 조회',
 		        width:  900,
 		        height: 500,
 		        modal: true,

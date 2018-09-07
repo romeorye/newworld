@@ -775,7 +775,7 @@
     	    };
     	 	// 관련평가 조회 팝업 끝
 
-    	 	// 관련분석 세팅 //
+    	 	// 관련평가 세팅 //
     	    setSpaceRqprRltd = function(spaceRqpr) {
 				if(spaceRqprRltdDataSet.findRow('preRqprId', spaceRqpr.rqprId) > -1) {
 					alert('이미 존재합니다.');
@@ -792,7 +792,7 @@
 				record.set('preRgstNm', spaceRqpr.rgstNm);
 
     	    };
-    	    // 관련분석 세팅 끝 //
+    	    // 관련평가 세팅 끝 //
 
     	    // 불러오기 //
     	    getSpaceRqprInfo = function(spaceRqpr) {

@@ -210,7 +210,7 @@
 
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'mchnInfoId',			validExp: '분석기기:true' },
+                { id: 'mchnInfoId',			validExp: '평가기기:true' },
                 { id: 'exatDct',			validExp: '평가일자:true:number' },
                 { id: 'exatCaseQty',		validExp: '평가케이스수:true:number' },
                 { id: 'exatStrtDt',			validExp: '실험기간:true:date=YYYY-MM-DD' },
@@ -349,7 +349,7 @@
                 ]
             });
 
-            /* 분석의뢰 실험결과 정보 저장 */
+            /* 평가의뢰 실험결과 정보 저장 */
             save = function(type) {
             	var treeRow = spaceRqprExatMstTreeDataSet.getRow();
             	var vm = spaceRqprExatMstTreeDataSet.getNameValue(treeRow, 'expCrtnScnCd') == '1' ? vm1 : vm2;

@@ -5,7 +5,7 @@
 /*
  *************************************************************************
  * $Id		: exprWayPopup.jsp
- * @desc    : 분석 > 분석결과 > 실험정보등록 리스트 > 상세팝업
+ * @desc    : 평가 > 평가결과 > 실험정보등록 리스트 > 상세팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -30,7 +30,7 @@ Rui.onReady(function() {
         placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
         invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
     });
-	
+
 	//exprWay.setValue('${inputData.exprWay}');
 })
 </script>
@@ -43,9 +43,9 @@ Rui.onReady(function() {
 				<td>
 					<input type="text" id="exprWay" name="exprWay" />
 				</td>
-			</tr>	
+			</tr>
 		</table>
-	</div>	
+	</div>
 </div>
 </body>
 </html>

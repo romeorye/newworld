@@ -91,7 +91,7 @@
     	    /* 평가결과 */
     	    var spaceRsltSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'spaceRsltSbc',
-                emptyValue: '분석결과 내용을 입력해주세요.',
+                emptyValue: '평가결과 내용을 입력해주세요.',
                 width: 980,
                 height: 175
             });
@@ -1262,7 +1262,7 @@
 		    	opinitionUpdateDialog.show();
 		    };
 
-		    /* 분석의뢰 의견 리스트 조회 */
+		    /* 평가의뢰 의견 리스트 조회 */
             getSpaceRqprOpinitionList = function(msg) {
             	closePop = function(){
             		opinitionDialog.cancel(false);

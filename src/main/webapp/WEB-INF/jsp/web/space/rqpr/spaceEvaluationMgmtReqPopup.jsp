@@ -8,7 +8,7 @@
 /*
  *************************************************************************
  * $Id		: spaceEvaluationMgmtReqPopup.jsp
- * @desc    : 관련분석 리스트 조회 팝업
+ * @desc    : 관련평가 리스트 조회 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -59,7 +59,7 @@
             /*******************
              * 변수 및 객체 선언
              *******************/
-             
+
              //제품명
              var prodNm = new Rui.ui.form.LTextBox({
                   applyTo: 'prodNm',
@@ -67,7 +67,7 @@
                   disabled:true,
                   width: 500
              });
-             
+
              //구분
             var anlNm = new Rui.ui.form.LTextBox({
                  applyTo: 'scn',
@@ -75,7 +75,7 @@
                  emptyValue: '',
                  width: 200
             });
-             
+
             //성능값
             var pfmcVal = new Rui.ui.form.LTextBox({
                  applyTo: 'pfmcVal',
@@ -83,7 +83,7 @@
                  emptyValue: '',
                  width: 200
             });
-            
+
             //공개여부
     		var cbOttpYnYn = new Rui.ui.form.LCombo({
     			applyTo : 'ottpYn',
@@ -96,7 +96,7 @@
     	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
     	                	]
     		});
-            
+
             //유효시작일
             strtVldDt = new Rui.ui.form.LDateBox({
 	            applyTo: 'strtVldDt',
@@ -114,7 +114,7 @@
 	                strtVldDt.setValue(new Date());
 	            }
 	        });
-            
+
           //유효종료일
             fnhVldDt = new Rui.ui.form.LDateBox({
 	            applyTo: 'fnhVldDt',
@@ -132,7 +132,7 @@
 	                fnhVldDt.setValue(new Date());
 	            }
 	        });
-            
+
             //비고
             var rem = new Rui.ui.form.LTextBox({
                 applyTo: 'rem',
@@ -140,11 +140,11 @@
                 emptyValue: '',
                 width: 500
            });
-            
+
             /*============================================================================
             =================================    DataSet     =============================
             ============================================================================*/
-            //dataSet             
+            //dataSet
             var dataSet = new Rui.data.LJsonDataSet({
      	        id: 'dataSet',
      	        remainRemoved: true,
@@ -163,7 +163,7 @@
 						, { id: 'attcFilId' }
 						, { id: 'rem' }
      		            ]
-     	    });            
+     	    });
 
             var bind = new Rui.data.LBind({
     			groupId: 'aform',
@@ -194,10 +194,10 @@
             //$('#prodNm').val(prod);
             //alert(dataSet.getNameValue(0,"prodNm"));
             //alert($('#prodNm').val());
-            
+
           //서버전송용
             var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-          
+
             dm.on('success', function(e) {
             	parent.fnList();
                 //alert("1");
@@ -206,24 +206,24 @@
                 var data = dataSet.getReadData(e);
                 if(data.records[0].rtCd == "SUCCESS") {
                     //parent.fnSearch();
-                    
+
                 }
             });
             dm.on('failure', function(e) {
                 var data = dataSet.getReadData(e);
                 Rui.alert(data.records[0].rtVal);
             });
-            
+
             //저장
             fnSave = function() {
-                
+
                 dataSet.setNameValue(0, "ctgr0",  ctgr0);
                 dataSet.setNameValue(0, "ctgr1",  ctgr1);
                 dataSet.setNameValue(0, "ctgr2",  ctgr2);
                 dataSet.setNameValue(0, "ctgr3",  ctgr3);
                 dataSet.setNameValue(0, "prodNm",  prod);
                 dataSet.setNameValue(0, "prodNm",  prod);
-                				
+
                 Rui.confirm({
                     text: '저장하시겠습니까?',
                     handlerYes: function() {
@@ -235,7 +235,7 @@
                     handlerNo: Rui.emptyFn
                 });
             }
-            
+
             /*************************첨부파일****************************/
     		/* 첨부파일*/
     		var attachFileDataSet = new Rui.data.LJsonDataSet({
@@ -281,15 +281,15 @@
                     attachFileInfoList.push(attachFileDataSet.getAt(i).clone());
                 }
                 setAttachFileInfo(attachFileInfoList);
-            };            
-            
+            };
+
         	/* [버튼] : 첨부파일 팝업 호출 */
         	var butAttcFil = new Rui.ui.LButton('butAttcFil');
         	butAttcFil.on('click', function(){
         		var attcFilId = document.aform.attcFilId.value;
         		openAttachFileDialog(setAttachFileInfo, attcFilId,'mchnPolicy', '*');
         	});
-        	
+
         	//첨부파일 callback
     		setAttachFileInfo = function(attcFilList) {
 
@@ -299,7 +299,7 @@
                }else{
     	           $('#atthcFilVw').html('');
                }
-               
+
                for(var i = 0; i < attcFilList.length; i++) {
                    $('#atthcFilVw').append($('<a/>', {
                        href: 'javascript:downloadAttcFil("' + attcFilList[i].data.attcFilId + '", "' + attcFilList[i].data.seq + '")',
@@ -320,8 +320,8 @@
      			imageDialog.clearInvalid();
      			imageDialog.show(true);*/
 
-            } 
-            
+            }
+
         });
 
 	</script>
@@ -334,12 +334,12 @@
 		<input type="hidden" id="ctgr3" name="ctgr3" value=""/>
 		<input type="hidden" id="attcFilId" name="attcFilId" />
 		<input type="hidden" id="frstRgstDt" name="frstRgstDt" />
-		
-		
+
+
    		<div class="LblockMainBody">
 
    			<div class="sub-content">
-	   			
+
    				<table class="searchBox">
    					<colgroup>
    						<col style="width: 120px;" />
@@ -389,7 +389,7 @@
 						</tr>
    					</tbody>
    				</table>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>
