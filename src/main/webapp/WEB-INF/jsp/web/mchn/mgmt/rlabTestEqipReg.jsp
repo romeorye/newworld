@@ -92,6 +92,16 @@ var faxInfoDialog;	//고정자산관리 팝업
 		           	 ,{ id: 'smpoQty'}
 		            ]
 	    });
+		//대분류/소분류 dataset
+	    mchnClDtlCdDataSet = new Rui.data.LJsonDataSet({
+            id: 'mchnClDtlCdDataSet',
+            remainRemoved: true,
+            lazyLoad: true,
+            fields: [
+            	  { id: 'COM_DTL_CD' }
+            	, { id: 'COM_DTL_NM' }
+            ]
+        });
 
 	    dataSet.on('load', function(e){
 			document.aform.mchnCrgrId.value = dataSet.getNameValue(0, "mchnCrgrId");
@@ -105,17 +115,12 @@ var faxInfoDialog;	//고정자산관리 팝업
 				document.aform.fxaNo.value = dataSet.getNameValue(0, "fxaNo");
 			}
 
-			var mchnClDtlCd = new Rui.ui.form.LCombo({
-			 	applyTo : 'mchnClDtlCd',
-				name : 'mchnClDtlCd',
-				useEmptyText: true,
-			    emptyText: '선택하세요',
-			    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd="/>'+'RLAB_EXAT_CL_DTL_CD'+dataSet.getNameValue(0, "mchnClCd"),
-				displayField: 'COM_DTL_NM',
-				valueField: 'COM_DTL_CD',
-				width: 180
-			});
-			mchnClDtlCd.setValue(dataSet.getNameValue(0, "mchnClDtlCd"));
+			mchnClDtlCdDataSet.load({
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do"/>',
+                params :{
+                	comCd : 'RLAB_EXAT_CL_DTL_CD'+dataSet.getNameValue(0, "mchnClCd")
+                }
+            });
 	    });
 
 	    //기기명 한글
@@ -152,6 +157,18 @@ var faxInfoDialog;	//고정자산관리 팝업
 	        invalidBlur: false,                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
 
+		//소분류
+		 var cbmchnClDtlCd = new Rui.ui.form.LCombo({
+		 	applyTo : 'mchnClDtlCd',
+			name : 'mchnClDtlCd',
+			useEmptyText: true,
+		    emptyText: '선택하세요',
+		    dataSet: mchnClDtlCdDataSet,
+			displayField: 'COM_DTL_NM',
+			width: 180,
+			valueField: 'COM_DTL_CD'
+		});
+
 		//대분류
 		var cbmchnClCd = new Rui.ui.form.LCombo({
 		 	applyTo : 'mchnClCd',
@@ -165,24 +182,14 @@ var faxInfoDialog;	//고정자산관리 팝업
 		});
 
 		cbmchnClCd.on('changed', function(e){
-			var i = e.value;
-			$(function(){
-				$("#mchnClDtlCd").empty();
-			});
-			//소분류
-			var mchnClDtlCd = new Rui.ui.form.LCombo({
-				applyTo : 'mchnClDtlCd',
-				name : 'mchnClDtlCd',
-				useEmptyText: true,
-				emptyText: '선택하세요',
-				url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd="/>'+"RLAB_EXAT_CL_DTL_CD"+i,
-				displayField: 'COM_DTL_NM',
-				valueField: 'COM_DTL_CD',
-				width:180
-			});
-
+			mchnClDtlCdDataSet.clearData();
+			mchnClDtlCdDataSet.load({
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd="/>'+'RLAB_EXAT_CL_DTL_CD'+e.value
+                /* ,params :{
+                	comCd : 'RLAB_EXAT_CL_DTL_CD'+e.value
+                } */
+            });
 		});
-
 
 		//장비종류
 		var cbmchnKindCd = new Rui.ui.form.LCombo({
@@ -534,8 +541,11 @@ var faxInfoDialog;	//고정자산관리 팝업
       //vaild check
      var fncVaild = function(){
      		var frm = document.aform;
+     		var regex= /[a-z0-9]|[ \[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g;
+
+
     		//기기명    vailid
-/*     		if( Rui.isEmpty(mchnHanNm.getValue())){
+     		if( Rui.isEmpty(mchnHanNm.getValue())){
     			Rui.alert("기기명(한글)은 필수항목입니다");
     			mchnHanNm.focus();
     			return false;
@@ -556,13 +566,18 @@ var faxInfoDialog;	//고정자산관리 팝업
     			return false;
     		}
     		if( Rui.isEmpty(cbmchnClCd.getValue())){
-    			Rui.alert("분류는 필수항목입니다.");
+    			Rui.alert("대분류는 필수항목입니다.");
     			cbmchnClCd.focus();
     			return false;
     		}
-    		if( Rui.isEmpty(cbMchnUsePsblYn.getValue())){
-    			Rui.alert("기기사용상태 필수항목입니다.");
-    			cbMchnUsePsblYn.focus();
+    		if( Rui.isEmpty(cbmchnClDtlCd.getValue())){
+    			Rui.alert("소분류는 필수항목입니다.");
+    			cbmchnClDtlCd.focus();
+    			return false;
+    		}
+    		if( Rui.isEmpty(cbmchnKindCd.getValue())){
+    			Rui.alert("장비종류는 필수항목입니다.");
+    			cbmchnKindCd.focus();
     			return false;
     		}
     		if( Rui.isEmpty(cbOpnYn.getValue())){
@@ -570,9 +585,24 @@ var faxInfoDialog;	//고정자산관리 팝업
     			cbOpnYn.focus();
     			return false;
     		}
+    		if( Rui.isEmpty(cbMchnUsePsblYn.getValue())){
+    			Rui.alert("장비사용상태는 필수항목입니다.");
+    			cbMchnUsePsblYn.focus();
+    			return false;
+    		}
     		if( Rui.isEmpty(cbDelYn.getValue())){
     			Rui.alert("삭제여부는 필수항목입니다.");
     			cbDelYn.focus();
+    			return false;
+    		}
+    		if( Rui.isEmpty(smpoQty.getValue())){
+    			Rui.alert("시료수는 필수항목입니다.");
+    			smpoQty.focus();
+    			return false;
+    		}
+    		if( Rui.isEmpty(cbMnScrnDspYn.getValue())){
+    			Rui.alert("메인여부는 필수항목입니다.");
+    			cbMnScrnDspYn.focus();
     			return false;
     		}
     		if( Rui.isEmpty(mchnCrgrNm.getValue())){
@@ -589,7 +619,7 @@ var faxInfoDialog;	//고정자산관리 팝업
     			Rui.alert("요약설명은 필수항목입니다.");
     			mchnExpl.focus();
     			return false;
-    		} */
+    		}
 
 
      		if(CrossEditor.GetBodyValue()=="" || CrossEditor.GetBodyValue()=="<p><br></p>"){
@@ -658,11 +688,11 @@ var faxInfoDialog;	//고정자산관리 팝업
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>장비명(국문)</th>
 							<td>
-								<input type="text" id="mchnHanNm" />
+								<input type="text" id="mchnHanNm" style="ime-mode:active"/>
 							</td>
 							<th align="right"><span style="color:red;">*  </span>장비명(영문)</th>
 							<td>
-								<input type="text" id="mchnEnNm" />
+								<input type="text" id="mchnEnNm" style="ime-mode:disabled"/>
 							</td>
 						</tr>
 						<tr>
@@ -731,13 +761,13 @@ var faxInfoDialog;	//고정자산관리 팝업
 							<td>
 								<input type="text" id="mchnCrgrNm" />
 							</td>
-							<th align="right" >위치</th>
+							<th align="right" ><span style="color:red;">*  </span>위치</th>
 							<td>
 								<input type="text" id="mchnLoc" />
 							</td>
 						</tr>
 						<tr>
-							<th align="right">요약설명</th>
+							<th align="right"><span style="color:red;">*  </span>요약설명</th>
 							<td colspan="3">
 								<textarea id="mchnExpl"></textarea>
 							</td>
