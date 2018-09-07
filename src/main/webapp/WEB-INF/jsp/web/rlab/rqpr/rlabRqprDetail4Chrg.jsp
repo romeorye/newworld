@@ -8,7 +8,7 @@
 /*
  *************************************************************************
  * $Id		: rlabRqprDetail4Chrg.jsp
- * @desc    : 분석의뢰서 상세
+ * @desc    : 시험의뢰서 상세
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -95,7 +95,7 @@
                         label: '의뢰정보',
                         id: 'rlabRqprInfoDiv'
                     }, {
-                    	label: '분석결과',
+                    	label: '시험결과',
                         id: 'rlabRqprResultDiv'
                     }, {
                         label: '의견<span id="opinitionCnt"/>',
@@ -169,7 +169,7 @@
 
             var rlabNm = new Rui.ui.form.LTextBox({
             	applyTo: 'rlabNm',
-                placeholder: '분석명을 입력해주세요.',
+                placeholder: '시험명을 입력해주세요.',
                 defaultValue: '',
                 emptyValue: '',
                 width: 400
@@ -177,7 +177,7 @@
 
             var rlabChrgNm = new Rui.ui.form.LTextBox({
             	applyTo: 'rlabChrgNm',
-                placeholder: '분석담당자를 입력해주세요.',
+                placeholder: '시험담당자를 입력해주세요.',
                 defaultValue: '',
                 emptyValue: '',
                 editable: false,
@@ -254,7 +254,7 @@
 
             var rlabSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'rlabSbc',
-                placeholder: '분석배경과 목적, 결과 활용방안을 자세히 기재하여 주시기 바랍니다.',
+                placeholder: '시험배경과 목적, 결과 활용방안을 자세히 기재하여 주시기 바랍니다.',
                 emptyValue: '',
                 width: 980,
                 height: 75
@@ -262,7 +262,7 @@
 
             var rlabRsltSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'rlabRsltSbc',
-                placeholder: '분석결과 내용을 입력해주세요.',
+                placeholder: '시험결과 내용을 입력해주세요.',
                 emptyValue: '',
                 width: 980,
                 height: 175
@@ -270,10 +270,10 @@
 
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'rlabNm',				validExp: '분석명:true:maxByteLength=100' },
-                { id: 'rlabSbc',				validExp: '분석목적:true' },
+                { id: 'rlabNm',				validExp: '시험명:true:maxByteLength=100' },
+                { id: 'rlabSbc',				validExp: '시험목적:true' },
                 { id: 'cmplParrDt',			validExp: '완료예정일:true:date=YYYY-MM-DD' },
-                { id: 'rlabScnCd',			validExp: '분석구분:true' },
+                { id: 'rlabScnCd',			validExp: '시험구분:true' },
                 { id: 'rlabUgyYn',			validExp: '긴급유무:true' },
                 { id: 'infmTypeCd',			validExp: '통보유형:true' },
                 { id: 'smpoTrtmCd',			validExp: '시료처리:true' }
@@ -282,9 +282,9 @@
 
             var vm2 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'rlabNm',				validExp: '분석명:true:maxByteLength=100' },
-                { id: 'rlabSbc',				validExp: '분석목적:true' },
-                { id: 'rlabScnCd',			validExp: '분석구분:true' },
+                { id: 'rlabNm',				validExp: '시험명:true:maxByteLength=100' },
+                { id: 'rlabSbc',				validExp: '시험목적:true' },
+                { id: 'rlabScnCd',			validExp: '시험구분:true' },
                 { id: 'rlabUgyYn',			validExp: '긴급유무:true' },
                 { id: 'infmTypeCd',			validExp: '통보유형:true' },
                 { id: 'smpoTrtmCd',			validExp: '시료처리:true' }
@@ -293,7 +293,7 @@
 
             var vm3 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'rlabRsltSbc',			validExp: '분석결과:true' }
+                { id: 'rlabRsltSbc',			validExp: '시험결과:true' }
                 ]
             });
 
@@ -346,14 +346,14 @@
             		$( '#addRlabRqprSmpoBtn' ).hide();
             		$( '#deleteRlabRqprSmpoBtn' ).hide();
 
-            		//관련분석
+            		//관련시험
             		$( '#addRlabRqprRltdBtn' ).hide();
             		$( '#deleteRlabRqprRltdBtn' ).hide();
 
             		//첨부파일
             		$( '#addRlabRqprAttachBtn' ).hide();
 
-            		//분석결과
+            		//시험결과
             		$( '#saveRsltBtn' ).hide();
             		$( '#approvalBtn' ).hide();
             		$( '#stopBtn' ).hide();
@@ -579,9 +579,9 @@
                 	, new Rui.ui.grid.LStateColumn()
                 	, new Rui.ui.grid.LNumberColumn()
                     , { field: 'preAcpcNo',		label: '접수번호',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preRlabNm',		label: '분석명',		sortable: false,	align:'left',	width: 300 }
+                    , { field: 'preRlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 300 }
                     , { field: 'preRgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preRlabChrgNm',	label: '분석담당자',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'preRlabChrgNm',	label: '시험담당자',	sortable: false,	align:'center',	width: 80 }
                     , { field: 'rqprId',	hidden:true }
                     , { field: 'preRqprId',	hidden:true }
                 ]
@@ -607,10 +607,10 @@
                  rlabRqprRltdDialog.show(true);
             });
 
-          	//관련분석 상세 이관
+          	//관련시험 상세 이관
          	var rlabRqprRltdDialog = new Rui.ui.LFrameDialog({
     	        id: 'rlabRqprRltdDialog',
-    	        title: '관련분석',
+    	        title: '관련시험',
     	        width:  1000,
     	        height: 600,
     	        modal: true,
@@ -687,7 +687,7 @@
 				}
             });
 
-    	    // 분석결과 첨부파일 정보 설정
+    	    // 시험결과 첨부파일 정보 설정
     	    setRlabRqprRsltAttach = function(attachFileList) {
     	    	rlabRqprRsltAttachDataSet.clearData();
 
@@ -752,7 +752,7 @@
             		return ;
             	}
                 if (rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd') != '03') {
-                    //alert('분석진행 상태일때만 실험결과를 수정 할 수 있습니다.');
+                    //alert('시험진행 상태일때만 실험결과를 수정 할 수 있습니다.');
                     //return false;
                     openExatWayDialog(rlabRqprExatDataSet.getNameValue(e.row, 'rqprExatId'));
                 }else{
@@ -781,10 +781,10 @@
 
          exatWayDialog.render(document.body);
 
-			// 분석 담당자 선택팝업 시작
+			// 시험 담당자 선택팝업 시작
 		    rlabChrgListDialog = new Rui.ui.LFrameDialog({
 		        id: 'rlabChrgListDialog',
-		        title: '분석담당자',
+		        title: '시험담당자',
 		        width: 530,
 		        height: 500,
 		        modal: true,
@@ -804,14 +804,14 @@
 				rlabChrgListDialog.setUrl('<c:url value="/rlab/rlabChrgDialog.do"/>');
 				rlabChrgListDialog.show();
 			};
-			// 분석 담당자 선택팝업 끝
+			// 시험 담당자 선택팝업 끝
 
             setRlabChrgInfo = function(rlabChrgInfo) {
             	rlabRqprDataSet.setNameValue(0, 'rlabChrgId', rlabChrgInfo.id);
             	rlabRqprDataSet.setNameValue(0, 'rlabChrgNm', rlabChrgInfo.name);
             };
 
-    	    // 분석의뢰 의견 팝업 시작
+    	    // 시험의뢰 의견 팝업 시작
     	    rlabRqprOpinitionDialog = new Rui.ui.LFrameDialog({
     	        id: 'rlabRqprOpinitionDialog',
     	        title: '의견 교환',
@@ -827,9 +827,9 @@
     	    	rlabRqprOpinitionDialog.setUrl('<c:url value="/rlab/rlabRqprOpinitionPopup.do?rqprId=${inputData.rqprId}"/>');
     	    	rlabRqprOpinitionDialog.show();
     	    };
-    	    // 분석의뢰 의견 팝업 끝
+    	    // 시험의뢰 의견 팝업 끝
 
-    	    // 분석의뢰 반려/분석중단 팝업 시작
+    	    // 시험의뢰 반려/시험중단 팝업 시작
     	    rlabRqprEndDialog = new Rui.ui.LFrameDialog({
     	        id: 'rlabRqprEndDialog',
     	        title: '',
@@ -842,11 +842,11 @@
     	    rlabRqprEndDialog.render(document.body);
 
     	    openRlabRqprEndDialog = function(type) {
-    	    	$('#rlabRqprEndDialog_h').html(type == '반려' ? '분석의뢰 반려' : '분석중단');
+    	    	$('#rlabRqprEndDialog_h').html(type == '반려' ? '시험의뢰 반려' : '시험중단');
     	    	rlabRqprEndDialog.setUrl('<c:url value="/rlab/rlabRqprEndPopup.do?type="/>' + escape(encodeURIComponent(type)));
     	    	rlabRqprEndDialog.show();
     	    };
-    	    // 분석의뢰 반려/분석중단 팝업 끝
+    	    // 시험의뢰 반려/시험중단 팝업 끝
 
     	    // 실험정보 등록/수정 팝업 시작
     	    rlabRqprExatRsltDialog = new Rui.ui.LFrameDialog({
@@ -868,7 +868,7 @@
     	    };
     	    // 실험결과 등록/수정 팝업 끝
 
-    	    // 분석의뢰 의견 팝업 시작
+    	    // 시험의뢰 의견 팝업 시작
     	    rlabRqprOpinitionDialog = new Rui.ui.LFrameDialog({
     	        id: 'rlabRqprOpinitionDialog',
     	        title: '의견 교환',
@@ -884,7 +884,7 @@
     	    	rlabRqprOpinitionDialog.setUrl('<c:url value="/rlab/rlabRqprOpinitionPopup.do?rqprId=${inputData.rqprId}"/>');
     	    	rlabRqprOpinitionDialog.show();
     	    };
-    	    // 분석의뢰 의견 팝업 끝
+    	    // 시험의뢰 의견 팝업 끝
 
       	  //의견등록팝업///////////////////////////////////////////
             //의견등록 팝업 저장
@@ -963,7 +963,7 @@
 		    	opinitionUpdateDialog.show();
 		    };
 
-		    /* 분석의뢰 의견 리스트 조회 */
+		    /* 시험의뢰 의견 리스트 조회 */
             getRlabRqprOpinitionList = function(msg) {
             	closePop = function(){
             		opinitionDialog.cancel(false);
@@ -1026,7 +1026,7 @@
             /* 접수 */
             saveRlabRqpr = function() {
     	    	if('02|03'.indexOf(rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd')) == -1) {
-    	    		alert('접수대기, 분석진행 상태일때만 저장 할 수 있습니다.');
+    	    		alert('접수대기, 시험진행 상태일때만 저장 할 수 있습니다.');
     	    		return false;
     	    	}
 
@@ -1076,10 +1076,10 @@
             	openRlabRqprEndDialog('반려');
             };
 
-            /* 분석결과 저장 */
+            /* 시험결과 저장 */
             saveRlabRqprRslt = function() {
     	    	if(rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd') != '03') {
-    	    		alert('분석진행 상태일때만 분석결과를 저장 할 수 있습니다.');
+    	    		alert('시험진행 상태일때만 시험결과를 저장 할 수 있습니다.');
     	    		return false;
     	    	}
 
@@ -1100,7 +1100,7 @@
             /* 결재의뢰 */
             approval = function() {
     	    	if(rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd') != '03') {
-    	    		alert('분석진행 상태일때만 결재의뢰 할 수 있습니다.');
+    	    		alert('시험진행 상태일때만 결재의뢰 할 수 있습니다.');
     	    		return false;
     	    	}
 
@@ -1118,10 +1118,10 @@
             	}
             };
 
-            /* 분석중단 */
+            /* 시험중단 */
             stop = function() {
                 if ('03|06'.indexOf(rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd')) == -1) {
-                    alert('분석진행, 결과검토 상태일때만 중단 할 수 있습니다.');
+                    alert('시험진행, 결과검토 상태일때만 중단 할 수 있습니다.');
                     return false;
                 }
 
@@ -1131,7 +1131,7 @@
             /* 실험결과 등록/수정 팝업 */
             addRlabRqprExat = function() {
                 if (rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd') != '03') {
-                    alert('분석진행 상태일때만 실험결과를 등록 할 수 있습니다.');
+                    alert('시험진행 상태일때만 실험결과를 등록 할 수 있습니다.');
                     return false;
                 }
 
@@ -1148,7 +1148,7 @@
 					return false;
 
 				}else if( chkAcpcSt == "07"){
-					alert("분석완료 상태는 삭제를 할수없습니다.");
+					alert("시험완료 상태는 삭제를 할수없습니다.");
 					return false;
 				}
 
@@ -1225,10 +1225,10 @@
             };
 
 
-         // 관련분석 조회 팝업 시작
+         // 관련시험 조회 팝업 시작
     	    rlabRqprSearchDialog = new Rui.ui.LFrameDialog({
     	        id: 'rlabRqprSearchDialog',
-    	        title: '관련분석 조회',
+    	        title: '관련시험 조회',
     	        width: 750,
     	        height: 470,
     	        modal: true,
@@ -1244,7 +1244,7 @@
     		    rlabRqprSearchDialog.show();
     	    };
 
-    	    /* 관련분석 삭제 */
+    	    /* 관련시험 삭제 */
             deleteRlabRqprRltd = function() {
                 if(rlabRqprRltdDataSet.getMarkedCount() > 0) {
                 	rlabRqprRltdDataSet.removeMarkedRows();
@@ -1316,7 +1316,7 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">분석명</th>
+   							<th align="right">시험명</th>
    							<td>
    								<input type="text" id="rlabNm">
    							</td>
@@ -1324,7 +1324,7 @@
    							<td><span id="acpcNo"/></td>
    						</tr>
    						<tr>
-   							<th align="right">분석목적</th>
+   							<th align="right">시험목적</th>
    							<td colspan="3">
    								<textarea id="rlabSbc"></textarea>
    								<span id="rlabSbcHtml"></span>
@@ -1349,11 +1349,11 @@
     						<td><span id="cmplDt"/></td>
    						</tr>
    						<tr>
-   							<th align="right">분석구분</th>
+   							<th align="right">시험구분</th>
    							<td>
                                 <div id="rlabScnCd"></div>
    							</td>
-   							<th align="right">분석담당자</th>
+   							<th align="right">시험담당자</th>
    							<td>
    								<input type="text" id="rlabChrgNm">
                                 <a href="javascript:openRlabChrgListDialog(setRlabChrgInfo);" class="icoBtn">검색</a>
@@ -1406,7 +1406,7 @@
    						<tr>
    							<td>
 				   				<div class="titArea">
-				   					<h3>관련분석</h3>
+				   					<h3>관련시험</h3>
 				   					<div class="LblockButton">
 				   						<button type="button" class="btn"  id="addRlabRqprRltdBtn" name="addRlabRqprRltdBtn" onclick="openRlabRqprSearchDialog(setRlabRqprRltd)">추가</button>
 				   						<button type="button" class="btn"  id="deleteRlabRqprRltdBtn" name="deleteRlabRqprRltdBtn" onclick="deleteRlabRqprRltd()">삭제</button>
@@ -1440,7 +1440,7 @@
    						<button type="button" class="btn"  id="rsltReportBtn" name="rsltReportBtn" onclick="openRsltReportPopup()">REPORT</button>
    						<button type="button" class="btn"  id="saveRsltBtn" name="saveRsltBtn" onclick="saveRlabRqprRslt()">저장</button>
    						<button type="button" class="btn"  id="approvalBtn" name="rejectBtn" onclick="approval()">결재의뢰</button>
-   						<button type="button" class="btn"  id="stopBtn" name="stopBtn" onclick="stop()">분석중단</button>
+   						<button type="button" class="btn"  id="stopBtn" name="stopBtn" onclick="stop()">시험중단</button>
    						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goRlabRqprList4Chrg()">목록</button>
    					</div>
    				</div>
@@ -1454,7 +1454,7 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">분석명</th>
+   							<th align="right">시험명</th>
    							<td><span id="rlabNm"/></td>
    							<th align="right">접수번호</th>
    							<td><span id="acpcNo"/></td>
@@ -1487,11 +1487,11 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">분석결과</th>
+   							<th align="right">시험결과</th>
    							<td colspan="3"><textarea id="rlabRsltSbc"></textarea></td>
    						</tr>
    						<tr>
-   							<th align="right">분석결과서</th>
+   							<th align="right">시험결과서</th>
    							<td colspan="2">
    								<span id="rsltAttcFileView"></span>
    							</td>

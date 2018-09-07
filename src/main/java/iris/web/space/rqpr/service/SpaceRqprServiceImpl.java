@@ -486,7 +486,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     		String templateNm;
     		SpaceMailInfo spaceMailInfo;
 
-    		if("04".equals(dataMap.get("acpcStCd"))) {	// 반려
+    		if("04".equals(dataMap.get("spaceAcpcStCd"))) {	// 반려
         		spaceMailInfo = commonDao.select("space.rqpr.getSpaceRqprRejectEmailInfo", dataMap);
 
         		spaceMailInfo.setAnlGvbRson(spaceMailInfo.getAnlGvbRson().replaceAll("\n", "<br/>"));

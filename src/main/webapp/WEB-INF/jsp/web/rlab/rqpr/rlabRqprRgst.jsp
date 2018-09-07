@@ -8,7 +8,7 @@
 /*
  *************************************************************************
  * $Id		: rlabRqprRgst.jsp
- * @desc    : 분석의뢰서 등록
+ * @desc    : 시험의뢰서 등록
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -475,9 +475,9 @@
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
                     , { field: 'preAcpcNo',		label: '접수번호',	sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preRlabNm',		label: '분석명',		sortable: false,	align:'left',	width: 300 }
+                    , { field: 'preRlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 300 }
                     , { field: 'preRgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preRlabChrgNm',	label: '분석담당자',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'preRlabChrgNm',	label: '시험담당자',	sortable: false,	align:'center',	width: 80 }
                 ]
             });
 
@@ -492,7 +492,7 @@
 
             rlabRqprRltdGrid.render('rlabRqprRltdGrid');
 
-            /* 관련분석 삭제 */
+            /* 관련시험 삭제 */
             deleteRlabRqprRltd = function() {
                 if(rlabRqprRltdDataSet.getMarkedCount() > 0) {
                 	rlabRqprRltdDataSet.removeMarkedRows();
@@ -570,10 +570,10 @@
     	    	rlabRqprDataSet.setNameValue(0, 'infmPrsnIds', idList);
     	    };
 
-    	 	// 관련분석 조회 팝업 시작
+    	 	// 관련시험 조회 팝업 시작
     	    rlabRqprSearchDialog = new Rui.ui.LFrameDialog({
     	        id: 'rlabRqprSearchDialog',
-    	        title: '관련분석 조회',
+    	        title: '관련시험 조회',
     	        width: 750,
     	        height: 470,
     	        modal: true,
@@ -588,9 +588,9 @@
     	    	rlabRqprSearchDialog.setUrl('<c:url value="/rlab/rlabRqprSearchPopup.do"/>');
     		    rlabRqprSearchDialog.show();
     	    };
-    	 	// 관련분석 조회 팝업 끝
+    	 	// 관련시험 조회 팝업 끝
 
-    	 	// 관련분석 세팅 //
+    	 	// 관련시험 세팅 //
     	    setRlabRqprRltd = function(rlabRqpr) {
 				if(rlabRqprRltdDataSet.findRow('preRqprId', rlabRqpr.rqprId) > -1) {
 					alert('이미 존재합니다.');
@@ -822,7 +822,7 @@
    						<tr>
    							<td>
 				   				<div class="titArea">
-				   					<h3>관련분석</h3>
+				   					<h3>관련시험</h3>
 				   					<div class="LblockButton">
 				   						<button type="button" class="btn"  id="addRlabRqprRltdBtn" name="addRlabRqprRltdBtn" onclick="openRlabRqprSearchDialog(setRlabRqprRltd)">추가</button>
 				   						<button type="button" class="btn"  id="deleteRlabRqprRltdBtn" name="deleteRlabRqprRltdBtn" onclick="deleteRlabRqprRltd()">삭제</button>

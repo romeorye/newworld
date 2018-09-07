@@ -328,7 +328,7 @@ public class SpaceRqprController extends IrisBaseController {
 
 		spaceRqprInfo = StringUtil.toUtf8Output((HashMap) spaceRqprInfo);
 
-		input.put("acpcStCd", spaceRqprInfo.get("acpcStCd"));
+		input.put("spaceAcpcStCd", spaceRqprInfo.get("spaceAcpcStCd"));
 
 		modelAndView.addObject("spaceRqprDataSet", RuiConverter.createDataset("spaceRqprDataSet", spaceRqprInfo));
 		modelAndView.addObject("spaceRqprWayCrgrDataSet", RuiConverter.createDataset("spaceRqprWayCrgrDataSet", spaceRqprWayCrgrList));
@@ -776,7 +776,7 @@ public class SpaceRqprController extends IrisBaseController {
 		try {
 			Map<String, Object> spaceRqprDataSet = RuiConverter.convertToDataSet(request, "spaceRqprDataSet").get(0);
 
-			spaceRqprDataSet.put("acpcStCd", "03");
+			spaceRqprDataSet.put("spaceAcpcStCd", "03");
 			spaceRqprDataSet.put("userId", input.get("_userId"));
 
 			spaceRqprService.updateReceiptSpaceRqpr(spaceRqprDataSet);

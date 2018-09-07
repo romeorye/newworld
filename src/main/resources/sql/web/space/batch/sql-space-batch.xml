@@ -16,7 +16,7 @@
 			from	iris_anl_rqpr_mst mst,
 					iris_sso_user rgst,
 					iris_sso_user chrg
-			where	mst.acpc_st_cd = '02'
+			where	mst.space_acpc_st_cd = '02'
 			and		mst.del_yn = 'N'
 			and		mst.anl_chrg_trsf_flag = 'W'
 			and		mst.rgst_id = rgst.sa_user
@@ -41,7 +41,7 @@
 			from	iris_anl_rqpr_mst mst,
 					iris_sso_user rgst,
 					iris_sso_user chrg
-			where	mst.acpc_st_cd = '07'
+			where	mst.space_acpc_st_cd = '07'
 			and		mst.del_yn = 'N'
 			and		mst.rgst_trsf_flag = 'W'
 			and		mst.rgst_id = rgst.sa_user

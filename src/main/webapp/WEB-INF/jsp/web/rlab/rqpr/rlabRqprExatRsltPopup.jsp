@@ -218,7 +218,7 @@
 
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'mchnInfoId',			validExp: '분석기기:true' },
+                { id: 'mchnInfoId',			validExp: '시험장비:true' },
                 { id: 'smpoQty',			validExp: '실험수:true:number' },
                 { id: 'exatQty',			validExp: '가동횟수:true:number' },
                 { id: 'exatStrtDt',			validExp: '실험기간:true:date=YYYY-MM-DD' },
@@ -229,7 +229,7 @@
 
             var vm2 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'mchnInfoId',			validExp: '분석기기:true' },
+                { id: 'mchnInfoId',			validExp: '시험장비:true' },
                 { id: 'exatQty',			validExp: '가동횟수:true:number' },
                 { id: 'exatTim',			validExp: '실험시간:true:number' },
                 { id: 'exatStrtDt',			validExp: '실험기간:true:date=YYYY-MM-DD' },
@@ -393,7 +393,7 @@
                 ]
             });
 
-            /* 분석의뢰 실험결과 정보 저장 */
+            /* 시험의뢰 실험결과 정보 저장 */
             save = function(type) {
             	var treeRow = rlabRqprExatMstTreeDataSet.getRow();
             	var vm = rlabRqprExatMstTreeDataSet.getNameValue(treeRow, 'expCrtnScnCd') == '1' ? vm1 : vm2;
@@ -458,7 +458,7 @@
 			   							<td><span id="sopNo"/></td>
 			   						</tr>
 			   						<tr>
-			   							<th align="right">분석기기</th>
+			   							<th align="right">시험장비</th>
 			   							<td><div id="mchnInfoId"></div></td>
 			   						</tr>
 			   						<tr>

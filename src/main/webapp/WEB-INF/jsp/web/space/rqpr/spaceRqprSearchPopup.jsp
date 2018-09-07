@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -41,7 +41,7 @@
 </style>
 
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
@@ -59,17 +59,17 @@
                  emptyValue: '',
                  width: 300
             });
-            
+
             anlNm.on('blur', function(e) {
             	anlNm.setValue(anlNm.getValue().trim());
             });
-            
+
             anlNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
             		getAnlRqprList();
             	}
             });
-             
+
             var rgstNm = new Rui.ui.form.LTextBox({
                  applyTo: 'rgstNm',
                  placeholder: '검색할 의뢰자를 입력해주세요.',
@@ -78,12 +78,12 @@
                  editable: false,
                  width: 260
             });
-            
+
             rgstNm.on('focus', function(e) {
             	rgstNm.setValue('');
             	$('#rgstId').val('');
             });
-            
+
             var anlChrgId = new Rui.ui.form.LCombo({
                 applyTo: 'anlChrgId',
                 name: 'anlChrgId',
@@ -94,18 +94,18 @@
                 displayField: 'name',
                 valueField: 'userId'
             });
-            
-            var acpcStCd = new Rui.ui.form.LCombo({
-                applyTo: 'acpcStCd',
-                name: 'acpcStCd',
+
+            var spaceAcpcStCd = new Rui.ui.form.LCombo({
+                applyTo: 'spaceAcpcStCd',
+                name: 'spaceAcpcStCd',
                 emptyText: '전체',
                 defaultValue: '',
                 emptyValue: '',
-                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ACPC_ST_CD"/>',
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_ACPC_ST_CD"/>',
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-			
+
             /*******************
              * 변수 및 객체 선언
             *******************/
@@ -152,12 +152,12 @@
 
             anlRqprGrid.on('cellDblClick', function(e) {
             	parent.callback(anlRqprDataSet.getAt(e.row).data);
-            	
+
             	parent.anlRqprSearchDialog.submit(true);
             });
-            
+
             anlRqprGrid.render('anlRqprGrid');
-            
+
             /* 조회 */
             getAnlRqprList = function() {
             	anlRqprDataSet.load({
@@ -166,19 +166,19 @@
                     	anlNm : encodeURIComponent(anlNm.getValue()),
             		    anlChrgId : anlChrgId.getValue(),
             		    rgstId : $('#rgstId').val(),
-            		    acpcStCd : acpcStCd.getValue(),
+            		    spaceAcpcStCd : spaceAcpcStCd.getValue(),
             		    isAnlChrg : isAnlChrg
                     }
                 });
             };
-    		
+
             setRgstInfo = function(userInfo) {
     	    	rgstNm.setValue(userInfo.saName);
     	    	$('#rgstId').val(userInfo.saUser);
     	    }
-            
+
             getAnlRqprList();
-			
+
         });
 
 	</script>
@@ -186,11 +186,11 @@
     <body>
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
 		<input type="hidden" id="rgstId" name="rgstId" value=""/>
-		
+
    		<div class="LblockMainBody">
 
    			<div class="sub-content">
-	   			
+
    				<table class="searchBox">
    					<colgroup>
    						<col style="width:10%;"/>
@@ -221,14 +221,14 @@
    							</td>
    							<th align="right">상태</th>
    							<td>
-                                <div id="acpcStCd"></div>
+                                <div id="spaceAcpcStCd"></div>
    							</td>
    						</tr>
    					</tbody>
    				</table>
 
    				<div id="anlRqprGrid"></div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

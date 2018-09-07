@@ -155,14 +155,14 @@
                 width: 400
             });
 
-            var acpcStCd = new Rui.ui.form.LCombo({
-                applyTo: 'acpcStCd',
-                name: 'acpcStCd',
+            var spaceAcpcStCd = new Rui.ui.form.LCombo({
+                applyTo: 'spaceAcpcStCd',
+                name: 'spaceAcpcStCd',
                 useEmptyText: true,
                 emptyText: '전체',
-                defaultValue: '<c:out value="${inputData.acpcStCd}"/>',
+                defaultValue: '<c:out value="${inputData.spaceAcpcStCd}"/>',
                 emptyValue: '',
-                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ACPC_ST_CD"/>',
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_ACPC_ST_CD"/>',
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
@@ -238,7 +238,7 @@
             		    rgstNm : encodeURIComponent(rgstNm.getValue()),
             		    spaceChrgNm : encodeURIComponent(spaceChrgNm.getValue()),
             		    acpcNo : encodeURIComponent(acpcNo.getValue()),
-            		    acpcStCd : acpcStCd.getValue(),
+            		    spaceAcpcStCd : spaceAcpcStCd.getValue(),
             		    isSpaceChrg : 0
                     }
                 });
@@ -327,7 +327,7 @@
    							</td>
    							<th align="right">상태</th>
    							<td>
-                                <div id="acpcStCd"></div>
+                                <div id="spaceAcpcStCd"></div>
    							</td>
    						</tr>
    					</tbody>

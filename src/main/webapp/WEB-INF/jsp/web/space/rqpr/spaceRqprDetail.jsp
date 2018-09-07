@@ -109,7 +109,7 @@
 	                break;
 
 	            case 1:
-	            	if(spaceRqprDataSet.getNameValue(0, 'acpcStCd') != '07') {
+	            	if(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '07') {
 	            		alert('평가 결과 확인은 평가 완료 된 후 확인이 가능 합니다.');
 	            		return false;
 	            	}
@@ -303,7 +303,7 @@
                 placeholder: '영업, Spec-in 금액, 매출목표 등',
                 defaultValue: '',
                 emptyValue: '',
-                width: 400
+                width: 390
             });
             /* 정성지표 */
             var qnasDpst = new Rui.ui.form.LTextBox({
@@ -319,7 +319,7 @@
                 placeholder: '수도관 온도 및 발코니 실내 온도 0℃이상으로 동파가 발생하지 않는 상태',
                 defaultValue: '',
                 emptyValue: '',
-                width: 400
+                width: 390
             });
             /* 결과지표 */
             var rsltDpst = new Rui.ui.form.LTextBox({
@@ -335,7 +335,7 @@
                 placeholder: '74A Type , 84A Type, 84B Type 3가지 Cases',
                 defaultValue: '',
                 emptyValue: '',
-                width: 400
+                width: 390
             });
             /* 평가대상 상세 */
             var evSubjDtl = new Rui.ui.form.LTextBox({
@@ -394,7 +394,7 @@
 					, { id: 'tCloud'		}
 					, { id: 'spaceRqprInfmView' } //통보자 명
 					, { id: 'rqprAttcFileId', defaultValue: '' }
-					, { id: 'acpcStCd'		}
+					, { id: 'spaceAcpcStCd'		}
 
                 ]
             });
@@ -420,7 +420,7 @@
             	}
 
             	//button controll
-            	if( spaceRqprDataSet.getNameValue(0, 'acpcStCd')  == "07" ){
+            	if( spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd')  == "07" ){
             		 $( '#saveBtn' ).hide();
             		 $( '#approvalBtn' ).hide();
             		 $( '#deleteBtn' ).hide();
@@ -534,7 +534,7 @@
                     { id: 'evCases',			ctrlId: 'evCases',			value:'value'},
                     { id: 'evSubjDtl',		 	ctrlId: 'evSubjDtl',		value:'value'},
                     { id: 'tCloud',		 		ctrlId: 'tCloud',		 	value:'value'},
-                    { id: 'acpcStCd',			ctrlId: 'acpcStCd',		 	value:'value'}
+                    { id: 'spaceAcpcStCd',			ctrlId: 'spaceAcpcStCd',		 	value:'value'}
                 ]
             });
             spaceRqprDataSet.newRecord();
@@ -1184,7 +1184,7 @@
 
     	    /* 유효성 검사 */
     	    isValidate = function(type) {
-                if (spaceRqprDataSet.getNameValue(0, 'acpcStCd') != '00') {
+                if (spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '00') {
                     alert('작성중 상태일때만 ' + type + ' 할 수 있습니다.');
                     return false;
                 }
@@ -1247,7 +1247,7 @@
 
             /* 삭제 */
             deleteSpaceRqpr = function() {
-                if ('00|04'.indexOf(spaceRqprDataSet.getNameValue(0, 'acpcStCd')) == -1) {
+                if ('00|04'.indexOf(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd')) == -1) {
                     alert('작성중, 접수반려 상태일때만 삭제할 수 있습니다.');
                     return false;
                 }
@@ -1264,7 +1264,7 @@
 
             //통보자 추가 저장
             addSpaceRqprInfm = function(){
-            	if ('07'.indexOf(spaceRqprDataSet.getNameValue(0, 'acpcStCd')) == -1) {
+            	if ('07'.indexOf(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd')) == -1) {
                     alert('완료 상태일때만 삭제할 수 있습니다.');
                     return false;
                 }
@@ -1323,7 +1323,7 @@
 		<input type="hidden" name="rgstId" value="${inputData.rgstId}"/>
 		<input type="hidden" name="spaceChrgNm" value="${inputData.spaceChrgNm}"/>
 		<input type="hidden" name="acpcNo" value="${inputData.acpcNo}"/>
-		<input type="hidden" name="acpcStCd" value="${inputData.acpcStCd}"/>
+		<input type="hidden" name="spaceAcpcStCd" value="${inputData.spaceAcpcStCd}"/>
     </form>
     <form name="fileDownloadForm" id="fileDownloadForm">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
@@ -1333,7 +1333,7 @@
 
    			<div class="sub-content">
 	   			<div class="titleArea">
-	   				<h2>평가의뢰서 상세</h2>
+	   				<h2>시험의뢰서 상세</h2>
 	   			</div>
    				<div id="tabView"></div>
 	            <div id="spaceRqprInfoDiv">

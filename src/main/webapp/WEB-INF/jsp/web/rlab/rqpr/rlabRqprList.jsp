@@ -8,7 +8,7 @@
 /*
  *************************************************************************
  * $Id		: rlabRqprList.jsp
- * @desc    : 분석의뢰관리 리스트
+ * @desc    : 시험의뢰관리 리스트
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -42,7 +42,7 @@
 
             var rlabNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rlabNm',
-                placeholder: '검색할 분석명을 입력해주세요.',
+                placeholder: '검색할 시험명을 입력해주세요.',
                 defaultValue: '<c:out value="${inputData.rlabNm}"/>',
                 emptyValue: '',
                 width: 400
@@ -194,8 +194,8 @@
             var rlabRqprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                       { field: 'acpcNo',		label: '접수번호',	sortable: true,		align:'center',	width: 80 }
-                    , { field: 'rlabScnNm',		label: '분석구분',	sortable: false,	align:'center',	width: 80 }
-                    , { field: 'rlabNm',		label: '분석명',		sortable: false,	align:'left',	width: 370 }
+                    , { field: 'rlabScnNm',		label: '시험구분',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'rlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 370 }
                     , { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 50 }
                     , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 70 }
 					, { field: 'rlabChrgNm',	label: '담당자',		sortable: false, 	align:'center',	width: 70 }
@@ -254,9 +254,9 @@
             	nwinsActSubmit(aform, "<c:url value="/rlab/rlabRqprRgst.do"/>");
             };
 
-            /* 분석의뢰 리스트 엑셀 다운로드 */
+            /* 시험의뢰 리스트 엑셀 다운로드 */
         	downloadRlabRqprListExcel = function() {
-                rlabRqprGrid.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') + '.xls');
+                rlabRqprGrid.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') + '.xls');
             };
     		/*
             setRgstInfo = function(userInfo) {
@@ -278,7 +278,7 @@
 
    			<div class="sub-content">
 	   			<div class="titleArea">
-	   				<h2>분석의뢰</h2>
+	   				<h2>시험의뢰</h2>
 	   			</div>
 
    				<table class="searchBox">
@@ -291,7 +291,7 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">분석명</th>
+   							<th align="right">시험명</th>
    							<td>
    								<input type="text" id="rlabNm">
    							</td>

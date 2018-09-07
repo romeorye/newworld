@@ -5,7 +5,7 @@
 /*
  *************************************************************************
  * $Id		: openOpinitionPopup.jsp
- * @desc    : 분석 > 분석의뢰 > 분석목록 > 의견 > 
+ * @desc    : 시험 > 시험의뢰 > 시험목록 > 의견 >
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -24,7 +24,7 @@
 Rui.onReady(function() {
 	var opi = '<c:out value="${inputData.opiSbc}"/>';
 	var opiSbc1 = opi.replaceAll("&lt;br/&gt;", "\n");
-	
+
 	var opiSbc = new Rui.ui.form.LTextArea({            // LTextBox개체를 선언
         applyTo: 'opiSbc',                           // 해당 DOM Id 위치에 텍스트박스를 적용
         width: 585,                                    // 텍스트박스 폭을 설정
@@ -32,7 +32,7 @@ Rui.onReady(function() {
         placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
         invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
     });
-	
+
 	opiSbc.setValue(opiSbc1);
 })
 </script>
@@ -45,9 +45,9 @@ Rui.onReady(function() {
 				<td>
 					<input type="text" id="opiSbc" name="opiSbc" />
 				</td>
-			</tr>	
+			</tr>
 		</table>
-	</div>	
+	</div>
 </div>
 </body>
 </html>

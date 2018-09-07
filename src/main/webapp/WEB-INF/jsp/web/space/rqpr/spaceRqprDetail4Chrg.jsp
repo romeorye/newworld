@@ -125,7 +125,7 @@
 
 	            case 1:
 
-	            	if('03|05|06|07'.indexOf(spaceRqprDataSet.getNameValue(0, 'acpcStCd')) == -1) {
+	            	if('03|05|06|07'.indexOf(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd')) == -1) {
 	            		return false;
 	            	}
 
@@ -384,7 +384,7 @@
 					, { id: 'tCloud'		}
 					, { id: 'spaceRqprInfmView' } //통보자 명
 					, { id: 'rqprAttcFileId', defaultValue: '' }
-					, { id: 'acpcStCd'		}
+					, { id: 'spaceAcpcStCd'		}
 					, { id: 'spaceRsltSbc'	}
 					, { id: 'rsltAttcFileId', defaultValue: '' }
                 ]
@@ -411,7 +411,7 @@
             	}
 
             	//button controll
-            	if( spaceRqprDataSet.getNameValue(0, 'acpcStCd')  == "07" ){
+            	if( spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd')  == "07" ){
             		 $( '#saveBtn' ).hide();
             		 $( '#approvalBtn' ).hide();
             		 $( '#deleteBtn' ).hide();
@@ -525,7 +525,7 @@
                     { id: 'evCases',			ctrlId: 'evCases',			value:'value'},
                     { id: 'evSubjDtl',		 	ctrlId: 'evSubjDtl',		value:'value'},
                     { id: 'tCloud',		 		ctrlId: 'tCloud',		 	value:'value'},
-                    { id: 'acpcStCd',			ctrlId: 'acpcStCd',		 	value:'value'}
+                    { id: 'spaceAcpcStCd',			ctrlId: 'spaceAcpcStCd',		 	value:'value'}
                 ]
             });
 
@@ -1068,7 +1068,7 @@
             	if(e.col == 0) {
             		return ;
             	}
-                if (spaceRqprDataSet.getNameValue(0, 'acpcStCd') != '03') {
+                if (spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '03') {
                     //alert('평가진행 상태일때만 실험결과를 수정 할 수 있습니다.');
                     //return false;
                     openExprWayDialog(spaceRqprExatDataSet.getNameValue(e.row, 'rqprExatId'));
@@ -1324,7 +1324,7 @@
 
             /* 저장 */
             saveSpaceRqpr = function() {
-    	    	if('02|03'.indexOf(spaceRqprDataSet.getNameValue(0, 'acpcStCd')) == -1) {
+    	    	if('02|03'.indexOf(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd')) == -1) {
     	    		alert('접수대기, 평가진행 상태일때만 저장 할 수 있습니다.');
     	    		return false;
     	    	}
@@ -1345,7 +1345,7 @@
 
             /* 접수 */
             receipt = function() {
-    	    	if(spaceRqprDataSet.getNameValue(0, 'acpcStCd') != '02') {
+    	    	if(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '02') {
     	    		alert('접수대기 상태일때만 접수 할 수 있습니다.');
     	    		return false;
     	    	}
@@ -1366,7 +1366,7 @@
 
             /* 접수반려 */
             reject = function() {
-                if (spaceRqprDataSet.getNameValue(0, 'acpcStCd') != '02') {
+                if (spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '02') {
                     alert('접수대기 상태일때만 반려 할 수 있습니다.');
                     return false;
                 }
@@ -1376,7 +1376,7 @@
 
             /* 평가결과 저장 */
             saveSpaceRqprRslt = function() {
-    	    	if(spaceRqprDataSet.getNameValue(0, 'acpcStCd') != '03') {
+    	    	if(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '03') {
     	    		alert('평가진행 상태일때만 평가결과를 저장 할 수 있습니다.');
     	    		return false;
     	    	}
@@ -1397,7 +1397,7 @@
 
             /* 결재의뢰 */
             approval = function() {
-    	    	if(spaceRqprDataSet.getNameValue(0, 'acpcStCd') != '03') {
+    	    	if(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '03') {
     	    		alert('평가진행 상태일때만 결재의뢰 할 수 있습니다.');
     	    		return false;
     	    	}
@@ -1418,7 +1418,7 @@
 
             /* 평가중단 */
             stop = function() {
-                if ('03|06'.indexOf(spaceRqprDataSet.getNameValue(0, 'acpcStCd')) == -1) {
+                if ('03|06'.indexOf(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd')) == -1) {
                     alert('평가진행, 결과검토 상태일때만 중단 할 수 있습니다.');
                     return false;
                 }
@@ -1428,7 +1428,7 @@
 
             /* 실험결과 등록/수정 팝업 */
             addSpaceRqprExat = function() {
-                if (spaceRqprDataSet.getNameValue(0, 'acpcStCd') != '03') {
+                if (spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '03') {
                     alert('평가진행 상태일때만 실험결과를 등록 할 수 있습니다.');
                     return false;
                 }
@@ -1439,7 +1439,7 @@
             /* 실험결과 삭제 */
             deleteSpaceRqprExat = function() {
 
-				var chkAcpcSt = spaceRqprDataSet.getNameValue(0, 'acpcStCd');
+				var chkAcpcSt = spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd');
 
 				if(chkAcpcSt == "06"){
 					alert("결과검토 상태는 삭제를 할수없습니다.");
@@ -1580,7 +1580,7 @@
 		<input type="hidden" name="rgstNm" value="${inputData.rgstNm}"/>
 		<input type="hidden" name="spaceChrgNm" value="${inputData.spaceChrgNm}"/>
 		<input type="hidden" name="acpcNo" value="${inputData.acpcNo}"/>
-		<input type="hidden" name="acpcStCd" value="${inputData.acpcStCd}"/>
+		<input type="hidden" name="spaceAcpcStCd" value="${inputData.spaceAcpcStCd}"/>
     </form>
     <form name="fileDownloadForm" id="fileDownloadForm">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
