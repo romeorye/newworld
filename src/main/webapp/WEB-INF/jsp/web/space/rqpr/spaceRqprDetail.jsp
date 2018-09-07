@@ -613,9 +613,9 @@
 			// 평가 방법 / 담당자 선택팝업 시작
 		    spaceChrgListDialog = new Rui.ui.LFrameDialog({
 		        id: 'spaceChrgListDialog',
-		        title: '평가담당자',
-		        width: 600,
-		        height: 500,
+		        title: '평가담당자(Working Day, W:Week)',
+		        width: 1100,
+		        height: 530,
 		        modal: true,
 		        visible: false,
 		        buttons: [

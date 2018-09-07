@@ -7,12 +7,12 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlRqprSearchPopup.jsp
+ * $Id		: spaceRqprSearchPopup.jsp
  * @desc    : 관련평가 리스트 조회 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2017.08.25  오명철		최초생성
+ * 1.0  2018.09.07  정현웅		최초생성
  * ---	-----------	----------	-----------------------------------------
  * IRIS UPGRADE 1차 프로젝트
  *************************************************************************
@@ -47,26 +47,26 @@
              * 변수 및 객체 선언
              *******************/
 			if( '${inputData._userDept}' == "58141801" ){
-				isAnlChrg = 1;
+				isSpaceChrg = 1;
 			}else{
-				isAnlChrg = 0;
+				isSpaceChrg = 0;
 			}
 
-            var anlNm = new Rui.ui.form.LTextBox({
-                 applyTo: 'anlNm',
+            var spaceNm = new Rui.ui.form.LTextBox({
+                 applyTo: 'spaceNm',
                  placeholder: '검색할 평가명을 입력해주세요.',
                  defaultValue: '',
                  emptyValue: '',
                  width: 300
             });
 
-            anlNm.on('blur', function(e) {
-            	anlNm.setValue(anlNm.getValue().trim());
+            spaceNm.on('blur', function(e) {
+            	spaceNm.setValue(spaceNm.getValue().trim());
             });
 
-            anlNm.on('keypress', function(e) {
+            spaceNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
-            		getAnlRqprList();
+            		getSpaceRqprList();
             	}
             });
 
@@ -84,13 +84,13 @@
             	$('#rgstId').val('');
             });
 
-            var anlChrgId = new Rui.ui.form.LCombo({
-                applyTo: 'anlChrgId',
-                name: 'anlChrgId',
+            var spaceChrgId = new Rui.ui.form.LCombo({
+                applyTo: 'spaceChrgId',
+                name: 'spaceChrgId',
                 emptyText: '전체',
                 defaultValue: '',
                 emptyValue: '',
-                url: '<c:url value="/anl/getAnlChrgList.do"/>',
+                url: '<c:url value="/space/getSpaceChrgList.do"/>',
                 displayField: 'name',
                 valueField: 'userId'
             });
@@ -109,65 +109,65 @@
             /*******************
              * 변수 및 객체 선언
             *******************/
-            var anlRqprDataSet = new Rui.data.LJsonDataSet({
-                id : 'anlRqprDataSet',
+            var spaceRqprDataSet = new Rui.data.LJsonDataSet({
+                id : 'spaceRqprDataSet',
                 remainRemoved : true,
                 lazyLoad : true,
                 fields : [
 					  { id: 'rqprId'}
 					, { id: 'acpcNo' }
-					, { id: 'anlScnNm' }
-					, { id: 'anlNm' }
+					, { id: 'spaceScnNm' }
+					, { id: 'spaceNm' }
 					, { id: 'rgstId' }
 					, { id: 'rgstNm' }
-					, { id: 'anlChrgNm' }
+					, { id: 'spaceChrgNm' }
 					, { id: 'rqprDt' }
 					, { id: 'acpcDt' }
 					, { id: 'cmplParrDt' }
 					, { id: 'cmplDt' }
-					, { id: 'anlUgyYnNm' }
+					, { id: 'spaceUgyYnNm' }
 					, { id: 'acpcStNm' }
                 ]
             });
 
-            var anlRqprColumnModel = new Rui.ui.grid.LColumnModel({
+            var spaceRqprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns : [
-                      { field: 'acpcNo',		label: '접수번호',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'anlScnNm',		label: '평가구분',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'anlNm',			label: '평가명',		sortable: false,	align:'left',	width: 300 }
+                      { field: 'acpcNo',		label: '접수번호',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'spaceScnNm',	label: '평가구분',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'spaceNm',		label: '평가명',		sortable: false,	align:'left',	width: 300 }
                     , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
-					, { field: 'anlChrgNm',		label: '담당자',		sortable: false, 	align:'center',	width: 80 }
+					, { field: 'spaceChrgNm',	label: '담당자',		sortable: false, 	align:'center',	width: 80 }
                     , { field: 'cmplDt',		label: '완료일',		sortable: false, 	align:'center',	width: 80 }
                 ]
             });
 
-            var anlRqprGrid = new Rui.ui.grid.LGridPanel({
-                columnModel : anlRqprColumnModel,
-                dataSet : anlRqprDataSet,
+            var spaceRqprGrid = new Rui.ui.grid.LGridPanel({
+                columnModel : spaceRqprColumnModel,
+                dataSet : spaceRqprDataSet,
                 width : 700,
                 height : 300,
                 autoToEdit : false,
                 autoWidth : true
             });
 
-            anlRqprGrid.on('cellDblClick', function(e) {
-            	parent.callback(anlRqprDataSet.getAt(e.row).data);
+            spaceRqprGrid.on('cellDblClick', function(e) {
+            	parent.callback(spaceRqprDataSet.getAt(e.row).data);
 
-            	parent.anlRqprSearchDialog.submit(true);
+            	parent.spaceRqprSearchDialog.submit(true);
             });
 
-            anlRqprGrid.render('anlRqprGrid');
+            spaceRqprGrid.render('spaceRqprGrid');
 
             /* 조회 */
-            getAnlRqprList = function() {
-            	anlRqprDataSet.load({
-                    url: '<c:url value="/anl/getAnlRqprList.do"/>',
+            getSpaceRqprList = function() {
+            	spaceRqprDataSet.load({
+                    url: '<c:url value="/space/getSpaceRqprList.do"/>',
                     params :{
-                    	anlNm : encodeURIComponent(anlNm.getValue()),
-            		    anlChrgId : anlChrgId.getValue(),
+                    	spaceNm : encodeURIComponent(spaceNm.getValue()),
+            		    spaceChrgId : spaceChrgId.getValue(),
             		    rgstId : $('#rgstId').val(),
             		    spaceAcpcStCd : spaceAcpcStCd.getValue(),
-            		    isAnlChrg : isAnlChrg
+            		    isSpaceChrg : isSpaceChrg
                     }
                 });
             };
@@ -177,7 +177,7 @@
     	    	$('#rgstId').val(userInfo.saUser);
     	    }
 
-            getAnlRqprList();
+            getSpaceRqprList();
 
         });
 
@@ -203,21 +203,21 @@
    						<tr>
    							<th align="right">평가명</th>
    							<td>
-   								<input type="text" id="anlNm" value="">
+   								<input type="text" id="spaceNm" value="">
    							</td>
    							<th align="right">담당자</th>
     						<td>
-                                <div id="anlChrgId"></div>
+                                <div id="spaceChrgId"></div>
     						</td>
    							<td class="t_center" rowspan="2">
-   								<a style="cursor: pointer;" onclick="getAnlRqprList();" class="btnL">검색</a>
+   								<a style="cursor: pointer;" onclick="getSpaceRqprList();" class="btnL">검색</a>
    							</td>
    						</tr>
    						<tr>
    							<th align="right">의뢰자</th>
    							<td>
    								<input type="text" id="rgstNm" value="">
-                                <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'anl');" class="icoBtn">검색</a>
+                                <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'space');" class="icoBtn">검색</a>
    							</td>
    							<th align="right">상태</th>
    							<td>
@@ -227,7 +227,7 @@
    					</tbody>
    				</table>
 
-   				<div id="anlRqprGrid"></div>
+   				<div id="spaceRqprGrid"></div>
 
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->

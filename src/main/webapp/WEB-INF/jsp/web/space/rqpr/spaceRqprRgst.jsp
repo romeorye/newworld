@@ -386,9 +386,9 @@
 			// 평가 방법 / 담당자 선택팝업 시작
 		    spaceChrgListDialog = new Rui.ui.LFrameDialog({
 		        id: 'spaceChrgListDialog',
-		        title: '평가담당자',
-		        width: 600,
-		        height: 500,
+		        title: '평가담당자(Working Day, W:Week)',
+		        width: 1100,
+		        height: 530,
 		        modal: true,
 		        visible: false,
 		        buttons: [
@@ -417,6 +417,16 @@
             	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'infmPrsnNm', spaceChrgInfo.name);
             };
 			// 평가 담당자 선택팝업 끝
+
+			/* 평가방법/담당자 삭제 */
+            deleteSpaceRqprWayCrgr = function() {
+                if(spaceRqprWayCrgrDataSet.getMarkedCount() > 0) {
+                	spaceRqprWayCrgrDataSet.removeMarkedRows();
+                } else {
+                	alert('삭제 대상을 선택해주세요.');
+                }
+            };
+            /********** 평가방법 삭제 **********/
 
 
 			/***** 제품군 선택 *****/
@@ -819,8 +829,8 @@
             	/* spaceRqprDataSet.clearData();
             	spaceRqprWayCrgrDataSet.clearData();
             	spaceRqprRltdDataSet.clearData();
-            	spaceRqprAttachDataSet.clearData();
-            	spaceRqprDataSet.newRecord(); */
+            	spaceRqprAttachDataSet.clearData(); */
+            	spaceRqprDataSet.newRecord();
             };
 
             /* 저장 */
@@ -957,7 +967,7 @@
    					<h3><span style="color:red;">* </span>평가방법</h3>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="penSpaceChrgListDialogBtn" name="penSpaceChrgListDialogBtn" onclick="openSpaceChrgListDialog(setSpaceChrgInfo);">추가</button>
-   						<button type="button" class="btn"  id="deleteSpaceRqprSmpoBtn" name="deleteSpaceRqprSmpoBtn" onclick="deleteSpaceRqprSmpo()">삭제</button>
+   						<button type="button" class="btn"  id="deleteSpaceRqprWayCrgrBtn" name="deleteSpaceRqprWayCrgrBtn" onclick="deleteSpaceRqprWayCrgr();">삭제</button>
    					</div>
    				</div>
 
