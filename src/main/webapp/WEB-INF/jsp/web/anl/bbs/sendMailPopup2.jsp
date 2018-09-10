@@ -31,7 +31,7 @@
 Rui.onReady(function() {
 	var receiverNameList = [];
 	var receiverMailList = [];
-	var anlBbsRgstDataSet;
+	
 	var userIds   = '<c:out value="${inputData.userIds}"/>';
 	var userNames = '<c:out value="${inputData.userNames}"/>';
 	var userMails = '<c:out value="${inputData.userMails}"/>';
@@ -40,10 +40,6 @@ Rui.onReady(function() {
 	/* [폼] 메일폼 */
 	var lfMailForm = new Rui.ui.form.LForm('mailForm');
 	
-    var bbsSbc = new Rui.ui.form.LTextArea({
-        applyTo: 'bbsSbc'
-    });
-
 	/* [팝업텍스트박스] 수신자조회 */
 	var lptbSendSaNames = new Rui.ui.form.LPopupTextBox({
         applyTo: 'sendSaNames',
@@ -52,60 +48,6 @@ Rui.onReady(function() {
         placeholder: '수신자를 선택해주세요.',
         emptyValue: '',
         enterToPopup: true
-    });
-	
-    <%-- DATASET --%>
-    anlBbsRgstDataSet = new Rui.data.LJsonDataSet({
-        id: 'anlBbsRgstDataSet',
-        remainRemoved: true,
-        lazyLoad: true,
-        fields: [
-   		      { id: 'bbsId' }       /*게시판ID*/
-   			, { id: 'bbsCd' }       /*분석게시판코드*/
-   			, { id: 'bbsNm' }       /*게시판명*/
-   			, { id: 'bbsTitl'}      /*게시판제목*/
-   			, { id: 'bbsSbc' }      /*게시판내용*/
-   			, { id: 'rgstId' }      /*등록자ID*/
-   			, { id: 'rgstNm' }      /*등록자이름*/
-   			, { id: 'rtrvCt' }      /*조회건수*/
-   			, { id: 'bbsKwd' }      /*키워드*/
-   			, { id: 'attcFilId' }   /*첨부파일ID*/
-   			, { id: 'docNo' }       /*문서번호*/
-   			, { id: 'anlBbsCd' }       /*SOP번호*/
-   			, { id: 'anlTlcgClNm' } /*분석기술정보분류이름*/
-   			, { id: 'qnaClCd' }     /*질문답변구분코드*/
-   			, { id: 'qnaClNm' }     /*질문답변구분이름*/
-   			, { id: 'frstRgstDt'}   /*등록일*/
-   			, { id: 'delYn' }       /*삭제여부*/
-	  		]
-    });
-    
-    anlBbsRgstDataSet.on('load', function(e) {
-    	lvAttcFilId = anlBbsRgstDataSet.getNameValue(0, "attcFilId");
-        if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
-
-        if(anlBbsRgstDataSet.getNameValue(0, "bbsId")  != "" ||  anlBbsRgstDataSet.getNameValue(0, "bbsId")  !=  undefined ){
-			CrossEditor.SetBodyValue( anlBbsRgstDataSet.getNameValue(0, "bbsSbc") );
-		}
-    });
-    
-    /* [DataSet] bind */
-    var anlBbsRgstBind = new Rui.data.LBind({
-        groupId: 'mailForm',
-        dataSet: anlBbsRgstDataSet,
-        bind: true,
-        bindInfo: [
-              { id: 'bbsTitl',    ctrlId: 'bbsTitl',    value: 'value' }
-            , { id: 'bbsSbc',     ctrlId: 'bbsSbc',     value: 'value' }
-            , { id: 'docNo',      ctrlId: 'docNo',      value: 'value' }
-            , { id: 'anlBbsCd',   ctrlId: 'anlBbsCd',   value: 'value' }
-            , { id: 'txtAnlBbsCd',   ctrlId: 'txtAnlBbsCd',   value: 'value' }
-            , { id: 'attcFilId',  ctrlId: 'attcFilId',  value: 'value' }
-            , { id: 'bbsKwd',     ctrlId: 'bbsKwd',     value: 'value' }
-            , { id: 'rgstNm',     ctrlId: 'rgstNm',     value: 'html' }     //등록자
-            , { id: 'frstRgstDt', ctrlId: 'frstRgstDt', value: 'html' }     //등록일
-
-        ]
     });
 	
 	lptbSendSaNames.on('popup', function(e){
@@ -120,6 +62,14 @@ Rui.onReady(function() {
 	     width : 450
 	});
 	
+    /* [텍스트AREA] 내용 */
+    var ltaMailText = new Rui.ui.form.LTextArea({
+ 	   applyTo: 'mailText',
+ 	   placeholder: '',
+ 	   width: 450,
+ 	   height: 300
+	});
+
     /* [버튼] 초기화 */
 	var lbutClear = new Rui.ui.LButton('butClear');
 	lbutClear.on('click', function() {
@@ -142,7 +92,7 @@ Rui.onReady(function() {
  			text: '메일을 발송하시겠습니까?',
  	        handlerYes: function() {
  	        	dmSendMail.updateForm({
- 	        	    url: "<c:url value='/anl/bbs/sendMail.do'/>"
+ 	        	    url: "<c:url value='/prj/mm/mail/sendMail.do'/>"
  	        	  , form: 'mailForm'
  	        	  , params: {
  	        		    receiverNameList : receiverNameList
@@ -193,25 +143,10 @@ Rui.onReady(function() {
     	receiverMailList = userMails.split(',');
     	lptbSendSaNames.setValue(userNames);
     	$('#sendSaNames').val(userIds);
-    	
-		var bbsId = '${inputData.bbsId}';
-
-        /* 상세내역 가져오기 */
-        getAnlBbsInfo = function() {
-            anlBbsRgstDataSet.load({
-                 url: '<c:url value="/anl/bbs/getAnlBbsInfo.do"/>',
-                 params :{
-                     bbsId : bbsId
-                 }
-             });
-        };
-
-        getAnlBbsInfo();
 
     };
     
     onInit();
-    
 });	// end RUI on load
 
 </script>
@@ -247,20 +182,9 @@ Rui.onReady(function() {
 					<tr>
 						<th align="right">내용</th>
 						<td>
-								<textarea id="bbsSbc" name="bbsSbc"></textarea>
-									<script type="text/javascript" language="javascript">
-										var CrossEditor = new NamoSE('bbsSbc');
-										CrossEditor.params.Width = "100%";
-										CrossEditor.params.UserLang = "auto";
-										CrossEditor.params.ImageSavePath = "/iris/resource/fileupload/mchn";
-										CrossEditor.params.FullScreen = false;
-										CrossEditor.EditorStart();
-										
-										function OnInitCompleted(e){
-											e.editorTarget.SetBodyValue(document.getElementById("bbsSbc").value);
-										}
-									</script>
-
+							<textarea id="mailText"><c:out value='${inputData.bbsSbc}' escapeXml="false"/>
+							                        <c:out value='${inputData.bbsSbc}'/></textarea>
+							
 						</td>
 					</tr>
 				</tbody>
