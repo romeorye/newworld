@@ -24,6 +24,7 @@
 			   ,F.SEQ AS seq
 			   ,A.MCHN_CL_CD AS mchnClCd
 			   ,dbo.fn_getEvWay(A.MCHN_INFO_ID) AS evWay
+			   ,A.VER AS ver
 		FROM   IRIS_SPACE_MCHN_INFO_MGMT  A
 		       LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
 			   ON F.ATTC_FIL_ID = A.ATTC_FIL_ID
