@@ -276,6 +276,8 @@ public class RlabMchnInfoController extends IrisBaseController {
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+		
+		System.out.println("\n\n ...................input : "+input);
 
 		String rtnSt ="F";
 		String rtnMsg = "";

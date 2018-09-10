@@ -125,9 +125,8 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
         //mime.decode(input.get("dtlSbc").toString());                  // MIME 디코딩
         //mime.saveFileAtPath(uploadPath+File.separator);
         //dtlSbcHtml = mime.getBodyContent();
-        dtlSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(dtlSbcHtml, "<", "@![!@"),">","@!]!@"));
-
-        input.put("dtlSbc", dtlSbcHtml);
+        //dtlSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(dtlSbcHtml, "<", "@![!@"),">","@!]!@"));
+        //input.put("dtlSbc", dtlSbcHtml);
 
         MailSender mailSender = mailSenderFactory.createMailSender(); 
         RlabMchnInfoVo vo = new RlabMchnInfoVo();
