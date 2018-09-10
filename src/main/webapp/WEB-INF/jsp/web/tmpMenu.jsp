@@ -175,7 +175,7 @@
 {name:"신뢰성시험", mdName:"", depth:"1",confirm:""},
 {name:"연도별 통계", mdName:"/iris/stat/rlab/rlabState.do", depth:"2",confirm:""},
 {name:"기간별 통계", mdName:"/iris/stat/rlab/rlabTermState.do", depth:"2",confirm:""},
-{name:"장비사용 통계", mdName:"", depth:"2",confirm:""},
+{name:"장비사용 통계", mdName:"/iris/stat/rlab/rlabMchnUseState.do", depth:"2",confirm:""},
 {name:"공간평가", mdName:"", depth:"1",confirm:""},
 {name:"통계1", mdName:"", depth:"2",confirm:""},
 {name:"통계2", mdName:"", depth:"2",confirm:""},

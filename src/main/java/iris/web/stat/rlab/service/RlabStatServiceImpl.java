@@ -74,13 +74,43 @@ public class RlabStatServiceImpl implements RlabStatService {
 	}
 
 	/**
-    * 통계 > 연도 조회
+    * 통계 > 기간별통계 조회
     * @param input HashMap<String, Object>
     * @return ModelAndView
     * */
 	@Override
 	public List<Map<String, Object>> retrieveRlabTermStatList(HashMap<String, Object> input){
 		return commonDao.selectList("stat.rlab.retrieveRlabTermStatList", input);
+	}
+
+	/**
+    * 통계 > 장비사용통계 조회
+    * @param input HashMap<String, Object>
+    * @return ModelAndView
+    * */
+	@Override
+	public List<Map<String, Object>> retrieveRlabMchnUseStatList(HashMap<String, Object> input){
+		return commonDao.selectList("stat.rlab.retrieveRlabMchnUseStatList", input);
+	}
+
+	/**
+    * 통계 > 장비사용통계 장비분류 소분류
+    * @param input HashMap<String, Object>
+    * @return ModelAndView
+    * */
+	@Override
+	public List<Map<String, Object>> retrieveRlabMchnClDtlCd(HashMap<String, Object> input){
+		return commonDao.selectList("stat.rlab.retrieveRlabMchnClDtlCd", input);
+	}
+
+	/**
+    * 통계 > 장비사용통계 조회 장비분류 대분류
+    * @param input HashMap<String, Object>
+    * @return ModelAndView
+    * */
+	@Override
+	public List<Map<String, Object>> retrieveRlabMchnClCd(HashMap<String, Object> input){
+		return commonDao.selectList("stat.rlab.retrieveRlabMchnClCd", input);
 	}
 
 }

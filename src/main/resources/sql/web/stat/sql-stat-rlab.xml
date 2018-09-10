@@ -256,10 +256,10 @@
 									  ,LEFT(RQPRMST.CMPL_PARR_DT,7) AS cmplYM
 									  ,RIGHT(LEFT(RQPRMST.CMPL_PARR_DT,7),2) AS cmplMonth
 								  FROM IRIS_RLAB_RQPR_MST RQPRMST
-								 INNER JOIN IRIS_RLAB_RQPR_EXPR RQPREXPR
+								 INNER JOIN IRIS_RLAB_RQPR_EXAT RQPREXPR
 									ON RQPRMST.RQPR_ID=RQPREXPR.RQPR_ID
 								 INNER JOIN IRIS_RLAB_EXAT_MST RLABEXAT
-									ON RQPREXPR.EXPR_CD=RLABEXAT.EXAT_CD
+									ON RQPREXPR.EXAT_CD=RLABEXAT.EXAT_CD
 		                        WHERE 1=1
 		                          AND RQPRMST.CMPL_DT IS NOT NULL
 		                        --AND RQPRMST.CMPL_DT BETWEEN '2018-01-01' AND '2018-12-31'
@@ -412,10 +412,10 @@
 				             AND CMPL_DT IS NOT NULL
 		                     AND CMPL_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) AS sum
 		  FROM IRIS_RLAB_RQPR_MST RQPRMST
-		 INNER JOIN IRIS_RLAB_RQPR_EXPR RQPREXPR
+		 INNER JOIN IRIS_RLAB_RQPR_EXAT RQPREXPR
             ON RQPRMST.RQPR_ID=RQPREXPR.RQPR_ID
          INNER JOIN IRIS_RLAB_EXAT_MST RLABEXAT
-            ON RQPREXPR.EXPR_CD=RLABEXAT.EXAT_CD
+            ON RQPREXPR.EXAT_CD=RLABEXAT.EXAT_CD
 		 WHERE 1=1
 		   AND RQPRMST.CMPL_DT IS NOT NULL
 		   AND RQPRMST.CMPL_DT BETWEEN #{frDt} AND #{toDt}
@@ -436,5 +436,84 @@
 		   GROUP BY RLAB_CHRG_ID
 		 ]]>
 	</select>
+
+	<select id="retrieveRlabMchnUseStatList" resultType="hashmap">
+	--retrieveRlabMchnUseStatList 장비사용 통계조회
+		<![CDATA[
+		with DEPT_MST AS
+					(
+					SELECT SD.dept_code
+							,SD.dept_name
+							,SD.DEPT_LEVEL AS DEPT_LEVEL
+							,SD.dept_name  AS master_lv1
+							,CAST(null AS NVARCHAR(300)) AS master_lv2
+							,CAST(null AS NVARCHAR(10)) AS master_code_lv2
+						FROM IRIS_SSO_DEPT SD
+						WHERE SD.dept_code = '50000000'
+						UNION ALL
+						SELECT SD2.dept_code
+							,SD2.DEPT_NAME
+							,SD2.DEPT_LEVEL AS DEPT_LEVEL
+							,AEM3.master_lv1
+							,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_name ELSE AEM3.master_lv2 END master_lv2
+							,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_code ELSE AEM3.master_code_lv2 END master_code_lv2
+						FROM IRIS_SSO_DEPT SD2
+							,DEPT_MST AEM3
+						WHERE  1=1
+						AND SD2.dept_uper = aem3.dept_code
+					)
+		SELECT DEPTMST.DEPT_NAME as deptName
+		      ,DEPTMST.master_lv2 as masterLv2
+			  ,EXAT.EXAT_STRT_DT as exatStrtDt
+			  ,EXAT.EXAT_FNH_DT as exatFhnDt
+			  ,EXAT.EXAT_STRT_DT +' ~ ' + EXAT.EXAT_FNH_DT as exatDt
+			  ,EXAT.EXAT_TIM as exatTim
+			  ,EXAT.SMPO_QTY AS exatQty
+			  ,MGMT.SMPO_QTY AS smpoQty
+			  ,(EXAT.SMPO_QTY/convert(float,MGMT.SMPO_QTY)) as mchnUse
+		  FROM DBO.IRIS_RLAB_RQPR_MST MST
+		 INNER JOIN DBO.IRIS_RLAB_RQPR_EXAT EXAT
+		    ON MST.RQPR_ID=EXAT.RQPR_ID
+		 INNER JOIN dbo.IRIS_RLAB_EXAT_MST EXATMST
+		    ON EXATMST.EXAT_CD=EXAT.EXAT_CD
+		 INNER JOIN dbo.IRIS_RLAB_EXAT_DTL EXATDTL
+		    ON EXATMST.EXAT_CD=EXATDTL.EXAT_CD
+		 INNER JOIN DBO.IRIS_RLAB_MCHN_INFO_MGMT MGMT
+		    ON MGMT.MCHN_INFO_ID=EXATDTL.MCHN_INFO_ID
+		   AND MGMT.MCHN_INFO_ID=EXAT.MCHN_INFO_ID
+		 INNER JOIN DEPT_MST AS DEPTMST
+		    ON MST.RQPR_DEPT_CD=DEPTMST.DEPT_CODE
+		 WHERE 1=1
+		   AND EXATMST.SUPI_EXAT_CD=#{supiExatCd}
+		   AND EXATMST.EXAT_CD=#{exatCd}
+		   AND MST.CMPL_DT IS NOT NULL
+		   AND MST.CMPL_DT BETWEEN #{frDt} AND #{toDt}
+		 ]]>
+	</select>
+
+    <select id="retrieveRlabMchnClDtlCd" resultType="HashMap">
+        <![CDATA[
+	/*retrieveRlabMchnClDtlCd 장비분류 코드 목록*/
+        SELECT EXAT_NM as COM_DTL_NM
+		      ,EXAT_CD as COM_DTL_CD
+		 FROM IRIS_RLAB_EXAT_MST
+		WHERE 1=1
+		  AND EXAT_CD_L='2'
+		  AND DEL_YN='N'
+		  AND CAST(SUPI_EXAT_CD AS CHAR(10))=#{exatCd}
+        ]]>
+    </select>
+
+    <select id="retrieveRlabMchnClCd" resultType="HashMap">
+        <![CDATA[
+	/*retrieveRlabMchnClDtlCd 장비분류 코드 목록*/
+        SELECT EXAT_NM as COM_DTL_NM
+		      ,EXAT_CD as COM_DTL_CD
+		 FROM IRIS_RLAB_EXAT_MST
+		WHERE 1=1
+		  AND EXAT_CD_L='1'
+		  AND DEL_YN='N'
+        ]]>
+    </select>
 
 </mapper>

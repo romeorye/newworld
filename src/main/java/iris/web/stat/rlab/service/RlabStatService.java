@@ -54,4 +54,28 @@ public interface RlabStatService {
      * */
 	List<Map<String, Object>> retrieveRlabTermStatList(HashMap<String, Object> input);
 
+	/**
+     * 통계 > 장비사용통계 리스트 조회
+     *
+     * @param input HashMap<String, Object>
+     * @return ModelAndView
+     * */
+	List<Map<String, Object>> retrieveRlabMchnUseStatList(HashMap<String, Object> input);
+
+	/**
+     * 통계 > 장비사용통계 장비분류 소분류
+     *
+     * @param input HashMap<String, Object>
+     * @return ModelAndView
+     * */
+	List<Map<String, Object>> retrieveRlabMchnClDtlCd(HashMap<String, Object> input);
+
+	/**
+     * 통계 > 장비사용통계 장비분류 대분류
+     *
+     * @param input HashMap<String, Object>
+     * @return ModelAndView
+     * */
+	List<Map<String, Object>> retrieveRlabMchnClCd(HashMap<String, Object> input);
+
 }

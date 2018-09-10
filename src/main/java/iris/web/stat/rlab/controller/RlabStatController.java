@@ -255,4 +255,116 @@ public class RlabStatController extends IrisBaseController {
 
         return modelAndView;
     }
+
+	 /**
+     * 통계 > 신뢰성시험 > 장비사용통계 화면
+     *
+     * @param input HashMap<String, String>
+     * @param request HttpServletRequest
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return String
+     * */
+    @RequestMapping(value="/stat/rlab/rlabMchnUseState.do")
+    public String rlabMchnUseState(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+            HttpSession session, ModelMap model) {
+
+    	LOGGER.debug("###########################################################");
+        LOGGER.debug("prjState [통계 > 신뢰성시험 > 장비사용통계 화면]");
+        LOGGER.debug("###########################################################");
+
+        checkSessionObjRUI(input, session, model);
+
+         model.addAttribute("inputData", input);
+
+        return "web/stat/rlab/rlabMchnUseStatList";
+    }
+
+    /**
+     * 통계 > 신뢰성시험 > 장비사용통계 리스트 조회
+     *
+     * @param input HashMap<String, Object>
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return ModelAndView
+     * */
+    @RequestMapping(value="/stat/rlab/retrieveRlabMchnUseStatList.do")
+    public ModelAndView retrieveRlabMchnUseStatList(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+            HttpServletResponse response, HttpSession session, ModelMap model) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("retrieveRlabMchnUseStatList [통계 > 신뢰성시험 > 연도별통계 기간별통계 리스트 조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        checkSessionObjRUI(input, session, model);
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        List<Map<String,Object>> list = rlabStatService.retrieveRlabMchnUseStatList(input);
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", list));
+
+        return modelAndView;
+    }
+
+    /**
+     * 통계 > 신뢰성시험 > 장비사용통계 장비분류 소분류 조회
+     *
+     * @param input HashMap<String, Object>
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return ModelAndView
+     * */
+    @RequestMapping(value="/stat/rlab/retrieveRlabMchnClDtlCd.do")
+    public ModelAndView retrieveRlabMchnClDtlCd(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+            HttpServletResponse response, HttpSession session, ModelMap model) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("retrieveRlabMchnClDtlCd [통계 > 신뢰성시험 > 장비사용통계 장비분류 소분류조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        checkSessionObjRUI(input, session, model);
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        List<Map<String,Object>> list = rlabStatService.retrieveRlabMchnClDtlCd(input);
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", list));
+
+        return modelAndView;
+    }
+
+    /**
+     * 통계 > 신뢰성시험 > 장비사용통계 장비분류 대분류 조회
+     *
+     * @param input HashMap<String, Object>
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return ModelAndView
+     * */
+    @RequestMapping(value="/stat/rlab/retrieveRlabMchnClCd.do")
+    public ModelAndView retrieveRlabMchnClCd(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+            HttpServletResponse response, HttpSession session, ModelMap model) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("retrieveRlabMchnClCd [통계 > 신뢰성시험 > 장비사용통계 장비분류 대분류조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        checkSessionObjRUI(input, session, model);
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        List<Map<String,Object>> list = rlabStatService.retrieveRlabMchnClCd(input);
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", list));
+
+        return modelAndView;
+    }
+
 }
