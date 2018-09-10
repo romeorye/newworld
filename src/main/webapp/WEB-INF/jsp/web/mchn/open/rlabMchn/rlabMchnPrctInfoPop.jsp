@@ -157,7 +157,7 @@ var dtlSbc = "";
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
 		
-        var bbsSbc = new Rui.ui.form.LTextArea({
+        var dtlSbc = new Rui.ui.form.LTextArea({
             applyTo: 'dtlSbc'
         });
 		

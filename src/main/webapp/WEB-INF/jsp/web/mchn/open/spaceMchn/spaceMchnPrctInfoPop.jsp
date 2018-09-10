@@ -109,6 +109,7 @@ var mailTitl ="보유TOOL 예약신청";
 
       	var prctFromDt = new Rui.ui.form.LDateBox({
              applyTo: 'prctFromDt',
+             listPosition: 'down',
              mask: '9999-99-99',
              displayValue: '%Y-%m-%d',
 
@@ -117,6 +118,7 @@ var mailTitl ="보유TOOL 예약신청";
      		
         var prctToDt = new Rui.ui.form.LDateBox({
              applyTo: 'prctToDt',
+             listPosition: 'down',
              mask: '9999-99-99',
              displayValue: '%Y-%m-%d',
              dateType: 'string'

@@ -132,7 +132,10 @@
 		                            </li>
 		                            <li class="txt_box_s"><%=item.get("mdlNm")%> | <%=item.get("mkrNm")%></li>
 		                            <li class="txt_s"><%=item.get("mchnExpl")%></li>
+		                            <!--  
 		                            <li class="txt_ss">[ <%=item.get("mchnLoc")%> ] <%=item.get("crgrNm")%></li>
+		                            -->
+		                            <li class="txt_ss">담당자 : <%=item.get("crgrNm")%></li>
 		                        </ul>
 		                     </a>   
 		                    </div>

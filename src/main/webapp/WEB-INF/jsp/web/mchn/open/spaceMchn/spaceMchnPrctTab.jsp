@@ -210,7 +210,7 @@ var mchnPrctId;
           				if( dispDay == chkDt ){
 			          		%>
 			          		<li><a href="javascript:parent.fncMchnPrctPop('<%=item.get("mchnPrctId")%>','<%=year%>', '<%=month%>','<%=dispDay%>','<%=item.get("mchnClCd")%>');">
-			          		    <%=item.get("prctTitl")%>&nbsp;<span><%=item.get("rgstNm") %></span>
+			          		    <span><%=item.get("prctTitl")%></span>
 			          		    </a>
 			          		</li> 
 			          		<%          						

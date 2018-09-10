@@ -85,10 +85,12 @@
             	<span class="table_summay_number" id="cnt_text">총 <%=mchnList.size()%>건</span>
             	
                 <div class="fr">
-                
+                    
+                 <!--  
                 	<input type="radio" id="opnYn" name="opnYn" value="ALL">전체</>&nbsp;
                     <input type="radio" id="opnYn" name="opnYn" value="Y">OPEN</>&nbsp;&nbsp;&nbsp;
-
+                 -->
+                    <input type="hidden" id="opnYn" name="opnYn" value="ALL">
                     <select class="select" id="cbSrh" name="cbSrh">
                         <option value="nm">TOOL명</option>
                         <option value="id">담당자명</option>
@@ -115,7 +117,9 @@
 		                     <a href="javascript:parent.fncMchnDtlMove('<%=item.get("mchnInfoId")%>');" >
 		                        <ul>
 		                        	<li class="txt_b">
-		                                <span><%=item.get("mchnHanNm")%></span>
+		                                <span><%=item.get("mchnHanNm")%></span> /
+		                                <span><%=item.get("ver")%></span>
+		                                <!--  
 		                                <div class="normal_icon01">
 		                               <%if( item.get("mchnUsePsblYn").equals("Y") ){ %>
 			                                <span class="icon01"></span>
@@ -131,6 +135,8 @@
 		                                	<span class="pt3"><%=item.get("opnNm")%></span>
 	                                	</div>
 		                               <%}%>
+		                               -->
+		                               
 		                            </li>
 		                            <li class="txt_box_s"><%=item.get("evWay")%></li>
 		                            <li class="txt_s"><%=item.get("mchnExpl")%></li>
