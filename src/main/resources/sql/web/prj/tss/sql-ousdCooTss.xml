@@ -6,7 +6,7 @@
 	<!--========================== 대외협력과제_마스터 ==========================-->
 	<select id="retrieveOusdCooTssList" resultType="hashmap">
     <![CDATA[
-    -- retrieveOusdCooTssList
+/*대외협력과제 목록 retrieveOusdCooTssList*/
         SELECT  Z.*
 		FROM   (
 				select    M.WBS_CD                                        AS wbsCd        --과제코드

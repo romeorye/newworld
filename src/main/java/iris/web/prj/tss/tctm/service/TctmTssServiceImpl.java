@@ -21,26 +21,178 @@ public class TctmTssServiceImpl implements TctmTssService {
 	@Resource(name = "commonDao")
 	private CommonDao commonDao;
 
+	private final String tctmPack = "prj.tss.tctm";
 
+	/*과제*/
 	@Override
 	public List<Map<String, Object>> selectTctmTssList(HashMap<String, Object> input) {
 		TestConsole.showMap(input);
-		return commonDao.selectList("prj.tss.tctm.selectList", input);
+		return commonDao.selectList(tctmPack + ".selectList", input);
 	}
 
 	@Override
 	public Map<String, Object> selectTctmTssInfo(HashMap<String, String> input) {
-		return commonDao.select("prj.tss.tctm.selectInfo", input);
+		return commonDao.select(tctmPack + ".selectInfo", input);
 	}
 
+	@Override
+	public void updateTctmTssInfo(HashMap<String, Object> input) {
+		TestConsole.showMap(input);
+		commonDao.insert(tctmPack + ".updateInfo", input);
+	}
+
+	@Override
+	public void deleteTctmTssInfo(HashMap<String, String> input) {
+		commonDao.delete(tctmPack + ".deleteInfo", input);
+		deleteTctmTssSmryInfo(input);
+		deleteTctmTssGoalInfo(input);
+	}
+
+
+	/*개요*/
 	@Override
 	public Map<String, Object> selectTctmTssInfoSmry(HashMap<String, String> input) {
-		return commonDao.select("prj.tss.tctm.selectInfoSmry", input);
+		return commonDao.select(tctmPack + ".selectInfoSmry", input);
 	}
 
 	@Override
-	public Map<String, Object> selectTctmTssInfoAltrI(HashMap<String, String> input) {
-		return null;
+	public void updateTctmTssSmryInfo(HashMap<String, Object> input) {
+		TestConsole.showMap(input);
+		commonDao.insert(tctmPack + ".updateSmryInfo", input);
+	}
+
+	@Override
+	public void deleteTctmTssSmryInfo(HashMap<String, String> input) {
+		commonDao.delete(tctmPack + ".deleteSmryInfo", input);
+	}
+
+
+	/*산출물*/
+	@Override
+	public void updateTctmTssYld(HashMap<String, Object> input) {
+
+		Calendar cal = Calendar.getInstance();
+		int yy = cal.get(Calendar.MONTH) + 1;
+
+		//과제 제안서/GRS 심의서
+
+		input.put("goalY", input.get("tssStrtDd").toString().substring(0, 4));
+		input.put("yldItmType", "01");
+		input.put("arslYymm", input.get("tssStrtDd").toString().substring(0, 4) + "-" + CommonUtil.getZeroAddition(String.valueOf(yy), 2));
+		commonDao.update("prj.tss.com.updateTssYld", input);
+
+		//Qgate 1,2,3
+		input.put("goalY", input.get("tssFnhDd").toString().substring(0, 4));
+		input.put("yldItmType", "02");
+		input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
+		commonDao.update("prj.tss.com.updateTssYld", input);
+		input.put("goalY", input.get("tssFnhDd").toString().substring(0, 4));
+		input.put("yldItmType", "03");
+		input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
+		commonDao.update("prj.tss.com.updateTssYld", input);
+		input.put("goalY", input.get("tssFnhDd").toString().substring(0, 4));
+		input.put("yldItmType", "04");
+		input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
+		commonDao.update("prj.tss.com.updateTssYld", input);
+	}
+
+	@Override
+	public void deleteTctmTssGoalInfo(HashMap<String, String> input) {
+		commonDao.delete(tctmPack + ".deleteGoalInfo", input);
+	}
+
+
+	/*변경개요*/
+	@Override
+	public List<Map<String, Object>> selectTctmTssInfoAltrSmry(HashMap<String, String> input) {
+		return commonDao.selectList(tctmPack + ".selectAltrSmry", input);
+	}
+
+	@Override
+	public void updateTctmTssInfoAltrSmry(HashMap<String, Object> input, HashMap<String, Object> mstDs, HashMap<String, Object> smryDs, List<Map<String, Object>> altrDs) {
+//		commonDao.update(tctmPack + ".updateAltrSmrySmry", input);
+
+		String pgsStepCd = (String) mstDs.get("pgsStepCd");
+
+		if ("PG".equals(pgsStepCd)) {
+			//변경 신규
+			mstDs.put("createMod", "Altr");
+			mstDs.put("pgsStepCd", "AL");
+
+			int mstCnt = commonDao.insert("prj.tss.com.insertTssMst", mstDs);
+
+			if (mstCnt > 0) {
+				String tssCd = String.valueOf(mstDs.get("tssCd"));
+
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("tssCd", mstDs.get("pgTssCd"));
+				map.put("userId", mstDs.get("userId"));
+
+				if ("100".equals(String.valueOf(mstDs.get("pgTssSt")))) {
+					map.put("tssSt", "201"); //진행화면 -> 변경요청
+				} else {
+					map.put("tssSt", "202"); //GRS완료후 변경생성
+				}
+
+				commonDao.update("prj.tss.com.updateTssMstTssSt", map); //진행과제 상태코드 변경
+				mstDs.put("pgTssSt", map.get("tssSt"));
+
+				for (int i = 0; i < altrDs.size(); i++) {
+					altrDs.get(i).put("tssCd", tssCd);
+				}
+				commonDao.batchUpdate("prj.tss.gen.altr.updateGenTssAltrSmryList", altrDs); //변경목록
+
+				smryDs.put("tssCd", tssCd);
+				smryDs.put("pgTssCd", mstDs.get("pgTssCd"));
+
+				//개요 첨부파일ID 신규생성
+				HashMap<String, Object> attachFile = commonDao.select(tctmPack+".selectSmryFileId", mstDs);
+				if (!attachFile.isEmpty()) {
+					attachFile.put("userId", mstDs.get("userId"));
+					commonDao.insert("prj.tss.com.insertTssAttachFile", attachFile);
+					smryDs.put("attcFilId", attachFile.get("newAttcFilId"));
+				}
+
+				commonDao.insert(tctmPack + ".duplicateSmryInfo", smryDs);  			//변경 개요  복제
+				commonDao.update(tctmPack + ".updateSmryInfoAltrRson", smryDs); //변경 사유 반영
+				commonDao.insert("prj.tss.gen.altr.insertGenTssAltrYld", smryDs);    //산출물 복제
+
+				//산출물 첨부파일ID 신규생성
+				HashMap<String, Object> yldMap = new HashMap<String, Object>();
+				yldMap.put("tssCd", smryDs.get("tssCd"));
+				yldMap.put("newAttcFilId", smryDs.get("attcFilId"));
+				yldMap.put("gbn", "Y");
+				yldMap.put("userId", smryDs.get("userId"));
+				commonDao.select("prj.tss.com.insertTssAttcFilIdCreate", yldMap);
+			}
+		} else if ("AL".equals(pgsStepCd)) {
+			//변경 수정
+			commonDao.update("prj.tss.com.updateTssMst", mstDs);    				// 마스터 수정
+			commonDao.update(tctmPack + ".updateSmryInfoAltrRson", smryDs); //변경 사유 반영
+
+			for (int i = 0; i < altrDs.size(); i++) {
+				//삭제
+				if ("3".equals(altrDs.get(i).get("duistate"))) {
+					commonDao.delete("prj.tss.gen.altr.deleteGenTssAltrSmryList", altrDs.get(i));
+				}
+				//신규,수정
+				else {
+					commonDao.update("prj.tss.gen.altr.updateGenTssAltrSmryList", altrDs.get(i));
+				}
+			}
+		}
+	}
+
+	@Override
+	public void deleteTctmTssInfoAltrSmry(HashMap<String, String> input) {
+//		commonDao.delete(tctmPack + ".deleteAltrSmry", input);
+	}
+
+
+	/*변경이력*/
+	@Override
+	public List<Map<String, Object>> selectTctmTssInfoAltrHis(HashMap<String, String> input) {
+		return commonDao.selectList(tctmPack + ".selectInfoAltrHis", input);
 	}
 
 	@Override
@@ -53,87 +205,22 @@ public class TctmTssServiceImpl implements TctmTssService {
 		return commonDao.selectList("prj.tss.com.retrieveTssGoal", input);
 	}
 
-	@Override
-	public Map<String, Object> selectTctmTssInfoAltrHis(HashMap<String, String> input) {
-		return null;
-	}
 
-
-	@Override
-	public void updateTctmTssInfo(HashMap<String, Object> input) {
-		TestConsole.showMap(input);
-		commonDao.insert("prj.tss.tctm.updateInfo", input);
-	}
-
-	@Override
-	public void updateTctmTssSmryInfo(HashMap<String, Object> input) {
-		TestConsole.showMap(input);
-		commonDao.insert("prj.tss.tctm.updateSmryInfo", input);
-	}
-
-	@Override
-	public void updateTctmTssAltrInfo(HashMap<String, Object> input) {
-
-	}
-
-
-
-
-	@Override
-	public void updateTctmTssYld(HashMap<String, Object> input) {
-		//과제 제안서
-		Calendar cal = Calendar.getInstance();
-		int yy   = cal.get(Calendar.MONTH) + 1;
-
-		input.put("goalY",       input.get("tssStrtDd").toString().substring(0,4));
-		input.put("yldItmType", "01");
-		input.put("arslYymm",  input.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(yy), 2));
-		commonDao.update("prj.tss.com.updateTssYld", input);
-
-		//중단 완료 보고서
-		input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
-		input.put("yldItmType", "03");
-		input.put("arslYymm",       input.get("tssFnhDd").toString().substring(0,7));
-		commonDao.update("prj.tss.com.updateTssYld", input);
-	}
-
-
-	@Override
-	public void deleteTctmTssInfo(HashMap<String, Object> input) {
-		commonDao.delete("prj.tss.tctm.deleteInfo", input);
-	}
-
-	@Override
-	public void deleteTctmTssSmryInfo(HashMap<String, Object> input) {
-		commonDao.delete("prj.tss.tctm.deleteSmryInfo", input);
-	}
-
-
-	@Override
-	public void deleteTctmTssAltrIInfo(HashMap<String, Object> input) {
-		commonDao.delete("prj.tss.tctm.deleteAltrInfo", input);
-	}
-
-
-	@Override
-	public void deleteTctmTssGoalInfo(HashMap<String, Object> input) {
-		commonDao.delete("prj.tss.tctm.deleteGoalInfo", input);
-	}
-
+	/*GRS*/
 	@Override
 	public void deleteTctmTssEv(HashMap<String, Object> input) {
-		commonDao.delete("prj.tss.tctm.deleteEv", input);
+		commonDao.delete(tctmPack + ".deleteEv", input);
 	}
 
 	@Override
 	public void deleteTctmTssEvResult(HashMap<String, Object> input) {
-		commonDao.delete("prj.tss.tctm.deleteEvResult", input);
+		commonDao.delete(tctmPack + ".deleteEvResult", input);
 	}
 
 
 	@Override
 	public String selectNewTssCdt(HashMap<String, Object> input) {
-		return commonDao.select("prj.tss.tctm.selectNewTssCd", input);
+		return commonDao.select(tctmPack + ".selectNewTssCd", input);
 	}
 
 	@Override

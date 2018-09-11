@@ -77,7 +77,7 @@ public class TctmTssController extends IrisBaseController {
      * @return String
      */
     @RequestMapping(value = TctmUrl.doList)
-    public String tctmTssList(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpSession session, ModelMap model) {
+    public String doList(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpSession session, ModelMap model) {
 
         checkSessionObjRUI(input, session, model);
         LOGGER.debug("###########################################################");
@@ -110,7 +110,7 @@ public class TctmTssController extends IrisBaseController {
      */
     @SuppressWarnings("unchecked")
     @RequestMapping(value = TctmUrl.doSelectList)
-    public ModelAndView tctmTssSelectList(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+    public ModelAndView doSelectList(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
                                            HttpServletResponse response, HttpSession session, ModelMap model) {
 
         checkSessionObjRUI(input, session, model);
@@ -152,7 +152,7 @@ public class TctmTssController extends IrisBaseController {
      * @throws JSONException
      */
     @RequestMapping(value = TctmUrl.doView)
-    public String tctmTssPlnDetail(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpSession session, ModelMap model) throws JSONException {
+    public String doView(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpSession session, ModelMap model) throws JSONException {
 
         LOGGER.debug("###########################################################");
         LOGGER.debug("tctmTssPlnDetail [과제관리 > 기술팀과제 > 계획 > 마스터 조회]");
@@ -216,7 +216,7 @@ public class TctmTssController extends IrisBaseController {
      * @throws JSONException
      */
     @RequestMapping(value = TctmUrl.doTabSum)
-    public String tctmTssPlnSmryIfm(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpSession session, ModelMap model) throws JSONException {
+    public String doTabSum(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpSession session, ModelMap model) throws JSONException {
 
         LOGGER.debug("###########################################################");
         LOGGER.debug("tctmTssPlnSmryIfm [과제관리 > 기술팀과제 > 계획 > 개요 조회]");
@@ -253,7 +253,7 @@ public class TctmTssController extends IrisBaseController {
     }
 
     /**
-     * 과제관리 > 기술팀과제 > 계획 > 목표및산출물 iframe 화면
+     * 과제관리 > 기술팀과제 > 계획 > 산출물 iframe 화면
      *
      * @param input   HashMap<String, String>
      * @param request HttpServletRequest
@@ -263,10 +263,10 @@ public class TctmTssController extends IrisBaseController {
      * @throws JSONException
      */
     @RequestMapping(value = TctmUrl.doTabGoal)
-    public String tctmTssPlnGoalYldIfm(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpSession session, ModelMap model) throws JSONException {
+    public String doTabGoal(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpSession session, ModelMap model) throws JSONException {
 
         LOGGER.debug("###########################################################");
-        LOGGER.debug("TctmTssController - tctmTssPlnGoalYldIfm [과제관리 > 기술팀과제 > 계획 > 목표및산출물 iframe 화면 ]");
+        LOGGER.debug("TctmTssController - tctmTssPlnGoalYldIfm [과제관리 > 기술팀과제 > 계획 > 산출물 iframe 화면 ]");
         LOGGER.debug("###########################################################");
 
         checkSession(input, session, model);
@@ -305,6 +305,168 @@ public class TctmTssController extends IrisBaseController {
     }
 
 
+	/**
+	 * 과제관리 > 기술팀과제 > 변경 > 변경개요 iframe 조회
+	 *
+	 * @param input   HashMap<String, String>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model   ModelMap
+	 * @return String
+	 * @throws JSONException
+	 */
+	@RequestMapping(value = TctmUrl.doTabAltr)
+	public String doTabAltr(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+										  HttpSession session, ModelMap model) throws JSONException {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("retrieveGenTssAltrSmry [과제관리 > 기술팀과제 > 변경 > 개요 조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		checkSession(input, session, model);
+
+		if (pageMoveChkSession(input.get("_userId"))) {
+			//데이터 있을 경우
+			Map<String, Object> result = null;
+			if (!"".equals(input.get("tssCd")) && null != input.get("tssCd")) {
+//				result = genTssAltrService.retrieveGenTssAltrSmry(input);
+				result = tctmTssService.selectTctmTssInfoSmry(input);
+			}
+			result = StringUtil.toUtf8Output((HashMap) result);
+
+			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+			list.add(result);
+
+			JSONObject obj = new JSONObject();
+			obj.put("records", list);
+
+			request.setAttribute("inputData", input);
+			request.setAttribute("resultCnt", result == null ? 0 : result.size());
+			request.setAttribute("result", obj);
+		}
+
+		return TctmUrl.jspTabAltr;
+	}
+
+
+	/**
+	 * 과제관리 > 기술팀과제 > 변경 > 개요 저장/수정
+	 *
+	 * @param input HashMap<String, Object>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model ModelMap
+	 * @return ModelAndView
+	 * */
+	@RequestMapping(value=TctmUrl.doUpdateInfoAltr)
+	public ModelAndView doUpdateInfoAltr(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+											HttpSession session, ModelMap model) {
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("insertGenTssAltrMst [과제관리 > 기술팀과제 > 변경 > 개요 저장/수정]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		HashMap<String, Object> mstDs  = null;
+
+		try {
+			mstDs  = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "mstDataSet").get(0);
+			HashMap<String, Object> smryDs = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "smryDataSet").get(0);
+			List<Map<String, Object>> altrDs = RuiConverter.convertToDataSet(request, "altrDataSet");
+
+			boolean upWbsCd = false;
+
+			smryDs = StringUtil.toUtf8Input(smryDs);
+			tctmTssService.updateTctmTssInfoAltrSmry(input,mstDs,smryDs,altrDs);
+//			genTssAltrService.insertGenTssAltrMst(mstDs, smryDs, altrDs, upWbsCd);
+
+
+			mstDs.put("rtCd", "SUCCESS");
+			mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+			mstDs.put("rtType", "I");
+		} catch(Exception e) {
+			e.printStackTrace();
+			mstDs.put("rtCd", "FAIL");
+			mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+		}
+
+		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", mstDs));
+
+		return modelAndView;
+	}
+
+	/**
+	 * 과제관리 > 기술팀과제 > 변경 > 변경개요목록 조회
+	 *
+	 * @param input HashMap<String, String>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 *   @param model ModelMap
+	 * @return String
+	 * */
+	@RequestMapping(value=TctmUrl.doSelectInfoAltrListSmry)
+	public ModelAndView doSelectInfoAltrListSmry(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+												   HttpSession session, ModelMap model) {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("retrieveGenTssAltrSmryList [과제관리 > 기술팀과제 > 변경 > 변경개요목록 조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		checkSessionRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		List<Map<String, Object>> result = tctmTssService.selectTctmTssInfoAltrSmry(input);
+
+		modelAndView.addObject("dataset", RuiConverter.createDataset("dataset", result));
+		return modelAndView;
+	}	
+	
+
+
+	/**
+	 * 과제관리 > 기술팀과제 > 진행 > 변경이력 조회
+	 *
+	 * @param input HashMap<String, String>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model ModelMap
+	 * @return String
+	 * @throws JSONException
+	 * */
+	@RequestMapping(value=TctmUrl.doTabAltrHis)
+	public String doTabAltrHis(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+									   HttpSession session, ModelMap model) throws JSONException {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("retrieveGenTssPgsSmry [과제관리 > 기술팀과제 > 진행 > 변경이력 조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		checkSession(input, session, model);
+
+		if(pageMoveChkSession(input.get("_userId"))) {
+//			List<Map<String, Object>> result = genTssPgsService.retrieveGenTssPgsAltrHist(input);
+			List<Map<String, Object>> result = tctmTssService.selectTctmTssInfoAltrHis(input);
+			for(int i = 0; i < result.size(); i++) {
+				StringUtil.toUtf8Output((HashMap)result.get(i));
+			}
+
+			JSONObject obj = new JSONObject();
+			obj.put("records", result);
+
+			request.setAttribute("inputData", input);
+			request.setAttribute("resultCnt", result == null ? 0 : result.size());
+			request.setAttribute("result", obj);
+		}
+
+		return TctmUrl.jspTabAltrHis;
+	}    
+    
+    
+
     /**
      * 과제관리 > 기술팀과제 > 계획 > 마스터 신규
      *
@@ -315,7 +477,7 @@ public class TctmTssController extends IrisBaseController {
      * @return ModelAndView
      */
     @RequestMapping(value = TctmUrl.doUpdateInfo)
-    public ModelAndView tctmTssUpdateInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+    public ModelAndView doUpdateInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
                                           HttpSession session, ModelMap model) {
 
         LOGGER.debug("###########################################################");
@@ -399,6 +561,49 @@ public class TctmTssController extends IrisBaseController {
     }
 
 
+    /**
+     * 과제관리 > 기술팀과제 > 계획 > 삭제
+     *
+     * @param input HashMap<String, String>
+     * @param request HttpServletRequest
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return ModelAndView
+     * */
+    @RequestMapping(TctmUrl.doDeleteInfo)
+    public ModelAndView doDeleteInfo(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+                                           HttpSession session, ModelMap model) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("tctmTssDeleteInfo [과제관리 > 기술팀과제 > 계획 > 삭제]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        checkSessionRUI(input, session, model);
+
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        HashMap<String, Object> mstDs  = new HashMap<String, Object>();
+
+        try {
+
+            tctmTssService.deleteTctmTssInfo(input);
+
+            mstDs.put("rtCd", "SUCCESS");
+            mstDs.put("rtVal","삭제되었습니다."); //삭제되었습니다.
+
+        }catch(Exception e) {
+            e.printStackTrace();
+            mstDs.put("rtCd", "FAIL");
+            mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+        }
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", mstDs));
+
+        return modelAndView;
+    }
+
+
 
 	/**
 	 * 과제관리 > 기술팀과제 > 계획 > 품의서요청 화면
@@ -411,7 +616,7 @@ public class TctmTssController extends IrisBaseController {
 	 * @throws JSONException
 	 * */
 	@RequestMapping(value=TctmUrl.doCsusView)
-	public String tctmTssPlnCsusRq(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+	public String doCsusView(@RequestParam HashMap<String, String> input, HttpServletRequest request,
 								  HttpSession session, ModelMap model) throws JSONException {
 
 		LOGGER.debug("###########################################################");

@@ -111,7 +111,7 @@
         var butCsur = new Rui.ui.LButton('butCsur');
         butCsur.on('click', function() {
             if(stringNullChk(gvAprdocState) != "" ){
-             	if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {
+             	if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {    //결제요청, 최종승인완료
                 	Rui.alert("이미 품의가 요청되었습니다.");
                 	return;
         		} 
@@ -144,7 +144,7 @@
                     if(gvGuid == ""){
                     	url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
                     }else{
-                    	if(gvAprdocState == "A03" || gvAprdocState == "A04" ){
+                    	if(gvAprdocState == "A03" || gvAprdocState == "A04" ){  //반려, 취소
                     		url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
                     	}else{
 		                    url = '<c:url value="/prj/tss/gen/updateGenTssCsusRq.do"/>';
@@ -312,18 +312,14 @@
                         <table class="table">
                             <colgroup>
                                 <col style="width:18%"/>
-                                <col style="width:16%"/>
-                                <col style="width:16%"/>
-                                <col style="width:16%"/>
-                                <col style="width:16%"/>
-                                <col style="width:16%"/>
+                                <col style="width:32%"/>
+                                <col style="width:18%"/>
+                                <col style="width:32%"/>
                             </colgroup>
                             <tbody>
                                 <tr>
                                     <th>상품출시(계획)</th>
                                     <td colspan="5">${resultSmry.ctyOtPlnM}</td>
-                                </tr>
-                                <tr>
                                     <th>신제품 매출계획(단위:억원)</th>
                                     <td colspan="5">
                                         <fmt:parseNumber var="nprodSalsPlnYSub" value="${100000000}" pattern="#.##" />

@@ -36,13 +36,16 @@ public class TctmUrl {
 	public static final String doUpdateInfoAltr = doHome + "/tctmTssUpdateAltr.do"; 				// 변경개요 조회 Query
 	public static final String doSelectInfoAltr = doHome + "/tctmTssSelectAltr.do"; 				// 변경개요 조회 Query
 	
-	public static final String doUpdateInfoCmpl = doHome + "/tctmTssUpdateCmpl.do";			// 완료 조회 Query
+	public static final String doUpdateInfoCmpl = doHome + "/tctmTssUpdateCmpl.do";			// 완료 등록/수정 Query
 	public static final String doSelectInfoCmpl = doHome + "/tctmTssSelectCmpl.do";			// 완료 조회 Query
 
-	public static final String doUpdateInfoSmry = doHome + "/tctmTssUpdateSmry.do";     	// 개요 조회 Query
+	public static final String doUpdateInfoSmry = doHome + "/tctmTssUpdateSmry.do";     	// 개요 등록/수정 Query
 	public static final String doSelectInfoSmry = doHome + "/tctmTssSelectSmry.do";     		// 개요 조회 Query
 
-	public static final String doUpdateInfoGoal = doHome + "/tctmTssUpdateGoal.do";       	// 목표 및 산출물 조회 Query
+	public static final String doUpdateInfoAltrListSmry = doHome + "/tctmTssUpdateAltrListSmry.do";     	// 변경개요목록 등록/수정 Query
+	public static final String doSelectInfoAltrListSmry = doHome + "/tctmTssSelectAltrListSmry.do";     		// 변경개요목록 조회 Query
+
+	public static final String doUpdateInfoGoal = doHome + "/tctmTssUpdateGoal.do";       	// 목표 및 산출물 등록/수정 Query
 	public static final String doSelectInfoGoal = doHome + "/tctmTssSelectGoal.do";       		// 목표 및 산출물 조회 Query
 	
 

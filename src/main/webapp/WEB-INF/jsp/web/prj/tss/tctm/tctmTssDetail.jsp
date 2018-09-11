@@ -29,6 +29,7 @@
     var gvRoleId = "";
 
     var pgsStepNm = "";
+    var pgsStepCd ="";
     var dataSet;
 
     // // 프로젝트명
@@ -235,6 +236,9 @@
             lazyLoad: true,
             fields: [
                 {id: 'tssCd'}      //과제코드
+                ,{id: 'plTssCd'}  //계획 과제코드
+                ,{id: 'pgTssCd'}  //진행 과제코드
+                ,{id: 'alTssCd'}  //변경 과제코드
                 , {id: 'userId'}     //로그인ID
                 , {id: 'prjCd'}      //프로젝트코드
                 , {id: 'prjNm'}      //프로젝트명
@@ -329,6 +333,15 @@
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvRoleId = stringNullChk(dataSet.getNameValue(0, "tssRoleId"));
 
+            pgsStepCd = stringNullChk(dataSet.getNameValue(0, "pgsStepCd"));
+            pgsStepNm  = stringNullChk(dataSet.getNameValue(0, "pgsStepNm"));
+
+            if(pgsStepNm==""){
+            	$("#stepNm").html("계획");
+			}else{
+                $("#stepNm").html(pgsStepNm);
+			}
+
             //최초 로그인사용자 정보 셋팅
             if(gvTssCd == "") {
                 dataSet.setNameValue(0, "prjCd", "${userMap.prjCd}");          //프로젝트코드
@@ -355,8 +368,9 @@
             disableFields();
 
             tabView.selectTab(0);
-            console.log($(location));
-            nwinsActSubmit(document.tabForm, "<%=request.getContextPath()+TctmUrl.doTabSum%>?tssCd="+gvTssCd, 'tabContent0');
+            <%--nwinsActSubmit(document.tabForm, "<%=request.getContextPath()+TctmUrl.doTabSum%>?tssCd="+gvTssCd, 'tabContent1');--%>
+            nwinsActSubmit(document.tabForm, "<%=request.getContextPath()+TctmUrl.doTabAltr%>?tssCd="+gvTssCd, 'tabContent0');
+
         });
 
 
@@ -385,14 +399,17 @@
         ============================================================================*/
         var tabView = new Rui.ui.tab.LTabView({
             tabs: [
+                { label: '변경개요', content: '<div id="div-content-test0"></div>' },
                 { label: '개요', content: '<div id="div-content-test1"></div>' },
-                { label: '산출물', content: '<div id="div-content-test5"></div>' }
+                { label: '산출물', content: '<div id="div-content-test2"></div>' },
+                { label: '변경이력', content: '<div id="div-content-test3"></div>' }
             ]
         });
 
         tabView.on('activeTabChange', function(e) {
-            //iframe 숨기기
-            for(var i = 0; i < 2; i++) {
+            // iframe 숨기기
+
+            for(var i = 0; i < $("#tabForm").children().length; i++) {
                 if(i == e.activeIndex) {
                     Rui.get('tabContent' + i).show();
                 } else {
@@ -402,21 +419,37 @@
             var tabUrl = "";
             console.log("tabb Idx", e.activeIndex);
             switch(e.activeIndex) {
-            //개요
+            //변경
             case 0:
                 if(e.isFirst) {
-                    tabUrl = "<%=request.getContextPath()+TctmUrl.doTabSum%>?tssCd=" + gvTssCd;
+                    tabUrl = "<%=request.getContextPath()+TctmUrl.doTabAltr%>?tssCd=" + gvTssCd + "&pgsStepCd="+dataSet.getNameValue(0, "pgsStepCd");
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent0');
                 } else {
                     disableFields(false);
                 }
                 break;
-            //목표 및 산출물
+            //개요
             case 1:
                 if(e.isFirst) {
-                    console.log(gvTssCd);
-                    tabUrl = "<%=request.getContextPath()+TctmUrl.doTabGoal%>?tssCd=" + gvTssCd;
+                    tabUrl = "<%=request.getContextPath()+TctmUrl.doTabSum%>?tssCd=" + gvTssCd + "&pgsStepCd="+dataSet.getNameValue(0, "pgsStepCd");
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
+                } else {
+                    disableFields(false);
+                }
+                break;
+            //목표 및 산출물
+            case 2:
+                if(e.isFirst) {
+                    tabUrl = "<%=request.getContextPath()+TctmUrl.doTabGoal%>?tssCd=" + gvTssCd + "&pgsStepCd="+dataSet.getNameValue(0, "pgsStepCd");
+                    nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
+                }
+                disableFields(true);
+                break;
+            //변경 이력
+            case 3:
+                if(e.isFirst) {
+                    tabUrl = "<%=request.getContextPath()+TctmUrl.doTabAltrHis%>?tssCd=" + gvTssCd + "&pgsStepCd="+dataSet.getNameValue(0, "pgsStepCd");
+                    nwinsActSubmit(document.tabForm, tabUrl, 'tabContent3');
                 }
                 disableFields(true);
                 break;
@@ -424,6 +457,8 @@
                 break;
             }
         });
+
+
 
         tabView.render('tabView');
 
@@ -467,7 +502,8 @@
         	if(confirm("삭제를 하시겠습니까?")) {
         		dm.updateDataSet({
                     modifiedOnly: false,
-                    url:'<c:url value="/prj/tss/gen/deleteGenTssPlnMst.do"/>',
+                    <%--url:'<c:url value="/prj/tss/gen/deleteGenTssPlnMst.do"/>',--%>
+                    url:'<%=request.getContextPath()+TctmUrl.doDeleteInfo%>',
                     dataSets:[dataSet],
                     params: {
                     	tssCd : gvTssCd
@@ -475,7 +511,9 @@
                 });
         	}
         		dm.on('success', function(e) {
-    	  	    	nwinsActSubmit(document.mstForm, "<%=request.getContextPath()+TctmUrl.doList%>");
+
+    	  	    	/*nwinsActSubmit(document.mstForm, "<%=request.getContextPath()+TctmUrl.doList%>");*/
+    	  	    	location.href = "<%=request.getContextPath()+TctmUrl.doList%>";
     			});
         });
 
@@ -503,8 +541,8 @@
         });
 
 
-        //저장
-        fnSave = function() {
+        // 개요저장
+        smrySave = function() {
             tssStrtDd.blur();
             tssFnhDd.blur();
 /*	 임시주석
@@ -523,7 +561,7 @@
 */
 
             //수정여부
-            var smryDs = document.getElementById('tabContent0').contentWindow.dataSet;                  //개요탭 DS
+            var smryDs = document.getElementById('tabContent1').contentWindow.dataSet;                  //개요탭 DS
             // var smryIsUpdate = document.getElementById('tabContent0').contentWindow.fnEditorIsUpdate(); //개요탭 에디터 변경여부
 /* 임시주석
 
@@ -556,40 +594,77 @@
                 smryDs.setNameValue(0, "tssCd",  gvTssCd);   //과제코드
                 smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
 
-                if (gvTssCd == "") {
-                    //신규
-                    dm.updateDataSet({
-                        modifiedOnly: false,
-                        url: '<%=request.getContextPath()+TctmUrl.doUpdateInfo%>',
-                        dataSets: [dataSet, smryDs],
-                        params: {
-                            // editorData1: edSmryNTxt
-                            // , editorData2: edSmryATxt
-                            // , editorData3: edSmryBTxt
-                            // , editorData4: edSmryCTxt
-                            // , editorData5: edSmryDTxt
-                            // , editorDataFields: "smryNTxt,smryATxt,smryBTxt,smryCTxt,smryDTxt"
-                        }
-                    });
-                } else {
-                    //수정
-                    dm.updateDataSet({
-                        modifiedOnly: false,
-                        url: '<%=request.getContextPath()+TctmUrl.doUpdateInfo%>',
-                        dataSets: [dataSet, smryDs],
-                        params: {
-                            // editorData1: edSmryNTxt
-                            // , editorData2: edSmryATxt
-                            // , editorData3: edSmryBTxt
-                            // , editorData4: edSmryCTxt
-                            // , editorData5: edSmryDTxt
-                            // , editorDataFields: "smryNTxt,smryATxt,smryBTxt,smryCTxt,smryDTxt"
-                        }
-                    });
-                }
+				dm.updateDataSet({
+					modifiedOnly: false,
+					url: '<%=request.getContextPath()+TctmUrl.doUpdateInfo%>',
+					dataSets: [dataSet, smryDs],
+					params: {
+					}
+				});
 
             }
         };
+
+		/*변경개요 저장*/
+        altrSave = function() {
+            tssStrtDd.blur();
+            tssFnhDd.blur();
+
+            // if(!vm.validateGroup("mstForm")) {
+            //     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join(''));
+            //     return;
+            // }
+            //
+            // var ifmUpdate = document.getElementById('tabContent0').contentWindow.fnIfmIsUpdate("SAVE");
+            // if(!ifmUpdate) return false;
+            //
+            // //수정여부
+            var smryDs = document.getElementById('tabContent0').contentWindow.dataSet1; //개요탭 DS
+            var altrDs = document.getElementById('tabContent0').contentWindow.dataSet2; //개요탭 DS
+            // if(!dataSet.isUpdated() && !smryDs.isUpdated() && !altrDs.isUpdated()) {
+            //     alert("변경된 데이터가 없습니다.");
+            //     return;
+            // }
+
+            if(confirm('저장하시겠습니까?')) {
+                 dataSet.setNameValue(0, "pgTssCd", gvTssCd);
+                dataSet.setNameValue(0, "tssScnCd", "D");   //과제구분: D(일반)
+                dataSet.setNameValue(0, "tssSt", "100");    //과제상태: 100(작성중)
+                dataSet.setNameValue(0, "tssCd",  gvTssCd);  //과제코드
+                dataSet.setNameValue(0, "userId", gvUserId); //사용자ID
+                dataSet.setNameValue(0, "tssRoleType", "W"); //화면권한
+				
+				console.log(dataSet);
+                smryDs.setNameValue(0, "tssCd",  gvTssCd); //과제코드
+                smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
+                dm.updateDataSet({
+                    modifiedOnly: false,
+                    url:'<%=contextPath+TctmUrl.doUpdateInfoAltr%>',
+                    dataSets:[dataSet, smryDs, altrDs]
+                });
+
+
+/*
+                //신규
+                if(gvTssCd == "") {
+                    dm.updateDataSet({
+                        modifiedOnly: false,
+                        url:'<c:url value="/prj/tss/gen/insertGenTssAltrMst.do"/>',
+                        dataSets:[dataSet, smryDs, altrDs]
+                    });
+                }
+                //수정
+                else {
+                    dm.updateDataSet({
+                        modifiedOnly: false,
+                        url:'<c:url value="/prj/tss/gen/updateGenTssAltrMst.do"/>',
+                        dataSets:[dataSet, smryDs, altrDs]
+                    });
+                }
+                */
+
+            }
+        }
 
 
         //프로젝트 팝업
@@ -731,15 +806,16 @@ function fncGenTssAltrDetail(cd) {
 <%--<!--  sayMessage 사용시 필요 -->--%>
 <div class="contents">
 	<div class="titleArea">
-		<h2>기술팀과제 &gt;&gt; 계획</h2>
+		<h2>기술팀과제 &gt;&gt; <h2 id="stepNm"></h2> </h2>
 	</div>
 
 	<div class="sub-content">
 		<div class="titArea">
 			<div class="LblockButton">
-                <span>TSS_CD : ${inputData.tssCd}</span>
+                <span>TSS_CD : ${inputData.tssCd} ....${inputData.pgsStepCd}</span>
 				<button type="button" id="testBtn" name="testBtn" onclick="setTestCode()">Test입력</button>
 				<button type="button" id="btnDelRq" name="btnDelRq">삭제</button>
+				<button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button>
 				<button type="button" id="btnGrsRq" name="btnGrsRq">GRS요청</button>
 				<button type="button" id="btnCsusRq" name="btnCsusRq">품의서요청</button>
 				<button type="button" id="btnList" name="btnList">목록</button>
@@ -845,10 +921,14 @@ function fncGenTssAltrDetail(cd) {
 		<div id="tabView"></div>
 
 		<form name="tabForm" id="tabForm" method="post">
-			<!-- 개요 -->
+			<!-- 변경개요 -->
 			<iframe name="tabContent0" id="tabContent0" scrolling="auto" width="100%" height="100%" frameborder="0"></iframe>
-			<!-- 목표 및 산출물 -->
+			<!-- 개요 -->
 			<iframe name="tabContent1" id="tabContent1" scrolling="auto" width="100%" height="100%" frameborder="0"></iframe>
+			<!-- 산출물 -->
+			<iframe name="tabContent2" id="tabContent2" scrolling="auto" width="100%" height="100%" frameborder="0"></iframe>
+			<!-- 변경이력 -->
+			<iframe name="tabContent3" id="tabContent3" scrolling="auto" width="100%" height="100%" frameborder="0"></iframe>
 		</form>
 	</div>
 </div>
@@ -1010,6 +1090,29 @@ function fncGenTssAltrDetail(cd) {
     });
 
     altrHistDialog.render(document.body);
+
+
+
+    //변경요청
+    btnAltrRq = new Rui.ui.LButton('btnAltrRq');
+    btnAltrRq.on('click', function() {
+        Rui.confirm({
+            text: "본 변경요청은 단순 데이터 변경으로, 팀 내부승인 진행 건에 한해 진행됩니다. <br/><br/> "
+            + "하기 변경이 발생하는 경우에는 반드시 <span style = 'color : red'>GRS심의(GRS요청버튼)를 완료</span>하신 후 변경요청을 해야 합니다. <br/>"
+            + "Case 1. '과제 총 기간'이 변경되는 경우 (ex. 2017.12.31 -> 2018.12.31) <br/>"
+            + "Case 2. '참여연구원'의 총 M/M가 증가하는 경우 (ex. 4 M/M -> 5 M/M) <br/>"
+            + "Case 3. '목표' 항목이 추가/삭제 되는 경우 <br/><br/>"
+            + "단순과제변경을 진행하겠습니까? ",
+            width : 630 ,
+            height : 270 ,
+            handlerYes: function() {
+                nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId);
+            },
+            handlerNo: Rui.emptyFn
+        });
+    });
+
+
 
 	function setTestCode(){
         // wbsCd.setValue("R18RH0");

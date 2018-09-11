@@ -25,6 +25,8 @@
     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 %>
 <script type="text/javascript">
+    var pgsStepCd = "${inputData.pgsStepCd}";
+
     var lvTssCd    = window.parent.gvTssCd;
     var lvUserId   = window.parent.gvUserId;
     var lvTssSt    = window.parent.gvTssSt;
@@ -40,6 +42,20 @@
         /*============================================================================
         =================================    Form     ================================
         ============================================================================*/
+        //산출물유형
+        cboYldItmType = new Rui.ui.form.LCombo({
+            name: 'cboYldItmType',
+            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=YLD_ITM_TYPE_D"/>',
+            displayField: 'COM_DTL_NM',
+            valueField: 'COM_DTL_CD',
+            rendererField: 'value',
+            autoMapping: true
+        });
+        cboYldItmType.getDataSet().on('load', function(e) {
+            console.log('cboYldItmType :: load');
+        });
+
+
         //목표년도
         cboGoalY = new Rui.ui.form.LCombo({
             name: 'cboGoalY',
@@ -56,7 +72,7 @@
         //산출물유형
         cbYldItmType = new Rui.ui.form.LCombo({
             name: 'cbYldItmType',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=YLD_ITM_TYPE_G"/>',
+            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=YLD_ITM_TYPE_D"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD',
             rendererField: 'value',
@@ -65,6 +81,15 @@
         cbYldItmType.getDataSet().on('load', function(e) {
             console.log('cbYldItmType :: load');
         });
+
+
+        //실적년월
+        arslYymm = new Rui.ui.form.LTextBox({
+            mask:'9999-99',
+            maskPlaceholder: '_',
+            maskValue:true
+        });
+
         
         //그리드 TextArea
         gridTextArea = new Rui.ui.form.LTextArea({
@@ -98,14 +123,14 @@
             remainRemoved: true,
             writeFieldFormater: { date: Rui.util.LRenderer.dateRenderer('%Y-%m-%d') },
             fields: [
-                  { id:'tssCd' }      //과제코드 
-                , { id:'goalArslSn' } //과제목표일련번호          
-                , { id:'prvs' }       //항목                
-                , { id:'cur' }        //현재                
-                , { id:'goal' }       //목표                
-                , { id:'arsl' }       //실적                
-                , { id:'step' }       //단계                
-                , { id:'utm' }        //단위                
+                  { id:'tssCd' }      //과제코드
+                , { id:'goalArslSn' } //과제목표일련번호
+                , { id:'prvs' }       //항목
+                , { id:'cur' }        //현재
+                , { id:'goal' }       //목표
+                , { id:'arsl' }       //실적
+                , { id:'step' }       //단계
+                , { id:'utm' }        //단위
                 , { id:'evWay' }      //평가방법
                 , { id:'userId' }     //사용자ID
             ]
@@ -113,21 +138,24 @@
         dataSet1.on('load', function(e) {
             console.log("load goalDataSet Success");
         });
-        
-        var columnModel1 = new Rui.ui.grid.LColumnModel({
-            autoWidth: true,
-            columns: [
-                  new Rui.ui.grid.LSelectionColumn()
-                , new Rui.ui.grid.LStateColumn()
-                , new Rui.ui.grid.LNumberColumn()
-                , { field: 'prvs', label: '항목', sortable: false, align:'left', width: 300, editor: gridTextArea }
-                , { field: 'cur',  label: '현재', sortable: false, align:'left', width: 300, editor: gridTextArea }
-                , { field: 'goal', label: '목표', sortable: false, align:'left', width: 300, editor: gridTextArea }
-            ]
-        });
+
+            var columnModel = new Rui.ui.grid.LColumnModel({
+                autoWidth: true,
+                columns: [
+                    new Rui.ui.grid.LSelectionColumn()
+                    , new Rui.ui.grid.LStateColumn()
+                    , new Rui.ui.grid.LNumberColumn()
+                    , { field: 'prvs', label: '항목', sortable: false, align:'left', width: 300, editor: gridTextArea }
+                    , { field: 'cur',  label: '현재', sortable: false, align:'left', width: 300, editor: gridTextArea }
+                    , { field: 'goal', label: '목표', sortable: false, align:'left', width: 300, editor: gridTextArea }
+                ]
+            });
+
+
+
 
         var grid1 = new Rui.ui.grid.LGridPanel({
-            columnModel: columnModel1,
+            columnModel: columnModel,
             dataSet: dataSet1,
             width: 600,
             height: 200,
@@ -136,10 +164,10 @@
             enterToEdit: true,
             autoWidth: true,
             autoHeight: true,
-            multiLineEditor: true,	
+            multiLineEditor: true,
             useRightActionMenu: false
         });
-        
+
         grid1.render('goalGrid');
         
         
@@ -155,31 +183,86 @@
                 , { id:'goalY' }      //목표년도            
                 , { id:'yldItmType' } //산출물유형           
                 , { id:'goalCt' }     //목표개수            
-                , { id:'arslYymm' }   //실적년월            
+                , { id:'arslYymm' }   //실적년월
+                , { id:'yldItmYn' }   //산출물유무
                 , { id:'yldItmNm' }   //산출물명            
                 , { id:'yldItmTxt' }  //산출물내용           
                 , { id:'userId' }     //사용자ID
+                , { id:'attcFilId' }  //파일ID
             ]
         });
-        dataSet1.on('load', function(e) {
-            console.log("load yldDataSet Success");
+
+        dataSet2.on('load', function(e) {
+            console.log("goal load dataSet Success");
+
+            for(var i=0; i<dataSet2.getCount(); i++){
+                var yldItmYn = dataSet2.getNameValue(i,"attcFilId");
+
+                if(Rui.isUndefined(yldItmYn)){
+                    dataSet2.setNameValue(i,"yldItmYn","N");
+                }else{
+                    dataSet2.setNameValue(i,"yldItmYn","Y");
+                }
+            }
         });
-        
-        var columnModel2 = new Rui.ui.grid.LColumnModel({
-            autoWidth: true,
-            columns: [
-                  new Rui.ui.grid.LSelectionColumn()
-                , new Rui.ui.grid.LStateColumn()
-                , new Rui.ui.grid.LNumberColumn()
-                  , { field: 'goalY', label: '목표년도', sortable: false, align:'center', width: 100, editor: cboGoalY }
-                  , { field: 'yldItmType',  label: '산출물유형', sortable: false, align:'center', width: 300, editor: cbYldItmType
-                      , renderer: function(value, p, record, row, col) {
-                          if(record.data.yldItmSn == 1) p.editable = false;
-                          return value;
-                    } }
-            ]
-        });
-        
+
+        // dataSet1.on('load', function(e) {
+        //     console.log("load yldDataSet Success");
+        // });
+
+
+        if(pgsStepCd=="PL"){
+            var columnModel2 = new Rui.ui.grid.LColumnModel({
+                autoWidth: true,
+                columns: [
+                    new Rui.ui.grid.LSelectionColumn()
+                    , new Rui.ui.grid.LStateColumn()
+                    , new Rui.ui.grid.LNumberColumn()
+                    , { field: 'goalY', label: '목표년도', sortable: false, align:'center', width: 100, editor: cboGoalY }
+                    , { field: 'yldItmType',  label: '산출물유형', sortable: false, align:'center', width: 300, editor: cbYldItmType
+                        , renderer: function(value, p, record, row, col) {
+                            if(record.data.yldItmSn == 1) p.editable = false;
+                            return value;
+                        } }
+                ]
+            });
+        }else if(pgsStepCd=="PG"){
+            var columnModel2 = new Rui.ui.grid.LColumnModel({
+                autoWidth: true,
+                columns: [
+                    new Rui.ui.grid.LStateColumn()
+                    , new Rui.ui.grid.LNumberColumn()
+                    , { field: 'goalY', label: '목표년도', sortable: false, align:'center', width: 80 }
+                    , { field: 'yldItmType',  label: '산출물유형', sortable: false, align:'center', width: 150, editor: cboYldItmType, renderer: function(value, p, record, row, col) {
+                            p.editable = false;
+                            return value;
+                        } }
+                    , { field: 'arslYymm', label: '실적년월', sortable: false, align:'center', width: 70, editor: arslYymm, renderer: function(value, p, record, row, col) {
+                            if(stringNullChk(value) != "") {
+                                var iVal = parseInt(value.substring(5, 7));
+                                var sVal = value.substring(0, 5);
+
+                                if(iVal < 13 && iVal > 0) {
+                                    sVal += iVal < 10 == 1 ? "0"+iVal : String(iVal);
+                                } else {
+                                    sVal = null;
+                                }
+
+                                record.set("arslYymm", sVal);
+                                return sVal;
+                            } else {
+                                return null;
+                            }
+                        } }
+                    , { field: 'yldItmNm', label: '산출물명', sortable: false, align:'left', width: 300, editor: new Rui.ui.form.LTextBox() }
+                    , { field: 'yldItmYn', label: '첨부파일 유무', sortable: false, align:'center', width: 60 }
+                    , { field: 'attcFilId', label: '첨부파일', sortable: false, align:'center', width: 100, renderer: function(val, p, record, row, i) {
+                            return '<button type="button" class="L-grid-button L-popup-action">첨부파일</button>';
+                        } }
+                ]
+            });
+        }
+
         var grid2 = new Rui.ui.grid.LGridPanel({
             columnModel: columnModel2,
             dataSet: dataSet2,
@@ -193,6 +276,15 @@
             multiLineEditor: true,
             useRightActionMenu: false
         });
+
+        grid2.on('popup', function(e) {
+            popupRow = e.row;
+
+            var filId = dataSet2.getNameValue(popupRow, "attcFilId");
+
+            openAttachFileDialog(setAttachFileInfo, stringNullChk(filId), 'prjPolicy', '*', pageMode);
+        });
+
 
         grid2.render('yldGrid');
         
@@ -246,6 +338,21 @@
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
+        //첨부파일
+        setAttachFileInfo = function(attachFileList) {
+            if(attachFileList.length > 0) {
+                dataSet2.setNameValue(popupRow, "attcFilId", attachFileList[0].data.attcFilId);
+            }
+
+            lvCount = attachFileList.length ;
+            if(lvCount > 0) {
+                dataSet2.setNameValue(popupRow,"yldItmYn","Y");
+            }else {
+                dataSet2.setNameValue(popupRow,"yldItmYn","N");
+            }
+        };
+
+
         //목표추가
         var butGoalAdd = new Rui.ui.LButton('butGoalAdd');
         butGoalAdd.on('click', function() {
@@ -427,15 +534,15 @@
         };
         
         //데이터 셋팅
-        if(${resultGoalCnt} > 0) { 
+        if(${resultGoalCnt} > 0) {
             console.log("goal searchData1");
-            dataSet1.loadData(${resultGoal}); 
+            dataSet1.loadData(${resultGoal});
         } else {
             console.log("goal searchData2");
         }
-        if(${resultYldCnt} > 0) { 
+        if(${resultYldCnt} > 0) {
             console.log("yld searchData1");
-            dataSet2.loadData(${resultYld}); 
+            dataSet2.loadData(${resultYld});
         } else {
             console.log("yld searchData2");
         }
@@ -480,8 +587,10 @@
 </script>
 <script>
 $(window).load(function() {
-    initFrameSetHeight();
-}); 
+    // initFrameSetHeight();
+    var fId = window.frameElement.id;
+    window.parent.document.getElementById(fId).height = '600px';
+});
 </script>
 </head>
 <body>

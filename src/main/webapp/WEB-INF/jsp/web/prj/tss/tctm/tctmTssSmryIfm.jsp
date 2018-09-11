@@ -200,7 +200,7 @@
             var frm = document.smryForm;
             dataSet.setNameValue(0, "nprodSalsPlnY" , Math.round(nprodSalsPlnY.getValue()  * 100000000));
 
-            window.parent.fnSave();
+            window.parent.smrySave();
         });
 
         //첨부파일 조회

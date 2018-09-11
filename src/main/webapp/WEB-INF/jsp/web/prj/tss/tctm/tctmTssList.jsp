@@ -346,6 +346,9 @@
                 else if(rWgvl = gWgvl) progressrate = "N";
 
                 var urlParam = "?tssCd="+pTssCd+"&progressrateReal="+progressrateReal+"&progressrate="+progressrate;
+                nwinsActSubmit(document.aform, "<%=request.getContextPath()+ TctmUrl.doView%>?tssCd="+pTssCd);
+
+/*
 
                 //계획
                 if(pPgsStepCd == "PL") {
@@ -382,6 +385,9 @@
                 else if(pPgsStepCd == "DC") {
                     nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssDcacDetail.do'/>"+urlParam);
                 }
+*/
+
+
             }
         });
 

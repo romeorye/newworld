@@ -68,21 +68,21 @@ public class TssStCopyBatch extends IrisBaseController {
 		Map<String, Object> rtnMap = new HashMap<String, Object>(); // 메시지
 
 		try {
-			//1. 과제 및 통합결재 조회
+			//1. 과제 및 통합결재 조회 결제 (결제 요청상태 과제 목록 103,503)
 			List<Map<String, Object>> retrieveTssComItgRdcs = tssStCopyService.retrieveTssComItgRdcs();
 
 			//2. 과제 상태 변경 -> 104
 			for (Map<String, Object> data : retrieveTssComItgRdcs) {
-				String aprdocstate = String.valueOf(data.get("aprdocstate")); //품의상태
+				String aprdocstate = String.valueOf(data.get("aprdocstate")); //결재상태코드 A01 : 결재요청, A02 : 최종승인완료 ,A03 : 반려, A04 : 취소
 
 				if (!StringUtil.isNullString(aprdocstate)) {
-					String tssSt = "103";
+					String tssSt = "103";							//103	품의요청
 					boolean rst = false;
 
 					input.put("tssCd", data.get("affrCd")); //과제코드
 
-					if ("A02".equals(aprdocstate)) {
-						if ("503".equals(String.valueOf(data.get("tssSt")))) {
+					if ("A02".equals(aprdocstate)) {	//최종승인완료(IRIS_COM_ITG_RDCS)
+						if ("503".equals(String.valueOf(data.get("tssSt")))) {	//정산품의 요청
 							tssSt = "504"; //504 정산품의완료,
 						} else {
 							tssSt = "104"; //104 품의완료,
@@ -90,21 +90,21 @@ public class TssStCopyBatch extends IrisBaseController {
 						}
 
 						input.put("tssSt", tssSt); //상태 코드
-						genTssPlnService.updateGenTssPlnMstTssSt(input);
-					} else if ("A03".equals(aprdocstate) || "A04".equals(aprdocstate)) {
+						genTssPlnService.updateGenTssPlnMstTssSt(input);		//tssSt update
+					} else if ("A03".equals(aprdocstate) || "A04".equals(aprdocstate)) {	//반려, 취소
 
 						if (data.get("tssScnCd").equals("N")) {
 							if (data.get("finYn").equals("Y") || (data.get("tssNosSt").equals("1") && data.get("pgsStepCd").equals("PL"))) {
-								tssSt = "102"; //
+								tssSt = "102"; //GRS완료
 							} else {
-								tssSt = "100"; //
+								tssSt = "100"; //진행중
 							}
 						} else {
 							tssSt = "102"; // GRS완료
 						}
 						input.put("tssSt", tssSt); //상태 코드
 
-						genTssPlnService.updateGenTssPlnMstTssSt(input);
+						genTssPlnService.updateGenTssPlnMstTssSt(input); //tssSt update
 					}
 
 					if (rst) {
