@@ -219,7 +219,7 @@ Rui.onReady(function() {
     <body>
     	<div class="titArea" style="padding-top : 0;">
 			<div class="LblockButton">
-				<button type="button" id="butClear" name="butClear">초기화1</button>
+				<button type="button" id="butClear" name="butClear">초기화</button>
 				<button type="button" id="butSend" name="butSend">발송</button>
 			</div>
 		</div>
