@@ -116,10 +116,10 @@ var faxInfoDialog;	//고정자산관리 팝업
 			}
 
 			mchnClDtlCdDataSet.load({
-                url: '<c:url value="/common/code/retrieveCodeListForCache.do"/>',
-                params :{
-                	comCd : 'RLAB_EXAT_CL_DTL_CD'+dataSet.getNameValue(0, "mchnClCd")
-                }
+				url: '<c:url value="/stat/rlab/retrieveRlabMchnClDtlCd.do"/>'
+	                ,params :{
+	                	exatCd : dataSet.getNameValue(0, "mchnClCd")
+	                }
             });
 	    });
 

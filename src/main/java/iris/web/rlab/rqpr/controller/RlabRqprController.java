@@ -22,6 +22,7 @@ import iris.web.common.code.service.CodeCacheManager;
 import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.DateUtil;
 import iris.web.common.util.StringUtil;
+import iris.web.stat.rlab.service.RlabStatService;
 import iris.web.system.attach.service.AttachFileService;
 import iris.web.system.base.IrisBaseController;
 
@@ -48,6 +49,9 @@ public class RlabRqprController extends IrisBaseController {
 
 	@Resource(name = "attachFileService")
 	private AttachFileService attachFileService;
+
+	@Resource(name="rlabStatService")
+	private RlabStatService rlabStatService;
 
 	static final Logger LOGGER = LogManager.getLogger(RlabRqprController.class);
 
@@ -243,6 +247,12 @@ public class RlabRqprController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
+
+		input = StringUtil.toUtf8(input);
+		List<Map<String,Object>> mchnClCdlist = rlabStatService.retrieveRlabMchnClCd(input);
+        model.addAttribute("inputData", input);
+        model.addAttribute("mchnClCdlist", mchnClCdlist);
+
 
 		return  "web/rlab/rqpr/rlabExatMchnInfoPop";
 	}

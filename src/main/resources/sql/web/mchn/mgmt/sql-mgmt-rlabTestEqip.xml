@@ -20,8 +20,8 @@
 	  		  ,B.SA_NAME  as "mchnCrgrNm"
 	  		  ,A.EQIP_SCN as "eqipScn"
 	  		  ,A.MCHN_USE_PSBL_YN as "mchnUsePsblYn"
-	  		  ,ACC2.COM_DTL_NM AS "mchnClNm"
-	  		  ,dbo.fn_getComDtlNm('RLAB_EXAT_CL_DTL_CD'+MCHN_CL_CD,MCHN_CL_DTL_CD)   AS "mchnClDtlNm"
+	  		  ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = A.MCHN_CL_CD) AS "mchnClNm"
+	  		  ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = A.MCHN_CL_DTL_CD)  AS "mchnClDtlNm"
 			  ,ACC3.COM_DTL_NM AS "mchnKindNm"
 	  		  ,A.OPN_YN AS "opnYn"
 	  		  ,ACC.COM_DTL_NM AS "mchnUsePsblNm"
@@ -30,13 +30,10 @@
 		LEFT OUTER JOIN IRIS_SSO_USER B
 				 ON  A.MCHN_CRGR_ID = B.SA_SABUN_NEW
 				,IRIS_ADM_COM_CD ACC
-				,IRIS_ADM_COM_CD ACC2
 				,IRIS_ADM_COM_CD ACC3
 		WHERE 1=1
 			AND A.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
-			AND A.MCHN_CL_CD = ACC2.COM_DTL_CD
 			AND A.MCHN_KIND_CD = ACC3.COM_DTL_CD
-			AND ACC2.COM_CD_CD = 'RLAB_EXAT_CL_CD'
 			AND ACC3.COM_CD_CD = 'RLAB_CL_CD'
 			AND ACC.COM_CD_CD = 'MCHN_PRCT_ST'
 			AND A.DEL_YN = 'N'

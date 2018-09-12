@@ -169,7 +169,7 @@
             });
 
             rlabExatMstTreeDataSet.on('canRowPosChange', function(e){
-            	var vm = rlabExatMstGridDataSetView.getNameValue(rlabExatMstGridDataSetView.getRow(), 'exatCdL') == 2 ? vm2 : vm1;
+            	var vm = rlabExatMstGridDataSetView.getNameValue(rlabExatMstGridDataSetView.getRow(), 'exatCdL') == 3 ? vm2 : vm1;
 
             	if (vm.validateDataSet(rlabExatMstGridDataSetView, rlabExatMstGridDataSetView.getRow()) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
@@ -179,7 +179,7 @@
 
             rlabExatMstTreeDataSet.on('rowPosChanged', function (e) {
                 if (e.row > -1) {
-                	if(e.target.getNameValue(e.row, 'exatCdL') == 2) {
+                	if(e.target.getNameValue(e.row, 'exatCdL') == 3) {
                 		e.target.setRow(e.oldRow);
                 	} else {
                 		selectTreeRow = e.row;
@@ -245,7 +245,7 @@
             });
 
             rlabExatMstGridDataSetView.on('canRowPosChange', function(e){
-            	var vm = rlabExatMstGridDataSetView.getNameValue(rlabExatMstGridDataSetView.getRow(), 'exatCdL') == 2 ? vm2 : vm1;
+            	var vm = rlabExatMstGridDataSetView.getNameValue(rlabExatMstGridDataSetView.getRow(), 'exatCdL') == 3 ? vm2 : vm1;
 
             	if (vm.validateDataSet(rlabExatMstGridDataSetView, rlabExatMstGridDataSetView.getRow()) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
@@ -268,7 +268,7 @@
                     , { field: 'delYn',			label: '삭제여부',		sortable: false,	editable: true,		editor: useYn,			align:'center',	width: 65}
                     , { field: 'exatCdL',		label: '시험장비',		sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 70,
                     	renderer: function(val, p, record, row, i) {
-                    		return (val == 2 && Rui.isEmpty(record.get('exatCd')) == false) ? '<button type="button" class="L-grid-button" onClick="getRlabExatDtlList(' + record.get('exatCd') + ')">관리</button>' : '';
+                    		return (val == 3 && Rui.isEmpty(record.get('exatCd')) == false) ? '<button type="button" class="L-grid-button" onClick="getRlabExatDtlList(' + record.get('exatCd') + ')">관리</button>' : '';
                     } }
                 ]
             });

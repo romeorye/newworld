@@ -114,12 +114,17 @@
 	            applyTo : 'mchnClCd',
 	            name : 'mchnClCd',
 	            items : [
-	            	{label : '전체', 				value : 'ALL'},
-	            	{label : '장식재 사계절 시험', 	value : '01'},
-	            	{label : '내후/내광성 시험', 	value : '02'},
-	            	{label : '옥외폭로 시험', 		value : '03'},
-	            	{label : '환경챔버 시험', 		value : '04'},
-	            	{label : '측정,평가,분석', 		value : '05'}
+				{ label: '전체', value: ''},
+				<c:forEach var="data" items="${ mchnClCdlist }" varStatus="status">
+					<c:choose>
+						<c:when test="${status.index == 0}">
+				       	{ label : "${ data.COM_DTL_NM }"+" &nbsp;" , name: "mchnClCd" , value : "${ data.COM_DTL_CD }"}
+						</c:when>
+						<c:otherwise>
+				   		, { label: '${ data.COM_DTL_NM }'+"  &nbsp;", value: '${ data.COM_DTL_CD }'}
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
 	            ]
 	    });
 

@@ -121,8 +121,8 @@
 			name : 'mchnClCd',
 			defaultValue: '<c:out value="${inputData.mchnClCd}"/>',
 			useEmptyText: true,
-	           emptyText: '전체',
-	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_CD"/>',
+	        emptyText: '전체',
+	        url: '<c:url value="/stat/rlab/retrieveRlabMchnClCd.do"/>',
 	    	displayField: 'COM_DTL_NM',
 	    	valueField: 'COM_DTL_CD',
 	    	width : 200
