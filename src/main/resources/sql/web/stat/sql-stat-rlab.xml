@@ -498,7 +498,7 @@
 		      ,EXAT_CD as COM_DTL_CD
 		 FROM IRIS_RLAB_EXAT_MST
 		WHERE 1=1
-		  AND EXAT_CD_L='2'
+		  AND EXAT_CD_L='3'
 		  AND DEL_YN='N'
 		  AND CAST(SUPI_EXAT_CD AS CHAR(10))=#{exatCd}
         ]]>
@@ -511,7 +511,7 @@
 		      ,EXAT_CD as COM_DTL_CD
 		 FROM IRIS_RLAB_EXAT_MST
 		WHERE 1=1
-		  AND EXAT_CD_L='1'
+		  AND EXAT_CD_L='2'
 		  AND DEL_YN='N'
         ]]>
     </select>
