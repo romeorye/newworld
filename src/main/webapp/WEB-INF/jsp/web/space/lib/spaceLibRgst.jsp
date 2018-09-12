@@ -38,6 +38,7 @@
 	var userId = '${inputData._userId}';
 	var bbsCd = '${inputData.bbsCd}';
 	var target = '${inputData.target}';
+	var pageMode = '${inputData.pageMode}';
 	var lvAttcFilId;
 	var gvSbcNm = "" ;
 
@@ -374,7 +375,7 @@
 
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="bbsId" name="bbsId" value=""/>
-		<input type="text" id="bbsCd" name="bbsCd" value=""/>
+		<input type="hidden" id="bbsCd" name="bbsCd" value=""/>
 		<input type="hidden" id="target" name="target" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
 
@@ -411,7 +412,7 @@
    							</c:if>
    							-->
 
-   							<c:if test="${inputData.bbsCd == '01'}">
+   							<c:if test="${inputData.target == 'tabContentIfrm0' && inputData.pageMode == 'C'}">
 	   							<td colspan="3">
 		   							<select name="anlBbsCd" id="anlBbsCd" style="width:200px">
 									    <option value="">선택</option>
@@ -427,37 +428,44 @@
 	   							</td>
    							</c:if>   	
 					
-   							<c:if test="${inputData.bbsCd == '02'}">
+   							<c:if test="${(inputData.bbsCd == '02' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							               inputData.target == 'tabContentIfrm1'}">
 	   							<td colspan="3">
 	   								<label>공간성능평가 Letter </label>
 	   							</td>
    							</c:if>
-   							<c:if test="${inputData.bbsCd == '03'}">
+   							<c:if test="${(inputData.bbsCd == '03' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							               inputData.target == 'tabContentIfrm2'}">
 	   							<td colspan="3">
 	   								<label>제도, 법규 자료</label>
 	   							</td>
    							</c:if>
-   							<c:if test="${inputData.bbsCd == '04'}">
+   							<c:if test="${(inputData.bbsCd == '04' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							               inputData.target == 'tabContentIfrm3'}">
 	   							<td colspan="3">
 	   								<label>연구리포트</label>
 	   							</td>
    							</c:if>   	
-   							<c:if test="${inputData.bbsCd == '05'}">
+   							<c:if test="${(inputData.bbsCd == '05' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							               inputData.target == 'tabContentIfrm4'}">
 	   							<td colspan="3">
 	   								<label>논문</label>
 	   							</td>
    							</c:if>    							
-   							<c:if test="${inputData.bbsCd == '06'}">
+   							<c:if test="${(inputData.bbsCd == '06' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							               inputData.target == 'tabContentIfrm5'}">
 	   							<td colspan="3">
 	   								<label>메뉴얼</label>
 	   							</td>
    							</c:if>    							
-   							<c:if test="${inputData.bbsCd == '07'}">
+   							<c:if test="${(inputData.bbsCd == '07' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							               inputData.target == 'tabContentIfrm6'}">
 	   							<td colspan="3">
 	   								<label>기타</label>
 	   							</td>
    							</c:if> 
-   							<c:if test="${inputData.bbsCd == '08'}">
+   							<c:if test="${(inputData.bbsCd == '08' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							               inputData.target == 'tabContentIfrm7'}">
 	   							<td colspan="3">
 	   								<label>팀전용</label>
 	   							</td>

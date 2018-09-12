@@ -523,9 +523,11 @@ function fncSpaceLibRgstPage(record) {
 		pageMode = 'C';	// create
 		document.aform.pageMode.value = pageMode;
 		document.aform.bbsCd.value = bbsCd;
+		document.aform.target.value = target;
 	}else{
 		document.aform.pageMode.value = pageMode;
 		document.aform.bbsId.value = record.get("bbsId");
+		document.aform.target.value = target;
 	}
 
 	nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceLibRgst.do'/>")
