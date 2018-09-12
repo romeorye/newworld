@@ -8,7 +8,7 @@
 /*
  *************************************************************************
  * $Id		: spaceExatList.jsp
- * @desc    : 공간평가 시험정보 리스트 화면
+ * @desc    : 공간성능평가 시험정보 리스트 화면
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -363,7 +363,7 @@
                 });
             };
 
-    	    // 공간평가Tool 검색 팝업 시작
+    	    // 공간성능평가Tool 검색 팝업 시작
 			mchnDialog = new Rui.ui.LFrameDialog({
 		        id: 'mchnDialog',
 		        title: '평가TOOL 조회',
@@ -386,12 +386,12 @@
 		    	mchnDialog.setUrl('<c:url value="/space/retrieveSpaceExatMchnInfoPop.do"/>');
 		    	mchnDialog.show();
 		    };
-    	    // 공간평가Tool 검색 팝업 끝
+    	    // 공간성능평가Tool 검색 팝업 끝
 
-    	    // 시험수가 Simulation 팝업 시작
+    	    // 평가수가 Simulation 팝업 시작
     	    utmExpSimulationDialog = new Rui.ui.LFrameDialog({
     	        id: 'utmExpSimulationDialog',
-    	        title: '시험수가 Simulation',
+    	        title: '평가수가 Simulation',
     	        width: 920,
     	        height: 430,
     	        modal: true,
@@ -493,12 +493,12 @@
 
             /* 실험정보 리스트 엑셀 다운로드 */
         	downloadSpaceExatMstListExcel = function() {
-        		spaceExatMstTreeGrid.saveExcel(encodeURIComponent('공간평가시험정보_') + new Date().format('%Y%m%d') + '.xls');
+        		spaceExatMstTreeGrid.saveExcel(encodeURIComponent('공간성능평가시험정보_') + new Date().format('%Y%m%d') + '.xls');
             };
 
             addSpaceExatDtl = function() {
             	if(selectExatCd == -1) {
-            		alert('먼저 공간평가 시험정보 관리의 Tool관리 버튼을 눌러주세요.');
+            		alert('먼저 공간성능평가 시험정보 관리의 Tool관리 버튼을 눌러주세요.');
             	} else {
             		openMchnSearchDialog(setMchnInfo);
             	}
@@ -506,7 +506,7 @@
 
             saveSpaceExatDtl = function() {
             	if(selectExatCd == -1) {
-            		alert('먼저 공간평가 시험정보 관리의 Tool관리 버튼을 눌러주세요.');
+            		alert('먼저 공간성능평가 시험정보 관리의 Tool관리 버튼을 눌러주세요.');
             	} else if(spaceExatDtlDataSet.getModifiedRecords().length == 0) {
             		alert('먼저 신규 Tool을 추가해주세요.');
             	} else {
@@ -521,7 +521,7 @@
 
             deleteSpaceExatDtl = function() {
             	if(selectExatCd == -1) {
-            		alert('먼저 공간평가 시험정보 관리의 Tool관리 버튼을 눌러주세요.');
+            		alert('먼저 공간성능평가 시험정보 관리의 Tool관리 버튼을 눌러주세요.');
             	} else if(spaceExatDtlDataSet.getMarkedCount() == 0) {
                 	alert('삭제 대상을 선택해주세요.');
                 } else {
@@ -551,7 +551,7 @@
 
    				<div class="titleArea">
 		   			<span class="titleArea" style="display:inline">
-		   				<h2>공간평가 시험정보 관리</h2>
+		   				<h2>공간성능평가 시험정보 관리</h2>
 		   			</span>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="addSpaceExatMstBtn" name="addSpaceExatMstBtn" onclick="addSpaceExatMst()">신규</button>
@@ -576,7 +576,7 @@
 			    </div>
 
    				<div class="titArea">
-   					<span class="Ltotal">공간평가Tool 관리</span>
+   					<span class="Ltotal">공간성능평가Tool 관리</span>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="addSpaceExatDtlBtn" name="addSpaceExatDtlBtn" onclick="addSpaceExatDtl()">신규</button>
    						<button type="button" class="btn"  id="saveSpaceExatMstBtn" name="saveSpaceExatMstBtn" onclick="saveSpaceExatDtl()">저장</button>

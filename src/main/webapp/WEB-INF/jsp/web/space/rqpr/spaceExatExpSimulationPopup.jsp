@@ -8,7 +8,7 @@
 /*
  *************************************************************************
  * $Id		: spaceExatExpSimulationPopup.jsp
- * @desc    : 실험수가 Simulation 팝업
+ * @desc    : 평가수가 Simulation 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -72,30 +72,30 @@
 
     </style>
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
              *******************/
-             
+
             var dm = new Rui.data.LDataSetManager();
-            
+
             dm.on('load', function(e) {
             });
-            
+
             dm.on('success', function(e) {
             });
-            
+
             var numberBox = new Rui.ui.form.LNumberBox({
                 emptyValue: '',
                 minValue: 0,
                 maxValue: 99999
             });
-            
+
             numberBox.on('blur', function(e) {
                 setExatExp();
             });
-            
+
             var expCrtnScnCd = new Rui.ui.form.LCombo({
                 name: 'expCrtnScnCd',
                 autoMapping: true,
@@ -107,7 +107,7 @@
                     { value: '1', text: '일'}
                 ]
             });
-            
+
             var spaceExatMstTreeDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceExatMstTreeDataSet',
                 remainRemoved: true,
@@ -144,10 +144,10 @@
                 height: 300,
                 useAnimation: true
             });
-            
+
             spaceExatMstTreeView.on('labelClick', function(e) {
             	var treeRecord = e.node.getRecord();
-            	
+
             	if(treeRecord.get('exatCdL') < 2) {
             		return;
             	}
@@ -158,7 +158,7 @@
 
             	var row = spaceRqprExatDataSet.newRecord();
             	var record = spaceRqprExatDataSet.getAt(row);
-            	
+
             	record.set('exatCd', treeRecord.get('exatCd'));
             	record.set('exatNm', treeRecord.get('path'));
             	record.set('expCrtnScnCd', treeRecord.get('expCrtnScnCd'));
@@ -169,26 +169,26 @@
             	record.set('exatTim', null);
             	record.set('exatExp', null);
             });
-            
+
             spaceExatMstTreeView.render('spaceExatMstTreeView');
-            
+
             setExatExp = function() {
             	var row = spaceRqprExatDataSet.getRow();
             	var record = spaceRqprExatDataSet.getAt(row);
-            	
-            	
+
+
             		var exatTim = record.get('exatTim') / record.get('utmExatTim');
-            		
+
             		if(exatTim > 0) {
             			var exatExp = record.get('utmExp') * exatTim;
-            			
+
             			record.set('exatExp', exatExp);
             		} else {
             			record.set('exatExp', null);
             		}
-            	
+
             };
-			
+
             var spaceRqprExatDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceRqprExatDataSet',
                 remainRemoved: true,
@@ -209,15 +209,15 @@
             var spaceRqprExatColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
-                    , { field: 'exatNm',		label: '시험명',		sortable: false,	editable: false,	editor: null,			align:'left',	width: 290 }
+                    , { field: 'exatNm',		label: '평가명',		sortable: false,	editable: false,	editor: null,			align:'left',	width: 290 }
                     , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: false, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
-                    
-                    , { field: 'exatTim',		label: '시험일수',		sortable: false,	editable: true,		editor: numberBox,		align:'center',	width: 100,
+
+                    , { field: 'exatTim',		label: '평가일수',		sortable: false,	editable: true,		editor: numberBox,		align:'center',	width: 100,
                     	renderer: function(value, p, record, row, col) {
                             p.editable = record.get('expCrtnScnCd') == '2' ? true : true;
                             return value;
                     } }
-                    , { field: 'exatExp',		label: '시험수가',		sortable: false,	editable: false,	editor: null,			align:'right',	width: 100,
+                    , { field: 'exatExp',		label: '평가수가',		sortable: false,	editable: false,	editor: null,			align:'right',	width: 100,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
                     } }
@@ -231,7 +231,7 @@
                 label: {
                     id : 'exatNm',
                     text : 'Total',
-                }, 
+                },
                 columns: {
                 	smpoQty : { type: 'sum', renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') : val;
@@ -256,9 +256,9 @@
                 autoToEdit: true,
                 autoWidth: true
             });
-            
+
             spaceRqprExatGrid.render('spaceRqprExatGrid');
-            
+
             deleteSpaceRqprExat = function() {
                 if(spaceRqprExatDataSet.getMarkedCount() > 0) {
                 	spaceRqprExatDataSet.removeMarkedRows();
@@ -266,32 +266,32 @@
                 	alert('삭제 대상을 선택해주세요.');
                 }
             }
-            
+
             spaceExatMstTreeDataSet.load({
                 url: '<c:url value="/space/getSpaceExatMstList.do"/>',
                 params :{
                 	isMng : 0
                 }
             });
-			
+
         });
 
 	</script>
     </head>
     <body>
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
-		
+
    		<div class="LblockMainBody">
 
    			<div class="sub-content">
-	   			
+
    				<div class="titArea">
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="deleteSpaceRqprExat()">삭제</button>
    						<button type="button" class="btn"  id="closeBtn" name="closeBtn" onclick="parent.utmExpSimulationDialog.cancel()">닫기</button>
    					</div>
    				</div>
-   				
+
 			    <div id="bd">
 			        <div class="LblockMarkupCode">
 			            <div id="contentWrapper">
@@ -302,7 +302,7 @@
 			            </div>
 			        </div>
 			    </div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

@@ -1431,7 +1431,7 @@ public class SpaceRqprController extends IrisBaseController {
 
 		model.addAttribute("inputData", input);
 
-		return "web/space/rqpr/spaceExprExpSimulationPopup";
+		return "web/space/rqpr/spaceExatExpSimulationPopup";
 	}
 
 	@RequestMapping(value="/space/spaceRqprSrchView.do")

@@ -49,7 +49,7 @@
 	        remainRemoved: true,
 	        lazyLoad: true,
 	        fields: [
-	            { id: 'toolNm' },									
+	            { id: 'toolNm' },
 	            { id: 'prctToDt' },
 	            { id: 'prctTitl' },
 	            { id: 'prctFromDt' },
@@ -101,7 +101,7 @@
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
 
-	  	//Tool 
+	  	//Tool
 	    var toolNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	        applyTo: 'toolNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
 	        width: 200,                                    // 텍스트박스 폭을 설정
@@ -118,9 +118,9 @@
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
-	  	
-	  	
-	  	
+
+
+
 	  //사용 시작일자
         prctToDt = new Rui.ui.form.LDateBox({
             applyTo: 'prctToDt',
@@ -138,7 +138,7 @@
                 prctToDt.setValue(new Date());
             }
         });
-        
+
         //사용 종료일자
         prctFromDt = new Rui.ui.form.LDateBox({
             applyTo: 'prctFromDt',
@@ -156,12 +156,12 @@
                 prctFromDt.setValue(new Date());
             }
         });
-	  	
-	  	
-	  	
+
+
+
 
 		fnSearch = function(){
-			
+
 			dataSet.load({
 				url: '<c:url value="/mchn/mgmt/spaceEvToolUseMgmtSearchList.do"/>' ,
 				params :{
@@ -174,7 +174,7 @@
 			});
 		};
 		fnSearch();
-		
+
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
@@ -189,7 +189,7 @@
         	}
         });
 
-        
+
 	});		//end ready
 
 </script>
@@ -197,14 +197,14 @@
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">
 		 <div class="titleArea">
-			<h2>공간평가 Tool 사용관리</h2>
+			<h2>공간성능평가 Tool 사용관리</h2>
 		</div>
 
 		<div class="sub-content">
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" value="IRIDE0103"/>
 				<input type="hidden" id="mchnPrctId" name="mchnPrctId" />
-				
+
 				<table class="searchBox">
 					<colgroup>
 						<col style="width: 15%" />
@@ -242,7 +242,7 @@
 					<div class="LblockButton">
 					<button type="button" id="butExcl">EXCEL</button>
 					</div>
-				</div> 
+				</div>
 				<div id="mhcnGrid"></div>
 			</form>
 
