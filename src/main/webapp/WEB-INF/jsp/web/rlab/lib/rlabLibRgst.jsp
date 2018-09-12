@@ -38,9 +38,12 @@
 	var userId = '${inputData._userId}';
 	var bbsCd = '${inputData.bbsCd}';
 	var target = '${inputData.target}';
+	var pageMode = '${inputData.pageMode}';
 	var lvAttcFilId;
 	var gvSbcNm = "" ;
 
+	alert(target);
+	alert(pageMode);
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
@@ -61,7 +64,7 @@
                 applyTo: 'bbsSbc'
             });
 
-            if(bbsCd == '01'){
+            if(target == 'tabContentIfrm0' && pageMode == 'C'){
 	            var anlBbsCd = new Rui.ui.form.LCombo({
 	                applyTo: 'anlBbsCd',
 	                name: 'anlBbsCd',
@@ -398,22 +401,25 @@
    						<tr>
    							<th align="right"><span style="color:red;">* </span>구분</th>
    							
-   							<c:if test="${inputData.bbsCd == '01'}">
+   							<c:if test="${inputData.target == 'tabContentIfrm0' && inputData.pageMode == 'C'}">
 	   							<td colspan="3">
 	   								<div id="anlBbsCd"></div>
 	   							</td>
    							</c:if>
-   							<c:if test="${inputData.bbsCd == '02'}">
+   							<c:if test="${(inputData.bbsCd == '02' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							               inputData.target == 'tabContentIfrm1'}">
 	   							<td colspan="3">
 	   								<label>신뢰성DB </label>
 	   							</td>
    							</c:if>
-   							<c:if test="${inputData.bbsCd == '03'}">
+   							<c:if test="${(inputData.bbsCd == '03' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							               inputData.target == 'tabContentIfrm2'}">
 	   							<td colspan="3">
 	   								<label>신뢰성자료실</label>
 	   							</td>
    							</c:if>
-   							<c:if test="${inputData.bbsCd == '04'}">
+   							<c:if test="${(inputData.bbsCd == '04' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							               inputData.target == 'tabContentIfrm3'}">
 	   							<td colspan="3">
 	   								<label>신뢰IP</label>
 	   							</td>
