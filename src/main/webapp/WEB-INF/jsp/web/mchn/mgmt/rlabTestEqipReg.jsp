@@ -175,7 +175,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			name : 'mchnClCd',
 			useEmptyText: true,
 		    emptyText: '선택하세요',
-		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_EXAT_CL_CD"/>',
+		    url: '<c:url value="/stat/rlab/retrieveRlabMchnClCd.do"/>',
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD',
 			width: 180
@@ -184,10 +184,10 @@ var faxInfoDialog;	//고정자산관리 팝업
 		cbmchnClCd.on('changed', function(e){
 			mchnClDtlCdDataSet.clearData();
 			mchnClDtlCdDataSet.load({
-                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd="/>'+'RLAB_EXAT_CL_DTL_CD'+e.value
-                /* ,params :{
-                	comCd : 'RLAB_EXAT_CL_DTL_CD'+e.value
-                } */
+				url: '<c:url value="/stat/rlab/retrieveRlabMchnClDtlCd.do"/>'
+	                ,params :{
+	                	exatCd : e.value
+	                }
             });
 		});
 
