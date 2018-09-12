@@ -70,10 +70,10 @@
 		<UserSkinColor></UserSkinColor>
 		<Css></Css>
 		<UserToolbar>true</UserToolbar>
-		<CreateToolbar></CreateToolbar>
+		<CreateToolbar>newdoc|fopen|saveas|print|spacebar|undo|redo|spacebar|search|replace|spacebar|inserthorizontalrule|hyperlink|remove_hyperlink|spacebar|image|tableinsert|tabledraginsert|tablerowinsert|tablerowdelete|tablecolumninsert|tablecolumndelete|tablecellmerge|tablecellsplit|tablecellattribute|spacebar|enter|formatblock|fontname|fontsize|lineheight|word_style|word_color|cancelattribute|word_justify|word_indentset|txtmargin|word_dir</CreateToolbar>
 		<CreateTab>0|1|2</CreateTab>
 		<IsQuestAutoSave></IsQuestAutoSave>
-		<Menu>true</Menu>
+		<Menu>false</Menu>
 		<QuickMenu>false</QuickMenu>
 		<DisplayLoadingBar>true</DisplayLoadingBar>
 		<ShowRuler></ShowRuler>
