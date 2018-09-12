@@ -323,7 +323,7 @@ $(window).load(function() {
 });
 </script>
 </head>
-<body>
+<body style="overflow-y : hidden">
 <div id="smryFormDiv">
     <form name="smryForm" id="smryForm" method="post" style="padding: 20px 1px 0 0;">
         <input type="hidden" id="tssCd" name="tssCd" value=""/> <!-- 과제코드 -->
@@ -332,10 +332,10 @@ $(window).load(function() {
 
         <table class="table table_txt_right">
             <colgroup>
-                <col style="width: 15%;"/>
-                <col style="width: 35%;"/>
-                <col style="width: 15%;"/>
-                <col style="width: 35%;"/>
+                <col style="width: 18%;"/>
+                <col style="width: 32%;"/>
+                <col style="width: 18%;"/>
+                <col style="width: 32%;"/>
             </colgroup>
             <tbody>
             <tr>

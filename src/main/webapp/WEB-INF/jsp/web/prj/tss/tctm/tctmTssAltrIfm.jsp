@@ -349,7 +349,7 @@
         });
     </script>
 </head>
-<body>
+<body style="overflow-y : hidden">
 <div class="titArea">
     <div class="LblockButton">
         <button type="button" id="butRecordNew">+</button>

@@ -368,11 +368,15 @@
             Wec4.SetBodyValue( dataSet.getNameValue(0, "smryDTxt") );
 
 	        fncPtcCpsnYDisable(strDt, endDt);
-            setTimeout(function () {
-	            fnGetYAvg("ptc");
-	            fnGetYAvg("biz");
+            // setTimeout(function () {
+	         //    fnGetYAvg("ptc");
+	         //    fnGetYAvg("biz");
+            //     tabViewS.selectTab(0);
+            // }, 1000);
+               fnGetYAvg("ptc");
+               fnGetYAvg("biz");
                 tabViewS.selectTab(0);
-            }, 1000);
+
         });
 
         //Form 바인드

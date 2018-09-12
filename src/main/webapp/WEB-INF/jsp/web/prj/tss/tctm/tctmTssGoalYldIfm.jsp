@@ -593,7 +593,7 @@ $(window).load(function() {
 });
 </script>
 </head>
-<body>
+<body style="overflow-y : hidden">
 <div id="formDiv">
     <form name="form" id="goalForm" method="post">
         <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
