@@ -42,8 +42,6 @@
 	var lvAttcFilId;
 	var gvSbcNm = "" ;
 
-	alert(target);
-	alert(pageMode);
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
