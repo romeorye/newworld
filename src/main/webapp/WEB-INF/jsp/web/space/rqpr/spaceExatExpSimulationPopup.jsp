@@ -93,6 +93,7 @@
             });
 
             numberBox.on('blur', function(e) {
+
                 setExatExp();
             });
 
