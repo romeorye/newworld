@@ -32,7 +32,7 @@ import iris.web.common.util.StringUtil;
  *------------------------------------------------------------------------------
  *    DATE     AUTHOR                      DESCRIPTION
  * ----------  ------  ---------------------------------------------------------
- * 2017.08.25  오명철	최초생성
+ * 2018.08.25  정현웅		최초생성
  *********************************************************************************/
 
 @Service("spaceRqprService")
@@ -269,23 +269,37 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
         		String serverUrl = "http://" + configService.getString("defaultUrl") + ":" + configService.getString("serverPort") + "/" + configService.getString("contextPath");
     			StringBuffer sb = new StringBuffer();
     			Map<String,Object> spaceRqprInfo = commonDao.select("space.rqpr.getSpaceRqprInfo", input);
-    			List<Map<String,Object>> spaceRqprSmpoList = commonDao.selectList("space.rqpr.getSpaceRqprSmpoList", input);
+
+    			List<Map<String,Object>> spaceRqprWayCrgrList = commonDao.selectList("space.rqpr.getSpaceRqprWayCrgrList", input);
+    			List<Map<String,Object>> spaceRqprProdList = commonDao.selectList("space.rqpr.getSpaceRqprProdList", input);
     			List<Map<String,Object>> spaceRqprRltdList = commonDao.selectList("space.rqpr.getSpaceRqprRltdList", input);
     			List<Map<String,Object>> rqprAttachFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
 
     			spaceRqprInfo.put("spaceRqprInfmView", StringUtil.isNullGetInput((String)spaceRqprInfo.get("spaceRqprInfmView"), ""));
     			spaceRqprInfo.put("spaceSbc", ((String)spaceRqprInfo.get("spaceSbc")).replaceAll("\n", "<br/>"));
 
-    			for(Map<String, Object> data : spaceRqprSmpoList) {
+    			for(Map<String, Object> data : spaceRqprWayCrgrList) {
     				sb.append("<tr>")
-    				  .append("<td>").append(data.get("smpoNm")).append("</td>")
-    				  .append("<td>").append(data.get("mkrNm")).append("</td>")
-    				  .append("<td>").append(data.get("mdlNm")).append("</td>")
-    				  .append("<td>").append(data.get("smpoQty")).append("</td>")
+    				  .append("<td>").append(data.get("evCtgrNm")).append("</td>")
+    				  .append("<td>").append(data.get("evPrvsNm")).append("</td>")
+    				  .append("<td>").append(data.get("infmPrsnNm")).append("</td>")
     				  .append("</tr>");
     			}
 
-    			spaceRqprInfo.put("spaceRqprSmpoList", sb.toString());
+    			spaceRqprInfo.put("spaceRqprWayCrgrList", sb.toString());
+
+    			sb.delete(0, sb.length());
+
+    			for(Map<String, Object> data : spaceRqprProdList) {
+    				sb.append("<tr>")
+    				  .append("<td>").append(data.get("evCtgr0Nm")).append("</td>")
+    				  .append("<td>").append(data.get("evCtgr1Nm")).append("</td>")
+    				  .append("<td>").append(data.get("evCtgr2Nm")).append("</td>")
+    				  .append("<td>").append(data.get("evCtgr3Nm")).append("</td>")
+    				  .append("</tr>");
+    			}
+
+    			spaceRqprInfo.put("spaceRqprProdList", sb.toString());
 
     			sb.delete(0, sb.length());
 
@@ -469,7 +483,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
     		mailSender.setFromMailAddress(spaceMailInfo.getChrgEmail(), spaceMailInfo.getChrgNm());
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
-    		mailSender.setSubject("'" + spaceMailInfo.getAnlNm() + "' 평가의뢰 접수 통보");
+    		mailSender.setSubject("'" + spaceMailInfo.getSpaceNm() + "' 평가의뢰 접수 통보");
     		mailSender.setHtmlTemplate("spaceRqprReceipt", spaceMailInfo);
     		mailSender.send();
 

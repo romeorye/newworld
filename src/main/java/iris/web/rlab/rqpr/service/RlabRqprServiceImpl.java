@@ -25,7 +25,7 @@ import iris.web.common.util.StringUtil;
 
 /*********************************************************************************
  * NAME : RlabRqprServiceImpl.java
- * DESC : 분석의뢰 - 분석의뢰관리 ServiceImpl
+ * DESC : 시험의뢰 - 시험의뢰관리 ServiceImpl
  * PROJ : IRIS UPGRADE 1차 프로젝트
  *------------------------------------------------------------------------------
  *                               MODIFICATION LOG
@@ -52,37 +52,37 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 	@Resource(name = "configService")
     private ConfigService configService;
 
-	/* 분석의뢰 리스트 조회 */
+	/* 시험의뢰 리스트 조회 */
 	public List<Map<String, Object>> getRlabRqprList(Map<String, Object> input) {
 		return commonDao.selectList("rlab.rqpr.getRlabRqprList", input);
 	}
 
-	/* 분석의뢰 담당자 리스트 조회 */
+	/* 시험의뢰 담당자 리스트 조회 */
 	public List<Map<String, Object>> getRlabChrgList(Map<String, Object> input) {
 		return commonDao.selectList("rlab.rqpr.getRlabChrgList", input);
 	}
 
-	/* 분석의뢰 정보 조회 */
+	/* 시험의뢰 정보 조회 */
 	public Map<String,Object> getRlabRqprInfo(Map<String, Object> input) {
 		return commonDao.select("rlab.rqpr.getRlabRqprInfo", input);
 	}
 
-	/* 분석의뢰 시료정보 리스트 조회 */
+	/* 시험의뢰 시료정보 리스트 조회 */
 	public List<Map<String, Object>> getRlabRqprSmpoList(Map<String, Object> input) {
 		return commonDao.selectList("rlab.rqpr.getRlabRqprSmpoList", input);
 	}
 
-	/* 분석의뢰 관련분석 리스트 조회 */
+	/* 시험의뢰 관련시험 리스트 조회 */
 	public List<Map<String, Object>> getRlabRqprRltdList(Map<String, Object> input) {
 		return commonDao.selectList("rlab.rqpr.getRlabRqprRltdList", input);
 	}
 
-	/* 분석의뢰 등록 */
+	/* 시험의뢰 등록 */
 	public boolean insertRlabRqpr(Map<String,Object> dataMap) throws Exception {
 		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
 		Map<String, Object> rlabRqprDataSet = (Map<String, Object>)dataMap.get("rlabRqprDataSet");	//의뢰정보
 		List<Map<String, Object>> rlabRqprSmpoDataSet = (List<Map<String, Object>>)dataMap.get("rlabRqprSmpoDataSet");	//시료정보
-		List<Map<String, Object>> rlabRqprRltdDataSet = (List<Map<String, Object>>)dataMap.get("rlabRqprRltdDataSet");	//관련분석
+		List<Map<String, Object>> rlabRqprRltdDataSet = (List<Map<String, Object>>)dataMap.get("rlabRqprRltdDataSet");	//관련시험
 		List<Map<String, Object>> rlabRqprInfmList = new ArrayList<Map<String, Object>>();	//통보자 리스트
 
 		Object userId = input.get("_userId");
@@ -120,17 +120,17 @@ public class RlabRqprServiceImpl implements RlabRqprService {
         	if(commonDao.batchInsert("rlab.rqpr.insertRlabRqprSmpo", rlabRqprSmpoDataSet) == rlabRqprSmpoDataSet.size()
         			&& commonDao.batchInsert("rlab.rqpr.insertRlabRqprRltd", rlabRqprRltdDataSet) == rlabRqprRltdDataSet.size()
         			&& commonDao.batchInsert("rlab.rqpr.insertRlabRqprInfm", rlabRqprInfmList) == rlabRqprInfmList.size()) {
-        		//시료정보 && 관련분석 &&
+        		//시료정보 && 관련시험 &&
         		return true;
         	} else {
-        		throw new Exception("분석의뢰 등록 오류");
+        		throw new Exception("시험의뢰 등록 오류");
         	}
     	} else {
-    		throw new Exception("분석의뢰 등록 오류");
+    		throw new Exception("시험의뢰 등록 오류");
     	}
 	}
 
-	/* 분석의뢰 수정 */
+	/* 시험의뢰 수정 */
 	public boolean updateRlabRqpr(Map<String,Object> dataMap) throws Exception {
 		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
 		Map<String, Object> rlabRqprDataSet = (Map<String, Object>)dataMap.get("rlabRqprDataSet");
@@ -164,7 +164,7 @@ public class RlabRqprServiceImpl implements RlabRqprService {
         	if(commonDao.batchInsert("rlab.rqpr.insertRlabRqprSmpo", insertList) != insertList.size()
         			|| commonDao.batchUpdate("rlab.rqpr.updateRlabRqprSmpo", updateList) != updateList.size()
         			|| commonDao.batchUpdate("rlab.rqpr.updateRlabRqprSmpoDelYn", deleteList) != deleteList.size()) {
-        		throw new Exception("분석의뢰 수정 오류");
+        		throw new Exception("시험의뢰 수정 오류");
         	}
 
         	insertList.clear();
@@ -186,7 +186,7 @@ public class RlabRqprServiceImpl implements RlabRqprService {
         	if(commonDao.batchInsert("rlab.rqpr.insertRlabRqprRltd", insertList) != insertList.size()
         			|| commonDao.batchUpdate("rlab.rqpr.updateRlabRqprRltd", updateList) != updateList.size()
         			|| commonDao.batchUpdate("rlab.rqpr.updateRlabRqprRltdDelYn", deleteList) != deleteList.size()) {
-        		throw new Exception("분석의뢰 수정 오류");
+        		throw new Exception("시험의뢰 수정 오류");
         	}
 
         	insertList.clear();
@@ -269,13 +269,14 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 
     			Map<String, Object> itgRdcsInfo = new HashMap<String, Object>();
 
-    			itgRdcsInfo.put("guId", "A" + rqprId);
+    			// guid= B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료 + rqprId
+    			itgRdcsInfo.put("guId", "B" + rqprId);
     			itgRdcsInfo.put("approvalUserid", userId);
     			itgRdcsInfo.put("approvalUsername", input.get("_userNm"));
     			itgRdcsInfo.put("approvalJobtitle", input.get("_userJobxName"));
     			itgRdcsInfo.put("approvalDeptname", input.get("_userDeptName"));
     			itgRdcsInfo.put("body", body);
-    			itgRdcsInfo.put("title", "[IRIS/분석의뢰] " + rlabRqprInfo.get("rlabNm"));
+    			itgRdcsInfo.put("title", "[IRIS/시험의뢰] " + rlabRqprInfo.get("rlabNm"));
 
     			commonDao.delete("common.itgRdcs.deleteItgRdcsInfo", itgRdcsInfo);
 
@@ -287,31 +288,31 @@ public class RlabRqprServiceImpl implements RlabRqprService {
         	return true;
 
     	} else {
-    		throw new Exception("분석의뢰 수정 오류");
+    		throw new Exception("시험의뢰 수정 오류");
     	}
 	}
 
-	/* 분석의뢰 삭제 */
+	/* 시험의뢰 삭제 */
 	public boolean deleteRlabRqpr(Map<String, Object> input) throws Exception {
 
     	if(commonDao.update("rlab.rqpr.updateRlabRqprDelYn", input) == 1) {
         	return true;
     	} else {
-    		throw new Exception("분석의뢰 삭제 오류");
+    		throw new Exception("시험의뢰 삭제 오류");
     	}
 	}
 
-	/* 분석의뢰 의견 리스트 건수 조회 */
+	/* 시험의뢰 의견 리스트 건수 조회 */
 	public int getRlabRqprOpinitionListCnt(Map<String, Object> input) {
 		return commonDao.select("rlab.rqpr.getRlabRqprOpinitionListCnt", input);
 	}
 
-	/* 분석의뢰 의견 리스트 조회 */
+	/* 시험의뢰 의견 리스트 조회 */
 	public List<Map<String, Object>> getRlabRqprOpinitionList(Map<String, Object> input) {
 		return commonDao.selectList("rlab.rqpr.getRlabRqprOpinitionList", input);
 	}
 
-	/* 분석의뢰 의견 저장 */
+	/* 시험의뢰 의견 저장 */
 	public boolean saveRlabRqprOpinition(Map<String, Object> input) throws Exception {
     	if(commonDao.insert("rlab.rqpr.saveRlabRqprOpinition", input) == 1) {
     		String senderNm = input.get("_userNm") + " " + input.get("_userJobxName");
@@ -323,26 +324,26 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 
     		mailSender.setFromMailAddress((String)input.get("_userEmail"), senderNm);
     		mailSender.setToMailAddress(rlabMailInfo.getReceivers().split(","));
-    		mailSender.setSubject("'" + rlabMailInfo.getRlabNm() + "' 분석 건에 새 의견이 게시되었습니다.");
+    		mailSender.setSubject("'" + rlabMailInfo.getRlabNm() + "' 시험 건에 새 의견이 게시되었습니다.");
     		mailSender.setHtmlTemplate("rlabRqprOpinition", rlabMailInfo);
     		mailSender.send();
 
         	return true;
     	} else {
-    		throw new Exception("분석의뢰 의견 저장 오류");
+    		throw new Exception("시험의뢰 의견 저장 오류");
     	}
 	}
 
-	/* 분석의뢰 의견 저장 */
+	/* 시험의뢰 의견 저장 */
 	public boolean deleteRlabRqprOpinition(Map<String, Object> input) throws Exception {
     	if(commonDao.insert("rlab.rqpr.updateRlabRqprOpinitionDelYn", input) == 1) {
         	return true;
     	} else {
-    		throw new Exception("분석의뢰 의견 삭제 오류");
+    		throw new Exception("시험의뢰 의견 삭제 오류");
     	}
 	}
 
-	/* 분석의뢰 저장 */
+	/* 시험의뢰 저장 */
 	public boolean saveRlabRqpr(Map<String,Object> dataMap) throws Exception {
 		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
 		Map<String, Object> rlabRqprDataSet = (Map<String, Object>)dataMap.get("rlabRqprDataSet");
@@ -374,7 +375,7 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     		if(commonDao.batchInsert("rlab.rqpr.insertRlabRqprSmpo", insertList) != insertList.size()
         			|| commonDao.batchUpdate("rlab.rqpr.updateRlabRqprSmpo", updateList) != updateList.size()
         			|| commonDao.batchUpdate("rlab.rqpr.updateRlabRqprSmpoDelYn", deleteList) != deleteList.size()) {
-        		throw new Exception("분석의뢰 저장 오류");
+        		throw new Exception("시험의뢰 저장 오류");
         	}
 
     		insertList.clear();
@@ -397,7 +398,7 @@ public class RlabRqprServiceImpl implements RlabRqprService {
         	if(commonDao.batchInsert("rlab.rqpr.insertRlabRqprRltd", insertList) != insertList.size()
         			|| commonDao.batchUpdate("rlab.rqpr.updateRlabRqprRltd", updateList) != updateList.size()
         			|| commonDao.batchUpdate("rlab.rqpr.updateRlabRqprRltdDelYn", deleteList) != deleteList.size()) {
-        		throw new Exception("분석의뢰 저장 오류");
+        		throw new Exception("시험의뢰 저장 오류");
         	}
 
         	insertList.clear();
@@ -406,11 +407,11 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 
         	return true;
 		}else {
-    		throw new Exception("분석의뢰 저장 오류");
+    		throw new Exception("시험의뢰 저장 오류");
     	}
 	}
 
-	/* 분석의뢰 접수 */
+	/* 시험의뢰 접수 */
 	public boolean updateReceiptRlabRqpr(Map<String,Object> dataMap) throws Exception {
     	if(commonDao.update("rlab.rqpr.updateRlabRqpr", dataMap) == 1) {
     		RlabMailInfo rlabMailInfo = commonDao.select("rlab.rqpr.getRlabRqprReceiptEmailInfo", dataMap);
@@ -420,16 +421,16 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     		mailSender.setFromMailAddress(rlabMailInfo.getChrgEmail(), rlabMailInfo.getChrgNm());
     		mailSender.setToMailAddress(rlabMailInfo.getReceivers().split(","));
     		mailSender.setSubject("'" + rlabMailInfo.getRlabNm() + "' 시험의뢰 접수 통보");
-    		mailSender.setHtmlTemplate("anlRqprReceipt", rlabMailInfo);
+    		mailSender.setHtmlTemplate("rlabRqprReceipt", rlabMailInfo);
     		mailSender.send();
 
         	return true;
     	} else {
-    		throw new Exception("분석의뢰 접수 오류");
+    		throw new Exception("시험의뢰 접수 오류");
     	}
 	}
 
-	/* 분석의뢰 반려/분석중단 처리 */
+	/* 시험의뢰 반려/시험중단 처리 */
 	public boolean updateRlabRqprEnd(Map<String,Object> dataMap) throws Exception {
     	if(commonDao.update("rlab.rqpr.updateRlabRqprAcpcStCd", dataMap) == 1) {
     		StringBuffer subject = new StringBuffer();
@@ -439,16 +440,16 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     		if("04".equals(dataMap.get("rlabAcpcStCd"))) {	// 반려
         		rlabMailInfo = commonDao.select("rlab.rqpr.getRlabRqprRejectEmailInfo", dataMap);
 
-        		rlabMailInfo.setAnlGvbRson(rlabMailInfo.getAnlGvbRson().replaceAll("\n", "<br/>"));
+        		rlabMailInfo.setSpaceGvbRson(rlabMailInfo.getSpaceGvbRson().replaceAll("\n", "<br/>"));
 
-        		subject.append("'").append(rlabMailInfo.getAnlNm()).append("' 분석의뢰 반려 통보");
+        		subject.append("'").append(rlabMailInfo.getRlabNm()).append("' 시험의뢰 반려 통보");
         		templateNm = "rlabRqprReject";
     		} else {									// 중단
         		rlabMailInfo = commonDao.select("rlab.rqpr.getRlabRqprStopEmailInfo", dataMap);
 
-        		rlabMailInfo.setAnlDcacRson(rlabMailInfo.getAnlDcacRson().replaceAll("\n", "<br/>"));
+        		rlabMailInfo.setSpaceDcacRson(rlabMailInfo.getSpaceDcacRson().replaceAll("\n", "<br/>"));
 
-        		subject.append("'").append(rlabMailInfo.getAnlNm()).append("' 분석중단 통보");
+        		subject.append("'").append(rlabMailInfo.getRlabNm()).append("' 시험중단 통보");
         		templateNm = "rlabRqprStop";
     		}
 
@@ -462,7 +463,7 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 
         	return true;
     	} else {
-    		throw new Exception("분석의뢰 반려/분석중단 처리 오류");
+    		throw new Exception("시험의뢰 반려/시험중단 처리 오류");
     	}
 	}
 
@@ -476,35 +477,35 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 		return commonDao.selectList("rlab.rqpr.getRlabExatDtlComboList", input);
 	}
 
-	/* 분석결과 실험정보 리스트 조회 */
+	/* 시험결과 실험정보 리스트 조회 */
 	public List<Map<String, Object>> getRlabRqprExatList(Map<String, Object> input) {
 		return commonDao.selectList("rlab.rqpr.getRlabRqprExatList", input);
 	}
 
-	/* 분석결과 실험정보 조회 */
+	/* 시험결과 실험정보 조회 */
 	public Map<String, Object> getRlabRqprExatInfo(Map<String, Object> input) {
 		return commonDao.select("rlab.rqpr.getRlabRqprExatInfo", input);
 	}
 
-	/* 분석결과 실험정보 저장 */
+	/* 시험결과 실험정보 저장 */
 	public boolean saveRlabRqprExat(Map<String, Object> dataMap) throws Exception {
     	if(commonDao.insert("rlab.rqpr.saveRlabRqprExat", dataMap) == 1) {
         	return true;
     	} else {
-    		throw new Exception("분석결과 실험정보 저장 오류");
+    		throw new Exception("시험결과 실험정보 저장 오류");
     	}
 	}
 
-	/* 분석결과 실험정보 삭제 */
+	/* 시험결과 실험정보 삭제 */
 	public boolean deleteRlabRqprExat(List<Map<String, Object>> list) throws Exception {
     	if(commonDao.batchUpdate("rlab.rqpr.updateRlabRqprExatDelYn", list) == list.size()) {
         	return true;
     	} else {
-    		throw new Exception("분석결과 실험정보 삭제 오류");
+    		throw new Exception("시험결과 실험정보 삭제 오류");
     	}
 	}
 
-	/* 분석결과 저장 */
+	/* 시험결과 저장 */
 	public boolean saveRlabRqprRslt(Map<String, Object> dataMap) throws Exception {
     	if(commonDao.insert("rlab.rqpr.saveRlabRqprRslt", dataMap) == 1) {
     		if("requestRsltApproval".equals(dataMap.get("cmd"))) {
@@ -600,24 +601,25 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 
     			Map<String, Object> itgRdcsInfo = new HashMap<String, Object>();
 
-    			itgRdcsInfo.put("guId", "C" + dataMap.get("rqprId"));
+    			// B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료
+    			itgRdcsInfo.put("guId", "D" + dataMap.get("rqprId"));
     			itgRdcsInfo.put("approvalUserid", dataMap.get("userId"));
     			itgRdcsInfo.put("approvalUsername", dataMap.get("userNm"));
     			itgRdcsInfo.put("approvalJobtitle", dataMap.get("userJobxName"));
     			itgRdcsInfo.put("approvalDeptname", dataMap.get("userDeptName"));
     			itgRdcsInfo.put("body", body);
-    			itgRdcsInfo.put("title", "[IRIS/분석결과] " + rlabRqprInfo.get("rlabNm"));
+    			itgRdcsInfo.put("title", "[IRIS/시험결과] " + rlabRqprInfo.get("rlabNm"));
 
     			commonDao.delete("common.itgRdcs.deleteItgRdcsInfo", itgRdcsInfo);
 
             	if(commonDao.insert("common.itgRdcs.saveItgRdcsInfo", itgRdcsInfo) == 0) {
-            		throw new Exception("분석결과 결재의뢰 정보 등록 오류");
+            		throw new Exception("시험결과 결재의뢰 정보 등록 오류");
             	}
     		}
 
         	return true;
     	} else {
-    		throw new Exception("분석결과 저장 오류");
+    		throw new Exception("시험결과 저장 오류");
     	}
 	}
 

@@ -420,8 +420,10 @@ public class SpaceRqprController extends IrisBaseController {
 			input.put("cmd", "requestApproval");
 
 			dataMap.put("input", input);
+
 			dataMap.put("spaceRqprDataSet", RuiConverter.convertToDataSet(request, "spaceRqprDataSet").get(0));
-			dataMap.put("spaceRqprSmpoDataSet", RuiConverter.convertToDataSet(request, "spaceRqprSmpoDataSet"));
+			dataMap.put("spaceRqprWayCrgrDataSet", RuiConverter.convertToDataSet(request, "spaceRqprWayCrgrDataSet"));
+			dataMap.put("spaceRqprProdDataSet", RuiConverter.convertToDataSet(request, "spaceRqprProdDataSet"));
 			dataMap.put("spaceRqprRltdDataSet", RuiConverter.convertToDataSet(request, "spaceRqprRltdDataSet"));
 
 			spaceRqprService.updateSpaceRqpr(dataMap);
@@ -1555,84 +1557,6 @@ public class SpaceRqprController extends IrisBaseController {
 		model.addAttribute("inputData", input);
 
 		return "web/space/rqpr/spaceRqprOpinitionAddPopup";
-	}
-
-	@RequestMapping(value="/space/saveSpaceRqprFb.do")
-	public ModelAndView saveSpaceRqprFb(
-			@RequestParam HashMap<String, Object> input,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			HttpSession session,
-			ModelMap model
-			){
-
-		/* 반드시 공통 호출 후 작업 */
-		checkSessionObjRUI(input, session, model);
-
-    	input = StringUtil.toUtf8(input);
-
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - saveSpaceRqprFb 피드백 저장");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
-
-		ModelAndView modelAndView = new ModelAndView("ruiView");
-
-		Map<String,Object> resultMap = new HashMap<String, Object>();
-
-		try {
-			spaceRqprService.saveSpaceRqprFb(input);
-
-			resultMap.put("resultYn", "Y");
-			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
-		}
-
-		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
-
-		return modelAndView;
-	}
-
-	@RequestMapping(value="/space/saveSpaceRqprFbCmpl.do")
-	public ModelAndView saveSpaceRqprFbCmpl(
-			@RequestParam HashMap<String, Object> input,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			HttpSession session,
-			ModelMap model
-			){
-
-		/* 반드시 공통 호출 후 작업 */
-		checkSessionObjRUI(input, session, model);
-
-    	input = StringUtil.toUtf8(input);
-
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("SpaceRqprController - saveSpaceRqprFbCmpl 피드백 확정 저장");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
-
-		ModelAndView modelAndView = new ModelAndView("ruiView");
-
-		Map<String,Object> resultMap = new HashMap<String, Object>();
-
-		try {
-			spaceRqprService.saveSpaceRqprFbCmpl(input);
-
-			resultMap.put("resultYn", "Y");
-			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
-		}
-
-		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
-
-		return modelAndView;
 	}
 
 }

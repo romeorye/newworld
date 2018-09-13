@@ -2,7 +2,7 @@ package iris.web.rlab.rqpr.vo;
 
 public class RlabMailInfo {
 	private String rqprId = "";
-	private String anlNm = "";
+	private String rlabNm = "";
 	private String acpcNo = "";
 	private String senderNm = "";
 	private String rgstNm = "";
@@ -15,41 +15,22 @@ public class RlabMailInfo {
 	private String acpcDt = "";
 	private String cmplParrDt = "";
 	private String cmplDt = "";
-	private String anlGvbRson = "";
-	private String anlDcacRson = "";
+	private String spaceGvbRson = "";
+	private String spaceDcacRson = "";
 	private String receivers = "";
-	
-	private String rlabNm = "";
 
-	public String getRqprDt() {
-		return rqprDt;
-	}
-	public void setRqprDt(String rqprDt) {
-		this.rqprDt = rqprDt;
-	}
-	public String getRgstEmail() {
-		return rgstEmail;
-	}
-	public void setRgstEmail(String rgstEmail) {
-		this.rgstEmail = rgstEmail;
-	}
-	public String getCmplDt() {
-		return cmplDt;
-	}
-	public void setCmplDt(String cmplDt) {
-		this.cmplDt = cmplDt;
-	}
+
 	public String getRqprId() {
 		return rqprId;
 	}
 	public void setRqprId(String rqprId) {
 		this.rqprId = rqprId;
 	}
-	public String getAnlNm() {
-		return anlNm;
+	public String getRlabNm() {
+		return rlabNm;
 	}
-	public void setAnlNm(String anlNm) {
-		this.anlNm = anlNm;
+	public void setRlabNm(String rlabNm) {
+		this.rlabNm = rlabNm;
 	}
 	public String getAcpcNo() {
 		return acpcNo;
@@ -63,12 +44,6 @@ public class RlabMailInfo {
 	public void setSenderNm(String senderNm) {
 		this.senderNm = senderNm;
 	}
-	public String getReceivers() {
-		return receivers;
-	}
-	public void setReceivers(String receivers) {
-		this.receivers = receivers;
-	}
 	public String getRgstNm() {
 		return rgstNm;
 	}
@@ -80,6 +55,12 @@ public class RlabMailInfo {
 	}
 	public void setRgstDeptNm(String rgstDeptNm) {
 		this.rgstDeptNm = rgstDeptNm;
+	}
+	public String getRgstEmail() {
+		return rgstEmail;
+	}
+	public void setRgstEmail(String rgstEmail) {
+		this.rgstEmail = rgstEmail;
 	}
 	public String getChrgNm() {
 		return chrgNm;
@@ -99,6 +80,12 @@ public class RlabMailInfo {
 	public void setChrgEmail(String chrgEmail) {
 		this.chrgEmail = chrgEmail;
 	}
+	public String getRqprDt() {
+		return rqprDt;
+	}
+	public void setRqprDt(String rqprDt) {
+		this.rqprDt = rqprDt;
+	}
 	public String getAcpcDt() {
 		return acpcDt;
 	}
@@ -111,23 +98,30 @@ public class RlabMailInfo {
 	public void setCmplParrDt(String cmplParrDt) {
 		this.cmplParrDt = cmplParrDt;
 	}
-	public String getAnlGvbRson() {
-		return anlGvbRson;
+	public String getCmplDt() {
+		return cmplDt;
 	}
-	public void setAnlGvbRson(String anlGvbRson) {
-		this.anlGvbRson = anlGvbRson;
+	public void setCmplDt(String cmplDt) {
+		this.cmplDt = cmplDt;
 	}
-	public String getAnlDcacRson() {
-		return anlDcacRson;
+	public String getSpaceGvbRson() {
+		return spaceGvbRson;
 	}
-	public void setAnlDcacRson(String anlDcacRson) {
-		this.anlDcacRson = anlDcacRson;
+	public void setSpaceGvbRson(String spaceGvbRson) {
+		this.spaceGvbRson = spaceGvbRson;
 	}
-	public String getRlabNm() {
-		return rlabNm;
+	public String getSpaceDcacRson() {
+		return spaceDcacRson;
 	}
-	public void setRlabNm(String rlabNm) {
-		this.rlabNm = rlabNm;
+	public void setSpaceDcacRson(String spaceDcacRson) {
+		this.spaceDcacRson = spaceDcacRson;
 	}
-	
+	public String getReceivers() {
+		return receivers;
+	}
+	public void setReceivers(String receivers) {
+		this.receivers = receivers;
+	}
+
+
 }

@@ -179,7 +179,9 @@
 				CRGR_ID       AS crgrId,
 				RQPR_ID       AS rqprId,
 				EV_CTGR       AS evCtgr,
+				dbo.fn_getComDtlNm('SPACE_EV_CTGR', EV_CTGR)       AS evCtgrNm,
 				EV_PRVS       AS evPrvs,
+				dbo.fn_getComDtlNm('SPACE_EV_PRVS', EV_PRVS)       AS evPrvsNm,
 				INFM_PRSN_ID  AS infmPrsnId,
 				dbo.fn_getUserName(INFM_PRSN_ID)	AS infmPrsnNm
 			FROM IRIS_SPACE_WAY_CRGR
@@ -304,7 +306,7 @@
 				ev_cases = #{evCases},			--평가Class
 				ev_subj_dtl = #{evSubjDtl},		--평가대상 상세
 				t_cloud = #{tCloud},			--T-CLOUD URL
-				SPACE_ACPC_ST_CD = #{spaceAcpcStCd},		--접수상태코드
+				SPACE_ACPC_ST_CD = #{spaceAcpcStCd},	--접수상태코드
 				cmpl_parr_dt = #{cmplParrDt},			--완료예정일
 				rqpr_attc_file_id = #{rqprAttcFileId},	--의뢰첨부파일ID
 			<if test="acpcNo == '' and spaceAcpcStCd == '03'">
@@ -964,6 +966,10 @@
 			where	mst.rqpr_id = ${rqprId}
 			and		mst.rgst_id = rgst.sa_user
 			and		mst.space_chrg_id = chrg.sa_user
+			
+			
+			
+			
 	</select>
 
 	<select id="getSpaceRqprRejectEmailInfo" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
