@@ -76,6 +76,14 @@
             height: 100,
             width: 600
         });
+       
+        //지적재산권 결과 통보
+        pmisTxt = new Rui.ui.form.LTextArea({
+            applyTo: 'pmisTxt',
+            editable: false,
+            height: 100,
+            width: 600
+        });
       
         //상품출시(계획)
         ctyOtPlnM = new Rui.ui.form.LTextBox({
@@ -266,6 +274,7 @@
                 , { id: 'ptcCpsnY3', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+3
                 , { id: 'ptcCpsnY4', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+4
 //                 , { id: 'ptcCpsnYAvg', type: 'number', defaultValue:0 }      //투입인원(M/M)평균
+                , { id: 'pmisTxt' }        //첨부파일ID
                 , { id: 'attcFilId' }        //첨부파일ID
                 , { id: 'userId' }           //로그인ID
             ]
@@ -308,6 +317,7 @@
                 , { id: 'ctyOtPlnM',        ctrlId: 'ctyOtPlnM',        value: 'value' }
                 , { id: 'smrSmryTxt',       ctrlId: 'smrSmryTxt',       value: 'value' }
                 , { id: 'smrGoalTxt',       ctrlId: 'smrGoalTxt',       value: 'value' }
+                , { id: 'pmisTxt',       	ctrlId: 'pmisTxt',       	value: 'value' }
 //                 , { id: 'bizPrftProY',      ctrlId: 'bizPrftProY',      value: 'value' }
 //                 , { id: 'bizPrftProY1',     ctrlId: 'bizPrftProY1',     value: 'value' }
 //                 , { id: 'bizPrftProY2',     ctrlId: 'bizPrftProY2',     value: 'value' }
@@ -668,6 +678,10 @@ function initFrameSetHeight2(pId) {
                     <td class="tssLableCss"><input type="text" id="ptcCpsnY3" name="ptcCpsnY3"></td>
                     <td class="tssLableCss"><input type="text" id="ptcCpsnY4" name="ptcCpsnY4"></td>
                     <td class="tssLableCss"><input type="text" id="ptcCpsnYAvg" name="ptcCpsnYAvg"></td>
+                </tr>
+                <tr>
+                    <th align="right">지적재산권<br>통보결과</th>
+                    <td colspan="6"><input type="text" id="pmisTxt" name="pmisTxt"></td>
                 </tr>
                 <tr>
                     <th align="right">GRS심의파일<br/>(심의파일, 회의록 필수 첨부)</th>

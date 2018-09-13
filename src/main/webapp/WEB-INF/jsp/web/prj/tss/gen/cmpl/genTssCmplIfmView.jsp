@@ -226,15 +226,28 @@ $(window).load(function() {
                                 <tr>
                                     <th align="right">지적재산권</th>
                                     <th align="right">지재권 출원현황<br/>(국내/해외)</th>
-                                    <td>
-                                    	<c:choose>
-                                    		<c:when test="${id eq 'MIG' }">
-												${resultData.rsstDvlpOucmTxt} 
-											</c:when>
-											<c:otherwise>
-												<c:out value="${fn:replace(resultData.rsstDvlpOucmTxt, cn, br)}" escapeXml="false"/>
-											</c:otherwise>
-                                    	</c:choose>
+                                    <td colspan="3">
+                                    	<table>
+											<tr>
+												<th align="right">지재권 출원현황<br/>(국내/해외)</th>
+			                                    <td colspan="3">
+			                                    	<c:choose>
+			                                    		<c:when test="${id eq 'MIG' }">
+															${resultData.rsstDvlpOucmTxt} 
+														</c:when>
+														<c:otherwise>
+															<c:out value="${fn:replace(resultData.rsstDvlpOucmTxt, cn, br)}" escapeXml="false"/>
+														</c:otherwise>
+			                                    	</c:choose>
+			                                    </td>
+                                    		</tr>
+                                    		<tr>
+			                                    <th align="right">특허 Risk 검토결과</th>
+				                    			<td colspan="3">
+ 				                    				<c:out value="${fn:replace(resultData.pmisCmplTxt, cn, br)}" escapeXml="false"/>
+				                    			</td>
+                                    		</tr>
+                                    	</table>	
                                     </td>
                                 </tr>
                                 <tr>

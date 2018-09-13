@@ -438,22 +438,6 @@
         //품의서요청
         btnCsusRq = new Rui.ui.LButton('btnCsusRq');
         btnCsusRq.on('click', function() {
-        	/* var chkN ="Y";
-          	//완료이고  작성중이면  'CM', 100   필수산출물이 N이 있을 경우 예외처리
-          	if(dataSet.getNameValue(0, 'pgsStepCd') == "CM" &&  dataSet.getNameValue(0, 'tssSt') == "100"){
-          		
-          		for(var i=0; i < dataSet.getCount(); i++){
-          			 if ( dataSet.getNameValue(0, 'itmYn') == "N" ){
-          				 chkN = "N";
-          			 } 
-          		}
-          		
-          		if(chkN == "N" ){
-	          		Rui.alert("필수산출물을 확인하여 주십시오");
-	          		return;
-          		}
-          	} */
-          	
           	document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
           	document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
         	Rui.confirm({

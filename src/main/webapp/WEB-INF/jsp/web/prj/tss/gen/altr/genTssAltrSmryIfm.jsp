@@ -276,6 +276,13 @@
             width: 120
         });
         
+      //지적재산권 통보
+        pmisTxt = new Rui.ui.form.LTextArea({
+            applyTo: 'pmisTxt',
+            height: 100,
+            width: 600
+        });
+      
         //Form 비활성화
         disableFields = function() {
             document.getElementById('nprodSalsPlnYAvg').style.border = 0;
@@ -327,6 +334,7 @@
                 , { id: 'ptcCpsnY3', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+3
                 , { id: 'ptcCpsnY4', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+4
 //                 , { id: 'ptcCpsnYAvg', type: 'number', defaultValue:0 }      //투입인원(M/M)평균
+				, { id: 'pmisTxt' }       //지적재산권 통보
                 , { id: 'attcFilId' }        //첨부파일ID
                 , { id: 'userId' }           //로그인ID
             ]
@@ -415,6 +423,7 @@
                 , { id: 'ptcCpsnY3',        ctrlId: 'ptcCpsnY3',        value: 'value' }
                 , { id: 'ptcCpsnY4',        ctrlId: 'ptcCpsnY4',        value: 'value' }
 //                 , { id: 'ptcCpsnYAvg',      ctrlId: 'ptcCpsnYAvg',      value: 'value' }
+				, { id: 'pmisTxt',       	ctrlId: 'pmisTxt',       	value: 'value' }
                 , { id: 'userId',           ctrlId: 'userId',           value: 'value' }
             ]
         });
@@ -982,6 +991,10 @@ $(window).load(function() {
                     <td><input type="text" id="ptcCpsnY3" name="ptcCpsnY3"></td>
                     <td><input type="text" id="ptcCpsnY4" name="ptcCpsnY4"></td>
                     <td><input type="text" id="ptcCpsnYAvg" name="ptcCpsnYAvg"></td>
+                </tr>
+                <tr>
+                    <th align="right">지적재산팀 검토의견</th>
+                    <td colspan="6"><input type="text" id="pmisTxt" name="pmisTxt"></td>
                 </tr>
                 <tr>
                     <th align="right">GRS심의파일<br/>(심의파일, 회의록 필수 첨부)</th>

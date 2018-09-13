@@ -147,6 +147,7 @@
              , FNO_PLN_TXT             AS fnoPlnTxt           --향후 계획
              , ATTC_FIL_ID             AS attcFilId           --첨부파일
              , CMPL_ATTC_FIL_ID        AS cmplAttcFilId       --첨부파일
+             , PMIS_CMPL_TXT           AS pmisCmplTxt
              , FRST_RGST_DT            AS frstRgstDt          --최초등록일시
              , FRST_RGST_ID            AS frstRgstId          --최초등록자
              , LAST_MDFY_DT            AS lastMdfyDt          --최종수정일시
@@ -175,6 +176,7 @@
              , FWD_PLN_TXT             --사업화출시계획
              , FNO_PLN_TXT             --향후 계획
              , CMPL_ATTC_FIL_ID        --첨부파일
+             , PMIS_CMPL_TXT
              , FRST_RGST_DT            --최초등록일시
              , FRST_RGST_ID            --최초등록자
              , LAST_MDFY_DT            --최종수정일시
@@ -193,6 +195,7 @@
              , #{fwdPlnTxt}
              , #{fnoPlnTxt}
              , #{attcFilId}
+             , #{pmisCmplTxt}
              , GETDATE()
              , #{userId}
              , GETDATE()
@@ -218,6 +221,7 @@
              , FWD_PLN_TXT             = #{fwdPlnTxt}           --사업화출시계획
              , FNO_PLN_TXT             = #{fnoPlnTxt}           --향후 계획
              , CMPL_ATTC_FIL_ID        = #{attcFilId}           --첨부파일
+             , PMIS_CMPL_TXT           = #{pmisCmplTxt}         --지적재산권 risk 검토 
              , LAST_MDFY_DT            = GETDATE()
              , LAST_MDFY_ID            = #{userId}
          WHERE TSS_CD = #{tssCd}

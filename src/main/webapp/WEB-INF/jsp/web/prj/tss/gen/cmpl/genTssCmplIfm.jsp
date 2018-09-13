@@ -33,11 +33,7 @@
  border: 0px
  }
 </style>
-<%
-    response.setHeader("Pragma", "No-cache");
-    response.setDateHeader("Expires", 0);
-    response.setHeader("Cache-Control", "no-cache");
-%>
+
 <script type="text/javascript">
     var lvTssCd    = window.parent.cmplTssCd;
     var lvUserId   = window.parent.gvUserId;
@@ -124,6 +120,13 @@
             width: 600
         });
 
+       //과제개요_주요연구개발내용
+        pmisCmplTxt = new Rui.ui.form.LTextArea({
+            applyTo: 'pmisCmplTxt',
+            height: 80,
+            width: 600
+        });
+      
         //Form 비활성화
         disableFields = function() {
             Rui.select('.tssLableCss input').addClass('L-tssLable');
@@ -161,6 +164,7 @@
                 , { id: 'fnoPlnTxt' }           //향후 계획
                 , { id: 'attcFilId' }           //첨부파일
                 , { id: 'cmplAttcFilId' }       //첨부파일
+                , { id: 'pmisCmplTxt' }       //특허 Risk 검토결과
             ]
         });
         dataSet.on('load', function(e) {
@@ -189,6 +193,7 @@
                 , { id: 'qgate3Dt',           ctrlId: 'qgate3Dt',           value: 'value' }
                 , { id: 'fwdPlnTxt',          ctrlId: 'fwdPlnTxt',          value: 'value' }
                 , { id: 'fnoPlnTxt',          ctrlId: 'fnoPlnTxt',          value: 'value' }
+                , { id: 'pmisCmplTxt',        ctrlId: 'pmisCmplTxt',        value: 'value' }
             ]
         });
 
@@ -197,17 +202,18 @@
             validators: [
                 { id: 'tssCd',              validExp: '과제코드:false' }
                 , { id: 'userId',             validExp: '로그인ID:false' }
-                , { id: 'tssSmryTxt',         validExp: '연구과제 배경 및 필요성:false' }
-                , { id: 'tssSmryDvlpTxt',     validExp: '주요 연구 개발 내용:false' }
-                , { id: 'rsstDvlpOucmTxt',    validExp: '지재권 출원현황:false' }
+                , { id: 'tssSmryTxt',         validExp: '연구과제 배경 및 필요성:true' }
+                , { id: 'tssSmryDvlpTxt',     validExp: '주요 연구 개발 내용:true' }
+                , { id: 'rsstDvlpOucmTxt',    validExp: '지재권 출원현황:true' }
+                , { id: 'pmisCmplTxt',        validExp: '특허 Risk 검토결과 :true' }
                 , { id: 'rsstDvlpOucmCtqTxt', validExp: '핵심 CTQ 품질 수준:false' }
                 , { id: 'rsstDvlpOucmEffTxt', validExp: '파급효과 및 응용분야:false' }
                 , { id: 'nprodNm',            validExp: '신제품명:false:maxLength=500' }
-                , { id: 'ancpOtPlnDt',        validExp: '예상출시일(계획):false' }
+                , { id: 'ancpOtPlnDt',        validExp: '예상출시일(계획):true' }
                 , { id: 'qgate3Dt',           validExp: 'Qgate3(품질평가단계) 패스일자:false' }
-                , { id: 'fwdPlnTxt',          validExp: '사업화출시계획:false' }
-                , { id: 'fnoPlnTxt',          validExp: '향후 계획:false' }
-                , { id: 'attcFilId',          validExp: '첨부파일:false' }
+                , { id: 'fwdPlnTxt',          validExp: '사업화출시계획:true' }
+                , { id: 'fnoPlnTxt',          validExp: '향후 계획:true' }
+                , { id: 'attcFilId',          validExp: '첨부파일:true' }
                 , { id: 'cmplAttcFilId',      validExp: '첨부파일:false' }
             ]
         });
@@ -282,16 +288,11 @@
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-            window.parent.fnSave();
+            
+        	if (fnIfmIsUpdate("SAVE") ){
+	        	window.parent.fnSave();
+        	}
         });
-
-
-        //목록
-       /*  var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {
-            nwinsActSubmit(window.parent.document.mstForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
-        });
- */
 
         //데이터 셋팅
         if(${resultCnt} > 0) {
@@ -380,8 +381,18 @@ $(window).load(function() {
                             <tbody>
                                 <tr>
                                     <th align="right">지적재산권</th>
-                                    <th align="right">지재권 출원현황<br/>(국내/해외)</th>
-                                    <td><input type="text" id="rsstDvlpOucmTxt" /></td>
+									<td colspan="2">
+										<table>
+											<tr>
+												<th align="right">지재권 출원현황<br/>(국내/해외)</th>
+                                    			<td><input type="text" id="rsstDvlpOucmTxt" /></td>
+											</tr>
+											<tr>
+												<th align="right">특허 Risk 검토결과</th>
+				                    			<td ><input type="text"  id="pmisCmplTxt" name="pmisCmplTxt"></td>
+											</tr>
+										</table>
+									</td>
                                 </tr>
                                 <tr>
                                     <th align="right">목표기술성과</th>

@@ -83,6 +83,7 @@
                 , {id: 'title' }        //결재 제목     
                 , {id: 'updateDate' }   //수정일       
                 , {id: 'url' }          //결재문서 url  
+                , { id: 'pmisTxt' }       //지적재산권 통보
             ]
         });
         
@@ -505,7 +506,15 @@
                                 </c:choose>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>9. 첨부파일</h3></div>
+                    <div class="titArea"><h3>9. 지적재산팀 검토의견</h3></div>
+                        <table class="table">
+                        	<tbody>
+                        		<tr>
+									<td><c:out value="${resultSmry.pmisTxt}" escapeXml="false"/></td>                       		
+                        		</tr>
+                        	</tbody>
+                        </table>        
+                    <div class="titArea"><h3>10. 첨부파일</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:100%"/>

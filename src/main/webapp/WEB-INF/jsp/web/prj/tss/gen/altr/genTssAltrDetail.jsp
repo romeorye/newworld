@@ -604,6 +604,19 @@
                 return;
             }
 
+            var pmisTxt = document.getElementById('tabContent0').contentWindow.smryForm.pmisTxt.value;
+            var bizDpt = bizDptCd.getValue();
+            var bizDptNm = bizDptCd.getDisplayValue();
+            
+            if(  bizDpt == "07" || bizDpt == "08" || bizDpt == "09"  ){
+            	var bizMsg =  bizDptNm+" 사업부문일경우 지적재산권 통보내용을 입력하셔야 합니다";
+            	
+            	if( Rui.isEmpty(pmisTxt)){
+            		alert(bizMsg);
+            		return;
+            	}
+            }
+            
             if(confirm('저장하시겠습니까?')) {
 	            dataSet.setNameValue(0, "pgsStepCd", "AL"); //진행단계: AL(변경)
 	            dataSet.setNameValue(0, "tssScnCd", "G");   //과제구분: G(일반)
