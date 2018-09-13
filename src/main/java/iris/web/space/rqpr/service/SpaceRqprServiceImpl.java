@@ -750,4 +750,27 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 		return resultList;
 	}
 
+	/* 평가의뢰 정보 조회 */
+	public Map<String,Object> getSpaceRqprFbInfo(Map<String, Object> input) {
+		return commonDao.select("space.rqpr.getSpaceRqprFbInfo", input);
+	}
+
+	/* 피드백저장 */
+	public boolean saveSpaceRqprFb(Map<String, Object> input) throws Exception {
+    	if(commonDao.insert("space.rqpr.saveSpaceRqprFb", input) == 1) {
+        	return true;
+    	} else {
+    		throw new Exception("피드백 저장 오류");
+    	}
+   	}
+
+	/* 피드백확정저장 */
+	public boolean saveSpaceRqprFbCmpl(Map<String, Object> input) throws Exception {
+    	if(commonDao.insert("space.rqpr.saveSpaceRqprFbCmpl", input) == 1) {
+        	return true;
+    	} else {
+    		throw new Exception("피드백 확정 저장 오류");
+    	}
+   	}
+
 }

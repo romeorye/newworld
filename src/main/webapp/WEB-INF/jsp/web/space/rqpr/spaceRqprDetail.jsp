@@ -93,6 +93,9 @@
                     }, {
                         label: '의견<span id="opinitionCnt"/>',
                         id: 'spaceRqprOpinitionDiv'
+                    }, {
+                        label: '의견 피드백',
+                        id: 'spaceRqprOpinitionFbDiv'
                     }]
             });
 
@@ -120,6 +123,9 @@
 
 	                break;
 
+	            case 3:
+
+	                break;
 	            default:
 	                break;
 	            }
@@ -138,6 +144,12 @@
                     break;
 
                 case 2:
+                    if(e.isFirst){
+                    }
+
+                    break;
+
+                case 3:
                     if(e.isFirst){
                     }
 
@@ -534,7 +546,7 @@
                     { id: 'evCases',			ctrlId: 'evCases',			value:'value'},
                     { id: 'evSubjDtl',		 	ctrlId: 'evSubjDtl',		value:'value'},
                     { id: 'tCloud',		 		ctrlId: 'tCloud',		 	value:'value'},
-                    { id: 'spaceAcpcStCd',			ctrlId: 'spaceAcpcStCd',		 	value:'value'}
+                    { id: 'spaceAcpcStCd',		ctrlId: 'spaceAcpcStCd',	value:'value'}
                 ]
             });
             spaceRqprDataSet.newRecord();
@@ -1181,6 +1193,192 @@
 
             }
 
+          	/////////////////////////////////////////////////
+          	//의견 피드백
+          	/* 피드백카테고리 */
+        	var fbRsltCtgr = new Rui.ui.form.LCombo({
+                applyTo: 'fbRsltCtgr',
+                name: 'fbRsltCtgr',
+                emptyText: '선택',
+                defaultValue: '',
+                emptyValue: '',
+                width: 300,
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=FB_RSLT_CTGR"/>',
+                displayField: 'COM_DTL_NM',
+                valueField: 'COM_DTL_CD'
+            });
+
+        	/* 피드백내용 */
+             var fbRsltSbcTxtArea = new Rui.ui.form.LTextArea({
+            	 applyTo: 'fbRsltSbc',
+                  editable: true,
+                  disabled:false,
+                  width: 800,
+                  height:100
+             });
+
+             /* 피드백과제진행단계구분 */
+          	var fbTssPgsStep = new Rui.ui.form.LCombo({
+                  applyTo: 'fbTssPgsStep',
+                  name: 'fbTssPgsStep',
+                  emptyText: '선택',
+                  defaultValue: '',
+                  emptyValue: '',
+                  width: 400,
+                  url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=FB_TSS_PGS_STEP"/>',
+                  displayField: 'COM_DTL_NM',
+                  valueField: 'COM_DTL_CD'
+              });
+
+             /* 피드백구분 */
+         	var fbRsltScn = new Rui.ui.form.LCombo({
+                 applyTo: 'fbRsltScn',
+                 name: 'fbRsltScn',
+                 emptyText: '선택',
+                 defaultValue: '',
+                 emptyValue: '',
+                 width: 300,
+                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=FB_RSLT_SCN"/>',
+                 displayField: 'COM_DTL_NM',
+                 valueField: 'COM_DTL_CD'
+             });
+
+         	/* 피드백 개선요청사항 */
+              var fbRsltBttmTxtArea = new Rui.ui.form.LTextArea({
+             	 applyTo: 'fbRsltBttm',
+                   editable: true,
+                   disabled:false,
+                   width: 800,
+                   height:100
+              });
+
+			fbRsltCtgr.on('changed', function(e) {
+				if(e.value=="03"){
+					fbRsltSbcTxtArea.setValue("");
+					fbRsltSbcTxtArea.hide();
+					fbTssPgsStep.show();
+				}else{
+					fbRsltSbcTxtArea.show();
+					fbTssPgsStep.hide();
+					fbTssPgsStep.setValue("")
+				}
+
+            });
+			var spaceRqprFbDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprFbDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                	  { id: 'rqprId' }
+                	, { id: 'fbRsltCtgr'	}
+					, { id: 'fbRsltSbc'		}
+					, { id: 'fbRsltScn'		}
+					, { id: 'fbRsltBttm'	}
+					, { id: 'spaceStpt'		}
+					, { id: 'fbCmplYn'		}
+					, { id: 'fbTssPgsStep'	}
+                ]
+            });
+
+          	spaceRqprFbBind = new Rui.data.LBind({
+                groupId: 'bform',
+                dataSet: spaceRqprFbDataSet,
+                bind: true,
+                bindInfo: [
+					{ id: 'rqprId',				ctrlId: 'rqprId',			value:'value'},
+                    { id: 'fbRsltCtgr',			ctrlId: 'fbRsltCtgr',		value:'value'},
+					{ id: 'fbRsltSbc',			ctrlId: 'fbRsltSbc',		value:'value'},
+					{ id: 'fbRsltScn',			ctrlId: 'fbRsltScn',		value:'value'},
+					{ id: 'fbRsltBttm',			ctrlId: 'fbRsltBttm',		value:'value'},
+					{ id: 'spaceStpt',			ctrlId: 'spaceStpt',		value:'value'},
+					{ id: 'fbCmplYn',			ctrlId: 'fbCmplYn',			value:'value'},
+					{ id: 'fbTssPgsStep',		ctrlId: 'fbTssPgsStep',		value:'value'}
+                ]
+            });
+
+			spaceRqprFbDataSet.on('load', function(e) {
+				/* fbRsltSbcTxtArea.setEditable(false);
+				fbTssPgsStep.setEditable(false);
+				fbRsltCtgr.setEditable(false);
+				fbRsltSbcTxtArea.disable();
+				fbTssPgsStep.disable();
+				fbRsltCtgr.disable();
+				fbRsltSbcTxtArea.enable()
+				fbTssPgsStep.enable()
+				fbRsltCtgr.enable() */
+
+				if(spaceRqprFbDataSet.getNameValue(0, 'fbRsltCtgr')=="03"){
+					fbRsltSbcTxtArea.hide();
+					fbTssPgsStep.show();
+					if(spaceRqprFbDataSet.getNameValue(0, 'fbCmplYn')=="Y"){
+						fbRsltSbcTxtArea.disable();
+						fbTssPgsStep.disable();
+						fbRsltCtgr.disable();
+						fbRsltScn.disable();
+						fbRsltBttmTxtArea.disable();
+					}else{
+						fbRsltSbcTxtArea.enable();
+						fbTssPgsStep.enable();
+						fbRsltCtgr.enable();
+						fbRsltScn.enable();
+						fbRsltBttmTxtArea.enable();
+					}
+				}else{
+					fbRsltSbcTxtArea.show();
+					fbTssPgsStep.hide();
+					if(spaceRqprFbDataSet.getNameValue(0, 'fbCmplYn')=="Y"){
+						fbRsltSbcTxtArea.disable();
+						fbTssPgsStep.disable();
+						fbRsltCtgr.disable();
+						fbRsltScn.disable();
+						fbRsltBttmTxtArea.disable();
+					}else{
+						fbRsltSbcTxtArea.enable();
+						fbTssPgsStep.enable();
+						fbRsltCtgr.enable();
+						fbRsltScn.enable();
+						fbRsltBttmTxtArea.enable();
+					}
+				}
+            });
+
+			//피드백저장
+            opinitionFbSave = function() {
+               	if(confirm('저장 하시겠습니까?')) {
+               		dm.updateDataSet({
+                        url:'<c:url value="/space/saveSpaceRqprFb.do"/>',
+                        //dataSets:[dataSet]
+                        params: {
+                        	rqprId : spaceRqprDataSet.getNameValue(0, 'rqprId')
+                        	, fbRsltCtgr : document.bform.fbRsltCtgr.value
+    	    	         	, fbRsltSbc : document.bform.fbRsltSbc.value
+    	    	         	, fbRsltScn : document.bform.fbRsltScn.value
+    	    	         	, fbRsltBttm : document.bform.fbRsltBttm.value
+    	    	         	, fbTssPgsStep : document.bform.fbTssPgsStep.value
+    	    	       }
+                    });
+               	}
+            };
+
+          //피드백확정
+            cmplFbSave = function() {
+               	if(confirm('확정 하시겠습니까?')) {
+               		dm.updateDataSet({
+                        url:'<c:url value="/space/saveSpaceRqprFbCmpl.do"/>',
+                        //dataSets:[dataSet]
+                        params: {
+                        	rqprId : spaceRqprDataSet.getNameValue(0, 'rqprId')
+                        	, fbRsltCtgr : document.bform.fbRsltCtgr.value
+    	    	         	, fbRsltSbc : document.bform.fbRsltSbc.value
+    	    	         	, fbRsltScn : document.bform.fbRsltScn.value
+    	    	         	, fbRsltBttm : document.bform.fbRsltBttm.value
+    	    	         	, fbTssPgsStep : document.bform.fbTssPgsStep.value
+    	    	       }
+                    });
+               	}
+            };
+          	/////////////////////////////////////////////////
+
 
     	    /* 유효성 검사 */
     	    isValidate = function(type) {
@@ -1299,7 +1497,8 @@
                            spaceRqprProdDataSet,
                            spaceRqprRltdDataSet,
                            spaceRqprAttachDataSet,
-                           spaceRqprRsltAttachDataSet],
+                           spaceRqprRsltAttachDataSet,
+                           spaceRqprFbDataSet],
                 url: '<c:url value="/space/getSpaceRqprDetailInfo.do"/>',
                 params: {
                     rqprId: '${inputData.rqprId}'
@@ -1599,6 +1798,66 @@
    				</div>
    				<div id="spaceRqprOpinitionGrid"></div>
    				<br/>
+   				</div>
+
+   				<div id="spaceRqprOpinitionFbDiv">
+   				<form name="bform" id="bform" method="post">
+   				<div class="titArea">
+   					<h3><span style="color:red;">* </span>프로젝트 결과</h3>
+   					<div class="LblockButton">
+   						<button type="button" class="btn"  id="saveFbBtn" name="saveFbBtn" onclick="opinitionFbSave()">임시저장</button>
+   						<button type="button" class="btn"  id="cmplFbBtn" name="cmplFbBtn" onclick="cmplFbSave()">확정</button>
+   						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goSpaceRqprList()">목록</button>
+   					</div>
+   				</div>
+   				<table class="table">
+   					<colgroup>
+						<col style="width:30%;">
+						<col style="width:70%;">
+   					</colgroup>
+   					<tbody>
+   						<tr>
+   							<th>평가카테고리</th>
+   							<th colspan="2">평가명</th>
+   						</tr>
+   						<tr>
+   							<td>
+   								<div id="fbRsltCtgr"></div>
+   							</td>
+   							<td>
+   								<div id="fbTssPgsStep"></div>
+   								<input id="fbRsltSbc" type="text">
+   							</td>
+   						</tr>
+   					</tbody>
+   				</table>
+   				<div class="titArea">
+   					<h3><span style="color:red;">* </span>공간평가시스템 개선 요청 사항</h3>
+   					<div class="LblockButton">
+   					</div>
+   				</div>
+   				<table class="table">
+   					<colgroup>
+						<col style="width:30%;">
+						<col style="width:70%;">
+   					</colgroup>
+   					<tbody>
+   						<tr>
+   							<th>구분</th>
+   							<th>비고</th>
+   						</tr>
+   						<tr>
+   							<td>
+   								<div id="fbRsltScn"></div>
+   							</td>
+   							<td>
+   								<textarea id="fbRsltBttm"></textarea>
+   							</td>
+   						</tr>
+   					</tbody>
+   				</table>
+   				<br/>
+   				</form>
    				</div>
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->

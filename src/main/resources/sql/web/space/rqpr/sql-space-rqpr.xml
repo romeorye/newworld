@@ -1136,5 +1136,50 @@
 		  </if>
 	</select>
 
+	<select id="getSpaceRqprFbInfo" resultType="hashmap">
+
+			/*getSpaceRqprFbInfo 피드백조회*/
+			SELECT
+				RQPR_ID			AS rqprId,
+				FB_RSLT_CTGR	as fbRsltCtgr,		/* 피드백 카테고리 */
+				FB_RSLT_SBC		as fbRsltSbc,		/* 피드백 내용 */
+				FB_RSLT_SCN		as fbRsltScn,		/* 피드백 구분 */
+				FB_RSLT_BTTM	as fbRsltBttm,		/* 피드백 개선요청사항 */
+				SPACE_STPT		as spaceStpt,		/* 평가 만족도 */
+				FB_CMPL_YN		as fbCmplYn,		/* 피드백 완료여부 */
+				FB_TSS_PGS_STEP	as fbTssPgsStep		/* 피드백 과제진행단계 */
+			FROM	IRIS_SPACE_RQPR_MST mst
+			WHERE	RQPR_ID = ${rqprId}
+
+	</select>
+
+	<update id="saveSpaceRqprFb" parameterType="map">
+	-- saveSpaceRqprFb 피드백저장
+		UPDATE	IRIS_SPACE_RQPR_MST
+		SET		FB_RSLT_CTGR = #{fbRsltCtgr}
+				,FB_RSLT_SBC= #{fbRsltSbc}
+				,FB_RSLT_SCN= #{fbRsltScn}
+				,FB_RSLT_BTTM= #{fbRsltBttm}
+				,FB_TSS_PGS_STEP= #{fbTssPgsStep}
+				,LAST_MDFY_DT = getdate()
+				,LAST_MDFY_ID = #{_userId}
+		WHERE	RQPR_ID = ${rqprId}
+
+	</update>
+
+	<update id="saveSpaceRqprFbCmpl" parameterType="map">
+	-- saveSpaceRqprFbCmpl 피드백확정 저장
+		UPDATE	IRIS_SPACE_RQPR_MST
+		SET		FB_CMPL_YN = 'Y'
+				,FB_RSLT_CTGR = #{fbRsltCtgr}
+				,FB_RSLT_SBC= #{fbRsltSbc}
+				,FB_RSLT_SCN= #{fbRsltScn}
+				,FB_RSLT_BTTM= #{fbRsltBttm}
+				,FB_TSS_PGS_STEP= #{fbTssPgsStep}
+				,LAST_MDFY_DT = getdate()
+				,LAST_MDFY_ID = #{_userId}
+		WHERE	RQPR_ID = ${rqprId}
+
+	</update>
 
 </mapper>

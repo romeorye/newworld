@@ -111,4 +111,14 @@ public interface SpaceRqprService {
 
 	/* 공간평가시험 장비 팝업 목록조회 */
 	List<Map<String, Object>> retrieveMachineList(HashMap<String, Object> input);
+
+	/* 평가의뢰 피드백 정보 조회 */
+	public Map<String,Object> getSpaceRqprFbInfo(Map<String, Object> input);
+
+	/* 피드백저장 */
+	public boolean saveSpaceRqprFb(Map<String, Object> input) throws Exception;
+
+	/* 피드백확정저장 */
+	public boolean saveSpaceRqprFbCmpl(Map<String, Object> input) throws Exception;
+
 }
