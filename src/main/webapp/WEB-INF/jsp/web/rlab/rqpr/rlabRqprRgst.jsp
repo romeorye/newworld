@@ -673,7 +673,7 @@
 
 		//시험담당자 팝업 셋팅
 		function setRlabChrgInfo(userInfo) {
-			rlabRqprDataSet.setNameValue(0, "rlabChrgId", userInfo.saSabun);
+			rlabRqprDataSet.setNameValue(0, "rlabChrgId", userInfo.saUser);
 			rlabRqprDataSet.setNameValue(0, "rlabChrgNm", userInfo.saName);
 		}
 

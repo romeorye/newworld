@@ -81,7 +81,8 @@
                 	} else if(data.records[0].cmd == 'saveSpaceRqprRslt') {
                 		;
                 	} else if(data.records[0].cmd == 'requestRsltApproval') {
-                    	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00333&approvalLineInform=SUB002&from=iris&guid=C${inputData.rqprId}';
+                		// guid= B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료 + rqprId
+                    	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00333&approvalLineInform=SUB002&from=iris&guid=G${inputData.rqprId}';
 
                    		openWindow(url, 'spaceRqprCompleteApprovalPop', 800, 500, 'yes');
                 	}
@@ -1321,6 +1322,24 @@
      			imageDialog.show(true);*/
 
             }
+
+            var vm1 = new Rui.validate.LValidatorManager({
+                validators:[
+                { id: 'spaceNm',			validExp: '평가명:true:maxByteLength=100' },
+                { id: 'spaceSbc',			validExp: '분석목적:true' },
+                { id: 'spaceScnCd',			validExp: '평가구분:true' },
+                { id: 'spaceUgyYn',			validExp: '긴급유무:true' }
+                ]
+            });
+
+            var vm2 = new Rui.validate.LValidatorManager({
+                validators:[
+                { id: 'spaceNm',			validExp: '분석명:true:maxByteLength=100' },
+                { id: 'spaceSbc',			validExp: '분석목적:true' },
+                { id: 'spaceScnCd',			validExp: '분석구분:true' },
+                { id: 'spaceUgyYn',			validExp: '긴급유무:true' }
+                ]
+            });
 
             /* 저장 */
             saveSpaceRqpr = function() {

@@ -81,7 +81,8 @@
                 	} else if(data.records[0].cmd == 'saveRlabRqprRslt') {
                 		;
                 	} else if(data.records[0].cmd == 'requestRsltApproval') {
-                    	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00333&approvalLineInform=SUB002&from=iris&guid=C${inputData.rqprId}';
+                		// guid= B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료 + rqprId
+                    	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00333&approvalLineInform=SUB002&from=iris&guid=D${inputData.rqprId}';
 
                    		openWindow(url, 'rlabRqprCompleteApprovalPop', 800, 500, 'yes');
                 	}
@@ -1023,7 +1024,7 @@
 
             }
 
-            /* 접수 */
+            /* 저장 */
             saveRlabRqpr = function() {
     	    	if('02|03'.indexOf(rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd')) == -1) {
     	    		alert('접수대기, 시험진행 상태일때만 저장 할 수 있습니다.');

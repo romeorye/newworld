@@ -72,7 +72,8 @@
                 	if(data.records[0].cmd == 'update') {
                 		;
                 	} else if(data.records[0].cmd == 'requestApproval') {
-                    	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00333&approvalLineInform=SUB001&from=iris&guid=A${inputData.rqprId}';
+                		// guid= B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료 + rqprId
+                    	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00333&approvalLineInform=SUB001&from=iris&guid=B${inputData.rqprId}';
 
                    		openWindow(url, 'rlabRqprApprovalPop', 800, 500, 'yes');
                 	} else {
@@ -192,13 +193,16 @@
                 width: 400
             });
 
-            var rlabChrgNm = new Rui.ui.form.LTextBox({
+            var rlabChrgNm = new Rui.ui.form.LPopupTextBox({
             	applyTo: 'rlabChrgNm',
                 placeholder: '시험담당자를 입력해주세요.',
                 defaultValue: '',
                 emptyValue: '',
                 editable: false,
-                width: 160
+                width: 200
+            });
+            rlabChrgNm.on('popup', function(e){
+                openUserSearchDialog(setRlabChrgInfo, 1, '');
             });
 
             var rlabScnCd = new Rui.ui.form.LCombo({
@@ -220,7 +224,7 @@
                 defaultValue: '',
                 emptyValue: '',
                 width: 110,
-                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_UGY_YN"/>',
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ANL_UGY_YN"/>',
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
@@ -433,16 +437,16 @@
                 dataSet: rlabRqprDataSet,
                 bind: true,
                 bindInfo: [
-                    { id: 'rlabNm',				ctrlId:'rlabNm',				value:'value'},
-                    { id: 'rlabSbc',				ctrlId:'rlabSbc',			value:'value'},
+                    { id: 'rlabNm',				ctrlId:'rlabNm',			value:'value'},
+                    { id: 'rlabSbc',			ctrlId:'rlabSbc',			value:'value'},
                     { id: 'acpcNo',				ctrlId:'acpcNo',			value:'html'},
                     { id: 'rgstNm',				ctrlId:'rgstNm',			value:'html'},
                     { id: 'rqprDeptNm',			ctrlId:'rqprDeptNm',		value:'html'},
                     { id: 'rqprDt',				ctrlId:'rqprDt',			value:'html'},
                     { id: 'acpcDt',				ctrlId:'acpcDt',			value:'html'},
                     { id: 'rlabScnCd',			ctrlId:'rlabScnCd',			value:'value'},
-                    { id: 'rlabChrgId',			ctrlId:'rlabChrgId',			value:'value'},
-                    { id: 'rlabChrgNm',			ctrlId:'rlabChrgNm',			value:'value'},
+                    { id: 'rlabChrgId',			ctrlId:'rlabChrgId',		value:'value'},
+                    { id: 'rlabChrgNm',			ctrlId:'rlabChrgNm',		value:'value'},
                     { id: 'rlabUgyYn',			ctrlId:'rlabUgyYn',			value:'value'},
                     { id: 'infmTypeCd',			ctrlId:'infmTypeCd',		value:'value'},
                     { id: 'smpoTrtmCd',			ctrlId:'smpoTrtmCd',		value:'value'},
@@ -689,8 +693,8 @@
 			// 시험 담당자 선택팝업 끝
 
             setRlabChrgInfo = function(rlabChrgInfo) {
-            	rlabRqprDataSet.setNameValue(0, 'rlabChrgId', rlabChrgInfo.id);
-            	rlabRqprDataSet.setNameValue(0, 'rlabChrgNm', rlabChrgInfo.name);
+            	rlabRqprDataSet.setNameValue(0, 'rlabChrgId', rlabChrgInfo.saUser);
+            	rlabRqprDataSet.setNameValue(0, 'rlabChrgNm', rlabChrgInfo.saName);
             };
 
     	    // 관련시험 조회 팝업 시작
@@ -1084,7 +1088,7 @@
    							<th align="right">시험담당자</th>
    							<td>
    								<input type="text" id="rlabChrgNm">
-                                <a href="javascript:openRlabChrgListDialog(setRlabChrgInfo);" class="icoBtn">검색</a>
+                                <!-- <a href="javascript:openRlabChrgListDialog(setRlabChrgInfo);" class="icoBtn">검색</a> -->
                             </td>
    						</tr>
    						<tr>

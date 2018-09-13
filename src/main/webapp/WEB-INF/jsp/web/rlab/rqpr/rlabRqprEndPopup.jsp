@@ -7,14 +7,14 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlRqprEndPopup.jsp
+ * $Id		: rlabRqprEndPopup.jsp
  * @desc    : 관련시험 반려/시험중단 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2017.08.25  오명철		최초생성
+ * 1.0  2018.09.12  정현웅		최초생성
  * ---	-----------	----------	-----------------------------------------
- * IRIS UPGRADE 1차 프로젝트
+ * IRIS UPGRADE 2차 프로젝트
  *************************************************************************
  */
 --%>
@@ -53,13 +53,13 @@
             });
 
             dm.on('success', function(e) {
-                var data = parent.anlRqprDataSet.getReadData(e);
+                var data = parent.rlabRqprDataSet.getReadData(e);
 
                 alert(data.records[0].resultMsg);
 
                 if(data.records[0].resultYn == 'Y') {
-                	parent.goAnlRqprList4Chrg();
-                	parent.anlRqprEndDialog.cancel();
+                	parent.goRlabRqprList4Chrg();
+                	parent.rlabRqprEndDialog.cancel();
                 }
             });
 
@@ -90,9 +90,9 @@
 
             	if(confirm('${inputData.type} 하시겠습니까?')) {
                     dm.updateDataSet({
-                        url:'<c:url value="/anl/saveAnlRqprEnd.do"/>',
+                        url:'<c:url value="/rlab/saveRlabRqprEnd.do"/>',
                         params: {
-                            rqprId: parent.anlRqprDataSet.getNameValue(0, 'rqprId'),
+                            rqprId: parent.rlabRqprDataSet.getNameValue(0, 'rqprId'),
                             rson: encodeURIComponent(rson.getValue()),
                             rlabAcpcStCd: '${inputData.type}' == '반려' ? '04' : '05'
                         }
@@ -100,7 +100,7 @@
             	}
             };
 
-            $('#anlNm').html(parent.anlRqprDataSet.getNameValue(0, 'anlNm'));
+            $('#rlabNm').html(parent.rlabRqprDataSet.getNameValue(0, 'rlabNm'));
 
         });
 
@@ -122,7 +122,7 @@
    					<tbody>
    						<tr>
    							<th align="right">시험명</th>
-   							<td id="anlNm"></td>
+   							<td id="rlabNm"></td>
    						</tr>
    						<tr>
    							<th align="right">${inputData.type}사유</th>
@@ -136,7 +136,7 @@
    				<div class="titArea">
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="save('${inputData.type}')">${inputData.type}</button>
-   						<button type="button" class="btn"  id="cancelBtn" name="cancelBtn" onclick="parent.anlRqprEndDialog.cancel()">취소</button>
+   						<button type="button" class="btn"  id="cancelBtn" name="cancelBtn" onclick="parent.rlabRqprEndDialog.cancel()">취소</button>
    					</div>
    				</div>
 

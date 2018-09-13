@@ -72,7 +72,8 @@
                 	if(data.records[0].cmd == 'update') {
                 		;
                 	} else if(data.records[0].cmd == 'requestApproval') {
-                    	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00333&approvalLineInform=SUB001&from=iris&guid=A${inputData.rqprId}';
+                		// guid= B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료 + rqprId
+                    	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00333&approvalLineInform=SUB001&from=iris&guid=E${inputData.rqprId}';
 
                    		openWindow(url, 'spaceRqprApprovalPop', 800, 500, 'yes');
                 	} else {
