@@ -75,7 +75,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		           	 ,{ id: 'mdlNm'}
 		           	 ,{ id: 'mchnClCd'}
 		           	 ,{ id: 'mchnClDtlCd'}
-		           	 ,{ id: 'mchnKindCd'}
+		           	 ,{ id: 'mchnLaclCd'}
 		           	 ,{ id: 'opnYn'}
 		           	 ,{ id: 'delYn'}
 		           	 ,{ id: 'fxaNo'}
@@ -118,7 +118,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			mchnClDtlCdDataSet.load({
 				url: '<c:url value="/stat/rlab/retrieveRlabMchnClDtlCd.do"/>'
 	                ,params :{
-	                	exatCd : dataSet.getNameValue(0, "mchnClCd")
+	                	exatCd : dataSet.getNameValue(0, "mchnLaclCd")
 	                }
             });
 	    });
@@ -170,9 +170,9 @@ var faxInfoDialog;	//고정자산관리 팝업
 		});
 
 		//대분류
-		var cbmchnClCd = new Rui.ui.form.LCombo({
-		 	applyTo : 'mchnClCd',
-			name : 'mchnClCd',
+		var cbmchnLaclCd = new Rui.ui.form.LCombo({
+		 	applyTo : 'mchnLaclCd',
+			name : 'mchnLaclCd',
 			useEmptyText: true,
 		    emptyText: '선택하세요',
 		    url: '<c:url value="/stat/rlab/retrieveRlabMchnClCd.do"/>',
@@ -181,7 +181,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			width: 180
 		});
 
-		cbmchnClCd.on('changed', function(e){
+		cbmchnLaclCd.on('changed', function(e){
 			mchnClDtlCdDataSet.clearData();
 			mchnClDtlCdDataSet.load({
 				url: '<c:url value="/stat/rlab/retrieveRlabMchnClDtlCd.do"/>'
@@ -192,9 +192,9 @@ var faxInfoDialog;	//고정자산관리 팝업
 		});
 
 		//장비종류
-		var cbmchnKindCd = new Rui.ui.form.LCombo({
-		 	applyTo : 'mchnKindCd',
-			name : 'mchnKindCd',
+		var cbmchnClCd = new Rui.ui.form.LCombo({
+		 	applyTo : 'mchnClCd',
+			name : 'mchnClCd',
 			useEmptyText: true,
 		    emptyText: '선택하세요',
 		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_CL_CD"/>',
@@ -354,7 +354,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		         { id: 'mdlNm', 			ctrlId: 'mdlNm', 			value: 'value' },
 		         { id: 'mchnClCd', 			ctrlId: 'mchnClCd', 		value: 'value' },
 		         { id: 'mchnClDtlCd', 		ctrlId: 'mchnClDtlCd', 		value: 'value' },
-		         { id: 'mchnKindCd', 		ctrlId: 'mchnKindCd', 		value: 'value' },
+		         { id: 'mchnLaclCd', 		ctrlId: 'mchnLaclCd', 		value: 'value' },
 		         { id: 'opnYn', 			ctrlId: 'opnYn', 		    value: 'value' },
 		         { id: 'delYn', 			ctrlId: 'delYn', 			value: 'value' },
 		         { id: 'fxaNo', 			ctrlId: 'hFxaNo', 			value: 'value' },
@@ -565,9 +565,9 @@ var faxInfoDialog;	//고정자산관리 팝업
     			mdlNm.focus();
     			return false;
     		}
-    		if( Rui.isEmpty(cbmchnClCd.getValue())){
+    		if( Rui.isEmpty(cbmchnLaclCd.getValue())){
     			Rui.alert("대분류는 필수항목입니다.");
-    			cbmchnClCd.focus();
+    			cbmchnLaclCd.focus();
     			return false;
     		}
     		if( Rui.isEmpty(cbmchnClDtlCd.getValue())){
@@ -575,9 +575,9 @@ var faxInfoDialog;	//고정자산관리 팝업
     			cbmchnClDtlCd.focus();
     			return false;
     		}
-    		if( Rui.isEmpty(cbmchnKindCd.getValue())){
+    		if( Rui.isEmpty(cbmchnClCd.getValue())){
     			Rui.alert("장비종류는 필수항목입니다.");
-    			cbmchnKindCd.focus();
+    			cbmchnClCd.focus();
     			return false;
     		}
     		if( Rui.isEmpty(cbOpnYn.getValue())){
@@ -657,7 +657,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 				<input type="hidden" name="mchnNm" value="${inputData.mchnNm}"/>
 				<input type="hidden" name="mchnClCd" value="${inputData.mchnClCd}"/>
 				<input type="hidden" name="mchnClDtlCd" value="${inputData.mchnClDtlCd}"/>
-				<input type="hidden" name="mchnClCd" value="${inputData.mchnKindCd}"/>
+				<input type="hidden" name="mchnLaclCd" value="${inputData.mchnLaclCd}"/>
 				<input type="hidden" name="fxaNo" value="${inputData.fxaNo}"/>
 				<input type="hidden" name="opnYn" value="${inputData.opnYn}"/>
 				<input type="hidden" name="mchnCrgrNm" value="${inputData.mchnCrgrNm}"/>
@@ -708,7 +708,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>대분류 / 소분류</th>
 							<td>
-								<div id="mchnClCd"></div>
+								<div id="mchnLaclCd"></div>
 								&nbsp; / &nbsp;
 								<div id="mchnClDtlCd"></div>
 							</td>
@@ -717,7 +717,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>장비종류</th>
 							<td>
-								<div id="mchnKindCd"></div>
+								<div id="mchnClCd"></div>
 							</td>
 							<th align="right"><span style="color:red;">*  </span>open기기</th>
 							<td>

@@ -39,14 +39,14 @@
 	            { id: 'mkrNm' },
 	            { id: 'mchnClCd' },
 	            { id: 'mchnClDtlCd' },
-	            { id: 'mchnKindCd' },
+	            { id: 'mchnLaclCd' },
 	            { id: 'mchnCrgrId' },
 	            { id: 'mchnCrgrNm' },
 	            { id: 'eqipScn' },
 	            { id: 'mchnUsePsblYn' },
 	            { id: 'mchnClNm' },
 	            { id: 'mchnClDtlNm' },
-	            { id: 'mchnKindNm' },
+	            { id: 'mchnLaclNm' },
 	            { id: 'opnYn' },
 	            { id: 'mchnUsePsblNm' },
 	            { id: 'smpoQty' }
@@ -65,16 +65,16 @@
 	            { field: 'mkrNm',  			label:'제조사', 	sortable: false, align: 'center', width: 150},
 	            { field: 'mchnCrgrNm',  	label:'담당자' , 		sortable: false, align: 'center', width: 60},
 	            { field: 'smpoQty', 		label: '시료수', 		sortable: false, align: 'center', width: 40},
-	            { field: 'mchnClNm', 		label: '대분류', 		sortable: false, align: 'center', width: 120},
+	            { field: 'mchnLaclNm', 		label: '대분류', 		sortable: false, align: 'center', width: 120},
 	            { field: 'mchnClDtlNm', 		label: '소분류', 		sortable: false, align: 'center', width: 120},
-	            { field: 'mchnKindNm', 		label: '장비종류', 		sortable: false, align: 'center', width: 120},
+	            { field: 'mchnClNm', 		label: '장비종류', 		sortable: false, align: 'center', width: 120},
 	            { field: 'opnYn', 		label: 'open', 		sortable: false, align: 'center', width: 80},
 	            { field: 'mchnUsePsblYn',  	label:'기기사용여부' , 		sortable: false, align: 'center', width: 80},
 	            { field: 'mchnUsePsblNm', 		label: '장비사용상태', 		sortable: false, align: 'center', width: 80},
 	            { field: 'eqipScn',  	hidden : true},
-	            { field: 'mchnClCd', 	hidden : true},
+	            { field: 'mchnLaclCd', 	hidden : true},
 	            { field: 'mchnClDtlCd', 	hidden : true},
-	            { field: 'mchnKindCd', 	hidden : true},
+	            { field: 'mchnClCd', 	hidden : true},
 	            { field: 'mchnInfoId',  hidden : true}
 	        ]
 	    });
@@ -116,10 +116,10 @@
 	    });
 
  		 //대분류
-	    var cbMchnClCd = new Rui.ui.form.LCombo({
-			applyTo : 'mchnClCd',
-			name : 'mchnClCd',
-			defaultValue: '<c:out value="${inputData.mchnClCd}"/>',
+	    var cbMchnLaclCd = new Rui.ui.form.LCombo({
+			applyTo : 'mchnLaclCd',
+			name : 'mchnLaclCd',
+			defaultValue: '',
 			useEmptyText: true,
 	        emptyText: '전체',
 	        url: '<c:url value="/stat/rlab/retrieveRlabMchnClCd.do"/>',
@@ -128,8 +128,8 @@
 	    	width : 200
        	});
 
-		cbMchnClCd.getDataSet().on('load', function(e) {
-	          console.log('cbMchnClCd :: load');
+	    cbMchnLaclCd.getDataSet().on('load', function(e) {
+	          console.log('cbMchnLaclCd :: load');
 	    });
 
 		 //담당자명
@@ -142,10 +142,10 @@
 	    });
 
 		//장비종류 combo
-		var cbMchnKindCd = new Rui.ui.form.LCombo({
-			applyTo : 'mchnKindCd',
-			name : 'mchnKindCd',
-			defaultValue: '<c:out value="${inputData.mchnKindCd}"/>',
+		var cbMchnClCd = new Rui.ui.form.LCombo({
+			applyTo : 'mchnClCd',
+			name : 'mchnClCd',
+			defaultValue: '<c:out value="${inputData.mchnClCd}"/>',
 			useEmptyText: true,
 	           emptyText: '전체',
 	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_CL_CD"/>',
@@ -154,8 +154,8 @@
 	    	width : 200
        	});
 
-		cbMchnKindCd.getDataSet().on('load', function(e) {
-	          console.log('cbMchnKindCd :: load');
+		cbMchnClCd.getDataSet().on('load', function(e) {
+	          console.log('cbMchnClCd :: load');
 	    });
 
 		// 상태combo
@@ -193,8 +193,8 @@
 		        url: '<c:url value="/mchn/mgmt/rlabTestEqipSearchList.do"/>' ,
 	        	params :{
 	        		    mchnNm : encodeURIComponent(document.aform.mchnNm.value)		//장비명
-	        	       ,mchnClCd : document.aform.mchnClCd.value		//분류
-	        	       ,mchnKindCd  : document.aform.mchnKindCd.value		//장비종류
+	        	       ,mchnLaclCd  : document.aform.mchnLaclCd.value		//분류
+	        	       ,mchnClCd : document.aform.mchnClCd.value		//장비종류
 	        	       ,opnYn : document.aform.opnYn.value		//오픈기기 여부
 	        	       ,mchnCrgrNm : encodeURIComponent(document.aform.mchnCrgrNm.value) 	//담당자
 	        	       ,mchnUserPsblYn : document.aform.mchnUsePsblYn.value	//상태
@@ -264,11 +264,11 @@
 						<tr>
 							<th align="right">분류</th>
 							<td>
-								<select  id="mchnClCd" ></select>
+								<select  id="mchnLaclCd" ></select>
 							</td>
 							<th align="right">장비종류</th>
 							<td>
-								<select  id="mchnKindCd" ></select>
+								<select  id="mchnClCd" ></select>
 							</td>
 						</tr>
 						<tr>

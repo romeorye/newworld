@@ -48,7 +48,7 @@
         		 {id: 'mchnNm'}          //기기명
         		,{id: 'mdlNm'}           //모델명
         		,{id: 'mkrNm'}           //제조사
-        		,{id: 'mchnClNm'}        //대분류
+        		,{id: 'mchnLaclNm'}        //대분류
         		,{id: 'mchnClDtlNm'}        //소분류
         		,{id: 'mchnCrgrNm'}      //담당자
         		,{id: 'mchnInfoId'}      //기기 정보 ID
@@ -61,7 +61,7 @@
 	        	 {field: 'mchnNm'     ,label:'기기명' ,	sortable: false, align: 'center', width: 260}
 	        	,{field: 'mdlNm'      ,label:'모델명' , sortable: false, align: 'center', width: 130}
 	        	,{field: 'mkrNm'      ,label:'제조사' , sortable: false, align: 'center', width: 130}
-	        	,{field: 'mchnClNm'   ,label:'대분류'   , sortable: false, align: 'center', width: 130}
+	        	,{field: 'mchnLaclNm'   ,label:'대분류'   , sortable: false, align: 'center', width: 130}
 	        	,{field: 'mchnClDtlNm'   ,label:'소분류'   , sortable: false, align: 'center', width: 100}
 	        	,{field: 'mchnCrgrNm' ,label:'담당자' , sortable: false, align: 'center', width: 100}
 	        	,{field: 'mchnInfoId' ,hidden : true}
@@ -110,15 +110,15 @@
 	    });
 
 		//분류
-		var rdMchnClCd = new Rui.ui.form.LRadioGroup({
-	            applyTo : 'mchnClCd',
-	            name : 'mchnClCd',
+		var rdMchnLaclCd = new Rui.ui.form.LRadioGroup({
+	            applyTo : 'mchnLaclCd',
+	            name : 'mchnLaclCd',
 	            items : [
 				{ label: '전체', value: ''},
 				<c:forEach var="data" items="${ mchnClCdlist }" varStatus="status">
 					<c:choose>
 						<c:when test="${status.index == 0}">
-				       	{ label : "${ data.COM_DTL_NM }"+" &nbsp;" , name: "mchnClCd" , value : "${ data.COM_DTL_CD }"}
+				       	{ label : "${ data.COM_DTL_NM }"+" &nbsp;" , name: "mchnLaclCd" , value : "${ data.COM_DTL_CD }"}
 						</c:when>
 						<c:otherwise>
 				   		, { label: '${ data.COM_DTL_NM }'+"  &nbsp;", value: '${ data.COM_DTL_CD }'}
@@ -134,7 +134,7 @@
 				params :{
 					 mchnNm  : encodeURIComponent(document.aform.mchnNm.value)	//기기명
 					,mchnCrgrNm  : encodeURIComponent(document.aform.mchnCrgrNm.value)	//담당자명
-					,mchnClCd  : rdMchnClCd.getValue()	//기기
+					,mchnLaclCd  : rdMchnLaclCd.getValue()	//기기
 	                }
 			});
 		}
@@ -177,7 +177,7 @@
 						<tr>
 							<th align="right">대분류</th>
 							<td colspan="4">
-								<div id="mchnClCd"></div>
+								<div id="mchnLaclCd"></div>
 							</td>
 						</tr>
 					</tbody>

@@ -255,12 +255,12 @@
 
             var rlabExatMstColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  { field: 'supiExatNm',		label: '시험명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 180 }
-                    , { field: 'exatNm',			label: '시험명(소분류)',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 150 }
+                	  { field: 'supiExatNm',		label: '시험명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 150 }
+                    , { field: 'exatNm',			label: '시험명(소분류)',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 180 }
                     , { field: 'exatMtdNo',	label: '시험법No',		sortable: false,	editable: true, 	editor: textBox,	align:'center',	width: 60 }
                     , { field: 'expCrtnScnCd',	label: '비용구분',	sortable: false,	editable: true,	editor: expCrtnScnCd,		align:'center',	width: 60 }
+                    , { field: 'utmExatTim',	label: '단위시험일수',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 75 }
                     , { field: 'utmSmpoQty',	label: '단위시료수량',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 75 }
-                    , { field: 'utmExatTim',	label: '시험일수',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 75 }
                     , { field: 'utmExp',		label: '시험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 75,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
@@ -295,7 +295,7 @@
 					, { id: 'mchnHanNm' }
 					, { id: 'mdlNm' }
 					, { id: 'mkrNm' }
-					, { id: 'mchnClNm' }
+					, { id: 'mchnLaclNm' }
 					, { id: 'mchnClDtlNm' }
 					, { id: 'mchnCrgrNm' }
 					]
@@ -308,7 +308,7 @@
                     , { field: 'mchnHanNm',	label: '기기명',		sortable: false,	align:'center',	width: 210 }
                     , { field: 'mdlNm',			label: '모델명',		sortable: false,	align:'center',	width: 210 }
                     , { field: 'mkrNm',			label: '제조사',		sortable: false,	align:'center',	width: 210 }
-                    , { field: 'mchnClNm',		label: '대분류',		sortable: false,	align:'center',	width: 180 }
+                    , { field: 'mchnLaclNm',		label: '대분류',		sortable: false,	align:'center',	width: 180 }
                     , { field: 'mchnClDtlNm',		label: '소분류',		sortable: false,	align:'center',	width: 180 }
                     , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 128 }
                 ]
@@ -431,7 +431,7 @@
             	record.set('mchnHanNm', mchnInfo.get("mchnNm"));
             	record.set('mdlNm', mchnInfo.get("mdlNm"));
             	record.set('mkrNm', mchnInfo.get("mkrNm"));
-            	record.set('mchnClNm', mchnInfo.get("mchnClNm"));
+            	record.set('mchnLaclNm', mchnInfo.get("mchnLaclNm"));
             	record.set('mchnClDtlNm', mchnInfo.get("mchnClDtlNm"));
             	record.set('mchnCrgrNm', mchnInfo.get("mchnCrgrNm"));
             }

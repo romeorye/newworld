@@ -760,7 +760,7 @@
 				   ,b.mchn_han_nm									as mchnHanNm
 				   ,b.mdl_nm										as mdlNm
 				   ,b.mkr_nm										as mkrNm
-				   ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = b.MCHN_CL_CD) AS "mchnClNm"
+				   ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = b.MCHN_LACL_CD) AS "mchnLaclNm"
 	  		  	   ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = b.MCHN_CL_DTL_CD)  AS "mchnClDtlNm"
 				   ,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
 			from	iris_rlab_exat_dtl a,
@@ -771,7 +771,8 @@
 			and		a.mchn_info_id = b.mchn_info_id
 	</select>
 
-	<insert id="saveRlabExatDtl" parameterType="map">
+	<insert id="
+" parameterType="map">
 -- saveRlabExatDtl
 		insert into iris_rlab_exat_dtl(
 			EXAT_CD
@@ -806,7 +807,7 @@
 		SELECT  MCHN_HAN_NM+'('+MCHN_EN_NM+')' as "mchnNm"
 			   ,MDL_NM as "mdlNm"
 		       ,MKR_NM as "mkrNm"
-		       ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = MIM.MCHN_CL_CD) AS "mchnClNm"
+		       ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = MIM.MCHN_LACL_CD) AS "mchnLaclNm"
 	  		   ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = MIM.MCHN_CL_DTL_CD)  AS "mchnClDtlNm"
 			   ,SU.SA_NAME  as "mchnCrgrNm"
 			   ,MCHN_INFO_ID as "mchnInfoId"
@@ -826,8 +827,8 @@
 		  <if test="( mchnCrgrNm != null and mchnCrgrNm != '')">
 			AND SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
 		  </if>
-		  <if test="( mchnClCd != null and mchnClCd != '' and mchnClCd != 'null')">
-			AND  MIM.MCHN_CL_CD = #{mchnClCd}
+		  <if test="( mchnLaclCd != null and mchnLaclCd != '' and mchnLaclCd != 'null')">
+			AND  MIM.MCHN_LACL_CD = #{mchnLaclCd}
 		   </if>
 
 		   ORDER BY MCHN_INFO_ID
