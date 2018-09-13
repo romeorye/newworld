@@ -471,6 +471,7 @@
 										CrossEditor.params.UserLang = "auto";
 										CrossEditor.params.ImageSavePath = "/iris/resource/fileupload/mchn";
 										CrossEditor.params.FullScreen = false;
+										CrossEditor.params.Height = 400;
 										CrossEditor.EditorStart();
 										
 										function OnInitCompleted(e){

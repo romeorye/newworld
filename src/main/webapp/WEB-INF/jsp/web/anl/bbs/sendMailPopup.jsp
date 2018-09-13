@@ -254,6 +254,7 @@ Rui.onReady(function() {
 										CrossEditor.params.UserLang = "auto";
 										CrossEditor.params.ImageSavePath = "/iris/resource/fileupload/mchn";
 										CrossEditor.params.FullScreen = false;
+										CrossEditor.params.Height = 320;
 										CrossEditor.EditorStart();
 										
 										function OnInitCompleted(e){
