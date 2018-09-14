@@ -454,6 +454,37 @@ var dtlSbc = "";
     			return false;
 			}
 			
+			if(mchnClCd == '01'){
+				if(Rui.isEmpty(testSpceCd.getValue())){
+					alert("테스트공간을 입력하세요");
+					testSpceCd.focus();
+	    			return false;
+				}
+				if(Rui.isEmpty(testCnd01.getValue())){
+					alert("시험조건을 입력하세요");
+					testCnd01.focus();
+	    			return false;
+				}				
+				if(Rui.isEmpty(testCnd02.getValue())){
+					alert("시험조건을 입력하세요");
+					testCnd02.focus();
+	    			return false;
+				}				
+			}
+			
+			if(mchnClCd == '01' || mchnClCd == '02'){
+				if(Rui.isEmpty(prctFromDt.getValue())){
+					alert("예약 시작일을 입력하세요");
+					prctFromDt.focus();
+	    			return false;
+				}
+				if(Rui.isEmpty(prctToDt.getValue())){
+					alert("예약 종료일을 입력하세요");
+					prctToDt.focus();
+	    			return false;
+				}
+			}
+			
 			if(mchnClCd =='03'){
 			
 				if(Rui.isEmpty(prctDt.getValue())){
@@ -502,10 +533,11 @@ var dtlSbc = "";
 
     		dtlSbc = CrossEditor.GetBodyValue();
     	
-			if(dtlSbc == "" || dtlSbc == "<P>&nbsp;</P>"){
-				alert("내용 : 필수 입력 항목 입니다.");
-		   		return false;
-		   	}
+     		if(CrossEditor.GetBodyValue()=="" || CrossEditor.GetBodyValue()=="<p><br></p>"){
+     		    alert("개요내용을 입력해 주세요!!");
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
     		
     		//frm.dtlSbc.value = frm.Wec.MIMEValue;
     		
@@ -723,6 +755,7 @@ var dtlSbc = "";
 										CrossEditor.params.UserLang = "auto";
 										CrossEditor.params.ImageSavePath = "/iris/resource/fileupload/mchn";
 										CrossEditor.params.FullScreen = false;
+										CrossEditor.params.Height = 320;
 										CrossEditor.EditorStart();
 										
 										function OnInitCompleted(e){

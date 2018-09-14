@@ -118,7 +118,7 @@ var mchnInfoId;
 	        id: 'mchnPrctInfoDialog',
 	        title: '보유장비신청 예약',
 	        width:  1000,
-	        height: 600,
+	        height: 700,
 	        modal: true,
 	        visible: false
 	    });

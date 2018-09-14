@@ -52,14 +52,14 @@ var mchnInfoId;
 		if(mchnClCd == "01"||mchnClCd == "03"){
 			tabView = new Rui.ui.tab.LTabView({
 	             tabs: [
-	            	     {label: '장비개요',	content: '<div id="tabContent0"></div>' }
+	            	     {label: 'TOOL개요',	content: '<div id="tabContent0"></div>' }
 	            	     
 	             		]
 	         });
 		} else if(mchnClCd == "02"){
 			tabView = new Rui.ui.tab.LTabView({
 	             tabs: [
-	            	     {label: '장비개요',	content: '<div id="tabContent0"></div>' }
+	            	     {label: 'TOOL개요',	content: '<div id="tabContent0"></div>' }
 	            	     ,{label: '예약현황',	content: '<div id="tabContent1"></div>' }
 	             		]
 	         });			

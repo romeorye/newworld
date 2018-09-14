@@ -266,8 +266,20 @@ var mailTitl ="보유TOOL 예약신청";
 			var frm = document.aform;
 			
 			if(Rui.isEmpty(prctTitl.getValue())){
-				alert("신청제목을 입력하세요");
+				alert("평가명을 입력하세요");
 				prctTitl.focus();
+    			return false;
+			}
+			
+			if(Rui.isEmpty(prctFromDt.getValue())){
+				alert("예약 시작일을 입력하세요");
+				prctFromDt.focus();
+    			return false;
+			}
+			
+			if(Rui.isEmpty(prctToDt.getValue())){
+				alert("예약 종료일을 입력하세요");
+				prctToDt.focus();
     			return false;
 			}
 
