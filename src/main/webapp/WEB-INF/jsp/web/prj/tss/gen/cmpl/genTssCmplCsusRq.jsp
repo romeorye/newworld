@@ -274,8 +274,18 @@
                             <tbody>
                                 <tr>
                                     <th>지적재산권</th>
-                                    <th>지재권 출원현황<br/>(국내/해외)</th>
-                                    <td><c:out value="${fn:replace(resultSmry.rsstDvlpOucmTxt, cn, br)}" escapeXml="false"/></td>
+                                    <td colspan="2">
+										<table>
+											<tr>
+												<th align="right">지재권 출원현황<br/>(국내/해외)</th>
+			                                    <td><c:out value="${fn:replace(resultSmry.rsstDvlpOucmTxt, cn, br)}" escapeXml="false"/></td>
+											</tr>
+											<tr>
+												<th align="right">특허 Risk 검토결과</th>
+			                                    <td><c:out value="${fn:replace(resultSmry.pmisCmplTxt, cn, br)}" escapeXml="false"/></td>
+											</tr>
+										</table>
+									</td>
                                 </tr>
                                 <tr>
                                     <th>목표 기술성과</th>
