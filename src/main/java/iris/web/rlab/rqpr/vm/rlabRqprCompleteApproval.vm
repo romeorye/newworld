@@ -9,14 +9,14 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <th>분석명</th>
-                    <td class="txt_layout">${anlNm}</td>
+                    <th>시험명</th>
+                    <td class="txt_layout">${rlabNm}</td>
                     <th>접수번호</th>
                     <td class="txt_layout">${acpcNo}</td>
                 </tr>
                 <tr>
-                    <th>분석목적</th>
-                    <td colspan="3" class="txt_layout">${anlSbc}</td>
+                    <th>시험목적</th>
+                    <td colspan="3" class="txt_layout">${rlabSbc}</td>
                 </tr>
                 <tr>
                     <th>의뢰자</th>
@@ -37,14 +37,14 @@
                     <td class="txt_layout"></td>
                 </tr>
                 <tr>
-                    <th>분석구분</th>
-                    <td class="txt_layout">${anlScnNm}</td>
-                    <th>분석담당자</th>
-                    <td class="txt_layout">${anlChrgNm}</td>
+                    <th>시험구분</th>
+                    <td class="txt_layout">${rlabScnNm}</td>
+                    <th>시험담당자</th>
+                    <td class="txt_layout">${rlabChrgNm}</td>
                 </tr>
                 <tr>
                     <th>긴급유무</th>
-                    <td class="txt_layout">${anlUgyYnNm}</td>
+                    <td class="txt_layout">${rlabUgyYnNm}</td>
                     <th>통보유형</th>
                     <td class="txt_layout">${infmTypeNm}</td>
                 </tr>
@@ -52,7 +52,7 @@
                     <th>시료처리</th>
                     <td class="txt_layout">${smpoTrtmNm}</td>
                     <th>통보자</th>
-                    <td class="txt_layout">${anlRqprInfmView}</td>
+                    <td class="txt_layout">${rlabRqprInfmView}</td>
                 </tr>
             </tbody>
         </table>
@@ -74,11 +74,11 @@
                 </tr>
             </thead>
             <tbody>
-            	${anlRqprExprList}
+            	${rlabRqprExprList}
             </tbody>
         </table>
         <br/>
-    <h3>분석결과</h3>
+    <h3>시험결과</h3>
         <table class="table">
             <colgroup>
                 <col width="15%" />
@@ -86,11 +86,11 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <th>분석결과</th>
-                    <td class="txt_layout">${anlRsltSbc}</td>
+                    <th>시험결과</th>
+                    <td class="txt_layout">${rlabRsltSbc}</td>
                 </tr>
                 <tr>
-                    <th>분석결과서</th>
+                    <th>시험결과서</th>
                     <td class="txt_layout">${rsltAttachFileList}</td>
                 </tr>
             </tbody>
@@ -113,15 +113,15 @@
                 </tr>
             </thead>
             <tbody>
-            	${anlRqprSmpoList}
+            	${rlabRqprSmpoList}
             </tbody>
         </table>
-    
+
    <!-- 가로 2개 테이블  start -->
     <div class="wrap">
 	   <div class="table04">
            <!-- left table contents start -->
-            <h3>관련분석</h3>
+            <h3>관련시험</h3>
                 <table class="table">
                     <colgroup>
                         <col width="15%" />
@@ -132,19 +132,19 @@
                     <thead>
                         <tr>
                             <th>접수번호</th>
-                            <th>분석명</th>
+                            <th>시험명</th>
                             <th>의뢰자</th>
-                            <th>분석담당자</th>
+                            <th>시험담당자</th>
                         </tr>
                     </thead>
                     <tbody>
-                    	${anlRqprRltdList}
+                    	${rlabRqprRltdList}
                     </tbody>
                 </table>
            <!-- left table contents end -->
        </div>
 	   <div class="table05">
-           <!-- right table contents start --> 
+           <!-- right table contents start -->
             <h3>시료사진/첨부파일</h3>
                 <table class="table">
                     <colgroup>
