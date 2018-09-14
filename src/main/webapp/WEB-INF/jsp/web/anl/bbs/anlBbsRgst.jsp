@@ -448,7 +448,7 @@
    						</tr>
    		-->				
 						<tr>
-							<th  align="right">개요</th>
+							<th  align="right"><span style="color:red;">* </span>개요</th>
 							<td colspan="3">
 								<textarea id="bbsSbc" name="bbsSbc"></textarea>
 									<script type="text/javascript" language="javascript">
