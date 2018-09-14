@@ -671,7 +671,7 @@
             var bizDptNm = bizDptCd.getDisplayValue();
             
             if(  bizDpt == "07" || bizDpt == "08" || bizDpt == "09"  ){
-            	var bizMsg =  bizDptNm+" 사업부문일경우 지적재산권 검토의견을 입력하셔야 합니다";
+            	var bizMsg =  bizDptNm+" 사업부문일경우 지적재산팀 검토의견을 입력하셔야 합니다";
             	
             	if( Rui.isEmpty(pmisTxt)){
             		alert(bizMsg);
