@@ -680,7 +680,7 @@ function initFrameSetHeight2(pId) {
                     <td class="tssLableCss"><input type="text" id="ptcCpsnYAvg" name="ptcCpsnYAvg"></td>
                 </tr>
                 <tr>
-                    <th align="right">지적재산권<br>통보결과</th>
+                    <th align="right">지적재산팀 검토의견</th>
                     <td colspan="6"><input type="text" id="pmisTxt" name="pmisTxt"></td>
                 </tr>
                 <tr>
