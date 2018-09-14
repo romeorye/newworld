@@ -1307,7 +1307,13 @@
 				fbRsltSbcTxtArea.enable()
 				fbTssPgsStep.enable()
 				fbRsltCtgr.enable() */
-
+				if(spaceRqprFbDataSet.getNameValue(0, 'fbCmplYn')=="Y"){
+					$("#saveFbBtn").hide();
+					$("#cmplFbBtn").hide();
+				}else{
+					$("#saveFbBtn").show();
+					$("#cmplFbBtn").show();
+				}
 				if(spaceRqprFbDataSet.getNameValue(0, 'fbRsltCtgr')=="03"){
 					fbRsltSbcTxtArea.hide();
 					fbTssPgsStep.show();
@@ -1345,7 +1351,34 @@
 
 			//피드백저장
             opinitionFbSave = function() {
-               	if(confirm('저장 하시겠습니까?')) {
+            	var fbRsltCtgr = document.bform.fbRsltCtgr.value;
+            	var fbRsltSbc = document.bform.fbRsltSbc.value;
+            	var fbRsltScn = document.bform.fbRsltScn.value;
+            	var fbRsltBttm = document.bform.fbRsltBttm.value;
+            	var fbTssPgsStep = document.bform.fbTssPgsStep.value;
+
+            	if(fbRsltCtgr==""){
+            		alert("평가 카테고리를 선택해 주세요.");
+            		return;
+            	}
+
+            	if(fbRsltScn==""){
+            		alert("구분값을 선택해 주세요.");
+            		return;
+            	}
+
+            	if(fbRsltCtgr=="03"){
+            		if(fbTssPgsStep==""){
+            			alert("평가명을 선택해 주세요.");
+            			return;
+            		}
+            	}else{
+            		if(fbRsltSbc=""){
+            			alert("평가명을 입력해 주세요.")
+            		}
+            	}
+
+            	if(confirm('저장 하시겠습니까?')) {
                		dm.updateDataSet({
                         url:'<c:url value="/space/saveSpaceRqprFb.do"/>',
                         //dataSets:[dataSet]
@@ -1363,6 +1396,32 @@
 
           //피드백확정
             cmplFbSave = function() {
+            	var fbRsltCtgr = document.bform.fbRsltCtgr.value;
+            	var fbRsltSbc = document.bform.fbRsltSbc.value;
+            	var fbRsltScn = document.bform.fbRsltScn.value;
+            	var fbRsltBttm = document.bform.fbRsltBttm.value;
+            	var fbTssPgsStep = document.bform.fbTssPgsStep.value;
+
+            	if(fbRsltCtgr==""){
+            		alert("평가 카테고리를 선택해 주세요.");
+            		return;
+            	}
+
+            	if(fbRsltScn==""){
+            		alert("구분값을 선택해 주세요.");
+            		return;
+            	}
+
+            	if(fbRsltCtgr=="03"){
+            		if(fbTssPgsStep==""){
+            			alert("평가명을 선택해 주세요.");
+            			return;
+            		}
+            	}else{
+            		if(fbRsltSbc=""){
+            			alert("평가명을 입력해 주세요.")
+            		}
+            	}
                	if(confirm('확정 하시겠습니까?')) {
                		dm.updateDataSet({
                         url:'<c:url value="/space/saveSpaceRqprFbCmpl.do"/>',

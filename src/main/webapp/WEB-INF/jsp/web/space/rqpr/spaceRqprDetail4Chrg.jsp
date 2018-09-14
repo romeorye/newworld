@@ -109,6 +109,9 @@
                     }, {
                         label: '의견<span id="opinitionCnt"/>',
                         id: 'spaceRqprOpinitionDiv'
+                    }, {
+                        label: '의견 피드백',
+                        id: 'spaceRqprOpinitionFbDiv'
                     }]
             });
 
@@ -136,6 +139,10 @@
 
 	                break;
 
+	            case 3:
+
+	                break;
+
 	            default:
 	                break;
 	            }
@@ -154,6 +161,12 @@
                     break;
 
                 case 2:
+                    if(e.isFirst){
+                    }
+
+                    break;
+
+                case 3:
                     if(e.isFirst){
                     }
 
@@ -1323,6 +1336,123 @@
 
             }
 
+          	/////////////////////////////////////////////////
+          	//의견 피드백
+          	/* 피드백카테고리 */
+        	var fbRsltCtgr = new Rui.ui.form.LCombo({
+                applyTo: 'fbRsltCtgr',
+                name: 'fbRsltCtgr',
+                emptyText: '선택',
+                defaultValue: '',
+                emptyValue: '',
+                width: 300,
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=FB_RSLT_CTGR"/>',
+                displayField: 'COM_DTL_NM',
+                valueField: 'COM_DTL_CD'
+            });
+
+        	/* 피드백내용 */
+             var fbRsltSbcTxtArea = new Rui.ui.form.LTextArea({
+            	 applyTo: 'fbRsltSbc',
+                  editable: true,
+                  width: 800,
+                  height:100
+             });
+
+             /* 피드백과제진행단계구분 */
+          	var fbTssPgsStep = new Rui.ui.form.LCombo({
+                  applyTo: 'fbTssPgsStep',
+                  name: 'fbTssPgsStep',
+                  emptyText: '선택',
+                  defaultValue: '',
+                  emptyValue: '',
+                  width: 400,
+                  url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=FB_TSS_PGS_STEP"/>',
+                  displayField: 'COM_DTL_NM',
+                  valueField: 'COM_DTL_CD'
+              });
+
+             /* 피드백구분 */
+         	var fbRsltScn = new Rui.ui.form.LCombo({
+                 applyTo: 'fbRsltScn',
+                 name: 'fbRsltScn',
+                 emptyText: '선택',
+                 defaultValue: '',
+                 emptyValue: '',
+                 width: 300,
+                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=FB_RSLT_SCN"/>',
+                 displayField: 'COM_DTL_NM',
+                 valueField: 'COM_DTL_CD'
+             });
+
+         	/* 피드백 개선요청사항 */
+              var fbRsltBttmTxtArea = new Rui.ui.form.LTextArea({
+             	 applyTo: 'fbRsltBttm',
+                   editable: true,
+                   width: 800,
+                   height:100
+              });
+
+			fbRsltCtgr.on('changed', function(e) {
+				if(e.value=="03"){
+					fbRsltSbcTxtArea.setValue("");
+					fbRsltSbcTxtArea.hide();
+					fbTssPgsStep.show();
+				}else{
+					fbRsltSbcTxtArea.show();
+					fbTssPgsStep.hide();
+					fbTssPgsStep.setValue("")
+				}
+
+            });
+			var spaceRqprFbDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprFbDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                	  { id: 'rqprId' }
+                	, { id: 'fbRsltCtgr'	}
+					, { id: 'fbRsltSbc'		}
+					, { id: 'fbRsltScn'		}
+					, { id: 'fbRsltBttm'	}
+					, { id: 'spaceStpt'		}
+					, { id: 'fbCmplYn'		}
+					, { id: 'fbTssPgsStep'	}
+                ]
+            });
+
+          	spaceRqprFbBind = new Rui.data.LBind({
+                groupId: 'cform',
+                dataSet: spaceRqprFbDataSet,
+                bind: true,
+                bindInfo: [
+					{ id: 'rqprId',				ctrlId: 'rqprId',			value:'value'},
+                    { id: 'fbRsltCtgr',			ctrlId: 'fbRsltCtgr',		value:'value'},
+					{ id: 'fbRsltSbc',			ctrlId: 'fbRsltSbc',		value:'value'},
+					{ id: 'fbRsltScn',			ctrlId: 'fbRsltScn',		value:'value'},
+					{ id: 'fbRsltBttm',			ctrlId: 'fbRsltBttm',		value:'value'},
+					{ id: 'spaceStpt',			ctrlId: 'spaceStpt',		value:'value'},
+					{ id: 'fbCmplYn',			ctrlId: 'fbCmplYn',			value:'value'},
+					{ id: 'fbTssPgsStep',		ctrlId: 'fbTssPgsStep',		value:'value'}
+                ]
+            });
+
+			spaceRqprFbDataSet.on('load', function(e) {
+				if(spaceRqprFbDataSet.getNameValue(0, 'fbRsltCtgr')=="03"){
+					fbRsltSbcTxtArea.hide();
+					fbTssPgsStep.show();
+				}else{
+					fbRsltSbcTxtArea.show();
+					fbTssPgsStep.hide();
+				}
+				fbRsltSbcTxtArea.disable();
+				fbTssPgsStep.disable();
+				fbRsltCtgr.disable();
+				fbRsltScn.disable();
+				fbRsltBttmTxtArea.disable();
+            });
+          	/////////////////////////////////////////////////
+
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'spaceNm',			validExp: '평가명:true:maxByteLength=100' },
@@ -1526,7 +1656,8 @@
 							 spaceRqprRltdDataSet,
 							 spaceRqprAttachDataSet,
 							 spaceRqprRsltAttachDataSet,
-							 spaceRqprExatDataSet],
+							 spaceRqprExatDataSet,
+							 spaceRqprFbDataSet],
                 url: '<c:url value="/space/getSpaceRqprDetailInfo.do"/>',
                 params: {
                     rqprId: '${inputData.rqprId}'
@@ -1896,11 +2027,68 @@
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="opinitionSave()">추가</button>
    						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="opinitionUpdate()">수정</button>
-   						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goSpaceRqprList()">목록</button>
+   						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goSpaceRqprList4Chrg()">목록</button>
    					</div>
    				</div>
    				<div id="spaceRqprOpinitionGrid"></div>
    				<br/>
+   				</div>
+   				<div id="spaceRqprOpinitionFbDiv">
+   				<form name="cform" id="cform" method="post">
+   				<div class="titArea">
+   					<h3><span style="color:red;">* </span>프로젝트 결과</h3>
+   					<div class="LblockButton">
+   						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goSpaceRqprList4Chrg()">목록</button>
+   					</div>
+   				</div>
+   				<table class="table">
+   					<colgroup>
+						<col style="width:30%;">
+						<col style="width:70%;">
+   					</colgroup>
+   					<tbody>
+   						<tr>
+   							<th>평가카테고리</th>
+   							<th colspan="2">평가명</th>
+   						</tr>
+   						<tr>
+   							<td>
+   								<div id="fbRsltCtgr"></div>
+   							</td>
+   							<td>
+   								<div id="fbTssPgsStep"></div>
+   								<input id="fbRsltSbc" type="text">
+   							</td>
+   						</tr>
+   					</tbody>
+   				</table>
+   				<div class="titArea">
+   					<h3><span style="color:red;">* </span>공간평가시스템 개선 요청 사항</h3>
+   					<div class="LblockButton">
+   					</div>
+   				</div>
+   				<table class="table">
+   					<colgroup>
+						<col style="width:30%;">
+						<col style="width:70%;">
+   					</colgroup>
+   					<tbody>
+   						<tr>
+   							<th>구분</th>
+   							<th>비고</th>
+   						</tr>
+   						<tr>
+   							<td>
+   								<div id="fbRsltScn"></div>
+   							</td>
+   							<td>
+   								<textarea id="fbRsltBttm"></textarea>
+   							</td>
+   						</tr>
+   					</tbody>
+   				</table>
+   				<br/>
+   				</form>
    				</div>
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
