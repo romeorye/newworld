@@ -129,7 +129,7 @@ var mchnInfoId;
 	        id: 'mchnPrctInfoDialog',
 	        title: '보유TOOL신청 예약',
 	        width:  1000,
-	        height: 400,
+	        height: 420,
 	        modal: true,
 	        visible: false
 	    });

@@ -282,6 +282,12 @@ var mailTitl ="보유TOOL 예약신청";
 				prctToDt.focus();
     			return false;
 			}
+			
+			if(prctFromDt.getValue() >  prctToDt.getValue() ){
+				alert("예약종료일이 시작일보다 작을 수 없습니다.")
+				prctToDt.focus();
+				return false;
+			}
 
 			return true;
 		}
