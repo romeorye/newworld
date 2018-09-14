@@ -247,6 +247,7 @@
         vm = new Rui.validate.LValidatorManager({
             validators:[
             	{ id: 'bbsTitl',    validExp: '제목:true:maxByteLength=400' },
+            	{ id: 'anlBbsCd',   validExp: '구분:true:maxByteLength=400' },
             	{ id: 'bbsKwd',   	validExp: '키워드:false:maxByteLength=100' }
             ]
         });
@@ -320,10 +321,11 @@
 	   		}
 
 			// 에디터 valid
-			if(gvSbcNm == "" || gvSbcNm == "<P>&nbsp;</P>"){
-				alert("내용 : 필수 입력 항목 입니다.");
-		   		return false;
-		   	}
+     		if(CrossEditor.GetBodyValue()=="" || CrossEditor.GetBodyValue()=="<p><br></p>"){
+     		    alert("개요내용을 입력해 주세요!!");
+     		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
 
 	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
@@ -487,7 +489,7 @@
    						</c:if>
    						
 						<tr>
-							<th  align="right">개요</th>
+							<th  align="right"><span style="color:red;">* </span>개요</th>
 							<td colspan="3">
 								<textarea id="bbsSbc" name="bbsSbc"></textarea>
 									<script type="text/javascript" language="javascript">
