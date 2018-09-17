@@ -4,7 +4,7 @@
 <mapper namespace="space.batch">
 
 	<select id="getSpaceRqprApprCompleteList" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
-			-- getSpaceRqprApprCompleteList 분석의뢰 요청 결재 완료 리스트 조회
+			-- getSpaceRqprApprCompleteList 평가의뢰 요청 결재 완료 리스트 조회
 			select	mst.rqpr_id																	as rqprId
 				   ,mst.space_name																as spaceNm
 				   ,dbo.fn_getUserName(mst.rgst_id) + ' ' + dbo.fn_getUserJobxName(mst.rgst_id)	as rgstNm
@@ -12,40 +12,31 @@
 				   ,dbo.fn_getUserEmail(mst.rgst_id)											as rgstEmail
 				   ,mst.rqpr_dt																	as rqprDt
 				   ,dbo.fn_getSpaceCrgrJobxDeptNames(mst.rqpr_id)								as chrgNm
-				   ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) 										as receivers
-			from	iris_space_rqpr_mst mst,
-					iris_sso_user rgst,
-					iris_sso_user chrg
+				   ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) 										as receivers	--담당자 + 의뢰자 + 리더 + 통보자
+			from	iris_space_rqpr_mst mst
 			where	mst.space_acpc_st_cd = '02'
 			and		mst.del_yn = 'N'
 			and		mst.space_chrg_trsf_flag = 'W'
-			and		mst.rgst_id = rgst.sa_user
-			and		mst.space_chrg_id = chrg.sa_user
 
 	</select>
 
 	<select id="getSpaceRsltApprCompleteList" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
-			-- getSpaceRsltApprCompleteList 분석 결과 결재 완료 리스트 조회
-			select	mst.rqpr_id													as rqprId
-				   ,mst.anl_name												as anlNm
-				   ,mst.acpc_no													as acpcNo
-				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name						as rgstNm
-				   ,dbo.fn_getDeptName(rgst.sa_dept_new)						as rgstDeptNm
-				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name						as chrgNm
-				   ,dbo.fn_getDeptName(chrg.sa_dept_new)						as chrgDeptNm
-				   ,chrg.sa_mail												as chrgEmail
-				   ,mst.acpc_dt													as acpcDt
-				   ,mst.cmpl_dt													as cmplDt
-				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
-				    isnull(dbo.fn_getAnlRqprInfmPrsnEmails(mst.rqpr_id), '')	as receivers
-			from	iris_anl_rqpr_mst mst,
-					iris_sso_user rgst,
-					iris_sso_user chrg
+			-- getSpaceRsltApprCompleteList 평가 결과 결재 완료 리스트 조회
+			select	mst.rqpr_id																		as rqprId
+				   ,mst.space_name																	as spaceNm
+				   ,mst.acpc_no																		as acpcNo
+				   ,dbo.fn_getUserName(mst.rgst_id) + ' ' + dbo.fn_getUserJobxName(mst.rgst_id)		as rgstNm
+				   ,dbo.fn_getDeptName(dbo.fn_getDeptCode(mst.rgst_id))								as rgstDeptNm
+				   ,dbo.fn_getSpaceCrgrJobxDeptNames(mst.rqpr_id)									as chrgNm
+				   ,mst.acpc_dt																		as acpcDt
+				   ,mst.cmpl_dt																		as cmplDt
+				   ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) + dbo.fn_getUserEmail(mst.rgst_id) +
+				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
+					isnull(',' + dbo.fn_getSpaceRqprInfmPrsnEmails(mst.rqpr_id), '')				as receivers --담당자 + 의뢰자 + 리더 + 통보자
+			from	iris_space_rqpr_mst mst
 			where	mst.space_acpc_st_cd = '07'
 			and		mst.del_yn = 'N'
 			and		mst.rgst_trsf_flag = 'W'
-			and		mst.rgst_id = rgst.sa_user
-			and		mst.anl_chrg_id = chrg.sa_user
 
 	</select>
 
