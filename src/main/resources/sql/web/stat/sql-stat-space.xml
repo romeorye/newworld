@@ -43,7 +43,7 @@
 					end as dd_avg
 				  ,case when this_cmpl=0
 						then 0
-						else this_cmpl/convert(float,(last_acpc+this_all_acpc))*100
+						else round( this_cmpl/convert(float,(last_acpc+this_all_acpc))*100, 1)
 					end as cmpl_p	--완료율
 			  from	(select main.INFM_PRSN_ID
 						  ,sum(main.this_all_acpc) as this_all_acpc
@@ -74,7 +74,6 @@
 											  end
 										else 0
 									end as this_acpc --이번달 접수된건
-								  --,case when LEFT(CONVERT(nvarchar,mst.ACPC_DT,23),7) = #{fromCmplDt}
 								  ,case when LEFT(CONVERT(nvarchar,mst.ACPC_DT,23),7) = LEFT(CONVERT(nvarchar, DATEADD(M, -1, #{fromCmplDt}+'-01'), 23),7)
 										then case when space_ACPC_ST_CD in ('03','05','06')
 												  then 1

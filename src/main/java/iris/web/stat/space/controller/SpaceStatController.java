@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.DateUtil;
 import iris.web.stat.space.service.SpaceStatService;
 
 import javax.annotation.Resource;
@@ -20,7 +21,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import org.springframework.web.servlet.ModelAndView;
 
 import iris.web.system.base.IrisBaseController;
@@ -28,191 +28,234 @@ import iris.web.system.base.IrisBaseController;
 @Controller
 public class SpaceStatController extends IrisBaseController {
 
-	@Resource(name="messageSourceAccessor")
-    private MessageSourceAccessor messageSourceAccessor;
+	@Resource(name = "messageSourceAccessor")
+	private MessageSourceAccessor messageSourceAccessor;
 
-	@Resource(name="spaceStatService")
+	@Resource(name = "spaceStatService")
 	private SpaceStatService spaceStatService;
 
-	static final Logger LOGGER = LogManager.getLogger(SpaceStatController.class);
-
+	static final Logger LOGGER = LogManager
+			.getLogger(SpaceStatController.class);
 
 	/**
-     * 통계 > 공간성능평가 > 평가업무현황 화면
-     *
-     * @param input HashMap<String, String>
-     * @param request HttpServletRequest
-     * @param session HttpSession
-     * @param model ModelMap
-     * @return String
-     * */
-    @RequestMapping(value="/stat/space/spaceEvAffrStts.do")
-    public String spaceEvAffrStts(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-            HttpSession session, ModelMap model) {
+	 * 통계 > 공간성능평가 > 평가업무현황 화면
+	 *
+	 * @param input
+	 *            HashMap<String, String>
+	 * @param request
+	 *            HttpServletRequest
+	 * @param session
+	 *            HttpSession
+	 * @param model
+	 *            ModelMap
+	 * @return String
+	 * */
+	@RequestMapping(value = "/stat/space/spaceEvAffrStts.do")
+	public String spaceEvAffrStts(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request, HttpSession session, ModelMap model) {
 
-    	LOGGER.debug("###########################################################");
-        LOGGER.debug("prjState [통계 > 공간성능평가 > 평가업무현황 화면]");
-        LOGGER.debug("###########################################################");
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("prjState [통계 > 공간성능평가 > 평가업무현황 화면]");
+		LOGGER.debug("###########################################################");
 
-        checkSessionObjRUI(input, session, model);
+		checkSessionObjRUI(input, session, model);
 
-         model.addAttribute("inputData", input);
+		model.addAttribute("inputData", input);
 
-        return "web/stat/space/spaceEvAffrStts";
-    }
+		return "web/stat/space/spaceEvAffrStts";
+	}
 
-    /**
-     * 통계 > 공간성능평가 > 사업부별통계 화면
-     *
-     * @param input HashMap<String, String>
-     * @param request HttpServletRequest
-     * @param session HttpSession
-     * @param model ModelMap
-     * @return String
-     * */
-    @RequestMapping(value="/stat/space/spaceCrgrStat.do")
-    public String spaceCrgrStat(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-            HttpSession session, ModelMap model) {
+	/**
+	 * 통계 > 공간성능평가 > 사업부별통계 화면
+	 *
+	 * @param input
+	 *            HashMap<String, String>
+	 * @param request
+	 *            HttpServletRequest
+	 * @param session
+	 *            HttpSession
+	 * @param model
+	 *            ModelMap
+	 * @return String
+	 * */
+	@RequestMapping(value = "/stat/space/spaceCrgrStat.do")
+	public String spaceCrgrStat(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request, HttpSession session, ModelMap model) {
 
-    	LOGGER.debug("###########################################################");
-        LOGGER.debug("prjState [통계 > 공간성능평가 > 사업부별통계 화면]");
-        LOGGER.debug("###########################################################");
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("prjState [통계 > 공간성능평가 > 사업부별통계 화면]");
+		LOGGER.debug("###########################################################");
 
-        checkSessionObjRUI(input, session, model);
+		checkSessionObjRUI(input, session, model);
 
-         model.addAttribute("inputData", input);
+		model.addAttribute("inputData", input);
 
-        return "web/stat/space/spaceCrgrStat";
-    }
+		return "web/stat/space/spaceCrgrStat";
+	}
 
-    /**
-     * 통계 > 공간성능평가 > 담당자별통계 화면
-     *
-     * @param input HashMap<String, String>
-     * @param request HttpServletRequest
-     * @param session HttpSession
-     * @param model ModelMap
-     * @return String
-     * */
-    @RequestMapping(value="/stat/space/spaceBzdvStat.do")
-    public String spaceBzdvStat(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-            HttpSession session, ModelMap model) {
+	/**
+	 * 통계 > 공간성능평가 > 담당자별통계 화면
+	 *
+	 * @param input
+	 *            HashMap<String, String>
+	 * @param request
+	 *            HttpServletRequest
+	 * @param session
+	 *            HttpSession
+	 * @param model
+	 *            ModelMap
+	 * @return String
+	 * */
+	@RequestMapping(value = "/stat/space/spaceBzdvStat.do")
+	public String spaceBzdvStat(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request, HttpSession session, ModelMap model) {
 
-    	LOGGER.debug("###########################################################");
-        LOGGER.debug("prjState [통계 > 공간성능평가 > 담당자별통계 화면]");
-        LOGGER.debug("###########################################################");
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("prjState [통계 > 공간성능평가 > 담당자별통계 화면]");
+		LOGGER.debug("###########################################################");
 
-        checkSessionObjRUI(input, session, model);
+		checkSessionObjRUI(input, session, model);
 
-         model.addAttribute("inputData", input);
+		String today = DateUtil.getDateString();
 
-        return "web/stat/space/spaceBzdvStat";
-    }
+		input.put("fromCmplDt", today.substring(0, 7));
+		input.put("toCmplDt", today.substring(0, 7));
 
-    /**
-     * 통계 > 공간성능평가 > 분석목적별통계 화면
-     *
-     * @param input HashMap<String, String>
-     * @param request HttpServletRequest
-     * @param session HttpSession
-     * @param model ModelMap
-     * @return String
-     * */
-    @RequestMapping(value="/stat/space/spaceAnlStat.do")
-    public String spaceAnlStat(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-            HttpSession session, ModelMap model) {
+		model.addAttribute("inputData", input);
 
-    	LOGGER.debug("###########################################################");
-        LOGGER.debug("prjState [통계 > 공간성능평가 > 분석목적별통계 화면]");
-        LOGGER.debug("###########################################################");
+		return "web/stat/space/spaceBzdvStat";
+	}
 
-        checkSessionObjRUI(input, session, model);
+	/**
+	 * 통계 > 공간성능평가 > 분석목적별통계 화면
+	 *
+	 * @param input
+	 *            HashMap<String, String>
+	 * @param request
+	 *            HttpServletRequest
+	 * @param session
+	 *            HttpSession
+	 * @param model
+	 *            ModelMap
+	 * @return String
+	 * */
+	@RequestMapping(value = "/stat/space/spaceAnlStat.do")
+	public String spaceAnlStat(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request, HttpSession session, ModelMap model) {
 
-         model.addAttribute("inputData", input);
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("prjState [통계 > 공간성능평가 > 분석목적별통계 화면]");
+		LOGGER.debug("###########################################################");
 
-        return "web/stat/space/spaceAnlStat";
-    }
+		checkSessionObjRUI(input, session, model);
 
-    /**
-     * 통계 > 공간성능평가 > 분석방법별통계 화면
-     *
-     * @param input HashMap<String, String>
-     * @param request HttpServletRequest
-     * @param session HttpSession
-     * @param model ModelMap
-     * @return String
-     * */
-    @RequestMapping(value="/stat/space/spaceAnlWayStat.do")
-    public String spaceAnlWayStat(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-            HttpSession session, ModelMap model) {
+		model.addAttribute("inputData", input);
 
-    	LOGGER.debug("###########################################################");
-        LOGGER.debug("prjState [통계 > 공간성능평가 > 분석방법별통계 화면]");
-        LOGGER.debug("###########################################################");
+		return "web/stat/space/spaceAnlStat";
+	}
 
-        checkSessionObjRUI(input, session, model);
+	/**
+	 * 통계 > 공간성능평가 > 분석방법별통계 화면
+	 *
+	 * @param input
+	 *            HashMap<String, String>
+	 * @param request
+	 *            HttpServletRequest
+	 * @param session
+	 *            HttpSession
+	 * @param model
+	 *            ModelMap
+	 * @return String
+	 * */
+	@RequestMapping(value = "/stat/space/spaceAnlWayStat.do")
+	public String spaceAnlWayStat(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request, HttpSession session, ModelMap model) {
 
-         model.addAttribute("inputData", input);
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("prjState [통계 > 공간성능평가 > 분석방법별통계 화면]");
+		LOGGER.debug("###########################################################");
 
-        return "web/stat/space/spaceAnlWayStat";
-    }
+		checkSessionObjRUI(input, session, model);
 
-    /**
-     * 통계 > 공간성능평가 > 연도조회 조회
-     *
-     * @param input HashMap<String, Object>
-     * @param request HttpServletRequest
-     * @param response HttpServletResponse
-     * @param session HttpSession
-     * @param model ModelMap
-     * @return ModelAndView
-     * */
-    @RequestMapping(value="/stat/space/retrieveSpaceYyList.do")
-    public ModelAndView retrieveSpaceYyList(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-            HttpServletResponse response, HttpSession session, ModelMap model) {
+		model.addAttribute("inputData", input);
 
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("retrieveRlabYyList [통계 > 공간성능평가 > 연도 조회]");
-        LOGGER.debug("input = > " + input);
-        LOGGER.debug("###########################################################");
+		return "web/stat/space/spaceAnlWayStat";
+	}
 
-        checkSessionObjRUI(input, session, model);
-        ModelAndView modelAndView = new ModelAndView("ruiView");
+	/**
+	 * 통계 > 공간성능평가 > 연도조회 조회
+	 *
+	 * @param input
+	 *            HashMap<String, Object>
+	 * @param request
+	 *            HttpServletRequest
+	 * @param response
+	 *            HttpServletResponse
+	 * @param session
+	 *            HttpSession
+	 * @param model
+	 *            ModelMap
+	 * @return ModelAndView
+	 * */
+	@RequestMapping(value = "/stat/space/retrieveSpaceYyList.do")
+	public ModelAndView retrieveSpaceYyList(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, ModelMap model) {
 
-        List<Map<String,Object>> list = spaceStatService.retrieveSpaceYyList(input);
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("retrieveRlabYyList [통계 > 공간성능평가 > 연도 조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
 
-        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", list));
+		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-        return modelAndView;
-    }
+		List<Map<String, Object>> list = spaceStatService
+				.retrieveSpaceYyList(input);
 
-    /**
-     * 통계 > 공간성능평가 > 담당자별통계 조회
-     *
-     * @param input HashMap<String, Object>
-     * @param request HttpServletRequest
-     * @param response HttpServletResponse
-     * @param session HttpSession
-     * @param model ModelMap
-     * @return ModelAndView
-     * */
-    @RequestMapping(value="/stat/space/getSpaceBzdvStatList.do")
-    public ModelAndView getSpaceBzdvStatList(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-            HttpServletResponse response, HttpSession session, ModelMap model) {
+		modelAndView.addObject("dataSet",
+				RuiConverter.createDataset("dataSet", list));
 
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("getSpaceBzdvStatList [통계 > 공간성능평가 > 담당자별통계 조회]");
-        LOGGER.debug("input = > " + input);
-        LOGGER.debug("###########################################################");
+		return modelAndView;
+	}
 
-        checkSessionObjRUI(input, session, model);
-        ModelAndView modelAndView = new ModelAndView("ruiView");
+	/**
+	 * 통계 > 공간성능평가 > 담당자별통계 조회
+	 *
+	 * @param input
+	 *            HashMap<String, Object>
+	 * @param request
+	 *            HttpServletRequest
+	 * @param response
+	 *            HttpServletResponse
+	 * @param session
+	 *            HttpSession
+	 * @param model
+	 *            ModelMap
+	 * @return ModelAndView
+	 * */
+	@RequestMapping(value = "/stat/space/getSpaceBzdvStatList.do")
+	public ModelAndView getSpaceBzdvStatList(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, ModelMap model) {
 
-        List<Map<String,Object>> list = spaceStatService.getSpaceBzdvStatList(input);
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("getSpaceBzdvStatList [통계 > 공간성능평가 > 담당자별통계 조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
 
-        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", list));
+		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-        return modelAndView;
-    }
+		List<Map<String, Object>> list = spaceStatService
+				.getSpaceBzdvStatList(input);
+
+		modelAndView.addObject("dataSet",
+				RuiConverter.createDataset("dataSet", list));
+
+		return modelAndView;
+	}
 
 }
