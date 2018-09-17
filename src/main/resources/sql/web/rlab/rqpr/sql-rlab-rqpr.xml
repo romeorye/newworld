@@ -942,4 +942,30 @@
 		AND    OPI_ID =  #{opiId}
 		]]>
 	</select>
+
+	<select id="getRlabRqprStptInfo" resultType="hashmap">
+
+			/*getRlabRqprStptInfo 만족도조회*/
+			SELECT
+				RQPR_ID			AS rqprId,
+				ISNULL(RLAB_CNS_QLTY,0)	as rlabCnsQlty,			/* 상담 품질 */
+				ISNULL(RLAB_TRM_QLTY,0)	as rlabTrmQlty,		/* 기간 품질 */
+				ISNULL(RLAB_ALL_STPT,0)	as rlabAllStpt		/* 전체 만족도 */
+			FROM	IRIS_RLAB_RQPR_MST mst
+			WHERE	RQPR_ID = ${rqprId}
+
+	</select>
+
+	<update id="saveRlabRqprStpt" parameterType="map">
+	-- saveRlabRqprStpt 만족도저장
+		UPDATE	IRIS_RLAB_RQPR_MST
+		SET		RLAB_CNS_QLTY = #{rlabCnsQlty}
+				,RLAB_TRM_QLTY= #{rlabTrmQlty}
+				,RLAB_ALL_STPT= #{rlabAllStpt}
+				,LAST_MDFY_DT = getdate()
+				,LAST_MDFY_ID = #{_userId}
+		WHERE	RQPR_ID = ${rqprId}
+
+	</update>
+
 </mapper>

@@ -101,6 +101,9 @@
                     }, {
                         label: '의견<span id="opinitionCnt"/>',
                         id: 'rlabRqprOpinitionDiv'
+                    }, {
+                        label: '만족도',
+                        id: 'rlabRqprStptDiv'
                     }]
             });
 
@@ -127,6 +130,10 @@
 
 	                break;
 
+	            case 3:
+
+	                break;
+
 	            default:
 	                break;
 	            }
@@ -145,6 +152,12 @@
                     break;
 
                 case 2:
+                    if(e.isFirst){
+                    }
+
+                    break;
+
+                case 3:
                     if(e.isFirst){
                     }
 
@@ -1024,6 +1037,47 @@
 
             }
 
+          	/////////////////////////////////////////////////
+          	//만족도
+			var rlabRqprStptDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprStptDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                	  { id: 'rqprId' }
+                	, { id: 'rlabCnsQlty'	}
+					, { id: 'rlabTrmQlty'		}
+					, { id: 'rlabAllStpt'		}
+                ]
+            });
+
+          	rlabRqprStptBind = new Rui.data.LBind({
+                groupId: 'cform',
+                dataSet: rlabRqprStptDataSet,
+                bind: true,
+                bindInfo: [
+					{ id: 'rqprId',				ctrlId: 'rqprId',			value:'value'},
+                    { id: 'rlabCnsQlty',		ctrlId: 'rlabCnsQlty',		value:'value'},
+					{ id: 'rlabTrmQlty',		ctrlId: 'rlabTrmQlty',		value:'value'},
+					{ id: 'rlabAllStpt',		ctrlId: 'rlabAllStpt',		value:'value'},
+                ]
+            });
+
+          	rlabRqprStptDataSet.on('load', function(e) {
+				if(rlabRqprStptDataSet.getNameValue(0, 'rlabAllStpt')=="0"){
+
+				}else{
+					var rlabCnsQltyWidth = rlabRqprStptDataSet.getNameValue(0, 'rlabCnsQlty')*20;
+					var rlabTrmQltyWidth = rlabRqprStptDataSet.getNameValue(0, 'rlabTrmQlty')*20;
+					var rlabAllStptWidth = rlabRqprStptDataSet.getNameValue(0, 'rlabAllStpt')*20;
+					$("#rlabCnsQltyRslt").width(rlabCnsQltyWidth+"%");
+					$("#rlabTrmQltyRslt").width(rlabTrmQltyWidth+"%");
+					$("#rlabAllStptRslt").width(rlabAllStptWidth+"%");
+				}
+            });
+
+          	/////////////////////////////////////////////////
+
             /* 저장 */
             saveRlabRqpr = function() {
     	    	if('02|03'.indexOf(rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd')) == -1) {
@@ -1204,7 +1258,7 @@
     	    };
 
 	    	dm.loadDataSet({
-                dataSets: [rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet, rlabRqprAttachDataSet, rlabRqprRsltAttachDataSet, rlabRqprExatDataSet],
+                dataSets: [rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet, rlabRqprAttachDataSet, rlabRqprRsltAttachDataSet, rlabRqprExatDataSet,rlabRqprStptDataSet],
                 url: '<c:url value="/rlab/getRlabRqprDetailInfo.do"/>',
                 params: {
                     rqprId: '${inputData.rqprId}'
@@ -1509,11 +1563,50 @@
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="opinitionSave()">추가</button>
    						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="opinitionUpdate()">수정</button>
-   						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goRlabRqprList()">목록</button>
+   						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goRlabRqprList4Chrg()">목록</button>
    					</div>
    				</div>
    				<div id="rlabRqprOpinitionGrid"></div>
    				<br/>
+   				</div>
+   				<div id="rlabRqprStptDiv">
+   				<form name="cform" id="cform" method="post">
+   				<table class="table" id="rsltStpt">
+   					<colgroup>
+						<col style="width:30%;">
+						<col style="width:10%;">
+						<col style="width:50%;">
+						<col style="width:10%;">
+   					</colgroup>
+   					<tbody>
+   						<tr>
+   							<th>시험 상담의 질</th>
+   							<td class="t_right">도움 안됨</td>
+   							<td>
+   								<div id="rlabCnsQltyRslt" style="background-color:blue;width:0%;height:100%"></div>
+   							</td>
+   							<td>매우 유익함</td>
+   						</tr>
+   						<tr>
+   							<th>시험 완료 기간</th>
+   							<td class="t_right">도움 안됨</td>
+   							<td>
+   								<div id="rlabTrmQltyRslt" style="background-color:blue;width:0%;height:100%"></div>
+   							</td>
+   							<td>매우 유익함</td>
+   						</tr>
+   						<tr>
+   							<th>전체적인 만족도</th>
+   							<td class="t_right">도움 안됨</td>
+   							<td>
+   								<div id="rlabAllStptRslt" style="background-color:blue;width:0%;height:100%"></div>
+   							</td>
+   							<td>매우 유익함</td>
+   						</tr>
+   					</tbody>
+   				</table>
+   				<br/>
+   				</form>
    				</div>
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->

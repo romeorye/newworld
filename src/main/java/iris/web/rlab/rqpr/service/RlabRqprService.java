@@ -108,4 +108,10 @@ public interface RlabRqprService {
 
 	/* 신뢰성시험 장비 팝업 목록조회 */
 	List<Map<String, Object>> retrieveMachineList(HashMap<String, Object> input);
+
+	/* 평가의뢰 만족도 정보 조회 */
+	public Map<String,Object> getRlabRqprStptInfo(Map<String, Object> input);
+
+	/* 만족도저장 */
+	public boolean saveRlabRqprStpt(Map<String, Object> input) throws Exception;
 }

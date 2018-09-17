@@ -702,6 +702,19 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 		return resultList;
 	}
 
+	/* 평가의뢰 만족도 정보 조회 */
+	public Map<String,Object> getRlabRqprStptInfo(Map<String, Object> input) {
+		return commonDao.select("rlab.rqpr.getRlabRqprStptInfo", input);
+	}
+
+	/* 만족도저장 */
+	public boolean saveRlabRqprStpt(Map<String, Object> input) throws Exception {
+    	if(commonDao.insert("rlab.rqpr.saveRlabRqprStpt", input) == 1) {
+        	return true;
+    	} else {
+    		throw new Exception("만족도 저장 오류");
+    	}
+   	}
 
 
 }

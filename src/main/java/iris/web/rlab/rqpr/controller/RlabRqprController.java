@@ -378,6 +378,7 @@ public class RlabRqprController extends IrisBaseController {
 		List<Map<String,Object>> rlabRqprSmpoList = rlabRqprService.getRlabRqprSmpoList(input);
 		List<Map<String,Object>> rlabRqprRltdList = rlabRqprService.getRlabRqprRltdList(input);
 		List<Map<String,Object>> rlabRqprExatList = rlabRqprService.getRlabRqprExatList(input);
+		Map<String,Object> rlabRqprStptInfo = rlabRqprService.getRlabRqprStptInfo(input);					//만족도
 
 		input.put("attcFilId", rlabRqprInfo.get("rqprAttcFileId"));
 
@@ -395,6 +396,7 @@ public class RlabRqprController extends IrisBaseController {
 		modelAndView.addObject("rlabRqprExatDataSet", RuiConverter.createDataset("rlabRqprExatDataSet", rlabRqprExatList));
 		modelAndView.addObject("rlabRqprAttachDataSet", RuiConverter.createDataset("rlabRqprAttachDataSet", rqprAttachFileList));
 		modelAndView.addObject("rlabRqprRsltAttachDataSet", RuiConverter.createDataset("rlabRqprRsltAttachDataSet", rsltAttachFileList));
+		modelAndView.addObject("rlabRqprStptDataSet", RuiConverter.createDataset("rlabRqprStptDataSet", rlabRqprStptInfo));
 
 		return modelAndView;
 	}
@@ -1563,5 +1565,45 @@ public class RlabRqprController extends IrisBaseController {
 		model.addAttribute("inputData", input);
 
 		return "web/rlab/rqpr/rlabRqprOpinitionAddPopup";
+	}
+
+	//만족도 저장
+	@RequestMapping(value="/rlab/saveRlabRqprStpt.do")
+	public ModelAndView saveRlabRqprStpt(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session,
+			ModelMap model
+			){
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+
+    	input = StringUtil.toUtf8(input);
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("saveRlabRqprStpt - saveRlabRqprStpt 만족도 저장");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+
+		try {
+			rlabRqprService.saveRlabRqprStpt(input);
+
+			resultMap.put("resultYn", "Y");
+			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("resultYn", "N");
+			resultMap.put("resultMsg", "작업을 실패하였습니다\\n관리자에게 문의하세요.");
+		}
+
+		modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
+
+		return modelAndView;
 	}
 }

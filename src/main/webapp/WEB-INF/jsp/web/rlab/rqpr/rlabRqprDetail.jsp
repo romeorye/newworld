@@ -94,6 +94,9 @@
                     }, {
                         label: '의견<span id="opinitionCnt"/>',
                         id: 'rlabRqprOpinitionDiv'
+                    }, {
+                        label: '만족도',
+                        id: 'rlabRqprStptDiv'
                     }]
             });
 
@@ -121,6 +124,10 @@
 
 	                break;
 
+	            case 3:
+
+	                break;
+
 	            default:
 	                break;
 	            }
@@ -139,6 +146,12 @@
                     break;
 
                 case 2:
+                    if(e.isFirst){
+                    }
+
+                    break;
+
+                case 3:
                     if(e.isFirst){
                     }
 
@@ -890,6 +903,177 @@
 
             }
 
+          	/////////////////////////////////////////////////
+          	//만족도
+          	/* 시험 상담의 질 만족도 */
+          	var rlabCnsQlty = new Rui.ui.form.LRadioGroup({
+         		    applyTo : 'rlabCnsQlty',
+         		    name : 'rlabCnsQlty',
+         		    items : [
+         		        {
+         		            label : '도움 안됨',
+         		            width : 100,
+         		            value : '1'
+         		        }, {
+         		            label : '단순 참조',
+         		           width : 100,
+         		            value : '2'
+         		        }, {
+         		            label : '약간 도움',
+         		           width : 100,
+         		            value : '3'
+         		        }, {
+         		            label : '유익함',
+         		           width : 100,
+         		            value : '4'
+         		        }, {
+         		            label : '매우 유익함',
+         		           width : 100,
+         		            value : '5'
+         		        }
+         		    ]
+              });
+
+          	/* 시험 완료 기간 만족도 */
+          	var rlabTrmQlty = new Rui.ui.form.LRadioGroup({
+         		    applyTo : 'rlabTrmQlty',
+         		    name : 'rlabTrmQlty',
+         		    items : [
+         		        {
+         		            label : '도움 안됨',
+         		            width : 100,
+         		            value : '1'
+         		        }, {
+         		            label : '단순 참조',
+         		            width : 100,
+         		            value : '2'
+         		        }, {
+         		            label : '약간 도움',
+         		            width : 100,
+         		            value : '3'
+         		        }, {
+         		            label : '유익함',
+         		           	width : 100,
+         		            value : '4'
+         		        }, {
+         		            label : '매우 유익함',
+         		            width : 100,
+         		            value : '5'
+         		        }
+         		    ]
+              });
+
+          	/* 전체적인 만족도 */
+          	var rlabAllStpt = new Rui.ui.form.LRadioGroup({
+         		    applyTo : 'rlabAllStpt',
+         		    name : 'rlabAllStpt',
+         		    items : [
+         		        {
+         		            label : '도움 안됨',
+         		            width : 100,
+         		            value : '1'
+         		        }, {
+         		            label : '단순 참조',
+         		            width : 100,
+         		            value : '2'
+         		        }, {
+         		            label : '약간 도움',
+         		            width : 100,
+         		            value : '3'
+         		        }, {
+         		            label : '유익함',
+         		            width : 100,
+         		            value : '4'
+         		        }, {
+         		            label : '매우 유익함',
+         		            width : 100,
+         		            value : '5'
+         		        }
+         		    ]
+              });
+
+			var rlabRqprStptDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprStptDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                	  { id: 'rqprId' }
+                	, { id: 'rlabCnsQlty'	}
+					, { id: 'rlabTrmQlty'		}
+					, { id: 'rlabAllStpt'		}
+                ]
+            });
+
+          	rlabRqprStptBind = new Rui.data.LBind({
+                groupId: 'bform',
+                dataSet: rlabRqprStptDataSet,
+                bind: true,
+                bindInfo: [
+					{ id: 'rqprId',				ctrlId: 'rqprId',			value:'value'},
+                    { id: 'rlabCnsQlty',		ctrlId: 'rlabCnsQlty',		value:'value'},
+					{ id: 'rlabTrmQlty',		ctrlId: 'rlabTrmQlty',		value:'value'},
+					{ id: 'rlabAllStpt',		ctrlId: 'rlabAllStpt',		value:'value'},
+                ]
+            });
+
+          	rlabRqprStptDataSet.on('load', function(e) {
+				if(rlabRqprStptDataSet.getNameValue(0, 'rlabAllStpt')=="0"){
+					/* $("#saveFbBtn").hide();
+					$("#cmplFbBtn").hide(); */
+
+					$("#saveStpt").show();
+					$("#rsltStpt").hide();
+				}else{
+					/* $("#saveFbBtn").show();
+					$("#cmplFbBtn").show(); */
+					$("#saveStpt").hide();
+					$("#rsltStpt").show();
+					var rlabCnsQltyWidth = rlabRqprStptDataSet.getNameValue(0, 'rlabCnsQlty')*20;
+					var rlabTrmQltyWidth = rlabRqprStptDataSet.getNameValue(0, 'rlabTrmQlty')*20;
+					var rlabAllStptWidth = rlabRqprStptDataSet.getNameValue(0, 'rlabAllStpt')*20;
+					$("#rlabCnsQltyRslt").width(rlabCnsQltyWidth+"%");
+					$("#rlabTrmQltyRslt").width(rlabTrmQltyWidth+"%");
+					$("#rlabAllStptRslt").width(rlabAllStptWidth+"%");
+				}
+            });
+
+			//만족도 저장
+            rlabStptSave = function() {
+            	var rlabCnsQltyVal = rlabCnsQlty.getValue();
+            	var rlabTrmQltyVal = rlabTrmQlty.getValue();
+            	var rlabAllStptVal = rlabAllStpt.getValue();
+
+            	if(rlabCnsQltyVal==""){
+            		alert("시험 상담의 질 만족도를 선택해 주세요.");
+            		return;
+            	}
+
+            	if(rlabTrmQltyVal==""){
+            		alert("시험와료기간 만족도를 선택해 주세요.");
+            		return;
+            	}
+
+            	if(rlabAllStptVal==""){
+            		alert("전체적인 만족도를 선택해 주세요.");
+            		return;
+            	}
+
+            	if(confirm('저장 하시겠습니까?')) {
+               		dm.updateDataSet({
+                        url:'<c:url value="/rlab/saveRlabRqprStpt.do"/>',
+                        //dataSets:[dataSet]
+                        params: {
+                        	rqprId : rlabRqprDataSet.getNameValue(0, 'rqprId')
+                        	, rlabCnsQlty : rlabCnsQltyVal
+    	    	         	, rlabTrmQlty : rlabTrmQltyVal
+    	    	         	, rlabAllStpt : rlabAllStptVal
+    	    	       }
+                    });
+               	}
+            };
+
+          	/////////////////////////////////////////////////
+
     	    /* 유효성 검사 */
     	    isValidate = function(type) {
                 if (rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd') != '00') {
@@ -1002,7 +1186,7 @@
     	    };
 
 	    	dm.loadDataSet({
-                dataSets: [rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet, rlabRqprAttachDataSet, rlabRqprRsltAttachDataSet],
+                dataSets: [rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet, rlabRqprAttachDataSet, rlabRqprRsltAttachDataSet,rlabRqprStptDataSet],
                 url: '<c:url value="/rlab/getRlabRqprDetailInfo.do"/>',
                 params: {
                     rqprId: '${inputData.rqprId}'
@@ -1221,6 +1405,75 @@
    				</div>
    				<div id="rlabRqprOpinitionGrid"></div>
    				<br/>
+   				</div>
+   				<div id="rlabRqprStptDiv">
+   				<form name="bform" id="bform" method="post">
+   				<table class="table" id="saveStpt">
+   					<colgroup>
+   						<col style="width:20%;"/>
+   						<col style="width:60%;"/>
+   						<col style="width:20%;"/>
+   					</colgroup>
+   					<tbody>
+   						<tr>
+   							<th>시험 상담의 질</th>
+   							<td>
+   								<div id="rlabCnsQlty"></div>
+   							</td>
+   							<td class="t_center" rowspan="3">
+   								<a style="cursor: pointer;" onclick="rlabStptSave();" class="btnL">저장</a>
+   							</td>
+   						</tr>
+   						<tr>
+   							<th>시험 완료 기간</th>
+   							<td>
+   								<div id="rlabTrmQlty"></div>
+   							</td>
+   						</tr>
+   						<tr>
+   							<th>전체적인 만족도</th>
+   							<td>
+   								<div id="rlabAllStpt"></div>
+   							</td>
+   						</tr>
+   					</tbody>
+   				</table>
+   				<table class="table" id="rsltStpt">
+   					<colgroup>
+						<col style="width:30%;">
+						<col style="width:10%;">
+						<col style="width:50%;">
+						<col style="width:10%;">
+   					</colgroup>
+   					<tbody>
+   						<tr>
+   							<th>시험 상담의 질</th>
+   							<td class="t_right">도움 안됨</td>
+   							<td>
+   								<div id="rlabCnsQltyRslt" style="background-color:blue;width:0%;height:100%"></div>
+   							</td>
+   							<td>매우 유익함</td>
+   						</tr>
+   						<tr>
+   							<th>시험 완료 기간</th>
+   							<td class="t_right">도움 안됨</td>
+   							<td>
+   								<div id="rlabTrmQltyRslt" style="background-color:blue;width:0%;height:100%"></div>
+   							</td>
+   							<td>매우 유익함</td>
+   						</tr>
+   						<tr>
+   							<th>전체적인 만족도</th>
+   							<td class="t_right">도움 안됨</td>
+   							<td>
+   								<div id="rlabAllStptRslt" style="background-color:blue;width:0%;height:100%"></div>
+   							</td>
+   							<td>매우 유익함</td>
+   						</tr>
+   					</tbody>
+   				</table>
+   				<br/>
+   				</form>
    				</div>
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
