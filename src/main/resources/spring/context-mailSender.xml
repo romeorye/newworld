@@ -44,11 +44,13 @@
 
 	            <!-- 신뢰성 시험 접수 메일발송 추가 정현웅 2018.08.17 -->
 	            <entry key="rlabRqprReceipt" value-ref="rlabRqprReceipt" />
+
 	            <!-- 공간평가 평가 접수 메일발송 추가 정현웅 2018.09.10 -->
 	            <entry key="spaceRqprReceipt" value-ref="spaceRqprReceipt" />
-
-
-
+	            <entry key="spaceRqprReceiptRequest" value-ref="spaceRqprReceiptRequest" />
+	            <entry key="spaceRqprReject" value-ref="spaceRqprReject" />
+	            <entry key="spaceRqprResult" value-ref="spaceRqprResult" />
+	            <entry key="spaceRqprStop" value-ref="spaceRqprStop" />
 
 
 	            <!-- 공간평가의뢰 의견 메일발송 추가 동윤석 2018.09.06 -->
@@ -413,6 +415,46 @@
 	<bean id="spaceRqprReceipt" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/space" />
 	    <property name="htmlName" value="spaceRqprReceipt.html" />
+	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+
+	<bean id="spaceRqprReceiptRequest" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/space" />
+	    <property name="htmlName" value="spaceRqprReceiptRequest.html" />
+	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+
+	<bean id="spaceRqprReject" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/space" />
+	    <property name="htmlName" value="spaceRqprReject.html" />
+	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+
+	<bean id="spaceRqprResult" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/space" />
+	    <property name="htmlName" value="spaceRqprResult.html" />
+	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+
+	<bean id="spaceRqprStop" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/space" />
+	    <property name="htmlName" value="spaceRqprStop.html" />
 	    <property name="imgServerIp" value="local.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
