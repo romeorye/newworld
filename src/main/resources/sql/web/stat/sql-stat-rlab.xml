@@ -362,13 +362,13 @@
 	<select id="retrieveRlabYyList" resultType="hashmap">
 	--retrieveRlabYyList 년도조회
 		<![CDATA[
-		SELECT LEFT(CMPL_PARR_DT,4) AS yy
-		  FROM IRIS_ANL_RQPR_MST
+		SELECT LEFT(CMPL_DT,4) AS yy
+		  FROM IRIS_RLAB_RQPR_MST
 		 WHERE 1=1
-		   AND CMPL_PARR_DT IS NOT NULL
-		   AND CMPL_PARR_DT !=''
-		 GROUP BY LEFT(CMPL_PARR_DT,4)
-		 ORDER BY LEFT(CMPL_PARR_DT,4) DESC
+		   AND CMPL_DT IS NOT NULL
+		   AND CMPL_DT !=''
+		 GROUP BY LEFT(CMPL_DT,4)
+		 ORDER BY LEFT(CMPL_DT,4) DESC
 		 ]]>
 	</select>
 
