@@ -5,22 +5,22 @@
 
 	<select id="getSpaceRqprApprCompleteList" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
 			-- getSpaceRqprApprCompleteList 분석의뢰 요청 결재 완료 리스트 조회
-			select	mst.rqpr_id								as rqprId
-				   ,mst.anl_name							as anlNm
-				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name	as rgstNm
-				   ,dbo.fn_getDeptName(rgst.sa_dept_new)	as rgstDeptNm
-				   ,rgst.sa_mail							as rgstEmail
-				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name	as chrgNm
-				   ,mst.rqpr_dt								as rqprDt
-				   ,chrg.sa_mail							as receivers
-			from	iris_anl_rqpr_mst mst,
+			select	mst.rqpr_id																	as rqprId
+				   ,mst.space_name																as spaceNm
+				   ,dbo.fn_getUserName(mst.rgst_id) + ' ' + dbo.fn_getUserJobxName(mst.rgst_id)	as rgstNm
+				   ,dbo.fn_getDeptName(dbo.fn_getDeptCode(mst.rgst_id))							as rgstDeptNm
+				   ,dbo.fn_getUserEmail(mst.rgst_id)											as rgstEmail
+				   ,mst.rqpr_dt																	as rqprDt
+				   ,dbo.fn_getSpaceCrgrJobxDeptNames(mst.rqpr_id)								as chrgNm
+				   ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) 										as receivers
+			from	iris_space_rqpr_mst mst,
 					iris_sso_user rgst,
 					iris_sso_user chrg
 			where	mst.space_acpc_st_cd = '02'
 			and		mst.del_yn = 'N'
-			and		mst.anl_chrg_trsf_flag = 'W'
+			and		mst.space_chrg_trsf_flag = 'W'
 			and		mst.rgst_id = rgst.sa_user
-			and		mst.anl_chrg_id = chrg.sa_user
+			and		mst.space_chrg_id = chrg.sa_user
 
 	</select>
 
@@ -51,15 +51,15 @@
 
 	<update id="updateSpaceChrgTrsfFlag" parameterType="iris.web.space.rqpr.vo.SpaceMailInfo">
 	-- updateSpaceChrgTrsfFlag
-		update	iris_anl_rqpr_mst
-		set		anl_chrg_trsf_flag = 'Y'
+		update	iris_space_rqpr_mst
+		set		space_chrg_trsf_flag = 'Y'
 		where	rqpr_id = ${rqprId}
 
 	</update>
 
 	<update id="updateRgstTrsfFlag" parameterType="iris.web.space.rqpr.vo.SpaceMailInfo">
 	-- updateRgstTrsfFlag
-		update	iris_anl_rqpr_mst
+		update	iris_space_rqpr_mst
 		set		rgst_trsf_flag = 'Y'
 		where	rqpr_id = ${rqprId}
 

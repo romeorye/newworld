@@ -48,6 +48,9 @@
 	            <entry key="spaceRqprReceipt" value-ref="spaceRqprReceipt" />
 
 
+
+
+
 	            <!-- 공간평가의뢰 의견 메일발송 추가 동윤석 2018.09.06 -->
 	            <entry key="spaceRqprOpinition" value-ref="spaceRqprOpinition" />
 	            <!-- 공간평가의뢰 의견 메일발송 추가 동윤석 2018.09.06 -->

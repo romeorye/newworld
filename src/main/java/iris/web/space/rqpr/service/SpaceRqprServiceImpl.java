@@ -268,8 +268,8 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
         		String serverUrl = "http://" + configService.getString("defaultUrl") + ":" + configService.getString("serverPort") + "/" + configService.getString("contextPath");
     			StringBuffer sb = new StringBuffer();
-    			Map<String,Object> spaceRqprInfo = commonDao.select("space.rqpr.getSpaceRqprInfo", input);
 
+    			Map<String,Object> spaceRqprInfo = commonDao.select("space.rqpr.getSpaceRqprInfo", input);
     			List<Map<String,Object>> spaceRqprWayCrgrList = commonDao.selectList("space.rqpr.getSpaceRqprWayCrgrList", input);
     			List<Map<String,Object>> spaceRqprProdList = commonDao.selectList("space.rqpr.getSpaceRqprProdList", input);
     			List<Map<String,Object>> spaceRqprRltdList = commonDao.selectList("space.rqpr.getSpaceRqprRltdList", input);
@@ -333,7 +333,8 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
     			Map<String, Object> itgRdcsInfo = new HashMap<String, Object>();
 
-    			itgRdcsInfo.put("guId", "A" + rqprId);
+    			//B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료,
+    			itgRdcsInfo.put("guId", "E" + rqprId);
     			itgRdcsInfo.put("approvalUserid", userId);
     			itgRdcsInfo.put("approvalUsername", input.get("_userNm"));
     			itgRdcsInfo.put("approvalJobtitle", input.get("_userJobxName"));
@@ -477,13 +478,24 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 	/* 평가의뢰 접수 */
 	public boolean updateReceiptSpaceRqpr(Map<String,Object> dataMap) throws Exception {
     	if(commonDao.update("space.rqpr.updateSpaceRqpr", dataMap) == 1) {
+
+    		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
+    		Object userId = input.get("_userId");
+    		dataMap.put("userId", input.get("userId"));
+
     		SpaceMailInfo spaceMailInfo = commonDao.select("space.rqpr.getSpaceRqprReceiptEmailInfo", dataMap);
 
     		MailSender mailSender = mailSenderFactory.createMailSender();
-
+    		/*
     		mailSender.setFromMailAddress(spaceMailInfo.getChrgEmail(), spaceMailInfo.getChrgNm());
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
     		mailSender.setSubject("'" + spaceMailInfo.getSpaceNm() + "' 평가의뢰 접수 통보");
+    		*/
+
+    		mailSender.setFromMailAddress(spaceMailInfo.getFromMailAddress(), spaceMailInfo.getFromMailNm());
+    		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
+    		mailSender.setSubject("'" + spaceMailInfo.getSpaceNm() + "' 평가의뢰 접수 통보");
+
     		mailSender.setHtmlTemplate("spaceRqprReceipt", spaceMailInfo);
     		mailSender.send();
 
@@ -503,24 +515,28 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     		if("04".equals(dataMap.get("spaceAcpcStCd"))) {	// 반려
         		spaceMailInfo = commonDao.select("space.rqpr.getSpaceRqprRejectEmailInfo", dataMap);
 
-        		spaceMailInfo.setAnlGvbRson(spaceMailInfo.getAnlGvbRson().replaceAll("\n", "<br/>"));
+        		spaceMailInfo.setSpaceGvbRson(spaceMailInfo.getSpaceGvbRson().replaceAll("\n", "<br/>"));
 
-        		subject.append("'").append(spaceMailInfo.getAnlNm()).append("' 평가의뢰 반려 통보");
+        		subject.append("'").append(spaceMailInfo.getSpaceNm()).append("' 평가의뢰 반려 통보");
         		templateNm = "spaceRqprReject";
     		} else {									// 중단
         		spaceMailInfo = commonDao.select("space.rqpr.getSpaceRqprStopEmailInfo", dataMap);
 
-        		spaceMailInfo.setAnlDcacRson(spaceMailInfo.getAnlDcacRson().replaceAll("\n", "<br/>"));
+        		spaceMailInfo.setSpaceDcacRson(spaceMailInfo.getSpaceDcacRson().replaceAll("\n", "<br/>"));
 
-        		subject.append("'").append(spaceMailInfo.getAnlNm()).append("' 평가중단 통보");
+        		subject.append("'").append(spaceMailInfo.getSpaceNm()).append("' 평가중단 통보");
         		templateNm = "spaceRqprStop";
     		}
 
     		MailSender mailSender = mailSenderFactory.createMailSender();
-
+    		/*
     		mailSender.setFromMailAddress(spaceMailInfo.getChrgEmail(), spaceMailInfo.getChrgNm());
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
+    		*/
+    		mailSender.setFromMailAddress(spaceMailInfo.getFromMailAddress(), spaceMailInfo.getFromMailNm());
+    		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
     		mailSender.setSubject(subject.toString());
+
     		mailSender.setHtmlTemplate(templateNm, spaceMailInfo);
     		mailSender.send();
 
@@ -575,9 +591,10 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
         		String serverUrl = "http://" + configService.getString("defaultUrl") + ":" + configService.getString("serverPort") + "/" + configService.getString("contextPath");
     			StringBuffer sb = new StringBuffer();
+
     			Map<String,Object> spaceRqprInfo = commonDao.select("space.rqpr.getSpaceRqprInfo", dataMap);
-    			List<Map<String,Object>> spaceRqprExatList = commonDao.selectList("space.rqpr.getSpaceRqprExatList", dataMap);
-    			List<Map<String,Object>> spaceRqprSmpoList = commonDao.selectList("space.rqpr.getSpaceRqprSmpoList", dataMap);
+    			List<Map<String,Object>> spaceRqprWayCrgrList = commonDao.selectList("space.rqpr.getSpaceRqprWayCrgrList", dataMap);
+    			List<Map<String,Object>> spaceRqprProdList = commonDao.selectList("space.rqpr.getSpaceRqprProdList", dataMap);
     			List<Map<String,Object>> spaceRqprRltdList = commonDao.selectList("space.rqpr.getSpaceRqprRltdList", dataMap);
 
     			dataMap.put("attcFilId", dataMap.get("rqprAttcFileId"));
@@ -590,47 +607,29 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
     			spaceRqprInfo.put("spaceRqprInfmView", StringUtil.isNullGetInput((String)spaceRqprInfo.get("spaceRqprInfmView"), ""));
     			spaceRqprInfo.put("spaceSbc", ((String)spaceRqprInfo.get("spaceSbc")).replaceAll("\n", "<br/>"));
-    			spaceRqprInfo.put("spaceRsltSbc", ((String)spaceRqprInfo.get("spaceRsltSbc")).replaceAll("\n", "<br/>"));
 
-    			for(Map<String, Object> data : spaceRqprExatList) {
+    			for(Map<String, Object> data : spaceRqprWayCrgrList) {
     				sb.append("<tr>")
-    				  .append("<td>").append(data.get("exprNm")).append("</td>")
-    				  .append("<td>").append(data.get("smpoQty")).append("</td>")
-    				  .append("<td>").append(data.get("exprTim")).append("</td>")
-    				  .append("<td>").append(FormatHelper.strNum(((Integer)data.get("exprExp")).intValue())).append("원</td>")
+    				  .append("<td>").append(data.get("evCtgrNm")).append("</td>")
+    				  .append("<td>").append(data.get("evPrvsNm")).append("</td>")
+    				  .append("<td>").append(data.get("infmPrsnNm")).append("</td>")
     				  .append("</tr>");
     			}
 
-    			spaceRqprInfo.put("spaceRqprExatList", sb.toString());
+    			spaceRqprInfo.put("spaceRqprWayCrgrList", sb.toString());
 
     			sb.delete(0, sb.length());
 
-    			Map<String, Object> rsltAttachFileInfo = null;
-
-    			for(int i=0, size=rsltAttachFileList.size() - 1; i<=size; i++) {
-    				rsltAttachFileInfo = rsltAttachFileList.get(i);
-
-    				sb.append("<a href='").append(serverUrl).append("/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=").append(rsltAttachFileInfo.get("attcFilId")).append("&seq=").append(rsltAttachFileInfo.get("seq")).append("'>").append(rsltAttachFileInfo.get("filNm")).append("</a>");
-
-    				if(i < size) {
-    					sb.append("<br/>");
-    				}
-    			}
-
-    			spaceRqprInfo.put("rsltAttachFileList", sb.toString());
-
-    			sb.delete(0, sb.length());
-
-    			for(Map<String, Object> data : spaceRqprSmpoList) {
+    			for(Map<String, Object> data : spaceRqprProdList) {
     				sb.append("<tr>")
-    				  .append("<td>").append(data.get("smpoNm")).append("</td>")
-    				  .append("<td>").append(data.get("mkrNm")).append("</td>")
-    				  .append("<td>").append(data.get("mdlNm")).append("</td>")
-    				  .append("<td>").append(data.get("smpoQty")).append("</td>")
+    				  .append("<td>").append(data.get("evCtgr0Nm")).append("</td>")
+    				  .append("<td>").append(data.get("evCtgr1Nm")).append("</td>")
+    				  .append("<td>").append(data.get("evCtgr2Nm")).append("</td>")
+    				  .append("<td>").append(data.get("evCtgr3Nm")).append("</td>")
     				  .append("</tr>");
     			}
 
-    			spaceRqprInfo.put("spaceRqprSmpoList", sb.toString());
+    			spaceRqprInfo.put("spaceRqprProdList", sb.toString());
 
     			sb.delete(0, sb.length());
 
@@ -647,7 +646,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
     			sb.delete(0, sb.length());
 
-    			int seq = 1;
+				int seq = 1;
 
     			for(Map<String, Object> data : rqprAttachFileList) {
     				sb.append("<tr>")
@@ -660,11 +659,28 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
     			sb.delete(0, sb.length());
 
+				Map<String, Object> rsltAttachFileInfo = null;
+
+    			for(int i=0, size=rsltAttachFileList.size() - 1; i<=size; i++) {
+    				rsltAttachFileInfo = rsltAttachFileList.get(i);
+
+    				sb.append("<a href='").append(serverUrl).append("/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=").append(rsltAttachFileInfo.get("attcFilId")).append("&seq=").append(rsltAttachFileInfo.get("seq")).append("'>").append(rsltAttachFileInfo.get("filNm")).append("</a>");
+
+    				if(i < size) {
+    					sb.append("<br/>");
+    				}
+    			}
+
+    			spaceRqprInfo.put("rsltAttachFileList", sb.toString());
+
+    			sb.delete(0, sb.length());
+
     			String body = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "iris/web/space/rqpr/vm/spaceRqprCompleteApproval.vm", "UTF-8", spaceRqprInfo);
 
     			Map<String, Object> itgRdcsInfo = new HashMap<String, Object>();
 
-    			itgRdcsInfo.put("guId", "C" + dataMap.get("rqprId"));
+				//B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료,
+    			itgRdcsInfo.put("guId", "G" + dataMap.get("rqprId"));
     			itgRdcsInfo.put("approvalUserid", dataMap.get("userId"));
     			itgRdcsInfo.put("approvalUsername", dataMap.get("userNm"));
     			itgRdcsInfo.put("approvalJobtitle", dataMap.get("userJobxName"));

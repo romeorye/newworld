@@ -947,77 +947,71 @@
 
 	<select id="getSpaceRqprReceiptEmailInfo" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
 		<![CDATA[
-			-- getSpaceRqprReceiptEmailInfo 접수 통보 메일 발송 정보 조회
-			select	mst.rqpr_id																						as rqprId
-				   ,mst.space_name																					as spaceNm
-				   ,mst.acpc_no																						as acpcNo
-				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name															as rgstNm
-				   ,dbo.fn_getDeptName(rgst.sa_dept_new)															as rgstDeptNm
-				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name															as chrgNm
-				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
-				   ,chrg.sa_mail																					as chrgEmail
-				   ,mst.acpc_dt																						as acpcDt
-				   ,mst.cmpl_parr_dt																				as cmplParrDt
-				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')	as receivers
+			-- getSpaceRqprReceiptEmailInfo 접수 통보 메일 발송 정보 조회(접수시 모든 담당자와 의뢰자에게 발송)
+			select	mst.rqpr_id																	as rqprId
+				   ,mst.acpc_no																	as acpcNo
+				   ,mst.space_name																as spaceNm
+				   ,dbo.fn_getUserName(mst.rgst_id) + ' ' + dbo.fn_getUserJobxName(mst.rgst_id)	as rgstNm
+				   ,dbo.fn_getDeptName(dbo.fn_getDeptCode(mst.rgst_id))							as rgstDeptNm
+				   ,dbo.fn_getSpaceCrgrJobxDeptNames(mst.rqpr_id)								as chrgNm
+				   ,mst.acpc_dt																	as acpcDt
+				   ,mst.cmpl_parr_dt															as cmplParrDt
+				   --메일발송정보
+				   ,(select sa_mail from iris_sso_user where sa_user = wc.infm_prsn_id)			as fromMailAddress
+				   ,(select sa_name from iris_sso_user where sa_user = wc.infm_prsn_id)			as fromMailNm
+				   ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) + dbo.fn_getUserEmail(mst.rgst_id) +
+				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') as receivers
 			from	iris_space_rqpr_mst mst,
-					iris_sso_user rgst,
-					iris_sso_user chrg
-		 ]]>
+					iris_space_way_crgr wc
+		]]>
 			where	mst.rqpr_id = ${rqprId}
-			and		mst.rgst_id = rgst.sa_user
-			and		mst.space_chrg_id = chrg.sa_user
-			
-			
-			
-			
+			  and   mst.rqpr_id = wc.rqpr_id
+			  and   wc.infm_prsn_id = ${userId}
 	</select>
 
 	<select id="getSpaceRqprRejectEmailInfo" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
 		<![CDATA[
 			-- getSpaceRqprRejectEmailInfo 반려 통보 메일 발송 정보 조회
-			select	mst.rqpr_id																						as rqprId
-				   ,mst.space_name																					as spaceNm
-				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name															as rgstNm
-				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name															as chrgNm
-				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
-				   ,chrg.sa_mail																					as chrgEmail
-				   ,mst.space_gvb_rson																				as spaceGvbRson
-				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
-				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
-			                                                                 from    iris_sso_user b
-								                                             where   b.sa_user = mst.space_chrg_id))), '') as receivers
+			select distinct
+			       mst.rqpr_id																						as rqprId
+				  ,mst.space_name																					as spaceNm
+				  ,dbo.fn_getUserName(mst.rgst_id) + ' ' + dbo.fn_getUserJobxName(mst.rgst_id)						as rgstNm
+				  ,dbo.fn_getSpaceCrgrJobxDeptNames(mst.rqpr_id)													as chrgNm
+				  --메일발송정보
+				  ,(select sa_mail from iris_sso_user where sa_user = wc.infm_prsn_id)								as fromMailAddress
+				  ,(select sa_name from iris_sso_user where sa_user = wc.infm_prsn_id)								as fromMailNm
+				  ,mst.space_gvb_rson																				as spaceGvbRson
+				  ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) + dbo.fn_getUserEmail(mst.rgst_id) +
+				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') 					as receivers
 			from	iris_space_rqpr_mst mst,
-					iris_sso_user rgst,
-					iris_sso_user chrg
-		 ]]>
+					iris_space_way_crgr wc
+		]]>
 			where	mst.rqpr_id = ${rqprId}
-			and		mst.rgst_id = rgst.sa_user
-			and		mst.space_chrg_id = chrg.sa_user
+			  and   mst.rqpr_id = wc.rqpr_id
+			  and   wc.infm_prsn_id = ${userId}
 	</select>
 
 	<select id="getSpaceRqprStopEmailInfo" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
 		<![CDATA[
 			-- getSpaceRqprStopEmailInfo 분석중단 통보 메일 발송 정보 조회
-			select	mst.rqpr_id																						as rqprId
-				   ,mst.space_name																					as spaceNm
-				   ,mst.acpc_no																						as acpcNo
-				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name															as rgstNm
-				   ,dbo.fn_getDeptName(rgst.sa_dept_new)															as rgstDeptNm
-				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name															as chrgNm
-				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
-				   ,chrg.sa_mail																					as chrgEmail
-				   ,mst.space_dcac_rson																				as spaceDcacRson
-				   ,rgst.sa_mail + ',' + isnull(dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+
-				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
-			                                                                 from    iris_sso_user b
-								                                             where   b.sa_user = mst.space_chrg_id))), '') as receivers
+			select distinct
+			       mst.rqpr_id																						as rqprId
+				  ,mst.space_name																					as spaceNm
+				  ,mst.acpc_no																						as acpcNo
+				  ,dbo.fn_getUserName(mst.rgst_id) + ' ' + dbo.fn_getUserJobxName(mst.rgst_id)						as rgstNm
+				  ,dbo.fn_getSpaceCrgrJobxDeptNames(mst.rqpr_id)													as chrgNm
+				  --메일발송정보
+				  ,(select sa_mail from iris_sso_user where sa_user = wc.infm_prsn_id)								as fromMailAddress
+				  ,(select sa_name from iris_sso_user where sa_user = wc.infm_prsn_id)								as fromMailNm
+				  ,mst.space_dcac_rson																				as spaceDcacRson
+				  ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) + dbo.fn_getUserEmail(mst.rgst_id) +
+				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') 					as receivers
 			from	iris_space_rqpr_mst mst,
-					iris_sso_user rgst,
-					iris_sso_user chrg
-		 ]]>
+					iris_space_way_crgr wc
+		]]>
 			where	mst.rqpr_id = ${rqprId}
-			and		mst.rgst_id = rgst.sa_user
-			and		mst.space_chrg_id = chrg.sa_user
+			  and   mst.rqpr_id = wc.rqpr_id
+			  and   wc.infm_prsn_id = ${userId}
 	</select>
 
 
