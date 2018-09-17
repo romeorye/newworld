@@ -177,11 +177,11 @@
 {name:"기간별 통계", mdName:"/iris/stat/rlab/rlabTermState.do", depth:"2",confirm:""},
 {name:"장비사용 통계", mdName:"/iris/stat/rlab/rlabMchnUseState.do", depth:"2",confirm:""},
 {name:"공간평가", mdName:"", depth:"1",confirm:""},
-{name:"통계1", mdName:"", depth:"2",confirm:""},
-{name:"통계2", mdName:"", depth:"2",confirm:""},
-{name:"통계3", mdName:"", depth:"2",confirm:""},
-{name:"통계4", mdName:"", depth:"2",confirm:""},
-{name:"통계5", mdName:"", depth:"2",confirm:""},
+{name:"평가업무현황", mdName:"/iris/stat/space/spaceEvAffrStts.do", depth:"2",confirm:""},
+{name:"사업부별통계", mdName:"/iris/stat/space/spaceCrgrStat.do", depth:"2",confirm:""},
+{name:"담당자별통계", mdName:"/iris/stat/space/spaceBzdvStat.do", depth:"2",confirm:""},
+{name:"분석목적별통계", mdName:"/iris/stat/space/spaceAnlStat.do", depth:"2",confirm:""},
+{name:"분석방법별통계", mdName:"/iris/stat/space/spaceAnlWayStat.do", depth:"2",confirm:""},
 {name:"관리", mdName:"", depth:"1",confirm:""},
 {name:"공통코드관리", mdName:"", depth:"2",confirm:""}
 ];

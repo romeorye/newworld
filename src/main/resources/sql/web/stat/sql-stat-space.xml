@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stat.space">
+	<select id="retrieveSpaceYyList" resultType="hashmap">
+	--retrieveSpaceYyList 년도조회
+		<![CDATA[
+		SELECT LEFT(CMPL_DT,4) AS yy
+		  FROM IRIS_SPACE_RQPR_MST
+		 WHERE 1=1
+		   AND CMPL_DT IS NOT NULL
+		   AND CMPL_DT !=''
+		 GROUP BY LEFT(CMPL_DT,4)
+		 ORDER BY LEFT(CMPL_DT,4) DESC
+		 ]]>
+	</select>
+
+	<select id="getSpaceBzdvStatList" resultType="hashmap">
+	--getSpaceBzdvStatList 담당자별통계 조회
+		<![CDATA[
+		select sa_user
+      ,sa_name
+	  ,INFM_PRSN_ID
+      ,isnull(last_acpc,0) as last_acpc
+	  ,isnull(this_all_acpc,0) as this_all_acpc
+	  ,isnull(this_acpc,0) as this_acpc
+	  ,isnull(this_ing,0) as this_ing
+	  ,isnull(this_drop,0) as this_drop
+	  ,isnull(this_cmpl,0) as this_cmpl
+	  ,isnull(dd_avg,0) as dd_avg
+	  ,isnull(cmpl_p,0) as cmpl_p
+  from IRIS_SSO_USER ssouser
+  left join (select INFM_PRSN_ID
+				  ,last_acpc
+				  ,this_all_acpc
+				  ,this_acpc
+				  ,this_ing
+				  ,this_drop
+				  ,this_cmpl
+				  ,case when this_cmpl=0
+						then 0
+						else dd_cnt/this_cmpl
+					end as dd_avg
+				  ,case when this_cmpl=0
+						then 0
+						else this_cmpl/convert(float,(last_acpc+this_all_acpc))*100
+					end as cmpl_p	--완료율
+			  from	(select main.INFM_PRSN_ID
+						  ,sum(main.this_all_acpc) as this_all_acpc
+						  ,sum(main.this_acpc) as this_acpc
+						  ,sum(main.last_acpc) as last_acpc
+						  ,sum(main.this_ing) as this_ing
+						  ,sum(main.this_cmpl) as this_cmpl
+						  ,sum(main.this_drop) as this_drop
+						  ,sum(DD_CNT) as DD_CNT
+					  from (select crgr.INFM_PRSN_ID
+								  ,mst.ACPC_DT
+								  ,LEFT(CONVERT(nvarchar,mst.ACPC_DT,23),7) as thin_acpc_mon
+								  ,LEFT(CONVERT(nvarchar, DATEADD(M, -1, ACPC_DT), 23),7) as last_acpc_mon
+								  ,LEFT(CONVERT(nvarchar,mst.space_RDCS_DT,23),7) as this_cmpl_mon
+								  ,LEFT(CONVERT(nvarchar,mst.space_DCAC_DT,23),7) as this_drop_mon
+								  ,mst.space_ACPC_ST_CD
+								  ,case when LEFT(CONVERT(nvarchar,mst.ACPC_DT,23),7) between #{fromCmplDt} and #{toCmplDt}
+										then case when mst.space_ACPC_ST_CD in ('03','05','06','07','08')
+												  then 1
+												  else 0
+											  end
+										else 0
+									end as this_all_acpc --평가접수
+								  ,case when LEFT(CONVERT(nvarchar,mst.ACPC_DT,23),7) between #{fromCmplDt} and #{toCmplDt}
+										then case when space_ACPC_ST_CD in ('03', '05', '06')
+												  then 1
+												  else 0
+											  end
+										else 0
+									end as this_acpc --이번달 접수된건
+								  --,case when LEFT(CONVERT(nvarchar,mst.ACPC_DT,23),7) = #{fromCmplDt}
+								  ,case when LEFT(CONVERT(nvarchar,mst.ACPC_DT,23),7) = LEFT(CONVERT(nvarchar, DATEADD(M, -1, #{fromCmplDt}+'-01'), 23),7)
+										then case when space_ACPC_ST_CD in ('03','05','06')
+												  then 1
+												  else 0
+											  end
+										else 0
+									end as last_acpc --저번달 접수된 건중 완료가 되지않은 건(이월건)
+								  ,case when LEFT(CONVERT(nvarchar,mst.CMPL_DT,23),7) between #{fromCmplDt} and #{toCmplDt}
+										then case when space_ACPC_ST_CD in ('07', '08')
+												  then 1
+												  else 0
+											  end
+										else 0
+									end as this_cmpl --평가완료건
+								  ,case when LEFT(CONVERT(nvarchar,mst.ACPC_DT,23),7) between #{fromCmplDt} and #{toCmplDt}
+										then case when space_ACPC_ST_CD in ('03', '06')
+												  then 1
+												  else 0
+											  end
+										else 0
+									end as this_ing --평가진행
+								  ,case when LEFT(CONVERT(nvarchar,mst.SPACE_DCAC_DT,23),7) between #{fromCmplDt} and #{toCmplDt}
+										then case when space_ACPC_ST_CD = '05'
+												  then 1
+												  else 0
+											  end
+										else 0
+									end as this_drop --평가중단
+								  ,mst.CMPL_WK_DD_CNT
+								  ,case when LEFT(CONVERT(nvarchar,mst.CMPL_DT,23),7) between #{fromCmplDt} and #{toCmplDt}
+										then case when space_ACPC_ST_CD in ('07', '08')
+												  then CMPL_WK_DD_CNT
+												  else 0
+											  end
+										else 0
+									end as DD_CNT
+							  from IRIS_space_RQPR_MST mst
+							 inner join IRIS_SPACE_WAY_CRGR crgr
+								on mst.RQPR_ID=crgr.RQPR_ID
+							 where 1=1
+							   and mst.del_yn='N'
+							   and crgr.del_yn='N'
+							    and mst.space_ACPC_ST_CD not in ('00','01','02','04')) main
+							   group by main.INFM_PRSN_ID) main2) main3
+   on ssouser.sa_user=main3.INFM_PRSN_ID
+where 1=1
+  and ssouser.sa_dept_new='58162619'
+  and ssouser.sa_func !='FO0'
+		 ]]>
+	</select>
+
+
+
+</mapper>
