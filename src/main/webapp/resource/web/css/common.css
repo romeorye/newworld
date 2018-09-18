@@ -199,7 +199,7 @@ h1.logo {position:absolute; top:25px; left:15px; width:104px; height:44px; backg
 
 
 /* 컨텐츠 */
-.contents {float:left; width:1200px; height:100%; padding:20px 10px 10px 8px; box-sizing:border-box; color:#555; min-width:1000px;}
+.contents {float:left; width:1200px; height:100%; padding:20px 10px 10px 8px; padding:0; box-sizing:border-box; color:#555; min-width:1000px;}
 .contents.main{ min-width:1006px; } 
 .contents.down {padding:10px 10px 50px 20px;  }
 
