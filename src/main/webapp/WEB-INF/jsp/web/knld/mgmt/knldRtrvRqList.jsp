@@ -132,8 +132,7 @@
             	$('#docNo').val(record.get('docNo'));
             	$('#authYn').val(record.get('readFlag'));
             	$('#reUrl').val(record.get('docUrl'));
-            	
-            	nwinsActSubmit(aform, "<c:url value="/knld/rsst/knldRtrvRqDetail.do"/>");
+            	$('#docUrl').val(record.get('docUrl'));
             });
             
             knldRtrvRqGrid.render('knldRtrvRqGrid');
@@ -171,37 +170,46 @@
 
    			<div class="sub-content">
 	   			<div class="titleArea">
+						<a class="leftCon" href="#">
+			        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        	<span class="hidden">Toggle 버튼</span>
+	        		</a> 
 	   				<h2>조회 요청</h2>
 	   			</div>
 	   			
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">요청문서명</th>
-   							<td>
-   								<input type="text" id="rqDocNm">
-   							</td>
-   							<th align="right">요청내용</th>
-   							<td>
-   								<input type="text" id="sbcNm">
-    						</td>
-   							<td class="t_center">
-   								<a style="cursor: pointer;" onclick="getKnldRtrvRqList();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+   				<div class="sub-content">	
+	   			<div class="search">
+					<div class="search-content">
+		   				<table>
+		   					<colgroup>
+		   						<col style="width:120px;"/>
+		   						<col style="width:300px;"/>
+		   						<col style="width:120px;"/>
+		   						<col style="width:300px;"/>
+		   						<col style=""/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<th align="right">요청문서명</th>
+		   							<td>
+		   								<input type="text" id="rqDocNm">
+		   							</td>
+		   							<th align="right">요청내용</th>
+		   							<td>
+		   								<input type="text" id="sbcNm">
+		    						</td>
+		   							<td class="t_center">
+		   								<a style="cursor: pointer;" onclick="getKnldRtrvRqList();" class="btnL">검색</a>
+		   							</td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+					</div>
+   				</div>
    				
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
-   					<div class="LblockButton">
+   					<div class="LblockButton" style="line-height:30px;">
    						요청일 기준 15일 간 조회 가능합니다.
    					</div>
    				</div>

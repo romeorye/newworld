@@ -368,15 +368,21 @@
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="qnaId" name="qnaId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
-   		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	 				<h2>일반Q&A 등록</h2>
-	 			</div>
-				<div class="LblockButton top">
-					<button type="button" id="saveBtn"   name="saveBtn"   >저장</button>
-					<button type="button" id="butGoList" name="butGoList" >목록</button>
+   		<div class="contents">   			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a> 
+ 				<h2>일반Q&A 등록</h2>
+ 			</div>
+ 			
+	 		<div class="sub-content">
+				<div class="titArea btn_top">
+					<div class="LblockButton"> 
+						<button type="button" id="saveBtn"   name="saveBtn"   >저장</button>
+						<button type="button" id="butGoList" name="butGoList" >목록</button>
+					</div>
 				</div>
    				<table class="table table_txt_right">
    					<colgroup>

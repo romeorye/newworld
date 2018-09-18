@@ -877,13 +877,16 @@
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
 		
-   		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>공간평가 평가법관리</h2>
-	   			</div>
-	   			
+   		<div class="contents">   			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        	<span class="hidden">Toggle 버튼</span>
+	        	</a>
+   				<h2>공간평가 평가법관리</h2>
+   			</div>
+   			
+	   		<div class="sub-content">	
 	   			<table style="width:100%;border=0;">
    					<colgroup>
 						<col style="width:20%;">
