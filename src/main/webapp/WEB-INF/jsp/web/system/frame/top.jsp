@@ -83,6 +83,7 @@ function goHelpDesk(){
 //[EAM추가] - 함수 추가 및 수정 End =========================================================================
 
 </script>
+
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<!-- 메뉴 전체 보기 시작 -->
@@ -132,7 +133,7 @@ function goHelpDesk(){
 		</form>	
 
 		</div>
-		<div class="gnbArea main">
+		<div class="gnbArea main pull-left">
 			<ul class="gnb">
 				<!-- [EAM추가] - TOP 메뉴 정보 조회 Start -->
 		    	<c:forEach items="${topMenuList}" var="result" varStatus="status">

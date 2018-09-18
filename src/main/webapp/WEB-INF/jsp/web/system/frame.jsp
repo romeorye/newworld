@@ -11,9 +11,9 @@
     .mpanefset { top: 0px; left:260px; width: 1422px; height: 100% ; margin:auto;}
 </style>
 
-	<frameset rows="90,*,51" border="0"  class="mpanefset">
+	<frameset rows="66,*,51" border="0"  class="mpanefset">
 		<frame name="topFrame" id="topFrame" src="<c:url value="/system/menu/irisFrameMenu/top.do"/>" scrolling="no" frameborder="0" title="상단프레임" noresize/>
-		<frameset cols="202,*" border="0" id="main_frameset">
+		<frameset cols="211,*" border="0" id="main_frameset">
 		
 			<!-- [EAM변경] - 20170420 left 메뉴 정보 세팅 Start -->
 			<frame  name="leftFrame" id="leftFrame" src="<c:url value="/system/menu/irisFrameMenu/left.do${params}"/>" scrolling="no" frameborder="0" title="왼쪽메뉴프레임" noresize/>

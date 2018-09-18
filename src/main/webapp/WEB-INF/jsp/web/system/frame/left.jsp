@@ -33,8 +33,8 @@ $(function(){
 			 	$(pth).attr('src', $(pth).attr('src').replace(/lnb_off./g, 'lnb_on.'));
 		 }else if(obj.cols == '47,*'){
 
-			 obj.cols='202,*';
-			 $('.lnbArea').css("left", "10px");
+			 obj.cols='211,*';
+			 $('.lnbArea').css("left", "0");
 			 $('.lnbMenuArea').css("display", "block");
 			 $('.accordionBtn').css("display", "block");
 			 $('.lnbTitle').css("display", "block");
@@ -48,8 +48,8 @@ $(function(){
 	    var pth = $(this).find('img')[0];		
 	    var obj = parent.document.getElementById('main_frameset');	 
 
-		obj.cols='202,*';
-		$('.lnbArea').css("left", "10px");
+		obj.cols='211,*';
+		$('.lnbArea').css("left", "0");
 		$('.lnbMenuArea').css("display", "block");
 		$('.accordionBtn').css("display", "block");
 		$('.lnbTitle').css("display", "block");
@@ -246,7 +246,7 @@ function setMenuView(menuId) {
 
 </script>
 </head>
-<body>
+<body style="background:#f8f8f8;>
 <form  name="mainForm2" method="post">
  <input type="hidden" name="emp_no" />
  <input type="hidden" name="fmd5_emp_no" />
@@ -309,7 +309,7 @@ function setMenuView(menuId) {
 					</c:if>
 				</dl>
 				</div>
-				<div ><img src="<%=imagePath%>/common/sub_left_m_contact.png" style="cursor: pointer;" onclick="goHelpDesk()" /></div>
+				<div class="left_phone""><img src="<%=imagePath%>/common/sub_left_m_contact.png" style="cursor: pointer;" onclick="goHelpDesk()" /></div>
 			</div>
 		<div class="split_l" ><img src="<%=imagePath%>/common/lnb_off.png" /></div>
 	</div><!-- //lnbArea -->
