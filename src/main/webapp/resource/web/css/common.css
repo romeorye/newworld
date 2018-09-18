@@ -10,13 +10,15 @@ body{  margin:0 !important; padding:0;}
 
 /* 헤더 */
 .header {
-	width:100%;
+	/*width:100%;
 	height: 88px;
 	position:fixed;
-	z-index:99;
 	min-width:1080px;
 	background-color:#fff;
-	border-bottom:2px solid #c40452;
+	border-bottom:2px solid #c40452;*/
+	
+	z-index:99;
+	
 }
 
 .header_inner {
@@ -26,7 +28,7 @@ body{  margin:0 !important; padding:0;}
 .header .header_inner {
 	height:50px;
 }
-h1.logo {position:absolute; top:25px; left:15px; width:104px; height:44px; background:url('../images/newIris/sub_logo.png') no-repeat 0 0; text-indent:-9999px;}
+h1.logo {position:absolute; /*top:25px; left:15px;*/ width:104px; height:44px; background:url('../images/newIris/sub_logo.png') no-repeat 0 0; text-indent:-9999px;}
 .header #main-left{margin-top:80px}
 
 .userinfo {position:absolute; top:5px; left:1200px;}
