@@ -42,10 +42,15 @@
 	            <entry key="mailBatchWbsCdDelhtml" value-ref="mailBatchWbsCdDelhtml" />
 	            <entry key="mailRfpReqFormhtml" value-ref="mailRfpReqFormhtml" />
 
-	            <!-- 신뢰성 시험 접수 메일발송 추가 정현웅 2018.08.17 -->
-	            <entry key="rlabRqprReceipt" value-ref="rlabRqprReceipt" />
 
-	            <!-- 공간평가 평가 접수 메일발송 추가 정현웅 2018.09.10 -->
+	            <!-- 신뢰성 시험의뢰 메일발송 추가 정현웅 2018.08.17 -->
+	            <entry key="rlabRqprReceipt" value-ref="rlabRqprReceipt" />
+	            <entry key="rlabRqprReceiptRequest" value-ref="rlabRqprReceiptRequest" />
+	            <entry key="rlabRqprReject" value-ref="rlabRqprReject" />
+	            <entry key="rlabRqprResult" value-ref="rlabRqprResult" />
+	            <entry key="rlabRqprStop" value-ref="rlabRqprStop" />
+
+	            <!-- 공간성능 평가의뢰 메일 추가 정현웅 2018.09.10 -->
 	            <entry key="spaceRqprReceipt" value-ref="spaceRqprReceipt" />
 	            <entry key="spaceRqprReceiptRequest" value-ref="spaceRqprReceiptRequest" />
 	            <entry key="spaceRqprReject" value-ref="spaceRqprReject" />
@@ -348,6 +353,45 @@
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
 
+	<bean id="rlabRqprReceiptRequest" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/rlab" />
+	    <property name="htmlName" value="rlabRqprReceiptRequest.html" />
+	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+
+	<bean id="rlabRqprReject" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/rlab" />
+	    <property name="htmlName" value="rlabRqprReject.html" />
+	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+
+	<bean id="rlabRqprResult" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/rlab" />
+	    <property name="htmlName" value="rlabRqprResult.html" />
+	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+
+	<bean id="rlabRqprStop" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/rlab" />
+	    <property name="htmlName" value="rlabRqprStop.html" />
+	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
 
 	<bean id="rlabMchnAppr01" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlabMchn" />
