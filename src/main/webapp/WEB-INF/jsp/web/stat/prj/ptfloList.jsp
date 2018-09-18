@@ -271,49 +271,54 @@ var strNowMonth = createDashMonthToString(nowDate);
 </head>
 <body>
     <form name="aform" id="aform" method="post">
-        <div class="contents">
+        <div class="contents">   
+	        <div class="titleArea">
+	      		<a class="leftCon" href="#">
+				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+				<span class="hidden">Toggle 버튼</span>
+				</a>
+	            <h2>일반과제</h2>
+	        </div>
             <div class="sub-content">
-                <div class="titleArea">
-                    <h2>일반과제</h2>
-                </div>
-                <table class="searchBox">
-                    <colgroup>
-                        <col style="width:15%;"/>
-                        <col style="width:75%;"/>
-                        <col style="width:10%;"/>
-                    </colgroup>
-                    <tbody>
-                        <tr>
-                            <th align="right">년도</th>
-                            <td>
-                                <input type="text" id="searchStartYymm" /><em class="gab"> ~ </em>
-                                <input type="text" id="searchEndYymm" /> 
-                            </td>
-                            <td class="t_center">
-                                <a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+               <div class="search">
+				   <div class="search-content">
+		               <table>
+		                    <colgroup>
+		                        <col style="width:120px;"/>
+		                        <col style=""
+		                    </colgroup>
+		                    <tbody>
+		                        <tr>
+		                            <th align="right">년도</th>
+		                            <td>
+		                                <input type="text" id="searchStartYymm" /><em class="gab"> ~ </em>
+		                                <input type="text" id="searchEndYymm" /> 
+		
+		                                <a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+		                            </td>
+		                        </tr>
+		                    </tbody>
+		                </table>
+		              </div>
+		            </div>
                 <br/>
 
 	            <div id="tabView"></div>
 	            
 	            <table style="width:100%">
 	               <colgroup>
-                       <col style="width:48%"/>
-                       <col style="width:*"/>
-                       <col style="width:48%"/>
+                       <col style="width:48.5%"/>
+                       <col style=""/>
+                       <col style="width:48.5%"/>
                    </colgroup>
 	               <tr>
 	                   <td>
-	                   	<div class="titArea"><span class="sub-tit"><h4>&gt; 비용(기준:ERP실적)<em class="gab">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em>(단위: 억원)</h4></span></div>
-	                   	
+	                   	<div class="titArea"><h4>비용(기준:ERP실적)</h4><span class="t_right_txt">(단위: 억원)</span></div>	                   	
 	                   </td>
 	                   <td>&nbsp;</td>
 	                   <td>
-	                   	<div class="titArea"><span class="sub-tit"><h4>&gt; 인원(기준:M/M평균)<em class="gab">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em>(단위 : 명)</h4></span></div>
-	                   	
+	                   	<!-- <div class="titArea"><span class="sub-tit"><h4>&gt; 인원(기준:M/M평균)<em class="gab">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em>(단위 : 명)</h4></span></div> -->
+	                   	<div class="titArea"><h4>인원(기준:M/M평균)</h4><span class="t_right_txt">(단위: 억원)</span></div>
 	                   	</td>
 	               </tr>
 	               <tr>

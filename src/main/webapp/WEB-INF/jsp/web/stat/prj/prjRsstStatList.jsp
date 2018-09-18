@@ -166,7 +166,8 @@
                 columnModel: columnModel,
                 dataSet: dataSet,
                 width: 1150,
-                height: 600
+                height: 600,
+                autoWidth: true
             });
             
             defaultGrid.render('defaultGrid');
@@ -297,57 +298,60 @@
 		
    		<div class="contents">
 
-   			<div class="sub-content">
+   			<div class="">
 	   			<div class="titleArea">
+	   				<a class="leftCon" href="#"><img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control"><span class="hidden">Toggle 버튼</span></a>
 	   				<h2>프로젝트 통계리스트</h2>
 	   			</div>
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">연도</th>
-    						<td>
-   								<select id="yyyy">
-   									<!-- <option value="">선택하세요</option> -->
-   									<option value="2009">2009</option>
-									<option value="2010">2010</option>
-									<option value="2011">2011</option>
-									<option value="2012">2012</option>
-									<option value="2013">2013</option>
-									<option value="2014">2014</option>
-									<option value="2015">2015</option>
-									<option value="2016">2016</option>
-									<option value="2017">2017</option>
-									<option value="2018">2018</option>
-									<option value="2019">2019</option>
-									<option value="2020">2020</option>
-									<option value="2021">2021</option>
-									<option value="2022">2022</option>
-									<option value="2023">2023</option>
-   								</select>
-    						</td>
-   							<td class="t_center">
-   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
-   				
-   				<div class="titArea">
-   					<span class="Ltotal" id="cnt_text">총  0건 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="sub-tit">조회연도가 '현재년도' 인 경우 '팀원'항목은 현재원 기준으로 조회됩니다.</span>
-   					<div class="LblockButton">
-   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadExcel()">Excel</button>
-   					</div>
-   				</div>
+		   		<div class="sub-content">
+		   			<div class="search">
+			   			<div class="search-content">
+			   				<!-- <table class="searchBox"> -->
+			   				<table>
+			   					<colgroup>
+			   						<col style="width:120px;"/>
+			   						<col style=""/>
+			   					</colgroup>
+			   					<tbody>
+			   						<tr>
+			   							<th align="right">연도</th>
+			    						<td>
+			   								<select id="yyyy">
+			   									<!-- <option value="">선택하세요</option> -->
+			   									<option value="2009">2009</option>
+												<option value="2010">2010</option>
+												<option value="2011">2011</option>
+												<option value="2012">2012</option>
+												<option value="2013">2013</option>
+												<option value="2014">2014</option>
+												<option value="2015">2015</option>
+												<option value="2016">2016</option>
+												<option value="2017">2017</option>
+												<option value="2018">2018</option>
+												<option value="2019">2019</option>
+												<option value="2020">2020</option>
+												<option value="2021">2021</option>
+												<option value="2022">2022</option>
+												<option value="2023">2023</option>
+			   								</select>
 
-   				<div id="defaultGrid"></div>
-   				
+			   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+			   							</td>
+			   						</tr>
+			   					</tbody>
+			   				</table>
+		   				</div>
+	   				</div>
+	   				
+	   				<div class="titArea">
+	   					<span class="Ltotal" id="cnt_text">총  0건 </span><span class="sub-tit md20">조회연도가 '현재년도' 인 경우 '팀원'항목은 현재원 기준으로 조회됩니다.</span>
+	   					<div class="LblockButton">
+	   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadExcel()">Excel</button>
+	   					</div>
+	   				</div>
+	
+	   				<div id="defaultGrid"></div>
+   				</div>
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

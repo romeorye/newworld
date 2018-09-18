@@ -130,6 +130,10 @@
     <body >
     		<div class="contents">
     			<div class="titleArea">
+    				<a class="leftCon" href="#">
+		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        	<span class="hidden">Toggle 버튼</span>
+	        	</a>  
     				<h2>자산실사처리 To_do</h2>
     		    </div>
     			<div class="sub-content">
@@ -139,9 +143,12 @@
 					<input type="hidden" id="fxaRlisId"  name="fxaRlisId" value="<c:out value='${inputData.fxaRlisId}'/>">
 					<input type="hidden" id="rlisStCd"  name="rlisStCd" value="<c:out value='${inputData.rlisStCd}'/>">
 
-    					<span class="table_summay_number" id="cnt_text"></span>
-						<div class="LblockButton">
-    						<button type="button" id="butList">목록</button>
+    					
+						<div class="titArea btn_top">
+							<span class="table_summay_number" id="cnt_text"></span>
+							<div class="LblockButton">  								
+    							<button type="button" id="butList">목록</button>
+    						</div>
     					</div>
     				<table class="table table_txt_right">
     				</table>

@@ -261,7 +261,7 @@
 		
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
+   			<div>
    				
    				<div class="titArea">
    					<div class="LblockButton">

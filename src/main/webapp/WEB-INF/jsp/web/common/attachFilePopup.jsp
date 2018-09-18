@@ -42,6 +42,7 @@
 <style>
  .bgcolor-gray {background-color: #999999}
  .bgcolor-white {background-color: #FFFFFF}
+ #fileList li div.L-filebox {width:372px !important;}
 </style>
 
 	<script type="text/javascript">
@@ -259,22 +260,22 @@
 		<input type="hidden" id="openMode" name="openMode" value="${inputData.openMode}"/>
 		<input type="hidden" id="seq" name="seq" value=""/>
 		
-   		<div class="LblockMainBody">
+   		<div class="LblockMainBody pop_in">
 
    			<div class="sub-content">
 	   			
 		        <div class="LblockMarkupCode">
-		            <div class="LblockButton" >
+		            <div class="LblockButton"  style="margin:0;">
 		                <button type="button" id="addBtn" >추가</button>
 		                <button type="button" id="resetBtn" >초기화</button>
 		                <button type="button" id="saveBtn" >저장</button>
 		            </div>
 		            <br/><br/>
-	                <ul id="fileList"></ul>
+	                <ul id="fileList" class="attach_file"></ul>
 		        </div>
 		        <br/>
    				<div class="titArea">
-   					<div class="LblockButton">
+   					<div class="LblockButton" style="margin:0;">
    						<button type="button" class="btn"   id="deleteAttachFileBtn" name="deleteAttachFileBtn" onclick="deleteAttachFile()">삭제</button>
    					</div>
    				</div>

@@ -203,32 +203,33 @@
 		
    		<div class="contents">
 
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>대외협력과제</h2>
-	   			</div>
-	   			
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">기간</th>
-    						<td colspan="3">
-   								<select name="cbSearchYear" id="cbSearchYear"></select>
-    						</td>
-   							<td class="t_center">
-   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
-   				
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+	   				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	   				<span class="hidden">Toggle 버튼</span>
+   				</a>
+   				<h2>대외협력과제</h2>
+   			</div>
+	   		<div class="sub-content">
+	   			<div class="search">
+		   			<div class="search-content">
+		   				<table>
+		   					<colgroup>
+		   						<col style="width:120px;"/>
+		   						<col style=""/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<th align="right">기간</th>
+		    						<td>
+		   								<select name="cbSearchYear" id="cbSearchYear"></select>
+		   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+		   							</td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">
@@ -237,8 +238,8 @@
    				</div>
 
    				<div id="defaultGrid"></div>
-   				
-   			</div><!-- //sub-content -->
+   			</div>	
+   			<!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>
     </body>

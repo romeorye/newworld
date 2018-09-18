@@ -86,8 +86,9 @@ var fxaRlisApprDialog;
         var grid = new Rui.ui.grid.LGridPanel({
 	        columnModel: columnModel,
 	        dataSet: dataSet,
-	        width : 1150,
-	        height: 500
+	        width : 1050,
+	        height: 500,
+	        autoWidth: true
 	    });
 
 		grid.render('defaultGrid');
@@ -233,6 +234,10 @@ var fxaRlisApprDialog;
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
     		<div class="contents">
     			<div class="titleArea">
+    				<a class="leftCon" href="#">
+			        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        	<span class="hidden">Toggle 버튼</span>
+		        	</a>  
     				<h2>자산실사</h2>
     		    </div>
     			<div class="sub-content">
@@ -242,51 +247,52 @@ var fxaRlisApprDialog;
 					<input type="hidden" id="fxaRlisId"  name="fxaRlisId" />
 					<input type="hidden" id="fxaInfoId"  name="fxaInfoId" />
 					<input type="hidden" id="roleId" name="roleId"  value="<c:out value='${inputData._roleId}'/>">
-
-    				<table class="searchBox">
-    					<colgroup>
-    						<col style="width:15%"/>
-    						<col style="width:30%"/>
-    						<col style="width:15%"/>
-    						<col style="width:"/>
-    						<col style="width:10%"/>
-    					</colgroup>
-    					<tbody>
-    					    <tr>
-    							<th align="right">실사명</th>
-	   							<td>
-									<input type="text" id="rlisTrmNm" ></input>
-	   							</td>
-    							<th align="right">실사구분</th>
-	    						<td>
-	    							<select id="rlisClCd" ></select>
-	    						</td>
-	    						<td rowspan="3" class="t_center">
-    								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-    							</td>
-    						</tr>
-    					    <tr>
-    							<th align="right">담당PJT</th>
-	   							<td>
-	   								<span>
-										<input type="text" class="" id="prjNm" >
-									</span>
-	   							</td>
-    							<th align="right">담당자</th>
-	    						<td>
-	    							<input type="text" class="" id="crgrNm">
-	    						</td>
-    						</tr>
-    						<tr>
-    							<th align="right">자산Class</th>
-    							<td>
-    								<input type="text" id="rlisFxaClss" />
-    							</td>
-    							<th align="right"></th>
-	    						<td></td>
-    						</tr>
-    					</tbody>
-    				</table>
+					
+					<div class="search">
+						<div class="search-content">
+		    				<table id="asset_ta01">
+		    					<colgroup>
+		    						<col style="width:100px"/>
+		    						<col style="width:200px"/>
+		    						<col style="width:100px"/>
+		    						<col style="width:200px"/>
+		    						<col style="width:90px"/>
+		    						<col style="width:200px"/>
+		    						<col style=""/>
+		    					</colgroup>
+		    					<tbody>
+		    					    <tr>
+		    							<th align="right">실사명</th>
+			   							<td>
+											<input type="text" id="rlisTrmNm" ></input>
+			   							</td>
+		    							<th align="right">실사구분</th>
+			    						<td>
+			    							<select id="rlisClCd" ></select>
+			    						</td>
+			    						<th align="right">담당PJT</th>
+			   							<td>
+			   								<span>
+												<input type="text" class="" id="prjNm" >
+											</span>
+			   							</td>
+			   							<td></td>
+		    						</tr>
+		    					    <tr>
+		    							<th align="right">담당자</th>
+			    						<td>
+			    							<input type="text" class="" id="crgrNm">
+			    						</td>
+		    							<th align="right">자산Class</th>
+		    							<td>
+		    								<input type="text" id="rlisFxaClss" />
+		    							</td>
+			    						<td colspan="3" class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+		    						</tr>
+		    					</tbody>
+		    				</table>
+	    				</div>
+    				</div>
 
     				<div class="titArea">
     					<span class="table_summay_number" id="cnt_text"></span>

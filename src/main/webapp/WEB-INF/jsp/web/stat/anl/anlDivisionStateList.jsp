@@ -160,7 +160,9 @@
                 columnModel: anlDivisionStateColumnModel,
                 dataSet: anlDivisionStateDataSet,
                 width: 1180,
-                height: 500
+                height: 500,
+                autoWidth: true
+
             });
             
             anlDivisionStateGrid.render('anlDivisionStateGrid');
@@ -195,43 +197,48 @@
     <body>
 	<form name="aform" id="aform" method="post">
 		
-   		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>사업부 통계</h2>
-	   			</div>
-	   			
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">기간</th>
-    						<td>
-   								<input type="text" id="fromCmplDt"/><em class="gab"> ~ </em>
-   								<input type="text" id="toCmplDt"/>
-    						</td>
-   							<td class="t_center">
-   								<a style="cursor: pointer;" onclick="getAnlDivisionStateList();" class="btnL">검색</a>
-   							</td> 
-    						<!-- 
-   							<th align="right">구분</th>
-    						<td>
-                                <div id="type"></div>
-    						</td>
-   							<td class="t_center">
-   								<a style="cursor: pointer;" onclick="getAnlDivisionStateList();" class="btnL">검색</a>
-   							</td> 
-   							-->
-   						</tr>
-   					</tbody>
-   				</table>
+   		<div class="contents"> 				
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+	   				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	   				<span class="hidden">Toggle 버튼</span>
+   				</a>
+   				<h2>사업부 통계</h2>
+   			</div>
+   			
+	   		<div class="sub-content">
+	   			<div class="search">
+			   		<div class="search-content">	
+		   				<table>
+		   					<colgroup>
+		   						<col style="width:120px;"/>
+		   						<col style="width:276px;"/>
+		   						<col style=""/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<th align="right">기간</th>
+		    						<td>
+		   								<input type="text" id="fromCmplDt"/><em class="gab"> ~ </em>
+		   								<input type="text" id="toCmplDt"/>
+		    						</td>
+		   							<td>
+		   								<a style="cursor: pointer;" onclick="getAnlDivisionStateList();" class="btnL">검색</a>
+		   							</td> 
+		    						<!-- 
+		   							<th align="right">구분</th>
+		    						<td>
+		                                <div id="type"></div>
+		    						</td>
+		   							<td class="txt-right">
+		   								<a style="cursor: pointer;" onclick="getAnlDivisionStateList();" class="btnL">검색</a>
+		   							</td> 
+		   							-->
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
    				
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>

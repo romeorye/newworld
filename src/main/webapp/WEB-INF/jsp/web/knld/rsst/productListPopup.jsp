@@ -95,8 +95,8 @@
                     order: 'rtrvSeq'
                 },
                 defaultOpenDepth: 0,
-                width: 517,
-                height: 400,
+                width: 539,
+                height: 360,
                 useAnimation: true
             });
 

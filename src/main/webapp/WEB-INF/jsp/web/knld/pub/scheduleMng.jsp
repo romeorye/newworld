@@ -323,12 +323,16 @@
 	</script>
     </head>
     <body>
-   		<div class="contents">
-   		
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>연구소 주요일정</h2>
-	   			</div>
+   		<div class="contents">  		
+   			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a> 
+   				<h2>연구소 주요일정</h2>
+   			</div>
+	   		<div class="sub-content">
    				<div id="tabView"></div>
 	            <div id="monthDiv">
 					<jsp:include page="/WEB-INF/jsp/web/knld/pub/scheduleMonthList.jsp"/>
@@ -337,32 +341,36 @@
    				<div id="dayDiv">
 				<form name="bform" id="bform" method="post">
 				<br/>
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">일정구분</th>
-   							<td>
-   								<div id="adscKindCd"></div>
-   							</td>
-   							<th align="right">선택일자</th>
-   							<td>
-   								<input type="text" id="fromAdscDt"/><em class="gab"> ~ </em>
-   								<input type="text" id="toAdscDt"/>
-   							</td>
-   							<td class="t_center">
-   								<a style="cursor: pointer;" onclick="getDayScheduleList();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
-   				<br/>
+				<div class="search">
+					<div class="search-content">
+		   				<table>
+		   					<colgroup>
+		   						<col style="width:10%;"/>
+		   						<col style="width:35%;"/>
+		   						<col style="width:10%;"/>
+		   						<col style="width:35%;"/>
+		   						<col style="width:10%;"/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<th align="right">일정구분</th>
+		   							<td>
+		   								<div id="adscKindCd"></div>
+		   							</td>
+		   							<th align="right">선택일자</th>
+		   							<td>
+		   								<input type="text" id="fromAdscDt"/><em class="gab"> ~ </em>
+		   								<input type="text" id="toAdscDt"/>
+		   							</td>
+		   							<td class="t_center">
+		   								<a style="cursor: pointer;" onclick="getDayScheduleList();" class="btnL">검색</a>
+		   							</td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
+   				<br>
    				<div id="dayGrid"></div>
 				</form>
    				</div>

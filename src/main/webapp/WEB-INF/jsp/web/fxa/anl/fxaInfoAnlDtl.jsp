@@ -205,6 +205,10 @@ var fxaDtlDataSet; // 자산 상세정보 데이터셋
 <body>
 <div class="contents">
 	<div class="titleArea">
+		<a class="leftCon" href="#">
+        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+        	<span class="hidden">Toggle 버튼</span>
+       	</a>    
 		<h2>자산 상세정보</h2>
 	</div>
 <div class="sub-content">
@@ -222,17 +226,19 @@ var fxaDtlDataSet; // 자산 상세정보 데이터셋
 		<input type="hidden" id="fxaInfoId" name="fxaInfoId"  value="<c:out value='${inputData.fxaInfoId}'/>">
 		<input type="hidden" id="rtnUrl" name="rtnUrl"  value="<c:out value='${inputData.rtnUrl}'/>">
 
-					<div class="LblockButton top">
-						<button type="button" id="butSave">수정</button>
-						<button type="button" id="butDel">삭제</button>
-						<button type="button" id="butList">목록</button>
-					</div>
+		<div class="titArea btn_top">
+			<div class="LblockButton">    
+				<button type="button" id="butSave">수정</button>
+				<button type="button" id="butDel">삭제</button>
+				<button type="button" id="butList">목록</button>
+			</div>
+		</div>
 		<table class="table table_txt_right">
 			<colgroup>
-				<col style="width:10%;"/>
-				<col style="width:40%;"/>
-				<col style="width:10%;"/>
-				<col style="width:40%;"/>
+				<col style="width:14%;"/>
+				<col style="width:36%;"/>
+				<col style="width:14%;"/>
+				<col style="width:;"/>
 			</colgroup>
 			<tbody>
 				<tr>

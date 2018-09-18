@@ -259,30 +259,36 @@
     </head>
     <body>
 	<form name="aform" id="aform" method="post">
-   		<div class="contents">
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>국책과제</h2>
-	   			</div>
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:15%;"/>
-   						<col style="width:75%;"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">년도</th>
-    						<td>
-<!--    								<input type="text" id="condYy"/> -->
-   								<select name="condYy" id="condYy"></select>
-    						</td>
-   							<td class="t_center">
-   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+   		<div class="contents">			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+	   				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	   				<span class="hidden">Toggle 버튼</span>
+   				</a>
+   				<h2>국책과제</h2>
+   			</div>
+   			
+	   		<div class="sub-content">
+	   			<div class="search">
+		   			<div class="search-content">
+		   				<table>
+		   					<colgroup>
+		   						<col style="width:120px;"/>
+		   						<col style=""/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<th align="right">년도</th>
+		    						<td>
+		<!--    								<input type="text" id="condYy"/> -->
+		   								<select name="condYy" id="condYy"></select>
+		   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+		   							</td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">

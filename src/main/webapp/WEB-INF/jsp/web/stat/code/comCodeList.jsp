@@ -115,7 +115,9 @@ var codeRegDialog;
              columnModel: columnModel,
              dataSet: dataSet,
              width: 1150,
-             height: 480
+             height: 480,
+             autoWidth: true
+
          });
 
          grid.render('defaultGrid');
@@ -243,39 +245,46 @@ var codeRegDialog;
     <body onkeypress="if(event.keyCode==13) {fnSearch();}">
     		<div class="contents">
     			<div class="titleArea">
+    				<a class="leftCon" href="#">
+		   				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		   				<span class="hidden">Toggle 버튼</span>
+	   				</a>
     				<h2>공통코드 관리</h2>
     		    </div>
     			<div class="sub-content">
-					<form name="aform" id="aform" method="post">
-					<input type="hidden" id="menuType"  name="menuType" value="IRIFI0101" />
-
-    				<table class="searchBox">
-    					<colgroup>
-    						<col style="width:15%"/>
-    						<col style="width:30%"/>
-    						<col style="width:15%"/>
-    						<col style="width:"/>
-    						<col style="width:10%"/>
-    					</colgroup>
-    					<tbody>
-    					    <tr>
-    							<th align="right">코드</th>
-	   							<td>
-	   								<span>
-										<input type="text" class="" id="code" >
-									</span>
-	   							</td>
-    							<th align="right">코드명</th>
-	    						<td>
-	    							<input type="text" class="" id="codeNm" >
-	    						</td>
-	    						<td rowspan="3" class="t_center">
-    								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-    							</td>
-    						</tr>
-    					</tbody>
-    				</table>
-
+    				<div class="search">
+			   			<div class="search-content">
+						<form name="aform" id="aform" method="post">
+						<input type="hidden" id="menuType"  name="menuType" value="IRIFI0101" />
+	
+	    				<table>
+	    					<colgroup>
+	    						<col style="width:120px"/>
+	    						<col style="width:280px"/>
+	    						<col style="width:80px"/>
+	    						<col style="width:280px"/>
+	    						<col style=""/>
+	    					</colgroup>
+	    					<tbody>
+	    					    <tr>
+	    							<th align="right">코드</th>
+		   							<td>
+		   								<span>
+											<input type="text" class="" id="code" >
+										</span>
+		   							</td>
+	    							<th align="right">코드명</th>
+		    						<td>
+		    							<input type="text" class="" id="codeNm" >
+		    						</td>
+		    						<td class="txt-right">
+	    								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+	    							</td>
+	    						</tr>
+	    					</tbody>
+	    				</table>
+					</div>
+					</div>
     				<div class="titArea">
     					<span class=table_summay_number id="cnt_text"></span>
 						<div class="LblockButton">

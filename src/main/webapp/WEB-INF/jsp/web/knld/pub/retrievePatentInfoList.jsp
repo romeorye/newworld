@@ -34,16 +34,20 @@
 
 
    	<div class="contents">
-   		<div class="sub-content">
-	   		<div class="titleArea">
-	   			<h2>공지/게시판 - 특허정보제공리스트</h2>
-	   		</div>
-	   	</div>
-		&nbsp;&nbsp;
-        <div>
-	   		<iframe src="http://epapp.lghausys.com:9904/bt.type01.board125.list.laf?ispmis=Y&bbsid=board125" frameborder="0" width="800" height="500" scrolling="no">
-	   		</iframe>
-        </div>
+   		
+   		<div class="titleArea">
+   			<a class="leftCon" href="#">
+		          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		          <span class="hidden">Toggle 버튼</span>
+				</a> 
+   			<h2>공지/게시판 - 특허정보제공리스트</h2>
+   		</div>
+   		
+		<div class="sub-content">
+	        <div>
+		   		<iframe src="http://epapp.lghausys.com:9904/bt.type01.board125.list.laf?ispmis=Y&bbsid=board125" frameborder="0" width="800" height="500" scrolling="no">
+		   		</iframe>
+	        </div>
        </div>
 
 

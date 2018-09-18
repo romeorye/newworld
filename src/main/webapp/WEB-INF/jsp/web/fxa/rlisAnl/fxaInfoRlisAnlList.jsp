@@ -71,7 +71,8 @@ var fxaRlisAnlDialog;
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width : 1150,
-	        height: 640
+	        height: 640,
+	        autoWidth: true
 	    });
 
 		grid.render('defaultGrid');
@@ -129,6 +130,10 @@ var fxaRlisAnlDialog;
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
  		<div class="contents">
  			<div class="titleArea">
+ 				<a class="leftCon" href="#">
+		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        	<span class="hidden">Toggle 버튼</span>
+	        	</a>  
  				<h2>자산실사기간 관리</h2>
  		    </div>
  			<div class="sub-content">
@@ -138,9 +143,12 @@ var fxaRlisAnlDialog;
 			<input type="hidden" id="fxaInfoId"  name="fxaInfoId" />
 			<input type="hidden" id="rtnUrl"  name="rtnUrl" />
 
-			<span class="table_summay_number" id="cnt_text"></span>
-			<div class="LblockButton">
-				<button type="button" id="butReg">신규실사</button>
+			
+			<div class="titArea btn_top">
+				<span class="table_summay_number" id="cnt_text"></span>
+				<div class="LblockButton"> 
+					<button type="button" id="butReg">신규실사</button>
+				</div>
 			</div>
 			<table class="table table_txt_right">
     		</table>

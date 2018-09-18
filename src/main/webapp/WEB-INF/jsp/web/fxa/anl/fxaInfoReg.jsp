@@ -531,6 +531,10 @@ var attId;
 
 <div class="contents">
 	<div class="titleArea">
+		<a class="leftCon" href="#">
+        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+        	<span class="hidden">Toggle 버튼</span>
+       	</a>    
 		<h2>자산 등록</h2>
 	</div>
 <div class="sub-content">
@@ -544,17 +548,19 @@ var attId;
 
 	
     
-				<div class="LblockButton top">
-					<button type="button" id="butSave">저장</button>
-					<button type="button" id="butList">목록</button>
-				</div>
+		<div class="titArea btn_top">
+			<div class="LblockButton">    
+				<button type="button" id="butSave">저장</button>
+				<button type="button" id="butList">목록</button>
+			</div>
+		</div>
 	
 		<table class="table table_txt_right">
 			<colgroup>
-				<col style="width:10%;"/>
-				<col style="width:40%;"/>
-				<col style="width:10%;"/>
-				<col style="width:40%;"/>
+				<col style="width:120px;"/>
+				<col style="width:380px;"/>
+				<col style="width:120px;"/>
+				<col style=""/>
 			</colgroup>
 			<tbody>
 				<tr>

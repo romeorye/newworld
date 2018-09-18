@@ -152,7 +152,8 @@
             clickToEdit: true,
             enterToEdit: true,
             multiLineEditor: true,
-            useRightActionMenu: false
+            useRightActionMenu: false, 
+            autoWidth: true,
         });
 
         grid.render('onePerBudgGrid');
@@ -272,7 +273,7 @@
             <!-- 컨텐츠 영역 -->
 
 
-                <div class="sub-content">
+                <div class="">
                         <form name="xForm" id="xForm" method="post">
                                 <div class="titArea" style="padding-top:0">
                                     <div class="LblockButton">

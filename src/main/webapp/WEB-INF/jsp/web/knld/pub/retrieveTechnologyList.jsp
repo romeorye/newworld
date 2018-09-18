@@ -341,47 +341,54 @@ function fncExcelDown() {
 		<input type="hidden" id="pageMode" name="pageMode" value="" />
 
    		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>공지/게시판 - 시장기술정보</h2>
-	   			</div>
-
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:15%;"/>
-   						<col style="width:30%;"/>
-   						<col style="width:15%;"/>
-   						<col style="width:"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   						    <th align="right">분류</th>
-   							<td>
-   								<div id="techScnCd"></div>
-   							</td>
-   							<th align="right">제목</th>
-   							<td>
-   								<input type="text" id="titlNm" value="">
-   							</td>
-   							<td class="t_center" rowspan="2">
-   								<a style="cursor: pointer;" onclick="getTechnologyList();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   						<tr>
-   							<th align="right">등록자</th>
-    						<td>
-   								<input type="text" id="rgstNm" value="">
-    						</td>
-   							<th align="right">정보출처</th>
-   							<td>
-   								<div id="infoPrvnKindCd"></div>
-   							    <input type="text" id="infoPrvnNm" value="">
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+		
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        	<span class="hidden">Toggle 버튼</span>
+	        	</a>   
+   				<h2>공지/게시판 - 시장기술정보</h2>
+   			</div>
+   			
+			<div class="sub-content">
+				<div class="search">
+	                <div class="search-content">
+		   				<table>
+		   					<colgroup>
+		   						<col style="width:110px;"/>
+		   						<col style="width:200px;"/>
+		   						<col style="width:100px;"/>
+		   						<col style="width:400px"/>
+		   						<col style=""/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   						    <th align="right">분류</th>
+		   							<td>
+		   								<div id="techScnCd"></div>
+		   							</td>
+		   							<th align="right">제목</th>
+		   							<td>
+		   								<input type="text" id="titlNm" value="">
+		   							</td>
+		   							<td></td>
+		   						</tr>
+		   						<tr>
+		   							<th align="right">등록자</th>
+		    						<td>
+		   								<input type="text" id="rgstNm" value="">
+		    						</td>
+		   							<th align="right">정보출처</th>
+		   							<td>
+		   								<div id="infoPrvnKindCd"></div>
+		   							    <input type="text" id="infoPrvnNm" value="">
+		   							</td>
+		   							<td class="txt-right"><a style="cursor: pointer;" onclick="getTechnologyList();" class="btnL">검색</a></td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
 
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>

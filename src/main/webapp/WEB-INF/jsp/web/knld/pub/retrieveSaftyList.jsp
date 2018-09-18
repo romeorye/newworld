@@ -377,49 +377,55 @@ function fncExcelDown() {
 		<input type="hidden" id="saftyId" name="saftyId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="" />
 
-   		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>공지/게시판 - 안전/환경/보건</h2>
-	   			</div>
-
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:15%;"/>
-   						<col style="width:30%;"/>
-   						<col style="width:15%;"/>
-   						<col style="width:"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">제목</th>
-   							<td>
-   								<input type="text" id="titlNm" value="">
-   							</td>
-   						    <th align="right">구분</th>
-   							<td>
-   								<div id="sftEnvScnCd"></div>
-   							</td>
-   							<td class="t_center" rowspan="2">
-   								<a style="cursor: pointer;" onclick="getSaftyList();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   						<tr>
-   							<th align="right">시행일</th>
-   							<td>
-   								<input type="text" id="enfcStrtDt" /><em class="gab"> ~ </em>
-   								<input type="text" id="enfcFnhDt" />
-   							</td>
-   							<th align="right">등록자</th>
-    						<td>
-   								<input type="text" id="rgstNm" value="">
-    						</td>
-   						</tr>
-   					</tbody>
-   				</table>
-
+   		<div class="contents">	
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+		          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		          <span class="hidden">Toggle 버튼</span>
+				</a>  
+   				<h2>공지/게시판 - 안전/환경/보건</h2>
+   			</div>
+	   			
+			<div class="sub-content">
+				<div class="search">
+					<div class="search-content"> 
+		   				<table>
+		   					<colgroup>
+		   						<col style="width:120px;"/>
+		   						<col style="width:400px;"/>
+		   						<col style="width:100px;"/>
+		   						<col style="width:200px"/>
+		   						<col style="width:10%;"/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<th align="right">제목</th>
+		   							<td>
+		   								<input type="text" id="titlNm" value="">
+		   							</td>
+		   						    <th align="right">구분</th>
+		   							<td>
+		   								<div id="sftEnvScnCd"></div>
+		   							</td>
+		   							<td></td>
+		   						</tr>
+		   						<tr>
+		   							<th align="right">시행일</th>
+		   							<td>
+		   								<input type="text" id="enfcStrtDt" /><em class="gab"> ~ </em>
+		   								<input type="text" id="enfcFnhDt" />
+		   							</td>
+		   							<th align="right">등록자</th>
+		    						<td>
+		   								<input type="text" id="rgstNm" value="">
+		    						</td>
+		    						<td class="txt-right"><a style="cursor: pointer;" onclick="getSaftyList();" class="btnL">검색</a></td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+					</div>
+				</div>
+				
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">

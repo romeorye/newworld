@@ -531,6 +531,10 @@ function imgResize(img){
     <body onkeypress="if(event.keyCode==13) {fnSearch();}">
     		<div class="contents">
     			<div class="titleArea">
+    				<a class="leftCon" href="#">
+			        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        	<span class="hidden">Toggle 버튼</span>
+		        	</a>    
     				<h2>자산관리</h2>
     		    </div>
     			<div class="sub-content">
@@ -544,55 +548,95 @@ function imgResize(img){
 					<input type="hidden" id="roleId" name="roleId"  value="<c:out value='${inputData._roleId}'/>">
 					<input type="hidden" id="adminChk" name="adminChk" />
 
-
-    				<table class="searchBox">
-    					<colgroup>
-    						<col style="width:15%"/>
-    						<col style="width:30%"/>
-    						<col style="width:15%"/>
-    						<col style="width:"/>
-    						<col style="width:10%"/>
-    					</colgroup>
-    					<tbody>
-    					    <tr>
-    							<th align="right">WBS 코드</th>
-	   							<td>
-	   								<span>
-										<input type="text" class="" id="wbsCd" >
-									</span>
-	   							</td>
-    							<th align="right">프로젝트명</th>
-	    						<td>
-	    							<input type="text" class="" id="prjNm" >
-	    						</td>
-	    						<td rowspan="3" class="t_center">
-    								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-    							</td>
-    						</tr>
-    					    <tr>
-    							<th align="right">자산명</th>
-	   							<td>
-	   								<span>
-										<input type="text" class="" id="fxaNm" >
-									</span>
-	   							</td>
-    							<th align="right">자산번호</th>
-	    						<td>
-	    							<input type="text" class="" id="fxaNo">
-	    						</td>
-    						</tr>
-    						<tr>
-    							<th align="right">자산이관일</th>
-    							<td>
-    								<input type="text" id="fromDate" /><em class="gab"> ~ </em>	<input type="text" id="toDate" />
-    							</td>
-    							<th align="right">담당자</th>
-	    						<td>
-	    							<input type="text" class="" id="crgrNm" >
-	    						</td>
-    						</tr>
-    					</tbody>
-    				</table>
+					<div class="search">
+						<div class="search-content">
+		    				<table id="fxain_size">
+		    					<colgroup>
+		    						<col style="width:100px"/>
+		    						<col style="width:170px"/>
+		    						<col style="width:100px"/>
+		    						<col style="width:270px"/>
+		    						<col style="width:70px"/>
+		    						<col style="width:170px"/>
+		    						<col style=""/>
+		    					</colgroup>
+		    					<tbody>
+		    					    <!-- <tr>
+		    							<th align="right">WBS 코드</th>
+			   							<td>
+			   								<span>
+												<input type="text" class="" id="wbsCd" >
+											</span>
+			   							</td>
+		    							<th align="right">프로젝트명</th>
+			    						<td>
+			    							<input type="text" class="" id="prjNm" >
+			    						</td>
+			    						<td></td>
+		    						</tr>
+		    					    <tr>
+		    							<th align="right">자산명</th>
+			   							<td>
+			   								<span>
+												<input type="text" class="" id="fxaNm" >
+											</span>
+			   							</td>
+		    							<th align="right">자산번호</th>
+			    						<td>
+			    							<input type="text" class="" id="fxaNo">
+			    						</td>
+			    						<td></td>
+		    						</tr>
+		    						<tr>
+		    							<th align="right">자산이관일</th>
+		    							<td>
+		    								<input type="text" id="fromDate" /><em class="gab"> ~ </em>	<input type="text" id="toDate" />
+		    							</td>
+		    							<th align="right">담당자</th>
+			    						<td>
+			    							<input type="text" class="" id="crgrNm" >
+			    						</td>
+			    						<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+		    						</tr> -->
+		    						
+		    						
+		    						<tr>
+		    							<th align="right">WBS 코드</th>
+			   							<td>
+			   								<span>
+												<input type="text" class="" id="wbsCd" >
+											</span>
+			   							</td>
+		    							<th align="right">프로젝트명</th>
+			    						<td>
+			    							<input type="text" class="" id="prjNm" >
+			    						</td>
+			    						<th align="right">자산명</th>
+			   							<td>
+			   								<span>
+												<input type="text" class="" id="fxaNm" >
+											</span>
+			   							</td>
+		    						</tr>
+		    						<tr>
+		    							<th align="right">자산번호</th>
+			    						<td>
+			    							<input type="text" class="" id="fxaNo">
+			    						</td>
+		    							<th align="right">자산이관일</th>
+		    							<td>
+		    								<input type="text" id="fromDate" /><em class="gab"> ~ </em>	<input type="text" id="toDate" />
+		    							</td>
+		    							<th align="right">담당자</th>
+			    						<td>
+			    							<input type="text" class="" id="crgrNm" >
+			    						</td>
+			    						<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+		    						</tr>
+		    					</tbody>
+		    				</table>
+		    			</div>
+    				</div>
 
     				<div class="titArea">
     					<span class=table_summay_number id="cnt_text"></span>

@@ -303,43 +303,49 @@ function fncExcelDown() {
 		<input type="hidden" id="outSpclId" name="outSpclId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="" />
 
-   		<div class="contents">
+   		<div class="contents">   			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a> 
+   				<h2>공지/게시판 - 사외전문가</h2>
+   			</div>
 
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>공지/게시판 - 사외전문가</h2>
-	   			</div>
-
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:15%;"/>
-   						<col style="width:30%;"/>
-   						<col style="width:15%;"/>
-   						<col style="width:"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">기관</th>
-   							<td>
-   								<input type="text" id="instNm" value="">
-   							</td>
-   						    <th align="right">사외전문가명</th>
-    						<td>
-   								<input type="text" id="spltNm" value="">
-    						</td>
-   							<td class="t_center" rowspan="2">
-   								<a style="cursor: pointer;" onclick="getOutSpclList();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   						<tr>
-   						<th align="right">대표분야</th>
-   							<td colspan="3">
-   								<input type="text" id="repnSphe" value="">
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+			<div class="sub-content">
+				<div class="search">
+	                <div class="search-content">
+		   				<table>
+		   					<colgroup>
+		   						<col style="width:120px;"/>
+		   						<col style="width:400px;"/>
+		   						<col style="width:120px;"/>
+		   						<col style=""/>
+		   						<col style=""/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<th align="right">기관</th>
+		   							<td>
+		   								<input type="text" id="instNm" value="">
+		   							</td>
+		   						    <th align="right">사외전문가명</th>
+		    						<td>
+		   								<input type="text" id="spltNm" value="">
+		    						</td>
+		   							<td></td>
+		   						</tr>
+		   						<tr>
+		   							<th align="right">대표분야</th>
+		   							<td colspan="3">
+		   								<input type="text" id="repnSphe" value="">
+		   							</td>
+		   							<td class="txt-right"><a style="cursor: pointer;" onclick="getOutSpclList();" class="btnL">검색</a></td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
 
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>

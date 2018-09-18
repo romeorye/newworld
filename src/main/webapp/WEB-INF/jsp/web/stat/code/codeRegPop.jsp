@@ -76,7 +76,8 @@
 	        dataSet: dataSet,
 	        width:  850,
 	        height: 400,
-	        autoToEdit: true
+	        autoToEdit: true,
+	        autoWidth: true
 	    });
 
 	    grid.render('codeGrid');
@@ -129,7 +130,7 @@
 </script>
 </head>
 <body>
-	<div class="bd">
+	<div class="pop_in">
 		<div class="sub-content">
 			<form name="aform" id="aform" method="post">
 				<div class="titArea">
@@ -139,7 +140,6 @@
 						<button type="button" id="butClose">닫기</button>
 					</div>
 				</div>
-			<br/>
 			
 			<div id="codeGrid"></div>
 

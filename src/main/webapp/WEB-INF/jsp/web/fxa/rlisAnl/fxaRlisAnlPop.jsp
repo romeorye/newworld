@@ -268,7 +268,7 @@ var resultDataSet;
 	<%-- 	<input type="hidden" id="fxaInfoId" name="fxaInfoId" value="<c:out value='${inputData.fxaInfoId}'/>"> --%>
 			<input type="hidden" id="rlisTrmId" name="rlisTrmId" value="<c:out value='${inputData.rlisTrmId}'/>">
 
-		<table class="table table_txt_right">
+		<table id="txa_p" class="table table_txt_right">
 			<div class="titArea">
 					<h3></h3>
 					<div class="LblockButton">
@@ -277,10 +277,10 @@ var resultDataSet;
 					</div>
 				</div>
 			<colgroup>
-				<col style="width:10%;"/>
-				<col style="width:40%;"/>
-				<col style="width:10%;"/>
-				<col style="width:40%;"/>
+				<col style="width:120px;"/>
+				<col style=""/>
+				<col style="width:120px"/>
+				<col style=""/>
 			</colgroup>
 			<tbody>
 				<tr>
