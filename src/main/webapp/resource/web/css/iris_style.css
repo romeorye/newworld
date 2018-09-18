@@ -91,7 +91,7 @@
 
 .contents {padding:0; width:100%; min-width:1060px;}
 .sub-content { padding:20px; padding-right:4px; box-sizing:border-box; max-width:1350px; }
-.sub-content div.titArea {margin-top:20px;}
+.sub-content div.titArea {margin-top:30px;}
 .hidden {display: none!important;}
 
 /**** BUTTON ****/
@@ -550,7 +550,7 @@ tr.L-grid-row:first-child td {border-top:0 none !important;}
 
 /* Detail */
 .table {
-    margin-bottom: 0; border-top:0;
+    margin-bottom: 0; border-top:0 !important;
 }
 .table > caption + thead > tr:first-child > td, 
 .table > caption + thead > tr:first-child > th, 
@@ -701,6 +701,6 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 #asset_ta01 td div .icon {width:20px !important;}
 #txa_p #rlisSbc {width:724px !important;}
 #txa_p #rlisSbc #L-gen59  {width:714px !important;}
-
-
+#sch_day div.L-datebox.L-form-field input[type="text"] {border:0 !important;}
+#sch_day #adscKindCd #L-gen54  {border:0 !important;}
 
