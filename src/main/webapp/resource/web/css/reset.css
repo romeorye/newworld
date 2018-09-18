@@ -41,8 +41,8 @@
 }
 */
 
-* {letter-spacing:-0.5px; line-height:normal; font-size:13px; font-family:'맑은고딕', 'Malgun Gothic','돋움', 'Dotum', sans-serif; color:#000;}
-html, body {width:100%; padding:0; margin:0}
+* {letter-spacing:-0.5px; line-height:normal; font-size:13px; font-family:'맑은고딕', 'Malgun Gothic','돋움', 'Dotum', sans-serif; }
+html, body {width:100%; padding:0; margin:0;color: #262930;;}
 body,div,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,a,button,select{margin:0; padding:0; font-style:normal;}
 article,aside,canvas,details,figcaption,figure, footer,header,hgroup,menu,nav,section,summary {display:block; }
 audio,canvas,video {display: inline-block;}
@@ -205,7 +205,9 @@ textarea[placeholder], [placeholder], *[placeholder] {
 .w150 {width:150px !important}
 .w148 {width:148px !important}
 .w170 {width:170px !important}
-.w200 {width:200px !important} .w250 {width:250px !important} .w300 {width:300px !important}
+.w200 {width:200px !important} 
+.w250 {width:250px !important} 
+.w300 {width:300px !important}
 .w230 {width:230px !important}
 .w234 {width:234px !important}
 .w78 {width:78px !important}

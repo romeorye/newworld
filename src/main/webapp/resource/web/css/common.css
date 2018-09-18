@@ -206,7 +206,8 @@ h1.logo {position:absolute; top:25px; left:15px; width:104px; height:44px; backg
 /* LNB 메뉴 */
 .lnbArea {position:fixed;top:0;left:10px;bottom:0;width:180px;z-index:99;}
 .lnbArea .inner { position:relative; float:left; width:175px; height:100%; min-height:500px; border-left:1px solid #ececec; border-right:1px solid #ececec;}
-.lnbTitle { height:57px; background:#fff; }
+.lnbTitle { height:57px; background:#fff; display:none !important; }
+.lnbArea .split_l {display:none;}
 .lnbTitle h2 {padding:0 0 0 20px;line-height:57px;font-size:18px;color: #666;font-weight:normal;cursor:pointer; margin:0 !important;}
 .lnbTitle p {font-size:13px; color:#949494; text-align:center;}
 .accordionBtn{ position:absolute; top:0; right:22px; width:22px; height:57px; background:url(../images/newIris/accordion_btn.png) no-repeat 50% ; }
@@ -214,7 +215,7 @@ h1.logo {position:absolute; top:25px; left:15px; width:104px; height:44px; backg
 .lnbArea .split_l { position:relative; width:22px; float:left; margin-left:-22px; border:none; cursor:pointer;}
 .lnbMenuArea{ overflow:auto;}
 .accordion.lnbMenu { background-color:#fff; border-bottom:1px solid #ececec;}
-.accordion.lnbMenu dt{background-color:#f4f4f4; background-image:url('../images/newIris/left_arrow_up_01.png'); background-position:155px center; background-repeat:no-repeat;}
+.accordion.lnbMenu dt{background-color:#f4f4f4; background-image:url('../images/newIris/left_arrow_up_01.png'); background-position:155px center;background-position:182px center; background-repeat:no-repeat;}
 .accordion.lnbMenu dt a {position:relative;display:block;font-size:14px;color: #888;letter-spacing:-1px;border-top:1px solid #ececec;padding: 20px;font-weight: bold;}
 .accordion.lnbMenu dt a:hover {color:#c40452;}
 .accordion.lnbMenu dt.accordion-active{background-image:url('../images/newIris/left_arrow_down_over_01.png');}
@@ -223,8 +224,8 @@ h1.logo {position:absolute; top:25px; left:15px; width:104px; height:44px; backg
 .accordion.lnbMenu > dd {display:none;}
 .accordion.lnbMenu > dd.active {display:block;}
 .accordion.lnbMenu > dd.open { display:block; }
-.accordion.lnbMenu dd ul.submenu li{border-top:1px solid #ececec;}
-.accordion.lnbMenu dd ul.submenu li a {display:block; font-size:13px;color:#666;padding-left:20px;letter-spacing:-1px; color:#747474;line-height: 40px;}
+.accordion.lnbMenu dd ul.submenu li{border-top:1px solid #ececec; background:#fafafa; }
+.accordion.lnbMenu dd ul.submenu li a {display:block; font-size:13px;color:#666;padding-left:20px;letter-spacing:-1px; color:#333;line-height: 40px;}
 .accordion.lnbMenu dd ul.submenu li a:hover , .accordion.lnbMenu dd ul.submenu li.on a {color:#e7528e;}
 .lnbMenuArea .contact1{margin-top:20px;}
 
@@ -252,10 +253,11 @@ h1.logo {position:absolute; top:25px; left:15px; width:104px; height:44px; backg
 .footer .color_mint a{color:#69b3b7; font-size:11px;}
 
 .titleArea {/* margin-top:10px; */position:relative;display:inline-block;width:100%; margin-bottom:25px;}
+/* 20180828 
 .titleArea h2 { position:relative; font-size:16px; color:#333; font-weight:normal; padding:10px 0; float:left; margin:0 !important;}
 .titleArea h2:before{content:''; display:inline-block; position:absolute; top:0; left:0; width:38px; height:2px; background-color:#c40452;}
 .titleArea h2:after{content:''; display:inline-block; position:absolute; top:0; left:38px; width:38px; height:2px; background-color:#333;}
-.titleArea h2 + .LblockButton{margin-top:20px}
+.titleArea h2 + .LblockButton{margin-top:20px}*/
 
 .nav {overflow:hidden;position:absolute;height:16px;line-height:16px;right:160px;top: 8px;}
 .nav li {float:left;}
@@ -1046,7 +1048,7 @@ a.l-blue {color:#3970a8; text-decoration:underline;}
 	-moz-border-radius:2px;
 	-webkit-border-radius:2px;
 	border-radius:2px;
-	border:1px solid #ccc;
+	/*border:1px solid #ccc;*/
 	cursor:pointer;
 	color:#222;
 	font-size:12px;
@@ -1054,7 +1056,7 @@ a.l-blue {color:#3970a8; text-decoration:underline;}
 	text-shadow:0px 1px 0px #ffffff;
 }
 .icoBtn:hover{
-	background:#ededed url('../images/sub/tbl_sch_btn.png') no-repeat 50% !important;
+	background:url('../images/sub/tbl_sch_btn.png') no-repeat 50% !important;
 }
 
 /* 타이틀 */
@@ -1065,7 +1067,7 @@ a.l-blue {color:#3970a8; text-decoration:underline;}
 }
 .titArea h3 {
 	float:left;
-	font-size:16px !important;
+	/*20180904 font-size:16px !important;*/
 	/*background: url('../images/common/bl_st_arr.png') no-repeat 0 50%;
 	padding-left:14px;*/
 	margin:0 !important;
@@ -1883,3 +1885,16 @@ fieldset .table + .table{margin-top:20px}
 .header_inner .name_info:after{content: '';  height:28px; width:1px; display:inline-block; background:#ddd; position: absolute; top:0; right:25px;}
 .header_inner .icon_search{background: url(../images/newIris/i_sh_glasses.png) no-repeat center center; width: 25px; height: 25px; position:absolute; display:inline-block; line-height: 18px; top:0; right:0;}
 .header_inner .icon_search:hover{background: url(../images/newIris/i_sh_glasses_over.png) no-repeat center center;}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,508 @@
 @charset "UTF-8"; 
+/* 20180828수정 
+*/
 
+
+/* ==========================================================================
+  common
+   ========================================================================== */
+   * {    
+    letter-spacing: -0.5px;
+    line-height: normal;
+    font-size: 12px;
+    font-family: '맑은고딕', 'Malgun Gothic','돋움', 'Dotum', sans-serif;
+    }
+    
+	body {
+    padding: 0px;
+    margin: 0px;
+    /*height: 100%;
+    min-height: 100%;
+    background: #f9f9f9;*/
+    background: #fff;
+    position: relative;
+   /* overflow: hidden;*/
+    color: #262930;
+    font-family: "Malgun Gothic", sans-serif;
+    font-size: 12px;
+     box-sizing: border-box;
+     color: #262930;
+     }
+ .mpanefset.L-wait-panel {width:100%;} /* 화면 전체 사이즈 wrap */
+ td select {height:27px;}
+.clear {clear: both;}
+.clearFix:after {content: ''; display: block; clear: both;}
+.noDisplay  {height: 0 !important; width: 0 !important; overflow: hidden !important; position: absolute !important;}
+.txt-center {text-align: center !important;}
+.txt-left   {text-align: left !important;}
+.txt-right  {text-align: right !important;}
+.txt-red    {color: #f01313 !important;}
+.txt-blue   {color: #1456CF !important;} 
+.md20 {margin-left:20px !important;}
+
+
+
+/*** Radio Check ***/
+.radio-inline, 
+.checkbox-inline {
+    position: relative;
+    height: 27px;
+    line-height: 27px;
+    padding-left: 24px;
+    display:inline-block;
+}
+.radio-inline input[type="radio"] + ins.form-control, 
+.checkbox-inline input[type="checkbox"] + ins.form-control {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: 19px;
+    height: 19px;
+    padding: 0;
+    border: none;
+}
+.radio-inline input[type="radio"] + ins.form-control {
+    background: url("/iris/resource/web/images/img_uxp/bg_radio.png") no-repeat center bottom;
+    background: none \0/IE8;
+}
+.radio-inline input[type="radio"]:checked + ins.form-control {
+    background-position-y: top;
+}
+.radio-inline ins.form-control + span {
+    margin-left: 2px;
+}
+.checkbox-inline input[type="checkbox"] + ins.form-control {
+    background: url("/iris/resource/web/images/img_uxp/bg_checkbox.png") no-repeat center bottom;
+    background: none \0/IE8;
+}
+.checkbox-inline input[type="checkbox"]:checked + ins.form-control {
+    background-position-y: top;
+}
+.checkbox-inline ins.form-control + span {
+    margin-left: 2px;
+}
+.checkbox-inline input[type=checkbox], 
+.radio-inline input[type=radio] {
+    margin-top: 8px;
+        position: absolute;
+            margin-left: -20px;
+}
+.radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {margin-left:12px;}
+
+.contents {padding:0; width:100%; min-width:1060px;}
+.sub-content { padding:20px; padding-right:4px; box-sizing:border-box; max-width:1350px; }
+.sub-content div.titArea {margin-top:20px;}
+.hidden {display: none!important;}
+
+/**** BUTTON ****/
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    font-size: 12px;
+    padding: 0 20px;
+ }
+ /* 내부버튼 */
+#butAttcFil-button, 
+#attchFileMngBtn {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
+.L-grid-panel .L-grid-button {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
+
+
+ /**** TITLE ****/
+.titArea h3 {height: 31px;
+    line-height: 31px;
+    margin: 0;
+    margin-right: 20px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #262930;
+    }
+.titArea h4 {height: 31px;
+    line-height: 31px;
+    margin: 0;
+    margin-right: 20px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #262930;
+     display:inline-block; 
+    }
+ .sub-tit h4{
+    height: 31px;
+    line-height: 31px;
+    margin: 0;
+    margin-right: 20px;
+    font-weight: bold;
+    font-size: 15px;
+    color: #262930;
+   
+  
+}
+.titArea .t_right_txt {display:inline-block; float:right; line-height:34px;}
+.titArea  { overflow:hidden;}
+.titArea .sub-tit {background: url(/iris/resource/web/images/newIris/bullet02.png) left center no-repeat; padding-left:12px;}
+.titArea .LblockButton { margin-right: 0; margin-left: 10px;}
+.titArea.btn_top {margin-top:0 !important;}
+
+
+/* ==========================================================================
+   title
+   ========================================================================== */
+.page-head {
+    position: relative;
+    min-width: 1280px;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+}
+.titleArea {
+    position: relative;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom:0;
+}
+.titleArea h2 {
+	    float: left;
+    font-size: 16px;
+    margin: 13px 0 0 17px;
+    font-weight: bold;
+    color: #666;
+    line-height: 1.1;
+}
+.leftCon {
+    display: block;
+    width: 45px;
+    height: 45px;
+    border-right: 1px solid #ededed;
+    text-align: center;
+    float: left;
+}
+.leftCon img {
+    margin: 15px 0 0 0;
+}
+
+.pull-right {
+    float: right!important;
+}
+.global-menu {
+    position: relative;
+    margin-right: 10px;
+}
+.global-menu li {
+    position: relative;
+    float: left;
+    height: 100%;
+    margin: 0 10px;
+    height: 45px;
+}
+.global-menu li:first-child {
+    border-right: 1px solid #ededed;
+}
+.global-menu .header-help button {
+    background: url(../images/img_uxp/ico_help.png) no-repeat;
+    top: 14px;
+    margin-right: 20px;
+}
+.global-menu .header-help button, .global-menu .header-logout button, .global-menu .header-setting button {
+    position: absolute;
+    right: 0;
+    width: 18px;
+    height: 18px;
+}
+.global-menu .header-setting {
+    width: 18px;
+}
+.global-menu .header-logout span {
+    font-family: "LGSmHaR";
+    color: #666;
+    display: inline-block;
+    line-height: 45px;
+    padding-right: 29px;
+}
+.global-menu .header-logout button {
+    top: 14px;
+    background: url(../images/img_uxp/ico_logout.png) no-repeat;
+}
+
+.global-menu .header-setting button {
+    background: url(../images/img_uxp/ico_setting.png) no-repeat;
+    top: 14px;
+}
+
+
+/* ==========================================================================
+   NAV
+   ========================================================================== */
+div.width_layout, .header {height:65px; width:100%; border-bottom:1px solid #ddd; background:#f8f8f8;}
+.width_layout .gnb_height, .header .header_inner {height:65px; position:relative; padding-right:4px; min-width: 1250px; max-width:1560px !important;}
+.width_layout .gnb_height h1, h1.logo {position: fixed; left: 18px; top: 10px; margin: 0;}
+.gnb_search span:first-child {float: right;}
+.gnb_search span:first-child a {font-size:0;}
+.gnb_search span:nth-child(1) {letter-spacing: -1px;}
+div.gnb_search {padding:0 !important; margin-top:20px; margin-right:0 !important; font-size:0 !important; line-height:1.5;}
+div.gnb_search .search_input {border:0; width:155px !important; text-indent:7px;}
+div.gnb_search .name_info {display: inline-block;width:180px; padding:0; float: left; position:relative;margin:0; border:1px solid #da1c5a; background:#fff;}
+div.gnb_search .name_info a {display:inline-block; position:absolute; right:4px; top:5px; width:20px; height:20px;}
+div.gnb_search .name_info:after {border:0;}
+div.header_inner .name_info:after {width:0;}
+div.gnb_search .user-name {font-size:12px; padding:0 5px 0 8px;display: inline-block; line-height:2.1;}
+.header_inner .gnb_search .user-name {font-weight:normal; color:#444;display: inline-block; letter-spacing:-1px;line-height: 30px; padding-right:0;}
+.header_inner div.gnb_search input {padding:0 !important;}
+.gnb_line {display:none;}
+div.gnbArea {position:absolute; left:160px;top:15px; width:850px;}
+div.gnbArea .gnb {margin-left:0;}
+nav.Mgnb, .gnbArea  {position: absolute; padding: 0; margin: 0; left: 140px; top: 15px;}
+/*nav.Mgnb .title li.on {background:#f8f8f8 !important; color:#f01313 !important;}
+nav.Mgnb .title li.on a{color:#f01313 !important;}*/
+nav.Mgnb .title li:hover{background:#f8f8f8; color:#f01313;}
+nav.Mgnb .title li:hover a{color:#da1c5a;}
+
+
+ul.gnb > li, .Mgnb > ul > li {width:auto !important; padding:0 20px;}
+ul.gnb > li a {font-size:15px;}
+ul.gnb > li:hover {color:#d80546; background:#f8f8f8;}
+ul.gnb > li a:hover  {color:#da1c5a;}
+ul.gnb > li:hover a {color:#da1c5a !important;}
+.gnb_height span.icon_search, 
+
+.header_inner span.icon_search,
+div.gnb_search .name_info a:hover span.icon_search {width:20px; height:22px;    background: url(../images/newIris/i_sh_glasses.png) no-repeat 0px 1px;}
+
+/* 전체메뉴 */
+.menu_btn_w { max-width: 1350px;width:100%;  position:relative;}
+.menu_btn {  max-width: 1350px;width:100%;  position:relative;}
+.menu_btn > a{background:#d80546;background:#999;position:absolute;color:#fff; right:4px; top:0; line-height:28px; height:28px;padding:0 20px;}
+.menu_btn:hover #tmpMenu {display:block;}
+.menu_btn #tmpMenu {display:none; position: absolute; z-index:999;width:870px !important; background:#fff; top:26px; border:1px solid #ccc;
+padding: 20px; padding-left:30px; right:0;}
+.menu_btn #tmpMenu input[type=button] {display:none;}
+#horizontalContainer > span {float:left; display:block; position:relative; min-width:100px;  padding-right:10px !important; padding-top:50px;line-height:1.6 ; font-size:12.5px;}
+#horizontalContainer > span strong:first-child {font-size:14px; color:#da1c5a;display:block; margin-bottom:10px;}
+#horizontalContainer > span strong {font-weight:bold; font-size:13px;}
+#horizontalContainer > span a {color:#222;}
+#horizontalContainer > span:before {position:absolute; content:""; display:block; top:-4px; left:0; right:5px; height:70px;}
+#horizontalContainer > span:nth-child(1):before {background: url(../images/newIris/img_allmenu.png) center 20px no-repeat;}
+#horizontalContainer > span:nth-child(2):before {background: url(../images/newIris/img_allmenu.png) center -55px no-repeat;}
+#horizontalContainer > span:nth-child(3):before {background: url(../images/newIris/img_allmenu.png) center -155px no-repeat;}
+#horizontalContainer > span:nth-child(4):before {background: url(../images/newIris/img_allmenu.png) center -255px no-repeat;}
+#horizontalContainer > span:nth-child(5):before {background: url(../images/newIris/img_allmenu.png) center -380px no-repeat;}
+#horizontalContainer > span:nth-child(6) {display:none;}
+#horizontalContainer > span:nth-child(7):before {background: url(../images/newIris/img_allmenu.png) center -465px no-repeat;}
+
+/* 전체메뉴임시 */
+div.top_gnb {width:1000px;}
+nav.Mgnb .top_gnb {top:50px;} /* 전체메뉴 상단 이치 */
+
+/********** LEFT **********/
+div.lnbArea {left:0;border-right: 1px solid #dedede; width:211px; box-sizing: border-box;}
+div.lnbArea .inner {width:210px !important; border-left:0; }
+/*.lnbArea {left:0 !important; width:210px !important; background:#f8f8f8; box-sizing:border-box; border-right: 1px solid #dedede;}
+.lnbArea .inner {width:210px !important;}*/
+.lnbArea .accordion.lnbMenu dt {background:#eee url(/iris/resource/web/images/img_uxp/menu_open.png) 182px 26px no-repeat;}
+.lnbArea .accordion.lnbMenu dt.accordion-active {background:#eee url(/iris/resource/web/images/img_uxp/menu_close.png) 182px 26px no-repeat;}
+.accordion.lnbMenu dd ul.submenu li a:before { content: '';  display: block; position: absolute; top: 18px; width: 4px; height: 4px; border-radius: 2px; background:#666;}
+.accordion.lnbMenu dd ul.submenu li a {position:relative;text-indent:8px;}
+.lnbArea .left_phone {/*margin-top:10px; margin-left:7px; */position:absolute; bottom:10px; left:7px; background:#fff; width:196px; border:1px solid #eee;}
+
+/* ==========================================================================
+   search
+   ========================================================================== */
+.search-content table {width:100% !important;}
+.search-content table tbody th {border-right:0; }
+
+.search:after {
+    display: block;
+    content: "";
+    clear: both;
+}
+.search-content {
+    position: relative;
+    padding: 10px;
+    border: 1px solid #c3c3c3;
+    background: #fff;
+}
+.search-content table tbody th {
+    text-align: right
+}
+.search-content table tbody th, 
+.search-content table tbody td {
+    height: 34px;
+    padding: 4px 10px;
+    box-sizing: border-box;
+}
+.search-footer {
+    float: right;
+    position: relative;
+    margin-top: 12px
+}
+.search .row + .row {
+    margin-top: 8px;
+}
+.search .row > label {
+    height: 27px;
+    line-height: 27px;
+    padding-right: 10px;
+    text-align: right;
+    color: #4d4c4c;
+    font-weight: bold;
+}
+.search .row > label + div {
+    color: #4d4c4c;
+}
+.search .row:last-of-type .form-group {
+    margin-bottom: 0;
+}
+.search-toggleBtn {
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    margin-left: -40px;
+}
+.search-toggleBtn button.btn-default {
+    width: 80px;
+    height: 18px;
+    padding: 0;
+    border-top: none;
+    background: #fff url("../images/img_uxp/ico_arrowUpDown01.png") no-repeat center 6px;
+    text-indent: -9999px;
+}
+.search-toggleBtn.spread button {
+    background-position-y: -12px;
+}
+.search .row + .hiddenBlock.show {
+    margin-top: 8px;
+}
+.search-single .row > label {
+    height: 33px;
+    line-height: 33px;
+}
+.search-single .row > label + div {
+    padding: 3px 0;
+    height: 33px;
+}
+.search-single .search-footer {
+    float: left;
+    margin-top: 0;
+    margin-left: 12px;
+}
+.search-content .display-row {
+    display: table-row;
+}
+.search-content .display-row ~ tr {
+    display: none;
+}
+.search .btnL {min-width:25px; text-align:center; padding:0 22px;}
+.L-popuptextbox.L-fixed a.icon {background:#fff url("/iris/resource/web/images/img_uxp/ico_search.png") no-repeat center 4px; width:28px;}
+/*돋보기있는 검색버튼*/
+.searchBox .btnL {background:none; width:auto; padding:0 20px; font-size:12px; font-weight:bold; border:1px solid #da1c5a; height:auto;line-height:25px;}
+
+a .equ_icon_search, a .equ_icon_search:hover {
+    background: url(../images/newIris/i_sh_glasses.png) no-repeat 0px 1px;
+    width: 20px;
+    height: 20px;
+    margin-left: -25px;
+    display: inline-block;
+    line-height: 18px;
+    vertical-align: text-top;
+}
+a .equ_info:after {right:30px;}
+
+
+.btnL {   
+	height: 27px;
+    font-weight: bold;
+    color: #fff!important;
+    background-color: #da1c5a!important;
+    border-color: #da1c5a!important;
+    line-height:25px;
+    }
+
+ .search-toggleBtn {
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    margin-left: -40px;
+}
+.search-toggleBtn button.btn-default {
+    width: 80px;
+    height: 18px;
+    padding: 0;
+    border: 1px solid #c3c3c3;
+    border-top: none;
+    background: #fff url("/iris/resource/web/images/img_uxp/ico_arrowUpDown01.png") no-repeat center 6px;
+    text-indent: -9999px;
+}
+.search-toggleBtn.spread button {
+    background-position-y: -12px;
+}
+
+.search-toggleBtn.spread button {
+    background-position-y: -12px;
+}
+.search .row + .hiddenBlock.show {
+    margin-top: 8px;
+}
+.search-single .row > label {
+    height: 33px;
+    line-height: 33px;
+}
+.search-single .row > label + div {
+    padding: 3px 0;
+    height: 33px;
+}
+.search-single .search-footer {
+    float: left;
+    margin-top: 0;
+    margin-left: 12px;
+}
+.search-content .display-row {
+    display: table-row;
+}
+.search-content .display-row ~ tr {
+    display: none;
+}
+.search + .titArea {margin-top:10px;}
+.L-monthbox.L-fixed {width:90px !important;}
+.L-datebox.L-fixed a.icon, 
+.L-monthbox.L-fixed a.icon {
+	width: 26px;
+    height: 25px;
+    padding: 0;
+    margin-left: 5px;
+    border: none;
+    background: url(/iris/resource/web/images/img_uxp/ico_datepicker.png) 4px 3px no-repeat !important;
+    text-indent: -9999px;
+    border: 1px solid #c3c3c3;
+    top: -1px;
+    right:-32px !important;
+
+}
+.gab {
+    margin: 0 0 0 32px;
+}
+.L-form-field {
+    border: 1px solid #c3c3c3;
+}
+.L-form-field input[type="text"] {height:25px; padding:4px 10px;}
+div.L-combo.L-form-field input[type="text"]  {height:25px;}
+
+
+
+
+/******************************************** iris_style.css로 밸 부분 
+나중에 아래부분 뺴서 커밋  ***************************************/
 /* ==========================================================================
    grid & table
    ========================================================================== */
@@ -39,7 +542,7 @@ tr.L-grid-row:first-child td {border-top:0 none !important;}
 
 
 .pull-right button, .pull-right button:hover {}
-.titArea {height: 31px; line-height: 31px; margin-bottom: 5px; padding:10px 0 0 0;}
+.titArea {height: 31px; line-height: 31px; margin-bottom: 5px; padding:0 0 0 0;}
 .redBtn button, .redBtn button:hover {color: #fff!important; background-color: #da1c5a!important; border-color: #da1c5a!important; 
  padding:0 20px; font-weight:normal;}
 
@@ -90,11 +593,12 @@ tr.L-grid-row:first-child td {border-top:0 none !important;}
 }
 
 .table tbody th:last-child {border-right:1px solid #c3c3c3;}
-
+.table tbody td:last-child  {border-right:1px solid #c3c3c3;border-top:1px solid #c3c3c3;}
 
 /* ==========================================================================
    TAB
    ========================================================================== */
+#tabView {margin-bottom:10px;}
 #tabView .L-tabview.L-navset {margin-bottom;10px;}
 .L-navset ul.L-nav:before {box-sizing: border-box;}
 .L-navset ul.L-nav:after {clear:both;}
@@ -149,6 +653,9 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .L-panel .container-close, .L-panel .container-close:hover { background: url(/iris/resource/web/images/newIris/pop_close.png) center center no-repeat; width:20px; height:20px;}
 /*new*/
 .L-panel .pop_conin {padding-bottom:10px}
+.L-panel .bd  {padding: 20px 15px 14px;}
+.pop_in .sub-content {padding:0 !important;}
+
 
 /* ==========================================================================
    화면별CSS 
@@ -162,4 +669,38 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .p-admin dt {margin:5px 0;}
 .p-admin dd {font-weight:normal; }
 .p-admin dd:last-child {margin-bottom:6px;}
-.p-admin tr td:last-child {border-right:1px solid #c3c3c3;}
+.p-admin tr td:last-child {border-rigt:1px solid #c3c3c3;}
+
+/* ===============================
+   Technical Service
+   ==============================*/
+#technical_tab01 .analyze_box .analyze_img1 {background-image: url(../images/newIris/img_tachnical_tab01_01.png); width: 203px; height: 152px;}
+#technical_tab01 .analyze_box .analyze_img2 {background-image: url(../images/newIris/img_tachnical_tab01_02.png); width: 203px; height: 152px;}
+#technical_tab01 .analyze_box .analyze_img3 {background-image: url(../images/newIris/img_tachnical_tab01_03.png); width: 203px; height: 152px;}
+#technical_tab01 .analyze_box .analyze_img4 {background-image: url(../images/newIris/img_tachnical_tab01_04.png); width: 203px; height: 152px;}
+#technical_tab01 .analyze_field {display:table;}
+#technical_tab01 .analyze_field > div {display:table-cell; float:none;}
+#technical_tab01 .analyze_field .analyze_box {width:203px; vertical-align:middle; border:0; }
+#technical_tab01 .analyze_field .analyze_box img {border:1px solid #c3c3c3;}
+#technical_tab01 .analyze_field .analyze_cont { vertical-align:top; padding-left:23px;}
+.tab_in {padding-top:20px;}
+
+
+
+.product_01 span {display:inline-block; float:left; height:22px; line-height:22px; margin-right:12px;  }
+.L-ul.L-ul-treeview.L-fixed {border:1px solid #c3c3c3; margin-top:10px; padding:10px; box-sizing:border-box;}
+#fxain_size .L-display-field.L-instance {width:145px !important;}
+#fxain_size .L-textbox.L-fixed.L-form-field {width:155px !important;}
+.table.table_txt_right.qnareg td {padding-top:6px; padding-bottom:6px;}
+.table.table_txt_right.qnareg td a.btn, 
+.table.table_txt_right.qnareg td a.btn:hover {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important; line-height:25px; color:#333;}
+.table.table_txt_right.qnareg #rebNm {width:710px !important; float:left; margin-right:10px;}
+.table.table_txt_right.qnareg #rebNm textarea {width:700px !important;}
+#asset_ta01 td div {width:198px !important;}
+#asset_ta01 td div input {width:188px !important;}
+#asset_ta01 td div .icon {width:20px !important;}
+#txa_p #rlisSbc {width:724px !important;}
+#txa_p #rlisSbc #L-gen59  {width:714px !important;}
+
+
+
