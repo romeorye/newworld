@@ -343,7 +343,7 @@
 				<br/>
 				<div class="search">
 					<div class="search-content">
-		   				<table>
+		   				<table id="sch_day">
 		   					<colgroup>
 		   						<col style="width:10%;"/>
 		   						<col style="width:35%;"/>

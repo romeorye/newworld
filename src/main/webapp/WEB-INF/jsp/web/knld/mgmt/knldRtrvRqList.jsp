@@ -166,18 +166,16 @@
 		<input type="hidden" id="reUrl" name="reUrl" value=""/>
 		<input type="hidden" id="authYn" name="authYn" value=""/>
 		
-   		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-						<a class="leftCon" href="#">
-			        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
-			        	<span class="hidden">Toggle 버튼</span>
-	        		</a> 
-	   				<h2>조회 요청</h2>
-	   			</div>
-	   			
-   				<div class="sub-content">	
+   		<div class="contents">   			
+   			<div class="titleArea">
+					<a class="leftCon" href="#">
+		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        	<span class="hidden">Toggle 버튼</span>
+        		</a> 
+   				<h2>조회 요청</h2>
+   			</div>
+   			
+  			<div class="sub-content">	
 	   			<div class="search">
 					<div class="search-content">
 		   				<table>

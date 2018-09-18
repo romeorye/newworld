@@ -364,8 +364,8 @@
  				<h2>시장기술정보 등록</h2>
  			</div>
 			<div class="sub-content">
-				<div class="sub-content">
-					<div class="titArea btn_top">
+				<div class="titArea btn_top">
+					<div class="LblockButton">
 						<button type="button" id="saveBtn"   name="saveBtn">저장</button>
 						<button type="button" id="butGoList" name="butGoList">목록</button>
 					</div>

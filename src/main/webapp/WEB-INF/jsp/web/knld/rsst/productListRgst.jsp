@@ -389,11 +389,11 @@
    					<tbody>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>업무분류</th>
-   							<td colspan="2">
+   							<td colspan="3" class="product_01">
    								<span id="affrClNm"></span>
-   							</td>
-   							<td>
-    							<button type="button" class="icoBtn" id="affrTreeSrhBtn" name="affrTreeSrhBtn" onclick="affrTreeSrh()"></button>
+    							<span>
+    								<button type="button" class="icoBtn" id="affrTreeSrhBtn" name="affrTreeSrhBtn" onclick="affrTreeSrh()"></button>
+    							</span>
    							</td>
    						</tr>
    						<tr>

@@ -345,50 +345,52 @@ function fncExcelDown() {
 		<input type="hidden" id="pageMode" name="pageMode" value="" />
 		<input type="hidden" id="test" name="test" value="3" />
 
-   		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>공지사항</h2>
+   		<div class="contents">   			
+   			<div class="titleArea">
+   				<h2>공지사항</h2>
+   			</div>
+			<div class="sub-content">
+				<div class="search">
+					<div class="search-content">
+		 				<table>
+		 					<colgroup>
+		 						<col style="width:120px;"/>
+		 						<col style="width:240px;"/>
+		 						<col style="width:120px;"/>
+		 						<col style="width:200px;"/>
+		 						<col style=";"/>
+		 					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<th>제목</th>
+		   							<td colspan="3">
+		   								<input type="text" id="titlNm" value="">
+		   							</td>
+		   							<td>
+<!-- 	<button  type="button" class="btn_search"  onclick="getPwiImtrList();">검색</button> -->
+		   								
+		   							</td>
+		   						</tr>
+		   						<tr>
+		   							<th>분류</th>
+		   							<td>
+		   								<div id="pwiScnCd" ></div>
+		   							</td>
+		   							<th>등록자</th>
+		    						<td>
+		   								<input type="text" id="rgstNm" value="">
+		    						</td>
+		    						<td class="txt-right"><a style="cursor: pointer;" onclick="getPwiImtrList();" class="btnL">검색</a></td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+		   			</div>
 	   			</div>
-
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:40%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:30%;"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-				   					<tbody>
-				   						<tr>
-				   							<th>제목</th>
-				   							<td colspan="3">
-				   								<input type="text" id="titlNm" value="">
-				   							</td>
-				   							<td rowspan="2">
-<!-- 				   								<button  type="button" class="btn_search"  onclick="getPwiImtrList();">검색</button> -->
-				   								<a style="cursor: pointer;" onclick="getPwiImtrList();" class="btnL">검색</a>
-				   							</td>
-				   						</tr>
-				   						<tr>
-				   							<th>분류</th>
-				   							<td>
-				   								<div id="pwiScnCd" ></div>
-				   							</td>
-				   							<th>등록자</th>
-				    						<td>
-				   								<input type="text" id="rgstNm" value="">
-				    						</td>
-				   						</tr>
-				   					</tbody>
-				   				</table>
-				   			</div>
 
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">
-<!--    						 <button type="button" id="qryBtn" name="qryBtn" onclick="getPwiImtrList()">조회</button> -->
+<!--    				<button type="button" id="qryBtn" name="qryBtn" onclick="getPwiImtrList()">조회</button> -->
    						<button type="button" id="rgstBtn" name="rgstBtn" >등록</button>
    						<button type="button" id="excelBtn" name="excelBtn">Excel</button>
    					</div>
