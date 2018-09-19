@@ -877,7 +877,7 @@ function fncGenTssAltrDetail(cd) {
         </div>
 
         <div class="sub-content">
-            <div class="titArea">
+            <div class="titArea mt0">
                 <div class="titArea btn_top">
 					<div class="LblockButton">
 	                    <button type="button" id="btnDelRq" name="btnDelRq">삭제</button>

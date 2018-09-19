@@ -186,6 +186,10 @@
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
 			<h2>소모품 관리</h2>
 		</div>
 
@@ -194,40 +198,43 @@
 				<input type="hidden" id="menuType" name="menuType" value="IRIED0202"/>
 				<input type="hidden" id="cgdsId" name="cgdsId"  value="<c:out value='${inputData.cgdsId}'/>">
 				
-				<table class="searchBox">
-					<colgroup>
-						<col style="width: 15%" />
-						<col style="width: 30%" />
-						<col style="width: 15%" />
-						<col style="width:" />
-						<col style="width: 10%" />
-					</colgroup>
-					<tbody>
-						<tr>
-							<th align="right">소모품명</th>
-							<td>
-								<input type="text" id="cgdsNm"/>	
-							</td>
-							<th align="right">제조사</th>
-							<td>
-								<input type="text" id="mkrNm"/>	
-							</td>
-							<td rowspan="3" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-						</tr>
-						<tr>
-							<th align="right">Stock No.</th>
-							<td>
-								<input type="text" id="stkNo"/>	
-							</td>
-							<th align="right">담당자</th>
-							<td>
-								<input type="text" id="cgdCrgrNm"/>	
-							</td> 
-						</tr>
-						</tbody>
-				</table>
-				<br>
-				<br>
+				<div class="search">
+					<div class="search-content">
+		                <table>
+		                    <colgroup>
+		                        <col style="width: 120px;" />
+		                        <col style="width: 330px;" />
+		                        <col style="width: 120px;" />
+		                        <col style="width: 300px;" />
+		                        <col style=" " />
+		                    </colgroup>
+							<tbody>
+								<tr>
+									<th align="right">소모품명</th>
+									<td>
+										<input type="text" id="cgdsNm"/>	
+									</td>
+									<th align="right">제조사</th>
+									<td>
+										<input type="text" id="mkrNm"/>	
+									</td>
+									<td></td>
+								</tr>
+								<tr>
+									<th align="right">Stock No.</th>
+									<td>
+										<input type="text" id="stkNo"/>	
+									</td>
+									<th align="right">담당자</th>
+									<td>
+										<input type="text" id="cgdCrgrNm"/>	
+									</td>
+									<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+								</tr>
+								</tbody>
+						</table>
+					</div>
+				</div>
 				<div class="titArea">
    					<span class="table_summay_number" id="cnt_text"></span>
 					<div class="LblockButton">

@@ -218,10 +218,15 @@ var mchnMgmtRegDialog;
 	});
 	
 </script>
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
 			<h2>분석기기 관리이력</h2>
 		</div>
 
@@ -229,40 +234,45 @@ var mchnMgmtRegDialog;
 
 			<form name="aform" id="aform" method="post">
 
-				<table class="searchBox">
-					<colgroup>
-						<col style="width: 15%" />
-						<col style="width: 30%" />
-						<col style="width: 15%" />
-						<col style="width:" />
-						<col style="width: 10%" />
-					</colgroup>
-					<tbody>
-						<tr>
-							<th align="right">기기명</th>
-							<td><input type="text" id="mchnNm"/></td>
-							<th align="right">기기분류</th>
-							<td>
-								<select  id="mchnClCd" ></select>
-							</td>
-							<td rowspan="3" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-						</tr>
-						<tr>
-							<th align="right">작성자</th>
-							<td><input type="text" id="rgstNm" /></td>
-							<th align="right">관리분류</th>
-							<td>
-								<select  id="mchnMgmtCd" ></select>
-							</td>
-						</tr>
-						<tr>	
-							<th align="right">관리일</th>
-							<td colspan="3">
-								<input type="text" id="mgmtStrDt"><em class="gab"> ~ </em><input type="text" id="mgmtEndDt">
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="search">
+					<div class="search-content">
+		   				<table>
+							<colgroup>
+								<col style="width:120px" />
+								<col style="width:200px" />
+								<col style="width:120px" />
+								<col style="width:400px" />
+								<col style="" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th align="right">기기명</th>
+									<td><input type="text" id="mchnNm"/></td>
+									<th align="right">기기분류</th>
+									<td>
+										<select  id="mchnClCd" ></select>
+									</td>
+									<td></td>
+								</tr>
+								<tr>
+									<th align="right">작성자</th>
+									<td><input type="text" id="rgstNm" /></td>
+									<th align="right">관리분류</th>
+									<td>
+										<select  id="mchnMgmtCd" ></select>
+									</td>
+									<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+								</tr>
+								<tr>	
+									<th align="right">관리일</th>
+									<td colspan="3">
+										<input type="text" id="mgmtStrDt"><em class="gab"> ~ </em><input type="text" id="mgmtEndDt">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 				<div class="titArea">
 					<span class="table_summay_number" id="cnt_text"></span>
 					<div class="LblockButton">

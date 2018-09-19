@@ -135,6 +135,10 @@ var mailTitl;
 <body>
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
 			<h2>기기예약관리 상세</h2>
 		</div>
 		<div class="sub-content">
@@ -161,7 +165,7 @@ var mailTitl;
 				<input type="hidden" id="toMailAddr" name="toMailAddr" value="<c:out value='${result.rgstMail}'/>">
 				<input type="hidden" id="prctScnNm" name="prctScnNm" >
 				
-				<div class="LblockButton top">
+				<div class="LblockButton top mt0">
 					<button type="button" id="butSave">승인</button>
 					<button type="button" id="butRe">반려</button>
 					<button type="button" id="butList">목록</button>

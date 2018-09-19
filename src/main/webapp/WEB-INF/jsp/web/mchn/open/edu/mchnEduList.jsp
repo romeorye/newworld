@@ -72,6 +72,7 @@
 	        dataSet: dataSet,
 	        width:1150,
 	        height: 540,
+	        autoWidth: true
 	    });
 
 	    grid.render('mhcnGrid');
@@ -159,6 +160,10 @@
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">
 		 <div class="titleArea">
+		 	<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
 			<h2>기기교육</h2>
 		</div>
 
@@ -167,50 +172,51 @@
 				<input type="hidden" id="menuType" name="menuType" value="IRIDE0104"/>
 				<input type="hidden" id="mchnEduId" name="mchnEduId" />
 				
-				<table class="searchBox">
-					<colgroup>
-						<col style="width: 15%" />
-						<col style="width: 30%" />
-						<col style="width: 15%" />
-						<col style="width:" />
-						<col style="width: 10%" />
-					</colgroup>
-					<tbody>
-						<tr>
-							<th align="right">교육명</th>
-							<td>
-								<input type="text" id="eduNm" />
-							</td>
-							<th align="right">상태</th>
-							<td>
-								<select id="pttYn"></select>
-							</td>
-							<td rowspan="2" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-						</tr>
-						<tr>
-							<th align="right">교육구분</th>
-							<td>
-								<div id="eduScnCd"></div>
-							</td>
-							<th align="right">교육일</th>
-							<td>
-								<input type="text" id="frEduDt" /><em class="gab"> ~ </em>	<input type="text" id="toEduDt" />
-							</td>
-						</tr>
-						
-						
-						
-						</tbody>
-				</table>
+				<div class="search">
+					<div class="search-content">
+						<table>
+							<colgroup>
+								<col style="width:120px" />
+								<col style="width:200px" />
+								<col style="width:120px" />
+								<col style="width:400px" />
+								<col style="" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th align="right">교육명</th>
+									<td>
+										<input type="text" id="eduNm" />
+									</td>
+									<th align="right">상태</th>
+									<td>
+										<select id="pttYn"></select>
+									</td>
+									<td></td>
+								</tr>
+								<tr>
+									<th align="right">교육구분</th>
+									<td>
+										<div id="eduScnCd"></div>
+									</td>
+									<th align="right">교육일</th>
+									<td>
+										<input type="text" id="frEduDt" /><em class="gab"> ~ </em>	<input type="text" id="toEduDt" />
+									</td>
+									<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+								</tr>				
+							</tbody>
+						</table>
+					</div>
+				</div>
 				<!-- <div class="titArea">
 					<h3></h3>
 					<div class="LblockButton">
 						<button type="button" id="butExcl">EXCEL다운로드</button>
 					</div>
 				</div> -->
-				<br>
-				<br>
-				<span class="table_summay_number" id="cnt_text"></span>
+
+				<p class="table_summay_number" id="cnt_text" style="padding:20px 0 8px 0;"></p>
 				<div id="mhcnGrid"></div>
 			</form>
 

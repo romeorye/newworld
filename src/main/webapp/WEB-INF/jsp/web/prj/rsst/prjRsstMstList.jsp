@@ -24,7 +24,7 @@
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 
 <title><%=documentTitle%></title>
-
+<script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script>
 <script type="text/javascript">
 var dataSet;	// 프로젝트 데이터셋
 var dm;         // 데이터셋매니저
@@ -302,6 +302,10 @@ function fncExcelDown() {
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
    		<div class="contents">
    			<div class="titleArea">
+   				<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a>
    				<h2>현황</h2>
    		    </div>
 <%--    		    <%@ include file="/WEB-INF/jsp/include/navigator.jspf"%> --%>
@@ -312,50 +316,52 @@ function fncExcelDown() {
 				<input type="hidden" name="_GRANT" value='${inputData._GRANT}' />
 				<input type="hidden" name="pageMode" value='' />
 				<input type="hidden" name="prjCd" value='' />
-
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:15%"/>
-   						<col style="width:30%"/>
-   						<col style="width:15%"/>
-   						<col style="width:"/>
-   						<col style="width:10%"/>
-   					</colgroup>
-   					<tbody>
-   					    <tr>
-   							<th align="right">WBS 코드</th>
-   							<td>
-   								<span>
-									<input type="text" id="wbsCd" name="wbsCd" value="" >
-								</span>
-   							</td>
-   							<th align="right">프로젝트명</th>
-    						<td>
-    							<input type="text"  id="prjNm" name="prjNm" value="" >
-    						</td>
-    						<td rowspan="3" class="t_center">
-   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-	   					<tr>
-   							<th align="right">PL 명</th>
-    						<td>
-    							<input type="text" id="saName" name="saName" value="" >
-    						</td>
-   							<th align="right">조직</th>
-   							<td>
-   								<input type="text" id="deptName" name="deptName" value="" >
-   							</td>
-   						</tr>
-   						<tr>
-   							<th align="right">프로젝트기간</th>
-   							<td colspan="3">
-   								<input type="text" id="fromDate" /><em class="gab"> ~ </em>
-   								<input type="text" id="toDate" />
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+				<div class="search">
+					<div class="search-content">
+		   				<table>
+		   					<colgroup>
+		   						<col style="width:120px"/>
+		   						<col style="width:360px"/>
+		   						<col style="width:120px"/>
+		   						<col style="width:220px"/>
+		   						<col style=""/>
+		   					</colgroup>
+		   					<tbody>
+		   					    <tr>
+		   							<th align="right">WBS 코드</th>
+		   							<td>
+		   								<span>
+											<input type="text" id="wbsCd" name="wbsCd" value="" >
+										</span>
+		   							</td>
+		   							<th align="right">프로젝트명</th>
+		    						<td>
+		    							<input type="text"  id="prjNm" name="prjNm" value="" >
+		    						</td>
+		    						<td></td>
+		   						</tr>
+			   					<tr>
+		   							<th align="right">PL 명</th>
+		    						<td>
+		    							<input type="text" id="saName" name="saName" value="" >
+		    						</td>
+		   							<th align="right">조직</th>
+		   							<td>
+		   								<input type="text" id="deptName" name="deptName" value="" >
+		   							</td>
+		   							<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+		   						</tr>
+		   						<tr>
+		   							<th align="right">프로젝트기간</th>
+		   							<td colspan="4">
+		   								<input type="text" id="fromDate" /><em class="gab"> ~ </em>
+		   								<input type="text" id="toDate" />
+		   							</td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
 
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text"></span>

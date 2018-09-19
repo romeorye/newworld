@@ -174,11 +174,15 @@
    		<div class="contents">
    		
 			<div class="titleArea">
+				<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a>
 				<h2>월마감 목록</h2>
 		    </div>
 		    
 	       	<div class="sub-content">
-	       		<div class="titArea">
+	       		<div class="titArea" style="margin-top:0;">
 		       		<span class="table_summay_number" id="cnt_text">총 : 0 </span>
 	       		</div>
 				<form id="aform" name="aform" method="post">

@@ -525,7 +525,11 @@ var openMchnSearchDialog;
 <body>
 	<div class="contents" style="position:absolute;top:0px;Z-INDEX:1;">
 		<div class="titleArea">
-			<h2>기기교육관리</h2>
+			<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
+			<h2>기기교육 관리</h2>
 		</div>
 	<form name="searchForm" id="searchForm">
 		<input type="hidden" name="eduNm" value="${inputData.eduNm}"/>
@@ -542,7 +546,7 @@ var openMchnSearchDialog;
 				<input type="hidden" id="eduCrgrId" name="eduCrgrId"   />
 				<input type="hidden" id="mchnEduId" name="mchnEduId"  value="<c:out value='${inputData.mchnEduId}'/>">
 
-				<div class="LblockButton top">
+				<div class="LblockButton top mt0">
 					<button type="button" id="butSave">저장</button>
 					<button type="button" id="butdel">삭제</button>
 					<button type="button" id="butList">목록</button>
@@ -583,7 +587,7 @@ var openMchnSearchDialog;
 							</td>
 							<th align="right"><span style="color:red;">*  </span>모집인원</th>
 							<td colspan="2">
-								<input id="ivttCpsn" type="text" />명
+								<input id="ivttCpsn" type="text" />&nbsp명
 							</td>
 						</tr>
 						<tr>

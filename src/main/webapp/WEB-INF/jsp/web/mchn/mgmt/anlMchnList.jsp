@@ -20,6 +20,7 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+
 <title><%=documentTitle%></title>
 
 <script type="text/javascript">
@@ -220,10 +221,15 @@
 
 
 </script>
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
 			<h2>분석기기 관리</h2>
 		</div>
 
@@ -232,42 +238,47 @@
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" />
 
-				<table class="searchBox">
-					<colgroup>
-						<col style="width: 15%" />
-						<col style="width: 30%" />
-						<col style="width: 15%" />
-						<col style="width:" />
-						<col style="width: 10%" />
-					</colgroup>
-					<tbody>
-						<tr>
-							<th align="right">기기명</th>
-							<td><input type="text" id="mchnNm"/></td>
-							<th align="right">분류</th>
-							<td>
-								<select  id="mchnClCd" ></select>
-							</td>
-							<td rowspan="3" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-						</tr>
-						<tr>
-							<th align="right">자산번호</th>
-							<td><input type="text" id="fxaNo" /></td>
-							<th align="right">OPEN기기</th>
-							<td>
-								<select id="opnYn" name="opnYn" />
-							</td>
-						</tr>
-						<tr>
-							<th align="right">담당자</th>
-							<td><input type="text" id="mchnCrgrNm" /></td>
-							<th align="right">상태</th>
-							<td>
-								<select id="mchnUsePsblYn"></select>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="search">
+					<div class="search-content">
+		   				<table>
+							<colgroup>
+								<col style="width:120px" />
+								<col style="width:200px" />
+								<col style="width:120px" />
+								<col style="width:400px" />
+								<col style="" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th align="right">기기명</th>
+									<td><input type="text" id="mchnNm"/></td>
+									<th align="right">분류</th>
+									<td>
+										<select  id="mchnClCd" ></select>
+									</td>
+									<td></td>
+								</tr>
+								<tr>
+									<th align="right">자산번호</th>
+									<td><input type="text" id="fxaNo" /></td>
+									<th align="right">OPEN기기</th>
+									<td>
+										<select id="opnYn" name="opnYn" />
+									</td>
+									<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+								</tr>
+								<tr>
+									<th align="right">담당자</th>
+									<td><input type="text" id="mchnCrgrNm" /></td>
+									<th align="right">상태</th>
+									<td>
+										<select id="mchnUsePsblYn"></select>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 				<div class="titArea">
 					<span class="table_summay_number" id="cnt_text"></span>
 					<div class="LblockButton">

@@ -641,67 +641,73 @@
 <body>
 <Tag:saymessage /><!--  sayMessage 사용시 필요 -->
 
-<div class="contents">
-
-
-	<div class="sub-content">
-		<div class="titleArea">
-	   		<h2>월마감 상세정보</h2>
-	   	</div>
-		
-		<div class="titArea">
+<div class="contents">	
+	<div class="titleArea">
+		<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
+   		<h2>월마감 상세정보</h2>
+   	</div>
+   	
+	<div class="sub-content">	
+		<div class="titArea" style="margin-top:0;">
 			<h3>프로젝트 정보</h3>
 		</div>
 		<form id="prjForm" name="prjForm" method="post">
 		<input type="hidden" id="hPrjCd" name="hPrjCd" value="<c:out value='${input.prjCd}'/>"/>
 		<input type="hidden" id="hWbsCd" name="hWbsCd" value="<c:out value='${input.wbsCd}'/>"/>
-		<table class="searchBox">
-			<colgroup>
-				<col style="width:15%"/>
-				<col style="width:30%"/>
-				<col style="width:15%"/>
-				<col style="width:30%"/>
-				<col style="width:*"/>
-			</colgroup>
-			<tbody>
-			    <tr>
-					<th align="right">WBS 코드</th>
-					<td>
-						<span id="spnWbsCd"></span>
-					</td>
-					<th align="right">프로젝트명</th>
-					<td>
-						<span id="spnPrjNm"></span>
-					</td>
-					<td rowspan="3" class="t_center">
- 						<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
- 					</td>
-				</tr>
-				<tr>
-					<th align="right">PL 명</th>
-					<td><span id="spnSaName"></span></td>
-					<th align="right">조직</th>
-					<td>
-						<span id="spnDeptName"></span>
-					</td>
-				</tr>
-				<tr>
-					<th align="right">기준월</th>
-					<td>
-						<input type="text" id="searchMonth" name="searchMonth"/>
-					</td>
-					<th align="right">전월마감완료</th>
-					<td>
-						<span id="aftPgsSt"></span>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="search">
+			<div class="search-content">
+				<table>
+					<colgroup>
+						<col style="width:15%"/>
+						<col style="width:30%"/>
+						<col style="width:15%"/>
+						<col style="width:30%"/>
+						<col style="width:*"/>
+					</colgroup>
+					<tbody>
+					    <tr>
+							<th align="right">WBS 코드</th>
+							<td>
+								<span id="spnWbsCd"></span>
+							</td>
+							<th align="right">프로젝트명</th>
+							<td>
+								<span id="spnPrjNm"></span>
+							</td>
+							<td rowspan="3" class="t_center">
+		 						<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+		 					</td>
+						</tr>
+						<tr>
+							<th align="right">PL 명</th>
+							<td><span id="spnSaName"></span></td>
+							<th align="right">조직</th>
+							<td>
+								<span id="spnDeptName"></span>
+							</td>
+						</tr>
+						<tr>
+							<th align="right">기준월</th>
+							<td>
+								<input type="text" id="searchMonth" name="searchMonth"/>
+							</td>
+							<th align="right">전월마감완료</th>
+							<td>
+								<span id="aftPgsSt"></span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 		</form>
 		<br>
 		
 		
-		<div class="titArea">
+		<div class="titArea" style="margin-top:0;">
 			<h3>MBO (특성지표) 계획</h3>
 		</div>
 		<div id="mboGrid"></div>
@@ -720,7 +726,7 @@
 		<div id="ptoprptGrid"></div>
 		<br> -->
 		
-		<div class="titArea">
+		<div class="titArea" style="margin-top:0;">
 			<h3>진척도</h3>
 		</div>
 		<div id="tssPgsGrid"></div>
@@ -731,8 +737,8 @@
 		<input type="hidden" id="hDownFilSeq" name="hDownFilSeq" value=""/>
 		<table class="table table_txt_right">
 			<colgroup>
-				<col style="width:10%; "/>
-				<col style="width:75%; "/>
+				<col style="width:15%; "/>
+				<col style="width:55%; "/>
 				<col style="width:*; "/>
 			</colgroup>
 			<tbody>

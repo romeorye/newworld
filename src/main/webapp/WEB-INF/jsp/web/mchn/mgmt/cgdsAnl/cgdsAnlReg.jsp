@@ -416,6 +416,10 @@ var fncCgdsAnlList;
 <body>
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
 			<h2>소모품등록</h2>
 		</div>
 
@@ -435,7 +439,7 @@ var fncCgdsAnlList;
 				<input type="hidden" id="cgdCrgrId" name="cgdCrgrId" />
 				<input type="hidden" id="cgdsId" name="cgdsId" value="<c:out value='${inputData.cgdsId}'/>">
 				
-				<div class="LblockButton top">
+				<div class="LblockButton top mt0">
 					<button type="button" id="butSave">저장</button>
 					<button type="button" id="butDel">삭제</button>
 					<button type="button" id="butList">목록</button>
