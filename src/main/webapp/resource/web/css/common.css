@@ -1073,7 +1073,7 @@ a.l-blue {color:#3970a8; text-decoration:underline;}
 	/*background: url('../images/common/bl_st_arr.png') no-repeat 0 50%;
 	padding-left:14px;*/
 	margin:0 !important;
-	font-weight:normal;
+	/*font-weight:normal;*/
 }
 .titArea h3 .h3_stitle{
     color: #969696!important;

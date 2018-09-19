@@ -41,7 +41,9 @@
 .md20 {margin-left:20px !important;}
 .md0 {margin-left:0 !important;}
 .mt20 {margin-top:20px !important;}
+.mt10 {margin-top:10px !important;}
 .mt0 {margin-top:0 !important;}
+.mb10 {margin-bottom:10px !important;}
 
 /*** Radio Check ***/
 .radio-inline, 
@@ -117,6 +119,7 @@
     font-size: 12px;
     padding: 0 20px;
  }
+ .btn_btn,  .btn_btm {margin:10px 0 10px 0;}
  /* 내부버튼 */
 #butAttcFil-button, 
 #attchFileMngBtn {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
@@ -593,6 +596,8 @@ tr.L-grid-row:first-child td {border-top:0 none !important;}
 .table tbody th:last-child {border-right:1px solid #c3c3c3;}
 .table tbody td:last-child  {border-right:1px solid #c3c3c3;border-top:1px solid #c3c3c3;}
 
+.LblockButton {margin-right:0 !important;}
+
 /* ==========================================================================
    TAB
    ========================================================================== */
@@ -703,16 +708,15 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 #sch_day #adscKindCd #L-gen54  {border:0 !important;}
 #animch_ta #mchnExpl, #animch_ta #mchnExpl textarea  {width:100% !important;}
 
+.rqprlist_sch .tdin_w100 div {width:80% !important;}
+.rqprlist_sch .tdin_w100 div input {width:80% !important;}
+.aniqnalinfo #rebNm {width:733px !important; float:left;}
+.aniqnalinfo #rebNm textarea {width:723px !important; }
+.aniqnalinfo a.btn {margin-left:6px !important; border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
 
-
-
-
-
-
-
-
-
-
+.ousco_tdin {text-align:center !important;}
+.ousco_tdin div {width:90px !important;}
+.ousco_tdin div input:first-child {width:80px !important;}
 
 
 
