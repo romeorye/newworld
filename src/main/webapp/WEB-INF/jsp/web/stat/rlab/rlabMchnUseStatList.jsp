@@ -199,6 +199,10 @@ var mchnInfoId;
  <!-- contents -->
 <div class="contents">
 	<div class="titleArea">
+		<a class="leftCon" href="#">
+       		<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+       		<span class="hidden">Toggle 버튼</span>
+      	</a>
 		<h2>장비사용 통계</h2>
     </div>
     <table class="searchBox">

@@ -40,18 +40,18 @@ var mailTitl;
 
         resultDataSet.on('load', function(e) {
         });
-        
+
         var prctScnCd = "<c:out value='${inputData.prctScnCd}'/>";
         mailTitl = "신뢰성시험장비 예약 신청 결과 안내";
 
 		dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-		
+
 		/* [버튼] : 승인 저장 */
     	var butSave = new Rui.ui.LButton('butSave');
 		/* if(prctScnCd != "RQ"){
 			butSave.disable();
 		} */
-		
+
    		butSave.on('click', function(){
     		Rui.confirm({
     			text: '승인 처리하시겠습니까?',
@@ -81,7 +81,7 @@ var mailTitl;
     	var fncSaveMchnApprInfo = function(cd){
     		dm.on('success', function(e) {      // 업데이트 성공시
 	    		var resultData = resultDataSet.getReadData(e);
-	    		
+
     			alert(resultData.records[0].rtnMsg);
 	    		if( resultData.records[0].rtnSt == "Y"){
 		    		fncMchnApprList();
@@ -90,9 +90,9 @@ var mailTitl;
     	    dm.on('failure', function(e) {      // 업데이트 실패시
                 Rui.alert("update Fail");
     	    });
-    	    
+
     	    document.aform.prctScnCd.value = cd;
-    	    
+
     	    var confirmMsg = "처리 하시겠습니까?";
     	    if(cd == "APPR" ){
     	    	confirmMsg = "승인"+confirmMsg;
@@ -101,7 +101,7 @@ var mailTitl;
     	    	confirmMsg = "반려"+confirmMsg;
     	    	document.aform.prctScnNm.value = "반려";
     	    }
-    	    
+
           	dm.updateForm({
           		url: "<c:url value='/mchn/mgmt/updateRlabTestEqipPrctInfo.do'/>"
           	   ,form : 'aform'
@@ -110,7 +110,7 @@ var mailTitl;
 	        	    }
           	});
     	}
-    	
+
     	/* [버튼] : 기기예약 관리목록 이동 */
     	var butList = new Rui.ui.LButton('butList');
     	butList.on('click', function(){
@@ -122,7 +122,7 @@ var mailTitl;
 			$('#searchForm > input[name=prctTitl]').val(encodeURIComponent($('#searchForm > input[name=prctTitl]').val()));
 			$('#searchForm > input[name=rgstNm]').val(encodeURIComponent($('#searchForm > input[name=rgstNm]').val()));
 			$('#searchForm > input[name=mchnNm]').val(encodeURIComponent($('#searchForm > input[name=mchnNm]').val()));
-	    	
+
 	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/retrieveRlabTestEqipPrctMgmtList.do"/>");
     	}
 
@@ -134,18 +134,22 @@ var mailTitl;
 <body>
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+	        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	        	<span class="hidden">Toggle 버튼</span>
+        	</a>
 			<h2>기기예약관리 상세</h2>
 		</div>
 		<div class="sub-content">
-		
+
 		<form name="searchForm" id="searchForm">
 			<input type="hidden" name="prctTitl" value="${inputData.prctTitl}"/>
 			<input type="hidden" name="rgstNm" value="${inputData.rgstNm}"/>
 			<input type="hidden" name="mchnNm" value="${inputData.mchnNm}"/>
 			<input type="hidden" name="prctScnCd" value="${inputData.prctScnCd}"/>
 	    </form>
-	    
-	    
+
+
 			<form name="aform" id="aform"  method="post">
 				<input type="hidden" id="menuType" name="menuType" />
 				<input type="hidden" id="mchnPrctId" name="mchnPrctId" value="<c:out value='${inputData.mchnPrctId}'/>">
@@ -160,7 +164,7 @@ var mailTitl;
 				<input type="hidden" id="toMailAddr" name="toMailAddr" value="<c:out value='${result.rgstMail}'/>">
 				<input type="hidden" id="prctScnNm" name="prctScnNm" >
 				<input type="hidden" id="prctFromToDt" name="prctFromToDt" value="<c:out value='${result.prctFromToDt}'/>">
-				
+
 				<div class="LblockButton top">
 					<button type="button" id="butSave">승인</button>
 					<button type="button" id="butRe">반려</button>

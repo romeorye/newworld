@@ -151,6 +151,10 @@ var mchnInfoId;
  <!-- contents -->
 <div class="contents">
 	<div class="titleArea">
+		<a class="leftCon" href="#">
+       		<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+       		<span class="hidden">Toggle 버튼</span>
+       	</a>
 		<h2>기간별 통계</h2>
     </div>
     <table class="searchBox">
@@ -178,10 +182,6 @@ var mchnInfoId;
 	<!-- sub-content -->
 	<div class="sub-content">
 		<!-- 시험구분별통계 -->
-   			<div class="titArea">
-   				<div class="LblockButton">
-   				</div>
-	   		</div>
    			<div id="rlabTermStatGrid"></div>
 	</div>
 	<!-- //sub-content -->

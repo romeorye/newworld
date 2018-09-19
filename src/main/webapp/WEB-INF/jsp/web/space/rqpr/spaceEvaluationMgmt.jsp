@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,15 +43,15 @@
 	var ctgr2="";
 	var ctgr3="";
 		Rui.onReady(function() {
-			
+
             /*******************
              * 변수 및 객체 선언
             *******************/
             var textBox = new Rui.ui.form.LTextBox({
                 emptyValue: ''
             });
-            
-            
+
+
             /* 사업부 데이터셋 */
             var spaceEvBzdvDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceEvBzdvDataSet',
@@ -62,7 +62,7 @@
      				, { id: 'ctgrNm' }
                 ]
             });
-            
+
             /* 제품군 데이터셋 */
             var spaceEvProdClDataSet = new Rui.data.LJsonDataSet({
             	id: 'spaceEvProdClDataSet',
@@ -74,7 +74,7 @@
      				, { id: 'ctgrNm' }
                 ]
             });
-            
+
             /* 분류 데이터셋 */
             var spaceEvClDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceEvClDataSet',
@@ -86,7 +86,7 @@
 					, { id: 'ctgrNm' }
                 ]
             });
-            
+
             /* 제품 데이터셋 */
             var spaceEvProdDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceEvProdDataSet',
@@ -98,7 +98,7 @@
 					, { id: 'ctgrNm' }
                 ]
             });
-            
+
             /* 자재단위평가 데이터셋 */
             var spaceEvMtrlListDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceEvMtrlListDataSet',
@@ -121,7 +121,7 @@
 					, { id: 'evCd' }
                 ]
             });
-            
+
             //사업부 그리드 컬럼 설정
             var spaceEvBzdvModel = new Rui.ui.grid.LColumnModel({
                 columns: [
@@ -130,7 +130,7 @@
                     , { field: 'ctgrNm',	label: '제품군',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 200 }
                 ]
             });
-          	
+
             //제품군 그리드 컬럼 설정
             var spaceEvProdClModel = new Rui.ui.grid.LColumnModel({
                 columns: [
@@ -140,7 +140,7 @@
                     , { field: 'ctgrNm',	label: '제품군',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 200 }
                 ]
             });
-            
+
           	//분류 그리드 컬럼 설정
             var spaceEvClModel = new Rui.ui.grid.LColumnModel({
                 columns: [
@@ -150,7 +150,7 @@
                     , { field: 'ctgrNm',	label: '제품군',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 200 }
                 ]
             });
-          
+
           	//제품 그리드 컬럼 설정
             var spaceEvProdModel = new Rui.ui.grid.LColumnModel({
                 columns: [
@@ -160,7 +160,7 @@
                     , { field: 'ctgrNm',	label: '제품군',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 200 }
                 ]
             });
-          	
+
             //자재단위평가 그리드 컬럼 설정
             var spaceEvMtrlListModel = new Rui.ui.grid.LColumnModel({
                 columns: [
@@ -183,9 +183,9 @@
   		  	    			  return '';
   		  	    		  }else{
   		  	    			  return '<button type="button"  class="L-grid-button" >다운로드</button>';
-  		  	    		  } 
+  		  	    		  }
   		  	    		 }
-                      } 
+                      }
                     , { field: 'rem',			label: '비고',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                 ]
             });
@@ -197,7 +197,7 @@
      	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
      	       	document.aform.submit();
             } */
-            
+
             //사업부 그리드 패널 설정
             var spaceEvBzdvGrid = new Rui.ui.grid.LGridPanel({
                 columnModel: spaceEvBzdvModel,
@@ -208,7 +208,7 @@
                 autoWidth: true
             });
             spaceEvBzdvGrid.render('spaceEvBzdvGrid');
-            
+
             //제품군 그리드 패널 설정
             var spaceEvProdClGrid = new Rui.ui.grid.LGridPanel({
                 columnModel: spaceEvProdClModel,
@@ -219,7 +219,7 @@
                 autoWidth: true
             });
             spaceEvProdClGrid.render('spaceEvProdClGrid');
-            
+
             //분류 그리드 패널 설정
             var spaceEvClGrid = new Rui.ui.grid.LGridPanel({
                 columnModel: spaceEvClModel,
@@ -230,7 +230,7 @@
                 autoWidth: true
             });
             spaceEvClGrid.render('spaceEvClGrid');
-            
+
             //제품 그리드 패널 설정
             var spaceEvProdGrid = new Rui.ui.grid.LGridPanel({
                 columnModel: spaceEvProdModel,
@@ -241,7 +241,7 @@
                 autoWidth: true
             });
             spaceEvProdGrid.render('spaceEvProdGrid');
-            
+
             //자재단위평가 그리드 패널 설정
             var spaceEvMtrlListGrid = new Rui.ui.grid.LGridPanel({
                 columnModel: spaceEvMtrlListModel,
@@ -252,7 +252,7 @@
                 autoWidth: true
             });
             spaceEvMtrlListGrid.render('spaceEvMtrlListGrid');
-            
+
             spaceEvMtrlListGrid.on('cellClick',function(e){
             	if(e.colId=="attachDownBtn"){
             		var recordData=spaceEvMtrlListDataSet.getAt(spaceEvMtrlListDataSet.rowPosition);
@@ -263,10 +263,10 @@
             			var param = "?attcFilId=" + attcFilId;
              	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
              	       	document.aform.submit();
-            		}         		
+            		}
             	}
             });
-            
+
             /* 사업부 조회 */
             getSpaceEvBzdvList = function() {
             	spaceEvBzdvDataSet.load({
@@ -275,31 +275,31 @@
             };
             //화면 로딩시 조회
             getSpaceEvBzdvList();
-            
-            
-            
+
+
+
             /* 사업부 그리드 클릭 -> 제품군 조회 */
             spaceEvBzdvGrid.on('cellClick', function(e) {
             	ctgr1List();
             });
-            
-            
+
+
             /* 제품군 그리드 클릭 -> 분류 조회 */
             spaceEvProdClGrid.on('cellClick', function(e) {
             	ctgr2List();
             });
-            
-            
+
+
             /* 분류 그리드 클릭 -> 제품 조회 */
             spaceEvClGrid.on('cellClick', function(e) {
             	ctgr3List();
             });
-            
+
             /* 제품 그리드 클릭 -> 상세목록 조회 */
             spaceEvProdGrid.on('cellClick', function(e) {
             	mtrlList();
             });
-            
+
           	//제품군조회
             ctgr1List = function(){
             	//제품군 초기화
@@ -312,9 +312,9 @@
             	spaceEvMtrlListDataSet.clearData();
             	//var record = spaceEvBzdvDataSet.getAt(e.row);
             	if(spaceEvBzdvDataSet.getState(spaceEvBzdvDataSet.rowPosition)==1){
-            		return;	
+            		return;
             	}
-            	
+
             	var record = spaceEvBzdvDataSet.getAt(spaceEvBzdvDataSet.rowPosition);
             	var supiCd = record.data.ctgrCd;
             	ctgrNm01 =record.data.ctgrNm;
@@ -332,7 +332,7 @@
                 });
             	spaceEvMtrlListDataSet.load({
                     url: '<c:url value="/space/spaceEvMtrlList.do"/>',
-                    params :{  supiCd0:supiCd 
+                    params :{  supiCd0:supiCd
                     	    }
                 });
             }
@@ -344,7 +344,7 @@
             	spaceEvProdDataSet.clearData();
 				//성적서정보 초기화
             	spaceEvMtrlListDataSet.clearData();
-				
+
             	var record0 = spaceEvBzdvDataSet.getAt(spaceEvBzdvDataSet.rowPosition);
             	var supiCd0 = record0.data.ctgrCd;
             	var record = spaceEvProdClDataSet.getAt(spaceEvProdClDataSet.rowPosition);
@@ -358,7 +358,7 @@
             	ctgr2="";
             	ctgr3="";
             	if(spaceEvProdClDataSet.getState(spaceEvProdClDataSet.rowPosition)==1){
-            		return;	
+            		return;
             	}
             	spaceEvClDataSet.load({
                     url: '<c:url value="/space/spaceEvClList.do"/>',
@@ -377,7 +377,7 @@
             	spaceEvProdDataSet.clearData();
             	//성적서정보 초기화
             	spaceEvMtrlListDataSet.clearData();
-            	
+
             	var record0 = spaceEvBzdvDataSet.getAt(spaceEvBzdvDataSet.rowPosition);
             	var supiCd0 = record0.data.ctgrCd;
             	var record1 = spaceEvProdClDataSet.getAt(spaceEvProdClDataSet.rowPosition);
@@ -392,11 +392,11 @@
             	ctgr1=supiCd1;
             	ctgr2=supiCd;
             	ctgr3="";
-            	
+
             	if(spaceEvClDataSet.getState(spaceEvClDataSet.rowPosition)==1){
-            		return;	
+            		return;
             	}
-            	
+
             	spaceEvProdDataSet.load({
                     url: '<c:url value="/space/spaceEvProdList.do"/>',
                     params :{ supiCd:supiCd }
@@ -409,12 +409,12 @@
                     	    }
                 });
             }
-            
+
             //성적서조회
             mtrlList = function(){
             	//성적서정보 초기화
             	spaceEvMtrlListDataSet.clearData();
-            	
+
             	var record0 = spaceEvBzdvDataSet.getAt(spaceEvBzdvDataSet.rowPosition);
             	var supiCd0 = record0.data.ctgrCd;
             	var record1 = spaceEvProdClDataSet.getAt(spaceEvProdClDataSet.rowPosition);
@@ -432,7 +432,7 @@
             	ctgr2=supiCd2;
             	ctgr3=supiCd3;
             	if(spaceEvProdDataSet.getState(spaceEvProdDataSet.rowPosition)==1){
-            		return;	
+            		return;
             	}
             	spaceEvMtrlListDataSet.load({
                     url: '<c:url value="/space/spaceEvMtrlList.do"/>',
@@ -443,7 +443,7 @@
                     	    }
                 });
             }
-            
+
             /* 사업부 추가 */
             addStep0 = function() {
             	//제품군 초기화
@@ -454,11 +454,11 @@
             	spaceEvProdDataSet.clearData();
 				//성적서정보 초기화
             	spaceEvMtrlListDataSet.clearData();
-				
+
             	spaceEvBzdvDataSet.newRecord();
-            	
+
             };
-            
+
             /* 제품군 추가 */
             addStep1 = function() {
             	//분류 초기화
@@ -474,7 +474,7 @@
             	spaceEvProdClDataSet.newRecord();
             	spaceEvProdClDataSet.setValue(spaceEvProdClDataSet.rowPosition,0,spaceEvBzdvDataSet.getValue(spaceEvBzdvDataSet.rowPosition,0));
             };
-            
+
             /* 분류 추가 */
             addStep2 = function() {
 				//제품 초기화
@@ -488,7 +488,7 @@
             	spaceEvClDataSet.newRecord();
             	spaceEvClDataSet.setValue(spaceEvClDataSet.rowPosition,0,spaceEvProdClDataSet.getValue(spaceEvProdClDataSet.rowPosition,1));
             };
-            
+
             /* 제품 추가 */
             addStep3 = function() {
 				//성적서정보 초기화
@@ -500,7 +500,7 @@
             	spaceEvProdDataSet.newRecord();
             	spaceEvProdDataSet.setValue(spaceEvProdDataSet.rowPosition,0,spaceEvClDataSet.getValue(spaceEvClDataSet.rowPosition,1));
             };
-            
+
             //사업부저장
             saveStep0 = function(){
             	//서버전송
@@ -515,7 +515,7 @@
         	    dm.on('failure', function(e) {      // 업데이트 실패시
                     Rui.alert("Save Fail");
         	    });
-                
+
             	Rui.confirm({
                     text: '저장하시겠습니까?',
                     handlerYes: function() {
@@ -552,8 +552,8 @@
                     },
                     handlerNo: Rui.emptyFn
                 });
-            }            
-            
+            }
+
           	//분류저장
             saveStep2 = function(){
             	//서버전송
@@ -578,7 +578,7 @@
                     },
                     handlerNo: Rui.emptyFn
                 });
-            }     
+            }
 
           	//제품저장
             saveStep3 = function(){
@@ -604,16 +604,16 @@
                     },
                     handlerNo: Rui.emptyFn
                 });
-            }    
-          	
+            }
+
             /* 사업부 삭제 */
             deleteStep0 = function() {
             	if(spaceEvBzdvDataSet.getState(spaceEvBzdvDataSet.rowPosition)==1){
             		spaceEvBzdvDataSet.removeAt(spaceEvBzdvDataSet.rowPosition);
-            		return;	
+            		return;
             	}
 				var delDate = spaceEvBzdvDataSet.getAt(spaceEvBzdvDataSet.rowPosition);
-            	
+
             	var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
         		dm.on('success', function(e) {      // 업데이트 성공시
@@ -638,15 +638,15 @@
     	   	        }
     	   		});
             };
-            
+
             /* 제품군 삭제 */
             deleteStep1 = function() {
             	if(spaceEvProdClDataSet.getState(spaceEvProdClDataSet.rowPosition)==1){
             		spaceEvProdClDataSet.removeAt(spaceEvProdClDataSet.rowPosition);
-            		return;	
+            		return;
             	}
 				var delDate = spaceEvProdClDataSet.getAt(spaceEvProdClDataSet.rowPosition);
-            	
+
             	var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
         		dm.on('success', function(e) {      // 업데이트 성공시
@@ -672,15 +672,15 @@
     	   	        }
     	   		});
             };
-            
+
             /* 분류 삭제 */
             deleteStep2 = function() {
             	if(spaceEvClDataSet.getState(spaceEvClDataSet.rowPosition)==1){
             		spaceEvClDataSet.removeAt(spaceEvClDataSet.rowPosition);
-            		return;	
+            		return;
             	}
 				var delDate = spaceEvClDataSet.getAt(spaceEvClDataSet.rowPosition);
-            	
+
             	var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
         		dm.on('success', function(e) {      // 업데이트 성공시
@@ -706,15 +706,15 @@
     	   	        }
     	   		});
             };
-            
+
             /* 제품 삭제 */
             deleteStep3 = function() {
             	if(spaceEvProdDataSet.getState(spaceEvProdDataSet.rowPosition)==1){
             		spaceEvProdDataSet.removeAt(spaceEvProdDataSet.rowPosition);
-            		return;	
+            		return;
             	}
 				var delDate = spaceEvProdDataSet.getAt(spaceEvProdDataSet.rowPosition);
-            	
+
             	var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
         		dm.on('success', function(e) {      // 업데이트 성공시
@@ -740,7 +740,7 @@
     	   	        }
     	   		});
             };
-            
+
             //성적서 저장후조회
             fnList = function() {
             	var record0 = spaceEvBzdvDataSet.getAt(spaceEvBzdvDataSet.rowPosition);
@@ -751,7 +751,7 @@
             	var supiCd2 = record2.data.ctgrCd;
             	var record3 = spaceEvProdDataSet.getAt(spaceEvProdDataSet.rowPosition);
             	var supiCd3 = record3.data.ctgrCd;
-            	
+
             	spaceEvMtrlListDataSet.load({
                     url: '<c:url value="/space/spaceEvMtrlList.do"/>',
                     params :{ supiCd0:supiCd0
@@ -761,12 +761,12 @@
                     	    }
                 });
             }
-          
+
             //성적서등록 팝업 저장
             callChildSave = function() {
             	mchnDialog.getFrameWindow().fnSave();
             }
-          
+
          	// 성적서등록 팝업 시작
 			mchnDialog = new Rui.ui.LFrameDialog({
 		        id: 'mchnDialog',
@@ -792,16 +792,16 @@
 		    	mchnDialog.show();
 		    };
 		 	// 성적서등록 팝업 끝
-		    
+
 		    setMchnInfo = function(mchnInfo) {
 				if(anlExprDtlDataSet.findRow('mchnInfoId', mchnInfo.get("mchnInfoId")) > -1) {
 					alert('이미 존재합니다.');
 					return ;
 				}
-    	    	
+
             	var row = anlExprDtlDataSet.newRecord();
             	var record = anlExprDtlDataSet.getAt(row);
-            	
+
             	record.set('exprCd', selectExprCd);
             	record.set('mchnInfoId', mchnInfo.get("mchnInfoId"));
             	record.set('mchnInfoNm', mchnInfo.get("mchnNm"));
@@ -810,7 +810,7 @@
             	record.set('mchnClNm', mchnInfo.get("mchnClNm"));
             	record.set('mchnCrgrNm', mchnInfo.get("mchnCrgrNm"));
             }
-            
+
             //성적서 등록 버튼
             rslrReq = function() {
             	var selectSpaceEvProd = spaceEvProdDataSet.rowPosition;
@@ -820,7 +820,7 @@
             		openMchnSearchDialog(setMchnInfo);
             	}
             };
-            
+
           //성적서 삭제
             deleteRslr = function() {
             	var record0 = spaceEvBzdvDataSet.getAt(spaceEvBzdvDataSet.rowPosition);
@@ -837,7 +837,7 @@
             		return;
             	}
             	var delDate = spaceEvMtrlListDataSet.getAt(spaceEvMtrlListDataSet.rowPosition);
-            	
+
             	var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
         		dm.on('success', function(e) {      // 업데이트 성공시
@@ -876,8 +876,8 @@
     <body>
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
-		
-   		<div class="contents">   			
+
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
@@ -885,8 +885,8 @@
 	        	</a>
    				<h2>공간평가 평가법관리</h2>
    			</div>
-   			
-	   		<div class="sub-content">	
+
+	   		<div class="sub-content">
 	   			<table style="width:100%;border=0;">
    					<colgroup>
 						<col style="width:20%;">
@@ -905,9 +905,9 @@
 								   		<button type="button" class="btn"  id="saveStep0dBtn" name="saveStep0dBtn" onclick="saveStep0();">저장</button>
 				   					</div>
 				   				</div>
-				   				
+
 				   				<div id="spaceEvBzdvGrid"></div>
-				   				
+
    							</td>
    							<td>&nbsp;</td>
    							<td>
@@ -919,7 +919,7 @@
 								   		<button type="button" class="btn"  id="saveStep1dBtn" name="saveStep1dBtn" onclick="saveStep1();">저장</button>
 				   					</div>
 				   				</div>
-				
+
 				   				<div id="spaceEvProdClGrid"></div>
    							</td>
    							<td>&nbsp;</td>
@@ -932,7 +932,7 @@
 								   		<button type="button" class="btn"  id="saveStep2dBtn" name="saveStep2dBtn" onclick="saveStep2();">저장</button>
 				   					</div>
 				   				</div>
-				
+
 				   				<div id="spaceEvClGrid"></div>
    							</td>
    							<td>&nbsp;</td>
@@ -945,7 +945,7 @@
 								   		<button type="button" class="btn"  id="saveStep3dBtn" name="saveStep3dBtn" onclick="saveStep3();">저장</button>
 				   					</div>
 				   				</div>
-				
+
 				   				<div id="spaceEvProdGrid"></div>
    							</td>
    						</tr>
@@ -958,16 +958,16 @@
 								   		<button type="button" class="btn"  id="delRslrBtn" name="delRslrBtn" onclick="deleteRslr();">삭제</button>
 				   					</div>
 				   				</div>
-				   				
+
 				   				<div id="spaceEvMtrlListGrid"></div>
    							</td>
    						</tr>
    					</tbody>
    				</table>
-				
-				
-				
-				
+
+
+
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

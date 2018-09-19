@@ -291,12 +291,12 @@
   		  	    			  return '';
   		  	    		  }else{
   		  	    			  return '<button type="button"  class="L-grid-button" >다운로드</button>';
-  		  	    		  } 
+  		  	    		  }
   		  	    		 }
                       }
                     , { field: 'rem',			label: '비고',		sortable: false,	editable: false, 	align:'center',	width: 150 }
                     , { field: 'attcFilId',	hidden : true}
-                    
+
                 ]
             });
 
@@ -326,10 +326,10 @@
             			}else{
             				fncRq();
             			}
-            		}         		
+            		}
             	}
             });
-            
+
 			//////////////////////////////// 통합성능평가결과서부분/////////////////////////////////
             var anlExprDtlDataSet = new Rui.data.LJsonDataSet({
                 id: 'anlExprDtlDataSet',
@@ -456,7 +456,13 @@
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
 
    		<div class="contents">
-
+			<div class="titleArea">
+				<a class="leftCon" href="#">
+	        		<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	        		<span class="hidden">Toggle 버튼</span>
+        		</a>
+				<h2>성능 Master</h2>
+			</div>
    			<div class="sub-content">
    				<table class="searchBox">
    					<tbody>
