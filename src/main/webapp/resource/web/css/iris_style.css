@@ -39,8 +39,9 @@
 .txt-red    {color: #f01313 !important;}
 .txt-blue   {color: #1456CF !important;} 
 .md20 {margin-left:20px !important;}
-
-
+.md0 {margin-left:0 !important;}
+.mt20 {margin-top:20px !important;}
+.mt0 {margin-top:0 !important;}
 
 /*** Radio Check ***/
 .radio-inline, 
@@ -120,7 +121,7 @@
 #butAttcFil-button, 
 #attchFileMngBtn {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
 .L-grid-panel .L-grid-button {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
-
+table td button {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
 
  /**** TITLE ****/
 .titArea h3 {height: 31px;
@@ -490,7 +491,7 @@ a .equ_info:after {right:30px;}
 
 }
 .gab {
-    margin: 0 0 0 32px;
+    margin: 0 4px 0 32px !important;
 }
 .L-form-field {
     border: 1px solid #c3c3c3;
@@ -500,9 +501,6 @@ div.L-combo.L-form-field input[type="text"]  {height:25px;}
 
 
 
-
-/******************************************** iris_style.css로 밸 부분 
-나중에 아래부분 뺴서 커밋  ***************************************/
 /* ==========================================================================
    grid & table
    ========================================================================== */
@@ -703,4 +701,21 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 #txa_p #rlisSbc #L-gen59  {width:714px !important;}
 #sch_day div.L-datebox.L-form-field input[type="text"] {border:0 !important;}
 #sch_day #adscKindCd #L-gen54  {border:0 !important;}
+#animch_ta #mchnExpl, #animch_ta #mchnExpl textarea  {width:100% !important;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
