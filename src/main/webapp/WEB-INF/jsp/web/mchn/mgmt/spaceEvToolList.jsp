@@ -21,6 +21,7 @@
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 <title><%=documentTitle%></title>
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 
 <script type="text/javascript">
 
@@ -233,7 +234,8 @@
 
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" />
-
+					<div class="search">
+					<div class="search-content">
 				<table class="searchBox">
 					<colgroup>
 						<col style="width: 15%" />
@@ -270,6 +272,8 @@
 						</tr>
 					</tbody>
 				</table>
+				</div>
+				</div>
 				<div class="titArea">
 					<span class="table_summay_number" id="cnt_text"></span>
 					<div class="LblockButton">

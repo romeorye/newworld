@@ -25,6 +25,7 @@
 
 <title><%=documentTitle%></title>
 <script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 <script type="text/javascript">
 var dataSet;	// 프로젝트 데이터셋
 var dm;         // 데이터셋매니저
@@ -42,7 +43,7 @@ Rui.onReady(function() {
 	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
 		roleCheck = "ADM";
 	}
-	
+
 	/** dateBox **/
 	var fromDate = new Rui.ui.form.LDateBox({
 		applyTo: 'fromDate',
@@ -60,7 +61,7 @@ Rui.onReady(function() {
 			fromDate.setValue(new Date());
 		}
 	});
-	
+
 	var toDate = new Rui.ui.form.LDateBox({
 		applyTo: 'toDate',
 		mask: '9999-99-99',
@@ -88,12 +89,12 @@ Rui.onReady(function() {
     			maxLength: 6
     			}
     });
- 	/*  	
+ 	/*
  	ltWbsCd.on('blur', function(e) {
 		ltWbsCd.setValue(ltWbsCd.getValue().trim());
     });
-  */ 
-	
+  */
+
 	var ltSaName = new Rui.ui.form.LTextBox({
     	applyTo: 'saName',
     	width : 200,
@@ -106,7 +107,7 @@ Rui.onReady(function() {
 	ltSaName.on('blur', function(e) {
 		ltSaName.setValue(ltSaName.getValue().trim());
     });
-    
+
     var ltPrjNm = new Rui.ui.form.LTextBox({
     	applyTo: 'prjNm',
     	width : 200,
@@ -119,7 +120,7 @@ Rui.onReady(function() {
     ltPrjNm.on('blur', function(e) {
     	ltPrjNm.setValue((ltPrjNm.getValue()).trim());
     });
- 
+
     var deptName = new Rui.ui.form.LTextBox({
     	applyTo: 'deptName',
     	width : 200,
@@ -129,7 +130,7 @@ Rui.onReady(function() {
     deptName.on('blur', function(e) {
     	deptName.setValue(deptName.getValue().trim());
     });
-	
+
     /*
     var lpTbdeptNm = new Rui.ui.form.LPopupTextBox({
         applyTo: 'deptName',
@@ -150,7 +151,7 @@ Rui.onReady(function() {
     	lpTbdeptNm.setValue(deptInfo.upperDeptNm);
     };
     */
-    
+
 
 	/* [버튼] 프로젝트등록 */
 	var lbButRgst = new Rui.ui.LButton('butRgst');
@@ -188,7 +189,7 @@ Rui.onReady(function() {
 		columns: [
 			  { field: 'prjCd'        , hidden : true}
 			, { field: 'wbsCd'        , label: 'WBS CODE',  		   sortable: false,	align:'center', width: 90 }
-			, { field: 'prjNm'        , label: '프로젝트명(소속명)',   sortable: false,	align:'left', width: 350 
+			, { field: 'prjNm'        , label: '프로젝트명(소속명)',   sortable: false,	align:'left', width: 350
 				, renderer: function(value){
             		return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
             	}}
@@ -211,7 +212,7 @@ Rui.onReady(function() {
 	    autoWidth: true
 	});
 	grid.render('defaultGrid');
-	
+
 	grid.on('cellClick', function(e) {
 		var colId = e.colId; //col의 id
 		if(colId == 'prjNm' && dataSet.getRow() > -1){
@@ -226,7 +227,7 @@ Rui.onReady(function() {
 	dataSet.on('load', function(e){
 		document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
 	});
-	
+
 	// 조회
 	fnSearch = function() {
 
@@ -365,7 +366,7 @@ function fncExcelDown() {
 
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text"></span>
-   				
+
 <!--    					<h3>Project 목록</h3> -->
 					<div class="LblockButton">
    						<button type="button" id="butRgst" name="butRgst"  class="redBtn">프로젝트 등록</button>
