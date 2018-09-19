@@ -569,29 +569,37 @@ function dataSetColSum(sumDataSet,colNm){
 <body>
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
  			<h2>M/M 입력</h2>
 		</div>
 		<div class="sub-content">
 
 			<form name="searchForm" id="searchForm" method="post">
-   				<table class="searchBox" id = "mmSearchTable">
-   					<colgroup>
-   						<col style="width:10%"/>
-   						<col style="width:80%"/>
-   						<col style="width:10%"/>
-   					</colgroup>
-   					<tbody>
-   					    <tr>
-   							<th align="right">기준월</th>
-   							<td>
-   								<input type="text" id="searchMonth" name="searchMonth"/>
-							</td>
-							<td align="center">
-								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+   				<div class="search">
+					<div class="search-content">
+		   				<table>
+		   					<colgroup>
+		   						<col style="width:10%"/>
+		   						<col style="width:80%"/>
+		   						<col style="width:10%"/>
+		   					</colgroup>
+		   					<tbody>
+		   					    <tr>
+		   							<th align="right">기준월</th>
+		   							<td>
+		   								<input type="text" id="searchMonth" name="searchMonth"/>
+									</td>
+									<td align="center">
+										<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+									</td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
    			</form>
 
 			<div class="titArea">

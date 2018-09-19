@@ -416,8 +416,8 @@ $(window).load(function() {
                 </tr>
             </tbody>
         </table>
-        <div class="titArea">
-	        <span class="sub-tit"><h4>&gt; 수행기관</h4></span>
+        <div class="titArea mt10">
+	        <h4>수행기관</h4>
 		</div>
         <div id="defaultGrid"></div>
         <br/>

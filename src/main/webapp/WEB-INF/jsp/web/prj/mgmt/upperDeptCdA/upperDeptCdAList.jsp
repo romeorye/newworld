@@ -278,29 +278,36 @@
     </form>
         <div class="contents">
             <div class="titleArea">
-                <h2>조직코드약어관리    </h2>
+            	<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a>
+                <h2>조직코드약어관리</h2>
             </div>
             <div class="sub-content">
 
-
-                <table class="searchBox">
-                    <colgroup>
-                        <col style="width:20%;"/>
-                        <col style="width:*"/>
-                        <col style="width:15%;"/>
-                    </colgroup>
-                    <tbody>
-                        <tr>
-                            <th align="right">조직</th>
-                            <td>
-                                <input type="text" id="upperDeptNm" value="">
-                            </td>
-                            <td class="t_center">
-                                <a style="cursor: pointer;" onclick="getDeptList();" class="btnL">검색</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="search">
+					<div class="search-content">
+		   				<table>
+		                    <colgroup>
+		                        <col style="width:120px;"/>
+		                        <col style="width:*"/>
+		                        <col style="width:15%;"/>
+		                    </colgroup>
+		                    <tbody>
+		                        <tr>
+		                            <th align="right">조직</th>
+		                            <td>
+		                                <input type="text" id="upperDeptNm" value="">
+		                            </td>
+		                            <td class="txt-right">
+		                                <a style="cursor: pointer;" onclick="getDeptList();" class="btnL">검색</a>
+		                            </td>
+		                        </tr>
+		                    </tbody>
+		                </table>
+	                </div>
+                </div>
 
 
                 <div class="titArea">
@@ -309,13 +316,14 @@
                         <button type="button" onclick="javascript:fnExcel()">Excel다운로드</button>
                     </div>
                 </div>
-            </div><!-- //sub-content -->
+                 <div id="deptGrid"></div>
 
-                <div id="deptGrid"></div>
-                <br/>
-                <div class="LblockButton">
+                <div class="LblockButton btn_btn">
                     <button type="button" id="btnSave" name="btnSave" class="redBtn" >저장</button>
                 </div>
+            </div><!-- //sub-content -->
+
+               
         </div><!-- //contents -->
 
     </body>

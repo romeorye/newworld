@@ -175,7 +175,7 @@ var mailTitl;
 						<col style="width: 15%" />
 						<col style="width: 30%" />
 						<col style="width: 15%" />
-						<col style="width:" />
+						<col style="width:"" />
 						<col style="width: 10%" />
 					</colgroup>
 					<tbody>

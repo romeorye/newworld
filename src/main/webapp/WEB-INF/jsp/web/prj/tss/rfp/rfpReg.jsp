@@ -375,11 +375,15 @@
 </form>
 <div class="contents">
 	<div class="titleArea">
+		<a class="leftCon" href="#">
+          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+          <span class="hidden">Toggle 버튼</span>
+		</a>
 		<h2>RFP요청서 등록</h2>
 	</div>
 	<div class="sub-content">
 	
-		<div class="LblockButton top">
+		<div class="LblockButton top mt0">
 			<button type="button" id="butSave">저장</button>
 			<button type="button" id="butDel">삭제</button>
 			<button type="button" id="butSubmit">제출하기</button>
@@ -397,7 +401,7 @@
 			</colgroup>
 			<tbody>
 				<tr>
-					<th>Title(요청 기술명)</th>
+					<th>Title<br>(요청 기술명)</th>
 					<td colspan="3">
 						<input type="text"  id="title" >
 					</td>
@@ -423,7 +427,7 @@
    					</td>
    				</tr>
    				<tr>
-  					<th>Main Request<br/>(목표 스펙, 이슈)</th>
+  					<th>Main Request<br/>(목표 스펙,<br/>이슈)</th>
   					<td>
    						<textarea id="mainReq"></textarea>
   					</td>

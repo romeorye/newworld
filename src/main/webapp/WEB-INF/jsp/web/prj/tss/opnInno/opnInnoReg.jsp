@@ -529,12 +529,16 @@ var openRfpDetailViewDialog;
     
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+	          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	          <span class="hidden">Toggle 버튼</span>
+			</a>
   			<h2>Open Innovation 협력과제 등록</h2>
   	    </div>
   		<div class="sub-content">
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="opnInnoId" name="opnInnoId" value="<c:out value='${inputData.opnInnoId}'/>">
-				<div class="LblockButton top">
+				<div class="LblockButton top mt0">
 						<button type="button" id="butSave">저장</button>
 						<button type="button" id="butDel">삭제</button>
 						<button type="button" id="butList">목록</button>

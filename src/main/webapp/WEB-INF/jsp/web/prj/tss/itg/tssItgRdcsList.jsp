@@ -268,6 +268,7 @@
 
 
 </script>
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 </head>
 
 <!-- <body onload="init();"> -->
@@ -275,13 +276,20 @@
 <Tag:saymessage/><!--  sayMessage 사용시 필요 -->
 	<div class="contents" >
 		<div class="titleArea">
-   				<h2>과제 통합 결재 결과 목록</h2>
-   		    </div>
-    		<%//@ include file="/WEB-INF/jsp/include/navigator.jspf"%>
-   	<div class="LblockSearch">
+			<a class="leftCon" href="#">
+	          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	          <span class="hidden">Toggle 버튼</span>
+			</a>
+  			<h2>과제 통합 결재 결과 목록</h2>
+  		</div>
+  		
+    	<%//@ include file="/WEB-INF/jsp/include/navigator.jspf"%>
+   		<div class="sub-content">
 			<form name="xform" id="xform" method="post">
 			<input type=hidden id ="approvalUserid" />
-			<table class="searchBox">
+			<div class="search">
+					<div class="search-content">
+		                <table>
    					<colgroup>
    						<col style="width:15%;"/>
    						<col style="width:30%;"/>
@@ -299,9 +307,7 @@
    							<td>
    								<input type="text" id="approvalProcessdate" />
                            	</td>
-   							<td class="t_center" rowspan="2">
-	    						<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</div>
-	    					</td>
+   							<td></td>
    						</tr>
    						<tr>
    							<th align="right">과제명</th>
@@ -312,6 +318,9 @@
    							<td>
                                 <div id="tssScnCd"></div>
    							</td>
+   							<td class="txt-right">
+	    						<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</div>
+	    					</td>
    						</tr>
    						<tr>
    							<th align="right">WBS코드</th>
@@ -322,10 +331,12 @@
    							<td>
    								<select id="aprdocstate" ></select>
    							</td>
+   							<td></td>
    						</tr>
    					</tbody>
    				</table>
-
+				</div>
+				</div>
 			</form>
     		<div class="titArea">
 	    		<span class="Ltotal" id="cnt_text">총 : 0 </span>

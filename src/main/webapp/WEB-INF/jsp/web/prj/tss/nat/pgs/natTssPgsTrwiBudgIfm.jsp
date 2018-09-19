@@ -280,10 +280,8 @@ $(window).load(function() {
     <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
     <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
 
-    <div class="titArea">
+    <div class="titArea" style="height:20px;">
         <div class="LblockButton">
-
-
             <label>단위:천원</label>
         </div>
     </div>

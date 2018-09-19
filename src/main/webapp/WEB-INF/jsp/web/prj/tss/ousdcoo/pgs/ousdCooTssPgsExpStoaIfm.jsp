@@ -419,12 +419,12 @@
             		<td align="center" style="text-align: center;"></td>
             	</tr>
             	<tr>
-            		<td align="center" style="text-align: center;" >금액(원)</td>
-            		<td align="center" style="text-align: center;" ><input type="text" id="inputYyNosCash1"/><span id="spnYyNosCash1" class="readSpn" style="display: none;"></span></td>
-            		<td align="center" style="text-align: center;" ><input type="text" id="inputYyNosCash2"/><span id="spnYyNosCash2" class="readSpn" style="display: none;"></span></td>
-            		<td align="center" style="text-align: center;" ><input type="text" id="inputYyNosCash3"/><span id="spnYyNosCash3" class="readSpn" style="display: none;"></span></td>
-            		<td align="center" style="text-align: center;" ><input type="text" id="inputYyNosCash4"/><span id="spnYyNosCash4" class="readSpn" style="display: none;"></span></td>
-             		<td align="center" style="text-align: center;" ><span id="remainCash"></span></td>
+            		<td align="center" class="ousco_tdin" >금액(원)</td>
+            		<td align="center" class="ousco_tdin" ><input type="text" id="inputYyNosCash1"/><span id="spnYyNosCash1" class="readSpn" style="display: none;"></span></td>
+            		<td align="center" class="ousco_tdin"><input type="text" id="inputYyNosCash2"/><span id="spnYyNosCash2" class="readSpn" style="display: none;"></span></td>
+            		<td align="center" class="ousco_tdin" ><input type="text" id="inputYyNosCash3"/><span id="spnYyNosCash3" class="readSpn" style="display: none;"></span></td>
+            		<td align="center" class="ousco_tdin" ><input type="text" id="inputYyNosCash4"/><span id="spnYyNosCash4" class="readSpn" style="display: none;"></span></td>
+             		<td align="center" class="ousco_tdin" ><span id="remainCash"></span></td>
             		<!-- <td align="center" style="text-align: center;" ></td>  -->
             	</tr>
             	<tr>
@@ -441,7 +441,7 @@
         
     </form>
 </div>
-<div class="titArea">
+<div class="titArea btn_btm">
     <div class="LblockButton">
     	<button type="button" id="btnSave" name="btnSave">저장</button>
         <!-- <button type="button" id="btnList" name="btnList">목록</button> -->

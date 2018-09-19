@@ -416,7 +416,7 @@ $(window).load(function() {
     </form>
 </div>
 <div class="titArea">
-    <span class="sub-tit"><h4>&gt; 목표기술성과 등록</h4></span>
+    <h4>목표기술성과 등록</h4>
 </div>
 
 <div id="goalGrid"></div>
@@ -428,7 +428,7 @@ $(window).load(function() {
 </div>
 
 <div class="titArea">
-    <span class="sub-tit"><h4>&gt; 필수산출물 등록</h4></span>
+    <h4>필수산출물 등록</h4>
 </div>
 
 <div id="yldGrid"></div>

@@ -230,7 +230,7 @@ $(window).load(function() {
     </form>
 </div>
 <div class="titArea">
-    <span class="sub-tit"><h4>&gt; 투자품목목록</h4></span>
+    <h4>투자품목목록</h4>
     <div class="LblockButton">
         <button type="button" id="butNewPop">투자품목등록</button>
     </div>

@@ -269,64 +269,74 @@
         });
 
 	</script>
+	<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
     </head>
     <body onkeypress="if(event.keyCode==13) {getAnlRqprList();}">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
 		
-   		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>분석의뢰</h2>
-	   			</div>
-	   			
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:40%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:30%;"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">분석명</th>
-   							<td>
-   								<input type="text" id="anlNm">
-   							</td>
-   							<th align="right">의뢰일자</th>
-    						<td>
-   								<input type="text" id="fromRqprDt"/><em class="gab"> ~ </em>
-   								<input type="text" id="toRqprDt"/>
-    						</td>
-   							<td class="t_center" rowspan="3">
-   								<a style="cursor: pointer;" onclick="getAnlRqprList();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   						<tr>
-   							<th align="right">의뢰자</th>
-   							<td>
-   								<input type="text" id="rgstNm">
-                                <!-- <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'anl');" class="icoBtn">검색</a> -->
-   							</td>
-   							<th align="right">담당자</th>
-    						<td>
-    							<input type="text" id="anlChrgNm">
-    						</td>
-   						</tr>
-   						<tr>
-   							<th align="right">접수번호</th>
-   							<td>
-   								<input type="text" id="acpcNo">
-   							</td>
-   							<th align="right">상태</th>
-   							<td>
-                                <div id="acpcStCd"></div>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+   		<div class="contents">   			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a>
+   				<h2>분석의뢰</h2>
+   			</div>
+   			
+	   		<div class="sub-content">	
+	   			<div class="search">
+					<div class="search-content">
+		   				<table class="rqprlist_sch">
+		   					<colgroup>
+		   						<col style="width:110px" />
+								<col style="width:350px" />
+								<col style="width:80px" />
+								<col style="width:350px" />
+								<col style="" />
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<th align="right">분석명</th>
+		   							<td class="tdin_w100">
+		   								<input type="text" id="anlNm">
+		   							</td>
+		   							<th align="right">의뢰일자</th>
+		    						<td>
+		   								<input type="text" id="fromRqprDt"/><em class="gab"> ~ </em>
+		   								<input type="text" id="toRqprDt"/>
+		    						</td>
+		   							<td></td>
+		   						</tr>
+		   						<tr>
+		   							<th align="right">의뢰자</th>
+		   							<td class="tdin_w100">
+		   								<input type="text" id="rgstNm">
+		                                <!-- <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'anl');" class="icoBtn">검색</a> -->
+		   							</td>
+		   							<th align="right">담당자</th>
+		    						<td class="tdin_w100">
+		    							<input type="text" id="anlChrgNm">
+		    						</td>
+		    						<td class="txt-right">
+		   								<a style="cursor: pointer;" onclick="getAnlRqprList();" class="btnL">검색</a>
+		   							</td>
+		   						</tr>
+		   						<tr>
+		   							<th align="right">접수번호</th>
+		   							<td class="tdin_w100">
+		   								<input type="text" id="acpcNo">
+		   							</td>
+		   							<th align="right">상태</th>
+		   							<td>
+		                                <div id="acpcStCd"></div>
+		   							</td>
+		   							<td></td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
    				
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>

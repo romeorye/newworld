@@ -167,10 +167,14 @@
 
 <div class="contents" >		
 	<div class="titleArea">
-			<h2>투입예산관리</h2>
-		</div>
+		<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
+		<h2>투입예산관리</h2>
+	</div>
    
-		 <div class="sub-content">	
+	<div class="sub-content">	
 	    <!-- 컨텐츠 영역 -->
 		
 		
@@ -178,9 +182,9 @@
 	    	<div class="LblockButton">
 	    	 <button type="button" id="butBudgPopup" class="redBtn"  name="butBudgPopup">1인당 총 비용등록</button>
 	        </div>
-	    
-		</div>	
-	<div id="Grid"  style="margin-top:20px"></div>
+		<div id="Grid"  style="margin-top:20px"></div>    
+	</div>	
+	
 	
 </div>	
 

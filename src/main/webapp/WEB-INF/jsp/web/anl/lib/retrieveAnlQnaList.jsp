@@ -204,35 +204,37 @@ function fncAnlQnaRgstPage(record) {
 		<input type="hidden" id="bbsCd" name="bbsCd" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="" />
 
-   		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>분석 Q&A</h2>
-	   			</div>
-
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:15%;"/>
-   						<col style="width:30%;"/>
-   						<col style="width:15%;"/>
-   						<col style="width:"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">
-   							<div id="searchCd"></div>
-   							</th>
-   							<td>
-   								<input type="text" id="searchNm" value="">
-   							</td>
-   							<td class="t_center" >
-   								<a style="cursor: pointer;" onclick="getAnlQnaList();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+   		<div class="contents">   			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a>
+   				<h2>분석 Q&A</h2>
+   			</div>
+   			
+			<div class="sub-content">	
+   				<div class="search">
+					<div class="search-content">
+		                <table>
+		   					<colgroup>
+		   						<col style="width:"/>
+		   						<col style="width:120px;"/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<td class="txt-left" style="padding-left:30px;">
+		   								<div id="searchCd"></div>
+		   								<input type="text" id="searchNm" value="">
+		   							</td>
+		   							<td class="txt-right" >
+		   								<a style="cursor: pointer;" onclick="getAnlQnaList();" class="btnL">검색</a>
+		   							</td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
 
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>

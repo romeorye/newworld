@@ -388,13 +388,17 @@
 		<input type="hidden" id="bbsId" name="bbsId" value=""/>
 		<input type="hidden" id="bbsSbc" name="bbsSbc" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
-   		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	 				<h2>분석Q&A 등록</h2>
-	 			</div>
-				<div class="LblockButton top">
+   		<div class="contents">   			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a>
+ 				<h2>분석Q&A 등록</h2>
+ 			</div>
+ 			
+	 		<div class="sub-content">
+				<div class="LblockButton top mt0">
 					<button type="button" id="saveBtn"   name="saveBtn"   >저장</button>
 					<button type="button" id="butGoList" name="butGoList" >목록</button>
 				</div>

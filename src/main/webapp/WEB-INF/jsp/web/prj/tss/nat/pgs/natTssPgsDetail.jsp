@@ -402,11 +402,15 @@
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">
 	    <div class="titleArea">
+	    	<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
 	        <h2>국책과제 &gt;&gt; 진행</h2>
 	    </div>
         <div class="sub-content">
             <div class="titArea">
-                <div class="LblockButton">
+                <div class="LblockButton mt0">
                     <button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button>
                     <button type="button" id="btnDcacRq" name="btnDcacRq">중단요청</button>
                     <button type="button" id="btnCmplRq" name="btnCmplRq">완료요청</button>

@@ -165,7 +165,7 @@
     </form>
 </div>
 <div class="titArea">
-    <span class="sub-tit"><h4>&gt; 변경이력</h4></span>
+    <h4>변경이력</h4>
     <div class="LblockButton">
         <button type="button" id="butExcel" name="">Excel다운로드</button>
     </div>

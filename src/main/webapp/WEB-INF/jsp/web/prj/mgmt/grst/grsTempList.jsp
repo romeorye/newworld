@@ -222,45 +222,56 @@
 <Tag:saymessage/><!--  sayMessage 사용시 필요 -->
 	<div class="contents" >
 			<div class="titleArea">
+				<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a>
    				<h2>GRS 템플릿 관리</h2>
    		    </div>
+   		    
    		    <div class="sub-content">
 			<form name="xform" id="xform" method="post">
 				<input type='hidden' id='grsEvSn' name='grsEvSn'>
-			<table class="searchBox">
-   					<colgroup>
-   						<col style="width:15%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:15%;"/>
-   						<col style="width:35%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">년도</th>
-   							<td>
-                                <div id="grsYSch" name='grsYSch'></div>
-   							</td>
-   							<th align="right">유형</th>
-   							<td>
-                                <div id="grsTypeSch"></div>
-   							</td>
-   							<td class="t_center" rowspan="2">
-	    						<a href="javascript:fncSearch()" class="btnL">검색</a>
-	    					</td>
-   						</tr>
-   						<tr>
-   							<th align="right">템플릿명</th>
-   							<td>
-   								<input type="text" id="evSbcNmSch" value="">
-   							</td>
-   							<th align="right">상태</th>
-   							<td>
-                                <div id="useYnSch"></div>
-   							</td>
-   						</tr>
-
-   					</tbody>
-   				</table>
+				<div class="search">
+					<div class="search-content">
+		   				<table>
+	   					<colgroup>
+	   						<col style="width:120px" />
+							<col style="width:400px" />
+							<col style="width:120px" />
+							<col style="width:200px" />
+							<col style="" />
+	   					</colgroup>
+	   					<tbody>
+	   						<tr>
+	   							<th align="right">년도</th>
+	   							<td>
+	                                <div id="grsYSch" name='grsYSch'></div>
+	   							</td>
+	   							<th align="right">유형</th>
+	   							<td>
+	                                <div id="grsTypeSch"></div>
+	   							</td>
+	   							<td></td>
+	   						</tr>
+	   						<tr>
+	   							<th align="right">템플릿명</th>
+	   							<td>
+	   								<input type="text" id="evSbcNmSch" value="">
+	   							</td>
+	   							<th align="right">상태</th>
+	   							<td>
+	                                <div id="useYnSch"></div>
+	   							</td>
+	   							<td class="txt-right">
+		    						<a href="javascript:fncSearch()" class="btnL">검색</a>
+		    					</td>
+	   						</tr>
+	
+	   					</tbody>
+	   				</table>
+   				</div>
+   			</div>
 
 			</form>
     		<div class="titArea">
@@ -269,9 +280,8 @@
     				<button type="button" id="butNew" name="itemCreate" class="redBtn">GRS템플릿등록</button>
     			</div>
     		</div>
-
-            </div>
 			<div id="masterGrid"></div>
+
 
 		</div>
 	</div>

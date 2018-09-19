@@ -224,7 +224,7 @@ $(window).load(function() {
     </form>
 </div>
 <div class="titArea">
-    <span class="sub-tit"><h4>&gt;연구비카드목록</h4></span>
+    <h4>연구비카드목록</h4>
     <div class="LblockButton">
         <button type="button" id="butNewPop">연구비카드등록</button>
     </div>

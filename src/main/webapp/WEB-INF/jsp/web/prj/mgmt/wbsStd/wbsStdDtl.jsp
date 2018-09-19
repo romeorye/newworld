@@ -196,7 +196,11 @@
 
 	<div class="contents" >
 		<div class="titleArea">
-   		<h2>표준 WBS 상세</h2>
+			<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a>
+   			<h2>표준 WBS 상세</h2>
    		</div>
 		<div class="sub-content">
 		<div id="LblockDetail01" class="LblockDetail">

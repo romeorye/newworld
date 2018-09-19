@@ -440,7 +440,7 @@
     </form>
 </div>
 <div class="titArea">
-    <span class="sub-tit"><h4>&gt; 목표기술성과 등록</h4></span>
+    <h4>목표기술성과 등록</h4>
 </div>
 
 <div id="goalGrid"></div>
@@ -452,7 +452,7 @@
 </div>
 
 <div class="titArea">
-    <span class="sub-tit"><h4>&gt; 필수산출물 등록</h4></span>
+    <h4>필수산출물 등록</h4>
 </div>
 
 <div id="yldGrid"></div>

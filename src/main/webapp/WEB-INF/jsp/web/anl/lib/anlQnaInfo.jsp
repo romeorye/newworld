@@ -512,12 +512,17 @@
 		<input type="hidden" id="rebId" name="rebId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value=""/>
    		<div class="contents" style="padding-bottom:10px">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	 				<h2>분석 Q&A</h2>
-	 			</div>
-				<div class="LblockButton top">
+  			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a>
+ 				<h2>분석 Q&A</h2>
+ 			</div>
+ 			
+	 		<div class="sub-content">
+				<div class="LblockButton top mt0">
 					<button type="button" id="rebBtn"    name="rebBtn"    >답변</button>
 					<button type="button" id="saveBtn"   name="saveBtn"   >수정</button>
 					<button type="button" id="delBtn"    name="delBtn"    >삭제</button>
@@ -571,13 +576,17 @@
 				<br/>
 
 				<table class="table table_txt_right">
+					<colgroup>
+
+						<col style="width:15%"/>
+						<col style="width:*"/>
+   					</colgroup>
+					
 					<tbody>
 						<tr>
 							<th align="right" width="15%">덧글</th>
-   							<td>
+   							<td class="aniqnalinfo">
    								<textarea id="rebNm"></textarea>
-   							</td>
-   							<td class="t_center" width="15%">
    								<a style="cursor: pointer;" onclick="qnaRebSave('C')" class="btn">등록</a>
    							</td>
 						</tr>

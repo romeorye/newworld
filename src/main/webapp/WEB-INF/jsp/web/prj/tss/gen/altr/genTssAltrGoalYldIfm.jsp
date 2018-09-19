@@ -462,7 +462,7 @@ $(window).load(function() {
     </form>
 </div>
 <div class="titArea">
-    <span class="sub-tit"><h4>&gt; 목표기술성과 등록</h4></span>
+    <h4>목표기술성과 등록</h4>
     <div class="LblockButton">
         <button type="button" id="butGoalAdd" name="">추가</button>
         <button type="button" id="butGoalDel" name="">삭제</button>
@@ -478,7 +478,7 @@ $(window).load(function() {
 </div>
 
 <div class="titArea">
-    <span class="sub-tit"><h4>&gt; 필수산출물 등록</h4></span>
+    <h4>필수산출물 등록</h4>
     <div class="LblockButton">
         <button type="button" id="butYldAdd" name="">추가</button>
         <button type="button" id="butYldDel" name="">삭제</button>

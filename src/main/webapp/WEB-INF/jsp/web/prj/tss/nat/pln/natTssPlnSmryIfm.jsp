@@ -789,8 +789,8 @@ $(window).load(function() {
             </tbody>
         </table>
 
-        <div class="titArea">
-            <span class="sub-tit"><h4>&gt; 수행기관</h4></span>
+        <div class="titArea mt20">
+            <h4>수행기관</h4>
             <div class="LblockButton">
                 <button type="button" id="butAdd" name="butAdd">+</button>
                 <button type="button" id="butDel" name="butDel">-</button>
@@ -831,7 +831,7 @@ $(window).load(function() {
 	        </table>
         </form>
     </form>
-	<div class="titArea">
+	<div class="titArea btn_btm">
 	    <div class="LblockButton">
 	        <button type="button" id="btnSave" name="btnSave">저장</button>
 	        <!-- <button type="button" id="btnList" name="btnList">목록</button> -->
