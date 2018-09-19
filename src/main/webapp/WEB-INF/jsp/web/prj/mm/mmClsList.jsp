@@ -41,8 +41,8 @@ var strPreMonth = addDashMonthToString(createDashMonthToString(nowDate), -1);
 var searchDate = new Date();										// 화면로딩시검색월
 var isTodoLink = false;												// todo link 여부
 var loginSysCd = "<c:out value = '${inputData.LOGIN_SYS_CD}'/>";	// to-do 전달 파라미터(MW)
-if(loginSysCd == "MW"){ 
-	isTodoLink = true; 
+if(loginSysCd == "MW"){
+	isTodoLink = true;
 	searchDate = new Date ( searchDate.setMonth( searchDate.getMonth() - 1 ) );   // 이전달
 }
 var roleId = "<c:out value = '${inputData._roleId}'/>";				// roleId(권한)
@@ -51,7 +51,7 @@ var chkRow;
 
 
 Rui.onReady(function() {
-	
+
 	if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
 		roleCheck = "ADM";
 	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T03') > -1) {
@@ -63,7 +63,7 @@ Rui.onReady(function() {
 	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
 		roleCheck = "ADM";
 	}
-	
+
 	/* [달력] 기준월 */
 	lmbSearchMonth = new Rui.ui.form.LMonthBox({
         applyTo: 'searchMonth',
@@ -76,8 +76,8 @@ Rui.onReady(function() {
     		alert('날자형식이 올바르지 않습니다.!!');
     		lmbSearchMonth.setValue(new Date());
     	}
-    });    */     
-	
+    });    */
+
     /* lmbSearchMonth.on('changed', function(e){
     	if(lmbSearchMonth.getValue() == ''){
     		Rui.alert('기준월를 선택해주세요.');
@@ -86,7 +86,7 @@ Rui.onReady(function() {
     		return false;
     	}
     }); */
-    
+
     /* [숫자텍스트박스] 그리드 참여율 */
     var lnbPtcPro = new Rui.ui.form.LNumberBox({
         //applyTo: 'ptcPro',
@@ -95,13 +95,13 @@ Rui.onReady(function() {
         minValue: 0,                 // 최소값 입력제한 설정
         decimalPrecision: 0          // 소수점 자리수 3자리까지 허용
     });
-    
+
     /* 참여율 0인건 체크 */
     var chkPtcPro = new Rui.ui.form.LCheckBox({
     	applyTo: 'chkPtcPro',
         label: '참여율 0건'
     });
-    
+
     /* [팝업텍스트박스] 조직조회 */
     searchDeptName = new Rui.ui.form.LTextBox({
     //lpTbSearchDeptName = new Rui.ui.form.LPopupTextBox({
@@ -111,7 +111,7 @@ Rui.onReady(function() {
         placeholder: '',
         emptyValue: ''
     });
-    
+
    /*  lpTbSearchDeptName.on('popup', function(e){
     	openDeptSearchDialog(setDeptInfo);
     }); */
@@ -119,7 +119,7 @@ Rui.onReady(function() {
    /*  setDeptInfo = function(deptInfo) {
     	lpTbSearchDeptName.setValue(deptInfo.upperDeptNm);
     }; */
-    
+
 	/* [데이터셋] MM마감 */
 	mmClsDataSet = new Rui.data.LJsonDataSet({
 	    id: 'mmClsDataSet',
@@ -129,21 +129,21 @@ Rui.onReady(function() {
               { id: 'chk' }
 	    	, { id: 'clsDt' }
 	    	, { id: 'saUser' }
-		    , { id: 'saName' }      
-	    	, { id: 'uperdeptName' }	
-	        , { id: 'prjNm' }  
-	        , { id: 'tssCd' }   
-	        , { id: 'tssNm' } 
-	        , { id: 'prePtcPro' }     
-	        , { id: 'ptcPro' }     
-	        , { id: 'ilckSt'} 
-	        , { id: 'deptCode'} 
+		    , { id: 'saName' }
+	    	, { id: 'uperdeptName' }
+	        , { id: 'prjNm' }
+	        , { id: 'tssCd' }
+	        , { id: 'tssNm' }
+	        , { id: 'prePtcPro' }
+	        , { id: 'ptcPro' }
+	        , { id: 'ilckSt'}
+	        , { id: 'deptCode'}
 	        , { id: 'clsYn'}       /*마감여부*/
 	        , { id: 'mmYymm'}      /*마감월*/
 	        , { id: 'saSabunNew'}  /*사번*/
 	        , { id: 'prjCd'}       /*프로젝트코드*/
 	        , { id: 'wbsCd'}       /*wbs코드*/
-	        , { id: 'commTxt' }    /*메모*/  
+	        , { id: 'commTxt' }    /*메모*/
 	        , { id: 'tssWbsCd' }   /*과제WBS코드*/
 	        , { id: 'mailUser' }   /*메일발송 id*/
 	    ]
@@ -163,13 +163,13 @@ Rui.onReady(function() {
 				lbButIlck.hide();
 				lbButOpenSendMailPop.hide();
 				chkPtcPro.hide()
-				
+
 				if('${inputData._userSabun}' != '${inputData.plEmpNo}'){
 					lbButClsClose.hide();
 					lbButClsOpen.hide();
 					lbButExcl.hide();
 				}
-			}	
+			}
 		}else{
 			butSave.hide();
 			lbButIlck.hide();
@@ -177,10 +177,10 @@ Rui.onReady(function() {
 			lbButClsClose.hide();
 			lbButClsOpen.hide();
 		}
-			
-	
+
+
 	});
-	
+
 	// 체크박스 클릭시
 	mmClsDataSet.on('marked', function(e) {
 		// 동일아이디 동시 체크/해제
@@ -191,10 +191,10 @@ Rui.onReady(function() {
 	    	}
 	    }
 	});
-	
+
 	// 데이터셋 업데이트시
 	mmClsDataSet.on('update', function(e) {
-		
+
 		// 1. 변경자 참여율 총합계산
 		var sum = 0;
 		var chkSaUser = mmClsDataSet.getNameValue(e.row, "saUser");
@@ -208,7 +208,7 @@ Rui.onReady(function() {
     		mmClsDataSet.setNameValue(e.row,'ptcPro',e.beforeValue);
     		return false;
     	}
-    	
+
     	// 2. 참여율, 메모 변경시 체크박스 체크처리
     	if( e.colId == 'ptcPro' || e.colId == 'commTxt' ){
     		// 동일아이디 동시 체크
@@ -236,22 +236,22 @@ Rui.onReady(function() {
 	        , { field: 'prjNm',         label: '프로젝트명', sortable: true,  align:'left', width: 220 , vMerge: true }
 	        , { field: 'tssWbsCd',      label: '과제코드',   sortable: true, align:'center', width: 70 }
 	        , { field: 'tssNm',         label: '과제명',     align:'left', width: 300  }
-	        , { field: 'prePtcPro',     label: '전월참여율', align:'right', width: 80 
+	        , { field: 'prePtcPro',     label: '전월참여율', align:'right', width: 80
 	        	, renderer: function(value, p, record){
 	        		if( !Rui.isEmpty(value) )	return value + '%'; }
 	          }
-	        , { field: 'ptcPro',        label: '참여율', sortable: true,  align:'right', width: 60, editor: lnbPtcPro 
+	        , { field: 'ptcPro',        label: '참여율', sortable: true,  align:'right', width: 60, editor: lnbPtcPro
 	        	, renderer: function(value, p, record){
 	        		if(record.get("clsYn") == "Y"){  p.editable = false; }	// 마감여부 Y이면 수정불가
 	        		return value + '%';
-	        	  }	
+	        	  }
 	          }
 	        , { field: 'ilckSt',        label: '연동상태',   align:'center', width: 60 }
-	        , { field: 'commTxt',       label: '메모',   align:'left', width: 300, editor: new Rui.ui.form.LTextBox({ attrs: { maxLength: 60 } }) 
+	        , { field: 'commTxt',       label: '메모',   align:'left', width: 300, editor: new Rui.ui.form.LTextBox({ attrs: { maxLength: 60 } })
 		        , renderer: function(value, p, record){
 	        		if(record.get("clsYn") == "Y"){  p.editable = false; }	// 마감여부 Y이면 수정불가
 	        		return value;
-	        	  }	
+	        	  }
 	          }
 	    ]
 	});
@@ -261,11 +261,12 @@ Rui.onReady(function() {
 	    columnModel: mmClsColumnModel,
 	    dataSet: mmClsDataSet,
 	    width: 1200,
-	    height: 580
-	    
+	    height: 580,
+        autoWidth: true
+
 	});
 	mmClsGrid.render('defaultGrid');
-	
+
 	/**
 	총 건수 표시
 	**/
@@ -276,12 +277,12 @@ Rui.onReady(function() {
 	    var tmp;
 	    var tmpArray;
 		var str = "";
-	
+
 		document.getElementById("cnt_text").innerHTML = '총: '+ mmClsDataSet.getCount();
 
 	});
-	
-	
+
+
 	/* [다이얼로그] 메일발송 */
     _mailDialog = new Rui.ui.LFrameDialog({
         id: 'mailDialog',
@@ -290,17 +291,17 @@ Rui.onReady(function() {
         height: 550,
         modal: true,
         visible: false,
-        buttons: [ 
+        buttons: [
             { text:'닫기', isDefault: true, handler: function() {
                 this.cancel(false);
-            } } 
+            } }
         ]
     });
     _mailDialog.on('submit', function(e) {
     	Rui.alert('메일이 발송되었습니다.');
     });
     _mailDialog.render(document.body);
-    
+
     /* [함수] 메일다이얼로그 오픈 */
 	openMailDialog = function(f,userIds) {
 
@@ -309,7 +310,7 @@ Rui.onReady(function() {
 		_mailDialog.setUrl('<c:url value="/prj/mm/mail/sendMailPopup.do"/>'+'?userIds=' + userIds);
 		_mailDialog.show();
 	};
-	
+
     /* [버튼] 메일보내기  */
 	var lbButOpenSendMailPop= new Rui.ui.LButton('butOpenSendMailPop');
 	lbButOpenSendMailPop.on('click', function() {
@@ -322,7 +323,7 @@ Rui.onReady(function() {
 	    	}
 		}
 		chkUserIds = chkUserIdList.join(',');
-		
+
 		// 메일다이얼로그 오픈
 		openMailDialog(null, chkUserIds);
 	});
@@ -330,16 +331,16 @@ Rui.onReady(function() {
 	var butSave = new Rui.ui.LButton('butSave');
 	butSave.on('click', function() {
 		var mmSaveDm = new Rui.data.LDataSetManager();
-		
+
 		// 1. 참여율총합 100% 체크
 		if(!fnDataChkPtcProComp(mmClsDataSet)){
 			return false;
 		}
-	
+
 		Rui.confirm({
 	        text: '저장 하시겠습니까?',
 	        handlerYes: function() {
-	        	
+
 	        	// 3.2. 등록처리
         		mmSaveDm.updateDataSet({
         	        url: "<c:url value='/prj/mm/saveMmClsInfo.do'/>",
@@ -352,11 +353,11 @@ Rui.onReady(function() {
 	        },
 	        handlerNo: Rui.emptyFn
 	    });
-		
+
 		mmSaveDm.on('success', function(e) {
 			var data = Rui.util.LJson.decode(e.responseText);
 	        Rui.alert(data[0].records[0].rtnMsg);
-	
+
 			// 재조회
 			fnSearch();
 		});
@@ -364,31 +365,31 @@ Rui.onReady(function() {
 			var data = Rui.util.LJson.decode(e.responseText);
 	        Rui.alert(data[0].records[0].rtnMsg);
 		});
-	
+
 	});
-	
+
 	/* [버튼] 마감 => 마감여부 Y */
 	var lbButClsClose = new Rui.ui.LButton('butClsClose');
 	lbButClsClose.on('click', function() {
-		
+
 		var mmClsCloseDm = new Rui.data.LDataSetManager();
-		
+
 		if(mmClsDataSet.getMarkedCount() > 0) {
 			// 1. 데이터셋 valid
 			if(!validation(mmClsDataSet,'Y')){
 	    		return false;
 	    	}
-			
+
 			// 2. 참여율총합 100% 체크
 			if(!fnDataChkPtcProComp(mmClsDataSet)){
 				return false;
 			}
-		
+
 			// 3. 데이터 업데이트
 			Rui.confirm({
 		        text: '마감 하시겠습니까?',
 		        handlerYes: function() {
-		        	
+
 					// 3.1. chk 체크 및 데이터 마감여부 Y 처리
 					fnDataSetChkMark(mmClsDataSet,'Y');
 
@@ -408,11 +409,11 @@ Rui.onReady(function() {
 			Rui.alert(Rui.getMessageManager().get('$.base.msg108'));
             return;
 		}
-	
+
 		mmClsCloseDm.on('success', function(e) {
 			var data = Rui.util.LJson.decode(e.responseText);
             Rui.alert(data[0].records[0].rtnMsg);
-	
+
 			// 재조회
 			fnSearch();
 		});
@@ -421,14 +422,14 @@ Rui.onReady(function() {
             Rui.alert(data[0].records[0].rtnMsg);
 		});
 	});
-	
+
 	/* [버튼] 마감풀기 */
 	var lbButClsOpen = new Rui.ui.LButton('butClsOpen');
 	lbButClsOpen.on('click', function() {
 		var mmClsOpenDm = new Rui.data.LDataSetManager();
-		
+
 		if(mmClsDataSet.getMarkedCount() > 0) {
-			
+
 			// 1. 데이터셋 valid
 			if(!validation(mmClsDataSet,'N')){
 	    		return false;
@@ -438,7 +439,7 @@ Rui.onReady(function() {
 			Rui.confirm({
 		        text: '마감풀기를 하시겠습니까?',
 		        handlerYes: function() {
-		        	
+
 					// 2.1. chk 체크 및 데이터 마감여부 N 처리
 					fnDataSetChkMark(mmClsDataSet,'N');
 
@@ -458,11 +459,11 @@ Rui.onReady(function() {
 			Rui.alert(Rui.getMessageManager().get('$.base.msg108'));
             return;
 		}
-	
+
 		mmClsOpenDm.on('success', function(e) {
 			var data = Rui.util.LJson.decode(e.responseText);
             Rui.alert(data[0].records[0].rtnMsg);
-	
+
 			// 재조회
 			fnSearch();
 		});
@@ -470,16 +471,16 @@ Rui.onReady(function() {
 			var data = Rui.util.LJson.decode(e.responseText);
             Rui.alert(data[0].records[0].rtnMsg);
 		});
-		
+
 	});
 
-	
+
 	/* [버튼] 연동  */
 	var lbButIlck = new Rui.ui.LButton('butIlck');
 	lbButIlck.on('click', function() {
 		// 연동로직 구현
 		var mmClsCloseDm = new Rui.data.LDataSetManager();
-		
+
 		if(mmClsDataSet.getMarkedCount() > 0) {
 
 			if(!validation(mmClsDataSet,'N')){ //마감이  'Y' 인건만 연동
@@ -493,11 +494,11 @@ Rui.onReady(function() {
 		    			Rui.alert('이미 연동완료된 인원이 있습니다.');
 		    			return false;
 		    		}
-		    		
+
 		    		markDataSet.setNameValue(i, 'chk', '1' );
 		    	}
 		    }
-			
+
 			// 1. 데이터 업데이트
 			Rui.confirm({
 		        text: "연동하시겠습니까?",
@@ -518,11 +519,11 @@ Rui.onReady(function() {
 			Rui.alert(Rui.getMessageManager().get('$.base.msg108'));
             return;
 		}
-	
+
 		mmClsCloseDm.on('success', function(e) {
 			var data = Rui.util.LJson.decode(e.responseText);
             Rui.alert(data[0].records[0].rtnMsg);
-	
+
 			// 재조회
 			fnSearch();
 		});
@@ -530,10 +531,10 @@ Rui.onReady(function() {
 			var data = Rui.util.LJson.decode(e.responseText);
             Rui.alert(data[0].records[0].rtnMsg);
 		});
-		
-		
+
+
 	});
-	
+
 	/* [버튼] 엑셀다운로드 */
 	var lbButExcl = new Rui.ui.LButton('butExcl');
 	lbButExcl.on('click', function() {
@@ -541,13 +542,13 @@ Rui.onReady(function() {
 	});
 
 	/* [함수] 화면초기화 */
-	fnOnInit = function(){ 
-		
+	fnOnInit = function(){
+
 		// to-do link시 조회영역 숨김
 		if(isTodoLink){
 			Rui.get('mmSearchTable').hide();
 		}
-		
+
 		// 화면오픈시 조회
 		fnSearch();
 	}
@@ -565,7 +566,7 @@ Rui.onReady(function() {
 	        }
 	    });
 	}
-	
+
 	fnSearch()
 });	<!-- //Rui.onReady end  -->
 
@@ -583,11 +584,11 @@ function fnDataSetChkMark(mDataSet, mClsYn, mLlckSt){
 	var markDataSet = mDataSet;
 	for( var i = 0 ; i < markDataSet.getCount() ; i++ ){
     	if(markDataSet.isMarked(i)){
-    		
+
     		markDataSet.setNameValue(i, 'chk', '1' );
-    	    markDataSet.setNameValue(i, 'clsYn', mClsYn );   
+    	    markDataSet.setNameValue(i, 'clsYn', mClsYn );
     	    if(mClsYn == 'Y'){
-    	    	markDataSet.setNameValue(i, 'clsDt', createDashDateToString(new Date()) );   
+    	    	markDataSet.setNameValue(i, 'clsDt', createDashDateToString(new Date()) );
     	    }
 //    	}else{
 //    		markDataSet.setNameValue(i, 'chk', '0' );
@@ -600,7 +601,7 @@ function fnDataSetChkMark(mDataSet, mClsYn, mLlckSt){
 * FUNCTION 기능설명 : M/M 마감목록 엑셀다운(추가조회, 추가 그리드 없음)
 *******************************************************************************/--%>
 function fncExcelDown() {
-	
+
     if( mmClsDataSet.getCount() > 0){
     	mmClsGrid.saveExcel(toUTF8('MM마감 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
@@ -619,7 +620,7 @@ function validation(vDataSet, vClsYn){
 	// 1. 기본 rui validation
 
 	// 2. 추가 validation
-	
+
 	// 마감/마감풀기 valid 처리
  	// 1. 마감(Y) -> 마감여부 Y
  	// 2. 마감풀기(N) -> 마감여부 N
@@ -627,10 +628,10 @@ function validation(vDataSet, vClsYn){
     	if(vTestDataSet.isMarked(i)){
     		var msg = '';
     		if(vClsYn == vTestDataSet.getAt(i).get('clsYn')){
-    			if(vClsYn == 'Y'){ 
-    				msg = (i+1)+'번째 목록은 이미 마감되었습니다'; 
+    			if(vClsYn == 'Y'){
+    				msg = (i+1)+'번째 목록은 이미 마감되었습니다';
     			}else if(vClsYn == 'N'){
-    				msg = (i+1)+'번째 목록은 마감되지 않았습니다.'; 
+    				msg = (i+1)+'번째 목록은 마감되지 않았습니다.';
     			}
     			Rui.alert(msg);
         		return false;
@@ -650,14 +651,14 @@ function fnDataChkPtcProComp(vDataSet){
 	var msg = "";
 	var chkSaUser = "";
 	var totalPtcPro = 0;
-	
+
 	for( var i = 0 ; i < vTestDataSet.getCount() ; i++ ){
-		if(vTestDataSet.isMarked(i) && 
+		if(vTestDataSet.isMarked(i) &&
 		   chkSaUser != mmClsDataSet.getNameValue(i, "saUser")){
-			
+
 			chkSaUser = mmClsDataSet.getNameValue(i, "saUser");
 			totalPtcPro = 0;
-			
+
 			for( var j=0; j < vTestDataSet.getCount() ; j++  ){
 				if( chkSaUser == mmClsDataSet.getNameValue(j, "saUser") ){
 					totalPtcPro += Number(mmClsDataSet.getNameValue(j, "ptcPro"));
@@ -671,7 +672,7 @@ function fnDataChkPtcProComp(vDataSet){
 			}
 		}
     }
-	
+
 	return true;
 }
 </script>
@@ -722,7 +723,7 @@ function fnDataChkPtcProComp(vDataSet){
 	   				</div>
    				</div>
    			</form>
-			
+
 			<form name="clsForm" id="clsForm" method="post"></form>
 			<div class="titArea">
 				 <span class="Ltotal" id="cnt_text">총 : 0 건</span>
