@@ -44,6 +44,8 @@
 .mt10 {margin-top:10px !important;}
 .mt0 {margin-top:0 !important;}
 .mb10 {margin-bottom:10px !important;}
+.mb5 {margin-bottom:5px !important;}
+
 
 /*** Radio Check ***/
 .radio-inline, 
@@ -125,6 +127,8 @@
 #attchFileMngBtn {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
 .L-grid-panel .L-grid-button {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
 table td button {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
+table td input[type="button"] {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important; display:inline-block; margin:0 2px !important; padding:0 10px !important; }
+
 
  /**** TITLE ****/
 .titArea h3 {height: 31px;
@@ -717,9 +721,9 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .ousco_tdin {text-align:center !important;}
 .ousco_tdin div {width:90px !important;}
 .ousco_tdin div input:first-child {width:80px !important;}
-
-
-
+.grsmng_tain div  {width:100% !important;}
+.grsmng_tain div textarea {width:100%  !important;}
+#divEtcTss .ft {text-align:right;}
 
 
 
