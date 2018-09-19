@@ -36,32 +36,32 @@
              remainRemoved: true,
              lazyLoad: true,
              fields: [
-            	   { id: 'opnInnoId'}		
-            	 , { id: 'tssNm'}		
-            	 , { id: 'prjNm'}		
-            	 , { id: 'tssEmpNm'}	
-            	 , { id: 'tssStrDt'}	
-            	 , { id: 'tssEndDt'}	
-            	 , { id: 'deptNm'}	
-            	 , { id: 'abrdInstNm'}	
-            	 , { id: 'abrdCrgrNm'}	
+            	   { id: 'opnInnoId'}
+            	 , { id: 'tssNm'}
+            	 , { id: 'prjNm'}
+            	 , { id: 'tssEmpNm'}
+            	 , { id: 'tssStrDt'}
+            	 , { id: 'tssEndDt'}
+            	 , { id: 'deptNm'}
+            	 , { id: 'abrdInstNm'}
+            	 , { id: 'abrdCrgrNm'}
             	 , { id: 'ousdInstNm'}
-            	 , { id: 'oustCrgrNm'}	
-            	 , { id: 'pgsStepCd'}	
-            	 , { id: 'tssPgsTxt'}	
-            	 , { id: 'tssPgsKeyword'}	
+            	 , { id: 'oustCrgrNm'}
+            	 , { id: 'pgsStepCd'}
+            	 , { id: 'tssPgsTxt'}
+            	 , { id: 'tssPgsKeyword'}
             	 , { id: 'tssFnoPlnTxt'}
-            	 , { id: 'tssFnoPlnKeyword'}	
-            	 , { id: 'rem'}		
-            	 , { id: 'attcFilId'}                                                                         
+            	 , { id: 'tssFnoPlnKeyword'}
+            	 , { id: 'rem'}
+            	 , { id: 'attcFilId'}
 
  			]
          });
-		
+
          dataSet.on('load', function(e){
  	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
  	     });
-		
+
          var columnModel = new Rui.ui.grid.LColumnModel({
              groupMerge: true,
              columns: [
@@ -88,26 +88,27 @@
                  { field: 'opnInnoId',  hidden : true}
              ]
          });
-		
-         
+
+
          var grid = new Rui.ui.grid.LGridPanel({
              columnModel: columnModel,
              dataSet: dataSet,
              height: 630,
-             width : 1200
+             width : 1200,
+             autoWidth: true
          });
-         
+
         grid.render('opnInnoGrid');
-         
+
         grid.on('cellClick', function(e) {
  			var record = dataSet.getAt(dataSet.getRow());
- 			
+
  			if(e.colId == "tssNm") {
 	    	   	document.aform.opnInnoId.value = record.get("opnInnoId");
 				nwinsActSubmit(document.aform, "<c:url value="/prj/tss/opnInno/opnInnoReg.do"/>");
  			}
  	 	});
-        
+
        //과제명
   	    var tssNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
   	        applyTo: 'tssNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -116,7 +117,7 @@
   	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
   	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
   	    });
-       
+
        //기관명
   	    var ousdInstNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
   	        applyTo: 'ousdInstNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -125,7 +126,7 @@
   	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
   	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
   	    });
-       
+
         fnSearch = function() {
  	    	dataSet.load({
  	            url: '<c:url value="/prj/tss/opnInno/retrieveOpnInnoSearchList.do"/>',
@@ -135,30 +136,30 @@
  	    	          }
              });
         }
-         
+
         fnSearch();
-		
+
         /* [버튼] : 신규 페이지로 이동 */
         var butRgst = new Rui.ui.LButton('butRgst');
-        
+
 		butRgst.on('click', function(){
 			document.aform.action='<c:url value="/prj/tss/opnInno/opnInnoReg.do"/>';
 			document.aform.submit();
 		});
-        
+
 		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#butRgst").hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#butRgst").hide();
 		}
-		
-		
+
+
 	});
-	
+
 </script>
 </head>
 
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">	
+<body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">
 		<div class="titleArea">
 			<a class="leftCon" href="#">
@@ -173,7 +174,7 @@
 				<!-- Role
 				<input type="hidden" id="roleId" name="roleId"  value="<c:out value='${inputData._roleId}'/>">
 				<input type="hidden" id="adminChk" name="adminChk" />
- -->	
+ -->
   				<div class="search">
 					<div class="search-content">
 		                <table>
@@ -200,7 +201,7 @@
 								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
 							</td>
   						</tr>
-  						<!-- 
+  						<!--
   					    <tr>
   							<th align="right">자산명</th>
   							<td>
@@ -230,6 +231,6 @@
 
 			</form>
 		</div>
-	</div>	
+	</div>
 </body>
 </html>

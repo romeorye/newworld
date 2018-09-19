@@ -36,6 +36,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
 <script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
 
 <style>
@@ -57,7 +58,7 @@
 <script type="text/javascript">
     var pageRoleType = '${inputData.tssRoleType}';
     var pageRoleId   = '${inputData.tssRoleId}';
-	
+
     //Form
     var wbsCd;
     var tssNm;
@@ -67,9 +68,9 @@
     var tssFnhDd;
     var tssSt;
     var prjNm;
-    
+
     Rui.onReady(function() {
-    	
+
         //WBS Code
         wbsCd = new Rui.ui.form.LTextBox({
             applyTo: 'wbsCd',
@@ -90,7 +91,7 @@
             defaultValue: '<c:out value="${inputData.saUserName}"/>',
             width: 200
         });
-        
+
         /*
         saSabunNew = new Rui.ui.form.LPopupTextBox({
             applyTo: 'saSabunNew',
@@ -110,14 +111,14 @@
             document.aform.saSabunName.value = "";
         });
 		*/
-        
+
         //조직
         deptName = new Rui.ui.form.LTextBox({
             applyTo: 'deptName',
             defaultValue: '<c:out value="${inputData.deptName}"/>',
             width: 200
         });
-		/* 
+		/*
         deptName = new Rui.ui.form.LPopupTextBox({
             applyTo: 'deptName',
             width: 200,
@@ -135,7 +136,7 @@
             width: 100,
             dateType: 'string'
         });
-       /*  
+       /*
         tssStrtDd.on('blur', function() {
             if(tssStrtDd.getValue() == "") {
                 return;
@@ -153,7 +154,7 @@
             width: 100,
             dateType: 'string'
         });
-     /*    
+     /*
         tssFnhDd.on('blur', function() {
             if(tssFnhDd.getValue() == "") {
                 return;
@@ -184,7 +185,7 @@
                 if(stringNullChk(tssStDs.getNameValue(i, "COM_DTL_CD")).substr(0,1) == "5") {
                     tssStDs.removeAt(i);
                 }
-            } 
+            }
         });
 
         //프로젝트명
@@ -254,13 +255,13 @@
                   }}
                 , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 240 , renderer: function(value, p, record, row, col){
                     if(record.get("myTss") == "Y") p.css.push('font-bold');
-                    return "<a href='javascript:void(0);'><u>" + value + "<u></a>";  
+                    return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
                 , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
                 , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
                 , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 100 }
                 , { id: 'G1', label: '과제기간(계획일)' }
-                , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 73 } 
+                , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 73 }
                 , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 73 }
                 , { id: 'G2', label: '과제실적일' }
                 , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 73 }
@@ -314,22 +315,22 @@
             height: 400,
 			autoWidth: true
         });
-/* 
+/*
         var pager = new Rui.ui.LPager({
             gridPanel: grid,
             pageSize: 10
         });
-       
+
         pager.on('changed', function(e){
             Rui.alert('Page No. ' + e.startRowIndex);
         });
-        
+
         pager.render();
          */
         grid.render('defaultGrid');
-        
-       
-        
+
+
+
         grid.on('cellClick', function(e) {
 
 
@@ -352,13 +353,13 @@
                 	progressrate = "S";
                 }else if(rWgvl < gWgvl){
                 	rWgvl = rWgvl+3;
-                	
+
                 	if( rWgvl < gWgvl ){
 	                	progressrate = "D";
                 	}else{
 	                	progressrate = "N";
                 	}
-                	
+
                 }else if(rWgvl = gWgvl){
                 	progressrate = "N";
                 }
@@ -403,7 +404,7 @@
             }
         });
 
-        
+
         /**
         총 건수 표시
         **/
@@ -416,7 +417,7 @@
             var str = "";
 
             document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
-            
+
             if( '${inputData._roleId}' == "WORK_IRI_T16" ){
             	deptName.setValue('${inputData._userDeptName}');
             	deptName.disable();
@@ -426,7 +427,7 @@
 
         /* [버튼] 조회 */
         fnSearch = function() {
-         
+
         	dataSet.load({
                 url: '<c:url value="/prj/tss/gen/retrieveGenTssList.do"/>'
               , params : {
@@ -460,7 +461,7 @@
                 grid.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
                     columnModel: excelColumnModel
                 }); */
-            
+
             	var excelColumnModel = new Rui.ui.grid.LColumnModel({
                     gridView: columnModel,
                     columns: [
@@ -471,13 +472,13 @@
                        }}
                      , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 240 , renderer: function(value, p, record, row, col){
                          if(record.get("myTss") == "Y") p.css.push('font-bold');
-                         return "<a href='javascript:void(0);'><u>" + value + "<u></a>";  
+                         return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                      }}
                      , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
                      , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
                      , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 100 }
                      , { id: 'G1', label: '과제기간(계획일)' }
-                     , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 73 } 
+                     , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 73 }
                      , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 73 }
                      , { id: 'G2', label: '과제실적일' }
                      , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 73 }
@@ -493,15 +494,15 @@
                      , { id: 'G3', label: '현재 진척율' }
                      , { id: 'progressrateReal', groupId: 'G3', label: '계획', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
                     	 var arrPrg = record.get("progressrateReal").split('/');
-                    	 
+
                     	 return arrPrg[1];
                      } }
                      , { id: 'progressrateReal1', groupId: 'G3', label: '실적', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
                     	 var arrPrg = record.get("progressrateReal").split('/');
-                    	 
+
                     	 return arrPrg[0];
                      } }
-                     
+
                      , { id: 'pg', label: '진척도', align:'center', width: 70 ,renderer :function(value, p, record, row, col) {
 
                          var pgN ="달성";
@@ -521,7 +522,7 @@
                              pg = pgS ;
                          }else if(rWgvl < gWgvl){
                          	rWgvl = rWgvl+3;
-                         	
+
                          	if( rWgvl < gWgvl ){
      	                    	pg = pgD ;
                          	}else{
@@ -530,7 +531,7 @@
                          }else if(rWgvl = gWgvl){
                              pg = pgN ;
                          }
-                         
+
                          var pgsStepCd= record.get('pgsStepCd');
 
                          if(pgsStepCd=='PL'){
@@ -540,18 +541,18 @@
                      }}
                  ]
              });
-        
+
 		        grid.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
 		            columnModel: excelColumnModel
-		        }); 
-            
-            
-            
-            
-            
-            
-            
-            
+		        });
+
+
+
+
+
+
+
+
             } else {
                 Rui.alert("조회 후 엑셀 다운로드 해주세요.");
             }
@@ -560,7 +561,7 @@
 
         fnSearch();
         disableFields();
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#butTssNew").hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
@@ -570,7 +571,7 @@
 </script>
 <script>
 //과제리더 팝업 셋팅
-/* 
+/*
 function setLeaderInfo(userInfo) {
     saSabunNew.setValue(userInfo.saName);
     document.aform.saSabunName.value = userInfo.saSabun;
@@ -582,6 +583,7 @@ function setDeptInfo(deptInfo) {
  */
 </script>
 </head>
+
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
@@ -590,11 +592,11 @@ function setDeptInfo(deptInfo) {
 			<a class="leftCon" href="#">
 	        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 	        	<span class="hidden">Toggle 버튼</span>
-        	</a>  
+        	</a>
             <h2>일반 과제관리</h2>
 			<!-- 전체메뉴 -->
             <div class="menu_btn">
-               <a href="#">전체메뉴</a>                   	
+               <a href="#">전체메뉴</a>
 		    	<div id="tmpMenu" class="allmneu" style="position: absolute;z-index: 999; width:800px; background:  #fff;top:26px;border:  1px solid #ccc;padding: 20px; right:0;">
 					<div><input type="button" value="닫기" onclick="hideTmpMenu()"></div>
 					<div id="horizontalContainer" style="float: none">
@@ -608,7 +610,7 @@ function setDeptInfo(deptInfo) {
 					</div>
 				</div>
            	</div>
-           	<!-- //전체메뉴 -->	
+           	<!-- //전체메뉴 -->
         </div>
 
         <div class="sub-content">
@@ -675,7 +677,7 @@ function setDeptInfo(deptInfo) {
 			                </table>
 			            </form>
 					</div>
-            	</div>	
+            	</div>
 	            <div class="titArea">
 	                <span class="Ltotal" id="cnt_text">총 : 0 </span>
 	                <div class="LblockButton">
@@ -687,15 +689,15 @@ function setDeptInfo(deptInfo) {
 	                    </ul>
 	                    &nbsp;&nbsp;
 	                    <button type="button" id="butTssNew" name="itemCreate" class="redBtn">과제등록</button>
-	                    
+
 	                    <button type="button" id="butExcel" name="butExcel">EXCEL다운로드</button>
 	                </div>
 	            </div>
 
            		<div id="defaultGrid"></div>
 
-            
-            <!-- radio check Test --> 
+
+            <!-- radio check Test -->
             <div>
             	<p style="font-size:20px; margin-bottom:10px;">radio check Test<p>
             	<p>
@@ -722,8 +724,8 @@ function setDeptInfo(deptInfo) {
                         <span>Check2</span>
                     </label>
                 </p>
-            </div>       
-			<!-- //radio check Test --> 
+            </div>
+			<!-- //radio check Test -->
         </div>
     </div>
 </body>

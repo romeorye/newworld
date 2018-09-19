@@ -26,6 +26,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 
 <style>
 .font-bold div{
@@ -62,7 +63,7 @@
         wbsCd.on('blur', function(e) {
         	wbsCd.setValue(wbsCd.getValue().trim());
         });
-       
+
 
         //과제명
         tssNm = new Rui.ui.form.LTextBox({
@@ -75,7 +76,7 @@
         tssNm.on('blur', function(e) {
         	tssNm.setValue(tssNm.getValue().trim());
         });
-        
+
         //과제리더
         saUserName = new Rui.ui.form.LTextBox({
             applyTo: 'saUserName',
@@ -84,7 +85,7 @@
             emptyValue: '',
             width: 200
         });
-        
+
         deptName = new Rui.ui.form.LTextBox({
             applyTo: 'deptName',
             placeholder: '',
@@ -405,7 +406,7 @@
     		var str = "";
 
     		document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
-    		
+
     		if( '${inputData._roleId}' == "WORK_IRI_T16" ){
             	deptName.setValue('${inputData._userDeptName}');
             	deptName.disable();
@@ -506,7 +507,7 @@
         // 화면로딩시 조회
         fnSearch();
         disableFields();
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
     		$('#butTssNew').hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
@@ -534,7 +535,7 @@
             <input type="hidden" id="deptUper" value="">
             <input type="hidden" id="saSabunName" value="">
             <input type="hidden" id="hWbsCd" value="">
-			
+
 			<div class="search">
 				<div class="search-content">
 	                <table>

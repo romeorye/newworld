@@ -28,13 +28,13 @@
 var adminYn = "N";
 
 	Rui.onReady(function() {
-		
+
 		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
 			adminYn ="Y";
 		}else if("<c:out value='${inputData._userSabun}'/>".indexOf('00207583') > -1) {
 			adminYn ="Y";
 		}
-		
+
 		/*******************
          * 변수 및 객체 선언
          *******************/
@@ -51,20 +51,20 @@ var adminYn = "N";
             	 ,{ id: 'descTclg'}
             	 ,{ id: 'exptAppl'}
             	 ,{ id: 'mainReq'}
-            	 ,{ id: 'benchMarkTclg'}	
+            	 ,{ id: 'benchMarkTclg'}
             	 ,{ id: 'colaboTclg'}
             	 ,{ id: 'timeline'}
             	 ,{ id: 'comments'}
             	 ,{ id: 'companyNm'}
-            	 ,{ id: 'rgstNm'}                                                                     
-            	 ,{ id: 'submitYn'}                                                                       
+            	 ,{ id: 'rgstNm'}
+            	 ,{ id: 'submitYn'}
  			]
          });
-		
+
          dataSet.on('load', function(e){
  	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
  	     });
-		
+
          var columnModel = new Rui.ui.grid.LColumnModel({
              groupMerge: true,
              columns: [
@@ -77,24 +77,25 @@ var adminYn = "N";
                  { field: 'rfpId',  hidden : true}
              ]
          });
-		
-         
+
+
          var grid = new Rui.ui.grid.LGridPanel({
              columnModel: columnModel,
              dataSet: dataSet,
              height: 630,
-             width : 1200
+             width : 1200,
+             autoWidth:true
          });
-         
+
         grid.render('rfpGrid');
-         
+
         grid.on('cellClick', function(e) {
  			var record = dataSet.getAt(dataSet.getRow());
-    	   	
+
  			document.aform.rfpId.value = record.get("rfpId");
     	   	nwinsActSubmit(document.aform, "<c:url value="/prj/tss/rfp/rfpReg.do"/>");
  	 	});
-        
+
        //과제명
   	    var title = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
   	        applyTo: 'title',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -103,7 +104,7 @@ var adminYn = "N";
   	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
   	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
   	    });
-       
+
        //기관명
   	    var rgstNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
   	        applyTo: 'rgstNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -112,7 +113,7 @@ var adminYn = "N";
   	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
   	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
   	    });
-       
+
         fnSearch = function() {
  	    	dataSet.load({
  	            url: '<c:url value="/prj/tss/rfp/retrieveRfpSearchList.do"/>',
@@ -123,30 +124,30 @@ var adminYn = "N";
  	    	          }
              });
         }
-         
+
         fnSearch();
-		
+
         /* [버튼] : 신규 페이지로 이동 */
         var butRgst = new Rui.ui.LButton('butRgst');
-        
+
 		butRgst.on('click', function(){
 			document.aform.action='<c:url value="/prj/tss/rfp/rfpReg.do"/>';
 			document.aform.submit();
 		});
-        
+
 		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#butRgst").hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#butRgst").hide();
 		}
-		
-		
+
+
 	});
-	
+
 </script>
 </head>
 
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">	
+<body onkeypress="if(event.keyCode==13) {fnSearch();}">
 <div class="contents">
 	<div class="titleArea">
 		<a class="leftCon" href="#">

@@ -59,21 +59,21 @@
             defaultValue: '<c:out value="${inputData.wbsCd}"/>',
             width: 200
         });
-        
+
         //과제명
         tssNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssNm',
             defaultValue: '<c:out value="${inputData.tssNm}"/>',
             width: 200
         });
-       
+
         //과제리더
         saUserName = new Rui.ui.form.LTextBox({
             applyTo: 'saUserName',
             defaultValue: '<c:out value="${inputData.saUserName}"/>',
             width: 200
         });
-        
+
         //조직
         deptName = new Rui.ui.form.LTextBox({
             applyTo: 'deptName',
@@ -84,7 +84,7 @@
         saUserName = new Rui.ui.form.LPopupTextBox({
             applyTo: 'saUserName',
             width: 200,
-            
+
             editable: false,
             enterToPopup: true
         });
@@ -109,7 +109,7 @@
             enterToPopup: true
         });
 		*/
-		
+
         //과제기간 시작일
         ttlCrroStrtDt = new Rui.ui.form.LMonthBox({
             applyTo: 'ttlCrroStrtDt',
@@ -117,7 +117,7 @@
             width: 100,
             dateType: 'string'
         });
-		/* 
+		/*
         ttlCrroStrtDt = new Rui.ui.form.LDateBox({
             applyTo: 'ttlCrroStrtDt',
             mask: '9999-99-99',
@@ -143,7 +143,7 @@
             width: 100,
             dateType: 'string'
         });
- /* 
+ /*
         ttlCrroFnhDt = new Rui.ui.form.LDateBox({
             applyTo: 'ttlCrroFnhDt',
             mask: '9999-99-99',
@@ -244,9 +244,9 @@
                 , { field: 'tssNm',         label: '과제명', sortable: true, align:'left', width: 240, vMerge: true }
                 , { field: 'tssNosStNm',    label: '단계', sortable: true, align:'center', width: 80 , renderer: function(value, p, record, row, col){
                     if(record.get("myTss") == "Y") p.css.push('font-bold');
-                    return "<a href='javascript:void(0);'><u>" + value + "<u></a>"; 
+                    return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 } }
-                , { field: 'prjNm',         label: '프로젝트명', sortable: true, align:'center', width: 110 } 
+                , { field: 'prjNm',         label: '프로젝트명', sortable: true, align:'center', width: 110 }
                 , { field: 'saUserName',    label: '과제리더', sortable: true, align:'center', width: 70 }
                 , { field: 'deptName',      label: '조직', sortable: true, align:'center', width: 110 }
                 , { id: 'G1', label: '과제기간(계획일)' }
@@ -333,7 +333,7 @@
     		var str = "";
 
     		document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
-    		
+
     		if( '${inputData._roleId}' == "WORK_IRI_T16" ){
             	deptName.setValue('${inputData._userDeptName}');
             	deptName.disable();
@@ -382,7 +382,7 @@
                 Rui.alert("조회 후 엑셀 다운로드 해주세요.");
             }
         });
-/* 
+/*
 	    setDeptInfo = function(deptInfo) {
 	    	deptName.setValue(deptInfo.deptNm);
 	    };
@@ -390,15 +390,15 @@
 
 	    fnSearch();
 	    disableFields();
-	    
+
 	    if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
     		$('#butTssNew').hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
     		$('#butTssNew').hide();
     	}
-	    
+
     });
-/* 
+/*
     //과제리더 팝업 셋팅
     function setLeaderInfo(userInfo) {
         saUserName.setValue(userInfo.saName);

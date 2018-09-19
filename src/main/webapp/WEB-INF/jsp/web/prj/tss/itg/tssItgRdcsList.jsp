@@ -21,9 +21,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
-
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridView.js"></script><!-- Lgrid view -->
 <title><%=documentTitle%></title>
-
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 <style>
     .grid-bg-color-sum {
         background-color: rgb(255,204,204);
@@ -69,8 +72,8 @@
 			displayField: 'COM_DTL_NM',
 	    	valueField: 'COM_DTL_CD'
 	   	});
-	   	
-	   	var aprdocstate = new Rui.ui.form.LCombo({ // 
+
+	   	var aprdocstate = new Rui.ui.form.LCombo({ //
 			applyTo : 'aprdocstate',
 			emptyText: '전체',
 			emptyValue: '',
@@ -88,8 +91,8 @@
             emptyValue: '',
             width: 200
        });
-	    
-	  /* 
+
+	  /*
 	     approvalUsername = new Rui.ui.form.LPopupTextBox({
             applyTo: 'approvalUsername',
             width: 200,
@@ -223,7 +226,7 @@
 		        url: '<c:url value="/prj/tss/itg/retrieveTssItgRdcsList.do"/>',
 //                 params: params
                 params: {
-                	 tssNm: escape(encodeURIComponent(document.xform.tssNm.value)) //과제명
+                	 tssNm: escape(encodeURIComponent(document.aform.tssNm.value)) //과제명
                 	,tssScnCd: tssScnCd.getValue()
                 	,approvalUsername : encodeURIComponent(approvalUsername.getValue())
                 	//,approvalUserid: $('#approvalUserid').val()
@@ -233,8 +236,8 @@
                 }
             });
         }
-    	  
-    	  fnSearch(); 
+
+    	  fnSearch();
 //         });
 
         <%--/*******************************************************************************
@@ -282,10 +285,10 @@
 			</a>
   			<h2>과제 통합 결재 결과 목록</h2>
   		</div>
-  		
-    	<%//@ include file="/WEB-INF/jsp/include/navigator.jspf"%>
+
+    	<%-- <%//@ include file="/WEB-INF/jsp/include/navigator.jspf"%> --%>
    		<div class="sub-content">
-			<form name="xform" id="xform" method="post">
+			<form name="aform" id="aform" method="post">
 			<input type=hidden id ="approvalUserid" />
 			<div class="search">
 					<div class="search-content">
