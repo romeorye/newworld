@@ -644,7 +644,7 @@
 	        <h2>국책과제 &gt;&gt; 완료</h2>
 	    </div>
         <div class="sub-content">
-            <div class="titArea">
+            <div class="titArea mt0">
                 <div class="LblockButton">
                     <button type="button" id="btnGrsRq" name="btnGrsRq">GRS요청</button>
                     <button type="button" id="btnCsusRq" name="btnCsusRq">품의서요청</button>

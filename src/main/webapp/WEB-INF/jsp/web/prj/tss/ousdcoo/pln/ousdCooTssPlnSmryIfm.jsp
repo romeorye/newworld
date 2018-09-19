@@ -486,7 +486,6 @@
 <body>
 <div id="smryFormDiv">
 
-	<br/>
     <form name="smryForm" id="smryForm" method="post">
         <input type="hidden" id="tssCd"  name="tssCd"  value="">  <!-- 과제코드 -->
         <input type="hidden" id="userId" name="userId" value="">  <!-- 사용자ID -->
@@ -543,7 +542,7 @@
         </table>
     </form>
 </div>
-<div class="titArea">
+<div class="titArea btn_btm">
     <div class="LblockButton">
         <button type="button" id="btnSave" name="btnSave">저장</button>
         <!-- <button type="button" id="btnList" name="btnList">목록</button> -->

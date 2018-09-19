@@ -687,7 +687,7 @@ function setPrjInfo(prjInfo) {
 	        <h2>국책과제 &gt;&gt; 계획</h2>
 	    </div>
         <div class="sub-content">
-            <div class="titArea">
+            <div class="titArea mt0">
                 <div class="LblockButton mt0">
                 	<button type="button" id="btnDelRq" name="btnDelRq">삭제</button>
                     <button type="button" id="btnGrsRq" name="btnGrsRq">GRS요청</button>
@@ -710,10 +710,10 @@ function setPrjInfo(prjInfo) {
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 12%;" />
-                                <col style="width: 38%;" />
-                                <col style="width: 12%;" />
-                                <col style="width: 38%;" />
+                                <col style="width: 13%;" />
+                                <col style="width: 36%;" />
+                                <col style="width: 14%;" />
+                                <col style="" />
                             </colgroup>
                             <tbody>
                                 <tr>

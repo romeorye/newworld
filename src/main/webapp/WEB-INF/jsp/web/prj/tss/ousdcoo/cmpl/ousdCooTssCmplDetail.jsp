@@ -559,10 +559,10 @@
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 10%" />
-                                <col style="width: 40%" />
-                                <col style="width: 10%" />
-                                <col style="width: 40%" />
+                                <col style="width: 17%" />
+                                <col style="width: 34%" />
+                                <col style="width: 13%" />
+                                <col style="width: 34%" />
                             </colgroup>
                             <tbody>
                                 <tr>

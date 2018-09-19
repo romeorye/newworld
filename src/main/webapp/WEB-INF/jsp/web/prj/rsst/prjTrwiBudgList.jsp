@@ -217,7 +217,7 @@ function fncExcelDown() {
 
     <div id="defaultGrid"></div>
 
-    <div class="titArea">
+    <div class="titArea btn_btm">
 		<div class="LblockButton">
 			<button type="button" id="butGoList" name="butGoList">목록</button>
 		</div>

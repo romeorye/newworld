@@ -726,7 +726,7 @@
 		<div id="ptoprptGrid"></div>
 		<br> -->
 		
-		<div class="titArea" style="margin-top:0;">
+		<div class="titArea">
 			<h3>진척도</h3>
 		</div>
 		<div id="tssPgsGrid"></div>
@@ -735,7 +735,7 @@
 		<input type="hidden" id="hClsPrjCd" name="hClsPrjCd" value=""/>
 		<input type="hidden" id="hfilId" name="hfilId" value=""/>
 		<input type="hidden" id="hDownFilSeq" name="hDownFilSeq" value=""/>
-		<table class="table table_txt_right">
+		<table class="table table_txt_right mt10">
 			<colgroup>
 				<col style="width:15%; "/>
 				<col style="width:55%; "/>

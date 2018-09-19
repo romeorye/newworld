@@ -505,7 +505,7 @@ $(window).load(function() {
 <div id="goalGrid"></div>
 
 <div class="titArea">
-    <div class="LblockButton">
+    <div class="LblockButton btn_btm">
         <button type="button" id="btnGoalSave">저장</button>
     </div>
 </div>
@@ -520,7 +520,7 @@ $(window).load(function() {
 
 <div id="yldGrid"></div>
 
-<div class="titArea">
+<div class="titArea btn_btm">
     <div class="LblockButton">
         <button type="button" id="btnYldSave">저장</button>
     </div>

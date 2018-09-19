@@ -320,7 +320,7 @@ function setGridUserInfo(userInfo) {
     </form>
     <div id="defaultGrid"></div>
 </div>
-<div class="titArea">
+<div class="titArea btn_btms">
     <div class="LblockButton">
         <button type="button" id="btnSave" name="btnSave">저장</button>
         <!-- <button type="button" id="btnList" name="btnList">목록</button> -->

@@ -750,10 +750,10 @@ function setPrjInfo(prjInfo) {
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
+                                <col style="width: 17%;" />
+                                <col style="width: 34%;" />
                                 <col style="width: 15%;" />
-                                <col style="width: 35%;" />
-                                <col style="width: 15%;" />
-                                <col style="width: 35%;" />
+                                <col style="width: 34%;" />
                             </colgroup>
                             <tbody>
                                 <tr>

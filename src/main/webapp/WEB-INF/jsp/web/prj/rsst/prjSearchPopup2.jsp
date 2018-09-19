@@ -118,9 +118,10 @@ Rui.onReady(function() {
 
 		<div class="contents">
 
-   			<div class="sub-content">
-
- 				<table class="searchBox">
+   			<div class="sub-content" style="padding:0; paddding-left:3px;">
+				<div class="search mb5">
+					<div class="search-content">
+ 				<table>
  					<colgroup>
  						<col style="width:20%;"/>
  						<col style="width:*"/>
@@ -132,12 +133,14 @@ Rui.onReady(function() {
  							<td>
  								<input type="text" id="prjNm" value="">
  							</td>
- 							<td class="t_center">
+ 							<td class="txt-right">
  								<a style="cursor: pointer;" onclick="getPrjList();" class="btnL">검색</a>
  							</td>
  						</tr>
  					</tbody>
  				</table>
+ 				</div>
+ 				</div>
 
  				<div id="prjGrid"></div>
 

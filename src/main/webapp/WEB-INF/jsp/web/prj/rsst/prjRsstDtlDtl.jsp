@@ -311,11 +311,11 @@ var dataSet01;
 <body>
 	<form  id="aform" name="aform">
 	<input type="hidden" id="prjCd" value="<c:out value='${inputData.prjCd}'/>"/>
-
+<!--
 	<div class="titArea">
-		<!-- <h3>개요</h3> -->
+		 <h3>개요</h3> 
 	</div>
-	<br>
+-->
 	<!-- <div class="titArea"> -->
 	
 
@@ -396,7 +396,7 @@ var dataSet01;
 		
 		</form>
 	<!-- </div> -->
-	<div class="titArea">
+	<div class="titArea btn_btm">
 		<div class="LblockButton">
 			<button type="button" id="butRgst" name="butRgst"  onclick="javascript:fncInsertPrjRsstMstInfo();" >저장</button>
 			<button type="button" id="butList" name="butList" onclick="javascript:fncGoPage();">목록</button>

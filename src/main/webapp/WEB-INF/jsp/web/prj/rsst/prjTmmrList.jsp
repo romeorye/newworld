@@ -99,15 +99,15 @@ function fnSearch() {
 <body>
 <form name="tabForm05" id="tabForm05" method="post"></form>
     <Tag:saymessage /><!--  sayMessage 사용시 필요 -->
-
+<!--  
      <div class="titArea">
-<!--     	<h3>팀원정보</h3> -->
-    </div>
+   	<h3>팀원정보</h3> 
+    </div>-->
     <br><%-- 버튼없는 리스트 탭간 간격용 --%>
 
     <div id="defaultGrid"></div>
 
-    <div class="titArea">
+    <div class="titArea btn_btm">
 		<div class="LblockButton">
 			<button type="button" id="butGoList" name="butGoList">목록</button>
 		</div>

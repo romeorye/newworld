@@ -457,7 +457,7 @@ $(window).load(function() {
 
     <div id="defaultGrid01"></div>
 
-    <div class="titArea">
+    <div class="titArea btn_btm">
 		<div class="LblockButton">
 			<button type="button" id="butRgst" name="butRgst" >저장</button>
 			<!-- <button type="button" id="butGoList" name="butGoList">목록</button> -->
@@ -472,7 +472,7 @@ $(window).load(function() {
 
 	<div id="defaultGrid02"></div>
 
-	<div class="titArea">
+	<div class="titArea btn_btm">
 		<div class="LblockButton">
 			<button type="button" id="butGoList" name="butGoList">목록</button>
 		</div>
