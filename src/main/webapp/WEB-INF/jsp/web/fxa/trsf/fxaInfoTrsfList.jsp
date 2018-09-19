@@ -43,14 +43,14 @@ var trsfRsonDialog;
 var adminChk ="N";
 
 	Rui.onReady(function() {
-		
+
 		/* 권한  */
 		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
 			adminChk = "ADM";
 		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T04') > -1) {
 			adminChk = "ADM";
 		}
-		
+
 		/** dataSet **/
         dataSet = new Rui.data.LJsonDataSet({
             id: 'dataSet',
@@ -118,7 +118,8 @@ var adminChk ="N";
             dataSet: dataSet,
             headerTools: true,
             width: 1200,
-            height: 500
+            height: 500,
+            autoWidth: true
         });
 
         grid.render('defaultGrid');
@@ -149,7 +150,7 @@ var adminChk ="N";
         grid.on('popup', function(e){
         	trsfRsonDialog.show(true);
         	trsfRson.setValue(dataSet.getNameValue(e.row, 'trsfRson'));
-        	trsfRson.setEditable(false);        	
+        	trsfRson.setEditable(false);
         });
 
         grid.on('cellClick', function(e) {
@@ -227,10 +228,10 @@ var adminChk ="N";
         		return;
         	}
         });
-        
-        		
-        	
-        
+
+
+
+
 	});		//end ready
 
 </script>
@@ -241,21 +242,21 @@ var adminChk ="N";
  				<a class="leftCon" href="#">
 		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		        	<span class="hidden">Toggle 버튼</span>
-	        	</a>  
+	        	</a>
  				<h2>자산이관목록</h2>
  		    </div>
- 			
+
 
 		<form name="aform" id="aform" method="post">
 			<input type="hidden" id="menuType"  name="menuType" />
 			<input type="hidden" id="fxaInfoId"  name="fxaInfoId" />
 			<input type="hidden" id="rtnUrl"  name="rtnUrl" />
-			
+
 			<!-- Role -->
 			<input type="hidden" id="roleId" name="roleId"  value="<c:out value='${inputData._roleId}'/>">
 			<input type="hidden" id="adminChk" name="adminChk" />
-				
-			<div class="sub-content">	
+
+			<div class="sub-content">
 				<div class="search">
 					<div class="search-content">
 		 				<table>

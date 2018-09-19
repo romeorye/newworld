@@ -30,15 +30,15 @@
 var adminChk = "N";
 
 	Rui.onReady(function() {
-		
+
 		/* 권한  */
 		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
 			adminChk = "Y";
 		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T04') > -1) {
 			adminChk = "Y";
 		}
-		
-		
+
+
 		/** dataSet **/
         dataSet = new Rui.data.LJsonDataSet({
             id: 'dataSet',
@@ -65,7 +65,7 @@ var adminChk = "N";
         dataSet.on('load', function(e){
  	       	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
  	    });
-        
+
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
         	 	      { field: 'fxaNm'      , label: '자산명',  	sortable: false,	align:'left', width:290}
@@ -76,13 +76,13 @@ var adminChk = "N";
                     , { field: 'prjNm'      , label: '프로젝트명', 	sortable: false,	align:'left', width: 230}
                     , { field: 'crgrNm'     , label: '담당자',  	sortable: false,	align:'center', width: 70}
                     , { field: 'obtDt'     	, label: '취득일',  	sortable: false,	align:'center', width: 80}
-                    , { field: 'obtPce'     , label: '취득가',  	sortable: false,	align:'left', width: 80, 
+                    , { field: 'obtPce'     , label: '취득가',  	sortable: false,	align:'left', width: 80,
 	                   	 renderer: function(value, p, record){
 	      	        		return Rui.util.LFormat.numberFormat(parseInt(value));
 	      		        }
 	                  }
                     , { field: 'imgIcon' 	, label: '사진',  sortable: false,	align:'center', width: 60,	renderer: function(value, p, record){
-  	        			
+
                    	 if(record.get('attcFilId') == null ||  record.get('attcFilId') == ""){
 		            	 }else{
                    		 return '<button type="button" class="L-grid-button">사진</button>';
@@ -99,7 +99,8 @@ var adminChk = "N";
             columnModel: columnModel,
             dataSet: dataSet,
             width: 1170,
-            height: 480
+            height: 480,
+            autoWidth: true
         });
 
         grid.render('defaultGrid');
@@ -107,10 +108,10 @@ var adminChk = "N";
         grid.on('cellClick', function(e) {
 			var record = dataSet.getAt(dataSet.getRow());
 			var column = columnModel.getColumnAt(e.col, true);
-			
+
 			if(dataSet.getRow() > -1) {
 				if(column.id == 'imgIcon') {
-					
+
 					if (Rui.isEmpty( record.get("attcFilId"))){
 	 					Rui.alert("등록된 이미지가 없습니다.");
 	 					return;
@@ -118,13 +119,13 @@ var adminChk = "N";
 						var param = "?attcFilId="+ record.get("attcFilId")+"&seq="+record.get("seq");
 		   				Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
 		   				Rui.get('imgDialTitle').html('자산이미지');
-		   				
+
 		   				imgResize(Rui.getDom('dialogImage'));
-		   				
+
 		   				imageDialog.clearInvalid();
 		   				imageDialog.show(true);
 					}
-	    			
+
 	    	     }else{
 	    	    	document.aform.adminChk.value = adminChk;
 	  				document.aform.fxaInfoId.value = record.get("fxaInfoId");
@@ -149,24 +150,24 @@ var adminChk = "N";
              ]
          });
      	imageDialog.hide(true);
-     	
+
      	var imgResize = function(img){
      		var width = img.width;
      	    var height = img.height;
-     	    
+
      	   // 가로, 세로 최대 사이즈 설정
      	    var maxWidth = 780;
      	    var maxHeight = 700;
      	    var resizeWidth = 0;
      	    var resizeHeight = 0;
-     	    
+
      	// 이미지 비율 구하기
      	    var basisRatio = maxHeight / maxWidth;
      	    var imgRatio = height / width;
 
      	    if (imgRatio > basisRatio) {
      	    // height가 기준 비율보다 길다.
-     	        
+
      	        if (height > maxHeight) {
      	            resizeHeight = maxHeight;
      	            resizeWidth = Math.round((width * resizeHeight) / height);
@@ -174,10 +175,10 @@ var adminChk = "N";
      	            resizeWidth = width;
      	            resizeHeight = height;
      	        }
-     	        
+
      	    } else if (imgRatio < basisRatio) {
      	    // width가 기준 비율보다 길다.
-     	        
+
      	        if (width > maxWidth) {
      	            resizeWidth = maxWidth;
      	            resizeHeight = Math.round((height * resizeWidth) / width);
@@ -185,7 +186,7 @@ var adminChk = "N";
      	            resizeWidth = width;
      	            resizeHeight = height;
      	        }
-     	        
+
      	    } else {
      	        // 기준 비율과 동일한 경우
      	        resizeWidth = width;
@@ -194,8 +195,8 @@ var adminChk = "N";
      	// 리사이즈한 크기로 이미지 크기 다시 지정
      	    img.width = resizeWidth;
      	    img.height = resizeHeight;
-     	} 
-     	
+     	}
+
 		 //WBS 코드
  	    var wbsCd = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
  	        applyTo: 'wbsCd',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -228,7 +229,7 @@ var adminChk = "N";
 	        minValue: 0,                  // 최소값 입력제한 설정
 	        decimalPrecision: 0            // 소수점 자리수 3자리까지 허용
     	});
-    
+
        //자산폐기일 fr
 		var fromDate = new Rui.ui.form.LDateBox({
 			applyTo: 'fromDate',
@@ -263,7 +264,7 @@ var adminChk = "N";
  	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
  	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
  	    });
-		
+
 		toDate.on('blur', function(){
 			if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toDate.getValue(),"-","")) ) )  {
 				alert('날자형식이 올바르지 않습니다.!!');
@@ -312,7 +313,7 @@ var adminChk = "N";
  				<a class="leftCon" href="#">
 		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		        	<span class="hidden">Toggle 버튼</span>
-	        	</a>  
+	        	</a>
  				<h2>자산폐기</h2>
  		    </div>
  			<div class="sub-content">
@@ -322,7 +323,7 @@ var adminChk = "N";
 			<input type="hidden" id="fxaInfoId"  name="fxaInfoId" />
 			<input type="hidden" id="rtnUrl"  name="rtnUrl" />
 
-			<!-- Role -->	
+			<!-- Role -->
 			<input type="hidden" id="roleId" name="roleId"  value="<c:out value='${inputData._roleId}'/>">
 			<input type="hidden" id="adminChk" name="adminChk" />
 				<div class="search">

@@ -74,7 +74,8 @@
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width : 1150,
-	        height: 510
+	        height: 510,
+            autoWidth: true
 	    });
 
 	    grid.render('mhcnGrid');
@@ -82,7 +83,7 @@
 	    grid.on('cellClick', function(e) {
 			var record = dataSet.getAt(dataSet.getRow());
 			var column = columnModel.getColumnAt(e.col, true);
-			
+
 			if(dataSet.getRow() > -1) {
 				if(column.id == 'btn') {
 					document.aform.mchnInfoId.value = dataSet.getValue(dataSet.getRow(),  dataSet.getFieldIndex('mchnInfoId'));
@@ -96,7 +97,7 @@
 		        }
 			}
 	 	});
-	 
+
 		//기기명
 	    var mchnNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	        applyTo: 'mchnNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -157,7 +158,7 @@
 		cbMchnUsePsblYn.getDataSet().on('load', function(e) {
            console.log('cbMchnUsePsblYn :: load');
        	});
-			
+
 		//open 기기
 		var cbOpnYn = new Rui.ui.form.LCombo({
 			applyTo : 'opnYn',
@@ -170,7 +171,7 @@
 	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
 	                	]
 		});
-			
+
 	     fnSearch = function() {
 		    	dataSet.load({
 		        url: '<c:url value="/mchn/mgmt/retrieveAnlMchnSearchList.do"/>' ,
@@ -193,7 +194,7 @@
     		document.aform.action="<c:url value="/mchn/mgmt/retrieveAnlMchnReg.do"/>";
     		document.aform.submit();
     	});
-    	
+
     	/* [버튼] 분석기기 등록호출 */
     	var butAll = new Rui.ui.LButton('butAll');
     	butAll.on('click', function() {

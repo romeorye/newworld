@@ -11,4 +11,7 @@ public interface SpaceStatService {
 
 	//담당자별통계 조회
 	List<Map<String, Object>> getSpaceBzdvStatList(HashMap<String, Object> input);
+
+	//평가업무현황 조회
+	List<Map<String, Object>> getSpaceEvAffrSttsList(HashMap<String, Object> input);
 }

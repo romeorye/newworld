@@ -90,7 +90,8 @@
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width: 1150,
-	        height: 540
+	        height: 540,
+            autoWidth: true
 	    });
 
 		grid.render('mhcnGrid');
@@ -98,7 +99,7 @@
 		grid.on('cellClick', function(e){
 			var record = dataSet.getAt(dataSet.getRow());
 			var column = columnModel.getColumnAt(e.col, true);
-			
+
 			if(dataSet.getRow() > -1) {
 				if(column.id == 'btn') {
 					document.aform.mchnEduId.value = dataSet.getValue(dataSet.getRow(),  dataSet.getFieldIndex('mchnEduId'));
@@ -154,7 +155,7 @@
 	                    {label : '정시',  value : 'REGL'}
 	            ]
 	     });
-		
+
 	    fnSearch = function(){
 			dataSet.load({
 				url: '<c:url value="/mchn/open/eduAnl/retrieveMchnEduAnlSearchList.do"/>',
@@ -196,7 +197,7 @@
 				<input type="hidden" id="menuType" name="menuType" value="IRIDE0105"/>
 				<input type="hidden" id="mchnEduId" name="mchnEduId" />
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" />
-				
+
 				<div class="search">
 					<div class="search-content">
 		   				<table>

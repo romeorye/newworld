@@ -24,7 +24,7 @@
 <script type="text/javascript">
 
 	Rui.onReady(function(){
-	
+
 		//grid dataset
 		var dataSet = new Rui.data.LJsonDataSet({
             id: 'dataSet',
@@ -43,7 +43,7 @@
             	 ,{ id: 'cgdsMgmtId'}
             ]
         });
-		
+
 		dataSet.on('load', function(e){
 	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
 	    });
@@ -54,7 +54,7 @@
 		        	{ field: 'cgdsNm', 		label:'소모품명' , 	sortable: false, align: 'left', width: 300},
 		            { field: 'mkrNm',  		label:'제조사', 	sortable: false, align: 'center', width: 140},
 		            { field: 'stkNo',  		label:'Stock No.', 	sortable: false, align: 'center', width: 130},
-		            { field: 'curIvQty',  	label:'현재고', 	renderer: function(val, p, record, row, i){ 
+		            { field: 'curIvQty',  	label:'현재고', 	renderer: function(val, p, record, row, i){
 		            	if( record.get('ivStCd') == "Y" ){
 			            	return'<span style = "color : #FF5E00">'+val+'</span>';
 		            	}else{
@@ -73,16 +73,17 @@
 		        ]
 		 });
 
-		
+
 		var grid = new Rui.ui.grid.LGridPanel({
 		    columnModel: columnModel,
 		    dataSet: dataSet,
 		    width : 1150,
-		    height: 520
+		    height: 520,
+            autoWidth: true
 		});
 
 		grid.render('mhcnGrid');
-		
+
  		//소모품명
 		var cgdsNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	        applyTo: 'cgdsNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -109,7 +110,7 @@
 	        placeholder: 'Stock No를 입력하세요',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
- 		
+
  		//담당자명.
 		var cgdCrgrNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	        applyTo: 'cgdCrgrNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -132,13 +133,13 @@
      	}
 
 		fnSearch();
-		
+
 		grid.on('cellClick', function(e) {
 			var record = dataSet.getAt(dataSet.getRow());
 			var column = columnModel.getColumnAt(e.col, true);
-			
+
 			if(dataSet.getRow() > -1) {
-				
+
 				if(column.id == 'btn') {
 					document.aform.cgdsId.value = dataSet.getValue(dataSet.getRow(),  dataSet.getFieldIndex('cgdsId'));
 					document.aform.action="<c:url value="/mchn/mgmt/retrieveCgdsMgmtList.do"/>";
@@ -149,7 +150,7 @@
 					document.aform.action="<c:url value="/mchn/mgmt/retrieveCgdgAnlDtl.do"/>";
 					document.aform.submit();
 				}
-				
+
 
 			}
 	 	});
@@ -160,8 +161,8 @@
     		document.aform.action='<c:url value="/mchn/mgmt/retrieveCgdgAnlDtl.do"/>';
     		document.aform.submit();
     	});
-		
-		
+
+
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
@@ -175,7 +176,7 @@
         		return;
         	}
         });
-		
+
 
 	});		//end ready
 
@@ -197,7 +198,7 @@
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" value="IRIED0202"/>
 				<input type="hidden" id="cgdsId" name="cgdsId"  value="<c:out value='${inputData.cgdsId}'/>">
-				
+
 				<div class="search">
 					<div class="search-content">
 		                <table>
@@ -212,22 +213,22 @@
 								<tr>
 									<th align="right">소모품명</th>
 									<td>
-										<input type="text" id="cgdsNm"/>	
+										<input type="text" id="cgdsNm"/>
 									</td>
 									<th align="right">제조사</th>
 									<td>
-										<input type="text" id="mkrNm"/>	
+										<input type="text" id="mkrNm"/>
 									</td>
 									<td></td>
 								</tr>
 								<tr>
 									<th align="right">Stock No.</th>
 									<td>
-										<input type="text" id="stkNo"/>	
+										<input type="text" id="stkNo"/>
 									</td>
 									<th align="right">담당자</th>
 									<td>
-										<input type="text" id="cgdCrgrNm"/>	
+										<input type="text" id="cgdCrgrNm"/>
 									</td>
 									<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
 								</tr>

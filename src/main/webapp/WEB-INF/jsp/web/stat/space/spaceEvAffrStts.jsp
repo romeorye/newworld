@@ -74,25 +74,31 @@ var mchnInfoId;
 
         //전체
         spaceEvAffrSttsDataSet = new Rui.data.LJsonDataSet({
-            id: 'rlabDzdvStatDataSet',
+            id: 'spaceEvAffrSttsDataSet',
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-            	  { id: 'statGbn' }
-            	, { id: 'm1' }
-				, { id: 'm2' }
-				, { id: 'm3' }
-				, { id: 'm4' }
-				, { id: 'm5' }
-				, { id: 'm6' }
-				, { id: 'm7' }
-				, { id: 'm8' }
-				, { id: 'm9' }
-				, { id: 'm10' }
-				, { id: 'm11' }
-				, { id: 'm12' }
-				, { id: 'sum' }
-				, { id: 'etc' }
+            	  { id: 'SPACE_UGY_YN' }
+            	, { id: 'SPACE_UGY_NM' }
+            	, { id: 'SPACE_SCN_CD' }
+            	, { id: 'SPACE_SCN_NM' }
+            	, { id: 'SPACE_SCN_ORD' }
+            	, { id: 'CNT' }
+            	, { id: 'AVG_CNT' }
+            	, { id: 'DD_CNT' }
+            	, { id: 'AVG_DD' }
+            	, { id: 'M1' }
+				, { id: 'M2' }
+				, { id: 'M3' }
+				, { id: 'M4' }
+				, { id: 'M5' }
+				, { id: 'M6' }
+				, { id: 'M7' }
+				, { id: 'M8' }
+				, { id: 'M9' }
+				, { id: 'M10' }
+				, { id: 'M11' }
+				, { id: 'M12' }
             ]
         });
 
@@ -102,23 +108,22 @@ var mchnInfoId;
         var spaceEvAffrSttsColumnModel = new Rui.ui.grid.LColumnModel({
         	autoWidth:true
             ,columns: [
-            	  { field: 'statGbn',		label: '시험구분',		sortable: false,	align:'center',	width: 100 }
-                , { field: '',		label: '합계',		sortable: false,	align:'center',	width: 50 }
-                , { field: '',		label: '월평균',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm1',		label: '1월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm2',		label: '2월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm3',		label: '3월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm4',		label: '4월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm5',		label: '5월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm6',		label: '6월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm7',		label: '7월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm8',		label: '8월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm9',		label: '9월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm10',		label: '10월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm11',		label: '11월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'm12',		label: '12월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'sum',		label: '합계',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'etc',		label: '비고',		vMerge: true,sortable: false,	align:'center',	width: 100 }
+            	  { field: 'SPACE_UGY_NM',		label: '구분',		sortable: false,	align:'center',	width: 100, vMerge:true}
+                , { field: 'SPACE_SCN_NM',		label: '상세구분',		sortable: false,	align:'center',	width: 50}
+                , { field: 'CNT',				label: '합계',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'AVG_CNT',			label: '월평균',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M1',				label: '1월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M2',				label: '2월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M3',				label: '3월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M4',				label: '4월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M5',				label: '5월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M6',				label: '6월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M7',				label: '7월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M8',				label: '8월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M9',				label: '9월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M10',				label: '10월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M11',				label: '11월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'M12',				label: '12월',		sortable: false,	align:'center',	width: 50 }
             ]
         });
 
@@ -136,45 +141,14 @@ var mchnInfoId;
 
 
 
-
-        var rlabDzdvStatGrid = new Rui.ui.grid.LGridPanel({
-            columnModel: rlabDzdvStatColumnModel,
-            dataSet: rlabDzdvStatDataSet,
-            width: 980,
-            height: 380,
-            autoToEdit: true,
-            autoWidth: true
-        });
-
-        rlabDzdvStatGrid.render('rlabDzdvStatGrid');
-
-
-
-
-
-        var rlabExprStatGrid = new Rui.ui.grid.LGridPanel({
-            columnModel: rlabExprStatColumnModel,
-            dataSet: rlabExprStatDataSet,
-            width: 980,
-            height: 380,
-            autoToEdit: true,
-            autoWidth: true
-        });
-
-        rlabExprStatGrid.render('rlabExprStatGrid');
-
-
-
-
-
         /* 시험구분별통계 리스트 조회 */
-        getRlabScnStatList = function(msg) {
+        getSpaceEvAffrSttsList = function(msg) {
 
         	spaceEvAffrSttsDataSet.load({
-                url: '<c:url value="/stat/rlab/retrieveRlabScnStatList.do"/>',
+                url: '<c:url value="/stat/space/getSpaceEvAffrSttsList.do"/>',
                 params :{
-                	yyyy :  yy.getValue()
-                	//yyyy : '2018'
+                	//yyyy :  yy.getValue()
+                	yyyy : '2018'
                 }
             });
         };
@@ -182,12 +156,9 @@ var mchnInfoId;
 
 
 
-
-        //getRlabChrgStatList();
-
         /* 조회 */
         fnSearch = function() {
-        	//getRlabScnStatList();
+        	getSpaceEvAffrSttsList();
         };
 	});	//end ready
 

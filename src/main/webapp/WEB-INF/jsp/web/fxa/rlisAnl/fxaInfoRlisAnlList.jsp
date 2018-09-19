@@ -82,7 +82,7 @@ var fxaRlisAnlDialog;
 			if(dataSet.getRow() > -1) {
 				//document.aform.rlisTrmId.value = record.get("rlisTrmId");
 				var param = "?rlisTrmId="+record.get("rlisTrmId");
-				
+
 				fxaRlisAnlDialog.setUrl('<c:url value="/fxa/rlisAnl/retrieveFxaRlisAnlPop.do"/>'+param);
 				fxaRlisAnlDialog.show(true);
 			}
@@ -133,7 +133,7 @@ var fxaRlisAnlDialog;
  				<a class="leftCon" href="#">
 		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		        	<span class="hidden">Toggle 버튼</span>
-	        	</a>  
+	        	</a>
  				<h2>자산실사기간 관리</h2>
  		    </div>
  			<div class="sub-content">
@@ -143,10 +143,10 @@ var fxaRlisAnlDialog;
 			<input type="hidden" id="fxaInfoId"  name="fxaInfoId" />
 			<input type="hidden" id="rtnUrl"  name="rtnUrl" />
 
-			
+
 			<div class="titArea btn_top">
 				<span class="table_summay_number" id="cnt_text"></span>
-				<div class="LblockButton"> 
+				<div class="LblockButton">
 					<button type="button" id="butReg">신규실사</button>
 				</div>
 			</div>

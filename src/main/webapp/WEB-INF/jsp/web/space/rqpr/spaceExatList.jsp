@@ -1,5 +1,7 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*,
+<%@ page language="java" pageEncoding="utf-8"
+	contentType="text/html; charset=utf-8"%>
+<%@ page
+	import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
 				 devonframe.util.DateUtil"%>
@@ -28,47 +30,61 @@
 
 <title><%=documentTitle%></title>
 
-<script type="text/javascript" src="<%=ruiPathPlugins%>/tree/rui_tree.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/tree/rui_tree.css"/>
-<script type="text/javascript" src="<%=ruiPathPlugins%>/data/LDataSetView.js"></script>
+<script type="text/javascript"
+	src="<%=ruiPathPlugins%>/tree/rui_tree.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="<%=ruiPathPlugins%>/tree/rui_tree.css" />
+<script type="text/javascript"
+	src="<%=ruiPathPlugins%>/data/LDataSetView.js"></script>
 
 <style>
- .bgcolor-gray {background-color: #999999}
- .bgcolor-white {background-color: #FFFFFF}
+.bgcolor-gray {
+	background-color: #999999
+}
+
+.bgcolor-white {
+	background-color: #FFFFFF
+}
 </style>
 
 
-    <style type="text/css" >
-        #bd {
-            height: 300px;
-        }
-        h3 {
-            margin: 0px !important;
-            padding-left: 10px !important;
-        }
-        #contentWrapper, #fieldWrapper, #buttonWrapper{
-            float: left;
-        }
-        #LblockFields {
-            padding: 10px;
-        }
-        #fieldWrapper {
-            margin-left: 20px;
-            width: 810px;
-        }
-        #buttonWrapper {
-            margin-left: 20px;
-            width: 300px;
-        }
-        #LblockFields div {
-            padding: 5px 0;
-        }
-        #LblockFields input[readonly]{
-            background-color: #ddd;
-        }
+<style type="text/css">
+#bd {
+	height: 300px;
+}
 
-    </style>
-	<script type="text/javascript">
+h3 {
+	margin: 0px !important;
+	padding-left: 10px !important;
+}
+
+#contentWrapper, #fieldWrapper, #buttonWrapper {
+	float: left;
+}
+
+#LblockFields {
+	padding: 10px;
+}
+
+#fieldWrapper {
+	margin-left: 20px;
+	width: 810px;
+}
+
+#buttonWrapper {
+	margin-left: 20px;
+	width: 300px;
+}
+
+#LblockFields div {
+	padding: 5px 0;
+}
+
+#LblockFields input[readonly] {
+	background-color: #ddd;
+}
+</style>
+<script type="text/javascript">
 
 		Rui.onReady(function() {
             /*******************
@@ -541,53 +557,69 @@
         });
 
 	</script>
-    </head>
-    <body>
+</head>
+<body>
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
 
-   		<div class="contents">
+		<div class="contents">
 
-   			<div class="sub-content">
+			<div class="sub-content">
 
-   				<div class="titleArea">
-		   			<span class="titleArea" style="display:inline">
-		   				<h2>공간성능평가 시험정보 관리</h2>
-		   			</span>
-   					<div class="LblockButton">
-   						<button type="button" class="btn"  id="addSpaceExatMstBtn" name="addSpaceExatMstBtn" onclick="addSpaceExatMst()">신규</button>
-   						<button type="button" class="btn"  id="initSpaceExatMstBtn" name="initSpaceExatMstBtn" onclick="initSpaceExatMst()">초기화</button>
-   						<button type="button" class="btn"  id="saveSpaceExatMstBtn" name="saveSpaceExatMstBtn" onclick="saveSpaceExatMst()">저장</button>
-   						<button type="button" class="btn"  id="openUtmExpSimulationBtn" name="openUtmExpSimulationBtn" onclick="openUtmExpSimulationDialog()">수가계산</button>
-   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadSpaceExatMstListExcel()">Excel</button>
-   					</div>
-   				</div>
+				<div class="titleArea">
+					<span class="titleArea" style="display: inline"> <a
+						class="leftCon" href="#"> <img
+							src="/iris/resource/web/images/img_uxp/ico_leftCon.png"
+							alt="Left Navigation Control"> <span class="hidden">Toggle
+								버튼</span>
+					</a>
+						<h2>공간성능평가 시험정보 관리</h2>
+					</span>
+					<div class="LblockButton">
+						<button type="button" class="btn" id="addSpaceExatMstBtn"
+							name="addSpaceExatMstBtn" onclick="addSpaceExatMst()">신규</button>
+						<button type="button" class="btn" id="initSpaceExatMstBtn"
+							name="initSpaceExatMstBtn" onclick="initSpaceExatMst()">초기화</button>
+						<button type="button" class="btn" id="saveSpaceExatMstBtn"
+							name="saveSpaceExatMstBtn" onclick="saveSpaceExatMst()">저장</button>
+						<button type="button" class="btn" id="openUtmExpSimulationBtn"
+							name="openUtmExpSimulationBtn"
+							onclick="openUtmExpSimulationDialog()">수가계산</button>
+						<button type="button" class="btn" id="excelBtn" name="excelBtn"
+							onclick="downloadSpaceExatMstListExcel()">Excel</button>
+					</div>
+				</div>
 
-			    <div id="bd" style="height: 310px">
-			        <div class="LblockMarkupCode">
-			            <div id="contentWrapper">
-			        		<div class="L-panel L-grid-panel"></div>
-			                	<div id="spaceExatMstTreeView" style="float: left"></div>
-			            </div>
-			            <div id="fieldWrapper">
-			                <div id="spaceExatMstTreeGrid"></div>
-			                <div id="spaceExatMstGrid"></div>
-			            </div>
-			        </div>
-			    </div>
+				<div id="bd" style="height: 310px">
+					<div class="LblockMarkupCode">
+						<div id="contentWrapper">
+							<div class="L-panel L-grid-panel"></div>
+							<div id="spaceExatMstTreeView" style="float: left"></div>
+						</div>
+						<div id="fieldWrapper">
+							<div id="spaceExatMstTreeGrid"></div>
+							<div id="spaceExatMstGrid"></div>
+						</div>
+					</div>
+				</div>
 
-   				<div class="titArea">
-   					<span class="Ltotal">공간성능평가Tool 관리</span>
-   					<div class="LblockButton">
-   						<button type="button" class="btn"  id="addSpaceExatDtlBtn" name="addSpaceExatDtlBtn" onclick="addSpaceExatDtl()">신규</button>
-   						<button type="button" class="btn"  id="saveSpaceExatMstBtn" name="saveSpaceExatMstBtn" onclick="saveSpaceExatDtl()">저장</button>
-   						<button type="button" class="btn"  id="deleteSpaceExatDtlBtn" name="deleteSpaceExatDtlBtn" onclick="deleteSpaceExatDtl()">삭제</button>
-   					</div>
-   				</div>
+				<div class="titArea">
+					<span class="Ltotal">공간성능평가Tool 관리</span>
+					<div class="LblockButton">
+						<button type="button" class="btn" id="addSpaceExatDtlBtn"
+							name="addSpaceExatDtlBtn" onclick="addSpaceExatDtl()">신규</button>
+						<button type="button" class="btn" id="saveSpaceExatMstBtn"
+							name="saveSpaceExatMstBtn" onclick="saveSpaceExatDtl()">저장</button>
+						<button type="button" class="btn" id="deleteSpaceExatDtlBtn"
+							name="deleteSpaceExatDtlBtn" onclick="deleteSpaceExatDtl()">삭제</button>
+					</div>
+				</div>
 
-			    <div id="spaceExatDtlGrid"></div>
+				<div id="spaceExatDtlGrid"></div>
 
-   			</div><!-- //sub-content -->
-   		</div><!-- //contents -->
-		</form>
-    </body>
+			</div>
+			<!-- //sub-content -->
+		</div>
+		<!-- //contents -->
+	</form>
+</body>
 </html>

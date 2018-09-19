@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -34,12 +34,12 @@
 </style>
 
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
              *******************/
-            
+
             var fromCmplDt = new Rui.ui.form.LDateBox({
 				applyTo: 'fromCmplDt',
 				mask: '9999-99-99',
@@ -55,7 +55,7 @@
 					alert('날자형식이 올바르지 않습니다.!!');
 					fromCmplDt.setValue(new Date());
 				}
-				
+
 				if( fromCmplDt.getValue() > toCmplDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromCmplDt.setValue(toCmplDt.getValue());
@@ -71,19 +71,19 @@
 				width: 100,
 				dateType: 'string'
 			});
-			 
+
 			toCmplDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toCmplDt.getValue(),"-","")) ) )  {
 					alert('날자형식이 올바르지 않습니다.!!');
 					toCmplDt.setValue(new Date());
 				}
-				
+
 				if( fromCmplDt.getValue() > toCmplDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromCmplDt.setValue(toCmplDt.getValue());
 				}
 			});
-            
+
             var anlChrgId = new Rui.ui.form.LCombo({
                 applyTo: 'anlChrgId',
                 name: 'anlChrgId',
@@ -95,7 +95,7 @@
                 displayField: 'name',
                 valueField: 'userId'
             });
-			
+
             /*******************
              * 변수 및 객체 선언
             *******************/
@@ -155,28 +155,28 @@
                 autoToEdit: false,
                 autoWidth: true
             });
-            
+
             anlCompleteStateGrid.render('anlCompleteStateGrid');
-            
+
             /* 조회 */
             getAnlCompleteStateList = function() {
             	anlCompleteStateDataSet.load({
                     url: '<c:url value="/stat/anl/getAnlCompleteStateList.do"/>',
                     params :{
             		    anlChrgId : anlChrgId.getValue(),
-            		    fromCmplDt : fromCmplDt.getValue(), 
+            		    fromCmplDt : fromCmplDt.getValue(),
             		    toCmplDt : toCmplDt.getValue()
                     }
                 });
             };
-            
+
             anlCompleteStateDataSet.on('load', function(e) {
    	    		$("#cnt_text").html('총 ' + anlCompleteStateDataSet.getCount() + '건');
    	      	});
-            
+
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlCompleteStateListExcel = function() {
-                
+
         		 var excelColumnModel = new Rui.ui.grid.LColumnModel({
                      gridView: anlCompleteStateColumnModel,
                      columns: [
@@ -204,17 +204,17 @@
         		 anlCompleteStateGrid.saveExcel('export.xls',{columnModel:excelColumnModel});
             	//anlCompleteStateGrid.saveExcel(encodeURIComponent('분석완료 통계_') + new Date().format('%Y%m%d') + '.xls');
             };
-            
+
             getAnlCompleteStateList();
-			
+
         });
 
 	</script>
     </head>
     <body>
 	<form name="aform" id="aform" method="post">
-		
-   		<div class="contents">  			
+
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 	   				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
@@ -222,7 +222,7 @@
    				</a>
    				<h2>분석완료</h2>
    			</div>
-   			
+
 	   		<div class="sub-content">
 	   			<div class="search">
 			   		<div class="search-content">
@@ -242,7 +242,7 @@
 		    						</td>
 		   							<th align="right">분석 완료일</th>
 		    						<td>
-		   								<input type="text" id="fromCmplDt"/><em class="gab"> ~ </em>
+		   								<input type="text" id="fromCmplDt"/> ~
 		   								<input type="text" id="toCmplDt"/>
 		    						</td>
 		   							<td class="txt-right">
@@ -253,7 +253,7 @@
 		   				</table>
 		   			</div>
    				</div>
-   				
+
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">
@@ -262,7 +262,7 @@
    				</div>
 
    				<div id="anlCompleteStateGrid"></div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

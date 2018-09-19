@@ -40,11 +40,11 @@ var imgHeight;
 		var butRgst = new Rui.ui.LButton('butRgst');
 		var butMail = new Rui.ui.LButton('butMail');
 		var butExcl = new Rui.ui.LButton('butExcl');
-		
+
 		butExcl.hide();
 		/* 권한  */
 		sDeptCd = '${inputData._userDept}'
-		
+
 		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
 			adminChk = "Y";
 		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T04') > -1) {
@@ -54,15 +54,15 @@ var imgHeight;
 		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
 			btnRole = "N";
 		}
-		
+
 		if( adminChk == "Y"){
 			butRgst.show();
-			butMail.show(); 
+			butMail.show();
 		}else{
 			butRgst.hide();
-			butMail.hide(); 
+			butMail.hide();
 		}
-	
+
 		/*******************
          * 변수 및 객체 선언
          *******************/
@@ -126,7 +126,7 @@ var imgHeight;
          		        }
                      }
                      , { field: 'imgIcon' 	, label: '사진',  sortable: false,	align:'center', width: 40,	renderer: function(value, p, record){
-      	        			
+
                     	 if(record.get('attcFilId') == null ||  record.get('attcFilId') == ""){
  		            	 }else{
                     		 return '<button type="button" class="L-grid-button">사진</button>';
@@ -154,7 +154,8 @@ var imgHeight;
              columnModel: columnModel,
              dataSet: dataSet,
              width: 1200,
-             height: 490
+             height: 490,
+             autoWidth: true
          });
 
          grid.render('defaultGrid');
@@ -162,24 +163,24 @@ var imgHeight;
          grid.on('cellClick', function(e) {
  			var record = dataSet.getAt(dataSet.getRow());
  			var column = columnModel.getColumnAt(e.col, true);
- 			
- 			if(column.id == 'selection') {   
+
+ 			if(column.id == 'selection') {
  				return;
  			}
- 			
+
  			if(dataSet.getRow() > -1) {
  				if(column.id == 'imgIcon') {
  					if( Rui.isEmpty(record.get('attcFilId'))){
  						Rui.alert("등록된 이미지가 없습니다.");
  						return;
  					}
- 					
+
  	    			var param = "?attcFilId="+ record.get("attcFilId")+"&seq="+record.get("seq");
- 	    			
+
  	   				Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
  	   				Rui.get('imgDialTitle').html('자산이미지');
  	   				imgResize(Rui.getDom('dialogImage'));
- 	   				
+
  	   				imageDialog.clearInvalid();
  	   				imageDialog.show(true);
 
@@ -187,7 +188,7 @@ var imgHeight;
  	    	    	document.aform.adminChk.value = adminChk;
 	 				document.aform.fxaInfoId.value = record.get("fxaInfoId");
 	 				document.aform.rtnUrl.value = "/fxa/anl/retrieveFxaAnlList.do";
- 	    	    	
+
 	 				if(adminChk == "N" && !Rui.isEmpty(record.get("deptCd")) ){
 	 					if(record.get("deptCd") == sDeptCd ){
 	 						document.aform.adminChk.value = "Y";
@@ -204,7 +205,7 @@ var imgHeight;
              width: 600,
              height: 500,
              visible: true,
-             modal: false, 
+             modal: false,
              postmethod: 'none',
              buttons: [
                  { text:'닫기', isDefault: true, handler: function() {
@@ -213,7 +214,7 @@ var imgHeight;
              ]
          });
      	imageDialog.hide(true);
-     	
+
      	//자산 이관
      	fxaTrsfDialog = new Rui.ui.LFrameDialog({
 	        id: 'fxaTrsfDialog',
@@ -248,7 +249,7 @@ var imgHeight;
  	    var fxaNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
  	        applyTo: 'fxaNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
  	        width: 200,                                    // 텍스트박스 폭을 설정
- 	        defaultValue: '<c:out value="${inputData.fxaNm}"/>', 
+ 	        defaultValue: '<c:out value="${inputData.fxaNm}"/>',
  	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
  	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
  	    });
@@ -280,7 +281,7 @@ var imgHeight;
 			width: 100,
 			dateType: 'string'
 		});
-/* 
+/*
 		fromDate.on('blur', function(){
 			if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(fromDate.getValue(),"-","")) ) )  {
 				alert('날자형식이 올바르지 않습니다.!!');
@@ -301,7 +302,7 @@ var imgHeight;
 			width: 100,
 			dateType: 'string'
 		});
-/* 
+/*
 		toDate.on('blur', function(){
 			if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toDate.getValue(),"-","")) ) )  {
 				alert('날자형식이 올바르지 않습니다.!!');
@@ -382,7 +383,7 @@ var imgHeight;
 	            } }
 	        ]
 	    });
-		
+
 	    _mailDialog.on('submit', function(e) {
 	    	Rui.alert('메일이 발송되었습니다.');
 	    });
@@ -409,7 +410,7 @@ var imgHeight;
 					Rui.alert("자산이관은 1개씩만 가능합니다.");
 					return;
 				}
-				
+
 			    var chkRow;
 				//체크된 자산의 상태 체크
 				for(var i = 0; i < dataSet.getCount(); i++){
@@ -428,17 +429,17 @@ var imgHeight;
 						}
 					}
 			  	}
-				
+
 				//관리자가 아닐경우 자기 부서 자산만 이관 가능
 				if( adminChk == "Y" ){
-					
+
 				}else{
 					var chkDeptCd = dataSet.getNameValue(chkRow, "deptCd");
-					
+
 					if( sDeptCd == "58171352"   ){
 						sDeptCd = "58141801";
 					}
-					
+
 					if( chkDeptCd !=  sDeptCd ){
 						Rui.alert("소속부서 자산만 이관이 가능합니다.");
 						return;
@@ -481,20 +482,20 @@ var imgHeight;
 function imgResize(img){
 		var width = img.width;
 	    var height = img.height;
-	    
+
 	   // 가로, 세로 최대 사이즈 설정
 	    var maxWidth = 780;
 	    var maxHeight = 700;
 	    var resizeWidth = 0;
     	var resizeHeight = 0;
-	    
+
 	// 이미지 비율 구하기
 	    var basisRatio = maxHeight / maxWidth;
 	    var imgRatio = height / width;
 
 	    if (imgRatio > basisRatio) {
 	    // height가 기준 비율보다 길다.
-	        
+
 	        if (height > maxHeight) {
 	            resizeHeight = maxHeight;
 	            resizeWidth = Math.round((width * resizeHeight) / height);
@@ -502,10 +503,10 @@ function imgResize(img){
 	            resizeWidth = width;
 	            resizeHeight = height;
 	        }
-	        
+
 	    } else if (imgRatio < basisRatio) {
 	    // width가 기준 비율보다 길다.
-	        
+
 	        if (width > maxWidth) {
 	            resizeWidth = maxWidth;
 	            resizeHeight = Math.round((height * resizeWidth) / width);
@@ -513,7 +514,7 @@ function imgResize(img){
 	            resizeWidth = width;
 	            resizeHeight = height;
 	        }
-	        
+
 	    } else {
 	        // 기준 비율과 동일한 경우
 	        resizeWidth = width;
@@ -522,9 +523,9 @@ function imgResize(img){
 	// 리사이즈한 크기로 이미지 크기 다시 지정
 	    img.width = resizeWidth;
 	    img.height = resizeHeight;
-	} 
-	
-	
+	}
+
+
 
 </script>
     </head>
@@ -534,7 +535,7 @@ function imgResize(img){
     				<a class="leftCon" href="#">
 			        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 			        	<span class="hidden">Toggle 버튼</span>
-		        	</a>    
+		        	</a>
     				<h2>자산관리</h2>
     		    </div>
     			<div class="sub-content">
@@ -544,7 +545,7 @@ function imgResize(img){
 					<input type="hidden" id="rtnUrl"  name="rtnUrl" />
 					<input type="hidden" id="fxaInfoId"  name="fxaInfoId" />
 
-					<!-- Role -->	
+					<!-- Role -->
 					<input type="hidden" id="roleId" name="roleId"  value="<c:out value='${inputData._roleId}'/>">
 					<input type="hidden" id="adminChk" name="adminChk" />
 
@@ -598,8 +599,8 @@ function imgResize(img){
 			    						</td>
 			    						<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
 		    						</tr> -->
-		    						
-		    						
+
+
 		    						<tr>
 		    							<th align="right">WBS 코드</th>
 			   							<td>

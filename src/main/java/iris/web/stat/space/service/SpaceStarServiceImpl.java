@@ -38,4 +38,10 @@ public class SpaceStarServiceImpl implements SpaceStatService{
 		return commonDao.selectList("stat.space.getSpaceBzdvStatList", input);
 	}
 
+	@Override
+	public List<Map<String, Object>> getSpaceEvAffrSttsList(
+			HashMap<String, Object> input) {
+		return commonDao.selectList("stat.space.getSpaceEvAffrSttsList", input);
+	}
+
 }

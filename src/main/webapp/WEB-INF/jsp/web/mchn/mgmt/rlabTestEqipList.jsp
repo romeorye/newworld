@@ -20,7 +20,7 @@
 <head>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 <title><%=documentTitle%></title>
-
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 <script type="text/javascript">
 
 	Rui.onReady(function(){
@@ -83,7 +83,8 @@
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width : 1150,
-	        height: 510
+	        height: 510,
+            autoWidth: true
 	    });
 
 	    grid.render('mhcnGrid');
@@ -235,6 +236,10 @@
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">
 		<div class="titleArea">
+		<a class="leftCon" href="#">
+	        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	        	<span class="hidden">Toggle 버튼</span>
+        	</a>
 			<h2>신뢰성시험 장비관리</h2>
 		</div>
 

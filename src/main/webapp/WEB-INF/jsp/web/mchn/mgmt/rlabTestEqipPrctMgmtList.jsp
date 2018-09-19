@@ -116,7 +116,8 @@
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width : 1180,
-	        height: 540
+	        height: 540,
+            autoWidth: true
 	    });
 
 	    grid.render('mhcnGrid');
@@ -180,7 +181,7 @@
 	    	displayField: 'COM_DTL_NM',
 	    	valueField: 'COM_DTL_CD',
 	     });
-	  	
+
 		//장비분류combo
 		var cbRlabClCd = new Rui.ui.form.LCombo({
 			applyTo : 'rlabClCd',
@@ -213,7 +214,7 @@
 		};
 
 		fnSearch();
-		
+
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
@@ -228,7 +229,7 @@
         	}
         });
 
-        
+
 	});		//end ready
 
 </script>
@@ -297,7 +298,7 @@
 					<div class="LblockButton">
 					<button type="button" id="butExcl">EXCEL</button>
 					</div>
-				</div> 
+				</div>
 				<div id="mhcnGrid"></div>
 			</form>
 

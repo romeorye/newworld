@@ -90,7 +90,8 @@
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width : 1180,
-	        height: 540
+	        height: 540,
+            autoWidth: true
 	    });
 
 	    grid.render('mhcnGrid');
@@ -162,7 +163,7 @@
 		};
 
 		fnSearch();
-		
+
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
@@ -177,7 +178,7 @@
         	}
         });
 
-        
+
 	});		//end ready
 
 </script>
@@ -196,7 +197,7 @@
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" value="IRIDE0103"/>
 				<input type="hidden" id="mchnPrctId" name="mchnPrctId" />
-				
+
 				<div class="search">
 					<div class="search-content">
 		   				<table>
@@ -239,7 +240,7 @@
 					<div class="LblockButton">
 					<button type="button" id="butExcl">EXCEL</button>
 					</div>
-				</div> 
+				</div>
 				<div id="mhcnGrid"></div>
 			</form>
 

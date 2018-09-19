@@ -69,7 +69,8 @@
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width : 1150,
-	        height: 510
+	        height: 510,
+            autoWidth: true
 	    });
 
 	    grid.render('mhcnGrid');
