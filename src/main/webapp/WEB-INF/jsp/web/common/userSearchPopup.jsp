@@ -226,9 +226,10 @@
 		
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
-	   			
-   				<table class="searchBox">
+   			<div class="sub-content" style="padding:0; padding-left:3px;">
+	   			<div class="search mb5">
+				<div class="search-content">
+   				<table>
    					<colgroup>
    						<col style="width:10%;"/>
    						<col style="width:35%;"/>
@@ -252,6 +253,8 @@
    						</tr>
    					</tbody>
    				</table>
+   				</div>
+   				</div>
 
    				<div id="userGrid"></div>
    				

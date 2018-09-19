@@ -806,11 +806,15 @@ function fncGenTssAltrDetail(cd) {
 <%--<!--  sayMessage 사용시 필요 -->--%>
 <div class="contents">
 	<div class="titleArea">
+		<a class="leftCon" href="#">
+	        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	        <span class="hidden">Toggle 버튼</span>
+		</a>
 		<h2>기술팀과제 &gt;&gt; <h2 id="stepNm"></h2> </h2>
 	</div>
 
 	<div class="sub-content">
-		<div class="titArea">
+		<div class="titArea mt0">
 			<div class="LblockButton">
                 <span>TSS_CD : ${inputData.tssCd} ....${inputData.pgsStepCd}</span>
 				<button type="button" id="testBtn" name="testBtn" onclick="setTestCode()">Test입력</button>

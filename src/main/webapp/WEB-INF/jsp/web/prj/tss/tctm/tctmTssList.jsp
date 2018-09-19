@@ -27,7 +27,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/LPager-debug.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.css"/>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/LPager.css"/>
-
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
@@ -306,6 +306,8 @@
             dataSet: dataSet,
             width: 1210,
             height: 400,
+            autoWidth: true
+
         });
 /*
         var pager = new Rui.ui.LPager({
@@ -568,64 +570,75 @@ function setDeptInfo(deptInfo) {
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">
         <div class="titleArea">
+        	<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
             <h2>기술팀 과제관리</h2>
         </div>
 
         <div class="sub-content">
             <form name="aform" id="aform" method="post">
             <input type="hidden" id="deptCode" value="">
-                <table class="searchBox">
-                    <colgroup>
-                        <col style="width: 100px;" />
-                        <col style="width: 300px;" />
-                        <col style="width: 100px;" />
-                        <col style="width: 300px;" />
-                        <col style="width: 100px;" />
-                    </colgroup>
-                    <tbody>
-                        <tr>
-                            <th>과제번호</th>
-                            <td>
-                                <input type="text" id="wbsCd" value="">
-                            </td>
-                            <th>과제명</th>
-                            <td>
-                                <input type="text" id="tssNm" value="">
-                            </td>
-                            <td rowspan="4" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-                        </tr>
-                        <tr>
-                            <th>과제리더</th>
-                            <td>
-                                <input type="text" id="saUserName" value="">
-                            </td>
-                            <th>조직</th>
-                            <td>
-                                <input type="text" id="deptName" value="">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>과제기간</th>
-                            <td>
-                            	<input type="text" id="tssStrtDd" /><em class="gab"> ~ </em><input type="text" id="tssFnhDd" />
-                            </td>
-                            <th>프로젝트명</th>
-                            <td>
-                                <input type="text" id="prjNm" value="">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>상태</th>
-                            <td>
-                                <div id="pgsStepCd"></div>
-                            </td>
-                            <th>처리상태</th>
-                            <td>
-                                <div id="tssSt"></div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="search">
+					<div class="search-content">
+		                <table>
+		                    <colgroup>
+		                        <col style="width:120px" />
+								<col style="width:330px" />
+								<col style="width:120px" />
+								<col style="width:200px" />
+								<col style="" />
+		                    </colgroup>
+		                    <tbody>
+		                        <tr>
+		                            <th>과제번호</th>
+		                            <td>
+		                                <input type="text" id="wbsCd" value="">
+		                            </td>
+		                            <th>과제명</th>
+		                            <td>
+		                                <input type="text" id="tssNm" value="">
+		                            </td>
+		                            <td></td>
+		                        </tr>
+		                        <tr>
+		                            <th>과제리더</th>
+		                            <td>
+		                                <input type="text" id="saUserName" value="">
+		                            </td>
+		                            <th>조직</th>
+		                            <td>
+		                                <input type="text" id="deptName" value="">
+		                            </td>
+		                            <td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+		                        </tr>
+		                        <tr>
+		                            <th>과제기간</th>
+		                            <td>
+		                            	<input type="text" id="tssStrtDd" /><em class="gab"> ~ </em><input type="text" id="tssFnhDd" />
+		                            </td>
+		                            <th>프로젝트명</th>
+		                            <td>
+		                                <input type="text" id="prjNm" value="">
+		                            </td>
+		                            <td></td>
+		                        </tr>
+		                        <tr>
+		                            <th>상태</th>
+		                            <td>
+		                                <div id="pgsStepCd"></div>
+		                            </td>
+		                            <th>처리상태</th>
+		                            <td>
+		                                <div id="tssSt"></div>
+		                            </td>
+		                            <td></td>
+		                        </tr>
+		                    </tbody>
+		                </table>
+		            </div>
+                </div>
             </form>
 
             <div class="titArea">

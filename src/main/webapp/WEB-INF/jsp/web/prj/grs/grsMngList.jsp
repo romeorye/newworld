@@ -558,17 +558,23 @@
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+	          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	          <span class="hidden">Toggle 버튼</span>
+			</a>
 			<h2>GRS 관리</h2>
 		</div>
-		<div class="LblockSearch">
+		<div class="sub-content">
 			<form name="xform" id="xform" method="post">
-				<table class="searchBox">
+				<div class="search">
+					<div class="search-content">
+		                <table>
 					<colgroup>
-						<col style="width: 15%;" />
-						<col style="width: 30%;" />
-						<col style="width: 15%;" />
-						<col style="width: 30%;" />
-						<col style="width: 10%;" />
+						<col style="width:120px" />
+						<col style="width:220px" />
+						<col style="width:120px" />
+						<col style="width:400px" />
+						<col style="" />
 					</colgroup>
 					<tbody>
 						<tr>
@@ -576,22 +582,26 @@
 							<td><div id="stssScnCd" /></td>
 							<th align="right">과제코드</th>
 							<td><div id="stssCd" /></td>
-							<td class="t_center" rowspan="3"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+							<td></td>
 						</tr>
 						<tr>
 							<th align="right">과제명</th>
 							<td><div id="stssNm" /></td>
 							<th align="right">프로젝트명</th>
 							<td><div id="sprjNm" /></td>
+							<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
 						</tr>
 						<tr>
 							<th align="right">과제담당자</th>
 							<td><div id="ssaSabunNm" /></td>
 							<th align="right">GRS상태</th>
 							<td></td>
+							<td></td>
 						</tr>
 					</tbody>
 				</table>
+				</div>
+				</div>
 			</form>
 			<div class="titArea">
 				<span class="Ltotal" id="cnt_text">총 : 0 </span>
@@ -667,11 +677,11 @@
 								</tr>
 								<tr>
 									<th align="right">Summary 개요</th>
-									<td colspan="3"><textarea id="smrSmryTxt" name="smrSmryTxt" style="width: 100%; height: 100px"></textarea></td>
+									<td colspan="3" class="grsmng_tain"><textarea id="smrSmryTxt" name="smrSmryTxt" style="width: 100%; height: 100px"></textarea></td>
 								</tr>
 								<tr>
 									<th align="right">Summary 목표</th>
-									<td colspan="3"><textarea id="smrGoalTxt" name="smrGoalTxt" style="width: 100%; height: 100px"></textarea></td>
+									<td colspan="3" class="grsmng_tain"><textarea id="smrGoalTxt" name="smrGoalTxt" style="width: 100%; height: 100px"></textarea></td>
 								</tr>
 								<tr>
 									<th align="right">매출계획</th>

@@ -89,7 +89,7 @@ Rui.onReady(function() {
 	    width : 580,
 	    height : 300,
 	    autoToEdit : false,
-	    autoWidth : false
+	    autoWidth : true
 	});
 
 	prjGrid.on('cellDblClick', function(e) {
@@ -124,9 +124,11 @@ Rui.onReady(function() {
 
 		<div class="LblockMainBody">
 
-   			<div class="sub-content">
+   			<div class="sub-content" style="padding:0; padding-left:3px;">
 
- 				<table class="searchBox">
+ 				<div class="search mb5">
+					<div class="search-content">
+		   				<table>
  					<colgroup>
  						<col style="width:20%;"/>
  						<col style="width:*"/>
@@ -144,6 +146,8 @@ Rui.onReady(function() {
  						</tr>
  					</tbody>
  				</table>
+ 				</div>
+ 				</div>
 
  				<div id="prjGrid"></div>
 
