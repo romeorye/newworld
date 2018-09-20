@@ -1210,12 +1210,16 @@
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
     </form>
-   		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>시험의뢰서 상세</h2>
-	   			</div>
+   		<div class="contents">   			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+					<span class="hidden">Toggle 버튼</span>
+				</a>  
+   				<h2>시험의뢰서 상세</h2>
+   			</div>
+   			
+	   		<div class="sub-content">
    				<div id="tabView"></div>
 	            <div id="rlabRqprInfoDiv">
 				<form name="aform" id="aform" method="post">

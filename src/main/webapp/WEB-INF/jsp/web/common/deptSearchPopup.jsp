@@ -94,7 +94,7 @@
                 columnModel : deptColumnModel,
                 dataSet : deptDataSet,
                 width : 400,
-                height : 200,
+                height : 160,
                 autoToEdit : false,
                 autoWidth : true
             });
@@ -127,26 +127,30 @@
 		
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
+   			<div class="sub-content" style="padding:0;">
 	   			
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:20%;"/>
-   						<col style="width:*"/>
-   						<col style="width:25%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">부서</th>
-   							<td>
-   								<input type="text" id="deptNm" value="">
-   							</td>
-   							<td class="t_center">
-   								<a style="cursor: pointer;" onclick="getDeptList();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+   				<div class="search mb5">
+					<div class="search-content">
+						<table>
+		   					<colgroup>
+		   						<col style="width:20%;"/>
+		   						<col style="width:*"/>
+		   						<col style="width:25%;"/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<th align="right">부서</th>
+		   							<td>
+		   								<input type="text" id="deptNm" value="">
+		   							</td>
+		   							<td class="txt-right">
+		   								<a style="cursor: pointer;" onclick="getDeptList();" class="btnL">검색</a>
+		   							</td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
 
    				<div id="deptGrid"></div>
    				

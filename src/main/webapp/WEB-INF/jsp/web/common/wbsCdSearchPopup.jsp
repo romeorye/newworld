@@ -238,58 +238,64 @@
 		
    		<div class="LblockMainBody">
    			
-   			<div class="sub-content">
+   			<div class="sub-content" style="padding:0 0 0 2px;">
 
 				<form name="aform" id="aform" method="post">
 				<input type="hidden" name="_GRANT" value='${inputData._GRANT}' />
 				<input type="hidden" name="pageMode" value='' />
 				<input type="hidden" name="prjCd" value='' />
 
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:15%"/>
-   						<col style="width:30%"/>
-   						<col style="width:15%"/>
-   						<col style="width:"/>
-   						<col style="width:10%"/>
-   					</colgroup>
-   					<tbody>
-   					    <tr>
-   							<th align="right">WBS 코드</th>
-   							<td>
-   								<span>
-									<input type="text" id="wbsCd" name="wbsCd" value="" >
-								</span>
-   							</td>
-   							<th align="right">프로젝트명</th>
-    						<td>
-    							<input type="text"  id="prjNm" name="prjNm" value="" >
-    						</td>
-    						<td rowspan="3" class="t_center">
-   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-	   					<tr>
-   							<th align="right">PL 명</th>
-    						<td>
-    							<input type="text" id="saName" name="saName" value="" >
-    						</td>
-   							<th align="right">조직</th>
-   							<td>
-   								<input type="text" id="deptName" name="deptName" value="" >
-   							</td>
-   						</tr>
-   						<tr>
-   							<th align="right">프로젝트기간</th>
-   							<td colspan="3">
-   								<input type="text" id="fromDate" /><em class="gab"> ~ </em>
-   								<input type="text" id="toDate" />
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+   				<div class="search mb5">
+					<div class="search-content">
+						<table>
+		   					<colgroup>
+		   						<col style="width:100px" />
+								<col style="" />
+								<col style="width:100px" />
+								<col style="" />
+								<col style="" />
+		   					</colgroup>
+		   					<tbody>
+		   					    <tr>
+		   							<th align="right">WBS 코드</th>
+		   							<td>
+		   								<span>
+											<input type="text" id="wbsCd" name="wbsCd" value="" >
+										</span>
+		   							</td>
+		   							<th align="right">프로젝트명</th>
+		    						<td>
+		    							<input type="text"  id="prjNm" name="prjNm" value="" >
+		    						</td>
+		    						<td></td>
+		   						</tr>
+			   					<tr>
+		   							<th align="right">PL 명</th>
+		    						<td>
+		    							<input type="text" id="saName" name="saName" value="" >
+		    						</td>
+		   							<th align="right">조직</th>
+		   							<td>
+		   								<input type="text" id="deptName" name="deptName" value="" >
+		   							</td>
+		   							<td class="txt-right">
+		   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+		   							</td>
+		   						</tr>
+		   						<tr>
+		   							<th align="right">프로젝트기간</th>
+		   							<td colspan="3">
+		   								<input type="text" id="fromDate" /><em class="gab"> ~ </em>
+		   								<input type="text" id="toDate" />
+		   							</td>
+		   							<td></td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
 
-   				<div class="titArea">
+   				 <div class="titArea">
    					<span class="Ltotal" id="cnt_text"></span>
    				</div>
 				<div id="defaultGrid"></div>

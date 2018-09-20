@@ -572,13 +572,18 @@
     </form>
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="anlChrgId" name="anlChrgId" value=""/>
-   		<div class="contents">
+		
+   		 <div class="contents">
+		    <div class="titleArea">
+		    	<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a>
+		        <h2>분석의뢰서 등록</h2>
+		    </div>
 
    			<div class="sub-content">
-	   			<div class="titArea">
-		   			<span class="titleArea" style="display:inline">
-		   				<h2>분석의뢰서 등록</h2>
-		   			</span>
+	   			<div class="titArea mt0">
 					<div class="LblockButton">
 						<button type="button" class="btn"  id="resetBtn" name="resetBtn" onclick="resetAForm()">초기화</button>
 						<button type="button" class="btn"  id="loadAnlRqprBtn" name="loadAnlRqprBtn" onclick="openAnlRqprSearchDialog(getAnlRqprInfo)">불러오기</button>

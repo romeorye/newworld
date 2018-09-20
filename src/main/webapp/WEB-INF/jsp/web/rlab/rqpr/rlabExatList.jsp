@@ -542,26 +542,26 @@
     <body>
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
 
-   		<div class="contents">
+   		<div class="contents">  			
 
-   			<div class="sub-content">
-
-   				<div class="titleArea">
-		   			<span class="titleArea" style="display:inline">
-		   				<a class="leftCon" href="#">
-	        				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
-	        				<span class="hidden">Toggle 버튼</span>
-        				</a>
-		   				<h2>신뢰성 시험정보 관리</h2>
-		   			</span>
-   					<div class="LblockButton">
+  			<div class="titleArea">
+	   			<span class="titleArea" style="display:inline">
+	   				<a class="leftCon" href="#">
+        				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+        				<span class="hidden">Toggle 버튼</span>
+       				</a>
+	   				<h2>신뢰성 시험정보 관리</h2>
+	   			</span>
+	   		</div>
+	   		<div class="sub-content">
+   					<div class="LblockButton mt0">
    						<button type="button" class="btn"  id="addRlabExatMstBtn" name="addRlabExatMstBtn" onclick="addRlabExatMst()">신규</button>
    						<button type="button" class="btn"  id="initRlabExatMstBtn" name="initRlabExatMstBtn" onclick="initRlabExatMst()">초기화</button>
    						<button type="button" class="btn"  id="saveRlabExatMstBtn" name="saveRlabExatMstBtn" onclick="saveRlabExatMst()">저장</button>
    						<button type="button" class="btn"  id="openUtmExpSimulationBtn" name="openUtmExpSimulationBtn" onclick="openUtmExpSimulationDialog()">수가계산</button>
    						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadRlabExatMstListExcel()">Excel</button>
    					</div>
-   				</div>
+
 
 			    <div id="bd" style="height: 310px">
 			        <div class="LblockMarkupCode">

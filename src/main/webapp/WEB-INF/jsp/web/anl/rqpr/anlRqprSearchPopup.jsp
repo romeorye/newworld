@@ -189,44 +189,48 @@
 		
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
+   			<div class="sub-content" style="padding:0;">
 	   			
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:45%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:20%;"/>
-   						<col style="width:15%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">분석명</th>
-   							<td>
-   								<input type="text" id="anlNm" value="">
-   							</td>
-   							<th align="right">담당자</th>
-    						<td>
-                                <div id="anlChrgId"></div>
-    						</td>
-   							<td class="t_center" rowspan="2">
-   								<a style="cursor: pointer;" onclick="getAnlRqprList();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-   						<tr>
-   							<th align="right">의뢰자</th>
-   							<td>
-   								<input type="text" id="rgstNm" value="">
-                                <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'anl');" class="icoBtn">검색</a>
-   							</td>
-   							<th align="right">상태</th>
-   							<td>
-                                <div id="acpcStCd"></div>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
-
+   				<div class="search mb5">
+					<div class="search-content">
+					<table>
+	   					<colgroup>
+	   						<col style="width:80px;"/>
+	   						<col style="width:45%;"/>
+	   						<col style="width:80px;"/>
+	   						<col style="width:20%;"/>
+	   						<col style="width:15%;"/>
+	   					</colgroup>
+	   					<tbody>
+	   						<tr>
+	   							<th align="right">분석명</th>
+	   							<td>
+	   								<input type="text" id="anlNm" value="">
+	   							</td>
+	   							<th align="right">담당자</th>
+	    						<td>
+	                                <div id="anlChrgId"></div>
+	    						</td>
+	   							<td></td>
+	   						</tr>
+	   						<tr>
+	   							<th align="right">의뢰자</th>
+	   							<td>
+	   								<input type="text" id="rgstNm" value="">
+	                                <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'anl');" class="icoBtn">검색</a>
+	   							</td>
+	   							<th align="right">상태</th>
+	   							<td>
+	                                <div id="acpcStCd"></div>
+	   							</td>
+	   							<td class="txt-right">
+	   								<a style="cursor: pointer;" onclick="getAnlRqprList();" class="btnL">검색</a>
+	   							</td>
+	   						</tr>
+	   					</tbody>
+	   				</table>
+					</div>
+				</div>
    				<div id="anlRqprGrid"></div>
    				
    			</div><!-- //sub-content -->
