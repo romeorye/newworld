@@ -37,6 +37,8 @@
 
 <script type="text/javascript" src="<%=scriptPath%>/custom.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/grsEv.js"></script>
+
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 <%
     response.setHeader("Pragma", "No-cache");
     response.setDateHeader("Expires", 0);
@@ -279,7 +281,7 @@
             listDataSet.load({
               url: '<c:url value="/prj/grs/selectListGrsMngInfo.do"/>',
                 params: {
-//                     tssNm: escape(encodeURIComponent(document.xform.tssNmSch.value)) //과제명
+//                     tssNm: escape(encodeURIComponent(document.aform.tssNmSch.value)) //과제명
                      stssScnCd : stssScnCd.getValue()
                     ,stssCd  : stssCd.getValue()
                     ,stssNm : stssNm.getValue()
@@ -565,7 +567,7 @@
 			<h2>GRS 관리</h2>
 		</div>
 		<div class="sub-content">
-			<form name="xform" id="xform" method="post">
+			<form name="aform" id="aform" method="post">
 				<div class="search">
 					<div class="search-content">
 		                <table>
