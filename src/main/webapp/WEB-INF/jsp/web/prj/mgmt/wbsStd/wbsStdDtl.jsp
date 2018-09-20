@@ -238,7 +238,7 @@
 			</form>
 			</div>
 			    <div id="listGrid" style="margin-top:20px"></div>
-            	<div class="titArea">
+            	<div class="titArea btn_btm">
    					<div class="LblockButton">
        							<button type="button" id="btnList">목록</button>
    					</div>

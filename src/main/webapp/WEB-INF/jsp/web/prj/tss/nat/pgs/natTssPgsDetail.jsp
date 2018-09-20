@@ -409,8 +409,8 @@
 	        <h2>국책과제 &gt;&gt; 진행</h2>
 	    </div>
         <div class="sub-content">
-            <div class="titArea">
-                <div class="LblockButton mt0">
+            <div class="titArea mt0">
+                <div class="LblockButton">
                     <button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button>
                     <button type="button" id="btnDcacRq" name="btnDcacRq">중단요청</button>
                     <button type="button" id="btnCmplRq" name="btnCmplRq">완료요청</button>

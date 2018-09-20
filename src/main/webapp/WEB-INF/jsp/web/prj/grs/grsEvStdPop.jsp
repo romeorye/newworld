@@ -188,11 +188,13 @@
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="LblockMainBody">
-        <div class="sub-content">
+        <div class="sub-content" style="padding:0; padding-left:3px;">
             <div id="aFormDiv">
                 <form name="aForm" id="aForm" method="post">
                     <fieldset>
-                        <table class="searchBox">
+                    <div class="search" class="mb5">
+						<div class="search-content">
+                        <table>
                             <colgroup>
                                 <col style="width: 15%;" />
                                 <col style="width: 25%;" />
@@ -214,7 +216,7 @@
                                     <td>
                                         <input type="text" id="evSbcNm" value="">
                                     </td>
-                                    <td rowspan="2" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+                                    <td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
                                 </tr>
                                 <!--
                                 <tr>
@@ -229,13 +231,15 @@
                                 </tr> -->
                             </tbody>
                         </table>
+                        </div>
+                        </div>
                     </fieldset>
                 </form>
             </div>
             <br/>
             <div id="defaultGrid"></div>
 
-            <div class="titArea">
+            <div class="titArea btn_btm">
                 <div class="LblockButton">
                     <button type="button" id="btnSel" name="btnSel">선택</button>
                 </div>

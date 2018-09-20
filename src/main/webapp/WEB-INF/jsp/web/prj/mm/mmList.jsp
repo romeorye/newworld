@@ -618,7 +618,7 @@ function dataSetColSum(sumDataSet,colNm){
                 <div class="hd">타과제추가</div>
                 <div class="bd">
                     <!-- <div class="titArea"> -->
-						<div class="LblockButton">
+						<div class="LblockButton" style="margin-bottom:4px;">
 							<button type="button" id="butEtcTssClear" name="butEtcTssClear" >초기화</button>
 							<button type="button" id="butEtcTssRgst" name="butEtcTssRgst" >저장</button>
 						</div>
@@ -641,7 +641,7 @@ function dataSetColSum(sumDataSet,colNm){
 									<th align="right">타과제추가</th>
 									<td>
 										<input type="text" id ="etcTssNm" name="etcTssNm" >
-										<a style="cursor: pointer;" onclick="openTssSearchDialog(setTssInfo);" class="icoBtn">검색</a>
+										<!-- <a style="cursor: pointer;" onclick="openTssSearchDialog(setTssInfo);" class="icoBtn">검색</a> -->
 									</td>
 								</tr>
 								<tr>

@@ -475,7 +475,7 @@
 
             <div id="listGrid"></div>
 
-            <div class="titArea">
+            <div class="titArea btn_btm2">
                 <div class="LblockButton">
                     <button type="button" id="btnSave">저장</button>
                     <button type="button" id="btnList">목록</button>

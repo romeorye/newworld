@@ -429,14 +429,14 @@ $(window).load(function() {
             </colgroup>
             <tbody>
                 <tr>
-                    <th align="right">개발대상기술 및 제품개요</th>
+                    <th align="right">개발대상기술<br>및 제품개요</th>
                     <td colspan="2" class="tssLableCss">
                         <div id="smryTxt" />
                     </td>
 
                 </tr>
                 <tr>
-                    <th align="right">GRS첨부파일<br/>(심의파일, 회의록 필수 첨부)</th>
+                    <th align="right">GRS첨부파일<br/>(심의파일, 회의록<br>필수 첨부)</th>
                     <td id="attchFileView">&nbsp;</td>
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
                 </tr>
