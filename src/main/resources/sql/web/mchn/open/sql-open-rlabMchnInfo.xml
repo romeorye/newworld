@@ -232,6 +232,7 @@
 		AND    MCHN_INFO_ID = #{mchnInfoId}
 		AND    RGST_ID  =  #{rgstId}
 		AND    PRCT_DT =  #{prctDt}
+		AND    PRCT_SCN_CD IN ('RQ', 'APPR')
 		AND  ( #{prctFromTim} BETWEEN PRCT_FROM_TIM AND PRCT_TO_TIM 
 		     OR #{prctToTim} BETWEEN  PRCT_FROM_TIM AND PRCT_TO_TIM )
 		]]>
@@ -244,6 +245,7 @@
                IRIS_RLAB_MCHN_PRCT_DTL D
 		WHERE  M.MCHN_PRCT_ID = D.MCHN_PRCT_ID
         AND    M.DEL_YN ='N'
+        AND    M.PRCT_SCN_CD IN ('RQ', 'APPR')
 		AND    M.MCHN_INFO_ID = #{mchnInfoId}
         AND    M.TEST_SPCE_CD = #{testSpceCd}
 		AND  D.PRCT_DT BETWEEN #{prctFromDt} AND #{prctToDt}
@@ -261,6 +263,7 @@
 						WHERE  M.MCHN_PRCT_ID = D.MCHN_PRCT_ID
 						AND    M.MCHN_INFO_ID = I.MCHN_INFO_ID
 				        AND    M.DEL_YN <> 'Y'
+				        AND    M.PRCT_SCN_CD IN ('RQ', 'APPR')
 						AND    M.MCHN_INFO_ID =  #{mchnInfoId} /**P*/
 						AND D.PRCT_DT BETWEEN #{prctFromDt} AND #{prctToDt}
 				    GROUP BY D.PRCT_DT, I.SMPO_QTY

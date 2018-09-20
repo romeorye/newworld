@@ -147,6 +147,7 @@
                IRIS_SPACE_MCHN_PRCT_DTL D
 		WHERE  M.MCHN_PRCT_ID = D.MCHN_PRCT_ID
         AND    M.DEL_YN ='N'
+        AND    M.PRCT_SCN_CD IN ('RQ', 'APPR')
 		AND    M.MCHN_INFO_ID = #{mchnInfoId}
 		AND  D.PRCT_DT BETWEEN #{prctFromDt} AND #{prctToDt}
 		]]>
