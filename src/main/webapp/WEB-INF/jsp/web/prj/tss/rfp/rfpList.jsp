@@ -180,7 +180,7 @@ var adminYn = "N";
 			   						<td>
 			   							<input type="text" id="rgstNm" >
 			   						</td>
-		   							<td rowspan="3" class="t_center">
+		   							<td class="txt-right">
 		  								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
 		  							</td>
 		  						</tr>
