@@ -129,10 +129,12 @@
  
  /* 내부버튼 */
 #butAttcFil-button, 
-#attchFileMngBtn {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
+#attchFileMngBtn {border:1px solid #c3c3c3 !important; background:#f3f3f3 !important;}
 .L-grid-panel .L-grid-button {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
-table td button {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
+table td button {border:1px solid #c3c3c3 !important; background:#f3f3f3 !important;}
 table td input[type="button"] {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important; display:inline-block; margin:0 2px !important; padding:0 10px !important; }
+table td .titArea button  {border:1px solid #c3c3c3 !important; background:#fff !important;}
+table td .titArea button:hover {border:1px solid #da1c5a !important; }
 
 
  /**** TITLE ****/
@@ -224,7 +226,7 @@ table td input[type="button"] {border:1px solid #c3c3c3 !important;; background:
     border-right: 1px solid #ededed;
 }
 .global-menu .header-help button {
-    background: url(../images/img_uxp/ico_help.png) no-repeat;
+    background: url(/iris/resource/web/images/img_uxp/ico_help.png) no-repeat;
     top: 14px;
     margin-right: 20px;
 }
@@ -246,11 +248,11 @@ table td input[type="button"] {border:1px solid #c3c3c3 !important;; background:
 }
 .global-menu .header-logout button {
     top: 14px;
-    background: url(../images/img_uxp/ico_logout.png) no-repeat;
+    background: url(/iris/resource/web/images/img_uxp/ico_logout.png) no-repeat;
 }
 
 .global-menu .header-setting button {
-    background: url(../images/img_uxp/ico_setting.png) no-repeat;
+    background: url(/iris/resource/web/images/img_uxp/ico_setting.png) no-repeat;
     top: 14px;
 }
 
@@ -291,7 +293,7 @@ ul.gnb > li:hover a {color:#da1c5a !important;}
 .gnb_height span.icon_search, 
 
 .header_inner span.icon_search,
-div.gnb_search .name_info a:hover span.icon_search {width:20px; height:22px;    background: url(../images/newIris/i_sh_glasses.png) no-repeat 0px 1px;}
+div.gnb_search .name_info a:hover span.icon_search {width:20px; height:22px;    background: url(/iris/resource/web/images/newIris/i_sh_glasses.png) no-repeat 0px 1px;}
 
 /* 전체메뉴 */
 .menu_btn_w { max-width: 1350px;width:100%;  position:relative;}
@@ -306,13 +308,13 @@ padding: 20px; padding-left:30px; right:0;}
 #horizontalContainer > span strong {font-weight:bold; font-size:13px;}
 #horizontalContainer > span a {color:#222;}
 #horizontalContainer > span:before {position:absolute; content:""; display:block; top:-4px; left:0; right:5px; height:70px;}
-#horizontalContainer > span:nth-child(1):before {background: url(../images/newIris/img_allmenu.png) center 20px no-repeat;}
-#horizontalContainer > span:nth-child(2):before {background: url(../images/newIris/img_allmenu.png) center -55px no-repeat;}
-#horizontalContainer > span:nth-child(3):before {background: url(../images/newIris/img_allmenu.png) center -155px no-repeat;}
-#horizontalContainer > span:nth-child(4):before {background: url(../images/newIris/img_allmenu.png) center -255px no-repeat;}
-#horizontalContainer > span:nth-child(5):before {background: url(../images/newIris/img_allmenu.png) center -380px no-repeat;}
+#horizontalContainer > span:nth-child(1):before {background: url(/iris/resource/web/images/newIris/img_allmenu.png) center 20px no-repeat;}
+#horizontalContainer > span:nth-child(2):before {background: url(/iris/resource/web/images/newIris/img_allmenu.png) center -55px no-repeat;}
+#horizontalContainer > span:nth-child(3):before {background: url(/iris/resource/web/images/newIris/img_allmenu.png) center -155px no-repeat;}
+#horizontalContainer > span:nth-child(4):before {background: url(/iris/resource/web/images/newIris/img_allmenu.png) center -255px no-repeat;}
+#horizontalContainer > span:nth-child(5):before {background: url(/iris/resource/web/images/newIris/img_allmenu.png) center -380px no-repeat;}
 #horizontalContainer > span:nth-child(6) {display:none;}
-#horizontalContainer > span:nth-child(7):before {background: url(../images/newIris/img_allmenu.png) center -465px no-repeat;}
+#horizontalContainer > span:nth-child(7):before {background: url(/iris/resource/web/images/newIris/img_allmenu.png) center -465px no-repeat;}
 
 /* 전체메뉴임시 */
 div.top_gnb {width:1000px;}
@@ -422,7 +424,7 @@ div.lnbArea .inner {width:210px !important; border-left:0; }
 .searchBox .btnL {background:none; width:auto; padding:0 20px; font-size:12px; font-weight:bold; border:1px solid #da1c5a; height:auto;line-height:25px;}
 
 a .equ_icon_search, a .equ_icon_search:hover {
-    background: url(../images/newIris/i_sh_glasses.png) no-repeat 0px 1px;
+    background: url(/iris/resource/web/images/newIris/i_sh_glasses.png) no-repeat 0px 1px;
     width: 20px;
     height: 20px;
     margin-left: -25px;
@@ -683,19 +685,52 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .p-admin dd:last-child {margin-bottom:6px;}
 .p-admin tr td:last-child {border-rigt:1px solid #c3c3c3;}
 
-/* ===============================
+/* ==========================================================================
    Technical Service
-   ==============================*/
-#technical_tab01 .analyze_box .analyze_img1 {background-image: url(../images/newIris/img_tachnical_tab01_01.png); width: 203px; height: 152px;}
-#technical_tab01 .analyze_box .analyze_img2 {background-image: url(../images/newIris/img_tachnical_tab01_02.png); width: 203px; height: 152px;}
-#technical_tab01 .analyze_box .analyze_img3 {background-image: url(../images/newIris/img_tachnical_tab01_03.png); width: 203px; height: 152px;}
-#technical_tab01 .analyze_box .analyze_img4 {background-image: url(../images/newIris/img_tachnical_tab01_04.png); width: 203px; height: 152px;}
+   ========================================================================== */
+#technical_tab01 .analyze_box .analyze_img1 {background-image: url(/iris/resource/web/images/newIris/img_tachnical_tab01_01.png); width: 203px; height: 152px;}
+#technical_tab01 .analyze_box .analyze_img2 {background-image: url(/iris/resource/web/images/newIris/img_tachnical_tab01_02.png); width: 203px; height: 152px;}
+#technical_tab01 .analyze_box .analyze_img3 {background-image: url(/iris/resource/web/images/newIris/img_tachnical_tab01_03.png); width: 203px; height: 152px;}
+#technical_tab01 .analyze_box .analyze_img4 {background-image: url(/iris/resource/web/images/newIris/img_tachnical_tab01_04.png); width: 203px; height: 152px;}
 #technical_tab01 .analyze_field {display:table;}
 #technical_tab01 .analyze_field > div {display:table-cell; float:none;}
 #technical_tab01 .analyze_field .analyze_box {width:203px; vertical-align:middle; border:0; }
 #technical_tab01 .analyze_field .analyze_box img {border:1px solid #c3c3c3;}
 #technical_tab01 .analyze_field .analyze_cont { vertical-align:top; padding-left:23px;}
 .tab_in {padding-top:20px;}
+
+
+
+/*** Technical Service :: 공간성능평가 안내 ****/
+
+.tcn_tab01 {width:940px;}
+.tcn_tab01 thead th {text-align:center; height:60px; vertical-align:top;}
+.tcn_tab01 thead th span {font-size:18px; display:inline-block;padding:4px 0; border-bottom:1px solid #666;}
+.tcn_tab01 tbody th, .tcn_tab01 tbody td  {padding-bottom:30px;}
+.tcn_tab01 tbody th {border:0 none;}
+.tcn_tab01 tbody tr:nth-child(1) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center 0;}
+.tcn_tab01 tbody tr:nth-child(2) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center -180px;}
+.tcn_tab01 tbody tr:nth-child(3) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center -368px;}
+.tcn_tab01 tbody tr:nth-child(4) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center -557px;}
+.tcn_tab01 .asset_list p:nth-child(1) {height:98px; background:#ccc;}
+.tcn_tab01 .asset_list p:nth-child(1) {height:98px; background:#ccc;}
+.tcn_tab01 .asset_list p:nth-child(2) {height:29px; line-height:28px; text-align:center; background:#b6b6b6; border-radius:15px;}
+.tcn_tab01 .asset_list p:nth-child(2) span {font-size:14px; color:#fff; font-weight:bold; }
+.tcn_tab01 .bg_arrow { background:url(/iris/resource/web/images/newIris/bullet-arrow01.png) no-repeat center center;}
+.tcn_tab01 .asset_right {position:relative; vertical-align:top; padding-top:0;}
+.tcn_tab01 .asset_img {position:absolute; left:0; top:0;}
+.tcn_tab01 .asset_img img {border:1px solid #c3c3c3; height:125px;}
+.tcn_tab01 .asset_txt {margin-left:210px;}
+.processs {overflow:hidden; width:786px;}
+.processs li {float:left; width:202px; height:202px;border:1px solid #c3c3c3; position:relative; text-align:center; box-sizing:border-box;}
+.processs li p.img {height:125px; vertical-align:bottom;margin: 0; display: table-cell; text-align: center; width: 202px;}
+.processs li p:nth-child(2) {margin-top:20px; font-size:14px;}
+.processs li.next_pr {width:90px; border:0; background:url(/iris/resource/web/images/newIris/procedure_i_arrow01.png) no-repeat left center; }
+.processs li.prev_pr {width:90px; border:0; background:url(/iris/resource/web/images/newIris/procedure_i_arrow02.png) no-repeat right center; }
+.processs li.dn_pr {height:70px; border:0; background:url(/iris/resource/web/images/newIris/procedure_i_arrow03.png) no-repeat center top; }
+.processs li.bg_none2  {background:none !important;height:70px;width:90px; border:0;} 
+.processs li.bg_none {background:none !important; border:0;} 
+
 
 
 
@@ -729,6 +764,25 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .grsmng_tain div  {width:100% !important;}
 .grsmng_tain div textarea {width:100%  !important;}
 #divEtcTss .ft {text-align:right;}
+.table.anlch_ta {width:99.5% !important;}
+.table.anlch_ta tbody th:last-child {border-right:1px solid #c3c3c3 !important;}
 
+.docu_tit {font-size:15px; font-weight:bold; line-height:1.2; margin-bottom:24px; border: 1px solid #ddd; padding:15px 20px; box-sizing:border-box; }
+.docu_box .txt { font-size:14px; font-weight:bold;line-height:2;margin-bottom:16px;  text-indent:18px; color:#777; position:relative;}
+.docu_box .txt:before {content:""; position:absolute; left:0; top:8px; width:16px; height:16px; background: url(/iris/resource/web/images/newIris/i_bullet.png) left center no-repeat;}
+.docu_box .txt2 {font-size:16px; font-weight:bold;line-height:2;text-align:center;}
+.docu_con .table {margin-bottom:40px;}
+.docu_con .table th, .docu_con .table td {text-align:center !important;}
+.docu_con .table tr td:last-child {border-right:1px solid #c3c3c3;}
+.docu_con .table td.txt-left  {text-align:left !important;}
+.docu_con ul {overflow:hidden; margin:10px 0;}
+.docu_con ul li {padding:17px 25px; background:#f8f8f8;}
+.docu_con ul li + li {border-top:1px dashed #ccc;}
+.docu_con ul li:first-child   {border-top:1px solid #ccc;}
+.docu_con ul li:last-child   {border-bottom:1px solid #ccc;}
+.docu_con .analyze_field .analyze_s_txt {color:#222; font-size:12.5px; background:none; position:relative;}
+.docu_con .analyze_field .analyze_s_txt:before {content:""; position:absolute; left:0; top:7px; width:16px; height:16px; background:url(/iris/resource/web/images/newIris/sub_area_i_arr.png) no-repeat left center;}
+.docu_con .analyze_field .analyze_s_txt span {font-size:12.5px; padding-left:90px; display:block; line-height:1.9;}
+.docu_con h4 {font-size:14px; font-weight:bold; line-height:2; color:#da1c5a; }
 
 
