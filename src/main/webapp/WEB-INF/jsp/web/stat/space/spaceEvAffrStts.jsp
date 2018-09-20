@@ -173,13 +173,13 @@ var mchnInfoId;
 			<a class="leftCon" href="#">
 				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 				<span class="hidden">Toggle 버튼</span>
-			</a> 
-			<h2>연도별 통계</h2>
+			</a>
+			<h2>평가업무현황</h2>
 		</div>
-		
+
 		<div class="sub-content">
 			<div class="search mb20">
-				<div class="search-content">	
+				<div class="search-content">
 					<table>
 						<colgroup>
 							<col style="width:120px" />
@@ -199,13 +199,13 @@ var mchnInfoId;
 					</table>
 				</div>
 			</div>
-		
-			<!-- 
+
+			<!--
 			<div class="titArea">
 				<div class="LblockButton"></div>
 			</div> -->
 			<div id="spaceEvAffrSttsGrid"></div>
-		</div>	
+		</div>
 			<!-- //sub-content -->
 
 	</div>
