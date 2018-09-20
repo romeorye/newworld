@@ -84,7 +84,6 @@ var dataSet01;
 		
 	 // 개요 에디터 탭
 	    tabViewS = new Rui.ui.tab.LTabView({
-	        contentHeight: 200,
 	        tabs: [
 	            {
 	            	active: true,
