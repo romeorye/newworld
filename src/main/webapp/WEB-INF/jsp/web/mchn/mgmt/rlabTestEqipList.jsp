@@ -249,13 +249,13 @@
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" />
 				<div class="search">
 					<div class="search-content">
-				<table class="searchBox">
+				<table>
 					<colgroup>
-						<col style="width: 15%" />
-						<col style="width: 30%" />
-						<col style="width: 15%" />
+						<col style="width: 120px" />
+						<col style="width: 220px" />
+						<col style="width: 120px" />
+						<col style="width: 400px" />
 						<col style="width:" />
-						<col style="width: 10%" />
 					</colgroup>
 					<tbody>
 						<tr>
@@ -265,7 +265,7 @@
 							<td>
 								<select id="opnYn" name="opnYn" />
 							</td>
-							<td rowspan="3" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+							<td></td>
 						</tr>
 						<tr>
 							<th align="right">분류</th>
@@ -276,6 +276,7 @@
 							<td>
 								<select  id="mchnClCd" ></select>
 							</td>
+							<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
 						</tr>
 						<tr>
 							<th align="right">담당자</th>
@@ -284,6 +285,7 @@
 							<td>
 								<select id="mchnUsePsblYn"></select>
 							</td>
+							<td></td>
 						</tr>
 					</tbody>
 				</table>
