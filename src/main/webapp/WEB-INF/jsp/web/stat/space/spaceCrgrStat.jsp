@@ -67,7 +67,7 @@ var mchnInfoId;
             width: 110,
             selectedIndex:0,
             useEmptyText: false,
-            url: '<c:url value="/stat/rlab/retrieveRlabYyList.do"/>',
+            url: '<c:url value="/stat/space/retrieveSpaceYyList.do"/>',
             displayField: 'yy',
             valueField: 'yy'
         });
@@ -147,8 +147,8 @@ var mchnInfoId;
         	spaceEvAffrSttsDataSet.load({
                 url: '<c:url value="/stat/space/getSpaceEvAffrSttsList.do"/>',
                 params :{
-                	//yyyy :  yy.getValue()
-                	yyyy : '2018'
+                	yyyy :  yy.getValue()
+                	//yyyy : '2018'
                 }
             });
         };
