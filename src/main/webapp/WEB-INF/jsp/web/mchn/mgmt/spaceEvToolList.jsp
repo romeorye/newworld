@@ -1,3 +1,4 @@
+
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
 <%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
@@ -236,13 +237,13 @@
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" />
 					<div class="search">
 					<div class="search-content">
-				<table class="searchBox">
+				<table>
 					<colgroup>
-						<col style="width: 15%" />
-						<col style="width: 30%" />
-						<col style="width: 15%" />
-						<col style="width:" />
-						<col style="width: 10%" />
+						<col style="width: 120px;" />
+                        <col style="width: 300px;" />
+                        <col style="width: 120px;" />
+                        <col style="width: 300px;" />
+                        <col style="" />
 					</colgroup>
 					<tbody>
 						<tr>
@@ -250,7 +251,7 @@
 							<td><input type="text" id="tool"/></td>
 							<th align="right">버전</th>
 							<td><input type="text" id="ver" /></td>
-							<td rowspan="3" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+							<td></td>
 						</tr>
 						<tr>
 							<th align="right">분류</th>
@@ -261,6 +262,7 @@
 							<td>
 								<select id="opnYn" name="opnYn" />
 							</td>
+							<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
 						</tr>
 						<tr>
 							<th align="right">담당자</th>
@@ -269,6 +271,7 @@
 							<td>
 								<select id="mchnUsePsblYn"></select>
 							</td>
+							<td></td>
 						</tr>
 					</tbody>
 				</table>

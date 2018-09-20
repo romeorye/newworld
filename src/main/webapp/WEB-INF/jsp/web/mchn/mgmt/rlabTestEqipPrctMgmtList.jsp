@@ -31,6 +31,7 @@
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.css"/>
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
 
 <%
@@ -268,7 +269,7 @@
 									<td>
 										<input type="text" id="rgstNm" />
 									</td>
-									<td rowspan="3" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+									<td></td>
 								</tr>
 								<tr>
 									<th align="right">기기명</th>
@@ -279,6 +280,7 @@
 									<td>
 										<select id= "prctScnCd"></select>
 									</td>
+									<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
 								</tr>
 								<tr>
 									<th align="right">장비분류</th>
@@ -286,8 +288,8 @@
 										<select id= "rlabClCd"></select>
 									</td>
 									<th align="right"></th>
-									<td>
-									</td>
+									<td></td>
+									<td></td>
 								</tr>
 							</tbody>
 						</table>
