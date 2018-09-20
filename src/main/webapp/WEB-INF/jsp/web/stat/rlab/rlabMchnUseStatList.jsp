@@ -205,7 +205,11 @@ var mchnInfoId;
       	</a>
 		<h2>장비사용 통계</h2>
     </div>
-    <table class="searchBox">
+    <div class="sub-content">
+    	<form name="aform" id="aform" method="post">
+    	<div class="search">
+		<div class="search-content">
+    		<table>
    					<colgroup>
    						<col style="width:10%;"/>
    						<col style="width:35%;"/>
@@ -226,21 +230,21 @@ var mchnInfoId;
     							<input type="text" id="fromRqprDt"/><em class="gab"> ~ </em>
    								<input type="text" id="toRqprDt"/>
     						</td>
-   							<td class="t_center">
+   							<td class="txt-right">
    								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
    							</td>
    						</tr>
    					</tbody>
    				</table>
-   				<br>
-	<!-- sub-content -->
-	<div class="sub-content">
+   				</div>
+				</div>
 		<!-- 장비사용통계 -->
    			<div class="titArea">
    				<div class="LblockButton">
    				</div>
 	   		</div>
    			<div id="rlabMchnUseStatGrid"></div>
+   			</form>
 	</div>
 	<!-- //sub-content -->
 </div>

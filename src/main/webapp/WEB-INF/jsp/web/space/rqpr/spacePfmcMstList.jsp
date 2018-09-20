@@ -463,8 +463,12 @@
         		</a>
 				<h2>성능 Master</h2>
 			</div>
-   			<div class="sub-content">
-   				<table class="searchBox">
+			<div class="sub-content">
+   			<form name="aform" id="aform" method="post">
+				<input type="hidden" id="mchnInfoId" name="mchnInfoId" />
+					<div class="search">
+					<div class="search-content">
+   				<table>
    					<tbody>
    						<tr>
    							<td>
@@ -472,17 +476,23 @@
    								<select id="cmbCtgr1Cd"></select>
    								<select id="cmbCtgr2Cd"></select>
    								<input type="text" id="txtCtgr3Nm" />
-   								<a style="cursor: pointer;" onclick="getSpaceEvProdList();" class="btnL">검색</a>
+
+   							</td>
+   							<td class="txt-right">
+   							<a style="cursor: pointer;" onclick="getSpaceEvProdList();" class="btnL">검색</a>
    							</td>
    						</tr>
    					</tbody>
    				</table>
+   				</div>
+   				</div>
+
 	   			<div class="titArea">
 		   			<span class="Ltotal"><h3>제품목록</h3></span>
    				</div>
 
 			    <div id="spaceEvProdGrid"></div>
-
+</form>
    				<div class="titArea">
    					<span class="Ltotal"><h3>통합성능평가결과서</h3></span>
    					<div style="color:red">○비밀 문서의 경우, 해당 팀장님의 결재를 받고 별도 다운로드 가능합니다.</div>

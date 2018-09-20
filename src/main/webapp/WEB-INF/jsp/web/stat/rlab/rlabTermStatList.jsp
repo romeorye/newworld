@@ -156,8 +156,12 @@ var mchnInfoId;
        		<span class="hidden">Toggle 버튼</span>
        	</a>
 		<h2>기간별 통계</h2>
-    </div>
-    <table class="searchBox">
+	</div>
+		<div class="sub-content">
+			<form name="aform" id="aform" method="post">
+	    	<div class="search">
+			<div class="search-content">
+    <table>
    					<colgroup>
    						<col style="width:10%;"/>
    						<col style="width:35%;"/>
@@ -172,17 +176,25 @@ var mchnInfoId;
     							<input type="text" id="fromRqprDt"/><em class="gab"> ~ </em>
    								<input type="text" id="toRqprDt"/>
     						</td>
-   							<td class="t_center">
+   							<td class="txt-right">
    								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
    							</td>
    						</tr>
    					</tbody>
    				</table>
-   				<br>
-	<!-- sub-content -->
-	<div class="sub-content">
+   				</div>
+   				</div>
+	<div class="titArea">
+					<!-- <span class="table_summay_number" id="cnt_text"></span>
+					<div class="LblockButton">
+						<button type="button" id="butRgst" name="butRgst">기기등록</button>
+						<button type="button" id="butExcl" name="butExcl">EXCEL</button>
+					</div> -->
+				</div>
+
 		<!-- 시험구분별통계 -->
    			<div id="rlabTermStatGrid"></div>
+   				</form>
 	</div>
 	<!-- //sub-content -->
 </div>
