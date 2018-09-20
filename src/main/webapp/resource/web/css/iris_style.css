@@ -121,7 +121,10 @@
     font-size: 12px;
     padding: 0 20px;
  }
- .btn_btn,  .btn_btm {margin:10px 0 10px 0;}
+ .btn_btn,  .btn_btm {margin:10px 0 10px 0 !important;}
+ .btn_btm2 {margin:16px 0 10px 0 !important;}
+ 
+ 
  /* 내부버튼 */
 #butAttcFil-button, 
 #attchFileMngBtn {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
