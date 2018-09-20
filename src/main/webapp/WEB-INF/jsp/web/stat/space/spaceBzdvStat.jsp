@@ -176,34 +176,40 @@ var mchnInfoId;
 	<!-- contents -->
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+				<span class="hidden">Toggle 버튼</span>
+			</a> 	
 			<h2>연도별 통계</h2>
 		</div>
-		<table class="searchBox">
-			<colgroup>
-				<col style="width: 10%;" />
-				<col style="width: 35%;" />
-				<col style="width: 10%;" />
-				<col style="width: 35%;" />
-				<col style="width: 10%;" />
-			</colgroup>
-			<tbody>
-				<tr>
-					<th align="right">기간</th>
-					<td><input type="text" id="fromCmplDt" /><em class="gab">
-							~ </em> <input type="text" id="toCmplDt" /></td>
-					<td class="t_center"><a style="cursor: pointer;"
-						onclick="fnSearch();" class="btnL">검색</a></td>
-				</tr>
-			</tbody>
-		</table>
-		<br>
-		<!-- sub-content -->
 		<div class="sub-content">
-			<!-- 전체 -->
-			<div class="titArea">
-				<div class="LblockButton"></div>
+			<div class="search mb20">
+				<div class="search-content">
+					<table>
+						<colgroup>
+							<col style="width:120px" />
+							<col style="width:400px" />
+							<col style="" />
+						</colgroup>
+						<tbody>
+							<tr>
+								<th align="right">기간</th>
+								<td class="tain_bo"><input type="text" id="fromCmplDt" /><em class="gab">
+										~ </em> <input type="text" id="toCmplDt" /></td>
+								<td class="txt-right"><a style="cursor: pointer;"
+									onclick="fnSearch();" class="btnL">검색</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
+				<!-- 전체 -->
+			<!-- <div class="titArea">
+				<div class="LblockButton"></div>
+			</div> -->
 			<div id=spaceBzdvStatGrid></div>
 		</div>
+	 </div>
+
 </body>
 </html>
