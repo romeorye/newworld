@@ -43,6 +43,7 @@
 .mt20 {margin-top:20px !important;}
 .mt10 {margin-top:10px !important;}
 .mt0 {margin-top:0 !important;}
+.mb20 {margin-bottom:20px !important;}
 .mb10 {margin-bottom:10px !important;}
 .mb5 {margin-bottom:5px !important;}
 
@@ -99,6 +100,7 @@
 .sub-content div.titArea {margin-top:30px;}
 .hidden {display: none!important;}
 
+.tain_bo div input {border:0 !important; line-height:26px !important;}
 /**** BUTTON ****/
 .btn {
     display: inline-block;
@@ -258,7 +260,7 @@ table td input[type="button"] {border:1px solid #c3c3c3 !important;; background:
    ========================================================================== */
 div.width_layout, .header {height:65px; width:100%; border-bottom:1px solid #ddd; background:#f8f8f8;}
 .width_layout .gnb_height, .header .header_inner {height:65px; position:relative; padding-right:4px; min-width: 1250px; max-width:1560px !important;}
-.width_layout .gnb_height h1, h1.logo {position: fixed; left: 18px; top: 10px; margin: 0;}
+.width_layout .gnb_height h1, h1.logo {position: absolute; left: 18px; top: 10px; margin: 0;}
 .gnb_search span:first-child {float: right;}
 .gnb_search span:first-child a {font-size:0;}
 .gnb_search span:nth-child(1) {letter-spacing: -1px;}
@@ -501,7 +503,7 @@ a .equ_info:after {right:30px;}
 
 }
 .gab {
-    margin: 0 4px 0 32px !important;
+    margin: 0 3px 0 33px !important;
 }
 .L-form-field {
     border: 1px solid #c3c3c3;
