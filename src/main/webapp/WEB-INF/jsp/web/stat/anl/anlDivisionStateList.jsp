@@ -139,19 +139,19 @@
             var anlDivisionStateColumnModel = new Rui.ui.grid.LColumnModel({
             	groupMerge: true,
                 columns: [
-                	  { field: 'deptNm',		label: '사업부',		sortable: false,	align:'center',	width: 250,	vMerge: true }
-                    , { field: 'bun',			label: '분석 건',		sortable: false,	align:'center',	width: 150,	vMerge: true }
-                    , { field: 'sil',			label: '실험 수',		sortable: false,	align:'center',	width: 150,	vMerge: true }
-                    , { field: 'suga',			label: '분석수가(&#8361)',		sortable: false,	align:'center',	width: 150,	vMerge: true, renderer: function(value, p, record){
+                	  { field: 'deptNm',		label: '사업부',		sortable: false,	align:'center',	width: 287,	vMerge: true }
+                    , { field: 'bun',			label: '분석 건',		sortable: false,	align:'center',	width: 170,	vMerge: true }
+                    , { field: 'sil',			label: '실험 수',		sortable: false,	align:'center',	width: 170,	vMerge: true }
+                    , { field: 'suga',			label: '분석수가(&#8361)',		sortable: false,	align:'center',	width: 170,	vMerge: true, renderer: function(value, p, record){
                     	return Rui.util.LFormat.numberFormat(parseInt(value));
                     }}
-                    , { field: 'gigi',			label: '기기이용료(&#8361)',	sortable: false,	align:'center',	width: 150,	vMerge: true , renderer: function(value, p, record){
+                    , { field: 'gigi',			label: '기기이용료(&#8361)',	sortable: false,	align:'center',	width: 170,	vMerge: true , renderer: function(value, p, record){
                     	return Rui.util.LFormat.numberFormat(parseInt(value));
                     }}
-                    , { field: 'tot',			label: '비용합계(&#8361)',		sortable: false,	align:'center',	width: 150,	vMerge: true , renderer: function(value, p, record){
+                    , { field: 'tot',			label: '비용합계(&#8361)',		sortable: false,	align:'center',	width: 170,	vMerge: true , renderer: function(value, p, record){
                     	return Rui.util.LFormat.numberFormat(parseInt(value));
                     }}
-                    , { field: 'av',			label: '비율(%)',			sortable: false,	align:'center',	width: 150,	vMerge: true}
+                    , { field: 'av',			label: '비율(%)',			sortable: false,	align:'center',	width: 170,	vMerge: true}
                    
                 ]
             });
@@ -160,7 +160,7 @@
                 columnModel: anlDivisionStateColumnModel,
                 dataSet: anlDivisionStateDataSet,
                 width: 1180,
-                height: 500,
+                height: 480,
                 autoWidth: true
 
             });

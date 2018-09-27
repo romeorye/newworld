@@ -124,10 +124,10 @@
             var anlBusinessStateColumnModel = new Rui.ui.grid.LColumnModel({
             	groupMerge: true,
                 columns: [
-                      { field: 'typeUgyNm',			label: '분석유형',		sortable: false,	align:'center',	width: 100,	vMerge: true }
-                    , { field: 'typeNm',			label: '구분',		sortable: false,	align:'left',	width: 150 }
-                    , { field: 'completeCnt',		label: '건',			sortable: false,	align:'center',	width: 100 }
-                    , { field: 'typeDesc',			label: '설명',		sortable: false,	align:'left',	width: 800 }
+                      { field: 'typeUgyNm',			label: '분석유형',		sortable: false,	align:'center',	width: 120,	vMerge: true }
+                    , { field: 'typeNm',			label: '구분',		sortable: false,	align:'left',	width: 180 }
+                    , { field: 'completeCnt',		label: '건',			sortable: false,	align:'center',	width: 108 }
+                    , { field: 'typeDesc',			label: '설명',		sortable: false,	align:'left',	width: 900 }
                 ]
             });
 
@@ -135,7 +135,7 @@
                 columnModel: anlBusinessStateColumnModel,
                 dataSet: anlBusinessStateDataSet,
                 width: 860,
-                height: 600,
+                height: 580,
                 autoToEdit: false,
                 autoWidth: true
             });

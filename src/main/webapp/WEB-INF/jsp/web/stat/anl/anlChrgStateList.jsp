@@ -150,16 +150,15 @@
 
             var anlChrgStateColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                      { field: 'anlChrgNm',			label: '담당자',			sortable: false,	align:'center',	width: 100 }
-                    , { field: 'IncompleteCnt',		label: '이월 건',			sortable: false,	align:'center',	width: 100 }
-                    , { field: 'tatalCnt',			label: '분석접수',			sortable: false,	align:'center',	width: 100 }
-					, { field: 'stopCnt',			label: '분석중단',			sortable: false, 	align:'center',	width: 100 }
-                    , { field: 'completeCnt',		label: '분석완료',			sortable: false,	align:'center',	width: 100 }
-                    , { field: 'completeRate',		label: '완료율(%)',			sortable: false,	align:'center',	width: 100}
-					//, { field: 'exprCnt',			label: '실험진행',			sortable: false, 	align:'center',	width: 100 }
-					, { field: 'exprCompleteCnt',	label: '실험완료',			sortable: false, 	align:'center',	width: 100 }
-					, { field: 'avgCmplWkDdDate',	label: '평균 완료기간(일)',	sortable: false, 	align:'center',	width: 170 }
-                    , { field: 'avgCmplWkDdRate',	label: '결과통보 준수율(%)',	sortable: false, 	align:'center',	width: 170}
+                      { field: 'anlChrgNm',			label: '담당자',			sortable: false,	align:'center',	width: 210 }
+                    , { field: 'IncompleteCnt',		label: '이월 건',			sortable: false,	align:'center',	width: 120 }
+                    , { field: 'tatalCnt',			label: '분석접수',			sortable: false,	align:'center',	width: 120 }
+					, { field: 'stopCnt',			label: '분석중단',			sortable: false, 	align:'center',	width: 120 }
+                    , { field: 'completeCnt',		label: '분석완료',			sortable: false,	align:'center',	width: 120 }
+                    , { field: 'completeRate',		label: '완료율(%)',			sortable: false,	align:'center',	width: 120}
+					, { field: 'exprCompleteCnt',	label: '실험완료',			sortable: false, 	align:'center',	width: 120 }
+					, { field: 'avgCmplWkDdDate',	label: '평균 완료기간(일)',	sortable: false, 	align:'center',	width: 185 }
+                    , { field: 'avgCmplWkDdRate',	label: '결과통보 준수율(%)',	sortable: false, 	align:'center',	width: 185}
                 ]
             });
 
@@ -167,7 +166,7 @@
                 columnModel: anlChrgStateColumnModel,
                 dataSet: anlChrgStateDataSet,
                 width: 860,
-                height: 600,
+                height: 580,
                 autoToEdit: false,
                 autoWidth: true
             });
