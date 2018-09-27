@@ -92,7 +92,7 @@
 	        	{ field: 'rgstNm', label: '예약자명', 	sortable: false, align: 'left', width: 150},
 	        	{ field: 'prctFromToDt', label: '예약일', 	sortable: false, align: 'left', width: 150},
 	        	{ field: 'prctFromToTim', label: '예약시간', 	sortable: false, align: 'left', width: 150},
-	        	{ field: 'prctScnNm', label: '구분', 	sortable: false, align: 'left', width: 150},
+	        	{ field: 'prctScnNm', label: '구분', 	sortable: false, align: 'left', width: 100},
 	        	{ field: 'mchnCrgrNm', label: '담당자명', 	sortable: false, align: 'left', width: 150},
 
 	        	{ field: 'prctScnCd',hidden : true},
@@ -242,7 +242,7 @@
 		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		        <span class="hidden">Toggle 버튼</span>
 			</a>
-			<h2>기기예약 관리</h2>
+			<h2>신뢰성시험장비 예약관리</h2>
 		</div>
 
 		<div class="sub-content">
