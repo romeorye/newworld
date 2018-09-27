@@ -103,11 +103,11 @@
         
         var mGridColumnModel = new Rui.ui.grid.LColumnModel({  //masterGrid column
             columns: [       
-                    { field: 'wbsScnNm',     	label: 'WBS 구분',   sortable: false, align:'center', width: 120  },
-          			{ field: 'stdTitl',    		label: '표준일정명',   sortable: false, align:'left', width:300 , renderer: function(value){
+                    { field: 'wbsScnNm',     	label: 'WBS 구분',   sortable: false, align:'center', width: 170  },
+          			{ field: 'stdTitl',    		label: '표준일정명',   sortable: false, align:'left', width:790 , renderer: function(value){
                 		return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 	} },
-          			{ field: 'lastRgstNm',    	label: '작성자',   sortable: false, align:'center', width: 120  },
+          			{ field: 'lastRgstNm',    	label: '작성자',   sortable: false, align:'center', width: 170  },
           		    { field: 'lastRgstDt',     	label: '작성일',   renderer: function(value){
           		      return value.substring(0, 10);
           		      } ,sortable: false, align:'center', width: 170 }
