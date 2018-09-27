@@ -325,7 +325,7 @@
             columnModel: columnModel,
             dataSet: dataSet,
             width: 600,
-            height: 500,
+            height: 480,
             autoToEdit: true,
             clickToEdit: true,
             enterToEdit: true,
