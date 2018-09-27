@@ -194,13 +194,13 @@ var lvAttcFilId;
 
           var columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
-                    { field: 'sftEnvScnNm', label: '구분',		  sortable: false,	align:'center',	width: 140 }
-                  , { field: 'titlNm',		label: '제목',        sortable: false,	align:'left',	width: 600 }
-                  , { field: 'enfcDt',      label: '시행일',	  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'rgstNm',		label: '등록자',	  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',	  sortable: false,	align:'center',	width: 100 }
-			      , { field: 'rtrvCnt',		label: '조회',		  sortable: false, 	align:'center',	width: 60  }
-		  	      , { id: 'attachDownBtn',  label: '첨부',                                          width: 65
+                    { field: 'sftEnvScnNm', label: '구분',		  sortable: false,	align:'center',	width: 150 }
+                  , { field: 'titlNm',		label: '제목',        sortable: false,	align:'left',	width: 640 }
+                  , { field: 'enfcDt',      label: '시행일',	  sortable: false,	align:'center',	width: 120 }
+                  , { field: 'rgstNm',		label: '등록자',	  sortable: false,	align:'center',	width: 120 }
+                  , { field: 'frstRgstDt',	label: '등록일',	  sortable: false,	align:'center',	width: 120 }
+			      , { field: 'rtrvCnt',		label: '조회',		  sortable: false, 	align:'center',	width: 74  }
+		  	      , { id: 'attachDownBtn',  label: '첨부',                                          width: 85
 		  	    	  ,renderer: function(val, p, record, row, i){
 		  	    		  var recordFilId = nullToString(record.data.attcFilId);
 		  	    		  var strBtnFun = "openAttachFileDialog(setAttachFileInfo, "+recordFilId+", 'knldPolicy', '*' ,'R')";
@@ -213,7 +213,7 @@ var lvAttcFilId;
               columnModel: columnModel,
               dataSet: saftyDataSet,
               width: 600,
-              height: 560,
+              height: 550,
               autoToEdit: false,
               autoWidth: true
           });

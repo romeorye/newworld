@@ -195,15 +195,15 @@ var lvAttcFilId;
 
           var columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
-                    { field: 'titlNm',		label: '교육/세미나명',   sortable: false,	align:'left',	width: 365 }
+                    { field: 'titlNm',		label: '교육/세미나명',   sortable: false,	align:'left',	width: 445 }
                   , { field: 'eduPlScnNm',  label: '교육장소',		  sortable: false,	align:'center',	width: 75 }
-                  , { field: 'eduInstNm',   label: '교육기관/강사명', sortable: false,	align:'center',	width: 200 }
+                  , { field: 'eduInstNm',   label: '교육기관/강사명', sortable: false,	align:'center',	width: 247 }
                   , { field: 'eduStrtDt',   label: '교육시작일',	  sortable: false,	align:'center',	width: 100 }
                   , { field: 'eduFnhDt',    label: '교육종료일',	  sortable: false,	align:'center',	width: 100 }
                   , { field: 'rgstNm',		label: '등록자',		  sortable: false,	align:'center',	width: 100 }
                   , { field: 'frstRgstDt',	label: '등록일',		  sortable: false,	align:'center',	width: 100 }
 			      , { field: 'rtrvCnt',		label: '조회',		      sortable: false, 	align:'center',	width: 60  }
-		  	      , { id: 'attachDownBtn',  label: '첨부',                                              width: 65
+		  	      , { id: 'attachDownBtn',  label: '첨부',                                              width: 82
 		  	    	  ,renderer: function(val, p, record, row, i){
 		  	    		  var recordFilId = nullToString(record.data.attcFilId);
 		  	    		  var strBtnFun = "openAttachFileDialog(setAttachFileInfo, "+recordFilId+", 'knldPolicy', '*' ,'R')";
@@ -216,7 +216,7 @@ var lvAttcFilId;
               columnModel: columnModel,
               dataSet: eduDataSet,
               width: 600,
-              height: 560,
+              height: 550,
               autoToEdit: false,
               autoWidth: true
           });

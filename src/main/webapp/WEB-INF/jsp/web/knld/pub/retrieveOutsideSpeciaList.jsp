@@ -121,11 +121,11 @@ var lvAttcFilId;
 
           var columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
-                    { field: 'instNm',	  label: '기관명',       sortable: false,	align:'center',	width: 400 }
+                    { field: 'instNm',	  label: '기관명',       sortable: false,	align:'center',	width: 300 }
                   , { field: 'opsNm',	  label: '부서',		 sortable: false,	align:'center',	width: 230 }
-                  , { field: 'poaNm',	  label: '직위',		 sortable: false,	align:'center',	width: 110 }
-			      , { field: 'spltNm',	  label: '사외전문가명', sortable: false, 	align:'center',	width: 205 }
-		  	      , { field: 'repnSphe',  label: '대표분야',     sortable: false, 	align:'center', width: 220 }
+                  , { field: 'poaNm',	  label: '직위',		 sortable: false,	align:'center',	width: 160 }
+			      , { field: 'spltNm',	  label: '사외전문가명', sortable: false, 	align:'center',	width: 195 }
+		  	      , { field: 'repnSphe',  label: '대표분야',     sortable: false, 	align:'center', width: 423 }
               ]
           });
 
@@ -133,7 +133,7 @@ var lvAttcFilId;
               columnModel: columnModel,
               dataSet: outSpclDataSet,
               width: 600,
-              height: 560,
+              height: 550,
               autoToEdit: false,
               autoWidth: true
           });

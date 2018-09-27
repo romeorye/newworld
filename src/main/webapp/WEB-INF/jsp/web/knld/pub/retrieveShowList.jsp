@@ -194,14 +194,14 @@ var lvAttcFilId;
 
           var columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
-                    { field: 'titlNm',		label: '전시회명',        sortable: false,	align:'left',	width: 580 }
-                  , { field: 'swrmNatNm',   label: '개최국',		  sortable: false,	align:'center',	width: 60 }
-                  , { field: 'swrmStrtDt',  label: '전시시작일',	  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'swrmFnhDt',   label: '전시종료일',	  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'rgstNm',		label: '등록자',		  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',		  sortable: false,	align:'center',	width: 100 }
+                    { field: 'titlNm',		label: '전시회명',        sortable: false,	align:'left',	width: 620 }
+                  , { field: 'swrmNatNm',   label: '개최국',		  sortable: false,	align:'center',	width: 100 }
+                  , { field: 'swrmStrtDt',  label: '전시시작일',	  sortable: false,	align:'center',	width: 110 }
+                  , { field: 'swrmFnhDt',   label: '전시종료일',	  sortable: false,	align:'center',	width: 110 }
+                  , { field: 'rgstNm',		label: '등록자',		  sortable: false,	align:'center',	width: 110 }
+                  , { field: 'frstRgstDt',	label: '등록일',		  sortable: false,	align:'center',	width: 110 }
 			      , { field: 'rtrvCnt',		label: '조회',		      sortable: false, 	align:'center',	width: 60 }
-		  	      , { id: 'attachDownBtn',  label: '첨부',                                              width: 65
+		  	      , { id: 'attachDownBtn',  label: '첨부',                                              width: 89
 		  	    	  ,renderer: function(val, p, record, row, i){
 		  	    		  var recordFilId = nullToString(record.data.attcFilId);
 		  	    		  var strBtnFun = "openAttachFileDialog(setAttachFileInfo, "+recordFilId+", 'knldPolicy', '*' ,'R')";
@@ -214,7 +214,7 @@ var lvAttcFilId;
               columnModel: columnModel,
               dataSet: showDataSet,
               width: 600,
-              height: 560,
+              height: 550,
               autoToEdit: false,
               autoWidth: true
           });
