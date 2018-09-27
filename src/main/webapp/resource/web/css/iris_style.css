@@ -135,7 +135,7 @@ table td button {border:1px solid #c3c3c3 !important; background:#f3f3f3 !import
 table td input[type="button"] {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important; display:inline-block; margin:0 2px !important; padding:0 10px !important; }
 table td .titArea button  {border:1px solid #c3c3c3 !important; background:#fff !important;}
 table td .titArea button:hover {border:1px solid #da1c5a !important; }
-
+.flmargin a  {border:1px solid #c3c3c3 !important; background:#f3f3f3 !important; display:inline-block; padding:0 12px; line-height:2;}
 
  /**** TITLE ****/
 .titArea h3 {height: 31px;
@@ -418,6 +418,9 @@ div.lnbArea .inner {width:210px !important; border-left:0; }
 .search-content .display-row ~ tr {
     display: none;
 }
+.search-content table td.t_center {text-align:right !important;}
+
+
 .search .btnL {min-width:25px; text-align:center; padding:0 22px;}
 .L-popuptextbox.L-fixed a.icon {background:#fff url("/iris/resource/web/images/img_uxp/ico_search.png") no-repeat center 4px; width:28px;}
 /*돋보기있는 검색버튼*/
@@ -763,6 +766,7 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .ousco_tdin div input:first-child {width:80px !important;}
 .grsmng_tain div  {width:100% !important;}
 .grsmng_tain div textarea {width:100%  !important;}
+.grsmng_tain2 textarea {width:88%  !important; float:left; margin-right:6px;}
 #divEtcTss .ft {text-align:right;}
 .table.anlch_ta {width:99.5% !important;}
 .table.anlch_ta tbody th:last-child {border-right:1px solid #c3c3c3 !important;}
@@ -780,9 +784,50 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .docu_con ul li + li {border-top:1px dashed #ccc;}
 .docu_con ul li:first-child   {border-top:1px solid #ccc;}
 .docu_con ul li:last-child   {border-bottom:1px solid #ccc;}
-.docu_con .analyze_field .analyze_s_txt {color:#222; font-size:12.5px; background:none; position:relative;}
-.docu_con .analyze_field .analyze_s_txt:before {content:""; position:absolute; left:0; top:7px; width:16px; height:16px; background:url(/iris/resource/web/images/newIris/sub_area_i_arr.png) no-repeat left center;}
+.docu_con .analyze_field .analyze_s_txt {color:#222; font-size:12.5px; background:none; position:relative; line-height:2; text-indent:20px;}
+.docu_con .analyze_field .analyze_s_txt:before {content:""; position:absolute; left:0; top:5px; width:16px; height:16px; background:url(/iris/resource/web/images/newIris/sub_area_i_arr.png) no-repeat left center;}
 .docu_con .analyze_field .analyze_s_txt span {font-size:12.5px; padding-left:90px; display:block; line-height:1.9;}
 .docu_con h4 {font-size:14px; font-weight:bold; line-height:2; color:#da1c5a; }
+
+#rlab_ta, #rlab_ta td {border:0 !important; padding:0 !important;}
+.rlabrqpr_tain01 div, #rlabrqpr_tain01 div textarea {width:100%  !important;}
+.rlabrqpr_tain02 #rlabRqprInfmView {float:left; margin-right:4px;}
+.rlabrqpr_tain02 .btn {height:27px !important;}
+.rlabrqpr_tain03 div, .rlabrqpr_tain03 div input {width:96%  !important;}
+.rlabrqpr_tain04 #scrtRson {width:260px  !important;}
+.rlabrqpr_tain04 #scrtRson inpot {width:250px  !important;}
+.rlabrqpr_tain05 #sbmpNm {width:800px  !important;}
+.rlabrqpr_tain05 #sbmpNm input {width:790px  !important;}
+.box_fl div {float:left;  margin-right:5px; height:26px !important;}
+.rlabrqpr_tain06 #rlabRqprInfmView {width:368px  !important;}
+.rlabrqpr_tain06 #rlabRqprInfmView input {width:328px  !important;}
+
+/*.LblockMarkupCode { position:relative; border:1px solid red;}
+#contentWrapper {position:absolute; left:0; top:32px; width:230px; height:280px; float:none;}
+.anlexp_ri {margin-left:280px !important; }
+#fieldWrapper {width:auto !important; float:none; }
+#anlExprMstTreeView  > div {margin-top:0 !important; height:297px !important;}*/
+
+#contentWrapper {width:24% !important;margin:0 !important;}
+#fieldWrapper {width:74% !important; float:right !important; margin:0 !important;}
+#contentWrapper #anlExprMstTreeView .L-ul-treeview {width:100% !important;}
+#anlExprMstTreeView  > div {margin-top:0 !important;  height:287px !important;}
+
+.flmargin>div {float:left !important; margin-right:4px !important;}
+
+.openop {width:585px !important;}
+.openop > div  {width:100% !important; height:235px !important;}
+.openop > div textarea {width:100% !important; height:225px !important;}
+
+
+
+
+
+
+
+
+
+
+
 
 
