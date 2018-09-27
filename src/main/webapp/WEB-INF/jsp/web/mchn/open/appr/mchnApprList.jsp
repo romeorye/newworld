@@ -71,13 +71,13 @@
 	    var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	{ field: 'prctTitl', 	label: '신청제목', 	sortable: false, align: 'left', width: 260},
-	            { field: 'mchnNm',  	label: '기기명', 	sortable: false, align: 'left', width: 270},
-	            { field: 'teamNm',  	label: '팀',	  	sortable: false, align: 'center', width: 200},
+	        	{ field: 'prctTitl', 	label: '신청제목', 	sortable: false, align: 'left', width: 330},
+	            { field: 'mchnNm',  	label: '기기명', 	sortable: false, align: 'left', width: 300},
+	            { field: 'teamNm',  	label: '팀',	  	sortable: false, align: 'center', width: 240},
 	            { field: 'rgstNm',  	label: '예약자', 	sortable: false, align: 'center', width: 80},
 	            { field: 'prctDt', 		label: '예약일', 	sortable: false, align: 'center', width: 90},
 	            { field: 'prctTim', 	label: '예약시간',	sortable: false, align: 'center', width: 100},
-	            { field: 'prctScnNm', 	label: '구분',   	sortable: false, align: 'center', width: 80},
+	            { field: 'prctScnNm', 	label: '구분',   	sortable: false, align: 'center', width: 88},
 	            { field: 'mchnCrgrNm', 	label: '담당자' , 	sortable: false, align: 'center', width: 80},
 	            { field: 'prctScnCd',   hidden : true},
 	            { field: 'mchnCrgrId',  hidden : true},
