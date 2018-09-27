@@ -120,7 +120,7 @@
                 , { field : 'upperDeptNm', groupId: 'group1',   label : '조직명',   align :'center',    width : 200 }
                 , { field : 'upperDeptCd', groupId: 'group1',   label : '조직코드', align :'center',    width : 120 }
                 , { id: 'group2',label : '부서' }
-                , { field : 'deptName', label : '부서명',       groupId: 'group2',  align :'center',    width : 250 }
+                , { field : 'deptName', label : '부서명',       groupId: 'group2',  align :'center',    width : 260 }
                 , { field : 'deptCode', label : '부서코드',     groupId: 'group2',  align :'center',    width : 120 }
                 , { field : 'deptUperCodeA',label : '조직코드약어', align :'center', width : 120 , editor: textBox ,renderer: function(val, p, record){
                             if(!Rui.isEmpty(record.get('deptCode'))){ //부서
@@ -155,13 +155,12 @@
         var deptGrid = new Rui.ui.grid.LGridPanel({
             columnModel : deptColumnModel,
             dataSet : deptDataSet,
-            width : 400,
-            height : 580,
+            width : 600,
+            height : 560,
             autoToEdit: true,
             clickToEdit: true,
             enterToEdit: true,
             autoWidth: true,
-            autoHeight: true,
             multiLineEditor: true,
             useRightActionMenu: false
         });
