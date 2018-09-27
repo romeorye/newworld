@@ -248,25 +248,25 @@
         /* [Grid] 컬럼설정 */
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
-                  { field: 'wbsCd',      label: '과제코드', sortable: true, align:'center', width: 85, renderer: function(value, p, record, row, col) {
+                  { field: 'wbsCd',      label: '과제코드', sortable: true, align:'center', width: 90, renderer: function(value, p, record, row, col) {
                         var stepCd = record.get("pgsStepCd");
                         if(stepCd == "PL") return "SEED-" + value;
                         return value;
                   }}
-                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 240 , renderer: function(value, p, record, row, col){
+                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 280 , renderer: function(value, p, record, row, col){
                     if(record.get("myTss") == "Y") p.css.push('font-bold');
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
-                , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
+                , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 160 }
                 , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
-                , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 100 }
+                , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 109 }
                 , { id: 'G1', label: '과제기간(계획일)' }
-                , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 73 }
-                , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 73 }
+                , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 80 }
+                , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 80 }
                 , { id: 'G2', label: '과제실적일' }
-                , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 73 }
-                , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 73 }
-                , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 50, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
+                , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
+                , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
+                , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 60, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
                     p.editable = false;
                     return value;
                 } }
@@ -274,7 +274,7 @@
                     p.editable = false;
                     return value;
                 } }
-                , { field: 'progressrateReal', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 65 }
+                , { field: 'progressrateReal', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 80 }
                 , { id: 'pg', label: '진척도', align:'center', width: 50 ,renderer :function(value, p, record, row, col) {
 
                     var pgN =' <img src="<%=contextPath%>/resource/images/icon/sign_green.png"/> ';
