@@ -65,14 +65,14 @@
 		var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	 {field: 'eduNm'              ,label:'교육명'   ,    sortable: false, align: 'left', width: 250}
-	        	,{field: 'pttDt'              ,label:'신청기간' ,      sortable: false, align: 'center', width: 150}
-	        	,{field: 'mchnNm'             ,label:'기기명'   ,    sortable: false, align: 'left', width: 230}
-	        	,{field: 'eduDtTim'           ,label:'교육일시' ,      sortable: false, align: 'center', width: 150}
-	        	,{field: 'eduPl'              ,label:'교육장소' ,    sortable: false, align: 'center', width: 100}
-	        	,{field: 'ivttCpsn'           ,label:'모집인원' ,    sortable: false, align: 'center', width: 70}
-	        	,{field: 'eduCrgrNm'          ,label:'교육담당자명',	sortable: false, align: 'center', width: 100}
-	        	,{ id: 'btn', label: '신청', width: 80, renderer: function(val, p, record, row, i){
+	        	 {field: 'eduNm'              ,label:'교육명'   ,    sortable: false, align: 'left', width: 320}
+	        	,{field: 'pttDt'              ,label:'신청기간' ,      sortable: false, align: 'center', width: 170}
+	        	,{field: 'mchnNm'             ,label:'기기명'   ,    sortable: false, align: 'left', width: 250}
+	        	,{field: 'eduDtTim'           ,label:'교육일시' ,      sortable: false, align: 'center', width: 160}
+	        	,{field: 'eduPl'              ,label:'교육장소' ,    sortable: false, align: 'center', width: 130}
+	        	,{field: 'ivttCpsn'           ,label:'모집인원' ,    sortable: false, align: 'center', width: 78}
+	        	,{field: 'eduCrgrNm'          ,label:'교육담당자명',	sortable: false, align: 'center', width: 110}
+	        	,{ id: 'btn', label: '신청', width: 90, renderer: function(val, p, record, row, i){
 	                return '<button type="button" class="L-grid-button">관리</button>';
 	            } },
 	        	,{field: 'eduCrgrId'          ,hidden : true}
