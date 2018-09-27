@@ -71,18 +71,18 @@
 
              var rlabRqprColumnModel = new Rui.ui.grid.LColumnModel({
                  columns: [
-                       { field: 'acpcNo',		label: '접수번호',	sortable: true,		align:'center',	width: 80 }
-                     , { field: 'rlabScnNm',	label: '시험구분',	sortable: false,	align:'center',	width: 80 }
-                     , { field: 'rlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 370 }
-                     , { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 50 }
-                     , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 70 }
- 					 , { field: 'rlabChrgNm',	label: '담당자',		sortable: false, 	align:'center',	width: 70 }
- 					 , { field: 'rqprDt',		label: '의뢰일',		sortable: true, 	align:'center',	width: 80 }
- 					 , { field: 'acpcDt',		label: '접수일',		sortable: true, 	align:'center',	width: 80 }
- 					 , { field: 'cmplParrDt',	label: '완료예정일',	sortable: true, 	align:'center',	width: 80 }
-                     , { field: 'cmplDt',		label: '완료일',		sortable: true, 	align:'center',	width: 80 }
-                     , { field: 'rlabUgyYnNm',	label: '긴급',		sortable: false,  	align:'center',	width: 40 }
- 					 , { field: 'acpcStNm',		label: '상태',		sortable: false, 	align:'center',	width: 80 }
+                       { field: 'acpcNo',		label: '접수번호',	sortable: true,		align:'center',	width: 90 }
+                     , { field: 'rlabScnNm',	label: '시험구분',	sortable: false,	align:'center',	width: 100 }
+                     , { field: 'rlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 415 }
+                     , { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 40 }
+                     , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
+ 					 , { field: 'rlabChrgNm',	label: '담당자',		sortable: false, 	align:'center',	width: 80 }
+ 					 , { field: 'rqprDt',		label: '의뢰일',		sortable: true, 	align:'center',	width: 90 }
+ 					 , { field: 'acpcDt',		label: '접수일',		sortable: true, 	align:'center',	width: 90 }
+ 					 , { field: 'cmplParrDt',	label: '완료예정일',	sortable: true, 	align:'center',	width: 90 }
+                     , { field: 'cmplDt',		label: '완료일',		sortable: true, 	align:'center',	width: 90 }
+                     , { field: 'rlabUgyYnNm',	label: '긴급',		sortable: false,  	align:'center',	width: 50 }
+ 					 , { field: 'acpcStNm',		label: '상태',		sortable: false, 	align:'center',	width: 90 }
                  ]
              });
 
