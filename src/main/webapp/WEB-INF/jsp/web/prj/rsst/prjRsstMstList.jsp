@@ -188,17 +188,17 @@ Rui.onReady(function() {
 	var columnModel = new Rui.ui.grid.LColumnModel({
 		columns: [
 			  { field: 'prjCd'        , hidden : true}
-			, { field: 'wbsCd'        , label: 'WBS CODE',  		   sortable: false,	align:'center', width: 90 }
-			, { field: 'prjNm'        , label: '프로젝트명(소속명)',   sortable: false,	align:'left', width: 350
+			, { field: 'wbsCd'        , label: 'WBS CODE',  		   sortable: false,	align:'center', width: 120 }
+			, { field: 'prjNm'        , label: '프로젝트명(소속명)',   sortable: false,	align:'left', width: 530
 				, renderer: function(value){
             		return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
             	}}
-			, { field: 'saName'       , label: 'PL 명',  			   sortable: false,	align:'center', width: 90 }
+			, { field: 'saName'       , label: 'PL 명',  			   sortable: false,	align:'center', width: 110 }
 			, { field: 'deptCd'       , label: '조직코드',  		   sortable: false,	align:'center', width:0, hidden: true}
-			, { field: 'uperdeptName' , label: '조직',  		       sortable: false,	align:'left', width: 220 }
+			, { field: 'uperdeptName' , label: '조직',  		       sortable: false,	align:'left', width: 308 }
 			, { id : '프로젝트기간'},
-			, { field: 'prjStrDt'     , groupId: '프로젝트기간', label: '시작일',      sortable: false, align:'center', width: 100 }
-			, { field: 'prjEndDt'     , groupId: '프로젝트기간', label: '종료일',      sortable: false, align:'center', width: 100 }
+			, { field: 'prjStrDt'     , groupId: '프로젝트기간', label: '시작일',      sortable: false, align:'center', width: 120 }
+			, { field: 'prjEndDt'     , groupId: '프로젝트기간', label: '종료일',      sortable: false, align:'center', width: 120 }
 	   ]
 	});
 
@@ -207,7 +207,7 @@ Rui.onReady(function() {
 	    columnModel: columnModel,
 	    dataSet: dataSet,
 	    width: 600,
-	    height: 530,
+	    height: 520,
 	    autoToEdit: false,
 	    autoWidth: true
 	});
