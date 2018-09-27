@@ -51,19 +51,19 @@
 		 var columnModel = new Rui.ui.grid.LColumnModel({
 		     groupMerge: true,
 		     columns: [
-		        	{ field: 'cgdsNm', 		label:'소모품명' , 	sortable: false, align: 'left', width: 300},
-		            { field: 'mkrNm',  		label:'제조사', 	sortable: false, align: 'center', width: 140},
-		            { field: 'stkNo',  		label:'Stock No.', 	sortable: false, align: 'center', width: 130},
+		        	{ field: 'cgdsNm', 		label:'소모품명' , 	sortable: false, align: 'left', width: 370},
+		            { field: 'mkrNm',  		label:'제조사', 	sortable: false, align: 'center', width: 170},
+		            { field: 'stkNo',  		label:'Stock No.', 	sortable: false, align: 'center', width: 160},
 		            { field: 'curIvQty',  	label:'현재고', 	renderer: function(val, p, record, row, i){
 		            	if( record.get('ivStCd') == "Y" ){
 			            	return'<span style = "color : #FF5E00">'+val+'</span>';
 		            	}else{
 			            	return val;
 		            	}
-		            }, sortable: false, align: 'center', width: 100},
-		            { field: 'prpIvQty', 	label: '적정재고', 	sortable: false, align: 'center', width: 100},
-		            { field: 'utmCd', 		label: '단위',   	sortable: false, align: 'center', width: 110},
-		            { field: 'cgdCrgrNm', 	label: '담당자',   	sortable: false, align: 'center', width: 130},
+		            }, sortable: false, align: 'center', width: 110},
+		            { field: 'prpIvQty', 	label: '적정재고', 	sortable: false, align: 'center', width: 110},
+		            { field: 'utmCd', 		label: '단위',   	sortable: false, align: 'center', width: 120},
+		            { field: 'cgdCrgrNm', 	label: '담당자',   	sortable: false, align: 'center', width: 140},
 		            { id: 'btn', label: '소모품', width: 120, renderer: function(val, p, record, row, i){
 		                return '<button type="button" class="L-grid-button">관리</button>';
 		            } },
