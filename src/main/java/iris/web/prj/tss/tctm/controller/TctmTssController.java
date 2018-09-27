@@ -202,6 +202,228 @@ public class TctmTssController extends IrisBaseController {
         return TctmUrl.jspView;
     }
 
+
+
+	/**
+	 * 과제관리 > 기술팀과제 > 완료Tab
+	 *
+	 * @param input HashMap<String, String>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model ModelMap
+	 * @return String
+	 * @throws JSONException
+	 * */
+	@RequestMapping(value=TctmUrl.doTabCmpl)
+	public String doTabCmpl(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+									HttpSession session, ModelMap model) throws JSONException {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("genTssCmplSmryIfm [과제관리 > 기술팀과제 > 완료Tab]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		checkSession(input, session, model);
+		String rtnUrl ="";
+
+//		if(input.get("tssSt").equals("104") && (input.get("pgsStepCd").equals("CM") || input.get("pgsStepCd").equals("DC")) ){
+//			rtnUrl = "web/prj/tss/gen/cmpl/genTssCmplIfmView";
+//		}else{
+//			rtnUrl = "web/prj/tss/gen/cmpl/genTssCmplIfm";
+//		}
+
+		if(pageMoveChkSession(input.get("_userId"))) {
+			Map<String, Object> result = tctmTssService.selectTctmTssInfoSmry(input);
+			result = StringUtil.toUtf8Output((HashMap) result);
+			StringUtil.toUtf8Output((HashMap) result);
+
+			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+			list.add(result);
+
+			JSONObject obj = new JSONObject();
+			obj.put("records", list);
+
+			request.setAttribute("inputData", input);
+			request.setAttribute("resultData", result);
+			request.setAttribute("resultCnt", result == null ? 0 : result.size());
+			request.setAttribute("result", obj);
+		}
+
+
+		return TctmUrl.jspTabCmpl;
+	}
+
+	/**
+	 * 과제관리 > 기술팀과제 > 완료 등록/수정
+	 *
+	 * @param input HashMap<String, Object>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model ModelMap
+	 * @return ModelAndView
+	 * */
+	@RequestMapping(value=TctmUrl.doUpdateCmplInfo)
+	public ModelAndView doUpdateCmplInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+											HttpSession session, ModelMap model) {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("doUpdateCmplInfo [과제관리 > 기술팀과제 > 완료 등록/수정]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		checkSessionObjRUI(input, session, model);
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		HashMap<String, Object> mstDs  = null;
+		HashMap<String, Object> smryDs = null;
+
+		try {
+			mstDs  = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "mstDataSet").get(0);
+			smryDs = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "smryDataSet").get(0);
+
+			smryDs = StringUtil.toUtf8Input(smryDs);
+
+			// 완료 정보가 없으면 MST SMRY를 복제 있으면 내용 수정
+			if("".equals(mstDs.get("cmTssCd"))){
+				//신규
+				tctmTssService.duplicateTctmTssInfo(mstDs);
+				smryDs.put("newTssCd", mstDs.get("newTssCd"));
+				tctmTssService.duplicateTctmTssSmryInfo(smryDs);
+			}else{
+				//수정
+				tctmTssService.updateTctmTssInfoCmpl(mstDs);
+				tctmTssService.updateTctmTssSmryInfoCmpl(smryDs);
+			}
+
+//			genTssCmplService.insertGenTssCmplMst(mstDs, smryDs);
+
+			mstDs.put("rtCd", "SUCCESS");
+			mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+			mstDs.put("rtType", "I");
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			mstDs.put("rtCd", "FAIL");
+			mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+		}
+
+		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", mstDs));
+
+		return modelAndView;
+	}
+
+
+	/**
+	 * 과제관리 > 기술팀과제 > 중단Tab
+	 *
+	 * @param input HashMap<String, String>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model ModelMap
+	 * @return String
+	 * @throws JSONException
+	 * */
+	@RequestMapping(value=TctmUrl.doTabDcac)
+	public String doTabDcac(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+							HttpSession session, ModelMap model) throws JSONException {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("doTabDcac [과제관리 > 기술팀과제 > 중단Tab]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		checkSession(input, session, model);
+		String rtnUrl ="";
+
+//		if(input.get("tssSt").equals("104") && (input.get("pgsStepCd").equals("CM") || input.get("pgsStepCd").equals("DC")) ){
+//			rtnUrl = "web/prj/tss/gen/cmpl/genTssCmplIfmView";
+//		}else{
+//			rtnUrl = "web/prj/tss/gen/cmpl/genTssCmplIfm";
+//		}
+
+		if(pageMoveChkSession(input.get("_userId"))) {
+			Map<String, Object> result = tctmTssService.selectTctmTssInfoSmry(input);
+			result = StringUtil.toUtf8Output((HashMap) result);
+			StringUtil.toUtf8Output((HashMap) result);
+
+			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+			list.add(result);
+
+			JSONObject obj = new JSONObject();
+			obj.put("records", list);
+
+			request.setAttribute("inputData", input);
+			request.setAttribute("resultData", result);
+			request.setAttribute("resultCnt", result == null ? 0 : result.size());
+			request.setAttribute("result", obj);
+		}
+
+
+		return TctmUrl.jspTabDcac;
+	}
+
+	/**
+	 * 과제관리 > 기술팀과제 > 중단 등록/수정
+	 *
+	 * @param input HashMap<String, Object>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model ModelMap
+	 * @return ModelAndView
+	 * */
+	@RequestMapping(value=TctmUrl.doUpdateDcacInfo)
+	public ModelAndView doUpdateDcacInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+										 HttpSession session, ModelMap model) {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("doUpdateDcacInfo [과제관리 > 기술팀과제 > 중단 등록/수정]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		checkSessionObjRUI(input, session, model);
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		HashMap<String, Object> mstDs  = null;
+		HashMap<String, Object> smryDs = null;
+
+		try {
+			mstDs  = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "mstDataSet").get(0);
+			smryDs = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "smryDataSet").get(0);
+
+			smryDs = StringUtil.toUtf8Input(smryDs);
+
+			// 중단 정보가 없으면 MST SMRY를 복제 있으면 내용 수정
+			if("".equals(mstDs.get("dcTssCd"))){
+				//신규
+				tctmTssService.duplicateTctmTssInfo(mstDs);
+				smryDs.put("newTssCd", mstDs.get("newTssCd"));
+				tctmTssService.duplicateTctmTssSmryInfo(smryDs);
+			}else{
+				//수정
+				tctmTssService.updateTctmTssInfoDcac(mstDs);
+				tctmTssService.updateTctmTssSmryInfoDcac(smryDs);
+			}
+
+//			genTssCmplService.insertGenTssCmplMst(mstDs, smryDs);
+
+			mstDs.put("rtCd", "SUCCESS");
+			mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+			mstDs.put("rtType", "I");
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			mstDs.put("rtCd", "FAIL");
+			mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+		}
+
+		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", mstDs));
+
+		return modelAndView;
+	}
+
+
     // ================================================================================================
     // 개요
 
@@ -320,7 +542,7 @@ public class TctmTssController extends IrisBaseController {
 										  HttpSession session, ModelMap model) throws JSONException {
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("retrieveGenTssAltrSmry [과제관리 > 기술팀과제 > 변경 > 개요 조회]");
+		LOGGER.debug("doTabAltr [과제관리 > 기술팀과제 > 변경 > 개요 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
@@ -385,7 +607,7 @@ public class TctmTssController extends IrisBaseController {
 
 			mstDs.put("rtCd", "SUCCESS");
 			mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
-			mstDs.put("rtType", "I");
+//			mstDs.put("rtType", "I");
 		} catch(Exception e) {
 			e.printStackTrace();
 			mstDs.put("rtCd", "FAIL");
@@ -418,16 +640,104 @@ public class TctmTssController extends IrisBaseController {
 		checkSessionRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-		List<Map<String, Object>> result = tctmTssService.selectTctmTssInfoAltrSmry(input);
+		List<Map<String, Object>> result = tctmTssService.selectTctmTssInfoAltrList(input);
 
 		modelAndView.addObject("dataset", RuiConverter.createDataset("dataset", result));
 		return modelAndView;
 	}	
 	
+	/**
+	 * 과제관리 > 기술팀과제 > 변경 > 변경취소
+	 *
+	 * @param input HashMap<String, String>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 *   @param model ModelMap
+	 * @return String
+	 * */
+	@RequestMapping(value=TctmUrl.doCancelInfoAltr)
+	public ModelAndView doCancelInfoAltr(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+										 HttpSession session, ModelMap model) {
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("retrieveGenTssAltrSmryList [과제관리 > 기술팀과제 > 변경 > 변경취소]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+		checkSessionRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		tctmTssService.cancelTctmTssInfoAltrSmry(input);
+
+
+		rtnMeaasge.put("rtCd", "SUCCESS");
+		rtnMeaasge.put("rtVal","변경취소 되었습니다."); //삭제되었습니다.
+
+		modelAndView.addObject("dataset", RuiConverter.createDataset("dataset", rtnMeaasge));
+		return modelAndView;
+	}
+
+	/**
+	 * 과제관리 > 기술팀과제 > 변경 > 내부품의서요청 화면
+	 *
+	 * @param input HashMap<String, String>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model ModelMap
+	 * @return String
+	 * @throws JSONException
+	 * */
+	@RequestMapping(value=TctmUrl.doAltrCsusView)
+	public String doAltrCsusView(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+								   HttpSession session, ModelMap model) throws JSONException {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("genTssAltrCsusRq [과제관리 > 기술팀과제 > 변경 > 내부품의서요청 화면 ]");
+		LOGGER.debug("###########################################################");
+
+		checkSession(input, session, model);
+
+		if(pageMoveChkSession(input.get("_userId"))) {
+//			Map<String, Object> resultMst        = genTssAltrService.retrieveGenTssAltrMst(input); //마스터
+//			Map<String, Object> resultCsus       = genTssService.retrieveGenTssCsus(resultMst); //내부품의서
+//			Map<String, Object> resultSmry       = genTssAltrService.retrieveGenTssAltrSmry(input); //개요
+//			List<Map<String, Object>> resultAltr = genTssAltrService.retrieveGenTssAltrSmryList(input);
+			Map<String, Object> resultMst = tctmTssService.selectTctmTssInfo(input);    //마스터 정보
+			Map<String, Object> resultCsus = tctmTssService.selectCsus(resultMst);    //통합결제
+			Map<String, Object> resultSmry = tctmTssService.selectTctmTssInfoSmry(input);        //개요 정보
+			List<Map<String, Object>> resultAltr = tctmTssService.selectTctmTssInfoAltrList(input);    // 변경 목록
+
+			HashMap<String, String> inputInfo = new HashMap<String, String>();
+			inputInfo.put("attcFilId", String.valueOf(resultSmry.get("altrAttcFilId")));
+
+			List<Map<String, Object>> resultAttc  = tctmTssService.selectAttachFileList(inputInfo);	//첨부 파일 목록
+
+			resultMst  = StringUtil.toUtf8Output((HashMap) resultMst);
+			resultCsus = StringUtil.toUtf8Output((HashMap) resultCsus);
+			resultSmry = StringUtil.toUtf8Output((HashMap) resultSmry);
+
+			model.addAttribute("inputData", input);
+			model.addAttribute("resultMst", resultMst);
+			model.addAttribute("resultSmry", resultSmry);
+			model.addAttribute("resultAltr", resultAltr);
+			model.addAttribute("resultAttc", resultAttc);
+			model.addAttribute("resultCsus", resultCsus);
+
+			//text컬럼을 위한 json변환
+			JSONObject obj = new JSONObject();
+			obj.put("records", resultSmry);
+
+			request.setAttribute("jsonSmry", obj);
+		}
+
+		return TctmUrl.jspAltrCsusView;
+	}
+
+
 
 
 	/**
-	 * 과제관리 > 기술팀과제 > 진행 > 변경이력 조회
+	 * 과제관리 > 기술팀과제 > 변경이력 Tab JSP
 	 *
 	 * @param input HashMap<String, String>
 	 * @param request HttpServletRequest
@@ -449,7 +759,7 @@ public class TctmTssController extends IrisBaseController {
 
 		if(pageMoveChkSession(input.get("_userId"))) {
 //			List<Map<String, Object>> result = genTssPgsService.retrieveGenTssPgsAltrHist(input);
-			List<Map<String, Object>> result = tctmTssService.selectTctmTssInfoAltrHis(input);
+			List<Map<String, Object>> result = tctmTssService.selectInfoAltrHisListAll(input);
 			for(int i = 0; i < result.size(); i++) {
 				StringUtil.toUtf8Output((HashMap)result.get(i));
 			}
@@ -463,7 +773,65 @@ public class TctmTssController extends IrisBaseController {
 		}
 
 		return TctmUrl.jspTabAltrHis;
-	}    
+	}
+
+
+	/**
+	 * 과제관리 > 기술팀과제 > 변경이력 Pop JSP
+	 *
+	 * @param input HashMap<String, String>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model ModelMap
+	 * @return String
+	 * @throws JSONException
+	 * */
+	@RequestMapping(value=TctmUrl.doTabAltrHisPop)
+	public String doTabAltrHisPop(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+										HttpSession session, ModelMap model) throws JSONException {
+
+		checkSession(input, session, model);
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("genTssAltrDetailPopup [과제관리 > 기술팀과제 > 진행 > 변경이력 상세 팝업 화면 ]");
+		LOGGER.debug("###########################################################");
+
+		request.setAttribute("inputData", input);
+
+		return TctmUrl.jspTabAltrHisPop;
+	}
+
+	/**
+	 * 과제관리 > 기술팀과제 > 변경이력 팝업 Query
+	 *
+	 * @param input   HashMap<String, String>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model   ModelMap
+	 * @return String
+	 * @throws JSONException
+	 */
+	@RequestMapping(value = TctmUrl.doSelectTabAltrHisPop)
+	public ModelAndView doSelectTabAltrHisPopSearch(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpSession session, ModelMap model) {
+
+		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("genTssAltrDetailPopup [과제관리 > 기술팀과제 > 변경이력 팝업 내역 ]");
+		LOGGER.debug("####input  : ########### : " + input);
+		LOGGER.debug("###########################################################");
+
+		List<Map<String, Object>> resultAltr = tctmTssService.selectInfoAltrHisList(input);
+		Map<String, Object> altrDtl = tctmTssService.selectInfoAltrHisInfo(input);
+
+		StringUtil.toUtf8Output((HashMap<String, Object>) altrDtl);
+
+		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", resultAltr));
+		modelAndView.addObject("rsonDataSet", RuiConverter.createDataset("rsonDataSet", altrDtl));
+
+		return modelAndView;
+	}
     
     
 

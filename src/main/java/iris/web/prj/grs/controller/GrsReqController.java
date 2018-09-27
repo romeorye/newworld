@@ -490,7 +490,7 @@ public class GrsReqController  extends IrisBaseController {
     @SuppressWarnings("static-access")
     @RequestMapping(value="/prj/grs/insertGrsEvRsltSave.do")
     public ModelAndView insertGrsEvRsltSave(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-            HttpSession session, ModelMap model) {
+                                            HttpSession session, ModelMap model) {
 
         LOGGER.debug("###########################################################");
         LOGGER.debug("insertGrsEvRsltSave [GRS 평가의뢰 저장]");
@@ -498,24 +498,19 @@ public class GrsReqController  extends IrisBaseController {
         LOGGER.debug("###########################################################");
 
         checkSessionObjRUI(input, session, model);
-
         ModelAndView modelAndView = new ModelAndView("ruiView");
-
         HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-
         List<Map<String, Object>> dsLst = null;
+        String rtnMsg = "";
+        String rtnSt = "F";
 
         try {
-
-            dsLst = RuiConverter.convertToDataSet(request,  "gridDataSet");
+            dsLst = RuiConverter.convertToDataSet(request, "gridDataSet");
             input.put("userId", input.get("_userId"));
-
-            input.put("cfrnAtdtCdTxt",input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
-
+            input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
             input = StringUtil.toUtf8Input(input);
 
             grsReqService.insertGrsEvRsltSave(dsLst, input);
-
 
             /*
              *  GRS 평가 완료후 과제 상태값 변경
@@ -525,19 +520,18 @@ public class GrsReqController  extends IrisBaseController {
             /*
              * 해당과제 리더에게 완료 메일 발송
              */
-
             genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121
 
 
-            rtnMeaasge.put("rtCd", "SUCCESS");
-            rtnMeaasge.put("rtVal",messageSourceAccessor.getMessage("msg.alert.reqRst.comp")); //평가와료되었습니다.
-
-
-        } catch(Exception e) {
+            rtnMsg = "평가완료되었습니다.";
+            rtnSt = "S";
+        } catch (Exception e) {
             e.printStackTrace();
-            rtnMeaasge.put("rtCd", "FAIL");
-            rtnMeaasge.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+            rtnMsg = "처리중 오류가발생했습니다. 담당자에게 문의해주세요";
         }
+
+        rtnMeaasge.put("rtnMsg", rtnMsg);
+        rtnMeaasge.put("rtnSt", rtnSt);
 
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", rtnMeaasge));
         return modelAndView;

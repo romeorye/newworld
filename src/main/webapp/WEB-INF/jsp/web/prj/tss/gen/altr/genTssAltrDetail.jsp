@@ -243,8 +243,10 @@
 
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "pgSaSabunNew")) {
                 if(gvTssSt == "100") {
-                    if(stringNullChk(dataSet.getNameValue(0, "pgTssSt")) == "202") btnCsusRq.show();
-                    else if(stringNullChk(dataSet.getNameValue(0, "pgTssSt")) == "201") {
+                    console.log(">>>>>>" + dataSet.getNameValue(0, "pgTssSt"));
+                    if (stringNullChk(dataSet.getNameValue(0, "pgTssSt")) == "202") {
+                        btnCsusRq.show();
+                    } else if (stringNullChk(dataSet.getNameValue(0, "pgTssSt")) == "201") {
                         btnStepPg.show();
                         btnCsusRq2.show();
                     }

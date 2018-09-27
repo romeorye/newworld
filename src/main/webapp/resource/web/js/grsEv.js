@@ -286,7 +286,7 @@ function makeGrsEvTable() {
 		}
 	}));
 
-	var evTableGrid = new Rui.ui.grid.LGridPanel({ //listGrid
+	evTableGrid = new Rui.ui.grid.LGridPanel({ //listGrid
 		columnModel : mGridColumnModel,
 		dataSet : gridDataSet,
 		height : 280,
@@ -306,14 +306,3 @@ function makeGrsEvTable() {
 	evTableGrid.render('evTableGrid'); //listGrid render
 }
 
-function getGrsEvTableData(grsEvSn, tssCd, tssCdSn){
-
-	gridDataSet.load({
-			url : '/iris/prj/grs/retrieveGrsReqDtl.do',
-			params : {
-				grsEvSn : grsEvSn,
-				tssCd : tssCd,
-				tssCdSn : tssCdSn
-			}
-		})
-}

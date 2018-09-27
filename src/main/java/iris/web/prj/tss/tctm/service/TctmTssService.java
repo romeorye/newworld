@@ -10,11 +10,18 @@ public interface TctmTssService {
     public Map<String, Object> selectTctmTssInfo(HashMap<String, String> input);
 	public void updateTctmTssInfo(HashMap<String, Object> input);
 	public void deleteTctmTssInfo(HashMap<String, String> input);
+	public void duplicateTctmTssInfo(HashMap<String, Object> input);
+	public void updateTctmTssInfoCmpl(HashMap<String, Object> input);
+	public void updateTctmTssInfoDcac(HashMap<String, Object> input);
 
     /*개요*/
     public Map<String, Object> selectTctmTssInfoSmry(HashMap<String, String> input);
 	public void updateTctmTssSmryInfo(HashMap<String, Object> input);
 	public void deleteTctmTssSmryInfo(HashMap<String, String> input);
+	public void duplicateTctmTssSmryInfo(HashMap<String, Object> input);
+	public void updateTctmTssSmryInfoCmpl(HashMap<String, Object> input);
+	public void updateTctmTssSmryInfoDcac(HashMap<String, Object> input);
+
 
 	/*산출물*/
 	public List<Map<String, Object>> selectTctmTssInfoGoal(HashMap<String, String> input);
@@ -23,16 +30,16 @@ public interface TctmTssService {
 	public void updateTctmTssYld(HashMap<String, Object> input);
 
 
-    /*변경개요*/
-	public List<Map<String, Object>> selectTctmTssInfoAltrSmry(HashMap<String, String> input);
+    /*변경*/
+	public List<Map<String, Object>> selectTctmTssInfoAltrList(HashMap<String, String> input);
     public void updateTctmTssInfoAltrSmry(HashMap<String, Object> input, HashMap<String, Object> mstDs, HashMap<String, Object> smryDs, List<Map<String, Object>> altrDs);
-	public void deleteTctmTssInfoAltrSmry(HashMap<String, String> input);
+	public void cancelTctmTssInfoAltrSmry(HashMap<String, String> input);
 
 
 	/*변경이력*/
-    public List<Map<String, Object>> selectTctmTssInfoAltrHis(HashMap<String, String> input);
-	//    public void updateTctmTssAltrHisInfo(HashMap<String, Object> input);
-	//    public void deleteTctmTssAltrHisInfo(HashMap<String, Object> input);
+    public List<Map<String, Object>> selectInfoAltrHisListAll(HashMap<String, String> input);
+    public  List<Map<String, Object>> selectInfoAltrHisList(HashMap<String, Object> input);
+    public  Map<String, Object> selectInfoAltrHisInfo(HashMap<String, Object> input);
 
 	/*완료*/
     public Map<String, Object> selectTctmTssInfoCmpl(HashMap<String, String> input);
@@ -50,4 +57,17 @@ public interface TctmTssService {
     Map<String, Object> selectTssCsus(Map<String, Object> input);
 
 
+	/**
+	 * 첨부파일 목록
+	 * @param input
+	 * @return
+	 */
+	List<Map<String,Object>> selectAttachFileList(HashMap<String, String> input);
+
+	/**
+	 * 통합결제 1건 조회
+	 * @param input
+	 * @return
+	 */
+	Map<String,Object> selectCsus(Map<String, Object> input);
 }

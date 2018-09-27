@@ -31,9 +31,12 @@
     var lvUserId   = window.parent.gvUserId;
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
-    
-    var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
-    
+    var pgTssCd = window.parent.pgTssCd;
+
+
+    var isEditable = (lvTssSt == "100");
+    var isAttach = (pgsStepCd != "PL");
+
     var dataSet1;
     var dataSet2;
     var dsmActionGrid = "";
@@ -93,12 +96,12 @@
         
         //그리드 TextArea
         gridTextArea = new Rui.ui.form.LTextArea({
-            disabled: pageMode == "W" ? false : true
+            disabled: !isEditable
         });
         
         //Form 비활성화
         disableFields = function() {
-            if(pageMode == "W") return;
+            if(isEditable) return;
             
             butGoalAdd.hide();
             butGoalDel.hide();
@@ -150,9 +153,6 @@
                     , { field: 'goal', label: '목표', sortable: false, align:'left', width: 300, editor: gridTextArea }
                 ]
             });
-
-
-
 
         var grid1 = new Rui.ui.grid.LGridPanel({
             columnModel: columnModel,
@@ -211,22 +211,7 @@
         // });
 
 
-        if(pgsStepCd=="PL"){
-            var columnModel2 = new Rui.ui.grid.LColumnModel({
-                autoWidth: true,
-                columns: [
-                    new Rui.ui.grid.LSelectionColumn()
-                    , new Rui.ui.grid.LStateColumn()
-                    , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'goalY', label: '목표년도', sortable: false, align:'center', width: 100, editor: cboGoalY }
-                    , { field: 'yldItmType',  label: '산출물유형', sortable: false, align:'center', width: 300, editor: cbYldItmType
-                        , renderer: function(value, p, record, row, col) {
-                            if(record.data.yldItmSn == 1) p.editable = false;
-                            return value;
-                        } }
-                ]
-            });
-        }else if(pgsStepCd=="PG"){
+        if(isAttach){
             var columnModel2 = new Rui.ui.grid.LColumnModel({
                 autoWidth: true,
                 columns: [
@@ -261,6 +246,21 @@
                         } }
                 ]
             });
+        }else{
+            var columnModel2 = new Rui.ui.grid.LColumnModel({
+                autoWidth: true,
+                columns: [
+                    new Rui.ui.grid.LSelectionColumn()
+                    , new Rui.ui.grid.LStateColumn()
+                    , new Rui.ui.grid.LNumberColumn()
+                    , { field: 'goalY', label: '목표년도', sortable: false, align:'center', width: 100, editor: cboGoalY }
+                    , { field: 'yldItmType',  label: '산출물유형', sortable: false, align:'center', width: 300, editor: cbYldItmType
+                        , renderer: function(value, p, record, row, col) {
+                            if(record.data.yldItmSn == 1) p.editable = false;
+                            return value;
+                        } }
+                ]
+            });
         }
 
         var grid2 = new Rui.ui.grid.LGridPanel({
@@ -282,7 +282,7 @@
 
             var filId = dataSet2.getNameValue(popupRow, "attcFilId");
 
-            openAttachFileDialog(setAttachFileInfo, stringNullChk(filId), 'prjPolicy', '*', pageMode);
+            openAttachFileDialog(setAttachFileInfo, stringNullChk(filId), 'prjPolicy', '*', "W");
         });
 
 

@@ -145,8 +145,8 @@ public class GenTssDcacController  extends IrisBaseController {
             smryDs = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "smryDataSet").get(0);
 
             smryDs = StringUtil.toUtf8Input(smryDs);
-            
-        	rtCnt = genTssDcacService.insertGenTssDcacMst(mstDs, smryDs);
+
+            rtCnt = genTssDcacService.insertGenTssDcacMst(mstDs, smryDs);
 
         	if(rtCnt > 0) {
         		mstDs.put("rtCd", "SUCCESS");

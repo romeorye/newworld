@@ -27,6 +27,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/tab/rui_tab.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/custom.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
 
 <script type="text/javascript">
@@ -35,7 +36,7 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode; // text
     var lvTssStrtDd = window.parent.tssStrtDd.getValue();
-    var pageMode = (lvTssSt == "100" || lvTssSt == "") && (lvPageMode == "W" || lvPageMode == "") ? "W" : "R";
+    var isEditable = (lvTssSt == "100" || lvTssSt == "") && (lvPageMode == "W" || lvPageMode == "");
 
     var dataSet;
     var lvAttcFilId;
@@ -106,7 +107,7 @@
 
             if(lvTssSt == "") btnReport.hide();
 
-            if(pageMode == "W") return;
+            if(isEditable) return;
 
             document.getElementById('attchFileMngBtn').style.display = "none";
             btnSave.hide();
@@ -316,10 +317,19 @@
         return true;
     }
 
+
+    function setViewform(){
+        setReadonly("smrSmryTxt");
+        setReadonly("smrGoalTxt");
+        setReadonly("ctyOtPlnM");
+        setReadonly("nprodSalsPlnY");
+    }
+
 </script>
 <script type="text/javascript">
 $(window).load(function() {
     initFrameSetHeight("smryFormDiv");
+    if(!isEditable)setViewform();
 });
 </script>
 </head>

@@ -16,18 +16,20 @@
 				 , g.dlbr_crgr 									 AS dlbrCrgr
 				 --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--심의 담당자
 				 , g.sa_sabun_name AS dlbrCrgrNm       --심의 담당자
+				 ,m.TSS_STRT_DD + '~' + TSS_FNH_DD as tssDd
 				 , g.dlbr_parr_dt     							 AS dlbrParrDt
 				 , g.grs_ev_st	   	 							 AS grsEvSt		 	--P1:초기,P2:최종,M:변경
 				 , m.PGS_STEP_CD  as pgsStepCd   --진행단계코드 PL : 계획 , PG:진행 , CM:완료 , AL: 변경 , DC:중단
 				 , dbo.fn_getComDtlNm('GRS_EV_ST',g.grs_ev_st)   AS grsEvStNm
 				 , m.tss_st           							 AS tssSt
 				-- , dbo.fn_getComDtlNm('TSS_ST',m.tss_st) 		 AS tssStNm
-				 , iif((select count(*) from IRIS_GRS_EV_STD_RSLT_RGST where TSS_CD = g.TSS_CD and TSS_CD_SN = g.TSS_CD_SN) > 0, 'GRS완료', 'GRS요청') AS tssStNm
+				, iif((select count(*) from IRIS_GRS_EV_STD_RSLT_RGST where TSS_CD = g.TSS_CD and TSS_CD_SN = g.TSS_CD_SN) > 0, 'GRS완료', 'GRS요청') AS tssStNm
+                 , iif((select count(*) from IRIS_GRS_EV_STD_RSLT_RGST where TSS_CD = g.TSS_CD and TSS_CD_SN = g.TSS_CD_SN) > 0, '0', '1') AS isReq
 				 , m.tss_cd tssCd
 				 , g.tss_cd_sn tssCdSn
 				 , g.grs_ev_sn									 AS grsEvSn
 				 , g.frst_rgst_id								 AS frstRgstId
-
+				 ,iif((select count(*) from IRIS_GRS_MGMT_MST where TSS_CD= m.tss_cd)>0,'1','0') AS isFirstGrs
 			 FROM iris_grs_ev_rslt_rgst g
 	   INNER JOIN iris_tss_mgmt_mst m
 			   ON 	g.tss_cd = m.tss_cd
@@ -117,6 +119,8 @@
             ,
             dbo.fn_getComDtlNm('TSS_ATTR_CD', A.TSS_ATTR_CD)                         AS tssAttrNm,
             A.TSS_NM                                                                 AS tssNm      --과제명
+            ,
+            A.TSS_STRT_DD+' ~ '+A.TSS_FNH_DD                            AS tssDd      --과제기간
             ,
             B.GRS_EV_ST                                                              AS grsEvSt    --GRS상태
             ,

@@ -1,20 +1,36 @@
 //Textinput 기본
-function nTextBox(id, width, ph) {
+function nTextBox(id, width, ph,ed) {
+    if(ed==undefined)ed = true;
+
 	this[id] = new Rui.ui.form.LTextBox({
 		applyTo : id,
 		width : width,
 		placeholder: ph,
+        editable: ed,
 	});
+    if(!ed){
+        setReadonly(id);
+    }else{
+        setEditable(id);
+    }
 }
 
-//TextInput 기본
-function nTextArea(id, width, height, ph){
+//TextArea 기본
+function nTextArea(id, width, height, ph,ed){
+    if(ed==undefined)ed = true;
+
 	this[id] = new Rui.ui.form.LTextArea({
 	    applyTo: id,
 	    width: width,
 	    height: height,
 	    placeholder: ph,
+        editable: ed,
 	});
+    if(!ed){
+        setReadonly(id);
+    }else{
+        setEditable(id);
+    }
 }
 
 
@@ -122,4 +138,60 @@ function popSabun(nameId, sabunId){
 		return false;
 	}
 
+}
+
+
+
+
+function setReadonly(id){
+
+    if ($("#" + id).hasClass("L-textbox") || $("#" + id).hasClass("L-textarea")) {
+        eval(id).setEditable(false);
+    }
+
+    if ($("#" + id).hasClass("L-combo") ||
+        $("#" + id).hasClass("L-popuptextbox") ||
+        $("#" + id).hasClass("L-datebox") ||
+        $("#" + id).hasClass("L-monthbox") ||
+        $("#" + id).hasClass("L-popuptextbox")
+    ) {
+        $("#" + id + " > .icon").css("display", "none");
+    }
+
+    if ($("#" + id).hasClass("L-numberbox")) {
+        eval(id).setEditable(false);
+        $("#" + id).css("border-width", "0px");
+    }
+
+    $("#" + id).css("border-width", "0px");
+
+    if(!$("#" + id).hasClass("L-textarea"))$("#" + id).css("pointer-events", "none");
+
+    $("#" + id + " > input").attr("placeholder", "");
+    $("#" + id + " > textarea").attr("placeholder", "");
+}
+
+function setEditable(id){
+    if ($("#" + id).hasClass("L-textbox") || $("#" + id).hasClass("L-textarea")) {
+        eval(id).setEditable(true);
+    }
+
+    if ($("#" + id).hasClass("L-combo") ||
+        $("#" + id).hasClass("L-popuptextbox") ||
+        $("#" + id).hasClass("L-datebox") ||
+        $("#" + id).hasClass("L-monthbox") ||
+        $("#" + id).hasClass("L-popuptextbox")
+    ) {
+        $("#" + id + " > .icon").css("display", "block");
+    }
+
+    if ($("#" + id).hasClass("L-numberbox")) {
+        eval(id).setEditable(true);
+        $("#" + id).css("border-width", "1px");
+    }
+
+    $("#" + id).css("border-width", "1px");
+    $("#" + id).css("pointer-events", "auto");
+    $("#" + id + " > input").attr("placeholder",  this[id].placeholder);
+    $("#" + id + " > textarea").attr("placeholder",  this[id].placeholder);
 }

@@ -234,6 +234,7 @@
                 , { id: 'pgsStepCd'}    //진행단계코드
                 , { id: 'grsEvSt'}      //GRS상태
                 , { id: 'myTss'}
+                , { id: 'qgateStepNm'}
             ]
         });
 
@@ -267,6 +268,7 @@
                     p.editable = false;
                     return value;
                 } }
+                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 100 }
 <%--                 , { field: 'progressrateReal', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 65 }
                 , { id: 'pg', label: '진척도', align:'center', width: 50 ,renderer :function(value, p, record, row, col) {
 

@@ -831,8 +831,8 @@ public class CommonUtil {
      * @param map
      * @return
      */
-    public static Map<String,String> mapToString(Map<String,Object>map){
-        Map<String, String> result = new HashMap<>();
+    public static HashMap<String,String> mapToString(Map<String,Object>map){
+        HashMap<String, String> result = new HashMap<>();
 
         Iterator<String> keys = map.keySet().iterator();
         while (keys.hasNext()) {

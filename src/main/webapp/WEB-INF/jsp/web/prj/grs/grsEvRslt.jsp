@@ -2,6 +2,7 @@
     contentType="text/html; charset=utf-8"%>
 <%@ page
     import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
+<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -163,7 +164,8 @@
             if(lvTssScnCd == "G") pTitle = "일반과제 >> ";
             else if(lvTssScnCd == "N") pTitle = "국책과제 >> ";
             else if(lvTssScnCd == "O") pTitle = "대외협력과제 >> ";
-            
+            else if(lvTssScnCd == "D") pTitle = "기술팀과제 >> ";
+
             var pStep;
             if(lvPgsStepCd == "PL") pStep = "계획";
             else if(lvPgsStepCd == "PG") pStep = "진행";
@@ -414,18 +416,19 @@
         
         //기능: 목록
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {
+        btnList.on('click', function () {
             //일반과제
-            if(lvTssScnCd == "G") {
+            if (lvTssScnCd == "G") {
                 nwinsActSubmit(window.document.mstForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
-            }
-            //국책과제
-            else if(lvTssScnCd == "N") {
+            } else if (lvTssScnCd == "N") {
+                //국책과제
                 nwinsActSubmit(window.document.mstForm, "<c:url value='/prj/tss/nat/natTssList.do'/>");
-            }
-            //대외협력과제
-            else if(lvTssScnCd == "O") {
+            } else if (lvTssScnCd == "O") {
+                //대외협력과제
                 nwinsActSubmit(window.document.mstForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssList.do'/>");
+            } else if (lvTssScnCd == "D") {
+                // 기술팀 과제
+                nwinsActSubmit(window.document.mstForm, "<%=request.getContextPath()+TctmUrl.doList%>");
             }
         });
         

@@ -18,7 +18,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 
 	@Override
 	public List<Map<String, Object>> selectListGrsMngList(HashMap<String, Object> input) {
-		return commonDao.selectList("prj.grs.selectGrsList", input);
+		return commonDao.selectList("prj.grs.retrieveGrsReqList", input);
 	}
 
 	@Override
@@ -32,6 +32,11 @@ public class GrsMngServiceImpl implements GrsMngService {
 	@Override
 	public int deleteGrsInfo(Map<String, Object> input) {
 		return commonDao.update("prj.grs.deleteGrsInfo", input);
+	}
+
+	@Override
+	public void updateGrsReqInfo(Map<String, Object> input) {
+		commonDao.update("prj.grs.insertGrsEvRslt", input);
 	}
 
 }

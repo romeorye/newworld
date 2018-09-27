@@ -10,4 +10,8 @@ public interface GrsMngService {
 	int updateGrsInfo(Map<String, Object> input);
 
 	int deleteGrsInfo(Map<String, Object> input);
+
+	void updateGrsReqInfo(Map<String, Object> input);
+
+
 }

@@ -16,8 +16,20 @@ public class TctmUrl {
 	public static final String doTabAltr = doHome + "/tctmTssAltrIfm.do";             					// 변경개요 Iframe
 	public static final String jspTabAltr = jspHome + "/tctmTssAltrIfm";                 					// 변경개요 jsp
 
+	public static final String doAltrCsusView = doHome + "/tctmTssAltrCsusRq.do";                 					// 변경내부품의
+	public static final String jspAltrCsusView = jspHome + "/tctmTssAltrCsusRq";                 					// 변경내부품의 jsp
+
+
+
 	public static final String doTabCmpl = doHome + "/tctmTssCmplIfm.do";    						// 완료 Iframe
-	public static final String jspTabCmplSmryIfm = jspHome + "/tctmTssCmplSmryIfm";		// 완료 jsp
+	public static final String jspTabCmpl = jspHome + "/tctmTssCmplIfm";								// 완료 jsp
+	public static final String doUpdateCmplInfo = doHome + "/tctmTssUpdateCmpl.do";				// 완료 등록/수정 Query
+
+
+	public static final String doTabDcac = doHome + "/tctmTssDcacIfm.do";    						// 중단 Iframe
+	public static final String jspTabDcac = jspHome + "/tctmTssDcacIfm";								// 중단 jsp
+	public static final String doUpdateDcacInfo = doHome + "/tctmTssUpdateDcac.do";				// 중단 등록/수정 Query
+	
 
 	public static final String doTabSum = doHome + "/tctmTssSmryIfm.do";           	// 개요 Iframe
 	public static final String jspTabSum = jspHome + "/tctmTssSmryIfm";                   // 개요 jsp
@@ -25,8 +37,11 @@ public class TctmUrl {
 	public static final String doTabGoal = doHome + "/tctmTssGoalYldIfm.do";        	// 목표 및 산출물 Iframe
 	public static final String jspTabGoal = jspHome + "/tctmTssGoalYldIfm";          	// 목표 및 산출물 jsp
 
-	public static final String doTabAltrHis = doHome + "/tctmTssAltrHisIfm.do";  		// 변경이력 Iframe
-	public static final String jspTabAltrHis = jspHome + "/tctmTssAltrHisIfm";                        // 변경이력 jsp
+	public static final String doTabAltrHis = doHome + "/tctmTssAltrHisIfm.do";  									// 변경이력 Iframe
+	public static final String jspTabAltrHis = jspHome + "/tctmTssAltrHisIfm";                      		  			// 변경이력 jsp
+	public static final String doTabAltrHisPop = doHome + "/tctmTssAltrHisPop.do";  							// 변경이력 상세팝업
+	public static final String jspTabAltrHisPop = jspHome + "/tctmTssAltrHisPop";                       			 // 변경이력 상세팝업jsp
+	public static final String doSelectTabAltrHisPop = doHome + "/tctmTssSelectAltrHisPop.do";  		// 변경이력 상세팝업 Query
 
 	//do Query
 	public static final String doSelectList = doHome + "/tctmTssSelectList.do";                		// 목록 조회 Query
@@ -35,9 +50,10 @@ public class TctmUrl {
 	
 	public static final String doUpdateInfoAltr = doHome + "/tctmTssUpdateAltr.do"; 				// 변경개요 조회 Query
 	public static final String doSelectInfoAltr = doHome + "/tctmTssSelectAltr.do"; 				// 변경개요 조회 Query
-	
-	public static final String doUpdateInfoCmpl = doHome + "/tctmTssUpdateCmpl.do";			// 완료 등록/수정 Query
-	public static final String doSelectInfoCmpl = doHome + "/tctmTssSelectCmpl.do";			// 완료 조회 Query
+	public static final String doCancelInfoAltr = doHome + "/tctmTssCancelAltr.do"; 				// 변경취소 Query
+
+//	public static final String doUpdateInfoCmpl = doHome + "/tctmTssUpdateCmpl.do";			// 완료 등록/수정 Query
+//	public static final String doSelectInfoCmpl = doHome + "/tctmTssSelectCmpl.do";			// 완료 조회 Query
 
 	public static final String doUpdateInfoSmry = doHome + "/tctmTssUpdateSmry.do";     	// 개요 등록/수정 Query
 	public static final String doSelectInfoSmry = doHome + "/tctmTssSelectSmry.do";     		// 개요 조회 Query

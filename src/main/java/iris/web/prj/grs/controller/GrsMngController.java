@@ -3,6 +3,7 @@ package iris.web.prj.grs.controller;
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.CommonUtil;
 import iris.web.common.util.StringUtil;
 import iris.web.prj.grs.service.GrsMngService;
 import iris.web.prj.grs.service.GrsReqService;
@@ -119,9 +120,14 @@ public class GrsMngController extends IrisBaseController {
 
 
 		HashMap<String, Object> getWbs = genTssService.getWbsCdStd("prj.tss.com.getWbsCdStd", input);
-		input.put("pkWbsCd", getWbs.get("wbsCdStd"));
+		//SEED WBS_CD 생성
+		int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
+		String seqMaxS = String.valueOf(seqMax + 1);
+		input.put("wbsCd", input.get("tssScnCd") + seqMaxS);
+		input.put("pkWbsCd", input.get("wbsCd"));
 		input.put("pgsStepCd", "PL");								// 과제 진행 단계 코드
 		input.put("tssSt", "100");									// 과제 상태
+
 
 
 		checkSessionObjRUI(input, session, model);
@@ -133,6 +139,17 @@ public class GrsMngController extends IrisBaseController {
 		try {
 			// mchnCgdgService.saveCgdsMst(input);
 			grsMngService.updateGrsInfo(input);
+			input.put("tssCd",input.get("newTssCd"));
+
+			String grsYn = (String) input.get("grsYn");
+			if(grsYn.equals("Y")){
+				//GRS 수행시 GRS 요청정보 생성
+				input.put("grsEvSt","P1");
+				input.put("tssCd",input.get("newTssCd"));
+				input.put("userId",input.get("_userId"));
+				grsMngService.updateGrsReqInfo(input);
+			}
+
 			rtnMsg = "저장되었습니다.";
 			rtnSt = "S";
 		} catch (Exception e) {
@@ -148,6 +165,80 @@ public class GrsMngController extends IrisBaseController {
 
 		return modelAndView;
 	}
+
+	/*
+	 * GRS 평가 과제 정보 조회
+	 */
+	@RequestMapping(value = "/prj/grs/selectGrsTssInfo.do")
+	public ModelAndView selectGrsTssInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("selectGrsEvRsltInfo [GRS 평가 과제 정보 조회]");
+		LOGGER.debug("input = > " + input);
+		System.out.println(input);
+		LOGGER.debug("###########################################################");
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		input = StringUtil.toUtf8(input);
+		HashMap<String, Object> inputMap = new HashMap<String, Object>();
+
+		Map<String, Object> result = grsReqService.retrieveGrsEvRslt(CommonUtil.mapToString(input));
+		result = StringUtil.toUtf8Output((HashMap) result);
+
+		modelAndView.addObject("infoDataSet", RuiConverter.createDataset("dataSet", result));
+
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("modelAndView => " + modelAndView);
+		LOGGER.debug("###########################################################");
+
+		return modelAndView;
+	}
+
+
+	/**
+	 * GRS 평가 항목 조회
+	 * @param input
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/prj/grs/selectGrsEvRsltInfo.do")
+	public ModelAndView selectGrsEvRsltInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+										  HttpServletResponse response, HttpSession session, ModelMap model) {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("retrieveGrsTempList - retrieveGrsReqDtl [grs req]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		input = StringUtil.toUtf8(input);
+
+
+		HashMap<String, Object> inputMap = new HashMap<String, Object>();
+		String grsEvSn =  (String) input.get("grsEvSn");
+
+		inputMap.put("grsEvSn", grsEvSn);
+		inputMap.put("tssCd", input.get("tssCd"));
+		inputMap.put("tssCdSn", input.get("tssCdSn"));
+		List<Map<String, Object>> rstGridDataSet = grsReqService.retrieveGrsReqDtlLst(inputMap);
+
+		modelAndView.addObject("evGrsDataSet", RuiConverter.createDataset("dataSet", rstGridDataSet));
+
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("modelAndView => " + modelAndView);
+		LOGGER.debug("###########################################################");
+
+		return modelAndView;
+	}
+
+
 
 	/**
 	 * 페이지 이동시 세션체크
