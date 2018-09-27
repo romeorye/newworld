@@ -103,12 +103,12 @@
             	groupMerge: true,
                 columns: [
                 	  new Rui.ui.grid.LNumberColumn()
-                	, { field: 'bizBptNm',        	label: '사업부문<BR>(Funding기준)',	sortable: false,  align:'center', width: 100 }
-                	, { field: 'deptName',        	label: '조직',                		sortable: false,  align:'center', width: 100 }
-                	, { field: 'prjNm',        		label: '프로젝트명',                	sortable: false,  align:'center', width: 200 }
+                	, { field: 'bizBptNm',        	label: '사업부문<BR>(Funding기준)',	sortable: false,  align:'center', width: 110 }
+                	, { field: 'deptName',        	label: '조직',                		sortable: false,  align:'center', width: 114 }
+                	, { field: 'prjNm',        		label: '프로젝트명',                	sortable: false,  align:'center', width: 210 }
                 	, { field: 'cnttTypeNm',        label: '계약 유형',               	sortable: false,  align:'center', width: 70 }
                 	, { field: 'tssNm',        		label: '과제명',               		sortable: false,  align:'left', width: 200 }
-                	, { field: 'cooInstNm',        	label: '협력기관명',              	sortable: false,  align:'center', width: 170 }
+                	, { field: 'cooInstNm',        	label: '협력기관명',              	sortable: false,  align:'center', width: 180 }
                 	, { field: 'spltNm',        	label: '협력기관<BR>연구책임자',    sortable: false,  align:'center', width: 70 }
                 	, { id: 'strTssStrtDd',        		label: '사업기간',                	sortable: false,  align:'center', width: 80 
                 		, renderer: function(value, p, record, row, col){
@@ -132,7 +132,7 @@
                 columnModel: columnModel,
                 dataSet: dataSet,
                 width: 860,
-                height: 600,
+                height: 580,
                 autoToEdit: false,
                 autoWidth: true
             });

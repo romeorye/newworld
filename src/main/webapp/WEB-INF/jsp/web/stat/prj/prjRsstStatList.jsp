@@ -73,10 +73,10 @@
             var columnModel = new Rui.ui.grid.LColumnModel({
             	groupMerge: true,
                 columns: [
-                      { field: 'deptNm',      	label: '조직명',       	sortable: false,  align:'center', width: 250 }
-                    , { field: 'prjNm',         label: '프로젝트명',   	sortable: false,  align:'left', width: 250 }
-                    , { field: 'plEmpName',     label: 'PL', 			sortable: false,  align:'center', width: 60 }
-                    , { field: 'prjCpsn',      	label: '팀원',         	sortable: false,  align:'right', width: 50 
+                      { field: 'deptNm',      	label: '조직명',       	sortable: false,  align:'center', width: 300 }
+                    , { field: 'prjNm',         label: '프로젝트명',   	sortable: false,  align:'left', width: 335 }
+                    , { field: 'plEmpName',     label: 'PL', 			sortable: false,  align:'center', width: 80 }
+                    , { field: 'prjCpsn',      	label: '팀원',         	sortable: false,  align:'right', width: 73 
                     	, renderer: function(value, p, record, row, col){
                     		if( value != '' && value != null && value != 'undefined' ){
                     			return value + '명'
@@ -85,37 +85,8 @@
                     		}
                     	}
                       }
-                   /* 
-                    , { id : 'Monthly Report'}
-                    , { field: 'pduGoalCnt',    groupId: 'Monthly Report', label: '계획', 	sortable: false,  align:'center', width: 55
-                    	, renderer: function(value, p, record, row, col){
-                    		var arslCnt = record.get('arslCnt');	// 실적
-                    		
-                    		if( value != '' && value != null && value != 'undefined' ){
-                    			return value + '건'
-                    		}
-                    		// 실적이 존재하면 0건으로 화면표시
-                    		else if( arslCnt != '' && arslCnt != null && arslCnt != 'undefined' ){
-                    			return '0건'
-                    		}
-                    	}
-                      }
-                    , { field: 'arslCnt',      	groupId: 'Monthly Report', label: '실적',   sortable: false,  align:'center', width: 55
-                    	, renderer: function(value, p, record, row, col){
-                    		var pduGoalCnt = record.get('pduGoalCnt');	// 목표
-                    		
-                    		if( value != '' && value != null && value != 'undefined' ){
-                    			return value + '건'
-                    		}
-                    		// 목표가 존재하면 0건으로 화면표시
-                    		else if( pduGoalCnt != '' && pduGoalCnt != null && pduGoalCnt != 'undefined' ){
-                    			return '0건'
-                    		}
-                    	}
-                      }
-                     */
                     , { id : '지적재산권 (국내)'} 
-                    , { field: 'prptGoalCnt',   groupId: '지적재산권 (국내)' ,label: '계획',	sortable: false,  align:'center', width: 55
+                    , { field: 'prptGoalCnt',   groupId: '지적재산권 (국내)' ,label: '계획',	sortable: false,  align:'center', width: 80
                     	, renderer: function(value, p, record, row, col){
                     		var prptArslCnt = record.get('prptArslCnt');	// 실적
                     		
@@ -128,7 +99,7 @@
                     		}
                     	}
                       }
-                    , { field: 'prptArslCnt',   groupId: '지적재산권 (국내)' ,label: '실적',    sortable: false,  align:'center', width: 55
+                    , { field: 'prptArslCnt',   groupId: '지적재산권 (국내)' ,label: '실적',    sortable: false,  align:'center', width: 80
                     	, renderer: function(value, p, record, row, col){
                     		var prptGoalCnt = record.get('prptGoalCnt');	// 계획
                     		
@@ -141,16 +112,16 @@
                     		}
                     	}
                       }
-                    , { field: 'ttm',        	label: 'TTM(%)<BR>(개발완료)',          	sortable: false,  align:'center', width: 60 
+                    , { field: 'ttm',        	label: 'TTM(%)<BR>(개발완료)',          	sortable: false,  align:'center', width: 80 
                     	, renderer: function(value, p, record, row, col){
                     		if( value != '' && value != null && value != 'undefined' ){
                     			return value + '%';
                     		}
                     	}
                       }
-                    , { field: 'tssBudg',     	label: '예산(억원)',         	sortable: false,  align:'right',  width: 70 }
-                    , { field: 'tssExp',      	label: '비용(억원)',         	sortable: false,  align:'right',  width: 70 }
-                    , { field: 'tssExe',    	label: '집행율(%)',       	    sortable: false,  align:'center', width: 70 
+                    , { field: 'tssBudg',     	label: '예산(억원)',         	sortable: false,  align:'right',  width: 90 }
+                    , { field: 'tssExp',      	label: '비용(억원)',         	sortable: false,  align:'right',  width: 90 }
+                    , { field: 'tssExe',    	label: '집행율(%)',       	    sortable: false,  align:'center', width: 100 
                     	, renderer: function(value, p, record, row, col){
                     		if( value != '' && value != null && value != 'undefined' ){
                     			return value + '%';
@@ -166,7 +137,7 @@
                 columnModel: columnModel,
                 dataSet: dataSet,
                 width: 1150,
-                height: 600,
+                height: 580,
                 autoWidth: true
             });
             
