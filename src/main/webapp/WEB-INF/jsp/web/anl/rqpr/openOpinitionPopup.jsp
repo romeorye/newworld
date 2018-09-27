@@ -39,10 +39,10 @@ Rui.onReady(function() {
 </head>
 <body>
 <div class="bd">
-	<div class="sub-content">
+	<div class="sub-content" style="padding:0;">
 		<table class="table table_txt_right">
 			<tr>
-				<td>
+				<td class="openop">
 					<input type="text" id="opiSbc" name="opiSbc" />
 				</td>
 			</tr>	

@@ -407,39 +407,43 @@ function fncAnlLibRgstPage(record) {
 
 <!--    		<div class="contents"> style="padding-top:10px" -->
 <!--    			<div class="sub-content"> -->
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:30%;"/>
-   						<col style="width:15%;"/>
-   						<col style="width:"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<c:if test="${inputData.bbsCd == '04'}">
-   							<th  align="right">분류</th>
-   							<td>
-   								<div id="anlTlcgClCd"></div>
-   							</td>
-   							</c:if>
-   							<td colspan="2">
-   								<div id="searchCd"></div>
-   								<input type="text" id="searchNm" value="">
-   							</td>
-   							<td class="t_center">
-   								<c:choose>
-  									<c:when test="${inputData.bbsCd == '04'}">
-   									<a style="cursor: pointer;" onclick="getAnlLibList04();" class="btnL">검색</a>
-   									</c:when>
-   									<c:otherwise>
-   									<a style="cursor: pointer;" onclick="getAnlLibList();" class="btnL">검색</a>
-   									</c:otherwise>
-   								</c:choose>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+   				<div class="search">
+					<div class="search-content">
+						<table>
+		   					<colgroup>
+		   						<col style="width:10%;"/>
+		   						<col style="width:30%;"/>
+		   						<col style="width:15%;"/>
+		   						<col style="width:"/>
+		   						<col style="width:10%;"/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<c:if test="${inputData.bbsCd == '04'}">
+		   							<th  align="right">분류</th>
+		   							<td>
+		   								<div id="anlTlcgClCd"></div>
+		   							</td>
+		   							</c:if>
+		   							<td colspan="2">
+		   								<div id="searchCd"></div>
+		   								<input type="text" id="searchNm" value="">
+		   							</td>
+		   							<td class="t_center">
+		   								<c:choose>
+		  									<c:when test="${inputData.bbsCd == '04'}">
+		   									<a style="cursor: pointer;" onclick="getAnlLibList04();" class="btnL">검색</a>
+		   									</c:when>
+		   									<c:otherwise>
+		   									<a style="cursor: pointer;" onclick="getAnlLibList();" class="btnL">검색</a>
+		   									</c:otherwise>
+		   								</c:choose>
+		   							</td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
 
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>

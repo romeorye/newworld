@@ -277,7 +277,7 @@
                 columnModel: anlExprMstColumnModel,
                 dataSet: anlExprMstGridDataSetView,
                 width: 810,
-                height: 300,
+                height: 288,
                 autoToEdit: true,
                 autoWidth: true
             });
@@ -526,27 +526,29 @@
     <body>
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
 		
-   		<div class="contents">
-
-   			<div class="sub-content">
+   		<div class="contents">  			
 	   			
    				<div class="titleArea">
-		   			<span class="titleArea" style="display:inline">
-		   				<h2>실험정보 관리</h2>
-		   			</span>
-   					<div class="LblockButton">
+		   			<a class="leftCon" href="#">
+						<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+						<span class="hidden">Toggle 버튼</span>
+					</a>    
+	   				<h2>실험정보 관리</h2>
+		   		</div>	
+		   		<div class="sub-content">
+   					<div class="LblockButton mt0 mb5" style="width:100%; text-align:right;">
    						<button type="button" class="btn"  id="addAnlExprMstBtn" name="addAnlExprMstBtn" onclick="addAnlExprMst()">신규</button>
    						<button type="button" class="btn"  id="initAnlExprMstBtn" name="initAnlExprMstBtn" onclick="initAnlExprMst()">초기화</button>
    						<button type="button" class="btn"  id="saveAnlExprMstBtn" name="saveAnlExprMstBtn" onclick="saveAnlExprMst()">저장</button>
    						<button type="button" class="btn"  id="openUtmExpSimulationBtn" name="openUtmExpSimulationBtn" onclick="openUtmExpSimulationDialog()">수가계산</button>
    						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadAnlExprMstListExcel()">Excel</button>
    					</div>
-   				</div>
+   				
    				
 			    <div id="bd">
 			        <div class="LblockMarkupCode">
 			            <div id="contentWrapper">
-			                <div id="anlExprMstTreeView"></div>
+			                <div id="anlExprMstTreeView" style="margin-top:0;"></div>
 			            </div>
 			            <div id="fieldWrapper">
 			                <div id="anlExprMstTreeGrid"></div>
@@ -555,8 +557,8 @@
 			        </div>
 			    </div>
    				
-   				<div class="titArea">
-   					<span class="Ltotal">분석기기</span>
+   				<div class="titArea mt20">
+   					<h3>분석기기</h3>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="addAnlExprDtlBtn" name="addAnlExprDtlBtn" onclick="addAnlExprDtl()">신규</button>
    						<button type="button" class="btn"  id="saveAnlExprMstBtn" name="saveAnlExprMstBtn" onclick="saveAnlExprDtl()">저장</button>

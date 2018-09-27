@@ -46,7 +46,7 @@
     </head>
     <body>
 	* 기타 사업조직 분석의뢰 시, 분석 PJT PL과 상담해주시기 바랍니다.
-	<table class="table">
+	<table class="table" style="width:99% !important;">
 		<colgroup>
 			<col style="width:25%;"/>
 			<col style="width:35%;"/>

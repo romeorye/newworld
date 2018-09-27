@@ -543,8 +543,10 @@ function fncSpaceLibRgstPage(record) {
 		<input type="hidden" id="bbsCd" name="bbsCd" value=""/>
 		<input type="hidden" id="target" name="target" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value=""/>
-
-   				<table class="searchBox">
+				
+				<div class="search">
+				<div class="search-content">
+   				<table>
    					<colgroup>
    						<col style="width:10%;"/>
    						<col style="width:30%;"/>
@@ -564,6 +566,8 @@ function fncSpaceLibRgstPage(record) {
    						</tr>
    					</tbody>
    				</table>
+   				</div>
+   				</div>
 
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>

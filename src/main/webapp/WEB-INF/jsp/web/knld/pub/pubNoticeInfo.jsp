@@ -295,7 +295,7 @@
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
    		<div class="contents">   			
    			<div class="titleArea">
-   				<a class="leftCon" href="#">
+   				<a class="aniqnalinfo" href="#">
 			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 			        <span class="hidden">Toggle 버튼</span>
 				</a>

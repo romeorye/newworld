@@ -1341,11 +1341,18 @@
 		<input type="hidden" name="acpcNo" value="${inputData.acpcNo}"/>
 		<input type="hidden" name="rlabAcpcStCd" value="${inputData.rlabAcpcStCd}"/>
     </form>
-    <form name="fileDownloadForm" id="fileDownloadForm">
+   <form name="fileDownloadForm" id="fileDownloadForm">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
     </form>
    		<div class="contents">
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+					<span class="hidden">Toggle 버튼</span>
+				</a>  
+   				<h2>시험목록 상세</h2>
+   			</div>
 
    			<div class="sub-content">
    				<div id="tabView"></div>
@@ -1372,7 +1379,7 @@
    					<tbody>
    						<tr>
    							<th align="right">시험명</th>
-   							<td>
+   							<td class="rlabrqpr_tain03">
    								<input type="text" id="rlabNm">
    							</td>
    							<th align="right">접수번호</th>
@@ -1380,7 +1387,7 @@
    						</tr>
    						<tr>
    							<th align="right">시험목적</th>
-   							<td colspan="3">
+   							<td colspan="3" class="rlabrqpr_tain01">
    								<textarea id="rlabSbc"></textarea>
    								<span id="rlabSbcHtml"></span>
    							</td>
@@ -1451,7 +1458,7 @@
 
    				<br/>
 
-   				<table style="width:100%;border=0;">
+   				<table class="table table_txt_right" id="rlab_ta" style="table-layout:fixed;">
    					<colgroup>
 						<col style="width:49%;">
 						<col style="width:2%;">
@@ -1571,7 +1578,7 @@
    				</div>
    				<div id="rlabRqprStptDiv">
    				<form name="cform" id="cform" method="post">
-   				<table class="table" id="rsltStpt">
+   				<table class="table mt20" id="rsltStpt">
    					<colgroup>
 						<col style="width:30%;">
 						<col style="width:10%;">
@@ -1583,7 +1590,7 @@
    							<th>시험 상담의 질</th>
    							<td class="t_right">도움 안됨</td>
    							<td>
-   								<div id="rlabCnsQltyRslt" style="background-color:blue;width:0%;height:100%"></div>
+   								<div id="rlabCnsQltyRslt" style="background-color:#f1b224;width:0%;height:70%"></div>
    							</td>
    							<td>매우 유익함</td>
    						</tr>
@@ -1591,7 +1598,7 @@
    							<th>시험 완료 기간</th>
    							<td class="t_right">도움 안됨</td>
    							<td>
-   								<div id="rlabTrmQltyRslt" style="background-color:blue;width:0%;height:100%"></div>
+   								<div id="rlabTrmQltyRslt" style="background-color:#f1b224;width:0%;height:70%"></div>
    							</td>
    							<td>매우 유익함</td>
    						</tr>
@@ -1599,7 +1606,7 @@
    							<th>전체적인 만족도</th>
    							<td class="t_right">도움 안됨</td>
    							<td>
-   								<div id="rlabAllStptRslt" style="background-color:blue;width:0%;height:100%"></div>
+   								<div id="rlabAllStptRslt" style="background-color:#f1b224;width:0%;height:70%"></div>
    							</td>
    							<td>매우 유익함</td>
    						</tr>

@@ -220,7 +220,7 @@
                 columnModel: spaceEvProdColumnModel,
                 dataSet: spaceEvProdListDataSet,
                 width: 810,
-                height: 300,
+                height: 290,
                 autoToEdit: true,
                 autoWidth: true
             });

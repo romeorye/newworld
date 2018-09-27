@@ -898,18 +898,24 @@
 		<input type="hidden" id="spaceChrgId" name="spaceChrgId" value=""/>
    		<div class="contents">
 
-   			<div class="sub-content">
-	   			<div class="titArea">
-		   			<span class="titleArea" style="display:inline">
-		   				<h2>평가의뢰서 등록</h2>
-		   			</span>
-					<div class="LblockButton">
+		   		
+		   		<div class="titleArea">
+   				<a class="leftCon" href="#">
+					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+					<span class="hidden">Toggle 버튼</span>
+				</a>    
+   				<h2>평가의뢰서 등록</h2>
+   			</div>
+   			
+   			
+		   		<div class="sub-content">
+					<div class="LblockButton mt0 mb5">
 						<button type="button" class="btn"  id="resetBtn" name="resetBtn" onclick="resetAForm()">초기화</button>
 						<button type="button" class="btn"  id="loadSpaceRqprBtn" name="loadSpaceRqprBtn" onclick="openSpaceRqprSearchDialog(getSpaceRqprInfo)">불러오기</button>
 						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="save()">저장</button>
 						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goSpaceRqprList()">목록</button>
 					</div>
-	   			</div>
+
 
    				<table class="table table_txt_right" style="table-layout:fixed;">
    					<colgroup>
@@ -921,13 +927,13 @@
    					<tbody>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가명</th>
-   							<td colspan="3">
+   							<td colspan="3" class="rlabrqpr_tain01">
    								<input type="text" id="spaceNm">
    							</td>
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가목적</th>
-   							<td colspan="3">
+   							<td colspan="3" class="rlabrqpr_tain01">
    								<textarea id="spaceSbc"></textarea>
    							</td>
    						</tr>
@@ -948,7 +954,7 @@
                                 <div id="spaceUgyYn"></div>
    							</td>
    							<th align="right"><span style="color:red;">* </span>공개범위</th>
-   							<td>
+   							<td class="rlabrqpr_tain04">
                                 <div id="oppbScpCd"></div>&nbsp;<input type="text" id="scrtRson">
    							</td>
    						</tr>
@@ -977,7 +983,7 @@
 
    				<div class="titArea">
    					<h3><span style="color:red;">* </span>제품군</h3>
-   					<div class="LblockButton">
+   					<div class="LblockButton box_fl">
    						<select id="cmbCtgr0Cd"></select>
    						<select id="cmbCtgr1Cd"></select>
    						<select id="cmbCtgr2Cd"></select>
@@ -1012,45 +1018,45 @@
    					<tbody>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가대상명</th>
-   							<td colspan="3">
+   							<td colspan="3" class="rlabrqpr_tain01">
    								<input type="text" id="evSubjNm">
    							</td>
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>제출처</th>
-   							<td colspan="3">
+   							<td colspan="3" class="rlabrqpr_tain05">
    								<div id="sbmpCd"></div>&nbsp;<input type="text" id="sbmpNm">
    							</td>
    						</tr>
 
    						<tr>
    							<th align="right"><span style="color:red;">* </span>목표(정량지표)</th>
-   							<td>
+   							<td class="rlabrqpr_tain01">
    								<input type="text" id="qtasDpst">
    							</td>
    							<th align="right"><span style="color:red;">* </span>목표(정성지표)</th>
-   							<td>
+   							<td class="rlabrqpr_tain01">
                                 <input type="text" id="qnasDpst">
    							</td>
    						</tr>
 
    						<tr>
    							<th align="right"><span style="color:red;">* </span>목표성능</th>
-   							<td>
+   							<td class="rlabrqpr_tain01">
                                 <input type="text" id="goalPfmc">
    							</td>
    							<th align="right"><span style="color:red;">* </span>결과지표</th>
-   							<td>
+   							<td class="rlabrqpr_tain01">
                                 <input type="text" id="rsltDpst">
    							</td>
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가 cases(개수)</th>
-   							<td>
+   							<td class="rlabrqpr_tain01">
                                 <input type="text" id="evCases">
    							</td>
    							<th align="right"><span style="color:red;">* </span>평가대상 상세</th>
-   							<td>
+   							<td class="rlabrqpr_tain01">
                                 <input type="text" id="evSubjDtl">
    							</td>
    						</tr>

@@ -722,7 +722,7 @@
 					</div>
 	   			</div>
 
-   				<table class="table table_txt_right" style="table-layout:fixed;">
+   				<table class="table table_txt_right">
    					<colgroup>
    						<col style="width:15%;"/>
    						<col style="width:35%;"/>
@@ -784,7 +784,7 @@
    						</tr>
    						<tr>
    							<th align="right">통보자</th>
-   							<td>
+   							<td class="rlabrqpr_tain06">
 						        <div class="LblockMarkupCode">
 						            <div id="rlabRqprInfmView"></div>
 						        </div>
@@ -817,7 +817,7 @@
 
    				<br/>
 
-   				<table style="width:100%;border=0;">
+   				<table class="table table_txt_right" id="rlab_ta" style="table-layout:fixed;">
    					<colgroup>
 						<col style="width:49%;">
 						<col style="width:2%;">

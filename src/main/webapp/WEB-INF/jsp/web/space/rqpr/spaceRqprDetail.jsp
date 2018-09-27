@@ -1588,12 +1588,15 @@
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
     </form>
-   		<div class="contents">
-
+   		<div class="contents">   			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+		          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		          <span class="hidden">Toggle 버튼</span>
+				</a>
+   				<h2>시험의뢰서 상세</h2>
+   			</div>
    			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>시험의뢰서 상세</h2>
-	   			</div>
    				<div id="tabView"></div>
 	            <div id="spaceRqprInfoDiv">
 				<form name="aform" id="aform" method="post">
@@ -1618,7 +1621,7 @@
    					<tbody>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가명</th>
-   							<td>
+   							<td class="rlabrqpr_tain03">
    								<input type="text" id="spaceNm">
    							</td>
    							<th align="right">접수번호</th>
@@ -1626,7 +1629,7 @@
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가목적</th>
-   							<td colspan="3">
+   							<td colspan="3" class="rlabrqpr_tain01">
    								<textarea id="spaceSbc"></textarea>
    							</td>
    						</tr>
@@ -1662,7 +1665,7 @@
                                 <div id="spaceUgyYn"></div>
    							</td>
    							<th align="right"><span style="color:red;">* </span>공개범위</th>
-   							<td>
+   							<td class="rlabrqpr_tain04">
                                 <div id="oppbScpCd"></div>&nbsp;<input type="text" id="scrtRson">
    							</td>
    						</tr>
@@ -1691,7 +1694,7 @@
 
    				<div class="titArea">
    					<h3><span style="color:red;">* </span>제품군</h3>
-   					<div class="LblockButton">
+   					<div class="LblockButton box_fl">
    						<select id="cmbCtgr0Cd"></select>
    						<select id="cmbCtgr1Cd"></select>
    						<select id="cmbCtgr2Cd"></select>
@@ -1725,52 +1728,52 @@
    					<tbody>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가대상명</th>
-   							<td colspan="3">
+   							<td colspan="3" class="rlabrqpr_tain03">
    								<input type="text" id="evSubjNm">
    							</td>
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>제출처</th>
-   							<td colspan="3">
+   							<td colspan="3" class="rlabrqpr_tain05">
    								<div id="sbmpCd"></div>&nbsp;<input type="text" id="sbmpNm">
    							</td>
    						</tr>
 
    						<tr>
    							<th align="right"><span style="color:red;">* </span>목표(정량지표)</th>
-   							<td>
+   							<td class="rlabrqpr_tain03">
    								<input type="text" id="qtasDpst">
    							</td>
    							<th align="right"><span style="color:red;">* </span>목표(정성지표)</th>
-   							<td>
+   							<td class="rlabrqpr_tain03">
                                 <input type="text" id="qnasDpst">
    							</td>
    						</tr>
 
    						<tr>
    							<th align="right"><span style="color:red;">* </span>목표성능</th>
-   							<td>
+   							<td class="rlabrqpr_tain03">
                                 <input type="text" id="goalPfmc">
    							</td>
    							<th align="right"><span style="color:red;">* </span>결과지표</th>
-   							<td>
+   							<td class="rlabrqpr_tain03">
                                 <input type="text" id="rsltDpst">
    							</td>
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가 cases(개수)</th>
-   							<td>
+   							<td class="rlabrqpr_tain03">
                                 <input type="text" id="evCases">
    							</td>
    							<th align="right"><span style="color:red;">* </span>평가대상 상세</th>
-   							<td>
+   							<td class="rlabrqpr_tain03">
                                 <input type="text" id="evSubjDtl">
    							</td>
    						</tr>
    					</tbody>
    				</table>
 
-   				<table style="width:100%;border=0;">
+   				<table class="table table_txt_right" id="rlab_ta" style="table-layout:fixed;">
    					<colgroup>
 						<col style="width:49%;">
 						<col style="width:2%;">

@@ -325,9 +325,9 @@
 						<table>
 							<colgroup>
 								<col style="width:120px" />
-								<col style="width:200px" />
+								<col style="width:280px" />
 								<col style="width:120px" />
-								<col style="width:400px" />
+								<col style="width:360px" />
 								<col style="" />
 							</colgroup>
 		   					<tbody>

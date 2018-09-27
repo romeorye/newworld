@@ -886,7 +886,7 @@
    						<tr>
    							<th align="right">통보자</th>
    							<td colspan="3">
-						        <div class="LblockMarkupCode">
+						        <div class="LblockMarkupCode flmargin">
 						            <div id="anlRqprInfmView"></div>
 									<button type="button" class="btn"  id="addAnlRqprInfmBtn" name="addAnlRqprInfmBtn" onclick="addAnlRqprInfm()">저장</button>
 						        </div>

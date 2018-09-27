@@ -393,7 +393,9 @@ function fncAnlLibRgstPage(record) {
 
 <!--    		<div class="contents"> style="padding-top:10px" -->
 <!--    			<div class="sub-content"> -->
-   				<table class="searchBox">
+				<div class="search">
+					<div class="search-content">
+   				<table>
    					<colgroup>
    						<col style="width:10%;"/>
    						<col style="width:30%;"/>
@@ -413,6 +415,8 @@ function fncAnlLibRgstPage(record) {
    						</tr>
    					</tbody>
    				</table>
+   				</div>
+   				</div>
 
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>

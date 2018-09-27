@@ -570,14 +570,12 @@
 
    				<c:if test="${inputData.bbsCd == '04'}">
    				<br/>
-				<table class="table table_txt_right">
+				<table class="table table_txt_right ">
 					<tbody>
 						<tr>
 							<th align="right" width="15%">덧글</th>
-   							<td>
+   							<td class="grsmng_tain2">
    								<textarea id="rebNm" style="width:800px; height:50px;" ></textarea>
-   							</td>
-   							<td class="t_center" width="15%" colspan="2">
    								<a style="cursor: pointer;" onclick="qnaRebSave('C')" class="btn">등록</a>
    							</td>
 						</tr>

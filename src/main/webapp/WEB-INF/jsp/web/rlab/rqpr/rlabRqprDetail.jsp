@@ -1244,7 +1244,7 @@
    					<tbody>
    						<tr>
    							<th align="right">시험명</th>
-   							<td>
+   							<td class="rlabrqpr_tain03">
    								<input type="text" id="rlabNm">
    							</td>
    							<th align="right">접수번호</th>
@@ -1252,7 +1252,7 @@
    						</tr>
    						<tr>
    							<th align="right">시험목적</th>
-   							<td colspan="3">
+   							<td colspan="3" class="rlabrqpr_tain01">
    								<textarea id="rlabSbc"></textarea>
    							</td>
    						</tr>
@@ -1299,7 +1299,7 @@
    						</tr>
    						<tr>
    							<th align="right">통보자</th>
-   							<td colspan="3">
+   							<td colspan="3" class="rlabrqpr_tain02">
 						        <div class="LblockMarkupCode">
 						            <div id="rlabRqprInfmView"></div>
 									<button type="button" class="btn"  id="addRlabRqprInfmBtn" name="addRlabRqprInfmBtn" onclick="addRlabRqprInfm()">저장</button>
@@ -1321,7 +1321,7 @@
 
    				<br/>
 
-   				<table style="width:100%;border=0;">
+   				<table class="table table_txt_right" id="rlab_ta" style="table-layout:fixed;">
    					<colgroup>
 						<col style="width:49%;">
 						<col style="width:2%;">
@@ -1454,7 +1454,7 @@
    							<th>시험 상담의 질</th>
    							<td class="t_right">도움 안됨</td>
    							<td>
-   								<div id="rlabCnsQltyRslt" style="background-color:blue;width:0%;height:100%"></div>
+   								<div id="rlabCnsQltyRslt" style="background-color:#f1b224;width:0%;height:70%"></div>
    							</td>
    							<td>매우 유익함</td>
    						</tr>
@@ -1462,7 +1462,7 @@
    							<th>시험 완료 기간</th>
    							<td class="t_right">도움 안됨</td>
    							<td>
-   								<div id="rlabTrmQltyRslt" style="background-color:blue;width:0%;height:100%"></div>
+   								<div id="rlabTrmQltyRslt" style="background-color:#f1b224;width:0%;height:70%"></div>
    							</td>
    							<td>매우 유익함</td>
    						</tr>
@@ -1470,7 +1470,7 @@
    							<th>전체적인 만족도</th>
    							<td class="t_right">도움 안됨</td>
    							<td>
-   								<div id="rlabAllStptRslt" style="background-color:blue;width:0%;height:100%"></div>
+   								<div id="rlabAllStptRslt" style="background-color:#f1b224;width:0%;height:70%"></div>
    							</td>
    							<td>매우 유익함</td>
    						</tr>

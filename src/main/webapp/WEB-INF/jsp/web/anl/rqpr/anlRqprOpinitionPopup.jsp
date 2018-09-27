@@ -254,27 +254,26 @@
 
    			<div class="sub-content">
 	   			
-   				<table class="searchBox">
+   				<table class="table table_txt_right">
    					<colgroup>
    						<col style="width:15%;"/>
-   						<col style="width:70%;"/>
-   						<col style="width:15%;"/>
+   						<col style=""/>
+
    					</colgroup>
    					<tbody>
    						<tr>
    							<th align="right">의견</th>
-   							<td>
+   							<td class="flmargin">
    								<textarea id="opiSbc"></textarea>
-   							</td>
-   							<td class="t_center">
-   								<a style="cursor: pointer;" onclick="saveAnlRqprOpinition('I')" class="btnL">추가</a>
+
+   								<a style="cursor: pointer;" onclick="saveAnlRqprOpinition('I')" class="">추가</a>
    							</td>
    						</tr>
    					</tbody>
    				</table>
    				
    				<div class="titArea">
-   					<span class="Ltotal" id="cnt_text">의견</span>
+   					<h3><span class="Ltotal" id="cnt_text">의견</span></h3>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="saveAnlRqprOpinitionBtn" name="saveAnlRqprOpinitionBtn" onclick="saveAnlRqprOpinition('U')">저장</button>
    						<button type="button" class="btn"  id="deleteAnlRqprOpinitionBtn" name="deleteAnlRqprOpinitionBtn" onclick="deleteAnlRqprOpinition()">삭제</button>
