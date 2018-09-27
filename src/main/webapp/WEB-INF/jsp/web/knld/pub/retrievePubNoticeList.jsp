@@ -124,7 +124,7 @@ var lvAttcFilId;
           var columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'pwiScnNm',	label: '분류',		sortable: false,	align:'center',	width: 140 }
-                  , { field: 'titlNm2',		label: '제목',		sortable: false,	align:'left',	width: 700,
+                  , { field: 'titlNm2',		label: '제목',		sortable: false,	align:'left',	width: 800,
                 	  renderer: function(value, p, record, row, i) {
                           if(Rui.util.LObject.isEmpty(value) == false){
                         	  var valIndex = value.indexOf('[긴급]');
@@ -140,9 +140,9 @@ var lvAttcFilId;
 
                 	  } //글씨 색
                 	}
-                  , { field: 'rgstNm',		label: '등록자',	sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',	sortable: false,	align:'center',	width: 100 }
-			      , { field: 'rtrvCnt',		label: '조회',		sortable: false, 	align:'center',	width: 60 }
+                  , { field: 'rgstNm',		label: '등록자',	sortable: false,	align:'center',	width: 118 }
+                  , { field: 'frstRgstDt',	label: '등록일',	sortable: false,	align:'center',	width: 118 }
+			      , { field: 'rtrvCnt',		label: '조회',		sortable: false, 	align:'center',	width: 68 }
 		  	      , { id: 'attachDownBtn',  label: '첨부파일',  width: 65 ,
 		  	    	  renderer: function(val, p, record, row, i){
 		  	    		  var recordFilId = nullToString(record.data.attcFilId);
@@ -159,7 +159,7 @@ var lvAttcFilId;
               width: 600,
               height: 560,
               autoToEdit: false,
-              autoWidth: true
+              autoWidth : true
           });
 
            grid.on('cellClick', function(e) {
