@@ -53,13 +53,13 @@
 	        groupMerge: true,
 	        columns: [
 	        	 {field: 'eduScnNm'           ,label:'상태' ,		sortable: false, align: 'center', 	width: 80}
-	        	,{field: 'eduNm'              ,label:'교육명'   ,   sortable: false, align: 'left', 	width: 260}
-	        	,{field: 'pttDt'              ,label:'신청기간' ,   sortable: false, align: 'center', 	width: 160}
-	        	,{field: 'mchnNm'             ,label:'기기명'   ,   sortable: false, align: 'left', 	width: 240}
-	        	,{field: 'eduDtTim'           ,label:'교육일시' ,   sortable: false, align: 'center', 	width: 140}
-	        	,{field: 'eduPl'              ,label:'교육장소' ,   sortable: false, align: 'center', 	width: 120}
-	        	,{field: 'ivttCpsn'           ,label:'모집인원' ,   sortable: false, align: 'center', 	width: 60}
-	        	,{field: 'eduCrgrNm'          ,label:'담당자',		sortable: false, align: 'center', 	width: 70}
+	        	,{field: 'eduNm'              ,label:'교육명'   ,   sortable: false, align: 'left', 	width: 320}
+	        	,{field: 'pttDt'              ,label:'신청기간' ,   sortable: false, align: 'center', 	width: 165}
+	        	,{field: 'mchnNm'             ,label:'기기명'   ,   sortable: false, align: 'left', 	width: 280}
+	        	,{field: 'eduDtTim'           ,label:'교육일시' ,   sortable: false, align: 'center', 	width: 165}
+	        	,{field: 'eduPl'              ,label:'교육장소' ,   sortable: false, align: 'center', 	width: 139}
+	        	,{field: 'ivttCpsn'           ,label:'모집인원' ,   sortable: false, align: 'center', 	width: 70}
+	        	,{field: 'eduCrgrNm'          ,label:'담당자',		sortable: false, align: 'center', 	width: 90}
 	        	,{field: 'mchnInfoId'         ,hidden : true}
 	        	,{field: 'mchnEduId'          ,hidden : true}
 	        	,{field: 'eduCrgrId'          ,hidden : true}
