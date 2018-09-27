@@ -55,14 +55,14 @@
 	    var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	{ field: 'mchnNm', 			label:'기기명' , 	sortable: false, align: 'left', width: 360},
-	            { field: 'fxaNo',  			label:'자산번호', 	sortable: false, align: 'center', width: 110},
-	            { field: 'mdlNm',  			label:'모델명', 	sortable: false, align: 'center', width: 140},
-	            { field: 'mkrNm',  			label:'제조사', 	sortable: false, align: 'center', width: 110},
-	            { field: 'mchnClNm', 		label: '분류', 		sortable: false, align: 'center', width: 80},
+	        	{ field: 'mchnNm', 			label:'기기명' , 	sortable: false, align: 'left', width: 400},
+	            { field: 'fxaNo',  			label:'자산번호', 	sortable: false, align: 'center', width: 120},
+	            { field: 'mdlNm',  			label:'모델명', 	sortable: false, align: 'center', width: 208},
+	            { field: 'mkrNm',  			label:'제조사', 	sortable: false, align: 'center', width: 150},
+	            { field: 'mchnClNm', 		label: '분류', 		sortable: false, align: 'center', width: 90},
 	            { field: 'opnYn', 			label: 'OPEN',   	sortable: false, align: 'center', width: 60},
 	            { field: 'mchnCrgrNm',  	label:'담당자' , 	sortable: false, align: 'center', width: 90},
-	            { field: 'mchnUsePsblNm',  	label:'상태' , 		sortable: false, align: 'center', width: 90},
+	            { field: 'mchnUsePsblNm',  	label:'상태' , 		sortable: false, align: 'center', width: 100},
 	            { id: 'btn', label: '기기', width: 90, renderer: function(val, p, record, row, i){
 	                return '<button type="button" class="L-grid-button">관리</button>';
 	            } },
