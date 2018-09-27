@@ -180,17 +180,17 @@ Rui.onReady(function() {
 		//freezeColumnId: 'tssNm',
         groupMerge: true,
 	    columns: [
-	    	  { field: 'prjNm',         label: '프로젝트명', align:'left', width: 230 }
-	        , { field: 'tssWbsCd',      label: '과제코드',  align:'center', width: 70 }
-	        , { field: 'tssNm',         label: '과제명',  align:'left', width: 310 }
+	    	  { field: 'prjNm',         label: '프로젝트명', align:'left', width: 260 }
+	        , { field: 'tssWbsCd',      label: '과제코드',  align:'center', width: 80 }
+	        , { field: 'tssNm',         label: '과제명',  align:'left', width: 337 }
 	        , { id : '과제기간'},
-	        , { field: 'tssStrtDd',     groupId: '과제기간', hMerge: true, label: '시작일',   align:'center', width: 80 }
-	        , { field: 'tssFnhDd',      groupId: '과제기간', hMerge: true, label: '종료일',   align:'center', width: 80 }
-	        , { field: 'prePtcPro',     label: '전월 참여율',   align:'right', width: 80 
+	        , { field: 'tssStrtDd',     groupId: '과제기간', hMerge: true, label: '시작일',   align:'center', width: 90 }
+	        , { field: 'tssFnhDd',      groupId: '과제기간', hMerge: true, label: '종료일',   align:'center', width: 90 }
+	        , { field: 'prePtcPro',     label: '전월 참여율',   align:'right', width: 90 
 	        	, renderer: function(value, p, record){
 	        		if( !Rui.isEmpty(value) )	return value + '%'; }
 	          }
-	        , { field: 'ptcPro',        label: '참여율',   align:'right', width: 50 ,editor: lnbPtcPro 
+	        , { field: 'ptcPro',        label: '참여율',   align:'right', width: 70 ,editor: lnbPtcPro 
 	        	, renderer: function(value, p, record){
 	        		if( !Rui.isEmpty(value) )	return value + '%'; }	
 	          }
@@ -214,7 +214,7 @@ Rui.onReady(function() {
 	    columnModel: mmClsColumnModel,
 	    dataSet: mmClsDataSet,
 	    width: 600,
-	    height: 600,
+	    height: 560,
         viewConfig: {
         	plugins: [mmClsTotalSum]
   		},
