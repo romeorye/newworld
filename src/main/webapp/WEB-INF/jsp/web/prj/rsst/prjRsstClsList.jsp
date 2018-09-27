@@ -72,21 +72,21 @@
             var columnModel = new Rui.ui.grid.LColumnModel({
                 groupMerge: true,
                 columns: [
-                    { field: 'wbsCd'     , label:'WBS코드' , sortable: false, align: 'center', width: 100},
-                    { field: 'deptNm'    , label:'부서명' , sortable: false, align: 'center', width: 200},
-                    { field: 'prjNm'     , label:'프로젝트명' , sortable: false, align: 'left', width: 250, renderer: function(value){
+                    { field: 'wbsCd'     , label:'WBS코드' , sortable: false, align: 'center', width: 110},
+                    { field: 'deptNm'    , label:'부서명' , sortable: false, align: 'center', width: 228},
+                    { field: 'prjNm'     , label:'프로젝트명' , sortable: false, align: 'left', width: 300, renderer: function(value){
                 		return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 	}},
                     { id : '프로젝트 기간'},
-                    { field: 'prjStrDt'  , groupId: '프로젝트 기간', hMerge: true,  label:'시작일' , sortable: false, align: 'center', width: 90},
-                    { field: 'prjEndDt'  , groupId: '프로젝트 기간', hMerge: true, label:'종료일' , sortable: false, align: 'center', width: 90},
+                    { field: 'prjStrDt'  , groupId: '프로젝트 기간', hMerge: true,  label:'시작일' , sortable: false, align: 'center', width: 100},
+                    { field: 'prjEndDt'  , groupId: '프로젝트 기간', hMerge: true, label:'종료일' , sortable: false, align: 'center', width: 100},
                    // { field: 'pgsStatNm' , label:'진척상태' , sortable: false, align: 'center', width: 100},
-                    { field: 'plEmpNm'   , label:'PL명' , sortable: false, align: 'center', width: 80},
-                    { field: 'prjClsYymm', label:'마감월' ,sortable: false, align: 'center', width: 80},
-                    { field: 'prjClsYnNm', label:'마감상태명' , sortable: false, align: 'center', width: 80},
+                    { field: 'plEmpNm'   , label:'PL명' , sortable: false, align: 'center', width: 90},
+                    { field: 'prjClsYymm', label:'마감월' ,sortable: false, align: 'center', width: 90},
+                    { field: 'prjClsYnNm', label:'마감상태명' , sortable: false, align: 'center', width: 90},
                     { id : '전월마감현황'},
-                    { field: 'befprjClsYymm', groupId: '전월마감현황',  label:'마감상태' , sortable: false, align: 'center', width: 90},
-                    { field: 'befpgsStatNm', groupId: '전월마감현황', label:'진척상태' , sortable: false, align: 'center', width: 90},
+                    { field: 'befprjClsYymm', groupId: '전월마감현황',  label:'마감상태' , sortable: false, align: 'center', width: 100},
+                    { field: 'befpgsStatNm', groupId: '전월마감현황', label:'진척상태' , sortable: false, align: 'center', width: 100},
                     { field: 'prjCd',  hidden : true}
                 ]
             });
