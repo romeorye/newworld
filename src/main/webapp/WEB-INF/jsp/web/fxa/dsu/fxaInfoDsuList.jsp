@@ -68,15 +68,15 @@ var adminChk = "N";
 
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
-        	 	      { field: 'fxaNm'      , label: '자산명',  	sortable: false,	align:'left', width:290}
-                    , { field: 'fxaNo'      , label: '자산번호',  	sortable: false,	align:'center', width: 80}
-                    , { field: 'fxaQty' 	, label: '수량',  		sortable: false,	align:'center', width: 40}
+        	 	      { field: 'fxaNm'      , label: '자산명',  	sortable: false,	align:'left', width:330}
+                    , { field: 'fxaNo'      , label: '자산번호',  	sortable: false,	align:'center', width: 100}
+                    , { field: 'fxaQty' 	, label: '수량',  		sortable: false,	align:'center', width: 50}
                     , { field: 'fxaUtmNm'   , label: '단위',  		sortable: false,	align:'center', width: 50}
-					, { field: 'wbsCd'      , label: 'WBS 코드',  	sortable: false,	align:'center', width: 70}
-                    , { field: 'prjNm'      , label: '프로젝트명', 	sortable: false,	align:'left', width: 230}
-                    , { field: 'crgrNm'     , label: '담당자',  	sortable: false,	align:'center', width: 70}
-                    , { field: 'obtDt'     	, label: '취득일',  	sortable: false,	align:'center', width: 80}
-                    , { field: 'obtPce'     , label: '취득가',  	sortable: false,	align:'left', width: 80,
+					, { field: 'wbsCd'      , label: 'WBS 코드',  	sortable: false,	align:'center', width: 80}
+                    , { field: 'prjNm'      , label: '프로젝트명', 	sortable: false,	align:'left', width: 270}
+                    , { field: 'crgrNm'     , label: '담당자',  	sortable: false,	align:'center', width: 90}
+                    , { field: 'obtDt'     	, label: '취득일',  	sortable: false,	align:'center', width: 90}
+                    , { field: 'obtPce'     , label: '취득가',  	sortable: false,	align:'left', width: 90,
 	                   	 renderer: function(value, p, record){
 	      	        		return Rui.util.LFormat.numberFormat(parseInt(value));
 	      		        }
@@ -99,7 +99,7 @@ var adminChk = "N";
             columnModel: columnModel,
             dataSet: dataSet,
             width: 1170,
-            height: 480,
+            height: 520,
             autoWidth: true
         });
 

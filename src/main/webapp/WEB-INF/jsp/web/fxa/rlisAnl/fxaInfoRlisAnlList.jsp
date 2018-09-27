@@ -54,13 +54,13 @@ var fxaRlisAnlDialog;
 
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
-        	 	      { field: 'rlisTitl'      , label: '실사제목',  	sortable: false,	align:'left', width:380}
-                    , { field: 'fromRlisDt'    , label: '실사시작',  	sortable: false,	align:'center', width: 150}
-                    , { field: 'toRlisDt'      , label: '실사종료',  	sortable: false,	align:'center', width: 150}
-                    , { field: 'rlisClNm'      , label: '구분',  		sortable: false,	align:'center', width: 120}
-                    , { field: 'totalCnt'      , label: '실사요청',  	sortable: false,	align:'center', width: 110}
-                    , { field: 'apprCnt'       , label: '실사완료',  	sortable: false,	align:'center', width: 110}
-                    , { field: 'rlisMgrNm'     , label: '실사관리자',  	sortable: false,	align:'center', width: 130}
+        	 	      { field: 'rlisTitl'      , label: '실사제목',  	sortable: false,	align:'left', width:454}
+                    , { field: 'fromRlisDt'    , label: '실사시작',  	sortable: false,	align:'center', width: 160}
+                    , { field: 'toRlisDt'      , label: '실사종료',  	sortable: false,	align:'center', width: 160}
+                    , { field: 'rlisClNm'      , label: '구분',  		sortable: false,	align:'center', width: 130}
+                    , { field: 'totalCnt'      , label: '실사요청',  	sortable: false,	align:'center', width: 120}
+                    , { field: 'apprCnt'       , label: '실사완료',  	sortable: false,	align:'center', width: 120}
+                    , { field: 'rlisMgrNm'     , label: '실사관리자',  	sortable: false,	align:'center', width: 160}
             	    , { field: 'rlisMgrId' , hidden : true}
             	    , { field: 'rlisClCd'  , hidden : true}
             	    , { field: 'rlisTrmId' , hidden : true}

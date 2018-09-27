@@ -108,24 +108,24 @@ var imgHeight;
              columns: [
          	 	new Rui.ui.grid.LSelectionColumn(),
  					   { field: 'wbsCd'      , label: 'WBS 코드',  	sortable: false,	align:'center',/*  width: 60, */  hidden : true}
-                     , { field: 'prjNm'      , label: '프로젝트명', sortable: false,	align:'left', 	width: 210}
-                     , { field: 'fxaNo'      , label: '자산번호',  	sortable: false,	align:'center', width: 80}
-                     , { field: 'fxaNm'      , label: '자산명',  	sortable: false,	align:'left', 	width:250}
-                     , { field: 'fxaQty' 	 , label: '수량',  		sortable: false,	align:'center', width: 30}
-                     , { field: 'fxaUtmNm'   , label: '단위',  		sortable: false,	align:'center', width: 40}
-                     , { field: 'crgrNm'     , label: '담당자',  	sortable: false,	align:'center', width: 60}
-                     , { field: 'trsfApprDt' , label: '자산이관일', sortable: false,	align:'center', width: 80}
-                     , { field: 'obtPce' 	, label: '취득가',  	sortable: false,	align:'right', 	width: 80,
+                     , { field: 'prjNm'      , label: '프로젝트명', sortable: false,	align:'left', 	width: 240}
+                     , { field: 'fxaNo'      , label: '자산번호',  	sortable: false,	align:'center', width: 90}
+                     , { field: 'fxaNm'      , label: '자산명',  	sortable: false,	align:'left', 	width:260}
+                     , { field: 'fxaQty' 	 , label: '수량',  		sortable: false,	align:'center', width: 41}
+                     , { field: 'fxaUtmNm'   , label: '단위',  		sortable: false,	align:'center', width: 50}
+                     , { field: 'crgrNm'     , label: '담당자',  	sortable: false,	align:'center', width: 70}
+                     , { field: 'trsfApprDt' , label: '자산이관일', sortable: false,	align:'center', width: 90}
+                     , { field: 'obtPce' 	, label: '취득가',  	sortable: false,	align:'right', 	width: 90,
                     	 renderer: function(value, p, record){
          	        		return Rui.util.LFormat.numberFormat(parseInt(value));
          		        }
                      }
-                     , { field: 'bkpPce' 	, label: '장부가',  		sortable: false,	align:'right', width: 80,
+                     , { field: 'bkpPce' 	, label: '장부가',  		sortable: false,	align:'right', width: 90,
                     	 renderer: function(value, p, record){
          	        		return Rui.util.LFormat.numberFormat(parseInt(value));
          		        }
                      }
-                     , { field: 'imgIcon' 	, label: '사진',  sortable: false,	align:'center', width: 40,	renderer: function(value, p, record){
+                     , { field: 'imgIcon' 	, label: '사진',  sortable: false,	align:'center', width: 50,	renderer: function(value, p, record){
 
                     	 if(record.get('attcFilId') == null ||  record.get('attcFilId') == ""){
  		            	 }else{
@@ -135,7 +135,7 @@ var imgHeight;
 	                  }
                      , { field: 'fxaLoc' 	, label: '위치',  		sortable: false,	align:'center', width: 90}
                      , { field: 'tagYn' 	, label: '태그',  		sortable: false,	align:'center', width: 30}
-                     , { field: 'rlisDt' 	, label: '실사일', 		sortable: false,	align:'center', width: 80}
+                     , { field: 'rlisDt' 	, label: '실사일', 		sortable: false,	align:'center', width: 90}
              	     , { field: 'sendMail'  , hidden : true}
              	     , { field: 'saUserId'  , hidden : true}
              	     , { field: 'crgrId'    , hidden : true}
@@ -154,7 +154,7 @@ var imgHeight;
              columnModel: columnModel,
              dataSet: dataSet,
              width: 1200,
-             height: 490,
+             height: 550,
              autoWidth: true
          });
 

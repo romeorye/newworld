@@ -65,15 +65,15 @@ var fxaRlisApprDialog;
 
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
-        	 	      { field: 'rlisTitl'     , label: '실사명',  		sortable: false,	align:'left', width:210}
-                    , { field: 'prjNm'    	  , label: '프로젝트명',  	sortable: false,	align:'left', width: 260}
-                    , { field: 'rlisClNm'     , label: '실사구분',  	sortable: false,	align:'center', width: 90}
-                    , { field: 'rlisFxaClss'  , label: '자산클래스',  	sortable: false,	align:'center', width: 180}
-                    , { field: 'crgrNm'       , label: '담당자',  		sortable: false,	align:'center', width: 70}
-                    , { field: 'fxaRlisCnt'   , label: '자산갯수',  	sortable: false,	align:'center', width: 60}
-                    , { field: 'rlisRqDt'     , label: '실사요청일',  	sortable: false,	align:'center', width: 90}
-                    , { field: 'rlisApprDt'   , label: '실사승인일',  	sortable: false,	align:'center', width: 90}
-                    , { field: 'rlisStNm'     , label: '상태',  		sortable: false,	align:'center', width: 80}
+        	 	      { field: 'rlisTitl'     , label: '실사명',  		sortable: false,	align:'left', width:220}
+                    , { field: 'prjNm'    	  , label: '프로젝트명',  	sortable: false,	align:'left', width: 320}
+                    , { field: 'rlisClNm'     , label: '실사구분',  	sortable: false,	align:'center', width: 110}
+                    , { field: 'rlisFxaClss'  , label: '자산클래스',  	sortable: false,	align:'center', width: 190}
+                    , { field: 'crgrNm'       , label: '담당자',  		sortable: false,	align:'center', width: 90}
+                    , { field: 'fxaRlisCnt'   , label: '자산갯수',  	sortable: false,	align:'center', width: 62}
+                    , { field: 'rlisRqDt'     , label: '실사요청일',  	sortable: false,	align:'center', width: 110}
+                    , { field: 'rlisApprDt'   , label: '실사승인일',  	sortable: false,	align:'center', width: 110}
+                    , { field: 'rlisStNm'     , label: '상태',  		sortable: false,	align:'center', width: 90}
             	    , { field: 'crgrId'	      , hidden : true}
             	    , { field: 'fxaRlisId'    , hidden : true}
             	    , { field: 'deptCd' 	  , hidden : true}
