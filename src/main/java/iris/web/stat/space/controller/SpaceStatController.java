@@ -204,4 +204,54 @@ public class SpaceStatController extends IrisBaseController {
 
 		return modelAndView;
 	}
+
+	/**
+	* 통계 > 공간성능평가 > 분석목적별통계 조회
+ * */
+@RequestMapping(value = "/stat/space/getSpaceAnlStatList.do")
+public ModelAndView getSpaceAnlStatList(
+		@RequestParam HashMap<String, Object> input,
+		HttpServletRequest request, HttpServletResponse response,
+		HttpSession session, ModelMap model) {
+
+	LOGGER.debug("###########################################################");
+	LOGGER.debug("getSpaceAnlStatList [통계 > 공간성능평가 > 분석목적별통계 조회]");
+	LOGGER.debug("input = > " + input);
+	LOGGER.debug("###########################################################");
+
+	checkSessionObjRUI(input, session, model);
+	ModelAndView modelAndView = new ModelAndView("ruiView");
+
+	List<Map<String, Object>> list = spaceStatService.getSpaceAnlStatList(input);
+
+	modelAndView.addObject("dataSet",
+	RuiConverter.createDataset("dataSet", list));
+
+	return modelAndView;
+	}
+
+		/**
+		* 통계 > 공간성능평가 > 사업부별통계 조회
+	 * */
+	@RequestMapping(value = "/stat/space/getSpaceCrgrStatList.do")
+	public ModelAndView getSpaceCrgrStatList(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, ModelMap model) {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("getSpaceAnlStatList [통계 > 공간성능평가 > 사업부별통계 조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		List<Map<String, Object>> list = spaceStatService.getSpaceCrgrStatList(input);
+
+		modelAndView.addObject("dataSet",
+		RuiConverter.createDataset("dataSet", list));
+
+		return modelAndView;
+		}
 }

@@ -8,8 +8,8 @@
 <%--
 /*
  *************************************************************************
- * $Id		: spaceEvAffrStts.jsp
- * @desc    : 통계 > 공간성능평가 > 평가업무현황
+ * $Id		: spaceCrgrStat.jsp
+ * @desc    : 통계 > 공간성능평가 > 사업부별통계
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -73,8 +73,8 @@ var mchnInfoId;
         });
 
         //전체
-        spaceEvAffrSttsDataSet = new Rui.data.LJsonDataSet({
-            id: 'spaceEvAffrSttsDataSet',
+        spaceCrgrStatDataSet = new Rui.data.LJsonDataSet({
+            id: 'spaceCrgrStatDataSet',
             remainRemoved: true,
             lazyLoad: true,
             fields: [
@@ -105,7 +105,7 @@ var mchnInfoId;
 
 
         //
-        var spaceEvAffrSttsColumnModel = new Rui.ui.grid.LColumnModel({
+        var spaceCrgrStatColumnModel = new Rui.ui.grid.LColumnModel({
         	autoWidth:true
             ,columns: [
             	  { field: 'SPACE_UGY_NM',		label: '구분',		sortable: false,	align:'center',	width: 100, vMerge:true}
@@ -127,25 +127,25 @@ var mchnInfoId;
             ]
         });
 
-        var spaceEvAffrSttsGrid = new Rui.ui.grid.LGridPanel({
-            columnModel: spaceEvAffrSttsColumnModel,
-            dataSet: spaceEvAffrSttsDataSet,
+        var spaceCrgrStatGrid = new Rui.ui.grid.LGridPanel({
+            columnModel: spaceCrgrStatColumnModel,
+            dataSet: spaceCrgrStatDataSet,
             width: 980,
             height: 380,
             autoToEdit: true,
             autoWidth: true
         });
 
-        spaceEvAffrSttsGrid.render('spaceEvAffrSttsGrid');
+        spaceCrgrStatGrid.render('spaceCrgrStatGrid');
 
 
 
 
         /* 시험구분별통계 리스트 조회 */
-        getSpaceEvAffrSttsList = function(msg) {
+        getSpaceCrgrStatList = function(msg) {
 
-        	spaceEvAffrSttsDataSet.load({
-                url: '<c:url value="/stat/space/getSpaceEvAffrSttsList.do"/>',
+        	spaceCrgrStatDataSet.load({
+                url: '<c:url value="/stat/space/getSpaceCrgrStatList.do"/>',
                 params :{
                 	yyyy :  yy.getValue()
                 	//yyyy : '2018'
@@ -158,7 +158,7 @@ var mchnInfoId;
 
         /* 조회 */
         fnSearch = function() {
-        	getSpaceEvAffrSttsList();
+        	getSpaceCrgrStatList();
         };
 	});	//end ready
 
@@ -204,7 +204,7 @@ var mchnInfoId;
 			<div class="titArea">
 				<div class="LblockButton"></div>
 			</div> -->
-			<div id="spaceEvAffrSttsGrid"></div>
+			<div id="spaceCrgrStatGrid"></div>
 		</div>
 			<!-- //sub-content -->
 

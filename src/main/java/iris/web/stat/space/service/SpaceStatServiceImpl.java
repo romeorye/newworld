@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import devonframe.dataaccess.CommonDao;
 
 @Service("spaceStatService")
-public class SpaceStarServiceImpl implements SpaceStatService{
+public class SpaceStatServiceImpl implements SpaceStatService{
 
 	static final Logger LOGGER = LogManager.getLogger(RlabStatServiceImpl.class);
 
@@ -42,6 +42,18 @@ public class SpaceStarServiceImpl implements SpaceStatService{
 	public List<Map<String, Object>> getSpaceEvAffrSttsList(
 			HashMap<String, Object> input) {
 		return commonDao.selectList("stat.space.getSpaceEvAffrSttsList", input);
+	}
+
+	@Override
+	public List<Map<String, Object>> getSpaceAnlStatList(
+			HashMap<String, Object> input) {
+		return commonDao.selectList("stat.space.getSpaceAnlStatList", input);
+	}
+
+	@Override
+	public List<Map<String, Object>> getSpaceCrgrStatList(
+			HashMap<String, Object> input) {
+		return commonDao.selectList("stat.space.getSpaceCrgrStatList", input);
 	}
 
 }

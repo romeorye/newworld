@@ -14,4 +14,11 @@ public interface SpaceStatService {
 
 	//평가업무현황 조회
 	List<Map<String, Object>> getSpaceEvAffrSttsList(HashMap<String, Object> input);
+
+	//분석목적별통계 조회
+	List<Map<String, Object>> getSpaceAnlStatList(HashMap<String, Object> input);
+
+	//사업부별통계 조회
+	List<Map<String, Object>> getSpaceCrgrStatList(HashMap<String, Object> input);
+
 }
