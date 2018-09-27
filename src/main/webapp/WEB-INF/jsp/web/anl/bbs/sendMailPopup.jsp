@@ -138,6 +138,25 @@ Rui.onReady(function() {
 	lbutSend.on('click', function() {
 		var dmSendMail = new Rui.data.LDataSetManager();
 		
+		if( Rui.isEmpty(lptbSendSaNames.getValue())){
+			Rui.alert("수신자를 입력하여 주세요.");
+			lptbSendSaNames.focus();
+			return false;
+		}
+		
+		if( Rui.isEmpty(ltbMailTitle.getValue())){
+			Rui.alert("제목을 입력하여 주세요.");
+			ltbMailTitle.focus();
+			return false;
+		}
+		
+		// 에디터 valid
+ 		if(CrossEditor.GetBodyValue()=="" || CrossEditor.GetBodyValue()=="<p><br></p>"){
+ 		    alert("내용을 입력해 주세요!!");
+ 		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
+ 		    return false;
+ 		}
+		
 		Rui.confirm({
  			text: '메일을 발송하시겠습니까?',
  	        handlerYes: function() {
