@@ -168,10 +168,10 @@ var refresh = "";
 		</div>
 		<div class="sub-content">
 	   		<div id="tabView"></div><br/>
-	 		<iframe name="tabContentIfrm0" id="tabContentIfrm0" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
-	 		<iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
-	 		<iframe name="tabContentIfrm2" id="tabContentIfrm2" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
-	 		<iframe name="tabContentIfrm3" id="tabContentIfrm3" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
+	 		<iframe name="tabContentIfrm0" id="tabContentIfrm0" scrolling="yes" width="100%" height="630px" frameborder="0" ></iframe>
+	 		<iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="yes" width="100%" height="630px" frameborder="0" ></iframe>
+	 		<iframe name="tabContentIfrm2" id="tabContentIfrm2" scrolling="yes" width="100%" height="630px" frameborder="0" ></iframe>
+	 		<iframe name="tabContentIfrm3" id="tabContentIfrm3" scrolling="yes" width="100%" height="630px" frameborder="0" ></iframe>
 	
 			</form>
 	   		</div><!--//content end-->
