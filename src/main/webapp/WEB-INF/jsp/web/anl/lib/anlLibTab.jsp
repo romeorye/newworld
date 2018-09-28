@@ -156,10 +156,10 @@ var target = "${inputData.target}";
 		   //표준실험절차서
            var columnModel01 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 650 }
-			      , { field: 'sopNo',		label: 'SOP No.', sortable: false, 	align:'center',	width: 315 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
+                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 730 }
+			      , { field: 'sopNo',		label: 'SOP No.', sortable: false, 	align:'center',	width: 339 }
+                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 120 }
+                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 120 }
                ]
            });
 
@@ -167,7 +167,7 @@ var target = "${inputData.target}";
         	   columnModel: columnModel01,
                dataSet: anlLibDataSet,
                width: 600,
-               height: 525,
+               height: 500,
                autoToEdit: false,
                autoWidth: true
            });
@@ -201,10 +201,10 @@ var target = "${inputData.target}";
            //분석사례
            var columnModel02 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 650 }
-			      , { field: 'docNo',		label: '문서번호',sortable: false, 	align:'center',	width: 315 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
+                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 730 }
+			      , { field: 'docNo',		label: '문서번호',sortable: false, 	align:'center',	width: 339 }
+                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 120 }
+                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 120 }
                ]
            });
 
@@ -212,7 +212,7 @@ var target = "${inputData.target}";
         	   columnModel: columnModel02,
                dataSet: anlLibDataSet,
                width: 600,
-               height: 525,
+               height: 500,
                autoToEdit: false,
                autoWidth: true
            });
@@ -242,10 +242,10 @@ var target = "${inputData.target}";
            //기기메뉴얼
            var columnModel03 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 650 }
-			      , { field: 'docNo',		label: '문서번호',sortable: false, 	align:'center',	width: 315 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
+                    { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 730 }
+			      , { field: 'docNo',		label: '문서번호',sortable: false, 	align:'center',	width: 339 }
+                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 120 }
+                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 120 }
                ]
            });
 
@@ -253,7 +253,7 @@ var target = "${inputData.target}";
         	   columnModel: columnModel03,
                dataSet: anlLibDataSet,
                width: 600,
-               height: 525,
+               height: 500,
                autoToEdit: false,
                autoWidth: true
            });
@@ -284,11 +284,11 @@ var target = "${inputData.target}";
            //분석기술정보
            var columnModel04 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-                    { field: 'anlTlcgClNm', label: '분류',    sortable: false,	align:'center',	width: 150 }
-                  , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 750 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
-                  , { field: 'rtrvCt',	    label: '조회',    sortable: false,	align:'center',	width: 65 }
+                    { field: 'anlTlcgClNm', label: '분류',    sortable: false,	align:'center',	width: 185 }
+                  , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 800 }
+                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 120 }
+                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 120 }
+                  , { field: 'rtrvCt',	    label: '조회',    sortable: false,	align:'center',	width: 80 }
                ]
            });
 
@@ -296,7 +296,7 @@ var target = "${inputData.target}";
         	   columnModel: columnModel04,
                dataSet: anlLibDataSet,
                width: 600,
-               height: 525,
+               height: 500,
                autoToEdit: false,
                autoWidth: true
            });
