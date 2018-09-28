@@ -134,14 +134,14 @@ var excelDataSet;
 	        groupMerge: true,
 	        columns: [
 	        	new Rui.ui.grid.LSelectionColumn()
-	        	,{field: 'rgstNm'     	,label:'이름' ,    	sortable: false, align: 'center', width: 130}
-	        	,{field: 'rgstId'		,label:'id' ,      	sortable: false, align: 'center', width: 130}
-	        	,{field: 'rgstTeam'     ,label:'팀'   ,    	sortable: false, align: 'center', width: 260}
-	        	,{field: 'rgstJobx'     ,label:'직급' ,     sortable: false, align: 'center', width: 100}
-	        	,{field: 'rgstDt'       ,label:'신청일' ,   sortable: false, align: 'center', width: 120}
-	        	,{field: 'ccsDt'        ,label:'수료일' ,   sortable: false, align: 'center', width: 120}
-	        	,{field: 'eduStNm'      ,label:'상태',		sortable: false, align: 'center', width: 100}
-	        	,{field: 'ccsTrtmNm'    ,label:'처리자',	sortable: false, align: 'center', width: 110}
+	        	,{field: 'rgstNm'     	,label:'이름' ,    	sortable: false, align: 'center', width: 150}
+	        	,{field: 'rgstId'		,label:'id' ,      	sortable: false, align: 'center', width: 160}
+	        	,{field: 'rgstTeam'     ,label:'팀'   ,    	sortable: false, align: 'center', width: 364}
+	        	,{field: 'rgstJobx'     ,label:'직급' ,     sortable: false, align: 'center', width: 110}
+	        	,{field: 'rgstDt'       ,label:'신청일' ,   sortable: false, align: 'center', width: 130}
+	        	,{field: 'ccsDt'        ,label:'수료일' ,   sortable: false, align: 'center', width: 130}
+	        	,{field: 'eduStNm'      ,label:'상태',		sortable: false, align: 'center', width: 110}
+	        	,{field: 'ccsTrtmNm'    ,label:'처리자',	sortable: false, align: 'center', width: 120}
 	        	,{field: 'saMail'     	,hidden : true}
 	        	,{field: 'eduCrgrId'    ,hidden : true}
 	        	,{field: 'eduDtlId'     ,hidden : true}
@@ -153,7 +153,8 @@ var excelDataSet;
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width:1150,
-	        height: 440
+	        height: 440,
+	        autoWidth : true
 	    });
 
 		grid.render('mhcnGrid'); 
