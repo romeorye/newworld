@@ -100,15 +100,15 @@ var mchnMgmtRegDialog;
 		     columns: [
 		        	{ field: 'mchnMgmtNm', 		label:'분류명' , 	sortable: false, align: 'center', width: 120},
 		            { field: 'mgmtDt',  		label:'관리일', 	sortable: false, align: 'center', width: 130},
-		            { field: 'mgmtUfe',  		label:'비용', 		sortable: false, align: 'right',  width: 120,
+		            { field: 'mgmtUfe',  		label:'비용', 		sortable: false, align: 'right',  width: 140,
                    	 renderer: function(value, p, record){
       	        		return Rui.util.LFormat.numberFormat(parseInt(value));
       		        	}
                   	},
 		            { field: 'rgstNm',  		label:'작성자', 	sortable: false, align: 'center', width: 110},
 		            { field: 'mchnUsePsblNm', 	label: '상태', 		sortable: false, align: 'center', width: 110},
-		            { field: 'smrySbc', 		label: '설명',   	sortable: false, align: 'left',	  width: 360},
-		            { field: 'rgstDt', 			label: '등록일',   	sortable: false, align: 'center', width: 130},
+		            { field: 'smrySbc', 		label: '설명',   	sortable: false, align: 'left',	  width: 550},
+		            { field: 'rgstDt', 			label: '등록일',   	sortable: false, align: 'center', width: 140},
 		            { field: 'rgstId',  		hidden : true},
 		            { field: 'mchnInfoId',  	hidden : true},
 		            { field: 'infoMgmtId',  	hidden : true},
@@ -121,7 +121,8 @@ var mchnMgmtRegDialog;
 		    columnModel: columnModel,
 		    dataSet: dataSet,
 		    width:1150,
-		    height: 450
+		    height: 450,
+		    autoWidth : true
 		});
 
 		grid.render('mhcnGrid');
