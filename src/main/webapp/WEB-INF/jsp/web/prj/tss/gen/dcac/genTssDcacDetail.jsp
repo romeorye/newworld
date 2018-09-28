@@ -84,11 +84,18 @@
         });
 
         //과제명
-//         tssNm = new Rui.ui.form.LTextBox({
-//             applyTo: 'tssNm',
-//             editable: false,
-//             width: 300
-//         });
+         tssNm = new Rui.ui.form.LTextBox({
+             applyTo: 'tssNm',
+             editable: false,
+             width: 300
+         });
+        
+        //wbsCd
+         wbsCd = new Rui.ui.form.LTextBox({
+             applyTo: 'wbsCd',
+             editable: false,
+             width: 100
+         });
 
         //과제리더
         saUserName = new Rui.ui.form.LTextBox({
@@ -187,6 +194,13 @@
             }
         });
 
+      //참여연구원 수
+        mbrCnt = new Rui.ui.form.LTextBox({
+            applyTo: 'mbrCnt',
+            editable: false,
+            width: 100
+        });
+      
         altrHistDialog = new Rui.ui.LFrameDialog({
    	        id: 'altrHistDialog', 
    	        title: '변경이력상세',
@@ -251,6 +265,7 @@
                 , { id: 'tssTypeNm' }    //유형
                 , { id: 'tssRoleType' }
                 , { id: 'tssRoleId' }
+                , { id: 'mbrCnt' }
             ]
         });
         dataSet.on('load', function(e) {
@@ -274,8 +289,7 @@
             }
 
             //document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
-            document.getElementById('wbsNm').innerHTML = dataSet.getNameValue(0, "wbsNm");
-            
+            //document.getElementById('wbsNm').innerHTML = dataSet.getNameValue(0, "wbsNm");
             disableFields();
 
             tabView.selectTab(0);
@@ -297,7 +311,9 @@
             bind: true,
             bindInfo: [
                   { id: 'prjNm',       ctrlId: 'prjNm',       value: 'value' }
-                , { id: 'deptName',    ctrlId: 'deptName',    value: 'value' }
+                , { id: 'wbsCd',    ctrlId: 'wbsCd',    value: 'value' }
+                , { id: 'mbrCnt',    ctrlId: 'mbrCnt',    value: 'value' }
+                , { id: 'tssNm',    ctrlId: 'tssNm',    value: 'value' }
                 , { id: 'ppslMbdNm',   ctrlId: 'ppslMbdNm',   value: 'value' }
                 , { id: 'bizDptNm',    ctrlId: 'bizDptNm',    value: 'value' }
                 , { id: 'saUserName',  ctrlId: 'saUserName',  value: 'value' }
@@ -576,20 +592,27 @@
                                         <input type="text" id="deptName" />
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th align="right">발의주체</th>
+                              	<tr>
+                                	<th align="right">WBSCode / 과제명</th>
+                                    <td class="tssLableCss" colspan="3">
+                                        <input type="text" id="wbsCd" />  /  <em class="gab"> <input type="text" id="tssNm" style="width:900px;padding:0px 5px" />
+                                    </td>
+                                </tr>
+								<tr>
+                                    <th align="right">과제리더</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="ppslMbdNm" />
+                                        <input type="text" id="saUserName" />
                                     </td>
                                     <th align="right">사업부문(Funding기준)</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="bizDptNm" />
                                     </td>
+                                    
                                 </tr>
-                                <tr>
-                                    <th align="right">과제명</th>
+								<tr>
+                                    <th align="right">발의주체</th>
                                     <td class="tssLableCss">
-                                        <div id="wbsNm" style="width:400px;padding:0px 5px">
+                                        <input type="text" id="ppslMbdNm" />
                                     </td>
                                     <th align="right">제품군</th>
                                     <td class="tssLableCss">
@@ -597,13 +620,13 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">과제리더</th>
-                                    <td class="tssLableCss">
-                                        <input type="text" id="saUserName" />
-                                    </td>
-                                    <th align="right">과제속성</th>
+                                	 <th align="right">과제속성</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="tssAttrNm"></div>
+                                    </td>
+                                    <th align="right">참여인원</th>
+                                    <td class="tssLableCss">
+                                        <input type="text" id="mbrCnt" />
                                     </td>
                                 </tr>
                                 <tr>

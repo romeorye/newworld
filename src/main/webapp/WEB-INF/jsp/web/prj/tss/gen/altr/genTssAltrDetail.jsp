@@ -773,9 +773,15 @@ function setPrjInfo(prjInfo) {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">발의주체</th>
+                                  <th align="right">WBSCode/과제명</th>
                                     <td class="tssLableCss">
-                                        <div id="ppslMbdCd" />
+                                        <input type="text" id="wbsCd" /> /<em class="gab"> <input type="text" id="tssNm" />
+                                    </td>
+                                 </tr>
+                                 <tr> 
+                                 	<th align="right">과제리더</th>
+                                    <td class="tssLableCss">
+                                        <input type="text" id="saUserName" />
                                     </td>
                                     <th align="right">사업부문(Funding기준)</th>
                                     <td class="tssLableCss">
@@ -783,10 +789,9 @@ function setPrjInfo(prjInfo) {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">WBSCode/과제명</th>
+                                    <th align="right">발의주체</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="wbsCd" />
-                                        <input type="text" id="tssNm" />
+                                        <div id="ppslMbdCd" />
                                     </td>
                                     <th align="right">제품군</th>
                                     <td class="tssLableCss">
@@ -797,17 +802,6 @@ function setPrjInfo(prjInfo) {
                                     <th align="right">과제속성</th>
                                     <td class="tssLableCss">
                                         <div id="tssAttrCd"></div>
-                                    </td>
-                                    <th align="right">과제리더</th>
-                                    <td class="tssLableCss">
-                                        <input type="text" id="saUserName" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th align="right">과제기간</th>
-                                    <td class="tssLableCss">
-                                        <input type="text" id="tssStrtDd" /><em class="gab"> ~ </em>
-                                        <input type="text" id="tssFnhDd" />
                                     </td>
                                     <th align="right">참여인원</th>
                                     <td>
@@ -822,6 +816,13 @@ function setPrjInfo(prjInfo) {
                                     <th align="right">유형</th>
                                     <td>
                                         <div id="tssType">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th align="right">과제기간</th>
+                                    <td class="tssLableCss"  colspan="3">
+                                        <input type="text" id="tssStrtDd" /><em class="gab"> ~ </em>
+                                        <input type="text" id="tssFnhDd" />
                                     </td>
                                 </tr>
                             </tbody>

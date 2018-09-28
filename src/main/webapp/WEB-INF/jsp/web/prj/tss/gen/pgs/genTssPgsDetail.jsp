@@ -102,11 +102,11 @@
         });
 
         //과제명
-//         tssNm = new Rui.ui.form.LTextBox({
-//             applyTo: 'tssNm',
-//             editable: false,
-//             width: 300
-//         });
+         tssNm = new Rui.ui.form.LTextBox({
+             applyTo: 'tssNm',
+             editable: false,
+             width: 300
+         });
 
         //과제리더
         saUserName = new Rui.ui.form.LTextBox({
@@ -241,7 +241,7 @@
             gvPkWbsCd = stringNullChk(dataSet.getNameValue(0, "pkWbsCd"));
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
 
-            document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
+            //document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
 
             disableFields();
 
@@ -256,6 +256,7 @@
             bind: true,
             bindInfo: [
                   { id: 'prjNm',      ctrlId: 'prjNm',      value: 'value' }
+                , { id: 'tssNm',      ctrlId: 'tssNm',      value: 'value' }
                 , { id: 'deptName',   ctrlId: 'deptName',   value: 'value' }
                 , { id: 'ppslMbdNm',  ctrlId: 'ppslMbdNm',  value: 'value' }
                 , { id: 'bizDptNm',   ctrlId: 'bizDptNm',   value: 'value' }
@@ -470,49 +471,38 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">발의주체</th>
+                                	<th align="right">WBSCode / 과제명</th>
+                                    <td class="tssLableCss" colspan="3">
+                                        <input type="text" id="wbsCd" />  /  <em class="gab"> <input type="text" id="tssNm" style="width:900px;padding:0px 5px" />
+                                    </td>
+                                <tr>
+                                    <th align="right">과제리더</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="ppslMbdNm" />
+                                        <input type="text" id="saUserName" />
                                     </td>
                                     <th align="right">사업부문(Funding기준)</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="bizDptNm" />
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th align="right">WBSCode</th>
+                               <tr>  
+                               		<th align="right">발의주체</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="wbsCd" />
-                                    </td>
+                                        <input type="text" id="ppslMbdNm" />
+                                    </td>   
                                     <th align="right">제품군</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="prodGNm" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">과제명</th>
-                                    <td class="tssLableCss" colspan="3">
-                                        <div id="tssNm" style="width:900px;padding:0px 5px">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th align="right">과제리더</th>
-                                    <td class="tssLableCss">
-                                        <input type="text" id="saUserName" />
-                                    </td>
                                     <th align="right">과제속성</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="tssAttrNm" />
                                     </td>
-                                </tr>
-                                <tr>
                                     <th align="right">과제기간</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="tssStrtDd" /> ~ <input type="text" id="tssFnhDd" />
-                                    </td>
-                                    <th align="right">참여인원</th>
-                                    <td class="tssLableCss">
-                                        <input type="text" id="mbrCnt" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -525,6 +515,13 @@
                                         <div id="tssTypeNm">
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th align="right">참여인원</th>
+                                    <td class="tssLableCss" colspan="3">
+                                        <input type="text" id="mbrCnt" />
+                                    </td>
+                                </tr>
+                                
                             </tbody>
                         </table>
                     </fieldset>

@@ -914,30 +914,27 @@ function fncGenTssAltrDetail(cd) {
                                         <input type="text" id="deptName" />
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th align="right">발의주체</th>
+								<tr>
+                                    <th align="right">WBSCode / 과제명</th>
+                                    <td colspan="3">
+                                        <span id='seed'></span><input type="text" id="wbsCd" /> / <em class="gab"><input type="text" id="tssNm" style="width:900px;padding:0px 5px" />
+                                    </td>
+                                </tr>                               
+								<tr>
+									<th align="right">과제리더</th>
                                     <td>
-                                        <div id="ppslMbdCd"></div>
+                                        <input type="text" id="saUserName" />
                                     </td>
                                     <th align="right">사업부문(Funding기준)</th>
                                     <td>
                                         <div id="bizDptCd"></div>
                                     </td>
                                 </tr>
+                                
                                 <tr>
-                                    <th align="right">WBSCode</th>
+                                    <th align="right">발의주체</th>
                                     <td>
-                                        <span id='seed'></span><input type="text" id="wbsCd" />
-                                    </td>
-                                    <th align="right">과제명</th>
-                                    <td>
-                                        <input type="text" id="tssNm" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th align="right">과제리더</th>
-                                    <td>
-                                        <input type="text" id="saUserName" />
+                                        <div id="ppslMbdCd"></div>
                                     </td>
                                     <th align="right">제품군</th>
                                     <td>
