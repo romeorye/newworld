@@ -243,8 +243,6 @@
         	cooInstNm.setValue(cooInstNm.getValue().trim());
         });
         cooInstNm.on('popup', function(e){
-        	//dataSet.setNameValue(0, "cooInstCd" , '');
-			//cooInstNm.setValue('');
         	openOutsideSpecialistDialog(setOutsideSpecialistInfo);
         });
 
@@ -517,14 +515,8 @@
 
         	// 데이터 변경여부 확인
         	var smryDs = document.getElementById('tabContent0').contentWindow.dataSet;                  //개요탭 DS
-            var smryIsUpdate = document.getElementById('tabContent0').contentWindow.fnEditorIsUpdate(); //개요 에디터 변경여부
-            if(!dataSet.isUpdated() && !smryDs.isUpdated() && !smryIsUpdate) {
-                alert("변경된 데이터가 없습니다.");
-                return;
-            }
 
             if( confirm("저장하시겠습니까?") == true ){
-
                 dataSet.setNameValue(0, "pgsStepCd"   , "PL");      //진행단계: PL(계획)
                 dataSet.setNameValue(0, "tssScnCd"    , "O");       //과제구분: O(대외협력과제)
                 dataSet.setNameValue(0, "tssSt"       , "100");     //과제상태: 100(작성중)
@@ -535,37 +527,19 @@
                 smryDs.setNameValue(0, "tssCd"        , gvTssCd);   //과제코드
                 smryDs.setNameValue(0, "userId"       , gvUserId);  //사용자ID
 
-                var edSurrNcssTxt = document.getElementById('tabContent0').contentWindow.smryForm.surrNcssTxt.value;
-            	var edSbcSmryTxt  = document.getElementById('tabContent0').contentWindow.smryForm.sbcSmryTxt.value;
-            	var edOucmPlnTxt  = document.getElementById('tabContent0').contentWindow.smryForm.oucmPlnTxt.value;
-
                 //신규
                 if(gvTssCd == "") {
 
                     dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/ousdcoo/insertOusdCooTssPlnMst.do"/>',
-                        dataSets:[dataSet, smryDs] ,
-                        params: {
-                        	  editorData1 : edSurrNcssTxt
-                        	, editorData2 : edSbcSmryTxt
-                        	, editorData3 : edOucmPlnTxt
-                        	, editorDataFields : "surrNcssTxt,sbcSmryTxt,oucmPlnTxt"
-                        }
+                        dataSets:[dataSet, smryDs] 
                     });
-                }
-                //수정
-                else {
+                }else {								//수정
                     dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/ousdcoo/updateOusdCooTssPlnMst.do"/>',
-                        dataSets:[dataSet, smryDs],
-                        params: {
-                        	  editorData1 : edSurrNcssTxt
-                        	, editorData2 : edSbcSmryTxt
-                        	, editorData3 : edOucmPlnTxt
-                        	, editorDataFields : "surrNcssTxt,sbcSmryTxt,oucmPlnTxt"
-                      }
+                        dataSets:[dataSet, smryDs]
                     });
                 }
             }
@@ -767,20 +741,19 @@ function setPrjInfo(prjInfo) {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">사업부문(Funding기준)</th>
-                                    <td>
-                                        <div id="bizDptCd"></div>
+                                    <th align="right">WBSCode / 과제명</th>
+                                    <td colspan="3">
+                                     	<input type="text" id="wbsCd" value=""> / <input type="text" id="tssNm" value="">
                                     </td>
+                                </tr>
+                                <tr>
                                     <th align="right">과제리더</th>
                                     <td>
                                         <div id="saUserName"></div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <th align="right">WBSCode / 과제명</th>
-                                    <td colspan="3">
-                                     	<input type="text" id="wbsCd" value="">
-                                        <input type="text" id="tssNm" value="">
+                                    <th align="right">사업부문(Funding기준)</th>
+                                    <td>
+                                        <div id="bizDptCd"></div>
                                     </td>
                                 </tr>
                                 <tr>

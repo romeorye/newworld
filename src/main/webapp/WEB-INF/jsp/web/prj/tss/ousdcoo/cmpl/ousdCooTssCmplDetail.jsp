@@ -575,24 +575,27 @@
                                         <input type="text" id="deptName" />
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th align="right">WBSCode / 과제명</th>
+                                    <td  class="tssLableCss" colspan="3">
+                                    	<input type="text" id="wbsCd" />&nbsp;&#47;&nbsp;
+                                        <input type="text" id="tssNm" />
+                                    </td>
+                                </tr>
                                  <tr>
+                                 	<th align="right">과제리더</th>
+                                    <td class="tssLableCss">
+                                        <input type="text" id="saUserName" />
+                                    </td>
                                     <th align="right">사업부문(Funding기준)</th>
                                     <td class="tssLableCss">
                                     	<input type="text" id="bizDptNm" />
                                     </td>
-                                     <th align="right">과제리더</th>
-                                    <td class="tssLableCss">
-                                        <input type="text" id="saUserName" />
-                                    </td>
+                                     
                                 </tr>
                                 <tr>
-                                    <th align="right">WBSCode / 과제명</th>
-                                    <td  class="tssLableCss">
-                                    	<input type="text" id="wbsCd" />&nbsp;&#47;&nbsp;
-                                        <input type="text" id="tssNm" />
-                                    </td>
                                 	<th align="right">협력기관(기관명/소속/성명)</th>
-                                    <td class="tssLableCss">
+                                    <td class="tssLableCss" colspan="3">
                                         <input type="text" id="cooInstNm" />
                                     </td>
                                 </tr>

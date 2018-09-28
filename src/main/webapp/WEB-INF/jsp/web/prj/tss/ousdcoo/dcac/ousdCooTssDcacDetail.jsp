@@ -479,24 +479,25 @@
                                         <span id="deptName"></span>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th align="right">WBSCode / 과제명</th>
+                                    <td class="tssLableCss" colspan="3">
+                                    	<span id="wbsCd"></span>&nbsp;/&nbsp;  <span id="tssNm"></span>
+                                    </td>
+                                </tr>
                                  <tr>
+                                 	<th align="right">과제리더</th>
+                                    <td class="tssLableCss">
+                                        <span type="text" id="saUserName" />
+                                    </td>
                                     <th align="right">사업부문(Funding기준)</th>
                                     <td class="tssLableCss">
                                     	<span type="text" id="bizDptNm" />
                                     </td>
-                                     <th align="right">과제리더</th>
-                                    <td class="tssLableCss">
-                                        <span type="text" id="saUserName" />
-                                    </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">WBSCode / 과제명</th>
-                                    <td class="tssLableCss">
-                                    	<span id="wbsCd"></span>&nbsp;&#47;&nbsp;
-                                        <span id="tssNm"></span>
-                                    </td>
-                                    <th align="right">협력기관(기관명/소속/성명)</th>
-                                    <td class="tssLableCss">
+                                	<th align="right">협력기관(기관명/소속/성명)</th>
+                                    <td class="tssLableCss" colspan="3">
                                         <span id="cooInstNm" />
                                     </td>
                                 </tr>
@@ -510,8 +511,8 @@
                                         <span id="ttsDifMonth"></span> 개월
                                     </td>
                                 </tr>
+                                
                                 <tr>
-                                    <!-- <th align="right">중단전 개발기간</th> -->
                                     <th align="right">계획(개발계획시점)</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="tssStrtDd" value="" /><em class="gab"> ~ </em>

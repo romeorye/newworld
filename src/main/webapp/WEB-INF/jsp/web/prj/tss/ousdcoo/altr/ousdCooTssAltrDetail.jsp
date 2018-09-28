@@ -827,20 +827,19 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">사업부문(Funding기준)</th>
-                                    <td>
-                                        <div id="bizDptCd2"></div>
-                                    </td>
-                                    <th align="right">과제리더</th>
-                                    <td>
-                                        <div id="saUserName2"></div>
+                                    <th align="right">WBSCode / 과제명</th>
+                                    <td colspan="3">
+                                     	<input type="text" id="wbsCd2" value=""> / <input type="text" id="tssNm2" value="">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">WBSCode / 과제명</th>
-                                    <td colspan="3">
-                                     	<input type="text" id="wbsCd2" value="">
-                                        <input type="text" id="tssNm2" value="">
+                                	<th align="right">과제리더</th>
+                                    <td>
+                                        <div id="saUserName2"></div>
+                                    </td>
+                                    <th align="right">사업부문(Funding기준)</th>
+                                    <td>
+                                        <div id="bizDptCd2"></div>
                                     </td>
                                 </tr>
                                 <tr>

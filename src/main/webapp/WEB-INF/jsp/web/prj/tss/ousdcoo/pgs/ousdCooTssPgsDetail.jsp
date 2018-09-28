@@ -345,21 +345,23 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">사업부문(Funding기준)</th>
-                                    <td>
-                                        <span id="bizDptNm"></span>
-                                    </td>
-                                    <th align="right">과제리더</th>
-                                    <td>
-                                        <span id="saUserName"></span>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <th align="right">WBSCode / 과제명</th>
                                     <td colspan="3">
                                      	<span id="wbsCd"></span>&#32;&#47;&#32;
                                         <span id="tssNm"></span>
                                     </td>
+                                </tr>
+                                
+                                <tr>
+                                	<th align="right">과제리더</th>
+                                    <td>
+                                        <span id="saUserName"></span>
+                                    </td>
+                                    <th align="right">사업부문(Funding기준)</th>
+                                    <td>
+                                        <span id="bizDptNm"></span>
+                                    </td>
+                                    
                                 </tr>
                                 <tr>
                                     <th align="right">협력기관(기관명/소속/성명)</th>
