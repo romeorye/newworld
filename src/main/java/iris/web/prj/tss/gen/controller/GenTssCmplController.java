@@ -95,13 +95,18 @@ public class GenTssCmplController  extends IrisBaseController {
             Map<String, Object> role = tssUserService.getTssBtnRoleChk(input, result);
             result.put("tssRoleType", role.get("tssRoleType"));
             result.put("tssRoleId",   role.get("tssRoleId"));
-
+            
+            Map<String, Object> mbrCnt = genTssService.retrieveCmDcTssPtcMbrCnt(input);
+            result.put("mbrCnt", mbrCnt.get("mbrCnt"));
+            
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             list.add(result);
 
             JSONObject obj = new JSONObject();
             obj.put("records", list);
 
+            
+            
             request.setAttribute("inputData", input);
             request.setAttribute("resultCnt", result == null ? 0 : result.size());
             request.setAttribute("result", obj);

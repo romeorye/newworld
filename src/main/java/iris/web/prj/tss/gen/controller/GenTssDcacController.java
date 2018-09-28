@@ -97,6 +97,9 @@ public class GenTssDcacController  extends IrisBaseController {
             result.put("tssRoleType", role.get("tssRoleType"));
             result.put("tssRoleId",   role.get("tssRoleId"));
 
+            Map<String, Object> mbrCnt = genTssService.retrieveCmDcTssPtcMbrCnt(input);
+            result.put("mbrCnt", mbrCnt.get("mbrCnt"));
+            
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             list.add(result);
 
