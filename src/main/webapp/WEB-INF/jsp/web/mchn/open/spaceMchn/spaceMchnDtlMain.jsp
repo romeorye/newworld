@@ -218,11 +218,15 @@ var mchnInfoId;
  <!-- contents -->  
 <div class="contents">
 	<div class="titleArea">
+		<a class="leftCon" href="#">
+			<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			<span class="hidden">Toggle 버튼</span>
+		</a>    
 		<h2>TOOL예약</h2>
     </div>
 	<!-- sub-content -->
 	<div class="sub-content">
-			<div class="LblockButton top">
+			<div class="LblockButton top mt10">
 				<button type="button" id="butList">목록</button>
 			</div>
 		<!-- schedule_reserv -->

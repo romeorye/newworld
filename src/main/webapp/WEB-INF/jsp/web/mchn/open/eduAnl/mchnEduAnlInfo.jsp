@@ -583,7 +583,7 @@ var openMchnSearchDialog;
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>신청일</th>
 							<td>
-								<input id="pttFromDt" type="text"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;<input id="pttToDt" type="text" />
+								<input id="pttFromDt" type="text"/><em style="display:inline-block; padding:0 6px 0 37px;"> ~ </em><input id="pttToDt" type="text" />
 							</td>
 							<th align="right"><span style="color:red;">*  </span>모집인원</th>
 							<td colspan="2">
@@ -592,8 +592,8 @@ var openMchnSearchDialog;
 						</tr>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>교육일시</th>
-							<td>
-								<input id="eduDt" type="text" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="eduFromTim" type="text" />&nbsp;&nbsp;시 ~ <input id="eduToTim" type="text" />&nbsp;&nbsp;시
+							<td class="mchn_data">
+								<input id="eduDt" type="text" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="eduFromTim" type="text"  />&nbsp;시 ~ <input id="eduToTim" type="text" />&nbsp;시
 							</td>
 							<th align="right"><span style="color:red;">*  </span>교육장소</th>
 							<td colspan="2">

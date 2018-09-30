@@ -545,7 +545,7 @@
    					</div>
    				
    				
-			    <div id="bd">
+			    <div id="bd" style="height:335px !important;">
 			        <div class="LblockMarkupCode">
 			            <div id="contentWrapper">
 			                <div id="anlExprMstTreeView" style="margin-top:0;"></div>

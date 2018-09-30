@@ -631,7 +631,7 @@ var firstLoad = "Y";	//화면오픈
 
 				<input type="hidden" id="fxaNo" name="fxaNo" />
 
-				<div class="LblockButton top">
+				<div class="LblockButton top mt10">
 					<button type="button" id="butSave">저장</button>
 					<button type="button" id="butList">목록</button>
 				</div>

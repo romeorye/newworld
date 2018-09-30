@@ -310,9 +310,10 @@
 		
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
+   			<div class="sub-content" style="padding:0;">
+   			
 	   			
-   				<div class="titArea">
+   				<div class="titArea mt0">
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="deleteAnlRqprExpr()">삭제</button>
    						<button type="button" class="btn"  id="closeBtn" name="closeBtn" onclick="parent.utmExpSimulationDialog.cancel()">닫기</button>

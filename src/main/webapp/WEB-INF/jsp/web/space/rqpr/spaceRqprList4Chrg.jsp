@@ -256,76 +256,86 @@
         });
 
 	</script>
+	<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
     </head>
     <body onkeypress="if(event.keyCode==13) {getSpaceRqprList();}">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprDeptCd" name="rqprDeptCd" value="<c:out value="${inputData.rqprDeptCd}"/>"/>
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
 
-   		<div class="contents">
-
-   			<div class="sub-content">
-	   			<div class="titleArea">
-	   				<h2>평가목록</h2>
-	   			</div>
-
-   				<table class="searchBox">
-   					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:40%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:30%;"/>
-   						<col style="width:10%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">제품군</th>
-   							<td>
-   								<select id="cmbCtgr0Cd"></select>
-   							</td>
-   							<th align="right">의뢰일자</th>
-    						<td>
-   								<input type="text" id="fromRqprDt"/><em class="gab"> ~ </em>
-   								<input type="text" id="toRqprDt"/>
-    						</td>
-   							<td class="t_center" rowspan="4">
-   								<a style="cursor: pointer;" onclick="getSpaceRqprList();" class="btnL">검색</a>
-   							</td>
-   						</tr>
-
-   						<tr>
-   							<th align="right">WBS Code</th>
-   							<td>
-   								<input type="text" id="wbsCd">
-   							</td>
-   							<th align="right">의뢰자</th>
-    						<td>
-    							<input type="text" id="rgstNm">
-    						</td>
-   						</tr>
-
-   						<tr>
-   							<th align="right">평가명</th>
-   							<td>
-   								<input type="text" id="spaceNm">
-   							</td>
-   							<th align="right">담당자</th>
-    						<td>
-    							<input type="text" id="spaceChrgNm">
-    						</td>
-   						</tr>
-   						<tr>
-   							<th align="right">접수번호</th>
-   							<td>
-   								<input type="text" id="acpcNo">
-   							</td>
-   							<th align="right">상태</th>
-   							<td>
-                                <div id="spaceAcpcStCd"></div>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+   		<div class="contents">   			
+   			<div class="titleArea">
+   				<a class="leftCon" href="#">
+					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+					<span class="hidden">Toggle 버튼</span>
+				</a> 
+   				<h2>평가목록</h2>
+   			</div>
+			<div class="sub-content">
+				<div class="search">
+					<div class="search-content">
+		   				<table>
+		   					<colgroup>
+		   						<col style="width:120px;"/>
+		   						<col style="width:300px;"/>
+		   						<col style="width:120px;"/>
+		   						<col style="width:300px;"/>
+		   						<col style=""/>
+		   					</colgroup>
+		   					<tbody>
+		   						<tr>
+		   							<th align="right">제품군</th>
+		   							<td>
+		   								<select id="cmbCtgr0Cd"></select>
+		   							</td>
+		   							<th align="right">의뢰일자</th>
+		    						<td>
+		   								<input type="text" id="fromRqprDt"/><em class="gab"> ~ </em>
+		   								<input type="text" id="toRqprDt"/>
+		    						</td>
+		   							<td></td>
+		   						</tr>
+		
+		   						<tr>
+		   							<th align="right">WBS Code</th>
+		   							<td>
+		   								<input type="text" id="wbsCd">
+		   							</td>
+		   							<th align="right">의뢰자</th>
+		    						<td>
+		    							<input type="text" id="rgstNm">
+		    						</td>
+		    						<td class="txt-right">
+		   								<a style="cursor: pointer;" onclick="getSpaceRqprList();" class="btnL">검색</a>
+		   							</td>
+		   						</tr>
+		
+		   						<tr>
+		   							<th align="right">평가명</th>
+		   							<td>
+		   								<input type="text" id="spaceNm">
+		   							</td>
+		   							<th align="right">담당자</th>
+		    						<td>
+		    							<input type="text" id="spaceChrgNm">
+		    						</td>
+		    						<td></td>
+		   						</tr>
+		   						<tr>
+		   							<th align="right">접수번호</th>
+		   							<td>
+		   								<input type="text" id="acpcNo">
+		   							</td>
+		   							<th align="right">상태</th>
+		   							<td>
+		                                <div id="spaceAcpcStCd"></div>
+		   							</td>
+		   							<td></td>
+		   						</tr>
+		   					</tbody>
+		   				</table>
+	   				</div>
+   				</div>
 
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>

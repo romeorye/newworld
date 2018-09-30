@@ -138,41 +138,46 @@
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="bd">
-		<div class="sub-content">
+		<div class="sub-content" style="padding:0;">
 
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" />
-
-				<table class="searchBox">
-					<colgroup>
-						<col style="width: 15%" />
-						<col style="width: 30%" />
-						<col style="width: 15%" />
-						<col style="width:" />
-						<col style="width: 10%" />
-					</colgroup>
-					<tbody>
-						<tr>
-							<th align="right">기기명</th>
-							<td>
-								<span>
-									<div id="mchnNm"></div>
-								</span>
-							</td>
-							<th align="right">담당자</th>
-							<td>
-								<div id="mchnCrgrNm"></div>
-							</td>
-							<td rowspan="2" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-						</tr>
-						<tr>
-							<th align="right">분류</th>
-							<td colspan="3">
-								<div id="mchnClCd"></div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				
+				<div class="search mb5">
+					<div class="search-content">
+						<table>
+							<colgroup>
+								<col style="width: 15%" />
+								<col style="width: 30%" />
+								<col style="width: 15%" />
+								<col style="width:" />
+								<col style="width: 10%" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th align="right">기기명</th>
+									<td>
+										<span>
+											<div id="mchnNm"></div>
+										</span>
+									</td>
+									<th align="right">담당자</th>
+									<td>
+										<div id="mchnCrgrNm"></div>
+									</td>
+									<td></td>
+								</tr>
+								<tr>
+									<th align="right">분류</th>
+									<td colspan="3">
+										<div id="mchnClCd"></div>
+									</td>
+									<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 
 			<div id="mhcnGrid"></div>
 

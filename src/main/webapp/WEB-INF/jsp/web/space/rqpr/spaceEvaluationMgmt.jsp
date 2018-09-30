@@ -886,13 +886,16 @@
    				<h2>공간평가 평가법관리</h2>
    			</div>
 
-	   		<div class="sub-content">
-	   			<table style="width:100%;border=0;">
+	   		<div class="sub-content" style="padding-top:0 !important;">
+	   			<table style="width:100%;border=0;table-layout:fixed;">
    					<colgroup>
-						<col style="width:20%;">
-						<col style="width:20%;">
-						<col style="width:20%;">
-						<col style="width:20%;">
+						<col style="width:19%;">
+						<col style="width:2%;">
+						<col style="width:21%;">
+						<col style="width:2%;">
+						<col style="width:21%;">
+						<col style="width:2%;">
+						<col style="width:21%;">
    					</colgroup>
    					<tbody>
    						<tr>
@@ -906,10 +909,10 @@
 				   					</div>
 				   				</div>
 
-				   				<div id="spaceEvBzdvGrid"></div>
+				   				<div id="spaceEvBzdvGrid" class="spaceeva_tain"></div>
 
    							</td>
-   							<td>&nbsp;</td>
+   							<td class="spaceeva_arrow">&nbsp;</td>
    							<td>
 				   				<div class="titArea">
 				   					<h3>제품군</h3>
@@ -920,9 +923,9 @@
 				   					</div>
 				   				</div>
 
-				   				<div id="spaceEvProdClGrid"></div>
+				   				<div id="spaceEvProdClGrid" class="spaceeva_tain"></div>
    							</td>
-   							<td>&nbsp;</td>
+   							<td class="spaceeva_arrow">&nbsp;</td>
    							<td>
 				   				<div class="titArea">
 				   					<h3>분류</h3>
@@ -933,9 +936,9 @@
 				   					</div>
 				   				</div>
 
-				   				<div id="spaceEvClGrid"></div>
+				   				<div id="spaceEvClGrid" class="spaceeva_tain"></div>
    							</td>
-   							<td>&nbsp;</td>
+   							<td class="spaceeva_arrow">&nbsp;</td>
    							<td>
 				   				<div class="titArea">
 				   					<h3>제품</h3>
@@ -946,7 +949,7 @@
 				   					</div>
 				   				</div>
 
-				   				<div id="spaceEvProdGrid"></div>
+				   				<div id="spaceEvProdGrid" class="spaceeva_tain"></div>
    							</td>
    						</tr>
    						<tr>

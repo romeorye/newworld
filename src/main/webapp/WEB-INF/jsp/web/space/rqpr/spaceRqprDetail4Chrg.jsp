@@ -1737,14 +1737,21 @@
 		<input type="hidden" id="seq" name="seq" value=""/>
     </form>
    		<div class="contents">
-
+			<div class="titleArea">
+   				<a class="leftCon" href="#">
+		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        	<span class="hidden">Toggle 버튼</span>
+	        	</a>
+   				<h2>평가목록 상세</h2>
+   			</div>
+   			
    			<div class="sub-content">
    				<div id="tabView"></div>
 	            <div id="spaceRqprInfoDiv">
 				<form name="aform" id="aform" method="post">
 					<input type="hidden" id="spaceChrgId" name="spaceChrgId" value=""/>
    				<div class="titArea">
-   					<div class="LblockButton">
+   					<div class="LblockButton mt10">
    						<button type="button" class="btn"  id="reqApprStateBtn" name="reqApprStateBtn" onclick="openApprStatePopup('A')" style="display:none;">결재상태</button>
    						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="saveSpaceRqpr()">저장</button>
    						<button type="button" class="btn"  id="receiptBtn" name="receiptBtn" onclick="receipt()">접수</button>
@@ -1771,7 +1778,7 @@
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가목적</th>
-   							<td colspan="3">
+   							<td colspan="3" style="padding-top:6px;">
    								<textarea id="spaceSbc"></textarea>
    							</td>
    						</tr>
@@ -2052,10 +2059,10 @@
    							<th colspan="2">평가명</th>
    						</tr>
    						<tr>
-   							<td>
+   							<td cass="spacerqpr_tain">
    								<div id="fbRsltCtgr"></div>
    							</td>
-   							<td>
+   							<td cass="spacerqpr_tain">
    								<div id="fbTssPgsStep"></div>
    								<input id="fbRsltSbc" type="text">
    							</td>
@@ -2078,10 +2085,10 @@
    							<th>비고</th>
    						</tr>
    						<tr>
-   							<td>
+   							<td cass="spacerqpr_tain">
    								<div id="fbRsltScn"></div>
    							</td>
-   							<td>
+   							<td cass="spacerqpr_tain">
    								<textarea id="fbRsltBttm"></textarea>
    							</td>
    						</tr>

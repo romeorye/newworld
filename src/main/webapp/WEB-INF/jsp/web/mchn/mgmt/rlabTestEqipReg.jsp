@@ -650,6 +650,10 @@ var faxInfoDialog;	//고정자산관리 팝업
 <body>
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+				<span class="hidden">Toggle 버튼</span>
+			</a>  
 			<h2>신뢰성시험 장비 관리</h2>
 		</div>
 		<div class="sub-content">
@@ -673,16 +677,16 @@ var faxInfoDialog;	//고정자산관리 팝업
 				<input type="hidden" id="fxaNo" name="fxaNo" />
 				<input type="hidden" id="fxaNm" name="fxaNm" />
 
-				<div class="LblockButton top">
+				<div class="LblockButton top mt10">
 					<button type="button" id="butSave">저장</button>
 					<button type="button" id="butList">목록</button>
 				</div>
-				<table class="table table_txt_right">
+				<table class="table table_txt_right ta_fix">
 					<colgroup>
-						<col style="width: 18%" />
-						<col style="width: 30%" />
-						<col style="width: 18%" />
-						<col style="width: 20%" />
+						<col style="width: 13%" />
+						<col style="width: 40%" />
+						<col style="width: 12%" />
+						<col style="" />
 					</colgroup>
 					<tbody>
 						<tr>
@@ -707,7 +711,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 						</tr>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>대분류 / 소분류</th>
-							<td>
+							<td colspan="3">
 								<div id="mchnLaclCd"></div>
 								&nbsp; / &nbsp;
 								<div id="mchnClDtlCd"></div>

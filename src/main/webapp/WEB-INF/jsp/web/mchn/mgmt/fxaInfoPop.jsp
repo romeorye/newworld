@@ -80,7 +80,8 @@
             columnModel: columnModel,
             dataSet: dataSet,
             width: 910,
-            height: 280
+            height: 280,
+            autoWidth: true,
         });
 
         grid.render('fxaGrid');
@@ -115,39 +116,44 @@
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="bd">
-		<div class="sub-content">
+		<div class="sub-content" style="padding:0;">
 
 			<form name="aform" id="aform" method="post">
-				<table class="searchBox">
-					<colgroup>
-						<col style="width: 15%" />
-						<col style="width: 30%" />
-						<col style="width: 15%" />
-						<col style="width:" />
-						<col style="width: 10%" />
-					</colgroup>
-					<tbody>
-						<tr>
-							<th align="right">자산명</th>
-							<td><span> <input type="text" class="" id="fxaNm"	name="fxaNm" ></span></td>
-							<th align="right">자산번호</th>
-							<td>
-								<span> <input type="text" class="" id=fxaNo name="fxaNo" >
-							</td>
-							<td rowspan="3" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-						</tr>
-						<tr>
-							<th align="right">담당자</th>
-							<td>
-								<span> <input type="text" class="" id=crgrNm name="crgrNm" >
-							</td>
-							<th align="right">위치</th>
-							<td>
-								<span> <input type="text" class="" id=fxaLoc name="fxaLoc" >
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="search">
+					<div class="search-content">
+						<table>
+							<colgroup>
+								<col style="width:100px" />
+								<col style="width:200px" />
+								<col style="width:100px" />
+								<col style="width:200px" />
+								<col style="width:" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th align="right">자산명</th>
+									<td><span> <input type="text" class="" id="fxaNm"	name="fxaNm" ></span></td>
+									<th align="right">자산번호</th>
+									<td>
+										<span> <input type="text" class="" id=fxaNo name="fxaNo" >
+									</td>
+									<td></td>
+								</tr>
+								<tr>
+									<th align="right">담당자</th>
+									<td>
+										<span> <input type="text" class="" id=crgrNm name="crgrNm" >
+									</td>
+									<th align="right">위치</th>
+									<td>
+										<span> <input type="text" class="" id=fxaLoc name="fxaLoc" >
+									</td>
+									<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 				<br/>
 				<div id="fxaGrid"></div>
 			</form>
