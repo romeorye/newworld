@@ -104,6 +104,37 @@ public class GrsMngController extends IrisBaseController {
         return modelAndView;
     }
 
+	/*
+	 * GRS 기본정보 조회
+	 */
+	@RequestMapping(value = "/prj/grs/selectGrsMngInfo.do")
+	public ModelAndView selectGrsMngInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("selectGrsMngInfo [GRS 평가 과제 정보 조회]");
+		LOGGER.debug("input = > " + input);
+		System.out.println(input);
+		LOGGER.debug("###########################################################");
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		input = StringUtil.toUtf8(input);
+		HashMap<String, Object> inputMap = new HashMap<String, Object>();
+
+
+		Map<String, Object> result = grsMngService.selectGrsMngInfo(input);
+//		Map<String, Object> result = grsReqService.retrieveGrsEvRslt(CommonUtil.mapToString(input));
+		result = StringUtil.toUtf8Output((HashMap) result);
+
+		modelAndView.addObject("infoDataSet", RuiConverter.createDataset("dataSet", result));
+
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("modelAndView => " + modelAndView);
+		LOGGER.debug("###########################################################");
+
+		return modelAndView;
+	}
 
 
 	/*
@@ -117,47 +148,84 @@ public class GrsMngController extends IrisBaseController {
 		LOGGER.debug("input = > " + input);
 		System.out.println(input);
 		LOGGER.debug("###########################################################");
-
-
-		HashMap<String, Object> getWbs = genTssService.getWbsCdStd("prj.tss.com.getWbsCdStd", input);
-		//SEED WBS_CD 생성
-		int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
-		String seqMaxS = String.valueOf(seqMax + 1);
-		input.put("wbsCd", input.get("tssScnCd") + seqMaxS);
-		input.put("pkWbsCd", input.get("wbsCd"));
-		input.put("pgsStepCd", "PL");								// 과제 진행 단계 코드
-		input.put("tssSt", "100");									// 과제 상태
-
-
-
-		checkSessionObjRUI(input, session, model);
-		ModelAndView modelAndView = new ModelAndView("ruiView");
-		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-
 		String rtnMsg = "";
-		String rtnSt = "F";
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		String rtnSt = "";
+
 		try {
-			// mchnCgdgService.saveCgdsMst(input);
-			grsMngService.updateGrsInfo(input);
-			input.put("tssCd",input.get("newTssCd"));
+			if ("".equals(input.get("tssCd"))) {
+				//신규
+				HashMap<String, Object> getWbs = genTssService.getWbsCdStd("prj.tss.com.getWbsCdStd", input);
+				//SEED WBS_CD 생성
+				int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
+				String seqMaxS = String.valueOf(seqMax + 1);
+				input.put("wbsCd", input.get("tssScnCd") + seqMaxS);
+				input.put("pkWbsCd", input.get("wbsCd"));
+				input.put("pgsStepCd", "PL");                                // 과제 진행 단계 코드
 
-			String grsYn = (String) input.get("grsYn");
-			if(grsYn.equals("Y")){
-				//GRS 수행시 GRS 요청정보 생성
-				input.put("grsEvSt","P1");
-				input.put("tssCd",input.get("newTssCd"));
-				input.put("userId",input.get("_userId"));
-				grsMngService.updateGrsReqInfo(input);
+
+				checkSessionObjRUI(input, session, model);
+
+				rtnSt = "F";
+				String grsYn = (String) input.get("grsYn");
+
+				input.put("tssSt", (grsYn.equals("Y")) ? "101" : "100");                                    // GRS상태
+				// mchnCgdgService.saveCgdsMst(input);
+				grsMngService.updateGrsInfo(input);                                                        //과제 기본정보 등록
+				input.put("tssCd", input.get("newTssCd"));
+
+				if (grsYn.equals("Y")) {
+					//GRS 수행시 GRS 요청정보 생성
+					input.put("grsEvSt", "P1");
+					input.put("tssCd", input.get("newTssCd"));
+					input.put("userId", input.get("_userId"));
+					grsMngService.updateGrsReqInfo(input);                                            //GRS 정보 등록
+				}
+
+				rtnMsg = "저장되었습니다.";
+				rtnSt = "S";
+			} else {
+				grsMngService.updateGrsInfo(input);                                                        // 과제 기본정보 수정
+				rtnMsg = "수정되었습니다.";
+				rtnSt = "S";
 			}
-
-			rtnMsg = "저장되었습니다.";
-			rtnSt = "S";
 		} catch (Exception e) {
 			e.printStackTrace();
 			rtnMsg = "처리중 오류가발생했습니다. 담당자에게 문의해주세요";
 		}
 
+		rtnMeaasge.put("rtnMsg", rtnMsg);
+		rtnMeaasge.put("rtnSt", rtnSt);
+		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
 
+		return modelAndView;
+	}
+	/*
+	 * GRS 기본정보 삭제
+	 */
+	@RequestMapping(value = "/prj/grs/deleteGrsMngInfo.do")
+	public ModelAndView deleteGrsMngInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("deleteGrsMngInfo [GRS 기본정보 삭제]");
+		LOGGER.debug("input = > " + input);
+		System.out.println(input);
+		LOGGER.debug("###########################################################");
+		String rtnMsg = "";
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		String rtnSt = "";
+
+		try {
+				grsMngService.deleteGrsInfo(input);
+
+				rtnMsg = "삭제되었습니다.";
+				rtnSt = "S";
+		} catch (Exception e) {
+			e.printStackTrace();
+			rtnMsg = "처리중 오류가발생했습니다. 담당자에게 문의해주세요";
+		}
 
 		rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);
@@ -186,7 +254,7 @@ public class GrsMngController extends IrisBaseController {
 		Map<String, Object> result = grsReqService.retrieveGrsEvRslt(CommonUtil.mapToString(input));
 		result = StringUtil.toUtf8Output((HashMap) result);
 
-		modelAndView.addObject("infoDataSet", RuiConverter.createDataset("dataSet", result));
+		modelAndView.addObject("evInfoDataSet", RuiConverter.createDataset("dataSet", result));
 
 
 		LOGGER.debug("###########################################################");
@@ -195,6 +263,7 @@ public class GrsMngController extends IrisBaseController {
 
 		return modelAndView;
 	}
+
 
 
 	/**
@@ -235,6 +304,55 @@ public class GrsMngController extends IrisBaseController {
 		LOGGER.debug("modelAndView => " + modelAndView);
 		LOGGER.debug("###########################################################");
 
+		return modelAndView;
+	}
+
+
+	/*
+	 * 평가 정보 임시저장
+	 */
+	@RequestMapping(value = "/prj/grs/insertTmpGrsEvRsltInfo.do")
+	public ModelAndView insertTmpGrsEvRsltInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("insertTmpGrsEvRsltInfo [평가 정보 임시저장]");
+		LOGGER.debug("input = > " + input);
+		System.out.println(input);
+		LOGGER.debug("###########################################################");
+
+		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+		List<Map<String, Object>> dsLst = null;
+		String rtnMsg = "";
+		String rtnSt = "F";
+
+		try {
+			dsLst = RuiConverter.convertToDataSet(request, "gridDataSet");
+			input.put("userId", input.get("_userId"));
+			input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
+			input = StringUtil.toUtf8Input(input);
+
+			grsReqService.updateGrsEvRslt(input);
+			for(Map<String, Object> ds  : dsLst) {
+				ds.put("userId", input.get("_userId"));
+				ds.put("tssCd", input.get("tssCd"));
+				ds.put("tssCdSn", input.get("tssCdSn"));
+				grsReqService.updateGrsEvStdRslt(ds);
+			}
+
+
+			rtnMsg = "임시저장되었습니다.";
+			rtnSt = "S";
+		} catch (Exception e) {
+			e.printStackTrace();
+			rtnMsg = "처리중 오류가발생했습니다. 담당자에게 문의해주세요";
+		}
+
+		rtnMeaasge.put("rtnMsg", rtnMsg);
+		rtnMeaasge.put("rtnSt", rtnSt);
+
+		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", rtnMeaasge));
 		return modelAndView;
 	}
 

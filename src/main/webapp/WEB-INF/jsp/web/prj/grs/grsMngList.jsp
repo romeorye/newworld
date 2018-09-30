@@ -115,7 +115,7 @@
                      { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
                      { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70 },
 				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , renderer: function(val, p, record, row, i){
-                         return "<a href='javascript:evTssPop("+row+");'><u>" + val + "<u></a>";
+                         return "<a href='javascript:evTssPop("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
                      } },
                      { field: 'bizDptNm',   label: '프로젝트명',  align:'center',  width: 100 },
                      { field: 'dlbrCrgrNm',   label: '과제담당자',  align:'center',  width: 70 },
@@ -128,7 +128,7 @@
                      { field: 'isReq',        label: '관리',       align:'center',      width: 90  , renderer: function(val, p, record, row, i){
                          console.log(record.data.isFirstGrs);
                          return ((val==1)?"<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>":"")
-							 +((record.data.isFirstGrs==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"");
+							 +((record.data.isFirstGrs==1 && val==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"");
 
                      } }
              ]
@@ -150,11 +150,80 @@
         listGrid.render('listGrid');
 
         /* ================================== 상세 시작==============================================*/
-            infoDataSet = new Rui.data.LJsonDataSet({
-                    id: 'infoDataSet',
+
+
+        infoDataSet = new Rui.data.LJsonDataSet({
+            id: 'infoDataSet',
+            fields: [
+                { id: 'tssCd'}
+                ,{ id: 'wbsCd'}
+                ,{ id: 'pkWbsCd'}
+                ,{ id: 'pgsStepCd'}
+                ,{ id: 'tssSt'}
+                ,{ id: 'tssScnCd'}
+                ,{ id: 'grsYn'}
+                ,{ id: 'tssNm'}
+                ,{ id: 'prjCd'}
+                ,{ id: 'prjNm'}
+                ,{ id: 'bizDptCd'}
+                ,{ id: 'prodG'}
+                ,{ id: 'saSabunCd'}
+                ,{ id: 'saSabunNm'}
+                ,{ id: 'tssStrtDd'}
+                ,{ id: 'tssFnhDd'}
+                ,{ id: 'custSqlt'}
+                ,{ id: 'tssSmryTxt'}
+                ,{ id: 'tssAttrCd'}
+                ,{ id: 'tssType'}
+                ,{ id: 'smrSmryTxt'}
+                ,{ id: 'smrGoalTxt'}
+                ,{ id: 'nprodSalsPlnY'}
+                ,{ id: 'ctyOtPlnM                '}
+
+            ]
+        });
+        //상세 bind
+        InfoBind = new Rui.data.LBind({
+            groupId: 'defTssForm',
+            dataSet: infoDataSet,
+            bind: true,
+            bindInfo: [
+                { id: 'tssCd',            ctrlId: 'tssCd',            value: 'value' }
+                ,{ id: 'wbsCd',            ctrlId: 'wbsCd',            value: 'value' }
+                ,{ id: 'pkWbsCd',            ctrlId: 'pkWbsCd',            value: 'value' }
+                ,{ id: 'pgsStepCd',            ctrlId: 'pgsStepCd',            value: 'value' }
+                ,{ id: 'tssSt',            ctrlId: 'tssSt',            value: 'value' }
+                ,{ id: 'tssScnCd',            ctrlId: 'tssScnCd',            value: 'value' }
+                ,{ id: 'grsYn',            ctrlId: 'grsYn',            value: 'value' }
+                ,{ id: 'tssNm',            ctrlId: 'tssNm',            value: 'value' }
+                ,{ id: 'prjCd',            ctrlId: 'prjCd',            value: 'value' }
+                ,{ id: 'prjNm',            ctrlId: 'prjNm',            value: 'value' }
+                ,{ id: 'bizDptCd',            ctrlId: 'bizDptCd',            value: 'value' }
+                ,{ id: 'prodG',            ctrlId: 'prodG',            value: 'value' }
+                ,{ id: 'saSabunCd',            ctrlId: 'saSabunCd',            value: 'value' }
+                ,{ id: 'saSabunNm',            ctrlId: 'saSabunNm',            value: 'value' }
+                ,{ id: 'tssStrtDd',            ctrlId: 'tssStrtDd',            value: 'value' }
+                ,{ id: 'tssFnhDd',            ctrlId: 'tssFnhDd',            value: 'value' }
+                ,{ id: 'custSqlt',            ctrlId: 'custSqlt',            value: 'value' }
+                ,{ id: 'tssSmryTxt',            ctrlId: 'tssSmryTxt',            value: 'value' }
+                ,{ id: 'tssAttrCd',            ctrlId: 'tssAttrCd',            value: 'value' }
+                ,{ id: 'tssType',            ctrlId: 'tssType',            value: 'value' }
+                ,{ id: 'smrSmryTxt',            ctrlId: 'smrSmryTxt',            value: 'value' }
+                ,{ id: 'smrGoalTxt',            ctrlId: 'smrGoalTxt',            value: 'value' }
+                ,{ id: 'nprodSalsPlnY',            ctrlId: 'nprodSalsPlnY',            value: 'value' }
+                ,{ id: 'ctyOtPlnM                ',            ctrlId: 'ctyOtPlnM',            value: 'value' }
+
+            ]
+        });
+
+						
+				//평가 상세 Dataset
+            evInfoDataSet = new Rui.data.LJsonDataSet({
+                    id: 'evInfoDataSet',
                     fields: [
                         { id: 'tssCd' }            //과제코드
                         , { id: 'tssCdSn' }          //과제코드
+                        , { id: 'tssScnCd' }          //과제구분
                         , { id: 'userId' }           //로그인ID
                         , { id: 'prjNm' }            //프로젝트명
                         , { id: 'bizDptCd' }         //과제유형
@@ -178,17 +247,26 @@
                         , { id: 'tssRoleType' }
                         , { id: 'tssRoleId' }
                         , { id: 'saveYN' }
+                        , { id: 'isConfirm' }
+                        , { id: 'tssStrtDd' }
+                        , { id: 'tssFnhDd' }
+                        , { id: 'smrSmryTxt' }
+                        , { id: 'smrGoalTxt' }
+                        , { id: 'nprodSalsPlnY' }
+                        , { id: 'ctyOtPlnM' }
+
                      ]
                 });
 
-                 //상세 bind
-                infoBind = new Rui.data.LBind({
+                 //평가 상세 bind
+                evInfoBind = new Rui.data.LBind({
                     groupId: 'evTssForm',
-                    dataSet: infoDataSet,
+                    dataSet: evInfoDataSet,
                     bind: true,
                     bindInfo: [
                   { id: 'tssCd',            ctrlId: 'tssCd',            value: 'value' }
                 , { id: 'tssCdSn',          ctrlId: 'tssCdSn',          value: 'value' }
+                , { id: 'tssScnCd',          ctrlId: 'tssScnCd',          value: 'value' }
                 , { id: 'prjNm',            ctrlId: 'eprjNm',            value: 'value' }
                 , { id: 'bizDptNm',         ctrlId: 'ebizDptNm',         value: 'value' }
                 , { id: 'tssAttrCd',        ctrlId: 'etssAttrCd',        value: 'value' }
@@ -288,6 +366,9 @@
           visible: false,
           postmethod: 'none',
           buttons: [
+              { text:'Test값', isDefault: true, handler:
+                      function () {setDefault();}
+              },
               { text:'저장', isDefault: true, handler:
                       function () {
                           var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
@@ -322,6 +403,7 @@
 					  dm.on('success', function (e) {
 						  var resultData = resultDataSet.getReadData(e);
 						  alert(resultData.records[0].rtnMsg);
+                          fnSearch();
 						  etcTssDialog.hide();
 					  });
 
@@ -331,15 +413,15 @@
 					  });
 
 					  if (fncVaild()) {
-/*						  Rui.confirm({
+						  Rui.confirm({
 							  text: '삭제하시겠습니까?',
 							  handlerYes: function () {
 								  dm.updateForm({
-									  url: "<c:url value='/prj/grs/updateGrsMngInfo.do'/>",
+									  url: "<c:url value='/prj/grs/deleteGrsMngInfo.do'/>",
 									  form: 'defTssForm'
 								  });
 							  }
-						  });*/
+						  });
 					  }
 				  }
               },
@@ -358,6 +440,40 @@
             postmethod: 'none',
             buttons: [
                 {
+                    text: '임시저장', isDefault: true, handler:
+                        function () {
+                            var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
+                            dm.on('success', function (e) {      // 업데이트 성공시
+                                var resultData = resultDataSet.getReadData(e);
+                                alert(resultData.records[0].rtnMsg);
+                            });
+
+                            dm.on('failure', function (e) {      // 업데이트 실패시
+                                var resultData = resultDataSet.getReadData(e);
+                                alert(resultData.records[0].rtnMsg);
+                            });
+
+                            if (fncVaild()) {
+                                Rui.confirm({
+                                    text: '임시저장하시겠습니까?',
+                                    handlerYes: function () {
+                                        var param = jQuery("#evTssForm").serialize().replace(/%/g, '%25');
+                                        dm.updateDataSet({
+                                            modifiedOnly: false,
+                                            url: '<c:url value="/prj/grs/insertTmpGrsEvRsltInfo.do"/>',
+                                            dataSets: [gridDataSet],
+                                            params: param
+                                        });
+                                        dm.on('success', function (e) {
+                                            evTssDialog.hide();
+                                            fnSearch();
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                },
+                {
                     text: '평가완료', isDefault: true, handler:
                         function () {
                             var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
@@ -373,11 +489,21 @@
 
                             if (fncVaild()) {
                                 Rui.confirm({
-                                    text: '평가완료하시겠습니까?',
+                                    text: '평가완료하시겠습니까?<br>완료후에는 수정/삭제가 불가능합니다.',
                                     handlerYes: function () {
                                         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                                         console.log(gridDataSet);
                                         var param = jQuery("#evTssForm").serialize().replace(/%/g, '%25');
+                                        param += "&tssStrtDd=" + evInfoDataSet.getNameValue(0, "tssStrtDd");
+                                        param += "&tssFnhDd=" + evInfoDataSet.getNameValue(0, "tssStrtDd");
+
+                                        param += "&smrSmryTxt=" + evInfoDataSet.getNameValue(0, "smrSmryTxt");
+                                        param += "&smrGoalTxt=" + evInfoDataSet.getNameValue(0, "smrGoalTxt");
+                                        param += "&nprodSalsPlnY=" + evInfoDataSet.getNameValue(0, "nprodSalsPlnY");
+                                        param += "&ctyOtPlnM=" + evInfoDataSet.getNameValue(0, "ctyOtPlnM");
+                                        
+                                        console.log(">>>>>>>>>>>",param);
+
                                         dm.updateDataSet({
                                             modifiedOnly: false,
                                             url: '<c:url value="/prj/grs/insertGrsEvRsltSave.do"/>',
@@ -416,7 +542,7 @@
       //화면초기화
       fnOnInit();
 
-    setDefault();
+
 
     makeGrsEvPop();
     makeGrsEvTable();
@@ -441,6 +567,7 @@
      });
 
      getAttachFileList = function() {
+         attachFileDataSet.clearData();
          attachFileDataSet.load({
              url: '<c:url value="/system/attach/getAttachFileList.do"/>' ,
              params :{
@@ -476,7 +603,7 @@
 
          if(attachFileList.length > 0) {
              lvAttcFilId = attachFileList[0].data.attcFilId;
-             infoDataSet.setNameValue(0, "attcFilId", lvAttcFilId)
+             evInfoDataSet.setNameValue(0, "attcFilId", lvAttcFilId)
          }
      };
 
@@ -485,6 +612,54 @@
 		    mstForm.submit();
      };
 
+
+
+        evInfoDataSet.on('load', function (e) {
+            var isConfirm = (evInfoDataSet.getNameValue(0, "isConfirm") == "1");
+            var isReq = (evInfoDataSet.getNameValue(0, "tssSt") == "101");
+            var isFirstGrs = (evInfoDataSet.getNameValue(0, "isFirstGrs") == "1");
+
+
+
+			if(isReq){
+                $(".first-child:contains('임시저장')").css("display", "block");
+                $(".first-child:contains('평가완료')").css("display", "block");
+            }else{
+                $(".first-child:contains('임시저장')").css("display", "none");
+                $(".first-child:contains('평가완료')").css("display", "none");
+			}
+
+
+            console.log(">>>>>>>>>>>>>>>>>>", tssCd, isConfirm, evInfoDataSet.getNameValue(0, "tssSt"));
+            if (isConfirm) {
+                evTableGrid.setEditable(false);
+                setReadonly("evTitl");
+                setReadonly("cfrnAtdtCdTxtNm");
+                setReadonly("commTxt");
+                $("#attchFileMngBtn").hide();
+
+            } else {
+                evTableGrid.setEditable(true);
+                setEditable("evTitl");
+                setEditable("cfrnAtdtCdTxtNm");
+                setEditable("commTxt");
+                $("#attchFileMngBtn").show();
+            }
+
+            // if(isFirstGrs && isReq){
+            //    $(".first-child:contains('삭제')").css("display","block");
+            // }else{
+            //    $(".first-child:contains('삭제')").css("display","none");
+            // }
+
+
+            lvAttcFilId = evInfoDataSet.getNameValue(0, "attcFilId");
+            if (!Rui.isEmpty(lvAttcFilId)) {
+                $('#attchFileView').html('');
+                getAttachFileList();
+            }
+
+        });
 
    }); //onReady END
 
@@ -505,114 +680,88 @@
 
    function addTss(){
 	   etcTssDialog.show(true);
+	   infoDataSet.clearData();
+	   tssCd = "";
+	   $("#tssCd").val('');
+       setEditable("tssScnCd");
+       setEditable("grsYn");
+       setEditable("prjNm");
+       $(".first-child:contains('삭제')").css("display","none");
    }
+
 
    	// 평가 Popup
     function evTssPop(row) {
+        console.log(111111111111111111111111111111111);
         tssCd = listDataSet.getAt(row).data.tssCd;
         grsEvSn = listDataSet.getAt(row).data.grsEvSn;
         tssCdSn = listDataSet.getAt(row).data.tssCdSn;
+        if (grsEvSn == '0' || grsEvSn == undefined) {
+            grsEvSn = '';
+            $("#chooseEv").show();
+        } else {
+            $("#chooseEv").hide();
+        }
 
-        infoDataSet.clearData();
-        infoDataSet.load({
+
+
+
+        evInfoDataSet.clearData();
+        grsEvSnNm.setValue('');
+        evInfoDataSet.load({
             url: '<c:url value="/prj/grs/selectGrsTssInfo.do"/>',
             params: {
                 tssCd: tssCd,
                 tssCdSn: tssCdSn
             }
         });
-        infoDataSet.on('load', function(e) {
-			var isConfirm = (infoDataSet.getNameValue(0, "evTitl")!="");
-			var isFirstGrs = (infoDataSet.getNameValue(0, "isFirstGrs")=="1");
-            
-			if(isConfirm){
-                evTableGrid.setEditable(false);
-                $("#chooseEv").hide();
-                setReadonly("evTitl");
-                setReadonly("cfrnAtdtCdTxtNm");
-                setReadonly("commTxt");
-                
-                $(".first-child:contains('평가완료')").css("display","none");
-                $("#attchFileMngBtn").hide();
-            }else{
-                evTableGrid.setEditable(true);
-                $("#chooseEv").show();
-                setEditable("evTitl");
-                setEditable("cfrnAtdtCdTxtNm");
-                setEditable("commTxt");
-                
-                $(".first-child:contains('평가완료')").css("display","block");
-                $("#attchFileMngBtn").show();
-			}
-			
-			if(isFirstGrs){
-                $(".first-child:contains('삭제')").css("display","none");
-			}else{
-                $(".first-child:contains('삭제')").css("display","block");
-			}
 
-
-
-            lvAttcFilId = infoDataSet.getNameValue(0, "attcFilId");
-            if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
-
-        });
 
 
         gridDataSet.load({
-            url: '/iris/prj/grs/retrieveGrsReqDtl.do',
+            url: '/iris/prj/grs/selectGrsEvRsltInfo.do',
             params: {
                 grsEvSn: grsEvSn,
                 tssCd: tssCd,
                 tssCdSn: tssCdSn
             }
         })
-        gridDataSet.on('load', function(e) {
+        gridDataSet.on('load', function (e) {
 
         });
-/*
-        infoDataSet.on('success', function(e) {
-            var data = dataSet.getReadData(e);
-                console.log("infoResult");
-                console.log(data);
-        });        
-*/
 
-
-
-/*        evGrsDataSet.clearData();
-        evGrsDataSet.load({
-            url: '<c:url value="/prj/grs/selectGrsEvRsltInfo.do"/>',
-            params: {
-                tssCd: tssCd,
-                grsEvSn: grsEvSn,
-                tssCdSn: tssCdSn
-            }
-        });*/
-
-        evTssDialog.show(true);
+        evTssDialog.show();
     }
 
+
+
    function modifyTss(row){
+       tssCd = listDataSet.getAt(row).data.tssCd;
 	   etcTssDialog.show(true);
-/*        infoDataSet.load({
-            url: '<c:url value="/prj/grs/selectListGrsMngInfo.do"/>',
+
+       infoDataSet.clearData();
+       infoDataSet.load({
+            url: '<c:url value="/prj/grs/selectGrsMngInfo.do"/>',
             params: {
             	tssCd: tssCd
             }
-        });*/
-/*       infoDataSet.on('load', function(e) {
-           lvAttcFilId = infoDataSet.getNameValue(0, "attcFilId");
-           if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
+        });
 
-       });	   */
+       infoDataSet.on('load', function(e){
+           setReadonly("tssScnCd");
+           setReadonly("grsYn");
+           setReadonly("prjNm");
+           $(".first-child:contains('삭제')").css("display","block");
+       });
+
    }
 
  //평가표 팝업 cbf
    function setGrsEvSnInfo(grsInfo) {
 	 $("#evTssForm > #grsEvSn").val(grsInfo.grsEvSn);
 	 grsEvSnNm.setValue(grsInfo.evSbcNm);
-	 // getGrsEvTableData(grsInfo.grsEvSn, infoDataSet.getAt(0).get("tssCd"), '');
+	 egrsEvSnNm.setValue(grsInfo.evSbcNm);
+	 // getGrsEvTableData(grsInfo.grsEvSn, evInfoDataSet.getAt(0).get("tssCd"), '');
 
 	   console.log(tssCd);
 	   console.log(grsInfo.grsEvSn);
@@ -810,6 +959,7 @@
 
                         <input type="hidden" id="dlbrParrDt" name="dlbrParrDt" value=""/>
                         <input type="hidden" id="dlbrCrgr" name="dlbrCrgr" value=""/>
+
                         <table class="table table_txt_right">
 							<colgroup>
 								<col style="width: 20%;" />
@@ -898,6 +1048,7 @@
 	nTextBox('stssNm', 300, '과제명을 입력해주세요'); // 과제명
 	nTextBox('sprjNm', 300, '프로젝트명을 입력해주세요'); // 프로젝트명
 	nTextBox('dlbrCrgrNm', 300, '과제담당자명을 입력해주세요'); // 과제명
+
 	/* 등록 */
 	nCombo('tssScnCd', 'TSS_SCN_CD') // 과제구분
 	nCombo('grsYn', 'COMM_YN') // GRS 수행여부
@@ -965,6 +1116,18 @@
         }
     });
 
+	// 연구소 과제의 경우 GRS(P1) 반드시 수행
+    tssScnCd.on('changed', function(e) {
+        if($.inArray( e.value, [ "G", "O", "N"])>-1){
+            grsYn.setValue('Y');
+            setReadonly('grsYn');
+		}else{
+            setEditable('grsYn');
+		}
+    });
+
+
+
     setUsersInfo = function(userList) {
         var idList = [];
         var nameList = [];
@@ -1013,7 +1176,7 @@
 
 
 	// Comment
-	nTextArea('commTxt', 580, 122, 'Comment를 입력해주세요');
+	nTextArea('commTxt', 780, 122, 'Comment를 입력해주세요');
 	// 첨부파일
 	//attcFilId
 	// 평가표 선택

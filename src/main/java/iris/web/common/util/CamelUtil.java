@@ -15,21 +15,30 @@ public class CamelUtil {
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 
 		String[] test = {
+				"TSS_CD",
+				"WBS_CD",
+				"PK_WBS_CD",
+				"PGS_STEP_CD",
+				"TSS_ST",
+				"TSS_SCN_CD",
+				"GRS_YN",
+				"TSS_NM",
+				"PRJ_CD",
+				"PRJ_NM",
+				"BIZ_DPT_CD",
+				"PROD_G",
+				"SA_SABUN_CD",
+				"SA_SABUN_NM",
+				"TSS_STRT_DD",
+				"TSS_FNH_DD",
+				"CUST_SQLT",
+				"TSS_SMRY_TXT",
+				"TSS_ATTR_CD",
+				"TSS_TYPE",
 				"SMR_SMRY_TXT",
 				"SMR_GOAL_TXT",
-				"CTY_OT_PLN_M",
 				"NPROD_SALS_PLN_Y",
-				"ATTC_FIL_ID",
-				"ALTR_RSON_TXT",
-				"ADD_RSON_TXT",
-				"DCAC_RSON_TXT",
-				"ALTR_ATTC_FIL_ID",
-				"CMPL_ATTC_FIL_ID",
-				"DCAC_ATTC_FIL_ID",
-				"FRST_RGST_DT",
-				"FRST_RGST_ID",
-				"LAST_MDFY_DT",
-				"LAST_MDFY_ID"
+				"CTY_OT_PLN_M"
 			};
 		System.out.println(insertToCamel(test));
 		System.out.println(selectToCamel(test));

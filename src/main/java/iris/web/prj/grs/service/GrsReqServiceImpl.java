@@ -47,9 +47,10 @@ public class GrsReqServiceImpl implements  GrsReqService{
     }
 
 
-    //GRS요청
+    //GRS 상세 조회
     @Override
     public Map<String, Object> retrieveGrsEvRslt(HashMap<String, String> input) {
+		input.put("beforGrs", (String) commonDao.select("prj.grs.selectIsBeforGrs", input));
         return commonDao.select("prj.grs.retrieveGrsEvRslt", input);
     }
 

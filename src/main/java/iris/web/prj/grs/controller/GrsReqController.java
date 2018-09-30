@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import iris.web.prj.grs.service.GrsMngService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -48,6 +49,9 @@ public class GrsReqController  extends IrisBaseController {
 
     @Resource(name = "grsReqService")
     private GrsReqService grsReqService;
+
+    @Resource(name = "grsMngService")
+    private GrsMngService grsMngService;
 
     @Resource(name = "genTssPlnService")
     private GenTssPlnService genTssPlnService;
@@ -493,7 +497,7 @@ public class GrsReqController  extends IrisBaseController {
                                             HttpSession session, ModelMap model) {
 
         LOGGER.debug("###########################################################");
-        LOGGER.debug("insertGrsEvRsltSave [GRS 평가의뢰 저장]");
+        LOGGER.debug("insertGrsEvRsltSave [GRS 평가완료]");
         LOGGER.debug("input = > " + input);
         LOGGER.debug("###########################################################");
 
@@ -512,16 +516,20 @@ public class GrsReqController  extends IrisBaseController {
 
             grsReqService.insertGrsEvRsltSave(dsLst, input);
 
-            /*
-             *  GRS 평가 완료후 과제 상태값 변경
-             */
+			LOGGER.debug("===GRS 평가 완료후 과제 상태값 변경===");
             input.put("tssSt", "102");
             genTssPlnService.updateGenTssPlnMstTssSt(input);
-            /*
-             * 해당과제 리더에게 완료 메일 발송
-             */
-            genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121
+            grsMngService.updateDefTssSt(input);
 
+
+            if(grsMngService.isBeforGrs(input).equals("1")){
+                LOGGER.debug("===GRS 관리에서 기본정보를 입력한경우===");
+                LOGGER.debug("===과제 관리 마스터로 데이터 복제 (과제정보, 개요)===");
+                grsMngService.moveDefGrsDefInfo(input);
+            }
+
+			LOGGER.debug("===해당과제 리더에게 완료 메일 발송===");
+            genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121
 
             rtnMsg = "평가완료되었습니다.";
             rtnSt = "S";

@@ -97,10 +97,21 @@
 			 WHERE A.WBS_CD LIKE B.WBS_CD_STD+'_'
 			   AND A.TSS_SCN_CD = #{tssScnCd}
 		)
-		SELECT WBS_CD_STD AS wbsCdStd
-		     , WBS_CD_SEQ AS wbsCdSeq
-		     , (select yy+replicate('0', 3-len(cast(count(distinct PK_WBS_CD) as varchar)))+cast(count(distinct PK_WBS_CD) as varchar) as seq
-		          FROM IRIS_TSS_MGMT_MST WHERE TSS_SCN_CD = #{tssScnCd} and PK_wbs_CD like '_'+YY+'___') AS seqMax
+		SELECT
+		  WBS_CD_STD AS wbsCdStd,
+		  WBS_CD_SEQ AS wbsCdSeq,
+		  (select yy + replicate('0', 3 - len(cast(count(distinct PK_WBS_CD) as varchar))) +
+          (cast((count(distinct PK_WBS_CD)
+-- 임시 GRS 테이블 건수 합산 시작
+           + (select count(distinct PK_WBS_CD)
+              FROM
+                IRIS_GRS_MGMT_MST
+              WHERE TSS_SCN_CD =  #{tssScnCd} and PK_wbs_CD like '_' + YY + '___'))as varchar))
+-- 임시 GRS 테이블 건수 합산 종료
+		   FROM
+			 IRIS_TSS_MGMT_MST
+		   WHERE TSS_SCN_CD = #{tssScnCd} and PK_wbs_CD like '_' + YY + '___')
+					 AS seqMax
 		 FROM WBS_STD A
 		    , TB2 B
 	</select>
