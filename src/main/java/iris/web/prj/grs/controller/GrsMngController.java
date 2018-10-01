@@ -167,6 +167,9 @@ public class GrsMngController extends IrisBaseController {
 				//SEED WBS_CD 생성
 				int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
 				String seqMaxS = String.valueOf(seqMax + 1);
+
+
+				input.put("nprodSalsPlnY", (Integer)input.get("nprodSalsPlnY") * 100000000);
 				input.put("wbsCd", input.get("tssScnCd") + seqMaxS);
 				input.put("pkWbsCd", input.get("wbsCd"));
 				input.put("userId", input.get("_userId"));

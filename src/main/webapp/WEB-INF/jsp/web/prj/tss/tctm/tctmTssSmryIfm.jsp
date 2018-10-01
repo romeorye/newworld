@@ -137,6 +137,8 @@
             lvAttcFilId = dataSet.getNameValue(0, "attcFilId");
             if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
+            
+            console.log("???????????????????????",dataSet.getNameValue(0, "nprodSalsPlnY") / 100000000);
             var dsNprodSalsPlnY  = (dataSet.getNameValue(0, "nprodSalsPlnY")  / 100000000).toFixed(2);
             console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",dsNprodSalsPlnY);
             nprodSalsPlnY.setValue(dsNprodSalsPlnY);

@@ -874,44 +874,60 @@ public class TctmTssController extends IrisBaseController {
             TestConsole.isEmptyMap(mstDs);
 
 
-            if (getWbs == null || getWbs.size() <= 0) {
-                mstDs.put("rtCd", "FAIL");
-                mstDs.put("rtVal", "상위사업부코드 또는 Project약어를 먼저 생성해 주시기 바랍니다.");
-            } else {
-                //SEED WBS_CD 생성
-                int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
-                String seqMaxS = String.valueOf(seqMax + 1);
-                mstDs.put("wbsCd", "D" + seqMaxS);
+			String pgsStepCd = (String) mstDs.get("pgsStepCd");
+
+			if(pgsStepCd.equals("PL")) {
+				if (getWbs == null || getWbs.size() <= 0) {
+					mstDs.put("rtCd", "FAIL");
+					mstDs.put("rtVal", "상위사업부코드 또는 Project약어를 먼저 생성해 주시기 바랍니다.");
+				} else {
+					//SEED WBS_CD 생성
+					int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
+					String seqMaxS = String.valueOf(seqMax + 1);
+					mstDs.put("wbsCd", "D" + seqMaxS);
 
 
-                TestConsole.isEmpty("wbsCd", mstDs.get("wbsCd"));
-                smryDecodeDs = (HashMap<String, Object>) ousdCooTssService.decodeNamoEditorMap(input, smryDs); //에디터데이터 디코딩처리
-                smryDecodeDs = StringUtil.toUtf8Input(smryDecodeDs);
+					TestConsole.isEmpty("wbsCd", mstDs.get("wbsCd"));
+					smryDecodeDs = (HashMap<String, Object>) ousdCooTssService.decodeNamoEditorMap(input, smryDs); //에디터데이터 디코딩처리
+					smryDecodeDs = StringUtil.toUtf8Input(smryDecodeDs);
 
 
-                TestConsole.isEmptyMap(mstDs);
-                TestConsole.isEmptyMap(smryDecodeDs);
+					TestConsole.isEmptyMap(mstDs);
+					TestConsole.isEmptyMap(smryDecodeDs);
 
 
-                // TSS CD 생성
-                if (mstDs.get("tssCd") == null || mstDs.get("tssCd").equals("")) {
-                    String newTssCd = tctmTssService.selectNewTssCdt(mstDs);
-                    mstDs.put("tssCd", newTssCd);
-                    smryDecodeDs.put("tssCd", newTssCd);
-                }
+					// TSS CD 생성
+					if (mstDs.get("tssCd") == null || mstDs.get("tssCd").equals("")) {
+						String newTssCd = tctmTssService.selectNewTssCdt(mstDs);
+						mstDs.put("tssCd", newTssCd);
+						smryDecodeDs.put("tssCd", newTssCd);
+					}
 
-                // 과제 마스터 등록
-                tctmTssService.updateTctmTssInfo(mstDs);
-                // 과제 개요 등록
-                tctmTssService.updateTctmTssSmryInfo(smryDecodeDs);
-                // 산출물 등록
-                tctmTssService.updateTctmTssYld(mstDs);
+					// 과제 마스터 등록
+					tctmTssService.updateTctmTssInfo(mstDs);
+					// 과제 개요 등록
+					tctmTssService.updateTctmTssSmryInfo(smryDecodeDs);
+					// 산출물 등록
+					tctmTssService.updateTctmTssYld(mstDs);
 
 
-                mstDs.put("rtCd", "SUCCESS");
-                mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
-                mstDs.put("rtType", "I");
-            }
+					mstDs.put("rtCd", "SUCCESS");
+					mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+					mstDs.put("rtType", "I");
+				}
+			}else if(pgsStepCd.equals("PG")){
+				smryDecodeDs = (HashMap<String, Object>) ousdCooTssService.decodeNamoEditorMap(input, smryDs); //에디터데이터 디코딩처리
+				smryDecodeDs = StringUtil.toUtf8Input(smryDecodeDs);
+
+
+				// 과제 개요 등록
+				tctmTssService.updateTctmTssSmryInfo(smryDecodeDs);
+
+				mstDs.put("rtCd", "SUCCESS");
+				mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+				mstDs.put("rtType", "I");
+			}
+
         } catch (MimeDecodeException e) {
             LOGGER.debug("MimeDecodeException ERROR");
             e.printStackTrace();

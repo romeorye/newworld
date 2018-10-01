@@ -870,8 +870,12 @@
                 // }
 
                 if(confirm("저장하시겠습니까?")) {
-                    dataSet.setNameValue(0, "pgsStepCd", "PL"); //진행단계: PL(계획)
-                    dataSet.setNameValue(0, "tssScnCd", "D");   //과제구분: G(기술팀)
+
+
+
+                    if(pgsStepCd=="")pgsStepCd = "PL"
+                    dataSet.setNameValue(0, "pgsStepCd", pgsStepCd);
+                    dataSet.setNameValue(0, "tssScnCd", "D");   //과제구분: D(기술팀)
                     dataSet.setNameValue(0, "tssSt", "100");    //과제상태: 100(작성중)
                     dataSet.setNameValue(0, "tssCd",  gvTssCd);  //과제코드
                     dataSet.setNameValue(0, "userId", gvUserId); //사용자ID

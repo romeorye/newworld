@@ -753,6 +753,10 @@
            setReadonly("grsYn");
            setReadonly("prjNm");
            $(".first-child:contains('삭제')").css("display","block");
+
+           var dsNprodSalsPlnY  = (dataSet.getNameValue(0, "nprodSalsPlnY")  / 100000000).toFixed(2);
+           nprodSalsPlnY.setValue(dsNprodSalsPlnY);
+
        });
 
    }

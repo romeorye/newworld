@@ -72,7 +72,6 @@ public class TctmTssServiceImpl implements TctmTssService {
 
 	@Override
 	public void updateTctmTssSmryInfo(HashMap<String, Object> input) {
-		TestConsole.showMap(input);
 		commonDao.insert(tctmPack + ".updateSmryInfo", input);
 	}
 
