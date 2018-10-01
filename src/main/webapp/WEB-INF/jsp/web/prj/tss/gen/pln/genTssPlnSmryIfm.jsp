@@ -867,7 +867,7 @@ $(window).load(function() {
                                 Wec0.params.Width = "100%";
                                 Wec0.params.UserLang = "auto";
                                 uploadPath = "<%=uploadPath%>";
-                                Wec0.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec0.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec0.params.FullScreen = false;
                                 Wec0.EditorStart();
 
@@ -879,7 +879,7 @@ $(window).load(function() {
                                 Wec1.params.Width = "100%";
                                 Wec1.params.UserLang = "auto";
                                 uploadPath = "<%=uploadPath%>";
-                                Wec1.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec1.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec1.params.FullScreen = false;
                                 Wec1.EditorStart();
 
@@ -891,7 +891,7 @@ $(window).load(function() {
                                 Wec2.params.Width = "100%";
                                 Wec2.params.UserLang = "auto";
                                 uploadPath = "<%=uploadPath%>";
-                                Wec2.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec2.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec2.params.FullScreen = false;
                                 Wec2.EditorStart();
 
@@ -904,7 +904,7 @@ $(window).load(function() {
                                 Wec3.params.UserLang = "auto";
                                 uploadPath = "<%=uploadPath%>";
 
-                                Wec3.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec3.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec3.params.FullScreen = false;
                                 Wec3.EditorStart();
 
@@ -916,7 +916,7 @@ $(window).load(function() {
                                 Wec4.params.Width = "100%";
                                 Wec4.params.UserLang = "auto";
                                 var uploadPath = "<%=uploadPath%>";
-                                Wec4.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec4.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec4.params.FullScreen = false;
                                 Wec4.EditorStart();
 

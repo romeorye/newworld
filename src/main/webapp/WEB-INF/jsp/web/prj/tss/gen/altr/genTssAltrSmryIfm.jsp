@@ -705,47 +705,10 @@
         	fnDisplyNone();
         	$("#Wec"+index).ready(function(){
         		fnDisplyBlock(index);
-        		console.log("Loading completed.");
-        		if(e.isFirst) {
-                    if(index == 0) {
-                        initFrameSetHeight("smryFormDiv");
-                        
-                        setTimeout(function () {
-                            fnSetDataEditor(index);
-                            }, 1000);
-                    } else {
-                        fnSetDataEditor(index);
-                    }
-                }
         	});
       	});
         
         /** ============================================= Editor ================================================================================= **/
-        // 에디터 값 세팅        
-		fnSetDataEditor = function(val){
-       		var jsonString = JSON.stringify(${result});
-            var obj = jQuery.parseJSON(jsonString);
-        	var Wec = eval("document.smryForm.Wec"+val);
-        	 
-        	var frm = document.smryForm;
-        	Wec.BodyValue  =  Wec.value ;
-        	
-        	var txt  = obj.records[0].smryNTxt;          
-	        if(val==0){
-	        	txt  = obj.records[0].smryNTxt;       
-	        }else if(val==1){
-	        	txt  = obj.records[0].smryATxt;       
-	        }else if(val==2){
-	        	txt  = obj.records[0].smryBTxt;       
-	        }else if(val==3){
-	        	txt  = obj.records[0].smryCTxt;       
-	        }else if(val==4){
-	        	txt  = obj.records[0].smryDTxt;       
-	        }
-	       	Wec.BodyValue = txt;
-	       	Wec.setDirty(false);	// 변경상태 초기화처리
-        }
-        
         //editor 설정
         fnDisplyBlock= function(val){
         	document.getElementById('divWec'+val).style.display = 'block';
@@ -758,37 +721,7 @@
         	document.getElementById('divWec3').style.display = 'none';
         	document.getElementById('divWec4').style.display = 'none';
         }
-     	// 에디터변경여부
-        fnEditorIsUpdate = function(){
-        	isUpdate = false;
-        	var Wec0 = document.smryForm.Wec0;
-        	var Wec1 = document.smryForm.Wec1;
-        	var Wec2 = document.smryForm.Wec2;
-        	var Wec3 = document.smryForm.Wec3;
-        	var Wec4 = document.smryForm.Wec4;
-
-        	if( (Wec0 != null && Wec0.IsDirty() == 1) || (Wec1 != null && Wec1.IsDirty() == 1) || (Wec2 != null && Wec2.IsDirty() == 1) ||
-        	    (Wec3 != null && Wec3.IsDirty() == 1) || (Wec4 != null && Wec4.IsDirty() == 1) ){
-        		
-        		isUpdate = true;
-        	}
-        	return isUpdate;
-        }
-        /* 에디터값 가져오기(변경상태 유지) type(body, mime) */
-        fnEditorGetMimeValue = function(beforeDirty,editor,type){
-        	
-        	var returnValue = editor.MIMEValue;
-        	if(type == 'body'){ returnValue = editor.BodyValue; }
-        	
-        	editor.setDirty(beforeDirty);
-        	return returnValue;
-        }
-     	// 에디터 생성
-        createNamoEdit('Wec0', '100%', 400, 'divWec0');
-    	createNamoEdit('Wec1', '100%', 400, 'divWec1');
-    	createNamoEdit('Wec2', '100%', 400, 'divWec2');
-    	createNamoEdit('Wec3', '100%', 400, 'divWec3');
-    	createNamoEdit('Wec4', '100%', 400, 'divWec4');
+     
     	/** ===============================================  Editor End ==================================================================================== **/
     	
         tabViewS.render('tabViewS');
@@ -926,11 +859,76 @@ $(window).load(function() {
 	                    <input type="hidden" id="smryBTxt" name="smryBTxt" >
 	                    <input type="hidden" id="smryCTxt" name="smryCTxt" >
 	                    <input type="hidden" id="smryDTxt" name="smryDTxt" >
-	                	<div id="divWec0"></div>
-                		<div id="divWec1"></div>
-                		<div id="divWec2"></div>
-                		<div id="divWec3"></div>
-                		<div id="divWec4"></div>
+	                	<div id="divWec0">
+                            <script>
+                                Wec0 = new NamoSE('divWec0');
+                                Wec0.params.Width = "100%";
+                                Wec0.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec0.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec0.params.FullScreen = false;
+                                Wec0.EditorStart();
+
+                            </script>
+                        </div>
+                        <div id="divWec1">
+                            <script>
+                                Wec1 = new NamoSE('divWec1');
+                                Wec1.params.Width = "100%";
+                                Wec1.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec1.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec1.params.FullScreen = false;
+                                Wec1.EditorStart();
+
+                            </script>
+                        </div>
+                        <div id="divWec2">
+                            <script>
+                                Wec2 = new NamoSE('divWec2');
+                                Wec2.params.Width = "100%";
+                                Wec2.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec2.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec2.params.FullScreen = false;
+                                Wec2.EditorStart();
+
+                            </script>
+                        </div>
+                        <div id="divWec3">
+                            <script>
+                                Wec3 = new NamoSE('divWec3');
+                                Wec3.params.Width = "100%";
+                                Wec3.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+
+                                Wec3.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec3.params.FullScreen = false;
+                                Wec3.EditorStart();
+
+                            </script>
+                        </div>
+                        <div id="divWec4">
+                            <script>
+                                var Wec4 = new NamoSE('divWec4');
+                                Wec4.params.Width = "100%";
+                                Wec4.params.UserLang = "auto";
+                                var uploadPath = "<%=uploadPath%>";
+                                Wec4.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec4.params.FullScreen = false;
+                                Wec4.EditorStart();
+
+                            </script>
+                        </div>
+                        <script type="text/javascript" language="javascript">
+                            function OnInitCompleted(e){
+                                e.editorTarget.SetBodyValue(document.getElementById("divWec0").value);
+                                e.editorTarget.SetBodyValue(document.getElementById("divWec1").value);
+                                e.editorTarget.SetBodyValue(document.getElementById("divWec2").value);
+                                e.editorTarget.SetBodyValue(document.getElementById("divWec3").value);
+                                e.editorTarget.SetBodyValue(document.getElementById("divWec4").value);
+                            }
+                        </script>   
                     </td>
                 </tr>
                 <tr>
