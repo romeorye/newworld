@@ -354,21 +354,17 @@
             var dsNprodSalsPlnY3 = (dataSet.getNameValue(0, "nprodSalsPlnY3") / 100000000).toFixed(2);
             var dsNprodSalsPlnY4 = (dataSet.getNameValue(0, "nprodSalsPlnY4") / 100000000).toFixed(2);
 
-
-
             //NaN인경우
             dsNprodSalsPlnY1 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
             dsNprodSalsPlnY2 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
             dsNprodSalsPlnY3 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
             dsNprodSalsPlnY4 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
 
-
             nprodSalsPlnY.setValue(dsNprodSalsPlnY);
             nprodSalsPlnY1.setValue(dsNprodSalsPlnY1);
             nprodSalsPlnY2.setValue(dsNprodSalsPlnY2);
             nprodSalsPlnY3.setValue(dsNprodSalsPlnY3);
             nprodSalsPlnY4.setValue(dsNprodSalsPlnY4);
-
 
             Wec0.SetBodyValue( dataSet.getNameValue(0, "smryNTxt") );
             Wec1.SetBodyValue( dataSet.getNameValue(0, "smryATxt") );
@@ -377,14 +373,9 @@
             Wec4.SetBodyValue( dataSet.getNameValue(0, "smryDTxt") );
 
 	        fncPtcCpsnYDisable(strDt, endDt);
-            // setTimeout(function () {
-	         //    fnGetYAvg("ptc");
-	         //    fnGetYAvg("biz");
-            //     tabViewS.selectTab(0);
-            // }, 1000);
-               fnGetYAvg("ptc");
-               fnGetYAvg("biz");
-                tabViewS.selectTab(0);
+            fnGetYAvg("ptc");
+            fnGetYAvg("biz");
+            tabViewS.selectTab(0);
 
         });
 
@@ -433,11 +424,6 @@
         vm = new Rui.validate.LValidatorManager({
             validators: [
                   { id: 'tssCd',             validExp: '과제코드:false' }
-                , { id: 'smryNTxt',          validExp: 'Needs:false' }
-                , { id: 'smryATxt',          validExp: 'Approach:false' }
-                , { id: 'smryBTxt',          validExp: 'Benefit:false' }
-                , { id: 'smryCTxt',          validExp: 'Competition:false' }
-                , { id: 'smryDTxt',          validExp: 'Deliverables:false' }
                 , { id: 'mrktSclTxt',        validExp: '시장규모:true' }
                 , { id: 'ctyOtPlnM',         validExp: '상품출시(계획):true' }
                 , { id: 'smrSmryTxt',        validExp: 'Summary 개요:true' }
@@ -621,49 +607,10 @@
             fnDisplyNone();
             $("#Wec"+index).ready(function(){
                 fnDisplyBlock(index);
-                console.log("Loading completed.");
-                if(e.isFirst) {
-                    if(index == 0) {
-                        initFrameSetHeight("smryFormDiv");
-
-                        // setTimeout(function () {
-                        //     fnSetDataEditor(index);
-                        //     }, 1000);
-                    } else {
-                        fnSetDataEditor(index);
-                    }
-                }
             });
         });
 
         /** ============================================= Editor ================================================================================= **/
-        // 에디터 값 세팅
-        fnSetDataEditor = function(val){
-            var jsonString = JSON.stringify(${result});
-            var obj = jQuery.parseJSON(jsonString);
-            var Wec = eval("Wec"+val);
-            console.log(Wec);
-            var frm = document.smryForm;
-            Wec.BodyValue  =  Wec.GetBodyValue() ;
-            var txt  ="";
-
-            if(lvTssCd !='') {
-                txt = obj.records[0].smryNTxt;
-                if(val==0){
-                    txt  = obj.records[0].smryNTxt;
-                }else if(val==1){
-                    txt  = obj.records[0].smryATxt;
-                }else if(val==2){
-                    txt  = obj.records[0].smryBTxt;
-                }else if(val==3){
-                    txt  = obj.records[0].smryCTxt;
-                }else if(val==4){
-                    txt  = obj.records[0].smryDTxt;
-                }
-            }
-            Wec.BodyValue = txt;
-            // Wec.setDirty(false);    // 변경상태 초기화처리
-        }
 
         //editor 설정
         fnDisplyBlock= function(val){
@@ -677,32 +624,6 @@
             document.getElementById('divWec3').style.display = 'none';
             document.getElementById('divWec4').style.display = 'none';
         }
-        // 에디터변경여부// 에디터 validation 체크
-        fnEditorIsUpdate = function(){
-            isUpdate = false;
-            // var Wec0 = document.smryForm.Wec0;
-            // var Wec1 = document.smryForm.Wec1;
-            // var Wec2 = document.smryForm.Wec2;
-            // var Wec3 = document.smryForm.Wec3;
-            // var Wec4 = document.smryForm.Wec4;
-
-            if( (Wec0 != null && Wec0.IsDirty() == 1) || (Wec1 != null && Wec1.IsDirty() == 1) || (Wec2 != null && Wec2.IsDirty() == 1) ||
-                (Wec3 != null && Wec3.IsDirty() == 1) || (Wec4 != null && Wec4.IsDirty() == 1) ){
-
-                isUpdate = true;
-            }
-            return isUpdate;
-        }
-        /* 에디터값 가져오기(변경상태 유지) type(body, mime) */
-        fnEditorGetMimeValue = function(beforeDirty,editor,type){
-
-            var returnValue = editor.MIMEValue;
-            if(type == 'body'){ returnValue = editor.BodyValue; }
-
-            // editor.setDirty(beforeDirty);
-            return returnValue;
-        }
-       
         /** ===============================================  Editor End ==================================================================================== **/
 
         tabViewS.render('tabViewS');
@@ -807,44 +728,6 @@
     function fnIfmIsUpdate(gbn) {
         if(!vm.validateGroup("smryForm")) {
             alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join(''));
-            return false;
-        }
-        // 에디터 validation 체크
-        // var needs        = fnEditorGetMimeValue(Wec0.IsDirty(),Wec0,'body');
-        // var approach     = fnEditorGetMimeValue(Wec1.IsDirty(),Wec1,'body');
-        // var benefit      = fnEditorGetMimeValue(Wec2.IsDirty(),Wec2,'body');
-        // var competition  = fnEditorGetMimeValue(Wec3.IsDirty(),Wec3,'body');
-        // var deliverables = fnEditorGetMimeValue(Wec4.IsDirty(),Wec4,'body');
-        var needs        =Wec0.GetBodyValue();
-        var approach     =Wec1.GetBodyValue();
-        var benefit      =Wec2.GetBodyValue();
-        var competition  =Wec3.GetBodyValue();
-        var deliverables =Wec4.GetBodyValue();
-
-        var needsEditorMod        = Wec0.IsDirty();
-        var approachEditorMod     = Wec1.IsDirty();
-        var benefitEditorMod      = Wec2.IsDirty();
-        var competitionEditorMod  = Wec3.IsDirty();
-        var deliverablesEditorMod = Wec4.IsDirty();
-
-        if(  needs == "<P>&nbsp;</P>" || needs == "") {
-            alert("Needs 는 필수입력입니다.");
-            return false;
-        }
-        if( approach == "<P>&nbsp;</P>"  || approach == "" ) {
-            alert("Approach 는 필수입력입니다.");
-            return false;
-        }
-        if( benefit == "<P>&nbsp;</P>" || benefit == "") {
-            alert("Benefit 은 필수입력입니다.");
-            return false;
-        }
-        if( competition == "<P>&nbsp;</P>" || competition == "") {
-            alert("Competition 은 필수입력입니다.");
-            return false;
-        }
-        if( deliverables == "<P>&nbsp;</P>" || deliverables == "" ) {
-            alert("Deliverables 는 필수입력입니다.");
             return false;
         }
 
