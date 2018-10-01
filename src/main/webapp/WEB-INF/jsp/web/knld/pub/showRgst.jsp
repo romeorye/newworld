@@ -410,12 +410,12 @@
  			</div>
 
 			<div class="sub-content">
-				<div class="sub-content">
 					<div class="titArea btn_top">
-						<button type="button" id="saveBtn" name="saveBtn">저장</button>
-						<button type="button" id="butGoList" name="butGoList">목록</button>
+						<div class="LblockButton">
+							<button type="button" id="saveBtn" name="saveBtn">저장</button>
+							<button type="button" id="buztGoList" name="butGoList">목록</button>
+						</div>
 					</div>
-				</div>
    				<table class="table table_txt_right">
    					<colgroup>
    						<col style="width:15%"/>

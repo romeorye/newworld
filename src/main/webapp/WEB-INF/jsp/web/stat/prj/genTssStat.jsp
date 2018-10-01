@@ -280,7 +280,7 @@
 		    						<td>
 		<!--    						<input type="text" id="condYy"/> -->
 		   								<select name="condYy" id="condYy"></select>
-		   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+		   								<a style="margin-left:37px; cursor: pointer;" onclick="fnSearch(); " class="btnL">검색</a>
 		   							</td>
 		   						</tr>
 		   					</tbody>

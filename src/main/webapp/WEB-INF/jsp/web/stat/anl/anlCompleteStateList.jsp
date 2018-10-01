@@ -242,7 +242,7 @@
 		    						</td>
 		   							<th align="right">분석 완료일</th>
 		    						<td>
-		   								<input type="text" id="fromCmplDt"/> ~
+		   								<input type="text" id="fromCmplDt"/> <em class="date_txt"> ~ </em>
 		   								<input type="text" id="toCmplDt"/>
 		    						</td>
 		   							<td class="txt-right">

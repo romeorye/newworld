@@ -183,7 +183,6 @@ var mchnInfoId;
 					<table>
 						<colgroup>
 							<col style="width:120px" />
-							<col style="width:400px" />
 							<col style="" />
 						</colgroup>
 						<tbody>
@@ -191,9 +190,9 @@ var mchnInfoId;
 								<th align="right">연도</th>
 								<td class="tain_bo">
 									<div id="yy"></div>
+									<a style="cursor: pointer; margin-left:5px;"
+									onclick="fnSearch();" class="btnL">검색</a>
 								</td>
-								<td class="txt-right"><a style="cursor: pointer;"
-									onclick="fnSearch();" class="btnL">검색</a></td>
 							</tr>
 						</tbody>
 					</table>

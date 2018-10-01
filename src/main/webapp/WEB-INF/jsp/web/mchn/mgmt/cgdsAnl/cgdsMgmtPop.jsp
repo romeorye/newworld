@@ -202,15 +202,15 @@
 </head>
 <body>
 	<div class="bd">
-		<div class="sub-content">
+		<div class="sub-content" style="padding:0; padding-left:3px;">
 			<form name="aform" id="aform" method="post">
 			
 			<input type="hidden" id="cgdsId" name="cgdsId" value="<c:out value='${inputData.cgdsId}'/>">
 			<%-- <input type="hidden" id="cgdsMgmtId" name="cgdsMgmtId" value="<c:out value='${inputData.cgdsMgmtId}'/>"> --%>
 			
-				<div class="titArea">
+				<div class="titArea mt10">
 					<h3></h3>
-					<div class="LblockButton">
+					<div class="LblockButton mt0">
 						<button type="button" id="butSave">저장</button>
 						<button type="button" id="butCls">닫기</button>
 					</div>

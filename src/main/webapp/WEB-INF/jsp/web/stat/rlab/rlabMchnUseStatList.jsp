@@ -221,12 +221,12 @@ var mchnInfoId;
    						<tr>
    							<th align="right">장비구분</th>
     						<td>
-    							<div id="mchnClCd"></div>
+    							<div id="mchnClCd" class="form_bd"></div>
 								&nbsp; / &nbsp;
-								<div id="mchnClDtlCd"></div>
+								<div id="mchnClDtlCd" class="form_bd"></div>
     						</td>
    							<th align="right">기간</th>
-    						<td>
+    						<td class="form_bd">
     							<input type="text" id="fromRqprDt"/><em class="gab"> ~ </em>
    								<input type="text" id="toRqprDt"/>
     						</td>

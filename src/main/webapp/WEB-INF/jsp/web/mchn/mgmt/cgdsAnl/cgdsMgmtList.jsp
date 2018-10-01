@@ -127,6 +127,7 @@ var dataSet;
 		    dataSet: dataSetList,
 		    width: 1150,
 		    height: 350,
+		    autoWidth: true 
 		});
 
 		grid.render('cgdsGrid');
@@ -220,6 +221,10 @@ var dataSet;
 <body>
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+	          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	          <span class="hidden">Toggle 버튼</span>
+			</a>
 			<h2>소모품입출력 관리</h2>
 		</div>
 		<div class="sub-content">
@@ -236,15 +241,15 @@ var dataSet;
 				<input type="hidden" id="cgdsId" name="cgdsId" value="<c:out value='${inputData.cgdsId}'/>">
 				<table class="table table_txt_right">
 					<colgroup>
-						<col style="width: 15%" />
+						<col style="width: 12%" />
+						<col style="width: 12%" />
 						<col style="width: 30%" />
-						<col style="width: 15%" />
+						<col style="width: 12%" />
 						<col style="width:" />
-						<col style="width: 10%" />
 					</colgroup>
 					<tbody>
 						<tr>
-							<td rowspan="4">
+							<td rowspan="4" class="txt-center">
 								<img id="imgView"/>
 							</td>
 							<th align="center">소모품명</th>

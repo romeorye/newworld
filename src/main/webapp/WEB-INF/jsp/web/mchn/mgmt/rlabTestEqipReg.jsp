@@ -772,7 +772,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 						</tr>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>요약설명</th>
-							<td colspan="3">
+							<td colspan="3" style="padding-top:6px;">
 								<textarea id="mchnExpl"></textarea>
 							</td>
 						</tr>

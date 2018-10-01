@@ -527,20 +527,15 @@ var mchnInfoId;
 			<div class="search-content">
     			<table>
    					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
+   						<col style="width:120px;"/>
+   						<col style=""/>
    					</colgroup>
    					<tbody>
    						<tr>
    							<th align="right">연도</th>
     						<td>
-    							<div id="yy"></div>
-    						</td>
-   							<td class="txt-right">
-   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+    							<div id="yy" class="form_bd"></div>
+   								<a style="cursor: pointer; margin-left:5px;" onclick="fnSearch();" class="btnL">검색</a>
    							</td>
    						</tr>
    					</tbody>

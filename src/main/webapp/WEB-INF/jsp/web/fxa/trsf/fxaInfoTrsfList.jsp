@@ -313,7 +313,7 @@ var adminChk ="N";
 <!-- 이미지 -->
 	<div id="trsfRsonDialog">
 		<div class="hd" id="title">사유</div>
-		<div class="bd" id="contents">
+		<div class="bd" id="contents" style="padding:10px 10px 0 10px; height:100px !important;">
 			<!-- <span id="trsfRson"></span> -->
 			<input type="text" id="trsfRson"/>
 		</div>

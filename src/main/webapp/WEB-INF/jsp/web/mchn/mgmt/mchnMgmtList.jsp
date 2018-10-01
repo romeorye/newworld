@@ -214,8 +214,12 @@ var mchnMgmtRegDialog;
 </script>
 </head>
 <body>
-	<div class="bd">
+	<div class="contents">
 		<div class="titleArea">
+				<a class="leftCon" href="#">
+		          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		          <span class="hidden">Toggle 버튼</span>
+				</a>
 			<h2>기기관리</h2>
 		</div>
 		<div class="sub-content">
@@ -233,7 +237,7 @@ var mchnMgmtRegDialog;
 				<input type="hidden" id="mchnCrgrId" name="mchnCrgrId" />
 				<input type="hidden" id="infoMgmtId" name="infoMgmtId" />
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId"  value="<c:out value='${inputData.mchnInfoId}'/>">
-				<div class="titArea">
+				<div class="titArea mt0">
 					<div class="LblockButton">
 						<button type="button" id="butList">목록</button>
 					</div>

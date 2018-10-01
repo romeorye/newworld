@@ -163,21 +163,16 @@ var mchnInfoId;
 			<div class="search-content">
     <table>
    					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
+   						<col style="width:120px;"/>
+   						<col style=""/>
    					</colgroup>
    					<tbody>
    						<tr>
    							<th align="right">기간</th>
-    						<td>
+    						<td class="form_bd">
     							<input type="text" id="fromRqprDt"/><em class="gab"> ~ </em>
    								<input type="text" id="toRqprDt"/>
-    						</td>
-   							<td class="txt-right">
-   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+   								<a style="margin-left:37px !important; cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
    							</td>
    						</tr>
    					</tbody>

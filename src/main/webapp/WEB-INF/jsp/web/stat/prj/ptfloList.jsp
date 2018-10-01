@@ -294,7 +294,7 @@ var strNowMonth = createDashMonthToString(nowDate);
 		                                <input type="text" id="searchStartYymm" /><em class="gab"> ~ </em>
 		                                <input type="text" id="searchEndYymm" /> 
 		
-		                                <a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+		                                <a style="margin-left:37px; cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
 		                            </td>
 		                        </tr>
 		                    </tbody>

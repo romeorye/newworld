@@ -392,7 +392,7 @@
    							<td colspan="3" class="product_01">
    								<span id="affrClNm"></span>
     							<span>
-    								<button type="button" class="icoBtn" id="affrTreeSrhBtn" name="affrTreeSrhBtn" onclick="affrTreeSrh()"></button>
+    								<button type="button" class="icoBtn bd0" id="affrTreeSrhBtn" name="affrTreeSrhBtn" onclick="affrTreeSrh()"></button>
     							</span>
    							</td>
    						</tr>

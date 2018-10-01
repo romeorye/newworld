@@ -378,7 +378,7 @@
 </head>
 <body>
 	<div class="bd">
-		<div class="sub-content">
+		<div class="sub-content" style="padding:0; padding-left:3px;">
 			<form name="aform" id="aform"method="post">
 				<input type="hidden" id="menuType" name="menuType" />
 				<input type="hidden" id="rtnMsg" name="rtnMsg" />
@@ -386,8 +386,8 @@
 				<input type="hidden" id="rgstId" name="rgstId" value="<c:out value='${inputData.saSabun}'/>">
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" value="<c:out value='${inputData.mchnInfoId}'/>">
 				<input type="hidden" id="infoMgmtId" name="infoMgmtId" value="<c:out value='${inputData.infoMgmtId}'/>">
-				<div class="titArea">
-					<div class="LblockButton">
+				<div class="titArea mt10">
+					<div class="LblockButton mt0">
 						<button type="button" id="butSave">저장</button>
 						<button type="button" id="butCls">닫기</button>
 						<!-- <button type="button" id="butDel">삭제</button> -->
@@ -428,7 +428,7 @@
 							</td>
 							<th align="right">비용</th>
 							<td>
-								<input type="text" id="mgmtUfe"/>(원)
+								<input type="text" id="mgmtUfe"/>&nbsp;(원)
 							</td>
 						</tr>
 						<tr>

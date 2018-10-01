@@ -166,7 +166,7 @@ var mailTitl;
 				<input type="hidden" id="prctScnNm" name="prctScnNm" >
 				<input type="hidden" id="prctFromToDt" name="prctFromToDt" value="<c:out value='${result.prctFromToDt}'/>">
 
-				<div class="LblockButton top">
+				<div class="LblockButton top mt10">
 					<button type="button" id="butSave">승인</button>
 					<button type="button" id="butRe">반려</button>
 					<button type="button" id="butList">목록</button>
