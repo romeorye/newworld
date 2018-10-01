@@ -23,19 +23,18 @@
 
 function setMenuFrame(){
 	 if ($('.page-left').hasClass('leftOpen')) {
-		 //alert(1);
-         $('.page-left').animate({left: -211}, 300);
-         $('.page-content').animate({left: 0}, 300);
          $('.page-left').removeClass('leftOpen');
-         $('.container').animate({width: w_width}, 300);
-         //alert(2);
+         $(".page-left").css('width', 0);
+         var contentWidth=$("#contentFrame").width()+211;
+         $("#main_frameset").attr("cols", "0,1990");
+         $("#contentFrame").css('width',contentWidth+211);
      } else {
-    	 //alert(11);
-    	 $('.page-left').animate({left: 0}, 300);
-         $('.page-content').animate({left: 211}, 300);
          $('.page-left').addClass('leftOpen');
-         $('.container').animate({width: (w_width - ($('.page-left').width()))}, 300);
-    	 //alert(22);
+         $(".page-left").css('width', 211);
+         var contentWidth=$("#contentFrame").width();
+    	 $("#main_frameset").attr("cols", "211,*");
+    	 $("#contentFrame").css('width',contentWidth-211);
+
      }
 }
 	</script>
@@ -47,17 +46,14 @@ function setMenuFrame(){
 		<frameset cols="211,*" border="0" id="main_frameset">
 
 			<!-- [EAM변경] - 20170420 left 메뉴 정보 세팅 Start -->
-			<nav class="page-left leftOpen">
-				<frame  class="page-left" name="leftFrame" id="leftFrame" src="<c:url value="/system/menu/irisFrameMenu/left.do${params}"/>" scrolling="no" frameborder="0" title="왼쪽메뉴프레임" noresize/>
-			</nav>
+				<frame  class="page-left leftOpen" name="leftFrame" id="leftFrame" src="<c:url value="/system/menu/irisFrameMenu/left.do${params}"/>" scrolling="no" frameborder="0" title="왼쪽메뉴프레임" />
 			<!-- [EAM변경] - 20170420 left 메뉴 정보 세팅 End -->
 
-			<section class="page-content">
-				<frame name="contentFrame" id="contentFrame" src="" frameborder="0" title="컨텐트프레임" noresize/>
-			</section>
+				<frame name="contentFrame" id="contentFrame" src="" frameborder="0" title="컨텐트프레임" />
 
 		</frameset>
 		<frame name="footerFrame" id="footerFrame" src="<c:url value="/system/menu/irisFrameMenu/footer.do"/>" scrolling="no" frameborder="0" title="하단프레임" noresize/>
 	</frameset>
+
 
 </html>
