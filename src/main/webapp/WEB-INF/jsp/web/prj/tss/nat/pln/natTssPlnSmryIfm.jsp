@@ -251,19 +251,10 @@
         dataSet.on('load', function(e) {
             console.log("smry load DataSet Success");
             
+            Wec.SetBodyValue(dataSet.getNameValue(0, "smryTxt"));            
             lvAttcFilId = dataSet.getNameValue(0, "attcFilId");
             if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
             
-           	// 에디터 데이터처리
-           	setTimeout(function () {
-           		var Wec = document.smryEditorForm.Wec;
-//            		Wec.DefaultCharSet = "utf-8";
-    	 		Wec.MIMEEncodeRange = 1;
-    	 		Wec.ShowRuler(1,1); 
-    	 		Wec.value = dataSet.getNameValue(0, "smryTxt");
-    	 		Wec.setDirty(false);	// 변경상태 초기화처리
-            }, 1000);
-
         });
         
         //dataSet 그리드
@@ -339,7 +330,6 @@
 
         grid2.render('defaultGrid');
         
-        
         //서버전송용 
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         dm.on('success', function(e) {
@@ -353,7 +343,6 @@
                 dataSet.setState(0, 1);
             }
         });
-        
         
         //유효성
         vm1 = new Rui.validate.LValidatorManager({
@@ -371,8 +360,6 @@
                 , { id: 'fnhDt4',        validExp: '4차년 과제종료일:false' }
                 , { id: 'strtDt5',       validExp: '5차년 과제시작일:false' }
                 , { id: 'fnhDt5',        validExp: '5차년 과제종료일:false' }
-//                 , { id: 'finYn',         validExp: '최종차수여부:false' }
-                , { id: 'smryTxt',       validExp: '개발대상기술 및 제품개요:false' }
                 , { id: 'attcFilId',     validExp: 'GRS심의파일:true' }
                 , { id: 'userId',        validExp: '로그인ID:false' }
             ]
@@ -499,9 +486,8 @@
         btnSave.on('click', function() {
         	
         	// 에디터 데이터처리
-            var frm = document.smryEditorForm;
-    		frm.smryTxt.value = fnEditorGetMimeValue(frm.Wec.isDirty(),frm.Wec,'');
-    		
+			dataSet.setNameValue(0, "smryTxt", Wec.GetBodyValue() );
+        	
     	    //시작일종료일 체크
     		var stDt;
             var fnDt;
@@ -529,14 +515,12 @@
                     return false;
                 }
              	// 에디터 필수값 처리
-            	var smryTxt          = fnEditorGetMimeValue(document.smryEditorForm.Wec.isDirty(),document.smryEditorForm.Wec,'body');
-            	var smryTxtEditorMod = document.smryEditorForm.Wec.isDirty();
-            	if( (smryTxtEditorMod == 1 && (smryTxt == null || smryTxt == '' || smryTxt == "<P>&nbsp;</P>")) || 
-            		(smryTxtEditorMod == 0 && stringNullChk(dataSet.getNameValue(0, "smryTxt")) == "")         ){
-            		alert("개발대상기술 및 제품개요 은 필수입력입니다.");
-            		return false;
-            	}
-                
+    			if( Wec.GetBodyValue() == "<p><br></p>" || Wec.GetBodyValue() == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
+    				alert("개발대상기술 및 제품개요 은 필수입력입니다.");
+    				Wec.SetFocusEditor(); // 크로스에디터 Focus 이동
+         		    return false;
+         		}
+             	
                 if(confirm("저장하시겠습니까?")) {
                     dataSet.setNameValue(0, "userId", lvUserId);
                     
@@ -554,38 +538,6 @@
                 window.parent.fnSave();
             }
         });
-
-
-        //목록 
-       /*  var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {
-            nwinsActSubmit(window.parent.document.mstForm, "<c:url value='/prj/tss/nat/natTssList.do'/>");
-        });
-         */
-        /** ============================================= Editor ================================================================================= **/
-		// 에디터변경여부
-	    fnEditorIsUpdate = function(){
-	        isUpdate = false;
-	     	var Wec = document.smryEditorForm.Wec;
-	
-	     	if( (Wec != null && Wec.IsDirty() == 1) ){
-	     		
-	     		isUpdate = true;
-	     	}
-	     	return isUpdate;
-	     }
-	    /* 에디터값 가져오기(변경상태 유지) type(body, mime) */
-        fnEditorGetMimeValue = function(beforeDirty,editor,type){
-        	
-        	var returnValue = editor.MIMEValue;
-        	if(type == 'body'){ returnValue = editor.BodyValue; }
-        	
-        	editor.setDirty(beforeDirty);
-        	return returnValue;
-        }
-	  	// 에디터 생성
-	    createNamoEdit('Wec', '100%', 400, 'divWec');
-	 	/** ===============================================  Editor End ==================================================================================== **/
 
         //최초 데이터 셋팅 
         if(${resultCnt} > 0) {
@@ -686,11 +638,11 @@
         }
         
         // 에디터 필수값 처리
-    	var smryTxt = fnEditorGetMimeValue(document.smryEditorForm.Wec.isDirty(),document.smryEditorForm.Wec,'body');
-    	if( smryTxt == null || smryTxt == '' || smryTxt == "<P>&nbsp;</P>" ){
-    		alert("개발대상기술 및 제품개요 은 필수입력입니다.");
-    		return false;
-    	}
+        if( Wec.GetBodyValue() == "<p><br></p>" || Wec.GetBodyValue() == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
+			alert("개발대상기술 및 제품개요 은 필수입력입니다.");
+			Wec.SetFocusEditor(); // 크로스에디터 Focus 이동
+ 		    return false;
+ 		}
     	
     	if(gbn == "SAVE") {
             var rCnt = smryDataLstSet.getCount();
@@ -817,8 +769,22 @@ $(window).load(function() {
 	                <tr>
 	                    <th align="right">개발대상기술 및 제품개요</th>
 	                    <td colspan="2">
-	                    	<input type="hidden" id="smryTxt"/>
-	                        <div id="divWec"></div>
+	                        <div id="divWec">
+							<textarea id="smryTxt" name="smryTxt"></textarea>
+							<script>
+                                Wec = new NamoSE('smryTxt');
+                                Wec.params.Width = "100%";
+                                Wec.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec.params.FullScreen = false;
+                                Wec.EditorStart();
+                                
+                                function OnInitCompleted(e){
+	                                e.editorTarget.SetBodyValue(document.getElementById("divWec").value);
+	                            }
+                            </script>
+						</div>
 	                    </td>
 	                </tr>
 	                <tr>

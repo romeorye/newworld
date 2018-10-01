@@ -164,7 +164,6 @@ public class NatTssPlnController  extends IrisBaseController {
 
         HashMap<String, Object> mstDs  = null;
         HashMap<String, Object> smryDs = null;
-        HashMap<String, Object> smryDecodeDs = null;
 
         try {
             mstDs  = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "mstDataSet").get(0);
@@ -185,14 +184,10 @@ public class NatTssPlnController  extends IrisBaseController {
                 String seqMaxS = String.valueOf(seqMax + 1);
                 mstDs.put("wbsCd", "N" + seqMaxS);
 
-                smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap(input,smryDs); //에디터데이터 디코딩처리
-
-                smryDecodeDs = StringUtil.toUtf8Input(smryDecodeDs);
-                
                 mstDs.put("tssStrtDd", smryDs.get("ttlCrroStrtDt"));
                 mstDs.put("tssFnhDd", smryDs.get("ttlCrroFnhDt"));
                 
-                natTssService.insertNatTssPlnMst(mstDs, smryDecodeDs, smryDsListLst, upWbsCd);
+                natTssService.insertNatTssPlnMst(mstDs, StringUtil.toUtf8Input(smryDs), smryDsListLst, upWbsCd);
 
                 mstDs.put("rtCd", "SUCCESS");
                 mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
@@ -234,43 +229,29 @@ public class NatTssPlnController  extends IrisBaseController {
         LOGGER.debug("###########################################################");
 
         checkSessionObjRUI(input, session, model);
-        //input = StringUtil.toUtf8(input);
 
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
         HashMap<String, Object> mstDs  = new HashMap<String, Object>();
         HashMap<String, Object> smryDs = new HashMap<String, Object>();
-        HashMap<String, Object> smryDecodeDs = null;
-
 
         try {
             mstDs = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "mstDataSet").get(0);
             smryDs = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "smryDataSet").get(0);
             List<Map<String, Object>> smryDsListLst = RuiConverter.convertToDataSet(request, "smryInstDataSet");
 
-            boolean errYn   = false;
             boolean upWbsCd = false;
 
-            if(!errYn) {
-                smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap(input,smryDs); //에디터데이터 디코딩처리
+            mstDs.put("tssStrtDd", smryDs.get("ttlCrroStrtDt"));
+            mstDs.put("tssFnhDd", smryDs.get("ttlCrroFnhDt"));
+            
+            natTssService.updateNatTssPlnMst(mstDs, StringUtil.toUtf8Input(smryDs), smryDsListLst, upWbsCd);
 
-                smryDecodeDs = StringUtil.toUtf8Input(smryDecodeDs);
+            mstDs.put("rtCd", "SUCCESS");
+            mstDs.put("tssCd",mstDs.get("tssCd"));
+            mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
                 
-                mstDs.put("tssStrtDd", smryDs.get("ttlCrroStrtDt"));
-                mstDs.put("tssFnhDd", smryDs.get("ttlCrroFnhDt"));
-                
-                natTssService.updateNatTssPlnMst(mstDs, smryDecodeDs, smryDsListLst, upWbsCd);
-
-                mstDs.put("rtCd", "SUCCESS");
-                mstDs.put("tssCd",mstDs.get("tssCd"));
-                mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
-            }
-        } catch(MimeDecodeException e) {
-            LOGGER.debug("MimeDecodeException ERROR");
-            e.printStackTrace();
-            mstDs.put("rtCd", "FAIL");
-            mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.imageUploadError")); //이미지파일 등록에 실패했습니다.
-        } catch(Exception e) {
+        }  catch(Exception e) {
             e.printStackTrace();
             mstDs.put("rtCd", "FAIL");
             mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.

@@ -124,13 +124,13 @@
         //주관부처
         supvOpsNm = new Rui.ui.form.LTextBox({
             applyTo: 'supvOpsNm',
-            width: 300
+            width: 1000
         });
 
         //전담기관
         exrsInstNm = new Rui.ui.form.LTextBox({
             applyTo: 'exrsInstNm',
-            width: 300
+            width: 400
         });
 
         //사업명
@@ -428,7 +428,6 @@
         fnSave = function() {
             var smryDs = document.getElementById('tabContent0').contentWindow.dataSet; //개요 정보
             var smryLstDs = document.getElementById('tabContent0').contentWindow.smryDataLstSet; //개요 수행기관
-            var smryIsUpdate = document.getElementById('tabContent0').contentWindow.fnEditorIsUpdate(); //개요 에디터 변경여부
 
             //마스터 vm
             if(!vm.validateGroup("mstForm")) {
@@ -440,19 +439,10 @@
             var ifmUpdate = document.getElementById('tabContent0').contentWindow.fnIfmIsUpdate("SAVE");
             if(!ifmUpdate) return false;
 
-            //수정여부
-            if(!dataSet.isUpdated() && !smryDs.isUpdated() && !smryLstDs.isUpdated() && !smryIsUpdate) {
-                alert("변경된 데이터가 없습니다.");
-                return;
-            }
-
             if( confirm("저장하시겠습니까?") == true ){
-
                 smryDs = document.getElementById('tabContent0').contentWindow.dataSet; //개요 정보
 
                 Rui.get("userId").setValue(gvUserId); //사용자ID셋팅
-                var edSmryTxt = document.getElementById('tabContent0').contentWindow.smryEditorForm.smryTxt.value;
-                //var param = jQuery("#mstForm").serialize().replace(/%/g,'%25');
 
                 //신규
                 if(gvTssCd == "") {
@@ -470,11 +460,7 @@
                     dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/nat/insertNatTssPlnMst.do"/>',
-                        dataSets:[dataSet, smryDs, smryLstDs],
-                        params: {
-                        	editorData1 : edSmryTxt
-                          , editorDataFields : "smryTxt"
-                        }
+                        dataSets:[dataSet, smryDs, smryLstDs]
                     });
                 }
                 //수정
@@ -482,11 +468,7 @@
                     dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/nat/updateNatTssPlnMst.do"/>',
-                        dataSets:[dataSet, smryDs, smryLstDs],
-                        params: {
-                        	editorData1 : edSmryTxt
-                          , editorDataFields : "smryTxt"
-                        }
+                        dataSets:[dataSet, smryDs, smryLstDs]
                     });
                 }
             }
@@ -727,19 +709,9 @@ function setPrjInfo(prjInfo) {
                                     </td>
                                 </tr>
                                 <tr>
-                                   <th align="right">WBSCode</th>
-                                    <td>
-                                        <span id='seed'></span><input type="text" id="wbsCd" />
-                                    </td>
-                                    <th align="right">사업부문(Funding기준)</th>
-                                    <td>
-                                        <div id="bizDptCd"></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th align="right">과제명</th>
+                                   <th align="right">WBSCode / 과제명</th>
                                     <td colspan="3">
-                                        <input type="text" id="tssNm" />
+                                        <span id='seed'></span><input type="text" id="wbsCd" />/ <em class="gab"><input type="text" id="tssNm" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -747,9 +719,9 @@ function setPrjInfo(prjInfo) {
                                     <td>
                                         <input type="text" id="saUserName" />
                                     </td>
-                                     <th align="right">주관부처</th>
+                                    <th align="right">사업부문(Funding기준)</th>
                                     <td>
-                                         <input type="text" id="supvOpsNm" />
+                                        <div id="bizDptCd"></div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -760,6 +732,12 @@ function setPrjInfo(prjInfo) {
                                     <th align="right">사업명</th>
                                     <td>
                                        <input type="text" id="bizNm" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                	<th align="right">주관부처</th>
+                                    <td colspan="3">
+                                         <input type="text" id="supvOpsNm" />
                                     </td>
                                 </tr>
                             </tbody>
