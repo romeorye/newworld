@@ -660,11 +660,6 @@
 
             //수정여부
             var smryDs = document.getElementById('tabContent0').contentWindow.dataSet;                  //개요탭 DS
-            var smryIsUpdate = document.getElementById('tabContent0').contentWindow.fnEditorIsUpdate(); //개요탭 에디터 변경여부
-            if(!dataSet.isUpdated() && !smryDs.isUpdated() && !smryIsUpdate) {
-                alert("변경된 데이터가 없습니다.");
-                return;
-            }
 
             var pmisTxt = document.getElementById('tabContent0').contentWindow.smryForm.pmisTxt.value;
             var bizDpt = bizDptCd.getValue();
@@ -685,30 +680,15 @@
                 dataSet.setNameValue(0, "tssSt", "100");    //과제상태: 100(작성중)
                 dataSet.setNameValue(0, "tssCd",  gvTssCd);  //과제코드
                 dataSet.setNameValue(0, "userId", gvUserId); //사용자ID
-
                 smryDs.setNameValue(0, "tssCd",  gvTssCd);   //과제코드
                 smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
 
-                var edSmryNTxt = document.getElementById('tabContent0').contentWindow.smryForm.smryNTxt.value;
-            	var edSmryATxt = document.getElementById('tabContent0').contentWindow.smryForm.smryATxt.value;
-            	var edSmryBTxt = document.getElementById('tabContent0').contentWindow.smryForm.smryBTxt.value;
-            	var edSmryCTxt = document.getElementById('tabContent0').contentWindow.smryForm.smryCTxt.value;
-            	var edSmryDTxt = document.getElementById('tabContent0').contentWindow.smryForm.smryDTxt.value;
-
-            	//신규
+                //신규
                 if(gvTssCd == "") {
                 	 dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/gen/insertGenTssPlnMst.do"/>',
-                        dataSets:[dataSet, smryDs],
-                        params: {
-	                      	  editorData1 : edSmryNTxt
-	                      	, editorData2 : edSmryATxt
-	                      	, editorData3 : edSmryBTxt
-	                      	, editorData4 : edSmryCTxt
-	                      	, editorData5 : edSmryDTxt
-	                      	, editorDataFields : "smryNTxt,smryATxt,smryBTxt,smryCTxt,smryDTxt"
-	                    }
+                        dataSets:[dataSet, smryDs]
                     }); 
                 }
                 //수정
@@ -716,15 +696,7 @@
                 	dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/gen/updateGenTssPlnMst.do"/>',
-                        dataSets:[dataSet, smryDs],
-                        params: {
-	                      	  editorData1 : edSmryNTxt
-	                      	, editorData2 : edSmryATxt
-	                      	, editorData3 : edSmryBTxt
-	                      	, editorData4 : edSmryCTxt
-	                      	, editorData5 : edSmryDTxt
-	                      	, editorDataFields : "smryNTxt,smryATxt,smryBTxt,smryCTxt,smryDTxt"
-	                    }
+                        dataSets:[dataSet, smryDs]
                     });  
                 }
             }

@@ -490,7 +490,33 @@
             frm.smryCTxt.value =  Wec3.GetBodyValue();
             frm.smryDTxt.value =  Wec4.GetBodyValue();
 
-            fncEditor();
+            dataSet.setNameValue(0, "smryNTxt", Wec0.GetBodyValue());
+            dataSet.setNameValue(0, "smryATxt", Wec1.GetBodyValue());
+            dataSet.setNameValue(0, "smryBTxt", Wec2.GetBodyValue());
+            dataSet.setNameValue(0, "smryCTxt", Wec3.GetBodyValue());
+            dataSet.setNameValue(0, "smryDTxt", Wec4.GetBodyValue());
+            
+            if(  dataSet.getNameValue(0, "smryNTxt") == "<p><br></p>" ||  dataSet.getNameValue(0, "smryNTxt")  == "") {
+            	alert("Needs를 입력하세요");
+            	return;
+            }
+            if(  dataSet.getNameValue(0, "smryATxt") == "<p><br></p>"  ||  dataSet.getNameValue(0, "smryATxt") == "" ) {
+            	alert("Approach를 입력하세요");
+            	return;
+            }
+            if(  dataSet.getNameValue(0, "smryBTxt")  == "<p><br></p>" ||  dataSet.getNameValue(0, "smryBTxt") == "") {
+            	alert("Benefit를 입력하세요");
+            	return;
+            }
+            if(  dataSet.getNameValue(0, "smryCTxt") == "<p><br></p>" ||  dataSet.getNameValue(0, "smryCTxt") == "") {
+            	alert("Competition를 입력하세요");
+            	return;
+            }
+            if(  dataSet.getNameValue(0, "deliverables") == "<p><br></p>" ||  dataSet.getNameValue(0, "deliverables") == "" ) {
+            	alert("Deliverables를 입력하세요");
+            	return;
+            }
+            
             dataSet.setNameValue(0, "nprodSalsPlnY" , Math.round(nprodSalsPlnY.getValue()  * 100000000));
             dataSet.setNameValue(0, "nprodSalsPlnY1", Math.round(nprodSalsPlnY1.getValue() * 100000000));
             dataSet.setNameValue(0, "nprodSalsPlnY2", Math.round(nprodSalsPlnY2.getValue() * 100000000));
@@ -500,70 +526,7 @@
             window.parent.fnSave();
         });
         
-        fncEditor = function(){
-        	var frm = document.smryForm;
-        	
-        	// frm.Wec0.CleanupOptions = "msoffice | empty | comment";
-        	// frm.Wec1.CleanupOptions = "msoffice | empty | comment";
-        	// frm.Wec2.CleanupOptions = "msoffice | empty | comment";
-        	// frm.Wec3.CleanupOptions = "msoffice | empty | comment";
-        	// frm.Wec4.CleanupOptions = "msoffice | empty | comment";
-            //
-        	// frm.Wec0.value =frm.Wec0.CleanupHtml(frm.Wec0.value);
-        	// frm.Wec1.value =frm.Wec1.CleanupHtml(frm.Wec1.value);
-        	// frm.Wec2.value =frm.Wec2.CleanupHtml(frm.Wec2.value);
-        	// frm.Wec3.value =frm.Wec3.CleanupHtml(frm.Wec3.value);
-        	// frm.Wec4.value =frm.Wec4.CleanupHtml(frm.Wec4.value);
-        	
-        	var jsonString = JSON.stringify(${result});
-            var obj = jQuery.parseJSON(jsonString);
-
-            var needs        = Wec0.GetBodyValue();
-            var approach     = Wec1.GetBodyValue();
-            var benefit      = Wec2.GetBodyValue();
-            var competition  = Wec3.GetBodyValue();
-            var deliverables = Wec4.GetBodyValue();
-            // var needs        = fnEditorGetMimeValue(document.smryForm.Wec0.IsDirty(),document.smryForm.Wec0,'body');
-            // var approach     = fnEditorGetMimeValue(document.smryForm.Wec1.IsDirty(),document.smryForm.Wec1,'body');
-            // var benefit      = fnEditorGetMimeValue(document.smryForm.Wec2.IsDirty(),document.smryForm.Wec2,'body');
-            // var competition  = fnEditorGetMimeValue(document.smryForm.Wec3.IsDirty(),document.smryForm.Wec3,'body');
-            // var deliverables = fnEditorGetMimeValue(document.smryForm.Wec4.IsDirty(),document.smryForm.Wec4,'body');
-
-            if(lvTssCd !='') {
-            	if(  needs == "<P>&nbsp;</P>" || needs == "") {
-            		frm.Wec0.value = obj.records[0].smryNTxt;
-                }
-                if( approach == "<P>&nbsp;</P>"  || approach == "" ) {
-                	frm.Wec1.value = obj.records[0].smryATxt;
-                }
-                if( benefit == "<P>&nbsp;</P>" || benefit == "") {
-                	frm.Wec2.value = obj.records[0].smryBTxt;
-                }
-                if( competition == "<P>&nbsp;</P>" || competition == "") {
-                	frm.Wec3.value = obj.records[0].smryCTxt;
-                }
-                if( deliverables == "<P>&nbsp;</P>" || deliverables == "" ) {
-                	frm.Wec4.value = obj.records[0].smryDTxt;
-                }
-
-
-
-/*임시
-
-                frm.smryNTxt.value =  frm.Wec0.MIMEValue;
-	            frm.smryATxt.value =  frm.Wec1.MIMEValue;
-	            frm.smryBTxt.value =  frm.Wec2.MIMEValue;
-	            frm.smryCTxt.value =  frm.Wec3.MIMEValue;
-	            frm.smryDTxt.value =  frm.Wec4.MIMEValue;
-*/
-
-                frm.smryNTxt.value =  Wec0.GetBodyValue();
-                frm.smryATxt.value =  Wec1.GetBodyValue();
-                frm.smryBTxt.value =  Wec2.GetBodyValue();
-                frm.smryCTxt.value =  Wec3.GetBodyValue();
-                frm.smryDTxt.value =  Wec4.GetBodyValue();
-            }
-        }
+        
 
         //첨부파일 조회
         var attachFileDataSet = new Rui.data.LJsonDataSet({

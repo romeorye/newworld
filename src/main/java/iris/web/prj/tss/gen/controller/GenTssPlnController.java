@@ -25,7 +25,6 @@ import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.code.service.CodeService;
 import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.MimeDecodeException;
 import iris.web.common.util.StringUtil;
 import iris.web.prj.rsst.service.PrjRsstMstInfoService;
 import iris.web.prj.tss.com.service.TssUserService;
@@ -162,7 +161,6 @@ public class GenTssPlnController  extends IrisBaseController {
 
         HashMap<String, Object> mstDs  = null;
         HashMap<String, Object> smryDs = null;
-        HashMap<String, Object> smryDecodeDs = null;
 
         try {
             mstDs  = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "mstDataSet").get(0);
@@ -180,21 +178,13 @@ public class GenTssPlnController  extends IrisBaseController {
                 String seqMaxS = String.valueOf(seqMax + 1);
                 mstDs.put("wbsCd", "G" + seqMaxS);
 
-                smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap(input,smryDs); //에디터데이터 디코딩처리
-
-                smryDecodeDs = StringUtil.toUtf8Input(smryDecodeDs);
-                genTssPlnService.insertGenTssPlnMst(mstDs, smryDecodeDs);
+                genTssPlnService.insertGenTssPlnMst(mstDs, StringUtil.toUtf8Input(smryDs));
 
                 mstDs.put("rtCd", "SUCCESS");
                 mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
                 mstDs.put("rtType", "I");
             }
-        } catch(MimeDecodeException e) {
-            LOGGER.debug("MimeDecodeException ERROR");
-            e.printStackTrace();
-            mstDs.put("rtCd", "FAIL");
-            mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.imageUploadError")); //이미지파일 등록에 실패했습니다.
-        } catch(Exception e) {
+        }  catch(Exception e) {
             e.printStackTrace();
             mstDs.put("rtCd", "FAIL");
             mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
@@ -230,31 +220,20 @@ public class GenTssPlnController  extends IrisBaseController {
 
         HashMap<String, Object> mstDs  = new HashMap<String, Object>();
         HashMap<String, Object> smryDs = new HashMap<String, Object>();
-        HashMap<String, Object> smryDecodeDs = null;
 
         try {
             mstDs  = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "mstDataSet").get(0);
             smryDs = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "smryDataSet").get(0);
 
             //마스터 수정
-            boolean errYn   = false;
             boolean upWbsCd = false;
 
-            if(!errYn) {
-                smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap(input,smryDs); //에디터데이터 디코딩처리
+            genTssPlnService.updateGenTssPlnMst(mstDs, StringUtil.toUtf8Input(smryDs), upWbsCd);
 
-                smryDecodeDs = StringUtil.toUtf8Input(smryDecodeDs);
-                genTssPlnService.updateGenTssPlnMst(mstDs, smryDecodeDs, upWbsCd);
-
-                mstDs.put("rtCd", "SUCCESS");
-                mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
-            }
-        } catch(MimeDecodeException e) {
-            LOGGER.debug("MimeDecodeException ERROR");
-            e.printStackTrace();
-            mstDs.put("rtCd", "FAIL");
-            mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.imageUploadError")); //이미지파일 등록에 실패했습니다.
-        } catch(Exception e) {
+            mstDs.put("rtCd", "SUCCESS");
+            mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+            
+        }  catch(Exception e) {
             e.printStackTrace();
             mstDs.put("rtCd", "FAIL");
             mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
