@@ -178,7 +178,7 @@
                 ,{ id: 'smrSmryTxt'}
                 ,{ id: 'smrGoalTxt'}
                 ,{ id: 'nprodSalsPlnY'}
-                ,{ id: 'ctyOtPlnM                '}
+                ,{ id: 'ctyOtPlnM'}
 
             ]
         });
@@ -211,7 +211,7 @@
                 ,{ id: 'smrSmryTxt',            ctrlId: 'smrSmryTxt',            value: 'value' }
                 ,{ id: 'smrGoalTxt',            ctrlId: 'smrGoalTxt',            value: 'value' }
                 ,{ id: 'nprodSalsPlnY',            ctrlId: 'nprodSalsPlnY',            value: 'value' }
-                ,{ id: 'ctyOtPlnM                ',            ctrlId: 'ctyOtPlnM',            value: 'value' }
+                ,{ id: 'ctyOtPlnM',            ctrlId: 'ctyOtPlnM',            value: 'value' }
 
             ]
         });
@@ -363,6 +363,7 @@
       etcTssDialog = new Rui.ui.LDialog({
           applyTo: 'divEtcTss',
           width: 800,
+          // height:600,
           visible: false,
           postmethod: 'none',
           buttons: [
