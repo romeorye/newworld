@@ -702,12 +702,7 @@
             // editor.setDirty(beforeDirty);
             return returnValue;
         }
-        // 에디터 생성
-        // createNamoEdit('Wec0', '100%', 400, 'divWec0');
-        // createNamoEdit('Wec1', '100%', 400, 'divWec1');
-        // createNamoEdit('Wec2', '100%', 400, 'divWec2');
-        // createNamoEdit('Wec3', '100%', 400, 'divWec3');
-        // createNamoEdit('Wec4', '100%', 400, 'divWec4');
+       
         /** ===============================================  Editor End ==================================================================================== **/
 
         tabViewS.render('tabViewS');
