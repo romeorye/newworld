@@ -49,13 +49,6 @@
         /*============================================================================
         =================================    Form     ================================
         ============================================================================*/
-        //비고
-        /* remTxt = new Rui.ui.form.LTextArea({
-            applyTo: 'remTxt',
-            height: 600,
-            width: 1000
-        });
-         */
         //Form 비활성화 여부
         disableFields = function() {
             if(lvMstTssSt == "104" || lvMstTssSt == "500") btnSave.show();
@@ -89,33 +82,9 @@
         	
         	if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
         	
-        	// 에디터 데이터처리
-           	setTimeout(function () {
-           		var Wec = document.stoaForm.Wec;
-    	 		Wec.MIMEEncodeRange = 1;
-    	 		Wec.ShowRuler(1,1); 
-    	 		Wec.value = dataSet.getNameValue(0, "remTxt");
-    	 		Wec.setDirty(false);	// 변경상태 초기화처리
-            }, 1000);
+        	Wec.SetBodyValue(dataSet.getNameValue(0, "remTxt") );
         });
 
-        //폼에 출력 
-        /* var bind = new Rui.data.LBind({
-            groupId: 'stoaFormDiv',
-            dataSet: dataSet,
-            bind: true,
-            bindInfo: [
-                  { id: 'remTxt', ctrlId: 'remTxt', value: 'value' }
-            ]
-        });
-         */
-        //유효성 설정
-        /* var vm = new Rui.validate.LValidatorManager({
-            validators: [  
-                  { id: 'remTxt', validExp: '비고:true' }
-            ]
-        }); */
-        
         //서버전송용
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         dm.on('success', function(e) {
@@ -147,19 +116,13 @@
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-            /* 
-        	if(!vm.validateGroup("stoaForm")) {            
-                Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>'));
-                return;
-            }
-             */
             if(!fncVaild) return ;
              
              if(confirm("저장하시겠습니까?")) {
             	 dataSet.setNameValue(0, "tssCd",  lvTssCd);  //과제코드
 	                dataSet.setNameValue(0, "userId", lvUserId); //사용자ID
 	                dataSet.setNameValue(0, "tssSt", "500"); //500:정산작성중
-	                dataSet.setNameValue(0, "remTxt", document.stoaForm.Wec.MIMEValue); //500:정산작성중
+	                dataSet.setNameValue(0, "remTxt", Wec.GetBodyValue()); //500:정산작성중
 	                
 	                dm.updateDataSet({
 	                    modifiedOnly: false,
@@ -172,18 +135,14 @@
         var fncVaild = function(){
     	    var frm = document.stoaForm;
 
-    	    frm.Wec.CleanupOptions = "msoffice | empty | comment";
-    		frm.Wec.value =frm.Wec.CleanupHtml(frm.Wec.value);
-
-    		dataSet.setNameValue(0, 'remTxt', frm.Wec.BodyValue);
+    		dataSet.setNameValue(0, 'remTxt', Wec.GetBodyValue());
     		
-    		if( Rui.isEmpty(dataSet.getNameValue(0, 'remTxt')) || dataSet.getNameValue(0, 'remTxt') == "<P>&nbsp;</P>") {
+    		if( Wec.GetBodyValue() == "<p><br></p>" || Wec.GetBodyValue() == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
     			alert('내용을 입력하여 주십시요.');
-    			frm.Wec.focus();
-    			return false;
-    		}
-    		//frm.remTxt.value = frm.Wec.MIMEValue;
-    		//frm.namoHtml.value = frm.Wec.MIMEValue;		// mime value 설정 : cmd에서 decode 통해 파일을 서버에 업로드하고, 파일 경로를 수정하도록 함. 고, 파일 경로를 수정하도록 함.
+				Wec.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
+    		
     		return true;
  		}
         
@@ -259,8 +218,6 @@
             dataSet.newRecord();
         }
         
-        createNamoEdit('Wec', '100%', 500, 'namoHtml_DIV');
-        
         disableFields();
         
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
@@ -295,7 +252,22 @@ $(window).load(function() {
                 <tr>
                     <th align="center">정산내역</th>
 					<td colspan="3">
-						<div id="namoHtml_DIV"></div>
+						<div id="namoHtml_DIV">
+							<textarea id="remTxt" name="remTxt"></textarea>
+							<script>
+                                Wec = new NamoSE('remTxt');
+                                Wec.params.Width = "100%";
+                                Wec.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec.params.FullScreen = false;
+                                Wec.EditorStart();
+                                
+                                function OnInitCompleted(e){
+	                                e.editorTarget.SetBodyValue(document.getElementById("divWec").value);
+	                            }
+                            </script>
+						</div>
 					</td>
                 </tr>
                 <tr>
