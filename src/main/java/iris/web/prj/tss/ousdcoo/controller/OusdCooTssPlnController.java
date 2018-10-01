@@ -26,6 +26,7 @@ import devonframe.util.NullUtil;
 import iris.web.common.code.service.CodeService;
 import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.MimeDecodeException;
+import iris.web.common.util.StringUtil;
 import iris.web.knld.pub.service.OutsideSpecialistService;
 import iris.web.prj.rsst.service.PrjRsstMstInfoService;
 import iris.web.prj.tss.com.service.TssUserService;
@@ -208,12 +209,10 @@ public class OusdCooTssPlnController  extends IrisBaseController {
                 String seqMaxS = String.valueOf(seqMax + 1);
                 mstDs.put("wbsCd", "O" + seqMaxS);
 
-                smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap(input,smryDs);//에디터데이터 디코딩처리
-
                 // 특수문자 변환 INPUT
-                iris.web.common.util.StringUtil.toUtf8Input(smryDecodeDs);
+                StringUtil.toUtf8Input(smryDs);
 
-                ousdCooTssPlnService.insertOusdCooTssPlnMst(mstDs,smryDecodeDs);
+                ousdCooTssPlnService.insertOusdCooTssPlnMst(mstDs,smryDs);
 
                 mstDs.put("rtCd", "SUCCESS");
                 mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
@@ -274,13 +273,11 @@ public class OusdCooTssPlnController  extends IrisBaseController {
             boolean upWbsCd = false;
 
             if(!errYn) {
-                // 2. 마스터, 개요 수정
-                smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap(input,smryDs);//에디터데이터 디코딩처리
-
                 // 특수문자 변환 INPUT
-                iris.web.common.util.StringUtil.toUtf8Input(smryDecodeDs);
+                iris.web.common.util.StringUtil.toUtf8Input(smryDs);
 
-                ousdCooTssPlnService.updateOusdCooTssPlnMst(mstDs, smryDecodeDs, upWbsCd);
+                ousdCooTssPlnService.updateOusdCooTssPlnMst(mstDs, smryDs, upWbsCd);
+                
                 mstDs.put("rtCd", "SUCCESS");
                 mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
             }

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import devonframe.dataaccess.CommonDao;
+import iris.web.common.util.CommonUtil;
 
 
 /*********************************************************************************
@@ -38,19 +39,23 @@ public class OusdCooTssPlnServiceImpl implements OusdCooTssPlnService {
         commonDao.insert("prj.tss.com.insertTssMst", mstDs);
 
         smryDs.put("tssCd" ,mstDs.get("tssCd"));
-        commonDao.insert("prj.tss.ousdcoo.insertOusdCooTssSmry", smryDs);
+        commonDao.insert("prj.tss.ousdcoo.insertOusdCooTssSmry", smryDs); //개요 생성
 
         //필수산출물 생성
         if(!"".equals(String.valueOf(smryDs.get("attcFilId")))) {
+            //과제 제안서
             Calendar cal = Calendar.getInstance();
-
-            int year = cal.get(Calendar.YEAR);
-            int yy   = cal.get(Calendar.MONTH) + 1;
-
-            smryDs.put("goalY",      year);
+            int mm   = cal.get(Calendar.MONTH) + 1;
+           
+            smryDs.put("goalY",       mstDs.get("tssStrtDd").toString().substring(0,4));
             smryDs.put("yldItmType", "01");
-            smryDs.put("arslYymm",   year + "-" + yy);
-
+            smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+            commonDao.update("prj.tss.com.updateTssYld", smryDs);
+            
+            //중단 완료 보고서
+            smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
+            smryDs.put("yldItmType", "05");
+            smryDs.put("arslYymm",       mstDs.get("tssFnhDd").toString().substring(0,7));
             commonDao.update("prj.tss.com.updateTssYld", smryDs);
         }
 
@@ -63,6 +68,21 @@ public class OusdCooTssPlnServiceImpl implements OusdCooTssPlnService {
         commonDao.update("prj.tss.com.updateTssMst", mstDs);
         commonDao.update("prj.tss.ousdcoo.updateOusdCooTssPlnSmry", smryDs);
 
+        //과제 제안서
+        Calendar cal = Calendar.getInstance();
+        int mm   = cal.get(Calendar.MONTH) + 1;
+        
+        smryDs.put("goalY",       mstDs.get("tssStrtDd").toString().substring(0,4));
+        smryDs.put("yldItmType", "01");
+        smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
+        
+        //중단 완료 보고서
+        smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
+        smryDs.put("yldItmType", "05");
+        smryDs.put("arslYymm",       mstDs.get("tssFnhDd").toString().substring(0,7));
+        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
+        
         return 1;
     }
 

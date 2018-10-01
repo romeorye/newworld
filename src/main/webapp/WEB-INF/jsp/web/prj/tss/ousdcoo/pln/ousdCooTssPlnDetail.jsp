@@ -763,8 +763,7 @@ function setPrjInfo(prjInfo) {
                                     </td>
                                     <th align="right">과제기간</th>
                                     <td>
-                                        <input type="text" id="tssStrtDd" value="" /><em class="gab"> ~ </em>
-                                        <input type="text" id="tssFnhDd" value="" />
+                                        <input type="text" id="tssStrtDd" value="" /><em class="gab"> ~ </em><em class="gab"></em><input type="text" id="tssFnhDd" value="" />
                                     </td>
                                 </tr>
                             </tbody>
