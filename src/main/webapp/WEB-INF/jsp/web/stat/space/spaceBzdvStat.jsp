@@ -179,8 +179,8 @@ var mchnInfoId;
 			<a class="leftCon" href="#">
 				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 				<span class="hidden">Toggle 버튼</span>
-			</a> 	
-			<h2>연도별 통계</h2>
+			</a>
+			<h2>담당자별 통계</h2>
 		</div>
 		<div class="sub-content">
 			<div class="search mb20">

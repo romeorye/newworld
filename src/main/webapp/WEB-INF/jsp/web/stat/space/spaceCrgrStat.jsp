@@ -78,15 +78,17 @@ var mchnInfoId;
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-            	  { id: 'SPACE_UGY_YN' }
-            	, { id: 'SPACE_UGY_NM' }
-            	, { id: 'SPACE_SCN_CD' }
-            	, { id: 'SPACE_SCN_NM' }
+            	  { id: 'DEPT_CODE' }
+            	, { id: 'DEPT_NAME' }
+            	, { id: 'ALL_SPACE_SCN_CD' }
+            	, { id: 'ALL_SPACE_SCN_NM' }
+            	, { id: 'GBN' }
+            	, { id: 'ALL_SPACE_UGY_YN' }
+            	, { id: 'ALL_SPACE_UGY_NM' }
             	, { id: 'SPACE_SCN_ORD' }
+            	, { id: 'ORD' }
             	, { id: 'CNT' }
             	, { id: 'AVG_CNT' }
-            	, { id: 'DD_CNT' }
-            	, { id: 'AVG_DD' }
             	, { id: 'M1' }
 				, { id: 'M2' }
 				, { id: 'M3' }
@@ -108,8 +110,9 @@ var mchnInfoId;
         var spaceCrgrStatColumnModel = new Rui.ui.grid.LColumnModel({
         	autoWidth:true
             ,columns: [
-            	  { field: 'SPACE_UGY_NM',		label: '구분',		sortable: false,	align:'center',	width: 100, vMerge:true}
-                , { field: 'SPACE_SCN_NM',		label: '상세구분',		sortable: false,	align:'center',	width: 50}
+            	  { field: 'DEPT_NAME',		label: '사업부',		sortable: false,	align:'center',	width: 100, vMerge:true}
+            	, { field: 'GBN',		label: '구분',		sortable: false,	align:'center',	width: 100, vMerge:true}
+                , { field: 'ALL_SPACE_SCN_NM',		label: '세부내용',		sortable: false,	align:'center',	width: 50}
                 , { field: 'CNT',				label: '합계',		sortable: false,	align:'center',	width: 50 }
                 , { field: 'AVG_CNT',			label: '월평균',		sortable: false,	align:'center',	width: 50 }
                 , { field: 'M1',				label: '1월',		sortable: false,	align:'center',	width: 50 }
