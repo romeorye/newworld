@@ -92,9 +92,6 @@
         disableFields = function() {
             if(pageMode == "W") return;
             
-//            document.getElementById('nprodSalsPlnYAvg').style.border = 0;
-//            document.getElementById('ptcCpsnYAvg').style.border = 0;
-            
             document.getElementById('attchFileMngBtn').style.display = "none";
             btnSave.hide();
         };
@@ -130,6 +127,9 @@
             ]
         });
         dataSet.on('load', function(e) {
+        	Wec0.SetBodyValue( dataSet.getNameValue(0, "surrNcssTxt") );
+            Wec1.SetBodyValue( dataSet.getNameValue(0, "sbcSmryTxt") );
+            Wec2.SetBodyValue( dataSet.getNameValue(0, "oucmPlnTxt") );
             
             lvAttcFilId = dataSet.getNameValue(0, "attcFilId");
             if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
@@ -140,9 +140,6 @@
       	//유효성 설정
         var vm = new Rui.validate.LValidatorManager({
             validators: [  
-//                   { id: 'surrNcssTxt',       validExp: '연구과제 배경 및 필요성:true' }
-//                 , { id: 'sbcSmryTxt',   validExp: '주요 연구개발 내용 요약:true' }
-//                 , { id: 'oucmPlnTxt',  validExp: '목표기술 성과 계획:true' }
                    { id: 'rsstExp',         validExp: '연구비:true' }
                  , { id: 'cnttTypeCd',      validExp: '계약유형:true' }
                  , { id: 'monoCd',          validExp: '독점권:true' }
@@ -159,14 +156,11 @@
             bind: true,
             bindInfo: [
                   { id: 'tssCd',              ctrlId: 'tssCd',           value: 'value' }
-//                , { id: 'oucmPlnTxt',         ctrlId: 'oucmPlnTxt',      value: 'value' }
                 , { id: 'rsstExpConvertMil',  ctrlId: 'rsstExp',         value: 'value' }
                 , { id: 'cnttTypeCd',         ctrlId: 'cnttTypeCd',      value: 'value' }
                 , { id: 'monoCd',             ctrlId: 'monoCd',          value: 'value' }
                 , { id: 'rsstExpFnshCnd',     ctrlId: 'rsstExpFnshCnd',  value: 'value' }
                 , { id: 'rvwRsltTxt',         ctrlId: 'rvwRsltTxt',      value: 'value' }
-//                , { id: 'surrNcssTxt',        ctrlId: 'surrNcssTxt',     value: 'value' }
-//                , { id: 'sbcSmryTxt',         ctrlId: 'sbcSmryTxt',      value: 'value' }
                 , { id: 'sttsTxt',            ctrlId: 'sttsTxt',         value: 'value' }
                 , { id: 'ctqTxt',             ctrlId: 'ctqTxt',          value: 'value' }
                 , { id: 'effSpheTxt',         ctrlId: 'effSpheTxt',      value: 'value' }
@@ -181,7 +175,6 @@
         
         // 개요 에디터 탭
         tabViewS = new Rui.ui.tab.LTabView({
-            contentHeight: 200,
             tabs: [
                 {
                 	label: '연구과제배경 및 필요성',
@@ -198,21 +191,22 @@
         
         tabViewS.on('activeTabChange', function(e){
         	var index = e.activeIndex;
-        	fnDisplyNone();
-        	$("#Wec"+index).ready(function(){
-        		fnDisplyBlock(index);
-        		if(e.isFirst){
-        			if(index == 0) {
-//                        initFrameSetHeight();
-
-                        setTimeout(function () {
-                        	fnSetDataEditor(index);
-                            }, 1500);
-                    } else {
-                    	fnSetDataEditor(index);
-                    }
-        		}
-        	});
+        	
+        	if( index == 0 ){
+	    		document.getElementById("divWec0").style.display = "block";	
+	    		document.getElementById("divWec1").style.display = "none";	
+	    		document.getElementById("divWec2").style.display = "none";	
+	    	
+	    	}else if( index == 1 ){
+	    		document.getElementById("divWec0").style.display = "none";	
+	    		document.getElementById("divWec1").style.display = "block";	
+	    		document.getElementById("divWec2").style.display = "none";		
+	    	
+	    	}else if( index == 2 ){
+	    		document.getElementById("divWec0").style.display = "none";	
+	    		document.getElementById("divWec1").style.display = "none";	
+	    		document.getElementById("divWec2").style.display = "block";	
+	    	}
 		});
 
         /*============================================================================
@@ -222,64 +216,32 @@
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-        	var frm = document.smryForm;
 
         	var rsstExpCash = numberNullChk(rsstExp.getValue()) * 100000000;
+        	
         	dataSet.setNameValue(0, "rsstExp" , rsstExpCash );
         	
         	// 에디터 데이터 처리    	
-        	frm.surrNcssTxt.value = fnEditorGetMimeValue(frm.Wec0.isDirty(),frm.Wec0,'');
-        	frm.sbcSmryTxt.value  = fnEditorGetMimeValue(frm.Wec1.isDirty(),frm.Wec1,'');
-        	frm.oucmPlnTxt.value  = fnEditorGetMimeValue(frm.Wec2.isDirty(),frm.Wec2,'');
+        	dataSet.setNameValue(0, "surrNcssTxt", Wec0.GetBodyValue());
+        	dataSet.setNameValue(0, "sbcSmryTxt", Wec1.GetBodyValue());
+        	dataSet.setNameValue(0, "oucmPlnTxt", Wec2.GetBodyValue());
         	
-        	fncEditor();
-        	
-            window.parent.fnSave();
-        });
-        
-        
-        fncEditor = function(){
-        	var frm = document.smryForm;
-        	
-        	frm.Wec0.CleanupOptions = "msoffice | empty | comment";
-        	frm.Wec1.CleanupOptions = "msoffice | empty | comment";
-        	frm.Wec2.CleanupOptions = "msoffice | empty | comment";
-    		
-        	frm.Wec0.value =frm.Wec0.CleanupHtml(frm.Wec0.value);
-        	frm.Wec1.value =frm.Wec1.CleanupHtml(frm.Wec1.value);
-        	frm.Wec2.value =frm.Wec2.CleanupHtml(frm.Wec2.value);
-        	
-        	var jsonString = JSON.stringify(${result});
-            var obj = jQuery.parseJSON(jsonString);
+        	if ( dataSet.getNameValue(0, "surrNcssTxt") == "<p><br></p>"  || Rui.isEmpty( dataSet.getNameValue(0, "surrNcssTxt")  )  ){
+        		alert("연구과제배경 및 필요성을 입력하세요");
+        		return;
+        	}
+        	if ( dataSet.getNameValue(0, "sbcSmryTxt") == "<p><br></p>"  || Rui.isEmpty( dataSet.getNameValue(0, "surrNcssTxt")  )  ){
+        		alert("주요 연구개발 내용 요약을 입력하세요");
+        		return;
+        	}
+        	if ( dataSet.getNameValue(0, "oucmPlnTxt") == "<p><br></p>"  || Rui.isEmpty( dataSet.getNameValue(0, "surrNcssTxt")  )  ){
+        		alert("목표기술 성과 계획을 입력하세요");
+        		return;
+        	}
 
-            var surrNcssTxt  = fnEditorGetMimeValue(document.smryForm.Wec0.isDirty(),document.smryForm.Wec0,'body');
-            var sbcSmryTxt   = fnEditorGetMimeValue(document.smryForm.Wec1.isDirty(),document.smryForm.Wec1,'body');
-            var oucmPlnTxt   = fnEditorGetMimeValue(document.smryForm.Wec2.isDirty(),document.smryForm.Wec2,'body');
-            
-            if(lvTssCd !='') {
-            	if(  surrNcssTxt == "<P>&nbsp;</P>" || surrNcssTxt == "") {
-            		frm.Wec0.value = obj.records[0].surrNcssTxt;
-                }
-            	if(  sbcSmryTxt == "<P>&nbsp;</P>" || sbcSmryTxt == "") {
-	            	frm.Wec1.value = obj.records[0].sbcSmryTxt;
-                }
-            	if(  oucmPlnTxt == "<P>&nbsp;</P>" || oucmPlnTxt == "") {
-		            frm.Wec2.value = obj.records[0].oucmPlnTxt;
-                }
-	            
-	        	frm.surrNcssTxt.value =  frm.Wec0.MIMEValue;
-	            frm.sbcSmryTxt.value =  frm.Wec1.MIMEValue;
-	            frm.oucmPlnTxt.value =  frm.Wec2.MIMEValue;
-            }
-        }
-        
-       /*  
-        //목록
-        var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {    
-            nwinsActSubmit(window.parent.document.mstForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssList.do'/>");
+        	window.parent.fnSave();
         });
-        */ 
+        
         //첨부파일 조회
         var attachFileDataSet = new Rui.data.LJsonDataSet({
             id: 'attachFileDataSet',
@@ -348,7 +310,6 @@
         
         // 개요저장 validation 함수 : false : 항목없음 / true : 항목존재
         validation = function(){
-        	
         	// 1. Rui 기본 validation
             if( !vm.validateGroup("smryForm") ) {
                  alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join(''));
@@ -362,27 +323,22 @@
         	}
         	
         	// 3. 에디터 필수입력 체크
-        	// 에디터 로딩 전 값은 <P>&nbsp;</P> => 변경여부 체크추가
-        	var testEditValue1 = fnEditorGetMimeValue(document.smryForm.Wec0.isDirty(),document.smryForm.Wec0,'body');
-        	var testEditValue2 = fnEditorGetMimeValue(document.smryForm.Wec1.isDirty(),document.smryForm.Wec1,'body');
-        	var testEditValue3 = fnEditorGetMimeValue(document.smryForm.Wec2.isDirty(),document.smryForm.Wec2,'body');
-        	var testEditIsDirty1 = document.smryForm.Wec0.isDirty();
-        	var testEditIsDirty2 = document.smryForm.Wec1.isDirty();
-        	var testEditIsDirty3 = document.smryForm.Wec2.isDirty();
-
-        	if( testEditValue1 == '' || testEditValue1 == "<P>&nbsp;</P>"){
-        		alert("연구과제배경 및 필요성 은 필수입력입니다.");
-        		return true;
-        	}
-        	if( testEditValue2 == '' || testEditValue2 == "<P>&nbsp;</P>"){
-        		alert("주요 연구개발 내용 요약 은 필수입력입니다.");
-        		return true;
-        	}
-        	if( testEditValue3 == '' || testEditValue3 == "<P>&nbsp;</P>"){
-        		alert("목표기술 성과 계획 은 필수입력입니다.");
-        		return true;
-        	}
-
+			if( Wec0.GetBodyValue() == "<p><br></p>" || Wec0.GetBodyValue() == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
+				alert("연구과제배경 및 필요성 은 필수입력입니다.");
+				Wec0.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
+			if( Wec1.GetBodyValue() == "<p><br></p>" || Wec1.GetBodyValue() == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
+				alert("주요 연구개발 내용 요약 은 필수입력입니다.");
+				Wec1.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
+			if( Wec2.GetBodyValue() == "<p><br></p>" || Wec2.GetBodyValue() == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
+				alert("목표기술 성과 계획 은 필수입력입니다.");
+				Wec2.SetFocusEditor(); // 크로스에디터 Focus 이동
+     		    return false;
+     		}
+			
 			// 4. 기타데이터 체크
 			var filId = dataSet.getNameValue(0, "attcFilId");
 			if( filId == null || filId == '' ){
@@ -393,68 +349,6 @@
         	return false;
         }
 		
-        /** ============================================= Editor ================================================================================= **/
-        // 에디터 값 세팅
-        fnSetDataEditor = function(val){
-        	var resultCnt = Number('<c:out value="${resultCnt}"/>');
-        	
-       		var jsonString = JSON.stringify(${result});
-        	var obj = jQuery.parseJSON(jsonString);
-        	
-       		var Wec = eval("document.smryForm.Wec"+val);
-	       	Wec.BodyValue  =  Wec.value ;
-	       	var txt = "";
-	       	if(resultCnt > 0){
-		       	txt = obj.records[0].surrNcssTxt;
-		        if(val==0){
-		       		txt = obj.records[0].surrNcssTxt;       
-		        }else if(val==1){
-		        	txt = obj.records[0].sbcSmryTxt;       
-		        }else if(val==2){
-		        	txt = obj.records[0].oucmPlnTxt;       
-		        }
-	       	}
-	       	Wec.BodyValue = txt;
-	       	Wec.setDirty(false);	// 변경상태 초기화처리
-        }
-        
-        //editor show hide function
-        fnDisplyBlock= function(val){
-        	document.getElementById('divWec'+val).style.display = 'block';
-        }
-        fnDisplyNone = function(){
-        	document.getElementById('divWec0').style.display = 'none';
-        	document.getElementById('divWec1').style.display = 'none';
-        	document.getElementById('divWec2').style.display = 'none';
-        }
-        
-        // 에디터변경여부
-        fnEditorIsUpdate = function(){
-        	isUpdate = false;
-        	var Wec0 = document.smryForm.Wec0;
-        	var Wec1 = document.smryForm.Wec1;
-        	var Wec2 = document.smryForm.Wec2;
-
-        	if( (Wec0 != null && Wec0.IsDirty() == 1) || (Wec1 != null && Wec1.IsDirty() == 1) || (Wec2 != null && Wec2.IsDirty() == 1) ){
-        		isUpdate = true;
-        	}
-        	return isUpdate;
-        }
-        /* 에디터값 가져오기(변경상태 유지) type(body, mime) */
-        fnEditorGetMimeValue = function(beforeDirty,editor,type){
-        	
-        	var returnValue = editor.MIMEValue;
-        	if(type == 'body'){ returnValue = editor.BodyValue; }
-        	
-        	editor.setDirty(beforeDirty);
-        	return returnValue;
-        }
-     	// 에디터 생성
-        createNamoEdit('Wec0', '100%', 400, 'divWec0');
-    	createNamoEdit('Wec1', '100%', 400, 'divWec1');
-    	createNamoEdit('Wec2', '100%', 400, 'divWec2');
-    	/** ===============================================  Editor End ==================================================================================== **/
-    	
         tabViewS.render('tabViewS');
         
         //최초 데이터 셋팅
@@ -469,9 +363,6 @@
         //버튼 비활성화 셋팅
         disableFields();
         
-//        $("#Wec0").ready(function(){
-//        	tabViewS.selectTab(0);
-//        });
     });
     
     // 내부 스크롤 제거
@@ -489,9 +380,6 @@
     <form name="smryForm" id="smryForm" method="post">
         <input type="hidden" id="tssCd"  name="tssCd"  value="">  <!-- 과제코드 -->
         <input type="hidden" id="userId" name="userId" value="">  <!-- 사용자ID -->
-        <input type="hidden" id="surrNcssTxt" name="surrNcssTxt"> <!-- 연구과제배경 및 필요성 -->
-        <input type="hidden" id="sbcSmryTxt" name="sbcSmryTxt">   <!-- 주요 연구개발 내용 요약 -->
-        <input type="hidden" id="oucmPlnTxt" name="oucmPlnTxt">   <!-- 목표기술 성과 계획 -->
          
         <table class="table table_txt_right">
             <colgroup>
@@ -510,9 +398,49 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-						<div id="divWec0"></div>
-                		<div id="divWec1"></div>
-                		<div id="divWec2"></div>
+						<div id="divWec0">
+							<textarea id="surrNcssTxt" name="surrNcssTxt"></textarea>
+							<script>
+                                Wec0 = new NamoSE('surrNcssTxt');
+                                Wec0.params.Width = "100%";
+                                Wec0.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec0.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec0.params.FullScreen = false;
+                                Wec0.EditorStart();
+                            </script>
+						</div>
+                		<div id="divWec1" style="display:none">
+                			<textarea id="sbcSmryTxt" name="sbcSmryTxt"></textarea>
+                			<script>
+                                Wec1 = new NamoSE('sbcSmryTxt');
+                                Wec1.params.Width = "100%";
+                                Wec1.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec1.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec1.params.FullScreen = false;
+                                Wec1.EditorStart();
+                            </script>
+                        </div>
+                		<div id="divWec2" style="display:none">
+                			<textarea id="oucmPlnTxt" name="oucmPlnTxt"></textarea>
+                			<script>
+                                Wec2 = new NamoSE('oucmPlnTxt');
+                                Wec2.params.Width = "100%";
+                                Wec2.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec2.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec2.params.FullScreen = false;
+                                Wec2.EditorStart();
+                            </script>
+                            <script type="text/javascript" language="javascript">
+	                            function OnInitCompleted(e){
+	                                e.editorTarget.SetBodyValue(document.getElementById("divWec0").value);
+	                                e.editorTarget.SetBodyValue(document.getElementById("divWec1").value);
+	                                e.editorTarget.SetBodyValue(document.getElementById("divWec2").value);
+	                            }
+	                        </script>       
+                		</div>
 					</td>
                 </tr>          
                 <tr>
