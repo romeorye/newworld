@@ -49,6 +49,10 @@
 .ta_fix {table-layout:fixed !important;}
 .date_txt {display:inline-block; padding:0 3px 0 33px;}
 .form_bd input {border:0 none !important; line-height:25px;}
+
+.attach_file li {position:relative;}
+.attach_file li button {position:absolute; right:0;top:0;}
+.attach_file li div {width:368px !important; height:26px !important;  }
 /*** Radio Check ***/
 .radio-inline, 
 .checkbox-inline {
@@ -133,6 +137,7 @@
 #attchFileMngBtn {border:1px solid #c3c3c3 !important; background:#f3f3f3 !important;}
 .L-grid-panel .L-grid-button {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important;}
 table td button {border:1px solid #c3c3c3 !important; background:#f3f3f3 !important;}
+table td button.icoBtn {border:0  none !important;}
 table td input[type="button"] {border:1px solid #c3c3c3 !important;; background:#f3f3f3 !important; display:inline-block; margin:0 2px !important; padding:0 10px !important; }
 table td .titArea button  {border:1px solid #c3c3c3 !important; background:#fff !important;}
 table td .titArea button:hover {border:1px solid #da1c5a !important; }
@@ -531,7 +536,7 @@ tr.L-grid-row:first-child td {border-top:0 none !important;}
 
 table.L-grid-header-table thead td { position:static;/* box-sizing:border-box;border-right:0 solid #bcbcbc !important;*/ }
 
-.L-grid-col-line .L-grid-row td.L-grid-cell {padding-top:2px; padding-bottom:2px; border:1px solid #c3c3c3;/* box-sizing:border-box;*/
+.L-grid-col-line .L-grid-row td.L-grid-cell {padding-top:2px; padding-bottom:2px; border:1px solid #c3c3c3;/* box-sizing:border-box;*/}
 .L-grid-cell-sortable img.L-grid-sort-icon {
     background-image: url(/iris/resource/web/images/img_uxp/ico_sort_both.png);
     display: inline-block;
