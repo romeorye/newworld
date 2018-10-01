@@ -2,6 +2,7 @@ package iris.web.prj.grs.service;
 
 import devonframe.dataaccess.CommonDao;
 import iris.web.common.util.CommonUtil;
+import iris.web.tssbatch.service.TssStCopyService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,6 +16,10 @@ public class GrsMngServiceImpl implements GrsMngService {
 
 	@Resource(name = "commonDao")
 	private CommonDao commonDao;
+
+	@Resource(name = "tssStCopyService")
+	private TssStCopyService tssStCopyService;
+
 
 	@Override
 	public List<Map<String, Object>> selectListGrsMngList(HashMap<String, Object> input) {
@@ -54,6 +59,15 @@ public class GrsMngServiceImpl implements GrsMngService {
 
 		//GRS 기본정보 과제 관리 마스터로 복제
 		commonDao.insert("prj.grs.moveGrsDefInfo", input);
+
+
+		if("N".equals(input.get("grsYn"))){
+			//GRS(P1)을 하지 않는 경우
+			//WBS 코드 생성 및 등록
+			String wbsCd = tssStCopyService.createWbsCd(input);
+			input.put("wbsCd", wbsCd);
+			commonDao.insert("prj.tss.com.updateTssMstWbsCd", input);
+		}
 
 		//GRS 기본정보 과제 서머리 마스터로 복제
 		commonDao.insert("prj.grs.moveGrsDefSmry", input);

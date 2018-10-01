@@ -354,6 +354,15 @@
             var dsNprodSalsPlnY3 = (dataSet.getNameValue(0, "nprodSalsPlnY3") / 100000000).toFixed(2);
             var dsNprodSalsPlnY4 = (dataSet.getNameValue(0, "nprodSalsPlnY4") / 100000000).toFixed(2);
 
+
+
+            //NaN인경우
+            dsNprodSalsPlnY1 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
+            dsNprodSalsPlnY2 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
+            dsNprodSalsPlnY3 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
+            dsNprodSalsPlnY4 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
+
+
             nprodSalsPlnY.setValue(dsNprodSalsPlnY);
             nprodSalsPlnY1.setValue(dsNprodSalsPlnY1);
             nprodSalsPlnY2.setValue(dsNprodSalsPlnY2);

@@ -605,9 +605,8 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				} else {
 					wbsCdSeq = String.valueOf((char) (matchSeq + 1));
 				}
-			}
-			//대외협력과제
-			else if ("O".equals(tssScnCd)) {
+			} else if ("O".equals(tssScnCd)) {
+				//대외협력과제
 				//O~W 사이 문자 비교
 				if (matchSeq != 0) {
 					for (int i = 79; i < 87; i++) {
@@ -623,9 +622,8 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				} else {
 					wbsCdSeq = String.valueOf((char) (matchSeq + 1));
 				}
-			}
-			//국책과제
-			else if ("N".equals(tssScnCd)) {
+			} else if ("N".equals(tssScnCd)) {
+				//국책과제
 				//X,Y,Z 문자 비교
 				if (matchSeq != 0) {
 					for (int i = 88; i < 90; i++) {
@@ -642,6 +640,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 					wbsCdSeq = String.valueOf((char) (matchSeq + 1));
 				}
 			}else if ("D".equals(tssScnCd)) {
+				// 기술팀 과제
 				if (matchSeq != 0) {
 					//1~9 사이 숫자 비교
 					for (int i = 1; i <= 9; i++) {

@@ -11,6 +11,7 @@ import iris.web.prj.tss.com.service.TssUserService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.system.base.IrisBaseController;
+import iris.web.tssbatch.service.TssStCopyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -48,6 +49,9 @@ public class GrsMngController extends IrisBaseController {
 
     @Resource(name = "genTssService")
     private GenTssService genTssService;
+
+
+
 
 	static final Logger LOGGER = LogManager.getLogger(GrsMngController.class);
 
@@ -155,6 +159,9 @@ public class GrsMngController extends IrisBaseController {
 
 		try {
 			if ("".equals(input.get("tssCd"))) {
+				checkSessionObjRUI(input, session, model);
+				rtnSt = "F";
+
 				//신규
 				HashMap<String, Object> getWbs = genTssService.getWbsCdStd("prj.tss.com.getWbsCdStd", input);
 				//SEED WBS_CD 생성
@@ -162,25 +169,33 @@ public class GrsMngController extends IrisBaseController {
 				String seqMaxS = String.valueOf(seqMax + 1);
 				input.put("wbsCd", input.get("tssScnCd") + seqMaxS);
 				input.put("pkWbsCd", input.get("wbsCd"));
-				input.put("pgsStepCd", "PL");                                // 과제 진행 단계 코드
-
-
-				checkSessionObjRUI(input, session, model);
-
-				rtnSt = "F";
+				input.put("userId", input.get("_userId"));
 				String grsYn = (String) input.get("grsYn");
 
-				input.put("tssSt", (grsYn.equals("Y")) ? "101" : "100");                                    // GRS상태
+				// GRS(P1)을 수행하는 경우 계획 하지 않는 경우 진행단계
+				if (grsYn.equals("Y")) {
+					input.put("pgsStepCd", "PL");                                // 과제 진행 단계 코드
+					input.put("tssSt","101");
+				}else if (grsYn.equals("N")) {
+					input.put("pgsStepCd","PG");
+					input.put("tssSt","100");
+				}
+
 				// mchnCgdgService.saveCgdsMst(input);
 				grsMngService.updateGrsInfo(input);                                                        //과제 기본정보 등록
 				input.put("tssCd", input.get("newTssCd"));
 
 				if (grsYn.equals("Y")) {
-					//GRS 수행시 GRS 요청정보 생성
+					LOGGER.debug("=============== GRS=Y 인경우 GRS 요청정보 생성 ===============");
 					input.put("grsEvSt", "P1");
-					input.put("tssCd", input.get("newTssCd"));
-					input.put("userId", input.get("_userId"));
 					grsMngService.updateGrsReqInfo(input);                                            //GRS 정보 등록
+				}else if (grsYn.equals("N")) {
+					LOGGER.debug("=============== GRS 미수행시 마스터 이관 ===============");
+					grsMngService.moveDefGrsDefInfo(input);	// 과제정보 마스터 이관
+					//Qgate I/F
+					//리더에게 에게 메일 발송
+//					genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121
+
 				}
 
 				rtnMsg = "저장되었습니다.";

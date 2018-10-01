@@ -514,23 +514,23 @@
 */
 
         //조회
-        fnSearch = function(targetDs) {
-        	if(targetDs == "GOAL") {
-	            dataSet1.load({ 
-	                url: "<c:url value='/prj/tss/gen/retrieveGenTssPlnGoal.do'/>"
-	              , params : {
-	                    tssCd : lvTssCd
-	                }
-	            });
-        	}
-        	else {
-	            dataSet2.load({ 
-	                url: "<c:url value='/prj/tss/gen/retrieveGenTssPlnYld.do'/>"
-	              , params : {
-	                    tssCd : lvTssCd
-	                }
-	            });
-        	}
+        fnSearch = function (targetDs) {
+            if (targetDs == "GOAL") {
+                dataSet1.load({
+                    url: "<c:url value='/prj/tss/gen/retrieveGenTssPlnGoal.do'/>"
+                    , params: {
+                        tssCd: lvTssCd
+                    }
+                });
+            }
+            else {
+                dataSet2.load({
+                    url: "<c:url value='/prj/tss/gen/retrieveGenTssPlnYld.do'/>"
+                    , params: {
+                        tssCd: lvTssCd
+                    }
+                });
+            }
         };
         
         //데이터 셋팅
