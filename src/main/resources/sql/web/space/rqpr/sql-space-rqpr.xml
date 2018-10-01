@@ -149,11 +149,11 @@
 				 and		del_yn = 'N')							AS opinitionCnt,
 				(select	CIR.ITG_RDCS_ID
 				 from	IRIS_COM_ITG_RDCS CIR
-				 WHERE	CIR.GUID = 'A' + cast(mst.RQPR_ID as nvarchar)
+				 WHERE	CIR.GUID = 'E' + cast(mst.RQPR_ID as nvarchar)
 				)													AS reqItgRdcsId,
 				(select	CIR.ITG_RDCS_ID
 				 from	IRIS_COM_ITG_RDCS CIR
-				 WHERE	CIR.GUID = 'C' + cast(mst.RQPR_ID as nvarchar)
+				 WHERE	CIR.GUID = 'G' + cast(mst.RQPR_ID as nvarchar)
 				)													AS rsltItgRdcsId,
 				OPPB_SCP_CD		as oppbScpCd,		/* 공개범위 코드 */
 				SCRT_RSON		as scrtRson,		/* 비밀 사유 */

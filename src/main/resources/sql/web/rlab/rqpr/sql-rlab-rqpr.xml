@@ -64,7 +64,7 @@
 																	))
         	</when>
         	<otherwise>
-			AND RLAB_ACPC_ST_CD != '00'
+			AND RLAB_ACPC_ST_CD != '01'
         	</otherwise>
         </choose>
 			AND DEL_YN = 'N'
@@ -149,11 +149,11 @@
 				 and		del_yn = 'N')							AS opinitionCnt,
 				(select	CIR.ITG_RDCS_ID
 				 from	IRIS_COM_ITG_RDCS CIR
-				 WHERE	CIR.GUID = 'A' + cast(mst.RQPR_ID as nvarchar)
+				 WHERE	CIR.GUID = 'B' + cast(mst.RQPR_ID as nvarchar)
 				)													AS reqItgRdcsId,
 				(select	CIR.ITG_RDCS_ID
 				 from	IRIS_COM_ITG_RDCS CIR
-				 WHERE	CIR.GUID = 'C' + cast(mst.RQPR_ID as nvarchar)
+				 WHERE	CIR.GUID = 'D' + cast(mst.RQPR_ID as nvarchar)
 				)													AS rsltItgRdcsId
 
 			FROM	IRIS_RLAB_RQPR_MST mst

@@ -223,6 +223,8 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     			List<Map<String,Object>> rlabRqprRltdList = commonDao.selectList("rlab.rqpr.getRlabRqprRltdList", input);
     			List<Map<String,Object>> rqprAttachFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
 
+
+    			rlabRqprInfo.put("infmTypeNm", StringUtil.isNullGetInput((String)rlabRqprInfo.get("infmTypeNm"), ""));
     			rlabRqprInfo.put("rlabRqprInfmView", StringUtil.isNullGetInput((String)rlabRqprInfo.get("rlabRqprInfmView"), ""));
     			rlabRqprInfo.put("rlabSbc", ((String)rlabRqprInfo.get("rlabSbc")).replaceAll("\n", "<br/>"));
 
@@ -525,6 +527,7 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 
     			List<Map<String,Object>> rsltAttachFileList = commonDao.selectList("common.attachFile.getAttachFileList", dataMap);
 
+    			rlabRqprInfo.put("infmTypeNm", StringUtil.isNullGetInput((String)rlabRqprInfo.get("infmTypeNm"), ""));
     			rlabRqprInfo.put("rlabRqprInfmView", StringUtil.isNullGetInput((String)rlabRqprInfo.get("rlabRqprInfmView"), ""));
     			rlabRqprInfo.put("rlabSbc", ((String)rlabRqprInfo.get("rlabSbc")).replaceAll("\n", "<br/>"));
     			rlabRqprInfo.put("rlabRsltSbc", ((String)rlabRqprInfo.get("rlabRsltSbc")).replaceAll("\n", "<br/>"));
