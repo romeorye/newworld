@@ -884,7 +884,7 @@
                     smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
 
                     dm.updateDataSet({
-                        modifiedOnly: false,
+                        // modifiedOnly: false,
                         url: '<%=request.getContextPath()+TctmUrl.doUpdateInfo%>',
                         dataSets: [dataSet, smryDs],
                         params: {

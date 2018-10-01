@@ -770,7 +770,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	           #{tssType},
 	           #{smrSmryTxt},
 	           #{smrGoalTxt},
-				iif(isnumeric(#{nprodSalsPlnY})=0,0,#{nprodSalsPlnY}),	-- 숫자가 아닌경우 0처리
+				#{nprodSalsPlnY},	-- 숫자가 아닌경우 0처리
 				#{ctyOtPlnM},
 				GETDATE(),
 				'MIGADMIN1',
@@ -865,6 +865,19 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             FROM IRIS_GRS_MGMT_MST g
             WHERE g.TSS_CD = #{tssCd}
     </insert>
+
+    <!-- GRS 기본 정보 마스터로 이관 -->
+    <update id="updateGrsDefInfo02">
+        UPDATE IRIS_TSS_MGMT_MST
+        SET
+        <if test="ppslMbdCd != null and ppslMbdCd != ''">
+            PPSL_MBD_CD = #{ppslMbdCd}
+        </if>
+        <if test="rsstSphe != null and rsstSphe != ''">
+            , RSST_SPHE = #{rsstSphe}
+        </if>
+        WHERE TSS_CD = #{tssCd}
+    </update>
 
     <!-- GRS 기본 정보 개요 마스터 생성 -->
     <insert id="moveGrsDefSmry">

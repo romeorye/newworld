@@ -169,7 +169,7 @@ public class GrsMngController extends IrisBaseController {
 				String seqMaxS = String.valueOf(seqMax + 1);
 
 
-				input.put("nprodSalsPlnY", (Integer)input.get("nprodSalsPlnY") * 100000000);
+//				input.put("nprodSalsPlnY", (Integer)input.get("nprodSalsPlnY") * 100000000);
 				input.put("wbsCd", input.get("tssScnCd") + seqMaxS);
 				input.put("pkWbsCd", input.get("wbsCd"));
 				input.put("userId", input.get("_userId"));
@@ -195,6 +195,7 @@ public class GrsMngController extends IrisBaseController {
 				}else if (grsYn.equals("N")) {
 					LOGGER.debug("=============== GRS 미수행시 마스터 이관 ===============");
 					grsMngService.moveDefGrsDefInfo(input);	// 과제정보 마스터 이관
+
 					//Qgate I/F
 					//리더에게 에게 메일 발송
 //					genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121

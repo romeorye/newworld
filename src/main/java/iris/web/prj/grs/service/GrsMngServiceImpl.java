@@ -60,6 +60,11 @@ public class GrsMngServiceImpl implements GrsMngService {
 		//GRS 기본정보 과제 관리 마스터로 복제
 		commonDao.insert("prj.grs.moveGrsDefInfo", input);
 
+		// 발의, 연구 기본값 세팅
+		input.put("ppslMbdCd", "02"); // 사업부
+//		input.put("rsstSphe", "");
+		commonDao.insert("prj.grs.updateGrsDefInfo02", input);
+
 
 		if("N".equals(input.get("grsYn"))){
 			//GRS(P1)을 하지 않는 경우

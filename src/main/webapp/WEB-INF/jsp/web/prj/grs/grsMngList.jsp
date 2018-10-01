@@ -389,6 +389,7 @@
                               Rui.confirm({
                                   text: '저장하시겠습니까?',
                                   handlerYes: function () {
+                                      nprodSalsPlnY.setValue(nprodSalsPlnY.getValue()* 100000000);
                                       dm.updateForm({
                                           url: "<c:url value='/prj/grs/updateGrsMngInfo.do'/>",
                                           form: 'defTssForm'
