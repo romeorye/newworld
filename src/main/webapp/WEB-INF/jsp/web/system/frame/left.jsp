@@ -3,7 +3,7 @@
 
 <%@page import="iris.web.common.util.HelpDesk" %>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
-	
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -15,38 +15,37 @@
 </style>
 <script>
 $(function(){
-	
+
 	$(".split_l").bind("click", function(){
 
 		 var _this = $(this);
-		 var pth = $(this).find('img')[0];		
-		 var obj = parent.document.getElementById('main_frameset');		
+		 var pth = $(this).find('img')[0];
+		 var obj = parent.document.getElementById('main_frameset');
 
 		 if(obj.cols == '202,*'){
 
-			 obj.cols='47,*';
-
-			 	$('.lnbArea').css("left", "-148px");
-			 	$('.lnbMenuArea').css('display', 'none');
-			 	$('.accordionBtn').css('display', 'none');
-			 	$('.lnbTitle').css('display', 'none');
-			 	$(pth).attr('src', $(pth).attr('src').replace(/lnb_off./g, 'lnb_on.'));
+			obj.cols='47,*';
+		 	$('.lnbArea').css("left", "-148px");
+		 	$('.lnbMenuArea').css('display', 'none');
+		 	$('.accordionBtn').css('display', 'none');
+		 	$('.lnbTitle').css('display', 'none');
+		 	$(pth).attr('src', $(pth).attr('src').replace(/lnb_off./g, 'lnb_on.'));
 		 }else if(obj.cols == '47,*'){
 
-			 obj.cols='211,*';
-			 $('.lnbArea').css("left", "0");
-			 $('.lnbMenuArea').css("display", "block");
-			 $('.accordionBtn').css("display", "block");
-			 $('.lnbTitle').css("display", "block");
-			 $(pth).attr('src', $(pth).attr('src').replace(/lnb_on./g, 'lnb_off.'));
+			obj.cols='211,*';
+			$('.lnbArea').css("left", "0");
+			$('.lnbMenuArea').css("display", "block");
+			$('.accordionBtn').css("display", "block");
+			$('.lnbTitle').css("display", "block");
+			$(pth).attr('src', $(pth).attr('src').replace(/lnb_on./g, 'lnb_off.'));
 		 }
 
 	});
-		
-	<c:if test ="${menuMoveYn eq 'Y'}">		
+
+	<c:if test ="${menuMoveYn eq 'Y'}">
 		var _this = $(this);
-	    var pth = $(this).find('img')[0];		
-	    var obj = parent.document.getElementById('main_frameset');	 
+	    var pth = $(this).find('img')[0];
+	    var obj = parent.document.getElementById('main_frameset');
 
 		obj.cols='211,*';
 		$('.lnbArea').css("left", "0");
@@ -54,7 +53,7 @@ $(function(){
 		$('.accordionBtn').css("display", "block");
 		$('.lnbTitle').css("display", "block");
 		$(pth).attr('src', $(pth).attr('src').replace(/lnb_on./g, 'lnb_off.'));
-		 	
+
 	</c:if>
 
 
@@ -133,28 +132,28 @@ $(function(){
 	<c:choose>
 		<c:when test="${!empty param.menuId}">
 			moveMenu("<c:out value="${param.vMenuId}"/>", "<c:out value="${param.menuPath}"/><c:out value="${params}" escapeXml="false"/>", "<c:out value="${param.menuId}"/>");
-			
+
 			setMenuView('<c:out value="${param.parentMenuId}"/>');
-			
+
     		$('.accordion > dd > ul > li').removeClass('on');
 			$('#lvl3_<c:out value="${param.menuId}"/>').addClass('on');
 		</c:when>
 		<c:when test="${subMenuList[0].subSysId == 'AN' || subMenuList[0].subSysId == 'PJ'}">
 			moveMenu("<c:out value="${subMenuList[1].subSysId}"/>", "<c:out value="${subMenuList[1].menuPath}"/>", "<c:out value="${subMenuList[1].menuId}"/>");  /*[EAM변경]*/
-			
+
 			if('${subMenuList[1].menuPath}' == '') {
 				moveMenu("<c:out value="${subMenuList[2].subSysId}"/>", "<c:out value="${subMenuList[2].menuPath}"/>", "<c:out value="${subMenuList[2].menuId}"/>");
 			}
-			
+
 			setMenuView('<c:out value="${subMenuList[1].menuId}"/>');
 		</c:when>
 		<c:otherwise>
 			moveMenu("<c:out value="${subMenuList[0].subSysId}"/>", "<c:out value="${subMenuList[0].menuPath}"/>", "<c:out value="${subMenuList[0].menuId}"/>");  /*[EAM변경]*/
-			
+
 			if('${subMenuList[0].menuPath}' == '') {
 				moveMenu("<c:out value="${subMenuList[1].subSysId}"/>", "<c:out value="${subMenuList[1].menuPath}"/>", "<c:out value="${subMenuList[1].menuId}"/>");
 			}
-			
+
 			setMenuView('<c:out value="${subMenuList[0].menuId}"/>');
 		</c:otherwise>
 	</c:choose>
@@ -175,7 +174,7 @@ function goHelpDesk(){
 	var fmd5_emp_no = "<%=hd.fmd5_user_id(sabun)%>";
 	var popUrl =  '<c:url value="/prj/rsst/helpdesPopUp.do"/>';
     var popupOption = "width=1200, height=700, top=200, left=400";
-    
+
     alert("IRIS+ 문의사항은 02-6987-7396 으로 연락바랍니다.");
     popUrl = popUrl+"?emp_no="+emp_no+"&fmd5_emp_no="+fmd5_emp_no;
     window.open(popUrl,"",popupOption);
@@ -188,29 +187,29 @@ function goHelpDesk(){
 function moveMenu(vMenuId, scrnUrl, menuId){
 	if(scrnUrl == "")  return;
 	var target = 'contentFrame';
-	
+
 	if('IRIAN0001|IRIPJ0001'.indexOf(menuId) > -1) {
 		target = '_top';
 	}
-	
+
 	if( '${inputData.anlChrgNm}' != "" ||   '${inputData.anlChrgNm}' != null ||   '${inputData.anlChrgNm}' != undefined ){
 		var urlString = scrnUrl.split("&");
-		
+
 		if(urlString.length > 1 ){
 			var nmString = urlString[1].split("=");
 			scrnUrl = urlString[0];
 			$("#menuForm").find("#anlChrgNm").val('${inputData._userNm}');
 		}
 	}
-	
+
 	if( '${inputData.progressrateReal}' != "" ||   '${inputData.progressrateReal}' != null ||   '${inputData.progressrateReal}' != undefined ){
 		$("#menuForm").find("#progressrateReal").val('${inputData.progressrateReal}');
 	}
-	
+
 	if( '${inputData.progressrate}' != "" ||   '${inputData.progressrate}' != null ||   '${inputData.progressrate}' != undefined ){
 		$("#menuForm").find("#progressrate").val('${inputData.progressrate}');
 	}
-	
+
 	//[EAM추가] - 변수 Start
 	$("#menuForm").find("#subSysId").val(vMenuId);
 	$("#menuForm").find("#menuPath").val(scrnUrl);
@@ -221,7 +220,7 @@ function moveMenu(vMenuId, scrnUrl, menuId){
 	$("#menuForm").attr("target", target);
 	$("#menuForm").attr("action", contextPath + scrnUrl);
 	$("#menuForm").submit();
-	
+
 	$("#menuForm").find("#anlChrgNm").val('');
 	$("#menuForm").find("#progressrateReal").val('');
 	$("#menuForm").find("#progressrate").val('');

@@ -6,13 +6,13 @@ $(window).on('load', function(){
         w_height = $(window).height();
         w_width = $(window).width();
         var pageHead = $('.container').offset();
-        var lnb_height = $('.page-navigation').offset(); 
+        var lnb_height = $('.page-navigation').offset();
         $('.container').css({'height':w_height - pageHead.top});
         $('.page-navigation').css('height', w_height - lnb_height.top);
         $('.page-left').hasClass('leftOpen') ? $('.container').css('width', (w_width - ($('.page-left').width())) + "px") : $('.container').css('width', (w_width) + "px");
     }).resize();
 });
-$(function () {   
+$(function () {
 
     // Header GNB
     $('.gnb-header .gnb li a').on('click', function(){
@@ -24,7 +24,7 @@ $(function () {
     $('.listTable > table > tbody > tr:nth-child(odd)').addClass('even');
 
     // Page-left control
-    $('.leftCon').on('click', function () {
+    /*$('.leftCon').on('click', function () {
         if ($('.page-left').hasClass('leftOpen')) {
             $('.page-left').animate({left: -211}, 300);
             $('.page-content').animate({left: 0}, 300);
@@ -36,8 +36,12 @@ $(function () {
             $('.page-left').addClass('leftOpen');
             $('.container').animate({width: (w_width - ($('.page-left').width()))}, 300);
         }
+    });*/
+    $('.leftCon').on('click', function () {
+        parent.setMenuFrame();
     });
-    
+
+
     // Search toggle
     var searhButton = '';
         searhButton += '<div class="search-toggleBtn">';
@@ -50,20 +54,20 @@ $(function () {
         if(searchTr.length > 2) {
             searchTr.eq(1).addClass('display-row');
             $(this).parent().append(searhButton);
-        }; 
+        };
         if($(this).hasClass('in') == true) {
                searchTr.eq(1).removeClass('display-row');
-               $('.search-toggleBtn').addClass('spread');  
-            };   
+               $('.search-toggleBtn').addClass('spread');
+            };
         $('.search-toggleBtn').on('click', function(){
             if(searchTr.eq(2).css('display') == 'none') {
                searchTr.eq(1).removeClass('display-row');
-               $(this).addClass('spread'); 
+               $(this).addClass('spread');
             } else{
-                searchTr.eq(1).addClass('display-row'); 
+                searchTr.eq(1).addClass('display-row');
                 $(this).removeClass('spread');
             }
-        });    
+        });
     });
 
     //Accordion
@@ -78,7 +82,7 @@ $(function () {
 
     // Tooltip
     $('[data-toggle="tooltip"]').tooltip();
-    
+
 
     // Checkbox check all
     $('.listTable thead th input[type="checkbox"]').on('click', function () {
@@ -96,7 +100,7 @@ $(function () {
         click : function (target){
             $(target).each(function(){
                 if($(this).next().html() == undefined){
-                    $(this).addClass('finalDepth'); 
+                    $(this).addClass('finalDepth');
                 }
             })
 
@@ -111,7 +115,7 @@ $(function () {
                 $(this).addClass('select');
 
                 if($(this).next().html() == undefined){
-                    $(this).addClass('color'); 
+                    $(this).addClass('color');
                 }
 
                 if($depthTarget.css('display') == 'none'){
