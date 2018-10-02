@@ -78,11 +78,11 @@
         });
       
         //과제명
-//         tssNm = new Rui.ui.form.LTextBox({
-//             applyTo: 'tssNm',
-//             editable: false,
-//             width: 300
-//         });
+         tssNm = new Rui.ui.form.LTextBox({
+             applyTo: 'tssNm',
+             editable: false,
+             width: 400
+         });
         
         //연구책임자
         saUserName = new Rui.ui.form.LTextBox({
@@ -306,7 +306,7 @@
                 gvTssSt = "";
             }
             
-            document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
+            //document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
             
             disableFields();
             
@@ -337,7 +337,7 @@
                 , { id: 'supvOpsNm',        ctrlId: 'supvOpsNm',        value: 'html' }
                 , { id: 'exrsInstNm',        ctrlId: 'exrsInstNm',        value: 'html' }
                 , { id: 'bizNm',        ctrlId: 'bizNm',        value: 'html' }
-//                 , { id: 'tssNm',        ctrlId: 'tssNm',        value: 'value' }
+                , { id: 'tssNm',        ctrlId: 'tssNm',        value: 'value' }
                 , { id: 'saUserName',   ctrlId: 'saUserName',   value: 'value' }
                 , { id: 'cmplBStrtDd',  ctrlId: 'cmplBStrtDd',  value: 'value' }
                 , { id: 'cmplBFnhDd',   ctrlId: 'cmplBFnhDd',   value: 'value' }
@@ -674,19 +674,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">WBSCode</th>
-                                    <td class="tssLableCss">
-                                        <div id="wbsCd"></div>
-                                    </td>
-                                    <th align="right">사업부문(Funding기준)</th>
-                                    <td class="tssLableCss">
-                                        <span id="bizDptNm" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th align="right">과제명</th>
+                                    <th align="right">WBSCode / 과제명</th>
                                     <td class="tssLableCss" colspan="3">
-                                        <div id="tssNm" style="width:900px;padding:0px 5px">
+                                        <input type="text" id="wbsCd" /> / <input type="text" id="tssNm" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -694,9 +684,9 @@
                                     <td class="tssLableCss">
                                         <input type="text" id="saUserName" />
                                     </td>
-                                    <th align="right">주관부처</th>
+                                    <th align="right">사업부문(Funding기준)</th>
                                     <td class="tssLableCss">
-                                        <span  id="supvOpsNm" />
+                                        <span id="bizDptNm" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -710,13 +700,17 @@
                                     </td>
                                 </tr>
                                 <tr>
-<!--                                     <th align="right">완료전 개발기간</th> -->
+                                	<th align="right">주관부처</th>
+                                    <td class="tssLableCss">
+                                        <span  id="supvOpsNm" />
+                                    </td>
+                                </tr>
+                                <tr>
                                     <th align="right">계획(개발계획시점)</th>
                                     <td>
                                         <input type="text" id="cmplBStrtDd" value="" /><em class="gab"> ~ </em>
                                         <input type="text" id="cmplBFnhDd" value="" />
                                     </td>
-                                    <!-- <th align="right">완료후 개발기간</th> -->
                                     <th align="right">실적(개발완료시점)</th>
                                     <td>
                                         <input type="text" id="cmplNxStrtDd" value="" /><em class="gab"> ~ </em>

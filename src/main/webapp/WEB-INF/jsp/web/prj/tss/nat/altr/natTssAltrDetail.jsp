@@ -654,19 +654,9 @@ function fncNatTssAltrDetail(cd) {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">WBSCode</th>
-                                    <td>
-                                        <input type="text" id="wbsCd" />
-                                    </td>
-                                    <th align="right">사업부문(Funding기준)</th>
-                                    <td>
-                                        <div id="bizDptCd"></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th align="right">과제명</th>
-                                    <td colspan="3">
-                                        <input type="text" id="tssNm" />
+                                    <th align="right">WBSCode / 과제명</th>
+                                    <td  colspan="3">
+                                        <input type="text" id="wbsCd" /> / <input type="text" id="tssNm" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -674,9 +664,9 @@ function fncNatTssAltrDetail(cd) {
                                     <td>
                                         <input type="text" id="saUserName" />
                                     </td>
-                                    <th align="right">주관부처</th>
+                                    <th align="right">사업부문(Funding기준)</th>
                                     <td>
-                                         <input type="text" id="supvOpsNm" />
+                                        <div id="bizDptCd"></div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -687,6 +677,12 @@ function fncNatTssAltrDetail(cd) {
                                     <th align="right">사업명</th>
                                     <td>
                                        <input type="text" id="bizNm" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                	<th align="right">주관부처</th>
+                                    <td colspan="3">
+                                         <input type="text" id="supvOpsNm" />
                                     </td>
                                 </tr>
                             </tbody>

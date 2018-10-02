@@ -87,11 +87,11 @@
         });
       
         //과제명
-//         tssNm = new Rui.ui.form.LTextBox({
-//             applyTo: 'tssNm',
-//             editable: false,
-//             width: 300
-//         });
+         tssNm = new Rui.ui.form.LTextBox({
+             applyTo: 'tssNm',
+             editable: false,
+             width: 400
+         });
         
         //과제유형명
         bizDptNm = new Rui.ui.form.LTextBox({
@@ -111,7 +111,7 @@
         supvOpsNm = new Rui.ui.form.LTextBox({
             applyTo: 'supvOpsNm',
             editable: false,
-            width: 200
+            width: 400
         });
         
         //전담기관
@@ -202,7 +202,7 @@
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvTssNosSt = stringNullChk(dataSet.getNameValue(0, "tssNosSt"));
             
-            document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
+            //document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
             
             disableFields();
             
@@ -219,7 +219,7 @@
                   { id: 'prjNm',      ctrlId: 'prjNm',      value: 'value' }
                 , { id: 'deptName',   ctrlId: 'deptName',   value: 'value' }
                 , { id: 'wbsCd',      ctrlId: 'wbsCd',      value: 'value' }
-//                 , { id: 'tssNm',      ctrlId: 'tssNm',      value: 'value' }
+                , { id: 'tssNm',      ctrlId: 'tssNm',      value: 'value' }
                 , { id: 'bizDptNm',   ctrlId: 'bizDptNm',   value: 'value' }
                 , { id: 'saUserName', ctrlId: 'saUserName', value: 'value' }
                 , { id: 'supvOpsNm',  ctrlId: 'supvOpsNm',  value: 'value' }
@@ -439,19 +439,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">WBSCode</th>
-                                    <td class="tssLableCss">
-                                        <div id="wbsCd"></div>
-                                    </td>
-                                    <th align="right">사업부문(Funding기준)</th>
-                                    <td class="tssLableCss">
-                                        <input type="text" id="bizDptNm" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th align="right">과제명</th>
+                                    <th align="right">WBSCode / 과제명</th>
                                     <td class="tssLableCss" colspan="3">
-                                        <div id="tssNm" style="width:900px;padding:0px 5px">
+                                        <input type="text" id="wbsCd" /> / <input type="text" id="tssNm" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -459,9 +449,9 @@
                                     <td class="tssLableCss">
                                         <input type="text" id="saUserName" />
                                     </td>
-                                    <th align="right">주관부처</th>
+                                    <th align="right">사업부문(Funding기준)</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="supvOpsNm" />
+                                        <input type="text" id="bizDptNm" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -472,6 +462,12 @@
                                     <th align="right">사업명</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="bizNm" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                	<th align="right">주관부처</th>
+                                    <td class="tssLableCss" colspan="3">
+                                        <input type="text" id="supvOpsNm" />
                                     </td>
                                 </tr>
                             </tbody>
