@@ -407,7 +407,7 @@ public class NatTssAltrController  extends IrisBaseController {
             HttpSession session, ModelMap model) {
 
         LOGGER.debug("###########################################################");
-        LOGGER.debug("updateNatTssAltrPtcRsstMbr [과제관리 > 국책과제 > 변경 > 참여연구원 저장]");
+        LOGGER.debug("updateNatTssAltrPtcRsstMbr [과제관리 > 국책과제 > 변경 > 개요 저장]");
         LOGGER.debug("input = > " + input);
         LOGGER.debug("###########################################################");
 
@@ -422,10 +422,10 @@ public class NatTssAltrController  extends IrisBaseController {
             smryDs  = RuiConverter.convertToDataSet(request, "smryDataSet");
             List<Map<String, Object>> altrDs  = RuiConverter.convertToDataSet(request, "smryInstDataSet");
 
-            smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap(input,smryDs.get(0)); //에디터데이터 디코딩처리
+            smryDecodeDs = (HashMap<String, Object>)smryDs.get(0); //에디터데이터 디코딩처리
 
-            StringUtil.toUtf8Input(smryDecodeDs);
-            natTssAltrService.updateNatTssAltrSmry2(smryDecodeDs, altrDs);
+            
+            natTssAltrService.updateNatTssAltrSmry2( StringUtil.toUtf8Input(smryDecodeDs), altrDs);
 
             smryDs.get(0).put("rtCd", "SUCCESS");
             smryDs.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
