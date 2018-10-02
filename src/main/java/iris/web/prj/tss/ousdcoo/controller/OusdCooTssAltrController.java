@@ -231,7 +231,6 @@ public class OusdCooTssAltrController  extends IrisBaseController {
 
         HashMap<String, Object> mstDs  = new HashMap<String, Object>();
         HashMap<String, Object> smryDs = new HashMap<String, Object>();
-        HashMap<String, Object> smryDecodeDs = null;
 
         try {
             mstDs  = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "mstDataSet").get(0);
@@ -241,14 +240,12 @@ public class OusdCooTssAltrController  extends IrisBaseController {
             boolean upWbsCd = false;
 
             if(!errYn) {
-                smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap(input,smryDs);	// 디코드처리
-                
                 // 특수문자 변환 INPUT
-                if( smryDecodeDs != null && !smryDecodeDs.isEmpty() ) {
-                	iris.web.common.util.StringUtil.toUtf8Input(smryDecodeDs);
+                if( smryDs != null && !smryDs.isEmpty() ) {
+                	iris.web.common.util.StringUtil.toUtf8Input(smryDs);
                 }
                 
-                ousdCooTssAltrService.updateOusdCooTssAltrMst(mstDs, smryDecodeDs, upWbsCd);
+                ousdCooTssAltrService.updateOusdCooTssAltrMst(mstDs, smryDs, upWbsCd);
 
                 mstDs.put("rtCd", "SUCCESS");
                 mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
