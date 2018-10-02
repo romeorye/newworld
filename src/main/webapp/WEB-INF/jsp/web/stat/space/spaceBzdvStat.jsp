@@ -123,7 +123,11 @@ var mchnInfoId;
                 , { field: 'this_ing',		label: '평가진행',		sortable: false,	align:'center',	width: 50 }
                 , { field: 'this_drop',		label: '평가중단',		sortable: false,	align:'center',	width: 50 }
                 , { field: 'this_cmpl',		label: '평가완료',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'cmpl_p',		label: '완료율(%)',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'cmpl_p',		label: '완료율(%)',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		return value + '%';
+
+                	}}
                 , { field: 'dd_avg',		label: '평가완료기간(일)',		sortable: false,	align:'center',	width: 50 }
                // , { field: 'dd_avg',		label: '결과통보준수율(%)',		sortable: false,	align:'center',	width: 50 }
             ]

@@ -56,4 +56,10 @@ public class SpaceStatServiceImpl implements SpaceStatService{
 		return commonDao.selectList("stat.space.getSpaceCrgrStatList", input);
 	}
 
+	@Override
+	public List<Map<String, Object>> getSpaceAnlWayStatList(
+			HashMap<String, Object> input) {
+		return commonDao.selectList("stat.space.getSpaceAnlWayStatList", input);
+	}
+
 }

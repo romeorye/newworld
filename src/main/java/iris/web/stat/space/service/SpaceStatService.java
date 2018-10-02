@@ -21,4 +21,6 @@ public interface SpaceStatService {
 	//사업부별통계 조회
 	List<Map<String, Object>> getSpaceCrgrStatList(HashMap<String, Object> input);
 
+	//분석방법별통계 조회
+	List<Map<String, Object>> getSpaceAnlWayStatList(HashMap<String, Object> input);
 }

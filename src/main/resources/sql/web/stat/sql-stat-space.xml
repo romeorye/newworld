@@ -641,7 +641,7 @@ SELECT  SPACE_SCN_CD
 	   ,SPACE_UGY_NM
 	   ,SPACE_UGY_CD
 	   ,SPACE_SCN_ORD
-	   ,CONVERT(FLOAT,CNT) / (SUM(CNT) OVER()) CNT
+	   ,(CONVERT(FLOAT,CNT) / (SUM(CNT) OVER()))*100 CNT
 	   ,SUM(CNT) OVER() AVG_CNT
 	   ,CASE WHEN M1=0
 	         THEN 0
@@ -902,6 +902,9 @@ GROUP BY
 	--getSpaceCrgrStatList 사업부별통계 조회
 <![CDATA[
 
+--getSpaceCrgrStatList 사업부별통계 조회
+
+
 with ALLDATA as (
 SELECT * FROM
 (SELECT ALLMON.MON
@@ -969,7 +972,7 @@ SELECT * FROM
 			  GROUP BY RQPR_ID) EXAT
             ON MST.RQPR_ID=EXAT.RQPR_ID
 		 WHERE 1=1
-		   AND LEFT(MST.CMPL_DT,4)=#{yyyy}
+		   AND LEFT(MST.CMPL_DT,4)= #{yyyy} /**P*/
 		   AND MST.SPACE_ACPC_ST_CD IN ('07','08')
 		   AND MST.DEL_YN='N') SUB
      ON ALLMST.MON=SUB.CMPLMO
@@ -986,7 +989,7 @@ SELECT DEPT_CODE
 	  ,SPACE_SCN_ORD
 	  ,4 AS ORD
 	  ,SUM(ISNULL(CNT,0)) AS CNT
-	  ,ROUND((ISNULL(SUM(CNT),0)/CONVERT(FLOAT,(CASE WHEN #{yyyy}= year(getdate())
+	  ,ROUND((ISNULL(SUM(CNT),0)/CONVERT(FLOAT,(CASE WHEN  #{yyyy} /**P*/= year(getdate())
 	                                THEN datename(m, getdate())
 									ELSE 12
 								END))),1) AS AVG_CNT
@@ -1040,7 +1043,10 @@ SELECT DEPT_CODE
 			          THEN '전체'
 					  ELSE '합계'
 				  END
-			ELSE MAX(ALL_SPACE_UGY_NM)
+			ELSE CASE WHEN GROUPING(DEPT_CODE)=1
+			          THEN MAX(ALL_SPACE_UGY_NM)
+					  ELSE '분석구분'
+				  END
 		END AS GBN
 	  ,CASE WHEN GROUPING(ALL_SPACE_UGY_YN)=1
 	        THEN 'A'
@@ -1059,7 +1065,7 @@ SELECT DEPT_CODE
 			ELSE 3
 		END AS ORD
 	  ,SUM(ISNULL(CNT,0)) AS CNT
-	  ,ROUND((ISNULL(SUM(CNT),0)/CONVERT(FLOAT,(CASE WHEN #{yyyy}= year(getdate())
+	  ,ROUND((ISNULL(SUM(CNT),0)/CONVERT(FLOAT,(CASE WHEN  #{yyyy} /**P*/= year(getdate())
 	                                THEN datename(m, getdate())
 									ELSE 12
 								END))),1) AS AVG_CNT
@@ -1150,7 +1156,7 @@ FROM
 	  ,'' ALL_SPACE_UGY_NM
 	  ,3 AS ORD
 	  ,SUM(ISNULL(CNT,0)) AS CNT
-	  ,ROUND((ISNULL(SUM(CNT),0)/CONVERT(FLOAT,(CASE WHEN #{yyyy}= year(getdate())
+	  ,ROUND((ISNULL(SUM(CNT),0)/CONVERT(FLOAT,(CASE WHEN  #{yyyy} /**P*/= year(getdate())
 	                                THEN datename(m, getdate())
 									ELSE 12
 								END))),1) AS AVG_CNT
@@ -1181,7 +1187,7 @@ SELECT DEPT_CODE
 	  ,0 SPACE_SCN_ORD
 	  ,5 AS ORD
 	  ,SUM(ISNULL(EXAT_EXP,0)) AS CNT
-	  ,ROUND((ISNULL(SUM(CNT),0)/CONVERT(FLOAT,(CASE WHEN #{yyyy}= year(getdate())
+	  ,ROUND((ISNULL(SUM(CNT),0)/CONVERT(FLOAT,(CASE WHEN  #{yyyy} /**P*/= year(getdate())
 	                                THEN datename(m, getdate())
 									ELSE 12
 								END))),1) AS AVG_CNT
@@ -1271,7 +1277,7 @@ FROM
 	  ,'' ALL_SPACE_UGY_NM
 	  ,6 AS ORD
 	  ,SUM(ISNULL(EXAT_EXP,0)) AS CNT
-	  ,ROUND((ISNULL(SUM(CNT),0)/CONVERT(FLOAT,(CASE WHEN #{yyyy}= year(getdate())
+	  ,ROUND((ISNULL(SUM(CNT),0)/CONVERT(FLOAT,(CASE WHEN  #{yyyy} /**P*/= year(getdate())
 	                                THEN datename(m, getdate())
 									ELSE 12
 								END))),1) AS AVG_CNT
@@ -1292,6 +1298,15 @@ FROM
  GROUP BY ALLDATA.DEPT_CODE
 	  ,ALLDATA.DEPT_NAME) MAIN4
 ORDER BY DEPT_CODE,ORD, ALL_SPACE_UGY_YN,SPACE_SCN_ORD
+
+]]>
+</select>
+
+
+<select id="getSpaceAnlWayStatList" resultType="hashmap">
+	--getSpaceAnlWayStatList 분석방법별통계 조회
+		<![CDATA[
+
 
 ]]>
 </select>

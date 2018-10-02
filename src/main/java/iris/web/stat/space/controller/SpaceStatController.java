@@ -230,7 +230,7 @@ public ModelAndView getSpaceAnlStatList(
 	return modelAndView;
 	}
 
-		/**
+	/**
 		* 통계 > 공간성능평가 > 사업부별통계 조회
 	 * */
 	@RequestMapping(value = "/stat/space/getSpaceCrgrStatList.do")
@@ -254,4 +254,29 @@ public ModelAndView getSpaceAnlStatList(
 
 		return modelAndView;
 		}
+
+	/**
+	* 통계 > 공간성능평가 > 분석방법별통계 조회
+	* */
+	@RequestMapping(value = "/stat/space/getSpaceAnlWayStatList.do")
+	public ModelAndView getSpaceAnlWayStatList(
+		@RequestParam HashMap<String, Object> input,
+		HttpServletRequest request, HttpServletResponse response,
+		HttpSession session, ModelMap model) {
+
+	LOGGER.debug("###########################################################");
+	LOGGER.debug("getSpaceAnlStatList [통계 > 공간성능평가 > 분석방법별통계 조회]");
+	LOGGER.debug("input = > " + input);
+	LOGGER.debug("###########################################################");
+
+	checkSessionObjRUI(input, session, model);
+	ModelAndView modelAndView = new ModelAndView("ruiView");
+
+	List<Map<String, Object>> list = spaceStatService.getSpaceAnlWayStatList(input);
+
+	modelAndView.addObject("dataSet",
+	RuiConverter.createDataset("dataSet", list));
+
+	return modelAndView;
+	}
 }

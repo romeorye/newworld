@@ -113,20 +113,118 @@ var mchnInfoId;
             	  { field: 'DEPT_NAME',		label: '사업부',		sortable: false,	align:'center',	width: 100, vMerge:true}
             	, { field: 'GBN',		label: '구분',		sortable: false,	align:'center',	width: 100, vMerge:true}
                 , { field: 'ALL_SPACE_SCN_NM',		label: '세부내용',		sortable: false,	align:'center',	width: 50}
-                , { field: 'CNT',				label: '합계',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'AVG_CNT',			label: '월평균',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M1',				label: '1월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M2',				label: '2월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M3',				label: '3월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M4',				label: '4월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M5',				label: '5월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M6',				label: '6월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M7',				label: '7월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M8',				label: '8월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M9',				label: '9월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M10',				label: '10월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M11',				label: '11월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M12',				label: '12월',		sortable: false,	align:'center',	width: 50 }
+                , { field: 'CNT',				label: '합계',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'AVG_CNT',			label: '월평균',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M1',				label: '1월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M2',				label: '2월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M3',				label: '3월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M4',				label: '4월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M5',				label: '5월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M6',				label: '6월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M7',				label: '7월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M8',				label: '8월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M9',				label: '9월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M10',				label: '10월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M11',				label: '11월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M12',				label: '12월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_SPACE_SCN_NM')=='사업부비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
             ]
         });
 
