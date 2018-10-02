@@ -108,7 +108,7 @@ Rui.onReady(function() {
 	    width :710,
 	    height : 300,
 	    autoToEdit : false,
-	    autoWidth : false
+	    autoWidth : true
 	});
 
  	grid.on('cellDblClick', function(e) {
@@ -163,27 +163,27 @@ Rui.onReady(function() {
 
 		<div class="LblockMainBody">
 
-   			<div class="sub-content">
-
- 				<table class="searchBox">
+   			<div class="sub-content" style="padding:0; padding-left:3px;">
+				<div class="search mb5">
+				<div class="search-content">
+ 				<table>
  					<colgroup>
- 						<col style="width:20%;"/>
+ 						<col style="width:110px;"/>
  						<col style="width:*"/>
- 						<col style="width:20%;"/>
  					</colgroup>
  					<tbody>
  						<tr>
- 							<th align="right">검색조건</th>
+ 							<th>검색조건</th>
  							<td>
  								<div id="searchType"></div>
  								<input type="text" id="searchParam" value="">
- 							</td>
- 							<td class="t_center">
  								<a style="cursor: pointer;" onclick="getOutsideSpecialist();" class="btnL">검색</a>
  							</td>
  						</tr>
  					</tbody>
  				</table>
+ 				</div>
+ 				</div>
 
  				<div id="grid01"></div>
 
