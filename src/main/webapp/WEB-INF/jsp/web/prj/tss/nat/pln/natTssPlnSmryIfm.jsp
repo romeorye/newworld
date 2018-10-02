@@ -527,11 +527,7 @@
                     dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/nat/updateNatTssAltrSmry.do"/>',
-                        dataSets:[lvPDS, dataSet, smryDataLstSet],
-                        params: {
-  	                      	  editorData1 : frm.smryTxt.value
-  	                      	, editorDataFields : "smryTxt"
-	                    }
+                        dataSets:[lvPDS, dataSet, smryDataLstSet]
                     });
                 }
             } else {
