@@ -115,9 +115,9 @@ Rui.onReady(function() {
         columnModel : tssColumnModel,
         dataSet : tssDataSet,
         width : 660,
-        height : 300,
+        height : 290,
         autoToEdit : false,
-        autoWidth : false
+        autoWidth : true
     });
 
     tssGrid.on('cellDblClick', function(e) {
@@ -151,13 +151,15 @@ Rui.onReady(function() {
     <form name="aform" id="aform" method="post" onSubmit="return false;">
     	<input type="hidden" id="userDeptCd" name="userDeptCd" value="<c:out value='${inputData.userDeptCd}'/>"/><!-- 부모창에서 넘어온 조회파라미터 : 특정부서의 프로젝트 과제만 조회시 -->
         <div class="LblockMainBody">
-            <div class="sub-content">
-                <table class="searchBox">
+            <div class="sub-content" style="padding:5px 0 0 3px;">
+            	<div class="search mb5">
+				<div class="search-content">
+                <table>
                     <colgroup>
-                        <col style="width:25%;"/>
-                        <col style="width:20%"/>
-                        <col style="width:25%;"/>
-                        <col style="width:20%;"/>
+                        <col style="width:90px;"/>
+                        <col style="width:"/>
+                        <col style="width:90px;"/>
+                        <col style="width"/>
                         <col style="width:*;"/>
                     </colgroup>
                     <tbody>
@@ -170,12 +172,14 @@ Rui.onReady(function() {
                             <td>
                                 <input type="text" id="prjNm" value="">
                             </td>
-                            <td class="t_center">
+                            <td class="txt-right">
                                 <a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                </div>
+                </div>
 
                 <div id="tssGrid"></div>
 

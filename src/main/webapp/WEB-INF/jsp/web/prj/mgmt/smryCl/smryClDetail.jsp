@@ -252,6 +252,10 @@
 <body>
     <div class="contents">
 	    <div class="titleArea">
+	    	<a class="leftCon" href="#">
+				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+				<span class="hidden">Toggle 버튼</span>
+			</a>
 	        <h2>연구분야, 유형관리</h2>
 	    </div>
         <div class="sub-content">
@@ -310,7 +314,7 @@
                                     </td>
                                     <th align="right">과제기간</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="tssStrtDd" /><em class="gab"> ~ </em>
+                                        <input type="text" id="tssStrtDd" /><em class="gab" style="margin:0 !important; margin-left:-30px !important;"> ~ </em>
                                         <input type="text" id="tssFnhDd" />
                                     </td>
                                 </tr>

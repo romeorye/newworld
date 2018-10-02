@@ -188,16 +188,17 @@ var mchnInfoId;
 					<table>
 						<colgroup>
 							<col style="width:120px" />
-							<col style="width:400px" />
 							<col style="" />
 						</colgroup>
 						<tbody>
 							<tr>
 								<th align="right">기간</th>
-								<td class="tain_bo"><input type="text" id="fromCmplDt" /><em class="gab">
-										~ </em> <input type="text" id="toCmplDt" /></td>
-								<td class="txt-right"><a style="cursor: pointer;"
-									onclick="fnSearch();" class="btnL">검색</a></td>
+								<td class="tain_bo">
+									<input type="text" id="fromCmplDt" /><em class="gab">
+										~ </em> <input type="text" id="toCmplDt" />
+										<a style="cursor: pointer;margin-left:36px;"
+									onclick="fnSearch();" class="btnL">검색</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>
