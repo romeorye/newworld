@@ -78,15 +78,12 @@ var mchnInfoId;
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-            	  { id: 'SPACE_UGY_YN' }
-            	, { id: 'SPACE_UGY_NM' }
-            	, { id: 'SPACE_SCN_CD' }
-            	, { id: 'SPACE_SCN_NM' }
-            	, { id: 'SPACE_SCN_ORD' }
+            	  { id: 'ALL_EV_PRVS' }
+            	, { id: 'ALL_EV_PRVS_NM' }
+            	, { id: 'ALL_EV_CTGR' }
+            	, { id: 'ALL_EV_CTGR_NM' }
             	, { id: 'CNT' }
             	, { id: 'AVG_CNT' }
-            	, { id: 'DD_CNT' }
-            	, { id: 'AVG_DD' }
             	, { id: 'M1' }
 				, { id: 'M2' }
 				, { id: 'M3' }
@@ -108,22 +105,120 @@ var mchnInfoId;
         var spaceAnlWayStatColumnModel = new Rui.ui.grid.LColumnModel({
         	autoWidth:true
             ,columns: [
-            	  { field: 'SPACE_UGY_NM',		label: '구분',		sortable: false,	align:'center',	width: 100, vMerge:true}
-                , { field: 'SPACE_SCN_NM',		label: '상세구분',		sortable: false,	align:'center',	width: 50}
-                , { field: 'CNT',				label: '합계',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'AVG_CNT',			label: '월평균',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M1',				label: '1월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M2',				label: '2월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M3',				label: '3월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M4',				label: '4월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M5',				label: '5월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M6',				label: '6월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M7',				label: '7월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M8',				label: '8월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M9',				label: '9월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M10',				label: '10월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M11',				label: '11월',		sortable: false,	align:'center',	width: 50 }
-                , { field: 'M12',				label: '12월',		sortable: false,	align:'center',	width: 50 }
+            	  { field: 'ALL_EV_PRVS_NM',		label: '분석유형',		sortable: false,	align:'center',	width: 100, vMerge:true}
+                , { field: 'ALL_EV_CTGR_NM',		label: '상세구분',		sortable: false,	align:'center',	width: 50}
+                , { field: 'CNT',				label: '합계',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'AVG_CNT',			label: '월평균',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M1',				label: '1월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M2',				label: '2월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M3',				label: '3월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M4',				label: '4월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M5',				label: '5월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M6',				label: '6월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M7',				label: '7월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M8',				label: '8월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M9',				label: '9월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M10',				label: '10월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M11',				label: '11월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
+                , { field: 'M12',				label: '12월',		sortable: false,	align:'center',	width: 50
+                	, renderer: function(value, p, record, row, col){
+                		if( record.get('ALL_EV_CTGR_NM')=='비율' ){
+                			return value + '%';
+                		}else{
+                			return value;
+                		}
+                	}}
             ]
         });
 
