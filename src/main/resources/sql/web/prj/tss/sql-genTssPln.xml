@@ -154,26 +154,14 @@
     <!--updateGenTssPlnSmry-->
 	-- updateGenTssPlnSmry 개요 수정
         UPDATE IRIS_TSS_GEN_SMRY  /*일반과제개요*/
-           SET
-            <if test="smryNTxt != null and smryNTxt != ''">
-           	SMRY_N_TXT         = #{smryNTxt}                                                                                   --Needs
-            </if>
-            <if test="smryATxt != null and smryATxt != ''">
+           SET SMRY_N_TXT         = #{smryNTxt}                                                                                   --Needs
              , SMRY_A_TXT         = #{smryATxt}                                                                                   --Approach
-            </if>
-            <if test="smryBTxt != null and smryBTxt != ''">
              , SMRY_B_TXT         = #{smryBTxt}                                                                                   --Benefit
-            </if>
-            <if test="smryCTxt != null and smryCTxt != ''">
              , SMRY_C_TXT         = #{smryCTxt}                                                                                   --Competition
-            </if>
-            <if test="smryDTxt != null and smryDTxt != ''">
              , SMRY_D_TXT         = #{smryDTxt}                                                                                   --Deliverables
-            </if>
             <if test="pmisTxt != null and pmisTxt != ''">
              , PMIS_TXT           = #{pmisTxt}
             </if>
-
              , MRKT_SCL_TXT       = #{mrktSclTxt}                                                                                 --시장규모
              , BIZ_PRFT_PRO       = CONVERT(numeric(5, 2), CASE WHEN #{bizPrftPro} = '' THEN '0' ELSE #{bizPrftPro} END)          --영업이익율
              , CTY_OT_PLN_M       = #{ctyOtPlnM}
