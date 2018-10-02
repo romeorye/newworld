@@ -244,7 +244,7 @@
             if(  dataSet.getNameValue(0, "sbcSmryTxt") == "<p><br></p>" || dataSet.getNameValue(0, "sbcSmryTxt") == "") {
                 alert("주요 연구개발 내용 요약 은 필수입력입니다.");
                 return false;
-            }oucmPlnTxt
+            }
             if(  dataSet.getNameValue(0, "oucmPlnTxt") == "<p><br></p>" || dataSet.getNameValue(0, "oucmPlnTxt") == "") {
                 alert("목표기술 성과 계획 은 필수입력입니다.");
                 return false;
