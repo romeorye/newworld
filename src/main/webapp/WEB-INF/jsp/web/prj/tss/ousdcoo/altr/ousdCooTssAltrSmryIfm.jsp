@@ -127,6 +127,10 @@
         });
         dataSet.on('load', function(e) {
             
+        	Wec0.SetBodyValue( dataSet.getNameValue(0, "surrNcssTxt") );
+            Wec1.SetBodyValue( dataSet.getNameValue(0, "sbcSmryTxt") );
+            Wec2.SetBodyValue( dataSet.getNameValue(0, "oucmPlnTxt") );
+
             lvAttcFilId = dataSet.getNameValue(0, "attcFilId");
             if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
             
@@ -162,7 +166,6 @@
         
      	// 개요 에디터 탭
         tabViewS = new Rui.ui.tab.LTabView({
-            contentHeight: 200,
             tabs: [
                 {
                 	label: '연구과제배경 및 필요성',
@@ -179,19 +182,23 @@
         
         tabViewS.on('activeTabChange', function(e){
         	var index = e.activeIndex;
-        	fnDisplyNone();
-        	$("#Wec"+index).ready(function(){
-        		fnDisplyBlock(index);
-        		if(e.isFirst){
-        			if(index == 0) {
-	        			setTimeout(function () {
-	        				fnSetDataEditor(index);
-	                	}, 1500);	
-        		  }else {
-                	fnSetDataEditor(index);
-        		  }
-                }
-        	});
+        	
+        	if( index == 0 ){
+	    		document.getElementById("divWec0").style.display = "block";	
+	    		document.getElementById("divWec1").style.display = "none";	
+	    		document.getElementById("divWec2").style.display = "none";	
+	    	
+	    	}else if( index == 1 ){
+	    		document.getElementById("divWec0").style.display = "none";	
+	    		document.getElementById("divWec1").style.display = "block";	
+	    		document.getElementById("divWec2").style.display = "none";		
+	    	
+	    	}else if( index == 2 ){
+	    		document.getElementById("divWec0").style.display = "none";	
+	    		document.getElementById("divWec1").style.display = "none";	
+	    		document.getElementById("divWec2").style.display = "block";	
+	    	}
+        	
 		});
         
         //서버전송용
@@ -222,10 +229,27 @@
         	dataSet.setNameValue(0, "rsstExp" , rsstExpCash );
         	
         	// 에디터 데이터 처리    	
-        	frm.surrNcssTxt.value = fnEditorGetMimeValue(frm.Wec0.isDirty(),frm.Wec0,'');
-        	frm.sbcSmryTxt.value  = fnEditorGetMimeValue(frm.Wec1.isDirty(),frm.Wec1,'');
-        	frm.oucmPlnTxt.value  = fnEditorGetMimeValue(frm.Wec2.isDirty(),frm.Wec2,'');
-        	
+        	frm.surrNcssTxt.value =  Wec0.GetBodyValue();
+            frm.sbcSmryTxt.value  =  Wec1.GetBodyValue();
+            frm.oucmPlnTxt.value  =  Wec2.GetBodyValue();
+            
+            dataSet.setNameValue(0, "surrNcssTxt", Wec0.GetBodyValue() );
+            dataSet.setNameValue(0, "sbcSmryTxt" , Wec1.GetBodyValue() );
+            dataSet.setNameValue(0, "oucmPlnTxt" , Wec2.GetBodyValue() );
+            
+            if(  dataSet.getNameValue(0, "surrNcssTxt") == "<p><br></p>" || dataSet.getNameValue(0, "surrNcssTxt") == "") {
+                alert("연구과제배경 및 필요성 은 필수입력입니다.");
+                return false;
+            }
+            if(  dataSet.getNameValue(0, "sbcSmryTxt") == "<p><br></p>" || dataSet.getNameValue(0, "sbcSmryTxt") == "") {
+                alert("주요 연구개발 내용 요약 은 필수입력입니다.");
+                return false;
+            }oucmPlnTxt
+            if(  dataSet.getNameValue(0, "oucmPlnTxt") == "<p><br></p>" || dataSet.getNameValue(0, "oucmPlnTxt") == "") {
+                alert("목표기술 성과 계획 은 필수입력입니다.");
+                return false;
+            }
+            
             window.parent.fnSave2();
         });
 /* 
@@ -299,67 +323,6 @@
             smryForm.submit();
         };
         
-        /** ============================================= Editor ================================================================================= **/
-        // 에디터 값 세팅
-        fnSetDataEditor = function(val){
-        	var resultCnt = Number('<c:out value="${resultCnt}"/>');
-        	
-       		var jsonString = JSON.stringify(${result});
-        	var obj = jQuery.parseJSON(jsonString);
-        	
-       		var Wec = eval("document.smryForm.Wec"+val);
-	       	Wec.BodyValue  =  Wec.value ;
-	       	var txt = "";
-	       	if(resultCnt > 0){
-		       	txt = obj.records[0].surrNcssTxt;
-		        if(val==0){
-		       		txt = obj.records[0].surrNcssTxt;       
-		        }else if(val==1){
-		        	txt = obj.records[0].sbcSmryTxt;       
-		        }else if(val==2){
-		        	txt = obj.records[0].oucmPlnTxt;       
-		        }
-	       	}
-	       	Wec.BodyValue = txt;
-	        Wec.setDirty(false);    // 변경상태 초기화처리
-        }
-        
-        //editor show hide function
-        fnDisplyBlock= function(val){
-        	document.getElementById('divWec'+val).style.display = 'block';
-        }
-        fnDisplyNone = function(){
-        	document.getElementById('divWec0').style.display = 'none';
-        	document.getElementById('divWec1').style.display = 'none';
-        	document.getElementById('divWec2').style.display = 'none';
-        }
-        // 에디터변경여부
-        fnEditorIsUpdate = function(){
-        	isUpdate = false;
-        	var Wec0 = document.smryForm.Wec0;
-        	var Wec1 = document.smryForm.Wec1;
-        	var Wec2 = document.smryForm.Wec2;
-
-        	if( (Wec0 != null && Wec0.IsDirty() == 1) || (Wec1 != null && Wec1.IsDirty() == 1) || (Wec2 != null && Wec2.IsDirty() == 1) ){
-        		isUpdate = true;
-        	}
-        	return isUpdate;
-        }
-        /* 에디터값 가져오기(변경상태 유지) type(body, mime) */
-        fnEditorGetMimeValue = function(beforeDirty,editor,type){
-        	
-        	var returnValue = editor.MIMEValue;
-        	if(type == 'body'){ returnValue = editor.BodyValue; }
-        	
-        	editor.setDirty(beforeDirty);
-        	return returnValue;
-        }
-        // 에디터 생성
-        createNamoEdit('Wec0', '100%', 400, 'divWec0');
-    	createNamoEdit('Wec1', '100%', 400, 'divWec1');
-    	createNamoEdit('Wec2', '100%', 400, 'divWec2');
-    	/** ===============================================  Editor End ==================================================================================== **/
-        
         tabViewS.render('tabViewS');
 
         //최초 데이터 셋팅
@@ -382,9 +345,6 @@
         	document.getElementById('attchFileMngBtn').style.display = "none";
 		}
         
-//         $("#Wec0").ready(function(){
-//         	tabViewS.selectTab(0);
-//         });
     });
     
     // 내부 스크롤 제거
@@ -427,9 +387,48 @@
                 </tr>
                 <tr>
                     <td colspan="4">
-						<div id="divWec0"></div>
-                		<div id="divWec1"></div>
-                		<div id="divWec2"></div>
+						<div id="divWec0">
+							<script>
+                                Wec0 = new NamoSE('divWec0');
+                                Wec0.params.Width = "100%";
+                                Wec0.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec0.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec0.params.FullScreen = false;
+                                Wec0.EditorStart();
+
+                            </script>
+						</div>
+                		<div id="divWec1" style="display:none">
+                			<script>
+                                Wec1 = new NamoSE('divWec1');
+                                Wec1.params.Width = "100%";
+                                Wec1.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec1.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec1.params.FullScreen = false;
+                                Wec1.EditorStart();
+
+                            </script>
+                        </div>
+                		<div id="divWec2" style="display:none">
+                			<script>
+                                Wec2 = new NamoSE('divWec2');
+                                Wec2.params.Width = "100%";
+                                Wec2.params.UserLang = "auto";
+                                uploadPath = "<%=uploadPath%>";
+                                Wec2.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+                                Wec2.params.FullScreen = false;
+                                Wec2.EditorStart();
+                            </script>
+                            <script type="text/javascript" language="javascript">
+	                            function OnInitCompleted(e){
+	                                e.editorTarget.SetBodyValue(document.getElementById("divWec0").value);
+	                                e.editorTarget.SetBodyValue(document.getElementById("divWec1").value);
+	                                e.editorTarget.SetBodyValue(document.getElementById("divWec2").value);
+	                            }
+	                        </script>       
+                		</div>
 					</td>
                 </tr>
                 <tr>

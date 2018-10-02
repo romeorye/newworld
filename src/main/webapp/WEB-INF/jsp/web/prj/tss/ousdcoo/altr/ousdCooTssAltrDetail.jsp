@@ -617,19 +617,12 @@
         
         //저장(마스터 + 일반개요 수정)
         fnSave2 = function() {
-            
         	// 달력 blur
         	tssStrtDd.blur();
         	tssFnhDd.blur();
         	
         	var smryDs       = document.getElementById('tabContent1').contentWindow.dataSet;            //개요탭 DS
-            var smryIsUpdate = document.getElementById('tabContent1').contentWindow.fnEditorIsUpdate(); //개요 에디터 변경여부
 
-            if(!dataSet.isUpdated() && !smryDs.isUpdated() && !smryIsUpdate) {
-                alert("변경된 데이터가 없습니다.");
-                return;
-            }
-            
             if( confirm("저장하시겠습니까?") == true ){
             	dataSet.setNameValue(0, "tssCd"     , gvTssCd);   //과제코드
                 dataSet.setNameValue(0, "userId"    , gvUserId);  //사용자ID
@@ -639,10 +632,6 @@
                 
                 tabInx = 1;
                 
-                var edSurrNcssTxt = document.getElementById('tabContent1').contentWindow.smryForm.surrNcssTxt.value;
-            	var edSbcSmryTxt = document.getElementById('tabContent1').contentWindow.smryForm.sbcSmryTxt.value;
-            	var edOucmPlnTxt = document.getElementById('tabContent1').contentWindow.smryForm.oucmPlnTxt.value;
-                
                 if(gvTssCd == "") {
                 	return false;
                 }
@@ -651,13 +640,7 @@
                     dm2.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/ousdcoo/updateOusdCooTssAltrMst.do"/>',
-                        dataSets:[dataSet, smryDs],
-                        params: {
-                          	  editorData1 : edSurrNcssTxt
-                          	, editorData2 : edSbcSmryTxt
-                          	, editorData3 : edOucmPlnTxt
-                          	, editorDataFields : "surrNcssTxt,sbcSmryTxt,oucmPlnTxt"
-                        }
+                        dataSets:[dataSet, smryDs]
                     });
                 }
             }
