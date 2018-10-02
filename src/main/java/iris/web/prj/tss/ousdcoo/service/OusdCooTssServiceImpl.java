@@ -1,7 +1,5 @@
 package iris.web.prj.tss.ousdcoo.service;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,8 +17,6 @@ import devonframe.configuration.ConfigService;
 import devonframe.dataaccess.CommonDao;
 import devonframe.util.HtmlUtil;
 import devonframe.util.NullUtil;
-import iris.web.common.util.MimeDecodeException;
-import iris.web.common.util.NamoMime;
 import iris.web.prj.converter.service.EditorContentsConverterService;
 
 /*********************************************************************************
@@ -175,118 +171,6 @@ public class OusdCooTssServiceImpl implements OusdCooTssService {
 		}
 
 		return resultMap;
-    }
-
-    /* (문자열)에디터 이미지파일 디코드처리 */
-    @Override
-	public String decodeNamoEditorValue(String editorValue) throws MimeDecodeException, IOException {
-
-    	String strEditorValue = NullUtil.nvl(editorValue,"");
-    	String resultStrValue = "";
-
-    	NamoMime mime = new NamoMime();
-
-    	String uploadPath = "";
-        String uploadUrl = "";
-
-        uploadUrl = configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_MCHN");   // 파일명에 세팅되는 경로
-        uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_MCHN");  // 파일이 실제로 업로드 되는 경로
-
-        mime.setSaveURL(uploadUrl);
-        mime.setSavePath(uploadPath);
-        mime.decode(strEditorValue);                  // MIME 디코딩
-        mime.saveFileAtPath(uploadPath+"\\");
-
-        resultStrValue = mime.getBodyContent();
-//        dtlSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(dtlSbcHtml, "<", "@![!@"),">","@!]!@"));
-
-		return resultStrValue;
-    }
-
-    /* [ PARAMS로 에디터데이터 전달시 ]
-     * (맵)에디터 이미지파일 디코드처리
-     * input Param : editorData1, editorData2, editorData3 ...(에디터데이터)
-     *               editorDataFields(데이터셋 필드명)
-     * 2017-11-07  : 이미지 너비 체크 로직 추가
-     * */
-    @Override
-	public Map<String, Object> decodeNamoEditorMap(Map<String, Object> input, Map<String, Object> dataSet) throws MimeDecodeException, IOException {
-
-    	String[] arrEditorDataFields = null;
-    	NamoMime mime = null;
-    	String uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_PRJ");   // 파일명에 세팅되는 경로
-        String uploadUrl = configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_PRJ");     // 파일이 실제로 업로드 되는 경로
-        String dataSetField = "";
-        String editorData = "";
-
-    	if( !input.isEmpty() && input.get("editorDataFields") != null && !"".equals(input.get("editorDataFields"))) {
-
-    		arrEditorDataFields = NullUtil.nvl(input.get("editorDataFields"), "").split(",");
-
-    		for(int i=0; i< arrEditorDataFields.length; i++) {
-    			editorData = NullUtil.nvl(input.get("editorData"+(i+1)),"");
-    			dataSetField = arrEditorDataFields[i];
-
-    			if(dataSet.containsKey(dataSetField) && !"".equals(editorData) ) {
-    				try {
-	    				mime = new NamoMime();
-	    		        mime.setSaveURL(uploadUrl);
-	    		        mime.setSavePath(uploadPath);
-	    		        mime.decode(editorData);                  			// MIME 디코딩
-	    		        mime.saveFileAtPath(uploadPath+File.separator);
-    				}catch(Exception e) {
-    					throw new MimeDecodeException("NAMO File UPLOAD FAIL");
-    				}
-    				try {
-    					dataSet.put(dataSetField, editorContentsConverterService.convertImageWidthLimit(mime.getBodyContent(),700));	// 이미지 너비 제한처리 700px(과제에서만 사용)
-    				}catch(Exception e) {
-    					throw new MimeDecodeException("IMAGE FILE SIZE LIMIT ERROR");
-    				}
-    			}
-    		}
-    	}
-		return dataSet;
-    }
-
-    /* [ 데이터셋으로 에디터데이터 전달시 ]
-     * (맵)에디터 이미지파일 디코드처리
-     * input Param : editorDataFields(데이터셋 필드명)
-     * 2017-11-07  : 이미지 너비 체크 로직 추가
-     * */
-    @Override
-	public Map<String, Object> decodeNamoEditorMap2(Map<String, Object> dataSet) throws MimeDecodeException, IOException {
-
-    	String[] arrEditorDataFields = null;
-    	NamoMime mime = null;
-    	String uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_PRJ");   // 파일명에 세팅되는 경로
-        String uploadUrl = configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_PRJ");     // 파일이 실제로 업로드 되는 경로
-        String dataSetField = "";
-        String editorData = "";
-
-    	if( !dataSet.isEmpty() && dataSet.get("editorDataFields") != null && !"".equals(dataSet.get("editorDataFields"))) {
-
-    		arrEditorDataFields = NullUtil.nvl(dataSet.get("editorDataFields"), "").split(",");
-
-    		for(int i=0; i< arrEditorDataFields.length; i++) {
-    			dataSetField = arrEditorDataFields[i];
-    			editorData = NullUtil.nvl(dataSet.get(dataSetField),"");
-
-    			if(dataSet.containsKey(dataSetField) && !"".equals(editorData) ) {
-    				try {
-	    				mime = new NamoMime();
-	    		        mime.setSaveURL(uploadUrl);
-	    		        mime.setSavePath(uploadPath);
-	    		        mime.decode(editorData);                  			// MIME 디코딩
-	    		        mime.saveFileAtPath(uploadPath+File.separator);
-    				}catch(Exception e) {
-    					throw new MimeDecodeException("NAMO File UPLOAD FAIL");
-    				}
-
-    		        dataSet.put(dataSetField, mime.getBodyContent());
-    			}
-    		}
-    	}
-		return dataSet;
     }
     
     /**  과제관리 > 대외협력과제 > 진행 > 변경이력 상세 조회  **/
