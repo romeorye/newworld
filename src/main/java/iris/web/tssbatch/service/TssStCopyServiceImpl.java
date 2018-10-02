@@ -115,14 +115,14 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				this.updateTctmData(input);
 			}
 
-			//변경시 과제리더 업데이트 처리
-			String pmisSaSabunNew = "";
-			pmisSaSabunNew = commonDao.select("batch.getPmisSaSabunNew", input);
+			 //변경시 과제리더 업데이트 처리
+            String chgTssSabun = "";
+            chgTssSabun = commonDao.select("batch.getChgTssSabunNew", input);
 
-			if (!"".equals(pmisSaSabunNew)) {
-				input.put("pmisSaSabunNew", pmisSaSabunNew);
-				commonDao.update("batch.updateTssMstSabunNew", input);
-			}
+            if(!"".equals(chgTssSabun)){
+            	input.put("chgTssSabun", chgTssSabun);
+            	commonDao.update("batch.updateTssMstSabunNew", input);
+            }
 		} else if ("CM".equals(input.get("pgsStepCd"))) {
 			/*******************완료*******************/
 			if ("G".equals(input.get("tssScnCd"))) { //일반과제
@@ -132,29 +132,29 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 			} else if ("N".equals(input.get("tssScnCd"))) {//국책과제
 				this.updateNatNmData(input);
 
-				psTssCd = this.getRetrievePgTss(tssCd);
+                psTssCd = this.getRetrievePgTss(tssCd);
 
-				String finYn = String.valueOf(input.get("finYn")).trim();
-				if (!"Y".equals(finYn)) {                       // 최종차수 여부
-					input.put("pgsStepCd", "PL");       // 계획
-					input.put("tssSt", "104");                  // 품의완료
-					input.put("pgTssCd", psTssCd);
+                String finYn = String.valueOf(input.get("finYn")).trim();
+                if (!"Y".equals(finYn)) {                       // 최종차수 여부
+                    input.put("pgsStepCd", "PL");       // 계획
+                    input.put("tssSt", "104");                  // 품의완료
+                    input.put("0", psTssCd);
 
-					int tssNosSt = Integer.parseInt(String.valueOf(input.get("tssNosSt")).trim());
-					input.put("tssNosSt", tssNosSt + 1);
+                    int tssNosSt = Integer.parseInt(String.valueOf(input.get("tssNosSt")).trim());
+                    input.put("tssNosSt", tssNosSt + 1);
 
-					input.put("batType", "01"); //차수 값 null로 입력
-					this.insertNatData(input);
+                    input.put("batType", "01"); //차수 값 null로 입력
+                    this.insertNatData(input);
 
-					//계획 -> 진행으로 바로 변경
-					input.put("batType", "");
+                    //계획 -> 진행으로 바로 변경
+                    input.put("batType", "");
 
-					input.put("pgsStepCd", "PG");       // 진행
-					input.put("tssSt", "100");                  //진행중
-					input.put("pgTssCd", input.get("tssCd"));
+                    input.put("pgsStepCd", "PG");       // 진행
+                    input.put("tssSt", "100");                  //진행중
+                    input.put("pgTssCd", input.get("tssCd"));
 
-					this.insertNatData(input);
-				}
+                    this.insertNatData(input);
+                }
 			} else if ("D".equals(input.get("tssScnCd"))) {//기술팀과제
 				this.updateTctmNmData(input);
 			}
@@ -170,7 +170,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				this.updateTctmNmData(input);
 			}
 		}
-
 		//과제 생성시 지적재산권
 		/*this.saveTssPimsInfo(input); 임시*/
 
@@ -275,12 +274,12 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 			commonDao.select("prj.tss.com.insertTssAttcFilIdCreate", yldMap);
 		}
 		//계획단계일 경우
-		else {
-			//     1.8 IRIS_TSS_NAT_PLCY_SMRY       - 국책과제 개요
-			commonDao.insert("prj.tss.nat.altr.insertNatTssAltrSmry", input); //진행과제코드로 변경개요
-			//     1.9 WbsCd 생성
-			commonDao.insert("prj.tss.com.updateTssMstWbsCd", input);
-		}
+        else {
+            //     1.8 IRIS_TSS_NAT_PLCY_SMRY       - 국책과제 개요
+            commonDao.insert("prj.tss.nat.altr.insertNatTssAltrSmry", input); //진행과제코드로 변경개요
+            //     1.9 WbsCd 생성
+            commonDao.insert("prj.tss.com.updateTssMstWbsCd", input);
+        }
 		return 0;
 	}
 
@@ -312,6 +311,8 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		genTssAltrService.updateGenTssSmryToSelect(input);
 
 		this.getChangData(input);
+		input.put("psTssCd", input.get("pgTssCd")) ;
+		
 		//		1.3 IRIS_TSS_PTC_RSST_MBR 	- 과제참여연구원
 		genTssAltrService.updateGenTssPtcRssMbrToSelect(input);
 		//		1.4 IRIS_TSS_GEN_WBS 		- 일반과제WBS

@@ -118,17 +118,17 @@
    <select id="retrieveSendAddrTssPGPL"  resultType="hashmap">
    		<![CDATA[
    		-- retrieveSendAddrTssPGPL 해당 PL (연구 팀장), 과제 리더 -진행과제
-   		SELECT 	  MM.PRJ_CD
-				, MM.TSS_CD
+   		SELECT 	  MM.PRJ_CD 
+				, MM.TSS_CD 
 				,(select sso.sa_mail from IRIS_SSO_USER sso where mm.sa_sabun_new  = sso.sa_sabun_new)    as saMail
 		FROM IRIS_TSS_MGMT_MST MM
 	   WHERE MM.PGS_STEP_CD = 'PG' --과제 진행중
 	   	 AND MM.DEL_YN = 'N'
 	   	 AND MM.TSS_SCN_CD ='G'
 		 AND NOT EXISTS (SELECT PK_WBS_CD FROM IRIS_TSS_MGMT_MST TM WHERE TM.PK_WBS_CD = MM.PK_WBS_CD AND TM.PGS_STEP_CD in ('CM', 'DC') and tm.tss_st = '104') --완료가 안된것
-		 AND MM.SA_SABUN_NEW IS NOT NULL
+		 AND MM.SA_SABUN_NEW IS NOT NULL 
 		 AND MM.TSS_FNH_DD > GETDATE() --과제완료일이 현재일보다 미래이다
-	   GROUP BY MM.PRJ_CD , MM.TSS_CD , MM.SA_SABUN_NEW
+	   GROUP BY MM.PRJ_CD , MM.TSS_CD , MM.SA_SABUN_NEW 
       	]]>
    </select>
 
@@ -137,30 +137,30 @@
 	<![CDATA[
 	-- retrieveSendAddrTssGrsPL 과제 리더 -GRS 심의후
 	 select   a.PRJ_CD as prjCd
-		      ,(select SA_MAIL from IRIS_SSO_USER where sa_sabun_new = a.sa_sabun_new) as saMail
+		      ,(select SA_MAIL from IRIS_SSO_USER where sa_sabun_new = a.sa_sabun_new) as saMail  
 			  , b.GRS_EV_ST as grsCd
 			  , dbo.fn_getComDtlNm('GRS_EV_ST',b.GRS_EV_ST) as grsNm
-			  , a.PGS_STEP_CD
+			  , a.PGS_STEP_CD  
 		from   IRIS_TSS_MGMT_MST a
 		       inner join IRIS_GRS_EV_RSLT_RGST b
 			   on a.TSS_CD = b.TSS_CD
 			   and  b.TSS_CD_SN = (
-									select max(TSS_CD_SN)
-									from IRIS_GRS_EV_RSLT_RGST
+									select max(TSS_CD_SN) 
+									from IRIS_GRS_EV_RSLT_RGST 
 									where tss_cd = a.TSS_CD
 									)
 		where  a.del_yn ='N'
 		and    a.tss_st = '102'
-		and    a.wbs_cd not in (  select wbs_cd
-								  from IRIS_TSS_MGMT_MST
-								  where PGS_STEP_CD in ('DC', 'CM')
+		and    a.wbs_cd not in (  select wbs_cd 
+								  from IRIS_TSS_MGMT_MST 
+								  where PGS_STEP_CD in ('DC', 'CM') 
 								  union all
 								  select  wbs_cd
-								  from IRIS_TSS_MGMT_MST
-								  where  PGS_STEP_CD ='AL'
-								  and tss_st in ('100', '103')
+								  from IRIS_TSS_MGMT_MST 
+								  where  PGS_STEP_CD ='AL' 
+								  and tss_st in ('100', '103')  
 							   )
-        AND DATEDIFF (DD,b.LAST_MDFY_DT ,GETDATE()) > 7
+        AND DATEDIFF (DD,b.LAST_MDFY_DT ,GETDATE()) > 7							   
 		group by PRJ_CD, GRS_EV_ST, PGS_STEP_CD, sa_sabun_new
 			 ]]>
    	</select>
@@ -328,10 +328,10 @@
    	 	delete IRIS_COM_ITG_RDCS where AFFR_CD =#{tssCd}
    	 </delete>
 
-	<!-- grs 요청건 메일 발송 -->
-   	 <select id="getPmisSaSabunNew" resultType="String">
-   	 -- getPmisSaSabunNew grs 요청건 메일 발송
-   	 	select sa_sabun_new as saSabunNew
+	<!-- 과제 리더 사번 조회 -->
+   	 <select id="getChgTssSabunNew" resultType="String">
+   	 -- getChgTssSabunNew 과제 리더 사번 조회
+   	 	select sa_sabun_new as chgTssSabun
 		from  IRIS_TSS_PTC_RSST_MBR
 		where  tss_cd = #{tssCd}
 		and    PTC_ROLE = '01'
@@ -389,14 +389,15 @@
 				)
 	</update>
 
-	<!-- 과제신규 연구원 지적재산권 등록 -->
+	<!-- 과제신규 연구원 지적재산권 삭제 -->
 	<delete id="delPimsInfo">
-	-- delPimsInfo 과제신규 연구원 지적재산권 등록
+	-- delPimsInfo 과제신규 연구원 지적재산권 삭제
    		delete tb_ea102_PMIS where WBS_CODE = #{wbsCd}
 	</delete>
-
-	<select id="savePimsList" resultType="hashmap">
-	-- savePimsList
+	
+	<!-- 과제신규 연구원 조회 -->
+	<select id="selectTssMbrList" resultType="hashmap">
+	-- selectTssMbrList	 과제신규 연구원 조회
 		select  sa_sabun_new as saSabunNew
 		       ,#{wbsCd} as wbsCd
 		from   IRIS_TSS_PTC_RSST_MBR
