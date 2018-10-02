@@ -115,14 +115,17 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				this.updateTctmData(input);
 			}
 
-			 //변경시 과제리더 업데이트 처리
-            String chgTssSabun = "";
-            chgTssSabun = commonDao.select("batch.getChgTssSabunNew", input);
+			if( !"D".equals(input.get("tssScnCd")) )  {
+				//변경시 과제리더 업데이트 처리
+	            String chgTssSabun = "";
+	            chgTssSabun = commonDao.select("batch.getChgTssSabunNew", input);
 
-            if(!"".equals(chgTssSabun)){
-            	input.put("chgTssSabun", chgTssSabun);
-            	commonDao.update("batch.updateTssMstSabunNew", input);
-            }
+	            if(!"".equals(chgTssSabun)){
+	            	input.put("chgTssSabun", chgTssSabun);
+	            	commonDao.update("batch.updateTssMstSabunNew", input);
+	            }
+			}
+			
 		} else if ("CM".equals(input.get("pgsStepCd"))) {
 			/*******************완료*******************/
 			if ("G".equals(input.get("tssScnCd"))) { //일반과제
