@@ -15,6 +15,7 @@
  *************************************************************************
  */
 --%>
+<%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
@@ -512,6 +513,7 @@ var mchnInfoId;
 
 
 <body>
+   			<form name="aform" id="aform" method="post">
  <!-- contents -->
 <div class="contents">
 	<div class="titleArea">
@@ -522,27 +524,30 @@ var mchnInfoId;
 		<h2>연도별 통계</h2>
     </div>
     <div class="sub-content">
-   			<form name="aform" id="aform" method="post">
     		<div class="search">
 			<div class="search-content">
     			<table>
    					<colgroup>
-   						<col style="width:120px;"/>
-   						<col style=""/>
-   					</colgroup>
+						<col style="width: 120px;" />
+                        <col style="width: 300px;" />
+                        <col style="width: 120px;" />
+                        <col style="width: 300px;" />
+                        <col style="" />
+					</colgroup>
    					<tbody>
    						<tr>
    							<th align="right">연도</th>
     						<td>
     							<div id="yy" class="form_bd"></div>
-   								<a style="cursor: pointer; margin-left:5px;" onclick="fnSearch();" class="btnL">검색</a>
    							</td>
+   							<td></td>
+   							<td></td>
+   							<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
    						</tr>
    					</tbody>
    				</table>
    				</div>
    				</div>
-   				</form>
 	<!-- sub-content -->
 		<div id="tabView"></div>
 		<!-- 시험구분별통계 -->
@@ -587,6 +592,6 @@ var mchnInfoId;
 
 </div>
 <!-- //contents -->
-
+</form>
 </body>
 </html>

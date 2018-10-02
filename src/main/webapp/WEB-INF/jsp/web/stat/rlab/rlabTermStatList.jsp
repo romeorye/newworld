@@ -19,10 +19,6 @@
 <head>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 <title><%=documentTitle%></title>
-<link type="text/css" href="<%=cssPath%>/main.css" rel="stylesheet">
-<link type="text/css" href="<%=cssPath%>/common.css" rel="stylesheet">
-<script type="text/javascript" src="<%=ruiPathPlugins%>/tab/rui_tab.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/tab/rui_tab.css"/>
 <style>
  .bgcolor-gray {background-color: #999999}
  .bgcolor-white {background-color: #FFFFFF}
@@ -148,6 +144,7 @@ var mchnInfoId;
 
 
 <body>
+<form name="aform" id="aform" method="post">
  <!-- contents -->
 <div class="contents">
 	<div class="titleArea">
@@ -163,17 +160,22 @@ var mchnInfoId;
 			<div class="search-content">
     <table>
    					<colgroup>
-   						<col style="width:120px;"/>
-   						<col style=""/>
-   					</colgroup>
+						<col style="width: 120px;" />
+                        <col style="width: 300px;" />
+                        <col style="width: 120px;" />
+                        <col style="width: 300px;" />
+                        <col style="" />
+					</colgroup>
    					<tbody>
    						<tr>
    							<th align="right">기간</th>
     						<td class="form_bd">
     							<input type="text" id="fromRqprDt"/><em class="gab"> ~ </em>
    								<input type="text" id="toRqprDt"/>
-   								<a style="margin-left:37px !important; cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
    							</td>
+   								<td></td>
+   							<td></td>
+   							<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
    						</tr>
    					</tbody>
    				</table>
@@ -194,6 +196,6 @@ var mchnInfoId;
 	<!-- //sub-content -->
 </div>
 <!-- //contents -->
-
+</form>
 </body>
 </html>

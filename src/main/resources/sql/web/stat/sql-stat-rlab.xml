@@ -184,7 +184,7 @@
 		<![CDATA[
 		SELECT CASE WHEN SUPI_EXAT_CD IS NULL
 		            THEN '합계'
-		            ELSE SUPI_EXAT_CD
+		            ELSE CONVERT(CHAR,SUPI_EXAT_CD)
 		        END AS statGbn
 		      ,SUM(m01) AS m1
 		      ,SUM(m02) AS m2
@@ -404,7 +404,7 @@
 		   GROUP BY RLAB_DZDV_CD
 		   UNION ALL
 		SELECT '시험법별'
-		       ,RLABEXAT.SUPI_EXAT_CD
+		       ,RLABEXAT.EXAT_NM
 		       ,COUNT(1) AS cnt
 			   ,'c'+CAST((SELECT COUNT(1)
 			                FROM IRIS_RLAB_RQPR_MST
@@ -419,7 +419,7 @@
 		 WHERE 1=1
 		   AND RQPRMST.CMPL_DT IS NOT NULL
 		   AND RQPRMST.CMPL_DT BETWEEN #{frDt} AND #{toDt}
-		   GROUP BY RLABEXAT.SUPI_EXAT_CD
+		   GROUP BY RLABEXAT.SUPI_EXAT_CD,EXAT_NM
 		   UNION ALL
 		SELECT '시험담당자별'
 		       ,dbo.fn_getUserName(RLAB_CHRG_ID)
