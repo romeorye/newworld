@@ -203,6 +203,10 @@ Rui.onReady(function(){
 <body>
 	<div class="contents">
 		<div class="titleArea">
+			<a class="leftCon" href="#">
+				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+				<span class="hidden">Toggle 버튼</span>
+			</a>
 			<h2>기기교육 상세</h2>
 		</div>
 	<div class="sub-content">
@@ -225,7 +229,7 @@ Rui.onReady(function(){
 				<input type="hidden" id="attcFilId" name="attcFilId" />
 				<input type="hidden" id="seq" name="seq" />
 				
-				<div class="LblockButton top">
+				<div class="LblockButton top mt0">
 					<button type="button" id="butSave">교육신청</button>
 					<button type="button" id="butCancel">교육취소</button>
 					<button type="button" id="butList">목록</button>

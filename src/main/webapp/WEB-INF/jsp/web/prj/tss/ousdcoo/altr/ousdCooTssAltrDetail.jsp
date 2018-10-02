@@ -722,10 +722,10 @@
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 15%;" />
-                                <col style="width: 35%;" />
-                                <col style="width: 15%;" />
-                                <col style="width: 35%;" />
+                                <col style="width: 17%;" />
+                                <col style="width: 34%;" />
+                                <col style="width: 16.5%;" />
+                                <col style="" />
                             </colgroup>
                             <tbody>
                                 <tr>

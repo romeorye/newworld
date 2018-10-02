@@ -750,13 +750,13 @@
 				</tr>
 				<tr>
 					<th align="right">지연내역 및<br>향후계획</th>
-					<td colspan="2">
+					<td colspan="2" style="padding:6px;">
 						<textarea id="fnoPln"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<th align="right">월마감내용<br>(PRJ 총괄)</th>
-					<td colspan="2">
+					<td colspan="2" style="padding:6px;">
 						<textarea id="prjClsSbc"></textarea>
 					</td>
 				</tr>

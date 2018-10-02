@@ -448,7 +448,7 @@ var mailTitl ="보유기기 예약신청";
 </head>
 <body>
 <div class="bd">
-		<div class="sub-content">
+		<div class="sub-content" style="padding-top:0;">
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="rgstId" name="rgstId" />
 				<input type="hidden" id="rgstNm" name="rgstNm" />
@@ -465,7 +465,7 @@ var mailTitl ="보유기기 예약신청";
 			
 				
 			<%-- 	<input type="hidden" id="menuType" name="menuType" /> --%>
-				<div class="titArea">
+				<div class="titArea mt0">
 					<span class="table_summay_number">교육 수료시 예약신청이 가능합니다.</span>
 					<div class="LblockButton">
 						<button type="button" id="butSave">예약신청</button>
@@ -479,7 +479,6 @@ var mailTitl ="보유기기 예약신청";
 						<col style="width: 30%" />
 						<col style="width: 15%" />
 						<col style="width:" />
-						<col style="width: 10%" />
 					</colgroup>
 					<tbody>
 						<tr>
@@ -494,7 +493,7 @@ var mailTitl ="보유기기 예약신청";
 								<span id="hMchnHanNm"></span>(<span id="hMchnEnNm"></span>)
 							</td>
 							<th align="right">신청자(팀)</th>
-							<td colspan="2">
+							<td>
 								<span id="hRgstNm"></span>(<span id="deptNm"></span>)
 							</td>
 						</tr>
@@ -504,7 +503,7 @@ var mailTitl ="보유기기 예약신청";
 								<input type="text" id="smpoNm" />
 							</td>
 							<th align="right"><span style="color:red;">*  </span>시료수</th>
-							<td colspan="2">
+							<td>
 								<input type="text" id="smpoQty" />
 							</td>
 						</tr>

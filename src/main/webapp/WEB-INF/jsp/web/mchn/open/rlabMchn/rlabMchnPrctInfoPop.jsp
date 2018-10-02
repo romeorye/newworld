@@ -581,7 +581,7 @@ var dtlSbc = "";
 				<input type="hidden" id="rsrtDivnCd" name="rsrtDivnCd" />
 
 			<%-- 	<input type="hidden" id="menuType" name="menuType" /> --%>
-				<div class="titArea">
+				<div class="titArea mt0">
 					<div class="LblockButton">
 						<button type="button" id="butSave">예약신청</button>
 						<button type="button" id="butdel">삭제</button>
@@ -594,7 +594,6 @@ var dtlSbc = "";
 						<col style="width: 40%" />
 						<col style="width: 15%" />
 						<col style="width:" />
-						<col style="width: 10%" />
 					</colgroup>
 					<tbody>
 						<tr>
@@ -609,7 +608,7 @@ var dtlSbc = "";
 								<span id="hMchnHanNm"></span>(<span id="hMchnEnNm"></span>)
 							</td>
 							<th align="right">신청자(팀)</th>
-							<td colspan="2">
+							<td>
 								<span id="hRgstNm"></span>(<span id="deptNm"></span>)
 							</td>
 						</tr>
@@ -619,7 +618,7 @@ var dtlSbc = "";
 								<input type="text" id="smpoNm" />
 							</td>
 							<th align="right"><span style="color:red;">*  </span>시료수</th>
-							<td colspan="2">
+							<td>
 								<input type="text" id="smpoQty" />
 							</td>
 
@@ -634,7 +633,7 @@ var dtlSbc = "";
 	   								</select>
 								</td>
 								<th align="right"><span style="color:red;">*  </span>시험조건</th>
-								<td colspan="2">
+								<td>
 									<input type="text" id="testCnd01"/> ~ 
 									<input type="text" id="testCnd02"/>
 									<label>C </label>&nbsp;

@@ -561,8 +561,8 @@
                             <colgroup>
                                 <col style="width: 17%" />
                                 <col style="width: 34%" />
-                                <col style="width: 13%" />
-                                <col style="width: 34%" />
+                                <col style="width: 15%" />
+                                <col style="" />
                             </colgroup>
                             <tbody>
                                 <tr>

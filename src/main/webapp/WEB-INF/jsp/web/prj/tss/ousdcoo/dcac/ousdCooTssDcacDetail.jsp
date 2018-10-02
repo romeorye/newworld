@@ -448,11 +448,15 @@
     <div class="contents">
 <%--         <%@ include file="/WEB-INF/jsp/include/navigator.jspf"%> --%>
 	    <div class="titleArea">
+	    	<a class="leftCon" href="#">
+		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+		        <span class="hidden">Toggle 버튼</span>
+			</a>
 			<h2>대외협력과제 &gt;&gt;중단</h2>
 	    </div>
 
         <div class="sub-content">
-            <div class="titArea">
+            <div class="titArea mt0">
                 <div class="LblockButton">
                     <button type="button" id="btnCsusRq" name="btnCsusRq">품의서요청</button>
                     <button type="button" id="btnList" name="btnList">목록</button>
@@ -463,10 +467,10 @@
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 100px;" />
-                                <col style="width: 300px;" />
-                                <col style="width: 100px;" />
-                                <col style="width: 300px;" />
+                                <col style="width: 17%;" />
+                                <col style="width: 34%;" />
+                                <col style="width: 16%;" />
+                                <col style="" />
                             </colgroup>
                             <tbody>
                                 <tr>

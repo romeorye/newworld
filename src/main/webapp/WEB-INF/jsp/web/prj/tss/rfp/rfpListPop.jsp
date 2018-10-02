@@ -73,7 +73,8 @@
              columnModel: columnModel,
              dataSet: dataSet,
              height: 280,
-             width : 750
+             width : 750.
+
          });
          
         grid.render('rfpGrid');
@@ -106,18 +107,20 @@
 
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">	
 	<div class="bd">
-		<div class="titleArea">
+		<!-- <div class="titleArea">
   			<h2>RFP 요청서 목록</h2>
-  	    </div>
-  		<div class="sub-content">
+  	    </div> -->
+  		<div class="sub-content" style="padding:10px 7px 0 8px;">
 			<form name="aform" id="aform">
-  				<table class="searchBox">
+				<div class="search mb5">
+				<div class="search-content">
+  				<table>
   					<colgroup>
-  						<col style="width:15%"/>
-  						<col style="width:30%"/>
-  						<col style="width:15%"/>
+  						<col style="width:90px"/>
   						<col style="width:"/>
-  						<col style="width:10%"/>
+  						<col style="width:90px"/>
+  						<col style="width:"/>
+  						<col style="width:"/>
   					</colgroup>
   					<tbody>
   					    <tr>
@@ -129,12 +132,14 @@
 	   						<td>
 	   							<input type="text"  id="rgstNm" >
 	   						</td>
-   							<td  class="t_center">
+   							<td  class="txt-right">
   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
   							</td>
   						</tr>
   					</tbody>
   				</table>
+  				</div>
+  				</div>
 
   				<div class="titArea">
   					<span class=table_summay_number id="cnt_text"></span>

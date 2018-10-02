@@ -562,10 +562,14 @@
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">
 	    <div class="titleArea">
+	    	<a class="leftCon" href="#">
+			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			        <span class="hidden">Toggle 버튼</span>
+				</a>
 	        <h2>일반과제 &gt;&gt; 중단</h2>
 	    </div>
         <div class="sub-content">
-            <div class="titArea">
+            <div class="titArea mt0">
                 <div class="LblockButton">
                     <button type="button" id="btnCsusRq" name="btnCsusRq">품의서요청</button>
                     <button type="button" id="btnList" name="btnList">목록</button>

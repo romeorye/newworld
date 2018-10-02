@@ -599,7 +599,7 @@
 	        <h2>국책과제 &gt;&gt; 중단</h2>
 	    </div>
         <div class="sub-content">
-            <div class="titArea">
+            <div class="titArea mt0">
                 <div class="LblockButton">
                     <button type="button" id="btnCsusRq" name="btnCsusRq">품의서요청</button>
                     <button type="button" id="btnStoaRq" name="btnStoaRq">정산품의서요청</button>

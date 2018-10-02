@@ -314,7 +314,7 @@ var mailTitl ="보유TOOL 예약신청";
 				<input type="hidden" id="mchnClCd" name="mchnClCd" />
 
 			<%-- 	<input type="hidden" id="menuType" name="menuType" /> --%>
-				<div class="titArea">
+				<div class="titArea mt0">
 					<div class="LblockButton">
 						<button type="button" id="butSave">예약신청</button>
 						<button type="button" id="butdel">삭제</button>
