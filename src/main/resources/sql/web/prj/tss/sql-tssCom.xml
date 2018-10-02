@@ -1109,5 +1109,14 @@
     	and  a.DEPT_CD = #{deptCd}  
     </select>
     
+     
+    <!-- 과제 계획 필수산출물  수정시  -->
+    <update id="updateTssYldItmDate">
+	    update IRIS_TSS_YLD_ITM
+		set    GOAL_Y = #{goalY}
+		      ,arsl_yymm = #{arslYymm}
+		where  tss_cd = #{tssCd}
+		and    yld_itm_type = #{yldItmType}
+    </update>
     
 </mapper>
