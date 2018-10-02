@@ -428,7 +428,10 @@ div.lnbArea .inner {width:210px !important; border-left:0; }
 
 
 .search .btnL {min-width:25px; text-align:center; padding:0 22px; height:28px; line-height:28px;}
-.L-popuptextbox.L-fixed a.icon {background:#fff url("/iris/resource/web/images/img_uxp/ico_search.png") no-repeat center 4px; width:28px;}
+.L-popuptextbox.L-fixed a.icon,
+.flmargin .L-popuptextbox.L-fixed a.icon
+ {background:#fff url("/iris/resource/web/images/img_uxp/ico_search.png") no-repeat center 4px !important; width:28px;}
+ .flmargin .L-popuptextbox.L-fixed a.icon {border:0 !important;}
 /*돋보기있는 검색버튼*/
 .searchBox .btnL {background:none; width:auto; padding:0 20px; font-size:12px; font-weight:bold; border:1px solid #da1c5a; height:auto;line-height:25px;}
 
@@ -571,10 +574,14 @@ table.L-grid-header-table thead td:last-child {border-right:1px solid #bcbcbc !i
 
 .pull-right button, .pull-right button:hover {}
 .titArea {height: 31px; line-height: 31px; margin-bottom: 5px; padding:0 0 0 0;}
-.redBtn button, .redBtn button:hover {color: #fff!important; background-color: #da1c5a!important; border-color: #da1c5a!important; 
+.redBtn button, .redBtn button:hover {color: #fff!important; background-color: #da1c5a!important; border-color: #da1c5a !important; 
  padding:0 20px; font-weight:normal;}
 
 .L-button button, .L-button button:hover {height: 27px; color: #333; border-color: #c3c3c3; line-height:23px;}
+
+.table.table_txt_right td table {margin:5px 0;}
+.table.table_txt_right td table td table {margin:5px 0;}
+.table.table_txt_right td table td table td {border:1px solid #ccc; font-size:12px !important; font-weight:normal !important; padding:3px;}
 
 /* Detail */
 .table {
@@ -685,7 +692,7 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .L-panel .pop_conin {padding-bottom:10px}
 .L-panel .bd  {padding: 20px 15px 14px;}
 .pop_in .sub-content {padding:0 !important;}
-
+.p_contit {margin:15px 0 10px 0;}
 
 /* ==========================================================================
    화면별CSS 
@@ -718,20 +725,55 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 
 
 /*** Technical Service :: 공간성능평가 안내 ****/
+/* Tab */
+.nav.nav-tabs {margin-bottom: 20px;padding-left: 0; position:relative;     overflow: hidden;   height:33px;  line-height:33px; right: 0;    top:0 ; border:0 none;}
+.nav.nav-tabs:before {display:""; position:absolute; left:0; bottom:0; width:100%; height:1px; background:#c3c3c3;z-index:1;}
+.nav.nav-tabs>li { float: left;  margin-bottom: -1px; position: relative; display: block;}
+.nav.nav-tabs>li.active>a,
+.nav.nav-tabs > li.active > a:hover {
+    background: #fff;
+    color: #575757;
+    border: 1px solid #999t;
+    border-bottom-color: transparent;
+	position: relative;
+    display: block;
+	z-index:999;
+}
+.nav.nav-tabs li a {height:33px; margin-left:0;}
+
+.nav.nav-tabs>li.active>a, .nav.nav-tabs>li.active>a:focus, .nav.nav-tabs>li.active>a:hover {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+.nav.nav-tabs > li > a, .nav.nav-tabs > li > a:hover {
+    margin-right: 4px;
+    border: 1px solid #d8d8d8;
+    border-radius: 0;
+    background: #eee;
+    color: #666;
+    padding: 8px 20px 7px;
+    border-bottom-color: #999;}
+
+.nav.nav-tabs li:first-child a {text-indent:0; background:none; padding-left:20px;}
+.nav.nav-tabs li:first-child.active a {border-bottom:1px solid #fff !important;}
+/* Tab */
+
 
 .tcn_tab01 {width:940px;}
 .tcn_tab01 thead th {text-align:center; height:60px; vertical-align:top;}
-.tcn_tab01 thead th span {font-size:18px; display:inline-block;padding:4px 0; border-bottom:1px solid #666;}
-.tcn_tab01 tbody th, .tcn_tab01 tbody td  {padding-bottom:30px;}
+.tcn_tab01 thead th span {font-size:16px; display:inline-block;padding:4px 0; border-bottom:1px solid #666;}
+.tcn_tab01 tbody th, .tcn_tab01 tbody td  {padding-bottom:33px;}
 .tcn_tab01 tbody th {border:0 none;}
-.tcn_tab01 tbody tr:nth-child(1) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center 0;}
-.tcn_tab01 tbody tr:nth-child(2) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center -180px;}
-.tcn_tab01 tbody tr:nth-child(3) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center -368px;}
-.tcn_tab01 tbody tr:nth-child(4) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center -557px;}
-.tcn_tab01 .asset_list p:nth-child(1) {height:98px; background:#ccc;}
-.tcn_tab01 .asset_list p:nth-child(1) {height:98px; background:#ccc;}
-.tcn_tab01 .asset_list p:nth-child(2) {height:29px; line-height:28px; text-align:center; background:#b6b6b6; border-radius:15px;}
-.tcn_tab01 .asset_list p:nth-child(2) span {font-size:14px; color:#fff; font-weight:bold; }
+.tcn_tab01 tbody tr:nth-child(1) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center -7px;}
+.tcn_tab01 tbody tr:nth-child(2) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center -185px;}
+.tcn_tab01 tbody tr:nth-child(3) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center -376px;}
+.tcn_tab01 tbody tr:nth-child(4) .asset_list p:nth-child(1) {background:url(/iris/resource/web/images/newIris/img_tachnical01.png) no-repeat center -567px;}
+.tcn_tab01 .asset_list p:nth-child(1) {height:96px; background:#ccc;}
+.tcn_tab01 .asset_list p:nth-child(2) {height:29px; line-height:28px; text-align:center; background:#999; border-radius:15px;}
+.tcn_tab01 .asset_list p:nth-child(2) span {font-size:13px; color:#fff; font-weight:bold; }
 .tcn_tab01 .bg_arrow { background:url(/iris/resource/web/images/newIris/bullet-arrow01.png) no-repeat center center;}
 .tcn_tab01 .asset_right {position:relative; vertical-align:top; padding-top:0;}
 .tcn_tab01 .asset_img {position:absolute; left:0; top:0;}
