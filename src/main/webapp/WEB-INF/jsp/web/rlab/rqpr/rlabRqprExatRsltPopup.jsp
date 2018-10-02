@@ -454,10 +454,6 @@
 			   							<td><span id="exatNm"/></td>
 			   						</tr>
 			   						<tr>
-			   							<th align="right">SOP No</th>
-			   							<td><span id="sopNo"/></td>
-			   						</tr>
-			   						<tr>
 			   							<th align="right">시험장비</th>
 			   							<td><div id="mchnInfoId"></div></td>
 			   						</tr>
