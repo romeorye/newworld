@@ -25,7 +25,6 @@ import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.code.service.CodeService;
 import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.MimeDecodeException;
 import iris.web.common.util.StringUtil;
 import iris.web.prj.tss.com.service.TssUserService;
 import iris.web.prj.tss.gen.service.GenTssAltrService;
@@ -121,7 +120,7 @@ public class GenTssAltrController  extends IrisBaseController {
 
             JSONObject obj = new JSONObject();
             obj.put("records", list);
-
+            LOGGER.debug("#########################result ################################## : " + result);
             request.setAttribute("inputData", input);
             request.setAttribute("resultCnt", result == null ? 0 : result.size());
             request.setAttribute("result", obj);
@@ -386,26 +385,19 @@ public class GenTssAltrController  extends IrisBaseController {
 
         try {
             ds  = RuiConverter.convertToDataSet(request, "smryDataSet");
-            smryDecodeDs = (HashMap<String, Object>)ousdCooTssService.decodeNamoEditorMap(input,ds.get(0)); //에디터데이터 디코딩처리
+            smryDecodeDs = (HashMap<String, Object>) ds.get(0); //에디터데이터 디코딩처리
 
-            smryDecodeDs = StringUtil.toUtf8Input(smryDecodeDs);
-            genTssAltrService.updateGenTssAltrSmry2(smryDecodeDs);
+            genTssAltrService.updateGenTssAltrSmry2(StringUtil.toUtf8Input(smryDecodeDs));
 
             ds.get(0).put("rtCd", "SUCCESS");
             ds.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
 
-        } catch(MimeDecodeException e) {
-            LOGGER.debug("MimeDecodeException ERROR");
-            e.printStackTrace();
-            ds.get(0).put("rtCd", "FAIL");
-            ds.get(0).put("rtVal", messageSourceAccessor.getMessage("msg.alert.imageUploadError")); //이미지파일 등록에 실패했습니다.
         } catch(Exception e) {
             e.printStackTrace();
             ds.get(0).put("rtCd", "FAIL");
             ds.get(0).put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
         }
 
-        //        smryDecodeDs = StringUtil.toUtf8Output(ds);
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", ds));
 
         return modelAndView;

@@ -351,6 +351,12 @@
             var dsNprodSalsPlnY3 = (dataSet.getNameValue(0, "nprodSalsPlnY3") / 100000000).toFixed(2);
             var dsNprodSalsPlnY4 = (dataSet.getNameValue(0, "nprodSalsPlnY4") / 100000000).toFixed(2);
             
+            Wec0.SetBodyValue( dataSet.getNameValue(0, "smryNTxt") );
+            Wec1.SetBodyValue( dataSet.getNameValue(0, "smryATxt") );
+            Wec2.SetBodyValue( dataSet.getNameValue(0, "smryBTxt") );
+            Wec3.SetBodyValue( dataSet.getNameValue(0, "smryCTxt") );
+            Wec4.SetBodyValue( dataSet.getNameValue(0, "smryDTxt") );
+            
             nprodSalsPlnY.setValue(dsNprodSalsPlnY);
             nprodSalsPlnY1.setValue(dsNprodSalsPlnY1);
             nprodSalsPlnY2.setValue(dsNprodSalsPlnY2);
@@ -382,9 +388,7 @@
             	ptcCpsnY4.disable();		
             }
             
-            setTimeout(function () {
-                tabViewS.selectTab(0);
-            }, 1000);
+            tabViewS.selectTab(0);
         });
         
         
@@ -493,63 +497,36 @@
             }
             var frm = document.smryForm;
             
-            frm.Wec0.CleanupOptions = "msoffice | empty | comment";
-        	frm.Wec1.CleanupOptions = "msoffice | empty | comment";
-        	frm.Wec2.CleanupOptions = "msoffice | empty | comment";
-        	frm.Wec3.CleanupOptions = "msoffice | empty | comment";
-        	frm.Wec4.CleanupOptions = "msoffice | empty | comment";
+            dataSet.setNameValue(0, "smryNTxt", Wec0.GetBodyValue());
+            dataSet.setNameValue(0, "smryATxt", Wec1.GetBodyValue());
+            dataSet.setNameValue(0, "smryBTxt", Wec2.GetBodyValue());
+            dataSet.setNameValue(0, "smryCTxt", Wec3.GetBodyValue());
+            dataSet.setNameValue(0, "smryDTxt", Wec4.GetBodyValue());
+       
             
-        	frm.Wec0.value =frm.Wec0.CleanupHtml(frm.Wec0.value);
-        	frm.Wec1.value =frm.Wec1.CleanupHtml(frm.Wec1.value);
-        	frm.Wec2.value =frm.Wec2.CleanupHtml(frm.Wec2.value);
-        	frm.Wec3.value =frm.Wec3.CleanupHtml(frm.Wec3.value);
-        	frm.Wec4.value =frm.Wec4.CleanupHtml(frm.Wec4.value);
-        	
-           	if(  frm.Wec0.BodyValue == "<P>&nbsp;</P>" || frm.Wec0.BodyValue == "") {
-           		frm.Wec0.value = dataSet.getNameValue(0, 'smryNTxt');
-            }
-            if( frm.Wec1.BodyValue == "<P>&nbsp;</P>"  || frm.Wec1.BodyValue == "" ) {
-               	frm.Wec1.value = dataSet.getNameValue(0, 'smryATxt');
-            }
-            if( frm.Wec2.BodyValue == "<P>&nbsp;</P>" || frm.Wec2.BodyValue == "") {
-               	frm.Wec2.value = dataSet.getNameValue(0, 'smryBTxt');
-            }
-            if( frm.Wec3.BodyValue == "<P>&nbsp;</P>" || frm.Wec3.BodyValue == "") {
-               	frm.Wec3.value = dataSet.getNameValue(0, 'smryCTxt');
-            }
-            if( frm.Wec4.BodyValue == "<P>&nbsp;</P>" || frm.Wec4.BodyValue == "" ) {
-               	frm.Wec4.value = dataSet.getNameValue(0, 'smryDTxt');
-            }
-            	
-        	frm.smryNTxt.value =  frm.Wec0.MIMEValue;
-            frm.smryATxt.value =  frm.Wec1.MIMEValue;
-            frm.smryBTxt.value =  frm.Wec2.MIMEValue;
-            frm.smryCTxt.value =  frm.Wec3.MIMEValue;
-            frm.smryDTxt.value =  frm.Wec4.MIMEValue;
-        
-	        var needs        = frm.smryNTxt.value;
-	        var approach     = frm.smryATxt.value;
-	        var benefit      = frm.smryBTxt.value;
-	        var competition  = frm.smryCTxt.value;
-	        var deliverables = frm.smryDTxt.value;
-        
-	        if(  needs == "<P>&nbsp;</P>" || needs == "") {
+            frm.smryNTxt.value =  dataSet.getNameValue(0, "smryNTxt");
+            frm.smryATxt.value =  dataSet.getNameValue(0, "smryATxt");
+            frm.smryBTxt.value =  dataSet.getNameValue(0, "smryBTxt");
+            frm.smryCTxt.value =  dataSet.getNameValue(0, "smryCTxt");
+            frm.smryDTxt.value =  dataSet.getNameValue(0, "smryDTxt");
+            
+            if(  dataSet.getNameValue(0, "smryNTxt") == "<p><br></p>" || dataSet.getNameValue(0, "smryNTxt") == "") {
                 alert("Needs 는 필수입력입니다.");
                 return false;
             }
-            if( approach == "<P>&nbsp;</P>"  || approach == "" ) {
+            if(  dataSet.getNameValue(0, "smryATxt") == "<p><br></p>" || dataSet.getNameValue(0, "smryATxt") == "") {
                 alert("Approach 는 필수입력입니다.");
                 return false;
             }
-            if( benefit == "<P>&nbsp;</P>" || benefit == "") {
+            if(  dataSet.getNameValue(0, "smryBTxt") == "<p><br></p>" || dataSet.getNameValue(0, "smryBTxt") == "") {
                 alert("Benefit 은 필수입력입니다.");
                 return false;
             }
-            if( competition == "<P>&nbsp;</P>" || competition == "") {
+            if(  dataSet.getNameValue(0, "smryCTxt") == "<p><br></p>" || dataSet.getNameValue(0, "smryCTxt") == "") {
                 alert("Competition 은 필수입력입니다.");
                 return false;
             }
-            if( deliverables == "<P>&nbsp;</P>" || deliverables == "" ) {
+            if(  dataSet.getNameValue(0, "smryDTxt") == "<p><br></p>" || dataSet.getNameValue(0, "smryDTxt") == "") {
                 alert("Deliverables 는 필수입력입니다.");
                 return false;
             }
@@ -583,6 +560,19 @@
                 alert("투입인원(M/M)은 필수입력입니다.");
                 return false;
             }
+            
+            var pmisTxt = dataSet.getNameValue(0, "pmisTxt");
+            var bizDpt = parent.bizDptCd.getValue();
+            var bizDptNm =  parent.bizDptCd.getDisplayValue();
+
+            if(  bizDpt == "07" || bizDpt == "08" || bizDpt == "09"  ){
+            	var bizMsg =  bizDptNm+" 사업부문일경우 지적재산팀 검토의견을 입력하셔야 합니다";
+            	
+            	if( Rui.isEmpty(pmisTxt)){
+            		alert(bizMsg);
+            		return;
+            	}
+            }
                     
         	if(confirm("저장하시겠습니까?")) {
                 var frm = document.smryForm;
@@ -596,15 +586,7 @@
                 dm.updateDataSet({
                     modifiedOnly: false,
                     url:'<c:url value="/prj/tss/gen/updateGenTssAltrSmry.do"/>',
-                    dataSets:[dataSet],
-                    params: {
-                    	  editorData1 : frm.smryNTxt.value
-                    	, editorData2 : frm.smryATxt.value
-                    	, editorData3 : frm.smryBTxt.value
-                    	, editorData4 : frm.smryCTxt.value
-                    	, editorData5 : frm.smryDTxt.value
-                    	, editorDataFields : "smryNTxt,smryATxt,smryBTxt,smryCTxt,smryDTxt"
-                    }
+                    dataSets:[dataSet]
                 });
         	}
         });
@@ -679,7 +661,6 @@
         };
         
         tabViewS = new Rui.ui.tab.LTabView({
-            contentHeight: 200,
             tabs: [
                 {
                 	label: 'Needs',
@@ -737,10 +718,6 @@
         
         //버튼 비활성화 셋팅
         disableFields();
-        
-//         $("#Wec0").ready(function(){
-//         	tabViewS.selectTab(0);
-//         });
 
     }); // END RUI LOAD
     
