@@ -192,6 +192,9 @@ var mchnInfoId;
 					<table>
 						<colgroup>
 							<col style="width:120px" />
+							<col style="width: 300px;" />
+                        	<col style="width: 120px;" />
+                        	<col style="width: 300px;" />
 							<col style="" />
 						</colgroup>
 						<tbody>
@@ -200,6 +203,10 @@ var mchnInfoId;
 								<td class="tain_bo">
 									<input type="text" id="fromCmplDt" /><em class="gab">
 										~ </em> <input type="text" id="toCmplDt" />
+								</td>
+								<td></td>
+								<td></td>
+								<td class="txt-right">
 										<a style="cursor: pointer;margin-left:36px;"
 									onclick="fnSearch();" class="btnL">검색</a>
 								</td>

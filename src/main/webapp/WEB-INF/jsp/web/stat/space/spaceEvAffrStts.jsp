@@ -280,7 +280,10 @@ var mchnInfoId;
 				<div class="search-content">
 					<table>
 						<colgroup>
-							<col style="width:120px" />
+							<col style="width: 120px;" />
+                        	<col style="width: 300px;" />
+                        	<col style="width: 120px;" />
+                        	<col style="width: 300px;" />
 							<col style="" />
 						</colgroup>
 						<tbody>
@@ -288,6 +291,10 @@ var mchnInfoId;
 								<th align="right">연도</th>
 								<td class="tain_bo">
 									<div id="yy"></div>
+								</td>
+								<td></td>
+								<td></td>
+								<td class="txt-right">
 									<a style="cursor: pointer; margin-left:5px;"
 									onclick="fnSearch();" class="btnL">검색</a>
 								</td>
