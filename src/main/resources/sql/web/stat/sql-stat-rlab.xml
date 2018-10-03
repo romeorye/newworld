@@ -407,8 +407,10 @@
 		       ,RLABEXAT.EXAT_NM
 		       ,COUNT(1) AS cnt
 			   ,'c'+CAST((SELECT COUNT(1)
-			                FROM IRIS_RLAB_RQPR_MST
+			                FROM IRIS_RLAB_RQPR_MST MST
+			                    ,IRIS_RLAB_RQPR_EXAT EXAT
 				           WHERE 1=1
+						     AND MST.RQPR_ID=EXAT.RQPR_ID
 				             AND CMPL_DT IS NOT NULL
 		                     AND CMPL_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) AS sum
 		  FROM IRIS_RLAB_RQPR_MST RQPRMST
