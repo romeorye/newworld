@@ -397,6 +397,7 @@
     		$('#butTssNew').hide();
     	}
 
+        butTssNew.hide();
     });
 /*
     //과제리더 팝업 셋팅

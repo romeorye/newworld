@@ -70,6 +70,7 @@
                  END ) AS pgSaSabunNew --진행단계리더
              , (SELECT INST_NM + ' / ' +  OPS_NM  + ' / ' +  SPLT_NM+ ' '+ POA_NM FROM IRIS_KNLD_OSCP_SPLT WHERE DEL_YN = 'N' AND OSCP_SPLT_ID = A.COO_INST_CD ) AS cooInstNm --협력기관명
              , DATEDIFF ( month , CONVERT(DATE, A.TSS_STRT_DD) , CONVERT(DATE, A.TSS_FNH_DD) )  AS ttsDifMonth -- 과제소요기간
+             ,A.IS_EDITABLE as isEditable
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
             ON A.PRJ_CD = B.PRJ_CD

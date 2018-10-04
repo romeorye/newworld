@@ -3,6 +3,8 @@ package iris.web.prj.grs.service;
 import devonframe.dataaccess.CommonDao;
 import iris.web.common.util.CommonUtil;
 import iris.web.tssbatch.service.TssStCopyService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +21,9 @@ public class GrsMngServiceImpl implements GrsMngService {
 
 	@Resource(name = "tssStCopyService")
 	private TssStCopyService tssStCopyService;
+
+
+	static final Logger LOGGER = LogManager.getLogger(GrsMngService.class);
 
 
 	@Override
@@ -55,14 +60,43 @@ public class GrsMngServiceImpl implements GrsMngService {
 
 	@Override
 	public void moveDefGrsDefInfo(HashMap<String, Object> input) {
+		LOGGER.debug("=============== GRS기본정보를 과제 마스터로 등록(마스터, 개요, 산출물) ===============");
 		String tssScnCd = (String) input.get("tssScnCd");
+
+
+		LOGGER.debug( tssScnCd.equals('N'));
+		LOGGER.debug( tssScnCd.equals("N"));
+		if(tssScnCd.equals("N")){
+			// 국책인경우 1년차수 입력
+			input.put("tssNosSt", "1");
+		}
 
 		//GRS 기본정보 과제 관리 마스터로 복제
 		commonDao.insert("prj.grs.moveGrsDefInfo", input);
 
+
+
+//		창호 01/장식재 03 > 건장재01
+//		자동차 05 > 자동차04
+//		표면소재 06(데코 P11,가전 P12,S&G P13) > 산업용필름02
+//		표면소재 06(그외) > 건장재01
+		String bizDptCd = (String) input.get("bizDptCd");
+		String prodG = (String) input.get("prodG");
+
+		String rsstSphe = "";
+		if("01".equals(bizDptCd) || "03".equals(bizDptCd)){
+			rsstSphe = "01";
+		}else if("05".equals(bizDptCd)){
+			rsstSphe = "04";
+		}else if("06".equals(bizDptCd) && ("P11".equals(prodG) || "P12".equals(prodG) || "P13".equals(prodG))){
+			rsstSphe = "02";
+		}else if("06".equals(bizDptCd)){
+			rsstSphe = "01";
+		}
+
 		// 발의, 연구 기본값 세팅
 		input.put("ppslMbdCd", "02"); // 사업부
-//		input.put("rsstSphe", "");
+		input.put("rsstSphe", rsstSphe);
 		commonDao.insert("prj.grs.updateGrsDefInfo02", input);
 
 
@@ -74,17 +108,14 @@ public class GrsMngServiceImpl implements GrsMngService {
 			commonDao.insert("prj.tss.com.updateTssMstWbsCd", input);
 		}
 
-		//GRS 기본정보 과제 서머리 마스터로 복제
+		LOGGER.debug("=============== GRS 기본정보 과제 서머리 마스터로 복제 ===============");
 		commonDao.insert("prj.grs.moveGrsDefSmry", input);
-
-		//GRS 기본정보 삭제
-		commonDao.delete("prj.grs.deleteDefInfo", input);
 
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int yy = cal.get(Calendar.MONTH) + 1;
 
-		//산출물 등록
+		LOGGER.debug("=============== 기본 산출물 등록 ===============");
 		if(tssScnCd.equals("G")){
 			//일반
 			input.put("goalY",       input.get("tssStrtDd").toString().substring(0,4));
@@ -149,6 +180,12 @@ public class GrsMngServiceImpl implements GrsMngService {
 			input.put("yldItmType", "04");
 			commonDao.update("prj.tss.com.updateTssYld", input);
 		}
+	}
+
+	@Override
+	public void deleteDefGrsDefInfo(HashMap<String, Object> input) {
+		//GRS 기본정보 삭제
+		commonDao.delete("prj.grs.deleteDefInfo", input);
 	}
 
 	@Override

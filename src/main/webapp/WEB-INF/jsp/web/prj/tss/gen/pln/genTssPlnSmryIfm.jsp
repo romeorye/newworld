@@ -641,13 +641,22 @@
 
         //버튼 비활성화 셋팅
 
-        disableFields();
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#btnSave").hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#btnSave").hide();
 		}
+
+		
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>isE",window.parent.isEditable);
+        if(window.parent.isEditable){
+            btnSave.show();
+            $("#btnSave").show();
+        }else{
+            disableFields();
+        }
+
 //         $("#Wec0").ready(function() {
 //             tabViewS.selectTab(0);
 //         });

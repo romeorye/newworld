@@ -513,7 +513,12 @@
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
     		$('#butTssNew').hide();
     	}
+
+
+        butTssNew.hide();
     });
+
+
 </script>
 <script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script>
 </head>

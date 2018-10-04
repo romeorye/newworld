@@ -286,9 +286,12 @@
             dataSet.loadData(${result}); 
         } else {
         }
-        
-        //버튼 비활성화 셋팅
-        disableFields(); 
+
+        if(!window.parent.isEditable) {
+            //버튼 비활성화 셋팅
+            disableFields();
+        }
+
     });
     
     // 내부 스크롤 제거

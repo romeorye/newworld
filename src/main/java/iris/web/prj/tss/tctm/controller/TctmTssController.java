@@ -1,26 +1,5 @@
 package iris.web.prj.tss.tctm.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
@@ -37,6 +16,25 @@ import iris.web.prj.tss.tctm.TctmUrl;
 import iris.web.prj.tss.tctm.service.TctmTssService;
 import iris.web.system.attach.service.AttachFileService;
 import iris.web.system.base.IrisBaseController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TctmTssController extends IrisBaseController {
@@ -457,7 +455,7 @@ public class TctmTssController extends IrisBaseController {
 
                 TestConsole.showMap(CommonUtil.mapToObj(input),"서머리조회 input");
                 result = tctmTssService.selectTctmTssInfoSmry(input);
-                TestConsole.showMap(result,"서머리조회 output");
+//                TestConsole.showMap(result,"서머리조회 output");
             }
             result = StringUtil.toUtf8Output((HashMap) result);
 
@@ -861,10 +859,12 @@ public class TctmTssController extends IrisBaseController {
 
         HashMap<String, Object> mstDs = null;
         HashMap<String, Object> smryDs = null;
+        HashMap<String, Object> smryDecodeDs = null;
 
-        try {
-            mstDs = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "mstDataSet").get(0);
-            smryDs = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "smryDataSet").get(0);
+
+		try {
+			mstDs = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "mstDataSet").get(0);
+			smryDs = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "smryDataSet").get(0);
 
             // deptCode, prjCd, tssScnCd,
             TestConsole.isEmpty("deptCode", mstDs.get("deptCode"));
@@ -874,45 +874,65 @@ public class TctmTssController extends IrisBaseController {
 
             TestConsole.isEmptyMap(mstDs);
 
-			String pgsStepCd = (String) mstDs.get("pgsStepCd");
 
-			if(pgsStepCd.equals("PL")) {
+			String pgsStepCd = (String) mstDs.get("pgsStepCd");
+			String tssCd = (String) mstDs.get("tssCd");
+
+			if("".equals(tssCd)) {
+				LOGGER.debug("=============== 과제 신규 등록 ===============");
 				if (getWbs == null || getWbs.size() <= 0) {
 					mstDs.put("rtCd", "FAIL");
 					mstDs.put("rtVal", "상위사업부코드 또는 Project약어를 먼저 생성해 주시기 바랍니다.");
 				} else {
-					//SEED WBS_CD 생성
+					LOGGER.debug("=============== SEED WBS_CD 생성 ===============");
 					int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
 					String seqMaxS = String.valueOf(seqMax + 1);
 					mstDs.put("wbsCd", "D" + seqMaxS);
 
+
 					TestConsole.isEmpty("wbsCd", mstDs.get("wbsCd"));
+//					smryDecodeDs = (HashMap<String, Object>) ousdCooTssService.decodeNamoEditorMap(input, smryDs); //에디터데이터 디코딩처리
+					smryDecodeDs = StringUtil.toUtf8Input(smryDs);
+
+
 					TestConsole.isEmptyMap(mstDs);
-					TestConsole.isEmptyMap(smryDs);
+					TestConsole.isEmptyMap(smryDecodeDs);
 
-
-					// TSS CD 생성
+					LOGGER.debug("=============== TSS CD 생성 ===============");
 					if (mstDs.get("tssCd") == null || mstDs.get("tssCd").equals("")) {
 						String newTssCd = tctmTssService.selectNewTssCdt(mstDs);
 						mstDs.put("tssCd", newTssCd);
-						smryDs.put("tssCd", newTssCd);
+						smryDecodeDs.put("tssCd", newTssCd);
 					}
 
-					// 과제 마스터 등록
+					LOGGER.debug("=============== 과제 마스터 등록 ===============");
 					tctmTssService.updateTctmTssInfo(mstDs);
-					// 과제 개요 등록
-					tctmTssService.updateTctmTssSmryInfo(StringUtil.toUtf8Input(smryDs));
-					// 산출물 등록
+					LOGGER.debug("=============== 과제 개요 등록 ===============");
+					tctmTssService.updateTctmTssSmryInfo(smryDecodeDs);
+					LOGGER.debug("=============== 산출물 등록 ===============");
 					tctmTssService.updateTctmTssYld(mstDs);
+
+					LOGGER.debug("=============== 업로드 파일 산출물 연결 ===============");
+					tctmTssService.updateYldFile(smryDecodeDs);
 
 
 					mstDs.put("rtCd", "SUCCESS");
 					mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
 					mstDs.put("rtType", "I");
 				}
-			}else if(pgsStepCd.equals("PG")){
-				// 과제 개요 등록
-				tctmTssService.updateTctmTssSmryInfo(StringUtil.toUtf8Input(smryDs));
+			}else if(!"".equals(tssCd)){
+				LOGGER.debug("=============== 과제 수정 ===============");
+//				smryDecodeDs = (HashMap<String, Object>) ousdCooTssService.decodeNamoEditorMap(input, smryDs); //에디터데이터 디코딩처리
+				smryDecodeDs = StringUtil.toUtf8Input(smryDs);
+
+				LOGGER.debug("=============== 과제 마스터  수정 ===============");
+				tctmTssService.updateTctmTssInfo(mstDs);
+
+				 LOGGER.debug("=============== 과제 개요 수정 ===============");
+				tctmTssService.updateTctmTssSmryInfo(smryDecodeDs);
+
+				LOGGER.debug("=============== 업로드 파일 산출물 연결 ===============");
+				tctmTssService.updateYldFile(smryDecodeDs);
 
 				mstDs.put("rtCd", "SUCCESS");
 				mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.

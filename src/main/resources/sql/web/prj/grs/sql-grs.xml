@@ -4,10 +4,9 @@
 <mapper namespace="prj.grs">
     <select id="retrieveGrsReqList" resultType="hashmap">
         <![CDATA[
-		/*retrieveGrsReqList*/
---retrieveGrsReqList GRS 평가 목록
+		/*retrieveGrsReqList GRS 평가 목록*/
     SELECT *
-      , iif((stdCnt > 0 AND tssSt!='101')   , 'GRS완료', 'GRS요청') AS tssStNm
+      , (SELECT COM_DTL_NM FROM IRIS_ADM_COM_CD WHERE COM_CD_CD =  'GRS_ST' AND COM_DTL_CD = tssSt) AS tssStNm
       , iif(tssSt='101', '1', '0') AS isReq
       , iif((stdCnt > 0 AND tssSt!='101')   , '1', '0') AS isConfirm
       , iif((frstRgstDt!=lastMdfyDt AND tssSt='101')   , '1', '0') AS isTmp
@@ -17,6 +16,7 @@
                  , iif(m.PGS_STEP_CD='PL','SEED-'+m.wbs_cd , m.wbs_cd)           wbsCd
                  , m.pk_wbs_cd           pkWbsCd
                  , m.tss_nm           tssNm
+                 , m.prj_nm           prjNm
                  , m.BIZ_DPT_CD	      bizDptCd
                  , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
                  , g.dlbr_crgr 									 AS dlbrCrgr
@@ -46,6 +46,7 @@
                  , iif(m.PGS_STEP_CD='PL','SEED-'+m.wbs_cd , m.wbs_cd)           wbsCd
                  , m.pk_wbs_cd           pkWbsCd
                  , m.tss_nm           tssNm
+                 , m.prj_nm           prjNm
                  , m.BIZ_DPT_CD	      bizDptCd
                  , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
                  , g.dlbr_crgr 									 AS dlbrCrgr
@@ -73,32 +74,38 @@
 		 ]]>
         WHERE a.tssSt >= '101'
         --AND a.tss_cd in ( SELECT MAX(TSS_CD) FROM iris_grs_ev_rslt_rgst where subString(TSS_CD,0,7) = a.PK_WBS_CD)
-        <if test="tssRoleType == null or tssRoleType.equals('') or tssRoleType.equals('S1')">
+        <if test="tssRoleType == 'null' or tssRoleType.equals('') or tssRoleType.equals('S1')">
             AND 1 = 1
         </if>
-        <if test="tssRoleType != null and tssRoleType.equals('S2')">
+        <if test="tssRoleType != 'null' and tssRoleType.equals('S2')">
             AND (1 = 2 OR a.frstRgstId = #{_userId})
         </if>
-        <if test="tssRoleType != null and tssRoleType.equals('S3')">
+        <if test="tssRoleType != 'null' and tssRoleType.equals('S3')">
             AND (a.dlbrCrgr = #{_userSabun} OR a.frstRgstId = #{_userId})
         </if>
-        <if test="bizDtpCd != null and bizDtpCd != ''">
+        <if test="bizDtpCd != null and bizDtpCd != 'null' and bizDtpCd != ''">
             AND a.bizDptCd = #{bizDtpCd}
         </if>
-        <if test="tssNm != null and tssNm != ''">
-            AND a.tssNm like '%'+#{tssNm}+'%'
-        </if>
-        <if test="grsEvSt != null and grsEvSt != ''">
-            AND a.grsEvSt = #{grsEvSt}
-        </if>
-        <if test="tssScnCd != null and tssScnCd != ''">
+        <if test="tssScnCd != null and tssScnCd != 'null' and tssScnCd != ''">
             AND a.tssScnCd = #{tssScnCd}
         </if>
-        <if test="grsSt != null and grsSt != ''">
-            AND a.tssSt = #{grsSt}
+        <if test="wbsCd != null and wbsCd != 'null' and wbsCd != ''">
+            AND a.wbsCd like '%'+#{wbsCd}+'%'
         </if>
-        <if test="wbsCd != null and wbsCd != ''">
-            AND a.wbsCd = #{wbsCd}
+        <if test="tssNm != null and tssNm != 'null' and tssNm != ''">
+            AND a.tssNm like '%'+#{tssNm}+'%'
+        </if>
+        <if test="prjNm != null and prjNm != 'null' and prjNm != ''">
+            AND a.prjNm like '%'+#{prjNm}+'%'
+        </if>
+        <if test="dlbrCrgrNm != null  and dlbrCrgrNm != 'null' and dlbrCrgrNm != ''">
+            AND a.dlbrCrgrNm like '%'+#{dlbrCrgrNm}+'%'
+        </if>
+        <if test="grsEvSt != null and grsEvSt != 'null' and grsEvSt != ''">
+            AND a.grsEvSt = #{grsEvSt}
+        </if>
+        <if test="tssSt != null and tssSt != 'null' and tssSt != ''">
+            AND a.tssSt = #{tssSt}
         </if>
         ORDER BY isReq DESC, a.dlbrParrDt DESC
     </select>
@@ -770,7 +777,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	           #{tssType},
 	           #{smrSmryTxt},
 	           #{smrGoalTxt},
-				#{nprodSalsPlnY},	-- 숫자가 아닌경우 0처리
+	           cast(#{nprodSalsPlnY} as FLOAT),
 				#{ctyOtPlnM},
 				GETDATE(),
 				'MIGADMIN1',
@@ -795,7 +802,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 				TSS_TYPE = #{tssType},
 				SMR_SMRY_TXT = #{smrSmryTxt},
 				SMR_GOAL_TXT = #{smrGoalTxt},
-				NPROD_SALS_PLN_Y = #{nprodSalsPlnY},
+				NPROD_SALS_PLN_Y = cast(#{nprodSalsPlnY} as FLOAT),
 				CTY_OT_PLN_M = #{ctyOtPlnM},
 	           LAST_MDFY_DT = GETDATE(),
 	           LAST_MDFY_ID = 'MIGADMIN1'
@@ -827,21 +834,23 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             TSS_STRT_DD ,
             TSS_FNH_DD ,
             CUST_SQLT ,
+            TSS_NOS_ST,
             TSS_SMRY_TXT ,
             TSS_ATTR_CD ,
             TSS_TYPE ,
             FRST_RGST_DT ,
             FRST_RGST_ID ,
             LAST_MDFY_DT ,
-            LAST_MDFY_ID
+            LAST_MDFY_ID,
+            IS_EDITABLE
         )
-            SELECT TSS_CD ,
+            SELECT #{tssCd} ,
                 g.WBS_CD ,
                 g.PK_WBS_CD ,
-                g.PGS_STEP_CD ,
+                #{pgsStepCd} ,
                 g.TSS_ST ,
                 g.TSS_SCN_CD ,
-                (SELECT DEPT_CD
+                (SELECT DEPT_UPER
                  FROM IRIS_PRJ_RSST_MST p
                  WHERE PRJ_CD=g.PRJ_CD
                 ) as DEPT_CODE ,
@@ -855,15 +864,17 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 g.TSS_STRT_DD ,
                 g.TSS_FNH_DD ,
                 g.CUST_SQLT ,
+                #{tssNosSt},
                 g.TSS_SMRY_TXT ,
                 g.TSS_ATTR_CD ,
                 g.TSS_TYPE ,
                 g.FRST_RGST_DT ,
                 g.FRST_RGST_ID ,
                 g.LAST_MDFY_DT ,
-                g.LAST_MDFY_ID
+                g.LAST_MDFY_ID,
+                '1'
             FROM IRIS_GRS_MGMT_MST g
-            WHERE g.TSS_CD = #{tssCd}
+            WHERE g.TSS_CD = #{fromTssCd}
     </insert>
 
     <!-- GRS 기본 정보 마스터로 이관 -->
@@ -903,7 +914,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 #{tssCd}
                 ,#{smrSmryTxt}
                 ,#{smrGoalTxt}
-                ,#{nprodSalsPlnY}
+                ,cast(#{nprodSalsPlnY} as FLOAT)
                 ,#{ctyOtPlnM}
                 , GETDATE()
                 , #{userId}
@@ -975,7 +986,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 #{tssCd}
                 ,#{smrSmryTxt}
                 ,#{smrGoalTxt}
-                ,#{nprodSalsPlnY}
+                ,cast(#{nprodSalsPlnY} as FLOAT)
                 ,#{ctyOtPlnM}
                 , GETDATE()
                 , #{userId}
@@ -1017,4 +1028,5 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
         WHERE TSS_CD = #{tssCd}
         ]]>
 	</update>
+
 </mapper>

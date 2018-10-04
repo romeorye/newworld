@@ -353,6 +353,7 @@
             ,dbo.fn_getTssStepNm(#{tssCd}) as tssStepNm
             ,dbo.fn_getGrsStepNm(#{tssCd},'1') as grsStepNm
             ,dbo.fn_getQgateStepNm(A.WBS_CD,'1') as qgateStepNm
+            ,a.IS_EDITABLE as isEditable
 
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
@@ -1070,6 +1071,22 @@ MERGE INTO dbo.IRIS_TSS_MGMT_MST tbl
     ]]>
     </update>
 
+
+    <!-- 개요 업로드 파일 산출물 연결-->
+    <update id="updateYldFile">
+        UPDATE Y
+        SET
+            Y.YLD_ITM_NM     = F.FIL_NM
+            , Y.ATTC_FIL_ID  = F.ATTC_FIL_ID
+            , Y.LAST_MDFY_DT = GETDATE()
+            , Y.LAST_MDFY_ID = F.LAST_MDFY_ID
+        FROM IRIS_TSS_YLD_ITM Y, IRIS_COM_ATTC_FIL F
+        WHERE
+            Y.TSS_CD = #{tssCd}
+            AND Y.YLD_ITM_SN = '1'
+            AND F.ATTC_FIL_ID = #{attcFilId}
+            and F.DEL_YN = 'N'
+    </update>
 
 
 

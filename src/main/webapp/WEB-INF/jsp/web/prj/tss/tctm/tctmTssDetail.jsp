@@ -201,7 +201,7 @@
                         btnGrsRq.show();	//GRS  요청
                     }
 
-                    if(gvTssSt=="102"){
+                    if(pgsStepCd!="PL" && gvTssSt=="102"){
                         btnCsusRq.show();	// 품의서요청
                     }
 
@@ -212,6 +212,7 @@
                     if(pgsStepCd=="AL"  && gvTssSt=="100"){
                         btnStepPg.show();
                         btnCsusRq2.show();
+                        btnGrsRq.hide();
                     }
                 }
 
@@ -338,6 +339,7 @@
                     , {id: 'grsStepNm'}	//GRS 단계
                     , {id: 'qgateStepNm'}	//Qgate 단계
                     , {id: 'grsYn'}	//grs(p1) 사용여부
+                    , {id: 'isEditable'}	// GRS관리에서 기본정보 입력시 최초 수정 가능여부
 
 
 
@@ -358,7 +360,7 @@
                     , { id: 'deptName',   ctrlId: 'deptName',   value: 'value' }
                     , { id: 'ppslMbdCd',  ctrlId: 'ppslMbdCd',  value: 'value' }
                     , { id: 'bizDptCd',   ctrlId: 'bizDptCd',   value: 'value' }
-                    , { id: 'wbsCd',      ctrlId: 'wbsCd',      value: 'value' }
+                    // , { id: 'wbsCd',      ctrlId: 'wbsCd',      value: 'value' }
                     , { id: 'tssNm',      ctrlId: 'tssNm',      value: 'value' }
                     , { id: 'saSabunNew', ctrlId: 'saSabunNew', value: 'value' }
                     , { id: 'saSabunName', ctrlId: 'saSabunName', value: 'value' }
@@ -424,6 +426,7 @@
 
 
             dataSet.on('load', function(e) {
+
                 gvTssCd = stringNullChk(dataSet.getNameValue(0, "tssCd"));
                 gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt"));
                 gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
@@ -433,6 +436,13 @@
                 pgsStepNm  = stringNullChk(dataSet.getNameValue(0, "pgsStepNm"));
                 grsEvSt  = stringNullChk(dataSet.getNameValue(0, "grsEvSt"));
                 hasAltr  = stringNullChk(dataSet.getNameValue(0, "hasAltr"));
+
+
+                if(pgsStepCd=="PL"){
+                    //계획 단계의 경우 SEED 표현
+                    wbsCd.setValue("SEED-" +stringNullChk(dataSet.getNameValue(0, "wbsCd")));
+                }
+
 
 
                 //단계별 과제코드
@@ -451,7 +461,6 @@
                     dataSet.setNameValue(0, "saSabunNew", "${inputData._userSabun}"); //과제리더사번
                     dataSet.setNameValue(0, "saSabunName", "${inputData._userNm}");    //과제리더명
                     /* 임시 주석
-
                                     if(stringNullChk("${userMap.prjCd}") == "") {
                     alert("프로젝트 등록을 먼저 해주시기 바랍니다.");
                 }
@@ -466,7 +475,18 @@
                 // }
 
                 isFirst = gvTssSt == "";
-                isEditable = gvTssSt != "100" || isFirst;	//진행중 혹은 초기 입력인경우
+
+                isEditable =
+                    isFirst ||
+					(pgsStepCd=="PL" && (gvTssSt=="100")) ||
+                    (pgsStepCd=="AL" && gvTssSt=="100") ||
+					(
+					    (dataSet.getNameValue(0, "isEditable")=="1") &&
+						(
+						    (pgsStepCd=="PL" ) ||							 // GRS  평가완료한 경우(품의완료까지 수정가능)
+                        	(pgsStepCd=="PG" && gvTssSt=="100") // GRS(P1)을 수행하지 않은 경우(진행중까지)
+						)
+					)
 
                 console.log(gvTssSt);
                 console.log(">>>>>>>>>>>>>>>>>>>>>");
@@ -478,11 +498,16 @@
                 setValidation();		// Validation Rule 생성
                 if(isFirst){
                     $("#tssNm > input").focus();
-                    $("#grsYnTd01").show();
-                    $("#grsYnTd02").show();
+                    $("#grsYnTd0101").show();
+                    $("#grsYnTd0102").show();
+                    $("#grsYnTd0201").hide();
+                    $("#grsYnTd0202").hide();
                 }else{
-                    $("#grsYnTd01").css("display","none");
-                    $("#grsYnTd02").css("display","none");
+                    $("#grsYnTd0101").hide();
+                    $("#grsYnTd0102").hide();
+                    $("#grsYnTd0201").show();
+                    $("#grsYnTd0202").show();
+                    
                     // $("#grsYnTd02").hide();
                 }
                 if(!isEditable)setViewform();		//읽기용 뷰로 변경
@@ -533,12 +558,14 @@
 
             // Tab 생성
             function setTab() {
+                if($("#tabView").children().length>0)return; //재생성 방지
+
                 IfrmUrls = [
                     "<%=request.getContextPath()+TctmUrl.doTabCmpl%>?tssCd=" + cmTssCd + "&pgsStepCd=" + pgsStepCd,
                     "<%=request.getContextPath()+TctmUrl.doTabDcac%>?tssCd=" + dcTssCd + "&pgsStepCd=" + pgsStepCd,
                     "<%=request.getContextPath()+TctmUrl.doTabAltr%>?tssCd=" + alTssCd + "&pgsStepCd=" + pgsStepCd,
                     "<%=request.getContextPath()+TctmUrl.doTabSum%>?tssCd=" + gvTssCd + "&pgsStepCd=" + pgsStepCd,
-                    "<%=request.getContextPath()+TctmUrl.doTabGoal%>?tssCd=" + pgTssCd + "&pgsStepCd=" + pgsStepCd,
+                    "<%=request.getContextPath()+TctmUrl.doTabGoal%>?tssCd=" + gvTssCd + "&pgsStepCd=" + pgsStepCd,
                     "<%=request.getContextPath()+TctmUrl.doTabAltrHis%>?pkWbsCd=" + dataSet.getNameValue(0, "pkWbsCd")
                 ]
 
@@ -634,6 +661,8 @@
                 btnAltrRq.hide();
                 btnGrsRq.hide();
                 btnStepPg.show();
+                btnGrsRq.hide();
+
                 $(".L-nav").children().eq(2).css("display","block");
                 $(".L-nav").children().eq(5).css("display","block");
                 var fIdx = 2;
@@ -674,7 +703,7 @@
 
                 setReadonly("tssStrtDd");
                 $("#tssStrtDd").css("cssText", "border-width:0px; width: 80px !important;");
-                $("#tssStrtDd").next().css("margin-left","0px");
+                $("#tssStrtDd").next().css("cssText","padding-right:5px;margin:0px !important");
                 setReadonly("tssFnhDd");
 
                 setReadonly("tssSmryTxt");
@@ -775,21 +804,25 @@
             //변경요청
             btnAltrRq = new Rui.ui.LButton('btnAltrRq');
             btnAltrRq.on('click', function() {
-                Rui.confirm({
-                    text: "본 변경요청은 단순 데이터 변경으로, 팀 내부승인 진행 건에 한해 진행됩니다. <br/><br/> "
-                    + "하기 변경이 발생하는 경우에는 반드시 <span style = 'color : red'>GRS심의(GRS요청버튼)를 완료</span>하신 후 변경요청을 해야 합니다. <br/>"
-                    + "Case 1. '과제 총 기간'이 변경되는 경우 (ex. 2017.12.31 -> 2018.12.31) <br/>"
-                    + "Case 2. '참여연구원'의 총 M/M가 증가하는 경우 (ex. 4 M/M -> 5 M/M) <br/>"
-                    + "Case 3. '목표' 항목이 추가/삭제 되는 경우 <br/><br/>"
-                    + "단순과제변경을 진행하겠습니까? ",
+                if(confirm("변경요청을 하시겠습니까?")) {
+                    reqAltr();
+                }
+/*                Rui.confirm({
+                    text: "과제변경을 진행하겠습니까? ",
+                    // "본 변경요청은 단순 데이터 변경으로, 팀 내부승인 진행 건에 한해 진행됩니다. <br/><br/> "
+                    // + "하기 변경이 발생하는 경우에는 반드시 <span style = 'color : red'>GRS심의(GRS요청버튼)를 완료</span>하신 후 변경요청을 해야 합니다. <br/>"
+                    // + "Case 1. '과제 총 기간'이 변경되는 경우 (ex. 2017.12.31 -> 2018.12.31) <br/>"
+                    // + "Case 2. '참여연구원'의 총 M/M가 증가하는 경우 (ex. 4 M/M -> 5 M/M) <br/>"
+                    // + "Case 3. '목표' 항목이 추가/삭제 되는 경우 <br/><br/>"
+                    // + "단순과제변경을 진행하겠습니까? ",
                     width : 630 ,
                     height : 270 ,
                     handlerYes: function() {
-                        /*nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId);*/
+                        /!*nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId);*!/
                         reqAltr();
                     },
                     handlerNo: Rui.emptyFn
-                });
+                });*/
             });
 
 
@@ -884,11 +917,9 @@
                     smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
 
                     dm.updateDataSet({
-                        // modifiedOnly: false,
+                        modifiedOnly: false,
                         url: '<%=request.getContextPath()+TctmUrl.doUpdateInfo%>',
                         dataSets: [dataSet, smryDs],
-                        params: {
-                        }
                     });
                     dm.on('success', function (e) {
                         location.href = "<%=request.getContextPath()+TctmUrl.doList%>";
@@ -1206,6 +1237,15 @@
 						</colgroup>
 						<tbody>
 						<tr>
+							<th align="right">개발부서</th>
+							<td><input type="text" id="prjNm"/></td>
+							<th align="right">사업부</th>
+							<td>
+								<input type="text" id="deptName" />
+							</td>
+						</tr>
+
+						<tr>
 							<th align="right">WBS Code / 과제명</th>
 							<td class="tssLableCss" colspan="3">
 								<span id='seed'/>
@@ -1214,26 +1254,18 @@
 							</td>
 						</tr>
 						<tr>
-							<th align="right">개발부서</th>
-							<td><input type="text" id="prjNm"/></td>
+							<th align="right">과제담당자</th>
+							<td><input type="text" id="saSabunName"/></td>
 							<th align="right">사업부문(Funding기준)</th>
 							<td>
 								<div id="bizDptCd"/>
 							</td>
 						</tr>
 						<tr>
-							<th align="right">사업부</th>
-							<td>
-								<input type="text" id="deptName" />
-							</td>
 							<th align="right">제품군</th>
 							<td class="tssLableCss">
 								<div id="prodG" />
 							</td>
-						</tr>
-						<tr>
-							<th align="right">과제담당자</th>
-							<td><input type="text" id="saSabunName"/></td>
 							<th align="right">과제기간</th>
 							<td class="tssLableCss">
 								<input type="text" id="tssStrtDd"/><em class="gab"> ~ </em>
@@ -1243,40 +1275,40 @@
 						<tr>
 							<th align="right">고객특성</th>
 							<td><div id="custSqlt"/> </td>
-							<th align="right">Concept</th>
-							<td><input type="text" id="tssSmryTxt"></td>
-						</tr>
-						<tr>
+							<th align="right" style="display: none">Concept</th>
+							<td style="display: none"><input type="text" id="tssSmryTxt"></td>
 							<th align="right">발의주체</th>
 							<td class="tssLableCss">
 								<div id="ppslMbdCd"/>
 							</td>
+
+						</tr>
+						<tr>
 							<th align="right">연구분야</th>
 							<td>
 								<div id="rsstSphe"/>
 							</td>
-						</tr>
-						<tr>
 							<th align="right">과제속성</th>
 							<td class="tssLableCss">
 								<div id="tssAttrCd"/>
 							</td>
+						</tr>
+						<tr>
 							<th align="right">신제품 유형</th>
 							<td>
 								<div id="tssType"/>
 							</td>
+							<th align="right">Q-gate 단계</th>
+							<td><span id="qgateStepNm"/> </td>
 						</tr>
 						<tr>
 							<th align="right">진행단계</th>
 							<td><span id="tssStepNm"/></td>
-							<th align="right">GRS 상태</th>
-							<td><span id="grsStepNm"/> </td>
-						</tr>
-						<tr>
-							<th align="right">Q-gate 단계</th>
-							<td><span id="qgateStepNm"/> </td>
-							<th align="right" id="grsYnTd01">GRS(P1) 사용여부</th>
-							<td id="grsYnTd02"><div id="grsYn"/></td>
+
+							<th align="right" id="grsYnTd0101" style="display: none">GRS(P1) 사용여부</th>
+                            <td id="grsYnTd0102" style="display: none"><div id="grsYn"/></td>
+                            <th align="right" id="grsYnTd0201"">GRS 상태</th>
+                            <td id="grsYnTd0202"><span id="grsStepNm"/> </td>
 						</tr>
 						<tr id="cmDdRow" style="display: none">
 							<th align="right">실적(개발완료시점)</th>

@@ -67,21 +67,21 @@
         //WBS Code
         wbsCd = new Rui.ui.form.LTextBox({
             applyTo: 'wbsCd',
-            defaultValue: '<c:out value="${inputData.wbsCd}"/>',
+            <%--defaultValue: '<c:out value="${inputData.wbsCd}"/>',--%>
             width: 200
         });
 
         //과제명
         tssNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssNm',
-            defaultValue: '<c:out value="${inputData.tssNm}"/>',
+            <%--defaultValue: '<c:out value="${inputData.tssNm}"/>',--%>
             width: 200
         });
 
         //과제리더
         saUserName = new Rui.ui.form.LTextBox({
             applyTo: 'saUserName',
-            defaultValue: '<c:out value="${inputData.saUserName}"/>',
+            <%--defaultValue: '<c:out value="${inputData.saUserName}"/>',--%>
             width: 200
         });
 
@@ -108,7 +108,7 @@
         //조직
         deptName = new Rui.ui.form.LTextBox({
             applyTo: 'deptName',
-            defaultValue: '<c:out value="${inputData.deptName}"/>',
+            <%--defaultValue: '<c:out value="${inputData.deptName}"/>',--%>
             width: 200
         });
 		/*
@@ -125,7 +125,7 @@
         //과제기간 시작일
         tssStrtDd = new Rui.ui.form.LMonthBox({
             applyTo: 'tssStrtDd',
-            defaultValue: '<c:out value="${inputData.tssStrtDd}"/>',
+            <%--defaultValue: '<c:out value="${inputData.tssStrtDd}"/>',--%>
             width: 100,
             dateType: 'string'
         });
@@ -143,7 +143,7 @@
         //과제기간 종료일
         tssFnhDd = new Rui.ui.form.LMonthBox({
             applyTo: 'tssFnhDd',
-            defaultValue: '<c:out value="${inputData.tssFnhDd}"/>',
+            <%--defaultValue: '<c:out value="${inputData.tssFnhDd}"/>',--%>
             width: 100,
             dateType: 'string'
         });
@@ -164,7 +164,7 @@
             emptyValue: '',
             useEmptyText: true,
             width: 150,
-            defaultValue: '<c:out value="${inputData.tssSt}"/>',
+            <%--defaultValue: '<c:out value="${inputData.tssSt}"/>',--%>
             emptyText: '전체',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=TSS_ST"/>',
             displayField: 'COM_DTL_NM',
@@ -184,7 +184,7 @@
         //프로젝트명
         prjNm = new Rui.ui.form.LTextBox({
             applyTo: 'prjNm',
-            defaultValue: '<c:out value="${inputData.prjNm}"/>',
+            <%--defaultValue: '<c:out value="${inputData.prjNm}"/>',--%>
             width: 200
         });
 
@@ -194,7 +194,7 @@
             name: 'pgsStepCd',
             emptyValue: '',
             useEmptyText: true,
-            defaultValue: '<c:out value="${inputData.pgsStepCd}"/>',
+            <%--defaultValue: '<c:out value="${inputData.pgsStepCd}"/>',--%>
             emptyText: '전체',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PGS_STEP_CD"/>',
             displayField: 'COM_DTL_NM',
@@ -428,7 +428,7 @@
                   , tssStrtDd : tssStrtDd.getValue() //과제기간(시작일)
                   , tssFnhDd : tssFnhDd.getValue()   //과제기간(종료일)
                   , tssSt : tssSt.getValue()                        //상태
-//                  , tssSt : document.aform.tssSt.value                        //상태
+                 , tssSt : document.aform.tssSt.value                        //상태
                   , prjNm : encodeURIComponent(document.aform.prjNm.value)    //프로젝트명
                   , saUserName : encodeURIComponent(document.aform.saUserName.value)    //과제리더명
                   , pgsStepCd : document.aform.pgsStepCd.value                //상태

@@ -184,7 +184,7 @@
                 columnModel: columnModel,
                 dataSet: dataSet2,
                 width: 600,
-                height: 308,
+                height: 200,
                 autoToEdit: true,
                 clickToEdit: true,
                 enterToEdit: true,

@@ -97,6 +97,7 @@
                  { id: 'pgsStepCd'},
                  { id: 'grsEvStNm'},
                  { id: 'tssSt'},
+                 { id: 'tssStNm'},
                  { id: 'isReq'},
                  { id: 'tssCd'},
                  { id: 'tssCdSn'},
@@ -122,9 +123,7 @@
                      { field: 'tssDd',   label: '과제기간',  align:'center',  width: 100 },
                      { field: 'dlbrParrDt',   label: '심의예정일',  align:'center',  width: 60 },
                      { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 65 },
-                     { field: 'isReq',   label: 'GRS상태',  align:'center',  width: 65, renderer: function(val, p, record, row, i){
-                             return getGrsSt(val);
-                     } },
+                     { field: 'tssStNm',   label: 'GRS상태',  align:'center',  width: 65},
                      { field: 'isReq',        label: '관리',       align:'center',      width: 90  , renderer: function(val, p, record, row, i){
                          console.log(record.data.isFirstGrs);
                          return ((val==1)?"<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>":"")
@@ -337,11 +336,12 @@
               url: '<c:url value="/prj/grs/selectListGrsMngInfo.do"/>',
                 params: {
 //                     tssNm: escape(encodeURIComponent(document.aform.tssNmSch.value)) //과제명
-                     stssScnCd : stssScnCd.getValue()
-                    ,stssCd  : stssCd.getValue()
-                    ,stssNm : stssNm.getValue()
-                    ,sprjNm    : sprjNm.getValue()
-                    ,dlbrCrgrNm    : dlbrCrgrNm.getValue()
+                    tssScnCd : stssScnCd.getValue()
+                    ,wbsCd  : swbsCd.getValue()
+                    ,tssNm : encodeURIComponent(stssNm.getValue())
+                    ,prjNm    : encodeURIComponent(sprjNm.getValue())
+                    ,dlbrCrgrNm    : encodeURIComponent(dlbrCrgrNm.getValue())
+                    ,tssSt    : sgrsSt.getValue()
                 }
             });
         }
@@ -503,7 +503,7 @@
                                         param += "&smrGoalTxt=" + evInfoDataSet.getNameValue(0, "smrGoalTxt");
                                         param += "&nprodSalsPlnY=" + evInfoDataSet.getNameValue(0, "nprodSalsPlnY");
                                         param += "&ctyOtPlnM=" + evInfoDataSet.getNameValue(0, "ctyOtPlnM");
-                                        
+
                                         console.log(">>>>>>>>>>>",param);
 
                                         dm.updateDataSet({
@@ -825,7 +825,7 @@
 							<th align="right">과제구분</th>
 							<td><div id="stssScnCd" /></td>
 							<th align="right">과제코드</th>
-							<td><div id="stssCd" /></td>
+							<td><div id="swbsCd" /></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -839,8 +839,7 @@
 							<th align="right">과제담당자</th>
 							<td><div id="dlbrCrgrNm" /></td>
 							<th align="right">GRS상태</th>
-							<td></td>
-							<td></td>
+							<td><div id="sgrsSt"/> </td>
 						</tr>
 					</tbody>
 				</table>
@@ -887,52 +886,55 @@
 									<td><div id="grsYn" /></td>
 								</tr>
 								<tr>
-									<th align="right">과제명</th>
-									<td colspan="3"><input id="tssNm" type="text" style="width: 100%" /></td>
-								</tr>
-								<tr>
 									<th align="right">프로젝트명<br />(개발부서)
 									</th>
 									<td colspan="3"><input type="text" id="prjNm" /></td>
 								</tr>
 								<tr>
-									<th align="right">사업부</th>
-									<td><div id="bizDptCd" /></td>
-									<th align="right">제품군</th>
-									<td><div id="prodG" /></td>
+									<th align="right">과제명</th>
+									<td colspan="3"><input id="tssNm" type="text" style="width: 100%" /></td>
 								</tr>
 								<tr>
 									<th align="right">과제담당자</th>
 									<td><input type="text" id="saSabunNm" /></td>
+									<th align="right">사업부</th>
+									<td><div id="bizDptCd" /></td>
+								</tr>
+								<tr>
+									<th align="right">제품군</th>
+									<td><div id="prodG" /></td>
 									<th align="right">과제기간</th>
 									<td><input type="text" id="tssStrtDd"> <em class="gab"> ~ </em> <input type="text" id="tssFnhDd"></td>
 								</tr>
 								<tr>
 									<th align="right">고객특성</th>
 									<td><div id="custSqlt" /></td>
-									<th align="right">Concept</th>
-									<td><input id="tssSmryTxt" type="text" style="width: 100%" /></td>
-								</tr>
-								<tr>
 									<th align="right">과제속성</th>
 									<td><div id="tssAttrCd" /></td>
+
+									<th align="right" style="display: none">Concept</th>
+									<td style="display: none"><input id="tssSmryTxt" type="text" style="width: 100%" /></td>
+								</tr>
+								<tr>
 									<th align="right">신제품 유형</th>
 									<td><div id="tssType" /></td>
 								</tr>
-								<tr>
+
+								<tr style="display: none">
 									<th align="right">Summary 개요</th>
 									<td colspan="3" class="grsmng_tain"><textarea id="smrSmryTxt" name="smrSmryTxt" style="width: 100%; height: 100px"></textarea></td>
 								</tr>
-								<tr>
+								<tr style="display: none">
 									<th align="right">Summary 목표</th>
 									<td colspan="3" class="grsmng_tain"><textarea id="smrGoalTxt" name="smrGoalTxt" style="width: 100%; height: 100px"></textarea></td>
 								</tr>
-								<tr>
+								<tr style="display: none">
 									<th align="right">매출계획</th>
-									<td><input id="nprodSalsPlnY" type="text" /></td>
+									<td><input id="nprodSalsPlnY" type="text"/></td>
 									<th align="right">출시계획</th>
 									<td><input type="text" id="ctyOtPlnM" /></td>
 								</tr>
+
 							</tbody>
 						</table>
 					</form>
@@ -1050,10 +1052,14 @@
 <script>
 	/* 검색 */
 	nCombo('stssScnCd', 'TSS_SCN_CD') // 과제구분
-	nTextBox('stssCd', 300, '과제코드를 입력해주세요'); // 과제코드
+	nCombo('sgrsSt', 'GRS_ST') // 과제구분
+	nTextBox('swbsCd', 300, '과제코드를 입력해주세요'); // 과제코드
 	nTextBox('stssNm', 300, '과제명을 입력해주세요'); // 과제명
 	nTextBox('sprjNm', 300, '프로젝트명을 입력해주세요'); // 프로젝트명
 	nTextBox('dlbrCrgrNm', 300, '과제담당자명을 입력해주세요'); // 과제명
+
+
+
 
 	/* 등록 */
 	nCombo('tssScnCd', 'TSS_SCN_CD') // 과제구분
@@ -1162,6 +1168,7 @@
         $("#prjCd").val("PRJ00025");
         $("#deptCode").val("58117903");
 
+
         bizDptCd.setSelectedIndex(2);
         prodG.setSelectedIndex(2);
 
@@ -1173,10 +1180,10 @@
         tssSmryTxt.setValue("컨셉내용");
         tssAttrCd.setSelectedIndex(1);
         tssType.setSelectedIndex(1);
-        smrSmryTxt.setValue("서머리 개요");
-        smrGoalTxt.setValue("서머리 목표");
-        nprodSalsPlnY.setValue(100);
-        ctyOtPlnM.setValue("2018-09");
+        // smrSmryTxt.setValue("서머리 개요");
+        // smrGoalTxt.setValue("서머리 목표");
+        // nprodSalsPlnY.setValue(100);
+        // ctyOtPlnM.setValue("2018-09");
     }
 
 

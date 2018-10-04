@@ -126,6 +126,11 @@ public class TctmTssServiceImpl implements TctmTssService {
 	}
 
 	@Override
+	public void updateYldFile(HashMap<String, Object> input) {
+		commonDao.update(tctmPack + ".updateYldFile", input);
+	}
+
+	@Override
 	public void deleteTctmTssGoalInfo(HashMap<String, String> input) {
 		commonDao.delete(tctmPack + ".deleteGoalInfo", input);
 	}

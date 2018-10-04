@@ -28,6 +28,7 @@ public interface TctmTssService {
 //    public void updateTctmTssGoalInfo(HashMap<String, Object> input);
 	public void deleteTctmTssGoalInfo(HashMap<String, String> input);
 	public void updateTctmTssYld(HashMap<String, Object> input);
+	public void updateYldFile(HashMap<String, Object> input);
 
 
     /*변경*/

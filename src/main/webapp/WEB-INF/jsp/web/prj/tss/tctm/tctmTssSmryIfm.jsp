@@ -36,7 +36,7 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode; // text
     var lvTssStrtDd = window.parent.tssStrtDd.getValue();
-    var isEditable = (lvTssSt == "100" || lvTssSt == "") && (lvPageMode == "W" || lvPageMode == "");
+    var isEditable = window.parent.isEditable;
 
     var dataSet;
     var lvAttcFilId;
@@ -57,7 +57,7 @@
          */
         smrSmryTxt = new Rui.ui.form.LTextArea({
             applyTo: 'smrSmryTxt',
-            height: 200,
+            height: 150,
             width: 940
         });
 
@@ -67,7 +67,7 @@
      */
     smrGoalTxt = new Rui.ui.form.LTextArea({
             applyTo: 'smrGoalTxt',
-            height: 200,
+            height: 150,
             width: 940
         });
 
@@ -107,10 +107,15 @@
 
             if(lvTssSt == "") btnReport.hide();
 
-            if(isEditable) return;
+            if(isEditable) {
+                document.getElementById('attchFileMngBtn').style.display = "block";
+                btnSave.show();
+            }else{
+                setViewform();
+                document.getElementById('attchFileMngBtn').style.display = "none";
+                btnSave.hide();
+            }
 
-            document.getElementById('attchFileMngBtn').style.display = "none";
-            btnSave.hide();
         };
 
 
@@ -331,7 +336,6 @@
 <script type="text/javascript">
 $(window).load(function() {
     initFrameSetHeight("smryFormDiv");
-    if(!isEditable)setViewform();
 });
 </script>
 </head>

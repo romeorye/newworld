@@ -11,7 +11,6 @@ import iris.web.prj.tss.com.service.TssUserService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.system.base.IrisBaseController;
-import iris.web.tssbatch.service.TssStCopyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -95,7 +94,7 @@ public class GrsMngController extends IrisBaseController {
 
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
-        input = StringUtil.toUtf8(input);
+		input = StringUtil.toUtf8(input);
 
         Map<String, Object> role = tssUserService.getTssListRoleChk(input);
         input.put("tssRoleType", role.get("tssRoleType"));
@@ -175,12 +174,12 @@ public class GrsMngController extends IrisBaseController {
 				input.put("userId", input.get("_userId"));
 				String grsYn = (String) input.get("grsYn");
 
-				// GRS(P1)을 수행하는 경우 계획 하지 않는 경우 진행단계
+				// GRS(P1)을 수행하는 경우 계획 GRS요청  하지 않는 경우 계획 진행중, PG 도 함께 생성
 				if (grsYn.equals("Y")) {
 					input.put("pgsStepCd", "PL");                                // 과제 진행 단계 코드
 					input.put("tssSt","101");
 				}else if (grsYn.equals("N")) {
-					input.put("pgsStepCd","PG");
+					input.put("pgsStepCd","PL");
 					input.put("tssSt","100");
 				}
 
@@ -194,7 +193,22 @@ public class GrsMngController extends IrisBaseController {
 					grsMngService.updateGrsReqInfo(input);                                            //GRS 정보 등록
 				}else if (grsYn.equals("N")) {
 					LOGGER.debug("=============== GRS 미수행시 마스터 이관 ===============");
-					grsMngService.moveDefGrsDefInfo(input);	// 과제정보 마스터 이관
+					String tssCd = (String) input.get("tssCd");
+
+					LOGGER.debug("=============== 과제정보 마스터 이관(PL) ===============");
+					input.put("fromTssCd", tssCd); //GRS 기본정보 TSS_CD
+					grsMngService.moveDefGrsDefInfo(input);
+
+					LOGGER.debug("=============== 과제정보 마스터 이관(PG) ===============");
+					input.put("tssCd", tssCd.substring( 0,9) + (java.lang.Integer.parseInt(tssCd.substring( 9,10))+1));
+					input.put("pgsStepCd","PG");
+					input.put("tssSt","100");
+					grsMngService.moveDefGrsDefInfo(input);
+
+
+					LOGGER.debug("=============== GRG 과제 기본정보 삭제 ===============");
+					input.put("tssCd", tssCd);
+					grsMngService.deleteDefGrsDefInfo(input);
 
 					//Qgate I/F
 					//리더에게 에게 메일 발송

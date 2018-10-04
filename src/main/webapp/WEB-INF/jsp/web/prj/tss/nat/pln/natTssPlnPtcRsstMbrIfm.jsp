@@ -348,7 +348,10 @@
             console.log("mbr searchData2");
         }
 
-        disableFields();
+        if(!window.parent.isEditable) {
+            //버튼 비활성화 셋팅
+            disableFields();
+        }
         
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#butRecordNew").hide();

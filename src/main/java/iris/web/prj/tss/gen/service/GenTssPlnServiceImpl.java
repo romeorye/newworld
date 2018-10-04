@@ -118,7 +118,7 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
         smryDs.put("yldItmType", "01");
         smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
         
-        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
+        commonDao.update("prj.tss.com.updateTssYld", smryDs);
         
         String pmisDt = CommonUtil.getMonthSearch_1( CommonUtil.replace(mstDs.get("tssFnhDd").toString(), "-", ""));
 
@@ -126,14 +126,14 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
         smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
         smryDs.put("yldItmType", "05");
         smryDs.put("arslYymm",  CommonUtil.getFormattedDate(pmisDt, "-").substring(0, 7));
-        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
+        commonDao.update("prj.tss.com.updateTssYld", smryDs);
         
         
         //중단 완료 보고서
         smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
         smryDs.put("yldItmType", "03");
         smryDs.put("arslYymm",       mstDs.get("tssFnhDd").toString().substring(0,7));
-        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
+        commonDao.update("prj.tss.com.updateTssYld", smryDs);
         
         return 1;
     }

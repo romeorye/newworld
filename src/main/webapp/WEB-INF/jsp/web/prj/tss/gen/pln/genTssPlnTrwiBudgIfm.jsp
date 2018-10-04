@@ -315,7 +315,10 @@
         
         fn_search(); //조회
 
-        disableFields(); //버튼 비활성화 셋팅
+        if(!window.parent.isEditable) {
+            //버튼 비활성화 셋팅
+            disableFields();
+        }
     });
 </script>
 <script>

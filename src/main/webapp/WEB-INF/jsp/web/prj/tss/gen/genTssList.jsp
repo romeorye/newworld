@@ -546,13 +546,6 @@
 		            columnModel: excelColumnModel
 		        });
 
-
-
-
-
-
-
-
             } else {
                 Rui.alert("조회 후 엑셀 다운로드 해주세요.");
             }
@@ -567,6 +560,8 @@
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#butTssNew").hide();
 		}
+
+        butTssNew.hide();
     });
 </script>
 <script>

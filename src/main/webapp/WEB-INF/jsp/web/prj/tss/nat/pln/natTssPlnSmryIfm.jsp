@@ -544,8 +544,6 @@
             dataSet.newRecord();
         }
         
-        disableFields();
-        
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#btnSave").hide();
         	document.getElementById('attchFileMngBtn').style.display = "none";
@@ -553,6 +551,15 @@
         	$("#btnSave").hide();
         	document.getElementById('attchFileMngBtn').style.display = "none";
 		}
+
+
+        if(window.parent.isEditable){
+            btnSave.show();
+            $("#btnSave").show();
+        }else{
+            disableFields();
+        }
+
     });
     
     

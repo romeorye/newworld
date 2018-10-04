@@ -18,5 +18,7 @@ public interface GrsMngService {
 	void updateDefTssSt(HashMap<String,Object> input);
 
 	void moveDefGrsDefInfo(HashMap<String,Object> input);
+	void deleteDefGrsDefInfo(HashMap<String,Object> input);
+
 	String isBeforGrs(HashMap<String,Object> input);
 }

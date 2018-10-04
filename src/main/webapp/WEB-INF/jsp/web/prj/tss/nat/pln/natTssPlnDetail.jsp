@@ -47,6 +47,8 @@
     var pgsStepNm = "";
     var dataSet;
 
+    var isEditable = false;
+
     Rui.onReady(function() {
         var form = new Rui.ui.form.LForm('mstForm');
         /*============================================================================
@@ -205,6 +207,16 @@
                 exrsInstNm.enable();
                 bizNm.enable();
             }
+
+
+
+            if(pgsStepCd=="PL"){
+                btnDelRq.hide();
+                btnGrsRq.hide();
+                btnCsusRq.hide();
+                btnPgsRq.hide();
+            }
+
         }
 
 
@@ -238,6 +250,7 @@
                 , { id: 'userId' }     //로그인ID
                 , { id: 'tssRoleType' }
                 , { id: 'tssRoleId' }
+                , { id: 'isEditable' }
             ]
         });
         dataSet.on('load', function(e) {
@@ -246,6 +259,7 @@
             gvTssNosSt  = stringNullChk(dataSet.getNameValue(0, "tssNosSt"));
             gvTssSt     = stringNullChk(dataSet.getNameValue(0, "tssSt"));
             gvPageMode  = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
+            pgsStepCd = stringNullChk(dataSet.getNameValue(0, "pgsStepCd"));
 
             //최초 로그인사용자 정보 셋팅
             if(gvTssCd == "") {
@@ -268,6 +282,12 @@
             }
 
             disableFields();
+
+            isEditable =
+                (pgsStepCd=="PL" && (gvTssSt=="100")) ||
+                (pgsStepCd=="AL" && gvTssSt=="100") ||
+                (dataSet.getNameValue(0, "isEditable")=="1" && pgsStepCd=="PL"); // GRS  평가완료한 경우(품의완료까지 수정가능)
+
 
             tabView.selectTab(0);
 	        nwinsActSubmit(document.tabForm, "<c:url value='/prj/tss/nat/natTssPlnSmryIfm.do?tssCd=" + gvTssCd + "'/>", 'tabContent0');

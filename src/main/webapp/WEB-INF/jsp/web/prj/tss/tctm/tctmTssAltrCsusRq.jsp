@@ -184,7 +184,6 @@
             <form name="aform" id="aform" method="post">
                 <div id="csusContents">
                     <div class="titArea"><h3>과제명 : ${resultMst.tssNm}</h3></div>
-                    <br/>
                     <div class="titArea"><h3>과제번호 : ${resultMst.wbsCd}</h3></div>
                     <br/>
                         <table class="table">
@@ -215,10 +214,10 @@
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th>변경사유</th>
+                                    <th style="text-align: left">변경사유</th>
                                 </tr>
                                 <tr>
-                                    <td><c:out value="${fn:replace(resultSmry.altrRsonTxt, cn, br)}" escapeXml="false"/></td>
+                                    <td style="height: 150px;"><c:out value="${fn:replace(resultSmry.altrRsonTxt, cn, br)}" escapeXml="false"/></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -229,10 +228,10 @@
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th>추가사유</th>
+                                    <th style="text-align: left">추가사유</th>
                                 </tr>
                                 <tr>
-                                    <td><c:out value="${fn:replace(resultSmry.addRsonTxt, cn, br)}" escapeXml="false"/></td>
+                                    <td style="height: 150px;"><c:out value="${fn:replace(resultSmry.addRsonTxt, cn, br)}" escapeXml="false"/></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -242,6 +241,9 @@
                                 <col style="width:100%"/>
                             </colgroup>
                             <tbody>
+                            <tr>
+                                <th style="text-align: left">첨부파일</th>
+                            </tr>
                                 <tr><td>
                                     <c:forEach var="resultAttc" items="${resultAttc}">
                                         <a href="http://<spring:eval expression='@jspProperties[defaultUrl]'/>:<spring:eval expression='@jspProperties[serverPort]'/>/<spring:eval expression='@jspProperties[contextPath]'/>/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=${resultAttc.attcFilId}&seq=${resultAttc.seq}">${resultAttc.filNm} (${resultAttc.filSize}byte)</a><br/>

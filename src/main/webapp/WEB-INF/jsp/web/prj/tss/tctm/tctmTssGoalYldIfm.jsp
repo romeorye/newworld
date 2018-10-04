@@ -34,7 +34,7 @@
     var pgTssCd = window.parent.pgTssCd;
 
 
-    var isEditable = (lvTssSt == "100");
+    var isEditable = window.parent.isEditable;
     var isAttach = (pgsStepCd != "PL");
 
     var dataSet1;
@@ -211,7 +211,7 @@
         // });
 
 
-        if(isAttach){
+        if(isEditable){
             var columnModel2 = new Rui.ui.grid.LColumnModel({
                 autoWidth: true,
                 columns: [

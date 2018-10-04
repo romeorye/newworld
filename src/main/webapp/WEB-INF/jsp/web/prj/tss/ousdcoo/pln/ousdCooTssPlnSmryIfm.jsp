@@ -361,8 +361,12 @@
         }
         
         //버튼 비활성화 셋팅
-        disableFields();
-        
+        if(window.parent.isEditable){
+            btnSave.show();
+            $("#btnSave").show();
+        }else{
+            disableFields();
+        }
     });
     
     // 내부 스크롤 제거

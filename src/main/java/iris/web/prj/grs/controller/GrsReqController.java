@@ -1,17 +1,14 @@
 package iris.web.prj.grs.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import devonframe.message.saymessage.SayMessage;
+import devonframe.util.NullUtil;
+import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.StringUtil;
 import iris.web.prj.grs.service.GrsMngService;
+import iris.web.prj.grs.service.GrsReqService;
+import iris.web.prj.tss.com.service.TssUserService;
+import iris.web.prj.tss.gen.service.GenTssPlnService;
+import iris.web.system.base.IrisBaseController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -23,14 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import devonframe.message.saymessage.SayMessage;
-import devonframe.util.NullUtil;
-import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.StringUtil;
-import iris.web.prj.grs.service.GrsReqService;
-import iris.web.prj.tss.com.service.TssUserService;
-import iris.web.prj.tss.gen.service.GenTssPlnService;
-import iris.web.system.base.IrisBaseController;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /********************************************************************************
  * NAME : GrsReqController.java
@@ -525,7 +523,10 @@ public class GrsReqController  extends IrisBaseController {
             if(grsMngService.isBeforGrs(input).equals("1")){
                 LOGGER.debug("===GRS 관리에서 기본정보를 입력한경우===");
                 LOGGER.debug("===과제 관리 마스터로 데이터 복제 (과제정보, 개요)===");
+                input.put("fromTssCd", input.get("tssCd"));
+                input.put("pgsStepCd", "PL");
                 grsMngService.moveDefGrsDefInfo(input);
+                grsMngService.deleteDefGrsDefInfo(input);
             }
 
 			LOGGER.debug("===해당과제 리더에게 완료 메일 발송===");
