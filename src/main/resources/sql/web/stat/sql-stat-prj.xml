@@ -76,6 +76,8 @@
 							  WHEN a.PGS_STEP_CD = 'CM' THEN DATEDIFF(MM, a.TSS_STRT_DD, a.CMPL_B_FNH_DD)+1 END AS wnedTrmArsl  --소요기간-실적
 						,isnull(left(b.CTY_OT_PLN_M, 4), left(c.CTY_OT_PLN_M, 4))  AS ctyOtPlnY    --상품출시년도
 						,isnull(right(b.CTY_OT_PLN_M, 2), right(c.CTY_OT_PLN_M, 2)) AS ctyOtPlnM    --상품출시월
+						,isnull(left(d.LNCH_YM, 4), left(d.LNCH_YM, 4))  AS ctyOtY    --상품출시년도실적
+						,isnull(right(d.LNCH_YM, 2), right(d.LNCH_YM, 2)) AS ctyOtM    --상품출시월실적
 						,dbo.fn_getComDtlNm('TSS_ST',a.TSS_ST)                                    AS tssStNm      --상태명
 						,dbo.fn_getComDtlNm('PGS_STEP_CD', a.PGS_STEP_CD)                          AS pgsStepNm   --진행상태명
 						,b.ANCP_OT_PLN_DT                                                         AS ancpOtPlnDt  --예상출시계획일
@@ -88,6 +90,12 @@
 						,isnull(b.NPROD_SALS_PLN_Y_4, c.NPROD_SALS_PLN_Y_4 ) AS nprodSalsPlnY4   --매출계획Y4
 						,isnull((b.NPROD_SALS_PLN_Y + b.NPROD_SALS_PLN_Y_1 + b.NPROD_SALS_PLN_Y_2 + b.NPROD_SALS_PLN_Y_3 + b.NPROD_SALS_PLN_Y_4)
 							   , (c.NPROD_SALS_PLN_Y + c.NPROD_SALS_PLN_Y_1 + c.NPROD_SALS_PLN_Y_2 + c.NPROD_SALS_PLN_Y_3 + c.NPROD_SALS_PLN_Y_4) )  AS nprodSalsPlnSum --5년평균
+						,isnull(d.yy,0) as nprodSalsY
+						,isnull(d.yy1,0) as nprodSalsY1
+						,isnull(d.yy2,0) as nprodSalsY2
+						,isnull(d.yy3,0) as nprodSalsY3
+						,isnull(d.yy4,0) as nprodSalsY4
+						,isnull(d.AVG_YY,0) as nprodSalsSum
 						,ROUND((SELECT SUM(X.PLN_EXP) / 100 FROM IRIS_TSS_GEN_TRWI_BUDG_LIST X WHERE X.TSS_CD = c.TSS_CD AND left(X.YY_MM,4)  = left( #{condYy}, 4)), 1)  AS yYPlnExp        --비용Y년-계획
 						,ROUND((SELECT SUM(X.ARSL_EXP) / 100  FROM IRIS_TSS_GEN_TRWI_BUDG_LIST X WHERE X.TSS_CD = c.TSS_CD AND left(X.YY_MM,4) = left( #{condYy}, 4) ), 1) AS yYArslExp       --비용Y년-실적
 						,ROUND((SELECT SUM(X.ARSL_EXP) / 100 FROM IRIS_TSS_GEN_TRWI_BUDG_LIST X WHERE X.TSS_CD = c.TSS_CD), 1)  AS allArslExp --비용총합-실적
@@ -138,11 +146,31 @@
 							where yyyy = #{condYy}
 							)  AS mbrCntPln  --투입인원Y년-계획
 						,round(isnull((select round((sum(PTC_PRO) / 100) / (select case when count(distinct mm_yymm) = 0 then 1 else count(distinct mm_yymm) end  from IRIS_MM_CLS where tss_cd = a.pgTss_cd and cls_yn ='Y' and left(MM_YYMM, 4) = #{condYy} ) , 2) from IRIS_MM_CLS where tss_cd  = a.pgTss_cd and left(MM_YYMM, 4) = #{condYy} and cls_yn ='Y'), 0), 1) AS mbrCntArsl --투입인원Y년-실적
+						,#{condYy} as searchYy
 				from    TSS_LIST a
 						inner join IRIS_TSS_GEN_SMRY b
 						on b.tss_cd = a.tss_cd
 						left outer join IRIS_TSS_GEN_SMRY c
 						on c.tss_cd = a.pgTss_cd
+						left outer join (SELECT NP_CD
+											  ,PJT_NM
+											  ,LNCH_YM
+											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy} THEN SAL_SUM_AMT ELSE 0 END) AS YY
+											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+1 THEN SAL_SUM_AMT ELSE 0 END) AS YY1
+											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+2 THEN SAL_SUM_AMT ELSE 0 END) AS YY2
+											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+3 THEN SAL_SUM_AMT ELSE 0 END) AS YY3
+											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+4 THEN SAL_SUM_AMT ELSE 0 END) AS YY4
+											  ,(SUM(CASE WHEN LEFT(YM,4) = #{condYy} THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+1 THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+2 THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+3 THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+4 THEN SAL_SUM_AMT ELSE 0 END))
+											   /CONVERT(FLOAT,5) AS AVG_YY
+										  FROM IRIS_NEW_PRDT_SAL_STAT sub
+										 GROUP BY NP_CD
+											  ,PJT_NM
+											  ,LNCH_YM) d
+						on a.wbs_cd=d.np_cd
 				where   1=1
 				and     #{condYy} BETWEEN LEFT(a.TSS_STRT_DD, 4) AND LEFT(a.TSS_FNH_DD, 4)
 				) m
@@ -155,6 +183,24 @@
 		order by m.deptName, m.prjNm
     </select>
 
+    <select id="retrieveGenTssStatDtlPopList" resultType="hashmap">
+    <![CDATA[
+        --retrieveGenTssStatDtlPopList
+        select #{yy} as nm
+              ,'m1' as m1
+              ,'m2' as m2
+              ,'m3' as m3
+              ,'m4' as m4
+              ,'m5' as m5
+              ,'m6' as m6
+              ,'m7' as m7
+              ,'m8' as m8
+              ,'m9' as m9
+              ,'m10' as m10
+              ,'m11' as m11
+              ,'m12' as m12
+		]]>
+    </select>
 
     <!-- 통계 >  프로젝트 리스트  -->
     <select id="retrievePrjRsstStatList" resultType="hashmap">

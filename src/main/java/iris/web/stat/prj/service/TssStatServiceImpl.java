@@ -34,21 +34,21 @@ public class TssStatServiceImpl implements TssStatService {
 
     @Resource(name="commonDao")
     private CommonDao commonDao;
-    
+
     @Override
     public List<Map<String, Object>> retrieveGenTssStatList(HashMap<String, Object> input) {
     	List<Map<String, Object>> dclist = new ArrayList();
     	List<Map<String, Object>> list = commonDao.selectList("stat.prj.retrieveGenTssStatList", input);
-    	
+
     	if(list.size() > 0){
     		for(Map<String, Object> data : list) {
         		data.put("dcacRsonTxt" , CommonUtil.stripHTML(NullUtil.nvl(data.get("dcacRsonTxt"), "")));
         		dclist.add(data);
         	}
     	}
-    	
+
     	return dclist;
-    	
+
     }
 
     @Override
@@ -59,5 +59,10 @@ public class TssStatServiceImpl implements TssStatService {
     @Override
     public List<Map<String, Object>> retrieveNatTssStatList(HashMap<String, Object> input) {
         return commonDao.selectList("stat.prj.retrieveNatTssStatList", input);
+    }
+
+    @Override
+    public List<Map<String, Object>> retrieveGenTssStatDtlPopList(HashMap<String, Object> input) {
+        return commonDao.selectList("stat.prj.retrieveGenTssStatDtlPopList", input);
     }
 }
