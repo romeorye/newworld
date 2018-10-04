@@ -26,7 +26,7 @@ function addDashMonthToString(dashMonth, i){
 	var arrDashMonth = dashMonth.split('-');
 	var addMonthDate = new Date(arrDashMonth[0],arrDashMonth[1],'01');
 	addMonthDate.setMonth(addMonthDate.getMonth() + i);
-	
+
 	return addMonthDate.getFullYear() + '-' + pad(addMonthDate.getMonth()+1);
 }
 
@@ -134,6 +134,13 @@ function initFrameSetHeight(pId) {
 //    $(fId, window.parent.document).attr('height', pageHeight+'px');
     window.parent.document.getElementById(fId).height = pageHeight+'px';
 }
+
+$(function () {
+
+    $('.leftCon').on('click', function () {
+        parent.setMenuFrame();
+    });
+});
 
 
 function chgChar(str){
