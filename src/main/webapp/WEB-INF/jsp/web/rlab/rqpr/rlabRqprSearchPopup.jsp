@@ -145,7 +145,7 @@
                 columnModel : rlabRqprColumnModel,
                 dataSet : rlabRqprDataSet,
                 width : 700,
-                height : 300,
+                height : 280,
                 autoToEdit : false,
                 autoWidth : true
             });
@@ -188,9 +188,10 @@
 
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
-
-   				<table class="searchBox">
+   			<div class="sub-content" style="padding:0;">
+				<div class="search mb5">
+				<div class="search-content">
+   				<table>
    					<colgroup>
    						<col style="width:10%;"/>
    						<col style="width:45%;"/>
@@ -208,9 +209,7 @@
     						<td>
                                 <div id="rlabChrgId"></div>
     						</td>
-   							<td class="t_center" rowspan="2">
-   								<a style="cursor: pointer;" onclick="getRlabRqprList();" class="btnL">검색</a>
-   							</td>
+   							<td></td>
    						</tr>
    						<tr>
    							<th align="right">의뢰자</th>
@@ -222,9 +221,14 @@
    							<td>
                                 <div id="rlabAcpcStCd"></div>
    							</td>
+   							<td class="txt-right">
+   								<a style="cursor: pointer;" onclick="getRlabRqprList();" class="btnL">검색</a>
+   							</td>
    						</tr>
    					</tbody>
    				</table>
+   				</div>
+   				</div>
 
    				<div id="rlabRqprGrid"></div>
 

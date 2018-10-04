@@ -155,7 +155,7 @@ function fnSearch(){
 	<form name="fxaDtlPopupForm" id="fxaDtlPopupForm" method="post">
 		<input type="hidden" id="hFxaInfoId" name="hFxaInfoId" value="<c:out value='${inputData.fxaInfoId}'/>"/>
 
-		<table class="searchBox">
+		<table class="table">
 			<colgroup>
 				<col style="width:15%;"/>
 				<col style="width:35%;"/>

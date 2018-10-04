@@ -313,7 +313,7 @@ $(window).load(function() {
                     </td>
                 </tr>
                 <tr>
-                	<td>
+                	<td  colspan="2">
                 		<c:choose>
                         	<c:when test="${id eq 'MIG' }">
 								${resultData.fwdPlnTxt} 
@@ -326,7 +326,7 @@ $(window).load(function() {
                 </tr>
                 <tr>
                     <th align="right">향후 계획</th>
-                    <td>
+                    <td colspan="2">
                     	<c:choose>
                         	<c:when test="${id eq 'MIG' }">
 								${resultData.fnoPlnTxt} 

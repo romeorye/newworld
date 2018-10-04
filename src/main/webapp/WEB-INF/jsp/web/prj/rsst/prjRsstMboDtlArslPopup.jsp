@@ -482,26 +482,25 @@ function validation(vForm){
   				<table class="table table_txt_right">
   					<colgroup>
   						<col style="width:20%;"/>
-  						<col style="width:30%;"/>
-  						<col style="width:20%;"/>
   						<col style="width:*;"/>
+  						<col style="width:125px;"/>
   					</colgroup>
   					<tbody>
   						<tr>
   							<th align="right">실적년월</th>
-  							<td colspan="3" >
+  							<td colspan="2" >
   								<input type="text" id="arlsYearMon" value="">
   							</td>
   						</tr>
   						<tr>
   							<th align="right">실적현황</th>
-  							<td colspan="3" >
+  							<td colspan="2" >
   								<input type="text" id="arlsStts" value="">
   							</td>
   						</tr>
   						<tr>
   							<th align="right">첨부파일</th>
-							<td align="left" colspan="2">
+							<td align="left">
 								<span id="spnMboFilId">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 							</td>
 							<td align="right" style="width:50px ">
