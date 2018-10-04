@@ -269,8 +269,8 @@
 		    rlabChrgListDialog = new Rui.ui.LFrameDialog({
 		        id: 'rlabChrgListDialog',
 		        title: '시험담당자',
-		        width: 1100,
-		        height: 530,
+		        width: 500,
+		        height: 450,
 		        modal: true,
 		        visible: false,
 		        buttons: [
@@ -289,16 +289,12 @@
 				rlabChrgListDialog.show();
 			};
 
-			//평가방법/담당자 리턴
-			setSpaceChrgInfo = function(spaceChrgInfo) {
-				//alert(spaceChrgInfo.spaceEvCtgr +" : "+ spaceChrgInfo.spaceEvPrvs +" : "+ spaceChrgInfo.id +" : "+ spaceChrgInfo.name);
-				spaceRqprWayCrgrDataSet.newRecord();
-            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'evCtgr', spaceChrgInfo.spaceEvCtgr);
-            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'evPrvs', spaceChrgInfo.spaceEvPrvs);
-            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'infmPrsnId', spaceChrgInfo.id);
-            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'infmPrsnNm', spaceChrgInfo.name);
+			//시험 담당자 리턴
+			setRlabChrgInfo = function(rlabChrgInfo) {
+            	rlabRqprDataSet.setNameValue(0, "rlabChrgId", rlabChrgInfo.id);
+    			rlabRqprDataSet.setNameValue(0, "rlabChrgNm", rlabChrgInfo.name);
             };
-			// 평가 담당자 선택팝업 끝
+			//시험담당자 팝업 설정 끝
 
 
 

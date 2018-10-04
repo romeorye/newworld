@@ -35,23 +35,19 @@
 <link rel="stylesheet" type="text/css" href="<%=cssPath%>/iris_style.css">
 
 	<script type="text/javascript">
-		setSpaceChrgInfo = function(spaceEvCtgr, spaceEvPrvs, id, name) {
-			var spaceChrgInfo = {
-					spaceEvCtgr : spaceEvCtgr,
-					spaceEvPrvs : spaceEvPrvs,
+		setRlabChrgInfo = function(id, name) {
+			var rlabChrgInfo = {
 					id : id,
-					name : name,
+					name : name
 			};
 
-			parent._callback(spaceChrgInfo);
-			parent.spaceChrgListDialog.submit(true);
+			parent._callback(rlabChrgInfo);
+			parent.rlabChrgListDialog.submit(true);
 		};
 
 	</script>
     </head>
     <body>
-
-
 
 
 	<!-- pop컨텐츠 -->

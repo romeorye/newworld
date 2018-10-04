@@ -35,7 +35,7 @@
 					spaceEvCtgr : spaceEvCtgr,
 					spaceEvPrvs : spaceEvPrvs,
 					id : id,
-					name : name,
+					name : name
 			};
 
 			parent._callback(spaceChrgInfo);
