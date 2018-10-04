@@ -478,15 +478,8 @@
 
                 isEditable =
                     isFirst ||
-					(pgsStepCd=="PL" && (gvTssSt=="100")) ||
-                    (pgsStepCd=="AL" && gvTssSt=="100") ||
-					(
-					    (dataSet.getNameValue(0, "isEditable")=="1") &&
-						(
-						    (pgsStepCd=="PL" ) ||							 // GRS  평가완료한 경우(품의완료까지 수정가능)
-                        	(pgsStepCd=="PG" && gvTssSt=="100") // GRS(P1)을 수행하지 않은 경우(진행중까지)
-						)
-					)
+                    gvTssSt=="100" ||
+                    dataSet.getNameValue(0, "isEditable")=="1" && (pgsStepCd=="PL" );
 
                 console.log(gvTssSt);
                 console.log(">>>>>>>>>>>>>>>>>>>>>");

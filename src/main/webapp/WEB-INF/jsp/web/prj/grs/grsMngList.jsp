@@ -330,6 +330,42 @@
   * FUNCTION 명 : fncSearch
   * FUNCTION 기능설명 :검색
   *******************************************************************************/--%>
+        /* [버튼] 엑셀 */
+        var butExcel = new Rui.ui.LButton('butExcel');
+        butExcel.on('click', function() {
+
+            if(listDataSet.getCount() > 0) {
+                /*  var excelColumnModel = columnModel.createExcelColumnModel(false);
+                 grid.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
+                     columnModel: excelColumnModel
+                 }); */
+
+                var excelColumnModel = new Rui.ui.grid.LColumnModel({
+                    gridView: listColumnModel,
+                    columns: [
+                        { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
+                        { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70 },
+                        { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , renderer: function(val, p, record, row, i){
+                                return "<a href='javascript:evTssPop("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
+                            } },
+                        { field: 'bizDptNm',   label: '프로젝트명',  align:'center',  width: 100 },
+                        { field: 'dlbrCrgrNm',   label: '과제담당자',  align:'center',  width: 70 },
+                        { field: 'tssDd',   label: '과제기간',  align:'center',  width: 100 },
+                        { field: 'dlbrParrDt',   label: '심의예정일',  align:'center',  width: 60 },
+                        { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 65 },
+                        { field: 'tssStNm',   label: 'GRS상태',  align:'center',  width: 65},
+                    ]
+                });
+
+                listGrid.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.xls', {
+                    columnModel: excelColumnModel
+                });
+
+            } else {
+                Rui.alert("조회 후 엑셀 다운로드 해주세요.");
+            }
+        });
+
         fnSearch = function() {
 
             listDataSet.load({
@@ -851,7 +887,7 @@
 				<div class="LblockButton">
 					<button type="button">품의 요청</button>
 					<button type="button" onclick="addTss()">등록</button>
-					<button type="button" onclick="javascript:fnExcel()">Excel다운로드</button>
+					<button type="button" id="butExcel" onclick="javascript:fnExcel()">Excel다운로드</button>
 				</div>
 			</div>
 			<div id="listGrid"></div>

@@ -110,7 +110,6 @@
             butYldDel.hide();
             btnYldSave.hide();
 //             gridTextArea.disable();
-            
 //             grid1.setEditable(false);
             grid2.setEditable(false);
         };
@@ -211,7 +210,23 @@
         // });
 
 
-        if(isEditable){
+        if(pgsStepCd=="PL"){
+            var columnModel2 = new Rui.ui.grid.LColumnModel({
+                autoWidth: true,
+                columns: [
+                    new Rui.ui.grid.LSelectionColumn()
+                    , new Rui.ui.grid.LStateColumn()
+                    , new Rui.ui.grid.LNumberColumn()
+                    , { field: 'goalY', label: '목표년도', sortable: false, align:'center', width: 100, editor: cboGoalY }
+                    , { field: 'yldItmType',  label: '산출물유형', sortable: false, align:'center', width: 300, editor: cbYldItmType
+                        , renderer: function(value, p, record, row, col) {
+                            if(record.data.yldItmSn == 1) p.editable = false;
+                            return value;
+                        } }
+                ]
+            });
+
+        }else{
             var columnModel2 = new Rui.ui.grid.LColumnModel({
                 autoWidth: true,
                 columns: [
@@ -243,21 +258,6 @@
                     , { field: 'yldItmYn', label: '첨부파일 유무', sortable: false, align:'center', width: 60 }
                     , { field: 'attcFilId', label: '첨부파일', sortable: false, align:'center', width: 100, renderer: function(val, p, record, row, i) {
                             return '<button type="button" class="L-grid-button L-popup-action">첨부파일</button>';
-                        } }
-                ]
-            });
-        }else{
-            var columnModel2 = new Rui.ui.grid.LColumnModel({
-                autoWidth: true,
-                columns: [
-                    new Rui.ui.grid.LSelectionColumn()
-                    , new Rui.ui.grid.LStateColumn()
-                    , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'goalY', label: '목표년도', sortable: false, align:'center', width: 100, editor: cboGoalY }
-                    , { field: 'yldItmType',  label: '산출물유형', sortable: false, align:'center', width: 300, editor: cbYldItmType
-                        , renderer: function(value, p, record, row, col) {
-                            if(record.data.yldItmSn == 1) p.editable = false;
-                            return value;
                         } }
                 ]
             });
@@ -546,10 +546,12 @@
         } else {
             console.log("yld searchData2");
         }
-        
-        
-        //버튼 비활성화 셋팅
-        disableFields();
+
+
+        if(!window.parent.isEditable) {
+            //버튼 비활성화 셋팅
+            disableFields();
+        }
         
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#butYldAdd").hide();
