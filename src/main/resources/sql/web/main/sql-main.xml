@@ -113,7 +113,7 @@
 									  ON IR.AFFR_CD = MM.TSS_CD
 							  INNER JOIN IRIS_PRJ_RSST_MST A
 									  ON MM.PRJ_CD = A.PRJ_CD
-						WHERE SUBSTRING(GUID,1,1) = 'T'
+						WHERE SUBSTRING(IR.GUID,1,1) = 'T'
 						  AND IR.APRDOCSTATE = 'A01' -- 결재요청완료상태
 	]]>
 						<if test="tssRoleType == null or tssRoleType.equals('') or tssRoleType.equals('S1')">
