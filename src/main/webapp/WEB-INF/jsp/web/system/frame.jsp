@@ -17,7 +17,6 @@
 
 
 <script type="text/javascript" src="<%=scriptPath%>/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
 
 	<script type="text/javascript">
 
