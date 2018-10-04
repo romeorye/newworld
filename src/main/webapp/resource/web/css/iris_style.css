@@ -885,4 +885,18 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .table.p-admin2 tr th, .table.p-admin2 tr td {text-align:center !important;}
 .p_contit {padding:10px 0;}
 
+.table.table_txt_right  + .titArea,
+#mbrFormDiv + .titArea, #goalGrid  + .titArea,
+#defaultGrid  + .titArea,
+#wbsFormDiv + .titArea {margin-top: 10px;}
+
+
+
+
+
+
+
+
+
+
 
