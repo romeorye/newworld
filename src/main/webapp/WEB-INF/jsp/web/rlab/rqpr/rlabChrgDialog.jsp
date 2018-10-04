@@ -3,14 +3,14 @@
 <%--
 /*
  *************************************************************************
- * $Id		: rlabChrgDialog.jsp
- * @desc    : 시험담당자 선택 팝업
+ * $Id		: spaceChrgDialog.jsp
+ * @desc    : 평가방법 선택 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2018.08.07  정현웅		최초생성
+ * 1.0  2018.08.23  정현웅		최초생성
  * ---	-----------	----------	-----------------------------------------
- * IRIS UPGRADE 1차 프로젝트
+ * IRIS UPGRADE 2차 프로젝트
  *************************************************************************
  */
 --%>
@@ -28,172 +28,84 @@
  .bgcolor-gray {background-color: #999999}
  .bgcolor-white {background-color: #FFFFFF}
 </style>
+<link rel="stylesheet" type="text/css" href="<%=cssPath%>/common.css">
+<link rel="stylesheet" type="text/css" href="<%=cssPath%>/rui.css">
+<link rel="stylesheet" type="text/css" href="<%=cssPath%>/rui_skin_new.css">
+<link rel="stylesheet" type="text/css" href="<%=cssPath%>/common.css">
+<link rel="stylesheet" type="text/css" href="<%=cssPath%>/iris_style.css">
 
 	<script type="text/javascript">
-
-		setAnlChrgInfo = function(id, name) {
-			var rlabChrgInfo = {
+		setSpaceChrgInfo = function(spaceEvCtgr, spaceEvPrvs, id, name) {
+			var spaceChrgInfo = {
+					spaceEvCtgr : spaceEvCtgr,
+					spaceEvPrvs : spaceEvPrvs,
 					id : id,
-					name : name
+					name : name,
 			};
 
-			parent._callback(rlabChrgInfo);
-
-			parent.rlabChrgListDialog.submit(true);
+			parent._callback(spaceChrgInfo);
+			parent.spaceChrgListDialog.submit(true);
 		};
 
 	</script>
     </head>
     <body>
-	* 기타 사업조직 분석의뢰 시, 분석 PJT PL과 상담해주시기 바랍니다.
-	<table class="table" style="width:99% !important;">
-		<colgroup>
-			<col style="width:25%;"/>
-			<col style="width:35%;"/>
-			<col style="width:40%;"/>
-		</colgroup>
-		<tbody>
-			<tr>
-				<th align="center">사업부</th>
-				<th align="center">분석분야</th>
-				<th align="center">담당자</th>
-			</tr>
-			<tr>
-				<th align="center" rowspan="3">중앙연구소</th>
-				<td align="center">형상분석</td>
-				<td align="center">
-<!-- 					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>, -->
-					<a href="#" onClick="setAnlChrgInfo('soonbo', '이순보')">이순보</a>
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a> -->
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유기분석</td>
-				<td align="center">
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>, -->
-					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a> -->
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유해물질분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-				</td>
-			</tr>
-			<tr>
-				<th align="center" rowspan="3">자동차소재부품</th>
-				<td align="center">형상분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유기분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유해물질분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-				</td>
-			</tr>
-			<tr>
-				<th align="center" rowspan="3">창호</th>
-				<td align="center">형상분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('jihachoi', '최지하')">최지하</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유기분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유해물질분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-				</td>
-			</tr>
-			<tr>
-				<th align="center" rowspan="3">장식재</th>
-				<td align="center">형상분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유기분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
-<!-- 					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a> -->
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유해물질분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-				</td>
-			</tr>
-			<tr>
-				<th align="center" rowspan="3">표면소재</th>
-				<td align="center">형상분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a>,
-					<a href="#" onClick="setAnlChrgInfo('jihachoi', '최지하')">최지하</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유기분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>
-				</td>
-			</tr>
-			<tr>
-				<td align="center">유해물질분석</td>
-				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-				</td>
-			</tr>
-<!-- 			<tr> -->
-<!-- 				<th align="center" rowspan="3">고기능소재</th> -->
-<!-- 				<td align="center">형상/무기분석</td> -->
-<!-- 				<td align="center"> -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('soonbo', '이순보')">이순보</a> -->
-<!-- 				</td> -->
-<!-- 			</tr> -->
-<!-- 			<tr> -->
-<!-- 				<td align="center">유기분석</td> -->
-<!-- 				<td align="center"> -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a> -->
-<!-- 				</td> -->
-<!-- 			</tr> -->
-<!-- 			<tr> -->
-<!-- 				<td align="center">유해물질분석</td> -->
-<!-- 				<td align="center"> -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a> -->
-<!-- 				</td> -->
-<!-- 			</tr> -->
-		</tbody>
-	</table>
+
+
+
+
+	<!-- pop컨텐츠 -->
+	<div class="bd pop_conin">
+		<div class="p_contit">기타 산업조직 실험의뢰시, 신뢰성연구 PJT PL과 상의해 주시기 바랍니다.</div>
+		<table class="table p-admin">
+			<colgroup>
+				<col style="width:50%;">
+				<col style="width:50%;">
+			</colgroup>
+			<thead>
+				<th>사업부</th>
+				<th>담당자</th>
+			</thead>
+			<tbody>
+				<tr>
+					<td>중앙연구소</td>
+					<td>
+						<a href="#" onClick="setRlabChrgInfo('keunjung', '정근')">정근</a>,
+						<a href="#" onClick="setRlabChrgInfo('duhwanlee', '이두환')">이두환</a>
+					</td>
+				</tr>
+				<tr>
+					<td>자동차 소재부품</td>
+					<td>
+						<a href="#" onClick="setRlabChrgInfo('tekang', '강태의')">강태의</a>
+					</td>
+				</tr>
+				<tr>
+					<td>창호</td>
+					<td>
+						<a href="#" onClick="setRlabChrgInfo('jndkim', '김지니다')">김지니다</a>,
+						<a href="#" onClick="setRlabChrgInfo('induohgee', '이동희')">이동희</a>
+					</td>
+				</tr>
+				<tr>
+					<td>장식재</td>
+					<td>
+						<a href="#" onClick="setRlabChrgInfo('sheleemin', '이민')">이민,
+						<a href="#" onClick="setRlabChrgInfo('kangbg', '강봉규')">강봉규
+					</td>
+				</tr>
+				<tr>
+					<td>표면소재</td>
+					<td>
+						<a href="#" onClick="setRlabChrgInfo('keunjung', '정근')">정근,
+						<a href="#" onClick="setRlabChrgInfo('duhwanlee', '이두환')">이두환
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- //pop컨텐츠 -->
+
+
 	</body>
 </html>

@@ -239,7 +239,7 @@
 
 
             /*시험담당자 팝업 설정*/
-            var rlabChrgNm = new Rui.ui.form.LPopupTextBox({
+           /*  var rlabChrgNm = new Rui.ui.form.LPopupTextBox({
             	applyTo: 'rlabChrgNm',
                 placeholder: '시험담당자를 입력해주세요.',
                 defaultValue: '',
@@ -249,8 +249,58 @@
             });
             rlabChrgNm.on('popup', function(e){
                 openUserSearchDialog(setRlabChrgInfo, 1, '');
-            });
+            }); */
             /*시험담당자 팝업 설정 끝*/
+
+            /*시험담당자 필드 설정*/
+            var rlabChrgNm = new Rui.ui.form.LPopupTextBox({
+            	applyTo: 'rlabChrgNm',
+                placeholder: '시험담당자를 입력해주세요.',
+                defaultValue: '',
+                emptyValue: '',
+                editable: false,
+                width: 200
+            });
+            rlabChrgNm.on('popup', function(e){
+            	openRlabChrgListDialog(setRlabChrgInfo, 1, '');
+            });
+
+            /*시험담당자 팝업 설정*/
+		    rlabChrgListDialog = new Rui.ui.LFrameDialog({
+		        id: 'rlabChrgListDialog',
+		        title: '시험담당자',
+		        width: 1100,
+		        height: 530,
+		        modal: true,
+		        visible: false,
+		        buttons: [
+		            { text:'닫기', isDefault: true, handler: function() {
+		            	this.cancel();
+		            } }
+		        ]
+		    });
+
+		    rlabChrgListDialog.render(document.body);
+
+			openRlabChrgListDialog = function(f) {
+				_callback = f;
+
+				rlabChrgListDialog.setUrl('<c:url value="/rlab/rlabChrgDialog.do"/>');
+				rlabChrgListDialog.show();
+			};
+
+			//평가방법/담당자 리턴
+			setSpaceChrgInfo = function(spaceChrgInfo) {
+				//alert(spaceChrgInfo.spaceEvCtgr +" : "+ spaceChrgInfo.spaceEvPrvs +" : "+ spaceChrgInfo.id +" : "+ spaceChrgInfo.name);
+				spaceRqprWayCrgrDataSet.newRecord();
+            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'evCtgr', spaceChrgInfo.spaceEvCtgr);
+            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'evPrvs', spaceChrgInfo.spaceEvPrvs);
+            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'infmPrsnId', spaceChrgInfo.id);
+            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'infmPrsnNm', spaceChrgInfo.name);
+            };
+			// 평가 담당자 선택팝업 끝
+
+
 
 
             /* 시료처리 */
@@ -710,7 +760,7 @@
 				</a>
 		        <h2>신뢰성 시험 의뢰서 등록</h2>
 		    </div>
-	    
+
 
    			<div class="sub-content">
 	   			<div class="titArea mt0">
