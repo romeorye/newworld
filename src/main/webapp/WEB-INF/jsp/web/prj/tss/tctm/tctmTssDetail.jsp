@@ -201,12 +201,14 @@
                         btnGrsRq.show();	//GRS  요청
                     }
 
-                    if(
-						(pgsStepCd=="PL" && gvTssSt=="302")
-                        || (pgsStepCd!="PL" && gvTssSt=="102")
-					){
-                        btnCsusRq.show();	// 품의서요청
-                    }
+
+                    //기술팀은 품의서 요청을 사용하지 않음
+                    // if(
+						// (pgsStepCd=="PL" && gvTssSt=="302")
+                    //     || (pgsStepCd!="PL" && gvTssSt=="102")
+                    // ){
+                    //     btnCsusRq.show();	// 품의서요청
+                    // }
 
                     if(pgsStepCd=="PG" && gvTssSt=="100"){
                         btnAltrRq.show();		//변경 요청

@@ -1,23 +1,5 @@
 package iris.web.prj.grs.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
@@ -29,6 +11,22 @@ import iris.web.prj.tss.com.service.TssUserService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.system.base.IrisBaseController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class GrsMngController extends IrisBaseController {
@@ -192,6 +190,7 @@ public class GrsMngController extends IrisBaseController {
 				if (grsYn.equals("Y")) {
 					LOGGER.debug("=============== GRS=Y 인경우 GRS 요청정보 생성 ===============");
 					input.put("grsEvSt", "P1");
+					input.put("dlbrCrgr", input.get("saSabunCd"));
 					grsMngService.updateGrsReqInfo(input);                                            //GRS 정보 등록
 				}else if (grsYn.equals("N")) {
 					LOGGER.debug("=============== GRS 미수행시 마스터 이관 ===============");

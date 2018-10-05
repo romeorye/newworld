@@ -96,11 +96,12 @@
                 return;
             }
 
-            if(lvTssScnCd=="D" && cboGrsEvSt.getValue() == "AL") {
+            if(lvTssScnCd=="D" && cboGrsEvSt.getValue() == "M") {
                 Rui.alert("기술팀과제는  변경GRS는 선택 불가입니다.");
                 cboGrsEvSt.setValue("");
                 return;
             }
+            return;
         });
         
         //평가표
