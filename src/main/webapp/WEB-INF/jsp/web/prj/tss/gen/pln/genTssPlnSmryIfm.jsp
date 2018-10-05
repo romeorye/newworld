@@ -498,7 +498,7 @@
             	alert("Competition를 입력하세요");
             	return;
             }
-            if(  dataSet.getNameValue(0, "deliverables") == "<p><br></p>" ||  dataSet.getNameValue(0, "deliverables") == "" ) {
+            if(  dataSet.getNameValue(0, "smryDTxt") == "<p><br></p>" ||  dataSet.getNameValue(0, "smryDTxt") == "" ) {
             	alert("Deliverables를 입력하세요");
             	return;
             }
