@@ -26,13 +26,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 	<title><%=documentTitle%></title>
     <link type="text/css" href="<%=cssPath%>/main.css" rel="stylesheet">
     <link type="text/css" href="<%=cssPath%>/common.css" rel="stylesheet">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="<%=ruiPathPlugins%>/tab/rui_tab.js"></script>
+    <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/tab/rui_tab.css" />
+    <style>
+		.L-navset {overflow:hidden;}
+	</style>
 </head>
+<script type="text/javascript">
+
+	Rui.onReady(function() {
+       /*******************
+        * 변수 및 객체 선언
+        *******************/
+        /* [TAB] */
+        tabView = new Rui.ui.tab.LTabView({
+        	tabs: [
+        		{ label: '분석 분야', content: '<div id="tabContent0"></div>' },
+        		{ label: '분석 담당자', content: '<div id="tabContent1"></div>' },
+                { label: '분석의뢰 절차', content: '<div id="tabContent2"></div>' }
+            ]
+        });
+
+        tabView.on('activeTabChange', function(e){
+        	// 숨기기 / 보이기
+            for(var i = 0; i < 3; i++) {
+                if(i == e.activeIndex) {
+                    Rui.get('tab' + i).show();
+                }
+                else {
+                    Rui.get('tab' + i).hide();
+                }
+            }
+        });
+
+        tabView.render('tabView');
+
+		//페이지 온로드시 0번째 탭 선택
+        tabView.selectTab(0);
+
+	});//onReady 끝
+</script>
 
   <body style="overflow:auto">
 		<div class="contents">
@@ -40,11 +78,16 @@
 				<a class="leftCon" href="#">
 					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 					<span class="hidden">Toggle 버튼</span>
-				</a>   
+				</a>
 				<h2>기기분석 안내</h2>
 		    </div>
 
 			<div class="sub-content">
+
+
+				<!-- tab start -->
+			    <div id="tabView"></div><br/>
+
 
 				<!-- tab-content start -->
 				<div class="tab-content">
@@ -53,7 +96,7 @@
 					<div class="tab-pane fade active in" id="tab0">
 						<div class="analyze_field">
 					        <div class="analyze_box"><div class="analyze_img1"></div></div>
-		
+
 					        <div class="analyze_cont">
 					            <div class="analyze_b_txt">
 					                형상분석
@@ -62,14 +105,14 @@
 					            <div class="analyze_s_txt">Atomic Structure, Crystallinity 분석</div>
 					        </div>
 					     </div>
-		
+
 					     <div class="clear"></div>
-		
+
 					    <div class="analyze_line margin-10"></div>
-		
+
 					    <div class="analyze_field">
 					        <div class="analyze_box"><div class="analyze_img2"></div></div>
-		
+
 					        <div class="analyze_cont">
 					            <div class="analyze_b_txt">
 					                유기분석
@@ -78,14 +121,14 @@
 					            <div class="analyze_s_txt">유기 첨가제의 정성 및 정량 분석</div>
 					        </div>
 					     </div>
-		
+
 					     <div class="clear"></div>
-		
+
 					    <div class="analyze_line margin-10"></div>
-		
+
 					    <div class="analyze_field">
 					        <div class="analyze_box"><div class="analyze_img3"></div></div>
-		
+
 					        <div class="analyze_cont">
 					            <div class="analyze_b_txt">
 					                유해물질분석
@@ -94,9 +137,9 @@
 					            <div class="analyze_s_txt">전성분 분석을 통한 비의도적 유해물질분석</div>
 					        </div>
 					     </div>
-		
+
 					     <div class="clear"></div>
-		
+
 					    <div class="analyze_line margin-10"></div>
 					</div>
 					<!--  //분석안내 -->
@@ -159,7 +202,7 @@
 				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
 				                        </td>
 				                    </tr>
-		
+
 				                    <tr>
 				                        <th>장식재</th>
 				                        <td>
@@ -179,7 +222,7 @@
 				                        	<a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">이종한</a>
 				                        </td>
 				                    </tr>
-		
+
 				                 </tbody>
 				            </table>
 				        </div>
@@ -188,7 +231,7 @@
 
 
 					<!-- 평가의뢰 절차 및 메뉴얼 -->
-					<div class="tab-pane fade" id="tab2" >						
+					<div class="tab-pane fade" id="tab2" >
 						<div class="analy_proce" style="padding:20px 20px 0 0;">
 				            <div class="analy_proce_box">
 				                <div class="analy_proce_img img01"></div>
@@ -204,7 +247,7 @@
 				                <div class="analy_proce_img img03"></div>
 				                <div class="analy_proce_txt">2. 분석의뢰서 작성</div>
 				            </div>
-		
+
 				            <div class="clear"></div>
 				            <div class="analy_proce_arrow arrow03"></div>
 				        </div>
