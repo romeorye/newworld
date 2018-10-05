@@ -30,7 +30,7 @@
 var mchnMgmtRegDialog;
 
 	Rui.onReady(function(){
-	
+
 		mchnMgmtRegDialog = new Rui.ui.LFrameDialog({
 	        id: 'mchnMgmtRegDialog',
 	        title: '분석기기 관리',
@@ -41,7 +41,7 @@ var mchnMgmtRegDialog;
 	    });
 
 		mchnMgmtRegDialog.render(document.body);
-		
+
 		/*******************
 	 	* 변수 및 객체 선언
 	 	*******************/
@@ -106,7 +106,7 @@ var mchnMgmtRegDialog;
 		});
 
 		grid.render('mhcnGrid');
-		
+
 		grid.on('cellClick', function(e) {
 			var record = dataSet.getAt(dataSet.getRow());
 
@@ -127,7 +127,7 @@ var mchnMgmtRegDialog;
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
-		
+
 		//작성자
 	    var rgstNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	        applyTo: 'rgstNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -147,7 +147,7 @@ var mchnMgmtRegDialog;
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD'
 		});
-		
+
 		//관리분류
 		mchnMgmtCd = new Rui.ui.form.LCombo({
 			applyTo : 'mchnMgmtCd',
@@ -158,7 +158,7 @@ var mchnMgmtRegDialog;
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD'
 		});
-		
+
 		//관리일(시작)
 		var mgmtStrDt = new Rui.ui.form.LMonthBox({
 			applyTo: 'mgmtStrDt',
@@ -166,7 +166,7 @@ var mchnMgmtRegDialog;
 			width: 100,
 			dateType: 'string'
 		});
- 
+
 		mgmtStrDt.on('blur', function(){
 			if( mgmtStrDt.getValue() > mgmtEndDt.getValue() ) {
 				alert('시작월이 종료월보다 클 수 없습니다.!!');
@@ -174,14 +174,14 @@ var mchnMgmtRegDialog;
 			}
 		});
 
-		//관리일(종료) 
+		//관리일(종료)
 		var mgmtEndDt = new Rui.ui.form.LMonthBox({
 				applyTo: 'mgmtEndDt',
 				defaultValue: '',
 				width: 100,
 				dateType: 'string'
 			});
- 
+
 		mgmtEndDt.on('blur', function(){
 			if( mgmtStrDt.getValue() > mgmtEndDt.getValue() ) {
 				alert('시작월이 종료월보다 클 수 없습니다.!!');
@@ -189,9 +189,9 @@ var mchnMgmtRegDialog;
 			}
 		});
 
-		 
+
 		fnSearch = function(){
-			
+
 			if( Rui.isEmpty(mgmtStrDt.getValue()) && !Rui.isEmpty(mgmtEndDt.getValue())){
 				Rui.alert("관리시작월을 입력해주십시오");
 				return;
@@ -200,9 +200,9 @@ var mchnMgmtRegDialog;
 				Rui.alert("관리종료월을 입력해주십시오");
 				return;
 			}
-			 
+
 			dataSet.load({
-        	url: '<c:url value="/mchn/mgmt/retrieveAnlMchnAllSearchList.do"/>', 
+        	url: '<c:url value="/mchn/mgmt/retrieveAnlMchnAllSearchList.do"/>',
 	       	params :{
 	       		    mchnNm : encodeURIComponent(document.aform.mchnNm.value)		//기기명
 	       		   ,rgstNm : encodeURIComponent(document.aform.rgstNm.value)		//기기명
@@ -215,11 +215,11 @@ var mchnMgmtRegDialog;
 		};
 
 		fnSearch();
-		
+
 	});
-	
+
 </script>
-<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">
@@ -264,7 +264,7 @@ var mchnMgmtRegDialog;
 									</td>
 									<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
 								</tr>
-								<tr>	
+								<tr>
 									<th align="right">관리일</th>
 									<td colspan="3">
 										<input type="text" id="mgmtStrDt"><em class="gab"> ~ </em><input type="text" id="mgmtEndDt">
@@ -288,4 +288,4 @@ var mchnMgmtRegDialog;
 	</div>
 	<!-- //contents -->
 </body>
-</html>	
+</html>

@@ -222,7 +222,7 @@
 
 
 </script>
-<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">

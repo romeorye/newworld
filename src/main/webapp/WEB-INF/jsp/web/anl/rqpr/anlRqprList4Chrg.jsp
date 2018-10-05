@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -36,7 +36,7 @@
 	<script type="text/javascript">
 	 var getAnlRqprList;
 	 var tmpAcpcStCd = '${inputData.acpcStCd}';
-	 
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
@@ -68,7 +68,7 @@
              anlRqprDataSet.on('load', function(e) {
     	    		$("#cnt_text").html('총 ' + anlRqprDataSet.getCount() + '건');
     	      	});
-             
+
              var anlRqprColumnModel = new Rui.ui.grid.LColumnModel({
                  columns: [
                        { field: 'acpcNo',		label: '접수번호',		sortable: true,	align:'center',	width: 100 }
@@ -94,9 +94,9 @@
                  autoToEdit: false,
                  autoWidth: true
              });
-             
+
              anlRqprGrid.render('anlRqprGrid');
-             
+
             var anlNm = new Rui.ui.form.LTextBox({
                 applyTo: 'anlNm',
                 placeholder: '검색할 분석명을 입력해주세요.',
@@ -104,17 +104,17 @@
                 emptyValue: '',
                 width: 200
             });
-           /*  
+           /*
             anlNm.on('blur', function(e) {
             	anlNm.setValue(anlNm.getValue().trim());
             }); */
-          /*   
+          /*
             anlNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
             		getAnlRqprList();
             	}
             });
-            */ 
+            */
             var rqprDeptNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rqprDeptNm',
                 placeholder: '검색할 의뢰팀을 입력해주세요.',
@@ -123,17 +123,17 @@
 				editable: false,
                 width: 200
             });
-            
+
             rqprDeptNm.on('focus', function(e) {
             	rqprDeptNm.setValue('');
             	$('#rqprDeptCd').val('');
             });
-            
+
             setRqprDeptInfo = function(deptInfo) {
     	    	rqprDeptNm.setValue(deptInfo.deptNm);
     	    	$('#rqprDeptCd').val(deptInfo.deptCd);
     	    };
-            
+
             var rgstNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rgstNm',
                 placeholder: '검색할 의뢰자를 입력해주세요.',
@@ -141,8 +141,8 @@
                 emptyValue: '',
 				width: 200
             });
-            
-            /* 
+
+            /*
             var rgstNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rgstNm',
                 placeholder: '검색할 의뢰자를 입력해주세요.',
@@ -151,12 +151,12 @@
 				editable: false,
                 width: 360
             });
-            
+
             rgstNm.on('focus', function(e) {
             	rgstNm.setValue('');
             	$('#rgstNm').val('');
             });
-           */  
+           */
             var acpcNo = new Rui.ui.form.LTextBox({
                 applyTo: 'acpcNo',
                 placeholder: '검색할 접수번호를 입력해주세요.',
@@ -164,11 +164,11 @@
                 emptyValue: '',
                 width: 200
             });
-          /*   
+          /*
             acpcNo.on('blur', function(e) {
             	acpcNo.setValue(acpcNo.getValue().trim());
             }); */
-            /* 
+            /*
             acpcNo.on('keypress', function(e) {
             	if(e.keyCode == 13) {
             		getAnlRqprList();
@@ -190,7 +190,7 @@
 					alert('날자형식이 올바르지 않습니다.!!');
 					fromRqprDt.setValue(new Date());
 				}
-				
+
 				if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromRqprDt.setValue(toRqprDt.getValue());
@@ -206,19 +206,19 @@
 				width: 100,
 				dateType: 'string'
 			});
-			 
+
 			toRqprDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toRqprDt.getValue(),"-","")) ) )  {
 					alert('날자형식이 올바르지 않습니다.!!');
 					toRqprDt.setValue(new Date());
 				}
-				
+
 				if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromRqprDt.setValue(toRqprDt.getValue());
 				}
 			});
-			
+
 			var anlChrgNm = new Rui.ui.form.LTextBox({
                 applyTo: 'anlChrgNm',
                 placeholder: '검색할 담당자를 입력해주세요.',
@@ -228,8 +228,8 @@
                 width: 200,
                 valueField: 'userId'
             });
-			
-         /*    
+
+         /*
             var anlChrgNm = new Rui.ui.form.LCombo({
                 applyTo: 'anlChrgNm',
                 name: 'anlChrgNm',
@@ -240,7 +240,7 @@
                 displayField: 'name',
                 valueField: 'userId'
             });
-            */ 
+            */
             var acpcStCd = new Rui.ui.form.LCombo({
                 applyTo: 'acpcStCd',
                 name: 'acpcStCd',
@@ -251,41 +251,41 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-            
+
             acpcStCd.on('load', function(e){
-                
+
             });
-            
+
             anlRqprGrid.on('cellClick', function(e) {
 
             	var record = anlRqprDataSet.getAt(e.row);
-            	
+
             	$('#rqprId').val(record.data.rqprId);
-            	
+
             	nwinsActSubmit(aform, "<c:url value='/anl/anlRqprDetail4Chrg.do'/>");
             });
-            
-           
-            
+
+
+
             /* 분석의뢰 담당자용 리스트 엑셀 다운로드 */
         	downloadAnlRqprListExcel = function() {
                 anlRqprGrid.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') + '.xls');
             };
-    		
-    		/* 
+
+    		/*
             setRgstInfo = function(userInfo) {
     	    	rgstNm.setValue(userInfo.saName);
     	    	$('#rgstNm').val(userInfo.saUser);
     	    };
-           */  
-            
+           */
+
             /* 조회 */
             getAnlRqprList = function() {
         	   anlRqprDataSet.load({
                     url: '<c:url value="/anl/getAnlRqprList.do"/>',
                     params :{
                     	anlNm : encodeURIComponent(anlNm.getValue()),
-            		    fromRqprDt : fromRqprDt.getValue(), 
+            		    fromRqprDt : fromRqprDt.getValue(),
             		    toRqprDt : toRqprDt.getValue(),
             		    rqprDeptCd : $('#rqprDeptCd').val(),
             		    rgstNm : encodeURIComponent(rgstNm.getValue()),
@@ -297,20 +297,20 @@
                     }
                 });
             };
-            
+
             getAnlRqprList();
-			
+
         });
 
 	</script>
-	<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+	<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
     </head>
     <body onkeypress="if(event.keyCode==13) {getAnlRqprList();}">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprDeptCd" name="rqprDeptCd" value="<c:out value="${inputData.rqprDeptCd}"/>"/>
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
-		
-   		<div class="contents">   			
+
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
@@ -318,8 +318,8 @@
 				</a>
    				<h2>분석목록</h2>
    			</div>
-   			
-	   		<div class="sub-content">	
+
+	   		<div class="sub-content">
    				<div class="search">
 					<div class="search-content">
 		                <table>
@@ -384,7 +384,7 @@
 		   				</table>
 	   				</div>
    				</div>
-   				
+
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">
@@ -393,9 +393,9 @@
    				</div>
 
    				<div id="anlRqprGrid"></div>
-				
+
 				<div id="anlRqprExcelGrid" style="width:10px;height:10px;visibility:hidden;"></div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

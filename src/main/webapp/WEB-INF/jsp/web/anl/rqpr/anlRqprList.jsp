@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -34,12 +34,12 @@
 </style>
 
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
              *******************/
-            
+
             var anlNm = new Rui.ui.form.LTextBox({
                 applyTo: 'anlNm',
                 placeholder: '검색할 분석명을 입력해주세요.',
@@ -47,17 +47,17 @@
                 emptyValue: '',
                 width: 400
             });
-            
+
             anlNm.on('blur', function(e) {
             	anlNm.setValue(anlNm.getValue().trim());
             });
-        /*     
+        /*
             anlNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
             		getAnlRqprList();
             	}
             });
-            
+
              */
             var rgstNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rgstNm',
@@ -66,7 +66,7 @@
                 emptyValue: '',
                 width: 360
             });
-          /*   
+          /*
             rgstNm.on('focus', function(e) {
             	rgstNm.setValue('');
             	$('#rgstNm').val('');
@@ -79,17 +79,17 @@
                 emptyValue: '',
                 width: 400
             });
-            
+
             acpcNo.on('blur', function(e) {
             	acpcNo.setValue(acpcNo.getValue().trim());
             });
-          /*   
+          /*
             acpcNo.on('keypress', function(e) {
             	if(e.keyCode == 13) {
             		getAnlRqprList();
             	}
             });
-           */  
+           */
             var fromRqprDt = new Rui.ui.form.LDateBox({
 				applyTo: 'fromRqprDt',
 				mask: '9999-99-99',
@@ -104,7 +104,7 @@
 					alert('날자형식이 올바르지 않습니다.!!');
 					fromRqprDt.setValue(new Date());
 				}
-				
+
 				if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromRqprDt.setValue(toRqprDt.getValue());
@@ -119,20 +119,20 @@
 				width: 100,
 				dateType: 'string'
 			});
-			 
+
 			toRqprDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toRqprDt.getValue(),"-","")) ) )  {
 					alert('날자형식이 올바르지 않습니다.!!');
 					toRqprDt.setValue(new Date());
 				}
-				
+
 				if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromRqprDt.setValue(toRqprDt.getValue());
 				}
 			});
-           
-			
+
+
 			var anlChrgNm = new Rui.ui.form.LTextBox({
                 applyTo: 'anlChrgNm',
                 placeholder: '검색할 담당자를 입력해주세요.',
@@ -140,9 +140,9 @@
                 emptyValue: '',
                 width: 400
             });
-			
-			
-			/* 
+
+
+			/*
             var anlChrgNm = new Rui.ui.form.LCombo({
                 applyTo: 'anlChrgNm',
                 name: 'anlChrgNm',
@@ -154,7 +154,7 @@
                 displayField: 'name',
                 valueField: 'userId'
             });
-            */ 
+            */
             var acpcStCd = new Rui.ui.form.LCombo({
                 applyTo: 'acpcStCd',
                 name: 'acpcStCd',
@@ -166,7 +166,7 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-			
+
             /*******************
              * 변수 및 객체 선언
             *******************/
@@ -220,21 +220,21 @@
             anlRqprGrid.on('cellClick', function(e) {
 
             	var record = anlRqprDataSet.getAt(e.row);
-            	
+
             	$('#rqprId').val(record.data.rqprId);
-            	
+
             	nwinsActSubmit(aform, "<c:url value='/anl/anlRqprDetail.do'/>");
             });
-            
+
             anlRqprGrid.render('anlRqprGrid');
-            
+
             /* 조회 */
             getAnlRqprList = function() {
             	anlRqprDataSet.load({
                     url: '<c:url value="/anl/getAnlRqprList.do"/>',
                     params :{
                     	anlNm : encodeURIComponent(anlNm.getValue()),
-            		    fromRqprDt : fromRqprDt.getValue(), 
+            		    fromRqprDt : fromRqprDt.getValue(),
             		    toRqprDt : toRqprDt.getValue(),
             		    rgstNm : encodeURIComponent(rgstNm.getValue()),
             		    anlChrgNm : encodeURIComponent(anlChrgNm.getValue()),
@@ -244,38 +244,38 @@
                     }
                 });
             };
-            
+
             anlRqprDataSet.on('load', function(e) {
    	    		$("#cnt_text").html('총 ' + anlRqprDataSet.getCount() + '건');
    	      	});
-            
+
             /* 등록화면 이동 */
             goAnlRqprRgst = function() {
             	nwinsActSubmit(aform, "<c:url value="/anl/anlRqprRgst.do"/>");
             };
-            
+
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlRqprListExcel = function() {
                 anlRqprGrid.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') + '.xls');
             };
-    		/* 
+    		/*
             setRgstInfo = function(userInfo) {
     	    	rgstNm.setValue(userInfo.saName);
     	    	$('#rgstNm').val(userInfo.saUser);
     	    };
              */
             getAnlRqprList();
-			
+
         });
 
 	</script>
-	<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+	<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
     </head>
     <body onkeypress="if(event.keyCode==13) {getAnlRqprList();}">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
-		
-   		<div class="contents">   			
+
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
@@ -283,8 +283,8 @@
 				</a>
    				<h2>분석의뢰</h2>
    			</div>
-   			
-	   		<div class="sub-content">	
+
+	   		<div class="sub-content">
 	   			<div class="search">
 					<div class="search-content">
 		   				<table class="rqprlist_sch">
@@ -337,7 +337,7 @@
 		   				</table>
 	   				</div>
    				</div>
-   				
+
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">
@@ -347,9 +347,9 @@
    				</div>
 
    				<div id="anlRqprGrid"></div>
-				
+
 				<div id="anlRqprExcelGrid" style="width:10px;height:10px;visibility:hidden;"></div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

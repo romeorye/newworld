@@ -305,7 +305,7 @@ var adminChk = "N";
         });
 	});		//end ready
 </script>
-<script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script>
+<!-- <script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script> -->
  </head>
  <body>
  		<div class="contents">
