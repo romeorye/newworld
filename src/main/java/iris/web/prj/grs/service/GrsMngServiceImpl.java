@@ -137,6 +137,21 @@ public class GrsMngServiceImpl implements GrsMngService {
 			input.put("arslYymm",       input.get("tssFnhDd").toString().substring(0,7));
 			commonDao.update("prj.tss.com.updateTssYld", input);
 
+
+			//Qgate 1,2,3
+			input.put("goalY", input.get("tssFnhDd").toString().substring(0, 4));
+			input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
+
+			input.put("yldItmType", "06");
+			commonDao.update("prj.tss.com.updateTssYld", input);
+
+			input.put("yldItmType", "07");
+			commonDao.update("prj.tss.com.updateTssYld", input);
+
+			input.put("yldItmType", "08");
+			commonDao.update("prj.tss.com.updateTssYld", input);
+
+
 		}else if(tssScnCd.equals("O")){
 			//대외
 			input.put("goalY",      year);

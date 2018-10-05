@@ -427,6 +427,7 @@
 
             disableFields();
 
+            isFirst = gvTssSt == "";
             isEditable =
                 isFirst ||
                 gvTssSt=="100" ||

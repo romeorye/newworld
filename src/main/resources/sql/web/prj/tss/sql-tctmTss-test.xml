@@ -58,4 +58,15 @@
     <select id="getGui" resultType="String">
       select GUID from IRIS_COM_ITG_RDCS where AFFR_CD=#{tssCd}
     </select>
+
+
+    <select id="prjList"  resultType="hashmap">
+        select
+        PRJ_CD as prjCd
+        ,PRJ_NM as prjNm
+--         ,DEPT_UPER as deptCode
+        ,dbo.fn_getUpperDeptCd(DEPT_CD)  as deptCode
+        ,WBS_CD_A as wbsCdA
+        from IRIS_PRJ_RSST_MST
+    </select>
 </mapper>

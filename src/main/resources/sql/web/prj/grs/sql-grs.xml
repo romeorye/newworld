@@ -850,7 +850,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 #{pgsStepCd} ,
                 g.TSS_ST ,
                 g.TSS_SCN_CD ,
-                (SELECT DEPT_UPER
+                (SELECT dbo.fn_getUpperDeptCd(DEPT_CD)
                  FROM IRIS_PRJ_RSST_MST p
                  WHERE PRJ_CD=g.PRJ_CD
                 ) as DEPT_CODE ,
