@@ -371,10 +371,6 @@ public class GrsMngController extends IrisBaseController {
 			dtlDs.put("userId", input.get("_userId"));
 			dtlDs.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
 
-			input.put("userId", input.get("_userId"));
-			input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
-			
-			
 			grsReqService.updateGrsEvRslt(dtlDs);
 			for(Map<String, Object> ds  : dsLst) {
 				ds.put("userId", input.get("_userId"));
