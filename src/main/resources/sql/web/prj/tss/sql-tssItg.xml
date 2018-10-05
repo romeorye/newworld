@@ -30,7 +30,7 @@
 						  on ir.AFFR_CD = mm.TSS_CD
 					inner join IRIS_PRJ_RSST_MST a
 					ON mm.PRJ_CD = A.PRJ_CD
-		   where substring(GUID,1,1) = 'T'
+		   where substring(ir.GUID,1,1) = 'T'
 		   and   APPROVAL_USERNAME <>'°ü¸®ÀÚ'
 		   and   APRDOCSTATE <> ''
 		 ]]>
