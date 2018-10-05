@@ -246,7 +246,7 @@
 
 <form name="tssMove"></form>
     
-<div id="Wrap">
+<div id="Wrap" style="background:#f4f4f4;">
     <!--header-->
     <div class=gnb_bg></div>
     <div class="width_layout">
@@ -255,7 +255,7 @@
     <div class="gnb_line"></div>
 
     <!--content-->
-    <div class="Main_content">
+    <div class="Main_content" id="main_iris">
         <!--left-->
         <div class="side_bar_con">
             <div class="side_layout">

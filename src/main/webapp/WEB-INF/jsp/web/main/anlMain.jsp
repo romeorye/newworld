@@ -74,7 +74,7 @@
 	</script>
     </head>
     <body>
-		<div id="Wrap">
+		<div id="Wrap" style="background:#f4f4f4;">
 		    <!--header-->
 		    <div class=gnb_bg></div>
 		    <div class="width_layout">
@@ -84,7 +84,7 @@
 		
 		  
 		    <!--content-->
-		    <div class="Main_content">
+		    <div class="Main_content" id="ts">
 		        <!--left-->
 		        <div class="side_bar_con">
 		            <div class="side_layout">
@@ -226,8 +226,9 @@
 		            <!--fir-->
 		            <div class="fir_subject_con">
 		                <div class="notice_con">
+		                <h4 class="notice_title">NOTICE<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrievePubNoticeList.do', 'IRIAN0201')">&#43;</a></span></h4>
 		                <div class="album-wrap">
-		                    <h4 class="notice_title">NOTICE<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrievePubNoticeList.do', 'IRIAN0201')">&#43;</a></span></h4>
+		                    
 		                    <ul class="album clfix">
                     <c:choose>
                     	<c:when test="${fn:length(anlNoticeList) == 0}">
