@@ -206,7 +206,8 @@
                 width: 400
             });
 
-            var rlabChrgNm = new Rui.ui.form.LPopupTextBox({
+            /*시험담당자 팝업 설정*/
+            /* var rlabChrgNm = new Rui.ui.form.LPopupTextBox({
             	applyTo: 'rlabChrgNm',
                 placeholder: '시험담당자를 입력해주세요.',
                 defaultValue: '',
@@ -216,7 +217,54 @@
             });
             rlabChrgNm.on('popup', function(e){
                 openUserSearchDialog(setRlabChrgInfo, 1, '');
+            }); */
+            /*시험담당자 팝업 설정 끝*/
+
+            /*시험담당자 필드 설정*/
+            var rlabChrgNm = new Rui.ui.form.LPopupTextBox({
+            	applyTo: 'rlabChrgNm',
+                placeholder: '시험담당자를 입력해주세요.',
+                defaultValue: '',
+                emptyValue: '',
+                editable: false,
+                width: 200
             });
+            rlabChrgNm.on('popup', function(e){
+            	openRlabChrgListDialog(setRlabChrgInfo, 1, '');
+            });
+
+            /*시험담당자 팝업 설정*/
+		    rlabChrgListDialog = new Rui.ui.LFrameDialog({
+		        id: 'rlabChrgListDialog',
+		        title: '시험담당자',
+		        width: 500,
+		        height: 450,
+		        modal: true,
+		        visible: false,
+		        buttons: [
+		            { text:'닫기', isDefault: true, handler: function() {
+		            	this.cancel();
+		            } }
+		        ]
+		    });
+
+		    rlabChrgListDialog.render(document.body);
+
+			openRlabChrgListDialog = function(f) {
+				_callback = f;
+
+				rlabChrgListDialog.setUrl('<c:url value="/rlab/rlabChrgDialog.do"/>');
+				rlabChrgListDialog.show();
+			};
+
+			//시험 담당자 리턴
+			setRlabChrgInfo = function(rlabChrgInfo) {
+            	rlabRqprDataSet.setNameValue(0, "rlabChrgId", rlabChrgInfo.id);
+    			rlabRqprDataSet.setNameValue(0, "rlabChrgNm", rlabChrgInfo.name);
+            };
+			//시험담당자 팝업 설정 끝
+
+
 
             var rlabScnCd = new Rui.ui.form.LCombo({
                 applyTo: 'rlabScnCd',
@@ -680,35 +728,7 @@
     	    	rlabRqprDataSet.setNameValue(0, 'infmPrsnIds', idList);
     	    };
 
-			// 시험 담당자 선택팝업 시작
-		    rlabChrgListDialog = new Rui.ui.LFrameDialog({
-		        id: 'rlabChrgListDialog',
-		        title: '시험담당자',
-		        width: 530,
-		        height: 500,
-		        modal: true,
-		        visible: false,
-		        buttons: [
-		            { text:'닫기', isDefault: true, handler: function() {
-		            	this.cancel();
-		            } }
-		        ]
-		    });
 
-		    rlabChrgListDialog.render(document.body);
-
-			openRlabChrgListDialog = function(f) {
-				_callback = f;
-
-				rlabChrgListDialog.setUrl('<c:url value="/rlab/rlabChrgDialog.do"/>');
-				rlabChrgListDialog.show();
-			};
-			// 시험 담당자 선택팝업 끝
-
-            setRlabChrgInfo = function(rlabChrgInfo) {
-            	rlabRqprDataSet.setNameValue(0, 'rlabChrgId', rlabChrgInfo.saUser);
-            	rlabRqprDataSet.setNameValue(0, 'rlabChrgNm', rlabChrgInfo.saName);
-            };
 
     	    // 관련시험 조회 팝업 시작
     	    rlabRqprSearchDialog = new Rui.ui.LFrameDialog({
@@ -1210,15 +1230,15 @@
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
     </form>
-   		<div class="contents">   			
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 					<span class="hidden">Toggle 버튼</span>
-				</a>  
+				</a>
    				<h2>시험의뢰서 상세</h2>
    			</div>
-   			
+
 	   		<div class="sub-content">
    				<div id="tabView"></div>
 	            <div id="rlabRqprInfoDiv">
@@ -1276,7 +1296,6 @@
    							<th align="right">시험담당자</th>
    							<td>
    								<input type="text" id="rlabChrgNm">
-                                <!-- <a href="javascript:openRlabChrgListDialog(setRlabChrgInfo);" class="icoBtn">검색</a> -->
                             </td>
    						</tr>
    						<tr>

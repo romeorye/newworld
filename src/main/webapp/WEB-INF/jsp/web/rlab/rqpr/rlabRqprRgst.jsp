@@ -238,7 +238,7 @@
 	        });
 
 
-            /*시험담당자 팝업 설정*/
+           /*시험담당자 팝업 설정*/
            /*  var rlabChrgNm = new Rui.ui.form.LPopupTextBox({
             	applyTo: 'rlabChrgNm',
                 placeholder: '시험담당자를 입력해주세요.',
@@ -295,7 +295,6 @@
     			rlabRqprDataSet.setNameValue(0, "rlabChrgNm", rlabChrgInfo.name);
             };
 			//시험담당자 팝업 설정 끝
-
 
 
 
@@ -718,10 +717,10 @@
 
 
 		//시험담당자 팝업 셋팅
-		function setRlabChrgInfo(userInfo) {
+		/* function setRlabChrgInfo(userInfo) {
 			rlabRqprDataSet.setNameValue(0, "rlabChrgId", userInfo.saUser);
 			rlabRqprDataSet.setNameValue(0, "rlabChrgNm", userInfo.saName);
-		}
+		} */
 
 		//WBS 코드 팝업 세팅
 		function setRlabWbsCd(wbsInfo){

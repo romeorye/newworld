@@ -26,16 +26,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-	<title><%=documentTitle%></title>
-    <link type="text/css" href="<%=cssPath%>/main.css" rel="stylesheet">
-    <link type="text/css" href="<%=cssPath%>/common.css" rel="stylesheet">
-    <link type="text/css" href="<%=cssPath%>/bootstrap.min.css" rel="stylesheet">
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
-    <script type="text/javascript" src="<%=scriptPath%>/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<%=scriptPath%>/jquery-3.3.1.min.js"></script>
+
+<title><%=documentTitle%></title>
+<script type="text/javascript" src="<%=ruiPathPlugins%>/tab/rui_tab.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/tab/rui_tab.css" />
+<style>
+	.L-navset {overflow:hidden;}
+</style>
 </head>
+<script type="text/javascript">
+
+	Rui.onReady(function() {
+       /*******************
+        * 변수 및 객체 선언
+        *******************/
+        /* [TAB] */
+        tabView = new Rui.ui.tab.LTabView({
+        	tabs: [
+        		{ label: '평가분야', content: '<div id="tabContent0"></div>' },
+        		{ label: '평가담당자', content: '<div id="tabContent1"></div>' },
+                { label: '평가의뢰 절차 및 메뉴얼', content: '<div id="tabContent2"></div>' }
+            ]
+        });
+
+        tabView.on('activeTabChange', function(e){
+        	// 숨기기 / 보이기
+            for(var i = 0; i < 3; i++) {
+                if(i == e.activeIndex) {
+                    Rui.get('tab' + i).show();
+                }
+                else {
+                    Rui.get('tab' + i).hide();
+                }
+            }
+        });
+
+        tabView.render('tabView');
+
+		//페이지 온로드시 0번째 탭 선택
+        tabView.selectTab(0);
+
+	});//onReady 끝
+</script>
 
   <body style="overflow:auto">
 		<div class="contents">
@@ -43,26 +76,27 @@
 				<a class="leftCon" href="#">
 					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 					<span class="hidden">Toggle 버튼</span>
-				</a>    
+				</a>
 				<!-- <h2>분석분야</h2> -->
 				<h2>공간성능평가 안내</h2>
 		    </div>
 
 			<div class="sub-content">
 
-			    
-			    
+
+
 			    <!-- tab start -->
-				<ul class="nav nav-tabs">
+			    <div id="tabView"></div><br/>
+				<!-- <ul class="nav nav-tabs">
 					<li><a href="#tab01" data-toggle="tab">평가분야</a></li>
 					<li><a href="#tab02" data-toggle="tab">평가 담당자</a></li>
 					<li><a href="#tab03" data-toggle="tab">평가의뢰 절차 및 메뉴얼</a></li>
-				</ul>   
+				</ul> -->
 				<!-- tab-content start -->
 				<div class="tab-content">
-		
+
 					<!-- 평가분야 -->
-					<div class="tab-pane fade active in" id="tab01">
+					<div class="tab-pane fade active in" id="tab0">
 						<div style="padding:0 20px;">
 							<table class="tcn_tab01">
 								<colgroup>
@@ -101,7 +135,7 @@
 												<p></p>
 												<p><span>빛</span></p>
 											</div>
-										</th>	
+										</th>
 										<td class="bg_arrow"></td>
 										<td class="asset_right">
 											<div class="asset_img"><img src="/iris/resource/web/images/newIris/img_tachnical03.png" alt="빛"></div>
@@ -149,10 +183,10 @@
 						</div>
 					</div>
 					<!--  //평가분야 -->
-		
-		
+
+
 					<!-- 평가 담당자 -->
-					<div class="tab-pane fade" id="tab02">
+					<div class="tab-pane fade" id="tab1" >
 						<div>
 							<table class="table p-admin">
 								<colgroup>
@@ -168,21 +202,21 @@
 											<dt>Simulation</dt>
 											<dd>주:이진욱책임</dd>
 											<dd>부:이유지선임</dd>
-										</dl>	
+										</dl>
 									</th>
 									<th>
 										<dl>
 											<dt>Mockup</dt>
 											<dd>주:황효근책임</dd>
 											<dd>부:김준혁선임</dd>
-										</dl>	
+										</dl>
 									</th>
 									<th>
 										<dl>
 											<dt>Certification</dt>
 											<dd>주:박상훈책임</dd>
 											<dd>부:안남혁선임</dd>
-										</dl>	
+										</dl>
 									</th>
 								</thead>
 								<tbody>
@@ -206,7 +240,7 @@
 									<tr>
 										<th>열</th>
 									</tr>
-									<tr> 
+									<tr>
 										<th>빛</th>
 										<td><span class="bullet_txt">EcoTec: 이진욱P  <em>(2W)</em></td>
 										<td><span class="bullet_txt">박상훈P/ 안남혁S  <em>(협의)</em></td>
@@ -226,10 +260,10 @@
 						</div>
 					</div>
 					<!--  //평가 담당자 -->
-		
-		
+
+
 					<!-- 평가의뢰 절차 및 메뉴얼 -->
-					<div class="tab-pane fade" id="tab03">
+					<div class="tab-pane fade" id="tab2" >
 						<div style="padding:20px 20px 0 0;">
 							<ul class="processs">
 								<li>
@@ -246,13 +280,13 @@
 									<p class="img"><img src="/iris/resource/web/images/newIris/img_process_img.png" alt=""></p>
 									<p>3. 평가진행</p>
 								</li>
-		                                                                                   						
+
 								<li class="dn_pr bg_none"></li>
 								<li class="bg_none2"></li>
 								<li class="dn_pr bg_none"></li>
 								<li class="bg_none2"></li>
 								<li class="dn_pr"></li>
-		
+
 								<li class="bg_none"></li>
 								<li class="prev_pr bg_none"></li>
 								<li>
@@ -264,7 +298,7 @@
 									<p class="img"><img src="/iris/resource/web/images/newIris/img_process_fb.png" alt=""></p>
 									<p>5. 의뢰자 FeedBack</p>
 								</li>
-		
+
 							<ul>
 						</div>
 					</div>
