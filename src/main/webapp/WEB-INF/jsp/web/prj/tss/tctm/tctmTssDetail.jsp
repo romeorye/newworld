@@ -360,7 +360,7 @@
                     , { id: 'deptName',   ctrlId: 'deptName',   value: 'value' }
                     , { id: 'ppslMbdCd',  ctrlId: 'ppslMbdCd',  value: 'value' }
                     , { id: 'bizDptCd',   ctrlId: 'bizDptCd',   value: 'value' }
-                    , { id: 'wbsCd',      ctrlId: 'wbsCd',      value: 'value' }
+                    // , { id: 'wbsCd',      ctrlId: 'wbsCd',      value: 'value' }         /SEED를 추가하기 위해 bind 주석
                     , { id: 'tssNm',      ctrlId: 'tssNm',      value: 'value' }
                     , { id: 'saSabunNew', ctrlId: 'saSabunNew', value: 'value' }
                     , { id: 'saSabunName', ctrlId: 'saSabunName', value: 'value' }
@@ -438,10 +438,9 @@
                 hasAltr  = stringNullChk(dataSet.getNameValue(0, "hasAltr"));
 
 
-                if(pgsStepCd=="PL"){
+
                     //계획 단계의 경우 SEED 표현
-                    wbsCd.setValue("SEED-" +stringNullChk(dataSet.getNameValue(0, "wbsCd")));
-                }
+                    wbsCd.setValue((pgsStepCd=="PL")?"SEED-" :""+stringNullChk(dataSet.getNameValue(0, "wbsCd")));
 
 
 
