@@ -351,14 +351,16 @@
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="saftyId" name="saftyId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
-   		<div class="contents"		
+   		<div class="contents">		
    			<div class="titleArea">
 				<a class="leftCon" href="#">
 	   				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 	   				<span class="hidden">Toggle 버튼</span>
    				</a>
  				<h2>안전/환경/보건 등록</h2>
- 			</div>
+ 			</div>		
+   			
+   			
 
 			<div class="sub-content">
 				<div class="titArea btn_top">
