@@ -81,14 +81,31 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
             //과제 제안서
             Calendar cal = Calendar.getInstance();
             int mm   = cal.get(Calendar.MONTH) + 1;
-           
+            String pmisDt = CommonUtil.getMonthSearch_1( CommonUtil.replace(mstDs.get("tssFnhDd").toString(), "-", ""));
+            
             smryDs.put("goalY",       mstDs.get("tssStrtDd").toString().substring(0,4));
             smryDs.put("yldItmType", "01");
             smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
             commonDao.update("prj.tss.com.updateTssYld", smryDs);
             
-            String pmisDt = CommonUtil.getMonthSearch_1( CommonUtil.replace(mstDs.get("tssFnhDd").toString(), "-", ""));
-
+            //qgate1
+            smryDs.put("goalY",       mstDs.get("tssStrtDd").toString().substring(0,4));
+            smryDs.put("yldItmType", "06");
+            smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+            commonDao.update("prj.tss.com.updateTssYld", smryDs);
+            
+            //qgate2
+            smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
+            smryDs.put("yldItmType", "07");
+            smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
+            commonDao.update("prj.tss.com.updateTssYld", smryDs);
+            
+            //qgate3
+            smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
+            smryDs.put("yldItmType", "08");
+            smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
+            commonDao.update("prj.tss.com.updateTssYld", smryDs);
+            
             //지적재산권 
             smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
             smryDs.put("yldItmType", "05");
@@ -113,27 +130,42 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
       //과제 제안서
         Calendar cal = Calendar.getInstance();
         int mm   = cal.get(Calendar.MONTH) + 1;
-       
+        String pmisDt = CommonUtil.getMonthSearch_1( CommonUtil.replace(mstDs.get("tssFnhDd").toString(), "-", ""));
+        
         smryDs.put("goalY",       mstDs.get("tssStrtDd").toString().substring(0,4));
         smryDs.put("yldItmType", "01");
         smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
         
-        commonDao.update("prj.tss.com.updateTssYld", smryDs);
+        //qgate1
+        smryDs.put("goalY",       mstDs.get("tssStrtDd").toString().substring(0,4));
+        smryDs.put("yldItmType", "06");
+        smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
         
-        String pmisDt = CommonUtil.getMonthSearch_1( CommonUtil.replace(mstDs.get("tssFnhDd").toString(), "-", ""));
-
+        //qgate2
+        smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
+        smryDs.put("yldItmType", "07");
+        smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
+        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
+        
+        //qgate3
+        smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
+        smryDs.put("yldItmType", "08");
+        smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
+        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
+        
         //지적재산권 
         smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
         smryDs.put("yldItmType", "05");
         smryDs.put("arslYymm",  CommonUtil.getFormattedDate(pmisDt, "-").substring(0, 7));
-        commonDao.update("prj.tss.com.updateTssYld", smryDs);
-        
+        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
         
         //중단 완료 보고서
         smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
         smryDs.put("yldItmType", "03");
         smryDs.put("arslYymm",       mstDs.get("tssFnhDd").toString().substring(0,7));
-        commonDao.update("prj.tss.com.updateTssYld", smryDs);
+        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
         
         return 1;
     }
