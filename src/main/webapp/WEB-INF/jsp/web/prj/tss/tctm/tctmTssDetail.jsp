@@ -500,7 +500,7 @@
                     $("#grsYnTd0102").hide();
                     $("#grsYnTd0201").show();
                     $("#grsYnTd0202").show();
-                    
+
                     // $("#grsYnTd02").hide();
                 }
                 if(!isEditable)setViewform();		//읽기용 뷰로 변경
@@ -1194,8 +1194,13 @@
 <Tag:saymessage/>
 <%--<!--  sayMessage 사용시 필요 -->--%>
 <div class="contents">
+
 	<div class="titleArea">
-		<h2>기술팀과제 &gt;&gt;&nbsp; <h2 id="stepNm"></h2> </h2>
+		<a class="leftCon" href="#">
+			<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+			<span class="hidden">Toggle 버튼</span>
+		</a>
+		<h2 id="h2Titl">기술팀과제 &gt;&gt;&nbsp;</h2><h2 id="stepNm"></h2>
 	</div>
 
 	<div class="sub-content">
