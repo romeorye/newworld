@@ -2,7 +2,6 @@ package iris.web.tssbatch;
 
 import devonframe.dataaccess.CommonDao;
 import devonframe.util.NullUtil;
-import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.StringUtil;
 import iris.web.common.util.TestConsole;
 import iris.web.prj.grs.service.GrsReqService;
@@ -171,6 +170,18 @@ public class 기술팀과제Test {
 				.andExpect(status().isOk())
 				.andDo(print());
 	}
+	@Ignore
+	@Test
+	public void 기술팀변경취소() throws Exception {
+		HashMap<String, String> input = new HashMap<String, String>();
+		input.put("tssCd","D180010001");
+		input.put("userId","digel");
+//		input.put("tssCd",TSS_CD);
+		tctmTssService.cancelTctmTssInfoAltrSmry(input);
+
+	}
+
+
 
 	@Test
 	public void a기술팀과제초기화() throws Exception {
@@ -328,8 +339,6 @@ public class 기술팀과제Test {
 		}
 
 	}
-
-
 	@Test
 	public void gGRS평가() throws Exception {
 		// /prj/grs/insertGrsEvRsltSave.do
@@ -339,6 +348,8 @@ public class 기술팀과제Test {
 		dsLst.add(jason2Map("{wgvl=20, calScr=4, grsEvSeq=3, evSbcTxt=신규 시장·용도 확대 가능성, grsEvSn=5, evCrtnNm=사업 Impact, useYn=Y, dtlSbcTitl_4=기존 시장 보완, duistate=2, dtlSbcTitl_5=기존 시장 유지, dtlSbcTitl_2=신규 시장 창출, grsType=, grsY=, dtlSbcTitl_3=기존 시장 용도 확대, evScr=1, evPrvsNm_2=사업지표, evPrvsNm_1=중앙연구소 GRS P1(초기), evSbcNm=, dtlSbcTitl_1=신규 시장 선도}"));
 		dsLst.add(jason2Map("{wgvl=20, calScr=4, grsEvSeq=4, evSbcTxt=사업매출/수익성, grsEvSn=5, evCrtnNm=제품 경쟁력, useYn=Y, dtlSbcTitl_4=낮음, duistate=2, dtlSbcTitl_5=매우 낮음, dtlSbcTitl_2=높음, grsType=, grsY=, dtlSbcTitl_3=다소 높음, evScr=1, evPrvsNm_2=사업지표, evPrvsNm_1=중앙연구소 GRS P1(초기), evSbcNm=, dtlSbcTitl_1=매우 높음}"));
 		dsLst.add(jason2Map("{wgvl=10, calScr=2, grsEvSeq=5, evSbcTxt=핵심제품/기술로서 사업 경쟁력에 미치는 영향, grsEvSn=5, evCrtnNm=전략 적합성, useYn=Y, dtlSbcTitl_4=낮음, duistate=2, dtlSbcTitl_5=매우 낮음, dtlSbcTitl_2=높음, grsType=, grsY=, dtlSbcTitl_3=다소 높음, evScr=1, evPrvsNm_2=전략지표, evPrvsNm_1=중앙연구소 GRS P1(초기), evSbcNm=, dtlSbcTitl_1=매우 높음}"));
+
+//		TSS_CD = "D180010002";
 
 
 		HashMap input = jason2Map("{tssScnCd=, tssNmSch=, tssCdSn=1, bizDtpCd=, cfrnAtdtCdTxt=FB2154, tssCd=D180010001, grsEvStSch=, cfrnAtdtCdTxtNm=&#37;EC&#37;84&#37;B1&#37;EC&#37;A0&#37;95&#37;EC&#37;8B&#37;9D, dui_datasetdatatype=1, grsEvSn=5, dlbrCrgr=FB2154, evTitl=1111, dui_datasetdata=[{\"metaData\":{\"dataSetId\":\"gridDataSet\",\"count\":5,\"totalCount\":5},\"records\":[{\"duistate\":2,\"grsEvSn\":5,\"grsEvSeq\":1,\"evPrvsNm_1\":\"중앙연구소 GRS P1(초기)\",\"evPrvsNm_2\":\"기술지표\",\"evCrtnNm\":\"R&D 경쟁력\",\"evSbcTxt\":\"개발 기술의 경쟁사 대비 차별화 수준\",\"dtlSbcTitl_1\":\"세계 최고 수준\",\"dtlSbcTitl_2\":\"국내 최고 수준\",\"dtlSbcTitl_3\":\"경쟁사 동등 수준\",\"dtlSbcTitl_4\":\"내부 개선 수준\",\"dtlSbcTitl_5\":\"현 수준\",\"evScr\":1,\"wgvl\":20,\"calScr\":\"4\",\"grsY\":\"\",\"grsType\":\"\",\"evSbcNm\":\"\",\"useYn\":\"Y\"},{\"duistate\":2,\"grsEvSn\":5,\"grsEvSeq\":2,\"evPrvsNm_1\":\"중앙연구소 GRS P1(초기)\",\"evPrvsNm_2\":\"사업지표\",\"evCrtnNm\":\"고객 Needs 적합성\",\"evSbcTxt\":\"현재 혹은 사업화 시점에서의 고객 제공 가치 정도\",\"dtlSbcTitl_1\":\"매우 높음\",\"dtlSbcTitl_2\":\"높음\",\"dtlSbcTitl_3\":\"다소 높음\",\"dtlSbcTitl_4\":\"낮음\",\"dtlSbcTitl_5\":\"매우 낮음\",\"evScr\":1,\"wgvl\":30,\"calScr\":\"6\",\"grsY\":\"\",\"grsType\":\"\",\"evSbcNm\":\"\",\"useYn\":\"Y\"},{\"duistate\":2,\"grsEvSn\":5,\"grsEvSeq\":3,\"evPrvsNm_1\":\"중앙연구소 GRS P1(초기)\",\"evPrvsNm_2\":\"사업지표\",\"evCrtnNm\":\"사업 Impact\",\"evSbcTxt\":\"신규 시장·용도 확대 가능성\",\"dtlSbcTitl_1\":\"신규 시장 선도\",\"dtlSbcTitl_2\":\"신규 시장 창출\",\"dtlSbcTitl_3\":\"기존 시장 용도 확대\",\"dtlSbcTitl_4\":\"기존 시장 보완\",\"dtlSbcTitl_5\":\"기존 시장 유지\",\"evScr\":1,\"wgvl\":20,\"calScr\":\"4\",\"grsY\":\"\",\"grsType\":\"\",\"evSbcNm\":\"\",\"useYn\":\"Y\"},{\"duistate\":2,\"grsEvSn\":5,\"grsEvSeq\":4,\"evPrvsNm_1\":\"중앙연구소 GRS P1(초기)\",\"evPrvsNm_2\":\"사업지표\",\"evCrtnNm\":\"제품 경쟁력\",\"evSbcTxt\":\"사업매출/수익성\",\"dtlSbcTitl_1\":\"매우 높음\",\"dtlSbcTitl_2\":\"높음\",\"dtlSbcTitl_3\":\"다소 높음\",\"dtlSbcTitl_4\":\"낮음\",\"dtlSbcTitl_5\":\"매우 낮음\",\"evScr\":1,\"wgvl\":20,\"calScr\":\"4\",\"grsY\":\"\",\"grsType\":\"\",\"evSbcNm\":\"\",\"useYn\":\"Y\"},{\"duistate\":2,\"grsEvSn\":5,\"grsEvSeq\":5,\"evPrvsNm_1\":\"중앙연구소 GRS P1(초기)\",\"evPrvsNm_2\":\"전략지표\",\"evCrtnNm\":\"전략 적합성\",\"evSbcTxt\":\"핵심제품/기술로서 사업 경쟁력에 미치는 영향\",\"dtlSbcTitl_1\":\"매우 높음\",\"dtlSbcTitl_2\":\"높음\",\"dtlSbcTitl_3\":\"다소 높음\",\"dtlSbcTitl_4\":\"낮음\",\"dtlSbcTitl_5\":\"매우 낮음\",\"evScr\":1,\"wgvl\":10,\"calScr\":\"2\",\"grsY\":\"\",\"grsType\":\"\",\"evSbcNm\":\"\",\"useYn\":\"Y\"}]}], userIds=digel, seq=, commTxt=1111111, dlbrParrDt=2018-09-07, attcFilId=201805883, _userEmail=youngken@lghausys.com, _userJobx=EH0, _userId=youngken, _userGubun=F, _userFunc=, _loginTime=08:32:09, _userFuncName=, _teamDept=II, _userNm=조윤혜, _userDeptName=LG CNS, rowsPerPage=100, sessionID=84132A3BB17C95E202844B21A360EA58, _userSabun=FB0399, _userDept=IC, _userJobxName=책임, _roleId=WORK_IRI_T01, userId=youngken}");
@@ -374,6 +385,7 @@ public class 기술팀과제Test {
 //		ds  = RuiConverter.convertToDataSet(request, "dataSet");
 		List<Map<String, Object>> ds = new ArrayList<>();
 		HashMap input = jason2Map("{tssSt=, affrCd=D180010001, body=<div></div>, tssCd=D180010001, approvalJobtitle=책임, approvalDeptname=LG CNS, approvalProcessdate=, url=, updateDate=, guid=, duistate=1, title=, approvalUserid=youngken, aprdocstate=, userId=youngken, approverProcessdate=, approvalUsername=조윤혜, affrGbn=T}");
+//		TSS_CD = "D180010001";
 		input.put("tssCd",TSS_CD);
 		ds.add(input);
 
@@ -403,11 +415,11 @@ public class 기술팀과제Test {
 
 	@Test
 	public void i품의완료() throws SQLException, ClassNotFoundException {
+		LOGGER.debug("=============== 통합결제완료 프로시져(통합결제 gui가 등록된후 요청상태로 변경 503,103) ===============");
 
-		LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>>");
-		LOGGER.debug("통합결제완료 프로시져(통합결제 gui가 등록된후 요청상태로 변경 503,103) ");
+//		TSS_CD = "D180010003";
 
-		final String gui = commonDao.select(sqlPack+"getGui",TSS_CD);
+		final String gui = commonDao.select(sqlPack+"getgui",TSS_CD);
 		HashMap<String, Object> input = new HashMap<String,Object>(){
 			{
 				put("gui",gui);
@@ -419,8 +431,7 @@ public class 기술팀과제Test {
 		};
 		commonDao.select(sqlPack+"ItgSp",input);
 
-		LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>>");
-		LOGGER.debug("결제 배치 A02(최종승인완료) 경우 104로 변경(품의완료) , 과제,서머리 복제");
+		LOGGER.debug("=============== 결제 배치 A02(최종승인완료) 경우 104로 변경(품의완료) , 과제,서머리 복제, WBS_CD 생성 ===============");
 		tssStCopyBatch.batchProcess();
 	}
 

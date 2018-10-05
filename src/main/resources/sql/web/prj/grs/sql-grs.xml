@@ -6,7 +6,7 @@
         <![CDATA[
 		/*retrieveGrsReqList GRS 평가 목록*/
     SELECT *
-      , (SELECT COM_DTL_NM FROM IRIS_ADM_COM_CD WHERE COM_CD_CD =  'GRS_ST' AND COM_DTL_CD = tssSt) AS tssStNm
+      , (SELECT COM_DTL_NM FROM IRIS_ADM_COM_CD WHERE COM_CD_CD =  'TSS_ST' AND COM_DTL_CD = tssSt) AS tssStNm
       , iif(tssSt='101', '1', '0') AS isReq
       , iif((stdCnt > 0 AND tssSt!='101')   , '1', '0') AS isConfirm
       , iif((frstRgstDt!=lastMdfyDt AND tssSt='101')   , '1', '0') AS isTmp
