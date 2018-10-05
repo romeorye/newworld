@@ -120,7 +120,6 @@ public class GrsMngServiceImpl implements GrsMngService {
 		if(tssScnCd.equals("G")){
 			//일반
 			//과제 제안서
-            
             String pmisDt = CommonUtil.getMonthSearch_1( CommonUtil.replace(input.get("tssFnhDd").toString(), "-", ""));
             
             input.put("goalY",       input.get("tssStrtDd").toString().substring(0,4));
@@ -161,20 +160,29 @@ public class GrsMngServiceImpl implements GrsMngService {
 
 		}else if(tssScnCd.equals("O")){
 			//대외
-			input.put("goalY",      input.get("tssFnhDd").toString().substring(0,4));
+			input.put("goalY",       input.get("tssStrtDd").toString().substring(0,4));
 			input.put("yldItmType", "01");
-			input.put("arslYymm",   input.get("tssFnhDd").toString().substring(0,7));
-
-			commonDao.update("prj.tss.com.updateTssYld", input);
+			input.put("arslYymm",  input.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+            commonDao.update("prj.tss.com.updateTssYld", input);
+            
+            //중단 완료 보고서
+            input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
+            input.put("yldItmType", "05");
+            input.put("arslYymm",       input.get("tssFnhDd").toString().substring(0,7));
+            commonDao.update("prj.tss.com.updateTssYld", input);
 
 		}else if(tssScnCd.equals("N")){
 			//국책
-			input.put("goalY",      input.get("tssFnhDd").toString().substring(0,4));
+			input.put("goalY",       input.get("tssStrtDd").toString().substring(0,4));
 			input.put("yldItmType", "01");
-			input.put("arslYymm",   input.get("tssFnhDd").toString().substring(0,7));
-
-			commonDao.update("prj.tss.com.updateTssYld", input);
-
+			input.put("arslYymm",  input.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+            commonDao.update("prj.tss.com.updateTssYld", input);
+            
+            //중단 완료 보고서
+            input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
+            input.put("yldItmType", "04");
+            input.put("arslYymm",    input.get("tssFnhDd").toString().substring(0,7));
+            commonDao.update("prj.tss.com.updateTssYld", input);
 			//개요기관
 /*			for(int i = 0; i < inputListLst.size(); i++) {
 				inputListLst.get(i).put("tssCd", mstDs.get("tssCd"));
