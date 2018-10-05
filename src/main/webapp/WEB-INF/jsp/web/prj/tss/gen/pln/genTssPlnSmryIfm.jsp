@@ -52,28 +52,28 @@
         mrktSclTxt = new Rui.ui.form.LTextArea({
             applyTo: 'mrktSclTxt',
             height: 100,
-            width: 600
+            width: 1100
         });
 
         //요약개요
         smrSmryTxt = new Rui.ui.form.LTextArea({
             applyTo: 'smrSmryTxt',
             height: 100,
-            width: 600
+            width: 1100
         });
 
         //요약목표
         smrGoalTxt = new Rui.ui.form.LTextArea({
             applyTo: 'smrGoalTxt',
             height: 100,
-            width: 600
+            width: 1100
         });
        
         //지적재산권 통보
         pmisTxt = new Rui.ui.form.LTextArea({
             applyTo: 'pmisTxt',
             height: 100,
-            width: 600
+            width: 1100
         });
 
         //상품출시(계획)

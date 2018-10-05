@@ -91,7 +91,7 @@
         //신제품명
         nprodNm = new Rui.ui.form.LTextBox({
             applyTo: 'nprodNm',
-            width: 600
+            width: 1000
         });
 
         //예상출시일(계획)
@@ -114,14 +114,14 @@
         fwdPlnTxt = new Rui.ui.form.LTextArea({
             applyTo: 'fwdPlnTxt',
             height: 200,
-            width: 600
+            width: 1150
         });
 
         //향후 계획
         fnoPlnTxt = new Rui.ui.form.LTextArea({
             applyTo: 'fnoPlnTxt',
             height: 200,
-            width: 600
+            width: 1150
         });
 
         //Form 비활성화

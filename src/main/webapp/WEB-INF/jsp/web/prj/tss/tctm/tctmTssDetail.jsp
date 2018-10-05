@@ -201,13 +201,17 @@
                         btnGrsRq.show();	//GRS  요청
                     }
 
-                    if(pgsStepCd!="PL" && gvTssSt=="102"){
+                    if(
+						(pgsStepCd=="PL" && gvTssSt=="302")
+                        || (pgsStepCd!="PL" && gvTssSt=="102")
+					){
                         btnCsusRq.show();	// 품의서요청
                     }
 
                     if(pgsStepCd=="PG" && gvTssSt=="100"){
                         btnAltrRq.show();		//변경 요청
                     }
+
 
                     if(pgsStepCd=="AL"  && gvTssSt=="100"){
                         btnStepPg.show();
@@ -439,9 +443,15 @@
 
 
 
-                    //계획 단계의 경우 SEED 표현
-				console.log(((pgsStepCd=="PL")?"SEED-" :"")+stringNullChk(dataSet.getNameValue(0, "wbsCd")));
-                    wbsCd.setValue(((pgsStepCd=="PL")?"SEED-" :"")+stringNullChk(dataSet.getNameValue(0, "wbsCd")));
+                    //계획 단계의 경우 SEED 표현, width 조정
+                    var wbsCdStr = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
+                    if(pgsStepCd=="PL"){
+                        $('[name="wbsCd"]').css("width",70);
+                        wbsCdStr = "SEED-" + wbsCdStr;
+                    }else{
+                        $('[name="wbsCd"]').css("width",50);
+                    }
+                    wbsCd.setValue(wbsCdStr);
 
 
 

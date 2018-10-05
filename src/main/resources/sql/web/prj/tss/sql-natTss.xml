@@ -8,6 +8,7 @@
         <![CDATA[
         /*retrieveNatTssList 국책과제 목록*/
         SELECT z.*
+        ,dbo.fn_getQgateStepNm(z.wbsCd,'0') as qgateStepNm
 		FROM  (
 		        SELECT M.WBS_CD           AS wbsCd         --과제코드
 		             , M.PK_WBS_CD        AS pkWbsCd       --과제코드

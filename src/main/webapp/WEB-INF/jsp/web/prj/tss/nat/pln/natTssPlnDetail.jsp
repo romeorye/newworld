@@ -170,7 +170,7 @@
                     if(gvTssSt == "100"){
                     	btnDelRq.show();
                     	btnGrsRq.show();
-                    }else if(gvTssSt == "102"){
+                    }else if(gvTssSt == "302"){ // GRS품의 완료
                     	btnCsusRq.show();
                     }
                 }
@@ -213,7 +213,6 @@
             if(pgsStepCd=="PL"){
                 btnDelRq.hide();
                 btnGrsRq.hide();
-                btnCsusRq.hide();
                 btnPgsRq.hide();
             }
 

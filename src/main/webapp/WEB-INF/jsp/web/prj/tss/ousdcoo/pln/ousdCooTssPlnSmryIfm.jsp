@@ -78,14 +78,14 @@
         rsstExpFnshCnd = new Rui.ui.form.LTextArea({
             applyTo: 'rsstExpFnshCnd',
             height: 100,
-            width: 600
+            width: 1000
         });
-      
+
         //법무팀 검토결과
         rvwRsltTxt = new Rui.ui.form.LTextArea({
             applyTo: 'rvwRsltTxt',
             height: 100,
-            width: 600
+            width: 1000
         });
 
         //Form 비활성화

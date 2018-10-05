@@ -197,8 +197,8 @@
                 if(gvTssSt == "100"){
                 	btnDelRq.show();
                 	btnGrsRq.show(); //GRS - 100:작성중
-                }else if(gvTssSt == "102"){
-                	btnCsusRq.show(); //품의 - 102:GRS완료
+                }else if(gvTssSt == "302"){ // GRS품의 완료
+                	btnCsusRq.show();
                 }
             }
 
@@ -235,7 +235,6 @@
             if(pgsStepCd=="PL"){
                 btnDelRq.hide();
                 btnGrsRq.hide();
-                btnCsusRq.hide();
             }
         }
 

@@ -36,6 +36,7 @@
 				, Z.PROGRESSRATEREAL                                        AS progressrateReal
 				, Z.PROGRESSRATE                                            as progressrate
 				, Z.PRJ_CD													AS prjCd
+				,dbo.fn_getQgateStepNm(z.wbs_cd,'0') as qgateStepNm
 		from  (
 				select   m.PRJ_CD
 						,substring(m.prj_nm, CHARINDEX ('.', m.prj_nm) +1, len(m.prj_nm)  ) as prj_nm

@@ -97,14 +97,14 @@
         fnoPlnTxt = new Rui.ui.form.LTextArea({
             applyTo: 'fnoPlnTxt',
             height: 200,
-            width: 600
+            width: 1100
         });
 
         //중단사유
         dcacRsonTxt = new Rui.ui.form.LTextArea({
             applyTo: 'dcacRsonTxt',
             height: 200,
-            width: 600
+            width: 1100
         });
 
         //Form 비활성화

@@ -399,6 +399,7 @@
       etcTssDialog = new Rui.ui.LDialog({
           applyTo: 'divEtcTss',
           width: 800,
+          effect: null,
           // height:600,
           visible: false,
           postmethod: 'none',
@@ -980,7 +981,7 @@
 <!------------------------------------------------------------평가 팝업 시작 ---------------------------------------------------------->
 			<div id="divEvTss" style="visibility: hidden;">
 				<div class="hd">과제 GRS 평가</div>
-				<div class="bd">
+				<div class="bd" style="height: 500px;overflow: auto">
 					<!-- <div class="titArea"> -->
 					<div class="LblockButton" style="margin-bottom: 10px"></div>
 					<!-- </div> -->

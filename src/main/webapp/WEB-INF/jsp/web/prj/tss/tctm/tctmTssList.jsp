@@ -474,55 +474,9 @@
                      , { id: 'G2', label: '과제실적일' }
                      , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 73 }
                      , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 73 }
-                     , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 50, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
-                         p.editable = false;
-                         return value;
-                     } }
-                     , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
-                         p.editable = false;
-                         return value;
-                     } }
-                     , { id: 'G3', label: '현재 진척율' }
-                     , { id: 'progressrateReal', groupId: 'G3', label: '계획', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
-                    	 var arrPrg = record.get("progressrateReal").split('/');
-
-                    	 return arrPrg[1];
-                     } }
-                     , { id: 'progressrateReal1', groupId: 'G3', label: '실적', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
-                    	 var arrPrg = record.get("progressrateReal").split('/');
-
-                    	 return arrPrg[0];
-                     } }
-
-                     , { id: 'pg', label: '진척도', align:'center', width: 70 ,renderer :function(value, p, record, row, col) {
-
-                         var pgN ="달성";
-                         var pgS ="초과";
-                         var pgD ="미달";
-
-                         var progressrate= record.get('progressrateReal');
-
-                         var arrPrg = progressrate.split('/')
-
-                         var rWgvl = floatNullChk(arrPrg[0]) ; // 실적
-                         var gWgvl  = floatNullChk(arrPrg[1]) ; //목표
-
-                         var pg = pgN ;
-
-                         if(rWgvl > gWgvl){
-                             pg = pgS ;
-                         }else if(rWgvl < gWgvl){
-                             pg = pgD ;
-                         }else if(rWgvl = gWgvl){
-                             pg = pgN ;
-                         }
-                         var pgsStepCd= record.get('pgsStepCd');
-
-                         if(pgsStepCd=='PL'){
-                         	pg = '';
-                         }
-                         return pg;
-                     }}
+                     , { field: 'tssStepNm',  label: '진행단계', groupId: 'G2', sortable: true, align:'center', width: 73 }
+                     , { field: 'fn_getGrsStepNm',    label: '품의상태', sortable: true, align:'center', width: 50}
+                     , { field: 'qgateStepNm',        label: 'Q-gate상태', sortable: true, align:'center', width: 80}
                  ]
              });
 

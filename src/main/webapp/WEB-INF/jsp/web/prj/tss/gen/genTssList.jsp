@@ -241,6 +241,7 @@
                 , { id: 'pgsStepCd'}    //진행단계코드
                 , { id: 'grsEvSt'}      //GRS상태
                 , { id: 'myTss'}
+                , { id: 'qgateStepNm'}
             ]
         });
 
@@ -304,6 +305,7 @@
                     }
                     return pg;
                 }}
+                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 100 }
             ]
         });
 

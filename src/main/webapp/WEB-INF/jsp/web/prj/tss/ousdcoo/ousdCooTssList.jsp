@@ -266,6 +266,7 @@
                 , { id: 'rsstExpConvertMil', defaultValue : 0} //연구비(억원)
                 , { id: 'arslExp', defaultValue : 0}           //실적연구비(원)
                 , { id: 'arslExpConvertMil', defaultValue : 0} //실적연구비(억원)
+                , { id: 'qgateStepNm'}
             ]
         });
 
@@ -317,6 +318,7 @@
                   } }
                 , { field: 'rsstExpConvertMil',        label: '총연구비<BR>(억원)'   , sortable: true, align:'right', width: 75 }
                 , { field: 'arslExpConvertMil',        label: '누적실적<BR>(억원)'   , sortable: true, align:'right', width: 75 }
+                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 100 }
             ]
         });
 

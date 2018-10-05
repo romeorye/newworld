@@ -37,6 +37,7 @@
 
     var pgsStepNm = "";
     var dataSet;
+    var pgsStepCd = "";
 
     //Form
     var prjNm;
@@ -309,7 +310,7 @@
 	            if(gvTssSt == "100"){
 	            	btnGrsRq.show();
 	            	btnDelRq.show();
-	            }else if(gvTssSt == "102"){
+	            }else if(gvTssSt == "302"){ // GRS품의 완료
 	            	btnCsusRq.show();
 	            }
 	        }
@@ -350,10 +351,9 @@
             }
 
 
-            if(pgsStepCd=="PL"){
+            if(pgsStepCd!=undefined && pgsStepCd=="PL"){
                 btnDelRq.hide();        //삭제
                 btnGrsRq.hide();       //GRS요청
-                btnCsusRq.hide();   //품의서 요청
             }
 
         }
@@ -420,10 +420,12 @@
             }
 
             if(stringNullChk(dataSet.getNameValue(0, "wbsCd")) != "") {
-                document.getElementById("seed").innerHTML = "SEED-";
+                document.getElementById("seed").innerHTML = "SEED -";
             } else {
                 document.getElementById("seed").innerHTML = "";
             }
+            $('[name="wbsCd"]').css("width",50);
+            $("#gap").css("margin","0px");
 
             disableFields();
 

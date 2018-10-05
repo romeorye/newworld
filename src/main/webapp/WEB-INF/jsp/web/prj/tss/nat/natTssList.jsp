@@ -227,6 +227,7 @@
                 , { id: 'tssCd'}		 //과제코드
                 , { id: 'myTss'}
                 , { id: 'tssNosSt'}
+                , { id: 'qgateStepNm'}
             ]
         });
 
@@ -260,6 +261,7 @@
                     p.editable = false;
                     return value;
                 } }
+                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 100 }
             ]
         });
 
