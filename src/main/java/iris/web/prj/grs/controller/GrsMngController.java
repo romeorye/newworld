@@ -369,7 +369,7 @@ public class GrsMngController extends IrisBaseController {
 			
 			input.put("evTitl", dtlDs.get("evTitl"));
 			input.put("commTxt", dtlDs.get("commTxt"));
-			input.put("userId", dtlDs.get("_userId"));
+			input.put("userId", input.get("_userId"));
 			input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
 			
 			grsReqService.updateGrsEvRslt(input);
