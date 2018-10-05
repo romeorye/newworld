@@ -24,8 +24,8 @@
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 
 <title><%=documentTitle%></title>
-<script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script>
-<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+<%-- <script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 <script type="text/javascript">
 var dataSet;	// 프로젝트 데이터셋
 var dm;         // 데이터셋매니저

@@ -26,7 +26,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
-<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 <style>
     .grid-bg-color-sum {
         background-color: rgb(255,204,204);
@@ -271,7 +271,7 @@
 
 
 </script>
-<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 </head>
 
 <!-- <body onload="init();"> -->

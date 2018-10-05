@@ -6,7 +6,7 @@
 /*
  *************************************************************************
  * $Id      : smryClList.jsp
- * @desc    : 
+ * @desc    :
  *------------------------------------------------------------------------
  * VER  DATE        AUTHOR      DESCRIPTION
  * ---  ----------- ----------  -----------------------------------------
@@ -45,13 +45,13 @@
             applyTo: 'wbsCd',
             width: 200
         });
-      
+
         //과제명
         tssNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssNm',
             width: 200
         });
-        
+
         //과제리더
         saSabunNew = new Rui.ui.form.LPopupTextBox({
             applyTo: 'saSabunNew',
@@ -70,7 +70,7 @@
         saSabunNew.on('keyup', function(e){
             document.aform.saSabunName.value = "";
         });
-        
+
         //조직
         deptName = new Rui.ui.form.LPopupTextBox({
             applyTo: 'deptName',
@@ -81,7 +81,7 @@
         deptName.on('popup', function(e){
             openDeptSearchDialog(setDeptInfo, 'prj');
         });
-        
+
         //과제기간 시작일
         tssStrtDd = new Rui.ui.form.LDateBox({
             applyTo: 'tssStrtDd',
@@ -99,7 +99,7 @@
                 tssStrtDd.setValue(new Date());
             }
         });
-        
+
         //과제기간 종료일
         tssFnhDd = new Rui.ui.form.LDateBox({
             applyTo: 'tssFnhDd',
@@ -117,7 +117,7 @@
                 tssFnhDd.setValue(new Date());
             }
         });
-        
+
         //상태
         tssSt = new Rui.ui.form.LCombo({
             applyTo: 'tssSt',
@@ -130,13 +130,13 @@
             valueField: 'COM_DTL_CD',
             autoMapping: true
         });
-        
+
         //과제명
         prjNm = new Rui.ui.form.LTextBox({
             applyTo: 'prjNm',
             width: 200
         });
-        
+
         //진행상태
         pgsStepCd = new Rui.ui.form.LCombo({
             applyTo: 'pgsStepCd',
@@ -156,18 +156,18 @@
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-                  { id: 'wbsCd'}        //과제코드            
-                , { id: 'pkWbsCd'}      //wbs코드             
-                , { id: 'tssNm'}        //과제명             
-                , { id: 'prjNm'}        //소속명(프로젝트명)      
+                  { id: 'wbsCd'}        //과제코드
+                , { id: 'pkWbsCd'}      //wbs코드
+                , { id: 'tssNm'}        //과제명
+                , { id: 'prjNm'}        //소속명(프로젝트명)
                 , { id: 'saUserName'}   //과제리더
                 , { id: 'deptName'}     //조직
-                , { id: 'tssStrtDd'}    //과제기간시작         
-                , { id: 'tssFnhDd'}     //과제기간종료         
-                , { id: 'cmplNxStrtDd'} //과제실적시작     
-                , { id: 'cmplNxFnhDd'}  //과제실적종료      
-                , { id: 'tssSt'}        //상태              
-                , { id: 'progressrate'} //진척율    
+                , { id: 'tssStrtDd'}    //과제기간시작
+                , { id: 'tssFnhDd'}     //과제기간종료
+                , { id: 'cmplNxStrtDd'} //과제실적시작
+                , { id: 'cmplNxFnhDd'}  //과제실적종료
+                , { id: 'tssSt'}        //상태
+                , { id: 'progressrate'} //진척율
                 , { id: 'frstRgstDt'}   //최종실적등록일
                 , { id: 'tssCd'}        //과제코드
                 , { id: 'pgsStepCd'}    //진행단계코드
@@ -175,8 +175,8 @@
                 , { id: 'myTss'}
             ]
         });
-        
-        
+
+
         /* [Grid] 컬럼설정 */
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
@@ -190,7 +190,7 @@
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
                 , { field: 'prjNm',        label: '소속명', sortable: false, align:'center', width: 200 }
-                , { field: 'saUserName',   label: '과제리더', sortable: false, align:'center', width: 90 }    
+                , { field: 'saUserName',   label: '과제리더', sortable: false, align:'center', width: 90 }
                 , { field: 'deptName',     label: '조직', sortable: false, align:'center', width: 160 }
                 , { id: 'G1', label: '과제기간(계획일)' }
                 , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: false, align:'center', width: 90 }
@@ -208,7 +208,7 @@
                 } }
             ]
         });
-        
+
 
         /* [Grid] 패널설정 */
         var grid = new Rui.ui.grid.LGridPanel({
@@ -233,7 +233,7 @@
 
         grid.render('defaultGrid');
 
-        
+
         /**
         총 건수 표시
         **/
@@ -244,15 +244,15 @@
             var tmp;
             var tmpArray;
             var str = "";
-        
+
             document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
 
         });
-        
+
 
         /* [버튼] 조회 */
         fnSearch = function() {
-            dataSet.load({ 
+            dataSet.load({
                 url: '<c:url value="/prj/mgmt/smryCl/retrieveSmryClList.do"/>'
               , params : {
                     wbsCd : document.aform.wbsCd.value                        //과제번호
@@ -268,8 +268,8 @@
                 }
             });
         };
-        
-        
+
+
         fnSearch();
     });
 </script>
@@ -284,7 +284,7 @@ function setDeptInfo(deptInfo) {
     document.aform.deptCode.value = deptInfo.upperDeptCd;
 };
 </script>
-<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 </head>
 <body>
     <Tag:saymessage />
@@ -302,7 +302,7 @@ function setDeptInfo(deptInfo) {
             <form name="aform" id="aform" method="post">
             <input type="hidden" id="deptCode" value="">
             <input type="hidden" id="saSabunName" value="">
-            
+
                 <div class="search">
 					<div class="search-content">
 		   				<table>

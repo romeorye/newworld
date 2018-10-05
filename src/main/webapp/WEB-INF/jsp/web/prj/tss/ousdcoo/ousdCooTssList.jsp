@@ -26,7 +26,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
-<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 
 <style>
 .font-bold div{
@@ -520,7 +520,7 @@
 
 
 </script>
-<script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script>
+<!-- <script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script> -->
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
     <Tag:saymessage />

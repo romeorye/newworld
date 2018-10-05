@@ -39,7 +39,7 @@
 <script type="text/javascript" src="<%=scriptPath%>/custom.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/grsEv.js"></script>
 
-<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 <%
     response.setHeader("Pragma", "No-cache");
     response.setDateHeader("Expires", 0);
@@ -215,7 +215,7 @@
             ]
         });
 
-						
+
 				//평가 상세 Dataset
             evInfoDataSet = new Rui.data.LJsonDataSet({
                     id: 'evInfoDataSet',

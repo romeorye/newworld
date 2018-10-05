@@ -256,19 +256,19 @@
         });
 
 	</script>
-	<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+	<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
     </head>
     <body onkeypress="if(event.keyCode==13) {getSpaceRqprList();}">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprDeptCd" name="rqprDeptCd" value="<c:out value="${inputData.rqprDeptCd}"/>"/>
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
 
-   		<div class="contents">   			
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 					<span class="hidden">Toggle 버튼</span>
-				</a> 
+				</a>
    				<h2>평가목록</h2>
    			</div>
 			<div class="sub-content">
@@ -295,7 +295,7 @@
 		    						</td>
 		   							<td></td>
 		   						</tr>
-		
+
 		   						<tr>
 		   							<th align="right">WBS Code</th>
 		   							<td>
@@ -309,7 +309,7 @@
 		   								<a style="cursor: pointer;" onclick="getSpaceRqprList();" class="btnL">검색</a>
 		   							</td>
 		   						</tr>
-		
+
 		   						<tr>
 		   							<th align="right">평가명</th>
 		   							<td>

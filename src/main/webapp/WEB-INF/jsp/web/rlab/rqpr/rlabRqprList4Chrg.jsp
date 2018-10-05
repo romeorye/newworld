@@ -303,22 +303,22 @@
         });
 
 	</script>
-	<script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script>
+	<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
     </head>
     <body onkeypress="if(event.keyCode==13) {getRlabRqprList();}">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprDeptCd" name="rqprDeptCd" value="<c:out value="${inputData.rqprDeptCd}"/>"/>
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
 
-   		<div class="contents">   			
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 					<span class="hidden">Toggle 버튼</span>
-				</a>  
+				</a>
    				<h2>시험목록</h2>
    			</div>
-	   			
+
 			<div class="sub-content">
    				<div class="search">
 					<div class="search-content">
