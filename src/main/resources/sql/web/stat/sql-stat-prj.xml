@@ -186,19 +186,30 @@
     <select id="retrieveGenTssStatDtlPopList" resultType="hashmap">
     <![CDATA[
         --retrieveGenTssStatDtlPopList
-        select #{yy} as nm
-              ,'m1' as m1
-              ,'m2' as m2
-              ,'m3' as m3
-              ,'m4' as m4
-              ,'m5' as m5
-              ,'m6' as m6
-              ,'m7' as m7
-              ,'m8' as m8
-              ,'m9' as m9
-              ,'m10' as m10
-              ,'m11' as m11
-              ,'m12' as m12
+		select np_cd as npCd
+		      ,pjt_nm as nm
+		      ,max(case when mm='01' then amt else 0 end) as m1
+			  ,max(case when mm='02' then amt else 0 end) as m2
+			  ,max(case when mm='03' then amt else 0 end) as m3
+			  ,max(case when mm='04' then amt else 0 end) as m4
+			  ,max(case when mm='05' then amt else 0 end) as m5
+			  ,max(case when mm='06' then amt else 0 end) as m6
+			  ,max(case when mm='07' then amt else 0 end) as m7
+			  ,max(case when mm='08' then amt else 0 end) as m8
+			  ,max(case when mm='09' then amt else 0 end) as m9
+			  ,max(case when mm='10' then amt else 0 end) as m10
+			  ,max(case when mm='11' then amt else 0 end) as m11
+			  ,max(case when mm='12' then amt else 0 end) as m12
+		  from (select np_cd
+		              ,pjt_nm
+					  ,right(ym,2) mm
+					  ,round(sum(sal_sum_amt)/convert(float,100000000),2) as amt
+				  from IRIS_NEW_PRDT_SAL_STAT
+				 where 1=1
+				   and left(ym,4)=#{yy}
+				   and np_cd=#{npCd}
+				 group by np_cd, pjt_nm ,right(ym,2)) main
+		  group by np_cd ,pjt_nm
 		]]>
     </select>
 

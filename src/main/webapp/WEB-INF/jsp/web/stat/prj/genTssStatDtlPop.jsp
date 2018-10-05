@@ -22,21 +22,30 @@
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 <title><%=documentTitle%></title>
 
-<%-- staus bar --%>
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LEditButtonColumn.js"></script>
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.css"/>
+
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
-
-<%-- rui Validator --%>
-<script type="text/javascript" src="<%=ruiPathPlugins%>/validate/LCustomValidator.js"></script>
-
+<%
+    response.setHeader("Pragma", "No-cache");
+    response.setDateHeader("Expires", 0);
+    response.setHeader("Cache-Control", "no-cache");
+    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+%>
+<style>
+ .bgcolor-gray {background-color: #999999}
+ .bgcolor-white {background-color: #FFFFFF}
+</style>
 <script type="text/javascript">
 var yy = '${inputData.yy}';
+var npCd = '${inputData.npCd}';
 	Rui.onReady(function(){
 		/* grid */
 		var dataSet = new Rui.data.LJsonDataSet({
 	        id: 'dataSet',
 	        remainRemoved: true,
-	        lazyLoad: true,
 	        fields: [
 				     { id: 'nm' }	  //신제품
 				   , { id: 'm1' }		  //1월
@@ -51,25 +60,27 @@ var yy = '${inputData.yy}';
 				   , { id: 'm10' }		  //10월
 				   , { id: 'm11' }		  //11월
 				   , { id: 'm12' }		  //13월
+				   , { id: 'npCd' }		  //13월
 				   ]
 	    });
 
 		var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	 , { field: 'nm',	label: '신제품',		sortable: false,	align:'center',	width: 220 }
-                 , { field: 'm1',			label: '1월',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'm2',			label: '2월',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'm3',			label: '3월',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'm4',			label: '4월',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'm5',			label: '5월',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'm6',			label: '6월',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'm7',			label: '7월',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'm8',			label: '8월',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'm9',			label: '9월',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'm10',			label: '10월',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'm11',			label: '11월',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'm12',			label: '12월',		sortable: false,	align:'center',	width: 120 }
+	        	  { field: 'nm',	label: '신제품',		sortable: false,	align:'left',	width: 120 }
+                 , { field: 'm1',			label: '1월',		sortable: false,	align:'right',	width: 60 }
+                 , { field: 'm2',			label: '2월',		sortable: false,	align:'right',	width: 60 }
+                 , { field: 'm3',			label: '3월',		sortable: false,	align:'right',	width: 60 }
+                 , { field: 'm4',			label: '4월',		sortable: false,	align:'right',	width: 60 }
+                 , { field: 'm5',			label: '5월',		sortable: false,	align:'right',	width: 60 }
+                 , { field: 'm6',			label: '6월',		sortable: false,	align:'right',	width: 60 }
+                 , { field: 'm7',			label: '7월',		sortable: false,	align:'right',	width: 60 }
+                 , { field: 'm8',			label: '8월',		sortable: false,	align:'right',	width: 60 }
+                 , { field: 'm9',			label: '9월',		sortable: false,	align:'right',	width: 60 }
+                 , { field: 'm10',			label: '10월',		sortable: false,	align:'right',	width: 60 }
+                 , { field: 'm11',			label: '11월',		sortable: false,	align:'right',	width: 60 }
+                 , { field: 'm12',			label: '12월',		sortable: false,	align:'right',	width: 60 }
+                 , { field:'npCd',  		hidden : true}
 
             ]
 	    });
@@ -88,11 +99,11 @@ var yy = '${inputData.yy}';
 			dataSet.load({
 				url: '<c:url value="/stat/prj/retrieveGenTssStatDtlPopList.do"/>',
 				params :{
-					 yy  : yy	//Tool명
+					 yy  : yy	//년도
+					 ,npCd : npCd //과제코드
 	                }
 			});
 		}
-		alert(1);
 		fnSearch();
 
 	});			//end Ready

@@ -273,25 +273,25 @@
 
             genTssStatDtlDialog.render(document.body);
 
-            openGenTssStatDtlDialog = function(yy) {
-            	alert(yy);
-            	var params = '?yy=' + yy;
+            openGenTssStatDtlDialog = function(yy,npCd) {
+            	var params = '?yy=' + yy + '&npCd=' + npCd;
             	genTssStatDtlDialog.setUrl('<c:url value="/stat/prj/genTssStatDtlPop.do"/>'+ params);
             	genTssStatDtlDialog.show();
 		    };
 
             defaultGrid.on('cellClick', function(e) {
             	var yy=dataSet.getNameValue(e.row, "searchYy")
+            	var npCd=dataSet.getNameValue(e.row, "wbsCd")
                 if(e.colId == "nprodSalsY") {
-                	openGenTssStatDtlDialog(yy);
+                	openGenTssStatDtlDialog(yy,npCd);
                 }else if(e.colId == "nprodSalsY1") {
-                	openGenTssStatDtlDialog(yy+1);
+                	openGenTssStatDtlDialog(yy*1+1,npCd);
                 }else if(e.colId == "nprodSalsY2") {
-                	openGenTssStatDtlDialog(yy+2);
+                	openGenTssStatDtlDialog(yy*1+2,npCd);
                 }else if(e.colId == "nprodSalsY3") {
-                	openGenTssStatDtlDialog(yy+3);
+                	openGenTssStatDtlDialog(yy*1+3,npCd);
                 }else if(e.colId == "nprodSalsY4") {
-                	openGenTssStatDtlDialog(yy+4);
+                	openGenTssStatDtlDialog(yy*1+4,npCd);
                 }
             });
 
