@@ -271,7 +271,8 @@
             valueField: 'COM_DTL_CD',
             width: 150
         });
-        
+
+
         tssType.getDataSet().on('load', function(e) {
             console.log('tssType :: load');
         });
@@ -395,6 +396,9 @@
                 , { id: 'tssRoleType' }
                 , { id: 'tssRoleId' }
                 , { id: 'isEditable' }
+                , {id: 'tssStepNm'}	//관제 단계
+                , {id: 'grsStepNm'}	//GRS 단계
+                , {id: 'qgateStepNm'}	//Qgate 단계
             ]
         });
         dataSet.on('load', function(e) {
@@ -405,6 +409,7 @@
             pgsStepCd = stringNullChk(dataSet.getNameValue(0, "pgsStepCd"));
             gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt"));
 
+            
             //최초 로그인사용자 정보 셋팅
             if(gvTssCd == "") {
                 dataSet.setNameValue(0, "prjCd", "${userMap.prjCd}");          //프로젝트코드
@@ -465,6 +470,10 @@
                 , { id: 'prodGCd',    ctrlId: 'prodGCd',    value: 'value' }
                 , { id: 'rsstSphe',   ctrlId: 'rsstSphe',   value: 'value' }
                 , { id: 'tssType',    ctrlId: 'tssType',    value: 'value' }
+                , { id: 'tssStepNm',    ctrlId: 'tssStepNm',    value: 'html' }				//과제 단계명
+                , { id: 'grsStepNm',    ctrlId: 'grsStepNm',    value: 'html' }				// GRS 단계명
+                , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }		//Qgate 단계명
+
             ]
         });
 
@@ -955,6 +964,12 @@ function fncGenTssAltrDetail(cd) {
                                     <td>
                                         <div id="tssType">
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th align="right">진행단계 / GRS</th>
+                                    <td><span id="tssStepNm"></span> / <span id="grsStepNm"></span></td>
+                                    <th align="right">Q-gate 단계</th>
+                                    <td><span id="qgateStepNm"></span> </td>
                                 </tr>
                             </tbody>
                         </table>

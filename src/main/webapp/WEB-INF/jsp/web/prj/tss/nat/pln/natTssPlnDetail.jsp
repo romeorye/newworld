@@ -250,6 +250,9 @@
                 , { id: 'tssRoleType' }
                 , { id: 'tssRoleId' }
                 , { id: 'isEditable' }
+                , {id: 'tssStepNm'}	//관제 단계
+                , {id: 'grsStepNm'}	//GRS 단계
+                , {id: 'qgateStepNm'}	//Qgate 단계
             ]
         });
         dataSet.on('load', function(e) {
@@ -342,6 +345,9 @@
                 , { id: 'exrsInstNm', ctrlId: 'exrsInstNm', value: 'value' }
                 , { id: 'bizNm', ctrlId: 'bizNm', value: 'value' }
                 , { id: 'userId',     ctrlId: 'userId',     value: 'value' }
+                , { id: 'tssStepNm',    ctrlId: 'tssStepNm',    value: 'html' }				//과제 단계명
+                , { id: 'grsStepNm',    ctrlId: 'grsStepNm',    value: 'html' }				// GRS 단계명
+                , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }		//Qgate 단계명
             ]
         });
 
@@ -759,6 +765,12 @@ function setPrjInfo(prjInfo) {
                                     <td colspan="3">
                                          <input type="text" id="supvOpsNm" />
                                     </td>
+                                </tr>
+                                <tr>
+                                    <th align="right">진행단계 / GRS</th>
+                                    <td><span id="tssStepNm"></span> / <span id="grsStepNm"></span></td>
+                                    <th align="right">Q-gate 단계</th>
+                                    <td><span id="qgateStepNm"></span> </td>
                                 </tr>
                             </tbody>
                         </table>

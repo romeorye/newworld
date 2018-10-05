@@ -308,16 +308,17 @@
                 		return value;
                 	  }
                   }
-                , { field: 'pgsStepNm',    label: '상태'     , sortable: true, align:'center', width: 52, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
-                    p.editable = false;
-                    return value;
-                   } }
-                , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 70, editor: tssSt, renderer: function(value, p, record, row, col) {
-                    p.editable = false;
-                    return value;
-                  } }
+
                 , { field: 'rsstExpConvertMil',        label: '총연구비<BR>(억원)'   , sortable: true, align:'right', width: 75 }
                 , { field: 'arslExpConvertMil',        label: '누적실적<BR>(억원)'   , sortable: true, align:'right', width: 75 }
+                , { field: 'pgsStepNm',    label: '상태'     , sortable: true, align:'center', width: 52, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
+                        p.editable = false;
+                        return value;
+                    } }
+                , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 70, editor: tssSt, renderer: function(value, p, record, row, col) {
+                        p.editable = false;
+                        return value;
+                    } }
                 , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 100 }
             ]
         });
