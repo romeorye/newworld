@@ -440,7 +440,8 @@
 
 
                     //계획 단계의 경우 SEED 표현
-                    wbsCd.setValue((pgsStepCd=="PL")?"SEED-" :""+stringNullChk(dataSet.getNameValue(0, "wbsCd")));
+				console.log(((pgsStepCd=="PL")?"SEED-" :"")+stringNullChk(dataSet.getNameValue(0, "wbsCd")));
+                    wbsCd.setValue(((pgsStepCd=="PL")?"SEED-" :"")+stringNullChk(dataSet.getNameValue(0, "wbsCd")));
 
 
 

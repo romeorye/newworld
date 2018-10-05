@@ -95,6 +95,12 @@
                 cboGrsEvSt.setValue("");
                 return;
             }
+
+            if(lvTssScnCd=="D" && cboGrsEvSt.getValue() == "AL") {
+                Rui.alert("기술팀과제는  변경GRS는 선택 불가입니다.");
+                cboGrsEvSt.setValue("");
+                return;
+            }
         });
         
         //평가표

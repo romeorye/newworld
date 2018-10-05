@@ -1,20 +1,18 @@
 package iris.web.prj.grs.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
 import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
 import devonframe.util.NullUtil;
 import iris.web.prj.grs.vo.GrsMailInfoVo;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*********************************************************************************
  * NAME : GrsReqServiceImpl.java
@@ -65,7 +63,7 @@ public class GrsReqServiceImpl implements  GrsReqService{
 
         input.put("reqNo", tssCd + tssCdSn);
 
-        //프로시져호출
+        LOGGER.debug("=============== TODO 프로시져호출 ===============");
         commonDao.insert("prj.grs.insertGrsEvRsltTodo", input);
         int cnt = commonDao.update("prj.tss.com.updateTssMstTssSt", input);
         
@@ -133,7 +131,7 @@ public class GrsReqServiceImpl implements  GrsReqService{
         input.put("reqNo", tssCd + tssCdSn);
         input.put("reqSabun", input.get("_userSabun"));
 
-        //프로시져호출
+        LOGGER.debug("=============== TODO 프로시저 호출 ===============");
         commonDao.insert("prj.grs.insertGrsEvRsltTodo", input);
     }
 
