@@ -367,11 +367,12 @@ public class GrsMngController extends IrisBaseController {
 			dsLst = RuiConverter.convertToDataSet(request, "gridDataSet");
 			dtlDs =  (HashMap<String, Object>)   RuiConverter.convertToDataSet(request, "evInfoDataSet").get(0);
 			
-			dtlDs.put("grsEvSn", input.get("grsEvSn"));
-			dtlDs.put("userId", input.get("_userId"));
-			dtlDs.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
-
-			grsReqService.updateGrsEvRslt(dtlDs);
+			input.put("evTitl", dtlDs.get("evTitl"));
+			input.put("commTxt", dtlDs.get("commTxt"));
+			input.put("userId", dtlDs.get("_userId"));
+			input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
+			
+			grsReqService.updateGrsEvRslt(input);
 			for(Map<String, Object> ds  : dsLst) {
 				ds.put("userId", input.get("_userId"));
 				ds.put("tssCd", input.get("tssCd"));
