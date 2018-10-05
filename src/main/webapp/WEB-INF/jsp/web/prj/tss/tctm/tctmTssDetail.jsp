@@ -360,7 +360,7 @@
                     , { id: 'deptName',   ctrlId: 'deptName',   value: 'value' }
                     , { id: 'ppslMbdCd',  ctrlId: 'ppslMbdCd',  value: 'value' }
                     , { id: 'bizDptCd',   ctrlId: 'bizDptCd',   value: 'value' }
-                    // , { id: 'wbsCd',      ctrlId: 'wbsCd',      value: 'value' }
+                    , { id: 'wbsCd',      ctrlId: 'wbsCd',      value: 'value' }
                     , { id: 'tssNm',      ctrlId: 'tssNm',      value: 'value' }
                     , { id: 'saSabunNew', ctrlId: 'saSabunNew', value: 'value' }
                     , { id: 'saSabunName', ctrlId: 'saSabunName', value: 'value' }

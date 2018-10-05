@@ -57,7 +57,7 @@
          */
         smrSmryTxt = new Rui.ui.form.LTextArea({
             applyTo: 'smrSmryTxt',
-            height: 150,
+            height: 200,
             width: 940
         });
 
@@ -67,7 +67,7 @@
      */
     smrGoalTxt = new Rui.ui.form.LTextArea({
             applyTo: 'smrGoalTxt',
-            height: 150,
+            height: 200,
             width: 940
         });
 
