@@ -131,7 +131,48 @@
  .btn_btn,  .btn_btm {margin:10px 0 10px 0 !important;}
  .btn_btm2 {margin:16px 0 10px 0 !important;}
  
- 
+
+div.main_footer {border-top:1px solid #ddd; padding-left:40px; background:#e4e4e4;}
+.copy, .main_footer strong a {font-size:12px !important;}
+div.main_footer > div {background:#e4e4e4;}
+
+/* ==========================================================================
+   IRIS Main
+   ========================================================================== */
+#main_iris {background:#f4f4f4; width:100%; max-width:1580px; min-width:1260px;padding-top:20px; position:relative; padding-bottom:26px;    margin: unset;}   
+#main_iris .side_bar_con { width:235px; border-radius: 18px; border:0; background:#fff;float:none; position:absolute; left:20px; top:20px; height:auto;}     
+#main_iris  .body_con {margin-left:305px;}   
+
+
+/* ==========================================================================
+   Technical Service Main
+   ========================================================================== */
+#ts {background:#f4f4f4; width:100%; max-width:1580px; min-width:1260px;padding-top:20px; position:relative; padding-bottom:26px;    margin: unset;}
+#ts .side_bar_con { width:235px; border-radius: 18px; border:0; background:#fff;float:none; position:absolute; left:20px; top:20px; height:auto;}   
+#ts .body_con {margin-left:305px;}
+#ts .body_con > div {width:100%;}
+#ts .body_con h4 {font-size:16px;}
+#ts .sec_subject_con { margin-top:20px;}
+#ts .notice_con, #ts .reservation_con, #ts .edu_con, #ts .analysis_con.edu_con {width:48.4% !important; position:relative; border-radius: 18px; background:#fff; box-sizing:border-box; padding:15px 30px;}
+#ts .notice_con,  #ts .edu_con {margin-right:2%;}
+.analysis_con.edu_con {margin-right:0 !important;}
+#ts .notice_con, #ts .reservation_con {height:220px;}
+#ts .notice_con ul li div {font-size:13px;}  
+#ts .notice_con ul li div span {font-size:12px !important;}  
+#ts .side_scroll_con {height:80%;}  
+#ts .album-wrap {height:135px; margin-top: -5px;}
+#ts .swiper-container02 {
+    width: 88% !important; margin-left:0 !important;
+}  
+ /*#ts .album-wrap  {width:100%;}*/
+   
+#ts .QuickMenu_con02 {position:relative; border-radius: 18px; background:#fff; box-sizing:border-box; padding:15px 30px;}
+#ts .QuickMenu_con02 ul li {padding:4px 15px 10px 15px; border:0;}
+ #ts .QuickMenu_con02 ul li + li {border-left:1px solid #ccc;}  
+   
+   
+   
+    
  /* 내부버튼 */
 #butAttcFil-button, 
 #attchFileMngBtn {border:1px solid #c3c3c3 !important; background:#f3f3f3 !important;}
@@ -759,6 +800,12 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 
 .nav.nav-tabs li:first-child a {text-indent:0; background:none; padding-left:20px;}
 .nav.nav-tabs li:first-child.active a {border-bottom:1px solid #fff !important;}
+
+#technical_tab01 {overflow:hidden;}
+#technical_tab01  > div {width:48%; float:left; padding-bottom:40px;}
+#technical_tab01  > div:nth-child(3), #technical_tab01  > div:nth-child(4) {padding-top:40px; border-top:1px solid #ddd;}
+#technical_tab01  > div:nth-child(1), #technical_tab01  > div:nth-child(3) {margin-right:4%; border-right:1px solid #ddd;}
+.subtxt {font-weight: bold; padding-top: 10px;}
 /* Tab */
 
 
