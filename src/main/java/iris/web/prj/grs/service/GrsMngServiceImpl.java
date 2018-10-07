@@ -222,5 +222,19 @@ public class GrsMngServiceImpl implements GrsMngService {
 	public String isBeforGrs(HashMap<String, Object> input) {
 		return commonDao.select("prj.grs.selectIsBeforGrs", input);
 	}
+	@Override
+	public List<Map<String, Object>> retrieveGrsApproval(HashMap<String, Object> input) {
+		return commonDao.selectList("prj.grs.retrieveGrsApproval", input);
+	}
+	
+	@Override
+	public void updateApprGuid(HashMap<String, Object> input) {
+		commonDao.update("prj.grs.updateApprGuid", input);
+	}
+	
+	@Override
+	public String getGuid(HashMap<String, Object> input) {
+		return commonDao.select("prj.grs.getGuid", input);
+	}
 
 }
