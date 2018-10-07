@@ -21,4 +21,10 @@ public interface GrsMngService {
 	void deleteDefGrsDefInfo(HashMap<String,Object> input);
 
 	String isBeforGrs(HashMap<String,Object> input);
+	
+	public List<Map<String, Object>> retrieveGrsApproval(HashMap<String, Object> input);
+	
+	 void updateApprGuid(HashMap<String, Object> input);
+
+    String getGuid(HashMap<String, Object> input);
 }
