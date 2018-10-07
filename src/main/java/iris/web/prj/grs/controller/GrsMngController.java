@@ -1,5 +1,7 @@
 package iris.web.prj.grs.controller;
 
+import devonframe.configuration.ConfigService;
+import devonframe.dataaccess.CommonDao;
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
@@ -11,11 +13,15 @@ import iris.web.prj.tss.com.service.TssUserService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.system.base.IrisBaseController;
+import org.apache.commons.lang.StringUtils;
+import iris.web.tssbatch.service.TssStCopyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,6 +30,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +41,7 @@ public class GrsMngController extends IrisBaseController {
 	@Resource(name = "messageSourceAccessor")
 	private MessageSourceAccessor messageSourceAccessor;
 
+	
 	@Resource(name = "tssUserService")
 	private TssUserService tssUserService;
 
@@ -49,7 +57,14 @@ public class GrsMngController extends IrisBaseController {
     @Resource(name = "genTssService")
     private GenTssService genTssService;
 
-
+	@Resource(name="commonDao")
+	private CommonDao commonDao;
+    
+	@Resource(name = "configService")
+    private ConfigService configService;
+	
+	@Resource(name = "velocityEngine")
+    private VelocityEngine velocityEngine;
 
 
 	static final Logger LOGGER = LogManager.getLogger(GrsMngController.class);
@@ -394,6 +409,122 @@ public class GrsMngController extends IrisBaseController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value="/prj/grs/requestGrsApproval.do")
+	public ModelAndView requestGrsApproval(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session,
+			ModelMap model
+			){
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("GrsMngController - requestGrsApproval Grs 결재요청");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		Map<String,Object> dataMap = new HashMap<String, Object>();
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		
+		try {
+			input.put("cmd", "requestApproval");
+
+    		String serverUrl = "http://" + configService.getString("defaultUrl") + ":" + configService.getString("serverPort") + "/" + configService.getString("contextPath");
+			StringBuffer sb = new StringBuffer();
+
+	    	input = StringUtil.toUtf8Input(input);
+	    	System.out.println("\n\n input : "+input);
+	    	String tssCode = (String) input.get("tssCds");
+	    	
+	    	String[] tssCds = (NullUtil.nvl(input.get("tssCds"),"")).split(",");
+
+	    	List<String> tssCdList = new ArrayList<String>();
+	    	
+        	for(String tssCd : tssCds) {
+        		tssCdList.add(tssCd);
+        	}
+
+        	input.put("tssCdList", tssCdList);
+        	
+        	String guid = grsMngService.getGuid(input);
+        	
+        	Map<String,Object> grsApprInfo  = new HashMap<String, Object>();
+        	
+        	List<Map<String,Object>> grsInfo = grsMngService.retrieveGrsApproval(input);
+        	
+	    	for(int i=0;i<grsInfo.size();i++) {
+				sb.append("<tr>")
+				  .append("<th>").append(grsInfo.get(i).get("grsEvSt")).append("</th>")
+				  .append("<td>").append(grsInfo.get(i).get("prjNm")).append("</td>")
+				  .append("<td>").append(grsInfo.get(i).get("tssNm")).append("</td>")
+				  .append("<td>").append(grsInfo.get(i).get("saSabunName")).append("</td>")
+				  .append("<td>").append(grsInfo.get(i).get("tssType")).append("</td>")
+				  .append("<td>").append(grsInfo.get(i).get("evScr")).append("</td>")
+				  .append("<td>").append("PASS").append("</td>")
+				  .append("</tr>");
+			}
+			
+			System.out.println("\n\n sb.append : "+sb.toString());
+			
+			grsApprInfo.put("grsEvResult", sb.toString());
+			
+			sb.delete(0, sb.length());
+			
+
+	    	for(int i=0;i<grsInfo.size();i++) {
+				sb.append("<li class='analyze_field'>")
+				  .append("<p class='analyze_s_txt'><b>과제명1 : </b>").append(grsInfo.get(i).get("tssNm")).append("</p>")
+				  .append("<p class='analyze_s_txt'><b>일시, 장소 : </b>").append(grsInfo.get(i).get("evTitl")).append("</p>")
+				  .append("<p class='analyze_s_txt'><b>참석자 :</b>").append(grsInfo.get(i).get("cfrnAtdtCdTxtNm")).append("</p>")
+				  .append("<p class='analyze_s_txt'><b>주요 Comment:</b>").append(grsInfo.get(i).get("commTxt")).append("</p>")
+				  .append("</li>");
+			}	
+
+	    	grsApprInfo.put("grsInfo", sb.toString());
+
+			sb.delete(0, sb.length());
+			
+			String body = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "iris/web/prj/grs/vm/grsApproval.vm", "UTF-8", grsApprInfo);
+
+			Map<String, Object> itgRdcsInfo = new HashMap<String, Object>();
+
+			// guid= B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료 + rqprId
+			itgRdcsInfo.put("guId", guid);
+			itgRdcsInfo.put("approvalUserid", input.get("_userId"));
+			itgRdcsInfo.put("approvalUsername", input.get("_userNm"));
+			itgRdcsInfo.put("approvalJobtitle", input.get("_userJobxName"));
+			itgRdcsInfo.put("approvalDeptname", input.get("_userDeptName"));
+			itgRdcsInfo.put("body", body);
+			itgRdcsInfo.put("title", "연구/개발과제 GRS 평가결과 보고의 件 ");
+			
+			commonDao.delete("common.itgRdcs.deleteItgRdcsInfo", itgRdcsInfo);
+
+        	if(commonDao.insert("common.itgRdcs.saveItgRdcsInfo", itgRdcsInfo) == 0) {
+        		throw new Exception("결재요청 정보 등록 오류");
+        	}
+        	
+        	input.put("guid", guid);
+        	grsMngService.updateApprGuid(input);
+        	
+        	resultMap.put("guid", guid);
+			resultMap.put("rtnSt", "Y");
+			resultMap.put("rtnMsg", "");
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("rtnSt", "N");
+			resultMap.put("rtnMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
+		}
+		
+		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", resultMap));
+       
+		return modelAndView;
+
+	}
 
 
 	/**
