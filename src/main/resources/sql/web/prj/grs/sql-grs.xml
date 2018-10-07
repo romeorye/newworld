@@ -1029,4 +1029,82 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
         ]]>
 	</update>
 
+    
+        <!-- GRS 품의요청 내역 조회 -->
+    <select id="retrieveGrsApproval" resultType="hashmap">
+		<![CDATA[
+--retrieveGrsApproval GRS 품의요청 내역 조회
+        SELECT
+            A.PRJ_CD         AS prjCd      --프로젝트코드
+            ,
+            C.PRJ_NM         AS prjNm      --프로젝트명
+            ,
+            A.TSS_CD         AS tssCd      --과제코드
+            ,
+            A.TSS_NM         AS tssNm      --과제명
+            ,
+            A.SA_SABUN_NAME  AS saSabunName   -- 과제책임자
+            ,
+            A.TSS_TYPE       AS tssType    -- 개발유형
+            ,
+            B.EV_TITL        AS evTitl     --일시, 장소
+		    , 
+		    B.grs_ev_st	     AS grsEvSt	--P1:초기,P2:최종,M:변경      심의단계
+		    , 
+		    dbo.fn_getComDtlNm('GRS_EV_ST',B.grs_ev_st)   AS grsEvStNm     -- 심의단계명
+            ,
+            (select stuff((select ',' +
+                                  sa_name
+                           from IRIS_SSO_USER
+                           where sa_sabun_new in (SELECT value
+                                                  FROM STRING_SPLIT(convert(nvarchar(4000), B.CFRN_ATDT_CD_TXT), ',')
+                                                  WHERE RTRIM(value) <> '')
+                           order by sa_name
+                           FOR XML PATH ('')), 1, 1, '')) AS cfrnAtdtCdTxtNm --참석자
+            ,
+            B.COMM_TXT       AS commTxt            --주요 Comment
+            ,
+            (SELECT CONVERT(DECIMAL(3,1),ROUND(avg(srr.EV_SCR),1),2)
+             FROM iris_grs_ev_std_rslt_rgst srr,
+                  IRIS_GRS_EV_STD_MGMT sm
+             WHERE sm.GRS_EV_SN = srr.GRS_EV_SN
+                   AND sm.GRS_EV_SEQ = srr.GRS_EV_SEQ
+                   AND srr.TSS_CD =  A.TSS_CD /**P*/
+                   AND srr.tss_cd_sn =  '1' /**P*/) AS evScr    --등급평균
+        FROM IRIS_TSS_MGMT_MST A  /*과제관리마스터*/
+            left JOIN IRIS_PRJ_RSST_MST C  /*프로젝트연구마스터*/
+                ON A.PRJ_CD = C.PRJ_CD
+            LEFT JOIN IRIS_GRS_EV_RSLT_RGST B  /*GRS평가결과등록1*/
+                ON A.TSS_CD = B.TSS_CD
+                   AND B.TSS_CD_SN =  '1'
+        ]]>
+       WHERE A.TSS_CD IN
+	        <foreach collection="tssCdList" index="index" item="item" separator="," open="(" close=")">
+            	'${tssCdList[index]}'
+        	</foreach>
+
+	</select>
+	
+	<update id="updateApprGuid">
+	-- IRIS_TSS_MGMT_MST
+		update	IRIS_TSS_MGMT_MST
+		set		GUID = #{guid}
+		where	TSS_CD IN
+	        <foreach collection="tssCdList" index="index" item="item" separator="," open="(" close=")">
+            	'${tssCdList[index]}'
+        	</foreach>
+
+	</update>
+	
+	<select id="getGuid" resultType="String">
+                <![CDATA[
+            SELECT 'T'
+			     + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
+			     + REPLICATE('0', 4 - LEN(CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)))
+			     + CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)
+			  FROM IRIS_COM_ITG_RDCS X
+			 WHERE SUBSTRING(X.GUID, 1, 7) = 'T' + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
+        ]]>
+    </select>
+    
 </mapper>
