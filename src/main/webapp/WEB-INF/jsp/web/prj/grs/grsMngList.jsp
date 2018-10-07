@@ -69,6 +69,7 @@
             fields: [
                   { id: 'rtnSt' }   //결과코드
                 , { id: 'rtnMsg' }  //결과메시지
+                , { id: 'guid' }  //전자결재번호
             ]
         });
 
@@ -80,6 +81,7 @@
          listDataSet = new Rui.data.LJsonDataSet({
              id: 'listDataSet',
              focusFirstRow: 0,
+             remainRemoved: true,
              lazyLoad: true,
              fields: [
                  { id: 'tssScnCd'},
@@ -110,9 +112,7 @@
          var listColumnModel = new Rui.ui.grid.LColumnModel({
              autoWidth: true,
              columns: [
-                     { field: 'tssScnCd',   label: '선택',  align:'center',  width: 40   , renderer: function(value){
-                         return "<input type='checkbox'/>";
-                     } },
+            	 new Rui.ui.grid.LSelectionColumn(),
                      { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
                      { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70 },
 				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , renderer: function(val, p, record, row, i){
@@ -567,7 +567,66 @@
                 }
             ]
         });
+            
+	    /* 품의 요청 */
+		var grsAppr = new Rui.ui.LButton('grsAppr');
+		grsAppr.on('click', function(){
 
+			var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
+		       dm.on('success', function (e) {      // 업데이트 성공시
+		    	   
+		           var resultData = resultDataSet.getReadData(e);
+
+		           var guid = "";
+		           
+		           guid = resultData.records[0].guid;
+		           
+		           if(resultData.records[0].rtnSt == 'Y') {
+		                var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00332&from=iris&guid='+guid;
+		                openWindow(url, 'grsApprPop', 800, 500, 'yes');
+		           }
+		       });
+
+		       dm.on('failure', function (e) {      // 업데이트 실패시
+		           var resultData = resultDataSet.getReadData(e);
+		           alert(resultData.records[0].rtnMsg);
+		       });
+		       
+		       	if(confirm('품의요청 하시겠습니까?')) {
+		       		
+		   			if(listDataSet.getCount() > 0 ) {
+		   				//체크박스 체크 유무 (1건이상))
+		   				if(listDataSet.getMarkedCount() == 0 ){
+		   					Rui.alert("품의요청할 내역을 체크해주십시오");
+		   					return;
+		   				}
+
+		   				// 선택ID 목록 세팅
+		   		 		var chkTssCdList = [];
+		   				var chkTssCds = '';
+		   				for( var i = 0 ; i < listDataSet.getCount() ; i++ ){
+		   			    	if(listDataSet.isMarked(i)){
+		   			    		//chkWbsCdList.push("'"+listDataSet.getNameValue(i, 'tssCd')+"'");
+		   			    		chkTssCdList.push(listDataSet.getNameValue(i, 'tssCd'));
+		   			    	}
+		   				}
+		   				chkTssCds = chkTssCdList.join(',');
+
+		                dm.updateDataSet({
+		                    url:'<c:url value="/prj/grs/requestGrsApproval.do"/>',
+		                    params: {
+		                        tssCds: chkTssCds
+		                    }
+		                });
+		                
+		   			}else{
+		   				Rui.alert("리스트가 없습니다.");
+		   				return;
+		   			}
+		       	}
+			
+        });
+		
     var fncVaild = function(){
     return true;
     }
@@ -886,7 +945,7 @@
 			<div class="titArea">
 				<span class="Ltotal" id="cnt_text">총 : 0 </span>
 				<div class="LblockButton">
-					<button type="button">품의 요청</button>
+					<button type="button" id="grsAppr" name="grsAppr">품의 요청</button>
 					<button type="button" onclick="addTss()">등록</button>
 					<button type="button" id="butExcel" onclick="javascript:fnExcel()">Excel다운로드</button>
 				</div>
