@@ -13,8 +13,6 @@ import iris.web.prj.tss.com.service.TssUserService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.system.base.IrisBaseController;
-import org.apache.commons.lang.StringUtils;
-import iris.web.tssbatch.service.TssStCopyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
@@ -488,7 +486,9 @@ public class GrsMngController extends IrisBaseController {
 	    	grsApprInfo.put("grsInfo", sb.toString());
 
 			sb.delete(0, sb.length());
-			
+
+
+
 			String body = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "iris/web/prj/grs/vm/grsApproval.vm", "UTF-8", grsApprInfo);
 
 			Map<String, Object> itgRdcsInfo = new HashMap<String, Object>();

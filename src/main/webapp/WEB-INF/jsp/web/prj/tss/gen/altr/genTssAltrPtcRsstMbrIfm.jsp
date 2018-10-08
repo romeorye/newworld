@@ -298,7 +298,7 @@ $(window).load(function() {
 }); 
 </script>
 </head>
-<body>
+<body style="overflow: hidden">
 <div class="titArea">
     <div class="LblockButton">
         <button type="button" id="butRecordNew">추가</button>

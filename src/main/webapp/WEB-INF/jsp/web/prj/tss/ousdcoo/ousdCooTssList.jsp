@@ -22,6 +22,7 @@
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridView.js"></script><!-- Lgrid view -->
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <title><%=documentTitle%></title>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
@@ -328,7 +329,7 @@
             columnModel: columnModel,
             dataSet: dataSet,
             width: 600,
-            height: 480,
+            height: 400,
             autoToEdit: true,
             clickToEdit: true,
             enterToEdit: true,
@@ -415,6 +416,9 @@
             	deptName.disable();
             }
 
+            // 목록 페이징
+            paging(dataSet,"defaultGrid");
+
     	});
         /* [버튼] 조회 */
         fnSearch = function() {
@@ -444,7 +448,8 @@
         /* [버튼] 엑셀 */
          var butExcel = new Rui.ui.LButton('butExcel');
         butExcel.on('click', function() {
-
+			// 엑셀 다운로드시 전체 다운로드를 위해 추가
+            dataSet.clearFilter();
             if(dataSet.getCount() > 0) {
 
             	var excelColumnModel = new Rui.ui.grid.LColumnModel({

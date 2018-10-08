@@ -38,6 +38,7 @@
 
 <script type="text/javascript" src="<%=scriptPath%>/custom.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/grsEv.js"></script>
+	<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 <%
@@ -135,7 +136,7 @@
         var listGrid = new Rui.ui.grid.LGridPanel({ //masterGrid
             columnModel: listColumnModel,
             dataSet: listDataSet,
-            height: 550,
+            height: 400,
             width: 600,
             autoToEdit: true,
             clickToEdit: true,
@@ -307,6 +308,8 @@
             var str = "";
 
             document.getElementById("cnt_text").innerHTML = '총 : '+listDataSet.getCount();
+            // 목록 페이징
+            paging(listDataSet,"evTableGrid");
 
         });
  <%--/*******************************************************************************
@@ -333,7 +336,8 @@
         /* [버튼] 엑셀 */
         var butExcel = new Rui.ui.LButton('butExcel');
         butExcel.on('click', function() {
-
+            // 엑셀 다운로드시 전체 다운로드를 위해 추가
+            listDataSet.clearFilter();
             if(listDataSet.getCount() > 0) {
                 /*  var excelColumnModel = columnModel.createExcelColumnModel(false);
                  grid.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
@@ -591,15 +595,36 @@
 		           var resultData = resultDataSet.getReadData(e);
 		           alert(resultData.records[0].rtnMsg);
 		       });
-		       
-		       	if(confirm('품의요청 하시겠습니까?')) {
+
+
+			// 과제 선택 검사
+            if(listDataSet.getMarkedCount() == 0 ){
+                Rui.alert("품의 요청할 과제를 선택해주십시오");
+                return;
+            }
+
+            // 품의 가능 과제 검사
+            for( var i = 0 ; i < listDataSet.getCount() ; i++ ){
+                if(listDataSet.isMarked(i)){
+                    var tssSt = listDataSet.getNameValue(i, 'tssSt'); 
+                    var tssNm = listDataSet.getNameValue(i, 'tssNm');
+                    if(tssSt!="102"){
+                        alert("GRS평가완료 과제만 품의 요청이 가능합니다.");
+                        return;
+                    }
+                }
+            }
+			
+
+
+            if(confirm('초기(P1) 품의 요청을 하시겠습니까?')) {
 		       		
 		   			if(listDataSet.getCount() > 0 ) {
 		   				//체크박스 체크 유무 (1건이상))
-		   				if(listDataSet.getMarkedCount() == 0 ){
-		   					Rui.alert("품의요청할 내역을 체크해주십시오");
-		   					return;
-		   				}
+		   				// if(listDataSet.getMarkedCount() == 0 ){
+		   				// 	Rui.alert("품의 요청할 과제를 선택해주십시오");
+		   				// 	return;
+		   				// }
 
 		   				// 선택ID 목록 세팅
 		   		 		var chkTssCdList = [];
@@ -620,7 +645,7 @@
 		                });
 		                
 		   			}else{
-		   				Rui.alert("리스트가 없습니다.");
+		   				Rui.alert("목록이 없습니다.");
 		   				return;
 		   			}
 		       	}
@@ -945,7 +970,7 @@
 			<div class="titArea">
 				<span class="Ltotal" id="cnt_text">총 : 0 </span>
 				<div class="LblockButton">
-					<button type="button" id="grsAppr" name="grsAppr">품의 요청</button>
+					<button type="button" id="grsAppr" name="grsAppr">초기(P1) 품의 요청</button>
 					<button type="button" onclick="addTss()">등록</button>
 					<button type="button" id="butExcel" onclick="javascript:fnExcel()">Excel다운로드</button>
 				</div>
@@ -978,7 +1003,7 @@
 								<tr>
 									<th align="right">과제구분</th>
 									<td><div id="tssScnCd" /></td>
-									<th align="right">GRS(P1)수행여부</th>
+									<th align="right">GRS(초기(P1))수행여부</th>
 									<td><div id="grsYn" /></td>
 								</tr>
 								<tr>
@@ -1224,7 +1249,7 @@
         }
     });
 
-	// 연구소 과제의 경우 GRS(P1) 반드시 수행
+	// 연구소 과제의 경우 GRS(초기(P1)) 반드시 수행
     tssScnCd.on('changed', function(e) {
         if($.inArray( e.value, [ "G", "O", "N"])>-1){
             grsYn.setValue('Y');

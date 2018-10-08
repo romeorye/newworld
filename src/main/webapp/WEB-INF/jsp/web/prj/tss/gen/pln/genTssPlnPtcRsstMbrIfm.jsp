@@ -351,7 +351,7 @@ $(window).load(function() {
 }); 
 </script>
 </head>
-<body>
+<body style="overflow: hidden">
 <div id="formDiv">
 	<div class="titArea">
 	    <div class="LblockButton">

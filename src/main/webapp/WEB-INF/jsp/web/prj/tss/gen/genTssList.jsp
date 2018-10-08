@@ -35,6 +35,7 @@
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <%-- <script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
@@ -425,6 +426,8 @@
             	deptName.setValue('${inputData._userDeptName}');
             	deptName.disable();
             }
+
+            paging(dataSet,"defaultGrid");
         });
 
 
@@ -458,7 +461,7 @@
         /* [버튼] 엑셀 */
         var butExcel = new Rui.ui.LButton('butExcel');
         butExcel.on('click', function() {
-
+            dataSet.clearFilter();
             if(dataSet.getCount() > 0) {
                /*  var excelColumnModel = columnModel.createExcelColumnModel(false);
                 grid.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
@@ -566,7 +569,8 @@
 
         butTssNew.hide();
 
-        setGridFullHeight(grid,"defaultGrid");
+        // setGridFullHeight(grid,"defaultGrid");
+
     });
 
 

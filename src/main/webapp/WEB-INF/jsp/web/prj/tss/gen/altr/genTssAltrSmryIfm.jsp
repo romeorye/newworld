@@ -798,7 +798,7 @@ $(window).load(function() {
 }); 
 </script>
 </head>
-<body>
+<body style="overflow: hidden">
 <div id="smryFormDiv">
     <form name="smryForm" id="smryForm" method="post" style="padding: 20px 1px 0 0;">
         <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
