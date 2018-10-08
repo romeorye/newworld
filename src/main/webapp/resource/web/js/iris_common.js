@@ -140,7 +140,37 @@ $(function () {
     $('.leftCon').on('click', function () {
         parent.setMenuFrame();
     });
+
+    // Search toggle
+    var searhButton = '';
+        searhButton += '<div class="search-toggleBtn">';
+        searhButton +=   '<button type="button" class="btn btn-default">';
+        searhButton +=       '<span>Fold</span>';
+        searhButton +=   '</button>';
+        searhButton += '</div>';
+    $('form[name="aform"] table').each(function(){
+        var searchTr = $(this).children().find('tr');
+        if(searchTr.length > 2) {
+            searchTr.eq(1).addClass('display-row');
+            $(this).parent().append(searhButton);
+        };
+        if($(this).hasClass('in') == true) {
+               searchTr.eq(1).removeClass('display-row');
+               $('.search-toggleBtn').addClass('spread');
+            };
+        $('.search-toggleBtn').on('click', function(){
+            if(searchTr.eq(2).css('display') == 'none') {
+               searchTr.eq(1).removeClass('display-row');
+               $(this).addClass('spread');
+            } else{
+                searchTr.eq(1).addClass('display-row');
+                $(this).removeClass('spread');
+            }
+        });
+    });
+
 });
+
 
 
 function chgChar(str){

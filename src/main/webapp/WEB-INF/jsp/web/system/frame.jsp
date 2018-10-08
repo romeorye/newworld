@@ -7,7 +7,7 @@
 
 <link rel="stylesheet" href="<%=cssPath%>/common.css" type="text/css" />
 <link rel="stylesheet" href="<%=cssPath%>/bootstrap.css" type="text/css"/>
-<link rel="stylesheet" href="<%=cssPath%>/lgHs_style.css" type="text/css" />
+<%-- <link rel="stylesheet" href="<%=cssPath%>/lgHs_style.css" type="text/css" /> --%>
 
 </head>
 
