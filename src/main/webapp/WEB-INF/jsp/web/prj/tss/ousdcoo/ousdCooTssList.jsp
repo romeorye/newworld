@@ -279,7 +279,7 @@
                 		  if(stepCd == "PL"){ return "SEED-" + value; }
 				          return value;
                     } }
-                , { field: 'tssNm',        label: '과제명'   , sortable: true, align:'left', width: 300
+                , { field: 'tssNm',        label: '과제명'   , sortable: true, align:'left', width: 200
                 	, renderer: function(value, p, record, row, col){
                         if(record.get("myTss") == "Y") p.css.push('font-bold');
                 		return "<a href='javascript:void(0);'><u>" + value + "<u></a>";

@@ -264,7 +264,7 @@
                     p.editable = false;
                     return value;
                 } }
-                , { field: 'tssSt',        label: '품의상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
+                , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
                     p.editable = false;
                     return value;
                 } }
