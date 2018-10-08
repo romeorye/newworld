@@ -78,7 +78,7 @@
 					<span class="hidden">Toggle 버튼</span>
 				</a>
 				<!-- <h2>분석분야</h2> -->
-				<h2>공간성능평가 안내</h2>
+				<h2>신뢰성시험 안내</h2>
 		    </div>
 
 			<div class="sub-content">
