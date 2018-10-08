@@ -126,7 +126,6 @@
                      { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 65 },
                      { field: 'tssStNm',   label: 'GRS상태',  align:'center',  width: 65},
                      { field: 'isReq',        label: '관리',       align:'center',      width: 90  , renderer: function(val, p, record, row, i){
-                         console.log(record.data.isFirstGrs);
                          return ((val==1)?"<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>":"")
 							 +((record.data.isFirstGrs==1 && val==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"");
 
@@ -309,7 +308,7 @@
 
             document.getElementById("cnt_text").innerHTML = '총 : '+listDataSet.getCount();
             // 목록 페이징
-            paging(listDataSet,"evTableGrid");
+            paging(listDataSet,"listGrid");
 
         });
  <%--/*******************************************************************************
@@ -534,8 +533,6 @@
                                 Rui.confirm({
                                     text: '평가완료하시겠습니까?<br>완료후에는 수정/삭제가 불가능합니다.',
                                     handlerYes: function () {
-                                        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-                                        console.log(gridDataSet);
                                         var param = jQuery("#evTssForm").serialize().replace(/%/g, '%25');
                                         param += "&tssStrtDd=" + evInfoDataSet.getNameValue(0, "tssStrtDd");
                                         param += "&tssFnhDd=" + evInfoDataSet.getNameValue(0, "tssStrtDd");
@@ -545,7 +542,6 @@
                                         param += "&nprodSalsPlnY=" + evInfoDataSet.getNameValue(0, "nprodSalsPlnY");
                                         param += "&ctyOtPlnM=" + evInfoDataSet.getNameValue(0, "ctyOtPlnM");
 
-                                        console.log(">>>>>>>>>>>",param);
 
                                         dm.updateDataSet({
                                             modifiedOnly: false,
@@ -753,7 +749,6 @@
 			}
 
 
-            console.log(">>>>>>>>>>>>>>>>>>", tssCd, isConfirm, evInfoDataSet.getNameValue(0, "tssSt"));
             if (isConfirm) {
                 evTableGrid.setEditable(false);
                 setReadonly("evTitl");
@@ -815,7 +810,6 @@
 
    	// 평가 Popup
     function evTssPop(row) {
-        console.log(111111111111111111111111111111111);
         tssCd = listDataSet.getAt(row).data.tssCd;
         grsEvSn = listDataSet.getAt(row).data.grsEvSn;
         tssCdSn = listDataSet.getAt(row).data.tssCdSn;
@@ -889,11 +883,6 @@
 	 grsEvSnNm.setValue(grsInfo.evSbcNm);
 	 egrsEvSnNm.setValue(grsInfo.evSbcNm);
 	 // getGrsEvTableData(grsInfo.grsEvSn, evInfoDataSet.getAt(0).get("tssCd"), '');
-
-	   console.log(tssCd);
-	   console.log(grsInfo.grsEvSn);
-	   console.log(tssCdSn);
-	   console.log(grsInfo);
 
        gridDataSet.clearData();
        gridDataSet.load({
