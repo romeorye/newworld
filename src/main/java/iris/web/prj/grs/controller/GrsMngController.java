@@ -478,7 +478,7 @@ public class GrsMngController extends IrisBaseController {
 
 	    	for(int i=0;i<grsInfo.size();i++) {
 				sb.append("<li class='analyze_field'>")
-				  .append("<p class='analyze_s_txt'><b>과제명1 : </b>").append(grsInfo.get(i).get("tssNm")).append("</p>")
+				  .append("<p class='analyze_s_txt'><b>과제명 : </b>").append(grsInfo.get(i).get("tssNm")).append("</p>")
 				  .append("<p class='analyze_s_txt'><b>일시, 장소 : </b>").append(grsInfo.get(i).get("evTitl")).append("</p>")
 				  .append("<p class='analyze_s_txt'><b>참석자 :</b>").append(grsInfo.get(i).get("cfrnAtdtCdTxtNm")).append("</p>")
 				  .append("<p class='analyze_s_txt'><b>주요 Comment:</b>").append(grsInfo.get(i).get("commTxt")).append("</p>")
