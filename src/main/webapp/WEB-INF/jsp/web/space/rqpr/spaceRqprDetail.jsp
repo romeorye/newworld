@@ -83,7 +83,6 @@
             });
 
             var tabView = new Rui.ui.tab.LTabView({
-            	height: 1250,
                 tabs: [ {
                         active: true,
                         label: '의뢰정보',
@@ -1588,7 +1587,7 @@
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
     </form>
-   		<div class="contents">   			
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 		          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">

@@ -370,14 +370,7 @@
                 height: 75
             });
 
-            /* T_CLOUD */
-            var tCloud = new Rui.ui.form.LTextBox({
-            	applyTo: 'tCloud',
-                placeholder: '대용량 첨부파일 링크 입력',
-                defaultValue: '',
-                emptyValue: '',
-                width: 980
-            });
+
 
             var vm = new Rui.validate.LValidatorManager({
                 validators:[
@@ -417,7 +410,6 @@
 					, { id: 'rlabDzdvCd' }
 					, { id: 'rlabProdCd' }
 					, { id: 'rlabCrgrComm' }
-					, { id: 'tCloud' }
                 ]
             });
 
@@ -444,8 +436,7 @@
                     { id: 'rlabRqprWbsCd',		ctrlId:'rlabRqprWbsCd',		value:'value'},
                     { id: 'rlabDzdvCd',			ctrlId:'rlabDzdvCd',		value:'value'},
                     { id: 'rlabProdCd',			ctrlId:'rlabProdCd',		value:'value'},
-                    { id: 'rlabCrgrComm',		ctrlId:'rlabCrgrComm',		value:'value'},
-                    { id: 'tCloud',				ctrlId:'tCloud',			value:'value'}
+                    { id: 'rlabCrgrComm',		ctrlId:'rlabCrgrComm',		value:'value'}
                 ]
             });
 
@@ -853,12 +844,6 @@
    							<th align="right"><span style="color:red;">* </span>시험담당자코멘트</th>
    							<td colspan="3">
    								<textarea id="rlabCrgrComm"></textarea>
-   							</td>
-   						</tr>
-						<tr>
-   							<th align="right">T_CLOUD Link</th>
-   							<td colspan="3">
-						        <input type="text" id="tCloud">
    							</td>
    						</tr>
 

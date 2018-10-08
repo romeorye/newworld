@@ -90,7 +90,6 @@
             });
 
             var tabView = new Rui.ui.tab.LTabView({
-            	height: 1250,
                 tabs: [ {
                         active: true,
                         label: '의뢰정보',
@@ -1341,7 +1340,7 @@
 		<input type="hidden" name="acpcNo" value="${inputData.acpcNo}"/>
 		<input type="hidden" name="rlabAcpcStCd" value="${inputData.rlabAcpcStCd}"/>
     </form>
-   <form name="fileDownloadForm" id="fileDownloadForm">
+    <form name="fileDownloadForm" id="fileDownloadForm">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
     </form>
@@ -1350,7 +1349,7 @@
    				<a class="leftCon" href="#">
 					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 					<span class="hidden">Toggle 버튼</span>
-				</a>  
+				</a>
    				<h2>시험목록 상세</h2>
    			</div>
 
@@ -1612,7 +1611,7 @@
    						</tr>
    					</tbody>
    				</table>
-   				
+
 
    				</form>
    				</div>

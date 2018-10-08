@@ -83,7 +83,6 @@
             });
 
             var tabView = new Rui.ui.tab.LTabView({
-            	height: 1250,
                 tabs: [ {
                         active: true,
                         label: '의뢰정보',

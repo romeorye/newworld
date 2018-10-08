@@ -245,6 +245,14 @@
                 emptyValue: '',
                 width: 395
             });
+            /* T-Cloud 링크*/
+            var tCloud = new Rui.ui.form.LTextBox({
+            	applyTo: 'tCloud',
+                placeholder: '대용량 첨부파일 링크 입력.',
+                defaultValue: '',
+                emptyValue: '',
+                width: 980
+            });
 
 
             /* 필수항목 체크 */
@@ -897,24 +905,21 @@
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="spaceChrgId" name="spaceChrgId" value=""/>
    		<div class="contents">
+	   		<div class="titleArea">
+  				<a class="leftCon" href="#">
+				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+				<span class="hidden">Toggle 버튼</span>
+			</a>
+  				<h2>평가의뢰서 등록</h2>
+  			</div>
 
-		   		
-		   		<div class="titleArea">
-   				<a class="leftCon" href="#">
-					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
-					<span class="hidden">Toggle 버튼</span>
-				</a>    
-   				<h2>평가의뢰서 등록</h2>
-   			</div>
-   			
-   			
-		   		<div class="sub-content">
-					<div class="LblockButton mt0 mb5">
-						<button type="button" class="btn"  id="resetBtn" name="resetBtn" onclick="resetAForm()">초기화</button>
-						<button type="button" class="btn"  id="loadSpaceRqprBtn" name="loadSpaceRqprBtn" onclick="openSpaceRqprSearchDialog(getSpaceRqprInfo)">불러오기</button>
-						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="save()">저장</button>
-						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goSpaceRqprList()">목록</button>
-					</div>
+	   		<div class="sub-content">
+				<div class="LblockButton mt0 mb5">
+					<button type="button" class="btn"  id="resetBtn" name="resetBtn" onclick="resetAForm()">초기화</button>
+					<button type="button" class="btn"  id="loadSpaceRqprBtn" name="loadSpaceRqprBtn" onclick="openSpaceRqprSearchDialog(getSpaceRqprInfo)">불러오기</button>
+					<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="save()">저장</button>
+					<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goSpaceRqprList()">목록</button>
+				</div>
 
 
    				<table class="table table_txt_right" style="table-layout:fixed;">
@@ -1058,6 +1063,12 @@
    							<th align="right"><span style="color:red;">* </span>평가대상 상세</th>
    							<td class="rlabrqpr_tain01">
                                 <input type="text" id="evSubjDtl">
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>T-Cloud Link</th>
+   							<td class="rlabrqpr_tain01" colspan="3">
+                                <input type="text" id="tCloud">
    							</td>
    						</tr>
    					</tbody>

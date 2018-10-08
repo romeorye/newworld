@@ -39,7 +39,6 @@ var mchnInfoId;
 
 	Rui.onReady(function() {
 		var tabView = new Rui.ui.tab.LTabView({
-        	height: 1250,
             tabs: [ {
                     active: true,
                     label: '시험구분별 통계',

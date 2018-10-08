@@ -98,7 +98,6 @@
             });
 
             var tabView = new Rui.ui.tab.LTabView({
-            	height: 1250,
                 tabs: [ {
                         active: true,
                         label: '의뢰정보',
@@ -354,6 +353,15 @@
                 width: 385
             });
 
+            /* T-Cloud 링크*/
+            var tCloud = new Rui.ui.form.LTextBox({
+            	applyTo: 'tCloud',
+                placeholder: '대용량 첨부파일 링크 입력.',
+                defaultValue: '',
+                emptyValue: '',
+                width: 10
+            });
+
 
             /* 필수항목 체크 */
             var vm = new Rui.validate.LValidatorManager({
@@ -362,7 +370,7 @@
                 { id: 'spaceSbc',			validExp: '평가목적:true' },
                 { id: 'spaceScnCd',			validExp: '평가구분:true' },
                 { id: 'spaceUgyYn',			validExp: '긴급유무:true' },
-                { id: 'spaceRqprInfmView',	validExp: '통보자:true' },
+                { id: 'spaceRqprInfmView',	validExp: '통보자:true' }
                 ]
             });
 
@@ -1744,7 +1752,7 @@
 	        	</a>
    				<h2>평가목록 상세</h2>
    			</div>
-   			
+
    			<div class="sub-content">
    				<div id="tabView"></div>
 	            <div id="spaceRqprInfoDiv">
@@ -1917,6 +1925,12 @@
    							<th align="right"><span style="color:red;">* </span>평가대상 상세</th>
    							<td>
                                 <input type="text" id="evSubjDtl">
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>T-Cloud Link</th>
+   							<td class="rlabrqpr_tain01" colspan="3">
+                                <input type="text" id="tCloud">
    							</td>
    						</tr>
    					</tbody>
