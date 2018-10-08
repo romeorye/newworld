@@ -254,7 +254,7 @@
                         if(stepCd == "PL") return "SEED-" + value;
                         return value;
                   }}
-                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 180 , renderer: function(value, p, record, row, col){
+                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 178 , renderer: function(value, p, record, row, col){
                     if(record.get("myTss") == "Y") p.css.push('font-bold');
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
@@ -316,7 +316,7 @@
             dataSet: dataSet,
             width: 1210,
             height: 400,
-			autoWidth: true
+			autoWidth: true,
         });
 /*
         var pager = new Rui.ui.LPager({
@@ -565,7 +565,27 @@
 		}
 
         butTssNew.hide();
+
+        setGridFullHeight(grid,"defaultGrid");
     });
+
+
+    function setSize(gridObj,id){
+        var winH = $(window).height();
+        var listY = $("#"+id).offset().top;
+        var bottomH = 20;
+        var listH = winH-listY - bottomH;
+        if(listH<200)listH=300;
+        gridObj.setHeight(listH);
+    }
+
+    function setGridFullHeight(gridObj,id){
+        setSize(gridObj,id);
+        $(window).resize(function(){
+            setSize(gridObj,id);
+        });
+    }
+
 </script>
 <script>
 //과제리더 팝업 셋팅
@@ -692,11 +712,10 @@ function setDeptInfo(deptInfo) {
 	                </div>
 	            </div>
 
-           		<div id="defaultGrid"></div>
-
+					<div id="defaultGrid"></div>
 
             <!-- radio check Test -->
-            <div>
+<%--            <div>
             	<p style="font-size:20px; margin-bottom:10px;">radio check Test<p>
             	<p>
             		<label class="radio-inline">
@@ -722,7 +741,7 @@ function setDeptInfo(deptInfo) {
                         <span>Check2</span>
                     </label>
                 </p>
-            </div>
+            </div>--%>
 			<!-- //radio check Test -->
         </div>
     </div>
