@@ -132,7 +132,7 @@
  .btn_btm2 {margin:16px 0 10px 0 !important;}
  
 
-div.main_footer {border-top:1px solid #ddd; padding-left:40px; background:#e4e4e4;}
+div.main_footer {border-top:1px solid #ddd; padding-left:40px; background:#e4e4e4; oveflow:hidden;}
 .copy, .main_footer strong a {font-size:12px !important;}
 div.main_footer > div {background:#e4e4e4;}
 

@@ -254,6 +254,7 @@
     </div>      
     <div class="gnb_line"></div>
 <style>
+#main_iris {padding-bottom:0;}
 #main_iris #prj_lnb { width:234px;padding:0;}
 
 #main_iris #prj_lnb .side_layout {width:100%; margin-top:0;}
