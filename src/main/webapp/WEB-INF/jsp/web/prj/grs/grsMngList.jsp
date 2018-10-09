@@ -1,6 +1,5 @@
 
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 <%--
 /*
@@ -1117,14 +1116,14 @@
 							</tbody>
 						</table>
 						<table class="table table_txt_right">
-							<colgroup>
+<%--							<colgroup>
 								<col style="width: 20%" />
+								<col style="width: 60%" />
 								<col style="width: 20%;" />
-								<col style="width: 60%;" />
-							</colgroup>
+							</colgroup>--%>
 							<tbody>
 								<tr>
-									<th align="right">회의 일정/장소</th>
+									<th align="right" width="208">회의 일정/장소</th>
 									<td colspan="2"><div id="evTitl" /></td>
 								</tr>
 								<tr>
