@@ -162,15 +162,16 @@
 		
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
-	   			
-   				<table class="searchBox">
+   			<div class="sub-content" style="padding:0 5px;">
+	   			<div class="search mb5 ">
+				<div class="search-content">
+   				<table>
    					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:25%;"/>
-   						<col style="width:20%;"/>
+   						<col style="width:90px;"/>
+   						<col style=""/>
+   						<col style="width:90px;"/>
+   						<col style=""/>
+   						<col style=""/>
    					</colgroup>
    					<tbody>
    						<tr>
@@ -182,12 +183,14 @@
     						<td>
    								<input type="text" id="userNm" value="">
     						</td>
-   							<td class="t_center">
+   							<td class="txt-right">
    								<a style="cursor: pointer;" onclick="getUserList();" class="btnL">검색</a>
    							</td>
    						</tr>
    					</tbody>
    				</table>
+   				</div>
+   				</div>
 
    				<div id="userGrid"></div>
    				

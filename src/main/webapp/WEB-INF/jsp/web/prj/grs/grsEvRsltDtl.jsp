@@ -610,7 +610,10 @@
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">
         <div class="titleArea">
-
+			<a class="leftCon" href="#">
+				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+				<span class="hidden">Toggle 버튼</span>
+			</a>  
             <h2 id="evRsltTitle">과제GRS 평가 결과 등록(
             <c:choose>
                 <c:when test="${inputData.tssStNm == '1'}">평가요청</c:when>
