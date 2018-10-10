@@ -401,7 +401,7 @@
                     <h4 class="notice_title">연구소 주요일정<span class="plus"><a href="javascript:moveMenu('KL', 'IRIKL0100', '/knld/pub/retrieveLabSchedule.do', 'IRIKL0112')">&#43;</a></span></h4>
                     <!--tab-->
                     <div class="tab_con tabbox">
-                        <ul class="Mtabs" style="display:none;>
+                        <ul class="Mtabs" style="display:none;">
                             <li><a href="#panel1" >금주일정</a></li>
                             <li><a href="#panel2" >차주일정</a></li>
                         </ul>
