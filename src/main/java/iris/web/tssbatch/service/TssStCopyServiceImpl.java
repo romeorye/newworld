@@ -174,7 +174,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 			}
 		}
 		//과제 생성시 지적재산권
-		/*this.saveTssPimsInfo(input); 임시*/
+		this.saveTssPimsInfo(input);
 
 		return 0;
 	}
