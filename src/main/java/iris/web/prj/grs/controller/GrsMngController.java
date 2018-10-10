@@ -428,6 +428,7 @@ public class GrsMngController extends IrisBaseController {
 
 		Map<String,Object> dataMap = new HashMap<String, Object>();
 		Map<String,Object> resultMap = new HashMap<String, Object>();
+		List<Map<String, Object>> grsFileList = new ArrayList<Map<String, Object>>();
 		
 		try {
 			input.put("cmd", "requestApproval");
@@ -436,13 +437,14 @@ public class GrsMngController extends IrisBaseController {
 			StringBuffer sb = new StringBuffer();
 
 	    	input = StringUtil.toUtf8Input(input);
-	    	System.out.println("\n\n input : "+input);
+
 	    	String tssCode = (String) input.get("tssCds");
 	    	
 	    	String[] tssCds = (NullUtil.nvl(input.get("tssCds"),"")).split(",");
-
 	    	List<String> tssCdList = new ArrayList<String>();
+	    	String commTxt = "";
 	    	
+	    	String evTitl = "";
         	for(String tssCd : tssCds) {
         		tssCdList.add(tssCd);
         	}
@@ -454,6 +456,8 @@ public class GrsMngController extends IrisBaseController {
         	Map<String,Object> grsApprInfo  = new HashMap<String, Object>();
         	
         	List<Map<String,Object>> grsInfo = grsMngService.retrieveGrsApproval(input);
+        	
+        	List<Map<String,Object>> rqprAttachFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
         	
 	    	for(int i=0;i<grsInfo.size();i++) {
 				sb.append("<tr>")
@@ -467,27 +471,33 @@ public class GrsMngController extends IrisBaseController {
 				  .append("</tr>");
 			}
 			
-			System.out.println("\n\n sb.append : "+sb.toString());
-			
 			grsApprInfo.put("grsEvResult", sb.toString());
 			
 			sb.delete(0, sb.length());
-			
-
+	    	
 	    	for(int i=0;i<grsInfo.size();i++) {
+	    		commTxt = ((String)grsInfo.get(i).get("commTxt")).replaceAll("\n", "<br/>");
+	    		evTitl = ((String)grsInfo.get(i).get("evTitl")).replaceAll("\n", "<br/>");
+	    		
 				sb.append("<li class='analyze_field'>")
 				  .append("<p class='analyze_s_txt'><b>과제명 : </b>").append(grsInfo.get(i).get("tssNm")).append("</p>")
 				  .append("<p class='analyze_s_txt'><b>일시, 장소 : </b>").append(grsInfo.get(i).get("evTitl")).append("</p>")
-				  .append("<p class='analyze_s_txt'><b>참석자 :</b>").append(grsInfo.get(i).get("cfrnAtdtCdTxtNm")).append("</p>")
-				  .append("<p class='analyze_s_txt'><b>주요 Comment:</b>").append(grsInfo.get(i).get("commTxt")).append("</p>")
-				  .append("</li>");
+				  .append("<p class='analyze_s_txt'><b>참석자 :</b>").append(evTitl).append("</p>")
+				  .append("<p class='analyze_s_txt'><b>주요 Comment :</b>").append(commTxt).append("</p>")
+				  .append("<p class='analyze_s_txt'><b>첨부파일 :</b>");
+				
+	    		input.put("attcFilId", grsInfo.get(i).get("attcFilId"));
+	    		grsFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
+	    		
+	    		for(int j=0;j<grsFileList.size();j++) {
+	    			sb.append("<a href='").append(serverUrl).append("/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=").append(grsFileList.get(j).get("attcFilId")).append("&seq=").append(grsFileList.get(j).get("seq")).append("'>").append(grsFileList.get(j).get("filNm")).append("</a>");
+	    		}
+	    		sb.append("</p></li>");
 			}	
 
 	    	grsApprInfo.put("grsInfo", sb.toString());
 
 			sb.delete(0, sb.length());
-
-
 
 			String body = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "iris/web/prj/grs/vm/grsApproval.vm", "UTF-8", grsApprInfo);
 
