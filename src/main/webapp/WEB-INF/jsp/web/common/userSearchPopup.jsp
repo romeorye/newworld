@@ -239,14 +239,14 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">부서</th>
-   							<td>
-   								<input type="text" id="deptNm" value="">
-   							</td>
    							<th align="right">이름</th>
     						<td>
    								<input type="text" id="userNm" value="">
     						</td>
+    						<th align="right">부서</th>
+   							<td>
+   								<input type="text" id="deptNm" value="">
+   							</td>
    							<td class="t_center">
    								<a style="cursor: pointer;" onclick="getUserList();" class="btnL">검색</a>
    							</td>
