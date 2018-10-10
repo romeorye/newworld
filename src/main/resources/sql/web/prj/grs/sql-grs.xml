@@ -108,7 +108,7 @@
         <if test="tssSt != null and tssSt != 'null' and tssSt != ''">
             AND a.tssSt = #{tssSt}
         </if>
-        ORDER BY isReq DESC, a.dlbrParrDt DESC
+        ORDER BY  lastMdfyDt desc, wbsCd desc
     </select>
 
 
