@@ -47,37 +47,27 @@
 	<select id="retrievePrjMainScheduleList" resultType="hashmap">
 	<![CDATA[
 	-- retrievePrjMainScheduleList 프로젝트메인 연구소 금주,차주일정 조회
-	SELECT TYPE          as type
-	     , LABT_ADSC_ID  as labtAdscId
-		 , ADSC_DT       as adscDt
-		 , DAY_NAME      as 'dayname'
-		 , ADSC_TIM      as adscTim
-		 , ADSC_TITL     as adscTitl
-		 , ADSC_STRT_TIM as adscStrtTim
-	  FROM (
-	        SELECT TOP 5 '1' as TYPE
-	             , KLA.LABT_ADSC_ID
-		         , KLA.ADSC_DT
-		         , DATENAME(DW, KLA.ADSC_DT) DAY_NAME
-		         , KLA.ADSC_STRT_TIM+':'+KLA.ADSC_STRT_MINU + '~' + KLA.ADSC_FNH_TIM+':'+KLA.ADSC_FNH_MINU AS ADSC_TIM
-		         , KLA.ADSC_TITL
-		         , KLA.ADSC_STRT_TIM
-	          FROM IRIS_KNLD_LABT_ADSC KLA
-	         WHERE KLA.DEL_YN = 'N'
-	           AND KLA.ADSC_DT BETWEEN CONVERT(NVARCHAR(10), DATEADD (DD, - DATEPART(DW,GETDATE()), GETDATE () + 1 + 0), 23) AND CONVERT(NVARCHAR(10),DATEADD (DD, (7 - DATEPART(DW,GETDATE()) ), GETDATE () + 0), 23)
-	        UNION
-	        SELECT TOP 5 '2' as TYPE
-	             , KLA.LABT_ADSC_ID
-		         , KLA.ADSC_DT
-		         , DATENAME(DW, KLA.ADSC_DT) DAY_NAME
-		         , KLA.ADSC_STRT_TIM+':'+KLA.ADSC_STRT_MINU + '~' + KLA.ADSC_FNH_TIM+':'+KLA.ADSC_FNH_MINU AS ADSC_TIM
-		         , KLA.ADSC_TITL
-		         , KLA.ADSC_STRT_TIM
-	          FROM IRIS_KNLD_LABT_ADSC KLA
-	         WHERE KLA.DEL_YN = 'N'
-	           AND KLA.ADSC_DT BETWEEN CONVERT(NVARCHAR(10), DATEADD (DD, - DATEPART(DW,GETDATE()), GETDATE () + 1 + 7), 23) AND CONVERT(NVARCHAR(10),DATEADD (DD, (7 - DATEPART(DW,GETDATE()) ), GETDATE () + 7), 23)
-	       ) A
-	 ORDER BY TYPE, ADSC_DT,ADSC_STRT_TIM DESC
+		SELECT TYPE          as type
+		     , LABT_ADSC_ID  as labtAdscId
+			 , ADSC_DT       as adscDt
+			 , DAY_NAME      as 'dayname'
+			 , ADSC_TIM      as adscTim
+			 , ADSC_TITL     as adscTitl
+			 , ADSC_STRT_TIM as adscStrtTim
+		  FROM (
+		        SELECT '1' as TYPE
+		             , KLA.LABT_ADSC_ID
+			         , KLA.ADSC_DT
+			         , DATENAME(DW, KLA.ADSC_DT) DAY_NAME
+			         , KLA.ADSC_STRT_TIM+':'+KLA.ADSC_STRT_MINU + '~' + KLA.ADSC_FNH_TIM+':'+KLA.ADSC_FNH_MINU AS ADSC_TIM
+			         , KLA.ADSC_TITL
+			         , KLA.ADSC_STRT_TIM
+		          FROM IRIS_KNLD_LABT_ADSC KLA
+		         WHERE KLA.DEL_YN = 'N'
+		           AND KLA.ADSC_DT  >=  convert(nvarchar(10), getdate(), 23)
+		        
+		       ) A
+		 ORDER BY TYPE, ADSC_DT,ADSC_STRT_TIM DESC
        	]]>
 	</select>
 
