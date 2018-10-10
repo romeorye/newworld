@@ -1,14 +1,16 @@
 package iris.web.prj.grs.controller;
 
-import devonframe.message.saymessage.SayMessage;
-import devonframe.util.NullUtil;
-import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.StringUtil;
-import iris.web.prj.grs.service.GrsMngService;
-import iris.web.prj.grs.service.GrsReqService;
-import iris.web.prj.tss.com.service.TssUserService;
-import iris.web.prj.tss.gen.service.GenTssPlnService;
-import iris.web.system.base.IrisBaseController;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -20,15 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import devonframe.message.saymessage.SayMessage;
+import devonframe.util.NullUtil;
+import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.StringUtil;
+import iris.web.prj.grs.service.GrsMngService;
+import iris.web.prj.grs.service.GrsReqService;
+import iris.web.prj.tss.com.service.TssUserService;
+import iris.web.prj.tss.gen.service.GenTssPlnService;
+import iris.web.system.base.IrisBaseController;
 
 /********************************************************************************
  * NAME : GrsReqController.java
@@ -501,17 +503,25 @@ public class GrsReqController  extends IrisBaseController {
 
         checkSessionObjRUI(input, session, model);
         ModelAndView modelAndView = new ModelAndView("ruiView");
+        input = StringUtil.toUtf8Input(input);
+        
         HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
         List<Map<String, Object>> dsLst = null;
+        HashMap<String, Object> dtlDs =  new HashMap<String, Object>();
+        
         String rtnMsg = "";
         String rtnSt = "F";
 
         try {
             dsLst = RuiConverter.convertToDataSet(request, "gridDataSet");
+            dtlDs =  (HashMap<String, Object>)   RuiConverter.convertToDataSet(request, "evInfoDataSet").get(0);
+			
+			input.put("evTitl", dtlDs.get("evTitl"));
+			input.put("commTxt", dtlDs.get("commTxt"));
+            
             input.put("userId", input.get("_userId"));
             input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
-            input = StringUtil.toUtf8Input(input);
-
+            
             grsReqService.insertGrsEvRsltSave(dsLst, input);
 
 			LOGGER.debug("===GRS 평가 완료후 과제 상태값 변경===");
