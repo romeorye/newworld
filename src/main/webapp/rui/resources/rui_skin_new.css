@@ -906,6 +906,7 @@ input[type=text], input[type=password], input[type=month], input[type=date], inp
 	height: 45px;
 	overflow-y:hidden;
 }
+/*
 .L-navset:after{
 	content:'';
 	position:absolute;
@@ -915,7 +916,7 @@ input[type=text], input[type=password], input[type=month], input[type=date], inp
 	height:1px;
 	background-color:#d4d4d4;
 	z-index:1;
-}
+}*/
 .L-navset .L-nav li{
 	float:left;
 	padding:0;
@@ -971,6 +972,7 @@ input[type=text], input[type=password], input[type=month], input[type=date], inp
 	line-height:40px;
 	height:43px;
 }
+/* 20181010
 .L-navset .L-nav .L-nav-selected:after {
 	content:'';
 	position:absolute;
@@ -980,7 +982,7 @@ input[type=text], input[type=password], input[type=month], input[type=date], inp
 	height:3px;
 	background-color:#c40452;
 	z-index:2;
-}
+}*/
 .L-navset .L-nav li.L-nav-selected a {
     border: 0px;
 }
