@@ -1,17 +1,19 @@
 package iris.web.prj.grs.service;
 
-import devonframe.dataaccess.CommonDao;
-import iris.web.common.util.CommonUtil;
-import iris.web.tssbatch.service.TssStCopyService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import devonframe.dataaccess.CommonDao;
+import iris.web.common.util.CommonUtil;
+import iris.web.tssbatch.service.TssStCopyService;
 
 @Service("grsMngService")
 public class GrsMngServiceImpl implements GrsMngService {
@@ -98,7 +100,12 @@ public class GrsMngServiceImpl implements GrsMngService {
 		}
 
 		// 발의, 연구 기본값 세팅
-		input.put("ppslMbdCd", "02"); // 사업부
+		if(input.get("tssScnCd").equals("D")){
+			input.put("ppslMbdCd", "02"); // 사업부
+		}else{
+			input.put("ppslMbdCd", ""); // 사업부
+		}
+		
 		input.put("rsstSphe", rsstSphe);
 		commonDao.insert("prj.grs.updateGrsDefInfo02", input);
 
