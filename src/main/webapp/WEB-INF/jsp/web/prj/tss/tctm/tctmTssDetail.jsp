@@ -363,7 +363,7 @@
                     , { id: 'prjNm',      ctrlId: 'prjNm',      value: 'value' }
                     , { id: 'deptCode',   ctrlId: 'deptCode',   value: 'value' }
                     , { id: 'deptName',   ctrlId: 'deptName',   value: 'value' }
-                    , { id: 'ppslMbdCd',  ctrlId: 'ppslMbdCd',  value: 'value' }
+                    // , { id: 'ppslMbdCd',  ctrlId: 'ppslMbdCd',  value: 'value' }
                     , { id: 'bizDptCd',   ctrlId: 'bizDptCd',   value: 'value' }
                     // , { id: 'wbsCd',      ctrlId: 'wbsCd',      value: 'value' }         /SEED를 추가하기 위해 bind 주석
                     , { id: 'tssNm',      ctrlId: 'tssNm',      value: 'value' }
@@ -1286,6 +1286,7 @@
 							<td><div id="custSqlt"/> </td>
 							<th align="right" style="display: none">Concept</th>
 							<td style="display: none"><input type="text" id="tssSmryTxt"></td>
+
 							<th align="right">발의주체</th>
 							<td class="tssLableCss">
 								<div id="ppslMbdCd"/>
@@ -1389,43 +1390,10 @@
         width: 300
     });
 
-    //발의주체
-    /*    ppslMbdCd = new Rui.ui.form.LCombo({
-            applyTo: 'ppslMbdCd',
-            name: 'ppslMbdCd',
-            useEmptyText: true,
-            emptyText: '선택',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PPSL_MBD_CD"/>',
-        displayField: 'COM_DTL_NM',
-        valueField: 'COM_DTL_CD',
-        width: 150
-    });*/
+
     nCombo('ppslMbdCd','PPSL_MBD_CD');
-    ppslMbdCd.setValue('02');	//사업부 fix
 
-
-    // 사업부문(Funding 기준)
-    /*    bizDptCd = new Rui.ui.form.LCombo({
-            applyTo: 'bizDptCd',
-            name: 'bizDptCd',
-            useEmptyText: true,
-            emptyText: '선택',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=BIZ_DPT_CD"/>',
-        displayField: 'COM_DTL_NM',
-        valueField: 'COM_DTL_CD',
-        width: 150
-    });*/
     nCombo('bizDptCd', 'BIZ_DPT_CD');
-    //		창호 01/장식재 03 > 건장재01
-    //		자동차 05 > 자동차04
-    //		표면소재 06(데코 P11,가전 P12,S&G P13) > 산업용필름02
-    //		표면소재 06(그외) > 건장재01
-
-    bizDptCd.on('changed',function(e){
-        var val
-        console.log(e);
-	});
-
 
     //과제 리더
     saSabunName = new Rui.ui.form.LPopupTextBox({
@@ -1435,30 +1403,12 @@
         enterToPopup: true
     });
 
-    //과제속성
-    /*    tssAttrCd = new Rui.ui.form.LCombo({
-            applyTo: 'tssAttrCd',
-            name: 'tssAttrCd',
-            useEmptyText: true,
-            emptyText: '선택',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=TSS_ATTR_CD"/>',
-        displayField: 'COM_DTL_NM',
-        valueField: 'COM_DTL_CD',
-        width: 100
-    });*/
+
     nCombo('tssAttrCd', 'TSS_ATTR_CD');
-    //제품군
-    /*    prodG = new Rui.ui.form.LCombo({
-            applyTo: 'prodG',
-            name: 'prodG',
-            useEmptyText: true,
-            emptyText: '선택',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PROD_G"/>',
-        displayField: 'COM_DTL_NM',
-        valueField: 'COM_DTL_CD',
-        width: 100
-    });*/
+
     nCombo('prodG', 'PROD_G');
+
+
     // 과제기간 시작일
     tssStrtDd = new Rui.ui.form.LDateBox({
         applyTo: 'tssStrtDd',
@@ -1498,31 +1448,8 @@
             width: 300
         });*/
     nTextBox('tssSmryTxt', 300);
-
-
-    //연구분야
-    /*    rsstSphe = new Rui.ui.form.LCombo({
-            applyTo: 'rsstSphe',
-            name: 'rsstSphe',
-            useEmptyText: true,
-            emptyText: '선택',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RSST_SPHE"/>',
-        displayField: 'COM_DTL_NM',
-        valueField: 'COM_DTL_CD',
-        width: 150
-    });*/
     nCombo('rsstSphe','RSST_SPHE');
     //유형
-    /*    tssType = new Rui.ui.form.LCombo({
-            applyTo: 'tssType',
-            name: 'tssType',
-            useEmptyText: true,
-            emptyText: '선택',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=TSS_TYPE"/>',
-        displayField: 'COM_DTL_NM',
-        valueField: 'COM_DTL_CD',
-        width: 150
-    });*/
     nCombo('tssType','TSS_TYPE');
 
 
@@ -1660,9 +1587,44 @@
 
 
 
-    nCombo('grsYn', 'COMM_YN') // GRS 수행여부
-	grsYn.setValue('N');	// P1 수행하지 않음(기본값)
 
+    nCombo('grsYn', 'COMM_YN') // GRS 수행여부
+
+
+
+    window.onload = function(){
+        bizDptCd.on('changed',function(e){
+            setRsstSpheVal();
+        });
+        prodG.on('changed',function(e){
+            setRsstSpheVal();
+        });
+
+        function setRsstSpheVal(){
+            //		창호 01/장식재 03 > 건장재01
+            //		자동차 05 > 자동차04
+            //		표면소재 06(데코 P11,가전 P12,S&G P13) > 산업용필름02
+            //		표면소재 06(그외) > 건장재01
+            var bdc = bizDptCd.getValue();
+            var pdg = prodG.getValue();
+            var result = "";
+            if(bdc=="01" || bdc=="03"){
+                result = "01";
+            }else if(bdc=="05"){
+                result = "04";
+            }else if(bdc=="06" && (pdg=="P11" || pdg=="P12" || pdg=="P13")){
+                result = "02";
+            }else if(bdc=="06"){
+                result = "01";
+            }else{
+                result = "03";
+            }
+            rsstSphe.setValue(result);
+        }
+
+        ppslMbdCd.setValue('02');	//사업부 fix
+        grsYn.setValue('N');	// P1 수행하지 않음(기본값)
+	}
 
 
     function setTestCode(){

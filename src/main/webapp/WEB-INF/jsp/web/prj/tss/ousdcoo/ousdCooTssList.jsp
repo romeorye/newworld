@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -267,7 +266,7 @@
                 , { id: 'rsstExpConvertMil', defaultValue : 0} //연구비(억원)
                 , { id: 'arslExp', defaultValue : 0}           //실적연구비(원)
                 , { id: 'arslExpConvertMil', defaultValue : 0} //실적연구비(억원)
-                , { id: 'qgateStepNm'}
+                // , { id: 'qgateStepNm'}
             ]
         });
 
@@ -320,7 +319,7 @@
                         p.editable = false;
                         return value;
                     } }
-                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 100 }
+                // , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 100 }
             ]
         });
 

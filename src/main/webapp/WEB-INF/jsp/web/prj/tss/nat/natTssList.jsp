@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -228,7 +227,7 @@
                 , { id: 'tssCd'}		 //과제코드
                 , { id: 'myTss'}
                 , { id: 'tssNosSt'}
-                , { id: 'qgateStepNm'}
+                // , { id: 'qgateStepNm'}
             ]
         });
 
@@ -262,7 +261,7 @@
                     p.editable = false;
                     return value;
                 } }
-                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 100 }
+                // , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 100 }
             ]
         });
 

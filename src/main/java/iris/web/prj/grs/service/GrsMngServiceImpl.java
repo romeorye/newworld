@@ -92,6 +92,8 @@ public class GrsMngServiceImpl implements GrsMngService {
 			rsstSphe = "02";
 		}else if("06".equals(bizDptCd)){
 			rsstSphe = "01";
+		}else{
+			rsstSphe = "03";
 		}
 
 		// 발의, 연구 기본값 세팅

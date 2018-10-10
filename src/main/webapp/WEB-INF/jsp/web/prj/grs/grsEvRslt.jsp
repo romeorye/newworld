@@ -1,8 +1,7 @@
 <%@ page language="java" pageEncoding="utf-8"
     contentType="text/html; charset=utf-8"%>
 <%@ page
-    import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
-<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
+    import="iris.web.prj.tss.tctm.TctmUrl"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -90,7 +89,7 @@
         });
         cboGrsEvSt.on('blur', function(e) {
             //진행중일때 초기상태 선택 불가
-            if(lvPgsStepCd == "PG" && cboGrsEvSt.getValue() == "P1") {
+            if(lvTssScnCd!="D" && lvPgsStepCd == "PG" && cboGrsEvSt.getValue() == "P1") {
                 Rui.alert("진행중일때 초기 단계는 선택 불가입니다.");
                 cboGrsEvSt.setValue("");
                 return;
