@@ -1,19 +1,17 @@
 package iris.web.stat.prj.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import devonframe.dataaccess.CommonDao;
+import devonframe.util.NullUtil;
+import iris.web.common.util.CommonUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import devonframe.dataaccess.CommonDao;
-import devonframe.util.NullUtil;
-import iris.web.common.util.CommonUtil;
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*********************************************************************************
  * NAME : TssStatServiceImpl.java
@@ -52,9 +50,9 @@ public class TssStatServiceImpl implements TssStatService {
     }
 
     @Override
-    public List<Map<String, Object>> retrieveTechTeamTssStatList(HashMap<String, Object> input) {
+    public List<Map<String, Object>> retrieveTctmStatList(HashMap<String, Object> input) {
     	List<Map<String, Object>> dclist = new ArrayList();
-    	List<Map<String, Object>> list = commonDao.selectList("stat.prj.retrieveTechTeamTssStatList", input);
+    	List<Map<String, Object>> list = commonDao.selectList("stat.prj.retrieveTctmStatList", input);
 
     	if(list.size() > 0){
     		for(Map<String, Object> data : list) {

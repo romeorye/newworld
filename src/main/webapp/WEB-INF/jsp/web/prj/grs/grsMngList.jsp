@@ -207,6 +207,23 @@
             ]
         });
 
+        var   infoVali = new Rui.validate.LValidatorManager({
+            validators:[
+                {id:'tssScnCd', validExp:'과제구분:true'},
+                {id:'grsYn', validExp:'GRS(P1)수행여부:true'},
+                {id:'saSabunNm', validExp:'과제담당자:true'},
+                {id:'bizDptCd', validExp:'사업부:true'},
+                {id:'prjNm', validExp:'프로젝트명:true'},
+                {id:'tssNm', validExp:'과제명:true'},
+                {id:'prodG', validExp:'제품군:true'},
+                {id:'tssStrtDd', validExp:'과제기간시작:true'},
+                {id:'tssFnhDd', validExp:'과제기간끝:true'},
+                {id:'custSqlt', validExp:'고객특성:true'},
+                {id:'tssAttrCd', validExp:'과제속성:true'},
+                {id:'tssType', validExp:'신제품유형:true'},
+            ]
+        });
+
 
 				//평가 상세 Dataset
             evInfoDataSet = new Rui.data.LJsonDataSet({
@@ -276,9 +293,21 @@
                 });
         /* ================================== 상세 종료==============================================*/
 
+        var   evInfoVali = new Rui.validate.LValidatorManager({
+            validators:[
+                {id:'evTitl', validExp:'회의 일정/장소:true'},
+                {id:'cfrnAtdtCdTxtNm', validExp:'회의 참석자:true'},
+                {id:'commTxt', validExp:'Comment:true'},
+                {id:'attcFilId', validExp:'첨부파일:true'},
+                {id:'grsEvSn', validExp:'평가표:true'},
+            ]
+        });
 
-
-
+        var pointVali = new Rui.validate.LValidatorManager({
+            validators: [
+                { id: 'evScr', validExp: '평가점수:true' } //minLength=1&maxLength=10 :number&minNumber=1&maxNumber=5
+            ]
+        });
 
                 /*******************
                   * Function 및 데이터 처리 START
@@ -400,6 +429,12 @@
               },
               { text:'저장', isDefault: true, handler:
                       function () {
+                          if(!infoVali.validateGroup("defTssForm")) {
+                              alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + infoVali.getMessageList().join(''));
+                              return;
+                          }
+
+
                           var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
                           dm.on('success', function (e) {      // 업데이트 성공시
                               var resultData = resultDataSet.getReadData(e);
@@ -517,6 +552,20 @@
                             });
 
                             if (fncVaild()) {
+                                //회의 정보 검사
+                                if(!evInfoVali.validateGroup("evTssForm")) {
+                                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + evInfoVali.getMessageList().join(''));
+                                    return;
+                                }
+
+
+                                //평가표 검사
+                                if(!pointVali.validateDataSet(gridDataSet)) {
+                                    Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + pointVali.getMessageList().join('<br>'));
+                                    return false;
+                                }
+
+
                                 Rui.confirm({
                                     text: '평가완료하시겠습니까?<br>완료후에는 수정/삭제가 불가능합니다.',
                                     handlerYes: function () {
@@ -1021,7 +1070,7 @@
 					<form name="evTssForm" id="evTssForm" method="post">
                         <input type="hidden" id="userIds" name="userIds" value=""/>
                         <input type="hidden" id="cfrnAtdtCdTxt" name="cfrnAtdtCdTxt" value=""/>
-                        <input type="hidden" id="attcFilId" name="attcFilId" value=""/>
+                        <input type="hidden" id="attcFilId" name="attcFilId" value="${inputData.attcFilId}"/>
                         <input type="hidden" id="seq" name="seq" value=""/>
                         <input type="hidden"  name="tssCd" value="${inputData.tssCd}"/>
                         <input type="hidden" id="tssCdSn" name="tssCdSn" value="${inputData.tssCdSn}"/>

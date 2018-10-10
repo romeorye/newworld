@@ -1,19 +1,17 @@
 package iris.web.prj.grs.service;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import devonframe.dataaccess.CommonDao;
+import iris.web.common.util.CommonUtil;
+import iris.web.tssbatch.service.TssStCopyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import devonframe.dataaccess.CommonDao;
-import iris.web.common.util.CommonUtil;
-import iris.web.tssbatch.service.TssStCopyService;
+import javax.annotation.Resource;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service("grsMngService")
 public class GrsMngServiceImpl implements GrsMngService {
@@ -78,36 +76,38 @@ public class GrsMngServiceImpl implements GrsMngService {
 		commonDao.insert("prj.grs.moveGrsDefInfo", input);
 
 
+		if(tssScnCd.equals("D")){
+			//		창호 01/장식재 03 > 건장재01
+			//		자동차 05 > 자동차04
+			//		표면소재 06(데코 P11,가전 P12,S&G P13) > 산업용필름02
+			//		표면소재 06(그외) > 건장재01
+			String bizDptCd = (String) input.get("bizDptCd");
+			String prodG = (String) input.get("prodG");
 
-//		창호 01/장식재 03 > 건장재01
-//		자동차 05 > 자동차04
-//		표면소재 06(데코 P11,가전 P12,S&G P13) > 산업용필름02
-//		표면소재 06(그외) > 건장재01
-		String bizDptCd = (String) input.get("bizDptCd");
-		String prodG = (String) input.get("prodG");
+			String rsstSphe = "";
+			if("01".equals(bizDptCd) || "03".equals(bizDptCd)){
+				rsstSphe = "01";
+			}else if("05".equals(bizDptCd)){
+				rsstSphe = "04";
+			}else if("06".equals(bizDptCd) && ("P11".equals(prodG) || "P12".equals(prodG) || "P13".equals(prodG))){
+				rsstSphe = "02";
+			}else if("06".equals(bizDptCd)){
+				rsstSphe = "01";
+			}else{
+				rsstSphe = "03";
+			}
 
-		String rsstSphe = "";
-		if("01".equals(bizDptCd) || "03".equals(bizDptCd)){
-			rsstSphe = "01";
-		}else if("05".equals(bizDptCd)){
-			rsstSphe = "04";
-		}else if("06".equals(bizDptCd) && ("P11".equals(prodG) || "P12".equals(prodG) || "P13".equals(prodG))){
-			rsstSphe = "02";
-		}else if("06".equals(bizDptCd)){
-			rsstSphe = "01";
-		}else{
-			rsstSphe = "03";
+			// 발의, 연구 기본값 세팅
+			if(input.get("tssScnCd").equals("D")){
+				input.put("ppslMbdCd", "02"); // 사업부
+			}else{
+				input.put("ppslMbdCd", ""); // 사업부
+			}
+
+			input.put("rsstSphe", rsstSphe);
+			commonDao.insert("prj.grs.updateGrsDefInfo02", input);
 		}
 
-		// 발의, 연구 기본값 세팅
-		if(input.get("tssScnCd").equals("D")){
-			input.put("ppslMbdCd", "02"); // 사업부
-		}else{
-			input.put("ppslMbdCd", ""); // 사업부
-		}
-		
-		input.put("rsstSphe", rsstSphe);
-		commonDao.insert("prj.grs.updateGrsDefInfo02", input);
 
 
 		if("N".equals(input.get("grsYn"))){

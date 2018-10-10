@@ -20,7 +20,7 @@ public interface TssStatService {
 
     List<Map<String, Object>> retrieveGenTssStatList(HashMap<String, Object> input);
 
-    List<Map<String, Object>> retrieveTechTeamTssStatList(HashMap<String, Object> input);
+    List<Map<String, Object>> retrieveTctmStatList(HashMap<String, Object> input);
 
     List<Map<String, Object>> retrieveOusdTssStatList(HashMap<String, Object> input);
 
