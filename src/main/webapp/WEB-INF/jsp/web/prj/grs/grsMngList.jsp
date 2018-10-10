@@ -1056,7 +1056,7 @@
 <!------------------------------------------------------------평가 팝업 시작 ---------------------------------------------------------->
 			<div id="divEvTss" style="visibility: hidden;">
 				<div class="hd">과제 GRS 평가</div>
-				<div class="bd" style="height: 500px;overflow: auto">
+				<div class="bd" style="height: 460px;overflow: auto">
 					<!-- <div class="titArea"> -->
 					<div class="LblockButton" style="margin-bottom: 10px"></div>
 					<!-- </div> -->

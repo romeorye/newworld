@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
-<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
+<%@ page import="iris.web.prj.tss.tctm.TctmUrl"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -1402,6 +1401,7 @@
         width: 150
     });*/
     nCombo('ppslMbdCd','PPSL_MBD_CD');
+    ppslMbdCd.setValue('02');	//사업부 fix
 
 
     // 사업부문(Funding 기준)
@@ -1416,6 +1416,16 @@
         width: 150
     });*/
     nCombo('bizDptCd', 'BIZ_DPT_CD');
+    //		창호 01/장식재 03 > 건장재01
+    //		자동차 05 > 자동차04
+    //		표면소재 06(데코 P11,가전 P12,S&G P13) > 산업용필름02
+    //		표면소재 06(그외) > 건장재01
+
+    bizDptCd.on('changed',function(e){
+        var val
+        console.log(e);
+	});
+
 
     //과제 리더
     saSabunName = new Rui.ui.form.LPopupTextBox({
@@ -1651,6 +1661,7 @@
 
 
     nCombo('grsYn', 'COMM_YN') // GRS 수행여부
+	grsYn.setValue('N');	// P1 수행하지 않음(기본값)
 
 
 

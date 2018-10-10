@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -105,7 +104,7 @@
             // document.getElementById('ptcCpsnYAvg').style.border = 0;
             // document.getElementById('bizPrftProYAvg').style.border = 0;
 
-            if(lvTssSt == "") btnReport.hide();
+            // if(lvTssSt == "") btnReport.hide();
 
             if(isEditable) {
                 document.getElementById('attchFileMngBtn').style.display = "block";
@@ -193,14 +192,14 @@
         =================================    기능     ================================
         ============================================================================*/
         //Report
-        var btnReport = new Rui.ui.LButton('btnReport');
+/*        var btnReport = new Rui.ui.LButton('btnReport');
         btnReport.on('click', function () {
             var tssStrtDd = lvTssStrtDd.substring(0, 4);
             var url = "<%=lghausysReportPath%>/genSmryReportPopup.jsp?reportMode=HTML&clientURIEncoding=UTF-8"
                 + "&reportParams=skip_decimal_point:true&menu=old&tss_cd=" + lvTssCd + "&year=" + tssStrtDd;
 
             var w = window.open(url, 'reportPopup', 'width=1180 height=900');
-        });
+        });*/
 
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
@@ -382,7 +381,9 @@ $(window).load(function() {
     </form>
     <div class="titArea btn_btm">
         <div class="LblockButton">
+<%--
             <button type="button" id="btnReport" name="btnReport">Report</button>
+--%>
             <button type="button" id="btnSave" name="btnSave">저장</button>
             <!-- <button type="button" id="btnList" name="btnList">목록</button> -->
         </div>
