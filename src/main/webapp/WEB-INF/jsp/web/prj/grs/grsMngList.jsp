@@ -549,7 +549,7 @@
                                         dm.updateDataSet({
                                             modifiedOnly: false,
                                             url: '<c:url value="/prj/grs/insertGrsEvRsltSave.do"/>',
-                                            dataSets: [gridDataSet],
+                                            dataSets: [gridDataSet, , evInfoDataSet],
                                             params: param
                                         });
                                         dm.on('success', function (e) {
@@ -1019,6 +1019,7 @@
 									<th align="right">과제기간</th>
 									<td><input type="text" id="tssStrtDd"> <em class="gab"> ~ </em> <input type="text" id="tssFnhDd"></td>
 								</tr>
+						<div id="displayDiv" >		
 								<tr>
 									<th align="right">고객특성</th>
 									<td><div id="custSqlt" /></td>
@@ -1032,7 +1033,8 @@
 									<th align="right">신제품 유형</th>
 									<td><div id="tssType" /></td>
 								</tr>
-
+						</div>
+								
 								<tr style="display: none">
 									<th align="right">Summary 개요</th>
 									<td colspan="3" class="grsmng_tain"><textarea id="smrSmryTxt" name="smrSmryTxt" style="width: 100%; height: 100px"></textarea></td>
@@ -1249,6 +1251,13 @@
 		}else{
             setEditable('grsYn');
 		}
+        
+        if($.inArray( e.value, [ "O", "N"])>-1){
+        	document.getElementById("displayDiv").style.display = "none";
+		}else{
+        	document.getElementById("displayDiv").style.display = "block";
+		}
+        
     });
 
 
