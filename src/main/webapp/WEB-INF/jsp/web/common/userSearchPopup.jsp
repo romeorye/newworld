@@ -129,9 +129,10 @@
             });
 
             userGrid.on('cellDblClick', function(e) {
-            	parent._callback(userDataSet.getAt(e.row).data);
-            	
-            	parent._userSearchDialog.submit(true);
+            	var record =  userDataSet.getAt(userDataSet.getRow());
+            	//parent._callback(userDataSet.getAt(e.row).data);
+            	//parent._userSearchDialog.submit(true);
+				selectUserDataSet.add(record.clone());
             });
             
             userGrid.render('userGrid');
