@@ -38,6 +38,7 @@
                 , g.frst_rgst_dt								 AS frstRgstDt
                 , g.last_mdfy_dt								 AS lastMdfyDt
                  ,iif((select count(*) from IRIS_GRS_MGMT_MST where TSS_CD= m.tss_cd)>0,'1','0') AS isFirstGrs
+                 , right(m.PK_WBS_CD, 5) as sortNum
                FROM iris_grs_ev_rslt_rgst g
                  INNER JOIN iris_tss_mgmt_mst m
                    ON 	g.tss_cd = m.tss_cd
@@ -68,6 +69,7 @@
                 , g.frst_rgst_dt								 AS frstRgstDt
                 , g.last_mdfy_dt								 AS lastMdfyDt
                  ,iif((select count(*) from IRIS_GRS_MGMT_MST where TSS_CD= m.tss_cd)>0,'1','0') AS isFirstGrs
+                 , right(m.PK_WBS_CD, 5) as sortNum
                FROM iris_grs_ev_rslt_rgst g
                  INNER JOIN IRIS_GRS_MGMT_MST m
                    ON 	g.tss_cd = m.tss_cd
@@ -108,7 +110,7 @@
         <if test="tssSt != null and tssSt != 'null' and tssSt != ''">
             AND a.tssSt = #{tssSt}
         </if>
-        ORDER BY  pkWbsCd  desc,  lastMdfyDt desc
+        ORDER BY  sortNum  desc,  lastMdfyDt desc
     </select>
 
 
