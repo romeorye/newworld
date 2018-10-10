@@ -1203,13 +1203,11 @@
 		}
         
         if($.inArray( e.value, [ "O", "N"])>-1){
-        	//document.getElementById("displayDiv1").style.display = "none";
 			$('#displayDiv1').css('display', 'none'); 
 			$('#displayDiv2').css('display', 'none'); 
 		}else{
 			$('#displayDiv1').css('display', ''); 
 			$('#displayDiv2').css('display', ''); 
-			//document.getElementById("displayDiv1").style.display = "block";
 		}
         
     });
