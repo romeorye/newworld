@@ -143,12 +143,29 @@
             autoToEdit: false,
             autoWidth: true,
         });
+       
+        /* 
         grid.on('cellClick', function(e) {
             if(e.colId == "evSbcNm") {
                 var grsEvSn = dataSet.getNameValue(e.row, "grsEvSn");
                 window.parent.openGrsEvDtlDialog(grsEvSn);
             }
         });
+         */
+         
+        grid.on('cellDblClick', function(e) {
+        	var chkRow = dataSet.indexOfKey(dataSet.getMarkedRange().keys[0]);   //체크된 row
+            var record = dataSet.getAt(chkRow);
+
+            if(record.data.useYn == "N") {
+                Rui.alert("상태가 N인건 선택할 수 없습니다.");
+                return;
+            }
+
+            window.parent.setGrsEvSnInfo(record.data);
+            parent.grsEvSnDialog.submit(true);
+        });
+         
         grid.render('defaultGrid');
 
 
