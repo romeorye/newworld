@@ -173,13 +173,8 @@
                 ,{ id: 'tssStrtDd'}
                 ,{ id: 'tssFnhDd'}
                 ,{ id: 'custSqlt'}
-                ,{ id: 'tssSmryTxt'}
                 ,{ id: 'tssAttrCd'}
                 ,{ id: 'tssType'}
-                ,{ id: 'smrSmryTxt'}
-                ,{ id: 'smrGoalTxt'}
-                ,{ id: 'nprodSalsPlnY'}
-                ,{ id: 'ctyOtPlnM'}
 
             ]
         });
@@ -206,13 +201,8 @@
                 ,{ id: 'tssStrtDd',            ctrlId: 'tssStrtDd',            value: 'value' }
                 ,{ id: 'tssFnhDd',            ctrlId: 'tssFnhDd',            value: 'value' }
                 ,{ id: 'custSqlt',            ctrlId: 'custSqlt',            value: 'value' }
-                ,{ id: 'tssSmryTxt',            ctrlId: 'tssSmryTxt',            value: 'value' }
                 ,{ id: 'tssAttrCd',            ctrlId: 'tssAttrCd',            value: 'value' }
                 ,{ id: 'tssType',            ctrlId: 'tssType',            value: 'value' }
-                ,{ id: 'smrSmryTxt',            ctrlId: 'smrSmryTxt',            value: 'value' }
-                ,{ id: 'smrGoalTxt',            ctrlId: 'smrGoalTxt',            value: 'value' }
-                ,{ id: 'nprodSalsPlnY',            ctrlId: 'nprodSalsPlnY',            value: 'value' }
-                ,{ id: 'ctyOtPlnM',            ctrlId: 'ctyOtPlnM',            value: 'value' }
 
             ]
         });
@@ -251,10 +241,6 @@
                         , { id: 'isConfirm' }
                         , { id: 'tssStrtDd' }
                         , { id: 'tssFnhDd' }
-                        , { id: 'smrSmryTxt' }
-                        , { id: 'smrGoalTxt' }
-                        , { id: 'nprodSalsPlnY' }
-                        , { id: 'ctyOtPlnM' }
 
                      ]
                 });
@@ -431,7 +417,6 @@
                               Rui.confirm({
                                   text: '저장하시겠습니까?',
                                   handlerYes: function () {
-                                      nprodSalsPlnY.setValue(nprodSalsPlnY.getValue()* 100000000);
                                       dm.updateForm({
                                           url: "<c:url value='/prj/grs/updateGrsMngInfo.do'/>",
                                           form: 'defTssForm'
@@ -538,13 +523,7 @@
                                         var param = jQuery("#evTssForm").serialize().replace(/%/g, '%25');
                                         param += "&tssStrtDd=" + evInfoDataSet.getNameValue(0, "tssStrtDd");
                                         param += "&tssFnhDd=" + evInfoDataSet.getNameValue(0, "tssStrtDd");
-
-                                        param += "&smrSmryTxt=" + evInfoDataSet.getNameValue(0, "smrSmryTxt");
-                                        param += "&smrGoalTxt=" + evInfoDataSet.getNameValue(0, "smrGoalTxt");
-                                        param += "&nprodSalsPlnY=" + evInfoDataSet.getNameValue(0, "nprodSalsPlnY");
-                                        param += "&ctyOtPlnM=" + evInfoDataSet.getNameValue(0, "ctyOtPlnM");
                                         param += "&tssAttrCd=" + evInfoDataSet.getNameValue(0, "tssAttrCd");
-
 
                                         dm.updateDataSet({
                                             modifiedOnly: false,
@@ -872,10 +851,6 @@
            setReadonly("grsYn");
            setReadonly("prjNm");
            $(".first-child:contains('삭제')").css("display","block");
-
-           var dsNprodSalsPlnY  = (infoDataSet.getNameValue(0, "nprodSalsPlnY")  / 100000000).toFixed(2);
-           nprodSalsPlnY.setValue(dsNprodSalsPlnY);
-
        });
 
    }
@@ -1019,37 +994,17 @@
 									<th align="right">과제기간</th>
 									<td><input type="text" id="tssStrtDd"> <em class="gab"> ~ </em> <input type="text" id="tssFnhDd"></td>
 								</tr>
-						<div id="displayDiv" >		
-								<tr>
+						
+								<tr id="displayDiv1">
 									<th align="right">고객특성</th>
 									<td><div id="custSqlt" /></td>
 									<th align="right">과제속성</th>
 									<td><div id="tssAttrCd" /></td>
-
-									<th align="right" style="display: none">Concept</th>
-									<td style="display: none"><input id="tssSmryTxt" type="text" style="width: 100%" /></td>
 								</tr>
-								<tr>
+								<tr id="displayDiv2">
 									<th align="right">신제품 유형</th>
 									<td><div id="tssType" /></td>
 								</tr>
-						</div>
-								
-								<tr style="display: none">
-									<th align="right">Summary 개요</th>
-									<td colspan="3" class="grsmng_tain"><textarea id="smrSmryTxt" name="smrSmryTxt" style="width: 100%; height: 100px"></textarea></td>
-								</tr>
-								<tr style="display: none">
-									<th align="right">Summary 목표</th>
-									<td colspan="3" class="grsmng_tain"><textarea id="smrGoalTxt" name="smrGoalTxt" style="width: 100%; height: 100px"></textarea></td>
-								</tr>
-								<tr style="display: none">
-									<th align="right">매출계획</th>
-									<td><input id="nprodSalsPlnY" type="text"/></td>
-									<th align="right">출시계획</th>
-									<td><input type="text" id="ctyOtPlnM" /></td>
-								</tr>
-
 							</tbody>
 						</table>
 					</form>
@@ -1201,13 +1156,8 @@
 			value : '02'
 		}, ]
 	});
-	nTextBox('tssSmryTxt', 257, 'ConCept을 입력해주세요'); // Concept
 	nCombo('tssAttrCd', 'TSS_ATTR_CD'); // 과제속성
 	nCombo('tssType', 'TSS_TYPE'); // 신제품 유형
-	nTextArea('smrSmryTxt', 644, 122, 'Sumarry개요를 입력해주세요'); // Summary 개요
-	nTextArea('smrGoalTxt', 644, 122, 'Summary 목표를 입력해주세요'); // Summary 목표
-	nTextBox('nprodSalsPlnY', 200); // 매출 계획 nprodSalsPlnY
-	nMonthBox('ctyOtPlnM'); // 출시계획
 
 	/* 평가 */
 	// 회의 일정/장소
@@ -1253,9 +1203,13 @@
 		}
         
         if($.inArray( e.value, [ "O", "N"])>-1){
-        	document.getElementById("displayDiv").style.display = "none";
+        	//document.getElementById("displayDiv1").style.display = "none";
+			$('#displayDiv1').css('display', 'none'); 
+			$('#displayDiv2').css('display', 'none'); 
 		}else{
-        	document.getElementById("displayDiv").style.display = "block";
+			$('#displayDiv1').css('display', ''); 
+			$('#displayDiv2').css('display', ''); 
+			//document.getElementById("displayDiv1").style.display = "block";
 		}
         
     });
@@ -1299,13 +1253,8 @@
         tssStrtDd.setValue("2018-08-10");
         tssFnhDd.setValue("2019-08-10");
         custSqlt.setSelectedIndex(1);
-        tssSmryTxt.setValue("컨셉내용");
         tssAttrCd.setSelectedIndex(1);
         tssType.setSelectedIndex(1);
-        // smrSmryTxt.setValue("서머리 개요");
-        // smrGoalTxt.setValue("서머리 목표");
-        // nprodSalsPlnY.setValue(100);
-        // ctyOtPlnM.setValue("2018-09");
     }
 
 
