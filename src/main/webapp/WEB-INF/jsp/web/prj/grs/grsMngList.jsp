@@ -961,8 +961,8 @@
 			<div class="titArea">
 				<span class="Ltotal" id="cnt_text">총 : 0 </span>
 				<div class="LblockButton">
-					<button type="button" id="grsAppr" name="grsAppr">품의 요청</button>
 					<button type="button" onclick="addTss()">등록</button>
+					<button type="button" id="grsAppr" name="grsAppr">품의 요청</button>
 					<button type="button" id="butExcel" onclick="javascript:fnExcel()">Excel다운로드</button>
 				</div>
 			</div>
