@@ -882,12 +882,8 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
     <update id="updateGrsDefInfo02">
         UPDATE IRIS_TSS_MGMT_MST
         SET
-        <if test="ppslMbdCd != null and ppslMbdCd != ''">
             PPSL_MBD_CD = #{ppslMbdCd}
-        </if>
-        <if test="rsstSphe != null and rsstSphe != ''">
             , RSST_SPHE = #{rsstSphe}
-        </if>
         WHERE TSS_CD = #{tssCd}
     </update>
 
