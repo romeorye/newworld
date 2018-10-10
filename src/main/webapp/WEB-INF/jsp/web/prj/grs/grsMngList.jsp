@@ -999,6 +999,12 @@
 									<td><div id="grsYn" /></td>
 								</tr>
 								<tr>
+									<th align="right">과제담당자</th>
+									<td><input type="text" id="saSabunNm" /></td>
+									<th align="right">사업부</th>
+									<td><div id="bizDptCd" /></td>
+								</tr>
+								<tr>
 									<th align="right">프로젝트명<br />(개발부서)
 									</th>
 									<td colspan="3"><input type="text" id="prjNm" /></td>
@@ -1006,12 +1012,6 @@
 								<tr>
 									<th align="right">과제명</th>
 									<td colspan="3"><input id="tssNm" type="text" style="width: 100%" /></td>
-								</tr>
-								<tr>
-									<th align="right">과제담당자</th>
-									<td><input type="text" id="saSabunNm" /></td>
-									<th align="right">사업부</th>
-									<td><div id="bizDptCd" /></td>
 								</tr>
 								<tr>
 									<th align="right">제품군</th>
