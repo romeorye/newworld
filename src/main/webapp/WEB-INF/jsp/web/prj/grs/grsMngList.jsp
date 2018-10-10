@@ -104,6 +104,7 @@
                  { id: 'tssCd'},
                  { id: 'tssCdSn'},
                  { id: 'grsEvSn'},
+                 { id: 'grsStNm'},
                  { id: 'frstRgstId'}
               ]
          });
@@ -123,7 +124,9 @@
                      { field: 'tssDd',   label: '과제기간',  align:'center',  width: 100 },
                      { field: 'dlbrParrDt',   label: '심의예정일',  align:'center',  width: 60 },
                      { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 65 },
-                     { field: 'tssStNm',   label: 'GRS상태',  align:'center',  width: 65},
+                     { field: 'grsStNm',   label: 'GRS상태',  align:'center',  width: 65 , renderer: function(val, p, record, row, i) {
+                             return (val == null) ? "GRS품의완료" : val;
+					 }},
                      { field: 'isReq',        label: '관리',       align:'center',      width: 90  , renderer: function(val, p, record, row, i){
                          return ((val==1)?"<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>":"")
 							 +((record.data.isFirstGrs==1 && val==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"");
@@ -612,7 +615,7 @@
 			
 
 
-            if(confirm('초기(P1) 품의 요청을 하시겠습니까?')) {
+            if(confirm('품의 요청을 하시겠습니까?')) {
 		       		
 		   			if(listDataSet.getCount() > 0 ) {
 		   				//체크박스 체크 유무 (1건이상))
@@ -958,7 +961,7 @@
 			<div class="titArea">
 				<span class="Ltotal" id="cnt_text">총 : 0 </span>
 				<div class="LblockButton">
-					<button type="button" id="grsAppr" name="grsAppr">초기(P1) 품의 요청</button>
+					<button type="button" id="grsAppr" name="grsAppr">품의 요청</button>
 					<button type="button" onclick="addTss()">등록</button>
 					<button type="button" id="butExcel" onclick="javascript:fnExcel()">Excel다운로드</button>
 				</div>
