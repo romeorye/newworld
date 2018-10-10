@@ -1064,6 +1064,8 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             ,
             B.COMM_TXT       AS commTxt            --주요 Comment
             ,
+            B.ATTC_FIL_ID    AS attcFilId        --첨부파일
+            ,
             (SELECT CONVERT(DECIMAL(3,1),ROUND(avg(srr.EV_SCR),1),2)
              FROM iris_grs_ev_std_rslt_rgst srr,
                   IRIS_GRS_EV_STD_MGMT sm
