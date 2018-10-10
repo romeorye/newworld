@@ -549,7 +549,7 @@
                                         dm.updateDataSet({
                                             modifiedOnly: false,
                                             url: '<c:url value="/prj/grs/insertGrsEvRsltSave.do"/>',
-                                            dataSets: [gridDataSet, , evInfoDataSet],
+                                            dataSets: [gridDataSet, evInfoDataSet],
                                             params: param
                                         });
                                         dm.on('success', function (e) {
