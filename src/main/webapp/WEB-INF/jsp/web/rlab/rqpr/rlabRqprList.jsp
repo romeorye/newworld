@@ -298,7 +298,7 @@
 		   					<tbody>
 		   						<tr>
 		   							<th align="right">시험명</th>
-		   							<td>
+		   							<td class="rlabrqpr_sch">
 		   								<input type="text" id="rlabNm">
 		   							</td>
 		   							<th align="right">의뢰일자</th>
@@ -310,12 +310,12 @@
 		   						</tr>
 		   						<tr>
 		   							<th align="right">의뢰자</th>
-		   							<td>
+		   							<td class="rlabrqpr_sch">
 		   								<input type="text" id="rgstNm">
 		                                <!-- <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'rlab');" class="icoBtn">검색</a> -->
 		   							</td>
 		   							<th align="right">담당자</th>
-		    						<td>
+		    						<td class="rlabrqpr_sch">
 		    							<input type="text" id="rlabChrgNm">
 		    						</td>
 		    						<td class="txt-right">
@@ -324,7 +324,7 @@
 		   						</tr>
 		   						<tr>
 		   							<th align="right">접수번호</th>
-		   							<td>
+		   							<td class="rlabrqpr_sch">
 		   								<input type="text" id="acpcNo">
 		   							</td>
 		   							<th align="right">상태</th>

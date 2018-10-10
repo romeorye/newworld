@@ -50,6 +50,30 @@
 .date_txt {display:inline-block; padding:0 3px 0 33px;}
 .form_bd input {border:0 none !important; line-height:25px;}
 
+
+.LblockButton button, div.LblockButton button:hover  {
+    *overflow: visible;
+    padding:0 18px;
+	height:28px;
+	line-height:26px;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #fff), color-stop(1, #fff));
+	background:-moz-linear-gradient(top, #fff 5%, #fff 100%);
+	background:-webkit-linear-gradient(top, #fff 5%, #fff 100%);
+	background:-o-linear-gradient(top, #fff 5%, #fff 100%);
+	background:-ms-linear-gradient(top, #fff 5%, #fff 100%);
+	background:linear-gradient(to bottom, #fff 5%, #fff 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#fff',GradientType=0);
+	background-color:#fff;
+	border:1px solid #ccc;
+	border-radius:0;
+	color:#666;
+	cursor:pointer;
+	outline:none;
+	font-weight:normal;
+
+}
+div.LblockButton button:hover {color:#666;}
+
 .attach_file li {position:relative;}
 .attach_file li button {position:absolute; right:0;top:0;}
 .attach_file li div {width:368px !important; height:26px !important;  }
@@ -307,7 +331,7 @@ table td .titArea button:hover {border:1px solid #da1c5a !important; }
 /* ==========================================================================
    NAV
    ========================================================================== */
-div.width_layout, .header {height:65px; width:100%; border-bottom:1px solid #ddd; background:#f8f8f8;}
+div.width_layout, .header {height:65px; width:100%; border-bottom:1px solid #ddd; background:#f8f8f8; box-sizing:border-box;}
 .width_layout .gnb_height, .header .header_inner {height:65px; position:relative; padding-right:4px; min-width: 1250px; max-width:1560px !important;}
 .width_layout .gnb_height h1, h1.logo {position: absolute; left: 18px; top: 10px; margin: 0;}
 .gnb_search span:first-child {float: right;}
@@ -977,8 +1001,8 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 #defaultGrid  + .titArea,
 #wbsFormDiv + .titArea {margin-top: 10px;}
 
-
-
+.rlabrqpr_sch {width:370px !important;}
+.rlabrqpr_sch div, .rlabrqpr_sch div input {width:95% !important;}
 
 
 
