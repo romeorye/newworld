@@ -128,14 +128,19 @@
                 autoWidth : true
             });
 
-            userGrid.on('cellDblClick', function(e) {
-            	var record =  userDataSet.getAt(userDataSet.getRow());
-            	//parent._callback(userDataSet.getAt(e.row).data);
-            	//parent._userSearchDialog.submit(true);
-				selectUserDataSet.add(record.clone());
-            });
-            
             userGrid.render('userGrid');
+            
+
+            userGrid.on('cellDblClick', function(e) {
+            	<c:if test="${inputData.cnt != 1}">
+            		var record =  userDataSet.getAt(userDataSet.getRow());
+					selectUserDataSet.add(record.clone());
+	            </c:if>	
+            	<c:if test="${inputData.cnt == 1}">
+            		parent._callback(userDataSet.getAt(e.row).data);
+            		parent._userSearchDialog.submit(true);
+	            </c:if>	
+            });
             
             /* [버튼] 조회 */
             getUserList = function() {
