@@ -99,7 +99,7 @@ public class TctmTssServiceImpl implements TctmTssService {
 	/*산출물*/
 	@Override
 	public void updateTctmTssYld(HashMap<String, Object> input) {
-
+		String tssAttrCd = (String) input.get("tssAttrCd");
 		Calendar cal = Calendar.getInstance();
 		int yy = cal.get(Calendar.MONTH) + 1;
 
@@ -110,19 +110,24 @@ public class TctmTssServiceImpl implements TctmTssService {
 		input.put("arslYymm", input.get("tssStrtDd").toString().substring(0, 4) + "-" + CommonUtil.getZeroAddition(String.valueOf(yy), 2));
 		commonDao.update("prj.tss.com.updateTssYld", input);
 
-		//Qgate 1,2,3
-		input.put("goalY", input.get("tssFnhDd").toString().substring(0, 4));
-		input.put("yldItmType", "02");
-		input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
-		commonDao.update("prj.tss.com.updateTssYld", input);
-		input.put("goalY", input.get("tssFnhDd").toString().substring(0, 4));
-		input.put("yldItmType", "03");
-		input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
-		commonDao.update("prj.tss.com.updateTssYld", input);
-		input.put("goalY", input.get("tssFnhDd").toString().substring(0, 4));
-		input.put("yldItmType", "04");
-		input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
-		commonDao.update("prj.tss.com.updateTssYld", input);
+
+		if(tssAttrCd.equals("00")) {
+			//과제속성이 제품인 경우에만 Qgate 연동
+			//Qgate 1,2,3
+			input.put("goalY", input.get("tssFnhDd").toString().substring(0, 4));
+			input.put("yldItmType", "02");
+			input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
+			commonDao.update("prj.tss.com.updateTssYld", input);
+			input.put("goalY", input.get("tssFnhDd").toString().substring(0, 4));
+			input.put("yldItmType", "03");
+			input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
+			commonDao.update("prj.tss.com.updateTssYld", input);
+			input.put("goalY", input.get("tssFnhDd").toString().substring(0, 4));
+			input.put("yldItmType", "04");
+			input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
+			commonDao.update("prj.tss.com.updateTssYld", input);
+		}
+
 	}
 
 	@Override
@@ -178,7 +183,7 @@ public class TctmTssServiceImpl implements TctmTssService {
 
 
 				//개요 첨부파일ID 신규생성
-				HashMap<String, Object> attachFile = commonDao.select(tctmPack+".selectSmryFileId", mstDs);
+				HashMap<String, Object> attachFile = commonDao.select(tctmPack +".selectSmryFileId", mstDs);
 				if (!attachFile.isEmpty()) {
 					attachFile.put("userId", mstDs.get("userId"));
 					commonDao.insert("prj.tss.com.insertTssAttachFile", attachFile);
@@ -225,17 +230,17 @@ public class TctmTssServiceImpl implements TctmTssService {
 
 		input.put("tssCd", stTssCd.get("alTssCd"));
 		//변경 마스터 삭제
-		commonDao.delete(tctmPack+".deleteInfo",input);
+		commonDao.delete(tctmPack +".deleteInfo",input);
 		//변경서머리 삭제
-		commonDao.delete(tctmPack+".deleteSmryInfo",input);
+		commonDao.delete(tctmPack +".deleteSmryInfo",input);
 		//변경 산출물 삭제
-		commonDao.delete(tctmPack+".deleteGoalInfo",input);
+		commonDao.delete(tctmPack +".deleteGoalInfo",input);
 		//변경개요 목록 삭제
-		commonDao.delete(tctmPack+".deleteAltrInfo",input);
+		commonDao.delete(tctmPack +".deleteAltrInfo",input);
 		//GRS 평가표 삭제
-		commonDao.delete(tctmPack+".deleteEv",input);
+		commonDao.delete(tctmPack +".deleteEv",input);
 		//GRS 평가내역 삭제
-		commonDao.delete(tctmPack+".deleteEvResult",input);
+		commonDao.delete(tctmPack +".deleteEvResult",input);
 
 
 		input.put("tssCd", stTssCd.get("pgTssCd"));

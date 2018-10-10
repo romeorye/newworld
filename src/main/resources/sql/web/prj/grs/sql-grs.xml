@@ -157,8 +157,8 @@
 --retrieveGrsEvRslt GRS 평가 상세
         SELECT
             A.PRJ_CD                                                                 AS prjCd      --프로젝트코드
-            ,
-            C.PRJ_NM                                                                 AS prjNm      --프로젝트명
+          , A.TSS_ATTR_CD as  tssAttrCd -- 제품구분
+          ,C.PRJ_NM                                                                 AS prjNm      --프로젝트명
             ,
             A.BIZ_DPT_CD                                                             AS bizDptCd   --사업부문코드
             ,

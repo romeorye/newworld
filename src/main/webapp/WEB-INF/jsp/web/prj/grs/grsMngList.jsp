@@ -543,6 +543,7 @@
                                         param += "&smrGoalTxt=" + evInfoDataSet.getNameValue(0, "smrGoalTxt");
                                         param += "&nprodSalsPlnY=" + evInfoDataSet.getNameValue(0, "nprodSalsPlnY");
                                         param += "&ctyOtPlnM=" + evInfoDataSet.getNameValue(0, "ctyOtPlnM");
+                                        param += "&tssAttrCd=" + evInfoDataSet.getNameValue(0, "tssAttrCd");
 
 
                                         dm.updateDataSet({
