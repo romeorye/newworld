@@ -10,9 +10,14 @@
 	<bean id="txManagerIris" class="devonframe.transaction.CompositeDataSourceTransactionManager">
 		<property name="dataSources" ref="dataSourceIris" />
 	</bean>
-	
+
 	<bean id="txManagerPims" class="devonframe.transaction.CompositeDataSourceTransactionManager">
 		<property name="dataSources" ref="dataSourcePims" />
+	</bean>
+
+	<!-- 일반과제통계뷰 db -->
+	<bean id="txManagerSalStat" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourceSalStat" />
 	</bean>
 
 	<!-- XML based Transaction -->
@@ -31,7 +36,7 @@
 			<tx:method name="system*" propagation="REQUIRES_NEW" rollback-for="Exception" />
 		</tx:attributes>
 	</tx:advice>
-	
+
 	<tx:advice id="txAdvicePims" transaction-manager="txManagerPims">
 		<tx:attributes>
 			<tx:method name="retrieve*" read-only="true" />
@@ -41,21 +46,37 @@
 		</tx:attributes>
 	</tx:advice>
 
+	<!-- 일반과제통계뷰 db -->
+	<tx:advice id="txAdviceSalStat" transaction-manager="txManagerSalStat">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
 	<aop:config>
-<!-- 
+<!--
 		<aop:pointcut id="requiredTx" expression="execution(* *..*Service.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="requiredTx" />
--->		
+-->
 		<aop:advisor advice-ref="txAdviceIris" pointcut="execution(* *..*Service.*(..))" />
 		<aop:advisor advice-ref="txAdviceIris" pointcut="execution(* *..*ServiceImpl.*(..))" />
-		
+
 		<aop:advisor advice-ref="txAdvicePims" pointcut="execution(* *..*Service.*(..))" />
 		<aop:advisor advice-ref="txAdvicePims" pointcut="execution(* *..*ServiceImpl.*(..))" />
+
+		<!-- 일반과제통계뷰 db -->
+		<aop:advisor advice-ref="txAdviceSalStat" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdviceSalStat" pointcut="execution(* *..*ServiceImpl.*(..))" />
 	</aop:config>
-	
-	<!-- Annotation based Transaction --> 
+
+	<!-- Annotation based Transaction -->
 	<tx:annotation-driven transaction-manager="txManagerIris"/>
 	<tx:annotation-driven transaction-manager="txManagerPims"/>
-    
+		<!-- 일반과제통계뷰 db -->
+	<tx:annotation-driven transaction-manager="txManagerSalStat"/>
+
 
 </beans>

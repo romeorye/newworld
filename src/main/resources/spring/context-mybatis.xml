@@ -8,9 +8,15 @@
 	  	<property name="configLocation"  value="classpath:/sql/configuration.xml"/>
 	  	<property name="mapperLocations" value= "classpath:/sql/**/sql-*.xml"/>
 	</bean>
-	
+
 	<bean id="sqlSessionFactoryPims" class="devonframe.dataaccess.mybatis.factory.CommonDaoSqlSessionFactoryBean">
 		<property name="dataSource"      ref="dataSourcePims" />
+	  	<property name="configLocation"  value="classpath:/sql/configuration.xml"/>
+	  	<property name="mapperLocations" value= "classpath:/sql/**/sql-*.xml"/>
+	</bean>
+	<!-- 일반과제통계뷰 db -->
+	<bean id="sqlSessionFactorySalStat" class="devonframe.dataaccess.mybatis.factory.CommonDaoSqlSessionFactoryBean">
+		<property name="dataSource"      ref="dataSourceSalStat" />
 	  	<property name="configLocation"  value="classpath:/sql/configuration.xml"/>
 	  	<property name="mapperLocations" value= "classpath:/sql/**/sql-*.xml"/>
 	</bean>
@@ -22,11 +28,16 @@
 	<bean id="commonDao" class="devonframe.dataaccess.mybatis.MyBatisCommonDao">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
-	
+
 	<bean id="commonDaoPims" class="devonframe.dataaccess.mybatis.MyBatisCommonDao">
 		<property name="sqlSessionFactory" ref="sqlSessionFactoryPims" />
 	</bean>
-	
-	
+
+	<!-- 신제품매출 DB -->
+	<bean id="commonDaoSalStat" class="devonframe.dataaccess.mybatis.MyBatisCommonDao">
+		<property name="sqlSessionFactory" ref="sqlSessionFactorySalStat" />
+	</bean>
+
+
 
 </beans>

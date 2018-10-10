@@ -161,6 +161,119 @@ public class TssStatController  extends IrisBaseController {
         return modelAndView;
     }
 
+    //////////////////////////////////////////////////////////
+    /**
+     * 통계 > 기술팀과제 리스트 화면
+     *
+     * @param input HashMap<String, String>
+     * @param request HttpServletRequest
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return String
+     * */
+    @RequestMapping(value="/stat/prj/techTeamTssState.do")
+    public String techTeamTssState(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+            HttpSession session, ModelMap model) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("genTssStat [통계 > 기술팀과제 리스트 화면]");
+        LOGGER.debug("###########################################################");
+
+        checkSessionObjRUI(input, session, model);
+
+        if(pageMoveChkSession((String)input.get("_userId"))) {
+            model.addAttribute("inputData", input);
+        }
+
+        return "web/stat/prj/techTeamTssStat";
+    }
+
+
+    /**
+     * 통계 > 기술팀과제 리스트 조회
+     *
+     * @param input HashMap<String, Object>
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return ModelAndView
+     * */
+    @RequestMapping(value="/stat/prj/retrieveTechTeamTssStatList.do")
+    public ModelAndView retrieveTechTeamTssStatList(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+            HttpServletResponse response, HttpSession session, ModelMap model) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("retrieveTechTeamTssStatList [통계 > 기술팀과제 리스트 조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        checkSessionObjRUI(input, session, model);
+
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        input = StringUtil.toUtf8(input);
+
+        List<Map<String,Object>> list = tssStatService.retrieveTechTeamTssStatList(input);
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", list));
+
+        return modelAndView;
+    }
+
+	/**
+	 *  통계 > 기술팀과제 리스트 년도별 상세팝업 화면
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/stat/prj/techTeamTssStatDtlPop.do")
+	public String techTeamTssStatDtlPop(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		model.addAttribute("inputData", input);
+		return  "web/stat/prj/techTeamTssStatDtlPop";
+	}
+
+    /**
+     * 통계 > 기술팀과제 리스트 년도별 상세팝업 조회
+     *
+     * @param input HashMap<String, Object>
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return ModelAndView
+     * */
+    @RequestMapping(value="/stat/prj/retrieveTechTeamTssStatDtlPopList.do")
+    public ModelAndView retrieveTechTeamTssStatDtlPopList(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+            HttpServletResponse response, HttpSession session, ModelMap model) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("retrieveTechTeamTssStatDtlPopList [통계 > 기술팀과제 리스트 년도별 상세팝업 조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        checkSessionObjRUI(input, session, model);
+
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        input = StringUtil.toUtf8(input);
+
+        List<Map<String,Object>> list = tssStatService.retrieveTechTeamTssStatDtlPopList(input);
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", list));
+
+        return modelAndView;
+    }
+
     /**
      * 통계 > 대외협력과제 리스트 화면
      *

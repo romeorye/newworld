@@ -52,6 +52,22 @@ public class TssStatServiceImpl implements TssStatService {
     }
 
     @Override
+    public List<Map<String, Object>> retrieveTechTeamTssStatList(HashMap<String, Object> input) {
+    	List<Map<String, Object>> dclist = new ArrayList();
+    	List<Map<String, Object>> list = commonDao.selectList("stat.prj.retrieveTechTeamTssStatList", input);
+
+    	if(list.size() > 0){
+    		for(Map<String, Object> data : list) {
+        		data.put("dcacRsonTxt" , CommonUtil.stripHTML(NullUtil.nvl(data.get("dcacRsonTxt"), "")));
+        		dclist.add(data);
+        	}
+    	}
+
+    	return dclist;
+
+    }
+
+    @Override
     public List<Map<String, Object>> retrieveOusdTssStatList(HashMap<String, Object> input) {
         return commonDao.selectList("stat.prj.retrieveOusdTssStatList", input);
     }
@@ -64,5 +80,10 @@ public class TssStatServiceImpl implements TssStatService {
     @Override
     public List<Map<String, Object>> retrieveGenTssStatDtlPopList(HashMap<String, Object> input) {
         return commonDao.selectList("stat.prj.retrieveGenTssStatDtlPopList", input);
+    }
+
+    @Override
+    public List<Map<String, Object>> retrieveTechTeamTssStatDtlPopList(HashMap<String, Object> input) {
+        return commonDao.selectList("stat.prj.retrieveTechTeamTssStatDtlPopList", input);
     }
 }

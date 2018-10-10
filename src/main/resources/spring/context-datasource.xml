@@ -7,10 +7,10 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--  
+    <!--
 	<jdbc:embedded-database id="dataSource" />
 	 -->
-	 
+
 	<bean id="dataSourceInitializerIris" class="org.springframework.jdbc.datasource.init.DataSourceInitializer">
 	    <property name="dataSource"         ref="dataSourceIris"/>
 	    <property name="databasePopulator"  ref="databasePopulator" />
@@ -23,56 +23,69 @@
 	    <property name="dataSource"         ref="dataSourceTopics"/>
 	    <property name="databasePopulator"  ref="databasePopulator" />
 	</bean> -->
-	
+
+	<bean id="dataSourceInitializerSalStat" class="org.springframework.jdbc.datasource.init.DataSourceInitializer">
+	    <property name="dataSource"         ref="dataSourceSalStat"/>
+	    <property name="databasePopulator"  ref="databasePopulator" />
+	</bean>
+
 	<bean id="databasePopulator" class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
 		<property name="sqlScriptEncoding" value="utf-8" />
 		<property name="scripts">
 			<list>
-			    <!-- 
+			    <!--
 				<value>classpath:hsqldb/sample/sample_table.sql</value>
 				<value>classpath:hsqldb/sample/sample_data.sql</value>
 				<value>classpath:hsqldb/sample/idgeneration.sql</value>
 				 -->
-				 <!-- 
+				 <!--
 				<value>classpath:oracledb/sample/sample_table_oracle.sql</value>
 				<value>classpath:oracledb/sample/sample_data_oracle.sql</value>
 				<value>classpath:oracledb/idgeneration/idgeneration_oracle.sql</value>
-				-->				 
+				-->
 			</list>
 		</property>
 	</bean>
 
- 	<context:property-placeholder location="classpath:/config/project.properties"/> 
- 	
+ 	<context:property-placeholder location="classpath:/config/project.properties"/>
+
  	<!-- IRIS MS-SQL DB -->
      <bean id="dataSourceIris" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
- 		<property name="driverClassName" value="${db.iris.driver}" /> 
- 		<property name="url" value="${db.iris.url}" /> 
- 		<property name="username" value="${db.iris.username}" /> 
- 		<property name="password" value="${db.iris.password}" /> 
+ 		<property name="driverClassName" value="${db.iris.driver}" />
+ 		<property name="url" value="${db.iris.url}" />
+ 		<property name="username" value="${db.iris.username}" />
+ 		<property name="password" value="${db.iris.password}" />
  	</bean>
- 	
+
  	<!-- 지적재산권 ORACLE DB -->
   	<bean id="dataSourcePims" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
- 		<property name="driverClassName" value="${db.pims.driver}" /> 
- 		<property name="url" value="${db.pims.url}" /> 
- 		<property name="username" value="${db.pims.username}" /> 
- 		<property name="password" value="${db.pims.password}" /> 
+ 		<property name="driverClassName" value="${db.pims.driver}" />
+ 		<property name="url" value="${db.pims.url}" />
+ 		<property name="username" value="${db.pims.username}" />
+ 		<property name="password" value="${db.pims.password}" />
  	</bean>
- 	
+
+ 	<!-- 신제품매출 DB -->
+  	<bean id="dataSourceSalStat" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+ 		<property name="driverClassName" value="${db.salStat.driver}" />
+ 		<property name="url" value="${db.salStat.url}" />
+ 		<property name="username" value="${db.salStat.username}" />
+ 		<property name="password" value="${db.salStat.password}" />
+ 	</bean>
+
  	<!-- TOPICS ORACLE DB -->
-<!-- 	<bean id="dataSourceTopics" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
- 		<property name="driverClassName" value="${db.topics.driver}" /> 
- 		<property name="url" value="${db.topics.url}" /> 
- 		<property name="username" value="${db.topics.username}" /> 
- 		<property name="password" value="${db.topics.password}" /> 
+<!-- 	<bean id="dataSourceTopics" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+ 		<property name="driverClassName" value="${db.topics.driver}" />
+ 		<property name="url" value="${db.topics.url}" />
+ 		<property name="username" value="${db.topics.username}" />
+ 		<property name="password" value="${db.topics.password}" />
  	</bean> -->
 
- 	
-   <!--   <bean id="dataSource2" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
- 		<property name="driverClassName" value="${db2.driver}" /> 
- 		<property name="url" value="${db2.url}" /> 
- 		<property name="username" value="${db2.username}" /> 
- 		<property name="password" value="${db2.password}" /> 
+
+   <!--   <bean id="dataSource2" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+ 		<property name="driverClassName" value="${db2.driver}" />
+ 		<property name="url" value="${db2.url}" />
+ 		<property name="username" value="${db2.username}" />
+ 		<property name="password" value="${db2.password}" />
  	</bean>  -->
 </beans>
