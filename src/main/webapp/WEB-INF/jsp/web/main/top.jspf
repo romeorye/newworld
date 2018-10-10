@@ -83,68 +83,66 @@ function goHelpDesk(){
 		                    </li>
                         </c:forEach>
 		                </ul>
-		                
-		                <div class="top_gnb">
-		                    <div class="m_gnb">
-		                       <div class="m_bm">
-		                           <div class="m_txt">
-		                            IRIS
-		                            <span>Integrated Research Information System</span>
-		                           </div>               
-		                       </div>
-		                            <div class="menu">
-		                                <ul class="menu_mm">
-		                                    
-	                        <c:set var="prevLevel" value="0"/>
-	                        <c:set var="parentMenuId" value=""/>
-	                                
-				            	<c:forEach items="${menuList}" var="subMenu" varStatus="status">
-		                                    <li class="menu_mm_ss">
-		                                    	<ul class="menu_mm_ss_g">
-				                	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
-                                        <c:choose>
-                                        	<c:when test="${data.menuNm == 'Main'}">
-		                                        	<li>
-		                                            	<span><a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a></span>
-		                                            	<ul>
-			                                            </ul>
-			                                        </li>
-                                        	</c:when>
-                                        	<c:when test="${data.menuLevel == '1'}">
-                                        		<c:set var="parentMenuId" value="${data.menuId}"/>
-                                        		
-                                        		<c:if test="${prevLevel == '2'}">
-			                                            </ul>
-			                                        </li>
-	                                        	</c:if>
-		                                        	<li>
-		                                            	<span><c:out value="${data.menuNm}"/></span>
-		                                            	<ul>
-                                        	</c:when>
-                                        	<c:otherwise>
-		                                                	<li><a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a></li>
-                                        	</c:otherwise>
-                                    	</c:choose>
-                                    	
-                                        <c:set var="prevLevel" value="${data.menuLevel}"/>
-			                 		</c:forEach>
-			                 	
-			                 		<c:if test="${prevLevel > 0}">
-			                                            </ul>
-			                                        </li>
-			                 		</c:if>
-		                                    	</ul>
-		                                    </li>
-		                                    
-		                                    <c:set var="prevLevel" value="0"/>
-			                	</c:forEach>
-			                
-		                            </ul>
-		
-		                       </div>
-		                  </div>
-		                </div>
+		                 <!-- 2depth -->
+			            <div class="top_gnb submenu">													            		
+		                    <div class="m_gnb" id="sub_menu1">
+			                    <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Project</div>
+			                    <div class="menu_2depth">
+			                    	<ul>
+			                    		<li>
+			                    			<a href="#">Main</a>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구팀(Project)</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">현황</a></li>
+					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">GRS</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구과제</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
+					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">M/M관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
+					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    	</ul>			                    
+			                    </div>
+		                    </div>
+			            </div>
+			            <!-- //2depth -->
 		            </nav>
+		           
 		        </div>
 		        
 <form id="menuForm" name="menuForm" method="post" action="/iris/index.do">
