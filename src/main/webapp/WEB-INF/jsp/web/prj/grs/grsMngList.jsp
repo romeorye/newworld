@@ -115,12 +115,12 @@
              columns: [
             	 new Rui.ui.grid.LSelectionColumn(),
                      { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
-                     { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70 },
-				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , renderer: function(val, p, record, row, i){
+                     { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70, vMerge: true },
+				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , vMerge: true , renderer: function(val, p, record, row, i){
                          return "<a href='javascript:evTssPop("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
                      } },
                      { field: 'bizDptNm',   label: '프로젝트명',  align:'center',  width: 100 },
-                     { field: 'dlbrCrgrNm',   label: '과제담당자',  align:'center',  width: 70 },
+                     { field: 'dlbrCrgrNm',   label: '과제담당자',  align:'center',  width: 70},
                      { field: 'tssDd',   label: '과제기간',  align:'center',  width: 100 },
                      { field: 'dlbrParrDt',   label: '심의예정일',  align:'center',  width: 60 },
                      { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 65 },
