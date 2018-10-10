@@ -160,6 +160,35 @@ function goHelpDesk(){
 			<input type="hidden" id="menuMoveYn" name="menuMoveYn" value="Y"/>
 			<input type="hidden" id="personid" name="personid" value="${lsession._userId}"/>	<%--<!-- 개인 아이디  -->--%>
 		</form>
+
+		<form id="menuForm" name="menuForm" method="post" action="/iris/index.do">
+			<input type="hidden" id="parentMenuId" name="parentMenuId" />
+			<input type="hidden" id="vMenuId" name="vMenuId" value="" />
+			<input type="hidden" id="menuMoveYn" name="menuMoveYn" value="Y"/>
+			<!-- [EAM추가]Start ===================================================================================== -->
+			<input type="hidden" id="menuId" name="menuId"/>
+			<input type="hidden" id="menuPath" name="menuPath"/>
+			<!-- [EAM추가]End ======================================================================================= -->
+		</form>
+		<script>
+            function goPage(vMenuId, parentMenuId, scrnUrl, menuId) {
+                var target = '_top';
+                var action = contextPath + '/index.do';
+
+
+                //[EAM추가] - 변수 Start
+                $("#menuForm").find("#parentMenuId").val(parentMenuId);
+                $("#menuForm").find("#vMenuId").val(vMenuId);
+                $("#menuForm").find("#menuPath").val(scrnUrl);
+                $("#menuForm").find("#menuId").val(menuId);
+                //[EAM추가] - 변수 Start
+
+                $("#vMenuId").val(vMenuId);
+                $("#menuForm").attr("action", action);
+                $("#menuForm").attr("target", target);
+                $("#menuForm").submit();
+            }
+		</script>
 	</div>
 </body>
 </html>
