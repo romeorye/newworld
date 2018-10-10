@@ -84,9 +84,11 @@ function goHelpDesk(){
                         </c:forEach>
 		                </ul>
 		                 <!-- 2depth -->
-			            <div class="top_gnb submenu">													            		
-		                    <div class="m_gnb" id="sub_menu1">
- <!-- m_bm-->
+			            <div class="top_gnb submenu">
+			            
+			            	<!-- submenu01::Project -->													            		
+		                    <div class="m_gnb" id="sub_menu1" style="display:none;">
+			                      <!-- m_bm-->
 			                    <!-- div class="menu" -->
 			                    <div class="sub_tit"><p>Project</div>
 			                    <div class="menu_2depth">
@@ -138,6 +140,296 @@ function goHelpDesk(){
 			                    		</li>
 			                    	</ul>			                    
 			                    </div>
+		                    </div>
+		                    <!-- //submenu01::Project -->
+		                    
+		                    <!-- submenu02::Technical Service -->													            		
+		                    <div class="m_gnb" id="sub_menu2" style="display:none;">
+			                      <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Technical<br>Service</div>
+			                    <div class="menu_2depth">
+			                    	<ul>
+			                    		<li>
+			                    			<a href="#">Main</a>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구팀(Project)</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">현황</a></li>
+					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">GRS</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구과제</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
+					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">M/M관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
+					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    	</ul>			                    
+			                    </div>
+		                    </div>
+		                    <!-- //submenu02::Technical Service -->
+		                    
+		                    
+		                    <!-- submenu03::Instrument -->													            		
+		                    <div class="m_gnb" id="sub_menu3" style="display:none;">
+			                      <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Instrument</div>
+			                    <div class="menu_2depth">
+			                    	<ul>
+			                    		<li>
+			                    			<a href="#">Main</a>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구팀(Project)</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">현황</a></li>
+					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">GRS</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구과제</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
+					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">M/M관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
+					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    	</ul>			                    
+			                    </div>
+		                    </div>
+		                    <!-- //submenu03::Instrument -->
+		                    
+		                    <!-- submenu04::Fixed Asset -->													            		
+		                    <div class="m_gnb" id="sub_menu5" style="display:none;">
+			                      <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Fixed<br>Asset</p></div>
+			                    <div class="menu_2depth">
+			                    	<ul>
+			                    		<li>
+			                    			<a href="#">Main</a>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구팀(Project)</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">현황</a></li>
+					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">GRS</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구과제</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
+					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">M/M관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
+					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    	</ul>			                    
+			                    </div>
+		                    </div>
+		                    <!-- //submenu04::Fixed Asset -->
+		                    
+		                    <!-- submenu05::Knowledge -->													            		
+		                    <div class="m_gnb" id="sub_menu5" style="display:none;">
+			                      <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Knowledge</p></div>
+			                    <div class="menu_2depth">
+			                    	<ul>
+			                    		<li>
+			                    			<a href="#">Main</a>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구팀(Project)</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">현황</a></li>
+					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">GRS</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구과제</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
+					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">M/M관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
+					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    	</ul>			                    
+			                    </div>
+		                    </div>
+		                    <!-- //submenu05::Knowledge -->
+		                    
+		                    <!-- submenu06::Statistic -->													            		
+		                    <div class="m_gnb" id="sub_menu6" style="display:block;">
+			                      <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Statistic</p></div>
+			                    <div class="menu_2depth">
+			                    	<ul>
+			                    		<li>
+			                    			<a href="#">Main</a>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구팀(Project)</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">현황</a></li>
+					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">GRS</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">연구과제</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
+					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
+					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">M/M관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
+					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    		<li>
+			                    			<a href="#">관리</a>
+			                    			<ul>
+					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
+					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
+				                    		</ul>			                    		
+			                    		</li>
+			                    	</ul>			                    
+			                    </div>
+		                    </div>
+		                    <!-- //submenu06::Statistic -->
+			            </div>
+			            <!-- //2depth -->
 		                    </div>
 			            </div>
 			            <!-- //2depth -->

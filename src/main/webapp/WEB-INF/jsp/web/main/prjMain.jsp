@@ -303,7 +303,8 @@
  #prj_right {position:absolute; right:1%; top:0; width:220px;}
  #prj_right > div {width:100%; border-radius:16px; background:#fff; position:relative; margin-top:18px;}
  #prj_right .btn_menu {background:#da1c5a; line-height:3.5; text-align:center; border-radius:11px !important;}
- #prj_right .btn_menu a {color:#fff; font-weight:bold; font-size:13px;}
+ #prj_right .btn_menu a {color:#fff; font-weight:bold; font-size:13px; display:inline-block;}
+ #prj_right .btn_menu a i {  display:inline-block; width:20px; height:15px; background:url(/iris/resource/web/images/newIris/bullet_meu.png) no-repeat left center;}
 .menu_link {overflow:hidden;}
 .menu_link p {line-height:2.8; text-align:center; font-weight:bold; font-size:13px; }
 .menu_link ul {width:92%; margin:0 auto;}
@@ -314,6 +315,11 @@
 .menu_link ul li:nth-child(2) a { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 30px -80px;}
 .menu_link ul li:nth-child(3) a { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 30px -177px;}
 .menu_link ul li:nth-child(4) a { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 32px -275px;}
+.menu_link ul li:nth-child(1) a:hover { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 30px -380px;}
+.menu_link ul li:nth-child(2) a:hover { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 30px -480px;}
+.menu_link ul li:nth-child(3) a:hover { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 30px -577px;}
+.menu_link ul li:nth-child(4) a:hover { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 32px -675px;}
+
 .left_phone.help {padding:15px;box-sizing: border-box;}
 </style>
     <!--content-->
