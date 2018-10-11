@@ -333,8 +333,8 @@
 	    _wbsCdSearchDialog = new Rui.ui.LFrameDialog({
 	        id: '_wbsCdSearchDialog',
 	        title: 'WBS 코드 조회',
-	        width: 850,
-	        height: 550,
+	        width: 1050,
+	        height: 600,
 	        modal: true,
 	        visible: false
 	    });
