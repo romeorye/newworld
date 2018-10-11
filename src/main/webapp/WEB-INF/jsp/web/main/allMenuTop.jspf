@@ -12,12 +12,13 @@
 		            <nav class="Mgnb">
 		                <div class="top_gnb">
 		                    <div class="m_gnb">
+		                    <!--
 		                       <div class="m_bm">
 		                           <div class="m_txt">
 		                            IRIS
 		                            <span>Integrated Research Information System1</span>
 		                           </div>
-		                       </div>
+		                       </div> -->
 		                            <div class="menu">
 		                                <ul class="menu_mm">
 
@@ -27,6 +28,7 @@
 				            	<c:forEach items="${menuList}" var="subMenu" varStatus="status">
 		                                    <li class="menu_mm_ss">
 		                                    	<ul class="menu_mm_ss_g">
+
 				                	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
                                         <c:choose>
                                         	<c:when test="${data.menuNm == 'Main'}">
