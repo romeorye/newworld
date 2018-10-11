@@ -51,6 +51,12 @@ public class MainServiceImpl implements  MainService{
 	public List<Map<String, Object>> retrievePrjMainQnaList() {
 		return commonDao.selectList("main.retrievePrjMainQnaList");
 	}
+	
+	/* 프로젝트메인 QnA 조회 */
+	@Override
+	public List<Map<String, Object>> retrievePrjMainKnowLedgeList() {
+		return commonDao.selectList("main.retrievePrjMainKnowLedgeList");
+	}
 
 	/* 프로젝트메인 연구소 금주,차주일정 조회 */
 	@Override
