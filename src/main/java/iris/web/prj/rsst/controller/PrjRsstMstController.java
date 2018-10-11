@@ -551,7 +551,7 @@ public class PrjRsstMstController  extends IrisBaseController {
 		
 		model.addAttribute("inputData", input);
 		
-		return  "web/main/helpdeskPopUp";
+		return  "web/main/helpdeskPopUp2";
 	}
 	
 }
