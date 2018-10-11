@@ -1810,11 +1810,11 @@ a.l-blue {color:#3970a8; text-decoration:underline;}
 .mt0{margin-top:0;}
 .txt_layout_num{text-align:right; padding-right:25px;}
 
-.table{border-top:2px solid #c40452; width:100%; margin-top:5px; text-align:center; font-size:13px; border-bottom:1px solid #ccc; }
-.table th{background:#f9f9f9; font-weight:500;}
+.table{border-top:2px solid #c40452; width:100%; margin-top:5px; text-align:center; font-size:13px; border-bottom:1px solid #ccc;}
+.table th{background:#f9f9f9; font-weight:500; margin:0; font-family:µ¸¿ò;}
 .table td,table tbody th{border-right:1px solid #ddd;}
 .table tr:last-child td{border-bottom:1px solid #ccc;}
-.table td:last-child{border-right:none;}
+.table td:last-child{border-right:none;font-family:µ¸¿ò; }
 .table tbody th:last-child{border-right:none;}
 .table tr{border-bottom:1px solid #ddd; height:30px; line-height:30px;}
 .table thead tr th:after{background:#ddd; content: ''; width: 1px; height:15px; display:inline-block; margin:8px 0 0 0px; float:left;}
@@ -1882,8 +1882,8 @@ fieldset .table + .table{margin-top:20px}
 .docu_box .txt { font-size:14px; font-weight:bold;line-height:2;margin-bottom:16px;  text-indent:18px; color:#777; position:relative;}
 .docu_box .txt:before {content:""; position:absolute; left:0; top:8px; width:16px; height:16px; background: url(/iris/resource/web/images/newIris/i_bullet.png) left center no-repeat;}
 .docu_box .txt2 {font-size:16px; font-weight:bold;line-height:2;text-align:center;}
-.docu_con .table {margin-bottom:40px; border-top:0 none;}
-.docu_con .table th, .docu_con .table td {text-align:center !important;border:1px solid #c3c3c3 !important;}
+.docu_con .table {margin-bottom:40px; border-top:0 none; border-collapse: collapse;border-spacing: 0;}
+.docu_con .table th, .docu_con .table td {text-align:center !important;border:1px solid #c3c3c3 !important; margin:0;}
 .docu_con .table tr td:last-child, .docu_con .table thead tr th:last-child {border-right:1px solid #c3c3c3;}
 .docu_con .table td.txt-left  {text-align:left !important;}
 .docu_con ul {overflow:hidden; margin:10px 0;}
