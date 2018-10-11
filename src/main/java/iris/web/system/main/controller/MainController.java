@@ -94,10 +94,12 @@ public class MainController extends IrisBaseController {
 			SayMessage.setMessage(rtnMsg);
         } else {
 
-        	// 공지사항 4건
+        	// 공지사항 5건
         	List<Map<String,Object>> noticeList = mainService.retrievePrjMainNoticeList();
-        	// QnA 4건
+        	// QnA 5건
         	List<Map<String,Object>> qnaList = mainService.retrievePrjMainQnaList();
+        	// QnA 5건
+        	List<Map<String,Object>> knowList = mainService.retrievePrjMainKnowLedgeList();
         	// 금주,차주 연구소일정 5건씩
         	List<Map<String,Object>> scheduleList = mainService.retrievePrjMainScheduleList();
 
@@ -129,6 +131,7 @@ public class MainController extends IrisBaseController {
 
     		model.addAttribute("noticeList", noticeList);
     		model.addAttribute("qnaList", qnaList);
+    		model.addAttribute("knowList", knowList);
     		model.addAttribute("scheduleList", scheduleList);
 	        model.addAttribute("inputData", input);
 
