@@ -23,6 +23,9 @@ public interface MainService {
 	/* 프로젝트메인 QnA 조회 */
 	public List<Map<String, Object>> retrievePrjMainQnaList();
 	
+	/* 프로젝트메인 Knowledge 조회 */
+	public List<Map<String, Object>> retrievePrjMainKnowLedgeList();	
+	
 	/* 프로젝트메인 연구소 금주,차주일정 조회 */
 	public List<Map<String, Object>> retrievePrjMainScheduleList();
 	
