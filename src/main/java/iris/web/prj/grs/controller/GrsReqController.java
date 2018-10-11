@@ -503,7 +503,6 @@ public class GrsReqController  extends IrisBaseController {
 
         checkSessionObjRUI(input, session, model);
         ModelAndView modelAndView = new ModelAndView("ruiView");
-        input = StringUtil.toUtf8Input(input);
         
         HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
         List<Map<String, Object>> dsLst = null;
@@ -521,6 +520,7 @@ public class GrsReqController  extends IrisBaseController {
             
             input.put("userId", input.get("_userId"));
             input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
+            input = StringUtil.toUtf8Input(input);
             
             grsReqService.insertGrsEvRsltSave(dsLst, input);
 
