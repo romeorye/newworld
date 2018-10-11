@@ -547,11 +547,11 @@ public class PrjRsstMstController  extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		//LOGGER.debug("session="+lsession);
-		LOGGER.debug("####################input################################################################# : " + input);
+		LOGGER.debug("####################input################################################################ : " + input);
 		
 		model.addAttribute("inputData", input);
 		
-		return  "web/main/helpdeskPopUp2";
+		return  "web/main/helpdeskPopUp";
 	}
 	
 }
