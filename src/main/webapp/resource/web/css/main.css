@@ -413,7 +413,7 @@ ul.bt-roll li {float:left; margin-right:5px; }
 .main_sec_table01 th{color:#333; text-align:center; font-weight:500; line-height:35px; height:35px; font-size:12px; border-bottom:1px solid #cccccc;}
 .main_sec_table01 thead tr th:after{background: #ccc; content: ''; width: 1px; height: 10px; display:inline-block; float:left; margin-top:13px;}
 .main_sec_table01 thead tr th:first-child:after{background:none;}
-.main_sec_table01 tr{ height:35px; line-height:35px; margin-top:-25px;}
+.main_sec_table01 tr{ /* 20181010 height:35px; line-height:35px;*/height:31px; border-bottom:1px solid #eee; line-height:31px; margin-top:-25px;}
 .main_sec_table01 td{color:#666; padding:0 10px;}
 .main_sec_table01 td:hover{color:#c40553; cursor: pointer;}
 .main_sec_table01 td:last-child{text-align:right;font-size:11px; color:#8f8f8f; font-weight:300;}
@@ -641,8 +641,11 @@ ul.bt-roll li {float:left; margin-right:5px; }
 
 /* 테이블 02*/
 .table02{border-top:2px solid #be034c;margin-top:10px; width:100%; text-align:center;}
+/* 20181010
 .table02 thead tr{border-bottom:1px solid #ccc; height:40px;}
-.table02 tbody tr{border-bottom:1px solid #ccc; height:40px; line-height:40px;}
+.table02 tbody tr{border-bottom:1px solid #ccc; height:40px; line-height:40px;}*/
+.table02 thead tr{border-bottom:1px solid #ccc; height:35px;}
+.table02 tbody tr{border-bottom:1px solid #ccc; height:35px; line-height:35px;}
 .table02 thead tr th:after{background: #ccc; content: ''; width: 1px; height: 13px; display: block; margin:-16px 0 0 0px;}
 .table02 thead tr th:first-child:after{background:none;}
 .table02 tbody tr td:nth-of-type(2){color:#111; font-weight:500; text-align:left; padding-left:50px;}

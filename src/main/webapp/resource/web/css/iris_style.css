@@ -155,8 +155,8 @@ div.LblockButton button:hover {color:#666;}
  .btn_btn,  .btn_btm {margin:10px 0 10px 0 !important;}
  .btn_btm2 {margin:16px 0 10px 0 !important;}
  
-div.main_footer_w {background:#f4f4f4; overflow:hidden; padding-top:15px;}
-div.main_footer {border-top:1px solid #ddd;    margin-top: 0; padding-left:40px; background:#e4e4e4; overflow:hidden;}
+div.main_footer_w {background:#f4f4f4; overflow:hidden; padding-top:15px; }
+div.main_footer {border-top:1px solid #ddd; box-sizing:border-box; margin-top: 0; padding-left:40px; background:#e4e4e4; overflow:hidden;}
 .copy, .main_footer strong a {font-size:12px !important;}
 div.main_footer > div {background:#e4e4e4;}
 
@@ -1011,7 +1011,7 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 
 
 
-
+.Main_content_w {background:#f4f4f4;}}
 #main_iris {padding-bottom:0; overflow:hidden;}
 .main_wrap { overflow:hidden; background:#f4f4f4;}
 #main_iris #prj_lnb { width:234px;padding:0;}
@@ -1059,15 +1059,17 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 #prj_lnb .side_iconList li:nth-child(11) select{ width:180px;}
 #prj_lnb .side_scroll_con ul li a { margin: 0 0 0 60px;}
 
-#main_iris #prj_content {margin-left:280px; margin-right:264px;}
+#main_iris #prj_content {margin-left:280px; margin-right:260px;}
 #prj_content h4 {font-size:16px; margin-bottom:17px;}
 #prj_content table { border-top: 1px solid #be034c;}
+
 .fir_subject_con {width:100%;}
 .fir_subject_con.section1 {overflow:hidden; position:relative; width:100% !important;}
-.fir_subject_con.section1 .visual { margin-right:430px;height:270px; background:url(/iris/resource/web/images/newIris/main_visual.png) no-repeat left top;border-radius:16px; }
+.fir_subject_con.section1 .visual { margin-right:430px;height:240px; background:url(/iris/resource/web/images/newIris/main_visual.png) no-repeat left top;border-radius:16px; }
 .fir_subject_con.section1 .visual img {width:100%;background:#555; display:none;}
-.fir_subject_con.section1 .schedule_con {width:410px;height:270px; position:absolute !important; top:0; right:0; margin:0; padding:16px; box-sizing:border-box; background:#fff; border-radius:15px;}
+.fir_subject_con.section1 .schedule_con {width:410px;height:240px; position:absolute !important; top:0; right:0; margin:0; padding:16px; box-sizing:border-box; background:#fff; border-radius:15px;}
 .schedule_con .main_sec_table01 tr th:first-child {width:70% !important;}
+#prj_content .main_sec_table01 td {height:20px !important;}
 .schedule_con .main_sec_table01 tr td:nth-child(1) {width:70% !important;} 
 .schedule_con .main_sec_table01 tr td:nth-child(2) {text-align:center;} 
 .schedule_con .main_sec_table01 tr td a {width:100%; display:block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 200px;}

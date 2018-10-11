@@ -1,7 +1,8 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-
-    <div class="main_footer">
-        <div class="width_layout">
-        <a href="javascript:void(0);"><img src="<%=imagePath%>/newIris/bottom_logo.png"></a><div class="copy">COPYRIGHT ©  2017 LG HAUSYS ALL RIGHT RESERVED.</div> <strong><a href="javascript:privacyPopup();">개인정보처리방침</a></strong>
-        </div>    
+	<div claas="main_footer_w" style="background:#f4f4f4; padding-top:15px;">
+	    <div class="main_footer">
+	        <div class="width_layout">
+	        <a href="javascript:void(0);"><img src="<%=imagePath%>/newIris/bottom_logo.png"></a><div class="copy">COPYRIGHT ©  2017 LG HAUSYS ALL RIGHT RESERVED.</div> <strong><a href="javascript:privacyPopup();">개인정보처리방침</a></strong>
+	        </div>    
+	    </div>
     </div>

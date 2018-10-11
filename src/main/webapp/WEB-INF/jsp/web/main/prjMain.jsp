@@ -253,76 +253,9 @@
 	<%@ include file="/WEB-INF/jsp/web/main/top.jspf" %>
     </div>
     <div class="gnb_line"></div>
-<style>
-#main_iris {padding-bottom:0; overflow:hidden;}
-#main_iris #prj_lnb { width:234px;padding:0;}
 
-#main_iris #prj_lnb .side_layout {width:100%; margin-top:0;}
-#main_iris #prj_lnb .side_layout > div {border-radius:16px;}
-.profile_wrap {background:#fff; padding:18px 0 0 0; text-algin:center;}
-.profile_wrap .profile_naming {display:table; margin:0 auto;}
-.profile_wrap .profile_naming span, .profile_wrap .profile_naming div {display:table-cell; vertical-align:middle;}
-.profile_wrap .profile_naming div {padding-top:0; padding-left:10px; position:relative;}
-.profile_wrap .request_numbering {padding:15px 0 5px 0;}
-
-#prj_lnb .side_scroll_con ul {overflow:hidden; width:100%; border-radius:16px; background:#fff;margin:0;  margin-top:15px; }
-#prj_lnb .side_scroll_con ul li {height:54px; line-height:54px; }
-#prj_lnb .side_scroll_con ul li:nth-child(1) {display:none;}
-#prj_lnb .side_scroll_con ul li:nth-child(2) {padding:6px 0; background-position: 60px center;}
-/*#prj_lnb .side_scroll_con ul li:nth-child(3) {background-position:32px 0px;}
-#prj_lnb .side_scroll_con ul li:nth-child(4) {background-position:32px -120px;}
-#prj_lnb .side_scroll_con ul li:nth-child(5) {background-position:32px -240px;}
-#prj_lnb .side_scroll_con ul li:nth-child(6) {background-position:32px -360px;}
-#prj_lnb .side_scroll_con ul li:nth-child(7) {background-position:32px -480px;}
-#prj_lnb .side_scroll_con ul li:nth-child(8) {background-position:32px -600px;}
-#prj_lnb .side_scroll_con ul li:nth-child(9) {background-position:32px -720px;}
-#prj_lnb .side_scroll_con ul li:nth-child(10) {background-position:32px -840px;}*/
-#prj_lnb .side_scroll_con ul li a { margin: 0 0 0 60px;}
-
-#main_iris #prj_content {margin-left:280px; margin-right:264px;}
-#prj_content h4 {font-size:16px; margin-bottom:17px;}
-#prj_content table { border-top: 1px solid #be034c;}
-.fir_subject_con {width:100%;}
-.fir_subject_con.section1 {height:290px; overflow:hidden; position:relative;}
-.fir_subject_con.section1 .visual { margin-right:360px;height:290px; background:url(/iris/resource/web/images/newIris/main_visual.png) no-repeat left top;border-radius:16px; }
-.fir_subject_con.section1 .visual img {width:100%;background:#555; display:none;}
-.fir_subject_con.section1 .schedule_con {width:340px;height:290px; position:absolute !important; top:0; right:0; margin:0; padding:16px; box-sizing:border-box; background:#fff; border-radius:15px;}
-.schedule_con .main_sec_table01 tr th:first-child {width:60% !important;}
-.task_con.section2 {width:100%;  box-sizing:border-box; background:#fff; border-radius:16px; padding:25px 24px;}
-
-.section2 .tab_con02 ul {border-top:0; overflow:hidden;height:35px; position:relative;}
-.section2 .tab_con02 ul:after {content:""; position:absolute; left:0;right:0; width:100%; height:1px; display:block; top:34px; background:#ccc;}
-.section2 .tab_con02 ul li {height:35px; margin-bottom:-1px;  background: #eee;height: unset; color: #666;box-sizing: border-box;}
-.section2 .tab_con02 ul li:last-child a {border-right:1px solid #d8d8d8;}
-.section2 .tab_con02 ul li a {border: 1px solid #d8d8d8; border-right:0; height:100%; font-size:13px; padding:0 20px; line-height:35px; display:block; box-sizing: border-box;}
-.section2 .tab_con02 ul li a.on {margin-top:0; border-bottom:1px solid #fff; background:#fff; border-top:1px solid #d8d8d8 !important;}
-
-.task_con.section2 {padding-bottom:28px !important;}
-.task_con.section2 .table02 tbody tr td:nth-of-type(2) {text-align:center;}
-.task_con.section2 .table02 tbody tr td:nth-of-type(3) {text-align:left;}
- #prj_right {position:absolute; right:1%; top:0; width:220px;}
- #prj_right > div {width:100%; border-radius:16px; background:#fff; position:relative; margin-top:18px;}
- #prj_right .btn_menu {background:#da1c5a; line-height:3.5; text-align:center; border-radius:11px !important;}
- #prj_right .btn_menu a {color:#fff; font-weight:bold; font-size:13px; display:inline-block;}
- #prj_right .btn_menu a i {  display:inline-block; width:20px; height:15px; background:url(/iris/resource/web/images/newIris/bullet_meu.png) no-repeat left center;}
-.menu_link {overflow:hidden;}
-.menu_link p {line-height:2.8; text-align:center; font-weight:bold; font-size:13px; }
-.menu_link ul {width:92%; margin:0 auto;}
-.menu_link ul li {border-top:1px dashed #ccc; height:72px;}
-.menu_link ul li a {display:block; height:100%;text-indent:98px;line-height:72px; font-size:13px;}
-.menu_link ul li a:hover {color:#da1c5a;}
-.menu_link ul li:nth-child(1) a { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 30px 20px;}
-.menu_link ul li:nth-child(2) a { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 30px -80px;}
-.menu_link ul li:nth-child(3) a { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 30px -177px;}
-.menu_link ul li:nth-child(4) a { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 32px -275px;}
-.menu_link ul li:nth-child(1) a:hover { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 30px -380px;}
-.menu_link ul li:nth-child(2) a:hover { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 30px -480px;}
-.menu_link ul li:nth-child(3) a:hover { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 30px -577px;}
-.menu_link ul li:nth-child(4) a:hover { background:url(/iris/resource/web/images/newIris/main_right.png) no-repeat 32px -675px;}
-
-.left_phone.help {padding:15px;box-sizing: border-box;}
-</style>
     <!--content-->
+    <div class="Main_content_w">
     <div class="Main_content" id="main_iris">
         <!--left-->
         <div class="side_bar_con" id="prj_lnb">
@@ -674,10 +607,10 @@
 .btn_menu:hover #tmpMenu {display:block !important;}
 .btn_menu #tmpMenu
 {display:none !important;position: absolute;z-index: 999; text-align:left; position: absolute; z-index:999;width:970px; background:#fff; top:-20px; border:1px solid #ccc;
-padding: 10px; padding-left:36px; right:0;background:#fff; border:  1px solid #ccc; box-sizing:border-box; border-radius:16px;}
+padding: 10px; padding-left:36px; right:245px;background:#fff; border:  1px solid #ccc; box-sizing:border-box; border-radius:16px;}
 .btn_menu #tmpMenu #horizontalContainer {    overflow: hidden;
-    min-height: 660px;}
-.btn_menu #tmpMenu #horizontalContainer .gnb_height {    overflow: hidden; min-height: 660px;}
+    min-height: 640px;}
+.btn_menu #tmpMenu #horizontalContainer .gnb_height {    overflow: hidden; min-height: 640px;}
 .btn_menu #tmpMenu #horizontalContainer .gnb_height .nav.Mgnb {height:auto !important;}
 .btn_menu #tmpMenu  nav.Mgnb .top_gnb {top:10px !important;}
 
@@ -688,9 +621,9 @@ padding: 10px; padding-left:36px; right:0;background:#fff; border:  1px solid #c
 .btn_menu .top_gnb  {border:0; width:100%;}
 .btn_menu .top_gnb .m_gnb {background-image:none !important; border:0; width:100%;}
 
-.top_gnb .menu {width:100%; margin-left:30px;}
-.top_gnb .menu ul.menu_mm {width:100%;}
-.top_gnb .menu > ul > li {border:0; min-width:150px;}
+.top_gnb .menu {width:100%; margin-left:30px; height:640px !important;}
+.top_gnb .menu ul.menu_mm {width:100%; overflow:hidden;}
+.top_gnb .menu > ul > li {border:0; min-width:150px;    height: unset;}
 .top_gnb .menu > ul > li span {margin:10px 0 6px 0 !important;}
 .btn_menu #tmpMenu .top_gnb  {display:block !important;}
 #prj_right .btn_menu ul li ul li {margin-bottom:2px;}
@@ -736,6 +669,7 @@ padding: 10px; padding-left:36px; right:0;background:#fff; border:  1px solid #c
 
         </div>
         <!-- //좌측 추가 영역 -->
+    </div>
     </div>
     <!--footer-->
 	<%@ include file="/WEB-INF/jsp/web/main/footer.jspf" %>
