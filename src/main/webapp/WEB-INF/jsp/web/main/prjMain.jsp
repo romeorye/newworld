@@ -673,8 +673,8 @@
 
 .btn_menu:hover #tmpMenu {display:block !important;}
 .btn_menu #tmpMenu
-{display:block !important;position: absolute;z-index: 999; text-align:left; position: absolute; z-index:999;width:970px; background:#fff; top:-20px; border:1px solid #ccc;
-padding: 10px; padding-left:36px; right:0;background:#fff; border:  1px solid #ccc; box-sizing:border-box;}
+{display:none !important;position: absolute;z-index: 999; text-align:left; position: absolute; z-index:999;width:970px; background:#fff; top:-20px; border:1px solid #ccc;
+padding: 10px; padding-left:36px; right:0;background:#fff; border:  1px solid #ccc; box-sizing:border-box; border-radius:16px;}
 .btn_menu #tmpMenu #horizontalContainer {    overflow: hidden;
     min-height: 660px;}
 .btn_menu #tmpMenu #horizontalContainer .gnb_height {    overflow: hidden; min-height: 660px;}
@@ -691,10 +691,10 @@ padding: 10px; padding-left:36px; right:0;background:#fff; border:  1px solid #c
 .top_gnb .menu {width:100%; margin-left:30px;}
 .top_gnb .menu ul.menu_mm {width:100%;}
 .top_gnb .menu > ul > li {border:0; min-width:150px;}
-.top_gnb .menu > ul > li span {maring:10px 0 6px 0 !important;}
+.top_gnb .menu > ul > li span {margin:10px 0 6px 0 !important;}
 .btn_menu #tmpMenu .top_gnb  {display:block !important;}
-#prj_right .btn_menu ul li ul li {margin-bottom:1px;}
-#prj_right .btn_menu ul li span a, #prj_right .btn_menu ul li ul li a {color:#555 !important; display:inline; line-height:1.2; font-size:12px; font-weight:normal; letter-spacing:-1px;}
+#prj_right .btn_menu ul li ul li {margin-bottom:2px;}
+#prj_right .btn_menu ul li span a, #prj_right .btn_menu ul li ul li a {color:#555 !important; display:inline; line-height:1; font-size:12px; font-weight:normal; letter-spacing:-1px;}
 
 </style>
  		<!-- 좌측 추가 영역 -->
