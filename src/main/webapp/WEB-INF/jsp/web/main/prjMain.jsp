@@ -694,7 +694,7 @@ padding: 10px; padding-left:36px; right:0;background:#fff; border:  1px solid #c
 .top_gnb .menu > ul > li span {maring:10px 0 6px 0 !important;}
 .btn_menu #tmpMenu .top_gnb  {display:block !important;}
 #prj_right .btn_menu ul li ul li {margin-bottom:1px;}
-#prj_right .btn_menu ul li span a, #prj_right .btn_menu ul li ul li a {color:#555 !important; font-size:12px; font-weight:normal; letter-spacing:-1px;}
+#prj_right .btn_menu ul li span a, #prj_right .btn_menu ul li ul li a {color:#555 !important; display:inline; line-height:1.2; font-size:12px; font-weight:normal; letter-spacing:-1px;}
 
 </style>
  		<!-- 좌측 추가 영역 -->
