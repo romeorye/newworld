@@ -2,10 +2,65 @@
 <%@page import="iris.web.common.util.HelpDesk" %>
 <%@ include file="../tmpMenu.jsp" %>
 <script type="text/javascript">
+$(document).ready(function() {
+	$('#PJ').on('click', function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","block");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
 
+	});
+
+	$('#AN').on('click', function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","block");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	});
+
+	$('#DE').on('click', function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","block");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	});
+
+	$('#FI').on('click', function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","block");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	});
+
+	$('#KL').on('click', function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","block");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	});
+
+	$('#ST').on('click', function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","block");
+	});
+});
 function fnSearch(){
 	var frm = document.aform;
-	
+
 	var openWeight = 1035;
 	var openHeight = 720;
 	var winleft = (screen.width - openWeight) / 2;
@@ -14,9 +69,9 @@ function fnSearch(){
 	settings += ', top=' + wintop;
 	settings += ', left=' + winleft;
     /* var keyword = document.getElementById('NavigatorControl_tbSearchKeyWord').value; */
-    var keyword = frm.srh.value; 
-   
-    var url = 'http://search.lghausys.com:8501/iris/search.jsp?query='+encodeURI(keyword);	
+    var keyword = frm.srh.value;
+
+    var url = 'http://search.lghausys.com:8501/iris/search.jsp?query='+encodeURI(keyword);
 	var win = window.open(url, "searchPop", settings);
     //win.focus();
                 if(window.focus){
@@ -25,7 +80,7 @@ function fnSearch(){
                     }, 1000);
                 }
 
-	
+
 }
 
 function goHelpDesk(){
@@ -39,9 +94,9 @@ function goHelpDesk(){
 	var fmd5_emp_no = "<%=hd.fmd5_user_id(sabun)%>";
 	var popUrl =  '<c:url value="/prj/rsst/helpdesPopUp.do"/>';
     var popupOption = "width=1200, height=700, top=200, left=400";
-    
+
     alert("IRIS+ 문의사항은 02-6987-7396 으로 연락바랍니다.");
-    
+
     popUrl = popUrl+"?emp_no="+emp_no+"&fmd5_emp_no="+fmd5_emp_no;
     window.open(popUrl,"",popupOption);
 }
@@ -71,362 +126,236 @@ function goHelpDesk(){
 		                	<span class="name_info"><input type="text" id="srh" class="search_input" placeholder="Knowledge" onkeypress="if(event.keyCode==13) {fnSearch();}"> <a href="javascript:fnSearch(this);"><span class="icon_search"></span></a></span>
 						</c:if>
 		                </div>
-		                </fieldset>        
+		                </fieldset>
 		            </form>
 		            <%-- <h1><a href="<c:url value="${mainUrl}"/>"><img src="<%=imagePath%>/newIris/logo.png" alt="로고" width="104px;" height="44px;"></a></h1> --%>
 		            <h1><a href="<c:url value="${mainUrl}"/>"><img src="<%=imagePath%>/newIris/logo.png" alt="로고"></a></h1>
 		            <nav class="Mgnb">
 		                <ul class="title">
                         <c:forEach items="${menuList}" var="data" varStatus="status">
-		                    <li>
+		                    <li id="${data[0].subSysId}">
 		                        <c:out value="${data[0].menuNm}"/>
 		                    </li>
                         </c:forEach>
 		                </ul>
 		                 <!-- 2depth -->
 			            <div class="top_gnb submenu">
-			            
-			            	<!-- submenu01::Project -->													            		
-		                    <div class="m_gnb" id="sub_menu1" style="display:none;">
+
+			            	<!-- submenu01::Project -->
+		                    <div class="m_gnb" id="sub_menu1" style="display:block;">
 			                      <!-- m_bm-->
 			                    <!-- div class="menu" -->
 			                    <div class="sub_tit"><p>Project</div>
 			                    <div class="menu_2depth">
-			                    	<ul>
-			                    		<li>
-			                    			<a href="#">Main</a>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구팀(Project)</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">현황</a></li>
-					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">GRS</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구과제</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
-					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">M/M관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
-					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    	</ul>			                    
-			                    </div>
-		                    </div>
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='PJ'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='PJ'}">
+			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						</c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
 		                    <!-- //submenu01::Project -->
-		                    
-		                    <!-- submenu02::Technical Service -->													            		
+
+		                    <!-- submenu02::Technical Service -->
 		                    <div class="m_gnb" id="sub_menu2" style="display:none;">
 			                      <!-- m_bm-->
 			                    <!-- div class="menu" -->
-			                    <div class="sub_tit"><p>Technical<br>Service</div>
+			                    <div class="sub_tit"><p>Technical Service</div>
 			                    <div class="menu_2depth">
-			                    	<ul>
-			                    		<li>
-			                    			<a href="#">Main</a>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구팀(Project)</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">현황</a></li>
-					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">GRS</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구과제</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
-					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">M/M관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
-					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    	</ul>			                    
-			                    </div>
-		                    </div>
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='AN'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='AN'}">
+			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						</c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
 		                    <!-- //submenu02::Technical Service -->
-		                    
-		                    
-		                    <!-- submenu03::Instrument -->													            		
+
+
+		                    <!-- submenu03::Instrument -->
 		                    <div class="m_gnb" id="sub_menu3" style="display:none;">
 			                      <!-- m_bm-->
 			                    <!-- div class="menu" -->
 			                    <div class="sub_tit"><p>Instrument</div>
 			                    <div class="menu_2depth">
-			                    	<ul>
-			                    		<li>
-			                    			<a href="#">Main</a>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구팀(Project)</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">현황</a></li>
-					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">GRS</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구과제</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
-					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">M/M관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
-					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    	</ul>			                    
-			                    </div>
-		                    </div>
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='DE'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='DE'}">
+			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						</c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
 		                    <!-- //submenu03::Instrument -->
-		                    
-		                    <!-- submenu04::Fixed Asset -->													            		
-		                    <div class="m_gnb" id="sub_menu5" style="display:none;">
-			                      <!-- m_bm-->
+
+		                    <!-- submenu04::Fixed Asset -->
+		                    <div class="m_gnb" id="sub_menu4" style="display:none;">
+			                     <!-- m_bm-->
 			                    <!-- div class="menu" -->
-			                    <div class="sub_tit"><p>Fixed<br>Asset</p></div>
+			                    <div class="sub_tit"><p>Fixed Asset</div>
 			                    <div class="menu_2depth">
-			                    	<ul>
-			                    		<li>
-			                    			<a href="#">Main</a>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구팀(Project)</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">현황</a></li>
-					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">GRS</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구과제</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
-					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">M/M관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
-					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    	</ul>			                    
-			                    </div>
-		                    </div>
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='FI'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='FI'}">
+			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						</c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
 		                    <!-- //submenu04::Fixed Asset -->
-		                    
-		                    <!-- submenu05::Knowledge -->													            		
+
+		                    <!-- submenu05::Knowledge -->
 		                    <div class="m_gnb" id="sub_menu5" style="display:none;">
-			                      <!-- m_bm-->
+			                     <!-- m_bm-->
 			                    <!-- div class="menu" -->
-			                    <div class="sub_tit"><p>Knowledge</p></div>
+			                    <div class="sub_tit"><p>Knowledge</div>
 			                    <div class="menu_2depth">
-			                    	<ul>
-			                    		<li>
-			                    			<a href="#">Main</a>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구팀(Project)</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">현황</a></li>
-					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">GRS</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구과제</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
-					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">M/M관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
-					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    	</ul>			                    
-			                    </div>
-		                    </div>
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='KL'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='KL'}">
+			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						</c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
 		                    <!-- //submenu05::Knowledge -->
-		                    
-		                    <!-- submenu06::Statistic -->													            		
-		                    <div class="m_gnb" id="sub_menu6" style="display:block;">
-			                      <!-- m_bm-->
+
+		                    <!-- submenu06::Statistic -->
+		                    <div class="m_gnb" id="sub_menu6" style="display:none;">
+		                         <!-- m_bm-->
 			                    <!-- div class="menu" -->
-			                    <div class="sub_tit"><p>Statistic</p></div>
+			                    <div class="sub_tit"><p>Statistic</div>
 			                    <div class="menu_2depth">
-			                    	<ul>
-			                    		<li>
-			                    			<a href="#">Main</a>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구팀(Project)</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">현황</a></li>
-					                    		<li class="menu_3depth"><a href="#">월마감</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">GRS</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">GRS관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">연구과제</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">일반과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">대외협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">국책과제</a></li>    
-					                    		<li class="menu_3depth"><a href="#">기술팀과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">O/I 협력과제</a></li>
-					                    		<li class="menu_3depth"><a href="#">RFP요청관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">결재현황</a></li>             						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">M/M관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">M/M입력</a></li>
-					                    		<li class="menu_3depth"><a href="#">M/M마감</a></li>                   						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    		<li>
-			                    			<a href="#">관리</a>
-			                    			<ul>
-					                    		<li class="menu_3depth"><a href="#">표준WBS관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">GRS템플릿관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">투입예산관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">조직코드약어관리</a></li>
-					                    		<li class="menu_3depth"><a href="#">일반과제개요/분류관리</a></li>	                    						                    		</li>				                    	
-				                    		</ul>			                    		
-			                    		</li>
-			                    	</ul>			                    
-			                    </div>
-		                    </div>
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='ST'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='ST'}">
+			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						</c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
 		                    <!-- //submenu06::Statistic -->
 			            </div>
 			            <!-- //2depth -->
@@ -434,9 +363,9 @@ function goHelpDesk(){
 			            </div>
 			            <!-- //2depth -->
 		            </nav>
-		           
+
 		        </div>
-		        
+
 <form id="menuForm" name="menuForm" method="post" action="/iris/index.do">
 	<input type="hidden" id="parentMenuId" name="parentMenuId" />
 	<input type="hidden" id="vMenuId" name="vMenuId" value="" />
