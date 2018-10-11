@@ -604,7 +604,7 @@
         </div>
 <style>
 
-.btn_menu:hover #tmpMenu {display:block !important;}
+.btn_menu:hover #tmpMenu {display:block !important; overflow: hidden;}
 .btn_menu #tmpMenu
 {display:none !important;position: absolute;z-index: 999; text-align:left; position: absolute; z-index:999;width:970px; background:#fff; top:-20px; border:1px solid #ccc;
 padding: 10px; padding-left:36px; right:245px;background:#fff; border:  1px solid #ccc; box-sizing:border-box; border-radius:16px;}
