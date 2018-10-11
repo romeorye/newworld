@@ -672,6 +672,15 @@
                 var fIdx = 2;
                 tabView.selectTab(fIdx);
                 nwinsActSubmit(document.tabForm, IfrmUrls[fIdx], 'tabContent'+fIdx);
+
+                isEditable =  false;
+                setViewform();	//수정불가능하도록 (과제 내용)
+                try{
+                    //화면 생성전 접근할경우 에러 발생
+                    document.getElementById('tabContent3').contentWindow.setViewform();	//수정불가능하도록 (개요)
+                    document.getElementById('tabContent4').contentWindow.disableFields();	//수정불가능하도록 (산출물)
+                }catch(e){}
+
             }
 
 
@@ -726,6 +735,21 @@
                 $("#dcacBStrtDd").css("cssText", "border-width:0px; width: 80px !important;");
                 $("#dcacBStrtDd").next().css("margin-left","0px");
                 setReadonly("dcacBFnhDd");
+
+				
+                if(gvTssSt=="102"){
+                    if(isCm() ){
+                        //품의 요청시 개발완기간 수정가능
+                        setEditable("cmplBStrtDd");
+                        setEditable("cmplBFnhDd");
+                    }
+
+                    if(isDc() ){
+                        //품의 요청시 개발완기간 수정가능
+                        setEditable("dcacBStrtDd");
+                        setEditable("dcacBFnhDd");
+                    }
+                }
             }
 
 
@@ -828,6 +852,29 @@
                     handlerNo: Rui.emptyFn
                 });*/
             });
+
+/*            btnAltr = new Rui.ui.LButton('btnAltr');
+            btnAltr.on('click', function(){
+
+                Rui.confirm({
+                    text: '변경하시겠습니까?',
+                    buttons: [{
+                        text: '내부변경'
+                    },{
+                        text: 'GRS변경'
+                    }],
+                    handlerYes: function() {
+                        reqAltr();
+                    },
+                    handlerNo: function() {
+                        regDm.update({
+                            url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
+                            params:'gbn=GRS&tssCd='+gvTssCd
+                        });
+                    }
+                })
+
+            });*/
 
 
 
@@ -1217,9 +1264,8 @@
 	<div class="sub-content">
 		<div class="titArea">
 			<div class="LblockButton">
-				<span>TSS_CD : ${inputData.tssCd}.${inputData.pgsStepCd}</span>
-				<button type="button" id="testBtn" name="testBtn" onclick="setTestCode()">Test입력</button>
 				<button type="button" id="btnDelRq" name="btnDelRq">삭제</button>
+				<%--<button type="button" id="btnAltr" name="btnAltr">변경</button>--%>
 				<button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button>
 				<button type="button" id="btnStepPg" name="btnStepPg">변경취소</button>
 				<button type="button" id="btnGrsRq" name="btnGrsRq">GRS요청</button>
@@ -1246,7 +1292,7 @@
 						</colgroup>
 						<tbody>
 						<tr>
-							<th align="right">개발부서</th>
+							<th align="right" onclick="setTestCode()"">개발부서</th>
 							<td><input type="text" id="prjNm"/></td>
 							<th align="right">사업부</th>
 							<td>
@@ -1430,7 +1476,7 @@
         applyTo : 'custSqlt',
         emptyValue : '',
         emptyText : '선택',
-        width : 100,
+        width : 120,
         defaultValue : '${inputData.custSqlt}',
         items : [ {
             text : 'B2B제품군',

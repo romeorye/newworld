@@ -207,7 +207,8 @@
             var frm = document.smryForm;
             dataSet.setNameValue(0, "nprodSalsPlnY" , Math.round(nprodSalsPlnY.getValue()  * 100000000));
 
-            window.parent.smrySave();
+
+            if(fnIfmIsUpdate())window.parent.smrySave();
         });
 
         //첨부파일 조회
@@ -301,16 +302,16 @@
 
 
     //validation
-    function fnIfmIsUpdate(gbn) {
+    function fnIfmIsUpdate() {
         if (!vm.validateGroup("smryForm")) {
             alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join(''));
             return false;
         }
 
-        if (gbn != "SAVE" && dataSet.isUpdated()) {
-            alert("개요탭 저장을 먼저 해주시기 바랍니다.");
-            return false;
-        }
+        // if (gbn != "SAVE" && dataSet.isUpdated()) {
+        //     alert("개요탭 저장을 먼저 해주시기 바랍니다.");
+        //     return false;
+        // }
 
         var y = nprodSalsPlnY.getValue();
         if (y <= 0) {
@@ -354,7 +355,7 @@ $(window).load(function() {
             </colgroup>
             <tbody>
             <tr>
-                <th align="right">Summary 개요</th>
+                <th align="right" onclick="setTestVal()">Summary 개요</th>
                 <td colspan="3"><input type="text" id="smrSmryTxt" name="smrSmryTxt" style="width: 100%"></td>
             </tr>
             <tr>
@@ -390,4 +391,15 @@ $(window).load(function() {
     </div>
 </div>
 </body>
+<script>
+    function setTestVal(){
+        smrSmryTxt.setValue("서머리개요");
+        smrGoalTxt.setValue("서머리 목ㄹ표");
+        ctyOtPlnM.setValue("2018-10");
+        nprodSalsPlnY.setValue("100");
+        smryForm.attcFilId.value="201806107"
+        // $("#attcFilId").val("201806107");
+        $('#attchFileView').html('<a href=\'javascript:downloadAttachFile("201806107", "1")\'>approveForm.jpg(328747byte)</a>');
+    }
+</script>
 </html>

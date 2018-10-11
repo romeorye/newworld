@@ -369,7 +369,7 @@
             SELECT SMR_SMRY_TXT AS smrSmryTxt,
                    SMR_GOAL_TXT AS smrGoalTxt,
                    CTY_OT_PLN_M AS ctyOtPlnM,
-                   NPROD_SALS_PLN_Y AS nprodSalsPlnY,
+                   isnull(NPROD_SALS_PLN_Y, 0) AS nprodSalsPlnY,
                    ATTC_FIL_ID AS attcFilId,
                    NPROD_NM AS nprodNm, --신제품명
                    ANCP_OT_PLN_DT AS ancpOtPlnDt, --예상출시일(계획)

@@ -127,6 +127,10 @@ public class TctmTssServiceImpl implements TctmTssService {
 			input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
 			commonDao.update("prj.tss.com.updateTssYld", input);
 		}
+		input.put("yldItmType", "05");
+		input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
+		commonDao.update("prj.tss.com.updateTssYld", input);
+
 
 	}
 

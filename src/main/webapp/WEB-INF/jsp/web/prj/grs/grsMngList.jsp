@@ -116,7 +116,7 @@
             	 new Rui.ui.grid.LSelectionColumn(),
                      { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
                      { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70, vMerge: true },
-				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , vMerge: true , renderer: function(val, p, record, row, i){
+				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , vMerge: false , renderer: function(val, p, record, row, i){
                          return "<a href='javascript:evTssPop("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
                      } },
                      { field: 'bizDptNm',   label: '프로젝트명',  align:'center',  width: 100 },
@@ -418,15 +418,12 @@
       /* 기본정보 등록 팝업 */
       etcTssDialog = new Rui.ui.LDialog({
           applyTo: 'divEtcTss',
-          width: 800,
+          width: 850,
           effect: null,
           // height:600,
           visible: false,
           postmethod: 'none',
           buttons: [
-              { text:'Test값', isDefault: true, handler:
-                      function () {setDefault();}
-              },
               { text:'저장', isDefault: true, handler:
                       function () {
                           if(!infoVali.validateGroup("defTssForm")) {
@@ -1011,15 +1008,15 @@
 						<table class="table table_txt_right">
 							<colgroup>
 								<col style="width: 15%;" />
-								<col style="width: 30%;" />
+								<col style="width: 35%;" />
 								<col style="width: 15%;" />
-								<col style="width: 30%;" />
+								<col style="width: 35%;" />
 							</colgroup>
 							<tbody>
 								<tr>
-									<th align="right">과제구분</th>
+									<th align="right" onclick="setDefault()">과제구분</th>
 									<td><div id="tssScnCd" /></td>
-									<th align="right">GRS(초기(P1))수행여부</th>
+									<th align="right">GRS초기(P1)<br/>수행여부</th>
 									<td><div id="grsYn" /></td>
 								</tr>
 								<tr>
@@ -1133,7 +1130,7 @@
 							</colgroup>--%>
 							<tbody>
 								<tr>
-									<th align="right" width="208">회의 일정/장소</th>
+									<th align="right" width="208" onclick="setEvTest()">회의 일정/장소</th>
 									<td colspan="2"><div id="evTitl" /></td>
 								</tr>
 								<tr>
@@ -1195,7 +1192,7 @@
 		applyTo : 'custSqlt',
 		emptyValue : '',
 		emptyText : '선택',
-		width : 100,
+		width : 120,
 		defaultValue : '${inputData.custSqlt}',
 		items : [ {
 			text : 'B2B제품군',
@@ -1295,14 +1292,35 @@
         bizDptCd.setSelectedIndex(2);
         prodG.setSelectedIndex(2);
 
-        saSabunNm.setValue("김건휘");
-        $("#saSabunCd").val("00207959");
+        saSabunNm.setValue("조윤혜");
+        $("#saSabunCd").val("FB0399");
         tssStrtDd.setValue("2018-08-10");
         tssFnhDd.setValue("2019-08-10");
         custSqlt.setSelectedIndex(1);
         tssAttrCd.setSelectedIndex(1);
         tssType.setSelectedIndex(1);
     }
+
+    function setEvTest(){
+        evTitl.setValue("마곡 엘지하우시스 3층");
+        cfrnAtdtCdTxtNm.setValue("성정식");
+        $("#cfrnAtdtCdTxt").val("FB2154");
+        commTxt.setValue("과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견");
+        $("#attcFilId").val("201805287");
+        $('#attchFileView').html('<a href=\'javascript:downloadAttachFile("201805287", "1")\' id="L-gen261">180419_GRS과제 평가 종합(경량화 Spec-In)_PAB Housing.xlsx(12037byte)</a>');
+        grsEvSnNm.setValue("창호재-초기심의 P1(신규 Item)");
+        $("#grsEvSn").val("8");
+
+        gridDataSet.load({
+            url: '/iris/prj/grs/selectGrsEvRsltInfo.do',
+            params: {
+                grsEvSn: 8,
+                tssCd: tssCd,
+                tssCdSn: 1
+            }
+        })
+    }
+
 
 
 

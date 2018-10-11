@@ -227,6 +227,10 @@ public class GrsMngServiceImpl implements GrsMngService {
 				commonDao.update("prj.tss.com.updateTssYld", input);
 			}
 
+			//중단 완료 보고
+			input.put("yldItmType", "05");
+			commonDao.update("prj.tss.com.updateTssYld", input);
+
 		}
 	}
 

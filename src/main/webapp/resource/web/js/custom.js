@@ -111,7 +111,7 @@ function popProject(nameId, cdId , deptCdId, dialId){
 function popSabun(nameId, sabunId){
     this[nameId] = new Rui.ui.form.LPopupTextBox({
         applyTo: nameId,
-        width: 150,
+        width: 200,
         editable: false,
         enterToPopup: true
     });

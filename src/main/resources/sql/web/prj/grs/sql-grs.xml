@@ -110,7 +110,7 @@
         <if test="tssSt != null and tssSt != 'null' and tssSt != ''">
             AND a.tssSt = #{tssSt}
         </if>
-        ORDER BY  sortNum  desc,  lastMdfyDt desc
+        ORDER BY  lastMdfyDt desc, sortNum  desc -- 임시 변경
     </select>
 
 
