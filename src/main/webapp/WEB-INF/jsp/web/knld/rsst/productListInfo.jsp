@@ -35,7 +35,7 @@
 	<script type="text/javascript">
 
 	var prdtListInfoDataSet;
-	var prdtId = ${inputData.prdtId};
+	var prdtId = '${inputData.prdtId}';
 	var userId = '${inputData._userId}';
 	var affrClGroup = '${inputData.affrClId}';
 	var roleId = '${inputData._roleId}';
