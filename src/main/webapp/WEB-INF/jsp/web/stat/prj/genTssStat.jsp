@@ -171,8 +171,24 @@
                     , { field: 'tssFnhDdArsl',    label: '실적', groupId: 'G1', sortable: false,  align:'center', width: 80 }
 
                     , { id: 'G2', label: '소요기간' }
-                    , { field: 'wnedTrmPln',      label: '계획', groupId: 'G2', sortable: false,  align:'center', width: 40 }
-                    , { field: 'wnedTrmArsl',     label: '실적', groupId: 'G2', sortable: false,  align:'center', width: 40 }
+                    , { field: 'wnedTrmPln',      label: '계획', groupId: 'G2', sortable: false,  align:'center', width: 50
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '개월'
+                    		}else{
+                    			return ''
+                    		}
+                    	}
+                    }
+                    , { field: 'wnedTrmArsl',     label: '실적', groupId: 'G2', sortable: false,  align:'center', width: 50
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '개월'
+                    		}else{
+                    			return ''
+                    		}
+                    	}
+                    }
 
                     , { id: 'G3', label: '상품출시 (계획)' }
                     , { field: 'ctyOtPlnY',       label: '년도', groupId: 'G3', sortable: false,  align:'center', width: 40 }
@@ -195,7 +211,7 @@
                     , { field: 'nprodSalsPlnY3',  label: 'Y+3', groupId: 'G4', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsPlnY }
                     , { field: 'nprodSalsPlnY4',  label: 'Y+4', groupId: 'G4', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsPlnY }
 
-                    , { field: 'nprodSalsPlnSum', label: '5년평균', sortable: false,  align:'right', width: 70, renderer: function(value, p, record, row, col) {
+                    , { field: 'nprodSalsPlnSum', label: '5년평균',groupId: 'G4',  sortable: false,  align:'right', width: 70, renderer: function(value, p, record, row, col) {
                         var cnt = 0;
                         var nprodSalsPlnY = record.data.nprodSalsPlnY;
                         var nprodSalsPlnY1 = record.data.nprodSalsPlnY1;
@@ -232,8 +248,24 @@
                     , { field: 'allArslExp',      label: '실적', groupId: 'G6', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
 
                     , { id: 'G7', label: '투입인원(Y년)' }
-                    , { field: 'mbrCntPln',       label: '계획', groupId: 'G7', sortable: false,  align:'center', width: 60 }
-                    , { field: 'mbrCntArsl',      label: '실적', groupId: 'G7', sortable: false,  align:'center', width: 60 }
+                    , { field: 'mbrCntPln',       label: '계획', groupId: 'G7', sortable: false,  align:'center', width: 60
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '명'
+                    		}else{
+                    			return '0명'
+                    		}
+                    	}
+                    }
+                    , { field: 'mbrCntArsl',      label: '실적', groupId: 'G7', sortable: false,  align:'center', width: 60
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '명'
+                    		}else{
+                    			return '0명'
+                    		}
+                    	}
+                    }
                     , { field: 'searchYy',  		hidden : true}
                 ]
             });

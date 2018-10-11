@@ -171,8 +171,24 @@
                     , { field: 'tssFnhDdArsl',    label: '실적', groupId: 'G1', sortable: false,  align:'center', width: 80 }
 
                     , { id: 'G2', label: '소요기간' }
-                    , { field: 'wnedTrmPln',      label: '계획', groupId: 'G2', sortable: false,  align:'center', width: 40 }
-                    , { field: 'wnedTrmArsl',     label: '실적', groupId: 'G2', sortable: false,  align:'center', width: 40 }
+                    , { field: 'wnedTrmPln',      label: '계획', groupId: 'G2', sortable: false,  align:'center', width: 50
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '개월'
+                    		}else{
+                    			return ''
+                    		}
+                    	}
+                    }
+                    , { field: 'wnedTrmArsl',     label: '실적', groupId: 'G2', sortable: false,  align:'center', width: 50
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '개월'
+                    		}else{
+                    			return ''
+                    		}
+                    	}
+                    }
 
                     , { id: 'G3', label: '상품출시 (계획)' }
                     , { field: 'ctyOtPlnY',       label: '년도', groupId: 'G3', sortable: false,  align:'center', width: 40 }
