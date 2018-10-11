@@ -34,7 +34,7 @@
 				   AND MST.PL_EMP_NO = #{plEmpNo}
 		    </if>
 		    <if test='( saName != null and saName != "")'>
-				   AND EMP.SA_NAME LIKE '%'+#{saName}+'%'
+				   AND MST.SA_SABUN_NEW IN ( SELECT SA_SABUN_NEW FROM dbo.IRIS_SSO_USER EMP WHERE EMP.SA_NAME LIKE '%'+#{saName}+'%' )
 		    </if>
 
 		    <if test='(deptCd != null and deptCd != "")'>
