@@ -122,7 +122,7 @@ function popSabun(nameId, sabunId){
         			this[nameId].setValue(userInfo.saName);
         			$("#"+sabunId).val(userInfo.saSabun);
         		}
-        , 1, '');
+        , 1, '',null,650,400);
     });
 
 

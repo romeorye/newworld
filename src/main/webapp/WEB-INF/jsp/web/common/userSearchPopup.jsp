@@ -54,7 +54,7 @@
                  placeholder : '검색할 부서명을 입력해주세요.',
                  defaultValue : '',
                  emptyValue: '',
-                 width : 160
+                 width : 180
             });
             
             deptNm.on('blur', function(e) {
@@ -72,7 +72,7 @@
                  placeholder : '검색할 사용자명을 입력해주세요.',
                  defaultValue : '',
                  emptyValue: '',
-                 width : 110
+                 width : 180
             });
             
             userNm.on('blur', function(e) {

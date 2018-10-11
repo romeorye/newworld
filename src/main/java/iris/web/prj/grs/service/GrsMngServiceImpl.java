@@ -65,8 +65,6 @@ public class GrsMngServiceImpl implements GrsMngService {
 		String tssAttrCd = (String) input.get("tssAttrCd");
 
 
-		LOGGER.debug( tssScnCd.equals('N'));
-		LOGGER.debug( tssScnCd.equals("N"));
 		if(tssScnCd.equals("N")){
 			// 국책인경우 1년차수 입력
 			input.put("tssNosSt", "1");
@@ -109,6 +107,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 		}
 
 
+/*
 
 		if("N".equals(input.get("grsYn"))){
 			//GRS(P1)을 하지 않는 경우
@@ -117,6 +116,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 			input.put("wbsCd", wbsCd);
 			commonDao.insert("prj.tss.com.updateTssMstWbsCd", input);
 		}
+*/
 
 		LOGGER.debug("=============== GRS 기본정보 과제 서머리 마스터로 복제 ===============");
 		commonDao.insert("prj.grs.moveGrsDefSmry", input);

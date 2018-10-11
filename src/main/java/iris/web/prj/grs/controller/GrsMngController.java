@@ -213,11 +213,14 @@ public class GrsMngController extends IrisBaseController {
 					input.put("fromTssCd", tssCd); //GRS 기본정보 TSS_CD
 					grsMngService.moveDefGrsDefInfo(input);
 
+
+					/*
 					LOGGER.debug("=============== 과제정보 마스터 이관(PG) ===============");
 					input.put("tssCd", tssCd.substring( 0,9) + (java.lang.Integer.parseInt(tssCd.substring( 9,10))+1));
 					input.put("pgsStepCd","PG");
 					input.put("tssSt","100");
 					grsMngService.moveDefGrsDefInfo(input);
+					*/
 
 
 					LOGGER.debug("=============== GRG 과제 기본정보 삭제 ===============");

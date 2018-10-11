@@ -248,7 +248,7 @@
                 , { id: 'userId' }     //로그인ID
                 , { id: 'tssRoleType' }
                 , { id: 'tssRoleId' }
-                , { id: 'isEditable' }
+                , {id: 'grsYn'}	// GRS P1 수행여부
                 , {id: 'tssStepNm'}	//관제 단계
                 , {id: 'grsStepNm'}	//GRS 단계
                 // , {id: 'qgateStepNm'}	//Qgate 단계
@@ -286,9 +286,11 @@
 
             isFirst = gvTssSt == "";
             isEditable =
-                isFirst ||
-                gvTssSt=="100" ||
-                dataSet.getNameValue(0, "isEditable")=="1" && (pgsStepCd=="PL" );
+                isFirst
+                || gvTssSt=="100"
+            // || dataSet.getNameValue(0, "grsYn")=="N" && (pgsStepCd=="PL" )
+            ;
+
 
 
             tabView.selectTab(0);

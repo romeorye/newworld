@@ -353,7 +353,7 @@
             ,dbo.fn_getTssStepNm(#{tssCd}) as tssStepNm
             ,dbo.fn_getGrsStepNm(#{tssCd},'1') as grsStepNm
             ,dbo.fn_getQgateStepNm(A.WBS_CD,'1') as qgateStepNm
-            ,a.IS_EDITABLE as isEditable
+            ,a.GRS_YN as grsYn
 
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/

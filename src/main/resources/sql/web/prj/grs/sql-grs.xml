@@ -845,7 +845,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             FRST_RGST_ID ,
             LAST_MDFY_DT ,
             LAST_MDFY_ID,
-            IS_EDITABLE
+            GRS_YN
         )
             SELECT #{tssCd} ,
                 g.WBS_CD ,
@@ -875,7 +875,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 g.FRST_RGST_ID ,
                 g.LAST_MDFY_DT ,
                 g.LAST_MDFY_ID,
-                '1'
+                g.GRS_YN
             FROM IRIS_GRS_MGMT_MST g
             WHERE g.TSS_CD = #{fromTssCd}
     </insert>

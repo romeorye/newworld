@@ -766,7 +766,7 @@
             var isReq = (evInfoDataSet.getNameValue(0, "tssSt") == "101");
             var isFirstGrs = (evInfoDataSet.getNameValue(0, "isFirstGrs") == "1");
 
-
+            $("#attchFileView").html('');
 
 			if(isReq){
                 $(".first-child:contains('임시저장')").css("display", "block");
@@ -1232,7 +1232,7 @@
 
     cfrnAtdtCdTxtNm.on('popup', function(e){
         if(todoYN) {
-            openUserSearchDialog(setUsersInfo, 10, $('#userIds').val(), null, 600, 400);
+            openUserSearchDialog(setUsersInfo, 10, $('#userIds').val(), null, 700, 500);
         }
         else {
             openUserSearchDialog(setUsersInfo, 10, $('#userIds').val());
