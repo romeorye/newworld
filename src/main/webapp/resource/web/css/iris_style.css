@@ -163,7 +163,8 @@ div.main_footer > div {background:#e4e4e4;}
 /* ==========================================================================
    IRIS Main
    ========================================================================== */
-#main_iris {background:#f4f4f4; width:100%; max-width:1580px; min-width:1260px;padding-top:20px; position:relative; padding-bottom:26px;    margin: unset;}   
+
+#main_iris {float:left;background:#f4f4f4; width:100%; max-width:1580px; min-width:1260px;padding-top:20px; position:relative; padding-bottom:26px;    margin: unset;}   
 #main_iris .side_bar_con { width:235px; border-radius: 18px; border:0; background:#fff;float:none; position:absolute; left:20px; top:20px; height:auto;}     
 #main_iris  .body_con {margin-left:305px;}   
 
@@ -358,6 +359,7 @@ nav.Mgnb ul.title {margin-left:176px;}
 .top_gnb.submenu .m_gnb .menu_2depth {float:left; width:1000px; padding-top:20px; padding-left:10px;}
 .top_gnb.submenu .m_gnb .sub_tit p {font-size:27px; text-align:right; padding:20px 40px 0 0; position:relative; line-height:1;}
 .top_gnb.submenu .m_gnb .sub_tit p:before {content:""; display:block; position:absolute; top:15px; right:38px; height:2px; background:#da1c5a; width:20px;}
+.top_gnb.submenu .close_menu {display:none; position:absolute; right:50px; top:25px; }
 .menu_2depth > ul > li {float:left;}
 .menu_2depth > ul > li + li {margin-left:60px;}
 .menu_2depth > ul > li > a {font-size:13px; font-weight:bold; color:#555; display:inline-block; line-height:2;}
@@ -1011,7 +1013,7 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 
 
 
-.Main_content_w {background:#f4f4f4;}}
+.Main_content_w {background:#f4f4f4;}
 #main_iris {padding-bottom:0; overflow:hidden;}
 .main_wrap { overflow:hidden; background:#f4f4f4;}
 #main_iris #prj_lnb { width:234px;padding:0;}
@@ -1087,10 +1089,11 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .task_con.section2 .table02 tbody tr td:nth-of-type(3) {text-align:left;}
  #prj_right {position:absolute; right:1%; top:0; width:220px;}
  #prj_right > div {width:100%; border-radius:16px; background:#fff; position:relative; margin-top:18px;}
- #prj_right .btn_menu {background:#da1c5a; height:40px; text-align:center; border-radius:11px !important;}
- #prj_right .btn_menu a {height:100%; line-height:40px; color:#fff; font-weight:bold; font-size:13px; display:block;}
- #prj_right .btn_menu a i {  display:inline-block; width:20px; height:15px; background:url(/iris/resource/web/images/newIris/bullet_menu.png) no-repeat left center;}
-.menu_link {overflow:hidden;}
+ #prj_right .btn_menu {background:#da1c5a; height:40px; text-align:center; border-radius:11px !important;display:table;}
+ #prj_right .btn_menu a {height:100%; line-height:40px;vertical-align:middle; color:#fff; font-weight:bold; font-size:13px; display:table-cell;}
+ #prj_right .btn_menu a i { width:20px; height:15px; background:url(/iris/resource/web/images/newIris/bullet_menu.png) no-repeat left center;}
+ #prj_right .btn_menu a span {display:inline-block; height:15px; }
+ .menu_link {overflow:hidden;}
 .menu_link p {line-height:2.8; text-align:center; font-weight:bold; font-size:13px; }
 .menu_link ul {width:92%; margin:0 auto;}
 .menu_link ul li {border-top:1px dashed #ccc; height:72px;}
