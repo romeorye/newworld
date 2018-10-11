@@ -8,12 +8,36 @@
 	<select id="retrievePrjMainNoticeList" resultType="hashmap">
 	<![CDATA[
 	-- retrievePrjMainNoticeList 프로젝트메인 공지사항 조회
-	SELECT TOP 4 KPI.PWI_ID as pwiId     /*공지사항ID*/
-		 , KPI.TITL_NM      as titleNm   /*제목*/
-		 , KPI.SBC_NM       as sbcNm     /*내용*/
-	  FROM IRIS_KNLD_PWI_IMTR KPI
-	 WHERE KPI.DEL_YN = 'N'
-	 ORDER BY KPI.FRST_RGST_DT DESC
+	SELECT TOP 5
+			PWI_ID											AS 'pwiId',
+			TITL_NM											AS 'titlNm',
+			(CASE WHEN UGY_YN = 'U' THEN '[긴급] ' + TITL_NM
+			      ELSE TITL_NM END)           				AS 'titlNm2',
+			PWI_SCN_CD										AS 'pwiScnCd',
+			dbo.fn_getComDtlNm('PWI_SCN_CD', A.PWI_SCN_CD)  AS 'pwiScnNm',
+			SBC_NM						    				AS 'sbcNm',
+			RTRV_CNT										AS 'rtrvCnt',
+			KEYWORD_NM										AS 'keywordNm',
+			(CASE
+				WHEN (select	count(1)
+					  from		IRIS_COM_ATTC_FIL
+					  where		ATTC_FIL_ID = A.ATTC_FILE_ID
+					  and		DEL_YN = 'N') = 0 THEN NULL
+				ELSE  A.ATTC_FILE_ID
+			END)                            				AS 'attcFilId',
+			UGY_YN						    				AS 'ugyYn',
+			(CASE WHEN UGY_YN = 'U' THEN
+			      '긴급' ELSE
+			      '일반' END)               				AS 'ugyYnNm',
+			RGST_ID						    				AS 'rgstId',
+			dbo.fn_getUserName(RGST_ID)						AS 'rgstNm',
+			RGST_OPS_ID										AS 'rgstOpsId',
+			convert(varchar(20),FRST_RGST_DT,23) 			AS 'frstRgstDt'
+
+		FROM	IRIS_KNLD_PWI_IMTR A
+		WHERE	DEL_YN = 'N'
+
+	 ORDER BY A.FRST_RGST_DT DESC
 	]]>
 	</select>
 
@@ -21,27 +45,160 @@
 	<select id="retrievePrjMainQnaList" resultType="hashmap">
 	<![CDATA[
 	-- retrievePrjMainQnaList 프로젝트메인 QnA 조회
-	SELECT T.QNA_ID     as qnaId   /*QNA ID*/
-		 , T.TITL_NM    as titleNm /*제목*/
-		 , T.SBC_NM	    as sbcNm    /*내용*/
-		 , FRST_RGST_DT as frstRgstDt
-		 , (CASE WHEN TERM_NUM <= 2 THEN
-		    'Y'
-		    ELSE
-		    'N'
-		    END) AS newFlag   /*신규여부*/
-	  FROM (
-		    SELECT TOP 4 KQ.QNA_ID
-			     , KQ.TITL_NM
-			     , KQ.SBC_NM
-			     , KQ.FRST_RGST_DT
-			     , DATEDIFF(D, KQ.FRST_RGST_DT,GETDATE())  AS TERM_NUM
-	   	      FROM IRIS_KNLD_QNA KQ
-		     WHERE KQ.DEL_YN = 'N'
-		     ORDER BY KQ.FRST_RGST_DT DESC
-	       ) T
+		SELECT TOP 5
+					     QNA_ID                                                   AS 'qnaId'        /*QnAID*/
+					    ,QNA_CL_CD                                                AS 'qnaClCd'      /*QnA구분코드*/
+					    ,QUST_CL_CD                                               AS 'qustClCd'     /*질문유형코드*/
+					    ,RLTD_WRTG_ID                                             AS 'rltdWrtgId'   /*댓글ID*/
+						,TITL_NM												  AS 'titlNm'       /*제목*/
+						,SBC_NM                                                   AS 'sbcNm'        /*내용*/
+						,RTRV_CNT                                                 AS 'rtrvCnt'      /*조회수*/
+						,KEYWORD_NM                                               AS 'keywordNm'    /*키워드*/
+						,ATTC_FILE_ID											  AS 'attcFilId'    /*첨부파일*/
+						,RGST_ID                                                  AS 'rgstId'       /*등록자ID*/
+						,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+						,RGST_OPS_ID                                              AS 'rgstOpsId'    /*등록자부서ID*/
+						,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
+						,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+		FROM	IRIS_KNLD_QNA
+		WHERE	DEL_YN = 'N'
+		ORDER BY FRST_RGST_DT DESC
        	]]>
 	</select>
+	
+	<!-- 프로젝트메인 KnowLedge 조회  -->
+	<select id="retrievePrjMainKnowLedgeList" resultType="hashmap">
+	<![CDATA[
+	-- retrievePrjMainKnowLedgeList 프로젝트메인 KnowLedge 조회
+		select  top 5
+                k.docId as docId
+                ,k.clGroup as clGroup
+                ,k.menuId as menuId
+		        ,k.menuNm as menuNm
+		        ,k.titlNm  as titlNm
+		        ,k.rgstNm  as rgstNm
+		        ,k.frstRgstDt as frstRgstDt
+		from (
+			    select 
+                RSST_DOC_ID as docId
+			          ,AFFR_CL_GROUP as clGroup                
+			          ,case when AFFR_CL_GROUP = 'molecule' then 'A'
+			                when AFFR_CL_GROUP = 'adhesion' then 'B'
+			                when AFFR_CL_GROUP = 'inorganic' then 'C'
+			                when AFFR_CL_GROUP = 'coating' then 'D'
+			                when AFFR_CL_GROUP = 'common' then 'E'
+			                when AFFR_CL_GROUP = 'industry' then 'F'
+			                when AFFR_CL_GROUP = 'techCenter' then 'G'
+			                when AFFR_CL_GROUP = 'pms' then 'H'
+			           end as menuId			
+			          ,case when AFFR_CL_GROUP = 'molecule' then '고분자재료Lab'
+			                when AFFR_CL_GROUP = 'adhesion' then '점착기술Lab'
+			                when AFFR_CL_GROUP = 'inorganic' then '무기소재Lab'
+			                when AFFR_CL_GROUP = 'coating' then '코딩기술Lab'
+			                when AFFR_CL_GROUP = 'common' then '연구소공통'
+			                when AFFR_CL_GROUP = 'industry' then 'LG화학연구소'
+			                when AFFR_CL_GROUP = 'techCenter' then 'LG화학 테크센터'
+			                when AFFR_CL_GROUP = 'pms' then 'LG하우시스 연구소'
+			           end as menuNm
+			          ,TITL_NM as titlNm
+			          
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_RSST_DOC
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                MRKT_TCLG_ID as docId
+                ,'' as clGroup
+                ,'I' as menuId
+			          ,'시장/기술정보' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_MRKT_TCLG
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                EDU_SMN_ID as docId
+                ,'' as clGroup
+                ,'J' as menuId
+			          ,'교육/세미나' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_EDU_SMN
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                CFRN_ID as docId
+                ,'' as clGroup
+                ,'K' as menuId
+			          ,'학회/컨퍼런스' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_CFRN
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                SWRM_ID as docId
+                ,'' as clGroup
+                ,'L' as menuId
+			          ,'전시회' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_SWRM
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                PTN_ID as docId
+                ,'' as clGroup
+                ,'M' as menuId
+			          ,'특허' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_PTN
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                STD_FMP_ID as docId
+                ,'' as clGroup
+                ,'N' as menuId
+			          ,'표준양식' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_STD_FMP
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                SFT_ENV_ID as docId
+                ,'' as clGroup
+                ,'O' as menuId
+			          ,'안전/환경/보건' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_SFTY_ENV
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                PRCP_MNL_ID as docId
+                ,'' as clGroup
+                ,'P' as menuId
+			          ,'규정/업무Manual' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_PRCP_MNL
+			    where DEL_YN = 'N'
+		    ) k
+		order by  k.frstRgstDt desc
+	
+       	]]>
+	</select>	
 
 	<!-- 프로젝트메인 연구소 금주,차주일정 조회  -->
 	<select id="retrievePrjMainScheduleList" resultType="hashmap">
