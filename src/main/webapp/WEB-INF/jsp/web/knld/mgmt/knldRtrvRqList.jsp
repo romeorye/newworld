@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -33,13 +33,14 @@
  .bgcolor-white {background-color: #FFFFFF}
 </style>
 
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
              *******************/
-            
+
             var rqDocNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rqDocNm',
                 placeholder: '검색할 요청문서명을 입력해주세요.',
@@ -47,17 +48,17 @@
                 emptyValue: '',
                 width: 300
             });
-            
+
             rqDocNm.on('blur', function(e) {
             	rqDocNm.setValue(rqDocNm.getValue().trim());
             });
-            
+
             rqDocNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
             		getKnldRtrvRqList();
             	}
             });
-            
+
             var sbcNm = new Rui.ui.form.LTextBox({
                 applyTo: 'sbcNm',
                 placeholder: '검색할 요청내용을 입력해주세요.',
@@ -65,17 +66,17 @@
                 emptyValue: '',
                 width: 300
             });
-            
+
             sbcNm.on('blur', function(e) {
             	sbcNm.setValue(sbcNm.getValue().trim());
             });
-            
+
             sbcNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
             		getKnldRtrvRqList();
             	}
             });
-			
+
             var knldRtrvRqDataSet = new Rui.data.LJsonDataSet({
                 id: 'knldRtrvRqDataSet',
                 remainRemoved: true,
@@ -96,7 +97,7 @@
 					, { id: 'readFlag' }
                 ]
             });
-            
+
             var knldRtrvRqColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                       { field: 'rtrvRqDocNm',	label: '문서종류',		sortable: false,	align:'center',	width: 80 }
@@ -109,12 +110,12 @@
 					, { field: 'docUrl',		hidden:true}
                 ]
             });
-            
+
             var knldRtrvRqGrid = new Rui.ui.grid.LGridPanel({
                 columnModel: knldRtrvRqColumnModel,
                 dataSet: knldRtrvRqDataSet,
                 width: 600,
-                height: 610,
+                height: 400,
                 autoToEdit: false,
                 autoWidth: true
             });
@@ -122,21 +123,21 @@
             knldRtrvRqGrid.on('cellClick', function(e) {
 
             	var record = knldRtrvRqDataSet.getAt(e.row);
-            	
+
             	if(record.get('readFlag') == 'N') {
             		alert('조회 기간이 지났거나 승인 상태가 아닙니다.');
             		return ;
             	}
-            	
+
             	$('#rtrvRqDocCd').val(record.get('rtrvRqDocCd'));
             	$('#docNo').val(record.get('docNo'));
             	$('#authYn').val(record.get('readFlag'));
             	$('#reUrl').val(record.get('docUrl'));
             	$('#docUrl').val(record.get('docUrl'));
             });
-            
+
             knldRtrvRqGrid.render('knldRtrvRqGrid');
-            
+
             /* 조회 */
             getKnldRtrvRqList = function() {
             	knldRtrvRqDataSet.load({
@@ -148,13 +149,15 @@
                     }
                 });
             };
-            
+
             knldRtrvRqDataSet.on('load', function(e) {
    	    		$("#cnt_text").html('총 ' + knldRtrvRqDataSet.getCount() + '건');
+   	    		// 목록 페이징
+   	            paging(knldRtrvRqDataSet,"knldRtrvRqGrid");
    	      	});
-            
+
             getKnldRtrvRqList();
-			
+
         });
 
 	</script>
@@ -165,17 +168,17 @@
 		<input type="hidden" id="docNo" name="docNo" value=""/>
 		<input type="hidden" id="reUrl" name="reUrl" value=""/>
 		<input type="hidden" id="authYn" name="authYn" value=""/>
-		
-   		<div class="contents">   			
+
+   		<div class="contents">
    			<div class="titleArea">
 					<a class="leftCon" href="#">
 		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		        	<span class="hidden">Toggle 버튼</span>
-        		</a> 
+        		</a>
    				<h2>조회 요청</h2>
    			</div>
-   			
-  			<div class="sub-content">	
+
+  			<div class="sub-content">
 	   			<div class="search">
 					<div class="search-content">
 		   				<table>
@@ -204,7 +207,7 @@
 		   				</table>
 					</div>
    				</div>
-   				
+
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton" style="line-height:30px;">
@@ -213,7 +216,7 @@
    				</div>
 
    				<div id="knldRtrvRqGrid"></div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

@@ -324,9 +324,9 @@ var lvAttcFilId;
            };
 
            saftyDataSet.on('load', function(e) {
-  	    		$("#cnt_text").html('총 ' + saftyDsataSet.getCount() + '건');
+  	    		$("#cnt_text").html('총 ' + saftyDataSet.getCount() + '건');
   	    		// 목록 페이징
-  		    	paging(saftyDataSet,"mhcnGrid");
+  		    	paging(saftyDataSet,"defaultGrid");
   	      	});
 
            getSaftyList();
@@ -371,7 +371,7 @@ function fncExcelDown() {
     	alert('조회된 데이타가 없습니다.!!');
     }
 	// 목록 페이징
-	paging(saftyDataSet,"defaultGrid");
+    paging(saftyDataSet,"defaultGrid");
 }
 </script>
 
