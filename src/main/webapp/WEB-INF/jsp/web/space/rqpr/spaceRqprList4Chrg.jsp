@@ -25,6 +25,7 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <title><%=documentTitle%></title>
 
@@ -211,7 +212,7 @@
                  columnModel: spaceRqprColumnModel,
                  dataSet: spaceRqprDataSet,
                  width: 600,
-                 height: 520,
+                 height: 400,
                  autoToEdit: false,
                  autoWidth: true
              });
@@ -229,7 +230,11 @@
 
             /* 평가의뢰 담당자용 리스트 엑셀 다운로드 */
         	downloadSpaceRqprListExcel = function() {
+        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        		spaceRqprDataSet.clearFilter();
                 spaceRqprGrid.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') + '.xls');
+             // 목록 페이징
+                paging(spaceRqprDataSet,"spaceRqprGrid");
             };
 
             /* 조회 */
@@ -250,7 +255,11 @@
                     }
                 });
             };
-
+            spaceRqprDataSet.on('load', function(e) {
+   	    		$("#cnt_text").html('총 ' + spaceRqprDataSet.getCount() + '건');
+   	    	// 목록 페이징
+   	    		paging(spaceRqprDataSet,"spaceRqprGrid");
+   	      	});
             getSpaceRqprList();
 
         });

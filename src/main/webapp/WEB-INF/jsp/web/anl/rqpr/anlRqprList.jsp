@@ -25,6 +25,7 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <title><%=documentTitle%></title>
 
@@ -212,7 +213,7 @@
                 columnModel: anlRqprColumnModel,
                 dataSet: anlRqprDataSet,
                 width: 600,
-                height: 520,
+                height: 400,
                 autoToEdit: false,
                 autoWidth: true
             });
@@ -247,6 +248,8 @@
 
             anlRqprDataSet.on('load', function(e) {
    	    		$("#cnt_text").html('총 ' + anlRqprDataSet.getCount() + '건');
+   	    	// 목록 페이징
+   	    		paging(anlRqprDataSet,"anlRqprGrid");
    	      	});
 
             /* 등록화면 이동 */
@@ -256,7 +259,12 @@
 
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlRqprListExcel = function() {
+        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        		anlRqprDataSet.clearFilter();
                 anlRqprGrid.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') + '.xls');
+             // 목록 페이징
+   	    		paging(anlRqprDataSet,"anlRqprGrid");
+
             };
     		/*
             setRgstInfo = function(userInfo) {

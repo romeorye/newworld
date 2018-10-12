@@ -25,6 +25,7 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <title><%=documentTitle%></title>
 
@@ -163,7 +164,7 @@ var refresh = "";
  			<a class="leftCon" href="#">
 				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 				<span class="hidden">Toggle 버튼</span>
-			</a>    
+			</a>
 			<h2 id="h2Titl"></h2>
 		</div>
 		<div class="sub-content">
@@ -172,7 +173,7 @@ var refresh = "";
 	 		<iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="yes" width="100%" height="630px" frameborder="0" ></iframe>
 	 		<iframe name="tabContentIfrm2" id="tabContentIfrm2" scrolling="yes" width="100%" height="630px" frameborder="0" ></iframe>
 	 		<iframe name="tabContentIfrm3" id="tabContentIfrm3" scrolling="yes" width="100%" height="630px" frameborder="0" ></iframe>
-	
+
 			</form>
 	   		</div><!--//content end-->
 	   	</div>

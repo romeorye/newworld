@@ -25,6 +25,7 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <title><%=documentTitle%></title>
 
@@ -89,7 +90,7 @@ var target = "${inputData.target}";
 	   	       }
            };
            */
-           
+
     	   /** dataSet **/
     	   anlLibDataSet = new Rui.data.LJsonDataSet({
     	       id: 'anlLibDataSet',
@@ -151,13 +152,13 @@ var target = "${inputData.target}";
         	   columnModel: columnModel01,
                dataSet: anlLibDataSet,
                width: 600,
-               height: 525,
+               height: 400,
                autoToEdit: false,
                autoWidth: true
            });
 
            anlLibGrid01.on('cellClick', function(e) {
-        	   
+
 	           if(e.colId == "bbsTitl") {
 	        	   if(roleIdIndex == -1){
 	        		   //return false;
@@ -198,7 +199,7 @@ var target = "${inputData.target}";
         	   columnModel: columnModel02,
                dataSet: anlLibDataSet,
                width: 600,
-               height: 525,
+               height: 400,
                autoToEdit: false,
                autoWidth: true
            });
@@ -241,7 +242,7 @@ var target = "${inputData.target}";
         	   columnModel: columnModel03,
                dataSet: anlLibDataSet,
                width: 600,
-               height: 525,
+               height: 400,
                autoToEdit: false,
                autoWidth: true
            });
@@ -285,7 +286,7 @@ var target = "${inputData.target}";
         	   columnModel: columnModel04,
                dataSet: anlLibDataSet,
                width: 600,
-               height: 525,
+               height: 400,
                autoToEdit: false,
                autoWidth: true
            });
@@ -313,11 +314,23 @@ var target = "${inputData.target}";
            anlLibGrid04.render("anlLibGrid04");
 
            anlLibDataSet.on('load', function(e) {
+        	// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        	   anlLibDataSet.clearFilter();
   	    		$("#cnt_text").html('총 ' + anlLibDataSet.getCount() + '건');
 
   	    		if(roleIdIndex != -1) {
   	    			chkUserRgst(true);
                 }
+  	    	// 목록 페이징
+  	    		if("${inputData.bbsCd}"=="01"){
+	  	    		paging(anlLibDataSet,"anlLibGrid01");
+  	    		}else if("${inputData.bbsCd}"=="02"){
+	  	    		paging(anlLibDataSet,"anlLibGrid02");
+  	    		}else if("${inputData.bbsCd}"=="03"){
+	  	    		paging(anlLibDataSet,"anlLibGrid03");
+  	    		}else if("${inputData.bbsCd}"=="04"){
+	  	    		paging(anlLibDataSet,"anlLibGrid04");
+  	    		}
   	      	});
 
            /* 조회, 검색 */
@@ -347,7 +360,7 @@ var target = "${inputData.target}";
            };
 
            getAnlLibList();
-           
+
            chkUserRgst(false);
 
 

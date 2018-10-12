@@ -25,6 +25,7 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <title><%=documentTitle%></title>
 
@@ -67,6 +68,8 @@
 
              rlabRqprDataSet.on('load', function(e) {
     	    		$("#cnt_text").html('총 ' + rlabRqprDataSet.getCount() + '건');
+    	    		// 목록 페이징
+                    paging(rlabRqprDataSet,"rlabRqprGrid");
     	      	});
 
              var rlabRqprColumnModel = new Rui.ui.grid.LColumnModel({
@@ -90,7 +93,7 @@
                  columnModel: rlabRqprColumnModel,
                  dataSet: rlabRqprDataSet,
                  width: 600,
-                 height: 485,
+                 height: 400,
                  autoToEdit: false,
                  autoWidth: true
              });
@@ -269,7 +272,11 @@
 
             /* 시험의뢰 담당자용 리스트 엑셀 다운로드 */
         	downloadRlabRqprListExcel = function() {
+        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        		rlabRqprDataSet.clearFilter();
                 rlabRqprGrid.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') + '.xls');
+             // 목록 페이징
+                paging(rlabRqprDataSet,"rlabRqprGrid");
             };
 
     		/*
