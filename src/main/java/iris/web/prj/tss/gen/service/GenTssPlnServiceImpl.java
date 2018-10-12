@@ -1,5 +1,17 @@
 package iris.web.prj.tss.gen.service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
 import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
@@ -8,12 +20,6 @@ import iris.web.common.util.CommonUtil;
 import iris.web.mailBatch.vo.ReplacementVo;
 import iris.web.prj.grs.vo.GrsSendMailInfoVo;
 import iris.web.prj.mm.mail.service.MmMailService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.*;
 /*********************************************************************************
  * NAME : GenTssServiceImpl.java
  * DESC :
@@ -81,24 +87,26 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
             smryDs.put("yldItmType", "01");
             smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
             commonDao.update("prj.tss.com.updateTssYld", smryDs);
-            
-            //qgate1
-            smryDs.put("goalY",       mstDs.get("tssStrtDd").toString().substring(0,4));
-            smryDs.put("yldItmType", "06");
-            smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
-            commonDao.update("prj.tss.com.updateTssYld", smryDs);
-            
-            //qgate2
-            smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
-            smryDs.put("yldItmType", "07");
-            smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
-            commonDao.update("prj.tss.com.updateTssYld", smryDs);
-            
-            //qgate3
-            smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
-            smryDs.put("yldItmType", "08");
-            smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
-            commonDao.update("prj.tss.com.updateTssYld", smryDs);
+           
+            if(mstDs.get("tssAttrCd").equals("00")){
+            	//qgate1
+                smryDs.put("goalY",       mstDs.get("tssStrtDd").toString().substring(0,4));
+                smryDs.put("yldItmType", "06");
+                smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+                commonDao.update("prj.tss.com.updateTssYld", smryDs);
+                
+                //qgate2
+                smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
+                smryDs.put("yldItmType", "07");
+                smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
+                commonDao.update("prj.tss.com.updateTssYld", smryDs);
+                
+                //qgate3
+                smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
+                smryDs.put("yldItmType", "08");
+                smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
+                commonDao.update("prj.tss.com.updateTssYld", smryDs);
+            }
             
             //지적재산권 
             smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
@@ -131,23 +139,25 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
         smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
         commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
         
-        //qgate1
-        smryDs.put("goalY",       mstDs.get("tssStrtDd").toString().substring(0,4));
-        smryDs.put("yldItmType", "06");
-        smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
-        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
-        
-        //qgate2
-        smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
-        smryDs.put("yldItmType", "07");
-        smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
-        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
-        
-        //qgate3
-        smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
-        smryDs.put("yldItmType", "08");
-        smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
-        commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
+        if(mstDs.get("tssAttrCd").equals("00")){
+        	//qgate1
+            smryDs.put("goalY",       mstDs.get("tssStrtDd").toString().substring(0,4));
+            smryDs.put("yldItmType", "06");
+            smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+            commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
+            
+            //qgate2
+            smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
+            smryDs.put("yldItmType", "07");
+            smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
+            commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
+            
+            //qgate3
+            smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
+            smryDs.put("yldItmType", "08");
+            smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
+            commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
+        }
         
         //지적재산권 
         smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
