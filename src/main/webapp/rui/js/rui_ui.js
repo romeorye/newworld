@@ -7414,9 +7414,10 @@ Rui.namespace('Rui.ui');
                 this.destroy();
             }
         });
+     /*
         option.buttons[2] = Rui.applyIf(buttonCancel, {
         	text: 'Cancel',
-        	isDefault: true,
+        	isDefault: false,
         	handler: function(){
         		this.hideMask();
         		if(option.handlerCancel)
@@ -7424,6 +7425,7 @@ Rui.namespace('Rui.ui');
         		this.destroy();
         	}
         });
+     */
         var box = msgBox.createMessageBox(option);
         box.show();
         return box;
