@@ -25,6 +25,7 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <title><%=documentTitle%></title>
 
@@ -127,7 +128,7 @@ var anlQnaGrid;       // 그리드
               columnModel: columnModel,
               dataSet: anlQnaDataSet,
               width: 600,
-              height: 585,
+              height: 400,
               autoToEdit: false,
               autoWidth: true
           });
@@ -167,6 +168,8 @@ var anlQnaGrid;       // 그리드
 
            anlQnaDataSet.on('load', function(e) {
   	    		$("#cnt_text").html('총 ' + anlQnaDataSet.getCount() + '건');
+  	    	// 목록 페이징
+  	    		paging(anlQnaDataSet,"defaultGrid");
   	      	});
 
            getAnlQnaList();
@@ -204,7 +207,7 @@ function fncAnlQnaRgstPage(record) {
 		<input type="hidden" id="bbsCd" name="bbsCd" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="" />
 
-   		<div class="contents">   			
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
@@ -212,8 +215,8 @@ function fncAnlQnaRgstPage(record) {
 				</a>
    				<h2>분석 Q&A</h2>
    			</div>
-   			
-			<div class="sub-content">	
+
+			<div class="sub-content">
    				<div class="search">
 					<div class="search-content">
 		                <table>
