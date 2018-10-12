@@ -52,7 +52,6 @@
         });
 
         userDataSet.on('load', function (e) {
-        	alert(userDataSet.getCount())
         	if (userDataSet.getCount() == 1){
         		var row =userDataSet.getRow();
         		var record = userDataSet.getAt(0).data
