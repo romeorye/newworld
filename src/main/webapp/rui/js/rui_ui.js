@@ -7393,6 +7393,7 @@ Rui.namespace('Rui.ui');
         var buttons = option.buttons = option.buttons || [],
             buttonYes = buttons[0] || {},
             buttonNo = buttons[1] || {};
+            buttonCancel = buttons[2] || {};
         option.buttons[0] = Rui.applyIf(buttonYes, {
             text: 'Yes',
             isDefault: true,
@@ -7412,6 +7413,16 @@ Rui.namespace('Rui.ui');
                     option.handlerNo.call(this);
                 this.destroy();
             }
+        });
+        option.buttons[2] = Rui.applyIf(buttonCancel, {
+        	text: 'Cancel',
+        	isDefault: true,
+        	handler: function(){
+        		this.hideMask();
+        		if(option.handlerCancel)
+        			option.handlerCancel.call(this);
+        		this.destroy();
+        	}
         });
         var box = msgBox.createMessageBox(option);
         box.show();

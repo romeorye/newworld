@@ -355,6 +355,7 @@
             var dsNprodSalsPlnY4 = (dataSet.getNameValue(0, "nprodSalsPlnY4") / 100000000).toFixed(2);
 
             //NaN인경우
+            dsNprodSalsPlnY  = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY:0;
             dsNprodSalsPlnY1 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
             dsNprodSalsPlnY2 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
             dsNprodSalsPlnY3 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
@@ -790,21 +791,23 @@
         var arr2 = eDt.split("-"); 
         
         var diffCnt = (Number(arr2[0]) - Number(arr1[0])) + 1;
+        var defaultValue = 0;
         
+        	ptcCpsnY.setValue(defaultValue);		
         if( diffCnt == 1 ){
-        	ptcCpsnY1.setValue(0);		
-        	ptcCpsnY2.setValue(0);		
-        	ptcCpsnY3.setValue(0);		
-        	ptcCpsnY4.setValue(0);		
+        	ptcCpsnY1.setValue(defaultValue);		
+        	ptcCpsnY2.setValue(defaultValue);		
+        	ptcCpsnY3.setValue(defaultValue);		
+        	ptcCpsnY4.setValue(defaultValue);		
 
         	ptcCpsnY1.disable();		
         	ptcCpsnY2.disable();		
         	ptcCpsnY3.disable();		
         	ptcCpsnY4.disable();		
         }else if( diffCnt == 2 ){
-        	ptcCpsnY2.setValue(0);		
-        	ptcCpsnY3.setValue(0);		
-        	ptcCpsnY4.setValue(0);		
+        	ptcCpsnY2.setValue(defaultValue);		
+        	ptcCpsnY3.setValue(defaultValue);		
+        	ptcCpsnY4.setValue(defaultValue);		
 
         	ptcCpsnY1.enable();	
         	
@@ -812,8 +815,8 @@
         	ptcCpsnY3.disable();		
         	ptcCpsnY4.disable();		
         }else if( diffCnt == 3 ){
-        	ptcCpsnY3.setValue(0);		
-        	ptcCpsnY4.setValue(0);		
+        	ptcCpsnY3.setValue(defaultValue);		
+        	ptcCpsnY4.setValue(defaultValue);		
 
         	ptcCpsnY1.enable();		
         	ptcCpsnY2.enable();		
@@ -821,7 +824,7 @@
         	ptcCpsnY3.disable();		
         	ptcCpsnY4.disable();		
         }else if( diffCnt == 4 ){
-        	ptcCpsnY4.setValue(0);
+        	ptcCpsnY4.setValue(defaultValue);
         	
         	ptcCpsnY1.enable();		
         	ptcCpsnY2.enable();		
