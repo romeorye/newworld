@@ -49,6 +49,7 @@
 					     QNA_ID                                                   AS 'qnaId'        /*QnAID*/
 					    ,QNA_CL_CD                                                AS 'qnaClCd'      /*QnA구분코드*/
 					    ,QUST_CL_CD                                               AS 'qustClCd'     /*질문유형코드*/
+					    ,dbo.fn_getComDtlNm('QUST_CL_CD', QUST_CL_CD)               AS 'qustClNm'     /*질문유형이름*/
 					    ,RLTD_WRTG_ID                                             AS 'rltdWrtgId'   /*댓글ID*/
 						,TITL_NM												  AS 'titlNm'       /*제목*/
 						,SBC_NM                                                   AS 'sbcNm'        /*내용*/
@@ -59,7 +60,7 @@
 						,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
 						,RGST_OPS_ID                                              AS 'rgstOpsId'    /*등록자부서ID*/
 						,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
-						,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+						,convert(varchar(20),FRST_RGST_DT,23)				      AS 'frstRgstDt'   /*등록일*/
 		FROM	IRIS_KNLD_QNA
 		WHERE	DEL_YN = 'N'
 		ORDER BY FRST_RGST_DT DESC
