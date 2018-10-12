@@ -749,11 +749,11 @@ public class AnlLibController  extends IrisBaseController {
 
             mime.setSaveURL(uploadUrl);
             mime.setSavePath(uploadPath);
-            mime.decode(input.get("bbsSbc").toString());                  // MIME 디코딩
-            mime.saveFileAtPath(uploadPath+File.separator);
+            //mime.decode(input.get("bbsSbc").toString());                  // MIME 디코딩
+            //mime.saveFileAtPath(uploadPath+File.separator);
 
-            anlLibSbcHtml = mime.getBodyContent();
-            anlLibSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(anlLibSbcHtml, "<", "@![!@"),">","@!]!@"));
+            //anlLibSbcHtml = mime.getBodyContent();
+            //anlLibSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(anlLibSbcHtml, "<", "@![!@"),">","@!]!@"));
 
 			//일반QnA 저장&수정
 			String bbsId = "";
@@ -762,7 +762,7 @@ public class AnlLibController  extends IrisBaseController {
 			for(Map<String,Object> anlQnaRgstDataSetMap : anlQnaRgstDataSetList) {
 
 				anlQnaRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
-				anlQnaRgstDataSetMap.put("bbsSbc" , NullUtil.nvl(anlLibSbcHtml, ""));
+				anlQnaRgstDataSetMap.put("bbsSbc" , input.get("bbsSbc").toString());
 
 				anlLibService.insertAnlLibInfo(anlQnaRgstDataSetMap);
 				totCnt++;
