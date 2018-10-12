@@ -912,7 +912,6 @@ public class GenTssPgsController  extends IrisBaseController {
         
         LOGGER.debug("###########################################################");
         LOGGER.debug("confirmPopup [과제관리 > 일반과제 > 진행 > 변경이동 팝업 화면 ]");
-        LOGGER.debug("#############confirmPopup############################################# : " + input);
         LOGGER.debug("###########################################################");
        
         request.setAttribute("inputData", input);
