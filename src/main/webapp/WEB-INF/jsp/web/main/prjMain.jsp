@@ -729,10 +729,10 @@ padding: 10px; padding-left:36px; right:245px;background:#fff; border:  1px soli
         	<div class="menu_link">
         		<p>주요메뉴</p>
         		<ul>
-        			<li><a href="#">M/M 입력</a></li>
-        			<li><a href="#">월마감</a></li>
-        			<li><a href="#">분석의뢰</a></li>
-        			<li><a href="#">분석 Main</a></li>
+        			<li><a href="javascript:moveMenu('PJ', 'IRIPJ0400', '/prj/mm/retrieveMmInInfo.do', 'IRIPJ0401')">M/M 입력</a></li>
+        			<li><a href="javascript:moveMenu('PJ', 'IRIPJ0100', '/prj/rsst/retrievePrjClsList.do', 'IRIPJ0102')">월마감</a></li>
+        			<li><a href="javascript:moveMenu('AN', 'IRIAN0100', '/anl/anlRqprList.do', 'IRIAN0101')">분석의뢰</a></li>
+        			<li><a href="javascript:moveMenu('AN', '', '/anl/main.do', 'IRIAN0001')">분석 Main</a></li>
         		</ul>
         	</div>
 
