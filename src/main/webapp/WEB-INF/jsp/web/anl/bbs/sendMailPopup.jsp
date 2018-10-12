@@ -81,9 +81,6 @@ Rui.onReady(function() {
     });
     
     anlBbsRgstDataSet.on('load', function(e) {
-    	lvAttcFilId = anlBbsRgstDataSet.getNameValue(0, "attcFilId");
-        if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
-
         if(anlBbsRgstDataSet.getNameValue(0, "bbsId")  != "" ||  anlBbsRgstDataSet.getNameValue(0, "bbsId")  !=  undefined ){
 			CrossEditor.SetBodyValue( anlBbsRgstDataSet.getNameValue(0, "bbsSbc") );
 		}
