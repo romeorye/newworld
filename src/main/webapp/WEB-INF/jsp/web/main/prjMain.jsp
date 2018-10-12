@@ -361,13 +361,17 @@
 	   }
 
 	</script>
+	<style>
+	html, body {height:100%;}
+	*html .pj_body .Main_content_w {height:100%;} /* IE */
+	</style>
 </head>
 
-<body>
+<body class="pj_body">
 
 <form name="tssMove"></form>
 
-<div id="Wrap" style="background:#f4f4f4;">
+<div id="Wrap" style="background:#f4f4f4; height:66px !important;overflow: visible;">
     <!--header-->
     <div class=gnb_bg></div>
     <div class="width_layout">
@@ -466,7 +470,7 @@
                                     	<col style="width:60%;">
                                     	<col style="width:40%;">
                                     </colgrop>
-                                    <thead>
+                                    <thead style="display:none;">
                                         <tr>
                                             <th><c:out value="${inputData.nowDate}"/></th>
                                             <th><c:out value="${inputData.nowEngDay}"/></th>
@@ -676,15 +680,16 @@
                 </div>
             </div>
         </div>
+
 <style>
 
 .btn_menu:hover #tmpMenu {display:block !important; overflow: hidden;}
 .btn_menu #tmpMenu
-{display:none !important;position: absolute;z-index: 999; text-align:left; position: absolute; z-index:999;width:970px; background:#fff; top:-20px; border:1px solid #ccc;
-padding: 10px; padding-left:36px; right:245px;background:#fff; border:  1px solid #ccc; box-sizing:border-box; border-radius:16px;}
+{display:none !important;position: absolute;z-index: 9999; text-align:left; position: absolute; z-index:999;width:1050px; background:#fff; top:38px; border:1px solid #ccc;
+padding: 10px; padding-left:36px; right:0;background:#fff; border:1px solid #ccc; box-sizing:border-box; border-radius:16px;}
 .btn_menu #tmpMenu #horizontalContainer {    overflow: hidden;
-    min-height: 640px;}
-.btn_menu #tmpMenu #horizontalContainer .gnb_height {    overflow: hidden; min-height: 640px;}
+    min-height: 600px;}
+.btn_menu #tmpMenu #horizontalContainer .gnb_height {    overflow: hidden; min-height: 600px;}
 .btn_menu #tmpMenu #horizontalContainer .gnb_height .nav.Mgnb {height:auto !important;}
 .btn_menu #tmpMenu  nav.Mgnb .top_gnb {top:10px !important;}
 
@@ -693,9 +698,9 @@ padding: 10px; padding-left:36px; right:245px;background:#fff; border:  1px soli
 
 #horizontalContainer > span strong:first-child {margin-bottom:-10px;}
 .btn_menu .top_gnb  {border:0; width:100%;}
-.btn_menu .top_gnb .m_gnb {background-image:none !important; border:0; width:100%;}
+.btn_menu .top_gnb .m_gnb {background-image:none !important; border:0; width:100%; height:600px;}
 
-.top_gnb .menu {width:100%; margin-left:30px; height:640px !important;}
+.top_gnb .menu {width:95%; margin-left:30px; height:600px !important;}
 .top_gnb .menu ul.menu_mm {width:100%; overflow:hidden;}
 .top_gnb .menu > ul > li {border:0; min-width:150px;    height: unset;}
 .top_gnb .menu > ul > li span {margin:10px 0 6px 0 !important;}
@@ -707,7 +712,7 @@ padding: 10px; padding-left:36px; right:245px;background:#fff; border:  1px soli
  		<!-- 좌측 추가 영역 -->
         <div id="prj_right">
         	<div class="btn_menu">
-        		<a href="#"><i></i><span>전체메뉴</span></a>
+        		<a href="#"><img src="/iris/resource/web/images/newIris/bullet_menu.png"> 전체메뉴</a>
         		<!-- 전체메뉴 리스트 -->
         		<div id="tmpMenu" class="allmneu">
 					<!-- <div><input type="button" value="닫기" onclick="hideTmpMenu()"></div> -->

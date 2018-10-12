@@ -73,8 +73,8 @@
 		}
 	</script>
     </head>
-    <body>
-		<div id="Wrap" style="background:#f4f4f4;">
+    <body class="pj_body">
+		<div id="Wrap" style="background:#f4f4f4; height:66px !important;overflow: visible;">
 		    <!--header-->
 		    <div class=gnb_bg></div>
 		    <div class="width_layout">
@@ -84,7 +84,8 @@
 		
 		  
 		    <!--content-->
-		    <div class="Main_content" id="ts">
+		    <div class="Main_content_w">
+		    <div class="Main_content" id="ts" style="float:left;">
 		        <!--left-->
 		        <div class="side_bar_con">
 		            <div class="side_layout">
@@ -366,7 +367,10 @@
 		            </div>
 		        </div>
 		    </div>
-		    <!--footer-->
+		    
+		    
+			</div>
+			<!--footer-->
 			<%@ include file="/WEB-INF/jsp/web/main/footer.jspf" %>
 		</div>
     </body>

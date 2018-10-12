@@ -241,11 +241,11 @@
 				<div class="search-content">
    				<table>
    					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:25%;"/>
-   						<col style="width:20%;"/>
+   						<col style="width:80px;">
+   						<col style="">
+   						<col style="width:80px;">
+   						<col style="">
+   						<col style="">
    					</colgroup>
    					<tbody>
    						<tr>
