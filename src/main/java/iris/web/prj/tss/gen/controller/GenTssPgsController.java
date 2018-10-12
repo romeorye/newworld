@@ -893,4 +893,30 @@ public class GenTssPgsController  extends IrisBaseController {
         return modelAndView;
     }
     
+    
+    /**
+     * 과제관리 > 일반과제 > 진행 > 변경이동 팝업 화면
+     *
+     * @param input HashMap<String, String>
+     * @param request HttpServletRequest
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return String
+     * @throws JSONException
+     * */
+    @RequestMapping(value="/prj/tss/gen/confirmPopup.do")
+    public String confirmPopup(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+            HttpSession session, ModelMap model) throws JSONException {
+
+        checkSession(input, session, model);
+        
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("confirmPopup [과제관리 > 일반과제 > 진행 > 변경이동 팝업 화면 ]");
+        LOGGER.debug("#############confirmPopup############################################# : " + input);
+        LOGGER.debug("###########################################################");
+       
+        request.setAttribute("inputData", input);
+        
+        return "web/prj/tss/gen/confirmPopup";
+    }
 }

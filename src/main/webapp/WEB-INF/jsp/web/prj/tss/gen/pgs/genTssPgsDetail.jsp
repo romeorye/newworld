@@ -30,11 +30,7 @@
  border: 0px
  }
 </style>
-<%
-    response.setHeader("Pragma", "No-cache");
-    response.setDateHeader("Expires", 0);
-    response.setHeader("Cache-Control", "no-cache");
-%>
+
 <script type="text/javascript">
     var gvTssCd     = "";
     var gvUserId    = "${inputData._userId}";
@@ -375,37 +371,38 @@
         });
  */
 
-        //변경요청
+		 var confirmDialog = new Rui.ui.LFrameDialog({
+		     id: 'confirmDialog', 
+		     title: '변경요청',
+		     width: 550,
+		     height: 320,
+		     modal: true,
+		     visible: false,
+		     buttons: [ 
+		             { text: '단순변경', handler: function(){
+		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId);
+		             }},
+		             { text: 'GRS심의요청', handler: function(){
+		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&callPageId=genTss");
+		             }},
+		             { text: 'Close', handler: function(){
+		                 this.cancel();
+		             }},
+		         ]
+		 });
+		 
+		 confirmDialog.render(document.body);
+ 	       	
+		 openDialog = function(url){
+			 confirmDialog.setUrl('<c:url value="/prj/tss/gen/confirmPopup.do?tssCd="/>' + gvTssCd + '&userIds=' + gvUserId);
+			 confirmDialog.show();
+         };
+       
+		 //변경요청
         btnAltrRq = new Rui.ui.LButton('btnAltrRq');
         btnAltrRq.on('click', function() {
-            Rui.confirm({
-                text: "본 변경요청은 단순 데이터 변경으로, 팀 내부승인 진행 건에 한해 진행됩니다. <br/><br/> "
-           			+ "<b><span style = 'color : red'>1. GRS심의요청 </span></b> : 하기 변경이 발생하는 경우에는 반드시 <span style = 'color : red'>GRS심의(GRS요청버튼)를 완료</span>하신 후<br> 변경요청을 해야 합니다. <br/>"
-           			+ " &nbsp;&nbsp;&nbsp;- Case 1. '과제 총 기간'이 변경되는 경우 (ex. 2017.12.31 -> 2018.12.31) <br/>"
-           			+ " &nbsp;&nbsp;&nbsp;- Case 2. '참여연구원'의 총 M/M가 증가하는 경우 (ex. 4 M/M -> 5 M/M) <br/>"
-           			+ " &nbsp;&nbsp;&nbsp;- Case 3. '목표' 항목이 추가/삭제 되는 경우 <br/><br/>"
-           			+ "<b>2. 단순변경</b> : 위 Case 이외, 단순 데이터 변경시 선택하며, 팀 내부승인건에 한해 진행됩니다.",
-                width : 550 ,
-                height : 270 ,
-                buttons : [{
-                	text : '단순변경'
-                },
-                {
-                	text : 'GRS변경'
-                },
-                {
-                	text : '취소'
-                }],
-                handlerYes: function() {
-                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId);
-                },
-                handlerNo: function() {
-                	nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&callPageId=genTss");
-                },
-                handlerCancel: Rui.emptyFn
-            });
+        	openDialog();
         });
-
 
         //데이터 셋팅
         if(${resultCnt} > 0) {
@@ -567,6 +564,5 @@
             </form>
         </div>
     </div>
-
 </body>
 </html>
