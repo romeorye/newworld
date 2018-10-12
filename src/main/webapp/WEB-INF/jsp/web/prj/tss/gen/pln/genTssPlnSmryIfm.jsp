@@ -576,7 +576,6 @@
 
 
         tabViewS = new Rui.ui.tab.LTabView({
-            contentHeight: 0,
             tabs: [
                 {
                     label: 'Needs',
@@ -633,16 +632,7 @@
 	    		document.getElementById("divWec4").style.display = "block";
 	    	}
         });
-
-        /** ============================================= Editor ================================================================================= **/
-
-        //editor 설정
-        fnDisplyBlock= function(val){
-            document.getElementById('divWec'+val).style.display = 'block';
-        }
-        
-        /** ===============================================  Editor End ==================================================================================== **/
-
+	
         tabViewS.render('tabViewS');
 
         //최초 데이터 셋팅
