@@ -460,7 +460,7 @@
 	 	         }
             }
 
-        	chkUserRgst(false);
+        	//chkUserRgst(false);
 
         });//onReady 끝
 
