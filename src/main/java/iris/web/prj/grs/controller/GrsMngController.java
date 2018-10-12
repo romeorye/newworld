@@ -485,9 +485,9 @@ public class GrsMngController extends IrisBaseController {
 				sb.append("<li class='analyze_field'>")
 				  .append("<p class='analyze_s_txt'><b>과제명 : </b>").append(grsInfo.get(i).get("tssNm")).append("</p>")
 				  .append("<p class='analyze_s_txt'><b>일시, 장소 : </b>").append(grsInfo.get(i).get("evTitl")).append("</p>")
-				  .append("<p class='analyze_s_txt'><b>참석자 :</b>").append(evTitl).append("</p>")
-				  .append("<p class='analyze_s_txt'><b>주요 Comment :</b>").append(commTxt).append("</p>")
-				  .append("<p class='analyze_s_txt'><b>첨부파일 :</b>");
+				  .append("<p class='analyze_s_txt'><b>참석자 : </b>").append(evTitl).append("</p>")
+				  .append("<p class='analyze_s_txt'><b>주요 Comment : </b><br>").append(commTxt).append("</p>")
+				  .append("<p class='analyze_s_txt'><b>첨부파일 : </b>");
 				
 	    		input.put("attcFilId", grsInfo.get(i).get("attcFilId"));
 	    		grsFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
