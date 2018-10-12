@@ -121,6 +121,7 @@ function popSabun(nameId, sabunId){
         			console.log(userInfo)
         			this[nameId].setValue(userInfo.saName);
         			$("#"+sabunId).val(userInfo.saSabun);
+                    setDept(userInfo.deptCd);
         		}
         , 1, '',null,650,400);
     });

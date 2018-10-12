@@ -1,17 +1,15 @@
 package iris.web.prj.rsst.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import devonframe.dataaccess.CommonDao;
+import devonframe.util.NullUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import devonframe.dataaccess.CommonDao;
-import devonframe.util.NullUtil;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /********************************************************************************
  * NAME : PrjRsstMstInfoServiceImpl.java
@@ -174,8 +172,13 @@ public class PrjRsstMstInfoServiceImpl implements PrjRsstMstInfoService {
 	public List<Map<String, Object>> retrievePrjPopupSearchList(HashMap<String, Object> input){
 		return commonDao.selectList("prj.rsst.mst.retrievePrjPopupSearchList", input);
 	}
-	
-	
+
+	@Override
+	public Map<String, Object> retrieveUserDeptInfo(HashMap<String, Object> input) {
+		return commonDao.select("prj.rsst.mst.retrieveUserDeptInfo", input);
+	}
+
+
 	public void savePrjPimsInfo(Map<String, Object> input) {
 		commonDaoPims.update("prj.rsst.mst.savePrjPimsInfo", input);
 	}

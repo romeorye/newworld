@@ -11,6 +11,8 @@ public interface GrsMngService {
 
 	int updateGrsInfo(Map<String, Object> input);
 
+	Map<String, String> saveGrsInfo(HashMap<String, Object> input) ;
+
 	void deleteGrsInfo(Map<String, Object> input);
 
 	void updateGrsReqInfo(Map<String, Object> input);

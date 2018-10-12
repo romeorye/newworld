@@ -1,23 +1,5 @@
 package iris.web.prj.rsst.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
@@ -28,6 +10,22 @@ import iris.web.prj.rsst.service.PrjTmmrInfoService;
 import iris.web.prj.tss.ousdcoo.service.OusdCooTssService;
 import iris.web.system.base.IrisBaseController;
 import iris.web.system.dept.service.DeptService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /********************************************************************************
  * NAME : PrjRsstMstController.java
@@ -116,6 +114,35 @@ public class PrjRsstMstController  extends IrisBaseController {
 
 		return modelAndView;
 	}
+
+	/* 사용자 부서 및 프로젝트 정보(WBS생성코드) 조회 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/prj/rsst/mst/retrieveUserDeptInfo.do")
+	public ModelAndView retrieveUserDeptInfo(
+		@RequestParam HashMap<String, Object> input,
+		HttpServletRequest request,
+		HttpServletResponse response,
+		HttpSession session,
+		ModelMap model
+		){
+
+		checkSessionObjRUI(input, session, model);
+
+		LOGGER.debug("#####################################################################################");
+		LOGGER.debug("PrjRsstMstController - retrieveUserDeptInfo [사용자 부서 및 프로젝트 정보 조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("#####################################################################################");
+
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		input = StringUtil.toUtf8(input);
+
+        Map<String,Object> info = prjRsstMstInfoService.retrieveUserDeptInfo(input);
+		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", info));
+
+		return modelAndView;
+	}
+
 
 	/* 프로젝트 마스터상세 메인 탭 화면 이동 */
 	@RequestMapping(value="/prj/rsst/mst/retrievePrjRsstMstDtlInfo.do")

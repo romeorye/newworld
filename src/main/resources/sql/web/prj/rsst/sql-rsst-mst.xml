@@ -541,5 +541,27 @@
 				,sysdate
 			)
 	</update>
-
+	<select id="retrieveUserDeptInfo" resultType="hashmap" >
+		/* retrieveUserDeptInfo  사용자 부서 및 프로젝트 정보(WBS생성코드) 조회 */
+		SELECT
+		  cd.dept_uper_code_a  as pkCd,
+		  cd.dept_code as deptCd,
+		  sd.dept_name as deptNm,
+		  cd.PRJ_CD as prjCd,
+		  cd.PRJ_NM as prjNm
+		FROM
+		  (SELECT cm.dept_uper_code_a ,
+			 cm.dept_code ,
+			 pr.PRJ_CD ,
+			 pr.PRJ_NM
+		   FROM IRIS_DEPT_UPER_CD_A_MGMT cm
+			 LEFT OUTER JOIN IRIS_PRJ_RSST_MST pr
+			   ON cm.dept_code = pr.DEPT_CD
+				  AND cm.dept_code!=''
+				  AND cm.dept_uper_code_a = pr.WBS_CD_A
+				  ANd pr.PRJ_END_DT=''
+		  ) cd, IRIS_SSO_DEPT sd
+			where cd.dept_code = sd.dept_code
+		and cd.dept_code = dbo.fn_getLeaderDeptCd(#{deptCd})
+	</select>
 </mapper>

@@ -52,7 +52,7 @@ public interface PrjRsstMstInfoService {
 
 	/* 프로젝트신규 전용팝업창 */
 	List<Map<String, Object>> retrievePrjPopupSearchList(HashMap<String, Object> input);
-	
 
-
+	/* 사용자 부서 및 프로젝트 정보(WBS생성코드) 조회 */
+	Map<String, Object> retrieveUserDeptInfo(HashMap<String,Object> input);
 }

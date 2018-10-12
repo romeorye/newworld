@@ -2,6 +2,7 @@ package iris.web.prj.grs.service;
 
 import devonframe.dataaccess.CommonDao;
 import iris.web.common.util.CommonUtil;
+import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.tssbatch.service.TssStCopyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +23,9 @@ public class GrsMngServiceImpl implements GrsMngService {
 	@Resource(name = "tssStCopyService")
 	private TssStCopyService tssStCopyService;
 
+	@Resource(name = "genTssService")
+	private GenTssService genTssService;
+
 
 	static final Logger LOGGER = LogManager.getLogger(GrsMngService.class);
 
@@ -39,6 +43,81 @@ public class GrsMngServiceImpl implements GrsMngService {
 	@Override
 	public int updateGrsInfo(Map<String, Object> input) {
 		return commonDao.insert("prj.grs.updateGrsInfo", input);
+	}
+
+	@Override
+	public Map<String, String> saveGrsInfo(HashMap<String, Object> input) {
+		HashMap<String, String> result = new HashMap<String, String>();
+		if ("".equals(input.get("tssCd"))) {
+			result.put("rtnSt", "F");
+
+			//신규
+			HashMap<String, Object> getWbs = genTssService.getWbsCdStd("prj.tss.com.getWbsCdStd", input);
+			//SEED WBS_CD 생성
+			int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
+			String seqMaxS = String.valueOf(seqMax + 1);
+
+
+//				input.put("nprodSalsPlnY", (Integer)input.get("nprodSalsPlnY") * 100000000);
+			input.put("wbsCd", input.get("tssScnCd") + seqMaxS);
+			input.put("pkWbsCd", input.get("wbsCd"));
+			input.put("userId", input.get("_userId"));
+			String grsYn = (String) input.get("grsYn");
+
+			// GRS(P1)을 수행하는 경우 계획 GRS요청  하지 않는 경우 계획 진행중, PG 도 함께 생성
+			if (grsYn.equals("Y")) {
+				input.put("pgsStepCd", "PL");                                // 과제 진행 단계 코드
+				input.put("tssSt","101");
+			}else if (grsYn.equals("N")) {
+				input.put("pgsStepCd","PL");
+				input.put("tssSt","100");
+			}
+
+			// mchnCgdgService.saveCgdsMst(input);
+			updateGrsInfo(input);                                                        //과제 기본정보 등록
+			input.put("tssCd", input.get("newTssCd"));
+
+			if (grsYn.equals("Y")) {
+				LOGGER.debug("=============== GRS=Y 인경우 GRS 요청정보 생성 ===============");
+				input.put("grsEvSt", "P1");
+				input.put("dlbrCrgr", input.get("saSabunCd"));
+				updateGrsReqInfo(input);                                            //GRS 정보 등록
+			}else if (grsYn.equals("N")) {
+				LOGGER.debug("=============== GRS 미수행시 마스터 이관 ===============");
+				String tssCd = (String) input.get("tssCd");
+
+				LOGGER.debug("=============== 과제정보 마스터 이관(PL) ===============");
+				input.put("fromTssCd", tssCd); //GRS 기본정보 TSS_CD
+				moveDefGrsDefInfo(input);
+
+
+					/*
+					LOGGER.debug("=============== 과제정보 마스터 이관(PG) ===============");
+					input.put("tssCd", tssCd.substring( 0,9) + (java.lang.Integer.parseInt(tssCd.substring( 9,10))+1));
+					input.put("pgsStepCd","PG");
+					input.put("tssSt","100");
+					moveDefGrsDefInfo(input);
+					*/
+
+
+				LOGGER.debug("=============== GRG 과제 기본정보 삭제 ===============");
+				input.put("tssCd", tssCd);
+				deleteDefGrsDefInfo(input);
+
+				//Qgate I/F
+				//리더에게 에게 메일 발송
+//					genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121
+
+			}
+
+			result.put("rtnMsg", "저장되었습니다.");
+		} else {
+			updateGrsInfo(input);                                                        // 과제 기본정보 수정
+			result.put("rtnMsg", "수정되었습니다.");
+		}
+		result.put("rtnSt", "S");
+
+		return result;
 	}
 
 	@Override

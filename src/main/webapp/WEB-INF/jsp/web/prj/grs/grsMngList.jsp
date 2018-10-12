@@ -309,6 +309,44 @@
                 , { id: 'attcFilId',        ctrlId: 'attcFilId',        value: 'value' }//첨부파일
                     ]
                 });
+
+
+
+				deptDataSet = new Rui.data.LJsonDataSet({
+					id: 'deptDataSet',
+					fields: [
+						{ id: 'pkCd'}
+						,{ id: 'deptCd'}
+						,{ id: 'deptNm'}
+						,{ id: 'prjCd'}
+						,{ id: 'prjNm'}
+					]
+				});
+
+				deptDataSet.on('load', function(e){
+                    $("#prjCd").val('');
+                    prjNm.setValue('');
+                    $("#deptCode").val('');
+                    var deptCd = deptDataSet.getNameValue(0, "deptCd");
+                    var deptNm = deptDataSet.getNameValue(0, "deptNm");
+                    var prCd = deptDataSet.getNameValue(0, "prjCd");
+                    var prNm = deptDataSet.getNameValue(0, "prjNm");
+                    var pkCd = deptDataSet.getNameValue(0, "pkCd");
+					
+                    if(deptCd!=undefined){
+                        if(prCd!=undefined){
+                            $("#prjCd").val(prCd);
+                            prjNm.setValue(prNm);
+                        }else{
+                            prjNm.setValue(deptNm);
+                        }
+                        $("#deptCode").val(deptCd);
+					}else{
+                        alert('부서정보가 없습니다. 관리자에게 문의하세요.');
+					}
+				});
+
+
         /* ================================== 상세 종료==============================================*/
 
         var   evInfoVali = new Rui.validate.LValidatorManager({
@@ -344,7 +382,6 @@
             document.getElementById("cnt_text").innerHTML = '총 : '+listDataSet.getCount();
             // 목록 페이징
             paging(listDataSet,"listGrid");
-
         });
  <%--/*******************************************************************************
   * FUNCTION 명 : init
@@ -1302,6 +1339,15 @@
         $('#userIds').val(idList);
         $('#cfrnAtdtCdTxt').val(saSabunList);
     };
+
+
+    function setDept(deptCd){
+        deptDataSet.load({
+            url : '<c:url value="/prj/rsst/mst/retrieveUserDeptInfo.do"/>',
+            params : {deptCd : deptCd}
+        });
+	}
+
 
     function setDefault(){
         //기본값 세팅
