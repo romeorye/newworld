@@ -152,7 +152,7 @@
             useRightActionMenu: false
         });
         grid.on('popup', function(e) {
-            if((lvTssSt == "100" || lvTssSt == "") && pageMode == "W") {
+            if((lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302") && pageMode == "W") {
 	            popupRow = e.row;
 	            openUserSearchDialog(setGridUserInfo, 1, '');
             }
@@ -350,6 +350,7 @@ $(window).load(function() {
 	<div class="titArea">
 	    <div class="LblockButton">
 	        <button type="button" id="butRecordNew">추가</button>
+	        <button type="button" id="btnSave" name="btnSave">저장</button>
 	        <button type="button" id="butRecordDel">삭제</button>
 	    </div>
 	</div>
@@ -360,12 +361,7 @@ $(window).load(function() {
 	    </form>
 	    <div id="defaultGrid"></div>
 	</div>
-	<div class="titArea">
-	    <div class="LblockButton">
-	        <button type="button" id="btnSave" name="btnSave">저장</button>
-	        <!-- <button type="button" id="btnList" name="btnList">목록</button> -->
-	    </div>
-	</div>
+
 </div>
 </body>
 </html>
