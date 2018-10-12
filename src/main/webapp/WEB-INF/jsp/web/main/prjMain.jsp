@@ -412,7 +412,7 @@
 		                   	</c:when>
 		                   	<c:otherwise>
 		                        <li>
-		                        	<a href="javascript:moveMenu('PJ', 'IRIPJ0300', '/prj/grs/grsReqList.do', 'IRIPJ0301')">
+		                        	<a href="javascript:moveMenu('PJ', 'IRIPJ0600', '/prj/grs//listGrsMngInfo.do', 'IRIPJ0601')">
 				                        <div class="number"><span><c:out value="${tssReqCntInfo.reqGrs}"/></span></div>
 				                        <div class="txt">GRS요청</div>
 			                        </a>
@@ -581,7 +581,12 @@
 	                                    	<c:forEach var="notice" items="${noticeList}">
 												<tr>
 		                                            <td style="text-align:Center"><c:out value="${notice.pwiScnNm}"/></td>
-		                                            <td style="text-align:left"><a href="javascript:fnTssPageMove('E','notice', '', '${notice.pwiId}', '', '');" ><c:out value="${notice.titlNm}"/></a></td>
+		                                            <td style="text-align:left">
+		                                                <a href="javascript:fnTssPageMove('E','notice', '', '${notice.pwiId}', '', '');" >
+		                                                   <c:if test="${notice.ugyYn eq 'U' }"><span style = "color : #FF5E00">[긴급]</span></c:if>
+		                                                   <c:out value="${notice.titlNm}"/>
+		                                                </a>
+		                                            </td>
 		                                            <td style="text-align:Center"><c:out value="${notice.rgstNm}"/></td>
 		                                            <td style="text-align:Center"><c:out value="${notice.frstRgstDt}"/></td>
 		                                        </tr>
