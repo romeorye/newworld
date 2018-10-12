@@ -32,7 +32,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
 
-
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 var techDataSet;	// 프로젝트 데이터셋
 var dm;         // 데이터셋매니저
@@ -176,7 +176,7 @@ var lvAttcFilId;
               columnModel: columnModel,
               dataSet: techDataSet,
               width: 600,
-              height: 550,
+              height: 400,
               autoToEdit: false,
               autoWidth: true
           });
@@ -196,7 +196,6 @@ var lvAttcFilId;
 
                     nwinsActSubmit(document.aform, "<c:url value='/knld/pub/technologyInfo.do'/>");
                 }
-
            });
 
           techGrid.render('defaultGrid');
@@ -286,6 +285,8 @@ var lvAttcFilId;
 
            techDataSet.on('load', function(e) {
   	    		$("#cnt_text").html('총 ' + techDataSet.getCount() + '건');
+	        	// 목록 페이징
+		    	paging(techDataSet,"defaultGrid");
   	      	});
 
            getTechnologyList();
@@ -341,15 +342,15 @@ function fncExcelDown() {
 		<input type="hidden" id="pageMode" name="pageMode" value="" />
 
    		<div class="contents">
-		
+
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		        	<span class="hidden">Toggle 버튼</span>
-	        	</a>   
+	        	</a>
    				<h2>공지/게시판 - 시장기술정보</h2>
    			</div>
-   			
+
 			<div class="sub-content">
 				<div class="search">
 	                <div class="search-content">

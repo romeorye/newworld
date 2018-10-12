@@ -25,6 +25,7 @@
 
 <title><%=documentTitle%></title>
 
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 var fxaRlisAnlDialog;
 
@@ -50,6 +51,9 @@ var fxaRlisAnlDialog;
 
         dataSet.on('load', function(e){
 	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
+	    	// 목록 페이징
+	    	aCnt = 15;		//게시물수
+	    	paging(dataSet,"defaultGrid");
 	    });
 
         var columnModel = new Rui.ui.grid.LColumnModel({
@@ -71,7 +75,7 @@ var fxaRlisAnlDialog;
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width : 1150,
-	        height: 640,
+	        height: 520,
 	        autoWidth: true
 	    });
 

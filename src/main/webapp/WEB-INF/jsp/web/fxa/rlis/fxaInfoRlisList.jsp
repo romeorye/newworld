@@ -22,12 +22,13 @@
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 <title><%=documentTitle%></title>
 
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 var fxaRlisApprDialog;
 
 	Rui.onReady(function() {
 		var adminChk = "PER";
-		
+
 		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
 			adminChk = "ADM";
 		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T04') > -1) {
@@ -61,6 +62,8 @@ var fxaRlisApprDialog;
 
         dataSet.on('load', function(e){
 	       	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
+	     	// 목록 페이징
+	    	paging(dataSet,"defaultGrid");
 	    });
 
         var columnModel = new Rui.ui.grid.LColumnModel({
@@ -87,7 +90,7 @@ var fxaRlisApprDialog;
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width : 1050,
-	        height: 500,
+	        height: 400,
 	        autoWidth: true
 	    });
 
@@ -97,8 +100,8 @@ var fxaRlisApprDialog;
 			var record = dataSet.getAt(dataSet.getRow());
 			if(dataSet.getRow() > -1) {
 				if(e.col == 8) {
-					var itgRdcsId = record.get("itgRdcsId"); 
-					/* 
+					var itgRdcsId = record.get("itgRdcsId");
+					/*
 					if(itgRdcsId =="" || itgRdcsId == undefined ){
 						Rui.alert("결재진행상태가 없습니다.");
 						return;
@@ -113,11 +116,11 @@ var fxaRlisApprDialog;
 							    ;
 					//document.aform.action="<c:url value="/fxa/rlis/retrieveFxaRlisTodoList.do"/>"+params;
 					document.aform.action="<c:url value="/fxa/rlis/retrieveFxaRlisTodoView.do"/>"+params;
-					document.aform.submit(); 
+					document.aform.submit();
 				}
 			}
 	 	});
-		
+
 		//실사명 combo
 		var rlisTrmNm = new Rui.ui.form.LTextBox({         // LTextBox개체를 선언
 	        applyTo: 'rlisTrmNm',                          // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -125,7 +128,7 @@ var fxaRlisApprDialog;
 	        placeholder: '',     						// [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                          // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
-		/* 
+		/*
 		//실사명 combo
 		var cbRlisTrmId = new Rui.ui.form.LCombo({
 			applyTo : 'rlisTrmId',
@@ -202,6 +205,10 @@ var fxaRlisApprDialog;
 	    /* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
+
+        	// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        	dataSet.clearFilter();
+
         	if(dataSet.getCount() > 0 ) {
 	            var excelColumnModel = columnModel.createExcelColumnModel(false);
 	            grid.saveExcel(encodeURIComponent('분석기기_') + new Date().format('%Y%m%d') + '.xls', {
@@ -228,7 +235,7 @@ var fxaRlisApprDialog;
 
 
 	});		//end ready
-	
+
 </script>
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
@@ -237,7 +244,7 @@ var fxaRlisApprDialog;
     				<a class="leftCon" href="#">
 			        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 			        	<span class="hidden">Toggle 버튼</span>
-		        	</a>  
+		        	</a>
     				<h2>자산실사</h2>
     		    </div>
     			<div class="sub-content">
@@ -247,7 +254,7 @@ var fxaRlisApprDialog;
 					<input type="hidden" id="fxaRlisId"  name="fxaRlisId" />
 					<input type="hidden" id="fxaInfoId"  name="fxaInfoId" />
 					<input type="hidden" id="roleId" name="roleId"  value="<c:out value='${inputData._roleId}'/>">
-					
+
 					<div class="search">
 						<div class="search-content">
 		    				<table id="asset_ta01">

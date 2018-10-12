@@ -32,6 +32,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
 
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 var patentDataSet;	// 프로젝트 데이터셋
 var dm;         // 데이터셋매니저
@@ -119,7 +120,7 @@ var lvAttcFilId;
               columnModel: columnModel,
               dataSet: patentDataSet,
               width: 600,
-              height: 585,
+              height: 400,
               autoToEdit: false,
               autoWidth: true
           });
@@ -227,6 +228,8 @@ var lvAttcFilId;
 
            patentDataSet.on('load', function(e) {
   	    		$("#cnt_text").html('총 ' + patentDataSet.getCount() + '건');
+  	    		// 목록 페이징
+  		    	paging(patentDataSet,"defaultGrid");
   	      	});
 
            getPatentList();
@@ -261,12 +264,16 @@ function fncPatentRgstPage(record) {
 * FUNCTION 기능설명 : 프로젝트 현황 목록 엑셀다운(추가조회, 추가 그리드 없음)
 *******************************************************************************/--%>
 function fncExcelDown() {
+	// 엑셀 다운로드시 전체 다운로드를 위해 추가
+    patentDataSet.clearFilter();
 
     if( patentDataSet.getCount() > 0){
     	patentGrid.saveExcel(toUTF8('공지사항 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }
+	// 목록 페이징
+    paging(patentDataSet,"defaultGrid");
 }
 </script>
 
@@ -280,15 +287,15 @@ function fncExcelDown() {
 		<input type="hidden" id="patentId" name="patentId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="" />
 
-   		<div class="contents">   			
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 		          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		          <span class="hidden">Toggle 버튼</span>
-				</a>  
+				</a>
    				<h2>공지/게시판 - 특허</h2>
    			</div>
-   			
+
 			<div class="sub-content">
    				<div class="search">
 			   		<div class="search-content">

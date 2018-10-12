@@ -25,6 +25,7 @@
 
 <title><%=documentTitle%></title>
 
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 
 	Rui.onReady(function() {
@@ -41,7 +42,7 @@
             useHiddenValue: true,
             editable: false
         });
-		
+
 	 	<%-- RESULT DATASET --%>
         resultDataSet = new Rui.data.LJsonDataSet({
             id: 'resultDataSet',
@@ -55,7 +56,7 @@
 
         resultDataSet.on('load', function(e) {
         });
-        
+
 		/** dataSet **/
         dataSet = new Rui.data.LJsonDataSet({
             id: 'dataSet',
@@ -76,6 +77,9 @@
 
         dataSet.on('load', function(e){
 	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
+	    	// 목록 페이징
+	    	aCnt = 15;		//게시물수
+	    	paging(dataSet,"defaultGrid");
 	    });
 
         var columnModel = new Rui.ui.grid.LColumnModel({
@@ -96,7 +100,7 @@
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width : 1150,
-	        height: 640,
+	        height: 520,
 	        autoWidth: true
 	    });
 
@@ -111,16 +115,16 @@
 	 	fnSearch();
 
 	 	grid.on('popup', function(e){
-			var recode = dataSet.getAt(dataSet.getRow()); 
+			var recode = dataSet.getAt(dataSet.getRow());
 			if(e.col == 1){
 		 		openUserSearchDialog(setUserInfo, 1, '', '');
 			}else{
 		 		openUserSearchDialog(setMultiUserInfo, 10, recode.get("rfpUserId"), 'prj');
 			}
         });
-	 	
+
 	 	popupUserInfo.on('popup', function(e){
-			var recode = dataSet.getAt(dataSet.getRow()); 
+			var recode = dataSet.getAt(dataSet.getRow());
 			if(e.col == 1){
 		 		openUserSearchDialog(setUserInfo, 1, '', '');
 			}else{
@@ -129,24 +133,24 @@
         });
 
 	 	setUserInfo = function (user){
-	 		var recode = dataSet.getAt(dataSet.getRow()); 
+	 		var recode = dataSet.getAt(dataSet.getRow());
 	   		recode.set("crgrNm", user.saName);
 	 		recode.set("crgrId", user.saSabun);
 	    };
 
 	    setMultiUserInfo = function (userList){
-	    	var recode = dataSet.getAt(dataSet.getRow()); 
-	 		
+	    	var recode = dataSet.getAt(dataSet.getRow());
+
 	    	var idList = [];
 	    	var sabunList = [];
 	    	var nameList = [];
-	    	
+
 	    	for(var i=0, size=userList.length; i<size; i++) {
 	    		idList.push(userList[i].saUser);
 	    		nameList.push(userList[i].saName);
 	    		sabunList.push(userList[i].saSabun);
 	    	}
-	    	
+
 	   		recode.set("rfpNm", nameList.join(', '));
 	 		recode.set("rfpId", sabunList.join(', '));
 	 		recode.set("rfpUserId", idList.join(', '));
@@ -155,23 +159,23 @@
 	    /* [버튼]저장 호출 */
     	var butSave = new Rui.ui.LButton('butSave');
     	butSave.on('click', function() {
-    		
+
     		var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-    		
+
     		dm.on('success', function(e) {      // 승인 성공시
 				var resultData = resultDataSet.getReadData(e);
-	    		
+
     			Rui.alert(resultData.records[0].rtnMsg);
-    		 	
+
     			if( resultData.records[0].rtnSt == "S"){
 	    			fnSearch();
     			}
-    			
+
     	    });
     	    dm.on('failure', function(e) {      // 승인 실패시
                 Rui.alert("신청 Fail");
     	    });
-    		
+
     	    Rui.confirm({
     			text: '저장하시겠습니까?',
     	        handlerYes: function() {
@@ -181,7 +185,7 @@
     	        	});
     	        }
     		});
-    		
+
     	});
 
 
@@ -196,17 +200,17 @@
  				<a class="leftCon" href="#">
 		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		        	<span class="hidden">Toggle 버튼</span>
-	        	</a>  
+	        	</a>
  				<h2>자산담당자 관리</h2>
  		    </div>
  			<div class="sub-content">
 		<form name="aform" id="aform" method="post">
 			<input type="hidden" id="menuType"  name="menuType" />
 
-			
+
 			<div class="titArea btn_top">
 				<span class="table_summay_number" id="cnt_text"></span>
-				<div class="LblockButton"> 
+				<div class="LblockButton">
 					<button type="button" id="butSave" name="butSave">저장</button>
 				</div>
 			</div>

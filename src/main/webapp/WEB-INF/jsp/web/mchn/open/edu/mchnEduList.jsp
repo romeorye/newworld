@@ -47,6 +47,8 @@
 
 		dataSet.on('load', function(e){
         	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
+        	// 목록 페이징
+        	paging(dataSet,"mhcnGrid");
 	    });
 
 	    var columnModel = new Rui.ui.grid.LColumnModel({
@@ -71,7 +73,7 @@
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width:1150,
-	        height: 540,
+	        height: 400,
 	        autoWidth: true
 	    });
 

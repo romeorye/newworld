@@ -27,6 +27,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridPanelExt.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.css"/>
 
@@ -65,6 +66,8 @@
 
 		dataSet.on('load', function(e){
 	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
+	    	// 목록 페이징
+	    	paging(dataSet,"mhcnGrid");
 	    });
 
 	    var columnModel = new Rui.ui.grid.LColumnModel({
@@ -86,7 +89,7 @@
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width : 1180,
-	        height: 540,
+	        height: 400,
             autoWidth: true
 	    });
 
@@ -179,6 +182,10 @@
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
+
+        	// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        	dataSet.clearFilter();
+
         	if(dataSet.getCount() > 0 ) {
 	            var excelColumnModel = columnModel.createExcelColumnModel(false);
 	            grid.saveExcel(encodeURIComponent('보유기기관리_') + new Date().format('%Y%m%d') + '.xls', {
@@ -201,7 +208,7 @@
 		 	<a class="leftCon" href="#">
 				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 				<span class="hidden">Toggle 버튼</span>
-			</a>  
+			</a>
 			<h2>공간성능평가 Tool 사용관리</h2>
 		</div>
 

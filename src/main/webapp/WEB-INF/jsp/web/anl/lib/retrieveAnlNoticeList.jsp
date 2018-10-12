@@ -32,6 +32,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
 
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 var anlNoticeDataSet;	// 프로젝트 데이터셋
 var anlNoticeGrid;       // 그리드
@@ -120,7 +121,7 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
               columnModel: columnModel,
               dataSet: anlNoticeDataSet,
               width: 600,
-              height: 585,
+              height: 400,
               autoToEdit: false,
               autoWidth: true
           });
@@ -164,6 +165,9 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
   	    		if(roleIdIndex != -1) {
   	    			chkUserRgst(true);
                 }
+
+  	    		// 목록 페이징
+  		    	paging(dataSet,"defaultGrid");
   	      	});
 
            getAnlNoticeList();
@@ -204,7 +208,7 @@ function fncAnlNoticeRgstPage(record) {
 		<input type="hidden" id="bbsCd" name="bbsCd" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="" />
 
-   		<div class="contents">   			
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
@@ -212,7 +216,7 @@ function fncAnlNoticeRgstPage(record) {
 				</a>
    				<h2>공지사항</h2>
    			</div>
-	   			
+
 			<div class="sub-content">
 				<div class="search">
 					<div class="search-content">

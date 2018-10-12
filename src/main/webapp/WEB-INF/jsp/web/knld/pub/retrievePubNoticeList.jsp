@@ -32,6 +32,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
 
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 var dataSet;	// 프로젝트 데이터셋
 var dm;         // 데이터셋매니저
@@ -93,6 +94,8 @@ var lvAttcFilId;
        	/* [버튼] EXCEL다운로드 */
        	var lbButExcl = new Rui.ui.LButton('excelBtn');
        	lbButExcl.on('click', function() {
+       		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        	dataSet.clearFilter();
        		fncExcelDown();
        	});
 
@@ -157,7 +160,7 @@ var lvAttcFilId;
               columnModel: columnModel,
               dataSet: dataSet,
               width: 600,
-              height: 560,
+              height: 400,
               autoToEdit: false,
               autoWidth : true
           });
@@ -288,6 +291,8 @@ var lvAttcFilId;
 
            dataSet.on('load', function(e) {
  	    		$("#cnt_text").html('총 ' + dataSet.getCount() + '건');
+ 	    		// 목록 페이징
+ 		    	paging(dataSet,"defaultGrid");
  	      	});
 
 
@@ -345,12 +350,12 @@ function fncExcelDown() {
 		<input type="hidden" id="pageMode" name="pageMode" value="" />
 		<input type="hidden" id="test" name="test" value="3" />
 
-   		<div class="contents">   			
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 					<span class="hidden">Toggle 버튼</span>
-				</a>    
+				</a>
    				<h2>공지사항</h2>
    			</div>
 			<div class="sub-content">
@@ -372,7 +377,7 @@ function fncExcelDown() {
 		   							</td>
 		   							<td>
 <!-- 	<button  type="button" class="btn_search"  onclick="getPwiImtrList();">검색</button> -->
-		   								
+
 		   							</td>
 		   						</tr>
 		   						<tr>

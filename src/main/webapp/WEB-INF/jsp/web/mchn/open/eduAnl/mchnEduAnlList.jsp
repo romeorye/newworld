@@ -27,6 +27,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridPanelExt.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.css"/>
 
@@ -84,13 +85,15 @@
 
 		dataSet.on('load', function(e){
 	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
+	    	// 목록 페이징
+	    	paging(dataSet,"mhcnGrid");
 	    });
 
 		var grid = new Rui.ui.grid.LGridPanel({
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width: 1150,
-	        height: 540,
+	        height: 400,
             autoWidth: true
 	    });
 

@@ -27,6 +27,7 @@
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridView.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridPanelExt.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <script type="text/javascript">
 var sDeptCd;
@@ -102,6 +103,8 @@ var imgHeight;
 
          dataSet.on('load', function(e){
  	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
+ 	    	// 목록 페이징
+	    	paging(dataSet,"defaultGrid");
  	    });
 
          var columnModel = new Rui.ui.grid.LColumnModel({
@@ -154,7 +157,7 @@ var imgHeight;
              columnModel: columnModel,
              dataSet: dataSet,
              width: 1200,
-             height: 550,
+             height: 400,
              autoWidth: true
          });
 
@@ -463,6 +466,10 @@ var imgHeight;
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
+
+        	// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        	dataSet.clearFilter();
+
         	if(dataSet.getCount() > 0 ) {
 	            var excelColumnModel = columnModel.createExcelColumnModel(false);
 	            grid.saveExcel(encodeURIComponent('분석기기_') + new Date().format('%Y%m%d') + '.xls', {
