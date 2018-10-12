@@ -7,13 +7,13 @@
 /*
  *************************************************************************
  * $Id		: wbsStdList.jsp
- * @desc    :  표준 WBS 관리 
+ * @desc    :  표준 WBS 관리
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
  * 1.0  2017.08.28  jih		최초생성
  * ---	-----------	----------	-----------------------------------------
- * IRIS 
+ * IRIS
  *************************************************************************
  */
 --%>
@@ -27,7 +27,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LEditButtonColumn.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridView.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridPanelExt.js"></script>
-
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
@@ -46,7 +46,7 @@
 
     <!-- 그리드 소스 -->
 <script type="text/javascript">
-    Rui.onReady(function() {       
+    Rui.onReady(function() {
 
 
         /*******************
@@ -61,12 +61,12 @@
             emptyValue: '',
             width: 500
        });
-        
+
 
 
 	   	var wbsScnCd = new Rui.ui.form.LCombo({ //WBS
 			applyTo : 'wbsScnCd',
-			emptyText: '전체',		
+			emptyText: '전체',
 			emptyValue: '',
 			 defaultValue: '${inputData.wbsScnCd}',
 			useEmptyText: true,
@@ -84,25 +84,25 @@
          *******************/
 
 
-         
+
          var mGridDataSet = new Rui.data.LJsonDataSet({ //masterGrid dataSet
  			id: 'mGridDataSet',
  			focusFirstRow: 0,
  	        lazyLoad: true,
  	        fields: [
  	                { id: 'stdSn'}, 			//표준일정일련번호
- 	                { id: 'stdTitl'},           //표준일정명   
- 	                { id: 'wbsScnCd'},          //WBS구분코드  
- 	                { id: 'wbsScnNm'}, 
- 	                { id: 'lastRgstDt'},       
+ 	                { id: 'stdTitl'},           //표준일정명
+ 	                { id: 'wbsScnCd'},          //WBS구분코드
+ 	                { id: 'wbsScnNm'},
+ 	                { id: 'lastRgstDt'},
  	                { id: 'lastRgstId'},
- 	                { id: 'lastRgstNm'}, 
+ 	                { id: 'lastRgstNm'},
  	                ]
 		});
-        
-        
+
+
         var mGridColumnModel = new Rui.ui.grid.LColumnModel({  //masterGrid column
-            columns: [       
+            columns: [
                     { field: 'wbsScnNm',     	label: 'WBS 구분',   sortable: false, align:'center', width: 170  },
           			{ field: 'stdTitl',    		label: '표준일정명',   sortable: false, align:'left', width:790 , renderer: function(value){
                 		return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
@@ -111,8 +111,8 @@
           		    { field: 'lastRgstDt',     	label: '작성일',   renderer: function(value){
           		      return value.substring(0, 10);
           		      } ,sortable: false, align:'center', width: 170 }
-          		    
-          			
+
+
             ]
         });
 
@@ -120,7 +120,7 @@
             columnModel: mGridColumnModel,
             dataSet: mGridDataSet,
             height: 450,
-            width: 600,             
+            width: 400,
             autoToEdit: false,
             autoWidth: true
         });
@@ -145,69 +145,70 @@
             var tmp;
             var tmpArray;
 			var str = "";
-     
-        	document.getElementById("cnt_text").innerHTML = '총: '+mGridDataSet.getCount();
 
+        	document.getElementById("cnt_text").innerHTML = '총: '+mGridDataSet.getCount();
+        	// 목록 페이징
+	    	paging(mGridDataSet,"masterGrid");
         });
 
         masterGrid.on('cellClick', function(e){
         	var record = mGridDataSet.getAt(e.row);
-        	
+
         	console.log(record.get('stdSn'));
-        	
-        	document.getElementById('stdSn').value =  nullToString(record.get("stdSn"));	
-        	
-        	
+
+        	document.getElementById('stdSn').value =  nullToString(record.get("stdSn"));
+
+
         	document.getElementById('wbsScnNmRe').value =  nullToString(record.get("wbsScnNm"));
         	document.getElementById('stdTitlRe').value =  nullToString(record.get("stdTitl"));
-        	
+
             nwinsActSubmit(document.xform, "<c:url value='/prj/mgmt/wbsStd/wbsStdDtl.do'/>");
         });
-   
+
         <%--/*******************************************************************************
-         * FUNCTION 명 : fncSearch 
+         * FUNCTION 명 : fncSearch
          * FUNCTION 기능설명 : 목록조회
-         *******************************************************************************/--%>  
-        fncSearch = function() { 
+         *******************************************************************************/--%>
+        fncSearch = function() {
  			mGridDataSet.load({
                 url: '<c:url value="/prj/mgmt/wbsStd/retrieveWbsStdList.do"/>',
                 params: {
                 	 stdTitl: escape(encodeURIComponent(document.xform.stdTitl.value)) //과제명
                 	,wbsScnCd: wbsScnCd.getValue()
-                	
+
                 }
             });
-        
+
         };
-        
-        init = function() { 
+
+        init = function() {
         	mGridDataSet.load({
                 url: '<c:url value="/prj/mgmt/wbsStd/retrieveWbsStdList.do"/>',
                 params: {
                 	 stdTitl: escape(encodeURIComponent('${inputData.stdTitl}')) //과제명
                 	,wbsScnCd:'${inputData.wbsScnCd}'
-                	
+
                 }
             });
         }
    });
-    
+
 </script>
 </head>
 
 <body onload="init();">
 <Tag:saymessage/><!--  sayMessage 사용시 필요 -->
-	<div class="contents" >				
+	<div class="contents" >
 			<div class="titleArea">
 				<a class="leftCon" href="#">
 			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 			        <span class="hidden">Toggle 버튼</span>
-				</a>	
+				</a>
    				<h2>표준 WBS 관리</h2>
    		    </div>
 
-		<div class="sub-content">	
-			<form name="xform" id="xform" method="post"> 
+		<div class="sub-content">
+			<form name="xform" id="xform" method="post">
 				<input type='hidden' id='stdSn' name='stdSn'>
 				<input type='hidden' id='wbsScnNmRe' name='wbsScnNmRe'>
 				<input type='hidden' id='stdTitlRe' name='stdTitlRe'>
@@ -221,22 +222,22 @@
 			   						<col style=""/>
 			   						<col style=""/>
 			   					</colgroup>
-		   					<tbody>		   						
+		   					<tbody>
 		   						<tr>
 		   							<th align="right">WBS 구분</th>
 		   							<td>
 		                                <div id="wbsScnCd" name='wbsScnCd'></div>
 		   							</td>
-		   							
+
 		   							<th align="right">표준일정명</th>
 		   							<td>
 		   								<input type="text" id="stdTitl" value="">
 		   							</td>
-		   							
+
 		   							<td class="txt-right">
 			    						<a href="javascript:fncSearch()" class="btnL">검색</a>
 			    					</td>
-			    				</tr>	    					
+			    				</tr>
 		   					</tbody>
 		   				</table>
 	   				</div>
@@ -245,10 +246,10 @@
     		<div class="titArea">
 	    		<span class="Ltotal" id="cnt_text">총 : 0 </span>
     		</div>
-	        
-			<div id="masterGrid"></div>    	
+
+			<div id="masterGrid"></div>
 			</div>
-		
+
 	</div>
 </body>
 </html>

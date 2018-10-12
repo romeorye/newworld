@@ -28,6 +28,7 @@
     response.setDateHeader("Expires", 0);
     response.setHeader("Cache-Control", "no-cache");
 %>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
     //Form
     var wbsCd;
@@ -215,7 +216,7 @@
             columnModel: columnModel,
             dataSet: dataSet,
             width: 600,
-            height: 460,
+            height: 400,
             autoToEdit: true,
             clickToEdit: true,
             enterToEdit: true,
@@ -246,7 +247,8 @@
             var str = "";
 
             document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
-
+        	// 목록 페이징
+	    	paging(dataSet,"mhcnGrid");
         });
 
 

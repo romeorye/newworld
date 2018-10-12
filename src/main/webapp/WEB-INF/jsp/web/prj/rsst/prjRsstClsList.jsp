@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
@@ -27,12 +27,13 @@
 <title><%=documentTitle%></title>
 
 <%-- 그리드 소스 --%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 	<script type="text/javascript">
 
 	var roleCheck = "PER";
-	
+
 		Rui.onReady(function() {
-	
+
 			if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
 				roleCheck = "ADM";
 			}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T03') > -1) {
@@ -42,7 +43,7 @@
 			}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
 				roleCheck = "ADM";
 			}
-			
+
 			/*******************
              * 변수 및 객체 선언
             *******************/
@@ -68,7 +69,7 @@
                     { id: 'lastClsYymm' }	/*프로젝트 마지막 마감월*/
                 ]
             });
-		
+
             var columnModel = new Rui.ui.grid.LColumnModel({
                 groupMerge: true,
                 columns: [
@@ -94,16 +95,16 @@
             var grid = new Rui.ui.grid.LGridPanel({
                 columnModel: columnModel,
                 dataSet: dataSet,
-                height: 630,
+                height: 530,
                 scrollerConfig: {
                     scrollbar: 'N'
                 },
                 autoToEdit: true,
                 autoWidth: true
             });
-            
+
             grid.render('mainGrid');
-            
+
             fnSearch = function() {
     	    	dataSet.load({
     	            url: '<c:url value="/prj/rsst/retrievePrjClsSearchList.do"/>',
@@ -111,22 +112,22 @@
     	    			    roleCheck  : roleCheck
     	    	          }
                 });
-                
+
             }
-            
+
             fnSearch();
-            
+
             grid.on('cellClick', function(e) {
 				var record = dataSet.getAt(dataSet.getRow());
-            	
+
 				if(dataSet.getRow() > -1) {
 					if(e.colId == "prjNm") {
 						fncPrjClsDetail(record);
 					}
 				}
-            	
+
             });
-            
+
             /**
         	총 건수 표시
         	**/
@@ -137,42 +138,45 @@
         	    var tmp;
         	    var tmpArray;
         		var str = "";
-        	
+
         		document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
+        		// 목록 페이징
+				aCnt = 15;		//게시물수
+    	    	paging(dataSet,"mainGrid");
 
         	});
-            
-            
-            
+
+
+
 	});
-	
+
 	 function fncPrjClsDetail(evt){
     	var recode = evt;
     	var frm = document.aform;
     	var strSearchMonth = nullToString(recode.get("prjClsYymm"));
-    	
+
     	// 종료된 프로젝트의 경우 최종마감월 세팅
     	var prjPgsYn = nullToString(recode.get("prjPgsYn"));
     	var lastClsYymm = nullToString(recode.get("lastClsYymm"));
     	if( prjPgsYn == 'N' && lastClsYymm != '' ){
     		strSearchMonth = lastClsYymm;
 		}
-    	
+
     	frm.prjCd.value = recode.get("prjCd");
     	frm.wbsCd.value = recode.get("wbsCd");
     	frm.searchMonth.value = strSearchMonth;
     	frm.action = "<c:url value='/prj/rsst/retrievePrjRsstClsDtl.do'/>";
     	frm.submit();
-    }  	
-	
-		
+    }
+
+
 </script>
-		
+
 </head>
 <body>
     <body>
    		<div class="contents">
-   		
+
 			<div class="titleArea">
 				<a class="leftCon" href="#">
 			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
@@ -180,7 +184,7 @@
 				</a>
 				<h2>월마감 목록</h2>
 		    </div>
-		    
+
 	       	<div class="sub-content">
 	       		<div class="titArea" style="margin-top:0;">
 		       		<span class="table_summay_number" id="cnt_text">총 : 0 </span>
@@ -189,7 +193,7 @@
 					<input type="hidden" id="prjCd"  name="prjCd" />
 					<input type="hidden" id="wbsCd"  name="wbsCd" />
 					<input type="hidden" id="searchMonth"  name="searchMonth" />
-					
+
 					<div id="mainGrid"></div>
 				</form>
 

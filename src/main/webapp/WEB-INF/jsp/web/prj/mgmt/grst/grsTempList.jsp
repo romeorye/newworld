@@ -32,7 +32,7 @@
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
-
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <%
     response.setHeader("Pragma", "No-cache");
     response.setDateHeader("Expires", 0);
@@ -151,7 +151,7 @@
         var masterGrid = new Rui.ui.grid.LGridPanel({ //masterGrid
             columnModel: mGridColumnModel,
             dataSet: mGridDataSet,
-            height: 530,
+            height: 400,
             width: 600,
             autoToEdit: false,
             autoWidth: true
@@ -179,7 +179,8 @@
 			var str = "";
 
         	document.getElementById("cnt_text").innerHTML = '총: '+mGridDataSet.getCount();
-
+        	// 목록 페이징
+	    	paging(mGridDataSet,"masterGrid");
         });
 
         masterGrid.on('cellClick', function(e){
@@ -228,7 +229,7 @@
 				</a>
    				<h2>GRS 템플릿 관리</h2>
    		    </div>
-   		    
+
    		    <div class="sub-content">
 			<form name="xform" id="xform" method="post">
 				<input type='hidden' id='grsEvSn' name='grsEvSn'>
@@ -267,7 +268,7 @@
 		    						<a href="javascript:fncSearch()" class="btnL">검색</a>
 		    					</td>
 	   						</tr>
-	
+
 	   					</tbody>
 	   				</table>
    				</div>

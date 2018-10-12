@@ -26,6 +26,7 @@
 <title><%=documentTitle%></title>
 <%-- <script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 var dataSet;	// 프로젝트 데이터셋
 var dm;         // 데이터셋매니저
@@ -207,7 +208,7 @@ Rui.onReady(function() {
 	    columnModel: columnModel,
 	    dataSet: dataSet,
 	    width: 600,
-	    height: 520,
+	    height: 400,
 	    autoToEdit: false,
 	    autoWidth: true
 	});
@@ -226,6 +227,8 @@ Rui.onReady(function() {
 	**/
 	dataSet.on('load', function(e){
 		document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
+		// 목록 페이징
+    	paging(dataSet,"defaultGrid");
 	});
 
 	// 조회
@@ -290,12 +293,16 @@ function fncPrjRgstPage(record) {
 * FUNCTION 기능설명 : 프로젝트 현황 목록 엑셀다운(추가조회, 추가 그리드 없음)
 *******************************************************************************/--%>
 function fncExcelDown() {
+	// 엑셀 다운로드시 전체 다운로드를 위해 추가
+	dataSet.clearFilter();
 
     if( dataSet.getCount() > 0){
     	grid.saveExcel(toUTF8('Project 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }
+	// 목록 페이징
+    paging(dataSet,"defaultGrid");
 }
 </script>
 
