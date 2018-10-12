@@ -701,8 +701,8 @@ padding: 10px; padding-left:36px; right:0;background:#fff; border:1px solid #ccc
 .btn_menu .top_gnb .m_gnb {background-image:none !important; border:0; width:100%; height:600px;}
 
 .top_gnb .menu {width:95%; margin-left:30px; height:600px !important;}
-.top_gnb .menu ul.menu_mm {width:100%; overflow:hidden;}
-.top_gnb .menu > ul > li {border:0; min-width:150px;    height: unset;}
+.top_gnb .menu ul.menu_mm {width:100%; overflow:hidden; margin-top:20px;}
+.top_gnb .menu > ul > li {border:0; min-width:155px;    height: unset;}
 .top_gnb .menu > ul > li span {margin:10px 0 6px 0 !important;}
 .btn_menu #tmpMenu .top_gnb  {display:block !important;}
 #prj_right .btn_menu ul li ul li {margin-bottom:2px;}
