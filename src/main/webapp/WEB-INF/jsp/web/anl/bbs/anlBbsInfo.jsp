@@ -454,9 +454,11 @@
 		    	 if(display) {
 		    		 saveBtn.show();
 		    		 delBtn.show();
+		    		 butMail.show();
 	 	         }else {
 	 	        	 saveBtn.hide();
 	 	        	 delBtn.hide();
+	 	        	 butMail.hide();
 	 	         }
             }
 
