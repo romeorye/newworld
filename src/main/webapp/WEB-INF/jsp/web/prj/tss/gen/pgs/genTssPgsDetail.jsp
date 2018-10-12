@@ -167,12 +167,12 @@
         //Form 비활성화 여부
         disableFields = function() {
             //버튼여부
-            btnGrsRq.hide();
+            //btnGrsRq.hide();
             btnAltrRq.hide();
 
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
 	            if(gvTssSt == "100") {
-	                btnGrsRq.show();
+	                //btnGrsRq.show();
 	                btnAltrRq.show();
 	            }
             }
@@ -362,6 +362,7 @@
         =================================    기능     ================================
         ============================================================================*/
         //GRS요청
+        /* 
         btnGrsRq = new Rui.ui.LButton('btnGrsRq');
         btnGrsRq.on('click', function() {
             Rui.confirm({
@@ -372,24 +373,36 @@
                 handlerNo: Rui.emptyFn
             });
         });
-
+ */
 
         //변경요청
         btnAltrRq = new Rui.ui.LButton('btnAltrRq');
         btnAltrRq.on('click', function() {
             Rui.confirm({
                 text: "본 변경요청은 단순 데이터 변경으로, 팀 내부승인 진행 건에 한해 진행됩니다. <br/><br/> "
-           			+ "하기 변경이 발생하는 경우에는 반드시 <span style = 'color : red'>GRS심의(GRS요청버튼)를 완료</span>하신 후 변경요청을 해야 합니다. <br/>"
-           			+ "Case 1. '과제 총 기간'이 변경되는 경우 (ex. 2017.12.31 -> 2018.12.31) <br/>"
-           			+ "Case 2. '참여연구원'의 총 M/M가 증가하는 경우 (ex. 4 M/M -> 5 M/M) <br/>"
-           			+ "Case 3. '목표' 항목이 추가/삭제 되는 경우 <br/><br/>"
-           			+ "단순과제변경을 진행하겠습니까? ",
-                width : 630 ,
+           			+ "<b><span style = 'color : red'>1. GRS심의요청 </span></b> : 하기 변경이 발생하는 경우에는 반드시 <span style = 'color : red'>GRS심의(GRS요청버튼)를 완료</span>하신 후<br> 변경요청을 해야 합니다. <br/>"
+           			+ " &nbsp;&nbsp;&nbsp;- Case 1. '과제 총 기간'이 변경되는 경우 (ex. 2017.12.31 -> 2018.12.31) <br/>"
+           			+ " &nbsp;&nbsp;&nbsp;- Case 2. '참여연구원'의 총 M/M가 증가하는 경우 (ex. 4 M/M -> 5 M/M) <br/>"
+           			+ " &nbsp;&nbsp;&nbsp;- Case 3. '목표' 항목이 추가/삭제 되는 경우 <br/><br/>"
+           			+ "<b>2. 단순변경</b> : 위 Case 이외, 단순 데이터 변경시 선택하며, 팀 내부승인건에 한해 진행됩니다.",
+                width : 550 ,
                 height : 270 ,
+                buttons : [{
+                	text : '단순변경'
+                },
+                {
+                	text : 'GRS변경'
+                },
+                {
+                	text : '취소'
+                }],
                 handlerYes: function() {
                     nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId);
                 },
-                handlerNo: Rui.emptyFn
+                handlerNo: function() {
+                	nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&callPageId=genTss");
+                },
+                handlerCancel: Rui.emptyFn
             });
         });
 
@@ -412,10 +425,10 @@
         
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#btnAltrRq").hide();
-        	$("#btnGrsRq").hide();
+        	//$("#btnGrsRq").hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#btnAltrRq").hide();
-        	$("#btnGrsRq").hide();
+        	//$("#btnGrsRq").hide();
 		}
     });
     
@@ -453,7 +466,7 @@
             <div class="titArea mt0">
                 <div class="LblockButton">
                     <button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button>
-                    <button type="button" id="btnGrsRq" name="btnGrsRq">GRS요청</button>
+                    <!-- <button type="button" id="btnGrsRq" name="btnGrsRq">GRS요청</button> -->
                     <button type="button" id="btnList" name="btnList">목록</button>
                 </div>
             </div>
