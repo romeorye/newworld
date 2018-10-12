@@ -417,27 +417,20 @@ $(window).load(function() {
 </div>
 <div class="titArea">
     <h4>목표기술성과 등록</h4>
-</div>
-
+  <div class="LblockButton">
+      <button type="button" id="btnGoalSave">저장</button>
+  </div>
+ </div> 
 <div id="goalGrid"></div>
-
-<div class="titArea btn_btm">
-    <div class="LblockButton">
-        <button type="button" id="btnGoalSave">저장</button>
-    </div>
-</div>
 
 <div class="titArea">
     <h4>필수산출물 등록</h4>
-</div>
-
-<div id="yldGrid"></div>
-
-<div class="titArea btn_btm">
     <div class="LblockButton">
         <button type="button" id="btnYldSave">저장</button>
     </div>
 </div>
+<div id="yldGrid"></div>
+
 
 <!-- <div class="titArea">
     <div class="LblockButton">
