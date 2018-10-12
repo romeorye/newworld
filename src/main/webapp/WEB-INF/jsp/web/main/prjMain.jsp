@@ -83,159 +83,280 @@
 
 	    }); // end Rui Ready
 
-	   function fnTssPageMove(gbn, pPgsStepCd, pGrsEvSt, pTssCd, pTssSt, pProgressrate) {
-	       var returnUrl;
+		   function fnTssPageMove(gbn, pPgsStepCd, pGrsEvSt, pTssCd, pTssSt, pProgressrate) {
+		       var returnUrl;
+		    
+		       var rate;
+		       var arryProg = pProgressrate.split("/");
+		       var rWgvl = arryProg[0];
+		       var gWgvl = arryProg[1];
+		      
+		       if(rWgvl > gWgvl   ){
+		    	   rate = "S";
+		       }else if (rWgvl < gWgvl   ){
+		    	   rate = "D";
+		       }else{
+		    	   rate = "N";
+		       }
+		    
+		       var progressParam = "&progressrateReal="+pProgressrate+"&progressrate="+rate;
 
-	       var rate;
-	       var arryProg = pProgressrate.split("/");
-	       var rWgvl = arryProg[0];
-	       var gWgvl = arryProg[1];
+		       if(gbn == "G") {
+		           //계획
+	               if(pPgsStepCd == "PL") {
+	                   returnUrl = "/prj/tss/gen/genTssPlnDetail.do?tssCd=" + pTssCd ;
+	               }
+	               //진행
+	               else if(pPgsStepCd == "PG") {
+	                   if(pTssSt == "102") {
+	                       //진행_GRS완료_중단
+	                       if(pGrsEvSt == "D") {
+	                           returnUrl = "/prj/tss/gen/genTssDcacDetail.do?tssCd=" + pTssCd+progressParam;
+	                       }
+	                       //진행_GRS완료_완료
+	                       else if(pGrsEvSt == "P2") {
+	                           returnUrl = "/prj/tss/gen/genTssCmplDetail.do?tssCd=" + pTssCd+progressParam;
+	                       }
+	                       //진행_GRS완료_변경
+	                       else {
+	                           returnUrl = "/prj/tss/gen/genTssAltrDetail.do?tssCd=" + pTssCd+progressParam;
+	                       }
+	                   } else {
+	                       returnUrl = "/prj/tss/gen/genTssPgsDetail.do?tssCd=" + pTssCd+progressParam;
+	                   }
+	               }
+	               //완료
+	               else if(pPgsStepCd == "CM") {
+	                   returnUrl = "/prj/tss/gen/genTssCmplDetail.do?tssCd=" + pTssCd;
+	               }
+	               //변경
+	               else if(pPgsStepCd == "AL") {
+	                   returnUrl = "/prj/tss/gen/genTssAltrDetail.do?tssCd=" + pTssCd;
+	               }
+	               //중단
+	               else if(pPgsStepCd == "DC") {
+	                   returnUrl = "/prj/tss/gen/genTssDcacDetail.do?tssCd=" + pTssCd;
+	               }
+		       }
+		       else if(gbn == "O") {
+		           //계획
+	               if(pPgsStepCd == "PL") {
+	                   returnUrl = "/prj/tss/ousdcoo/ousdCooTssPlnDetail.do?tssCd=" + pTssCd;
+	               }
+	               //진행
+	                else if(pPgsStepCd == "PG") {
+	                   if(pTssSt == "102") {
+	                       //진행_GRS완료_중단(신규등록)
+	                       if(pGrsEvSt == "D") {
+	                           returnUrl = "/prj/tss/ousdcoo/ousdCooTssDcacDetail.do?tssCd=" + pTssCd+progressParam;
+	                       }
+	                       //진행_GRS완료_완료(신규등록)
+	                       else if(pGrsEvSt == "P2") {
+	                           returnUrl = "/prj/tss/ousdcoo/ousdCooTssCmplDetail.do?tssCd=" + pTssCd+progressParam;
+	                       }
+	                       //진행_GRS완료_변경(신규등록)
+	                       else {
+	                           returnUrl = "/prj/tss/ousdcoo/ousdCooTssAltrDetail.do?tssCd=" + pTssCd+progressParam;
+	                       }
+	                   } else {
+	                       returnUrl = "/prj/tss/ousdcoo/ousdCooTssPgsDetail.do?tssCd=" + pTssCd+progressParam;
+	                   }
+	               }            
+	               //완료(조회 및 수정)
+	               else if(pPgsStepCd == "CM") {
+	                   returnUrl = "/prj/tss/ousdcoo/ousdCooTssCmplDetail.do?tssCd=" + pTssCd;
+	               }
+	               //변경(조회 및 수정)
+	               else if(pPgsStepCd == "AL") {
+	                   returnUrl = "/prj/tss/ousdcoo/ousdCooTssAltrDetail.do?tssCd=" + pTssCd;
+	               }
+	               //중단(조회 및 수정)
+	               else if(pPgsStepCd == "DC") {
+	                   returnUrl = "/prj/tss/ousdcoo/ousdCooTssDcacDetail.do?tssCd=" + pTssCd;
+	               }
+		       }
+		       else if(gbn == "N") {
+		           //계획
+	               if(pPgsStepCd == "PL") {
+	                   returnUrl = "/prj/tss/nat/natTssPlnDetail.do?tssCd=" + pTssCd;
+	               }
+	               //진행
+	               else if(pPgsStepCd == "PG") {
+	                   if(pTssSt == "102") {
+	                       //진행_GRS완료_중단
+	                       if(pGrsEvSt == "D") {
+	                           returnUrl = "/prj/tss/nat/natTssDcacDetail.do?tssCd=" + pTssCd+progressParam;
+	                       }
+	                       //진행_GRS완료_완료
+	                       else if(pGrsEvSt == "P2") {
+	                           returnUrl = "/prj/tss/nat/natTssCmplDetail.do?tssCd=" + pTssCd+progressParam;
+	                       }
+	                       //진행_GRS완료_변경
+	                       else {
+	                           returnUrl = "/prj/tss/nat/natTssAltrDetail.do?tssCd=" + pTssCd+progressParam;
+	                       }
+	                   } else {
+	                       returnUrl = "/prj/tss/nat/natTssPgsDetail.do?tssCd=" + pTssCd+progressParam;
+	                   }
+	               }
+	               //완료
+	               else if(pPgsStepCd == "CM") {
+	                   returnUrl = "/prj/tss/nat/natTssCmplDetail.do?tssCd=" + pTssCd;
+	               }
+	               //변경
+	               else if(pPgsStepCd == "AL") {
+	                   returnUrl = "/prj/tss/nat/natTssAltrDetail.do?tssCd=" + pTssCd;
+	               }
+	               //중단
+	               else if(pPgsStepCd == "DC") {
+	                   returnUrl = "/prj/tss/nat/natTssDcacDetail.do?tssCd=" + pTssCd;
+	               }
+		       }
+		       else if(gbn == "E") {
+		           //계획
+	               if(pPgsStepCd == "notice") {
+	                   returnUrl = "/knld/pub/pubNoticeInfo.do?pwiId=" + pTssCd;
+	               }
+	               //진행
+	               else if(pPgsStepCd == "qna") {
+	            	   returnUrl = "/knld/qna/generalQnaInfo.do?qnaId=" + pTssCd;
+	               }
+	               //완료
+	               else if(pPgsStepCd == "know") {
+	                   if(pGrsEvSt == "A") {
+	                       returnUrl = "/knld/rsst/productListInfo.do?prdtId=" + pTssCd;
+	                   }
+	                   //진행_GRS완료_완료
+	                   else if(pGrsEvSt == "B") {
+	                	   returnUrl = "/knld/rsst/productListInfo.do?prdtId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "C") {
+	                	   returnUrl = "/knld/rsst/productListInfo.do?prdtId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "D") {
+	                	   returnUrl = "/knld/rsst/productListInfo.do?prdtId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "E") {
+	                	   returnUrl = "/knld/rsst/productListInfo.do?prdtId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "F") {
+	                	   returnUrl = "/knld/rsst/productListInfo.do?prdtId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "G") {
+	                	   returnUrl = "/knld/rsst/productListInfo.do?prdtId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "H") {
+	                	   returnUrl = "/knld/rsst/productListInfo.do?prdtId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "I") {
+	                       returnUrl = "/knld/pub/technologyInfo.do?techId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "J") {
+	                       returnUrl = "/knld/pub/updateEduRtrvCnt.do?eduId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "K") {
+	                       returnUrl = "/knld/pub/conferenceInfo.do?conferenceId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "L") {
+	                       returnUrl = "/knld/pub/showInfo.do?showId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "M") {
+	                       returnUrl = "/knld/pub/patentInfo.do?patentId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "N") {
+	                       returnUrl = "/knld/pub/modalityInfo.do?modalityId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "O") {
+	                       returnUrl = "/knld/pub/saftyInfo.do?saftyId=" + pTssCd;
+	                   }
+	                   else if(pGrsEvSt == "P") {
+	                       returnUrl = "/knld/pub/manualInfo.do?manualId=" + pTssCd;
+	                   }
 
-	       if(rWgvl > gWgvl   ){
-	    	   rate = "S";
-	       }else if (rWgvl < gWgvl   ){
-	    	   rate = "D";
-	       }else{
-	    	   rate = "N";
-	       }
+	               }
 
-	       var progressParam = "&progressrateReal="+pProgressrate+"&progressrate="+rate;
+		       }	       
+		       if(gbn == "G") {			// 일반과제
+		    	   moveMenu('PJ', 'IRIPJ0200', returnUrl, 'IRIPJ0201');
+		       }else if(gbn == "O") {	// 대외협력과제
+		    	   moveMenu('PJ', 'IRIPJ0200', returnUrl, 'IRIPJ0202');
+		       }else if(gbn == "N") {	// 국책과제
+		    	   moveMenu('PJ', 'IRIPJ0200', returnUrl, 'IRIPJ0203');
+		       }else if(gbn == "E") {	// 연구게시판
+		    	   if(pPgsStepCd == "notice") {
+		    	       moveMenu('KL', 'IRIKL0100', returnUrl, 'IRIKL0101');
+		    	   }
+		    	   else if(pPgsStepCd == "qna") {
+		    		   moveMenu('KL', 'IRIKL0200', returnUrl, 'IRIKL0202');
+	               }
+	               //완료
+	               else if(pPgsStepCd == "know") {
+	            	   if(pGrsEvSt == "A") {
+	            		   moveMenu('KL', 'IRIKL0300', returnUrl, 'IRIKL0301');
+	                   }
+	                   else if(pGrsEvSt == "B") {
+	                	   moveMenu('KL', 'IRIKL0300', returnUrl, 'IRIKL0302');
+	                   }
+	                   else if(pGrsEvSt == "C") {
+	                	   moveMenu('KL', 'IRIKL0300', returnUrl, 'IRIKL0303');
+	                   }
+	                   else if(pGrsEvSt == "D") {
+	                	   moveMenu('KL', 'IRIKL0300', returnUrl, 'IRIKL0304');
+	                   }
+	                   else if(pGrsEvSt == "E") {
+	                	   moveMenu('KL', 'IRIKL0300', returnUrl, 'IRIKL0305');
+	                   }
+	                   else if(pGrsEvSt == "F") {
+	                	   moveMenu('KL', 'IRIKL0300', returnUrl, 'IRIKL0306');
+	                   }
+	                   else if(pGrsEvSt == "G") {
+	                	   moveMenu('KL', 'IRIKL0300', returnUrl, 'IRIKL0307');
+	                   }
+	                   else if(pGrsEvSt == "H") {
+	                	   moveMenu('KL', 'IRIKL0300', returnUrl, 'IRIKL0308');
+	                   }
+	                   else if(pGrsEvSt == "I") {
+	                	   moveMenu('KL', 'IRIKL0100', returnUrl, 'IRIKL0102');
+	                   }
+	                   else if(pGrsEvSt == "J") {
+	                	   moveMenu('KL', 'IRIKL0100', returnUrl, 'IRIKL0103');
+	                   }
+	                   else if(pGrsEvSt == "K") {
+	                	   moveMenu('KL', 'IRIKL0100', returnUrl, 'IRIKL0104');
+	                   }
+	                   else if(pGrsEvSt == "L") {
+	                	   moveMenu('KL', 'IRIKL0100', returnUrl, 'IRIKL0105');
+	                   }
+	                   else if(pGrsEvSt == "M") {
+	                	   moveMenu('KL', 'IRIKL0100', returnUrl, 'IRIKL0106');
+	                   }
+	                   else if(pGrsEvSt == "N") {
+	                	   moveMenu('KL', 'IRIKL0100', returnUrl, 'IRIKL0107');
+	                   }
+	                   else if(pGrsEvSt == "O") {
+	                	   moveMenu('KL', 'IRIKL0100', returnUrl, 'IRIKL0109');
+	                   }
+	                   else if(pGrsEvSt == "P") {
+	                	   moveMenu('KL', 'IRIKL0100', returnUrl, 'IRIKL0110');
+	                   }
+	               }
+		       }
 
-	       if(gbn == "G") {
-	           //계획
-               if(pPgsStepCd == "PL") {
-                   returnUrl = "/prj/tss/gen/genTssPlnDetail.do?tssCd=" + pTssCd ;
-               }
-               //진행
-               else if(pPgsStepCd == "PG") {
-                   if(pTssSt == "102") {
-                       //진행_GRS완료_중단
-                       if(pGrsEvSt == "D") {
-                           returnUrl = "/prj/tss/gen/genTssDcacDetail.do?tssCd=" + pTssCd+progressParam;
-                       }
-                       //진행_GRS완료_완료
-                       else if(pGrsEvSt == "P2") {
-                           returnUrl = "/prj/tss/gen/genTssCmplDetail.do?tssCd=" + pTssCd+progressParam;
-                       }
-                       //진행_GRS완료_변경
-                       else {
-                           returnUrl = "/prj/tss/gen/genTssAltrDetail.do?tssCd=" + pTssCd+progressParam;
-                       }
-                   } else {
-                       returnUrl = "/prj/tss/gen/genTssPgsDetail.do?tssCd=" + pTssCd+progressParam;
-                   }
-               }
-               //완료
-               else if(pPgsStepCd == "CM") {
-                   returnUrl = "/prj/tss/gen/genTssCmplDetail.do?tssCd=" + pTssCd;
-               }
-               //변경
-               else if(pPgsStepCd == "AL") {
-                   returnUrl = "/prj/tss/gen/genTssAltrDetail.do?tssCd=" + pTssCd;
-               }
-               //중단
-               else if(pPgsStepCd == "DC") {
-                   returnUrl = "/prj/tss/gen/genTssDcacDetail.do?tssCd=" + pTssCd;
-               }
-	       }
-	       else if(gbn == "O") {
-	           //계획
-               if(pPgsStepCd == "PL") {
-                   returnUrl = "/prj/tss/ousdcoo/ousdCooTssPlnDetail.do?tssCd=" + pTssCd;
-               }
-               //진행
-                else if(pPgsStepCd == "PG") {
-                   if(pTssSt == "102") {
-                       //진행_GRS완료_중단(신규등록)
-                       if(pGrsEvSt == "D") {
-                           returnUrl = "/prj/tss/ousdcoo/ousdCooTssDcacDetail.do?tssCd=" + pTssCd+progressParam;
-                       }
-                       //진행_GRS완료_완료(신규등록)
-                       else if(pGrsEvSt == "P2") {
-                           returnUrl = "/prj/tss/ousdcoo/ousdCooTssCmplDetail.do?tssCd=" + pTssCd+progressParam;
-                       }
-                       //진행_GRS완료_변경(신규등록)
-                       else {
-                           returnUrl = "/prj/tss/ousdcoo/ousdCooTssAltrDetail.do?tssCd=" + pTssCd+progressParam;
-                       }
-                   } else {
-                       returnUrl = "/prj/tss/ousdcoo/ousdCooTssPgsDetail.do?tssCd=" + pTssCd+progressParam;
-                   }
-               }
-               //완료(조회 및 수정)
-               else if(pPgsStepCd == "CM") {
-                   returnUrl = "/prj/tss/ousdcoo/ousdCooTssCmplDetail.do?tssCd=" + pTssCd;
-               }
-               //변경(조회 및 수정)
-               else if(pPgsStepCd == "AL") {
-                   returnUrl = "/prj/tss/ousdcoo/ousdCooTssAltrDetail.do?tssCd=" + pTssCd;
-               }
-               //중단(조회 및 수정)
-               else if(pPgsStepCd == "DC") {
-                   returnUrl = "/prj/tss/ousdcoo/ousdCooTssDcacDetail.do?tssCd=" + pTssCd;
-               }
-	       }
-	       else if(gbn == "N") {
-	           //계획
-               if(pPgsStepCd == "PL") {
-                   returnUrl = "/prj/tss/nat/natTssPlnDetail.do?tssCd=" + pTssCd;
-               }
-               //진행
-               else if(pPgsStepCd == "PG") {
-                   if(pTssSt == "102") {
-                       //진행_GRS완료_중단
-                       if(pGrsEvSt == "D") {
-                           returnUrl = "/prj/tss/nat/natTssDcacDetail.do?tssCd=" + pTssCd+progressParam;
-                       }
-                       //진행_GRS완료_완료
-                       else if(pGrsEvSt == "P2") {
-                           returnUrl = "/prj/tss/nat/natTssCmplDetail.do?tssCd=" + pTssCd+progressParam;
-                       }
-                       //진행_GRS완료_변경
-                       else {
-                           returnUrl = "/prj/tss/nat/natTssAltrDetail.do?tssCd=" + pTssCd+progressParam;
-                       }
-                   } else {
-                       returnUrl = "/prj/tss/nat/natTssPgsDetail.do?tssCd=" + pTssCd+progressParam;
-                   }
-               }
-               //완료
-               else if(pPgsStepCd == "CM") {
-                   returnUrl = "/prj/tss/nat/natTssCmplDetail.do?tssCd=" + pTssCd;
-               }
-               //변경
-               else if(pPgsStepCd == "AL") {
-                   returnUrl = "/prj/tss/nat/natTssAltrDetail.do?tssCd=" + pTssCd;
-               }
-               //중단
-               else if(pPgsStepCd == "DC") {
-                   returnUrl = "/prj/tss/nat/natTssDcacDetail.do?tssCd=" + pTssCd;
-               }
-	       }
-
-	       if(gbn == "G") {			// 일반과제
-	    	   moveMenu('PJ', 'IRIPJ0200', returnUrl, 'IRIPJ0201');
-	       }else if(gbn == "O") {	// 대외협력과제
-	    	   moveMenu('PJ', 'IRIPJ0200', returnUrl, 'IRIPJ0202');
-	       }else if(gbn == "N") {	// 국책과제
-	    	   moveMenu('PJ', 'IRIPJ0200', returnUrl, 'IRIPJ0203');
-	       }
-
-//		<a href="javascript:moveMenu('PJ', 'IRIPJ0200', '/prj/tss/gen/genTssList.do', 'IRIPJ0201')">일반과제</a>
-//		<a href="javascript:moveMenu('PJ', 'IRIPJ0200', '/prj/tss/ousdcoo/ousdCooTssList.do', 'IRIPJ0202')">대외협력과제</a>
-//		<a href="javascript:moveMenu('PJ', 'IRIPJ0200', '/prj/tss/nat/natTssList.do', 'IRIPJ0203')">국책과제</a>
-
-	   }// end function
+//			<a href="javascript:moveMenu('PJ', 'IRIPJ0200', '/prj/tss/gen/genTssList.do', 'IRIPJ0201')">일반과제</a>
+//			<a href="javascript:moveMenu('PJ', 'IRIPJ0200', '/prj/tss/ousdcoo/ousdCooTssList.do', 'IRIPJ0202')">대외협력과제</a>
+//			<a href="javascript:moveMenu('PJ', 'IRIPJ0200', '/prj/tss/nat/natTssList.do', 'IRIPJ0203')">국책과제</a>
+	  
+		   }// end function
 
 	   // 나의 과제 현황 +버튼 : 과제리스트 페이지이동
 	   function fnTssListPageMove(){
-
-		   if(tssTabGbn == "G") {		// 일반과제
-	    	   moveMenu('PJ', 'IRIPJ0200', '/prj/tss/gen/genTssList.do', 'IRIPJ0201');
+		   
+		   if(tssTabGbn == "G") {		// 공지사항
+	    	   moveMenu('KL', 'IRIKL0100', '/knld/pub/retrievePubNoticeList.do', 'IRIKL0101');
 	       }else if(tssTabGbn == "O") {	// 대외협력과제
-	    	   moveMenu('PJ', 'IRIPJ0200', '/prj/tss/ousdcoo/ousdCooTssList.do', 'IRIPJ0202');
+	    	   moveMenu('KL', 'IRIKL0100', '/knld/pub/retrieveTechnologyList.do', 'IRIKL0102');
 	       }else if(tssTabGbn == "N") {	// 국책과제
-	    	   moveMenu('PJ', 'IRIPJ0200', '/prj/tss/nat/natTssList.do', 'IRIPJ0203');
+	    	   moveMenu('KL', 'IRIKL0200', '/knld/qna/retrieveGeneralQnaList.do', 'IRIKL0202');
 	       }
 	   }
 
@@ -434,166 +555,126 @@
                       <table class="table02 " summary="분류">
                             <caption>분류</caption>
                             <colgroup>
-	                            <col width="140px" />
-	                            <col width="120px" />
-	                            <col width="" />
-	                            <col width="100px" />
-	                            <col width="140px" />
+	                            <col width="20%" />
+	                            <col width="40%" />
+	                            <col width="20%" />
+	                            <col width="20%" />
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>조직</th>
-                                    <th>프로젝트명</th>
-                                    <th>과제명</th>
-                                    <th>과제리더</th>
-                                    <th>기간</th>
+                                    <th>분류</th>
+                                    <th>제목</th>
+                                    <th>등록자</th>
+                                    <th>등록일</th>
                                 </tr>
                             </thead>
                             <tbody>
-								<tr>
-                                    <td>중앙연구소</td>
-                                    <td>코팅PJP</td>
-                                    <td>가전 필름용 코팅 기술</td>
-                                    <td>이한나 </td>
-                                    <td>2018.07.01 ~ 2018.12.31</td>
-                                </tr>
-                                <tr>
-                                    <td>창호 사업부</td>
-                                    <td>유리연구소</td>
-                                    <td>고단열 고자폐 더블로이</td>
-                                    <td>이한나</td>
-                                    <td>2018.07.01 ~ 2018.12.31</td>
-                                </tr>
-                                <tr>
-                                    <td>창호 사업부</td>
-                                    <td>창호개발연구</td>
-                                    <td>E9 소형창</td>
-                                    <td>권대훈</td>
-                                    <td>2018.07.01 ~ 2018.12.31</td>
-                                </tr>
-                                <tr>
-                                    <td>장식재 사업부</td>
-                                    <td>탕일연구</td>
-                                    <td>Prestige</td>
-                                    <td>정우경</td>
-                                    <td>2018.07.01 ~ 2018.12.31</td>
-                                </tr>
-                                <tr>
-                                    <td>자동차소재부품 사업부</td>
-                                    <td>경량화 Spec-In팀</td>
-                                    <td>경량화 백빙</td>
-                                    <td>이중기</td>
-                                    <td>2018.07.01 ~ 2018.12.31</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    	<c:choose>
+	                					<c:when test="${fn:length(noticeList) == 0}">
+	                                            <tr><td colspan="4">공지사항이 존재하지 않습니다.</td></tr>
+	                					</c:when>
+	                					<c:otherwise>
+	                                    	<c:forEach var="notice" items="${noticeList}">
+												<tr>
+												
+												
+		                                            <td><c:out value="${notice.pwiScnNm}"/></td>
+		                                            <td style="text-align:left"><a href="javascript:fnTssPageMove('E','notice', '', '${notice.pwiId}', '', '');" ><c:out value="${notice.titlNm}"/></a></td>
+		                                            <td style="text-align:Center"><c:out value="${notice.rgstNm}"/></td>
+		                                            <td><c:out value="${notice.frstRgstDt}"/></td>
+		                                        </tr>
+											</c:forEach>
+										</c:otherwise>
+										</c:choose>
+                                    </tbody>
+                            
+                        </table> 
+                    </div>    
+                    
                     </div>
-
-                    </div>
-
+                    
                     <div id="panel4" class="panel">
                         <!--table-->
                     <div class="">
-                    <br/><br/>
-<!--                         <ul class="progress"> -->
-<!--                             <li>진척도</li> -->
-<!--                             <li><span class="progress_bg01"></span>정상</li> -->
-<!--                             <li><span class="progress_bg02"></span>단축</li> -->
-<!--                             <li><span class="progress_bg03"></span>지연</li> -->
-<!--                         </ul> -->
+
 					    <table class="table02 " summary="분류">
                         	<caption>분류</caption>
                         	<colgroup>
-	                            <col width="14%" />
-	                            <col width="21%" />
-	                            <col width="33%" />
-	                            <col width="7%" />
-	                            <col width="19%" />
-	                            <col width="6%" />
+	                            <col width="20%" />
+	                            <col width="40%" />
+	                            <col width="20%" />
+	                            <col width="20%" />
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>조직</th>
-                                    <th>프로젝트명</th>
-                                    <th>과제명</th>
-                                    <th>과제리더</th>
-                                    <th>기간</th>
-                                    <th>상태</th>
+                                    <th>메뉴명</th>
+                                    <th>제목</th>
+                                    <th>등록자</th>
+                                    <th>등록일</th>
                                 </tr>
                             </thead>
                             <tbody>
-
+                            
                             <c:choose>
-                            <c:when test="${fn:length(ousList) == 0}">
-                            	<tr><td colspan="6">진행중인 과제가 없습니다.</td></tr>
+                            <c:when test="${fn:length(knowList) == 0}">
+                            	<tr><td colspan="4">진행중인 과제가 없습니다.</td></tr>
                             </c:when>
                             <c:otherwise>
-	                            <c:forEach var="ousList" items="${ousList}">
+	                            <c:forEach var="knowList" items="${knowList}">
 							    <tr>
-	                                <td><c:out value="${ousList.deptName}"/></td>
-	                                <td><a href="javascript:fnTssPageMove('O','${ousList.pgsStepCd}', '${ousList.grsEvSt}', '${ousList.tssCd}', '${ousList.tssSt}', '${ousList.progressrate}');" ><c:out value="${ousList.prjNm}"/></a></td>
-	                                <td align="left"><a href="javascript:fnTssPageMove('O','${ousList.pgsStepCd}', '${ousList.grsEvSt}', '${ousList.tssCd}', '${ousList.tssSt}', '${ousList.progressrate}');" ><c:out value="${ousList.tssNm}"/></a></td>
-	                                <td><c:out value="${ousList.saUserName}"/></td>
-	                                <td><c:out value="${ousList.tssStrtDd}"/>~<c:out value="${ousList.tssFnhDd}"/></td>
-	                                <td><c:out value="${ousList.pgsStepNm}"/></td>
+	                                <td><c:out value="${knowList.menuNm}"/></td>
+	                                <td style="text-align:left"><a href="javascript:fnTssPageMove('E','know', '${knowList.menuId}', '${knowList.docId}', '${knowList.clGroup}', '');" ><c:out value="${knowList.titlNm}"/></a></td>
+	                                <td style="text-align:Center"><c:out value="${knowList.rgstNm}"/></td>
+	                                <td><c:out value="${knowList.frstRgstDt}"/></td>
 	                            </tr>
 								</c:forEach>
 							</c:otherwise>
-							</c:choose>
-
+							</c:choose>	
+                        
                             </tbody>
+                            
+                            
                         </table>
                     </div>
                     </div>
                     <div id="panel5" class="panel">
                         <!--table-->
                     <div class="">
-                    <br/><br/>
-<!--                         <ul class="progress"> -->
-<!--                             <li>진척도</li> -->
-<!--                             <li><span class="progress_bg01"></span>정상</li> -->
-<!--                             <li><span class="progress_bg02"></span>단축</li> -->
-<!--                             <li><span class="progress_bg03"></span>지연</li> -->
-<!--                         </ul> -->
+
                         <table class="table02 " summary="분류">
                             <caption>분류</caption>
                             <colgroup>
-	                            <col width="14%" />
-	                            <col width="21%" />
-	                            <col width="33%" />
-	                            <col width="7%" />
-	                            <col width="19%" />
-	                            <col width="6%" />
+	                            <col width="20%" />
+	                            <col width="40%" />
+	                            <col width="20%" />
+	                            <col width="20%" />
                             </colgroup>
                             <thead>
                                <tr>
-                                    <th>조직</th>
-                                    <th>프로젝트명</th>
-                                    <th>과제명</th>
-                                    <th>과제리더</th>
-                                    <th>기간</th>
-                                    <th>상태</th>
+                                    <th>질문유형</th>
+                                    <th>제목</th>
+                                    <th>등록자</th>
+                                    <th>등록일</th>
                                 </tr>
                             </thead>
                             <tbody>
-
+                            
                             <c:choose>
-                            <c:when test="${fn:length(natList) == 0}">
-                            	<tr><td colspan="6">진행중인 과제가 없습니다.</td></tr>
+                            <c:when test="${fn:length(qnaList) == 0}">
+                            	<tr><td colspan="4">진행중인 과제가 없습니다.</td></tr>
                             </c:when>
                             <c:otherwise>
-	                             <c:forEach var="natList" items="${natList}">
+	                             <c:forEach var="qnaList" items="${qnaList}">
 	                                 <tr>
-		                                <td><c:out value="${natList.deptName}"/></td>
-		                                <td><a href="javascript:fnTssPageMove('N','${natList.pgsStepCd}', '${natList.grsEvSt}', '${natList.tssCd}', '${natList.tssSt}', '${natList.progressrate}');" ><c:out value="${natList.prjNm}"/></a></td>
-		                                <td align="left"><a href="javascript:fnTssPageMove('N','${natList.pgsStepCd}', '${natList.grsEvSt}', '${natList.tssCd}', '${natList.tssSt}', '${natList.progressrate}');" ><c:out value="${natList.tssNm}"/></a></td>
-		                                <td><c:out value="${natList.saUserName}"/></td>
-		                                <td><c:out value="${natList.ttlCrroStrtDt}"/>~<c:out value="${natList.ttlCrroFnhDt}"/></td>
-		                                <td><c:out value="${natList.pgsStepNm}"/></td>
+		                                <td style="text-align:Center"><c:out value="${qnaList.qustClCd}"/></td>
+		                                <td style="text-align:left"><a href="javascript:fnTssPageMove('E','qna', '', '${qnaList.qnaId}', '', '');" ><c:out value="${qnaList.titlNm}"/></a></td>
+		                                <td style="text-align:Center"><c:out value="${qnaList.rgstNm}"/></td>
+		                                <td style="text-align:Center"><c:out value="${qnaList.frstRgstDt}"/></td>
+
 		                            </tr>
 	                             </c:forEach>
 	                        </c:otherwise>
-	                        </c:choose>
+	                        </c:choose>    
 
                             </tbody>
                         </table>
