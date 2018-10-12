@@ -422,7 +422,8 @@ public class IrisLoginController {
         			roleId.indexOf("WORK_IRI_T11") > -1 ||
         			roleId.indexOf("WORK_IRI_T12") > -1 ||
         			roleId.indexOf("WORK_IRI_T13") > -1 ||
-        			roleId.indexOf("WORK_IRI_T14") > -1) {
+        			roleId.indexOf("WORK_IRI_T14") > -1 ||
+        			roleId.indexOf("WORK_IRI_T19") > -1) {
                 LOGGER.debug("##### /anl/main.do 로 이동");
                 
                 return "redirect:/anl/main.do";
