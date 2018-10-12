@@ -23,14 +23,7 @@
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 
 <title><%=documentTitle%></title>
-<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/LFrameDialog.css" />
-<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LPopupTextBox.css" />
-<%
-    response.setHeader("Pragma", "No-cache");
-    response.setDateHeader("Expires", 0);
-    response.setHeader("Cache-Control", "no-cache");
-    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-%>
+
 <script type="text/javascript">
     var lvTssCd    = window.parent.gvTssCd; //gvPgTssCd
     var lvUserId   = window.parent.gvUserId;
@@ -41,7 +34,7 @@
     var alTssCd = lvPgsStepCd == "AL" ? lvTssCd : "";
     lvTssCd = lvPgsStepCd == "AL" ? window.parent.gvPgTssCd : lvTssCd;
     
-    var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
     
     var dataSet;
     var lvPurY;

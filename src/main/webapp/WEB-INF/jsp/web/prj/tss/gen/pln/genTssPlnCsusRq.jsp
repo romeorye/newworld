@@ -34,10 +34,6 @@
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
 
 <%
-    response.setHeader("Pragma", "No-cache");
-    response.setDateHeader("Expires", 0);
-    response.setHeader("Cache-Control", "no-cache");
-
     //치환 변수 선언
     pageContext.setAttribute("cn", "\n");    //Enter
     pageContext.setAttribute("br", "<br/>"); //br 태그

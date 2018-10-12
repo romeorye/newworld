@@ -41,19 +41,14 @@
     font-weight: bold;
 }
 </style>
-<%
-    response.setHeader("Pragma", "No-cache");
-    response.setDateHeader("Expires", 0);
-    response.setHeader("Cache-Control", "no-cache");
-    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-%>
+
 <script type="text/javascript">
     var lvTssCd    = window.parent.gvTssCd;
     var lvUserId   = window.parent.gvUserId;
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
 
-    var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
 
     var dataSet;
 
