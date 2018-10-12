@@ -458,26 +458,29 @@
 	<select id="getAnlNoticeList" resultType="hashmap">
 	<![CDATA[
 	-- getAnlNoticeList 분석메인 공지사항 리스트  조회
-		    SELECT T.BBS_ID							AS bbsId
-				 ,T.BBS_TITL						AS bbsTitl
-				 ,T.BBS_SBC							AS bbsSbc
-				 ,T.RGST_DT							AS rgstDt
-				 ,(CASE WHEN TERM_NUM <= 2 THEN
-					'Y'
-				   ELSE
-					'N'
-				   END)								AS newFlag
-			FROM (
-				SELECT TOP 4 ABM.BBS_ID
-					  ,ABM.BBS_TITL
-					  ,ABM.BBS_SBC
-					  ,CONVERT(NVARCHAR(10),ABM.FRST_RGST_DT, 23)  AS RGST_DT
-					  ,DATEDIFF(D, ABM.FRST_RGST_DT,GETDATE())  AS TERM_NUM
-				FROM  IRIS_ANL_BBS_MST ABM
-				WHERE ABM.DEL_YN = 'N'
-				AND	  BBS_CD = '00'
-				ORDER BY ABM.FRST_RGST_DT DESC
-				)T
+	      SELECT TOP 4
+				   BBS_ID                                                   AS bbsId        /*게시판ID*/
+				  ,BBS_CD                                                   AS bbsCd        /*분석게시판코드*/
+				  ,dbo.fn_getComDtlNm('ANL_BBS_CD', A.BBS_CD)               AS bbsNm        /*분석게시판명*/
+				  ,BBS_TITL                                                 AS bbsTitl      /*게시판제목*/
+				  ,BBS_SBC                                                  AS bbsSbc       /*게시판내용*/
+				  ,RGST_ID                                                  AS rgstId       /*등록자ID*/
+			      ,dbo.fn_getUserName(RGST_ID)                              AS rgstNm       /*등록자이름*/
+				  ,RTRV_CT                                                  AS rtrvCt       /*조회건수*/
+				  ,BBS_KWD                                                  AS bbsKwd       /*키워드*/
+				  ,ATTC_FILE_ID                                             AS attcFilId    /*첨부파일ID*/
+				  ,DOC_NO                                                   AS docNo        /*문서번호*/
+				  ,SOP_NO                                                   AS sopNo        /*SOP번호*/
+				  ,ANL_TLCG_CL_CD                                           AS anlTlcgClCd  /*분석기술정보분류코드*/
+				  ,dbo.fn_getComDtlNm('ANL_TLCG_CL_CD', A.ANL_TLCG_CL_CD)   AS anlTlcgClNm  /*분석기술정보분류이름*/
+				  ,QNA_CL_CD                                                AS qnaClCd      /*질문답변구분코드*/
+				  ,dbo.fn_getComDtlNm('QNA_CL_CD', A.QNA_CL_CD)             AS qnaClNm      /*질문답변구분이름*/
+				  ,convert(varchar(20),A.FRST_RGST_DT,23)                   AS frstRgstDt   /*등록일*/
+				  ,DEL_YN                                                   AS delYn        /*삭제여부*/
+			 FROM IRIS_ANL_BBS_MST A
+			WHERE DEL_YN = 'N'
+			AND BBS_CD in ('07','08','09')
+	        ORDER BY A.FRST_RGST_DT DESC
        	]]>
 	</select>
 
