@@ -640,14 +640,7 @@
         fnDisplyBlock= function(val){
             document.getElementById('divWec'+val).style.display = 'block';
         }
-        // tab 별 editor visited
-        fnDisplyNone = function(){
-            document.getElementById('divWec0').style.display = 'none';
-            document.getElementById('divWec1').style.display = 'none';
-            document.getElementById('divWec2').style.display = 'none';
-            document.getElementById('divWec3').style.display = 'none';
-            document.getElementById('divWec4').style.display = 'none';
-        }
+        
         /** ===============================================  Editor End ==================================================================================== **/
 
         tabViewS.render('tabViewS');
