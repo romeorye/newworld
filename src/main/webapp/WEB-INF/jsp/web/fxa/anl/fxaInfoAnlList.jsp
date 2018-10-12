@@ -479,6 +479,8 @@ var imgHeight;
         		Rui.alert("리스트 건수가 없습니다.");
         		return;
         	}
+        	// 목록 페이징
+        	paging(dataSet,"defaultGrid");
         });
 
    		if( btnRole ==  "N" ){

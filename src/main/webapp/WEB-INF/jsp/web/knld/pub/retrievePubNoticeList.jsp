@@ -97,6 +97,8 @@ var lvAttcFilId;
        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
         	dataSet.clearFilter();
        		fncExcelDown();
+       		// 목록 페이징
+       		paging(dataSet,"defaultGrid");
        	});
 
     	/** dataSet **/

@@ -373,6 +373,8 @@ function fncExcelDown() {
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }
+ 	// 목록 페이징
+    paging(eduDataSet,"defaultGrid");
 }
 </script>
 

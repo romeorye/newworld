@@ -387,6 +387,8 @@
             } else {
                 Rui.alert("조회 후 엑셀 다운로드 해주세요.");
             }
+         // 목록 페이징
+            paging(dataSet,"defaultGrid");
         });
 /*
 	    setDeptInfo = function(deptInfo) {

@@ -184,7 +184,7 @@
         		return;
         	}
         	// 목록 페이징
-            paging(dataSet,"defaultGrid");
+            paging(dataSet,"mhcnGrid");
         });
 	});		//end ready
 
