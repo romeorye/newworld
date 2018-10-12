@@ -49,6 +49,8 @@
              *******************/
             var aform = new Rui.ui.form.LForm('aform');
 
+            var butMail = new Rui.ui.LButton('butMail');
+            
             /* 덧글 내용 */
             var textArea = new Rui.ui.form.LTextArea({
                 emptyText: ''
@@ -375,6 +377,44 @@
             qnaRgstDel = function() {
                 fncDeleteAnlQnaInfo();
             };
+            
+		    /* [버튼] : 메일 페이지로 이동 */
+			butMail.on('click', function(){
+
+					var bbsId = '';
+					bbsId = document.aform.bbsId.value
+					// 메일다이얼로그 오픈
+					openMailDialog(null, bbsId);
+
+			});
+
+			/* [다이얼로그] 메일발송 */
+		    var _mailDialog = new Rui.ui.LFrameDialog({
+		        id: 'mailDialog',
+		        title: '메일',
+		        width: 1000,
+		        height: 600,
+		        modal: true,
+		        visible: false,
+		        buttons: [
+		            { text:'닫기', isDefault: true, handler: function() {
+		                this.cancel(false);
+		            } }
+		        ]
+		    });
+			
+		    _mailDialog.on('submit', function(e) {
+		    	Rui.alert('메일이 발송되었습니다.');
+		    });
+
+		    _mailDialog.render(document.body);
+
+			 /* [함수] 메일다이얼로그 오픈 */
+			openMailDialog = function(f,bbsId) {
+				_callback = f;
+				_mailDialog.setUrl('<c:url value="/anl/bbs/sendMailPopup.do"/>'+'?bbsId=' + bbsId);
+				_mailDialog.show();
+			};            
 
     		/* [버튼] 목록 */
             goQnaList = function() {
@@ -526,6 +566,7 @@
 					<button type="button" id="rebBtn"    name="rebBtn"    >답변</button>
 					<button type="button" id="saveBtn"   name="saveBtn"   >수정</button>
 					<button type="button" id="delBtn"    name="delBtn"    >삭제</button>
+					<button type="button" id="butMail"   name="butMail"   >메일</button>
 					<button type="button" id="butGoList" name="butGoList" >목록</button>
 				</div>
    				<table class="table table_txt_right">
