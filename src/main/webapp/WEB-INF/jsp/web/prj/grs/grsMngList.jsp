@@ -756,8 +756,8 @@
      };
 
 		downloadAttachFile = function(attcFilId, seq) {
-		    mstForm.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
-		    mstForm.submit();
+			aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
+			aform.submit();
      };
 
 
