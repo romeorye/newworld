@@ -211,7 +211,7 @@
 		    	}
 		     });
 
-		    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
+		    //createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
 
         });//onReady 끝
 
@@ -281,6 +281,7 @@
 	    	var pageMode = '${inputData.pageMode}';
 	    	console.log('fncInsertAnlNoticeInfo pageMode='+pageMode);
 
+	    	/*
 	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
 	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
 
@@ -288,6 +289,13 @@
             gvSbcNm = document.aform.Wec.bodyValue ;
 
 			document.aform.bbsSbc.value = document.aform.Wec.MIMEValue;
+			*/
+			
+            document.aform.bbsSbc.value = CrossEditor.GetBodyValue();
+			
+            anlBbsRgstDataSet.setNameValue(0, 'bbsSbc', CrossEditor.GetBodyValue());
+			
+            gvSbcNm = CrossEditor.GetBodyValue();
 
 	    	// 데이터셋 valid
 			if(!validation('aform')){
@@ -310,7 +318,7 @@
 		    	        dataSets:[anlNoticeRgstDataSet],
 		    	        params: {
 		    	        	bbsId : document.aform.bbsId.value
-		    	        	,bbsSbc : document.aform.Wec.MIMEValue
+		    	        	,bbsSbc : document.aform.bbsSbc.value
 		    	        }
 		    	    });
 		    	}else if(pageMode == 'C'){
@@ -318,7 +326,7 @@
 		    	        url: "<c:url value='/anl/lib/insertAnlNoticeInfo.do'/>",
 		    	        dataSets:[anlNoticeRgstDataSet],
 		    	        params: {
-		    	        	bbsSbc : document.aform.Wec.MIMEValue
+		    	        	bbsSbc : document.aform.bbsSbc.value
 		    	        }
 		    	    });
 		    	}
