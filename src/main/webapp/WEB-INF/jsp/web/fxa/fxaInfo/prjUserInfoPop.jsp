@@ -51,6 +51,18 @@
             ]
         });
 
+        userDataSet.on('load', function (e) {
+        	alert(userDataSet.getCount())
+        	if (userDataSet.getCount() == 1){
+        		var row =userDataSet.getRow();
+        		var record = userDataSet.getAt(0).data
+
+        		parent._callback(record);
+            	parent.fncDialogClose();
+        	}
+        });
+        
+        
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
                       { field: 'prjNm'      ,label: '프로젝트명',	sortable: false,	align:'left', width:290 }
