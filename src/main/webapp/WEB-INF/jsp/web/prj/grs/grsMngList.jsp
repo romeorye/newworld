@@ -569,7 +569,7 @@
                                     handlerYes: function () {
                                         var param = jQuery("#evTssForm").serialize().replace(/%/g, '%25');
                                         param += "&tssStrtDd=" + evInfoDataSet.getNameValue(0, "tssStrtDd");
-                                        param += "&tssFnhDd=" + evInfoDataSet.getNameValue(0, "tssStrtDd");
+                                        param += "&tssFnhDd=" + evInfoDataSet.getNameValue(0, "tssFnhDd");
                                         param += "&tssAttrCd=" + evInfoDataSet.getNameValue(0, "tssAttrCd");
 
                                         dm.updateDataSet({
