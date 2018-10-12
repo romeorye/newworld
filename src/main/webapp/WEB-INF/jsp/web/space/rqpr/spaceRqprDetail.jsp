@@ -358,6 +358,15 @@
                 width: 395
             });
 
+            /* T-Cloud 링크*/
+            var tCloud = new Rui.ui.form.LTextBox({
+            	applyTo: 'tCloud',
+                placeholder: '대용량 첨부파일 링크 입력.',
+                defaultValue: '',
+                emptyValue: '',
+                width: 10
+            });
+
 
             /* 필수항목 체크 */
             var vm = new Rui.validate.LValidatorManager({
@@ -1767,6 +1776,12 @@
    							<th align="right"><span style="color:red;">* </span>평가대상 상세</th>
    							<td class="rlabrqpr_tain03">
                                 <input type="text" id="evSubjDtl">
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>T-Cloud Link</th>
+   							<td class="rlabrqpr_tain01" colspan="3">
+                                <input type="text" id="tCloud">
    							</td>
    						</tr>
    					</tbody>

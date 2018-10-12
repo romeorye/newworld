@@ -306,7 +306,7 @@
             });
 
             bind = new Rui.data.LBind({
-                groupId: 'aform',
+                groupId: 'mainForm',
                 dataSet: spaceRqprDataSet,
                 bind: true,
                 bindInfo: [
@@ -814,7 +814,7 @@
 
     	    // 불러오기 //
     	    getSpaceRqprInfo = function(spaceRqpr) {
-            	resetAForm();
+            	resetMainForm();
 
     	    	dm.loadDataSet({
                     dataSets: [spaceRqprDataSet, spaceRqprWayCrgrDataSet],
@@ -826,7 +826,7 @@
     	    };
 
             /* 초기화 */
-            resetAForm = function() {
+            resetMainForm = function() {
 
             	spaceRqprDataSet.clearData();			//메인 초기화
             	spaceRqprWayCrgrDataSet.clearData();	//평가방법/담당자 초기화
@@ -902,7 +902,7 @@
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
     </form>
-	<form name="aform" id="aform" method="post">
+	<form name="mainForm" id="mainForm" method="post">
 		<input type="hidden" id="spaceChrgId" name="spaceChrgId" value=""/>
    		<div class="contents">
 	   		<div class="titleArea">
@@ -915,7 +915,7 @@
 
 	   		<div class="sub-content">
 				<div class="LblockButton mt0 mb5">
-					<button type="button" class="btn"  id="resetBtn" name="resetBtn" onclick="resetAForm()">초기화</button>
+					<button type="button" class="btn"  id="resetBtn" name="resetBtn" onclick="resetMainForm()">초기화</button>
 					<button type="button" class="btn"  id="loadSpaceRqprBtn" name="loadSpaceRqprBtn" onclick="openSpaceRqprSearchDialog(getSpaceRqprInfo)">불러오기</button>
 					<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="save()">저장</button>
 					<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goSpaceRqprList()">목록</button>

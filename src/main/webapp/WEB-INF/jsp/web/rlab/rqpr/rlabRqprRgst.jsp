@@ -420,7 +420,7 @@
             });
 
             bind = new Rui.data.LBind({
-                groupId: 'aform',
+                groupId: 'mainForm',
                 dataSet: rlabRqprDataSet,
                 bind: true,
                 bindInfo: [
@@ -654,7 +654,7 @@
     	    };
 
     	    getRlabRqprInfo = function(rlabRqpr) {
-            	resetAForm();
+            	resetMainForm();
 
     	    	dm.loadDataSet({
                     dataSets: [rlabRqprDataSet, rlabRqprSmpoDataSet],
@@ -668,7 +668,7 @@
 
 
             /* 초기화 */
-            resetAForm = function() {
+            resetMainForm = function() {
             	rlabRqprDataSet.clearData();
             	rlabRqprSmpoDataSet.clearData();
             	rlabRqprRltdDataSet.clearData();
@@ -745,7 +745,7 @@
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
     </form>
-	<form name="aform" id="aform" method="post">
+	<form name="mainForm" id="mainForm" method="post">
 		<input type="hidden" id="rlabChrgId" name="rlabChrgId" value=""/>
    		<div class="contents">
    			<div class="titleArea">
@@ -760,14 +760,14 @@
    			<div class="sub-content">
 	   			<div class="titArea mt0">
 					<div class="LblockButton">
-						<button type="button" class="btn"  id="resetBtn" name="resetBtn" onclick="resetAForm()">초기화</button>
+						<button type="button" class="btn"  id="resetBtn" name="resetBtn" onclick="resetMainForm()">초기화</button>
 						<button type="button" class="btn"  id="loadRlabRqprBtn" name="loadRlabRqprBtn" onclick="openRlabRqprSearchDialog(getRlabRqprInfo)">불러오기</button>
 						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="save()">저장</button>
 						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goRlabRqprList()">목록</button>
 					</div>
 	   			</div>
 
-   				<table class="table table_txt_right">
+   				<table class="table">
    					<colgroup>
    						<col style="width:15%;"/>
    						<col style="width:35%;"/>
@@ -788,11 +788,11 @@
    							</td>
    						</tr>
    						<tr>
-   							<th align="right"><span style="color:red;"></span>사업부</th>
+   							<th align="right">사업부</th>
    							<td>
                                 <div id="rlabDzdvCd"></div>
    							</td>
-   							<th align="right"><span style="color:red;"></span>시료 제품군</th>
+   							<th align="right"><span style="color:red;">* </span>시료 제품군</th>
    							<td>
                                 <div id="rlabProdCd"></div>
    							</td>
@@ -829,8 +829,8 @@
    						</tr>
    						<tr>
    							<th align="right">통보자</th>
-   							<td class="rlabrqpr_tain06">
-						        <div class="LblockMarkupCode">
+   							<td>
+						        <div>
 						            <div id="rlabRqprInfmView"></div>
 						        </div>
    							</td>
@@ -839,14 +839,12 @@
 						        <input type="text" id="cmplParrDt">
    							</td>
    						</tr>
-
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>시험담당자코멘트</th>
+   							<th align="right">시험담당자코멘트</th>
    							<td colspan="3">
    								<textarea id="rlabCrgrComm"></textarea>
    							</td>
    						</tr>
-
    					</tbody>
    				</table>
 
@@ -862,7 +860,7 @@
 
    				<br/>
 
-   				<table class="table table_txt_right" id="rlab_ta" style="table-layout:fixed;">
+   				<table class="table" id="rlab_ta" style="table-layout:fixed;">
    					<colgroup>
 						<col style="width:49%;">
 						<col style="width:2%;">

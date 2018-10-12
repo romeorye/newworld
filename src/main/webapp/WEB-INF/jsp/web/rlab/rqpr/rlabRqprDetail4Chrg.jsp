@@ -1404,7 +1404,7 @@
     						<td><span id="acpcDt"/></td>
    						</tr>
    						<tr>
-   							<th align="right">완료예정일</th>
+   							<th align="right"><span style="color:red;">* </span>완료예정일</th>
     						<td><input type="text" id="cmplParrDt"/></td>
    							<th align="right">완료일</th>
     						<td><span id="cmplDt"/></td>
@@ -1521,9 +1521,9 @@
    							<td><span id="acpcNo"/></td>
    						</tr>
    						<tr>
-   							<th align="right">완료예정일</th>
+   							<th align="right"><span style="color:red;">* </span>완료예정일</th>
    							<td><span id="cmplParrDt"/></td>
-   							<th align="right">완료일</th>
+   							<th align="right"><span style="color:red;">* </span>완료일</th>
     						<td><span id="cmplDt"/></td>
    						</tr>
    					</tbody>

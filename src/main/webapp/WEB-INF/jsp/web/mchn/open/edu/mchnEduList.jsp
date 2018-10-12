@@ -21,7 +21,7 @@
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 <title><%=documentTitle%></title>
 
-
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 
 	Rui.onReady(function(){
@@ -119,7 +119,7 @@
 	            ]
 	     });
 
-		//교육일 
+		//교육일
 		var frEduDt = new Rui.ui.form.LDateBox({
 			applyTo: 'frEduDt',
 			mask: '9999-99-99',
@@ -127,8 +127,8 @@
 			width: 100,
 			dateType: 'string'
 		});
-		
-		//교육일 
+
+		//교육일
 		var toEduDt = new Rui.ui.form.LDateBox({
 			applyTo: 'toEduDt',
 			mask: '9999-99-99',
@@ -136,7 +136,7 @@
 			width: 100,
 			dateType: 'string'
 		});
-		
+
 		fnSearch = function(){
 			dataSet.load({
 				url: '<c:url value="/mchn/open/edu/retrieveMchnEduSearchList.do"/>',
@@ -152,7 +152,7 @@
 
 		fnSearch();
 
-		
+
 	});		//end ready
 
 </script>
@@ -171,7 +171,7 @@
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" value="IRIDE0104"/>
 				<input type="hidden" id="mchnEduId" name="mchnEduId" />
-				
+
 				<div class="search">
 					<div class="search-content">
 						<table>
@@ -204,7 +204,7 @@
 										<input type="text" id="frEduDt" /><em class="gab"> ~ </em>	<input type="text" id="toEduDt" />
 									</td>
 									<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-								</tr>				
+								</tr>
 							</tbody>
 						</table>
 					</div>

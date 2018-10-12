@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,9 +43,9 @@
 </style>
 
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
-            
+
 			if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
 				roleCheck = "ADM";
 			}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T03') > -1) {
@@ -55,7 +55,7 @@
 			}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
 				roleCheck = "ADM";
 			}
-			
+
 			/** dateBox **/
 			var fromDate = new Rui.ui.form.LDateBox({
 				applyTo: 'fromDate',
@@ -73,7 +73,7 @@
 					fromDate.setValue(new Date());
 				}
 			});
-			
+
 			var toDate = new Rui.ui.form.LDateBox({
 				applyTo: 'toDate',
 				mask: '9999-99-99',
@@ -101,7 +101,7 @@
 		    			maxLength: 6
 		    			}
 		    });
-			
+
 			var ltSaName = new Rui.ui.form.LTextBox({
 		    	applyTo: 'saName',
 		    	width : 200,
@@ -114,7 +114,7 @@
 			ltSaName.on('blur', function(e) {
 				ltSaName.setValue(ltSaName.getValue().trim());
 		    });
-		    
+
 		    var ltPrjNm = new Rui.ui.form.LTextBox({
 		    	applyTo: 'prjNm',
 		    	width : 200,
@@ -127,7 +127,7 @@
 		    ltPrjNm.on('blur', function(e) {
 		    	ltPrjNm.setValue((ltPrjNm.getValue()).trim());
 		    });
-		 
+
 		    var deptName = new Rui.ui.form.LTextBox({
 		    	applyTo: 'deptName',
 		    	width : 200,
@@ -137,8 +137,8 @@
 		    deptName.on('blur', function(e) {
 		    	deptName.setValue(deptName.getValue().trim());
 		    });
-		    
-		    
+
+
 			/** dataSet **/
 			wbsCdDataset = new Rui.data.LJsonDataSet({
 			    id: 'wbsCdDataset',
@@ -167,26 +167,26 @@
 					, { field: 'tssFnhDd'     , groupId: '프로젝트기간', label: '종료일',      sortable: false, align:'center', width: 100 }
 			   ]
 			});
-			
-			
+
+
 
 			/** default grid **/
 			defaultGrid = new Rui.ui.grid.LGridPanel({
 			    columnModel: columnModel,
 			    dataSet: wbsCdDataset,
 			    width: 600,
-			    height: 530,
+			    height: 350,
 			    autoToEdit: false,
 			    autoWidth: true
 			});
 			defaultGrid.render('defaultGrid');
-			
+
 			/* 더블클릭 이벤트 */
             defaultGrid.on('cellDblClick', function(e) {
             	parent._callback(wbsCdDataset.getAt(e.row).data);
             	parent._wbsCdSearchDialog.submit(true);
             });
-            
+
 
 			/**
 			총 건수 표시
@@ -194,10 +194,10 @@
 			wbsCdDataset.on('load', function(e){
 				document.getElementById("cnt_text").innerHTML = '총: '+ wbsCdDataset.getCount();
 			});
-			
+
 			// 조회
 			fnSearch = function() {
-			
+
 				wbsCdDataset.load({
 			       /* url: '<c:url value="/prj/rsst/mst/retrievePrjRsstMstSearchInfoList.do"/>' , */
 			       url: '<c:url value="/system/etc/getWbsCdList.do"/>' ,
@@ -235,9 +235,9 @@
     </head>
     <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
-		
+
    		<div class="LblockMainBody">
-   			
+
    			<div class="sub-content" style="padding:0 0 0 2px;">
 
 				<form name="aform" id="aform" method="post">
@@ -302,7 +302,7 @@
 
 			</form>
    			</div><!-- //sub-content -->
-   			
+
    		</div><!-- //contents -->
 		</form>
     </body>
