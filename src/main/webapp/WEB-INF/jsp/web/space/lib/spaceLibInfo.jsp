@@ -240,8 +240,8 @@
 		    		 saveBtn.show();
 		    		 delBtn.show();
 	 	         }else {
-	 	        	// saveBtn.hide();
-	 	        	// delBtn.hide();
+	 	        	 saveBtn.hide();
+	 	        	 delBtn.hide();
 	 	         }
             }
 
