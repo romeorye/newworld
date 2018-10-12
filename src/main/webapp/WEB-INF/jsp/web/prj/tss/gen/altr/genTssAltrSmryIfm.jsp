@@ -29,11 +29,6 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/tab/rui_tab.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
 
-<%
-    response.setHeader("Pragma", "No-cache");
-    response.setDateHeader("Expires", 0);
-    response.setHeader("Cache-Control", "no-cache");
-%>
 <script type="text/javascript">
     var lvTssCd  = window.parent.gvTssCd;
     var lvUserId = window.parent.gvUserId;
@@ -42,7 +37,7 @@
     var strDt =window.parent.tssStrtDd.getValue();
     var endDt =window.parent.tssFnhDd.getValue();
     
-    var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
     
     var dataSet;
     var lvAttcFilId;
@@ -503,13 +498,6 @@
             dataSet.setNameValue(0, "smryCTxt", Wec3.GetBodyValue());
             dataSet.setNameValue(0, "smryDTxt", Wec4.GetBodyValue());
        
-            
-            frm.smryNTxt.value =  dataSet.getNameValue(0, "smryNTxt");
-            frm.smryATxt.value =  dataSet.getNameValue(0, "smryATxt");
-            frm.smryBTxt.value =  dataSet.getNameValue(0, "smryBTxt");
-            frm.smryCTxt.value =  dataSet.getNameValue(0, "smryCTxt");
-            frm.smryDTxt.value =  dataSet.getNameValue(0, "smryDTxt");
-            
             if(  dataSet.getNameValue(0, "smryNTxt") == "<p><br></p>" || dataSet.getNameValue(0, "smryNTxt") == "") {
                 alert("Needs 는 필수입력입니다.");
                 return false;
@@ -683,28 +671,41 @@
         
         tabViewS.on('activeTabChange', function(e){
         	var index = e.activeIndex;
-        	fnDisplyNone();
-        	$("#Wec"+index).ready(function(){
-        		fnDisplyBlock(index);
-        	});
+        	
+        	if( index == 0 ){
+	    		document.getElementById("divWec0").style.display = "block";	
+	    		document.getElementById("divWec1").style.display = "none";	
+	    		document.getElementById("divWec2").style.display = "none";	
+	    		document.getElementById("divWec3").style.display = "none";	
+	    		document.getElementById("divWec4").style.display = "none";	
+	    	
+	    	}else if( index == 1 ){
+	    		document.getElementById("divWec0").style.display = "none";	
+	    		document.getElementById("divWec1").style.display = "block";	
+	    		document.getElementById("divWec2").style.display = "none";
+	    		document.getElementById("divWec3").style.display = "none";	
+	    		document.getElementById("divWec4").style.display = "none";
+	    	}else if( index == 2 ){
+	    		document.getElementById("divWec0").style.display = "none";	
+	    		document.getElementById("divWec1").style.display = "none";	
+	    		document.getElementById("divWec2").style.display = "block";	
+	    		document.getElementById("divWec3").style.display = "none";	
+	    		document.getElementById("divWec4").style.display = "none";
+	    	}else if( index == 3 ){
+	    		document.getElementById("divWec0").style.display = "none";	
+	    		document.getElementById("divWec1").style.display = "none";	
+	    		document.getElementById("divWec2").style.display = "none";	
+	    		document.getElementById("divWec3").style.display = "block";	
+	    		document.getElementById("divWec4").style.display = "none";
+	    	}else if( index == 4 ){
+	    		document.getElementById("divWec0").style.display = "none";	
+	    		document.getElementById("divWec1").style.display = "none";	
+	    		document.getElementById("divWec2").style.display = "none";	
+	    		document.getElementById("divWec3").style.display = "none";	
+	    		document.getElementById("divWec4").style.display = "block";
+	    	}
       	});
         
-        /** ============================================= Editor ================================================================================= **/
-        //editor 설정
-        fnDisplyBlock= function(val){
-        	document.getElementById('divWec'+val).style.display = 'block';
-        }
-        // tab 별 editor visited
-        fnDisplyNone = function(){
-        	document.getElementById('divWec0').style.display = 'none';
-        	document.getElementById('divWec1').style.display = 'none';
-        	document.getElementById('divWec2').style.display = 'none';
-        	document.getElementById('divWec3').style.display = 'none';
-        	document.getElementById('divWec4').style.display = 'none';
-        }
-     
-    	/** ===============================================  Editor End ==================================================================================== **/
-    	
         tabViewS.render('tabViewS');
         
         //최초 데이터 셋팅
@@ -794,7 +795,7 @@
 </script>
 <script type="text/javascript">
 $(window).load(function() {
-    initFrameSetHeight("smryFormDiv");
+    initFrameSetHeight();
 }); 
 </script>
 </head>
@@ -831,70 +832,64 @@ $(window).load(function() {
             	</tr>
                 <tr>
                     <td colspan="6">
-	                    <input type="hidden" id="smryNTxt" name="smryNTxt" >
-	                    <input type="hidden" id="smryATxt" name="smryATxt" >
-	                    <input type="hidden" id="smryBTxt" name="smryBTxt" >
-	                    <input type="hidden" id="smryCTxt" name="smryCTxt" >
-	                    <input type="hidden" id="smryDTxt" name="smryDTxt" >
-	                	<div id="divWec0">
+	                	 <div id="divWec0">
+                            <textarea id="smryNTxt" name="smryNTxt"></textarea>
                             <script>
-                                Wec0 = new NamoSE('divWec0');
+                                Wec0 = new NamoSE('smryNTxt');
                                 Wec0.params.Width = "100%";
                                 Wec0.params.UserLang = "auto";
                                 uploadPath = "<%=uploadPath%>";
                                 Wec0.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec0.params.FullScreen = false;
                                 Wec0.EditorStart();
-
                             </script>
                         </div>
-                        <div id="divWec1">
+                        <div id="divWec1"  style="display:none">
+                            <textarea id="smryATxt" name="smryATxt"></textarea>
                             <script>
-                                Wec1 = new NamoSE('divWec1');
+                                Wec1 = new NamoSE('smryATxt');
                                 Wec1.params.Width = "100%";
                                 Wec1.params.UserLang = "auto";
                                 uploadPath = "<%=uploadPath%>";
                                 Wec1.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec1.params.FullScreen = false;
                                 Wec1.EditorStart();
-
                             </script>
                         </div>
-                        <div id="divWec2">
+                        <div id="divWec2"  style="display:none">
+                            <textarea id="smryBTxt" name="smryBTxt"></textarea>
                             <script>
-                                Wec2 = new NamoSE('divWec2');
+                                Wec2 = new NamoSE('smryBTxt');
                                 Wec2.params.Width = "100%";
                                 Wec2.params.UserLang = "auto";
                                 uploadPath = "<%=uploadPath%>";
                                 Wec2.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec2.params.FullScreen = false;
                                 Wec2.EditorStart();
-
                             </script>
                         </div>
-                        <div id="divWec3">
+                        <div id="divWec3"  style="display:none">
+                            <textarea id="smryCTxt" name="smryCTxt"></textarea>
                             <script>
-                                Wec3 = new NamoSE('divWec3');
+                                Wec3 = new NamoSE('smryCTxt');
                                 Wec3.params.Width = "100%";
                                 Wec3.params.UserLang = "auto";
                                 uploadPath = "<%=uploadPath%>";
-
                                 Wec3.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec3.params.FullScreen = false;
                                 Wec3.EditorStart();
-
                             </script>
                         </div>
-                        <div id="divWec4">
+                        <div id="divWec4"  style="display:none">
+                            <textarea id="smryDTxt" name="smryDTxt"></textarea>
                             <script>
-                                var Wec4 = new NamoSE('divWec4');
+                                Wec4 = new NamoSE('smryDTxt');
                                 Wec4.params.Width = "100%";
                                 Wec4.params.UserLang = "auto";
-                                var uploadPath = "<%=uploadPath%>";
+                                uploadPath = "<%=uploadPath%>";
                                 Wec4.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec4.params.FullScreen = false;
                                 Wec4.EditorStart();
-
                             </script>
                         </div>
                         <script type="text/javascript" language="javascript">
@@ -978,13 +973,13 @@ $(window).load(function() {
                 </tr>
             </tbody>
         </table>
-    </form>
-	<div class="titArea">
+	 <div class="titArea btn_btm">
 	    <div class="LblockButton">
 	        <button type="button" id="btnSave" name="btnSave">저장</button>
 	        <button type="button" id="btnList" name="btnList">목록</button>
 	    </div>
 	</div>
+    </form>
 </div>
 </body>
 </html>

@@ -33,18 +33,14 @@
  border: 0px
  }
 </style>
-<%
-    response.setHeader("Pragma", "No-cache");
-    response.setDateHeader("Expires", 0);
-    response.setHeader("Cache-Control", "no-cache");
-%>
+
 <script type="text/javascript">
     var lvTssCd    = window.parent.gvTssCd;
     var lvUserId   = window.parent.gvUserId;
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
     
-    var pageMode = (lvTssSt == "100" || lvTssSt == "") && (lvPageMode == "W" || lvPageMode == "") ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
     
     var dataSet1;
     var dataSet2;
@@ -392,7 +388,7 @@ $(window).load(function() {
         </table>
     </form>
 </div>
-<div class="titArea">
+<div class="titArea btn_btm">
     <div class="LblockButton">
         <button type="button" id="btnSave" name="btnSave">저장</button>
         <button type="button" id="btnList" name="btnList">목록</button>

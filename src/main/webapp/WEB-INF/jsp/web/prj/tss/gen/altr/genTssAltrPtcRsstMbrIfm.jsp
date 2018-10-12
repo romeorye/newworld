@@ -21,22 +21,15 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
-
 <title><%=documentTitle%></title>
 
-<%
-    response.setHeader("Pragma", "No-cache");
-    response.setDateHeader("Expires", 0);
-    response.setHeader("Cache-Control", "no-cache");
-    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-%>
 <script type="text/javascript">
     var lvTssCd    = window.parent.gvTssCd;
     var lvUserId   = window.parent.gvUserId;
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
     
-    var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
     
     var dataSet;
     var popupRow;
@@ -302,6 +295,7 @@ $(window).load(function() {
 <div class="titArea">
     <div class="LblockButton">
         <button type="button" id="butRecordNew">추가</button>
+        <button type="button" id="btnSave" name="btnSave">저장</button>
         <button type="button" id="butRecordDel">삭제</button>
     </div>
 </div>
@@ -312,10 +306,9 @@ $(window).load(function() {
     </form>
     <div id="defaultGrid"></div>
 </div>
-<div class="titArea">
+<div class="titArea btn_btm">
     <div class="LblockButton">
 <!--         <button type="button" id="btnReport" name="btnReport">Report</button> -->
-        <button type="button" id="btnSave" name="btnSave">저장</button>
         <button type="button" id="btnList" name="btnList">목록</button>
     </div>
 </div>

@@ -29,11 +29,7 @@
  border: 0px
  }
 </style>
-<%
-    response.setHeader("Pragma", "No-cache");
-    response.setDateHeader("Expires", 0);
-    response.setHeader("Cache-Control", "no-cache");
-%>
+
 <script type="text/javascript">
     var gvTssCd     = "";
     var gvUserId    = "${inputData._userId}";
@@ -810,20 +806,12 @@ function setPrjInfo(prjInfo) {
                                 </tr>
                                 <tr>
                                     <th align="right">과제기간</th>
-                                    <td class="tssLableCss"  colspan="3">
+                                    <td class="tssLableCss">
                                         <input type="text" id="tssStrtDd" /><em class="gab"> ~ </em>
                                         <input type="text" id="tssFnhDd" />
                                     </td>
-                                </tr>
-                                <tr>
                                     <th align="right">진행단계 / GRS</th>
                                     <td colspan="3"><span id="tssStepNm"/> / <span id="grsStepNm"/></td>
-<%--
-
-                                    <th align="right">Q-gate 단계</th>
-                                    <td><span id="qgateStepNm"/> </td>
---%>
-
                                 </tr>
                             </tbody>
                         </table>
