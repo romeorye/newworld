@@ -25,6 +25,7 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <title><%=documentTitle%></title>
 
@@ -151,7 +152,7 @@
                 columnModel: anlCompleteStateColumnModel,
                 dataSet: anlCompleteStateDataSet,
                 width: 1000,
-                height: 600,
+                height: 400,
                 autoToEdit: false,
                 autoWidth: true
             });
@@ -172,10 +173,15 @@
 
             anlCompleteStateDataSet.on('load', function(e) {
    	    		$("#cnt_text").html('총 ' + anlCompleteStateDataSet.getCount() + '건');
+   	    	// 목록 페이징
+   	    		paging(anlCompleteStateDataSet,"anlCompleteStateGrid");
+
    	      	});
 
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlCompleteStateListExcel = function() {
+        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        		dataSet.clearFilter();
 
         		 var excelColumnModel = new Rui.ui.grid.LColumnModel({
                      gridView: anlCompleteStateColumnModel,
@@ -203,6 +209,8 @@
 
         		 anlCompleteStateGrid.saveExcel('export.xls',{columnModel:excelColumnModel});
             	//anlCompleteStateGrid.saveExcel(encodeURIComponent('분석완료 통계_') + new Date().format('%Y%m%d') + '.xls');
+        		// 목록 페이징
+        		 paging(dataSet,"defaultGrid");
             };
 
             getAnlCompleteStateList();

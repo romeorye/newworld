@@ -19,6 +19,7 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <title><%=documentTitle%></title>
 <script type="text/javascript">
 
@@ -50,10 +51,6 @@
 	        ]
 	    });
 
-		dataSet.on('load', function(e){
-	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
-	    });
-
 	    var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
@@ -82,7 +79,7 @@
 	        columnModel: columnModel,
 	        dataSet: dataSet,
 	        width : 1180,
-	        height: 500, 
+	        height: 400,
 	        autoWidth: true
 
 	    });
@@ -98,7 +95,7 @@
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
 
-	  	
+
 	  	//신청 시작일
 	  	var cbPrctFrDt = new Rui.ui.form.LDateBox({
              applyTo: 'prctFrDt',
@@ -128,11 +125,19 @@
 			});
 		};
 
+		dataSet.on('load', function(e){
+	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
+	    	// 목록 페이징
+	    	paging(dataSet,"mhcnGrid");
+	    });
+
 		fnSearch();
-		
+
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
+        	// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        	dataSet.clearFilter();
         	if(dataSet.getCount() > 0 ) {
 	            var excelColumnModel = columnModel.createExcelColumnModel(false);
 	            grid.saveExcel(encodeURIComponent('OPEN기기_') + new Date().format('%Y%m%d') + '.xls', {
@@ -142,9 +147,11 @@
         		Rui.alert("리스트 건수가 없습니다.");
         		return;
         	}
+        	// 목록 페이징
+        	paging(dataSet,"defaultGrid");
         });
 
-        
+
 	});		//end ready
 
 </script>
@@ -193,7 +200,7 @@
 					<div class="LblockButton">
 					<button type="button" id="butExcl">EXCEL</button>
 					</div>
-				</div> 
+				</div>
 				<div id="mhcnGrid"></div>
 			</form>
 

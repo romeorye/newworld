@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
@@ -12,19 +12,20 @@
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2017.11.16  
+ * 1.0  2017.11.16
  * ---	-----------	----------	-----------------------------------------
  * WINS UPGRADE 1차 프로젝트
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridView.js"></script><!-- Lgrid view -->
 
 <title><%=documentTitle%></title>
@@ -35,12 +36,12 @@
 </style>
 
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
              *******************/
-             
+
             /*******************
              * RUI 변수선언
             *******************/
@@ -66,7 +67,7 @@
             		return false;
             	}
             });
-            
+
             var dataSet = new Rui.data.LJsonDataSet({
                 id: 'dataSet',
                 remainRemoved: true,
@@ -83,7 +84,7 @@
          			 , { id: 'cnttTypeNm' } /*계약유형명*/
          			 , { id: 'tssCd' }      /*과제코드*/
          			 , { id: 'tssNm' }      /*과제명*/
-         			 , { id: 'cooInstCd' }  /*협력기관코드*/ 
+         			 , { id: 'cooInstCd' }  /*협력기관코드*/
          			 , { id: 'cooInstNm' }  /*협력기관명*/
          			 , { id: 'spltNm' }     /*협력기관연구책임자*/
          			 , { id: 'tssStrtDd' }  /*과제시작일자*/
@@ -102,22 +103,21 @@
             var columnModel = new Rui.ui.grid.LColumnModel({
             	groupMerge: true,
                 columns: [
-                	  new Rui.ui.grid.LNumberColumn()
-                	, { field: 'bizBptNm',        	label: '사업부문<BR>(Funding기준)',	sortable: false,  align:'center', width: 110 }
+                	  { field: 'bizBptNm',        	label: '사업부문<BR>(Funding기준)',	sortable: false,  align:'center', width: 110 }
                 	, { field: 'deptName',        	label: '조직',                		sortable: false,  align:'center', width: 114 }
                 	, { field: 'prjNm',        		label: '프로젝트명',                	sortable: false,  align:'center', width: 210 }
                 	, { field: 'cnttTypeNm',        label: '계약 유형',               	sortable: false,  align:'center', width: 70 }
                 	, { field: 'tssNm',        		label: '과제명',               		sortable: false,  align:'left', width: 200 }
                 	, { field: 'cooInstNm',        	label: '협력기관명',              	sortable: false,  align:'center', width: 180 }
                 	, { field: 'spltNm',        	label: '협력기관<BR>연구책임자',    sortable: false,  align:'center', width: 70 }
-                	, { id: 'strTssStrtDd',        		label: '사업기간',                	sortable: false,  align:'center', width: 80 
+                	, { id: 'strTssStrtDd',        		label: '사업기간',                	sortable: false,  align:'center', width: 80
                 		, renderer: function(value, p, record, row, col){
                             var strTssStrtDd = record.get("strTssStrtDd");
                             var strTssFnhDd = record.get("strTssFnhDd");
                     		return strTssStrtDd + '~' + strTssFnhDd ;
                     	}
                 	  }
-                	, { field: 'tssDiffMon',        label: '소요 기간',               	sortable: false,  align:'right', width: 60 
+                	, { field: 'tssDiffMon',        label: '소요 기간',               	sortable: false,  align:'right', width: 60
                 		, renderer: function(value, p, record, row, col){
                     		return value + '개월';
                     	}
@@ -132,14 +132,14 @@
                 columnModel: columnModel,
                 dataSet: dataSet,
                 width: 860,
-                height: 580,
+                height: 400,
                 autoToEdit: false,
                 autoWidth: true
             });
-            
+
             defaultGrid.render('defaultGrid');
             var defaultGridView = defaultGrid.getView();
-            
+
             /* 조회 */
             fnSearch = function() {
                 dataSet.load({
@@ -149,13 +149,16 @@
                     }
                 });
             };
-            
+
             dataSet.on('load', function(e) {
+            	// 목록 페이징
    	    		$("#cnt_text").html('총 ' + dataSet.getCount() + '건');
+   	            paging(dataSet,"defaultGrid");
    	      	});
-            
+
         	downloadExcel = function() {
-        		
+        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        		dataSet.clearFilter();
         		var excelColumnModel = new Rui.ui.grid.LColumnModel({
                     gridView: defaultGridView,
                     	columns: [
@@ -167,14 +170,14 @@
                       	, { field: 'tssNm',        		label: '과제명',               		sortable: false,  align:'left', width: 200 }
                       	, { field: 'cooInstNm',        	label: '협력기관명',              	sortable: false,  align:'center', width: 170 }
                       	, { field: 'spltNm',        	label: '협력기관연구책임자',        sortable: false,  align:'center', width: 100 }
-                      	, { id: 'strTssStrtDd',        		label: '사업기간',              sortable: false,  align:'center', width: 80 
+                      	, { id: 'strTssStrtDd',        		label: '사업기간',              sortable: false,  align:'center', width: 80
                       		, renderer: function(value, p, record, row, col){
                                   var strTssStrtDd = record.get("strTssStrtDd");
                                   var strTssFnhDd = record.get("strTssFnhDd");
                           		return strTssStrtDd + '~' + strTssFnhDd ;
                           	}
                       	  }
-                      	, { field: 'tssDiffMon',        label: '소요 기간',               	sortable: false,  align:'right', width: 60 
+                      	, { field: 'tssDiffMon',        label: '소요 기간',               	sortable: false,  align:'right', width: 60
                       		, renderer: function(value, p, record, row, col){
                           		return value + '개월';
                           	}
@@ -189,18 +192,20 @@
                 defaultGrid.saveExcel(encodeURIComponent('대외협력과제 통계_') + new Date().format('%Y%m%d') + '.xls',{
                     columnModel: excelColumnModel
                 });
+             // 목록 페이징
+                paging(dataSet,"defaultGrid");
             };
-            
+
             // 화면로딩시 조회
             fnSearch();
-			
+
         });
 
 	</script>
     </head>
     <body>
 	<form name="aform" id="aform" method="post">
-		
+
    		<div class="contents">
 
    			<div class="titleArea">
@@ -238,7 +243,7 @@
    				</div>
 
    				<div id="defaultGrid"></div>
-   			</div>	
+   			</div>
    			<!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

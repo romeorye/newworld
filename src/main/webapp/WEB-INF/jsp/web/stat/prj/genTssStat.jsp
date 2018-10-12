@@ -25,6 +25,7 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <title><%=documentTitle%></title>
 
@@ -274,7 +275,7 @@
                 columnModel: columnModel,
                 dataSet: dataSet,
                 width: 860,
-                height: 590,
+                height: 400,
                 autoToEdit: true,
                 clickToEdit: true,
                 enterToEdit: true,
@@ -339,11 +340,18 @@
 
             dataSet.on('load', function(e) {
    	    		$("#cnt_text").html('총 ' + dataSet.getCount() + '건');
+   	    	// 목록 페이징
+   	            paging(dataSet,"defaultGrid");
    	      	});
 
 
         	downloadExcel = function() {
+        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        		dataSet.clearFilter();
         		defaultGrid.saveExcel(encodeURIComponent('일반과제 통계_') + new Date().format('%Y%m%d') + '.xls');
+        		// 목록 페이징
+                paging(dataSet,"defaultGrid");
+
             };
 
 

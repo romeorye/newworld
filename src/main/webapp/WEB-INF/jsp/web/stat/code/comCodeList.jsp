@@ -20,6 +20,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <title><%=documentTitle%></title>
 
@@ -53,7 +54,7 @@ var codeRegDialog;
 	                  { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
 	               	]
         });
-        
+
 		/*******************
          * 변수 및 객체 선언
          *******************/
@@ -81,6 +82,8 @@ var codeRegDialog;
 
          dataSet.on('load', function(e){
  	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
+ 	    // 목록 페이징
+ 	    	paging(dataSet,"defaultGrid");
  	    });
 
          var columnModel = new Rui.ui.grid.LColumnModel({
@@ -94,9 +97,9 @@ var codeRegDialog;
 	     	        			 p.editable = true;
 	     	        		}else{
 	     	        			 p.editable = false;
-	     	        		}	
+	     	        		}
 	     	        		return value
-	    	        	  }	
+	    	        	  }
 	    	          }
                      , { field: 'comDtlNm'      , label: '코드값',  	editor: new Rui.ui.form.LTextBox(), 	align:'left', 	width:180}
                      , { field: 'delYn' 	 	, label: '삭제여부',  	editor: delYnCombo, 	align:'center'}
@@ -115,13 +118,13 @@ var codeRegDialog;
              columnModel: columnModel,
              dataSet: dataSet,
              width: 1150,
-             height: 480,
+             height: 400,
              autoWidth: true
 
          });
 
          grid.render('defaultGrid');
-         
+
         //code
  	    var code = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
  	        applyTo: 'code',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -149,11 +152,11 @@ var codeRegDialog;
                 }
             });
         }
-        
+
         // 화면로드시 조회
 	    fnSearch();
 
-	  	//코드 등록 
+	  	//코드 등록
      	codeRegDialog = new Rui.ui.LFrameDialog({
 	        id: 'codeRegDialog',
 	        title: '코드 등록',
@@ -165,26 +168,26 @@ var codeRegDialog;
 
 	  	codeRegDialog.render(document.body);
 
-	  	
+
 	  	 /* [버튼] : 코드 정보 저장  */
 	    var butUpdate = new Rui.ui.LButton('butUpdate');
-	    
+
 	    butUpdate.on('click', function(){
 	    	var dm = new Rui.data.LDataSetManager();
-	        dm.on('success', function(e) {      // 업데이트 성공시 
+	        dm.on('success', function(e) {      // 업데이트 성공시
 	        	var resultData = resultDataSet.getReadData(e);
 	   			Rui.alert(resultData.records[0].rtnMsg);
-    		 	
+
     			if( resultData.records[0].rtnSt == "S"){
     				fnSearch();
     			}
 	        });
-	     
+
 	        dm.on('failure', function(e) {      // 업데이트 실패시
 	        	var resultData = resultDataSet.getReadData(e);
 	   			Rui.alert(resultData.records[0].rtnMsg);
 	        });
-	     
+
 	        dm.updateDataSet({                            				// 데이터 변경시 호출함수 입니다.
 	            url: '<c:url value="/stat/code/saveCodeInfo.do"/>' ,	// 서버측 URL을 기술합니다.
 	            dataSets:[dataSet]
@@ -193,7 +196,7 @@ var codeRegDialog;
 
 	    /* [버튼] : 신규 코드 등록 팝업창으로 이동 */
 	    var butRgst = new Rui.ui.LButton('butRgst');
-	    
+
 		butRgst.on('click', function(){
 			codeRegDialog.setUrl('<c:url value="/stat/code/codeRegPop.do"/>');
 			codeRegDialog.show(true);
@@ -201,16 +204,16 @@ var codeRegDialog;
 
 	    /* [버튼] : 자산신규 페이지로 이동 */
 	    var butAdd = new Rui.ui.LButton('butAdd');
-	    
+
 	    butAdd.on('click', function(){
-	    	
+
 	    	if(Rui.isEmpty(code.getValue())  &&   Rui.isEmpty(code.getValue())){
 		    	dataSet.newRecord();
 	    	}else{
 	    		var row = dataSet.newRecord();
 	    		var beforeRecord = dataSet.getAt(row-1);
 	            var record = dataSet.getAt(row);
-	            
+
 	            record.set('comCdCd', beforeRecord.get("comCdCd"));
 	            record.set('comCdNm', beforeRecord.get("comCdNm"));
 	            record.set('delYn', 'N');
@@ -222,6 +225,8 @@ var codeRegDialog;
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
+        	// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        	dataSet.clearFilter();
         	if(dataSet.getCount() > 0 ) {
 	            var excelColumnModel = columnModel.createExcelColumnModel(false);
 	            grid.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') + '.xls', {
@@ -231,6 +236,8 @@ var codeRegDialog;
         		Rui.alert("리스트 건수가 없습니다.");
         		return;
         	}
+        	// 목록 페이징
+        	paging(dataSet,"defaultGrid");
         });
 
 	});		//end ready
@@ -256,7 +263,7 @@ var codeRegDialog;
 			   			<div class="search-content">
 						<form name="aform" id="aform" method="post">
 						<input type="hidden" id="menuType"  name="menuType" value="IRIFI0101" />
-	
+
 	    				<table>
 	    					<colgroup>
 	    						<col style="width:120px"/>

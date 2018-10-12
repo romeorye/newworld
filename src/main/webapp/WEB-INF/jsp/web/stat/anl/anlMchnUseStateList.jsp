@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
@@ -18,13 +18,14 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <title><%=documentTitle%></title>
 
@@ -34,12 +35,12 @@
 </style>
 
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
              *******************/
-            
+
             var fromExprStrtDt = new Rui.ui.form.LDateBox({
 				applyTo: 'fromExprStrtDt',
 				mask: '9999-99-99',
@@ -55,7 +56,7 @@
 					alert('날자형식이 올바르지 않습니다.!!');
 					fromExprStrtDt.setValue(new Date());
 				}
-				
+
 				if( fromExprStrtDt.getValue() > toExprStrtDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromExprStrtDt.setValue(toExprStrtDt.getValue());
@@ -71,19 +72,19 @@
 				width: 100,
 				dateType: 'string'
 			});
-			 
+
 			toExprStrtDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toExprStrtDt.getValue(),"-","")) ) )  {
 					alert('날자형식이 올바르지 않습니다.!!');
 					toExprStrtDt.setValue(new Date());
 				}
-				
+
 				if( fromExprStrtDt.getValue() > toExprStrtDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromExprStrtDt.setValue(toExprStrtDt.getValue());
 				}
 			});
-            
+
             var anlChrgId = new Rui.ui.form.LCombo({
                 applyTo: 'anlChrgId',
                 name: 'anlChrgId',
@@ -95,7 +96,7 @@
                 displayField: 'name',
                 valueField: 'userId'
             });
-			
+
             /*******************
              * 변수 및 객체 선언
             *******************/
@@ -151,44 +152,46 @@
                 columnModel: anlMchnUseStatColumnModel,
                 dataSet: anlMchnUseStatDataSet,
                 width: 1000,
-                height: 580,
+                height: 400,
                 autoToEdit: false,
                 autoWidth: true
             });
-            
+
             anlMchnUseStatGrid.render('anlMchnUseStatGrid');
-            
+
             /* 조회 */
             getAnlMchnUseStateList = function() {
             	anlMchnUseStatDataSet.load({
                     url: '<c:url value="/stat/anl/getAnlMchnUseStateList.do"/>',
                     params :{
             		    anlChrgId : anlChrgId.getValue(),
-            		    fromExprStrtDt : fromExprStrtDt.getValue(), 
+            		    fromExprStrtDt : fromExprStrtDt.getValue(),
             		    toExprStrtDt : toExprStrtDt.getValue()
                     }
                 });
             };
-            
+
             anlMchnUseStatDataSet.on('load', function(e) {
    	    		$("#cnt_text").html('총 ' + anlMchnUseStatDataSet.getCount() + '건');
+   	    	// 목록 페이징
+   	    		paging(anlMchnUseStatDataSet,"anlMchnUseStatGrid");
    	      	});
-            
+
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlMchnUseStateListExcel = function() {
                 anlMchnUseStatGrid.saveExcel(encodeURIComponent('분석 기기사용 통계_') + new Date().format('%Y%m%d') + '.xls');
             };
-            
+
             getAnlMchnUseStateList();
-			
+
         });
 
 	</script>
     </head>
     <body>
 	<form name="aform" id="aform" method="post">
-		
-   		<div class="contents">  			
+
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 	   				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
@@ -196,8 +199,8 @@
    				</a>
    				<h2>분석 기기사용</h2>
    			</div>
-   			
-	   		<div class="sub-content">	
+
+	   		<div class="sub-content">
 	   			<div class="search">
 			   		<div class="search-content">
 		   				<table>
@@ -227,7 +230,7 @@
 		   				</table>
 		   			</div>
 		   		</div>
-   				
+
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">
@@ -236,7 +239,7 @@
    				</div>
 
    				<div id="anlMchnUseStatGrid"></div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>
