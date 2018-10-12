@@ -85,12 +85,12 @@
 
 		   function fnTssPageMove(gbn, pPgsStepCd, pGrsEvSt, pTssCd, pTssSt, pProgressrate) {
 		       var returnUrl;
-		    
+
 		       var rate;
 		       var arryProg = pProgressrate.split("/");
 		       var rWgvl = arryProg[0];
 		       var gWgvl = arryProg[1];
-		      
+
 		       if(rWgvl > gWgvl   ){
 		    	   rate = "S";
 		       }else if (rWgvl < gWgvl   ){
@@ -98,7 +98,7 @@
 		       }else{
 		    	   rate = "N";
 		       }
-		    
+
 		       var progressParam = "&progressrateReal="+pProgressrate+"&progressrate="+rate;
 
 		       if(gbn == "G") {
@@ -161,7 +161,7 @@
 	                   } else {
 	                       returnUrl = "/prj/tss/ousdcoo/ousdCooTssPgsDetail.do?tssCd=" + pTssCd+progressParam;
 	                   }
-	               }            
+	               }
 	               //완료(조회 및 수정)
 	               else if(pPgsStepCd == "CM") {
 	                   returnUrl = "/prj/tss/ousdcoo/ousdCooTssCmplDetail.do?tssCd=" + pTssCd;
@@ -252,7 +252,7 @@
 	                       returnUrl = "/knld/pub/technologyInfo.do?techId=" + pTssCd;
 	                   }
 	                   else if(pGrsEvSt == "J") {
-	                       returnUrl = "/knld/pub/updateEduRtrvCnt.do?eduId=" + pTssCd;
+	                       returnUrl = "/knld/pub/eduInfo.do?eduId=" + pTssCd;
 	                   }
 	                   else if(pGrsEvSt == "K") {
 	                       returnUrl = "/knld/pub/conferenceInfo.do?conferenceId=" + pTssCd;
@@ -275,7 +275,7 @@
 
 	               }
 
-		       }	       
+		       }
 		       if(gbn == "G") {			// 일반과제
 		    	   moveMenu('PJ', 'IRIPJ0200', returnUrl, 'IRIPJ0201');
 		       }else if(gbn == "O") {	// 대외협력과제
@@ -345,12 +345,12 @@
 //			<a href="javascript:moveMenu('PJ', 'IRIPJ0200', '/prj/tss/gen/genTssList.do', 'IRIPJ0201')">일반과제</a>
 //			<a href="javascript:moveMenu('PJ', 'IRIPJ0200', '/prj/tss/ousdcoo/ousdCooTssList.do', 'IRIPJ0202')">대외협력과제</a>
 //			<a href="javascript:moveMenu('PJ', 'IRIPJ0200', '/prj/tss/nat/natTssList.do', 'IRIPJ0203')">국책과제</a>
-	  
+
 		   }// end function
 
 	   // 나의 과제 현황 +버튼 : 과제리스트 페이지이동
 	   function fnTssListPageMove(){
-		   
+
 		   if(tssTabGbn == "G") {		// 공지사항
 	    	   moveMenu('KL', 'IRIKL0100', '/knld/pub/retrievePubNoticeList.do', 'IRIKL0101');
 	       }else if(tssTabGbn == "O") {	// 대외협력과제
@@ -594,11 +594,11 @@
 										</c:otherwise>
 										</c:choose>
                                     </tbody>
-                        </table> 
-                    </div>    
-                    
+                        </table>
                     </div>
-                    
+
+                    </div>
+
                     <div id="panel4" class="panel">
                         <!--table-->
                     <div class="">
@@ -620,7 +620,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            
+
                             <c:choose>
                             <c:when test="${fn:length(knowList) == 0}">
                             	<tr><td colspan="4">Knowledge가 존재하지 않습니다.</td></tr>
@@ -635,7 +635,7 @@
 	                            </tr>
 								</c:forEach>
 							</c:otherwise>
-							</c:choose>	
+							</c:choose>
                             </tbody>
                         </table>
                     </div>
@@ -661,7 +661,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            
+
                             <c:choose>
                             <c:when test="${fn:length(qnaList) == 0}">
                             	<tr><td colspan="4">Q&A가 존재하지 않습니다.</td></tr>
@@ -676,7 +676,7 @@
 		                            </tr>
 	                             </c:forEach>
 	                        </c:otherwise>
-	                        </c:choose>    
+	                        </c:choose>
 
                             </tbody>
                         </table>
