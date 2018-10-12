@@ -3,7 +3,7 @@
 <%@ include file="../tmpMenu.jsp" %>
 <script type="text/javascript">
 $(document).ready(function() {
-	$('#PJ').on('click', function(e){
+	$('#PJ').hover( function(e){
 	  $('.Mgnb .top_gnb #sub_menu1').css("display","block");
 	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
@@ -13,7 +13,7 @@ $(document).ready(function() {
 
 	});
 
-	$('#AN').on('click', function(e){
+	$('#AN').hover( function(e){
 	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu2').css("display","block");
 	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
@@ -22,7 +22,7 @@ $(document).ready(function() {
 	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
 	});
 
-	$('#DE').on('click', function(e){
+	$('#DE').hover( function(e){
 	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu3').css("display","block");
@@ -31,7 +31,7 @@ $(document).ready(function() {
 	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
 	});
 
-	$('#FI').on('click', function(e){
+	$('#FI').hover( function(e){
 	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
@@ -40,7 +40,7 @@ $(document).ready(function() {
 	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
 	});
 
-	$('#KL').on('click', function(e){
+	$('#KL').hover( function(e){
 	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
@@ -49,7 +49,7 @@ $(document).ready(function() {
 	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
 	});
 
-	$('#ST').on('click', function(e){
+	$('#ST').hover( function(e){
 	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
@@ -157,13 +157,13 @@ function goHelpDesk(){
 		                    					<ul>
 			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
 			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
-			                    					<c:if test="${data2.subSysId=='PJ'}">
-			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    					 <c:if test="${data2.subSysId=='PJ'}">
+			                    						  <c:if test="${data2.fkMenuId==data.menuId}">
 			                    							<li class="menu_3depth">
 			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
 		    	                							</li>
-		    	                						</c:if>
-		    	                					</c:if>
+		    	                						 </c:if>
+		    	                					  </c:if>
 		    	                				</c:forEach>
 		    	                				</c:forEach>
 		        	            				</ul>
@@ -194,11 +194,11 @@ function goHelpDesk(){
 			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
 			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
 			                    					<c:if test="${data2.subSysId=='AN'}">
-			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
 			                    							<li class="menu_3depth">
 			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
 		    	                							</li>
-		    	                						</c:if>
+		    	                						 </c:if>
 		    	                					</c:if>
 		    	                				</c:forEach>
 		    	                				</c:forEach>
@@ -231,11 +231,11 @@ function goHelpDesk(){
 			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
 			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
 			                    					<c:if test="${data2.subSysId=='DE'}">
-			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
 			                    							<li class="menu_3depth">
 			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
 		    	                							</li>
-		    	                						</c:if>
+		    	                						 </c:if>
 		    	                					</c:if>
 		    	                				</c:forEach>
 		    	                				</c:forEach>
@@ -267,11 +267,11 @@ function goHelpDesk(){
 			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
 			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
 			                    					<c:if test="${data2.subSysId=='FI'}">
-			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
 			                    							<li class="menu_3depth">
 			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
 		    	                							</li>
-		    	                						</c:if>
+		    	                						 </c:if>
 		    	                					</c:if>
 		    	                				</c:forEach>
 		    	                				</c:forEach>
@@ -303,11 +303,11 @@ function goHelpDesk(){
 			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
 			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
 			                    					<c:if test="${data2.subSysId=='KL'}">
-			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
 			                    							<li class="menu_3depth">
 			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
 		    	                							</li>
-		    	                						</c:if>
+		    	                						 </c:if>
 		    	                					</c:if>
 		    	                				</c:forEach>
 		    	                				</c:forEach>
@@ -339,11 +339,11 @@ function goHelpDesk(){
 			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
 			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
 			                    					<c:if test="${data2.subSysId=='ST'}">
-			                    						<c:if test="${data2.fkMenuId==data.menuId}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
 			                    							<li class="menu_3depth">
 			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
 		    	                							</li>
-		    	                						</c:if>
+		    	                						 </c:if>
 		    	                					</c:if>
 		    	                				</c:forEach>
 		    	                				</c:forEach>

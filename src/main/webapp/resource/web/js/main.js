@@ -23,14 +23,18 @@ $(document).ready(function(){
 
 	$(".Mgnb .top_gnb").hide();
 
-	$('.Mgnb .title li').on('click', function(e){
+	$('#Wrap').hover(function() {
 	  $('.Mgnb .top_gnb').slideDown('fast');
 	  return false;
-	});
-	$('#Wrap').on('click', function(e){
-	  $('.Mgnb .top_gnb').slideUp('fast');
+	}
+	, function() {
+		$('.Mgnb .top_gnb').slideUp('fast');
 	});
 
+/*	$('#Wrap').blur(function() {
+	  $('.Mgnb .top_gnb').slideUp('fast');
+	});
+*/
 
 
   $('.table_bgcolor tr:odd').css("backgroundColor","#fff");
@@ -170,7 +174,7 @@ $(function(){
 	});
 
 	function autoSlide(){
-		if(cnt>len-1){
+		/*if(cnt>len-1){
 			cnt = 0;
 		}
 
@@ -182,11 +186,12 @@ $(function(){
 		var source = $('.bt-roll').children().find('img').attr('src').replace('.png','_.png');
 		$('.bt-roll').children().eq(cnt).find('img').attr('src',source);
 
-		cnt++;
+		cnt++;*/
+		cnt = 0;
 	}
 
     })
-    
+
 /*******************************************************************************
 * FUNCTION 명 : moveMenu()
 * FUNCTION 기능설명 : 화면 이동
@@ -196,7 +201,7 @@ function moveMenu(vMenuId, parentMenuId, scrnUrl, menuId) {
 
 	var target = '_self';
 	var action = contextPath + '/index.do';
-	
+
 	if('IRIAN0001|IRIPJ0001'.indexOf(menuId) > -1) {
 		action = contextPath + scrnUrl;
 	}
