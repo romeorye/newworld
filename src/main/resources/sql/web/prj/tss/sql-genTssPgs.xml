@@ -15,21 +15,21 @@
     <select id="retrieveGenTssPgsPtcRsstMbr" resultType="hashmap">
     <![CDATA[
     -- retrieveGenTssPgsPtcRsstMbr 참여연구원 조회
-        SELECT DISTINCT
+        SELECT DISTINCT          
                PTC_RSST_MBR_SN AS ptcRsstMbrSn --참여연구원일련번호
-             , SA_SABUN_NEW    AS saSabunNew   --연구원사번
-             , DEPT_CODE       AS deptCode     --소속
-             , PTC_STRT_DT     AS ptcStrtDt    --참여시작일
-             , PTC_FNH_DT      AS ptcFnhDt     --참여종료일
-             , PTC_ROLE        AS ptcRole      --참여역할
-             , PTC_ROLE_DTL    AS ptcRoleDtl   --참여역할상세
+             , SA_SABUN_NEW    AS saSabunNew   --연구원사번        
+             , DEPT_CODE       AS deptCode     --소속              
+             , PTC_STRT_DT     AS ptcStrtDt    --참여시작일        
+             , PTC_FNH_DT      AS ptcFnhDt     --참여종료일        
+             , PTC_ROLE        AS ptcRole      --참여역할          
+             , PTC_ROLE_DTL    AS ptcRoleDtl   --참여역할상세      
              , PTC_PRO         AS ptcPro       --참여율
              , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'USER', SA_SABUN_NEW) , SA_SABUN_NAME) AS saUserName --과제리더명
              , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'DEPT', DEPT_CODE) , DEPT_NAME) AS deptName   --소속명
              , dbo.fn_getComDtlNm('PTC_ROLE', PTC_ROLE) AS ptcRoleNm  --참여역할명
              , #{_userId}      AS userId
           FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
-         WHERE TSS_CD IN (SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PK_WBS_CD = #{pkWbsCd})
+         WHERE TSS_CD IN (SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PK_WBS_CD = #{pkWbsCd} and pgs_step_cd = #{pgsStepCd} )
          ORDER BY saUserName
     ]]>
     </select>
