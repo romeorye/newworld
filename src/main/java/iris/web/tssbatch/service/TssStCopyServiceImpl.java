@@ -1,19 +1,21 @@
 package iris.web.tssbatch.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
 import devonframe.dataaccess.CommonDao;
 import iris.web.prj.tss.gen.service.GenTssAltrService;
 import iris.web.prj.tss.gen.service.GenTssCmplService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.nat.service.NatTssAltrService;
 import iris.web.prj.tss.ousdcoo.service.OusdCooTssAltrService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /*********************************************************************************
  * NAME : TssCopyBatchServiceImpl.java
@@ -692,7 +694,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		//과제 인원 지적재산권 삭제
 		commonDaoPims.delete("batch.delPimsInfo", input);
 		//과제 인원 지적재산권 등록
-		List<HashMap<String, Object>> saveResult = commonDao.selectList("batch.savePimsList", input);
+		List<HashMap<String, Object>> saveResult = commonDao.selectList("batch.selectTssMbrList", input);
 		LOGGER.debug("###############saveResult############################################ : " + saveResult.size());
 
 		if (saveResult.size() > 0) {
