@@ -30,6 +30,7 @@
     var gvTssSt  = "";
     var gvCooInstCd = "";
     var gvPageMode  = "";
+    var gvPgsStepCd = "";
 
     var pgsStepNm = "";
     var dataSet;
@@ -231,7 +232,7 @@
             }
 
 
-            if(pgsStepCd=="PL"){
+            if(gvPgsStepCd=="PL"){
                 btnDelRq.hide();
                 btnGrsRq.hide();
             }
@@ -297,7 +298,7 @@
             gvTssSt     = stringNullChk(dataSet.getNameValue(0, "tssSt"));
             gvCooInstCd = stringNullChk(dataSet.getNameValue(0, "cooInstCd"));
             gvPageMode  = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
-            pgsStepCd = stringNullChk(dataSet.getNameValue(0, "pgsStepCd"));
+            gvPgsStepCd = stringNullChk(dataSet.getNameValue(0, "pgsStepCd"));
 
             //최초 로그인사용자 정보 셋팅
             if(gvTssCd == "") {

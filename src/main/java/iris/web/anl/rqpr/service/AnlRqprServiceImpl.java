@@ -263,7 +263,7 @@ public class AnlRqprServiceImpl implements AnlRqprService {
     			anlRqprInfo.put("rqprAttachFileList", sb.toString());
     			
     			sb.delete(0, sb.length());
-    			
+
     			String body = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "iris/web/anl/rqpr/vm/anlRqprApproval.vm", "UTF-8", anlRqprInfo);
     			
     			Map<String, Object> itgRdcsInfo = new HashMap<String, Object>();
