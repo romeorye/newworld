@@ -91,6 +91,7 @@
                  { id: 'tssNm'},
                  { id: 'bizDptCd'},
                  { id: 'bizDptNm'},
+                 { id: 'prjNm'},
                  { id: 'dlbrCrgr'},
                  { id: 'dlbrCrgrNm'},
                  { id: 'tssDd'},
@@ -119,7 +120,7 @@
 				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , vMerge: false , renderer: function(val, p, record, row, i){
                          return "<a href='javascript:evTssPop("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
                      } },
-                     { field: 'bizDptNm',   label: '프로젝트명',  align:'center',  width: 100 },
+                     { field: 'prjNm',   label: '프로젝트명',  align:'center',  width: 100 },
                      { field: 'dlbrCrgrNm',   label: '과제담당자',  align:'center',  width: 70},
                      { field: 'tssDd',   label: '과제기간',  align:'center',  width: 100 },
                      { field: 'dlbrParrDt',   label: '심의예정일',  align:'center',  width: 60 },

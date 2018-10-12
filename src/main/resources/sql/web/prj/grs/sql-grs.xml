@@ -17,7 +17,7 @@
                  , iif(m.PGS_STEP_CD='PL','SEED-'+m.wbs_cd , m.wbs_cd)           wbsCd
                  , m.pk_wbs_cd           pkWbsCd
                  , m.tss_nm           tssNm
-                 , m.prj_nm           prjNm
+                 ,isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) as prjNm
                  , m.BIZ_DPT_CD	      bizDptCd
                  , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
                  , g.dlbr_crgr 									 AS dlbrCrgr
@@ -48,7 +48,7 @@
                  , iif(m.PGS_STEP_CD='PL','SEED-'+m.wbs_cd , m.wbs_cd)           wbsCd
                  , m.pk_wbs_cd           pkWbsCd
                  , m.tss_nm           tssNm
-                 , m.prj_nm           prjNm
+                 ,isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) as prjNm
                  , m.BIZ_DPT_CD	      bizDptCd
                  , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
                  , g.dlbr_crgr 									 AS dlbrCrgr

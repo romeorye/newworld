@@ -200,11 +200,13 @@
                         btnGrsRq.show();	//GRS  요청
                     }
 
-
+					
+                    
+                    console.log(pgsStepCd,grsYn, gvTssSt);
                     if(
-						(pgsStepCd=="PL" && grsYn=="N" && gvTssSt=="100")	//GRS N(계획) 인경우 바로 품의서 요청
+						(pgsStepCd=="PL" && grsYn=="N" && gvTssSt=="100")			//GRS N(계획) 인경우 바로 품의서 요청
 						|| (pgsStepCd=="PL" && grsYn=="Y" && gvTssSt=="302" )	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
-						|| (pgsStepCd=="PG" && gvTssSt=="302")	//진행인 경우 GRS 평가완료
+						|| (pgsStepCd=="PG" && gvTssSt=="302")							//진행인 경우 GRS 평가완료
 					){
                         btnCsusRq.show();	// 품의서요청
                     }
