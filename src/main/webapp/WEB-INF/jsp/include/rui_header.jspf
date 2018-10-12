@@ -250,8 +250,8 @@
 	    _userSearchDialog = new Rui.ui.LFrameDialog({
 	        id: '_userSearchDialog',
 	        title: '사용자 조회',
-	        width: 570,
-	        height: 325,
+	        width: 550,
+	        height: 400,
 	        modal: true,
 	        visible: false
 	    });
@@ -259,8 +259,8 @@
 	    var _userSearchDialogMulti = new Rui.ui.LFrameDialog({
 	        id: '_userSearchDialogMulti',
 	        title: '사용자 조회',
-	        width: 595,
-	        height: 610,
+	        width: 650,
+	        height: 600,
 	        modal: true,
 	        visible: false,
 	        buttons: [

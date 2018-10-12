@@ -25,6 +25,14 @@
     </select>
 
 
+    <!-- 반려시 이전 TSS_ST 반환 -->
+    <select id="selectLastTssSt" resultType="String">
+    <![CDATA[
+          --반려시 이전 TSS_ST 반환
+          select dbo.fn_getLastTssSt4Gvb(#{tssCd})  as tssSt
+    ]]>
+    </select>
+
 	<!-- 계획단계 삭제 시작 -->
     <!-- 계획단계 삭제 - 마스터테이블 YN -->
 	<update id="deleteGenTssPlnMst1">

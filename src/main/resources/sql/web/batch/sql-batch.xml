@@ -25,6 +25,7 @@
 			 , mm.TSS_STRT_DD as tssStrtDd
 			 , mm.TSS_FNH_DD  as tssFnhDd
 		     , mm.TSS_SCN_CD   as tssScnCd
+		     , mm.GRS_YN as grsYn
 		  FROM IRIS_COM_ITG_RDCS ir
 		 INNER JOIN IRIS_TSS_MGMT_MST mm
 		    ON ir.AFFR_CD = mm.TSS_CD

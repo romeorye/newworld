@@ -65,9 +65,10 @@ public class TctmTssController extends IrisBaseController {
     private GenTssCmplService genTssCmplService;
 
 
-    static final Logger LOGGER = LogManager.getLogger(TctmTssController.class);
+	static final Logger LOGGER = LogManager.getLogger(TctmTssController.class);
 
-    /**
+
+	/**
      * 과제관리 > 기술팀과제 리스트 화면
      *
      * @param input   HashMap<String, String>
@@ -76,25 +77,25 @@ public class TctmTssController extends IrisBaseController {
      * @param model   ModelMap
      * @return String
      */
-    @RequestMapping(value = TctmUrl.doList)
+    @RequestMapping(TctmUrl.doList)
     public String doList(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpSession session, ModelMap model) {
 
-        checkSessionObjRUI(input, session, model);
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("TctmTssController - tctmTssList [과제관리 > 기술팀과제 리스트 화면]");
-        LOGGER.debug("###########################################################");
+		this.checkSessionObjRUI(input, session, model);
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("TctmTssController - tctmTssList [과제관리 > 기술팀과제 리스트 화면]");
+		TctmTssController.LOGGER.debug("###########################################################");
 
         input = StringUtil.toUtf8(input);
 
-        if (pageMoveChkSession((String) input.get("_userId"))) {
-            Map<String, Object> role = tssUserService.getTssListRoleChk(input);
+        if (this.pageMoveChkSession((String) input.get("_userId"))) {
+            Map<String, Object> role = this.tssUserService.getTssListRoleChk(input);
             input.put("tssRoleType", role.get("tssRoleType"));
             input.put("tssRoleId", role.get("tssRoleId"));
 
             model.addAttribute("inputData", input);
         }
 
-        return TctmUrl.jspList;
+		return TctmUrl.jspList;
     }
 
 
@@ -109,28 +110,28 @@ public class TctmTssController extends IrisBaseController {
      * @return ModelAndView
      */
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = TctmUrl.doSelectList)
+	@RequestMapping(TctmUrl.doSelectList)
     public ModelAndView doSelectList(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
                                            HttpServletResponse response, HttpSession session, ModelMap model) {
 
-        checkSessionObjRUI(input, session, model);
+		this.checkSessionObjRUI(input, session, model);
 
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("retrievefGenTssList - retrieveGenTssList [과제관리 > 기술팀과제 리스트 조회]");
-        LOGGER.debug("input = > " + input);
-        LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("retrievefGenTssList - retrieveGenTssList [과제관리 > 기술팀과제 리스트 조회]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
 
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
         input = StringUtil.toUtf8(input);
 
-        Map<String, Object> role = tssUserService.getTssListRoleChk(input);
+        Map<String, Object> role = this.tssUserService.getTssListRoleChk(input);
         input.put("tssRoleType", role.get("tssRoleType"));
         input.put("tssRoleCd", role.get("tssRoleCd"));
 
 //        List<Map<String, Object>> list = genTssService.retrieveGenTssList(input);
-        List<Map<String, Object>> list = tctmTssService.selectTctmTssList(input);
+        List<Map<String, Object>> list = this.tctmTssService.selectTctmTssList(input);
 
 
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", list));
@@ -151,29 +152,29 @@ public class TctmTssController extends IrisBaseController {
      * @return String
      * @throws JSONException
      */
-    @RequestMapping(value = TctmUrl.doView)
+    @RequestMapping(TctmUrl.doView)
     public String doView(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpSession session, ModelMap model) throws JSONException {
 
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("tctmTssPlnDetail [과제관리 > 기술팀과제 > 계획 > 마스터 조회]");
-        LOGGER.debug("input = > " + input);
-        LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("tctmTssPlnDetail [과제관리 > 기술팀과제 > 계획 > 마스터 조회]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-        checkSession(input, session, model);
+		this.checkSession(input, session, model);
 
-        if (pageMoveChkSession(input.get("_userId"))) {
+        if (this.pageMoveChkSession(input.get("_userId"))) {
             // 데이터 있을 경우
             Map<String, Object> result = new HashMap<String, Object>();
             if (!"".equals(input.get("tssCd")) && null != input.get("tssCd")) {
 //                result = genTssPlnService.retrieveGenTssPlnMst(input);
-                result = tctmTssService.selectTctmTssInfo(input);
+                result = this.tctmTssService.selectTctmTssInfo(input);
             }
 
             result = StringUtil.toUtf8Output((HashMap) result);
             TestConsole.showMap(result);
 
             // 사용자권한
-            Map<String, Object> role = tssUserService.getTssBtnRoleChk(input, result);
+            Map<String, Object> role = this.tssUserService.getTssBtnRoleChk(input, result);
             result.put("tssRoleType", "W");
             result.put("tssRoleId", role.get("tssRoleId"));
 
@@ -181,7 +182,7 @@ public class TctmTssController extends IrisBaseController {
             HashMap<String, Object> userMap = new HashMap<String, Object>();
             userMap.put("deptCd", input.get("_teamDept"));
 
-            userMap = genTssService.retrievePrjSearch(userMap);
+            userMap = this.genTssService.retrievePrjSearch(userMap);
 
             // 마스터 데이터
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
@@ -214,16 +215,16 @@ public class TctmTssController extends IrisBaseController {
 	 * @return String
 	 * @throws JSONException
 	 * */
-	@RequestMapping(value=TctmUrl.doTabCmpl)
+	@RequestMapping(TctmUrl.doTabCmpl)
 	public String doTabCmpl(@RequestParam HashMap<String, String> input, HttpServletRequest request,
 									HttpSession session, ModelMap model) throws JSONException {
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("genTssCmplSmryIfm [과제관리 > 기술팀과제 > 완료Tab]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("genTssCmplSmryIfm [과제관리 > 기술팀과제 > 완료Tab]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-		checkSession(input, session, model);
+		this.checkSession(input, session, model);
 		String rtnUrl ="";
 
 //		if(input.get("tssSt").equals("104") && (input.get("pgsStepCd").equals("CM") || input.get("pgsStepCd").equals("DC")) ){
@@ -232,8 +233,8 @@ public class TctmTssController extends IrisBaseController {
 //			rtnUrl = "web/prj/tss/gen/cmpl/genTssCmplIfm";
 //		}
 
-		if(pageMoveChkSession(input.get("_userId"))) {
-			Map<String, Object> result = tctmTssService.selectTctmTssInfoSmry(input);
+		if(this.pageMoveChkSession(input.get("_userId"))) {
+			Map<String, Object> result = this.tctmTssService.selectTctmTssInfoSmry(input);
 			result = StringUtil.toUtf8Output((HashMap) result);
 			StringUtil.toUtf8Output((HashMap) result);
 
@@ -262,16 +263,16 @@ public class TctmTssController extends IrisBaseController {
 	 * @param model ModelMap
 	 * @return ModelAndView
 	 * */
-	@RequestMapping(value=TctmUrl.doUpdateCmplInfo)
+	@RequestMapping(TctmUrl.doUpdateCmplInfo)
 	public ModelAndView doUpdateCmplInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
 											HttpSession session, ModelMap model) {
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("doUpdateCmplInfo [과제관리 > 기술팀과제 > 완료 등록/수정]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("doUpdateCmplInfo [과제관리 > 기술팀과제 > 완료 등록/수정]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-		checkSessionObjRUI(input, session, model);
+		this.checkSessionObjRUI(input, session, model);
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
@@ -287,25 +288,25 @@ public class TctmTssController extends IrisBaseController {
 			// 완료 정보가 없으면 MST SMRY를 복제 있으면 내용 수정
 			if("".equals(mstDs.get("cmTssCd"))){
 				//신규
-				tctmTssService.duplicateTctmTssInfo(mstDs);
+				this.tctmTssService.duplicateTctmTssInfo(mstDs);
 				smryDs.put("newTssCd", mstDs.get("newTssCd"));
-				tctmTssService.duplicateTctmTssSmryInfo(smryDs);
+				this.tctmTssService.duplicateTctmTssSmryInfo(smryDs);
 			}else{
 				//수정
-				tctmTssService.updateTctmTssInfoCmpl(mstDs);
-				tctmTssService.updateTctmTssSmryInfoCmpl(smryDs);
+				this.tctmTssService.updateTctmTssInfoCmpl(mstDs);
+				this.tctmTssService.updateTctmTssSmryInfoCmpl(smryDs);
 			}
 
 //			genTssCmplService.insertGenTssCmplMst(mstDs, smryDs);
 
 			mstDs.put("rtCd", "SUCCESS");
-			mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+			mstDs.put("rtVal", this.messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
 			mstDs.put("rtType", "I");
 
 		} catch(Exception e) {
 			e.printStackTrace();
 			mstDs.put("rtCd", "FAIL");
-			mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+			mstDs.put("rtVal", this.messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
 		}
 
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", mstDs));
@@ -324,16 +325,16 @@ public class TctmTssController extends IrisBaseController {
 	 * @return String
 	 * @throws JSONException
 	 * */
-	@RequestMapping(value=TctmUrl.doTabDcac)
+	@RequestMapping(TctmUrl.doTabDcac)
 	public String doTabDcac(@RequestParam HashMap<String, String> input, HttpServletRequest request,
 							HttpSession session, ModelMap model) throws JSONException {
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("doTabDcac [과제관리 > 기술팀과제 > 중단Tab]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("doTabDcac [과제관리 > 기술팀과제 > 중단Tab]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-		checkSession(input, session, model);
+		this.checkSession(input, session, model);
 		String rtnUrl ="";
 
 //		if(input.get("tssSt").equals("104") && (input.get("pgsStepCd").equals("CM") || input.get("pgsStepCd").equals("DC")) ){
@@ -342,8 +343,8 @@ public class TctmTssController extends IrisBaseController {
 //			rtnUrl = "web/prj/tss/gen/cmpl/genTssCmplIfm";
 //		}
 
-		if(pageMoveChkSession(input.get("_userId"))) {
-			Map<String, Object> result = tctmTssService.selectTctmTssInfoSmry(input);
+		if(this.pageMoveChkSession(input.get("_userId"))) {
+			Map<String, Object> result = this.tctmTssService.selectTctmTssInfoSmry(input);
 			result = StringUtil.toUtf8Output((HashMap) result);
 			StringUtil.toUtf8Output((HashMap) result);
 
@@ -372,16 +373,16 @@ public class TctmTssController extends IrisBaseController {
 	 * @param model ModelMap
 	 * @return ModelAndView
 	 * */
-	@RequestMapping(value=TctmUrl.doUpdateDcacInfo)
+	@RequestMapping(TctmUrl.doUpdateDcacInfo)
 	public ModelAndView doUpdateDcacInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
 										 HttpSession session, ModelMap model) {
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("doUpdateDcacInfo [과제관리 > 기술팀과제 > 중단 등록/수정]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("doUpdateDcacInfo [과제관리 > 기술팀과제 > 중단 등록/수정]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-		checkSessionObjRUI(input, session, model);
+		this.checkSessionObjRUI(input, session, model);
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
@@ -397,25 +398,25 @@ public class TctmTssController extends IrisBaseController {
 			// 중단 정보가 없으면 MST SMRY를 복제 있으면 내용 수정
 			if("".equals(mstDs.get("dcTssCd"))){
 				//신규
-				tctmTssService.duplicateTctmTssInfo(mstDs);
+				this.tctmTssService.duplicateTctmTssInfo(mstDs);
 				smryDs.put("newTssCd", mstDs.get("newTssCd"));
-				tctmTssService.duplicateTctmTssSmryInfo(smryDs);
+				this.tctmTssService.duplicateTctmTssSmryInfo(smryDs);
 			}else{
 				//수정
-				tctmTssService.updateTctmTssInfoDcac(mstDs);
-				tctmTssService.updateTctmTssSmryInfoDcac(smryDs);
+				this.tctmTssService.updateTctmTssInfoDcac(mstDs);
+				this.tctmTssService.updateTctmTssSmryInfoDcac(smryDs);
 			}
 
 //			genTssCmplService.insertGenTssCmplMst(mstDs, smryDs);
 
 			mstDs.put("rtCd", "SUCCESS");
-			mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+			mstDs.put("rtVal", this.messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
 			mstDs.put("rtType", "I");
 
 		} catch(Exception e) {
 			e.printStackTrace();
 			mstDs.put("rtCd", "FAIL");
-			mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+			mstDs.put("rtVal", this.messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
 		}
 
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", mstDs));
@@ -437,24 +438,24 @@ public class TctmTssController extends IrisBaseController {
      * @return String
      * @throws JSONException
      */
-    @RequestMapping(value = TctmUrl.doTabSum)
+    @RequestMapping(TctmUrl.doTabSum)
     public String doTabSum(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpSession session, ModelMap model) throws JSONException {
 
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("tctmTssPlnSmryIfm [과제관리 > 기술팀과제 > 계획 > 개요 조회]");
-        LOGGER.debug("input = > " + input);
-        LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("tctmTssPlnSmryIfm [과제관리 > 기술팀과제 > 계획 > 개요 조회]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
 
-        checkSession(input, session, model);
+		this.checkSession(input, session, model);
 
-        if (pageMoveChkSession(input.get("_userId").toString())) {
+        if (this.pageMoveChkSession(input.get("_userId"))) {
             // 데이터 있을 경우
             Map<String, Object> result = null;
             if (!"".equals(input.get("tssCd")) && null != input.get("tssCd")) {
 
                 TestConsole.showMap(CommonUtil.mapToObj(input),"서머리조회 input");
-                result = tctmTssService.selectTctmTssInfoSmry(input);
+                result = this.tctmTssService.selectTctmTssInfoSmry(input);
 //                TestConsole.showMap(result,"서머리조회 output");
             }
             result = StringUtil.toUtf8Output((HashMap) result);
@@ -484,23 +485,23 @@ public class TctmTssController extends IrisBaseController {
      * @return String
      * @throws JSONException
      */
-    @RequestMapping(value = TctmUrl.doTabGoal)
+    @RequestMapping(TctmUrl.doTabGoal)
     public String doTabGoal(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpSession session, ModelMap model) throws JSONException {
 
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("TctmTssController - tctmTssPlnGoalYldIfm [과제관리 > 기술팀과제 > 계획 > 산출물 iframe 화면 ]");
-        LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("TctmTssController - tctmTssPlnGoalYldIfm [과제관리 > 기술팀과제 > 계획 > 산출물 iframe 화면 ]");
+		TctmTssController.LOGGER.debug("###########################################################");
 
-        checkSession(input, session, model);
+		this.checkSession(input, session, model);
 
-        if (pageMoveChkSession(input.get("_userId"))) {
+        if (this.pageMoveChkSession(input.get("_userId"))) {
             // 데이터 있을 경우
             List<Map<String, Object>> resultGoal = new ArrayList<Map<String, Object>>();
             List<Map<String, Object>> resultYld = new ArrayList<Map<String, Object>>();
 
             if (!"".equals(input.get("tssCd")) && null != input.get("tssCd")) {
-                resultGoal = genTssPlnService.retrieveGenTssPlnGoal(input);
-                resultYld = genTssPlnService.retrieveGenTssPlnYld(input);
+                resultGoal = this.genTssPlnService.retrieveGenTssPlnGoal(input);
+                resultYld = this.genTssPlnService.retrieveGenTssPlnYld(input);
             }
 
             for (int i = 0; i < resultGoal.size(); i++) {
@@ -537,23 +538,23 @@ public class TctmTssController extends IrisBaseController {
 	 * @return String
 	 * @throws JSONException
 	 */
-	@RequestMapping(value = TctmUrl.doTabAltr)
+	@RequestMapping(TctmUrl.doTabAltr)
 	public String doTabAltr(@RequestParam HashMap<String, String> input, HttpServletRequest request,
 										  HttpSession session, ModelMap model) throws JSONException {
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("doTabAltr [과제관리 > 기술팀과제 > 변경 > 개요 조회]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("doTabAltr [과제관리 > 기술팀과제 > 변경 > 개요 조회]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-		checkSession(input, session, model);
+		this.checkSession(input, session, model);
 
-		if (pageMoveChkSession(input.get("_userId"))) {
+		if (this.pageMoveChkSession(input.get("_userId"))) {
 			//데이터 있을 경우
 			Map<String, Object> result = null;
 			if (!"".equals(input.get("tssCd")) && null != input.get("tssCd")) {
 //				result = genTssAltrService.retrieveGenTssAltrSmry(input);
-				result = tctmTssService.selectTctmTssInfoSmry(input);
+				result = this.tctmTssService.selectTctmTssInfoSmry(input);
 			}
 			result = StringUtil.toUtf8Output((HashMap) result);
 
@@ -581,15 +582,15 @@ public class TctmTssController extends IrisBaseController {
 	 * @param model ModelMap
 	 * @return ModelAndView
 	 * */
-	@RequestMapping(value=TctmUrl.doUpdateInfoAltr)
+	@RequestMapping(TctmUrl.doUpdateInfoAltr)
 	public ModelAndView doUpdateInfoAltr(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
 											HttpSession session, ModelMap model) {
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("insertGenTssAltrMst [과제관리 > 기술팀과제 > 변경 > 개요 저장/수정]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("insertGenTssAltrMst [과제관리 > 기술팀과제 > 변경 > 개요 저장/수정]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-		checkSessionObjRUI(input, session, model);
+		this.checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> mstDs  = null;
 
@@ -601,17 +602,17 @@ public class TctmTssController extends IrisBaseController {
 			boolean upWbsCd = false;
 
 			smryDs = StringUtil.toUtf8Input(smryDs);
-			tctmTssService.updateTctmTssInfoAltrSmry(input,mstDs,smryDs,altrDs);
+			this.tctmTssService.updateTctmTssInfoAltrSmry(input,mstDs,smryDs,altrDs);
 //			genTssAltrService.insertGenTssAltrMst(mstDs, smryDs, altrDs, upWbsCd);
 
 
 			mstDs.put("rtCd", "SUCCESS");
-			mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+			mstDs.put("rtVal", this.messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
 //			mstDs.put("rtType", "I");
 		} catch(Exception e) {
 			e.printStackTrace();
 			mstDs.put("rtCd", "FAIL");
-			mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+			mstDs.put("rtVal", this.messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
 		}
 
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", mstDs));
@@ -628,19 +629,19 @@ public class TctmTssController extends IrisBaseController {
 	 *   @param model ModelMap
 	 * @return String
 	 * */
-	@RequestMapping(value=TctmUrl.doSelectInfoAltrListSmry)
+	@RequestMapping(TctmUrl.doSelectInfoAltrListSmry)
 	public ModelAndView doSelectInfoAltrListSmry(@RequestParam HashMap<String, String> input, HttpServletRequest request,
 												   HttpSession session, ModelMap model) {
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("retrieveGenTssAltrSmryList [과제관리 > 기술팀과제 > 변경 > 변경개요목록 조회]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("retrieveGenTssAltrSmryList [과제관리 > 기술팀과제 > 변경 > 변경개요목록 조회]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-		checkSessionRUI(input, session, model);
+		this.checkSessionRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-		List<Map<String, Object>> result = tctmTssService.selectTctmTssInfoAltrList(input);
+		List<Map<String, Object>> result = this.tctmTssService.selectTctmTssInfoAltrList(input);
 
 		modelAndView.addObject("dataset", RuiConverter.createDataset("dataset", result));
 		return modelAndView;
@@ -655,19 +656,19 @@ public class TctmTssController extends IrisBaseController {
 	 *   @param model ModelMap
 	 * @return String
 	 * */
-	@RequestMapping(value=TctmUrl.doCancelInfoAltr)
+	@RequestMapping(TctmUrl.doCancelInfoAltr)
 	public ModelAndView doCancelInfoAltr(@RequestParam HashMap<String, String> input, HttpServletRequest request,
 										 HttpSession session, ModelMap model) {
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("retrieveGenTssAltrSmryList [과제관리 > 기술팀과제 > 변경 > 변경취소]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("retrieveGenTssAltrSmryList [과제관리 > 기술팀과제 > 변경 > 변경취소]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
 
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		checkSessionRUI(input, session, model);
+		this.checkSessionRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		tctmTssService.cancelTctmTssInfoAltrSmry(input);
+		this.tctmTssService.cancelTctmTssInfoAltrSmry(input);
 
 
 		rtnMeaasge.put("rtCd", "SUCCESS");
@@ -687,30 +688,30 @@ public class TctmTssController extends IrisBaseController {
 	 * @return String
 	 * @throws JSONException
 	 * */
-	@RequestMapping(value=TctmUrl.doAltrCsusView)
+	@RequestMapping(TctmUrl.doAltrCsusView)
 	public String doAltrCsusView(@RequestParam HashMap<String, String> input, HttpServletRequest request,
 								   HttpSession session, ModelMap model) throws JSONException {
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("genTssAltrCsusRq [과제관리 > 기술팀과제 > 변경 > 내부품의서요청 화면 ]");
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("genTssAltrCsusRq [과제관리 > 기술팀과제 > 변경 > 내부품의서요청 화면 ]");
+		TctmTssController.LOGGER.debug("###########################################################");
 
-		checkSession(input, session, model);
+		this.checkSession(input, session, model);
 
-		if(pageMoveChkSession(input.get("_userId"))) {
+		if(this.pageMoveChkSession(input.get("_userId"))) {
 //			Map<String, Object> resultMst        = genTssAltrService.retrieveGenTssAltrMst(input); //마스터
 //			Map<String, Object> resultCsus       = genTssService.retrieveGenTssCsus(resultMst); //내부품의서
 //			Map<String, Object> resultSmry       = genTssAltrService.retrieveGenTssAltrSmry(input); //개요
 //			List<Map<String, Object>> resultAltr = genTssAltrService.retrieveGenTssAltrSmryList(input);
-			Map<String, Object> resultMst = tctmTssService.selectTctmTssInfo(input);    //마스터 정보
-			Map<String, Object> resultCsus = tctmTssService.selectCsus(resultMst);    //통합결제
-			Map<String, Object> resultSmry = tctmTssService.selectTctmTssInfoSmry(input);        //개요 정보
-			List<Map<String, Object>> resultAltr = tctmTssService.selectTctmTssInfoAltrList(input);    // 변경 목록
+			Map<String, Object> resultMst = this.tctmTssService.selectTctmTssInfo(input);    //마스터 정보
+			Map<String, Object> resultCsus = this.tctmTssService.selectCsus(resultMst);    //통합결제
+			Map<String, Object> resultSmry = this.tctmTssService.selectTctmTssInfoSmry(input);        //개요 정보
+			List<Map<String, Object>> resultAltr = this.tctmTssService.selectTctmTssInfoAltrList(input);    // 변경 목록
 
 			HashMap<String, String> inputInfo = new HashMap<String, String>();
 			inputInfo.put("attcFilId", String.valueOf(resultSmry.get("altrAttcFilId")));
 
-			List<Map<String, Object>> resultAttc  = tctmTssService.selectAttachFileList(inputInfo);	//첨부 파일 목록
+			List<Map<String, Object>> resultAttc  = this.tctmTssService.selectAttachFileList(inputInfo);	//첨부 파일 목록
 
 			resultMst  = StringUtil.toUtf8Output((HashMap) resultMst);
 			resultCsus = StringUtil.toUtf8Output((HashMap) resultCsus);
@@ -746,20 +747,20 @@ public class TctmTssController extends IrisBaseController {
 	 * @return String
 	 * @throws JSONException
 	 * */
-	@RequestMapping(value=TctmUrl.doTabAltrHis)
+	@RequestMapping(TctmUrl.doTabAltrHis)
 	public String doTabAltrHis(@RequestParam HashMap<String, String> input, HttpServletRequest request,
 									   HttpSession session, ModelMap model) throws JSONException {
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("retrieveGenTssPgsSmry [과제관리 > 기술팀과제 > 진행 > 변경이력 조회]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("retrieveGenTssPgsSmry [과제관리 > 기술팀과제 > 진행 > 변경이력 조회]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-		checkSession(input, session, model);
+		this.checkSession(input, session, model);
 
-		if(pageMoveChkSession(input.get("_userId"))) {
+		if(this.pageMoveChkSession(input.get("_userId"))) {
 //			List<Map<String, Object>> result = genTssPgsService.retrieveGenTssPgsAltrHist(input);
-			List<Map<String, Object>> result = tctmTssService.selectInfoAltrHisListAll(input);
+			List<Map<String, Object>> result = this.tctmTssService.selectInfoAltrHisListAll(input);
 			for(int i = 0; i < result.size(); i++) {
 				StringUtil.toUtf8Output((HashMap)result.get(i));
 			}
@@ -783,18 +784,16 @@ public class TctmTssController extends IrisBaseController {
 	 * @param request HttpServletRequest
 	 * @param session HttpSession
 	 * @param model ModelMap
-	 * @return String
-	 * @throws JSONException
-	 * */
-	@RequestMapping(value=TctmUrl.doTabAltrHisPop)
+	 * @return String */
+	@RequestMapping(TctmUrl.doTabAltrHisPop)
 	public String doTabAltrHisPop(@RequestParam HashMap<String, String> input, HttpServletRequest request,
-										HttpSession session, ModelMap model) throws JSONException {
+										HttpSession session, ModelMap model) {
 
-		checkSession(input, session, model);
+		this.checkSession(input, session, model);
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("genTssAltrDetailPopup [과제관리 > 기술팀과제 > 진행 > 변경이력 상세 팝업 화면 ]");
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("genTssAltrDetailPopup [과제관리 > 기술팀과제 > 진행 > 변경이력 상세 팝업 화면 ]");
+		TctmTssController.LOGGER.debug("###########################################################");
 
 		request.setAttribute("inputData", input);
 
@@ -811,19 +810,19 @@ public class TctmTssController extends IrisBaseController {
 	 * @return String
 	 * @throws JSONException
 	 */
-	@RequestMapping(value = TctmUrl.doSelectTabAltrHisPop)
+	@RequestMapping(TctmUrl.doSelectTabAltrHisPop)
 	public ModelAndView doSelectTabAltrHisPopSearch(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpSession session, ModelMap model) {
 
-		checkSessionObjRUI(input, session, model);
+		this.checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("genTssAltrDetailPopup [과제관리 > 기술팀과제 > 변경이력 팝업 내역 ]");
-		LOGGER.debug("####input  : ########### : " + input);
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("genTssAltrDetailPopup [과제관리 > 기술팀과제 > 변경이력 팝업 내역 ]");
+		TctmTssController.LOGGER.debug("####input  : ########### : " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-		List<Map<String, Object>> resultAltr = tctmTssService.selectInfoAltrHisList(input);
-		Map<String, Object> altrDtl = tctmTssService.selectInfoAltrHisInfo(input);
+		List<Map<String, Object>> resultAltr = this.tctmTssService.selectInfoAltrHisList(input);
+		Map<String, Object> altrDtl = this.tctmTssService.selectInfoAltrHisInfo(input);
 
 		StringUtil.toUtf8Output((HashMap<String, Object>) altrDtl);
 
@@ -844,16 +843,16 @@ public class TctmTssController extends IrisBaseController {
      * @param model   ModelMap
      * @return ModelAndView
      */
-    @RequestMapping(value = TctmUrl.doUpdateInfo)
+    @RequestMapping(TctmUrl.doUpdateInfo)
     public ModelAndView doUpdateInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
                                           HttpSession session, ModelMap model) {
 
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("tctmTssUpdateInfo [과제관리 > 기술팀과제 > 계획 > 마스터 신규]");
-        LOGGER.debug("input = > " + input);
-        LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("tctmTssUpdateInfo [과제관리 > 기술팀과제 > 계획 > 마스터 신규]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-        checkSessionObjRUI(input, session, model);
+		this.checkSessionObjRUI(input, session, model);
 
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
@@ -870,7 +869,7 @@ public class TctmTssController extends IrisBaseController {
             TestConsole.isEmpty("deptCode", mstDs.get("deptCode"));
             TestConsole.isEmpty("prjCd", mstDs.get("prjCd"));
             TestConsole.isEmpty("tssScnCd", mstDs.get("tssScnCd"));
-            HashMap<String, Object> getWbs = genTssService.getWbsCdStd("prj.tss.com.getWbsCdStd", mstDs);
+            HashMap<String, Object> getWbs = this.genTssService.getWbsCdStd("prj.tss.com.getWbsCdStd", mstDs);
 
             TestConsole.isEmptyMap(mstDs);
 
@@ -879,12 +878,12 @@ public class TctmTssController extends IrisBaseController {
 			String tssCd = (String) mstDs.get("tssCd");
 
 			if("".equals(tssCd)) {
-				LOGGER.debug("=============== 과제 신규 등록 ===============");
+				TctmTssController.LOGGER.debug("=============== 과제 신규 등록 ===============");
 				if (getWbs == null || getWbs.size() <= 0) {
 					mstDs.put("rtCd", "FAIL");
 					mstDs.put("rtVal", "상위사업부코드 또는 Project약어를 먼저 생성해 주시기 바랍니다.");
 				} else {
-					LOGGER.debug("=============== SEED WBS_CD 생성 ===============");
+					TctmTssController.LOGGER.debug("=============== SEED WBS_CD 생성 ===============");
 					int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
 					String seqMaxS = String.valueOf(seqMax + 1);
 					mstDs.put("wbsCd", "D" + seqMaxS);
@@ -898,56 +897,56 @@ public class TctmTssController extends IrisBaseController {
 					TestConsole.isEmptyMap(mstDs);
 					TestConsole.isEmptyMap(smryDecodeDs);
 
-					LOGGER.debug("=============== TSS CD 생성 ===============");
+					TctmTssController.LOGGER.debug("=============== TSS CD 생성 ===============");
 					if (mstDs.get("tssCd") == null || mstDs.get("tssCd").equals("")) {
-						String newTssCd = tctmTssService.selectNewTssCdt(mstDs);
+						String newTssCd = this.tctmTssService.selectNewTssCdt(mstDs);
 						mstDs.put("tssCd", newTssCd);
 						smryDecodeDs.put("tssCd", newTssCd);
 					}
 
-					LOGGER.debug("=============== 과제 마스터 등록 ===============");
-					tctmTssService.updateTctmTssInfo(mstDs);
-					LOGGER.debug("=============== 과제 개요 등록 ===============");
-					tctmTssService.updateTctmTssSmryInfo(smryDecodeDs);
-					LOGGER.debug("=============== 산출물 등록 ===============");
-					tctmTssService.updateTctmTssYld(mstDs);
+					TctmTssController.LOGGER.debug("=============== 과제 마스터 등록 ===============");
+					this.tctmTssService.updateTctmTssInfo(mstDs);
+					TctmTssController.LOGGER.debug("=============== 과제 개요 등록 ===============");
+					this.tctmTssService.updateTctmTssSmryInfo(smryDecodeDs);
+					TctmTssController.LOGGER.debug("=============== 산출물 등록 ===============");
+					this.tctmTssService.updateTctmTssYld(mstDs);
 
-					LOGGER.debug("=============== 업로드 파일 산출물 연결 ===============");
-					tctmTssService.updateYldFile(smryDecodeDs);
+					TctmTssController.LOGGER.debug("=============== 업로드 파일 산출물 연결 ===============");
+					this.tctmTssService.updateYldFile(smryDecodeDs);
 
 
 					mstDs.put("rtCd", "SUCCESS");
-					mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+					mstDs.put("rtVal", this.messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
 					mstDs.put("rtType", "I");
 				}
 			}else if(!"".equals(tssCd)){
-				LOGGER.debug("=============== 과제 수정 ===============");
+				TctmTssController.LOGGER.debug("=============== 과제 수정 ===============");
 //				smryDecodeDs = (HashMap<String, Object>) ousdCooTssService.decodeNamoEditorMap(input, smryDs); //에디터데이터 디코딩처리
 				smryDecodeDs = StringUtil.toUtf8Input(smryDs);
 
-				LOGGER.debug("=============== 과제 마스터  수정 ===============");
-				tctmTssService.updateTctmTssInfo(mstDs);
+				TctmTssController.LOGGER.debug("=============== 과제 마스터  수정 ===============");
+				this.tctmTssService.updateTctmTssInfo(mstDs);
 
-				 LOGGER.debug("=============== 과제 개요 수정 ===============");
-				tctmTssService.updateTctmTssSmryInfo(smryDecodeDs);
+				TctmTssController.LOGGER.debug("=============== 과제 개요 수정 ===============");
+				this.tctmTssService.updateTctmTssSmryInfo(smryDecodeDs);
 
-				LOGGER.debug("=============== 업로드 파일 산출물 연결 ===============");
-				tctmTssService.updateYldFile(smryDecodeDs);
+				TctmTssController.LOGGER.debug("=============== 업로드 파일 산출물 연결 ===============");
+				this.tctmTssService.updateYldFile(smryDecodeDs);
 
 				mstDs.put("rtCd", "SUCCESS");
-				mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+				mstDs.put("rtVal", this.messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
 				mstDs.put("rtType", "I");
 			}
 
         } catch (MimeDecodeException e) {
-            LOGGER.debug("MimeDecodeException ERROR");
+			TctmTssController.LOGGER.debug("MimeDecodeException ERROR");
             e.printStackTrace();
             mstDs.put("rtCd", "FAIL");
-            mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.imageUploadError")); //이미지파일 등록에 실패했습니다.
+            mstDs.put("rtVal", this.messageSourceAccessor.getMessage("msg.alert.imageUploadError")); //이미지파일 등록에 실패했습니다.
         } catch (Exception e) {
             e.printStackTrace();
             mstDs.put("rtCd", "FAIL");
-            mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+            mstDs.put("rtVal", this.messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
         }
 
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", mstDs));
@@ -969,12 +968,12 @@ public class TctmTssController extends IrisBaseController {
     public ModelAndView doDeleteInfo(@RequestParam HashMap<String, String> input, HttpServletRequest request,
                                            HttpSession session, ModelMap model) {
 
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("tctmTssDeleteInfo [과제관리 > 기술팀과제 > 계획 > 삭제]");
-        LOGGER.debug("input = > " + input);
-        LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("tctmTssDeleteInfo [과제관리 > 기술팀과제 > 계획 > 삭제]");
+		TctmTssController.LOGGER.debug("input = > " + input);
+		TctmTssController.LOGGER.debug("###########################################################");
 
-        checkSessionRUI(input, session, model);
+		this.checkSessionRUI(input, session, model);
 
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
@@ -982,7 +981,7 @@ public class TctmTssController extends IrisBaseController {
 
         try {
 
-            tctmTssService.deleteTctmTssInfo(input);
+			this.tctmTssService.deleteTctmTssInfo(input);
 
             mstDs.put("rtCd", "SUCCESS");
             mstDs.put("rtVal","삭제되었습니다."); //삭제되었습니다.
@@ -990,7 +989,7 @@ public class TctmTssController extends IrisBaseController {
         }catch(Exception e) {
             e.printStackTrace();
             mstDs.put("rtCd", "FAIL");
-            mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
+            mstDs.put("rtVal", this.messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
         }
 
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", mstDs));
@@ -1010,23 +1009,23 @@ public class TctmTssController extends IrisBaseController {
 	 * @return String
 	 * @throws JSONException
 	 * */
-	@RequestMapping(value=TctmUrl.doCsusView)
+	@RequestMapping(TctmUrl.doCsusView)
 	public String doCsusView(@RequestParam HashMap<String, String> input, HttpServletRequest request,
 								  HttpSession session, ModelMap model) throws JSONException {
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("tctmTssController - tctmTssPlnGoalYldIfm [과제관리 > 기술팀과제 > 계획 > 품의서요청 화면 ]");
-		LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("###########################################################");
+		TctmTssController.LOGGER.debug("tctmTssController - tctmTssPlnGoalYldIfm [과제관리 > 기술팀과제 > 계획 > 품의서요청 화면 ]");
+		TctmTssController.LOGGER.debug("###########################################################");
 
-		checkSession(input, session, model);
+		this.checkSession(input, session, model);
 
 
-		if(pageMoveChkSession(input.get("_userId"))) {
-			Map<String, Object> resultMst         = tctmTssService.selectTctmTssInfo(input);				// 마스터
-			Map<String, Object> resultSmry        = tctmTssService.selectTctmTssInfoSmry(input);	 	//개요
-			Map<String, Object> resultCsus        = tctmTssService.selectTssCsus(resultMst); 			//품의서 결제 목록
+		if(this.pageMoveChkSession(input.get("_userId"))) {
+			Map<String, Object> resultMst         = this.tctmTssService.selectTctmTssInfo(input);				// 마스터
+			Map<String, Object> resultSmry        = this.tctmTssService.selectTctmTssInfoSmry(input);	 	//개요
+			Map<String, Object> resultCsus        = this.tctmTssService.selectTssCsus(resultMst); 			//품의서 결제 목록
 //			List<Map<String, Object>> resultGoal  = tctmTssService.selectTctmTssInfoGoal(input); 	//목표기술성과
-			List<Map<String, Object>> resultTssYy = tctmTssService.selectTssPlnTssYyt(input); 		//과제년도
+			List<Map<String, Object>> resultTssYy = this.tctmTssService.selectTssPlnTssYyt(input); 		//과제년도
 
 
 
@@ -1037,7 +1036,7 @@ public class TctmTssController extends IrisBaseController {
 			inputInfo.put("tssFnhDd",  String.valueOf(resultMst.get("tssFnhDd")));
 			inputInfo.put("attcFilId", String.valueOf(resultSmry.get("attcFilId")));
 
-			List<Map<String, Object>> resultAttc  = genTssCmplService.retrieveGenTssCmplAttc(inputInfo);
+			List<Map<String, Object>> resultAttc  = this.genTssCmplService.retrieveGenTssCmplAttc(inputInfo);
 //
 //			LOGGER.debug("#######################resultBudg #################################### : " + resultBudg);
 
@@ -1094,7 +1093,7 @@ public class TctmTssController extends IrisBaseController {
         boolean rtVal = true;
 
         if (NullUtil.isNull(userId) || NullUtil.nvl(userId, "").equals("-1")) {
-            SayMessage.setMessage(messageSourceAccessor.getMessage("msg.alert.sessionTimeout"));
+            SayMessage.setMessage(this.messageSourceAccessor.getMessage("msg.alert.sessionTimeout"));
             rtVal = false;
         }
 

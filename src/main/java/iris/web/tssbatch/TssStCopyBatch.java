@@ -1,24 +1,18 @@
 package iris.web.tssbatch;
 
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import iris.web.common.util.StringUtil;
+import iris.web.prj.tss.gen.service.GenTssPlnService;
+import iris.web.system.base.IrisBaseController;
+import iris.web.tssbatch.service.TssStCopyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
-import iris.web.common.util.StringUtil;
-import iris.web.prj.tss.gen.service.GenTssPlnService;
-import iris.web.system.base.IrisBaseController;
-import iris.web.tssbatch.service.TssStCopyService;
+import javax.annotation.Resource;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /********************************************************************************
@@ -90,9 +84,11 @@ public class TssStCopyBatch extends IrisBaseController {
 						}
 
 						input.put("tssSt", tssSt); //상태 코드
-						genTssPlnService.updateGenTssPlnMstTssSt(input);		//tssSt update
+						input.put("tssCd","D180070001");
+						int result = genTssPlnService.updateGenTssPlnMstTssSt(input);        //tssSt update
+						LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>>");
+						LOGGER.debug(result);
 					} else if ("A03".equals(aprdocstate) || "A04".equals(aprdocstate)) {	//반려, 취소
-
 						if (data.get("tssScnCd").equals("N")) {
 							if (data.get("finYn").equals("Y") || (data.get("tssNosSt").equals("1") && data.get("pgsStepCd").equals("PL"))) {
 								tssSt = "102"; //GRS완료
@@ -100,7 +96,7 @@ public class TssStCopyBatch extends IrisBaseController {
 								tssSt = "100"; //진행중
 							}
 						} else {
-							tssSt = "102"; // GRS완료
+							tssSt = "102"; // GRS평가완료
 						}
 						input.put("tssSt", tssSt); //상태 코드
 

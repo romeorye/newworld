@@ -1,17 +1,5 @@
 package iris.web.prj.tss.gen.service;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
 import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
@@ -20,6 +8,12 @@ import iris.web.common.util.CommonUtil;
 import iris.web.mailBatch.vo.ReplacementVo;
 import iris.web.prj.grs.vo.GrsSendMailInfoVo;
 import iris.web.prj.mm.mail.service.MmMailService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.*;
 /*********************************************************************************
  * NAME : GenTssServiceImpl.java
  * DESC :
@@ -184,9 +178,13 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
         commonDao.delete("prj.tss.gen.pln.deleteGenTssPlnMst3", input);
     }
 
+	@Override
+	public String retrieveLastTssSt(HashMap<String, Object> input) {
+        return commonDao.select("prj.tss.gen.selectLastTssSt", input);
+	}
 
 
-    //개요
+	//개요
     @Override
     public Map<String, Object> retrieveGenTssPlnSmry(HashMap<String, String> input) {
         return commonDao.select("prj.tss.gen.retrieveGenTssSmry", input);

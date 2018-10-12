@@ -35,6 +35,8 @@ public interface GenTssPlnService {
 
     void deleteGenTssPlnMst(HashMap<String, String> input);
 
+    public String retrieveLastTssSt(HashMap<String, Object> input);
+
 
     //개요
     public Map<String, Object> retrieveGenTssPlnSmry(HashMap<String, String> input);

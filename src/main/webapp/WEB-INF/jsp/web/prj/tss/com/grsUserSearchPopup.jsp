@@ -53,7 +53,7 @@
                  placeholder : '검색할 부서명을 입력해주세요.',
                  defaultValue : '',
                  emptyValue: '',
-                 width : 160
+                 width : 130
             });
             
             deptNm.on('blur', function(e) {
@@ -71,7 +71,7 @@
                  placeholder : '검색할 사용자명을 입력해주세요.',
                  defaultValue : '',
                  emptyValue: '',
-                 width : 110
+                 width : 130
             });
             
             userNm.on('blur', function(e) {
@@ -83,7 +83,10 @@
             		getUserList();
             	}
             });
-			
+
+            userNm.focus();
+
+
             /*******************
              * 변수 및 객체 선언
             *******************/
@@ -167,25 +170,25 @@
 				<div class="search-content">
    				<table>
    					<colgroup>
-   						<col style="width:90px;"/>
-   						<col style=""/>
-   						<col style="width:90px;"/>
-   						<col style=""/>
-   						<col style=""/>
+   						<col />
+   						<col />
+   						<col />
+   						<col />
+   						<col />
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">부서</th>
-   							<td>
-   								<input type="text" id="deptNm" value="">
-   							</td>
    							<th align="right">이름</th>
     						<td>
    								<input type="text" id="userNm" value="">
     						</td>
-   							<td class="txt-right">
-   								<a style="cursor: pointer;" onclick="getUserList();" class="btnL">검색</a>
-   							</td>
+							<th align="right">부서</th>
+							<td>
+								<input type="text" id="deptNm" value="">
+							</td>
+							<td class="txt-right">
+								<a style="cursor: pointer;" onclick="getUserList();" class="btnL">검색</a>
+							</td>
    						</tr>
    					</tbody>
    				</table>

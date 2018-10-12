@@ -249,7 +249,7 @@ public class TctmTssServiceImpl implements TctmTssService {
 
 		input.put("tssCd", stTssCd.get("pgTssCd"));
 		input.put("tssSt", "100");
-		//진행 마스터 TSS_ST 100으로 변경
+		//진행 마스터 TssSt 100으로 변경
 		commonDao.update("prj.tss.com.updateTssMstTssSt", input);
 
 	}
