@@ -573,8 +573,8 @@
    							</td>
    						</tr>
    						<tr>
-    					<!--<th align="right">내용</th>-->
-   							<td colspan="4">
+    					<th align="right">개요</th>
+   							<td colspan="3">
    								<span id="bbsSbc"></span>
    							</td>
    						</tr>
