@@ -154,7 +154,7 @@ div.LblockButton button:hover {color:#666;}
  }
  .btn_btn,  .btn_btm {margin:10px 0 10px 0 !important;}
  .btn_btm2 {margin:16px 0 10px 0 !important;}
- 
+ button.btn_point {color:#fff; background:#da1c5a !important; border:1px solid #da1c5a;}
 div.main_footer_w {background:#f4f4f4; overflow:hidden; padding-top:15px; }
 div.main_footer {border-top:1px solid #ddd; box-sizing:border-box; margin-top: 0; padding-left:40px; background:#e4e4e4; overflow:hidden;}
 .copy, .main_footer strong a {font-size:12px !important;}
@@ -1116,15 +1116,13 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 
 .left_phone.help {padding:15px;box-sizing: border-box;}
 .top_gnb .menu {width:10px; scrollbar-3dlight-color:#fff;;
-scrollbar-arrow-color: #eee;
+scrollbar-arrow-color: #f3f3f3;
 scrollbar-track-color: #fff;
 scrollbar-darkshadow-color:orange;
-scrollbar-face-color:#eee;
+scrollbar-face-color:#f3f3f3;
 scrollbar-highlight-color: blue;
-scrollbar-shadow-color:#fff;}
-
-
-	
+scrollbar-shadow-color:#fff;}	
 }
+.top_gnb .menu ul {margin-top:18px;}
 
 

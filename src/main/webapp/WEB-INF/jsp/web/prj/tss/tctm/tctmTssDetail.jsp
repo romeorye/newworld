@@ -1266,7 +1266,7 @@
 	</div>
 
 	<div class="sub-content">
-		<div class="titArea">
+		<div class="titArea mt0">
 			<div class="LblockButton">
 				<button type="button" id="btnDelRq" name="btnDelRq">삭제</button>
 				<%--<button type="button" id="btnAltr" name="btnAltr">변경</button>--%>

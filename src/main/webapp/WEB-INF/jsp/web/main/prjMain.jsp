@@ -485,7 +485,7 @@
 	                                        </tr>
 	                					</c:when>
 	                					<c:otherwise>
-		                                    <c:forEach var="schedule" items="${scheduleList}">
+		                                    <c:forEach var="schedule" end="4" items="${scheduleList}">
 		                                    <c:if test="${schedule.type eq '1' }">
 												<tr>
 		                                            <td><a href="#"><c:out value="${schedule.adscTitl}"/></a></td>
@@ -694,8 +694,8 @@ padding: 10px; padding-left:36px; right:0;background:#fff; border:1px solid #ccc
 .btn_menu #tmpMenu  nav.Mgnb .top_gnb {top:10px !important;}
 
 .menu_mm_ss_g > li {margin-top:10px;}
-
-
+.menu_mm_ss_g > li.mainMenuTitle {height:22px;font-size:15px; font-weight:bold; position:relative;line-height:1.5;}
+.menu_mm_ss_g > li.mainMenuTitle:before { content: ""; position:absolute; display: block; top: 0; left: 0; width:20px; height: 1px; background: #da1c5a;}
 #horizontalContainer > span strong:first-child {margin-bottom:-10px;}
 .btn_menu .top_gnb  {border:0; width:100%;}
 .btn_menu .top_gnb .m_gnb {background-image:none !important; border:0; width:100%; height:600px;}
