@@ -134,7 +134,11 @@
             userGrid.on('cellDblClick', function(e) {
             	<c:if test="${inputData.cnt != 1}">
             		var record =  userDataSet.getAt(userDataSet.getRow());
-					selectUserDataSet.add(record.clone());
+            		
+            		if(selectUserDataSet.findRow('saSabun', record.data.saSabun) == -1) {
+						selectUserDataSet.add(record.clone());
+            		}
+            		
 	            </c:if>	
             	<c:if test="${inputData.cnt == 1}">
             		parent._callback(userDataSet.getAt(e.row).data);
