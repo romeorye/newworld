@@ -227,7 +227,7 @@
 		            <!--fir-->
 		            <div class="fir_subject_con">
 		                <div class="notice_con">
-		                <h4 class="notice_title">NOTICE<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrievePubNoticeList.do', 'IRIAN0201')">&#43;</a></span></h4>
+		                <h4 class="notice_title">NOTICE<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/bbs/retrieveAnlBbsList.do', 'IRIAN0201')">&#43;</a></span></h4>
 		                <div class="album-wrap">
 		                    
 		                    <ul class="album clfix">
@@ -316,7 +316,7 @@
 		                    </ul>
 		                </div>
 		                <div class="analysis_con edu_con">
-		                    <h4 class="notice_title">주요 분석자료<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0202')">&#43;</a></span></h4>
+		                    <h4 class="notice_title">주요 분석자료<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0100', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0104')">&#43;</a></span></h4>
 		                    <ul>
                     <c:choose>
                     	<c:when test="${fn:length(anlMainDataList) == 0}">
@@ -325,7 +325,7 @@
                     	<c:otherwise>
                             <c:forEach items="${anlMainDataList}" var="data" varStatus="status">
 		                        <li>
-		                            <div class="list_txt" onClick="moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do?bbsId=<c:out value="${data.bbsId}"/>&bbsCd=<c:out value="${data.bbsCd}"/>', 'IRIAN0202')">
+		                            <div class="list_txt" onClick="moveMenu('AN', 'IRIAN0100', '/anl/lib/retrieveAnlLibList.do?bbsId=<c:out value="${data.bbsId}"/>&bbsCd=<c:out value="${data.bbsCd}"/>', 'IRIAN0104')">
 	                            <c:choose>
 	                            	<c:when test="${data.bbsCd == '02'}">
 		                                <span class="speech mint"><c:out value="${data.bbsNm}"/></span>
@@ -360,8 +360,8 @@
 		                        <h5><a href="javascript:moveMenu('DE', 'IRIDE0100', '/mchn/open/mchn/retrieveMachineList.do', 'IRIDE0102')">보유기기</a></h5>
 		                    </li>
 		                    <li>
-		                        <a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0202')"><p class="icon_quick"></p></a>
-		                        <h5><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0202')">분석자료실</a></h5>
+		                        <a href="javascript:moveMenu('AN', 'IRIAN0100', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0104')"><p class="icon_quick"></p></a>
+		                        <h5><a href="javascript:moveMenu('AN', 'IRIAN0100', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0104')">분석자료실</a></h5>
 		                    </li>
 		                </ul>
 		            </div>
