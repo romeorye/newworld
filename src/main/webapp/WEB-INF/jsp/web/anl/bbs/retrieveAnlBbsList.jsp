@@ -160,16 +160,22 @@ var refresh = "";
 		<input type="hidden" id="target" name="target" value=""/>
 
  		<div class="titleArea">
+ 			<a class="leftCon" href="#">
+	          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+	          <span class="hidden">Toggle 버튼</span>
+			</a>
 			<h2 id="h2Titl"></h2>
 		</div>
-
-   		<div id="tabView"></div><br/>
- 		<iframe name="tabContentIfrm0" id="tabContentIfrm0" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
- 		<iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
- 		<iframe name="tabContentIfrm2" id="tabContentIfrm2" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
- 		<iframe name="tabContentIfrm3" id="tabContentIfrm3" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
-
-		</form>
-   		</div><!--//content end-->
+		
+		<div class="sub-content">
+	   		<div id="tabView"></div><br/>
+	 		<iframe name="tabContentIfrm0" id="tabContentIfrm0" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
+	 		<iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
+	 		<iframe name="tabContentIfrm2" id="tabContentIfrm2" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
+	 		<iframe name="tabContentIfrm3" id="tabContentIfrm3" scrolling="yes" width="100%" height="650px" frameborder="0" ></iframe>
+	
+			</form>
+	   		</div><!--//content end-->
+   		</div>
     </body>
 </html>

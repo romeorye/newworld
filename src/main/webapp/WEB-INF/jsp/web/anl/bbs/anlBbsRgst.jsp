@@ -373,6 +373,9 @@
 	    }
 
 	</script>
+	<style>
+	.search-toggleBtn {display:none;}
+	</style>
     </head>
     <body>
 <!--    		<div class="contents" > style="padding-bottom:5px" -->

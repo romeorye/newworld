@@ -366,6 +366,9 @@
        	
 	});
 </script>
+<style>
+ .search-toggleBtn {display:none;}
+ </style>
 </head>
 
 <body>

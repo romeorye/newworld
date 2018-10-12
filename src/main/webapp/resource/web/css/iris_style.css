@@ -154,7 +154,8 @@ div.LblockButton button:hover {color:#666;}
  }
  .btn_btn,  .btn_btm {margin:10px 0 10px 0 !important;}
  .btn_btm2 {margin:16px 0 10px 0 !important;}
- button.btn_point {color:#fff; background:#da1c5a !important; border:1px solid #da1c5a;}
+ .redBtn button, .redBtn button:hover,
+ div button.btn_point, div button.btn_point:hover { font-weight:normal; color:#fff !important; background:#da1c5a !important; height:28px; border:1px solid #da1c5a !important; padding:0 18px !important;}
 div.main_footer_w {background:#f4f4f4; overflow:hidden; padding-top:15px; }
 div.main_footer {border-top:1px solid #ddd; box-sizing:border-box; margin-top: 0; padding-left:40px; background:#e4e4e4; overflow:hidden;}
 .copy, .main_footer strong a {font-size:12px !important;}
@@ -664,10 +665,12 @@ table.L-grid-header-table thead td:last-child {border-right:1px solid #bcbcbc !i
 
 .pull-right button, .pull-right button:hover {}
 .titArea {height: 31px; line-height: 31px; margin-bottom: 5px; padding:0 0 0 0;}
-.redBtn button, .redBtn button:hover {color: #fff!important; background-color: #da1c5a!important; border-color: #da1c5a !important; 
- padding:0 20px; font-weight:normal;}
+/*.redBtn button, .redBtn button:hover {color: #fff!important; background-color: #da1c5a!important; border-color: #da1c5a !important; 
+ padding:0 20px; font-weight:normal;} */
 
-.L-button button, .L-button button:hover {height: 27px; color: #333; border-color: #c3c3c3; line-height:23px;}
+.L-button button, 
+.L-button button:hover 
+{color: #333; border-color: #c3c3c3; }
 
 .table.table_txt_right td table {margin:5px 0;}
 .table.table_txt_right td table td table {margin:5px 0;}
@@ -1124,5 +1127,6 @@ scrollbar-highlight-color: blue;
 scrollbar-shadow-color:#fff;}	
 }
 .top_gnb .menu ul {margin-top:18px;}
-
-
+.user_search_td {width:160px !important;}
+.user_search_td div {width:150px !important;}
+.user_search_td div input {width:140px !important;}

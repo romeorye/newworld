@@ -157,7 +157,8 @@ var target = "${inputData.target}";
         	   columnModel: columnModel01,
                dataSet: anlBbsDataSet,
                width: 1150,
-               height: 525
+               height: 525,
+               autoWidth: true
            });
 
            anlBbsGrid01.on('cellClick', function(e) {
@@ -378,7 +379,9 @@ function fncAnlBbsRgstPage(record) {
 
 <!--    		<div class="contents"> style="padding-top:10px" -->
 <!--    			<div class="sub-content"> -->
-   				<table class="searchBox">
+				<div class="search">
+				<div class="search-content">
+   				<table>
    					<colgroup>
    						<col style="width:10%;"/>
    						<col style="width:30%;"/>
@@ -411,6 +414,8 @@ function fncAnlBbsRgstPage(record) {
    						</tr>
    					</tbody>
    				</table>
+   				</div>
+   				</div>
 
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
