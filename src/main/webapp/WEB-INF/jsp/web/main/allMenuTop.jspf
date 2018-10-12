@@ -21,7 +21,6 @@
 		                       </div> -->
 		                            <div class="menu">
 		                                <ul class="menu_mm">
-
 	                        <c:set var="prevLevel" value="0"/>
 	                        <c:set var="parentMenuId" value=""/>
 
@@ -29,8 +28,16 @@
 		                                    <li class="menu_mm_ss">
 		                                    	<ul class="menu_mm_ss_g">
 
-				                	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                	<c:forEach items="${subMenu}" begin="0" var="data" varStatus="subStatus">
+
+				                	<c:if test="${data.menuLevel=='0'}">
+				                	</c:if>
                                         <c:choose>
+                                        	<c:when test="${data.menuLevel == '0'}">
+		                                        	<li class="mainMenuTitle">
+		                                            	<c:out value="${data.menuNm}"/>
+			                                        </li>
+                                        	</c:when>
                                         	<c:when test="${data.menuNm == 'Main'}">
 		                                        	<li>
 		                                            	<span><a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a></span>
