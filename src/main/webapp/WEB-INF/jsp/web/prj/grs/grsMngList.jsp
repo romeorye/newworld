@@ -221,7 +221,24 @@
                 {id:'tssFnhDd', validExp:'과제기간끝:true'},
                 {id:'custSqlt', validExp:'고객특성:true'},
                 {id:'tssAttrCd', validExp:'과제속성:true'},
-                {id:'tssType', validExp:'신제품유형:true'},
+                {id:'tssType', validExp:'신제품유형:true'}
+            ]
+        });
+
+        var   infoVali2 = new Rui.validate.LValidatorManager({
+            validators:[
+                {id:'tssScnCd', validExp:'과제구분:true'},
+                {id:'grsYn', validExp:'GRS(P1)수행여부:true'},
+                {id:'saSabunNm', validExp:'과제담당자:true'},
+                {id:'bizDptCd', validExp:'사업부:true'},
+                {id:'prjNm', validExp:'프로젝트명:true'},
+                {id:'tssNm', validExp:'과제명:true'},
+                {id:'prodG', validExp:'제품군:true'},
+                {id:'tssStrtDd', validExp:'과제기간시작:true'},
+                {id:'tssFnhDd', validExp:'과제기간끝:true'},
+                {id:'custSqlt', validExp:'고객특성:false'},
+                {id:'tssAttrCd', validExp:'과제속성:false'},
+                {id:'tssType', validExp:'신제품유형:false'}
             ]
         });
 
@@ -427,11 +444,18 @@
           buttons: [
               { text:'저장', isDefault: true, handler:
                       function () {
-                          if(!infoVali.validateGroup("defTssForm")) {
+                          if(tssScnCd.getValue()=="G"||tssScnCd.getValue()=="D"){
+            	  			if(!infoVali.validateGroup("defTssForm")) {
                               alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + infoVali.getMessageList().join(''));
                               return;
-                          }
+                          	}
+                          }else{
 
+	                          if(!infoVali2.validateGroup("defTssForm")) {
+	                              alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + infoVali2.getMessageList().join(''));
+	                              return;
+	                          }
+                          }
 
                           var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
                           dm.on('success', function (e) {      // 업데이트 성공시
@@ -596,20 +620,20 @@
                 }
             ]
         });
-            
+
 	    /* 품의 요청 */
 		var grsAppr = new Rui.ui.LButton('grsAppr');
 		grsAppr.on('click', function(){
 
 			var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 		       dm.on('success', function (e) {      // 업데이트 성공시
-		    	   
+
 		           var resultData = resultDataSet.getReadData(e);
 
 		           var guid = "";
-		           
+
 		           guid = resultData.records[0].guid;
-		           
+
 		           if(resultData.records[0].rtnSt == 'Y') {
 		                var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00332&from=iris&guid='+guid;
 		                openWindow(url, 'grsApprPop', 800, 500, 'yes');
@@ -631,7 +655,7 @@
             // 품의 가능 과제 검사
             for( var i = 0 ; i < listDataSet.getCount() ; i++ ){
                 if(listDataSet.isMarked(i)){
-                    var tssSt = listDataSet.getNameValue(i, 'tssSt'); 
+                    var tssSt = listDataSet.getNameValue(i, 'tssSt');
                     var tssNm = listDataSet.getNameValue(i, 'tssNm');
                     if(tssSt!="102"){
                         alert("GRS평가완료 과제만 품의 요청이 가능합니다.");
@@ -639,11 +663,11 @@
                     }
                 }
             }
-			
+
 
 
             if(confirm('품의 요청을 하시겠습니까?')) {
-		       		
+
 		   			if(listDataSet.getCount() > 0 ) {
 		   				//체크박스 체크 유무 (1건이상))
 		   				// if(listDataSet.getMarkedCount() == 0 ){
@@ -668,15 +692,15 @@
 		                        tssCds: chkTssCds
 		                    }
 		                });
-		                
+
 		   			}else{
 		   				Rui.alert("목록이 없습니다.");
 		   				return;
 		   			}
 		       	}
-			
+
         });
-		
+
     var fncVaild = function(){
     return true;
     }
@@ -1041,7 +1065,7 @@
 									<th align="right">과제기간</th>
 									<td><input type="text" id="tssStrtDd"> <em class="gab"> ~ </em> <input type="text" id="tssFnhDd"></td>
 								</tr>
-						
+
 								<tr id="displayDiv1">
 									<th align="right">고객특성</th>
 									<td><div id="custSqlt" /></td>
@@ -1248,15 +1272,15 @@
 		}else{
             setEditable('grsYn');
 		}
-        
+
         if($.inArray( e.value, [ "O", "N"])>-1){
-			$('#displayDiv1').css('display', 'none'); 
-			$('#displayDiv2').css('display', 'none'); 
+			$('#displayDiv1').css('display', 'none');
+			$('#displayDiv2').css('display', 'none');
 		}else{
-			$('#displayDiv1').css('display', ''); 
-			$('#displayDiv2').css('display', ''); 
+			$('#displayDiv1').css('display', '');
+			$('#displayDiv2').css('display', '');
 		}
-        
+
     });
 
 
