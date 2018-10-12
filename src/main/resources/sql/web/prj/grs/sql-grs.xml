@@ -1100,12 +1100,12 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	
 	<select id="getGuid" resultType="String">
                 <![CDATA[
-            SELECT 'T'
+            SELECT 'H'
 			     + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
 			     + REPLICATE('0', 4 - LEN(CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)))
 			     + CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)
 			  FROM IRIS_COM_ITG_RDCS X
-			 WHERE SUBSTRING(X.GUID, 1, 7) = 'T' + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
+			 WHERE SUBSTRING(X.GUID, 1, 7) = 'H' + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
         ]]>
     </select>
     
