@@ -51,7 +51,7 @@
             var cnt = ${inputData.cnt};
             var deptNm = new Rui.ui.form.LTextBox({
                  applyTo : 'deptNm',
-                 placeholder : '검색할 부서명을 입력해주세요.',
+                 placeholder : '',
                  defaultValue : '',
                  emptyValue: '',
                  width : 180
@@ -69,7 +69,7 @@
             
             var userNm = new Rui.ui.form.LTextBox({
                  applyTo : 'userNm',
-                 placeholder : '검색할 사용자명을 입력해주세요.',
+                 placeholder : '',
                  defaultValue : '',
                  emptyValue: '',
                  width : 180
