@@ -576,18 +576,15 @@
 	                					<c:otherwise>
 	                                    	<c:forEach var="notice" items="${noticeList}">
 												<tr>
-												
-												
-		                                            <td><c:out value="${notice.pwiScnNm}"/></td>
+		                                            <td style="text-align:Center"><c:out value="${notice.pwiScnNm}"/></td>
 		                                            <td style="text-align:left"><a href="javascript:fnTssPageMove('E','notice', '', '${notice.pwiId}', '', '');" ><c:out value="${notice.titlNm}"/></a></td>
 		                                            <td style="text-align:Center"><c:out value="${notice.rgstNm}"/></td>
-		                                            <td><c:out value="${notice.frstRgstDt}"/></td>
+		                                            <td style="text-align:Center"><c:out value="${notice.frstRgstDt}"/></td>
 		                                        </tr>
 											</c:forEach>
 										</c:otherwise>
 										</c:choose>
                                     </tbody>
-                            
                         </table> 
                     </div>    
                     
@@ -617,23 +614,20 @@
                             
                             <c:choose>
                             <c:when test="${fn:length(knowList) == 0}">
-                            	<tr><td colspan="4">진행중인 과제가 없습니다.</td></tr>
+                            	<tr><td colspan="4">Knowledge가 존재하지 않습니다.</td></tr>
                             </c:when>
                             <c:otherwise>
 	                            <c:forEach var="knowList" items="${knowList}">
 							    <tr>
-	                                <td><c:out value="${knowList.menuNm}"/></td>
+	                                <td style="text-align:Center"><c:out value="${knowList.menuNm}"/></td>
 	                                <td style="text-align:left"><a href="javascript:fnTssPageMove('E','know', '${knowList.menuId}', '${knowList.docId}', '${knowList.clGroup}', '');" ><c:out value="${knowList.titlNm}"/></a></td>
 	                                <td style="text-align:Center"><c:out value="${knowList.rgstNm}"/></td>
-	                                <td><c:out value="${knowList.frstRgstDt}"/></td>
+	                                <td style="text-align:Center"><c:out value="${knowList.frstRgstDt}"/></td>
 	                            </tr>
 								</c:forEach>
 							</c:otherwise>
 							</c:choose>	
-                        
                             </tbody>
-                            
-                            
                         </table>
                     </div>
                     </div>
@@ -661,16 +655,15 @@
                             
                             <c:choose>
                             <c:when test="${fn:length(qnaList) == 0}">
-                            	<tr><td colspan="4">진행중인 과제가 없습니다.</td></tr>
+                            	<tr><td colspan="4">Q&A가 존재하지 않습니다.</td></tr>
                             </c:when>
                             <c:otherwise>
 	                             <c:forEach var="qnaList" items="${qnaList}">
 	                                 <tr>
-		                                <td style="text-align:Center"><c:out value="${qnaList.qustClCd}"/></td>
+		                                <td style="text-align:Center"><c:out value="${qnaList.qustClNm}"/></td>
 		                                <td style="text-align:left"><a href="javascript:fnTssPageMove('E','qna', '', '${qnaList.qnaId}', '', '');" ><c:out value="${qnaList.titlNm}"/></a></td>
 		                                <td style="text-align:Center"><c:out value="${qnaList.rgstNm}"/></td>
 		                                <td style="text-align:Center"><c:out value="${qnaList.frstRgstDt}"/></td>
-
 		                            </tr>
 	                             </c:forEach>
 	                        </c:otherwise>
