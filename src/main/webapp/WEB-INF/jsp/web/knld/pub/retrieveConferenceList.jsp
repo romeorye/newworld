@@ -367,7 +367,7 @@ function fncExcelDown() {
 	conferenceDataSet.clearFilter();
 
     if( conferenceDataSet.getCount() > 0){
-    	conferenceGrid.saveExcel(toUTF8('공지사항 목록_') + new Date().format('%Y%m%d') + '.xls');
+    	conferenceGrid.saveExcel(toUTF8('학회/컨퍼런스 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }

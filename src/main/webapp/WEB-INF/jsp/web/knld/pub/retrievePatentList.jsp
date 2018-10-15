@@ -268,7 +268,7 @@ function fncExcelDown() {
     patentDataSet.clearFilter();
 
     if( patentDataSet.getCount() > 0){
-    	patentGrid.saveExcel(toUTF8('공지사항 목록_') + new Date().format('%Y%m%d') + '.xls');
+    	patentGrid.saveExcel(toUTF8('특허 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }

@@ -269,7 +269,7 @@ function fncExcelDown() {
 	modalityDataSet.clearFilter();
 
     if( modalityDataSet.getCount() > 0){
-    	modalityGrid.saveExcel(toUTF8('공지사항 목록_') + new Date().format('%Y%m%d') + '.xls');
+    	modalityGrid.saveExcel(toUTF8('표준양식 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }

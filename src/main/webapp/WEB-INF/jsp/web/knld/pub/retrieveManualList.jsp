@@ -366,7 +366,7 @@ function fncExcelDown() {
 	manualDataSet.clearFilter();
 
     if( manualDataSet.getCount() > 0){
-    	manualGrid.saveExcel(toUTF8('공지사항 목록_') + new Date().format('%Y%m%d') + '.xls');
+    	manualGrid.saveExcel(toUTF8('규정/업무Manual 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }

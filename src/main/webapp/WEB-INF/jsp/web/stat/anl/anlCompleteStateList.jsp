@@ -181,7 +181,7 @@
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlCompleteStateListExcel = function() {
         		// 엑셀 다운로드시 전체 다운로드를 위해 추가
-        		dataSet.clearFilter();
+        		anlCompleteStateDataSet.clearFilter();
 
         		 var excelColumnModel = new Rui.ui.grid.LColumnModel({
                      gridView: anlCompleteStateColumnModel,
@@ -210,7 +210,7 @@
         		 anlCompleteStateGrid.saveExcel('export.xls',{columnModel:excelColumnModel});
             	//anlCompleteStateGrid.saveExcel(encodeURIComponent('분석완료 통계_') + new Date().format('%Y%m%d') + '.xls');
         		// 목록 페이징
-        		 paging(dataSet,"defaultGrid");
+        		 paging(anlCompleteStateDataSet,"anlCompleteStateGrid");
             };
 
             getAnlCompleteStateList();

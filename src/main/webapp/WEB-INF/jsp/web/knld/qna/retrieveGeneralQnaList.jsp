@@ -379,7 +379,7 @@ function fncExcelDown() {
 	qnaDataSet.clearFilter();
 
     if( qnaDataSet.getCount() > 0){
-    	qnaGrid.saveExcel(toUTF8('공지사항 목록_') + new Date().format('%Y%m%d') + '.xls');
+    	qnaGrid.saveExcel(toUTF8('일반Q&A 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }

@@ -321,13 +321,14 @@ function fncTechRgstPage(record) {
 * FUNCTION 기능설명 : 프로젝트 현황 목록 엑셀다운(추가조회, 추가 그리드 없음)
 *******************************************************************************/--%>
 function fncExcelDown() {
-
+	techDataSet.clearFilter();
     if( techDataSet.getCount() > 0){
     	//gridExcel.saveExcel(toUTF8('Project 목록_') + new Date().format('%Y%m%d') + '.xls');
-    	techGrid.saveExcel(toUTF8('공지사항 목록_') + new Date().format('%Y%m%d') + '.xls');
+    	techGrid.saveExcel(toUTF8('시장/기술정보 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }
+    paging(techDataSet,"defaultGrid");
 }
 </script>
 

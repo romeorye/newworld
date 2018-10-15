@@ -333,7 +333,7 @@
         	downloadExcel = function() {
         		// 엑셀 다운로드시 전체 다운로드를 위해 추가
         		dataSet.clearFilter();
-        		defaultGrid.saveExcel(encodeURIComponent('일반과제 통계_') + new Date().format('%Y%m%d') + '.xls');
+        		defaultGrid.saveExcel(encodeURIComponent('기술팀과제 통계_') + new Date().format('%Y%m%d') + '.xls');
         		// 목록 페이징
    	    		paging(dataSet,"defaultGrid");
             };

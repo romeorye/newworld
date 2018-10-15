@@ -367,7 +367,7 @@ function fncExcelDown() {
 	showDataSet.clearFilter();
 
     if( showDataSet.getCount() > 0){
-    	showGrid.saveExcel(toUTF8('공지사항 목록_') + new Date().format('%Y%m%d') + '.xls');
+    	showGrid.saveExcel(toUTF8('전시회 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }

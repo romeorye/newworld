@@ -369,7 +369,7 @@ function fncExcelDown() {
 	eduDataSet.clearFilter();
 
     if( eduDataSet.getCount() > 0){
-    	eduGrid.saveExcel(toUTF8('공지사항 목록_') + new Date().format('%Y%m%d') + '.xls');
+    	eduGrid.saveExcel(toUTF8('교육/세미나 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }
