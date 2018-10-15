@@ -70,6 +70,8 @@
             var userNm = new Rui.ui.form.LTextBox({
                  applyTo : 'userNm',
                  placeholder : '',
+                defaultValue : '',
+                emptyValue: '',
                  width : 180
             });
             userNm.focus();
