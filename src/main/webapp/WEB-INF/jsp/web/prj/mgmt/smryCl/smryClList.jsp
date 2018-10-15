@@ -248,7 +248,7 @@
 
             document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
         	// 목록 페이징
-	    	paging(dataSet,"mhcnGrid");
+	    	paging(dataSet,"defaultGrid");
         });
 
 

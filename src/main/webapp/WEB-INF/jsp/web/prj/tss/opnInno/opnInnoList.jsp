@@ -24,6 +24,7 @@
 
 <title><%=documentTitle%></title>
 
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 
 	Rui.onReady(function() {
@@ -60,6 +61,8 @@
 
          dataSet.on('load', function(e){
  	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
+ 	    	// 목록 페이징
+	    	paging(dataSet,"opnInnoGrid");
  	     });
 
          var columnModel = new Rui.ui.grid.LColumnModel({
@@ -93,7 +96,7 @@
          var grid = new Rui.ui.grid.LGridPanel({
              columnModel: columnModel,
              dataSet: dataSet,
-             height: 630,
+             height: 400,
              width : 1200,
              autoWidth: true
          });
@@ -153,6 +156,26 @@
         	$("#butRgst").hide();
 		}
 
+
+		/* 엑셀 다운로드 */
+		var saveExcelBtn = new Rui.ui.LButton('butExcl');
+        saveExcelBtn.on('click', function(){
+
+        	// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        	dataSet.clearFilter();
+
+        	if(dataSet.getCount() > 0 ) {
+	            var excelColumnModel = columnModel.createExcelColumnModel(false);
+	            grid.saveExcel(encodeURIComponent('O/I협력과제_') + new Date().format('%Y%m%d') + '.xls', {
+	                columnModel: excelColumnModel
+	            });
+        	}else{
+        		Rui.alert("리스트 건수가 없습니다.");
+        		return;
+        	}
+        	// 목록 페이징
+	    	paging(dataSet,"opnInnoGrid");
+        });
 
 	});
 

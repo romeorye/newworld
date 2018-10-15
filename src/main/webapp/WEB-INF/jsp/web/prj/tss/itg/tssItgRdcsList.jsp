@@ -37,6 +37,7 @@
     HashMap inputData = (HashMap)request.getAttribute("inputData");
 %>
     <!-- 그리드 소스 -->
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
     Rui.onReady(function() {
 
@@ -169,7 +170,7 @@
         var masterGrid = new Rui.ui.grid.LGridPanel({ //masterGrid
             columnModel: mGridColumnModel,
             dataSet: mGridDataSet,
-            height: 520,
+            height: 400,
             width: 540,
             autoToEdit: false,
             autoWidth: true
@@ -197,6 +198,8 @@
 			var str = "";
 
         	document.getElementById("cnt_text").innerHTML = '총: '+mGridDataSet.getCount();
+        	// 목록 페이징
+	    	paging(mGridDataSet,"masterGrid");
 
         });
 

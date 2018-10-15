@@ -42,6 +42,7 @@
  .bgcolor-white {background-color: #FFFFFF}
 </style>
 
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 
     Rui.onReady(function() {
@@ -88,8 +89,8 @@
                 }
             ]
         });
-        
-        
+
+
         /*******************
          * 변수 및 객체 선언
         *******************/
@@ -156,7 +157,7 @@
             columnModel : deptColumnModel,
             dataSet : deptDataSet,
             width : 600,
-            height : 560,
+            height : 400,
             autoToEdit: true,
             clickToEdit: true,
             enterToEdit: true,
@@ -191,7 +192,7 @@
             ]
         });
 
-        
+
         /**
         총 건수 표시
         **/
@@ -203,10 +204,11 @@
             var tmpArray;
             var str = "";
             document.getElementById("cnt_text").innerHTML = '총: '+deptDataSet.getCount();
-
+            // 목록 페이징
+	    	paging(deptDataSet,"deptGrid");
         });
-        
-        
+
+
         <%--/*******************************************************************************
         * FUNCTION 명 : getDeptList
         * FUNCTION 기능설명 : 조회
@@ -236,8 +238,8 @@
             }
             return true;
         }
-         
-         
+
+
         <%--/*******************************************************************************
         * FUNCTION 명 : btnSave
         * FUNCTION 기능설명 : 저장
@@ -267,7 +269,18 @@
         * FUNCTION 기능설명 :excel 다운로드
         *******************************************************************************/--%>
        fnExcel = function() {
-           deptDataSet.saveExcel(toUTF8('조직코드_') + new Date().format('%Y%m%d') + '.xls');
+	        // 엑셀 다운로드시 전체 다운로드를 위해 추가
+	       	deptDataSet.clearFilter();
+
+	       	if(deptDataSet.getCount() > 0 ) {
+	            deptGrid.saveExcel(encodeURIComponent('실험정보_') + new Date().format('%Y%m%d') + '.xls');
+
+	       	}else{
+	       		Rui.alert("리스트 건수가 없습니다.");
+	       		return;
+	       	}
+	       	// 목록 페이징
+	        paging(deptDataSet,"deptGrid");
        };
     });
 </script>
@@ -322,7 +335,7 @@
                 </div>
             </div><!-- //sub-content -->
 
-               
+
         </div><!-- //contents -->
 
     </body>

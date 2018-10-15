@@ -23,6 +23,7 @@
 
 <title><%=documentTitle%></title>
 
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 
 var adminYn = "N";
@@ -63,6 +64,8 @@ var adminYn = "N";
 
          dataSet.on('load', function(e){
  	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
+ 	    	// 목록 페이징
+	    	paging(dataSet,"rfpGrid");
  	     });
 
          var columnModel = new Rui.ui.grid.LColumnModel({
@@ -82,7 +85,7 @@ var adminYn = "N";
          var grid = new Rui.ui.grid.LGridPanel({
              columnModel: columnModel,
              dataSet: dataSet,
-             height: 630,
+             height: 400,
              width : 1200,
              autoWidth:true
          });
