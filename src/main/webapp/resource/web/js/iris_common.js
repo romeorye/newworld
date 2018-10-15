@@ -142,6 +142,7 @@ $(function () {
     });
 
     // Search toggle
+  /*
     var searhButton = '';
         searhButton += '<div class="search-toggleBtn">';
         searhButton +=   '<button type="button" class="btn btn-default">';
@@ -167,7 +168,7 @@ $(function () {
                 $(this).removeClass('spread');
             }
         });
-    });
+    });  */
 
 });
 
