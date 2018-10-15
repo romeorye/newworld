@@ -2,6 +2,8 @@ package iris.web.prj.grs.service;
 
 import devonframe.dataaccess.CommonDao;
 import iris.web.common.util.CommonUtil;
+import iris.web.common.util.StringUtil;
+import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.tssbatch.service.TssStCopyService;
 import org.apache.logging.log4j.LogManager;
@@ -26,13 +28,43 @@ public class GrsMngServiceImpl implements GrsMngService {
 	@Resource(name = "genTssService")
 	private GenTssService genTssService;
 
+	@Resource(name = "grsReqService")
+	private GrsReqService grsReqService;
+
+
+	@Resource(name = "grsMngService")
+	private GrsMngService grsMngService;
+
+	@Resource(name = "genTssPlnService")
+	private GenTssPlnService genTssPlnService;
+
+	/* 울산 DB Connection */
+	@Resource(name="commonDaoQasU")
+	private CommonDao commonDaoQasU;
+
+	/* 청주 DB Connection */
+	@Resource(name="commonDaoQasC")
+	private CommonDao commonDaoQasC;
+
 
 	static final Logger LOGGER = LogManager.getLogger(GrsMngService.class);
 
 
 	@Override
 	public List<Map<String, Object>> selectListGrsMngList(HashMap<String, Object> input) {
+
+		LOGGER.debug("=============== QAS Gate 배치 울산 > IRIS ===============");
+		List<HashMap<String,Object>> gateList = commonDaoQasU.selectList("prj.tss.com.selectGateQasIF", input);
+		for (int i=0;i<gateList.size();i++){
+			commonDaoQasU.insert("prj.tss.com.insertGateToIrisQasIF",gateList.get(i));
+		}
+
 		return commonDao.selectList("prj.grs.retrieveGrsReqList", input);
+
+
+
+
+
 	}
 
 	@Override
@@ -77,6 +109,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 			updateGrsInfo(input);                                                        //과제 기본정보 등록
 			input.put("tssCd", input.get("newTssCd"));
 
+
 			if (grsYn.equals("Y")) {
 				LOGGER.debug("=============== GRS=Y 인경우 GRS 요청정보 생성 ===============");
 				input.put("grsEvSt", "P1");
@@ -118,6 +151,43 @@ public class GrsMngServiceImpl implements GrsMngService {
 		result.put("rtnSt", "S");
 
 		return result;
+	}
+
+	@Override
+	public Map<String, String> evGrs(HashMap<String, Object> input,List<Map<String, Object>>dsLst,HashMap<String, Object>dtlDs) {
+			HashMap<String, String> result = new HashMap<String, String>();
+			input.put("evTitl", dtlDs.get("evTitl"));
+			input.put("commTxt", dtlDs.get("commTxt"));
+
+            input.put("userId", input.get("_userId"));
+            input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
+            input = StringUtil.toUtf8Input(input);
+
+            grsReqService.insertGrsEvRsltSave(dsLst, input);
+
+			LOGGER.debug("===GRS 평가 완료후 과제 상태값 변경===");
+            input.put("tssSt", "102");
+            genTssPlnService.updateGenTssPlnMstTssSt(input);
+            grsMngService.updateDefTssSt(input);
+
+
+            if(grsMngService.isBeforGrs(input).equals("1")){
+                LOGGER.debug("===GRS 관리에서 기본정보를 입력한경우===");
+                LOGGER.debug("===과제 관리 마스터로 데이터 복제 (과제정보, 개요)===");
+                input.put("fromTssCd", input.get("tssCd"));
+                input.put("pgsStepCd", "PL");
+                grsMngService.moveDefGrsDefInfo(input);
+                grsMngService.deleteDefGrsDefInfo(input);
+            }
+
+			LOGGER.debug("===해당과제 리더에게 완료 메일 발송===");
+            genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121
+
+
+			result.put("rtnMsg", "평가완료되었습니다.");
+			result.put("rtnSt", "S");
+
+            return result;
 	}
 
 	@Override
@@ -336,6 +406,23 @@ public class GrsMngServiceImpl implements GrsMngService {
 	@Override
 	public String getGuid(HashMap<String, Object> input) {
 		return commonDao.select("prj.grs.getGuid", input);
+	}
+
+
+
+	@Override
+	public void insertToQasTssQasIF(HashMap<String, Object> input) {
+		commonDaoQasU.insert("prj.tss.com.insertToQasTssQasIF",input);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectGateQasIF(HashMap<String, Object> input) {
+		return commonDaoQasU.selectList("prj.tss.com.selectGateQasIF",input);
+	}
+
+	@Override
+	public void insertGateToIrisQasIF(HashMap<String, Object> input) {
+		commonDaoQasU.insert("prj.tss.com.insertGateToIrisQasIF",input);
 	}
 
 }

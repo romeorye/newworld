@@ -1,16 +1,14 @@
 package iris.web.prj.grs.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import devonframe.message.saymessage.SayMessage;
+import devonframe.util.NullUtil;
+import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.StringUtil;
+import iris.web.prj.grs.service.GrsMngService;
+import iris.web.prj.grs.service.GrsReqService;
+import iris.web.prj.tss.com.service.TssUserService;
+import iris.web.prj.tss.gen.service.GenTssPlnService;
+import iris.web.system.base.IrisBaseController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -22,15 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import devonframe.message.saymessage.SayMessage;
-import devonframe.util.NullUtil;
-import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.StringUtil;
-import iris.web.prj.grs.service.GrsMngService;
-import iris.web.prj.grs.service.GrsReqService;
-import iris.web.prj.tss.com.service.TssUserService;
-import iris.web.prj.tss.gen.service.GenTssPlnService;
-import iris.web.system.base.IrisBaseController;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /********************************************************************************
  * NAME : GrsReqController.java
@@ -507,50 +505,20 @@ public class GrsReqController  extends IrisBaseController {
         HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
         List<Map<String, Object>> dsLst = null;
         HashMap<String, Object> dtlDs =  new HashMap<String, Object>();
-        
-        String rtnMsg = "";
-        String rtnSt = "F";
+
+        Map<String, String> msgMap = new HashMap<>();
 
         try {
             dsLst = RuiConverter.convertToDataSet(request, "gridDataSet");
             dtlDs =  (HashMap<String, Object>)   RuiConverter.convertToDataSet(request, "evInfoDataSet").get(0);
-			
-			input.put("evTitl", dtlDs.get("evTitl"));
-			input.put("commTxt", dtlDs.get("commTxt"));
-            
-            input.put("userId", input.get("_userId"));
-            input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
-            input = StringUtil.toUtf8Input(input);
-            
-            grsReqService.insertGrsEvRsltSave(dsLst, input);
 
-			LOGGER.debug("===GRS 평가 완료후 과제 상태값 변경===");
-            input.put("tssSt", "102");
-            genTssPlnService.updateGenTssPlnMstTssSt(input);
-            grsMngService.updateDefTssSt(input);
-
-
-            if(grsMngService.isBeforGrs(input).equals("1")){
-                LOGGER.debug("===GRS 관리에서 기본정보를 입력한경우===");
-                LOGGER.debug("===과제 관리 마스터로 데이터 복제 (과제정보, 개요)===");
-                input.put("fromTssCd", input.get("tssCd"));
-                input.put("pgsStepCd", "PL");
-                grsMngService.moveDefGrsDefInfo(input);
-                grsMngService.deleteDefGrsDefInfo(input);
-            }
-
-			LOGGER.debug("===해당과제 리더에게 완료 메일 발송===");
-            genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121
-
-            rtnMsg = "평가완료되었습니다.";
-            rtnSt = "S";
+            msgMap = grsMngService.evGrs(input, dsLst, dtlDs);
         } catch (Exception e) {
             e.printStackTrace();
-            rtnMsg = "처리중 오류가발생했습니다. 담당자에게 문의해주세요";
+            msgMap.put("rtnMsg", "처리중 오류가발생했습니다. 담당자에게 문의해주세요");
         }
-
-        rtnMeaasge.put("rtnMsg", rtnMsg);
-        rtnMeaasge.put("rtnSt", rtnSt);
+        rtnMeaasge.put("rtnMsg", msgMap.get("rtnMsg"));
+        rtnMeaasge.put("rtnSt", msgMap.get("rtnSt"));
 
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", rtnMeaasge));
         return modelAndView;

@@ -548,7 +548,8 @@
 		  cd.dept_code as deptCd,
 		  sd.dept_name as deptNm,
 		  cd.PRJ_CD as prjCd,
-		  cd.PRJ_NM as prjNm
+          cd.PRJ_NM as prjNm,
+          sd.dept_uper as upDeptCd
 		FROM
 		  (SELECT cm.dept_uper_code_a ,
 			 cm.dept_code ,

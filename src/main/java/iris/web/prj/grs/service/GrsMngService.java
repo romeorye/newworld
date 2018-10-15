@@ -13,6 +13,9 @@ public interface GrsMngService {
 
 	Map<String, String> saveGrsInfo(HashMap<String, Object> input) ;
 
+	Map<String, String> evGrs(HashMap<String, Object> input, List<Map<String, Object>>dsLst, HashMap<String, Object>dtlDs) ;
+
+
 	void deleteGrsInfo(Map<String, Object> input);
 
 	void updateGrsReqInfo(Map<String, Object> input);
@@ -26,7 +29,18 @@ public interface GrsMngService {
 	
 	public List<Map<String, Object>> retrieveGrsApproval(HashMap<String, Object> input);
 	
-	 void updateApprGuid(HashMap<String, Object> input);
+	void updateApprGuid(HashMap<String, Object> input);
 
     String getGuid(HashMap<String, Object> input);
+
+    //QAS I/F
+
+	// QAS 과제등록
+	void insertToQasTssQasIF(HashMap<String, Object> input);
+	// QAS gate 정보 조회
+	List<Map<String, Object>> selectGateQasIF(HashMap<String, Object> input);
+	// QAS gate 정보 IRIS 등록
+	void insertGateToIrisQasIF(HashMap<String, Object> input);
+
+
 }

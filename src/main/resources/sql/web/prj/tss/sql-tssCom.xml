@@ -1122,5 +1122,127 @@
 		where  tss_cd = #{tssCd}
 		and    yld_itm_type = #{yldItmType}
     </update>
-    
+
+
+
+    <!--  QAS 과제 등록 Oracle-->
+    <insert id="insertToQasTssQasIF">
+    /*insertToQasTssQasIF QAS 과제 등록 Oracle*/
+    <![CDATA[
+		MERGE INTO IF_QGATE
+					USING DUAL
+					ON (WBS_CD = #{wbsCd})
+					WHEN NOT MATCHED THEN
+			INSERT
+				   (
+					   WBS_CD,
+					   TSS_NM,
+					   PRJ_CD,
+					   PRJ_NM,
+					   BIZ_DPT_CD,
+					   PROD_G,
+					   SA_SABUN_CD,
+					   SA_SABUN_NM,
+					   TSS_STRT_DD,
+					   CUST_SQLT,
+					   TSS_TYPE,
+					   NPROD_SALS_PLN_Y,
+					   CTY_OT_PLN_M,
+					   FRST_RGST_DT,
+					   FRST_RGST_ID,
+					   LAST_MDFY_DT,
+					   LAST_MDFY_ID
+				   )
+				   VALUES
+				   (
+					   #{wbsCd},
+					   #{tssNm},
+					   #{prjCd},
+					   #{prjNm},
+					   #{bizDptCd},
+					   #{prodG},
+					   #{saSabunCd},
+					   #{saSabunNm},
+					   #{tssStrtDd},
+					   #{custSqlt},
+					   #{tssType},
+					   #{nprodSalsPlnY},
+					   #{ctyOtPlnM},
+					   SYSDATE,
+					   #{userId},
+					   SYSDATE,
+					   #{userId}
+				   )
+					WHEN MATCHED THEN
+					UPDATE SET
+						TSS_NM = #{tssNm},
+						PRJ_CD = #{prjCd},
+						PRJ_NM = #{prjNm},
+						BIZ_DPT_CD = #{bizDptCd},
+						PROD_G = #{prodG},
+						SA_SABUN_CD = #{saSabunCd},
+						SA_SABUN_NM = #{saSabunNm},
+						TSS_STRT_DD = #{tssStrtDd},
+						CUST_SQLT = #{custSqlt},
+						TSS_TYPE = #{tssType},
+						NPROD_SALS_PLN_Y = #{nprodSalsPlnY},
+						CTY_OT_PLN_M = #{ctyOtPlnM},
+						LAST_MDFY_DT = SYSDATE,
+						LAST_MDFY_ID = #{userId}
+	]]>
+    </insert>
+
+    <!--QAS 결과 조회 Oracle-->
+    <select id="selectGateQasIF" resultType="HashMap">
+      /*selectGateQasIF QAS 결과 조회 Oracle*/
+      <![CDATA[
+        SELECT
+            SEQ AS seq,
+            WBS_CD AS wbsCd,
+            STEP_NO AS stepNo,
+            REQ_TYPE AS reqType,
+            ATTACH_URL AS attachUrl
+          FROM IF_QGATE_PROC
+	]]>
+    </select>
+
+    <!--from QAS 결과 to IRSI 배치용 Insert/Update MSSQL-->
+    <insert id="insertGateToIrisQasIF">
+    /*insertGateToIrisQasIF from QAS 결과 to IRSI 배치용 Insert/Update Oracle*/
+    <![CDATA[
+        MERGE INTO dbo.IRIS_TSS_QGATE_IF A
+            USING (SELECT
+                #{wbsCd} AS WBS_CD,
+                #{stepNo} AS STEP_NO,
+                #{reqType} AS REQ_TYPE
+            ) B
+            ON (
+            A.WBS_CD = B.WBS_CD
+            AND A.STEP_NO = B.STEP_NO
+            AND A.REQ_TYPE = B.REQ_TYPE
+            )
+            WHEN NOT MATCHED THEN
+        INSERT
+          INTO dbo.IRIS_TSS_QGATE_IF
+               (
+                WBS_CD,
+                STEP_NO,
+                REQ_TYPE,
+                ATTACH_URL,
+				FRST_RGST_DT,
+				LAST_MDFY_DT
+                ) VALUES (
+                #{wbsCd},
+                #{stepNo},
+                #{reqType},
+                #{attachUrl},
+                GETDATE(),
+                GETDATE()
+                WHEN MATCHED THEN
+                UPDATE
+                ATTACH_URL = #{attachUrl},
+                LAST_MDFY_DT =  GETDATE()
+            ;
+    	]]>
+    </insert>
 </mapper>
