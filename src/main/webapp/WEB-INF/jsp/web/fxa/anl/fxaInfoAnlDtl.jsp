@@ -169,17 +169,17 @@ var fxaDtlDataSet; // 자산 상세정보 데이터셋
 	   	        }
 	   		});
 		});
-		
+
 		var adminChk = "<c:out value='${inputData.adminChk}'/>";
 
 		if( adminChk == "Y"){
 			butSave.show();
-			butDel.show(); 
+			butDel.show();
 		}else{
 			butSave.hide();
-			butDel.hide(); 
+			butDel.hide();
 		}
-		
+
 		/* [버튼] : 자산관리 목록으로 이동 */
 		var butList = new Rui.ui.LButton('butList');
 		butList.on('click', function(){
@@ -191,7 +191,7 @@ var fxaDtlDataSet; // 자산 상세정보 데이터셋
 			$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
 			$('#searchForm > input[name=fxaNm]').val(encodeURIComponent($('#searchForm > input[name=fxaNm]').val()));
 			$('#searchForm > input[name=crgrNm]').val(encodeURIComponent($('#searchForm > input[name=crgrNm]').val()));
-			
+
 			document.searchForm.action = contextPath+rtnUrl;
 			document.searchForm.submit();
 		}
@@ -200,6 +200,9 @@ var fxaDtlDataSet; // 자산 상세정보 데이터셋
 
 
 </script>
+<style>
+.search-toggleBtn {display : none}
+</style>
 </head>
 
 <body>
@@ -208,7 +211,7 @@ var fxaDtlDataSet; // 자산 상세정보 데이터셋
 		<a class="leftCon" href="#">
         	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
         	<span class="hidden">Toggle 버튼</span>
-       	</a>    
+       	</a>
 		<h2>자산 상세정보</h2>
 	</div>
 <div class="sub-content">
@@ -221,13 +224,13 @@ var fxaDtlDataSet; // 자산 상세정보 데이터셋
 		<input type="hidden" name="toDate" value="${inputData.toDate}"/>
 		<input type="hidden" name="crgrNm" value="${inputData.crgrNm}"/>
     </form>
-	
+
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="fxaInfoId" name="fxaInfoId"  value="<c:out value='${inputData.fxaInfoId}'/>">
 		<input type="hidden" id="rtnUrl" name="rtnUrl"  value="<c:out value='${inputData.rtnUrl}'/>">
 
 		<div class="titArea btn_top">
-			<div class="LblockButton">    
+			<div class="LblockButton">
 				<button type="button" id="butSave">수정</button>
 				<button type="button" id="butDel">삭제</button>
 				<button type="button" id="butList">목록</button>
