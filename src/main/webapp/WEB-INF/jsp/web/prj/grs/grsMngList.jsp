@@ -92,6 +92,8 @@
                  { id: 'bizDptCd'},
                  { id: 'bizDptNm'},
                  { id: 'prjNm'},
+                 { id: 'leaderCd'},
+                 { id: 'leaderNm'},
                  { id: 'dlbrCrgr'},
                  { id: 'dlbrCrgrNm'},
                  { id: 'tssDd'},
@@ -118,10 +120,11 @@
                      { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
                      { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70, vMerge: true },
 				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , vMerge: false , renderer: function(val, p, record, row, i){
-                         return "<a href='javascript:evTssPop("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
+                         return "<a href='javascript:modifyTss("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
                      } },
                      { field: 'prjNm',   label: '프로젝트명',  align:'center',  width: 100 },
-                     { field: 'dlbrCrgrNm',   label: '과제담당자',  align:'center',  width: 70},
+                     { field: 'leaderNm',   label: '과제리더',  align:'center',  width: 70},
+                     { field: 'dlbrCrgrNm',   label: '심의담당자',  align:'center',  width: 70},
                      { field: 'tssDd',   label: '과제기간',  align:'center',  width: 100 },
                      { field: 'dlbrParrDt',   label: '심의예정일',  align:'center',  width: 60 },
                      { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 65 },
@@ -129,9 +132,10 @@
                              return (val == null) ? "GRS품의완료" : val;
 					 }},
                      { field: 'isReq',        label: '관리',       align:'center',      width: 90  , renderer: function(val, p, record, row, i){
-                         return ((val==1)?"<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>":"")
-							 +((record.data.isFirstGrs==1 && val==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"");
-
+/*                         return ((val==1)?"<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>":"")
+							 +((record.data.isFirstGrs==1 && val==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"");*/
+                         return ("<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>")
+							 +("<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>");
                      } }
              ]
          });
@@ -212,7 +216,7 @@
             validators:[
                 {id:'tssScnCd', validExp:'과제구분:true'},
                 {id:'grsYn', validExp:'GRS(P1)수행여부:true'},
-                {id:'saSabunNm', validExp:'과제담당자:true'},
+                {id:'saSabunNm', validExp:'과제리더:true'},
                 {id:'bizDptCd', validExp:'사업부:true'},
                 {id:'prjNm', validExp:'프로젝트명:true'},
                 {id:'tssNm', validExp:'과제명:true'},
@@ -229,7 +233,7 @@
             validators:[
                 {id:'tssScnCd', validExp:'과제구분:true'},
                 {id:'grsYn', validExp:'GRS(P1)수행여부:true'},
-                {id:'saSabunNm', validExp:'과제담당자:true'},
+                {id:'saSabunNm', validExp:'과제리더:true'},
                 {id:'bizDptCd', validExp:'사업부:true'},
                 {id:'prjNm', validExp:'프로젝트명:true'},
                 {id:'tssNm', validExp:'과제명:true'},
@@ -426,7 +430,8 @@
                                 return "<a href='javascript:evTssPop("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
                             } },
                         { field: 'bizDptNm',   label: '프로젝트명',  align:'center',  width: 100 },
-                        { field: 'dlbrCrgrNm',   label: '과제담당자',  align:'center',  width: 70 },
+                        { field: 'leaderNm',   label: '과제리더',  align:'center',  width: 70},
+                        { field: 'dlbrCrgrNm',   label: '심의담당자',  align:'center',  width: 70},
                         { field: 'tssDd',   label: '과제기간',  align:'center',  width: 100 },
                         { field: 'dlbrParrDt',   label: '심의예정일',  align:'center',  width: 60 },
                         { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 65 },
@@ -1033,7 +1038,7 @@
 							<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
 						</tr>
 						<tr>
-							<th align="right">과제담당자</th>
+							<th align="right">과제리더</th>
 							<td><div id="dlbrCrgrNm" /></td>
 							<th align="right">GRS상태</th>
 							<td><div id="sgrsSt"/> </td>
@@ -1083,7 +1088,7 @@
 									<td><div id="grsYn" /></td>
 								</tr>
 								<tr>
-									<th align="right">과제담당자</th>
+									<th align="right">과제리더</th>
 									<td><input type="text" id="saSabunNm" /></td>
 									<th align="right">사업부</th>
 									<td><div id="bizDptCd" /></td>
@@ -1235,7 +1240,7 @@
 	nTextBox('swbsCd', 300, '과제코드를 입력해주세요'); // 과제코드
 	nTextBox('stssNm', 300, '과제명을 입력해주세요'); // 과제명
 	nTextBox('sprjNm', 300, '프로젝트명을 입력해주세요'); // 프로젝트명
-	nTextBox('dlbrCrgrNm', 300, '과제담당자명을 입력해주세요'); // 과제명
+	nTextBox('dlbrCrgrNm', 300, '과제리더명을 입력해주세요'); // 과제명
 
 
 

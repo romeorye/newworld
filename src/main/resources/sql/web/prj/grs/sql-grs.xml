@@ -20,6 +20,8 @@
                  ,isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) as prjNm
                  , m.BIZ_DPT_CD	      bizDptCd
                  , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
+                ,m.SA_SABUN_NEW  as leaderCd
+                ,m.SA_SABUN_NAME as leaderNm
                  , g.dlbr_crgr 									 AS dlbrCrgr
                  --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--심의 담당자
                  , g.sa_sabun_name AS dlbrCrgrNm       --심의 담당자
@@ -51,6 +53,8 @@
                  ,isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) as prjNm
                  , m.BIZ_DPT_CD	      bizDptCd
                  , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
+                ,m.SA_SABUN_CD  as leaderCd
+                ,m.SA_SABUN_NM as leaderNm
                  , g.dlbr_crgr 									 AS dlbrCrgr
                  --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--심의 담당자
                  , g.sa_sabun_name AS dlbrCrgrNm       --심의 담당자
@@ -457,7 +461,7 @@
         ( #{tssCd}
         , #{tssCdSn}
         , #{evTitl}
-        , iif(#{dlbrCrgr} is null,#{_userSabun},#{dlbrCrgr})
+        , #{_userSabun}
         , iif(#{dlbrParrDt} is null,convert(varchar(10), getdate(), 120),#{dlbrParrDt})
         , #{grsEvSt}
         , #{cfrnAtdtCdTxt}
@@ -470,7 +474,7 @@
         , #{userId}
         , GETDATE()
         , #{userId}
-        , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = iif(#{dlbrCrgr} is null,#{_userSabun},#{dlbrCrgr}))
+        , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{_userSabun})
         )
     </insert>
 

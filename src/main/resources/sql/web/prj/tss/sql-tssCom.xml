@@ -1245,4 +1245,30 @@
             ;
     	]]>
     </insert>
+
+
+	<!-- 과제정보 조회 QAS 산출물 연결을 위한-->
+	<select id="selectTssInfoQasIF" resultType="HashMap">
+		/*selectTssInfoQasIF 과제정보 조회 QAS 산출물 연결을 위한*/
+	<![CDATA[
+		SELECT TOP 1
+		  TSS_CD,
+		  WBS_CD,
+		  TSS_SCN_CD
+		FROM IRIS_TSS_MGMT_MST
+		WHERE WBS_CD = #{wbsCd}
+		ORDER BY TSS_CD DESC
+	]]>
+	</select>
+
+	<!-- Qgate 파일 과제 연결-->
+	<update id="updateGateToYldQasIF">
+		UPDATE IRIS_TSS_YLD_ITM set
+	  		QGATE_LINK_URL = #{ATTACHURL}
+	  		,last_mdfy_dt = GETDATE()
+	  		,last_mdfy_id = 'Batch'
+	  	WHERE
+	  	 TSS_CD = #{tssCd}
+	  	 AND YLD_ITM_TYPE = #{yldItmType}
+	</update>
 </mapper>

@@ -101,7 +101,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 			if (grsYn.equals("Y")) {
 				LOGGER.debug("=============== GRS=Y 인경우 GRS 요청정보 생성 ===============");
 				input.put("grsEvSt", "P1");
-				input.put("dlbrCrgr", input.get("saSabunCd"));
+				input.put("dlbrCrgr", input.get("_userId"));
 				updateGrsReqInfo(input);                                            //GRS 정보 등록
 			}else if (grsYn.equals("N")) {
 				LOGGER.debug("=============== GRS 미수행시 마스터 이관 ===============");

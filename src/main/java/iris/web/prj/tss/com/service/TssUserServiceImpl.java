@@ -11,16 +11,14 @@
  *********************************************************************************/
 package iris.web.prj.tss.com.service;
 
+import devonframe.dataaccess.CommonDao;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
-import devonframe.dataaccess.CommonDao;
 
 @Service("tssUserService")
 public class TssUserServiceImpl implements TssUserService {
@@ -48,7 +46,7 @@ public class TssUserServiceImpl implements TssUserService {
             map.put("tssRoleType", "W");
             map.put("tssRoleId",   "TR01");
         }
-        //과제담당자
+        //과제리더
         else if(inputRole.indexOf("WORK_IRI_T03") > -1) {
             map.put("tssRoleType", "W");
             map.put("tssRoleId",   "TR01");
@@ -94,7 +92,7 @@ public class TssUserServiceImpl implements TssUserService {
         if(inputRole.indexOf("WORK_IRI_T01") > -1) {
             map.put("tssRoleType", "S1");
         }
-        //과제담당자
+        //과제리더
         else if(inputRole.indexOf("WORK_IRI_T03") > -1) {
             map.put("tssRoleType", "S1");
         }

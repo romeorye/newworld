@@ -1314,7 +1314,7 @@
 							</td>
 						</tr>
 						<tr>
-							<th align="right">과제담당자</th>
+							<th align="right">과제리더</th>
 							<td><input type="text" id="saSabunName"/></td>
 							<th align="right">사업부문(Funding기준)</th>
 							<td>
