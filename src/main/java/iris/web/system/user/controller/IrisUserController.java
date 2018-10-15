@@ -12,10 +12,15 @@
 
 package iris.web.system.user.controller;
 
-import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.StringUtil;
-import iris.web.system.base.IrisBaseController;
-import iris.web.system.user.service.IrisUserService;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -25,14 +30,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.StringUtil;
+import iris.web.system.base.IrisBaseController;
+import iris.web.system.user.service.IrisUserService;
 
 @Controller
 public class IrisUserController  extends IrisBaseController {
@@ -55,18 +56,21 @@ public class IrisUserController  extends IrisBaseController {
 
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("IrisUserController - userSearchPopup 사용자 조회 팝업");
-		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
+		/* 반드시 공통 호출 후 작업 */
+		checkSession(input, session, model);
 
 		String userNm = "";
-		try {
+		
+		StringUtil.toStringUtf8(input.get("userNm"));
+		LOGGER.debug("input = > " + input);
+		/*try {
 			input.put("userNm",new String(input.get("userNm").getBytes("iso-8859-1"), "utf-8"));
+		   
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-
-		/* 반드시 공통 호출 후 작업 */
-		checkSession(input, session, model);
+*/
 
 		model.addAttribute("inputData", input);
 		
