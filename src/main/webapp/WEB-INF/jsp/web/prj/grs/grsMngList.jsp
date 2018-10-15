@@ -118,7 +118,7 @@
                      { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
                      { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70, vMerge: true },
 				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , vMerge: false , renderer: function(val, p, record, row, i){
-                         return "<a href='javascript:modifyTss("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
+                         return "<a href='javascript:evTssPop("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
                      } },
                      { field: 'prjNm',   label: '프로젝트명',  align:'center',  width: 100 },
                      { field: 'dlbrCrgrNm',   label: '과제담당자',  align:'center',  width: 70},
@@ -320,6 +320,7 @@
 						,{ id: 'deptNm'}
 						,{ id: 'prjCd'}
 						,{ id: 'prjNm'}
+						,{ id: 'upDeptCd'}
 					]
 				});
 
@@ -332,7 +333,8 @@
                     var prCd = deptDataSet.getNameValue(0, "prjCd");
                     var prNm = deptDataSet.getNameValue(0, "prjNm");
                     var pkCd = deptDataSet.getNameValue(0, "pkCd");
-					
+                    var upDeptCd = deptDataSet.getNameValue(0, "upDeptCd");
+
                     if(deptCd!=undefined){
                         if(prCd!=undefined){
                             $("#prjCd").val(prCd);
@@ -340,7 +342,7 @@
                         }else{
                             prjNm.setValue(deptNm);
                         }
-                        $("#deptCode").val(deptCd);
+                        $("#deptCode").val(upDeptCd);
 					}else{
                         alert('부서정보가 없습니다. 관리자에게 문의하세요.');
 					}
@@ -990,7 +992,6 @@
     console.log(tssScnCd);
   }
  */
-
 </script>
 </head>
 
@@ -1266,6 +1267,7 @@
 	});
 	nCombo('tssAttrCd', 'TSS_ATTR_CD'); // 과제속성
 	nCombo('tssType', 'TSS_TYPE'); // 신제품 유형
+
 
 	/* 평가 */
 	// 회의 일정/장소
