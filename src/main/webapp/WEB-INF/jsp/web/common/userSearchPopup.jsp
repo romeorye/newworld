@@ -227,8 +227,8 @@
       	</c:if>
 
 			//이름이 있는 경우 검색 실행
-			if('${inputData.userNm}'!=''){
-                userNm.setValue('${inputData.userNm}');
+			if(decodeURIComponent('${inputData.userNm}')!=''){
+                userNm.setValue(decodeURIComponent('${inputData.userNm}'));
                 getUserList();
             }
         });

@@ -124,7 +124,7 @@ function popSabun(nameId, sabunId){
         			$("#"+sabunId).val(userInfo.saSabun);
                     setDept(userInfo.deptCd);
         		}
-        , e.displayValue, 650,400);
+        , e.displayValue, 800,600);
     });
 
     this[nameId].on('show', function(e){

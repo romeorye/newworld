@@ -72,7 +72,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 			result.put("rtnSt", "F");
 
 			//신규
-			HashMap<String, Object> getWbs = genTssService.getWbsCdStd("prj.tss.com.getWbsCdStd", input);
+			HashMap<String, Object> getWbs = genTssService.getTssCd(input);
 			//SEED WBS_CD 생성
 			int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
 			String seqMaxS = String.valueOf(seqMax + 1);

@@ -296,7 +296,7 @@
             _callback = f;
             if(stringNullChk(width) > 0) _userSearchDialogMulti.setWidth(width);
             if(stringNullChk(height) > 0) _userSearchDialogMulti.setHeight(height);
-            _userSearchDialog.setUrl('<c:url value="/system/user/userSearchPopup.do?cnt=1&userIds=&task="/>' + null+'&userNm='+userNm);
+            _userSearchDialog.setUrl('<c:url value="/system/user/userSearchPopup.do?cnt=1&userIds=&task="/>&userNm='+encodeURIComponent(userNm));
             _userSearchDialog.show();
         }
 

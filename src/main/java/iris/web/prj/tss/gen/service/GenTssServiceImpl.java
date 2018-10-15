@@ -1,16 +1,14 @@
 package iris.web.prj.tss.gen.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import devonframe.dataaccess.CommonDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import devonframe.dataaccess.CommonDao;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*********************************************************************************
  * NAME : GenTssServiceImpl.java
@@ -53,7 +51,12 @@ public class GenTssServiceImpl implements GenTssService {
         return commonDao.select("prj.tss.com.getWbsCdStd", mstDs);
     }
 
-    @Override
+	@Override
+	public HashMap<String, Object> getTssCd(HashMap<String, Object> input) {
+        return commonDao.select("prj.tss.com.getTssCd", input);
+	}
+
+	@Override
     public void insertGenTssCsusRq(Map<String, Object> map) {
         commonDao.insert("prj.tss.com.insertTssCsusRq", map);
     }

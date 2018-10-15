@@ -104,7 +104,7 @@
 
 	<!-- 신규저장시 WBS_CD 자동생성 -->
 	<select id="getWbsCdStd" resultType="hashmap">
---getWbsCdStd 신규저장시 WBS_CD 자동생성
+		/*getWbsCdStd 신규저장시 WBS_CD 자동생성*/
 		WITH WBS_STD AS (
 			SELECT SUBSTRING(DEPT_UPER_CODE_A, 1, 1) + SUBSTRING(CONVERT(VARCHAR, 	GETDATE(), 2), 1, 2)+SUBSTRING(WBS_CD_A, 1, 2) AS WBS_CD_STD
 			     , SUBSTRING(CONVERT(VARCHAR, GETDATE(), 2), 1, 2) AS YY

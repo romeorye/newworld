@@ -26,6 +26,8 @@ public interface GenTssService {
 
     HashMap<String, Object> getWbsCdStd(String string, HashMap<String, Object> mstDs);
 
+    HashMap<String, Object> getTssCd(HashMap<String, Object> input);
+
     void insertGenTssCsusRq(Map<String, Object> map);
 
     void updateGenTssCsusRq(Map<String, Object> map);
