@@ -12,15 +12,10 @@
 
 package iris.web.system.user.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.StringUtil;
+import iris.web.system.base.IrisBaseController;
+import iris.web.system.user.service.IrisUserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -30,10 +25,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.StringUtil;
-import iris.web.system.base.IrisBaseController;
-import iris.web.system.user.service.IrisUserService;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class IrisUserController  extends IrisBaseController {
@@ -65,7 +63,7 @@ public class IrisUserController  extends IrisBaseController {
 		StringUtil.toStringUtf8(input.get("userNm"));
 		LOGGER.debug("input = > " + input);
 		/*try {
-			input.put("userNm",new String(input.get("userNm").getBytes("iso-8859-1"), "utf-8"));
+			if(input.get("userNm")!=null)input.put("userNm",new String(input.get("userNm").getBytes("iso-8859-1"), "utf-8"));
 		   
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
