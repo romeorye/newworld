@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -38,16 +38,16 @@
 </style>
 
 	<script type="text/javascript">
-      
+
 	var   adminChk = 'N';
-	
-	
+
+
 		Rui.onReady(function() {
-			
+
 			if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T06') > -1) {
 				adminChk = "Y";
 			}
-			
+
 			var swiper = new Swiper('.swiper-container', {
 				slidesPerView: 1,
 				spaceBetween: 30,
@@ -60,16 +60,16 @@
         });
 
 		function fncMovemenu(cd){
-			
+
 			var userNm = encodeURIComponent('${inputData._userNm}');
-			
+
 			if(adminChk == "Y"){
 				var setUrl = "/anl/anlRqprList4Chrg.do?acpcStCd="+cd+"&anlChrgNm="+userNm;
 				moveMenu('AN', 'IRIAN0100', setUrl, 'IRIAN0102')
 			}else{
 				var setUrl = encodeURIComponent("/anl/anlRqprList.do?acpcStCd="+cd+"&anlChrgNm="+userNm);
 				moveMenu('AN', 'IRIAN0100', setUrl, 'IRIAN0102')
-			}   
+			}
 		}
 	</script>
     </head>
@@ -79,9 +79,9 @@
 		    <div class=gnb_bg></div>
 		    <div class="width_layout">
 		    <%@ include file="/WEB-INF/jsp/web/main/top.jspf" %>
-		    </div>      
+		    </div>
 		    <div class="gnb_line"></div>
-		
+
 <style>
 .ts_main .side_bar_con {width:215px !important;}
 .ts_main .body_con {
@@ -92,7 +92,7 @@
 .ts_main .body_con > div > div {width:47.5% !important;}
 .ts_main .body_con > div > div:first-child {margin-right:5% !important;}
 .fir_subject_con .reservation_con {height:150px;}
- 
+
 .fir_subject_con .notice_con .album-wrap {width:100% !important;}
 .ts_main .main_footer_w {position:fixed;}
 .body_con.pj_content .side_scroll_con .swiper-container02 {margin-left:0;}
@@ -114,7 +114,7 @@
 .ts_main #prj_right ul { margin:0 auto;margin-bottom:10px;margin-top:10px; width:80%;}
 .ts_main #prj_right ul li {border:0 none; float:none; width:100%; padding:10px 0;}
 .ts_main #prj_right ul li + li {border-top:1px dotted #888;}
-</style>	  
+</style>
 		    <!--content-->
 		    <div class="Main_content ts_main" id="main_iris">
 		        <!--left-->
@@ -125,13 +125,13 @@
 		                    <div class="name_con">
 		                        <p class="name"><c:out value="${inputData._userNm}"/>(<c:out value="${inputData._userId}"/>)</p>
 		                        <p class="grade"><c:out value="${inputData._userJobxName}"/></p>
-		                    </div>    
+		                    </div>
 		                </div>
- 					
+
 		        	<c:set var="listLink02" value="moveMenu('AN', 'IRIAN0100', '/anl/anlRqprList.do?acpcStCd=02', 'IRIAN0101')"/>
 		        	<c:set var="listLink03" value="moveMenu('AN', 'IRIAN0100', '/anl/anlRqprList.do?acpcStCd=03, 'IRIAN0101')"/>
 		        	<c:set var="listLink06" value="moveMenu('AN', 'IRIAN0100', '/anl/anlRqprList.do?acpcStCd=06', 'IRIAN0101')"/>
-		        	
+
 		        	<c:if test="${fn:indexOf(inputData._roleId, 'WORK_IRI_T06') > -1}">
 			        	<c:set var="listLink02" value="moveMenu('AN', 'IRIAN0100', '/anl/anlRqprList4Chrg.do?acpcStCd=02', 'IRIAN0102')"/>
 			        	<c:set var="listLink03" value="moveMenu('AN', 'IRIAN0100', '/anl/anlRqprList4Chrg.do?acpcStCd=03', 'IRIAN0102')"/>
@@ -205,7 +205,7 @@
 		                                </ul>
 		                                <div class="cir_line"></div>
 		                            </div>
-		                            
+
 		                            <div class="swiper-slide">
 		                                <ul class="side_scroll_fir">
 		                        <c:choose>
@@ -224,7 +224,7 @@
 		                                </ul>
 		                                <div class="cir_line"></div>
 		                            </div>
-		                            
+
 		                            <div class="swiper-slide">
 		                                <ul class="side_scroll_fir">
 		                        <c:choose>
@@ -251,42 +251,40 @@
 		                    </c:if>
 		                    </div>
 		                </div>
-		            </div>    
+		            </div>
 		        </div>
-		        
+
 		        <!--right-->
 		        <div class="body_con pj_content">
 		            <!--fir-->
 		            <div class="fir_subject_con">
-		                <div class="notice_con">
-		                <div class="album-wrap">
-		                    <h4 class="notice_title">NOTICE<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrievePubNoticeList.do', 'IRIAN0201')">&#43;</a></span></h4>
-		                    <ul class="album clfix">
+		                		                <div class="notice_con">
+		                <h4 class="notice_title">NOTICE<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/bbs/retrieveAnlBbsList.do', 'IRIAN0201')">&#43;</a></span></h4>
+		                <div class="side_scroll_con">
+		                        <div class="swiper-container swiper-container03">
+		                            <div class="swiper-wrapper">
+
                     <c:choose>
                     	<c:when test="${fn:length(anlNoticeList) == 0}">
                                 <li>데이터가 존재하지 않습니다.</li>
                     	</c:when>
                     	<c:otherwise>
-                            <c:forEach items="${anlNoticeList}" var="data" varStatus="status">
-		                        <li>
-		                            <div class="title"><c:out value="${data.bbsTitl}"/></div>
-		                        <c:if test="${data.newFlag == 'N'}">
-		                            <span class="news_icon">New</span>
-		                        </c:if>
-		                            <div class="contxt" onClick="moveMenu('AN', 'IRIAN0200', '/anl/lib/anlNoticeInfo.do?bbsId=<c:out value="${data.bbsId}"/>', 'IRIAN0201')"><c:out value="${data.bbsSbc}" escapeXml="false"/></div>
-		                        </li>
+                            <c:forEach items="${anlNoticeList}" var="noticeInfo" varStatus="status">
+		                        <div class="swiper-slide">
+		                                    <ul class="reser_txt" onClick="moveMenu('AN', 'IRIAN0200', '/anl/lib/anlNoticeInfo.do?bbsId=<c:out value="${noticeInfo.bbsId}"/>', 'IRIAN0201')">
+		                                        <li><c:out value="${noticeInfo.bbsTitl}"/></li>
+		                                        <li><c:out value="${noticeInfo.bbsSbc}"/></li>
+		                                    </ul>
+		                                </div>
                             </c:forEach>
                     	</c:otherwise>
                     </c:choose>
-		                    </ul>
 		                </div>
-		                <ul class="bt-roll">
-                        <c:forEach items="${anlNoticeList}" var="data" varStatus="status">
-		                    <li><a href="#"><img src="<%=imagePath%>/newIris/btn_circle<c:if test="${status.index == 0}">_</c:if>.png"></a></li>
-                        </c:forEach>
-		                </ul>
-		                </div>    
-		                
+		                <div class="swiper-pagination"></div>
+		                </div>
+		                </div>
+		                </div>
+
 		                <div class="reservation_con">
 		                    <h4 class="notice_title">분석기기 예약현황<span class="plus"><a href="javascript:moveMenu('DE', 'IRIDE0100', '/mchn/open/mchn/retrieveMachineList.do', 'IRIDE0102')">&#43;</a></span></h4>
 		                    <div class="side_scroll_con">
@@ -317,9 +315,9 @@
 	                    	</c:otherwise>
 	                    </c:choose>
 		                            </div>
-		                            <div class="swiper-pagination"></div>   
-		                        </div> 
-		                    </div>   
+		                            <div class="swiper-pagination"></div>
+		                        </div>
+		                    </div>
 		                </div>
 		            </div>
 		            <!--sec-->
@@ -379,7 +377,7 @@
 		                </div>
 		            </div>
 		            <!--thi-->
-		            <!-- 
+		            <!--
 		            <div class="QuickMenu_con02">
 		                <h4 class="notice_title">Quick Menu</h4>
 		                <ul>
@@ -398,7 +396,7 @@
 		                </ul>
 		            </div> -->
 		        </div>
-		   
+
 		   		<div id="prj_right">
 		   			<div class="QuickMenu_con02">
 		   				<h4 class="notice_title">Quick Menu</h4>
