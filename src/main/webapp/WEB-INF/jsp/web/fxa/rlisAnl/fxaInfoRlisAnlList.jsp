@@ -62,8 +62,8 @@ var fxaRlisAnlDialog;
                     , { field: 'fromRlisDt'    , label: '실사시작',  	sortable: false,	align:'center', width: 160}
                     , { field: 'toRlisDt'      , label: '실사종료',  	sortable: false,	align:'center', width: 160}
                     , { field: 'rlisClNm'      , label: '구분',  		sortable: false,	align:'center', width: 130}
-                    , { field: 'totalCnt'      , label: '실사요청',  	sortable: false,	align:'center', width: 120}
-                    , { field: 'apprCnt'       , label: '실사완료',  	sortable: false,	align:'center', width: 120}
+                    , { field: 'totalCnt'      , label: '실사요청',  	sortable: false,	align:'center', width: 130}
+                    , { field: 'apprCnt'       , label: '실사완료',  	sortable: false,	align:'center', width: 130}
                     , { field: 'rlisMgrNm'     , label: '실사관리자',  	sortable: false,	align:'center', width: 160}
             	    , { field: 'rlisMgrId' , hidden : true}
             	    , { field: 'rlisClCd'  , hidden : true}

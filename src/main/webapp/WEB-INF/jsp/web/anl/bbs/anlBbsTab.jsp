@@ -145,10 +145,10 @@ var target = "${inputData.target}";
            var columnModel01 = new Rui.ui.grid.LColumnModel({
         	   columns: [
         		    new Rui.ui.grid.LNumberColumn()
-        		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
-                  , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
-                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
-                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
+        		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 250 }
+                  , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 560 }
+                  , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 160 }
+                  , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 153 }
                   , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
                ]
            });
@@ -188,11 +188,11 @@ var target = "${inputData.target}";
            var columnModel02 = new Rui.ui.grid.LColumnModel({
         	   columns: [
        		    new Rui.ui.grid.LNumberColumn()
-      		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
-                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
-                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
-                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
-                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+      		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
+                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 470 }
+                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
+                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
+                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
                ]
            });
 
@@ -231,11 +231,11 @@ var target = "${inputData.target}";
            var columnModel03 = new Rui.ui.grid.LColumnModel({
         	   columns: [
         		   new Rui.ui.grid.LNumberColumn()
-         		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
-                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
-                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
-                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
-                   , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+         		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
+                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 470 }
+                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
+                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
+                   , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
                ]
            });
 
@@ -275,11 +275,11 @@ var target = "${inputData.target}";
            var columnModel04 = new Rui.ui.grid.LColumnModel({
         	   columns: [
         		   new Rui.ui.grid.LNumberColumn()
-         		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
-                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
-                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
-                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
-                   , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+         		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
+                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 470 }
+                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
+                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
+                   , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
                ]
            });
 
@@ -423,7 +423,7 @@ function fncAnlBbsRgstPage(record) {
    						<button type="button" id="rgstBtn" name="rgstBtn" >등록</button>
    					</div>
    				</div>
-   				
+
 				<c:if test="${inputData.bbsCd == '06'}"><div id="anlBbsGrid01"></div></c:if>
 				<c:if test="${inputData.bbsCd == '07'}"><div id="anlBbsGrid02"></div></c:if>
 				<c:if test="${inputData.bbsCd == '08'}"><div id="anlBbsGrid03"></div></c:if>

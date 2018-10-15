@@ -415,9 +415,9 @@
                 	, new Rui.ui.grid.LStateColumn()
                     , new Rui.ui.grid.LNumberColumn()
                     , { field: 'smpoNm',	label: '시료명',		sortable: false,	editable: true, editor: textBox,	align:'center',	width: 400 }
-                    , { field: 'mkrNm',		label: '제조사',		sortable: false,	editable: true, editor: textBox,	align:'center',	width: 320 }
-                    , { field: 'mdlNm',		label: '모델명',		sortable: false,	editable: true, editor: textBox,	align:'center',	width: 300 }
-                    , { field: 'smpoQty',	label: '수량',		sortable: false,	editable: true, editor: numberBox,	align:'center',	width: 50 }
+                    , { field: 'mkrNm',		label: '제조사',		sortable: false,	editable: true, editor: textBox,	align:'center',	width: 400 }
+                    , { field: 'mdlNm',		label: '모델명',		sortable: false,	editable: true, editor: textBox,	align:'center',	width: 350 }
+                    , { field: 'smpoQty',	label: '수량',		sortable: false,	editable: true, editor: numberBox,	align:'center',	width: 95 }
                 ]
             });
 
@@ -467,10 +467,10 @@
                 	  new Rui.ui.grid.LSelectionColumn()
                   	, new Rui.ui.grid.LStateColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'preAcpcNo',		label: '접수번호',		sortable: false,	align:'center',	width: 80 }
+                    , { field: 'preAcpcNo',		label: '접수번호',		sortable: false,	align:'center',	width: 100 }
                     , { field: 'preAnlNm',		label: '분석명',		sortable: false,	align:'left',	width: 300 }
-                    , { field: 'preRgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preAnlChrgNm',	label: '분석담당자',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'preRgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 100 }
+                    , { field: 'preAnlChrgNm',	label: '분석담당자',	sortable: false,	align:'center',	width: 100 }
                 ]
             });
 
@@ -509,7 +509,7 @@
             var anlRqprAttachColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                       new Rui.ui.grid.LNumberColumn()
-                    , { field: 'filNm',		label: '파일명',		sortable: false,	align:'left',	width: 470 }
+                    , { field: 'filNm',		label: '파일명',		sortable: false,	align:'left',	width: 570 }
                 ]
             });
 

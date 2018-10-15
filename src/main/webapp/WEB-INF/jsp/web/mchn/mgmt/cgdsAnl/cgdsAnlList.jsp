@@ -64,10 +64,10 @@
 			            	return val;
 		            	}
 		            }, sortable: false, align: 'center', width: 110},
-		            { field: 'prpIvQty', 	label: '적정재고', 	sortable: false, align: 'center', width: 110},
-		            { field: 'utmCd', 		label: '단위',   	sortable: false, align: 'center', width: 120},
-		            { field: 'cgdCrgrNm', 	label: '담당자',   	sortable: false, align: 'center', width: 140},
-		            { id: 'btn', label: '소모품', width: 120, renderer: function(val, p, record, row, i){
+		            { field: 'prpIvQty', 	label: '적정재고', 	sortable: false, align: 'center', width: 120},
+		            { field: 'utmCd', 		label: '단위',   	sortable: false, align: 'center', width: 130},
+		            { field: 'cgdCrgrNm', 	label: '담당자',   	sortable: false, align: 'center', width: 150},
+		            { id: 'btn', label: '소모품', width: 115, renderer: function(val, p, record, row, i){
 		                return '<button type="button" class="L-grid-button">관리</button>';
 		            } },
 		            { field: 'cgdCrgrId',  		hidden : true},

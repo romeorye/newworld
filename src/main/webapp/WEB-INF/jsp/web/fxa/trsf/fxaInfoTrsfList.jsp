@@ -91,7 +91,7 @@ var adminChk ="N";
         	 	      { field: 'fxaNm'      , label: '자산명',  	sortable: false,	align:'left', width:280}
                     , { field: 'fxaNo'      , label: '자산번호',  	sortable: false,	align:'center', width: 90}
                     , { field: 'fxaQty' 	, label: '수량',  		sortable: false,	align:'center', width: 40}
-                    , { field: 'fxaUtmNm'   , label: '단위',  		sortable: false,	align:'center', width: 50}
+                    , { field: 'fxaUtmNm'   , label: '단위',  		sortable: false,	align:'center', width: 60}
                     ,{ id : 'As_is'}
                     , { field: 'fromPrjNm'  , groupId: 'As_is', label: 'PJT',  		sortable: false,	align:'left', width: 200}
                     , { field: 'fromCrgrNm' , groupId: 'As_is', label: '담당자',  	sortable: false,	align:'center', width: 70}
@@ -100,7 +100,7 @@ var adminChk ="N";
                     , { field: 'toCrgrNm'   , groupId: 'To_be', label: '담당자',  	sortable: false,	align:'center', width: 70}
                     , { field: 'trsfRqDt'   , label: '이관요청일',  sortable: false,	align:'center', width: 90}
                     , { field: 'trsfApprDt' , label: '이관승인일',  sortable: false,	align:'center', width: 90}
-                    , { field: 'trsfStNm'   , label: '상태',  		sortable: false,	align:'center', width: 80}
+                    , { field: 'trsfStNm'   , label: '상태',  		sortable: false,	align:'center', width: 90}
                     ,{ id: 'btn', label: '이관', align:'center', width: 45, renderer: function(val, p, record, row, i){
     	                return '<button type="button" class="L-grid-button L-popup-action">사유</button>';
     	             }}

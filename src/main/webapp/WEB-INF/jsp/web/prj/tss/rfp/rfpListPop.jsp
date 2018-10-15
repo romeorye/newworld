@@ -43,20 +43,20 @@
             	 ,{ id: 'descTclg'}
             	 ,{ id: 'exptAppl'}
             	 ,{ id: 'mainReq'}
-            	 ,{ id: 'benchMarkTclg'}	
+            	 ,{ id: 'benchMarkTclg'}
             	 ,{ id: 'colaboTclg'}
             	 ,{ id: 'timeline'}
             	 ,{ id: 'comments'}
             	 ,{ id: 'companyNm'}
-            	 ,{ id: 'rgstNm'}                                                                     
-            	 ,{ id: 'submitYn'}                                                                       
+            	 ,{ id: 'rgstNm'}
+            	 ,{ id: 'submitYn'}
  			]
          });
-		
+
          dataSet.on('load', function(e){
  	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
  	     });
-         
+
          var columnModel = new Rui.ui.grid.LColumnModel({
              columns: [
              	new Rui.ui.grid.LSelectionColumn(),
@@ -64,11 +64,11 @@
                  { field: 'reqDate',    label:'RequestDate' , 		sortable: false, align: 'center', width: 100},
                  { field: 'rsechEngn',  label:'ResearchEngineer', 	sortable: false, align: 'left', width: 200},
                  { field: 'rgstNm',    	label:'등록자', 			sortable: false, align: 'center', width: 100},
-                 { field: 'submitYn',   label:'제출여부', 			sortable: false, align: 'center', width: 60},
+                 { field: 'submitYn',   label:'제출여부', 			sortable: false, align: 'center', width: 80},
                  { field: 'rfpId',  hidden : true}
              ]
          });
-         
+
          var grid = new Rui.ui.grid.LGridPanel({
              columnModel: columnModel,
              dataSet: dataSet,
@@ -76,9 +76,9 @@
              width : 750.
 
          });
-         
+
         grid.render('rfpGrid');
-        
+
          grid.on('cellClick', function(e) {
  			var record = dataSet.getAt(dataSet.getRow());
 
@@ -87,7 +87,7 @@
  				parent.rfpDialog.submit(true);
  			}
       	});
-         
+
          fnSearch = function() {
   	    	dataSet.load({
   	            url: '<c:url value="/prj/tss/rfp/retrieveRfpSearchList.do"/>',
@@ -97,15 +97,15 @@
   	            	 ,adminYn : "Y"
   	    	          }
               });
-         }  
-         
+         }
+
          fnSearch();
-         
-	});	
+
+	});
 </script>
 </head>
 
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">	
+<body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="bd">
 		<!-- <div class="titleArea">
   			<h2>RFP 요청서 목록</h2>
@@ -147,6 +147,6 @@
   				<div id="rfpGrid"></div>
 			</form>
 		</div>
-	</div>	
+	</div>
 </body>
-</html>	
+</html>

@@ -137,7 +137,7 @@ var imgHeight;
 	      		        }
 	                  }
                      , { field: 'fxaLoc' 	, label: '위치',  		sortable: false,	align:'center', width: 90}
-                     , { field: 'tagYn' 	, label: '태그',  		sortable: false,	align:'center', width: 30}
+                     , { field: 'tagYn' 	, label: '태그',  		sortable: false,	align:'center', width: 45}
                      , { field: 'rlisDt' 	, label: '실사일', 		sortable: false,	align:'center', width: 90}
              	     , { field: 'sendMail'  , hidden : true}
              	     , { field: 'saUserId'  , hidden : true}

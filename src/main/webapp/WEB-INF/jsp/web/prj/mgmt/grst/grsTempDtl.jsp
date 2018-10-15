@@ -168,10 +168,10 @@
         var mGridColumnModel = new Rui.ui.grid.LColumnModel({  //listGrid column
             columns: [
                 new Rui.ui.grid.LStateColumn(),
-                    { field: 'evPrvsNm_1',      label: '평가항목',   sortable: false, align:'center', width: 175 ,editor: textBox, editable: true , vMerge: true},
-                    { field: 'evPrvsNm_2',      label: '평가항목',   sortable: false, align:'center', width: 175 ,editor: textBox, editable: true , vMerge: true},
-                    { field: 'evCrtnNm',        label: '평가기준',   sortable: false, align:'center', width: 175 ,editor: textBox, editable: true , vMerge: true},
-                    { field: 'evSbcTxt',        label: '평가내용',   sortable: false, align:'center', width: 200 ,editor: textBox, editable: true },
+                    { field: 'evPrvsNm_1',      label: '평가항목',   sortable: false, align:'center', width: 210 ,editor: textBox, editable: true , vMerge: true},
+                    { field: 'evPrvsNm_2',      label: '평가항목',   sortable: false, align:'center', width: 210 ,editor: textBox, editable: true , vMerge: true},
+                    { field: 'evCrtnNm',        label: '평가기준',   sortable: false, align:'center', width: 210 ,editor: textBox, editable: true , vMerge: true},
+                    { field: 'evSbcTxt',        label: '평가내용',   sortable: false, align:'center', width: 250 ,editor: textBox, editable: true },
                     { id: 'G1', label: '평가 기준및 배점' },
                     { field: 'dtlSbcTitl_1',   groupId: 'G1' , label: '5점',   sortable: false, align:'left', width: 70  ,editor: textBox, editable: true},
                     { field: 'dtlSbcTitl_2',   groupId: 'G1' , label: '4점',   sortable: false, align:'left', width: 70  ,editor: textBox, editable: true},
@@ -255,7 +255,7 @@
 
             record.set("grsEvSn", "${inputData.grsEvSn}");
         });
-        
+
 
         <%--/*******************************************************************************
         * FUNCTION 명 :  grid 삭제
@@ -284,9 +284,9 @@
 //                         if(row < 0) return;
 //                         gridDataSet.removeAt(row);
 //                     }
-                    
-                    
-                    
+
+
+
                     var row = gridDataSet.getRow();
                     if(row < 0) return;
                     if(stringNullChk(gridDataSet.getNameValue(row, "grsEvSeq")) != "") {
@@ -402,16 +402,16 @@
 	                text: validatorManager.getMessageList().join('<br/>'),
 	                width: 380
 	            });
-	            
+
 	            return false;
 	        }
-	        
+
 	        return true;
         }
-        
-        
+
+
         fnDtlLstInfo();
-        
+
     });
 
 </script>

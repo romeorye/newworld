@@ -103,11 +103,11 @@ Rui.onReady(function() {
 
     var tssColumnModel = new Rui.ui.grid.LColumnModel({
         columns : [
-              { field : 'wbsCd',    label : 'WBS코드',  align :'center',    width : 70 }
-            , { field : 'tssNm',    label : '과제명',   align :'left',    width : 200 }
-            , { field : 'prjNm',    label : '프로젝트명', align :'left',    width : 200 }
-            , { field : 'tssScnNm', label : '과제구분', align :'center',    width : 70 }
-            , { field : 'tssNosSt', label : '과제차수', align :'center',    width : 70 }
+              { field : 'wbsCd',    label : 'WBS코드',  align :'center',    width : 80 }
+            , { field : 'tssNm',    label : '과제명',   align :'left',    width : 215 }
+            , { field : 'prjNm',    label : '프로젝트명', align :'left',    width : 210 }
+            , { field : 'tssScnNm', label : '과제구분', align :'center',    width : 80 }
+            , { field : 'tssNosSt', label : '과제차수', align :'center',    width : 80 }
         ]
     });
 

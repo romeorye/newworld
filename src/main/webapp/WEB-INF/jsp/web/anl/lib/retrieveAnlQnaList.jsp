@@ -106,8 +106,8 @@ var anlQnaGrid;       // 그리드
 
           var columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
-            	    { field: 'qnaClCd',     label: '구분',		sortable: false,	align:'center',	width: 100 }
-            	  , { field: 'bbsTitl',		label: '제목',      sortable: false,	align:'left',	width: 805,
+            	    { field: 'qnaClCd',     label: '구분',		sortable: false,	align:'center',	width: 150 }
+            	  , { field: 'bbsTitl',		label: '제목',      sortable: false,	align:'left',	width: 830,
             	    	renderer:  function(val, p, record, row, i){
             	    	var titlNm = val;
 
@@ -117,9 +117,9 @@ var anlQnaGrid;       // 그리드
             	    	}
                       return titlNm;
 					} }
-                  , { field: 'rgstNm',		label: '작성자',	sortable: false,	align:'center',	width: 100 }
-                  , { field: 'frstRgstDt',	label: '게시일',	sortable: false,	align:'center',	width: 100 }
-			      , { field: 'rtrvCt',		label: '조회',		sortable: false, 	align:'center',	width: 60  }
+                  , { field: 'rgstNm',		label: '작성자',	sortable: false,	align:'center',	width: 120 }
+                  , { field: 'frstRgstDt',	label: '게시일',	sortable: false,	align:'center',	width: 120 }
+			      , { field: 'rtrvCt',		label: '조회',		sortable: false, 	align:'center',	width: 105  }
               ]
           });
 

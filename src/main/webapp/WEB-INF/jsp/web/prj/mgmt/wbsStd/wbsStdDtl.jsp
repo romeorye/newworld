@@ -83,10 +83,10 @@
         var columnModel = new Rui.ui.grid.LColumnModel({  //listGrid column
             columns: [
                 new Rui.ui.grid.LNumberColumn(),
-          			{ field: 'wbsNm',     		label: 'WBS명', sortable: false, align:'left', width: 300  },
-          			{ field: 'trm',     		label: '기간',   sortable: false, align:'center', width: 175 },
-          			{ field: 'wgvl',    		label: '가중치',  sortable: false, align:'center', width: 120   },
-          		    { field: 'attcFilId',     	label: '템플릿',  sortable: false, align:'right', width: 170 ,
+          			{ field: 'wbsNm',     		label: 'WBS명', sortable: false, align:'left', width: 500  },
+          			{ field: 'trm',     		label: '기간',   sortable: false, align:'center', width: 275 },
+          			{ field: 'wgvl',    		label: '가중치',  sortable: false, align:'center', width: 220   },
+          		    { field: 'attcFilId',     	label: '템플릿',  sortable: false, align:'right', width: 275 ,
 
           				 renderer: function(val, p, record, row, i){
           					 if(val !=""){

@@ -60,13 +60,13 @@
 	        columns: [
 	        	{ field: 'mchnNm', 			label:'기기명' , 	sortable: false, align: 'left', width: 400},
 	            { field: 'fxaNo',  			label:'자산번호', 	sortable: false, align: 'center', width: 120},
-	            { field: 'mdlNm',  			label:'모델명', 	sortable: false, align: 'center', width: 208},
+	            { field: 'mdlNm',  			label:'모델명', 	sortable: false, align: 'center', width: 220},
 	            { field: 'mkrNm',  			label:'제조사', 	sortable: false, align: 'center', width: 150},
 	            { field: 'mchnClNm', 		label: '분류', 		sortable: false, align: 'center', width: 90},
 	            { field: 'opnYn', 			label: 'OPEN',   	sortable: false, align: 'center', width: 60},
 	            { field: 'mchnCrgrNm',  	label:'담당자' , 	sortable: false, align: 'center', width: 90},
 	            { field: 'mchnUsePsblNm',  	label:'상태' , 		sortable: false, align: 'center', width: 100},
-	            { id: 'btn', label: '기기', width: 90, renderer: function(val, p, record, row, i){
+	            { id: 'btn', label: '기기', width: 95, renderer: function(val, p, record, row, i){
 	                return '<button type="button" class="L-grid-button">관리</button>';
 	            } },
 	            { field: 'mchnInfoId',  hidden : true}

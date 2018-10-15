@@ -39,7 +39,7 @@ var mchnMgmtRegDialog;
 
 		mchnMgmtRegDialog.render(document.body);
 
-		
+
 		var mchnInfoDataSet = new Rui.data.LJsonDataSet({
 			id: 'mchnInfoDataSet',
             remainRemoved: true,
@@ -52,11 +52,11 @@ var mchnMgmtRegDialog;
             	 ,{ id: 'mchnInfoId'}
             ]
         });
-	
+
 		mchnInfoDataSet.on('load', function(e){
-			
+
 	    });
-		
+
 		var mchnBind = new Rui.data.LBind({
 			groupId: 'aform',
 		    dataSet: mchnInfoDataSet,
@@ -69,7 +69,7 @@ var mchnMgmtRegDialog;
 		         ,{ id: 'mchnLoc', 		ctrlId: 'mchnLoc', 		value: 'html' }
 		     ]
 		});
-		
+
 		//grid dataset
 		var dataSet = new Rui.data.LJsonDataSet({
             id: 'dataSet',
@@ -90,7 +90,7 @@ var mchnMgmtRegDialog;
             	 ,{ id: 'dtlClCd'}
             ]
         });
-		
+
 		dataSet.on('load', function(e){
 	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
 	    });
@@ -105,10 +105,10 @@ var mchnMgmtRegDialog;
       	        		return Rui.util.LFormat.numberFormat(parseInt(value));
       		        	}
                   	},
-		            { field: 'rgstNm',  		label:'작성자', 	sortable: false, align: 'center', width: 110},
-		            { field: 'mchnUsePsblNm', 	label: '상태', 		sortable: false, align: 'center', width: 110},
+		            { field: 'rgstNm',  		label:'작성자', 	sortable: false, align: 'center', width: 115},
+		            { field: 'mchnUsePsblNm', 	label: '상태', 		sortable: false, align: 'center', width: 120},
 		            { field: 'smrySbc', 		label: '설명',   	sortable: false, align: 'left',	  width: 550},
-		            { field: 'rgstDt', 			label: '등록일',   	sortable: false, align: 'center', width: 140},
+		            { field: 'rgstDt', 			label: '등록일',   	sortable: false, align: 'center', width: 150},
 		            { field: 'rgstId',  		hidden : true},
 		            { field: 'mchnInfoId',  	hidden : true},
 		            { field: 'infoMgmtId',  	hidden : true},
@@ -142,10 +142,10 @@ var mchnMgmtRegDialog;
 
 	    var mchnInfoId = document.aform.mchnInfoId.value
 	    var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-	    
+
 	    fnSearch = function(){
 	    	dm.loadDataSet({
-				dataSets: [ dataSet, mchnInfoDataSet],				
+				dataSets: [ dataSet, mchnInfoDataSet],
 	        	url: '<c:url value="/mchn/mgmt/retrieveMchnMgmtSearchList.do"/>' ,
 	        	params :{
 	        			mchnInfoId : mchnInfoId		//기기명
@@ -203,8 +203,8 @@ var mchnMgmtRegDialog;
 		butListlBtn.on('click', function(){
 			$('#searchForm > input[name=mchnNm]').val(encodeURIComponent($('#searchForm > input[name=mchnNm]').val()));
     	   	$('#searchForm > input[name=mchnCrgrNm]').val(encodeURIComponent($('#searchForm > input[name=mchnCrgrNm]').val()));
-	    	
-	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/retrieveMachineList.do"/>");	
+
+	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/retrieveMachineList.do"/>");
         });
 
 	});		//end ready
@@ -223,7 +223,7 @@ var mchnMgmtRegDialog;
 			<h2>기기관리</h2>
 		</div>
 		<div class="sub-content">
-		
+
 		<form name="searchForm" id="searchForm">
 			<input type="hidden" name="mchnNm" value="${inputData.mchnNm}"/>
 			<input type="hidden" name="mchnClCd" value="${inputData.mchnClCd}"/>
@@ -231,7 +231,7 @@ var mchnMgmtRegDialog;
 			<input type="hidden" name="mchnCrgrNm" value="${inputData.mchnCrgrNm}"/>
 			<input type="hidden" name="mchnUsePsblYn" value="${inputData.mchnUsePsblYn}"/>
 	    </form>
-	    
+
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" />
 				<input type="hidden" id="mchnCrgrId" name="mchnCrgrId" />
@@ -271,10 +271,10 @@ var mchnMgmtRegDialog;
 							<th align="right">담당자</th>
 							<td>
 								<span id="mchnCrgrNm"></span>
-							</td>	
+							</td>
 							<th align="right" >위치</th>
 							<td>
-								<span id="mchnLoc"></span> 
+								<span id="mchnLoc"></span>
 							</td>
 						</tr>
 						</tbody>

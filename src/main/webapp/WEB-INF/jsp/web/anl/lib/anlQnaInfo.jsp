@@ -50,7 +50,7 @@
             var aform = new Rui.ui.form.LForm('aform');
 
             var butMail = new Rui.ui.LButton('butMail');
-            
+
             /* 덧글 내용 */
             var textArea = new Rui.ui.form.LTextArea({
                 emptyText: ''
@@ -171,9 +171,9 @@
 
             var columnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                 	  { field: 'frstRgstDt', label: '등록일',  	sortable: false,  align:'center',  width: 120 }
-                    , { field: 'rgstNm',     label: '등록자',  	sortable: false,  align:'center',  width: 120 }
-                    , { field: 'rebNm',	     label: '내용',	    sortable: false,  align:'left',	   width: 800,  editable: true, editor: textArea,
+                 	  { field: 'frstRgstDt', label: '등록일',  	sortable: false,  align:'center',  width: 200 }
+                    , { field: 'rgstNm',     label: '등록자',  	sortable: false,  align:'center',  width: 200 }
+                    , { field: 'rebNm',	     label: '내용',	    sortable: false,  align:'left',	   width: 925,  editable: true, editor: textArea,
                     	renderer: function(val, p, record, row, col) {
                     		return val.replaceAll('\n', '<br/>');
                     } }
@@ -377,7 +377,7 @@
             qnaRgstDel = function() {
                 fncDeleteAnlQnaInfo();
             };
-            
+
 		    /* [버튼] : 메일 페이지로 이동 */
 			butMail.on('click', function(){
 
@@ -402,7 +402,7 @@
 		            } }
 		        ]
 		    });
-			
+
 		    _mailDialog.on('submit', function(e) {
 		    	Rui.alert('메일이 발송되었습니다.');
 		    });
@@ -414,7 +414,7 @@
 				_callback = f;
 				_mailDialog.setUrl('<c:url value="/anl/bbs/sendMailPopup.do"/>'+'?bbsId=' + bbsId);
 				_mailDialog.show();
-			};            
+			};
 
     		/* [버튼] 목록 */
             goQnaList = function() {
@@ -554,7 +554,7 @@
 		<input type="hidden" id="rebId" name="rebId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value=""/>
    		<div class="contents" style="padding-bottom:10px">
-  			
+
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
@@ -562,7 +562,7 @@
 				</a>
  				<h2>분석 Q&A</h2>
  			</div>
- 			
+
 	 		<div class="sub-content">
 				<div class="LblockButton top mt0">
 					<button type="button" id="rebBtn"    name="rebBtn"    >답변</button>
@@ -624,7 +624,7 @@
 						<col style="width:15%"/>
 						<col style="width:*"/>
    					</colgroup>
-					
+
 					<tbody>
 						<tr>
 							<th align="right" width="15%">덧글</th>

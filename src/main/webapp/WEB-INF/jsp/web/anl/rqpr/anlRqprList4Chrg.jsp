@@ -78,8 +78,8 @@
  					, { field: 'acpcDt',		label: '접수일',		sortable: true, 	align:'center',	width: 90 }
  					, { field: 'cmplParrDt',	label: '완료예정일',	sortable: true, 	align:'center',	width: 90 }
                      , { field: 'cmplDt',		label: '완료일',		sortable: true, 	align:'center',	width: 90 }
-                     , { field: 'anlUgyYnNm',	label: '긴급',		sortable: false,  	align:'center',	width: 50 }
- 					, { field: 'acpcStNm',		label: '상태',		sortable: false, 	align:'center',	width: 90 }
+                     , { field: 'anlUgyYnNm',	label: '긴급',		sortable: false,  	align:'center',	width: 55 }
+ 					, { field: 'acpcStNm',		label: '상태',		sortable: false, 	align:'center',	width: 100 }
                  ]
              });
 

@@ -72,8 +72,8 @@ var adminChk = "N";
             columns: [
         	 	      { field: 'fxaNm'      , label: '자산명',  	sortable: false,	align:'left', width:330}
                     , { field: 'fxaNo'      , label: '자산번호',  	sortable: false,	align:'center', width: 100}
-                    , { field: 'fxaQty' 	, label: '수량',  		sortable: false,	align:'center', width: 50}
-                    , { field: 'fxaUtmNm'   , label: '단위',  		sortable: false,	align:'center', width: 50}
+                    , { field: 'fxaQty' 	, label: '수량',  		sortable: false,	align:'center', width: 60}
+                    , { field: 'fxaUtmNm'   , label: '단위',  		sortable: false,	align:'center', width: 60}
 					, { field: 'wbsCd'      , label: 'WBS 코드',  	sortable: false,	align:'center', width: 80}
                     , { field: 'prjNm'      , label: '프로젝트명', 	sortable: false,	align:'left', width: 270}
                     , { field: 'crgrNm'     , label: '담당자',  	sortable: false,	align:'center', width: 90}
@@ -83,7 +83,7 @@ var adminChk = "N";
 	      	        		return Rui.util.LFormat.numberFormat(parseInt(value));
 	      		        }
 	                  }
-                    , { field: 'imgIcon' 	, label: '사진',  sortable: false,	align:'center', width: 60,	renderer: function(value, p, record){
+                    , { field: 'imgIcon' 	, label: '사진',  sortable: false,	align:'center', width: 80,	renderer: function(value, p, record){
 
                    	 if(record.get('attcFilId') == null ||  record.get('attcFilId') == ""){
 		            	 }else{
@@ -91,7 +91,7 @@ var adminChk = "N";
 		            	 }
 	      		        }
 	                  }
-                    , { field: 'dsuDt'		, label: '자산폐기일', 	sortable: false,	align:'center', width: 90}
+                    , { field: 'dsuDt'		, label: '자산폐기일', 	sortable: false,	align:'center', width: 75}
             	    , { field: 'fxaInfoId' , hidden : true}
             ]
         });

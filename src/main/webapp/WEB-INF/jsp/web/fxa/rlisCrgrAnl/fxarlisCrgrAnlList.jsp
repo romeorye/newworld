@@ -87,7 +87,7 @@
         	 	      { field: 'prjNm'    	, label: '프로젝트명',  	sortable: false,	align:'left', width: 500}
                     , { field: 'crgrNm'     , label: '담당자',  		sortable: false,	align:'center', width: 220, editor: popupUserInfo, renderer: Rui.util.LRenderer.popupRenderer() }
                     , { field: 'rfpNm'      , label: '통보자',  		sortable: false,	align:'center', width: 420, editor: popupMultiUserInfo, renderer: Rui.util.LRenderer.popupRenderer() }
-                    , { field: 'regDt'      , label: '등록일',  		sortable: false,	align:'center', width: 168}
+                    , { field: 'regDt'      , label: '등록일',  		sortable: false,	align:'center', width: 185}
             	    , { field: 'deptCd'		, hidden : true}
             	    , { field: 'rfpId' 		, hidden : true}
             	    , { field: 'crgrId'  	, hidden : true}
