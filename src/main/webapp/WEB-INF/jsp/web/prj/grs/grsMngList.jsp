@@ -900,10 +900,17 @@
 	   infoDataSet.clearData();
 	   tssCd = "";
 	   $("#tssCd").val('');
-       setEditable("tssScnCd");
-       setEditable("grsYn");
-       setEditable("prjNm");
+       $(".first-child:contains('저장')").css("display","block");
        $(".first-child:contains('삭제')").css("display","none");
+       setEditable("saSabunNm");
+       setEditable("bizDptCd");
+       setEditable("tssNm");
+       setEditable("prodG");
+       setEditable("tssStrtDd");
+       setEditable("tssFnhDd");
+       setEditable("custSqlt");
+       setEditable("tssAttrCd");
+       setEditable("tssType");
    }
 
 
