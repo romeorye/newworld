@@ -814,23 +814,28 @@
             //GRS요청
             btnGrsRq = new Rui.ui.LButton('btnGrsRq');
             btnGrsRq.on('click', function() {
-                if(confirm("GRS요청을 하시겠습니까?")) {
-                    regDm.update({
-                        url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
-                        params:'gbn=GRS&tssCd='+gvTssCd
-                    });
+                if(document.getElementById('tabContent3').contentWindow.fnIfmIsUpdate()){
+                    if(confirm("GRS요청을 하시겠습니까?")) {
+                        regDm.update({
+                            url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
+                            params:'gbn=GRS&tssCd='+gvTssCd
+                        });
+                    }
                 }
             });
 
             //품의서요청
             btnCsusRq = new Rui.ui.LButton('btnCsusRq');
             btnCsusRq.on('click', function() {
-                if(confirm("품의서요청을 하시겠습니까?")) {
-                    regDm.update({
-                        url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
-                        params:'gbn=CSUS&tssCd='+gvTssCd
-                    });
-                }
+
+                if(document.getElementById('tabContent3').contentWindow.fnIfmIsUpdate()){
+                    if(confirm("품의서요청을 하시겠습니까?")) {
+                        regDm.update({
+                            url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
+                            params:'gbn=CSUS&tssCd='+gvTssCd
+                        });
+                    }
+				}
             });
 
 
