@@ -49,7 +49,6 @@
              * 변수 및 객체 선언
              *******************/
             var cnt = '${inputData.cnt}';
-            var pUserNm = '${inputData.userNm}';
             var deptNm = new Rui.ui.form.LTextBox({
                  applyTo : 'deptNm',
                  placeholder : '',

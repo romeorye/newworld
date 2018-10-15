@@ -293,11 +293,11 @@
 	    };
 
         openUserSearchNmDialog = function(f, userNm, width, height) {
+            _callback = f;
             if(stringNullChk(width) > 0) _userSearchDialogMulti.setWidth(width);
             if(stringNullChk(height) > 0) _userSearchDialogMulti.setHeight(height);
-
-            _userSearchDialogMulti.setUrl('<c:url value="/system/user/userSearchPopup.do?userNm="/>' + userNm);
-            _userSearchDialogMulti.show();
+            _userSearchDialog.setUrl('<c:url value="/system/user/userSearchPopup.do?cnt=1&userIds=&task="/>' + null+'&userNm='+userNm);
+            _userSearchDialog.show();
         }
 
 	    //사용자 popup Dialog

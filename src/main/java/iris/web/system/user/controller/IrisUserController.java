@@ -68,7 +68,6 @@ public class IrisUserController  extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
 
-
 		model.addAttribute("inputData", input);
 		
 		return "web/common/userSearchPopup";

@@ -139,7 +139,6 @@ public class GrsMngController extends IrisBaseController {
 
 
 		Map<String, Object> result = grsMngService.selectGrsMngInfo(input);
-//		Map<String, Object> result = grsReqService.retrieveGrsEvRslt(CommonUtil.mapToString(input));
 		result = StringUtil.toUtf8Output((HashMap) result);
 
 		modelAndView.addObject("infoDataSet", RuiConverter.createDataset("dataSet", result));
