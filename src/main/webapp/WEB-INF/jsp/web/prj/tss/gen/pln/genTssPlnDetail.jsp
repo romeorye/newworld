@@ -311,7 +311,7 @@
 	            if(gvTssSt == "100"){
 	            	btnGrsRq.show();
 	            	btnDelRq.show();
-	            }else if(gvTssSt == "302"){ // GRS품의 완료
+	            }else if(gvTssSt == "302" || gvTssSt == "102"){ // GRS품의 완료
 	            	btnCsusRq.show();
 	            }
 	        }
