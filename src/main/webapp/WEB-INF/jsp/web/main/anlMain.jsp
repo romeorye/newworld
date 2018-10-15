@@ -126,7 +126,7 @@
 
 .ts_main #prj_right { position: absolute; right: 1%; top: 0; width: 190px;}
 .ts_main #prj_right .QuickMenu_con02  { width: 100%;height:440px; border-radius: 16px;box-sizing:border-box;background: #fff; position: relative; margin-top:16px; overflow:hidden;}
-.ts_main #prj_right h4 { color: #c40452; font-weight: 600; font-size: 16px; padding-top:5px; border-bottom:1px solid #ddd; padding-left:20px;  margin-bottom:0; line-height:2.5;}
+.ts_main #prj_right h4 { color: #c40452; font-weight: 600; text-align:center; font-size: 16px; padding-top:5px; border-bottom:1px solid #ddd; padding-left:20px;  margin-bottom:0; line-height:2.5;}
 .ts_main #prj_right .QuickMenu_con02 ul { margin:0 auto;margin-bottom:10px;margin-top:10px; width:80%;}
 .ts_main #prj_right .QuickMenu_con02 ul li {border:0 none; float:none; width:100%; padding:5px 0 10px 0;}
 .ts_main #prj_right .QuickMenu_con02 ul li + li {border-top:1px dotted #888;}
