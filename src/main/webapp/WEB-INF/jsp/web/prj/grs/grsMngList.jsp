@@ -972,9 +972,28 @@
            if(isEditable=='1'){
                $(".first-child:contains('삭제')").css("display","block");
                $(".first-child:contains('저장')").css("display","block");
+               setEditable("saSabunNm");
+               setEditable("bizDptCd");
+               setEditable("tssNm");
+               setEditable("prodG");
+               setEditable("tssStrtDd");
+               setEditable("tssFnhDd");
+               setEditable("custSqlt");
+               setEditable("tssAttrCd");
+               setEditable("tssType");
            }else{
                $(".first-child:contains('삭제')").css("display","none");
                $(".first-child:contains('저장')").css("display","none");
+
+               setReadonly("saSabunNm");
+               setReadonly("bizDptCd");
+               setReadonly("tssNm");
+               setReadonly("prodG");
+               setReadonly("tssStrtDd");
+               setReadonly("tssFnhDd");
+               setReadonly("custSqlt");
+               setReadonly("tssAttrCd");
+               setReadonly("tssType");
 		   }
        });
 
