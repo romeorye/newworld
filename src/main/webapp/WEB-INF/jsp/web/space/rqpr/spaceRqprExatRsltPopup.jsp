@@ -384,7 +384,7 @@
 
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
+   			<div class="sub-content" style="padding:0; margin-top:-25px;">
 
    				<div class="titArea">
    					<div class="LblockButton">
@@ -393,7 +393,7 @@
    					</div>
    				</div>
 
-			    <div id="bd">
+			    <div id="bd" class="tree_wrap01">
 			        <div class="LblockMarkupCode">
 			            <div id="contentWrapper">
 			                <div id="spaceRqprExatTreeView"></div>
@@ -401,8 +401,8 @@
 			            <div id="fieldWrapper">
 			   				<table class="table table_txt_right">
 			   					<colgroup>
-			   						<col style="width:20%;"/>
-			   						<col style="width:80%;"/>
+			   						<col style="width:24%;"/>
+			   						<col style="width:76%;"/>
 			   					</colgroup>
 			   					<tbody>
 			   						<tr>

@@ -173,32 +173,38 @@ div.main_footer > div {background:#e4e4e4;}
 /* ==========================================================================
    Technical Service Main
    ========================================================================== */
-#ts {background:#f4f4f4; width:100%; max-width:1580px; min-width:1260px;padding-top:20px; position:relative; padding-bottom:26px;    margin: unset;}
+/*#ts {background:#f4f4f4; width:100%; max-width:1580px; min-width:1260px;padding-top:20px; position:relative; padding-bottom:26px;    margin: unset;}
 #ts .side_bar_con { width:235px; border-radius: 18px; border:0; background:#fff;float:none; position:absolute; left:20px; top:20px; height:auto;}   
 #ts .body_con {margin-left:305px;}
 #ts .body_con > div {width:100%;}
 #ts .body_con h4 {font-size:16px;}
 #ts .sec_subject_con { margin-top:20px;}
-#ts .notice_con, #ts .reservation_con, #ts .edu_con, #ts .analysis_con.edu_con {width:48.4% !important; position:relative; border-radius: 18px; background:#fff; box-sizing:border-box; padding:15px 30px;}
+#ts .notice_con, #ts .reservation_con, #ts .edu_con, #ts .analysis_con.edu_con {width:48.4% !important; position:relative; border-radius: 18px; background:#fff; box-sizing:border-box; padding:13px 30px;}
 #ts .notice_con,  #ts .edu_con {margin-right:2%;}
 .analysis_con.edu_con {margin-right:0 !important;}
-#ts .notice_con, #ts .reservation_con {height:220px;}
+#ts .notice_con, #ts .reservation_con {height:205px;}
 #ts .notice_con ul li div {font-size:13px;}  
 #ts .notice_con ul li div span {font-size:12px !important;}  
 #ts .side_scroll_con {height:80%;}  
-#ts .album-wrap {height:135px; margin-top: -5px;}
+#ts .album-wrap {height:120px; margin-top: -5px;}
 #ts .swiper-container02 {
     width: 88% !important; margin-left:0 !important;
 }  
- /*#ts .album-wrap  {width:100%;}*/
+
    
 #ts .QuickMenu_con02 {position:relative; border-radius: 18px; background:#fff; box-sizing:border-box; padding:15px 30px;}
 #ts .QuickMenu_con02 ul li {padding:4px 15px 10px 15px; border:0;}
- #ts .QuickMenu_con02 ul li + li {border-left:1px solid #ccc;}  
-   
-   
-   
-    
+#ts .QuickMenu_con02 ul li + li {border-left:1px solid #ccc;}  
+.QuickMenu_con02 h4 {float:left; padding-top:8px; text-align: right;  width: 140px; font-size: 18px !important; line-height: 1.2;}
+.QuickMenu_con02 ul {float:left; overflow:hidden;}  
+.QuickMenu_con02 ul li h5 {margin-top:8px; font-size:13px;}
+
+.sec_subject_con.mt25 {height:250px;}
+.sec_subject_con.mt25 .edu_con {height:250px;}
+.sec_subject_con .edu_con ul li {margin-bottom:9px;}
+#ts .QuickMenu_con02 {padding:15px 30px 15px 10px; width:98.8% !important;}
+#ts .body_con .QuickMenu_con02 ul li {padding:0 20px; height:100px}*/
+ /*#ts .album-wrap  {width:100%;}*/
  /* 내부버튼 */
 #butAttcFil-button, 
 #attchFileMngBtn {border:1px solid #c3c3c3 !important; background:#f3f3f3 !important;}
@@ -1127,6 +1133,23 @@ scrollbar-highlight-color: blue;
 scrollbar-shadow-color:#fff;}	
 }
 .top_gnb .menu ul {margin-top:18px;}
-.user_search_td {width:160px !important;}
-.user_search_td div {width:150px !important;}
-.user_search_td div input {width:140px !important;}
+.user_search_td {width:140px !important;}
+.user_search_td div {width:130px !important;}
+.user_search_td div input {width:120px !important;}
+.rlabrq_p, .rlabrq_p .LblockMarkupCode {overflow:hidden;}
+.rlabrq_p, .rlabrq_p .LblockMarkupCode .search-toggleBtn {display:none;}
+.rlabrq_p, .rlabrq_p #contentWrapper .L-ul-treeview  {}
+.rlabrq_p, .rlabrq_p #fieldWrapper {width:470px !important;}
+.rlabrq_p, .rlabrq_p #fieldWrapper table {margin-top:0;}
+
+.tree_wrap01 #contentWrapper .L-ul-treeview {height:390px !important;}
+.tree_wrap01 #contentWrapper .L-ul-treeview, 
+.tree_wrap01 #fieldWrapper .table {margin-top:0;}
+.tree_wrap01 #fieldWrapper {width:450px !important;}
+.tree_wrap01 #fieldWrapper .search-toggleBtn {display:none;}
+.spacerq_sch {widht:295px !important;}
+.spacerq_sch div {width:290px !important;}
+.spacerq_sch div input {width:280px !important;}
+
+.L-editor-panel .L-radio-group.L-form-field {text-align:center; padding-top:0;}
+.L-editor-panel .L-radio-group.L-form-field > div {display:inline-block; float:none; border:0;}

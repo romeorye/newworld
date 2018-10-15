@@ -1112,7 +1112,7 @@
 								</tr>
 								<tr id="displayDiv2">
 									<th align="right">신제품 유형</th>
-									<td><div id="tssType" /></td>
+									<td colspan="3"><div id="tssType" /></td>
 								</tr>
 							</tbody>
 						</table>

@@ -307,11 +307,11 @@
 
 		   						<tr>
 		   							<th align="right">WBS Code</th>
-		   							<td>
+		   							<td class="spacerq_sch">
 		   								<input type="text" id="wbsCd">
 		   							</td>
 		   							<th align="right">의뢰자</th>
-		    						<td>
+		    						<td class="spacerq_sch">
 		    							<input type="text" id="rgstNm">
 		    						</td>
 		    						<td class="txt-right">

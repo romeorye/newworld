@@ -1758,8 +1758,8 @@
 	            <div id="spaceRqprInfoDiv">
 				<form name="aform" id="aform" method="post">
 					<input type="hidden" id="spaceChrgId" name="spaceChrgId" value=""/>
-   				<div class="titArea">
-   					<div class="LblockButton mt10">
+   				<div class="titArea mt10">
+   					<div class="LblockButton">
    						<button type="button" class="btn"  id="reqApprStateBtn" name="reqApprStateBtn" onclick="openApprStatePopup('A')" style="display:none;">결재상태</button>
    						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="saveSpaceRqpr()">저장</button>
    						<button type="button" class="btn"  id="receiptBtn" name="receiptBtn" onclick="receipt()">접수</button>

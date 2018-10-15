@@ -332,14 +332,15 @@
                         </table>
                     </fieldset>
                 </form>
-            </div>    
+            </div> 
+            <div class="titArea">
+			    <div class="LblockButton">
+			        <button type="button" id="btnSave">저장</button>
+			        <button type="button" id="btnList">목록</button>
+			    </div>
+			</div>   
         </div>
-        <div class="titArea">
-		    <div class="LblockButton">
-		        <button type="button" id="btnSave">저장</button>
-		        <button type="button" id="btnList">목록</button>
-		    </div>
-		</div>
+        
     </div>
 </body>
 </html>

@@ -18,6 +18,9 @@
 --%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+<style>
+.search-toggleBtn {display:none;}
+</style>
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
@@ -438,7 +441,7 @@
                             <tbody>
                                 <tr>
                                     <th>합계</th>
-                                    <td colspan="3" class="bor_none alignR"><fmt:formatNumber value="${resultSmry.total}" pattern="#,###.##" /></td>
+                                    <td colspan="3" class="alignR"><fmt:formatNumber value="${resultSmry.total}" pattern="#,###.##" /></td>
                                 </tr>
                                 <tr>
                                     <th>인건비</th>

@@ -82,10 +82,41 @@
 		    </div>      
 		    <div class="gnb_line"></div>
 		
-		  
+<style>
+.ts_main .side_bar_con {width:215px !important;}
+.ts_main .body_con {
+    margin-left: 280px !important;
+    margin-right: 225px;
+}
+.ts_main .body_con > div {width:100%; border-radius: 16px; background: #fff; position: relative; margin-top:0; margin-bottom: 18px; box-sizing:border-box; padding:27px 30px;}
+.ts_main .body_con > div > div {width:47.5% !important;}
+.ts_main .body_con > div > div:first-child {margin-right:5% !important;}
+.fir_subject_con .reservation_con {height:150px;}
+ 
+.fir_subject_con .notice_con .album-wrap {width:100% !important;}
+.ts_main .main_footer_w {position:fixed;}
+.body_con.pj_content .side_scroll_con .swiper-container02 {margin-left:0;}
+
+.edu_con ul li {position:relative;}
+.edu_con ul li .speech {position:absolute; left:0;top:0; width:25px;}
+.edu_con ul li .contxt {width:auto !important; padding-left:45px; font-size:12.5px;}
+.edu_con ul li .day { font-size:12px;}
+.analysis_con.edu_con ul li .list_txt {display:table-cell; width:100%;}
+.analysis_con.edu_con .speech { width:17%; position:relative; }
+.analysis_con.edu_con ul li .contxt {display:table-cell; padding-left:0; width:58% !important;}
+.analysis_con.edu_con .day {display:table-cell; font-size:12px;width:85px; text-align:right; width:18%; padding-left:0;}
+
+
+
+.ts_main #prj_right { position: absolute; right: 1%; top: 0; width: 190px;}
+.ts_main #prj_right .QuickMenu_con02  { width: 100%; border-radius: 16px;box-sizing:border-box;background: #fff; position: relative; margin-top: 24px; overflow:hidden;}
+.ts_main #prj_right h4 { color: #c40452; font-weight: 600; font-size: 16px; padding-top:18px; padding-left:20px;  margin-bottom:0; line-height:2;}
+.ts_main #prj_right ul { margin:0 auto;margin-bottom:10px;margin-top:10px; width:80%;}
+.ts_main #prj_right ul li {border:0 none; float:none; width:100%; padding:10px 0;}
+.ts_main #prj_right ul li + li {border-top:1px dotted #888;}
+</style>	  
 		    <!--content-->
-		    <div class="Main_content_w">
-		    <div class="Main_content" id="ts" style="float:left;">
+		    <div class="Main_content ts_main" id="main_iris">
 		        <!--left-->
 		        <div class="side_bar_con">
 		            <div class="side_layout">
@@ -222,14 +253,14 @@
 		                </div>
 		            </div>    
 		        </div>
+		        
 		        <!--right-->
-		        <div class="body_con">
+		        <div class="body_con pj_content">
 		            <!--fir-->
 		            <div class="fir_subject_con">
 		                <div class="notice_con">
-		                <h4 class="notice_title">NOTICE<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/bbs/retrieveAnlBbsList.do', 'IRIAN0201')">&#43;</a></span></h4>
 		                <div class="album-wrap">
-		                    
+		                    <h4 class="notice_title">NOTICE<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrievePubNoticeList.do', 'IRIAN0201')">&#43;</a></span></h4>
 		                    <ul class="album clfix">
                     <c:choose>
                     	<c:when test="${fn:length(anlNoticeList) == 0}">
@@ -316,7 +347,7 @@
 		                    </ul>
 		                </div>
 		                <div class="analysis_con edu_con">
-		                    <h4 class="notice_title">주요 분석자료<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0100', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0104')">&#43;</a></span></h4>
+		                    <h4 class="notice_title">주요 분석자료<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0202')">&#43;</a></span></h4>
 		                    <ul>
                     <c:choose>
                     	<c:when test="${fn:length(anlMainDataList) == 0}">
@@ -325,7 +356,7 @@
                     	<c:otherwise>
                             <c:forEach items="${anlMainDataList}" var="data" varStatus="status">
 		                        <li>
-		                            <div class="list_txt" onClick="moveMenu('AN', 'IRIAN0100', '/anl/lib/retrieveAnlLibList.do?bbsId=<c:out value="${data.bbsId}"/>&bbsCd=<c:out value="${data.bbsCd}"/>', 'IRIAN0104')">
+		                            <div class="list_txt" onClick="moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do?bbsId=<c:out value="${data.bbsId}"/>&bbsCd=<c:out value="${data.bbsCd}"/>', 'IRIAN0202')">
 	                            <c:choose>
 	                            	<c:when test="${data.bbsCd == '02'}">
 		                                <span class="speech mint"><c:out value="${data.bbsNm}"/></span>
@@ -348,6 +379,7 @@
 		                </div>
 		            </div>
 		            <!--thi-->
+		            <!-- 
 		            <div class="QuickMenu_con02">
 		                <h4 class="notice_title">Quick Menu</h4>
 		                <ul>
@@ -360,17 +392,34 @@
 		                        <h5><a href="javascript:moveMenu('DE', 'IRIDE0100', '/mchn/open/mchn/retrieveMachineList.do', 'IRIDE0102')">보유기기</a></h5>
 		                    </li>
 		                    <li>
-		                        <a href="javascript:moveMenu('AN', 'IRIAN0100', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0104')"><p class="icon_quick"></p></a>
-		                        <h5><a href="javascript:moveMenu('AN', 'IRIAN0100', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0104')">분석자료실</a></h5>
+		                        <a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0202')"><p class="icon_quick"></p></a>
+		                        <h5><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0202')">분석자료실</a></h5>
 		                    </li>
 		                </ul>
-		            </div>
+		            </div> -->
 		        </div>
+		   
+		   		<div id="prj_right">
+		   			<div class="QuickMenu_con02">
+		   				<h4 class="notice_title">Quick Menu</h4>
+		                <ul>
+		                    <li>
+		                        <a href="javascript:moveMenu('AN', 'IRIAN0100', '/anl/anlRqprList.do', 'IRIAN0101')"><p class="icon_quick"></p></a>
+		                        <h5><a href="javascript:moveMenu('AN', 'IRIAN0100', '/anl/anlRqprList.do', 'IRIAN0101')">분석의뢰</a></h5>
+		                    </li>
+		                    <li>
+		                        <a href="javascript:moveMenu('DE', 'IRIDE0100', '/mchn/open/mchn/retrieveMachineList.do', 'IRIDE0102')"><p class="icon_quick"></p></a>
+		                        <h5><a href="javascript:moveMenu('DE', 'IRIDE0100', '/mchn/open/mchn/retrieveMachineList.do', 'IRIDE0102')">보유기기</a></h5>
+		                    </li>
+		                    <li>
+		                        <a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0202')"><p class="icon_quick"></p></a>
+		                        <h5><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0202')">분석자료실</a></h5>
+		                    </li>
+		                </ul>
+		   			</div>
+		   		</div>
 		    </div>
-		    
-		    
-			</div>
-			<!--footer-->
+		    <!--footer-->
 			<%@ include file="/WEB-INF/jsp/web/main/footer.jspf" %>
 		</div>
     </body>
