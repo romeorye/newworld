@@ -48,7 +48,7 @@
             /*******************
              * 변수 및 객체 선언
              *******************/
-            var cnt = ${inputData.cnt};
+            var cnt = '${inputData.cnt}';
             var deptNm = new Rui.ui.form.LTextBox({
                  applyTo : 'deptNm',
                  placeholder : '',
@@ -70,14 +70,12 @@
             var userNm = new Rui.ui.form.LTextBox({
                  applyTo : 'userNm',
                  placeholder : '',
-                 defaultValue : '',
-                 emptyValue: '',
                  width : 180
             });
             userNm.focus();
             
             userNm.on('blur', function(e) {
-            	userNm.setValue(userNm.getValue().trim());
+            	// userNm.setValue(userNm.getValue().trim());
             });
             
             userNm.on('keypress', function(e) {
@@ -225,7 +223,11 @@
 				return userList;
 	        };
       	</c:if>
-			
+
+			//이름이 있는 경우 검색 실행
+			if('${inputData.userNm}'!=''){
+                getUserList();
+            }
         });
 
 	</script>
@@ -252,7 +254,7 @@
    						<tr>
    							<th align="right">이름</th>
     						<td class="user_search_td">
-   								<input type="text" id="userNm" value="">
+   								<input type="text" id="userNm" value="${inputData.userNm}">
     						</td>
     						<th align="right">부서</th>
    							<td class="user_search_td">

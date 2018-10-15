@@ -112,20 +112,24 @@ function popSabun(nameId, sabunId){
     this[nameId] = new Rui.ui.form.LPopupTextBox({
         applyTo: nameId,
         width: 200,
-        editable: false,
+        editable: true,
         enterToPopup: true
     });
     this[nameId].on('popup', function(e){
-        openUserSearchDialog(
+        console.log(e.displayValue);
+        openUserSearchNmDialog(
         		function(userInfo){
         			console.log(userInfo)
         			this[nameId].setValue(userInfo.saName);
         			$("#"+sabunId).val(userInfo.saSabun);
                     setDept(userInfo.deptCd);
         		}
-        , 1, '',null,650,400);
+        , e.displayValue, 650,400);
     });
 
+    this[nameId].on('show', function(e){
+        console.log("load");
+    });
 
 
 // form 값 확인

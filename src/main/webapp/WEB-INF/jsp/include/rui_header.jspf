@@ -292,6 +292,14 @@
 	    	}
 	    };
 
+        openUserSearchNmDialog = function(f, userNm, width, height) {
+            if(stringNullChk(width) > 0) _userSearchDialogMulti.setWidth(width);
+            if(stringNullChk(height) > 0) _userSearchDialogMulti.setHeight(height);
+
+            _userSearchDialogMulti.setUrl('<c:url value="/system/user/userSearchPopup.do?userNm="/>' + userNm);
+            _userSearchDialogMulti.show();
+        }
+
 	    //사용자 popup Dialog
 	    openUserSearchDialog2 = function(f, cnt, userIds, task) {
 	    	 var params = '?cnt=1&userIds=&task=' + task;
