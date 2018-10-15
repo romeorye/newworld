@@ -1,19 +1,21 @@
 package iris.web.tssbatch.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
 import devonframe.dataaccess.CommonDao;
 import iris.web.prj.tss.gen.service.GenTssAltrService;
 import iris.web.prj.tss.gen.service.GenTssCmplService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.nat.service.NatTssAltrService;
 import iris.web.prj.tss.ousdcoo.service.OusdCooTssAltrService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /*********************************************************************************
  * NAME : TssCopyBatchServiceImpl.java
@@ -126,7 +128,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 			} else if ("D".equals(input.get("tssScnCd"))) {//기술팀과제
 				this.updateTctmData(input);
 			}
-
+/*
 			if( !"D".equals(input.get("tssScnCd")) )  {
 				//변경시 과제리더 업데이트 처리
 	            String chgTssSabun = "";
@@ -137,7 +139,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	            	commonDao.update("batch.updateTssMstSabunNew", input);
 	            }
 			}
-			
+	*/		
 		} else if ("CM".equals(input.get("pgsStepCd"))) {
 			/*******************완료*******************/
 			if ("G".equals(input.get("tssScnCd"))) { //일반과제
@@ -326,7 +328,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		genTssAltrService.updateGenTssSmryToSelect(input);
 
 		this.getChangData(input);
-		input.put("psTssCd", input.get("pgTssCd")) ;
+		//input.put("psTssCd", input.get("pgTssCd")) ;
 		
 		//		1.3 IRIS_TSS_PTC_RSST_MBR 	- 과제참여연구원
 		genTssAltrService.updateGenTssPtcRssMbrToSelect(input);
