@@ -122,6 +122,9 @@ var mchnPrctId;
 
 
 </head>
+<style type="text/css">
+.search-toggleBtn {display:none;}
+</style>
 <body>
 <form  id="aform" name="aform" method="post">
 <input type="hidden" id="year" name="year" />
