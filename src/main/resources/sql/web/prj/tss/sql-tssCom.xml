@@ -81,6 +81,27 @@
     ]]>
 	</select>
 
+
+	<!-- 신규 TSS_CD -->
+		<select id="getTssCd" resultType="hashmap">
+		/*getTssCd 신규 TSS_CD*/
+		SELECT isnull(substring(max(u.pkMax), 2, 5), SUBSTRING(CONVERT(VARCHAR, GETDATE(), 2), 1, 2) + '000') as seqMax
+		  FROM
+			   (SELECT max(DISTINCT PK_WBS_CD) as pkMax
+				 FROM IRIS_GRS_MGMT_MST
+				WHERE TSS_SCN_CD = #{tssScnCd}
+					  AND PK_wbs_CD like '_' + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 2), 1, 2) + '___'
+				   UNION
+			   SELECT max(DISTINCT PK_WBS_CD) as pkMax
+				 FROM IRIS_TSS_MGMT_MST
+				WHERE TSS_SCN_CD = #{tssScnCd}
+					  AND PK_wbs_CD like '_' + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 2), 1, 2) + '___'
+			   ) u
+	</select>
+
+
+
+
 	<!-- 신규저장시 WBS_CD 자동생성 -->
 	<select id="getWbsCdStd" resultType="hashmap">
 --getWbsCdStd 신규저장시 WBS_CD 자동생성
