@@ -289,7 +289,7 @@
                     	<c:otherwise>
                             <c:forEach items="${anlNoticeList}" var="noticeInfo" varStatus="status">
 		                        <div class="swiper-slide">
-		                                    <ul class="reser_txt" onClick="moveMenu('AN', 'IRIAN0200', '/anl/lib/anlNoticeInfo.do?bbsId=<c:out value="${noticeInfo.bbsId}"/>', 'IRIAN0201')">
+		                                    <ul class="reser_txt" onClick="moveMenu('AN', 'IRIAN0200', '/anl/bbs/retrieveAnlBbsList.do?bbsId=<c:out value="${noticeInfo.bbsId}"/>', 'IRIAN0201')">
 		                                        <li><c:out value="${noticeInfo.bbsTitl}"/></li>
 		                                        <li><c:out value="${noticeInfo.bbsSbc}" escapeXml="false"/></li>
 		                                    </ul>
