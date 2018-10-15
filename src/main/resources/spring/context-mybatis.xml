@@ -21,6 +21,20 @@
 	  	<property name="mapperLocations" value= "classpath:/sql/**/sql-*.xml"/>
 	</bean>
 
+	<!-- Qas(울산) db -->
+	<bean id="sqlSessionFactoryQasU" class="devonframe.dataaccess.mybatis.factory.CommonDaoSqlSessionFactoryBean">
+		<property name="dataSource"      ref="dataSourceQasU" />
+		<property name="configLocation"  value="classpath:/sql/configuration.xml"/>
+		<property name="mapperLocations" value= "classpath:/sql/**/sql-*.xml"/>
+	</bean>
+	<!-- Qas(청주) db -->
+	<bean id="sqlSessionFactoryQasC" class="devonframe.dataaccess.mybatis.factory.CommonDaoSqlSessionFactoryBean">
+		<property name="dataSource"      ref="dataSourceQasC" />
+		<property name="configLocation"  value="classpath:/sql/configuration.xml"/>
+		<property name="mapperLocations" value= "classpath:/sql/**/sql-*.xml"/>
+	</bean>
+	
+
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
@@ -37,6 +51,16 @@
 	<bean id="commonDaoSalStat" class="devonframe.dataaccess.mybatis.MyBatisCommonDao">
 		<property name="sqlSessionFactory" ref="sqlSessionFactorySalStat" />
 	</bean>
+
+    <!-- Qas(울산)-->
+    <bean id="commonDaoQasU" class="devonframe.dataaccess.mybatis.MyBatisCommonDao">
+        <property name="sqlSessionFactory" ref="sqlSessionFactoryQasU" />
+    </bean>
+
+    <!-- Qas(청주)-->
+    <bean id="commonDaoQasC" class="devonframe.dataaccess.mybatis.MyBatisCommonDao">
+        <property name="sqlSessionFactory" ref="sqlSessionFactoryQasC" />
+    </bean>
 
 
 

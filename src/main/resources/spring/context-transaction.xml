@@ -20,6 +20,16 @@
 		<property name="dataSources" ref="dataSourceSalStat" />
 	</bean>
 
+	<!-- QAS(울산) -->
+	<bean id="txManagerQasU" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourceQasU" />
+	</bean>
+	
+	<!-- QAS(청주) -->
+	<bean id="txManagerQasC" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourceQasC" />
+	</bean>
+
 	<!-- XML based Transaction -->
 	<tx:advice id="txAdviceIris" transaction-manager="txManagerIris">
 		<tx:attributes>
@@ -56,6 +66,28 @@
 		</tx:attributes>
 	</tx:advice>
 
+
+	<!-- QAS(울산) db -->
+	<tx:advice id="txAdviceQasU" transaction-manager="txManagerQasU">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- QAS(청주) db -->
+	<tx:advice id="txAdviceQasC" transaction-manager="txManagerQasC">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+
 	<aop:config>
 <!--
 		<aop:pointcut id="requiredTx" expression="execution(* *..*Service.*(..))" />
@@ -70,6 +102,18 @@
 		<!-- 일반과제통계뷰 db -->
 		<aop:advisor advice-ref="txAdviceSalStat" pointcut="execution(* *..*Service.*(..))" />
 		<aop:advisor advice-ref="txAdviceSalStat" pointcut="execution(* *..*ServiceImpl.*(..))" />
+
+		<!-- Qas(울산) db -->
+		<aop:advisor advice-ref="txAdviceQasU" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdviceQasU" pointcut="execution(* *..*ServiceImpl.*(..))" />
+
+
+		<!-- Qas(청주) db -->
+		<aop:advisor advice-ref="txAdviceQasC" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdviceQasC" pointcut="execution(* *..*ServiceImpl.*(..))" />
+
+		
+		
 	</aop:config>
 
 	<!-- Annotation based Transaction -->
@@ -77,6 +121,11 @@
 	<tx:annotation-driven transaction-manager="txManagerPims"/>
 		<!-- 일반과제통계뷰 db -->
 	<tx:annotation-driven transaction-manager="txManagerSalStat"/>
+
+	<!-- Qas(울산) db -->
+	<tx:annotation-driven transaction-manager="txManagerQasU"/>
+	<!-- Qas(청주) db -->
+	<tx:annotation-driven transaction-manager="txManagerQasC"/>
 
 
 </beans>

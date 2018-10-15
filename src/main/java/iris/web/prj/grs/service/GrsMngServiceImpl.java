@@ -56,7 +56,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 		LOGGER.debug("=============== QAS Gate 배치 울산 > IRIS ===============");
 		List<HashMap<String,Object>> gateList = commonDaoQasU.selectList("prj.tss.com.selectGateQasIF", input);
 		for (int i=0;i<gateList.size();i++){
-			commonDaoQasU.insert("prj.tss.com.insertGateToIrisQasIF",gateList.get(i));
+			commonDao.insert("prj.tss.com.insertGateToIrisQasIF",gateList.get(i));
 		}
 
 		return commonDao.selectList("prj.grs.retrieveGrsReqList", input);

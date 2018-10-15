@@ -1208,7 +1208,7 @@
 
     <!--from QAS 결과 to IRSI 배치용 Insert/Update MSSQL-->
     <insert id="insertGateToIrisQasIF">
-    /*insertGateToIrisQasIF from QAS 결과 to IRSI 배치용 Insert/Update Oracle*/
+    /*insertGateToIrisQasIF from QAS 결과 to IRSI 배치용 Insert/Update MSSQL*/
     <![CDATA[
         MERGE INTO dbo.IRIS_TSS_QGATE_IF A
             USING (SELECT
@@ -1232,15 +1232,15 @@
 				FRST_RGST_DT,
 				LAST_MDFY_DT
                 ) VALUES (
-                #{wbsCd},
-                #{stepNo},
-                #{reqType},
-                #{attachUrl},
+                #{WBSCD},
+                #{STEPNO},
+                #{REQTYPE},
+                #{ATTACHURL},
                 GETDATE(),
                 GETDATE()
                 WHEN MATCHED THEN
                 UPDATE
-                ATTACH_URL = #{attachUrl},
+                ATTACH_URL = #{ATTACHURL},
                 LAST_MDFY_DT =  GETDATE()
             ;
     	]]>

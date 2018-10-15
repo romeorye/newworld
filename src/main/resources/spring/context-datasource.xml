@@ -29,6 +29,19 @@
 	    <property name="databasePopulator"  ref="databasePopulator" />
 	</bean>
 
+	
+	<bean id="dataSourceInitializerQasU" class="org.springframework.jdbc.datasource.init.DataSourceInitializer">
+		<property name="dataSource"         ref="dataSourceQasU"/>
+		<property name="databasePopulator"  ref="databasePopulator" />
+	</bean>
+
+
+	<bean id="dataSourceInitializerQasC" class="org.springframework.jdbc.datasource.init.DataSourceInitializer">
+		<property name="dataSource"         ref="dataSourceQasC"/>
+		<property name="databasePopulator"  ref="databasePopulator" />
+	</bean>
+
+
 	<bean id="databasePopulator" class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
 		<property name="sqlScriptEncoding" value="utf-8" />
 		<property name="scripts">
@@ -71,6 +84,23 @@
  		<property name="url" value="${db.salStat.url}" />
  		<property name="username" value="${db.salStat.username}" />
  		<property name="password" value="${db.salStat.password}" />
+ 	</bean>
+ 	
+	<!-- QAS(울산) DB -->
+  	<bean id="dataSourceQasU" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+ 		<property name="driverClassName" value="${db.qasU.driver}" />
+ 		<property name="url" value="${db.qasU.url}" />
+ 		<property name="username" value="${db.qasU.username}" />
+ 		<property name="password" value="${db.qasU.password}" />
+ 	</bean>
+
+	<!-- QAS(청주) DB -->
+
+  	<bean id="dataSourceQasC" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+ 		<property name="driverClassName" value="${db.qasC.driver}" />
+ 		<property name="url" value="${db.qasC.url}" />
+ 		<property name="username" value="${db.qasC.username}" />
+ 		<property name="password" value="${db.qasC.password}" />
  	</bean>
 
  	<!-- TOPICS ORACLE DB -->
