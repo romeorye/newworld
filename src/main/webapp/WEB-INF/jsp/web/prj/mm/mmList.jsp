@@ -65,7 +65,7 @@ if(loginSysCd == "MW"){
 }
 
 Rui.onReady(function() {
-	
+
 	/* [달력] 내가 참여중인  과제 */
 	lmbSearchMonth = new Rui.ui.form.LMonthBox({
         applyTo: 'searchMonth',
@@ -81,7 +81,7 @@ Rui.onReady(function() {
     		return false;
     	}
     });
-    
+
     /* [숫자텍스트박스] 그리드 참여율 */
     var lnbPtcPro = new Rui.ui.form.LNumberBox({
         //applyTo: 'ptcPro',
@@ -90,7 +90,7 @@ Rui.onReady(function() {
         minValue: 0,                 // 최소값 입력제한 설정
         decimalPrecision: 0          // 소수점 자리수 3자리까지 허용
     });
-    
+
     /* [팝업텍스트박스] 타과제추가 */
     var lpTEtcTssNm = new Rui.ui.form.LPopupTextBox({
         applyTo: 'etcTssNm',
@@ -103,7 +103,7 @@ Rui.onReady(function() {
     lpTEtcTssNm.on('popup', function(e){
     	openTssSearchDialog(setTssInfo);
     });
-    
+
     /* [숫자텍스트박스] 타과제 참여율 */
     var lnbEtcTssPtcPro = new Rui.ui.form.LNumberBox({
         applyTo: 'etcTssPtcPro',
@@ -112,7 +112,7 @@ Rui.onReady(function() {
         minValue: 0,                  // 최소값 입력제한 설정
         decimalPrecision: 0           // 소수점 자리수 0자리까지 허용
     });
-    
+
     /* [텍스트AREA] 타과제 메모 */
     var ltaEtcTssCommTxt = new Rui.ui.form.LTextArea({
  	   applyTo: 'etcTssCommTxt',
@@ -120,7 +120,7 @@ Rui.onReady(function() {
  	   width: 350,
  	   height: 100
  	});
-    
+
 	/* [데이터셋] 내가 참여중인  과제 */
 	mmClsDataSet = new Rui.data.LJsonDataSet({
 	    id: 'mmClsDataSet',
@@ -147,7 +147,7 @@ Rui.onReady(function() {
 	});
 	mmClsDataSet.on('load', function(e){
 		// 1.완료버튼 저장, 2. 마감완료 시 화면수정불가 처리
-		if( mmClsDataSet.getCount() > 0 && 
+		if( mmClsDataSet.getCount() > 0 &&
 		  ( "Y" == mmClsDataSet.getNameValue(0,'clsToDoYn') || "Y" == mmClsDataSet.getNameValue(0,'clsYn') ) ){
 			Rui.get('btnBlock').hide();	    //버튼 블럭
 			mmClsGrid.setEditable(false);	//그리드수정 블가
@@ -156,9 +156,9 @@ Rui.onReady(function() {
 			mmClsGrid.setEditable(true);	//그리드수정 블가
 		}
 	});
-	
+
 	mmClsDataSet.on('update', function(e) {
-		
+
 		// 1. 총합계산 valid 처리
 	    var mmClsRowCount = mmClsDataSet.getCount();
     	var startIndex = 0;
@@ -167,7 +167,7 @@ Rui.onReady(function() {
     	if(mmClsRowCount > -1){
     		sum = mmClsDataSet.sum('ptcPro', startIndex, endInedx);
     	}
-    	
+
     	if(sum > 100){
     		Rui.alert('참여율 총합은 100%를 넘을 수 없습니다.');
     		mmClsDataSet.setNameValue(e.row,'ptcPro',0);
@@ -184,15 +184,15 @@ Rui.onReady(function() {
 	        , { field: 'tssWbsCd',      label: '과제코드',  align:'center', width: 80 }
 	        , { field: 'tssNm',         label: '과제명',  align:'left', width: 337 }
 	        , { id : '과제기간'},
-	        , { field: 'tssStrtDd',     groupId: '과제기간', hMerge: true, label: '시작일',   align:'center', width: 90 }
-	        , { field: 'tssFnhDd',      groupId: '과제기간', hMerge: true, label: '종료일',   align:'center', width: 90 }
-	        , { field: 'prePtcPro',     label: '전월 참여율',   align:'right', width: 90 
+	        , { field: 'tssStrtDd',     groupId: '과제기간', hMerge: true, label: '시작일',   align:'center', width: 100 }
+	        , { field: 'tssFnhDd',      groupId: '과제기간', hMerge: true, label: '종료일',   align:'center', width: 100 }
+	        , { field: 'prePtcPro',     label: '전월 참여율',   align:'right', width: 90
 	        	, renderer: function(value, p, record){
 	        		if( !Rui.isEmpty(value) )	return value + '%'; }
 	          }
-	        , { field: 'ptcPro',        label: '참여율',   align:'right', width: 70 ,editor: lnbPtcPro 
+	        , { field: 'ptcPro',        label: '참여율',   align:'right', width: 77 ,editor: lnbPtcPro
 	        	, renderer: function(value, p, record){
-	        		if( !Rui.isEmpty(value) )	return value + '%'; }	
+	        		if( !Rui.isEmpty(value) )	return value + '%'; }
 	          }
 	        , { field: 'commTxt',       label: '메모',   align:'left', width: 280, editor: new Rui.ui.form.LTextBox() }
 	    ]
@@ -203,7 +203,7 @@ Rui.onReady(function() {
         label: {
             id: 'prePtcPro',
             text: '합계'
-        }, 
+        },
         columns: {
         	ptcPro: { type: 'sum', renderer: 'number' }
         }
@@ -221,30 +221,30 @@ Rui.onReady(function() {
 	    autoWidth: true
 	});
 	mmClsGrid.render('defaultGrid');
-	
+
 	/* [필수데이터체크] 내가 참여중인  과제 */
 	mmClsVm = new Rui.validate.LValidatorManager({
         validators:[
 	        { id: 'ptcPro' , validExp:'참여율:true'}
         ]
     });
-	
+
 	/* [폼] 타과제추가 */
 	var lfEtcTssForm = new Rui.ui.form.LForm('etcTssForm');
-	
+
 	/* [다이얼로그] 타과제추가 */
-	var etcTssDialog = new Rui.ui.LDialog({ 
-        applyTo: 'divEtcTss', 
+	var etcTssDialog = new Rui.ui.LDialog({
+        applyTo: 'divEtcTss',
         width: 500,
         visible: false,
         postmethod: 'none',
-        buttons: [ 
+        buttons: [
             { text:'닫기', isDefault: true, handler: function() {
                 this.cancel(false);
-            } } 
+            } }
         ]
     });
-	
+
 	/* [다이얼로그] 과제조회 */
     tssSearchDialog = new Rui.ui.LFrameDialog({
         id: 'tssSearchDialog',
@@ -253,13 +253,13 @@ Rui.onReady(function() {
         height: 500,
         modal: true,
         visible: false,
-        buttons: [ 
+        buttons: [
             { text:'적용', handler: function() {
                 this.submit(true);
             } },
             { text:'닫기', isDefault: true, handler: function() {
                 this.cancel(false);
-            } } 
+            } }
         ]
     });
     tssSearchDialog.render(document.body);
@@ -281,15 +281,15 @@ Rui.onReady(function() {
 	    	*/
 	    	hiddenInputSet.setValue('');
 	    }
-	    
+
 		etcTssDialog.show(true);
 	});
-	
+
 	/* [버튼] 임시저장 */
 	var lbButRgst = new Rui.ui.LButton('butRgst');
 	lbButRgst.on('click', function() {
 		var mmClsSaveDm = new Rui.data.LDataSetManager();
-		
+
 		// 1. 데이터셋 valid
 		if(!validation(mmClsDataSet)){
     		return false;
@@ -311,11 +311,11 @@ Rui.onReady(function() {
 	        },
 	        handlerNo: Rui.emptyFn
 	    });
-	
+
 		mmClsSaveDm.on('success', function(e) {
 			var data = Rui.util.LJson.decode(e.responseText);
             Rui.alert(data[0].records[0].rtnMsg);
-	
+
 			// 재조회
 			fnSearch();
 		});
@@ -323,19 +323,19 @@ Rui.onReady(function() {
 			var data = Rui.util.LJson.decode(e.responseText);
             Rui.alert(data[0].records[0].rtnMsg);
 		});
-		
+
 	});
-	
+
 	/* [버튼] 완료 */
 	var lbButComp = new Rui.ui.LButton('butComp');
 	lbButComp.on('click', function() {
 		var mmClsSaveDm1 = new Rui.data.LDataSetManager();
-		
+
 		// 1. 데이터셋 valid
  		if(!validation(mmClsDataSet)){
     		return false;
     	}
-		
+
 		// 2. 참여율 총합 100 체크
 		var nowSum = dataSetColSum(mmClsDataSet,'ptcPro');
 		if( nowSum != 100){
@@ -361,11 +361,11 @@ Rui.onReady(function() {
 	        },
 	        handlerNo: Rui.emptyFn
 	    });
-	
+
 		mmClsSaveDm1.on('success', function(e) {
 			var data = Rui.util.LJson.decode(e.responseText);
             Rui.alert(data[0].records[0].rtnMsg);
-	
+
 			// 재조회
 			fnSearch();
 		});
@@ -373,7 +373,7 @@ Rui.onReady(function() {
 			var data = Rui.util.LJson.decode(e.responseText);
             Rui.alert(data[0].records[0].rtnMsg);
 		});
-		
+
 	});
 
 	/* [버튼] 초기화 : 타과제추가  */
@@ -392,25 +392,25 @@ Rui.onReady(function() {
 	    	hiddenInputSet.setValue('');
 	    }
 	});
-	
+
 	/* [버튼] 저장 : 타과제추가*/
 	var lbButEtcTssRgst = new Rui.ui.LButton('butEtcTssRgst');
 	lbButEtcTssRgst.on('click', function() {
-		
+
 		// 1. 과제코드 VALID 체크
 		var dupTssCdInx = mmClsDataSet.findRow('tssCd', etcTssForm.hEtcTssCd.value);
 		if(dupTssCdInx > -1){
 			Rui.alert('해당과제는 이미 참여중입니다.');
 			return false;
 		}
-		
+
 		// 2. 프로젝트 팀원여부 체크(조직체크)
 		var etcPrjCd = etcTssForm.hEtcTssPrjCd.value;
 		if( userJoinProjects.indexOf(etcPrjCd) == -1 ){
 			Rui.alert('타 프로젝트 과제입니다.');
 			return false;
 		}
-		
+
 		// 2. 참여율 총합 valid 체크
 		var nowSum = dataSetColSum(mmClsDataSet,'ptcPro');
 		if( nowSum + lnbEtcTssPtcPro.getValue() > 100){
@@ -418,7 +418,7 @@ Rui.onReady(function() {
 			Rui.alert('참여율 총합은 100%를 넘을 수 없습니다.');
     		return false;
 		}
-		
+
 		// 3. 과제기간 체크
 		var nowSum = dataSetColSum(mmClsDataSet,'ptcPro');
 		var hEtcTssStrtDd = etcTssForm.hEtcTssStrtDd.value;
@@ -430,7 +430,7 @@ Rui.onReady(function() {
 			Rui.alert('현재월이 과제기간 내에 포함되어 있지 않습니다.');
     		return false;
 		}
-		
+
 		// 3. 신규ROW추가, 데이터 세팅
 		var row = mmClsDataSet.newRecord();
 	    var record = mmClsDataSet.getAt(row);
@@ -449,7 +449,7 @@ Rui.onReady(function() {
 
 	    etcTssDialog.submit();
 	});
-	
+
 	/* [함수] 과제팝업 오픈 */
 	openTssSearchDialog = function(f) {
 		_callback = f;
@@ -466,26 +466,26 @@ Rui.onReady(function() {
 	    etcTssForm.hEtcTssStrtDd.value = tssInfo.tssStrtDd;
 	    etcTssForm.hEtctssFnhDd.value = tssInfo.tssFnhDd;
 	    etcTssForm.hEtcTssDeptCode.value = tssInfo.deptCode;
-	    etcTssForm.hEtcTssWbsCd.value = tssInfo.wbsCd; 
+	    etcTssForm.hEtcTssWbsCd.value = tssInfo.wbsCd;
     };
 
 	/* [함수] 화면초기화 */
-	fnOnInit = function(){ 
+	fnOnInit = function(){
 		// 다이얼로그 숨김
 		etcTssDialog.hide();
-		
+
 		// to-do link시 조회영역 숨김
 		if(isTodoLink){
 			Rui.get('mmSearchTable').hide();
 		}
 	}
-	
+
 	//화면초기화
 	fnOnInit();
-	
+
 	// 화면오픈시 조회
 	fnSearch();
-	
+
 });	<!-- //Rui.onReady end  -->
 
 <%--/*******************************************************************************
@@ -493,7 +493,7 @@ Rui.onReady(function() {
  * FUNCTION 기능설명 :
  *******************************************************************************/--%>
 function fnSearch() {
-	
+
 	// 그리드타이틀 세팅
 	Rui.get('spnDefaultGridTitle').html("");
 	var strTitle;
@@ -504,7 +504,7 @@ function fnSearch() {
 		strTitle = strSearchMonth.substring(5,7);
 	}
 	Rui.get('spnDefaultGridTitle').html("<h3>내가 참여중인 과제 – " + strTitle + "월 마감</h3>");
-	
+
 	// 데이터셋 조회
 	mmClsDataSet.load({
         url: '<c:url value="/prj/mm/retrieveMmInSearchInfo.do"/>' ,
@@ -551,7 +551,7 @@ function validation(vDataSet){
 
 <%--/*******************************************************************************
  * FUNCTION 명 : 데이터셋 특정필드 총합(SUM)
- * FUNCTION 기능설명 : 
+ * FUNCTION 기능설명 :
  *******************************************************************************/--%>
 function dataSetColSum(sumDataSet,colNm){
 	var rowCount = sumDataSet.getCount();

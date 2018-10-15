@@ -199,11 +199,11 @@
                 , { id: 'G2', label: '과제실적일' }
                 , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: false, align:'center', width: 90 }
                 , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: false, align:'center', width: 90 }
-                , { field: 'pgsStepCd',    label: '상태', sortable: false, align:'center', width: 59, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
+                , { field: 'pgsStepCd',    label: '상태', sortable: false, align:'center', width: 70, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
                     p.editable = false;
                     return value;
                 } }
-                , { field: 'tssSt',        label: '처리상태', sortable: false, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
+                , { field: 'tssSt',        label: '처리상태', sortable: false, align:'center', width: 85, editor: tssSt, renderer: function(value, p, record, row, col) {
                     p.editable = false;
                     return value;
                 } }

@@ -95,22 +95,22 @@ Rui.onReady(function() {
 		freezeColumnId: 'type',
         groupMerge: true,
 	    columns: [
-	    	  { field: 'upExpScnCdNm',  label: '계정',  vMerge: true, hMerge: true, align:'center', width: 100 }
-	        , { field: 'expScnCdNm',    label: '계정',  vMerge: true, hMerge: true, align:'center', width: 150 }
-	        , { field: 'type',          label: '구분',  align:'center', width: 50 }
-	        , { field: 'm01',           label: '1월',   align:'right', width: 65 }
-	        , { field: 'm02',           label: '2월',   align:'right', width: 65 }
-	        , { field: 'm03',           label: '3월',   align:'right', width: 65 }
-	        , { field: 'm04',           label: '4월',   align:'right', width: 65 }
-	        , { field: 'm05',           label: '5월',   align:'right', width: 65 }
-	        , { field: 'm06',           label: '6월',   align:'right', width: 65 }
-	        , { field: 'm07',           label: '7월',   align:'right', width: 65 }
-	        , { field: 'm08',           label: '8월',   align:'right', width: 65 }
-	        , { field: 'm09',           label: '9월',   align:'right', width: 65 }
-	        , { field: 'm10',           label: '10월',  align:'right', width: 65 }
-	        , { field: 'm11',           label: '11월',  align:'right', width: 65 }
-	        , { field: 'm12',           label: '12월',  align:'right', width: 65 }
-	        , { field: 'monthSum',      label: '합계',  align:'right', width: 80 }
+	    	  { field: 'upExpScnCdNm',  label: '계정',  vMerge: true, hMerge: true, align:'center', width: 110 }
+	        , { field: 'expScnCdNm',    label: '계정',  vMerge: true, hMerge: true, align:'center', width: 155 }
+	        , { field: 'type',          label: '구분',  align:'center', width: 70 }
+	        , { field: 'm01',           label: '1월',   align:'right', width: 75 }
+	        , { field: 'm02',           label: '2월',   align:'right', width: 75 }
+	        , { field: 'm03',           label: '3월',   align:'right', width: 75 }
+	        , { field: 'm04',           label: '4월',   align:'right', width: 75 }
+	        , { field: 'm05',           label: '5월',   align:'right', width: 75 }
+	        , { field: 'm06',           label: '6월',   align:'right', width: 75 }
+	        , { field: 'm07',           label: '7월',   align:'right', width: 75 }
+	        , { field: 'm08',           label: '8월',   align:'right', width: 75 }
+	        , { field: 'm09',           label: '9월',   align:'right', width: 75 }
+	        , { field: 'm10',           label: '10월',  align:'right', width: 75 }
+	        , { field: 'm11',           label: '11월',  align:'right', width: 75 }
+	        , { field: 'm12',           label: '12월',  align:'right', width: 75 }
+	        , { field: 'monthSum',      label: '합계',  align:'right', width: 90 }
 	        // row합계 컬럼
 	       /*  , { id: 'rowSum',            label: '합계' , align:'right', width: 200,
 	        	renderRow: true, renderer: function(val, p, record){

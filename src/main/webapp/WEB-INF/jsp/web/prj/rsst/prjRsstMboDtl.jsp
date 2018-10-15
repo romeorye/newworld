@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
@@ -36,10 +36,10 @@ var nowDate = new Date();
 var nYear  = nowDate.getFullYear();
 
 Rui.onReady(function() {
-	
-	
+
+
 	/* FORM OBJECT */
-	
+
 	/* COMBO : 목표년도 2011년~2030년 */ //pduGoalYear
     var lcbGoalYear = new Rui.ui.form.LCombo({
     	useEmptyText: true,
@@ -50,7 +50,7 @@ Rui.onReady(function() {
      		</c:forEach>
         ]
     });
-    
+
     /* [Number Input] 목표배점 */
     var lnbMboGoalAltp = new Rui.ui.form.LNumberBox({
 //        applyTo: 'mboGoalAltp',
@@ -58,14 +58,14 @@ Rui.onReady(function() {
         maxValue: 100,
         width: 105
     });
-    
+
     /* [Input] 목표항목 */
     var ltbMboGoalPrvs = new Rui.ui.form.LTextBox({
 	     defaultValue : '',
 	     emptyValue: '',
 	     width : 350
 	});
-    
+
     /* [TEXT AREA] 목표수준 */
     var ltaMboGoalL = new Rui.ui.form.LTextArea({
  	   placeholder: '',
@@ -97,40 +97,40 @@ Rui.onReady(function() {
 	dataSet03.on('update', function(e) {
 		var updateYear = dataSet03.getNameValue(e.row,'mboGoalYear');
 		var updateGoalSeq  = dataSet03.getNameValue(e.row,'goalSeq');
-		
+
 //		alert(e.originValue);	// 데이터셋 원본
 //		alert( e.beforeValue);	// 이전값
 		if(e.colId == 'mboGoalYear'){	// 목표년도 변경시 변경이전값 세팅, 체크박스 체크
 			updateYear = e.beforeValue;
 			dataSet03.setMark(e.row, true);
 		}
-		
+
 		// 년도+goalSeq 동일 데이터셋에 데이터 동기화
 		for(var i=0;i< dataSet03.getCount(); i++){
-			
+
 // 			// 신규ROW 추가시는 skip
 // 			if(updateGoalSeq == null || updateGoalSeq == '' || updateGoalSeq == undefined){
 // 				break;
 // 			}
-			
+
 			if( updateYear == dataSet03.getNameValue(i,'mboGoalYear') && updateGoalSeq == dataSet03.getNameValue(i,'goalSeq') && updateGoalSeq != undefined ){
 				//1. 체크박스 체크
 				dataSet03.setMark(i, true);
-				
+
 				//2. 동일목표 데이터값 동기화
 				dataSet03.setNameValue(i, e.colId, e.value);
 			}
 		}
-		
+
 	});
-	
+
 	// 데이터셋 체크박스 클릭시
 	dataSet03.on('marked', function(e) {
 		// 동일목표(년도+목표번호) 동시체크
 		var chkGoalYear = dataSet03.getNameValue(e.row, "mboGoalYear");
 	    var chkGoalSeq  = dataSet03.getNameValue(e.row, "goalSeq");
 	    for(var i=0; i< dataSet03.getCount(); i++){
-	    	if( e.row != i && (chkGoalYear == dataSet03.getNameValue(i, "mboGoalYear"))            && 
+	    	if( e.row != i && (chkGoalYear == dataSet03.getNameValue(i, "mboGoalYear"))            &&
 	    		(chkGoalSeq == dataSet03.getNameValue(i, "goalSeq") && chkGoalSeq != undefined )   ){
 	    		dataSet03.setMark(i, e.isSelect);
 	    	}
@@ -152,7 +152,7 @@ Rui.onReady(function() {
     	Rui.alert(resultDataSet.getRow());
     	Rui.alert(resultDataSet.getAt(0).get("rtnMsg"));
     });
-    
+
 	<%-- VALIDATOR --%>
 	vmTab03 = new Rui.validate.LValidatorManager({
         validators:[
@@ -174,12 +174,12 @@ Rui.onReady(function() {
 	        , { field: 'mboGoalYear',    label: '목표년도', sortable: false, align:'center', width: 60 , editor: lcbGoalYear ,vMerge: true }
 	        , { field: 'goalNo',         label: '번호'    , sortable: false, align:'center', width: 30 , vMerge: true }
 	        , { field: 'mboGoalAltp',    label: '목표배점', sortable: false, align:'center', width: 60 , editor : lnbMboGoalAltp , vMerge: true }
-	        , { field: 'mboGoalPrvs',    label: '목표항목', sortable: false, align:'left', width: 250, editor : ltbMboGoalPrvs , vMerge: true}  
-	        , { field: 'mboGoalL',       label: '목표수준', sortable: false, align:'left', width: 300, editor : ltaMboGoalL , vMerge: true }	
-	        , { field: 'arlsYearMon',    label: '실적년월', sortable: false, align:'center', width: 60 }
-	        , { field: 'arlsStts',       label: '실적현황', sortable: false, align:'left', width: 300 , renderer: Rui.util.LRenderer.popupRenderer() }
-	        , { field: 'filId',          label: '파일ID', sortable: false, align:'center', width: 100, hidden: true}
-	        , { id: 'attchFileMngBtn',   label: '실적첨부파일',   sortable: false, align:'center', width: 80,
+	        , { field: 'mboGoalPrvs',    label: '목표항목', sortable: false, align:'left', width: 250, editor : ltbMboGoalPrvs , vMerge: true}
+	        , { field: 'mboGoalL',       label: '목표수준', sortable: false, align:'left', width: 350, editor : ltaMboGoalL , vMerge: true }
+	        , { field: 'arlsYearMon',    label: '실적년월', sortable: false, align:'center', width: 100 }
+	        , { field: 'arlsStts',       label: '실적현황', sortable: false, align:'left', width: 350 , renderer: Rui.util.LRenderer.popupRenderer() }
+	        , { field: 'filId',          label: '파일ID', sortable: false, align:'center', width: 80, hidden: true}
+	        , { id: 'attchFileMngBtn',   label: '실적첨부파일',   sortable: false, align:'center', width: 95,
 	            renderer: function(val, p, record, row, i){
 	            	var recordFilId = nullToString(record.data.filId);
 	            	var strBtnFun = "openAttachFileDialog(setMboAttachFileInfo, "+recordFilId+", 'prjPolicy', '*','R')";
@@ -190,7 +190,7 @@ Rui.onReady(function() {
 	          }},
 	    ]
 	});
-	
+
 	/* GRID : grid */
 	var grid = new Rui.ui.grid.LGridPanel({
 	    columnModel: columnModel,
@@ -203,14 +203,14 @@ Rui.onReady(function() {
         clickToEdit: true,
         useRightActionMenu: false,
 	});
-    
+
 	/* GRID-popup click : MBO 팝업호출 pageMode A or B */
 	grid.on('popup', function(e) {
 		// 목표항목
 /* 		if(e.col == 3) {
 			openMboPlnDialog(dataSet03.getAt(e.row));
         } */
-		
+
 		// 실적현황
 		if(e.colId == 'arlsStts') {
 			var clickSeq = dataSet03.getNameValue(e.row, "seq");
@@ -228,7 +228,7 @@ Rui.onReady(function() {
 		// 목표항목
 /* 		if(e.col == 3) {
 			openMboPlnDialog(dataSet03.getAt(e.row));
-        } 
+        }
 */
 		// 실적년월, 실적현황
 		if(e.colId == 'arlsYearMon' || e.colId == 'arlsStts') {
@@ -299,7 +299,7 @@ Rui.onReady(function() {
 	butRgst.on('click', function() {
 		openMboPlnDialog('');
 	});
- */	
+ */
 	/* [버튼] 목표추가 : 레코드추가 */
 	var butRecordNew = new Rui.ui.LButton('butRecordNew');
 	butRecordNew.on('click', function() {
@@ -307,14 +307,14 @@ Rui.onReady(function() {
 	    var record = dataSet03.getAt(row);
 	    record.set('prjCd', pTopForm.prjCd.value);
 	    record.set('wbsCd', pTopForm.wbsCd.value);
-	    
+
 	    dataSet03.setMark(row, true);	//체크박스 체크
 	});
-	
+
 	/* [버튼] 실적등록 : 실적등록 팝업호출[목표고정] */
 	var butArslReg = new Rui.ui.LButton('butArslReg');
 	butArslReg.on('click', function() {
-		
+
 		// 1. 체크박스 체크
 		var chkGoalMarkCnt = 0;
 		var chkGoalYear;
@@ -326,13 +326,13 @@ Rui.onReady(function() {
 	    		if(dataSet03.getNameValue(i, 'goalSeq') == undefined){
 	    			chkNoGoalSeq++;
 	    		}
-	    		
+
 	    		if( chkGoalSeq != dataSet03.getNameValue(i, 'goalSeq') || chkGoalYear != dataSet03.getNameValue(i, 'mboGoalYear') ){
 	    			chkGoalYear = dataSet03.getNameValue(i, 'mboGoalYear');
 	    			chkGoalSeq = dataSet03.getNameValue(i, 'goalSeq');
 		    		chkGoalRow = i;
 		    		chkGoalMarkCnt++;
-		    		
+
 		    		if(chkGoalMarkCnt >= 2) break;
 	    		}
 	    	}
@@ -350,11 +350,11 @@ Rui.onReady(function() {
 			Rui.alert('목표저장 먼저 해주세요.');
 			return false;
 		}
-		
+
 		// 팝업호출
 		openTmboArslDialog(dataSet03.getAt(chkGoalRow),'');
 	});
-	
+
 	/* [버튼] 저장 */
 	var butSave = new Rui.ui.LButton('butSave');
 	butSave.on('click', function() {
@@ -403,7 +403,7 @@ Rui.onReady(function() {
 				ruiSessionFail(e);
 		});
 	});
-	
+
 	/* [ 계획MBO Dialog] */
 	mboPlnDialog = new Rui.ui.LFrameDialog({
         id: 'mboPlnDialog',
@@ -439,7 +439,7 @@ Rui.onReady(function() {
     });
 
 	mboArslDialog.render(document.body);
-	
+
 	/**--------------------- 첨부파일 시작 -----------------------**/
 	/* 첨부파일 팝업오픈 */
 /* 	openMboAttachFilePopup = function(fid,row){
@@ -450,37 +450,37 @@ Rui.onReady(function() {
 		vFilId = nullToString(fid);
 		openAttachFileDialog(setAttachFileInfo, vFilId, 'anlPolicy', '*');
 	} */
-	
-	
+
+
 	/* 첨부파일 세팅 */
 /*    	setAttachFileInfo = function(attachFileList) {
 
    		var recordFilId = '';
 		if(fileUploadGridIndex != null){
-			
+
 			recordFilId = dataSet03.getAt(fileUploadGridIndex).get('filId');
-			
+
 			// 첨부파일ID가 신규이면 데이터셋 세팅, 데이터 업데이트
-			if(Rui.util.LString.isEmpty(recordFilId) && attachFileList.length > 0){ 
+			if(Rui.util.LString.isEmpty(recordFilId) && attachFileList.length > 0){
 				dataSet03.getAt(fileUploadGridIndex).set('filId',attachFileList[0].data.attcFilId);
-				
+
 				// 첨부파일 업데이트
 				fnMboRecordFilIdUpdate(dataSet03.getAt(fileUploadGridIndex));
-				
+
 			}
 		}
-    	
+
     	fileUploadGridIndex = null;
     }; */
     /**--------------------- 첨부파일 끝 -----------------------**/
-    
+
     /* 첨부파일 콜백 세팅 */
    	setMboAttachFileInfo = function(attachFileList) {
     };
 
 	// 온로드 조회
 	fnSearch();
-    
+
 	if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
     	$("#butArslReg").hide();
     	$("#butDel").hide();
@@ -492,7 +492,7 @@ Rui.onReady(function() {
     	$("#butRecordNew").hide();
     	$("#butSave").hide();
 	}
-	
+
 });
 
 <%--/*******************************************************************************
@@ -526,7 +526,7 @@ function fnChkMark(mDataSet){
 
 <%--/*******************************************************************************
  * FUNCTION 명 : 첨부파일 업로드 팝업 호출
- * FUNCTION 기능설명 : 선택데이터셋 체크 + 공통 첨부파일 팝업 호출 
+ * FUNCTION 기능설명 : 선택데이터셋 체크 + 공통 첨부파일 팝업 호출
  *******************************************************************************/--%>
 
 
@@ -551,7 +551,7 @@ function openMboPlnDialog(rd){
 
 <%--/*******************************************************************************
  * FUNCTION 명 : 실적MBO 팝업 호출 (openMboArslDialog)
- * FUNCTION 기능설명 : 
+ * FUNCTION 기능설명 :
  * FUNCTION 파라미터 : 레코드, 시퀀스(신규 '')
  *******************************************************************************/--%>
 function openMboArslDialog(rd,seq){
@@ -576,7 +576,7 @@ function openMboArslDialog(rd,seq){
 
 <%--/*******************************************************************************
  * FUNCTION 명 : 실적MBO 팝업 호출 (openTmboArslDialog)
- * FUNCTION 기능설명 : 
+ * FUNCTION 기능설명 :
  * FUNCTION 파라미터 : 레코드, 시퀀스(신규 '')
  *******************************************************************************/--%>
 function openTmboArslDialog(rd,seq){
@@ -595,7 +595,7 @@ function openTmboArslDialog(rd,seq){
 			+ '&arslNewYn='+arslNewYn
 			;
 	}
-	
+
 	parent.tmboArslDialog.setUrl('<c:url value="/prj/rsst/mbo/openPrjRsstMboDtlArslPopup.do'+url+' "/>');
 	parent.tmboArslDialog.show();
 }
@@ -606,14 +606,14 @@ function openTmboArslDialog(rd,seq){
  *******************************************************************************/--%>
 function fnMboRecordFilIdUpdate(rd)
 {
-	
+
 	var recordData;
 	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-	
+
 	if(rd != null && rd != ''){
 		recordData = rd;
 	}
-	
+
 	// 폼 업데이트
 	dm1.updateForm({
 	    url: "<c:url value='/prj/rsst/mbo/insertPrjRsstMboInfo.do'/>",
@@ -632,7 +632,7 @@ function fnMboRecordFilIdUpdate(rd)
  * FUNCTION 기능설명 : 입력 데이터셋 점검
  *******************************************************************************/--%>
  function validation(vDataSet){
-	
+
 	// 1. 데이터셋 rui valid
  	var vTestDataSet = vDataSet;
  	if(vmTab03.validateDataSet(vTestDataSet) == false) {
@@ -640,9 +640,9 @@ function fnMboRecordFilIdUpdate(rd)
  		return false;
 
  	}
- 	
+
  	// 2. 년도별 목표배점(goalSeq별) 총합 100 저장 valid
- 	// 2.1 전체 데이터셋 반복 -> 년도 데이터셋 반복 
+ 	// 2.1 전체 데이터셋 반복 -> 년도 데이터셋 반복
  	var testMboGoalYear = '';
  	var sumGoalAltp = 0;
  	var testGoalSeq = 0;
@@ -651,15 +651,15 @@ function fnMboRecordFilIdUpdate(rd)
  		var iMboGoalYear = vTestDataSet.getNameValue(i,"mboGoalYear");
  		if( testMboGoalYear != iMboGoalYear ){
  			testMboGoalYear = iMboGoalYear;
- 			
+
  			// 년도별 총합 구하기
  			testGoalSeq = 0;
  			for(var j=0; j< vTestDataSet.getCount(); j++){
-				
+
  				// 목표년도가 같고, goalSeq가 다른경우 총합계산
- 				if( (vTestDataSet.getNameValue(j,"mboGoalYear") == testMboGoalYear) && 
+ 				if( (vTestDataSet.getNameValue(j,"mboGoalYear") == testMboGoalYear) &&
  					( (vTestDataSet.getNameValue(j,"goalSeq") != testGoalSeq)  || (vTestDataSet.getNameValue(j,"goalSeq") == testGoalSeq && testGoalSeq == undefined)  ) ){
- 					
+
  					sumGoalAltp += Number(vTestDataSet.getNameValue(j,"mboGoalAltp"));
  					testGoalSeq = vTestDataSet.getNameValue(j,"goalSeq");
  				}
@@ -671,7 +671,7 @@ function fnMboRecordFilIdUpdate(rd)
  		 	}
  		}
  	}
- 	
+
  	return true;
  }
 

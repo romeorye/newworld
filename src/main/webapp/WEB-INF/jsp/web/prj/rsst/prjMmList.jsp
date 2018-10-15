@@ -138,22 +138,22 @@ Rui.onReady(function() {
 		freezeColumnId: 'saName',
         groupMerge: true,
 	    columns: [
-	          { field: 'saName',        label: '연구원',  vMerge: true, hMerge: true, align:'center', width: 60 }
-	    	, { field: 'tssNm',         label: '과제명',  vMerge: true, hMerge: true, align:'left', width: 230 }
-	        , { field: 'saDeptName',    label: '소속명',  vMerge: true, hMerge: true, align:'left', width: 250 }
-	        , { field: 'm01',           label: '1월',   align:'right', width: 45 }
-	        , { field: 'm02',           label: '2월',   align:'right', width: 45 }
-	        , { field: 'm03',           label: '3월',   align:'right', width: 45 }
-	        , { field: 'm04',           label: '4월',   align:'right', width: 45 }
-	        , { field: 'm05',           label: '5월',   align:'right', width: 45 }
-	        , { field: 'm06',           label: '6월',   align:'right', width: 45 }
-	        , { field: 'm07',           label: '7월',   align:'right', width: 45 }
-	        , { field: 'm08',           label: '8월',   align:'right', width: 45 }
-	        , { field: 'm09',           label: '9월',   align:'right', width: 45 }
-	        , { field: 'm10',           label: '10월',  align:'right', width: 45 }
-	        , { field: 'm11',           label: '11월',  align:'right', width: 45 }
-	        , { field: 'm12',           label: '12월',  align:'right', width: 45 }
-	        , { field: 'monthSum',      label: '합계',  align:'right', width: 70 }
+	          { field: 'saName',        label: '연구원',  vMerge: true, hMerge: true, align:'center', width: 70 }
+	    	, { field: 'tssNm',         label: '과제명',  vMerge: true, hMerge: true, align:'left', width: 245 }
+	        , { field: 'saDeptName',    label: '소속명',  vMerge: true, hMerge: true, align:'left', width: 260 }
+	        , { field: 'm01',           label: '1월',   align:'right', width: 55 }
+	        , { field: 'm02',           label: '2월',   align:'right', width: 55 }
+	        , { field: 'm03',           label: '3월',   align:'right', width: 55 }
+	        , { field: 'm04',           label: '4월',   align:'right', width: 55 }
+	        , { field: 'm05',           label: '5월',   align:'right', width: 55 }
+	        , { field: 'm06',           label: '6월',   align:'right', width: 55 }
+	        , { field: 'm07',           label: '7월',   align:'right', width: 55 }
+	        , { field: 'm08',           label: '8월',   align:'right', width: 55 }
+	        , { field: 'm09',           label: '9월',   align:'right', width: 55 }
+	        , { field: 'm10',           label: '10월',  align:'right', width: 55 }
+	        , { field: 'm11',           label: '11월',  align:'right', width: 55 }
+	        , { field: 'm12',           label: '12월',  align:'right', width: 55 }
+	        , { field: 'monthSum',      label: '합계',  align:'right', width: 90 }
 	    ]
 	});
 

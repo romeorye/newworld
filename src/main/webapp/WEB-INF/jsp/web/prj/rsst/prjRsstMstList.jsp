@@ -198,8 +198,8 @@ Rui.onReady(function() {
 			, { field: 'deptCd'       , label: '조직코드',  		   sortable: false,	align:'center', width:0, hidden: true}
 			, { field: 'uperdeptName' , label: '조직',  		       sortable: false,	align:'left', width: 308 }
 			, { id : '프로젝트기간'},
-			, { field: 'prjStrDt'     , groupId: '프로젝트기간', label: '시작일',      sortable: false, align:'center', width: 120 }
-			, { field: 'prjEndDt'     , groupId: '프로젝트기간', label: '종료일',      sortable: false, align:'center', width: 120 }
+			, { field: 'prjStrDt'     , groupId: '프로젝트기간', label: '시작일',      sortable: false, align:'center', width: 128 }
+			, { field: 'prjEndDt'     , groupId: '프로젝트기간', label: '종료일',      sortable: false, align:'center', width: 128 }
 	   ]
 	});
 

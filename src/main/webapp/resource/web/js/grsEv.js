@@ -256,7 +256,7 @@ function makeGrsEvTable() {
 			label : '환산점수',
 			sortable : false,
 			align : 'center',
-			width : 60,
+			width : 55,
 			editable : false
 		} ]
 	});

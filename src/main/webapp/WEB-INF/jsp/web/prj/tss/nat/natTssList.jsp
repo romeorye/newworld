@@ -248,7 +248,7 @@
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 } }
                 , { field: 'prjNm',         label: '프로젝트명', sortable: true, align:'center', width: 110 }
-                , { field: 'saUserName',    label: '과제리더', sortable: true, align:'center', width: 70 }
+                , { field: 'saUserName',    label: '과제리더', sortable: true, align:'center', width: 73 }
                 , { field: 'deptName',      label: '조직', sortable: true, align:'center', width: 110 }
                 , { id: 'G1', label: '과제기간(계획일)' }
                 , { field: 'ttlCrroStrtDt', label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 90 }

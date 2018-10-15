@@ -137,11 +137,11 @@
         var mGridColumnModel = new Rui.ui.grid.LColumnModel({  //masterGrid column
             columns: [
                     { field: 'grsY',     	label: '년도',   sortable: false, align:'center', width: 120  },
-          			{ field: 'grsTypeNm',   label: '유형',   sortable: false, align:'left', width: 418  },
+          			{ field: 'grsTypeNm',   label: '유형',   sortable: false, align:'left', width: 430  },
           			{ field: 'evSbcNm',     label: '템플릿명',   sortable: false, align:'left', width: 650  , renderer: function(value){
                 		return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 	}},
-          			{ field: 'useYn',    	label: '사용여부',   sortable: false, align:'center', width: 120  }
+          			{ field: 'useYn',    	label: '사용여부',   sortable: false, align:'center', width: 125  }
 
 
 

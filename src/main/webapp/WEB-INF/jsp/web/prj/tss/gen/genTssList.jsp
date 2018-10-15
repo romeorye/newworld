@@ -307,7 +307,7 @@
                         return value;
                     } }
 
-                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 100 }
+                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 117 }
             ]
         });
 

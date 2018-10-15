@@ -72,11 +72,11 @@ var adminYn = "N";
              groupMerge: true,
              columns: [
             	 new Rui.ui.grid.LNumberColumn(),
-            	 { field: 'title',    	label:'TITLE' , 			sortable: false, align: 'left', width: 200},
-                 { field: 'reqDate',    label:'RequestDate' , 		sortable: false, align: 'center', width: 200},
-                 { field: 'rsechEngn',  label:'ResearchEngineer', 	sortable: false, align: 'left', width: 200},
-                 { field: 'rgstNm',    	label:'등록자', 			sortable: false, align: 'center', width: 200},
-                 { field: 'submitYn',   label:'제출여부', 			sortable: false, align: 'center', width: 200},
+            	 { field: 'title',    	label:'TITLE' , 			sortable: false, align: 'left', width: 258},
+                 { field: 'reqDate',    label:'RequestDate' , 		sortable: false, align: 'center', width: 258},
+                 { field: 'rsechEngn',  label:'ResearchEngineer', 	sortable: false, align: 'left', width: 258},
+                 { field: 'rgstNm',    	label:'등록자', 			sortable: false, align: 'center', width: 258},
+                 { field: 'submitYn',   label:'제출여부', 			sortable: false, align: 'center', width: 258},
                  { field: 'rfpId',  hidden : true}
              ]
          });

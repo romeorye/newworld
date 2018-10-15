@@ -122,8 +122,8 @@ Rui.onReady(function() {
 	        , { field: 'pduGoalYear',    label: '목표년도', sortable: false, align:'center', width: 80 , editor: lcbGoalYear }
 	        , { field: 'pduGoalCnt',     label: '목표개수', sortable: false, align:'right', width: 80 ,editor: new Rui.ui.form.LNumberBox() }
 	        , { field: 'yldType',        label: '산출물유형', sortable: false, align:'center', width: 120 , editor: lcbYldType }
-	        , { field: 'yldTitle',       label: '산출물제목', sortable: false, align:'left', width: 300 , editor: new Rui.ui.form.LTextBox({ attrs: { maxLength: 60 } }) }
-	        , { field: 'arslYearMon',    label: '실적년월', sortable: false, align:'center', width: 100
+	        , { field: 'yldTitle',       label: '산출물제목', sortable: false, align:'left', width: 500 , editor: new Rui.ui.form.LTextBox({ attrs: { maxLength: 60 } }) }
+	        , { field: 'arslYearMon',    label: '실적년월', sortable: false, align:'center', width: 200
 	        	, editor: new Rui.ui.form.LMonthBox({
 	        		mask: '9999-99',
 	        		displayValue: '%Y-%m',
@@ -132,9 +132,9 @@ Rui.onReady(function() {
 	        		maskValue: true
 	        	})
 	          }
-	        , { field: 'arslCnt',        label: '실적개수', sortable: false, align:'right', width: 80 }
+	        , { field: 'arslCnt',        label: '실적개수', sortable: false, align:'right', width: 160 }
 //	        , { field: 'filId',          label: '파일ID', sortable: false, align:'center', width: 100, hidden: true }
-	        , { id: 'filId',            label: '첨부파일',   sortable: false, align:'right', width: 100,
+	        , { id: 'filId',            label: '첨부파일',   sortable: false, align:'right', width: 155,
 	            renderer: function(val, p, record, row, i){
 	            	var recordFilId = nullToString(val);
 	            	var strBtnFun = "openMboAttachFilePopup('" + recordFilId + "','" + row + "')";
@@ -229,7 +229,7 @@ Rui.onReady(function() {
 
 		dm1.on('success', function(e) {
 			var resultData = resultDataSet.getReadData(e);
-			
+
             Rui.alert({
                 text: resultData.records[0].rtnMsg,
                 handler: function() {
@@ -237,7 +237,7 @@ Rui.onReady(function() {
         			fnSearch();
                 }
             });
-            
+
 		});
 
 		dm1.on('failure', function(e) {
@@ -323,20 +323,20 @@ Rui.onReady(function() {
 
 		fileUploadGridIndex = row;
 		vFilId = nullToString(dataSet02.getNameValue(row,'filId'));
-		
+
 		openAttachFileDialog(setAttachFileInfo, vFilId, 'prjPolicy', '*');
 	}
 
 	/* 첨부파일 세팅 */
    	setAttachFileInfo = function(attachFileList) {
-		
+
    		var recordFilId = '';
 		if(fileUploadGridIndex != null){
-			
+
 			recordFilId = dataSet02.getAt(fileUploadGridIndex).get('filId');
-			
+
 			// 첨부파일ID가 신규이면 데이터셋 세팅
-			if(Rui.util.LString.isEmpty(recordFilId) && attachFileList.length > 0){ 
+			if(Rui.util.LString.isEmpty(recordFilId) && attachFileList.length > 0){
 				dataSet02.getAt(fileUploadGridIndex).set('filId',attachFileList[0].data.attcFilId);
 			}
 		}
@@ -344,11 +344,11 @@ Rui.onReady(function() {
     	fileUploadGridIndex = -1;
     };
     /**--------------------- 첨부파일 끝 -----------------------**/
-	
+
 
 	// 온로드 조회
 	fnSearch();
-    
+
 	if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
     	$("#butRecordDel").hide();
     	$("#butRecordNew").hide();
@@ -368,7 +368,7 @@ Rui.onReady(function() {
 function fnChkMark(mDataSet){
 	var markDataSet = mDataSet;
 	for( var i = 0 ; i < markDataSet.getCount() ; i++ ){
-		
+
     	if(markDataSet.isMarked(i))
     		markDataSet.setNameValue(i, 'chk', '1' );
     	else
@@ -383,7 +383,7 @@ function fnChkMark(mDataSet){
  function validation(vDataSet){
 
  	var vTestDataSet = vDataSet;
- 	
+
  	for(var i=0; i < vTestDataSet.getCount(); i++ ){
  		if( vTestDataSet.isMarked(i) ){
  			// 1.Rui valid
@@ -391,7 +391,7 @@ function fnChkMark(mDataSet){
 		 		Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vmTab02.getMessageList().join('<br>') );
 		 		return false;
 		 	}
- 			
+
  			// 2. 동일 목표년도,  동일 산출물유형인 경우 목표개수 동일체크
  			var testPduGoalYear = stringNullChk(vTestDataSet.getNameValue(i,'pduGoalYear'));
  			var testYldType     = stringNullChk(vTestDataSet.getNameValue(i,'yldType'));
@@ -400,35 +400,35 @@ function fnChkMark(mDataSet){
  				if(i == j) continue;
  				if( testPduGoalYear == stringNullChk(vTestDataSet.getNameValue(j,'pduGoalYear')) && testYldType == stringNullChk(vTestDataSet.getNameValue(j,'yldType')) &&
  					testPduGoalCnt != stringNullChk(vTestDataSet.getNameValue(j,'pduGoalCnt'))	 ){
- 					
+
 					var yldNm = '';
 					try{
 						yldNm = $(grid.getView().getValue(i,3)).text();
 					}catch(e){ }
-						
+
  					Rui.alert( testPduGoalYear +'년도 ' + yldNm + '의 목표개수가 서로 다릅니다.');
 		 			return false;
  				}
  			}
- 			
+
 		 	// 3. 실적을 입력했을 경우 실적 필수 체크(산출물제목, 실적년월, 첨부파일은 한꺼번에 등록)
 		 	var testYldTitle = vTestDataSet.getNameValue(i,'yldTitle');			// 산출물제목
 		 	var testArslYearMon = vTestDataSet.getNameValue(i,'arslYearMon');	// 실적년월
 		 	var testFilId = vTestDataSet.getNameValue(i,'filId');				// 산출물파일ID
-		 	if( (testYldTitle != null && testYldTitle != '' && testYldTitle != undefined) || 
-		 		(testArslYearMon != null && testArslYearMon != '' && testArslYearMon != undefined) || 
+		 	if( (testYldTitle != null && testYldTitle != '' && testYldTitle != undefined) ||
+		 		(testArslYearMon != null && testArslYearMon != '' && testArslYearMon != undefined) ||
 		 		(testFilId != null && testFilId != '' && testFilId != undefined) ){
-		 		
+
 		 		if( (testYldTitle == null || testYldTitle == '' || testYldTitle == undefined) ){
 		 			Rui.alert( (i+1) +' row 산출물제목은 필수입력입니다.');
 		 			return false;
 		 		}
-		 		
+
 		 		if( (testArslYearMon == null || testArslYearMon == '' || testArslYearMon == undefined) ){
 		 			Rui.alert( (i+1) +' row 실적년월은 필수입력입니다.');
 		 			return false;
 		 		}
-		 		
+
 		 		if( (testFilId == null || testFilId == '' || testFilId == undefined) ){
 		 			Rui.alert( (i+1) +' row 첨부파일은 필수등록입니다.');
 		 			return false;
@@ -436,7 +436,7 @@ function fnChkMark(mDataSet){
 		 	}
  		}// marking check for loop
  	}// dataset for loop
- 	
+
  	return true;
  }
 </script>

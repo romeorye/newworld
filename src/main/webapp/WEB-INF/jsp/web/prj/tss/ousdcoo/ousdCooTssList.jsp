@@ -279,20 +279,20 @@
                 		  if(stepCd == "PL"){ return "SEED-" + value; }
 				          return value;
                     } }
-                , { field: 'tssNm',        label: '과제명'   , sortable: true, align:'left', width: 200
+                , { field: 'tssNm',        label: '과제명'   , sortable: true, align:'left', width: 250
                 	, renderer: function(value, p, record, row, col){
                         if(record.get("myTss") == "Y") p.css.push('font-bold');
                 		return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 	}
                   }
-                , { field: 'prjNm',        label: '프로젝트명'   , sortable: true, align:'center', width: 150 }
+                , { field: 'prjNm',        label: '프로젝트명'   , sortable: true, align:'center', width: 200 }
                 , { field: 'saUserName',   label: '과제리더' , sortable: true, align:'center', width: 70 }
                 , { field: 'deptName',     label: '조직'     , sortable: true, align:'center', width: 110 }
                 , { id: 'G1', label: '과제기간(계획일)' }
-                , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 80 }
-                , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 80 }
+                , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 90 }
+                , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 90 }
                 , { id: 'G2', label: '과제실적일' }
-                , { field: 'cmplBStrtDd',    label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 73
+                , { field: 'cmplBStrtDd',    label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80
                 	, renderer: function(value, p, record, row, col){
                 		if( record.get("pgsStepCd") == "DC" ){
                 			return record.get("dcacBStrtDd");
@@ -309,8 +309,8 @@
                 	  }
                   }
 
-                , { field: 'rsstExpConvertMil',        label: '총연구비<BR>(억원)'   , sortable: true, align:'right', width: 75 }
-                , { field: 'arslExpConvertMil',        label: '누적실적<BR>(억원)'   , sortable: true, align:'right', width: 75 }
+                , { field: 'rsstExpConvertMil',        label: '총연구비<BR>(억원)'   , sortable: true, align:'right', width: 70 }
+                , { field: 'arslExpConvertMil',        label: '누적실적<BR>(억원)'   , sortable: true, align:'right', width: 70 }
                 , { field: 'pgsStepNm',    label: '상태'     , sortable: true, align:'center', width: 52, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
                         p.editable = false;
                         return value;

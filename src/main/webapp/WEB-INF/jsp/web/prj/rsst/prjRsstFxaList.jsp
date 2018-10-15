@@ -62,8 +62,8 @@ Rui.onReady(function() {
 	    	, {id: 'attcFilNm' }   /*파일명*/
 	    	, {id: 'attcFilPath' } /*파일경로*/
 	    	, {id: 'attcFilSize' } /*파일사이즈*/
-	    	
-	    	
+
+
 	    ]
 	});
 
@@ -75,7 +75,7 @@ Rui.onReady(function() {
 	        , { field: 'fxaNo',         label: '자산번호',  align:'center', width: 80 }
 	        , { field: 'fxaNm',         label: '자산명',    align:'left', width: 280
 	        	, renderer: function(value){
-	        		Rui.util.LRenderer.popupRenderer(); 
+	        		Rui.util.LRenderer.popupRenderer();
 	        		return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
 	          }}
 	        , { field: 'fxaQty',        label: '수량',      align:'right', width: 40 }
@@ -87,12 +87,12 @@ Rui.onReady(function() {
 	        		return Rui.util.LFormat.numberFormat(parseInt(value));
 		        }
 	        }
-	        , { field: 'bkpPce',        label: '장부가',    align:'right', width: 100,
+	        , { field: 'bkpPce',        label: '장부가',    align:'right', width: 95,
 	        	renderer: function(value, p, record){
 	        		return Rui.util.LFormat.numberFormat(parseInt(value));
 		        }
 	          }
-	        , { id : 'imgFileIcon',     label: '사진', width: 80 ,
+	        , { id : 'imgFileIcon',     label: '사진', width: 85 ,
 	        	renderer: function(val, p, record, row, i){
 	        		console.log(record);
 	            	var recordFilPath = nullToString(record.data.attcFilPath);
@@ -102,9 +102,9 @@ Rui.onReady(function() {
 	            	}
 	            }
 	          }
-	        , { field: 'fxaLoc',        label: '위치',      align:'left', width: 150 }
-	        , { field: 'tagYn',         label: '태그여부',  align:'center', width: 60 }
-	        , { field: 'rlisDt',        label: '실사일',    align:'center', width: 80 }
+	        , { field: 'fxaLoc',        label: '위치',      align:'left', width: 140 }
+	        , { field: 'tagYn',         label: '태그여부',  align:'center', width: 55 }
+	        , { field: 'rlisDt',        label: '실사일',    align:'center', width: 70 }
 	    ]
 	});
 
@@ -121,18 +121,18 @@ Rui.onReady(function() {
 		// 자산명 : 상세팝업 출력
 		var record = dataSet08.getAt(dataSet08.getRow());
 		if(dataSet08.getRow() > -1) {
-			
+
 			if(e.col == 3) {
 				openTfxaDtlDialog(dataSet08.getAt(e.row));
 	        }
 		}
 	});
-	
+
 	grid08.on('popup', function(e) {
 		// 자산명 : 상세팝업 출력
 		var record = dataSet08.getAt(dataSet08.getRow());
 		if(dataSet08.getRow() > -1) {
-			
+
 			if(e.col == 3) {
 				openTfxaDtlDialog(dataSet08.getAt(e.row));
 	        }
@@ -185,7 +185,7 @@ Rui.onReady(function() {
     });
 
 	fxaDtlDialog.render(document.body);
-	
+
 	 /* 첨부파일 다운 */
     downloadAttachFile = function(attcFilId, seq) {
     	var param = "?attcFilId=" + attcFilId + "&seq=" + seq;
@@ -270,7 +270,7 @@ function openImageView(row){
 	var attId = dataSet08.getAt(row).get('attcFilId');
 	var seq = dataSet08.getAt(row).get('attcFilSeq');
 	var param = "?attcFilId="+ attId+"&seq="+seq;
-	
+
 	Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
 	Rui.get('imgDialTitle').html('자산이미지');
 	imageDialog.clearInvalid();

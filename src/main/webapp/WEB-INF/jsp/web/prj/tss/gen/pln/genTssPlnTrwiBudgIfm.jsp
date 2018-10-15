@@ -6,7 +6,7 @@
 /*
  *************************************************************************
  * $Id      : genTssPlnTrwiBudgIfm.jsp
- * @desc    : 
+ * @desc    :
  *------------------------------------------------------------------------
  * VER  DATE        AUTHOR      DESCRIPTION
  * ---  ----------- ----------  -----------------------------------------
@@ -30,18 +30,18 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
     var lvPgsStepCd = window.parent.gvPgsStepCd;
-    
+
     var alTssCd = lvPgsStepCd == "AL" ? lvTssCd : "";
     lvTssCd = lvPgsStepCd == "AL" ? window.parent.gvPgTssCd : lvTssCd;
-    
+
     var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
-    
+
     var dataSet;
     var lvPurY;
     var isSearch1 = false;
     var isSearch2 = false;
     var tbNewDialog;
-    
+
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -65,7 +65,7 @@
         cboPurY.on('changed', function(e) {
         	fn_search();
         });
-        
+
         //년월
         var rdoYyMm = new Rui.ui.form.LRadioGroup({
         	applyTo: 'yyMm',
@@ -78,16 +78,16 @@
         rdoYyMm.on('changed', function(e) {
         	fn_search();
         });
-        
+
         //Form 비활성화
         disableFields = function() {
             if(pageMode == "W") return;
-            
+
             butNewPop.hide();
         };
 
-        
-        
+
+
         /*============================================================================
         =================================    DataSet     =============================
         ============================================================================*/
@@ -115,7 +115,7 @@
         dataSet1.on('load', function(e) {
             console.log("tb load DataSet Success");
         });
-        
+
         //월별 그리드
         var columnModel1 = new Rui.ui.grid.LColumnModel({
             columns: [
@@ -123,18 +123,18 @@
                 , { id: 'G1', label: '계정' }
                 , { field: 'totTitle', label: '', groupId: 'G1', sortable: false, align:'center', width: 150, vMerge: true, hMerge: true }
                 , { field: 'expScnNm', label: '', groupId: 'G1', sortable: false, align:'left', width: 200, hMerge: true }
-                , { field: '01', label: '1월', sortable: false, align:'right', width: 50 }
-                , { field: '02', label: '2월', sortable: false, align:'right', width: 50 }
-                , { field: '03', label: '3월', sortable: false, align:'right', width: 50 }
-                , { field: '04', label: '4월', sortable: false, align:'right', width: 50 }
-                , { field: '05', label: '5월', sortable: false, align:'right', width: 50 }
-                , { field: '06', label: '6월', sortable: false, align:'right', width: 50 }
-                , { field: '07', label: '7월', sortable: false, align:'right', width: 50 }
-                , { field: '08', label: '8월', sortable: false, align:'right', width: 50 }
-                , { field: '09', label: '9월', sortable: false, align:'right', width: 50 }
-                , { field: '10', label: '10월', sortable: false, align:'right', width: 50 }
-                , { field: '11', label: '11월', sortable: false, align:'right', width: 50 }
-                , { field: '12', label: '12월', sortable: false, align:'right', width: 50 }
+                , { field: '01', label: '1월', sortable: false, align:'right', width: 70 }
+                , { field: '02', label: '2월', sortable: false, align:'right', width: 70 }
+                , { field: '03', label: '3월', sortable: false, align:'right', width: 70 }
+                , { field: '04', label: '4월', sortable: false, align:'right', width: 70 }
+                , { field: '05', label: '5월', sortable: false, align:'right', width: 70 }
+                , { field: '06', label: '6월', sortable: false, align:'right', width: 70 }
+                , { field: '07', label: '7월', sortable: false, align:'right', width: 70 }
+                , { field: '08', label: '8월', sortable: false, align:'right', width: 70 }
+                , { field: '09', label: '9월', sortable: false, align:'right', width: 70 }
+                , { field: '10', label: '10월', sortable: false, align:'right', width: 70 }
+                , { field: '11', label: '11월', sortable: false, align:'right', width: 70 }
+                , { field: '12', label: '12월', sortable: false, align:'right', width: 70 }
                 , { field: 'totSum', label: '합계', sortable: false, align:'right', width: 100 }
             ]
         });
@@ -154,7 +154,7 @@
         });
 
         grid1.render('tbMmGrid');
-        
+
         //년별 DS
         dataSet2 = new Rui.data.LJsonDataSet({
             id: 'tbYyDataSet',
@@ -170,7 +170,7 @@
         dataSet2.on('load', function(e) {
             console.log("tb load DataSet Success");
         });
-        
+
         //년별 그리드
         var columnModel2 = new Rui.ui.grid.LColumnModel({
             columns: [
@@ -186,7 +186,7 @@
                 , { field: 'totSum', label: '합계', sortable: false, align:'right', width: 100 }
             ]
         });
-        
+
         var grid2 = new Rui.ui.grid.LGridPanel({
             columnModel: columnModel2,
             dataSet: dataSet2,
@@ -202,15 +202,15 @@
         });
 
         grid2.render('tbYyGrid');
-        
-        
+
+
         //서버전송용
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         dm.on('success', function(e) {
             var data = dataSet1.getReadData(e);
-            
+
             Rui.alert(data.records[0].rtVal);
-            
+
             if(data.records[0].rtCd == "SUCCESS") {
                 fn_search();
             }
@@ -219,9 +219,9 @@
             var data = dataSet1.getReadData(e);
             Rui.alert(data.records[0].rtVal);
         });
-        
-        
-        
+
+
+
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
@@ -230,8 +230,8 @@
         	if(rdoYyMm.getValue() == "mm") {
         		grid1.show();
         		grid2.hide();
-        		    
-        		dataSet1.load({ 
+
+        		dataSet1.load({
                     url: "<c:url value='/prj/tss/gen/retrieveGenTssPlnTrwiBudg.do'/>"
                   , params : {
                          tssCd: lvTssCd
@@ -245,11 +245,11 @@
         	} else {
         		grid1.hide();
         		grid2.show();
-        		
+
         		if(!isSearch2) {
         		    isSearch2 = true;
-        		    
-            		dataSet2.load({ 
+
+            		dataSet2.load({
                         url: "<c:url value='/prj/tss/gen/retrieveGenTssPlnTrwiBudg.do'/>"
                       , params : {
                              tssCd: lvTssCd
@@ -263,49 +263,49 @@
         		}
         	}
         };
-        
+
         //새로고침
         fn_refresh = function() {
             isSearch2 = true;
-            
+
             cboPurY.setSelectedIndex(0);
             rdoYyMm.setCheckedIndex(0);
-            
+
             isSearch2 = false;
-            
+
             fn_search();
         }
-      /*   
+      /*
         //목록
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {                
+        btnList.on('click', function() {
             nwinsActSubmit(window.parent.document.mstForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
         });
          */
         //투입계산생성
 	    tbNewDialog = new Rui.ui.LFrameDialog({
-	        id: 'tbNewDialog', 
+	        id: 'tbNewDialog',
 	        title: '투입예산 생성',
 	        width: 800,
 	        height: 450,
 	        modal: true,
 	        visible: false
 	    });
-	    
+
 	    tbNewDialog.render(document.body);
-	
+
 	    openTBNewDialog = function() {
 	    	_callback = '';
-	    	
+
 	    	tbNewDialog.setUrl('<c:url value="/prj/tss/gen/genTssPlnTrwiBudgMstPop.do?tssCd="/>' + lvTssCd + '&userId=' + lvUserId + '&pgsStepCd=' + lvPgsStepCd + '&alTssCd=' + alTssCd);
 	    	tbNewDialog.show();
 	    };
-        
+
         var butNewPop = new Rui.ui.LButton('butNewPop');
-        butNewPop.on('click', function() {                
+        butNewPop.on('click', function() {
         	openTBNewDialog();
         });
-        
+
         fn_search(); //조회
 
         if(!window.parent.isEditable) {
@@ -317,14 +317,14 @@
 <script>
 $(window).load(function() {
     initFrameSetHeight("tbForm");
-}); 
+});
 </script>
 </head>
 <body>
 <form name="tbForm" id="tbForm" method="post">
 	<input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
 	<input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
-	
+
 	<div class="titArea">
 	    <div class="LblockButton">
 	    	<div id="purY"></div>
@@ -333,10 +333,10 @@ $(window).load(function() {
 	        <button type="button" id="butNewPop" name="">투입예산생성</button>
 	    </div>
 	</div>
-	
+
 	<div id="tbMmGrid"></div>
 	<div id="tbYyGrid"></div>
-	<!-- 
+	<!--
 	<div class="titArea">
 	    <div class="LblockButton">
 	        <button type="button" id="btnList" name="btnList">목록</button>
