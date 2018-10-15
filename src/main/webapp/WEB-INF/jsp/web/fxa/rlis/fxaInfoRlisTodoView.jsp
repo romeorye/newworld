@@ -31,7 +31,7 @@
 <script type="text/javascript">
 
 	Rui.onReady(function() {
-		
+
 		/*******************
          * 변수 및 객체 선언
          *******************/
@@ -58,22 +58,22 @@
              	, { id: 'wbsCd'}
  			]
          });
-		
+
          dataSet.on('load', function(e){
         	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
   	    });
 
          var columnModel = new Rui.ui.grid.LColumnModel({
              columns: [
-         	 	       { field: 'prjNm'      , label: '프로젝트명', sortable: false,	align:'left', width: 230}
-                     , { field: 'fxaNo'      , label: '자산번호',  	sortable: false,	align:'center', width: 100}
-                     , { field: 'fxaNm'      , label: '자산명',  	sortable: false,	align:'left', width:300}
-                     , { field: 'fxaQty' 	 , label: '수량',  		sortable: false,	align:'center', width: 30}
-                     , { field: 'fxaUtmNm'   , label: '단위',  		sortable: false,	align:'center', width: 40}
-                     , { field: 'crgrNm'     , label: '담당자',  	sortable: false,	align:'center', width: 70}
-                     , { field: 'fxaClss'    , label: '자산클래스', sortable: false,	align:'center', width: 80}
-                     , { field: 'rlisDt' 	 , label: '최근실사일', sortable: false,	align:'center', width: 80}
-                     , { field: 'fxaSsisYn'  , label: '자산유무',  	sortable: false,	align:'center', width: 70, renderer: function(val, p, record, row, i){
+         	 	       { field: 'prjNm'      , label: '프로젝트명', sortable: false,	align:'left', width: 245}
+                     , { field: 'fxaNo'      , label: '자산번호',  	sortable: false,	align:'center', width: 110}
+                     , { field: 'fxaNm'      , label: '자산명',  	sortable: false,	align:'left', width:330}
+                     , { field: 'fxaQty' 	 , label: '수량',  		sortable: false,	align:'center', width: 60}
+                     , { field: 'fxaUtmNm'   , label: '단위',  		sortable: false,	align:'center', width: 60}
+                     , { field: 'crgrNm'     , label: '담당자',  	sortable: false,	align:'center', width: 90}
+                     , { field: 'fxaClss'    , label: '자산클래스', sortable: false,	align:'center', width: 90}
+                     , { field: 'rlisDt' 	 , label: '최근실사일', sortable: false,	align:'center', width: 90}
+                     , { field: 'fxaSsisYn'  , label: '자산유무',  	sortable: false,	align:'center', width: 100, renderer: function(val, p, record, row, i){
                         	if(val == "Y"){
                         		val ="사용";
                         	}else{
@@ -100,29 +100,29 @@
          });
 
          grid.render('defaultGrid');
-		
+
          fnSearch = function() {
  	    	dataSet.load({
  	            url: '<c:url value="/fxa/rlis/retrieveFxaRlisTodoViewList.do"/>',
  	            params :{
- 	            	fxaRlisId : document.aform.fxaRlisId.value, 	// 
+ 	            	fxaRlisId : document.aform.fxaRlisId.value, 	//
                  }
              });
          }
 
          // 화면로드시 조회
  	    fnSearch();
-         
+
         /* [버튼] : 자산실사 목록 화면이동 */
      	var butList = new Rui.ui.LButton('butList');
      	butList.on('click', function(){
      		document.aform.action='<c:url value="/fxa/rlis/retrieveFxaRlisList.do"/>';
     		document.aform.submit();
      	});
-     
+
      	 //document.domain = 'lghausys.com';
          // 유관시스템 확인 버튼 클릭시 같이 호출 parent.TodoCallBack();
-     	
+
 	});		//end ready
 
 </script>
@@ -133,7 +133,7 @@
     				<a class="leftCon" href="#">
 		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		        	<span class="hidden">Toggle 버튼</span>
-	        	</a>  
+	        	</a>
     				<h2>자산실사처리 To_do</h2>
     		    </div>
     			<div class="sub-content">
@@ -143,10 +143,10 @@
 					<input type="hidden" id="fxaRlisId"  name="fxaRlisId" value="<c:out value='${inputData.fxaRlisId}'/>">
 					<input type="hidden" id="rlisStCd"  name="rlisStCd" value="<c:out value='${inputData.rlisStCd}'/>">
 
-    					
+
 						<div class="titArea btn_top">
 							<span class="table_summay_number" id="cnt_text"></span>
-							<div class="LblockButton">  								
+							<div class="LblockButton">
     							<button type="button" id="butList">목록</button>
     						</div>
     					</div>

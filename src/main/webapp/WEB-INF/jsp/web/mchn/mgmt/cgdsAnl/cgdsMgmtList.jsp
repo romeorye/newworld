@@ -34,7 +34,7 @@ var cgdsMgmtDialog;
 var dataSet;
 
 	Rui.onReady(function(){
-	
+
         cgdsMgmtDialog = new Rui.ui.LFrameDialog({
 	        id: 'cgdsMgmtDialog',
 	        title: '소모품입출력관리',
@@ -62,29 +62,29 @@ var dataSet;
             	 ,{ id: 'seq'}
             	 ,{ id: 'cgdsId'}
             ]
-        }); 
-		
+        });
+
 		dataSet.on('load', function(e){
 			if(  dataSet.getNameValue(0, "cgdsId")  == ""){
-				
+
 			}else{
 	    		//현재고 색변경
 		    	if( dataSet.getNameValue(0, "ivStCd") == "Y" ){
 		    		Rui.get("curIvQty").html('');
-		    		Rui.get("curIvQty").setStyle('color', "RED"); 
+		    		Rui.get("curIvQty").setStyle('color', "RED");
 		    	}
-	    		
+
 				//이미지
 		    	if( dataSet.getNameValue(0, "attcFilId") != "" ){
 		    		var param = "?attcFilId="+ dataSet.getNameValue(0, "attcFilId")+"&seq="+dataSet.getNameValue(0, "seq");
-		    		
+
 		    		Rui.getDom('imgView').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
 		    		Rui.getDom('imgView').width = '120';
 		    	    Rui.getDom('imgView').height = '120';
 		    	}
 			}
 	    });
-		
+
 		var dataSetList = new Rui.data.LJsonDataSet({
             id: 'dataSetList',
             remainRemoved: true,
@@ -101,20 +101,20 @@ var dataSet;
             	 ,{ id: 'cgdsMgmtId'}
             ]
         });
-		 
+
 		dataSetList.on('load', function(e){
 	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSetList.getCount() + '건';
 	    });
-			
+
 		var columnModel = new Rui.ui.grid.LColumnModel({
 		     groupMerge: true,
 		     columns: [
-		        	 { field: 'rgstDt', 	label:'해당일' , 	sortable: false, align: 'center', width: 150}
-		            ,{ field: 'whioClNm',  	label:'구분', 		sortable: false, align: 'center', width: 150}
-		            ,{ field: 'whsnQty',  	label:'입고수', 	sortable: false, align: 'center', width: 150}
-		            ,{ field: 'whotQty',  	label:'출고수', 	sortable: false, align: 'center', width: 150}
-		            ,{ field: 'rgstNm', 	label: '처리자', 	sortable: false, align: 'center', width: 150}
-		            ,{ field: 'cgdsRem', 	label: '비고',   	sortable: false, align: 'left', width: 360}
+		        	 { field: 'rgstDt', 	label:'해당일' , 	sortable: false, align: 'center', width: 190}
+		            ,{ field: 'whioClNm',  	label:'구분', 		sortable: false, align: 'center', width: 190}
+		            ,{ field: 'whsnQty',  	label:'입고수', 	sortable: false, align: 'center', width: 190}
+		            ,{ field: 'whotQty',  	label:'출고수', 	sortable: false, align: 'center', width: 190}
+		            ,{ field: 'rgstNm', 	label: '처리자', 	sortable: false, align: 'center', width: 190}
+		            ,{ field: 'cgdsRem', 	label: '비고',   	sortable: false, align: 'left', width: 375}
 		            ,{ field: 'whioClCd',  	hidden : true}
 		            ,{ field: 'cgdsId',  	hidden : true}
 		            ,{ field: 'rgstId',  	hidden : true}
@@ -127,13 +127,13 @@ var dataSet;
 		    dataSet: dataSetList,
 		    width: 1150,
 		    height: 350,
-		    autoWidth: true 
+		    autoWidth: true
 		});
 
 		grid.render('cgdsGrid');
-		
+
 		var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-		
+
 		fnSearch = function() {
 			dm.loadDataSet({
 				dataSets: [ dataSet, dataSetList],
@@ -143,9 +143,9 @@ var dataSet;
 	                	}
          	});
      	}
-		
+
 		fnSearch();
-		
+
 		var bind = new Rui.data.LBind({
 			groupId: 'aform',
 		    dataSet: dataSet,
@@ -160,7 +160,7 @@ var dataSet;
 		         ,{ id: 'useUsf', 	ctrlId: 'useUsf', 	value: 'html'}
 		     ]
 		});
-		/* 수정기능 제거    2017. 09.27   
+		/* 수정기능 제거    2017. 09.27
 		grid.on('cellDblClick', function(e) {
 			var record = dataSetList.getAt(dataSetList.getRow());
 			if(dataSetList.getRow() > -1) {
@@ -173,17 +173,17 @@ var dataSet;
 			}
 	 	});
 		 */
-		 
+
 		/* [버튼] : 소모품 입출력 팝업창 이동 */
     	var butReg = new Rui.ui.LButton('butReg');
     	butReg.on('click', function(){
     		var cgdsId = document.aform.cgdsId.value;
 			var param = "?cgdsId="+cgdsId;
-					
+
     		cgdsMgmtDialog.setUrl('<c:url value="/mchn/mgmt/retrieveCgdsMgmtPop.do"/>'+param);
     		cgdsMgmtDialog.show(true);
     	});
-		
+
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
@@ -197,22 +197,22 @@ var dataSet;
         		return;
         	}
         });
-        
+
         /* [버튼] : 소모품 목록 이동 */
     	var butList = new Rui.ui.LButton('butList');
     	butList.on('click', function(){
     		fncCgdsAnlList();
     	});
-        
+
      	//소모품관리 목록 화면으로 이동
 	  	fncCgdsAnlList = function(){
 	  		$('#searchForm > input[name=cgdsNm]').val(encodeURIComponent($('#searchForm > input[name=cgdsNm]').val()));
     	   	$('#searchForm > input[name=mkrNm]').val(encodeURIComponent($('#searchForm > input[name=mkrNm]').val()));
     	   	$('#searchForm > input[name=cgdCrgrNm]').val(encodeURIComponent($('#searchForm > input[name=cgdCrgrNm]').val()));
-	    	
-	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/retrieveMchnCgdgList.do"/>");	
+
+	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/retrieveMchnCgdgList.do"/>");
 	   	}
-      
+
 	});			//end onReady
 
 
@@ -228,14 +228,14 @@ var dataSet;
 			<h2>소모품입출력 관리</h2>
 		</div>
 		<div class="sub-content">
-		
+
 			<form name="searchForm" id="searchForm">
 				<input type="hidden" name="cgdsNm" value="${inputData.cgdsNm}"/>
 				<input type="hidden" name="mkrNm" value="${inputData.mkrNm}"/>
 				<input type="hidden" name="stkNo" value="${inputData.stkNo}"/>
 				<input type="hidden" name="cgdCrgrNm" value="${inputData.cgdCrgrNm}"/>
 		    </form>
-		    
+
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" value="IRIED0202"/>
 				<input type="hidden" id="cgdsId" name="cgdsId" value="<c:out value='${inputData.cgdsId}'/>">
@@ -274,7 +274,7 @@ var dataSet;
 						<tr>
 							<th align="center">현재고</th>
 							<td>
-								<span id="curIvQty"></span> 
+								<span id="curIvQty"></span>
 							</td>
 							<th align="center">적정재고</th>
 							<td>

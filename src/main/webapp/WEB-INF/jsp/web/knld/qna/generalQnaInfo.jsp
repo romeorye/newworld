@@ -161,9 +161,9 @@
 
             var columnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                 	  { field: 'frstRgstDt', label: '등록일',  	sortable: false,  align:'center',  width: 120 }
-                    , { field: 'rgstNm',     label: '등록자',  	sortable: false,  align:'center',  width: 120 }
-                    , { field: 'rebNm',	     label: '내용',	    sortable: false,  align:'left',	   width: 800,  editable: true, editor: textArea,
+                 	  { field: 'frstRgstDt', label: '등록일',  	sortable: false,  align:'center',  width: 250 }
+                    , { field: 'rgstNm',     label: '등록자',  	sortable: false,  align:'center',  width: 250 }
+                    , { field: 'rebNm',	     label: '내용',	    sortable: false,  align:'left',	   width: 825,  editable: true, editor: textArea,
                     	renderer: function(val, p, record, row, col) {
                     		return val.replaceAll('\n', '<br/>');
                     } }

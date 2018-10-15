@@ -145,9 +145,9 @@ var lvAttcFilId;
 
                 	  } //글씨 색
                 	}
-                  , { field: 'rgstNm',		label: '등록자',	sortable: false,	align:'center',	width: 118 }
-                  , { field: 'frstRgstDt',	label: '등록일',	sortable: false,	align:'center',	width: 118 }
-			      , { field: 'rtrvCnt',		label: '조회',		sortable: false, 	align:'center',	width: 68 }
+                  , { field: 'rgstNm',		label: '등록자',	sortable: false,	align:'center',	width: 120 }
+                  , { field: 'frstRgstDt',	label: '등록일',	sortable: false,	align:'center',	width: 120 }
+			      , { field: 'rtrvCnt',		label: '조회',		sortable: false, 	align:'center',	width: 80 }
 		  	      , { id: 'attachDownBtn',  label: '첨부파일',  width: 65 ,
 		  	    	  renderer: function(val, p, record, row, i){
 		  	    		  var recordFilId = nullToString(record.data.attcFilId);

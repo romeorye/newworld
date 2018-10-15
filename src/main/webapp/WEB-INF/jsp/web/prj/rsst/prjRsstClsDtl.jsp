@@ -171,7 +171,7 @@
 
        	var mboColumnModel = new Rui.ui.grid.LColumnModel({
        	    columns: [
-       	          { field: 'mboGoalYear',    label: '목표년도', sortable: false, align:'center', width: 60 }
+       	          { field: 'mboGoalYear',    label: '목표년도', sortable: false, align:'center', width: 65 }
          	    , { field: 'mboGoalPrvs',    label: '목표항목', sortable: false, align:'left', width: 330
          	    	, renderer: function(value, p, record){
  	                    p.tooltipText = value;
@@ -241,7 +241,7 @@
         /* [Grid] 컬럼설정 */
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
-                  { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 370 }
+                  { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 375 }
                 , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 170 }
                 , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 250 }
                 , { id: 'G1', label: '과제기간(계획일)' }

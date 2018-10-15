@@ -470,7 +470,7 @@
                     , { field: 'preAcpcNo',		label: '접수번호',		sortable: false,	align:'center',	width: 100 }
                     , { field: 'preAnlNm',		label: '분석명',		sortable: false,	align:'left',	width: 300 }
                     , { field: 'preRgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 100 }
-                    , { field: 'preAnlChrgNm',	label: '분석담당자',	sortable: false,	align:'center',	width: 100 }
+                    , { field: 'preAnlChrgNm',	label: '분석담당자',	sortable: false,	align:'center',	width: 95 }
                 ]
             });
 

@@ -42,46 +42,46 @@ var excelDataSet;
 
         resultDataSet.on('load', function(e) {
         });
-		
+
 		var eduPttStBtn = new Rui.ui.LButton('eduPttSt');
 		eduPttStBtn.on('click', function(){
 
         });
 
 		var eduPttStNm = document.aform.eduPttStNm.value;
-		
-		
+
+
 		/* mchn info dataSet*/
 		var mchnInfoDataSet = new Rui.data.LJsonDataSet({
 	        id: 'mchnInfoDataSet',
 	        remainRemoved: true,
 	        lazyLoad: true,
 	        fields: [
-        		 {id: 'eduPttStNm'}    
-        		,{id: 'eduScnNm'}      
-        		,{id: 'eduNm'}         
-        		,{id: 'mchnNm'}        
-        		,{id: 'pttFromDt'}     
-        		,{id: 'pttToDt'}       
-        		,{id: 'pttCpsn'}       
-        		,{id: 'ivttCpsn'}      
-        		,{id: 'eduDt'}         
-        		,{id: 'eduToTim'}      
-        		,{id: 'eduPl'}         
-        		,{id: 'eduPttSt'}      
-        		,{id: 'eduCrgrNm'}     
-        		,{id: 'dtlSbc'}     
-        		,{id: 'eduCrgrId'}     
-        		,{id: 'mchnEduId'}     
-        		,{id: 'eduScnCd'}     
+        		 {id: 'eduPttStNm'}
+        		,{id: 'eduScnNm'}
+        		,{id: 'eduNm'}
+        		,{id: 'mchnNm'}
+        		,{id: 'pttFromDt'}
+        		,{id: 'pttToDt'}
+        		,{id: 'pttCpsn'}
+        		,{id: 'ivttCpsn'}
+        		,{id: 'eduDt'}
+        		,{id: 'eduToTim'}
+        		,{id: 'eduPl'}
+        		,{id: 'eduPttSt'}
+        		,{id: 'eduCrgrNm'}
+        		,{id: 'dtlSbc'}
+        		,{id: 'eduCrgrId'}
+        		,{id: 'mchnEduId'}
+        		,{id: 'eduScnCd'}
         		 ]
 	    });
-		
+
 		mchnInfoDataSet.on('load', function(e){
-			
-			
+
+
 	    });
-		 
+
 		/* [DataSet] bind */
 	    var mchnInfoBind = new Rui.data.LBind({
 	        groupId: 'aform',
@@ -103,8 +103,8 @@ var excelDataSet;
 		    	, {id: 'eduPttSt',    	ctrlId: 'eduPttSt',    	value: 'html' }
 	        ]
 	    });
-		
-		
+
+
 		/* grid */
 		var dataSet = new Rui.data.LJsonDataSet({
 	        id: 'dataSet',
@@ -125,23 +125,23 @@ var excelDataSet;
         		,{id: 'mchnInfoId'}          //기기id
         		 ]
 	    });
-		
+
 		dataSet.on('load', function(e){
 	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
 	    });
-		
+
 		var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
 	        	new Rui.ui.grid.LSelectionColumn()
 	        	,{field: 'rgstNm'     	,label:'이름' ,    	sortable: false, align: 'center', width: 150}
 	        	,{field: 'rgstId'		,label:'id' ,      	sortable: false, align: 'center', width: 160}
-	        	,{field: 'rgstTeam'     ,label:'팀'   ,    	sortable: false, align: 'center', width: 364}
+	        	,{field: 'rgstTeam'     ,label:'팀'   ,    	sortable: false, align: 'center', width: 370}
 	        	,{field: 'rgstJobx'     ,label:'직급' ,     sortable: false, align: 'center', width: 110}
 	        	,{field: 'rgstDt'       ,label:'신청일' ,   sortable: false, align: 'center', width: 130}
 	        	,{field: 'ccsDt'        ,label:'수료일' ,   sortable: false, align: 'center', width: 130}
-	        	,{field: 'eduStNm'      ,label:'상태',		sortable: false, align: 'center', width: 110}
-	        	,{field: 'ccsTrtmNm'    ,label:'처리자',	sortable: false, align: 'center', width: 120}
+	        	,{field: 'eduStNm'      ,label:'상태',		sortable: false, align: 'center', width: 120}
+	        	,{field: 'ccsTrtmNm'    ,label:'처리자',	sortable: false, align: 'center', width: 125}
 	        	,{field: 'saMail'     	,hidden : true}
 	        	,{field: 'eduCrgrId'    ,hidden : true}
 	        	,{field: 'eduDtlId'     ,hidden : true}
@@ -157,8 +157,8 @@ var excelDataSet;
 	        autoWidth : true
 	    });
 
-		grid.render('mhcnGrid'); 
-		
+		grid.render('mhcnGrid');
+
 		/* grid  전체 엑셀다운로드용*/
 		excelDataSet = new Rui.data.LJsonDataSet({
 	        id: 'excelDataSet',
@@ -198,9 +198,9 @@ var excelDataSet;
 	        dataSet: excelDataSet
 	    });
 		excelGrid.render('excelGrid');
-		
+
  		var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-		
+
  		fnSearch = function(){
 			dm.loadDataSet({
 				dataSets: [ dataSet, mchnInfoDataSet, excelDataSet],
@@ -217,7 +217,7 @@ var excelDataSet;
 		var chkDtlId="";
 	    var chkRecMailAddr="";
 	    var chkRgstNm="";
-	    
+
 		//수료
 		var butCcslBtn = new Rui.ui.LButton('butCcs');
 		butCcslBtn.on('click', function(){
@@ -238,22 +238,22 @@ var excelDataSet;
 			chkDtlId="";
 		    chkRecMailAddr="";
 		    chkRgstNm = "";
-		    
+
 		    var confirmMsg;
 		    var eMsg;
-		    
+
 		    if( cd == "CCS" ){
 		    	confirmMsg= "수료처리를 하시겠습니까?";
-		    	eMsg = "수료할 목록을 선택해 주십시오"; 		
+		    	eMsg = "수료할 목록을 선택해 주십시오";
 		    }else{
 		    	confirmMsg= "미수료처리를 하시겠습니까?";
-		    	eMsg = "미수료할 목록을 선택해 주십시오"; 		
+		    	eMsg = "미수료할 목록을 선택해 주십시오";
 		    }
-		    
+
 		    dm.on('success', function(e) {      // 승인 성공시
 				var resultData = resultDataSet.getReadData(e);
 				Rui.alert(resultData.records[0].rtnMsg);
-				
+
     			if( resultData.records[0].rtnSt == "S"){
 		    		fnSearch();
 	    		}
@@ -261,12 +261,12 @@ var excelDataSet;
     	    dm.on('failure', function(e) {      // 승인 실패시
     	    	Rui.alert(resultData.records[0].rtnMsg);
     	    });
-    	    
+
 			if(dataSet.getMarkedCount() > 0) {
 				for(var i = 0; i < dataSet.getCount(); i++){
 					if(dataSet.isMarked(i)) {
 						var record = dataSet.getAt(i);
-						/* 
+						/*
 						if(record.get("eduStCd") != "RQ"){
 							Rui.alert("수료 및 미수건이 있습니다.");
 							return;
@@ -288,7 +288,7 @@ var excelDataSet;
         	      	    		   ,chkDtlId : chkDtlId
         	      	    		   ,chkRecMailAddr : chkRecMailAddr
         	      	    		   ,mailTitl : mailTitl
-        	      	    		   ,eduNm : mchnInfoDataSet.getNameValue(0, "eduNm") 
+        	      	    		   ,eduNm : mchnInfoDataSet.getNameValue(0, "eduNm")
         	  	    		       ,eduCrgrNm :mchnInfoDataSet.getNameValue(0, "eduCrgrNm")
         	  	    		       ,chkRgstNm :  chkRgstNm
         	  	    		       ,menuType : document.aform.menuType.value
@@ -299,7 +299,7 @@ var excelDataSet;
             }else{
             	Rui.alert("처리할 건수가 없습니다.");
             	return;
-            } 
+            }
 		}
 
 		/* 엑셀 다운로드 */
@@ -335,8 +335,8 @@ var excelDataSet;
 		butListlBtn.on('click', function(){
 			$('#searchForm > input[name=eduNm]').val(encodeURIComponent($('#searchForm > input[name=eduNm]').val()));
 			$('#searchForm > input[name=mchnNm]').val(encodeURIComponent($('#searchForm > input[name=mchnNm]').val()));
-			
-			nwinsActSubmit(searchForm, "<c:url value="/mchn/open/eduAnl/retrieveEduAdmListList.do"/>");	
+
+			nwinsActSubmit(searchForm, "<c:url value="/mchn/open/eduAnl/retrieveEduAdmListList.do"/>");
         });
 
 
@@ -354,14 +354,14 @@ var excelDataSet;
 			<h2>교육신청관리</h2>
 		</div>
 		<div class="sub-content">
-		
+
 		<form name="searchForm" id="searchForm">
 			<input type="hidden" name="eduNm" value="${inputData.eduNm}"/>
 			<input type="hidden" name="mchnNm" value="${inputData.mchnNm}"/>
 			<input type="hidden" name="eduScnCd" value="${inputData.eduScnCd}"/>
 			<input type="hidden" name="pttYn" value="${inputData.pttYn}"/>
 	    </form>
-	    
+
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" value="IRIDE0105"/>
 				<input type="hidden" id="mchnCrgrId" name="mchnCrgrId" />
@@ -373,7 +373,7 @@ var excelDataSet;
 				<div class="LblockButton top mt10">
 					<button type="button" id="butList">목록</button>
 				</div>
-				
+
 				<table class="table table_txt_right">
 					<colgroup>
 						<col style="width: 15%" />

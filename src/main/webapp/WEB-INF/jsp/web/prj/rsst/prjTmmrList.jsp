@@ -46,11 +46,11 @@ Rui.onReady(function() {
 	/* COLUMN : defaultGrid */
 	var columnModel = new Rui.ui.grid.LColumnModel({
 	    columns: [
-	    	  { field: 'saName',         label: '연구원'     , sortable: false, align:'center', width: 80 }
-	        , { field: 'saJobxName',     label: '직급'       , sortable: false, align:'center', width: 80 }
-	        , { field: 'patcStrDt',      label: '참여시작일' , sortable: false, align:'center', width: 100 }
-	        , { field: 'patcEndDt',      label: '참여종료일' , sortable: false, align:'center', width: 100 }
-	        , { field: 'saFuncName',     label: '역할'       , sortable: false, align:'center', width: 80 }
+	    	  { field: 'saName',         label: '연구원'     , sortable: false, align:'center', width: 288 }
+	        , { field: 'saJobxName',     label: '직급'       , sortable: false, align:'center', width: 285 }
+	        , { field: 'patcStrDt',      label: '참여시작일' , sortable: false, align:'center', width: 250 }
+	        , { field: 'patcEndDt',      label: '참여종료일' , sortable: false, align:'center', width: 250 }
+	        , { field: 'saFuncName',     label: '역할'       , sortable: false, align:'center', width: 250 }
 	    ]
 	});
 
@@ -99,9 +99,9 @@ function fnSearch() {
 <body>
 <form name="tabForm05" id="tabForm05" method="post"></form>
     <Tag:saymessage /><!--  sayMessage 사용시 필요 -->
-<!--  
+<!--
      <div class="titArea">
-   	<h3>팀원정보</h3> 
+   	<h3>팀원정보</h3>
     </div>-->
     <br><%-- 버튼없는 리스트 탭간 간격용 --%>
 

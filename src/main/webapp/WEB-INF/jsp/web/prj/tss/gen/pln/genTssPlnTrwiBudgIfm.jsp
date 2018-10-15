@@ -135,7 +135,7 @@
                 , { field: '10', label: '10월', sortable: false, align:'right', width: 70 }
                 , { field: '11', label: '11월', sortable: false, align:'right', width: 70 }
                 , { field: '12', label: '12월', sortable: false, align:'right', width: 70 }
-                , { field: 'totSum', label: '합계', sortable: false, align:'right', width: 100 }
+                , { field: 'totSum', label: '합계', sortable: false, align:'right', width: 80 }
             ]
         });
 
