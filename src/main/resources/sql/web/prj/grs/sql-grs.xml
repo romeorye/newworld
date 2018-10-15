@@ -705,14 +705,34 @@
             TSS_STRT_DD AS tssStrtDd,
             TSS_FNH_DD AS tssFnhDd,
             CUST_SQLT AS custSqlt,
-            TSS_SMRY_TXT AS tssSmryTxt,
             TSS_ATTR_CD AS tssAttrCd,
             TSS_TYPE AS tssType,
-            SMR_SMRY_TXT AS smrSmryTxt,
-            SMR_GOAL_TXT AS smrGoalTxt,
-            NPROD_SALS_PLN_Y AS nprodSalsPlnY,
-            CTY_OT_PLN_M AS ctyOtPlnM
-        FROM dbo.IRIS_GRS_MGMT_MST WHERE TSS_CD = #{tssCd}
+            '1' as isEditable
+        FROM dbo.IRIS_GRS_MGMT_MST WHERE TSS_CD =  #{tssCd}
+        UNION
+        SELECT
+            TSS_CD AS tssCd,
+            WBS_CD AS wbsCd,
+            PK_WBS_CD AS pkWbsCd,
+            PGS_STEP_CD AS pgsStepCd,
+            TSS_ST AS tssSt,
+            TSS_SCN_CD AS tssScnCd,
+            GRS_YN AS grsYn,
+            TSS_NM AS tssNm,
+            PRJ_CD AS prjCd,
+            PRJ_NM AS prjNm,
+            BIZ_DPT_CD AS bizDptCd,
+            PROD_G AS prodG,
+            SA_SABUN_NEW AS saSabunCd,
+            SA_SABUN_NAME AS saSabunNm,
+            TSS_STRT_DD AS tssStrtDd,
+            TSS_FNH_DD AS tssFnhDd,
+            CUST_SQLT AS custSqlt,
+            TSS_ATTR_CD AS tssAttrCd,
+            TSS_TYPE AS tssType,
+            '0' as isEditable
+        FROM dbo.IRIS_TSS_MGMT_MST WHERE TSS_CD =  #{tssCd}
+
     </select >
 
     <!-- GRS 기본 정보 등록/수정 -->

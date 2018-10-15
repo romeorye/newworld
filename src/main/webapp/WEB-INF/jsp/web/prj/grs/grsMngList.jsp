@@ -136,7 +136,7 @@
 /*                         return ((val==1)?"<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>":"")
 							 +((record.data.isFirstGrs==1 && val==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"");*/
                          return ("<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>")
-							 +("<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>");
+                             +((record.data.isFirstGrs==1 && val==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"<input type='button' data='"+record.data.tssCd+"' value='보기' onclick='modifyTss(\""+row+"\")'/>");
                      } }
              ]
          });
@@ -181,6 +181,7 @@
                 ,{ id: 'custSqlt'}
                 ,{ id: 'tssAttrCd'}
                 ,{ id: 'tssType'}
+                ,{ id: 'isEditable'}
 
             ]
         });
@@ -966,7 +967,15 @@
            setReadonly("tssScnCd");
            setReadonly("grsYn");
            setReadonly("prjNm");
-           $(".first-child:contains('삭제')").css("display","block");
+
+           var isEditable =  infoDataSet.getNameValue(0, "isEditable");
+           if(isEditable=='1'){
+               $(".first-child:contains('삭제')").css("display","block");
+               $(".first-child:contains('저장')").css("display","block");
+           }else{
+               $(".first-child:contains('삭제')").css("display","none");
+               $(".first-child:contains('저장')").css("display","none");
+		   }
        });
 
    }
