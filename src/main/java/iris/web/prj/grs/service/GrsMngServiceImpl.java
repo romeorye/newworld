@@ -52,19 +52,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 
 	@Override
 	public List<Map<String, Object>> selectListGrsMngList(HashMap<String, Object> input) {
-
-		LOGGER.debug("=============== QAS Gate 배치 울산 > IRIS ===============");
-		List<HashMap<String,Object>> gateList = commonDaoQasU.selectList("prj.tss.com.selectGateQasIF", input);
-		for (int i=0;i<gateList.size();i++){
-			commonDao.insert("prj.tss.com.insertGateToIrisQasIF",gateList.get(i));
-		}
-
 		return commonDao.selectList("prj.grs.retrieveGrsReqList", input);
-
-
-
-
-
 	}
 
 	@Override
