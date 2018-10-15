@@ -462,7 +462,7 @@
         		<div class="visual" style="position:relative;">
 	        		<div class="main_txt">
 	        			<div>
-		        			<span>LG하우시스의 미래기술, 서울 LG Science Park에서 </span>
+		        			<span>LG하우시스의 미래기술, LG Science Park에서 </span>
 							<p>새로운 도약의 꿈을 키웁니다!</p>
 						</div>
 	        		</div>
