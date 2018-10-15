@@ -272,10 +272,10 @@
 	   			
    				<table class="table table_txt_right">
    					<colgroup>
-   						<col style="width:14%;"/>
-   						<col style="width:36%;"/>
-   						<col style="width:14%;"/>
-   						<col style="width:36%;"/>
+   						<col style="width:90px;"/>
+   						<col style="width:290px;"/>
+   						<col style="width:90px;"/>
+   						<col style=""/>
    					</colgroup>
    					<tbody>
    						<tr>

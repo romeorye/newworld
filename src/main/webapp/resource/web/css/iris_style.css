@@ -695,8 +695,25 @@ table.L-grid-header-table thead td:last-child {border-right:1px solid #bcbcbc !i
    margin:0 3px; 
     color: #4d4c4c !important;
     border-radius: 0;}
+/* Calendar */
+.L-cal-container { box-shodow:0 6px 12px rgba(0,0,0,.175); border:2px solid #828282}
+.L-calendar div.L-calheader span.year, .L-calendar div.L-calheader span.month {font-size:14px !important; margin-left:0; line-height:1.8;}
+.L-calcontainer.withtitle {padding:0;}
+.L-calendar .L-calweekdayrow {border-top:1px solid #666666;}
 
+/*.L-calendar .L-calweekdayrow th, .L-calendar .L-calweekdayrow td, .L-calendar td.L-calcell { width: 28px; height: 28px; border-top: 1px solid #ddd !important; border-left: 1px solid #ddd !important; color: #666666; font-size: 12px; font-weight: bold; line-height:28px;}
+.L-calendar .L-calweekdayrow th {height:26px; background:#f8f8f8; color:#777;border-left: 1px solid #f8f8f8 !important; }
+.L-calendar td.L-calcell a {color:#666; display:inline-block; line-height:28px; width:100%; height:28px;}
+.L-calendar td.L-calcell a:hover {background:#f8f8f8; color:#666;}*/
 
+.L-calendar .L-calweekdayrow th, .L-calendar .L-calweekdayrow td, .L-calendar td.L-calcell {width:28px;box-sizing:border-box; border-top: 1px solid #ddd !important; border-left: 1px solid #ddd !important; color: #666666; font-size: 12px; font-weight: bold;}
+.L-calendar .L-calweekdayrow th {height:26px; background:#f8f8f8; color:#777;border-left: 1px solid #f8f8f8 !important; }
+.L-calendar td.L-calcell a {color:#666; display:inline-block; width:100%; border:0; height:23px; line-height:23px; box-sizing:border-box;}
+.L-calendar td.L-calcell a:hover {background:#f8f8f8; color:#666;}
+.L-calendar .L-calnavyearleft, .L-calendar .L-calnavyearleft:hover { background: url(/iris/resource/web/images/newIris/prev_year.png) center center no-repeat; width: 12px; height: 11px;  top: 12px; left: 2px;}
+.L-calendar .L-calnavleft, .L-calendar .L-calnavleft:hover { background: url(/iris/resource/web/images/newIris/prev_month.png) center center no-repeat !important; width: 7px; height: 11px; top: 12px; left: 19px;}
+.L-calendar .L-calnavright, .L-calendar .L-calnavright:hover {background: url(/iris/resource/web/images/newIris/next_month.png) center center no-repeat !important; width: 7px; height: 11px; top: 12px; right: 19px;}
+.L-calendar .L-calnavyearright, .L-calendar .L-calnavyearright:hover {background: url(/iris/resource/web/images/newIris/next_year.png) center center no-repeat !important; width: 12px; height: 11px; top: 12px; right: 2px;}
 
 
 /* Detail */
@@ -1110,12 +1127,12 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .schedule_con .main_sec_table01 tr td:nth-child(2) {text-align:center;} 
 .schedule_con .main_sec_table01 tr td a {width:100%; display:block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .task_con.section2 {width:100%;  box-sizing:border-box; background:#fff; border-radius:16px; padding:25px 24px;}
-
-.section2 .tab_con02 ul {border-top:0; overflow:hidden;height:35px; position:relative;}
-.section2 .tab_con02 ul:after {content:""; position:absolute; left:0;right:0; width:100%; height:1px; display:block; top:34px; background:#ccc;}
-.section2 .tab_con02 ul li {height:35px; margin-bottom:-1px;  background: #eee;height: unset; color: #666;box-sizing: border-box;}
+.section2 .tab_con02 {border:0 !important; }
+.section2 .tab_con02 ul {background:url(/iris/resource/web/images/newIris/bg_tab.png) repeat-x left bottom; border:0 !important; overflow:hidden;height:35px; position:relative;}
+/*.section2 .tab_con02 ul:after {content:""; position:absolute; left:0;right:0; width:100%; height:1px; display:block; top:34px; background:#ccc;}*/
+.section2 .tab_con02 ul li {height:35px !important; margin-bottom:-1px;  background: #eee;height: unset; color: #666;box-sizing: border-box;}
 .section2 .tab_con02 ul li:last-child a {border-right:1px solid #d8d8d8;}
-.section2 .tab_con02 ul li a {border: 1px solid #d8d8d8; border-right:0; height:100%; font-size:13px; padding:0 20px; line-height:35px; display:block; box-sizing: border-box;}
+.section2 .tab_con02 ul li a {border: 1px solid #d8d8d8;color:#333; border-right:0; height:100%; font-size:13px; padding:0 20px; line-height:35px; display:block; box-sizing: border-box;}
 .section2 .tab_con02 ul li a.on {margin-top:0; border-bottom:1px solid #fff; background:#fff; border-top:1px solid #d8d8d8 !important;}
 
 .task_con.section2 {padding-bottom:28px !important;}
