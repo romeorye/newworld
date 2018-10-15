@@ -31,6 +31,8 @@
 <style>
  .bgcolor-gray {background-color: #999999}
  .bgcolor-white {background-color: #FFFFFF}
+.search-toggleBtn {display:none;}
+
 </style>
 
 	<script type="text/javascript">

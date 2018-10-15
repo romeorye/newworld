@@ -110,6 +110,7 @@
 .notice_con, .notice_con .swiper-container {width:100%; height:205px;height:205px;}
 .fir_subject_con .reservation_con {height:150px;}
 .fir_subject_con .reservation_con .reser_txt  {width:92%;} 
+.fir_subject_con .reservation_con ul li {height:auto !important;}
 
 .fir_subject_con .notice_con .album-wrap {width:100% !important;}
 .ts_main .main_footer_w {position:fixed;}
