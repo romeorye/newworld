@@ -198,9 +198,9 @@ var lvAttcFilId;
                     { field: 'prcpMnlScnNm', label: '구분',		  sortable: false,	align:'center',	width: 130 }
                   , { field: 'titlNm',		 label: '제목',       sortable: false,	align:'left',	width: 670 }
                   , { field: 'enfcDt',       label: '시행일',	  sortable: false,	align:'center',	width: 120 }
-                  , { field: 'rgstNm',		 label: '등록자',	  sortable: false,	align:'center',	width: 120 }
+                  , { field: 'rgstNm',		 label: '등록자',	  sortable: false,	align:'center',	width: 125 }
                   , { field: 'frstRgstDt',	 label: '등록일',	  sortable: false,	align:'center',	width: 120 }
-			      , { field: 'rtrvCnt',		 label: '조회',		  sortable: false, 	align:'center',	width: 69  }
+			      , { field: 'rtrvCnt',		 label: '조회',		  sortable: false, 	align:'center',	width: 80  }
 		  	      , { id: 'attachDownBtn',   label: '첨부',                                         width: 80
 		  	    	  ,renderer: function(val, p, record, row, i){
 		  	    		  var recordFilId = nullToString(record.data.attcFilId);

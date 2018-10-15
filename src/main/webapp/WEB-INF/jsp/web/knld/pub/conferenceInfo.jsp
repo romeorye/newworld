@@ -269,6 +269,9 @@
     	}
 
 	</script>
+	<style>
+	.search-toggleBtn {display : none}
+	</style>
     </head>
 
     <body>
@@ -279,18 +282,18 @@
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="conferenceId" name="conferenceId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
-   		<div class="contents">   			
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 			        <span class="hidden">Toggle 버튼</span>
-				</a>  
+				</a>
  				<h2>학회/컨퍼런스</h2>
  			</div>
- 			
+
 	 		<div class="sub-content">
 				<div class="titArea btn_top">
-				    <div class="LblockButton">  
+				    <div class="LblockButton">
 						<button type="button" id="saveBtn"   name="saveBtn"  >수정</button>
 						<button type="button" id="delBtn"    name="delBtn"   >삭제</button>
 						<button type="button" id="butGoList" name="butGoList">목록</button>

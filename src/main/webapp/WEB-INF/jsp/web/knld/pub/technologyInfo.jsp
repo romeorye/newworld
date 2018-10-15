@@ -270,6 +270,9 @@
     	}
 
 	</script>
+	<style>
+	.search-toggleBtn {display : none}
+	</style>
     </head>
 
     <body>
@@ -285,12 +288,12 @@
    				<a class="leftCon" href="#">
 		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		        	<span class="hidden">Toggle 버튼</span>
-	        	</a>    
+	        	</a>
  				<h2>시장기술정보</h2>
  			</div>
 	 		<div class="sub-content">
 				<div class="titArea btn_top">
-					<div class="LblockButton">	   
+					<div class="LblockButton">
 						<button type="button" id="saveBtn"   name="saveBtn">수정</button>
 						<button type="button" id="delBtn"    name="delBtn">삭제</button>
 						<button type="button" id="butGoList" name="butGoList">목록</button>

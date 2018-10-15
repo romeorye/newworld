@@ -197,13 +197,13 @@ var lvAttcFilId;
           var columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'titlNm',		  label: '학회/컨퍼런스명',  sortable: false,	align:'left',	width: 620 }
-                  , { field: 'cfrnLocScnNm',  label: '장소',		     sortable: false,	align:'center',	width: 68 }
+                  , { field: 'cfrnLocScnNm',  label: '장소',		     sortable: false,	align:'center',	width: 65 }
                   , { field: 'cfrnStrtDt',    label: '시작일',	         sortable: false,	align:'center',	width: 120 }
                   , { field: 'cfrnFnhDt',     label: '종료일',	         sortable: false,	align:'center',	width: 120 }
                   , { field: 'rgstNm',		  label: '등록자',		     sortable: false,	align:'center',	width: 120 }
                   , { field: 'frstRgstDt',	  label: '등록일',		     sortable: false,	align:'center',	width: 120 }
-			      , { field: 'rtrvCnt',		  label: '조회',		     sortable: false, 	align:'center',	width: 63  }
-		  	      , { id: 'attachDownBtn',    label: '첨부',                                                width: 78
+			      , { field: 'rtrvCnt',		  label: '조회',		     sortable: false, 	align:'center',	width: 70  }
+		  	      , { id: 'attachDownBtn',    label: '첨부',                                                width: 90
 		  	    	  ,renderer: function(val, p, record, row, i){
 		  	    		  var recordFilId = nullToString(record.data.attcFilId);
 		  	    		  var strBtnFun = "openAttachFileDialog(setAttachFileInfo, "+recordFilId+", 'knldPolicy', '*' ,'R')";

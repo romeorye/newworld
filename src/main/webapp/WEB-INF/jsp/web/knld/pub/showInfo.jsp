@@ -267,6 +267,9 @@
     	}
 
 	</script>
+	<style>
+	.search-toggleBtn {display : none}
+	</style>
     </head>
 
     <body>
@@ -282,10 +285,10 @@
    				<a class="leftCon" href="#">
 			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 			        <span class="hidden">Toggle 버튼</span>
-				</a>  
+				</a>
  				<h2>전시회</h2>
  			</div>
-	 			
+
 	 		<div class="sub-content">
 				<div class="titArea btn_top">
     				<div class="LblockButton">

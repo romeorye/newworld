@@ -101,12 +101,12 @@
             var knldRtrvRqColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                       { field: 'rtrvRqDocNm',	label: '문서종류',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'rqDocNm',		label: '요청문서명',	sortable: false,	align:'left',	width: 250 }
-                    , { field: 'pgmPath',		label: '문서경로',		sortable: false,	align:'left',	width: 250 }
-                    , { field: 'rqDt',			label: '요청일',		sortable: false,	align:'center',	width: 80 }
-					, { field: 'rqNm',			label: '요청자',		sortable: false, 	align:'center',	width: 80 }
-					, { field: 'rqApprStNm',	label: '상태',		sortable: false, 	align:'center',	width: 80 }
-					, { field: 'apprDt',		label: '승인일',		sortable: false, 	align:'center',	width: 80 }
+                    , { field: 'rqDocNm',		label: '요청문서명',	sortable: false,	align:'left',	width: 550 }
+                    , { field: 'pgmPath',		label: '문서경로',		sortable: false,	align:'left',	width: 315 }
+                    , { field: 'rqDt',			label: '요청일',		sortable: false,	align:'center',	width: 100 }
+					, { field: 'rqNm',			label: '요청자',		sortable: false, 	align:'center',	width: 100 }
+					, { field: 'rqApprStNm',	label: '상태',		sortable: false, 	align:'center',	width: 90 }
+					, { field: 'apprDt',		label: '승인일',		sortable: false, 	align:'center',	width: 90 }
 					, { field: 'docUrl',		hidden:true}
                 ]
             });

@@ -113,7 +113,7 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
                     { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 905 }
                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 100 }
                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 100 }
-			      , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 60  }
+			      , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 80  }
               ]
           });
 
