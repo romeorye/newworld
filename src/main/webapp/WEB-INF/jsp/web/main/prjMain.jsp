@@ -704,7 +704,7 @@
         </div>
 
 <style>
-
+/*분석메인, 프로젝트메인 공통 */
 .btn_menu:hover #tmpMenu {display:block !important; overflow: hidden;}
 .btn_menu #tmpMenu
 {display:none !important;position: absolute;z-index: 9999; text-align:left; position: absolute; z-index:999;width:1050px; background:#fff; top:38px; border:1px solid #ccc;
