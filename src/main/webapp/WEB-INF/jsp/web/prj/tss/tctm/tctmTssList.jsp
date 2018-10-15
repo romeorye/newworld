@@ -308,7 +308,7 @@
             columnModel: columnModel,
             dataSet: dataSet,
             width: 1210,
-            height: 400,
+            height: 420,
             autoWidth: true
 
         });

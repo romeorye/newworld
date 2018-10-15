@@ -120,7 +120,7 @@
             	 new Rui.ui.grid.LSelectionColumn(),
                      { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
                      { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70, vMerge: true },
-				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , vMerge: false , renderer: function(val, p, record, row, i){
+				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , vMerge: true , renderer: function(val, p, record, row, i){
                          return "<a href='javascript:modifyTss("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
                      } },
                      { field: 'prjNm',   label: '프로젝트명',  align:'center',  width: 100 },
