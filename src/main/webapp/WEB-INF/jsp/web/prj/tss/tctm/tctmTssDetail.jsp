@@ -190,7 +190,8 @@
                 btnCsusRq2	.hide();//내부품의서요청
 
                 if(isOwner()){
-                    if(pgsStepCd=="PL" && gvTssSt=="100"){
+                  
+                	if(pgsStepCd=="PL" && gvTssSt=="100"){
                         //계획 진행중
                         btnDelRq.show();	// 삭제
                     }
@@ -199,13 +200,13 @@
                         //진행중
                         btnGrsRq.show();	//GRS  요청
                     }
-
-					
                     
                     console.log(pgsStepCd,grsYn, gvTssSt);
+                    
                     if(
 						(pgsStepCd=="PL" && grsYn=="N" && gvTssSt=="100")			//GRS N(계획) 인경우 바로 품의서 요청
 						|| (pgsStepCd=="PL" && grsYn=="Y" && gvTssSt=="302" )	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
+						|| (pgsStepCd=="PL" && gvTssSt=="102" )	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
 						|| (pgsStepCd=="PG" && gvTssSt=="302")							//진행인 경우 GRS 평가완료
 					){
                         btnCsusRq.show();	// 품의서요청
@@ -1296,7 +1297,7 @@
 						</colgroup>
 						<tbody>
 						<tr>
-							<th align="right" onclick="setTestCode()"">개발부서</th>
+							<th align="right">개발부서</th>
 							<td><input type="text" id="prjNm"/></td>
 							<th align="right">사업부</th>
 							<td>
@@ -1676,30 +1677,5 @@
         grsYn.setValue('N');	// P1 수행하지 않음(기본값)
 	}
 
-
-    function setTestCode(){
-        // wbsCd.setValue("R18RH0");
-        tssNm.setValue("기술팀과제 테스트01");
-        // prjNm.setValue("표면소재.연구PJT");
-        // $("#prjCd").val("PRJ00003");
-        // $("#deptCode").val("58163580");
-        // deptName.setValue("표면소재 사업부");
-        bizDptCd.setSelectedIndex(1);
-        prodG.setSelectedIndex(1);
-        // $("#saSabunNew").val("FB0399");
-        // saSabunName.setValue("조윤혜");
-        tssStrtDd.setValue("2018-08-25");
-        tssFnhDd.setValue("2018-08-25");
-        custSqlt.setSelectedIndex(1);
-        tssSmryTxt.setValue("컨셉");
-        ppslMbdCd.setSelectedIndex(1);
-        rsstSphe.setSelectedIndex(1);
-        tssAttrCd.setSelectedIndex(1);
-        tssType.setSelectedIndex(1);
-        document.getElementById('tabContent0').contentWindow.smrSmryTxt.setValue("서머리개요");
-        document.getElementById('tabContent0').contentWindow.smrGoalTxt.setValue("서머리목표");
-        document.getElementById('tabContent0').contentWindow.ctyOtPlnM.setValue("2018-09");
-        document.getElementById('tabContent0').contentWindow.nprodSalsPlnY.setValue("5.22");
-    }
 </script>
 </html>
