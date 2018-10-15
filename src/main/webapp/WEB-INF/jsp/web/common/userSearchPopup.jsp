@@ -74,6 +74,7 @@
                  emptyValue: '',
                  width : 180
             });
+            userNm.focus();
             
             userNm.on('blur', function(e) {
             	userNm.setValue(userNm.getValue().trim());
