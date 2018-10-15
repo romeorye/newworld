@@ -104,7 +104,7 @@
             	groupMerge: true,
                 columns: [
                 	  { field: 'bizBptNm',        	label: '사업부문<BR>(Funding기준)',	sortable: false,  align:'center', width: 110 }
-                	, { field: 'deptName',        	label: '조직',                		sortable: false,  align:'center', width: 114 }
+                	, { field: 'deptName',        	label: '조직',                		sortable: false,  align:'center', width: 120 }
                 	, { field: 'prjNm',        		label: '프로젝트명',                	sortable: false,  align:'center', width: 210 }
                 	, { field: 'cnttTypeNm',        label: '계약 유형',               	sortable: false,  align:'center', width: 70 }
                 	, { field: 'tssNm',        		label: '과제명',               		sortable: false,  align:'left', width: 200 }
@@ -122,9 +122,9 @@
                     		return value + '개월';
                     	}
                 	  }
-                	, { field: 'wbsCd',        		label: 'WBS 코드',                	sortable: false,  align:'center', width: 60 }
-                	, { field: 'rsstExpMil',        label: '연구<BR>(억원)',            sortable: false,  align:'right', width: 40 }
-                	, { field: 'saName',        	label: '당사<BR>연구 책임자',       sortable: false,  align:'center', width: 80 }
+                	, { field: 'wbsCd',        		label: 'WBS 코드',                	sortable: false,  align:'center', width: 70 }
+                	, { field: 'rsstExpMil',        label: '연구<BR>(억원)',            sortable: false,  align:'right', width: 60 }
+                	, { field: 'saName',        	label: '당사<BR>연구 책임자',       sortable: false,  align:'center', width: 95 }
                 ]
             });
 

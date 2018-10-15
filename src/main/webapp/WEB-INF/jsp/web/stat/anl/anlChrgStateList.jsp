@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="java.text.*,
 				 java.util.*,
 				 devonframe.util.NullUtil,
@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -37,7 +37,7 @@
 </style>
 
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
@@ -54,21 +54,21 @@
 					fromAcpcDt.setValue(toAcpcDt.getValue());
 				}
 			});
-            
+
             var toAcpcDt = new Rui.ui.form.LMonthBox({
      			applyTo: 'toAcpcDt',
      			defaultValue: '<c:out value="${inputData.toAcpcDt}"/>',
      			width: 100,
      			dateType: 'string'
      		});
-      
+
             toAcpcDt.on('blur', function(){
 				if( fromAcpcDt.getValue() > toAcpcDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromAcpcDt.setValue(toAcpcDt.getValue());
 				}
 			});
-            
+
              /*
             var fromAcpcDt = new Rui.ui.form.LDateBox({
 				applyTo: 'fromAcpcDt',
@@ -85,7 +85,7 @@
 					alert('날자형식이 올바르지 않습니다.!!');
 					fromAcpcDt.setValue(new Date());
 				}
-				
+
 				if( fromAcpcDt.getValue() > toAcpcDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromAcpcDt.setValue(toAcpcDt.getValue());
@@ -101,13 +101,13 @@
 				width: 70,
 				dateType: 'string'
 			});
-			 
+
 			toAcpcDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toAcpcDt.getValue(),"-","")) ) )  {
 					alert('날자형식이 올바르지 않습니다.!!');
 					toAcpcDt.setValue(new Date());
 				}
-				
+
 				if( fromAcpcDt.getValue() > toAcpcDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromAcpcDt.setValue(toAcpcDt.getValue());
@@ -125,7 +125,7 @@
                 displayField: 'name',
                 valueField: 'userId'
             });
-			
+
             /*******************
              * 변수 및 객체 선언
             *******************/
@@ -150,15 +150,15 @@
 
             var anlChrgStateColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                      { field: 'anlChrgNm',			label: '담당자',			sortable: false,	align:'center',	width: 210 }
+                      { field: 'anlChrgNm',			label: '담당자',			sortable: false,	align:'center',	width: 213 }
                     , { field: 'IncompleteCnt',		label: '이월 건',			sortable: false,	align:'center',	width: 120 }
                     , { field: 'tatalCnt',			label: '분석접수',			sortable: false,	align:'center',	width: 120 }
 					, { field: 'stopCnt',			label: '분석중단',			sortable: false, 	align:'center',	width: 120 }
                     , { field: 'completeCnt',		label: '분석완료',			sortable: false,	align:'center',	width: 120 }
-                    , { field: 'completeRate',		label: '완료율(%)',			sortable: false,	align:'center',	width: 120}
+                    , { field: 'completeRate',		label: '완료율(%)',			sortable: false,	align:'center',	width: 130}
 					, { field: 'exprCompleteCnt',	label: '실험완료',			sortable: false, 	align:'center',	width: 120 }
-					, { field: 'avgCmplWkDdDate',	label: '평균 완료기간(일)',	sortable: false, 	align:'center',	width: 185 }
-                    , { field: 'avgCmplWkDdRate',	label: '결과통보 준수율(%)',	sortable: false, 	align:'center',	width: 185}
+					, { field: 'avgCmplWkDdDate',	label: '평균 완료기간(일)',	sortable: false, 	align:'center',	width: 190 }
+                    , { field: 'avgCmplWkDdRate',	label: '결과통보 준수율(%)',	sortable: false, 	align:'center',	width: 190}
                 ]
             });
 
@@ -170,39 +170,39 @@
                 autoToEdit: false,
                 autoWidth: true
             });
-            
+
             anlChrgStateGrid.render('anlChrgStateGrid');
-            
+
             /* 조회 */
             getAnlChrgStateList = function() {
             	anlChrgStateDataSet.load({
                     url: '<c:url value="/stat/anl/getAnlChrgStateList.do"/>',
                     params :{
             		    anlChrgId : anlChrgId.getValue(),
-            		    fromAcpcDt : fromAcpcDt.getValue(), 
+            		    fromAcpcDt : fromAcpcDt.getValue(),
             		    toAcpcDt : toAcpcDt.getValue()
                     }
                 });
             };
-            
+
             anlChrgStateDataSet.on('load', function(e) {
    	    		$("#cnt_text").html('총 ' + anlChrgStateDataSet.getCount() + '건');
    	      	});
-            
+
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlChrgStateListExcel = function() {
                 anlChrgStateGrid.saveExcel(encodeURIComponent('담당자 분석 통계_') + new Date().format('%Y%m%d') + '.xls');
             };
-            
+
             getAnlChrgStateList();
-			
+
         });
 
 	</script>
     </head>
     <body>
 	<form name="aform" id="aform" method="post">
-		
+
    		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
@@ -211,7 +211,7 @@
    				</a>
    				<h2>담당자 분석통계</h2>
    			</div>
-   			
+
 	   		<div class="sub-content">
 	   			<div class="search">
 			   		<div class="search-content">
@@ -242,7 +242,7 @@
 		   				</table>
 	   				</div>
    				</div>
-   				
+
    				<div class="titArea">
    					<span class="Ltotal" id="cnt_text">총  0건 </span>
    					<div class="LblockButton">
@@ -251,7 +251,7 @@
    				</div>
 
    				<div id="anlChrgStateGrid"></div>
-   				
+
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>

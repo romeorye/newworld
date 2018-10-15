@@ -63,8 +63,8 @@
 	            { field: 'smpoQty', 	label: '시료수',		align: 'center', width: 55},
 	            { field: 'prctFromDt', 	label: '시작일',   		align: 'center', width: 120},
 	            { field: 'prctToDt', 	label: '종료일',   		align: 'center', width: 120},
-	            { field: 'useTim', 		label: '사용시간',   	align: 'center', width: 70},
-	            { field: 'mchnUfe', 	label: '기기이용료' , 	align: 'center', width: 80,
+	            { field: 'useTim', 		label: '사용시간',   	align: 'center', width: 80},
+	            { field: 'mchnUfe', 	label: '기기이용료' , 	align: 'center', width: 95,
 	               	 renderer: function(value, p, record){
 	               		if(Rui.isEmpty(value)){
 	               			value=0;

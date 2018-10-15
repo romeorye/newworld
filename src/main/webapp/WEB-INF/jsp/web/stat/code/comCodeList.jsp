@@ -90,9 +90,9 @@ var codeRegDialog;
              columns: [
          	 	new Rui.ui.grid.LSelectionColumn(),
  					   { field: 'comCdCd' 		, label: '코드구분',  	align:'center', width: 180}
-                     , { field: 'comCdNm'   	, label: '코드명', 		align:'left', 	width: 180}
-                     , { field: 'comOrd'    	, label: '순서', 		editor: new Rui.ui.form.LNumberBox(), 	align:'center', width: 40}
-                     , { field: 'comDtlCd'  	, label: '코드',  		editor: new Rui.ui.form.LTextBox(),  align:'center', width: 80 , renderer: function(value, p, record){
+                     , { field: 'comCdNm'   	, label: '코드명', 		align:'left', 	width: 220}
+                     , { field: 'comOrd'    	, label: '순서', 		editor: new Rui.ui.form.LNumberBox(), 	align:'center', width: 80}
+                     , { field: 'comDtlCd'  	, label: '코드',  		editor: new Rui.ui.form.LTextBox(),  align:'center', width: 100 , renderer: function(value, p, record){
 	     	        		if(Rui.isEmpty(record.get("comId"))  ){	//추가일 경우  수정가능
 	     	        			 p.editable = true;
 	     	        		}else{
@@ -101,12 +101,12 @@ var codeRegDialog;
 	     	        		return value
 	    	        	  }
 	    	          }
-                     , { field: 'comDtlNm'      , label: '코드값',  	editor: new Rui.ui.form.LTextBox(), 	align:'left', 	width:180}
+                     , { field: 'comDtlNm'      , label: '코드값',  	editor: new Rui.ui.form.LTextBox(), 	align:'left', 	width:215}
                      , { field: 'delYn' 	 	, label: '삭제여부',  	editor: delYnCombo, 	align:'center'}
-                     , { field: 'frstRgstDt'   	, label: '등록일',  	align:'center', width: 90}
-                     , { field: 'frstRgstId'    , label: '등록자',  	align:'center', width: 80}
-                     , { field: 'lastMdfyDt' 	, label: '수정일', 		align:'center', width: 90}
-                     , { field: 'lastMdfyId' 	, label: '수정자',  	align:'center', width: 80}
+                     , { field: 'frstRgstDt'   	, label: '등록일',  	align:'center', width: 100}
+                     , { field: 'frstRgstId'    , label: '등록자',  	align:'center', width: 100}
+                     , { field: 'lastMdfyDt' 	, label: '수정일', 		align:'center', width: 100}
+                     , { field: 'lastMdfyId' 	, label: '수정자',  	align:'center', width: 100}
                      , { field: 'comId' 	, hidden:true}
                      , { field: 'comCdExpl' 	, hidden:true}
                      , { field: '_userId' 	, hidden:true}
