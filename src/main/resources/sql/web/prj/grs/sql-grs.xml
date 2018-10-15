@@ -1074,9 +1074,9 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             ,
             A.TSS_NM         AS tssNm      --과제명
             ,
-            A.SA_SABUN_NAME  AS saSabunName   -- 과제책임자
+            ISNULL(A.SA_SABUN_NAME,'')  AS saSabunName   -- 과제책임자
             ,
-            A.TSS_TYPE       AS tssType    -- 개발유형
+            ISNULL(A.TSS_TYPE,'')       AS tssType    -- 개발유형
             ,
             B.EV_TITL        AS evTitl     --일시, 장소
 		    , 
