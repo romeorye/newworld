@@ -124,6 +124,7 @@ var mchnPrctId;
 </head>
 <style type="text/css">
 .search-toggleBtn {display:none;}
+.sch_reserv_present .tbl01 {border:1px solid #efefef;}
 </style>
 <body>
 <form  id="aform" name="aform" method="post">
