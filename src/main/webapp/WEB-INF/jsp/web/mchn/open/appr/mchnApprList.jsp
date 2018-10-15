@@ -176,7 +176,7 @@
 
         	if(dataSet.getCount() > 0 ) {
 	            var excelColumnModel = columnModel.createExcelColumnModel(false);
-	            grid.saveExcel(encodeURIComponent('보유기기관리_') + new Date().format('%Y%m%d') + '.xls', {
+	            grid.saveExcel(encodeURIComponent('분석기기 예약관리_') + new Date().format('%Y%m%d') + '.xls', {
 	                columnModel: excelColumnModel
 	            });
         	}else{
