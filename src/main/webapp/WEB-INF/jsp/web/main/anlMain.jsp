@@ -85,8 +85,8 @@
 <style>
 .ts_main .side_bar_con {width:215px !important;}
 .ts_main .body_con {
-    margin-left: 280px !important;
-    margin-right: 225px;
+    margin-left: 278px !important;
+    margin-right: 226px;
 }
 .ts_main .body_con > div {width:100%; border-radius: 16px; background: #fff; position: relative; margin-top:0; margin-bottom: 18px; box-sizing:border-box; padding:27px 30px;}
 .ts_main .body_con > div > div {width:47.5% !important;}
@@ -102,8 +102,8 @@
 .edu_con ul li .contxt {width:auto !important; padding-left:45px; font-size:12.5px;}
 .edu_con ul li .day { font-size:12px;}
 .analysis_con.edu_con ul li .list_txt {display:table-cell; width:100%;}
-.analysis_con.edu_con .speech { width:17%; position:relative; }
-.analysis_con.edu_con ul li .contxt {display:table-cell; padding-left:0; width:58% !important;}
+.analysis_con.edu_con .speech { width:21%; position:relative; }
+.analysis_con.edu_con ul li .contxt {display:table-cell; padding-left:0; width:54% !important;}
 .analysis_con.edu_con .day {display:table-cell; font-size:12px;width:85px; text-align:right; width:18%; padding-left:0;}
 
 
