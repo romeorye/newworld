@@ -971,6 +971,8 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .docu_con .analyze_field .analyze_s_txt span {font-size:12.5px; padding-left:90px; display:block; line-height:1.9;}
 .docu_con h4 {font-size:14px; font-weight:bold; line-height:2; color:#da1c5a; }
 
+.tain_formsize {width:100% !important;}
+.tain_formsize input, .tain_formsize textarea  {width:99% !important;}
 #rlab_ta, #rlab_ta td {border:0 !important; padding:0 !important;}
 .rlabrqpr_tain01 div, #rlabrqpr_tain01 div textarea {width:100%  !important;}
 .rlabrqpr_tain02 #rlabRqprInfmView {float:left; margin-right:4px;}
