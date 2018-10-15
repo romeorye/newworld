@@ -336,7 +336,7 @@
 		from  IRIS_TSS_PTC_RSST_MBR
 		where  tss_cd = #{tssCd}
 		and    PTC_ROLE = '01'
-		and    PTC_FNH_DT >= convert(nvarchar(10), getdate())
+		and    (PTC_FNH_DT >= convert(nvarchar(10), getdate()) or PTC_FNH_DT is null or PTC_FNH_DT = '')
    	 </select>
 
 	<!-- 변경시 과제리더 업데이트 처리   -->
