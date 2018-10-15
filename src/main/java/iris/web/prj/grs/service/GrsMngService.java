@@ -32,15 +32,4 @@ public interface GrsMngService {
 	void updateApprGuid(HashMap<String, Object> input);
 
     String getGuid(HashMap<String, Object> input);
-
-    //QAS I/F
-
-	// QAS 과제등록
-	void insertToQasTssQasIF(HashMap<String, Object> input);
-	// QAS gate 정보 조회
-	List<Map<String, Object>> selectGateQasIF(HashMap<String, Object> input);
-	// QAS gate 정보 IRIS 등록
-	void insertGateToIrisQasIF(HashMap<String, Object> input);
-
-
 }

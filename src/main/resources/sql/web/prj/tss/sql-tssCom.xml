@@ -1252,11 +1252,12 @@
 		/*selectTssInfoQasIF 과제정보 조회 QAS 산출물 연결을 위한*/
 	<![CDATA[
 		SELECT TOP 1
-		  TSS_CD,
-		  WBS_CD,
-		  TSS_SCN_CD
+		  TSS_CD as tssCd,
+		  WBS_CD as wbsCd,
+		  TSS_SCN_CD as tssScnCd
 		FROM IRIS_TSS_MGMT_MST
-		WHERE WBS_CD = #{wbsCd}
+		WHERE WBS_CD = #{WBSCD}
+		AND PGS_STEP_CD='PG'
 		ORDER BY TSS_CD DESC
 	]]>
 	</select>

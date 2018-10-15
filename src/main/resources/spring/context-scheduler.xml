@@ -60,6 +60,9 @@
    <!-- IRIS_NEW_PRDT_SAL_STAT 배치-->
    <bean id="genTssStatBatch" class="iris.web.genTssStatBatch.GenTssStatBatch" />
 
+   <!-- QAS배치-->
+   <bean id="qasBatch" class="iris.web.qasBatch.QasBatch" />
+
 
 <!--******************************************************** job********************************************************* -->
     <!--과제 비용예산 -->
@@ -186,6 +189,14 @@
 		<property name="targetMethod"><value>batchProcess</value></property>
 		<property name="concurrent"><value>false</value></property>
    	  </bean>
+
+    <!--QAS 배치-->
+    <bean id="qasBatchJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject"><ref bean="qasBatch" /></property>
+        <property name="targetMethod"><value>batchProcess</value></property>
+        <property name="concurrent"><value>false</value></property>
+    </bean>
+
 
 
 
@@ -326,6 +337,15 @@
 	</bean>
 
 
+	<!-- IRIS_NEW_PRDT_SAL_STAT 배치 -->
+	<bean id="QasTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="qasBatchJob"/>
+        <!-- <property name="cronExpression" value="0 0 3 * * ?"/> -->  <!-- 매일 새벽 3시    -->
+        <!-- 		<property name="cronExpression" value="0 0/5 * * * ?"/>  5분마다 실행    -->
+        <property name="cronExpression" value="0 0/1 * * * ?"/> <!--1분마다-->
+	</bean>
+
+
 
 
 
@@ -335,6 +355,7 @@
 		<property name="triggers">
 			<list>
 			<ref bean="genTssStatBatchTrigger"/>
+			<ref bean="QasTrigger"/>
 
 <!--
 			<ref bean="tssStCopyBatchTrigger"/>

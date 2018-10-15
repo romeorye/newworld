@@ -1,21 +1,19 @@
 package iris.web.tssbatch.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
 import devonframe.dataaccess.CommonDao;
 import iris.web.prj.tss.gen.service.GenTssAltrService;
 import iris.web.prj.tss.gen.service.GenTssCmplService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.nat.service.NatTssAltrService;
 import iris.web.prj.tss.ousdcoo.service.OusdCooTssAltrService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*********************************************************************************
  * NAME : TssCopyBatchServiceImpl.java
@@ -49,8 +47,19 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	@Resource(name = "natTssAltrService")
 	private NatTssAltrService natTssAltrService;
 
+
 	@Resource(name = "commonDaoPims")
 	private CommonDao commonDaoPims;    // 지적재산권 조회 Dao
+
+	/* 울산 DB Connection */
+	@Resource(name="commonDaoQasU")
+	private CommonDao commonDaoQasU;
+
+	/* 청주 DB Connection */
+	@Resource(name="commonDaoQasC")
+	private CommonDao commonDaoQasC;
+
+
 
 	@Resource(name = "ousdCooTssAltrService")
 	private OusdCooTssAltrService ousdCooTssAltrService;
@@ -88,12 +97,15 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 
 				if ("G".equals(input.get("tssScnCd"))) { //일반과제
 					this.insertGenData(input);
+					this.insertToQasTssQasIF(input); //QAS 과제등록
+
 				} else if ("O".equals(input.get("tssScnCd"))) {//대외협력과제
 					this.insertOusdData(input);
 				} else if ("N".equals(input.get("tssScnCd"))) {//국책과제
 					this.insertNatData(input);
 				} else if ("D".equals(input.get("tssScnCd"))) {//기술팀과제
 					this.insertTctmData(input);
+					this.insertToQasTssQasIF(input); //QAS 과제등록
 				}
 			}
 		} else if ("AL".equals(input.get("pgsStepCd"))) {
@@ -703,6 +715,12 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				commonDaoPims.insert("batch.insertTssPimsInfo", map);
 			}
 		}
+	}
+
+	// QAS 과제 등록
+	public void insertToQasTssQasIF(Map<String, Object> input) {
+		commonDaoQasU.insert("prj.tss.com.insertToQasTssQasIF",input);	//울산
+//		commonDaoQasC.insert("prj.tss.com.insertToQasTssQasIF",input);	//청주
 	}
 }
 

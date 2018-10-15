@@ -13,5 +13,4 @@ public interface TssStCopyService {
 	void deleteGenTssPlnMstTssSt(HashMap<String, Object> input);
 
 	public String createWbsCd(Map<String, Object> input);
-
 }

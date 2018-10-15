@@ -396,21 +396,4 @@ public class GrsMngServiceImpl implements GrsMngService {
 		return commonDao.select("prj.grs.getGuid", input);
 	}
 
-
-
-	@Override
-	public void insertToQasTssQasIF(HashMap<String, Object> input) {
-		commonDaoQasU.insert("prj.tss.com.insertToQasTssQasIF",input);
-	}
-
-	@Override
-	public List<Map<String, Object>> selectGateQasIF(HashMap<String, Object> input) {
-		return commonDaoQasU.selectList("prj.tss.com.selectGateQasIF",input);
-	}
-
-	@Override
-	public void insertGateToIrisQasIF(HashMap<String, Object> input) {
-		commonDaoQasU.insert("prj.tss.com.insertGateToIrisQasIF",input);
-	}
-
 }
