@@ -70,6 +70,9 @@ public class TctmUrl {
 
 	public static final String doCsusView = doHome + "/tctmTssCsusRq.do"; 					//품의서 요청 화면
 	public static final String jspCsusView = jspHome + "/tctmTssCsusRq";                        // 품의서 요청 jsp
+	
+	public static final String doTctmSrch = doHome + "/tctmTssItgSrch.do"; 					//통합검색 조회 화면
+	public static final String doTctmTssItgSrchView = jspHome + "/tctmTssItgSrch";          // 통합검색 조회 jsp
 }
 
 

@@ -1,5 +1,26 @@
 package iris.web.prj.tss.tctm.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
@@ -16,25 +37,6 @@ import iris.web.prj.tss.tctm.TctmUrl;
 import iris.web.prj.tss.tctm.service.TctmTssService;
 import iris.web.system.attach.service.AttachFileService;
 import iris.web.system.base.IrisBaseController;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class TctmTssController extends IrisBaseController {
@@ -1098,5 +1100,60 @@ public class TctmTssController extends IrisBaseController {
         }
 
         return rtVal;
+    }
+    
+
+    /**
+     * 통합검색
+     *
+     * @param input HashMap<String, String>
+     * @param request HttpServletRequest
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return String
+     * @throws JSONException
+     * */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @RequestMapping(TctmUrl.doTctmSrch)
+    public String tctmTssItgSrch(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+            HttpSession session, ModelMap model) throws JSONException {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("tctmTssItgSrch [ 통합검색 ]");
+        LOGGER.debug("###########################################################");
+
+        checkSession(input, session, model);
+
+        if(pageMoveChkSession(input.get("_userId"))) {
+            Map<String, Object> resultMst  = genTssPlnService.retrieveGenTssPlnMst(input);  //마스터
+            Map<String, Object> resultSmry = tctmTssService.selectTctmTssInfoSmry(input); //개요
+
+            resultMst  = StringUtil.toUtf8Output((HashMap) resultMst);
+            resultSmry = StringUtil.toUtf8Output((HashMap) resultSmry);
+
+            HashMap<String, Object> inputInfo = new HashMap<String, Object>();
+            String pgsStepCd = String.valueOf(resultMst.get("pgsStepCd"));
+            String attcFilId = "";
+            if("AL".equals(pgsStepCd)) attcFilId = String.valueOf(resultSmry.get("altrAttcFilId"));
+            else if("CM".equals(pgsStepCd)) attcFilId = String.valueOf(resultSmry.get("cmplAttcFilId"));
+            else if("DC".equals(pgsStepCd)) attcFilId = String.valueOf(resultSmry.get("dcacAttcFilId"));
+            else attcFilId = String.valueOf(resultSmry.get("attcFilId"));
+
+            inputInfo.put("attcFilId", attcFilId);
+            List<Map<String, Object>> resultAttc = attachFileService.getAttachFileList(inputInfo);
+
+            model.addAttribute("inputData", input);
+            model.addAttribute("resultMst", resultMst);
+            model.addAttribute("resultSmry", resultSmry);
+            model.addAttribute("resultAttc", resultAttc);
+
+            //text컬럼을 위한 json변환
+            JSONObject obj = new JSONObject();
+            obj.put("smry", resultSmry);
+
+            request.setAttribute("resultJson", obj);
+        }
+
+        return "web/prj/tss/nat/natTssItgSrch";
     }
 }
