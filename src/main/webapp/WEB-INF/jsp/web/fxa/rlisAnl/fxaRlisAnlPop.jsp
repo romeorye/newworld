@@ -22,6 +22,9 @@
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
+<style type="text/css">
+.search-toggleBtn {display:none;}
+</style>
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>

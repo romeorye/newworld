@@ -449,8 +449,24 @@
         <!--right-->
         <div class="body_con" id="prj_content">
         	<!-- section1 -->
+        	<style>
+.visual {position:relative;}
+.visual .main_txt {position:absolute; z-index:999; left:30px; color:#fff; width:90%; height:100%; display:table;}
+.visual .main_txt div {display:table-cell; vertical-align:middle;height:100%; }
+.visual .main_txt span {font-size:15px;letter-spacing:-1px; display:inline-block; line-height:1.2; margin-bottom:1px;}
+.visual .main_txt p {font-size:18px; font-weight:bold; text-shadow:3px 3px 3px rgba(0,0,0, 0.1)}
+</style>
+
         	<div class="fir_subject_con section1">
-        		<div class="visual"><img src="<%=imagePath%>/newIris/main_img.png" /></div>
+        		<div class="visual" style="position:relative;">
+	        		<div class="main_txt">
+	        			<div>
+		        			<span>G하우시스의 미래기술, 서울 LG Science Park에서 </span>
+							<p>새로운 도약의 꿈을 키웁니다!</p>
+						</div>
+	        		</div>
+	        		<img src="<%=imagePath%>/newIris/main_img.png" />
+        		</div>
 
 
 

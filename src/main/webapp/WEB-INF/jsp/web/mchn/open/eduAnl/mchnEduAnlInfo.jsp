@@ -521,6 +521,9 @@ var openMchnSearchDialog;
 	});  //end ready
 
 </script>
+<style type="text/css">
+.search-toggleBtn {display:none;}
+</style>
 </head>
 <body>
 	<div class="contents" style="position:absolute;top:0px;Z-INDEX:1;">

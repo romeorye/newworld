@@ -233,6 +233,9 @@
 
 </script>
 <%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
+<style type="text/css">
+.search-toggleBtn {display:none;}
+</style>
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">

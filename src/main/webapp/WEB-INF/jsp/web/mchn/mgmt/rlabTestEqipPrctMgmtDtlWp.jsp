@@ -130,6 +130,9 @@ var mailTitl;
 
 
 </script>
+<style type="text/css">
+.search-toggleBtn {display:none;}
+</style>
 </head>
 <body>
 	<div class="contents">

@@ -526,7 +526,9 @@ var attId;
 
 </script>
 </head>
-
+<style type="text/css">
+.search-toggleBtn {display:none;}
+</style>
 <body>
 
 <div class="contents">

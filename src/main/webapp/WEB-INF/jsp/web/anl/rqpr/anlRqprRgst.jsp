@@ -38,6 +38,7 @@
 <style>
  .bgcolor-gray {background-color: #999999}
  .bgcolor-white {background-color: #FFFFFF}
+ .search-toggleBtn {display:none;}
 </style>
 
 	<script type="text/javascript">
@@ -602,13 +603,13 @@
    					<tbody>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>분석명</th>
-   							<td colspan="3">
+   							<td colspan="3" class="tain_formsize">
    								<input type="text" id="anlNm">
    							</td>
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>분석목적</th>
-   							<td colspan="3">
+   							<td colspan="3" class="tain_formsize">
    								<textarea id="anlSbc"></textarea>
    							</td>
    						</tr>
