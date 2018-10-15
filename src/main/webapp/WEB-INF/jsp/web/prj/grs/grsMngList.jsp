@@ -902,6 +902,10 @@
 	   $("#tssCd").val('');
        $(".first-child:contains('저장')").css("display","block");
        $(".first-child:contains('삭제')").css("display","none");
+
+       setEditable("tssScnCd");
+       setEditable("grsYn");
+
        setEditable("saSabunNm");
        setEditable("bizDptCd");
        setEditable("tssNm");
