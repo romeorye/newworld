@@ -83,14 +83,20 @@
 		    <div class="gnb_line"></div>
 
 <style>
-.ts_main .side_bar_con {width:215px !important;}
+.ts_main .side_bar_con {width:215px !important; height:579px !important;}
 .ts_main .body_con {
-    margin-left: 278px !important;
+    margin-left: 273px !important;
     margin-right: 226px;
 }
 .ts_main .body_con > div {width:100%; border-radius: 16px; background: #fff; position: relative; margin-top:0; margin-bottom: 18px; box-sizing:border-box; padding:27px 30px;}
+.ts_main .body_con > div.fir_subject_con {height:245px;}
 .ts_main .body_con > div > div {width:47.5% !important;}
 .ts_main .body_con > div > div:first-child {margin-right:5% !important;}
+.ts_main .body_con > div > div.notice_con {height:150px;}
+
+.swiper-pagination.swiper-pagination-clickable {text-align:left;}
+.notice_con, .notice_con .swiper-container {width:100%;}
+
 .fir_subject_con .reservation_con {height:150px;}
 
 .fir_subject_con .notice_con .album-wrap {width:100% !important;}
@@ -109,11 +115,12 @@
 
 
 .ts_main #prj_right { position: absolute; right: 1%; top: 0; width: 190px;}
-.ts_main #prj_right .QuickMenu_con02  { width: 100%; border-radius: 16px;box-sizing:border-box;background: #fff; position: relative; margin-top: 24px; overflow:hidden;}
+.ts_main #prj_right .QuickMenu_con02  { width: 100%;height:580px; border-radius: 16px;box-sizing:border-box;background: #fff; position: relative; margin-top: 24px; overflow:hidden;}
 .ts_main #prj_right h4 { color: #c40452; font-weight: 600; font-size: 16px; padding-top:18px; padding-left:20px;  margin-bottom:0; line-height:2;}
 .ts_main #prj_right ul { margin:0 auto;margin-bottom:10px;margin-top:10px; width:80%;}
-.ts_main #prj_right ul li {border:0 none; float:none; width:100%; padding:10px 0;}
+.ts_main #prj_right ul li {border:0 none; float:none; width:100%; padding:10px 0 15px 0;}
 .ts_main #prj_right ul li + li {border-top:1px dotted #888;}
+.QuickMenu_con02 h5 {margin-top:13px;}
 </style>
 		    <!--content-->
 		    <div class="Main_content ts_main" id="main_iris">

@@ -196,10 +196,10 @@
                     <div class="titArea"><h3>1. 개요</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width:20%"/>
-                                <col style="width:30%"/>
-                                <col style="width:20%"/>
-                                <col style="width:30%"/>
+                                <col style="width:15%"/>
+                                <col style="width:35%"/>
+                                <col style="width:15%"/>
+                                <col style="width:35%"/>
                             </colgroup>
                             <tbody>
                                 <tr>
@@ -229,10 +229,10 @@
                     <div class="titArea"><h3>2. 개발기간</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width:20%"/>
-                                <col style="width:30%"/>
-                                <col style="width:20%"/>
-                                <col style="width:30%"/>
+                                <col style="width:15%"/>
+                                <col style="width:35%"/>
+                                <col style="width:15%"/>
+                                <col style="width:35%"/>
                             </colgroup>
                             <tbody>
                                 <tr>
@@ -314,17 +314,17 @@
                     <div class="titArea"><h3>5. 기대성과<span class="h3_stitle">(상품출시(계획), 신제품 매출계획)</span></h3></div>
                         <table class="table">
                             <colgroup>
-                                <col style="width:18%"/>
-                                <col style="width:32%"/>
-                                <col style="width:18%"/>
-                                <col style="width:32%"/>
+                                <col style="width:15%"/>
+                                <col style="width:35%"/>
+                                <col style="width:15%"/>
+                                <col style="width:35%"/>
                             </colgroup>
                             <tbody>
                                 <tr>
                                     <th>상품출시(계획)</th>
-                                    <td colspan="5">${resultSmry.ctyOtPlnM}</td>
+                                    <td>${resultSmry.ctyOtPlnM}</td>
                                     <th>신제품 매출계획(단위:억원)</th>
-                                    <td colspan="5">
+                                    <td>
                                         <fmt:parseNumber var="nprodSalsPlnYSub" value="${100000000}" pattern="#.##" />
                                         <fmt:parseNumber var="nprodSalsPlnYCnt" value="${0}" pattern="#.##" />
                                         <fmt:parseNumber var="nprodSalsPlnY" value="${resultSmry.nprodSalsPlnY}" pattern="#.##" />
