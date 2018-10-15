@@ -1891,7 +1891,7 @@ fieldset .table + .table{margin-top:20px}
 .docu_con ul li + li {border-top:1px dashed #ccc !important;}
 .docu_con ul li:first-child   {border-top:1px solid #ccc;}
 .docu_con ul li:last-child   {border-bottom:1px solid #ccc;}
-.docu_con .analyze_field .analyze_s_txt {color:#222; font-size:12.5px; background:none; position:relative; line-height:2; text-indent:20px;}
+.docu_con .analyze_field .analyze_s_txt {color:#222; font-size:12.5px; background:none; position:relative; line-height:1.2; text-indent:20px;}
 .docu_con .analyze_field .analyze_s_txt:before {content:""; position:absolute; left:0; top:5px; width:16px; height:16px; background:url(/iris/resource/web/images/newIris/sub_area_i_arr.png) no-repeat left center;}
 .docu_con .analyze_field .analyze_s_txt span {font-size:12.5px; padding-left:90px; display:block; line-height:1.9;}
 .docu_con h4 {font-size:14px; font-weight:bold; line-height:2; color:#da1c5a; }
