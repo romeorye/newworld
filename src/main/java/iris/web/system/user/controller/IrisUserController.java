@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,12 +57,18 @@ public class IrisUserController  extends IrisBaseController {
 		LOGGER.debug("IrisUserController - userSearchPopup 사용자 조회 팝업");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-		
-		
+
+		String userNm = "";
+		try {
+			input.put("userNm",new String(input.get("userNm").getBytes("iso-8859-1"), "utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
-		input = StringUtil.toUtf8(input);
-		
+
+
 		model.addAttribute("inputData", input);
 		
 		return "web/common/userSearchPopup";

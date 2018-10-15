@@ -49,6 +49,7 @@
              * 변수 및 객체 선언
              *******************/
             var cnt = '${inputData.cnt}';
+            var pUserNm = '${inputData.userNm}';
             var deptNm = new Rui.ui.form.LTextBox({
                  applyTo : 'deptNm',
                  placeholder : '',
@@ -226,6 +227,7 @@
 
 			//이름이 있는 경우 검색 실행
 			if('${inputData.userNm}'!=''){
+                userNm.setValue('${inputData.userNm}');
                 getUserList();
             }
         });
@@ -254,7 +256,7 @@
    						<tr>
    							<th align="right">이름</th>
     						<td class="user_search_td">
-   								<input type="text" id="userNm" value="${inputData.userNm}">
+   								<input type="text" id="userNm" value="">
     						</td>
     						<th align="right">부서</th>
    							<td class="user_search_td">
