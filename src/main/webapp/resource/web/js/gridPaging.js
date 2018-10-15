@@ -26,13 +26,13 @@ function pagingSetList(){
     var endP = startP+ pCnt;
     if(endP>totalPCnt)endP = totalPCnt+1;
 
-    $("#paging").append("<a href='javascript:pagingSetPage(1)'><<</a>").css;
-    $("#paging").append("<a href='javascript:pagingSetPage(\"befor\")'><</a>");
+    $("#paging").append("<a href='javascript:pagingSetPage(1)'><img src='/iris/resource/web/images/newIris/pagenate_first.png'></a>").css;
+    $("#paging").append("<a href='javascript:pagingSetPage(\"befor\")'><img src='/iris/resource/web/images/newIris/pagenate_prev.png'></a>");
     for(var i=startP;i<=endP-1;i++){
         $("#paging").append("<a name='"+i+"' href='javascript:pagingSetPage("+i+")'>"+i+"</a>");
     }
-    $("#paging").append("<a href='javascript:pagingSetPage(\"next\")'>></a>");
-    $("#paging").append("<a href='javascript:pagingSetPage("+totalPCnt+")'>>></a>");
+    $("#paging").append("<a href='javascript:pagingSetPage(\"next\")'><img src='/iris/resource/web/images/newIris/pagenate_next.png'></a>");
+    $("#paging").append("<a href='javascript:pagingSetPage("+totalPCnt+")'><img src='/iris/resource/web/images/newIris/pagenate_last.png'></a>");
     // $("#paging").children().css("margin-left","8px");
     // $("#paging").children().css("font-size","16px");
     $("#paging").children().css("cssText","font-size:16px;display:inline-block;width:25px;text-align:center;");
