@@ -11,13 +11,13 @@
 				<h4>1. Agenda 및 심의결과</h4>
 				<table class="table">
 					<colgroup>
-						<col style="width:10%;">
-						<col style="width:14%;">
+						<col style="width:8%;">
+						<col style="width:30%;">
 						<col style="width:;">
-						<col style="width:14%;">
 						<col style="width:10%;">
-						<col style="width:10%;">
-						<col style="width:9%;">
+						<col style="width:8%;">
+						<col style="width:8%;">
+						<col style="width:7%;">
 					</colgroup>
 					<thead>
 						<tr>
