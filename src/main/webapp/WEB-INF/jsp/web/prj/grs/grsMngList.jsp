@@ -143,7 +143,7 @@
         var listGrid = new Rui.ui.grid.LGridPanel({ //masterGrid
             columnModel: listColumnModel,
             dataSet: listDataSet,
-            height: 400,
+            height: 450,
             width: 600,
             autoToEdit: true,
             clickToEdit: true,

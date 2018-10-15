@@ -21,7 +21,7 @@
                  , m.BIZ_DPT_CD	      bizDptCd
                  , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
                 ,m.SA_SABUN_NEW  as leaderCd
-                ,m.SA_SABUN_NAME as leaderNm
+                ,isnull(m.SA_SABUN_NAME,(select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new=m.SA_SABUN_NEW)) as leaderNm
                  , g.dlbr_crgr 									 AS dlbrCrgr
                  --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--심의 담당자
                  , g.sa_sabun_name AS dlbrCrgrNm       --심의 담당자
@@ -687,52 +687,59 @@
 
     <select id="selectGrsInfo" resultType="hashmap">
         /*selectGrsInfo grs심의용 기본정보 조회*/
-        SELECT
-            TSS_CD AS tssCd,
-            WBS_CD AS wbsCd,
-            PK_WBS_CD AS pkWbsCd,
-            PGS_STEP_CD AS pgsStepCd,
-            TSS_ST AS tssSt,
-            TSS_SCN_CD AS tssScnCd,
-            GRS_YN AS grsYn,
-            TSS_NM AS tssNm,
-            PRJ_CD AS prjCd,
-            isnull(PRJ_NM, dbo.fn_getPrjName(PRJ_CD)) as prjNm,
-            BIZ_DPT_CD AS bizDptCd,
-            PROD_G AS prodG,
-            SA_SABUN_CD AS saSabunCd,
-            SA_SABUN_NM AS saSabunNm,
-            TSS_STRT_DD AS tssStrtDd,
-            TSS_FNH_DD AS tssFnhDd,
-            CUST_SQLT AS custSqlt,
-            TSS_ATTR_CD AS tssAttrCd,
-            TSS_TYPE AS tssType,
-            '1' as isEditable
-        FROM dbo.IRIS_GRS_MGMT_MST WHERE TSS_CD =  #{tssCd}
+        SELECT m.TSS_CD AS tssCd,
+               m.WBS_CD AS wbsCd,
+               m.PK_WBS_CD AS pkWbsCd,
+               m.PGS_STEP_CD AS pgsStepCd,
+               m.TSS_ST AS tssSt,
+               m.TSS_SCN_CD AS tssScnCd,
+               m.GRS_YN AS grsYn,
+               m.TSS_NM AS tssNm,
+               m.PRJ_CD AS prjCd,
+               isnull(PRJ_NM, dbo.fn_getPrjName(PRJ_CD)) as prjNm,
+               m.BIZ_DPT_CD AS bizDptCd,
+               m.PROD_G AS prodG,
+               m.SA_SABUN_CD AS saSabunCd,
+               isnull(m.SA_SABUN_NM,
+                      (SELECT u.sa_name
+                       FROM IRIS_SSO_USER u
+                       WHERE u.sa_sabun_new=m.SA_SABUN_CD
+                      )) AS saSabunNm,
+               m.TSS_STRT_DD AS tssStrtDd,
+               m.TSS_FNH_DD AS tssFnhDd,
+               m.CUST_SQLT AS custSqlt,
+               m.TSS_ATTR_CD AS tssAttrCd,
+               m.TSS_TYPE AS tssType,
+               '1' as isEditable
+        FROM dbo.IRIS_GRS_MGMT_MST m
+        WHERE m.TSS_CD = #{tssCd}
         UNION
-        SELECT
-            TSS_CD AS tssCd,
-            WBS_CD AS wbsCd,
-            PK_WBS_CD AS pkWbsCd,
-            PGS_STEP_CD AS pgsStepCd,
-            TSS_ST AS tssSt,
-            TSS_SCN_CD AS tssScnCd,
-            GRS_YN AS grsYn,
-            TSS_NM AS tssNm,
-            PRJ_CD AS prjCd,
-            isnull(PRJ_NM, dbo.fn_getPrjName(PRJ_CD)) as prjNm,
-            BIZ_DPT_CD AS bizDptCd,
-            PROD_G AS prodG,
-            SA_SABUN_NEW AS saSabunCd,
-            SA_SABUN_NAME AS saSabunNm,
-            TSS_STRT_DD AS tssStrtDd,
-            TSS_FNH_DD AS tssFnhDd,
-            CUST_SQLT AS custSqlt,
-            TSS_ATTR_CD AS tssAttrCd,
-            TSS_TYPE AS tssType,
-            '0' as isEditable
-        FROM dbo.IRIS_TSS_MGMT_MST WHERE TSS_CD =  #{tssCd}
-
+        SELECT m.TSS_CD AS tssCd,
+               m.WBS_CD AS wbsCd,
+               m.PK_WBS_CD AS pkWbsCd,
+               m.PGS_STEP_CD AS pgsStepCd,
+               m.TSS_ST AS tssSt,
+               m.TSS_SCN_CD AS tssScnCd,
+               m.GRS_YN AS grsYn,
+               m.TSS_NM AS tssNm,
+               m.PRJ_CD AS prjCd,
+               isnull(PRJ_NM, dbo.fn_getPrjName(PRJ_CD)) as prjNm,
+               m.BIZ_DPT_CD AS bizDptCd,
+               m.PROD_G AS prodG,
+               m.SA_SABUN_NEW AS saSabunCd,
+               isnull(m.SA_SABUN_NAME,
+                      (SELECT u.sa_name
+                       FROM IRIS_SSO_USER u
+                       WHERE u.sa_sabun_new = m.SA_SABUN_NEW
+                      )) AS saSabunNm,
+               m.TSS_STRT_DD AS tssStrtDd,
+               m.TSS_FNH_DD AS tssFnhDd,
+               m.CUST_SQLT AS custSqlt,
+               m.TSS_ATTR_CD AS tssAttrCd,
+               m.TSS_TYPE AS tssType,
+               '0' as isEditable
+        FROM dbo.IRIS_TSS_MGMT_MST m
+        WHERE m.TSS_CD = #{tssCd}
     </select >
 
     <!-- GRS 기본 정보 등록/수정 -->
