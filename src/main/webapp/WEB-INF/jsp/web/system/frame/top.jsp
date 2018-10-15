@@ -19,11 +19,13 @@
 
 //[EAM추가] - 함수 추가 및 수정 Start =========================================================================
 function fnSelectMenu(subSysId, menuId, menuNm) {
-	
-	if(menuId == "IRIPJ0000" ){
+	var roleId = '${fn:indexOf(lsession._roleId, "WORK_IRI_T19")}';
+
+	if(menuId == "IRIPJ0000" && roleId == -1){
 		document.searchForm.action = "<c:url value='/prj/main.do'/>";
 		document.searchForm.target = "_top";
 		document.searchForm.submit();
+		
 	}else if(menuId == "IRIAN0000" ){
 		document.searchForm.action = "<c:url value='/anl/main.do'/>";
 		document.searchForm.target = "_top";
