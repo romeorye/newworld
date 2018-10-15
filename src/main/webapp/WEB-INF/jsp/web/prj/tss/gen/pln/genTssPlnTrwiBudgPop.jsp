@@ -61,7 +61,8 @@
             applyTo: 'fpTxt',
             placeholder: '',
             width: 500,
-            height: 50
+            height: 50,
+            autoWidth: true
         });
 
 
@@ -130,7 +131,8 @@
             autoWidth: true,
             autoHeight: true,
             multiLineEditor: true,
-            useRightActionMenu: false
+            useRightActionMenu: false,
+            autoWidth: true
         });
 
         grid.render('defaultGrid');
@@ -358,7 +360,7 @@
 	         <tbody>
 	             <tr>
 	                 <th align="right">항목별주요투자<br/>세부내역</th>
-	                 <td>
+	                 <td style="padding-top:7px;">
 	                     <input type="textarea" id="fpTxt" value="">
 	                 </td>
 	             </tr>
