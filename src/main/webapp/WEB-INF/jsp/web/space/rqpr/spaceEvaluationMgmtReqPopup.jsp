@@ -325,6 +325,9 @@
         });
 
 	</script>
+	<style type="text/css">
+	.search-toggleBtn {display:none;}
+	</style>
     </head>
     <body>
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
@@ -338,11 +341,11 @@
 
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
+   			<div class="sub-content" style="padding:5px 0 0 3px;">
 
-   				<table class="searchBox">
+   				<table class="table">
    					<colgroup>
-   						<col style="width: 120px;" />
+   						<col style="width: 110px;" />
 		                <col style="width: *" />
 		                <col style="width: 120px;" />
 		                <col style="width: *" />

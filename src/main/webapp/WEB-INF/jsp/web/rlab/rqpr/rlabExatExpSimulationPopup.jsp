@@ -280,7 +280,7 @@
 		
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
+   			<div class="sub-content" style="padding:0; margin-top:-25px;">
 	   			
    				<div class="titArea">
    					<div class="LblockButton">
@@ -289,7 +289,7 @@
    					</div>
    				</div>
    				
-			    <div id="bd">
+			    <div id="bd" class="pop_tree_grid">
 			        <div class="LblockMarkupCode">
 			            <div id="contentWrapper">
 			                <div id="rlabExatMstTreeView"></div>

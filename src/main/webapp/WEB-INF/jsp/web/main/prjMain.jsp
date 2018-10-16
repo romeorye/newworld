@@ -454,7 +454,7 @@
 .visual .main_txt {position:absolute; z-index:999; left:30px; color:#fff; width:90%; height:100%; display:table;}
 .visual .main_txt div {display:table-cell; vertical-align:middle;height:100%;}
 .visual .main_txt span:before {content:""; position:absolute; left:0; top:-15px; width:30px; height:1px; background:#fff; z-index:999;}
-.visual .main_txt span {font-size:15px;letter-spacing:-1px; display:inline-block; line-height:1.2; margin-bottom:1px; position:relative;}
+.visual .main_txt span {font-size:15px;letter-spacing:-1px; display:inline-block; padding-right:20px; line-height:1.2; margin-bottom:1px; position:relative;}
 .visual .main_txt p {font-size:18px; font-weight:bold; text-shadow:3px 3px 3px rgba(0,0,0, 0.1)}
 </style>
 

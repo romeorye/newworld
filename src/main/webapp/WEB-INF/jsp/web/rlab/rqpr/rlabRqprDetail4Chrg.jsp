@@ -1456,42 +1456,37 @@
    				<div id="rlabRqprSmpoGrid"></div>
 
    				<br/>
-
-   				<table class="table table_txt_right" id="rlab_ta" style="table-layout:fixed;">
-   					<colgroup>
-						<col style="width:49%;">
-						<col style="width:2%;">
-						<col style="width:49%;">
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<td>
-				   				<div class="titArea">
-				   					<h3>관련시험</h3>
-				   					<div class="LblockButton">
-				   						<button type="button" class="btn"  id="addRlabRqprRltdBtn" name="addRlabRqprRltdBtn" onclick="openRlabRqprSearchDialog(setRlabRqprRltd)">추가</button>
-				   						<button type="button" class="btn"  id="deleteRlabRqprRltdBtn" name="deleteRlabRqprRltdBtn" onclick="deleteRlabRqprRltd()">삭제</button>
-				   					</div>
-				   				</div>
-
-				   				<div id="rlabRqprRltdGrid"></div>
-   							</td>
-   							<td>&nbsp;</td>
-   							<td>
-				   				<div class="titArea">
-				   					<h3>시료사진/첨부파일</h3>
-				   					<div class="LblockButton">
-				   						<button type="button" class="btn"  id="addRlabRqprAttachBtn" name="addRlabRqprAttachBtn" onclick="openAttachFileDialog(setRlabRqprAttach, rlabRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'rlabPolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
-				   					</div>
-				   				</div>
-
-				   				<div id="rlabRqprAttachGrid"></div>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+				
+				<div class="rlabrqpr01" id="rlab_ta" >
+					<!-- 관련시험 -->
+	   				<div class="left">						
+		   				<div class="titArea">
+		   					<h3>관련시험</h3>
+		   					<div class="LblockButton">
+		   						<button type="button" class="btn"  id="addRlabRqprRltdBtn" name="addRlabRqprRltdBtn" onclick="openRlabRqprSearchDialog(setRlabRqprRltd)">추가</button>
+		   						<button type="button" class="btn"  id="deleteRlabRqprRltdBtn" name="deleteRlabRqprRltdBtn" onclick="deleteRlabRqprRltd()">삭제</button>
+		   					</div>
+		   				</div>
+		   				<div id="rlabRqprRltdGrid"></div>
+					</div>
+					<!-- //관련시험 -->
+		   				
+		   			<!-- 시료사진/첨부파일 -->
+					<div class="right">						
+		   				<div class="titArea">
+		   					<h3>시료사진/첨부파일</h3>
+		   					<div class="LblockButton">
+		   						<button type="button" class="btn"  id="addRlabRqprAttachBtn" name="addRlabRqprAttachBtn" onclick="openAttachFileDialog(setRlabRqprAttach, rlabRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'rlabPolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
+		   					</div>
+		   				</div>
+	
+		   				<div id="rlabRqprAttachGrid"></div>
+		   				<!-- //시료사진/첨부파일 -->
+						</div>
+					</div>
 				</form>
    				</div>
+
 
    				<div id="rlabRqprResultDiv">
 				<form name="bform" id="bform" method="post">

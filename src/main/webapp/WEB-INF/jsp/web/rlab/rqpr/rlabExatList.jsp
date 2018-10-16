@@ -554,6 +554,7 @@
 	   			</span>
 	   		</div>
 	   		<div class="sub-content">
+	   			<div class="titArea mt0" style="margin-bottom:5px !important;">
    					<div class="LblockButton mt0">
    						<button type="button" class="btn"  id="addRlabExatMstBtn" name="addRlabExatMstBtn" onclick="addRlabExatMst()">신규</button>
    						<button type="button" class="btn"  id="initRlabExatMstBtn" name="initRlabExatMstBtn" onclick="initRlabExatMst()">초기화</button>
@@ -561,9 +562,9 @@
    						<button type="button" class="btn"  id="openUtmExpSimulationBtn" name="openUtmExpSimulationBtn" onclick="openUtmExpSimulationDialog()">수가계산</button>
    						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadRlabExatMstListExcel()">Excel</button>
    					</div>
+				</div>
 
-
-			    <div id="bd" style="height: 310px">
+			    <div id="bd" class="rlabexa" style="height: 310px">
 			        <div class="LblockMarkupCode">
 			            <div id="contentWrapper">
 			            	<div class="L-overlay L-panel L-panel-container L-gen67 L-grid-panel"></div>
@@ -577,7 +578,7 @@
 			    </div>
 
    				<div class="titArea">
-   					<span class="Ltotal">신뢰성 시험장비 관리</span>
+   					<h3>신뢰성 시험장비 관리</h3>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="addRlabExatDtlBtn" name="addRlabExatDtlBtn" onclick="addRlabExatDtl()">신규</button>
    						<button type="button" class="btn"  id="saveRlabExatMstBtn" name="saveRlabExatMstBtn" onclick="saveRlabExatDtl()">저장</button>

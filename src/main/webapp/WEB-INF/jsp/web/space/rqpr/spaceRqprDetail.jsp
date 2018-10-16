@@ -1673,7 +1673,7 @@
                                 <div id="spaceUgyYn"></div>
    							</td>
    							<th align="right"><span style="color:red;">* </span>공개범위</th>
-   							<td class="rlabrqpr_tain04">
+   							<td class="space_tain2">
                                 <div id="oppbScpCd"></div>&nbsp;<input type="text" id="scrtRson">
    							</td>
    						</tr>
@@ -1688,7 +1688,7 @@
    					</tbody>
    				</table>
 
-   				<div class="titArea">
+   				<div class="titArea" style="margin-top:30px;">
    					<h3><span style="color:red;">* </span>평가방법</h3>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="penSpaceChrgListDialogBtn" name="penSpaceChrgListDialogBtn" onclick="openSpaceChrgListDialog(setSpaceChrgInfo);">추가</button>
@@ -1742,7 +1742,7 @@
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>제출처</th>
-   							<td colspan="3" class="rlabrqpr_tain05">
+   							<td colspan="3" class="space_tain2">
    								<div id="sbmpCd"></div>&nbsp;<input type="text" id="sbmpNm">
    							</td>
    						</tr>
@@ -1787,39 +1787,30 @@
    					</tbody>
    				</table>
 
-   				<table class="table table_txt_right" id="rlab_ta" style="table-layout:fixed;">
-   					<colgroup>
-						<col style="width:49%;">
-						<col style="width:2%;">
-						<col style="width:49%;">
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<td>
-				   				<div class="titArea">
-				   					<h3>관련평가</h3>
-				   					<div class="LblockButton">
-				   						<button type="button" class="btn"  id="addSpaceRqprRltdBtn" name="addSpaceRqprRltdBtn" onclick="openSpaceRqprSearchDialog(setSpaceRqprRltd)">추가</button>
-				   						<button type="button" class="btn"  id="deleteSpaceRqprRltdBtn" name="deleteSpaceRqprRltdBtn" onclick="deleteSpaceRqprRltd()">삭제</button>
-				   					</div>
-				   				</div>
+				<div class="rlabrqpr01" id="rlab_ta" >
+					<div class="left">
+						<div class="titArea">
+		   					<h3>관련평가</h3>
+		   					<div class="LblockButton">
+		   						<button type="button" class="btn"  id="addSpaceRqprRltdBtn" name="addSpaceRqprRltdBtn" onclick="openSpaceRqprSearchDialog(setSpaceRqprRltd)">추가</button>
+		   						<button type="button" class="btn"  id="deleteSpaceRqprRltdBtn" name="deleteSpaceRqprRltdBtn" onclick="deleteSpaceRqprRltd()">삭제</button>
+		   					</div>
+		   				</div>
 
-				   				<div id="spaceRqprRltdGrid"></div>
-   							</td>
-   							<td>&nbsp;</td>
-   							<td>
-				   				<div class="titArea">
-				   					<h3>시료사진/첨부파일</h3>
-				   					<div class="LblockButton">
-				   						<button type="button" class="btn"  id="addSpaceRqprAttachBtn" name="addSpaceRqprAttachBtn" onclick="openAttachFileDialog(setSpaceRqprAttach, spaceRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'spacePolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
-				   					</div>
-				   				</div>
+		   				<div id="spaceRqprRltdGrid"></div>
+					</div>
+					<div class="right">
+						<div class="titArea">
+		   					<h3>시료사진/첨부파일</h3>
+		   					<div class="LblockButton">
+		   						<button type="button" class="btn"  id="addSpaceRqprAttachBtn" name="addSpaceRqprAttachBtn" onclick="openAttachFileDialog(setSpaceRqprAttach, spaceRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'spacePolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
+		   					</div>
+		   				</div>
 
-				   				<div id="spaceRqprAttachGrid"></div>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+		   				<div id="spaceRqprAttachGrid"></div>
+					</div>
+				</div>
+   				
 				</form>
    				</div>
 
@@ -1901,7 +1892,7 @@
    							<td>
    								<div id="fbRsltCtgr"></div>
    							</td>
-   							<td>
+   							<td class="spacerqpr_tain">
    								<div id="fbTssPgsStep"></div>
    								<input id="fbRsltSbc" type="text">
    							</td>
@@ -1927,7 +1918,7 @@
    							<td>
    								<div id="fbRsltScn"></div>
    							</td>
-   							<td>
+   							<td class="spacerqpr_tain">
    								<textarea id="fbRsltBttm"></textarea>
    							</td>
    						</tr>

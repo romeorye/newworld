@@ -573,6 +573,7 @@ h3 {
    			
    			
    			<div class="sub-content">
+   				<div class="titArea mt0" style="margin-bottom:5px !important">
 					<div class="LblockButton mt0 mb5">
 						<button type="button" class="btn" id="addSpaceExatMstBtn"
 							name="addSpaceExatMstBtn" onclick="addSpaceExatMst()">신규</button>
@@ -586,9 +587,9 @@ h3 {
 						<button type="button" class="btn" id="excelBtn" name="excelBtn"
 							onclick="downloadSpaceExatMstListExcel()">Excel</button>
 					</div>
+				</div>
 
-
-				<div id="bd" style="height: 310px">
+				<div id="bd" class="rlabexa" style="height: 310px">
 					<div class="LblockMarkupCode">
 						<div id="contentWrapper">
 							<div class="L-panel L-grid-panel"></div>
@@ -602,7 +603,7 @@ h3 {
 				</div>
 
 				<div class="titArea">
-					<span class="Ltotal">공간성능평가Tool 관리</span>
+					<h3>공간성능평가Tool 관리</h3>
 					<div class="LblockButton">
 						<button type="button" class="btn" id="addSpaceExatDtlBtn"
 							name="addSpaceExatDtlBtn" onclick="addSpaceExatDtl()">신규</button>

@@ -1786,7 +1786,7 @@
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가목적</th>
-   							<td colspan="3" style="padding-top:6px;">
+   							<td colspan="3" style="padding-top:6px;" class="space_tain">
    								<textarea id="spaceSbc"></textarea>
    							</td>
    						</tr>
@@ -1822,7 +1822,7 @@
                                 <div id="spaceUgyYn"></div>
    							</td>
    							<th align="right"><span style="color:red;">* </span>공개범위</th>
-   							<td>
+   							<td  class="space_tain2">
                                 <div id="oppbScpCd"></div>&nbsp;<input type="text" id="scrtRson">
    							</td>
    						</tr>
@@ -1837,7 +1837,7 @@
    					</tbody>
    				</table>
 
-   				<div class="titArea">
+   				<div class="titArea" style="margin-top:20px;">
    					<h3><span style="color:red;">* </span>평가방법</h3>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="penSpaceChrgListDialogBtn" name="penSpaceChrgListDialogBtn" onclick="openSpaceChrgListDialog(setSpaceChrgInfo);">추가</button>
@@ -1885,7 +1885,7 @@
    					<tbody>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가대상명</th>
-   							<td colspan="3">
+   							<td colspan="3" class="space_tain">
    								<input type="text" id="evSubjNm">
    							</td>
    						</tr>
@@ -1898,32 +1898,32 @@
 
    						<tr>
    							<th align="right"><span style="color:red;">* </span>목표(정량지표)</th>
-   							<td>
+   							<td class="space_tain">
    								<input type="text" id="qtasDpst">
    							</td>
    							<th align="right"><span style="color:red;">* </span>목표(정성지표)</th>
-   							<td>
+   							<td class="space_tain">
                                 <input type="text" id="qnasDpst">
    							</td>
    						</tr>
 
    						<tr>
    							<th align="right"><span style="color:red;">* </span>목표성능</th>
-   							<td>
+   							<td class="space_tain">
                                 <input type="text" id="goalPfmc">
    							</td>
    							<th align="right"><span style="color:red;">* </span>결과지표</th>
-   							<td>
+   							<td class="space_tain">
                                 <input type="text" id="rsltDpst">
    							</td>
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>평가 cases(개수)</th>
-   							<td>
+   							<td class="space_tain">
                                 <input type="text" id="evCases">
    							</td>
    							<th align="right"><span style="color:red;">* </span>평가대상 상세</th>
-   							<td>
+   							<td class="space_tain">
                                 <input type="text" id="evSubjDtl">
    							</td>
    						</tr>
@@ -1935,40 +1935,33 @@
    						</tr>
    					</tbody>
    				</table>
+				</div>
+				
 
-   				<table style="width:100%;border=0;">
-   					<colgroup>
-						<col style="width:49%;">
-						<col style="width:2%;">
-						<col style="width:49%;">
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<td>
-				   				<div class="titArea">
-				   					<h3>관련평가</h3>
-				   					<div class="LblockButton">
-				   						<button type="button" class="btn"  id="addSpaceRqprRltdBtn" name="addSpaceRqprRltdBtn" onclick="openSpaceRqprSearchDialog(setSpaceRqprRltd)">추가</button>
-				   						<button type="button" class="btn"  id="deleteSpaceRqprRltdBtn" name="deleteSpaceRqprRltdBtn" onclick="deleteSpaceRqprRltd()">삭제</button>
-				   					</div>
-				   				</div>
+				
+   				<div class="rlabrqpr01">
+   					<div class="left">
+		   				<div class="titArea">
+		   					<h3>관련평가</h3>
+		   					<div class="LblockButton">
+		   						<button type="button" class="btn"  id="addSpaceRqprRltdBtn" name="addSpaceRqprRltdBtn" onclick="openSpaceRqprSearchDialog(setSpaceRqprRltd)">추가</button>
+		   						<button type="button" class="btn"  id="deleteSpaceRqprRltdBtn" name="deleteSpaceRqprRltdBtn" onclick="deleteSpaceRqprRltd()">삭제</button>
+		   					</div>
+		   				</div>
 
-				   				<div id="spaceRqprRltdGrid"></div>
-   							</td>
-   							<td>&nbsp;</td>
-   							<td>
-				   				<div class="titArea">
-				   					<h3>시료사진/첨부파일</h3>
-				   					<div class="LblockButton">
-				   						<button type="button" class="btn"  id="addSpaceRqprAttachBtn" name="addSpaceRqprAttachBtn" onclick="openAttachFileDialog(setSpaceRqprAttach, spaceRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'spacePolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
-				   					</div>
-				   				</div>
+		   				<div id="spaceRqprRltdGrid"></div>
+   					</div>
+   					<div class="right">
+		   				<div class="titArea">
+		   					<h3>시료사진/첨부파일</h3>
+		   					<div class="LblockButton">
+		   						<button type="button" class="btn"  id="addSpaceRqprAttachBtn" name="addSpaceRqprAttachBtn" onclick="openAttachFileDialog(setSpaceRqprAttach, spaceRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'spacePolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
+		   					</div>
+		   				</div>
 
-				   				<div id="spaceRqprAttachGrid"></div>
-   							</td>
-   						</tr>
-   					</tbody>
-   				</table>
+		   				<div id="spaceRqprAttachGrid"></div>
+   					</div>
+   				</div>
 				</form>
    				</div>
 
@@ -2008,7 +2001,7 @@
    					</tbody>
    				</table>
 
-   				<div class="titArea">
+   				<div class="titArea" style="margin-top:35px;">
    					<h3>실험정보 등록</h3>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="addSpaceRqprExatBtn" name="addSpaceRqprExatBtn" onclick="addSpaceRqprExat()">등록</button>
@@ -2018,7 +2011,7 @@
 
    				<div id="spaceRqprExatGrid"></div>
 
-   				<table class="table table_txt_right" style="table-layout:fixed;">
+   				<table class="table table_txt_right space_ta01" style="table-layout:fixed;">
    					<colgroup>
    						<col style="width:15%;"/>
    						<col style="width:35%;"/>
@@ -2073,7 +2066,7 @@
    							<th colspan="2">평가명</th>
    						</tr>
    						<tr>
-   							<td cass="spacerqpr_tain">
+   							<td>
    								<div id="fbRsltCtgr"></div>
    							</td>
    							<td cass="spacerqpr_tain">
@@ -2099,7 +2092,7 @@
    							<th>비고</th>
    						</tr>
    						<tr>
-   							<td cass="spacerqpr_tain">
+   							<td>
    								<div id="fbRsltScn"></div>
    							</td>
    							<td cass="spacerqpr_tain">

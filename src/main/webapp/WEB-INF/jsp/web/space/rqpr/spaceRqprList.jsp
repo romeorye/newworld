@@ -311,11 +311,11 @@
 
    						<tr>
    							<th align="right">WBS Code</th>
-   							<td>
+   							<td class="space_tain">
    								<input type="text" id="wbsCd">
    							</td>
    							<th align="right">의뢰자</th>
-    						<td>
+    						<td class="space_tain">
     							<input type="text" id="rgstNm">
     						</td>
     						<td class="t_center" rowspan="4">
@@ -325,18 +325,18 @@
 
    						<tr>
    							<th align="right">평가명</th>
-   							<td>
+   							<td class="space_tain">
    								<input type="text" id="spaceNm">
    							</td>
    							<th align="right">담당자</th>
-    						<td>
+    						<td class="space_tain">
     							<input type="text" id="spaceChrgNm">
     						</td>
     						<td></td>
    						</tr>
    						<tr>
    							<th align="right">접수번호</th>
-   							<td>
+   							<td class="space_tain">
    								<input type="text" id="acpcNo">
    							</td>
    							<th align="right">상태</th>

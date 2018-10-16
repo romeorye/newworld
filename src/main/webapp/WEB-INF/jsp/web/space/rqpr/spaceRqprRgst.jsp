@@ -974,7 +974,7 @@
    					</tbody>
    				</table>
 
-   				<div class="titArea">
+   				<div class="titArea" style="margin-top:35px;">
    					<h3><span style="color:red;">* </span>평가방법</h3>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="penSpaceChrgListDialogBtn" name="penSpaceChrgListDialogBtn" onclick="openSpaceChrgListDialog(setSpaceChrgInfo);">추가</button>
@@ -1004,15 +1004,16 @@
 
 
 				<div class="titArea">
-   					<h3><span style="color:red;">* </span>평가대상 정보</h3><br/><br/>
-   					&nbsp;&nbsp;제출자료<br/>
+   					<h3><span style="color:red;">* </span>평가대상 정보</h3>
+   				</div>
+				<div class="space_txt">
+   					<b>제출자료</b><br/>
    					&nbsp;&nbsp;1) Simulation <br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;공간단위 : 현장 사진, 평면도, 단면도, 적용자재 Spec (자재 도면, 물성 등) 및 시험성적서<br/>
 					&nbsp;&nbsp;&nbsp;&nbsp;자재단위 : 적용자재 Spec (자재도면, 물성 등) 및 시험 성적서<br/>
 					&nbsp;&nbsp;2) Mock-up : 적용자재 Spec (자재도면, 물성 등) 및 시험 성적서<br/>
 					&nbsp;&nbsp;3) Certification : 적용자재 Spec (자재도면, 물성 등) 및 시험 성적서
    				</div>
-
 				<table class="table table_txt_right" style="table-layout:fixed;">
    					<colgroup>
    						<col style="width:15%;"/>

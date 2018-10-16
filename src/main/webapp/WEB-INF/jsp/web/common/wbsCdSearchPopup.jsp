@@ -295,7 +295,7 @@
 	   				</div>
    				</div>
 
-   				 <div class="titArea">
+   				 <div class="titArea mt0">
    					<span class="Ltotal" id="cnt_text"></span>
    				</div>
 				<div id="defaultGrid"></div>

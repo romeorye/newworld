@@ -125,7 +125,7 @@ div.LblockButton button:hover {color:#666;}
 .radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {margin-left:12px;}
 
 .contents {padding:0; width:100%; min-width:1060px;}
-.sub-content { padding:20px; padding-right:4px; box-sizing:border-box; max-width:1350px; }
+.sub-content { padding:20px; padding-right:4px; box-sizing:border-box; max-width:1350px; min-width:1060px;}
 .sub-content div.titArea {margin-top:30px;}
 .hidden {display: none!important;}
 
@@ -1038,7 +1038,7 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .openop > div textarea {width:100% !important; height:225px !important;}
 
 .spacerqpr_tain > div {width:100% !important;}
-.spacerqpr_tain > div input, .spacerqpr_tain > div textarea {width:100% !important;}
+.spacerqpr_tain > div input,.spacerqpr_tain > div textarea, .spacerqpr_tain > div textarea {width:90% !important;}
 
 .spaceeva_tain {width:100% !important;}
 .spaceeva_arrow {background:url(/iris/resource/web/images/newIris/bullet-arrow02.png) no-repeat center center; }
@@ -1189,3 +1189,50 @@ scrollbar-shadow-color:#fff;}
 
 .L-editor-panel .L-radio-group.L-form-field {text-align:center; padding-top:0;}
 .L-editor-panel .L-radio-group.L-form-field > div {display:inline-block; float:none; border:0;}
+
+/* 분석 */
+.rlabexa .LblockMarkupCode {position:relative; overflow:hidden;min-height:310px;}
+.rlabexa .LblockMarkupCode #contentWrapper {position:absolute; left:0; top:0;height:300px; float:none;  width:250px !important;}
+.rlabexa .LblockMarkupCode #contentWrapper #rlabExatMstTreeView,
+.rlabexa .LblockMarkupCode #contentWrapper #spaceExatMstTreeView {margin-top:-10px;}
+.rlabexa .LblockMarkupCode #contentWrapper #rlabExatMstTreeView .L-ul-treeview,
+.rlabexa .LblockMarkupCode #contentWrapper #spaceExatMstTreeView .L-ul-treeview {height:300px !important; width:245px !important;}
+.rlabexa .LblockMarkupCode #contentWrapper .L-overlay {display:none;}
+.rlabexa .LblockMarkupCode #contentWrapper .L-panel.L-grid-panel {display:none;}
+.rlabexa .LblockMarkupCode #fieldWrapper {float:none !important; margin-left:270px !important; width:auto !important;}
+
+.rlabexa2 .LblockMarkupCode {position:relative; overflow:hidden;min-height:400px;}
+.rlabexa2 .LblockMarkupCode #contentWrapper {position:absolute; left:0; top:0;height:300px; float:none;  width:250px !important;}
+.rlabexa2 .LblockMarkupCode #contentWrapper #rlabExatMstTreeView {margin-top:-10px;}
+.rlabexa2 .LblockMarkupCode #contentWrapper #rlabExatMstTreeView .L-ul-treeview {height:300px !important; width:245px !important;}
+.rlabexa2 .LblockMarkupCode #contentWrapper .L-overlay {display:none;}
+.rlabexa2 .LblockMarkupCode #fieldWrapper {float:none !important; margin-left:270px !important; width:auto !important;}
+
+
+.pop_tree_grid .LblockMarkupCode {position:relative;} /*좌우감싸는 상위 */
+.pop_tree_grid .LblockMarkupCode #contentWrapper {position:absolute; left:0; top:0;height:300px; float:none;  width:230px !important;}
+.pop_tree_grid .LblockMarkupCode #fieldWrapper {float:none !important; margin-left:245px !important; width:auto !important;}
+.pop_tree_grid .LblockMarkupCode #contentWrapper #rlabExatMstTreeView,
+.pop_tree_grid .LblockMarkupCode #contentWrapper #spaceExatMstTreeView {margin-top:-9px;}
+.pop_tree_grid .LblockMarkupCode #contentWrapper #rlabExatMstTreeView .L-ul-treeview,
+.pop_tree_grid .LblockMarkupCode #contentWrapper #spaceExatMstTreeView .L-ul-treeview {height:296px !important; width:225px !important;}  
+
+.sub-content table .spaceeva_tain {border:1px solid #dedede;}
+.rlabrqpr01 {overflow:hidden;}
+.rlabrqpr01 .left {float:left; width:49%;}
+.rlabrqpr01 .right {float:right;width:49%;}
+.rlabrqpr01 .titArea {margin-top:30px !important;}
+
+.space_tain div {width:100% !important;}
+.space_tain textarea {width:100% !important;}
+.space_tain input {width:90% !important;}
+
+#spaceRqprResultDiv table.space_ta01 #spaceRsltSbc {width:100% !important;}
+#spaceRqprResultDiv table.space_ta01 #spaceRsltSbc textarea {width:100% !important;}
+
+.space_tain2 #oppbScpCd, .space_tain2 #sbmpCd {width:25% !important; margin-right:3px;float:left; }
+.space_tain2 #oppbScpCd input, .space_tain2 #sbmpCd input  {width:80% !important;}
+.space_tain2 #scrtRson, .space_tain2 #sbmpNm {width:70% !important; margin-right:3px; float:left;}
+.space_tain2 #scrtRson input, .space_tain2 #sbmpNm input  {width:95% !important;}
+.space_txt {overflow:hidden; border:1px solid #ddd; background:#f8f8f8; padding:10px 20px; line-height:19px;}
+
