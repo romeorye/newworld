@@ -544,6 +544,7 @@
 	<select id="retrieveUserDeptInfo" resultType="hashmap" >
 		/* retrieveUserDeptInfo  사용자 부서 및 프로젝트 정보(WBS생성코드) 조회 */
 		SELECT
+		TOP 1
 		  cd.dept_uper_code_a  as pkCd,
 		  cd.dept_code as deptCd,
 		  sd.dept_name as deptNm,
