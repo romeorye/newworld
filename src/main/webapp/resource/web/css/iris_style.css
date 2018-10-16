@@ -125,7 +125,7 @@ div.LblockButton button:hover {color:#666;}
 .radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {margin-left:12px;}
 
 .contents {padding:0; width:100%; min-width:1060px;}
-.sub-content { padding:20px; padding-right:4px; box-sizing:border-box; max-width:1350px; min-width:1060px;}
+.sub-content { padding:20px; padding-right:4px; box-sizing:border-box; max-width:1350px;}
 .sub-content div.titArea {margin-top:30px;}
 .hidden {display: none!important;}
 
