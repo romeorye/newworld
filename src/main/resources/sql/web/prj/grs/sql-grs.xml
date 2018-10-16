@@ -14,7 +14,7 @@
     FROM(
                SELECT m.tss_scn_cd       tssScnCd
                  , dbo.fn_getComDtlNm('TSS_SCN_CD',m.tss_scn_cd) AS tssScnNm
-                 , iif(m.PGS_STEP_CD='PL' AND (select count(*) from IRIS_GRS_MGMT_MST where PK_WBS_CD = m.pk_wbs_cd)=1,'SEED-'+m.wbs_cd  , m.wbs_cd)           wbsCd
+                 , iif(m.PGS_STEP_CD='PL' AND (select count(*) from IRIS_TSS_MGMT_MST where PK_WBS_CD = m.pk_wbs_cd)=1,'SEED-'+m.wbs_cd  , m.wbs_cd)           wbsCd
                  , m.pk_wbs_cd           pkWbsCd
                  , m.tss_nm           tssNm
                  ,isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) as prjNm
@@ -47,7 +47,7 @@
                UNION
                SELECT m.tss_scn_cd       tssScnCd
                  , dbo.fn_getComDtlNm('TSS_SCN_CD',m.tss_scn_cd) AS tssScnNm
-                 , iif(m.PGS_STEP_CD='PL','SEED-'+m.wbs_cd , m.wbs_cd)           wbsCd
+                 , iif(m.PGS_STEP_CD='PL' AND (select count(*) from IRIS_GRS_MGMT_MST where PK_WBS_CD = m.pk_wbs_cd)=1,'SEED-'+m.wbs_cd  , m.wbs_cd)           wbsCd
                  , m.pk_wbs_cd           pkWbsCd
                  , m.tss_nm           tssNm
                  ,isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) as prjNm
