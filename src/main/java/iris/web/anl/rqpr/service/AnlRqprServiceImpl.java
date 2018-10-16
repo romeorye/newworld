@@ -1,6 +1,19 @@
 package iris.web.anl.rqpr.service;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.velocity.app.VelocityEngine;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.velocity.VelocityEngineUtils;
+
 import devonframe.configuration.ConfigService;
 import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
@@ -9,17 +22,6 @@ import iris.web.anl.rqpr.vo.AnlMailInfo;
 import iris.web.common.converter.RuiConstants;
 import iris.web.common.util.FormatHelper;
 import iris.web.common.util.StringUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.velocity.app.VelocityEngine;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.velocity.VelocityEngineUtils;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /*********************************************************************************
  * NAME : AnlRqprServiceImpl.java 
@@ -261,7 +263,7 @@ public class AnlRqprServiceImpl implements AnlRqprService {
     			anlRqprInfo.put("rqprAttachFileList", sb.toString());
     			
     			sb.delete(0, sb.length());
-				input = StringUtil.toUtf8Input(input);
+
     			String body = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "iris/web/anl/rqpr/vm/anlRqprApproval.vm", "UTF-8", anlRqprInfo);
     			
     			Map<String, Object> itgRdcsInfo = new HashMap<String, Object>();
