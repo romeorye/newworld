@@ -203,7 +203,7 @@
                 columnModel: spaceEvBzdvModel,
                 dataSet: spaceEvBzdvDataSet,
                 width: 200,
-                height: 400,
+                height: 300,
                 autoToEdit: true,
                 autoWidth: true
             });
@@ -214,7 +214,7 @@
                 columnModel: spaceEvProdClModel,
                 dataSet: spaceEvProdClDataSet,
                 width: 200,
-                height: 400,
+                height: 300,
                 autoToEdit: true,
                 autoWidth: true
             });
@@ -225,7 +225,7 @@
                 columnModel: spaceEvClModel,
                 dataSet: spaceEvClDataSet,
                 width: 200,
-                height: 400,
+                height: 300,
                 autoToEdit: true,
                 autoWidth: true
             });
@@ -236,7 +236,7 @@
                 columnModel: spaceEvProdModel,
                 dataSet: spaceEvProdDataSet,
                 width: 200,
-                height: 400,
+                height: 300,
                 autoToEdit: true,
                 autoWidth: true
             });
@@ -247,7 +247,7 @@
                 columnModel: spaceEvMtrlListModel,
                 dataSet: spaceEvMtrlListDataSet,
                 width: 600,
-                height: 400,
+                height: 300,
                 autoToEdit: true,
                 autoWidth: true
             });

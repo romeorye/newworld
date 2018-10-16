@@ -360,8 +360,8 @@ div.gnbArea .gnb {margin-left:0;}
 /*nav.Mgnb, */.gnbArea  {position: absolute; padding: 0; margin: 0; left: 140px; top: 15px;}
 nav.Mgnb {margin-top:-36px; padding-left:0; width:auto;}
 nav.Mgnb ul.title {margin-left:176px;}
-.top_gnb.submenu {background:#fefefe; width:100%; padding: 10px 0 30px 20px; top:66px !important; border-top:0; border-bottom:1px solid #ccc; z-index:3000;}
-.top_gnb.submenu .m_gnb  {width:auto; position:relative; border:0; background-image:none !important; overflow:hidden; margin-left:0 !important;}
+.top_gnb.submenu {background:#fefefe; width:100%;min-height:160px;  padding: 10px 0 30px 20px; top:66px !important; border-top:0; border-bottom:1px solid #ccc; z-index:3000;}
+.top_gnb.submenu .m_gnb  {width:auto; position:relative; min-height:160px; border:0; background-image:none !important; overflow:hidden; margin-left:0 !important;}
 .top_gnb.submenu .m_gnb .sub_tit {float:left; width:165px; }
 .top_gnb.submenu .m_gnb .menu_2depth {float:left; width:1000px; padding-top:20px; padding-left:10px;}
 .top_gnb.submenu .m_gnb .sub_tit p {font-size:27px; text-align:right; padding:20px 40px 0 0; position:relative; line-height:1;}
@@ -1217,7 +1217,7 @@ scrollbar-shadow-color:#fff;}
 .pop_tree_grid .LblockMarkupCode #contentWrapper #rlabExatMstTreeView .L-ul-treeview,
 .pop_tree_grid .LblockMarkupCode #contentWrapper #spaceExatMstTreeView .L-ul-treeview {height:296px !important; width:225px !important;}  
 
-.sub-content table .spaceeva_tain {border:1px solid #dedede;}
+
 .rlabrqpr01 {overflow:hidden;}
 .rlabrqpr01 .left {float:left; width:49%;}
 .rlabrqpr01 .right {float:right;width:49%;}
