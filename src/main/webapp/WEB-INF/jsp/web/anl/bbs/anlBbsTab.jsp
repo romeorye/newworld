@@ -25,7 +25,7 @@
 <head>
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
-
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <title><%=documentTitle%></title>
 
 <%-- rui staus bar --%>
@@ -144,8 +144,7 @@ var target = "${inputData.target}";
 		   //표준실험절차서
            var columnModel01 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-        		    new Rui.ui.grid.LNumberColumn()
-        		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 250 }
+        		     { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 250 }
                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 560 }
                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 160 }
                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 153 }
@@ -157,7 +156,7 @@ var target = "${inputData.target}";
         	   columnModel: columnModel01,
                dataSet: anlBbsDataSet,
                width: 1150,
-               height: 525,
+               height: 400,
                autoWidth: true
            });
 
@@ -187,8 +186,7 @@ var target = "${inputData.target}";
            //분석사례
            var columnModel02 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-       		    new Rui.ui.grid.LNumberColumn()
-      		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
+       		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
                 , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 470 }
                 , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
                 , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
@@ -200,7 +198,7 @@ var target = "${inputData.target}";
         	   columnModel: columnModel02,
                dataSet: anlBbsDataSet,
                width: 1150,
-               height: 525,
+               height: 400,
                autoToEdit: false,
                autoWidth: true
            });
@@ -230,8 +228,7 @@ var target = "${inputData.target}";
            //기기메뉴얼
            var columnModel03 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-        		   new Rui.ui.grid.LNumberColumn()
-         		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
+        		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
                    , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 470 }
                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
@@ -243,7 +240,7 @@ var target = "${inputData.target}";
         	   columnModel: columnModel03,
                dataSet: anlBbsDataSet,
                width: 1150,
-               height: 525,
+               height: 400,
                autoToEdit: false,
                autoWidth: true
            });
@@ -274,8 +271,7 @@ var target = "${inputData.target}";
            //분석기술정보
            var columnModel04 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-        		   new Rui.ui.grid.LNumberColumn()
-         		  , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
+        		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
                    , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 470 }
                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
@@ -287,7 +283,7 @@ var target = "${inputData.target}";
         	   columnModel: columnModel04,
                dataSet: anlBbsDataSet,
                width: 1150,
-               height: 525,
+               height: 400,
                autoToEdit: false,
                autoWidth: true
            });
@@ -316,6 +312,16 @@ var target = "${inputData.target}";
 
            anlBbsDataSet.on('load', function(e) {
   	    		$("#cnt_text").html('총 ' + anlBbsDataSet.getCount() + '건');
+	  	    	// 목록 페이징
+	  	    	if(bbsCd=='06'){
+	  	    		paging(anlBbsDataSet,"anlBbsGrid01");
+	  	    	}else if(bbsCd=='07'){
+	  	    		paging(anlBbsDataSet,"anlBbsGrid02");
+	  	    	}else if(bbsCd=='08'){
+	  	    		paging(anlBbsDataSet,"anlBbsGrid03");
+	  	    	}else if(bbsCd=='09'){
+	  	    		paging(anlBbsDataSet,"anlBbsGrid04");
+	  	    	}
   	      	});
 
            /* 조회, 검색 */
@@ -334,7 +340,7 @@ var target = "${inputData.target}";
            getAnlBbsList();
 
 
-           chkUserRgst(false);
+           //chkUserRgst(false);
 
 
        });//onReady 끝
