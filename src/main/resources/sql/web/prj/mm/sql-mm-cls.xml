@@ -351,8 +351,22 @@
 			and    tss_cd in (
 							select  a.tss_cd
 							from   IRIS_TSS_PTC_RSST_MBR  a
-							where   1=1
-							and      #{searchMonth} between left(a.PTC_STRT_DT, 7) and left(a.PTC_FNH_DT, 7)
+							where  1=1
+							and    #{searchMonth} between left(a.PTC_STRT_DT, 7) and left(a.PTC_FNH_DT, 7)
+							and    tss_cd in (SELECT TSS_CD
+											  FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
+													   , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
+												  FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' OR PGS_STEP_CD = 'DC' THEN 1
+																	WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
+																	WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102') THEN 3
+																	WHEN PGS_STEP_CD = 'AL' THEN 4
+																	WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 5
+																	WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
+															   , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
+														 FROM IRIS_TSS_MGMT_MST
+														 where tss_scn_cd ='G' ) X) Y
+												  WHERE OVER_STEP_RANK = 1
+												  )
 							)
 			and    PGS_STEP_CD <> 'PL'
 			and    prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059')
