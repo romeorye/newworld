@@ -14,7 +14,7 @@ import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
 import devonframe.util.NullUtil;
-import iris.web.mchn.open.appr.vo.MchnApprVo;
+import iris.web.mchn.open.appr.vo.MchnAppVo;
 
 @Service("mchnApprService")
 public class MchnApprServiceImpl implements MchnApprService{
@@ -54,7 +54,7 @@ public class MchnApprServiceImpl implements MchnApprService{
 	public void updateMachineApprInfo(HashMap<String, Object> input) throws Exception{
 		
 		MailSender mailSender = mailSenderFactory.createMailSender();
-		MchnApprVo vo = new MchnApprVo();
+		MchnAppVo vo = new MchnAppVo();
 		
 		if(commonDao.update("open.mchnAppr.updateMachineApprInfo", input) > 0 ){
 			//메일 발송 부분
