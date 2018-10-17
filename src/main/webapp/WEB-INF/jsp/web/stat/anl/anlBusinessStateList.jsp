@@ -1,8 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>			
-<%@ page import="java.text.*,
-				 java.util.*,
-				 devonframe.util.NullUtil,
-				 devonframe.util.DateUtil"%>
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 
 <%--
 /*
@@ -160,7 +156,7 @@
             
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlBusinessStateListExcel = function() {
-nG.saveExcel(encodeURIComponent('분석 업무현황 통계_') + new Date().format('%Y%m%d') + '.xls');
+                anlBusinessStateGrid.saveExcel(encodeURIComponent('분석 업무현황 통계_') + new Date().format('%Y%m%d') + '.xls');
             };
             
             getAnlBusinessStateList();

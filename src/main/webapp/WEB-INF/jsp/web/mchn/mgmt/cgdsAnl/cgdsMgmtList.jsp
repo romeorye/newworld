@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -188,9 +187,7 @@ var dataSet;
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
         	if(dataSetList.getCount() > 0 ) {
-	            var excelColumnModel = columnModel.createExcelColumnModel(false);
-	            duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('소모품입출고_') + new Date().format('%Y%m%d') + '.xls', {
+                grid.saveExcel(encodeURIComponent('소모품입출고_') + new Date().format('%Y%m%d') + '.xls', {
 	                columnModel: excelColumnModel
 	            });
         	}else{

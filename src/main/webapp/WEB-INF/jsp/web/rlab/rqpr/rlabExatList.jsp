@@ -1,8 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*,
-				 java.util.*,
-				 devonframe.util.NullUtil,
-				 devonframe.util.DateUtil"%>
 
 <%--
 /*
@@ -490,7 +486,7 @@
 
             /* 신뢰성정보 리스트 엑셀 다운로드 */
          	downloadRlabExatMstListExcel = function() {
-nG.saveExcel(encodeURIComponent('신뢰성정보_') + new Date().format('%Y%m%d') + '.xls');
+                rlabExatMstTreeGrid.saveExcel(encodeURIComponent('신뢰성정보_') + new Date().format('%Y%m%d') + '.xls');
             };
 
             addRlabExatDtl = function() {

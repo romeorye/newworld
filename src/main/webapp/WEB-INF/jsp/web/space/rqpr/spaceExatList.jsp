@@ -1,10 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8"
 	contentType="text/html; charset=utf-8"%>
-<%@ page
-	import="java.text.*,
-				 java.util.*,
-				 devonframe.util.NullUtil,
-				 devonframe.util.DateUtil"%>
 
 <%--
 /*
@@ -509,7 +504,7 @@ h3 {
 
             /* 실험정보 리스트 엑셀 다운로드 */
         	downloadSpaceExatMstListExcel = function() {
-nG.saveExcel(encodeURIComponent('공간성능평가시험정보_') + new Date().format('%Y%m%d') + '.xls');
+                spaceExatMstTreeGrid.saveExcel(encodeURIComponent('공간성능평가시험정보_') + new Date().format('%Y%m%d') + '.xls');
             };
 
             addSpaceExatDtl = function() {

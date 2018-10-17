@@ -1,8 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*,
-				 java.util.*,
-				 devonframe.util.NullUtil,
-				 devonframe.util.DateUtil"%>
 
 <%--
 /*
@@ -298,25 +294,27 @@ function fncExcelDown() {
 	prdtListDataSet.clearFilter();
 
     if( prdtListDataSet.getCount() > 0){
+        var excelColumnModel = columnModel.createExcelColumnModel(false);
+        duplicateExcelGrid(excelColumnModel);        
     	//prdtListGrid.saveExcel(toUTF8('연구산출물 목록_') + new Date().format('%Y%m%d') + '.xls');
  	   if(affrClGroup == "molecule"){
- 		  prdtListGrid.saveExcel(toUTF8('고분자재료 Lab') + new Date().format('%Y%m%d') + '.xls');
+ 		  nG.saveExcel(toUTF8('고분자재료 Lab') + new Date().format('%Y%m%d') + '.xls');
 	   }else if(affrClGroup == "adhesion"){
-		   prdtListGrid.saveExcel(toUTF8('점착기술 Lab') + new Date().format('%Y%m%d') + '.xls');
+		   nG.saveExcel(toUTF8('점착기술 Lab') + new Date().format('%Y%m%d') + '.xls');
 	   }else if(affrClGroup == "inorganic"){
-		   prdtListGrid.saveExcel(toUTF8('무기소재 Lab') + new Date().format('%Y%m%d') + '.xls');
+		   nG.saveExcel(toUTF8('무기소재 Lab') + new Date().format('%Y%m%d') + '.xls');
 	   }else if(affrClGroup == "coating"){
-		   prdtListGrid.saveExcel(toUTF8('코팅기술 Lab') + new Date().format('%Y%m%d') + '.xls');
+		   nG.saveExcel(toUTF8('코팅기술 Lab') + new Date().format('%Y%m%d') + '.xls');
 	   }else if(affrClGroup == "common"){
-		   prdtListGrid.saveExcel(toUTF8('연구소 공통') + new Date().format('%Y%m%d') + '.xls');
+		   nG.saveExcel(toUTF8('연구소 공통') + new Date().format('%Y%m%d') + '.xls');
 		   $('#tTitlNm').text("연구소 공통");
 	   }else if(affrClGroup == "industry"){
-		   prdtListGrid.saveExcel(toUTF8('LG화학 산업재연구소') + new Date().format('%Y%m%d') + '.xls');
+		   nG.saveExcel(toUTF8('LG화학 산업재연구소') + new Date().format('%Y%m%d') + '.xls');
 	   }else if(affrClGroup == "techCenter"){
-		   prdtListGrid.saveExcel(toUTF8('LG화학 산업재테크센터_') + new Date().format('%Y%m%d') + '.xls');
+		   nG.saveExcel(toUTF8('LG화학 산업재테크센터_') + new Date().format('%Y%m%d') + '.xls');
 		   $('#tTitlNm').text("LG화학 산업재테크센터");
 	   }else if(affrClGroup == "pms"){
-		   prdtListGrid.saveExcel(toUTF8('LG하우시스 연구소 PMS_') + new Date().format('%Y%m%d') + '.xls');
+		   nG.saveExcel(toUTF8('LG하우시스 연구소 PMS_') + new Date().format('%Y%m%d') + '.xls');
 	   }
     } else {
     	alert('조회된 데이타가 없습니다.!!');

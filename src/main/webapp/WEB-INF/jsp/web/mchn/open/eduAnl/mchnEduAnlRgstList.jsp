@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 
@@ -306,9 +305,7 @@ var excelDataSet;
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
         	if(dataSet.getCount() > 0 ) {
-	            var excelColumnModel = columnModel.createExcelColumnModel(false);
-	            duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('기기관리_') + new Date().format('%Y%m%d') + '.xls', {
+                grid.saveExcel(encodeURIComponent('기기관리_') + new Date().format('%Y%m%d') + '.xls', {
 	                columnModel: excelColumnModel
 	            });
         	}else{
@@ -321,9 +318,7 @@ nG.saveExcel(encodeURIComponent('기기관리_') + new Date().format('%Y%m%d') +
 		var saveAllExcelBtn = new Rui.ui.LButton('butAllExcl');
 		saveAllExcelBtn.on('click', function(){
         	if(excelDataSet.getCount() > 0 ) {
-	            var excelAllColumnModel = exelColumnModel.createExcelColumnModel(false);
-	            duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('기기관리전체_') + new Date().format('%Y%m%d') + '.xls', {
+                excelGrid.saveExcel(encodeURIComponent('기기관리전체_') + new Date().format('%Y%m%d') + '.xls', {
 	                columnModel: excelAllColumnModel
 	            });
         	}else{

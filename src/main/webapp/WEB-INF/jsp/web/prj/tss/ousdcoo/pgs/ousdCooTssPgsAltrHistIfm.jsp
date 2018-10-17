@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -139,6 +138,8 @@
         var butExcel = new Rui.ui.LButton('butExcel');
         butExcel.on('click', function() {                
             if(dataSet.getCount() > 0) {
+                var excelColumnModel = columnModel.createExcelColumnModel(false);
+                duplicateExcelGrid(excelColumnModel);
                 grid.saveExcel(toUTF8('변경이력_') + new Date().format('%Y%m%d') + '.xls');
             } else {
                 Rui.alert('조회된 데이타가 없습니다.');

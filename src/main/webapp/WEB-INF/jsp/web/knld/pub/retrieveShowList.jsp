@@ -1,8 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*,
-				 java.util.*,
-				 devonframe.util.NullUtil,
-				 devonframe.util.DateUtil"%>
 
 <%--
 /*
@@ -367,7 +363,9 @@ function fncExcelDown() {
 	showDataSet.clearFilter();
 
     if( showDataSet.getCount() > 0){
-    	showGrid.saveExcel(toUTF8('전시회 목록_') + new Date().format('%Y%m%d') + '.xls');
+        var excelColumnModel = columnModel.createExcelColumnModel(false);
+        duplicateExcelGrid(excelColumnModel);
+    	nG.saveExcel(toUTF8('전시회 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }

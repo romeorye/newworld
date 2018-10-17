@@ -1,8 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*,
-				 java.util.*,
-				 devonframe.util.NullUtil,
-				 devonframe.util.DateUtil"%>
 
 <%--
 /*
@@ -185,7 +181,7 @@
 
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlDivisionStateListExcel = function() {
-nG.saveExcel(encodeURIComponent('사업부 통계_') + new Date().format('%Y%m%d') + '.xls');
+                anlDivisionStateGrid.saveExcel(encodeURIComponent('사업부 통계_') + new Date().format('%Y%m%d') + '.xls');
             };
 
             getAnlDivisionStateList();

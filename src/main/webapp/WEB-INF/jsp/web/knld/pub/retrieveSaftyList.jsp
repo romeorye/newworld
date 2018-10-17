@@ -1,8 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*,
-				 java.util.*,
-				 devonframe.util.NullUtil,
-				 devonframe.util.DateUtil"%>
 
 <%--
 /*
@@ -366,7 +362,7 @@ function fncExcelDown() {
 	saftyDataSet.clearFilter();
 
     if( saftyDataSet.getCount() > 0){
-    	saftyGrid.saveExcel(toUTF8('안전/환경/보건 목록_') + new Date().format('%Y%m%d') + '.xls');
+    	nG.saveExcel(toUTF8('안전/환경/보건 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
     }
