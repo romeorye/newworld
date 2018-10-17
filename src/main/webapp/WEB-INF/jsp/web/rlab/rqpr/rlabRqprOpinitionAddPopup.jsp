@@ -289,9 +289,9 @@
 
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
-
-   				<table class="searchBox">
+   			<div class="sub-content" style="padding:5px 9px 0 9px;">
+	   			
+   				<table class="table table_txt_right">
    					<colgroup>
    						<col style="width: 120px;" />
 		                <col style="width: *" />
@@ -301,7 +301,7 @@
    					<tbody>
    						<tr>
    							<th align="right">의견</th>
-   							<td colspan="3">
+   							<td colspan="3" style="padding-top:7px;">
    								<input type="text" id="opiSbc" value="">
    							</td>
    						</tr>

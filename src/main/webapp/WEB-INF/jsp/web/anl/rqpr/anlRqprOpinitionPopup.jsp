@@ -263,7 +263,7 @@
    					<tbody>
    						<tr>
    							<th align="right">의견</th>
-   							<td class="flmargin">
+   							<td class="flmargin" style="padding-top:4px;">
    								<textarea id="opiSbc"></textarea>
 
    								<a style="cursor: pointer;" onclick="saveAnlRqprOpinition('I')" class="">추가</a>

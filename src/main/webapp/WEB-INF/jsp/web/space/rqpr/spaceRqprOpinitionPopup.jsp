@@ -252,9 +252,9 @@
 
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
-
-   				<table class="searchBox">
+   			<div class="sub-content" style="padding:5px 9px 0 9px;">
+	   			
+   				<table class="table table_txt_right">
    					<colgroup>
    						<col style="width:15%;"/>
    						<col style="width:70%;"/>
@@ -263,7 +263,7 @@
    					<tbody>
    						<tr>
    							<th align="right">의견</th>
-   							<td>
+   							<td style="padding-top:7px;">
    								<textarea id="opiSbc"></textarea>
    							</td>
    							<td class="t_center">
