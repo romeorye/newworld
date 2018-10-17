@@ -16,4 +16,17 @@
         ]]>
     </select>
 
+    <select id="retrieveCodeValue" resultType="String">
+        <![CDATA[
+        /*retrieveCodeValueList 과제 상태 코드*/
+        SELECT
+            A.COM_DTL_NM as comDtlNm
+          FROM IRIS_ADM_COM_CD A
+         WHERE
+         A.COM_CD_CD = #{comCdCd}
+         AND A.COM_DTL_CD = #{comDtlCd}
+           AND A.DEL_YN = 'N'
+        ]]>
+    </select>
+
 </mapper>

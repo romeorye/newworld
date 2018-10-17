@@ -30,7 +30,14 @@ public class QasBatchServiceImpl implements QasBatchService {
 	public void batchProcess() {
 
 		LOGGER.debug("=============== QAS Gate 배치 울산 > IRIS ===============");
-		List<HashMap<String, Object>> gateList = commonDaoQasU.selectList("prj.tss.com.selectGateQasIF");
+		getGate(commonDaoQasU);
+		LOGGER.debug("=============== QAS Gate 배치 청주 > IRIS ===============");
+		getGate(commonDaoQasC);
+
+	}
+
+	private void getGate(CommonDao con) {
+		List<HashMap<String, Object>> gateList = con.selectList("prj.tss.com.selectGateQasIF");
 		for (int i = 0; i < gateList.size(); i++) {
 
 			// 게이트 정보 IRIS IRIS_TSS_QGATE_IF에 등록
@@ -73,7 +80,6 @@ public class QasBatchServiceImpl implements QasBatchService {
 
 			}
 		}
-
 	}
 
 //		commonDao.batchInsert("genTssStat.batch.insertViewInfo", addViewInfoList);

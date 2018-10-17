@@ -13,4 +13,7 @@ public interface TssStCopyService {
 	void deleteGenTssPlnMstTssSt(HashMap<String, Object> input);
 
 	public String createWbsCd(Map<String, Object> input);
+
+	// QAS 과제 등록
+	void insertToQasTssQasIF(Map<String, Object> input);
 }

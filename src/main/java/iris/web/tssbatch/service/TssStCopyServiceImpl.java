@@ -1,21 +1,19 @@
 package iris.web.tssbatch.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
 import devonframe.dataaccess.CommonDao;
 import iris.web.prj.tss.gen.service.GenTssAltrService;
 import iris.web.prj.tss.gen.service.GenTssCmplService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.nat.service.NatTssAltrService;
 import iris.web.prj.tss.ousdcoo.service.OusdCooTssAltrService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*********************************************************************************
  * NAME : TssCopyBatchServiceImpl.java
@@ -100,7 +98,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				if ("G".equals(input.get("tssScnCd"))) { //일반과제
 					this.insertGenData(input);
 					this.insertToQasTssQasIF(input); //QAS 과제등록
-
 				} else if ("O".equals(input.get("tssScnCd"))) {//대외협력과제
 					this.insertOusdData(input);
 				} else if ("N".equals(input.get("tssScnCd"))) {//국책과제
@@ -720,9 +717,25 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	}
 
 	// QAS 과제 등록
+	@Override
 	public void insertToQasTssQasIF(Map<String, Object> input) {
+
+		//사업부, 제품군 정보는 코드가 아닌 텍스트로 전달
+		HashMap<String, String> param = new HashMap<String, String>();
+
+		param.put("comCdCd", "PROD_G");
+		param.put("comDtlCd", (String) input.get("prodG"));
+		String prodGNm = commonDao.select("common.code.retrieveCodeValue",param);
+
+		param.put("comCdCd", "BIZ_DPT_CD");
+		param.put("comDtlCd", (String) input.get("bizDptCd"));
+		String bizDptCdNm = commonDao.select("common.code.retrieveCodeValue",param);
+
+		input.put("bizDptCdNm", bizDptCdNm);
+		input.put("prodGNm", prodGNm);
+
 		commonDaoQasU.insert("prj.tss.com.insertToQasTssQasIF",input);	//울산
-//		commonDaoQasC.insert("prj.tss.com.insertToQasTssQasIF",input);	//청주
+		commonDaoQasC.insert("prj.tss.com.insertToQasTssQasIF",input);	//청주
 	}
 }
 
