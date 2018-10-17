@@ -349,12 +349,21 @@ public class AnlLibController  extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
-
+		
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("AnlLibController - AnlLibList [분석자료실 리스트 호출]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-
+		
+		HashMap<String, Object> inputParam = new HashMap<String, Object>();
+		
+		
+		if(!NullUtil.isNull(input.get("bbsId"))){ 
+			inputParam.put("bbsId", input.get("bbsId"));
+			Map<String,Object> resultMap = anlLibService.getAnlLibInfo(inputParam);
+			input.put("bbsCd", (String) resultMap.get("bbsCd"));
+		}
+		
 		model.addAttribute("inputData", input);
 
 		return "web/anl/lib/retrieveAnlLibList";
