@@ -1,8 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*,
-				 java.util.*,
-				 devonframe.util.NullUtil,
-				 devonframe.util.DateUtil"%>
 
 <%--
 /*
@@ -179,8 +175,7 @@
 
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlMchnUseStateListExcel = function() {
-        		var excelColumnModel = columnModel.createExcelColumnModel(false);
-                duplicateExcelGrid(excelColumnModel);
+                duplicateExcelGrid(anlMchnUseStatColumnModel);
 nG.saveExcel(encodeURIComponent('분석 기기사용 통계_') + new Date().format('%Y%m%d') + '.xls');
             };
 
@@ -194,7 +189,7 @@ nG.saveExcel(encodeURIComponent('분석 기기사용 통계_') + new Date().form
 	<form name="aform" id="aform" method="post">
 
    		<div class="contents">
-   			<div class="titleArea">
+   			<div class="titleArea">anlChrgState.do:462)
    				<a class="leftCon" href="#">
 	   				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 	   				<span class="hidden">Toggle 버튼</span>

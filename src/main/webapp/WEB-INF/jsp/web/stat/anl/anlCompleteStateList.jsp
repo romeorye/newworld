@@ -1,8 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*,
-				 java.util.*,
-				 devonframe.util.NullUtil,
-				 devonframe.util.DateUtil"%>
 
 <%--
 /*
@@ -208,9 +204,8 @@
                  });
 
         		 //anlCompleteStateGrid.saveExcel('export.xls',{columnModel:excelColumnModel});
-        		 var excelColumnModel = columnModel.createExcelColumnModel(false);
                 duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('분석완료 통계_') + new Date().format('%Y%m%d') + '.xls');
+				nG.saveExcel(encodeURIComponent('분석완료 통계_') + new Date().format('%Y%m%d') + '.xls');
         		// 목록 페이징
         		 paging(anlCompleteStateDataSet,"anlCompleteStateGrid");
             };
