@@ -1,8 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*,
-                 java.util.*,
-                 devonframe.util.NullUtil,
-                 devonframe.util.DateUtil"%>
 
 <%--
 /*
@@ -114,7 +110,7 @@
                 upperDeptNm : encodeURIComponent(upperDeptNm.getValue())
             }
         });
-        var deptColumnModel = new Rui.ui.grid.LColumnModel({
+        deptColumnModel = new Rui.ui.grid.LColumnModel({
             autoWidth: true,
             columns : [
                   { id: 'group1',label : '조직' }
@@ -273,9 +269,9 @@
 	       	deptDataSet.clearFilter();
 
 	       	if(deptDataSet.getCount() > 0 ) {
-	       		var excelColumnModel = columnModel.createExcelColumnModel(false);
+	       		var excelColumnModel = deptColumnModel.createExcelColumnModel(false);
 	       		duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('실험정보_') + new Date().format('%Y%m%d') + '.xls');
+                nG.saveExcel(encodeURIComponent('조직코드약어관리') + new Date().format('%Y%m%d') + '.xls');
 
 	       	}else{
 	       		Rui.alert("리스트 건수가 없습니다.");

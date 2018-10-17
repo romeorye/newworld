@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
-<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
+<%@ page import="iris.web.prj.tss.tctm.TctmUrl"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -453,12 +452,6 @@
 			// 엑셀 다운로드시 전체 다운로드를 위해 추가
             dataSet.clearFilter();
             if(dataSet.getCount() > 0) {
-                 var excelColumnModel = columnModel.createExcelColumnModel(false);
-                 duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('과제관리_기술팀과제_') + new Date().format('%Y%m%d') + '.xls', {
-                    columnModel: excelColumnModel
-                });
-
             	var excelColumnModel = new Rui.ui.grid.LColumnModel({
                     gridView: columnModel,
                     columns: [
@@ -471,22 +464,28 @@ nG.saveExcel(encodeURIComponent('과제관리_기술팀과제_') + new Date().fo
                          if(record.get("myTss") == "Y") p.css.push('font-bold');
                          return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                      }}
-                     , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
-                     , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
-                     , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 100 }
-                     , { id: 'G1', label: '과제기간(계획일)' }
-                     , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 73 }
-                     , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 73 }
-                     , { id: 'G2', label: '과제실적일' }
-                     , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 73 }
-                     , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 73 }
-                     , { field: 'tssStepNm',  label: '진행단계', groupId: 'G2', sortable: true, align:'center', width: 73 }
-                     , { field: 'fn_getGrsStepNm',    label: '품의상태', sortable: true, align:'center', width: 50}
-                     , { field: 'qgateStepNm',        label: 'Q-gate상태', sortable: true, align:'center', width: 80}
+                        , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 180 }
+                        , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
+                        , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 100 }
+                        , { id: 'G1', label: '과제기간(계획일)' }
+                        , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 80 }
+                        , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 80 }
+                        , { id: 'G2', label: '과제실적일' }
+                        , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
+                        , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
+                        , { field: 'pgsStepCd',    label: '진행단계', sortable: true, align:'center', width: 65, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
+                                p.editable = false;
+                                return value;
+                            } }
+                        , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
+                                p.editable = false;
+                                return value;
+                            } }
+                        , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 120 }
                  ]
              });
             	duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('과제관리_기술팀과제_') + new Date().format('%Y%m%d') + '.xls', {
+				nG.saveExcel(encodeURIComponent('과제관리_기술팀과제_') + new Date().format('%Y%m%d') + '.xls', {
 		            columnModel: excelColumnModel
 		        });
             } else {
