@@ -219,6 +219,17 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
+			/* 완료예정일 */
+            var cmplParrDt = new Rui.ui.form.LDateBox({
+				applyTo: 'cmplParrDt',
+				mask: '9999-99-99',
+				displayValue: '%Y-%m-%d',
+				defaultValue: '',
+				editable: false,
+				width: 100,
+				dateType: 'string'
+			});
+
             /* WBS 팝업 설정*/
             var spaceRqprWbsCd = new Rui.ui.form.LPopupTextBox({
             	applyTo: 'spaceRqprWbsCd',
@@ -266,7 +277,7 @@
             /* 통보자 팝업 설정*/
             spaceRqprInfmView = new Rui.ui.form.LPopupTextBox({
                 applyTo: 'spaceRqprInfmView',
-                width: 600,
+                width: 450,
                 editable: false,
                 placeholder: '통보자를 입력해주세요.',
                 emptyValue: '',
@@ -275,6 +286,18 @@
             spaceRqprInfmView.on('popup', function(e){
             	openUserSearchDialog(setSpaceRqprInfm, 10, spaceRqprDataSet.getNameValue(0, 'infmPrsnIds'), 'space');
             });
+            setSpaceRqprInfm = function(userList) {
+    	    	var idList = [];
+    	    	var nameList = [];
+
+    	    	for(var i=0, size=userList.length; i<size; i++) {
+    	    		idList.push(userList[i].saUser);
+    	    		nameList.push(userList[i].saName);
+    	    	}
+
+    	    	spaceRqprInfmView.setValue(nameList.join(', '));
+    	    	spaceRqprDataSet.setNameValue(0, 'infmPrsnIds', idList);
+    	    };
 
             /* 평가대상명 */
             var evSubjNm = new Rui.ui.form.LTextBox({
@@ -1461,21 +1484,18 @@
             });
           	/////////////////////////////////////////////////
 
+
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'spaceNm',			validExp: '평가명:true:maxByteLength=100' },
-                { id: 'spaceSbc',			validExp: '분석목적:true' },
+                { id: 'spaceSbc',			validExp: '평가목적:true' },
                 { id: 'spaceScnCd',			validExp: '평가구분:true' },
-                { id: 'spaceUgyYn',			validExp: '긴급유무:true' }
-                ]
-            });
+                { id: 'cmplParrDt',			validExp: '완료예정일:true:date=YYYY-MM-DD' },
+                { id: 'spaceUgyYn',			validExp: '긴급유무:true' },
+                { id: 'spaceRqprWbsCd',		validExp: 'WBS코드:true' },
+                { id: 'spaceRqprInfmView',	validExp: '통보자:true' },
+                { id: 'oppbScpCd',			validExp: '공개범위:true' }
 
-            var vm2 = new Rui.validate.LValidatorManager({
-                validators:[
-                { id: 'spaceNm',			validExp: '분석명:true:maxByteLength=100' },
-                { id: 'spaceSbc',			validExp: '분석목적:true' },
-                { id: 'spaceScnCd',			validExp: '분석구분:true' },
-                { id: 'spaceUgyYn',			validExp: '긴급유무:true' }
                 ]
             });
 
@@ -1486,10 +1506,10 @@
     	    		return false;
     	    	}
 
-                /* if (vm2.validateDataSet(spaceRqprDataSet) == false) {
-                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm2.getMessageList().join('\n'));
+                if (vm1.validateDataSet(spaceRqprDataSet) == false) {
+                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm1.getMessageList().join('\n'));
                     return false;
-                } */
+                }
 
             	if(confirm('저장 하시겠습니까?')) {
                     dm.updateDataSet({
@@ -1500,6 +1520,16 @@
             	}
             };
 
+
+            var vm2 = new Rui.validate.LValidatorManager({
+                validators:[
+                { id: 'spaceNm',			validExp: '평가명:true:maxByteLength=100' },
+                { id: 'spaceSbc',			validExp: '평가목적:true' },
+                { id: 'spaceScnCd',			validExp: '평가구분:true' },
+                { id: 'spaceUgyYn',			validExp: '긴급유무:true' }
+                ]
+            });
+
             /* 접수 */
             receipt = function() {
     	    	if(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '02') {
@@ -1507,8 +1537,8 @@
     	    		return false;
     	    	}
 
-                if (vm1.validateDataSet(spaceRqprDataSet) == false) {
-                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm1.getMessageList().join('\n'));
+                if (vm2.validateDataSet(spaceRqprDataSet) == false) {
+                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm2.getMessageList().join('\n'));
                     return false;
                 }
 
@@ -1807,6 +1837,14 @@
    							<td>
                                 <div id="spaceScnCd"></div>
    							</td>
+							<th align="right"><span style="color:red;">* </span>완료예정일</th>
+   							<td><input type="text" id="cmplParrDt"/></td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>긴급유무</th>
+   							<td>
+                                <div id="spaceUgyYn"></div>
+   							</td>
    							<th align="right">WBS 코드</th>
    							<td>
    								<!-- <input type="text" id="spaceRqprWbsCd"> -->
@@ -1814,12 +1852,13 @@
 						            <div id="spaceRqprWbsCd"></div>
 						        </div>
    							</td>
-
    						</tr>
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>긴급유무</th>
+   							<th align="right">통보자</th>
    							<td>
-                                <div id="spaceUgyYn"></div>
+						        <div class="LblockMarkupCode">
+						            <div id="spaceRqprInfmView"></div>
+						        </div>
    							</td>
    							<th align="right"><span style="color:red;">* </span>공개범위</th>
    							<td  class="space_tain2">
@@ -1937,29 +1976,28 @@
    				</table>
 				</div>
 				
-
-				
+   				
    				<div class="rlabrqpr01">
    					<div class="left">
-		   				<div class="titArea">
-		   					<h3>관련평가</h3>
-		   					<div class="LblockButton">
-		   						<button type="button" class="btn"  id="addSpaceRqprRltdBtn" name="addSpaceRqprRltdBtn" onclick="openSpaceRqprSearchDialog(setSpaceRqprRltd)">추가</button>
-		   						<button type="button" class="btn"  id="deleteSpaceRqprRltdBtn" name="deleteSpaceRqprRltdBtn" onclick="deleteSpaceRqprRltd()">삭제</button>
-		   					</div>
-		   				</div>
+				   				<div class="titArea">
+				   					<h3>관련평가</h3>
+				   					<div class="LblockButton">
+				   						<button type="button" class="btn"  id="addSpaceRqprRltdBtn" name="addSpaceRqprRltdBtn" onclick="openSpaceRqprSearchDialog(setSpaceRqprRltd)">추가</button>
+				   						<button type="button" class="btn"  id="deleteSpaceRqprRltdBtn" name="deleteSpaceRqprRltdBtn" onclick="deleteSpaceRqprRltd()">삭제</button>
+				   					</div>
+				   				</div>
 
-		   				<div id="spaceRqprRltdGrid"></div>
+				   				<div id="spaceRqprRltdGrid"></div>
    					</div>
    					<div class="right">
-		   				<div class="titArea">
-		   					<h3>시료사진/첨부파일</h3>
-		   					<div class="LblockButton">
-		   						<button type="button" class="btn"  id="addSpaceRqprAttachBtn" name="addSpaceRqprAttachBtn" onclick="openAttachFileDialog(setSpaceRqprAttach, spaceRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'spacePolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
-		   					</div>
-		   				</div>
+				   				<div class="titArea">
+				   					<h3>시료사진/첨부파일</h3>
+				   					<div class="LblockButton">
+				   						<button type="button" class="btn"  id="addSpaceRqprAttachBtn" name="addSpaceRqprAttachBtn" onclick="openAttachFileDialog(setSpaceRqprAttach, spaceRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'spacePolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
+				   					</div>
+				   				</div>
 
-		   				<div id="spaceRqprAttachGrid"></div>
+				   				<div id="spaceRqprAttachGrid"></div>
    					</div>
    				</div>
 				</form>
@@ -2020,11 +2058,11 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">평가결과</th>
+   							<th align="right"><span style="color:red;">* </span>평가결과</th>
    							<td colspan="3"><textarea id="spaceRsltSbc"></textarea></td>
    						</tr>
    						<tr>
-   							<th align="right">평가결과서</th>
+   							<th align="right"><span style="color:red;">* </span>평가결과서</th>
    							<td colspan="2">
    								<span id="rsltAttcFileView"></span>
    							</td>

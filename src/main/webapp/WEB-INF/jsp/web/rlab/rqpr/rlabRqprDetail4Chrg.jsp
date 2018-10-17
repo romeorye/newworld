@@ -284,7 +284,7 @@
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'rlabNm',				validExp: '시험명:true:maxByteLength=100' },
-                { id: 'rlabSbc',				validExp: '시험목적:true' },
+                { id: 'rlabSbc',			validExp: '시험목적:true' },
                 { id: 'cmplParrDt',			validExp: '완료예정일:true:date=YYYY-MM-DD' },
                 { id: 'rlabScnCd',			validExp: '시험구분:true' },
                 { id: 'rlabUgyYn',			validExp: '긴급유무:true' },
