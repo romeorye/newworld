@@ -376,17 +376,16 @@
                 validators:[
                 { id: 'rlabNm',				validExp: '시험명:true:maxByteLength=100' },
                 { id: 'rlabSbc',			validExp: '시험목적:true' },
+				{ id: 'rlabProdCd',			validExp: '시료 제품군:true' },
                 { id: 'rlabScnCd',			validExp: '시험구분:true' },
                 { id: 'rlabUgyYn',			validExp: '긴급유무:true' },
                 { id: 'infmTypeCd',			validExp: '통보유형:true' },
                 { id: 'rlabChrgId',			validExp: '시험담당자:true' },
                 { id: 'smpoTrtmCd',			validExp: '시료처리:true' },
-//                 { id: 'rlabRqprInfmView',	validExp: '통보자:true' },
-                { id: 'smpoNm',				validExp: '시료명:true:maxByteLength=100' },
+				{ id: 'smpoNm',				validExp: '시료명:true:maxByteLength=100' },
                 { id: 'mkrNm',				validExp: '제조사:true:maxByteLength=100' },
                 { id: 'mdlNm',				validExp: '모델명:true:maxByteLength=100' },
-                { id: 'smpoQty',			validExp: '수량:true:number' },
-                { id: 'rlabRqprWbsCd',		validExp: '수량:false' }
+                { id: 'smpoQty',			validExp: '수량:true:number' }
                 ]
             });
 
@@ -397,6 +396,7 @@
                 fields: [
                 	  { id: 'rlabNm' }
   					, { id: 'rlabSbc' }
+  					, { id: 'rlabProdCd' }
                 	, { id: 'rlabScnCd' }
 					, { id: 'rlabUgyYn' }
 					, { id: 'infmTypeCd' }
@@ -408,7 +408,6 @@
 					, { id: 'rqprAttcFileId', defaultValue: '' }
 					, { id: 'rlabRqprWbsCd' }
 					, { id: 'rlabDzdvCd' }
-					, { id: 'rlabProdCd' }
 					, { id: 'rlabCrgrComm' }
                 ]
             });
@@ -467,9 +466,9 @@
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'smpoNm',	label: '<span style="color:red;">* </span>시료명',	sortable: false,	editable: true, editor: textBox,	align:'center',	width: 400 }
-                    , { field: 'mkrNm',		label: '<span style="color:red;">* </span>제조사',	sortable: false,	editable: true, editor: textBox,	align:'center',	width: 350 }
-                    , { field: 'mdlNm',		label: '<span style="color:red;">* </span>모델명',	sortable: false,	editable: true, editor: textBox,	align:'center',	width: 300 }
+                    , { field: 'smpoNm',	label: '<span style="color:red;">* </span>시료명',	sortable: false,	editable: true, editor: textBox,	align:'center',	width: 395 }
+                    , { field: 'mkrNm',		label: '<span style="color:red;">* </span>제조사',	sortable: false,	editable: true, editor: textBox,	align:'center',	width: 395 }
+                    , { field: 'mdlNm',		label: '<span style="color:red;">* </span>모델명',	sortable: false,	editable: true, editor: textBox,	align:'center',	width: 395 }
                     , { field: 'smpoQty',	label: '<span style="color:red;">* </span>수량',		sortable: false,	editable: true, editor: numberBox,	align:'center',	width: 50 }
                 ]
             });
@@ -882,9 +881,9 @@
    							<td>&nbsp;</td>
    							<td>
 				   				<div class="titArea">
-				   					<h3>시료사진/첨부파일</h3>
+				   					<h3>첨부파일</h3>
 				   					<div class="LblockButton">
-				   						<button type="button" class="btn"  id="addRlabRqprAttachBtn" name="addRlabRqprAttachBtn" onclick="openAttachFileDialog(setRlabRqprAttach, rlabRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'rlabPolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
+				   						<button type="button" class="btn"  id="addRlabRqprAttachBtn" name="addRlabRqprAttachBtn" onclick="openAttachFileDialog(setRlabRqprAttach, rlabRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'rlabPolicy', '*', 'M', '첨부파일')">파일첨부</button>
 				   					</div>
 				   				</div>
 

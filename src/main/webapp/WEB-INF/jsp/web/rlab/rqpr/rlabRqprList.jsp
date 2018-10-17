@@ -259,18 +259,25 @@
 
             /* 시험의뢰 리스트 엑셀 다운로드 */
         	downloadRlabRqprListExcel = function() {
-        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
-        		rlabRqprDataSet.clearFilter();
-                rlabRqprGrid.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') + '.xls');
-             // 목록 페이징
+                rlabRqprDataSet.clearFilter();
+
+            	var excelRlabRqprDataSet = rlabRqprDataSet.clone('excelRlabRqprDataSet');
+            	// 목록 페이징
                 paging(rlabRqprDataSet,"rlabRqprGrid");
+
+            	/* [Grid] 엑셀 */
+                var excelRlabRqprGrid = new Rui.ui.grid.LGridPanel({
+                    columnModel: rlabRqprColumnModel,
+                    dataSet: excelRlabRqprDataSet,
+                    width: 0,
+                    height: 0
+                });
+
+                excelRlabRqprGrid.render('excelRlabRqprGrid');
+                excelRlabRqprGrid.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') + '.xls');
+
             };
-    		/*
-            setRgstInfo = function(userInfo) {
-    	    	rgstNm.setValue(userInfo.saName);
-    	    	$('#rgstNm').val(userInfo.saUser);
-    	    };
-             */
+
             getRlabRqprList();
 
         });
@@ -354,6 +361,7 @@
    				</div>
 
    				<div id="rlabRqprGrid"></div>
+   				<div style="display:none" id="excelRlabRqprGrid"></div>
 
 				<div id="rlabRqprExcelGrid" style="width:10px;height:10px;visibility:hidden;"></div>
 

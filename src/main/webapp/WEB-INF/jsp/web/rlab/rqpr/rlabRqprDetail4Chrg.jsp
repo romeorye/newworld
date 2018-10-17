@@ -1456,10 +1456,10 @@
    				<div id="rlabRqprSmpoGrid"></div>
 
    				<br/>
-				
+
 				<div class="rlabrqpr01" id="rlab_ta" >
 					<!-- 관련시험 -->
-	   				<div class="left">						
+	   				<div class="left">
 		   				<div class="titArea">
 		   					<h3>관련시험</h3>
 		   					<div class="LblockButton">
@@ -1470,18 +1470,18 @@
 		   				<div id="rlabRqprRltdGrid"></div>
 					</div>
 					<!-- //관련시험 -->
-		   				
-		   			<!-- 시료사진/첨부파일 -->
-					<div class="right">						
+
+		   			<!-- 첨부파일 -->
+					<div class="right">
 		   				<div class="titArea">
-		   					<h3>시료사진/첨부파일</h3>
+		   					<h3>첨부파일</h3>
 		   					<div class="LblockButton">
-		   						<button type="button" class="btn"  id="addRlabRqprAttachBtn" name="addRlabRqprAttachBtn" onclick="openAttachFileDialog(setRlabRqprAttach, rlabRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'rlabPolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
+		   						<button type="button" class="btn"  id="addRlabRqprAttachBtn" name="addRlabRqprAttachBtn" onclick="openAttachFileDialog(setRlabRqprAttach, rlabRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'rlabPolicy', '*', 'M', '첨부파일')">파일첨부</button>
 		   					</div>
 		   				</div>
-	
+
 		   				<div id="rlabRqprAttachGrid"></div>
-		   				<!-- //시료사진/첨부파일 -->
+		   				<!-- 첨부파일 -->
 						</div>
 					</div>
 				</form>
