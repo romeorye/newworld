@@ -145,8 +145,8 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
 		   //표준실험절차서
            var columnModel01 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-        		     { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 250 }
-                  , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 560 }
+        		     { field: 'bbsNm',		label: '구분',    sortable: false,	align:'center',	width: 150 }
+                  , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 660 }
                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 160 }
                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 153 }
                   , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
@@ -187,8 +187,8 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
            //분석사례
            var columnModel02 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-       		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
-                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 470 }
+       		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'center',	width: 150 }
+                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 660 }
                 , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
                 , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
                 , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
@@ -229,8 +229,8 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
            //기기메뉴얼
            var columnModel03 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-        		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
-                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 470 }
+        		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'center',	width: 150 }
+                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 660 }
                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
                    , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
@@ -272,8 +272,8 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
            //분석기술정보
            var columnModel04 = new Rui.ui.grid.LColumnModel({
         	   columns: [
-        		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 300 }
-                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 470 }
+        		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'center',	width: 150 }
+                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 660 }
                    , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
                    , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
                    , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
