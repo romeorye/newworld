@@ -509,7 +509,7 @@ h3 {
 
             /* 실험정보 리스트 엑셀 다운로드 */
         	downloadSpaceExatMstListExcel = function() {
-        		spaceExatMstTreeGrid.saveExcel(encodeURIComponent('공간성능평가시험정보_') + new Date().format('%Y%m%d') + '.xls');
+nG.saveExcel(encodeURIComponent('공간성능평가시험정보_') + new Date().format('%Y%m%d') + '.xls');
             };
 
             addSpaceExatDtl = function() {
@@ -562,7 +562,7 @@ h3 {
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
 
 		<div class="contents">
-				
+
 			<div class="titleArea">
    				<a class="leftCon" href="#">
 		        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
@@ -570,8 +570,8 @@ h3 {
 	        	</a>
    				<h2>공간성능평가 시험정보 관리</h2>
    			</div>
-   			
-   			
+
+
    			<div class="sub-content">
    				<div class="titArea mt0" style="margin-bottom:5px !important">
 					<div class="LblockButton mt0 mb5">

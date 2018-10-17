@@ -261,21 +261,12 @@
         	downloadRlabRqprListExcel = function() {
                 rlabRqprDataSet.clearFilter();
 
-            	var excelRlabRqprDataSet = rlabRqprDataSet.clone('excelRlabRqprDataSet');
-            	// 목록 페이징
-                paging(rlabRqprDataSet,"rlabRqprGrid");
+                var excelColumnModel = columnModel.createExcelColumnModel(false);
+                duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') + '.xls');
 
-            	/* [Grid] 엑셀 */
-                var excelRlabRqprGrid = new Rui.ui.grid.LGridPanel({
-                    columnModel: rlabRqprColumnModel,
-                    dataSet: excelRlabRqprDataSet,
-                    width: 0,
-                    height: 0
-                });
-
-                excelRlabRqprGrid.render('excelRlabRqprGrid');
-                excelRlabRqprGrid.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') + '.xls');
-
+				//목록 페이징
+				paging(dataSet,"defaultGrid");
             };
 
             getRlabRqprList();

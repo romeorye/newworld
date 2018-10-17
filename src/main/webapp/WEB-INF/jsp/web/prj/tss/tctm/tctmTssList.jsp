@@ -454,7 +454,8 @@
             dataSet.clearFilter();
             if(dataSet.getCount() > 0) {
                  var excelColumnModel = columnModel.createExcelColumnModel(false);
-                grid.saveExcel(encodeURIComponent('과제관리_기술팀과제_') + new Date().format('%Y%m%d') + '.xls', {
+                 duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('과제관리_기술팀과제_') + new Date().format('%Y%m%d') + '.xls', {
                     columnModel: excelColumnModel
                 });
 
@@ -484,8 +485,8 @@
                      , { field: 'qgateStepNm',        label: 'Q-gate상태', sortable: true, align:'center', width: 80}
                  ]
              });
-
-		        grid.saveExcel(encodeURIComponent('과제관리_기술팀과제_') + new Date().format('%Y%m%d') + '.xls', {
+            	duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('과제관리_기술팀과제_') + new Date().format('%Y%m%d') + '.xls', {
 		            columnModel: excelColumnModel
 		        });
             } else {

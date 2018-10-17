@@ -228,7 +228,8 @@
 
         	if(dataSet.getCount() > 0 ) {
 	            var excelColumnModel = columnModel.createExcelColumnModel(false);
-	            grid.saveExcel(encodeURIComponent('신뢰성시험장비 예약관리_') + new Date().format('%Y%m%d') + '.xls', {
+	            duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('신뢰성시험장비 예약관리_') + new Date().format('%Y%m%d') + '.xls', {
 	                columnModel: excelColumnModel
 	            });
         	}else{

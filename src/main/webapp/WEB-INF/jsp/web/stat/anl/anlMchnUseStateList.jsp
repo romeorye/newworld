@@ -179,7 +179,9 @@
 
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlMchnUseStateListExcel = function() {
-                anlMchnUseStatGrid.saveExcel(encodeURIComponent('분석 기기사용 통계_') + new Date().format('%Y%m%d') + '.xls');
+        		var excelColumnModel = columnModel.createExcelColumnModel(false);
+                duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('분석 기기사용 통계_') + new Date().format('%Y%m%d') + '.xls');
             };
 
             getAnlMchnUseStateList();

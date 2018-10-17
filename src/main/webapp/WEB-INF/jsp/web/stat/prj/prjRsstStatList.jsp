@@ -256,7 +256,8 @@
                 });
 
                 var excelColumnModel = excelColumnModel.createExcelColumnModel(false);
-                defaultGrid.saveExcel(encodeURIComponent('통계_프로젝트') + new Date().format('%Y%m%d') + '.xls',{
+                duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('통계_프로젝트') + new Date().format('%Y%m%d') + '.xls',{
                     columnModel: excelColumnModel
                 });
              // 목록 페이징

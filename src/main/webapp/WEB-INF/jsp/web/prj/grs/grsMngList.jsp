@@ -419,7 +419,7 @@
             listDataSet.clearFilter();
             if(listDataSet.getCount() > 0) {
                 /*  var excelColumnModel = columnModel.createExcelColumnModel(false);
-                 grid.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
+nG.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
                      columnModel: excelColumnModel
                  }); */
 
@@ -440,8 +440,8 @@
                         { field: 'tssStNm',   label: 'GRS상태',  align:'center',  width: 65},
                     ]
                 });
-
-                listGrid.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.xls', {
+                 duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.xls', {
                     columnModel: excelColumnModel
                 });
 

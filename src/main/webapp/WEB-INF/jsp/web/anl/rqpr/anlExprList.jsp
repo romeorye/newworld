@@ -474,7 +474,8 @@
 
             /* 실험정보 리스트 엑셀 다운로드 */
         	downloadAnlExprMstListExcel = function() {
-        		anlExprMstTreeGrid.saveExcel(encodeURIComponent('실험정보_') + new Date().format('%Y%m%d') + '.xls');
+
+                anlExprMstTreeGrid.saveExcel(encodeURIComponent('실험정보_') + new Date().format('%Y%m%d') + '.xls');
             };
 
             addAnlExprDtl = function() {

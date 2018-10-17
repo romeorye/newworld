@@ -30,7 +30,7 @@ public class PrjRsstMstInfoServiceImpl implements PrjRsstMstInfoService {
 
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
-	
+
 	@Resource(name="commonDaoPims")
 	private CommonDao commonDaoPims;	// 지적재산권 조회 Dao
 
@@ -86,9 +86,9 @@ public class PrjRsstMstInfoServiceImpl implements PrjRsstMstInfoService {
 		}else {
 			commonDao.update("prj.rsst.mst.updatePrjRsstMstInfo", input);
 		}
-		
+
 		//지적재산권 등록및 수정
-		savePrjPimsInfo(input);
+		//savePrjPimsInfo(input);
 	}
 
 	/* 프로젝트 개요 상세 저장,업데이트 */
@@ -117,21 +117,21 @@ public class PrjRsstMstInfoServiceImpl implements PrjRsstMstInfoService {
 	    List<Map<String, Object>> resultList = commonDao.selectList("prj.rsst.mst.retrievePrjSearchPopupSearchList", input);
 	    return resultList;
 	}
-	
-	/* 팀정보 조회 
+
+	/* 팀정보 조회
 	 * 팀정보조회 + 팀원조회 + 팀 프로젝트 조회
 	 * */
 	@Override
 	public Map<String, Object> retrieveTeamDeptInfo(HashMap<String, String> input){
 		// 1. 팀정보 조회
 		Map<String, Object> resultMap = commonDao.select("prj.rsst.mst.retrieveTeamDeptInfo", input);
-		
+
 		// 2. 총 팀원 수 조회
 		if( resultMap != null && !resultMap.isEmpty() ) {
 			Map<String, Object> deptUserCntMap = this.retrieveDeptUserCntInfo(input);
 			resultMap.put("teamUserCnt", NullUtil.nvl(deptUserCntMap.get("deptCnt"), "0") );
 		}
-		
+
 		// 3. 팀 프로젝트 조회 : 로그인유저 팀으로 등록된 프로젝트 조회
 		if( resultMap != null && !resultMap.isEmpty() ) {
 	    	HashMap<String,Object> paramMap = new HashMap<String,Object>();
@@ -141,20 +141,20 @@ public class PrjRsstMstInfoServiceImpl implements PrjRsstMstInfoService {
 	    		resultMap.put("isTeamPrj", "Y");
 	    	}
 		}
-		
+
 		return resultMap;
 	}
-	
+
 	/* WBS_CD 중복여부 */
 	@Override
 	public String retrieveDupPrjWbsCd(Map<String, Object> input){
 		String dupYn = "N";
-		
+
 		Map<String, Object> resultMap = commonDao.select("prj.rsst.mst.retrieveDupPrjWbsCd", input);
 		if( !resultMap.isEmpty() ) {
 			dupYn = NullUtil.nvl(resultMap.get("dupYn"), "N");
 		}
-		
+
 		return dupYn;
 	}
 
@@ -165,9 +165,9 @@ public class PrjRsstMstInfoServiceImpl implements PrjRsstMstInfoService {
 	@Override
 	public void updatePrjDeptCdA(Map<String, Object> ds) {
 		commonDao.update("prj.rsst.mst.updatePrjDeptCdA", ds);
-		
+
 	}
-	
+
 	/* 프로젝트신규 전용팝업창 */
 	public List<Map<String, Object>> retrievePrjPopupSearchList(HashMap<String, Object> input){
 		return commonDao.selectList("prj.rsst.mst.retrievePrjPopupSearchList", input);

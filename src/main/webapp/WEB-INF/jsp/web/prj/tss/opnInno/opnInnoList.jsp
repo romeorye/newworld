@@ -166,7 +166,8 @@
 
         	if(dataSet.getCount() > 0 ) {
 	            var excelColumnModel = columnModel.createExcelColumnModel(false);
-	            grid.saveExcel(encodeURIComponent('O/I협력과제_') + new Date().format('%Y%m%d') + '.xls', {
+	            duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('O/I협력과제_') + new Date().format('%Y%m%d') + '.xls', {
 	                columnModel: excelColumnModel
 	            });
         	}else{

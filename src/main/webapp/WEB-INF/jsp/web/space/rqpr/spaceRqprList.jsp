@@ -260,7 +260,9 @@
         	downloadSpaceRqprListExcel = function() {
         		// 엑셀 다운로드시 전체 다운로드를 위해 추가
         		spaceRqprDataSet.clearFilter();
-                spaceRqprGrid.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') + '.xls');
+        		var excelColumnModel = columnModel.createExcelColumnModel(false);
+                duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') + '.xls');
              // 목록 페이징
    	    		paging(spaceRqprDataSet,"spaceRqprGrid");
             };

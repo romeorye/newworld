@@ -490,7 +490,7 @@
 
             /* 신뢰성정보 리스트 엑셀 다운로드 */
          	downloadRlabExatMstListExcel = function() {
-        		rlabExatMstTreeGrid.saveExcel(encodeURIComponent('신뢰성정보_') + new Date().format('%Y%m%d') + '.xls');
+nG.saveExcel(encodeURIComponent('신뢰성정보_') + new Date().format('%Y%m%d') + '.xls');
             };
 
             addRlabExatDtl = function() {
@@ -542,7 +542,7 @@
     <body>
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
 
-   		<div class="contents">  			
+   		<div class="contents">
 
   			<div class="titleArea">
 	   			<span class="titleArea" style="display:inline">

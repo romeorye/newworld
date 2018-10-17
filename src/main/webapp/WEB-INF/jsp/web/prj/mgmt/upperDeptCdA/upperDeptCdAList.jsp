@@ -273,7 +273,9 @@
 	       	deptDataSet.clearFilter();
 
 	       	if(deptDataSet.getCount() > 0 ) {
-	            deptGrid.saveExcel(encodeURIComponent('실험정보_') + new Date().format('%Y%m%d') + '.xls');
+	       		var excelColumnModel = columnModel.createExcelColumnModel(false);
+	       		duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('실험정보_') + new Date().format('%Y%m%d') + '.xls');
 
 	       	}else{
 	       		Rui.alert("리스트 건수가 없습니다.");

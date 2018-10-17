@@ -1,15 +1,15 @@
 <%--
 /*------------------------------------------------------------------------------
  * NAME : lycos.jsp
- * DESC : 초기화면 
+ * DESC : 초기화면
  * VER  : V1.0
  * PROJ : LG CNS 정보보안포탈
  * Copyright 2017 LG CNS All rights reserved
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
  *  					initial release
  *  2017.02.08  dwshin		임시로그인
  *------------------------------------------------------------------------------*/
@@ -23,13 +23,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>::::::IRIS::::::</title>
 <script type="text/javascript">
-	
+
 	function setCookie(cookieName, value, exdays){
-		
+
 		if(value==""){
 			value = document.getElementById("ssoid").value;
 		}
-		
+
 		var exdate = new Date();
 
 	    exdate.setDate(exdate.getDate() + exdays);
@@ -37,12 +37,12 @@
 	    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
 
 	    document.cookie = cookieName + "=" + cookieValue;
-	    
+
 	    //alert(getCookie('InitechEamUID'));
-	    
+
 	    document.location = "<c:url value="/common/login/irisDirectLogin.do"/>";
 	}
-	
+
 	function getCookie(cookieName) {
 
 	    cookieName = cookieName + '=';
@@ -97,7 +97,7 @@
 <input name="name" type="button"  value="법인GRS" onClick="setCookie('InitechEamUID', 'youngsunan', '1');"><br/>
 
 
-<input name="ssoid" type="text" id="ssoid"  value="" ><br/>
+<input name="ssoid" type="text" id="ssoid"  value="singkro" ><br/>
 <input name="submit" id="submit" value="로그인"  type="button" onClick="setCookie('InitechEamUID', '', '1');" />
 </body>
 </html>

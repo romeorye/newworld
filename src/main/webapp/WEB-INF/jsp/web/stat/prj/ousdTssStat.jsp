@@ -189,7 +189,8 @@
                 });
 
                 var excelColumnModel = excelColumnModel.createExcelColumnModel(false);
-                defaultGrid.saveExcel(encodeURIComponent('대외협력과제 통계_') + new Date().format('%Y%m%d') + '.xls',{
+                duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('대외협력과제 통계_') + new Date().format('%Y%m%d') + '.xls',{
                     columnModel: excelColumnModel
                 });
              // 목록 페이징

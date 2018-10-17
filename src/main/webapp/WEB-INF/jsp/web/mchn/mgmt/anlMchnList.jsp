@@ -214,7 +214,8 @@
 
         	if(dataSet.getCount() > 0 ) {
 	            var excelColumnModel = columnModel.createExcelColumnModel(false);
-	            grid.saveExcel(encodeURIComponent('분석기기_') + new Date().format('%Y%m%d') + '.xls', {
+	            duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('분석기기_') + new Date().format('%Y%m%d') + '.xls', {
 	                columnModel: excelColumnModel
 	            });
         	}else{

@@ -185,7 +185,7 @@
 
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlDivisionStateListExcel = function() {
-        		anlDivisionStateGrid.saveExcel(encodeURIComponent('사업부 통계_') + new Date().format('%Y%m%d') + '.xls');
+nG.saveExcel(encodeURIComponent('사업부 통계_') + new Date().format('%Y%m%d') + '.xls');
             };
 
             getAnlDivisionStateList();

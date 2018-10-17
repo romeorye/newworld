@@ -191,7 +191,7 @@
 
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlChrgStateListExcel = function() {
-                anlChrgStateGrid.saveExcel(encodeURIComponent('담당자 분석 통계_') + new Date().format('%Y%m%d') + '.xls');
+nG.saveExcel(encodeURIComponent('담당자 분석 통계_') + new Date().format('%Y%m%d') + '.xls');
             };
 
             getAnlChrgStateList();

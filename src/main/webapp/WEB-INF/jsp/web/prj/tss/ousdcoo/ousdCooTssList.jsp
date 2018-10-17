@@ -503,7 +503,8 @@
                 });
 
                 var excelColumnModel = excelColumnModel.createExcelColumnModel(false);
-                grid.saveExcel(encodeURIComponent('대외협력 과제관리_') + new Date().format('%Y%m%d') + '.xls', {
+                duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('대외협력 과제관리_') + new Date().format('%Y%m%d') + '.xls', {
                     columnModel: excelColumnModel
                 });
             } else {

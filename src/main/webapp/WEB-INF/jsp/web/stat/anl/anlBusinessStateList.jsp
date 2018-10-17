@@ -160,7 +160,7 @@
             
             /* 분석의뢰 리스트 엑셀 다운로드 */
         	downloadAnlBusinessStateListExcel = function() {
-        		anlBusinessStateGrid.saveExcel(encodeURIComponent('분석 업무현황 통계_') + new Date().format('%Y%m%d') + '.xls');
+nG.saveExcel(encodeURIComponent('분석 업무현황 통계_') + new Date().format('%Y%m%d') + '.xls');
             };
             
             getAnlBusinessStateList();

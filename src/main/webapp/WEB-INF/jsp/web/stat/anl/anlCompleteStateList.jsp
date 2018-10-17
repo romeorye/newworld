@@ -207,8 +207,10 @@
                          ]
                  });
 
-        		 anlCompleteStateGrid.saveExcel('export.xls',{columnModel:excelColumnModel});
-            	//anlCompleteStateGrid.saveExcel(encodeURIComponent('분석완료 통계_') + new Date().format('%Y%m%d') + '.xls');
+        		 //anlCompleteStateGrid.saveExcel('export.xls',{columnModel:excelColumnModel});
+        		 var excelColumnModel = columnModel.createExcelColumnModel(false);
+                duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('분석완료 통계_') + new Date().format('%Y%m%d') + '.xls');
         		// 목록 페이징
         		 paging(anlCompleteStateDataSet,"anlCompleteStateGrid");
             };

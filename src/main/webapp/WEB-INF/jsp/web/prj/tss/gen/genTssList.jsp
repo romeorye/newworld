@@ -554,8 +554,8 @@
                      }}
                  ]
              });
-
-		        grid2.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
+            	duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
 		            columnModel: excelColumnModel
 		        });
 
