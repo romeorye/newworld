@@ -151,7 +151,7 @@ var lvAttcFilId;
     	});
 
 
-          var columnModel = new Rui.ui.grid.LColumnModel({
+           columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'techScnNm',		  label: '분류',		sortable: false,	align:'center',	width: 140 }
                   , { field: 'titlNm',		      label: '제목',		sortable: false,	align:'left',	width: 680 }

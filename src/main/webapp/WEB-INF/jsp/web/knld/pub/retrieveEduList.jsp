@@ -190,7 +190,7 @@ var lvAttcFilId;
     	});
 
 
-          var columnModel = new Rui.ui.grid.LColumnModel({
+           columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'titlNm',		label: '교육/세미나명',   sortable: false,	align:'left',	width: 445 }
                   , { field: 'eduPlScnNm',  label: '교육장소',		  sortable: false,	align:'center',	width: 75 }

@@ -189,7 +189,7 @@ var lvAttcFilId;
     	});
 
 
-          var columnModel = new Rui.ui.grid.LColumnModel({
+           columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'titlNm',		label: '전시회명',        sortable: false,	align:'left',	width: 620 }
                   , { field: 'swrmNatNm',   label: '개최국',		  sortable: false,	align:'center',	width: 100 }
