@@ -357,9 +357,9 @@
             //NaN인경우
             dsNprodSalsPlnY  = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY:0;
             dsNprodSalsPlnY1 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
-            dsNprodSalsPlnY2 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
-            dsNprodSalsPlnY3 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
-            dsNprodSalsPlnY4 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
+            dsNprodSalsPlnY2 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY2:0;
+            dsNprodSalsPlnY3 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY3:0;
+            dsNprodSalsPlnY4 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY4:0;
 
             nprodSalsPlnY.setValue(dsNprodSalsPlnY);
             nprodSalsPlnY1.setValue(dsNprodSalsPlnY1);
