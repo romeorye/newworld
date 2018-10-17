@@ -319,6 +319,7 @@
             height: 400,
 			autoWidth: true,
         });
+
 /*
         var pager = new Rui.ui.LPager({
             gridPanel: grid,
@@ -332,7 +333,6 @@
         pager.render();
          */
         grid.render('defaultGrid');
-
 
 
         grid.on('cellClick', function(e) {
@@ -461,12 +461,19 @@
         /* [버튼] 엑셀 */
         var butExcel = new Rui.ui.LButton('butExcel');
         butExcel.on('click', function() {
-            dataSet.clearFilter();
+          	dataSet.clearFilter();
+        	var dataSet2 = dataSet.clone('dataSet2');
+        	/* [Grid] 엑셀 */
+            var grid2 = new Rui.ui.grid.LGridPanel({
+                columnModel: columnModel,
+                dataSet: dataSet2,
+                width: 0,
+                height: 0
+            });
+            grid2.render('defaultGrid2');
+	         // 목록 페이징
+            paging(dataSet,"defaultGrid");
             if(dataSet.getCount() > 0) {
-               /*  var excelColumnModel = columnModel.createExcelColumnModel(false);
-                grid.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
-                    columnModel: excelColumnModel
-                }); */
 
             	var excelColumnModel = new Rui.ui.grid.LColumnModel({
                     gridView: columnModel,
@@ -548,15 +555,14 @@
                  ]
              });
 
-		        grid.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
+		        grid2.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
 		            columnModel: excelColumnModel
 		        });
 
             } else {
                 Rui.alert("조회 후 엑셀 다운로드 해주세요.");
             }
-         // 목록 페이징
-            paging(dataSet,"defaultGrid");
+
         });
 
 
@@ -704,6 +710,7 @@ function setDeptInfo(deptInfo) {
 	            </div>
 
 					<div id="defaultGrid"></div>
+					<div style="display:none" id="defaultGrid2"></div>
 
             <!-- radio check Test -->
 <%--            <div>
