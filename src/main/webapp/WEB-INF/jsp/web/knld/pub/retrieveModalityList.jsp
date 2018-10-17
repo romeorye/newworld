@@ -97,7 +97,7 @@ var lvAttcFilId;
 	    	});
 
 
-          var columnModel = new Rui.ui.grid.LColumnModel({
+           columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'titlNm',		label: '제목',            sortable: false,	align:'left',	width: 900 }
                   , { field: 'rgstNm',		label: '등록자',		  sortable: false,	align:'center',	width: 130 }

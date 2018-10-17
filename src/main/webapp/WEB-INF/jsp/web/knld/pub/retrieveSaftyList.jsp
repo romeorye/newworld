@@ -189,7 +189,7 @@ var lvAttcFilId;
     	});
 
 
-          var columnModel = new Rui.ui.grid.LColumnModel({
+           columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'sftEnvScnNm', label: '구분',		  sortable: false,	align:'center',	width: 150 }
                   , { field: 'titlNm',		label: '제목',        sortable: false,	align:'left',	width: 640 }
@@ -362,6 +362,8 @@ function fncExcelDown() {
 	saftyDataSet.clearFilter();
 
     if( saftyDataSet.getCount() > 0){
+        var excelColumnModel = columnModel.createExcelColumnModel(false);
+        duplicateExcelGrid(excelColumnModel);
     	nG.saveExcel(toUTF8('안전/환경/보건 목록_') + new Date().format('%Y%m%d') + '.xls');
     } else {
     	alert('조회된 데이타가 없습니다.!!');
