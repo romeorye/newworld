@@ -88,7 +88,7 @@ public class PrjRsstMstInfoServiceImpl implements PrjRsstMstInfoService {
 		}
 
 		//지적재산권 등록및 수정
-		//savePrjPimsInfo(input);
+		savePrjPimsInfo(input);
 	}
 
 	/* 프로젝트 개요 상세 저장,업데이트 */
