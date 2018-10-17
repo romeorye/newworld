@@ -941,7 +941,7 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .tcn_tab01 .bg_arrow { background:url(/iris/resource/web/images/newIris/bullet-arrow01.png) no-repeat center center;}
 .tcn_tab01 .asset_right {position:relative; vertical-align:top; padding-top:0;}
 .tcn_tab01 .asset_img {position:absolute; left:0; top:0;}
-.tcn_tab01 .asset_img img {border:1px solid #c3c3c3; height:125px;}
+.tcn_tab01 .asset_img img {border:0 solid #c3c3c3; height:125px;}
 .tcn_tab01 .asset_txt {margin-left:210px;}
 .processs {overflow:hidden; width:786px;}
 .processs li {float:left; width:202px; height:202px;border:1px solid #c3c3c3; position:relative; text-align:center; box-sizing:border-box;}
