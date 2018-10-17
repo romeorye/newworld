@@ -126,7 +126,7 @@
             var spaceEvBzdvModel = new Rui.ui.grid.LColumnModel({
                 columns: [
 						new Rui.ui.grid.LStateColumn()
-                	, { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 80 }
+                	, { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 71 }
                     , { field: 'ctgrNm',	label: '사업부',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 200 }
                 ]
             });
@@ -135,9 +135,9 @@
             var spaceEvProdClModel = new Rui.ui.grid.LColumnModel({
                 columns: [
   						new Rui.ui.grid.LStateColumn()
-                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 80 }
-                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 80 }
-                    , { field: 'ctgrNm',	label: '제품군',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 200 }
+                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 70 }
+                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 70 }
+                    , { field: 'ctgrNm',	label: '제품군',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 160 }
                 ]
             });
 
@@ -145,9 +145,9 @@
             var spaceEvClModel = new Rui.ui.grid.LColumnModel({
                 columns: [
     						new Rui.ui.grid.LStateColumn()
-                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 80 }
-                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 80 }
-                    , { field: 'ctgrNm',	label: '분류',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 200 }
+                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 70 }
+                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 70 }
+                    , { field: 'ctgrNm',	label: '분류',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 160 }
                 ]
             });
 
@@ -155,9 +155,9 @@
             var spaceEvProdModel = new Rui.ui.grid.LColumnModel({
                 columns: [
   						new Rui.ui.grid.LStateColumn()
-                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 80 }
-                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 80 }
-                    , { field: 'ctgrNm',	label: '제품',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 200 }
+                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 70 }
+                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 70 }
+                    , { field: 'ctgrNm',	label: '제품',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 160 }
                 ]
             });
 
@@ -171,9 +171,9 @@
                 	, { field: 'prodNm',		hidden : true}
                 	, { field: 'evCd',		hidden : true}
                 	, { field: 'attcFilId',	hidden : true}
-                	, { field: 'scn',			label: '구분',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
-                    , { field: 'pfmcVal',		label: '성능값',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
-                    , { field: 'frstRgstDt',	label: '등록일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
+                	, { field: 'scn',			label: '구분',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 181 }
+                    , { field: 'pfmcVal',		label: '성능값',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 181 }
+                    , { field: 'frstRgstDt',	label: '등록일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 181 }
                     , { field: 'strtVldDt',		label: '유효시작일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'fnhVldDt',		label: '유효종료일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
                     , { field: 'ottpYn',		label: '공개여부',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100 }
