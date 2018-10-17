@@ -2,9 +2,13 @@
 var aCnt = 10;		//게시물수
 var pCnt = 10;		//페이지 수
 var pDs;
+var pId;
 var nowP = 1;
 var totalPCnt=0;
+
+
 function paging(dsSet,gridId){
+
     pDs = dsSet;
 
     $("#paging").remove();
@@ -60,10 +64,10 @@ function pagingSetPage(p){
     $("#paging > a[name='"+p+"']").css("color","#DA1C5A");
 }
 
-function duplicateExcelGrid(dataSet,gridId, columnModel){
-    nDs = $.extend({}, dataSet);
+function duplicateExcelGrid(columnModel){
+    nDs = $.extend({}, pDs);
     nDs.clearFilter();
-    $("#"+gridId).after("<div id='excelGrid' style='display: none'/>");
+    $("#"+pId).after("<div id='excelGrid' style='display: none'/>");
 
     nG = new Rui.ui.grid.LGridPanel({
         columnModel: columnModel,
