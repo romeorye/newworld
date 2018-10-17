@@ -41,6 +41,7 @@ var roleId = '${inputData._roleId}';
 var bbsId = "${inputData.bbsId}";
 var bbsCd = "${inputData.bbsCd}";
 var target = "${inputData.target}";
+var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
 
 	Rui.onReady(function() {
        /*******************
@@ -312,6 +313,13 @@ var target = "${inputData.target}";
 
            anlBbsDataSet.on('load', function(e) {
   	    		$("#cnt_text").html('총 ' + anlBbsDataSet.getCount() + '건');
+  	    		
+   	            if(roleIdIndex != -1) {
+ 	              	chkUserRgst(true);
+ 	            } else {
+ 	              	chkUserRgst(false);
+ 	            }
+   	            
 	  	    	// 목록 페이징
 	  	    	if(bbsCd=='06'){
 	  	    		paging(anlBbsDataSet,"anlBbsGrid01");
@@ -336,9 +344,19 @@ var target = "${inputData.target}";
                    }
                });
            };
+           
+		    // roleId가 분석담당자이면 등록자와 사용자가 달라도 수정/삭제 가능
+		    //이외의 사용자는 상세보기만 가능
+		    //등록자와 사용자가 다를때 수정/삭제버튼 가리기
+            chkUserRgst = function(display){
+		    	 if(display) {
+		    		 rgstBtn.show();
+	 	         }else {
+	 	        	 rgstBtn.hide();
+                }
+		    }
 
            getAnlBbsList();
-
 
            //chkUserRgst(false);
 
