@@ -367,7 +367,13 @@ scrollbar-darkshadow-color:orange;
 scrollbar-face-color:#f3f3f3;
 scrollbar-highlight-color: blue;
 scrollbar-shadow-color:#fff;}	
-}
+.btn_menu #tmpMenu .Mgnb_wrap .Mgnb {
+scrollbar-arrow-color: #e2e2e2;
+scrollbar-track-color: #fff;
+scrollbar-darkshadow-color:#e2e2e2;
+scrollbar-face-color:#fff;
+scrollbar-highlight-color:#e2e2e2;
+scrollbar-shadow-color:#e2e2e2;}
 
 
 /* 상단메뉴 */
