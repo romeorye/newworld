@@ -115,7 +115,7 @@ var lvAttcFilId;
     	});
 
 
-          var columnModel = new Rui.ui.grid.LColumnModel({
+          columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'instNm',	  label: '기관명',       sortable: false,	align:'center',	width: 300 }
                   , { field: 'opsNm',	  label: '부서',		 sortable: false,	align:'center',	width: 230 }

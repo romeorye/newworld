@@ -101,7 +101,7 @@ var affrClGroup = '${inputData.affrClId}';
     	});
 
 
-          var columnModel = new Rui.ui.grid.LColumnModel({
+          columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'affrClNm',    label: '업무분류', sortable: false,	align:'center',	width: 225 }
                   , { field: 'titlNm',	    label: '제목',	   sortable: false,	align:'left',	width: 680 }

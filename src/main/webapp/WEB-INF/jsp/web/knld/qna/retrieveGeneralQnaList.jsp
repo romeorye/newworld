@@ -192,7 +192,7 @@ var lvAttcFilId;
     	});
 
 
-          var columnModel = new Rui.ui.grid.LColumnModel({
+          columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'qnaClCd',     label: '구분',		sortable: false,	align:'center',	width: 100 }
             	  , { field: 'titlNm',		label: '제목',      sortable: false,	align:'left',	width: 700,
