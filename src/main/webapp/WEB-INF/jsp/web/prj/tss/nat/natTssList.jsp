@@ -381,7 +381,8 @@
             dataSet.clearFilter();
             if(dataSet.getCount() > 0) {
                 var excelColumnModel = columnModel.createExcelColumnModel(false);
-                grid.saveExcel(encodeURIComponent('과제관리_국책과제') + new Date().format('%Y%m%d') + '.xls', {
+                duplicateExcelGrid(excelColumnModel);
+                nG.saveExcel(encodeURIComponent('과제관리_국책과제') + new Date().format('%Y%m%d') + '.xls', {
                     columnModel: excelColumnModel
                 });
             } else {
