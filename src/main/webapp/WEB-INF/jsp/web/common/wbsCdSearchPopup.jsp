@@ -175,7 +175,7 @@
 			    columnModel: columnModel,
 			    dataSet: wbsCdDataset,
 			    width: 600,
-			    height: 350,
+			    height: 340,
 			    autoToEdit: false,
 			    autoWidth: true
 			});

@@ -251,7 +251,7 @@
    						<col style="">
    						<col style="width:80px;">
    						<col style="">
-   						<col style="">
+   						<col style="width:80px;">
    					</colgroup>
    					<tbody>
    						<tr>

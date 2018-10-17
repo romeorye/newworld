@@ -132,7 +132,7 @@
                 columnModel: anlRqprOpinitionColumnModel,
                 dataSet: anlRqprOpinitionDataSet,
                 width: 780,
-                height: 300,
+                height: 270,
                 autoToEdit: true,
                 autoWidth: true
             });
@@ -252,7 +252,7 @@
 		
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
+   			<div class="sub-content" style="padding:5px 9px 0 9px;">
 	   			
    				<table class="table table_txt_right">
    					<colgroup>
