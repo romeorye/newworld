@@ -391,7 +391,7 @@
                 <col style="width: 35%;" />
                 <col style="width: 15%;" />
                 <col style="width: 25%;" />
-                <col style="width: 10%;" />
+                <col style="" />
             </colgroup>
             <tbody>                         
                 <tr>
@@ -459,11 +459,11 @@
                 </tr>
                 <tr>
                     <th align="right">연구비 지급조건</th>
-                    <td colspan="4"><textarea id="rsstExpFnshCnd" name="rsstExpFnshCnd"></textarea></td>
+                    <td colspan="4" class="space_tain"><textarea id="rsstExpFnshCnd" name="rsstExpFnshCnd"></textarea></td>
                 </tr>
                 <tr>
                     <th align="right">법무팀 검토결과</th>
-                    <td colspan="4"><textarea id="rvwRsltTxt" name="rvwRsltTxt"></textarea></td>
+                    <td colspan="4" class="space_tain"><textarea id="rvwRsltTxt" name="rvwRsltTxt"></textarea></td>
                 </tr>
                 <tr>
                     <th align="right">첨부파일<br/>(심의파일, 회의록 필수 첨부)</th>

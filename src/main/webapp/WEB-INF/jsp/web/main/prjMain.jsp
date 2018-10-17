@@ -364,6 +364,17 @@
 	<style>
 	html, body {height:100%;}
 	*html .pj_body .Main_content_w {height:100%;} /* IE */
+	/*분석메인, 프로젝트메인 공통 */
+	.top_gnb .menu {width:95%; margin-left:30px; height:600px !important;}
+	.top_gnb .menu ul.menu_mm {width:100%; overflow:hidden; margin-top:20px;}
+	.top_gnb .menu > ul > li {border:0; min-width:155px;    height: unset;}
+	.top_gnb .menu > ul > li span {margin:10px 0 6px 0 !important;}
+	.btn_menu #tmpMenu .top_gnb  {display:block !important;}
+	#prj_right .btn_menu ul li ul li {margin-bottom:2px;}
+	#prj_right .btn_menu ul li span a, #prj_right .btn_menu ul li ul li a {color:#555 !important; display:inline; line-height:1; font-size:12px; font-weight:normal; letter-spacing:-1px;}
+	
+	/*전체베뉴*/
+	
 	</style>
 </head>
 
@@ -449,15 +460,6 @@
         <!--right-->
         <div class="body_con" id="prj_content">
         	<!-- section1 -->
-        	<style>
-.visual {position:relative;}
-.visual .main_txt {position:absolute; z-index:999; left:30px; color:#fff; width:90%; height:100%; display:table;}
-.visual .main_txt div {display:table-cell; vertical-align:middle;height:100%;}
-.visual .main_txt span:before {content:""; position:absolute; left:0; top:-15px; width:30px; height:1px; background:#fff; z-index:999;}
-.visual .main_txt span {font-size:15px;letter-spacing:-1px; display:inline-block; padding-right:20px; line-height:1.2; margin-bottom:1px; position:relative;}
-.visual .main_txt p {font-size:18px; font-weight:bold; text-shadow:3px 3px 3px rgba(0,0,0, 0.1)}
-</style>
-
         	<div class="fir_subject_con section1">
         		<div class="visual" style="position:relative;">
 	        		<div class="main_txt">
@@ -702,43 +704,14 @@
                 </div>
             </div>
         </div>
-
-<style>
-/*분석메인, 프로젝트메인 공통 */
-.btn_menu:hover #tmpMenu {display:block !important; overflow: hidden;}
-.btn_menu #tmpMenu
-{display:none !important;position: absolute;z-index: 9999; text-align:left; position: absolute; z-index:999;width:1050px; background:#fff; top:38px; border:1px solid #ccc;
-padding: 10px; padding-left:36px; right:0;background:#fff; border:1px solid #ccc; box-sizing:border-box; border-radius:16px;}
-.btn_menu #tmpMenu #horizontalContainer {    overflow: hidden;
-    min-height: 600px;}
-.btn_menu #tmpMenu #horizontalContainer .gnb_height {    overflow: hidden; min-height: 600px;}
-.btn_menu #tmpMenu #horizontalContainer .gnb_height .nav.Mgnb {height:auto !important;}
-.btn_menu #tmpMenu  nav.Mgnb .top_gnb {top:10px !important;}
-
-.menu_mm_ss_g > li {margin-top:10px;}
-.menu_mm_ss_g > li.mainMenuTitle {height:22px;font-size:15px; font-weight:bold; position:relative;line-height:1.5;}
-.menu_mm_ss_g > li.mainMenuTitle:before { content: ""; position:absolute; display: block; top: 0; left: 0; width:20px; height: 1px; background: #da1c5a;}
-#horizontalContainer > span strong:first-child {margin-bottom:-10px;}
-.btn_menu .top_gnb  {border:0; width:100%;}
-.btn_menu .top_gnb .m_gnb {background-image:none !important; border:0; width:100%; height:600px;}
-
-.top_gnb .menu {width:95%; margin-left:30px; height:600px !important;}
-.top_gnb .menu ul.menu_mm {width:100%; overflow:hidden; margin-top:20px;}
-.top_gnb .menu > ul > li {border:0; min-width:155px;    height: unset;}
-.top_gnb .menu > ul > li span {margin:10px 0 6px 0 !important;}
-.btn_menu #tmpMenu .top_gnb  {display:block !important;}
-#prj_right .btn_menu ul li ul li {margin-bottom:2px;}
-#prj_right .btn_menu ul li span a, #prj_right .btn_menu ul li ul li a {color:#555 !important; display:inline; line-height:1; font-size:12px; font-weight:normal; letter-spacing:-1px;}
-
-</style>
  		<!-- 좌측 추가 영역 -->
         <div id="prj_right">
         	<div class="btn_menu">
         		<a href="#"><img src="/iris/resource/web/images/newIris/bullet_menu.png"> 전체메뉴</a>
         		<!-- 전체메뉴 리스트 -->
         		<div id="tmpMenu" class="allmneu">
-					<!-- <div><input type="button" value="닫기" onclick="hideTmpMenu()"></div> -->
-					<div id="horizontalContainer" style="float: none">
+					
+					
         			<%@ include file="/WEB-INF/jsp/web/main/allMenuTop.jspf" %>
 					<!-- 	<span id="m01" style="float: left;margin-right: 20px;"><strong><br>Project<br></strong><u><a href="javascript:moveMenu('PJ', 'IRIPJ0300', '/prj/main.do', 'IRIPJ0301')">Main</a></u><br><strong><br>연구팀(Project)<br></strong>현황<br>월마감<br><strong><br>GRS<br></strong><u><a href="/iris/prj/grs//listGrsMngInfo.do">GRS관리</a></u><br><strong><br>과제관리<br></strong>일반과제<br>대외협력과제<br>국책과제<br><u><a href="/iris/prj/tss/tctm/tctmTssList.do">기술팀과제</a></u><br>O/I협력과제<br>RFP요청관리<br>결재현황<br><strong><br>M/M관리<br></strong>M/M입력<br>M/M마감<br><strong><br>관리<br></strong>신제품코드매핑<br>표준WBS관리<br>GRS템플릿관리<br>투입예산관리<br>조직코드약어관리<br>일반과제개요/분류관리<br></span>
 						<span id="m02" style="float: left;margin-right: 20px;"><strong><br>Technical Service<br></strong><u><a href="/iris/anl/main.do">Main</a></u><br><strong><br>기기분석<br></strong>분석의뢰<br>분석목록<br>자료실<br>안내<br><strong><br>신뢰성시험<br></strong><u><a href="/iris/rlab/rlabRqprList.do">시험의뢰</a></u><br><u><a href="/iris/rlab/rlabRqprList4Chrg.do">시험목록</a></u><br><u><a href="/iris/rlab/lib/retrieveRlabLibList.do">자료실</a></u><br><u><a href="/iris/rlab/gid/rlabSphereInfo.do">안내</a></u><br><strong><br>공간평가<br></strong><u><a href="/iris/space/spaceRqprList.do">평가의뢰</a></u><br><u><a href="/iris/space/spaceRqprList4Chrg.do">평가목록</a></u><br><u><a href="/iris/space/spacePfmcMst.do">성능 Master</a></u><br><u><a href="/iris/space/lib/retrieveSpaceLibList.do">자료실</a></u><br><u><a href="/iris/space/gid/spaceSphereInfo.do">안내</a></u><br><strong><br>통합게시판<br></strong><u><a href="/iris/anl/bbs/retrieveAnlBbsList.do">공지사항</a></u><br><u><a href="/iris/anl/bbs/retrieveAnlQnaList.do">Q&amp;A</a></u><br><strong><br>관리<br></strong>기기분석 시험정보관리<br><u><a href="/iris/rlab/rlabExprList.do">신뢰성 시험정보관리</a></u><br><u><a href="/iris/space/spaceExatList.do">공간평가 시험정보관리</a></u><br><u><a href="/iris/space/spaceEvaluationMgmt.do">공간평가 평가법관리</a></u><br></span>
@@ -748,7 +721,7 @@ padding: 10px; padding-left:36px; right:0;background:#fff; border:1px solid #ccc
 						<span id="m05" style="float: left;margin-right: 20px;"></span>
 						<span id="m06" style="float: left;margin-right: 20px;"><strong><br>Statistics<br></strong><strong><br>연구과제<br></strong>프로젝트통계<br>일반과제통계<br>대외협력과제통계<br>국책과제통계<br>포트폴리오<br>신제품매출실적<br><strong><br>기기분석<br></strong>분석완료<br>분석 기기사용<br>OPEN 기기사용<br>분석 업무현황<br>사업부 통계<br>담당자 분석통계<br><strong><br>신뢰성시험<br></strong>연도별 통계<br>기간별 통계<br>장비사용 통계<br><strong><br>공간평가<br></strong>통계1<br>통계2<br>통계3<br>통계4<br>통계5<br><strong><br>관리<br></strong>공통코드관리<br></span>
 					 -->
-					</div>
+					
 				</div>
 				<!-- //전체메뉴 리스트 -->
         	</div>

@@ -348,7 +348,7 @@
 </head>
 <body>
 <div id="aFormDiv">
-    <form name="ivstDtForm" id="ivstDtForm" method="post" style="padding: 20px 1px 0px 0;">
+    <form name="ivstDtForm" id="ivstDtForm" method="post" style="padding:0 1px 0px 0;">
         <div class="LblockMainBody">
 	        <table class="table table_txt_right">
 	            <colgroup>

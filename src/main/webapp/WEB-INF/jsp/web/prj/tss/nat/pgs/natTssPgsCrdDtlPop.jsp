@@ -314,7 +314,7 @@ function setLeaderInfo(userInfo) {
 <body>
 <div id="aFormDiv">
     <form name="crdDtForm" id="crdDtForm" method="post" style="padding: 20px 1px 0px 0;">
-        <div class="LblockMainBody">
+        <div class="LblockMainBody" style="margin-top:-25px;">
 	        <table class="table table_txt_right">
 	            <colgroup>
 	                <col style="width: 120px;" />

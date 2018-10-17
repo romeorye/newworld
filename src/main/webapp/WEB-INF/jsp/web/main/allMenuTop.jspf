@@ -7,20 +7,11 @@
 //pageContext.setAttribute("menuList", allMenuList) ;
 %>
 <c:set var="mainUrl" value="/prj/main.do"/>
-		        <div class="gnb_height">
-		            <%-- <h1><a href="<c:url value="${mainUrl}"/>"><img src="<%=imagePath%>/newIris/logo.png" alt="로고" width="104px;" height="44px;"></a></h1> --%>
-		            <nav class="Mgnb">
-		                <div class="top_gnb">
-		                    <div class="m_gnb">
-		                    <!--
-		                       <div class="m_bm">
-		                           <div class="m_txt">
-		                            IRIS
-		                            <span>Integrated Research Information System1</span>
-		                           </div>
-		                       </div> -->
-		                            <div class="menu">
-		                                <ul class="menu_mm">
+		     
+
+		            <div class="Mgnb_wrap">
+		                	 <div class="Mgnb">
+	                                <ul class="menu_mm">
 	                        <c:set var="prevLevel" value="0"/>
 	                        <c:set var="parentMenuId" value=""/>
 
@@ -72,15 +63,13 @@
 		                                    </li>
 
 		                                    <c:set var="prevLevel" value="0"/>
-			                	</c:forEach>
+			                				</c:forEach>
 
 		                            </ul>
+							</div>
 
-		                       </div>
-		                  </div>
-		                </div>
-		            </nav>
-		        </div>
+		            </div>
+		    
 
 <form id="menuForm" name="menuForm" method="post" action="/iris/index.do">
 	<input type="hidden" id="parentMenuId" name="parentMenuId" />

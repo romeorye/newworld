@@ -211,11 +211,11 @@ var mchnInfoId;
 		<div class="search-content">
     		<table>
    					<colgroup>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:10%;"/>
+   						<col style="width:100px;"/>
+   						<col style="width:385px;"/>
+   						<col style="width:100px;"/>
+   						<col style="width:300px;"/>
+   						<col style=""/>
    					</colgroup>
    					<tbody>
    						<tr>

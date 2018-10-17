@@ -559,9 +559,9 @@ var attId;
 	
 		<table class="table table_txt_right">
 			<colgroup>
-				<col style="width:120px;"/>
-				<col style="width:380px;"/>
-				<col style="width:120px;"/>
+				<col style="width:15%;"/>
+				<col style="width:35%;"/>
+				<col style="width:15%;"/>
 				<col style=""/>
 			</colgroup>
 			<tbody>
@@ -649,7 +649,7 @@ var attId;
 				</tr>
 				<tr>
 					<th align="right">Spec</th>
-					<td colspan="3">
+					<td colspan="3" class="space_tain">
 						<textarea id="fxaSpc"></textarea>
 					</td>
 				</tr>

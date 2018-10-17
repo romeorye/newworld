@@ -244,7 +244,7 @@ h4 span{color:#969696!important; font-size:13px; padding-left:3px; font-weight:4
 .top_gnb .m_bm span{display: block; font-size:13px; color: #797979;padding-top:10px; }
 .top_gnb .menu{display: inline-block; width:790px; vertical-align: top;     overflow-y: auto;overflow-x: hidden; height:680px; box-sizing:border-box; }
 .top_gnb .menu .menu_mm{display: inline-block; width:790px; box-sizing:border-box;  }
-.menu_mm_ss{display: inline-block; vertical-align: top; border-left:1px solid #dfdfdf; padding-left: 10px; width:125px; height:680px; box-sizing:border-box;}
+.menu_mm_ss{display: inline-block; vertical-align: top; border-left:1px solid #dfdfdf; padding-left: 10px; width:125px;  box-sizing:border-box;}
 .menu_mm_ss:nth-child(5)  {width:140px; box-sizing:border-box;}
 .menu_mm_ss_g{display: inline-block; vertical-align: top;}
 .menu_mm_ss_g span{display: block; font-size:13px; color: #000; margin-top: 20px; margin-bottom: 10px; font-weight:600; width:120px; box-sizing:border-box;  }

@@ -193,8 +193,8 @@
    			    </div>
    			    <div id="bd">
 			        <div class="LblockMarkupCode">
-						<div id="fieldWrapper">
-	   						<table class="table table_txt_right">
+						<div id="fieldWrapper" style="width:100% !important;">
+	   						<table class="table table_txt_right" style=" margin-bottom:10px !important;">
 			   					<colgroup>
 			   						<col style="width:100px;"/>
 			   						<col style="width:300px;"/>

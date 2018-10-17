@@ -719,9 +719,9 @@ function setPrjInfo(prjInfo) {
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 13%;" />
-                                <col style="width: 36%;" />
-                                <col style="width: 14%;" />
+                                <col style="width: 15%;" />
+                                <col style="width: 35%;" />
+                                <col style="width: 15%;" />
                                 <col style="" />
                             </colgroup>
                             <tbody>
@@ -763,7 +763,7 @@ function setPrjInfo(prjInfo) {
                                 </tr>
                                 <tr>
                                 	<th align="right">주관부처</th>
-                                    <td colspan="3">
+                                    <td colspan="3" class="space_tain">
                                          <input type="text" id="supvOpsNm" />
                                     </td>
                                 </tr>

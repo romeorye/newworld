@@ -662,10 +662,10 @@
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 12%;" />
-                                <col style="width: 38%;" />
-                                <col style="width: 12%;" />
-                                <col style="width: 38%;" />
+                                <col style="width: 15%;" />
+                                <col style="width: 35%;" />
+                                <col style="width: 15%;" />
+                                <col style="width: 35%;" />
                             </colgroup>
                             <tbody>
                                <tr>
@@ -706,7 +706,7 @@
                                 </tr>
                                 <tr>
                                 	<th align="right">주관부처</th>
-                                    <td class="tssLableCss">
+                                    <td colspan="3" class="tssLableCss">
                                         <span  id="supvOpsNm" />
                                     </td>
                                 </tr>
