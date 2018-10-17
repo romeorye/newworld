@@ -349,10 +349,12 @@ div.gnb_search .name_info a:hover span.icon_search {width:20px; height:22px;    
 #horizontalContainer > span:nth-child(6) {display:none;}
 #horizontalContainer > span:nth-child(7):before {background: url(/iris/resource/web/images/newIris/img_allmenu.png) center -465px no-repeat;}
 */
-.btn_menu #tmpMenu {display:block !important; text-align:left; position: absolute; z-index:999;width:1170px; top:38px; right:0;}
+.btn_menu:hover #tmpMenu {display:block !important;}
+.btn_menu #tmpMenu {display:none; text-align:left; position: absolute; z-index:999;width:1170px; top:38px; right:0;}
 .btn_menu #tmpMenu .Mgnb_wrap { height:605px;  float:right; padding:24px; background:#fff; border:1px solid #ccc; box-sizing:border-box; border-radius:16px;}
 .btn_menu #tmpMenu .Mgnb_wrap .Mgnb { height:560px; padding:0; overflow-x:hidden; overflow-y:auto;}
 .btn_menu #tmpMenu .Mgnb_wrap .Mgnb > ul {width: -webkit-calc(100% + 30px); width: -moz-calc(100% + 30px); width:calc(100% + 30px); }
+.btn_menu #tmpMenu .Mgnb_wrap .Mgnb > ul li:first-child {margin-top:0 !important;}
 .btn_menu #tmpMenu .Mgnb_wrap .Mgnb .menu_mm li {width:175px !important; padding: 0 0 0 10px; margin-top:12px;}
 .btn_menu #tmpMenu .Mgnb_wrap .Mgnb .menu_mm li span {margin-top:0; margin-bottom:4px;}
 .btn_menu #tmpMenu .Mgnb_wrap .Mgnb .menu_mm li ul li {padding:0;margin-top:12px;}
@@ -366,7 +368,7 @@ scrollbar-face-color:#f3f3f3;
 scrollbar-highlight-color: blue;
 scrollbar-shadow-color:#fff;}	
 }
-.btn_menu:hover #tmpMenu {display:block !important;}
+
 
 /* 상단메뉴 */
 .menu_mm_ss_g > li {margin-top:10px;}
