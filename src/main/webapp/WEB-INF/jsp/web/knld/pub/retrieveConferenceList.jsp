@@ -190,7 +190,7 @@ var lvAttcFilId;
     	});
 
 
-          var columnModel = new Rui.ui.grid.LColumnModel({
+           columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'titlNm',		  label: '학회/컨퍼런스명',  sortable: false,	align:'left',	width: 620 }
                   , { field: 'cfrnLocScnNm',  label: '장소',		     sortable: false,	align:'center',	width: 65 }
