@@ -59,3 +59,19 @@ function pagingSetPage(p){
     $("#paging > a[name='"+p+"']").css("font-weight","bold");
     $("#paging > a[name='"+p+"']").css("color","#DA1C5A");
 }
+
+function duplicateExcelGrid(dataSet,gridId, columnModel){
+    nDs = $.extend({}, dataSet);
+    nDs.clearFilter();
+    $("#"+gridId).after("<div id='excelGrid' style='display: none'/>");
+
+    nG = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: nDs,
+        width: 1210,
+        height: 400,
+        autoWidth: true,
+    });
+
+    nG.render('excelGrid');
+}
