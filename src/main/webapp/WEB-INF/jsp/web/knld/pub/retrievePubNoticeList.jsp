@@ -122,7 +122,7 @@ var lvAttcFilId;
     	});
 
 
-          var columnModel = new Rui.ui.grid.LColumnModel({
+           columnModel = new Rui.ui.grid.LColumnModel({
               columns: [
                     { field: 'pwiScnNm',	label: '분류',		sortable: false,	align:'center',	width: 140 }
                   , { field: 'titlNm2',		label: '제목',		sortable: false,	align:'left',	width: 800,
