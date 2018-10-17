@@ -326,7 +326,7 @@
 		                    </ul>
 		                </div>
 		                <div class="analysis_con edu_con">
-		                    <h4 class="notice_title">주요 분석자료<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0202')">&#43;</a></span></h4>
+		                    <h4 class="notice_title">주요 분석자료<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0100', '/anl/lib/retrieveAnlLibList.do', 'IRIAN0104')">&#43;</a></span></h4>
 		                    <ul>
                     <c:choose>
                     	<c:when test="${fn:length(anlMainDataList) == 0}">
@@ -335,7 +335,7 @@
                     	<c:otherwise>
                             <c:forEach items="${anlMainDataList}" var="data" varStatus="status">
 		                        <li>
-		                            <div class="list_txt" onClick="moveMenu('AN', 'IRIAN0200', '/anl/lib/retrieveAnlLibList.do?bbsId=<c:out value="${data.bbsId}"/>&bbsCd=<c:out value="${data.bbsCd}"/>', 'IRIAN0202')">
+		                            <div class="list_txt" onClick="moveMenu('AN', 'IRIAN0100', '/anl/lib/retrieveAnlLibList.do?bbsId=<c:out value="${data.bbsId}"/>&bbsCd=<c:out value="${data.bbsCd}"/>', 'IRIAN0104')">
 	                            <c:choose>
 	                            	<c:when test="${data.bbsCd == '02'}">
 		                                <span class="speech mint"><c:out value="${data.bbsNm}"/></span>
