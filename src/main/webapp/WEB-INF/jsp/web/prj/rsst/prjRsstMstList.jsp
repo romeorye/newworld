@@ -185,7 +185,7 @@ Rui.onReady(function() {
 	});
 
 	/** columnModel **/
-	var columnModel = new Rui.ui.grid.LColumnModel({
+	columnModel = new Rui.ui.grid.LColumnModel({
 		columns: [
 			  { field: 'prjCd'        , hidden : true}
 			, { field: 'wbsCd'        , label: 'WBS CODE',  		   sortable: false,	align:'center', width: 120 }

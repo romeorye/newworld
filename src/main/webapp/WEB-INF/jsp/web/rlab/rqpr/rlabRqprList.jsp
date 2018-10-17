@@ -261,7 +261,7 @@
         	downloadRlabRqprListExcel = function() {
                 rlabRqprDataSet.clearFilter();
 
-                var excelColumnModel = columnModel.createExcelColumnModel(false);
+                var excelColumnModel = rlabRqprColumnModel.createExcelColumnModel(false);
                 duplicateExcelGrid(excelColumnModel);
 nG.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') + '.xls');
 
