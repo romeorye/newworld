@@ -6,12 +6,12 @@ var pId;
 var nowP = 1;
 var totalPCnt=0;
 
-
 function paging(dsSet,gridId){
 
     pDs = dsSet;
-
     $("#paging").remove();
+    $("#pageNum").remove();
+
     var total = pDs.getCount(); // 전체 게시물수
     totalPCnt = Math.ceil(total/aCnt);	//전체 페이지수
     if(totalPCnt<1)totalPCnt = 1;
@@ -20,8 +20,13 @@ function paging(dsSet,gridId){
     $("#"+gridId).after("<div id='paging'></div>");
     $("#paging").css("padding-top","10px");
     $("#paging").css("text-align","center");
+    
+    if(mPageNum==""||mPageNum=="undifine"){
+    	pagingSetPage(1);
+    }else{
+    	pagingSetPage(mPageNum);
+    }
 
-    pagingSetPage(1);
 }
 
 function pagingSetList(){
@@ -43,7 +48,8 @@ function pagingSetList(){
 }
 
 function pagingSetPage(p){
-
+	$("#pageNum").remove();
+	$(".search-content").append("<input type='hidden' id='pageNum' name='pageNum' value=''/>");
     if(p=="befor")p=nowP-1;
     if(p=="next")p=nowP+1;
 
@@ -62,6 +68,9 @@ function pagingSetPage(p){
     $("#paging").children().css("color","#7d7d7d");
     $("#paging > a[name='"+p+"']").css("font-weight","bold");
     $("#paging > a[name='"+p+"']").css("color","#DA1C5A");
+
+    $('#pageNum').val(p);
+
 }
 
 function duplicateExcelGrid(columnModel){
