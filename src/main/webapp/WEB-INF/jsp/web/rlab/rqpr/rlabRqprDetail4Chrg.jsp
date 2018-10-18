@@ -866,7 +866,7 @@
     	        id: 'rlabRqprExatRsltDialog',
     	        title: '실험정보 등록/수정',
     	        width: 740,
-    	        height: 520,
+    	        height: 580,
     	        modal: true,
     	        visible: false
     	    });

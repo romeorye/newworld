@@ -1215,7 +1215,7 @@
     	        id: 'spaceRqprExatRsltDialog',
     	        title: '실험정보 등록/수정',
     	        width: 740,
-    	        height: 520,
+    	        height: 580,
     	        modal: true,
     	        visible: false
     	    });
@@ -1975,8 +1975,8 @@
    					</tbody>
    				</table>
 				</div>
-				
-   				
+
+
    				<div class="rlabrqpr01">
    					<div class="left">
 				   				<div class="titArea">
