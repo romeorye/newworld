@@ -881,7 +881,6 @@
 				,dbo.fn_getComDtlNm('SPACE_EV_CTGR', b.MCHN_CL_CD) as evCtgr
 				,b.CMPN_NM as cmpnNm
 				,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
-				,b.ev_scn as evScn
 				,dbo.fn_getEvWay(a.mchn_info_id) as evWay
 		    from iris_space_exat_dtl a,
 				 IRIS_SPACE_MCHN_INFO_MGMT b
@@ -1117,7 +1116,6 @@
 		        ,dbo.fn_getComDtlNm('SPACE_EV_CTGR', MIM.MCHN_CL_CD) as evCtgr
 				,CMPN_NM as cmpnNm
 				,dbo.fn_getSabunName(mchn_crgr_id)	as mchnCrgrNm
-				,EV_SCN as evScn
 				,MCHN_INFO_ID AS mchnInfoId
 				,dbo.fn_getEvWay(MIM.MCHN_INFO_ID) as evWay
 		  FROM  IRIS_SPACE_MCHN_INFO_MGMT MIM

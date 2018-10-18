@@ -107,6 +107,52 @@
 	    </if>
 	</select>
 
+	<select id="spaceRqprRsltList" resultType="hashmap">
+		<![CDATA[
+		-- spaceRqprRsltList 평가결과
+			SELECT
+				SP.PROD_ID    AS prodId,
+				SP.RQPR_ID    AS rqprId,
+				SP.EV_CTGR0   AS evCtgr0,
+				SP.EV_CTGR1   AS evCtgr1,
+				SP.EV_CTGR2   AS evCtgr2,
+				SP.EV_CTGR3   AS evCtgr3,
+				(SELECT EC0.CTGR_NM FROM IRIS_SPACE_EV_CTGR0 EC0 WHERE EC0.CTGR_CD = SP.EV_CTGR0) AS evCtgr0Nm,
+				(SELECT EC1.CTGR_NM FROM IRIS_SPACE_EV_CTGR1 EC1 WHERE EC1.CTGR_CD = SP.EV_CTGR1) AS evCtgr1Nm,
+				(SELECT EC2.CTGR_NM FROM IRIS_SPACE_EV_CTGR2 EC2 WHERE EC2.CTGR_CD = SP.EV_CTGR2) AS evCtgr2Nm,
+				(SELECT EC3.CTGR_NM FROM IRIS_SPACE_EV_CTGR3 EC3 WHERE EC3.CTGR_CD = SP.EV_CTGR3) AS evCtgr3Nm,
+				MST.SPACE_NAME										AS spaceNm,
+				dbo.fn_getSpaceCtrgNames(MST.RQPR_Id)				AS CtrgNames,
+				dbo.fn_getSpacePrvsNames(MST.RQPR_Id)				AS PrvsNames,
+				CASE WHEN MST.OPPB_SCP_CD='0'
+				     THEN 'Y'
+				     ELSE 'N'
+				 END								AS ottpYn,
+				'' 									AS rem,
+				(select dbo.fn_getUserName(max(LAST_MDFY_ID)) FROM IRIS_COM_ATTC_FIL FIL WHERE ATTC_FIL_ID=MST.RSLT_ATTC_FILE_ID) 					AS rgstNm,
+				CMPL_DT											AS cmplDt,
+				RSLT_ATTC_FILE_ID											AS rsltAttcFileId
+			FROM IRIS_SPACE_PROD SP
+				,IRIS_SPACE_RQPR_MST MST
+			WHERE	1=1
+			AND		SP.RQPR_ID = MST.RQPR_ID
+			AND		SP.DEL_YN = 'N'
+		]]>
+
+		<if test="(supiCd0 != null and supiCd0 != '')">
+			AND SP.EV_CTGR0=#{supiCd0}
+	    </if>
+	    <if test="(supiCd1 != null and supiCd1 != '')">
+			AND SP.EV_CTGR1=#{supiCd1}
+	    </if>
+	    <if test="(supiCd2 != null and supiCd2 != '')">
+			AND SP.EV_CTGR2=#{supiCd2}
+	    </if>
+	    <if test="(supiCd3 != null and supiCd3 != '')">
+			AND SP.EV_CTGR3=#{supiCd3}
+	    </if>
+	</select>
+
 	<insert id="insertSpaceEvMtrl"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="EV_CD" >
 	-- insertSpaceEvMtrl
 	INSERT INTO dbo.IRIS_SPACE_MTRL_UTM_EV

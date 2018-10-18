@@ -27,7 +27,6 @@
 				END as evWay
 			  ,SU.SA_NAME  as "mchnCrgrNm"
 			  ,MCHN_INFO_ID as "mchnInfoId"
-			  ,EV_SCN as "evScn"
 			  ,OPN_YN as "opnYn"
 			  ,MCHN_USE_PSBL_YN as "mchnUsePsblYn"
 		FROM IRIS_SPACE_MCHN_INFO_MGMT SPCE
@@ -71,7 +70,6 @@
 				,MCHN_CRGR_ID      as "mchnCrgrId"
 				,MCHN_CL_CD           as "evCtgr"
 				,EV_WAY            as "evWay"
-				,EV_SCN            as "evScn"
 				,MCHN_EXPL         as "mchnExpl"
 				,MCHN_SMRY         as "mchnSmry"
 				,F.ATTC_FIL_ID     as "attcFilId"
@@ -104,10 +102,9 @@ UPDATE 	 SET
                  TOOL_NM          = #{toolNm}
 				,VER              = #{ver}
 				,CMPN_NM          = #{cmpnNm}
-				,MCHN_CL_CD          = #{evCtgr}
+				,MCHN_CL_CD       = #{evCtgr}
 				,EV_WAY           = #{evWayVal}
 				,MCHN_CRGR_ID     = #{mchnCrgrId}
-				,EV_SCN           = #{evScn}
 				,MCHN_EXPL        = #{mchnExpl}
 				,MCHN_SMRY        = #{mchnSmry}
 				,ATTC_FIL_ID      = #{attcFilId}
@@ -122,7 +119,6 @@ INSERT  (
 		,MCHN_CL_CD
 		,EV_WAY
 		,MCHN_CRGR_ID
-		,EV_SCN
 		,MCHN_EXPL
 		,MCHN_SMRY
 		,ATTC_FIL_ID
@@ -140,7 +136,6 @@ INSERT  (
 			,#{evCtgr}
 			,#{evWayVal}
 			,#{mchnCrgrId}
-			,#{evScn}
 			,#{mchnExpl}
 			,#{mchnSmry}
 			,#{attcFilId}
