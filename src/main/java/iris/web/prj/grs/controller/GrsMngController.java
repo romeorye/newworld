@@ -418,7 +418,7 @@ public class GrsMngController extends IrisBaseController {
 				  .append("<p class='analyze_s_txt'><b>과제명 : </b>").append(grsInfo.get(i).get("tssNm")).append("</p>")
 				  .append("<p class='analyze_s_txt'><b>일시, 장소 : </b>").append(grsInfo.get(i).get("evTitl")).append("</p>")
 				  .append("<p class='analyze_s_txt'><b>참석자 : </b>").append(grsInfo.get(i).get("cfrnAtdtCdTxtNm")).append("</p>")
-				  .append("<p class='analyze_s_txt'><b>주요 Comment : </b><p style='padding-left:20px; box-sizing:border-box;'>").append(commTxt).append("</p></p>")
+				  .append("<p class='analyze_s_txt'><b>주요 Comment : </b><p style='padding-left:20px; box-sizing:border-box;line-height:1.4;'>").append(commTxt).append("</p></p>")
 				  .append("<p class='analyze_s_txt'><b>첨부파일 : </b>");
 				
 	    		input.put("attcFilId", grsInfo.get(i).get("attcFilId"));
