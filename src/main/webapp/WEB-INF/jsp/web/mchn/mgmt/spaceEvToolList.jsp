@@ -44,7 +44,6 @@
 	            { id: 'cmpnNm' },
 	            { id: 'evWay' },
 	            { id: 'mchnCrgrNm' },
-	            { id: 'evScn' },
 	            { id: 'mchnInfoId' }
 	        ]
 	    });
@@ -64,7 +63,6 @@
 	            { field: 'evWay', 			label: '평가방법', 		sortable: false, align: 'center', width: 270},
 	            { field: 'cmpnNm',  		label:'기관', 		sortable: false, align: 'center', width: 158},
 	            { field: 'mchnCrgrNm', 		label: '담당자',   	sortable: false, align: 'center', width: 80},
-	            { field: 'evScn',  			label:'구분' , 		sortable: false, align: 'center', width: 100},
 	            { field: 'evCtgr',  		hidden : true},
 	            { field: 'mchnInfoId',  hidden : true}
 	        ]

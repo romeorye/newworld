@@ -76,7 +76,6 @@ var firstLoad = "Y";	//화면오픈
 		           	 ,{ id: 'mchnCrgrNm'}
 		           	 ,{ id: 'evCtgr'}
 		           	 //,{ id: 'evWay'}
-		           	 ,{ id: 'evScn'}
 		           	 ,{ id: 'mchnExpl'}
 		           	 ,{ id: 'mchnSmry'}
 		           	 ,{ id: 'attcFilId'}
@@ -135,38 +134,6 @@ var firstLoad = "Y";	//화면오픈
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false,                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
-		//기기사용쳐부combo
-		var cbMchnUsePsblYn = new Rui.ui.form.LCombo({
-		 	applyTo : 'mchnUsePsblYn',
-			name : 'mchnUsePsblYn',
-			useEmptyText: true,
-		    emptyText: '선택하세요',
-		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=MCHN_PRCT_ST"/>',
-			displayField: 'COM_DTL_NM',
-			valueField: 'COM_DTL_CD'
-		});
-
-		//open 기기
-		var cbOpnYn = new Rui.ui.form.LCombo({
-			applyTo : 'opnYn',
-			name : 'opnYn',
-			emptyText: '선택하세요',
-				items: [
-	                   { code: 'Y', value: 'Y' }, // value는 생략 가능하며, 생략시 code값을 그대로 사용한다.
-	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
-	                	]
-		});
-
-		//삭제여부
-		var cbDelYn = new Rui.ui.form.LCombo({
-			applyTo : 'delYn',
-			name : 'delYn',
-			emptyText: '선택하세요',
-				items: [
-					   { value: 'N', text: '미삭제'},
-				       { value: 'Y', text: '삭제'}
-	            ]
-		});
 		//평가카테고리 checkBox
 		//분류 combo
 		var evCtgr = new Rui.ui.form.LCombo({
@@ -195,14 +162,6 @@ var firstLoad = "Y";	//화면오픈
 					</c:choose>
 				</c:forEach>
 		    ]
-		});
-
-		//구분combo
-		var evScn = new Rui.ui.form.LCombo({
-		 	applyTo : 'evScn',
-			name : 'evScn',
-			useEmptyText: true,
-		    emptyText: '선택하세요'
 		});
 
 	    /* 담당자 팝업 */
@@ -255,7 +214,6 @@ var firstLoad = "Y";	//화면오픈
 		         { id: 'mchnCrgrNm', 			ctrlId: 'mchnCrgrNm', 			value: 'value' },
 		         { id: 'evCtgr', 			ctrlId: 'evCtgr', 		value: 'value' },
 		         //{ id: 'evWay', 			ctrlId: 'evWay', 		    value: 'value' },
-		         { id: 'evScn', 			ctrlId: 'evScn', 			value: 'value' },
 		         { id: 'mchnExpl', 		ctrlId: 'mchnExpl', 		value: 'value' },
 		         { id: 'mchnSmry', 		    ctrlId: 'mchnSmry', 	        value: 'value' },
 		         { id: 'mchnCrgrId', 		ctrlId: 'mchnCrgrId', 		value: 'value' },
@@ -664,38 +622,13 @@ var firstLoad = "Y";	//화면오픈
 							</td>
 						</tr>
 						<tr>
-							<th align="right"><span style="color:red;">*  </span>open기기</th>
-							<td>
-								<div id="opnYn"></div>
-							</td>
-							<th align="right"><span style="color:red;">*  </span>평가항목</th>
-							<td>
-								<div id="evWay"></div>
-							</td>
-						</tr>
-						<tr>
-							<th align="right"><span style="color:red;">*  </span>장비사용상태</th>
-							<td>
-								<div id="mchnUsePsblYn"></div>
-							</td>
-							<th align="right">삭제여부</th>
-							<td>
-								<div id="delYn"></div>
-							</td>
-						</tr>
-						<tr>
 							<th align="right"><span style="color:red;">*  </span>담당자</th>
 							<td>
 								<input type="text" id="mchnCrgrNm" />
 							</td>
-							<th align="right">구분</th>
+							<th align="right"><span style="color:red;">*  </span>평가항목</th>
 							<td>
-								<select id="evScn">
-									<option value="code1">CODE1</option>
-									<option value="code2">CODE2</option>
-									<option value="code3">CODE3</option>
-								</select>
-
+								<div id="evWay"></div>
 							</td>
 						</tr>
 						<tr>
