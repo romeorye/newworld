@@ -356,11 +356,11 @@ $(window).load(function() {
             <tbody>
             <tr>
                 <th align="right" onclick="setTestVal()">Summary 개요</th>
-                <td colspan="3"><input type="text" id="smrSmryTxt" name="smrSmryTxt" style="width: 100%"></td>
+                <td colspan="3" class="space_tain bdtype"><input type="text" id="smrSmryTxt" name="smrSmryTxt" style="width: 100%"></td>
             </tr>
             <tr>
                 <th align="right">Summary 목표</th>
-                <td colspan="3"><input type="text" id="smrGoalTxt" name="smrGoalTxt" style="width: 100%"></td>
+                <td colspan="3" class="space_tain bdtype"><input type="text" id="smrGoalTxt" name="smrGoalTxt" style="width: 100%"></td>
             </tr>
             <tr>
                 <th align="right">상품출시(계획)</th>

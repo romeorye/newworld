@@ -818,11 +818,11 @@ $(window).load(function() {
             <tbody>
                 <tr>
                     <th align="right">Summary 개요</th>
-                    <td colspan="6"><input type="text" id="smrSmryTxt" name="smrSmryTxt"  ></td>
+                    <td colspan="6" class="space_tain"><input type="text" id="smrSmryTxt" name="smrSmryTxt"  ></td>
                 </tr>
                 <tr>
                     <th align="right">Summary 목표</th>
-                    <td colspan="6"><input type="text" id="smrGoalTxt" name="smrGoalTxt"  ></td>
+                    <td colspan="6" class="space_tain"><input type="text" id="smrGoalTxt" name="smrGoalTxt"  ></td>
                 </tr>
                 <tr>
             		<th align="right" rowspan="2"> 개요 상세</th>

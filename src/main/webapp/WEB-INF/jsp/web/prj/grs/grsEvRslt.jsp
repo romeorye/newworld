@@ -496,7 +496,7 @@ function setUserInfo(userInfo) {
                                 </tr>
                                 <tr>
                                     <th align="right">과제속성</th>
-                                    <td class="tssLableCss">
+                                    <td class="tssLableCss bdtype">
                                         <div id="tssAttrCd"></div>
                                     </td>
                                     <th align="right">과제명</th>
@@ -505,7 +505,7 @@ function setUserInfo(userInfo) {
                                 </tr>
                                 <tr>
                                     <th align="right">심의단계</th>
-                                    <td class="tssLableCss">
+                                    <td class="tssLableCss bdtype">
                                         <div id="grsEvSt"></div>
                                     </td>
                                     <th align="right">평가표</th>

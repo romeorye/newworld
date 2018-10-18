@@ -1252,7 +1252,7 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .rlabrq_p, .rlabrq_p #fieldWrapper {width:470px !important;}
 .rlabrq_p, .rlabrq_p #fieldWrapper table {margin-top:0;}
 
-.tree_wrap01 #contentWrapper .L-ul-treeview {height:390px !important;}
+.tree_wrap01 #contentWrapper .L-ul-treeview {height:433px !important;}
 .tree_wrap01 #contentWrapper .L-ul-treeview, 
 .tree_wrap01 #fieldWrapper .table {margin-top:0;}
 .tree_wrap01 #fieldWrapper {width:450px !important;}
@@ -1263,7 +1263,7 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 
 .L-editor-panel .L-radio-group.L-form-field {text-align:center; padding-top:0;}
 .L-editor-panel .L-radio-group.L-form-field > div {display:inline-block; float:none; border:0;}
-
+.bdtype > div {border:1px solid #c3c3c3 !important;}
 /* 분석 */
 .rlabexa .LblockMarkupCode {position:relative; overflow:hidden;min-height:310px;}
 .rlabexa .LblockMarkupCode #contentWrapper {position:absolute; left:0; top:0;height:300px; float:none;  width:250px !important;}
