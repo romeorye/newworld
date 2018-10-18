@@ -639,6 +639,37 @@ public class AnlRqprController extends IrisBaseController {
 		return "web/anl/rqpr/openOpinitionPopup";
 	}
 	
+	/**
+	 * 
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/anl/openAddOpinitionPopup.do")
+	public String openAddOpinitionPopup(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		/* 반드시 공통 호출 후 작업 */
+		checkSession(input, session, model);
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("AnlRqprController - openAddOpinitionPopup 분석의뢰 의견 상세등록팝업");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+		
+		
+		//input.put("opiSbc", anlRqprService.retrieveOpiSbc(input).replaceAll("\n", "<br/>") );
+		
+		model.addAttribute("inputData", input);
+		
+		return "web/anl/rqpr/anlRqprOpinitionAddPopup";
+	}	
+	
 	@RequestMapping(value="/anl/anlRqprList4Chrg.do")
 	public String anlRqprList4Chrg(
 			@RequestParam HashMap<String, String> input,
