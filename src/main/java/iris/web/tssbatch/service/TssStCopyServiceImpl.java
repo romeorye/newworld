@@ -571,6 +571,8 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 					if (wbsCdSeqS.charAt(0) >= 87) errYn = true; //87:W
 				} else if ("N".equals(tssScnCd)) {
 					if (wbsCdSeqS.charAt(0) >= 90) errYn = true; //90:Z
+				} else if ("D".equals(tssScnCd)) {
+					if (wbsCdSeqS.charAt(0) >= 78) errYn = true; //78:N
 				}
 
 				errCd = "E002";
@@ -720,22 +722,28 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	@Override
 	public void insertToQasTssQasIF(Map<String, Object> input) {
 
-		//사업부, 제품군 정보는 코드가 아닌 텍스트로 전달
-		HashMap<String, String> param = new HashMap<String, String>();
+		HashMap<String,Object> tssInfo = commonDao.select("prj.tss.com.selectTssInfo",input);
+		//제품만 등록
+		if("00".equals(tssInfo.get("tssAttrCd"))){
+			//사업부, 제품군 정보는 코드가 아닌 텍스트로 전달
+//			HashMap<String, Object> param = new HashMap<String, Object>();
+//
+//			param.put("comCdCd", "PROD_G");
+//			param.put("comDtlCd", (String) tssInfo.get("prodG"));
+//			String prodGNm = commonDao.select("common.code.retrieveCodeValue",param);
+//
+//			param.put("comCdCd", "BIZ_DPT_CD");
+//			param.put("comDtlCd", (String) tssInfo.get("bizDptCd"));
+//			String bizDptCdNm = commonDao.select("common.code.retrieveCodeValue",param);
+//
+//			tssInfo.put("bizDptCdNm", bizDptCdNm);
+//			tssInfo.put("prodGNm", prodGNm);
 
-		param.put("comCdCd", "PROD_G");
-		param.put("comDtlCd", (String) input.get("prodG"));
-		String prodGNm = commonDao.select("common.code.retrieveCodeValue",param);
+			tssInfo.put("userId", "Batch");
 
-		param.put("comCdCd", "BIZ_DPT_CD");
-		param.put("comDtlCd", (String) input.get("bizDptCd"));
-		String bizDptCdNm = commonDao.select("common.code.retrieveCodeValue",param);
-
-		input.put("bizDptCdNm", bizDptCdNm);
-		input.put("prodGNm", prodGNm);
-
-		commonDaoQasU.insert("prj.tss.com.insertToQasTssQasIF",input);	//울산
-		commonDaoQasC.insert("prj.tss.com.insertToQasTssQasIF",input);	//청주
+			commonDaoQasU.insert("prj.tss.com.insertToQasTssQasIF",tssInfo);	//울산
+			commonDaoQasC.insert("prj.tss.com.insertToQasTssQasIF",tssInfo);	//청주
+		}
 	}
 }
 

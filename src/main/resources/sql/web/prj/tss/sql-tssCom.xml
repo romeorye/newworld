@@ -1145,6 +1145,38 @@
     </update>
 
 
+	<!-- QAS 과제등록을 위해 과제정보 조회 -->
+	<select id="selectTssInfo" resultType="HashMap">
+/*selectTssInfo QAS 과제등록을 위해 과제정보 조회*/
+		select
+			   mst.TSS_CD as tssCd,
+			   mst.WBS_CD        as wbsCd,
+			   mst.TSS_NM        as tssNm,
+			   mst.PRJ_CD        as prjCd,
+			   mst.PRJ_NM        as prjNm,
+			   mst.BIZ_DPT_CD    as bizDptCd,
+			   dbo.fn_getComDtlNm('BIZ_DPT_CD',BIZ_DPT_CD)   as bizDptNm,
+			   mst.PROD_G        as prodG,
+			   dbo.fn_getComDtlNm('PROD_G',mst.PROD_G)   as prodGNm,
+			   mst.SA_SABUN_NEW  as saSabunCd,
+			   mst.SA_SABUN_NAME as saSabunNm,
+			   mst.TSS_STRT_DD   as tssStrtDd,
+			   mst.CUST_SQLT     as custSqlt,
+			   mst.TSS_TYPE      as tssType,
+			   mst.TSS_ATTR_CD   as tssAttrCd,
+			   smr.NPROD_SALS_PLN_Y as nprodSalsPlnY,
+			   smr.CTY_OT_PLN_M as ctyOtPlnM
+		from IRIS_TSS_MGMT_MST mst,
+				<if test="tssScnCd == 'G'">
+					IRIS_TSS_GEN_SMRY smr
+				</if>
+				<if test="tssScnCd == 'D'">
+					IRIS_TSS_TCTM_SMRY smr
+				</if>
+			   IRIS_TSS_TCTM_SMRY smr
+		where mst.TSS_CD = smr.TSS_CD
+		and mst.TSS_CD = #{pgTssCd}
+	</select>
 
     <!--  QAS 과제 등록 Oracle-->
     <insert id="insertToQasTssQasIF">
@@ -1180,7 +1212,7 @@
 					   #{tssNm},
 					   #{prjCd},
 					   #{prjNm},
-					   #{bizDptCdNm},
+					   #{bizDptNm},
 					   #{prodGNm},
 					   #{saSabunCd},
 					   #{saSabunNm},
@@ -1199,7 +1231,7 @@
 						TSS_NM = #{tssNm},
 						PRJ_CD = #{prjCd},
 						PRJ_NM = #{prjNm},
-						BIZ_DPT_CD = #{bizDptCdNm},
+						BIZ_DPT_CD = #{bizDptNm},
 						PROD_G = #{prodGNm},
 						SA_SABUN_CD = #{saSabunCd},
 						SA_SABUN_NM = #{saSabunNm},
