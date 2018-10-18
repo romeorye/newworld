@@ -232,7 +232,9 @@
 
 	var _callback;
 	var agent = navigator.userAgent.toLowerCase();
+	var mPageNum='<c:out value="${inputData.pageNum}"/>';
 	Rui.onReady(function() {
+
 	    /*******************
 	     * 변수 및 객체 선언
 	     *******************/
