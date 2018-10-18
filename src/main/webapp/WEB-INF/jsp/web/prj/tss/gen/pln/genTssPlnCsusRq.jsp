@@ -505,7 +505,10 @@
                                 </c:choose>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>9. 지적재산팀 검토의견</h3></div>
+                
+      <c:choose>
+      		<c:when test="${resultMst.bizDptCd =='07'|| resultMst.bizDptCd == '08' ||  resultMst.bizDptCd == '09' }">	
+      			<div class="titArea"><h3>9. 지적재산팀 검토의견</h3></div>
                         <table class="table">
                         	<tbody>
                         		<tr>
@@ -526,6 +529,33 @@
                                 </td></tr>
                             </tbody>
                         </table>
+      		</c:when>
+	  		<c:otherwise>
+	      				<div class="titArea"><h3>9. 첨부파일</h3></div>
+                        <table class="table table_txt_right">
+                            <colgroup>
+                                <col style="width:100%"/>
+                            </colgroup>
+                            <tbody>
+                                <tr><td>
+                                    <c:forEach var="resultAttc" items="${resultAttc}">
+                                        <a href="http://<spring:eval expression='@jspProperties[defaultUrl]'/>:<spring:eval expression='@jspProperties[serverPort]'/>/<spring:eval expression='@jspProperties[contextPath]'/>/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=${resultAttc.attcFilId}&seq=${resultAttc.seq}">${resultAttc.filNm} (${resultAttc.filSize}byte)</a><br/>
+                                    </c:forEach> 
+                                </td></tr>
+                            </tbody>
+                        </table>
+	      	</c:otherwise>
+      </c:choose>      
+                
+                    
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                 </div>
             </form>
             <div class="titArea">
