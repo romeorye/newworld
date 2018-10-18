@@ -643,7 +643,7 @@ function setDeptInfo(deptInfo) {
                                 </colgroup>
 			                    <tbody>
 			                        <tr>
-			                            <th>과제번호</th>
+			                            <th>과제코드</th>
 			                            <td>
 			                                <input type="text" id="wbsCd" value="">
 			                            </td>
