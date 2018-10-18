@@ -97,6 +97,7 @@
              anlRqprDataSet.on('load', function(e) {
  	    		$("#cnt_text").html('총 ' + anlRqprDataSet.getCount() + '건');
  	    		// 목록 페이징
+ 	    		aCnt =20;
  	    		paging(anlRqprDataSet,"anlRqprGrid");
  	      	});
 
