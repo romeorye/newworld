@@ -51,7 +51,6 @@
 				   , { id: 'cmpnNm' }	  //기관
 				   , { id: 'evWay' }	  //평가방법
 				   , { id: 'mchnCrgrNm' } //담당자
-				   , { id: 'evScn' }	  //구분
 				   , { id: 'mchnInfoId'}   //기기 정보 ID
 				   ]
 	    });
@@ -65,7 +64,6 @@
                  , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 100 }
                  , { field: 'evWay',	label: '평가방법',		sortable: false,	align:'center',	width: 150 }
                  , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 70 }
-                 , { field: 'evScn',	label: '구분',		sortable: false,	align:'center',	width: 80 }
                  , { field: 'mchnInfoId' ,hidden : true}
             ]
 	    });

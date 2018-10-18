@@ -307,7 +307,6 @@ h3 {
 					, { id: 'cmpnNm' }
 					, { id: 'evWay' }
 					, { id: 'mchnCrgrNm' }
-					, { id: 'evScn' }
                 ]
             });
 
@@ -321,7 +320,6 @@ h3 {
                     , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 190 }
                     , { field: 'evWay',	label: '평가방법',		sortable: false,	align:'center',	width: 150 }
                     , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 100 }
-                    , { field: 'evScn',	label: '구분',		sortable: false,	align:'center',	width: 118 }
                 ]
             });
 
@@ -445,7 +443,6 @@ h3 {
             	record.set('cmpnNm', mchnInfo.get("cmpnNm"));
             	record.set('evWay', mchnInfo.get("evWay"));
             	record.set('mchnCrgrNm', mchnInfo.get("mchnCrgrNm"));
-            	record.set('evScn', mchnInfo.get("evScn"));
 
 
             }

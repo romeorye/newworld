@@ -171,21 +171,6 @@
 	        	txtCtgr3Nm.setValue(txtCtgr3Nm.getValue().trim());
             });
 
-            /* var vm1 = new Rui.validate.LValidatorManager({
-                validators:[
-                { id: 'exprNm',			validExp: '실험명:true:maxByteLength=100' },
-                { id: 'dspNo',			validExp: '순서:true:number' }
-                ]
-            });
-
-            var vm2 = new Rui.validate.LValidatorManager({
-                validators:[
-                { id: 'exprNm',			validExp: '실험명:true:maxByteLength=100' },
-                { id: 'expCrtnScnCd',	validExp: '비용구분:true' },
-                { id: 'utmExp',			validExp: '실험수가:true:number' },
-                { id: 'dspNo',			validExp: '순서:true:number' }
-                ]
-            }); */
             /* 제품목록 데이터셋 */
             var spaceEvProdListDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceEvProdListDataSet',
@@ -231,6 +216,7 @@
             spaceEvProdGrid.on('cellClick', function(e) {
             	//성적서정보 초기화
             	spaceEvMtrlListDataSet.clearData();
+            	spaceRqprRsltDataSet.clearData();
 
             	var record0 = spaceEvProdListDataSet.getAt(spaceEvProdListDataSet.rowPosition);
             	var supiCd0 = record0.data.ctgr0Cd;
@@ -239,6 +225,14 @@
             	var supiCd3 = record0.data.ctgr3Cd;
             	spaceEvMtrlListDataSet.load({
                     url: '<c:url value="/space/spaceEvMtrlList.do"/>',
+                    params :{ supiCd0:supiCd0
+                    	     ,supiCd1:supiCd1
+                    	     ,supiCd2:supiCd2
+                    	     ,supiCd3:supiCd3
+                    	    }
+                });
+            	spaceRqprRsltDataSet.load({
+                    url: '<c:url value="/space/spaceRqprRsltList.do"/>',
                     params :{ supiCd0:supiCd0
                     	     ,supiCd1:supiCd1
                     	     ,supiCd2:supiCd2
@@ -331,61 +325,94 @@
             });
 
 			//////////////////////////////// 통합성능평가결과서부분/////////////////////////////////
-            var anlExprDtlDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlExprDtlDataSet',
+            var spaceRqprRsltDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprRsltDataSet',
                 remainRemoved: false,
                 lazyLoad: true,
                 fields: [
-					  { id: 'exprCd' }
-					, { id: 'mchnInfoId' }
-					, { id: 'mchnInfoNm' }
-					, { id: 'mdlNm' }
-					, { id: 'mkrNm' }
-					, { id: 'mchnClNm' }
-					, { id: 'open' }
-					, { id: 'attcFilId' }
-					, { id: 'mchnCrgrNm' }
+					  { id: 'spaceNm' }
+					, { id: 'CtrgNames' }
+					, { id: 'PrvsNames' }
+					, { id: 'cmplDt' }
+					, { id: 'ottpYn' }
+					, { id: 'rsltAttcFileId' }
+					, { id: 'rgstNm' }
 					, { id: 'rem' }
+					, { id: 'prodId'}
+					, { id: 'rqprId'}
+					, { id: 'evCtgr0'}
+					, { id: 'evCtgr1'}
+					, { id: 'evCtgr2'}
+					, { id: 'evCtgr3'}
+					, { id: 'evCtgr0Nm'}
+					, { id: 'evCtgr1Nm'}
+					, { id: 'evCtgr2Nm'}
+					, { id: 'evCtgr3Nm'}
                 ]
             });
 
-            var anlExprDtlColumnModel = new Rui.ui.grid.LColumnModel({
+            var spaceRqprRsltColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  new Rui.ui.grid.LSelectionColumn()
-                    , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'mchnInfoNm',	label: '제목',		sortable: false,	align:'left',	width: 300 }
-                    , { field: 'mdlNm',			label: '평가카테고리',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'mkrNm',			label: '평가항목',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'mchnClNm',		label: '등록일',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'open',	label: '공개',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'attcFilId',	label: '다운로드',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'mchnCrgrNm',	label: '작성자',		sortable: false,	align:'center',	width: 80 }
+                	  { field: 'spaceNm',	label: '제목',		sortable: false,	align:'left',	width: 300 }
+                    , { field: 'CtrgNames',			label: '평가카테고리',		sortable: false,	align:'center',	width: 150 }
+                    , { field: 'PrvsNames',			label: '평가항목',		sortable: false,	align:'center',	width: 150 }
+                    , { field: 'cmplDt',		label: '등록일',		sortable: false,	align:'center',	width: 150 }
+                    , { field: 'ottpYn',	label: '공개여부',		sortable: false,	align:'center',	width: 80 }
+                    , { id: 'attachDownBtn',  label: '첨부',                                          width: 65
+                    	,renderer: function(val, p, record, row, i){
+  		  	    		  if(!record.get('rsltAttcFileId')||record.get('rsltAttcFileId').length<1){
+  		  	    			  return '';
+  		  	    		  }else{
+  		  	    			  return '<button type="button"  class="L-grid-button" >다운로드</button>';
+  		  	    		  }
+  		  	    		 }
+                      }
+                    , { field: 'rgstNm',	label: '작성자',		sortable: false,	align:'center',	width: 80 }
                     , { field: 'rem',	label: '비고',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'attcFilId',	hidden : true}
+                    , { field: 'rsltAttcFileId',	hidden : true}
+                    , { field: 'prodId'		,	hidden : true}
+					, { field: 'rqprId'		,	hidden : true}
+					, { field: 'evCtgr0'	,	hidden : true}
+					, { field: 'evCtgr1'	,	hidden : true}
+					, { field: 'evCtgr2'	,	hidden : true}
+					, { field: 'evCtgr3'	,	hidden : true}
+					, { field: 'evCtgr0Nm'	,	hidden : true}
+					, { field: 'evCtgr1Nm'	,	hidden : true}
+					, { field: 'evCtgr2Nm'	,	hidden : true}
+					, { field: 'evCtgr3Nm'	,	hidden : true}
                 ]
             });
 
-            var anlExprDtlGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlExprDtlColumnModel,
-                dataSet: anlExprDtlDataSet,
+            var spaceRqprRsltGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceRqprRsltColumnModel,
+                dataSet: spaceRqprRsltDataSet,
                 width: 400,
                 height: 150,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            anlExprDtlGrid.render('anlExprDtlGrid');
+            spaceRqprRsltGrid.render('spaceRqprRsltGrid');
 
-            getAnlExprDtlList = function(exprCd) {
-            	selectExprCd = exprCd;
+            spaceRqprRsltGrid.on('cellClick',function(e){
+            	if(e.colId=="attachDownBtn"){
+            		var recordData=spaceRqprRsltDataSet.getAt(spaceRqprRsltDataSet.rowPosition);
+            		var attcFilId=recordData.data.rsltAttcFileId;
+            		var ottpYn=recordData.data.ottpYn;
+            		if(!attcFilId||attcFilId.length<1){
+            			return;
+            		}else{
+            			if(ottpYn=='Y'){
+	            			var param = "?attcFilId=" + attcFilId;
+	             	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
+	             	       	document.aform.submit();
+            			}else{
+            				fncRq2();
+            			}
+            		}
+            	}
+            });
 
-            	anlExprDtlDataSet.load({
-                    url: '<c:url value="/anl/getAnlExprDtlList.do"/>',
-                    params :{
-                    	exprCd : exprCd
-                    }
-                });
-            };
             /////////////////////////////////////////////////////////////////////////////////////////
             retrieveRequestInfoDialog = new Rui.ui.LFrameDialog({
      	        id: 'retrieveRequestInfoDialog',
@@ -424,14 +451,33 @@
 	     	    retrieveRequestInfoDialog.setUrl('<c:url value="/knld/rsst/retrieveRequestInfo.do"/>' + params);
 		    	retrieveRequestInfoDialog.show();
      	    }
-            spaceEvMtrlListGrid.on('cellClick', function(e) {
-            	if(e.colId == "ottpYn") {
-                    if(spaceEvMtrlListDataSet.getNameValue(e.row, "ottpYn")!='Y'){
-                    	fncRq();
 
-                    }
-                }
-            });
+     	   fncRq2 = function(){
+    	    	var record = spaceRqprRsltDataSet.getAt(spaceRqprRsltDataSet.rowPosition);
+    	    	var rqDocNm 	= record.data.evCtgr0Nm + " > "+record.data.evCtgr1Nm+" > "+record.data.evCtgr2Nm+" > "+record.data.evCtgr3Nm+ " > 통합성능평가 결과서 > "+record.data.spaceNm;
+    	    	var rtrvRqDocCd = "SPACE";
+    	    	var docNo 		= spaceRqprRsltDataSet.getNameValue(spaceRqprRsltDataSet.rowPosition, "rsltAttcFileId");
+    	    	var pgmPath 	= "Technical Service > 공간평가 > 성능 Master";
+    	    	var rgstId 		= '${inputData._userId}';
+    	    	var rgstNm 		= '${inputData._userNm}';
+    	    	var reUrl 		= '/system/attach/downloadAttachFile.do';
+
+        	   var params = '?rqDocNm=' + escape(encodeURIComponent(rqDocNm))
+   					   + '&rtrvRqDocCd=' + rtrvRqDocCd
+   					   + '&docNo=' + docNo
+   					   + '&pgmPath=' + escape(encodeURIComponent(pgmPath))
+   					   + '&rgstId=' + rgstId
+   					   + '&docUrl=' + reUrl
+   					   + '&rgstNm=' + escape(encodeURIComponent(rgstNm))
+   					   ;
+    	    	if(Rui.isEmpty(rgstId)){
+    	    		Rui.alert("해당내용은 담당자 부재로 관리자에게 문의하세요");
+    	    		return ;
+    	    	}
+
+	     	    retrieveRequestInfoDialog.setUrl('<c:url value="/knld/rsst/retrieveRequestInfo.do"/>' + params);
+		    	retrieveRequestInfoDialog.show();
+    	    }
 
             //검색
             getSpaceEvProdList = function() {
@@ -498,7 +544,7 @@
    					<div style="color:red">○비밀 문서의 경우, 해당 팀장님의 결재를 받고 별도 다운로드 가능합니다.</div>
    				</div>
 
-			    <div id="anlExprDtlGrid"></div>
+			    <div id="spaceRqprRsltGrid"></div>
 
    				<div class="titArea">
    					<span class="Ltotal"><h3>성적서, 인증서(자재단위)</h3></span>
