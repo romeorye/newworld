@@ -728,8 +728,8 @@
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 17%;" />
-                                <col style="width: 34%;" />
+                                <col style="width: 19%;" />
+                                <col style="width: 36%;" />
                                 <col style="width: 16.5%;" />
                                 <col style="" />
                             </colgroup>

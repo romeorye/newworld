@@ -57,7 +57,7 @@
 				</tr>
 				<tr>
 					<th align="right">과제담당자</th>
-					<td><input type="text" id="saSabunName"/></td>
+					<td class="space_tain"><input type="text" id="saSabunName"/></td>
 					<th align="right">사업부문(Funding기준)</th>
 					<td>
 						<div id="bizDptCd"/>
@@ -76,7 +76,7 @@
 				</tr>
 				<tr>
 					<th align="right">고객특성</th>
-					<td><div id="custSqlt"/> </td>
+					<td><div id="custSqlt"/></td>
 					<th align="right" style="display: none">Concept</th>
 					<td style="display: none"><input type="text" id="tssSmryTxt"></td>
 
@@ -128,17 +128,17 @@
 				</tr>
             <tr>
                 <th align="right" onclick="setTestVal()">Summary 개요</th>
-                <td colspan="3"><input type="text" id="smrSmryTxt" name="smrSmryTxt" style="width: 100%"></td>
+                <td colspan="3" class="space_tain"><input type="text" id="smrSmryTxt" name="smrSmryTxt" style="width: 100%"></td>
             </tr>
             <tr>
                 <th align="right">Summary 목표</th>
-                <td colspan="3"><input type="text" id="smrGoalTxt" name="smrGoalTxt" style="width: 100%"></td>
+                <td colspan="3"  class="space_tain"><input type="text" id="smrGoalTxt" name="smrGoalTxt" style="width: 100%"></td>
             </tr>
             <tr>
                 <th align="right">상품출시(계획)</th>
-                <td><input type="text" id="ctyOtPlnM"/></td>
+                <td class="space_tain"><input type="text" id="ctyOtPlnM"/></td>
                 <th>신제품 매출계획(단위:억원)</th>
-                <td><input type="text" id="nprodSalsPlnY" name="nprodSalsPlnY"></td>
+                <td class="space_tain"><input type="text" id="nprodSalsPlnY" name="nprodSalsPlnY"></td>
             </tr>
             <tr>
                 <th align="right">GRS심의파일<br/>(심의파일, 회의록 필수 첨부)</th>

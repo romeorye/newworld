@@ -280,8 +280,8 @@
         
         <table class="table table_txt_right">
             <colgroup>
-                <col style="width: 15%;" />
-                <col style="width: 35%;" />
+                <col style="width: 16%;" />
+                <col style="width: 34%;" />
                 <col style="width: 15%;" />
                 <col style="width: 35%;" />
             </colgroup>

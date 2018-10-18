@@ -334,9 +334,9 @@
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 16%;" />
-                                <col style="width: 35%;" />
-                                <col style="width: 15%;" />
+                                <col style="width: 19%;" />
+                                <col style="width: 37%;" />
+                                <col style="width: 15.5%;" />
                                 <col style="" />
                             </colgroup>
                             <tbody>

@@ -396,7 +396,7 @@ $(window).load(function() {
     </form>
     <div id="defaultGrid"></div>
 </div>
-<div class="titArea">
+<div class="titArea mt10">
     <div class="LblockButton">
 
         <button type="button" id="btnSave" name="btnSave">저장</button>

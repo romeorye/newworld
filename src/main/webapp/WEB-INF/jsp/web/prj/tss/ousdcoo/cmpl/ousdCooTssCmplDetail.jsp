@@ -565,9 +565,9 @@
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 17%" />
+                                <col style="width: 19%" />
                                 <col style="width: 34%" />
-                                <col style="width: 15%" />
+                                <col style="width: 15.5%" />
                                 <col style="" />
                             </colgroup>
                             <tbody>
@@ -601,7 +601,7 @@
                                 </tr>
                                 <tr>
                                 	<th align="right">협력기관(기관명/소속/성명)</th>
-                                    <td class="tssLableCss" colspan="3">
+                                    <td class="tssLableCss space_tain" colspan="3">
                                         <input type="text" id="cooInstNm" />
                                     </td>
                                 </tr>

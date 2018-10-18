@@ -603,15 +603,15 @@ function initFrameSetHeight2(pId) {
             <tbody>
                 <tr>
                     <th align="right">Summary 개요</th>
-                    <td class="tssLableCss" colspan="6"><input type="text" id="smrSmryTxt" name="smrSmryTxt" /></td>
+                    <td class="tssLableCss space_tain" colspan="6"><input type="text" id="smrSmryTxt" name="smrSmryTxt" /></td>
                 </tr>
                 <tr>
                     <th align="right">Summary 목표</th>
-                    <td class="tssLableCss" colspan="6"><input type="text" id="smrGoalTxt" name="smrGoalTxt" /></td>
+                    <td class="tssLableCss space_tain" colspan="6"><input type="text" id="smrGoalTxt" name="smrGoalTxt" /></td>
                 </tr>
                 <tr>
                     <th align="right" rowspan="2"> 개요 상세</th>
-                    <td colspan="6">
+                    <td colspan="6" class="space_tain">
                         <div id="tabViewS" />
                     </td>
                 </tr>
@@ -622,7 +622,7 @@ function initFrameSetHeight2(pId) {
                 </tr>
                 <tr>
                     <th align="right">시장규모</th>
-                    <td class="tssLableCss" colspan="6"><input type="text" id="mrktSclTxt" /></td>
+                    <td class="tssLableCss space_tain" colspan="6"><input type="text" id="mrktSclTxt" /></td>
                 </tr>
                 <tr>
                     <th align="right">상품출시(계획)</th>
@@ -681,7 +681,7 @@ function initFrameSetHeight2(pId) {
                 </tr>
                 <tr>
                     <th align="right">지적재산팀 검토의견</th>
-                    <td colspan="6"><input type="text" id="pmisTxt" name="pmisTxt"></td>
+                    <td colspan="6" class="space_tain"><input type="text" id="pmisTxt" name="pmisTxt"></td>
                 </tr>
                 <tr>
                     <th align="right">GRS심의파일<br/>(심의파일, 회의록 필수 첨부)</th>

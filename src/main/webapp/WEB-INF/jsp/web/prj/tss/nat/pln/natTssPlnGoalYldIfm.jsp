@@ -579,7 +579,7 @@ $(window).load(function() {
 
 	<div id="yldGrid"></div>
 
-	<div class="titArea">
+	<div class="titArea mt10">
 		<div class="LblockButton">
 		  	<button type="button" id="btnYldSave">저장</button>
 			<!-- <button type="button" id="btnList" name="btnList">목록</button> -->

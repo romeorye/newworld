@@ -134,7 +134,7 @@
 		
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
+   			<div class="sub-content" style="padding:0; margin-top:-25px;">
    				
    				<div class="titArea" style="width:800px;">
    					<div class="LblockButton">

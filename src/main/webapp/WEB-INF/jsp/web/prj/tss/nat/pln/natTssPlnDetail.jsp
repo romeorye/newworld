@@ -737,8 +737,8 @@ function setPrjInfo(prjInfo) {
                                 </tr>
                                 <tr>
                                    <th align="right">WBSCode / 과제명</th>
-                                    <td colspan="3">
-                                        <span id='seed'></span><input type="text" id="wbsCd" />/ <em class="gab"><input type="text" id="tssNm" />
+                                    <td colspan="3" class="nat_tain">
+                                        <span id='seed'></span><input type="text" id="wbsCd" /><span>/</span> <em class="gab"><input type="text" id="tssNm" />
                                     </td>
                                 </tr>
                                 <tr>

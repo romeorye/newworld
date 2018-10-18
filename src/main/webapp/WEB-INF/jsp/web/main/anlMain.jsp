@@ -84,7 +84,7 @@
 	.top_gnb .menu > ul > li span {margin:10px 0 6px 0 !important;}
 	.btn_menu #tmpMenu .top_gnb  {display:block !important;}
 	#prj_right .btn_menu ul li ul li {margin-bottom:2px;}
-	#prj_right .btn_menu ul li span a, #prj_right .btn_menu ul li ul li a {color:#555 !important; display:inline; line-height:1; font-size:12px; font-weight:normal; letter-spacing:-1px;}
+	#prj_right .btn_menu ul li span a, #prj_right .btn_menu ul li ul li a {color:#555 !important; display:inline-block; width:160px; line-height:1.1; text-overflow: ellipsis;font-size:12px; font-weight:normal; letter-spacing:-1px; overflow: hidden; white-space: nowrap;}	
 	</style>
     </head>
     <body class="pj_body">

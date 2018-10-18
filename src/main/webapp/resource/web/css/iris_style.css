@@ -1310,4 +1310,10 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .space_tain2 #scrtRson input, .space_tain2 #sbmpNm input  {width:95% !important;}
 .space_txt {overflow:hidden; border:1px solid #ddd; background:#f8f8f8; padding:10px 20px; line-height:19px;}
 
+.nat_tain #wbsCd {width:25% !important; float:left;}
+.nat_tain #wbsCd input {width:95% !important;}
+.nat_tain em.gab {width:73% !important; float:left; display:block;}
+.nat_tain em.gab div {width:100% !important; }
+.nat_tain em.gab div input {width:90% !important;}
+
 td.xl66, .xl66 {border:0 !important;}

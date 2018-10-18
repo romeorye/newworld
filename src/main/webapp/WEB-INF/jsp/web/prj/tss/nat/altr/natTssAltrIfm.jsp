@@ -390,7 +390,7 @@ $(window).load(function() {
             <tbody>
                 <tr>
                     <th align="right">변경사유</th>
-                    <td colspan="2">
+                    <td colspan="2" class="space_tain">
                         <input type="text" id="altrRsonTxt" />
                     </td>
                 </tr>
@@ -399,7 +399,7 @@ $(window).load(function() {
                 </tr>
                 <tr>
                     <th align="right">추가사유</th>
-                    <td colspan="2">
+                    <td colspan="2" class="space_tain">
                         <input type="text" id="addRsonTxt" />
                     </td>
                 </tr>

@@ -542,7 +542,7 @@
             </table>
                 </div>
             </form>
-            <div class="titArea">
+            <div class="titArea mt10">
                 <div class="LblockButton">
                     <button type="button" id="butCsur" name="butCsur">결재품의</button>
                     <button type="button" id="btnPrint" name="btnPrint">인쇄</button>
