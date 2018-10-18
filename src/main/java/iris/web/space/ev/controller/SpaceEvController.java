@@ -27,39 +27,39 @@ import iris.web.system.attach.service.AttachFileService;
 import iris.web.system.base.IrisBaseController;
 
 /********************************************************************************
- * NAME : SpaceEvController.java 
+ * NAME : SpaceEvController.java
  * DESC : 공간평가 - 평가법 관리 controller
  * PROJ : IRIS UPGRADE 2차 프로젝트
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- * 2018.08.03  정현웅	최초생성     
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ * 2018.08.03  정현웅	최초생성
  *********************************************************************************/
 
 @Controller
 public class SpaceEvController extends IrisBaseController {
-	
+
 	@Resource(name="messageSourceAccessor")
     private MessageSourceAccessor messageSourceAccessor;
-	
+
 	@Resource(name = "codeCacheManager")
 	private CodeCacheManager codeCacheManager;
-	
+
 	@Resource(name = "spaceEvService")
 	private SpaceEvService spaceEvService;
-	
+
 	@Resource(name = "attachFileService")
 	private AttachFileService attachFileService;
-	
+
 	@Resource(name = "knldRtrvRqService")
 	private ReteriveRequestService knldRtrvRqService;
-	
+
 	static final Logger LOGGER = LogManager.getLogger(SpaceEvController.class);
 
-	
-	
+
+
 	@RequestMapping(value="/space/spaceEvaluationMgmt.do")
 	public String spaceEvaluationMgmt(
 			@RequestParam HashMap<String, String> input,
@@ -67,22 +67,22 @@ public class SpaceEvController extends IrisBaseController {
 			HttpSession session,
 			ModelMap model
 			) throws Exception{
-		
+
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
-		
+
     	input = StringUtil.toUtf8(input);
 
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("SpaceEvController - spaceEvaluationMgmt [공간평가 평가법 관리화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-		
+
 		model.addAttribute("inputData", input);
 
 		return "web/space/rqpr/spaceEvaluationMgmt";
 	}
-	
+
 	@RequestMapping(value="/space/spaceEvBzdvList.do")
 	public ModelAndView spaceEvBzdvList(
 			@RequestParam HashMap<String, Object> input,
@@ -96,17 +96,17 @@ public class SpaceEvController extends IrisBaseController {
 		LOGGER.debug("SpaceEvController - spaceEvBzdvList [공간평가 평가법관리 사업부 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-		
+
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-    	
-        // 분석담당자 리스트 조회 
+
+        // 분석담당자 리스트 조회
 		List<Map<String,Object>> spaceEvBzdvList = spaceEvService.getSpaceEvBzdvList(input);
-		
+
 		modelAndView.addObject("spaceEvBzdvDataSet", RuiConverter.createDataset("spaceEvBzdvDataSet", spaceEvBzdvList));
 		LOGGER.debug("spaceEvBzdvList : " + spaceEvBzdvList);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value="/space/spaceEvProdClList.do")
 	public ModelAndView spaceEvProdClList(
 			@RequestParam HashMap<String, Object> input,
@@ -120,17 +120,17 @@ public class SpaceEvController extends IrisBaseController {
 		LOGGER.debug("SpaceEvController - spaceEvProdClList [공간평가 평가법관리 제품군 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-		
+
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-    	
-        // 분석담당자 리스트 조회 
+
+        // 분석담당자 리스트 조회
 		List<Map<String,Object>> getSpaceEvProdClList = spaceEvService.getSpaceEvProdClList(input);
-		
+
 		modelAndView.addObject("getSpaceEvProdClList", RuiConverter.createDataset("getSpaceEvProdClList", getSpaceEvProdClList));
 		LOGGER.debug("getSpaceEvClList : " + getSpaceEvProdClList);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value="/space/spaceEvClList.do")
 	public ModelAndView spaceEvClList(
 			@RequestParam HashMap<String, Object> input,
@@ -144,17 +144,17 @@ public class SpaceEvController extends IrisBaseController {
 		LOGGER.debug("SpaceEvController - spaceEvClList [공간평가 평가법관리 분류 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-		
+
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-    	
-        // 분석담당자 리스트 조회 
+
+        // 분석담당자 리스트 조회
 		List<Map<String,Object>> getSpaceEvClList = spaceEvService.getSpaceEvClList(input);
-		
+
 		modelAndView.addObject("getSpaceEvProdClList", RuiConverter.createDataset("getSpaceEvClList", getSpaceEvClList));
 		LOGGER.debug("getSpaceEvClList : " + getSpaceEvClList);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value="/space/spaceEvProdList.do")
 	public ModelAndView spaceEvProdList(
 			@RequestParam HashMap<String, Object> input,
@@ -168,17 +168,17 @@ public class SpaceEvController extends IrisBaseController {
 		LOGGER.debug("SpaceEvController - spaceEvProdList [공간평가 평가법관리 제품 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-		
+
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-    	
-        // 분석담당자 리스트 조회 
+
+        // 분석담당자 리스트 조회
 		List<Map<String,Object>> getSpaceEvProdList = spaceEvService.getSpaceEvProdList(input);
-		
+
 		modelAndView.addObject("getSpaceEvProdList", RuiConverter.createDataset("getSpaceEvProdList", getSpaceEvProdList));
 		LOGGER.debug("getSpaceEvProdList : " + getSpaceEvProdList);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping(value="/space/spaceEvMtrlList.do")
 	public ModelAndView spaceEvMtrlList(
 			@RequestParam HashMap<String, Object> input,
@@ -192,17 +192,41 @@ public class SpaceEvController extends IrisBaseController {
 		LOGGER.debug("SpaceEvController - spaceEvMtrlList [공간평가 평가법관리 상세 조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-		
+
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-    	
-        // 공간평가 평가법관리 상세 조회 
+
+        // 공간평가 평가법관리 상세 조회
 		List<Map<String,Object>> getSpaceEvMtrlList = spaceEvService.getSpaceEvMtrlList(input);
-		
+
 		modelAndView.addObject("getSpaceEvMtrlList", RuiConverter.createDataset("getSpaceEvMtrlList", getSpaceEvMtrlList));
 		LOGGER.debug("getSpaceEvMtrlList : " + getSpaceEvMtrlList);
 		return modelAndView;
 	}
-	
+
+	@RequestMapping(value="/space/spaceRqprRsltList.do")
+	public ModelAndView spaceRqprRsltList(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session,
+			ModelMap model
+			){
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("SpaceEvController - spaceRqprRsltList [공간평가 평가결과서 조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        // 공간평가 평가법관리 상세 조회
+		List<Map<String,Object>> spaceRqprRsltList = spaceEvService.spaceRqprRsltList(input);
+
+		modelAndView.addObject("spaceRqprRsltList", RuiConverter.createDataset("spaceRqprRsltList", spaceRqprRsltList));
+		LOGGER.debug("spaceRqprRsltList : " + spaceRqprRsltList);
+		return modelAndView;
+	}
+
 	@RequestMapping(value="/space/spaceEvMtrlReqPop.do")
 	public String spaceEvMtrlReqPop(@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request,
@@ -214,8 +238,8 @@ public class SpaceEvController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 
 		return  "web/space/rqpr/spaceEvaluationMgmtReqPopup";
-	}	
-	
+	}
+
 	//자재단위평가등록
 	@RequestMapping(value="/space/insertSpaceEvMtrl.do")
 	public ModelAndView insertSpaceEvMtrl(@RequestParam HashMap<String, Object> input,
@@ -227,7 +251,7 @@ public class SpaceEvController extends IrisBaseController {
         checkSessionObjRUI(input, session, model);
 
         input = StringUtil.toUtf8(input);
-        
+
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
         Map<String,Object> ds = null;
@@ -235,12 +259,12 @@ public class SpaceEvController extends IrisBaseController {
 
         try {
             ds  = RuiConverter.convertToDataSet(request, "dataSet").get(0);
-            
+
             ds.put("cmd", input.get("save"));
 			ds.put("userId", input.get("_userId"));
-            
+
 			spaceEvService.insertSpaceEvMtrl(ds);
-			
+
             resultMap.put("cmd", "saveAnlExprMst");
 			resultMap.put("resultYn", "Y");
 			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
@@ -257,7 +281,7 @@ public class SpaceEvController extends IrisBaseController {
 
         return modelAndView;
 	}
-	
+
 	/** 자재단위평가 삭제 **/
 	@RequestMapping(value="/space/deleteSpaceEvMtrl.do")
 	public ModelAndView deleteSpaceEvMtrl(
@@ -288,8 +312,8 @@ public class SpaceEvController extends IrisBaseController {
 
 		modelAndView.addObject("spaceEvMtrlListDataSet", RuiConverter.createDataset("spaceEvMtrlListDataSet", rtnMeaasge));
 		return modelAndView;
-	}	
-	
+	}
+
 	/** 사업부 삭제 **/
 	@RequestMapping(value="/space/deleteSpaceEvCtgr0.do")
 	public ModelAndView deleteSpaceEvCtgr0(
@@ -321,7 +345,7 @@ public class SpaceEvController extends IrisBaseController {
 		modelAndView.addObject("spaceEvBzdvDataSet", RuiConverter.createDataset("spaceEvBzdvDataSet", rtnMeaasge));
 		return modelAndView;
 	}
-	
+
 	/** 제품군 삭제 **/
 	@RequestMapping(value="/space/deleteSpaceEvCtgr1.do")
 	public ModelAndView deleteSpaceEvCtgr1(
@@ -353,7 +377,7 @@ public class SpaceEvController extends IrisBaseController {
 		modelAndView.addObject("spaceEvProdClDataSet", RuiConverter.createDataset("spaceEvProdClDataSet", rtnMeaasge));
 		return modelAndView;
 	}
-	
+
 	/** 분류 삭제 **/
 	@RequestMapping(value="/space/deleteSpaceEvCtgr2.do")
 	public ModelAndView deleteSpaceEvCtgr2(
@@ -385,7 +409,7 @@ public class SpaceEvController extends IrisBaseController {
 		modelAndView.addObject("spaceEvClDataSet", RuiConverter.createDataset("spaceEvClDataSet", rtnMeaasge));
 		return modelAndView;
 	}
-	
+
 	/** 제품 삭제 **/
 	@RequestMapping(value="/space/deleteSpaceEvCtgr3.do")
 	public ModelAndView deleteSpaceEvCtgr3(
@@ -417,7 +441,7 @@ public class SpaceEvController extends IrisBaseController {
 		modelAndView.addObject("spaceEvProdDataSet", RuiConverter.createDataset("spaceEvProdDataSet", rtnMeaasge));
 		return modelAndView;
 	}
-	
+
 	//사업장등록
 	@RequestMapping(value="/space/saveSpaceEvCtgr0.do")
 	public ModelAndView saveSpaceEvCtgr0(@RequestParam HashMap<String, Object> input,
@@ -427,13 +451,13 @@ public class SpaceEvController extends IrisBaseController {
 			){
 		/* 반드시 공통 호출 후 작업 */
         checkSessionObjRUI(input, session, model);
-        
+
         input = StringUtil.toUtf8(input);
-        
+
         ModelAndView modelAndView = new ModelAndView("ruiView");
-        
+
         String userId = (String)input.get("_userId");
-        
+
         List<Map<String, Object>> ds = null;
 
         try {
@@ -442,7 +466,7 @@ public class SpaceEvController extends IrisBaseController {
 				data.put("userId", userId);
 			}
             spaceEvService.saveSpaceEvCtgr0(ds);
-            
+
             ds.get(0).put("rtCd", "SUCCESS");
             ds.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
         } catch(Exception e) {
@@ -455,7 +479,7 @@ public class SpaceEvController extends IrisBaseController {
 
         return modelAndView;
 	}
-	
+
 	//제품군등록
 	@RequestMapping(value="/space/saveSpaceEvCtgr1.do")
 	public ModelAndView saveSpaceEvCtgr1(@RequestParam HashMap<String, Object> input,
@@ -465,13 +489,13 @@ public class SpaceEvController extends IrisBaseController {
 			){
 		/* 반드시 공통 호출 후 작업 */
         checkSessionObjRUI(input, session, model);
-        
+
         input = StringUtil.toUtf8(input);
-        
+
         ModelAndView modelAndView = new ModelAndView("ruiView");
-        
+
         String userId = (String)input.get("_userId");
-        
+
         List<Map<String, Object>> ds = null;
 
         try {
@@ -480,7 +504,7 @@ public class SpaceEvController extends IrisBaseController {
 				data.put("userId", userId);
 			}
             spaceEvService.saveSpaceEvCtgr1(ds);
-            
+
             ds.get(0).put("rtCd", "SUCCESS");
             ds.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
         } catch(Exception e) {
@@ -492,8 +516,8 @@ public class SpaceEvController extends IrisBaseController {
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", ds));
 
         return modelAndView;
-	}	
-	
+	}
+
 	//분류등록
 	@RequestMapping(value="/space/saveSpaceEvCtgr2.do")
 	public ModelAndView saveSpaceEvCtgr2(@RequestParam HashMap<String, Object> input,
@@ -503,13 +527,13 @@ public class SpaceEvController extends IrisBaseController {
 			){
 		/* 반드시 공통 호출 후 작업 */
         checkSessionObjRUI(input, session, model);
-        
+
         input = StringUtil.toUtf8(input);
-        
+
         ModelAndView modelAndView = new ModelAndView("ruiView");
-        
+
         String userId = (String)input.get("_userId");
-        
+
         List<Map<String, Object>> ds = null;
 
         try {
@@ -518,7 +542,7 @@ public class SpaceEvController extends IrisBaseController {
 				data.put("userId", userId);
 			}
             spaceEvService.saveSpaceEvCtgr2(ds);
-            
+
             ds.get(0).put("rtCd", "SUCCESS");
             ds.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
         } catch(Exception e) {
@@ -530,8 +554,8 @@ public class SpaceEvController extends IrisBaseController {
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", ds));
 
         return modelAndView;
-	}	
-	
+	}
+
 	//제품등록
 	@RequestMapping(value="/space/saveSpaceEvCtgr3.do")
 	public ModelAndView saveSpaceEvCtgr3(@RequestParam HashMap<String, Object> input,
@@ -541,13 +565,13 @@ public class SpaceEvController extends IrisBaseController {
 			){
 		/* 반드시 공통 호출 후 작업 */
         checkSessionObjRUI(input, session, model);
-        
+
         input = StringUtil.toUtf8(input);
-        
+
         ModelAndView modelAndView = new ModelAndView("ruiView");
-        
+
         String userId = (String)input.get("_userId");
-        
+
         List<Map<String, Object>> ds = null;
 
         try {
@@ -556,7 +580,7 @@ public class SpaceEvController extends IrisBaseController {
 				data.put("userId", userId);
 			}
             spaceEvService.saveSpaceEvCtgr3(ds);
-            
+
             ds.get(0).put("rtCd", "SUCCESS");
             ds.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
         } catch(Exception e) {

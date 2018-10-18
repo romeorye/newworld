@@ -25,25 +25,25 @@ import iris.web.common.util.FormatHelper;
 import iris.web.common.util.StringUtil;
 
 /*********************************************************************************
- * NAME : SpaceEvServiceImpl.java 
+ * NAME : SpaceEvServiceImpl.java
  * DESC : 공간평가 - 평가법 관리 ServiceImpl
  * PROJ : IRIS UPGRADE 2차 프로젝트
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- * 2018.08.03  정현웅	최초생성               
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ * 2018.08.03  정현웅	최초생성
  *********************************************************************************/
 
 @Service("spaceEvService")
 public class SpaceEvServiceImpl implements SpaceEvService {
-	
+
 	static final Logger LOGGER = LogManager.getLogger(SpaceEvServiceImpl.class);
 
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
-	
+
 	@Resource(name="mailSenderFactory")
 	private MailSenderFactory mailSenderFactory;
 
@@ -53,10 +53,10 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 	@Resource(name = "configService")
     private ConfigService configService;
 
-	
-	
-	
-	
+
+
+
+
 	/* 공간평가 평가법관리 - 사업부 조회 */
 	@Override
 	public List<Map<String, Object>> getSpaceEvBzdvList(Map<String, Object> input) {
@@ -82,28 +82,35 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 	public List<Map<String, Object>> getSpaceEvMtrlList(Map<String, Object> input) {
 		return commonDao.selectList("space.ev.getSpaceEvMtrlList", input);
 	}
+
+	/* 공간평가 평가결과서 조회 */
+	@Override
+	public List<Map<String, Object>> spaceRqprRsltList(Map<String, Object> input) {
+		return commonDao.selectList("space.ev.spaceRqprRsltList", input);
+	}
+
 	/* 공간평가 평가법관리 - 등록 */
 	@Override
 	public List<Map<String, Object>> spaceEvMtrlReqPop(Map<String, Object> input) {
 		return commonDao.selectList("space.ev.spaceEvMtrlReqPop", input);
 	}
-	
+
 	/* 자재단위평가 - 등록 저장 */
 	@Override
     public boolean insertSpaceEvMtrl(Map<String, Object> ds) {
         //return commonDao.insert("space.ev.insertSpaceEvMtrl", ds);
         commonDao.insert("space.ev.insertSpaceEvMtrl", ds);
             return true;
-    }	
-	
+    }
+
 	/* 자재단위평가 삭제  */
 	@Override
 	public void deleteSpaceEvMtrl(HashMap<String, String> input) {
 		String rebId = NullUtil.nvl(input.get("rebId"), "");
 		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("space.ev.deleteSpaceEvMtrl", input);
-	}	
-	
+	}
+
 	/* 사업부 삭제  */
 	@Override
 	public void deleteSpaceEvCtgr0(HashMap<String, String> input) {
@@ -111,7 +118,7 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("space.ev.deleteSpaceEvCtgr0", input);
 	}
-	
+
 	/* 제품군 삭제  */
 	@Override
 	public void deleteSpaceEvCtgr1(HashMap<String, String> input) {
@@ -119,7 +126,7 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("space.ev.deleteSpaceEvCtgr1", input);
 	}
-	
+
 	/* 분류 삭제  */
 	@Override
 	public void deleteSpaceEvCtgr2(HashMap<String, String> input) {
@@ -127,7 +134,7 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("space.ev.deleteSpaceEvCtgr2", input);
 	}
-	
+
 	/* 제품 삭제  */
 	@Override
 	public void deleteSpaceEvCtgr3(HashMap<String, String> input) {
@@ -135,7 +142,7 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("space.ev.deleteSpaceEvCtgr3", input);
 	}
-	
+
 	//사업부저장
     @Override
     public int saveSpaceEvCtgr0(List<Map<String, Object>> ds) {
@@ -159,8 +166,8 @@ public class SpaceEvServiceImpl implements SpaceEvService {
         }
 
         return rtVal;
-    }	
-	
+    }
+
 	//제품군저장
     @Override
     public int saveSpaceEvCtgr1(List<Map<String, Object>> ds) {
@@ -184,8 +191,8 @@ public class SpaceEvServiceImpl implements SpaceEvService {
         }
 
         return rtVal;
-    }	
-    
+    }
+
 	//분류저장
     @Override
     public int saveSpaceEvCtgr2(List<Map<String, Object>> ds) {
@@ -209,8 +216,8 @@ public class SpaceEvServiceImpl implements SpaceEvService {
         }
 
         return rtVal;
-    }	
-    
+    }
+
 	//제품저장
     @Override
     public int saveSpaceEvCtgr3(List<Map<String, Object>> ds) {
@@ -234,5 +241,5 @@ public class SpaceEvServiceImpl implements SpaceEvService {
         }
 
         return rtVal;
-    }	    
+    }
 }
