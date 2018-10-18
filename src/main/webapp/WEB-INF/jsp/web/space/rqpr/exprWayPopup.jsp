@@ -24,8 +24,8 @@
 Rui.onReady(function() {
 	var exprWay = new Rui.ui.form.LTextArea({            // LTextBox개체를 선언
         applyTo: 'exprWay',                           // 해당 DOM Id 위치에 텍스트박스를 적용
-        width: 585,                                    // 텍스트박스 폭을 설정
-        height: 295,
+        width: 560,                                    // 텍스트박스 폭을 설정
+        height: 270,
         defaultValue: '<c:out value="${inputData.exprWay}"/>',
         placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
         invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
