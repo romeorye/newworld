@@ -228,6 +228,7 @@ var mchnMgmtRegDialog;
 			<input type="hidden" name="opnYn" value="${inputData.opnYn}"/>
 			<input type="hidden" name="mchnCrgrNm" value="${inputData.mchnCrgrNm}"/>
 			<input type="hidden" name="mchnUsePsblYn" value="${inputData.mchnUsePsblYn}"/>
+			<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 	    </form>
 
 			<form name="aform" id="aform" method="post">

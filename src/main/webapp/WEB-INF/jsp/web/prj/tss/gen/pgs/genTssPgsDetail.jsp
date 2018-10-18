@@ -57,7 +57,7 @@
     var tssFnhDd;
 
     var altrHistDialog;
-    
+
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -131,7 +131,7 @@
             editable: false,
             width: 200
         });
-        
+
         //유형
         tssTypeNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssTypeNm',
@@ -178,18 +178,18 @@
             Rui.select('.tssLableCss div').removeClass('L-disabled');
         }
 
-       
+
         altrHistDialog = new Rui.ui.LFrameDialog({
-   	        id: 'altrHistDialog', 
+   	        id: 'altrHistDialog',
    	        title: '변경이력상세',
    	        width: 800,
    	        height: 650,
    	        modal: true,
    	        visible: false
    	    });
-    	    
+
        	altrHistDialog.render(document.body);
-    	    
+
         /*============================================================================
         =================================    DataSet     =============================
         ============================================================================*/
@@ -358,7 +358,7 @@
         =================================    기능     ================================
         ============================================================================*/
         //GRS요청
-        /* 
+        /*
         btnGrsRq = new Rui.ui.LButton('btnGrsRq');
         btnGrsRq.on('click', function() {
             Rui.confirm({
@@ -372,13 +372,13 @@
  */
 
 		 var confirmDialog = new Rui.ui.LFrameDialog({
-		     id: 'confirmDialog', 
+		     id: 'confirmDialog',
 		     title: '변경요청',
 		     width: 550,
 		     height: 320,
 		     modal: true,
 		     visible: false,
-		     buttons: [ 
+		     buttons: [
 		             { text: '단순변경', handler: function(){
 		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId);
 		             }},
@@ -390,14 +390,14 @@
 		             }},
 		         ]
 		 });
-		 
+
 		 confirmDialog.render(document.body);
- 	       	
+
 		 openDialog = function(url){
 			 confirmDialog.setUrl('<c:url value="/prj/tss/gen/confirmPopup.do?tssCd="/>' + gvTssCd + '&userIds=' + gvUserId);
 			 confirmDialog.show();
          };
-       
+
 		 //변경요청
         btnAltrRq = new Rui.ui.LButton('btnAltrRq');
         btnAltrRq.on('click', function() {
@@ -409,17 +409,17 @@
             console.log("mst searchData1");
             dataSet.loadData(${result});
         }
-        
-        //목록 
+
+        //목록
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {   
+        btnList.on('click', function() {
 			$('#searchForm > input[name=tssNm]').val(encodeURIComponent($('#searchForm > input[name=tssNm]').val()));
 			$('#searchForm > input[name=saUserName]').val(encodeURIComponent($('#searchForm > input[name=saUserName]').val()));
 			$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
-			
+
             nwinsActSubmit(document.searchForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
         });
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#btnAltrRq").hide();
         	//$("#btnGrsRq").hide();
@@ -428,7 +428,7 @@
         	//$("#btnGrsRq").hide();
 		}
     });
-    
+
     function fncGenTssAltrDetail(cd) {
     	var params = "?tssCd="+cd;
    		altrHistDialog.setUrl('<c:url value="/prj/tss/gen/genTssAltrDetailPopup.do"/>'+params);
@@ -447,8 +447,9 @@
 	<input type="hidden" name="prjNm" value="${inputData.prjNm}"/>
 	<input type="hidden" name="pgsStepCd" value="${inputData.pgsStepCd}"/>
 	<input type="hidden" name="tssSt" value="${inputData.tssSt}"/>
+	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 </form>
-  
+
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">
@@ -503,11 +504,11 @@
                                         <input type="text" id="bizDptNm" />
                                     </td>
                                 </tr>
-                               <tr>  
+                               <tr>
                                		<th align="right">발의주체</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="ppslMbdNm" />
-                                    </td>   
+                                    </td>
                                     <th align="right">제품군</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="prodGNm" />

@@ -49,7 +49,7 @@
              * 변수 및 객체 선언
              *******************/
             var aform = new Rui.ui.form.LForm('aform');
-			
+
             <%-- DATASET --%>
             rlabLibDataSet = new Rui.data.LJsonDataSet({
                 id: 'rlabLibDataSet',
@@ -235,7 +235,7 @@
 		    // roleId가 분석담당자이면 등록자와 사용자가 달라도 수정/삭제 가능
 		    //이외의 사용자는 상세보기만 가능
 		    //등록자와 사용자가 다를때 수정/삭제버튼 가리기
-		    
+
             chkUserRgst = function(display){
 		    	 if(display) {
 		    		 saveBtn.show();
@@ -245,7 +245,7 @@
 	 	        	 delBtn.hide();
 	 	         }
             }
-		    
+
 
         	chkUserRgst(false);
 
@@ -312,6 +312,7 @@
 		<input type="hidden" id="target" name="target" value=""/>
 		<input type="hidden" id="rebId"  name="rebId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 
 				<div class="titArea">
 					<div class="LblockButton">
@@ -345,7 +346,7 @@
    							<td>
                             	<span id="rtrvCt"></span>
    							</td>
-   						</tr>   						
+   						</tr>
    						<tr>
    							<th align="right">등록자</th>
    							<td>

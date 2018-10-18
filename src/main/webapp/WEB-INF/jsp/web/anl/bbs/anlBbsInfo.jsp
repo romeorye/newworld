@@ -49,7 +49,7 @@
              * 변수 및 객체 선언
              *******************/
             var aform = new Rui.ui.form.LForm('aform');
-			
+
             var butMail = new Rui.ui.LButton('butMail');
 
             /* 덧글 내용 */
@@ -398,7 +398,7 @@
 		            } }
 		        ]
 		    });
-			
+
 		    _mailDialog.on('submit', function(e) {
 		    	Rui.alert('메일이 발송되었습니다.');
 		    });
@@ -410,9 +410,9 @@
 				_callback = f;
 				_mailDialog.setUrl('<c:url value="/anl/bbs/sendMailPopup.do"/>'+'?bbsId=' + bbsId);
 				_mailDialog.show();
-			};	                    
-            
-            
+			};
+
+
 //     		/* [버튼] 목록 */
 //             goAnlBbsList = function() {
 //             	$(location).attr('href', '<c:url value="/anl/bbs/retrieveAnlBbsList.do"/>'+"?bbsCd="+bbsCd);
@@ -531,6 +531,7 @@
 		<input type="hidden" id="target" name="target" value=""/>
 		<input type="hidden" id="rebId"  name="rebId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 
 				<div class="titArea">
 					<div class="LblockButton">
@@ -576,7 +577,7 @@
    							<td>
                             	<span id="rtrvCt"></span>
    							</td>
-   						</tr>  						
+   						</tr>
    						<tr>
     					<th align="right">내용</th>
    							<td colspan="3">

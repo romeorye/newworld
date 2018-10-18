@@ -488,7 +488,7 @@
 		<input type="hidden" id="target" name="target" value=""/>
 		<input type="hidden" id="rebId"  name="rebId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
-
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 <!--    		<div class="contents"> style="padding-bottom:10px" -->
 <!--    		<div class="sub-content"> -->
 				<div class="titArea">

@@ -210,7 +210,7 @@
 
 				<input type="hidden" id='wbsScnCd' name=wbsScnCd   value='<c:out value="${inputData.wbsScnCd}"/>' />
 				<input type="hidden" id='stdTitl' name='stdTitl'   value='<c:out value="${inputData.stdTitl}"/>' />
-
+				<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 				<table class="table table_txt_right">
    					<colgroup>
    						<col style="width:15%;"/>

@@ -23,8 +23,8 @@
 <title><%=documentTitle%></title>
 
 <script type="text/javascript">
-	
-	
+
+
 	Rui.onReady(function() {
 		<%-- RESULT DATASET --%>
  		resultDataSet = new Rui.data.LJsonDataSet({
@@ -39,8 +39,8 @@
 
         resultDataSet.on('load', function(e) {
         });
-		
-        
+
+
         /*******************
          * 변수 및 객체 선언
          *******************/
@@ -49,7 +49,7 @@
              id: 'dataSet',
              remainRemoved: true,
              fields: [
-            	  {id : 'rfpId'}  
+            	  {id : 'rfpId'}
             	 ,{id : 'title'}
             	 ,{id : 'reqDate'}
             	 ,{id : 'rsechEngn'}
@@ -63,26 +63,26 @@
             	 ,{id : 'companyNm'}
             	 ,{id : 'pjtImgView'}
             	 ,{id : 'submitYn'}
-            	 ,{id : 'rgstEmpNo'}                                                   
+            	 ,{id : 'rgstEmpNo'}
  			]
         });
-		
+
         dataSet.on('load', function(e){
         	if(!Rui.isEmpty(dataSet.getNameValue(0, "pjtImgView")) ){
 				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "pjtImgView") );
         	}
-        
+
 		 	if(!Rui.isEmpty(dataSet.getNameValue(0, 'rfpId'))){
-       			var splitCode =dataSet.getNameValue(0, 'colaboTclg').split(",");		
-       		
+       			var splitCode =dataSet.getNameValue(0, 'colaboTclg').split(",");
+
        			for (var idx in splitCode) {
        				if( Rui.isEmpty(splitCode[idx])  ) return;
        				$("input[name=colaboTclg][value="+splitCode[idx]+"]").attr("checked", true);
    			  	}
-       	 	} 
-		 	
+       	 	}
+
         });
-        
+
       	//title
 	    var title = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
   	        applyTo: 'title',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -90,7 +90,7 @@
   	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
   	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
   	    });
-		
+
       	//Research Engineer
 	    var rsechEngn = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
   	        applyTo: 'rsechEngn',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -98,16 +98,16 @@
   	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
   	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
   	    });
-      	
+
 	  	//RequestDate
   	  	var reqDate = new Rui.ui.form.LDateBox({
           applyTo: 'reqDate',
           mask: '9999-99-99',
-          width: 400, 
+          width: 400,
           defaultValue: new Date(),
           dateType: 'string'
       	});
-      	
+
   	  	//Description of Technology(기술 설명)
 	    var descTclg = new Rui.ui.form.LTextArea({            // LTextBox개체를 선언
 	        applyTo: 'descTclg',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -116,7 +116,7 @@
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
-	  	
+
 	    //Expected Applications(예상적용분야)
 	    var exptAppl = new Rui.ui.form.LTextArea({            // LTextBox개체를 선언
 	        applyTo: 'exptAppl',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -132,7 +132,7 @@
 	        height: 100,
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	    });
-	    
+
 	    //Bench Marking  Technology(State of the Art)(최신 기술 현황)
 	    var benchMarkTclg = new Rui.ui.form.LTextArea({            // LTextBox개체를 선언
 	        applyTo: 'benchMarkTclg',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -140,7 +140,7 @@
 	        height: 100,
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	    });
-	  	
+
 	    //Timeline(일정)
 	    var timeline = new Rui.ui.form.LTextArea({            // LTextBox개체를 선언
 	        applyTo: 'timeline',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -148,7 +148,7 @@
 	        height: 100,
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	    });
-	  	
+
 	    //comments
 	    var comments = new Rui.ui.form.LTextArea({            // LTextBox개체를 선언
 	        applyTo: 'comments',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -157,7 +157,7 @@
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
-	    
+
 	    //Company Name (Optional)
 	    var companyNm = new Rui.ui.form.LTextArea({            // LTextBox개체를 선언
 	        applyTo: 'companyNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -166,7 +166,7 @@
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
-	    /* 
+	    /*
         var colaboTclg = new Rui.ui.form.LCheckBoxGroup({
             applyTo: 'colaboTclg',
             name: 'colaboTclg',
@@ -201,9 +201,9 @@
 	 	    	          }
 	        });
 	    }
-	    
+
 	    fnSearch();
-	    
+
 	    /* [DataSet] bind */
 	    bind = new Rui.data.LBind({
 	        groupId: 'aform',
@@ -222,8 +222,8 @@
 	        	,{id : 'companyNm', 	ctrlId : 'companyNm',  		value : 'value'}
 	        	//,{id : 'colaboTclg', 	ctlId : 'colaboTclg',  		value : 'value'}
 	        ]
-	    }); 
-	    
+	    });
+
 	    fncVaild = function(){
     	    var frm = document.aform;
 
@@ -237,16 +237,16 @@
      		}
     		// 체크 되어 있는 값 추출
     		var colaboTclgVal = "";
-    		
+
 			$("input[name=colaboTclg]:checked").each(function() {
 				colaboTclgVal = colaboTclgVal+$(this).val()+",";
 			});
-			
+
     		dataSet.setNameValue(0, 'colaboTclg', colaboTclgVal);
-	        	
+
     		return true;
 		}
-	    
+
 	    /* [버튼] : 저장  */
        	var butSave = new Rui.ui.LButton('butSave');
        	butSave.on('click', function(){
@@ -254,7 +254,7 @@
        		dm.on('success', function(e) {      // 업데이트 성공시
        			var resultData = resultDataSet.getReadData(e);
    	   				alert(resultData.records[0].rtnMsg);
-       		 	
+
        			if( resultData.records[0].rtnSt == "S"){
        				fncRfpList();
        			}
@@ -275,7 +275,7 @@
    				}
    			}
        	});
- 
+
        	/* [버튼] : 삭제  */
        	var butDel = new Rui.ui.LButton('butDel');
        	butDel.on('click', function(){
@@ -283,7 +283,7 @@
        		dm.on('success', function(e) {      // 업데이트 성공시
        			var resultData = resultDataSet.getReadData(e);
    	   			alert(resultData.records[0].rtnMsg);
-       		 	
+
        			if( resultData.records[0].rtnSt == "S"){
        				fncRfpList();
        			}
@@ -298,7 +298,7 @@
        	    	Rui.alert("삭제할 데이터가 없습니다.");
        	    	return;
        	    }
-       	    
+
 	        if(confirm("삭제하시겠습니까?")) {
 	       		dm.updateDataSet({
 		             dataSets:[dataSet],
@@ -309,7 +309,7 @@
 		         });
 	       	 }
        	});
-       	
+
 
        	/* [버튼] : 제출하기  */
        	var butSubmit = new Rui.ui.LButton('butSubmit');
@@ -318,7 +318,7 @@
        		dm.on('success', function(e) {      // 업데이트 성공시
        			var resultData = resultDataSet.getReadData(e);
    	   			Rui.alert(resultData.records[0].rtnMsg);
-       		 	
+
        			if( resultData.records[0].rtnSt == "S"){
        				fncRfpList();
        			}
@@ -328,7 +328,7 @@
        	    	var resultData = resultDataSet.getReadData(e);
    	   			Rui.alert(resultData.records[0].rtnMsg);
        	    });
-       	    
+
        	 	if( Rui.isEmpty(dataSet.getNameValue(0, 'rfpId'))  ){
 	        	Rui.alert("제출 건이 존재하지 않습니다.");
 	        	return;
@@ -338,7 +338,7 @@
 	        		return;
 	        	}
 	        }
-       	 	
+
        	 	if(confirm("요청서를 제출시겠습니까?")) {
 	       	 	dm.updateDataSet({
 		             dataSets:[dataSet],
@@ -347,23 +347,23 @@
 		            	rfpId : dataSet.getNameValue(0, 'rfpId')
 	   	     	 }
 	         });
-       	 		
+
        	 	}
        	});
-		
+
 	    /* [버튼] : 목록  */
        	var butList = new Rui.ui.LButton('butList');
        	butList.on('click', function(){
        		fncRfpList();
        	});
-       	
+
        	fncRfpList = function(){
        		$('#searchForm > input[name=title]').val(encodeURIComponent($('#searchForm > input[name=title]').val()));
-	    	$('#searchForm > input[name=rgstNm]').val(encodeURIComponent($('#searchForm > input[name=rgstNm]').val())); 
-	    	
+	    	$('#searchForm > input[name=rgstNm]').val(encodeURIComponent($('#searchForm > input[name=rgstNm]').val()));
+
 	    	nwinsActSubmit(searchForm, "<c:url value="/prj/tss/rfp/retrieveRfp.do"/>");
-       	} 
-       	
+       	}
+
 	});
 </script>
 <style>
@@ -374,7 +374,8 @@
 <body>
 <form name="searchForm" id="searchForm"  method="post">
  	<input type="hidden" name="title" value="${inputData.title}"/>
-	<input type="hidden" name="rgstNm" value="${inputData.rgstNm}"/> 
+	<input type="hidden" name="rgstNm" value="${inputData.rgstNm}"/>
+	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 </form>
 <div class="contents">
 	<div class="titleArea">
@@ -385,14 +386,14 @@
 		<h2>RFP요청서 등록</h2>
 	</div>
 	<div class="sub-content">
-	
+
 		<div class="LblockButton top mt0">
 			<button type="button" id="butSave">저장</button>
 			<button type="button" id="butDel">삭제</button>
 			<button type="button" id="butSubmit">제출하기</button>
 			<button type="button" id="butList">목록</button>
 		</div>
-		
+
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rfpId" name="rfpId" value="<c:out value='${inputData.rfpId}'/>" />
 		<table class="table table_txt_right">
@@ -448,7 +449,7 @@
    						<input type="checkbox"  name= "colaboTclg"  value = "IO" > In- / out licensing<BR/>
    						<input type="checkbox"  name= "colaboTclg"  value = "SS" > Search for specialist / recruiting<BR/>
    						<input type="checkbox"  name= "colaboTclg"  value = "MA" > Meeting arrangement<BR/>
-   						<input type="checkbox"  name= "colaboTclg"  value = "BT" > Benchmarking / technology evaluation<BR/> 
+   						<input type="checkbox"  name= "colaboTclg"  value = "BT" > Benchmarking / technology evaluation<BR/>
    					</td>
    					<th>Timeline(일정)</th>
    					<td>
@@ -473,21 +474,21 @@
 							var CrossEditor = new NamoSE('pjtImgView');
 							CrossEditor.params.Width = "100%";
 							CrossEditor.params.UserLang = "auto";
-							
-							var uploadPath = "<%=uploadPath%>"; 
-							
+
+							var uploadPath = "<%=uploadPath%>";
+
 							CrossEditor.params.ImageSavePath = uploadPath+"/prj";
 							CrossEditor.params.FullScreen = false;
-							
+
 							CrossEditor.EditorStart();
-							
+
 							function OnInitCompleted(e){
 								e.editorTarget.SetBodyValue(document.getElementById("pjtImgView").value);
 							}
 						</script>
    					</td>
    				</tr>
-			</tbody>	
+			</tbody>
 		</table>
 	</form>
 	</div>

@@ -435,7 +435,7 @@
                     <input type="hidden" id='grsTypeSch' name='grsTypeSch' value='<c:out value="${inputData.grsTypeSch}"/>' />
                     <input type="hidden" id='evSbcNmSch' name='evSbcNmSch' value='<c:out value="${inputData.evSbcNmSch}"/>' />
                     <input type="hidden" id='useYnSch' name='useYnSch' value='<c:out value="${inputData.useYnSch}"/>' />
-
+					<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
                     <table class="table table_txt_right">
                         <colgroup>
                             <col style="width: 15%;" />

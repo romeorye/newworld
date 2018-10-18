@@ -223,6 +223,7 @@ var fxaDtlDataSet; // 자산 상세정보 데이터셋
 		<input type="hidden" name="fromDate" value="${inputData.fromDate}"/>
 		<input type="hidden" name="toDate" value="${inputData.toDate}"/>
 		<input type="hidden" name="crgrNm" value="${inputData.crgrNm}"/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
     </form>
 
 	<form name="aform" id="aform" method="post">

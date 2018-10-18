@@ -48,9 +48,9 @@
     var dcacTssCd   = "";
     var dataSet;
     var rtnMsg = "${inputData.rtnMsg}";
-    
+
     var altrHistDialog;
-    
+
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -89,7 +89,7 @@
              editable: false,
              width: 300
          });
-        
+
         //wbsCd
          wbsCd = new Rui.ui.form.LTextBox({
              applyTo: 'wbsCd',
@@ -124,14 +124,14 @@
             editable: false,
             width: 200
         });
-        
+
         //유형
         tssTypeNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssTypeNm',
             editable: false,
             width: 200
         });
-        
+
         //계획 시작일
         tssStrtDd = new Rui.ui.form.LTextBox({
             applyTo: 'tssStrtDd',
@@ -200,18 +200,18 @@
             editable: false,
             width: 100
         });
-      
+
         altrHistDialog = new Rui.ui.LFrameDialog({
-   	        id: 'altrHistDialog', 
+   	        id: 'altrHistDialog',
    	        title: '변경이력상세',
    	        width: 800,
    	        height: 650,
    	        modal: true,
    	        visible: false
    	    });
-    	    
+
        	altrHistDialog.render(document.body);
-       	
+
         //Form 비활성화 여부
         disableFields = function() {
             //버튼여부
@@ -277,7 +277,7 @@
             gvPkWbsCd  = dataSet.getNameValue(0, "pkWbsCd");
             document.tabForm.tssSt.value = dataSet.getNameValue(0, "tssSt");
             document.tabForm.pgsStepCd.value = dataSet.getNameValue(0, "pgsStepCd");
-            
+
             var pPgsStepCd = dataSet.getNameValue(0, "pgsStepCd");
 
             //PG:진행단계
@@ -296,7 +296,7 @@
             disableFields();
 
             tabView.selectTab(0);
-            
+
             if(!Rui.isEmpty(rtnMsg)){
             	if(rtnMsg == "G"){
             		Rui.alert("목표기술성과 실적값을 모두 입력하셔야 합니다.");
@@ -349,7 +349,7 @@
         //서버전송용
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         dm.on('success', function(e) {
-      	
+
         	var data = dataSet.getReadData(e);
 
             Rui.alert(data.records[0].rtVal);
@@ -471,7 +471,7 @@
         fnSave = function() {
             dcacBStrtDd.blur();
             dcacBFnhDd.blur();
-            
+
             if(!vm.validateGroup("mstForm")) {
                 Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>'));
                 return;
@@ -528,25 +528,25 @@
             console.log("mst searchData1");
             dataSet.loadData(${result});
         }
-        
-      //목록 
+
+      //목록
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {   
+        btnList.on('click', function() {
 			$('#searchForm > input[name=tssNm]').val(encodeURIComponent($('#searchForm > input[name=tssNm]').val()));
 			$('#searchForm > input[name=saUserName]').val(encodeURIComponent($('#searchForm > input[name=saUserName]').val()));
 			$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
-			
+
             nwinsActSubmit(document.searchForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
         });
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#btnCsusRq").hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#btnCsusRq").hide();
 		}
-        
+
     });
-    
+
     function fncGenTssAltrDetail(cd) {
     	var params = "?tssCd="+cd;
    		altrHistDialog.setUrl('<c:url value="/prj/tss/gen/genTssAltrDetailPopup.do"/>'+params);
@@ -565,6 +565,7 @@
 	<input type="hidden" name="prjNm" value="${inputData.prjNm}"/>
 	<input type="hidden" name="pgsStepCd" value="${inputData.pgsStepCd}"/>
 	<input type="hidden" name="tssSt" value="${inputData.tssSt}"/>
+	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 </form>
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
@@ -619,7 +620,7 @@
                                     <td class="tssLableCss">
                                         <input type="text" id="bizDptNm" />
                                     </td>
-                                    
+
                                 </tr>
 								<tr>
                                     <th align="right">발의주체</th>

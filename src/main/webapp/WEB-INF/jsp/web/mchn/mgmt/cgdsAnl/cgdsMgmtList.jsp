@@ -232,6 +232,7 @@ var dataSet;
 				<input type="hidden" name="mkrNm" value="${inputData.mkrNm}"/>
 				<input type="hidden" name="stkNo" value="${inputData.stkNo}"/>
 				<input type="hidden" name="cgdCrgrNm" value="${inputData.cgdCrgrNm}"/>
+				<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 		    </form>
 
 			<form name="aform" id="aform" method="post">

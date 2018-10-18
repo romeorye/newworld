@@ -35,7 +35,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 
 
 	Rui.onReady(function(){
-		
+
 		<%-- RESULT DATASET --%>
         resultDataSet = new Rui.data.LJsonDataSet({
             id: 'resultDataSet',
@@ -49,7 +49,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 
         resultDataSet.on('load', function(e) {
         });
-		
+
 		/*******************
 	     * 변수 및 객체 선언
 	     *******************/
@@ -83,11 +83,11 @@ var faxInfoDialog;	//고정자산관리 팝업
 	    dataSet.on('load', function(e){
 			document.aform.mchnCrgrId.value = dataSet.getNameValue(0, "mchnCrgrId");
 			cbOpnYn.setValue(dataSet.getNameValue(0,"opnYn"));
-			
+
 			if(dataSet.getNameValue(0, "mchnInfoId")  != "" ||  dataSet.getNameValue(0, "mchnInfoId")  !=  undefined ){
 				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "mchnSmry") );
 			}
-			
+
 			if(!Rui.isEmpty(dataSet.getNameValue(0, "fxaNo"))){
 				document.aform.fxaNo.value = dataSet.getNameValue(0, "fxaNo");
 			}
@@ -137,7 +137,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD'
 		});
-		
+
 		//기기사용쳐부combo
 		var cbMchnUsePsblYn = new Rui.ui.form.LCombo({
 		 	applyTo : 'mchnUsePsblYn',
@@ -186,7 +186,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 				       { value: 'Y', text: '삭제'}
 	            ]
 		});
-		
+
 		//메인여부
 		var cbMnScrnDspYn = new Rui.ui.form.LCombo({
 			applyTo : 'mnScrnDspYn',
@@ -300,7 +300,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 	    });
 
 		faxInfoDialog.render(document.body);
-		
+
 		var bind = new Rui.data.LBind({
 			groupId: 'aform',
 		    dataSet: dataSet,
@@ -328,8 +328,8 @@ var faxInfoDialog;	//고정자산관리 팝업
 		         { id: 'mchnInfoId', 		ctrlId: 'mchnInfoId', 		value: 'value' }
 		     ]
 		});
-		
-/* 
+
+/*
 		cbMchnUfeClCd.getDataSet().on('load', function(e) {
 			if(cbOpnYn.getValue() ==  "Y"){
 				cbMchnUfeClCd.enable();
@@ -404,7 +404,7 @@ var faxInfoDialog;	//고정자산관리 팝업
     	butList.on('click', function(){
     		fncAnlMchnList();
     	});
-    	
+
 		/* [버튼] : 고정자산 초기화 목록 이동 */
     	var butFxaInit = new Rui.ui.LButton('butFxaInit');
 
@@ -460,7 +460,7 @@ var faxInfoDialog;	//고정자산관리 팝업
            }else{
 	           $('#atthcFilVw').html('');
            }
-           
+
            for(var i = 0; i < attcFilList.length; i++) {
                $('#atthcFilVw').append($('<a/>', {
                    href: 'javascript:downloadAttcFil("' + attcFilList[i].data.attcFilId + '", "' + attcFilList[i].data.seq + '")',
@@ -494,19 +494,19 @@ var faxInfoDialog;	//고정자산관리 팝업
             ]
         });
     	imageDialog.hide(true);
-    	
+
      //분석기기 목록 화면으로 이동
        var fncAnlMchnList = function(){
     	   	$('#searchForm > input[name=mchnNm]').val(encodeURIComponent($('#searchForm > input[name=mchnNm]').val()));
     	   	$('#searchForm > input[name=mchnCrgrNm]').val(encodeURIComponent($('#searchForm > input[name=mchnCrgrNm]').val()));
-	    	
-	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/retrieveMachineList.do"/>");	
+
+	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/retrieveMachineList.do"/>");
        }
 
      //vaild check
      var fncVaild = function(){
      		var frm = document.aform;
-    		
+
      		//기기명    vailid
     		if( Rui.isEmpty(mchnHanNm.getValue())){
     			Rui.alert("기기명(한글)은 필수항목입니다");
@@ -571,7 +571,7 @@ var faxInfoDialog;	//고정자산관리 팝업
     			CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
     			return false;
     		}
-    	
+
     		return true;
      	}
 	});  //end ready
@@ -607,14 +607,15 @@ var faxInfoDialog;	//고정자산관리 팝업
 				<input type="hidden" name="opnYn" value="${inputData.opnYn}"/>
 				<input type="hidden" name="mchnCrgrNm" value="${inputData.mchnCrgrNm}"/>
 				<input type="hidden" name="mchnUsePsblYn" value="${inputData.mchnUsePsblYn}"/>
+				<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 		    </form>
-		    
+
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" />
 				<input type="hidden" id="attcFilId" name="attcFilId" />
 				<input type="hidden" id="mchnCrgrId" name="mchnCrgrId" />
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" value="<c:out value='${inputData.mchnInfoId}'/>">
-				
+
 				<input type="hidden" id="fxaNo" name="fxaNo" />
 				<input type="hidden" id="fxaNm" name="fxaNm" />
 
@@ -660,7 +661,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 								<div id="opnYn"></div>
 							</td>
 						</tr>
-						
+
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>기기사용상태</th>
 							<td>
@@ -669,7 +670,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 							<th align="right">메인여부</th>
 							<td>
 								<select id="mnScrnDspYn"></select>
-								
+
 							</td>
 						</tr>
 						<tr>
@@ -725,14 +726,14 @@ var faxInfoDialog;	//고정자산관리 팝업
 										var CrossEditor = new NamoSE('mchnSmry');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
-										
-										var uploadPath = "<%=uploadPath%>"; 
-										
+
+										var uploadPath = "<%=uploadPath%>";
+
 										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";
 										CrossEditor.params.FullScreen = false;
-										
+
 										CrossEditor.EditorStart();
-										
+
 										function OnInitCompleted(e){
 											e.editorTarget.SetBodyValue(document.getElementById("mchnSmry").value);
 										}

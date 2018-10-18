@@ -142,7 +142,7 @@
 					<input type="hidden" id="menuType"  name="menuType" />
 					<input type="hidden" id="fxaRlisId"  name="fxaRlisId" value="<c:out value='${inputData.fxaRlisId}'/>">
 					<input type="hidden" id="rlisStCd"  name="rlisStCd" value="<c:out value='${inputData.rlisStCd}'/>">
-
+					<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 
 						<div class="titArea btn_top">
 							<span class="table_summay_number" id="cnt_text"></span>

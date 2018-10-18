@@ -33,18 +33,18 @@
 
 <script type="text/javascript">
     var gvTssCd     = "";
-    var gvUserId    = "${inputData._userId}"; 
-    var gvTssSt     = ""; 
-    var gvPgsStepCd = "CM"; //진행상태:CM(완료) 
-    var gvWbsCd     = ""; 
-    var gvPageMode  = ""; 
+    var gvUserId    = "${inputData._userId}";
+    var gvTssSt     = "";
+    var gvPgsStepCd = "CM"; //진행상태:CM(완료)
+    var gvWbsCd     = "";
+    var gvPageMode  = "";
 
     var cmplTssCd   = "";
     var dataSet;
-    var rtnMsg = "${inputData.rtnMsg}"; 
-	
+    var rtnMsg = "${inputData.rtnMsg}";
+
     var altrHistDialog;
-    
+
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -55,14 +55,14 @@
             editable: false,
             width: 300
         });
-        
+
         //조직코드
         deptName = new Rui.ui.form.LTextBox({
             applyTo: 'deptName',
             editable: false,
             width: 300
         });
-        
+
 /*         //발의주체
         ppslMbdNm = new Rui.ui.form.LTextBox({
             applyTo: 'ppslMbdNm',
@@ -75,70 +75,70 @@
             applyTo: 'bizDptNm',
             editable: false,
             width: 150
-        }); 
-        
+        });
+
         //WBS코드
         wbsCd = new Rui.ui.form.LTextBox({
             applyTo: 'wbsCd',
             editable: false,
             width: 80
         });
-      
+
         //과제명
         tssNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssNm',
             editable: false,
             width: 300
         });
-        
+
         //과제리더
         saUserName = new Rui.ui.form.LTextBox({
             applyTo: 'saUserName',
             editable: false,
             width: 200
         });
-        
+
         //
         cooInstNm = new Rui.ui.form.LTextBox({
             applyTo: 'cooInstNm',
             editable: false,
             width: 400
         });
-        
+
         //
         ttsDifMonth = new Rui.ui.form.LTextBox({
             applyTo: 'ttsDifMonth',
             editable: false,
             width: 100
         });
-        
+
         //
         mbrCnt = new Rui.ui.form.LTextBox({
             applyTo: 'mbrCnt',
             editable: false,
             width: 400
         });
-        
+
 /*         //과제속성
         tssAttrNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssAttrNm',
             width: 150
         }); */
-        
+
         //계획 시작일
         tssStrtDd = new Rui.ui.form.LTextBox({
             applyTo: 'tssStrtDd',
             editable: false,
             width: 100
         });
-        
+
         //계획 종료일
         tssFnhDd = new Rui.ui.form.LTextBox({
             applyTo: 'tssFnhDd',
             editable: false,
             width: 100
         });
-        
+
         //실적 시작일
         cmplBStrtDd = new Rui.ui.form.LDateBox({
             applyTo: 'cmplBStrtDd',
@@ -148,13 +148,13 @@
         });
         cmplBStrtDd.on('blur', function() {
             if(Rui.isEmpty(cmplBStrtDd.getValue())) return;
-            
+
             if(!Rui.isEmpty(cmplBFnhDd.getValue())) {
                 var startDt = cmplBStrtDd.getValue().replace(/\-/g, "").toDate();
                 var fnhDt   = cmplBFnhDd.getValue().replace(/\-/g, "").toDate();
-                
+
                 var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
-                
+
                 if(rtnValue <= 0) {
                     Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
                     cmplBStrtDd.setValue("");
@@ -162,7 +162,7 @@
                 }
             }
         });
-        
+
         //실적 종료일
         cmplBFnhDd = new Rui.ui.form.LDateBox({
             applyTo: 'cmplBFnhDd',
@@ -172,13 +172,13 @@
         });
         cmplBFnhDd.on('blur', function() {
             if(Rui.isEmpty(cmplBFnhDd.getValue())) return;
-            
+
             if(!Rui.isEmpty(cmplBStrtDd.getValue())) {
                 var startDt = cmplBStrtDd.getValue().replace(/\-/g, "").toDate();
                 var fnhDt   = cmplBFnhDd.getValue().replace(/\-/g, "").toDate();
-                
+
                 var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
-                
+
                 if(rtnValue <= 0) {
                     Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
                     cmplBFnhDd.setValue("");
@@ -186,31 +186,31 @@
                 }
             }
         });
-        
+
         altrHistDialog = new Rui.ui.LFrameDialog({
-	        id: 'altrHistDialog', 
+	        id: 'altrHistDialog',
 	        title: '변경이력상세',
 	        width: 800,
 	        height: 650,
 	        modal: true,
 	        visible: false
 		});
-		    
+
 	    altrHistDialog.render(document.body);
-        
+
         //Form 비활성화 여부
         disableFields = function() {
-            
+
             //버튼여부
             btnCsusRq.hide();
-            
+
             var pTssRoleId = stringNullChk(dataSet.getNameValue(0, "tssRoleId"));
-            
+
             //조건에 따른 보이기
             if(pTssRoleId != "TR05" && pTssRoleId != "") {
                 if(gvTssSt == "100") btnCsusRq.show(); //GRS - 100:작성중
             }
-        
+
             prjNm.disable();
             deptName.disable();
 
@@ -223,7 +223,7 @@
             Rui.select('.tssLableCss div').addClass('L-tssLable');
             Rui.select('.tssLableCss div').removeClass('L-disabled');
         }
-        
+
         /*============================================================================
         =================================    DataSet     =============================
         ============================================================================*/
@@ -233,27 +233,27 @@
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-                  { id: 'tssCd' }          //과제코드     
+                  { id: 'tssCd' }          //과제코드
                 , { id: 'userId' }         //로그인ID
-                , { id: 'prjNm' }          //프로젝트명    
-                , { id: 'pgsStepCd' }      //진행단계코드   
-                , { id: 'tssScnCd' }       //과제구분코드   
-                , { id: 'wbsCd' }          //WBS코드    
+                , { id: 'prjNm' }          //프로젝트명
+                , { id: 'pgsStepCd' }      //진행단계코드
+                , { id: 'tssScnCd' }       //과제구분코드
+                , { id: 'wbsCd' }          //WBS코드
                 , { id: 'pkWbsCd' }        //WBS코드(PK)
-                , { id: 'tssNm' }          //과제명      
-                , { id: 'saSabunNew' }     //과제리더사번   
-                , { id: 'tssAttrCd' }      //과제속성코드   
-                , { id: 'tssStrtDd' }      //과제시작일    
-                , { id: 'tssFnhDd' }       //과제종료일    
-                , { id: 'cmplBStrtDd' }    //완료전시작일   
-                , { id: 'cmplBFnhDd' }     //완료전종료일   
-                , { id: 'tssSt' }          //과제상태     
-                , { id: 'saUserName' }     //과제리더명    
-                , { id: 'deptName' }       //조직(소속)명  
-                , { id: 'pgsStepNm' }      //진행단계명    
-                , { id: 'ppslMbdNm' }      //발의주체명    
-                , { id: 'bizDptNm' }       //과제유형명    
-                , { id: 'tssAttrNm' }      //과제속성명    
+                , { id: 'tssNm' }          //과제명
+                , { id: 'saSabunNew' }     //과제리더사번
+                , { id: 'tssAttrCd' }      //과제속성코드
+                , { id: 'tssStrtDd' }      //과제시작일
+                , { id: 'tssFnhDd' }       //과제종료일
+                , { id: 'cmplBStrtDd' }    //완료전시작일
+                , { id: 'cmplBFnhDd' }     //완료전종료일
+                , { id: 'tssSt' }          //과제상태
+                , { id: 'saUserName' }     //과제리더명
+                , { id: 'deptName' }       //조직(소속)명
+                , { id: 'pgsStepNm' }      //진행단계명
+                , { id: 'ppslMbdNm' }      //발의주체명
+                , { id: 'bizDptNm' }       //과제유형명
+                , { id: 'tssAttrNm' }      //과제속성명
                 , { id: 'pgTssCd' }        //진행과제코드
                 , { id: 'cooInstNm' }        //
                 , { id: 'ttsDifMonth' }        //
@@ -267,30 +267,30 @@
         });
         dataSet.on('load', function(e) {
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
-            gvWbsCd = dataSet.getNameValue(0, "pkWbsCd");            
-            var pPgsStepCd = dataSet.getNameValue(0, "pgsStepCd");     
-            
+            gvWbsCd = dataSet.getNameValue(0, "pkWbsCd");
+            var pPgsStepCd = dataSet.getNameValue(0, "pgsStepCd");
+
             document.tabForm.tssSt.value = dataSet.getNameValue(0, "tssSt");
             document.tabForm.pgsStepCd.value = dataSet.getNameValue(0, "pgsStepCd");
-            
-            
+
+
             //PG:진행단계
             if(pPgsStepCd == "PG") {
                 cmplTssCd = "";  //완료단계 과제코드
                 gvTssCd = stringNullChk(dataSet.getNameValue(0, "pgTssCd")); //진행단계 과제코드
                 gvTssSt = ""; //과제상태
-            } 
+            }
             //CM:완료단계
             else if(pPgsStepCd == "CM") {
                 cmplTssCd = dataSet.getNameValue(0, "tssCd"); //완료단계 과제코드
                 gvTssCd = stringNullChk(dataSet.getNameValue(0, "pgTssCd")); //진행단계 과제코드
                 gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt")); //과제상태
             }
-            
+
             disableFields();
-            
+
             tabView.selectTab(0);
-            
+
             if(!Rui.isEmpty(rtnMsg)){
             	if(rtnMsg == "G"){
             		Rui.alert("목표기술성과 실적값을 모두 입력하셔야 합니다.");
@@ -299,8 +299,8 @@
             	}
             }
         });
-        
-        
+
+
         //폼에 출력
         var bind = new Rui.data.LBind({
             groupId: 'mstFormDiv',
@@ -328,24 +328,24 @@
 
             ]
         });
-        
-        
+
+
         //유효성 설정
         var vm = new Rui.validate.LValidatorManager({
-            validators: [  
+            validators: [
                   { id: 'cmplBStrtDd', validExp: '실적시작일:true' }
                 , { id: 'cmplBFnhDd',  validExp: '실적종료일:true' }
             ]
         });
-        
-        
-        //서버전송용 
+
+
+        //서버전송용
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         dm.on('success', function(e) {
             var data = dataSet.getReadData(e);
-            
+
             Rui.alert(data.records[0].rtVal);
-            
+
             //실패일경우 ds insert모드로 변경
             if(data.records[0].rtCd == "FAIL") {
                 dataSet.setState(0, 1);
@@ -356,7 +356,7 @@
                 }
             }
         });
- 
+
         /*============================================================================
         =================================      Tab       =============================
         ============================================================================*/
@@ -372,16 +372,16 @@
         });
         tabView.on('activeTabChange', function(e) {
             //iframe 숨기기
-            for(var i = 0; i < 6; i++) { 
+            for(var i = 0; i < 6; i++) {
                 if(i == e.activeIndex) {
                     Rui.get('tabContent' + i).show();
                 } else {
                     Rui.get('tabContent' + i).hide();
                 }
             }
-            
+
             var tabUrl = "";
-            
+
             switch(e.activeIndex) {
             //완료
             case 0:
@@ -407,11 +407,11 @@
             //비용지급실적
             case 3:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplExpStoaIfm.do?tssCd=" + cmplTssCd + "&pgTssCd="+ gvTssCd + "'/>";    
+                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplExpStoaIfm.do?tssCd=" + cmplTssCd + "&pgTssCd="+ gvTssCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent3');
                 }
                 break;
-            //목표 및 산출물    
+            //목표 및 산출물
             case 4:
                 if(e.isFirst) {
                     tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsGoalYldIfm.do?tssCd=" + gvTssCd + "'/>";
@@ -434,19 +434,19 @@
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
-        //품의서요청 
+        //품의서요청
         btnCsusRq = new Rui.ui.LButton('btnCsusRq');
         btnCsusRq.on('click', function() {
-            if(!vm.validateGroup("mstForm")) {            
+            if(!vm.validateGroup("mstForm")) {
                  Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>'));
                  return;
             }
-            
+
             if(dataSet.isUpdated()) {
                 Rui.alert("완료탭 저장을 먼저 해주시기 바랍니다.");
                 return false;
             }
-             
+
             Rui.confirm({
                 text: '품의서요청을 하시겠습니까?',
                 handlerYes: function() {
@@ -455,28 +455,28 @@
                 handlerNo: Rui.emptyFn
             });
         });
-        
+
         //저장
         fnSave = function() {
-            if(!vm.validateGroup("mstForm")) {            
+            if(!vm.validateGroup("mstForm")) {
                 Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>'));
                 return;
             }
-            
+
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
                     var smryDs = document.getElementById('tabContent0').contentWindow.dataSet; //개요탭 DS
-                    
+
                     dataSet.setNameValue(0, "pgsStepCd", "CM");   //진행단계: CM(완료)
                     dataSet.setNameValue(0, "tssScnCd", "O");     //과제구분: O(대외협력)
                     dataSet.setNameValue(0, "tssSt", "100");      //과제상태: 100(작성중)
                     dataSet.setNameValue(0, "tssCd",  cmplTssCd); //과제코드
                     dataSet.setNameValue(0, "userId", gvUserId);  //사용자ID
-                    
+
                     smryDs.setNameValue(0, "tssCd"   , cmplTssCd);  //과제코드
                     smryDs.setNameValue(0, "userId"  , gvUserId);   //사용자ID
-                    
+
                     //신규
                     if(cmplTssCd == "") {
                         dm.updateDataSet({
@@ -497,31 +497,31 @@
                 handlerNo: Rui.emptyFn
             });
         };
-        
-      //목록 
+
+      //목록
         var btnList = new Rui.ui.LButton('btnList');
-      
-        btnList.on('click', function() {   
+
+        btnList.on('click', function() {
 			$('#searchForm > input[name=tssNm]').val(encodeURIComponent($('#searchForm > input[name=tssNm]').val()));
 			$('#searchForm > input[name=saUserName]').val(encodeURIComponent($('#searchForm > input[name=saUserName]').val()));
 			$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
-			
+
             nwinsActSubmit(document.searchForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssList.do'/>");
         });
-        
-        //데이터 셋팅 
-        if(${resultCnt} > 0) { 
+
+        //데이터 셋팅
+        if(${resultCnt} > 0) {
             console.log("mst searchData1");
-            dataSet.loadData(${result}); 
+            dataSet.loadData(${result});
         }
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#btnCsusRq").hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#btnCsusRq").hide();
 		}
     });
-    
+
     function fncOusdCooTssAltrDetail(cd) {
     	var params = "?tssCd="+cd;
    		altrHistDialog.setUrl('<c:url value="/prj/tss/ousdCoo/ousdCooTssAltrDetailPopup.do"/>'+params);
@@ -540,9 +540,10 @@
 	<input type="hidden" name="prjNm" value="${inputData.prjNm}"/>
 	<input type="hidden" name="pgsStepCd" value="${inputData.pgsStepCd}"/>
 	<input type="hidden" name="tssSt" value="${inputData.tssSt}"/>
+	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 </form>
     <Tag:saymessage /><%--<!--  sayMessage 사용시 필요 -->--%>
-    
+
     <div class="contents">
 <%--         <%@ include file="/WEB-INF/jsp/include/navigator.jspf"%> --%>
 		<div class="titleArea">
@@ -597,7 +598,7 @@
                                     <td class="tssLableCss">
                                     	<input type="text" id="bizDptNm" />
                                     </td>
-                                     
+
                                 </tr>
                                 <tr>
                                 	<th align="right">협력기관(기관명/소속/성명)</th>
@@ -611,7 +612,7 @@
                                         <input type="text" id="mbrCnt" />
                                     </td>
                                     <th align="right">소요기간</th>
-                                    <td class="tssLableCss"> 
+                                    <td class="tssLableCss">
                                         <input type="text" id="ttsDifMonth" /> 개월
                                     </td>
                                 </tr>
@@ -645,11 +646,11 @@
                         </table>
                     </fieldset>
                 </form>
-            </div>    
+            </div>
             <br/>
-            
+
             <div id="tabView"></div>
-            
+
             <form name="tabForm" id="tabForm" method="post">
             	<input type="hidden" id="tssSt" name="tssSt" value=""/>
             	<input type="hidden" id="pgsStepCd" name="pgsStepCd" value=""/>

@@ -283,6 +283,7 @@
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="eduId" name="eduId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
    		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">

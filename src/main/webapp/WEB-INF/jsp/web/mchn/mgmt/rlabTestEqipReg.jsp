@@ -546,12 +546,12 @@ var faxInfoDialog;	//고정자산관리 팝업
 
     		//기기명    vailid
      		if( Rui.isEmpty(mchnHanNm.getValue())){
-    			Rui.alert("기기명(한글)은 필수항목입니다");
+    			Rui.alert("장비명(국문)은 필수항목입니다");
     			mchnHanNm.focus();
     			return false;
     		}
     		if( Rui.isEmpty(mchnEnNm.getValue())){
-    			Rui.alert("기기명(영문)은 필수항목입니다");
+    			Rui.alert("장비명(영문)은 필수항목입니다");
     			mchnEnNm.focus();
     			return false;
     		}
@@ -581,13 +581,8 @@ var faxInfoDialog;	//고정자산관리 팝업
     			return false;
     		}
     		if( Rui.isEmpty(cbOpnYn.getValue())){
-    			Rui.alert("OPEN 기기는 필수항목입니다.");
+    			Rui.alert("OPEN 장비는 필수항목입니다.");
     			cbOpnYn.focus();
-    			return false;
-    		}
-    		if( Rui.isEmpty(cbMchnUsePsblYn.getValue())){
-    			Rui.alert("장비사용상태는 필수항목입니다.");
-    			cbMchnUsePsblYn.focus();
     			return false;
     		}
     		if( Rui.isEmpty(cbDelYn.getValue())){
@@ -600,28 +595,15 @@ var faxInfoDialog;	//고정자산관리 팝업
     			smpoQty.focus();
     			return false;
     		}
-    		if( Rui.isEmpty(cbMnScrnDspYn.getValue())){
-    			Rui.alert("메인여부는 필수항목입니다.");
-    			cbMnScrnDspYn.focus();
-    			return false;
-    		}
-    		if( Rui.isEmpty(mchnCrgrNm.getValue())){
-    			Rui.alert("담당자는 필수항목입니다.");
-    			mchnCrgrNm.focus();
-    			return false;
-    		}
-    		if( Rui.isEmpty(mchnLoc.getValue())){
-    			Rui.alert("위치는 필수항목입니다.");
-    			mchnLoc.focus();
-    			return false;
-    		}
     		if( Rui.isEmpty(mchnExpl.getValue())){
     			Rui.alert("요약설명은 필수항목입니다.");
     			mchnExpl.focus();
     			return false;
     		}
-
-
+    		if( Rui.isEmpty(document.aform.attcFilId.value)){
+    			Rui.alert("첨부파일은 필수항목입니다.");
+    			return false;
+    		}
      		if(CrossEditor.GetBodyValue()=="" || CrossEditor.GetBodyValue()=="<p><br></p>"){
      		    alert("개요내용을 입력해 주세요!!");
      		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
@@ -653,7 +635,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			<a class="leftCon" href="#">
 				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 				<span class="hidden">Toggle 버튼</span>
-			</a>  
+			</a>
 			<h2>신뢰성시험 장비 관리</h2>
 		</div>
 		<div class="sub-content">
@@ -666,6 +648,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 				<input type="hidden" name="opnYn" value="${inputData.opnYn}"/>
 				<input type="hidden" name="mchnCrgrNm" value="${inputData.mchnCrgrNm}"/>
 				<input type="hidden" name="mchnUsePsblYn" value="${inputData.mchnUsePsblYn}"/>
+				<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 		    </form>
 
 			<form name="aform" id="aform" method="post">
@@ -723,13 +706,13 @@ var faxInfoDialog;	//고정자산관리 팝업
 							<td>
 								<div id="mchnClCd"></div>
 							</td>
-							<th align="right"><span style="color:red;">*  </span>open기기</th>
+							<th align="right"><span style="color:red;">*  </span>open장비</th>
 							<td>
 								<div id="opnYn"></div>
 							</td>
 						</tr>
 						<tr>
-							<th align="right"><span style="color:red;">*  </span>장비사용상태</th>
+							<th align="right">장비사용상태</th>
 							<td>
 								<div id="mchnUsePsblYn"></div>
 							</td>
@@ -743,7 +726,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 							<td>
 								<input type="text" id="smpoQty" />
 							</td>
-							<th align="right"><span style="color:red;">*  </span>메인여부</th>
+							<th align="right">메인여부</th>
 							<td>
 								<select id="mnScrnDspYn"></select>
 							</td>
@@ -761,11 +744,11 @@ var faxInfoDialog;	//고정자산관리 팝업
 							</td>
 						</tr>
 						<tr>
-							<th align="right"><span style="color:red;">*  </span>담당자</th>
+							<th align="right">담당자</th>
 							<td>
 								<input type="text" id="mchnCrgrNm" />
 							</td>
-							<th align="right" ><span style="color:red;">*  </span>위치</th>
+							<th align="right" >위치</th>
 							<td>
 								<input type="text" id="mchnLoc" />
 							</td>
@@ -777,7 +760,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 							</td>
 						</tr>
 						<tr>
-							<th align="right">첨부파일</th>
+							<th align="right"><span style="color:red;">*  </span>첨부파일</th>
 							<td id="atthcFilVw" colspan="2"></td>
 							<td>
 								<button type="button" id="butAttcFil">첨부파일등록</button> <b>(280*200)</b>

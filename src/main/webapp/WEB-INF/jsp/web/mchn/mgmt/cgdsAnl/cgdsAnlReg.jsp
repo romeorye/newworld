@@ -43,7 +43,7 @@ var attId;
 var fncCgdsAnlList;
 
 	Rui.onReady(function(){
-	
+
 		<%-- RESULT DATASET --%>
         var resultDataSet = new Rui.data.LJsonDataSet({
             id: 'resultDataSet',
@@ -54,7 +54,7 @@ var fncCgdsAnlList;
                 , { id: 'rtnMsg' }  //결과메시지
             ]
         });
-        
+
 		//grid dataset
 		var dataSet = new Rui.data.LJsonDataSet({
             id: 'dataSet',
@@ -76,7 +76,7 @@ var fncCgdsAnlList;
             	 ,{ id: 'cgdsMgmtId'}
             ]
         });
-	
+
 		//소모품명
 		var cgdsNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	        applyTo: 'cgdsNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -100,7 +100,7 @@ var fncCgdsAnlList;
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
- 		
+
 		/* 담당자 팝업 */
 	    var cgdCrgrNm = new Rui.ui.form.LPopupTextBox({
             applyTo: 'cgdCrgrNm',
@@ -109,7 +109,7 @@ var fncCgdsAnlList;
             placeholder: '',
             enterToPopup: true
         });
-		
+
 	    cgdCrgrNm.on('popup', function(e){
 	    	openUserSearchDialog(setUserInfo, 1, '', 'prj');
        	});
@@ -118,7 +118,7 @@ var fncCgdsAnlList;
 	    	cgdCrgrNm.setValue(user.saName);
 	    	document.aform.cgdCrgrId.value = user.saSabun;
 	    };
-	
+
  		//위치.
 		var cgdsLoc = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	        applyTo: 'cgdsLoc',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -126,7 +126,7 @@ var fncCgdsAnlList;
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
-	
+
  		//재고.
  		var prpIvQty = new Rui.ui.form.LNumberBox({
 	        applyTo: 'prpIvQty',
@@ -135,7 +135,7 @@ var fncCgdsAnlList;
 	        minValue: -1,                  // 최소값 입력제한 설정
 	        decimalPrecision: 0            // 소수점 자리수 3자리까지 허용
 	    });
- 		
+
  		//용도
  		var useUsf = new Rui.ui.form.LTextArea({
             applyTo: 'useUsf',
@@ -143,7 +143,7 @@ var fncCgdsAnlList;
             width: 900,
             height: 100
         });
-	
+
  		//소모품상태
  		var cbUtmCd = new Rui.ui.form.LCombo({
 	 		applyTo : 'utmCd',
@@ -158,7 +158,7 @@ var fncCgdsAnlList;
 		cbUtmCd.getDataSet().on('load', function(e) {
 	          console.log('cbUtmCd :: load');
 	    });
-	
+
 		fnSearch = function(){
 			dataSet.load({
 				url: '<c:url value="/mchn/mgmt/retrieveCdgsMst.do"/>',
@@ -169,7 +169,7 @@ var fncCgdsAnlList;
 		}
 
 		fnSearch();
- 		
+
  		/*************************첨부파일****************************/
 		/* 첨부파일*/
 		var attachFileDataSet = new Rui.data.LJsonDataSet({
@@ -189,11 +189,11 @@ var fncCgdsAnlList;
 		dataSet.on('load', function(e) {
 			attId = dataSet.getNameValue(0, "attcFilId");
             if(!Rui.isEmpty(attId)) getAttachFileList();
-            
+
             if(dataSet.getNameValue(0, "cgdsId")  == undefined || dataSet.getNameValue(0, "cgdsId") == ""){
 	            butDel.hide();
             }
-            
+
         });
 
 		//첨부파일 정보 조회
@@ -220,20 +220,20 @@ var fncCgdsAnlList;
             }
             setAttachFileInfo(attachFileInfoList);
         };
-        
+
  		//첨부파일 다운로드
         downloadAttcFil = function(attId, seq){
  	       /* 	var param = "?attcFilId=" + attId + "&seq=" + seq;
  	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
  	       	document.aform.submit(); */
- 	       	
+
         	var param = "?attcFilId="+ attId+"&seq="+seq;
 			Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
 			Rui.get('imgDialTitle').html('분석기기이미지(소모품)');
 			imageDialog.clearInvalid();
 			imageDialog.show(true);
         }
- 		
+
         /* [ 이미지 Dialog] */
     	var imageDialog = new Rui.ui.LDialog({
             applyTo: 'imageDialog',
@@ -248,19 +248,19 @@ var fncCgdsAnlList;
             ]
         });
     	imageDialog.hide(true);
-	
+
       //첨부파일 callback
 		setAttachFileInfo = function(attcFilList) {
 
            var chkCnt = attcFilList.length;
-           
+
            if(chkCnt > 1 ){
     	       	Rui.alert("첨부파일은 1개만 가능합니다");
 	           	return;
            }else{
 	           $('#atthcFilVw').html('');
            }
-           
+
            for(var i = 0; i < attcFilList.length; i++) {
                $('#atthcFilVw').append($('<a/>', {
                    href: 'javascript:downloadAttcFil("' + attcFilList[i].data.attcFilId + '", "' + attcFilList[i].data.seq + '")',
@@ -269,7 +269,7 @@ var fncCgdsAnlList;
            document.aform.attcFilId.value = attcFilList[i].data.attcFilId;
            }
        	};
-       	
+
        	var bind = new Rui.data.LBind({
 			groupId: 'aform',
 		    dataSet: dataSet,
@@ -288,8 +288,8 @@ var fncCgdsAnlList;
 		         { id: 'cgdsId', 		ctrlId: 'cgdsId', 		value: 'value' },
 		     ]
 		});
-       
-       	
+
+
        	/* [버튼] : 등록 정보 저장 */
     	var butSave = new Rui.ui.LButton('butSave');
    		butSave.on('click', function(){
@@ -297,9 +297,9 @@ var fncCgdsAnlList;
 
     		dm.on('success', function(e) {      // 업데이트 성공시
 				var resultData = resultDataSet.getReadData(e);
-	    		
+
     			alert(resultData.records[0].rtnMsg);
-	    		
+
 	    		if( resultData.records[0].rtnSt == "S"){
 	    			fncCgdsAnlList();
 	    		}
@@ -322,8 +322,8 @@ var fncCgdsAnlList;
 	    		});
     		}
    	 	});
-   		
-   		
+
+
    		/* [버튼] : 소모품 삭제 */
     	var butDel = new Rui.ui.LButton('butDel');
     	butDel.on('click', function(){
@@ -331,9 +331,9 @@ var fncCgdsAnlList;
 
     		dm.on('success', function(e) {      // 업데이트 성공시
 				var resultData = resultDataSet.getReadData(e);
-	    		
+
     			alert(resultData.records[0].rtnMsg);
-	    		
+
 	    		if( resultData.records[0].rtnSt == "S"){
 	    			fncCgdsAnlList();
 	    		}
@@ -349,21 +349,21 @@ var fncCgdsAnlList;
     	        handlerYes: function() {
             	    dm.updateDataSet({
     	        	    url: "<c:url value='/mchn/mgmt/updateCgdsMst.do'/>",
-    	        	    params: {                                 // 업데이트시 조건 파라메터를 기술합니다. 
+    	        	    params: {                                 // 업데이트시 조건 파라메터를 기술합니다.
     	        	    	cgdsId: document.aform.cgdsId.value
     	                }
     	        	});
     	        }
     		});
    	 	});
-   		
+
         /* [버튼] : 첨부파일 팝업 호출 */
     	var butAttcFil = new Rui.ui.LButton('butAttcFil');
     	butAttcFil.on('click', function(){
     		var attcFilId = document.aform.attcFilId.value;
     		openAttachFileDialog(setAttachFileInfo, attcFilId,'mchnPolicy', '*');
     	});
-    	
+
     	/* [버튼] : 소모품 목록 이동 */
     	var butList = new Rui.ui.LButton('butList');
 
@@ -395,22 +395,22 @@ var fncCgdsAnlList;
     			cbUtmCd.focus();
     			return false;
     		}
-    		
+
     		return true;
      	}
-    	
+
     	//소모품관리 목록 화면으로 이동
 	    fncCgdsAnlList = function(){
 	    	$('#searchForm > input[name=cgdsNm]').val(encodeURIComponent($('#searchForm > input[name=cgdsNm]').val()));
     	   	$('#searchForm > input[name=mkrNm]').val(encodeURIComponent($('#searchForm > input[name=mkrNm]').val()));
     	   	$('#searchForm > input[name=cgdCrgrNm]').val(encodeURIComponent($('#searchForm > input[name=cgdCrgrNm]').val()));
-	    	
-	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/retrieveMchnCgdgList.do"/>");	
+
+	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/mgmt/retrieveMchnCgdgList.do"/>");
 	    }
 
 	});		//end ready
-		
-		
+
+
 </script>
 <style type="text/css">
 .search-toggleBtn {display:none;}
@@ -427,21 +427,22 @@ var fncCgdsAnlList;
 		</div>
 
 		<div class="sub-content">
-		
+
 		<form name="searchForm" id="searchForm">
 			<input type="hidden" name="cgdsNm" value="${inputData.cgdsNm}"/>
 			<input type="hidden" name="mkrNm" value="${inputData.mkrNm}"/>
 			<input type="hidden" name="stkNo" value="${inputData.stkNo}"/>
 			<input type="hidden" name="cgdCrgrNm" value="${inputData.cgdCrgrNm}"/>
+			<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 	    </form>
-	    
-	    
+
+
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" value="IRIED0202"/>
 				<input type="hidden" id="attcFilId" name="attcFilId" />
 				<input type="hidden" id="cgdCrgrId" name="cgdCrgrId" />
 				<input type="hidden" id="cgdsId" name="cgdsId" value="<c:out value='${inputData.cgdsId}'/>">
-				
+
 				<div class="LblockButton top mt0">
 					<button type="button" id="butSave">저장</button>
 					<button type="button" id="butDel">삭제</button>
@@ -505,7 +506,7 @@ var fncCgdsAnlList;
 
 		</div>
 		<!-- //sub-content -->
-		
+
 		<!-- 이미지 -->
 		<div id="imageDialog">
 			<div class="hd" id="imgDialTitle">이미지</div>

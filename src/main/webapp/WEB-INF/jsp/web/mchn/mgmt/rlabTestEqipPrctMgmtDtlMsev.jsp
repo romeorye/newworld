@@ -151,6 +151,7 @@ var mailTitl;
 			<input type="hidden" name="rgstNm" value="${inputData.rgstNm}"/>
 			<input type="hidden" name="mchnNm" value="${inputData.mchnNm}"/>
 			<input type="hidden" name="prctScnCd" value="${inputData.prctScnCd}"/>
+			<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 	    </form>
 
 

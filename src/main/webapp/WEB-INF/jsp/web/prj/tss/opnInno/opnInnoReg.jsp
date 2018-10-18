@@ -528,6 +528,7 @@ var openRfpDetailViewDialog;
 	<form name="searchForm" id="searchForm"  method="post">
 		<input type="hidden" name="tssNm" value="${inputData.tssNm}"/>
 		<input type="hidden" name="ousdInstNm" value="${inputData.ousdInstNm}"/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
     </form>
 
 	<div class="contents">

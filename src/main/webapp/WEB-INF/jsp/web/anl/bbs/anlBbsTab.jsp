@@ -146,7 +146,7 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
            var columnModel01 = new Rui.ui.grid.LColumnModel({
         	   columns: [
         		     { field: 'bbsNm',		label: '구분',    sortable: false,	align:'center',	width: 150 }
-                  , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 660 }
+                  , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 712 }
                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 160 }
                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 153 }
                   , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
@@ -188,10 +188,10 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
            var columnModel02 = new Rui.ui.grid.LColumnModel({
         	   columns: [
        		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'center',	width: 150 }
-                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 660 }
-                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
-                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
-                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
+                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 712 }
+                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 160 }
+                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 153 }
+                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
                ]
            });
 
@@ -230,10 +230,10 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
            var columnModel03 = new Rui.ui.grid.LColumnModel({
         	   columns: [
         		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'center',	width: 150 }
-                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 660 }
-                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
-                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
-                   , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
+                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 712 }
+                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 160 }
+                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 153 }
+                   , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
                ]
            });
 
@@ -273,10 +273,10 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
            var columnModel04 = new Rui.ui.grid.LColumnModel({
         	   columns: [
         		    { field: 'bbsNm',		label: '구분',    sortable: false,	align:'center',	width: 150 }
-                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 660 }
-                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 175 }
-                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 175 }
-                   , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
+                   , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 712 }
+                   , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 160 }
+                   , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 153 }
+                   , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
                ]
            });
 
@@ -313,13 +313,13 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
 
            anlBbsDataSet.on('load', function(e) {
   	    		$("#cnt_text").html('총 ' + anlBbsDataSet.getCount() + '건');
-  	    		
+
    	            if(roleIdIndex != -1) {
  	              	chkUserRgst(true);
  	            } else {
  	              	chkUserRgst(false);
  	            }
-   	            
+
 	  	    	// 목록 페이징
 	  	    	if(bbsCd=='06'){
 	  	    		paging(anlBbsDataSet,"anlBbsGrid01");
@@ -344,7 +344,7 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
                    }
                });
            };
-           
+
 		    // roleId가 분석담당자이면 등록자와 사용자가 달라도 수정/삭제 가능
 		    //이외의 사용자는 상세보기만 가능
 		    //등록자와 사용자가 다를때 수정/삭제버튼 가리기

@@ -36,7 +36,7 @@ var openMchnSearchDialog;
 
 
 	Rui.onReady(function(){
-		
+
 		 <%-- RESULT DATASET --%>
 	        resultDataSet = new Rui.data.LJsonDataSet({
 	            id: 'resultDataSet',
@@ -50,7 +50,7 @@ var openMchnSearchDialog;
 
 	        resultDataSet.on('load', function(e) {
 	        });
-	        
+
 		/* dataSet */
 		var dataSet = new Rui.data.LJsonDataSet({
             id: 'dataSet',
@@ -78,7 +78,7 @@ var openMchnSearchDialog;
 		dataSet.on('load', function(e){
 			document.aform.eduCrgrId.value = dataSet.getNameValue(0, "eduCrgrId");
 			rdEduScnCd.setValue(dataSet.getNameValue(0, "eduScnCd"));
-			
+
 			if(dataSet.getNameValue(0, "mchnEduId")  != "" ||  dataSet.getNameValue(0, "mchnEduId")  !=  undefined ){
 				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "dtlSbc") );
 			}
@@ -118,7 +118,7 @@ var openMchnSearchDialog;
 	   		eduCrgrNm.setValue(user.saName);
 	   		document.aform.eduCrgrId.value = user.saSabun;
 	    };
-	    
+
 		//모집상태
 		var rdEduScnCd = new Rui.ui.form.LRadioGroup({
 	            applyTo : 'eduScnCd',
@@ -255,16 +255,16 @@ var openMchnSearchDialog;
 
     	butSave.on('click', function(){
     		var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-    		
+
     		dm.on('success', function(e) {      // 업데이트 성공시
 				var resultData = resultDataSet.getReadData(e);
     			alert(resultData.records[0].rtnMsg);
-    			
+
     			if( resultData.records[0].rtnSt == "S"){
 	    			fncMchnEduAnlList();
     			}
     		});
-    		
+
     	    dm.on('failure', function(e) {      // 업데이트 실패시
     	    	var resultData = resultDataSet.getReadData(e);
     	    	alert(resultData.records[0].rtnMsg);
@@ -290,7 +290,7 @@ var openMchnSearchDialog;
     		dm.on('success', function(e) {      // 업데이트 성공시
     			var resultData = resultDataSet.getReadData(e);
     			alert(resultData.records[0].rtnMsg);
-    			
+
     			if( resultData.records[0].rtnSt == "S"){
 	    			fncMchnEduAnlList();
     			}
@@ -392,7 +392,7 @@ var openMchnSearchDialog;
     	butList.on('click', function(){
 			$('#searchForm > input[name=eduNm]').val(encodeURIComponent($('#searchForm > input[name=eduNm]').val()));
 			$('#searchForm > input[name=mchnNm]').val(encodeURIComponent($('#searchForm > input[name=mchnNm]').val()));
-	    	
+
 	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/open/eduAnl/retrieveEduAdmListList.do"/>");
     	});
 
@@ -401,7 +401,7 @@ var openMchnSearchDialog;
 		var fncVaild = function(){
     	    var frm = document.aform;
 
-    		//교육명 
+    		//교육명
     		if(Rui.isEmpty(eduNm.getValue())){
     			alert("교육명을 입력하세요");
     			eduNm.focus();
@@ -464,15 +464,15 @@ var openMchnSearchDialog;
     			eduPl.focus();
     			return false;
     		}
-    		
+
     		frm.dtlSbc.value = CrossEditor.GetBodyValue();
-    		
+
     		if( frm.dtlSbc.value == "<p><br></p>" || frm.dtlSbc.value == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
     			alert('내용을 입력하여 주십시요.');
      		    CrossEditor.SetFocusEditor(); // 크로스에디터 Focus 이동
      		    return false;
      		}
-    		
+
     		return true;
  		}
 
@@ -507,13 +507,13 @@ var openMchnSearchDialog;
         	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
         	document.aform.submit();
         }
-        
+
         var fncMchnEduAnlList = function(){
-        	
+
         	$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
 			$('#searchForm > input[name=fxaNm]').val(encodeURIComponent($('#searchForm > input[name=fxaNm]').val()));
 			$('#searchForm > input[name=crgrNm]').val(encodeURIComponent($('#searchForm > input[name=crgrNm]').val()));
-			
+
         	document.searchForm.action='<c:url value="/mchn/open/eduAnl/retrieveEduAdmListList.do"/>';
    			document.searchForm.submit();
         }
@@ -539,8 +539,10 @@ var openMchnSearchDialog;
 		<input type="hidden" name="mchnNm" value="${inputData.mchnNm}"/>
 		<input type="hidden" name="eduScnCd" value="${inputData.eduScnCd}"/>
 		<input type="hidden" name="pttYn" value="${inputData.pttYn}"/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
+    	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
     </form>
-    
+
 		<div class="sub-content">
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" />
@@ -610,16 +612,16 @@ var openMchnSearchDialog;
 										var CrossEditor = new NamoSE('dtlSbc');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
-										
-										var uploadPath = "<%=uploadPath%>"; 
-										
+
+										var uploadPath = "<%=uploadPath%>";
+
 										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";
 										CrossEditor.params.FullScreen = false;
-										
+
 										CrossEditor.EditorStart();
-										
+
 										function OnInitCompleted(e){
-											//CrossEditor.ShowToolbar(0,0); 
+											//CrossEditor.ShowToolbar(0,0);
 											//CrossEditor.ShowToolbar(1,0);
 											//CrossEditor.ShowToolbar(2,0);
 											e.editorTarget.SetBodyValue(document.getElementById("dtlSbc").value);

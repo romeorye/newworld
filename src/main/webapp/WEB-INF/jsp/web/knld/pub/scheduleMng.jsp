@@ -191,7 +191,7 @@
             var dayColumnModel = new Rui.ui.grid.LColumnModel({
             	groupMerge: true,
                 columns: [
-                	  { field: 'adscDt',		label: '일자',		sortable: false,	align:'center',	width: 130, vMerge: true,
+                	  { field: 'adscDt',		label: '일자',		sortable: false,	align:'center',	width: 180, vMerge: true,
                     	renderer: function(val, p, record, row, col) {
                     		var adscDt;
 
@@ -207,7 +207,7 @@
                     			return adscDt;
                     		}
                     } }
-                    , { field: 'adscTim',		label: '시간',		sortable: false,	align:'center',	width: 100,
+                    , { field: 'adscTim',		label: '시간',		sortable: false,	align:'center',	width: 150,
                     	renderer: function(val, p, record, row, col) {
                     		if(record.get('isToday') == 'Y') {
                     			return '<b><span style="color:red;">' + (Rui.isEmpty(val) ? '' : val) + '</span></b>';
@@ -215,7 +215,7 @@
                     			return val;
                     		}
                     } }
-                    , { field: 'adscTitl',		label: '제목',		sortable: false,	align:'left',	width: 400,
+                    , { field: 'adscTitl',		label: '제목',		sortable: false,	align:'left',	width: 595,
                     	renderer: function(val, p, record, row, col) {
                     		if(record.get('isToday') == 'Y') {
                     			return '<b><span style="color:red;">' + (Rui.isEmpty(val) ? '' : val) + '</span></b>';
@@ -223,7 +223,7 @@
                     			return val;
                     		}
                     } }
-                    , { field: 'adscKindNm',	label: '구분',		sortable: false,	align:'center',	width: 100,
+                    , { field: 'adscKindNm',	label: '구분',		sortable: false,	align:'center',	width: 300,
                     	renderer: function(val, p, record, row, col) {
                     		if(record.get('isToday') == 'Y') {
                     			return '<b><span style="color:red;">' + (Rui.isEmpty(val) ? '' : val) + '</span></b>';
@@ -231,7 +231,7 @@
                     			return val;
                     		}
                     } }
-                    , { field: 'rgstNm',		label: '등록자',		sortable: false,	align:'center',	width: 80,
+                    , { field: 'rgstNm',		label: '등록자',		sortable: false,	align:'center',	width: 100,
                     	renderer: function(val, p, record, row, col) {
                     		if(record.get('isToday') == 'Y') {
                     			return '<b><span style="color:red;">' + (Rui.isEmpty(val) ? '' : val) + '</span></b>';

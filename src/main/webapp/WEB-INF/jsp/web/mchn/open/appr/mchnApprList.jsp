@@ -205,6 +205,7 @@ nG.saveExcel(encodeURIComponent('분석기기 예약관리_') + new Date().forma
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="menuType" name="menuType" value="IRIDE0103"/>
 				<input type="hidden" id="mchnPrctId" name="mchnPrctId" />
+				<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 
 				<div class="search">
 					<div class="search-content">

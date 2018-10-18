@@ -5,7 +5,7 @@
 /*
  *************************************************************************
  * $Id      : natTssPgsDetail.jsp
- * @desc    : 
+ * @desc    :
  *------------------------------------------------------------------------
  * VER  DATE        AUTHOR      DESCRIPTION
  * ---  ----------- ----------  -----------------------------------------
@@ -36,16 +36,16 @@
 %>
 <script type="text/javascript">
     var gvTssCd     = "";
-    var gvUserId    = "${inputData._userId}"; 
-    var gvPgsStepCd = "PG"; //진행상태:PG(진행) 
-    var gvTssSt     = ""; 
-    var gvPkWbsCd   = ""; 
+    var gvUserId    = "${inputData._userId}";
+    var gvPgsStepCd = "PG"; //진행상태:PG(진행)
+    var gvTssSt     = "";
+    var gvPkWbsCd   = "";
     var gvPageMode  = "";
     var gvTssNosSt  = "";
-    
+
     var pgsStepNm = "";
     var dataSet;
-    
+
     //Form
     var prjNm;
     var deptName;
@@ -59,7 +59,7 @@
     var tssFnhDd;
 
     var altrHistDialog;
-    
+
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -70,81 +70,81 @@
             editable: false,
             width: 300
         });
-        
+
         //조직
         deptName = new Rui.ui.form.LTextBox({
             applyTo: 'deptName',
             editable: false,
             width: 300
         });
-        
+
         //WBS Code
         wbsCd = new Rui.ui.form.LTextBox({
             applyTo: 'wbsCd',
             editable: false,
             width: 80
         });
-      
+
         //과제명
          tssNm = new Rui.ui.form.LTextBox({
              applyTo: 'tssNm',
              editable: false,
              width: 400
          });
-        
+
         //과제유형명
         bizDptNm = new Rui.ui.form.LTextBox({
             applyTo: 'bizDptNm',
             editable: false,
             width: 300
         });
-        
+
         //연구책임자
         saUserName = new Rui.ui.form.LTextBox({
             applyTo: 'saUserName',
             editable: false,
             width: 200
         });
-        
+
         //주관부처
         supvOpsNm = new Rui.ui.form.LTextBox({
             applyTo: 'supvOpsNm',
             editable: false,
             width: 400
         });
-        
+
         //전담기관
         exrsInstNm = new Rui.ui.form.LTextBox({
             applyTo: 'exrsInstNm',
             editable: false,
             width: 200
         });
-        
+
         //사업명
         bizNm = new Rui.ui.form.LTextBox({
             applyTo: 'bizNm',
             editable: false,
             width: 200
         });
-        
+
         altrHistDialog = new Rui.ui.LFrameDialog({
-   	        id: 'altrHistDialog', 
+   	        id: 'altrHistDialog',
    	        title: '변경이력상세',
    	        width: 800,
    	        height: 650,
    	        modal: true,
    	        visible: false
    	    });
-    	    
+
        	altrHistDialog.render(document.body);
-       	
+
         //Form 비활성화 여부
         disableFields = function() {
             //버튼여부
             btnCmplRq.hide();
             btnAltrRq.hide();
             btnDcacRq.hide();
-            
+
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
 	            if(gvTssSt == "100") {
 	                btnCmplRq.show();
@@ -152,18 +152,18 @@
 	                btnDcacRq.show();
 	            }
             }
-            
+
             Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
             Rui.select('.tssLableCss div').removeClass('L-disabled');
         }
-        
-        
-        
+
+
+
         /*============================================================================
         =================================    DataSet     =============================
         ============================================================================*/
-        //DataSet 설정 
+        //DataSet 설정
         dataSet = new Rui.data.LJsonDataSet({
             id: 'mstDataSet',
             remainRemoved: true,
@@ -203,16 +203,16 @@
             gvPkWbsCd = stringNullChk(dataSet.getNameValue(0, "pkWbsCd"));
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvTssNosSt = stringNullChk(dataSet.getNameValue(0, "tssNosSt"));
-            
+
             //document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
-            
+
             disableFields();
-            
+
             tabView.selectTab(0);
         });
-        
-        
-        //폼에 출력 
+
+
+        //폼에 출력
         var bind = new Rui.data.LBind({
             groupId: 'mstFormDiv',
             dataSet: dataSet,
@@ -232,9 +232,9 @@
                 // , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }		//Qgate 단계명
             ]
         });
-        
-        
-        
+
+
+
         /*============================================================================
         =================================      Tab       =============================
         ============================================================================*/
@@ -251,16 +251,16 @@
         });
         tabView.on('activeTabChange', function(e) {
             //iframe 숨기기
-            for(var i = 0; i < 7; i++) { 
+            for(var i = 0; i < 7; i++) {
                 if(i == e.activeIndex) {
                     Rui.get('tabContent' + i).show();
                 } else {
                     Rui.get('tabContent' + i).hide();
                 }
             }
-            
+
             var tabUrl = "";
-            
+
             switch(e.activeIndex) {
             //개요
             case 0:
@@ -269,21 +269,21 @@
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent0');
                 }
                 break;
-            //사업비    
+            //사업비
             case 1:
                 if(e.isFirst) {
                     tabUrl = "<c:url value='/prj/tss/nat/natTssPgsTrwiBudgIfm.do?tssCd=" + gvTssCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
                 }
                 break;
-            //참여연구원    
+            //참여연구원
             case 2:
                 if(e.isFirst) {
                     tabUrl = "<c:url value='/prj/tss/nat/natTssPgsPtcRsstMbrIfm.do?pkWbsCd=" + gvPkWbsCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
                 break;
-            //목표 및 산출물    
+            //목표 및 산출물
             case 3:
                 if(e.isFirst) {
                     tabUrl = "<c:url value='/prj/tss/nat/natTssPgsGoalYldIfm.do?tssCd=" + gvTssCd + "'/>";
@@ -297,7 +297,7 @@
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent4');
                 }
                 break;
-            //연구비카드  
+            //연구비카드
             case 5:
                 if(e.isFirst) {
                     tabUrl = "<c:url value='/prj/tss/nat/natTssPgsCrdIfm.do?tssCd=" + gvTssCd + "'/>";
@@ -316,13 +316,13 @@
             }
         });
         tabView.render('tabView');
-        
-        
-        
+
+
+
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
-        //변경품의 
+        //변경품의
         btnAltrRq = new Rui.ui.LButton('btnAltrRq');
         btnAltrRq.on('click', function() {
             Rui.confirm({
@@ -333,8 +333,8 @@
                 handlerNo: Rui.emptyFn
             });
         });
-        
-        //중단품의 
+
+        //중단품의
         btnDcacRq = new Rui.ui.LButton('btnDcacRq');
         btnDcacRq.on('click', function() {
             Rui.confirm({
@@ -345,8 +345,8 @@
                 handlerNo: Rui.emptyFn
             });
         });
-        
-        //완료품의 
+
+        //완료품의
         btnCmplRq = new Rui.ui.LButton('btnCmplRq');
         btnCmplRq.on('click', function() {
             Rui.confirm({
@@ -357,22 +357,22 @@
                 handlerNo: Rui.emptyFn
             });
         });
-        
+
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {   
+        btnList.on('click', function() {
 			$('#searchForm > input[name=tssNm]').val(encodeURIComponent($('#searchForm > input[name=tssNm]').val()));
 			$('#searchForm > input[name=saUserName]').val(encodeURIComponent($('#searchForm > input[name=saUserName]').val()));
 			$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
-			
+
             nwinsActSubmit(document.searchForm, "<c:url value='/prj/tss/nat/natTssList.do'/>");
         });
-        
+
         //데이터 셋팅
-        if(${resultCnt} > 0) { 
+        if(${resultCnt} > 0) {
             console.log("mst searchData1");
-            dataSet.loadData(${result}); 
+            dataSet.loadData(${result});
         }
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#btnAltrRq").hide();
         	$("#btnDcacRq").hide();
@@ -383,7 +383,7 @@
         	$("#btnCmplRq").hide();
 		}
     });
-    
+
     function fncNatTssAltrDetail(cd) {
     	var params = "?tssCd="+cd;
     		altrHistDialog.setUrl('<c:url value="/prj/tss/nat/natTssAltrDetailPopup.do"/>'+params);
@@ -402,6 +402,7 @@
 	<input type="hidden" name="prjNm" value="${inputData.prjNm}"/>
 	<input type="hidden" name="pgsStepCd" value="${inputData.pgsStepCd}"/>
 	<input type="hidden" name="tssSt" value="${inputData.tssSt}"/>
+	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 </form>
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
@@ -489,11 +490,11 @@
                         </table>
                     </fieldset>
                 </form>
-            </div>    
+            </div>
             <br/>
-            
+
             <div id="tabView"></div>
-            
+
             <form name="tabForm" id="tabForm" method="post">
                 <iframe name="tabContent0" id="tabContent0" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent1" id="tabContent1" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>

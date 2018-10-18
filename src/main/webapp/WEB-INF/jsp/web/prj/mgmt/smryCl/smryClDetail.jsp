@@ -6,7 +6,7 @@
 /*
  *************************************************************************
  * $Id      : smryClDetail.jsp
- * @desc    : 
+ * @desc    :
  *------------------------------------------------------------------------
  * VER  DATE        AUTHOR      DESCRIPTION
  * ---  ----------- ----------  -----------------------------------------
@@ -47,70 +47,70 @@
             editable: false,
             width: 300
         });
-        
+
         //조직코드
         deptName = new Rui.ui.form.LTextBox({
             applyTo: 'deptName',
             editable: false,
             width: 300
         });
-        
+
         //발의주체
         ppslMbdNm = new Rui.ui.form.LTextBox({
             applyTo: 'ppslMbdNm',
             editable: false,
             width: 200
         });
-        
+
         //사업부문(Funding기준)
         bizDptNm = new Rui.ui.form.LTextBox({
             applyTo: 'bizDptNm',
             editable: false,
             width: 200
         });
-        
+
         //WBS Code
         wbsCd = new Rui.ui.form.LTextBox({
             applyTo: 'wbsCd',
             editable: false,
             width: 70
         });
-        
+
         //과제리더
         saUserName = new Rui.ui.form.LTextBox({
             applyTo: 'saUserName',
             editable: false,
             width: 200
         });
-        
+
         // 과제속성
         tssAttrNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssAttrNm',
             editable: false,
             width: 200
         });
-        
+
         //제품군
         prodGNm = new Rui.ui.form.LTextBox({
             applyTo: 'prodGNm',
             editable: false,
             width: 200
         });
-        
+
         //과제기간 시작일
         tssStrtDd = new Rui.ui.form.LTextBox({
             applyTo: 'tssStrtDd',
             editable: false,
             width: 100
         });
-        
+
         //과제기간 종료일
         tssFnhDd = new Rui.ui.form.LTextBox({
             applyTo: 'tssFnhDd',
             editable: false,
             width: 100
         });
-        
+
         //연구분야
         rsstSphe = new Rui.ui.form.LCombo({
             applyTo: 'rsstSphe',
@@ -122,7 +122,7 @@
             valueField: 'COM_DTL_CD',
             width: 150
         });
-        
+
         //유형
         tssType = new Rui.ui.form.LCombo({
             applyTo: 'tssType',
@@ -134,20 +134,20 @@
             valueField: 'COM_DTL_CD',
             width: 150
         });
-        
-        
+
+
         //Form 비활성화 여부
         disableFields = function() {
             Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
             Rui.select('.tssLableCss div').removeClass('L-disabled');
         }
-        
-        
+
+
         /*============================================================================
         =================================    DataSet     =============================
         ============================================================================*/
-        //DataSet 설정 
+        //DataSet 설정
         dataSet = new Rui.data.LJsonDataSet({
             id: 'mstDataSet',
             remainRemoved: true,
@@ -155,28 +155,28 @@
             fields: [
                   { id: 'tssCd' }       //과제코드
                 , { id: 'userId' }      //로그인ID
-                , { id: 'prjNm' }       //프로젝트명       
-                , { id: 'deptName' }    //조직코드         
-                , { id: 'ppslMbdNm' }   //발의주체         
-                , { id: 'bizDptNm' }    //과제유형         
-                , { id: 'wbsCd' }       //WBS Code         
-                , { id: 'pkWbsCd' }     //WBS Code         
-                , { id: 'saUserName' }  //과제리더         
-                , { id: 'tssAttrNm' }   //과제속성         
-                , { id: 'prodGNm' }     //제품군           
-                , { id: 'tssStrtDd' }   //과제기간 시작일  
-                , { id: 'tssFnhDd' }    //과제기간 종료일  
-                , { id: 'rsstSphe' }    //연구분야         
-                , { id: 'tssType' }     //유형             
+                , { id: 'prjNm' }       //프로젝트명
+                , { id: 'deptName' }    //조직코드
+                , { id: 'ppslMbdNm' }   //발의주체
+                , { id: 'bizDptNm' }    //과제유형
+                , { id: 'wbsCd' }       //WBS Code
+                , { id: 'pkWbsCd' }     //WBS Code
+                , { id: 'saUserName' }  //과제리더
+                , { id: 'tssAttrNm' }   //과제속성
+                , { id: 'prodGNm' }     //제품군
+                , { id: 'tssStrtDd' }   //과제기간 시작일
+                , { id: 'tssFnhDd' }    //과제기간 종료일
+                , { id: 'rsstSphe' }    //연구분야
+                , { id: 'tssType' }     //유형
                 , { id: 'tssNm' }       //과제명
             ]
         });
         dataSet.on('load', function(e) {
             document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
         });
-        
-        
-        //폼에 출력 
+
+
+        //폼에 출력
         var bind = new Rui.data.LBind({
             groupId: 'mstFormDiv',
             dataSet: dataSet,
@@ -197,8 +197,8 @@
                 , { id: 'tssType',    ctrlId: 'tssType',    value: 'value' }
             ]
         });
-        
-        
+
+
         //서버전송용
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         dm.on('success', function(e) {
@@ -211,9 +211,9 @@
                 dataSet.setState(0, 2);
             }
         });
-        
-        
-        
+
+
+
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
@@ -224,26 +224,26 @@
                 Rui.alert("변경된 데이터가 없습니다.");
                 return;
             }
-            
+
             dataSet.setNameValue(0, "userId", gvUserId);
-            
+
             dm.updateDataSet({
                 url:'<c:url value="/prj/mgmt/smryCl/updateSmryCl.do"/>',
                 dataSets:[dataSet]
             });
         });
-        
-        
+
+
         //목록
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {                
+        btnList.on('click', function() {
             nwinsActSubmit(window.document.mstForm, "<c:url value='/prj/mgmt/smryCl/smryClList.do'/>");
         });
-        
+
 
         //데이터 셋팅
-        if(${resultCnt} > 0) { 
-            dataSet.loadData(${result}); 
+        if(${resultCnt} > 0) {
+            dataSet.loadData(${result});
             disableFields();
         }
     });
@@ -261,6 +261,7 @@
         <div class="sub-content">
             <div id="mstFormDiv">
                 <form name="mstForm" id="mstForm" method="post">
+                <input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
@@ -332,15 +333,15 @@
                         </table>
                     </fieldset>
                 </form>
-            </div> 
+            </div>
             <div class="titArea">
 			    <div class="LblockButton">
 			        <button type="button" id="btnSave">저장</button>
 			        <button type="button" id="btnList">목록</button>
 			    </div>
-			</div>   
+			</div>
         </div>
-        
+
     </div>
 </body>
 </html>

@@ -735,6 +735,7 @@
 		<input type="hidden" id="hClsPrjCd" name="hClsPrjCd" value=""/>
 		<input type="hidden" id="hfilId" name="hfilId" value=""/>
 		<input type="hidden" id="hDownFilSeq" name="hDownFilSeq" value=""/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 		<table class="table table_txt_right mt10">
 			<colgroup>
 				<col style="width:15%; "/>

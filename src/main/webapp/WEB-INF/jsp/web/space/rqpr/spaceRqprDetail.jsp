@@ -1591,6 +1591,7 @@
 		<input type="hidden" name="spaceChrgNm" value="${inputData.spaceChrgNm}"/>
 		<input type="hidden" name="acpcNo" value="${inputData.acpcNo}"/>
 		<input type="hidden" name="spaceAcpcStCd" value="${inputData.spaceAcpcStCd}"/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
     </form>
     <form name="fileDownloadForm" id="fileDownloadForm">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
@@ -1810,7 +1811,7 @@
 		   				<div id="spaceRqprAttachGrid"></div>
 					</div>
 				</div>
-   				
+
 				</form>
    				</div>
 

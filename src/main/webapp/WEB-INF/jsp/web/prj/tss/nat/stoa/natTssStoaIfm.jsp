@@ -39,9 +39,9 @@
     var lvUserId   = window.parent.gvUserId;    //로그인ID
     var lvMstPgsCd = window.parent.gvPgsStepCd; //진행코드
     var lvMstTssSt = window.parent.gvTssSt;     //과제상태
-    
+
     var pageMode = lvMstPgsCd == "PG" && lvMstTssSt == "100" ? "W" : "R";
-    
+
     var dataSet;
     var lvAttcFilId;
 
@@ -53,12 +53,12 @@
         disableFields = function() {
             if(lvMstTssSt == "104" || lvMstTssSt == "500") btnSave.show();
             else btnSave.hide();
-            
+
             Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
             Rui.select('.tssLableCss div').removeClass('L-disabled');
         }
-        
+
         /*============================================================================
         =================================    DataSet     =============================
         ============================================================================*/
@@ -77,11 +77,11 @@
             ]
         });
         dataSet.on('load', function(e) {
-        	
+
         	lvAttcFilId = dataSet.getNameValue(0, "attcFilId");
-        	
+
         	if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
-        	
+
         	Wec.SetBodyValue(dataSet.getNameValue(0, "remTxt") );
         });
 
@@ -89,13 +89,13 @@
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         dm.on('success', function(e) {
             var data = dataSet.getReadData(e);
-            
+
             Rui.alert(data.records[0].rtVal);
-            
+
             //실패일경우 ds insert모드로 변경
             if(data.records[0].rtCd != "SUCCESS") {
                 dataSet.setState(0, 1);
-            } 
+            }
             else {
                 window.parent.btnStoaRq.show();
             }
@@ -106,24 +106,24 @@
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
-       /*  //목록 
+       /*  //목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
             nwinsActSubmit(window.parent.document.mstForm, "<c:url value='/prj/tss/nat/natTssList.do'/>");
         });
          */
-        
+
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
             if(!fncVaild) return ;
-             
+
              if(confirm("저장하시겠습니까?")) {
             	 dataSet.setNameValue(0, "tssCd",  lvTssCd);  //과제코드
 	                dataSet.setNameValue(0, "userId", lvUserId); //사용자ID
 	                dataSet.setNameValue(0, "tssSt", "500"); //500:정산작성중
 	                dataSet.setNameValue(0, "remTxt", Wec.GetBodyValue()); //500:정산작성중
-	                
+
 	                dm.updateDataSet({
 	                    modifiedOnly: false,
 	                    url:'<c:url value="/prj/tss/nat/updateNatTssStoa.do"/>',
@@ -136,16 +136,16 @@
     	    var frm = document.stoaForm;
 
     		dataSet.setNameValue(0, 'remTxt', Wec.GetBodyValue());
-    		
+
     		if( Wec.GetBodyValue() == "<p><br></p>" || Wec.GetBodyValue() == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
     			alert('내용을 입력하여 주십시요.');
 				Wec.SetFocusEditor(); // 크로스에디터 Focus 이동
      		    return false;
      		}
-    		
+
     		return true;
  		}
-        
+
       //첨부파일 조회
         var attachFileDataSet = new Rui.data.LJsonDataSet({
             id: 'attachFileDataSet',
@@ -202,7 +202,7 @@
             stoaForm.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
             stoaForm.submit();
         };
-        
+
         /* [기능] 첨부파일 등록 팝업*/
         getAttachFileId = function() {
             if(Rui.isEmpty(lvAttcFilId)) lvAttcFilId = "";
@@ -210,28 +210,28 @@
             return lvAttcFilId;
         };
 
-        //최초 데이터 셋팅 
+        //최초 데이터 셋팅
         if(${resultCnt} > 0) {
             console.log("stoa searchData1");
             dataSet.loadData(${result});
         } else {
             dataSet.newRecord();
         }
-        
+
         disableFields();
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#btnSave").hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#btnSave").hide();
 		}
-        
+
     });
 </script>
 <script type="text/javascript">
 $(window).load(function() {
     initFrameSetHeight("stoaFormDiv");
-}); 
+});
 </script>
 </head>
 <body>
@@ -242,7 +242,8 @@ $(window).load(function() {
         <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
         <input type="hidden" id="attcFilId" name="attcFilId" value=""/>
         <input type="hidden" id="seq" name="seq" value=""/>
-        
+        <input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
+
         <table class="table table_txt_right">
             <colgroup>
                 <col style="width: 150px;" />
@@ -262,7 +263,7 @@ $(window).load(function() {
                                 Wec.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec.params.FullScreen = false;
                                 Wec.EditorStart();
-                                
+
                                 function OnInitCompleted(e){
 	                                e.editorTarget.SetBodyValue(document.getElementById("divWec").value);
 	                            }

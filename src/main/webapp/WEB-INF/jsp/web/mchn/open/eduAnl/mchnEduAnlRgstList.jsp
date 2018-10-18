@@ -357,6 +357,7 @@ var excelDataSet;
 			<input type="hidden" name="mchnNm" value="${inputData.mchnNm}"/>
 			<input type="hidden" name="eduScnCd" value="${inputData.eduScnCd}"/>
 			<input type="hidden" name="pttYn" value="${inputData.pttYn}"/>
+			<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 	    </form>
 
 			<form name="aform" id="aform" method="post">

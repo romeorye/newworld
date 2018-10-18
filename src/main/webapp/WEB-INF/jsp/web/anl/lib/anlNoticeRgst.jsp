@@ -290,11 +290,11 @@
 
 			document.aform.bbsSbc.value = document.aform.Wec.MIMEValue;
 			*/
-			
+
             document.aform.bbsSbc.value = CrossEditor.GetBodyValue();
-			
+
             anlBbsRgstDataSet.setNameValue(0, 'bbsSbc', CrossEditor.GetBodyValue());
-			
+
             gvSbcNm = CrossEditor.GetBodyValue();
 
 	    	// 데이터셋 valid
@@ -356,15 +356,16 @@
 		<input type="hidden" id="bbsId" name="bbsId" value=""/>
 		<input type="hidden" id="bbsSbc" name="bbsSbc" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
-   		<div class="contents">   			
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
+   		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">
 					<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 					<span class="hidden">Toggle 버튼</span>
-				</a>   
+				</a>
  				<h2>공지사항 등록</h2>
  			</div>
- 			
+
 			<div class="sub-content">
 				<div class="LblockButton top mt0">
 					<button type="button" id="saveBtn" name="saveBtn" >저장</button>

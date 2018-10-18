@@ -389,7 +389,7 @@
 
             document.getElementById("cnt_text").innerHTML = '총 : '+listDataSet.getCount();
             // 목록 페이징
-            paging(listDataSet,"listGrid");
+            paging(listDataSet,"listGrid", "${innputData.pageNum}");
         });
  <%--/*******************************************************************************
   * FUNCTION 명 : init

@@ -257,6 +257,7 @@ nG.saveExcel(encodeURIComponent('신뢰성시험 장비_') + new Date().format('
 
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" />
+				<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 				<div class="search">
 					<div class="search-content">
 				<table>

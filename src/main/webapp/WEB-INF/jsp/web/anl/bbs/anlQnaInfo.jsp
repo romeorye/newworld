@@ -386,7 +386,7 @@
             	$(location).attr('href', '<c:url value="/anl/bbs/retrieveAnlQnaList.do"/>');
             };
             */
-            
+
             /* [버튼] 목록 */
             goPage = function(target, bbsCd) {
             	$('#bbsId').val('');
@@ -439,7 +439,7 @@
 		    	goQnaList();
 		     });
 		    */
-		    
+
 		    goPageBtn.on('click', function() {
 		    	goPage(target, bbsCd);
 		    });
@@ -515,7 +515,7 @@
 
 	  	    	//nwinsActSubmit(document.aform, "<c:url value='/anl/bbs/retrieveAnlQnaList.do'/>");
 	  	    	goPage(target, bbsCd)
-	  	    	
+
 			});
 
 			dm1.on('failure', function(e) {
@@ -537,7 +537,8 @@
 		<input type="hidden" id="target" name="target" value=""/>
 		<input type="hidden" id="rebId" name="rebId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value=""/>
-		
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
+
 			<div class="titArea">
 				<div class="LblockButton">
 					<button type="button" id="rebBtn"    name="rebBtn"    >답변</button>
@@ -546,7 +547,7 @@
 					<button type="button" id="goPageBtn" name="goPageBtn" >목록</button>
 				</div>
 			</div>
-				
+
    				<table class="table table_txt_right">
    					<colgroup>
    						<col style="width:15%"/>
@@ -554,7 +555,7 @@
 						<col style="width:15%"/>
 						<col style="width:*"/>
    					</colgroup>
-   					
+
    					<tbody>
    						<tr>
    							<th align="right">제목</th>
