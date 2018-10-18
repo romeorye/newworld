@@ -24,13 +24,13 @@
 <title><%=documentTitle%></title>
 
 <script language="JavaScript" type="text/javascript">
-var pTopForm = parent.topForm; 
+var pTopForm = parent.topForm;
 var pageMode = pTopForm.pageMode.value;
 var pTrResultDataSet = parent.trResultDataSet; // 처리결과 호출용 데이터셋
 var dataSet01;
 
 	Rui.onReady(function() {
-		
+
 		<%-- RESULT DATASET --%>
 	    resultDataSet = new Rui.data.LJsonDataSet({
 	        id: 'resultDataSet',
@@ -42,10 +42,10 @@ var dataSet01;
 	            , { id: 'rtnMsg' }  //결과메시지
 	        ]
 	    });
-	    
+
 	    resultDataSet.on('load', function(e) {
 	    });
-	    
+
 		<%-- DATASET --%>
 	    dataSet01 = new Rui.data.LJsonDataSet({
 	        id: 'dataSet01',
@@ -60,15 +60,15 @@ var dataSet01;
 	            , { id: 'editorDataFields' }	// 에디터필드
 	        ]
 	    });
-		
+
 	    dataSet01.on('load', function(e) {
 	    	// 에디터에 데이터 세팅
 	    	CrossEditor0.SetBodyValue( dataSet01.getNameValue(0, "rsstDevScp"));
 	    	CrossEditor1.SetBodyValue( dataSet01.getNameValue(0, "bizArea") );
 	    	CrossEditor2.SetBodyValue( dataSet01.getNameValue(0, "mnBaseTclg") );
-	    	
+
 	    });
-		
+
 	    /* [DataSet] bind */
 	    var bind = new Rui.data.LBind({
 	        groupId: 'aform',
@@ -81,7 +81,7 @@ var dataSet01;
 	            , { id: 'mnBaseTclg',  ctrlId: 'mnBaseTclg',      value: 'value' }
 	        ]
 	    });
-		
+
 	 // 개요 에디터 탭
 	    tabViewS = new Rui.ui.tab.LTabView({
 	        tabs: [
@@ -98,30 +98,30 @@ var dataSet01;
 	            }
 	        ]
 	    });
-	 
+
 	    tabViewS.on('activeTabChange', function(e){
 	    	var index = e.activeIndex;
-	    	
+
 	    	if( index == 0 ){
-	    		document.getElementById("divWec0").style.display = "block";	
-	    		document.getElementById("divWec1").style.display = "none";	
-	    		document.getElementById("divWec2").style.display = "none";	
-	    	
+	    		document.getElementById("divWec0").style.display = "block";
+	    		document.getElementById("divWec1").style.display = "none";
+	    		document.getElementById("divWec2").style.display = "none";
+
 	    	}else if( index == 1 ){
-	    		document.getElementById("divWec0").style.display = "none";	
-	    		document.getElementById("divWec1").style.display = "block";	
-	    		document.getElementById("divWec2").style.display = "none";		
-	    	
+	    		document.getElementById("divWec0").style.display = "none";
+	    		document.getElementById("divWec1").style.display = "block";
+	    		document.getElementById("divWec2").style.display = "none";
+
 	    	}else if( index == 2 ){
-	    		document.getElementById("divWec0").style.display = "none";	
-	    		document.getElementById("divWec1").style.display = "none";	
-	    		document.getElementById("divWec2").style.display = "block";	
+	    		document.getElementById("divWec0").style.display = "none";
+	    		document.getElementById("divWec1").style.display = "none";
+	    		document.getElementById("divWec2").style.display = "block";
 	    	}
 		});
-		
-	    
+
+
 	    tabViewS.render('tabViewS');
-	  
+
 	    fnPrjDtlSearch = function() {
 	    	dataSet01.load({
 	            url: '<c:url value="/prj/rsst/mst/retrievePrjDtlSearchInfo.do"/>' ,
@@ -130,22 +130,22 @@ var dataSet01;
 	            }
 	        });
 	    }
-	    
+
 		 fnPrjDtlSearch();
 
 	    /* 저장 */
-	    fncInsertPrjRsstMstInfo = function(){  	
+	    fncInsertPrjRsstMstInfo = function(){
 	    	var pDataSet = parent.dataSet;
-	    	
+
 	    	var frm = document.aform;
 	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-	    	
+
 	    	if(!validation()){
 	    		return false;
 	    	}
-	    	
+
 	    	if(pageMode == 'V'){	// update
-	    		if( confirm("저장하시겠습니까?") == true ){		
+	    		if( confirm("저장하시겠습니까?") == true ){
 		    		// 마스터 변경데이터 세팅
 		    		if(parent.dataSet.getAt(0).get("plEmpNo") != pTopForm.hPlEmpNo.value){
 		    			parent.dataSet.getAt(0).set("plEmpNo"  , pTopForm.hPlEmpNo.value);
@@ -169,10 +169,10 @@ var dataSet01;
 		    	              prjCd : parent.topForm.prjCd.value
 		    	        }
 		    	    });
-    			}	
-	    		
+    			}
+
 	    	}else if(pageMode == 'C'){	// insert
-	    		
+
 	    		if( confirm("저장하시겠습니까?") == true ){
 		    		// 마스터데이터 세팅
 		    		parent.dataSet.getAt(0).set("plEmpNo"  , pTopForm.hPlEmpNo.value);
@@ -181,10 +181,10 @@ var dataSet01;
 		   			parent.dataSet.getAt(0).set("deptUper"  , pTopForm.deptUper.value);
 		   			parent.dataSet.getAt(0).set("prjStrDt" , parent.fromDate.getValue());
 		   			parent.dataSet.getAt(0).set("prjEndDt" , parent.toDate.getValue());
-		
+
 		   			// 상세 데이터세팅
 		   			dataSet01.getAt(0).set("wbsCd"   , parent.dataSet.getAt(0).get("wbsCd"));
-		
+
 		   			dm1.updateDataSet({
 		    	        url: "<c:url value='/prj/rsst/mst/insertPrjRsstMstInfo.do'/>",
 		    	        dataSets:[dataSet01,parent.dataSet],
@@ -194,10 +194,10 @@ var dataSet01;
 		    	    });
 	    		}
 	    	}
-	    	
+
 	    	dm1.on('success', function(e) {
 				var resultData = pTrResultDataSet.getReadData(e);
-	            
+
 	            if(resultData.records[0].rtnSt == 'S'){
 		            // 최초저장 성공 후 페이지 새로고침
 		            if(pageMode == 'C'){
@@ -213,11 +213,11 @@ var dataSet01;
 			dm1.on('failure', function(e) {
 				ruiSessionFail(e);
 			});
-	    	
-	    	
+
+
 			function validation(){
 		    	/** 1. 상단 topForm **/
-		    	
+
 		    	// wbsCd코드
 		    	if(pTopForm.wbsCd.value == ''){
 		    		alert('유효하지 않습니다.\n WBS 코드');
@@ -253,40 +253,40 @@ var dataSet01;
 					CrossEditor2.SetFocusEditor(); // 크로스에디터 Focus 이동
 	     		    return false;
 	     		}
-				
+
 				dataSet01.setNameValue(0, "rsstDevScp", CrossEditor0.GetBodyValue() );
 				dataSet01.setNameValue(0, "bizArea", CrossEditor1.GetBodyValue() );
 				dataSet01.setNameValue(0, "mnBaseTclg", CrossEditor2.GetBodyValue() );
-				
+
 				return true;
 		    }
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    	
-	    };	
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
+
+
+
+
+
+
+
+
+
+
+
+
+
+	    };
+
+
+
+
+
+
+
+
+
+
+
+
+
 	    <%--/*******************************************************************************
 	     * FUNCTION 명 : fncGoPage (목록으로 이동)
 	     * FUNCTION 기능설명 : 프로젝트 현황목록 화면으로 이동
@@ -294,15 +294,15 @@ var dataSet01;
 	    fncGoPage = function(){
 	    	nwinsActSubmit(document.aform, "<c:url value='/prj/rsst/mst/retrievePrjRsstMstInfoList.do'/>",'_parent');
 	    }
-	    
+
 	    if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
 	     	$("#butRgst").hide();
 	 	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
 	     	$("#butRgst").hide();
 	 	}
 	});
-	
-	
+
+
 
 </script>
 </head>
@@ -310,13 +310,14 @@ var dataSet01;
 <body>
 	<form  id="aform" name="aform">
 	<input type="hidden" id="prjCd" value="<c:out value='${inputData.prjCd}'/>"/>
+	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 <!--
 	<div class="titArea">
-		 <h3>개요</h3> 
+		 <h3>개요</h3>
 	</div>
 -->
 	<!-- <div class="titArea"> -->
-	
+
 
 		<table class="table table_txt_right" >
 			<colgroup>
@@ -337,14 +338,14 @@ var dataSet01;
 								var CrossEditor0 = new NamoSE('rsstDevScp');
 								CrossEditor0.params.Width = "100%";
 								CrossEditor0.params.UserLang = "auto";
-								
-								var uploadPath = "<%=uploadPath%>"; 
-								
+
+								var uploadPath = "<%=uploadPath%>";
+
 								CrossEditor0.params.ImageSavePath = uploadPath+"/prj";
 								CrossEditor0.params.FullScreen = false;
-								
+
 								CrossEditor0.EditorStart();
-								
+
 								function OnInitCompleted0(e){
 									e.editorTarget.SetBodyValue(document.getElementById("rsstDevScp").value);
 								}
@@ -356,14 +357,14 @@ var dataSet01;
 								var CrossEditor1 = new NamoSE('bizArea');
 								CrossEditor1.params.Width = "100%";
 								CrossEditor1.params.UserLang = "auto";
-								
-								var uploadPath = "<%=uploadPath%>"; 
-								
+
+								var uploadPath = "<%=uploadPath%>";
+
 								CrossEditor1.params.ImageSavePath = uploadPath+"/prj";
 								CrossEditor1.params.FullScreen = false;
-								
+
 								CrossEditor1.EditorStart();
-								
+
 								function OnInitCompleted1(e){
 									e.editorTarget.SetBodyValue(document.getElementById("bizArea").value);
 								}
@@ -375,14 +376,14 @@ var dataSet01;
 								var CrossEditor2 = new NamoSE('mnBaseTclg');
 								CrossEditor2.params.Width = "100%";
 								CrossEditor2.params.UserLang = "auto";
-								
-								var uploadPath = "<%=uploadPath%>"; 
-								
+
+								var uploadPath = "<%=uploadPath%>";
+
 								CrossEditor2.params.ImageSavePath = uploadPath+"/prj";
 								CrossEditor2.params.FullScreen = false;
-								
+
 								CrossEditor2.EditorStart();
-								
+
 								function OnInitCompleted2(e){
 									e.editorTarget.SetBodyValue(document.getElementById("mnBaseTclg").value);
 								}
@@ -392,7 +393,7 @@ var dataSet01;
                 </tr>
 			</tbody>
 		</table>
-		
+
 		</form>
 	<!-- </div> -->
 	<div class="titArea btn_btm">

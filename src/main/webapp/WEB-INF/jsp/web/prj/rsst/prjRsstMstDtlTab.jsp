@@ -66,7 +66,7 @@ Rui.onReady(function() {
 		width: 100,
 		dateType: 'string'
 	});
-	
+
 	/* [TAB] */
     tabView = new Rui.ui.tab.LTabView({
     	tabs: [
@@ -85,21 +85,21 @@ Rui.onReady(function() {
         </c:if>
        ]
     });
-	
+
 //    tabCnt = tabView.getTabCount();
 	tabCnt = 8;
-    
+
     tabView.on('activeTabChange', function(e){
-    	
+
     	//iframe 숨기기
-        for(var i = 0; i < tabCnt; i++) { 
+        for(var i = 0; i < tabCnt; i++) {
             if(i == e.activeIndex) {
                 Rui.get('tabContent' + i).show();
             } else {
                 Rui.get('tabContent' + i).hide();
             }
         }
-    	
+
         switch(e.activeIndex){
         <c:if test="${inputData.pageMode == 'C' }">
         	/** 개요 **/
@@ -107,7 +107,7 @@ Rui.onReady(function() {
         		if(e.isFirst) {
 		       		var url = '?prjCd=' + document.topForm.prjCd.value
 		        	nwinsActSubmit(document.topForm, "<c:url value='/prj/rsst/mst/retrievePrjRsstDtlDtlInfo.do'/>"+url, 'tabContent0');
-		       		
+
         		}
         		fnChangeFormEdit(true);
 	        break;
@@ -127,7 +127,7 @@ Rui.onReady(function() {
 	        		nwinsActSubmit(document.topForm, "<c:url value='/prj/rsst/pdu/retrievePrjRsstPduInfo.do'/>", 'tabContent1');
         		}
         		fnChangeFormEdit(false);
-                
+
             break;
 
         	/** MBO(특성지표) **/
@@ -207,7 +207,7 @@ Rui.onReady(function() {
     var ltWbsCdA = new Rui.ui.form.LTextBox({
     	applyTo: 'wbsCdA',
     	mask: '**',
-    	maskPlaceholder: '_', 
+    	maskPlaceholder: '_',
     	editable: false,
     	attrs: {
     			maxLength: 2
@@ -247,17 +247,17 @@ Rui.onReady(function() {
     		dataSet.setNameValue(0,  "uperdeptName", "<c:out value = '${teamInfo.uperdeptName}'/>");
     		dataSet.setNameValue(0,  "prjStrDt", new Date().format('%Y-%m-%d'));
     		//dataSet.setNameValue(0,  "prjEndDt", (new Date().add('Y', parseInt(1, 10))).format('%Y-%m-%d'));
-    		
+
     		// 신규등록의 경우 팀정보 세팅
     		dataSet.setNameValue(0,  "prjCpsn"  , "<c:out value = '${teamInfo.teamUserCnt}'/>");		// 팀 총인원
     		dataSet.setNameValue(0,  "plEmpNo"  , "<c:out value = '${teamInfo.plSaSabunNew}'/>");		// 팀 PL명
     		dataSet.setNameValue(0,  "deptCd"   , "<c:out value = '${teamInfo.deptCode}'/>");			// 팀 코드
     		dataSet.setNameValue(0,  "wbsCdA"   , "<c:out value = '${teamInfo.deptCodeA}'/>");			// 팀 WBS코드 약어
     		dataSet.setNameValue(0,  "deptUper" , "<c:out value = '${teamInfo.deptUper}'/>");			// 팀 상위부서코드
-    		
+
     		dataSet.setNameValue(0, "orgWbsCdA" , '');	// 변경상태 비교를 위한 wbsCdA코드
     	}
-    	
+
     	// 데이터셋 로딩시 기존wbsCd 세팅
     	else if( dataSet.getCount() > 0 && !Rui.isEmpty(dataSet.getAt(0).get('prjCd')) ){
     		dataSet.setNameValue(0, "orgWbsCd"  , dataSet.getNameValue(0,"wbsCd"));
@@ -294,15 +294,15 @@ Rui.onReady(function() {
             , { id: 'wbsCd',           ctrlId: 'spnWbsCd',     value: 'html' }	// SPAN : WBS코드
             , { id: 'wbsCdA',          ctrlId: 'spnWbsCdA',    value: 'html' }	// SPAN : WBS코드약어
             , { id: 'prjNm',           ctrlId: 'spnPrjNm',     value: 'html' }	// SPAN : 프로젝트명
-            , { id: 'prjStrDt',        ctrlId: 'spnPrjDate',   value: 'html' , 
+            , { id: 'prjStrDt',        ctrlId: 'spnPrjDate',   value: 'html' ,
             	renderer: function(value) {
                 	return dataSet.getAt(0).get('prjStrDt')+' ~ '+dataSet.getAt(0).get('prjEndDt');
                 }
               }
             , { id: 'wbsCdA',       ctrlId: 'wbsCdA',        value: 'value' }	// WBS코드 약어
             // hidden 정보
-            , { id: 'plEmpNo',     ctrlId: 'hPlEmpNo',      value: 'value' }	
-            , { id: 'deptCd',      ctrlId: 'hDeptCd',       value: 'value' }	
+            , { id: 'plEmpNo',     ctrlId: 'hPlEmpNo',      value: 'value' }
+            , { id: 'deptCd',      ctrlId: 'hDeptCd',       value: 'value' }
             , { id: 'prjCpsn',     ctrlId: 'userDeptCnt',   value: 'value' }
             , { id: 'deptUper',    ctrlId: 'deptUper',      value: 'value' }
         ]
@@ -348,7 +348,7 @@ Rui.onReady(function() {
 		//prjSearchDialog.setUrl('<c:url value="/prj/rsst/mst/retrievePrjSearchPopup.do"/>' + param);
 		prjSearchDialog.show();
 	};
-	
+
 	/* [ 고정자산 탭 > 자산 상세정보 Dialog] */
 	tfxaDtlDialog = new Rui.ui.LFrameDialog({
         id: 'tfxaDtlDialog',
@@ -365,7 +365,7 @@ Rui.onReady(function() {
         ]
     });
 	tfxaDtlDialog.render(document.body);
-	
+
 	/* [ MBO(특성지표) 탭 > 실적MBO Dialog] */
 	tmboArslDialog = new Rui.ui.LFrameDialog({
         id: 'mboArslDialog',
@@ -392,12 +392,12 @@ Rui.onReady(function() {
     	}catch(e){}
     });
 	tmboArslDialog.render(document.body);
-	
+
 	/* 프로젝트 조회팝업 닫은 후 세팅 */
 	setPrjInfo = function(prjInfo) {
-		
+
 		/* 등록된 프로젝트 체크
-			1. 신규 -> 유저팀세팅 -> 체크안함 
+			1. 신규 -> 유저팀세팅 -> 체크안함
 			2. 신규 -> 팝업 -> ORG PRJ_CD = '' / PRJ_CD = ''/ ORG PRJ_CD = PRJ_CD -> OK
 			   신규 -> 팝업 -> ORG PRJ_CD = '' / PRJ_CD = 존재 -> FAIL
 			   신규 -> 팝업 -> ORG PRJ_CD = 존재 / PRJ_CD = 존재 / ORG PRJ_CD = PRJ_CD -> OK
@@ -407,39 +407,39 @@ Rui.onReady(function() {
 			   기존 -> 팝업 -> ORG PRJ_CD = 존재 / PRJ_CD = 존재 / ORG PRJ_CD = PRJ_CD -> OK
 		*/
 		var orgPrjCd = document.topForm.prjCd.value;
-		
+
 		// 1.팝업 프로젝트코드가 존재
 		if( (prjInfo.prjCd != '' && prjInfo.prjCd != null  && prjInfo.prjCd != "undefined" ) ){
-			
+
 			if( (orgPrjCd != '' && orgPrjCd != null  && orgPrjCd != "undefined" ) &&
 				( prjInfo.prjCd == orgPrjCd )                                     ){
-			
+
 			// 기존프로젝트 코드가 존재하는데 팝업프로젝트 코드와 일치하는 경우를 제외하고 프로젝트 중복알림
 			}else{
 				alert('이미 등록된 프로젝트입니다.');
 				return false;
 			}
 		}
-		
+
 		clearPrjInfo();
-		
+
 		// 화면표시 세팅
 		ltPrjNm.setValue(prjInfo.prjNm);
 		Rui.get('spnSaName').html(prjInfo.plEmpName);
 		Rui.get('spnDeptName').html(prjInfo.upDeptName);
 		Rui.get('spnDeptCnt').html(prjInfo.deptCnt);
-		
+
 		// 폼 데이터 세팅
         dataSet.setNameValue(0,"plEmpNo"  , prjInfo.plEmpNo);
         dataSet.setNameValue(0,"deptCd"   , prjInfo.deptCd);
         dataSet.setNameValue(0,"prjCpsn"  , prjInfo.deptCnt);
         dataSet.setNameValue(0,"deptUper" , prjInfo.upDeptCd);
-        
+
         document.topForm.hPlEmpNo.value    = prjInfo.plEmpNo;
         document.topForm.hDeptCd.value     = prjInfo.deptCd;
         document.topForm.userDeptCnt.value = prjInfo.deptCnt;
         document.topForm.deptUper.value    = prjInfo.upDeptCd;
-        
+
 		// rui 폼 데이터 세팅
 		ltWbsCdA.setValue(prjInfo.wbsCdA);	// wbs코드약어
     };
@@ -449,13 +449,13 @@ Rui.onReady(function() {
 		Rui.get('spnSaName').html('');
 		Rui.get('spnDeptName').html('');
 		Rui.get('spnDeptCnt').html('');
-		
+
 		// 폼 데이터 클린
 		topForm.hPlEmpNo.value = '';
 		topForm.hDeptCd.value = '';
 		topForm.userDeptCnt.value = '';
 		topForm.deptUper.value = '';
-		
+
 		// rui 폼 데이터 클린
 		ltWbsCdA.setValue('');		// wbs코드약어
     };
@@ -492,11 +492,11 @@ Rui.onReady(function() {
 
 <%--/*******************************************************************************
  * FUNCTION 명 : 프로젝트마스터 폼 disable(false)/enable(true) 처리
- * FUNCTION 기능설명 : 
+ * FUNCTION 기능설명 :
  *******************************************************************************/--%>
 function fnChangeFormEdit(isEnable) {
     $('#wbsCdA').attr('style', "border-color:white;");
-    
+
 	if(isEnable == true){
 		console.log(isEnable);
 
@@ -551,6 +551,7 @@ function fnChangeFormEdit(isEnable) {
 		<input type="hidden" id="userDeptCnt" name="userDeptCnt" value=""/>
 		<input type="hidden" id="orgWbsCd" name="orgWbsCd" value=""/>
 		<input type="hidden" id="deptUper" name="deptUper" value=""/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 
    		<table class="table table_txt_right">
 			<colgroup>
@@ -604,7 +605,7 @@ function fnChangeFormEdit(isEnable) {
 		</table>
    		</form>
 		<br>
-		
+
 		<div id="tabView" style="style="overflow-x: hidden; overflow-y: hidden;"></div>
 		<iframe name="tabContent0" id="tabContent0" scrolling="yes" width="100%" height="600px" frameborder="0" ></iframe>
 		<iframe name="tabContent1" id="tabContent1" scrolling="yes" width="100%" height="600px" frameborder="0" ></iframe>
@@ -614,7 +615,7 @@ function fnChangeFormEdit(isEnable) {
 		<iframe name="tabContent5" id="tabContent5" scrolling="yes" width="100%" height="600px" frameborder="0" ></iframe>
 		<iframe name="tabContent6" id="tabContent6" scrolling="yes" width="100%" height="600px" frameborder="0" ></iframe>
 		<iframe name="tabContent7" id="tabContent7" scrolling="yes" width="100%" height="600px" frameborder="0" ></iframe>
-		
+
 	</div><!-- //sub-content -->
 
 </div><!-- //contents -->
