@@ -419,16 +419,25 @@
 
 	<select id="getAnlRqprOpinitionList" resultType="map">
 	-- getAnlRqprOpinitionList
+			<![CDATA[
 		   select	OPI_ID								  as opiId
 				   ,RQPR_ID								  as rqprId
 				   ,RGST_ID								  as rgstId
 				   ,dbo.fn_getUserName(RGST_ID)			  as rgstNm
 				   ,Convert(varchar(10), RGST_DT, 120)	  as rgstDt
 				   ,OPI_SBC								  as opiSbc
+				   ,ATTC_FIL_ID							  as attcFilId
 			from	iris_anl_rqpr_opi
-			where	rqpr_id = ${rqprId}
+			where	1=1
+			and		rqpr_id = ${rqprId}
 			and		del_yn = 'N'
+			]]>
+			<if test="opiId != null and opiId != '' and opiId != '0'">
+			AND OPI_ID = #{opiId}
+			</if>
+			<![CDATA[
 			order by rgst_dt desc
+			]]>
 
 	</select>
 
@@ -438,13 +447,15 @@
 		USING ( SELECT	${opiId} as opiId,
 						${rqprId} as rqprId,
 						#{opiSbc} as opiSbc,
-						#{_userId} as userId ) b
+						#{_userId} as userId ,
+						#{attcFilId} as attcFilId) b
 		ON ( a.opi_id = b.opiId)
 		WHEN MATCHED THEN
 			update set	rgst_dt = getdate(),
 						opi_sbc = b.opiSbc,
 						last_mdfy_dt = getdate(),
-						last_mdfy_id = b.userId
+						last_mdfy_id = b.userId,
+						attc_fil_id = b.attcFilId
 		WHEN NOT MATCHED THEN
 			insert (rqpr_id
 				   ,rgst_id
@@ -452,6 +463,7 @@
 				   ,opi_sbc
 				   ,frst_rgst_id
 				   ,last_mdfy_id
+				   ,attc_fil_id
 				   )
 			values(b.rqprId
 				  ,b.userId
@@ -459,6 +471,7 @@
 				  ,b.opiSbc
 				  ,b.userId
 				  ,b.userId
+				  ,b.attcFilId
 				  );
 
 	</insert>
