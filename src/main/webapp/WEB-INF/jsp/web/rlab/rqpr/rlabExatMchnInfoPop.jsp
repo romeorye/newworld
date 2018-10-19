@@ -147,12 +147,12 @@
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="bd">
-		<div class="sub-content">
+		<div class="sub-content" style="padding:0 0 0 3px;">
 
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" />
 
-				<div class="search">
+				<div class="search mb5">
 					<div class="search-content">
 						<table>
 							<colgroup>
@@ -187,7 +187,7 @@
 						</table>
 					</div>
 				</div>
-			<BR/>
+
 			<div id="mhcnGrid"></div>
 
 			</form>

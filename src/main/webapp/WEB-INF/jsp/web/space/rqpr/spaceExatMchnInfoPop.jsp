@@ -140,12 +140,13 @@
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="bd">
-		<div class="sub-content">
+		<div class="sub-content" style="padding:0 0 0 3px;">
 
 			<form name="aform" id="aform" method="post">
 				<input type="hidden" id="mchnInfoId" name="mchnInfoId" />
-
-				<table class="searchBox">
+				<div class="search mb5">
+				<div class="search-content">
+				<table>
 					<colgroup>
 						<col style="width: 15%" />
 						<col style="width: 30%" />
@@ -165,16 +166,20 @@
 							<td>
 								<div id="mchnCrgrNm"></div>
 							</td>
-							<td rowspan="2" class="t_center"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+							<td></td>
+							
 						</tr>
 						<tr>
-							<th align="right">분류</th>
+							<th align="txt-right">분류</th>
 							<td colspan="3">
 								<div id=evCtgr></div>
 							</td>
+							<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
 						</tr>
 					</tbody>
 				</table>
+				</div>
+				</div>
 
 			<div id="mhcnGrid"></div>
 
