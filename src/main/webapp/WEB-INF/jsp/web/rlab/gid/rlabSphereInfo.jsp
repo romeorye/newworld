@@ -164,8 +164,81 @@
 
 					<!-- 담당자 -->
 					<div class="tab-pane fade" id="tab1" >
-						<div style="height:700px;">
-							<img src="/iris/resource/web/images/newIris/img_tachnical_imsi.png">
+						<div style="display:inline-block; padding:10px 0 0 10px;">
+					
+							<div class="ad_box01 fist">
+								<p>
+									<img src="/iris/resource/web/images/newIris/img_ad01.png">
+								</p>
+								<p>
+									<h3>PJT Leader</h3>
+									<em>임호연 책임</em>
+								</p>
+							</div>
+							<div class="ad_box02"><p></p></div>
+							<div class="ad_box03">
+								<div class="ad_box03_w">
+									<h3>장식재 담당</h3>
+									<div class="ad_box03_in">
+										<p><img src="/iris/resource/web/images/newIris/img_ad02.png"></p>
+										<p>
+											<em>이민 책임</em>
+											<span>PF단열재, 우젠<br>외단열 시스템 연구, 시험<span>
+										</p>
+									</div>
+									<div class="ad_box03_in">
+										<p><img src="/iris/resource/web/images/newIris/img_ad03.png"></p>
+										<p>
+											<em>강봉규</em>
+											<span>인테리어 벽장재, 바닥재 장기<br> 내구성 가속시험 및 연구</span>
+										</p>
+									</div>
+								</div>
+								
+								<div class="ad_box03_w">
+									<h3>창호 담당</h3>
+									<div class="ad_box03_in">
+										<p><img src="/iris/resource/web/images/newIris/img_ad04.png"></p>
+										<p>
+											<em>김지니다 책임</em>
+											<span>PVC프로파일,<br> 완성창 로이 복층유리 <br>가속내후성 연구, 시험</span>
+										</p>
+									</div>
+									<div class="ad_box03_in">
+										<p><img src="/iris/resource/web/images/newIris/img_ad05.png"></p>
+										<p>
+											<em>이동희 사원</em>
+											<span></span>
+										</p>
+									</div>
+								</div>
+								
+								<div class="ad_box03_w">
+									<h3>소재 담당</h3>
+									<div class="ad_box03_in">
+										<p><img src="/iris/resource/web/images/newIris/img_ad06.png"></p>
+										<p>
+											<em>정근 책임(표면소재)</em>
+											<span>고내후 외장필름 <br>내후성 가속시험 및 연구</span>
+										</p>
+									</div>
+									<div class="ad_box03_in">
+										<p><img src="/iris/resource/web/images/newIris/img_ad07.png"></p>
+										<p>
+											<em>이두환 책임(표면소재)</em>
+											<span>솔리드 서비스. E-Stone <br>자동차 시트 원단 <br>내후성 가속시험 및 연구</span>
+										</p>
+									</div>
+									<div class="ad_box03_in">
+										<p><img src="/iris/resource/web/images/newIris/img_ad08.png"></p>
+										<p>
+											<em>이두환 책임(표면소재)</em>
+											<span>자동차 시트 원단 <br>내후성 가속시험 및 연구</span>
+										</p>
+									</div>
+								</div> 
+							</div>
+							
 						</div>
 					</div>
 					<!--  // 담당자 -->

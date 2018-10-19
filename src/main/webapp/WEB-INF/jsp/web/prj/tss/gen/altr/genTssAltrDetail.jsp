@@ -734,7 +734,7 @@ function setPrjInfo(prjInfo) {
 	        <h2>일반과제 &gt;&gt; 변경</h2>
 	    </div>
         <div class="sub-content">
-            <div class="titArea">
+            <div class="titArea mt0">
                 <div class="LblockButton">
                     <button type="button" id="btnStepPg" name="btnStepPg">변경취소</button>
                     <button type="button" id="btnCsusRq" name="btnCsusRq">품의서요청</button>

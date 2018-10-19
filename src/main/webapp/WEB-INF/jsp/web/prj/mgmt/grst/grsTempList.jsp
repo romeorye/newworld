@@ -257,7 +257,7 @@
 	   						</tr>
 	   						<tr>
 	   							<th align="right">템플릿명</th>
-	   							<td>
+	   							<td class="space_tain">
 	   								<input type="text" id="evSbcNmSch" value="">
 	   							</td>
 	   							<th align="right">상태</th>

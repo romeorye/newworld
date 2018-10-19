@@ -1337,4 +1337,8 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .nat_tain em.gab div {width:100% !important; }
 .nat_tain em.gab div input {width:90% !important;}
 
+.tssLableCss.gen_tain .gab {margin-left:0 !important;}
+.tssLableCss.smry_tain #tssNm {width:700px !important;}
+
+
 td.xl66, .xl66 {border:0 !important;}

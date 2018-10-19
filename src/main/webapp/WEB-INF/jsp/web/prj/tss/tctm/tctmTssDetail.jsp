@@ -1295,10 +1295,10 @@
 				<fieldset>
 					<table class="table table_txt_right">
 						<colgroup>
-							<col style="width: 12%;"/>
-							<col style="width: 38%;"/>
-							<col style="width: 12%;"/>
-							<col style="width: 38%;"/>
+							<col style="width: 16%;"/>
+							<col style="width: 34%;"/>
+							<col style="width: 16%;"/>
+							<col style="width: 34%;"/>
 						</colgroup>
 						<tbody>
 						<tr>
