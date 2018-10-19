@@ -33,6 +33,13 @@
    	<!-- 분석 결재 이메일 발송  -->
     <bean id="anlApprMailBatch" class="iris.web.anl.batch.AnlApprMailBatch"/>
 
+    <!-- 신뢰성 결재 이메일 발송  -->
+    <bean id="rlabApprMailBatch" class="iris.web.rlab.batch.RlabApprMailBatch"/>
+
+    <!-- 공간평가 결재 이메일 발송  -->
+    <bean id="spaceApprMailBatch" class="iris.web.space.batch.SpaceApprMailBatch"/>
+
+
    	<!-- WBS PRJ INFO 배치  -->
     <bean id="wbsPjtIFBatch" class="iris.web.fxaInfoBatch.WbsPjtIFBatch" />
 
@@ -118,6 +125,22 @@
 		<property name="targetMethod"><value>batchProcess</value></property>
 		<property name="concurrent"><value>false</value></property>
    </bean>
+
+   <!-- 신뢰성 결재 이메일 발송 job  -->
+	<bean id="rlabApprMailBatchJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="rlabApprMailBatch" /></property>
+		<property name="targetMethod"><value>batchProcess</value></property>
+		<property name="concurrent"><value>false</value></property>
+   </bean>
+
+   <!-- 공간평가 결재 이메일 발송 job  -->
+	<bean id="spaceApprMailBatchJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject"><ref bean="spaceApprMailBatch" /></property>
+		<property name="targetMethod"><value>batchProcess</value></property>
+		<property name="concurrent"><value>false</value></property>
+   </bean>
+
+
 
    <!--  WBS PRJ INFO  job  -->
 	<bean id="wbsPjtIFBatchJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -251,11 +274,26 @@
  		<property name="cronExpression" value="0 38 16 22 * ?"/> <!-- 매월 1일 1시에 실행 -->
 	</bean>
 
-		<!-- 분석 결재 이메일 발송  -->
+
+	<!-- 분석 결재 이메일 발송  -->
 	<bean id="anlApprMailBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="anlApprMailBatchJob"/>
 		<property name="cronExpression" value="0 0/5 * * * ?"/> <!-- 5분마다 실행 -->
 	</bean>
+
+	<!-- 신뢰성 결재 이메일 발송  -->
+	<bean id="rlabApprMailBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="rlabApprMailBatchJob"/>
+		<property name="cronExpression" value="0 0/5 * * * ?"/> <!-- 5분마다 실행 -->
+	</bean>
+
+	<!-- 공간평가 결재 이메일 발송  -->
+	<bean id="spaceApprMailBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="spaceApprMailBatchJob"/>
+		<property name="cronExpression" value="0 0/5 * * * ?"/> <!-- 5분마다 실행 -->
+	</bean>
+
+
 
 	<!-- WBS CS, PJT NM   -->
 	<bean id="wbsPjtIFBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
@@ -353,16 +391,19 @@
 
 <!--
 			<ref bean="tssStCopyBatchTrigger"/>
-					<ref bean="sapBudgSCostInsertBatchTrigger"/>
-		   			<ref bean="sapBudgTCostInsertBatchTrigger"/>
-					<ref bean="tssStCopyBatchTrigger"/>
-					<ref bean="tssPgPtcMbrBatchTrigger"/>
-					<ref bean="anlApprMailBatchTrigger"/>
-					<ref bean="wbsPjtIFBatchTrigger"/>
+				<ref bean="sapBudgSCostInsertBatchTrigger"/>
+		   		<ref bean="sapBudgTCostInsertBatchTrigger"/>
+				<ref bean="tssStCopyBatchTrigger"/>
+				<ref bean="tssPgPtcMbrBatchTrigger"/>
+
+				<ref bean="anlApprMailBatchTrigger"/>
+				<ref bean="rlabApprMailBatchTrigger"/>
+				<ref bean="spaceApprMailBatchTrigger"/>
+
+				<ref bean="wbsPjtIFBatchTrigger"/>
  		   		<ref bean="sapFxaInfoInsertBatchTrigger"/>
 				<ref bean="sapFxaTrsfBatchTrigger"/>
  		  		<ref bean="mmTodoCalBatchTrigger"/>
-
 			 	<ref bean="insaInfoBatchTrigger"/>
 
 -->
