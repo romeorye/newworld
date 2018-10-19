@@ -106,10 +106,10 @@
 					fromRqprDt.setValue(new Date());
 				}
 
-				if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
+				/* if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
 					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromRqprDt.setValue(toRqprDt.getValue());
-				}
+				} */
 			});
 
             var toRqprDt = new Rui.ui.form.LDateBox({

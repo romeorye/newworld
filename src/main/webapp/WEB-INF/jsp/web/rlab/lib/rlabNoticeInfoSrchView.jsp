@@ -7,7 +7,7 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlNoticeInfo.jsp
+ * $Id		: rlabNoticeInfo.jsp
  * @desc    : 공지사항 상세조회
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
@@ -34,7 +34,7 @@
 
 	<script type="text/javascript">
 //RTRV_RQ_DOC_CD rtrvRqDocCd
-	var anlSrchViewDataSet;
+	var rlabSrchViewDataSet;
 	var bbsId = ${inputData.bbsId};
 	var bbsCd = '${inputData.bbsCd}';
 	var userId = '${inputData._userId}';
@@ -50,8 +50,8 @@
             var aform = new Rui.ui.form.LForm('aform');
 
             <%-- DATASET --%>
-            anlSrchViewDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlSrchViewDataSet',
+            rlabSrchViewDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabSrchViewDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -67,8 +67,8 @@
 		   			, { id: 'attcFilId' }   /*첨부파일ID*/
 		   			, { id: 'docNo' }       /*문서번호*/
 		   			, { id: 'sopNo' }       /*SOP번호*/
-		   			, { id: 'anlTlcgClCd' } /*분석기술정보분류코드*/
-		   			, { id: 'anlTlcgClNm' } /*분석기술정보분류이름*/
+		   			, { id: 'rlabTlcgClCd' } /*분석기술정보분류코드*/
+		   			, { id: 'rlabTlcgClNm' } /*분석기술정보분류이름*/
 		   			, { id: 'qnaClCd' }     /*질문답변구분코드*/
 		   			, { id: 'qnaClNm' }     /*질문답변구분이름*/
 		   			, { id: 'frstRgstDt'}   /*등록일*/
@@ -76,16 +76,16 @@
   	   	  		]
             });
 
-            anlSrchViewDataSet.on('load', function(e) {
-//             	var bbsSbc = anlSrchViewDataSet.getNameValue(0, "bbsSbc").replaceAll('\n', '<br/>');
-//             	anlSrchViewDataSet.setNameValue(0, 'bbsSbc', bbsSbc);
+            rlabSrchViewDataSet.on('load', function(e) {
+//             	var bbsSbc = rlabSrchViewDataSet.getNameValue(0, "bbsSbc").replaceAll('\n', '<br/>');
+//             	rlabSrchViewDataSet.setNameValue(0, 'bbsSbc', bbsSbc);
 
-                lvAttcFilId = anlSrchViewDataSet.getNameValue(0, "attcFilId");
+                lvAttcFilId = rlabSrchViewDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
                 //roleId가 분석담당자이면 등록자와 사용자가 달라고 수정/삭제 가능
               	//이외의 사용자는 상세회면 조회만 가능
-               /* 
+               /*
               	if(roleIdIndex != -1) {
                 	chkUserRgst(true);
                 } else {
@@ -95,9 +95,9 @@
             });
 
             /* [DataSet] bind */
-            var anlLibInfoBind = new Rui.data.LBind({
+            var rlabLibInfoBind = new Rui.data.LBind({
                 groupId: 'aform',
-                dataSet: anlSrchViewDataSet,
+                dataSet: rlabSrchViewDataSet,
                 bind: true,
                 bindInfo: [
                     { id: 'bbsId',       ctrlId: 'bbsId',      value: 'value'} //공지사항ID
@@ -109,7 +109,7 @@
                   , { id: 'frstRgstDt',  ctrlId: 'frstRgstDt', value: 'html' } //등록일
                   , { id: 'docNo',  	 ctrlId: 'docNo', 	   value: 'html' } //문서번호
                   , { id: 'sopNo',  	 ctrlId: 'sopNo', 	   value: 'html' } //SOP No.
-                  , { id: 'anlTlcgClNm', ctrlId: 'anlTlcgClNm',value: 'html' } //분석기술정보분류이름
+                  , { id: 'rlabTlcgClNm', ctrlId: 'rlabTlcgClNm',value: 'html' } //분석기술정보분류이름
               ]
             });
 
@@ -163,7 +163,7 @@
 
                 if(Rui.isEmpty(lvAttcFilId)) {
                 	lvAttcFilId =  attachFileList[0].data.attcFilId;
-                	anlSrchViewDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
+                	rlabSrchViewDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
                 }
             };
 
@@ -179,42 +179,42 @@
 
 
              /* 상세내역 가져오기 */
-             getAnlLibInfo = function() {
-            	 anlSrchViewDataSet.load({
-                     url: '<c:url value="/anl/lib/getAnlLibInfo.do"/>',
+             getRlabLibInfo = function() {
+            	 rlabSrchViewDataSet.load({
+                     url: '<c:url value="/rlab/lib/getRlabLibInfo.do"/>',
                      params :{
                     	 bbsId : bbsId
                      }
                  });
              };
 
-             getAnlLibInfo();
+             getRlabLibInfo();
 
 
         });//onReady 끝
 
 
 	<%--/*******************************************************************************
-   	 * FUNCTION 명 : fncDeleteAnlLibInfo (공지사항 삭제)
+   	 * FUNCTION 명 : fncDeleteRlabLibInfo (공지사항 삭제)
    	 * FUNCTION 기능설명 : 공지사항 삭제
    	 *******************************************************************************/--%>
-	    fncDeleteAnlLibInfo = function(){
+	    fncDeleteRlabLibInfo = function(){
 
 	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
     		dm1.updateDataSet({
-    	        url: "<c:url value='/anl/lib/deleteAnlLibInfo.do'/>",
-    	        dataSets:[anlSrchViewDataSet],
+    	        url: "<c:url value='/rlab/lib/deleteRlabLibInfo.do'/>",
+    	        dataSets:[rlabSrchViewDataSet],
     	        params: {
     	        	bbsId : bbsId
     	        }
 	    	});
 
 	    	dm1.on('success', function(e) {
-				var resultData = anlSrchViewDataSet.getReadData(e);
+				var resultData = rlabSrchViewDataSet.getReadData(e);
 	            alert(resultData.records[0].rtnMsg);
 
-	  	    	nwinsActSubmit(document.aform, "<c:url value='/anl/lib/retrieveAnlLibList.do'/>"+"?bbsCd="+bbsCd);
+	  	    	nwinsActSubmit(document.aform, "<c:url value='/rlab/lib/retrieveRlabLibList.do'/>"+"?bbsCd="+bbsCd);
 			});
 
 			dm1.on('failure', function(e) {
@@ -239,7 +239,7 @@
    		<div class="contents"> <!-- style="padding-bottom:10px" -->
    			<div class="sub-content">
 				<div class="LblockButton top">
-					<!-- 
+					<!--
 					<button type="button" id="saveBtn" name="saveBtn" >수정</button>
 					<button type="button" id="delBtn" name="delBtn" >삭제</button>
 					<button type="button" id="butGoList" name="butGoList" >목록</button>
@@ -280,7 +280,7 @@
    						<tr>
    							<th align="right">분류</th>
    							<td colspan="3">
-   								<span id="anlTlcgClNm"></span>
+   								<span id="rlabTlcgClNm"></span>
    							</td>
    						</tr>
    						</c:if>
