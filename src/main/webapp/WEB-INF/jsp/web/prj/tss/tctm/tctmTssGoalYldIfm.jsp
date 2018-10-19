@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
-<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
+<%@ page import="iris.web.prj.tss.tctm.TctmUrl"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -188,6 +187,7 @@
                 , { id:'yldItmTxt' }  //산출물내용           
                 , { id:'userId' }     //사용자ID
                 , { id:'attcFilId' }  //파일ID
+                , { id:'qgateLinkUrl' }  //Qgate 팝업 URL
             ]
         });
 
@@ -195,12 +195,16 @@
             console.log("goal load dataSet Success");
 
             for(var i=0; i<dataSet2.getCount(); i++){
-                var yldItmYn = dataSet2.getNameValue(i,"attcFilId");
+                var uploadedFile = dataSet2.getNameValue(i,"attcFilId");
+                var qgateURL = dataSet2.getNameValue(i,"qgateLinkUrl");
+                
+                console.log(uploadedFile);
+                console.log(qgateURL);
 
-                if(Rui.isUndefined(yldItmYn)){
-                    dataSet2.setNameValue(i,"yldItmYn","N");
-                }else{
+                if(uploadedFile!=undefined || qgateURL!=undefined){
                     dataSet2.setNameValue(i,"yldItmYn","Y");
+                }else{
+                    dataSet2.setNameValue(i,"yldItmYn","N");
                 }
             }
         });
@@ -210,23 +214,7 @@
         // });
 
 
-        if(pgsStepCd=="PL"){
-            var columnModel2 = new Rui.ui.grid.LColumnModel({
-                autoWidth: true,
-                columns: [
-                    new Rui.ui.grid.LSelectionColumn()
-                    , new Rui.ui.grid.LStateColumn()
-                    , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'goalY', label: '목표년도', sortable: false, align:'center', width: 100, editor: cboGoalY }
-                    , { field: 'yldItmType',  label: '산출물유형', sortable: false, align:'center', width: 300, editor: cbYldItmType
-                        , renderer: function(value, p, record, row, col) {
-                            if(record.data.yldItmSn == 1) p.editable = false;
-                            return value;
-                        } }
-                ]
-            });
-
-        }else{
+        if(pgsStepCd=="PG"){
             var columnModel2 = new Rui.ui.grid.LColumnModel({
                 autoWidth: true,
                 columns: [
@@ -257,7 +245,26 @@
                     , { field: 'yldItmNm', label: '산출물명', sortable: false, align:'left', width: 300, editor: new Rui.ui.form.LTextBox() }
                     , { field: 'yldItmYn', label: '첨부파일 유무', sortable: false, align:'center', width: 60 }
                     , { field: 'attcFilId', label: '첨부파일', sortable: false, align:'center', width: 100, renderer: function(val, p, record, row, i) {
-                            return '<button type="button" class="L-grid-button L-popup-action">첨부파일</button>';
+                            if(record.data.qgateLinkUrl!=undefined){
+                                return '<button type="button" class="L-grid-button" onclick="window.open(\''+record.data.qgateLinkUrl+'\',\''+record.data.yldItmType+'\',\'width=484,height=355,toolbar=no,scrollbars=no,resizable=no\')">첨부파일</button>';
+                            }else{
+                                return '<button type="button" class="L-grid-button L-popup-action">첨부파일</button>';
+                            }
+                        } }
+                ]
+            });
+        }else{
+            var columnModel2 = new Rui.ui.grid.LColumnModel({
+                autoWidth: true,
+                columns: [
+                    new Rui.ui.grid.LSelectionColumn()
+                    , new Rui.ui.grid.LStateColumn()
+                    , new Rui.ui.grid.LNumberColumn()
+                    , { field: 'goalY', label: '목표년도', sortable: false, align:'center', width: 100, editor: cboGoalY }
+                    , { field: 'yldItmType',  label: '산출물유형', sortable: false, align:'center', width: 300, editor: cbYldItmType
+                        , renderer: function(value, p, record, row, col) {
+                            if(record.data.yldItmSn == 1) p.editable = false;
+                            return value;
                         } }
                 ]
             });

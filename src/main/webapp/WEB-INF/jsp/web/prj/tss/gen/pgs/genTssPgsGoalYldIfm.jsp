@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -154,6 +153,7 @@
                 , { id:'yldItmNm' }   //산출물명
                 , { id:'yldItmTxt' }  //산출물내용
                 , { id:'attcFilId' }  //파일ID
+                , { id:'qgateLinkUrl' }  //Qgate 팝업 URL
             ]
         });
 
@@ -161,13 +161,14 @@
             console.log("goal load dataSet Success");
 
             for(var i=0; i<dataSet2.getCount(); i++){
-            	var yldItmYn = dataSet2.getNameValue(i,"attcFilId");
+            	var uploadedFile = dataSet2.getNameValue(i,"attcFilId");
+                var qgateURL = dataSet2.getNameValue(i,"qgateLinkUrl");
 
-	            if(Rui.isUndefined(yldItmYn)){
-	            	dataSet2.setNameValue(i,"yldItmYn","N");
-	            }else{
-	            	dataSet2.setNameValue(i,"yldItmYn","Y");
-	            }
+                if(uploadedFile!=undefined || qgateURL!=undefined){
+                    dataSet2.setNameValue(i,"yldItmYn","Y");
+                }else{
+                    dataSet2.setNameValue(i,"yldItmYn","N");
+                }
             }
         });
 
@@ -203,7 +204,11 @@
               , { field: 'yldItmNm', label: '산출물명', sortable: false, align:'left', width: 300, editor: new Rui.ui.form.LTextBox() }
               , { field: 'yldItmYn', label: '첨부파일 유무', sortable: false, align:'center', width: 60 }
               , { field: 'attcFilId', label: '첨부파일', sortable: false, align:'center', width: 100, renderer: function(val, p, record, row, i) {
-                  return '<button type="button" class="L-grid-button L-popup-action">첨부파일</button>';
+                  if(record.data.qgateLinkUrl!=undefined){
+                      return '<button type="button" class="L-grid-button" onclick="window.open(\''+record.data.qgateLinkUrl+'\',\''+record.data.yldItmType+'\',\'width=484,height=355,toolbar=no,scrollbars=no,resizable=no\')">첨부파일</button>';
+                  }else{
+                      return '<button type="button" class="L-grid-button L-popup-action">첨부파일</button>';
+                  }
               } }
             ]
         });

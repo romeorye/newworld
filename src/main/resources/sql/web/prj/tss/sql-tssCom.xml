@@ -553,6 +553,7 @@
 					ELSE  a.ATTC_FIL_ID
 				END) 		AS attcFilId  --파일ID
              , #{_userId}   AS userId
+             ,QGATE_LINK_URL as qgateLinkUrl
           FROM IRIS_TSS_YLD_ITM  a /*과제산출물*/
          WHERE TSS_CD = #{tssCd}
          ORDER BY GOAL_Y, YLD_ITM_SN
@@ -1304,7 +1305,7 @@
 	<select id="selectTssInfoQasIF" resultType="HashMap">
 		/*selectTssInfoQasIF 과제정보 조회 QAS 산출물 연결을 위한*/
 	<![CDATA[
-		SELECT TOP 1
+		SELECT
 		  TSS_CD as tssCd,
 		  WBS_CD as wbsCd,
 		  TSS_SCN_CD as tssScnCd
