@@ -662,7 +662,7 @@
                                 </tr>
                                 <tr>
                                     <th align="right">계획(개발계획시점)</th>
-                                    <td class="tssLableCss">
+                                    <td class="tssLableCss gen_tain">
                                         <input type="text" id="tssStrtDd" value="" /><em class="gab"> ~ </em>
                                         <input type="text" id="tssFnhDd" value="" />
                                     </td>

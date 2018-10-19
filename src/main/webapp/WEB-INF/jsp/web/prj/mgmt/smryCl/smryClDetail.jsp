@@ -293,7 +293,7 @@
                                 </tr>
                                 <tr>
                                     <th align="right">WBSCode/과제명</th>
-                                    <td class="tssLableCss" colspan="3">
+                                    <td class="tssLableCss smry_tain" colspan="3">
                                         <input type="text" id="wbsCd" />
                                         <div id="tssNm" style="width:900px;padding:0px 5px">
                                     </td>
