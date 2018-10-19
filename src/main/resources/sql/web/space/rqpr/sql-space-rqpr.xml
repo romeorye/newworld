@@ -1176,6 +1176,7 @@
 				,FB_TSS_PGS_STEP= #{fbTssPgsStep}
 				,LAST_MDFY_DT = getdate()
 				,LAST_MDFY_ID = #{_userId}
+				,SPACE_ACPC_ST_CD = '08'
 		WHERE	RQPR_ID = ${rqprId}
 
 	</update>

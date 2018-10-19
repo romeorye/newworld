@@ -72,8 +72,8 @@
 				 ,DOC_NO                                                   AS docNo        /*문서번호*/
 				 ,SOP_NO                                                   AS sopNo        /*SOP번호*/
 				 ,RLTD_BUL_PATH                                            AS rltdBulPath  /*관련글ID*/
-				 ,ANL_TLCG_CL_CD                                           AS anlTlcgClCd  /*분석기술정보분류코드*/
-				 ,dbo.fn_getComDtlNm('ANL_TLCG_CL_CD', A.ANL_TLCG_CL_CD)   AS anlTlcgClNm  /*분석기술정보분류이름*/
+				 ,ANL_TLCG_CL_CD                                           AS rlabTlcgClCd  /*분석기술정보분류코드*/
+				 ,dbo.fn_getComDtlNm('ANL_TLCG_CL_CD', A.ANL_TLCG_CL_CD)   AS rlabTlcgClNm  /*분석기술정보분류이름*/
 				 ,QNA_CL_CD                                                AS qnaClCd      /*질문답변구분코드*/
 				 ,dbo.fn_getComDtlNm('QNA_CL_CD', A.QNA_CL_CD)             AS qnaClNm      /*질문답변구분이름*/
 				 ,DEL_YN                                                   AS delYn        /*삭제여부*/
