@@ -52,7 +52,7 @@
 	<update id="updateRlabChrgTrsfFlag" parameterType="iris.web.rlab.rqpr.vo.RlabMailInfo">
 	-- updateRlabChrgTrsfFlag
 		update	iris_rlab_rqpr_mst
-		set		anl_chrg_trsf_flag = 'Y'
+		set		rlab_chrg_trsf_flag = 'Y'
 		where	rqpr_id = ${rqprId}
 
 	</update>
