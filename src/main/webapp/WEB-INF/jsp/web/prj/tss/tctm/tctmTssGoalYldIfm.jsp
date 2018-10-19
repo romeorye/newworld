@@ -253,6 +253,8 @@
                         } }
                 ]
             });
+            $("#addDel").hide();
+
         }else{
             var columnModel2 = new Rui.ui.grid.LColumnModel({
                 autoWidth: true,
@@ -268,6 +270,7 @@
                         } }
                 ]
             });
+            $("#addDel").show();
         }
 
         var grid2 = new Rui.ui.grid.LGridPanel({
@@ -630,7 +633,7 @@ $(window).load(function() {
 
 <div class="titArea">
     <h4>필수산출물 등록</h4>
-    <div class="LblockButton">
+    <div id="addDel" class="LblockButton">
         <button type="button" id="butYldAdd" name="">추가</button>
         <button type="button" id="butYldDel" name="">삭제</button>
     </div>

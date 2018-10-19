@@ -81,8 +81,6 @@ public class QasBatchServiceImpl implements QasBatchService {
 			}
 		}
 	}
-
-//		commonDao.batchInsert("genTssStat.batch.insertViewInfo", addViewInfoList);
 }
 
 

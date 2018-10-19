@@ -492,7 +492,7 @@
 
                 isEditable =
                     isFirst
-                    || gvTssSt=="100"
+                    || pgsStepCd=="PL" &&  (gvTssSt!="103" && gvTssSt!="104")
                 // || dataSet.getNameValue(0, "grsYn")=="N" && (pgsStepCd=="PL" )
                 ;
 
@@ -678,13 +678,16 @@
                 tabView.selectTab(fIdx);
                 nwinsActSubmit(document.tabForm, IfrmUrls[fIdx], 'tabContent'+fIdx);
 
-                isEditable =  false;
-                setViewform();	//수정불가능하도록 (과제 내용)
-                try{
-                    //화면 생성전 접근할경우 에러 발생
-                    document.getElementById('tabContent3').contentWindow.setViewform();	//수정불가능하도록 (개요)
-                    document.getElementById('tabContent4').contentWindow.disableFields();	//수정불가능하도록 (산출물)
-                }catch(e){}
+
+
+                setEditform();
+                // // isEditable =  false;
+                // // setViewform();	//수정불가능하도록 (과제 내용)
+                // try{
+                //     //화면 생성전 접근할경우 에러 발생
+                //     // document.getElementById('tabContent3').contentWindow.setViewform();	//수정불가능하도록 (개요)
+                //     // document.getElementById('tabContent4').contentWindow.disableFields();	//수정불가능하도록 (산출물)
+                // }catch(e){}
 
             }
 
@@ -755,6 +758,53 @@
                         setEditable("dcacBFnhDd");
                     }
                 }
+            }
+
+            function setEditform(){
+                // setEditable("wbsCd");
+                // setEditable("tssNm");
+                // setEditable("prjNm");
+                setEditable("prodG");
+                setEditable("bizDptCd");
+                setEditable("custSqlt");
+                // setEditable("saSabunName");
+
+                setEditable("tssStrtDd");
+                $("#tssStrtDd").css("cssText", "border-width:1px; width: 120px !important;");
+                $("#tssStrtDd").next().css("cssText","padding-right:5px;margin-left:40px !important");
+                setEditable("tssFnhDd");
+
+                setEditable("tssSmryTxt");
+                setEditable("ppslMbdCd");
+                setEditable("rsstSphe");
+                setEditable("tssAttrCd");
+                setEditable("tssType");
+
+                // //완료시점
+                // setEditable("cmplBStrtDd");
+                // $("#cmplBStrtDd").css("cssText", "border-width:0px; width: 80px !important;");
+                // $("#cmplBFnhDd").next().css("margin-left","0px");
+                // setEditable("cmplBFnhDd");
+                // //중단시점
+                // setEditable("dcacBStrtDd");
+                // $("#dcacBStrtDd").css("cssText", "border-width:0px; width: 80px !important;");
+                // $("#dcacBStrtDd").next().css("margin-left","0px");
+                // setEditable("dcacBFnhDd");
+
+
+                // if(gvTssSt=="102"){
+                //     if(isCm() ){
+                //         //품의 요청시 개발완기간 수정가능
+                //         setEditable("cmplBStrtDd");
+                //         setEditable("cmplBFnhDd");
+                //     }
+                //
+                //     if(isDc() ){
+                //         //품의 요청시 개발완기간 수정가능
+                //         setEditable("dcacBStrtDd");
+                //         setEditable("dcacBFnhDd");
+                //     }
+                // }
             }
 
 
@@ -1486,7 +1536,7 @@
         applyTo : 'custSqlt',
         emptyValue : '',
         emptyText : '선택',
-        width : 120,
+        width : 140,
         defaultValue : '${inputData.custSqlt}',
         items : [ {
             text : 'B2B제품군',
