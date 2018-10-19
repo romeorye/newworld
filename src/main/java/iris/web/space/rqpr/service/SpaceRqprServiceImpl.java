@@ -342,6 +342,8 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     			itgRdcsInfo.put("body", body);
     			itgRdcsInfo.put("title", "[IRIS/평가의뢰] " + spaceRqprInfo.get("spaceNm"));
 
+    			itgRdcsInfo.put("rqprDeptNm", dataMap.get("rqprDeptNm"));
+
     			commonDao.delete("common.itgRdcs.deleteItgRdcsInfo", itgRdcsInfo);
 
             	if(commonDao.insert("common.itgRdcs.saveItgRdcsInfo", itgRdcsInfo) == 0) {
