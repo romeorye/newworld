@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -119,6 +118,7 @@
         nprodSalsPlnY2 = new Rui.ui.form.LNumberBox({
             applyTo: 'nprodSalsPlnY2',
             defaultValue: 0,
+            emptyValue: 0,
             decimalPrecision: 2,
             maxValue: 999999999.999999,
             width: 120
@@ -348,18 +348,20 @@
             lvAttcFilId = dataSet.getNameValue(0, "attcFilId");
             if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
+
             var dsNprodSalsPlnY  = (dataSet.getNameValue(0, "nprodSalsPlnY")  / 100000000).toFixed(2);
             var dsNprodSalsPlnY1 = (dataSet.getNameValue(0, "nprodSalsPlnY1") / 100000000).toFixed(2);
             var dsNprodSalsPlnY2 = (dataSet.getNameValue(0, "nprodSalsPlnY2") / 100000000).toFixed(2);
             var dsNprodSalsPlnY3 = (dataSet.getNameValue(0, "nprodSalsPlnY3") / 100000000).toFixed(2);
             var dsNprodSalsPlnY4 = (dataSet.getNameValue(0, "nprodSalsPlnY4") / 100000000).toFixed(2);
 
+
             //NaN인경우
-            dsNprodSalsPlnY  = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY:0;
+            dsNprodSalsPlnY  = $.isNumeric( dsNprodSalsPlnY )?dsNprodSalsPlnY:0;
             dsNprodSalsPlnY1 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY1:0;
-            dsNprodSalsPlnY2 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY2:0;
-            dsNprodSalsPlnY3 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY3:0;
-            dsNprodSalsPlnY4 = $.isNumeric( dsNprodSalsPlnY1 )?dsNprodSalsPlnY4:0;
+            dsNprodSalsPlnY2 = $.isNumeric( dsNprodSalsPlnY2 )?dsNprodSalsPlnY2:0;
+            dsNprodSalsPlnY3 = $.isNumeric( dsNprodSalsPlnY3 )?dsNprodSalsPlnY3:0;
+            dsNprodSalsPlnY4 = $.isNumeric( dsNprodSalsPlnY4 )?dsNprodSalsPlnY4:0;
 
             nprodSalsPlnY.setValue(dsNprodSalsPlnY);
             nprodSalsPlnY1.setValue(dsNprodSalsPlnY1);
@@ -401,13 +403,13 @@
                 , { id: 'bizPrftProY2',     ctrlId: 'bizPrftProY2',     value: 'value' }
                 , { id: 'bizPrftProY3',     ctrlId: 'bizPrftProY3',     value: 'value' }
                 , { id: 'bizPrftProY4',     ctrlId: 'bizPrftProY4',     value: 'value' }
-//                 , { id: 'bizPrftProYAvg',   ctrlId: 'bizPrftProYAvg',   value: 'value' }
-//                 , { id: 'nprodSalsPlnY',    ctrlId: 'nprodSalsPlnY',    value: 'value' }
-//                 , { id: 'nprodSalsPlnY1',   ctrlId: 'nprodSalsPlnY1',   value: 'value' }
-//                 , { id: 'nprodSalsPlnY2',   ctrlId: 'nprodSalsPlnY2',   value: 'value' }
-//                 , { id: 'nprodSalsPlnY3',   ctrlId: 'nprodSalsPlnY3',   value: 'value' }
-//                 , { id: 'nprodSalsPlnY4',   ctrlId: 'nprodSalsPlnY4',   value: 'value' }
-//                 , { id: 'nprodSalsPlnYAvg', ctrlId: 'nprodSalsPlnYAvg', value: 'value' }
+                , { id: 'bizPrftProYAvg',   ctrlId: 'bizPrftProYAvg',   value: 'value' }
+                , { id: 'nprodSalsPlnY',    ctrlId: 'nprodSalsPlnY',    value: 'value' }
+                , { id: 'nprodSalsPlnY1',   ctrlId: 'nprodSalsPlnY1',   value: 'value' }
+                , { id: 'nprodSalsPlnY2',   ctrlId: 'nprodSalsPlnY2',   value: 'value' }
+                , { id: 'nprodSalsPlnY3',   ctrlId: 'nprodSalsPlnY3',   value: 'value' }
+                , { id: 'nprodSalsPlnY4',   ctrlId: 'nprodSalsPlnY4',   value: 'value' }
+                , { id: 'nprodSalsPlnYAvg', ctrlId: 'nprodSalsPlnYAvg', value: 'value' }
                 , { id: 'ptcCpsnY',         ctrlId: 'ptcCpsnY',         value: 'value' }
                 , { id: 'ptcCpsnY1',        ctrlId: 'ptcCpsnY1',        value: 'value' }
                 , { id: 'ptcCpsnY2',        ctrlId: 'ptcCpsnY2',        value: 'value' }
@@ -429,24 +431,24 @@
                 , { id: 'ctyOtPlnM',         validExp: '상품출시(계획):true' }
                 , { id: 'smrSmryTxt',        validExp: 'Summary 개요:true' }
                 , { id: 'smrGoalTxt',        validExp: 'Summary 목표:true' }
-//                 , { id: 'bizPrftProY',       validExp: '영업이익율Y:true:minNumber=0.01' }
-//                 , { id: 'bizPrftProY1',      validExp: '영업이익율Y+1:true' }
-//                 , { id: 'bizPrftProY2',      validExp: '영업이익율Y+2:true' }
-//                 , { id: 'bizPrftProY3',      validExp: '영업이익율Y+3:true' }
-//                 , { id: 'bizPrftProY4',      validExp: '영업이익율Y+4:true' }
-//                 , { id: 'bizPrftProYAvg',    validExp: '영업이익율평균:false' }
-//                 , { id: 'nprodSalsPlnY',     validExp: '신제품매출계획Y:true:minNumber=1' }
-//                 , { id: 'nprodSalsPlnY1',    validExp: '신제품매출계획Y+1:true' }
-//                 , { id: 'nprodSalsPlnY2',    validExp: '신제품매출계획Y+2:true' }
-//                 , { id: 'nprodSalsPlnY3',    validExp: '신제품매출계획Y+3:true' }
-//                 , { id: 'nprodSalsPlnY4',    validExp: '신제품매출계획Y+4:true' }
-//                 , { id: 'nprodSalsPlnYAvg',  validExp: '신제품매출계획평균:false' }
-//                 , { id: 'ptcCpsnY',          validExp: '투입인원(M/M)Y:true:minNumber=1' }
-//                 , { id: 'ptcCpsnY1',         validExp: '투입인원(M/M)Y+1:true' }
-//                 , { id: 'ptcCpsnY2',         validExp: '투입인원(M/M)Y+2:true' }
-//                 , { id: 'ptcCpsnY3',         validExp: '투입인원(M/M)Y+3:true' }
-//                 , { id: 'ptcCpsnY4',         validExp: '투입인원(M/M)Y+4:true' }
-//                 , { id: 'ptcCpsnYAvg',       validExp: '투입인원(M/M)평균:false' }
+                , { id: 'bizPrftProY',       validExp: '영업이익율Y:true:minNumber=0.01' }
+                , { id: 'bizPrftProY1',      validExp: '영업이익율Y+1:true' }
+                , { id: 'bizPrftProY2',      validExp: '영업이익율Y+2:true' }
+                , { id: 'bizPrftProY3',      validExp: '영업이익율Y+3:true' }
+                , { id: 'bizPrftProY4',      validExp: '영업이익율Y+4:true' }
+                , { id: 'bizPrftProYAvg',    validExp: '영업이익율평균:false' }
+                , { id: 'nprodSalsPlnY',     validExp: '신제품매출계획Y:true:minNumber=1' }
+                , { id: 'nprodSalsPlnY1',    validExp: '신제품매출계획Y+1:true' }
+                , { id: 'nprodSalsPlnY2',    validExp: '신제품매출계획Y+2:true' }
+                , { id: 'nprodSalsPlnY3',    validExp: '신제품매출계획Y+3:true' }
+                , { id: 'nprodSalsPlnY4',    validExp: '신제품매출계획Y+4:true' }
+                , { id: 'nprodSalsPlnYAvg',  validExp: '신제품매출계획평균:false' }
+                , { id: 'ptcCpsnY',          validExp: '투입인원(M/M)Y:true:minNumber=1' }
+                , { id: 'ptcCpsnY1',         validExp: '투입인원(M/M)Y+1:true' }
+                , { id: 'ptcCpsnY2',         validExp: '투입인원(M/M)Y+2:true' }
+                , { id: 'ptcCpsnY3',         validExp: '투입인원(M/M)Y+3:true' }
+                , { id: 'ptcCpsnY4',         validExp: '투입인원(M/M)Y+4:true' }
+                , { id: 'ptcCpsnYAvg',       validExp: '투입인원(M/M)평균:false' }
                 , { id: 'attcFilId',         validExp: 'GRS심의파일:true' }
                 , { id: 'userId',            validExp: '로그인ID:false' }
             ]

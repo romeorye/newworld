@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -667,6 +666,11 @@
         //품의서요청
         btnCsusRq = new Rui.ui.LButton('btnCsusRq');
         btnCsusRq.on('click', function() {
+            if(!document.getElementById('tabContent0').contentWindow.fnIfmIsUpdate()){
+                return;
+            }
+
+
         	if(confirm("품의서요청을 하시겠습니까?")) {
         	    regDm.update({
                     url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
