@@ -34,7 +34,6 @@ var dataSet;	// 프로젝트 데이터셋
 var dm;         // 데이터셋매니저
 var grid;       // 그리드
 var lvAttcFilId;
-
 	Rui.onReady(function() {
            /*******************
             * 변수 및 객체 선언
@@ -42,10 +41,9 @@ var lvAttcFilId;
 
             var pwiScnCd = new Rui.ui.form.LCombo({
                 applyTo: 'pwiScnCd',
-                name: 'pwiScnCd',
                 useEmptyText: true,
                 emptyText: '전체',
-                defaultValue: '',
+                defaultValue: "${inputData.pwiScnCd}",
                 emptyValue: '',
                 width: 200,
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PWI_SCN_CD"/>',
@@ -61,6 +59,8 @@ var lvAttcFilId;
 
            var titlNm = new Rui.ui.form.LTextBox({
                 applyTo: 'titlNm',
+                emptyValue: '',
+                defaultValue: '<c:out value="${inputData.titlNm}"/>',
                 width: 600
            });
 
@@ -72,7 +72,9 @@ var lvAttcFilId;
 
            var rgstNm = new Rui.ui.form.LTextBox({
                applyTo: 'rgstNm',
-               width: 200
+               width: 200,
+               emptyValue: '',
+               defaultValue: '<c:out value="${inputData.rgstNm}"/>'
            });
 
            rgstNm.on('keypress', function(e) {
@@ -280,9 +282,9 @@ var lvAttcFilId;
            	dataSet.load({
                    url: '<c:url value="/knld/pub/getPubNoticeList.do"/>',
                    params :{
-                   	titlNm : escape(encodeURIComponent(document.aform.titlNm.value)),
-                   	rgstNm : escape(encodeURIComponent(document.aform.rgstNm.value)),
-           		    pwiScnCd : document.aform.pwiScnCd.value
+                   	titlNm : escape(encodeURIComponent(titlNm.getValue())),
+                   	rgstNm : escape(encodeURIComponent(rgstNm.getValue())),
+           		    pwiScnCd : pwiScnCd.getValue()
                    }
                });
            };
@@ -292,55 +294,60 @@ var lvAttcFilId;
  	    		// 목록 페이징
  		    	paging(dataSet,"defaultGrid");
  	      	});
+           <%--/*******************************************************************************
+           * FUNCTION 명 : fncPrjRgstPage (공지사항 등록 )
+           * FUNCTION 기능설명 :
+           *******************************************************************************/--%>
+           function fncPrjRgstPage(record) {
 
+           	var pageMode = 'V';	// view
 
-           getPwiImtrList();
+           	if(record == ''){
+           		pageMode = 'C';	// create
+           		document.aform.pageMode.value = pageMode;
+           	}else{
+           		document.aform.pageMode.value = pageMode;
+           		document.aform.pwiId.value = record.get("pwiId");
+           	}
+
+           	nwinsActSubmit(document.aform, "<c:url value='/knld/pub/pubNoticeRgst.do'/>")
+
+           }
+
+           <%--/*******************************************************************************
+           * FUNCTION 명 : fncExcelDown (default Grid 엑셀다운)
+           * FUNCTION 기능설명 : 프로젝트 현황 목록 엑셀다운(추가조회, 추가 그리드 없음)
+           *******************************************************************************/--%>
+           function fncExcelDown() {
+
+               if( dataSet.getCount() > 0){
+               	//gridExcel.saveExcel(toUTF8('Project 목록_') + new Date().format('%Y%m%d') + '.xls');
+                   var excelColumnModel = columnModel.createExcelColumnModel(false);
+                   duplicateExcelGrid(excelColumnModel);
+               	nG.saveExcel(toUTF8('공지사항 목록_') + new Date().format('%Y%m%d') + '.xls');
+               } else {
+               	alert('조회된 데이타가 없습니다.!!');
+               }
+           }
+
+           init = function() {
+        	   var titlNm='${inputData.titlNm}';
+        	   var rgstNm='${inputData.rgstNm}';
+              	dataSet.load({
+                    url: '<c:url value="/knld/pub/getPubNoticeList.do"/>',
+                    params :{
+                    	titlNm : escape(encodeURIComponent(titlNm)),
+                    	rgstNm : escape(encodeURIComponent(rgstNm)),
+            		    pwiScnCd : '${inputData.pwiScnCd}'
+                    }
+                });
+            }
        });
 
 </script>
 
-<script type="text/javascript">
-
-
-<%--/*******************************************************************************
-* FUNCTION 명 : fncPrjRgstPage (공지사항 등록 )
-* FUNCTION 기능설명 :
-*******************************************************************************/--%>
-function fncPrjRgstPage(record) {
-
-	var pageMode = 'V';	// view
-
-	if(record == ''){
-		pageMode = 'C';	// create
-		document.aform.pageMode.value = pageMode;
-	}else{
-		document.aform.pageMode.value = pageMode;
-		document.aform.pwiId.value = record.get("pwiId");
-	}
-
-	nwinsActSubmit(document.aform, "<c:url value='/knld/pub/pubNoticeRgst.do'/>")
-
-}
-
-<%--/*******************************************************************************
-* FUNCTION 명 : fncExcelDown (default Grid 엑셀다운)
-* FUNCTION 기능설명 : 프로젝트 현황 목록 엑셀다운(추가조회, 추가 그리드 없음)
-*******************************************************************************/--%>
-function fncExcelDown() {
-
-    if( dataSet.getCount() > 0){
-    	//gridExcel.saveExcel(toUTF8('Project 목록_') + new Date().format('%Y%m%d') + '.xls');
-        var excelColumnModel = columnModel.createExcelColumnModel(false);
-        duplicateExcelGrid(excelColumnModel);
-    	nG.saveExcel(toUTF8('공지사항 목록_') + new Date().format('%Y%m%d') + '.xls');
-    } else {
-    	alert('조회된 데이타가 없습니다.!!');
-    }
-}
-</script>
-
     </head>
-    <body>
+    <body onload="init();">
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
@@ -383,7 +390,7 @@ function fncExcelDown() {
 		   						<tr>
 		   							<th>분류</th>
 		   							<td>
-		   								<div id="pwiScnCd" ></div>
+		   								<div id="pwiScnCd" name="pwiScnCd" ></div>
 		   							</td>
 		   							<th>등록자</th>
 		    						<td>
