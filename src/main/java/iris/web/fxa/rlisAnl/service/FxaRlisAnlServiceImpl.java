@@ -21,7 +21,10 @@ public class FxaRlisAnlServiceImpl implements FxaRlisAnlService{
 
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
-
+/*
+	@Resource(name="commonTodo")
+	private CommonDao commonTodo;
+*/
 
 	/**
 	 * 자산실기간관리 목록 조회
@@ -62,12 +65,13 @@ public class FxaRlisAnlServiceImpl implements FxaRlisAnlService{
 				if( fxaCnt > 0 ){
 					//실사정보 저장
 					int chkCount = commonDao.insert("fxaInfo.fxaRlisAnl.insertFxaRlisList", input);
-					LOGGER.debug("#################################chkCount#################################################### + " + chkCount);
+
 					if ( chkCount > 0 ){
-						LOGGER.debug("#################################curFxaRlisId#################################################### + " + input.get("curFxaRlisId"));
-						input.put("curFxaRlisId", input.get("curFxaRlisId"));
-						//to_do
-						commonDao.insert("fxaInfo.fxaRlisAnl.insertFxaRlisTodo", input);
+						 input.put("curFxaRlisId", input.get("curFxaRlisId"));
+						 //LOGGER.debug("#################################curFxaRlisId#################################################### + " + input.get("curFxaRlisId"));
+						 //LOGGER.debug("#################################crgrId#################################################### + " + input.get("crgrId"));
+						 //to_do
+						 commonDao.insert("fxaInfo.fxaRlisAnl.insertFxaRlisTodo", input);
 						//실사기간과 자산매핑
 						commonDao.insert("fxaInfo.fxaRlisAnl.insertFxaRlisMapp", input);
 					}else{
@@ -76,8 +80,6 @@ public class FxaRlisAnlServiceImpl implements FxaRlisAnlService{
 					
 					
 					//메일발송
-					
-					
 					
 				}
 			}
