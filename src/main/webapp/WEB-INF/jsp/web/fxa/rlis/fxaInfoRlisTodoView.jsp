@@ -116,8 +116,9 @@
         /* [버튼] : 자산실사 목록 화면이동 */
      	var butList = new Rui.ui.LButton('butList');
      	butList.on('click', function(){
-     		document.aform.action='<c:url value="/fxa/rlis/retrieveFxaRlisList.do"/>';
-    		document.aform.submit();
+     		//document.aform.action='<c:url value="/fxa/rlis/retrieveFxaRlisList.do"/>';
+    		//document.aform.submit();
+    		nwinsActSubmit(document.searchForm, "<c:url value='/fxa/rlis/retrieveFxaRlisList.do'/>");
      	});
 
      	 //document.domain = 'lghausys.com';
@@ -128,6 +129,14 @@
 </script>
     </head>
     <body >
+    	<form name="searchForm" id="searchForm"  method="post">
+			<input type="hidden" name="rlisTrmNm" value="${inputData.rlisTrmNm}"/>
+			<input type="hidden" name="rlisClCd" value="${inputData.rlisClCd}"/>
+			<input type="hidden" name=prjNm value="${inputData.prjNm}"/>
+			<input type="hidden" name=crgrNm value="${inputData.crgrNm}"/>
+			<input type="hidden" name=rlisFxaClss value="${inputData.rlisFxaClss}"/>
+			<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+		</form>
     		<div class="contents">
     			<div class="titleArea">
     				<a class="leftCon" href="#">

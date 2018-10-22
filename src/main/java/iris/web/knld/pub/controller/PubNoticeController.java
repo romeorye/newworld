@@ -77,6 +77,8 @@ public class PubNoticeController  extends IrisBaseController {
 //		input.put("fromRqprDt", DateUtil.addDays(today, -7, "yyyy-MM-dd"));
 //		input.put("toRqprDt", today);
 
+		//input = StringUtil.toUtf8Input(input);
+
 		model.addAttribute("inputData", input);
 
 		return "web/knld/pub/retrievePubNoticeList";

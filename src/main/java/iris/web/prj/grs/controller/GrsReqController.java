@@ -69,7 +69,7 @@ public class GrsReqController  extends IrisBaseController {
         LOGGER.debug("###########################################################");
 
         input = StringUtil.toUtf8(input);
-        
+
         /* 반드시 공통 호출 후 작업 */
         checkSession(input, session, model);
 
@@ -501,7 +501,7 @@ public class GrsReqController  extends IrisBaseController {
 
         checkSessionObjRUI(input, session, model);
         ModelAndView modelAndView = new ModelAndView("ruiView");
-        
+
         HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
         List<Map<String, Object>> dsLst = null;
         HashMap<String, Object> dtlDs =  new HashMap<String, Object>();

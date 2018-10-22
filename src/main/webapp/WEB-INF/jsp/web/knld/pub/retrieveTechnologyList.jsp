@@ -34,7 +34,6 @@ var techDataSet;	// 프로젝트 데이터셋
 var dm;         // 데이터셋매니저
 var techGrid;       // 그리드
 var lvAttcFilId;
-
 	Rui.onReady(function() {
            /*******************
             * 변수 및 객체 선언
@@ -45,7 +44,7 @@ var lvAttcFilId;
                 name: 'techScnCd',
                 useEmptyText: true,
                 emptyText: '전체',
-                defaultValue: '',
+                defaultValue: '<c:out value="${inputData.techScnCd}"/>',
                 emptyValue: '',
                 width: 200,
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=TCLG_SCN_CD"/>',
@@ -65,7 +64,7 @@ var lvAttcFilId;
                 name: 'infoPrvnKindCd',
                 useEmptyText: true,
                 emptyText: '전체',
-                defaultValue: '',
+                defaultValue: '<c:out value="${inputData.infoPrvnKindCd}"/>',
                 emptyValue: '',
                 width: 130,
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=INFO_PRVN_KIND_CD"/>',
@@ -81,6 +80,7 @@ var lvAttcFilId;
 
            var titlNm = new Rui.ui.form.LTextBox({
                 applyTo: 'titlNm',
+                defaultValue: '<c:out value="${inputData.titlNm}"/>',
                 width: 400
            });
 
@@ -92,6 +92,7 @@ var lvAttcFilId;
 
            var rgstNm = new Rui.ui.form.LTextBox({
                applyTo: 'rgstNm',
+               defaultValue: '<c:out value="${inputData.rgstNm}"/>',
                width: 200
            });
 
@@ -103,6 +104,7 @@ var lvAttcFilId;
 
            var infoPrvnNm = new Rui.ui.form.LTextBox({
                applyTo: 'infoPrvnNm',
+               defaultValue: '<c:out value="${inputData.infoPrvnNm}"/>',
                width: 265
            });
 
@@ -268,11 +270,13 @@ var lvAttcFilId;
 
            /* 조회, 검색 */
            getTechnologyList = function() {
+        	//alert(document.aform.titlNm.value);
            	techDataSet.load({
                    url: '<c:url value="/knld/pub/getTechnologyList.do"/>',
                    params :{
                    	titlNm : escape(encodeURIComponent(document.aform.titlNm.value)),
                    	rgstNm : escape(encodeURIComponent(document.aform.rgstNm.value)),
+                   	infoPrvnNm : escape(encodeURIComponent(document.aform.infoPrvnNm.value)),
                    	infoPrvnKindCd : document.aform.infoPrvnKindCd.value,
                    	techScnCd : document.aform.techScnCd.value
                    }
@@ -285,12 +289,7 @@ var lvAttcFilId;
 		    	paging(techDataSet,"defaultGrid");
   	      	});
 
-           getTechnologyList();
-       });
-</script>
-
-<script type="text/javascript">
-
+           //getTechnologyList();
 
 <%--/*******************************************************************************
 * FUNCTION 명 : fncTechRgstPage (공지사항 등록 )
@@ -328,10 +327,27 @@ function fncExcelDown() {
     }
     paging(techDataSet,"defaultGrid");
 }
+
+init = function() {
+	   var titlNm='${inputData.titlNm}';
+	   var rgstNm='${inputData.rgstNm}';
+	   var infoPrvnNm='${inputData.infoPrvnNm}';
+	   techDataSet.load({
+         url: '<c:url value="/knld/pub/getTechnologyList.do"/>',
+         params :{
+         	techScnCd : '${inputData.techScnCd}',
+         	titlNm : escape(encodeURIComponent(titlNm)),
+         	rgstNm : escape(encodeURIComponent(rgstNm)),
+         	infoPrvnKindCd : '${inputData.infoPrvnKindCd}',
+         	infoPrvnNm : escape(encodeURIComponent(infoPrvnNm))
+         }
+     });
+ }
+	});
 </script>
 
     </head>
-    <body>
+    <body onload="init();">
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>

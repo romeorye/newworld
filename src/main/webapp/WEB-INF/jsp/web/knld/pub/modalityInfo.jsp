@@ -193,7 +193,8 @@
 
     		/* [버튼] 목록 */
             goModalityList = function() {
-            	$(location).attr('href', '<c:url value="/knld/pub/retrieveModalityList.do"/>');
+            	//$(location).attr('href', '<c:url value="/knld/pub/retrieveModalityList.do"/>');
+            	nwinsActSubmit(document.searchForm, "<c:url value='/knld/pub/retrieveModalityList.do'/>");
             };
 
             /* 수정/삭제버튼 */
@@ -266,6 +267,12 @@
     </head>
 
     <body>
+<form name="searchForm" id="searchForm"  method="post">
+	<input type="hidden" name="titlNm" value="${inputData.titlNm}"/>
+	<input type="hidden" name=rgstNm value="${inputData.rgstNm}"/>
+	<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form>
+
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>

@@ -204,7 +204,10 @@
 
     		/* [버튼] 목록 */
             goTechnologyList = function() {
-            	$(location).attr('href', '<c:url value="/knld/pub/retrieveTechnologyList.do"/>');
+            	//$(location).attr('href', '<c:url value="/knld/pub/retrieveTechnologyList.do"/>');
+            	//$('#searchForm > input[name=titlNm]').val(encodeURIComponent($('#searchForm > input[name=titlNm]').val()));
+            	//alert($('#searchForm > input[name=titlNm]').val());
+            	nwinsActSubmit(document.searchForm, "<c:url value="/knld/pub/retrieveTechnologyList.do"/>");
             };
 
             /* 수정/삭제버튼 */
@@ -280,9 +283,18 @@
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
 	</form>
+	<form name="searchForm" id="searchForm" method="post">
+		<input type="hidden" name="techScnCd" value="${inputData.techScnCd}"/>
+		<input type="hidden" name="titlNm" value="${inputData.titlNm}"/>
+		<input type="hidden" name=rgstNm value="${inputData.rgstNm}"/>
+		<input type="hidden" name=infoPrvnKindCd value="${inputData.infoPrvnKindCd}"/>
+		<input type="hidden" name=infoPrvnNm value="${inputData.infoPrvnNm}"/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
+    </form>
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="techId" name="techId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
+
    		<div class="contents">
    			<div class="titleArea">
    				<a class="leftCon" href="#">

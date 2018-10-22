@@ -45,7 +45,7 @@ var lvAttcFilId;
                 name: 'prcpMnlScnCd',
                 useEmptyText: true,
                 emptyText: '전체',
-                defaultValue: '',
+                defaultValue: '<c:out value="${inputData.prcpMnlScnCd}"/>',
                 emptyValue: '',
                 width: 200,
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PRCP_MNL_SCN_CD"/>',
@@ -62,6 +62,7 @@ var lvAttcFilId;
 			/* 제목 */
            var titlNm = new Rui.ui.form.LTextBox({
                 applyTo: 'titlNm',
+                defaultValue: '<c:out value="${inputData.titlNm}"/>',
                 width: 400
            });
 
@@ -74,6 +75,7 @@ var lvAttcFilId;
 			/* 등록자 */
            var rgstNm = new Rui.ui.form.LTextBox({
                applyTo: 'rgstNm',
+               defaultValue: '<c:out value="${inputData.rgstNm}"/>',
                width: 200
            });
 
@@ -89,6 +91,7 @@ var lvAttcFilId;
 				applyTo: 'enfcStrtDt',
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
+				defaultValue: '<c:out value="${inputData.enfcStrtDt}"/>',
 				//defaultValue: new Date(),
 				//defaultValue : new Date().add('Y', parseInt(-1, 10)),		// default -1년
 				width: 100,
@@ -119,6 +122,7 @@ var lvAttcFilId;
 				applyTo: 'enfcFnhDt',
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
+				defaultValue: '<c:out value="${inputData.enfcFnhDt}"/>',
 				//defaultValue: new Date(),
 				width: 100,
 				dateType: 'string'
@@ -325,7 +329,7 @@ var lvAttcFilId;
   		    	paging(manualDataSet,"defaultGrid");
   	      	});
 
-           getManualList();
+           //getManualList();
        });
 </script>
 
@@ -371,10 +375,25 @@ function fncExcelDown() {
 	// 목록 페이징
     paging(manualDataSet,"defaultGrid");
 }
+
+init = function() {
+	   var titlNm='${inputData.titlNm}';
+	   var rgstNm='${inputData.rgstNm}';
+	   manualDataSet.load({
+         url: '<c:url value="/knld/pub/getManualList.do"/>',
+         params :{
+         	titlNm : escape(encodeURIComponent(titlNm)),
+         	rgstNm : escape(encodeURIComponent(rgstNm)),
+         	prcpMnlScnCd : '${inputData.prcpMnlScnCd}',
+         	enfcStrtDt : '${inputData.enfcStrtDt}',
+         	enfcFnhDt : '${inputData.enfcFnhDt}'
+         }
+     });
+ }
 </script>
 
     </head>
-    <body>
+    <body onload="init();">
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>

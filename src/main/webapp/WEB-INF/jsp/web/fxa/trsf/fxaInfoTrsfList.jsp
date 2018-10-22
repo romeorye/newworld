@@ -171,6 +171,7 @@ var adminChk ="N";
 		//WBS 코드
  	    var wbsCd = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
  	        applyTo: 'wbsCd',                           // 해당 DOM Id 위치에 텍스트박스를 적용
+ 	       defaultValue: '<c:out value="${inputData.wbsCd}"/>',
  	        width: 200,                                    // 텍스트박스 폭을 설정
  	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
  	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
@@ -179,6 +180,7 @@ var adminChk ="N";
        //프로젝트명
  	    var prjNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
  	        applyTo: 'prjNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
+ 	       defaultValue: '<c:out value="${inputData.prjNm}"/>',
  	        width: 200,                                    // 텍스트박스 폭을 설정
  	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
  	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
@@ -187,6 +189,7 @@ var adminChk ="N";
        //자산명
  	    var fxaNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
  	        applyTo: 'fxaNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
+ 	       defaultValue: '<c:out value="${inputData.fxaNm}"/>',
  	        width: 200,                                    // 텍스트박스 폭을 설정
  	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
  	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
@@ -195,6 +198,7 @@ var adminChk ="N";
        //자산번호
  	    var fxaNo = new Rui.ui.form.LNumberBox({            // LTextBox개체를 선언
  	        applyTo: 'fxaNo',                           // 해당 DOM Id 위치에 텍스트박스를 적용
+ 	       defaultValue: '<c:out value="${inputData.fxaNo}"/>',
  	        width: 200,                                    // 텍스트박스 폭을 설정
  	        maxValue: 9999999999,           // 최대값 입력제한 설정
 	        minValue: 0,                  // 최소값 입력제한 설정

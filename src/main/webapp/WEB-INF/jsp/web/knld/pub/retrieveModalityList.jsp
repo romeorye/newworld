@@ -42,6 +42,7 @@ var lvAttcFilId;
 			/* 제목 */
            var titlNm = new Rui.ui.form.LTextBox({
                 applyTo: 'titlNm',
+                defaultValue: '<c:out value="${inputData.titlNm}"/>',
                 width: 400
            });
 
@@ -54,6 +55,7 @@ var lvAttcFilId;
 			/* 등록자 */
            var rgstNm = new Rui.ui.form.LTextBox({
                applyTo: 'rgstNm',
+               defaultValue: '<c:out value="${inputData.rgstNm}"/>',
                width: 200
            });
 

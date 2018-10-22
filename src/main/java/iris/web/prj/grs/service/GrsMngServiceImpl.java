@@ -266,7 +266,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 			//일반
 			//과제 제안서
             String pmisDt = CommonUtil.getMonthSearch_1( CommonUtil.replace(input.get("tssFnhDd").toString(), "-", ""));
-            
+
             input.put("goalY",       input.get("tssStrtDd").toString().substring(0,4));
             input.put("yldItmType", "01");
             input.put("arslYymm",  input.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
@@ -295,12 +295,12 @@ public class GrsMngServiceImpl implements GrsMngService {
 				commonDao.update("prj.tss.com.updateTssYld", input);
 			}
 
-            //지적재산권 
+            //지적재산권
             input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
             input.put("yldItmType", "05");
             input.put("arslYymm",  CommonUtil.getFormattedDate(pmisDt, "-").substring(0, 7));
 			commonDao.update("prj.tss.com.updateTssYld", input);
-            
+
             //중단 완료 보고서
             input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
             input.put("yldItmType", "03");
@@ -314,7 +314,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 			input.put("yldItmType", "01");
 			input.put("arslYymm",  input.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
 			commonDao.update("prj.tss.com.updateTssYld", input);
-            
+
             //중단 완료 보고서
             input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
             input.put("yldItmType", "05");
@@ -327,7 +327,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 			input.put("yldItmType", "01");
 			input.put("arslYymm",  input.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
 			commonDao.update("prj.tss.com.updateTssYld", input);
-            
+
             //중단 완료 보고서
             input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
             input.put("yldItmType", "04");
@@ -385,12 +385,12 @@ public class GrsMngServiceImpl implements GrsMngService {
 	public List<Map<String, Object>> retrieveGrsApproval(HashMap<String, Object> input) {
 		return commonDao.selectList("prj.grs.retrieveGrsApproval", input);
 	}
-	
+
 	@Override
 	public void updateApprGuid(HashMap<String, Object> input) {
 		commonDao.update("prj.grs.updateApprGuid", input);
 	}
-	
+
 	@Override
 	public String getGuid(HashMap<String, Object> input) {
 		return commonDao.select("prj.grs.getGuid", input);

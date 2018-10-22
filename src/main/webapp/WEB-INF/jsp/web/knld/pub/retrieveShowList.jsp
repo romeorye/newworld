@@ -45,7 +45,7 @@ var lvAttcFilId;
                 name: 'swrmNatCd',
                 useEmptyText: true,
                 emptyText: '전체',
-                defaultValue: '',
+                defaultValue: '<c:out value="${inputData.swrmNatCd}"/>',
                 emptyValue: '',
                 width: 200,
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=CFRN_LOC_SCN_CD"/>',
@@ -62,6 +62,7 @@ var lvAttcFilId;
 			/* 제목 */
            var titlNm = new Rui.ui.form.LTextBox({
                 applyTo: 'titlNm',
+                defaultValue: '<c:out value="${inputData.titlNm}"/>',
                 width: 400
            });
 
@@ -74,6 +75,7 @@ var lvAttcFilId;
 			/* 등록자 */
            var rgstNm = new Rui.ui.form.LTextBox({
                applyTo: 'rgstNm',
+               defaultValue: '<c:out value="${inputData.rgstNm}"/>',
                width: 200
            });
 
@@ -89,6 +91,7 @@ var lvAttcFilId;
 				applyTo: 'swrmStrtDt',
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
+				defaultValue: '<c:out value="${inputData.swrmStrtDt}"/>',
 // 				defaultValue: new Date(),
 				//defaultValue : new Date().add('Y', parseInt(-1, 10)),		// default -1년
 				width: 100,
@@ -119,6 +122,7 @@ var lvAttcFilId;
 				applyTo: 'swrmFnhDt',
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
+				defaultValue: '<c:out value="${inputData.swrmFnhDt}"/>',
 				//defaultValue: new Date(),
 				width: 100,
 				dateType: 'string'
@@ -326,7 +330,7 @@ var lvAttcFilId;
   		    	paging(showDataSet,"defaultGrid");
   	      	});
 
-           getShowList();
+           //getShowList();
        });
 </script>
 
@@ -374,10 +378,25 @@ function fncExcelDown() {
     paging(showDataSet,"defaultGrid");
 
 }
+
+init = function() {
+	   var titlNm='${inputData.titlNm}';
+	   var rgstNm='${inputData.rgstNm}';
+	   showDataSet.load({
+         url: '<c:url value="/knld/pub/getShowList.do"/>',
+         params :{
+         	titlNm : escape(encodeURIComponent(titlNm)),
+         	rgstNm : escape(encodeURIComponent(rgstNm)),
+         	swrmNatCd : '${inputData.swrmNatCd}',
+         	swrmStrtDt : '${inputData.swrmStrtDt}',
+         	swrmFnhDt : '${inputData.swrmFnhDt}'
+         }
+     });
+ }
 </script>
 
     </head>
-    <body>
+    <body onload="init();">
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>

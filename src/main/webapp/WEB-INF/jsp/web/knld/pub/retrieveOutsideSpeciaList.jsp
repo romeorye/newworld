@@ -42,6 +42,7 @@ var lvAttcFilId;
 			/* 기관명 */
            var instNm = new Rui.ui.form.LTextBox({
                 applyTo: 'instNm',
+                defaultValue: '<c:out value="${inputData.instNm}"/>',
                 width: 400
            });
 
@@ -54,6 +55,7 @@ var lvAttcFilId;
 			/* 사외전문가명 */
            var spltNm = new Rui.ui.form.LTextBox({
                applyTo: 'spltNm',
+               defaultValue: '<c:out value="${inputData.spltNm}"/>',
                width: 200
            });
 
@@ -66,6 +68,7 @@ var lvAttcFilId;
 			/* 대표분야 */
            var repnSphe = new Rui.ui.form.LTextBox({
                applyTo: 'repnSphe',
+               defaultValue: '<c:out value="${inputData.repnSphe}"/>',
                width: 400
           });
 

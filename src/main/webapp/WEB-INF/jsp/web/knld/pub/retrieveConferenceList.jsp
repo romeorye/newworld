@@ -47,7 +47,7 @@ var lvAttcFilId;
                 name: 'cfrnLocScnCd',
                 useEmptyText: true,
                 emptyText: '전체',
-                defaultValue: '',
+                defaultValue: '<c:out value="${inputData.cfrnLocScnCd}"/>',
                 emptyValue: '',
                 width: 200,
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=CFRN_LOC_SCN_CD"/>',
@@ -64,6 +64,7 @@ var lvAttcFilId;
 			/* 제목 */
            var titlNm = new Rui.ui.form.LTextBox({
                 applyTo: 'titlNm',
+                defaultValue: '<c:out value="${inputData.titlNm}"/>',
                 width: 400
            });
 
@@ -76,6 +77,7 @@ var lvAttcFilId;
 			/* 등록자 */
            var rgstNm = new Rui.ui.form.LTextBox({
                applyTo: 'rgstNm',
+               defaultValue: '<c:out value="${inputData.rgstNm}"/>',
                width: 200
            });
 
@@ -91,6 +93,7 @@ var lvAttcFilId;
 				applyTo: 'cfrnStrtDt',
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
+				defaultValue: '<c:out value="${inputData.cfrnStrtDt}"/>',
 				//defaultValue: new Date(),
 				//defaultValue : new Date().add('Y', parseInt(-1, 10)),		// default -1년
 				width: 100,
@@ -121,6 +124,7 @@ var lvAttcFilId;
 				applyTo: 'cfrnFnhDt',
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
+				defaultValue: '<c:out value="${inputData.cfrnFnhDt}"/>',
 				//defaultValue: new Date(),
 				width: 100,
 				dateType: 'string'
@@ -326,7 +330,7 @@ var lvAttcFilId;
   		    	paging(conferenceDataSet,"defaultGrid");
   	      	});
 
-           getConferenceList();
+           //getConferenceList();
        });//onReady 끝
 </script>
 
@@ -353,6 +357,7 @@ function fncConferenceRgstPage(record) {
 
 }
 
+
 <%--/*******************************************************************************
 * FUNCTION 명 : fncExcelDown (default Grid 엑셀다운)
 * FUNCTION 기능설명 : 프로젝트 현황 목록 엑셀다운(추가조회, 추가 그리드 없음)
@@ -374,12 +379,26 @@ function fncExcelDown() {
     paging(conferenceDataSet,"defaultGrid");
 }
 
+init = function() {
+	var titlNm='${inputData.titlNm}';
+	conferenceDataSet.load({
+         url: '<c:url value="/knld/pub/getConferenceList.do"/>',
+         params :{
+         	titlNm : escape(encodeURIComponent(titlNm)),
+         	rgstNm : escape(encodeURIComponent('${inputData.rgstNm}')),
+         	cfrnLocScnCd : '${inputData.cfrnLocScnCd}',
+         	cfrnStrtDt : '${inputData.cfrnStrtDt}',
+         	cfrnFnhDt : '${inputData.cfrnFnhDt}'
+         }
+     });
+ }
+
 
 
 </script>
 
     </head>
-    <body>
+    <body onload="init();">
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>

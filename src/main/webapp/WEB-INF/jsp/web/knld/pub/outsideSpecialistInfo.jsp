@@ -210,8 +210,9 @@
 
     		/* [버튼] 목록 */
             goOutSpclList = function() {
-            	$(location).attr('href', '<c:url value="/knld/pub/retrieveOutsideSpeciaList.do"/>');
-            };
+            	//$(location).attr('href', '<c:url value="/knld/pub/retrieveOutsideSpeciaList.do"/>');
+            	nwinsActSubmit(document.searchForm, "<c:url value='/knld/pub/retrieveOutsideSpeciaList.do'/>");
+    		};
 
             /* 수정/삭제버튼 */
             saveBtn = new Rui.ui.LButton('saveBtn');
@@ -289,6 +290,12 @@
     </head>
 
     <body>
+<form name="searchForm" id="searchForm"  method="post">
+	<input type="hidden" name="instNm" value="${inputData.instNm}"/>
+	<input type="hidden" name="spltNm" value="${inputData.spltNm}"/>
+	<input type="hidden" name=repnSphe value="${inputData.repnSphe}"/>
+	<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form>
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>

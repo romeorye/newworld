@@ -43,6 +43,7 @@ var affrClGroup = '${inputData.affrClId}';
 			/* 제목 */
            var titlNm = new Rui.ui.form.LTextBox({
                 applyTo: 'titlNm',
+                defaultValue: '<c:out value="${inputData.titlNm}"/>',
                 width: 400
            });
 
@@ -55,6 +56,7 @@ var affrClGroup = '${inputData.affrClId}';
 			/* 등록자 */
            var rgstNm = new Rui.ui.form.LTextBox({
                applyTo: 'rgstNm',
+               defaultValue: '<c:out value="${inputData.rgstNm}"/>',
                width: 200
            });
 
@@ -295,7 +297,7 @@ function fncExcelDown() {
 
     if( prdtListDataSet.getCount() > 0){
         var excelColumnModel = columnModel.createExcelColumnModel(false);
-        duplicateExcelGrid(excelColumnModel);        
+        duplicateExcelGrid(excelColumnModel);
     	//prdtListGrid.saveExcel(toUTF8('연구산출물 목록_') + new Date().format('%Y%m%d') + '.xls');
  	   if(affrClGroup == "molecule"){
  		  nG.saveExcel(toUTF8('고분자재료 Lab') + new Date().format('%Y%m%d') + '.xls');

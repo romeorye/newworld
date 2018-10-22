@@ -124,6 +124,7 @@ var fxaRlisApprDialog;
 		//실사명 combo
 		var rlisTrmNm = new Rui.ui.form.LTextBox({         // LTextBox개체를 선언
 	        applyTo: 'rlisTrmNm',                          // 해당 DOM Id 위치에 텍스트박스를 적용
+	        defaultValue: '<c:out value="${inputData.rlisTrmNm}"/>',
 	        width: 400,                                 // 텍스트박스 폭을 설정
 	        placeholder: '',     						// [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                          // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
@@ -149,6 +150,7 @@ var fxaRlisApprDialog;
 		var cbRlisClCd = new Rui.ui.form.LCombo({
 			applyTo : 'rlisClCd',
 			name : 'rlisClCd',
+			defaultValue: '<c:out value="${inputData.rlisClCd}"/>',
 			width: 200,
 	        url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=FXA_RLIS_CL_CD"/>',
 	    	displayField: 'COM_DTL_NM',
@@ -162,6 +164,7 @@ var fxaRlisApprDialog;
 		//담당자
 		var crgrNm = new Rui.ui.form.LTextBox({         // LTextBox개체를 선언
 	        applyTo: 'crgrNm',                          // 해당 DOM Id 위치에 텍스트박스를 적용
+	        defaultValue: '<c:out value="${inputData.crgrNm}"/>',
 	        width: 400,                                 // 텍스트박스 폭을 설정
 	        placeholder: '',     						// [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                          // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
@@ -170,6 +173,7 @@ var fxaRlisApprDialog;
 		//프로젝트명
 		var prjNm = new Rui.ui.form.LTextBox({         // LTextBox개체를 선언
 	        applyTo: 'prjNm',                          // 해당 DOM Id 위치에 텍스트박스를 적용
+	        defaultValue: '<c:out value="${inputData.prjNm}"/>',
 	        width: 400,                                 // 텍스트박스 폭을 설정
 	        placeholder: '',     						// [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                          // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
@@ -178,6 +182,7 @@ var fxaRlisApprDialog;
 		//자산class
 		var rlisFxaClss = new Rui.ui.form.LTextBox({         // LTextBox개체를 선언
 	        applyTo: 'rlisFxaClss',                          // 해당 DOM Id 위치에 텍스트박스를 적용
+	        defaultValue: '<c:out value="${inputData.rlisFxaClss}"/>',
 	        width: 400,                                 // 텍스트박스 폭을 설정
 	        placeholder: '',     						// [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                          // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
@@ -199,7 +204,7 @@ var fxaRlisApprDialog;
         }
 
         // 화면로드시 조회
-	    fnSearch();
+	    //fnSearch();
 
 
 	    /* 엑셀 다운로드 */
@@ -240,9 +245,25 @@ nG.saveExcel(encodeURIComponent('자산실사_') + new Date().format('%Y%m%d') +
 
 	});		//end ready
 
+	init = function() {
+ 	   var rlisTrmNm='${inputData.rlisTrmNm}';
+ 	   var prjNm='${inputData.prjNm}';
+ 	   var crgrNm='${inputData.crgrNm}';
+ 	   var rlisFxaClss='${inputData.rlisFxaClss}';
+       	dataSet.load({
+             url: '<c:url value="/fxa/rlis/retrieveFxaRlisSearchList.do"/>',
+             params :{
+            	 rlisTrmNm : escape(encodeURIComponent(rlisTrmNm)),
+            	 prjNm : escape(encodeURIComponent(prjNm)),
+            	 crgrNm : escape(encodeURIComponent(crgrNm)),
+             	rlisClCd : '${inputData.rlisClCd}'
+             }
+         });
+     }
+
 </script>
 </head>
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">
+<body onload="init();">
     		<div class="contents">
     			<div class="titleArea">
     				<a class="leftCon" href="#">

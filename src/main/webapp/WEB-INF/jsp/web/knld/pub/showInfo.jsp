@@ -201,8 +201,10 @@
 
     		/* [버튼] 목록 */
             goShowList = function() {
-            	$(location).attr('href', '<c:url value="/knld/pub/retrieveShowList.do"/>');
-            };
+            	//$(location).attr('href', '<c:url value="/knld/pub/retrieveShowList.do"/>');
+            	nwinsActSubmit(document.searchForm, "<c:url value='/knld/pub/retrieveShowList.do'/>");
+            	searchForm
+    		};
 
             /* 수정/삭제버튼 */
             saveBtn = new Rui.ui.LButton('saveBtn');
@@ -273,6 +275,14 @@
     </head>
 
     <body>
+<form name="searchForm" id="searchForm"  method="post">
+	<input type="hidden" name="titlNm" value="${inputData.titlNm}"/>
+	<input type="hidden" name="swrmNatCd" value="${inputData.swrmNatCd}"/>
+	<input type="hidden" name=swrmStrtDt value="${inputData.swrmStrtDt}"/>
+	<input type="hidden" name=swrmFnhDt value="${inputData.swrmFnhDt}"/>
+	<input type="hidden" name=rgstNm value="${inputData.rgstNm}"/>
+	<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form>
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
