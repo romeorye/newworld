@@ -32,7 +32,7 @@
     var lvTssSt  = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
     
-    var pageMode = (lvTssSt == "100" || lvTssSt == "") && (lvPageMode == "W" || lvPageMode == "") ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302") && (lvPageMode == "W" || lvPageMode == "") ? "W" : "R";
     
     var dataSet1;
     var dataSet2;
