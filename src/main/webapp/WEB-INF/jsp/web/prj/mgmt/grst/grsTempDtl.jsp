@@ -372,7 +372,7 @@
         /* [버튼] 목록 */
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
-            nwinsActSubmit(document.xform, "<c:url value='/prj/mgmt/grst/grsTempList.do'/>");
+            nwinsActSubmit(searchForm, "<c:url value='/prj/mgmt/grst/grsTempList.do'/>");
         });
 
 
@@ -418,6 +418,13 @@
 </head>
 
 <body>
+<form name="searchForm" id="searchForm"  method="post">
+	<input type="hidden" name="evSbcNmSch" value="${inputData.evSbcNmSch}"/>
+	<input type="hidden" name="grsYSch" value="${inputData.grsYSch}"/>
+	<input type="hidden" name=grsTypeSch value="${inputData.grsTypeSch}"/>
+	<input type="hidden" name=useYnSch value="${inputData.useYnSch}"/>
+	<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form>
     <div class="contents">
         <div class="titleArea">
         	<a class="leftCon" href="#">

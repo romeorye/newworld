@@ -308,8 +308,14 @@ var dataSet01;
 </head>
 
 <body>
-	<form  id="aform" name="aform">
+	<form  id="aform" name="aform" method="post">
 	<input type="hidden" id="prjCd" value="<c:out value='${inputData.prjCd}'/>"/>
+	<input type="hidden" name="wbsCd" value="${inputData.wbsCd}"/>
+	<input type="hidden" name="prjNm" value="${inputData.prjNm}"/>
+	<input type="hidden" name="saName" value="${inputData.saName}"/>
+	<input type="hidden" name="deptName" value="${inputData.deptName}"/>
+	<input type="hidden" name="fromDate" value="${inputData.fromDate}"/>
+	<input type="hidden" name="toDate" value="${inputData.toDate}"/>
 	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 <!--
 	<div class="titArea">

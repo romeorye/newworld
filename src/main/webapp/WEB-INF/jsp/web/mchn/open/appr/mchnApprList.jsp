@@ -165,7 +165,7 @@
 			});
 		};
 
-		fnSearch();
+		//fnSearch();
 
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
@@ -187,11 +187,26 @@ nG.saveExcel(encodeURIComponent('분석기기 예약관리_') + new Date().forma
         	// 목록 페이징
             paging(dataSet,"mhcnGrid");
         });
+
+	init = function() {
+ 	   var prctTitl='${inputData.prctTitl}';
+ 	   var rgstNm='${inputData.rgstNm}';
+ 	   var mchnNm='${inputData.mchnNm}';
+       	dataSet.load({
+             url: '<c:url value="/mchn/open/appr/retrieveMchnApprSearchList.do"/>',
+             params :{
+            	 prctTitl : escape(encodeURIComponent(prctTitl)),
+             	rgstNm : escape(encodeURIComponent(rgstNm)),
+             	mchnNm : escape(encodeURIComponent(mchnNm)),
+             	prctScnCd : '${inputData.prctScnCd}'
+             }
+         });
+     }
 	});		//end ready
 
 </script>
 </head>
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">
+<body onload="init();" onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">
 		 <div class="titleArea">
 		 	<a class="leftCon" href="#">

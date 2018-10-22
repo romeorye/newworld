@@ -217,7 +217,7 @@
 			});
 		};
 
-		fnSearch();
+		//fnSearch();
 
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
@@ -240,12 +240,28 @@ nG.saveExcel(encodeURIComponent('신뢰성시험장비 예약관리_') + new Dat
         	paging(dataSet,"mhcnGrid");
         });
 
+        init = function() {
+     	   var prctTitl='${inputData.prctTitl}';
+     	   var rgstNm='${inputData.rgstNm}';
+     	   var mchnNm='${inputData.mchnNm}';
+           	dataSet.load({
+                 url: '<c:url value="/mchn/mgmt/rlabTestEqipPrctMgmtList.do"/>',
+                 params :{
+                	 prctTitl : escape(encodeURIComponent(prctTitl)),
+                 	rgstNm : escape(encodeURIComponent(rgstNm)),
+                 	mchnNm : escape(encodeURIComponent(mchnNm)),
+                 	prctScnCd : '${inputData.prctScnCd}',
+                 	rlabClCd : '${inputData.rlabClCd}'
+                 }
+             });
+         }
+
 
 	});		//end ready
 
 </script>
 </head>
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">
+<body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
 	<div class="contents">
 		 <div class="titleArea">
 		 	<a class="leftCon" href="#">

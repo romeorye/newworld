@@ -397,7 +397,7 @@ nG.saveExcel(encodeURIComponent('과제관리_국책과제') + new Date().format
 	    };
  */
 
-	    fnSearch();
+	    //fnSearch();
 	    disableFields();
 
 	    if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
@@ -407,6 +407,29 @@ nG.saveExcel(encodeURIComponent('과제관리_국책과제') + new Date().format
     	}
 
         butTssNew.hide();
+
+
+        init = function() {
+     	   var wbsCd='${inputData.wbsCd}';
+     	   var tssNm='${inputData.tssNm}';
+     	   var saUserName='${inputData.saUserName}';
+     	   var deptName='${inputData.deptName}';
+     	   var prjNm='${inputData.prjNm}';
+           	dataSet.load({
+                 url: '<c:url value="/prj/tss/nat/retrieveNatTssList.do"/>',
+                 params :{
+                	 wbsCd : escape(encodeURIComponent(wbsCd)),
+                	 tssNm : escape(encodeURIComponent(tssNm)),
+                	 saUserName : escape(encodeURIComponent(saUserName)),
+                	 deptName : escape(encodeURIComponent(deptName)),
+                	 prjNm : escape(encodeURIComponent(prjNm)),
+                 	ttlCrroStrtDt : '${inputData.ttlCrroStrtDt}',
+                 	ttlCrroFnhDt : '${inputData.ttlCrroFnhDt}',
+                 	pgsStepCd : '${inputData.pgsStepCd}'
+                 }
+             });
+         }
+
     });
 /*
     //과제리더 팝업 셋팅
@@ -418,7 +441,7 @@ nG.saveExcel(encodeURIComponent('과제관리_국책과제') + new Date().format
 
 
 </head>
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">
+<body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">

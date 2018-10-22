@@ -26,15 +26,15 @@
 
 <script type="text/javascript">
     var gvTssCd     = "";
-    var gvUserId    = "${inputData._userId}"; 
-    var gvPgsStepCd = "PG"; //진행상태:PG(진행) 
-    var gvTssSt     = ""; 
-    var gvWbsCd     = ""; 
-    var gvPageMode  = ""; 
-    
+    var gvUserId    = "${inputData._userId}";
+    var gvPgsStepCd = "PG"; //진행상태:PG(진행)
+    var gvTssSt     = "";
+    var gvWbsCd     = "";
+    var gvPageMode  = "";
+
     var pgsStepNm = "";
     var dataSet;
-    
+
     //Form
     var prjNm;
     var deptName;
@@ -48,19 +48,19 @@
     var tssFnhDd;
 
     var altrHistDialog;
-    
+
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
         ============================================================================*/
         //form 비활성화 여부
         var disableFields = function(disable) {
-            
+
             //버튼여부
             btnGrsRq.hide();
-            
+
             var pTssRoleId = stringNullChk(dataSet.getNameValue(0, "tssRoleId"));
-            
+
             //조건에 따른 보이기
             if(pTssRoleId != "TR05" && pTssRoleId != "") {
                 if(gvTssSt == "100") btnGrsRq.show(); //GRS - 100:작성중
@@ -70,7 +70,7 @@
         /*============================================================================
         =================================    DataSet     =============================
         ============================================================================*/
-        //DataSet 설정 
+        //DataSet 설정
         dataSet = new Rui.data.LJsonDataSet({
             id: 'mstDataSet',
             remainRemoved: true,
@@ -114,25 +114,25 @@
              gvWbsCd     = stringNullChk(dataSet.getNameValue(0, "pkWbsCd"));
              gvCooInstCd = stringNullChk(dataSet.getNameValue(0, "cooInstCd"));
              gvPageMode  = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
-            
+
            disableFields();
-            
+
             tabView.selectTab(0);
         });
-        
+
 
         altrHistDialog = new Rui.ui.LFrameDialog({
-    	        id: 'altrHistDialog', 
+    	        id: 'altrHistDialog',
     	        title: '변경이력상세',
     	        width: 800,
     	        height: 650,
     	        modal: true,
     	        visible: false
     	});
-    	    
+
         altrHistDialog.render(document.body);
-       
-        //폼에 출력 
+
+        //폼에 출력
         var bind = new Rui.data.LBind({
             groupId: 'mstFormDiv',
             dataSet: dataSet,
@@ -155,7 +155,7 @@
 
             ]
         });
-        
+
         /*============================================================================
         =================================      Tab       =============================
         ============================================================================*/
@@ -170,16 +170,16 @@
         });
         tabView.on('activeTabChange', function(e) {
             //iframe 숨기기
-            for(var i = 0; i < 5; i++) { 
+            for(var i = 0; i < 5; i++) {
                 if(i == e.activeIndex) {
                     Rui.get('tabContent' + i).show();
                 } else {
                     Rui.get('tabContent' + i).hide();
                 }
             }
-            
+
             var tabUrl = "";
-            
+
             switch(e.activeIndex) {
             //개요
             case 0:
@@ -198,11 +198,11 @@
             //비용지급실적
             case 2:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsExpStoaIfm.do?tssCd=" + gvTssCd + "'/>";    
+                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsExpStoaIfm.do?tssCd=" + gvTssCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
                 break;
-            //목표 및 산출물    
+            //목표 및 산출물
             case 3:
                 if(e.isFirst) {
                     tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsGoalYldIfm.do?tssCd=" + gvTssCd + "'/>";
@@ -221,41 +221,41 @@
             }
         });
         tabView.render('tabView');
-        
+
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
         var regDm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         regDm.on('success', function(e) {
             var regCntMap = JSON.parse(e.responseText)[0].records[0];
-            
+
             var errMsg = "";
             if(regCntMap.ousdSmryCnt <= 0)      errMsg = "개요를 입력해 주시기 바랍니다.";
             else if(regCntMap.comMbrCnt <= 0)   errMsg = "참여원구원을 입력해 주시기 바랍니다.";
             else if(regCntMap.ousdStoaCnt <= 0) errMsg = "비용지급실적을 입력해 주시기 바랍니다.";
             else if(regCntMap.comGoalCnt <= 0)  errMsg = "목표를 입력해 주시기 바랍니다.";
             else if(regCntMap.comYldCnt <= 0)   errMsg = "산출물을 입력해 주시기 바랍니다.";
-            
+
 //             if(errMsg != "") alert(errMsg);
 //             else {
                 if(regCntMap.gbn == "GRS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&callPageId=ousdCooTss");
 //                else if(regCntMap.gbn == "CSUS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPlnCsusRq.do'/>" + "?tssCd="+gvTssCd+"&userId="+gvUserId+"&appCode=APP00332");
 //             }
         });
-        
-        //GRS요청 
+
+        //GRS요청
         btnGrsRq = new Rui.ui.LButton('btnGrsRq');
         btnGrsRq.on('click', function() {
         	// 테이블 저장 체크
 			if(confirm("GRS요청을 하시겠습니까?")) {
 				regDm.update({
-                url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>', 
+                url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
                 params:'gbn=GRS&tssCd='+gvTssCd
            		});
 			}
         });
-        
-        //변경품의 
+
+        //변경품의
 /*         btnAltrRq = new Rui.ui.LButton('btnAltrRq');
         btnAltrRq.on('click', function() {
             Rui.confirm({
@@ -266,30 +266,30 @@
                 handlerNo: Rui.emptyFn
             });
         }); */
-        
 
-        //목록 
+
+        //목록
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {   
+        btnList.on('click', function() {
 			$('#searchForm > input[name=tssNm]').val(encodeURIComponent($('#searchForm > input[name=tssNm]').val()));
 			$('#searchForm > input[name=saUserName]').val(encodeURIComponent($('#searchForm > input[name=saUserName]').val()));
 			$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
-			
+
 			nwinsActSubmit(document.searchForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssList.do'/>");
         });
 
         //데이터 셋팅
-        if(${resultCnt} > 0) { 
-            dataSet.loadData(${result}); 
+        if(${resultCnt} > 0) {
+            dataSet.loadData(${result});
         }
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#btnGrsRq").hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#btnGrsRq").hide();
 		}
     });
-    
+
     function fncOusdCooTssAltrDetail(cd) {
     	var params = "?tssCd="+cd;
    		altrHistDialog.setUrl('<c:url value="/prj/tss/ousdCoo/ousdCooTssAltrDetailPopup.do"/>'+params);
@@ -308,9 +308,10 @@
 	<input type="hidden" name="prjNm" value="${inputData.prjNm}"/>
 	<input type="hidden" name="pgsStepCd" value="${inputData.pgsStepCd}"/>
 	<input type="hidden" name="tssSt" value="${inputData.tssSt}"/>
+	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 </form>
     <Tag:saymessage /><%--<!--  sayMessage 사용시 필요 -->--%>
-    
+
     <div class="contents">
         <div class="titleArea">
         	<a class="leftCon" href="#">
@@ -357,7 +358,7 @@
                                         <span id="tssNm"></span>
                                     </td>
                                 </tr>
-                                
+
                                 <tr>
                                 	<th align="right">과제리더</th>
                                     <td>
@@ -367,7 +368,7 @@
                                     <td>
                                         <span id="bizDptNm"></span>
                                     </td>
-                                    
+
                                 </tr>
                                 <tr>
                                     <th align="right">협력기관(기관명/소속/성명)</th>
@@ -376,7 +377,7 @@
                                     </td>
                                     <th align="right">과제기간</th>
                                     <td>
-                                        <span id="tssStrtDd"></span> ~ 
+                                        <span id="tssStrtDd"></span> ~
                                         <span id="tssFnhDd"></span>
                                     </td>
                                 </tr>
@@ -406,11 +407,11 @@
                         </table>
                     </fieldset>
                 </form>
-            </div>    
+            </div>
             <br/>
-            
+
             <div id="tabView"></div>
-            
+
             <form name="tabForm" id="tabForm" method="post">
                 <iframe name="tabContent0" id="tabContent0" scrolling="yes" width="100%" height="600px" frameborder="0" ></iframe>
                 <iframe name="tabContent1" id="tabContent1" scrolling="yes" width="100%" height="600px" frameborder="0" ></iframe>

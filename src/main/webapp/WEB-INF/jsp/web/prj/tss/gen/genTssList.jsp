@@ -566,7 +566,7 @@ nG.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().forma
         });
 
 
-        fnSearch();
+        //fnSearch();
         disableFields();
 
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
@@ -578,6 +578,27 @@ nG.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().forma
         butTssNew.hide();
 
         // setGridFullHeight(grid,"defaultGrid");
+        init = function() {
+ 	   var wbsCd='${inputData.wbsCd}';
+ 	   var tssNm='${inputData.tssNm}';
+ 	   var saUserName='${inputData.saUserName}';
+ 	   var prjNm='${inputData.prjNm}';
+ 	   var deptName='${inputData.deptName}';
+       	dataSet.load({
+             url: '<c:url value="/prj/tss/gen/retrieveGenTssList.do"/>',
+             params :{
+            	 wbsCd : escape(encodeURIComponent(wbsCd)),
+            	 tssNm : escape(encodeURIComponent(tssNm)),
+            	 saUserName : escape(encodeURIComponent(saUserName)),
+            	 deptName : escape(encodeURIComponent(deptName)),
+            	 tssStrtDd : '${inputData.tssStrtDd}',
+     		    tssFnhDd : '${inputData.tssFnhDd}',
+     		   prjNm : escape(encodeURIComponent(prjNm)),
+     		  pgsStepCd : '${inputData.pgsStepCd}',
+     		 tssSt : '${inputData.tssSt}'
+             }
+         });
+     }
 
     });
 
@@ -598,6 +619,8 @@ nG.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().forma
         });
     }
 
+
+
 </script>
 <script>
 //과제리더 팝업 셋팅
@@ -614,7 +637,7 @@ function setDeptInfo(deptInfo) {
 </script>
 </head>
 
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">
+<body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">

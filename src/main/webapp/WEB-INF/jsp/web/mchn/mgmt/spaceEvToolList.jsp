@@ -182,7 +182,7 @@
 	         });
 	     }
 
-    	fnSearch();
+    	//fnSearch();
 
     	/* [버튼] 공간평가 Tool 등록호출 */
     	var butRgst = new Rui.ui.LButton('butRgst');
@@ -222,6 +222,22 @@ nG.saveExcel(encodeURIComponent('공간평가Tool_') + new Date().format('%Y%m%d
         	paging(dataSet,"mhcnGrid");
         });
 
+        init = function() {
+     	   var tool='${inputData.tool}';
+     	   var ver='${inputData.ver}';
+     	   var mchnCrgrNm='${inputData.mchnCrgrNm}';
+           	dataSet.load({
+                 url: '<c:url value="/mchn/mgmt/retrieveSpaceEvToolSearchList.do"/>',
+                 params :{
+                	 tool : escape(encodeURIComponent(tool)),
+                	 ver : escape(encodeURIComponent(ver)),
+                	 mchnClCd : '${inputData.mchnClCd}',
+                	 opnYn : '${inputData.opnYn}',
+                	 mchnCrgrNm : escape(encodeURIComponent(mchnCrgrNm)),
+                	 mchnUsePsblYn : '${inputData.mchnUsePsblYn}'
+                 }
+             });
+         }
 
 	});    //end ready
 
@@ -229,7 +245,7 @@ nG.saveExcel(encodeURIComponent('공간평가Tool_') + new Date().format('%Y%m%d
 
 </script>
 </head>
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">
+<body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
 	<div class="contents">
 		<div class="titleArea">
 			<a class="leftCon" href="#">

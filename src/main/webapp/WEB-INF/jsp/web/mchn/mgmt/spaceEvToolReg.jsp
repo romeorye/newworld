@@ -569,9 +569,9 @@ var firstLoad = "Y";	//화면오픈
 		</div>
 		<div class="sub-content">
 			<form name="searchForm" id="searchForm">
-				<input type="hidden" name="mchnNm" value="${inputData.mchnNm}"/>
+				<input type="hidden" name="tool" value="${inputData.tool}"/>
 				<input type="hidden" name="mchnClCd" value="${inputData.mchnClCd}"/>
-				<input type="hidden" name="fxaNo" value="${inputData.fxaNo}"/>
+				<input type="hidden" name="ver" value="${inputData.ver}"/>
 				<input type="hidden" name="opnYn" value="${inputData.opnYn}"/>
 				<input type="hidden" name="mchnCrgrNm" value="${inputData.mchnCrgrNm}"/>
 				<input type="hidden" name="mchnUsePsblYn" value="${inputData.mchnUsePsblYn}"/>

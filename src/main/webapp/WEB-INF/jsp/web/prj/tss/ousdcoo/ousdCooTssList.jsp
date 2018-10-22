@@ -515,7 +515,7 @@ nG.saveExcel(encodeURIComponent('대외협력 과제관리_') + new Date().forma
         });
 
         // 화면로딩시 조회
-        fnSearch();
+        //fnSearch();
         disableFields();
 
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
@@ -526,13 +526,36 @@ nG.saveExcel(encodeURIComponent('대외협력 과제관리_') + new Date().forma
 
 
         butTssNew.hide();
+
+        init = function() {
+     	   var wbsCd='${inputData.wbsCd}';
+     	   var tssNm='${inputData.tssNm}';
+     	   var saUserName='${inputData.saUserName}';
+     	   var deptName='${inputData.deptName}';
+     	   var prjNm='${inputData.prjNm}';
+     	   var tssNm='${inputData.tssNm}';
+           	dataSet.load({
+                 url: '<c:url value="/prj/tss/ousdcoo/retrieveOusdCooTssList.do"/>',
+                 params :{
+                	 wbsCd : escape(encodeURIComponent(wbsCd)),
+                	 tssNm : escape(encodeURIComponent(tssNm)),
+                 	saUserName : escape(encodeURIComponent(saUserName)),
+                 	deptName : escape(encodeURIComponent(deptName)),
+                 	tssStrtDd : '${inputData.tssStrtDd}',
+                 	tssFnhDd : '${inputData.tssFnhDd}',
+                 	prjNm : escape(encodeURIComponent(prjNm)),
+                 	pgsStepCd : '${inputData.pgsStepCd}',
+                 	tssSt : '${inputData.tssSt}'
+                 }
+             });
+         }
     });
 
 
 </script>
 <!-- <script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script> -->
 </head>
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">
+<body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
     <Tag:saymessage />
 
     <div class="contents">

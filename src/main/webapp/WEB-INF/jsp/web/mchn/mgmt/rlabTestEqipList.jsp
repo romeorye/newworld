@@ -206,7 +206,7 @@
 	         });
 	     }
 
-    	fnSearch();
+    	//fnSearch();
 
      	/* [버튼] 신뢰성시험 장비 등록호출 */
     	var butRgst = new Rui.ui.LButton('butRgst');
@@ -236,6 +236,22 @@ nG.saveExcel(encodeURIComponent('신뢰성시험 장비_') + new Date().format('
         	paging(dataSet,"mhcnGrid");
         });
 
+        init = function() {
+     	   var mchnNm='${inputData.mchnNm}';
+     	   var mchnCrgrNm='${inputData.mchnCrgrNm}';
+           	dataSet.load({
+                 url: '<c:url value="/mchn/mgmt/rlabTestEqipSearchList.do"/>',
+                 params :{
+                	 mchnNm : escape(encodeURIComponent(mchnNm)),
+                	 mchnCrgrNm : escape(encodeURIComponent(mchnCrgrNm)),
+                 	opnYn : '${inputData.opnYn}',
+                 	mchnLaclCd : '${inputData.mchnLaclCd}',
+                 	mchnClCd : '${inputData.mchnClCd}',
+                 	mchnUsePsblYn : '${inputData.mchnUsePsblYn}'
+                 }
+             });
+         }
+
 
 	});    //end ready
 
@@ -243,7 +259,7 @@ nG.saveExcel(encodeURIComponent('신뢰성시험 장비_') + new Date().format('
 </script>
 
 </head>
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">
+<body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
 	<div class="contents">
 		<div class="titleArea">
 		<a class="leftCon" href="#">

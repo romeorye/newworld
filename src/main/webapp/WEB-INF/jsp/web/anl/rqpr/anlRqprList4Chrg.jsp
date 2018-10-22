@@ -308,14 +308,33 @@ nG.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') +
                 });
             };
 
-            getAnlRqprList();
+            init = function() {
+         	   var anlNm='${inputData.anlNm}';
+         	   var rqprDeptNm='${inputData.rqprDeptNm}';
+         	   var anlChrgNm='${inputData.anlChrgNm}';
+         	   var rgstNm='${inputData.rgstNm}';
+         	  anlRqprDataSet.load({
+                     url: '<c:url value="/anl/getAnlRqprList.do"/>',
+                     params :{
+                    	 anlNm : escape(encodeURIComponent(anlNm)),
+                    	 rqprDeptNm : escape(encodeURIComponent(rqprDeptNm)),
+                    	 anlChrgNm : escape(encodeURIComponent(anlChrgNm)),
+                    	 rgstNm : escape(encodeURIComponent(rgstNm)),
+                     	fromRqprDt : '${inputData.fromRqprDt}',
+                     	toRqprDt : '${inputData.toRqprDt}',
+                     	acpcStCd : '${inputData.acpcStCd}'
+                     }
+                 });
+             }
+
+            //getAnlRqprList();
 
         });
 
 	</script>
 	<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
     </head>
-    <body onkeypress="if(event.keyCode==13) {getAnlRqprList();}">
+    <body onkeypress="if(event.keyCode==13) {getAnlRqprList();}" onload="init();">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprDeptCd" name="rqprDeptCd" value="<c:out value="${inputData.rqprDeptCd}"/>"/>
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>

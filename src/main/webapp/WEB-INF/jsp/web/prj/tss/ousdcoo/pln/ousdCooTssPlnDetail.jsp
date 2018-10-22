@@ -558,7 +558,7 @@
                     dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/ousdcoo/insertOusdCooTssPlnMst.do"/>',
-                        dataSets:[dataSet, smryDs] 
+                        dataSets:[dataSet, smryDs]
                     });
                 }else {								//수정
                     dm.updateDataSet({
@@ -655,7 +655,7 @@
 
         //최초 데이터 셋팅
         var resultCnt = Number('<c:out value="${resultCnt}"/>');
-       
+
         if(resultCnt > 0) {
             dataSet.loadData( ${result} );
 
@@ -669,9 +669,9 @@
 
 
 
-      	//목록 
+      	//목록
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {   
+        btnList.on('click', function() {
         	$('#searchForm > input[name=wbsCd]').val(encodeURIComponent($('#searchForm > input[name=wbsCd]').val()));
 			$('#searchForm > input[name=tssNm]').val(encodeURIComponent($('#searchForm > input[name=tssNm]').val()));
 			$('#searchForm > input[name=saUserName]').val(encodeURIComponent($('#searchForm > input[name=saUserName]').val()));
@@ -680,7 +680,7 @@
 			$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
 			$('#searchForm > input[name=pgsStepCd]').val(encodeURIComponent($('#searchForm > input[name=pgsStepCd]').val()));
 			$('#searchForm > input[name=tssSt]').val(encodeURIComponent($('#searchForm > input[name=tssSt]').val()));
-			
+
             nwinsActSubmit(document.searchForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssList.do'/>");
         });
 
@@ -715,6 +715,7 @@ function setPrjInfo(prjInfo) {
 	<input type="hidden" name="prjNm" value="${inputData.prjNm}"/>
 	<input type="hidden" name="pgsStepCd" value="${inputData.pgsStepCd}"/>
 	<input type="hidden" name="tssSt" value="${inputData.tssSt}"/>
+	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 </form>
 
     <Tag:saymessage /><%--<!--  sayMessage 사용시 필요 -->--%>

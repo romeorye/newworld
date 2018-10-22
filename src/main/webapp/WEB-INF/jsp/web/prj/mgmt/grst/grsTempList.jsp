@@ -67,6 +67,7 @@
   		var grsYSch = new Rui.ui.form.LCombo({
         	applyTo: 'grsYSch',
             url: '<c:url value="/prj/tss/gen/retrieveGenTssGoalYy.do"/>',
+            defaultValue: '<c:out value="${inputData.grsYSch}"/>',
             displayField: 'goalYy',
             valueField: 'goalYy',
             rendererField: 'value',
@@ -213,13 +214,26 @@
         };
 
 
-        fncSearch();
+        //fncSearch();
+
+        init = function() {
+        	   var evSbcNmSch='${inputData.evSbcNmSch}';
+        	   mGridDataSet.load({
+                    url: '<c:url value="/prj/mgmt/grst/retrieveGrsTempList.do"/>',
+                    params :{
+                    	evSbcNmSch : escape(encodeURIComponent(evSbcNmSch)),
+                    	grsY : '${inputData.grsYSch}',
+                    	grsTypeSch : '${inputData.grsTypeSch}',
+                    	useYnSch : '${inputData.useYnSch}'
+                    }
+                });
+            }
    });
 
 </script>
 </head>
 
-<body onkeypress="if(event.keyCode==13) {fncSearch();}">
+<body onkeypress="if(event.keyCode==13) {fncSearch();}" onload="init();">
 <Tag:saymessage/><!--  sayMessage 사용시 필요 -->
 	<div class="contents" >
 			<div class="titleArea">

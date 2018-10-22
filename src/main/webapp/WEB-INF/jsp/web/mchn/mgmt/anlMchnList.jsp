@@ -189,7 +189,7 @@
 	         });
 	     }
 
-    	fnSearch();
+    	//fnSearch();
 
     	/* [버튼] 분석기기 등록호출 */
     	var butRgst = new Rui.ui.LButton('butRgst');
@@ -227,6 +227,23 @@ nG.saveExcel(encodeURIComponent('분석기기_') + new Date().format('%Y%m%d') +
         	paging(dataSet,"mhcnGrid");
         });
 
+        init = function() {
+     	   var mchnNm='${inputData.mchnNm}';
+     	   var fxaNo='${inputData.fxaNo}';
+     	   var mchnCrgrNm='${inputData.mchnCrgrNm}';
+           	dataSet.load({
+                 url: '<c:url value="/mchn/mgmt/retrieveAnlMchnSearchList.do"/>',
+                 params :{
+                	 mchnNm : escape(encodeURIComponent(mchnNm)),
+                	 fxaNo : escape(encodeURIComponent(fxaNo)),
+                	 mchnCrgrNm : escape(encodeURIComponent(mchnCrgrNm)),
+                 	mchnClCd : '${inputData.mchnClCd}',
+                 	opnYn : '${inputData.opnYn}',
+                 	mchnUsePsblYn : '${inputData.mchnUsePsblYn}'
+                 }
+             });
+         }
+
 
 	});    //end ready
 
@@ -238,7 +255,7 @@ nG.saveExcel(encodeURIComponent('분석기기_') + new Date().format('%Y%m%d') +
 .search-toggleBtn {display:none;}
 </style>
 </head>
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">
+<body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
 	<div class="contents">
 		<div class="titleArea">
 			<a class="leftCon" href="#">

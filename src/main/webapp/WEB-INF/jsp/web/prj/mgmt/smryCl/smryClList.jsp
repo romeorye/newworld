@@ -272,7 +272,28 @@
         };
 
 
-        fnSearch();
+        //fnSearch();
+        init = function() {
+        	   var wbsCd='${inputData.wbsCd}';
+        	   var tssNm='${inputData.tssNm}';
+        	   var saSabunNew='${inputData.saSabunNew}';
+        	   var deptName='${inputData.deptName}';
+        	   var prjNm='${inputData.prjNm}';
+              	dataSet.load({
+                    url: '<c:url value="/prj/mgmt/smryCl/retrieveSmryClList.do"/>',
+                    params :{
+                    	wbsCd : escape(encodeURIComponent(wbsCd)),
+                    	tssNm : escape(encodeURIComponent(tssNm)),
+                    	saSabunNew : escape(encodeURIComponent(saSabunNew)),
+                    	deptName : escape(encodeURIComponent(deptName)),
+                    	prjNm : escape(encodeURIComponent(prjNm)),
+                    	tssStrtDd : '${inputData.tssStrtDd}',
+                    	tssFnhDd : '${inputData.tssFnhDd}',
+                    	tssStrtDd : '${inputData.tssStrtDd}',
+                    	pgsStepCd : '${inputData.pgsStepCd}'
+                    }
+                });
+            }
     });
 </script>
 <script>
@@ -288,7 +309,7 @@ function setDeptInfo(deptInfo) {
 </script>
 <%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 </head>
-<body>
+<body onload="init();">
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">

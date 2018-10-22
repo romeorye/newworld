@@ -1274,6 +1274,7 @@
 		<input type="hidden" name="anlChrgNm" value="${inputData.anlChrgNm}"/>
 		<input type="hidden" name="acpcNo" value="${inputData.acpcNo}"/>
 		<input type="hidden" name="acpcStCd" value="${inputData.acpcStCd}"/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
     </form>
     <form name="fileDownloadForm" id="fileDownloadForm">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>

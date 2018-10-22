@@ -79,6 +79,7 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
            /* 검색 내용 */
            var searchNm = new Rui.ui.form.LTextBox({
         	   applyTo: 'searchNm',
+        	   defaultValue: '<c:out value="${inputData.searchNm}"/>',
                width: 390
            });
 

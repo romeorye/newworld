@@ -49,7 +49,7 @@
     var tssAttrCd;
     var tssStrtDd;
     var tssFnhDd;
-    
+
     var altrHistDialog;
 
     var isEditable = false;
@@ -105,7 +105,7 @@
         bizDptCd.getDataSet().on('load', function(e) {
             console.log('bizDptCd :: load');
         });
-        
+
         //WBS Code
         wbsCd = new Rui.ui.form.LTextBox({
             applyTo: 'wbsCd',
@@ -198,7 +198,7 @@
                     return;
                 }
             }
-            
+
             if( !Rui.isEmpty(tssStrtDd.getValue()) && !Rui.isEmpty(tssFnhDd.getValue()) ){
             	document.getElementById('tabContent0').contentWindow.fncPtcCpsnYDisable(tssStrtDd.getValue(), tssFnhDd.getValue());
             }
@@ -209,7 +209,7 @@
             	document.getElementById('tabContent0').contentWindow.fncPtcCpsnYDisable(tssStrtDd.getValue(), tssFnhDd.getValue());
             }
         });
-        
+
         // 과제기간 종료일
         tssFnhDd = new Rui.ui.form.LDateBox({
             applyTo: 'tssFnhDd',
@@ -242,7 +242,7 @@
             	document.getElementById('tabContent0').contentWindow.fncPtcCpsnYDisable(tssStrtDd.getValue(), tssFnhDd.getValue());
             }
         });
-        
+
       //연구분야
         rsstSphe = new Rui.ui.form.LCombo({
             applyTo: 'rsstSphe',
@@ -254,11 +254,11 @@
             valueField: 'COM_DTL_CD',
             width: 150
         });
-        
+
         rsstSphe.getDataSet().on('load', function(e) {
             console.log('rsstSphe :: load');
         });
-        
+
         //유형
         tssType = new Rui.ui.form.LCombo({
             applyTo: 'tssType',
@@ -275,18 +275,18 @@
         tssType.getDataSet().on('load', function(e) {
             console.log('tssType :: load');
         });
-        
+
         altrHistDialog = new Rui.ui.LFrameDialog({
-   	        id: 'altrHistDialog', 
+   	        id: 'altrHistDialog',
    	        title: '변경이력상세',
    	        width: 800,
    	        height: 650,
    	        modal: true,
    	        visible: false
    	    });
-    	    
+
        	altrHistDialog.render(document.body);
-       	
+
         //form 비활성화 여부
         var disableFields = function(disable) {
             //버튼
@@ -408,7 +408,7 @@
             pgsStepCd = stringNullChk(dataSet.getNameValue(0, "pgsStepCd"));
             gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt"));
 
-            
+
             //최초 로그인사용자 정보 셋팅
             if(gvTssCd == "") {
                 dataSet.setNameValue(0, "prjCd", "${userMap.prjCd}");          //프로젝트코드
@@ -614,9 +614,9 @@
         var regDm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         regDm.on('success', function(e) {
             var regCntMap = JSON.parse(e.responseText)[0].records[0];
-            
+
             var errMsg = "";
-            
+
             //계획
           	if(regCntMap.genSmryCnt <= 0)       errMsg = "개요를 입력해 주시기 바랍니다.";
               else if(regCntMap.genWbsCnt < 1)  errMsg = "WBS를 입력해 주시기 바랍니다.";
@@ -700,16 +700,16 @@
             var pmisTxt = document.getElementById('tabContent0').contentWindow.smryForm.pmisTxt.value;
             var bizDpt = bizDptCd.getValue();
             var bizDptNm = bizDptCd.getDisplayValue();
-            
+
             if(  bizDpt == "07" || bizDpt == "08" || bizDpt == "09"  ){
             	var bizMsg =  bizDptNm+" 사업부문일경우 지적재산팀 검토의견을 입력하셔야 합니다";
-            	
+
             	if( Rui.isEmpty(pmisTxt)){
             		alert(bizMsg);
             		return;
             	}
             }
-            
+
             if(confirm("저장하시겠습니까?")) {
                 dataSet.setNameValue(0, "pgsStepCd", "PL"); //진행단계: PL(계획)
                 dataSet.setNameValue(0, "tssScnCd", "G");   //과제구분: G(일반)
@@ -725,7 +725,7 @@
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/gen/insertGenTssPlnMst.do"/>',
                         dataSets:[dataSet, smryDs]
-                    }); 
+                    });
                 }
                 //수정
                 else {
@@ -733,7 +733,7 @@
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/gen/updateGenTssPlnMst.do"/>',
                         dataSets:[dataSet, smryDs]
-                    });  
+                    });
                 }
             }
         };
@@ -801,13 +801,13 @@
 
    	    };
 
-   		//목록 
+   		//목록
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {   
+        btnList.on('click', function() {
 			$('#searchForm > input[name=tssNm]').val(encodeURIComponent($('#searchForm > input[name=tssNm]').val()));
 			$('#searchForm > input[name=saUserName]').val(encodeURIComponent($('#searchForm > input[name=saUserName]').val()));
 			$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
-			
+
             nwinsActSubmit(document.searchForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
         });
 
@@ -822,7 +822,7 @@
         }
 
         disableFields();
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#btnDelRq").hide();
         	$("#btnGrsRq").hide();
@@ -833,7 +833,7 @@
         	$("#btnCsusRq").hide();
 		}
     });
-    
+
 </script>
 <script type="text/javascript">
 //과제리더 팝업 셋팅
@@ -871,6 +871,7 @@ function fncGenTssAltrDetail(cd) {
 	<input type="hidden" name="prjNm" value="${inputData.prjNm}"/>
 	<input type="hidden" name="pgsStepCd" value="${inputData.pgsStepCd}"/>
 	<input type="hidden" name="tssSt" value="${inputData.tssSt}"/>
+	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 </form>
 
     <Tag:saymessage />
@@ -927,7 +928,7 @@ function fncGenTssAltrDetail(cd) {
                                     <td colspan="3">
                                         <span id='seed'></span><input type="text" id="wbsCd" /> / <em class="gab"><input type="text" id="tssNm" style="width:900px;padding:0px 5px" />
                                     </td>
-                                </tr>                               
+                                </tr>
 								<tr>
 									<th align="right">과제리더</th>
                                     <td>
@@ -938,7 +939,7 @@ function fncGenTssAltrDetail(cd) {
                                         <div id="bizDptCd"></div>
                                     </td>
                                 </tr>
-                                
+
                                 <tr>
                                     <th align="right">발의주체</th>
                                     <td>

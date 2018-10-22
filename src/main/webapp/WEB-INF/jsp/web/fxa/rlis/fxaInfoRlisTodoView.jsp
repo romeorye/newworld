@@ -111,7 +111,8 @@
          }
 
          // 화면로드시 조회
- 	    fnSearch();
+ 	    fn
+ 	    Search();
 
         /* [버튼] : 자산실사 목록 화면이동 */
      	var butList = new Rui.ui.LButton('butList');

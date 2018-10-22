@@ -171,7 +171,7 @@
 			});
 		}
 
-		fnSearch();
+		//fnSearch();
 
 		 /* [버튼] 신규기기 등록호출 */
     	var butRgst = new Rui.ui.LButton('butRgst');
@@ -181,6 +181,20 @@
     	});
 
 
+    	init = function() {
+     	   var eduNm='${inputData.eduNm}';
+     	   var mchnNm='${inputData.mchnNm}';
+           	dataSet.load({
+                 url: '<c:url value="/mchn/open/eduAnl/retrieveMchnEduAnlSearchList.do"/>',
+                 params :{
+                	 eduNm : escape(encodeURIComponent(eduNm)),
+                	 mchnNm : escape(encodeURIComponent(mchnNm)),
+                 	eduScnCd : '${inputData.eduScnCd}',
+                 	pttYn : '${inputData.pttYn}'
+                 }
+             });
+         }
+
 	});		//end ready
 
 
@@ -189,7 +203,7 @@
 .search-toggleBtn {display:none;}
 </style>
 </head>
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">
+<body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
 	<div class="contents">
 		 <div class="titleArea">
 		 	<a class="leftCon" href="#">

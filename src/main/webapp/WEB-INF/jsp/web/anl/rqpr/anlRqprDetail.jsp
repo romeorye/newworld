@@ -993,7 +993,7 @@
 	</script>
     </head>
     <body>
-    <form name="searchForm" id="searchForm">
+    <form name="searchForm" id="searchForm" method="post">
 		<input type="hidden" name="anlNm" value="${inputData.anlNm}"/>
 		<input type="hidden" name="fromRqprDt" value="${inputData.fromRqprDt}"/>
 		<input type="hidden" name="toRqprDt" value="${inputData.toRqprDt}"/>
@@ -1002,6 +1002,7 @@
 		<input type="hidden" name="anlChrgNm" value="${inputData.anlChrgNm}"/>
 		<input type="hidden" name="acpcNo" value="${inputData.acpcNo}"/>
 		<input type="hidden" name="acpcStCd" value="${inputData.acpcStCd}"/>
+		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
     </form>
     <form name="fileDownloadForm" id="fileDownloadForm">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>

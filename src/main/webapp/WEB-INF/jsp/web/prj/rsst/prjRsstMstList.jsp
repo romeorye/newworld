@@ -49,6 +49,7 @@ Rui.onReady(function() {
 		applyTo: 'fromDate',
 		mask: '9999-99-99',
 		displayValue: '%Y-%m-%d',
+		defaultValue: '<c:out value="${inputData.fromDate}"/>',
 		//defaultValue: new Date(),
 //		defaultValue : new Date().add('Y', parseInt(-1, 10)),		// default -1년
 		width: 100,
@@ -66,6 +67,7 @@ Rui.onReady(function() {
 		applyTo: 'toDate',
 		mask: '9999-99-99',
 		displayValue: '%Y-%m-%d',
+		defaultValue: '<c:out value="${inputData.toDate}"/>',
 //		defaultValue: new Date(),
 		width: 100,
 		dateType: 'string'
@@ -81,6 +83,7 @@ Rui.onReady(function() {
 	var ltWbsCd = new Rui.ui.form.LTextBox({
     	applyTo: 'wbsCd',
     	width : 200,
+    	defaultValue: '<c:out value="${inputData.wbsCd}"/>',
 //    	inputType: Rui.util.LString.PATTERN_TYPE_STRING,
 //    	imeMode: 'disabled' ,
     	defaultValue: '',
@@ -98,7 +101,7 @@ Rui.onReady(function() {
 	var ltSaName = new Rui.ui.form.LTextBox({
     	applyTo: 'saName',
     	width : 200,
-    	defaultValue: '',
+    	defaultValue: '<c:out value="${inputData.saName}"/>',
     	emptyValue: '',
     	attrs: {
     			maxLength: 10
@@ -111,7 +114,7 @@ Rui.onReady(function() {
     var ltPrjNm = new Rui.ui.form.LTextBox({
     	applyTo: 'prjNm',
     	width : 200,
-    	defaultValue: '',
+    	defaultValue: '<c:out value="${inputData.prjNm}"/>',
     	emptyValue: '',
     	attrs: {
     			maxLength: 33
@@ -124,7 +127,7 @@ Rui.onReady(function() {
     var deptName = new Rui.ui.form.LTextBox({
     	applyTo: 'deptName',
     	width : 200,
-    	defaultValue: '',
+    	defaultValue: '<c:out value="${inputData.deptName}"/>',
     	emptyValue: ''
     });
     deptName.on('blur', function(e) {

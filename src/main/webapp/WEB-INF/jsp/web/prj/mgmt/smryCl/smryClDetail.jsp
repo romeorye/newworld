@@ -237,7 +237,7 @@
         //목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
-            nwinsActSubmit(window.document.mstForm, "<c:url value='/prj/mgmt/smryCl/smryClList.do'/>");
+            nwinsActSubmit(searchForm, "<c:url value='/prj/mgmt/smryCl/smryClList.do'/>");
         });
 
 
@@ -250,6 +250,18 @@
 </script>
 </head>
 <body>
+<form name="searchForm" id="searchForm"  method="post">
+	<input type="hidden" name="wbsCd" value="${inputData.wbsCd}"/>
+	<input type="hidden" name="tssNm" value="${inputData.tssNm}"/>
+	<input type="hidden" name=saSabunNew value="${inputData.saSabunNew}"/>
+	<input type="hidden" name=deptName value="${inputData.deptName}"/>
+	<input type="hidden" name=prjNm value="${inputData.prjNm}"/>
+	<input type="hidden" name=tssStrtDd value="${inputData.tssStrtDd}"/>
+	<input type="hidden" name=tssFnhDd value="${inputData.tssFnhDd}"/>
+	<input type="hidden" name=tssStrtDd value="${inputData.tssStrtDd}"/>
+	<input type="hidden" name=pgsStepCd value="${inputData.pgsStepCd}"/>
+	<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form>
     <div class="contents">
 	    <div class="titleArea">
 	    	<a class="leftCon" href="#">
