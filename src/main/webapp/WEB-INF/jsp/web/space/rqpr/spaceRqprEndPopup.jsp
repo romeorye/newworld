@@ -90,7 +90,7 @@
 
             	if(confirm('${inputData.type} 하시겠습니까?')) {
                     dm.updateDataSet({
-                        url:'<c:url value="/anl/saveAnlRqprEnd.do"/>',
+                        url:'<c:url value="/space/saveSpaceRqprEnd.do"/>',
                         params: {
                             rqprId: parent.anlRqprDataSet.getNameValue(0, 'rqprId'),
                             rson: encodeURIComponent(rson.getValue()),
