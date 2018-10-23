@@ -1638,5 +1638,21 @@ public class SpaceRqprController extends IrisBaseController {
 
 		return modelAndView;
 	}
-	
+
+	@RequestMapping(value="/space/spaceRqprOpiFbTodo.do")
+	public String spaceRqprOpiFbTodo(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			) throws Exception{
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSession(input, session, model);
+
+		model.addAttribute("inputData", input);
+
+		return "web/space/rqpr/spaceRqprOpiFbTodo";
+	}
+
 }

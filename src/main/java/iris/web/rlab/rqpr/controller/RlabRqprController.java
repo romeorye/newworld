@@ -1615,8 +1615,8 @@ public class RlabRqprController extends IrisBaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/rlab/vmRlabStpt.do")
-	public String vmRlabStptView(
+	@RequestMapping(value="/rlab/rlabRqprStptTodo.do")
+	public String rlabRqprStptTodo(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request,
 			HttpSession session,
@@ -1628,7 +1628,7 @@ public class RlabRqprController extends IrisBaseController {
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		model.addAttribute("inputData", input);
 
-		return "web/rlab/rqpr/vmRlabStpt";
+		return "web/rlab/rqpr/rlabRqprStptTodo";
 	}
 
 	/**
