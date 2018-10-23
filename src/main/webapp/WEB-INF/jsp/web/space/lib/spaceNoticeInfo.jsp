@@ -7,7 +7,7 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlNoticeInfo.jsp
+ * $Id		: spaceNoticeInfo.jsp
  * @desc    : 공지사항 상세조회
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
@@ -34,7 +34,7 @@
 
 	<script type="text/javascript">
 
-	var anlNoticeInfoDataSet;
+	var spaceNoticeInfoDataSet;
 	var bbsId = ${inputData.bbsId};
 	var userId = '${inputData._userId}';
 	var roleId = '${inputData._roleId}';
@@ -48,8 +48,8 @@
             var aform = new Rui.ui.form.LForm('aform');
 
             <%-- DATASET --%>
-            anlNoticeInfoDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlNoticeInfoDataSet',
+            spaceNoticeInfoDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceNoticeInfoDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -68,11 +68,11 @@
 				 ]
             });
 
-            anlNoticeInfoDataSet.on('load', function(e) {
-//             	var bbsSbc = anlNoticeInfoDataSet.getNameValue(0, "bbsSbc").replaceAll('\n', '<br/>');
-//             	anlNoticeInfoDataSet.setNameValue(0, 'bbsSbc', bbsSbc);
+            spaceNoticeInfoDataSet.on('load', function(e) {
+//             	var bbsSbc = spaceNoticeInfoDataSet.getNameValue(0, "bbsSbc").replaceAll('\n', '<br/>');
+//             	spaceNoticeInfoDataSet.setNameValue(0, 'bbsSbc', bbsSbc);
 
-                lvAttcFilId = anlNoticeInfoDataSet.getNameValue(0, "attcFilId");
+                lvAttcFilId = spaceNoticeInfoDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
                 //분석담당자 일때만 수정,삭제가능/ 동일한 분석담당자가 아니어도 가능
@@ -86,9 +86,9 @@
             });
 
             /* [DataSet] bind */
-            var anlNoticeInfoBind = new Rui.data.LBind({
+            var spaceNoticeInfoBind = new Rui.data.LBind({
                 groupId: 'aform',
-                dataSet: anlNoticeInfoDataSet,
+                dataSet: spaceNoticeInfoDataSet,
                 bind: true,
                 bindInfo: [
                     { id: 'bbsId',       ctrlId: 'bbsId',      value: 'value'} //공지사항ID
@@ -152,7 +152,7 @@
 
                 if(Rui.isEmpty(lvAttcFilId)) {
                 	lvAttcFilId =  attachFileList[0].data.attcFilId;
-                	anlNoticeInfoDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
+                	spaceNoticeInfoDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
                 }
             };
 
@@ -169,8 +169,8 @@
 
              /* 상세내역 가져오기 */
              getAnlNoticeInfo = function() {
-            	 anlNoticeInfoDataSet.load({
-                     url: '<c:url value="/anl/lib/getAnlNoticeInfo.do"/>',
+            	 spaceNoticeInfoDataSet.load({
+                     url: '<c:url value="/space/lib/getAnlNoticeInfo.do"/>',
                      params :{
                     	 bbsId : bbsId
                      }
@@ -181,20 +181,20 @@
 
             /* [버튼] 저장 */
             AnlNoticeRgstSave = function() {
-         	   var record = anlNoticeInfoDataSet.getAt(anlNoticeInfoDataSet.getRow());
+         	   var record = spaceNoticeInfoDataSet.getAt(spaceNoticeInfoDataSet.getRow());
         	   document.aform.bbsId.value = record.get("bbsId");
         	   document.aform.pageMode.value = 'V';
-	           nwinsActSubmit(document.aform, "<c:url value='/anl/lib/anlNoticeRgst.do'/>");
+	           nwinsActSubmit(document.aform, "<c:url value='/space/lib/spaceNoticeRgst.do'/>");
             };
 
             /* [버튼] 삭제 */
-           anlNoticeRgstDel = function() {
+           spaceNoticeRgstDel = function() {
                 fncDeleteAnlNoticeInfo();
             };
 
     		/* [버튼] 목록 */
             goAnlNoticeList = function() {
-            	$(location).attr('href', '<c:url value="/anl/lib/retrievePubNoticeList.do"/>');
+            	$(location).attr('href', '<c:url value="/space/lib/retrievePubNoticeList.do"/>');
             };
 
             /* 수정/삭제버튼 */
@@ -208,7 +208,7 @@
 
 		    delBtn.on('click', function() {
 		    	if(confirm("삭제하시겠습니까?")){
-		    		anlNoticeRgstDel();
+		    		spaceNoticeRgstDel();
 		    	}
 		     });
 
@@ -241,18 +241,18 @@
 	    	var dm1 = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
     		dm1.updateDataSet({
-    	        url: "<c:url value='/anl/lib/deleteAnlNoticeInfo.do'/>",
-    	        dataSets:[anlNoticeInfoDataSet],
+    	        url: "<c:url value='/space/lib/deleteAnlNoticeInfo.do'/>",
+    	        dataSets:[spaceNoticeInfoDataSet],
     	        params: {
     	        	bbsId : bbsId
     	        }
 	    	});
 
 	    	dm1.on('success', function(e) {
-				var resultData = anlNoticeInfoDataSet.getReadData(e);
+				var resultData = spaceNoticeInfoDataSet.getReadData(e);
 	            alert(resultData.records[0].rtnMsg);
 
-	  	    	nwinsActSubmit(document.aform, "<c:url value='/anl/lib/retrievePubNoticeList.do'/>");
+	  	    	nwinsActSubmit(document.aform, "<c:url value='/space/lib/retrievePubNoticeList.do'/>");
 			});
 
 			dm1.on('failure', function(e) {

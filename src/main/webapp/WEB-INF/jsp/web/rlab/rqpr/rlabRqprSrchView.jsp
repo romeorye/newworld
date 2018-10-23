@@ -7,7 +7,7 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlRqprSrchView.jsp
+ * $Id		: rlabRqprSrchView.jsp
  * @desc    : 시험의뢰서 상세
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
@@ -43,7 +43,7 @@
 	<script type="text/javascript">
 
 		var callback;
-		var anlRqprDataSet;
+		var rlabRqprDataSet;
 		var rsltAttcFileId;
 
 		Rui.onReady(function() {
@@ -59,13 +59,13 @@
             dm.on('success', function(e) {
             });
 
-            anlRqprDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprDataSet',
+            rlabRqprDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
                 	  { id: 'rqprId' }
-                	, { id: 'anlNm' }
+                	, { id: 'rlabNm' }
 					, { id: 'acpcNo' }
 					, { id: 'rgstNm' }
 					, { id: 'rqprDeptNm' }
@@ -73,27 +73,27 @@
 					, { id: 'acpcDt' }
 					, { id: 'cmplParrDt' }
 					, { id: 'cmplDt' }
-					, { id: 'anlScnNm' }
-					, { id: 'anlChrgNm' }
-					, { id: 'anlUgyYnNm' }
+					, { id: 'rlabScnNm' }
+					, { id: 'rlabChrgNm' }
+					, { id: 'rlabUgyYnNm' }
 					, { id: 'infmTypeNm' }
 					, { id: 'smpoTrtmNm' }
-					, { id: 'anlRqprInfmView'  }
-					, { id: 'anlSbc'}
-					, { id: 'anlRsltSbc'}
+					, { id: 'rlabRqprInfmView'  }
+					, { id: 'rlabSbc'}
+					, { id: 'rlabRsltSbc'}
 					, { id: 'rqprAttcFileId' }
 					, { id: 'lastMdfyId' }
                 ]
             });
 
-            anlRqprDataSet.on('load', function(e) {
-            	var anlSbc = anlRqprDataSet.getNameValue(0, 'anlSbc');
-            	var idChk = anlRqprDataSet.getNameValue(0, 'lastMdfyId');
+            rlabRqprDataSet.on('load', function(e) {
+            	var rlabSbc = rlabRqprDataSet.getNameValue(0, 'rlabSbc');
+            	var idChk = rlabRqprDataSet.getNameValue(0, 'lastMdfyId');
 
-            	if(Rui.isEmpty(anlSbc) == false) {
+            	if(Rui.isEmpty(rlabSbc) == false) {
             		if(Rui.isEmpty(idChk) == false) {
             			if(idChk != "MIG"){
-		                	anlRqprDataSet.setNameValue(0, 'anlSbc', anlSbc.replaceAll('\n', '<br/>'));
+		                	rlabRqprDataSet.setNameValue(0, 'rlabSbc', rlabSbc.replaceAll('\n', '<br/>'));
             			}
             		}
             	}
@@ -101,11 +101,11 @@
 
             bind = new Rui.data.LBind({
                 groupId: 'aform',
-                dataSet: anlRqprDataSet,
+                dataSet: rlabRqprDataSet,
                 bind: true,
                 bindInfo: [
-                    { id: 'anlNm',				ctrlId:'anlNm',				value:'html'},
-                    { id: 'anlSbc',				ctrlId:'anlSbc',			value:'html'},
+                    { id: 'rlabNm',				ctrlId:'rlabNm',				value:'html'},
+                    { id: 'rlabSbc',				ctrlId:'rlabSbc',			value:'html'},
                     { id: 'acpcNo',				ctrlId:'acpcNo',			value:'html'},
                     { id: 'rgstNm',				ctrlId:'rgstNm',			value:'html'},
                     { id: 'rqprDeptNm',			ctrlId:'rqprDeptNm',		value:'html'},
@@ -113,18 +113,18 @@
                     { id: 'acpcDt',				ctrlId:'acpcDt',			value:'html'},
                     { id: 'cmplParrDt',			ctrlId:'cmplParrDt',		value:'html'},
                     { id: 'cmplDt',				ctrlId:'cmplDt',			value:'html'},
-                    { id: 'anlScnNm',			ctrlId:'anlScnNm',			value:'html'},
-                    { id: 'anlChrgNm',			ctrlId:'anlChrgNm',			value:'html'},
-                    { id: 'anlUgyYnNm',			ctrlId:'anlUgyYnNm',		value:'html'},
+                    { id: 'rlabScnNm',			ctrlId:'rlabScnNm',			value:'html'},
+                    { id: 'rlabChrgNm',			ctrlId:'rlabChrgNm',			value:'html'},
+                    { id: 'rlabUgyYnNm',			ctrlId:'rlabUgyYnNm',		value:'html'},
                     { id: 'infmTypeNm',			ctrlId:'infmTypeNm',		value:'html'},
                     { id: 'smpoTrtmNm',			ctrlId:'smpoTrtmNm',		value:'html'},
-                    { id: 'anlRqprInfmView',	ctrlId:'anlRqprInfmView',	value:'html'},
-                    { id: 'anlRsltSbc',			ctrlId:'anlRsltSbc',		value:'html'}
+                    { id: 'rlabRqprInfmView',	ctrlId:'rlabRqprInfmView',	value:'html'},
+                    { id: 'rlabRsltSbc',			ctrlId:'rlabRsltSbc',		value:'html'}
                 ]
             });
 
-            var anlRqprSmpoDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprSmpoDataSet',
+            var rlabRqprSmpoDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprSmpoDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -137,7 +137,7 @@
                 ]
             });
 
-            var anlRqprSmpoColumnModel = new Rui.ui.grid.LColumnModel({
+            var rlabRqprSmpoColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LNumberColumn()
                     , { field: 'smpoNm',	label: '시료명',		sortable: false,	align:'center',	width: 200 }
@@ -147,57 +147,57 @@
                 ]
             });
 
-            var anlRqprSmpoGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprSmpoColumnModel,
-                dataSet: anlRqprSmpoDataSet,
+            var rlabRqprSmpoGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: rlabRqprSmpoColumnModel,
+                dataSet: rlabRqprSmpoDataSet,
                 width: 700,
                 height: 200,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            anlRqprSmpoGrid.render('anlRqprSmpoGrid');
+            rlabRqprSmpoGrid.render('rlabRqprSmpoGrid');
 
-            var anlRqprRltdDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprRltdDataSet',
+            var rlabRqprRltdDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprRltdDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
 					  { id: 'rltdId' }
 					, { id: 'rqprId' }
 					, { id: 'preRqprId' }
-					, { id: 'preAnlNm' }
+					, { id: 'preRlabNm' }
 					, { id: 'preAcpcNo' }
-					, { id: 'preAnlChrgNm' }
+					, { id: 'preRlabChrgNm' }
 					, { id: 'preRgstId' }
 					, { id: 'preRgstNm' }
                 ]
             });
 
-            var anlRqprRltdColumnModel = new Rui.ui.grid.LColumnModel({
+            var rlabRqprRltdColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LNumberColumn()
                     , { field: 'preAcpcNo',		label: '접수번호',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preAnlNm',		label: '시험명',		sortable: false,	align:'left',	width: 300 }
+                    , { field: 'preRlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 300 }
                     , { field: 'preRgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preAnlChrgNm',	label: '시험담당자',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'preRlabChrgNm',	label: '시험담당자',	sortable: false,	align:'center',	width: 80 }
                 ]
             });
 
-            var anlRqprRltdGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprRltdColumnModel,
-                dataSet: anlRqprRltdDataSet,
+            var rlabRqprRltdGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: rlabRqprRltdColumnModel,
+                dataSet: rlabRqprRltdDataSet,
                 width: 540,
                 height: 200,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            anlRqprRltdGrid.render('anlRqprRltdGrid');
+            rlabRqprRltdGrid.render('rlabRqprRltdGrid');
 
 
-            var anlRqprExprDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprExprDataSet',
+            var rlabRqprExprDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprExprDataSet',
                 remainRemoved: false,
                 lazyLoad: true,
                 fields: [
@@ -210,7 +210,7 @@
                 ]
             });
 
-            var anlRqprExprColumnModel = new Rui.ui.grid.LColumnModel({
+            var rlabRqprExprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
@@ -223,20 +223,20 @@
                 ]
             });
 
-            var anlRqprExprGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprExprColumnModel,
-                dataSet: anlRqprExprDataSet,
+            var rlabRqprExprGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: rlabRqprExprColumnModel,
+                dataSet: rlabRqprExprDataSet,
                 width: 600,
                 height: 200,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            anlRqprExprGrid.render('anlRqprExprGrid');
+            rlabRqprExprGrid.render('rlabRqprExprGrid');
 
 
-            var anlRqprAttachDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprAttachDataSet',
+            var rlabRqprAttachDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprAttachDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -247,29 +247,29 @@
                 ]
             });
 
-            var anlRqprAttachColumnModel = new Rui.ui.grid.LColumnModel({
+            var rlabRqprAttachColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                       new Rui.ui.grid.LNumberColumn()
                     , { field: 'filNm',		label: '파일명',		sortable: false,	align:'left',	width: 300 }
                 ]
             });
 
-            var anlRqprAttachGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprAttachColumnModel,
-                dataSet: anlRqprAttachDataSet,
+            var rlabRqprAttachGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: rlabRqprAttachColumnModel,
+                dataSet: rlabRqprAttachDataSet,
                 width: 300,
                 height: 200,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            anlRqprAttachGrid.on('cellClick', function(e) {
+            rlabRqprAttachGrid.on('cellClick', function(e) {
                 if(e.colId == "filNm") {
-                	downloadAttachFile(anlRqprAttachDataSet.getAt(e.row).data.attcFilId, anlRqprAttachDataSet.getAt(e.row).data.seq);
+                	downloadAttachFile(rlabRqprAttachDataSet.getAt(e.row).data.attcFilId, rlabRqprAttachDataSet.getAt(e.row).data.seq);
                 }
             });
 
-            anlRqprAttachGrid.render('anlRqprAttachGrid');
+            rlabRqprAttachGrid.render('rlabRqprAttachGrid');
 
 			downloadAttachFile = function(attcFilId, seq) {
 				fileDownloadForm.action = '<c:url value='/system/attach/downloadAttachFile.do'/>';
@@ -278,8 +278,8 @@
 				fileDownloadForm.submit();
 			};
 
-            var anlRqprRsltAttachDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprRsltAttachDataSet',
+            var rlabRqprRsltAttachDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprRsltAttachDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -290,14 +290,14 @@
                 ]
             });
 
-            anlRqprRsltAttachDataSet.on('load', function(e) {
-            	if( anlRqprRsltAttachDataSet.getCount() > 0  ){
+            rlabRqprRsltAttachDataSet.on('load', function(e) {
+            	if( rlabRqprRsltAttachDataSet.getCount() > 0  ){
            			$('#rsltAttcFileView').html('');
 
-           			for(var i = 0; i < anlRqprRsltAttachDataSet.getCount(); i++) {
+           			for(var i = 0; i < rlabRqprRsltAttachDataSet.getCount(); i++) {
                         $('#rsltAttcFileView').append($('<a/>', {
-                            href: 'javascript:downloadAttachFile("' + anlRqprRsltAttachDataSet.getNameValue(i, "attcFilId") + '", "' +  anlRqprRsltAttachDataSet.getNameValue(i, "seq") + '")',
-                            text: anlRqprRsltAttachDataSet.getNameValue(i, "filNm")
+                            href: 'javascript:downloadAttachFile("' + rlabRqprRsltAttachDataSet.getNameValue(i, "attcFilId") + '", "' +  rlabRqprRsltAttachDataSet.getNameValue(i, "seq") + '")',
+                            text: rlabRqprRsltAttachDataSet.getNameValue(i, "filNm")
                         })).append('<br/>');
                     }
            		}
@@ -305,8 +305,8 @@
 
 
 	    	dm.loadDataSet({
-                dataSets: [anlRqprDataSet, anlRqprSmpoDataSet, anlRqprRltdDataSet, anlRqprAttachDataSet, anlRqprExprDataSet,anlRqprRsltAttachDataSet],
-                url: '<c:url value="/anl/getAnlRqprDetailInfo.do"/>',
+                dataSets: [rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet, rlabRqprAttachDataSet, rlabRqprExprDataSet,rlabRqprRsltAttachDataSet],
+                url: '<c:url value="/rlab/getRlabRqprDetailInfo.do"/>',
                 params: {
                     rqprId: '${inputData.rqprId}'
                 }
@@ -339,13 +339,13 @@
    					<tbody>
    						<tr>
    							<th align="right">시험명</th>
-   							<td><span id="anlNm"/></td>
+   							<td><span id="rlabNm"/></td>
    							<th align="right">접수번호</th>
    							<td><span id="acpcNo"/></td>
    						</tr>
    						<tr>
    							<th align="right">시험목적</th>
-   							<td colspan="3"><span id="anlSbc"/></td>
+   							<td colspan="3"><span id="rlabSbc"/></td>
    						</tr>
    						<tr>
    							<th align="right">의뢰자</th>
@@ -367,13 +367,13 @@
    						</tr>
    						<tr>
    							<th align="right">시험구분</th>
-   							<td><span id="anlScnNm"/></td>
+   							<td><span id="rlabScnNm"/></td>
    							<th align="right">시험담당자</th>
-   							<td><span id="anlChrgNm"/></td>
+   							<td><span id="rlabChrgNm"/></td>
    						</tr>
    						<tr>
    							<th align="right">긴급유무</th>
-   							<td><span id="anlUgyYnNm"/></td>
+   							<td><span id="rlabUgyYnNm"/></td>
    							<th align="right">통보유형</th>
    							<td><span id="infmTypeNm"/></td>
    						</tr>
@@ -381,7 +381,7 @@
    							<th align="right">시료처리</th>
    							<td><span id="smpoTrtmNm"/></td>
    							<th align="right">통보자</th>
-   							<td><span id="anlRqprInfmView"/></td>
+   							<td><span id="rlabRqprInfmView"/></td>
    						</tr>
    					</tbody>
    				</table>
@@ -390,7 +390,7 @@
    					<span class="Ltotal">시료정보</span>
    				</div>
 
-   				<div id="anlRqprSmpoGrid"></div>
+   				<div id="rlabRqprSmpoGrid"></div>
 
    				<br/>
 
@@ -407,7 +407,7 @@
 				   					<span class="Ltotal">관련시험</span>
 				   				</div>
 
-				   				<div id="anlRqprRltdGrid"></div>
+				   				<div id="rlabRqprRltdGrid"></div>
    							</td>
    							<td>&nbsp;</td>
    							<td>
@@ -415,7 +415,7 @@
 				   					<span class="Ltotal">시료사진/첨부파일</span>
 				   				</div>
 
-				   				<div id="anlRqprAttachGrid"></div>
+				   				<div id="rlabRqprAttachGrid"></div>
    							</td>
    						</tr>
    					</tbody>
@@ -427,7 +427,7 @@
    				</div>
 
    				<div>
-   					<div id="anlRqprExprGrid"></div>
+   					<div id="rlabRqprExprGrid"></div>
    				</div>
 
    				<table class="table table_txt_right" style="table-layout:fixed;">
@@ -440,7 +440,7 @@
    					<tbody>
    						<tr>
    							<th align="right">시험결과</th>
-   							<td colspan="3"><span id="anlRsltSbc"/></td>
+   							<td colspan="3"><span id="rlabRsltSbc"/></td>
    						</tr>
    						<tr>
    							<th align="right">시험결과서</th>

@@ -258,15 +258,23 @@
             /* 필수항목 체크 */
             var vm = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'spaceNm',			validExp: '평가명:true:maxByteLength=100' },
-                { id: 'spaceSbc',			validExp: '평가목적:true' },
-                { id: 'spaceScnCd',			validExp: '평가구분:true' },
-                { id: 'spaceUgyYn',			validExp: '긴급유무:true' },
-                { id: 'spaceRqprInfmView',	validExp: '통보자:true' },
-                { id: 'smpoNm',				validExp: '시료명:true:maxByteLength=100' },
-                { id: 'mkrNm',				validExp: '제조사:true:maxByteLength=100' },
-                { id: 'mdlNm',				validExp: '모델명:true:maxByteLength=100' },
-                { id: 'smpoQty',			validExp: '수량:true:number' }
+                { id: 'spaceNm',		validExp: '평가명:true:maxByteLength=100' },
+                { id: 'spaceSbc',		validExp: '평가목적:true' },
+                { id: 'spaceScnCd',		validExp: '평가구분:true' },
+                { id: 'spaceUgyYn',		validExp: '긴급유무:true' },
+                { id: 'oppbScpCd',		validExp: '공개범위:true' },
+                { id: 'evCtgr',			validExp: '평가카테고리:true' },
+                { id: 'evPrvs',			validExp: '평가항목:true' },
+                { id: 'infmPrsnId',		validExp: '담당자:true' },
+				{ id: 'evSubjNm',		validExp: '평가대상명:true:maxByteLength=100' },
+				{ id: 'sbmpCd',			validExp: '제출처:true' },
+				{ id: 'sbmpNm',			validExp: '제출기관명:true:maxByteLength=100' },
+				{ id: 'qtasDpst',		validExp: '정량지표:true:maxByteLength=100' },
+				{ id: 'qnasDpst',		validExp: '정성지표:true:maxByteLength=100' },
+				{ id: 'goalPfmc',		validExp: '목표성능:true:maxByteLength=100' },
+				{ id: 'rsltDpst',		validExp: '결과지표:true:maxByteLength=100' },
+				{ id: 'evCases',		validExp: '평가case(개수):true:number' },
+				{ id: 'evSubjDtl',		validExp: '평가대상 상세:true:maxByteLength=100' }
                 ]
             });
 
@@ -586,7 +594,7 @@
 					, { id: 'evCtgr1Nm' }
 					, { id: 'evCtgr2Nm' }
 					, { id: 'evCtgr3Nm' }
-
+					, { id: 'evCtgr4Nm' }
                 ]
             });
             //제품군 그리드 설정
@@ -599,10 +607,11 @@
                 	, { field: 'evCtgr2',	label: 'evCtgr2',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
                     , { field: 'evCtgr3',	label: 'evCtgr3',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
 
-                    , { field: 'evCtgr0Nm',	label: '<span style="color:red;">* </span>사업부',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 230}
-                	, { field: 'evCtgr1Nm',	label: '<span style="color:red;">* </span>제품군',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 235 }
-                	, { field: 'evCtgr2Nm',	label: '<span style="color:red;">* </span>분류',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 235 }
-                    , { field: 'evCtgr3Nm',	label: '<span style="color:red;">* </span>제품',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 400 }
+                    , { field: 'evCtgr0Nm',	label: '<span style="color:red;">* </span>사업부',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
+                	, { field: 'evCtgr1Nm',	label: '<span style="color:red;">* </span>제품군',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
+                	, { field: 'evCtgr2Nm',	label: '<span style="color:red;">* </span>분류',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
+                    , { field: 'evCtgr3Nm',	label: '<span style="color:red;">* </span>제품',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
+                    , { field: 'evCtgr4Nm',	label: '제품명(직접입력)',							sortable: false,	editable: true,	 editor: textBox,	align:'left',	width: 250 }
                 ]
             });
             var spaceRqprProdGrid = new Rui.ui.grid.LGridPanel({
@@ -857,7 +866,7 @@
                 }
 
 //                 if (spaceRqprAttachDataSet.getCount() == 0) {
-//                 	alert('시료사진/첨부파일을 첨부해주세요.');
+//                 	alert('첨부파일을 첨부해주세요.');
 //                 	return false;
 //                 }
 
@@ -1067,7 +1076,7 @@
    							</td>
    						</tr>
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>T-Cloud Link</th>
+   							<th align="right">T-Cloud Link</th>
    							<td class="rlabrqpr_tain01" colspan="3">
                                 <input type="text" id="tCloud">
    							</td>
@@ -1098,9 +1107,9 @@
    							<td>&nbsp;</td>
    							<td>
 				   				<div class="titArea">
-				   					<h3>시료사진/첨부파일</h3>
+				   					<h3>첨부파일</h3>
 				   					<div class="LblockButton">
-				   						<button type="button" class="btn"  id="addSpaceRqprAttachBtn" name="addSpaceRqprAttachBtn" onclick="openAttachFileDialog(setSpaceRqprAttach, spaceRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'spacePolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
+				   						<button type="button" class="btn"  id="addSpaceRqprAttachBtn" name="addSpaceRqprAttachBtn" onclick="openAttachFileDialog(setSpaceRqprAttach, spaceRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'spacePolicy', '*', 'M', '첨부파일')">파일첨부</button>
 				   					</div>
 				   				</div>
 
