@@ -1159,6 +1159,7 @@
 				,FB_RSLT_SCN= #{fbRsltScn}
 				,FB_RSLT_BTTM= #{fbRsltBttm}
 				,FB_TSS_PGS_STEP= #{fbTssPgsStep}
+				,TO_DO_FLAG = 'Y'
 				,LAST_MDFY_DT = getdate()
 				,LAST_MDFY_ID = #{_userId}
 		WHERE	RQPR_ID = ${rqprId}
@@ -1174,6 +1175,7 @@
 				,FB_RSLT_SCN= #{fbRsltScn}
 				,FB_RSLT_BTTM= #{fbRsltBttm}
 				,FB_TSS_PGS_STEP= #{fbTssPgsStep}
+				,TO_DO_FLAG = 'Y'
 				,LAST_MDFY_DT = getdate()
 				,LAST_MDFY_ID = #{_userId}
 				,SPACE_ACPC_ST_CD = '08'
