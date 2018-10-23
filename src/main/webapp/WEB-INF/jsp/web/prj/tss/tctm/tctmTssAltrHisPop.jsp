@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
-<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
+<%@ page import="iris.web.prj.tss.tctm.TctmUrl"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -84,7 +83,7 @@
         var grid = new Rui.ui.grid.LGridPanel({
             columnModel: columnModel,
             dataSet: dataSet,
-            width: 750,
+            width: 740,
             height: 150
         });
         
@@ -93,14 +92,14 @@
         var altrRsonTxt = new Rui.ui.form.LTextArea({
         	applyTo : 'altrRsonTxt',
         	width: 630,
-            height: 180,
+            height: 120,
             disabled : true
         });
         
         var addRsonTxt = new Rui.ui.form.LTextArea({
         	applyTo : 'addRsonTxt',
             width: 630,
-            height: 180,
+            height: 120,
             disabled : true
         });
         

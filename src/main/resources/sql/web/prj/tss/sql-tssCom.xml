@@ -1168,10 +1168,10 @@
 			   smr.NPROD_SALS_PLN_Y as nprodSalsPlnY,
 			   smr.CTY_OT_PLN_M as ctyOtPlnM
 		from IRIS_TSS_MGMT_MST mst,
-				<if test="tssScnCd == 'G'">
+				<if test="tssScnCd.equals('G')">
 					IRIS_TSS_GEN_SMRY smr
 				</if>
-				<if test="tssScnCd == 'D'">
+				<if test="tssScnCd.equals('D')">
 					IRIS_TSS_TCTM_SMRY smr
 				</if>
 			   IRIS_TSS_TCTM_SMRY smr

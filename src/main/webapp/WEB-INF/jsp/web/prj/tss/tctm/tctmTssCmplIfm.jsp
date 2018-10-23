@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -26,6 +25,7 @@
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/custom.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
 <style>
@@ -45,7 +45,12 @@
     var lvPageMode = window.parent.gvPageMode;
 
     // var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
-    var pageMode = (window.parent.grsEvSt=="P2" && window.parent.gvTssSt=="102") ? "W" : "R";
+    var pageMode =
+        (
+        (window.parent.pgsStepCd=="P2" && window.parent.gvTssSt=="102")
+        || (window.parent.pgsStepCd=="CM" && window.parent.gvTssSt=="100")
+        )
+            ? "W" : "R";
     var dataSet;
     var lvAttcFilId;
 
@@ -134,6 +139,14 @@
             btnSave.hide();
 
             document.getElementById('attchFileMngBtn').style.display = "none";
+
+            if(pageMode=="R"){
+                setReadonly("prodNm");
+                setReadonly("ncpOtPlnDt");
+                setReadonly("gate3Dt");
+                setReadonly("wdPlnTxt");
+                setReadonly("noPlnTxt");
+            }
         };
 
 
@@ -165,9 +178,9 @@
         });
         dataSet.on('load', function(e) {
             console.log("smry load DataSet Success");
-
             lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
             if(lvAttcFilId != "") getAttachFileList();
+            disableFields();
         });
 
 
@@ -314,16 +327,16 @@
 
 
     //validation
-    function fnIfmIsUpdate(gbn) {
+    function fnIfmIsUpdate() {
         if(!vm.validateGroup("aForm")) {
             Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>'));
             return false;
         }
 
-        if(gbn != "SAVE" && dataSet.isUpdated()) {
-           Rui.alert("완료탭 저장을 먼저 해주시기 바랍니다.");
-           return false;
-        }
+        // if(gbn != "SAVE" && dataSet.isUpdated()) {
+        //    Rui.alert("완료탭 저장을 먼저 해주시기 바랍니다.");
+        //    return false;
+        // }
 
         return true;
     }

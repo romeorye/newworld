@@ -191,12 +191,15 @@
 
                 if(isOwner()){
                   
-                	if(pgsStepCd=="PL" && gvTssSt=="100"){
-                        //계획 진행중
-                        btnDelRq.show();	// 삭제
-                    }
+                    // if(pgsStepCd=="PL" && gvTssSt=="100"){
+                    //     //계획 진행중
+                    //     btnDelRq.show();	// 삭제
+                    // }
 
-                    if(gvTssSt=="100"){
+                    if(
+                        (pgsStepCd=="PL" && gvTssSt=="100")
+                        || (pgsStepCd=="PG" && gvTssSt=="100")
+                    ){
                         //진행중
                         btnGrsRq.show();	//GRS  요청
                     }
@@ -208,6 +211,8 @@
 						|| (pgsStepCd=="PL" && grsYn=="Y" && gvTssSt=="302" )	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
 						|| (pgsStepCd=="PL" && gvTssSt=="102" )	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
 						|| (pgsStepCd=="PG" && gvTssSt=="302")							//진행인 경우 GRS 평가완료
+						|| (pgsStepCd=="CM" && gvTssSt=="100")							//완료진행인 경우 GRS 평가완료
+						|| (pgsStepCd=="DC" && gvTssSt=="100")							//중단진행인 경우 GRS 평가완료
 					){
                         btnCsusRq.show();	// 품의서요청
                     }
@@ -745,7 +750,7 @@
                 setReadonly("dcacBFnhDd");
 
 				
-                if(gvTssSt=="102"){
+                if(gvTssSt=="102" || gvTssSt=="100"){
                     if(isCm() ){
                         //품의 요청시 개발완기간 수정가능
                         setEditable("cmplBStrtDd");
@@ -758,6 +763,8 @@
                         setEditable("dcacBFnhDd");
                     }
                 }
+
+
             }
 
             function setEditform(){
@@ -877,8 +884,17 @@
             //품의서요청
             btnCsusRq = new Rui.ui.LButton('btnCsusRq');
             btnCsusRq.on('click', function() {
+                var frmName = "";
 
-                if(document.getElementById('tabContent3').contentWindow.fnIfmIsUpdate()){
+                if(pgsStepCd=="CM"){
+                    frmName = "tabContent0";    //완료
+                }else if(pgsStepCd=="DC"){
+                    frmName = "tabContent1";    //중단
+                }else{
+                    frmName = "tabContent3";    //개요
+                }
+
+                if(document.getElementById(frmName).contentWindow.fnIfmIsUpdate()){
                     if(confirm("품의서요청을 하시겠습니까?")) {
                         regDm.update({
                             url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
