@@ -454,7 +454,7 @@
         /* [버튼] 목록 */
        	var butGoList = new Rui.ui.LButton('butGoList');
        	butGoList.on('click', function() {
-       		nwinsActSubmit(document.clsForm, "<c:url value='/prj/rsst/retrievePrjClsList.do'/>");
+       		nwinsActSubmit(clsForm, "<c:url value='/prj/rsst/retrievePrjClsList.do'/>");
        	});
 
        	/* [버튼] 진척도 - 파일업로드 */
@@ -640,7 +640,9 @@
 </head>
 <body>
 <Tag:saymessage /><!--  sayMessage 사용시 필요 -->
-
+<%-- <form name="searchForm" id="searchForm"  method="post">
+	<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form> --%>
 <div class="contents">
 	<div class="titleArea">
 		<a class="leftCon" href="#">
@@ -735,7 +737,7 @@
 		<input type="hidden" id="hClsPrjCd" name="hClsPrjCd" value=""/>
 		<input type="hidden" id="hfilId" name="hfilId" value=""/>
 		<input type="hidden" id="hDownFilSeq" name="hDownFilSeq" value=""/>
-		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
+		<input type="hidden" name=pageNum value="${input.pageNum}"/>
 		<table class="table table_txt_right mt10">
 			<colgroup>
 				<col style="width:15%; "/>

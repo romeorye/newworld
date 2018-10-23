@@ -158,6 +158,7 @@
     	// 종료된 프로젝트의 경우 최종마감월 세팅
     	var prjPgsYn = nullToString(recode.get("prjPgsYn"));
     	var lastClsYymm = nullToString(recode.get("lastClsYymm"));
+    	var pageNum2 = $('#pageNum').val();
     	if( prjPgsYn == 'N' && lastClsYymm != '' ){
     		strSearchMonth = lastClsYymm;
 		}
@@ -165,7 +166,10 @@
     	frm.prjCd.value = recode.get("prjCd");
     	frm.wbsCd.value = recode.get("wbsCd");
     	frm.searchMonth.value = strSearchMonth;
+    	frm.pageNum.value = pageNum2;
+    	//alert (pageNum);
     	frm.action = "<c:url value='/prj/rsst/retrievePrjRsstClsDtl.do'/>";
+
     	frm.submit();
     }
 
@@ -186,6 +190,11 @@
 		    </div>
 
 	       	<div class="sub-content">
+				<div class="search" style="display: none">
+					<div class="search-content">
+					</div>
+				</div>
+
 	       		<div class="titArea" style="margin-top:0;">
 		       		<span class="table_summay_number" id="cnt_text">총 : 0 </span>
 	       		</div>
@@ -193,7 +202,7 @@
 					<input type="hidden" id="prjCd"  name="prjCd" />
 					<input type="hidden" id="wbsCd"  name="wbsCd" />
 					<input type="hidden" id="searchMonth"  name="searchMonth" />
-
+					<input type="hidden" name=pageNum />
 					<div id="mainGrid"></div>
 				</form>
 

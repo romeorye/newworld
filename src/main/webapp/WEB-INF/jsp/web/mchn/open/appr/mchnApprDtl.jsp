@@ -136,6 +136,13 @@ var mailTitl;
 </style>
 </head>
 <body>
+		<form name="searchForm" id="searchForm" method="post">
+			<input type="hidden" name="prctTitl" value="${inputData.prctTitl}"/>
+			<input type="hidden" name="rgstNm" value="${inputData.rgstNm}"/>
+			<input type="hidden" name="mchnNm" value="${inputData.mchnNm}"/>
+			<input type="hidden" name="prctScnCd" value="${inputData.prctScnCd}"/>
+			<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
+	    </form>
 	<div class="contents">
 		<div class="titleArea">
 			<a class="leftCon" href="#">
@@ -146,13 +153,6 @@ var mailTitl;
 		</div>
 		<div class="sub-content">
 
-		<form name="searchForm" id="searchForm">
-			<input type="hidden" name="prctTitl" value="${inputData.prctTitl}"/>
-			<input type="hidden" name="rgstNm" value="${inputData.rgstNm}"/>
-			<input type="hidden" name="mchnNm" value="${inputData.mchnNm}"/>
-			<input type="hidden" name="prctScnCd" value="${inputData.prctScnCd}"/>
-			<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
-	    </form>
 
 
 			<form name="aform" id="aform"  method="post">
