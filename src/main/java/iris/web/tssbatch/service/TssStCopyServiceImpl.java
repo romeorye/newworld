@@ -724,7 +724,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 
 		HashMap<String,Object> tssInfo = commonDao.select("prj.tss.com.selectTssInfo",input);
 		//제품만 등록
-		if("00".equals(tssInfo.get("tssAttrCd"))){
+		if(tssInfo!=null && "00".equals(tssInfo.get("tssAttrCd"))){
 			//사업부, 제품군 정보는 코드가 아닌 텍스트로 전달
 //			HashMap<String, Object> param = new HashMap<String, Object>();
 //
