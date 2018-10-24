@@ -1,0 +1,10 @@
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
+<script type="text/javascript">
+$(document).ready(function() {
+});
+</script>
+        <form name="searchForm" id="searchForm">
+        <c:forEach items="${inputData}" var="data" varStatus="status">
+        	<input type="hidden" id="${data.key}" name="${data.key}" value="${data.value}"/>
+        </c:forEach>
+        </form>
