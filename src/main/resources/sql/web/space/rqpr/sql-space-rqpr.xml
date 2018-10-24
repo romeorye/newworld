@@ -959,7 +959,8 @@
 				   ,(select sa_mail from iris_sso_user where sa_user = wc.infm_prsn_id)			as fromMailAddress
 				   ,(select sa_name from iris_sso_user where sa_user = wc.infm_prsn_id)			as fromMailNm
 				   ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) + dbo.fn_getUserEmail(mst.rgst_id) +
-				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') as receivers
+				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
+				    isnull(',' + dbo.fn_getSpaceRqprInfmPrsnEmails(mst.rqpr_id), '')			as receivers --담당자 + 의뢰자 + 리더 + 통보자as receivers
 			from	iris_space_rqpr_mst mst,
 					iris_space_way_crgr wc
 		]]>
@@ -980,13 +981,13 @@
 				  ,(select sa_name from iris_sso_user where sa_user = wc.infm_prsn_id)								as fromMailNm
 				  ,mst.space_gvb_rson																				as spaceGvbRson
 				  ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) + dbo.fn_getUserEmail(mst.rgst_id) +
-				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') 					as receivers
+				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
+				    isnull(',' + dbo.fn_getSpaceRqprInfmPrsnEmails(mst.rqpr_id), '')			as receivers --담당자 + 의뢰자 + 리더 + 통보자as receivers
 			from	iris_space_rqpr_mst mst,
 					iris_space_way_crgr wc
 		]]>
 			where	mst.rqpr_id = ${rqprId}
 			  and   mst.rqpr_id = wc.rqpr_id
-			  and   wc.infm_prsn_id = #{userId}
 	</select>
 
 	<select id="getSpaceRqprStopEmailInfo" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
@@ -1003,14 +1004,13 @@
 				  ,(select sa_name from iris_sso_user where sa_user = wc.infm_prsn_id)								as fromMailNm
 				  ,mst.space_dcac_rson																				as spaceDcacRson
 				  ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) + dbo.fn_getUserEmail(mst.rgst_id) +
-				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') 					as receivers
+				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
+				   isnull(',' + dbo.fn_getSpaceRqprInfmPrsnEmails(mst.rqpr_id), '')			as receivers --담당자 + 의뢰자 + 리더 + 통보자as receivers
 			from	iris_space_rqpr_mst mst,
 					iris_space_way_crgr wc
 			]]>
 			where	mst.rqpr_id = ${rqprId}
 			  and   mst.rqpr_id = wc.rqpr_id
-			  and   wc.infm_prsn_id = #{userId}
-			
 	</select>
 
 
