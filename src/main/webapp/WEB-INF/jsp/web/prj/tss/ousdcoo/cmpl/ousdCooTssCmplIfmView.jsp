@@ -302,11 +302,13 @@
         </table>
     </form>
 </div>
+<!-- 
 <div class="titArea">
     <div class="LblockButton">
         <button type="button" id="btnSave" name="btnSave">저장</button>
-        <!-- <button type="button" id="btnList" name="btnList">목록</button> -->
+        <button type="button" id="btnList" name="btnList">목록</button>
     </div>
 </div>
+ -->
 </body>
 </html>
