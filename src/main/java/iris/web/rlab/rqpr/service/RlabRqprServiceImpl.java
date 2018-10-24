@@ -426,6 +426,18 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     		mailSender.setHtmlTemplate("rlabRqprReceipt", rlabMailInfo);
     		mailSender.send();
 
+    		HashMap<String, Object> input = new HashMap<String, Object>();
+
+			input.put("mailTitl", "'" + rlabMailInfo.getRlabNm() + "' 시험의뢰 접수 통보");
+			input.put("adreMail", rlabMailInfo.getReceivers());
+			input.put("trrMail",  rlabMailInfo.getRgstEmail());
+			input.put("rfpMail",  "");
+			input.put("_userId", dataMap.get("userId"));
+			input.put("_userEmail", rlabMailInfo.getChrgEmail());
+
+			/* 전송메일 정보 hist 저장*/
+			commonDao.update("open.mchnAppr.insertMailHist", input);
+
         	return true;
     	} else {
     		throw new Exception("시험의뢰 접수 오류");
@@ -462,6 +474,18 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     		mailSender.setSubject(subject.toString());
     		mailSender.setHtmlTemplate(templateNm, rlabMailInfo);
     		mailSender.send();
+
+    		HashMap<String, Object> input = new HashMap<String, Object>();
+
+			input.put("mailTitl", subject.toString());
+			input.put("adreMail", rlabMailInfo.getReceivers());
+			input.put("trrMail",  rlabMailInfo.getChrgEmail());
+			input.put("rfpMail",  "");
+			input.put("_userId", dataMap.get("userId"));
+			input.put("_userEmail", rlabMailInfo.getChrgEmail());
+
+			/* 전송메일 정보 hist 저장*/
+			commonDao.update("open.mchnAppr.insertMailHist", input);
 
         	return true;
     	} else {

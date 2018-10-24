@@ -1,6 +1,7 @@
 package iris.web.rlab.batch.service;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
+import devonframe.util.NullUtil;
 import iris.web.rlab.rqpr.vo.RlabMailInfo;
 
 /*********************************************************************************
@@ -58,6 +60,18 @@ public class RlabApprMailServiceImpl implements RlabApprMailService {
     		mailSender.setSubject("'" + rlabMailInfo.getRlabNm() + "' 분석의뢰 접수 요청");
     		mailSender.setHtmlTemplate("rlabRqprReceiptRequest", rlabMailInfo);
     		mailSender.send();
+
+    		HashMap<String, Object> input = new HashMap<String, Object>();
+
+			input.put("mailTitl", "'" + rlabMailInfo.getRlabNm() + "' 분석의뢰 접수 요청");
+			input.put("adreMail", rlabMailInfo.getReceivers());
+			input.put("trrMail",  rlabMailInfo.getRgstEmail());
+			input.put("rfpMail",  "");
+			input.put("_userId", "Batch-RlabApprMailBatch");
+			input.put("_userEmail", "iris@lghausys.com");
+
+			/* 전송메일 정보 hist 저장*/
+			commonDao.update("open.mchnAppr.insertMailHist", input);
 
         	return true;
     	} else {
