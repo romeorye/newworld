@@ -318,15 +318,15 @@
 
 
             /* WBS 팝업 설정*/
-            var rlabRqprWbsCd = new Rui.ui.form.LPopupTextBox({
-            	applyTo: 'rlabRqprWbsCd',
+            var wbsCd = new Rui.ui.form.LPopupTextBox({
+            	applyTo: 'wbsCd',
                 placeholder: 'WBS코드를 입력해주세요.',
                 defaultValue: '',
                 emptyValue: '',
                 editable: false,
                 width: 200
             });
-            rlabRqprWbsCd.on('popup', function(e){
+            wbsCd.on('popup', function(e){
             	openWbsCdSearchDialog(setRlabWbsCd);
             });
 
@@ -406,7 +406,7 @@
 					, { id: 'infmPrsnIds' }
 					, { id: 'rlabRqprInfmView' }
 					, { id: 'rqprAttcFileId', defaultValue: '' }
-					, { id: 'rlabRqprWbsCd' }
+					, { id: 'wbsCd' }
 					, { id: 'rlabDzdvCd' }
 					, { id: 'rlabCrgrComm' }
                 ]
@@ -432,7 +432,7 @@
                     { id: 'rlabChrgNm',			ctrlId:'rlabChrgNm',		value:'value'},
                     { id: 'smpoTrtmCd',			ctrlId:'smpoTrtmCd',		value:'value'},
                     { id: 'rlabRqprInfmView',	ctrlId:'rlabRqprInfmView',	value:'value'},
-                    { id: 'rlabRqprWbsCd',		ctrlId:'rlabRqprWbsCd',		value:'value'},
+                    { id: 'wbsCd',				ctrlId:'wbsCd',				value:'value'},
                     { id: 'rlabDzdvCd',			ctrlId:'rlabDzdvCd',		value:'value'},
                     { id: 'rlabProdCd',			ctrlId:'rlabProdCd',		value:'value'},
                     { id: 'rlabCrgrComm',		ctrlId:'rlabCrgrComm',		value:'value'}
@@ -724,7 +724,7 @@
 		//WBS 코드 팝업 세팅
 		function setRlabWbsCd(wbsInfo){
 			//alert(wbsInfo.wbsCd);
-			rlabRqprDataSet.setNameValue(0, "rlabRqprWbsCd", wbsInfo.wbsCd);
+			rlabRqprDataSet.setNameValue(0, "wbsCd", wbsInfo.wbsCd);
 		}
 
 
@@ -823,7 +823,7 @@
    							</td>
    							<th align="right">WBS 코드</th>
    							<td>
-   								<input type="text" id="rlabRqprWbsCd">
+   								<input type="text" id="wbsCd">
    							</td>
    						</tr>
    						<tr>
