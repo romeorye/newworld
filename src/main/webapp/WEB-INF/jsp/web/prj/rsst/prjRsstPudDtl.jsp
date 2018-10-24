@@ -443,7 +443,9 @@ function fnChkMark(mDataSet){
 
 </head>
 <body>
-<form name="tabForm02" id="tabForm02" method="post"></form>
+<form name="tabForm02" id="tabForm02" method="post">
+<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form>
     <%-- <Tag:saymessage /> --%>
     <%--<!--  sayMessage 사용시 필요 -->--%>
 

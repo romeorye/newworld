@@ -571,7 +571,7 @@
                     , { field: 'smpoNm',	label: '<span style="color:red;">* </span>시료명',	sortable: false,	editable: true, editor: textBox,	align:'center',	width: 395 }
                     , { field: 'mkrNm',		label: '<span style="color:red;">* </span>제조사',	sortable: false,	editable: true, editor: textBox,	align:'center',	width: 395 }
                     , { field: 'mdlNm',		label: '<span style="color:red;">* </span>모델명',	sortable: false,	editable: true, editor: textBox,	align:'center',	width: 395 }
-                    , { field: 'smpoQty',	label: '<span style="color:red;">* </span>수량',		sortable: false,	editable: true, editor: numberBox,	align:'center',	width: 50 }
+                    , { field: 'smpoQty',	label: '<span style="color:red;">* </span>수량',		sortable: false,	editable: true, editor: numberBox,	align:'center',	width: 62 }
                 ]
             });
 

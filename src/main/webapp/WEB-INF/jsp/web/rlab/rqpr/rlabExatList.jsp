@@ -251,18 +251,18 @@
 
             var rlabExatMstColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  { field: 'supiExatNm',		label: '시험명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 150 }
-                    , { field: 'exatNm',			label: '시험명(소분류)',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 180 }
-                    , { field: 'exatMtdNo',	label: '시험법No',		sortable: false,	editable: true, 	editor: textBox,	align:'center',	width: 60 }
-                    , { field: 'expCrtnScnCd',	label: '비용구분',	sortable: false,	editable: true,	editor: expCrtnScnCd,		align:'center',	width: 60 }
-                    , { field: 'utmExatTim',	label: '단위시험일수',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 75 }
-                    , { field: 'utmSmpoQty',	label: '단위시료수량',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 75 }
-                    , { field: 'utmExp',		label: '시험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 75,
+                	  { field: 'supiExatNm',		label: '시험명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 240 }
+                    , { field: 'exatNm',			label: '시험명(소분류)',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 240 }
+                    , { field: 'exatMtdNo',	label: '시험법No',		sortable: false,	editable: true, 	editor: textBox,	align:'center',	width: 80 }
+                    , { field: 'expCrtnScnCd',	label: '비용구분',	sortable: false,	editable: true,	editor: expCrtnScnCd,		align:'center',	width: 80 }
+                    , { field: 'utmExatTim',	label: '단위시험일수',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 80 }
+                    , { field: 'utmSmpoQty',	label: '단위시료수량',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 80 }
+                    , { field: 'utmExp',		label: '시험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 90,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
                     } }
-                    , { field: 'delYn',			label: '삭제여부',		sortable: false,	editable: true,		editor: useYn,			align:'center',	width: 65}
-                    , { field: 'exatCdL',		label: '시험장비',		sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 70,
+                    , { field: 'delYn',			label: '삭제여부',		sortable: false,	editable: true,		editor: useYn,			align:'center',	width: 80}
+                    , { field: 'exatCdL',		label: '시험장비',		sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 85,
                     	renderer: function(val, p, record, row, i) {
                     		return (val == 3 && Rui.isEmpty(record.get('exatCd')) == false) ? '<button type="button" class="L-grid-button" onClick="getRlabExatDtlList(' + record.get('exatCd') + ')">관리</button>' : '';
                     } }
@@ -301,12 +301,12 @@
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'mchnHanNm',	label: '기기명',		sortable: false,	align:'center',	width: 210 }
-                    , { field: 'mdlNm',			label: '모델명',		sortable: false,	align:'center',	width: 210 }
+                    , { field: 'mchnHanNm',	label: '기기명',		sortable: false,	align:'center',	width: 240 }
+                    , { field: 'mdlNm',			label: '모델명',		sortable: false,	align:'center',	width: 240 }
                     , { field: 'mkrNm',			label: '제조사',		sortable: false,	align:'center',	width: 210 }
-                    , { field: 'mchnLaclNm',		label: '대분류',		sortable: false,	align:'center',	width: 180 }
-                    , { field: 'mchnClDtlNm',		label: '소분류',		sortable: false,	align:'center',	width: 180 }
-                    , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 128 }
+                    , { field: 'mchnLaclNm',		label: '대분류',		sortable: false,	align:'center',	width: 210 }
+                    , { field: 'mchnClDtlNm',		label: '소분류',		sortable: false,	align:'center',	width: 210 }
+                    , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 152 }
                 ]
             });
 

@@ -210,7 +210,7 @@
             	$('#bbsCd').val(bbsCd);
             	$('#target').val(target);
             	tabUrl = "<c:url value='/rlab/lib/rlabLibTab.do'/>";
-                nwinsActSubmit(document.aform, tabUrl, target);
+                nwinsActSubmit(document.searchForm, tabUrl, target);
             };
 
             /* 수정/삭제버튼 */
@@ -302,6 +302,13 @@
     </head>
 
     <body>
+    <form name="searchForm" id="searchForm"  method="post">
+		<input type="hidden" name="bbsCd" value="${inputData.bbsCd}"/>
+		<input type="hidden" name="target" value="${inputData.target}"/>
+		<input type="hidden" name="searchNm" value="${inputData.searchNm}"/>
+		<input type="hidden" name="searchCd" value="${inputData.searchCd}"/>
+		<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+	</form>
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>

@@ -266,17 +266,17 @@ h3 {
 
             var spaceExatMstColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  { field: 'supiExatNm',		label: '평가명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 180 }
-                	, { field: 'exatNm',		label: '평가명(소분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 150 }
-                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: true, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
-                    , { field: 'utmSmpoQty',	label: '단위평가수량',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 80 }
-                    , { field: 'utmExatTim',	label: '평가일수',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 80 }
-                    , { field: 'utmExp',		label: '평가수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 80,
+                	  { field: 'supiExatNm',		label: '평가명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 260 }
+                	, { field: 'exatNm',		label: '평가명(소분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 260 }
+                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: true, 	editor: expCrtnScnCd,	align:'center',	width: 90 }
+                    , { field: 'utmSmpoQty',	label: '단위평가수량',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 90 }
+                    , { field: 'utmExatTim',	label: '평가일수',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 90 }
+                    , { field: 'utmExp',		label: '평가수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 90,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
                     } }
-                    , { field: 'delYn',			label: '삭제여부',		sortable: false,	editable: true,		editor: useYn,			align:'center',	width: 80 }
-                    , { field: 'exatCdL',		label: 'Tool관리',		sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80,
+                    , { field: 'delYn',			label: '삭제여부',		sortable: false,	editable: true,		editor: useYn,			align:'center',	width: 90 }
+                    , { field: 'exatCdL',		label: 'Tool관리',		sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 85,
                     	renderer: function(val, p, record, row, i) {
                     		return (val == 3 && Rui.isEmpty(record.get('exatCd')) == false) ? '<button type="button" class="L-grid-button" onClick="getSpaceExatDtlList(' + record.get('exatCd') + ')">관리</button>' : '';
                     } }
@@ -314,12 +314,12 @@ h3 {
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'toolNm',	label: 'TOOL명',		sortable: false,	align:'center',	width: 275 }
-                    , { field: 'ver',			label: '버전',		sortable: false,	align:'center',	width: 135 }
-                    , { field: 'cmpnNm',		label: '기관',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 190 }
-                    , { field: 'evWay',	label: '평가방법',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 100 }
+                    , { field: 'toolNm',	label: 'TOOL명',		sortable: false,	align:'center',	width: 240 }
+                    , { field: 'ver',			label: '버전',		sortable: false,	align:'center',	width: 240 }
+                    , { field: 'cmpnNm',		label: '기관',		sortable: false,	align:'center',	width: 210 }
+                    , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 200 }
+                    , { field: 'evWay',	label: '평가방법',		sortable: false,	align:'center',	width: 200 }
+                    , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 172 }
                 ]
             });
 

@@ -58,11 +58,11 @@
 	        groupMerge: true,
 	        columns: [
 	        	{ field: 'toolNm', 			label:'기기명' , 	sortable: false, align: 'left', width: 420},
-	            { field: 'ver',  			label:'버전', 		sortable: false, align: 'center', width: 110},
-	            { field: 'evCtgrNm',  		label:'평가카테고리', 	sortable: false, align: 'center', width: 160},
+	            { field: 'ver',  			label:'버전', 		sortable: false, align: 'center', width: 160},
+	            { field: 'evCtgrNm',  		label:'평가카테고리', 	sortable: false, align: 'center', width: 180},
 	            { field: 'evWay', 			label: '평가방법', 		sortable: false, align: 'center', width: 270},
-	            { field: 'cmpnNm',  		label:'기관', 		sortable: false, align: 'center', width: 158},
-	            { field: 'mchnCrgrNm', 		label: '담당자',   	sortable: false, align: 'center', width: 80},
+	            { field: 'cmpnNm',  		label:'기관', 		sortable: false, align: 'center', width: 190},
+	            { field: 'mchnCrgrNm', 		label: '담당자',   	sortable: false, align: 'center', width: 105},
 	            { field: 'evCtgr',  		hidden : true},
 	            { field: 'mchnInfoId',  hidden : true}
 	        ]

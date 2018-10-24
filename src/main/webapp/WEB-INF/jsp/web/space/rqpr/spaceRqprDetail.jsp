@@ -614,10 +614,10 @@
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                	, { field: 'evCtgr',		label: '<span style="color:red;">* </span>평가카테고리',	sortable: false,	editable: false, editor: evCtgrCombo,	align:'center',	width: 400}
-                	, { field: 'evPrvs',		label: '<span style="color:red;">* </span>평가항목',		sortable: false,	editable: false, editor: evPrvsCombo,	align:'center',	width: 400 }
-                	, { field: 'infmPrsnId',	label: '<span style="color:red;">* </span>담당자ID',		sortable: false,	editable: false,	align:'center',	width: 300 , hidden:true}
-                    , { field: 'infmPrsnNm',	label: '<span style="color:red;">* </span>담당자',		sortable: false,	editable: false,	align:'center',	width: 300 }
+                	, { field: 'evCtgr',		label: '<span style="color:red;">* </span>평가카테고리',	sortable: false,	editable: false, editor: evCtgrCombo,	align:'center',	width: 458}
+                	, { field: 'evPrvs',		label: '<span style="color:red;">* </span>평가항목',		sortable: false,	editable: false, editor: evPrvsCombo,	align:'center',	width: 455}
+                	, { field: 'infmPrsnId',	label: '<span style="color:red;">* </span>담당자ID',		sortable: false,	editable: false,	align:'center',	width: 350 , hidden:true}
+                    , { field: 'infmPrsnNm',	label: '<span style="color:red;">* </span>담당자',		sortable: false,	editable: false,	align:'center',	width: 350 }
                 ]
             });
             var spaceRqprWayCrgrGrid = new Rui.ui.grid.LGridPanel({
@@ -829,10 +829,10 @@
                 	, { field: 'evCtgr2',	label: 'evCtgr2',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
                     , { field: 'evCtgr3',	label: 'evCtgr3',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
 
-                    , { field: 'evCtgr0Nm',	label: '<span style="color:red;">* </span>사업부',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 230}
-                	, { field: 'evCtgr1Nm',	label: '<span style="color:red;">* </span>제품군',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 235 }
-                	, { field: 'evCtgr2Nm',	label: '<span style="color:red;">* </span>분류',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 235 }
-                    , { field: 'evCtgr3Nm',	label: '<span style="color:red;">* </span>제품',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 400 }
+                    , { field: 'evCtgr0Nm',	label: '<span style="color:red;">* </span>사업부',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 300}
+                	, { field: 'evCtgr1Nm',	label: '<span style="color:red;">* </span>제품군',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 300 }
+                	, { field: 'evCtgr2Nm',	label: '<span style="color:red;">* </span>분류',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 300 }
+                    , { field: 'evCtgr3Nm',	label: '<span style="color:red;">* </span>제품',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 362 }
                 ]
             });
             var spaceRqprProdGrid = new Rui.ui.grid.LGridPanel({
@@ -1583,6 +1583,7 @@
     </head>
     <body>
     <form name="searchForm" id="searchForm">
+		<input type="hidden" name="cmbCtgr0Cd" value="${inputData.cmbCtgr0Cd}"/>
 		<input type="hidden" name="spaceNm" value="${inputData.spaceNm}"/>
 		<input type="hidden" name="fromRqprDt" value="${inputData.fromRqprDt}"/>
 		<input type="hidden" name="toRqprDt" value="${inputData.toRqprDt}"/>

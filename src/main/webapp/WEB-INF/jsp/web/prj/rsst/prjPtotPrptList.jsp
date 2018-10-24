@@ -40,7 +40,7 @@ var pTopForm = parent.topForm;                 // 프로젝트마스터 폼
 var pTrResultDataSet = parent.trResultDataSet; // 처리결과 호출용 데이터셋
 var vmTab04;			                       // dataSet04 Validator
 var dataSet04;                                 // 계획지적재산권 데이터셋
-var erpDataSet;								   // 실적지적재산권 데이터셋 
+var erpDataSet;								   // 실적지적재산권 데이터셋
 
 Rui.onReady(function() {
 
@@ -104,7 +104,7 @@ Rui.onReady(function() {
 
 	    dataSet04.setMark(e.row, true);
 	});
-	
+
 	/* DATASET : grid */
 	erpDataSet = new Rui.data.LJsonDataSet({
 	    id: 'erpDataSet',
@@ -122,7 +122,7 @@ Rui.onReady(function() {
 	        , { id: 'krOx' }       /*한국여부*/
 	    ]
 	});
-	
+
 	var gridTooltip = new Rui.ui.LTooltip({
         showmove: true
     });
@@ -139,7 +139,7 @@ Rui.onReady(function() {
 	        , { field: 'prptGoalYear',   label: '목표년도', sortable: false, align:'center', width: 80 , editor: lcbPrptGoalYear }
 	        , { field: 'prptGoalCnt',    label: '목표개수', sortable: false, align:'right', width: 80 ,editor: new Rui.ui.form.LNumberBox() }
 	        , { field: 'frnwScn',        label: '특허유형', sortable: false, align:'center', width: 100 , editor: lcbFrnwScn }
-	        
+
 	        , { field: 'patCnt',    label: '실적개수', sortable: false, align:'right', width: 80 }
 	    ]
 	});
@@ -158,7 +158,7 @@ Rui.onReady(function() {
 	        , { field: 'regNo',         label: '등록번호', sortable: false, align:'center', width: 100  }
 	        , { field: 'regDate',       label: '등록일', sortable: false, align:'center', width: 80  }
 	        , { field: 'statusName',    label: '상태', sortable: false, align:'center', width: 130  }
-	        , { field: 'empHname',      label: '발명자', align:'center', width: 130 
+	        , { field: 'empHname',      label: '발명자', align:'center', width: 130
 	        	, renderer: function(value, p, record){
                         p.tooltipText = value;
 	        		return value;
@@ -194,7 +194,7 @@ Rui.onReady(function() {
 	/* grid02.on('resize', function(e) {
 	    alert('resize가 호출되었습니다.');
 	}); */
-	
+
 	grid02.render('defaultGrid02');
 
 	<%-- VALIDATOR --%>
@@ -314,7 +314,7 @@ Rui.onReady(function() {
 
 		dm2.on('success', function(e) {
 			var resultData = pTrResultDataSet.getReadData(e);
-            
+
             Rui.alert({
                 text: resultData.records[0].rtnMsg,
                 handler: function() {
@@ -339,7 +339,7 @@ Rui.onReady(function() {
 
 	// 온로드 조회
 	fnSearch();
-		
+
 	if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
     	$("#butRecordDel").hide();
     	$("#butRecordNew").hide();
@@ -364,15 +364,15 @@ function fnSearch() {
 		    prjCd : pTopForm.prjCd.value
         }
     }); */
-	
+
 	var dm = new Rui.data.LDataSetManager();
-	
+
 	dm.loadDataSet({
 		dataSets: [ dataSet04, erpDataSet ],
 		url: '<c:url value="/prj/rsst/ptotprpt/retrievePrjPtotPrptSearchInfo.do"/>' ,
         params :{
         	prjCd : pTopForm.prjCd.value
-          , wbsCd : pTopForm.wbsCd.value	
+          , wbsCd : pTopForm.wbsCd.value
         }
     });
 
@@ -414,9 +414,9 @@ function validation(vDataSet){
    	var isDup = false;
    	var dupCnt = 0;
    	for(var i=0; i<vTestDataSet.getCount(); i++){
-   		
+
 		testValue = vTestDataSet.getNameValue(i,'prptGoalYear') + "_" + vTestDataSet.getNameValue(i,'frnwScn');
-   		
+
    		dupCnt = 0;
    		for(var j=0; j< vTestDataSet.getCount(); j++){
    			if(testValue == (vTestDataSet.getNameValue(j,'prptGoalYear')+"_"+vTestDataSet.getNameValue(j,'frnwScn')  ) ){
@@ -439,11 +439,13 @@ function validation(vDataSet){
 <script>
 $(window).load(function() {
     initFrameSetHeight();
-}); 
+});
 </script>
 </head>
 <body>
-<form name="tabForm04" id="tabForm04" method="post"></form>
+<form name="tabForm04" id="tabForm04" method="post">
+<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form>
     <%-- <Tag:saymessage /> --%>
     <%--<!--  sayMessage 사용시 필요 -->--%>
 

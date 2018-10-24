@@ -193,15 +193,15 @@
 
             var spaceRqprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-					  { field: 'acpcNo',		label: '접수번호',		sortable: true,		align:'center',	width: 80 }
-					, { field: 'spaceScnNm',	label: '평가목적',		sortable: false,	align:'center',	width: 80 }
-					, { field: 'spaceNm',		label: '평가명',			sortable: false,	align:'left',	width: 370 }
-					, { field: 'CtrgNames',		label: '평가카테고리',	sortable: false,	align:'center',	width: 120 }
-					, { field: 'PrvsNames',		label: '평가항목',		sortable: false,	align:'center',	width: 100 }
-					, { field: 'rgstNm',		label: '의뢰자',			sortable: false, 	align:'center',	width: 70 }
+					  { field: 'acpcNo',		label: '접수번호',		sortable: true,		align:'center',	width: 90 }
+					, { field: 'spaceScnNm',	label: '평가목적',		sortable: false,	align:'center',	width: 90 }
+					, { field: 'spaceNm',		label: '평가명',			sortable: false,	align:'left',	width: 400 }
+					, { field: 'CtrgNames',		label: '평가카테고리',	sortable: false,	align:'center',	width: 150 }
+					, { field: 'PrvsNames',		label: '평가항목',		sortable: false,	align:'center',	width: 150 }
+					, { field: 'rgstNm',		label: '의뢰자',			sortable: false, 	align:'center',	width: 80 }
 					, { field: 'rqprDt',		label: '의뢰일',			sortable: true, 	align:'center',	width: 80 }
 					, { field: 'cmplDt',		label: '완료일',			sortable: true, 	align:'center',	width: 80 }
-					, { field: 'spaceUgyYnNm',	label: '긴급',			sortable: false,  	align:'center',	width: 40 }
+					, { field: 'spaceUgyYnNm',	label: '긴급',			sortable: false,  	align:'center',	width: 45 }
 					, { field: 'oppbScpCd',		label: '비밀',			sortable: true, 	align:'center',	width: 80 }
 					, { field: 'acpcStNm',		label: '상태',			sortable: false, 	align:'center',	width: 80 }
            		]
@@ -267,14 +267,35 @@ nG.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') +
    	    		paging(spaceRqprDataSet,"spaceRqprGrid");
             };
 
-            getSpaceRqprList();
+            //getSpaceRqprList();
 
+            init = function() {
+        	   var wbsCd='${inputData.wbsCd}';
+        	   var rgstNm='${inputData.rgstNm}';
+        	   var spaceNm='${inputData.spaceNm}';
+        	   var spaceChrgNm='${inputData.spaceChrgNm}';
+        	   var acpcNo='${inputData.acpcNo}';
+        	   spaceRqprDataSet.load({
+                    url: '<c:url value="/space/getSpaceRqprList.do"/>',
+                    params :{
+                    	cmbCtgr0Cd : '${inputData.cmbCtgr0Cd}',
+                    	fromRqprDt : '${inputData.fromRqprDt}',
+                    	toRqprDt : '${inputData.toRqprDt}',
+                    	wbsCd : escape(encodeURIComponent(wbsCd)),
+                    	rgstNm : escape(encodeURIComponent(rgstNm)),
+                    	spaceNm : escape(encodeURIComponent(spaceNm)),
+                    	spaceChrgNm : escape(encodeURIComponent(spaceChrgNm)),
+                    	acpcNo : escape(encodeURIComponent(acpcNo)),
+                    	spaceAcpcStCd : '${inputData.spaceAcpcStCd}'
+                    }
+                });
+            }
         });
 
 	</script>
 	<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
     </head>
-    <body onkeypress="if(event.keyCode==13) {getSpaceRqprList();}">
+    <body onkeypress="if(event.keyCode==13) {getSpaceRqprList();}" onload="init();">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>
 

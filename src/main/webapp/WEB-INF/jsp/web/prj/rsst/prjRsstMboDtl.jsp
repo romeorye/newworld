@@ -678,7 +678,9 @@ function fnMboRecordFilIdUpdate(rd)
 </script>
 </head>
 <body>
-<form name="tabForm03" id="tabForm03" method="post"></form>
+<form name="tabForm03" id="tabForm03" method="post">
+<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form>
     <%-- <Tag:saymessage /> --%>
     <%--<!--  sayMessage 사용시 필요 -->--%>
 

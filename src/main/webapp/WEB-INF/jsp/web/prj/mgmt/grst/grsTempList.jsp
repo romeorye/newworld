@@ -221,10 +221,10 @@
         	   mGridDataSet.load({
                     url: '<c:url value="/prj/mgmt/grst/retrieveGrsTempList.do"/>',
                     params :{
-                    	evSbcNmSch : escape(encodeURIComponent(evSbcNmSch)),
+                    	evSbcNm : escape(encodeURIComponent(evSbcNmSch)),
                     	grsY : '${inputData.grsYSch}',
-                    	grsTypeSch : '${inputData.grsTypeSch}',
-                    	useYnSch : '${inputData.useYnSch}'
+                    	grsType : '${inputData.grsTypeSch}',
+                    	useYn : '${inputData.useYnSch}'
                     }
                 });
             }

@@ -76,7 +76,7 @@
                  columns: [
                        { field: 'acpcNo',		label: '접수번호',	sortable: true,		align:'center',	width: 90 }
                      , { field: 'rlabScnNm',	label: '시험구분',	sortable: false,	align:'center',	width: 100 }
-                     , { field: 'rlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 415 }
+                     , { field: 'rlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 435 }
                      , { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 40 }
                      , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
  					 , { field: 'rlabChrgNm',	label: '담당자',		sortable: false, 	align:'center',	width: 80 }
@@ -182,7 +182,7 @@
 				applyTo: 'fromRqprDt',
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
-				defaultValue: '<c:out value="${inputData.fromRqprDt}"/>',
+				//defaultValue: '<c:out value="${inputData.fromRqprDt}"/>',
 				editable: false,
 				width: 100,
 				dateType: 'string'
@@ -204,7 +204,7 @@
 				applyTo: 'toRqprDt',
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
-				defaultValue: '<c:out value="${inputData.toRqprDt}"/>',
+				//defaultValue: '<c:out value="${inputData.toRqprDt}"/>',
 				editable: false,
 				width: 100,
 				dateType: 'string'
@@ -307,14 +307,37 @@ nG.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') +
                 });
             };
 
-            getRlabRqprList();
+            //getRlabRqprList();
+
+            init = function() {
+        	   var rlabNm='${inputData.rlabNm}';
+        	   var rqprDeptNm='${inputData.rqprDeptNm}';
+        	   var rlabChrgNm='${inputData.rlabChrgNm}';
+        	   var rgstNm='${inputData.rgstNm}';
+        	   var acpcNo='${inputData.acpcNo}';
+        	   rlabRqprDataSet.load({
+                    url: '<c:url value="/rlab/getRlabRqprList.do"/>',
+                    params :{
+                    	rlabNm : escape(encodeURIComponent(rlabNm)),
+                    	fromRqprDt : '${inputData.fromRqprDt}',
+                    	toRqprDt : '${inputData.toRqprDt}',
+                    	rqprDeptNm : escape(encodeURIComponent(rqprDeptNm)),
+                    	rlabChrgNm : escape(encodeURIComponent(rlabChrgNm)),
+                    	rgstNm : escape(encodeURIComponent(rgstNm)),
+                    	rlabAcpcStCd : '${inputData.rlabAcpcStCd}',
+                    	acpcNo : escape(encodeURIComponent(acpcNo)),
+                    	rqprDeptCd : $('#rqprDeptCd').val(),
+                    	isRlabChrg : 1
+                    }
+                });
+            }
 
         });
 
 	</script>
 	<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
     </head>
-    <body onkeypress="if(event.keyCode==13) {getRlabRqprList();}">
+    <body onkeypress="if(event.keyCode==13) {getRlabRqprList();}" onload="init();">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="rqprDeptCd" name="rqprDeptCd" value="<c:out value="${inputData.rqprDeptCd}"/>"/>
 		<input type="hidden" id="rqprId" name="rqprId" value=""/>

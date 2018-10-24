@@ -62,14 +62,14 @@
             columns: [
             	{ field: 'fxaNm', 	label:'자산명' , 	sortable: false, align: 'left', width: 280},
                 { field: 'fxaNo',  	label:'자산번호', 	sortable: false, align: 'center', width: 110},
-                { field: 'crgrNm',  label:'담당자', 	sortable: false, align: 'center', width: 80},
+                { field: 'crgrNm',  label:'담당자', 	sortable: false, align: 'center', width: 90},
                 { field: 'fxaLoc',  label:'위치', 		sortable: false, align: 'center', width: 130},
-                { field: 'obtDt', 	label: '취득일', 	sortable: false, align: 'center', width: 90},
-                { field: 'obtPce', 	label: '취득가',   	sortable: false, align: 'center', width: 100, renderer: function(value, p, record){
+                { field: 'obtDt', 	label: '취득일', 	sortable: false, align: 'center', width: 100},
+                { field: 'obtPce', 	label: '취득가',   	sortable: false, align: 'center', width: 110, renderer: function(value, p, record){
  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
  		        	}
              	},
-                { field: 'bkpPce',  label:'장부가' , 	sortable: false, align: 'center', width: 100, renderer: function(value, p, record){
+                { field: 'bkpPce',  label:'장부가' , 	sortable: false, align: 'center', width: 110, renderer: function(value, p, record){
  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
  		        	}
              	}

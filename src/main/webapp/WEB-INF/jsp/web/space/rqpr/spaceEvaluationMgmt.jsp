@@ -186,7 +186,7 @@
   		  	    		  }
   		  	    		 }
                       }
-                    , { field: 'rem',			label: '비고',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
+                    , { field: 'rem',			label: '비고',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 218 }
                 ]
             });
             /* strBtnFun = function(){

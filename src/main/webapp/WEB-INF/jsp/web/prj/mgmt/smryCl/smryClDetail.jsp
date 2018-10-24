@@ -258,7 +258,7 @@
 	<input type="hidden" name=prjNm value="${inputData.prjNm}"/>
 	<input type="hidden" name=tssStrtDd value="${inputData.tssStrtDd}"/>
 	<input type="hidden" name=tssFnhDd value="${inputData.tssFnhDd}"/>
-	<input type="hidden" name=tssStrtDd value="${inputData.tssStrtDd}"/>
+	<input type="hidden" name=tssSt value="${inputData.tssSt}"/>
 	<input type="hidden" name=pgsStepCd value="${inputData.pgsStepCd}"/>
 	<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
 </form>

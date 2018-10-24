@@ -205,7 +205,7 @@
             	$('#bbsCd').val(bbsCd);
             	$('#target').val(target);
             	tabUrl = "<c:url value='/space/lib/spaceLibTab.do'/>";
-                nwinsActSubmit(document.aform, tabUrl, target);
+                nwinsActSubmit(document.searchForm, tabUrl, target);
             };
 
             /* 수정/삭제버튼 */
@@ -301,6 +301,13 @@
     </head>
 
     <body>
+<form name="searchForm" id="searchForm"  method="post">
+	<input type="hidden" name="searchNm" value="${inputData.searchNm}"/>
+	<input type="hidden" name="bbsCd" value="${inputData.bbsCd}"/>
+	<input type="hidden" name=target value="${inputData.target}"/>
+	<input type="hidden" name=searchCd value="${inputData.searchCd}"/>
+	<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form>
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
@@ -311,7 +318,6 @@
 		<input type="hidden" id="target" name="target" value=""/>
 		<input type="hidden" id="rebId"  name="rebId" value=""/>
 		<input type="hidden" id="pageMode" name="pageMode" value="V"/>
-		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 
 <!--    		<div class="contents"> style="padding-bottom:10px" -->
 <!--    		<div class="sub-content"> -->

@@ -52,6 +52,7 @@ var target = "${inputData.target}";
            var searchCd = new Rui.ui.form.LCombo({
         	   applyTo: 'searchCd',
                name: 'searchCd',
+               defaultValue: '<c:out value="${inputData.searchCd}"/>',
                useEmptyText: false,
 //                emptyText: '선택',
                width: 150,
@@ -64,6 +65,7 @@ var target = "${inputData.target}";
            /* 검색 내용 */
            var searchNm = new Rui.ui.form.LTextBox({
         	   applyTo: 'searchNm',
+        	   defaultValue: '<c:out value="${inputData.searchNm}"/>',
                width: 390
            });
 
@@ -140,11 +142,11 @@ var target = "${inputData.target}";
            var columnModel01 = new Rui.ui.grid.LColumnModel({
         	   columns: [
        		    new Rui.ui.grid.LNumberColumn()
-      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
-                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
-                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
-                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
-                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 250 }
+                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 530 }
+                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 170 }
+                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 170 }
+                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
                ]
            });
 
@@ -187,11 +189,11 @@ var target = "${inputData.target}";
            var columnModel02 = new Rui.ui.grid.LColumnModel({
         	   columns: [
        		    new Rui.ui.grid.LNumberColumn()
-      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
-                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
-                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
-                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
-                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 250 }
+                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 530 }
+                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 170 }
+                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 170 }
+                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
                ]
            });
 
@@ -230,11 +232,11 @@ var target = "${inputData.target}";
            var columnModel03 = new Rui.ui.grid.LColumnModel({
         	   columns: [
        		    new Rui.ui.grid.LNumberColumn()
-      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
-                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
-                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
-                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
-                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 250 }
+                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 530 }
+                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 170 }
+                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 170 }
+                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
                ]
            });
 
@@ -274,11 +276,11 @@ var target = "${inputData.target}";
            var columnModel04 = new Rui.ui.grid.LColumnModel({
         	   columns: [
        		    new Rui.ui.grid.LNumberColumn()
-      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 200 }
-                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 460 }
-                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 150 }
-                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 150 }
-                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 150}
+      		    , { field: 'bbsNm',		label: '구분',    sortable: false,	align:'left',	width: 250 }
+                , { field: 'bbsTitl',		label: '제목',    sortable: false,	align:'left',	width: 530 }
+                , { field: 'rgstNm',		label: '등록자',  sortable: false,	align:'center',	width: 170 }
+                , { field: 'frstRgstDt',	label: '등록일',  sortable: false,	align:'center',	width: 170 }
+                , { field: 'rtrvCt',		label: '조회',	  sortable: false, 	align:'center',	width: 170}
                ]
            });
 
@@ -319,7 +321,7 @@ var target = "${inputData.target}";
   	    		$("#cnt_text").html('총 ' + anlLibDataSet.getCount() + '건');
 
   	    		if(roleIdIndex != -1) {
-  	    			chkUserRgst(true);
+  	    			//chkUserRgst(true);
                 }
   	    	// 목록 페이징
   	    		if("${inputData.bbsCd}"=="01"){
@@ -359,9 +361,10 @@ var target = "${inputData.target}";
                });
            };
 
-           getAnlLibList();
+           //getAnlLibList();
 
-           chkUserRgst(false);
+           //chkUserRgst(false);
+
 
 
        });//onReady 끝
@@ -394,10 +397,24 @@ function fncAnlLibRgstPage(record) {
 
 }
 
+init = function() {
+	   var searchNm='${inputData.searchNm}';
+	   anlLibDataSet.load({
+         url: '<c:url value="/rlab/lib/getRlabLibList.do"/>',
+         params :{
+         	bbsCd : '${inputData.bbsCd}',
+      	    target : '${inputData.target}',
+         	searchNm : escape(encodeURIComponent(searchNm)),
+         	searchCd : '${inputData.searchCd}'
+         }
+     });
+ }
+
+
 </script>
 
     </head>
-    <body>
+    <body onload="init();">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="bbsId" name="bbsId" value=""/>
 		<input type="hidden" id="bbsCd" name="bbsCd" value=""/>

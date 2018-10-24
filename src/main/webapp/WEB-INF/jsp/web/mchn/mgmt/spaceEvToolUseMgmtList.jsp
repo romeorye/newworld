@@ -74,9 +74,9 @@
 	        groupMerge: true,
 	        columns: [
 	        	{ field: 'toolNm', 	label: 'Tool', 	sortable: false, align: 'center', width: 360},
-	            { field: 'prctTitl',  	label: '평가명', 	sortable: false, align: 'center', width: 439},
+	            { field: 'prctTitl',  	label: '평가명', 	sortable: false, align: 'center', width: 445},
 	            { field: 'saName',  	label: '사용자',	  	sortable: false, align: 'center', width: 250},
-	            { field: 'prctDt',  	label: '사용일', 	sortable: false, align: 'center', width: 250},
+	            { field: 'prctDt',  	label: '사용일', 	sortable: false, align: 'center', width: 270},
 	            { field: 'mchnPrctId',   hidden : true},
 	            { field: 'lastMdfyId',  hidden : true},
 	            { field: 'lastMdfyDt',  hidden : true},

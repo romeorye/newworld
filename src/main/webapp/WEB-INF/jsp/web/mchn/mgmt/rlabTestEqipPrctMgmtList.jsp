@@ -95,8 +95,8 @@
 	        	{ field: 'rgstNm', label: '예약자명', 	sortable: false, align: 'left', width: 60},
 	        	{ field: 'prctFromToDt', label: '예약일', 	sortable: false, align: 'left', width: 150},
 	        	{ field: 'prctFromToTim', label: '예약시간', 	sortable: false, align: 'left', width: 80},
-	        	{ field: 'prctScnNm', label: '구분', 	sortable: false, align: 'center', width: 50},
-	        	{ field: 'mchnCrgrNm', label: '담당자명', 	sortable: false, align: 'left', width: 60},
+	        	{ field: 'prctScnNm', label: '구분', 	sortable: false, align: 'center', width: 55},
+	        	{ field: 'mchnCrgrNm', label: '담당자명', 	sortable: false, align: 'left', width: 80},
 
 	        	{ field: 'prctScnCd',hidden : true},
 	        	{ field: 'prctFromDt',hidden : true},

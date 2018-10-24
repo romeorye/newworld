@@ -97,7 +97,9 @@ function fnSearch() {
 
 </head>
 <body>
-<form name="tabForm05" id="tabForm05" method="post"></form>
+<form name="tabForm05" id="tabForm05" method="post">
+<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form>
     <Tag:saymessage /><!--  sayMessage 사용시 필요 -->
 <!--
      <div class="titArea">

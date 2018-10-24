@@ -52,6 +52,7 @@ var target = "${inputData.target}";
            var searchCd = new Rui.ui.form.LCombo({
         	   applyTo: 'searchCd',
                name: 'searchCd',
+               defaultValue: '<c:out value="${inputData.searchCd}"/>',
                useEmptyText: false,
 //                emptyText: '선택',
                width: 150,
@@ -67,6 +68,7 @@ var target = "${inputData.target}";
 	           var anlTlcgClCd = new Rui.ui.form.LCombo({
 	               applyTo: 'anlTlcgClCd',
 	               name: 'anlTlcgClCd',
+	               defaultValue: '<c:out value="${inputData.anlTlcgClCd}"/>',
 	               useEmptyText: true,
 	               emptyText: '전체',
 	               defaultValue: '',
@@ -80,6 +82,7 @@ var target = "${inputData.target}";
            /* 검색 내용 */
            var searchNm = new Rui.ui.form.LTextBox({
         	   applyTo: 'searchNm',
+        	   defaultValue: '<c:out value="${inputData.searchNm}"/>',
                width: 390
            });
 
@@ -408,10 +411,39 @@ function fncAnlLibRgstPage(record) {
 
 }
 
+init = function() {
+	var bbsCd = '${inputData.bbsCd}';
+	var searchNm='${inputData.searchNm}';
+
+	if(bbsCd == '04'){
+		dataSet.load({
+	         url: '<c:url value="/anl/lib/getAnlLibList.do"/>',
+	         params :{
+	        	 bbsCd : '${inputData.bbsCd}',
+	        	 searchNm : escape(encodeURIComponent(searchNm)),
+	         	 anlTlcgClCd : '${inputData.anlTlcgClCd}',
+	         	 searchCd : '${inputData.searchCd}'
+	         }
+	     });
+
+	}else{
+		dataSet.load({
+	         url: '<c:url value="/anl/lib/getAnlLibList.do"/>',
+	         params :{
+	        	 searchNm : escape(encodeURIComponent(searchNm)),
+	        	 bbsCd : '${inputData.bbsCd}',
+	         	 searchCd : '${inputData.searchCd}'
+	         }
+	     });
+    }
+
+
+ }
+
 </script>
 
     </head>
-    <body>
+    <body onload="init();">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="bbsId" name="bbsId" value=""/>
 		<input type="hidden" id="bbsCd" name="bbsCd" value=""/>

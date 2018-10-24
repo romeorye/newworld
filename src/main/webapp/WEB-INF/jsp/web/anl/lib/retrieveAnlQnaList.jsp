@@ -45,6 +45,7 @@ var anlQnaGrid;       // 그리드
           var searchCd = new Rui.ui.form.LCombo({
               applyTo: 'searchCd',
               name: 'searchCd',
+              defaultValue: '<c:out value="${inputData.searchCd}"/>',
               useEmptyText: true,
               emptyText: '선택',
               width: 150,
@@ -58,6 +59,7 @@ var anlQnaGrid;       // 그리드
 		  /* 검색 내용 */
           var searchNm = new Rui.ui.form.LTextBox({
               applyTo: 'searchNm',
+              defaultValue: '<c:out value="${inputData.searchNm}"/>',
               width: 500
           });
 
@@ -172,7 +174,19 @@ var anlQnaGrid;       // 그리드
   	    		paging(anlQnaDataSet,"defaultGrid");
   	      	});
 
-           getAnlQnaList();
+           //getAnlQnaList();
+
+           init = function() {
+        	   var searchNm='${inputData.searchNm}';
+        	   anlQnaDataSet.load({
+                    url: '<c:url value="/anl/lib/getAnlQnaList.do"/>',
+                    params :{
+                    	searchNm : escape(encodeURIComponent(searchNm)),
+                    	searchCd : '${inputData.searchCd}'
+                    }
+                });
+            }
+
        });
 </script>
 
@@ -201,7 +215,7 @@ function fncAnlQnaRgstPage(record) {
 </script>
 
     </head>
-    <body>
+    <body onload="init();">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="bbsId" name="bbsId" value=""/>
 		<input type="hidden" id="bbsCd" name="bbsCd" value=""/>

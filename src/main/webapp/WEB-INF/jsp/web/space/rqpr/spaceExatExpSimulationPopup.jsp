@@ -210,15 +210,15 @@
             var spaceRqprExatColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
-                    , { field: 'exatNm',		label: '평가명',		sortable: false,	editable: false,	editor: null,			align:'left',	width: 290 }
-                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: false, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
+                    , { field: 'exatNm',		label: '평가명',		sortable: false,	editable: false,	editor: null,			align:'left',	width: 300 }
+                    , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: false, 	editor: expCrtnScnCd,	align:'center',	width: 85 }
 
-                    , { field: 'exatTim',		label: '평가일수',		sortable: false,	editable: true,		editor: numberBox,		align:'center',	width: 100,
+                    , { field: 'exatTim',		label: '평가일수',		sortable: false,	editable: true,		editor: numberBox,		align:'center',	width: 115,
                     	renderer: function(value, p, record, row, col) {
                             p.editable = record.get('expCrtnScnCd') == '2' ? true : true;
                             return value;
                     } }
-                    , { field: 'exatExp',		label: '평가수가',		sortable: false,	editable: false,	editor: null,			align:'right',	width: 100,
+                    , { field: 'exatExp',		label: '평가수가',		sortable: false,	editable: false,	editor: null,			align:'right',	width: 115,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
                     } }

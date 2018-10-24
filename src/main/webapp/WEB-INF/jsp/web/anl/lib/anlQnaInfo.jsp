@@ -418,7 +418,8 @@
 
     		/* [버튼] 목록 */
             goQnaList = function() {
-            	$(location).attr('href', '<c:url value="/anl/lib/retrieveAnlQnaList.do"/>');
+            	//$(location).attr('href', '<c:url value="/anl/lib/retrieveAnlQnaList.do"/>');
+            	nwinsActSubmit(searchForm, "<c:url value="/anl/lib/retrieveAnlQnaList.do"/>");
             };
 
             /* [버튼] 답변 */
@@ -545,6 +546,11 @@
     </head>
 
     <body>
+    <form name="searchForm" id="searchForm"  method="post">
+	<input type="hidden" name="searchNm" value="${inputData.searchNm}"/>
+	<input type="hidden" name="searchCd" value="${inputData.searchCd}"/>
+	<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+	</form>
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>

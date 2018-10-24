@@ -965,6 +965,7 @@
 				,RLAB_ALL_STPT= #{rlabAllStpt}
 				,LAST_MDFY_DT = getdate()
 				,LAST_MDFY_ID = #{_userId}
+				,TO_DO_FLAG = 'Y'
 		WHERE	RQPR_ID = ${rqprId}
 
 	</update>

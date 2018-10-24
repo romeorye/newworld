@@ -282,7 +282,9 @@ function openImageView(row){
 
 </head>
 <body>
-<form name="tabForm08" id="tabForm08" method="post"></form>
+<form name="tabForm08" id="tabForm08" method="post">
+<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+</form>
     <Tag:saymessage /><!--  sayMessage 사용시 필요 -->
 
     <div class="titArea">

@@ -44,18 +44,21 @@
         //WBS Code
         wbsCd = new Rui.ui.form.LTextBox({
             applyTo: 'wbsCd',
+            defaultValue: '<c:out value="${inputData.wbsCd}"/>',
             width: 200
         });
 
         //과제명
         tssNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssNm',
+            defaultValue: '<c:out value="${inputData.tssNm}"/>',
             width: 200
         });
 
         //과제리더
         saSabunNew = new Rui.ui.form.LPopupTextBox({
             applyTo: 'saSabunNew',
+            defaultValue: '<c:out value="${inputData.saSabunNew}"/>',
             width: 200,
             editable: false,
             enterToPopup: true
@@ -75,6 +78,7 @@
         //조직
         deptName = new Rui.ui.form.LPopupTextBox({
             applyTo: 'deptName',
+            defaultValue: '<c:out value="${inputData.deptName}"/>',
             width: 200,
             editable: false,
             enterToPopup: true
@@ -86,6 +90,7 @@
         //과제기간 시작일
         tssStrtDd = new Rui.ui.form.LDateBox({
             applyTo: 'tssStrtDd',
+            defaultValue: '<c:out value="${inputData.tssStrtDd}"/>',
             mask: '9999-99-99',
             displayValue: '%Y-%m-%d',
             width: 100,
@@ -104,6 +109,7 @@
         //과제기간 종료일
         tssFnhDd = new Rui.ui.form.LDateBox({
             applyTo: 'tssFnhDd',
+            defaultValue: '<c:out value="${inputData.tssFnhDd}"/>',
             mask: '9999-99-99',
             displayValue: '%Y-%m-%d',
             width: 100,
@@ -123,6 +129,7 @@
         tssSt = new Rui.ui.form.LCombo({
             applyTo: 'tssSt',
             name: 'tssSt',
+            defaultValue: '<c:out value="${inputData.tssSt}"/>',
             useEmptyText: true,
             width: 150,
             emptyText: '전체',
@@ -135,6 +142,7 @@
         //과제명
         prjNm = new Rui.ui.form.LTextBox({
             applyTo: 'prjNm',
+            defaultValue: '<c:out value="${inputData.prjNm}"/>',
             width: 200
         });
 
@@ -142,6 +150,7 @@
         pgsStepCd = new Rui.ui.form.LCombo({
             applyTo: 'pgsStepCd',
             name: 'pgsStepCd',
+            defaultValue: '<c:out value="${inputData.pgsStepCd}"/>',
             useEmptyText: true,
             emptyText: '전체',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PGS_STEP_CD"/>',
@@ -289,8 +298,8 @@
                     	prjNm : escape(encodeURIComponent(prjNm)),
                     	tssStrtDd : '${inputData.tssStrtDd}',
                     	tssFnhDd : '${inputData.tssFnhDd}',
-                    	tssStrtDd : '${inputData.tssStrtDd}',
-                    	pgsStepCd : '${inputData.pgsStepCd}'
+                    	pgsStepCd : '${inputData.pgsStepCd}',
+                    	tssSt : '${inputData.tssSt}'
                     }
                 });
             }
