@@ -24,7 +24,10 @@
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 
 <title><%=documentTitle%></title>
-
+<%
+    pageContext.setAttribute("cn", "\n");    //Enter
+    pageContext.setAttribute("br", "<br/>");    //Enter
+%>
 <script type="text/javascript">
     var lvTssCd  = window.parent.cmplTssCd;
     var lvUserId = window.parent.gvUserId;
