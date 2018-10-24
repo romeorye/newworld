@@ -707,7 +707,7 @@
 			FROM EXAT_MST EM
 				,IRIS_SPACE_RQPR_EXAT ARE
 		]]>
-			WHERE	EM.EXAT_CD_L = 2
+			WHERE	EM.EXAT_CD_L = 3
 			AND	ARE.DEL_YN = 'N'
 			AND	EM.EXAT_CD = ARE.EXAT_CD
 			AND	ARE.RQPR_ID = ${rqprId}
@@ -965,7 +965,6 @@
 		]]>
 			where	mst.rqpr_id = ${rqprId}
 			  and   mst.rqpr_id = wc.rqpr_id
-			  and   wc.infm_prsn_id = ${userId}
 	</select>
 
 	<select id="getSpaceRqprRejectEmailInfo" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
@@ -987,7 +986,7 @@
 		]]>
 			where	mst.rqpr_id = ${rqprId}
 			  and   mst.rqpr_id = wc.rqpr_id
-			  and   wc.infm_prsn_id = ${userId}
+			  and   wc.infm_prsn_id = #{userId}
 	</select>
 
 	<select id="getSpaceRqprStopEmailInfo" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
@@ -1007,10 +1006,11 @@
 				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') 					as receivers
 			from	iris_space_rqpr_mst mst,
 					iris_space_way_crgr wc
-		]]>
+			]]>
 			where	mst.rqpr_id = ${rqprId}
 			  and   mst.rqpr_id = wc.rqpr_id
-			  and   wc.infm_prsn_id = ${userId}
+			  and   wc.infm_prsn_id = #{userId}
+			
 	</select>
 
 

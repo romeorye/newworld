@@ -212,7 +212,8 @@
 		   ,RLAB_CRGR_COMM
 		   ,RQPR_ATTC_FILE_ID
 		   ,FRST_RGST_ID
-		   ,LAST_MDFY_ID)
+		   ,LAST_MDFY_ID
+		   ,WBS_CD)
 		values(Convert(varchar(10), Current_Timestamp, 120)
 			  ,#{userId}
 			  ,#{userDeptCd}
@@ -228,6 +229,7 @@
 			  ,#{rqprAttcFileId}
 			  ,#{userId}
 			  ,#{userId}
+			  ,#{wbsCd}
 		  )
 
 	</insert>
@@ -243,6 +245,7 @@
 				smpo_trtm_cd = #{smpoTrtmCd},
 				rlab_sbc = #{rlabSbc},
 				rlab_acpc_st_cd = #{rlabAcpcStCd},
+				WBS_CD = #{wbsCd},
 			<if test="acpcNo == '' and rlabAcpcStCd == '03'">
 				acpc_no = (select 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4)
 						   from   iris_rlab_rqpr_mst
