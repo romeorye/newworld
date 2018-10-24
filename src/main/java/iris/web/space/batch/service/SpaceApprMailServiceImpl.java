@@ -52,7 +52,8 @@ public class SpaceApprMailServiceImpl implements SpaceApprMailService {
     	if(commonDao.update("space.batch.updateSpaceChrgTrsfFlag", spaceMailInfo) == 1) {
 
     		MailSender mailSender = mailSenderFactory.createMailSender();
-    		mailSender.setFromMailAddress(spaceMailInfo.getRgstEmail(), spaceMailInfo.getRgstNm());
+    		//mailSender.setFromMailAddress(spaceMailInfo.getRgstEmail(), spaceMailInfo.getRgstNm());
+    		mailSender.setFromMailAddress("iris@lghausys.com");
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
     		mailSender.setSubject("'" + spaceMailInfo.getSpaceNm() + "' 평가의뢰 접수 요청");
     		mailSender.setHtmlTemplate("spaceRqprReceiptRequest", spaceMailInfo);
