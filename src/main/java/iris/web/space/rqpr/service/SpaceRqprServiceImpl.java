@@ -488,9 +488,10 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     		mailSender.setFromMailAddress(spaceMailInfo.getChrgEmail(), spaceMailInfo.getChrgNm());
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
     		mailSender.setSubject("'" + spaceMailInfo.getSpaceNm() + "' 평가의뢰 접수 통보");
+    		mailSender.setFromMailAddress(spaceMailInfo.getFromMailAddress(), spaceMailInfo.getFromMailNm());
     		*/
 
-    		mailSender.setFromMailAddress(spaceMailInfo.getFromMailAddress(), spaceMailInfo.getFromMailNm());
+    		mailSender.setFromMailAddress("iris@lghausys.com");
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
     		mailSender.setSubject("'" + spaceMailInfo.getSpaceNm() + "' 평가의뢰 접수 통보");
 
@@ -530,8 +531,9 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     		/*
     		mailSender.setFromMailAddress(spaceMailInfo.getChrgEmail(), spaceMailInfo.getChrgNm());
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
-    		*/
     		mailSender.setFromMailAddress(spaceMailInfo.getFromMailAddress(), spaceMailInfo.getFromMailNm());
+    		*/
+    		mailSender.setFromMailAddress("iris@lghausys.com");
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
     		mailSender.setSubject(subject.toString());
 
