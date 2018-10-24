@@ -51,7 +51,7 @@
 	<update id="updateRgstTrsfFlag" parameterType="iris.web.space.rqpr.vo.SpaceMailInfo">
 	-- updateRgstTrsfFlag
 		update	iris_space_rqpr_mst
-		set		rgst_trsf_flag = 'Y'
+		set		space_chrg_trsf_flag = 'Y'
 		where	rqpr_id = ${rqprId}
 
 	</update>
