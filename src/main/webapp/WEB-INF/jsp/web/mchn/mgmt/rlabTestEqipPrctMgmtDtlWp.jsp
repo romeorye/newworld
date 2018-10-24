@@ -169,6 +169,7 @@ var mailTitl;
 				<input type="hidden" id="toMailAddr" name="toMailAddr" value="<c:out value='${result.rgstMail}'/>">
 				<input type="hidden" id="prctScnNm" name="prctScnNm" >
 				<input type="hidden" id="prctFromToDt" name="prctFromToDt" value="<c:out value='${result.prctFromToDt}'/>">
+				<input type="hidden" id="rgstMail" name="rgstMail" value="<c:out value='${result.rgstMail}'/>">
 
 				<div class="LblockButton top mt10">
 					<button type="button" id="butSave">승인</button>
