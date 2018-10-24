@@ -21,6 +21,7 @@ import iris.web.common.util.NamoMime;
 import iris.web.fxa.anl.service.FxaAnlServiceImpl;
 import iris.web.mchn.open.rlabMchn.vo.RlabMchnInfoVo;
 import iris.web.mchn.open.rlabMchn.vo.RlabMchnMailVo;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,13 +33,13 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
-	
+
 	@Resource(name = "configService")
     private ConfigService configService;
-	
+
 	@Resource(name="mailSenderFactory")
 	private MailSenderFactory mailSenderFactory;	// 메일전송 팩토리
-	
+
 	/**
 	 * 보유장비 리스트 조회
 	 * @param input
@@ -48,7 +49,7 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 		List<Map<String, Object>> mchnList = commonDao.selectList("open.rlabMchnInfo.retrieveMchnInfoSearchList", input);
 		return mchnList;
 	}
-	
+
 	/**
 	 * 보유장비 Detail 화면 조회
 	 * @param input
@@ -58,42 +59,42 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 		HashMap<String, Object> rtnMap = commonDao.select("open.rlabMchnInfo.retrieveMchnInfoDtl", input);
 		return rtnMap;
 	}
-	
+
 	/**
 	 * 보유장비 예약 신규 및 Detail 화면조회
 	 * @param input
 	 * @return
 	 */
 	public HashMap<String, Object> retrieveMchnPrctInfo(HashMap<String, Object> input)  throws Exception{
-		HashMap<String, Object> rtnMap = commonDao.select("open.rlabMchnInfo.retrieveMchnPrctInfo", input); 
-		return rtnMap; 
+		HashMap<String, Object> rtnMap = commonDao.select("open.rlabMchnInfo.retrieveMchnPrctInfo", input);
+		return rtnMap;
 	}
 
 	//calender 일정 조회
 	public List<Map<String, Object>> retrieveMchnPrctCalInfo(HashMap<String, Object> input){
-		
+
 		String mchnClCd2 = input.get("mchnClCd2").toString();
 		String selectUrl = "";
 		if(mchnClCd2.equals("01") || mchnClCd2.equals("02")){
 			selectUrl = "open.rlabMchnInfo.retrieveMchnPrctCalInfo2";
 		} else if(mchnClCd2.equals("03")){
 			selectUrl = "open.rlabMchnInfo.retrieveMchnPrctCalInfo";
-		} 
-		
+		}
+
 		return commonDao.selectList(selectUrl, input);
 	}
-	
+
 	/**
 	 * 보유장비 예약 신규 및 수정
 	 * @param input
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void saveMchnPrctInfo(HashMap<String, Object> input)  throws Exception{
-		
+
 		String mchnClCd = input.get("mchnClCd").toString();
 		int chkPrct = 0;
-		
+
 		//기존 예약시간 중복 체크
 		if(mchnClCd.equals("01")){
 			chkPrct = commonDao.select("open.rlabMchnInfo.checkRlabPrctInfo", input);
@@ -102,18 +103,18 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 		} else if(mchnClCd.equals("03")){
 			chkPrct = commonDao.select("open.rlabMchnInfo.checkPrctInfo", input);
 		}
-		
+
 		if( chkPrct  >   0 ){
 			throw new Exception("기존 예약건이 존재합니다.");
 		}
-		
+
 		//int chkPrct2 = commonDao.select("open.rlabMchnInfo.checkRlabPrctInfo2", input);
-		
+
 		NamoMime mime = new NamoMime();
 		//저장 및 수정
 		String dtlSbcHtml = "";
 		String dtlSbcHtml_temp = "";
-		
+
 		String uploadPath = "";
         String uploadUrl = "";
 
@@ -128,13 +129,13 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
         //dtlSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(dtlSbcHtml, "<", "@![!@"),">","@!]!@"));
         //input.put("dtlSbc", dtlSbcHtml);
 
-        MailSender mailSender = mailSenderFactory.createMailSender(); 
+        MailSender mailSender = mailSenderFactory.createMailSender();
         RlabMchnInfoVo vo = new RlabMchnInfoVo();
-        //LOGGER.debug("#############################input######################################################## : "+ input);   
+        //LOGGER.debug("#############################input######################################################## : "+ input);
         if(commonDao.update("open.rlabMchnInfo.saveMchnPrctInfo", input) > 0){
-        	
+
         	input.put("mchnPrctId", commonDao.select("open.rlabMchnInfo.getMchnPrctId", input));
-        	
+
         	if(mchnClCd.equals("01")||mchnClCd.equals("02")){
 	    	    String[] result = getDiffDays(input.get("prctFromDt").toString(), input.get("prctToDt").toString() );
 	    	    for( int i = 0; i < result.length; i++ )
@@ -143,28 +144,28 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 	    	         commonDao.insert("open.rlabMchnInfo.saveMchnPrctDetail", input);
 	    	    }
         	}
-    	    
+
 			//장비예약신청 담당자에게 메일 발송
 			mailSender.setFromMailAddress( input.get("_userEmail").toString(), input.get("_userNm").toString());
 			mailSender.setToMailAddress( input.get("toMailAddr").toString() , input.get("_userEmail").toString());
 			mailSender.setSubject(NullUtil.nvl(input.get("mailTitl").toString(),""));
-			
+
 			vo.setRgstNm(NullUtil.nvl(input.get("_userNm").toString(),""));
 			vo.setMchnHanNm(NullUtil.nvl(input.get("mchnHanNm").toString(),""));
 			vo.setMchnEnNm(NullUtil.nvl(input.get("mchnEnNm").toString(),""));
 			vo.setRsrtDivnCd(input.get("rsrtDivnCd").toString());
 			vo.setPrctDt(input.get("prctDt").toString());
-			
+
 			vo.setPrctFromDt(NullUtil.nvl(input.get("prctFromDt"),""));
 			vo.setPrctToDt(NullUtil.nvl(input.get("prctToDt"),""));
-			
+
 			vo.setPrctFromHH(NullUtil.nvl(input.get("prctFromHH"),""));
 			vo.setPrctFrommm(NullUtil.nvl(input.get("prctFrommm"),""));
 			vo.setPrctToHH(NullUtil.nvl(input.get("prctToHH"),""));
 			vo.setPrctTomm(NullUtil.nvl(input.get("prctTomm"),""));
 			vo.setPrctFromTim(NullUtil.nvl(input.get("prctFromTim"),""));
 			vo.setPrctToTim(NullUtil.nvl(input.get("prctToTim"),""));
-			
+
 			vo.setTestSpceCd(NullUtil.nvl(input.get("testSpceCd"),""));
 			vo.setTestCnd01(NullUtil.nvl(input.get("testCnd01"),""));
 			vo.setTestCnd02(NullUtil.nvl(input.get("testCnd02"),""));
@@ -179,24 +180,36 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 			} else if(mchnClCd.equals("03")){
 				mailSender.setHtmlTemplate("rlabMchnAppr03", vo);
 			}
-			
-			mailSender.send(); 
-			
+
+			mailSender.send();
+
+    		HashMap<String, Object> inputM = new HashMap<String, Object>();
+
+			inputM.put("mailTitl", NullUtil.nvl(input.get("mailTitl").toString(),""));
+			inputM.put("adreMail", input.get("toMailAddr").toString());
+			inputM.put("trrMail",  input.get("_userEmail").toString());
+			inputM.put("rfpMail",  "");
+			inputM.put("_userId", input.get("_userId").toString());
+			inputM.put("_userEmail", input.get("_userEmail").toString());
+
+			/* 전송메일 정보 hist 저장*/
+			commonDao.update("open.mchnAppr.insertMailHist", inputM);
+
 		}else{
 			throw new Exception("처리중 오류가 발생했습니다. 관리자에게 문의하세요");
 		}
 	}
-	
+
 	/**
 	 * 보유장비 예약 삭제
 	 * @param input
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void deleteMchnPrctInfo(HashMap<String, Object> input){
 		commonDao.update("open.rlabMchnInfo.deleteMchnPrctInfo", input);
 	}
-	
+
 	public static int getDiffDayCount(String fromDate, String toDate) {
 		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -207,7 +220,7 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 		   return 0;
 		  }
 	}
-	
+
 	 public static String[] getDiffDays(String fromDate, String toDate) {
 		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -240,5 +253,5 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 		 }
 
 
-	
+
 }

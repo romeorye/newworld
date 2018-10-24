@@ -330,6 +330,19 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     		mailSender.setHtmlTemplate("rlabRqprOpinition", rlabMailInfo);
     		mailSender.send();
 
+    		HashMap<String, Object> inputM = new HashMap<String, Object>();
+
+			inputM.put("mailTitl", "'" + rlabMailInfo.getRlabNm() + "' 시험 건에 새 의견이 게시되었습니다.");
+			inputM.put("adreMail", rlabMailInfo.getReceivers());
+			inputM.put("trrMail",  (String)input.get("_userEmail"));
+			inputM.put("rfpMail",  "");
+			inputM.put("_userId", input.get("_userId"));
+			inputM.put("_userEmail", (String)input.get("_userEmail"));
+
+			/* 전송메일 정보 hist 저장*/
+			commonDao.update("open.mchnAppr.insertMailHist", inputM);
+
+
         	return true;
     	} else {
     		throw new Exception("시험의뢰 의견 저장 오류");
@@ -481,7 +494,7 @@ public class RlabRqprServiceImpl implements RlabRqprService {
 			input.put("adreMail", rlabMailInfo.getReceivers());
 			input.put("trrMail",  rlabMailInfo.getChrgEmail());
 			input.put("rfpMail",  "");
-			input.put("_userId", dataMap.get("userId"));
+			input.put("_userId", dataMap.get("_userId"));
 			input.put("_userEmail", rlabMailInfo.getChrgEmail());
 
 			/* 전송메일 정보 hist 저장*/

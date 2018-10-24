@@ -33,7 +33,7 @@ public class RlabTestEqipPrctMgmtServiceImpl  implements RlabTestEqipPrctMgmtSer
 	    List<Map<String, Object>> resultList = commonDao.selectList("mgmt.rlabTestEqipPrctMgmt.retrieveRlabTestEqipPrctMgmtList", input);
 	    return resultList;
 	}
-	
+
 	/**
 	 *  신뢰성시험장비 예약관리리스트 상세조회 (예약)
 	 * @param input
@@ -43,26 +43,26 @@ public class RlabTestEqipPrctMgmtServiceImpl  implements RlabTestEqipPrctMgmtSer
 		HashMap<String, Object> result = commonDao.select("mgmt.rlabTestEqipPrctMgmt.retrieveRlabTestEqipPrctDtl", input);
 	    return result;
 	}
-	
+
 	/**
 	 *  신뢰성장비 예약관리 승인, 반려 업데이트
 	 * @param input
 	 * @return
 	 */
 	public void updateRlabTestEqipPrctInfo(HashMap<String, Object> input) throws Exception{
-		
+
 		MailSender mailSender = mailSenderFactory.createMailSender();
 		MchnApprVo vo = new MchnApprVo();
-		
+
 		if(commonDao.update("mgmt.rlabTestEqipPrctMgmt.updateRlabTestEqipPrctInfo", input) > 0 ){
 			//메일 발송 부분
 	       	//LOGGER.debug("#######################mchnapprtList######input######################################################## : "+ input);
 	       	//승인자 session 정보
 			mailSender.setFromMailAddress( input.get("_userEmail").toString(), input.get("_userNm").toString());
 			//송신자
-			mailSender.setToMailAddress(input.get("toMailAddr").toString(), input.get("rgstNm").toString());
+			mailSender.setToMailAddress(input.get("rgstMail").toString(), input.get("rgstNm").toString());
 			mailSender.setSubject(NullUtil.nvl(input.get("mailTitl").toString(),""));
-			
+
 			vo.setRgstNm(NullUtil.nvl(input.get("rgstNm").toString(),""));
 			vo.setMchnHanNm(NullUtil.nvl(input.get("mchnHanNm").toString(),""));
 			vo.setMchnEnNm(NullUtil.nvl(input.get("mchnEnNm").toString(),""));
@@ -72,21 +72,23 @@ public class RlabTestEqipPrctMgmtServiceImpl  implements RlabTestEqipPrctMgmtSer
 			vo.setPrctFromToDt(input.get("prctFromToDt").toString());
 			vo.setPrctScnNm(input.get("prctScnNm").toString());
 			mailSender.setHtmlTemplate("rlabApprReq", vo);
-			
+
 			mailSender.send();
-			
-			input.put("mailTitl", NullUtil.nvl(input.get("mailTitl").toString(),""));
-			input.put("adreMail", input.get("toMailAddr").toString());
-			input.put("trrMail",  input.get("_userEmail").toString());
-			input.put("rfpMail",  "");
-			input.put("_userId", input.get("_userId").toString());
-			input.put("_userEmail", input.get("_userEmail").toString());
-			
+
+			HashMap<String, Object> inputM = new HashMap<String, Object>();
+
+			inputM.put("mailTitl", NullUtil.nvl(input.get("mailTitl").toString(),""));
+			inputM.put("adreMail", input.get("rgstMail").toString());
+			inputM.put("trrMail",  input.get("_userEmail").toString());
+			inputM.put("rfpMail",  "");
+			inputM.put("_userId", input.get("_userId").toString());
+			inputM.put("_userEmail", input.get("_userEmail").toString());
+
 			/* 전송메일 정보 hist 저장*/
-			commonDao.update("mgmt.rlabTestEqipPrctMgmt.insertMailHist", input);
+			commonDao.update("mgmt.rlabTestEqipPrctMgmt.insertMailHist", inputM);
 		}else{
 			throw new Exception("저장중 오류가발생하였습니다.");
 		}
-	}	
-	
+	}
+
 }

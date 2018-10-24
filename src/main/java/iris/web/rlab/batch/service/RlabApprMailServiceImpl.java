@@ -63,11 +63,11 @@ public class RlabApprMailServiceImpl implements RlabApprMailService {
 
     		HashMap<String, Object> input = new HashMap<String, Object>();
 
-			input.put("mailTitl", "'" + rlabMailInfo.getRlabNm() + "' 분석의뢰 접수 요청");
+			input.put("mailTitl", rlabMailInfo.getRlabNm() + " 분석의뢰 접수 요청");
 			input.put("adreMail", rlabMailInfo.getReceivers());
 			input.put("trrMail",  rlabMailInfo.getRgstEmail());
 			input.put("rfpMail",  "");
-			input.put("_userId", "Batch-RlabApprMailBatch");
+			input.put("_userId", "Batch-RlabApprMail");
 			input.put("_userEmail", "iris@lghausys.com");
 
 			/* 전송메일 정보 hist 저장*/
@@ -87,9 +87,22 @@ public class RlabApprMailServiceImpl implements RlabApprMailService {
 
     		mailSender.setFromMailAddress(rlabMailInfo.getChrgEmail(), rlabMailInfo.getChrgNm());
     		mailSender.setToMailAddress(rlabMailInfo.getReceivers().split(","));
-    		mailSender.setSubject("'" + rlabMailInfo.getRlabNm() + "' 분석결과 통보");
+    		mailSender.setSubject(rlabMailInfo.getRlabNm() + " 분석결과 통보");
     		mailSender.setHtmlTemplate("rlabRqprResult", rlabMailInfo);
     		mailSender.send();
+
+    		HashMap<String, Object> input = new HashMap<String, Object>();
+
+			input.put("mailTitl", rlabMailInfo.getRlabNm() + " 분석결과 통보");
+			input.put("adreMail", rlabMailInfo.getReceivers());
+			input.put("trrMail",  rlabMailInfo.getChrgEmail());
+			input.put("rfpMail",  "");
+			input.put("_userId", "Batch-RlabApprMail");
+			input.put("_userEmail", "iris@lghausys.com");
+
+			/* 전송메일 정보 hist 저장*/
+			commonDao.update("open.mchnAppr.insertMailHist", input);
+
 
         	return true;
     	} else {
