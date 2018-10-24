@@ -481,10 +481,6 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 	public boolean updateReceiptSpaceRqpr(Map<String,Object> dataMap) throws Exception {
     	if(commonDao.update("space.rqpr.updateSpaceRqpr", dataMap) == 1) {
 
-    		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
-    		Object userId = input.get("_userId");
-    		dataMap.put("userId", input.get("userId"));
-
     		SpaceMailInfo spaceMailInfo = commonDao.select("space.rqpr.getSpaceRqprReceiptEmailInfo", dataMap);
 
     		MailSender mailSender = mailSenderFactory.createMailSender();
