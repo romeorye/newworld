@@ -1063,17 +1063,17 @@
             	var rlabTrmQltyVal = rlabTrmQlty.getValue();
             	var rlabAllStptVal = rlabAllStpt.getValue();
 
-            	if(rlabCnsQltyVal==""){
+            	if(!rlabCnsQltyVal){
             		alert("시험 상담의 질 만족도를 선택해 주세요.");
             		return;
             	}
 
-            	if(rlabTrmQltyVal==""){
+            	if(!rlabTrmQltyVal){
             		alert("시험와료기간 만족도를 선택해 주세요.");
             		return;
             	}
 
-            	if(rlabAllStptVal==""){
+            	if(!rlabAllStptVal){
             		alert("전체적인 만족도를 선택해 주세요.");
             		return;
             	}
