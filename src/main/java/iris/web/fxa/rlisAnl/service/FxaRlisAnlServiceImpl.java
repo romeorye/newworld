@@ -21,10 +21,10 @@ public class FxaRlisAnlServiceImpl implements FxaRlisAnlService{
 
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
-
+/*
 	@Resource(name="commonTodo")
 	private CommonDao commonTodo;
-
+*/
 
 	/**
 	 * 자산실기간관리 목록 조회
@@ -72,7 +72,7 @@ public class FxaRlisAnlServiceImpl implements FxaRlisAnlService{
 						 //LOGGER.debug("#################################curFxaRlisId#################################################### + " + input.get("curFxaRlisId"));
 						 //LOGGER.debug("#################################crgrId#################################################### + " + input.get("crgrId"));
 						 //to_do
-						 commonTodo.insert("fxaInfo.fxaRlisAnl.insertFxaRlisTodo", input);
+						 commonDao.insert("fxaInfo.fxaRlisAnl.insertFxaRlisTodo", input);
 						//실사기간과 자산매핑
 						commonDao.insert("fxaInfo.fxaRlisAnl.insertFxaRlisMapp", input);
 					}else{
