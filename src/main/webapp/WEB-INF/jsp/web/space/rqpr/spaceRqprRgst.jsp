@@ -254,30 +254,6 @@
                 width: 980
             });
 
-
-            /* 필수항목 체크 */
-            var vm = new Rui.validate.LValidatorManager({
-                validators:[
-                { id: 'spaceNm',		validExp: '평가명:true:maxByteLength=100' },
-                { id: 'spaceSbc',		validExp: '평가목적:true' },
-                { id: 'spaceScnCd',		validExp: '평가구분:true' },
-                { id: 'spaceUgyYn',		validExp: '긴급유무:true' },
-                { id: 'oppbScpCd',		validExp: '공개범위:true' },
-                { id: 'evCtgr',			validExp: '평가카테고리:true' },
-                { id: 'evPrvs',			validExp: '평가항목:true' },
-                { id: 'infmPrsnId',		validExp: '담당자:true' },
-				{ id: 'evSubjNm',		validExp: '평가대상명:true:maxByteLength=100' },
-				{ id: 'sbmpCd',			validExp: '제출처:true' },
-				{ id: 'sbmpNm',			validExp: '제출기관명:true:maxByteLength=100' },
-				{ id: 'qtasDpst',		validExp: '정량지표:true:maxByteLength=100' },
-				{ id: 'qnasDpst',		validExp: '정성지표:true:maxByteLength=100' },
-				{ id: 'goalPfmc',		validExp: '목표성능:true:maxByteLength=100' },
-				{ id: 'rsltDpst',		validExp: '결과지표:true:maxByteLength=100' },
-				{ id: 'evCases',		validExp: '평가case(개수):true:number' },
-				{ id: 'evSubjDtl',		validExp: '평가대상 상세:true:maxByteLength=100' }
-                ]
-            });
-
             spaceRqprDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceRqprDataSet',
                 remainRemoved: true,
@@ -850,6 +826,30 @@
             	spaceRqprDataSet.newRecord();
             };
 
+
+            /* 필수항목 체크 */
+            var vm = new Rui.validate.LValidatorManager({
+                validators:[
+                { id: 'spaceNm',		validExp: '평가명:true:maxByteLength=100' },
+                { id: 'spaceSbc',		validExp: '평가목적:true' },
+                { id: 'spaceScnCd',		validExp: '평가구분:true' },
+                { id: 'spaceUgyYn',		validExp: '긴급유무:true' },
+                { id: 'oppbScpCd',		validExp: '공개범위:true' },
+                { id: 'evCtgr',			validExp: '평가카테고리:true' },
+                { id: 'evPrvs',			validExp: '평가항목:true' },
+                { id: 'infmPrsnId',		validExp: '담당자:true' },
+				{ id: 'evSubjNm',		validExp: '평가대상명:true:maxByteLength=100' },
+				{ id: 'sbmpCd',			validExp: '제출처:true' },
+				{ id: 'sbmpNm',			validExp: '제출기관명:true:maxByteLength=100' },
+				{ id: 'qtasDpst',		validExp: '정량지표:true:maxByteLength=100' },
+				{ id: 'qnasDpst',		validExp: '정성지표:true:maxByteLength=100' },
+				{ id: 'goalPfmc',		validExp: '목표성능:true:maxByteLength=100' },
+				{ id: 'rsltDpst',		validExp: '결과지표:true:maxByteLength=100' },
+				{ id: 'evCases',		validExp: '평가case(개수):true:number' },
+				{ id: 'evSubjDtl',		validExp: '평가대상 상세:true:maxByteLength=100' }
+                ]
+            });
+
             /* 저장 */
             save = function() {
                 if (vm.validateDataSet(spaceRqprDataSet) == false) {
@@ -865,10 +865,13 @@
                     return false;
                 }
 
-//                 if (spaceRqprAttachDataSet.getCount() == 0) {
-//                 	alert('첨부파일을 첨부해주세요.');
-//                 	return false;
-//                 }
+                if (spaceRqprProdDataSet.getCount() == 0) {
+                    alert('제품군을 입력해주세요.');
+                    return false;
+                } else if (vm.validateDataSet(spaceRqprProdDataSet) == false) {
+                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
+                    return false;
+                }
 
                 if(confirm('저장 하시겠습니까?')) {
                     dm.updateDataSet({

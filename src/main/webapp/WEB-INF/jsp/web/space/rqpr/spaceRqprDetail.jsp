@@ -124,6 +124,10 @@
 	                break;
 
 	            case 3:
+	            	if(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '07') {
+	            		alert('결과 통보 이후 의견 피드백을 작성해 주시기 바랍니다.');
+	            		return false;
+	            	}
 
 	                break;
 	            default:
@@ -367,22 +371,6 @@
                 width: 10
             });
 
-
-            /* 필수항목 체크 */
-            var vm = new Rui.validate.LValidatorManager({
-                validators:[
-                { id: 'spaceNm',			validExp: '평가명:true:maxByteLength=100' },
-                { id: 'spaceSbc',			validExp: '평가목적:true' },
-                { id: 'spaceScnCd',			validExp: '평가구분:true' },
-                { id: 'spaceUgyYn',			validExp: '긴급유무:true' },
-                { id: 'spaceRqprInfmView',	validExp: '통보자:true' },
-                { id: 'smpoNm',				validExp: '시료명:true:maxByteLength=100' },
-                { id: 'mkrNm',				validExp: '제조사:true:maxByteLength=100' },
-                { id: 'mdlNm',				validExp: '모델명:true:maxByteLength=100' },
-                { id: 'smpoQty',			validExp: '수량:true:number' }
-                ]
-            });
-
             spaceRqprDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceRqprDataSet',
                 remainRemoved: true,
@@ -612,12 +600,12 @@
 			//평가방법 / 담당자 그리드
             var spaceRqprWayCrgrColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  new Rui.ui.grid.LSelectionColumn()
+                      new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                	, { field: 'evCtgr',		label: '<span style="color:red;">* </span>평가카테고리',	sortable: false,	editable: false, editor: evCtgrCombo,	align:'center',	width: 458}
-                	, { field: 'evPrvs',		label: '<span style="color:red;">* </span>평가항목',		sortable: false,	editable: false, editor: evPrvsCombo,	align:'center',	width: 455}
-                	, { field: 'infmPrsnId',	label: '<span style="color:red;">* </span>담당자ID',		sortable: false,	editable: false,	align:'center',	width: 350 , hidden:true}
-                    , { field: 'infmPrsnNm',	label: '<span style="color:red;">* </span>담당자',		sortable: false,	editable: false,	align:'center',	width: 350 }
+                	, { field: 'evCtgr',		label: '<span style="color:red;">* </span>평가카테고리',	sortable: false,	editable: false, editor: evCtgrCombo,	align:'center',	width: 400}
+                	, { field: 'evPrvs',		label: '<span style="color:red;">* </span>평가항목',		sortable: false,	editable: false, editor: evPrvsCombo,	align:'center',	width: 400 }
+                	, { field: 'infmPrsnId',	label: '<span style="color:red;">* </span>담당자ID',		sortable: false,	editable: false,	align:'center',	width: 300 , hidden:true}
+                    , { field: 'infmPrsnNm',	label: '<span style="color:red;">* </span>담당자',		sortable: false,	editable: false,	align:'center',	width: 300 }
                 ]
             });
             var spaceRqprWayCrgrGrid = new Rui.ui.grid.LGridPanel({
@@ -665,6 +653,16 @@
             	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'infmPrsnNm', spaceChrgInfo.name);
             };
 			// 평가 담당자 선택팝업 끝
+
+			/* 평가담당자 삭제 */
+            deleteSpaceRqprWayCrgr = function() {
+                if(spaceRqprWayCrgrDataSet.getMarkedCount() > 0) {
+                	spaceRqprWayCrgrDataSet.removeMarkedRows();
+                } else {
+                	alert('삭제 대상을 선택해주세요.');
+                }
+            };
+            /* 평가담당자 삭제 끝 */
 
 
 			/***** 제품군 선택 *****/
@@ -816,7 +814,7 @@
 					, { id: 'evCtgr1Nm' }
 					, { id: 'evCtgr2Nm' }
 					, { id: 'evCtgr3Nm' }
-
+					, { id: 'evCtgr4Nm' }
                 ]
             });
             //제품군 그리드 설정
@@ -829,10 +827,12 @@
                 	, { field: 'evCtgr2',	label: 'evCtgr2',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
                     , { field: 'evCtgr3',	label: 'evCtgr3',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
 
-                    , { field: 'evCtgr0Nm',	label: '<span style="color:red;">* </span>사업부',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 300}
-                	, { field: 'evCtgr1Nm',	label: '<span style="color:red;">* </span>제품군',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 300 }
-                	, { field: 'evCtgr2Nm',	label: '<span style="color:red;">* </span>분류',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 300 }
-                    , { field: 'evCtgr3Nm',	label: '<span style="color:red;">* </span>제품',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 362 }
+                    , { field: 'evCtgr0Nm',	label: '<span style="color:red;">* </span>사업부',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
+                	, { field: 'evCtgr1Nm',	label: '<span style="color:red;">* </span>제품군',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
+                	, { field: 'evCtgr2Nm',	label: '<span style="color:red;">* </span>분류',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
+                    , { field: 'evCtgr3Nm',	label: '<span style="color:red;">* </span>제품',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
+                    , { field: 'evCtgr4Nm',	label: '제품명(직접입력)',		sortable: false,	editable: true, 	editor: textBox,	align:'left',	width: 250 }
+
                 ]
             });
             var spaceRqprProdGrid = new Rui.ui.grid.LGridPanel({
@@ -1448,39 +1448,48 @@
           	/////////////////////////////////////////////////
 
 
+			/* 필수항목 체크 */
+            var vm = new Rui.validate.LValidatorManager({
+                validators:[
+                { id: 'spaceNm',		validExp: '평가명:true:maxByteLength=100' },
+                { id: 'spaceSbc',		validExp: '평가목적:true' },
+                { id: 'spaceScnCd',		validExp: '평가구분:true' },
+                { id: 'spaceUgyYn',		validExp: '긴급유무:true' },
+                { id: 'oppbScpCd',		validExp: '공개범위:true' },
+				{ id: 'evSubjNm',		validExp: '평가대상명:true:maxByteLength=100' },
+				{ id: 'sbmpCd',			validExp: '제출처:true' },
+				{ id: 'sbmpNm',			validExp: '제출기관명:true:maxByteLength=100' },
+				{ id: 'qtasDpst',		validExp: '정량지표:true:maxByteLength=100' },
+				{ id: 'qnasDpst',		validExp: '정성지표:true:maxByteLength=100' },
+				{ id: 'goalPfmc',		validExp: '목표성능:true:maxByteLength=100' },
+				{ id: 'rsltDpst',		validExp: '결과지표:true:maxByteLength=100' },
+				{ id: 'evCases',		validExp: '평가case(개수):true:number' },
+				{ id: 'evSubjDtl',		validExp: '평가대상 상세:true:maxByteLength=100' }
+                ]
+            });
+
     	    /* 유효성 검사 */
     	    isValidate = function(type) {
-                if (spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '00') {
-                    alert('작성중 상태일때만 ' + type + ' 할 수 있습니다.');
-                    return false;
-                }
-
-                if (vm.validateDataSet(spaceRqprDataSet) == false) {
+    	    	if (vm.validateDataSet(spaceRqprDataSet) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
                 }
 
-                var spaceRqprWayCrgrDataSetCnt = spaceRqprWayCrgrDataSet.getCount();
-                var spaceRqprWayCrgrDataSetDelCnt = 0;
-
-                for(var i=0; i<spaceRqprWayCrgrDataSetCnt; i++) {
-                	if(spaceRqprWayCrgrDataSet.isRowDeleted(i)) {
-                		spaceRqprWayCrgrDataSetDelCnt++;
-                	}
-                }
-
-                if (spaceRqprWayCrgrDataSetCnt == spaceRqprWayCrgrDataSetDelCnt) {
-                    alert('시료정보를 입력해주세요.');
+                if (spaceRqprWayCrgrDataSet.getCount() == 0) {
+                    alert('평가방법을 입력해주세요.');
                     return false;
                 } else if (vm.validateDataSet(spaceRqprWayCrgrDataSet) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
                 }
 
-//                 if (spaceRqprAttachDataSet.getCount() == 0) {
-//                 	alert('시료사진/첨부파일을 첨부해주세요.');
-//                 	return false;
-//                 }
+                if (spaceRqprProdDataSet.getCount() == 0) {
+                    alert('제품군을 입력해주세요.');
+                    return false;
+                } else if (vm.validateDataSet(spaceRqprProdDataSet) == false) {
+                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
+                    return false;
+                }
 
                 return true;
     	    }
@@ -1694,7 +1703,7 @@
    					<h3><span style="color:red;">* </span>평가방법</h3>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="penSpaceChrgListDialogBtn" name="penSpaceChrgListDialogBtn" onclick="openSpaceChrgListDialog(setSpaceChrgInfo);">추가</button>
-   						<button type="button" class="btn"  id="deleteSpaceRqprChrgBtn" name="deleteSpaceRqprChrgBtn" onclick="deleteSpaceRqprChrg()">삭제</button>
+   						<button type="button" class="btn"  id="deleteSpaceRqprWayCrgrBtn" name="deleteSpaceRqprWayCrgrBtn" onclick="deleteSpaceRqprWayCrgr()">삭제</button>
    					</div>
    				</div>
 
@@ -1781,7 +1790,7 @@
    							</td>
    						</tr>
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>T-Cloud Link</th>
+   							<th align="right">T-Cloud Link</th>
    							<td class="rlabrqpr_tain01" colspan="3">
                                 <input type="text" id="tCloud">
    							</td>
@@ -1803,9 +1812,9 @@
 					</div>
 					<div class="right">
 						<div class="titArea">
-		   					<h3>시료사진/첨부파일</h3>
+		   					<h3>첨부파일</h3>
 		   					<div class="LblockButton">
-		   						<button type="button" class="btn"  id="addSpaceRqprAttachBtn" name="addSpaceRqprAttachBtn" onclick="openAttachFileDialog(setSpaceRqprAttach, spaceRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'spacePolicy', '*', 'M', '시료사진/첨부파일')">파일첨부</button>
+		   						<button type="button" class="btn"  id="addSpaceRqprAttachBtn" name="addSpaceRqprAttachBtn" onclick="openAttachFileDialog(setSpaceRqprAttach, spaceRqprDataSet.getNameValue(0, 'rqprAttcFileId'), 'spacePolicy', '*', 'M', '첨부파일')">파일첨부</button>
 		   					</div>
 		   				</div>
 
