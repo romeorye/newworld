@@ -103,11 +103,12 @@
             var columnModel = new Rui.ui.grid.LColumnModel({
             	groupMerge: true,
                 columns: [
-                	  { field: 'bizBptNm',        	label: '사업부문<BR>(Funding기준)',	sortable: false,  align:'center', width: 110 }
-                	, { field: 'deptName',        	label: '조직',                		sortable: false,  align:'center', width: 120 }
-                	, { field: 'prjNm',        		label: '프로젝트명',                	sortable: false,  align:'center', width: 210 }
+                	  { field: 'wbsCd',        		label: 'WBS 코드',                	sortable: false,  align:'center', width: 70 }
+                	, { field: 'deptName',        	label: '조직',                		sortable: false,  align:'center', width: 130 }
+                	, { field: 'prjNm',        		label: '프로젝트명',                	sortable: false,  align:'center', width: 170 }
+                	, { field: 'bizBptNm',        	label: '사업부문<BR>(Funding기준)',	sortable: false,  align:'center', width: 100 }
                 	, { field: 'cnttTypeNm',        label: '계약 유형',               	sortable: false,  align:'center', width: 70 }
-                	, { field: 'tssNm',        		label: '과제명',               		sortable: false,  align:'left', width: 200 }
+                	, { field: 'tssNm',        		label: '과제명',               		sortable: false,  align:'left', width: 240 }
                 	, { field: 'cooInstNm',        	label: '협력기관명',              	sortable: false,  align:'center', width: 180 }
                 	, { field: 'spltNm',        	label: '협력기관<BR>연구책임자',    sortable: false,  align:'center', width: 70 }
                 	, { id: 'strTssStrtDd',        		label: '사업기간',                	sortable: false,  align:'center', width: 80
@@ -122,7 +123,6 @@
                     		return value + '개월';
                     	}
                 	  }
-                	, { field: 'wbsCd',        		label: 'WBS 코드',                	sortable: false,  align:'center', width: 70 }
                 	, { field: 'rsstExpMil',        label: '연구<BR>(억원)',            sortable: false,  align:'right', width: 60 }
                 	, { field: 'saName',        	label: '당사<BR>연구 책임자',       sortable: false,  align:'center', width: 95 }
                 ]

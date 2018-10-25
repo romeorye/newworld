@@ -215,7 +215,7 @@ function fncAnlQnaRgstPage(record) {
 </script>
 
     </head>
-    <body onload="init();">
+    <body onkeypress="if(event.keyCode==13) {getAnlQnaList();}" onload="init();">
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="bbsId" name="bbsId" value=""/>
 		<input type="hidden" id="bbsCd" name="bbsCd" value=""/>

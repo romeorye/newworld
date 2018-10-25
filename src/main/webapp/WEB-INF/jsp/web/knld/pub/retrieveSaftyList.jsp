@@ -393,7 +393,7 @@ init = function() {
 </script>
 
     </head>
-    <body onload="init();">
+    <body onkeypress="if(event.keyCode==13) {getSaftyList();}" onload="init();">
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>
@@ -420,7 +420,7 @@ init = function() {
 		   						<col style="width:400px;"/>
 		   						<col style="width:100px;"/>
 		   						<col style="width:200px"/>
-		   						<col style="width:10%;"/>
+		   						<col style=""/>
 		   					</colgroup>
 		   					<tbody>
 		   						<tr>

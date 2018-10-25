@@ -290,7 +290,7 @@ var adminChk = "N";
 
         }
         // 화면로드시 조회
-	    fnSearch();
+	    //fnSearch();
 
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
@@ -313,11 +313,31 @@ nG.saveExcel(encodeURIComponent('자산폐기_') + new Date().format('%Y%m%d') +
         	// 목록 페이징
         	paging(dataSet,"defaultGrid");
         });
+
+        init = function() {
+     	   var wbsCd='${inputData.wbsCd}';
+     	   var prjNm='${inputData.prjNm}';
+     	   var fxaNm='${inputData.fxaNm}';
+     	   var fxaNo='${inputData.fxaNo}';
+     	   var crgrNm='${inputData.crgrNm}';
+           	dataSet.load({
+                 url: '<c:url value="/fxa/dsu/retrieveFxaDsuSearchList.do"/>',
+                 params :{
+                	 wbsCd : escape(encodeURIComponent(wbsCd)),
+                	 prjNm : escape(encodeURIComponent(prjNm)),
+                	 fxaNm : escape(encodeURIComponent(fxaNm)),
+                	 fxaNo : escape(encodeURIComponent(fxaNo)),
+                	 fromDate : '${inputData.fromDate}',
+                	 toDate : '${inputData.toDate}',
+                	 crgrNm : escape(encodeURIComponent(crgrNm))
+                 }
+             });
+         }
 	});		//end ready
 </script>
 <!-- <script type="text/javascript" src="/iris/resource/js/lgHs_common.js"></script> -->
  </head>
- <body>
+ <body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
  		<div class="contents">
  			<div class="titleArea">
  				<a class="leftCon" href="#">

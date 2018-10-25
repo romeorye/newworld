@@ -194,10 +194,10 @@
 					, { field: 'ctgr1Cd',			hidden : true}
 					, { field: 'ctgr2Cd',			hidden : true}
 					, { field: 'ctgr3Cd',			hidden : true}
-                	, { field: 'ctgr0Nm',		label: '사업부',		sortable: false,	editable: false,		align:'left',	width: 200 }
-                	, { field: 'ctgr1Nm',		label: '제품군',		sortable: false,	editable: false,		align:'left',	width: 200 }
-                	, { field: 'ctgr2Nm',		label: '분류',		sortable: false,	editable: false,		align:'left',	width: 200 }
-                	, { field: 'ctgr3Nm',		label: '제품',		sortable: false,	editable: false,		align:'left',	width: 200 }
+                	, { field: 'ctgr0Nm',		label: '사업부',		sortable: false,	editable: false,		align:'left',	width: 327 }
+                	, { field: 'ctgr1Nm',		label: '제품군',		sortable: false,	editable: false,		align:'left',	width: 327 }
+                	, { field: 'ctgr2Nm',		label: '분류',		sortable: false,	editable: false,		align:'left',	width: 327 }
+                	, { field: 'ctgr3Nm',		label: '제품',		sortable: false,	editable: false,		align:'left',	width: 327 }
                 ]
             });
 
@@ -273,13 +273,13 @@
                 	, { field: 'ctgr3',			hidden : true}
                 	, { field: 'prodNm',		hidden : true}
                 	, { field: 'evCd',			hidden : true}
-                	, { field: 'scn',			label: '구분',		sortable: false,	editable: false, 	align:'center',	width: 100 }
-                    , { field: 'pfmcVal',		label: '성능값',		sortable: false,	editable: false, 	align:'center',	width: 150 }
-                    , { field: 'frstRgstDt',	label: '등록일',		sortable: false,	editable: false, 	align:'center',	width: 150 }
-                    , { field: 'strtVldDt',		label: '유효시작일',		sortable: false,	editable: false, 	align:'center',	width: 150 }
-                    , { field: 'fnhVldDt',		label: '유효종료일',		sortable: false,	editable: false, 	align:'center',	width: 150 }
-                    , { field: 'ottpYn',		label: '공개여부',		sortable: false,	editable: false, 	align:'center',	width: 150 }
-                    , { id: 'attachDownBtn',  label: '첨부',                                          width: 65
+                	, { field: 'scn',			label: '구분',		sortable: false,	editable: false, 	align:'center',	width: 200 }
+                    , { field: 'pfmcVal',		label: '성능값',		sortable: false,	editable: false, 	align:'center',	width: 180 }
+                    , { field: 'frstRgstDt',	label: '등록일',		sortable: false,	editable: false, 	align:'center',	width: 180 }
+                    , { field: 'strtVldDt',		label: '유효시작일',		sortable: false,	editable: false, 	align:'center',	width: 170 }
+                    , { field: 'fnhVldDt',		label: '유효종료일',		sortable: false,	editable: false, 	align:'center',	width: 170 }
+                    , { field: 'ottpYn',		label: '공개여부',		sortable: false,	editable: false, 	align:'center',	width: 170 }
+                    , { id: 'attachDownBtn',  label: '첨부',                                          width: 83
                     	,renderer: function(val, p, record, row, i){
   		  	    		  if(!record.get('attcFilId')||record.get('attcFilId').length<1){
   		  	    			  return '';
@@ -288,7 +288,7 @@
   		  	    		  }
   		  	    		 }
                       }
-                    , { field: 'rem',			label: '비고',		sortable: false,	editable: false, 	align:'center',	width: 150 }
+                    , { field: 'rem',			label: '비고',		sortable: false,	editable: false, 	align:'center',	width: 155 }
                     , { field: 'attcFilId',	hidden : true}
 
                 ]
@@ -353,12 +353,12 @@
 
             var spaceRqprRsltColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  { field: 'spaceNm',	label: '제목',		sortable: false,	align:'left',	width: 300 }
-                    , { field: 'CtrgNames',			label: '평가카테고리',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'PrvsNames',			label: '평가항목',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'cmplDt',		label: '등록일',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'ottpYn',	label: '공개여부',		sortable: false,	align:'center',	width: 80 }
-                    , { id: 'attachDownBtn',  label: '첨부',                                          width: 65
+                	  { field: 'spaceNm',	label: '제목',		sortable: false,	align:'left',	width: 370 }
+                    , { field: 'CtrgNames',			label: '평가카테고리',		sortable: false,	align:'center',	width: 180 }
+                    , { field: 'PrvsNames',			label: '평가항목',		sortable: false,	align:'center',	width: 180 }
+                    , { field: 'cmplDt',		label: '등록일',		sortable: false,	align:'center',	width: 180 }
+                    , { field: 'ottpYn',	label: '공개여부',		sortable: false,	align:'center',	width: 120 }
+                    , { id: 'attachDownBtn',  label: '첨부',                                          width: 100
                     	,renderer: function(val, p, record, row, i){
   		  	    		  if(!record.get('rsltAttcFileId')||record.get('rsltAttcFileId').length<1){
   		  	    			  return '';
@@ -367,8 +367,8 @@
   		  	    		  }
   		  	    		 }
                       }
-                    , { field: 'rgstNm',	label: '작성자',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'rem',	label: '비고',		sortable: false,	align:'center',	width: 80 }
+                    , { field: 'rgstNm',	label: '작성자',		sortable: false,	align:'center',	width: 100 }
+                    , { field: 'rem',	label: '비고',		sortable: false,	align:'center',	width: 78 }
                     , { field: 'rsltAttcFileId',	hidden : true}
                     , { field: 'prodId'		,	hidden : true}
 					, { field: 'rqprId'		,	hidden : true}
@@ -498,7 +498,7 @@
 
 	</script>
     </head>
-    <body>
+    <body onkeypress="if(event.keyCode==13) {getSpaceEvProdList();}">
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
 
    		<div class="contents">

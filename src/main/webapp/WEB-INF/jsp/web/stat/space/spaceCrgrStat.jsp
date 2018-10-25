@@ -261,13 +261,16 @@ var mchnInfoId;
         fnSearch = function() {
         	getSpaceCrgrStatList();
         };
+
+        //getSpaceCrgrStatList();
+
 	});	//end ready
 
 </script>
 </head>
 
 
-<body>
+<body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<!-- contents -->
 	<div class="contents">
 		<div class="titleArea">

@@ -253,18 +253,19 @@ var mchnInfoId;
 
 
 
-
         /* 조회 */
         fnSearch = function() {
         	getSpaceEvAffrSttsList();
         };
+
+        //fnSearch();
 	});	//end ready
 
 </script>
 </head>
 
 
-<body>
+<body onkeypress="if(event.keyCode==13) {getSpaceEvAffrSttsList();}">
 	<!-- contents -->
 	<div class="contents">
 		<div class="titleArea">

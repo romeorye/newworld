@@ -67,7 +67,7 @@
              columns: [
          	 	       { field: 'prjNm'      , label: '프로젝트명', sortable: false,	align:'left', width: 245}
                      , { field: 'fxaNo'      , label: '자산번호',  	sortable: false,	align:'center', width: 110}
-                     , { field: 'fxaNm'      , label: '자산명',  	sortable: false,	align:'left', width:330}
+                     , { field: 'fxaNm'      , label: '자산명',  	sortable: false,	align:'left', width:313}
                      , { field: 'fxaQty' 	 , label: '수량',  		sortable: false,	align:'center', width: 60}
                      , { field: 'fxaUtmNm'   , label: '단위',  		sortable: false,	align:'center', width: 60}
                      , { field: 'crgrNm'     , label: '담당자',  	sortable: false,	align:'center', width: 90}
@@ -111,8 +111,7 @@
          }
 
          // 화면로드시 조회
- 	    fn
- 	    Search();
+ 	    fnSearch();
 
         /* [버튼] : 자산실사 목록 화면이동 */
      	var butList = new Rui.ui.LButton('butList');

@@ -255,6 +255,7 @@ var mchnInfoId;
         fnSearch = function() {
         	getSpaceAnlStatList();
         };
+
 	});	//end ready
 
 </script>

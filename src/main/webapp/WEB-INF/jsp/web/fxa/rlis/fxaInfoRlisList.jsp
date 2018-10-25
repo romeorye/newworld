@@ -256,6 +256,7 @@ nG.saveExcel(encodeURIComponent('자산실사_') + new Date().format('%Y%m%d') +
             	 rlisTrmNm : escape(encodeURIComponent(rlisTrmNm)),
             	 prjNm : escape(encodeURIComponent(prjNm)),
             	 crgrNm : escape(encodeURIComponent(crgrNm)),
+            	 rlisFxaClss : escape(encodeURIComponent(rlisFxaClss)),
              	rlisClCd : '${inputData.rlisClCd}'
              }
          });
@@ -263,7 +264,7 @@ nG.saveExcel(encodeURIComponent('자산실사_') + new Date().format('%Y%m%d') +
 
 </script>
 </head>
-<body onload="init();">
+<body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
     		<div class="contents">
     			<div class="titleArea">
     				<a class="leftCon" href="#">

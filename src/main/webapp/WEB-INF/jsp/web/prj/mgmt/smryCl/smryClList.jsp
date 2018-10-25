@@ -318,7 +318,7 @@ function setDeptInfo(deptInfo) {
 </script>
 <%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 </head>
-<body onload="init();">
+<body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">

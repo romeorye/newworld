@@ -196,7 +196,7 @@
 </script>
 </head>
 
-<body onload="init();">
+<body onkeypress="if(event.keyCode==13) {fncSearch();}" onload="init();">
 <Tag:saymessage/><!--  sayMessage 사용시 필요 -->
 	<div class="contents" >
 			<div class="titleArea">

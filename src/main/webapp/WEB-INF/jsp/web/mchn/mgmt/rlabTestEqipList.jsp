@@ -247,7 +247,7 @@ nG.saveExcel(encodeURIComponent('신뢰성시험 장비_') + new Date().format('
                  	opnYn : '${inputData.opnYn}',
                  	mchnLaclCd : '${inputData.mchnLaclCd}',
                  	mchnClCd : '${inputData.mchnClCd}',
-                 	mchnUsePsblYn : '${inputData.mchnUsePsblYn}'
+                 	mchnUserPsblYn : '${inputData.mchnUsePsblYn}'
                  }
              });
          }

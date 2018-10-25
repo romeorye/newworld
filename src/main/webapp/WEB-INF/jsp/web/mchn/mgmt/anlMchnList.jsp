@@ -239,7 +239,7 @@ nG.saveExcel(encodeURIComponent('분석기기_') + new Date().format('%Y%m%d') +
                 	 mchnCrgrNm : escape(encodeURIComponent(mchnCrgrNm)),
                  	mchnClCd : '${inputData.mchnClCd}',
                  	opnYn : '${inputData.opnYn}',
-                 	mchnUsePsblYn : '${inputData.mchnUsePsblYn}'
+                 	mchnUserPsblYn : '${inputData.mchnUsePsblYn}'
                  }
              });
          }

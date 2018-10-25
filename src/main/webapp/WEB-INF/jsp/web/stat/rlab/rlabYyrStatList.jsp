@@ -29,6 +29,7 @@
  .bgcolor-white {background-color: #FFFFFF}
  .L-navset {overflow:hidden;}
 </style>
+<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
 var mchnPrctInfoDialog;
 var mchnPrctId;
@@ -153,6 +154,8 @@ var mchnInfoId;
             ]
         });
 
+
+
         //사업부별
         rlabDzdvStatDataSet = new Rui.data.LJsonDataSet({
             id: 'rlabDzdvStatDataSet',
@@ -251,10 +254,12 @@ var mchnInfoId;
             columnModel: rlabScnStatColumnModel,
             dataSet: rlabScnStatDataSet,
             width: 980,
-            height: 380,
+            height: 400,
             autoToEdit: true,
             autoWidth: true
         });
+
+
 
         rlabScnStatGrid.render('rlabScnStatGrid');
 
@@ -279,6 +284,11 @@ var mchnInfoId;
                 { id: 'etc',				ctrlId:'etc',			value:'html'}
             ]
         });
+
+        rlabScnStatDataSet.on('load', function(e) {
+    		$("#cnt_text").html('총 ' + rlabScnStatDataSet.getCount() + '건');
+    		paging(rlabScnStatDataSet,"rlabScnStatGrid");
+      	});
 
       //사업부별
         var rlabDzdvStatColumnModel = new Rui.ui.grid.LColumnModel({
@@ -306,7 +316,7 @@ var mchnInfoId;
             columnModel: rlabDzdvStatColumnModel,
             dataSet: rlabDzdvStatDataSet,
             width: 980,
-            height: 380,
+            height: 400,
             autoToEdit: true,
             autoWidth: true
         });
@@ -335,6 +345,11 @@ var mchnInfoId;
             ]
         });
 
+        rlabDzdvStatDataSet.on('load', function(e) {
+    		$("#cnt_text").html('총 ' + rlabDzdvStatDataSet.getCount() + '건');
+    		paging(rlabDzdvStatDataSet,"rlabDzdvStatGrid");
+      	});
+
       //시험법별
         var rlabExprStatColumnModel = new Rui.ui.grid.LColumnModel({
         	autoWidth:true
@@ -361,7 +376,7 @@ var mchnInfoId;
             columnModel: rlabExprStatColumnModel,
             dataSet: rlabExprStatDataSet,
             width: 980,
-            height: 380,
+            height: 400,
             autoToEdit: true,
             autoWidth: true
         });
@@ -390,6 +405,11 @@ var mchnInfoId;
             ]
         });
 
+        rlabExprStatDataSet.on('load', function(e) {
+    		$("#cnt_text").html('총 ' + rlabExprStatDataSet.getCount() + '건');
+    		paging(rlabExprStatDataSet,"rlabExprStatGrid");
+      	});
+
       //담당자별
         var rlabChrgStatColumnModel = new Rui.ui.grid.LColumnModel({
         	autoWidth:true
@@ -416,7 +436,7 @@ var mchnInfoId;
             columnModel: rlabChrgStatColumnModel,
             dataSet: rlabChrgStatDataSet,
             width: 980,
-            height: 380,
+            height: 400,
             autoToEdit: true,
             autoWidth: true
         });
@@ -445,6 +465,11 @@ var mchnInfoId;
             ]
         });
 
+        rlabChrgStatDataSet.on('load', function(e) {
+    		$("#cnt_text").html('총 ' + rlabChrgStatDataSet.getCount() + '건');
+    		paging(rlabChrgStatDataSet,"rlabChrgStatGrid");
+      	});
+
         /* 시험구분별통계 리스트 조회 */
         getRlabScnStatList = function(msg) {
 
@@ -456,6 +481,12 @@ var mchnInfoId;
                 }
             });
         };
+
+/*         downloadRlabScnStatExcel() = function() {
+        		rlabRqprDataSet.clearFilter();
+                rlabRqprGrid.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') + '.xls');
+                paging(rlabRqprDataSet,"rlabRqprGrid");
+            }; */
 
         //getRlabScnStatList();
 
@@ -500,11 +531,14 @@ var mchnInfoId;
 
         /* 조회 */
         fnSearch = function() {
+
         	getRlabScnStatList();
         	getRlabDzdvStatList();
         	getRlabExprStatList();
         	getRlabChrgStatList();
         };
+
+
 	});	//end ready
 
 </script>
@@ -552,7 +586,10 @@ var mchnInfoId;
 		<!-- 시험구분별통계 -->
 		<div id="rlabScnStatDiv">
    			<div class="titArea">
+   			<span class="Ltotal" id="cnt_text">총  0건 </span>
    				<div class="LblockButton">
+   				<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadRlabScnStatExcel()">Excel</button>
+
    				</div>
    			</div>
    			<div id="rlabScnStatGrid"></div>
@@ -561,7 +598,10 @@ var mchnInfoId;
    		<!-- 사업부별 통계 -->
 		<div id="rlabDzdvStatDiv">
    			<div class="titArea">
+   			<span class="Ltotal" id="cnt_text">총  0건 </span>
    				<div class="LblockButton">
+   				<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadRlabDzdvStatExcel()">Excel</button>
+
    				</div>
    			</div>
    			<div id="rlabDzdvStatGrid"></div>
@@ -570,7 +610,9 @@ var mchnInfoId;
    		<!-- 시험법별 통계 -->
 		<div id="rlabExprStatDiv">
    			<div class="titArea">
+   			<span class="Ltotal" id="cnt_text">총  0건 </span>
    				<div class="LblockButton">
+   				<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadRlabExprStatExcel()">Excel</button>
    				</div>
    			</div>
    			<div id="rlabExprStatGrid"></div>
@@ -579,7 +621,9 @@ var mchnInfoId;
    		<!-- 담당자별 통계 -->
 		<div id="rlabChrgStatDiv">
    			<div class="titArea">
+   			<span class="Ltotal" id="cnt_text">총  0건 </span>
    				<div class="LblockButton">
+   					<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadRlabChrgStatExcel()">Excel</button>
    				</div>
    			</div>
    			<div id="rlabChrgStatGrid"></div>

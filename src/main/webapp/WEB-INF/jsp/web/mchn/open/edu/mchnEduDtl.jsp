@@ -39,10 +39,10 @@ Rui.onReady(function(){
                 , { id: 'rtnMsg' }  //결과메시지
             ]
         });
-        
+
         resultDataSet.on('load', function(e) {
         });
-        
+
 		var eduPttStCd = document.aform.eduPttStCd.value;
 		var eduPttStNm = document.aform.eduPttStNm.value;
 
@@ -52,7 +52,7 @@ Rui.onReady(function(){
    			var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
     		dm.on('success', function(e) {      // 승인 성공시
     			var resultData = resultDataSet.getReadData(e);
-    			
+
     			if( resultData.records[0].rtnSt == "S"){
 	    			Rui.alert(resultData.records[0].rtnMsg);
 	    			fncMchnEduList();
@@ -60,7 +60,7 @@ Rui.onReady(function(){
 	    			Rui.alert(resultData.records[0].rtnMsg);
     			}
     	    });
-    		
+
     	    dm.on('failure', function(e) {      // 승인 실패시
                 Rui.alert("신청 Fail");
     	    });
@@ -81,14 +81,14 @@ Rui.onReady(function(){
     	    }
 
    	 	});
-   		
+
    		/* [버튼] : 교육취소 */
     	var butCancel = new Rui.ui.LButton('butCancel');
     	butCancel.on('click', function(){
    			var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
     		dm.on('success', function(e) {      // 승인 성공시
     			var resultData = resultDataSet.getReadData(e);
-    			
+
     			if( resultData.records[0].rtnSt == "S"){
 	    			Rui.alert(resultData.records[0].rtnMsg);
 	    			fncMchnEduList();
@@ -96,7 +96,7 @@ Rui.onReady(function(){
 	    			Rui.alert(resultData.records[0].rtnMsg);
     			}
     	    });
-    		
+
     	    dm.on('failure', function(e) {      // 승인 실패시
                 Rui.alert("신청 Fail");
     	    });
@@ -116,7 +116,7 @@ Rui.onReady(function(){
     	    }
 
    	 	});
-   		
+
    		if(eduPttStCd == "CLS"){
 			eduPttStBtn.hide();
 			eduPttStBtn.hide();
@@ -151,7 +151,7 @@ Rui.onReady(function(){
     	//분석기기 목록 화면으로 이동
     	var fncMchnEduList = function(){
     		$('#searchForm > input[name=eduNm]').val(encodeURIComponent($('#searchForm > input[name=eduNm]').val()));
-	    	
+
 	    	nwinsActSubmit(searchForm, "<c:url value="/mchn/open/edu/retrieveEduList.do"/>");
     	}
 
@@ -164,7 +164,7 @@ Rui.onReady(function(){
     	 	document.aform.submit();
     	} */
         chkCcs = '${result.eduStCd}';
-        
+
     	var eduStnmHtml = "";
 
          if(chkCcs == "RQ" ){
@@ -174,10 +174,10 @@ Rui.onReady(function(){
  		}else if(chkCcs == "NCPE"   ){
  			eduStnmHtml =  '${result.eduStNm}'+ "(미수료일 : "+'${result.ccsDt}'+")";
  		}
- 		
+
          Rui.get("lastEduInfo").html(eduStnmHtml);
-         
-         
+
+
          if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
          	$("#butSave").hide();
          	$("#butCancel").hide();
@@ -185,7 +185,7 @@ Rui.onReady(function(){
          	$("#butSave").hide();
          	$("#butCancel").hide();
  		}
- 		
+
 	});	//end ready
 
 	//첨부파일 다운로드
@@ -217,9 +217,10 @@ Rui.onReady(function(){
 		<input type="hidden" name="eduScnCd" value="${inputData.eduScnCd}"/>
 		<input type="hidden" name="frEduDt" value="${inputData.frEduDt}"/>
 		<input type="hidden" name="toEduDt" value="${inputData.toEduDt}"/>
+		<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
     </form>
-    
-    
+
+
 			<form name="aform" id="aform"  method="post">
 				<input type="hidden" id="menuType" name="menuType" value="IRIIDE0104"/>
 				<input type="hidden" id="mchnEduId" name="mchnEduId" value="<c:out value='${result.mchnEduId}'/>">
@@ -228,7 +229,7 @@ Rui.onReady(function(){
 
 				<input type="hidden" id="attcFilId" name="attcFilId" />
 				<input type="hidden" id="seq" name="seq" />
-				
+
 				<div class="LblockButton top mt0">
 					<button type="button" id="butSave">교육신청</button>
 					<button type="button" id="butCancel">교육취소</button>

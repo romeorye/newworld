@@ -152,14 +152,28 @@
 			});
 		}
 
-		fnSearch();
+		//fnSearch();
+
+		init = function() {
+        	   var eduNm='${inputData.eduNm}';
+              	dataSet.load({
+                    url: '<c:url value="/mchn/open/edu/retrieveMchnEduSearchList.do"/>',
+                    params :{
+                    	eduNm : escape(encodeURIComponent(eduNm)),
+                    	pttYn : '${inputData.pttYn}',
+                    	eduScnCd : '${inputData.eduScnCd}',
+                    	frEduDt : '${inputData.frEduDt}',
+                    	toEduDt : '${inputData.toEduDt}'
+                    }
+                });
+            }
 
 
 	});		//end ready
 
 </script>
 </head>
-<body onkeypress="if(event.keyCode==13) {fnSearch();}">
+<body onkeypress="if(event.keyCode==13) {fnSearch();}" onload="init();">
 	<div class="contents">
 		 <div class="titleArea">
 		 	<a class="leftCon" href="#">

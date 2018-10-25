@@ -182,7 +182,7 @@
 				applyTo: 'fromRqprDt',
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
-				//defaultValue: '<c:out value="${inputData.fromRqprDt}"/>',
+				defaultValue: '<c:out value="${inputData.fromRqprDt}"/>',
 				editable: false,
 				width: 100,
 				dateType: 'string'
@@ -204,7 +204,7 @@
 				applyTo: 'toRqprDt',
 				mask: '9999-99-99',
 				displayValue: '%Y-%m-%d',
-				//defaultValue: '<c:out value="${inputData.toRqprDt}"/>',
+				defaultValue: '<c:out value="${inputData.toRqprDt}"/>',
 				editable: false,
 				width: 100,
 				dateType: 'string'

@@ -189,7 +189,8 @@ nG.saveExcel(encodeURIComponent('분석 기기사용 통계_') + new Date().form
 	<form name="aform" id="aform" method="post">
 
    		<div class="contents">
-   			<div class="titleArea">anlChrgState.do:462)
+   			<div class="titleArea">
+   			
    				<a class="leftCon" href="#">
 	   				<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 	   				<span class="hidden">Toggle 버튼</span>

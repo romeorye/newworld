@@ -94,6 +94,7 @@
             var fromRqprDt = new Rui.ui.form.LDateBox({
 				applyTo: 'fromRqprDt',
 				mask: '9999-99-99',
+				defaultValue: '<c:out value="${inputData.fromRqprDt}"/>',
 				displayValue: '%Y-%m-%d',
 				editable: false,
 				width: 100,
@@ -115,6 +116,7 @@
             var toRqprDt = new Rui.ui.form.LDateBox({
 				applyTo: 'toRqprDt',
 				mask: '9999-99-99',
+				defaultValue: '<c:out value="${inputData.toRqprDt}"/>',
 				displayValue: '%Y-%m-%d',
 				editable: false,
 				width: 100,

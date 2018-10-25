@@ -566,7 +566,7 @@ function dataSetColSum(sumDataSet,colNm){
 </script>
 
 </head>
-<body>
+<body onkeypress="if(event.keyCode==13) {fnSearch();}">
 	<div class="contents">
 		<div class="titleArea">
 			<a class="leftCon" href="#">

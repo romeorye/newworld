@@ -396,7 +396,7 @@ init = function() {
 </script>
 
     </head>
-    <body onload="init();">
+    <body onkeypress="if(event.keyCode==13) {getShowList();}" onload="init();">
     <form name="downloadForm" id="downloadForm" method="post">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
 		<input type="hidden" id="seq" name="seq" value=""/>

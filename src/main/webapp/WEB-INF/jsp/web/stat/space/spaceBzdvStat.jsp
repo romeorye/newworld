@@ -71,7 +71,7 @@ var mchnInfoId;
 
         fromCmplDt.on('blur', function(){
 				if( fromCmplDt.getValue() > toCmplDt.getValue() ) {
-					//alert('시작일이 종료일보다 클 수 없습니다.!!'+fromCmplDt.getValue());
+					alert('시작일이 종료일보다 클 수 없습니다.!!');
 					fromCmplDt.setValue(toCmplDt.getValue());
 				}
 			});
@@ -171,12 +171,14 @@ var mchnInfoId;
         fnSearch = function() {
         	getSpaceBzdvStatList();
         };
+
+        //getSpaceBzdvStatList();
 	});	//end ready
 
 </script>
 </head>
 </head>
-<body>
+<body onkeypress="if(event.keyCode==13) {getSpaceBzdvStatList();}">
 	<!-- contents -->
 	<div class="contents">
 		<div class="titleArea">
