@@ -910,7 +910,7 @@
 				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
 				   ,chrg.sa_mail																					as chrgEmail
 				   ,mst.rlab_dcac_rson																				as rlabDcacRson
-				   ,rgst.sa_mail + ',' + isnull(dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+
+				   ,rgst.sa_mail +  isnull(',' +dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+
 				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
 								                                             where   b.sa_user = mst.rlab_chrg_id))), '') as receivers
