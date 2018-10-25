@@ -846,8 +846,8 @@
     	    rlabRqprEndDialog = new Rui.ui.LFrameDialog({
     	        id: 'rlabRqprEndDialog',
     	        title: '',
-    	        width: 520,
-    	        height: 230,
+    	        width: 550,
+    	        height: 300,
     	        modal: true,
     	        visible: false
     	    });
@@ -1002,8 +1002,8 @@
          			alert("선택된 의견이 없습니다.");
          			return;
          		}else{
-	            	opiId=rlabRqprOpinitionDataSet.getAt(rlabRqprOpinitionDataSet.rowPosition).data.opiId;
-	            	openOpinitionUpdateDialog(setOpinitionUpdateInfo);
+            	opiId=rlabRqprOpinitionDataSet.getAt(rlabRqprOpinitionDataSet.rowPosition).data.opiId;
+            	openOpinitionUpdateDialog(setOpinitionUpdateInfo);
          		}
             };
 
