@@ -154,8 +154,9 @@
 				(select	CIR.ITG_RDCS_ID
 				 from	IRIS_COM_ITG_RDCS CIR
 				 WHERE	CIR.GUID = 'D' + cast(mst.RQPR_ID as nvarchar)
-				)													AS rsltItgRdcsId
-
+				)													AS rsltItgRdcsId,
+				RLAB_DZDV_CD AS rlabDzdvCd,
+				RLAB_PROD_CD AS rlabProdCd
 			FROM	IRIS_RLAB_RQPR_MST mst
 			WHERE	RQPR_ID = ${rqprId}
 
@@ -213,7 +214,9 @@
 		   ,RQPR_ATTC_FILE_ID
 		   ,FRST_RGST_ID
 		   ,LAST_MDFY_ID
-		   ,WBS_CD)
+		   ,WBS_CD
+		   ,RLAB_DZDV_CD
+		   ,RLAB_PROD_CD)
 		values(Convert(varchar(10), Current_Timestamp, 120)
 			  ,#{userId}
 			  ,#{userDeptCd}
@@ -230,8 +233,9 @@
 			  ,#{userId}
 			  ,#{userId}
 			  ,#{wbsCd}
+			  ,#{rlabDzdvCd}
+			  ,#{rlabProdCd}
 		  )
-
 	</insert>
 
 	<update id="updateRlabRqpr">
@@ -255,7 +259,9 @@
 				cmpl_parr_dt = #{cmplParrDt},
 				rqpr_attc_file_id = #{rqprAttcFileId},
 				last_mdfy_dt = getdate(),
-				last_mdfy_id = #{userId}
+				last_mdfy_id = #{userId},
+				RLAB_DZDV_CD = #{rlabDzdvCd},
+				RLAB_PROD_CD = #{rlabProdCd}
 		where	rqpr_id = ${rqprId}
 
 	</update>
