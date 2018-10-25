@@ -364,9 +364,22 @@
                 ]
             });
 
+            /* WBS 팝업 설정*/
+            var wbsCd = new Rui.ui.form.LPopupTextBox({
+            	applyTo: 'wbsCd',
+                placeholder: 'WBS코드를 입력해주세요.',
+                defaultValue: '',
+                emptyValue: '',
+                editable: false,
+                width: 200
+            });
+            wbsCd.on('popup', function(e){
+            	openWbsCdSearchDialog(setRlabWbsCd);
+            });
+
             rlabRqprInfmView = new Rui.ui.form.LPopupTextBox({
                 applyTo: 'rlabRqprInfmView',
-                width: 450,
+                width: 350,
                 editable: false,
                 placeholder: '통보자를 입력해주세요.',
                 emptyValue: '',
@@ -432,6 +445,7 @@
 					, { id: 'reqItgRdcsId' }
 					, { id: 'rlabDzdvCd' }
 					, { id: 'rlabProdCd' }
+					, { id: 'wbsCd' }
                 ]
             });
 
@@ -488,12 +502,37 @@
                     displayField: 'COM_DTL_NM',
                     valueField: 'COM_DTL_CD'
                 });
-	   	        rlabProdCd.on('changed', function(e) {
+	   	        /* rlabProdCd.on('changed', function(e) {
 	 	        	alert( rlabProdCd.getValue('rlabProdCd') );
-	 	        });
+	 	        }); */
    	            /*시료 제품군 조회 끝*/
 
-
+   	        	bind = new Rui.data.LBind({
+   	                groupId: 'rlabRqprInfoDiv',
+   	                dataSet: rlabRqprDataSet,
+   	                bind: true,
+   	                bindInfo: [
+   	                    { id: 'rlabNm',				ctrlId:'rlabNm',			value:'value'},
+   	                    { id: 'rlabSbc',			ctrlId:'rlabSbc',			value:'value'},
+   	                    { id: 'acpcNo',				ctrlId:'acpcNo',			value:'html'},
+   	                    { id: 'rgstNm',				ctrlId:'rgstNm',			value:'html'},
+   	                    { id: 'rqprDeptNm',			ctrlId:'rqprDeptNm',		value:'html'},
+   	                    { id: 'rqprDt',				ctrlId:'rqprDt',			value:'html'},
+   	                    { id: 'acpcDt',				ctrlId:'acpcDt',			value:'html'},
+   	                    { id: 'rlabScnCd',			ctrlId:'rlabScnCd',			value:'value'},
+   	                    { id: 'rlabChrgId',			ctrlId:'rlabChrgId',		value:'value'},
+   	                    { id: 'rlabChrgNm',			ctrlId:'rlabChrgNm',		value:'value'},
+   	                    { id: 'rlabUgyYn',			ctrlId:'rlabUgyYn',			value:'value'},
+   	                    { id: 'infmTypeCd',			ctrlId:'infmTypeCd',		value:'value'},
+   	                    { id: 'smpoTrtmCd',			ctrlId:'smpoTrtmCd',		value:'value'},
+   	                    { id: 'acpcStNm',			ctrlId:'acpcStNm',			value:'html'},
+   	                    { id: 'rlabRqprInfmView',	ctrlId:'rlabRqprInfmView',	value:'value'},
+   	                    { id: 'cmplParrDt',			ctrlId:'cmplParrDt',		value:'html'},
+   	                    { id: 'rlabDzdvCd',			ctrlId:'rlabDzdvCd',		value:'value'},
+   	                    { id: 'rlabProdCd',			ctrlId:'rlabProdCd',		value:'value'},
+   	                 	{ id: 'wbsCd',				ctrlId:'wbsCd',				value:'value'}
+   	                ]
+   	            });
             });
 
             var rlabRqprOpinitionDataSet = new Rui.data.LJsonDataSet({
@@ -593,7 +632,8 @@
                     { id: 'rlabRqprInfmView',	ctrlId:'rlabRqprInfmView',	value:'value'},
                     { id: 'cmplParrDt',			ctrlId:'cmplParrDt',		value:'html'},
                     { id: 'rlabDzdvCd',			ctrlId:'rlabDzdvCd',		value:'value'},
-                    { id: 'rlabProdCd',			ctrlId:'rlabProdCd',		value:'value'}
+                    { id: 'rlabProdCd',			ctrlId:'rlabProdCd',		value:'value'},
+                    { id: 'wbsCd',				ctrlId:'wbsCd',				value:'value'}
                 ]
             });
 
@@ -1300,6 +1340,12 @@
                 }
             });
         });
+
+		//WBS 코드 팝업 세팅
+		function setRlabWbsCd(wbsInfo){
+			//alert(wbsInfo.wbsCd);
+			rlabRqprDataSet.setNameValue(0, "wbsCd", wbsInfo.wbsCd);
+		}
 	</script>
     </head>
     <body>
@@ -1368,7 +1414,7 @@
    							<th align="right">의뢰자</th>
    							<td><span id="rgstNm"/></td>
    							<th align="right">부서</th>
-    						<td><div id=""></div></td>
+    						<td><span id="rqprDeptNm"></td>
    						</tr>
    						<tr>
    							<th align="right">의뢰일</th>
@@ -1389,37 +1435,41 @@
    							<td>
                                 <div id="rlabScnCd"></div>
    							</td>
+   							<th align="right"><span style="color:red;">* </span>긴급유무</th>
+   							<td>
+                                <div id="rlabUgyYn"></div>
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>통보유형</th>
+   							<td>
+   								<div id="infmTypeCd"></div>
+   							</td>
    							<th align="right"><span style="color:red;">* </span>시험담당자</th>
    							<td>
    								<input type="text" id="rlabChrgNm">
                             </td>
    						</tr>
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>긴급유무</th>
-   							<td>
-                                <div id="rlabUgyYn"></div>
-   							</td>
-   							<th align="right"><span style="color:red;">* </span>통보유형</th>
-   							<td>
-   								<div id="infmTypeCd"></div>
-   							</td>
-   						</tr>
-   						<tr>
    							<th align="right"><span style="color:red;">* </span>시료처리</th>
    							<td>
    								<div id="smpoTrtmCd"></div>
    							</td>
-   							<th align="right">상태</th>
-   							<td><span id="acpcStNm"/></td>
+							<th align="right">WBS 코드</th>
+   							<td>
+   								<input type="text" id="wbsCd">
+   							</td>
    						</tr>
    						<tr>
    							<th align="right">통보자</th>
-   							<td class="rlabrqpr_tain02" colspan="3">
+   							<td class="rlabrqpr_tain02">
 						        <div class="LblockMarkupCode">
 						            <div id="rlabRqprInfmView"></div>
 									<button type="button" class="btn"  id="addRlabRqprInfmBtn" name="addRlabRqprInfmBtn" onclick="addRlabRqprInfm()">저장</button>
 						        </div>
    							</td>
+   							<th align="right">상태</th>
+   							<td><span id="acpcStNm"/></td>
    						</tr>
    					</tbody>
    				</table>

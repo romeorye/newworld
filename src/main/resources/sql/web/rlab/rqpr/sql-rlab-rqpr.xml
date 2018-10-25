@@ -156,7 +156,8 @@
 				 WHERE	CIR.GUID = 'D' + cast(mst.RQPR_ID as nvarchar)
 				)													AS rsltItgRdcsId,
 				RLAB_DZDV_CD AS rlabDzdvCd,
-				RLAB_PROD_CD AS rlabProdCd
+				RLAB_PROD_CD AS rlabProdCd,
+				WBS_CD AS wbsCd
 			FROM	IRIS_RLAB_RQPR_MST mst
 			WHERE	RQPR_ID = ${rqprId}
 
@@ -216,7 +217,8 @@
 		   ,LAST_MDFY_ID
 		   ,WBS_CD
 		   ,RLAB_DZDV_CD
-		   ,RLAB_PROD_CD)
+		   ,RLAB_PROD_CD
+		   ,DEPT_NM)
 		values(Convert(varchar(10), Current_Timestamp, 120)
 			  ,#{userId}
 			  ,#{userDeptCd}
@@ -235,6 +237,7 @@
 			  ,#{wbsCd}
 			  ,#{rlabDzdvCd}
 			  ,#{rlabProdCd}
+			  ,dbo.fn_getDeptName( dbo.fn_getDeptCode(#{userId}) )
 		  )
 	</insert>
 
@@ -261,7 +264,8 @@
 				last_mdfy_dt = getdate(),
 				last_mdfy_id = #{userId},
 				RLAB_DZDV_CD = #{rlabDzdvCd},
-				RLAB_PROD_CD = #{rlabProdCd}
+				RLAB_PROD_CD = #{rlabProdCd},
+				DEPT_NM = dbo.fn_getDeptName( dbo.fn_getDeptCode(#{userId}) )
 		where	rqpr_id = ${rqprId}
 
 	</update>
