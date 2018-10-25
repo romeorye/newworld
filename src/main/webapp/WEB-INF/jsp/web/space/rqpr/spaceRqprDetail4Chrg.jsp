@@ -1318,8 +1318,13 @@
 
          	// 수정 버튼
             opinitionUpdate = function() {
-            	opiId=spaceRqprOpinitionDataSet.getAt(spaceRqprOpinitionDataSet.rowPosition).data.opiId;
-            	openOpinitionUpdateDialog(setOpinitionUpdateInfo);
+         		if(spaceRqprOpinitionDataSet.getCount()<1){
+         			alert("선택된 의견이 없습니다.");
+         			return;
+         		}else{
+	            	opiId=spaceRqprOpinitionDataSet.getAt(spaceRqprOpinitionDataSet.rowPosition).data.opiId;
+	            	openOpinitionUpdateDialog(setOpinitionUpdateInfo);
+         		}
             };
 
             setOpinitionUpdateInfo = function(opinitionUpdateInfo) {
@@ -1506,16 +1511,16 @@
                 if (spaceRqprWayCrgrDataSet.getCount() == 0) {
                     alert('평가방법을 입력해주세요.');
                     return false;
-                } else if (vm.validateDataSet(spaceRqprWayCrgrDataSet) == false) {
-                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
+                } else if (vm1.validateDataSet(spaceRqprWayCrgrDataSet) == false) {
+                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm1.getMessageList().join('\n'));
                     return false;
                 }
 
                 if (spaceRqprProdDataSet.getCount() == 0) {
                     alert('제품군을 입력해주세요.');
                     return false;
-                } else if (vm.validateDataSet(spaceRqprProdDataSet) == false) {
-                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
+                } else if (vm1.validateDataSet(spaceRqprProdDataSet) == false) {
+                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm1.getMessageList().join('\n'));
                     return false;
                 }
 
