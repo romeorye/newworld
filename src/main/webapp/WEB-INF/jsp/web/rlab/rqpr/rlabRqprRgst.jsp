@@ -344,23 +344,6 @@
             	openUserSearchDialog(setRlabRqprInfm, 10, rlabRqprDataSet.getNameValue(0, 'infmPrsnIds'), 'rlab');
             });
 
-            /*완료예정일*/
-            var cmplParrDt = new Rui.ui.form.LDateBox({
-				applyTo: 'cmplParrDt',
-				mask: '9999-99-99',
-				displayValue: '%Y-%m-%d',
-				editable: false,
-				width: 100,
-				dateType: 'string'
-			});
-
-            cmplParrDt.on('blur', function(){
-				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(cmplParrDt.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
-					cmplParrDt.setValue(new Date());
-				}
-			});
-
             /* 시험 담당자 코멘트 */
             var rlabCrgrComm = new Rui.ui.form.LTextArea({
                 applyTo: 'rlabCrgrComm',
@@ -828,14 +811,10 @@
    						</tr>
    						<tr>
    							<th align="right">통보자</th>
-   							<td>
+   							<td colspan="3">
 						        <div>
 						            <div id="rlabRqprInfmView"></div>
 						        </div>
-   							</td>
-   							<th align="right">완료예정일</th>
-   							<td>
-						        <input type="text" id="cmplParrDt">
    							</td>
    						</tr>
    						<tr>
