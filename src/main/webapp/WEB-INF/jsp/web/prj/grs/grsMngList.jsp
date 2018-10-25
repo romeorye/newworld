@@ -1,5 +1,3 @@
-
-
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 <%--
@@ -45,6 +43,7 @@
     response.setHeader("Pragma", "No-cache");
     response.setDateHeader("Expires", 0);
     response.setHeader("Cache-Control", "no-cache");
+    String evTssCd = (String)request.getParameter("evTssCd");
 %>
 
 <style>
@@ -58,6 +57,12 @@
 %>
     <!-- 그리드 소스 -->
 <script type="text/javascript">
+	var evTssCd = "<%=evTssCd%>";
+	window.onload = function(){
+	    if(evTssCd!="null"){
+            evTssDialog.show();
+		}
+	}
 
     var todoYN = stringNullChk("${inputData.LOGIN_SYS_CD}") != "" ? true : false;
 
@@ -127,7 +132,7 @@
                      { field: 'leaderNm',   label: '과제리더',  align:'center',  width: 70},
                      { field: 'dlbrCrgrNm',   label: '심의담당자',  align:'center',  width: 70},
                      { field: 'tssDd',   label: '과제기간',  align:'center',  width: 100 },
-                     { field: 'dlbrParrDt',   label: '심의예정일',  align:'center',  width: 60 },
+                     // { field: 'dlbrParrDt',   label: '심의예정일',  align:'center',  width: 60 },
                      { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 65 },
                      { field: 'grsStNm',   label: 'GRS상태',  align:'center',  width: 65 , renderer: function(val, p, record, row, i) {
                              return (val == null) ? "GRS품의완료" : val;
@@ -429,7 +434,7 @@ nG.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().forma
                         { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
                         { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70 },
                         { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , renderer: function(val, p, record, row, i){
-                                return "<a href='javascript:evTssPop("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
+                                return "<a href='javascript:evTssPop("+row+");'><u>" + val +"<u></a>";
                             } },
                         { field: 'bizDptNm',   label: '프로젝트명',  align:'center',  width: 100 },
                         { field: 'leaderNm',   label: '과제리더',  align:'center',  width: 70},
@@ -921,8 +926,8 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
    	// 평가 Popup
     function evTssPop(row) {
         tssCd = listDataSet.getAt(row).data.tssCd;
-        grsEvSn = listDataSet.getAt(row).data.grsEvSn;
         tssCdSn = listDataSet.getAt(row).data.tssCdSn;
+        grsEvSn = listDataSet.getAt(row).data.grsEvSn;
         if (grsEvSn == '0' || grsEvSn == undefined) {
             grsEvSn = '';
             $("#chooseEv").show();
@@ -1130,7 +1135,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 								<tr>
 									<th align="right">과제리더</th>
 									<td><input type="text" id="saSabunNm" /></td>
-									<th align="right">사업부</th>
+									<th align="right">사업부문(Funding기준)</th>
 									<td><div id="bizDptCd" /></td>
 								</tr>
 								<tr>
@@ -1203,7 +1208,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 							<tr>
 								<th align="right">프로젝트명</th>
 								<td><input type="text" id="eprjNm"/></td>
-								<th align="right">과제유형</th>
+								<th align="right">사업부문(Funding기준)</th>
 								<td><input type="text" id="ebizDptNm"/></td>
 							</tr>
 							<tr>
@@ -1223,7 +1228,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 								<td><input type="text" id="egrsEvSnNm"/></td>
 							</tr>
 							<tr>
-								<th align="right">심의예정일</th>
+								<th align="right">심의요청일</th>
 								<td><input type="text" id="edlbrParrDt"/></td>
 								<th align="right">심의담당자</th>
 								<td><input type="text" id="edlbrCrgrNm"/></td>
@@ -1438,8 +1443,6 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
             }
         })
     }
-
-
 
 
 	// Comment
