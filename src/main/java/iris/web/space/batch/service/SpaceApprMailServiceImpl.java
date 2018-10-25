@@ -1,6 +1,7 @@
 package iris.web.space.batch.service;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -59,7 +60,20 @@ public class SpaceApprMailServiceImpl implements SpaceApprMailService {
     		mailSender.setHtmlTemplate("spaceRqprReceiptRequest", spaceMailInfo);
     		mailSender.send();
 
-        	return true;
+    		HashMap<String, Object> input = new HashMap<String, Object>();
+
+			input.put("mailTitl", "'" + spaceMailInfo.getSpaceNm() + "' 평가의뢰 접수 요청");
+			input.put("adreMail", spaceMailInfo.getReceivers());
+			input.put("trrMail",  spaceMailInfo.getRgstEmail());
+			input.put("rfpMail",  "");
+			input.put("_userId", "Batch-SpaceApprMail");
+			input.put("_userEmail", "iris@lghausys.com");
+
+			/* 전송메일 정보 hist 저장*/
+			commonDao.update("open.mchnAppr.insertMailHist", input);
+
+			return true;
+
     	} else {
     		throw new Exception("평가의뢰 접수요청 이메일 발송 오류");
     	}
@@ -76,6 +90,18 @@ public class SpaceApprMailServiceImpl implements SpaceApprMailService {
     		mailSender.setSubject("'" + spaceMailInfo.getSpaceNm() + "' 평가결과 통보");
     		mailSender.setHtmlTemplate("spaceRqprResult", spaceMailInfo);
     		mailSender.send();
+
+    		HashMap<String, Object> input = new HashMap<String, Object>();
+
+			input.put("mailTitl", "'" + spaceMailInfo.getSpaceNm() + "' 평가결과 통보");
+			input.put("adreMail", spaceMailInfo.getReceivers());
+			input.put("trrMail",  spaceMailInfo.getRgstEmail());
+			input.put("rfpMail",  "");
+			input.put("_userId", "Batch-SpaceApprMail");
+			input.put("_userEmail", "iris@lghausys.com");
+
+			/* 전송메일 정보 hist 저장*/
+			commonDao.update("open.mchnAppr.insertMailHist", input);
 
         	return true;
     	} else {

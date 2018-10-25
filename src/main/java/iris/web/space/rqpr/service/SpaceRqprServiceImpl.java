@@ -394,6 +394,18 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     		mailSender.setHtmlTemplate("spaceRqprOpinition", spaceMailInfo);
     		mailSender.send();
 
+    		HashMap<String, Object> inputM = new HashMap<String, Object>();
+
+			inputM.put("mailTitl", "'" + spaceMailInfo.getSpaceNm() + "' 평가 건에 새 의견이 게시되었습니다.");
+			inputM.put("adreMail", spaceMailInfo.getReceivers());
+			inputM.put("trrMail",  (String)input.get("_userEmail"));
+			inputM.put("rfpMail",  "");
+			inputM.put("_userId", input.get("_userId"));
+			inputM.put("_userEmail", (String)input.get("_userEmail"));
+
+			/* 전송메일 정보 hist 저장*/
+			commonDao.update("open.mchnAppr.insertMailHist", inputM);
+
         	return true;
     	} else {
     		throw new Exception("평가의뢰 의견 저장 오류");
@@ -498,6 +510,18 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     		mailSender.setHtmlTemplate("spaceRqprReceipt", spaceMailInfo);
     		mailSender.send();
 
+    		HashMap<String, Object> input = new HashMap<String, Object>();
+
+			input.put("mailTitl", "'" + spaceMailInfo.getSpaceNm() + "' 평가의뢰 접수 통보");
+			input.put("adreMail", spaceMailInfo.getReceivers());
+			input.put("trrMail",  "iris@lghausys.com");
+			input.put("rfpMail",  "");
+			input.put("_userId", dataMap.get("userId"));
+			input.put("_userEmail", "iris@lghausys.com");
+
+			/* 전송메일 정보 hist 저장*/
+			commonDao.update("open.mchnAppr.insertMailHist", input);
+
         	return true;
     	} else {
     		throw new Exception("평가의뢰 접수 오류");
@@ -539,6 +563,18 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
     		mailSender.setHtmlTemplate(templateNm, spaceMailInfo);
     		mailSender.send();
+
+    		HashMap<String, Object> input = new HashMap<String, Object>();
+
+			input.put("mailTitl", subject.toString());
+			input.put("adreMail", spaceMailInfo.getReceivers());
+			input.put("trrMail",  "iris@lghausys.com");
+			input.put("rfpMail",  "");
+			input.put("_userId", dataMap.get("_userId"));
+			input.put("_userEmail", "iris@lghausys.com");
+
+			/* 전송메일 정보 hist 저장*/
+			commonDao.update("open.mchnAppr.insertMailHist", input);
 
         	return true;
     	} else {
