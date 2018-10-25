@@ -12,9 +12,7 @@
 				   ,dbo.fn_getUserEmail(mst.rgst_id)											as rgstEmail
 				   ,mst.rqpr_dt																	as rqprDt
 				   ,dbo.fn_getSpaceCrgrJobxDeptNames(mst.rqpr_id)								as chrgNm
-				   ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) + dbo.fn_getUserEmail(mst.rgst_id) +
-				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
-					isnull(',' + dbo.fn_getSpaceRqprInfmPrsnEmails(mst.rqpr_id), '')				as receivers --담당자 + 의뢰자 + 리더 + 통보자
+				   ,dbo.fn_getSpaceEmailReceivers(mst.rqpr_id)   as receivers --담당자 + 의뢰자 + 리더 + 통보자
 			from	iris_space_rqpr_mst mst
 			where	mst.space_acpc_st_cd = '02'
 			and		mst.del_yn = 'N'
@@ -32,9 +30,7 @@
 				   ,dbo.fn_getSpaceCrgrJobxDeptNames(mst.rqpr_id)									as chrgNm
 				   ,mst.acpc_dt																		as acpcDt
 				   ,mst.cmpl_dt																		as cmplDt
-				   ,dbo.fn_getSpaceCrgrEmail(mst.rqpr_id) + dbo.fn_getUserEmail(mst.rgst_id) +
-				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
-					isnull(',' + dbo.fn_getSpaceRqprInfmPrsnEmails(mst.rqpr_id), '')				as receivers --담당자 + 의뢰자 + 리더 + 통보자
+				   ,dbo.fn_getSpaceEmailReceivers(mst.rqpr_id)   as receivers --담당자 + 의뢰자 + 리더 + 통보자
 			from	iris_space_rqpr_mst mst
 			where	mst.space_acpc_st_cd = '07'
 			and		mst.del_yn = 'N'
