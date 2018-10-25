@@ -1164,8 +1164,13 @@
 
          	// 수정 버튼
             opinitionUpdate = function() {
-            	opiId=spaceRqprOpinitionDataSet.getAt(spaceRqprOpinitionDataSet.rowPosition).data.opiId;
-            	openOpinitionUpdateDialog(setOpinitionUpdateInfo);
+         		if(spaceRqprOpinitionDataSet.getCount()<1){
+         			alert("선택된 의견이 없습니다.");
+         			return;
+         		}else{
+         			opiId=spaceRqprOpinitionDataSet.getAt(spaceRqprOpinitionDataSet.rowPosition).data.opiId;
+                	openOpinitionUpdateDialog(setOpinitionUpdateInfo);
+         		}
             };
 
             setOpinitionUpdateInfo = function(opinitionUpdateInfo) {
