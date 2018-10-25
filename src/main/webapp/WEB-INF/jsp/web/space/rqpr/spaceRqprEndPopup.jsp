@@ -7,7 +7,7 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlRqprEndPopup.jsp
+ * $Id		: spaceRqprEndPopup.jsp
  * @desc    : 관련평가 반려/평가중단 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
@@ -53,13 +53,13 @@
             });
 
             dm.on('success', function(e) {
-                var data = parent.anlRqprDataSet.getReadData(e);
+                var data = parent.spaceRqprDataSet.getReadData(e);
 
                 alert(data.records[0].resultMsg);
 
                 if(data.records[0].resultYn == 'Y') {
-                	parent.goAnlRqprList4Chrg();
-                	parent.anlRqprEndDialog.cancel();
+                	parent.goSpaceRqprList4Chrg();
+                	parent.spaceRqprEndDialog.cancel();
                 }
             });
 
@@ -92,7 +92,7 @@
                     dm.updateDataSet({
                         url:'<c:url value="/space/saveSpaceRqprEnd.do"/>',
                         params: {
-                            rqprId: parent.anlRqprDataSet.getNameValue(0, 'rqprId'),
+                            rqprId: parent.spaceRqprDataSet.getNameValue(0, 'rqprId'),
                             rson: encodeURIComponent(rson.getValue()),
                             spaceAcpcStCd: '${inputData.type}' == '반려' ? '04' : '05'
                         }
@@ -100,7 +100,7 @@
             	}
             };
 
-            $('#anlNm').html(parent.anlRqprDataSet.getNameValue(0, 'anlNm'));
+            $('#spaceNm').html(parent.spaceRqprDataSet.getNameValue(0, 'spaceNm'));
 
         });
 
@@ -122,7 +122,7 @@
    					<tbody>
    						<tr>
    							<th align="right">평가명</th>
-   							<td id="anlNm"></td>
+   							<td id="spaceNm"></td>
    						</tr>
    						<tr>
    							<th align="right">${inputData.type}사유</th>
@@ -136,7 +136,7 @@
    				<div class="titArea">
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="save('${inputData.type}')">${inputData.type}</button>
-   						<button type="button" class="btn"  id="cancelBtn" name="cancelBtn" onclick="parent.anlRqprEndDialog.cancel()">취소</button>
+   						<button type="button" class="btn"  id="cancelBtn" name="cancelBtn" onclick="parent.spaceRqprEndDialog.cancel()">취소</button>
    					</div>
    				</div>
 
