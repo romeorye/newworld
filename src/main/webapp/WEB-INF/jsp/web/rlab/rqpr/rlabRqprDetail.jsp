@@ -181,12 +181,6 @@
                 }
             });
 
-        /* <c:if test="${fn:indexOf(inputData._roleId, 'WORK_IRI_T06') == -1}">
-	        rlabScnCdDataSet.on('load', function(e) {
-	        	rlabScnCdDataSet.removeAt(rlabScnCdDataSet.findRow('COM_DTL_CD', 'O'));
-	        });
-        </c:if> */
-
             var textBox = new Rui.ui.form.LTextBox({
                 emptyValue: ''
             });
@@ -205,19 +199,6 @@
                 width: 400
             });
 
-            /*시험담당자 팝업 설정*/
-            /* var rlabChrgNm = new Rui.ui.form.LPopupTextBox({
-            	applyTo: 'rlabChrgNm',
-                placeholder: '시험담당자를 입력해주세요.',
-                defaultValue: '',
-                emptyValue: '',
-                editable: false,
-                width: 200
-            });
-            rlabChrgNm.on('popup', function(e){
-                openUserSearchDialog(setRlabChrgInfo, 1, '');
-            }); */
-            /*시험담당자 팝업 설정 끝*/
 
             /*시험담당자 필드 설정*/
             var rlabChrgNm = new Rui.ui.form.LPopupTextBox({
@@ -262,7 +243,6 @@
     			rlabRqprDataSet.setNameValue(0, "rlabChrgNm", rlabChrgInfo.name);
             };
 			//시험담당자 팝업 설정 끝
-
 
 
             var rlabScnCd = new Rui.ui.form.LCombo({
@@ -398,6 +378,16 @@
                 height: 75
             });
 
+            /* 시험 담당자 코멘트 */
+            var rlabCrgrComm = new Rui.ui.form.LTextArea({
+                applyTo: 'rlabCrgrComm',
+                placeholder: '담당자에게 전달하고자 하는 내용을 작성 바랍니다.',
+                emptyValue: '',
+                width: 980,
+                height: 75
+            });
+
+
             var vm = new Rui.validate.LValidatorManager({
             	validators:[
                         { id: 'rlabNm',				validExp: '시험명:true:maxByteLength=100' },
@@ -443,9 +433,11 @@
 					, { id: 'rlabAcpcStCd' }
 					, { id: 'rqprAttcFileId', defaultValue: '' }
 					, { id: 'reqItgRdcsId' }
+
 					, { id: 'rlabDzdvCd' }
 					, { id: 'rlabProdCd' }
 					, { id: 'wbsCd' }
+					, { id: 'rlabCrgrComm' }
                 ]
             });
 
@@ -473,7 +465,7 @@
             	}
 
 
-            	/*시료 제품군 조회 끝*/
+            	/*시료 제품군 조회*/
             	rlabProdCdDataSet = new Rui.data.LJsonDataSet({
                     id: 'rlabProdCdDataSet',
                     remainRemoved: true,
@@ -502,9 +494,6 @@
                     displayField: 'COM_DTL_NM',
                     valueField: 'COM_DTL_CD'
                 });
-	   	        /* rlabProdCd.on('changed', function(e) {
-	 	        	alert( rlabProdCd.getValue('rlabProdCd') );
-	 	        }); */
    	            /*시료 제품군 조회 끝*/
 
    	        	bind = new Rui.data.LBind({
@@ -530,7 +519,8 @@
    	                    { id: 'cmplParrDt',			ctrlId:'cmplParrDt',		value:'html'},
    	                    { id: 'rlabDzdvCd',			ctrlId:'rlabDzdvCd',		value:'value'},
    	                    { id: 'rlabProdCd',			ctrlId:'rlabProdCd',		value:'value'},
-   	                 	{ id: 'wbsCd',				ctrlId:'wbsCd',				value:'value'}
+   	                 	{ id: 'wbsCd',				ctrlId:'wbsCd',				value:'value'},
+   	                 	{ id: 'rlabCrgrComm',		ctrlId:'rlabCrgrComm',		value:'value'}
    	                ]
    	            });
             });
@@ -566,13 +556,12 @@
                     		var splitVal = val.split('\n');
                     		if(splitVal.length<=1){
                     			var rtnStr="";
-                        		//alert(splitVal.length);
+
                         		for(var j=0;j<splitVal.length;j++){
                         			var k=0;
     	                    		for(var i=0;i<splitVal[j].length;i++){
     	                    			if(i%66==0&&i!=0){
     	                    				rtnStr+='\n';
-    	                    				//k=K+1;
     	                    			}
     	                    			rtnStr+=splitVal[j].charAt(i);
     	                    		}
@@ -586,7 +575,7 @@
   		  	    	  renderer: function(val, p, record, row, i){
   		  	    		  var recordFilId = nullToString(record.data.attcFilId);
   		  	    		  var strBtnFun = "openAttachFileDialog(setAttachFileInfo, "+recordFilId+", 'knldPolicy', '*' ,'R')";
-  		  	    		  //return Rui.isUndefined(record.get('attcFilId')) ? '' : '<button type="button"  class="L-grid-button" onclick="'+strBtnFun+'">다운로드</button>';
+
   		  	    			if(record.get('attcFilId').length<1){
   		  	    				return '';
 	  	    				}else{
@@ -1017,36 +1006,15 @@
 
             setOpinitionUpdateInfo = function(opinitionUpdateInfo) {
             }
-          //첨부파일 callback
+          	//첨부파일 callback
     		setAttachFileInfo = function(attcFilList) {
-
-               /* if(attcFilList.length > 1 ){
-            	   alert("첨부파일은 한개만 가능합니다.");
-            	   return;
-               }else{
-    	           $('#atthcFilVw').html('');
-               } */
-
-               /* for(var i = 0; i < attcFilList.length; i++) {
-                   $('#atthcFilVw').append($('<a/>', {
-                       href: 'javascript:downloadAttcFil("' + attcFilList[i].data.attcFilId + '", "' + attcFilList[i].data.seq + '")',
-                       text: attcFilList[i].data.filNm
-                   })).append('<br/>');
-               document.aform.attcFilId.value = attcFilList[i].data.attcFilId;
-               dataSet.setNameValue(0, "attcFilId",  document.aform.attcFilId.value);
-               } */
            	};
+
           	//첨부파일 다운로드
             downloadMnalFil = function(attId, seq){
      	       var param = "?attcFilId=" + attId + "&seq=" + seq;
      	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
      	       	document.aform.submit();
-         	    /*var param = "?attcFilId="+ attId+"&seq="+seq;
-     			Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
-     			Rui.get('imgDialTitle').html('기기이미지');
-     			imageDialog.clearInvalid();
-     			imageDialog.show(true);*/
-
             }
 
           	/////////////////////////////////////////////////
@@ -1164,14 +1132,9 @@
 
           	rlabRqprStptDataSet.on('load', function(e) {
 				if(rlabRqprStptDataSet.getNameValue(0, 'rlabAllStpt')=="0"){
-					/* $("#saveFbBtn").hide();
-					$("#cmplFbBtn").hide(); */
-
 					$("#saveStpt").show();
 					$("#rsltStpt").hide();
 				}else{
-					/* $("#saveFbBtn").show();
-					$("#cmplFbBtn").show(); */
 					$("#saveStpt").hide();
 					$("#rsltStpt").show();
 					var rlabCnsQltyWidth = rlabRqprStptDataSet.getNameValue(0, 'rlabCnsQlty')*20;
@@ -1207,7 +1170,6 @@
             	if(confirm('저장 하시겠습니까?')) {
                		dm.updateDataSet({
                         url:'<c:url value="/rlab/saveRlabRqprStpt.do"/>',
-                        //dataSets:[dataSet]
                         params: {
                         	rqprId : rlabRqprDataSet.getNameValue(0, 'rqprId')
                         	, rlabCnsQlty : rlabCnsQltyVal
@@ -1248,11 +1210,6 @@
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                     return false;
                 }
-
-//                 if (rlabRqprAttachDataSet.getCount() == 0) {
-//                 	alert('첨부파일을 첨부해주세요.');
-//                 	return false;
-//                 }
 
                 return true;
     	    }
@@ -1343,7 +1300,6 @@
 
 		//WBS 코드 팝업 세팅
 		function setRlabWbsCd(wbsInfo){
-			//alert(wbsInfo.wbsCd);
 			rlabRqprDataSet.setNameValue(0, "wbsCd", wbsInfo.wbsCd);
 		}
 	</script>
@@ -1422,6 +1378,7 @@
    							<th align="right">접수일</th>
     						<td><span id="acpcDt"/></td>
    						</tr>
+   						<tr>
    							<th align="right">사업부</th>
    							<td>
                                 <div id="rlabDzdvCd"></div>
@@ -1430,6 +1387,7 @@
    							<td>
                                 <div id="rlabProdCd"></div>
    							</td>
+   						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>시험구분</th>
    							<td>
@@ -1470,6 +1428,12 @@
    							</td>
    							<th align="right">상태</th>
    							<td><span id="acpcStNm"/></td>
+   						</tr>
+   						<tr>
+   							<th align="right">시험담당자코멘트</th>
+   							<td colspan="3">
+   								<textarea id="rlabCrgrComm"></textarea>
+   							</td>
    						</tr>
    					</tbody>
    				</table>

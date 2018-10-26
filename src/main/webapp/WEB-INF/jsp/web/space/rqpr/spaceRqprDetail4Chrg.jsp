@@ -1896,14 +1896,6 @@
                                 <div id="oppbScpCd"></div>&nbsp;<input type="text" id="scrtRson">
    							</td>
    						</tr>
-   						<tr>
-   							<th align="right">통보자</th>
-   							<td colspan="3">
-						        <div class="LblockMarkupCode">
-						            <div id="spaceRqprInfmView"></div>
-						        </div>
-   							</td>
-   						</tr>
    					</tbody>
    				</table>
 

@@ -1618,7 +1618,7 @@
 		          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		          <span class="hidden">Toggle 버튼</span>
 				</a>
-   				<h2>시험의뢰서 상세</h2>
+   				<h2>평가의뢰서 상세</h2>
    			</div>
    			<div class="sub-content">
    				<div id="tabView"></div>

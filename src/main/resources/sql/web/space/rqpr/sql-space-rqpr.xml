@@ -256,6 +256,7 @@
 			,EV_CASES				--평가Class
 			,EV_SUBJ_DTL			--평가대상 상세
 			,T_CLOUD				--T-CLOUD URL
+			,DEPT_NM
 		)values(
 			Convert(varchar(10), Current_Timestamp, 120)
 			,#{userId}
@@ -281,6 +282,7 @@
 			,#{evCases}
 			,#{evSubjDtl}
 			,#{tCloud}
+			,dbo.fn_getDeptName( dbo.fn_getDeptCode(#{userId}) )
 		)
 
 	</insert>
@@ -316,7 +318,8 @@
 				acpc_dt = Convert(varchar(10), getdate(), 120),
 			</if>
 				last_mdfy_dt = getdate(),
-				last_mdfy_id = #{userId}		--최종수정자
+				last_mdfy_id = #{userId},		--최종수정자
+				DEPT_NM = dbo.fn_getDeptName( dbo.fn_getDeptCode(#{userId}) )
 		where	rqpr_id = ${rqprId}
 
 	</update>

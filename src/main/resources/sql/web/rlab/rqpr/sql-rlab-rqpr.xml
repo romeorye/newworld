@@ -157,7 +157,8 @@
 				)													AS rsltItgRdcsId,
 				RLAB_DZDV_CD AS rlabDzdvCd,
 				RLAB_PROD_CD AS rlabProdCd,
-				WBS_CD AS wbsCd
+				WBS_CD AS wbsCd,
+				RLAB_CRGR_COMM AS rlabCrgrComm
 			FROM	IRIS_RLAB_RQPR_MST mst
 			WHERE	RQPR_ID = ${rqprId}
 
@@ -265,7 +266,8 @@
 				last_mdfy_id = #{userId},
 				RLAB_DZDV_CD = #{rlabDzdvCd},
 				RLAB_PROD_CD = #{rlabProdCd},
-				DEPT_NM = dbo.fn_getDeptName( dbo.fn_getDeptCode(#{userId}) )
+				DEPT_NM = dbo.fn_getDeptName( dbo.fn_getDeptCode(#{userId}) ),
+				RLAB_CRGR_COMM = #{rlabCrgrComm}
 		where	rqpr_id = ${rqprId}
 
 	</update>

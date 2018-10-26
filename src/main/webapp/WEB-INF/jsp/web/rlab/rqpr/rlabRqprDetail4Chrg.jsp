@@ -219,6 +219,35 @@
                 valueField: 'COM_DTL_CD'
             });
 
+            /*사업부 조회*/
+            var rlabDzdvCdDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabDzdvCdDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                	  { id: 'COM_DTL_CD' }
+                	, { id: 'COM_DTL_NM' }
+                ]
+            });
+            rlabDzdvCdDataSet.load({
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do"/>',
+                params :{
+                	comCd : 'RLAB_DZDV_CD'
+                }
+            });
+            var rlabDzdvCd = new Rui.ui.form.LCombo({
+                applyTo: 'rlabDzdvCd',
+                name: 'rlabDzdvCd',
+                emptyText: '선택',
+                defaultValue: '',
+                emptyValue: '',
+                width: 150,
+                dataSet: rlabDzdvCdDataSet,
+                displayField: 'COM_DTL_NM',
+                valueField: 'COM_DTL_CD'
+            });
+            /*사업부 조회 끝*/
+
             var rlabUgyYn = new Rui.ui.form.LCombo({
                 applyTo: 'rlabUgyYn',
                 name: 'rlabUgyYn',
@@ -273,6 +302,15 @@
                 height: 75
             });
 
+            /* 시험 담당자 코멘트 */
+            var rlabCrgrComm = new Rui.ui.form.LTextArea({
+                applyTo: 'rlabCrgrComm',
+                placeholder: '담당자에게 전달하고자 하는 내용을 작성 바랍니다.',
+                emptyValue: '',
+                width: 980,
+                height: 75
+            });
+
             var rlabRsltSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'rlabRsltSbc',
                 placeholder: '시험결과 내용을 입력해주세요.',
@@ -296,7 +334,7 @@
             var vm2 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'rlabNm',				validExp: '시험명:true:maxByteLength=100' },
-                { id: 'rlabSbc',				validExp: '시험목적:true' },
+                { id: 'rlabSbc',			validExp: '시험목적:true' },
                 { id: 'rlabScnCd',			validExp: '시험구분:true' },
                 { id: 'rlabUgyYn',			validExp: '긴급유무:true' },
                 { id: 'infmTypeCd',			validExp: '통보유형:true' },
@@ -339,6 +377,11 @@
 					, { id: 'rsltAttcFileId' }
 					, { id: 'reqItgRdcsId' }
 					, { id: 'rsltItgRdcsId' }
+
+					, { id: 'rlabDzdvCd' }
+					, { id: 'rlabProdCd' }
+					, { id: 'wbsCd' }
+					, { id: 'rlabCrgrComm' }
                 ]
             });
 
@@ -376,6 +419,7 @@
             		$( '#deleteRlabRqprExatBtn' ).hide();
             	}
 
+
             	if(Rui.isEmpty(rlabRqprDataSet.getNameValue(0, "rsltAttcFileId"))) {
             		rlabRqprDataSet.setNameValue(0, "rsltAttcFileId", '')
             	}
@@ -405,7 +449,80 @@
 
     	    		rlabRqprSmpoGrid.setEditable(true);
                 }
+
+
+            	/*시료 제품군 조회*/
+
+            	//사업부 변경시 시료 제품군 재조회
+	            rlabDzdvCd.on('changed', function(e) {
+		        	var selectDzdvCd = rlabDzdvCd.getValue();
+	        		rlabProdCdDataSet.load({
+		                url: '<c:url value="/common/code/retrieveCodeListForCache.do"/>',
+		                params :{
+		                	comCd : selectDzdvCd
+		                }
+		            });
+		        });
+
+            	rlabProdCdDataSet = new Rui.data.LJsonDataSet({
+                    id: 'rlabProdCdDataSet',
+                    remainRemoved: true,
+                    lazyLoad: true,
+                    fields: [
+                    	  { id: 'COM_DTL_CD' }
+                    	, { id: 'COM_DTL_NM' }
+                    ]
+                });
+            	var selectDzdvCd = rlabRqprDataSet.getNameValue(0, 'rlabDzdvCd');
+
+            	rlabProdCdDataSet.load({
+   	                url: '<c:url value="/common/code/retrieveCodeListForCache.do"/>',
+   	                params :{
+   	                	comCd : selectDzdvCd
+   	                }
+   	            });
+   	        	rlabProdCd = new Rui.ui.form.LCombo({
+                    applyTo: 'rlabProdCd',
+                    name: 'rlabProdCd',
+                    emptyText: '선택',
+                    defaultValue: '',
+                    emptyValue: '',
+                    width: 150,
+                    dataSet: rlabProdCdDataSet,
+                    displayField: 'COM_DTL_NM',
+                    valueField: 'COM_DTL_CD'
+                });
+   	            /*시료 제품군 조회 끝*/
+
+   	        	bind = new Rui.data.LBind({
+   	                groupId: 'rlabRqprInfoDiv',
+   	                dataSet: rlabRqprDataSet,
+   	                bind: true,
+   	                bindInfo: [
+   	                    { id: 'rlabNm',				ctrlId:'rlabNm',			value:'value'},
+   	                    { id: 'rlabSbc',			ctrlId:'rlabSbc',			value:'value'},
+   	                    { id: 'acpcNo',				ctrlId:'acpcNo',			value:'html'},
+   	                    { id: 'rgstNm',				ctrlId:'rgstNm',			value:'html'},
+   	                    { id: 'rqprDeptNm',			ctrlId:'rqprDeptNm',		value:'html'},
+   	                    { id: 'rqprDt',				ctrlId:'rqprDt',			value:'html'},
+   	                    { id: 'acpcDt',				ctrlId:'acpcDt',			value:'html'},
+   	                    { id: 'rlabScnCd',			ctrlId:'rlabScnCd',			value:'value'},
+   	                    { id: 'rlabChrgId',			ctrlId:'rlabChrgId',		value:'value'},
+   	                    { id: 'rlabChrgNm',			ctrlId:'rlabChrgNm',		value:'value'},
+   	                    { id: 'rlabUgyYn',			ctrlId:'rlabUgyYn',			value:'value'},
+   	                    { id: 'infmTypeCd',			ctrlId:'infmTypeCd',		value:'value'},
+   	                    { id: 'smpoTrtmCd',			ctrlId:'smpoTrtmCd',		value:'value'},
+   	                    { id: 'acpcStNm',			ctrlId:'acpcStNm',			value:'html'},
+   	                    { id: 'rlabRqprInfmView',	ctrlId:'rlabRqprInfmView',	value:'value'},
+   	                    { id: 'cmplParrDt',			ctrlId:'cmplParrDt',		value:'html'},
+   	                    { id: 'rlabDzdvCd',			ctrlId:'rlabDzdvCd',		value:'value'},
+   	                    { id: 'rlabProdCd',			ctrlId:'rlabProdCd',		value:'value'},
+   	                 	{ id: 'wbsCd',				ctrlId:'wbsCd',				value:'value'},
+   	                 	{ id: 'rlabCrgrComm',		ctrlId:'rlabCrgrComm',		value:'value'}
+   	                ]
+   	            });
             });
+
 
             var rlabRqprOpinitionDataSet = new Rui.data.LJsonDataSet({
                 id: 'rlabRqprOpinitionDataSet',
@@ -438,13 +555,12 @@
                     		var splitVal = val.split('\n');
                     		if(splitVal.length<=1){
                     			var rtnStr="";
-                        		//alert(splitVal.length);
                         		for(var j=0;j<splitVal.length;j++){
                         			var k=0;
     	                    		for(var i=0;i<splitVal[j].length;i++){
     	                    			if(i%66==0&&i!=0){
     	                    				rtnStr+='\n';
-    	                    				//k=K+1;
+
     	                    			}
     	                    			rtnStr+=splitVal[j].charAt(i);
     	                    		}
@@ -458,7 +574,6 @@
   		  	    	  renderer: function(val, p, record, row, i){
   		  	    		  var recordFilId = nullToString(record.data.attcFilId);
   		  	    		  var strBtnFun = "openAttachFileDialog(setAttachFileInfo, "+recordFilId+", 'knldPolicy', '*' ,'R')";
-  		  	    		  //return Rui.isUndefined(record.get('attcFilId')) ? '' : '<button type="button"  class="L-grid-button" onclick="'+strBtnFun+'">다운로드</button>';
   		  	    			if(record.get('attcFilId').length<1){
   		  	    				return '';
 	  	    				}else{
@@ -613,7 +728,6 @@
 
             rlabRqprRltdGrid.on('cellClick', function(e) {
             	 var record = rlabRqprRltdDataSet.getAt(rlabRqprRltdDataSet.getRow());
-                 //var params = "?rqprId="+record.get("rqprId");
                  var params = "?rqprId="+record.get("preRqprId");
 
                  rlabRqprRltdDialog.setUrl('<c:url value="/rlab/rlabRqprSrchView.do"/>'+params);
@@ -765,8 +879,6 @@
             		return ;
             	}
                 if (rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd') != '03') {
-                    //alert('시험진행 상태일때만 실험결과를 수정 할 수 있습니다.');
-                    //return false;
                     openExatWayDialog(rlabRqprExatDataSet.getNameValue(e.row, 'rqprExatId'));
                 }else{
 	            	openRlabRqprExatRsltDialog(getRlabRqprExatList, rlabRqprExatDataSet.getNameValue(e.row, 'rqprExatId'));
@@ -1011,34 +1123,12 @@
             }
           //첨부파일 callback
     		setAttachFileInfo = function(attcFilList) {
-
-               /* if(attcFilList.length > 1 ){
-            	   alert("첨부파일은 한개만 가능합니다.");
-            	   return;
-               }else{
-    	           $('#atthcFilVw').html('');
-               } */
-
-               /* for(var i = 0; i < attcFilList.length; i++) {
-                   $('#atthcFilVw').append($('<a/>', {
-                       href: 'javascript:downloadAttcFil("' + attcFilList[i].data.attcFilId + '", "' + attcFilList[i].data.seq + '")',
-                       text: attcFilList[i].data.filNm
-                   })).append('<br/>');
-               document.aform.attcFilId.value = attcFilList[i].data.attcFilId;
-               dataSet.setNameValue(0, "attcFilId",  document.aform.attcFilId.value);
-               } */
            	};
           	//첨부파일 다운로드
             downloadMnalFil = function(attId, seq){
      	       var param = "?attcFilId=" + attId + "&seq=" + seq;
      	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
      	       	document.aform.submit();
-         	    /*var param = "?attcFilId="+ attId+"&seq="+seq;
-     			Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
-     			Rui.get('imgDialTitle').html('기기이미지');
-     			imageDialog.clearInvalid();
-     			imageDialog.show(true);*/
-
             }
 
           	/////////////////////////////////////////////////
@@ -1096,7 +1186,6 @@
 
             	if(confirm('저장 하시겠습니까?')) {
                     dm.updateDataSet({
-                        //dataSets:[rlabRqprDataSet],
                         dataSets:[rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet],
                         url:'<c:url value="/rlab/saveRlabRqpr.do"/>',
                         modifiedOnly: false
@@ -1141,11 +1230,6 @@
     	    		alert('시험진행 상태일때만 시험결과를 저장 할 수 있습니다.');
     	    		return false;
     	    	}
-
-//                 if (vm3.validateDataSet(rlabRqprDataSet) == false) {
-//                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm3.getMessageList().join('\n'));
-//                     return false;
-//                 }
 
             	if(confirm('저장 하시겠습니까?')) {
                     dm.updateDataSet({
@@ -1416,37 +1500,57 @@
     						<td><span id="cmplDt"/></td>
    						</tr>
    						<tr>
-   							<th align="right">시험구분</th>
+   							<th align="right">사업부</th>
+   							<td>
+                                <div id="rlabDzdvCd"></div>
+   							</td>
+   							<th align="right"><span style="color:red;">* </span>시료 제품군</th>
+   							<td>
+                                <div id="rlabProdCd"></div>
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>시험구분</th>
    							<td>
                                 <div id="rlabScnCd"></div>
    							</td>
-   							<th align="right">시험담당자</th>
+   							<th align="right"><span style="color:red;">* </span>긴급유무</th>
+   							<td>
+                                <div id="rlabUgyYn"></div>
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>통보유형</th>
+   							<td>
+   								<div id="infmTypeCd"></div>
+   							</td>
+   							<th align="right"><span style="color:red;">* </span>시험담당자</th>
    							<td>
    								<input type="text" id="rlabChrgNm">
                                 <a href="javascript:openRlabChrgListDialog(setRlabChrgInfo);" class="icoBtn">검색</a>
                             </td>
    						</tr>
    						<tr>
-   							<th align="right">긴급유무</th>
-   							<td>
-                                <div id="rlabUgyYn"></div>
-   							</td>
-   							<th align="right">통보유형</th>
-   							<td>
-   								<div id="infmTypeCd"></div>
-   							</td>
-   						</tr>
-   						<tr>
-   							<th align="right">시료처리</th>
+   							<th align="right"><span style="color:red;">* </span>시료처리</th>
    							<td>
    								<div id="smpoTrtmCd"></div>
    							</td>
+   							<th align="right">WBS 코드</th>
+   							<td>
+   								<input type="text" id="wbsCd">
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right">통보자</th>
+   							<td><span id="rlabRqprInfmView"/></td>
    							<th align="right">상태</th>
    							<td><span id="acpcStNm"/></td>
    						</tr>
    						<tr>
-   							<th align="right">통보자</th>
-   							<td colspan="3"><span id="rlabRqprInfmView"/></td>
+   							<th align="right">시험담당자코멘트</th>
+   							<td colspan="3">
+   								<textarea id="rlabCrgrComm"></textarea>
+   							</td>
    						</tr>
    					</tbody>
    				</table>
