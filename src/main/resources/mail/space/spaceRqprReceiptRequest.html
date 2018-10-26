@@ -54,7 +54,7 @@ a:hover{text-decoration:none;}
 /* mail 전송 */
 
 
-#Wrap{width:100%; overflow: -webkit-paged-x; height:100%;}
+#Wrap{width:100%; overflow: -webkit-paged-x; height:300px;}
 
 .mail_layout{margin:0 auto;}
 
@@ -65,7 +65,7 @@ a:hover{text-decoration:none;}
 .top_line{border-top:2px solid #c40452; width:100%; margin-top: 10px;}
 
 
-.mail_cont{font-size: 12px; color:#666; width: 100%; padding: 20px; min-height: 1000px;}
+.mail_cont{font-size: 12px; color:#666;; padding: 20px; }
 
 </style>
 </head>
@@ -76,7 +76,7 @@ a:hover{text-decoration:none;}
     <div>
     <!--header-->
     <div class="mail_layout">
-      <div class="logo"><img src="http://${imgServerIp}:${imgServerPort}/${imgServerContext}/resource/web/images/newIris/logo.png" alt="로고" width="104px;" height="44px;"></div>
+      <div class="logo"><img src="http://iris.lghausys.com:7030/iris/resource/web/images/newIris/logo.png"  width="104px;" height="44px;"></div>
 
      <div style="clear: both"></div>
     </div>
@@ -86,13 +86,13 @@ a:hover{text-decoration:none;}
     <!--content-->
     <div class="mail_cont">
        	${chrgNm}님,<br/><br/>
-       	아래와 같이 ${rgstNm}님이 분석의뢰한 내용에 대하여 확인 후 접수 또는 반려하여 주시기 바랍니다.
+       	아래와 같이 ${rgstNm}님이 평가의뢰한 내용에 대하여 확인 후 접수 또는 반려하여 주시기 바랍니다.
        	<br/><br/>
-       	- 분석명 : ${spaceNm}<br/>
+       	- 평가명 : ${spaceNm}<br/>
        	- 의뢰자 : ${rgstNm} (${rgstDeptNm})<br/>
        	- 의뢰일 : ${rqprDt}<br/>
        	<br/>
-    	<a href="http://${imgServerIp}:${imgServerPort}/${imgServerContext}/common/login/irisDirectLogin.do?reUrl=/index.do&parentMenuId=IRIAN0100&vMenuId=AN&menuPath=/space/spaceRqprDetail4Chrg.do?rqprId=${rqprId}&menuId=IRIAN0102&menuMoveYn=Y" target="_blank">&lt;분석의뢰서 바로가기&gt;</a>
+    	<a href="http://${imgServerIp}:${imgServerPort}/${imgServerContext}/common/login/irisDirectLogin.do?reUrl=/index.do&parentMenuId=IRIAN0100&vMenuId=AN&menuPath=/space/spaceRqprDetail4Chrg.do?rqprId=${rqprId}&menuId=IRIAN0102&menuMoveYn=Y" target="_blank">&lt;평가의뢰서 바로가기&gt;</a>
     </div>
 
 </div>
