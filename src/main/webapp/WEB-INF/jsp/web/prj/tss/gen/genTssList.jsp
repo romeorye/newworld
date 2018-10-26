@@ -437,7 +437,7 @@
         	dataSet.load({
                 url: '<c:url value="/prj/tss/gen/retrieveGenTssList.do"/>'
               , params : {
-                    wbsCd : document.aform.wbsCd.value                        //과제번호
+                    wbsCd : document.aform.wbsCd.value                        //과제코드
                   , tssNm : encodeURIComponent(document.aform.tssNm.value)    //과제명
                   , deptName : encodeURIComponent(document.aform.deptName.value)                  //조직
                   , tssStrtDd : tssStrtDd.getValue() //과제기간(시작일)
