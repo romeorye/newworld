@@ -198,10 +198,10 @@
 
 
 
-		/*
-		<c:if test="${fn:indexOf(inputData._roleId, 'WORK_IRI_T06') == -1}">
-	        rlabScnCdDataSet.on('load', function(e) {
-	        	rlabScnCdDataSet.removeAt(rlabScnCdDataSet.findRow('COM_DTL_CD', 'O'));
+
+		/* <c:if test="${fn:indexOf(inputData._roleId, 'WORK_IRI_T06') == -1}">
+			rlabScnCdDataSet.on('load', function(e) {
+				rlabScnCdDataSet.removeAt(rlabScnCdDataSet.findRow('COM_DTL_CD', 'O'));
 	        });
         </c:if> */
 
