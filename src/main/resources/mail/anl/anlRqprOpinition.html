@@ -12,10 +12,10 @@
     padding: 0;
 }
 body {
-	color:#7d7d7d; 
+	color:#7d7d7d;
     font-family:'Malgun Gothic','맑은 고딕','Noto Sans KR',
     'Nanum Gothic','굴림',gulim,'돋움',dotum,'Microsoft NeoGothic', 'Droid sans', sans-serif;
-	font-size:13px; 
+	font-size:13px;
 	letter-spacing:-0.20px;
 	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;
@@ -41,10 +41,10 @@ a:hover{text-decoration:none;}
 .clear:after {
     content: " "; /* 1 */
     display: table; /* 2 */
-} 
+}
 .clear:after {
     clear: both;
-} 
+}
 .clear {
     *zoom: 1;
 }
@@ -71,26 +71,25 @@ a:hover{text-decoration:none;}
 </head>
 
 <body>
-    
+
 <div id="Wrap">
     <div>
     <!--header-->
     <div class="mail_layout">
-      <div class="logo"><img src="http://${imgServerIp}:${imgServerPort}/${imgServerContext}/resource/web/images/newIris/logo.png" alt="로고" width="104px;" height="44px;"></div>  
-    
+      <div class="logo"><img src="http://${imgServerIp}:${imgServerPort}/${imgServerContext}/resource/web/images/newIris/logo.png" alt="로고" width="104px;" height="44px;"></div>
+
      <div style="clear: both"></div>
-    </div>      
+    </div>
     <div class="top_line"></div>
     </div>
-    
+
     <!--content-->
     <div class="mail_cont">
     	'[${acpcNo}] ${anlNm}' 분석 건에 ${senderNm}님 께서 아래와 같이 새 의견이 게시하였으니 확인하여 주시기 바랍니다.
     	<br/><a href="http://iris.lghausys.com:7030/iris/common/login/irisDirectLogin.do?reUrl=/index.do&parentMenuId=IRIAN0100&vMenuId=AN&menuPath=/anl/anlRqprDetail.do?rqprId=${rqprId}&menuId=IRIAN0101&menuMoveYn=Y" target="_blank">&lt;분석의뢰서 바로가기&gt;</a>
-    	<br/><a href="http://localhost:8080/iris/common/login/irisDirectLogin.do?reUrl=/index.do&parentMenuId=IRIAN0100&vMenuId=AN&menuPath=/anl/anlRqprDetail.do?rqprId=${rqprId}&menuId=IRIAN0101&menuMoveYn=Y" target="_blank">&lt;로컬 분석의뢰서 바로가기&gt;</a>
     </div>
-    
+
 </div>
-    
+
 </body>
 </html>
