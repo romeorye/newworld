@@ -43,7 +43,20 @@
     response.setHeader("Pragma", "No-cache");
     response.setDateHeader("Expires", 0);
     response.setHeader("Cache-Control", "no-cache");
-    String evTssCd = (String)request.getParameter("evTssCd");
+
+	//useage
+	//목록http://127.0.0.1:8080/iris/index.do?parentMenuId=IRIPJ0600&menuMoveYn=Y&vMenuId=PJ&menuId=IRIPJ0601&menuPath=/prj/grs/listGrsMngInfo.do
+	//과제번호,GRS평가,평가표번호http://127.0.0.1:8080/iris/index.do?parentMenuId=IRIPJ0600&menuMoveYn=Y&vMenuId=PJ&menuId=IRIPJ0601&menuPath=/prj/grs/listGrsMngInfo.do?tssCd=G180090002,1,41
+	//과제번호,GRS평가http://127.0.0.1:8080/iris/index.do?parentMenuId=IRIPJ0600&menuMoveYn=Y&vMenuId=PJ&menuId=IRIPJ0601&menuPath=/prj/grs/listGrsMngInfo.do?tssCd=G180090002,1,
+    String evTssCd = (String)request.getParameter("tssCd");
+    String evTssCdSn = "null";
+    String evGrsEvSn = "null";
+    if(evTssCd!=null){
+        String[] param = evTssCd.split(",");
+        evTssCd = param[0];
+        if(param.length>1)evTssCdSn = param[1];
+		if(param.length>2)evGrsEvSn = param[2];
+    }
 %>
 
 <style>
@@ -58,10 +71,11 @@
     <!-- 그리드 소스 -->
 <script type="text/javascript">
 	var evTssCd = "<%=evTssCd%>";
+	var evTssCdSn = "<%=evTssCdSn%>";
+	var evGrsEvSn = "<%=evGrsEvSn%>";
+    console.log(evTssCd,evTssCdSn,evGrsEvSn);
 	window.onload = function(){
-	    if(evTssCd!="null"){
-            evTssDialog.show();
-		}
+        drEvTssPop(evTssCd,evTssCdSn,evGrsEvSn);
 	}
 
     var todoYN = stringNullChk("${inputData.LOGIN_SYS_CD}") != "" ? true : false;
@@ -961,6 +975,40 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
         gridDataSet.on('load', function (e) {
 
         });
+
+        evTssDialog.show();
+    }
+
+    function drEvTssPop(tssCd, tssCdSn, grsEvSn) {
+        if(tssCd=="null" || tssCdSn=="null")return;
+        this.tssCd = tssCd;
+        this.tssCdSn=tssCdSn;
+
+
+		if(grsEvSn=="null"){
+            $("#chooseEv").show();
+        }else{
+            $("#chooseEv").hide();
+		}
+
+        evInfoDataSet.clearData();
+        grsEvSnNm.setValue('');
+        evInfoDataSet.load({
+            url: '<c:url value="/prj/grs/selectGrsTssInfo.do"/>',
+            params: {
+                tssCd: tssCd,
+                tssCdSn: tssCdSn
+            }
+        });
+
+		gridDataSet.load({
+			url: '/iris/prj/grs/selectGrsEvRsltInfo.do',
+			params: {
+				tssCd: tssCd,
+				tssCdSn: tssCdSn,
+                grsEvSn: (grsEvSn!="null")?grsEvSn:""
+			}
+		})
 
         evTssDialog.show();
     }
