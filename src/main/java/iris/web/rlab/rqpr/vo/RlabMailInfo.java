@@ -15,11 +15,9 @@ public class RlabMailInfo {
 	private String acpcDt = "";
 	private String cmplParrDt = "";
 	private String cmplDt = "";
-	private String spaceGvbRson = "";
-	private String spaceDcacRson = "";
+	private String rlabGvbRson = "";
+	private String rlabDcacRson = "";
 	private String receivers = "";
-
-
 	public String getRqprId() {
 		return rqprId;
 	}
@@ -104,17 +102,17 @@ public class RlabMailInfo {
 	public void setCmplDt(String cmplDt) {
 		this.cmplDt = cmplDt;
 	}
-	public String getSpaceGvbRson() {
-		return spaceGvbRson;
+	public String getRlabGvbRson() {
+		return rlabGvbRson;
 	}
-	public void setSpaceGvbRson(String spaceGvbRson) {
-		this.spaceGvbRson = spaceGvbRson;
+	public void setRlabGvbRson(String rlabGvbRson) {
+		this.rlabGvbRson = rlabGvbRson;
 	}
-	public String getSpaceDcacRson() {
-		return spaceDcacRson;
+	public String getRlabDcacRson() {
+		return rlabDcacRson;
 	}
-	public void setSpaceDcacRson(String spaceDcacRson) {
-		this.spaceDcacRson = spaceDcacRson;
+	public void setRlabDcacRson(String rlabDcacRson) {
+		this.rlabDcacRson = rlabDcacRson;
 	}
 	public String getReceivers() {
 		return receivers;

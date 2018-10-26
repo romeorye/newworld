@@ -467,14 +467,14 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     		if("04".equals(dataMap.get("rlabAcpcStCd"))) {	// 반려
         		rlabMailInfo = commonDao.select("rlab.rqpr.getRlabRqprRejectEmailInfo", dataMap);
 
-        		rlabMailInfo.setSpaceGvbRson(rlabMailInfo.getSpaceGvbRson().replaceAll("\n", "<br/>"));
+        		rlabMailInfo.setRlabGvbRson(rlabMailInfo.getRlabGvbRson().replaceAll("\n", "<br/>"));
 
         		subject.append("'").append(rlabMailInfo.getRlabNm()).append("' 시험의뢰 반려 통보");
         		templateNm = "rlabRqprReject";
     		} else {									// 중단
         		rlabMailInfo = commonDao.select("rlab.rqpr.getRlabRqprStopEmailInfo", dataMap);
 
-        		rlabMailInfo.setSpaceDcacRson(rlabMailInfo.getSpaceDcacRson().replaceAll("\n", "<br/>"));
+        		rlabMailInfo.setRlabDcacRson(rlabMailInfo.getRlabDcacRson().replaceAll("\n", "<br/>"));
 
         		subject.append("'").append(rlabMailInfo.getRlabNm()).append("' 시험중단 통보");
         		templateNm = "rlabRqprStop";
