@@ -85,7 +85,7 @@
             AND 1 = 1
         </if>
         <if test="tssRoleType != 'null' and tssRoleType.equals('S2')">
-            AND (1 = 2 OR a.frstRgstId = #{_userId})
+            AND (1 = 2 OR a.leaderCd = #{_userSabun})
         </if>
         <if test="tssRoleType != 'null' and tssRoleType.equals('S3')">
             AND (a.dlbrCrgr = #{_userSabun} OR a.frstRgstId = #{_userId})
@@ -817,9 +817,9 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	           cast(#{nprodSalsPlnY} as FLOAT),
 				#{ctyOtPlnM},
 				GETDATE(),
-				'MIGADMIN1',
+				#{_userId},
 				GETDATE(),
-				'MIGADMIN1'
+				#{_userId}
 		       )
     WHEN MATCHED THEN
         UPDATE SET
@@ -843,7 +843,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 				NPROD_SALS_PLN_Y = cast(#{nprodSalsPlnY} as FLOAT),
 				CTY_OT_PLN_M = #{ctyOtPlnM},
 	           LAST_MDFY_DT = GETDATE(),
-	           LAST_MDFY_ID = 'MIGADMIN1'
+	           LAST_MDFY_ID = #{_userId}
     ;
     	]]>
     </insert>
