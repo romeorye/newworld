@@ -81,7 +81,7 @@
                 lazyLoad: true,
                 focusFirstRow: false,
                 fields: [
-                      { id: 'wbsCd' }         //과제번호
+                      { id: 'wbsCd' }         //과제코드
                     , { id: 'tssCd' }         //과제코드
                     , { id: 'deptName' }      //조직
                     , { id: 'prjNm' }         //프로젝트명
@@ -129,7 +129,7 @@
             var columnModel = new Rui.ui.grid.LColumnModel({
             	groupMerge: true,
                 columns: [
-                      { field: 'wbsCd',           label: '과제번호',        sortable: false,  align:'center', width: 80 }
+                      { field: 'wbsCd',           label: '과제코드',        sortable: false,  align:'center', width: 80 }
                     , { field: 'deptName',        label: '조직',            sortable: false,  align:'center', width: 180 }
                     , { field: 'prjNm',           label: '프로젝트명',      sortable: false,  align:'center', width: 180 }
                     , { field: 'bizNm',           label: '사업명',          sortable: false,  align:'left', width: 100 }

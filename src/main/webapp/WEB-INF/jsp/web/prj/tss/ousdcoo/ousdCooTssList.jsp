@@ -425,7 +425,7 @@
                 url: '<c:url value="/prj/tss/ousdcoo/retrieveOusdCooTssList.do"/>'
               , params : {
             	    tssScnCd : 'O'											  //과제구분코드(G, N , O:대외협력)
-                  , wbsCd : wbsCd.getValue()                                  //과제번호
+                  , wbsCd : wbsCd.getValue()                                  //과제코드
                   , tssNm : encodeURIComponent(tssNm.getValue())              //과제명
                   , saUserName : encodeURIComponent(document.aform.saUserName.value)             //과제리더
                   , deptName : encodeURIComponent(document.aform.deptName.value)                  //상위조직코드

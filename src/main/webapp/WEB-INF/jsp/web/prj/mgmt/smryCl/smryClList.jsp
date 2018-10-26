@@ -266,7 +266,7 @@
             dataSet.load({
                 url: '<c:url value="/prj/mgmt/smryCl/retrieveSmryClList.do"/>'
               , params : {
-                    wbsCd : document.aform.wbsCd.value                        //과제번호
+                    wbsCd : document.aform.wbsCd.value                        //과제코드
                   , tssNm : encodeURIComponent(document.aform.tssNm.value)    //과제명
                   , saSabunNew : document.aform.saSabunName.value             //과제리더사번
                   , deptCode : document.aform.deptCode.value                  //조직
@@ -347,7 +347,7 @@ function setDeptInfo(deptInfo) {
 		                    </colgroup>
 		                    <tbody>
 		                        <tr>
-		                            <th>과제번호</th>
+		                            <th>과제코드</th>
 		                            <td>
 		                                <input type="text" id="wbsCd" value="">
 		                            </td>

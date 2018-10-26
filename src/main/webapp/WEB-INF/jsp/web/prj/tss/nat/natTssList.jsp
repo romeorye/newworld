@@ -350,7 +350,7 @@
             dataSet.load({
                 url: '<c:url value="/prj/tss/nat/retrieveNatTssList.do"/>'
               , params : {
-                    wbsCd : document.aform.wbsCd.value                        //과제번호
+                    wbsCd : document.aform.wbsCd.value                        //과제코드
                   , tssNm : encodeURIComponent(document.aform.tssNm.value)    //과제명
                   //, saSabunNew : document.aform.saSabunNew.value              //과제리더
                   //, deptCode : document.aform.deptCode.value                  //조직
@@ -468,7 +468,7 @@ nG.saveExcel(encodeURIComponent('과제관리_국책과제') + new Date().format
 		                    </colgroup>
 		                    <tbody>
 		                        <tr>
-		                            <th>과제번호</th>
+		                            <th>과제코드</th>
 		                            <td><input type="text" id="wbsCd" /></td>
 		                            <th>과제명</th>
 		                            <td><input type="text" id="tssNm" /></td>
