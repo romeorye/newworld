@@ -49,8 +49,8 @@
 		var callback;
 		var spaceRqprDataSet;
 		var opiId;
-		var rqprId = '${inputData.rqprId}';
-
+		var rqprId = '${inputData.MW_TODO_REQ_NO}';
+		alert(rqprId);
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
@@ -77,7 +77,13 @@
 
                    		openWindow(url, 'spaceRqprApprovalPop', 800, 500, 'yes');
                 	} else {
-                    	goSpaceRqprList();
+                		dm.loadDataSet({
+                            dataSets: [spaceRqprFbDataSet],
+                            url: '<c:url value="/space/getSpaceRqprDetailInfo.do"/>',
+                            params: {
+                                rqprId: rqprId
+                            }
+                        });
                 	}
                 }
             });
@@ -151,10 +157,23 @@
 				}else{
 					fbRsltSbcTxtArea.show();
 					fbTssPgsStep.hide();
-					fbTssPgsStep.setValue("")
+					fbTssPgsStep.setValue("");
 				}
 
             });
+
+			/* fbRsltScn.on('changed', function(e) {
+				alert(e.value);
+				if(e.value=="04"){
+					//$('#fbRsltBttm').attr('disabled', 'disabled');
+					$('#fbRsltBttm').attr('readonly', true);
+
+				} else{
+					$('#fbRsltBttm').attr('abled', 'abled');
+				}
+
+            });
+			*/
 			var spaceRqprFbDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceRqprFbDataSet',
                 remainRemoved: true,
@@ -187,16 +206,24 @@
                 ]
             });
 
+          //평가방법 / 담당자 데이터셋
+            var spaceRqprWayCrgrDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprWayCrgrDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                	  { id: 'crgrId', defaultValue: '' }
+                	, { id: 'rqprId', defaultValue: '' }
+					, { id: 'evCtgr' }
+					, { id: 'evPrvs' }
+					, { id: 'infmPrsnId' }
+					, { id: 'infmPrsnNm' }
+
+                ]
+            });
+
 			spaceRqprFbDataSet.on('load', function(e) {
-				/* fbRsltSbcTxtArea.setEditable(false);
-				fbTssPgsStep.setEditable(false);
-				fbRsltCtgr.setEditable(false);
-				fbRsltSbcTxtArea.disable();
-				fbTssPgsStep.disable();
-				fbRsltCtgr.disable();
-				fbRsltSbcTxtArea.enable()
-				fbTssPgsStep.enable()
-				fbRsltCtgr.enable() */
+
 				if(spaceRqprFbDataSet.getNameValue(0, 'fbCmplYn')=="Y"){
 					$("#saveFbBtn").hide();
 					$("#cmplFbBtn").hide();
@@ -273,7 +300,7 @@
                         url:'<c:url value="/space/saveSpaceRqprFb.do"/>',
                         //dataSets:[dataSet]
                         params: {
-                        	rqprId : spaceRqprDataSet.getNameValue(0, 'rqprId')
+                        	rqprId : rqprId
                         	, fbRsltCtgr : document.bform.fbRsltCtgr.value
     	    	         	, fbRsltSbc : document.bform.fbRsltSbc.value
     	    	         	, fbRsltScn : document.bform.fbRsltScn.value
@@ -317,7 +344,7 @@
                         url:'<c:url value="/space/saveSpaceRqprFbCmpl.do"/>',
                         //dataSets:[dataSet]
                         params: {
-                        	rqprId : spaceRqprDataSet.getNameValue(0, 'rqprId')
+                        	rqprId : rqprId
                         	, fbRsltCtgr : document.bform.fbRsltCtgr.value
     	    	         	, fbRsltSbc : document.bform.fbRsltSbc.value
     	    	         	, fbRsltScn : document.bform.fbRsltScn.value
@@ -372,7 +399,7 @@
                 dataSets: [spaceRqprFbDataSet],
                 url: '<c:url value="/space/getSpaceRqprDetailInfo.do"/>',
                 params: {
-                    rqprId: '3'// 현재는 임의로 3을 넣어놓음
+                    rqprId: rqprId
                 }
             });
 
@@ -416,7 +443,6 @@
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="saveFbBtn" name="saveFbBtn" onclick="opinitionFbSave()">임시저장</button>
    						<button type="button" class="btn"  id="cmplFbBtn" name="cmplFbBtn" onclick="cmplFbSave()">확정</button>
-   						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goSpaceRqprList()">목록</button>
    					</div>
    				</div>
    				<table class="table">

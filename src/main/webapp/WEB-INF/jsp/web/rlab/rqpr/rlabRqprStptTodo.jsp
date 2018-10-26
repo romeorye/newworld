@@ -49,7 +49,7 @@
 		var callback;
 		var rlabRqprDataSet;
 		var opiId;
-		var rqprId = '${inputData.rqprId}';
+		var rqprId = '${inputData.MW_TODO_REQ_NO}';
 
 		Rui.onReady(function() {
             /*******************
@@ -77,7 +77,13 @@
 
                    		openWindow(url, 'rlabRqprApprovalPop', 800, 500, 'yes');
                 	} else {
-                    	goRlabRqprList();
+                		dm.loadDataSet({
+                            dataSets: [rlabRqprDataSet],
+                            url: '<c:url value="/rlab/getRlabRqprDetailInfo.do"/>',
+                            params: {
+                                rqprId: rqprId
+                            }
+                        });
                 	}
                 }
             });
@@ -155,6 +161,19 @@
                 ]
             });
 
+            var rlabRqprSmpoDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprSmpoDataSet',
+                remainRemoved: true,
+                lazyLoad: true,
+                fields: [
+                	  { id: 'smpoId' }
+                	, { id: 'rqprId', defaultValue: '${inputData.rqprId}' }
+					, { id: 'smpoNm' }
+					, { id: 'mkrNm' }
+					, { id: 'mdlNm' }
+					, { id: 'smpoQty', type: 'number' }
+                ]
+            });
 
 
 
@@ -273,14 +292,9 @@
 
           	rlabRqprStptDataSet.on('load', function(e) {
 				if(rlabRqprStptDataSet.getNameValue(0, 'rlabAllStpt')=="0"){
-					/* $("#saveFbBtn").hide();
-					$("#cmplFbBtn").hide(); */
-
 					$("#saveStpt").show();
 					$("#rsltStpt").hide();
 				}else{
-					/* $("#saveFbBtn").show();
-					$("#cmplFbBtn").show(); */
 					$("#saveStpt").hide();
 					$("#rsltStpt").show();
 					var rlabCnsQltyWidth = rlabRqprStptDataSet.getNameValue(0, 'rlabCnsQlty')*20;
@@ -304,7 +318,7 @@
             	}
 
             	if(!rlabTrmQltyVal){
-            		alert("시험와료기간 만족도를 선택해 주세요.");
+            		alert("시험완료기간 만족도를 선택해 주세요.");
             		return;
             	}
 
@@ -318,7 +332,7 @@
                         url:'<c:url value="/rlab/saveRlabRqprStpt.do"/>',
                         //dataSets:[dataSet]
                         params: {
-                        	rqprId : rlabRqprDataSet.getNameValue(0, 'rqprId')
+                        	rqprId : rqprId
                         	, rlabCnsQlty : rlabCnsQltyVal
     	    	         	, rlabTrmQlty : rlabTrmQltyVal
     	    	         	, rlabAllStpt : rlabAllStptVal
@@ -328,8 +342,13 @@
             };
 
           	/////////////////////////////////////////////////
-
-
+            dm.loadDataSet({
+                dataSets: [rlabRqprDataSet, rlabRqprStptDataSet],
+                url: '<c:url value="/rlab/getRlabRqprDetailInfo.do"/>',
+                params: {
+                    rqprId: rqprId
+                }
+            });
 
 
 

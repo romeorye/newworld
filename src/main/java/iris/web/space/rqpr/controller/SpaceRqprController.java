@@ -1650,6 +1650,11 @@ public class SpaceRqprController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
 
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("SpaceRqprController - spaceRqprOpiFbTodo todo팝업호출");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
 		model.addAttribute("inputData", input);
 
 		return "web/space/rqpr/spaceRqprOpiFbTodo";

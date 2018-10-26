@@ -1615,7 +1615,7 @@ public class RlabRqprController extends IrisBaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/rlab/rlabRqprStptTodo.do")
+	@RequestMapping(value="/iris/rlab/rlabRqprStptTodo.do")
 	public String rlabRqprStptTodo(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request,
@@ -1629,37 +1629,6 @@ public class RlabRqprController extends IrisBaseController {
 		model.addAttribute("inputData", input);
 
 		return "web/rlab/rqpr/rlabRqprStptTodo";
-	}
-
-	/**
-	 * > 신뢰성 만족도 To_do 화면
-	 * @param input
-	 * @param request
-	 * @param session
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value="/rlab/getVmRlabStptList.do")
-	public ModelAndView getVmRlabStptList(
-			@RequestParam HashMap<String, Object> input,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			HttpSession session,
-			ModelMap model
-			){
-
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("RlabRqprController - getVmRlabStptList [신뢰성 만족도 To_do 조회]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
-
-		ModelAndView modelAndView = new ModelAndView("ruiView");
-
-		//List<Map<String,Object>> rlabExatDtlComboList = rlabRqprService.getVmRlabStptList(input);
-
-		//modelAndView.addObject("mchnInfoId", RuiConverter.createDataset("mchnInfoId", rlabExatDtlComboList));
-
-		return modelAndView;
 	}
 
 }
