@@ -33,6 +33,10 @@ public class ReteriveRequestServiceImpl implements ReteriveRequestService {
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
 
+	@Resource(name="commonDaoTodo")
+	private CommonDao commonDaoTodo;
+	
+	
 	/* 조회 요청 리스트 조회 */
 	public List<Map<String, Object>> getKnldRtrvRqList(Map<String, Object> input) {
 		return commonDao.selectList("knld.rtrv.rq.getKnldRtrvRqList", input);
@@ -48,7 +52,7 @@ public class ReteriveRequestServiceImpl implements ReteriveRequestService {
     	if(commonDao.insert("knld.rtrv.rq.insertKnldRtrvRq", data) == 1) {
     		data.put("rsstDocId", commonDao.select("knld.rtrv.rq.getKnldRtrvRqRsstDocId", data));
     		
-    		commonDao.update("knld.rtrv.rq.saveUpMwTodoReq", data);
+    		commonDaoTodo.update("knld.rtrv.rq.saveUpMwTodoReq", data);
     		
         	return true;
     	} else {
@@ -59,7 +63,7 @@ public class ReteriveRequestServiceImpl implements ReteriveRequestService {
 	/* 조회 요청 승인/반려 */
 	public boolean updateApproval(Map<String, Object> data) throws Exception {
 		if(commonDao.update("knld.rtrv.rq.updateApproval", data) == 1) {
-    		commonDao.update("knld.rtrv.rq.saveUpMwTodoReq", data);
+			commonDaoTodo.update("knld.rtrv.rq.saveUpMwTodoReq", data);
         	return true;
     	} else {
     		throw new Exception("조회 요청 승인/반려 처리 오류");
