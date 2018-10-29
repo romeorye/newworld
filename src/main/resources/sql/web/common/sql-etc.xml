@@ -40,6 +40,9 @@
 		    <if test='(deptCd != null and deptCd != "")'>
 				   AND MST.DEPT_CD = #{deptCd}
 		    </if>
+		    <if test='(roleCheck != null and roleCheck == "")'>
+				   AND MST.DEPT_CODE = #{userDept}
+		    </if>
 		    <if test='(uperdeptName != null and uperdeptName != "")'>
 				   AND UDET.DEPT_NAME LIKE '%'+#{uperdeptName}+'%'
 		    </if>
