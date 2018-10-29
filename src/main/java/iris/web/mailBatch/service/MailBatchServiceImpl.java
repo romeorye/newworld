@@ -274,17 +274,18 @@ public class MailBatchServiceImpl implements MailBatchService{
     	//String sendMailAddr = "irisDev@lghausys.com";
     	//운영
     	String sendMailAddr = "iris@lghausys.com";
-    	
+
     	if ( grsReqList.size()  > 0 ){
     		
     		for(Map<String, Object> mailInfo : grsReqList) {
 	    		mailSender.setFromMailAddress(sendMailAddr);
 	            mailSender.setToMailAddress((String) mailInfo.get("receiMailAddr"), (String) mailInfo.get("dlbrCrgrNm") );
 	            mailSender.setSubject(mailTitle);
-	            
 	            vo.setTssNm(mailInfo.get("tssNm").toString()); 
 	    	    vo.setTssCd(mailInfo.get("reqNo").toString()); 	//tssCd + tssSnCd
 	    	    vo.setPhNm(mailInfo.get("phNm").toString()); 
+	    	    vo.setGrsEvSn(mailInfo.get("grsEvSn").toString()); 
+	    	    vo.setTssCdSn(mailInfo.get("tssCdSn").toString()); 
 	    	    
 	    		mailSender.setHtmlTemplate("grsSendMail", vo);
 	
