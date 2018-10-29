@@ -1077,7 +1077,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             ,
             A.TSS_NM         AS tssNm      --과제명
             ,
-            ISNULL(A.SA_SABUN_NAME,'')  AS saSabunName   -- 과제책임자
+            ISNULL(A.SA_SABUN_NAME, (select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new=A.SA_SABUN_NEW)) as saSabunName  -- 과제책임자
             ,
             ISNULL(A.TSS_TYPE,'')       AS tssType    -- 개발유형
             ,
@@ -1112,7 +1112,9 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 ON A.PRJ_CD = C.PRJ_CD
             LEFT JOIN IRIS_GRS_EV_RSLT_RGST B  /*GRS평가결과등록1*/
                 ON A.TSS_CD = B.TSS_CD
-                   AND B.TSS_CD_SN =  '1'
+                   AND B.TSS_CD_SN = (SELECT MAX(TSS_CD_SN) 
+                                      FROM IRIS_GRS_EV_RSLT_RGST
+                                      WHERE TSS_CD = A.TSS_CD)
         ]]>
        WHERE A.TSS_CD IN
 	        <foreach collection="tssCdList" index="index" item="item" separator="," open="(" close=")">
