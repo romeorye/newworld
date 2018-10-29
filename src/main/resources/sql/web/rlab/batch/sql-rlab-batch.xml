@@ -49,6 +49,24 @@
 
 	</select>
 
+	<select id="getRlabRqprApprTodoList" resultType="hashmap">
+			-- getRlabRqprApprTodoList
+			select  rqpr_id as rqprId
+			       ,(select sa_sabun_new from iris_sso_user where  sa_user = rgst_Id) as sabun
+			from   iris_rlab_rqpr_mst  
+			where  rlab_acpc_st_cd = '07'
+			and	   del_yn = 'N'
+			and	   TO_DO_Flag not in ('Y', 'T')
+	</select>
+	
+	<!-- 신뢰성 시험 todo정보 생성 -->
+	<update id="saveRlabRqprTodo"  parameterType="map">
+	<![CDATA[
+	-- saveRlabRqprTodo 신뢰성 시험 todo정보 생성
+		EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'RLA', #{rqprId}, #{sabun}
+    ]]>
+    </update>
+    
 	<update id="updateRlabChrgTrsfFlag" parameterType="iris.web.rlab.rqpr.vo.RlabMailInfo">
 	-- updateRlabChrgTrsfFlag
 		update	iris_rlab_rqpr_mst
@@ -64,5 +82,14 @@
 		where	rqpr_id = ${rqprId}
 
 	</update>
+	
+	<update id="updateRlabTodoFlag">
+	-- updateRgstTodoFlag
+		update	iris_rlab_rqpr_mst
+		set		TO_DO_Flag = 'T'
+		where	rqpr_id = ${rqprId}
+	</update>
+	
+	
 
 </mapper>

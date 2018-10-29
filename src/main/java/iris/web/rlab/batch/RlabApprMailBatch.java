@@ -3,7 +3,6 @@ package iris.web.rlab.batch;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -49,7 +48,7 @@ public class RlabApprMailBatch  extends IrisBaseController {
             		rlabApprMailService.sendReceiptRequestMail(rlabMailInfo);
         		}catch(Exception e) {
         			LOGGER.debug("=================== RlabApprMailBatch_ERROR ======================");
-        			LOGGER.debug("===== rqprId : " + rlabMailInfo.getRqprId() + " 접수요청 이메일 발송 오류 =====");
+        			LOGGER.debug("===== rqprId : " + rlabMailInfo.getRqprId() + " 신뢰성 시험 접수요청 이메일 발송 오류 =====");
         			LOGGER.debug("=================== RlabApprMailBatch_ERROR ======================");
                     e.printStackTrace();
         		}
@@ -62,14 +61,40 @@ public class RlabApprMailBatch  extends IrisBaseController {
             		rlabApprMailService.sendRlabRqprResultMail(rlabMailInfo);
         		}catch(Exception e) {
         			LOGGER.debug("=================== RlabApprMailBatch_ERROR ======================");
-        			LOGGER.debug("===== rqprId : " + rlabMailInfo.getRqprId() + " 분석결과 통보 이메일 발송 오류 =====");
+        			LOGGER.debug("===== rqprId : " + rlabMailInfo.getRqprId() + " 신뢰성 시험 결과 통보 이메일 발송 오류 =====");
         			LOGGER.debug("=================== RlabApprMailBatch_ERROR ======================");
                     e.printStackTrace();
         		}
         	}
         	
             LOGGER.debug("=================== RlabApprMailBatch_END ======================");
-
+            
+            
+            LOGGER.debug("=================== RlabApprTodo Batch_START ======================");
+            
+            List<HashMap<String, Object>> rlabRqprApprTodoList = rlabApprMailService.getRlabRqprApprTodoList();
+            HashMap<String, Object> data = new HashMap<String, Object>();
+            int reCnt = 0;
+            
+            for(HashMap<String, Object> rlabTodoInfo : rlabRqprApprTodoList) {
+        		try {
+        			data.put("sabun", rlabTodoInfo.get("sabun"));
+        			data.put("rqprId", rlabTodoInfo.get("rqprId"));
+        			
+        			reCnt = rlabApprMailService.saveRlabRqprTodo(data);
+        			
+        			rlabApprMailService.updateRlabTodoFlag(data);
+        			
+        		}catch(Exception e) {
+        			LOGGER.debug("=================== RlabApprMailBatch_ERROR ======================");
+        			LOGGER.debug("===== rqprId : " + rlabTodoInfo.get("rqprId") + " 신뢰성 시험 To do 업데이트 오류 =====");
+        			LOGGER.debug("=================== RlabApprMailBatch_ERROR ======================");
+                    e.printStackTrace();
+        		}
+        	}
+            
+            LOGGER.debug("=================== RlabApprTodo Batch_END ======================");
+            
         }catch(Exception e){
         	LOGGER.debug("=================== RlabApprMailBatch_ERROR ======================");
             e.printStackTrace();
