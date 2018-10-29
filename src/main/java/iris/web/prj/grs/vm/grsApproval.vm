@@ -7,7 +7,9 @@
 			
 			<div class="docu_con">
 				<p class="txt2">- 아래 -</p>
-				<h4>1. Agenda 및 심의결과</h4>
+				<h4>1. 일시, 장소 : ${evTitl}</h4>
+				<h4>2. 참석자 : ${cfrnAtdtCdTxtNm}</h4>
+				<h4>3. Agenda 및 심의결과</h4>
 				<table class="table">
 					<colgroup>
 						<col style="width:6%;">
@@ -38,7 +40,7 @@
 					</tbody>
 				</table>
 
-				<h4 class="mt20">2. GRS평가  Comment</h4>
+				<h4 class="mt20">4. GRS평가  Comment</h4>
 				<ul>
 					${grsInfo}
 				</ul>
