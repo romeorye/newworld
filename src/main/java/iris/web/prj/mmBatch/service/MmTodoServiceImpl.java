@@ -48,6 +48,9 @@ public class MmTodoServiceImpl implements  MmTodoService{
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
 	
+	@Resource(name="commonDaoTodo")
+	private CommonDao commonDaoTodo;
+	
 	/** 
 	 * M/M입력 뷰 조회
 	 * **/
@@ -69,7 +72,7 @@ public class MmTodoServiceImpl implements  MmTodoService{
 	 * **/
 	@Override
 	public void saveMmpUpMwTodoReq(Map<String, Object> input) {
-		commonDao.insert("prj.mm.batch.saveMmpUpMwTodoReq", input);
+		commonDaoTodo.insert("prj.mm.batch.saveMmpUpMwTodoReq", input);
 	}
 	
 	/** 

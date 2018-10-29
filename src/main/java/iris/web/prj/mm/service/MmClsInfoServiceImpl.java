@@ -44,6 +44,9 @@ public class MmClsInfoServiceImpl implements MmClsInfoService {
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
 	
+	@Resource(name="commonDaoTodo")
+	private CommonDao commonDaoTodo;
+	
 	static String functionName = "ZHRH_RFC_WBS_INTERFACE";
 	static String tableName ="TABLE_OUT";
 	static String ABAP_AS = "ABAP_AS_WITHOUT_POOL";  //sap 연결명(연결파일명으로 사용됨)
@@ -211,7 +214,7 @@ public class MmClsInfoServiceImpl implements MmClsInfoService {
 	 * **/
 	@Override
 	public void saveMmpUpMwTodoReq(Map<String, Object> input) {
-		commonDao.insert("prj.mm.cls.saveMmpUpMwTodoReq", input);
+		commonDaoTodo.insert("prj.mm.cls.saveMmpUpMwTodoReq", input);
 	}
 	
 	/** 
