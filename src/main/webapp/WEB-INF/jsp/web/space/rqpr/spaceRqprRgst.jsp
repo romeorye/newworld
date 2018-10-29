@@ -76,14 +76,6 @@
                 maxValue: 99999
             });
 
-        /* <c:if test="${fn:indexOf(inputData._roleId, 'WORK_IRI_T06') == -1}">
-	        spaceScnCdDataSet.on('load', function(e) {
-	        	spaceScnCdDataSet.removeAt(spaceScnCdDataSet.findRow('COM_DTL_CD', 'O'));
-	        });
-        </c:if> */
-
-
-
 			/* 평가명 */
             var spaceNm = new Rui.ui.form.LTextBox({
             	applyTo: 'spaceNm',
@@ -148,6 +140,17 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
+
+            oppbScpCd.on('changed', function(e) {
+            	//비밀사유 초기화 및 hidden
+            	if( oppbScpCd.getValue() == 1 ){
+            		Rui.get('scrtRson').show();
+            	}else{
+            		Rui.get('scrtRson').hide();
+            		scrtRson.setValue("");
+            	}
+            });
+
 			/* 비밀사유 */
             var scrtRson = new Rui.ui.form.LTextBox({
             	applyTo: 'scrtRson',
@@ -156,6 +159,7 @@
                 emptyValue: '',
                 width: 305
             });
+
             /* 통보자 팝업 설정*/
             spaceRqprInfmView = new Rui.ui.form.LPopupTextBox({
                 applyTo: 'spaceRqprInfmView',
@@ -890,6 +894,10 @@
     	    	nwinsActSubmit(searchForm, "<c:url value="/space/spaceRqprList.do"/>");
     	    };
 
+
+
+    	  	//비밀사유 히든처리
+        	Rui.get('scrtRson').hide();
         });
 
 		//WBS 코드 팝업 세팅

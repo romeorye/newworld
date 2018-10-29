@@ -184,12 +184,6 @@
                 }
             });
 
-        /* <c:if test="${fn:indexOf(inputData._roleId, 'WORK_IRI_T06') == -1}">
-	        spaceScnCdDataSet.on('load', function(e) {
-	        	spaceScnCdDataSet.removeAt(spaceScnCdDataSet.findRow('COM_DTL_CD', 'O'));
-	        });
-        </c:if> */
-
             var textBox = new Rui.ui.form.LTextBox({
                 emptyValue: ''
             });
@@ -264,6 +258,16 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
+			oppbScpCd.on('changed', function(e) {
+            	//비밀사유 초기화 및 hidden
+            	if( oppbScpCd.getValue() == 1 ){
+            		Rui.get('scrtRson').show();
+            	}else{
+            		Rui.get('scrtRson').hide();
+            		scrtRson.setValue("");
+            	}
+            });
+
 			/* 비밀사유 */
             var scrtRson = new Rui.ui.form.LTextBox({
             	applyTo: 'scrtRson',
@@ -409,9 +413,6 @@
             });
 
             spaceRqprDataSet.on('load', function(e) {
-            	//spaceRqprDataSet.setNameValue(0, 'rqprAttcFileId', '');
-            	//spaceRqprDataSet.setNameValue(0, 'infmPrsnIds', '');
-            	//spaceRqprDataSet.setNameValue(0, 'spaceRqprInfmView', '');
 
             	var opinitionCnt = spaceRqprDataSet.getNameValue(0, 'opinitionCnt');
             	var spaceRsltSbc = spaceRqprDataSet.getNameValue(0, 'spaceRsltSbc');
@@ -1003,12 +1004,6 @@
 				}
             });
 
-
-            /* setSpaceChrgInfo = function(spaceChrgInfo) {
-            	spaceRqprDataSet.setNameValue(0, 'spaceChrgId', spaceChrgInfo.id);
-            	spaceRqprDataSet.setNameValue(0, 'spaceChrgNm', spaceChrgInfo.name);
-            }; */
-
     	    // 관련평가 조회 팝업 시작
     	    spaceRqprSearchDialog = new Rui.ui.LFrameDialog({
     	        id: 'spaceRqprSearchDialog',
@@ -1178,33 +1173,12 @@
           //첨부파일 callback
     		setAttachFileInfo = function(attcFilList) {
 
-               /* if(attcFilList.length > 1 ){
-            	   alert("첨부파일은 한개만 가능합니다.");
-            	   return;
-               }else{
-    	           $('#atthcFilVw').html('');
-               } */
-
-               /* for(var i = 0; i < attcFilList.length; i++) {
-                   $('#atthcFilVw').append($('<a/>', {
-                       href: 'javascript:downloadAttcFil("' + attcFilList[i].data.attcFilId + '", "' + attcFilList[i].data.seq + '")',
-                       text: attcFilList[i].data.filNm
-                   })).append('<br/>');
-               document.aform.attcFilId.value = attcFilList[i].data.attcFilId;
-               dataSet.setNameValue(0, "attcFilId",  document.aform.attcFilId.value);
-               } */
            	};
           	//첨부파일 다운로드
             downloadMnalFil = function(attId, seq){
      	       var param = "?attcFilId=" + attId + "&seq=" + seq;
      	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
      	       	document.aform.submit();
-         	    /*var param = "?attcFilId="+ attId+"&seq="+seq;
-     			Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
-     			Rui.get('imgDialTitle').html('기기이미지');
-     			imageDialog.clearInvalid();
-     			imageDialog.show(true);*/
-
             }
 
           	/////////////////////////////////////////////////
@@ -1311,15 +1285,6 @@
             });
 
 			spaceRqprFbDataSet.on('load', function(e) {
-				/* fbRsltSbcTxtArea.setEditable(false);
-				fbTssPgsStep.setEditable(false);
-				fbRsltCtgr.setEditable(false);
-				fbRsltSbcTxtArea.disable();
-				fbTssPgsStep.disable();
-				fbRsltCtgr.disable();
-				fbRsltSbcTxtArea.enable()
-				fbTssPgsStep.enable()
-				fbRsltCtgr.enable() */
 				if(spaceRqprFbDataSet.getNameValue(0, 'fbCmplYn')=="Y"){
 					$("#saveFbBtn").hide();
 					$("#cmplFbBtn").hide();
@@ -1586,6 +1551,10 @@
                     rqprId: '${inputData.rqprId}'
                 }
             });
+
+	    	//비밀사유 히든처리
+        	Rui.get('scrtRson').hide();
+
         });
 
 		//WBS 코드 팝업 세팅

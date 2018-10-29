@@ -266,6 +266,15 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
+			oppbScpCd.on('changed', function(e) {
+            	//비밀사유 초기화 및 hidden
+            	if( oppbScpCd.getValue() == 1 ){
+            		Rui.get('scrtRson').show();
+            	}else{
+            		Rui.get('scrtRson').hide();
+            		scrtRson.setValue("");
+            	}
+            });
 			/* 비밀사유 */
             var scrtRson = new Rui.ui.form.LTextBox({
             	applyTo: 'scrtRson',
@@ -1778,6 +1787,9 @@
 				record.set('preRgstNm', spaceRqpr.rgstNm);
 				record.set('preSpaceChrgNm', spaceRqpr.spaceChrgNm);
     	    };
+
+    	  	//비밀사유 히든처리
+        	Rui.get('scrtRson').hide();
 
         });
 
