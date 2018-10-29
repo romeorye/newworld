@@ -749,21 +749,37 @@
 
             //성적서 저장후조회
             fnList = function() {
-            	var record0 = spaceEvBzdvDataSet.getAt(spaceEvBzdvDataSet.rowPosition);
-            	var supiCd0 = record0.data.ctgrCd;
-            	var record1 = spaceEvProdClDataSet.getAt(spaceEvProdClDataSet.rowPosition);
-            	var supiCd1 = record1.data.ctgrCd;
-            	var record2 = spaceEvClDataSet.getAt(spaceEvClDataSet.rowPosition);
-            	var supiCd2 = record2.data.ctgrCd;
-            	var record3 = spaceEvProdDataSet.getAt(spaceEvProdDataSet.rowPosition);
-            	var supiCd3 = record3.data.ctgrCd;
+            	var record0="";
+            	var supocd0="";
+            	var record1="";
+            	var supocd1="";
+            	var record2="";
+            	var supocd2="";
+            	var record3="";
+            	var supocd3="";
+            	if(spaceEvBzdvDataSet.rowPosition>=0){
+	            	record0 = spaceEvBzdvDataSet.getAt(spaceEvBzdvDataSet.rowPosition);
+	            	supiCd0 = record0.data.ctgrCd;
+            	}
+            	if(spaceEvProdClDataSet.rowPosition>=0){
+	            	record1 = spaceEvProdClDataSet.getAt(spaceEvProdClDataSet.rowPosition);
+	            	supiCd1 = record1.data.ctgrCd;
+            	}
+            	if(spaceEvClDataSet.rowPosition>=0){
+	            	record2 = spaceEvClDataSet.getAt(spaceEvClDataSet.rowPosition);
+	            	supiCd2 = record2.data.ctgrCd;
+            	}
+            	if(spaceEvProdDataSet.rowPosition>=0){
+	            	record3 = spaceEvProdDataSet.getAt(spaceEvProdDataSet.rowPosition);
+	            	supiCd3 = record3.data.ctgrCd;
+            	}
 
             	spaceEvMtrlListDataSet.load({
                     url: '<c:url value="/space/spaceEvMtrlList.do"/>',
-                    params :{ supiCd0:supiCd0
-                    	     ,supiCd1:supiCd1
-                    	     ,supiCd2:supiCd2
-                    	     ,supiCd3:supiCd3
+                    params :{ supiCd0:spaceEvBzdvDataSet.rowPosition<0 ? "":supiCd0
+                    	     ,supiCd1:spaceEvProdClDataSet.rowPosition<0 ? "":supiCd1
+                    	     ,supiCd2:spaceEvClDataSet.rowPosition<0 ? "":supiCd2
+                    	     ,supiCd3:spaceEvProdDataSet.rowPosition<0 ? "":supiCd3
                     	    }
                 });
             }
