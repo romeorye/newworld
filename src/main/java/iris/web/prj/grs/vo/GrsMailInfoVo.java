@@ -6,6 +6,24 @@ public class GrsMailInfoVo {
 	public String tssNm;
 	public String tssCd;
 	public String phNm;
+	public String grsEvSn;
+	public String tssCdSn;
+
+	public String getGrsEvSn() {
+		return grsEvSn;
+	}
+
+	public void setGrsEvSn(String grsEvSn) {
+		this.grsEvSn = grsEvSn;
+	}
+
+	public String getTssCdSn() {
+		return tssCdSn;
+	}
+
+	public void setTssCdSn(String tssCdSn) {
+		this.tssCdSn = tssCdSn;
+	}
 
 	public String getTssCd() {
 		return tssCd;
