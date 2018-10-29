@@ -7,8 +7,8 @@
 <%--
 /*
  *************************************************************************
- * $Id		: spaceEvaluationMgmtReqPopup.jsp
- * @desc    : 관련평가 리스트 조회 팝업
+ * $Id		: spaceEvaluationMgmtDtlPopup.jsp
+ * @desc    : 자재단위평가 상세 조회 팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -28,6 +28,14 @@
 
 <title><%=documentTitle%></title>
 
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LFileBox.js"></script>
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/LFileUploadDialog.js"></script>
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LPopupTextBox.js"></script>
+
+<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LFileBox.css"/>
+<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/LFileUploadDialog.css"/>
+<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LPopupTextBox.css"/>
+
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LEditButtonColumn.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.css"/>
@@ -46,15 +54,6 @@
 </style>
 
 	<script type="text/javascript">
-	var ctgrNm01= window.parent.ctgrNm01;
-	var ctgrNm02= window.parent.ctgrNm02;
-	var ctgrNm03= window.parent.ctgrNm03;
-	var ctgrNm04= window.parent.ctgrNm04;
-	var ctgr0= window.parent.ctgr0;
-	var ctgr1= window.parent.ctgr1;
-	var ctgr2= window.parent.ctgr2;
-	var ctgr3= window.parent.ctgr3;
-	var prod=ctgrNm01+" > "+ctgrNm02+" > "+ctgrNm03+" > "+ctgrNm04;
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
@@ -156,44 +155,44 @@
 						, { id: 'prodNm' }
 						, { id: 'scn' }
 						, { id: 'pfmcVal' }
-						, { id: 'frstRgstDt' }
 						, { id: 'strtVldDt' }
 						, { id: 'fnhVldDt' }
+						, { id: 'rem' }
 						, { id: 'ottpYn' }
 						, { id: 'attcFilId' }
-						, { id: 'rem' }
+						, { id: 'frstRgstDt' }
+						, { id: 'evCd' }
      		            ]
      	    });
+
+            dataSet.load({
+		        url: '<c:url value="/space/spaceEvMtrlDtl.do"/>' ,
+	           	params :{
+	           	        evCd : "${inputData.evCd}"
+		                }
+	        });
 
             var bind = new Rui.data.LBind({
     			groupId: 'aform',
     		    dataSet: dataSet,
     		    bind: true,
     		    bindInfo: [
-    		         //{ id: 'ctgr0', 		ctrlId: 'ctgr0', 		value: 'value' },
-    		         //{ id: 'ctgr1', 		ctrlId: 'ctgr1', 		value: 'value' },
-    		         //{ id: 'ctgr2', 		ctrlId: 'ctgr2', 		value: 'value' },
-    		         //{ id: 'ctgr3', 		ctrlId: 'ctgr3', 		value: 'value' },
+    		         { id: 'ctgr0', 		ctrlId: 'ctgr0', 		value: 'value' },
+    		         { id: 'ctgr1', 		ctrlId: 'ctgr1', 		value: 'value' },
+    		         { id: 'ctgr2', 		ctrlId: 'ctgr2', 		value: 'value' },
+    		         { id: 'ctgr3', 		ctrlId: 'ctgr3', 		value: 'value' },
+    		         { id: 'prodNm', 			ctrlId: 'prodNm', 			value: 'value' },
     		         { id: 'scn', 			ctrlId: 'scn', 			value: 'value' },
     		         { id: 'pfmcVal', 			ctrlId: 'pfmcVal', 			value: 'value' },
-    		         { id: 'frstRgstDt', 			ctrlId: 'frstRgstDt', 			value: 'value' },
     		         { id: 'strtVldDt', 		ctrlId: 'strtVldDt', 		value: 'value' },
     		         { id: 'fnhVldDt', 		    ctrlId: 'fnhVldDt', 	        value: 'value' },
+    		         { id: 'rem', 		ctrlId: 'rem', 		value: 'value' },
     		         { id: 'ottpYn', 		ctrlId: 'ottpYn', 		value: 'value' },
     		         { id: 'attcFilId', 		ctrlId: 'attcFilId', 		value: 'value' },
-    		         { id: 'rem', 		ctrlId: 'rem', 		value: 'value' }
+    		         { id: 'frstRgstDt', 			ctrlId: 'frstRgstDt', 			value: 'value' },
+    		         { id: 'evCd', 			ctrlId: 'evCd', 			value: 'value' }
     		     ]
     		});
-            dataSet.newRecord();
-            prodNm.setValue(prod);
-            $('#ctgr0').val(ctgr0);
-            $('#ctgr1').val(ctgr1);
-            $('#ctgr2').val(ctgr2);
-            $('#ctgr3').val(ctgr3);
-            //dataSet.setValue(0,"prodNm",prod);
-            //$('#prodNm').val(prod);
-            //alert(dataSet.getNameValue(0,"prodNm"));
-            //alert($('#prodNm').val());
 
           //서버전송용
             var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
@@ -217,18 +216,11 @@
             //저장
             fnSave = function() {
 
-                dataSet.setNameValue(0, "ctgr0",  ctgr0);
-                dataSet.setNameValue(0, "ctgr1",  ctgr1);
-                dataSet.setNameValue(0, "ctgr2",  ctgr2);
-                dataSet.setNameValue(0, "ctgr3",  ctgr3);
-                dataSet.setNameValue(0, "prodNm",  prod);
-                dataSet.setNameValue(0, "prodNm",  prod);
-
                 Rui.confirm({
                     text: '저장하시겠습니까?',
                     handlerYes: function() {
                         dm.updateDataSet({
-                            url:'<c:url value="/space/insertSpaceEvMtrl.do"/>',
+                            url:'<c:url value="/space/updateSpaceEvMtrl.do"/>',
                             dataSets:[dataSet]
                         });
                     },
@@ -254,7 +246,6 @@
     		//dataset에서 첨부파일 정보가 있을경우
     		dataSet.on('load', function(e) {
     			attId = dataSet.getNameValue(0, "attcFilId");
-    			alert(attId);
                 if(!Rui.isEmpty(attId)) getAttachFileList();
             });
 
@@ -314,11 +305,6 @@
      	       var param = "?attcFilId=" + attId + "&seq=" + seq;
      	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
      	       	document.aform.submit();
-         	    /*var param = "?attcFilId="+ attId+"&seq="+seq;
-     			Rui.getDom('dialogImage').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
-     			Rui.get('imgDialTitle').html('기기이미지');
-     			imageDialog.clearInvalid();
-     			imageDialog.show(true);*/
 
             }
 
@@ -337,6 +323,7 @@
 		<input type="hidden" id="ctgr3" name="ctgr3" value=""/>
 		<input type="hidden" id="attcFilId" name="attcFilId" />
 		<input type="hidden" id="frstRgstDt" name="frstRgstDt" />
+		<input type="hidden" id="evCd" name="evCd" />
 
 
    		<div class="LblockMainBody">

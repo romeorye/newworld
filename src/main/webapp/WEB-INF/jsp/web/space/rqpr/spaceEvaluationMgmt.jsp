@@ -264,6 +264,12 @@
              	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
              	       	document.aform.submit();
             		}
+            	}else{
+                	var record = spaceEvMtrlListDataSet.getAt(spaceEvMtrlListDataSet.getRow());
+                    //var params = "?rqprId="+record.get("rqprId");
+                    var params = "?evCd="+record.get("evCd");
+                	mchnDialog.setUrl('<c:url value="/space/spaceEvMtrlDtlPop.do"/>'+params);
+    		    	mchnDialog.show();
             	}
             });
 
@@ -770,7 +776,7 @@
          	// 성적서등록 팝업 시작
 			mchnDialog = new Rui.ui.LFrameDialog({
 		        id: 'mchnDialog',
-		        title: '성적서 등록',
+		        title: '성적서',
 		        width:  800,
 		        height: 600,
 		        modal: true,
