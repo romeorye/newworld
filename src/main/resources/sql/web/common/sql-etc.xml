@@ -41,7 +41,7 @@
 				   AND MST.DEPT_CD = #{deptCd}
 		    </if>
 		    <if test='(roleCheck != null and roleCheck == "")'>
-				   AND MST.DEPT_CODE = #{userDept}
+				   AND MST.DEPT_CODE = dbo.fn_getLeaderDeptCd(#{userDept})
 		    </if>
 		    <if test='(uperdeptName != null and uperdeptName != "")'>
 				   AND UDET.DEPT_NAME LIKE '%'+#{uperdeptName}+'%'
