@@ -1,18 +1,20 @@
 package iris.web.prj.grs.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
 import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
 import devonframe.util.NullUtil;
 import iris.web.prj.grs.vo.GrsMailInfoVo;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /*********************************************************************************
  * NAME : GrsReqServiceImpl.java
@@ -34,9 +36,11 @@ public class GrsReqServiceImpl implements  GrsReqService{
     @Resource(name="commonDao")
     private CommonDao commonDao;
     
+    @Resource(name="commonDaoTodo")
+	private CommonDao commonDaoTodo;
+    
     @Resource(name="mailSenderFactory")
     private MailSenderFactory mailSenderFactory;
-    
     
     @Override
     public List<Map<String, Object>> retrieveGrsReqList(HashMap<String, Object> input) {
@@ -64,7 +68,7 @@ public class GrsReqServiceImpl implements  GrsReqService{
         input.put("reqNo", tssCd + tssCdSn);
 
         LOGGER.debug("=============== TODO 프로시져호출 ===============");
-        commonDao.insert("prj.grs.insertGrsEvRsltTodo", input);
+        commonDaoTodo.insert("prj.grs.insertGrsEvRsltTodo", input);
         int cnt = commonDao.update("prj.tss.com.updateTssMstTssSt", input);
         
         if (cnt > 0 ){
@@ -132,7 +136,7 @@ public class GrsReqServiceImpl implements  GrsReqService{
         input.put("reqSabun", input.get("_userSabun"));
 
         LOGGER.debug("=============== TODO 프로시저 호출 ===============");
-        commonDao.insert("prj.grs.insertGrsEvRsltTodo", input);
+        commonDaoTodo.insert("prj.grs.insertGrsEvRsltTodo", input);
     }
 
     
@@ -151,6 +155,8 @@ public class GrsReqServiceImpl implements  GrsReqService{
 	    vo.setTssNm(input.get("tssNm").toString()); 
 	    vo.setTssCd(input.get("reqNo").toString()); 	//tssCd + tssSnCd
 	    vo.setPhNm(input.get("phNm").toString()); 
+	    vo.setGrsEvSn(input.get("grsEvSn").toString()); 
+	    vo.setTssCdSn(input.get("tssCdSn").toString()); 
 		mailSender.setHtmlTemplate("grsSendMail", vo);
 		mailSender.send(); 
 		
@@ -166,6 +172,13 @@ public class GrsReqServiceImpl implements  GrsReqService{
 		return true; 
    }
  
+   public void updateGrsDecode(HashMap<String, Object> data){
+	   commonDao.update("prj.grs.updateGrsDecode", data); 
+   }
+   
+   public List<Map<String, Object>> retrieveGrsDecodeList(HashMap<String, Object> input){
+	   return commonDao.selectList("prj.grs.retrieveGrsDecodeList");
+   }
 }
 
 

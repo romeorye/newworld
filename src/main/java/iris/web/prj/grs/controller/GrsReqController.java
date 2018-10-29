@@ -1,14 +1,16 @@
 package iris.web.prj.grs.controller;
 
-import devonframe.message.saymessage.SayMessage;
-import devonframe.util.NullUtil;
-import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.StringUtil;
-import iris.web.prj.grs.service.GrsMngService;
-import iris.web.prj.grs.service.GrsReqService;
-import iris.web.prj.tss.com.service.TssUserService;
-import iris.web.prj.tss.gen.service.GenTssPlnService;
-import iris.web.system.base.IrisBaseController;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -20,15 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import devonframe.message.saymessage.SayMessage;
+import devonframe.util.NullUtil;
+import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.StringUtil;
+import iris.web.prj.grs.service.GrsMngService;
+import iris.web.prj.grs.service.GrsReqService;
+import iris.web.prj.tss.com.service.TssUserService;
+import iris.web.prj.tss.gen.service.GenTssPlnService;
+import iris.web.system.base.IrisBaseController;
 
 /********************************************************************************
  * NAME : GrsReqController.java
@@ -216,6 +218,7 @@ public class GrsReqController  extends IrisBaseController {
 
             if("".equals(ds.get(0).get("tssCdSn")) || ds.get(0).get("tssCdSn") == null) {
                 grsReqService.insertGrsEvRslt(ds.get(0));
+                
             } else {
                 grsReqService.updateGrsEvRslt(ds.get(0));
             }
@@ -543,4 +546,50 @@ public class GrsReqController  extends IrisBaseController {
         return rtVal;
     }
 
+    @RequestMapping(value="/prj/grs/updateGrsDecode.do")
+    public ModelAndView updateGrsDecode(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+                                            HttpSession session, ModelMap model) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("updateGrsDecode [GRS updateGrsDecode]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        checkSessionObjRUI(input, session, model);
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+        
+        HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+        List<Map<String, Object>> grsLst = null;
+
+        Map<String, String> msgMap = new HashMap<>();
+        Map<String, Object> grsMap = new HashMap<>();
+        
+        try {
+        	grsLst = RuiConverter.convertToDataSet(request, "dataSet");
+
+        	for(Map<String, Object> data : grsLst){
+        		if( data.get("chk").equals("1") ){
+        			StringUtil.toUtf8Output( (HashMap<String, Object>) data) ;
+        			grsMap.put("tssCd", data.get("tssCd"));
+        			grsMap.put("tssCdSn", data.get("tssCdSn"));
+        			grsMap.put("evTitl", data.get("evTitl"));
+        			grsMap.put("commTxt",data.get("commTxt"));
+        			
+        			LOGGER.debug("grsMap================= = > " +grsMap); 
+        			grsReqService.updateGrsDecode((HashMap<String, Object>)data);
+        		}
+        	}
+        	
+    
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            msgMap.put("rtnMsg", "처리중 오류가발생했습니다. 담당자에게 문의해주세요");
+        }
+        rtnMeaasge.put("rtnMsg", msgMap.get("rtnMsg"));
+        rtnMeaasge.put("rtnSt", msgMap.get("rtnSt"));
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", rtnMeaasge));
+        return modelAndView;
+    }
 }

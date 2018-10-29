@@ -1,20 +1,22 @@
 package iris.web.prj.grs.service;
 
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
 import devonframe.dataaccess.CommonDao;
 import iris.web.common.util.CommonUtil;
 import iris.web.common.util.StringUtil;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.tssbatch.service.TssStCopyService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service("grsMngService")
 public class GrsMngServiceImpl implements GrsMngService {
@@ -101,7 +103,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 			if (grsYn.equals("Y")) {
 				LOGGER.debug("=============== GRS=Y 인경우 GRS 요청정보 생성 ===============");
 				input.put("grsEvSt", "P1");
-				input.put("dlbrCrgr", input.get("_userId"));
+				input.put("dlbrCrgr", input.get("_userSabun"));
 				updateGrsReqInfo(input);                                            //GRS 정보 등록
 			}else if (grsYn.equals("N")) {
 				LOGGER.debug("=============== GRS 미수행시 마스터 이관 ===============");
