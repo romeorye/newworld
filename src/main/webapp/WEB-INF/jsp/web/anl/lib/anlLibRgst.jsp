@@ -52,22 +52,6 @@
                 width: 700
             });
 
-//             var sopNo = new Rui.ui.form.LTextBox({
-//             	applyTo: 'sopNo',
-//                 width: 700
-//             });
-
-//             var docNo = new Rui.ui.form.LTextBox({
-//             	applyTo: 'docNo',
-//                 width: 700
-//             });
-
-//             var bbsSbc = new Rui.ui.form.LTextArea({
-//                 applyTo: 'bbsSbc',
-//                 width: 1000,
-//                 height: 200
-//             });
-
             var bbsKwd = new Rui.ui.form.LTextBox({
             	applyTo: 'bbsKwd',
                 width: 700
@@ -118,12 +102,8 @@
             anlLibRgstDataSet.on('load', function(e) {
             	lvAttcFilId = anlLibRgstDataSet.getNameValue(0, "attcFilId");
                 if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
-
-//                 var sbcNm = anlLibRgstDataSet.getNameValue(0, "bbsSbc").replaceAll('\n', '<br/>');
-//                 anlLibRgstDataSet.setNameValue(0, 'bbsSbc', sbcNm);
-
                 if(anlLibRgstDataSet.getNameValue(0, "bbsId")  != "" ||  anlLibRgstDataSet.getNameValue(0, "bbsId")  !=  undefined ){
-    				document.aform.Wec.value=anlLibRgstDataSet.getNameValue(0, "bbsSbc");
+                	CrossEditor.SetBodyValue(anlLibRgstDataSet.getNameValue(0, "bbsSbc"));
     			}
             });
 
@@ -223,11 +203,6 @@
                 fncInsertAnlLibInfo();
             };
 
-//     		/* [버튼] 목록 */
-//             goAnlLibList = function() {
-//             	$(location).attr('href', '<c:url value="/anl/lib/retrieveAnlLibList.do"/>'+"?bbsCd="+bbsCd);
-//             };
-
             /* [버튼] 목록 */
             goPage = function(target, bbsCd) {
             	$('#bbsCd').val(bbsCd);
@@ -247,19 +222,13 @@
 // 		    	}
 		     });
 
-// 		    butGoList.on('click', function() {
-// 		    	if(confirm("저장하지 않고 목록으로 돌아가시겠습니까?")){
-// 		    		goAnlLibList();
-// 		    	}
-// 		     });
-
 		    goPageBtn.on('click', function() {
 		    	if(confirm("저장하지 않고 목록으로 돌아가시겠습니까?")){
 		    		goPage(target, bbsCd);
 		    	}
 		     });
 
-		    createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
+		    //createNamoEdit('Wec', '100%', 400, 'namoHtml_DIV');
 
         });//onReady 끝
 
@@ -329,13 +298,14 @@
 	    	var pageMode = '${inputData.pageMode}';
 	    	console.log('fncInsertAnlNoticeInfo pageMode='+pageMode);
 
-	    	document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
-	    	document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
+	    	//document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
+	    	//document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
 
-	    	anlLibRgstDataSet.setNameValue(0, 'bbsSbc', document.aform.Wec.bodyValue);
-            gvSbcNm = document.aform.Wec.bodyValue ;
+	    	//anlLibRgstDataSet.setNameValue(0, 'bbsSbc', document.aform.Wec.bodyValue);
+	    	CrossEditor.SetBodyValue(anlLibRgstDataSet.getNameValue(0, "bbsSbc"));
+	    	gvSbcNm = anlLibRgstDataSet.getNameValue(0, "bbsSbc");
 
-			document.aform.bbsSbc.value = document.aform.Wec.MIMEValue;
+			//document.aform.bbsSbc.value = document.aform.Wec.MIMEValue;
 
 	    	// 데이터셋 valid
 			if(!validation('aform')){
@@ -343,7 +313,7 @@
 	   		}
 
 			// 에디터 valid
-			if(gvSbcNm == "" || gvSbcNm == "<P>&nbsp;</P>"){
+			if(gvSbcNm == "" || gvSbcNm == "<P><br></P>"){
 				alert("내용 : 필수 입력 항목 입니다.");
 		   		return false;
 		   	}
@@ -358,7 +328,7 @@
 		    	        dataSets:[anlLibRgstDataSet],
 		    	        params: {
 		    	        	bbsId : document.aform.bbsId.value
-		    	        	,bbsSbc : document.aform.Wec.MIMEValue
+		    	        	,bbsSbc : anlLibRgstDataSet.getNameValue(0, "bbsSbc")
 		    	        }
 		    	    });
 		    	}else if(pageMode == 'C'){
@@ -366,7 +336,7 @@
 		    	        url: "<c:url value='/anl/lib/insertAnlLibInfo.do'/>",
 		    	        dataSets:[anlLibRgstDataSet],
 		    	        params: {
-		    	        	bbsSbc : document.aform.Wec.MIMEValue
+		    	        	bbsSbc : anlLibRgstDataSet.getNameValue(0, "bbsSbc")
 		    	        }
 		    	    });
 		    	}
@@ -376,7 +346,6 @@
 				var resultData = anlLibRgstDataSet.getReadData(e);
 	            alert(resultData.records[0].rtnMsg);
 
-	            //nwinsActSubmit(window.parent.document.aform, "<c:url value='/anl/lib/retrieveAnlLibList.do'/>"+"?bbsCd="+bbsCd);
 	            goPage(target, bbsCd);
 
 			});
@@ -463,9 +432,24 @@
    						</tr>
    						</c:if>
    						<tr>
+   							<th  align="right">내용</th>
    							<td colspan="4">
 <!--    								 <textarea id="bbsSbc"></textarea> -->
-   								<div id="namoHtml_DIV"></div>
+   								<!-- <textarea id="bbsSbc" name="bbsSbc"></textarea> -->
+									<script type="text/javascript" language="javascript">
+									var CrossEditor = new NamoSE('bbsSbc');
+									CrossEditor.params.Width = "100%";
+									CrossEditor.params.UserLang = "auto";
+									var uploadPath = "<%=uploadPath%>";
+
+									CrossEditor.params.ImageSavePath = uploadPath+"/bbsSbc";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+									CrossEditor.params.FullScreen = false;
+									CrossEditor.EditorStart();
+
+									function OnInitCompleted(e){
+										e.editorTarget.SetBodyValue(document.getElementById("bbsSbc").value);
+									}
+									</script>
    							</td>
    						</tr>
     					<tr>
