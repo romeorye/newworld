@@ -101,7 +101,9 @@
 
             anlLibRgstDataSet.on('load', function(e) {
             	lvAttcFilId = anlLibRgstDataSet.getNameValue(0, "attcFilId");
-                if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
+                
+            	if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
+                
                 if(anlLibRgstDataSet.getNameValue(0, "bbsId")  != "" ||  anlLibRgstDataSet.getNameValue(0, "bbsId")  !=  undefined ){
                 	CrossEditor.SetBodyValue(anlLibRgstDataSet.getNameValue(0, "bbsSbc"));
     			}
@@ -298,14 +300,9 @@
 	    	var pageMode = '${inputData.pageMode}';
 	    	console.log('fncInsertAnlNoticeInfo pageMode='+pageMode);
 
-	    	//document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
-	    	//document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
-
-	    	//anlLibRgstDataSet.setNameValue(0, 'bbsSbc', document.aform.Wec.bodyValue);
-	    	CrossEditor.SetBodyValue(anlLibRgstDataSet.getNameValue(0, "bbsSbc"));
+	    	anlLibRgstDataSet.setNameValue(0,  "bbsSbc", CrossEditor.GetBodyValue());
+	    	
 	    	gvSbcNm = anlLibRgstDataSet.getNameValue(0, "bbsSbc");
-
-			//document.aform.bbsSbc.value = document.aform.Wec.MIMEValue;
 
 	    	// 데이터셋 valid
 			if(!validation('aform')){
@@ -325,11 +322,7 @@
 		    		// update
 		    		dm1.updateDataSet({
 		    	        url: "<c:url value='/anl/lib/insertAnlLibInfo.do'/>",
-		    	        dataSets:[anlLibRgstDataSet],
-		    	        params: {
-		    	        	bbsId : document.aform.bbsId.value
-		    	        	,bbsSbc : anlLibRgstDataSet.getNameValue(0, "bbsSbc")
-		    	        }
+		    	        dataSets:[anlLibRgstDataSet]
 		    	    });
 		    	}else if(pageMode == 'C'){
 		   			dm1.updateDataSet({

@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.LogManager; import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,13 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 import devonframe.configuration.ConfigService;
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
+import iris.web.anl.lib.service.AnlLibService;
 import iris.web.common.code.service.CodeCacheManager;
 import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.CommonUtil;
-import iris.web.common.util.DateUtil;
 import iris.web.common.util.NamoMime;
 import iris.web.common.util.StringUtil;
-import iris.web.anl.lib.service.AnlLibService;
 import iris.web.system.base.IrisBaseController;
 
 /********************************************************************************
@@ -458,55 +458,25 @@ public class AnlLibController  extends IrisBaseController {
 		checkSessionRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		NamoMime mime = new NamoMime();
-
-		String anlLibSbcHtml = "";
-		String anlLibSbcHtml_temp = "";
 
 		// 결과메시지
 		rtnMeaasge.put("rtnSt", "S");
 		rtnMeaasge.put("rtnMsg", "저장 되었습니다.");
 		rtnMeaasge.put("bbsId", "");
 
-		int totCnt = 0;    							//전체건수
-		List<Map<String, Object>> AnlLibRgstDataSetList;	// 변경데이터
+		Map<String, Object> AnlLibRgstDataSetMap;
 
 		try
 		{
-			String uploadUrl = "";
-			String uploadPath = "";
-
-            uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_ANL");   // 파일명에 세팅되는 경로
-            uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_ANL");  // 파일이 실제로 업로드 되는 경로
-
-            mime.setSaveURL(uploadUrl);
-            mime.setSavePath(uploadPath);
-            mime.decode(input.get("bbsSbc").toString());                  // MIME 디코딩
-            mime.saveFileAtPath(uploadPath+File.separator);
-
-            anlLibSbcHtml = mime.getBodyContent();
-            anlLibSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(anlLibSbcHtml, "<", "@![!@"),">","@!]!@"));
-
-
 			// 저장&수정
 			String bbsId = "";
-			AnlLibRgstDataSetList = RuiConverter.convertToDataSet(request,"anlLibRgstDataSet");
+			AnlLibRgstDataSetMap = RuiConverter.convertToDataSet(request,"anlLibRgstDataSet").get(0);
+			AnlLibRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
 
-			for(Map<String,Object> anlLibRgstDataSetMap : AnlLibRgstDataSetList) {
+			anlLibService.insertAnlLibInfo(AnlLibRgstDataSetMap);
+			
+			rtnMeaasge.put("bbsId", AnlLibRgstDataSetMap.get("bbsId"));
 
-				anlLibRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
-				anlLibRgstDataSetMap.put("bbsSbc" , NullUtil.nvl(anlLibSbcHtml, ""));
-
-				anlLibService.insertAnlLibInfo(anlLibRgstDataSetMap);
-				totCnt++;
-			}
-
-			rtnMeaasge.put("bbsId", bbsId);
-
-			if(totCnt == 0 ) {
-				rtnMeaasge.put("rtnSt", "F");
-				rtnMeaasge.put("rtnMsg", "변경된 내용이 없습니다.");
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			rtnMeaasge.put("rtnSt", "F");
