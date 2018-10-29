@@ -392,6 +392,9 @@ public class GrsMngController extends IrisBaseController {
         	
         	List<Map<String,Object>> grsInfo = grsMngService.retrieveGrsApproval(input);
         	
+        	grsApprInfo.put("evTitl", grsInfo.get(0).get("evTitl"));
+        	grsApprInfo.put("cfrnAtdtCdTxtNm", grsInfo.get(0).get("cfrnAtdtCdTxtNm"));
+        	
         	List<Map<String,Object>> rqprAttachFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
         	
 	    	for(int i=0;i<grsInfo.size();i++) {
