@@ -89,6 +89,12 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 		return commonDao.selectList("space.ev.spaceRqprRsltList", input);
 	}
 
+	/* 자재단위평가 상세 */
+	@Override
+	public List<Map<String, Object>> getSpaceEvMtrlDtl(Map<String, Object> input) {
+		return commonDao.selectList("space.ev.getSpaceEvMtrlDtl", input);
+	}
+
 	/* 공간평가 평가법관리 - 등록 */
 	@Override
 	public List<Map<String, Object>> spaceEvMtrlReqPop(Map<String, Object> input) {
@@ -100,6 +106,14 @@ public class SpaceEvServiceImpl implements SpaceEvService {
     public boolean insertSpaceEvMtrl(Map<String, Object> ds) {
         //return commonDao.insert("space.ev.insertSpaceEvMtrl", ds);
         commonDao.insert("space.ev.insertSpaceEvMtrl", ds);
+            return true;
+    }
+
+	/* 자재단위평가 - 수정 저장 */
+	@Override
+    public boolean updateSpaceEvMtrl(Map<String, Object> ds) {
+        //return commonDao.insert("space.ev.insertSpaceEvMtrl", ds);
+        commonDao.update("space.ev.updateSpaceEvMtrl", ds);
             return true;
     }
 

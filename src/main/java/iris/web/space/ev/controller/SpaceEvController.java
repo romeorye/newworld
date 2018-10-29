@@ -240,6 +240,39 @@ public class SpaceEvController extends IrisBaseController {
 		return  "web/space/rqpr/spaceEvaluationMgmtReqPopup";
 	}
 
+	@RequestMapping(value="/space/spaceEvMtrlDtlPop.do")
+	public String spaceEvMtrlDtlPop(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		input = StringUtil.toUtf8(input);
+		model.addAttribute("inputData", input);
+		return  "web/space/rqpr/spaceEvaluationMgmtDtlPopup";
+	}
+
+	@RequestMapping(value="/space/spaceEvMtrlDtl.do")
+	public ModelAndView spaceEvMtrlDtl(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		input = StringUtil.toUtf8(input);
+
+        List<Map<String, Object>> resultList = spaceEvService.getSpaceEvMtrlDtl(input);
+		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", resultList));
+
+		return  modelAndView;
+
+	}
+
 	//자재단위평가등록
 	@RequestMapping(value="/space/insertSpaceEvMtrl.do")
 	public ModelAndView insertSpaceEvMtrl(@RequestParam HashMap<String, Object> input,
@@ -281,6 +314,49 @@ public class SpaceEvController extends IrisBaseController {
 
         return modelAndView;
 	}
+
+	//자재단위평가등록
+	@RequestMapping(value="/space/updateSpaceEvMtrl.do")
+	public ModelAndView updateSpaceEvMtrl(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		/* 반드시 공통 호출 후 작업 */
+        checkSessionObjRUI(input, session, model);
+
+        input = StringUtil.toUtf8(input);
+
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        Map<String,Object> ds = null;
+        Map<String,Object> resultMap = new HashMap<String, Object>();
+
+        try {
+            ds  = RuiConverter.convertToDataSet(request, "dataSet").get(0);
+
+            ds.put("cmd", input.get("save"));
+			ds.put("userId", input.get("_userId"));
+
+			spaceEvService.updateSpaceEvMtrl(ds);
+
+            resultMap.put("cmd", "saveAnlExprMst");
+			resultMap.put("resultYn", "Y");
+			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
+
+            //ds.get(0).put("rtCd", "SUCCESS");
+            //ds.get(0).put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
+        } catch(Exception e) {
+        	e.printStackTrace();
+			resultMap.put("resultYn", "N");
+			resultMap.put("resultMsg", "작업을 실패하였습니다.\n관리자에게 문의하세요.");
+        }
+
+        modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
+
+        return modelAndView;
+	}
+
 
 	/** 자재단위평가 삭제 **/
 	@RequestMapping(value="/space/deleteSpaceEvMtrl.do")

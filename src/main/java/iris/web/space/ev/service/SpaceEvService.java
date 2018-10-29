@@ -35,14 +35,20 @@ public interface SpaceEvService {
 	/* 공간평가 평가법관리 상세 조회 */
 	public List<Map<String, Object>> getSpaceEvMtrlList(Map<String, Object> input);
 
-	/* 공간평가 평가결과서 조회 */
+	/* 자재단위평가 상세 조회 */
 	public List<Map<String, Object>> spaceRqprRsltList(Map<String, Object> input);
+
+	/* 공간평가 평가결과서 조회 */
+	public List<Map<String, Object>> getSpaceEvMtrlDtl(Map<String, Object> input);
 
 	/* 공간평가 평가법관리 등록 */
 	public List<Map<String, Object>> spaceEvMtrlReqPop(Map<String, Object> input);
 
 	//자재단위평가 등록
 	public boolean insertSpaceEvMtrl(Map<String, Object> ds)  throws Exception;
+
+	//자재단위평가 수정
+	public boolean updateSpaceEvMtrl(Map<String, Object> ds)  throws Exception;
 
 	//자재단위평가 삭제
 	void deleteSpaceEvMtrl(HashMap<String, String> input);

@@ -153,6 +153,31 @@
 	    </if>
 	</select>
 
+	<select id="getSpaceEvMtrlDtl" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvMtrlDtl 상세리스트
+		SELECT CTGR0 AS ctgr0
+			,CTGR1 AS ctgr1
+			,CTGR2 AS ctgr2
+			,CTGR3 AS ctgr3
+			,PROD_NM AS prodNm
+			,SCN     AS scn
+			,PFMC_VAL AS pfmcVal
+			,STRT_VLD_DT AS strtVldDt
+			,FNH_VLD_DT AS fnhVldDt
+			,REM AS rem
+			,OTTP_YN AS ottpYn
+			,ATTC_FILE_ID AS attcFilId
+			,DEL_YN AS delYn
+			,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23) as frstRgstDt
+			,EV_CD as evCd
+		FROM IRIS_SPACE_MTRL_UTM_EV EV
+		WHERE DEL_YN = 'N'
+		  AND EV_CD=#{evCd}
+		]]>
+
+	</select>
+
 	<insert id="insertSpaceEvMtrl"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="EV_CD" >
 	-- insertSpaceEvMtrl
 	INSERT INTO dbo.IRIS_SPACE_MTRL_UTM_EV
@@ -191,6 +216,28 @@
         ,#{userId}  -- 세션 사번
         )
 	</insert>
+
+	<!-- 자재단위평가 수정 -->
+	<update id="updateSpaceEvMtrl">
+	<![CDATA[
+	-- updateSpaceEvMtrl 자재단위평가 삭제
+		UPDATE IRIS_SPACE_MTRL_UTM_EV
+		   SET SCN = #{scn}
+			,PFMC_VAL = #{pfmcVal}
+			,STRT_VLD_DT =#{strtVldDt}
+			,FNH_VLD_DT =#{fnhVldDt}
+			,REM =#{rem}
+			,OTTP_YN =#{ottpYn}
+			,ATTC_FILE_ID =#{attcFilId}
+			,LAST_MDFY_DT=GETDATE()
+			,LAST_MDFY_ID=#{userId}
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND EV_CD = #{evCd}
+	]]>
+	</update>
 
 	<!-- 자재단위평가 삭제 -->
 	<update id="deleteSpaceEvMtrl">
