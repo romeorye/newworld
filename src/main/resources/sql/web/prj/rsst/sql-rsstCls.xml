@@ -73,7 +73,7 @@
 								ON   e.PRJ_CD = a.PRJ_CD
 								AND  e.PRJ_CLS_YYMM =CONVERT(NVARCHAR(7), DATEADD(MM, -1, GETDATE()), 23)
 					 WHERE 1=1
-					 AND   A.WBS_CD <> 'R16TS0'
+					 AND (A.LAST_MDFY_ID <> 'MIG_DATA' AND  A.WBS_CD <> 'R16TS0') 
 			]]>
 			<if test="( roleCheck != 'ADM'   )"><!-- Admin 사용자 아니면 로그인 사용자의 팀코드(조직)로 조회 -->
 					   AND A.DEPT_CD = #{_teamDept}
