@@ -1,5 +1,6 @@
 package iris.web.space.batch.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import iris.web.space.rqpr.vo.SpaceMailInfo;
@@ -18,15 +19,23 @@ import iris.web.space.rqpr.vo.SpaceMailInfo;
 
 public interface SpaceApprMailService {
 
-	/* 분석의뢰 요청 결재 완료 리스트 조회 */
+	/* 공간평가의뢰 요청 결재 완료 리스트 조회 */
 	public List<SpaceMailInfo> getSpaceRqprApprCompleteList();
 
-	/* 분석 결과 결재 완료 리스트 조회 */
+	/* 공간평가 결과 결재 완료 리스트 조회 */
 	public List<SpaceMailInfo> getSpaceRsltApprCompleteList();
 	
-	/* 분석의뢰 접수요청 이메일 발송 */
+	/* 공간평가의뢰 접수요청 이메일 발송 */
 	public boolean sendReceiptRequestMail(SpaceMailInfo spaceMailInfo) throws Exception;
 	
-	/* 분석결과 통보 이메일 발송 */
+	/* 공간평가결과 통보 이메일 발송 */
 	public boolean sendSpaceRqprResultMail(SpaceMailInfo spaceMailInfo) throws Exception;
+
+	/* 공간평가 Todo 리스트 조회*/
+	public List<HashMap<String, Object>> getSpaceRsltApprTodoList();
+
+	/* 공간평가 Todo 정보 생성*/
+	public int saveSpaceRqprTodo(HashMap<String, Object> data) throws Exception;
+
+	public void updateSpaceTodoFlag(HashMap<String, Object> data)  throws Exception ;
 }

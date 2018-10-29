@@ -3,7 +3,6 @@ package iris.web.space.batch;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -49,7 +48,7 @@ public class SpaceApprMailBatch  extends IrisBaseController {
             		spaceApprMailService.sendReceiptRequestMail(spaceMailInfo);
         		}catch(Exception e) {
         			LOGGER.debug("=================== SpaceApprMailBatch_ERROR ======================");
-        			LOGGER.debug("===== rqprId : " + spaceMailInfo.getRqprId() + " 접수요청 이메일 발송 오류 =====");
+        			LOGGER.debug("===== rqprId : " + spaceMailInfo.getRqprId() + " 공간평가 접수요청 이메일 발송 오류 =====");
         			LOGGER.debug("=================== SpaceApprMailBatch_ERROR ======================");
                     e.printStackTrace();
         		}
@@ -62,7 +61,7 @@ public class SpaceApprMailBatch  extends IrisBaseController {
             		spaceApprMailService.sendSpaceRqprResultMail(spaceMailInfo);
         		}catch(Exception e) {
         			LOGGER.debug("=================== SpaceApprMailBatch_ERROR ======================");
-        			LOGGER.debug("===== rqprId : " + spaceMailInfo.getRqprId() + " 분석결과 통보 이메일 발송 오류 =====");
+        			LOGGER.debug("===== rqprId : " + spaceMailInfo.getRqprId() + " 공간평가 결과 통보 이메일 발송 오류 =====");
         			LOGGER.debug("=================== SpaceApprMailBatch_ERROR ======================");
                     e.printStackTrace();
         		}
@@ -70,6 +69,34 @@ public class SpaceApprMailBatch  extends IrisBaseController {
         	
             LOGGER.debug("=================== SpaceApprMailBatch_END ======================");
 
+            
+            LOGGER.debug("=================== SpaceApprTodoBatch_START ======================");
+            
+            List<HashMap<String, Object>> spaceRsltApprTodoList = spaceApprMailService.getSpaceRsltApprTodoList();
+        	HashMap<String, Object> data = new HashMap<String, Object>();
+        	int reCnt =0;
+        	
+        	for(HashMap<String, Object> spaceMailInfo : spaceRsltApprTodoList) {
+        		try {
+        			data.put("sabun", spaceMailInfo.get("sabun"));
+        			data.put("rqprId", spaceMailInfo.get("rqprId"));
+        			
+        			reCnt = spaceApprMailService.saveSpaceRqprTodo(data);
+        			
+        			spaceApprMailService.updateSpaceTodoFlag(data);
+        			
+        		}catch(Exception e) {
+        			LOGGER.debug("=================== SpaceApprMailBatch_ERROR ======================");
+        			LOGGER.debug("===== rqprId : " + spaceMailInfo.get("rqprId") + " 공간평가 결과 todo 업데이트오류 =====");
+        			LOGGER.debug("=================== SpaceApprMailBatch_ERROR ======================");
+                    e.printStackTrace();
+        		}
+        	}
+        	
+            LOGGER.debug("=================== SpaceApprTodoBatch_END ======================");
+            
+            
+            
         }catch(Exception e){
         	LOGGER.debug("=================== SpaceApprMailBatch_ERROR ======================");
             e.printStackTrace();

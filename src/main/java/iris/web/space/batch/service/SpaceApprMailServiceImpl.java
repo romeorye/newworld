@@ -35,20 +35,23 @@ public class SpaceApprMailServiceImpl implements SpaceApprMailService {
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
 
+	@Resource(name="commonDaoTodo")
+	private CommonDao commonDaoTodo;
+	
 	@Resource(name="mailSenderFactory")
 	private MailSenderFactory mailSenderFactory;
 
-	/* 분석의뢰 요청 결재 완료 리스트 조회 */
+	/* 공간평가 요청 결재 완료 리스트 조회 */
 	public List<SpaceMailInfo> getSpaceRqprApprCompleteList() {
 		return commonDao.selectList("space.batch.getSpaceRqprApprCompleteList");
 	}
 
-	/* 분석 결과 결재 완료 리스트 조회 */
+	/* 공간평가 결과 결재 완료 리스트 조회 */
 	public List<SpaceMailInfo> getSpaceRsltApprCompleteList() {
 		return commonDao.selectList("space.batch.getSpaceRsltApprCompleteList");
 	}
 
-	/* 분석의뢰 접수요청 이메일 발송 */
+	/* 공간평가 접수요청 이메일 발송 */
 	public boolean sendReceiptRequestMail(SpaceMailInfo spaceMailInfo) throws Exception {
     	if(commonDao.update("space.batch.updateSpaceChrgTrsfFlag", spaceMailInfo) == 1) {
 
@@ -75,11 +78,11 @@ public class SpaceApprMailServiceImpl implements SpaceApprMailService {
 			return true;
 
     	} else {
-    		throw new Exception("평가의뢰 접수요청 이메일 발송 오류");
+    		throw new Exception("공간평가 의뢰 접수요청 이메일 발송 오류");
     	}
 	}
 
-	/* 분석결과 통보 이메일 발송 */
+	/* 공간평가 분석결과 통보 이메일 발송 */
 	public boolean sendSpaceRqprResultMail(SpaceMailInfo spaceMailInfo) throws Exception {
     	if(commonDao.update("space.batch.updateRgstTrsfFlag", spaceMailInfo) == 1) {
 
@@ -105,7 +108,28 @@ public class SpaceApprMailServiceImpl implements SpaceApprMailService {
 
         	return true;
     	} else {
-    		throw new Exception("평가결과 통보 이메일 발송 오류");
+    		throw new Exception("공간평가결과 통보 이메일 발송 오류");
     	}
+	}
+	
+	/* 공간평가 Todo 리스트 조회*/
+	public List<HashMap<String, Object>> getSpaceRsltApprTodoList(){
+		return commonDao.selectList("space.batch.getSpaceRsltApprTodoList");
+	}
+	
+	/* 공간평가 Todo 정보 생성*/
+	public int saveSpaceRqprTodo(HashMap<String, Object> data) throws Exception {
+		int reCnt = 0 ;
+		reCnt = commonDaoTodo.insert("space.batch.saveSpaceRqprTodo", data);
+		
+		return reCnt;
+	}
+	
+	public void updateSpaceTodoFlag(HashMap<String, Object> data)  throws Exception {
+		if(commonDao.update("space.batch.updateSpaceTodoFlag", data) == 1){
+
+		}else{
+			throw new Exception("공간평가 시험결과 TODO 상태업데이트 오류");
+		}
 	}
 }
