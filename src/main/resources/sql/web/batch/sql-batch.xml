@@ -315,6 +315,7 @@
 				, c.sa_mail as receiMailAddr
 				, g.TSS_CD_SN as tssCdSn
 				, g.TSS_CD+cast(TSS_CD_SN  as nvarchar) as reqNo
+				, g.GRS_EV_SN as grsEvSn
 		FROM iris_grs_ev_rslt_rgst g
 				INNER JOIN iris_tss_mgmt_mst m
 				ON 	g.tss_cd = m.tss_cd
