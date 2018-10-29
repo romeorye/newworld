@@ -1886,7 +1886,7 @@ fieldset .table + .table{margin-top:20px}
 .docu_con .table th, .docu_con .table td {text-align:center !important;border:1px solid #c3c3c3 !important; margin:0;}
 .docu_con .table tr td:last-child, .docu_con .table thead tr th:last-child {border-right:1px solid #c3c3c3;}
 .docu_con .table td.txt-left  {text-align:left !important;}
-.docu_con ul {overflow:hidden; margin:10px 0;}
+.docu_con ul {overflow:hidden; margin:1px 0;}
 .docu_con ul li {padding:17px 25px; background:#f8f8f8; border-top:1px dashed #ccc !important;}
 .docu_con ul li + li {border-top:1px dashed #ccc !important;}
 .docu_con ul li:first-child   {border-top:1px solid #ccc;}
