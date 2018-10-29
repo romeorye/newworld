@@ -287,13 +287,14 @@ nG.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') +
           	 anlRqprDataSet.load({
                       url: '<c:url value="/anl/getAnlRqprList.do"/>',
                       params :{
-                    	  anlNm : escape(encodeURIComponent(anlNm)),
+                    	anlNm : escape(encodeURIComponent(anlNm)),
                       	rgstNm : escape(encodeURIComponent(rgstNm)),
                       	anlChrgNm : escape(encodeURIComponent(anlChrgNm)),
                       	acpcNo : escape(encodeURIComponent(acpcNo)),
                       	fromRqprDt : '${inputData.fromRqprDt}',
                       	toRqprDt : '${inputData.toRqprDt}',
-                      	acpcStCd : '${inputData.acpcStCd}'
+                      	acpcStCd : '${inputData.acpcStCd}',
+                      	isAnlChrg : 0
                       }
                   });
               }
