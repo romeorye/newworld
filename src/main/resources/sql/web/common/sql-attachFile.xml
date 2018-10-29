@@ -27,6 +27,7 @@
 				   ,LAST_MDFY_ID     as lastMdfyId
 			from	iris_com_attc_fil
 			where  attc_fil_id = #{attcFilId}
+			and     del_yn ='N'
 		<if test="seq != null and seq != ''">
 			and	   seq = ${seq}
 		</if>
