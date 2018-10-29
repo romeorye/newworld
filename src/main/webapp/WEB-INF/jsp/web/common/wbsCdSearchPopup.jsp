@@ -45,14 +45,10 @@
 	<script type="text/javascript">
 
 		Rui.onReady(function() {
-
+            roleCheck = "";
 			if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
 				roleCheck = "ADM";
 			}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T03') > -1) {
-				roleCheck = "ADM";
-			}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-				roleCheck = "ADM";
-			}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
 				roleCheck = "ADM";
 			}
 
@@ -206,6 +202,7 @@
 					    toDate   : toDate.getValue(),
 					    wbsCd    : document.aform.wbsCd.value,
 					    roleCheck    : roleCheck,
+					    userDept : document.aform.userDept.value,
 					    prjNm    : encodeURIComponent(document.aform.prjNm.value),
 					    saName   : encodeURIComponent(document.aform.saName.value),
 					    uperdeptName   : encodeURIComponent(document.aform.deptName.value)
@@ -242,6 +239,7 @@
 
 				<form name="aform" id="aform" method="post">
 				<input type="hidden" name="_GRANT" value='${inputData._GRANT}' />
+				<input type="hidden" name="userDept" value='${inputData._userDept}' />
 				<input type="hidden" name="pageMode" value='' />
 				<input type="hidden" name="prjCd" value='' />
 
