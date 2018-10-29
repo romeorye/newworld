@@ -416,10 +416,13 @@ public class GrsMngController extends IrisBaseController {
 	    		
 				sb.append("<li class='analyze_field'>")
 				  .append("<p class='analyze_s_txt'><b>과제명 : </b>").append(grsInfo.get(i).get("tssNm")).append("</p>")
+				  /* 일시, 장소 및 참석자를 위로 올림
 				  .append("<p class='analyze_s_txt'><b>일시, 장소 : </b>").append(grsInfo.get(i).get("evTitl")).append("</p>")
 				  .append("<p class='analyze_s_txt'><b>참석자 : </b>").append(grsInfo.get(i).get("cfrnAtdtCdTxtNm")).append("</p>")
-				  .append("<p class='analyze_s_txt'><b>주요 Comment : </b><p style='padding-left:20px; box-sizing:border-box;line-height:1.4;'>").append(commTxt).append("</p></p>")
-				  .append("<p class='analyze_s_txt'><b>첨부파일 : </b>");
+				  */
+				  .append("<p class='analyze_s_txt'><b>주요 Comment : </b><p style='padding-left:20px; box-sizing:border-box;line-height:1.4;'>").append(commTxt).append("</p></p>");
+				/* 첨부파일 주석처리
+				.append("<p class='analyze_s_txt'><b>첨부파일 : </b>");
 				
 	    		input.put("attcFilId", grsInfo.get(i).get("attcFilId"));
 	    		grsFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
@@ -427,6 +430,8 @@ public class GrsMngController extends IrisBaseController {
 	    		for(int j=0;j<grsFileList.size();j++) {
 	    			sb.append("<a href='").append(serverUrl).append("/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=").append(grsFileList.get(j).get("attcFilId")).append("&seq=").append(grsFileList.get(j).get("seq")).append("'>").append(grsFileList.get(j).get("filNm")).append("</a>");
 	    		}
+	    		*/
+				
 	    		sb.append("</p></li>");
 			}	
 
