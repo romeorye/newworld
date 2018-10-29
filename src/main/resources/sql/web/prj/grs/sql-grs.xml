@@ -461,7 +461,7 @@
         ( #{tssCd}
         , #{tssCdSn}
         , #{evTitl}
-        , #{_userSabun}
+        , #{dlbrCrgr}
         , iif(#{dlbrParrDt} is null,convert(varchar(10), getdate(), 120),#{dlbrParrDt})
         , #{grsEvSt}
         , #{cfrnAtdtCdTxt}
@@ -474,7 +474,7 @@
         , #{userId}
         , GETDATE()
         , #{userId}
-        , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{_userSabun})
+        , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
         )
     </insert>
 
@@ -1145,4 +1145,24 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
         ]]>
     </select>
     
+       <update id="updateGrsDecode">
+    	update IRIS_GRS_EV_RSLT_RGST
+		set    EV_TITL = #{evTitl}
+		      ,COMM_TXT = #{commTxt}
+		where  tss_cd = #{tssCd}
+		and    TSS_CD_SN = #{tssCdSn}
+    </update>
+    
+    <select id="retrieveGrsDecodeList"  resultType="hashmap">
+    	select  '0' as chk
+    	      , tss_cd   as tssCd
+		      ,tss_cd_sn as tssCdSn
+			  ,isnull(EV_TITL, '') as evTitl 
+			  ,isnull(COMM_TXT, '')  as commTxt
+		from   IRIS_GRS_EV_RSLT_RGST
+		 <![CDATA[
+        where  ( COMM_TXT <> '' or  COMM_TXT is not null)
+        ]]>
+        order by frst_rgst_dt desc
+    </select>
 </mapper>
