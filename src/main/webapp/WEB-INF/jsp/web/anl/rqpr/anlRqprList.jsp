@@ -196,7 +196,7 @@
 
             var anlRqprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                      { field: 'acpcNo',		label: '접수번호',		sortable: true,	align:'center',	width: 100 }
+                      { field: 'acpcNo',		label: '접수번호',		sortable: true,	align:'center',	width: 80 }
                     , { field: 'anlScnNm',		label: '분석구분',		sortable: false,	align:'center',	width: 90 }
                     , { field: 'anlNm',			label: '분석명',		sortable: false,	align:'left',	width: 435 }
                     , { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 50 }
