@@ -38,6 +38,24 @@
 
 	</select>
 
+	<select id="getSpaceRsltApprTodoList" resultType="hashmap">
+			-- getSpaceRsltApprTodoList
+			select  rqpr_id as rqprId
+			       ,(select sa_sabun_new from iris_sso_user where  sa_user = rgst_Id) as sabun
+			from   IRIS_SPACE_RQPR_MST  
+			where  space_acpc_st_cd = '07'
+			and	   del_yn = 'N'
+			and	   TO_DO_Flag not in ('Y', 'T')
+	</select>
+	
+	<!-- 공간평가시험 todo정보 생성 -->
+	<update id="saveSpaceRqprTodo"  parameterType="map">
+	<![CDATA[
+	-- saveSpaceRqprTodo 공간평가시험 todo정보 생성
+		EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'SPC', #{rqprId}, #{sabun}
+    ]]>
+    </update>
+    
 	<update id="updateSpaceChrgTrsfFlag" parameterType="iris.web.space.rqpr.vo.SpaceMailInfo">
 	-- updateSpaceChrgTrsfFlag
 		update	iris_space_rqpr_mst
@@ -54,4 +72,10 @@
 
 	</update>
 
+<update id="updateSpaceTodoFlag">
+	-- updateSpaceTodoFlag
+		update	IRIS_SPACE_RQPR_MST
+		set		TO_DO_Flag = 'T'
+		where	rqpr_id = ${rqprId}
+	</update>
 </mapper>
