@@ -29,6 +29,11 @@
 	<bean id="txManagerQasC" class="devonframe.transaction.CompositeDataSourceTransactionManager">
 		<property name="dataSources" ref="dataSourceQasC" />
 	</bean>
+	
+	<!-- TO DO -->
+	<bean id="txManagerTodo" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourceTodo" />
+	</bean>
 
 	<!-- XML based Transaction -->
 	<tx:advice id="txAdviceIris" transaction-manager="txManagerIris">
@@ -86,6 +91,16 @@
 			<tx:method name="get*" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
+	
+	<!--TODO db -->
+	<tx:advice id="txAdviceTodo" transaction-manager="txManagerTodo">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
 
 
 	<aop:config>
@@ -112,6 +127,10 @@
 		<aop:advisor advice-ref="txAdviceQasC" pointcut="execution(* *..*Service.*(..))" />
 		<aop:advisor advice-ref="txAdviceQasC" pointcut="execution(* *..*ServiceImpl.*(..))" />
 
+		<!-- Todo db -->
+		<aop:advisor advice-ref="txAdviceTodo" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdviceTodo" pointcut="execution(* *..*ServiceImpl.*(..))" />
+
 		
 		
 	</aop:config>
@@ -126,6 +145,8 @@
 	<tx:annotation-driven transaction-manager="txManagerQasU"/>
 	<!-- Qas(청주) db -->
 	<tx:annotation-driven transaction-manager="txManagerQasC"/>
+	<!-- TODO db -->
+	<tx:annotation-driven transaction-manager="txManagerTodo"/>
 
 
 </beans>

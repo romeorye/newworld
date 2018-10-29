@@ -34,6 +34,13 @@
 		<property name="mapperLocations" value= "classpath:/sql/**/sql-*.xml"/>
 	</bean>
 	
+	<!-- TO DO db -->
+	<bean id="sqlSessionFactoryTodo" class="devonframe.dataaccess.mybatis.factory.CommonDaoSqlSessionFactoryBean">
+		<property name="dataSource"      ref="dataSourceTodo" />
+	  	<property name="configLocation"  value="classpath:/sql/configuration.xml"/>
+	  	<property name="mapperLocations" value= "classpath:/sql/**/sql-*.xml"/>
+	</bean>
+	
 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
@@ -41,6 +48,7 @@
 
 	<bean id="commonDao" class="devonframe.dataaccess.mybatis.MyBatisCommonDao">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<qualifier value="mainDB" />
 	</bean>
 
 	<bean id="commonDaoPims" class="devonframe.dataaccess.mybatis.MyBatisCommonDao">
@@ -60,6 +68,11 @@
     <!-- Qas(청주)-->
     <bean id="commonDaoQasC" class="devonframe.dataaccess.mybatis.MyBatisCommonDao">
         <property name="sqlSessionFactory" ref="sqlSessionFactoryQasC" />
+    </bean>
+    
+    <!--  TO DO -->
+    <bean id="commonDaoTodo" class="devonframe.dataaccess.mybatis.MyBatisCommonDao">
+        <property name="sqlSessionFactory" ref="sqlSessionFactoryTodo" />
     </bean>
 
 
