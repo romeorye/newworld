@@ -38,7 +38,7 @@
 					</tbody>
 				</table>
 
-				<h4 class="mt20">2. GRS평가 일시 및 장소, 주요 Comment</h4>
+				<h4 class="mt20">2. GRS평가  Comment</h4>
 				<ul>
 					${grsInfo}
 				</ul>
