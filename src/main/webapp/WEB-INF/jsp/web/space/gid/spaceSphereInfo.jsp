@@ -217,14 +217,12 @@
 								<tbody>
 									<tr>
 										<th class="txt-center">에너지</th>
-										<td rowspan="2">
+										<td>
 											<p>
 												<span class="bullet_txt">TRNSYS : 송수빈P,이진욱P (2W)</span>
 												<span class="bullet_txt">Design Builder : 이진욱P,이유지S,안남혁S (2W)</span>
 												<span class="bullet_txt">Energyplus :박상훈P</span>
 												<span class="bullet_txt">ECO2:이유지S <em>(2W)</em></span>
-												<span class="bullet_txt">Window/therm: 송수빈P/ 김준혁S		<em>(2W)</em></span>
-												<span class="bullet_txt">-Physibel: 이진욱P/ 이유지S <em>(2W)</em></span>
 											</p>
 										</td>
 										<td rowspan="2" style="vertical-align:middle !important;">
@@ -234,6 +232,12 @@
 									</tr>
 									<tr>
 										<th>열</th>
+										<td>
+											<p>
+												<span class="bullet_txt">Window/therm: 송수빈P/ 김준혁S		<em>(2W)</em></span>
+												<span class="bullet_txt">Physibel: 이진욱P/ 이유지S <em>(2W)</em></span>
+											</p>
+										</td>
 									</tr>
 									<tr>
 										<th>빛</th>
@@ -280,15 +284,19 @@
 								<li class="bg_none2"></li>
 								<li class="dn_pr bg_none"></li>
 								<li class="bg_none2"></li>
-								<li class="dn_pr"></li>
+								<!-- <li class="dn_pr"></li> -->
 
 								<li class="bg_none"></li>
 								<li class="prev_pr bg_none"></li>
+
+								<li class="next_pr"></li>
 								<li>
 									<p class="img"><img src="/iris/resource/web/images/newIris/img_process_result.png" alt=""></p>
 									<p>4. 평가결과 확인</p>
 								</li>
-								<li class="prev_pr"></li>
+
+								<!-- <li class="prev_pr"></li> -->
+								<li class="next_pr"></li>
 								<li>
 									<p class="img"><img src="/iris/resource/web/images/newIris/img_process_fb.png" alt=""></p>
 									<p>5. 의뢰자 FeedBack</p>

@@ -224,7 +224,7 @@
 
             	$('#rqprId').val(record.data.rqprId);
 
-            	nwinsActSubmit(aform, "<c:url value='/space/spaceEvMtrlDetail.do'/>");
+            	nwinsActSubmit(aform, "<c:url value='/space/spaceRqprDetail.do'/>");
             });
 
             spaceRqprGrid.render('spaceRqprGrid');

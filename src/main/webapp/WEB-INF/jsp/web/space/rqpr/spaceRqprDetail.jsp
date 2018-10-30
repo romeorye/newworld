@@ -1597,7 +1597,7 @@
    				<div class="titArea">
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="reqApprStateBtn" name="reqApprStateBtn" onclick="openApprStatePopup()" style="display:none;">결재상태</button>
-   						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="save()">저장</button>
+   						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="save()">등록</button>
    						<button type="button" class="btn"  id="approvalBtn" name="approvalBtn" onclick="approval()">결재</button>
    						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="deleteSpaceRqpr()">삭제</button>
    						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goSpaceRqprList()">목록</button>
@@ -1733,11 +1733,11 @@
    						</tr>
 
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>목표(정량지표)</th>
+   							<th align="right"><span style="color:red;">* </span>기대효과(정량지표)</th>
    							<td class="rlabrqpr_tain03">
    								<input type="text" id="qtasDpst">
    							</td>
-   							<th align="right"><span style="color:red;">* </span>목표(정성지표)</th>
+   							<th align="right"><span style="color:red;">* </span>기대효과(정성지표)</th>
    							<td class="rlabrqpr_tain03">
                                 <input type="text" id="qnasDpst">
    							</td>

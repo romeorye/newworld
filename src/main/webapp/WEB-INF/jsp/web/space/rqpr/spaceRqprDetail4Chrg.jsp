@@ -659,9 +659,9 @@
 			// 평가 방법 / 담당자 선택팝업 시작
 		    spaceChrgListDialog = new Rui.ui.LFrameDialog({
 		        id: 'spaceChrgListDialog',
-		        title: '평가담당자',
-		        width: 600,
-		        height: 500,
+		        title: '평가담당자(Working Day, W:Week)',
+		        width: 1100,
+		        height: 530,
 		        modal: true,
 		        visible: false,
 		        buttons: [
@@ -682,7 +682,7 @@
 
 			//평가방법/담당자 리턴
 			setSpaceChrgInfo = function(spaceChrgInfo) {
-				alert(spaceChrgInfo.spaceEvCtgr +" : "+ spaceChrgInfo.spaceEvPrvs +" : "+ spaceChrgInfo.id +" : "+ spaceChrgInfo.name);
+				//alert(spaceChrgInfo.spaceEvCtgr +" : "+ spaceChrgInfo.spaceEvPrvs +" : "+ spaceChrgInfo.id +" : "+ spaceChrgInfo.name);
 				spaceRqprWayCrgrDataSet.newRecord();
             	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'evCtgr', spaceChrgInfo.spaceEvCtgr);
             	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'evPrvs', spaceChrgInfo.spaceEvPrvs);
@@ -1141,35 +1141,7 @@
 
 	        exprWayDialog.render(document.body);
 
-			// 평가 담당자 선택팝업 시작
-		    spaceChrgListDialog = new Rui.ui.LFrameDialog({
-		        id: 'spaceChrgListDialog',
-		        title: '평가담당자',
-		        width: 530,
-		        height: 500,
-		        modal: true,
-		        visible: false,
-		        buttons: [
-		            { text:'닫기', isDefault: true, handler: function() {
-		            	this.cancel();
-		            } }
-		        ]
-		    });
 
-			spaceChrgListDialog.render(document.body);
-
-			openSpaceChrgListDialog = function(f) {
-				_callback = f;
-
-				spaceChrgListDialog.setUrl('<c:url value="/space/spaceChrgDialog.do"/>');
-				spaceChrgListDialog.show();
-			};
-			// 평가 담당자 선택팝업 끝
-
-            setSpaceChrgInfo = function(spaceChrgInfo) {
-            	spaceRqprDataSet.setNameValue(0, 'spaceChrgId', spaceChrgInfo.id);
-            	spaceRqprDataSet.setNameValue(0, 'spaceChrgNm', spaceChrgInfo.name);
-            };
 
     	    // 평가의뢰 의견 팝업 시작
     	    spaceRqprOpinitionDialog = new Rui.ui.LFrameDialog({

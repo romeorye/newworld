@@ -51,11 +51,11 @@
 	<div class="bd pop_conin">
 		<table class="table p-admin">
 			<colgroup>
-				<col style="width:140px;">
-				<col style="width:200px;">
-				<col style="width:160px;">
-				<col style="width:;">
-				<col style="width:;">
+				<col style="width:25%;">
+				<col style="width:20%;">
+				<col style="width:20%;">
+				<col style="width:20%;">
+				<col style="width:20%;">
 				<col style="">
 			</colgroup>
 			<thead>
@@ -64,7 +64,7 @@
 				<th>열</th>
 				<th>빛</th>
 				<th>공기질</th>
-				<th class="txt_gray">(음/화재안전)</th>
+				<!-- <th class="txt_gray">(음/화재안전)</th> -->
 			</thead>
 			<tbody>
 				<tr>
@@ -110,12 +110,12 @@
 							<a href="#" onClick="setSpaceChrgInfo('01','03','rumor',     '이진욱')">이진욱P (2W)</a>
 						</span>
 					</td>
-					<td>
+					<!-- <td>
 						<span class="bullet_txt">CFD :<br>
 							<a href="#" onClick="setSpaceChrgInfo('01','04','hyokeun',   '황효근')">황효근P</a>
 							<a href="#" onClick="setSpaceChrgInfo('01','04','nhahn',     '안남혁')">안남혁S ( 3W )</a>
 						</span>
-					</td>
+					</td> -->
 					<td class="txt_gray"></td>
 				</tr>
 				<tr>
@@ -155,12 +155,12 @@
 							<br><em>(협의)</em>
 						</span>
 					</td>
-					<td class="txt_gray">
+					<!-- <td class="txt_gray">
 						<span class="bullet_txt">
 							<a href="#" onClick="setSpaceChrgInfo('02','05','shoonpark', '박상훈')">박상훈P</a>,
 							<a href="#" onClick="setSpaceChrgInfo('02','05','giantsteps','김준혁')">김준혁S</a>
 						</span>
-					</td>
+					</td> -->
 				</tr>
 				<tr>
 					<th>
@@ -190,12 +190,47 @@
 						<a href="#" onClick="setSpaceChrgInfo('03','04','nhahn',     '안남혁')">안남혁S</a>
 						<br><em>(협의)</em>
 					</td>
-					<td class="txt_gray"><span class="bullet_txt">
+					<!-- <td class="txt_gray"><span class="bullet_txt">
 						<a href="#" onClick="setSpaceChrgInfo('03','05','shoonpark', '박상훈')">박상훈P</a> /
 						<a href="#" onClick="setSpaceChrgInfo('03','05','nhahn',     '안남혁')">안남혁S</a>
 						<br><em>(협의)</em>
-					</td>
+					</td> -->
 				</tr>
+				<!-- <tr>
+					<th class="txt-center">
+						<dl>
+							<dt>Measurement</dt>
+							<dd>주:박상훈책임</dd>
+							<dd>부:안남혁선임</dd>
+						</dl>
+					</th>
+					<td><span class="bullet_txt">
+						<a href="#" onClick="setSpaceChrgInfo('04','01','shoonpark', '박상훈')">박상훈P</a> /
+						<a href="#" onClick="setSpaceChrgInfo('04','01','nhahn',     '안남혁')">안남혁S</a>
+						<br><em>(협의)</em>
+					</td>
+					<td><span class="bullet_txt">
+						<a href="#" onClick="setSpaceChrgInfo('04','02','shoonpark', '박상훈')">박상훈P</a> /
+						<a href="#" onClick="setSpaceChrgInfo('04','02','nhahn',     '안남혁')">안남혁S</a>
+						<br><em>(협의)</em>
+					</td>
+					<td><span class="bullet_txt">
+						<a href="#" onClick="setSpaceChrgInfo('04','03','shoonpark', '박상훈')">박상훈P</a> /
+						<a href="#" onClick="setSpaceChrgInfo('04','03','nhahn',     '안남혁')">안남혁S</a>
+						<br><em>(협의)</em>
+					</td>
+					<td><span class="bullet_txt">
+						<a href="#" onClick="setSpaceChrgInfo('04','04','shoonpark', '박상훈')">박상훈P</a> /
+						<a href="#" onClick="setSpaceChrgInfo('04','04','nhahn',     '안남혁')">안남혁S</a>
+						<br><em>(협의)</em>
+					</td>
+					<td class="txt_gray"><span class="bullet_txt">
+						<a href="#" onClick="setSpaceChrgInfo('04','05','shoonpark', '박상훈')">박상훈P</a> /
+						<a href="#" onClick="setSpaceChrgInfo('04','05','nhahn',     '안남혁')">안남혁S</a>
+						<br><em>(협의)</em>
+					</td>
+				</tr> -->
+
 			</tbody>
 		</table>
 	</div>
