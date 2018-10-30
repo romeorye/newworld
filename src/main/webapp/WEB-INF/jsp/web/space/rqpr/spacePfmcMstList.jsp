@@ -492,7 +492,8 @@
                 });
             };
 
-            getSpaceEvProdList();
+            //이유지 선임 요청으로 화면로딩시 조회 안되게 수정
+            //getSpaceEvProdList();
 
         });
 
