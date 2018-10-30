@@ -88,7 +88,8 @@
 			,ATTC_FILE_ID AS attcFilId
 			,DEL_YN AS delYn
 			,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23) as frstRgstDt
-			,EV_CD as evCd
+			,EV_CD AS evCd
+			,SND_EML_YN AS sndEmlYn
 		FROM IRIS_SPACE_MTRL_UTM_EV EV
 		WHERE DEL_YN = 'N'
 		]]>
@@ -171,6 +172,7 @@
 			,DEL_YN AS delYn
 			,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23) as frstRgstDt
 			,EV_CD as evCd
+			,SND_EML_YN AS sndEmlYn
 		FROM IRIS_SPACE_MTRL_UTM_EV EV
 		WHERE DEL_YN = 'N'
 		  AND EV_CD=#{evCd}
@@ -196,7 +198,9 @@
 		,FRST_RGST_DT
 		,FRST_RGST_ID
 		,LAST_MDFY_DT
-		,LAST_MDFY_ID)
+		,LAST_MDFY_ID
+		,SND_EML_YN
+		)
     VALUES
         (#{ctgr0}
 		,#{ctgr1}
@@ -214,13 +218,14 @@
         ,#{userId}  -- 세션 사번
         ,GETDATE()
         ,#{userId}  -- 세션 사번
+        ,#{sndEmlYn}
         )
 	</insert>
 
 	<!-- 자재단위평가 수정 -->
 	<update id="updateSpaceEvMtrl">
 	<![CDATA[
-	-- updateSpaceEvMtrl 자재단위평가 삭제
+	-- updateSpaceEvMtrl 자재단위평가 수정
 		UPDATE IRIS_SPACE_MTRL_UTM_EV
 		   SET SCN = #{scn}
 			,PFMC_VAL = #{pfmcVal}
@@ -231,6 +236,7 @@
 			,ATTC_FILE_ID =#{attcFilId}
 			,LAST_MDFY_DT=GETDATE()
 			,LAST_MDFY_ID=#{userId}
+			,SND_EML_YN = #{sndEmlYn}
 	]]>
 
 	<![CDATA[

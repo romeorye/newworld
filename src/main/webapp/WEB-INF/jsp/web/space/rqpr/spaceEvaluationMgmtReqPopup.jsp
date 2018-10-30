@@ -73,7 +73,7 @@
                  applyTo: 'scn',
                  defaultValue: '',
                  emptyValue: '',
-                 width: 200
+                 width: 500
             });
 
             //성능값
@@ -89,6 +89,19 @@
     			applyTo : 'ottpYn',
     			name : 'ottpYn',
     			defaultValue: '<c:out value="${inputData.ottpYn}"/>',
+    			width : 100,
+    			emptyText: '선택하세요',
+    				items: [
+    	                   { code: 'Y', value: 'Y' }, // value는 생략 가능하며, 생략시 code값을 그대로 사용한다.
+    	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+    	                	]
+    		});
+
+            //메일발송여부
+    		var cbSndEmlYn = new Rui.ui.form.LCombo({
+    			applyTo : 'sndEmlYn',
+    			name : 'sndEmlYn',
+    			defaultValue: '<c:out value="${inputData.sndEmlYn}"/>',
     			width : 100,
     			emptyText: '선택하세요',
     				items: [
@@ -162,6 +175,7 @@
 						, { id: 'ottpYn' }
 						, { id: 'attcFilId' }
 						, { id: 'rem' }
+						, { id: 'sndEmlYn' }
      		            ]
      	    });
 
@@ -181,7 +195,8 @@
     		         { id: 'fnhVldDt', 		    ctrlId: 'fnhVldDt', 	        value: 'value' },
     		         { id: 'ottpYn', 		ctrlId: 'ottpYn', 		value: 'value' },
     		         { id: 'attcFilId', 		ctrlId: 'attcFilId', 		value: 'value' },
-    		         { id: 'rem', 		ctrlId: 'rem', 		value: 'value' }
+    		         { id: 'rem', 		ctrlId: 'rem', 		value: 'value' },
+    		         { id: 'sndEmlYn', 		ctrlId: 'sndEmlYn', 		value: 'value' }
     		     ]
     		});
             dataSet.newRecord();
@@ -359,18 +374,26 @@
    						</tr>
    						<tr>
    							<th align="right">구분</th>
-   							<td>
+   							<td colspan="3">
    								<input type="text" id="scn" value="">
    							</td>
+
+   						</tr>
+   						<tr>
    							<th align="right">공개여부</th>
    							<td>
    								<select id="ottpYn" name="ottpYn"></select>
    							</td>
-   						</tr>
-   						<tr>
    							<th align="right">성능값</th>
    							<td>
    								<input type="text" id="pfmcVal" value="">
+   							</td>
+
+   						</tr>
+   						<tr>
+   							<th align="right">메일발송여부</th>
+   							<td>
+   								<select id="sndEmlYn" name="sndEmlYn"></select>
    							</td>
    							<th align="right">유효기간</th>
    							<td colspan="3">

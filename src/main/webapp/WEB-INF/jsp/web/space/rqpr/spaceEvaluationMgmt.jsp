@@ -119,6 +119,7 @@
 					, { id: 'attcFilId' }
 					, { id: 'rem' }
 					, { id: 'evCd' }
+					, { id: 'sndEmlYn' }
                 ]
             });
 
@@ -174,9 +175,10 @@
                 	, { field: 'scn',			label: '구분',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 181 }
                     , { field: 'pfmcVal',		label: '성능값',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 181 }
                     , { field: 'frstRgstDt',	label: '등록일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 181 }
-                    , { field: 'strtVldDt',		label: '유효시작일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
-                    , { field: 'fnhVldDt',		label: '유효종료일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 200 }
-                    , { field: 'ottpYn',		label: '공개여부',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100 }
+                    , { field: 'strtVldDt',		label: '유효시작일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 180 }
+                    , { field: 'fnhVldDt',		label: '유효종료일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 180 }
+                    , { field: 'sndEmlYn',		label: '메일발송여부',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 70 }
+                    , { field: 'ottpYn',		label: '공개여부',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 70 }
                     , { id: 'attachDownBtn',  label: '첨부',                                          width: 65
                     	,renderer: function(val, p, record, row, i){
   		  	    		  if(!record.get('attcFilId')||record.get('attcFilId').length<1){
