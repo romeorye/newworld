@@ -345,9 +345,6 @@
                 var pTssSt     = dataSet.getNameValue(e.row, "tssSt");     //과제상태
                 var pGrsEvSt   = dataSet.getNameValue(e.row, "grsEvSt");   //GRS상태
 
-//                console.log('pTssSt : '+pTssSt+"--");
-//                console.log('pGrsEvSt : '+pGrsEvSt+"--");
-
                 //계획
                 if(pPgsStepCd == "PL") {
                 	console.log('이동 : 계획_상세(수정)');
@@ -355,7 +352,7 @@
                 }
                 //진행
                  else if(pPgsStepCd == "PG") {
-                    if(pTssSt == "102") {
+                    if(pTssSt == "102" || pTssSt == "301" || pTssSt == "302") {
                         //진행_GRS완료_중단(신규등록)
                         if(pGrsEvSt == "D") {
                         	console.log('이동 : 진행_GRS완료_중단(신규등록)');
