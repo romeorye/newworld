@@ -59,7 +59,7 @@ public class MchnMgmtController  extends IrisBaseController {
 		//LOGGER.debug("#######################mchnMgmtList######input######################################################## : "+ input);
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
-		
+
 		model.addAttribute("inputData", input);
 
 		return  "web/mchn/mgmt/mchnMgmtList";
@@ -84,10 +84,10 @@ public class MchnMgmtController  extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		
+
 		List<Map<String, Object>> resultList = mchnMgmtService.retrieveMchnMgmtSearchList(input);
 		HashMap<String, Object> result = anlMchnService.retrieveAnlMchnSearchDtl(input);
-		
+
 		modelAndView.addObject("mchnInfoDataSet", RuiConverter.createDataset("mchnInfoDataSet", result));
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", resultList));
 
@@ -110,7 +110,6 @@ public class MchnMgmtController  extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 
 		input.put("saName", lsession.get("_userNm").toString());
 		input.put("saSabun", lsession.get("_userSabun").toString());
@@ -141,7 +140,7 @@ public class MchnMgmtController  extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		
+
        	HashMap<String, Object> result = mchnMgmtService.retrieveMchnMgmtInfoSearch(input);
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", result));
 
@@ -167,7 +166,7 @@ public class MchnMgmtController  extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		
+
 		String rtnMsg = "";
 		String rtnSt = "F";
 

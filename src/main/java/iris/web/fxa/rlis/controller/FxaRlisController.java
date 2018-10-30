@@ -55,7 +55,7 @@ public class FxaRlisController  extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
 		LOGGER.debug("####################input################################################################# : " + input);
-		
+
 		model.addAttribute("inputData", input);
 
 		return  "web/fxa/rlis/fxaInfoRlisList";
@@ -100,13 +100,12 @@ public class FxaRlisController  extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		input = StringUtil.toUtf8(input);
-		
+
 		List<Map<String, Object>> resultList = fxaRlisService.retrieveFxaRlisSearchList(input);
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", resultList));
 
@@ -131,12 +130,11 @@ public class FxaRlisController  extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		LOGGER.debug("session="+lsession);
 		model.addAttribute("inputData", input);
 
 		return  "web/fxa/rlis/fxaRlisApprPop";
 	}
-	
+
 	/**
 	 * 자산실사 To_do View
 	 * @param input
@@ -159,7 +157,7 @@ public class FxaRlisController  extends IrisBaseController {
 
 		return  "web/fxa/rlis/fxaInfoRlisTodoView";
 	}
-	
+
 	/**
 	 * 자산실사 To_do View
 	 * @param input
@@ -176,21 +174,20 @@ public class FxaRlisController  extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		
+
 		//LOGGER.debug("#################################input#################################################### + " + input);
 		List<Map<String, Object>> resultList = fxaRlisService.retrieveFxaRlisTodoList(input);
-		
+
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", resultList));
 
         return modelAndView;
 	}
-	
-	
+
+
 	/**
 	 * 자산실사 To_do 화면
 	 * @param input
@@ -214,8 +211,8 @@ public class FxaRlisController  extends IrisBaseController {
 
 		return  "web/fxa/rlis/fxaInfoRlisTodoList";
 	}
-	
-	
+
+
 	/**
 	 * 자산실사 To_do 조회
 	 * @param input
@@ -229,21 +226,20 @@ public class FxaRlisController  extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		
+
 		LOGGER.debug("#################################input#################################################### + " + input);
 		List<Map<String, Object>> resultList = fxaRlisService.retrieveFxaRlisTodoList(input);
-		
+
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", resultList));
 
         return modelAndView;
     }
-	
-	
+
+
 	/**
 	 * 자산실사 To_do 저장
 	 * @param input
@@ -257,50 +253,49 @@ public class FxaRlisController  extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		
+
 		//변경된 dataset 건수 추출
-		List<Map<String, Object>> updateDataSetList= null; 
-		Map<String,Object> todoMap = new HashMap<String, Object>();				//todo map		
+		List<Map<String, Object>> updateDataSetList= null;
+		Map<String,Object> todoMap = new HashMap<String, Object>();				//todo map
 		List<Map<String,Object>> inputList = new ArrayList<Map<String,Object>>();
-				
+
 		String rtnMsg = "";
 		String rtnSt = "F";
 		try{
 			updateDataSetList = RuiConverter.convertToDataSet(request,"dataSet");
-			
+
 			if( updateDataSetList.size() != 0  ){
 				for(int i=0; i < updateDataSetList.size(); i++){
 					todoMap = updateDataSetList.get(i);
 					todoMap.put("_userId", String.valueOf(input.get("_userId")));
-					
+
 					inputList.add(todoMap);
 				}
 			}
-			
+
 			//To_do 저장
 			fxaRlisService.saveFxaRlisTodoInfo(inputList);
-			
+
 			rtnSt = "S";
 			rtnMsg = "저장되었습니다.";
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 			rtnMsg = "처리중 오류가 발생헀습니다. 관리자에게 문의해주십시오.";
 		}
-		
+
 		rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
-		
+
         return modelAndView;
     }
-	
+
 	/**
 	 * 자산실사 To_do 결재
 	 * @param input
@@ -312,50 +307,49 @@ public class FxaRlisController  extends IrisBaseController {
 			HttpSession session,
 			ModelMap model
 			){
-		
+
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
-		
+
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		
+
 		//변경된 dataset 건수 추출
-		List<Map<String, Object>> updateDataSetList= null; 
-		Map<String,Object> todoMap = new HashMap<String, Object>();				//todo map		
+		List<Map<String, Object>> updateDataSetList= null;
+		Map<String,Object> todoMap = new HashMap<String, Object>();				//todo map
 		List<Map<String,Object>> inputList = new ArrayList<Map<String,Object>>();
-		
+
 		String rtnMsg = "";
 		String rtnSt = "F";
 		try{
 			updateDataSetList = RuiConverter.convertToDataSet(request,"dataSet");
-			
+
 			if( updateDataSetList.size() != 0  ){
 				for(int i=0; i < updateDataSetList.size(); i++){
 					todoMap = updateDataSetList.get(i);
 					todoMap.put("_userId", String.valueOf(input.get("_userId")));
-					
+
 					inputList.add(todoMap);
 				}
 			}
-			
+
 			//To_do 저장
 			fxaRlisService.saveFxaRlisTodoApprInfo(inputList, input);
-			
+
 			rtnSt = "S";
 			rtnMsg = "결재되었습니다.";
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 			rtnMsg = "처리중 오류가 발생헀습니다. 관리자에게 문의해주십시오.";
 		}
-		
+
 		rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
-		
+
 		return modelAndView;
 	}
-	
+
 }

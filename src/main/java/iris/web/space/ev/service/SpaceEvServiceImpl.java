@@ -121,7 +121,6 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 	@Override
 	public void deleteSpaceEvMtrl(HashMap<String, String> input) {
 		String rebId = NullUtil.nvl(input.get("rebId"), "");
-		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("space.ev.deleteSpaceEvMtrl", input);
 	}
 
@@ -129,7 +128,6 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 	@Override
 	public void deleteSpaceEvCtgr0(HashMap<String, String> input) {
 		String rebId = NullUtil.nvl(input.get("rebId"), "");
-		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("space.ev.deleteSpaceEvCtgr0", input);
 	}
 
@@ -137,7 +135,6 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 	@Override
 	public void deleteSpaceEvCtgr1(HashMap<String, String> input) {
 		String rebId = NullUtil.nvl(input.get("rebId"), "");
-		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("space.ev.deleteSpaceEvCtgr1", input);
 	}
 
@@ -145,7 +142,6 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 	@Override
 	public void deleteSpaceEvCtgr2(HashMap<String, String> input) {
 		String rebId = NullUtil.nvl(input.get("rebId"), "");
-		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("space.ev.deleteSpaceEvCtgr2", input);
 	}
 
@@ -153,7 +149,6 @@ public class SpaceEvServiceImpl implements SpaceEvService {
 	@Override
 	public void deleteSpaceEvCtgr3(HashMap<String, String> input) {
 		String rebId = NullUtil.nvl(input.get("rebId"), "");
-		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("space.ev.deleteSpaceEvCtgr3", input);
 	}
 

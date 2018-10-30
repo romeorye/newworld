@@ -25,35 +25,35 @@ import devonframe.dataaccess.CommonDao;
 
 @Service("ousdCooTssDcacService")
 public class OusdCooTssDcacServiceImpl implements OusdCooTssDcacService {
-	 
+
     static final Logger LOGGER = LogManager.getLogger(OusdCooTssDcacServiceImpl.class);
 
     @Resource(name="commonDao")
     private CommonDao commonDao;
-    
+
     /** 중단 신규등록(마스터 복사,중단개요 저장) **/
     @Override
     public int insertOusdCooTssDcacMst(HashMap<String, Object> mstMap, HashMap<String, Object> smryMap) {
 	int rtCnt = commonDao.insert("prj.tss.gen.dcac.insertGenTssDcacMst", mstMap);
-	
+
         if(rtCnt > 0) {
             smryMap.put("tssCd", mstMap.get("tssCd"));
             rtCnt += this.insertOusdCooTssDcacSmry(smryMap);
         }
 	return rtCnt;
     }
-    
+
     /** 중단 수정(마스터,중단개요 수정) **/
     @Override
     public int updateOusdCooTssDcacMst(HashMap<String, Object> mstMap, HashMap<String, Object> smryMap) {
         int rtCnt = 0;
-        
+
         rtCnt  = commonDao.update("prj.tss.gen.dcac.updateGenTssDcacMst", mstMap);
         rtCnt += this.updateOusdCooTssDcacSmry(smryMap);
-        
+
         return rtCnt;
     }
-    
+
     /** 중단개요 등록 **/
     @Override
     public int insertOusdCooTssDcacSmry(HashMap<String, Object> input) {
@@ -64,29 +64,28 @@ public class OusdCooTssDcacServiceImpl implements OusdCooTssDcacService {
     public int updateOusdCooTssDcacSmry(HashMap<String, Object> input) {
         return commonDao.insert("prj.tss.ousdcoo.dcac.updateOusdCooTssDcacSmry", input);
     }
-	
+
     /** 중단 필수값 체크*/
     @Override
 	public String retrieveOusdCooTssDcacCheck(HashMap<String, String> input){
     	String rtnMsg = "N";
-  		
+
 		//완료 필수항목 체크 (목표)
 		String goalYn = commonDao.select("prj.tss.ousdcoo.dcac.retrieveOusdCooTssDcacCheck", input);
-		 LOGGER.debug("###########################goalCnt################################ : " + goalYn);	
     	if( goalYn.equals("N")){
     		rtnMsg = "G"; //"목표기술성과 실적값을 전부 입력하셔야 합니다.";
     	}
-		
-		return rtnMsg; 
+
+		return rtnMsg;
 	}
-	
+
 /*
 	//마스터
 	@Override
     public Map<String, Object> retrieveGenTssDcacMst(HashMap<String, String> input) {
         return commonDao.select("prj.tss.com.retrieveTssMst", input);
     }
-	
+
 	@Override
     public int insertGenTssDcacMst(HashMap<String, Object> mstMap, HashMap<String, Object> smryMap) {
 	    int rtCnt = commonDao.insert("prj.tss.gen.dcac.insertGenTssDcacMst", mstMap);
@@ -94,21 +93,21 @@ public class OusdCooTssDcacServiceImpl implements OusdCooTssDcacService {
             smryMap.put("tssCd", mstMap.get("tssCd"));
             rtCnt += this.insertGenTssDcacSmry(smryMap);
         }
-	    
+
 	    return rtCnt;
     }
 
     @Override
     public int updateGenTssDcacMst(HashMap<String, Object> mstMap, HashMap<String, Object> smryMap) {
         int rtCnt = 0;
-        
+
         rtCnt  = commonDao.update("prj.tss.gen.dcac.updateGenTssDcacMst", mstMap);
         rtCnt += this.updateGenTssDcacSmry(smryMap);
-        
+
         return rtCnt;
     }
-	
-    
+
+
 	//개요
     @Override
     public Map<String, Object> retrieveGenTssDcacSmry(HashMap<String, String> input) {
@@ -125,7 +124,7 @@ public class OusdCooTssDcacServiceImpl implements OusdCooTssDcacService {
         return commonDao.insert("prj.tss.gen.dcac.updateGenTssDcacSmry", input);
     }
 
-    
+
     //품의서
     @Override
     public Map<String, Object> retrieveGenTssDcacInfo(HashMap<String, String> input) {

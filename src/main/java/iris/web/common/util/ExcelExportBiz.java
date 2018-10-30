@@ -5,17 +5,17 @@
  * PROJ : LG CNS TWMS 프로젝트
  * Copyright 2010 LG CNS All rights reserved
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- * 2010.03.11  K.B.IM.   Initialize     
- * 2016.08.18  김진동 수정            
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ * 2010.03.11  K.B.IM.   Initialize
+ * 2016.08.18  김진동 수정
  *------------------------------------------------------------------------------*/
 
 package iris.web.common.util;
 
-import java.io.File; 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -61,7 +61,7 @@ public class ExcelExportBiz {
     ResourceBundle configService = ResourceBundle.getBundle("config.project");
 	/**
 	 * Export excel file
-	 * 
+	 *
 	 * @param LData data
 	 * @param String[] dataKey
 	 * @param LData sCountData
@@ -69,14 +69,14 @@ public class ExcelExportBiz {
 	 * @param LData rData
 	 * @param String templateName
 	 * @return
-	 * @throws DevonException 
+	 * @throws DevonException
 	 */
     public File excelExport(Map<String, Object> data, String[] dataKey, String templateName) throws java.text.ParseException{
 	    return excelExport(data, dataKey, templateName, "", "", "");
 	}
 
 	/**
-	 * 
+	 *
 	 * @param data
 	 * @param dataKey
 	 * @param templateName
@@ -87,9 +87,9 @@ public class ExcelExportBiz {
     public File excelExport(Map<String, Object> data, String[] dataKey, String templateName, String subpath) throws java.text.ParseException{
         return excelExport(data, dataKey, templateName, "", "", subpath);
     }
-	
+
     /**
-     * 
+     *
      * @param data
      * @param dataKey
      * @param templateName
@@ -101,14 +101,14 @@ public class ExcelExportBiz {
     public File excelExport(Map<String, Object> data, String[] dataKey, String templateName, String downFileName, String downSheetName) throws java.text.ParseException{
         return excelExport(data, dataKey, templateName, downFileName, downSheetName, "");
     }
-    
-    
+
+
     public File excelExport(Map<String, Object> data, String[] dataKey, String templateName, int limitRowCnt) throws java.text.ParseException{
         return excelExport(data, dataKey, templateName, "", "", "", limitRowCnt);
     }
 
     /**
-     * 
+     *
      * @param data
      * @param dataKey
      * @param templateName
@@ -120,9 +120,9 @@ public class ExcelExportBiz {
     public File excelExport(Map<String, Object> data, String[] dataKey, String templateName, String subpath, int limitRowCnt) throws java.text.ParseException{
         return excelExport(data, dataKey, templateName, "", "", subpath, limitRowCnt);
     }
-    
+
     /**
-     * 
+     *
      * @param data
      * @param dataKey
      * @param templateName
@@ -135,20 +135,20 @@ public class ExcelExportBiz {
     public File excelExport(Map<String, Object> data, String[] dataKey, String templateName, String downFileName, String downSheetName, int limitRowCnt) throws java.text.ParseException{
         return excelExport(data, dataKey, templateName, downFileName, downSheetName, "", limitRowCnt);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
 	public File excelExportFile(Map<String, Object> data,String[] dataKey,Map<String, String> sCountData,Map<String, String> mCountData,Map<String, String> rData,String templateName) throws java.text.ParseException {
-	    
+
 		FileInputStream is = null;
 		File file = null;
 //        LConfiguration config = LConfiguration.getInstance();
@@ -161,15 +161,15 @@ public class ExcelExportBiz {
         System.out.println("downloadPath="+downloadPath);
         file = new File(downloadPath);
         System.out.println("getPath() -"+file.getPath());
-		
+
 		try {
 			is = new FileInputStream(downloadPath);
 		} catch (FileNotFoundException e) {
-			
+
 			e.printStackTrace();
 		}
 		try {
-			
+
 			HSSFWorkbook workbook = new HSSFWorkbook(is);
 			HSSFSheet sheet = workbook.getSheetAt(0);
 
@@ -182,21 +182,21 @@ public class ExcelExportBiz {
 
             HSSFRow dataRowTemp2     = sheet2.getRow(0);
             HSSFRow dataRowTempType2 = sheet2.getRow(0);
-            
+
             cell2           = dataRowTemp2.getCell( 0);
             cellDatType2    = dataRowTempType2.getCell( 0);
             cellStyle2[0]   = cellDatType2.getCellStyle();
-            //------------------------------------------ 사용 CellType END			
-			
+            //------------------------------------------ 사용 CellType END
+
 			int temRows = sheet.getPhysicalNumberOfRows();
 			int startRow = -1;
 			int dataTempRow = -1;
 
 			for (int i = 0; i < temRows; i++) {
-			
+
 				HSSFRow row = sheet.getRow(i);
 				HSSFCell cell = row.getCell( 0);
-				
+
 				if ("dataStart".equals(cell.getStringCellValue())) {
 					startRow    = i;
 					dataTempRow = i + 1;
@@ -207,7 +207,7 @@ public class ExcelExportBiz {
 
             HSSFRow dataRowTemp     = sheet.getRow(dataTempRow);
             HSSFRow dataRowTempType = sheet.getRow(dataTempRow + 1);
-            
+
             int lastCellNum             = dataRowTemp.getLastCellNum();
             HSSFCellStyle cellStyle[]   = new HSSFCellStyle[lastCellNum];
             HSSFCell cell               = null;
@@ -219,15 +219,15 @@ public class ExcelExportBiz {
             HSSFCellStyle cellStyle3[]  = new HSSFCellStyle[lastCellNum];
             HSSFCell cell3              = null;
             HSSFCell cellDatType3       = null;
-            //------------------------------------------ 사용 CellType END        
-            
+            //------------------------------------------ 사용 CellType END
+
             for (int i = 0; i < lastCellNum; i++) {
                 cell                = dataRowTemp.getCell( i);
                 cellDatType         = dataRowTempType.getCell( i);
                 cellStyle[i]        = cellDatType.getCellStyle();
                 cellType[i]         = cellDatType.getCellType();
                 cellTempValue[i]    = cell.getStringCellValue();
-                
+
                 if(templateName.equals("ordIqListSys.xls")) {
                     cell3               = dataRowTemp2.getCell( i);
                     cellDatType3        = dataRowTempType2.getCell( i);
@@ -238,33 +238,33 @@ public class ExcelExportBiz {
             sheet.removeRow(sheet.getRow(startRow));
             sheet.removeRow(sheet.getRow(dataTempRow));
             sheet.removeRow(sheet.getRow(dataTempRow+1));
-            
+
 //            int mCount = ((LMultiData) data.get(dataKey[0])).getDataCount();
-            
+
             int mCount = ((List <Map<String, Object>>) data.get(dataKey[0])).size();
             int sCount = 0;
 
             String cellValue = "";
-            
+
 //            System.out.println("mCount="+mCount);
-            
+
 			int startData = startRow;
 			HSSFRow rowline = null;
-			
+
             if(templateName.equals("estIMfrTmCost.xls")) {                    // 가공비내역서
                 for (int i = 0; i < mCount; i++) {
                     int tempMergeNum = startData;
                     tempMergeNum = tempMergeNum + i;
-                    
+
                     rowline     = sheet.createRow(tempMergeNum);
                     for (int j = 0; j < cellTempValue.length; j++) {
                         cell        = rowline.createCell( j);
-                        
+
                         if( j >= 31 && j <= 36) {
                             if(getLMDataValue(data, cellTempValue[j-6], i) != null) {
 
                                 cellValue = getLMDataValue(data, cellTempValue[j-6], i).toString()+"EE";
-                                
+
                                 // 이동공정여부 -> 이동공정시간
                                 // 절단공정여부 -> 절단공정시간
                                 // 용접공정여부 -> 용접공정시간
@@ -283,53 +283,53 @@ public class ExcelExportBiz {
                         } else {
                             cell.setCellStyle(cellStyle[j]);
                         }
-                        
+
                         cell.setCellType(cellType[j]);
                         setCellForType(cell, cellType[j],getLMDataValue(data, cellTempValue[j],i));
                     }
                 }
-                
+
             } else if(templateName.equals("ordIqListSys.xls")) {                    // 견적별 산출결과 조회
-                
+
             	Map<String, Object> ldata = new HashMap<String, Object>();
                 int strRowNo = 0;
-                
+
                 for (int i = 0; i < mCount; i++) {
-                    
+
                     int tempMergeNum = startData;
                     tempMergeNum = tempMergeNum + i;
 
                     HSSFCellStyle strCellStyle = null;
 
                     ldata.put("rn2", getLMDataValue(data, cellTempValue[24], i).toString());
-                    
-                    if((Integer.parseInt(ldata.get("rn2")+"") % 2) == 0)  strRowNo = 1; 
-                    else                                strRowNo = 2; 
-                    
+
+                    if((Integer.parseInt(ldata.get("rn2")+"") % 2) == 0)  strRowNo = 1;
+                    else                                strRowNo = 2;
+
                     rowline     = sheet.createRow(tempMergeNum);
                     for (int j = 0; j < cellTempValue.length; j++) {
                         cell        = rowline.createCell( j);
-                    
+
                         if(strRowNo == 1)   strCellStyle = cellStyle[j];
-                        else                strCellStyle = cellStyle3[j];              
-                        
+                        else                strCellStyle = cellStyle3[j];
+
                         cell = rowline.createCell( j);
                         cell.setCellStyle(strCellStyle);
-                        cell.setCellType(cellType[j]);                      
-                        
+                        cell.setCellType(cellType[j]);
+
                         setCellForType(cell, cellType[j],getLMDataValue(data, cellTempValue[j],i));
                     }
                 }
-                
+
             } else if(templateName.equals("moldMtrlclList.xls")) {                    // 가공비내역서
                 for (int i = 0; i < mCount; i++) {
-                    
+
                     int tempMergeNum = startData;
                     tempMergeNum = tempMergeNum + i;
                     rowline     = sheet.createRow(tempMergeNum);
                     for (int j = 0; j < cellTempValue.length; j++) {
                         cell        = rowline.createCell( j);
-                        
+
                         if( j == 9) {
                             if(getLMDataValue(data, cellTempValue[27], i) != null) {
                                 cellValue = getLMDataValue(data, cellTempValue[27], i).toString();
@@ -363,27 +363,27 @@ public class ExcelExportBiz {
                         } else {
                             cell.setCellStyle(cellStyle[j]);
                         }
-                        
-                     
-                        
+
+
+
                         cell.setCellType(cellType[j]);
                         setCellForType(cell, cellType[j],getLMDataValue(data, cellTempValue[j],i));
                     }
                 }
-                
+
             } else {
                 for (int i = 0; i < mCount; i++) {
-                    
+
                     int tempMergeNum = startData;
                     tempMergeNum = tempMergeNum + i;
-                    
+
                     rowline = sheet.createRow(tempMergeNum);
                     for (int j = 0; j < cellTempValue.length; j++) {
 
                         cell = rowline.createCell( j);
                         cell.setCellStyle(cellStyle[j]);
-                        cell.setCellType(cellType[j]);                      
-                        
+                        cell.setCellType(cellType[j]);
+
                         setCellForType(cell, cellType[j],getLMDataValue(data, cellTempValue[j],i));
                     }
                 }
@@ -405,8 +405,8 @@ public class ExcelExportBiz {
 		}
 		return file;
 	}
-	
-	
+
+
     /**
      * Export excel file
      *
@@ -450,7 +450,7 @@ public class ExcelExportBiz {
             for (int i = 0; i < temRows; i++) {
                 HSSFRow row = sheet.getRow(i);
                 HSSFCell cell = null;
-                
+
                 if( dSet != null ) {
                     idx = 0;
                     while( true ) {
@@ -463,7 +463,7 @@ public class ExcelExportBiz {
                         if( !cellValue.equals("nu") ) {
                             cell.setCellValue(cellValue);
                         }
-                        
+
                         if( cellStr.equals("end") ) {
                             cell.setCellValue("");
                             break;
@@ -476,7 +476,7 @@ public class ExcelExportBiz {
                 }
 
                 cell = row.getCell( 0);
-                
+
                 if ("dataStart".equals(cell.getStringCellValue())) {
                     startRow = i;
                     dataTempRow = i + 1;
@@ -547,10 +547,10 @@ public class ExcelExportBiz {
         }
         return file;
     }
-    
+
     @SuppressWarnings("unchecked")
 	public File excelAutoExportFile2(Map<String, Object> data, List<Map<String, String>> dSet, String[] dataKey,Map<String, Object> sCountData,Map<String, Object> mCountData,Map<String, Object> rData,String templateName) throws java.text.ParseException{
-    	
+
     	FileInputStream is = null;
     	File file = null;
 //        LConfiguration config = LConfiguration.getInstance();
@@ -561,15 +561,15 @@ public class ExcelExportBiz {
     	String downloadPath = basePath + "/" + templateName;
 //    	String downloadPath = basePath+ "/cnstw/"+templateName; //경로이동 20160825김진동
     	System.out.println("downloadPath="+downloadPath);
-    	
+
     	try {
     		is = new FileInputStream(downloadPath);
     	} catch (FileNotFoundException e) {
-    		
+
     		e.printStackTrace();
     	}
     	try {
-    		
+
     		 HSSFWorkbook workbook = new HSSFWorkbook(is);
              HSSFSheet sheet;
              Map<String, String> tempDSet = null;
@@ -688,10 +688,10 @@ public class ExcelExportBiz {
          }
          return file;
     }
-	
+
 	/**
 	 * Set cell type
-	 * 
+	 *
 	 * @param HSSFCell cell
 	 * @param int cType
 	 * @param Object obj
@@ -722,10 +722,10 @@ public class ExcelExportBiz {
 		}
 
 	}
-	
+
 	/**
 	 * Get LMData value
-	 * 
+	 *
 	 * @param LData data
 	 * @param String key
 	 * @param int inx
@@ -740,17 +740,17 @@ public class ExcelExportBiz {
 //			System.out.println("keyStr="+keyStr);
 //			System.out.println("dataKey="+keyStr);
 //			System.out.println("mDataKey="+keyStr);
-			
+
 			return ((List <Map<String, Object>>) data.get(dataKey)).get(inx).get(mDataKey);
-			
+
 		}
 //        System.out.println("key="+key);
 		return key;
 	}
-	
+
     /**
      * Get LMData key
-     * 
+     *
      * @param String key
      * @return
      */
@@ -762,10 +762,10 @@ public class ExcelExportBiz {
 		}
 		return "";
 	}
-	
+
 	/**
 	 * Equal condition for MS
-	 * 
+	 *
 	 * @param LData data
 	 * @param LData rData
 	 * @param String[] dataKey
@@ -791,21 +791,21 @@ public class ExcelExportBiz {
 					break;
 				}
 			}
-			
+
 		}else{
 //			if(!((LMultiData) data.get(dataKey[0])).getString(mColCondi, i)
 			if(!((List<Map<String,Object>>) data.get(dataKey[0])).get(i).get(mColCondi)
 					.equals(
 							((List<Map<String,Object>>) data.get(dataKey[1]))
 									.get(k).get(sColCondi))){
-				flag = false;				
+				flag = false;
 			}
 		}
 		return flag;
 	}
-	
+
 	 public File excelExport(Map<String, Object> data, String[] dataKey, String templateName, String downFileName, String downSheetName, String subpath, int limitRowCnt) throws java.text.ParseException{
-	        
+
 	        FileInputStream is = null;
 	        File file = null;
 	        String basePath  =configService.getString("KeyStore.EXCEL_BASE");
@@ -818,15 +818,15 @@ public class ExcelExportBiz {
 	        }
 	        String downloadPath = tmpPath + templateName;
 	        System.out.println("downloadPath="+downloadPath);
-	        
+
 	        try {
 	            is = new FileInputStream(downloadPath);
 	        } catch (FileNotFoundException e) {
-	            
+
 	            e.printStackTrace();
 	        }
 	        try {
-	            
+
 	            HSSFWorkbook workbook = new HSSFWorkbook(is);
 	            HSSFSheet sheet = workbook.getSheetAt(0);
 
@@ -834,12 +834,12 @@ public class ExcelExportBiz {
 	            int startRow = -1;
 	            int dataTempRow = -1;
 	            int headSize = 1;
-	            
+
 	            for (int i = 0; i < temRows; i++) {
-	            
+
 	                HSSFRow row = sheet.getRow(i);
 	                HSSFCell cell = row.getCell( 0);
-	                
+
 	                if ("dataStart".equals(cell.getStringCellValue())) {
 	                    startRow = i;
 	                    dataTempRow = i + 1;
@@ -850,24 +850,22 @@ public class ExcelExportBiz {
 	                }
 
 	            }
-	            
+
 	            int headLine[] = new int[headSize];
-//	          LLog.debug.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> HEADER 정보 k : "+headLine.length);
-//	          LLog.debug.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> startRow : "+startRow);
 
 	            HSSFRow dataRowTemp = sheet.getRow(dataTempRow);
 	            HSSFRow dataRowTempType = sheet.getRow(dataTempRow + 1);
-	            
+
 	            int lastCellNum = dataRowTemp.getLastCellNum();
 
 	            HSSFCellStyle cellStyle[] = new HSSFCellStyle[lastCellNum];
 	            HSSFCell cell = null;
 	            HSSFCell cellDatType = null;
-	            
+
 	            int cellType[] = new int[lastCellNum];
-	            
+
 	            String cellTempValue[] = new String[lastCellNum];
-	            
+
 	            for (int i = 0; i < lastCellNum; i++) {
 	                cell = dataRowTemp.getCell( i);
 	                cellDatType = dataRowTempType.getCell( i);
@@ -875,13 +873,12 @@ public class ExcelExportBiz {
 	                cellType[i] = cellDatType.getCellType();
 	                cellTempValue[i] = cell.getStringCellValue();
 	            }
-	            
+
 	            sheet.removeRow(sheet.getRow(startRow));
 	            sheet.removeRow(sheet.getRow(dataTempRow));
 	            sheet.removeRow(sheet.getRow(dataTempRow+1));
-	            
+
 	            HSSFRow headline = null;
-//	            LLog.debug.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> HEADER LINE 수 : "+headLine.length);
 	            //엑셀 sheet의 헤드라인 정보
 	            HSSFSheet sheet_head = workbook.getSheetAt(0);
 	            HSSFCell cell_head = null;
@@ -889,23 +886,18 @@ public class ExcelExportBiz {
 	            HSSFCellStyle cellStyle_head[][] = new HSSFCellStyle[headSize][lastCellNum];
 	            int cellType_head[][] = new int[headSize][lastCellNum];
 	            String cellTempValue_head[][] = new String[headSize][lastCellNum];
-	            
+
 	            HSSFRow headRow[] = new HSSFRow[headSize];
 	            for (int k = 0; k < headLine.length; k++) {
 	                headRow[k] = sheet_head.getRow(k);
-//	                LLog.debug.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> HEADER 정보 "+k+"번째");
 	                for (int i = 0; i < lastCellNum; i++) {
-//	                    LLog.debug.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> CELL 정보 "+i+"번째");
 	                    cell_head = headRow[k].getCell( i);
 	                    cellStyle_head[k][i] = cell_head.getCellStyle();
 	                    cellType_head[k][i] = cell_head.getCellType();
 	                    cellTempValue_head[k][i] = cell_head.getStringCellValue();
-//	                    LLog.debug.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> HEADER 저장 값 cellStyle["+k+"]["+i+"] : "+cell_head.getCellStyle());
-//	                    LLog.debug.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> HEADER 저장 값 cellType["+k+"]["+i+"] : "+cell_head.getCellType());
-//	                    LLog.debug.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> HEADER 저장 값 cellTempValue["+k+"]["+i+"] : "+cell_head.getStringCellValue());
 	                }
 	            }
-	            
+
 	            int mCount = ((List <Map<String, Object>>) data.get(dataKey[0])).size();
 	            int sCount = 0;
 
@@ -915,15 +907,15 @@ public class ExcelExportBiz {
 	            HSSFRow rowline = null;
 
 	            int sheetCnt = 0; //excel sheet 번호
-	            
+
 	            if(downSheetName.equals("")){
 	                downSheetName = "Sheet";
 	            }
 	            String tmpSheetName = downSheetName; //자동생성될 sheet 명
-	            
+
 	            int tmpStCnt = 0;
 	            int tmpEdCnt = limitRowCnt;
-	            
+
 	            if(mCount>tmpEdCnt){    // 데이터 전체 수량이 제한 수량보다 많은 경우
 	                while(mCount>tmpEdCnt){ //sheet 출력 범위 마지막 행번호가 전체수량보다 적은 경우만 반복
 	                    if(sheetCnt==0){   //첫번째 sheet인 경우
@@ -932,25 +924,25 @@ public class ExcelExportBiz {
 	                    }else if(sheetCnt>0){
 	                        workbook.createSheet();
 	                        sheet = workbook.getSheetAt(sheetCnt);
-	                        
+
 	                        tmpSheetName = downSheetName + Integer.toString(sheetCnt);
 //	                        workbook.setSheetName(sheetCnt, tmpSheetName, HSSFWorkbook.ENCODING_UTF_16);
 	                        workbook.setSheetName(sheetCnt, tmpSheetName);
 	                        tmpStCnt = limitRowCnt * sheetCnt;
 	                        tmpEdCnt = limitRowCnt * (sheetCnt+1);
-	                        
+
 	                        if(tmpEdCnt>mCount){ //해당 sheet의 마지막 행번호가 전체행번호보다 크면 안됨
 	                            tmpEdCnt=mCount;
 	                        }
 //	                      LLog.debug.println("########################### 저장할 HEADER LINE 수 : "+headLine.length);
 //	                      LLog.debug.println("########################### 저장할 값의 수 : "+cellTempValue_head[0].length);
-	                        
+
 	                        for (int k = 0; k < headLine.length; k++) {
 	                            headline = sheet.createRow(k);
 	                            for (int j = 0; j < cellTempValue_head[k].length; j++) {
 	                                cell_head = headline.createCell( j);
 	                                cell_head.setCellStyle(cellStyle_head[k][j]);
-	                                cell_head.setCellType(cellType_head[k][j]);                      
+	                                cell_head.setCellType(cellType_head[k][j]);
 	                                setCellForType(cell_head, cellType_head[k][j],getLMDataValue(data, cellTempValue_head[k][j],k));
 //	                              LLog.debug.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@ HEADER 값 cellStyle["+k+"]["+j+"] : "+cell_head.getCellStyle());
 //	                              LLog.debug.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@ HEADER 값 cellType["+k+"]["+j+"] : "+cell_head.getCellType());
@@ -964,48 +956,48 @@ public class ExcelExportBiz {
 	                        tempMergeNum = tempMergeNum + i;
 	                        rowline = sheet.createRow(tempMergeNum);
 	                        for (int j = 0; j < cellTempValue.length; j++) {
-	                                
+
 	                            cell = rowline.createCell( j);
 	                            cell.setCellStyle(cellStyle[j]);
-	                            cell.setCellType(cellType[j]);      
+	                            cell.setCellType(cellType[j]);
 	                            setCellForType(cell, cellType[j],getLMDataValue(data, cellTempValue[j],i+tmpStCnt));
 	                        }
 	                    }
-	                    
+
 	                    sheetCnt++;
 	                }
-	                
+
 	            }else{   // 첫번째 sheet에 전부 작성하는 경우
 //	                workbook.setSheetName(sheetCnt, tmpSheetName, HSSFWorkbook.ENCODING_UTF_16);
 	                workbook.setSheetName(sheetCnt, tmpSheetName);
 	                for (int i = 0; i < mCount; i++) {
-	                    
+
 	                    int tempMergeNum = startData;
 	                    tempMergeNum = tempMergeNum + i;
-	                    
+
 	                    rowline = sheet.createRow(tempMergeNum);
 	                    for (int j = 0; j < cellTempValue.length; j++) {
-	                            
+
 	                        cell = rowline.createCell( j);
 	                        cell.setCellStyle(cellStyle[j]);
-	                        cell.setCellType(cellType[j]);                      
+	                        cell.setCellType(cellType[j]);
 	                        setCellForType(cell, cellType[j],getLMDataValue(data, cellTempValue[j],i));
 	                    }
 	                }
 	            }
-	            
+
 	            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 
 	            String tempfileName = "";
-	            
+
 	            if(downFileName.equals("")){
 	                if(subpath.equals("")){
-	                    tempfileName = sdf.format(new Date()).toString(); 
+	                    tempfileName = sdf.format(new Date()).toString();
 	                }else{
-	                    tempfileName = subpath + "_" + sdf.format(new Date()).toString(); 
+	                    tempfileName = subpath + "_" + sdf.format(new Date()).toString();
 	                }
 	            }else{
-	                tempfileName = downFileName + "_" + sdf.format(new Date()).toString(); 
+	                tempfileName = downFileName + "_" + sdf.format(new Date()).toString();
 	            }
 
 	            file = new File(tmpPath + tempfileName + ".xls");
@@ -1019,7 +1011,7 @@ public class ExcelExportBiz {
 	        }
 	        return file;
 	    }
-	 
+
 
 	    /**
 	     * 하나의 Sheet에 모든 데이터를 담는 경우
@@ -1030,14 +1022,14 @@ public class ExcelExportBiz {
 	     * @param downSheetName
 	     * @param subpath
 	     * @return
-	     * @throws DevonException 
+	     * @throws DevonException
 	     */
 	 	public File excelExport(Map<String, Object> data, String[] dataKey, String templateName, String downFileName, String downSheetName, String subpath) throws java.text.ParseException{
 	        FileInputStream is = null;
 	        File file = null;
 //	        LConfiguration config = LConfiguration.getInstance();
 	        String basePath  =configService.getString("KeyStore.EXCEL_BASE");
-	        
+
 	        String tmpPath = "";
 	        if(subpath.equals("")){ //서브패스 일단 안씀.
 	            tmpPath = basePath + "/";
@@ -1046,19 +1038,19 @@ public class ExcelExportBiz {
 	        }
 	        tmpPath = basePath + "/";
 	        String downloadPath = tmpPath + templateName;
-	        
+
 	        System.out.println("downloadPath="+downloadPath);
-	        
+
 	        try {
 	            is = new FileInputStream(downloadPath);
 	        } catch (FileNotFoundException e) {
-	            
+
 	            e.printStackTrace();
 	        }
 	        try {
-	            
+
 	            HSSFWorkbook workbook = new HSSFWorkbook(is);
-	            
+
 	            if(!downSheetName.equals(""))
 	                workbook.setSheetName(0, downSheetName);
 
@@ -1069,10 +1061,10 @@ public class ExcelExportBiz {
 	            int dataTempRow = -1;
 
 	            for (int i = 0; i < temRows; i++) {
-	            
+
 	                HSSFRow row = sheet.getRow(i);
 	                HSSFCell cell = row.getCell( 0);
-	                
+
 	                if ("dataStart".equals(cell.getStringCellValue())) {
 	                    startRow = i;
 	                    dataTempRow = i + 1;
@@ -1083,17 +1075,17 @@ public class ExcelExportBiz {
 
 	            HSSFRow dataRowTemp = sheet.getRow(dataTempRow);
 	            HSSFRow dataRowTempType = sheet.getRow(dataTempRow + 1);
-	            
+
 	            int lastCellNum = dataRowTemp.getLastCellNum();
 
 	            HSSFCellStyle cellStyle[] = new HSSFCellStyle[lastCellNum];
 	            HSSFCell cell = null;
 	            HSSFCell cellDatType = null;
-	            
+
 	            int cellType[] = new int[lastCellNum];
-	            
+
 	            String cellTempValue[] = new String[lastCellNum];
-	            
+
 	            for (int i = 0; i < lastCellNum; i++) {
 	                cell = dataRowTemp.getCell( i);
 	                cellDatType = dataRowTempType.getCell( i);
@@ -1103,33 +1095,33 @@ public class ExcelExportBiz {
 	                    cellTempValue[i] = cell.getStringCellValue() == null ? "" : cell.getStringCellValue();
 	                }
 	            }
-	            
+
 	            sheet.removeRow(sheet.getRow(startRow));
 	            sheet.removeRow(sheet.getRow(dataTempRow));
 	            sheet.removeRow(sheet.getRow(dataTempRow+1));
-	            
+
 	            int mCount = ((List <Map<String, Object>>) data.get(dataKey[0])).size();
 	            int sCount = 0;
 
 	            System.out.println("mCount="+mCount);
-	            
+
 	            int startData = startRow;
 	            HSSFRow rowline = null;
-	            
+
 	            for (int i = 0; i < mCount; i++) {
-	                
+
 	                int tempMergeNum = startData;
 	                tempMergeNum = tempMergeNum + i;
-	                
+
 	                rowline = sheet.createRow(tempMergeNum);
 	                for (int j = 0; j < cellTempValue.length; j++) {
-	                        
+
 
 	                    cell = rowline.createCell( j);
-	                    
+
 	                    if(cellStyle[j] != null) {
 	                        cell.setCellStyle(cellStyle[j]);
-	                        cell.setCellType(cellType[j]);                      
+	                        cell.setCellType(cellType[j]);
 	                        setCellForType(cell, cellType[j],getLMDataValue(data, cellTempValue[j],i));
 	                    }
 	                }
@@ -1138,15 +1130,15 @@ public class ExcelExportBiz {
 	            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 
 	            String tempfileName = "";
-	            
+
 	            if(downFileName.equals("")){
 	                if(subpath.equals("")){
-	                    tempfileName = sdf.format(new Date()).toString(); 
+	                    tempfileName = sdf.format(new Date()).toString();
 	                }else{
-	                    tempfileName = subpath + "_" + sdf.format(new Date()).toString(); 
+	                    tempfileName = subpath + "_" + sdf.format(new Date()).toString();
 	                }
 	            }else{
-	                tempfileName = downFileName + "_" + sdf.format(new Date()).toString(); 
+	                tempfileName = downFileName + "_" + sdf.format(new Date()).toString();
 	            }
 
 	            file = new File(tmpPath + tempfileName + ".xls");
@@ -1159,7 +1151,7 @@ public class ExcelExportBiz {
 	            e.printStackTrace();
 	        }
 	        return file;
-		    
+
 		}
 
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.logging.log4j.LogManager; 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +15,20 @@ import devonframe.dataaccess.CommonDao;
 import devonframe.util.NullUtil;
 
 /*********************************************************************************
- * NAME : ManualServiceImpl.java 
+ * NAME : ManualServiceImpl.java
  * DESC : 지식관리 - 규정/업무Manual관리 ServiceImpl
  * PROJ : IRIS UPGRADE 1차 프로젝트
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- * 2017.09.14  			최초생성               
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ * 2017.09.14  			최초생성
  *********************************************************************************/
 
 @Service("manualService")
 public class ManualServiceImpl implements ManualService {
-	
+
 	static final Logger LOGGER = LogManager.getLogger(ManualServiceImpl.class);
 
 	@Resource(name="commonDao")
@@ -53,21 +53,19 @@ public class ManualServiceImpl implements ManualService {
 			commonDao.update("knld.pub.updateManualInfo", input);
 		}
 	}
-	
+
 	/* 규정/업무Manual 삭제  */
 	@Override
 	public void deleteManualInfo(HashMap<String, String> input) {
 		String manualId = NullUtil.nvl(input.get("ManualId"), "");
-		LOGGER.debug("###########manualId################"+manualId);
 		commonDao.update("knld.pub.deleteManualInfo", input);
 	}
-	
+
 	/* 규정/업무Manual 조회건수 증가  */
 	@Override
 	public void updateManualRtrvCnt(HashMap<String, String> input) {
 		String manualId = NullUtil.nvl(input.get("manualId"), "");
-		LOGGER.debug("###########manualId################"+manualId);
 		commonDao.update("knld.pub.updateManualRtrvCnt", input);
 	}
-	
+
 }

@@ -38,7 +38,7 @@ public class AnlBbsServiceImpl implements AnlBbsService {
 	public List<Map<String, Object>> getAnlBbsList(HashMap<String, Object> input) {
 		return commonDao.selectList("anl.bbs.getAnlBbsList", input);
 	}
-	
+
 	/* 리스트 */
 	public List<Map<String, Object>> getAnlBbsList2(HashMap<String, Object> input) {
 		return commonDao.selectList("anl.bbs.getAnlBbsList2", input);
@@ -65,7 +65,6 @@ public class AnlBbsServiceImpl implements AnlBbsService {
 	@Override
 	public void deleteAnlBbsInfo(HashMap<String, String> input) {
 		String bbsId = NullUtil.nvl(input.get("bbsId"), "");
-		LOGGER.debug("###########bbsId################"+bbsId);
 		commonDao.update("anl.bbs.deleteAnlBbsInfo", input);
 	}
 
@@ -73,7 +72,6 @@ public class AnlBbsServiceImpl implements AnlBbsService {
 	@Override
 	public void updateAnlBbsRtrvCnt(HashMap<String, String> input) {
 		String bbsId = NullUtil.nvl(input.get("bbsId"), "");
-		LOGGER.debug("###########bbsId################"+bbsId);
 		commonDao.update("anl.bbs.updateAnlBbsRtrvCnt", input);
 	}
 
@@ -104,10 +102,9 @@ public class AnlBbsServiceImpl implements AnlBbsService {
 	@Override
 	public void deleteAnlQnaRebInfo(HashMap<String, String> input) {
 		String rebId = NullUtil.nvl(input.get("rebId"), "");
-		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("anl.bbs.deleteAnlQnaRebInfo", input);
 	}
-	
+
     @Override
     public List<Map<String, Object>> anlBbsCodeList(HashMap<String, String> input){
         return commonDao.selectList("anl.bbs.anlBbsCodeList",input);

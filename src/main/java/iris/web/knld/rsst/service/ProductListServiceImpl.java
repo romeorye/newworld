@@ -58,7 +58,6 @@ public class ProductListServiceImpl implements ProductListService {
 	@Override
 	public void deleteProductListInfo(HashMap<String, String> input) {
 		String prdtId = NullUtil.nvl(input.get("prdtId"), "");
-		LOGGER.debug("###########prdtIdId################"+prdtId);
 		commonDao.update("knld.rsst.deleteProductListInfo", input);
 	}
 
@@ -66,7 +65,6 @@ public class ProductListServiceImpl implements ProductListService {
 	@Override
 	public void updateProductListRtrvCnt(HashMap<String, String> input) {
 		String prdtId = NullUtil.nvl(input.get("prdtId"), "");
-		LOGGER.debug("###########prdtId################"+prdtId);
 		commonDao.update("knld.rsst.updateProductListRtrvCnt", input);
 	}
 
@@ -79,7 +77,7 @@ public class ProductListServiceImpl implements ProductListService {
 	public String getMenuAuthCheck(HashMap<String, String> input){
 		String authYn = "N";
 		String roleArry[] =input.get("_roleId").toString().split("\\|");
-		
+
 		//시스템 권한이 있는지 체크
 		for(int i=0; i < roleArry.length; i++){
 			if(roleArry[i].equals("WORK_IRI_T01")  ){
@@ -93,8 +91,8 @@ public class ProductListServiceImpl implements ProductListService {
 					}else{
 						authYn = commonDao.select("knld.rsst.getMenuAuthCheck", input);
 					}
-					//프로젝트, 과제 담당자	
-				}else if(input.get("rtrvRqDocCd").equals("O") ||  input.get("rtrvRqDocCd").equals("G") ||input.get("rtrvRqDocCd").equals("N") ||  input.get("rtrvRqDocCd").equals("PRJ") ){	
+					//프로젝트, 과제 담당자
+				}else if(input.get("rtrvRqDocCd").equals("O") ||  input.get("rtrvRqDocCd").equals("G") ||input.get("rtrvRqDocCd").equals("N") ||  input.get("rtrvRqDocCd").equals("PRJ") ){
 					if(roleArry[i].equals("WORK_IRI_T03")){
 						authYn = "Y";
 						break;
@@ -106,8 +104,8 @@ public class ProductListServiceImpl implements ProductListService {
 				}
 			}
 		}
-		
+
 		return authYn;
 	}
-	
+
 }

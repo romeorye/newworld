@@ -95,26 +95,24 @@ public class GenTssDcacServiceImpl implements GenTssDcacService {
         //        commonDao.update("prj.tss.com.updateTssMstTssSt", input);
         return commonDao.insert("prj.tss.com.insertTssCsusRq", input);
     }
-    
+
     /* 일반과제 중단 필수값 체크*/
 	public String retrieveGenTssDcacCheck(HashMap<String, String> input){
 		String rtnMsg ="N";
-		
+
 		//중단 필수항목 체크 (목표)
 		String goalYn = commonDao.select("prj.tss.gen.dcac.retrieveGenTssDcacGoalCheck", input);
-		 LOGGER.debug("###########################goalYn################################ : " + goalYn);	
     	if( goalYn.equals("N")){
     		rtnMsg = "G"; // "목표기술성과 실적값을 모두 입력하셔야 합니다.";
     		return rtnMsg;
     	}
     	//중단 필수항목 체크 (산출물)
     	String itmYn = commonDao.select("prj.tss.gen.dcac.retrieveGenTssDcacItmCheck", input);
-    	LOGGER.debug("###########################itmYn################################ : " + itmYn);	
     	if( itmYn.equals("N")){
     		rtnMsg = "I"; //"필수산출물이 누락되었습니다.";
     		return rtnMsg;
     	}
-		
+
 		return rtnMsg;
 	}
 }

@@ -60,7 +60,6 @@ public class RlabLibServiceImpl implements RlabLibService {
 	@Override
 	public void deleteRlabLibInfo(HashMap<String, String> input) {
 		String bbsId = NullUtil.nvl(input.get("bbsId"), "");
-		LOGGER.debug("###########bbsId################"+bbsId);
 		commonDao.update("rlab.lib.deleteRlabLibInfo", input);
 	}
 
@@ -68,7 +67,6 @@ public class RlabLibServiceImpl implements RlabLibService {
 	@Override
 	public void updateRlabLibRtrvCnt(HashMap<String, String> input) {
 		String bbsId = NullUtil.nvl(input.get("bbsId"), "");
-		LOGGER.debug("###########bbsId################"+bbsId);
 		commonDao.update("rlab.lib.updateRlabLibRtrvCnt", input);
 	}
 
@@ -99,10 +97,9 @@ public class RlabLibServiceImpl implements RlabLibService {
 	@Override
 	public void deleteRlabQnaRebInfo(HashMap<String, String> input) {
 		String rebId = NullUtil.nvl(input.get("rebId"), "");
-		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("rlab.lib.deleteRlabQnaRebInfo", input);
 	}
-	
+
     @Override
     public List<Map<String, Object>> rlabBbsCodeList(HashMap<String, String> input){
         return commonDao.selectList("rlab.lib.rlabBbsCodeList",input);

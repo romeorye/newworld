@@ -49,16 +49,16 @@ public class SpaceEvRnewMailServiceImpl implements SpaceEvRnewMailService {
     		MailSender mailSender = mailSenderFactory.createMailSender();
     		//mailSender.setFromMailAddress(spaceMailInfo.getRgstEmail(), spaceMailInfo.getRgstNm());
     		mailSender.setFromMailAddress("iris@lghausys.com");
-    		mailSender.setToMailAddress(SpaceEvRnewMailInfo.getReceivers().split(","));
-    		mailSender.setSubject("'" + SpaceEvRnewMailInfo.getSpaceNm() + "' 평가의뢰 접수 요청");
-    		mailSender.setHtmlTemplate("spaceRqprReceiptRequest", SpaceEvRnewMailInfo);
+    		mailSender.setToMailAddress(spaceEvRnewMailInfo.getReceivers().split(","));
+    		mailSender.setSubject("'" + spaceEvRnewMailInfo.getSpaceNm() + "' 평가의뢰 접수 요청");
+    		mailSender.setHtmlTemplate("spaceRqprReceiptRequest", spaceEvRnewMailInfo);
     		mailSender.send();
 
     		HashMap<String, Object> input = new HashMap<String, Object>();
 
-			input.put("mailTitl", "'" + SpaceEvRnewMailInfo.getSpaceNm() + "' 평가의뢰 접수 요청");
-			input.put("adreMail", SpaceEvRnewMailInfo.getReceivers());
-			input.put("trrMail",  SpaceEvRnewMailInfo.getRgstEmail());
+			input.put("mailTitl", "'" + spaceEvRnewMailInfo.getSpaceNm() + "' 평가의뢰 접수 요청");
+			input.put("adreMail", spaceEvRnewMailInfo.getReceivers());
+			input.put("trrMail",  spaceEvRnewMailInfo.getRgstEmail());
 			input.put("rfpMail",  "");
 			input.put("_userId", "Batch-SpaceApprMail");
 			input.put("_userEmail", "iris@lghausys.com");

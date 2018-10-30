@@ -56,7 +56,7 @@ public class FxaDsuController  extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
 		LOGGER.debug("####################input################################################################# : " + input);
-		
+
 		model.addAttribute("inputData", input);
 
 		return  "web/fxa/dsu/fxaInfoDsuList";
@@ -78,7 +78,6 @@ public class FxaDsuController  extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);

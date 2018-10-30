@@ -63,10 +63,10 @@ public class AnlBbsController  extends IrisBaseController {
 
 	@Resource(name = "anlBbsService")
 	private AnlBbsService anlBbsService;
-	
+
 	@Resource(name="mmMailService")
 	private MmMailService mmMailService;			// MmMail 서비스
-	
+
 	@Resource(name="mailSenderFactory")
 	private MailSenderFactory mailSenderFactory;	// 메일전송 팩토리
 
@@ -97,7 +97,7 @@ public class AnlBbsController  extends IrisBaseController {
 
 		return "web/anl/bbs/retrieveAnlBbsList";
 	}
-	
+
 	/*TAB 화면 호출*/
 	@RequestMapping(value="/anl/bbs/anlBbsTab.do")
 	public String anlBbsTab(
@@ -109,7 +109,7 @@ public class AnlBbsController  extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
-		
+
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("AnlBbsController - AnlBbsTabList [분석자료실 TAB 리스트 호출]");
 		LOGGER.debug("input = > " + input);
@@ -119,7 +119,7 @@ public class AnlBbsController  extends IrisBaseController {
 
 		return "web/anl/bbs/anlBbsTab";
 	}
-	
+
 	/*리스트*/
 	@RequestMapping(value="/anl/bbs/getAnlBbsList.do")
 	public ModelAndView getAnlBbsList(
@@ -147,7 +147,7 @@ public class AnlBbsController  extends IrisBaseController {
 		modelAndView.addObject("anlBbsDataSet", RuiConverter.createDataset("anlBbsDataSet", anlBbsList));
 		return modelAndView;
 	}
-	
+
 	/*등록,수정 화면 호출*/
 	@RequestMapping(value="/anl/bbs/anlBbsRgst.do")
 	public String anlBbsRgst(
@@ -169,7 +169,7 @@ public class AnlBbsController  extends IrisBaseController {
 
 		return "web/anl/bbs/anlBbsRgst";
 	}
-	
+
 	/** 등록 **/
 	@RequestMapping(value="/anl/bbs/insertAnlBbsInfo.do")
 	public ModelAndView insertAnlBbsInfo(
@@ -206,7 +206,7 @@ public class AnlBbsController  extends IrisBaseController {
 
             uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_ANL");   // 파일명에 세팅되는 경로
             uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_ANL");  // 파일이 실제로 업로드 되는 경로
-            
+
             System.out.println("bbsSbc : "+input.get("bbsSbc").toString());
 
             mime.setSaveURL(uploadUrl);
@@ -221,10 +221,10 @@ public class AnlBbsController  extends IrisBaseController {
 			// 저장&수정
 			String bbsId = "";
 			anlBbsRgstDataSetList = RuiConverter.convertToDataSet(request,"anlBbsRgstDataSet");
-			
-			
+
+
 			System.out.println("\n\n anlBbsRgstDataSetList : "+anlBbsRgstDataSetList);
-			
+
 
 			for(Map<String,Object> anlBbsRgstDataSetMap : anlBbsRgstDataSetList) {
 
@@ -400,7 +400,7 @@ public class AnlBbsController  extends IrisBaseController {
 
 		return "web/anl/bbs/retrieveAnlQnaList";
 	}
-	
+
 	/*TAB 화면 호출*/
 	@RequestMapping(value="/anl/bbs/anlQnaTab.do")
 	public String anlQnaTab(
@@ -412,7 +412,7 @@ public class AnlBbsController  extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
-		
+
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("AnlBbsController - AnlBbsTabList [분석자료실 TAB 리스트 호출]");
 		LOGGER.debug("input = > " + input);
@@ -869,22 +869,22 @@ public class AnlBbsController  extends IrisBaseController {
         LOGGER.debug("CodeController - retrieveCodeListForCache [공통코드 캐쉬조회]");
         LOGGER.debug("input = > " + input);
         LOGGER.debug("###########################################################");
-        
-        
+
+
         ModelAndView modelAndView = new ModelAndView("ruiView");
-            
+
         // 공통코드 캐쉬조회
-        
+
         System.out.println("\n\n input : "+input);
-        
+
         //List codeList = anlBbsService.anlBbsCodeList(NullUtil.nvl(input.get("comCd"), ""));
         List codeList = anlBbsService.anlBbsCodeList(input);
-         
+
         modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", codeList));
 
         return modelAndView;
-    } 
-    
+    }
+
 	/* 메일 팝업 화면이동 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/anl/bbs/sendMailPopup.do")
@@ -896,7 +896,6 @@ public class AnlBbsController  extends IrisBaseController {
 			){
 		LOGGER.debug("#####################################################################################");
 		LOGGER.debug("MmMailController - sendMailPopupView [메일 팝업 화면이동]");
-		LOGGER.debug("loginUser => " + model.get("loginUser"));
 		LOGGER.debug("inputData => " + input);
 		LOGGER.debug("#####################################################################################");
 
@@ -936,9 +935,9 @@ public class AnlBbsController  extends IrisBaseController {
 		        	input.put("userMails", StringUtils.join(userMailArr,","));
 	        	}
         	}
-        	
+
         	Map<String,Object> resultMap = anlBbsService.getAnlBbsInfo(input);
-        	
+
         	input.put("bbsTitl", resultMap.get("bbsTitl"));
         	input.put("bbsSbc", resultMap.get("bbsSbc"));
 
@@ -960,9 +959,9 @@ public class AnlBbsController  extends IrisBaseController {
 		LOGGER.debug("AnlBbsController - simpleSendMail [메일보내기]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("################################################################");
-		
+
 		MmMailVo vo = new MmMailVo();
-		
+
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		model.addAttribute("inputData", input);
@@ -978,7 +977,7 @@ public class AnlBbsController  extends IrisBaseController {
 			receiverMailList = NullUtil.nvl(input.get("receiverMailList"),"").split(",");
 
 			mailSender = mailSenderFactory.createMailSender();
-			
+
 			for(String receiverMailAdd : receiverMailList) {
 				mailSender.setFromMailAddress( NullUtil.nvl(input.get("hSenderEmail"),""), NullUtil.nvl(input.get("hSenderName"),""));
 				mailSender.setToMailAddress(receiverMailAdd);
@@ -989,7 +988,7 @@ public class AnlBbsController  extends IrisBaseController {
 				// mailSender-context.xml에 설정한 메일 template의 bean id값과 치환시 사용될 VO클래스를 넘김
 				mailSender.setHtmlTemplate("prjSendMailPopup", vo);
 				mailSender.send();
-				
+
 				HashMap<String, Object> mailMap = new HashMap<String, Object>();
 				mailMap.put("mailTitl", NullUtil.nvl(input.get("mailTitle").toString(),""));
 				mailMap.put("adreMail", receiverMailAdd );
@@ -997,7 +996,7 @@ public class AnlBbsController  extends IrisBaseController {
 				mailMap.put("_userId", input.get("_userId").toString());
 				sndMailList.add(mailMap);
 			}
-			
+
 			mmMailService.insertMailSndHis(sndMailList);
 
 		} catch (Exception e) {
@@ -1007,14 +1006,12 @@ public class AnlBbsController  extends IrisBaseController {
 
 		input.put("rtnMsg", rtnMsg);
         modelAndView.addObject("dataset", RuiConverter.createDataset("dataset", input));
-        
+
         LOGGER.debug("################# MAIL SEND RESULT ###############################################");
         LOGGER.debug("result input = > " + input);
-        LOGGER.debug("receiverNameList length = > " + receiverNameList.length);
-        LOGGER.debug("receiverMailList length = > " + receiverMailList.length);
         LOGGER.debug("################# MAIL SEND RESULT ###############################################");
 
 		return modelAndView;
-	}    
+	}
 
 }//class end

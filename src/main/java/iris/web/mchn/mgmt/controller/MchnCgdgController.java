@@ -209,7 +209,6 @@ public class MchnCgdgController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		LOGGER.debug("session="+lsession);
 
 		model.addAttribute("inputData", input);
 

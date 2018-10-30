@@ -14,20 +14,20 @@ import devonframe.dataaccess.CommonDao;
 import devonframe.util.NullUtil;
 
 /*********************************************************************************
- * NAME : PubNoticeServiceImpl.java 
+ * NAME : PubNoticeServiceImpl.java
  * DESC : 지식관리 - 공지사항관리 ServiceImpl
  * PROJ : IRIS UPGRADE 1차 프로젝트
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- * 2016.07.15  이주성	최초생성               
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ * 2016.07.15  이주성	최초생성
  *********************************************************************************/
 
 @Service("pubNoticeService")
 public class PubNoticeServiceImpl implements PubNoticeService {
-	
+
 	static final Logger LOGGER = LogManager.getLogger(PubNoticeServiceImpl.class);
 
 	@Resource(name="commonDao")
@@ -52,29 +52,26 @@ public class PubNoticeServiceImpl implements PubNoticeService {
 			commonDao.update("knld.pub.updatePubNoticeInfo", input);
 		}
 	}
-	
+
 	/* 공지사항 삭제  */
 	@Override
 	public void deletePubNoticeInfo(HashMap<String, String> input) {
 		String pwiId = NullUtil.nvl(input.get("pwiId"), "");
-		LOGGER.debug("###########pwiId################"+pwiId);
 		commonDao.update("knld.pub.deletePubNoticeInfo", input);
 	}
-	
+
 	/* 공지사항 조회건수 증가  */
 	@Override
 	public void updatePubNoticeRtrvCnt(HashMap<String, String> input) {
 		String pwiId = NullUtil.nvl(input.get("pwiId"), "");
-		LOGGER.debug("###########pwiId################"+pwiId);
 		commonDao.update("knld.pub.updatePubNoticeRtrvCnt", input);
 	}
-	
+
 	/* 공지사항 긴급공지 변경  */
 	@Override
 	public void updatePubNoticeUgyYn(Map<String, Object> input) {
 		String pwiId = NullUtil.nvl(input.get("pwiId"), "");
-		LOGGER.debug("###########pwiId################"+pwiId);
 		commonDao.update("knld.pub.updatePubNoticeUgyYn", input);
-	}	
-	
+	}
+
 }

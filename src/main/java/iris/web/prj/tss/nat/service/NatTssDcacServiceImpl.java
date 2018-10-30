@@ -90,19 +90,18 @@ public class NatTssDcacServiceImpl implements NatTssDcacService {
     public Map<String, Object> retrieveNatTssDcacStoa(HashMap<String, String> input) {
         return commonDao.select("prj.tss.nat.retrieveNatTssStoa", input);
     }
-    
+
     @Override
     public String retrieveNatTssDcacCheck(HashMap<String, String> input){
     	String rtnMsg = "N";
-    	
+
     	//완료 필수항목 체크 (목표)
 		String goalYn = commonDao.select("prj.tss.nat.dcac.retrieveNatTssDcacCheck", input);
-		LOGGER.debug("###########################goalCnt################################ : " + goalYn);	
 	  	if( goalYn.equals("N")){
 	  		rtnMsg = "G"; //"목표기술성과 실적값을 모두 입력하셔야 합니다.";
 	  		return rtnMsg;
 	  	}
-	  	
-	  	return rtnMsg; 	  	
+
+	  	return rtnMsg;
     }
 }

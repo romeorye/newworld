@@ -47,7 +47,7 @@ public class MmMailController  extends IrisBaseController {
 
 	@Resource(name="messageSourceAccessor")
 	private MessageSourceAccessor messageSourceAccessor;
-	
+
 	@Resource(name="mmMailService")
 	private MmMailService mmMailService;			// MmMail 서비스
 
@@ -130,9 +130,9 @@ public class MmMailController  extends IrisBaseController {
 		LOGGER.debug("MmClsInfoController - simpleSendMail [메일보내기]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("################################################################");
-		
+
 		MmMailVo vo = new MmMailVo();
-		
+
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		model.addAttribute("inputData", input);
@@ -148,7 +148,7 @@ public class MmMailController  extends IrisBaseController {
 			receiverMailList = NullUtil.nvl(input.get("receiverMailList"),"").split(",");
 
 			mailSender = mailSenderFactory.createMailSender();
-			
+
 			for(String receiverMailAdd : receiverMailList) {
 				mailSender.setFromMailAddress( NullUtil.nvl(input.get("hSenderEmail"),""), NullUtil.nvl(input.get("hSenderName"),""));
 				mailSender.setToMailAddress(receiverMailAdd);
@@ -159,7 +159,7 @@ public class MmMailController  extends IrisBaseController {
 				// mailSender-context.xml에 설정한 메일 template의 bean id값과 치환시 사용될 VO클래스를 넘김
 				mailSender.setHtmlTemplate("prjSendMailPopup", vo);
 				mailSender.send();
-				
+
 				HashMap<String, Object> mailMap = new HashMap<String, Object>();
 				mailMap.put("mailTitl", NullUtil.nvl(input.get("mailTitle").toString(),""));
 				mailMap.put("adreMail", receiverMailAdd );
@@ -167,7 +167,7 @@ public class MmMailController  extends IrisBaseController {
 				mailMap.put("_userId", input.get("_userId").toString());
 				sndMailList.add(mailMap);
 			}
-			
+
 			mmMailService.insertMailSndHis(sndMailList);
 
 		} catch (Exception e) {
@@ -177,11 +177,9 @@ public class MmMailController  extends IrisBaseController {
 
 		input.put("rtnMsg", rtnMsg);
         modelAndView.addObject("dataset", RuiConverter.createDataset("dataset", input));
-        
+
         LOGGER.debug("################# MAIL SEND RESULT ###############################################");
         LOGGER.debug("result input = > " + input);
-        LOGGER.debug("receiverNameList length = > " + receiverNameList.length);
-        LOGGER.debug("receiverMailList length = > " + receiverMailList.length);
         LOGGER.debug("################# MAIL SEND RESULT ###############################################");
 
 		return modelAndView;

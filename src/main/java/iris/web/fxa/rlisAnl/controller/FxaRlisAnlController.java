@@ -55,7 +55,7 @@ public class FxaRlisAnlController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
 		LOGGER.debug("####################input################################################################# : " + input);
-		
+
 		model.addAttribute("inputData", input);
 
 		return  "web/fxa/rlisAnl/fxaInfoRlisAnlList";
@@ -77,7 +77,6 @@ public class FxaRlisAnlController extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
@@ -113,7 +112,6 @@ public class FxaRlisAnlController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 		//LOGGER.debug("#################################input#################################################### + " + input);
 
 		model.addAttribute("inputData", input);
@@ -139,16 +137,15 @@ public class FxaRlisAnlController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		LOGGER.debug("session="+lsession);
 		//LOGGER.debug("#################################input#################################################### + " + input);
 
 		HashMap<String, Object> result = fxaRlisAnlService.retrieveFxaRlisAnlInfo(input);
-		
+
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", result));
 
 		return  modelAndView;
 	}
-	
+
 
 	/**
 	 * 자산실기간관리 신규등록
@@ -166,17 +163,16 @@ public class FxaRlisAnlController extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
 		input = StringUtil.toUtf8(input);
-		
+
 		String rtnSt ="F";
 		String rtnMsg = "";
-		
+
 		try{
 			LOGGER.debug("#################################input#################################################### + " + input);
 			//자산실사기간 관리 테이블 등록
@@ -184,12 +180,12 @@ public class FxaRlisAnlController extends IrisBaseController {
 
 			rtnMsg = "자산실사를 요청하였습니다.";
 			rtnSt = "S";
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 			rtnMsg = "처리중 오류가 발생하였습니다. 관리자에게 문의해주십시오";
         }
-		
+
 		rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));

@@ -60,7 +60,6 @@ public class AnlLibServiceImpl implements AnlLibService {
 	@Override
 	public void deleteAnlLibInfo(HashMap<String, String> input) {
 		String bbsId = NullUtil.nvl(input.get("bbsId"), "");
-		LOGGER.debug("###########bbsId################"+bbsId);
 		commonDao.update("anl.lib.deleteAnlLibInfo", input);
 	}
 
@@ -68,7 +67,6 @@ public class AnlLibServiceImpl implements AnlLibService {
 	@Override
 	public void updateAnlLibRtrvCnt(HashMap<String, String> input) {
 		String bbsId = NullUtil.nvl(input.get("bbsId"), "");
-		LOGGER.debug("###########bbsId################"+bbsId);
 		commonDao.update("anl.lib.updateAnlLibRtrvCnt", input);
 	}
 
@@ -99,7 +97,6 @@ public class AnlLibServiceImpl implements AnlLibService {
 	@Override
 	public void deleteAnlQnaRebInfo(HashMap<String, String> input) {
 		String rebId = NullUtil.nvl(input.get("rebId"), "");
-		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("anl.lib.deleteAnlQnaRebInfo", input);
 	}
 

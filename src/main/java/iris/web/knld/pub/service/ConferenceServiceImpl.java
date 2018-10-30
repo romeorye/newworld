@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.logging.log4j.LogManager; 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +15,20 @@ import devonframe.dataaccess.CommonDao;
 import devonframe.util.NullUtil;
 
 /*********************************************************************************
- * NAME : ConferenceServiceImpl.java 
+ * NAME : ConferenceServiceImpl.java
  * DESC : 지식관리 - 학회컨퍼런스관리 ServiceImpl
  * PROJ : IRIS UPGRADE 1차 프로젝트
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- * 2017.09.12  			최초생성               
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ * 2017.09.12  			최초생성
  *********************************************************************************/
 
 @Service("conferenceService")
 public class ConferenceServiceImpl implements ConferenceService {
-	
+
 	static final Logger LOGGER = LogManager.getLogger(ConferenceServiceImpl.class);
 
 	@Resource(name="commonDao")
@@ -53,21 +53,19 @@ public class ConferenceServiceImpl implements ConferenceService {
 			commonDao.update("knld.pub.updateConferenceInfo", input);
 		}
 	}
-	
+
 	/* 학회컨퍼런스 삭제  */
 	@Override
 	public void deleteConferenceInfo(HashMap<String, String> input) {
 		String conferenceId = NullUtil.nvl(input.get("conferenceId"), "");
-		LOGGER.debug("###########conferenceId################"+conferenceId);
 		commonDao.update("knld.pub.deleteConferenceInfo", input);
 	}
-	
+
 	/* 학회컨퍼런스 조회건수 증가  */
 	@Override
 	public void updateConferenceRtrvCnt(HashMap<String, String> input) {
 		String conferenceId = NullUtil.nvl(input.get("conferenceId"), "");
-		LOGGER.debug("###########conferenceId################"+conferenceId);
 		commonDao.update("knld.pub.updateConferenceRtrvCnt", input);
 	}
-	
+
 }

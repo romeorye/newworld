@@ -49,7 +49,7 @@ public class MchnEduController extends IrisBaseController {
 	 * @param session
 	 * @param model
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@RequestMapping(value="/mchn/open/edu/retrieveEduList.do")
 	public String retrieveEduList(@RequestParam HashMap<String, Object> input,
@@ -61,14 +61,14 @@ public class MchnEduController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
-		
+
 		String today = DateUtil.getDateString();
-		
+
 		if(input.get("frEduDt") == null) {
 			input.put("frEduDt", today);
 			input.put("toEduDt", DateUtil.addMonths(today, 1, "yyyy-MM-dd"));
 		}
-		
+
 		model.addAttribute("inputData", input);
 
 		return  "web/mchn/open/edu/mchnEduList";
@@ -122,7 +122,6 @@ public class MchnEduController extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 
@@ -173,7 +172,7 @@ public class MchnEduController extends IrisBaseController {
 				rtnMsg = "이미 신청한 사용자입니다.";
 			}else{
 				mchnEduService.insertEduInfoDetail(input);
-				
+
 				rtnMsg = "신청되었습니다.";
 				rtnSt= "S";
 			}
@@ -218,7 +217,7 @@ public class MchnEduController extends IrisBaseController {
 
 			if(chkCnt > 0 ){
 				mchnEduService.updateEduCancel(input);
-				
+
 				rtnMsg = "교육신청이 취소되었습니다.";
 				rtnSt= "S";
 			}else{
@@ -235,8 +234,8 @@ public class MchnEduController extends IrisBaseController {
 
 		return  modelAndView;
 	}
-	
-	
+
+
 		/**
 		 *  open기기 > 기기교육 > 기기교육상세(통합검색용)
 		 * @param input
@@ -255,13 +254,12 @@ public class MchnEduController extends IrisBaseController {
 			/* 반드시 공통 호출 후 작업 */
 			checkSessionObjRUI(input, session, model);
 			HashMap lsession = (HashMap)session.getAttribute("irisSession");
-			LOGGER.debug("session="+lsession);
 
 			String attcFilId = "";
 			//LOGGER.debug("###########################result####################################################### : "+ result);
 			Map<String, Object> result = mchnEduService.retrieveEduInfo(input);
 			attcFilId =  NullUtil.nvl(result.get("attcFilId").toString(), "");
-			
+
 			input.put("attcFilId", attcFilId);
 			List<Map<String,Object>> attachFileList = attachFileService.getAttachFileList(input);
 

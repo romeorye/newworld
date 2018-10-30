@@ -58,7 +58,6 @@ public class GeneralQnaServiceImpl implements GeneralQnaService {
 	@Override
 	public void deleteGeneralQnaInfo(HashMap<String, String> input) {
 		String qnaId = NullUtil.nvl(input.get("qnaId"), "");
-		LOGGER.debug("###########qnaId################"+qnaId);
 		commonDao.update("knld.qna.deleteGeneralQnaInfo", input);
 	}
 
@@ -66,7 +65,6 @@ public class GeneralQnaServiceImpl implements GeneralQnaService {
 	@Override
 	public void updateGeneralQnaRtrvCnt(HashMap<String, String> input) {
 		String qnaId = NullUtil.nvl(input.get("qnaId"), "");
-		LOGGER.debug("###########qnaId################"+qnaId);
 		commonDao.update("knld.qna.updateGeneralQnaRtrvCnt", input);
 	}
 
@@ -92,7 +90,6 @@ public class GeneralQnaServiceImpl implements GeneralQnaService {
 	@Override
 	public void deleteGeneralQnaRebInfo(HashMap<String, String> input) {
 		String rebId = NullUtil.nvl(input.get("rebId"), "");
-		LOGGER.debug("###########rebId################"+rebId);
 		commonDao.update("knld.qna.deleteGeneralQnaRebInfo", input);
 	}
 

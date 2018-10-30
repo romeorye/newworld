@@ -14,20 +14,20 @@ import devonframe.dataaccess.CommonDao;
 import devonframe.util.NullUtil;
 
 /*********************************************************************************
- * NAME : TechnologyServiceImpl.java 
+ * NAME : TechnologyServiceImpl.java
  * DESC : 지식관리 - 시장기술정보관리 ServiceImpl
  * PROJ : IRIS UPGRADE 1차 프로젝트
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- * 2017.09.08  			최초생성               
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ * 2017.09.08  			최초생성
  *********************************************************************************/
 
 @Service("technologyService")
 public class TechnologyServiceImpl implements TechnologyService {
-	
+
 	static final Logger LOGGER = LogManager.getLogger(TechnologyServiceImpl.class);
 
 	@Resource(name="commonDao")
@@ -52,21 +52,19 @@ public class TechnologyServiceImpl implements TechnologyService {
 			commonDao.update("knld.pub.updateTechnologyInfo", input);
 		}
 	}
-	
+
 	/* 공지사항 삭제  */
 	@Override
 	public void deleteTechnologyInfo(HashMap<String, String> input) {
 		String techId = NullUtil.nvl(input.get("techId"), "");
-		LOGGER.debug("###########techId################"+techId);
 		commonDao.update("knld.pub.deleteTechnologyInfo", input);
 	}
-	
+
 	/* 공지사항 조회건수 증가  */
 	@Override
 	public void updateTechnologyRtrvCnt(HashMap<String, String> input) {
 		String techId = NullUtil.nvl(input.get("techId"), "");
-		LOGGER.debug("###########techId################"+techId);
 		commonDao.update("knld.pub.updateTechnologyRtrvCnt", input);
 	}
-	
+
 }

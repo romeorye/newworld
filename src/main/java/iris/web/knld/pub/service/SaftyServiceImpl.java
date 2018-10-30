@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.logging.log4j.LogManager; 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +15,20 @@ import devonframe.dataaccess.CommonDao;
 import devonframe.util.NullUtil;
 
 /*********************************************************************************
- * NAME : SaftyServiceImpl.java 
+ * NAME : SaftyServiceImpl.java
  * DESC : 지식관리 - 안전환경보건관리 ServiceImpl
  * PROJ : IRIS UPGRADE 1차 프로젝트
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- * 2017.09.14  			최초생성               
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ * 2017.09.14  			최초생성
  *********************************************************************************/
 
 @Service("saftyService")
 public class SaftyServiceImpl implements SaftyService {
-	
+
 	static final Logger LOGGER = LogManager.getLogger(SaftyServiceImpl.class);
 
 	@Resource(name="commonDao")
@@ -53,21 +53,19 @@ public class SaftyServiceImpl implements SaftyService {
 			commonDao.update("knld.pub.updateSaftyInfo", input);
 		}
 	}
-	
+
 	/* 안전환경보건 삭제  */
 	@Override
 	public void deleteSaftyInfo(HashMap<String, String> input) {
 		String saftyId = NullUtil.nvl(input.get("saftyId"), "");
-		LOGGER.debug("###########saftyId################"+saftyId);
 		commonDao.update("knld.pub.deleteSaftyInfo", input);
 	}
-	
+
 	/* 안전환경보건 조회건수 증가  */
 	@Override
 	public void updateSaftyRtrvCnt(HashMap<String, String> input) {
 		String saftyId = NullUtil.nvl(input.get("saftyId"), "");
-		LOGGER.debug("###########saftyId################"+saftyId);
 		commonDao.update("knld.pub.updateSaftyRtrvCnt", input);
 	}
-	
+
 }

@@ -60,7 +60,7 @@ public class AnlMchnController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
         model.addAttribute("inputData", input);
-        
+
 		return  "web/mchn/mgmt/anlMchnList";
 	}
 
@@ -80,7 +80,6 @@ public class AnlMchnController extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 
 		/* 반드시 공통 호출 후 작업 */
 		//checkSession(input, session, model);
@@ -105,9 +104,9 @@ public class AnlMchnController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
-		
+
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		
+
        	List<Map<String, Object>> resultList = anlMchnService.retrieveFxaInfoSearchList(input);
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", resultList));
 
@@ -158,7 +157,7 @@ public class AnlMchnController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
-		
+
         model.addAttribute("inputData", input);
 
 		return  "web/mchn/mgmt/anlMchnReg";
@@ -183,7 +182,7 @@ public class AnlMchnController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		
+
 		String rtnSt ="F";
 		String rtnMsg = "";
 
@@ -199,7 +198,7 @@ public class AnlMchnController extends IrisBaseController {
         	}else{
         		LOGGER.debug("############################################################################### : "+ input);
         		anlMchnService.saveMachineInfo(input);
-            	
+
                 rtnMsg = "저장되었습니다.";
             	rtnSt= "S";
         	}
@@ -269,7 +268,7 @@ public class AnlMchnController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
-		
+
         model.addAttribute("inputData", input);
 
 		return  "web/mchn/mgmt/retrieveAnlMchnAll";
@@ -300,5 +299,5 @@ public class AnlMchnController extends IrisBaseController {
 
 		return  modelAndView;
 	}
-	
+
 }

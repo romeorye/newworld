@@ -79,9 +79,8 @@ public class FxaInfoController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 		input = StringUtil.toUtf8(input);
-		
+
 		model.addAttribute("inputData", input);
 
 		return  "web/fxa/fxaInfo/prjUserInfoPop";
@@ -104,7 +103,6 @@ public class FxaInfoController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 		input = StringUtil.toUtf8(input);
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
@@ -115,6 +113,6 @@ public class FxaInfoController extends IrisBaseController {
 
 		return  modelAndView;
 	}
-	
+
 
 }

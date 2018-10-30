@@ -7,7 +7,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.logging.log4j.LogManager; 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -15,20 +15,20 @@ import devonframe.dataaccess.CommonDao;
 import devonframe.util.NullUtil;
 
 /*********************************************************************************
- * NAME : ShowServiceImpl.java 
+ * NAME : ShowServiceImpl.java
  * DESC : 지식관리 - 전시회관리 ServiceImpl
  * PROJ : IRIS UPGRADE 1차 프로젝트
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- * 2017.09.13  			최초생성               
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ * 2017.09.13  			최초생성
  *********************************************************************************/
 
 @Service("showService")
 public class ShowServiceImpl implements ShowService {
-	
+
 	static final Logger LOGGER = LogManager.getLogger(ShowServiceImpl.class);
 
 	@Resource(name="commonDao")
@@ -53,21 +53,19 @@ public class ShowServiceImpl implements ShowService {
 			commonDao.update("knld.pub.updateShowInfo", input);
 		}
 	}
-	
+
 	/* 전시회 삭제  */
 	@Override
 	public void deleteShowInfo(HashMap<String, String> input) {
 		String showId = NullUtil.nvl(input.get("showId"), "");
-		LOGGER.debug("###########showId################"+showId);
 		commonDao.update("knld.pub.deleteShowInfo", input);
 	}
-	
+
 	/* 전시회 조회건수 증가  */
 	@Override
 	public void updateShowRtrvCnt(HashMap<String, String> input) {
 		String showId = NullUtil.nvl(input.get("showId"), "");
-		LOGGER.debug("###########showId################"+showId);
 		commonDao.update("knld.pub.updateShowRtrvCnt", input);
 	}
-	
+
 }

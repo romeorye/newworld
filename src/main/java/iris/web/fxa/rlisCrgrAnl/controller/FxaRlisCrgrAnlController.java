@@ -74,7 +74,6 @@ public class FxaRlisCrgrAnlController extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
@@ -93,7 +92,7 @@ public class FxaRlisCrgrAnlController extends IrisBaseController {
 		return  modelAndView;
 	}
 
-	
+
 
 	/**
 	 * 자산담당자 저장
@@ -111,40 +110,39 @@ public class FxaRlisCrgrAnlController extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
-		
+
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		
+
 		//변경된 dataset 건수 추출
-		List<Map<String, Object>> updateDataSetList= null; 
-		
-		List<Map<String,Object>> crgrList = new ArrayList<Map<String,Object>>();	//담당자정보 리스트 
+		List<Map<String, Object>> updateDataSetList= null;
+
+		List<Map<String,Object>> crgrList = new ArrayList<Map<String,Object>>();	//담당자정보 리스트
 		Map<String,Object> crgrMap = new HashMap<String, Object>();				//담당자 map
 
-		List<Map<String,Object>> rfpList = new ArrayList<Map<String,Object>>();	//통보자정보 리스트 
+		List<Map<String,Object>> rfpList = new ArrayList<Map<String,Object>>();	//통보자정보 리스트
 		Map<String,Object> rfpMap = new HashMap<String, Object>();				//통보자 map
 		String rfpId = "";
-		
+
 		String rtnMsg = "";
 		String rtnSt = "F";
 		try{
 			updateDataSetList = RuiConverter.convertToDataSet(request,"dataSet");
-			
+
 			LOGGER.debug("#################################input#################################################### + " + input);
 			if(  updateDataSetList.size() != 0  ){
 				for(int i=0; i < updateDataSetList.size(); i++){
-					
+
 					crgrMap = updateDataSetList.get(i);
 					crgrMap.put("wbsCd", crgrMap.get("wbsCd"));
 					crgrMap.put("deptCd", crgrMap.get("deptCd"));
 					crgrMap.put("crgrId", crgrMap.get("crgrId"));
 					crgrMap.put("_userId", String.valueOf(input.get("_userId")));
-					
-					String rfpArry[] = String.valueOf(crgrMap.get("rfpId")).split(","); 
-					
+
+					String rfpArry[] = String.valueOf(crgrMap.get("rfpId")).split(",");
+
 					for(int j = 0; j < rfpArry.length; j++){
 						rfpId = rfpArry[j];
 						rfpMap = new HashMap<String, Object>();
@@ -154,27 +152,27 @@ public class FxaRlisCrgrAnlController extends IrisBaseController {
 						rfpMap.put("_userId", String.valueOf(input.get("_userId")));
 						rfpList.add(rfpMap);
 					}
-					
+
 					crgrList.add(crgrMap);
 				}
 				//담당자 저장
 				fxaRlisCrgrAnlService.insertCrgrInfo(crgrList, rfpList);
-				
+
 				rtnSt = "S";
 				rtnMsg = "저장되었습니다.";
 			}else{
 				rtnMsg = "변경된 데이터가 없습니다..";
 			}
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 			rtnMsg = "처리중 오류가발생하였습니다. 관리자에게 문의해주십시오.";
 		}
-		
+
 		rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
-		
+
 		return  modelAndView;
 	}
 }

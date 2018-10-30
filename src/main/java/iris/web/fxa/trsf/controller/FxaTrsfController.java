@@ -34,7 +34,7 @@ public class FxaTrsfController extends IrisBaseController {
 	private FxaTrsfService fxaTrsfService;
 /*
 	@Resource(name = "sapBudgCostService")
-	private SapBudgCostService sapBudgCostService;	
+	private SapBudgCostService sapBudgCostService;
 	*/
 	@Resource(name = "itgRdcsService")
 	private ItgRdcsService itgRdcsService;
@@ -60,7 +60,7 @@ public class FxaTrsfController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
 		LOGGER.debug("####################input################################################################# : " + input);
-		
+
 		model.addAttribute("inputData", input);
 
 		return  "web/fxa/trsf/fxaInfoTrsfList";
@@ -82,7 +82,6 @@ public class FxaTrsfController extends IrisBaseController {
 			){
 
 		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		LOGGER.debug("session="+lsession);
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
@@ -121,10 +120,10 @@ public class FxaTrsfController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		
+
 		String rtnMsg = "";
 		String rtnSt = "F";
-		
+
 		try{
 			//LOGGER.debug("input===================================="+input);
 			//이관데이터 저장
@@ -140,10 +139,10 @@ public class FxaTrsfController extends IrisBaseController {
 		rtnMeaasge.put("rtnSt", rtnSt);
 		rtnMeaasge.put("guId", input.get("fxaTrsfId"));
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
-		
+
 		return  modelAndView;
 	}
 
-	
-	
+
+
 }

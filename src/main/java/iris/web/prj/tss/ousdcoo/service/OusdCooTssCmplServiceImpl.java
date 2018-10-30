@@ -47,7 +47,7 @@ public class OusdCooTssCmplServiceImpl implements OusdCooTssCmplService {
 
         // 개요 완료내용 업데이트
         commonDao.update("prj.tss.ousdcoo.updateOusdCooTssCmplSmry", smryDs);
-        
+
         // 기존(진행) 비용지급실적 복사
         commonDao.insert("prj.tss.ousdcoo.insertCopyOusdCooTssExpStoa", smryDs);
 
@@ -65,28 +65,26 @@ public class OusdCooTssCmplServiceImpl implements OusdCooTssCmplService {
 
         return 1;
     }
-    
+
     /** 대외협력 완료 필수값 체크*/
     @Override
    	public String retrieveOusdCooTssCmplCheck(HashMap<String, String> input){
     	String rtnMsg = "N";
-  		
+
     	//완료 필수항목 체크 (목표)
 		String goalYn = commonDao.select("prj.tss.ousdcoo.retrieveOusdCooTssCmplGoalCheck", input);
-		LOGGER.debug("###########################goalCnt################################ : " + goalYn);	
 	  	if( goalYn.equals("N")){
 	  		rtnMsg = "G"; //"목표기술성과 실적값을 모두 입력하셔야 합니다.";
 	  		return rtnMsg;
 	  	}
-	  	
+
 	  	//완료 필수항목 체크 (산출물)
 	  	String itmYn = commonDao.select("prj.tss.ousdcoo.retrieveOusdCooTssCmplItmCheck", input);
-	  	LOGGER.debug("###########################itmCnt################################ : " + itmYn);	
 	  	if( itmYn.equals("N")){
 	  		rtnMsg = "I"; //"필수산출물을 모두 등록하셔야 합니다.";
 	  		return rtnMsg;
 	  	}
-  	
-		return rtnMsg; 
+
+		return rtnMsg;
     }
 }
