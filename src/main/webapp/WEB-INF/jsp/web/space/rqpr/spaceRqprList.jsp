@@ -224,7 +224,7 @@
 
             	$('#rqprId').val(record.data.rqprId);
 
-            	nwinsActSubmit(aform, "<c:url value='/space/spaceRqprDetail.do'/>");
+            	nwinsActSubmit(aform, "<c:url value='/space/spaceEvMtrlDetail.do'/>");
             });
 
             spaceRqprGrid.render('spaceRqprGrid');
@@ -288,7 +288,8 @@ nG.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') +
                     	spaceNm : escape(encodeURIComponent(spaceNm)),
                     	spaceChrgNm : escape(encodeURIComponent(spaceChrgNm)),
                     	acpcNo : escape(encodeURIComponent(acpcNo)),
-                    	spaceAcpcStCd : '${inputData.spaceAcpcStCd}'
+                    	spaceAcpcStCd : '${inputData.spaceAcpcStCd}',
+                    	isSpaceChrg : 0
                     }
                 });
             }

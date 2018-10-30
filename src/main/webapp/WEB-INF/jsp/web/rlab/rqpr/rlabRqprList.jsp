@@ -287,7 +287,8 @@ nG.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') +
                      	rgstNm : escape(encodeURIComponent(rgstNm)),
                      	rlabChrgNm : escape(encodeURIComponent(rlabChrgNm)),
                      	acpcNo : escape(encodeURIComponent(acpcNo)),
-                     	rlabAcpcStCd : '${inputData.rlabAcpcStCd}'
+                     	rlabAcpcStCd : '${inputData.rlabAcpcStCd}',
+                     	isRlabChrg : 0
                      }
                  });
              }
