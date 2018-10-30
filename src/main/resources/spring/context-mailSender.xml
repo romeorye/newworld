@@ -57,6 +57,8 @@
 	            <entry key="spaceRqprResult" value-ref="spaceRqprResult" />
 	            <entry key="spaceRqprStop" value-ref="spaceRqprStop" />
 
+	            <!-- 공간성능 평가의뢰 메일 추가 오정훈 2018.10.30 -->
+	            <entry key="spaceEvRnew" value-ref="spaceEvRnew" />
 
 	            <!-- 공간평가의뢰 의견 메일발송 추가 동윤석 2018.09.06 -->
 	            <entry key="spaceRqprOpinition" value-ref="spaceRqprOpinition" />
@@ -77,7 +79,7 @@
 	<bean id="mailPolicy" class="devonframe.mail.policy.MailPolicy">
 
 	    <property name="testMode" value="true" />
-	    <property name="testReceivers" value="dongys@lghausys.com" />
+	    <property name="testReceivers" value="jhoonoh@lghausys.com" />
 	    <property name="mailHost" value="subspam.lghausys.com" />
 	    <property name="mailPort" value="25" />
 	    <property name="authenticationEnabled" value="false" />
@@ -499,6 +501,16 @@
 	<bean id="spaceRqprStop" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/space" />
 	    <property name="htmlName" value="spaceRqprStop.html" />
+	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+
+	<bean id="spaceEvRnew" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/space" />
+	    <property name="htmlName" value="spaceEvRnew.html" />
 	    <property name="imgServerIp" value="local.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />

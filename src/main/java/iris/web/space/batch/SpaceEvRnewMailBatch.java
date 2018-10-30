@@ -38,26 +38,26 @@ public class SpaceEvRnewMailBatch  extends IrisBaseController {
     @Transactional
     public void batchProcess() throws SQLException, ClassNotFoundException {
 
-        LOGGER.debug("=================== SpaceApprMailBatch_START ======================");
+        LOGGER.debug("=================== SpaceEvRnewMailBatch_START ======================");
 
         try {
-        	List<SpaceEvRnewMailInfo> spaceRqprApprCompleteList = spaceEvRnewMailService.getSpaceEvRnewMailList();
+        	List<SpaceEvRnewMailInfo> spaceEvRnewMailList = spaceEvRnewMailService.getSpaceEvRnewMailList();
 
-        	for(SpaceEvRnewMailInfo spaceEvRnewMailInfo : spaceRqprApprCompleteList) {
+        	for(SpaceEvRnewMailInfo spaceEvRnewMailInfo : spaceEvRnewMailList) {
         		try {
         			spaceEvRnewMailService.sendSpaceEvRnewMail(spaceEvRnewMailInfo);
         		}catch(Exception e) {
         			LOGGER.debug("=================== SpaceApprMailBatch_ERROR ======================");
-        			LOGGER.debug("===== rqprId : " + spaceEvRnewMailInfo.getRqprId() + " 공간평가 접수요청 이메일 발송 오류 =====");
+        			LOGGER.debug("===== evCd : " + spaceEvRnewMailInfo.getEvCd() + " 공간평가 성적서 갱신 이메일 발송 오류 =====");
         			LOGGER.debug("=================== SpaceApprMailBatch_ERROR ======================");
                     e.printStackTrace();
         		}
         	}
 
-            LOGGER.debug("=================== SpaceApprMailBatch_END ======================");
+            LOGGER.debug("=================== SpaceEvRnewMailBatch_END ======================");
 
         }catch(Exception e){
-        	LOGGER.debug("=================== SpaceApprMailBatch_ERROR ======================");
+        	LOGGER.debug("=================== SpaceEvRnewMailBatch_ERROR ======================");
             e.printStackTrace();
         }
     }

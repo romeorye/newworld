@@ -42,12 +42,12 @@
 			-- getSpaceRsltApprTodoList
 			select  rqpr_id as rqprId
 			       ,(select sa_sabun_new from iris_sso_user where  sa_user = rgst_Id) as sabun
-			from   IRIS_SPACE_RQPR_MST  
+			from   IRIS_SPACE_RQPR_MST
 			where  space_acpc_st_cd = '07'
 			and	   del_yn = 'N'
 			and	   TO_DO_Flag not in ('Y', 'T')
 	</select>
-	
+
 	<!-- 공간평가시험 todo정보 생성 -->
 	<update id="saveSpaceRqprTodo"  parameterType="map">
 	<![CDATA[
@@ -55,7 +55,7 @@
 		EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'SPC', #{rqprId}, #{sabun}
     ]]>
     </update>
-    
+
 	<update id="updateSpaceChrgTrsfFlag" parameterType="iris.web.space.rqpr.vo.SpaceMailInfo">
 	-- updateSpaceChrgTrsfFlag
 		update	iris_space_rqpr_mst
@@ -78,4 +78,35 @@
 		set		TO_DO_Flag = 'T'
 		where	rqpr_id = ${rqprId}
 	</update>
+
+
+	<select id="getSpaceEvRnewMailList" resultType="iris.web.space.rqpr.vo.SpaceEvRnewMailInfo">
+	-- getSpaceEvRnewMailList
+	select
+	fnh_vld_dt as fnhVldDt
+	,b.ctgr_nm as ctgrNm
+	,a.scn as scn
+	,a.ev_cd as evCd
+	,(b.ctgr_nm+'제품의 '+a.scn) as titl
+	, (
+	select distinct
+		stuff ((
+			select ','+sa_mail
+			from  [dbo].[IRIS_SSO_USER] a ,dbo.IRIS_ADM_COM_CD b
+			where a.sa_sabun_new = b.com_dtl_cd
+			and b.com_cd_cd='space_user'
+			FOR XML PATH('')
+			),1,1,'') AS saMail
+	) AS receivers
+	from dbo.IRIS_SPACE_MTRL_UTM_EV a, iris_space_ev_ctgr3 b
+	where
+	a.ctgr3 = b.ctgr_cd
+	and a.del_yn = 'N'
+	and a.snd_eml_yn = 'Y'
+	and (strt_vld_dt = CONVERT(CHAR(10), dateadd(month,-6,getdate()), 23)
+	or strt_vld_dt = CONVERT(CHAR(10), dateadd(month,-3,getdate()), 23)
+	or strt_vld_dt = CONVERT(CHAR(10), dateadd(month,-1,getdate()), 23))
+	</select>
+
+
 </mapper>

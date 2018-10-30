@@ -30,7 +30,7 @@ import iris.web.space.rqpr.vo.SpaceEvRnewMailInfo;
 @Service("spaceEvRnewMailService")
 public class SpaceEvRnewMailServiceImpl implements SpaceEvRnewMailService {
 
-	static final Logger LOGGER = LogManager.getLogger(SpaceApprMailServiceImpl.class);
+	static final Logger LOGGER = LogManager.getLogger(SpaceEvRnewMailServiceImpl.class);
 
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
@@ -45,20 +45,23 @@ public class SpaceEvRnewMailServiceImpl implements SpaceEvRnewMailService {
 
 	/* 공간평가 성적서 이메일 발송 */
 	public boolean sendSpaceEvRnewMail(SpaceEvRnewMailInfo spaceEvRnewMailInfo) throws Exception {
-
     		MailSender mailSender = mailSenderFactory.createMailSender();
     		//mailSender.setFromMailAddress(spaceMailInfo.getRgstEmail(), spaceMailInfo.getRgstNm());
     		mailSender.setFromMailAddress("iris@lghausys.com");
+
     		mailSender.setToMailAddress(spaceEvRnewMailInfo.getReceivers().split(","));
-    		mailSender.setSubject("'" + spaceEvRnewMailInfo.getSpaceNm() + "' 평가의뢰 접수 요청");
-    		mailSender.setHtmlTemplate("spaceRqprReceiptRequest", spaceEvRnewMailInfo);
+
+    		mailSender.setSubject(spaceEvRnewMailInfo.getTitl() + " 인증서(성적서) 갱신 요청의 건.");
+
+    		mailSender.setHtmlTemplate("spaceEvRnew", spaceEvRnewMailInfo);
+
     		mailSender.send();
 
     		HashMap<String, Object> input = new HashMap<String, Object>();
 
-			input.put("mailTitl", "'" + spaceEvRnewMailInfo.getSpaceNm() + "' 평가의뢰 접수 요청");
+			input.put("mailTitl", spaceEvRnewMailInfo.getTitl() + " 인증서(성적서) 갱신 요청의 건.");
 			input.put("adreMail", spaceEvRnewMailInfo.getReceivers());
-			input.put("trrMail",  spaceEvRnewMailInfo.getRgstEmail());
+			input.put("trrMail",  "iris@lghausys.com");
 			input.put("rfpMail",  "");
 			input.put("_userId", "Batch-SpaceApprMail");
 			input.put("_userEmail", "iris@lghausys.com");
@@ -68,4 +71,6 @@ public class SpaceEvRnewMailServiceImpl implements SpaceEvRnewMailService {
 
 			return true;
 	}
+
+
 }
