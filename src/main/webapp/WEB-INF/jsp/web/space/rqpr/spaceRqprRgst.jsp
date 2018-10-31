@@ -176,7 +176,7 @@
             /* 평가대상명 */
             var evSubjNm = new Rui.ui.form.LTextBox({
             	applyTo: 'evSubjNm',
-                placeholder: '영업, Spec-in : 현장명/개발 : 표준주택모델 혹은 원하는 적용 대상 현장명',
+                placeholder: 'IFC, 상평동 복합문화단지(假稱)…',
                 defaultValue: '',
                 emptyValue: '',
                 width: 985
@@ -220,7 +220,7 @@
             /* 목표성능 */
             var goalPfmc = new Rui.ui.form.LTextBox({
             	applyTo: 'goalPfmc',
-                placeholder: '수도관 온도 및 발코니 실내 온도 0℃이상으로 동파가 발생하지 않는 상태',
+                placeholder: '열관류율 1.2 W/㎡K 이하, 표면온도 15℃ 이상, 1차 에너지 소요량 90 kWh/㎡ 이하',
                 defaultValue: '',
                 emptyValue: '',
                 width: 400
@@ -228,7 +228,7 @@
             /* 결과지표 */
             var rsltDpst = new Rui.ui.form.LTextBox({
             	applyTo: 'rsltDpst',
-                placeholder: '수도관 내부 유체 온도(℃) / 발코니 실내 온도(℃)',
+                placeholder: '열관류율 (W/㎡K), 열전도율 (W/mK), 표면온도 (℃)…',
                 defaultValue: '',
                 emptyValue: '',
                 width: 395
@@ -236,7 +236,7 @@
             /* 평가 cases(개수) */
             var evCases = new Rui.ui.form.LTextBox({
             	applyTo: 'evCases',
-                placeholder: '74A Type , 84A Type, 84B Type 3가지 Cases',
+                placeholder: '5건 (창호 1~5등급, 5케이스 적용)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 400
@@ -244,7 +244,7 @@
             /* 평가대상 상세 */
             var evSubjDtl = new Rui.ui.form.LTextBox({
             	applyTo: 'evSubjDtl',
-                placeholder: '신제품 유무, 특이사항',
+                placeholder: '넷마블 사옥, 시행사 XX, 시공사 XX…',
                 defaultValue: '',
                 emptyValue: '',
                 width: 395

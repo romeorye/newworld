@@ -52,7 +52,7 @@
 
 	<!-- pop컨텐츠 -->
 	<div class="bd pop_conin">
-		<div>기타 산업조직 실험의뢰시, 신뢰성연구 PJT PL과 상의해 주시기 바랍니다.</div>
+		<div>기타 산업조직 시험의뢰시, 신뢰성연구 PJT PL과 상의해 주시기 바랍니다.</div>
 		<table class="table p-admin">
 			<colgroup>
 				<col style="width:50%;">
