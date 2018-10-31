@@ -511,7 +511,7 @@
                     , { id: 'attachDownBtn',  label: '첨부파일',  width: 65 ,
   		  	    	  renderer: function(val, p, record, row, i){
   		  	    		  var recordFilId = nullToString(record.data.attcFilId);
-  		  	    		  var strBtnFun = "openAttachFileDialog(setAttachFileInfo, "+recordFilId+", 'knldPolicy', '*' ,'R')";
+  		  	    		  var strBtnFun = "openAttachFileDialog(setAttachFileInfo, "+recordFilId+", 'spacePolicy', '*' ,'R')";
   		  	    		  //return Rui.isUndefined(record.get('attcFilId')) ? '' : '<button type="button"  class="L-grid-button" onclick="'+strBtnFun+'">다운로드</button>';
   		  	    			if(record.get('attcFilId').length<1){
   		  	    				return '';

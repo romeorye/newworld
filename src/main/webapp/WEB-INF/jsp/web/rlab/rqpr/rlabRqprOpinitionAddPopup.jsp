@@ -244,7 +244,7 @@
         	var butAttcFil = new Rui.ui.LButton('butAttcFil');
         	butAttcFil.on('click', function(){
         		var attcFilId = document.aform.attcFilId.value;
-        		openAttachFileDialog(setAttachFileInfo, attcFilId,'mchnPolicy', '*');
+        		openAttachFileDialog(setAttachFileInfo, attcFilId,'rlabPolicy', '*');
         	});
 
         	//첨부파일 callback
@@ -290,7 +290,7 @@
    		<div class="LblockMainBody">
 
    			<div class="sub-content" style="padding:5px 9px 0 9px;">
-	   			
+
    				<table class="table table_txt_right">
    					<colgroup>
    						<col style="width: 120px;" />

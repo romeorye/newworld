@@ -84,7 +84,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		           	 ,{ id: 'mchnLoc'}
 		           	 ,{ id: 'mchnExpl'}
 		           	 ,{ id: 'attcFilId'}
-		           	 ,{ id: 'mchnSmry'}
+		           	 ,{ id: 'rlabSmry'}
 		           	 ,{ id: 'mchnCrgrId'}
 		           	 ,{ id: 'mchnUsePsblYn'}
 		           	 ,{ id: 'mnScrnDspYn'}
@@ -108,7 +108,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			cbOpnYn.setValue(dataSet.getNameValue(0,"opnYn"));
 
 			if(dataSet.getNameValue(0, "mchnInfoId")  != "" ||  dataSet.getNameValue(0, "mchnInfoId")  !=  undefined ){
-				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "mchnSmry") );
+				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "rlabSmry") );
 			}
 
 			if(!Rui.isEmpty(dataSet.getNameValue(0, "fxaNo"))){
@@ -363,7 +363,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		         { id: 'mchnCrgrId', 		ctrlId: 'mchnCrgrId', 		value: 'value' },
 		         { id: 'mchnLoc', 			ctrlId: 'mchnLoc', 			value: 'value' },
 		         { id: 'mchnExpl', 			ctrlId: 'mchnExpl', 		value: 'value' },
-		         { id: 'mchnSmry', 			ctrlId: 'mchnSmry', 		value: 'value' },
+		         { id: 'rlabSmry', 			ctrlId: 'rlabSmry', 		value: 'value' },
 		         { id: 'mchnUsePsblYn', 	ctrlId: 'mchnUsePsblYn', 	value: 'value' },
 		         { id: 'mnScrnDspYn', 		ctrlId: 'mnScrnDspYn', 		value: 'value' },
 		         { id: 'attcFilId', 		ctrlId: 'attcFilId', 		value: 'value' },
@@ -451,7 +451,7 @@ var faxInfoDialog;	//고정자산관리 팝업
     	var butAttcFil = new Rui.ui.LButton('butAttcFil');
     	butAttcFil.on('click', function(){
     		var attcFilId = document.aform.attcFilId.value;
-    		openAttachFileDialog3(setAttachFileInfo, attcFilId,'mchnPolicy', '*');
+    		openAttachFileDialog3(setAttachFileInfo, attcFilId,'rlabPolicy', '*');
     	});
 
     	/* [버튼] : 등록 정보 저장 */
@@ -610,7 +610,7 @@ var faxInfoDialog;	//고정자산관리 팝업
      		    return false;
      		}
 
-    		frm.mchnSmry.value = CrossEditor.GetBodyValue();
+    		frm.rlabSmry.value = CrossEditor.GetBodyValue();
 
     		return true;
      	}
@@ -769,19 +769,19 @@ var faxInfoDialog;	//고정자산관리 팝업
 						<tr>
 							<th  align="right"><span style="color:red;">*  </span>개요</th>
 							<td colspan="3">
-								<textarea id="mchnSmry" name="mchnSmry"></textarea>
+								<textarea id="rlabSmry" name="rlabSmry"></textarea>
 									<script type="text/javascript" language="javascript">
-										var CrossEditor = new NamoSE('mchnSmry');
+										var CrossEditor = new NamoSE('rlabSmry');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
 										var uploadPath = "<%=uploadPath%>";
 
-										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+										CrossEditor.params.ImageSavePath = uploadPath+"/rlab";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
 										CrossEditor.params.FullScreen = false;
 										CrossEditor.EditorStart();
 
 										function OnInitCompleted(e){
-											e.editorTarget.SetBodyValue(document.getElementById("mchnSmry").value);
+											e.editorTarget.SetBodyValue(document.getElementById("rlabSmry").value);
 										}
 									</script>
 							</td>

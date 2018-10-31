@@ -57,11 +57,11 @@
             	applyTo: 'bbsKwd',
                 width: 700
             });
-            
+
             var bbsSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'bbsSbc'
             });
-            
+
             /*
             if(bbsCd == '01'){
 	            var anlBbsCd = new Rui.ui.form.LCombo({
@@ -74,7 +74,7 @@
 	                emptyValue: '',
 	                listPosition: 'up',
 	                url: '<c:url value="/space/lib/spaceBbsCodeList.do?comCd=SPACE_BBS_CD"/>',
-	                		
+
 	                displayField: 'COM_DTL_NM',
 	                valueField: 'COM_DTL_CD'
 	            });
@@ -183,7 +183,7 @@
 	                        text: attachFileList[i].data.filNm
 	                    })).append('<br/>');
 	                }
-	
+
 	                if(Rui.isEmpty(lvAttcFilId)) {
 	                	lvAttcFilId =  attachFileList[0].data.attcFilId;
 	                	spaceLibRgstDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
@@ -218,7 +218,7 @@
 
             /* 저장/목록 버튼 */
             saveBtn = new Rui.ui.LButton('saveBtn');
-            
+
        	 	goPageBtn = new Rui.ui.LButton('goPageBtn');
 
 		    saveBtn.on('click', function() {
@@ -312,7 +312,7 @@
             spaceLibRgstDataSet.setNameValue(0, 'bbsSbc', CrossEditor.GetBodyValue());
 
 			document.aform.bbsSbc.value = CrossEditor.GetBodyValue();
-			
+
             gvSbcNm = CrossEditor.GetBodyValue();
 
 	    	// 데이터셋 valid
@@ -403,10 +403,10 @@
    								<input type="text" id="bbsTitl" value="">
    							</td>
    						</tr>
-   						
+
    						<tr>
    							<th align="right"><span style="color:red;">* </span>구분</th>
-   							<!--  
+   							<!--
    							<c:if test="${inputData.bbsCd == '01'}">
 	   							<td colspan="3">
 	   								<div id="anlBbsCd"></div>
@@ -428,52 +428,52 @@
 
 									</select>
 	   							</td>
-   							</c:if>   	
-					
-   							<c:if test="${(inputData.bbsCd == '02' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							</c:if>
+
+   							<c:if test="${(inputData.bbsCd == '02' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm1'}">
 	   							<td colspan="3">
 	   								<label>공간성능평가 Letter </label>
 	   							</td>
    							</c:if>
-   							<c:if test="${(inputData.bbsCd == '03' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							<c:if test="${(inputData.bbsCd == '03' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm2'}">
 	   							<td colspan="3">
 	   								<label>제도, 법규 자료</label>
 	   							</td>
    							</c:if>
-   							<c:if test="${(inputData.bbsCd == '04' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							<c:if test="${(inputData.bbsCd == '04' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm3'}">
 	   							<td colspan="3">
 	   								<label>연구리포트</label>
 	   							</td>
-   							</c:if>   	
-   							<c:if test="${(inputData.bbsCd == '05' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							</c:if>
+   							<c:if test="${(inputData.bbsCd == '05' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm4'}">
 	   							<td colspan="3">
 	   								<label>논문</label>
 	   							</td>
-   							</c:if>    							
-   							<c:if test="${(inputData.bbsCd == '06' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							</c:if>
+   							<c:if test="${(inputData.bbsCd == '06' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm5'}">
 	   							<td colspan="3">
 	   								<label>메뉴얼</label>
 	   							</td>
-   							</c:if>    							
-   							<c:if test="${(inputData.bbsCd == '07' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							</c:if>
+   							<c:if test="${(inputData.bbsCd == '07' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm6'}">
 	   							<td colspan="3">
 	   								<label>기타</label>
 	   							</td>
-   							</c:if> 
-   							<c:if test="${(inputData.bbsCd == '08' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							</c:if>
+   							<c:if test="${(inputData.bbsCd == '08' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm7'}">
 	   							<td colspan="3">
 	   								<label>팀전용</label>
 	   							</td>
-   							</c:if>    							   													
+   							</c:if>
    							</td>
-   						</tr>   						
+   						</tr>
 
    						<c:if test="${inputData.pageMode=='V'}">
    						<tr>
@@ -487,7 +487,7 @@
    							</td>
    						</tr>
    						</c:if>
-   						
+
 						<tr>
 							<th  align="right"><span style="color:red;">* </span>개요</th>
 							<td colspan="3">
@@ -500,7 +500,7 @@
 										CrossEditor.params.FullScreen = false;
 										CrossEditor.params.Height = 350;
 										CrossEditor.EditorStart();
-										
+
 										function OnInitCompleted(e){
 											e.editorTarget.SetBodyValue(document.getElementById("bbsSbc").value);
 										}
@@ -518,7 +518,7 @@
    							<td colspan="2" id="attchFileView">
    							</td>
    							<td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn"
-   									onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'anlPolicy', '*')">첨부파일등록</button></td>
+   									onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'spacePolicy', '*')">첨부파일등록</button></td>
    						</tr>
    					</tbody>
    				</table>

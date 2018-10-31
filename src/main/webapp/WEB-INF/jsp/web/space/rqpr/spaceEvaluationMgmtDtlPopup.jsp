@@ -293,7 +293,7 @@
         	var butAttcFil = new Rui.ui.LButton('butAttcFil');
         	butAttcFil.on('click', function(){
         		var attcFilId = document.aform.attcFilId.value;
-        		openAttachFileDialog3(setAttachFileInfo, attcFilId,'mchnPolicy', '*');
+        		openAttachFileDialog3(setAttachFileInfo, attcFilId,'spacePolicy', '*');
         	});
 
         	//첨부파일 callback

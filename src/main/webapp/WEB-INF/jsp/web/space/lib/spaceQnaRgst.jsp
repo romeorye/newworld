@@ -432,7 +432,7 @@
    							</td>
    							<td>
    							<button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn"
-   									onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'anlPolicy', '*')">첨부파일등록</button></td>
+   									onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'spacePolicy', '*')">첨부파일등록</button></td>
    						</tr>
    					</tbody>
    				</table>

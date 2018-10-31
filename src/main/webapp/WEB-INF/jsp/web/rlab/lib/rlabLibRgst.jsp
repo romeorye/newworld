@@ -57,7 +57,7 @@
             	applyTo: 'bbsKwd',
                 width: 700
             });
-            
+
             var bbsSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'bbsSbc'
             });
@@ -72,7 +72,7 @@
 	                emptyValue: '',
 	                listPosition: 'up',
 	                url: '<c:url value="/rlab/lib/rlabBbsCodeList.do?comCd=RLAB_BBS_CD"/>',
-	                		
+
 	                displayField: 'COM_DTL_NM',
 	                valueField: 'COM_DTL_CD'
 	            });
@@ -187,7 +187,7 @@
 	                        text: attachFileList[i].data.filNm
 	                    })).append('<br/>');
 	                }
-	
+
 	                if(Rui.isEmpty(lvAttcFilId)) {
 	                	lvAttcFilId =  attachFileList[0].data.attcFilId;
 	                	rlabLibRgstDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
@@ -222,7 +222,7 @@
 
             /* 저장/목록 버튼 */
             saveBtn = new Rui.ui.LButton('saveBtn');
-            
+
        	 	goPageBtn = new Rui.ui.LButton('goPageBtn');
 
 		    saveBtn.on('click', function() {
@@ -312,7 +312,7 @@
 			rlabLibRgstDataSet.setNameValue(0, 'bbsSbc', CrossEditor.GetBodyValue());
 
 			document.aform.bbsSbc.value = CrossEditor.GetBodyValue();
-			
+
             gvSbcNm = CrossEditor.GetBodyValue();
 
 	    	// 데이터셋 valid
@@ -400,30 +400,30 @@
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>구분</th>
-   							
+
    							<c:if test="${inputData.target == 'tabContentIfrm0' && inputData.pageMode == 'C'}">
 	   							<td colspan="3">
 	   								<div id="anlBbsCd"></div>
 	   							</td>
    							</c:if>
-   							<c:if test="${(inputData.bbsCd == '02' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							<c:if test="${(inputData.bbsCd == '02' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm1'}">
 	   							<td colspan="3">
 	   								<label>신뢰성DB </label>
 	   							</td>
    							</c:if>
-   							<c:if test="${(inputData.bbsCd == '03' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							<c:if test="${(inputData.bbsCd == '03' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm2'}">
 	   							<td colspan="3">
 	   								<label>신뢰성자료실</label>
 	   							</td>
    							</c:if>
-   							<c:if test="${(inputData.bbsCd == '04' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
+   							<c:if test="${(inputData.bbsCd == '04' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm3'}">
 	   							<td colspan="3">
 	   								<label>신뢰성IP</label>
 	   							</td>
-   							</c:if>   							
+   							</c:if>
    							</td>
    						</tr>
    						<c:if test="${inputData.pageMode=='V'}">
@@ -450,7 +450,7 @@
 										CrossEditor.params.FullScreen = false;
 										CrossEditor.params.Height = 350;
 										CrossEditor.EditorStart();
-										
+
 										function OnInitCompleted(e){
 											e.editorTarget.SetBodyValue(document.getElementById("bbsSbc").value);
 										}
@@ -468,7 +468,7 @@
    							<td colspan="2" id="attchFileView">
    							</td>
    							<td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn"
-   									onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'anlPolicy', '*')">첨부파일등록</button></td>
+   									onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'rlabPolicy', '*')">첨부파일등록</button></td>
    						</tr>
    					</tbody>
    				</table>

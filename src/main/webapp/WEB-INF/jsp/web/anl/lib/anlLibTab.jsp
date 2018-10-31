@@ -177,7 +177,6 @@ var target = "${inputData.target}";
            });
 
            anlLibGrid01.on('cellClick', function(e) {
-
 	           if(e.colId == "bbsTitl") {
 	        	   if(roleIdIndex == -1){
 	        		   return false;

@@ -77,7 +77,7 @@ var firstLoad = "Y";	//화면오픈
 		           	 ,{ id: 'evCtgr'}
 		           	 //,{ id: 'evWay'}
 		           	 ,{ id: 'mchnExpl'}
-		           	 ,{ id: 'mchnSmry'}
+		           	 ,{ id: 'spaceSmry'}
 		           	 ,{ id: 'attcFilId'}
 		           	 ,{ id: 'mnalFilId'}
 		           	 ,{ id: 'mchnCrgrId'}
@@ -89,7 +89,7 @@ var firstLoad = "Y";	//화면오픈
 			document.aform.mchnCrgrId.value = dataSet.getNameValue(0, "mchnCrgrId");
 
 			if(dataSet.getNameValue(0, "mchnInfoId")  != "" ||  dataSet.getNameValue(0, "mchnInfoId")  !=  undefined ){
-				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "mchnSmry") );
+				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "spaceSmry") );
 			}
 
 			var evWayVal = dataSet.getNameValue(0, "evWay").split(",");
@@ -215,7 +215,7 @@ var firstLoad = "Y";	//화면오픈
 		         { id: 'evCtgr', 			ctrlId: 'evCtgr', 		value: 'value' },
 		         //{ id: 'evWay', 			ctrlId: 'evWay', 		    value: 'value' },
 		         { id: 'mchnExpl', 		ctrlId: 'mchnExpl', 		value: 'value' },
-		         { id: 'mchnSmry', 		    ctrlId: 'mchnSmry', 	        value: 'value' },
+		         { id: 'spaceSmry', 		    ctrlId: 'spaceSmry', 	        value: 'value' },
 		         { id: 'mchnCrgrId', 		ctrlId: 'mchnCrgrId', 		value: 'value' },
 		         { id: 'attcFilId', 		ctrlId: 'attcFilId', 		value: 'value' },
 		         { id: 'mnalFilId', 		ctrlId: 'mnalFilId', 		value: 'value' },
@@ -345,14 +345,14 @@ var firstLoad = "Y";	//화면오픈
     	var butAttcFil = new Rui.ui.LButton('butAttcFil');
     	butAttcFil.on('click', function(){
     		var attcFilId = document.aform.attcFilId.value;
-    		openAttachFileDialog3(setAttachFileInfo, attcFilId,'mchnPolicy', '*');
+    		openAttachFileDialog3(setAttachFileInfo, attcFilId,'spacePolicy', '*');
     	});
 
     	/* [버튼] : 메뉴얼파일 팝업 호출 */
     	var butMnalFil = new Rui.ui.LButton('butMnalFil');
     	butMnalFil.on('click', function(){
     		var mnalFilId = document.aform.mnalFilId.value;
-    		openAttachFileDialog(setMenualFileInfo, mnalFilId,'mchnPolicy', '*');
+    		openAttachFileDialog(setMenualFileInfo, mnalFilId,'spacePolicy', '*');
     	});
 
     	/* [버튼] : 등록 정보 저장 */
@@ -544,7 +544,7 @@ var firstLoad = "Y";	//화면오픈
      		    return false;
      		}
 
-    		frm.mchnSmry.value = CrossEditor.GetBodyValue();
+    		frm.spaceSmry.value = CrossEditor.GetBodyValue();
 
     		return true;
      	}
@@ -655,19 +655,19 @@ var firstLoad = "Y";	//화면오픈
 						<tr>
 							<th  align="right">개요</th>
 							<td colspan="3">
-								<textarea id="mchnSmry" name="mchnSmry"></textarea>
+								<textarea id="spaceSmry" name="spaceSmry"></textarea>
 									<script type="text/javascript" language="javascript">
-									var CrossEditor = new NamoSE('mchnSmry');
+									var CrossEditor = new NamoSE('spaceSmry');
 									CrossEditor.params.Width = "100%";
 									CrossEditor.params.UserLang = "auto";
 									var uploadPath = "<%=uploadPath%>";
 
-									CrossEditor.params.ImageSavePath = uploadPath+"/mchn";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+									CrossEditor.params.ImageSavePath = uploadPath+"/space";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
 									CrossEditor.params.FullScreen = false;
 									CrossEditor.EditorStart();
 
 									function OnInitCompleted(e){
-										e.editorTarget.SetBodyValue(document.getElementById("mchnSmry").value);
+										e.editorTarget.SetBodyValue(document.getElementById("spaceSmry").value);
 									}
 									</script>
 							</td>
