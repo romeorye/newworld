@@ -431,24 +431,6 @@
                 , { id: 'ctyOtPlnM',         validExp: '상품출시(계획):true' }
                 , { id: 'smrSmryTxt',        validExp: 'Summary 개요:true' }
                 , { id: 'smrGoalTxt',        validExp: 'Summary 목표:true' }
-                , { id: 'bizPrftProY',       validExp: '영업이익율Y:true:minNumber=0.01' }
-                , { id: 'bizPrftProY1',      validExp: '영업이익율Y+1:true' }
-                , { id: 'bizPrftProY2',      validExp: '영업이익율Y+2:true' }
-                , { id: 'bizPrftProY3',      validExp: '영업이익율Y+3:true' }
-                , { id: 'bizPrftProY4',      validExp: '영업이익율Y+4:true' }
-                , { id: 'bizPrftProYAvg',    validExp: '영업이익율평균:false' }
-                , { id: 'nprodSalsPlnY',     validExp: '신제품매출계획Y:true:minNumber=1' }
-                , { id: 'nprodSalsPlnY1',    validExp: '신제품매출계획Y+1:true' }
-                , { id: 'nprodSalsPlnY2',    validExp: '신제품매출계획Y+2:true' }
-                , { id: 'nprodSalsPlnY3',    validExp: '신제품매출계획Y+3:true' }
-                , { id: 'nprodSalsPlnY4',    validExp: '신제품매출계획Y+4:true' }
-                , { id: 'nprodSalsPlnYAvg',  validExp: '신제품매출계획평균:false' }
-                , { id: 'ptcCpsnY',          validExp: '투입인원(M/M)Y:true:minNumber=1' }
-                , { id: 'ptcCpsnY1',         validExp: '투입인원(M/M)Y+1:true' }
-                , { id: 'ptcCpsnY2',         validExp: '투입인원(M/M)Y+2:true' }
-                , { id: 'ptcCpsnY3',         validExp: '투입인원(M/M)Y+3:true' }
-                , { id: 'ptcCpsnY4',         validExp: '투입인원(M/M)Y+4:true' }
-                , { id: 'ptcCpsnYAvg',       validExp: '투입인원(M/M)평균:false' }
                 , { id: 'attcFilId',         validExp: 'GRS심의파일:true' }
                 , { id: 'userId',            validExp: '로그인ID:false' }
             ]
