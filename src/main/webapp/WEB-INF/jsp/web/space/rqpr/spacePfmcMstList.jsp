@@ -294,7 +294,7 @@
                 ]
             });
 
-          	//자재단위평가 그리드 패널 설정
+          	//성적서,인증서(자재단위) 그리드 패널 설정
             var spaceEvMtrlListGrid = new Rui.ui.grid.LGridPanel({
                 columnModel: spaceEvMtrlListModel,
                 dataSet: spaceEvMtrlListDataSet,
@@ -495,6 +495,20 @@
             //이유지 선임 요청으로 화면로딩시 조회 안되게 수정
             //getSpaceEvProdList();
 
+
+            /* 통합성능평가결과서 리스트 엑셀 다운로드 */
+        	downloadSpaceRqprRsltExcel = function() {
+        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+				spaceEvProdGrid.saveExcel(encodeURIComponent('통합성능평가결과서_') + new Date().format('%Y%m%d') + '.xls');
+            };
+
+            /* 성적서 인증서 리스트 엑셀 다운로드 */
+        	downloadSpaceRqprRsltExcel = function() {
+        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+				spaceEvMtrlListGrid.saveExcel(encodeURIComponent('성적서,인증서(자재단위)_') + new Date().format('%Y%m%d') + '.xls');
+            };
+
+
         });
 
 	</script>
@@ -541,14 +555,20 @@
 			    <div id="spaceEvProdGrid"></div>
 </form>
    				<div class="titArea">
-   					<span class="Ltotal"><h3>통합성능평가결과서</h3></span>
-   					<div style="color:red">○비밀 문서의 경우, 해당 팀장님의 결재를 받고 별도 다운로드 가능합니다.</div>
+   					<span class="Ltotal" style="line-height:31px"><h3>통합성능평가결과서</h3> &nbsp;&nbsp;
+   					<font color="red">○비밀 문서의 경우, 해당 팀장님의 결재를 받고 별도 다운로드 가능합니다.</font></span>
+   					<div class="LblockButton">
+   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadSpaceRqprRsltExcel()">Excel</button>
+   					</div>
    				</div>
 
 			    <div id="spaceRqprRsltGrid"></div>
 
    				<div class="titArea">
    					<span class="Ltotal"><h3>성적서, 인증서(자재단위)</h3></span>
+   					<div class="LblockButton">
+   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadSpaceRqprRsltExcel()">Excel</button>
+   					</div>
    				</div>
 
 			    <div id="spaceEvMtrlListGrid"></div>
