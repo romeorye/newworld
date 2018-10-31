@@ -50,7 +50,7 @@ var refresh = "";
         		{ label: '전체', content: '<div id="tabContent0"></div>' },
         		{ label: '신뢰성DB',            content: '<div id="tabContent1"></div>' },
                 { label: '신뢰성자료실',         content: '<div id="tabContent2"></div>' },
-                { label: '신뢰IP',       content: '<div id="tabContent3"></div>' }
+                { label: '신뢰성IP',       content: '<div id="tabContent3"></div>' }
             ]
         });
 
@@ -119,7 +119,7 @@ var refresh = "";
         	//분석 기술정보
         	case 3:
         		refresh  = true;
-        		$('#h2Titl').text('자료실 - 신뢰IP');
+        		$('#h2Titl').text('자료실 - 신뢰성IP');
 
                 if(e.isFirst){
                 	goPage('tabContentIfrm3', '04');
