@@ -37,7 +37,6 @@ public class GenTssStatServiceImpl implements GenTssStatService{
 			 Map<String, Object> userInfo = viewInfoList.get(i);
 
 			 HashMap<String, Object> viewInfo = new HashMap<String, Object>();;
-			 viewInfo.put("wbsCd", 	userInfo.get("wbsCd"));
 			 viewInfo.put("npCd", 	userInfo.get("npCd"));
 			 viewInfo.put("pjtNm", 	userInfo.get("pjtNm"));
 			 viewInfo.put("lnchYm", 	userInfo.get("lnchYm"));

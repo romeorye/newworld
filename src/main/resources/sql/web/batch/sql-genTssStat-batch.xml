@@ -7,8 +7,7 @@
     <select id="getViewInfo"  resultType="hashmap">
     <![CDATA[
 	/* 뷰 실적데이터 조회 */
-	SELECT WBS_CD AS wbsCd          --wbsCd
-	      ,NP_CD AS npCd          --신제품코드
+	SELECT NP_CD AS npCd          --신제품코드
 	      ,PJT_NM AS pjtNm        --프로젝트명
 	      ,LNCH_YM AS lnchYm        --실제출시년월
 	      ,EXP_LNCH_YM AS expLnchYm   --예상출시년월
@@ -23,8 +22,7 @@
 	<update id="insertViewInfo">
 	-- insertViewInfo
 	INSERT INTO IRIS_NEW_PRDT_SAL_STAT
-	(WBS_CD
-	 ,NP_CD          --신제품코드
+	(NP_CD          --신제품코드
      ,PJT_NM         --프로젝트명
      ,LNCH_YM        --실제출시년월
      ,EXP_LNCH_YM    --예상출시년월
@@ -32,8 +30,7 @@
      ,SAL_SUM_AMT    --매출액
 	)
 	VALUES
-	(#{wbsCd}          --신제품코드
-     ,#{npCd}          --신제품코드
+	(#{npCd}          --신제품코드
      ,#{pjtNm}         --프로젝트명
      ,#{lnchYm}        --실제출시년월
      ,#{expLnchYm}    --예상출시년월
