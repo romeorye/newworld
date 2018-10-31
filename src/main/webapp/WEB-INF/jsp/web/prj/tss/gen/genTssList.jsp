@@ -376,7 +376,7 @@
                 }
                 //진행
                 else if(pPgsStepCd == "PG") {
-                    if(pTssSt == "102") {
+                    if(pTssSt == "102" || pTssSt == "301" || pTssSt == "302") {
                         //진행_GRS완료_중단
                         if(pGrsEvSt == "D") {
                             nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssDcacDetail.do'/>"+urlParam);
