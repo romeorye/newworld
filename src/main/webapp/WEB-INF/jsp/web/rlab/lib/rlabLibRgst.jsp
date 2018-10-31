@@ -421,7 +421,7 @@
    							<c:if test="${(inputData.bbsCd == '04' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') || 
    							               inputData.target == 'tabContentIfrm3'}">
 	   							<td colspan="3">
-	   								<label>신뢰IP</label>
+	   								<label>신뢰성IP</label>
 	   							</td>
    							</c:if>   							
    							</td>
