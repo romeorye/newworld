@@ -42,6 +42,7 @@
 <style>
  .bgcolor-gray {background-color: #999999}
  .bgcolor-white {background-color: #FFFFFF}
+  #fileList li div.L-filebox {width:372px !important;}
 </style>
 
 	<script type="text/javascript">
@@ -276,7 +277,7 @@
 	                <ul id="fileList" class="attach_file"></ul>
 		        </div>
 		        <br/>
-   				<div class="titArea">
+   				<div class="titArea2">
    					<div class="LblockButton" style="margin:0;">
    						<button type="button" class="btn"   id="deleteAttachFileBtn" name="deleteAttachFileBtn" onclick="deleteAttachFile()">삭제</button>
    					</div>
