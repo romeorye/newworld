@@ -314,7 +314,7 @@
 			<if test="acpcNo == '' and spaceAcpcStCd == '03'">
 				acpc_no = (select 'H' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4)
 						   from   iris_space_rqpr_mst
-						   where  acpc_no like 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '%'),
+						   where  acpc_no like 'H' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '%'),
 				acpc_dt = Convert(varchar(10), getdate(), 120),
 			</if>
 				last_mdfy_dt = getdate(),
