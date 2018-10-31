@@ -8,10 +8,17 @@ public class SpaceEvRnewMailInfo {
 	private String receivers = "";
 	private String evCd = "";
 	private String titl = "";
+	private String rfp = "";
 
 
 
 
+	public String getRfp() {
+		return rfp;
+	}
+	public void setRfp(String rfp) {
+		this.rfp = rfp;
+	}
 	public String getTitl() {
 		return titl;
 	}

@@ -55,6 +55,8 @@ public class SpaceEvRnewMailServiceImpl implements SpaceEvRnewMailService {
 
     		mailSender.setHtmlTemplate("spaceEvRnew", spaceEvRnewMailInfo);
 
+    		mailSender.setCcMailAddress(spaceEvRnewMailInfo.getRfp().split(","));
+
     		mailSender.send();
 
     		HashMap<String, Object> input = new HashMap<String, Object>();
@@ -62,7 +64,7 @@ public class SpaceEvRnewMailServiceImpl implements SpaceEvRnewMailService {
 			input.put("mailTitl", spaceEvRnewMailInfo.getTitl() + " 인증서(성적서) 갱신 요청의 건.");
 			input.put("adreMail", spaceEvRnewMailInfo.getReceivers());
 			input.put("trrMail",  "iris@lghausys.com");
-			input.put("rfpMail",  "");
+			input.put("rfpMail",  spaceEvRnewMailInfo.getRfp());
 			input.put("_userId", "Batch-SpaceApprMail");
 			input.put("_userEmail", "iris@lghausys.com");
 
