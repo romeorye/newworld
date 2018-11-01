@@ -76,6 +76,7 @@
 						, { id: 'rgstDt' }
 						, { id: 'opiSbc' }
 						, { id: 'attcFilId' }
+						, { id: 'userYn' }
      		            ]
      	    });
 
@@ -90,6 +91,7 @@
     		         { id: 'rgstDt', 			ctrlId: 'rgstDt', 			value: 'value' },
     		         { id: 'opiSbc', 			ctrlId: 'opiSbc', 		value: 'value' },
     		         { id: 'attcFilId', 		ctrlId: 'attcFilId', 		value: 'value' },
+    		         { id: 'userYn', 		ctrlId: 'userYn', 		value: 'value' },
     		     ]
     		});
             if(opiId=="0"){
@@ -213,6 +215,12 @@
     			attId = dataSet.getNameValue(0, "attcFilId");
     			//alert(attId);
                 if(!Rui.isEmpty(attId)) getAttachFileList();
+                userYn= dataSet.getNameValue(0, "userYn");
+
+                if(userYn!="Y"){
+                	$('#butAttcFil').hide();
+                	$('#opiSbc').attr("disabled",true);
+                }
             });
 
     		//첨부파일 정보 조회
@@ -285,13 +293,14 @@
 		<input type="hidden" id="rgstId" name="rgstId" />
 		<input type="hidden" id="rgstNm" name="rgstNm" />
 		<input type="hidden" id="rgstDt" name="rgstDt" />
+		<input type="hidden" id="userYn" name="userYn" />
 
 
    		<div class="LblockMainBody">
 
-   			<div class="sub-content">
+   			<div class="sub-content" style="padding:5px 9px 0 9px;">
 
-   				<table class="searchBox">
+   				<table class="table table_txt_right">
    					<colgroup>
    						<col style="width: 120px;" />
 		                <col style="width: *" />
@@ -301,7 +310,7 @@
    					<tbody>
    						<tr>
    							<th align="right">의견</th>
-   							<td colspan="3">
+   							<td colspan="3" style="padding-top:7px;">
    								<input type="text" id="opiSbc" value="">
    							</td>
    						</tr>

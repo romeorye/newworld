@@ -426,6 +426,10 @@
 				   ,Convert(varchar(10), RGST_DT, 120)	  as rgstDt
 				   ,OPI_SBC								  as opiSbc
 				   ,ATTC_FIL_ID							  as attcFilId
+				   ,case when FRST_RGST_ID =#{_userId}
+				         then 'Y'
+				         else 'N'
+				     end as userYn
 			from	iris_anl_rqpr_opi
 			where	1=1
 			and		rqpr_id = ${rqprId}

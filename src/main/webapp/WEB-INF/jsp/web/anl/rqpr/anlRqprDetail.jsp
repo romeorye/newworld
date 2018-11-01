@@ -364,6 +364,8 @@
                 	, { id: 'rgstDt' }
 					, { id: 'opiSbc' }
 					, { id: 'attcFilId' }
+					, { id: 'opiId' }
+					, { id: 'userYn' }
                 ]
             });
 
@@ -412,6 +414,7 @@
                         }}
                     , { field: 'attcFilId',	hidden : true}
                     , { field: 'opiId',	hidden : true}
+                    , { field: 'userYn',	hidden : true}
                 ]
             });
 
@@ -426,6 +429,10 @@
             });
 
             anlRqprOpinitionGrid.render('anlRqprOpinitionGrid');
+
+            anlRqprOpinitionGrid.on('dblclick', function() {
+            	opinitionUpdate();
+            });
 
             opinitionBind = new Rui.data.LBind({
                 groupId: 'anlRqprOpinitionDiv',
@@ -806,21 +813,34 @@
 		        height: 700,
 		        modal: true,
 		        visible: false,
-		        buttons : [
-		            { text: '저장', handler: callChildUpdate, isDefault: true },
-		            { text: '삭제', handler: callChildDel, isDefault: true },
-		            { text:'닫기', handler: function() {
-		              	this.cancel(false);
-		              }
-		            }
-		        ]
+		        buttons : []
 		    });
 
 			opinitionUpdateDialog.render(document.body);
 
 			openOpinitionUpdateDialog = function(f) {
+				var record = anlRqprOpinitionDataSet.getAt(anlRqprOpinitionDataSet.rowPosition);
+            	var userYn = record.data.userYn;
+				if(userYn=="Y"){
+					opinitionUpdateDialog.setButtons([
+            				{ text: '저장', handler: callChildUpdate, isDefault: true },
+            	            { text: '삭제', handler: callChildDel, isDefault: true },
+            	            { text:'닫기', handler: function() {
+            	              	this.cancel(false);
+            	              }
+            	            }
+            	       ]);
+				}else{
+					opinitionUpdateDialog.setButtons([
+                	            { text:'닫기', handler: function() {
+                	              	this.cancel(false);
+                	              }
+                	            }
+                	      ]);
+				}
+
 		    	_callback = f;
-		    	opinitionUpdateDialog.setUrl('<c:url value="/anl/openAddOpinitionPopup.do"/>');
+		    	opinitionUpdateDialog.setUrl('<c:url value="/anl/openAddOpinitionPopup.do"/>'+'?opiId=' + opiId);
 		    	opinitionUpdateDialog.show();
 		    };
 
@@ -846,8 +866,13 @@
 
          	// 수정 버튼
             opinitionUpdate = function() {
-            	opiId=anlRqprOpinitionDataSet.getAt(anlRqprOpinitionDataSet.rowPosition).data.opiId;
-            	openOpinitionUpdateDialog(setOpinitionUpdateInfo);
+            	if(anlRqprOpinitionDataSet.getCount()<1){
+         			alert("선택된 의견이 없습니다.");
+         			return;
+         		}else{
+         			opiId=anlRqprOpinitionDataSet.getAt(anlRqprOpinitionDataSet.rowPosition).data.opiId;
+                	openOpinitionUpdateDialog(setOpinitionUpdateInfo);
+         		}
             };
 
             setOpinitionUpdateInfo = function(opinitionUpdateInfo) {
@@ -1201,7 +1226,7 @@
    				<div class="titArea">
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="opinitionSave()">추가</button>
-   						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="opinitionUpdate()">수정</button>
+   						<!-- <button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="opinitionUpdate()">수정</button> -->
    						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goAnlRqprList()">목록</button>
    					</div>
    				</div>
