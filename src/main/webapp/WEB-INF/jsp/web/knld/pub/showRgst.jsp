@@ -413,7 +413,7 @@
 					<div class="titArea btn_top">
 						<div class="LblockButton">
 							<button type="button" id="saveBtn" name="saveBtn">저장</button>
-							<button type="button" id="buztGoList" name="butGoList">목록</button>
+							<button type="button" id="butGoList" name="butGoList">목록</button>
 						</div>
 					</div>
    				<table class="table table_txt_right">
