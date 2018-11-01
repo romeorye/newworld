@@ -194,66 +194,114 @@
 									<th></th>
 									<th>
 										<dl>
-											<dt>Simulation</dt>
-											<dd>주:이진욱책임</dd>
-											<dd>부:이유지선임</dd>
+											<dt>에너지</dt>
 										</dl>
 									</th>
 									<th>
 										<dl>
-											<dt>Mockup</dt>
-											<dd>주:황효근책임</dd>
-											<dd>부:김준혁선임</dd>
+											<dt>열</dt>
 										</dl>
 									</th>
 									<th>
 										<dl>
-											<dt>Certification</dt>
-											<dd>주:박상훈책임</dd>
-											<dd>부:안남혁선임</dd>
+											<dt>빛</dt>
 										</dl>
 									</th>
+									<th>
+										<dl>
+											<dt>공기질</dt>
+										</dl>
+									</th>
+									<!-- <th>
+										<dl>
+											<dt>음</dt>
+										</dl>
+									</th> -->
 								</thead>
 								<tbody>
 									<tr>
-										<th class="txt-center">에너지</th>
+										<th class="txt-center">
+											<dl>
+												<dt>Simulation</dt>
+												<dd>주:이진욱책임</dd>
+												<dd>부:이유지선임</dd>
+											</dl>
+										</th>
 										<td>
 											<p>
-												<span class="bullet_txt">TRNSYS : 송수빈P,이진욱P (2W)</span>
-												<span class="bullet_txt">Design Builder : 이진욱P,이유지S,안남혁S (2W)</span>
-												<span class="bullet_txt">Energyplus :박상훈P</span>
+												<span class="bullet_txt">TRNSYS : 송수빈P / 이진욱P <em>(2W)</em></span>
+												<span class="bullet_txt">Design Builder : 이진욱P / 이유지S / 안남혁S <em>(2W)</em></span>
+												<span class="bullet_txt">Energyplus :박상훈 <em>(2W)</em></span>
 												<span class="bullet_txt">ECO2:이유지S <em>(2W)</em></span>
 											</p>
 										</td>
-										<td rowspan="2" style="vertical-align:middle !important;">
-											<span class="bullet_txt">황효근P/ 이유지S <em>(협의)</em></span>
+										<td style="vertical-align:middle !important;">
+											<span class="bullet_txt">Window/therm: 송수빈P / 김준혁S <em>(2W)</em></span>
+											<span class="bullet_txt">Physibel: 이진욱P / 이유지S <em>(2W)</em></span>
 										</td>
-										<td rowspan="5" style="vertical-align:middle !important;"><span class="bullet_txt">박상훈P/ 안남혁S <em>(협의)</em></span></td>
+										<td style="vertical-align:middle !important;">
+											<span class="bullet_txt">EcoTec: 이진욱P <em>(2W)</em></span>
+										</td>
+										<td style="vertical-align:middle !important;">
+										</td>
 									</tr>
 									<tr>
-										<th>열</th>
+										<th>
+											<dl>
+												<dt>Mockup</dt>
+												<dd>주:황효근책임</dd>
+												<dd>부:김준혁선임</dd>
+											</dl>
+										</th>
 										<td>
 											<p>
-												<span class="bullet_txt">Window/therm: 송수빈P/ 김준혁S		<em>(2W)</em></span>
-												<span class="bullet_txt">Physibel: 이진욱P/ 이유지S <em>(2W)</em></span>
+												<span class="bullet_txt">황효근P / 이유지S <em>(협의)</em></span>
 											</p>
 										</td>
+										<td>
+											<p>
+												<span class="bullet_txt">황효근P / 이유지S <em>(협의)</em></span>
+											</p>
+										</td>
+										<td>
+											<p>
+												<span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></span>
+											</p>
+										</td>
+										<td>
+											<p>
+												<span class="bullet_txt">김준혁S / 안남혁S <em>(협의)</em></span>
+											</p>
+										</td>
+
 									</tr>
 									<tr>
-										<th>빛</th>
-										<td><span class="bullet_txt">EcoTec: 이진욱P  <em>(2W)</em></td>
-										<td><span class="bullet_txt">박상훈P/ 안남혁S  <em>(협의)</em></td>
-									</tr>
-									<tr>
-										<th>공기질</th>
-										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(2W)</em></td>
-										<td><span class="bullet_txt">김준혁S, 안남혁S <em>(협의)</em></td>
-									</tr>
-									<tr>
-										<th>음</th>
+										<th>
+											<dl>
+												<dt>Certification</dt>
+												<dd>주:박상훈책임</dd>
+												<dd>부:안남혁선임</dd>
+											</dl>
+										</th>
+										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
 										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
 										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
 									</tr>
+
+									<!-- <tr>
+										<th>
+											<dl>
+												<dt>Measurement</dt>
+												<dd>주:박상훈책임</dd>
+												<dd>부:안남혁선임</dd>
+											</dl>
+										</th>
+										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
+									</tr> -->
 								</tbody>
 							</table>
 						</div>

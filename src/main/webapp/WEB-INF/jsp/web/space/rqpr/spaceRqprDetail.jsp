@@ -271,7 +271,7 @@
 			/* 비밀사유 */
             var scrtRson = new Rui.ui.form.LTextBox({
             	applyTo: 'scrtRson',
-                placeholder: '',
+            	placeholder: '상세 사유 기재',
                 defaultValue: '',
                 emptyValue: '',
                 width: 300

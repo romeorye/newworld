@@ -278,7 +278,7 @@
 			/* 비밀사유 */
             var scrtRson = new Rui.ui.form.LTextBox({
             	applyTo: 'scrtRson',
-                placeholder: '',
+            	placeholder: '상세 사유 기재',
                 defaultValue: '',
                 emptyValue: '',
                 width: 300
@@ -1686,6 +1686,7 @@
            		openWindow(url, 'openApprStatePopup', 800, 250, 'yes');
     	    };
 
+    	    <%-- report 사용안함
     	    openRsltReportPopup = function(type) {
     	    	var width = 1200;
             	var url = '<%=lghausysReportPath%>/spaceRqprReportRslt.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
@@ -1696,7 +1697,7 @@
             	}
 
            		openWindow(url, 'openRsltReportPopup', width, 500, 'yes');
-    	    };
+    	    }; --%>
 
 	    	dm.loadDataSet({
                 dataSets: 	[spaceRqprDataSet,
@@ -2005,7 +2006,7 @@
    				<div class="titArea">
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="rsltApprStateBtn" name="rsltApprStateBtn" onclick="openApprStatePopup('C')" style="display:none;">결재상태</button>
-   						<button type="button" class="btn"  id="rsltReportBtn" name="rsltReportBtn" onclick="openRsltReportPopup()">REPORT</button>
+   						<!-- <button type="button" class="btn"  id="rsltReportBtn" name="rsltReportBtn" onclick="openRsltReportPopup()">REPORT</button> -->
    						<button type="button" class="btn"  id="saveRsltBtn" name="saveRsltBtn" onclick="saveSpaceRqprRslt()">저장</button>
    						<button type="button" class="btn"  id="approvalBtn" name="rejectBtn" onclick="approval()">결재의뢰</button>
    						<button type="button" class="btn"  id="stopBtn" name="stopBtn" onclick="stop()">평가중단</button>
