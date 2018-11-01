@@ -50,7 +50,6 @@
 		var spaceRqprDataSet;
 		var opiId;
 		var rqprId = '${inputData.MW_TODO_REQ_NO}';
-		alert(rqprId);
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언

@@ -7,12 +7,12 @@
 <%--
 /*
  *************************************************************************
- * $Id		: rlabRqprDetail.jsp
- * @desc    : 시험의뢰서 상세
+ * $Id		: rlabRqprStptTodo.jsp
+ * @desc    : 신뢰성만족도 Todo
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2018.08.16  정현웅		최초생성
+ * 1.0
  * ---	-----------	----------	-----------------------------------------
  * WINS UPGRADE 2차 프로젝트
  *************************************************************************
@@ -59,33 +59,31 @@
             var dm = new Rui.data.LDataSetManager();
 
             dm.on('load', function(e) {
+ 				/* if(rlabRqprStptDataSet.getNameValue(0, 'rlabAllStpt')=="0" || rlabRqprStptDataSet.getNameValue(0, 'rlabAllStpt')==""){
+					$("#saveStpt").show();
+					$("#rsltStpt").hide();
+				}else{
+					$("#saveStpt").hide();
+					$("#rsltStpt").show();
+					var rlabCnsQltyWidth = rlabRqprStptDataSet.getNameValue(0, 'rlabCnsQlty')*20;
+					var rlabTrmQltyWidth = rlabRqprStptDataSet.getNameValue(0, 'rlabTrmQlty')*20;
+					var rlabAllStptWidth = rlabRqprStptDataSet.getNameValue(0, 'rlabAllStpt')*20;
+					$("#rlabCnsQltyRslt").width(rlabCnsQltyWidth+"%");
+					$("#rlabTrmQltyRslt").width(rlabTrmQltyWidth+"%");
+					$("#rlabAllStptRslt").width(rlabAllStptWidth+"%");
+				}
+ */
             });
 
             dm.on('success', function(e) {
-                var data = rlabRqprSmpoDataSet.getReadData(e);
+                dm.loadDataSet({
+                    dataSets: [rlabRqprDataSet, rlabRqprStptDataSet],
+                    url: '<c:url value="/rlab/getRlabRqprDetailInfo.do"/>',
+                    params: {
+                        rqprId: rqprId
+                    }
+                });
 
-                if(Rui.isEmpty(data.records[0].resultMsg) == false) {
-                    alert(data.records[0].resultMsg);
-                }
-
-                if(data.records[0].resultYn == 'Y') {
-                	if(data.records[0].cmd == 'update') {
-                		;
-                	} else if(data.records[0].cmd == 'requestApproval') {
-                		// guid= B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료 + rqprId
-                    	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00333&approvalLineInform=SUB001&from=iris&guid=B${inputData.rqprId}';
-
-                   		openWindow(url, 'rlabRqprApprovalPop', 800, 500, 'yes');
-                	} else {
-                		dm.loadDataSet({
-                            dataSets: [rlabRqprDataSet],
-                            url: '<c:url value="/rlab/getRlabRqprDetailInfo.do"/>',
-                            params: {
-                                rqprId: rqprId
-                            }
-                        });
-                	}
-                }
             });
 
 
@@ -291,7 +289,7 @@
             });
 
           	rlabRqprStptDataSet.on('load', function(e) {
-				if(rlabRqprStptDataSet.getNameValue(0, 'rlabAllStpt')=="0"){
+ 				if(rlabRqprStptDataSet.getNameValue(0, 'rlabAllStpt')=="0"){
 					$("#saveStpt").show();
 					$("#rsltStpt").hide();
 				}else{
@@ -338,6 +336,7 @@
     	    	         	, rlabAllStpt : rlabAllStptVal
     	    	       }
                     });
+
                	}
             };
 

@@ -19,7 +19,7 @@
 				CMPL_PARR_DT									AS 'cmplParrDt',
 				CMPL_DT											AS 'cmplDt',
 				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ANL_UGY_YN' and COM_DTL_CD = RLAB_UGY_YN) 	AS 'rlabUgyYnNm',
-				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ACPC_ST_CD' and COM_DTL_CD = RLAB_ACPC_ST_CD) 	AS 'acpcStNm',
+				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'RLAB_ACPC_ST_CD' and COM_DTL_CD = RLAB_ACPC_ST_CD) 	AS 'acpcStNm',
 				(select isnull(sum(smpo_qty), 0)
 				 from	IRIS_RLAB_RQPR_SMPO
 				 where	rqpr_id = mst.rqpr_id

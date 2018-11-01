@@ -1593,7 +1593,7 @@ public class RlabRqprController extends IrisBaseController {
 
 		try {
 			rlabRqprService.saveRlabRqprStpt(input);
-
+			resultMap.put("rtCd", "SUCCESS");
 			resultMap.put("resultYn", "Y");
 			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
 		} catch (Exception e) {
