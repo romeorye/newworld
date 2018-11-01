@@ -44,10 +44,18 @@
     response.setDateHeader("Expires", 0);
     response.setHeader("Cache-Control", "no-cache");
 
-	//useage
-	//목록http://127.0.0.1:8080/iris/index.do?parentMenuId=IRIPJ0600&menuMoveYn=Y&vMenuId=PJ&menuId=IRIPJ0601&menuPath=/prj/grs/listGrsMngInfo.do
-	//과제번호,GRS평가,평가표번호http://127.0.0.1:8080/iris/index.do?parentMenuId=IRIPJ0600&menuMoveYn=Y&vMenuId=PJ&menuId=IRIPJ0601&menuPath=/prj/grs/listGrsMngInfo.do?tssCd=G180090002,1,41
-	//과제번호,GRS평가http://127.0.0.1:8080/iris/index.do?parentMenuId=IRIPJ0600&menuMoveYn=Y&vMenuId=PJ&menuId=IRIPJ0601&menuPath=/prj/grs/listGrsMngInfo.do?tssCd=G180090002,1,
+
+    /* ====================================== 평가요청 바로 접속 시작 ====================================== 
+/*
+    로그인
+    http:10.39.214.47:8080/iris/lycos.jsp
+    목록
+    http:10.39.214.47:8080/iris/index.do?parentMenuId=IRIPJ0600&menuMoveYn=Y&vMenuId=PJ&menuId=IRIPJ0601&menuPath=/prj/grs/listGrsMngInfo.do
+    과제번호,GRS평가,평가표번호
+    http:10.39.214.47:8080/iris/index.do?parentMenuId=IRIPJ0600&menuMoveYn=Y&vMenuId=PJ&menuId=IRIPJ0601&menuPath=/prj/grs/listGrsMngInfo.do?tssCd=G180090002,1,41
+    과제번호,GRS평가
+    http:10.39.214.47:8080/iris/index.do?parentMenuId=IRIPJ0600&menuMoveYn=Y&vMenuId=PJ&menuId=IRIPJ0601&menuPath=/prj/grs/listGrsMngInfo.do?tssCd=G180090002,1,
+*/
     String evTssCd = (String)request.getParameter("tssCd");
     String evTssCdSn = "null";
     String evGrsEvSn = "null";
@@ -57,6 +65,7 @@
         if(param.length>1)evTssCdSn = param[1];
 		if(param.length>2)evGrsEvSn = param[2];
     }
+    /* ====================================== 평가요청 바로 접속 종료 ====================================== */
 %>
 
 <style>
@@ -70,6 +79,7 @@
 %>
     <!-- 그리드 소스 -->
 <script type="text/javascript">
+    /* ====================================== 평가요청 바로 접속 시작 ====================================== */
 	var evTssCd = "<%=evTssCd%>";
 	var evTssCdSn = "<%=evTssCdSn%>";
 	var evGrsEvSn = "<%=evGrsEvSn%>";
@@ -77,6 +87,7 @@
 	window.onload = function(){
         drEvTssPop(evTssCd,evTssCdSn,evGrsEvSn);
 	}
+    /* ====================================== 평가요청 바로 접속 종료 ====================================== */
 
     var todoYN = stringNullChk("${inputData.LOGIN_SYS_CD}") != "" ? true : false;
 
@@ -140,7 +151,8 @@
                      { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
                      { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70, vMerge: true },
 				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , vMerge: true , renderer: function(val, p, record, row, i){
-                         return "<a href='javascript:modifyTss("+row+");'><u>" + val + (record.data.isTmp=='1'?' (임)':'')+"<u></a>";
+                         return "<a href='javascript:modifyTss("+row+");'><u>" + val +"<u></a>";
+                             /*+ (record.data.isTmp=='1'?' (임)':'')*/
                      } },
                      { field: 'prjNm',   label: '프로젝트명',  align:'center',  width: 100 },
                      { field: 'leaderNm',   label: '과제리더',  align:'center',  width: 70},
@@ -249,6 +261,8 @@
                 {id:'tssType', validExp:'신제품유형:true'}
             ]
         });
+
+
 
         var   infoVali2 = new Rui.validate.LValidatorManager({
             validators:[
