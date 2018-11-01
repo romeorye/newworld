@@ -473,6 +473,8 @@
                 	, { id: 'rgstDt' }
 					, { id: 'opiSbc' }
 					, { id: 'attcFilId' }
+					, { id: 'opiId' }
+					, { id: 'userYn' }
                 ]
             });
 
@@ -521,6 +523,7 @@
                         }}
                     , { field: 'attcFilId',	hidden : true}
                     , { field: 'opiId',	hidden : true}
+                    , { field: 'userYn',	hidden : true}
                 ]
             });
 
@@ -535,6 +538,10 @@
             });
 
             spaceRqprOpinitionGrid.render('spaceRqprOpinitionGrid');
+
+            spaceRqprOpinitionGrid.on('dblclick', function() {
+            	opinitionUpdate();
+            });
 
             /* 의뢰정보 데이터 바인드 */
             bind = new Rui.data.LBind({
@@ -1259,19 +1266,31 @@
 		        height: 700,
 		        modal: true,
 		        visible: false,
-		        buttons : [
-		            { text: '저장', handler: callChildUpdate, isDefault: true },
-		            { text: '삭제', handler: callChildDel, isDefault: true },
-		            { text:'닫기', handler: function() {
-		              	this.cancel(false);
-		              }
-		            }
-		        ]
+		        buttons : []
 		    });
 
 			opinitionUpdateDialog.render(document.body);
 
 			openOpinitionUpdateDialog = function(f) {
+				var record = spaceRqprOpinitionDataSet.getAt(spaceRqprOpinitionDataSet.rowPosition);
+            	var userYn = record.data.userYn;
+				if(userYn=="Y"){
+					opinitionUpdateDialog.setButtons([
+            				{ text: '저장', handler: callChildUpdate, isDefault: true },
+            	            { text: '삭제', handler: callChildDel, isDefault: true },
+            	            { text:'닫기', handler: function() {
+            	              	this.cancel(false);
+            	              }
+            	            }
+            	       ]);
+				}else{
+					opinitionUpdateDialog.setButtons([
+                	            { text:'닫기', handler: function() {
+                	              	this.cancel(false);
+                	              }
+                	            }
+                	      ]);
+				}
 		    	_callback = f;
 		    	opinitionUpdateDialog.setUrl('<c:url value="/space/openAddOpinitionPopup.do"/>');
 		    	opinitionUpdateDialog.show();

@@ -450,6 +450,8 @@
                 	, { id: 'rgstDt' }
 					, { id: 'opiSbc' }
 					, { id: 'attcFilId' }
+					, { id: 'opiId' }
+					, { id: 'userYn' }
                 ]
             });
 
@@ -498,6 +500,7 @@
                         }}
                     , { field: 'attcFilId',	hidden : true}
                     , { field: 'opiId',	hidden : true}
+                    , { field: 'userYn',	hidden : true}
                 ]
             });
 
@@ -513,6 +516,9 @@
 
             spaceRqprOpinitionGrid.render('spaceRqprOpinitionGrid');
 
+            spaceRqprOpinitionGrid.on('dblclick', function() {
+            	opinitionUpdate();
+            });
 
             bind = new Rui.data.LBind({
                 groupId: 'aform',
@@ -1119,21 +1125,34 @@
 		        height: 700,
 		        modal: true,
 		        visible: false,
-		        buttons : [
-		            { text: '저장', handler: callChildUpdate, isDefault: true },
-		            { text: '삭제', handler: callChildDel, isDefault: true },
-		            { text:'닫기', handler: function() {
-		              	this.cancel(false);
-		              }
-		            }
-		        ]
+		        buttons : []
 		    });
 
 			opinitionUpdateDialog.render(document.body);
 
 			openOpinitionUpdateDialog = function(f) {
+				var record = spaceRqprOpinitionDataSet.getAt(spaceRqprOpinitionDataSet.rowPosition);
+            	var userYn = record.data.userYn;
+				if(userYn=="Y"){
+					opinitionUpdateDialog.setButtons([
+            				{ text: '저장', handler: callChildUpdate, isDefault: true },
+            	            { text: '삭제', handler: callChildDel, isDefault: true },
+            	            { text:'닫기', handler: function() {
+            	              	this.cancel(false);
+            	              }
+            	            }
+            	       ]);
+				}else{
+					opinitionUpdateDialog.setButtons([
+                	            { text:'닫기', handler: function() {
+                	              	this.cancel(false);
+                	              }
+                	            }
+                	      ]);
+				}
+
 		    	_callback = f;
-		    	opinitionUpdateDialog.setUrl('<c:url value="/space/openAddOpinitionPopup.do"/>');
+		    	opinitionUpdateDialog.setUrl('<c:url value="/space/openAddOpinitionPopup.do"/>'+'?opiId=' + opiId);
 		    	opinitionUpdateDialog.show();
 		    };
 
@@ -1839,7 +1858,7 @@
    				<div class="titArea">
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="opinitionSave()">추가</button>
-   						<button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="opinitionUpdate()">수정</button>
+   						<!-- <button type="button" class="btn"  id="deleteBtn" name="deleteBtn" onclick="opinitionUpdate()">수정</button> -->
    						<button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goSpaceRqprList()">목록</button>
    					</div>
    				</div>
