@@ -222,8 +222,8 @@ var imgHeight;
      	fxaTrsfDialog = new Rui.ui.LFrameDialog({
 	        id: 'fxaTrsfDialog',
 	        title: '자산이관',
-	        width:  800,
-	        height: 400,
+	        width:  900,
+	        height: 500,
 	        modal: true,
 	        visible: false
 	    });
