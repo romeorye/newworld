@@ -114,8 +114,8 @@ var crgrNm;
 	    prjUserSearchDialog = new Rui.ui.LFrameDialog({
 	        id: 'prjUserSearchDialog',
 	        title: '사용자 조회',
-	        width: 600,
-	        height: 280,
+	        width: 650,
+	        height: 350,
 	        modal: true,
 	        visible: false
 	    });
