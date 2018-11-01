@@ -443,8 +443,15 @@
 				   ,Convert(varchar(10), RGST_DT, 120)	  as rgstDt
 				   ,OPI_SBC								  as opiSbc
 				   ,ATTC_FIL_ID	                          as attcFilId
+				   ,case when FRST_RGST_ID =#{_userId}
+				         then 'Y'
+				         else 'N'
+				     end as userYn
 			from	iris_rlab_rqpr_opi
 			where	rqpr_id = ${rqprId}
+			<if test="opiId != null and opiId != ''">
+				AND OPI_ID = #{opiId}
+			</if>
 			and		del_yn = 'N'
 			order by rgst_dt desc
 
