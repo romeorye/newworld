@@ -64,9 +64,9 @@
         
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
-                      { field: 'prjNm'      ,label: '프로젝트명',	sortable: false,	align:'left', width:290 }
-                    , { field: 'saName'     ,label: '이름', 		sortable: false,	align:'center', width: 120}
-					, { field: 'saJobxName' ,label: '직위',  		sortable: false,	align:'center', width: 120}
+                      { field: 'prjNm'      ,label: '프로젝트명',	sortable: false,	align:'left', width:350 }
+                    , { field: 'saName'     ,label: '이름', 		sortable: false,	align:'center', width: 125}
+					, { field: 'saJobxName' ,label: '직위',  		sortable: false,	align:'center', width: 125}
                     , { field: 'saSabun'  	,hidden : true }
                     , { field: 'wbsCd'  	,hidden : true }
             ]
@@ -77,7 +77,7 @@
         var grid = new Rui.ui.grid.LGridPanel({
             columnModel: columnModel,
             dataSet: userDataSet,
-            width: 550,
+            width: 618,
             height: 180
         });
 
@@ -113,10 +113,17 @@
 	<input type="hidden" id="cnt" name="cnt" value="${inputData.cnt}"/>
 	<input type="hidden" id="userIds" name="userIds" value="${inputData.userIds}"/>
 
-	<div class="bd">
-		<div class="sub-content">
-			<table class="searchBox">
-				<tbody>
+	   			<div class="search mb5">
+				<div class="search-content">
+			   				<table>
+   					<colgroup>
+   						<col style="width:80px;">
+   						<col style="">
+   						<col style="width:80px;">
+   						<col style="">
+   						<col style="width:80px;">
+   					</colgroup>
+   					<tbody>
 					<tr>
 						<th align="right">PJT명</th>
 						<td>
@@ -126,15 +133,17 @@
 						<td>
 							<input type="text" id="userNm" value="">
 						</td>
-						<td class="t_center">
+						<td class="txt-right">
 							<a style="cursor: pointer;" onclick="getUserList();" class="btnL">검색</a>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-
-			<div id="userGrid"></div>
+			</div>
 		</div><!-- //sub-content -->
+		
+		<div id="userGrid"></div>
+
 	</div><!-- //contents -->
 </form>
 </body>
