@@ -93,24 +93,4 @@ public class RlabStatServiceImpl implements RlabStatService {
 		return commonDao.selectList("stat.rlab.retrieveRlabMchnUseStatList", input);
 	}
 
-	/**
-    * 통계 > 장비사용통계 장비분류 소분류
-    * @param input HashMap<String, Object>
-    * @return ModelAndView
-    * */
-	@Override
-	public List<Map<String, Object>> retrieveRlabMchnClDtlCd(HashMap<String, Object> input){
-		return commonDao.selectList("stat.rlab.retrieveRlabMchnClDtlCd", input);
-	}
-
-	/**
-    * 통계 > 장비사용통계 조회 장비분류 대분류
-    * @param input HashMap<String, Object>
-    * @return ModelAndView
-    * */
-	@Override
-	public List<Map<String, Object>> retrieveRlabMchnClCd(HashMap<String, Object> input){
-		return commonDao.selectList("stat.rlab.retrieveRlabMchnClCd", input);
-	}
-
 }

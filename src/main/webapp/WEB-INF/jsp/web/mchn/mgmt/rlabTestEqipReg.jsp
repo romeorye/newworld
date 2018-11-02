@@ -116,7 +116,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			}
 
 			mchnClDtlCdDataSet.load({
-				url: '<c:url value="/stat/rlab/retrieveRlabMchnClDtlCd.do"/>'
+				url: '<c:url value="/rlab/retrieveRlabMchnClDtlCd.do"/>'
 	                ,params :{
 	                	exatCd : dataSet.getNameValue(0, "mchnLaclCd")
 	                }
@@ -175,7 +175,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			name : 'mchnLaclCd',
 			useEmptyText: true,
 		    emptyText: '선택하세요',
-		    url: '<c:url value="/stat/rlab/retrieveRlabMchnClCd.do"/>',
+		    url: '<c:url value="/rlab/retrieveRlabMchnClCd.do"/>',
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD',
 			width: 180
@@ -184,7 +184,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		cbmchnLaclCd.on('changed', function(e){
 			mchnClDtlCdDataSet.clearData();
 			mchnClDtlCdDataSet.load({
-				url: '<c:url value="/stat/rlab/retrieveRlabMchnClDtlCd.do"/>'
+				url: '<c:url value="/rlab/retrieveRlabMchnClDtlCd.do"/>'
 	                ,params :{
 	                	exatCd : e.value
 	                }
@@ -565,7 +565,7 @@ var faxInfoDialog;	//고정자산관리 팝업
     			mdlNm.focus();
     			return false;
     		}
-    		if( Rui.isEmpty(cbmchnLaclCd.getValue())){
+/*     		if( Rui.isEmpty(cbmchnLaclCd.getValue())){
     			Rui.alert("대분류는 필수항목입니다.");
     			cbmchnLaclCd.focus();
     			return false;
@@ -574,7 +574,7 @@ var faxInfoDialog;	//고정자산관리 팝업
     			Rui.alert("소분류는 필수항목입니다.");
     			cbmchnClDtlCd.focus();
     			return false;
-    		}
+    		} */
     		if( Rui.isEmpty(cbmchnClCd.getValue())){
     			Rui.alert("장비종류는 필수항목입니다.");
     			cbmchnClCd.focus();

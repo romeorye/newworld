@@ -114,4 +114,14 @@ public interface RlabRqprService {
 
 	/* 만족도저장 */
 	public boolean saveRlabRqprStpt(Map<String, Object> input) throws Exception;
+
+	/**
+     * 통계 > 장비사용통계 장비분류 소분류
+     * */
+	List<Map<String, Object>> retrieveRlabMchnClDtlCd(HashMap<String, Object> input);
+
+	/**
+     * 통계 > 장비사용통계 장비분류 대분류
+     * */
+	List<Map<String, Object>> retrieveRlabMchnClCd(HashMap<String, Object> input);
 }

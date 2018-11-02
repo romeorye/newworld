@@ -249,7 +249,7 @@ public class RlabRqprController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 
 		input = StringUtil.toUtf8(input);
-		List<Map<String,Object>> mchnClCdlist = rlabStatService.retrieveRlabMchnClCd(input);
+		List<Map<String,Object>> mchnClCdlist = rlabRqprService.retrieveRlabMchnClCd(input);
         model.addAttribute("inputData", input);
         model.addAttribute("mchnClCdlist", mchnClCdlist);
 
@@ -1630,5 +1630,66 @@ public class RlabRqprController extends IrisBaseController {
 
 		return "web/rlab/rqpr/rlabRqprStptTodo";
 	}
+
+
+
+	/**
+     * 통계 > 신뢰성시험 > 장비분류 소분류 조회
+     *
+     * @param input HashMap<String, Object>
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return ModelAndView
+     * */
+    @RequestMapping(value="/rlab/retrieveRlabMchnClDtlCd.do")
+    public ModelAndView retrieveRlabMchnClDtlCd(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+            HttpServletResponse response, HttpSession session, ModelMap model) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("retrieveRlabMchnClDtlCd [통계 > 신뢰성시험 > 장비사용통계 장비분류 소분류조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        checkSessionObjRUI(input, session, model);
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        List<Map<String,Object>> list = rlabRqprService.retrieveRlabMchnClDtlCd(input);
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", list));
+
+        return modelAndView;
+    }
+
+    /**
+     * 통계 > 신뢰성시험 > 장비분류 대분류 조회
+     *
+     * @param input HashMap<String, Object>
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return ModelAndView
+     * */
+    @RequestMapping(value="/rlab/retrieveRlabMchnClCd.do")
+    public ModelAndView retrieveRlabMchnClCd(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+            HttpServletResponse response, HttpSession session, ModelMap model) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("retrieveRlabMchnClCd [통계 > 신뢰성시험 > 장비사용통계 장비분류 대분류조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        checkSessionObjRUI(input, session, model);
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        List<Map<String,Object>> list = rlabRqprService.retrieveRlabMchnClCd(input);
+
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", list));
+
+        return modelAndView;
+    }
+
 
 }

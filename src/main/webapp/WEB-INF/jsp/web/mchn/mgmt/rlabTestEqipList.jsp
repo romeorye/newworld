@@ -126,7 +126,7 @@
 			defaultValue: '',
 			useEmptyText: true,
 	        emptyText: '전체',
-	        url: '<c:url value="/stat/rlab/retrieveRlabMchnClCd.do"/>',
+	        url: '<c:url value="/rlab/retrieveRlabMchnClCd.do"/>',
 	    	displayField: 'COM_DTL_NM',
 	    	valueField: 'COM_DTL_CD',
 	    	width : 200

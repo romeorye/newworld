@@ -756,5 +756,17 @@ public class RlabRqprServiceImpl implements RlabRqprService {
     	}
    	}
 
+	@Override
+	public List<Map<String, Object>> retrieveRlabMchnClDtlCd(
+			HashMap<String, Object> input) {
+		return commonDao.selectList("rlab.rqpr.retrieveRlabMchnClDtlCd", input);
+	}
+
+	@Override
+	public List<Map<String, Object>> retrieveRlabMchnClCd(
+			HashMap<String, Object> input) {
+		return commonDao.selectList("rlab.rqpr.retrieveRlabMchnClCd", input);
+	}
+
 
 }

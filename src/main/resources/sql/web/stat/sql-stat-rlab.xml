@@ -493,29 +493,6 @@
 		 ]]>
 	</select>
 
-    <select id="retrieveRlabMchnClDtlCd" resultType="HashMap">
-        <![CDATA[
-	/*retrieveRlabMchnClDtlCd 장비분류 코드 목록*/
-        SELECT EXAT_NM as COM_DTL_NM
-		      ,EXAT_CD as COM_DTL_CD
-		 FROM IRIS_RLAB_EXAT_MST
-		WHERE 1=1
-		  AND EXAT_CD_L='3'
-		  AND DEL_YN='N'
-		  AND CAST(SUPI_EXAT_CD AS CHAR(10))=#{exatCd}
-        ]]>
-    </select>
 
-    <select id="retrieveRlabMchnClCd" resultType="HashMap">
-        <![CDATA[
-	/*retrieveRlabMchnClDtlCd 장비분류 코드 목록*/
-        SELECT EXAT_NM as COM_DTL_NM
-		      ,EXAT_CD as COM_DTL_CD
-		 FROM IRIS_RLAB_EXAT_MST
-		WHERE 1=1
-		  AND EXAT_CD_L='2'
-		  AND DEL_YN='N'
-        ]]>
-    </select>
 
 </mapper>
