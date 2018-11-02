@@ -84,7 +84,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		           	 ,{ id: 'mchnLoc'}
 		           	 ,{ id: 'mchnExpl'}
 		           	 ,{ id: 'attcFilId'}
-		           	 ,{ id: 'rlabSmry'}
+		           	 ,{ id: 'mchnSmry'}
 		           	 ,{ id: 'mchnCrgrId'}
 		           	 ,{ id: 'mchnUsePsblYn'}
 		           	 ,{ id: 'mnScrnDspYn'}
@@ -108,7 +108,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			cbOpnYn.setValue(dataSet.getNameValue(0,"opnYn"));
 
 			if(dataSet.getNameValue(0, "mchnInfoId")  != "" ||  dataSet.getNameValue(0, "mchnInfoId")  !=  undefined ){
-				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "rlabSmry") );
+				CrossEditor.SetBodyValue( dataSet.getNameValue(0, "mchnSmry") );
 			}
 
 			if(!Rui.isEmpty(dataSet.getNameValue(0, "fxaNo"))){
@@ -363,7 +363,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		         { id: 'mchnCrgrId', 		ctrlId: 'mchnCrgrId', 		value: 'value' },
 		         { id: 'mchnLoc', 			ctrlId: 'mchnLoc', 			value: 'value' },
 		         { id: 'mchnExpl', 			ctrlId: 'mchnExpl', 		value: 'value' },
-		         { id: 'rlabSmry', 			ctrlId: 'rlabSmry', 		value: 'value' },
+		         { id: 'mchnSmry', 			ctrlId: 'mchnSmry', 		value: 'value' },
 		         { id: 'mchnUsePsblYn', 	ctrlId: 'mchnUsePsblYn', 	value: 'value' },
 		         { id: 'mnScrnDspYn', 		ctrlId: 'mnScrnDspYn', 		value: 'value' },
 		         { id: 'attcFilId', 		ctrlId: 'attcFilId', 		value: 'value' },
@@ -610,7 +610,7 @@ var faxInfoDialog;	//고정자산관리 팝업
      		    return false;
      		}
 
-    		frm.rlabSmry.value = CrossEditor.GetBodyValue();
+    		frm.mchnSmry.value = CrossEditor.GetBodyValue();
 
     		return true;
      	}
@@ -769,9 +769,9 @@ var faxInfoDialog;	//고정자산관리 팝업
 						<tr>
 							<th  align="right"><span style="color:red;">*  </span>개요</th>
 							<td colspan="3">
-								<textarea id="rlabSmry" name="rlabSmry"></textarea>
+								<textarea id="mchnSmry" name="mchnSmry"></textarea>
 									<script type="text/javascript" language="javascript">
-										var CrossEditor = new NamoSE('rlabSmry');
+										var CrossEditor = new NamoSE('mchnSmry');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
 										var uploadPath = "<%=uploadPath%>";
@@ -781,7 +781,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 										CrossEditor.EditorStart();
 
 										function OnInitCompleted(e){
-											e.editorTarget.SetBodyValue(document.getElementById("rlabSmry").value);
+											e.editorTarget.SetBodyValue(document.getElementById("mchnSmry").value);
 										}
 									</script>
 							</td>

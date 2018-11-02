@@ -377,7 +377,7 @@ h3 {
 		        id: 'mchnDialog',
 		        title: '평가TOOL 조회',
 		        width:  900,
-		        height: 500,
+		        height: 550,
 		        modal: true,
 		        visible: false,
 		        buttons : [

@@ -18,7 +18,7 @@
  *************************************************************************
  */
 --%>
-				 
+
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,7 +43,7 @@
 </style>
 
 	<script type="text/javascript">
-        
+
 		Rui.onReady(function() {
             /*******************
              * 변수 및 객체 선언
@@ -56,17 +56,17 @@
                  emptyValue: '',
                  width : 180
             });
-            
+
             deptNm.on('blur', function(e) {
             	deptNm.setValue(deptNm.getValue().trim());
             });
-            
+
             deptNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
             		getUserList();
             	}
             });
-            
+
             var userNm = new Rui.ui.form.LTextBox({
                  applyTo : 'userNm',
                  placeholder : '',
@@ -75,17 +75,17 @@
                  width : 180
             });
             userNm.focus();
-            
+
             userNm.on('blur', function(e) {
             	// userNm.setValue(userNm.getValue().trim());
             });
-            
+
             userNm.on('keypress', function(e) {
             	if(e.keyCode == 13) {
             		getUserList();
             	}
             });
-			
+
             /*******************
              * 변수 및 객체 선언
             *******************/
@@ -115,7 +115,7 @@
               	  	  new Rui.ui.grid.LSelectionColumn(),
               	</c:if>
                       { field : 'saName',		label : '이름',		sortable : false,	align :'center',	width : 80 }
-                    , { field : 'saJobxName',	label : '직위',		sortable : false,	align :'center',	width : 80 }
+                    , { field : 'saJobxName',	label : '직위',		sortable : false,	align :'center',	width : 57 }
                     , { field : 'deptName',		label : '부서',		sortable : false,	align :'center',	width : (cnt == 1 ? 360 : 340) }
                 ]
             });
@@ -130,23 +130,23 @@
             });
 
             userGrid.render('userGrid');
-            
+
 
             userGrid.on('cellDblClick', function(e) {
             	<c:if test="${inputData.cnt != 1}">
             		var record =  userDataSet.getAt(userDataSet.getRow());
-            		
+
             		if(selectUserDataSet.findRow('saSabun', record.data.saSabun) == -1) {
 						selectUserDataSet.add(record.clone());
             		}
-            		
-	            </c:if>	
+
+	            </c:if>
             	<c:if test="${inputData.cnt == 1}">
             		parent._callback(userDataSet.getAt(e.row).data);
             		parent._userSearchDialog.submit(true);
-	            </c:if>	
+	            </c:if>
             });
-            
+
             /* [버튼] 조회 */
             getUserList = function() {
             	userDataSet.load({
@@ -162,7 +162,7 @@
 
         <c:if test="${inputData.cnt != 1}">
 	        var selectUserDataSet = userDataSet.clone('selectUserDataSet');
-	
+
 	        var selectUserColumnModel = new Rui.ui.grid.LColumnModel({
 	            columns : [
 	          	  	  new Rui.ui.grid.LSelectionColumn()
@@ -171,7 +171,7 @@
 	                , { field : 'deptName',		label : '부서',		sortable : false,	align :'center',	width : 340 }
 	            ]
 	        });
-	
+
 	        var selectUserGrid = new Rui.ui.grid.LGridPanel({
 	            columnModel : selectUserColumnModel,
 	            dataSet : selectUserDataSet,
@@ -180,9 +180,9 @@
 	            autoToEdit : false,
 	            autoWidth : true
 	        });
-	        
+
 	        selectUserGrid.render('selectUserGrid');
-	        
+
 	        if($('#userIds').val() != '') {
 	        	selectUserDataSet.load({
 	                url : '<c:url value="/system/user/getUserList.do"/>',
@@ -194,18 +194,18 @@
 	                }
 	            });
 	        }
-	        
+
 	        /* [버튼] 추가 */
 	        addUser = function() {
 	        	var selectUser = userDataSet.getMarkedRange();
-	        	
+
 				for(var i = 0, size = userDataSet.getMarkedCount(); i < size ; i++ ){
 					if(selectUserDataSet.findRow('saSabun', selectUser.items[i].data.saSabun) == -1) {
 	        			selectUserDataSet.add(selectUser.items[i].clone());
 					}
 				}
 	        };
-	
+
 	        /* [버튼] 삭제 */
 	        deleteUser = function() {
 				for( var i = selectUserDataSet.getCount(); i > -1 ; i-- ) {
@@ -214,14 +214,14 @@
 					}
 				}
 	        };
-	        
+
 	        getSelectUser = function() {
 	        	var userList = [];
-	        	
+
 				for( var i = 0, size = selectUserDataSet.getCount(); i < size ; i++ ) {
 					userList.push(selectUserDataSet.getAt(i).data);
 				}
-				
+
 				return userList;
 	        };
       	</c:if>
@@ -239,7 +239,7 @@
 	<form name="aform" id="aform" method="post">
 		<input type="hidden" id="cnt" name="cnt" value="${inputData.cnt}"/>
 		<input type="hidden" id="userIds" name="userIds" value="${inputData.userIds}"/>
-		
+
    		<div class="LblockMainBody">
 
    			<div class="sub-content" style="padding:0; padding-left:3px;">
@@ -273,7 +273,7 @@
    				</div>
 
    				<div id="userGrid"></div>
-   				
+
         	<c:if test="${inputData.cnt != 1}">
    				<div class="titArea">
    					<div class="LblockButton">
@@ -281,7 +281,7 @@
    						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="deleteUser();">삭제</button>
    					</div>
    				</div>
-   				
+
    				<div id="selectUserGrid"></div>
    			</c:if>
    			</div><!-- //sub-content -->

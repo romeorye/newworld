@@ -183,7 +183,7 @@ INSERT  (
 				,dbo.fn_getComDtlNm('MCHN_CL_CD', A.MCHN_CL_CD) as mchnClNm
 				,A.SMPO_QTY       as "smpoQty"
 		FROM    IRIS_RLAB_MCHN_INFO_MGMT A
-		        INNER JOIN IRIS_SSO_USER C
+		        LEFT OUTER JOIN IRIS_SSO_USER C
 				ON C.SA_SABUN_NEW = A.MCHN_CRGR_ID
 		        LEFT OUTER JOIN IRIS_FXA_INFO_MST B
 				ON B.FXA_NO = A.FXA_NO

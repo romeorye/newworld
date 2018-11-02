@@ -365,7 +365,7 @@
 		        id: 'mchnDialog',
 		        title: '신뢰성시험 장비 조회',
 		        width:  900,
-		        height: 500,
+		        height: 550,
 		        modal: true,
 		        visible: false,
 		        buttons : [

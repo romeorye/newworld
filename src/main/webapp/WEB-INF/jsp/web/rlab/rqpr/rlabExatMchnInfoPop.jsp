@@ -61,9 +61,9 @@
 	        	 {field: 'mchnNm'     ,label:'기기명' ,	sortable: false, align: 'center', width: 260}
 	        	,{field: 'mdlNm'      ,label:'모델명' , sortable: false, align: 'center', width: 130}
 	        	,{field: 'mkrNm'      ,label:'제조사' , sortable: false, align: 'center', width: 130}
-	        	,{field: 'mchnLaclNm'   ,label:'대분류'   , sortable: false, align: 'center', width: 130}
-	        	,{field: 'mchnClDtlNm'   ,label:'소분류'   , sortable: false, align: 'center', width: 100}
-	        	,{field: 'mchnCrgrNm' ,label:'담당자' , sortable: false, align: 'center', width: 100}
+	        	,{field: 'mchnLaclNm'   ,label:'대분류'   , sortable: false, align: 'center', width: 110}
+	        	,{field: 'mchnClDtlNm'   ,label:'소분류'   , sortable: false, align: 'center', width: 110}
+	        	,{field: 'mchnCrgrNm' ,label:'담당자' , sortable: false, align: 'center', width: 106}
 	        	,{field: 'mchnInfoId' ,hidden : true}
 	        ]
 	    });
