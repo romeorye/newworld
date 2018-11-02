@@ -7,12 +7,12 @@
 <%--
 /*
  *************************************************************************
- * $Id		: anlRqprSrchView.jsp
+ * $Id		: spaceRqprSrchView.jsp
  * @desc    : 평가의뢰서 상세
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2017.08.25  오명철		최초생성
+ * 1.0  2018.11.01  정현웅		최초생성
  * ---	-----------	----------	-----------------------------------------
  * WINS UPGRADE 1차 프로젝트
  *************************************************************************
@@ -43,7 +43,7 @@
 	<script type="text/javascript">
 
 		var callback;
-		var anlRqprDataSet;
+		var spaceRqprDataSet;
 		var rsltAttcFileId;
 
 		Rui.onReady(function() {
@@ -59,41 +59,53 @@
             dm.on('success', function(e) {
             });
 
-            anlRqprDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprDataSet',
+            spaceRqprDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
-                	  { id: 'rqprId' }
-                	, { id: 'anlNm' }
-					, { id: 'acpcNo' }
-					, { id: 'rgstNm' }
-					, { id: 'rqprDeptNm' }
-					, { id: 'rqprDt' }
-					, { id: 'acpcDt' }
-					, { id: 'cmplParrDt' }
-					, { id: 'cmplDt' }
-					, { id: 'anlScnNm' }
-					, { id: 'anlChrgNm' }
-					, { id: 'anlUgyYnNm' }
-					, { id: 'infmTypeNm' }
-					, { id: 'smpoTrtmNm' }
-					, { id: 'anlRqprInfmView'  }
-					, { id: 'anlSbc'}
-					, { id: 'anlRsltSbc'}
-					, { id: 'rqprAttcFileId' }
-					, { id: 'lastMdfyId' }
+                	  { id: 'rqprId'		}	//의뢰ID
+					, { id: 'spaceNm'		}	//평가명
+					, { id: 'spaceScnCd'	}	//평가구분코드
+					, { id: 'spaceScnNm'	}	//평가구분명
+					, { id: 'spaceSbc'		}	//평가목적
+					, { id: 'acpcNo'		}	//접수번호
+					, { id: 'rgstNm'		}	//의뢰자
+					, { id: 'rqprDeptNm'	}	//부서
+					, { id: 'rqprDt'		}	//의뢰일
+					, { id: 'acpcDt'		}	//접수일
+					, { id: 'acpcDt'		}	//접수일
+					, { id: 'spaceUgyYnNm'	}	//긴급유무코드
+					, { id: 'infmPrsnIds'	}	//통보자ID
+					, { id: 'oppbScpCd'		}	//공개범위
+					, { id: 'spaceRqprWbsCd'}	//wbs코드
+					, { id: 'scrtRson'		}
+					, { id: 'evSubjNm'		}
+					, { id: 'sbmpCd'		}
+					, { id: 'sbmpNm'		}
+					, { id: 'qtasDpst'		}
+					, { id: 'qnasDpst'		}
+					, { id: 'goalPfmc'		}
+					, { id: 'rsltDpst'		}
+					, { id: 'evCases'		}
+					, { id: 'evSubjDtl'		}
+					, { id: 'tCloud'		}
+					, { id: 'spaceRqprInfmView' } //통보자 명
+					, { id: 'rqprAttcFileId'}
+					, { id: 'spaceAcpcStCd'		}
+					, { id: 'cmplDt'}
+					, { id: 'cmplParrDt'		}
                 ]
             });
 
-            anlRqprDataSet.on('load', function(e) {
-            	var anlSbc = anlRqprDataSet.getNameValue(0, 'anlSbc');
-            	var idChk = anlRqprDataSet.getNameValue(0, 'lastMdfyId');
+            spaceRqprDataSet.on('load', function(e) {
+            	var spaceSbc = spaceRqprDataSet.getNameValue(0, 'spaceSbc');
+            	var idChk = spaceRqprDataSet.getNameValue(0, 'lastMdfyId');
 
-            	if(Rui.isEmpty(anlSbc) == false) {
+            	if(Rui.isEmpty(spaceSbc) == false) {
             		if(Rui.isEmpty(idChk) == false) {
             			if(idChk != "MIG"){
-		                	anlRqprDataSet.setNameValue(0, 'anlSbc', anlSbc.replaceAll('\n', '<br/>'));
+		                	spaceRqprDataSet.setNameValue(0, 'spaceSbc', spaceSbc.replaceAll('\n', '<br/>'));
             			}
             		}
             	}
@@ -101,142 +113,205 @@
 
             bind = new Rui.data.LBind({
                 groupId: 'aform',
-                dataSet: anlRqprDataSet,
+                dataSet: spaceRqprDataSet,
                 bind: true,
                 bindInfo: [
-                    { id: 'anlNm',				ctrlId:'anlNm',				value:'html'},
-                    { id: 'anlSbc',				ctrlId:'anlSbc',			value:'html'},
-                    { id: 'acpcNo',				ctrlId:'acpcNo',			value:'html'},
-                    { id: 'rgstNm',				ctrlId:'rgstNm',			value:'html'},
-                    { id: 'rqprDeptNm',			ctrlId:'rqprDeptNm',		value:'html'},
-                    { id: 'rqprDt',				ctrlId:'rqprDt',			value:'html'},
-                    { id: 'acpcDt',				ctrlId:'acpcDt',			value:'html'},
-                    { id: 'cmplParrDt',			ctrlId:'cmplParrDt',		value:'html'},
-                    { id: 'cmplDt',				ctrlId:'cmplDt',			value:'html'},
-                    { id: 'anlScnNm',			ctrlId:'anlScnNm',			value:'html'},
-                    { id: 'anlChrgNm',			ctrlId:'anlChrgNm',			value:'html'},
-                    { id: 'anlUgyYnNm',			ctrlId:'anlUgyYnNm',		value:'html'},
-                    { id: 'infmTypeNm',			ctrlId:'infmTypeNm',		value:'html'},
-                    { id: 'smpoTrtmNm',			ctrlId:'smpoTrtmNm',		value:'html'},
-                    { id: 'anlRqprInfmView',	ctrlId:'anlRqprInfmView',	value:'html'},
-                    { id: 'anlRsltSbc',			ctrlId:'anlRsltSbc',		value:'html'}
+                    { id: 'rqprId',				ctrlId: 'rqprId',			value:'html'},
+					{ id: 'spaceNm',			ctrlId: 'spaceNm',			value:'html'},
+                    { id: 'spaceScnCd',			ctrlId: 'spaceScnCd',		value:'html'},
+                    { id: 'spaceScnNm',			ctrlId: 'spaceScnNm',		value:'html'},
+                    { id: 'spaceSbc',		 	ctrlId: 'spaceSbc',		 	value:'html'},
+                    { id: 'rgstNm',		 		ctrlId: 'rgstNm',		 	value:'html'},	//의뢰자
+                    { id: 'acpcNo',		 		ctrlId: 'acpcNo',		 	value:'html'},	//접수번호
+                    { id: 'rqprDeptNm',		 	ctrlId: 'rqprDeptNm',		value:'html'},	//부서
+                    { id: 'rqprDt',		 		ctrlId: 'rqprDt',		 	value:'html'},	//의뢰일
+                    { id: 'acpcDt',		 		ctrlId: 'acpcDt',		 	value:'html'},	//접수일
+                    { id: 'spaceUgyYnNm',		ctrlId: 'spaceUgyYnNm',		value:'html'},
+                    { id: 'infmPrsnIds',		ctrlId: 'infmPrsnIds',		value:'html'},
+                    { id: 'oppbScpCd',			ctrlId: 'oppbScpCd',		value:'html'},
+                    { id: 'spaceRqprWbsCd',		ctrlId: 'spaceRqprWbsCd',	value:'html'},
+                    { id: 'scrtRson',			ctrlId: 'scrtRson',			value:'html'},
+                    { id: 'spaceRqprInfmView',	ctrlId: 'spaceRqprInfmView',value:'html'},
+                    { id: 'evSubjNm',			ctrlId: 'evSubjNm',			value:'html'},
+                    { id: 'sbmpCd',				ctrlId: 'sbmpCd',			value:'html'},
+                    { id: 'sbmpNm',				ctrlId: 'sbmpNm',			value:'html'},
+                    { id: 'qtasDpst',			ctrlId: 'qtasDpst',			value:'html'},
+                    { id: 'qnasDpst',		 	ctrlId: 'qnasDpst',		 	value:'html'},
+                    { id: 'goalPfmc',		 	ctrlId: 'goalPfmc',		 	value:'html'},
+                    { id: 'rsltDpst',		 	ctrlId: 'rsltDpst',		 	value:'html'},
+                    { id: 'evCases',			ctrlId: 'evCases',			value:'html'},
+                    { id: 'evSubjDtl',		 	ctrlId: 'evSubjDtl',		value:'html'},
+                    { id: 'tCloud',		 		ctrlId: 'tCloud',		 	value:'html'},
+                    { id: 'spaceAcpcStCd',		ctrlId: 'spaceAcpcStCd',	value:'html'},
+
+                    { id: 'cmplDt',				ctrlId: 'cmplDt',		value:'html'},
+                    { id: 'cmplParrDt',			ctrlId: 'cmplParrDt',	value:'html'}
+
                 ]
             });
 
-            var anlRqprSmpoDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprSmpoDataSet',
+          //평가방법 / 담당자 데이터셋
+            var spaceRqprWayCrgrDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprWayCrgrDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
-                	  { id: 'smpoId' }
-                	, { id: 'rqprId' }
-					, { id: 'smpoNm' }
-					, { id: 'mkrNm' }
-					, { id: 'mdlNm' }
-					, { id: 'smpoQty' }
+                	  { id: 'crgrId', defaultValue: '' }
+                	, { id: 'rqprId', defaultValue: '' }
+					, { id: 'evCtgr' }
+					, { id: 'evPrvs' }
+					, { id: 'infmPrsnId' }
+					, { id: 'infmPrsnNm' }
+
                 ]
             });
 
-            var anlRqprSmpoColumnModel = new Rui.ui.grid.LColumnModel({
+          //평가방법 / 담당자 그리드
+            var spaceRqprWayCrgrColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  new Rui.ui.grid.LNumberColumn()
-                    , { field: 'smpoNm',	label: '시료명',		sortable: false,	align:'center',	width: 200 }
-                    , { field: 'mkrNm',		label: '제조사',		sortable: false,	align:'center',	width: 150 }
-                    , { field: 'mdlNm',		label: '모델명',		sortable: false,	align:'center',	width: 300 }
-                    , { field: 'smpoQty',	label: '수량',		sortable: false,	align:'center',	width: 50 }
+                      { field: 'evCtgr',		label: '<span style="color:red;">* </span>평가카테고리',	sortable: false,	editable: false,	align:'center',	width: 400}
+                	, { field: 'evPrvs',		label: '<span style="color:red;">* </span>평가항목',		sortable: false,	editable: false,	align:'center',	width: 400 }
+                	, { field: 'infmPrsnId',	label: '<span style="color:red;">* </span>담당자ID',		sortable: false,	editable: false,	align:'center',	width: 300 , hidden:true}
+                    , { field: 'infmPrsnNm',	label: '<span style="color:red;">* </span>담당자',		sortable: false,	editable: false,	align:'center',	width: 300 }
                 ]
             });
-
-            var anlRqprSmpoGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprSmpoColumnModel,
-                dataSet: anlRqprSmpoDataSet,
+            var spaceRqprWayCrgrGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceRqprWayCrgrColumnModel,
+                dataSet: spaceRqprWayCrgrDataSet,
                 width: 700,
                 height: 200,
-                autoToEdit: false,
+                autoToEdit: true,
                 autoWidth: true
             });
+            spaceRqprWayCrgrGrid.render('spaceRqprWayCrgrGrid');
 
-            anlRqprSmpoGrid.render('anlRqprSmpoGrid');
 
-            var anlRqprRltdDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprRltdDataSet',
+
+          //제품군 그리드 데이터셋
+            var spaceRqprProdDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprProdDataSet',
+                remainRemoved: false,
+                lazyLoad: true,
+                fields: [
+                	  { id: 'evCtgr0' }
+                	, { id: 'evCtgr1' }
+					, { id: 'evCtgr2' }
+					, { id: 'evCtgr3' }
+					, { id: 'evCtgr0Nm' }
+					, { id: 'evCtgr1Nm' }
+					, { id: 'evCtgr2Nm' }
+					, { id: 'evCtgr3Nm' }
+					, { id: 'evCtgr4Nm' }
+                ]
+            });
+            //제품군 그리드 설정
+            var spaceRqprProdColumnModel = new Rui.ui.grid.LColumnModel({
+                columns: [
+                	  { field: 'evCtgr0',	label: 'evCtgr0',		sortable: false,	editable: false,	align:'center',	width: 100,	hidden:true }
+                	, { field: 'evCtgr1',	label: 'evCtgr1',		sortable: false,	editable: false,	align:'center',	width: 100,	hidden:true }
+                	, { field: 'evCtgr2',	label: 'evCtgr2',		sortable: false,	editable: false,	align:'center',	width: 100,	hidden:true }
+                    , { field: 'evCtgr3',	label: 'evCtgr3',		sortable: false,	editable: false,	align:'center',	width: 100,	hidden:true }
+
+                    , { field: 'evCtgr0Nm',	label: '사업부',			sortable: false,	editable: false,	align:'center',	width: 250 }
+                	, { field: 'evCtgr1Nm',	label: '제품군',			sortable: false,	editable: false,	align:'center',	width: 250 }
+                	, { field: 'evCtgr2Nm',	label: '분류',			sortable: false,	editable: false,	align:'center',	width: 250 }
+                    , { field: 'evCtgr3Nm',	label: '제품',			sortable: false,	editable: false,	align:'center',	width: 250 }
+                    , { field: 'evCtgr4Nm',	label: '제품명(직접입력)',sortable: false,	editable: true, 	align:'left',	width: 250 }
+
+                ]
+            });
+            var spaceRqprProdGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceRqprProdColumnModel,
+                dataSet: spaceRqprProdDataSet,
+                width: 700,
+                height: 200,
+                autoToEdit: true,
+                autoWidth: true
+            });
+            spaceRqprProdGrid.render('spaceRqprProdGrid');
+
+
+            /* 관련평가 */
+            var spaceRqprRltdDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprRltdDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
 					  { id: 'rltdId' }
 					, { id: 'rqprId' }
 					, { id: 'preRqprId' }
-					, { id: 'preAnlNm' }
+					, { id: 'preSpaceNm' }
 					, { id: 'preAcpcNo' }
-					, { id: 'preAnlChrgNm' }
+					, { id: 'preSpaceChrgNm' }
 					, { id: 'preRgstId' }
 					, { id: 'preRgstNm' }
                 ]
             });
 
-            var anlRqprRltdColumnModel = new Rui.ui.grid.LColumnModel({
+            var spaceRqprRltdColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  new Rui.ui.grid.LNumberColumn()
-                    , { field: 'preAcpcNo',		label: '접수번호',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preAnlNm',		label: '평가명',		sortable: false,	align:'left',	width: 300 }
+                	  { field: 'preAcpcNo',		label: '접수번호',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'preSpaceNm',	label: '평가명',		sortable: false,	align:'left',	width: 300 }
                     , { field: 'preRgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'preAnlChrgNm',	label: '평가담당자',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'preSpaceChrgNm',label: '평가담당자',	sortable: false,	align:'center',	width: 80 }
                 ]
             });
 
-            var anlRqprRltdGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprRltdColumnModel,
-                dataSet: anlRqprRltdDataSet,
+            var spaceRqprRltdGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceRqprRltdColumnModel,
+                dataSet: spaceRqprRltdDataSet,
                 width: 540,
                 height: 200,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            anlRqprRltdGrid.render('anlRqprRltdGrid');
+            spaceRqprRltdGrid.render('spaceRqprRltdGrid');
 
 
-            var anlRqprExprDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprExprDataSet',
+            /* 실험정보 */
+            var spaceRqprExatDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprExatDataSet',
                 remainRemoved: false,
                 lazyLoad: true,
                 fields: [
-                	  { id: 'rqprExprId', type: 'number' }
+                	  { id: 'rqprExatId', type: 'number' }
                 	, { id: 'rqprId', type: 'number' }
-					, { id: 'exprNm' }
-					, { id: 'smpoQty' }
-					, { id: 'exprTim' }
-					, { id: 'exprExp' }
+					, { id: 'exatNm' }
+					, { id: 'exatCaseQty' }
+					, { id: 'exatDct' }
+					, { id: 'exatExp' }
+					, { id: 'exatWay' }
                 ]
             });
 
-            var anlRqprExprColumnModel = new Rui.ui.grid.LColumnModel({
+            /* 평가결과 실험정보 */
+            var spaceRqprExatColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-                	  new Rui.ui.grid.LSelectionColumn()
-                    , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'exprNm',	label: '실험명',		sortable: false,	align:'left',	width: 400 }
-                    , { field: 'smpoQty',	label: '실험수',		sortable: false,	align:'center',	width: 70 }
-                    , { field: 'exprTim',	label: '실험시간',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'exprExp',	label: '수가',		sortable: false,	align:'center',	width: 100, renderer: function(val, p, record, row, col) {
+                	  { field: 'exatNm',		label: '평가 실험명',		sortable: false,	align:'left',	width: 380 }
+                    , { field: 'exatCaseQty',	label: '평가케이스수',	sortable: false,	align:'center',	width: 100 }
+                    , { field: 'exatDct',		label: '평가일수',		sortable: false,	align:'center',	width: 80 }
+                    , { field: 'exatExp',		label: '수가',			sortable: false,	align:'center',	width: 100, renderer: function(val, p, record, row, col) {
                     	return Rui.util.LNumber.toMoney(val, '') + '원';
                       } }
+                    , { field: 'exatWay',		label: '평가방법',		sortable: false,	align:'left',	width: 430 }
                 ]
             });
 
-            var anlRqprExprGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprExprColumnModel,
-                dataSet: anlRqprExprDataSet,
+            var spaceRqprExatGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceRqprExatColumnModel,
+                dataSet: spaceRqprExatDataSet,
                 width: 600,
                 height: 200,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            anlRqprExprGrid.render('anlRqprExprGrid');
+            spaceRqprExatGrid.render('spaceRqprExatGrid');
 
 
-            var anlRqprAttachDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprAttachDataSet',
+            var spaceRqprAttachDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprAttachDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -247,29 +322,29 @@
                 ]
             });
 
-            var anlRqprAttachColumnModel = new Rui.ui.grid.LColumnModel({
+            var spaceRqprAttachColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                       new Rui.ui.grid.LNumberColumn()
                     , { field: 'filNm',		label: '파일명',		sortable: false,	align:'left',	width: 300 }
                 ]
             });
 
-            var anlRqprAttachGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: anlRqprAttachColumnModel,
-                dataSet: anlRqprAttachDataSet,
+            var spaceRqprAttachGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: spaceRqprAttachColumnModel,
+                dataSet: spaceRqprAttachDataSet,
                 width: 300,
                 height: 200,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            anlRqprAttachGrid.on('cellClick', function(e) {
+            spaceRqprAttachGrid.on('cellClick', function(e) {
                 if(e.colId == "filNm") {
-                	downloadAttachFile(anlRqprAttachDataSet.getAt(e.row).data.attcFilId, anlRqprAttachDataSet.getAt(e.row).data.seq);
+                	downloadAttachFile(spaceRqprAttachDataSet.getAt(e.row).data.attcFilId, spaceRqprAttachDataSet.getAt(e.row).data.seq);
                 }
             });
 
-            anlRqprAttachGrid.render('anlRqprAttachGrid');
+            spaceRqprAttachGrid.render('spaceRqprAttachGrid');
 
 			downloadAttachFile = function(attcFilId, seq) {
 				fileDownloadForm.action = '<c:url value='/system/attach/downloadAttachFile.do'/>';
@@ -278,8 +353,8 @@
 				fileDownloadForm.submit();
 			};
 
-            var anlRqprRsltAttachDataSet = new Rui.data.LJsonDataSet({
-                id: 'anlRqprRsltAttachDataSet',
+            var spaceRqprRsltAttachDataSet = new Rui.data.LJsonDataSet({
+                id: 'spaceRqprRsltAttachDataSet',
                 remainRemoved: true,
                 lazyLoad: true,
                 fields: [
@@ -290,14 +365,14 @@
                 ]
             });
 
-            anlRqprRsltAttachDataSet.on('load', function(e) {
-            	if( anlRqprRsltAttachDataSet.getCount() > 0  ){
+            spaceRqprRsltAttachDataSet.on('load', function(e) {
+            	if( spaceRqprRsltAttachDataSet.getCount() > 0  ){
            			$('#rsltAttcFileView').html('');
 
-           			for(var i = 0; i < anlRqprRsltAttachDataSet.getCount(); i++) {
+           			for(var i = 0; i < spaceRqprRsltAttachDataSet.getCount(); i++) {
                         $('#rsltAttcFileView').append($('<a/>', {
-                            href: 'javascript:downloadAttachFile("' + anlRqprRsltAttachDataSet.getNameValue(i, "attcFilId") + '", "' +  anlRqprRsltAttachDataSet.getNameValue(i, "seq") + '")',
-                            text: anlRqprRsltAttachDataSet.getNameValue(i, "filNm")
+                            href: 'javascript:downloadAttachFile("' + spaceRqprRsltAttachDataSet.getNameValue(i, "attcFilId") + '", "' +  spaceRqprRsltAttachDataSet.getNameValue(i, "seq") + '")',
+                            text: spaceRqprRsltAttachDataSet.getNameValue(i, "filNm")
                         })).append('<br/>');
                     }
            		}
@@ -305,8 +380,13 @@
 
 
 	    	dm.loadDataSet({
-                dataSets: [anlRqprDataSet, anlRqprSmpoDataSet, anlRqprRltdDataSet, anlRqprAttachDataSet, anlRqprExprDataSet,anlRqprRsltAttachDataSet],
-                url: '<c:url value="/anl/getAnlRqprDetailInfo.do"/>',
+	    		dataSets: [spaceRqprDataSet,
+                           spaceRqprWayCrgrDataSet,
+                           spaceRqprProdDataSet,
+                           spaceRqprRltdDataSet,
+                           spaceRqprAttachDataSet,
+                           spaceRqprRsltAttachDataSet],
+                url: '<c:url value="/space/getSpaceRqprDetailInfo.do"/>',
                 params: {
                     rqprId: '${inputData.rqprId}'
                 }
@@ -339,13 +419,13 @@
    					<tbody>
    						<tr>
    							<th align="right">평가명</th>
-   							<td><span id="anlNm"/></td>
+   							<td><span id="spaceNm"/></td>
    							<th align="right">접수번호</th>
    							<td><span id="acpcNo"/></td>
    						</tr>
    						<tr>
    							<th align="right">평가목적</th>
-   							<td colspan="3"><span id="anlSbc"/></td>
+   							<td colspan="3"><span id="spaceSbc"/></td>
    						</tr>
    						<tr>
    							<th align="right">의뢰자</th>
@@ -367,32 +447,88 @@
    						</tr>
    						<tr>
    							<th align="right">평가구분</th>
-   							<td><span id="anlScnNm"/></td>
-   							<th align="right">평가담당자</th>
-   							<td><span id="anlChrgNm"/></td>
+   							<td><span id="spaceScnNm"/></td>
+							<th align="right">긴급유무</th>
+   							<td><span id="spaceUgyYnNm"/></td>
    						</tr>
    						<tr>
-   							<th align="right">긴급유무</th>
-   							<td><span id="anlUgyYnNm"/></td>
-   							<th align="right">통보유형</th>
-   							<td><span id="infmTypeNm"/></td>
-   						</tr>
-   						<tr>
-   							<th align="right">시료처리</th>
-   							<td><span id="smpoTrtmNm"/></td>
    							<th align="right">통보자</th>
-   							<td><span id="anlRqprInfmView"/></td>
+   							<td colspan="3"><span id="spaceRqprInfmView"/></td>
+   						</tr>
+
+
+
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>평가대상명</th>
+   							<td colspan="3" class="space_tain">
+   								<span type="text" id="evSubjNm"/>
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>제출처</th>
+   							<td colspan="3">
+   								<div id="sbmpCd"></div>&nbsp;<span id="sbmpNm"/>
+   							</td>
+   						</tr>
+
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>목표(정량지표)</th>
+   							<td class="space_tain">
+   								<span id="qtasDpst">
+   							</td>
+   							<th align="right"><span style="color:red;">* </span>목표(정성지표)</th>
+   							<td class="space_tain">
+                                <span id="qnasDpst">
+   							</td>
+   						</tr>
+
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>목표성능</th>
+   							<td class="space_tain">
+                                <span id="goalPfmc">
+   							</td>
+   							<th align="right"><span style="color:red;">* </span>결과지표</th>
+   							<td class="space_tain">
+                                <span id="rsltDpst">
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>평가 cases(개수)</th>
+   							<td class="space_tain">
+                                <span id="evCases">
+   							</td>
+   							<th align="right"><span style="color:red;">* </span>평가대상 상세</th>
+   							<td class="space_tain">
+                                <span id="evSubjDtl">
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>T-Cloud Link</th>
+   							<td class="rlabrqpr_tain01" colspan="3">
+                                <span id="tCloud">
+   							</td>
    						</tr>
    					</tbody>
    				</table>
 
    				<div class="titArea">
-   					<span class="Ltotal">시료정보</span>
+   					<span class="Ltotal">평가방법 / 담당자</span>
    				</div>
 
-   				<div id="anlRqprSmpoGrid"></div>
+   				<div id="spaceRqprWayCrgrGrid"></div>
 
    				<br/>
+
+
+   				<div class="titArea">
+   					<span class="Ltotal">제품군</span>
+   				</div>
+
+   				<div id="spaceRqprProdGrid"></div>
+
+   				<br/>
+
+
 
    				<table style="width:100%;border=0;">
    					<colgroup>
@@ -407,7 +543,7 @@
 				   					<span class="Ltotal">관련평가</span>
 				   				</div>
 
-				   				<div id="anlRqprRltdGrid"></div>
+				   				<div id="spaceRqprRltdGrid"></div>
    							</td>
    							<td>&nbsp;</td>
    							<td>
@@ -415,7 +551,7 @@
 				   					<span class="Ltotal">시료사진/첨부파일</span>
 				   				</div>
 
-				   				<div id="anlRqprAttachGrid"></div>
+				   				<div id="spaceRqprAttachGrid"></div>
    							</td>
    						</tr>
    					</tbody>
@@ -427,7 +563,7 @@
    				</div>
 
    				<div>
-   					<div id="anlRqprExprGrid"></div>
+   					<div id="spaceRqprExatGrid"></div>
    				</div>
 
    				<table class="table table_txt_right" style="table-layout:fixed;">
@@ -440,7 +576,7 @@
    					<tbody>
    						<tr>
    							<th align="right">평가결과</th>
-   							<td colspan="3"><span id="anlRsltSbc"/></td>
+   							<td colspan="3"><span id="spaceRsltSbc"/></td>
    						</tr>
    						<tr>
    							<th align="right">평가결과서</th>

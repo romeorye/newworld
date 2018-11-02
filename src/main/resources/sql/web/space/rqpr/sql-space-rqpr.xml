@@ -222,7 +222,7 @@
 				dbo.fn_getUserName(rltd.pre_rgst_id)		AS preRgstNm
 			FROM	IRIS_SPACE_RQPR_RLTD rltd,
 					IRIS_SPACE_RQPR_MST mst
-			WHERE	rltd.RQPR_ID = '7'
+			WHERE	rltd.RQPR_ID = ${rqprId}
 			AND		rltd.DEL_YN = 'N'
 			AND		rltd.PRE_RQPR_ID = mst.RQPR_ID
 

@@ -104,8 +104,8 @@
                 dataSet: rlabRqprDataSet,
                 bind: true,
                 bindInfo: [
-                    { id: 'rlabNm',				ctrlId:'rlabNm',				value:'html'},
-                    { id: 'rlabSbc',				ctrlId:'rlabSbc',			value:'html'},
+                    { id: 'rlabNm',				ctrlId:'rlabNm',			value:'html'},
+                    { id: 'rlabSbc',			ctrlId:'rlabSbc',			value:'html'},
                     { id: 'acpcNo',				ctrlId:'acpcNo',			value:'html'},
                     { id: 'rgstNm',				ctrlId:'rgstNm',			value:'html'},
                     { id: 'rqprDeptNm',			ctrlId:'rqprDeptNm',		value:'html'},
@@ -114,12 +114,12 @@
                     { id: 'cmplParrDt',			ctrlId:'cmplParrDt',		value:'html'},
                     { id: 'cmplDt',				ctrlId:'cmplDt',			value:'html'},
                     { id: 'rlabScnNm',			ctrlId:'rlabScnNm',			value:'html'},
-                    { id: 'rlabChrgNm',			ctrlId:'rlabChrgNm',			value:'html'},
-                    { id: 'rlabUgyYnNm',			ctrlId:'rlabUgyYnNm',		value:'html'},
+                    { id: 'rlabChrgNm',			ctrlId:'rlabChrgNm',		value:'html'},
+                    { id: 'rlabUgyYnNm',		ctrlId:'rlabUgyYnNm',		value:'html'},
                     { id: 'infmTypeNm',			ctrlId:'infmTypeNm',		value:'html'},
                     { id: 'smpoTrtmNm',			ctrlId:'smpoTrtmNm',		value:'html'},
                     { id: 'rlabRqprInfmView',	ctrlId:'rlabRqprInfmView',	value:'html'},
-                    { id: 'rlabRsltSbc',			ctrlId:'rlabRsltSbc',		value:'html'}
+                    { id: 'rlabRsltSbc',		ctrlId:'rlabRsltSbc',		value:'html'}
                 ]
             });
 

@@ -1276,12 +1276,12 @@
             	var userYn = record.data.userYn;
 				if(userYn=="Y"){
 					opinitionUpdateDialog.setButtons([
-            				{ text: '저장', handler: callChildUpdate, isDefault: true },
-            	            { text: '삭제', handler: callChildDel, isDefault: true },
-            	            { text:'닫기', handler: function() {
-            	              	this.cancel(false);
-            	              }
-            	            }
+		            { text: '저장', handler: callChildUpdate, isDefault: true },
+		            { text: '삭제', handler: callChildDel, isDefault: true },
+		            { text:'닫기', handler: function() {
+		              	this.cancel(false);
+		              }
+		            }
             	       ]);
 				}else{
 					opinitionUpdateDialog.setButtons([
@@ -1494,7 +1494,7 @@
 				{ id: 'qnasDpst',		validExp: '정성지표:true:maxByteLength=100' },
 				{ id: 'goalPfmc',		validExp: '목표성능:true:maxByteLength=100' },
 				{ id: 'rsltDpst',		validExp: '결과지표:true:maxByteLength=100' },
-				{ id: 'evCases',		validExp: '평가case(개수):true:number' },
+				{ id: 'evCases',		validExp: '평가case(개수):true' },
 				{ id: 'evSubjDtl',		validExp: '평가대상 상세:true:maxByteLength=100' }
                 ]
             });
