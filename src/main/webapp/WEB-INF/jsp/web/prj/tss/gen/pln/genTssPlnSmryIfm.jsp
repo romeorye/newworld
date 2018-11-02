@@ -95,11 +95,10 @@
             applyTo: 'nprodSalsPlnY',
             defaultValue: 0,
             decimalPrecision: 2,
-            maxValue: 999999999.999999,
             width: 120
         });
         nprodSalsPlnY.on('changed', function() {
-            fnGetYAvg("nprod");
+        	fnGetYAvg("nprod");
         });
 
         //신제품매출계획Y+1
@@ -107,11 +106,10 @@
             applyTo: 'nprodSalsPlnY1',
             defaultValue: 0,
             decimalPrecision: 2,
-            maxValue: 999999999.999999,
             width: 120
         });
         nprodSalsPlnY1.on('changed', function() {
-            fnGetYAvg("nprod");
+        	fnGetYAvg("nprod");
         });
 
         //신제품매출계획Y+2
@@ -120,11 +118,10 @@
             defaultValue: 0,
             emptyValue: 0,
             decimalPrecision: 2,
-            maxValue: 999999999.999999,
             width: 120
         });
         nprodSalsPlnY2.on('changed', function() {
-            fnGetYAvg("nprod");
+        	fnGetYAvg("nprod");
         });
 
         //신제품매출계획Y+3
@@ -132,11 +129,10 @@
             applyTo: 'nprodSalsPlnY3',
             defaultValue: 0,
             decimalPrecision: 2,
-            maxValue: 999999999.999999,
             width: 120
         });
         nprodSalsPlnY3.on('changed', function() {
-            fnGetYAvg("nprod");
+        	fnGetYAvg("nprod");
         });
 
         //신제품매출계획Y+4
@@ -144,11 +140,10 @@
             applyTo: 'nprodSalsPlnY4',
             defaultValue: 0,
             decimalPrecision: 2,
-            maxValue: 999999999.999999,
             width: 120
         });
         nprodSalsPlnY4.on('changed', function() {
-            fnGetYAvg("nprod");
+        	fnGetYAvg("nprod");
         });
 
         //신제품매출계획평균
@@ -348,7 +343,6 @@
             lvAttcFilId = dataSet.getNameValue(0, "attcFilId");
             if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
 
-
             var dsNprodSalsPlnY  = (dataSet.getNameValue(0, "nprodSalsPlnY")  / 100000000).toFixed(2);
             var dsNprodSalsPlnY1 = (dataSet.getNameValue(0, "nprodSalsPlnY1") / 100000000).toFixed(2);
             var dsNprodSalsPlnY2 = (dataSet.getNameValue(0, "nprodSalsPlnY2") / 100000000).toFixed(2);
@@ -368,6 +362,12 @@
             nprodSalsPlnY2.setValue(dsNprodSalsPlnY2);
             nprodSalsPlnY3.setValue(dsNprodSalsPlnY3);
             nprodSalsPlnY4.setValue(dsNprodSalsPlnY4);
+            
+            dataSet.setNameValue(0, 'nprodSalsPlnY', nprodSalsPlnY.getValue())
+            dataSet.setNameValue(0, 'nprodSalsPlnY1', nprodSalsPlnY1.getValue())
+            dataSet.setNameValue(0, 'nprodSalsPlnY2', nprodSalsPlnY2.getValue())
+            dataSet.setNameValue(0, 'nprodSalsPlnY3', nprodSalsPlnY3.getValue())
+            dataSet.setNameValue(0, 'nprodSalsPlnY4', nprodSalsPlnY4.getValue())
 
             Wec0.SetBodyValue( dataSet.getNameValue(0, "smryNTxt") );
             Wec1.SetBodyValue( dataSet.getNameValue(0, "smryATxt") );
@@ -376,9 +376,14 @@
             Wec4.SetBodyValue( dataSet.getNameValue(0, "smryDTxt") );
 
 	        fncPtcCpsnYDisable(strDt, endDt);
-            fnGetYAvg("ptc");
-            fnGetYAvg("biz");
-            tabViewS.selectTab(0);
+	       
+	         setTimeout(function () {
+	            fnGetYAvg("nprod");
+	            fnGetYAvg("ptc");
+	            fnGetYAvg("biz");
+                tabViewS.selectTab(0);
+            }, 1000);
+            
 
         });
 
@@ -435,8 +440,6 @@
                 , { id: 'userId',            validExp: '로그인ID:false' }
             ]
         });
-
-
 
         /*============================================================================
         =================================    기능     ================================
@@ -624,7 +627,6 @@
         if(${resultCnt} > 0) {
             console.log("smry searchData1");
             dataSet.loadData(${result});
-
         } else {
             console.log("smry searchData2");
             dataSet.newRecord();
@@ -640,8 +642,6 @@
         	$("#btnSave").hide();
 		}
 
-		
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>isE",window.parent.isEditable);
         if(window.parent.isEditable){
             btnSave.show();
             $("#btnSave").show();
@@ -649,9 +649,6 @@
             disableFields();
         }
 
-//         $("#Wec0").ready(function() {
-//             tabViewS.selectTab(0);
-//         });
     });
 
     //평균구하기
@@ -681,7 +678,7 @@
             if(cnt == 0) cnt++;
 
             yAvg = (y + y1 + y2 + y3 + y4) / cnt;
-
+           
             nprodSalsPlnYAvg.setValue(yAvg);
         }
         else if(gbn == "ptc") {
@@ -817,6 +814,27 @@
         	ptcCpsnY4.disable();		
         }
     }
+    
+    
+    function fnIfmInit(){
+    	var dsNprodSalsPlnY  = (dataSet.getNameValue(0, "nprodSalsPlnY")  / 100000000).toFixed(2);
+        var dsNprodSalsPlnY1 = (dataSet.getNameValue(0, "nprodSalsPlnY1") / 100000000).toFixed(2);
+        var dsNprodSalsPlnY2 = (dataSet.getNameValue(0, "nprodSalsPlnY2") / 100000000).toFixed(2);
+        var dsNprodSalsPlnY3 = (dataSet.getNameValue(0, "nprodSalsPlnY3") / 100000000).toFixed(2);
+        var dsNprodSalsPlnY4 = (dataSet.getNameValue(0, "nprodSalsPlnY4") / 100000000).toFixed(2);
+
+        nprodSalsPlnY.setValue(dsNprodSalsPlnY);
+        nprodSalsPlnY1.setValue(dsNprodSalsPlnY1);
+        nprodSalsPlnY2.setValue(dsNprodSalsPlnY2);
+        nprodSalsPlnY3.setValue(dsNprodSalsPlnY3);
+        nprodSalsPlnY4.setValue(dsNprodSalsPlnY4);
+        
+        dataSet.setNameValue(0, 'nprodSalsPlnY', nprodSalsPlnY.getValue())
+        dataSet.setNameValue(0, 'nprodSalsPlnY1', nprodSalsPlnY1.getValue())
+        dataSet.setNameValue(0, 'nprodSalsPlnY2', nprodSalsPlnY2.getValue())
+        dataSet.setNameValue(0, 'nprodSalsPlnY3', nprodSalsPlnY3.getValue())
+        dataSet.setNameValue(0, 'nprodSalsPlnY4', nprodSalsPlnY4.getValue())
+    }
 </script>
 <script type="text/javascript">
 $(window).load(function() {
@@ -856,6 +874,7 @@ $(window).load(function() {
                         <div id="tabViewS"></div>
                     </td>
                 </tr>
+               
                 <tr>
                     <td colspan="6">
                         <div id="divWec0">
@@ -917,16 +936,15 @@ $(window).load(function() {
                                 Wec4.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec4.params.FullScreen = false;
                                 Wec4.EditorStart();
-
                             </script>
                         </div>
                         <script type="text/javascript" language="javascript">
                             function OnInitCompleted(e){
-                                e.editorTarget.SetBodyValue(document.getElementById("divWec0").value);
+                            	e.editorTarget.SetBodyValue(document.getElementById("divWec0").value);
                                 e.editorTarget.SetBodyValue(document.getElementById("divWec1").value);
                                 e.editorTarget.SetBodyValue(document.getElementById("divWec2").value);
                                 e.editorTarget.SetBodyValue(document.getElementById("divWec3").value);
-                                e.editorTarget.SetBodyValue(document.getElementById("divWec4").value);
+                                e.editorTarget.SetBodyValue(document.getElementById("divWec4").value); 
                             }
                         </script>                        
                     </td>

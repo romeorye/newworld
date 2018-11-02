@@ -513,7 +513,8 @@
             var data = dataSet.getReadData(e);
 
             alert(data.records[0].rtVal);
-
+            
+            document.getElementById('tabContent0').contentWindow.fnIfmInit();
             //실패일경우 ds insert모드로 변경
             if(data.records[0].rtCd == "FAIL") {
                 dataSet.setState(0, 1);
