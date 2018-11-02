@@ -89,9 +89,9 @@ public class ReteriveRequestServiceImpl implements ReteriveRequestService {
 			int apprIdCnt2 =  commonDao.select("knld.rtrv.rq.retrieveApprCnt2", input);
 			
 			if(apprIdCnt2 > 0 ){ //시스템
-				input.put("apprId",   commonDao.select("knld.rtrv.rq.retrieveApprId", input)   );
-			}else{
 				input.put("apprId",   commonDao.select("knld.rtrv.rq.retrieveApprId2", input)   );
+			}else{
+				input.put("apprId",   commonDao.select("knld.rtrv.rq.retrieveApprId", input)   );
 			}
 		}
 		
