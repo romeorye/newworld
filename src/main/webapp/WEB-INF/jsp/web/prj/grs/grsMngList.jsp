@@ -91,6 +91,8 @@
 
     var todoYN = stringNullChk("${inputData.LOGIN_SYS_CD}") != "" ? true : false;
 
+    var roleId   = '${inputData._roleId}';
+
     Rui.onReady(function() {
 
     	var resultDataSet = new Rui.data.LJsonDataSet({
@@ -911,6 +913,27 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 
         });
 
+
+		if(
+			roleId.indexOf("WORK_IRI_T01") > -1			//시스템관리자
+			|| roleId.indexOf("WORK_IRI_T03") > -1		//과제담당자
+
+			|| roleId.indexOf("WORK_IRI_T08") > -1		//창호재GRS
+			|| roleId.indexOf("WORK_IRI_T09") > -1		//장식재GRS
+			|| roleId.indexOf("WORK_IRI_T10") > -1		//ALGRS
+			|| roleId.indexOf("WORK_IRI_T11") > -1		//표면소재GRS
+			|| roleId.indexOf("WORK_IRI_T12") > -1		//고기능소재GRS
+			|| roleId.indexOf("WORK_IRI_T13") > -1		//자동차GRS
+			|| roleId.indexOf("WORK_IRI_T14") > -1		//법인GRS
+		){
+			$("#addTssBtn").show();
+			$("#grsAppr").show();
+		}else{
+			$("#addTssBtn").hide();
+			$("#grsAppr").hide();
+		}
+
+
    }); //onReady END
 
     function getGrsSt(isReq){
@@ -1158,7 +1181,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 			<div class="titArea">
 				<span class="Ltotal" id="cnt_text">총 : 0 </span>
 				<div class="LblockButton">
-					<button type="button" onclick="addTss()" class="btn_point">신규과제등록</button>
+					<button type="button" id="addTssBtn" onclick="addTss()" class="btn_point">신규과제등록</button>
 					<button type="button" id="grsAppr" name="grsAppr">품의 요청</button>
 					<button type="button" id="butExcel" onclick="javascript:fnExcel()">Excel다운로드</button>
 				</div>
@@ -1197,7 +1220,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 								<tr>
 									<th align="right">과제리더</th>
 									<td><input type="text" id="saSabunNm" /></td>
-									<th align="right">사업부문(Funding기준)</th>
+									<th align="right">사업부문<br/>(Funding기준)</th>
 									<td><div id="bizDptCd" /></td>
 								</tr>
 								<tr>
