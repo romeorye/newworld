@@ -14,7 +14,6 @@
 	      ,YM AS ym             --기준년월
 	      ,SAL_SUM_AMT AS salSumAmt   --매출액
 	  FROM VW_SA_NEW_PRDT_SAL
-	  --FROM IRIS_NEW_PRDT_SAL_STAT
 	 WHERE YM=CONVERT(CHAR(6),DATEADD(MM,-1,GETDATE()), 112)
 	]]>
     </select>
