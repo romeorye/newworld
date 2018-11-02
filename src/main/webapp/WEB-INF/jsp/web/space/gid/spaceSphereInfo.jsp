@@ -327,17 +327,17 @@
 									<p class="img"><img src="/iris/resource/web/images/newIris/img_process_img.png" alt=""></p>
 									<p>3. 평가진행</p>
 								</li>
-
+								<li class="next_pr"></li>
 								<li class="dn_pr bg_none"></li>
 								<li class="bg_none2"></li>
 								<li class="dn_pr bg_none"></li>
 								<li class="bg_none2"></li>
 								<!-- <li class="dn_pr"></li> -->
 
-								<li class="bg_none"></li>
-								<li class="prev_pr bg_none"></li>
+								<li class="bg_none2"></li>
+								<li class="bg_none2"></li>
 
-								<li class="next_pr"></li>
+								<li class="bg_none2"></li>
 								<li>
 									<p class="img"><img src="/iris/resource/web/images/newIris/img_process_result.png" alt=""></p>
 									<p>4. 평가결과 확인</p>
