@@ -384,6 +384,7 @@
                            spaceRqprWayCrgrDataSet,
                            spaceRqprProdDataSet,
                            spaceRqprRltdDataSet,
+                           spaceRqprExatDataSet,
                            spaceRqprAttachDataSet,
                            spaceRqprRsltAttachDataSet],
                 url: '<c:url value="/space/getSpaceRqprDetailInfo.do"/>',
@@ -557,6 +558,10 @@
    					</tbody>
    				</table>
 
+
+
+
+
    				<br/>
    				<div class="titArea">
    					<span class="Ltotal">실험정보 등록</span>
@@ -565,6 +570,10 @@
    				<div>
    					<div id="spaceRqprExatGrid"></div>
    				</div>
+
+
+
+
 
    				<table class="table table_txt_right" style="table-layout:fixed;">
    					<colgroup>

@@ -196,8 +196,8 @@
             rlabRqprRltdGrid.render('rlabRqprRltdGrid');
 
 
-            var rlabRqprExprDataSet = new Rui.data.LJsonDataSet({
-                id: 'rlabRqprExprDataSet',
+            var rlabRqprExatDataSet = new Rui.data.LJsonDataSet({
+                id: 'rlabRqprExatDataSet',
                 remainRemoved: false,
                 lazyLoad: true,
                 fields: [
@@ -210,29 +210,29 @@
                 ]
             });
 
-            var rlabRqprExprColumnModel = new Rui.ui.grid.LColumnModel({
+            var rlabRqprExatColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
                     , { field: 'exprNm',	label: '실험명',		sortable: false,	align:'left',	width: 400 }
                     , { field: 'smpoQty',	label: '실험수',		sortable: false,	align:'center',	width: 70 }
-                    , { field: 'exprTim',	label: '실험시간',		sortable: false,	align:'center',	width: 80 }
+                    , { field: 'exprTim',	label: '실험시간',	sortable: false,	align:'center',	width: 80 }
                     , { field: 'exprExp',	label: '수가',		sortable: false,	align:'center',	width: 100, renderer: function(val, p, record, row, col) {
                     	return Rui.util.LNumber.toMoney(val, '') + '원';
                       } }
                 ]
             });
 
-            var rlabRqprExprGrid = new Rui.ui.grid.LGridPanel({
-                columnModel: rlabRqprExprColumnModel,
-                dataSet: rlabRqprExprDataSet,
+            var rlabRqprExatGrid = new Rui.ui.grid.LGridPanel({
+                columnModel: rlabRqprExatColumnModel,
+                dataSet: rlabRqprExatDataSet,
                 width: 600,
                 height: 200,
                 autoToEdit: false,
                 autoWidth: true
             });
 
-            rlabRqprExprGrid.render('rlabRqprExprGrid');
+            rlabRqprExatGrid.render('rlabRqprExatGrid');
 
 
             var rlabRqprAttachDataSet = new Rui.data.LJsonDataSet({
@@ -305,7 +305,12 @@
 
 
 	    	dm.loadDataSet({
-                dataSets: [rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet, rlabRqprAttachDataSet, rlabRqprExprDataSet,rlabRqprRsltAttachDataSet],
+                dataSets: [rlabRqprDataSet,
+                           rlabRqprSmpoDataSet,
+                           rlabRqprRltdDataSet,
+                           rlabRqprAttachDataSet,
+                           rlabRqprExatDataSet,
+                           rlabRqprRsltAttachDataSet],
                 url: '<c:url value="/rlab/getRlabRqprDetailInfo.do"/>',
                 params: {
                     rqprId: '${inputData.rqprId}'
@@ -427,7 +432,7 @@
    				</div>
 
    				<div>
-   					<div id="rlabRqprExprGrid"></div>
+   					<div id="rlabRqprExatGrid"></div>
    				</div>
 
    				<table class="table table_txt_right" style="table-layout:fixed;">
