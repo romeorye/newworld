@@ -61,7 +61,7 @@
 			AND  A.MCHN_USE_PSBL_YN = #{mchnUserPsblYn}
 	    </if>
 	    <![CDATA[
-		ORDER BY A.MCHN_INFO_ID
+		ORDER BY A.MCHN_INFO_ID DESC
 		]]>
 	</select>
 
