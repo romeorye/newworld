@@ -343,7 +343,6 @@
         
         
         tabViewS = new Rui.ui.tab.LTabView({
-            contentHeight: 200,
             tabs: [
                 {label: 'Needs', content: ''}, 
                 {label: 'Approach', content: ''}, 
