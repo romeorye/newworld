@@ -418,7 +418,7 @@
      	        id: 'retrieveRequestInfoDialog',
      	        title: '조회 요청',
      	        width: 850,
-     	        height: 330,
+     	        height: 400,
      	        modal: true,
      	        visible: false
      	    });
