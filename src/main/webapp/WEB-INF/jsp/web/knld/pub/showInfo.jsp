@@ -203,7 +203,6 @@
             goShowList = function() {
             	//$(location).attr('href', '<c:url value="/knld/pub/retrieveShowList.do"/>');
             	nwinsActSubmit(document.searchForm, "<c:url value='/knld/pub/retrieveShowList.do'/>");
-            	searchForm
     		};
 
             /* 수정/삭제버튼 */
