@@ -147,6 +147,7 @@
 							)  AS mbrCntPln  --투입인원Y년-계획
 						,round(isnull((select round((sum(PTC_PRO) / 100) / (select case when count(distinct mm_yymm) = 0 then 1 else count(distinct mm_yymm) end  from IRIS_MM_CLS where tss_cd = a.pgTss_cd and cls_yn ='Y' and left(MM_YYMM, 4) = #{condYy} ) , 2) from IRIS_MM_CLS where tss_cd  = a.pgTss_cd and left(MM_YYMM, 4) = #{condYy} and cls_yn ='Y'), 0), 1) AS mbrCntArsl --투입인원Y년-실적
 						,#{condYy} as searchYy
+						,d.MIN_YY AS minYy
 				from    TSS_LIST a
 						inner join IRIS_TSS_GEN_SMRY b
 						on b.tss_cd = a.tss_cd
@@ -155,21 +156,44 @@
 						left outer join (SELECT NP_CD
 											  ,PJT_NM
 											  ,LNCH_YM
-											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy} THEN SAL_SUM_AMT ELSE 0 END) AS YY
-											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+1 THEN SAL_SUM_AMT ELSE 0 END) AS YY1
-											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+2 THEN SAL_SUM_AMT ELSE 0 END) AS YY2
-											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+3 THEN SAL_SUM_AMT ELSE 0 END) AS YY3
-											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+4 THEN SAL_SUM_AMT ELSE 0 END) AS YY4
-											  ,(SUM(CASE WHEN LEFT(YM,4) = #{condYy} THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+1 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+2 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+3 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+4 THEN SAL_SUM_AMT ELSE 0 END))
+											  ,MIN_YY
+											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY THEN SAL_SUM_AMT ELSE 0 END) AS YY
+											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END) AS YY1
+											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END) AS YY2
+											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END) AS YY3
+											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END) AS YY4
+											  ,(SUM(CASE WHEN LEFT(YM,4) = MIN_YY THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END))
 											   /CONVERT(FLOAT,5) AS AVG_YY
-										  FROM IRIS_NEW_PRDT_SAL_STAT sub
-										 GROUP BY NP_CD
+										  FROM (SELECT MST.NP_CD
+													  ,MST.PJT_NM
+													  ,MST.LNCH_YM
+													  ,MST.YM
+													  ,MST.SAL_SUM_AMT AS SAL_AMT
+													  ,YYCNT.CNT
+													  ,MST.SAL_SUM_AMT/CONVERT(FLOAT,YYCNT.CNT) AS SAL_SUM_AMT
+													  ,(select LEFT(min(sub.YM),4) from IRIS_NEW_PRDT_SAL_STAT sub where sub.np_cd=MST.np_cd) MIN_YY
+												  from IRIS_NEW_PRDT_SAL_STAT MST
+												      ,(select pjt_nm
+															  ,YM
+															  ,count(1) over (partition by pjt_nm,YM) as cnt
+														  from (select np_cd
+																	  ,pjt_nm
+																	  ,YM
+																  from IRIS_NEW_PRDT_SAL_STAT
+																 where 1=1
+																 group by np_cd ,pjt_nm,YM) CNT ) YYCNT
+														 WHERE 1=1
+														   AND MST.PJT_NM=YYCNT.PJT_NM
+														   AND MST.YM=YYCNT.YM) MST
+										 WHERE 1=1
+										GROUP BY  NP_CD
 											  ,PJT_NM
-											  ,LNCH_YM) d
+											  ,LNCH_YM
+											  ,MIN_YY) d
 						on a.wbs_cd=d.np_cd
 				where   1=1
 				and     #{condYy} BETWEEN LEFT(a.TSS_STRT_DD, 4) AND LEFT(a.TSS_FNH_DD, 4)
@@ -187,28 +211,32 @@
     <![CDATA[
         --retrieveGenTssStatDtlPopList
 		select np_cd as npCd
-		      ,pjt_nm as nm
-		      ,max(case when mm='01' then amt else 0 end) as m1
-			  ,max(case when mm='02' then amt else 0 end) as m2
-			  ,max(case when mm='03' then amt else 0 end) as m3
-			  ,max(case when mm='04' then amt else 0 end) as m4
-			  ,max(case when mm='05' then amt else 0 end) as m5
-			  ,max(case when mm='06' then amt else 0 end) as m6
-			  ,max(case when mm='07' then amt else 0 end) as m7
-			  ,max(case when mm='08' then amt else 0 end) as m8
-			  ,max(case when mm='09' then amt else 0 end) as m9
-			  ,max(case when mm='10' then amt else 0 end) as m10
-			  ,max(case when mm='11' then amt else 0 end) as m11
-			  ,max(case when mm='12' then amt else 0 end) as m12
-		  from (select np_cd
-		              ,pjt_nm
-					  ,right(ym,2) mm
-					  ,round(sum(sal_sum_amt)/convert(float,100000000),2) as amt
-				  from IRIS_NEW_PRDT_SAL_STAT
-				 where 1=1
+			  ,pjt_nm as nm
+			  ,round(sum(case when mm =  '01' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m1
+			  ,round(sum(case when mm =  '02' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m2
+			  ,round(sum(case when mm =  '03' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m3
+			  ,round(sum(case when mm =  '04' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m4
+			  ,round(sum(case when mm =  '05' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m5
+			  ,round(sum(case when mm =  '06' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m6
+			  ,round(sum(case when mm =  '07' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m7
+			  ,round(sum(case when mm =  '08' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m8
+			  ,round(sum(case when mm =  '09' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m9
+			  ,round(sum(case when mm =  '10' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m10
+			  ,round(sum(case when mm =  '11' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m11
+			  ,round(sum(case when mm =  '12' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m12
+		  from
+		(select np_cd
+			  ,pjt_nm
+			  ,lnch_ym
+			  ,exp_lnch_ym
+			  ,ym
+			  ,right(ym,2) as mm
+			  ,count(1) over (partition by pjt_nm,ym) as cnt
+			  ,convert(float,sal_sum_amt)/count(1) over (partition by pjt_nm,ym) as sal_sum_amt
+		  from iris_new_prdt_sal_stat
+		 where 1=1
 				   and left(ym,4)=#{yy}
-				   and np_cd=#{npCd}
-				 group by np_cd, pjt_nm ,right(ym,2)) main
+				   and np_cd=#{npCd}) main
 		  group by np_cd ,pjt_nm
 		]]>
     </select>
@@ -296,6 +324,7 @@
 						,b.DCAC_RSON_TXT                                                          AS dcacRsonTxt  --중단사유
 						,isnull(b.NPROD_SALS_PLN_Y  , c.NPROD_SALS_PLN_Y   ) AS nprodSalsPlnY    --매출계획Y
 						,#{condYy} as searchYy
+						,d.MIN_YY as minYy
 				from    TSS_LIST a
 						inner join IRIS_TSS_TCTM_SMRY b
 						on b.tss_cd = a.tss_cd
@@ -304,21 +333,44 @@
 						left outer join (SELECT NP_CD
 											  ,PJT_NM
 											  ,LNCH_YM
-											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy} THEN SAL_SUM_AMT ELSE 0 END) AS YY
-											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+1 THEN SAL_SUM_AMT ELSE 0 END) AS YY1
-											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+2 THEN SAL_SUM_AMT ELSE 0 END) AS YY2
-											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+3 THEN SAL_SUM_AMT ELSE 0 END) AS YY3
-											  ,SUM(CASE WHEN LEFT(YM,4) = #{condYy}+4 THEN SAL_SUM_AMT ELSE 0 END) AS YY4
-											  ,(SUM(CASE WHEN LEFT(YM,4) = #{condYy} THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+1 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+2 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+3 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) = #{condYy}+4 THEN SAL_SUM_AMT ELSE 0 END))
+											  ,MIN_YY
+											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY THEN SAL_SUM_AMT ELSE 0 END) AS YY
+											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END) AS YY1
+											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END) AS YY2
+											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END) AS YY3
+											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END) AS YY4
+											  ,(SUM(CASE WHEN LEFT(YM,4) = MIN_YY THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END)
+											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END))
 											   /CONVERT(FLOAT,5) AS AVG_YY
-										  FROM IRIS_NEW_PRDT_SAL_STAT sub
-										 GROUP BY NP_CD
+										  FROM (SELECT MST.NP_CD
+													  ,MST.PJT_NM
+													  ,MST.LNCH_YM
+													  ,MST.YM
+													  ,MST.SAL_SUM_AMT AS SAL_AMT
+													  ,YYCNT.CNT
+													  ,MST.SAL_SUM_AMT/CONVERT(FLOAT,YYCNT.CNT) AS SAL_SUM_AMT
+													  ,(select LEFT(min(sub.YM),4) from IRIS_NEW_PRDT_SAL_STAT sub where sub.np_cd=MST.np_cd) MIN_YY
+												  from IRIS_NEW_PRDT_SAL_STAT MST
+												      ,(select pjt_nm
+															  ,YM
+															  ,count(1) over (partition by pjt_nm,YM) as cnt
+														  from (select np_cd
+																	  ,pjt_nm
+																	  ,YM
+																  from IRIS_NEW_PRDT_SAL_STAT
+																 where 1=1
+																 group by np_cd ,pjt_nm,YM) CNT ) YYCNT
+														 WHERE 1=1
+														   AND MST.PJT_NM=YYCNT.PJT_NM
+														   AND MST.YM=YYCNT.YM) MST
+										 WHERE 1=1
+										GROUP BY  NP_CD
 											  ,PJT_NM
-											  ,LNCH_YM) d
+											  ,LNCH_YM
+											  ,MIN_YY) d
 						on a.wbs_cd=d.np_cd
 				where   1=1
 				and     #{condYy} BETWEEN LEFT(a.TSS_STRT_DD, 4) AND LEFT(a.TSS_FNH_DD, 4)

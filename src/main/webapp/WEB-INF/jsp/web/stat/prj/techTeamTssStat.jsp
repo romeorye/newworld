@@ -147,6 +147,7 @@
                     , { id: 'mbrCntPln',  type: 'number', defaultValue:0 }        //투입인원Y년-계획
                     , { id: 'mbrCntArsl',  type: 'number', defaultValue:0 }       //투입인원Y년-실적
                     , { id: 'searchYy'}       //조회년도
+                    , { id: 'minYy'}       //최초년도
 
                 ]
             });
@@ -298,7 +299,7 @@
 		    };
 
             defaultGrid.on('cellClick', function(e) {
-            	var yy=dataSet.getNameValue(e.row, "searchYy")
+            	var yy=dataSet.getNameValue(e.row, "minYy")
             	var npCd=dataSet.getNameValue(e.row, "wbsCd")
                 if(e.colId == "nprodSalsY") {
                 	openGenTssStatDtlDialog(yy,npCd);
