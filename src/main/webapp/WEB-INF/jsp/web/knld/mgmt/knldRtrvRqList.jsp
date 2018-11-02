@@ -134,6 +134,14 @@
             	$('#authYn').val(record.get('readFlag'));
             	$('#reUrl').val(record.get('docUrl'));
             	$('#docUrl').val(record.get('docUrl'));
+
+            	nwinsActSubmit(aform, "<c:url value="/knld/rsst/knldRtrvRqDetail.do"/>");
+
+            	//var param = "?attcFilId=" + attcFilId;
+     	       	//document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
+     	       	//document.aform.action = '<c:url value='/knld/rsst/knldRtrvRqDetail.do'/>';
+     	       	//document.aform.submit();
+
             });
 
             knldRtrvRqGrid.render('knldRtrvRqGrid');
