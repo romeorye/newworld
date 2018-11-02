@@ -201,12 +201,12 @@
                 remainRemoved: false,
                 lazyLoad: true,
                 fields: [
-                	  { id: 'rqprExprId', type: 'number' }
+                	  { id: 'rqprexatId', type: 'number' }
                 	, { id: 'rqprId', type: 'number' }
-					, { id: 'exprNm' }
+					, { id: 'exatNm' }
 					, { id: 'smpoQty' }
-					, { id: 'exprTim' }
-					, { id: 'exprExp' }
+					, { id: 'exatTim' }
+					, { id: 'exatExp' }
                 ]
             });
 
@@ -214,10 +214,10 @@
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'exprNm',	label: '실험명',		sortable: false,	align:'left',	width: 400 }
+                    , { field: 'exatNm',	label: '실험명',		sortable: false,	align:'left',	width: 400 }
                     , { field: 'smpoQty',	label: '실험수',		sortable: false,	align:'center',	width: 70 }
-                    , { field: 'exprTim',	label: '실험시간',	sortable: false,	align:'center',	width: 80 }
-                    , { field: 'exprExp',	label: '수가',		sortable: false,	align:'center',	width: 100, renderer: function(val, p, record, row, col) {
+                    , { field: 'exatTim',	label: '실험시간',	sortable: false,	align:'center',	width: 80 }
+                    , { field: 'exatExp',	label: '수가',		sortable: false,	align:'center',	width: 100, renderer: function(val, p, record, row, col) {
                     	return Rui.util.LNumber.toMoney(val, '') + '원';
                       } }
                 ]
