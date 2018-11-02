@@ -222,7 +222,7 @@ var mchnInfoId;
 			<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 			<span class="hidden">Toggle 버튼</span>
 		</a>    
-		<h2>TOOL예약</h2>
+		<h2>보유 TOOL</h2>
     </div>
 	<!-- sub-content -->
 	<div class="sub-content">
