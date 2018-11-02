@@ -92,6 +92,7 @@
 			,SND_EML_YN AS sndEmlYn
 		FROM IRIS_SPACE_MTRL_UTM_EV EV
 		WHERE DEL_YN = 'N'
+		  AND OTTP_YN='Y'
 		]]>
 
 		<if test="(supiCd0 != null and supiCd0 != '')">
@@ -180,7 +181,6 @@
 		FROM IRIS_SPACE_MTRL_UTM_EV EV
 		WHERE DEL_YN = 'N'
 		  AND EV_CD=#{evCd}
-		  AND OTTP_YN='Y'
 		]]>
 
 	</select>

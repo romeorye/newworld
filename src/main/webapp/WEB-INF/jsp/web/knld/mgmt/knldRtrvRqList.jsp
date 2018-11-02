@@ -135,8 +135,18 @@
             	$('#reUrl').val(record.get('docUrl'));
             	$('#docUrl').val(record.get('docUrl'));
 
-            	nwinsActSubmit(aform, "<c:url value="/knld/rsst/knldRtrvRqDetail.do"/>");
-
+            	//nwinsActSubmit(aform, "<c:url value="/knld/rsst/knldRtrvRqDetail.do"/>");
+            	function onSubmit(){
+            		 var myForm = document.aform;
+            		 var url = "<c:url value="/knld/rsst/knldRtrvRqDetail.do"/>";
+            		 window.open("" ,"aform",
+            		       "width=1240, height=750, scrollorbars=yes");
+            		 myForm.action =url;
+            		 myForm.method="post";
+            		 myForm.target="aform";
+            		myForm.submit();
+           		}
+            	onSubmit();
             	//var param = "?attcFilId=" + attcFilId;
      	       	//document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
      	       	//document.aform.action = '<c:url value='/knld/rsst/knldRtrvRqDetail.do'/>';

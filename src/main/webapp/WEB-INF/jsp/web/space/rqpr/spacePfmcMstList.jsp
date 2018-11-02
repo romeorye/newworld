@@ -458,12 +458,12 @@
      	   fncRq2 = function(){
     	    	var record = spaceRqprRsltDataSet.getAt(spaceRqprRsltDataSet.rowPosition);
     	    	var rqDocNm 	= record.data.evCtgr0Nm + " > "+record.data.evCtgr1Nm+" > "+record.data.evCtgr2Nm+" > "+record.data.evCtgr3Nm+ " > 통합성능평가 결과서 > "+record.data.spaceNm;
-    	    	var rtrvRqDocCd = "SPACE";
-    	    	var docNo 		= spaceRqprRsltDataSet.getNameValue(spaceRqprRsltDataSet.rowPosition, "rsltAttcFileId");
+    	    	var rtrvRqDocCd = "SPACERQPR";
+    	    	var docNo 		= spaceRqprRsltDataSet.getNameValue(spaceRqprRsltDataSet.rowPosition, "rqprId");
     	    	var pgmPath 	= "Technical Service > 공간평가 > 성능 Master";
     	    	var rgstId 		= '${inputData._userId}';
     	    	var rgstNm 		= '${inputData._userNm}';
-    	    	var reUrl 		= '/system/attach/downloadAttachFile.do';
+    	    	var reUrl 		= '/space/spaceRqprSrchView.do';
 
         	   var params = '?rqDocNm=' + escape(encodeURIComponent(rqDocNm))
    					   + '&rtrvRqDocCd=' + rtrvRqDocCd
