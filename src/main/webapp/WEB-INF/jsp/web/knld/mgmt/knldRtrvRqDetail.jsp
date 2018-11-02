@@ -49,7 +49,7 @@
             var docNo = '<c:out value="${inputData.docNo}"/>';
             var authYn = '<c:out value="${inputData.authYn}"/>';
             var reUrl = '<c:url value="${inputData.reUrl}"/>';
-            var params; 
+            var params;
 
             if(authYn == "Y"){
 	            if(rtrvRqDocCd == 'AA') {
@@ -90,13 +90,15 @@
 	            	params = "?fxaInfoId="+docNo;
 	            }else if(rtrvRqDocCd == '00'  || rtrvRqDocCd == '01'  || rtrvRqDocCd == '02'  ||  rtrvRqDocCd == '03'  || rtrvRqDocCd == '04' || rtrvRqDocCd == '05') {
 	            	params = "?bbsId="+docNo;
-	            } else if(rtrvRqDocCd == 'SPACE') {
+	            }else if(rtrvRqDocCd == 'SPACE') {
 	            	params = "?attcFilId="+docNo;
+	            }else if(rtrvRqDocCd == 'SPACERQPR') {
+	            	params = "?rqprId="+docNo;
 	            }
 			}
-           
+
             $('#detailIFrm').attr('src', reUrl+params);
-            
+
             goKnldRtrvRqList = function() {
     	    	$('#searchForm > input[name=rqDocNm]').val(encodeURIComponent($('#searchForm > input[name=rqDocNm]').val()));
     	    	$('#searchForm > input[name=sbcNm]').val(encodeURIComponent($('#searchForm > input[name=sbcNm]').val()));
