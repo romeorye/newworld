@@ -1,5 +1,26 @@
 package iris.web.prj.grs.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.velocity.app.VelocityEngine;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.ui.velocity.VelocityEngineUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
 import devonframe.configuration.ConfigService;
 import devonframe.dataaccess.CommonDao;
 import devonframe.message.saymessage.SayMessage;
@@ -13,25 +34,6 @@ import iris.web.prj.tss.com.service.TssUserService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.system.base.IrisBaseController;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.velocity.app.VelocityEngine;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.ui.velocity.VelocityEngineUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class GrsMngController extends IrisBaseController {
@@ -165,7 +167,7 @@ public class GrsMngController extends IrisBaseController {
 		LOGGER.debug("###########################################################");
 //		String rtnMsg = "";
 //		String rtnSt = "";
-		Map<String, String> msgMap = new HashMap<>();
+		Map<String, Object> msgMap = new HashMap<>();
 
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
 		ModelAndView modelAndView = new ModelAndView("ruiView");
