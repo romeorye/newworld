@@ -58,12 +58,12 @@
 		var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	 , { field: 'toolNm',	label: 'TOOL명',		sortable: false,	align:'center',	width: 220 }
-                 , { field: 'ver',			label: '버전',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'cmpnNm',		label: '기관',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 100 }
+	        	 , { field: 'toolNm',	label: 'TOOL명',		sortable: false,	align:'center',	width: 240 }
+                 , { field: 'ver',			label: '버전',		sortable: false,	align:'center',	width: 130 }
+                 , { field: 'cmpnNm',		label: '기관',		sortable: false,	align:'center',	width: 130 }
+                 , { field: 'evCtgr',			label: '평가카테고리',		sortable: false,	align:'center',	width: 115 }
                  , { field: 'evWay',	label: '평가방법',		sortable: false,	align:'center',	width: 150 }
-                 , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 70 }
+                 , { field: 'mchnCrgrNm',	label: '담당자',		sortable: false,	align:'center',	width: 83 }
                  , { field: 'mchnInfoId' ,hidden : true}
             ]
 	    });
@@ -167,7 +167,7 @@
 								<div id="mchnCrgrNm"></div>
 							</td>
 							<td></td>
-							
+
 						</tr>
 						<tr>
 							<th align="txt-right">분류</th>

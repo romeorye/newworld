@@ -327,7 +327,7 @@ h3 {
                 columnModel: spaceExatDtlColumnModel,
                 dataSet: spaceExatDtlDataSet,
                 width: 400,
-                height: 340,
+                height: 320,
                 autoToEdit: false,
                 autoWidth: true
             });

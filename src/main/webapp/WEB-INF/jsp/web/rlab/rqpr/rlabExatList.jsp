@@ -314,7 +314,7 @@
                 columnModel: rlabExatDtlColumnModel,
                 dataSet: rlabExatDtlDataSet,
                 width: 400,
-                height: 340,
+                height: 320,
                 autoToEdit: false,
                 autoWidth: true
             });
