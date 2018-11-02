@@ -167,7 +167,7 @@ public class GrsMngController extends IrisBaseController {
 		LOGGER.debug("###########################################################");
 //		String rtnMsg = "";
 //		String rtnSt = "";
-		Map<String, Object> msgMap = new HashMap<>();
+		Map<String, Object> msgMap = new HashMap<String, Object>();
 
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
 		ModelAndView modelAndView = new ModelAndView("ruiView");
