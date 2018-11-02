@@ -667,12 +667,7 @@
         //품의서요청
         btnCsusRq = new Rui.ui.LButton('btnCsusRq');
         btnCsusRq.on('click', function() {
-            if(!document.getElementById('tabContent0').contentWindow.fnIfmIsUpdate()){
-                return;
-            }
-
-
-        	if(confirm("품의서요청을 하시겠습니까?")) {
+            if(confirm("품의서요청을 하시겠습니까?")) {
         	    regDm.update({
                     url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
                     params:'gbn=CSUS&tssCd='+gvTssCd
