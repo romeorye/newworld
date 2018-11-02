@@ -106,16 +106,20 @@
         });
 	</script>
     </head>
-    <body>
+    <body style="overflow-y:hidden !important;">
     <form name="searchForm" id="searchForm">
 		<input type="hidden" name="rqDocNm" value="${inputData.rqDocNm}"/>
 		<input type="hidden" name="sbcNm" value="${inputData.sbcNm}"/>
     </form>
-   		<div class="contents">
+   		<div class="contents"  style="width:100%;">
 
-   			<div class="sub-content">
+   			<div class="sub-content"  style="padding:0; max-width:100%;">
 				<form name="aform" id="aform" method="post">
    				<div class="titleArea">
+   					<span class="leftCon">
+				          <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+				          <span class="hidden">Toggle 버튼</span>
+					</span>
 	   				<h2><c:out value='${inputData.pgmPath}'/></h2>
    					<div class="LblockButton">
    						<!-- <button type="button" class="btn"  id="listBtn" name="listBtn" onclick="goKnldRtrvRqList()">목록</button> -->
