@@ -81,14 +81,14 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @see iris.web.batch.service.TssCopyBatchService#insertGenTssCopy(java.util.HashMap)
 	 */
 	@Override
-	public int insertTssCopy(Map<String, Object> input) {
+	public void insertTssCopy(Map<String, Object> input) {
 		String tssCd = (String) input.get("affrCd");
 		String psTssCd = "";
 
 		if ("PL".equals(input.get("pgsStepCd"))) {
 			/*******************계획*******************/
 			//1. 계획 -> 진행
-			String wbsCd = this.createWbsCd(input);
+			String wbsCd = createWbsCd(input);
 			if (wbsCd != null) {
 				input.put("pgsStepCd", "PG");   //진행
 				input.put("tssSt", "100");             //진행중
@@ -96,20 +96,20 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				input.put("wbsCd", wbsCd);
 
 				if ("G".equals(input.get("tssScnCd"))) { //일반과제
-					this.insertGenData(input);
-					this.insertToQasTssQasIF(input); //QAS 과제등록
+					insertGenData(input);
+					insertToQasTssQasIF(input); //QAS 과제등록
 				} else if ("O".equals(input.get("tssScnCd"))) {//대외협력과제
-					this.insertOusdData(input);
+					insertOusdData(input);
 				} else if ("N".equals(input.get("tssScnCd"))) {//국책과제
-					this.insertNatData(input);
+					insertNatData(input);
 				} else if ("D".equals(input.get("tssScnCd"))) {//기술팀과제
-					this.insertTctmData(input);
-					this.insertToQasTssQasIF(input); //QAS 과제등록
+					insertTctmData(input);
+					insertToQasTssQasIF(input); //QAS 과제등록
 				}
 			}
 		} else if ("AL".equals(input.get("pgsStepCd"))) {
 			/*******************변경*******************/
-			psTssCd = this.getRetrievePgTss(tssCd);
+			psTssCd = getRetrievePgTss(tssCd);
 
 			//변경 데이터 진행에 update
 			input.put("psTssCd", psTssCd);
@@ -117,13 +117,13 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 			input.put("tssCd", tssCd);
 
 			if ("G".equals(input.get("tssScnCd"))) { //일반과제
-				this.updateGenData(input);
+				updateGenData(input);
 			} else if ("O".equals(input.get("tssScnCd"))) {//대외협력과제
-				this.updateOusdData(input);
+				updateOusdData(input);
 			} else if ("N".equals(input.get("tssScnCd"))) {//국책과제
-				this.updateNatData(input);
+				updateNatData(input);
 			} else if ("D".equals(input.get("tssScnCd"))) {//기술팀과제
-				this.updateTctmData(input);
+				updateTctmData(input);
 			}
 /*
 			if( !"D".equals(input.get("tssScnCd")) )  {
@@ -140,13 +140,13 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		} else if ("CM".equals(input.get("pgsStepCd"))) {
 			/*******************완료*******************/
 			if ("G".equals(input.get("tssScnCd"))) { //일반과제
-				this.updateGenNmData(input);
+				updateGenNmData(input);
 			} else if ("O".equals(input.get("tssScnCd"))) {//대외협력과제
-				this.updateOusdNmData(input);
+				updateOusdNmData(input);
 			} else if ("N".equals(input.get("tssScnCd"))) {//국책과제
-				this.updateNatNmData(input);
+				updateNatNmData(input);
 
-                psTssCd = this.getRetrievePgTss(tssCd);
+                psTssCd = getRetrievePgTss(tssCd);
 
                 String finYn = String.valueOf(input.get("finYn")).trim();
                 if (!"Y".equals(finYn)) {                       // 최종차수 여부
@@ -158,7 +158,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
                     input.put("tssNosSt", tssNosSt + 1);
 
                     input.put("batType", "01"); //차수 값 null로 입력
-                    this.insertNatData(input);
+                    insertNatData(input);
 
                     //계획 -> 진행으로 바로 변경
                     input.put("batType", "");
@@ -167,27 +167,25 @@ public class TssStCopyServiceImpl implements TssStCopyService {
                     input.put("tssSt", "100");                  //진행중
                     input.put("pgTssCd", input.get("tssCd"));
 
-                    this.insertNatData(input);
+                    insertNatData(input);
                 }
 			} else if ("D".equals(input.get("tssScnCd"))) {//기술팀과제
-				this.updateTctmNmData(input);
+				updateTctmNmData(input);
 			}
 		} else if ("DC".equals(input.get("pgsStepCd"))) {
 			/*******************중단*******************/
 			if ("G".equals(input.get("tssScnCd"))) { //일반과제
-				this.updateGenNmData(input);
+				updateGenNmData(input);
 			} else if ("O".equals(input.get("tssScnCd"))) {//대외협력과제
-				this.updateOusdNmData(input);
+				updateOusdNmData(input);
 			} else if ("N".equals(input.get("tssScnCd"))) {//국책과제
-				this.updateNatNmData(input);
+				updateNatNmData(input);
 			} else if ("D".equals(input.get("tssScnCd"))) {//기술팀과제
-				this.updateTctmNmData(input);
+				updateTctmNmData(input);
 			}
 		}
 		//과제 생성시 지적재산권
-		this.saveTssPimsInfo(input);
-
-		return 0;
+		saveTssPimsInfo(input);
 	}
 
 
@@ -197,7 +195,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @param input
 	 * @return
 	 */
-	private int insertGenData(Map<String, Object> input) {
+	private void insertGenData(Map<String, Object> input) {
 		//		1.1 IRIS_TSS_MGMT_MST		- 과제관리마스터
 		commonDao.insert("prj.tss.gen.cmpl.insertGenTssCmplMst", input);
 		//		1.2 IRIS_TSS_GEN_SMRY 		- 일반과제 개요
@@ -216,7 +214,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		commonDao.insert("prj.tss.gen.altr.insertGenTssAltrYld", input);
 		//		1.8. WbsCd 생성
 		commonDao.insert("prj.tss.com.updateTssMstWbsCd", input);
-		return 0;
 	}
 
 
@@ -226,7 +223,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @param input
 	 * @return
 	 */
-	private int insertOusdData(Map<String, Object> input) {
+	private void insertOusdData(Map<String, Object> input) {
 		//		1.1 IRIS_TSS_MGMT_MST		- 과제관리마스터
 		commonDao.insert("prj.tss.gen.cmpl.insertGenTssCmplMst", input);
 		//		1.2 IRIS_TSS_OUSD_COO_SMRY 	- 대외협력과제 개요
@@ -239,7 +236,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		commonDao.insert("prj.tss.gen.altr.insertGenTssAltrYld", input);
 		//		1.8 WbsCd 생성
 		commonDao.insert("prj.tss.com.updateTssMstWbsCd", input);
-		return 0;
 	}
 
 
@@ -249,7 +245,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @param input
 	 * @return
 	 */
-	private int insertNatData(Map<String, Object> input) {
+	private void insertNatData(Map<String, Object> input) {
 		//		1.1 IRIS_TSS_MGMT_MST		- 과제관리마스터
 		commonDao.insert("prj.tss.gen.cmpl.insertGenTssCmplMst", input);
 		//	 	1.2 IRIS_TSS_NAT_PLCY_SMRY_CRRO_INST
@@ -294,7 +290,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
             //     1.9 WbsCd 생성
             commonDao.insert("prj.tss.com.updateTssMstWbsCd", input);
         }
-		return 0;
 	}
 
 	/**
@@ -317,14 +312,14 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @param input
 	 * @return
 	 */
-	private int updateGenData(Map<String, Object> input) {
+	private void updateGenData(Map<String, Object> input) {
 
 		//		1.1 IRIS_TSS_MGMT_MST		- 과제관리마스터
 		genTssAltrService.updateGenTssMgmtMstToSelect(input);
 		//		1.2 IRIS_TSS_GEN_SMRY 		- 일반과제 개요
 		genTssAltrService.updateGenTssSmryToSelect(input);
 
-		this.getChangData(input);
+		getChangData(input);
 		//input.put("psTssCd", input.get("pgTssCd")) ;
 		
 		//		1.3 IRIS_TSS_PTC_RSST_MBR 	- 과제참여연구원
@@ -339,7 +334,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		//			1.1.1 상태값 변경
 		input.put("tssSt", "100");
 		genTssPlnService.updateGenTssPlnMstTssSt(input);
-		return 0;
 	}
 
 
@@ -358,12 +352,12 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @param input
 	 * @return
 	 */
-	private int updateOusdData(Map<String, Object> input) {
+	private void updateOusdData(Map<String, Object> input) {
 
 		//		1.1 IRIS_TSS_MGMT_MST		- 과제관리마스터
 		genTssAltrService.updateGenTssMgmtMstToSelect(input);
 
-		this.getChangData(input);
+		getChangData(input);
 
 		input.put("psTssCd", input.get("pgTssCd"));
 
@@ -381,7 +375,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		//				1.1.1 상태값 변경
 		input.put("tssSt", "100");
 		genTssPlnService.updateGenTssPlnMstTssSt(input);
-		return 0;
 	}
 
 
@@ -391,14 +384,14 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @param input
 	 * @return
 	 */
-	private int updateNatData(Map<String, Object> input) {
+	private void updateNatData(Map<String, Object> input) {
 
 		//		1.1 IRIS_TSS_MGMT_MST		- 과제관리마스터
 		genTssAltrService.updateGenTssMgmtMstToSelect(input);
 		//		1.2 IRIS_TSS_NAT_PLCY_SMRY 		- 국책과제 개요
 		natTssAltrService.updateNatTssSmryToSelect(input);
 
-		this.getChangData(input);
+		getChangData(input);
 
 		//		1.3 수행기관 //IRIS_TSS_NAT_PLCY_SMRY_CRRO_INST
 		natTssAltrService.updateNatTssSmryCrroToSelect(input);
@@ -413,7 +406,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		//		1.7 상태값 변경
 		input.put("tssSt", "100");
 		genTssPlnService.updateGenTssPlnMstTssSt(input);
-		return 0;
 	}
 
 	/**
@@ -427,7 +419,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		genTssAltrService.updateGenTssMgmtMstToSelect(input);
 		//		개요
 		commonDao.insert("prj.tss.tctm.updateTctmTssAltrSmry", input);
-		this.getChangData(input);
+		getChangData(input);
 		//		산출물
 		genTssAltrService.updateGenTssYldItmToSelect(input);
 		//		상태값
@@ -442,7 +434,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @param input
 	 * @return
 	 */
-	private int updateGenNmData(Map<String, Object> input) {
+	private void updateGenNmData(Map<String, Object> input) {
 
 		//  1. 마스터
 		try {
@@ -456,7 +448,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		//  3. WBS
 		commonDao.update("prj.tss.gen.updateWbsUserNmDeptNm", input);
 
-		return 0;
 	}
 
 
@@ -466,14 +457,13 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @param input
 	 * @return
 	 */
-	private int updateOusdNmData(Map<String, Object> input) {
+	private void updateOusdNmData(Map<String, Object> input) {
 
 		//  1. 마스터
 		commonDao.update("prj.tss.com.updateMstUserNmDeptNm", input);
 		//  2. 멤버
 		commonDao.update("prj.tss.com.updateMbrUserNmDeptNm", input);
 
-		return 0;
 	}
 
 
@@ -483,7 +473,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @param input
 	 * @return
 	 */
-	private int updateNatNmData(Map<String, Object> input) {
+	private void updateNatNmData(Map<String, Object> input) {
 
 		//  1. 마스터
 		commonDao.update("prj.tss.com.updateMstUserNmDeptNm", input);
@@ -491,8 +481,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		commonDao.update("prj.tss.com.updateMbrUserNmDeptNm", input);
 		//  2. 연구비카드
 		commonDao.update("prj.tss.nat.updateCdcdUserNmDeptNm", input);
-
-		return 0;
 	}
 
 	/**
@@ -512,11 +500,10 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @param input
 	 * @return
 	 */
-	private int insertErrLog(Map<String, Object> input) {
+	private void insertErrLog(Map<String, Object> input) {
 
 		commonDao.insert("batch.insertErrLog", input);
 
-		return 0;
 	}
 
 
@@ -588,7 +575,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 			input.put("errPath", input.get("affrCd"));
 			input.put("userId", "Batch");
 
-			this.insertErrLog(input);
+			insertErrLog(input);
 		} else {
 			//seq가 null일 경우
 			if ("".equals(wbsCdSeqS) || null == wbsCdSeqS || "null".equals(wbsCdSeqS)) {
@@ -698,7 +685,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 
 
 	public void saveTssPimsInfo(Map<String, Object> input) {
-		String psTssCd = this.getRetrievePgTss(input.get("affrCd").toString());
+		String psTssCd = getRetrievePgTss(input.get("affrCd").toString());
 		input.put("pgTssCd", psTssCd);
 		//과제 지적재산권 등록 및 수정
 		commonDaoPims.update("batch.saveTssPimsInfo", input);
@@ -723,22 +710,9 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	public void insertToQasTssQasIF(Map<String, Object> input) {
 
 		HashMap<String,Object> tssInfo = commonDao.select("prj.tss.com.selectTssInfo",input);
+
 		//제품만 등록
 		if(tssInfo!=null && "00".equals(tssInfo.get("tssAttrCd"))){
-			//사업부, 제품군 정보는 코드가 아닌 텍스트로 전달
-//			HashMap<String, Object> param = new HashMap<String, Object>();
-//
-//			param.put("comCdCd", "PROD_G");
-//			param.put("comDtlCd", (String) tssInfo.get("prodG"));
-//			String prodGNm = commonDao.select("common.code.retrieveCodeValue",param);
-//
-//			param.put("comCdCd", "BIZ_DPT_CD");
-//			param.put("comDtlCd", (String) tssInfo.get("bizDptCd"));
-//			String bizDptCdNm = commonDao.select("common.code.retrieveCodeValue",param);
-//
-//			tssInfo.put("bizDptCdNm", bizDptCdNm);
-//			tssInfo.put("prodGNm", prodGNm);
-
 			tssInfo.put("userId", "Batch");
 
 			commonDaoQasU.insert("prj.tss.com.insertToQasTssQasIF",tssInfo);	//울산

@@ -1,28 +1,38 @@
 package iris.web.prj.grs.service;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
+import devonframe.configuration.ConfigService;
 import devonframe.dataaccess.CommonDao;
+import devonframe.util.NullUtil;
 import iris.web.common.util.CommonUtil;
 import iris.web.common.util.StringUtil;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.tssbatch.service.TssStCopyService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.velocity.app.VelocityEngine;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.velocity.VelocityEngineUtils;
+
+import javax.annotation.Resource;
+import java.util.*;
 
 @Service("grsMngService")
 public class GrsMngServiceImpl implements GrsMngService {
 
 	@Resource(name = "commonDao")
 	private CommonDao commonDao;
+
+	@Resource(name = "configService")
+	private ConfigService configService;
+
+
+	@Resource(name = "jspProperties")
+	private Properties jspProperties;
+
+
+	@Resource(name = "velocityEngine")
+	private VelocityEngine velocityEngine;
 
 	@Resource(name = "tssStCopyService")
 	private TssStCopyService tssStCopyService;
@@ -68,8 +78,8 @@ public class GrsMngServiceImpl implements GrsMngService {
 	}
 
 	@Override
-	public Map<String, String> saveGrsInfo(HashMap<String, Object> input) {
-		HashMap<String, String> result = new HashMap<String, String>();
+	public Map<String, Object> saveGrsInfo(HashMap<String, Object> input) {
+		HashMap<String, Object> result = new HashMap<>();
 		if ("".equals(input.get("tssCd"))) {
 			result.put("rtnSt", "F");
 
@@ -95,9 +105,12 @@ public class GrsMngServiceImpl implements GrsMngService {
 				input.put("tssSt","100");
 			}
 
+			LOGGER.debug("=============== 과제 기본정보 등록 ===============");
 			// mchnCgdgService.saveCgdsMst(input);
 			updateGrsInfo(input);                                                        //과제 기본정보 등록
 			input.put("tssCd", input.get("newTssCd"));
+			result.put("tssCd", (String) input.get("newTssCd"));
+			LOGGER.debug("=============== 생성TSS_CD : "+input.get("newTssCd")+" ===============");
 
 
 			if (grsYn.equals("Y")) {
@@ -106,7 +119,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 				input.put("dlbrCrgr", input.get("_userSabun"));
 				updateGrsReqInfo(input);                                            //GRS 정보 등록
 			}else if (grsYn.equals("N")) {
-				LOGGER.debug("=============== GRS 미수행시 마스터 이관 ===============");
+				LOGGER.debug("=============== GRS=N 인경우 마스터 이관 ===============");
 				String tssCd = (String) input.get("tssCd");
 
 				LOGGER.debug("=============== 과제정보 마스터 이관(PL) ===============");
@@ -242,7 +255,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 			}
 
 			input.put("rsstSphe", rsstSphe);
-			commonDao.insert("prj.grs.updateGrsDefInfo02", input);
+			commonDao.update("prj.grs.updateGrsDefInfo02", input);
 		}
 
 
@@ -398,4 +411,106 @@ public class GrsMngServiceImpl implements GrsMngService {
 		return commonDao.select("prj.grs.getGuid", input);
 	}
 
+	@Override
+	public String reqGrsApproval(HashMap<String, Object> input) throws Exception {
+		List<Map<String, Object>> grsFileList;
+		input.put("cmd", "requestApproval");
+
+		String serverUrl = "http://" + jspProperties.getProperty("defaultUrl") + ":" + jspProperties.getProperty("serverPort") + "/" + jspProperties.getProperty("contextPath");
+		StringBuffer sb = new StringBuffer();
+
+		input = StringUtil.toUtf8Input(input);
+
+		String tssCode = (String) input.get("tssCds");
+
+		String[] tssCds = (NullUtil.nvl(input.get("tssCds"),"")).split(",");
+		List<String> tssCdList = new ArrayList<String>();
+		String commTxt = "";
+
+		String evTitl = "";
+		for(String tssCd : tssCds) {
+			tssCdList.add(tssCd);
+		}
+
+		input.put("tssCdList", tssCdList);
+
+		String guid = grsMngService.getGuid(input);
+
+		Map<String,Object> grsApprInfo  = new HashMap<String, Object>();
+
+		List<Map<String,Object>> grsInfo = grsMngService.retrieveGrsApproval(input);
+
+		grsApprInfo.put("evTitl", grsInfo.get(0).get("evTitl"));
+		grsApprInfo.put("cfrnAtdtCdTxtNm", grsInfo.get(0).get("cfrnAtdtCdTxtNm"));
+
+		List<Map<String,Object>> rqprAttachFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
+
+		for(int i=0;i<grsInfo.size();i++) {
+			sb.append("<tr>")
+					.append("<th>").append(grsInfo.get(i).get("grsEvSt")).append("</th>")
+					.append("<td>").append(grsInfo.get(i).get("prjNm")).append("</td>")
+					.append("<td>").append(grsInfo.get(i).get("tssNm")).append("</td>")
+					.append("<td>").append(grsInfo.get(i).get("saSabunName")).append("</td>")
+					.append("<td>").append(grsInfo.get(i).get("tssType")).append("</td>")
+					.append("<td>").append(grsInfo.get(i).get("evScr")).append("</td>")
+					.append("<td>").append("PASS").append("</td>")
+					.append("</tr>");
+		}
+
+		grsApprInfo.put("grsEvResult", sb.toString());
+
+		sb.delete(0, sb.length());
+
+		for(int i=0;i<grsInfo.size();i++) {
+			commTxt = ((String)grsInfo.get(i).get("commTxt")).replaceAll("\n", "<br/>");
+			evTitl = ((String)grsInfo.get(i).get("evTitl")).replaceAll("\n", "<br/>");
+
+			sb.append("<li class='analyze_field'>")
+					.append("<p class='analyze_s_txt'><b>과제명 : </b>").append(grsInfo.get(i).get("tssNm")).append("</p>")
+					/* 일시, 장소 및 참석자를 위로 올림
+					.append("<p class='analyze_s_txt'><b>일시, 장소 : </b>").append(grsInfo.get(i).get("evTitl")).append("</p>")
+					.append("<p class='analyze_s_txt'><b>참석자 : </b>").append(grsInfo.get(i).get("cfrnAtdtCdTxtNm")).append("</p>")
+					*/
+					.append("<p class='analyze_s_txt'><b>주요 Comment : </b><p style='padding-left:20px; box-sizing:border-box;line-height:1.4;'>").append(commTxt).append("</p></p>");
+				/* 첨부파일 주석처리
+				.append("<p class='analyze_s_txt'><b>첨부파일 : </b>");
+
+	    		input.put("attcFilId", grsInfo.get(i).get("attcFilId"));
+	    		grsFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
+
+	    		for(int j=0;j<grsFileList.size();j++) {
+	    			sb.append("<a href='").append(serverUrl).append("/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=").append(grsFileList.get(j).get("attcFilId")).append("&seq=").append(grsFileList.get(j).get("seq")).append("'>").append(grsFileList.get(j).get("filNm")).append("</a>");
+	    		}
+	    		*/
+
+			sb.append("</p></li>");
+		}
+
+		grsApprInfo.put("grsInfo", sb.toString());
+
+		sb.delete(0, sb.length());
+
+		String body = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "iris/web/prj/grs/vm/grsApproval.vm", "UTF-8", grsApprInfo);
+
+		Map<String, Object> itgRdcsInfo = new HashMap<String, Object>();
+
+		// guid= B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료 + rqprId
+		itgRdcsInfo.put("guId", guid);
+		itgRdcsInfo.put("approvalUserid", input.get("_userId"));
+		itgRdcsInfo.put("approvalUsername", input.get("_userNm"));
+		itgRdcsInfo.put("approvalJobtitle", input.get("_userJobxName"));
+		itgRdcsInfo.put("approvalDeptname", input.get("_userDeptName"));
+		itgRdcsInfo.put("body", body);
+		itgRdcsInfo.put("title", "연구/개발과제 GRS 평가결과 보고의 件 ");
+
+		commonDao.delete("common.itgRdcs.deleteItgRdcsInfo", itgRdcsInfo);
+
+		if(commonDao.insert("common.itgRdcs.saveItgRdcsInfo", itgRdcsInfo) == 0) {
+			throw new Exception("결재요청 정보 등록 오류");
+		}
+
+		input.put("guid", guid);
+		updateApprGuid(input);
+		return guid;
+	}
 }

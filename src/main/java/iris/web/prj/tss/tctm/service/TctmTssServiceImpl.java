@@ -44,6 +44,8 @@ public class TctmTssServiceImpl implements TctmTssService {
 	@Override
 	public void deleteTctmTssInfo(HashMap<String, String> input) {
 		commonDao.delete(tctmPack + ".deleteInfo", input);
+		commonDao.delete(tctmPack + ".deleteEv", input);
+		commonDao.delete(tctmPack + ".deleteEvResult", input);
 		deleteTctmTssSmryInfo(input);
 		deleteTctmTssGoalInfo(input);
 	}
@@ -188,7 +190,7 @@ public class TctmTssServiceImpl implements TctmTssService {
 
 				//개요 첨부파일ID 신규생성
 				HashMap<String, Object> attachFile = commonDao.select(tctmPack +".selectSmryFileId", mstDs);
-				if (!attachFile.isEmpty()) {
+				if (attachFile!=null && !attachFile.isEmpty()) {
 					attachFile.put("userId", mstDs.get("userId"));
 					commonDao.insert("prj.tss.com.insertTssAttachFile", attachFile);
 					smryDs.put("attcFilId", attachFile.get("newAttcFilId"));

@@ -8,7 +8,7 @@ public interface TssStCopyService {
 
 	List<Map<String, Object>> retrieveTssComItgRdcs();
 
-	int insertTssCopy(Map<String, Object> data);
+	void insertTssCopy(Map<String, Object> data);
 
 	void deleteGenTssPlnMstTssSt(HashMap<String, Object> input);
 

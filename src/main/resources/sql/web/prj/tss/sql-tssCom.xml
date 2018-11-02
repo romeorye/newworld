@@ -1156,9 +1156,9 @@
 			   mst.PRJ_CD        as prjCd,
 			   mst.PRJ_NM        as prjNm,
 			   mst.BIZ_DPT_CD    as bizDptCd,
-			   dbo.fn_getComDtlNm('BIZ_DPT_CD',BIZ_DPT_CD)   as bizDptNm,
+			   dbo.fn_getComDtlNm('BIZ_DPT_CD',BIZ_DPT_CD)   as bizDptNm, -- 코드가 아닌 text로 전달
 			   mst.PROD_G        as prodG,
-			   dbo.fn_getComDtlNm('PROD_G',mst.PROD_G)   as prodGNm,
+			   dbo.fn_getComDtlNm('PROD_G',mst.PROD_G)   as prodGNm, --코드가 아닌 text로 전달
 			   mst.SA_SABUN_NEW  as saSabunCd,
 			   mst.SA_SABUN_NAME as saSabunNm,
 			   mst.TSS_STRT_DD   as tssStrtDd,
@@ -1169,10 +1169,10 @@
 			   smr.CTY_OT_PLN_M as ctyOtPlnM
 		from IRIS_TSS_MGMT_MST mst,
         <choose>
-            <when test="tssScnCd != null and tssScnCd.equals('G')">
+            <when test='tssScnCd != null and tssScnCd=="G"'>
                 IRIS_TSS_GEN_SMRY smr
             </when>
-            <when test="tssScnCd != null and tssScnCd.equals('D')">
+            <when test='tssScnCd != null and tssScnCd=="D"'>
                 IRIS_TSS_TCTM_SMRY smr
             </when>
             <otherwise>

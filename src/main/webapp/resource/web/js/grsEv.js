@@ -46,7 +46,7 @@ function makeGrsEvPop() {
 	grsEvDtlDialog = new Rui.ui.LFrameDialog({
 		id : 'grsEvSnDialog',
 		title : 'GRS 평가항목',
-		width : 1200,
+		width : 1250,
 		height : 430,
 		modal : true,
 		visible : false

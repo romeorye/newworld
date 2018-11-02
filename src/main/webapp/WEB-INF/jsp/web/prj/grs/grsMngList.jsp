@@ -153,7 +153,7 @@
                      { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
                      { field: 'wbsCd',   label: '과제코드',  align:'center',  width: 70, vMerge: true },
 				     { field: 'tssNm',        label: '과제명',       align:'left',      width: 200  , vMerge: true , renderer: function(val, p, record, row, i){
-                         return "<a href='javascript:modifyTss("+row+");'><u>" + val +"<u></a>";
+                         return "<a href='javascript:evTssPop("+row+");'><u>" + val +"<u></a>";
                              /*+ (record.data.isTmp=='1'?' (임)':'')*/
                      } },
                      { field: 'prjNm',   label: '프로젝트명',  align:'center',  width: 100 },
@@ -1096,6 +1096,17 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
                setReadonly("tssAttrCd");
                setReadonly("tssType");
 		   }
+
+		   
+		   var tssScnCd = infoDataSet.getNameValue(0,"tssScnCd");
+           if(tssScnCd=="O" || tssScnCd=="N"){
+               $('#displayDiv1').css('display', 'none');
+               $('#displayDiv2').css('display', 'none');
+           }else{
+               $('#displayDiv1').css('display', '');
+               $('#displayDiv2').css('display', '');
+           }
+		   
        });
 
    }

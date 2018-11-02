@@ -11,7 +11,7 @@ public interface GrsMngService {
 
 	int updateGrsInfo(Map<String, Object> input);
 
-	Map<String, String> saveGrsInfo(HashMap<String, Object> input) ;
+	Map<String, Object> saveGrsInfo(HashMap<String, Object> input) ;
 
 	Map<String, String> evGrs(HashMap<String, Object> input, List<Map<String, Object>>dsLst, HashMap<String, Object>dtlDs) ;
 
@@ -32,4 +32,6 @@ public interface GrsMngService {
 	void updateApprGuid(HashMap<String, Object> input);
 
     String getGuid(HashMap<String, Object> input);
+
+	String reqGrsApproval(HashMap<String, Object> input) throws Exception;
 }

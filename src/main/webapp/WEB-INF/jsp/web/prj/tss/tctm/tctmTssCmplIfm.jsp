@@ -47,8 +47,7 @@
     // var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
     var pageMode =
         (
-        (window.parent.pgsStepCd=="P2" && window.parent.gvTssSt=="102")
-        || (window.parent.pgsStepCd=="CM" && window.parent.gvTssSt=="100")
+        (window.parent.pgsStepCd=="PG" && window.parent.gvTssSt=="102")
         )
             ? "W" : "R";
     var dataSet;

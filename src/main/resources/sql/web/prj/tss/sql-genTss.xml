@@ -255,7 +255,7 @@
 			AND (z.dept_nm  LIKE '%'+#{deptName}+'%'  OR z.al_dept_nm LIKE '%'+#{deptName}+'%')
 		</if>
 
-		order by 	z.TSS_STRT_DD  desc, z.TSS_FNH_DD desc
+		order by 	z.TSS_STRT_DD  desc, z.TSS_FNH_DD desc, z.FRST_RGST_DT desc
 
 	</select>
 
