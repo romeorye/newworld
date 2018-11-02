@@ -766,8 +766,8 @@
     	    spaceRqprSearchDialog = new Rui.ui.LFrameDialog({
     	        id: 'spaceRqprSearchDialog',
     	        title: '관련평가 조회',
-    	        width: 750,
-    	        height: 470,
+    	        width: 850,
+    	        height: 500,
     	        modal: true,
     	        visible: false
     	    });

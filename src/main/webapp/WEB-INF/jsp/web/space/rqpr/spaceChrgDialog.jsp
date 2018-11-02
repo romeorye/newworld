@@ -78,12 +78,12 @@
 					<td>
 						<p>
 						<span class="bullet_txt">TRNSYS : <br>
-							<a href="#" onClick="setSpaceChrgInfo('01','01','jollypeas', '송수빈')">송수빈P</a>,
+							<a href="#" onClick="setSpaceChrgInfo('01','01','jollypeas', '송수빈')">송수빈P</a> /
 							<a href="#" onClick="setSpaceChrgInfo('01','01','rumor',     '이진욱')">이진욱P (2W)</a>
 						</span>
 						<span class="bullet_txt">Design Builder : <br>
-							<a href="#" onClick="setSpaceChrgInfo('01','01','rumor',     '이진욱')">이진욱P</a>,
-							<a href="#" onClick="setSpaceChrgInfo('01','01','yujilee',   '이유지')">이유지S</a>,
+							<a href="#" onClick="setSpaceChrgInfo('01','01','rumor',     '이진욱')">이진욱P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('01','01','yujilee',   '이유지')">이유지S</a> /
 							<a href="#" onClick="setSpaceChrgInfo('01','01','nhahn',     '안남혁')">안남혁S (2W)</a>
 						</span>
 						<span class="bullet_txt">Energyplus : <br>
@@ -100,8 +100,8 @@
 							<a href="#" onClick="setSpaceChrgInfo('01','02','giantsteps','김준혁')">김준혁S (2W)</a>
 						</span>
 						<span class="bullet_txt">Physibel :<br>
-							<a href="#" onClick="setSpaceChrgInfo('01','02','rumor',     '이진욱')">이진욱P</a>,
-							<a href="#" onClick="setSpaceChrgInfo('01','02','yujilee',   '이유지')">이유지S (2W)</a>,
+							<a href="#" onClick="setSpaceChrgInfo('01','02','rumor',     '이진욱')">이진욱P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('01','02','yujilee',   '이유지')">이유지S (2W)</a> /
 
 						</span>
 					</td>
@@ -128,14 +128,14 @@
 					</th>
 					<td>
 						<span class="bullet_txt">
-							<a href="#" onClick="setSpaceChrgInfo('02','01','hyokeun',   '황효근')">황효근P</a>,
+							<a href="#" onClick="setSpaceChrgInfo('02','01','hyokeun',   '황효근')">황효근P</a> /
 							<a href="#" onClick="setSpaceChrgInfo('02','01','yujilee',   '이유지')">이유지S</a>
 							<br><em>(협의)</em>
 						</span>
 					</td>
 					<td>
 						<span class="bullet_txt">
-						 	<a href="#" onClick="setSpaceChrgInfo('02','02','hyokeun',   '황효근')">황효근P</a>,
+						 	<a href="#" onClick="setSpaceChrgInfo('02','02','hyokeun',   '황효근')">황효근P</a> /
 							<a href="#" onClick="setSpaceChrgInfo('02','02','yujilee',   '이유지')">이유지S</a>
 							<br><em>(협의)</em>
 						</span>
@@ -143,21 +143,21 @@
 
 					<td>
 						<span class="bullet_txt">
-							<a href="#" onClick="setSpaceChrgInfo('02','03','shoonpark', '박상훈')">박상훈P</a>,
+							<a href="#" onClick="setSpaceChrgInfo('02','03','shoonpark', '박상훈')">박상훈P</a> /
 							<a href="#" onClick="setSpaceChrgInfo('02','03','nhahn',     '안남혁')">안남혁S</a>
 							<br><em>(협의)</em>
 						</span>
 					</td>
 					<td>
 						<span class="bullet_txt">
-							<a href="#" onClick="setSpaceChrgInfo('02','04','giantsteps','김준혁')">김준혁S</a>,
+							<a href="#" onClick="setSpaceChrgInfo('02','04','giantsteps','김준혁')">김준혁S</a> /
 							<a href="#" onClick="setSpaceChrgInfo('02','04','nhahn',     '안남혁')">안남혁S</a>
 							<br><em>(협의)</em>
 						</span>
 					</td>
 					<!-- <td class="txt_gray">
 						<span class="bullet_txt">
-							<a href="#" onClick="setSpaceChrgInfo('02','05','shoonpark', '박상훈')">박상훈P</a>,
+							<a href="#" onClick="setSpaceChrgInfo('02','05','shoonpark', '박상훈')">박상훈P</a> /
 							<a href="#" onClick="setSpaceChrgInfo('02','05','giantsteps','김준혁')">김준혁S</a>
 						</span>
 					</td> -->
