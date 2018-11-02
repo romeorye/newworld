@@ -348,6 +348,7 @@
 					, { id: 'evCtgr1Nm'}
 					, { id: 'evCtgr2Nm'}
 					, { id: 'evCtgr3Nm'}
+					, { id: 'openYn'}
                 ]
             });
 
@@ -380,6 +381,7 @@
 					, { field: 'evCtgr1Nm'	,	hidden : true}
 					, { field: 'evCtgr2Nm'	,	hidden : true}
 					, { field: 'evCtgr3Nm'	,	hidden : true}
+					, { field: 'openYn'	,	hidden : true}
                 ]
             });
 
@@ -399,10 +401,11 @@
             		var recordData=spaceRqprRsltDataSet.getAt(spaceRqprRsltDataSet.rowPosition);
             		var attcFilId=recordData.data.rsltAttcFileId;
             		var ottpYn=recordData.data.ottpYn;
+            		var openYn=recordData.data.openYn;
             		if(!attcFilId||attcFilId.length<1){
             			return;
             		}else{
-            			if(ottpYn=='Y'){
+            			if(ottpYn=='Y'||openYn=='Y'){
 	            			var param = "?attcFilId=" + attcFilId;
 	             	       	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
 	             	       	document.aform.submit();

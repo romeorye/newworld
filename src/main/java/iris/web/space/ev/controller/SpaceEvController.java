@@ -212,6 +212,10 @@ public class SpaceEvController extends IrisBaseController {
 			ModelMap model
 			){
 
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+
+    	input = StringUtil.toUtf8(input);
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("SpaceEvController - spaceRqprRsltList [공간평가 평가결과서 조회]");
 		LOGGER.debug("input = > " + input);

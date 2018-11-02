@@ -122,6 +122,10 @@
 				(SELECT EC1.CTGR_NM FROM IRIS_SPACE_EV_CTGR1 EC1 WHERE EC1.CTGR_CD = SP.EV_CTGR1) AS evCtgr1Nm,
 				(SELECT EC2.CTGR_NM FROM IRIS_SPACE_EV_CTGR2 EC2 WHERE EC2.CTGR_CD = SP.EV_CTGR2) AS evCtgr2Nm,
 				(SELECT EC3.CTGR_NM FROM IRIS_SPACE_EV_CTGR3 EC3 WHERE EC3.CTGR_CD = SP.EV_CTGR3) AS evCtgr3Nm,
+				CASE WHEN MST.RQPR_TEAM_CD=#{_teamDept}
+				     THEN 'Y'
+				     ELSE 'N'
+				 END AS openYn,
 				MST.SPACE_NAME										AS spaceNm,
 				dbo.fn_getSpaceCtrgNames(MST.RQPR_Id)				AS CtrgNames,
 				dbo.fn_getSpacePrvsNames(MST.RQPR_Id)				AS PrvsNames,
@@ -176,6 +180,7 @@
 		FROM IRIS_SPACE_MTRL_UTM_EV EV
 		WHERE DEL_YN = 'N'
 		  AND EV_CD=#{evCd}
+		  AND OTTP_YN='Y'
 		]]>
 
 	</select>
