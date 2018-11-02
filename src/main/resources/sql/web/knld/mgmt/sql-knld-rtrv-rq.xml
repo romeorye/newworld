@@ -173,10 +173,19 @@
 	<!-- pl 정보 조회  -->
 	<select id="retrieveApprId2" resultType="String">
 	-- retrieveApprId2 pl 정보 조회
-		SELECT SA_USER AS apprId
-		FROM   IRIS_SSO_USER
-		WHERE  SA_USER = #{rgstId}
+		select  SA_USER as apprId
+		from   IRIS_SSO_USER
+		where  sa_dept_new = (
+							  SELECT  team_dept_code
+                              from    vw_sso_dept
+                              where   dept_code = ( 
+                                                   select  sa_dept_new  
+                                                   from   IRIS_SSO_USER  
+                                                   WHERE  SA_USER = #{rgstId}
+                                                  )     
+                              )                                  
 		AND    SA_FUNC IN ('FO0','FG0','FB1')
+
 	</select>
 
 </mapper>
