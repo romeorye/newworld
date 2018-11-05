@@ -69,8 +69,10 @@ public class TctmUrl {
 	public static final String doSelectInfoAltrHis = doHome + "/tctmTssSelectAltrHis.do"; 		// 변경이력 조회
 
 	public static final String doCsusView = doHome + "/tctmTssCsusRq.do"; 					//품의서 요청 화면
-	public static final String jspCsusView = jspHome + "/tctmTssCsusRq";                        // 품의서 요청 jsp
-	
+	public static final String jspCsusView = jspHome + "/tctmTssCsusRq";                        // 품의서 요청 jsp(계획)
+	public static final String jspCmCsusView = jspHome + "/tctmTssCmplCsusRq";				// 품의서 요청 jsp(완료)
+	public static final String jspDcCsusView = jspHome + "/tctmTssDcacCsusRq";				// 품의서 요청 jsp(중단)
+
 	public static final String doTctmSrch = doHome + "/tctmTssItgSrch.do"; 					//통합검색 조회 화면
 	public static final String doTctmTssItgSrchView = jspHome + "/tctmTssItgSrch";          // 통합검색 조회 jsp
 }

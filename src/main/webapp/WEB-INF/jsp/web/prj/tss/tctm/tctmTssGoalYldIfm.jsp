@@ -214,7 +214,23 @@
         // });
 
 
-        if(pgsStepCd=="PG"){
+        if(pgsStepCd=="PL"){
+            var columnModel2 = new Rui.ui.grid.LColumnModel({
+                autoWidth: true,
+                columns: [
+                    new Rui.ui.grid.LSelectionColumn()
+                    , new Rui.ui.grid.LStateColumn()
+                    , new Rui.ui.grid.LNumberColumn()
+                    , { field: 'goalY', label: '목표년도', sortable: false, align:'center', width: 100, editor: cboGoalY }
+                    , { field: 'yldItmType',  label: '산출물유형', sortable: false, align:'center', width: 300, editor: cbYldItmType
+                        , renderer: function(value, p, record, row, col) {
+                            if(record.data.yldItmSn == 1) p.editable = false;
+                            return value;
+                        } }
+                ]
+            });
+            $("#addDel").show();
+        }else{
             var columnModel2 = new Rui.ui.grid.LColumnModel({
                 autoWidth: true,
                 columns: [
@@ -254,23 +270,6 @@
                 ]
             });
             $("#addDel").hide();
-
-        }else{
-            var columnModel2 = new Rui.ui.grid.LColumnModel({
-                autoWidth: true,
-                columns: [
-                    new Rui.ui.grid.LSelectionColumn()
-                    , new Rui.ui.grid.LStateColumn()
-                    , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'goalY', label: '목표년도', sortable: false, align:'center', width: 100, editor: cboGoalY }
-                    , { field: 'yldItmType',  label: '산출물유형', sortable: false, align:'center', width: 300, editor: cbYldItmType
-                        , renderer: function(value, p, record, row, col) {
-                            if(record.data.yldItmSn == 1) p.editable = false;
-                            return value;
-                        } }
-                ]
-            });
-            $("#addDel").show();
         }
 
         var grid2 = new Rui.ui.grid.LGridPanel({
@@ -452,9 +451,23 @@
         var butYldDel = new Rui.ui.LButton('butYldDel');
         butYldDel.on('click', function() {  
             var chkRows = dataSet2.getMarkedRange().items;
+
+            if(chkRows.length==0){
+                Rui.alert("삭제할 산출물을 선택해주십시오.");
+                return;
+            }
+
+            var yldNms = {
+                "01" : "과제 제안서/GRS 심의서는 ",
+                "02" : "Q-gate 1 요청/결과서는 ",
+                "05" : "중단/완료보고서는 "
+            };
+
             for(var i = 0; i < chkRows.length; i++) {
-                if(chkRows[i].data.yldItmSn == 1) {
-                    Rui.alert("GRS심의파일은 삭제가 불가합니다.");
+                var yldType = yldNms[chkRows[i].data.yldItmType];
+
+                if (yldType!=undefined){
+                    Rui.alert(yldType+"삭제할 수 없습니다.");
                     return;
                 }
             }

@@ -1,6 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
-<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -179,7 +177,7 @@
         /* [버튼] 목록 */
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {                
-            nwinsActSubmit(window.document.aform, "<%=request.getContextPath()+TctmUrl.doList%>");
+            nwinsActSubmit(window.document.aform, "<c:url value='/prj/tss/tctm/tctmTssList.do'/>");
         });
         
 //         fnCsusContentsCreate();

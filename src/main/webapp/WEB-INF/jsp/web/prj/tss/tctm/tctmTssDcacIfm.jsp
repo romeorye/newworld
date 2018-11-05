@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -45,7 +44,12 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
 
-    var isEditable = (window.parent.grsEvSt=="D" && window.parent.gvTssSt=="102") ? true:false;
+    var pageMode =
+        (
+            (window.parent.pgsStepCd=="PG" && window.parent.gvTssSt=="102")
+            || (window.parent.pgsStepCd=="DC" && window.parent.gvTssSt=="100")
+        )
+            ? "W" : "R";
 
     var dataSet;
     var vm;
@@ -56,42 +60,6 @@
         /*============================================================================
         =================================    Form     ================================
         ============================================================================*/
-/*
-        //과제개요_연구과제배경
-        tssSmryTxt = new Rui.ui.form.LTextArea({
-            applyTo: 'tssSmryTxt',
-            height: 80,
-            width: 600
-        });
-
-        //연구개발성과_CTQ
-        rsstDvlpOucmCtqTxt = new Rui.ui.form.LTextArea({
-            applyTo: 'rsstDvlpOucmCtqTxt',
-            height: 80,
-            width: 600
-        });
-
-        //과제개요_주요연구개발내용
-        tssSmryDvlpTxt = new Rui.ui.form.LTextArea({
-            applyTo: 'tssSmryDvlpTxt',
-            height: 80,
-            width: 600
-        });
-
-        //연구개발성과_지재권
-        rsstDvlpOucmTxt = new Rui.ui.form.LTextArea({
-            applyTo: 'rsstDvlpOucmTxt',
-            height: 80,
-            width: 600
-        });
-
-        //연구개발성과_파급효과
-        rsstDvlpOucmEffTxt = new Rui.ui.form.LTextArea({
-            applyTo: 'rsstDvlpOucmEffTxt',
-            height: 80,
-            width: 600
-        });
-*/
 
         //향후 계획
         fnoPlnTxt = new Rui.ui.form.LTextArea({
@@ -285,12 +253,11 @@
             return false;
         }
 
-        if(gbn != "SAVE" && dataSet.isUpdated()) {
-           Rui.alert("완료탭 저장을 먼저 해주시기 바랍니다.");
-           return false;
-        }
+        // if(dataSet.isUpdated()) {
+        //    Rui.alert("중단탭 저장을 먼저 해주시기 바랍니다.");
+        //    return false;
+        // }
 
-        
         return true;
     }
 
@@ -321,15 +288,15 @@ $(window).load(function() {
             </colgroup>
             <tbody>
                 <tr>
-                    <th align="right">향후 계획</th>
+                    <th align="right"><span style="color:red;">* </span>향후 계획</th>
                     <td colspan="2"><input type="text" id="fnoPlnTxt" /></td>
                 </tr>
                 <tr>
-                    <th align="right">중단 사유</th>
+                    <th align="right"><span style="color:red;">* </span>중단 사유</th>
                     <td colspan="2"><input type="text" id="dcacRsonTxt" /></td>
                 </tr>
                 <tr>
-                    <th align="right">과제완료보고서 및 기타</th>
+                    <th align="right"><span style="color:red;">* </span>과제완료보고서 및 기타</th>
                     <td id="attchFileView">&nbsp;</td>
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
                 </tr>

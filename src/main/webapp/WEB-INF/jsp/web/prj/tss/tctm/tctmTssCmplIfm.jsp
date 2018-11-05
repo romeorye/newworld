@@ -48,6 +48,7 @@
     var pageMode =
         (
         (window.parent.pgsStepCd=="PG" && window.parent.gvTssSt=="102")
+        || (window.parent.pgsStepCd=="CM" && window.parent.gvTssSt=="100")
         )
             ? "W" : "R";
     var dataSet;
@@ -95,7 +96,7 @@
         //신제품명
         nprodNm = new Rui.ui.form.LTextBox({
             applyTo: 'nprodNm',
-            width: 1000
+            width: 800
         });
 
         //예상출시일(계획)
@@ -135,16 +136,14 @@
 
             if(pageMode == "W") return;
 
-            btnSave.hide();
-
-            document.getElementById('attchFileMngBtn').style.display = "none";
-
             if(pageMode=="R"){
-                setReadonly("prodNm");
-                setReadonly("ncpOtPlnDt");
-                setReadonly("gate3Dt");
-                setReadonly("wdPlnTxt");
-                setReadonly("noPlnTxt");
+                btnSave.hide();
+                document.getElementById('attchFileMngBtn').style.display = "none";
+                setReadonly("nprodNm");
+                setReadonly("ancpOtPlnDt");
+                setReadonly("qgate3Dt");
+                setReadonly("fwdPlnTxt");
+                setReadonly("fnoPlnTxt");
             }
         };
 
@@ -176,10 +175,11 @@
             ]
         });
         dataSet.on('load', function(e) {
-            console.log("smry load DataSet Success");
             lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
             if(lvAttcFilId != "") getAttachFileList();
+
             disableFields();
+
         });
 
 
@@ -321,7 +321,6 @@
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#btnSave").hide();
 		}
-        
     });
 
 
@@ -411,24 +410,24 @@ $(window).load(function() {
                 </tr>
  --%>
                 <tr>
-                    <th align="right" rowspan="2">사업화 출시 계획</th>
+                    <th align="right" rowspan="2"><span style="color:red;">* </span>사업화 출시 계획</th>
                     <td colspan="2">
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 150px;" />
+                                <col style="width: 220px;" />
                                 <col style="width: *;" />
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th align="right">신제품명</th>
+                                    <th align="right"><span style="color:red;">* </span>신제품명</th>
                                     <td><input type="text" id="nprodNm" /></td>
                                 </tr>
                                 <tr>
-                                    <th align="right">예상출시일(계획)</th>
+                                    <th align="right"><span style="color:red;">* </span>예상출시일(계획)</th>
                                     <td><input type="text" id="ancpOtPlnDt" /></td>
                                 </tr>
                                 <tr>
-                                    <th align="right">Qgate3(품질평가단계) 패스일자</th>
+                                    <th align="right"><span style="color:red;">* </span>Qgate3(품질평가단계) 패스일자</th>
                                     <td><input type="text" id="qgate3Dt" /></td>
                                 </tr>
                             </tbody>
@@ -439,11 +438,11 @@ $(window).load(function() {
                     <td colspan="2"><input type="text" id="fwdPlnTxt" /></td>
                 </tr>
                 <tr>
-                    <th align="right">향후 계획</th>
+                    <th align="right"><span style="color:red;">* </span>향후 계획</th>
                     <td colspan="2"><input type="text" id="fnoPlnTxt" /></td>
                 </tr>
                 <tr>
-                    <th align="right">과제완료보고서 및 기타</th>
+                    <th align="right"><span style="color:red;">* </span>과제완료보고서 및 기타</th>
                     <td id="attchFileView">&nbsp;</td>
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
                 </tr>

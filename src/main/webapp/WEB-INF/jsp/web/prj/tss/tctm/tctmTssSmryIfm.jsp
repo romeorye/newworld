@@ -355,21 +355,21 @@ $(window).load(function() {
             </colgroup>
             <tbody>
             <tr>
-                <th align="right" onclick="setTestVal()">Summary 개요</th>
+                <th align="right" onclick="setTestVal()"><span style="color:red;">* </span>Summary 개요</th>
                 <td colspan="3" class="space_tain bdtype"><input type="text" id="smrSmryTxt" name="smrSmryTxt" style="width: 100%"></td>
             </tr>
             <tr>
-                <th align="right">Summary 목표</th>
+                <th align="right"><span style="color:red;">* </span>Summary 목표</th>
                 <td colspan="3" class="space_tain bdtype"><input type="text" id="smrGoalTxt" name="smrGoalTxt" style="width: 100%"></td>
             </tr>
             <tr>
-                <th align="right">상품출시(계획)</th>
+                <th align="right"><span style="color:red;">* </span>상품출시(계획)</th>
                 <td><input type="text" id="ctyOtPlnM"/></td>
-                <th>신제품 매출계획(단위:억원)</th>
+                <th><span style="color:red;">* </span>신제품 매출계획(단위:억원)</th>
                 <td><input type="text" id="nprodSalsPlnY" name="nprodSalsPlnY"></td>
             </tr>
             <tr>
-                <th align="right">GRS심의파일<br/>(심의파일, 회의록 필수 첨부)</th>
+                <th align="right"><span style="color:red;">* </span>GRS심의파일<br/>(심의파일, 회의록 필수 첨부)</th>
                 <td colspan="2" id="attchFileView">&nbsp;</td>
                 <td colspan="1">
                     <button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">

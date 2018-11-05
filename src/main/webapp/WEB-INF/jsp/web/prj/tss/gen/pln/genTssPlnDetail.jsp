@@ -310,7 +310,9 @@
 	            if(gvTssSt == "100"){
 	            	btnGrsRq.show();
 	            	btnDelRq.show();
-	            }else if(gvTssSt == "302" || gvTssSt == "102"){ // GRS품의 완료
+	            }else if(
+                    pgsStepCd=="PL" && gvTssSt == "302" ||  // P1 GRS품의 완료
+                    pgsStepCd!="PL" && gvTssSt == "102"){   // GRS평가 완료
 	            	btnCsusRq.show();
 	            }
 	        }
@@ -355,6 +357,7 @@
                 btnDelRq.hide();        //삭제
                 btnGrsRq.hide();       //GRS요청
             }
+
 
         }
 

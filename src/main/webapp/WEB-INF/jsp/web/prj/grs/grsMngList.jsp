@@ -1223,41 +1223,41 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 							</colgroup>
 							<tbody>
 								<tr>
-									<th align="right" onclick="setDefault()">과제구분</th>
+									<th align="right" onclick="setDefault()"><span style="color:red;">* </span>과제구분</th>
 									<td><div id="tssScnCd" /></td>
-									<th align="right">GRS초기(P1)<br/>수행여부</th>
+									<th align="right"><span style="color:red;">* </span>GRS초기(P1)<br/>수행여부</th>
 									<td><div id="grsYn" /></td>
 								</tr>
 								<tr>
-									<th align="right">과제리더</th>
+									<th align="right"><span style="color:red;">* </span>과제리더</th>
 									<td><input type="text" id="saSabunNm" /></td>
-									<th align="right">사업부문<br/>(Funding기준)</th>
+									<th align="right"><span style="color:red;">* </span>사업부문<br/>(Funding기준)</th>
 									<td><div id="bizDptCd" /></td>
 								</tr>
 								<tr>
-									<th align="right">프로젝트명<br />(개발부서)
+									<th align="right"><span style="color:red;">* </span>프로젝트명<br />(개발부서)
 									</th>
 									<td colspan="3"><input type="text" id="prjNm" /></td>
 								</tr>
 								<tr>
-									<th align="right">과제명</th>
+									<th align="right"><span style="color:red;">* </span>과제명</th>
 									<td colspan="3"><input id="tssNm" type="text" style="width: 100%" /></td>
 								</tr>
 								<tr>
-									<th align="right">제품군</th>
+									<th align="right"><span style="color:red;">* </span>제품군</th>
 									<td><div id="prodG" /></td>
-									<th align="right">과제기간</th>
+									<th align="right"><span style="color:red;">* </span>과제기간</th>
 									<td><input type="text" id="tssStrtDd"> <em class="gab"> ~ </em> <input type="text" id="tssFnhDd"></td>
 								</tr>
 
 								<tr id="displayDiv1">
-									<th align="right">고객특성</th>
+									<th align="right"><span style="color:red;">* </span>고객특성</th>
 									<td><div id="custSqlt" /></td>
-									<th align="right">과제속성</th>
+									<th align="right"><span style="color:red;">* </span>과제속성</th>
 									<td><div id="tssAttrCd" /></td>
 								</tr>
 								<tr id="displayDiv2">
-									<th align="right">신제품 유형</th>
+									<th align="right"><span style="color:red;">* </span>신제품 유형</th>
 									<td colspan="3"><div id="tssType" /></td>
 								</tr>
 							</tbody>

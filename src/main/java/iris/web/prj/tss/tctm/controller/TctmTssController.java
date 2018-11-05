@@ -1019,6 +1019,19 @@ public class TctmTssController extends IrisBaseController {
 
 		checkSession(input, session, model);
 
+		String view = null;
+		String fileColumn = null;
+
+		if("CM".equals(input.get("pgsStepCd"))){				//완료
+			view = TctmUrl.jspCmCsusView;
+			fileColumn = "cmplAttcFilId";
+		}else if("DC".equals(input.get("pgsStepCd"))){		//중단
+			view = TctmUrl.jspDcCsusView;
+			fileColumn = "dcacAttcFilId";
+		}else{																	//진행
+			view = TctmUrl.jspCsusView;
+			fileColumn = "attcFilId";
+		}
 
 		if(pageMoveChkSession(input.get("_userId"))) {
 			Map<String, Object> resultMst         = tctmTssService.selectTctmTssInfo(input);				// 마스터
@@ -1034,7 +1047,8 @@ public class TctmTssController extends IrisBaseController {
 			inputInfo.put("pgTssCd",   String.valueOf(resultMst.get("pgTssCd")));
 			inputInfo.put("tssStrtDd", String.valueOf(resultMst.get("tssStrtDd")));
 			inputInfo.put("tssFnhDd",  String.valueOf(resultMst.get("tssFnhDd")));
-			inputInfo.put("attcFilId", String.valueOf(resultSmry.get("attcFilId")));
+			inputInfo.put("attcFilId", String.valueOf(resultSmry.get(fileColumn)));
+
 
 			List<Map<String, Object>> resultAttc  = genTssCmplService.retrieveGenTssCmplAttc(inputInfo);
 //
@@ -1071,6 +1085,11 @@ public class TctmTssController extends IrisBaseController {
 			model.addAttribute("resultCsus", resultCsus);
 			model.addAttribute("resultAttc", resultAttc);
 
+			resultSmry.put("saUserName",resultMst.get(("saSabunName")));
+			String createDate = ((String) resultSmry.get(("lastMdfyDt"))).substring(0, 10);
+			resultSmry.put("createDate",createDate);
+
+
 			//text컬럼을 위한 json변환
 			JSONObject obj = new JSONObject();
 			obj.put("smry", resultSmry);
@@ -1079,7 +1098,7 @@ public class TctmTssController extends IrisBaseController {
 			request.setAttribute("resultJson", obj);
 		}
 
-		return TctmUrl.jspCsusView;
+		return view;
 	}
 
     /**

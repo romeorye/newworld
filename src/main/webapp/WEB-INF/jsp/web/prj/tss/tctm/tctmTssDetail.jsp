@@ -209,8 +209,7 @@
                     if(
 						(pgsStepCd=="PL" && grsYn=="N" && gvTssSt=="100")			//GRS N(계획) 인경우 바로 품의서 요청
 						|| (pgsStepCd=="PL" && grsYn=="Y" && gvTssSt=="302" )	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
-						|| (pgsStepCd=="PL" && gvTssSt=="102" )	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
-						|| (pgsStepCd=="PG" && gvTssSt=="302")							//진행인 경우 GRS 평가완료
+						|| (pgsStepCd=="PG" && gvTssSt=="102")							//진행인 경우 GRS 평가완료
 						|| (pgsStepCd=="CM" && gvTssSt=="100")							//완료진행인 경우 GRS 평가완료
 						|| (pgsStepCd=="DC" && gvTssSt=="100")							//중단진행인 경우 GRS 평가완료
 					){
@@ -497,7 +496,7 @@
 
                 isEditable =
                     isFirst
-                    || pgsStepCd=="PL" &&  (gvTssSt!="103" && gvTssSt!="104")
+                    || pgsStepCd=="PL" &&  gvTssSt=="302"
                 // || dataSet.getNameValue(0, "grsYn")=="N" && (pgsStepCd=="PL" )
                 ;
 
@@ -579,7 +578,7 @@
                     "<%=request.getContextPath()+TctmUrl.doTabDcac%>?tssCd=" + dcTssCd + "&pgsStepCd=" + pgsStepCd,
                     "<%=request.getContextPath()+TctmUrl.doTabAltr%>?tssCd=" + alTssCd + "&pgsStepCd=" + pgsStepCd,
                     "<%=request.getContextPath()+TctmUrl.doTabSum%>?tssCd=" + gvTssCd + "&pgsStepCd=" + pgsStepCd,
-                    "<%=request.getContextPath()+TctmUrl.doTabGoal%>?tssCd=" + gvTssCd + "&pgsStepCd=" + pgsStepCd,
+                    "<%=request.getContextPath()+TctmUrl.doTabGoal%>?tssCd=" + pgTssCd + "&pgsStepCd=" + pgsStepCd,
                     "<%=request.getContextPath()+TctmUrl.doTabAltrHis%>?pkWbsCd=" + dataSet.getNameValue(0, "pkWbsCd")
                 ]
 
@@ -835,10 +834,20 @@
                 //     errMsg = "개요를 입력해 주시기 바랍니다.";
                 // }
 
+                var  tcd = "";
+                if(pgsStepCd=="CM"){
+                    tcd = cmTssCd;
+                }else if(pgsStepCd=="DC"){
+                    tcd = dcTssCd;
+                }else{
+                    tcd = pgTssCd;
+                }
+
+
                 if (errMsg == "") {
                     if (regCntMap.gbn != "GRS") {		//GRS효청
                         if (regCntMap.gbn == "CSUS"){	//품의서 요청
-                            nwinsActSubmit(document.mstForm, "<%=request.getContextPath()+TctmUrl.doCsusView%>" + "?tssCd=" + gvTssCd + "&userId=" + gvUserId + "&appCode=APP00332");
+                            nwinsActSubmit(document.mstForm, "<%=request.getContextPath()+TctmUrl.doCsusView%>" + "?tssCd=" + tcd + "&pgsStepCd="+pgsStepCd+"&userId=" + gvUserId + "&appCode=APP00332");
                         }
                     } else {
                         nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do?tssCd="+gvTssCd+"&userId="+gvUserId+"'/>");
@@ -886,11 +895,16 @@
             btnCsusRq.on('click', function() {
                 var frmName = "";
 
+
+                var  tcd = "";
                 if(pgsStepCd=="CM"){
+                    tcd = cmTssCd;
                     frmName = "tabContent0";    //완료
                 }else if(pgsStepCd=="DC"){
+                    tcd = dcTssCd;
                     frmName = "tabContent1";    //중단
                 }else{
+                    tcd = pgTssCd;
                     frmName = "tabContent3";    //개요
                 }
 
@@ -898,7 +912,7 @@
                     if(confirm("품의서요청을 하시겠습니까?")) {
                         regDm.update({
                             url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
-                            params:'gbn=CSUS&tssCd='+gvTssCd
+                            params:'gbn=CSUS&tssCd='+tcd
                         });
                     }
 				}
@@ -1314,8 +1328,8 @@
 </head>
 <body>
 <form name="searchForm" id="searchForm" method="post">
-	<%--<input type="hidden" name="wbsCd" value="${inputData.wbsCd}"/>--%>
-	<%--<input type="hidden" name="tssNm" value="${inputData.tssNm}"/>--%>
+	<input type="hidden" name="wbsCd" value="${inputData.wbsCd}"/>
+	<input type="hidden" name="tssNm" value="${inputData.tssNm}"/>
 	<input type="hidden" name=saSabunName value="${inputData.saSabunName}"/>
 	<input type="hidden" name="deptName" value="${inputData.deptName}"/>
 	<input type="hidden" name="tssStrtDd" value="${inputData.tssStrtDd}"/>
@@ -1495,7 +1509,7 @@
     //과제명
     tssNm = new Rui.ui.form.LTextBox({
         applyTo: 'tssNm',
-        width: 300
+        width: 800
     });
 
     //프로젝트명
