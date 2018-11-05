@@ -770,7 +770,7 @@
    							</td>
    						</tr>
    						<tr>
-   							<th align="right">사업부</th>
+   							<th align="right"><span style="color:red;">* </span>사업부</th>
    							<td>
                                 <div id="rlabDzdvCd"></div>
    							</td>
