@@ -112,8 +112,6 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 		} else if(mchnClCd.equals("03")){
 			chkPrct = commonDao.select("open.rlabMchnInfo.checkPrctInfo", input);
 		}
-		System.out.println("\n\n mchnClCd : "+mchnClCd);
-		System.out.println("\n\n chkPrct : "+chkPrct);
 
 		if( chkPrct  >   0 ){
 			throw new Exception("기존 예약건이 존재합니다.");
