@@ -238,6 +238,14 @@
 		]]>
 	</select>
 	
+	<select id="checkRlabSmpoQty" resultType="int" >
+		<![CDATA[
+		SELECT #{smpoQty} - CONVERT(INT,SMPO_QTY) AS SMPO_QTY
+		FROM   IRIS_RLAB_MCHN_INFO_MGMT    
+		WHERE    MCHN_INFO_ID =  #{mchnInfoId} /**P*/
+		]]>
+	</select>
+	
 	<select id="checkRlabPrctInfo" resultType="int" >
 		<![CDATA[
 		SELECT COUNT(*) cnt
