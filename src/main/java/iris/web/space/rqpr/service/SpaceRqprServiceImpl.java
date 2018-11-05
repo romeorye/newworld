@@ -142,7 +142,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     	}
 	}
 
-	/* 평가의뢰 수정 */
+	/* 평가의뢰 수 정 */
 	public boolean updateSpaceRqpr(Map<String,Object> dataMap) throws Exception {
 		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
 		Map<String, Object> spaceRqprDataSet = (Map<String, Object>)dataMap.get("spaceRqprDataSet");
