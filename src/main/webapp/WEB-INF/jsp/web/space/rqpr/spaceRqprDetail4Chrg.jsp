@@ -1556,22 +1556,19 @@
     	    		return false;
     	    	}
 
+            	if (vm1.validateDataSet(spaceRqprDataSet) == false) {
+                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm1.getMessageList().join('\n'));
+                    return false;
+                }
 
-            	if(cmplParrDt.getValue()){
-					alert("완료예정일을 입력해 주세요.");
-					return false;
+            	if(confirm('접수 하시겠습니까?')) {
+                    dm.updateDataSet({
+                        dataSets:[spaceRqprDataSet],
+                        url:'<c:url value="/space/receiptSpaceRqpr.do"/>',
+                        modifiedOnly: false
+                    });
             	}
 
-
-    	    	if(isValidate()) {
-	            	if(confirm('접수 하시겠습니까?')) {
-	                    dm.updateDataSet({
-	                        dataSets:[spaceRqprDataSet],
-	                        url:'<c:url value="/space/receiptSpaceRqpr.do"/>',
-	                        modifiedOnly: false
-	                    });
-	            	}
-    	    	}
             };
 
             /* 접수반려 */
