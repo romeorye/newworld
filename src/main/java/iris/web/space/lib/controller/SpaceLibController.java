@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.LogManager; import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,7 +25,6 @@ import devonframe.util.NullUtil;
 import iris.web.common.code.service.CodeCacheManager;
 import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.CommonUtil;
-import iris.web.common.util.DateUtil;
 import iris.web.common.util.NamoMime;
 import iris.web.common.util.StringUtil;
 import iris.web.space.lib.service.SpaceLibService;
@@ -449,55 +449,26 @@ public class SpaceLibController  extends IrisBaseController {
 		checkSessionRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		NamoMime mime = new NamoMime();
-
-		String spaceLibSbcHtml = "";
-		String spaceLibSbcHtml_temp = "";
 
 		// 결과메시지
 		rtnMeaasge.put("rtnSt", "S");
 		rtnMeaasge.put("rtnMsg", "저장 되었습니다.");
 		rtnMeaasge.put("bbsId", "");
 
-		int totCnt = 0;    							//전체건수
-		List<Map<String, Object>> SpaceLibRgstDataSetList;	// 변경데이터
+		HashMap<String, Object> SpaceLibRgstDataSetMap = new HashMap<String, Object>();
 
 		try
 		{
-			String uploadUrl = "";
-			String uploadPath = "";
-
-            uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_ANL");   // 파일명에 세팅되는 경로
-            uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_ANL");  // 파일이 실제로 업로드 되는 경로
-
-            //mime.setSaveURL(uploadUrl);
-            //mime.setSavePath(uploadPath);
-            //mime.decode(input.get("bbsSbc").toString());                  // MIME 디코딩
-            //mime.saveFileAtPath(uploadPath+File.separator);
-
-            //spaceLibSbcHtml = mime.getBodyContent();
-            //spaceLibSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(spaceLibSbcHtml, "<", "@![!@"),">","@!]!@"));
-
-
 			// 저장&수정
-			String bbsId = "";
-			SpaceLibRgstDataSetList = RuiConverter.convertToDataSet(request,"spaceLibRgstDataSet");
+			SpaceLibRgstDataSetMap = (HashMap<String, Object>) RuiConverter.convertToDataSet(request,"spaceLibRgstDataSet").get(0);
 
-			for(Map<String,Object> spaceLibRgstDataSetMap : SpaceLibRgstDataSetList) {
 
-				spaceLibRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
-				spaceLibRgstDataSetMap.put("bbsSbc" , input.get("bbsSbc").toString());
+			SpaceLibRgstDataSetMap.put("_userId" , NullUtil.nvl(input.get("_userId"), ""));
 
-				spaceLibService.insertSpaceLibInfo(spaceLibRgstDataSetMap);
-				totCnt++;
-			}
+			spaceLibService.insertSpaceLibInfo(SpaceLibRgstDataSetMap);
 
-			rtnMeaasge.put("bbsId", bbsId);
+			rtnMeaasge.put("bbsId", SpaceLibRgstDataSetMap.get("bbsId"));
 
-			if(totCnt == 0 ) {
-				rtnMeaasge.put("rtnSt", "F");
-				rtnMeaasge.put("rtnMsg", "변경된 내용이 없습니다.");
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			rtnMeaasge.put("rtnSt", "F");

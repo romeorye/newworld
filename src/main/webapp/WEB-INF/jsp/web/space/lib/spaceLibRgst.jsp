@@ -306,12 +306,7 @@
 	    	var anlBbsCd = '${inputData.bbsCd}';
 	    	console.log('fncInsertAnlNoticeInfo pageMode='+pageMode);
 
-	    	//document.aform.Wec.CleanupOptions = "msoffice | empty | comment";
-	    	//document.aform.Wec.value =document.aform.Wec.CleanupHtml(document.aform.Wec.value);
-
             spaceLibRgstDataSet.setNameValue(0, 'bbsSbc', CrossEditor.GetBodyValue());
-
-			document.aform.bbsSbc.value = CrossEditor.GetBodyValue();
 
             gvSbcNm = CrossEditor.GetBodyValue();
 
@@ -334,21 +329,12 @@
 		    		// update
 		    		dm1.updateDataSet({
 		    	        url: "<c:url value='/space/lib/insertSpaceLibInfo.do'/>",
-		    	        dataSets:[spaceLibRgstDataSet],
-		    	        params: {
-		    	        	bbsId : document.aform.bbsId.value
-		    	        	,bbsSbc : document.aform.bbsSbc.value
-		    	        	,anlBbsCd : anlBbsCd
-		    	        }
+		    	        dataSets:[spaceLibRgstDataSet]
 		    	    });
 		    	}else if(pageMode == 'C'){
 		   			dm1.updateDataSet({
 		    	        url: "<c:url value='/space/lib/insertSpaceLibInfo.do'/>",
-		    	        dataSets:[spaceLibRgstDataSet],
-		    	        params: {
-		    	        	bbsSbc : document.aform.bbsSbc.value
-		    	        	, anlBbsCd : document.aform.anlBbsCd.value
-		    	        }
+		    	        dataSets:[spaceLibRgstDataSet]
 		    	    });
 		    	}
 	    	}
