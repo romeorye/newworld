@@ -134,6 +134,7 @@
             	$('#authYn').val(record.get('readFlag'));
             	$('#reUrl').val(record.get('docUrl'));
             	$('#docUrl').val(record.get('docUrl'));
+            	$('#pgmPath').val(record.get('pgmPath'));
 
             	//nwinsActSubmit(aform, "<c:url value="/knld/rsst/knldRtrvRqDetail.do"/>");
             	function onSubmit(){
@@ -186,6 +187,7 @@
 		<input type="hidden" id="docNo" name="docNo" value=""/>
 		<input type="hidden" id="reUrl" name="reUrl" value=""/>
 		<input type="hidden" id="authYn" name="authYn" value=""/>
+		<input type="hidden" id="pgmPath" name="pgmPath" value=""/>
 
    		<div class="contents">
    			<div class="titleArea">
