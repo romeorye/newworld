@@ -8,8 +8,8 @@
         <![CDATA[
         -- getWbsCdList
 		SELECT MST.WBS_CD				AS wbsCd
-			, MST.DEPT_NAME 			AS deptName
-			, MST.SA_SABUN_NAME			AS saSabunName
+            ,ISNULL(dbo.fn_getUpperDeptNm(MST.DEPT_CODE), MST.DEPT_NAME) AS deptName
+			,ISNULL(dbo.fn_getSabunName(MST.sa_sabun_new), MST.SA_SABUN_NAME) as saSabunName
 			, MST.TSS_NM                AS tssNm
 			, MST.TSS_STRT_DD           AS tssStrtDd
 			, MST.TSS_FNH_DD            AS tssFnhDd
