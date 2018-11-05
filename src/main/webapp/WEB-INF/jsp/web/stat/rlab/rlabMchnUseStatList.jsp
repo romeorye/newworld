@@ -124,6 +124,10 @@ var mchnInfoId;
 			}
 		});
 
+		//날짜셋팅
+		toRqprDt.setValue(new Date());
+		fromRqprDt.setValue(new Date().add('M', -1));
+
         //장비사용
         rlabMchnUseStatDataSet = new Rui.data.LJsonDataSet({
             id: 'rlabMchnUseStatDataSet',

@@ -63,8 +63,11 @@ var mchnInfoId;
 			width: 100,
 			dateType: 'string'
 		});
+      	//날짜셋팅
+		toRqprDt.setValue(new Date());
+		fromRqprDt.setValue(new Date().add('M', -1));
 
-		toRqprDt.on('blur', function(){
+        toRqprDt.on('blur', function(){
 			if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toRqprDt.getValue(),"-","")) ) )  {
 				alert('날자형식이 올바르지 않습니다.!!');
 				toRqprDt.setValue(new Date());
