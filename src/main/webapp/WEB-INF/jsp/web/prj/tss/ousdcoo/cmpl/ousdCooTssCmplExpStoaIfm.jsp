@@ -53,6 +53,7 @@
             applyTo: 'inputYyNosDt1',
             mask: '9999-99-99',
             width: 100,
+            listPosition: 'down',
             dateType: 'string'
         });
 		//2차현금 지급일
@@ -60,6 +61,7 @@
             applyTo: 'inputYyNosDt2',
             mask: '9999-99-99',
             width: 100,
+            listPosition: 'down',
             dateType: 'string'
         });
 		//3차현금 지급일
@@ -67,6 +69,7 @@
             applyTo: 'inputYyNosDt3',
             mask: '9999-99-99',
             width: 100,
+            listPosition: 'down',
             dateType: 'string'
         });
 		//4차현금 지급일
@@ -74,6 +77,7 @@
             applyTo: 'inputYyNosDt4',
             mask: '9999-99-99',
             width: 100,
+            listPosition: 'down',
             dateType: 'string'
         });
 
