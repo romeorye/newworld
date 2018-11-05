@@ -125,6 +125,11 @@
 
 	            case 3:
 
+	            	if(rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd') != '07') {
+	            		alert('만족도는 시험이 완료 된 후 입력이 가능 합니다.');
+	            		return false;
+	            	}
+
 	                break;
 
 	            default:
