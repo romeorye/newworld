@@ -693,7 +693,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 							</td>
 						</tr>
 						<tr>
-							<th align="right"><span style="color:red;">*  </span>대분류 / 소분류</th>
+							<th align="right"><span style="color:red;">  </span>대분류 / 소분류</th>
 							<td colspan="3">
 								<div id="mchnLaclCd"></div>
 								&nbsp; / &nbsp;
