@@ -161,11 +161,11 @@
             }
         });
 
-
+        prctFromDt.setValue(new Date());
+        prctToDt.setValue(new Date().add('M', -1));
 
 
 		fnSearch = function(){
-
 			dataSet.load({
 				url: '<c:url value="/mchn/mgmt/spaceEvToolUseMgmtSearchList.do"/>' ,
 				params :{
