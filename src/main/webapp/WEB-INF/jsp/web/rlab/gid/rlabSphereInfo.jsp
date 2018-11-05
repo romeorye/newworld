@@ -232,7 +232,7 @@
 									<div class="ad_box03_in">
 										<p><img src="/iris/resource/web/images/newIris/img_ad08.png"></p>
 										<p>
-											<em>이두환 책임(표면소재)</em>
+											<em>강태의 책임(표면소재)</em>
 											<span>자동차 시트 원단 <br>내후성 가속시험 및 연구</span>
 										</p>
 									</div>
