@@ -276,7 +276,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
     			Map<String,Object> spaceRqprInfo = commonDao.select("space.rqpr.getSpaceRqprInfo", input);
     			List<Map<String,Object>> spaceRqprWayCrgrList = commonDao.selectList("space.rqpr.getSpaceRqprWayCrgrList", input);
-    			List<Map<String,Object>> spaceRqprProdList = commonDao.selectList("space.rqpr.getSpaceRqprProdList", input);
+    			List<Map<String,Object>> spaceRqprProdList = commonDao.selectList("space.rqpr.getSpaceRqprProdListList", input);
     			List<Map<String,Object>> spaceRqprRltdList = commonDao.selectList("space.rqpr.getSpaceRqprRltdList", input);
     			List<Map<String,Object>> rqprAttachFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
 

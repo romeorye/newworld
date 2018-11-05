@@ -429,6 +429,7 @@
 					, { id: 'spaceAcpcStCd'		}
 					, { id: 'spaceRsltSbc'	}
 					, { id: 'rsltAttcFileId', defaultValue: '' }
+					, { id: 'cmplParrDt'	}
                 ]
             });
 
@@ -445,7 +446,7 @@
             	}
 
             	if(Rui.isEmpty(spaceRsltSbc) == false) {
-                	spaceRqprDataSet.setNameValue(0, 'spaceRsltSbc', spaceRsltSbc.replaceAll('\n', '<br/>'));
+                	//spaceRqprDataSet.setNameValue(0, 'spaceRsltSbc', spaceRsltSbc.replaceAll('\n', '<br/>'));
             	}
 
             	if(!Rui.isEmpty(spaceRqprDataSet.getNameValue(0, 'reqItgRdcsId'))) {
@@ -574,7 +575,8 @@
                     { id: 'evCases',			ctrlId: 'evCases',			value:'value'},
                     { id: 'evSubjDtl',		 	ctrlId: 'evSubjDtl',		value:'value'},
                     { id: 'tCloud',		 		ctrlId: 'tCloud',		 	value:'value'},
-                    { id: 'spaceAcpcStCd',			ctrlId: 'spaceAcpcStCd',		 	value:'value'}
+                    { id: 'spaceAcpcStCd',		ctrlId: 'spaceAcpcStCd',	value:'value'},
+                    { id: 'cmplParrDt',			ctrlId:'cmplParrDt',		value:'value'}
                 ]
             });
 
@@ -1551,6 +1553,13 @@
     	    		alert('접수대기 상태일때만 접수 할 수 있습니다.');
     	    		return false;
     	    	}
+
+
+            	if(cmplParrDt.getValue()){
+					alert("완료예정일을 입력해 주세요.");
+					return false;
+            	}
+
 
     	    	if(isValidate()) {
 	            	if(confirm('접수 하시겠습니까?')) {

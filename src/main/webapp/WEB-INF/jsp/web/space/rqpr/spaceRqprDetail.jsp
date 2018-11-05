@@ -408,7 +408,7 @@
 					, { id: 'spaceRqprInfmView' } //통보자 명
 					, { id: 'rqprAttcFileId', defaultValue: '' }
 					, { id: 'spaceAcpcStCd'		}
-
+					, { id: 'cmplParrDt'		}
                 ]
             });
 
@@ -550,7 +550,11 @@
                     { id: 'evCases',			ctrlId: 'evCases',			value:'value'},
                     { id: 'evSubjDtl',		 	ctrlId: 'evSubjDtl',		value:'value'},
                     { id: 'tCloud',		 		ctrlId: 'tCloud',		 	value:'value'},
-                    { id: 'spaceAcpcStCd',		ctrlId: 'spaceAcpcStCd',	value:'value'}
+                    { id: 'spaceAcpcStCd',		ctrlId: 'spaceAcpcStCd',	value:'value'},
+
+                    { id: 'cmplParrDt',			ctrlId: 'cmplParrDt',		value:'value'}
+
+
                 ]
             });
             spaceRqprDataSet.newRecord();
