@@ -650,7 +650,7 @@
 				spaceChrgListDialog.show();
 			};
 
-			//평가방법/담당자 리턴
+			//평가방법 / 담당자 리턴
 			setSpaceChrgInfo = function(spaceChrgInfo) {
 				//alert(spaceChrgInfo.spaceEvCtgr +" : "+ spaceChrgInfo.spaceEvPrvs +" : "+ spaceChrgInfo.id +" : "+ spaceChrgInfo.name);
 				spaceRqprWayCrgrDataSet.newRecord();
