@@ -40,7 +40,7 @@
 	var target = '${inputData.target}';
 	var userId = '${inputData._userId}';
 	var roleId = '${inputData._roleId}';
-	var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
+	var roleIdIndex = roleId.indexOf("WORK_IRI_T18");
 	var lvAttcFilId ;
 	var attcFilId ;
 
