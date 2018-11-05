@@ -164,8 +164,6 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     		List<Map<String, Object>> deleteList = new ArrayList<Map<String, Object>>();
 
 
-    		//spaceRqprDataSet,spaceRqprWayCrgrDataSet,spaceRqprProdDataSet,spaceRqprRltdDataSet
-
     		//Step2. 평가방법 저장
     		for(Map<String, Object> data : spaceRqprWayCrgrDataSet) {
 
@@ -182,7 +180,8 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     				deleteList.add(data);
     			}
     		}
-    		//insertSpaceRqprWayCrgr , updateSpaceRqprWayCrgr , updateSpaceRqprWayCrgrDelYn   updateSpaceRqprSmpo
+
+
         	if(commonDao.batchInsert("space.rqpr.insertSpaceRqprWayCrgr", insertList) != insertList.size()
         			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprWayCrgr", updateList) != updateList.size()
         			|| commonDao.batchUpdate("space.rqpr.updateSpaceRqprWayCrgrDelYn", deleteList) != deleteList.size()) {
@@ -194,9 +193,15 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
         	deleteList.clear();
 
         	//Step3. 제품군 저장
+        	int prodcnt = 0;
     		for(Map<String, Object> data : spaceRqprProdDataSet) {
+
+    			Object prodId = data.get("prodId");
+
     			data.put("userId", userId);
     			data.put("rqprId", rqprId);
+    			data.put("prodId", prodId);
+
 
     			LOGGER.debug("평가방법 : "+data.get("duistate")+" : "+data.get("duistate"));
 
