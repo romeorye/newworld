@@ -127,8 +127,8 @@
             var spaceEvBzdvModel = new Rui.ui.grid.LColumnModel({
                 columns: [
 						new Rui.ui.grid.LStateColumn()
-                	, { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 71 }
-                    , { field: 'ctgrNm',	label: '사업부',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 180 }
+                	, { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 71, hidden : true }
+                    , { field: 'ctgrNm',	label: '사업부',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 250 }
                 ]
             });
 
@@ -136,9 +136,9 @@
             var spaceEvProdClModel = new Rui.ui.grid.LColumnModel({
                 columns: [
   						new Rui.ui.grid.LStateColumn()
-                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 70 }
-                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 70 }
-                    , { field: 'ctgrNm',	label: '제품군',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 140 }
+                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 70, hidden : true }
+                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 70, hidden : true }
+                    , { field: 'ctgrNm',	label: '제품군',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 280 }
                 ]
             });
 
@@ -146,9 +146,9 @@
             var spaceEvClModel = new Rui.ui.grid.LColumnModel({
                 columns: [
     						new Rui.ui.grid.LStateColumn()
-                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 70 }
-                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 70 }
-                    , { field: 'ctgrNm',	label: '분류',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 160 }
+                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 70, hidden : true }
+                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 70, hidden : true}
+                    , { field: 'ctgrNm',	label: '분류',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 280 }
                 ]
             });
 
@@ -156,9 +156,9 @@
             var spaceEvProdModel = new Rui.ui.grid.LColumnModel({
                 columns: [
   						new Rui.ui.grid.LStateColumn()
-                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 70 }
-                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 70 }
-                    , { field: 'ctgrNm',	label: '제품',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 160 }
+                	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 70, hidden : true}
+                    , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 70, hidden : true }
+                    , { field: 'ctgrNm',	label: '제품',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 280 }
                 ]
             });
 
