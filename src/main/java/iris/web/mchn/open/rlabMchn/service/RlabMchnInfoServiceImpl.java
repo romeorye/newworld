@@ -94,7 +94,16 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 
 		String mchnClCd = input.get("mchnClCd").toString();
 		int chkPrct = 0;
-
+		
+		if(mchnClCd.equals("02")){
+			chkPrct = commonDao.select("open.rlabMchnInfo.checkRlabSmpoQty", input);
+		}
+		
+		if( chkPrct  >   0 ){
+			throw new Exception("시료수가 초과 되었습니다.");
+		}
+		
+		chkPrct = 0;
 		//기존 예약시간 중복 체크
 		if(mchnClCd.equals("01")){
 			chkPrct = commonDao.select("open.rlabMchnInfo.checkRlabPrctInfo", input);
@@ -103,6 +112,8 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 		} else if(mchnClCd.equals("03")){
 			chkPrct = commonDao.select("open.rlabMchnInfo.checkPrctInfo", input);
 		}
+		System.out.println("\n\n mchnClCd : "+mchnClCd);
+		System.out.println("\n\n chkPrct : "+chkPrct);
 
 		if( chkPrct  >   0 ){
 			throw new Exception("기존 예약건이 존재합니다.");
