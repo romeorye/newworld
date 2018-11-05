@@ -94,7 +94,7 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 
 		String mchnClCd = input.get("mchnClCd").toString();
 		int chkPrct = 0;
-		
+
 		if(mchnClCd.equals("02")){
 			chkPrct = commonDao.select("open.rlabMchnInfo.checkRlabSmpoQty", input);
 		}
