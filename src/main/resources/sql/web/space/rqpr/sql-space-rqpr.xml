@@ -202,7 +202,8 @@
 				(SELECT EC0.CTGR_NM FROM IRIS_SPACE_EV_CTGR0 EC0 WHERE EC0.CTGR_CD = SP.EV_CTGR0) AS evCtgr0Nm,
 				(SELECT EC1.CTGR_NM FROM IRIS_SPACE_EV_CTGR1 EC1 WHERE EC1.CTGR_CD = SP.EV_CTGR1) AS evCtgr1Nm,
 				(SELECT EC2.CTGR_NM FROM IRIS_SPACE_EV_CTGR2 EC2 WHERE EC2.CTGR_CD = SP.EV_CTGR2) AS evCtgr2Nm,
-				(SELECT EC3.CTGR_NM FROM IRIS_SPACE_EV_CTGR3 EC3 WHERE EC3.CTGR_CD = SP.EV_CTGR3) AS evCtgr3Nm
+				(SELECT EC3.CTGR_NM FROM IRIS_SPACE_EV_CTGR3 EC3 WHERE EC3.CTGR_CD = SP.EV_CTGR3) AS evCtgr3Nm,
+				SP.EV_CTGR_NM   AS evCtgrNm
 			FROM IRIS_SPACE_PROD SP
 			WHERE	SP.RQPR_ID = ${rqprId}
 			AND		SP.DEL_YN = 'N'
@@ -406,6 +407,7 @@
 			,EV_CTGR1		--제품군
 			,EV_CTGR2		--분류
 			,EV_CTGR3		--제품
+			,EV_CTGR_NM		--제품명
 			,FRST_RGST_ID	--최초등록자
 			,LAST_MDFY_ID	--최종수정자
 		)VALUES(
@@ -414,6 +416,7 @@
 			,#{evCtgr1}
 			,#{evCtgr2}
 			,#{evCtgr3}
+			,#{evCtgrNm}
 			,#{userId}
 			,#{userId}
 		)
@@ -428,10 +431,11 @@
 				EV_CTGR1		= #{evCtgr1},	--제품군
 				EV_CTGR2		= #{evCtgr2},	--분류
 				EV_CTGR3		= #{evCtgr3},	--제품
+				EV_CTGR_NM		= #{evCtgrNm},	--제품명
 				last_mdfy_dt	= getdate(),
 				last_mdfy_id	= #{userId}
 		WHERE	RQPR_ID = ${rqprId}
-
+		  AND   PROD_ID = ${prodId}
 	</update>
 
 	<update id="updateSpaceRqprProdDelYn">
