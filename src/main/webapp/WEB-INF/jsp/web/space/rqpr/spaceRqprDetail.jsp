@@ -813,7 +813,8 @@
                 remainRemoved: false,
                 lazyLoad: true,
                 fields: [
-                	  { id: 'evCtgr0' }
+					  { id: 'prodId' }
+                	, { id: 'evCtgr0' }
                 	, { id: 'evCtgr1' }
 					, { id: 'evCtgr2' }
 					, { id: 'evCtgr3' }
@@ -821,7 +822,7 @@
 					, { id: 'evCtgr1Nm' }
 					, { id: 'evCtgr2Nm' }
 					, { id: 'evCtgr3Nm' }
-					, { id: 'evCtgr4Nm' }
+					, { id: 'evCtgrNm' }
                 ]
             });
             //제품군 그리드 설정
@@ -829,16 +830,17 @@
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
+                	, { field: 'prodId',	label: 'prodId',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
                 	, { field: 'evCtgr0',	label: 'evCtgr0',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
                 	, { field: 'evCtgr1',	label: 'evCtgr1',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
                 	, { field: 'evCtgr2',	label: 'evCtgr2',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
                     , { field: 'evCtgr3',	label: 'evCtgr3',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
 
-                    , { field: 'evCtgr0Nm',	label: '<span style="color:red;">* </span>사업부',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
-                	, { field: 'evCtgr1Nm',	label: '<span style="color:red;">* </span>제품군',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
-                	, { field: 'evCtgr2Nm',	label: '<span style="color:red;">* </span>분류',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
-                    , { field: 'evCtgr3Nm',	label: '<span style="color:red;">* </span>제품',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
-                    , { field: 'evCtgr4Nm',	label: '제품명(직접입력)',		sortable: false,	editable: true, 	editor: textBox,	align:'left',	width: 250 }
+                    , { field: 'evCtgr0Nm',	label: '<span style="color:red;">* </span>사업부',	sortable: false,	editable: false,	editor: textBox,	align:'center',	width: 250 }
+                	, { field: 'evCtgr1Nm',	label: '<span style="color:red;">* </span>제품군',	sortable: false,	editable: false,	editor: textBox,	align:'center',	width: 250 }
+                	, { field: 'evCtgr2Nm',	label: '<span style="color:red;">* </span>분류',		sortable: false,	editable: false,	editor: textBox,	align:'center',	width: 250 }
+                    , { field: 'evCtgr3Nm',	label: '<span style="color:red;">* </span>제품',		sortable: false,	editable: false,	editor: textBox,	align:'center',	width: 250 }
+                    , { field: 'evCtgrNm',	label: '제품명(직접입력)',							sortable: false,	editable: true,		editor: textBox,	align:'left',	width: 250 }
 
                 ]
             });

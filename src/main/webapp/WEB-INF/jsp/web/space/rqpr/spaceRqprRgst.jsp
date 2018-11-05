@@ -574,7 +574,7 @@
 					, { id: 'evCtgr1Nm' }
 					, { id: 'evCtgr2Nm' }
 					, { id: 'evCtgr3Nm' }
-					, { id: 'evCtgr4Nm' }
+					, { id: 'evCtgrNm' }
                 ]
             });
             //제품군 그리드 설정
@@ -591,7 +591,7 @@
                 	, { field: 'evCtgr1Nm',	label: '<span style="color:red;">* </span>제품군',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
                 	, { field: 'evCtgr2Nm',	label: '<span style="color:red;">* </span>분류',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
                     , { field: 'evCtgr3Nm',	label: '<span style="color:red;">* </span>제품',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 250 }
-                    , { field: 'evCtgr4Nm',	label: '제품명(직접입력)',							sortable: false,	editable: true,	 editor: textBox,	align:'left',	width: 250 }
+                    , { field: 'evCtgrNm',	label: '제품명(직접입력)',							sortable: false,	editable: true,	 editor: textBox,	align:'left',	width: 250 }
                 ]
             });
             var spaceRqprProdGrid = new Rui.ui.grid.LGridPanel({
