@@ -240,7 +240,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		});
 
         //시료수
-		var smpoQty = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
+		var smpoQty = new Rui.ui.form.LNumberBox({            // LTextBox개체를 선언
 	        applyTo: 'smpoQty',                           // 해당 DOM Id 위치에 텍스트박스를 적용
 	        width: 200,                                    // 텍스트박스 폭을 설정
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
