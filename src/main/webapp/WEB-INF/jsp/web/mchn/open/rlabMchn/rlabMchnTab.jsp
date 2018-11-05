@@ -3,7 +3,7 @@
 				 java.util.*,
 				 devonframe.util.NullUtil,
 				 devonframe.util.DateUtil"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%--
 /*
  *************************************************************************
@@ -35,22 +35,22 @@
 
 	<script type="text/javascript">
 	var fnSearch;
-	
+
 		Rui.onReady(function(){
-			
+
 			var mchnClCd = document.aform.mchnClCd.value;
 
 			var opnYn = '${inputData.opnYn}';
 			var cbSrh = '${inputData.cbSrh}';
 			var srhInput = '${inputData.srhInput}';
-		
+
 			if(!Rui.isEmpty(opnYn)){
 				var radio = document.all.opnYn;
-				
+
 				for ( var i = 0; i < radio.length; i++ ) {
 					if(radio[i].value == opnYn){
 						radio[i].checked = true;
-					} 
+					}
 				}
 			}
 			if(!Rui.isEmpty(cbSrh)){
@@ -59,7 +59,7 @@
 			if(!Rui.isEmpty(srhInput)){
 				document.aform.srhInput.value = srhInput;
 			}
-			
+
 			var url = "<c:url value='/mchn/open/rlabMchn/retrieveMchnTab.do'/>";
 			fnSearch = function() {
 				var frm = document.aform;
@@ -69,21 +69,21 @@
 				frm.submit();
 	     	}
 		});	//end ready
-	
+
 		 //내부 스크롤 제거
 	    $(window).load(function() {
 	        initFrameSetHeight();
 	    });
 
 	</script>
-<body>	
+<body>
 	<!-- sub-content -->
 	<div class="sub-content">
         <form class="equ" name="aform" id="aform" method="post">
         	<input type="hidden" id="mchnClCd" name="mchnClCd" value="<c:out value='${inputData.mchnClCd}'/>">
             <fieldset>
             	<span class="table_summay_number" id="cnt_text">총 <%=mchnList.size()%>건</span>
-            	
+
                 <div class="fr">
                 	<input type="radio" id="opnYn" name="opnYn" value="ALL">전체</>&nbsp;
                     <input type="radio" id="opnYn" name="opnYn" value="Y">OPEN</>&nbsp;&nbsp;&nbsp;
@@ -93,8 +93,8 @@
                     </select>
                     <div class="equ_search"><span class="equ_info"><input type="text" id="srhInput" name="srhInput" class="equ_search_input" placeholder="검색어를 입력하세요" onkeypress="if(event.keyCode==13) {fnSearch();}"> <a href="javascript:fnSearch();"><span class="equ_icon_search"></span></a></span></div>
                 </div>
-                
-                
+
+
             </fieldset>
         </form>
      	 <!-- equipment -->
@@ -131,13 +131,13 @@
 		                               <%}%>
 		                            </li>
 		                            <li class="txt_box_s"><%=item.get("mdlNm")%> | <%=item.get("mkrNm")%></li>
-		                            <li class="txt_s"><%=item.get("mchnExpl")%></li>
-		                            <!--  
+		                            <li class="txt_s" style="white-space: pre-line;"><%=item.get("mchnExpl")%></li>
+		                            <!--
 		                            <li class="txt_ss">[ <%=item.get("mchnLoc")%> ] <%=item.get("crgrNm")%></li>
 		                            -->
 		                            <li class="txt_ss">담당자 : <%=item.get("crgrNm")%></li>
 		                        </ul>
-		                     </a>   
+		                     </a>
 		                    </div>
 		                 </div>
 		                <div class="clear"></div>
@@ -150,4 +150,3 @@
 	<!-- //sub-content -->
 </body>
 </html>
-	

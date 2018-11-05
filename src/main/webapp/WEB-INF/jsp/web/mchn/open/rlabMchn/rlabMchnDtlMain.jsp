@@ -22,7 +22,7 @@
 <link type="text/css" href="<%=cssPath%>/main.css" rel="stylesheet">
 <link type="text/css" href="<%=cssPath%>/common.css" rel="stylesheet">
 <script type="text/javascript" src="<%=ruiPathPlugins%>/tab/rui_tab.js"></script>
-	
+
 <script type="text/javascript">
 var mchnPrctInfoDialog;
 var mchnPrctId;
@@ -34,18 +34,18 @@ var mchnInfoId;
 	Rui.onReady(function() {
 		mchnInfoId = '${inputData.mchnInfoId}';
 		var tabId = '${inputData.tabId}';
-		
+
 		var opnYn = '${result.opnYn}';
 		var attId = '${result.attcFilId}';
 		var seq = '${result.seq}';
 		var param = "?attcFilId="+attId+"&seq="+seq;
-	
+
 		Rui.getDom('imgView').src = '<c:url value="/system/attach/downloadAttachFile.do"/>'+param;
 
 		if(Rui.isEmpty(tabId)){
 			tabId = "SMRY";
 		}
-		
+
 		//동작원리, 예약현황 TAB
 		var tabView = new Rui.ui.tab.LTabView({
              tabs: [
@@ -55,7 +55,7 @@ var mchnInfoId;
          });
 
 		var tabUrl = "";
-		
+
 		goPage = function(target, id) {
         	$('#tabId').val(id);
         	$('#mchnInfoId').val(mchnInfoId);
@@ -71,12 +71,12 @@ var mchnInfoId;
         }
 
 		tabView.render('tabView');
-		
+
 		if( opnYn == "N" ){
 			tabView.removeAt(tabView.getTabCount() - 1);
 		}
-		
-		
+
+
 		tabView.on('activeTabChange', function(e){
         	 //iframe 숨기기
         	 for(var i = 0; i < 2; i++) {
@@ -87,7 +87,7 @@ var mchnInfoId;
                     Rui.get('tabContentIfrm' + i).hide();
                 }
             }
-        	
+
         	switch(e.activeIndex){
         	//전체
         	case 0:
@@ -111,8 +111,8 @@ var mchnInfoId;
 		}else{
 			tabView.selectTab(0);
 		}
-		
-		
+
+
 		/* [ 보유기기신청 예약 Dialog] */
 		mchnPrctInfoDialog = new Rui.ui.LFrameDialog({
 	        id: 'mchnPrctInfoDialog',
@@ -124,8 +124,8 @@ var mchnInfoId;
 	    });
 
 		mchnPrctInfoDialog.render(document.body);
-		
-		
+
+
 		/* [버튼] : 보유장비 목록으로 이동 */
     	var butList = new Rui.ui.LButton('butList');
     	butList.on('click', function(){
@@ -133,18 +133,18 @@ var mchnInfoId;
     		aform.target = '_self';
 			document.aform.submit();
     	});
-		
+
 
 	});	//end ready
 
-	
+
 	function  fncMchnPrctPop(id, y, m, d, i){
-		/* 
+		/*
 		var dt = new Date();
 		var toDay =  dt.getDate();
-		
+
 		if(toDay < Number(d) ){
-			
+
 		}else{
 			alert("현재일 이전날짜는 예약이 불가능합니다.");
 		}
@@ -154,7 +154,7 @@ var mchnInfoId;
 		}
 		var mchnUsePsblYn = '${result.mchnUsePsblYn}'
 		var mchnClCd = '${result.mchnClCd}'
-		
+
 		if(mchnClCd == "" ||mchnClCd == null){
 			mchnClCd = i;
 		}
@@ -165,17 +165,17 @@ var mchnInfoId;
 		}
 
 		var param = "?mchnPrctId="+id
-				    +"&year="+y 
-				    +"&mm="+m 
-				    +"&day="+d 
-				    +"&mchnInfoId="+mchnInfoId 
+				    +"&year="+y
+				    +"&mm="+m
+				    +"&day="+d
+				    +"&mchnInfoId="+mchnInfoId
 				    +"&mchnClCd="+mchnClCd
 					;
 
 		mchnPrctInfoDialog.setUrl('<c:url value="/mchn/open/rlabMchn/retrieveMchnPrctInfoPop.do"/>'+param);
-		mchnPrctInfoDialog.show(true);	
+		mchnPrctInfoDialog.show(true);
 	}
-	
+
 	function fncMchnDtl( mchnPId , mchnId, tabId){
 		$('#tabId').val(tabId);
     	$('#mchnInfoId').val(mchnId);
@@ -185,12 +185,12 @@ var mchnInfoId;
 
     	nwinsActSubmit(document.aform, tabUrl, "tabContentIfrm1");
 	}
-	
+
 	//닫기
 	function fncPopCls(){
 		mchnPrctInfoDialog.cancel(true);
 	}
-	
+
 </script>
 </head>
 
@@ -204,13 +204,13 @@ var mchnInfoId;
 <input type="hidden" id="mchnSmry" name="mchnSmry" value="<c:out value='${result.mchnSmry}'/>">
 <input type="hidden" id="mchnUsePsblYn" name="mchnUsePsblYn" value="<c:out value='${result.mchnUsePsblYn}'/>">
 <input type="hidden" id="rtnUrl" name="rtnUrl">
- <!-- contents -->  
+ <!-- contents -->
 <div class="contents">
 	<div class="titleArea">
 		<a class="leftCon" href="#">
 			<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 			<span class="hidden">Toggle 버튼</span>
-		</a>    
+		</a>
 		<h2>장비예약</h2>
     </div>
 	<!-- sub-content -->
@@ -263,7 +263,8 @@ var mchnInfoId;
                             <tr>
                                 <td colspan="4">
                                 	<div class="prg">
-                                		<span id="mchnExpl"><c:out value='${result.mchnExpl}' escapeXml="false"/> </span> 
+                                		<%-- <span id="mchnExpl"><c:out value='${result.mchnExpl}' escapeXml="false"/> </span> --%>
+                                		<span id="mchnExpl" style="white-space: pre-line;"><c:out value='${result.mchnExpl}' escapeXml="false"/> </span>
                                 	</div>
                                 </td>
                             </tr>
@@ -276,22 +277,22 @@ var mchnInfoId;
             <br>
            <div id="tabView"></div>
             <!-- 메인1 tab start --><!-- **** rui 컴포넌트 이용시 불필요한 내용임 **** -->
- 			<iframe name="tabContentIfrm0" id="tabContentIfrm0" scrolling="no" width="100%" height="1200px" frameborder="0" ></iframe> 
- 			<iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="yes" width="100%" height="700px" frameborder="0" ></iframe> 
-            <!-- 메인1  tab end -->                        
+ 			<iframe name="tabContentIfrm0" id="tabContentIfrm0" scrolling="no" width="100%" height="1200px" frameborder="0" ></iframe>
+ 			<iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="yes" width="100%" height="700px" frameborder="0" ></iframe>
+            <!-- 메인1  tab end -->
         </div>
         <!-- // schedule_reserv -->
         <div class="clear"></div>
-                 
-        </div>	
+
+        </div>
 		<!-- // sch_reserv_present -->
-		
+
 	</div>
 	<!-- //sub-content -->
 
 </div>
 <!-- //contents -->
- 
- </form>	   
+
+ </form>
 </body>
 </html>
