@@ -130,6 +130,9 @@ var npCd = '${inputData.npCd}';
 						</tr>
 					</tbody>
 				</table>
+   					<div style="text-align:right;">
+   						(단위:억원)
+   					</div>
 			<div id="grid"></div>
 
 			</form>

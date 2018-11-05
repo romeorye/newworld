@@ -485,7 +485,7 @@ SELECT 'A' AS SPACE_UGY_YN
 	  ,'긴급분석율' AS SPACE_SCN_NM
 	  ,0 AS SPACE_SCN_ORD
 	  ,3 AS ORD
-	  ,ROUND(((UCNT/CONVERT(FLOAT,CNT))*100),1) AS AVG_UCNT
+	  ,ISNULL(ROUND(((UCNT/CONVERT(FLOAT,CNT))*100),1),0) AS AVG_UCNT
 	  ,ROUND((M1+M2+M3+M4+M5+M6+M7+M8+M9+M10+M11+M12)/CONVERT(FLOAT,(CASE WHEN #{yyyy}= year(getdate())
 	                                THEN datename(m, getdate())
 									ELSE 12
@@ -1223,7 +1223,10 @@ SELECT DEPT_CODE
 	  ,ALL_SPACE_UGY_NM
 	  ,''
 	  ,ORD
-	  ,ROUND((CONVERT(FLOAT,CNT)/SUM(CNT) OVER()),1)  AS CNT
+	  ,CASE WHEN SUM(CNT) OVER()=0
+	        THEN 0
+	        ELSE ROUND((CONVERT(FLOAT,CNT)/SUM(CNT) OVER()),1)
+	    END AS CNT
 	  ,'' as AVG_CNT
       ,CASE WHEN M1=0
 	        THEN 0
@@ -1347,7 +1350,8 @@ WITH ALLDATA AS (SELECT * FROM
 				SELECT '12' AS MON) MON ) ALLMON
  WHERE 1=1
    AND COMCD2.COM_CD_CD='space_ev_prvs'
-   AND COMCD1.COM_CD_CD='space_ev_ctgr') MAIN
+   AND COMCD1.COM_CD_CD='space_ev_ctgr'
+   AND COMCD2.DEL_YN='N') MAIN
   LEFT JOIN(SELECT RIGHT(LEFT(MST.CMPL_DT,7),2) AS CMPLMO
                   ,CRGR.EV_CTGR
                   ,CRGR.EV_PRVS
