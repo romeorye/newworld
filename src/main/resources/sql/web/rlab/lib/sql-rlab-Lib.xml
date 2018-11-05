@@ -31,7 +31,7 @@
 			WHERE DEL_YN = 'N'
 		 ]]>
 		 <if test="(bbsCd == '01' or target == 'tabContentIfrm0')">
-			  AND BBS_CD in ('02','03','04')
+			  AND BBS_CD in ('02','03')
 		 </if>
 		 <if test="(bbsCd != '01' and target != 'tabContentIfrm0')">
 			  AND BBS_CD = #{bbsCd}
