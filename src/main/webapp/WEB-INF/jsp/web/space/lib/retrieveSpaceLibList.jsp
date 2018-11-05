@@ -38,6 +38,8 @@
 <script type="text/javascript">
 var bbsId = '${inputData.bbsId}';
 var bbsCd = '${inputData.bbsCd}';
+var roleId = '${inputData._roleId}';
+var roleIdIndex = roleId.indexOf("WORK_IRI_T18");
 var refresh = "";
 
 	Rui.onReady(function() {
@@ -45,18 +47,34 @@ var refresh = "";
         * 변수 및 객체 선언
         *******************/
         /* [TAB] */
-        tabView = new Rui.ui.tab.LTabView({
-        	tabs: [
-        		{ label: '전체', content: '<div id="tabContent0"></div>' },
-        		{ label: '공간성능평가 Letter', content: '<div id="tabContent1"></div>' },
-                { label: '제도, 법규 자료', content: '<div id="tabContent2"></div>' },
-                { label: '연구리포트', content: '<div id="tabContent3"></div>' },
-                { label: '논문', content: '<div id="tabContent4"></div>' },
-                { label: '메뉴얼', content: '<div id="tabContent5"></div>' },
-                { label: '기타', content: '<div id="tabContent6"></div>' },
-                { label: '팀전용', content: '<div id="tabContent7"></div>' }
-            ]
-        });
+        if(roleIdIndex != -1){  
+	        tabView = new Rui.ui.tab.LTabView({
+	        	tabs: [
+	        		{ label: '전체', content: '<div id="tabContent0"></div>' },
+	        		{ label: '공간성능평가 Letter', content: '<div id="tabContent1"></div>' },
+	                { label: '제도, 법규 자료', content: '<div id="tabContent2"></div>' },
+	                { label: '연구리포트', content: '<div id="tabContent3"></div>' },
+	                { label: '논문', content: '<div id="tabContent4"></div>' },
+	                { label: '메뉴얼', content: '<div id="tabContent5"></div>' },
+	                { label: '기타', content: '<div id="tabContent6"></div>' },
+	                { label: '팀전용', content: '<div id="tabContent7"></div>' }
+	            ]
+	        });
+        }
+        if(roleIdIndex == -1){ 
+	        tabView = new Rui.ui.tab.LTabView({
+	        	tabs: [
+	        		{ label: '전체', content: '<div id="tabContent0"></div>' },
+	        		{ label: '공간성능평가 Letter', content: '<div id="tabContent1"></div>' },
+	                { label: '제도, 법규 자료', content: '<div id="tabContent2"></div>' },
+	                { label: '연구리포트', content: '<div id="tabContent3"></div>' },
+	                { label: '논문', content: '<div id="tabContent4"></div>' },
+	                { label: '메뉴얼', content: '<div id="tabContent5"></div>' },
+	                { label: '기타', content: '<div id="tabContent6"></div>' }
+
+	            ]
+	        });
+        }
 
         goPage = function(target, bbsCd) {
         	var lvTarget = target;
