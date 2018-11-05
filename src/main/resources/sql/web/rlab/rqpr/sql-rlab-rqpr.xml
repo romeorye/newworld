@@ -64,7 +64,7 @@
 																	))
         	</when>
         	<otherwise>
-			AND RLAB_ACPC_ST_CD != '01'
+			AND RLAB_ACPC_ST_CD != '00'
         	</otherwise>
         </choose>
 			AND DEL_YN = 'N'
