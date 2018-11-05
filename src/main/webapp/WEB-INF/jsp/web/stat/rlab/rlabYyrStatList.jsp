@@ -119,15 +119,13 @@ var mchnInfoId;
         var yy = new Rui.ui.form.LCombo({
             applyTo: 'yy',
             name: 'yy',
-            emptyText: '선택',
-            defaultValue: '',
-            emptyValue: '',
-            width: 110,
-            selectedIndex:0,
             useEmptyText: false,
-            url: '<c:url value="/stat/rlab/retrieveRlabYyList.do"/>',
-            displayField: 'yy',
-            valueField: 'yy'
+            defaultValue : new Date().format('%Y'),
+            items: [
+                <c:forEach var="i" begin="0" varStatus="status" end="19">
+                    { value : "${ 2030 - i }" , text : "${ 2030 - i }" } ,
+                </c:forEach>
+            ]
         });
 
         //시험구분별
