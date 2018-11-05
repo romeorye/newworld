@@ -425,10 +425,10 @@
 					, { id: 'evSubjDtl'		}
 					, { id: 'tCloud'		}
 					, { id: 'spaceRqprInfmView' } //통보자 명
-					, { id: 'rqprAttcFileId', defaultValue: '' }
 					, { id: 'spaceAcpcStCd'		}
 					, { id: 'spaceRsltSbc'	}
-					, { id: 'rsltAttcFileId', defaultValue: '' }
+					, { id: 'rqprAttcFileId'}
+					, { id: 'rsltAttcFileId'}
 					, { id: 'cmplParrDt'	}
                 ]
             });
@@ -458,6 +458,10 @@
             		 $( '#saveBtn' ).hide();
             		 $( '#approvalBtn' ).hide();
             		 $( '#deleteBtn' ).hide();
+            	}
+
+            	if(Rui.isEmpty(spaceRqprDataSet.getNameValue(0, "rsltAttcFileId"))) {
+            		spaceRqprDataSet.setNameValue(0, "rsltAttcFileId", '')
             	}
 
             });
@@ -495,13 +499,12 @@
                     		var splitVal = val.split('\n');
                     		if(splitVal.length<=1){
                     			var rtnStr="";
-                        		//alert(splitVal.length);
                         		for(var j=0;j<splitVal.length;j++){
                         			var k=0;
     	                    		for(var i=0;i<splitVal[j].length;i++){
     	                    			if(i%66==0&&i!=0){
     	                    				rtnStr+='\n';
-    	                    				//k=K+1;
+
     	                    			}
     	                    			rtnStr+=splitVal[j].charAt(i);
     	                    		}
@@ -514,8 +517,7 @@
                     , { id: 'attachDownBtn',  label: '첨부파일',  width: 65 ,
   		  	    	  renderer: function(val, p, record, row, i){
   		  	    		  var recordFilId = nullToString(record.data.attcFilId);
-  		  	    		  var strBtnFun = "openAttachFileDialog(setAttachFileInfo, "+recordFilId+", 'spacePolicy', '*' ,'R')";
-  		  	    		  //return Rui.isUndefined(record.get('attcFilId')) ? '' : '<button type="button"  class="L-grid-button" onclick="'+strBtnFun+'">다운로드</button>';
+  		  	    		  var strBtnFun = "openAttachFileDialog(setAttachFileInfo, "+recordFilId+", 'spacedPolicy', '*' ,'R')";
   		  	    			if(record.get('attcFilId').length<1){
   		  	    				return '';
 	  	    				}else{
@@ -576,7 +578,7 @@
                     { id: 'evSubjDtl',		 	ctrlId: 'evSubjDtl',		value:'value'},
                     { id: 'tCloud',		 		ctrlId: 'tCloud',		 	value:'value'},
                     { id: 'spaceAcpcStCd',		ctrlId: 'spaceAcpcStCd',	value:'value'},
-                    { id: 'cmplParrDt',			ctrlId:'cmplParrDt',		value:'value'}
+                    { id: 'cmplParrDt',			ctrlId: 'cmplParrDt',		value:'value'}
                 ]
             });
 
@@ -1956,7 +1958,7 @@
    							</td>
    						</tr>
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>T-Cloud Link</th>
+   							<th align="right">T-Cloud Link</th>
    							<td class="rlabrqpr_tain01" colspan="3">
                                 <input type="text" id="tCloud">
    							</td>
