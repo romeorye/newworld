@@ -38,6 +38,8 @@
 <script type="text/javascript">
 var bbsId = '${inputData.bbsId}';
 var bbsCd = '${inputData.bbsCd}';
+var roleId = '${inputData._roleId}';
+var roleIdIndex = roleId.indexOf("WORK_IRI_T17");
 var refresh = "";
 
 	Rui.onReady(function() {
@@ -45,14 +47,28 @@ var refresh = "";
         * 변수 및 객체 선언
         *******************/
         /* [TAB] */
-        tabView = new Rui.ui.tab.LTabView({
-        	tabs: [
-        		{ label: '전체', content: '<div id="tabContent0"></div>' },
-        		{ label: '신뢰성DB',            content: '<div id="tabContent1"></div>' },
-                { label: '신뢰성자료실',         content: '<div id="tabContent2"></div>' },
-                { label: '신뢰성IP',       content: '<div id="tabContent3"></div>' }
-            ]
-        });
+        
+
+        if(roleIdIndex != -1){
+	        tabView = new Rui.ui.tab.LTabView({
+	        	tabs: [
+	        		{ label: '전체', content: '<div id="tabContent0"></div>' },
+	        		{ label: '신뢰성DB',            content: '<div id="tabContent1"></div>' },
+	                { label: '신뢰성자료실',         content: '<div id="tabContent2"></div>' },
+	                { label: '신뢰성IP',       content: '<div id="tabContent3"></div>' }
+	            ]
+	        });
+        }
+        if(roleIdIndex == -1){
+	        tabView = new Rui.ui.tab.LTabView({
+	        	tabs: [
+	        		{ label: '전체', content: '<div id="tabContent0"></div>' },
+	        		{ label: '신뢰성DB',            content: '<div id="tabContent1"></div>' },
+	                { label: '신뢰성자료실',         content: '<div id="tabContent2"></div>' }
+	            ]
+	        });
+        }
+
 
         goPage = function(target, bbsCd) {
         	var lvTarget = target;
