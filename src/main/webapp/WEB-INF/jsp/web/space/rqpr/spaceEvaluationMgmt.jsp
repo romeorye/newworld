@@ -128,7 +128,7 @@
                 columns: [
 						new Rui.ui.grid.LStateColumn()
                 	, { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 71 }
-                    , { field: 'ctgrNm',	label: '사업부',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 200 }
+                    , { field: 'ctgrNm',	label: '사업부',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 180 }
                 ]
             });
 
@@ -138,7 +138,7 @@
   						new Rui.ui.grid.LStateColumn()
                 	, { field: 'supiCd',	label: '상위코드',	sortable: false,	editable: false, 	align:'center',	width: 70 }
                     , { field: 'ctgrCd',	label: '코드',		sortable: false,	editable: false, 	align:'center',	width: 70 }
-                    , { field: 'ctgrNm',	label: '제품군',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 160 }
+                    , { field: 'ctgrNm',	label: '제품군',		sortable: false,	editable: true, editor: new Rui.ui.form.LTextBox() ,	align:'center',	width: 140 }
                 ]
             });
 
@@ -175,7 +175,7 @@
                 	, { field: 'scn',			label: '구분',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 181 }
                     , { field: 'pfmcVal',		label: '성능값',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 181 }
                     , { field: 'frstRgstDt',	label: '등록일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 181 }
-                    , { field: 'strtVldDt',		label: '유효시작일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 180 }
+                    , { field: 'strtVldDt',		label: '유효시작일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 162 }
                     , { field: 'fnhVldDt',		label: '유효종료일',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 180 }
                     , { field: 'sndEmlYn',		label: '메일발송여부',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 70 }
                     , { field: 'ottpYn',		label: '공개여부',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 70 }

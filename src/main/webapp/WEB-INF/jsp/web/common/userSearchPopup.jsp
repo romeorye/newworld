@@ -115,7 +115,7 @@
               	  	  new Rui.ui.grid.LSelectionColumn(),
               	</c:if>
                       { field : 'saName',		label : '이름',		sortable : false,	align :'center',	width : 80 }
-                    , { field : 'saJobxName',	label : '직위',		sortable : false,	align :'center',	width : 57 }
+                    , { field : 'saJobxName',	label : '직위',		sortable : false,	align :'center',	width : 70 }
                     , { field : 'deptName',		label : '부서',		sortable : false,	align :'center',	width : (cnt == 1 ? 360 : 340) }
                 ]
             });
@@ -124,7 +124,7 @@
                 columnModel : userColumnModel,
                 dataSet : userDataSet,
                 width : 500,
-                height : 200,
+                height : 150,
                 autoToEdit : false,
                 autoWidth : true
             });
@@ -176,7 +176,7 @@
 	            columnModel : selectUserColumnModel,
 	            dataSet : selectUserDataSet,
 	            width : 500,
-	            height : 200,
+	            height : 150,
 	            autoToEdit : false,
 	            autoWidth : true
 	        });

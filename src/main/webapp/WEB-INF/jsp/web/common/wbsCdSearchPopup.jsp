@@ -154,12 +154,12 @@
 			/** columnModel **/
 			var columnModel = new Rui.ui.grid.LColumnModel({
 				columns: [
-					  { field: 'wbsCd'        , label: 'WBS CODE',			sortable: false,	align:'center', width: 90 }
-					, { field: 'tssNm'        , label: '프로젝트명',			sortable: false,	align:'left', width: 350 }
-					, { field: 'saSabunName'  , label: 'PL 명',  			sortable: false,	align:'center', width: 90 }
-					, { field: 'deptName' 	  , label: '조직',				sortable: false,	align:'left', width: 220 }
+					  { field: 'wbsCd'        , label: 'WBS CODE',			sortable: false,	align:'center', width: 100 }
+					, { field: 'tssNm'        , label: '프로젝트명',			sortable: false,	align:'left', width: 370 }
+					, { field: 'saSabunName'  , label: 'PL 명',  			sortable: false,	align:'center', width: 100 }
+					, { field: 'deptName' 	  , label: '조직',				sortable: false,	align:'left', width: 225 }
 					, { id : '프로젝트기간'},
-					, { field: 'tssStrtDd'    , groupId: '프로젝트기간', label: '시작일',      sortable: false, align:'center', width: 100 }
+					, { field: 'tssStrtDd'    , groupId: '프로젝트기간', label: '시작일',      sortable: false, align:'center', width: 102 }
 					, { field: 'tssFnhDd'     , groupId: '프로젝트기간', label: '종료일',      sortable: false, align:'center', width: 100 }
 			   ]
 			});
