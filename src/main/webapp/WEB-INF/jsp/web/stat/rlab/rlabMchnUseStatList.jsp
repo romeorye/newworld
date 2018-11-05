@@ -66,7 +66,7 @@ var mchnInfoId;
 			name : 'mchnClCd',
 			useEmptyText: true,
 		    emptyText: '선택하세요',
-		    url: '<c:url value="/stat/rlab/retrieveRlabMchnClCd.do"/>',
+		    url: '<c:url value="/rlab/retrieveRlabMchnClCd.do"/>',
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD',
 			width: 150
@@ -75,7 +75,7 @@ var mchnInfoId;
 		cbmchnClCd.on('changed', function(e){
 			mchnClDtlCdDataSet.clearData();
 			mchnClDtlCdDataSet.load({
-                url: '<c:url value="/stat/rlab/retrieveRlabMchnClDtlCd.do"/>'
+                url: '<c:url value="/rlab/retrieveRlabMchnClDtlCd.do"/>'
                 ,params :{
                 	exatCd : e.value
                 }
