@@ -157,6 +157,9 @@
 											</div>
 										</td>
 									</tr>
+									<!--
+									 현재는 사용하지 않지만 나중에 사용할 부분임
+
 									<tr>
 										<th>
 											<div class="asset_list">
@@ -172,7 +175,7 @@
 												<p class="analyze_s_txt">외피를 통한 소음 저감 효과 평가</p>
 											</div>
 										</td>
-									</tr>
+									</tr> -->
 								</tbody>
 							</table>
 						</div>
