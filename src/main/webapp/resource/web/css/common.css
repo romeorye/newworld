@@ -1803,7 +1803,7 @@ a.l-blue {color:#3970a8; text-decoration:underline;}
 .tabTotal input[type="text"]{ height:22px;}
 
 /* 오류페이지 */
-.errorArea{ position:absolute; top:50%; margin-top:-350px; left:50%; margin-left:-400px; width:800px; height:465px; border:1px solid #ddd; border-top:6px solid #565656; box-sizing:border-box; }
+.errorArea{ position:absolute; top:50%; margin-top:50px; left:50%; margin-left:-400px; width:800px; height:465px; border:1px solid #ddd; border-top:6px solid #565656; box-sizing:border-box; }
 .errorTop{ padding:54px 0 40px 60px; background:url(../images/sub/bg_error.png) no-repeat 634px 64px; background-size:119px; }
 .errorArea:before{ content:''; position:absolute; top:-6px; left:0; width:257px; height:6px; background-color:#c8394a; }
 .errorTop h2{ font-size:22px; color:#444; font-weight:normal; }
