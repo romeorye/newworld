@@ -22,20 +22,14 @@
 	  		  ,A.MCHN_USE_PSBL_YN as "mchnUsePsblYn"
 	  		  ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = A.MCHN_LACL_CD) AS "mchnLaclNm"
 	  		  ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = A.MCHN_CL_DTL_CD)  AS "mchnClDtlNm"
-			  ,ACC3.COM_DTL_NM AS "mchnClNm"
+	  		  ,dbo.fn_getComDtlNm('RLAB_CL_CD',A.MCHN_CL_CD) AS "mchnClNm"
 	  		  ,A.OPN_YN AS "opnYn"
-	  		  ,ACC.COM_DTL_NM AS "mchnUsePsblNm"
+	  		  ,dbo.fn_getComDtlNm('MCHN_PRCT_ST',A.MCHN_USE_PSBL_YN) AS "mchnUsePsblNm"
 	  		  ,A.SMPO_QTY AS "smpoQty"
 		FROM IRIS_RLAB_MCHN_INFO_MGMT A
 		LEFT OUTER JOIN IRIS_SSO_USER B
 				 ON  A.MCHN_CRGR_ID = B.SA_SABUN_NEW
-				,IRIS_ADM_COM_CD ACC
-				,IRIS_ADM_COM_CD ACC3
 		WHERE 1=1
-			AND A.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
-			AND A.MCHN_CL_CD = ACC3.COM_DTL_CD
-			AND ACC3.COM_CD_CD = 'RLAB_CL_CD'
-			AND ACC.COM_CD_CD = 'MCHN_PRCT_ST'
 			AND A.DEL_YN = 'N'
 		]]>
 
@@ -47,9 +41,6 @@
 	    </if>
 	    <if test="(mchnLaclCd != null and mchnLaclCd != '')">
 			AND  A.MCHN_Lacl_CD = #{mchnLaclCd}
-	    </if>
-		<if test="(fxaNo != null and fxaNo != '')">
-			AND  MIM.FXA_NO = #{fxaNo}
 	    </if>
 	    <if test="(opnYn != null and opnYn != '')">
 			AND  A.OPN_YN = #{opnYn}
@@ -179,7 +170,7 @@ INSERT  (
 				,MCHN_USE_PSBL_YN  as "mchnUsePsblYn"
 				,MCHN_INFO_ID      as "mchnInfoId"
 				,A.MN_SCRN_DSP_YN as "mnScrnDspYn"
-				,AA.COM_DTL_NM    as  "mchnUsePsblNm"
+				,dbo.fn_getComDtlNm('MCHN_PRCT_ST', A.MCHN_USE_PSBL_YN) as mchnUsePsblNm
 				,dbo.fn_getComDtlNm('MCHN_CL_CD', A.MCHN_CL_CD) as mchnClNm
 				,A.SMPO_QTY       as "smpoQty"
 		FROM    IRIS_RLAB_MCHN_INFO_MGMT A
@@ -190,10 +181,7 @@ INSERT  (
 				LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
 				ON F.ATTC_FIL_ID = A.ATTC_FIL_ID
 				AND F.DEL_YN ='N'
-				,IRIS_ADM_COM_CD AA
 		WHERE   MCHN_INFO_ID =  #{mchnInfoId}
-		AND     AA.COM_CD_CD = 'MCHN_PRCT_ST'
-		AND     AA.COM_DTL_CD = A.MCHN_USE_PSBL_YN
 		]]>
 	</select>
 
