@@ -61,25 +61,27 @@ var npCd = '${inputData.npCd}';
 				   , { id: 'm11' }		  //11월
 				   , { id: 'm12' }		  //13월
 				   , { id: 'npCd' }		  //13월
+				   , { id: 'totSum' }		  //13월
 				   ]
 	    });
 
 		var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	  { field: 'nm',	label: '신제품',		sortable: false,	align:'left',	width: 120 }
-                 , { field: 'm1',			label: '1월',		sortable: false,	align:'right',	width: 60 }
-                 , { field: 'm2',			label: '2월',		sortable: false,	align:'right',	width: 60 }
-                 , { field: 'm3',			label: '3월',		sortable: false,	align:'right',	width: 60 }
-                 , { field: 'm4',			label: '4월',		sortable: false,	align:'right',	width: 60 }
-                 , { field: 'm5',			label: '5월',		sortable: false,	align:'right',	width: 60 }
-                 , { field: 'm6',			label: '6월',		sortable: false,	align:'right',	width: 60 }
-                 , { field: 'm7',			label: '7월',		sortable: false,	align:'right',	width: 60 }
-                 , { field: 'm8',			label: '8월',		sortable: false,	align:'right',	width: 60 }
-                 , { field: 'm9',			label: '9월',		sortable: false,	align:'right',	width: 60 }
-                 , { field: 'm10',			label: '10월',		sortable: false,	align:'right',	width: 60 }
-                 , { field: 'm11',			label: '11월',		sortable: false,	align:'right',	width: 60 }
-                 , { field: 'm12',			label: '12월',		sortable: false,	align:'right',	width: 60 }
+	        	  { field: 'nm',	label: '신제품',		sortable: false,	align:'left',	width: 180 }
+                 , { field: 'm1',			label: '1월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'm2',			label: '2월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'm3',			label: '3월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'm4',			label: '4월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'm5',			label: '5월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'm6',			label: '6월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'm7',			label: '7월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'm8',			label: '8월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'm9',			label: '9월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'm10',			label: '10월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'm11',			label: '11월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'm12',			label: '12월',		sortable: false,	align:'right',	width: 50 }
+                 , { field: 'totSum',		label: '합계',		sortable: false,	align:'right',	width: 60 }
                  , { field:'npCd',  		hidden : true}
 
             ]
