@@ -254,7 +254,7 @@
 		                        <div class="swiper-slide">
 		                                    <ul class="reser_txt" onClick="moveMenu('AN', 'IRIAN0200', '/anl/bbs/retrieveAnlBbsList.do?bbsId=<c:out value="${noticeInfo.bbsId}"/>', 'IRIAN0201')">
 		                                        <li><c:out value="${noticeInfo.bbsTitl}"/></li>
-		                                        <li><c:out value="${noticeInfo.bbsSbc}" escapeXml="false"/></li>
+		                                        <li><P><c:out value="${noticeInfo.bbsSbc2}" escapeXml="false"/></P></li>
 		                                    </ul>
 		                                </div>
                             </c:forEach>
