@@ -9,12 +9,13 @@
 			SELECT
 				RQPR_ID											AS rqprId,
 				ACPC_NO											AS acpcNo,		--접수번호
-				dbo.fn_getComDtlNm('SPACE_SCN_CD',SPACE_SCN_CD)	AS spaceScnNm,	--평가목적
+				dbo.fn_getComDtlNm('SPACE_SCN_CD',SPACE_SCN_CD)	AS spaceScnNm,	--평가상세
 				SPACE_NAME										AS spaceNm,		--평가명
 				RGST_ID											AS rgstId,		--등록자
 				dbo.fn_getSpaceCtrgNames(RQPR_Id)				AS CtrgNames,	--평가카테고리
 				dbo.fn_getSpacePrvsNames(RQPR_Id)				AS PrvsNames,	--평가항목
 				dbo.fn_getUserName(RGST_ID) 					AS rgstNm,		--의뢰자
+				dbo.fn_getSpaceRqprCrgrNames(RQPR_ID)           AS CrgrNames,	--담당자
 				RQPR_DT											AS rqprDt,		--의뢰일자
 				ACPC_DT											AS acpcDt,		--접수일자
 				CMPL_PARR_DT									AS cmplParrDt,	--완료예정일

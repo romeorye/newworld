@@ -84,7 +84,7 @@
                 emptyValue: '',
                 width: 980
             });
-			/*평가목적*/
+			/*평가상세*/
             var spaceSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'spaceSbc',
                 placeholder: '평가배경과 목적, 결과 활용방안을 자세히 기재하여 주시기 바랍니다.',
@@ -835,7 +835,7 @@
             var vm = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'spaceNm',		validExp: '평가명:true:maxByteLength=100' },
-                { id: 'spaceSbc',		validExp: '평가목적:true' },
+                { id: 'spaceSbc',		validExp: '평가상세:true' },
                 { id: 'spaceScnCd',		validExp: '평가구분:true' },
                 { id: 'spaceUgyYn',		validExp: '긴급유무:true' },
                 { id: 'oppbScpCd',		validExp: '공개범위:true' },
@@ -957,7 +957,7 @@
    							</td>
    						</tr>
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>평가목적</th>
+   							<th align="right"><span style="color:red;">* </span>평가상세</th>
    							<td colspan="3" class="rlabrqpr_tain01">
    								<textarea id="spaceSbc"></textarea>
    							</td>

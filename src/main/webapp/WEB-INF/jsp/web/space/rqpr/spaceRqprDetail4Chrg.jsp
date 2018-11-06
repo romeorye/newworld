@@ -199,7 +199,7 @@
                 emptyValue: '',
                 width: 390
             });
-			/*평가목적*/
+			/*평가상세*/
             var spaceSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'spaceSbc',
                 placeholder: '평가배경과 목적, 결과 활용방안을 자세히 기재하여 주시기 바랍니다.',
@@ -402,7 +402,7 @@
 					  { id: 'rqprId'		}	//의뢰ID
 					, { id: 'spaceNm'		}	//평가명
 					, { id: 'spaceScnCd'	}	//평가구분코드
-					, { id: 'spaceSbc'		}	//평가목적
+					, { id: 'spaceSbc'		}	//평가상세
 					, { id: 'acpcNo'		}	//접수번호
 					, { id: 'rgstNm'		}	//의뢰자
 					, { id: 'rqprDeptNm'	}	//부서
@@ -1486,7 +1486,7 @@
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'spaceNm',		validExp: '평가명:true:maxByteLength=100' },
-                { id: 'spaceSbc',		validExp: '평가목적:true' },
+                { id: 'spaceSbc',		validExp: '평가상세:true' },
                 { id: 'spaceScnCd',		validExp: '평가구분:true' },
 				{ id: 'cmplParrDt',		validExp: '완료예정일:true:date=YYYY-MM-DD' },
                 { id: 'spaceUgyYn',		validExp: '긴급유무:true' },
@@ -1858,7 +1858,7 @@
    							<td><span id="acpcNo"/></td>
    						</tr>
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>평가목적</th>
+   							<th align="right"><span style="color:red;">* </span>평가상세</th>
    							<td colspan="3" class="rlabrqpr_tain01">
    								<textarea id="spaceSbc"></textarea>
    							</td>

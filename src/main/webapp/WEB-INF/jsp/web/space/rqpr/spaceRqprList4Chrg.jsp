@@ -186,6 +186,7 @@
  					, { id: 'CtrgNames',	}
  					, { id: 'PrvsNames',	}
  					, { id: 'rgstNm',		}
+ 					, { id: 'CrgrNames',	}
  					, { id: 'rqprDt',		}
  					, { id: 'cmplDt',		}
  					, { id: 'spaceUgyYnNm',	}
@@ -196,16 +197,17 @@
 
              var spaceRqprColumnModel = new Rui.ui.grid.LColumnModel({
                  columns: [
- 					  { field: 'acpcNo',		label: '접수번호',		sortable: true,		align:'center',	width: 100 }
- 					, { field: 'spaceScnNm',	label: '평가목적',		sortable: false,	align:'center',	width: 100 }
+ 					  { field: 'acpcNo',		label: '접수번호',		sortable: true,		align:'center',	width: 90 }
+ 					, { field: 'spaceScnNm',	label: '평가구분',		sortable: false,	align:'center',	width: 70 }
  					, { field: 'spaceNm',		label: '평가명',			sortable: false,	align:'left',	width: 385 }
  					, { field: 'CtrgNames',		label: '평가카테고리',	sortable: false,	align:'center',	width: 120 }
- 					, { field: 'PrvsNames',		label: '평가항목',		sortable: false,	align:'center',	width: 100 }
- 					, { field: 'rgstNm',		label: '의뢰자',			sortable: false, 	align:'center',	width: 100 }
- 					, { field: 'rqprDt',		label: '의뢰일',			sortable: true, 	align:'center',	width: 100 }
- 					, { field: 'cmplDt',		label: '완료일',			sortable: true, 	align:'center',	width: 100 }
+ 					, { field: 'PrvsNames',		label: '평가항목',		sortable: false,	align:'center',	width: 90 }
+ 					, { field: 'rgstNm',		label: '의뢰자',			sortable: false, 	align:'center',	width: 70 }
+ 					, { field: 'CrgrNames',		label: '담당자',			sortable: false, 	align:'center',	width: 100 }
+ 					, { field: 'rqprDt',		label: '의뢰일',			sortable: true, 	align:'center',	width: 90 }
+ 					, { field: 'cmplDt',		label: '완료일',			sortable: true, 	align:'center',	width: 90 }
  					, { field: 'spaceUgyYnNm',	label: '긴급',			sortable: false,  	align:'center',	width: 50 }
- 					, { field: 'oppbScpCd',		label: '비밀',			sortable: true, 	align:'center',	width: 85 }
+ 					, { field: 'oppbScpCd',		label: '비밀',			sortable: true, 	align:'center',	width: 75 }
  					, { field: 'acpcStNm',		label: '상태',			sortable: false, 	align:'center',	width: 85 }
             		]
              });

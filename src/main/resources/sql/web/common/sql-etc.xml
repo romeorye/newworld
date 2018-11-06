@@ -19,32 +19,31 @@
 		]]>
 
 			<if test=' ( fromDate != null and fromDate != "" )'>
-				AND MST.PRJ_STR_DT <![CDATA[>=]]> #{fromDate}
+				AND MST.TSS_STRT_DD <![CDATA[>=]]> #{fromDate}
 			</if>
 			<if test= '( toDate != null and toDate != "" )' >
-				AND (CASE WHEN MST.PRJ_END_DT IS NULL OR MST.PRJ_END_DT = '' THEN '9999-12-31' ELSE MST.PRJ_END_DT END) <![CDATA[<=]]> #{toDate}
+				AND MST.TSS_FNH_DD <![CDATA[<=]]> #{toDate}
 			</if>
 		    <if test='(wbsCd != null and wbsCd != "")'>
-				   AND MST.WBS_CD LIKE '%'+#{wbsCd}+'%'
+				AND MST.WBS_CD LIKE '%'+#{wbsCd}+'%'
 		    </if>
 		    <if test='(prjNm != null and prjNm != "")'>
-				   AND MST.PRJ_NM LIKE '%'+#{prjNm}+'%'
+				AND MST.PRJ_NM LIKE '%'+#{prjNm}+'%'
 		    </if>
 		    <if test='(plEmpNo != null and plEmpNo != "")'>
-				   AND MST.PL_EMP_NO = #{plEmpNo}
+				AND MST.PL_EMP_NO = #{plEmpNo}
 		    </if>
 		    <if test='( saName != null and saName != "")'>
-				   AND MST.SA_SABUN_NEW IN ( SELECT SA_SABUN_NEW FROM dbo.IRIS_SSO_USER EMP WHERE EMP.SA_NAME LIKE '%'+#{saName}+'%' )
+				AND MST.SA_SABUN_NEW IN ( SELECT SA_SABUN_NEW FROM dbo.IRIS_SSO_USER EMP WHERE EMP.SA_NAME LIKE '%'+#{saName}+'%' )
 		    </if>
-
 		    <if test='(deptCd != null and deptCd != "")'>
-				   AND MST.DEPT_CD = #{deptCd}
+				AND MST.DEPT_CD = #{deptCd}
 		    </if>
 		    <if test='(roleCheck != null and roleCheck == "")'>
-				   AND MST.DEPT_CODE = dbo.fn_getLeaderDeptCd(#{userDept})
+				AND MST.DEPT_CODE = dbo.fn_getLeaderDeptCd(#{userDept})
 		    </if>
 		    <if test='(uperdeptName != null and uperdeptName != "")'>
-				   AND UDET.DEPT_NAME LIKE '%'+#{uperdeptName}+'%'
+				AND MST.DEPT_NAME LIKE '%'+#{uperdeptName}+'%'
 		    </if>
 		<![CDATA[
 		ORDER BY TSS_STRT_DD DESC
