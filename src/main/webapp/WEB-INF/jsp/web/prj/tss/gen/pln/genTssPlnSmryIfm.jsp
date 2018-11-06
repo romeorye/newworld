@@ -883,6 +883,7 @@ $(window).load(function() {
                                 Wec0 = new NamoSE('smryNTxt');
                                 Wec0.params.Width = "100%";
                                 Wec0.params.UserLang = "auto";
+                                Wec0.params.ImageWidthLimit = 600;
                                 uploadPath = "<%=uploadPath%>";
                                 Wec0.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec0.params.FullScreen = false;
@@ -895,6 +896,7 @@ $(window).load(function() {
                                 Wec1 = new NamoSE('smryATxt');
                                 Wec1.params.Width = "100%";
                                 Wec1.params.UserLang = "auto";
+                                Wec0.params.ImageWidthLimit = 600;
                                 uploadPath = "<%=uploadPath%>";
                                 Wec1.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec1.params.FullScreen = false;
@@ -908,6 +910,7 @@ $(window).load(function() {
                                 Wec2 = new NamoSE('smryBTxt');
                                 Wec2.params.Width = "100%";
                                 Wec2.params.UserLang = "auto";
+                                Wec0.params.ImageWidthLimit = 600;
                                 uploadPath = "<%=uploadPath%>";
                                 Wec2.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec2.params.FullScreen = false;
@@ -920,6 +923,7 @@ $(window).load(function() {
                                 Wec3 = new NamoSE('smryCTxt');
                                 Wec3.params.Width = "100%";
                                 Wec3.params.UserLang = "auto";
+                                Wec0.params.ImageWidthLimit = 600;
                                 uploadPath = "<%=uploadPath%>";
                                 Wec3.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec3.params.FullScreen = false;
