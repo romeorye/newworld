@@ -252,11 +252,19 @@
 
                 //roleId가 분석담당자이면 등록자와 사용자가 달라고 수정/삭제 가능
               	//이외의 사용자는 상세회면 조회만 가능
+              	
+              	/*
                 if(roleIdIndex != -1) {
                 	chkUserRgst(true);
                 } else {
                 	chkUserRgst(false);
                 }
+                */
+  	    		if( roleId.indexOf("WORK_IRI_T06") != -1 || roleId.indexOf("WORK_IRI_T17") != -1 || roleId.indexOf("WORK_IRI_T18") != -1){
+  	    			chkUserRgst(true);
+  	    		} else {
+  	    			chkUserRgst(false);
+  	    		}
 
                 parent.bbsId = '';
 
