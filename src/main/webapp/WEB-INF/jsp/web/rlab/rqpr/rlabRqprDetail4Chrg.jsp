@@ -1261,6 +1261,7 @@
 
             /* 결재의뢰 */
             approval = function() {
+
     	    	if(rlabRqprDataSet.getNameValue(0, 'rlabAcpcStCd') != '03') {
     	    		alert('시험진행 상태일때만 결재의뢰 할 수 있습니다.');
     	    		return false;
@@ -1269,6 +1270,11 @@
                 if (vm3.validateDataSet(rlabRqprDataSet) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm3.getMessageList().join('\n'));
                     return false;
+                }
+
+                if($('#rsltAttcFileView').html() == ""){
+                   	alert('시험 결과서를 등록해 주시기 바랍니다.');
+       	    		return false;
                 }
 
             	if(confirm('결재의뢰 하시겠습니까?')) {
@@ -1672,11 +1678,11 @@
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">시험결과</th>
+   							<th align="right"><span style="color:red;">* </span>시험결과</th>
    							<td colspan="3"><textarea id="rlabRsltSbc"></textarea></td>
    						</tr>
    						<tr>
-   							<th align="right">시험결과서</th>
+   							<th align="right"><span style="color:red;">* </span>시험결과서</th>
    							<td colspan="2">
    								<span id="rsltAttcFileView"></span>
    							</td>

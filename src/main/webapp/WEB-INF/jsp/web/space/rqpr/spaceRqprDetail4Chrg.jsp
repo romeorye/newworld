@@ -1177,7 +1177,7 @@
     	        id: 'spaceRqprEndDialog',
     	        title: '',
     	        width: 520,
-    	        height: 230,
+    	        height: 300,
     	        modal: true,
     	        visible: false
     	    });

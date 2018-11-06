@@ -57,7 +57,7 @@
             </tbody>
         </table>
         <br/>
-    <h3>실험결과</h3>
+    <h3>실험정보</h3>
         <table class="table">
             <colgroup>
                 <col width="60%" />
@@ -74,7 +74,7 @@
                 </tr>
             </thead>
             <tbody>
-            	${rlabRqprExprList}
+            	${rlabRqprExatList}
             </tbody>
         </table>
         <br/>

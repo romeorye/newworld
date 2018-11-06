@@ -301,6 +301,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     				  .append("<td>").append(data.get("evCtgr1Nm")).append("</td>")
     				  .append("<td>").append(data.get("evCtgr2Nm")).append("</td>")
     				  .append("<td>").append(data.get("evCtgr3Nm")).append("</td>")
+    				  .append("<td>").append(data.get("evCtgrNm")).append("</td>")
     				  .append("</tr>");
     			}
 
