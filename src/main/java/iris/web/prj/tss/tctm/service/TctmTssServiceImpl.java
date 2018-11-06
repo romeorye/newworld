@@ -84,7 +84,7 @@ public class TctmTssServiceImpl implements TctmTssService {
 
 	@Override
 	public void duplicateTctmTssSmryInfo(HashMap<String, Object> input) {
-		commonDao.insert(tctmPack + ".duplicateSmryInfo", input);  			//변경 개요  복제
+		commonDao.insert(tctmPack + ".duplicateSmryInfo", input);
 	}
 
 	@Override

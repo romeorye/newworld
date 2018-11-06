@@ -80,11 +80,13 @@
             Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
 
-            if(isEditable) return;
+            if (pageMode=="R"){
+                btnSave.hide();
+                document.getElementById('attchFileMngBtn').style.display = "none";
+                setReadonly("fnoPlnTxt");
+                setReadonly("dcacRsonTxt");
+            }
 
-            btnSave.hide();
-
-            document.getElementById('attchFileMngBtn').style.display = "none";
         };
 
 
@@ -261,16 +263,11 @@
         return true;
     }
 
-    function setViewform(){
-        setReadonly("fnoPlnTxt");
-        setReadonly("dcacRsonTxt");
-    }
 
 </script>
 <script type="text/javascript">
 $(window).load(function() {
     initFrameSetHeight();
-    if(!isEditable)setViewform();
 });
 </script>
 </head>

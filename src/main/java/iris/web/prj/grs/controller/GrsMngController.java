@@ -10,8 +10,6 @@ import iris.web.common.util.StringUtil;
 import iris.web.prj.grs.service.GrsMngService;
 import iris.web.prj.grs.service.GrsReqService;
 import iris.web.prj.tss.com.service.TssUserService;
-import iris.web.prj.tss.gen.service.GenTssPlnService;
-import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.system.base.IrisBaseController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,12 +46,6 @@ public class GrsMngController extends IrisBaseController {
 	@Resource(name = "grsMngService")
 	private GrsMngService grsMngService;
 
-	@Resource(name = "genTssPlnService")
-	private GenTssPlnService genTssPlnService;
-
-    @Resource(name = "genTssService")
-    private GenTssService genTssService;
-
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
     
@@ -70,9 +61,9 @@ public class GrsMngController extends IrisBaseController {
 	/*
 	 * GRS 조회 화면
 	 */
-	@RequestMapping(value = "/prj/grs/listGrsMngInfo.do")
+	@RequestMapping("/prj/grs/listGrsMngInfo.do")
 	public String grsReqList(@RequestParam HashMap<String, String> input,
-			HttpServletRequest request, HttpSession session, ModelMap model) {
+							 HttpSession session, ModelMap model) {
 
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("GrsMngController - listGrsMngInfo [grs화면 호출]");
@@ -80,7 +71,6 @@ public class GrsMngController extends IrisBaseController {
 		LOGGER.debug("###########################################################");
 
 		input = StringUtil.toUtf8(input);
-
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
@@ -94,9 +84,9 @@ public class GrsMngController extends IrisBaseController {
 	/*
 	 * GRS 목록 조회
 	 */
-    @RequestMapping(value="/prj/grs/selectListGrsMngInfo.do")
-    public ModelAndView retrieveGrsReqList(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-            HttpServletResponse response, HttpSession session, ModelMap model) {
+	@RequestMapping("/prj/grs/selectListGrsMngInfo.do")
+	public ModelAndView retrieveGrsReqList(@RequestParam HashMap<String, Object> input,
+										   HttpSession session, ModelMap model) {
 
         LOGGER.debug("###########################################################");
         LOGGER.debug("GrsMngController - selectListGrsMngInfo [GRS 목록 조회]");
@@ -123,13 +113,13 @@ public class GrsMngController extends IrisBaseController {
 	/*
 	 * GRS 기본정보 조회
 	 */
-	@RequestMapping(value = "/prj/grs/selectGrsMngInfo.do")
-	public ModelAndView selectGrsMngInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+	@RequestMapping("/prj/grs/selectGrsMngInfo.do")
+	public ModelAndView selectGrsMngInfo(@RequestParam HashMap<String, Object> input) {
 
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("selectGrsMngInfo [GRS 평가 과제 정보 조회]");
 		LOGGER.debug("input = > " + input);
-		System.out.println(input);
+		
 		LOGGER.debug("###########################################################");
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
@@ -155,13 +145,13 @@ public class GrsMngController extends IrisBaseController {
 	/*
 	 * GRS 기본정보 저장
 	 */
-	@RequestMapping(value = "/prj/grs/updateGrsMngInfo.do")
-	public ModelAndView updateGrsEvRslt(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+	@RequestMapping("/prj/grs/updateGrsMngInfo.do")
+	public ModelAndView updateGrsEvRslt(@RequestParam HashMap<String, Object> input, HttpSession session, ModelMap model) {
 
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("updateGrsMngInfo [GRS 기본정보 저장]");
 		LOGGER.debug("input = > " + input);
-		System.out.println(input);
+		
 		LOGGER.debug("###########################################################");
 //		String rtnMsg = "";
 //		String rtnSt = "";
@@ -186,13 +176,13 @@ public class GrsMngController extends IrisBaseController {
 	/*
 	 * GRS 기본정보 삭제
 	 */
-	@RequestMapping(value = "/prj/grs/deleteGrsMngInfo.do")
-	public ModelAndView deleteGrsMngInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+	@RequestMapping("/prj/grs/deleteGrsMngInfo.do")
+	public ModelAndView deleteGrsMngInfo(@RequestParam HashMap<String, Object> input) {
 
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("deleteGrsMngInfo [GRS 기본정보 삭제]");
 		LOGGER.debug("input = > " + input);
-		System.out.println(input);
+		
 		LOGGER.debug("###########################################################");
 		String rtnMsg = "";
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
@@ -219,13 +209,13 @@ public class GrsMngController extends IrisBaseController {
 	/*
 	 * GRS 평가 과제 정보 조회
 	 */
-	@RequestMapping(value = "/prj/grs/selectGrsTssInfo.do")
-	public ModelAndView selectGrsTssInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+	@RequestMapping("/prj/grs/selectGrsTssInfo.do")
+	public ModelAndView selectGrsTssInfo(@RequestParam HashMap<String, Object> input) {
 
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("selectGrsEvRsltInfo [GRS 평가 과제 정보 조회]");
 		LOGGER.debug("input = > " + input);
-		System.out.println(input);
+		
 		LOGGER.debug("###########################################################");
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
@@ -250,16 +240,9 @@ public class GrsMngController extends IrisBaseController {
 
 	/**
 	 * GRS 평가 항목 조회
-	 * @param input
-	 * @param request
-	 * @param response
-	 * @param session
-	 * @param model
-	 * @return
 	 */
-	@RequestMapping(value="/prj/grs/selectGrsEvRsltInfo.do")
-	public ModelAndView selectGrsEvRsltInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-										  HttpServletResponse response, HttpSession session, ModelMap model) {
+	@RequestMapping("/prj/grs/selectGrsEvRsltInfo.do")
+	public ModelAndView selectGrsEvRsltInfo(@RequestParam HashMap<String, Object> input) {
 
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("retrieveGrsTempList - retrieveGrsReqDtl [grs req]");
@@ -293,20 +276,20 @@ public class GrsMngController extends IrisBaseController {
 	/*
 	 * 평가 정보 임시저장
 	 */
-	@RequestMapping(value = "/prj/grs/insertTmpGrsEvRsltInfo.do")
-	public ModelAndView insertTmpGrsEvRsltInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+	@RequestMapping("/prj/grs/insertTmpGrsEvRsltInfo.do")
+	public ModelAndView insertTmpGrsEvRsltInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpSession session, ModelMap model) {
 
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("insertTmpGrsEvRsltInfo [평가 정보 임시저장]");
 		LOGGER.debug("input = > " + input);
-		System.out.println(input);
+		
 		LOGGER.debug("###########################################################");
 
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		List<Map<String, Object>> dsLst = null;
-		HashMap<String, Object> dtlDs =  new HashMap<String, Object>();
+		List<Map<String, Object>> dsLst;
+		HashMap<String, Object> dtlDs;
 		String rtnMsg = "";
 		String rtnSt = "F";
 
@@ -342,14 +325,12 @@ public class GrsMngController extends IrisBaseController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value="/prj/grs/requestGrsApproval.do")
+	@RequestMapping("/prj/grs/requestGrsApproval.do")
 	public ModelAndView requestGrsApproval(
 			@RequestParam HashMap<String, Object> input,
-			HttpServletRequest request,
-			HttpServletResponse response,
 			HttpSession session,
 			ModelMap model
-			){
+	) {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
@@ -361,69 +342,66 @@ public class GrsMngController extends IrisBaseController {
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-		Map<String,Object> dataMap = new HashMap<String, Object>();
-		Map<String,Object> resultMap = new HashMap<String, Object>();
-		List<Map<String, Object>> grsFileList = new ArrayList<Map<String, Object>>();
-		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+
 		try {
 			input.put("cmd", "requestApproval");
 
-    		String serverUrl = "http://" + configService.getString("defaultUrl") + ":" + configService.getString("serverPort") + "/" + configService.getString("contextPath");
+			String serverUrl = "http://" + configService.getString("defaultUrl") + ":" + configService.getString("serverPort") + "/" + configService.getString("contextPath");
 			StringBuffer sb = new StringBuffer();
 
-	    	input = StringUtil.toUtf8Input(input);
+			input = StringUtil.toUtf8Input(input);
 
-	    	String tssCode = (String) input.get("tssCds");
-	    	
-	    	String[] tssCds = (NullUtil.nvl(input.get("tssCds"),"")).split(",");
-	    	List<String> tssCdList = new ArrayList<String>();
-	    	String commTxt = "";
-	    	
-	    	String evTitl = "";
-        	for(String tssCd : tssCds) {
-        		tssCdList.add(tssCd);
-        	}
+			String tssCode = (String) input.get("tssCds");
 
-        	input.put("tssCdList", tssCdList);
-        	
-        	String guid = grsMngService.getGuid(input);
-        	
-        	Map<String,Object> grsApprInfo  = new HashMap<String, Object>();
-        	
-        	List<Map<String,Object>> grsInfo = grsMngService.retrieveGrsApproval(input);
-        	
-        	grsApprInfo.put("evTitl", grsInfo.get(0).get("evTitl"));
-        	grsApprInfo.put("cfrnAtdtCdTxtNm", grsInfo.get(0).get("cfrnAtdtCdTxtNm"));
-        	
-        	List<Map<String,Object>> rqprAttachFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
-        	
-	    	for(int i=0;i<grsInfo.size();i++) {
-				sb.append("<tr>")
-				  .append("<th>").append(grsInfo.get(i).get("grsEvSt")).append("</th>")
-				  .append("<td>").append(grsInfo.get(i).get("prjNm")).append("</td>")
-				  .append("<td>").append(grsInfo.get(i).get("tssNm")).append("</td>")
-				  .append("<td>").append(grsInfo.get(i).get("saSabunName")).append("</td>")
-				  .append("<td>").append(grsInfo.get(i).get("tssType")).append("</td>")
-				  .append("<td>").append(grsInfo.get(i).get("evScr")).append("</td>")
-				  .append("<td>").append("PASS").append("</td>")
-				  .append("</tr>");
+			String[] tssCds = (NullUtil.nvl(input.get("tssCds"), "")).split(",");
+			List<String> tssCdList = new ArrayList<String>();
+			String commTxt = "";
+
+			for (String tssCd : tssCds) {
+				tssCdList.add(tssCd);
 			}
-			
+
+			input.put("tssCdList", tssCdList);
+
+			String guid = grsMngService.getGuid(input);
+
+			Map<String, Object> grsApprInfo = new HashMap<String, Object>();
+
+			List<Map<String, Object>> grsInfo = grsMngService.retrieveGrsApproval(input);
+
+			grsApprInfo.put("evTitl", grsInfo.get(0).get("evTitl"));
+			grsApprInfo.put("cfrnAtdtCdTxtNm", grsInfo.get(0).get("cfrnAtdtCdTxtNm"));
+
+			List<Map<String, Object>> rqprAttachFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
+
+			for (int i = 0; i < grsInfo.size(); i++) {
+				sb.append("<tr>")
+						.append("<th>").append(grsInfo.get(i).get("grsEvSt")).append("</th>")
+						.append("<td>").append(grsInfo.get(i).get("prjNm")).append("</td>")
+						.append("<td>").append(grsInfo.get(i).get("tssNm")).append("</td>")
+						.append("<td>").append(grsInfo.get(i).get("saSabunName")).append("</td>")
+						.append("<td>").append(grsInfo.get(i).get("tssType")).append("</td>")
+						.append("<td>").append(grsInfo.get(i).get("evScr")).append("</td>")
+						.append("<td>").append("PASS").append("</td>")
+						.append("</tr>");
+			}
+
 			grsApprInfo.put("grsEvResult", sb.toString());
-			
+
 			sb.delete(0, sb.length());
-	    	
-	    	for(int i=0;i<grsInfo.size();i++) {
-	    		commTxt = ((String)grsInfo.get(i).get("commTxt")).replaceAll("\n", "<br/>");
-	    		evTitl = ((String)grsInfo.get(i).get("evTitl")).replaceAll("\n", "<br/>");
-	    		
+
+			for (int i = 0; i < grsInfo.size(); i++) {
+				commTxt = ((String) grsInfo.get(i).get("commTxt")).replaceAll("\n", "<br/>");
+//	    		evTitl = ((String)grsInfo.get(i).get("evTitl")).replaceAll("\n", "<br/>");
+
 				sb.append("<li class='analyze_field'>")
-				  .append("<p class='analyze_s_txt'><b>과제명 : </b>").append(grsInfo.get(i).get("tssNm")).append("</p>")
-				  /* 일시, 장소 및 참석자를 위로 올림
-				  .append("<p class='analyze_s_txt'><b>일시, 장소 : </b>").append(grsInfo.get(i).get("evTitl")).append("</p>")
-				  .append("<p class='analyze_s_txt'><b>참석자 : </b>").append(grsInfo.get(i).get("cfrnAtdtCdTxtNm")).append("</p>")
-				  */
-				  .append("<p class='analyze_s_txt'><b>주요 Comment : </b><p style='padding-left:20px; box-sizing:border-box;line-height:1.4;'>").append(commTxt).append("</p></p>");
+						.append("<p class='analyze_s_txt'><b>과제명 : </b>").append(grsInfo.get(i).get("tssNm")).append("</p>")
+						/* 일시, 장소 및 참석자를 위로 올림
+						.append("<p class='analyze_s_txt'><b>일시, 장소 : </b>").append(grsInfo.get(i).get("evTitl")).append("</p>")
+						.append("<p class='analyze_s_txt'><b>참석자 : </b>").append(grsInfo.get(i).get("cfrnAtdtCdTxtNm")).append("</p>")
+						*/
+						.append("<p class='analyze_s_txt'><b>주요 Comment : </b><p style='padding-left:20px; box-sizing:border-box;line-height:1.4;'>").append(commTxt).append("</p></p>");
 				/* 첨부파일 주석처리
 				.append("<p class='analyze_s_txt'><b>첨부파일 : </b>");
 				
@@ -434,11 +412,11 @@ public class GrsMngController extends IrisBaseController {
 	    			sb.append("<a href='").append(serverUrl).append("/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=").append(grsFileList.get(j).get("attcFilId")).append("&seq=").append(grsFileList.get(j).get("seq")).append("'>").append(grsFileList.get(j).get("filNm")).append("</a>");
 	    		}
 	    		*/
-				
-	    		sb.append("</p></li>");
-			}	
 
-	    	grsApprInfo.put("grsInfo", sb.toString());
+				sb.append("</p></li>");
+			}
+
+			grsApprInfo.put("grsInfo", sb.toString());
 
 			sb.delete(0, sb.length());
 
@@ -454,17 +432,17 @@ public class GrsMngController extends IrisBaseController {
 			itgRdcsInfo.put("approvalDeptname", input.get("_userDeptName"));
 			itgRdcsInfo.put("body", body);
 			itgRdcsInfo.put("title", "연구/개발과제 GRS 평가결과 보고의 件 ");
-			
+
 			commonDao.delete("common.itgRdcs.deleteItgRdcsInfo", itgRdcsInfo);
 
-        	if(commonDao.insert("common.itgRdcs.saveItgRdcsInfo", itgRdcsInfo) == 0) {
-        		throw new Exception("결재요청 정보 등록 오류");
-        	}
-        	
-        	input.put("guid", guid);
-        	grsMngService.updateApprGuid(input);
-        	
-        	resultMap.put("guid", guid);
+			if (commonDao.insert("common.itgRdcs.saveItgRdcsInfo", itgRdcsInfo) == 0) {
+				throw new Exception("결재요청 정보 등록 오류");
+			}
+
+			input.put("guid", guid);
+			grsMngService.updateApprGuid(input);
+
+			resultMap.put("guid", guid);
 			resultMap.put("rtnSt", "Y");
 			resultMap.put("rtnMsg", "");
 		} catch (Exception e) {
@@ -472,9 +450,9 @@ public class GrsMngController extends IrisBaseController {
 			resultMap.put("rtnSt", "N");
 			resultMap.put("rtnMsg", "작업을 실패하였습니다\n관리자에게 문의하세요.");
 		}
-		
+
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", resultMap));
-       
+
 		return modelAndView;
 
 	}

@@ -259,7 +259,8 @@
             AND (z.dept_nm  LIKE '%'+#{deptName}+'%'  OR z.al_dept_nm LIKE '%'+#{deptName}+'%')
         </if>
 
-        order by 	z.TSS_STRT_DD  desc, z.TSS_FNH_DD desc, z.FRST_RGST_DT desc
+        /*order by 	z.TSS_STRT_DD  desc, z.TSS_FNH_DD desc, z.FRST_RGST_DT desc*/
+        order by z.FRST_RGST_DT desc
 
     </select>
 
@@ -1083,7 +1084,7 @@ MERGE INTO dbo.IRIS_TSS_MGMT_MST tbl
         FROM IRIS_TSS_YLD_ITM Y, IRIS_COM_ATTC_FIL F
         WHERE
             Y.TSS_CD = #{tssCd}
-            AND Y.YLD_ITM_SN = '1'
+            AND Y.YLD_ITM_TYPE = #{yldItmType}
             AND F.ATTC_FIL_ID = #{attcFilId}
             and F.DEL_YN = 'N'
     </update>

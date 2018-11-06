@@ -1,4 +1,4 @@
-<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
+<%@ page pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 <%--
 /*
@@ -56,7 +56,7 @@
     과제번호,GRS평가
     http:10.39.214.47:8080/iris/index.do?parentMenuId=IRIPJ0600&menuMoveYn=Y&vMenuId=PJ&menuId=IRIPJ0601&menuPath=/prj/grs/listGrsMngInfo.do?tssCd=G180090002,1,
 */
-    String evTssCd = (String)request.getParameter("tssCd");
+    String evTssCd = request.getParameter("tssCd");
     String evTssCdSn = "null";
     String evGrsEvSn = "null";
     if(evTssCd!=null){
@@ -1090,8 +1090,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
                setReadonly("bizDptCd");
                setReadonly("tssNm");
                setReadonly("prodG");
-               setReadonly("tssStrtDd");
-               setReadonly("tssFnhDd");
+               setReadonlyDate("tssStrtDd","tssFnhDd");
                setReadonly("custSqlt");
                setReadonly("tssAttrCd");
                setReadonly("tssType");
@@ -1339,11 +1338,11 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 							</colgroup>--%>
 							<tbody>
 								<tr>
-									<th align="right" width="208" onclick="setEvTest()">회의 일정/장소</th>
+									<th align="right" width="208" onclick="setEvTest()"><span style="color:red;">* </span>회의 일정/장소</th>
 									<td colspan="2"><div id="evTitl" /></td>
 								</tr>
 								<tr>
-									<th align="right">회의 참석자</th>
+									<th align="right"><span style="color:red;">* </span>회의 참석자</th>
 									<td colspan="2">
 										<div class="LblockMarkupCode">
 											<div id="cfrnAtdtCdTxtNm"></div>
@@ -1351,16 +1350,16 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 									</td>
 								</tr>
 								<tr>
-									<th align="right">Comment</th>
+									<th align="right"><span style="color:red;">* </span>Comment</th>
 									<td colspan="2"><div id="commTxt" /></td>
 								</tr>
 								<tr>
-									<th align="right">첨부파일</th>
+									<th align="right"><span style="color:red;">* </span>첨부파일</th>
 									<td id="attchFileView" />
 									<td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
 								</tr>
 								<tr id="chooseEv">
-									<th align="right">평가표 선택</th>
+									<th align="right"><span style="color:red;">* </span>평가표 선택</th>
 									<td colspan="2"><div id="grsEvSnNm" /></td>
 								</tr>
 							</tbody>

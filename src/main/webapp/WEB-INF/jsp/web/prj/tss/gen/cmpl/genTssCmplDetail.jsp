@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -25,6 +24,7 @@
 <title><%=documentTitle%></title>
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/tab/rui_tab.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/custom.js"></script>
 <style>
  .L-tssLable {
  border: 0px
@@ -219,6 +219,11 @@
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
                 if(gvTssSt == "100") btnCsusRq.show(); //GRS - 100:작성중
                 if(gvTssSt == "102") btnCsusRq.show(); //GRS - 100:작성중
+            }
+
+            if(gvTssSt!="100"){
+                setReadonly("cmplBStrtDd");
+                setReadonly("cmplBFnhDd");
             }
 
             Rui.select('.tssLableCss input').addClass('L-tssLable');

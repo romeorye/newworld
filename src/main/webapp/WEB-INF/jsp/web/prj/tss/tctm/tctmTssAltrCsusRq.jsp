@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
-<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
+<%@ page import="iris.web.prj.tss.tctm.TctmUrl"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -217,7 +216,7 @@
                                     <th style="text-align: left">변경사유</th>
                                 </tr>
                                 <tr>
-                                    <td style="height: 150px;"><c:out value="${fn:replace(resultSmry.altrRsonTxt, cn, br)}" escapeXml="false"/></td>
+                                    <td style="height: 150px;vertical-align: top"><c:out value="${fn:replace(resultSmry.altrRsonTxt, cn, br)}" escapeXml="false"/></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -231,7 +230,7 @@
                                     <th style="text-align: left">추가사유</th>
                                 </tr>
                                 <tr>
-                                    <td style="height: 150px;"><c:out value="${fn:replace(resultSmry.addRsonTxt, cn, br)}" escapeXml="false"/></td>
+                                    <td style="height: 150px;vertical-align: top;"><c:out value="${fn:replace(resultSmry.addRsonTxt, cn, br)}" escapeXml="false"/></td>
                                 </tr>
                             </tbody>
                         </table>

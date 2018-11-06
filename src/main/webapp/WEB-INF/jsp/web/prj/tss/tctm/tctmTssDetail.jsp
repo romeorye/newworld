@@ -578,7 +578,7 @@
                     "<%=request.getContextPath()+TctmUrl.doTabDcac%>?tssCd=" + dcTssCd + "&pgsStepCd=" + pgsStepCd,
                     "<%=request.getContextPath()+TctmUrl.doTabAltr%>?tssCd=" + alTssCd + "&pgsStepCd=" + pgsStepCd,
                     "<%=request.getContextPath()+TctmUrl.doTabSum%>?tssCd=" + gvTssCd + "&pgsStepCd=" + pgsStepCd,
-                    "<%=request.getContextPath()+TctmUrl.doTabGoal%>?tssCd=" + pgTssCd + "&pgsStepCd=" + pgsStepCd,
+                    "<%=request.getContextPath()+TctmUrl.doTabGoal%>?tssCd=" + ((pgTssCd=='')?gvTssCd:pgTssCd) + "&pgsStepCd=" + pgsStepCd,
                     "<%=request.getContextPath()+TctmUrl.doTabAltrHis%>?pkWbsCd=" + dataSet.getNameValue(0, "pkWbsCd")
                 ]
 
@@ -1204,7 +1204,7 @@
                     console.log(smryDs);
                     dm.updateDataSet({
                         modifiedOnly: false,
-                        url:'<%=request.getContextPath()+TctmUrl.doUpdateDcacInfo%>',
+                        url:'<%=request.getContextPath()+TctmUrl.doUpdateCmplInfo%>',
                         dataSets:[dataSet, smryDs]
                     });
                     dm.on('success', function (e) {

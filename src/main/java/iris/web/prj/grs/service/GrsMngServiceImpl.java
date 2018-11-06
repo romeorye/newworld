@@ -15,7 +15,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 @Service("grsMngService")
 public class GrsMngServiceImpl implements GrsMngService {
@@ -29,7 +34,6 @@ public class GrsMngServiceImpl implements GrsMngService {
 
 	@Resource(name = "jspProperties")
 	private Properties jspProperties;
-
 
 	@Resource(name = "velocityEngine")
 	private VelocityEngine velocityEngine;
@@ -73,8 +77,8 @@ public class GrsMngServiceImpl implements GrsMngService {
 	}
 
 	@Override
-	public int updateGrsInfo(Map<String, Object> input) {
-		return commonDao.insert("prj.grs.updateGrsInfo", input);
+	public void updateGrsInfo(Map<String, Object> input) {
+		commonDao.insert("prj.grs.updateGrsInfo", input);
 	}
 
 	@Override
@@ -217,7 +221,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 		String tssAttrCd = (String) input.get("tssAttrCd");
 
 
-		if(tssScnCd.equals("N")){
+		if("N".equals(tssScnCd)){
 			// 국책인경우 1년차수 입력
 			input.put("tssNosSt", "1");
 		}
@@ -277,76 +281,81 @@ public class GrsMngServiceImpl implements GrsMngService {
         int mm   = cal.get(Calendar.MONTH) + 1;
 
 		LOGGER.debug("=============== 기본 산출물 등록 ===============");
+
+		input.put("attcFilId", "");	 // 최초 등록시 파일 초기화
+		String goalYStart = input.get("tssStrtDd").toString().substring(0, 4);
+		String goalYEnd = input.get("tssFnhDd").toString().substring(0, 4);
+		String arslYymm01 = input.get("tssFnhDd").toString().substring(0, 7);
 		if(tssScnCd.equals("G")){
 			//일반
 			//과제 제안서
             String pmisDt = CommonUtil.getMonthSearch_1( CommonUtil.replace(input.get("tssFnhDd").toString(), "-", ""));
 
-            input.put("goalY",       input.get("tssStrtDd").toString().substring(0,4));
+            input.put("goalY", goalYStart);
             input.put("yldItmType", "01");
-            input.put("arslYymm",  input.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+            input.put("arslYymm",  goalYStart + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
 			commonDao.update("prj.tss.com.updateTssYld", input);
 
 
 
-            if(tssAttrCd.equals("00")){
+            if("00".equals(tssAttrCd)){
             	//과제속성이 제품인 경우에만 Qgate 연동
 				//qgate1
-				input.put("goalY",       input.get("tssStrtDd").toString().substring(0,4));
+				input.put("goalY", goalYStart);
 				input.put("yldItmType", "06");
-				input.put("arslYymm",  input.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+				input.put("arslYymm",  goalYStart + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
 				commonDao.update("prj.tss.com.updateTssYld", input);
 
 				//qgate2
-				input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
+				input.put("goalY", goalYEnd);
 				input.put("yldItmType", "07");
-				input.put("arslYymm",    input.get("tssFnhDd").toString().substring(0,7));
+				input.put("arslYymm", arslYymm01);
 				commonDao.update("prj.tss.com.updateTssYld", input);
 
 				//qgate3
-				input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
+				input.put("goalY", goalYEnd);
 				input.put("yldItmType", "08");
-				input.put("arslYymm",    input.get("tssFnhDd").toString().substring(0,7));
+				input.put("arslYymm", arslYymm01);
 				commonDao.update("prj.tss.com.updateTssYld", input);
 			}
 
             //지적재산권
-            input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
+            input.put("goalY", goalYEnd);
             input.put("yldItmType", "05");
             input.put("arslYymm",  CommonUtil.getFormattedDate(pmisDt, "-").substring(0, 7));
 			commonDao.update("prj.tss.com.updateTssYld", input);
 
             //중단 완료 보고서
-            input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
+            input.put("goalY", goalYEnd);
             input.put("yldItmType", "03");
-            input.put("arslYymm",       input.get("tssFnhDd").toString().substring(0,7));
+            input.put("arslYymm", arslYymm01);
 			commonDao.update("prj.tss.com.updateTssYld", input);
 
 
-		}else if(tssScnCd.equals("O")){
+		}else if("O".equals(tssScnCd)){
 			//대외
-			input.put("goalY",       input.get("tssStrtDd").toString().substring(0,4));
+			input.put("goalY", goalYStart);
 			input.put("yldItmType", "01");
-			input.put("arslYymm",  input.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+			input.put("arslYymm",  goalYStart + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
 			commonDao.update("prj.tss.com.updateTssYld", input);
 
             //중단 완료 보고서
-            input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
+            input.put("goalY", goalYEnd);
             input.put("yldItmType", "05");
-            input.put("arslYymm",       input.get("tssFnhDd").toString().substring(0,7));
+            input.put("arslYymm", arslYymm01);
 			commonDao.update("prj.tss.com.updateTssYld", input);
 
-		}else if(tssScnCd.equals("N")){
+		}else if("N".equals(tssScnCd)){
 			//국책
-			input.put("goalY",       input.get("tssStrtDd").toString().substring(0,4));
+			input.put("goalY", goalYStart);
 			input.put("yldItmType", "01");
-			input.put("arslYymm",  input.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+			input.put("arslYymm",  goalYStart + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
 			commonDao.update("prj.tss.com.updateTssYld", input);
 
             //중단 완료 보고서
-            input.put("goalY",       input.get("tssFnhDd").toString().substring(0,4));
+            input.put("goalY", goalYEnd);
             input.put("yldItmType", "04");
-            input.put("arslYymm",    input.get("tssFnhDd").toString().substring(0,7));
+            input.put("arslYymm", arslYymm01);
 			commonDao.update("prj.tss.com.updateTssYld", input);
 			//개요기관
 /*			for(int i = 0; i < inputListLst.size(); i++) {
@@ -354,20 +363,20 @@ public class GrsMngServiceImpl implements GrsMngService {
 				commonDao.insert("prj.tss.nat.insertNatTssPlnSmryCrroInst", inputListLst.get(i)); //개요기관 신규
 			}*/
 
-		}else if(tssScnCd.equals("D")){
+		}else if("D".equals(tssScnCd)){
 			//기술
 			//과제 제안서/GRS 심의서
-			input.put("goalY", input.get("tssStrtDd").toString().substring(0, 4));
+			input.put("goalY", goalYStart);
 			input.put("yldItmType", "01");
-			input.put("arslYymm", input.get("tssStrtDd").toString().substring(0, 4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+			input.put("arslYymm", goalYStart + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
 			commonDao.update("prj.tss.com.updateTssYld", input);
 
 
-			if(tssAttrCd.equals("00")) {
+			if("00".equals(tssAttrCd)) {
 				//과제속성이 제품인 경우에만 Qgate 연동
 				//Qgate 1,2,3
-				input.put("goalY", input.get("tssFnhDd").toString().substring(0, 4));
-				input.put("arslYymm", input.get("tssFnhDd").toString().substring(0, 7));
+				input.put("goalY", goalYEnd);
+				input.put("arslYymm", arslYymm01);
 
 				input.put("yldItmType", "02");
 				commonDao.update("prj.tss.com.updateTssYld", input);

@@ -225,7 +225,7 @@
                             <th>실적(개발중단시점)</th>
                         </tr>
                         <tr>
-                            <td align="alignC">개발기간</td>
+                            <td class="alignC">개발기간</td>
                             <td class="alignC">${resultMst.tssStrtDd} ~ ${resultMst.tssFnhDd}</td>
                             <td class="alignC">${resultMst.dcacBStrtDd} ~ ${resultMst.dcacBFnhDd}</td>
                         </tr>
