@@ -22,6 +22,7 @@
                  , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
                 ,m.SA_SABUN_NEW  as leaderCd
                 ,isnull(m.SA_SABUN_NAME,(select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new=m.SA_SABUN_NEW)) as leaderNm
+                ,m.DEPT_CODE as deptCd
                  , g.dlbr_crgr 									 AS dlbrCrgr
                  --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--심의 담당자
                  , g.sa_sabun_name AS dlbrCrgrNm       --심의 담당자
@@ -55,6 +56,7 @@
                  , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
                 ,m.SA_SABUN_CD  as leaderCd
                 ,m.SA_SABUN_NM as leaderNm
+                ,m.DEPT_CD as deptCd
                  , g.dlbr_crgr 									 AS dlbrCrgr
                  --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--심의 담당자
                  , g.sa_sabun_name AS dlbrCrgrNm       --심의 담당자
@@ -88,8 +90,9 @@
             AND (1 = 2 OR a.leaderCd = #{_userSabun})
         </if>
         <if test="tssRoleType != 'null' and tssRoleType.equals('S3')">
-            AND (a.dlbrCrgr = #{_userSabun} OR a.frstRgstId = #{_userId})
+            AND dbo.fn_getUpperDeptCd(a.deptCd) = dbo.fn_getUpperDeptCd(#{_userDept})
         </if>
+
         <if test="bizDtpCd != null and bizDtpCd != 'null' and bizDtpCd != ''">
             AND a.bizDptCd = #{bizDtpCd}
         </if>
@@ -114,6 +117,7 @@
         <if test="tssSt != null and tssSt != 'null' and tssSt != ''">
             AND a.tssSt = #{tssSt}
         </if>
+
         
         ORDER BY  lastMdfyDt desc, sortNum  desc 
     </select>
