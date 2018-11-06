@@ -176,7 +176,7 @@
 													   , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
 												  FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' OR PGS_STEP_CD = 'DC' THEN 1
 																	WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
-																	WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102') THEN 3
+																	WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102' OR TSS_ST = '301' OR TSS_ST = '302') THEN 3
 																	WHEN PGS_STEP_CD = 'AL' THEN 4
 																	WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 5
 																	WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
