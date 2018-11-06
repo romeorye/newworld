@@ -39,7 +39,7 @@
 var anlLibDataSet;	// 프로젝트 데이터셋
 var anlLibGrid;       // 그리드
 var roleId = '${inputData._roleId}';
-var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
+var roleIdIndex = roleId.indexOf("WORK_IRI_T17");
 var bbsId = "${inputData.bbsId}";
 var bbsCd = "${inputData.bbsCd}";
 var target = "${inputData.target}";
@@ -83,7 +83,7 @@ var target = "${inputData.target}";
        	   });
 
            //분석담당자만 등록 버튼 보이기
-           /*
+           
            chkUserRgst = function(display){
         	   if(display) {
         		   rgstBtn.show();
@@ -91,7 +91,7 @@ var target = "${inputData.target}";
 	   	           rgstBtn.hide();
 	   	       }
            };
-           */
+           
 
     	   /** dataSet **/
     	   anlLibDataSet = new Rui.data.LJsonDataSet({
@@ -321,7 +321,7 @@ var target = "${inputData.target}";
   	    		$("#cnt_text").html('총 ' + anlLibDataSet.getCount() + '건');
 
   	    		if(roleIdIndex != -1) {
-  	    			//chkUserRgst(true);
+  	    			chkUserRgst(true);
                 }
   	    	// 목록 페이징
   	    		if("${inputData.bbsCd}"=="01"){
@@ -363,7 +363,7 @@ var target = "${inputData.target}";
 
            //getAnlLibList();
 
-           //chkUserRgst(false);
+           chkUserRgst(false);
 
 
 

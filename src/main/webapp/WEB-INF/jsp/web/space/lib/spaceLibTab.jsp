@@ -38,7 +38,7 @@
 var spaceLibDataSet;	// 프로젝트 데이터셋
 var spaceLibGrid;       // 그리드
 var roleId = '${inputData._roleId}';
-var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
+var roleIdIndex = roleId.indexOf("WORK_IRI_T18");
 var bbsId = "${inputData.bbsId}";
 var bbsCd = "${inputData.bbsCd}";
 var target = "${inputData.target}";
@@ -83,7 +83,7 @@ var target = "${inputData.target}";
         	   if(display) {
         		   rgstBtn.show();
 	   	       }else {
-	   	          // rgstBtn.hide();
+	   	           rgstBtn.hide();
 	   	       }
            };
 
