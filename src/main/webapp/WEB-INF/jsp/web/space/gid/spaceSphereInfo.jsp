@@ -246,6 +246,7 @@
 											<span class="bullet_txt">EcoTec: 이진욱P <em>(2W)</em></span>
 										</td>
 										<td style="vertical-align:middle !important;">
+											<span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></span>
 										</td>
 									</tr>
 									<tr>

@@ -635,8 +635,9 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     			StringBuffer sb = new StringBuffer();
 
     			Map<String,Object> spaceRqprInfo = commonDao.select("space.rqpr.getSpaceRqprInfo", dataMap);
+    			List<Map<String,Object>> spaceRqprExatList = commonDao.selectList("space.rqpr.getSpaceRqprExatList", dataMap);
     			List<Map<String,Object>> spaceRqprWayCrgrList = commonDao.selectList("space.rqpr.getSpaceRqprWayCrgrList", dataMap);
-    			List<Map<String,Object>> spaceRqprProdList = commonDao.selectList("space.rqpr.getSpaceRqprProdList", dataMap);
+    			List<Map<String,Object>> spaceRqprProdList = commonDao.selectList("space.rqpr.getSpaceRqprProdListList", dataMap);
     			List<Map<String,Object>> spaceRqprRltdList = commonDao.selectList("space.rqpr.getSpaceRqprRltdList", dataMap);
 
     			dataMap.put("attcFilId", dataMap.get("rqprAttcFileId"));
@@ -649,6 +650,19 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
     			spaceRqprInfo.put("spaceRqprInfmView", StringUtil.isNullGetInput((String)spaceRqprInfo.get("spaceRqprInfmView"), ""));
     			spaceRqprInfo.put("spaceSbc", ((String)spaceRqprInfo.get("spaceSbc")).replaceAll("\n", "<br/>"));
+
+    			for(Map<String, Object> data : spaceRqprExatList) {
+    				sb.append("<tr>")
+	  				  .append("<td>").append(data.get("exatNm")).append("</td>")
+	  				  .append("<td>").append(data.get("exatCaseQty")).append("</td>")
+	  				  .append("<td>").append(data.get("exatDct")).append("</td>")
+	  				  .append("<td>").append(FormatHelper.strNum(((Integer)data.get("exatExp")).intValue())).append("원</td>")
+	  				  .append("</tr>");
+    			}
+
+    			spaceRqprInfo.put("spaceRqprExatList", sb.toString());
+
+    			sb.delete(0, sb.length());
 
     			for(Map<String, Object> data : spaceRqprWayCrgrList) {
     				sb.append("<tr>")
@@ -668,6 +682,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     				  .append("<td>").append(data.get("evCtgr1Nm")).append("</td>")
     				  .append("<td>").append(data.get("evCtgr2Nm")).append("</td>")
     				  .append("<td>").append(data.get("evCtgr3Nm")).append("</td>")
+    				  .append("<td>").append(data.get("evCtgrNm")).append("</td>")
     				  .append("</tr>");
     			}
 

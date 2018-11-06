@@ -110,13 +110,18 @@
 							<a href="#" onClick="setSpaceChrgInfo('01','03','rumor',     '이진욱')">이진욱P (2W)</a>
 						</span>
 					</td>
+					<td class="txt_gray">
+						<span class="bullet_txt">
+							<a href="#" onClick="setSpaceChrgInfo('01','04','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('01','04','nhahn',     '안남혁')">안남혁S</a>
+						<br><em>(협의)</em>
+					</td>
 					<!-- <td>
 						<span class="bullet_txt">CFD :<br>
 							<a href="#" onClick="setSpaceChrgInfo('01','04','hyokeun',   '황효근')">황효근P</a>
 							<a href="#" onClick="setSpaceChrgInfo('01','04','nhahn',     '안남혁')">안남혁S ( 3W )</a>
 						</span>
 					</td> -->
-					<td class="txt_gray"></td>
 				</tr>
 				<tr>
 					<th>
