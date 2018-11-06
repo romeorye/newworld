@@ -188,7 +188,11 @@ public class MainController extends IrisBaseController {
 		for(Map<String, Object> data : anlMchnSettingList) {
 			data.put("anlMchnReservList", mainService.getAnlMchnReservList(data));
 		}
-
+		
+		for(Map<String, Object> data : anlNoticeList) {
+			data.put("bbsSbc2", ((String)data.get("bbsSbc")).replaceAll("<p>", "").replaceAll("</p>", "").replaceAll("<P>", "").replaceAll("</P>", ""));
+		}
+		
 		model.addAttribute("inputData", input);
 		model.addAttribute("anlCntInfo1", anlCntInfo1);
 		model.addAttribute("anlCntInfo2", anlCntInfo2);
