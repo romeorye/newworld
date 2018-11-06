@@ -200,3 +200,11 @@ function setEditable(id){
     $("#" + id + " > input").attr("placeholder",  this[id].placeholder);
     $("#" + id + " > textarea").attr("placeholder",  this[id].placeholder);
 }
+
+
+function setReadonlyDate(fromId,endId) {
+    setReadonly(fromId);
+    $("#"+fromId).css("cssText","width: 75px !important; border-width: 0px; pointer-events: none;");
+    $("#"+fromId).next().css("cssText","margin-left:5px !important");
+    setReadonly(endId);
+}
