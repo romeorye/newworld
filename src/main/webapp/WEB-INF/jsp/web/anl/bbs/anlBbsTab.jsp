@@ -314,12 +314,12 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
 
            anlBbsDataSet.on('load', function(e) {
   	    		$("#cnt_text").html('총 ' + anlBbsDataSet.getCount() + '건');
-
-   	            if(roleIdIndex != -1) {
- 	              	chkUserRgst(true);
- 	            } else {
- 	              	chkUserRgst(true);
- 	            }
+  	    		
+  	    		if( roleId.indexOf("WORK_IRI_T06") != -1 || roleId.indexOf("WORK_IRI_T17") != -1 || roleId.indexOf("WORK_IRI_T18") != -1){
+  	    			chkUserRgst(true);
+  	    		} else {
+  	    			chkUserRgst(false);
+  	    		}
 
 	  	    	// 목록 페이징
 	  	    	if(bbsCd=='06'){
