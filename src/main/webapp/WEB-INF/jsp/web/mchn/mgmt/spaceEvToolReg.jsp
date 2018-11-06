@@ -82,6 +82,7 @@ var firstLoad = "Y";	//화면오픈
 		           	 ,{ id: 'mnalFilId'}
 		           	 ,{ id: 'mchnCrgrId'}
 		           	 ,{ id: 'mchnInfoId'}
+		           	 ,{ id: 'ordNo'}
 		            ]
 	    });
 
@@ -134,6 +135,15 @@ var firstLoad = "Y";	//화면오픈
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false,                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
+
+		//회사명
+		var ordNo = new Rui.ui.form.LNumberBox({            // LNumberBox개체를 선언
+	        applyTo: 'ordNo',                           // 해당 DOM Id 위치에 텍스트박스를 적용
+	        width: 200,                                    // 텍스트박스 폭을 설정
+	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
+	        invalidBlur: false,                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
+	    });
+
 		//평가카테고리 checkBox
 		//분류 combo
 		var evCtgr = new Rui.ui.form.LCombo({
@@ -597,14 +607,15 @@ var firstLoad = "Y";	//화면오픈
 				<table class="table table_txt_right">
 					<colgroup>
 						<col style="width: 20%" />
-						<col style="width: 30%" />
+						<col style="width: 15%" />
+						<col style="width: 15%" />
 						<col style="width: 15%" />
 						<col style="" />
 					</colgroup>
 					<tbody>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>Tool</th>
-							<td>
+							<td colspan="2">
 								<input type="text" id="toolNm" />
 							</td>
 							<th align="right"><span style="color:red;">*  </span>버전</th>
@@ -614,7 +625,7 @@ var firstLoad = "Y";	//화면오픈
 						</tr>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>회사</th>
-							<td>
+							<td colspan="2">
 								<div id="cmpnNm"></div>
 							</td>
 							<th align="right">평가 카테고리</th>
@@ -624,7 +635,7 @@ var firstLoad = "Y";	//화면오픈
 						</tr>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>담당자</th>
-							<td>
+							<td colspan="2">
 								<input type="text" id="mchnCrgrNm" />
 							</td>
 							<th align="right"><span style="color:red;">*  </span>평가항목</th>
@@ -634,27 +645,31 @@ var firstLoad = "Y";	//화면오픈
 						</tr>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>요약설명</th>
-							<td colspan="3">
+							<td colspan="4">
 								<textarea id="mchnExpl"></textarea>
 							</td>
 						</tr>
 						<tr>
 							<th align="right">첨부파일</th>
-							<td id="atthcFilVw" colspan="2"></td>
+							<td id="atthcFilVw"></td>
 							<td>
 								<button type="button" id="butAttcFil">첨부파일등록</button> <b>(280*200)</b>
+							</td>
+							<th align="right">정렬순번</th>
+							<td>
+								<div id="ordNo"></div>
 							</td>
 						</tr>
 						<tr>
 							<th align="right">첨부메뉴얼</th>
-							<td id="menualFilVw" colspan="2"></td>
+							<td id="menualFilVw" colspan="3"></td>
 							<td>
 								<button type="button" id="butMnalFil">메뉴얼등록</button>
 							</td>
 						</tr>
 						<tr>
 							<th  align="right">개요</th>
-							<td colspan="3">
+							<td colspan="4">
 								<textarea id="mchnSmry" name="mchnSmry"></textarea>
 									<script type="text/javascript" language="javascript">
 									var CrossEditor = new NamoSE('mchnSmry');

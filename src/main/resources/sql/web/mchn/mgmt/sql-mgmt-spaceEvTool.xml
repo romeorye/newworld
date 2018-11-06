@@ -14,6 +14,7 @@
 			  ,(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'SPACE_EV_CTGR' and COM_DTL_CD = MCHN_CL_CD) 	AS 'evCtgrNm'
 			  ,CMPN_NM as "cmpnNm"
 			  ,EV_WAY as "evWayCd"
+			  ,ORD_NO as "ordNo"
 			  ,CASE WHEN LEN(EV_WAY)/3=1
 			        THEN (SELECT COM_DTL_NM FROM IRIS_ADM_COM_CD WHERE COM_CD_CD = 'SPACE_EV_PRVS' AND COM_DTL_CD = SUBSTRING(EV_WAY,1,2))
 					WHEN LEN(EV_WAY)/3=2
@@ -55,7 +56,7 @@
 			AND SPCE.MCHN_CL_CD=#{mchnClCd}
 	    </if>
 	    <![CDATA[
-		ORDER BY SPCE.MCHN_INFO_ID DESC
+		ORDER BY SPCE.MCHN_CL_CD,SPCE.ORD_NO,SPCE.MCHN_INFO_ID DESC
 		]]>
 	</select>
 
@@ -77,6 +78,7 @@
 				,F.SEQ             as "seq"
 				,G.SEQ             as "mnalSeq"
 				,MCHN_INFO_ID      as "mchnInfoId"
+				,ORD_NO 		   as "ordNo"
 		FROM    IRIS_SPACE_MCHN_INFO_MGMT SPCE
 		        LEFT OUTER JOIN IRIS_SSO_USER SSO
 				ON SSO.SA_SABUN_NEW = SPCE.MCHN_CRGR_ID
@@ -111,6 +113,7 @@ UPDATE 	 SET
 				,MNAL_FIL_ID      = #{mnalFilId}
 				,LAST_MDFY_ID     = #{_userId}
 				,LAST_MDFY_DT     = GETDATE()
+				,ORD_NO           = #{ordNo}
 WHEN not matched THEN
 INSERT  (
 		 TOOL_NM
@@ -127,6 +130,7 @@ INSERT  (
 		,FRST_RGST_ID
 		,LAST_MDFY_DT
 		,LAST_MDFY_ID
+		,ORD_NO
 		 )
 		 VALUES
 		 (
@@ -144,6 +148,7 @@ INSERT  (
 			,#{_userId}
 			,GETDATE()
 			,#{_userId}
+			,#{ordNo}
 		 );
 		]]>
 	</insert>

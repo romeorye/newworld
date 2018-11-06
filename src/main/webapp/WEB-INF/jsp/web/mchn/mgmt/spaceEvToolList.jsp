@@ -44,7 +44,8 @@
 	            { id: 'cmpnNm' },
 	            { id: 'evWay' },
 	            { id: 'mchnCrgrNm' },
-	            { id: 'mchnInfoId' }
+	            { id: 'mchnInfoId' },
+	            { id: 'ordNo' }
 	        ]
 	    });
 
@@ -57,11 +58,12 @@
 	    var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	{ field: 'toolNm', 			label:'기기명' , 	sortable: false, align: 'left', width: 420},
-	            { field: 'ver',  			label:'버전', 		sortable: false, align: 'center', width: 160},
-	            { field: 'evCtgrNm',  		label:'평가카테고리', 	sortable: false, align: 'center', width: 180},
-	            { field: 'evWay', 			label: '평가방법', 		sortable: false, align: 'center', width: 270},
-	            { field: 'cmpnNm',  		label:'기관', 		sortable: false, align: 'center', width: 190},
+	        	{ field: 'toolNm', 			label:'기기명' , 	sortable: false, align: 'left', width: 410},
+	            { field: 'ver',  			label:'버전', 		sortable: false, align: 'center', width: 150},
+	            { field: 'evCtgrNm',  		label:'평가카테고리', 	sortable: false, align: 'center', width: 170},
+	            { field: 'evWay', 			label: '평가방법', 		sortable: false, align: 'center', width: 260},
+	            { field: 'cmpnNm',  		label:'기관', 		sortable: false, align: 'center', width: 180},
+	            { field: 'ordNo',  			label:'정렬순번', 		sortable: false, align: 'center', width: 50},
 	            { field: 'mchnCrgrNm', 		label: '담당자',   	sortable: false, align: 'center', width: 105},
 	            { field: 'evCtgr',  		hidden : true},
 	            { field: 'mchnInfoId',  hidden : true}
