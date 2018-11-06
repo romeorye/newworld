@@ -318,7 +318,7 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
    	            if(roleIdIndex != -1) {
  	              	chkUserRgst(true);
  	            } else {
- 	              	chkUserRgst(false);
+ 	              	chkUserRgst(true);
  	            }
 
 	  	    	// 목록 페이징
