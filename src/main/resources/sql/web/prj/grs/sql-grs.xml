@@ -90,9 +90,12 @@
             AND (1 = 2 OR a.leaderCd = #{_userSabun})
         </if>
         <if test="tssRoleType != 'null' and tssRoleType.equals('S3')">
-            AND dbo.fn_getUpperDeptCd(a.deptCd) = dbo.fn_getUpperDeptCd(#{_userDept})
+            AND
+            (
+              dbo.fn_getUpperDeptCd(a.deptCd) = dbo.fn_getUpperDeptCd(#{_userDept})  -- 동일 조직
+              OR a.dlbrCrgr = #{_userSabun} OR a.frstRgstId = #{_userId}                      --  심의담당자
+            )
         </if>
-
         <if test="bizDtpCd != null and bizDtpCd != 'null' and bizDtpCd != ''">
             AND a.bizDptCd = #{bizDtpCd}
         </if>
@@ -503,14 +506,15 @@
         , CFRN_ATDT_CD_TXT --회의참석자코드
         , COMM_TXT --Comments
         , GRS_EV_SN --평가표
-        , ATTC_FIL_ID
+        , ATTC_FIL_ID -- 첨부화일
         , REQ_SABUN --요청자사번
         , REQ_DATE --요청일
         , FRST_RGST_DT --최초등록일시
         , FRST_RGST_ID --최초등록자
         , LAST_MDFY_DT --최종수정일시
         , LAST_MDFY_ID --최종수정자
-        , SA_SABUN_NAME
+        , SA_SABUN_NAME --리더이름
+        , DROP_YN
         )
         VALUES
         ( #{tssCd}
@@ -531,6 +535,7 @@
         , #{userId}
         , GETDATE()
         , #{userId}
+        ,dropYn
         , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
         )
         WHEN MATCHED THEN
@@ -550,6 +555,7 @@
         , LAST_MDFY_DT = GETDATE()
         , LAST_MDFY_ID = #{userId}
         , SA_SABUN_NAME = (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
+        , DROP_YN = #{dropYn}
         ;
     </update>
 
