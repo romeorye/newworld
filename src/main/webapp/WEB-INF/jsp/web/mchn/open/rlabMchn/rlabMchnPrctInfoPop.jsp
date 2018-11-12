@@ -29,13 +29,15 @@ var dSabun;
 var sSabun;
 //var chkCcs;
 var mchnClCd = '${inputData.mchnClCd}';
+var prctYear = '${inputData.year}';
+var prctMm = '${inputData.mm}';
+var prctDay = '${inputData.day}';
 var mailTitl ="보유장비 예약신청";
 var dtlSbc = "";
 
 	Rui.onReady(function(){
 		
 		var mchnPrctId = '${inputData.mchnPrctId}';
-
 		<%-- RESULT DATASET --%>
         resultDataSet = new Rui.data.LJsonDataSet({
             id: 'resultDataSet',
@@ -200,10 +202,11 @@ var dtlSbc = "";
 	              applyTo: 'prctDt',
 	              mask: '9999-99-99',
 	              displayValue: '%Y-%m-%d',
+	              defaultValue: prctYear +"-"+prctMm +"-"+ prctDay,
 	              //defaultValue: new Date(),
 	              dateType: 'string'
 	        });
-	
+       	    
 			//예약시작일시
 			var cbPrctFromHH = new Rui.ui.form.LCombo({
 			 	applyTo : 'prctFromHH',
@@ -248,6 +251,7 @@ var dtlSbc = "";
                  mask: '9999-99-99',
                  displayValue: '%Y-%m-%d',
                  //defaultValue: new Date(),
+                 defaultValue: prctYear +"-"+prctMm +"-"+ prctDay,
                  dateType: 'string'
             });
      		
@@ -255,6 +259,7 @@ var dtlSbc = "";
                  applyTo: 'prctToDt',
                  mask: '9999-99-99',
                  displayValue: '%Y-%m-%d',
+                 defaultValue: prctYear +"-"+prctMm +"-"+ prctDay,
                  //defaultValue: new Date(),
                  dateType: 'string'
             });
