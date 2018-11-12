@@ -1,13 +1,13 @@
 /********************************************************************************
- * NAME : EtcServiceImpl.java 
+ * NAME : EtcServiceImpl.java
  * DESC : 기타 공통
  * PROJ : IRIS UPGRADE 1차 프로젝트
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- * 2018.08.09  정현웅	최초생성            
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ * 2018.08.09  정현웅	최초생성
  *********************************************************************************/
 package iris.web.system.etc.service;
 
@@ -31,5 +31,5 @@ public class EtcServiceImpl implements EtcService {
     public List<Map<String, Object>> getWbsCdList(HashMap<String, Object> input) {
         return commonDao.selectList("common.etc.getWbsCdList", input);
     }
-    
+
 }
