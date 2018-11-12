@@ -36,6 +36,10 @@
 			<if test= '( toDate != null and toDate != "" )' >
 				AND MST.TSS_FNH_DD <![CDATA[<=]]> #{toDate}
 			</if>
+			<if test= '( deptYn == "Y" )' >
+				AND MST.DEPT_CODE = dbo.fn_getDeptCode(#{_userId})
+			</if>
+
 		<![CDATA[
 		ORDER BY TSS_STRT_DD DESC
         ]]>

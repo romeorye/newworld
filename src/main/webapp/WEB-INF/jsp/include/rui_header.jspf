@@ -351,10 +351,10 @@
 
 	    _wbsCdSearchDialog.render(document.body);
 
-	    openWbsCdSearchDialog = function(f, task) {
+	    openWbsCdSearchDialog = function(f, deptYn) {
 	    	_callback = f;
 
-	    	_wbsCdSearchDialog.setUrl('<c:url value="/system/etc/wbsCdSearchPopup.do?task="/>' + task);
+	    	_wbsCdSearchDialog.setUrl('<c:url value="/system/etc/wbsCdSearchPopup.do?deptYn="/>' + deptYn);
 	    	_wbsCdSearchDialog.show();
 	    };
 		// WBS 코드 조회 공통팝업 끝

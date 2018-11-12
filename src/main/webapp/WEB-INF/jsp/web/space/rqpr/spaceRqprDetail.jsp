@@ -232,7 +232,8 @@
                 width: 200
             });
             spaceRqprWbsCd.on('popup', function(e){
-            	openWbsCdSearchDialog(setSpaceWbsCd);
+            	var deptYn = "Y";
+            	openWbsCdSearchDialog(setSpaceWbsCd , deptYn);
             });
 			/* 긴급유무 */
             var spaceUgyYn = new Rui.ui.form.LCombo({

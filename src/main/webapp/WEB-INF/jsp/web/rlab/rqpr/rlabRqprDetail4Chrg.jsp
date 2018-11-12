@@ -248,6 +248,19 @@
             });
             /*사업부 조회 끝*/
 
+            /* WBS 팝업 설정*/
+           var wbsCd = new Rui.ui.form.LPopupTextBox({
+            	applyTo: 'wbsCd',
+                placeholder: 'WBS코드를 입력해주세요.',
+                defaultValue: '',
+                emptyValue: '',
+                editable: false,
+                width: 200
+            });
+            wbsCd.on('popup', function(e){
+            	openWbsCdSearchDialog(setRlabWbsCd);
+            });
+
             var rlabUgyYn = new Rui.ui.form.LCombo({
                 applyTo: 'rlabUgyYn',
                 name: 'rlabUgyYn',
@@ -1440,6 +1453,12 @@
     	    };
 
         });
+
+
+		//WBS 코드 팝업 세팅
+		function setRlabWbsCd(wbsInfo){
+			rlabRqprDataSet.setNameValue(0, "wbsCd", wbsInfo.wbsCd);
+		}
 	</script>
     </head>
     <body>

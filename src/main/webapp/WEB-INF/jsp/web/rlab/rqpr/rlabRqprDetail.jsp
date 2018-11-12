@@ -359,7 +359,8 @@
                 width: 200
             });
             wbsCd.on('popup', function(e){
-            	openWbsCdSearchDialog(setRlabWbsCd);
+            	var deptYn = "Y";
+            	openWbsCdSearchDialog(setRlabWbsCd, deptYn);
             });
 
             rlabRqprInfmView = new Rui.ui.form.LPopupTextBox({

@@ -52,6 +52,8 @@
 				roleCheck = "ADM";
 			}
 
+			var deptYn = "<c:out value='${inputData.deptYn}'/>";
+
 			/** dateBox **/
 			var fromDate = new Rui.ui.form.LDateBox({
 				applyTo: 'fromDate',
@@ -201,11 +203,12 @@
 					    fromDate : fromDate.getValue(),
 					    toDate   : toDate.getValue(),
 					    wbsCd    : document.aform.wbsCd.value,
-					    //roleCheck    : roleCheck,
+					    roleCheck    : roleCheck,
 					    userDept : document.aform.userDept.value,
 					    prjNm    : encodeURIComponent(document.aform.prjNm.value),
 					    saName   : encodeURIComponent(document.aform.saName.value),
-					    uperdeptName   : encodeURIComponent(document.aform.deptName.value)
+					    uperdeptName   : encodeURIComponent(document.aform.deptName.value),
+					    deptYn : deptYn
 			          }
 			      });
 			}
