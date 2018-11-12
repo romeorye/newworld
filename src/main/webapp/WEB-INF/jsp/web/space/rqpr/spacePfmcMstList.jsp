@@ -502,11 +502,11 @@
             /* 통합성능평가결과서 리스트 엑셀 다운로드 */
         	downloadSpaceRqprRsltExcel = function() {
         		// 엑셀 다운로드시 전체 다운로드를 위해 추가
-				spaceEvProdGrid.saveExcel(encodeURIComponent('통합성능평가결과서_') + new Date().format('%Y%m%d') + '.xls');
+				spaceRqprRsltGrid.saveExcel(encodeURIComponent('통합성능평가결과서_') + new Date().format('%Y%m%d') + '.xls');
             };
 
             /* 성적서 인증서 리스트 엑셀 다운로드 */
-        	downloadSpaceRqprRsltExcel = function() {
+        	downloadSpaceEvListExcel = function() {
         		// 엑셀 다운로드시 전체 다운로드를 위해 추가
 				spaceEvMtrlListGrid.saveExcel(encodeURIComponent('성적서,인증서(자재단위)_') + new Date().format('%Y%m%d') + '.xls');
             };
@@ -570,7 +570,7 @@
    				<div class="titArea">
    					<span class="Ltotal"><h3>성적서, 인증서(자재단위)</h3></span>
    					<div class="LblockButton">
-   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadSpaceRqprRsltExcel()">Excel</button>
+   						<button type="button" class="btn"  id="excelBtn" name="excelBtn" onclick="downloadSpaceEvListExcel()">Excel</button>
    					</div>
    				</div>
 
