@@ -51,7 +51,7 @@
 			AND A.OPN_YN = #{opnYn}
 	    </if>
 	    <![CDATA[
-		ORDER BY A.MCHN_HAN_NM
+		ORDER BY A.OPN_YN DESC, A.MCHN_HAN_NM ASC
 		]]>
 
 	</select>
