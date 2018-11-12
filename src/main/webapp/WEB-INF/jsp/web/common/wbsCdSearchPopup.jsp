@@ -201,7 +201,7 @@
 					    fromDate : fromDate.getValue(),
 					    toDate   : toDate.getValue(),
 					    wbsCd    : document.aform.wbsCd.value,
-					    roleCheck    : roleCheck,
+					    //roleCheck    : roleCheck,
 					    userDept : document.aform.userDept.value,
 					    prjNm    : encodeURIComponent(document.aform.prjNm.value),
 					    saName   : encodeURIComponent(document.aform.saName.value),
