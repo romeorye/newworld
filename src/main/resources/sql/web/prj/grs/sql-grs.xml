@@ -92,8 +92,9 @@
         <if test="tssRoleType != 'null' and tssRoleType.equals('S3')">
             AND
             (
-              dbo.fn_getUpperDeptCd(a.deptCd) = dbo.fn_getUpperDeptCd(#{_userDept})  -- 동일 조직
-              OR a.dlbrCrgr = #{_userSabun} OR a.frstRgstId = #{_userId}                      --  심의담당자
+            dbo.fn_getUpperDeptCd(a.deptCd) = dbo.fn_getUpperDeptCd(#{_userDept})  -- 동일 조직
+            OR a.dlbrCrgr = #{_userSabun}								                               --  심의담당자
+            OR a.frstRgstId = #{_userId}									                                    -- 등록자
             )
         </if>
         <if test="bizDtpCd != null and bizDtpCd != 'null' and bizDtpCd != ''">
