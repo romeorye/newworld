@@ -156,7 +156,7 @@
 				columns: [
 					  { field: 'wbsCd'        , label: 'WBS CODE',			sortable: false,	align:'center', width: 100 }
 					, { field: 'tssNm'        , label: '프로젝트명',			sortable: false,	align:'left', width: 370 }
-					, { field: 'saSabunName'  , label: 'PL 명',  			sortable: false,	align:'center', width: 100 }
+					, { field: 'saSabunName'  , label: '과제리더',  			sortable: false,	align:'center', width: 100 }
 					, { field: 'deptName' 	  , label: '조직',				sortable: false,	align:'left', width: 225 }
 					, { id : '프로젝트기간'},
 					, { field: 'tssStrtDd'    , groupId: '프로젝트기간', label: '시작일',      sortable: false, align:'center', width: 102 }
@@ -268,7 +268,7 @@
 		    						<td></td>
 		   						</tr>
 			   					<tr>
-		   							<th align="right">PL 명</th>
+		   							<th align="right">과제리더</th>
 		    						<td>
 		    							<input type="text" id="saName" name="saName" value="" >
 		    						</td>
