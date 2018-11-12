@@ -30,6 +30,9 @@ var sSabun;
 //var chkCcs;
 var mchnClCd = '${inputData.mchnClCd}';
 var mailTitl ="보유TOOL 예약신청";
+var prctYear = '${inputData.year}';
+var prctMm = '${inputData.mm}';
+var prctDay = '${inputData.day}';
 
 	Rui.onReady(function(){
 		
@@ -112,6 +115,7 @@ var mailTitl ="보유TOOL 예약신청";
              listPosition: 'down',
              mask: '9999-99-99',
              displayValue: '%Y-%m-%d',
+             defaultValue: prctYear +"-"+prctMm +"-"+ prctDay,
 
              dateType: 'string'
         });
@@ -121,6 +125,7 @@ var mailTitl ="보유TOOL 예약신청";
              listPosition: 'down',
              mask: '9999-99-99',
              displayValue: '%Y-%m-%d',
+             defaultValue: prctYear +"-"+prctMm +"-"+ prctDay,
              dateType: 'string'
         });
 
