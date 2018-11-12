@@ -206,6 +206,7 @@ var mchnPrctId;
           	<ul class='sche'>
           		<%
           		if ( mchnPrctList.size() > 0 ){
+          			int chkQty = 0;
           			for (int z=0; z < mchnPrctList.size(); z++){
           				item =  (HashMap<String, Object>)mchnPrctList.get(z);
           				int chkDt = Integer.valueOf(item.get("dateNo").toString());
@@ -213,6 +214,7 @@ var mchnPrctId;
           				String mchnClCd = item.get("mchnClCd").toString();
 
           				if( dispDay == chkDt ){
+          					chkQty = chkQty + 1;
           					if(mchnClCd.equals("01")){
 				          		%>
 				          		<li><a href="javascript:parent.fncMchnPrctPop('<%=item.get("mchnPrctId")%>','<%=year%>', '<%=month%>','<%=dispDay%>','<%=item.get("mchnClCd")%>');">
@@ -222,12 +224,19 @@ var mchnPrctId;
 				          		<%
 					         } 
 							if(mchnClCd.equals("02")){
+								if(chkQty == 1){
+					          		%>
+					          		<li>
+					          		    <span>총 시료수 <%=item.get("sumQty") %>/<%=item.get("totSmpoQty") %>
+					          		</li> 
+					          		<%							
+								} 
 				          		%>
 				          		<li><a href="javascript:parent.fncMchnPrctPop('<%=item.get("mchnPrctId")%>','<%=year%>', '<%=month%>','<%=dispDay%>','<%=item.get("mchnClCd")%>');">
-				          		    <span><%=item.get("rgstNm") %></span>&nbsp;<%=item.get("smpoQty") %>/<%=item.get("totSmpoQty") %>
+				          		    <span><%=item.get("rgstNm") %></span>&nbsp;<%=item.get("smpoQty") %>
 				          		    </a>
 				          		</li> 
-				          		<%          						
+				          		<%
 							} 
 							if(mchnClCd.equals("03")){
 				          		%>
@@ -237,6 +246,8 @@ var mchnPrctId;
 				          		</li> 
 				          		<%          						
 							}
+          				} else {
+          					chkQty = 0;
           				}
           			}
           		}
