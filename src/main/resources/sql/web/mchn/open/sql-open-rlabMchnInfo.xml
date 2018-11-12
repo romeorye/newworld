@@ -31,18 +31,18 @@
 			   AND F.DEL_YN = 'N'
 		       LEFT OUTER JOIN IRIS_SSO_USER   SU
 			   ON SU.SA_SABUN_NEW = A.MCHN_CRGR_ID
-			  ,IRIS_ADM_COM_CD ACC	
-		WHERE A.DEL_YN = 'N' 
+			  ,IRIS_ADM_COM_CD ACC
+		WHERE A.DEL_YN = 'N'
 		AND ACC.COM_CD_CD = 'MCHN_PRCT_ST'
 		AND A.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
 
 		]]>
 
 		<if test="( cbSrh == 'nm' and srhInput != '' )">
-			AND (A.MCHN_HAN_NM LIKE '%'+#{srhInput}+'%' OR A.MCHN_EN_NM LIKE '%'+#{srhInput}+'%') 
+			AND (A.MCHN_HAN_NM LIKE '%'+#{srhInput}+'%' OR A.MCHN_EN_NM LIKE '%'+#{srhInput}+'%')
 	    </if>
 		<if test="( cbSrh == 'id'  and srhInput != '' )">
-			AND SU.SA_NAME LIKE '%'+#{srhInput}+'%'  
+			AND SU.SA_NAME LIKE '%'+#{srhInput}+'%'
 	    </if>
 		<if test="( mchnClCd != 'ALL' )">
 			AND A.MCHN_CL_CD = #{mchnClCd}
@@ -69,7 +69,7 @@
 			   ,A.MKR_NM AS mkrNm
 			   ,A.MCHN_EXPL AS mchnExpl
 			   ,A.MCHN_LOC AS mchnLoc
-			   ,CASE WHEN A.OPN_YN = 'Y' THEN 'OPEN' 
+			   ,CASE WHEN A.OPN_YN = 'Y' THEN 'OPEN'
 			         ELSE '' END AS opnNm
 			   ,A.OPN_YN  AS opnYn
 			   ,A.MCHN_SMRY AS mchnSmry
@@ -78,7 +78,13 @@
 			   ,SU.SA_DEPT_NAME AS deptNm
 			   ,F.ATTC_FIL_ID AS attcFilId
 			   ,F.SEQ AS seq
-			   ,DBO.FN_GETUSEREMAIL(SU.SA_USER) as crgrMail
+			   ,(SELECT STUFF((SELECT ',' + sa_mail FROM (select sa_mail from dbo.IRIS_SSO_USER
+  														   where 1=1
+  															 and sa_dept_new=(select sa_dept_new
+  															 					from dbo.IRIS_SSO_USER sub
+  															 				   where sub.sa_user=su.sa_user
+  															 				     and sub.sso_ex_flag!='D'
+  															 				     and sub.sa_func!='FG0')) a FOR XML PATH ('')), 1, 1, '')) as crgrMail
 			   ,A.MCHN_CL_CD AS mchnClCd
 		FROM   IRIS_RLAB_MCHN_INFO_MGMT  A
 		       LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
@@ -86,14 +92,14 @@
 			   AND F.DEL_YN = 'N'
 		       LEFT OUTER JOIN IRIS_SSO_USER   SU
 			   ON SU.SA_SABUN_NEW = A.MCHN_CRGR_ID
-			  ,IRIS_ADM_COM_CD ACC	
-		WHERE A.DEL_YN = 'N' 
+			  ,IRIS_ADM_COM_CD ACC
+		WHERE A.DEL_YN = 'N'
 		AND ACC.COM_CD_CD = 'MCHN_PRCT_ST'
 		AND A.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
 		AND A.MCHN_INFO_ID = #{mchnInfoId}
 		]]>
 	</select>
-	
+
 	<!-- 보유장비 예약 신규 및 Detail 화면조회-->
 	<select id="retrieveMchnPrctInfo" resultType="hashmap" >
 		<![CDATA[
@@ -117,7 +123,7 @@
 			   ,A.RGST_ID AS rgstId
 			   ,M.MCHN_SMRY AS mchnSmry
 			   ,B.SA_DEPT_NEW AS deptCd
-			   ,DBO.FN_GETSABUNNAME(A.RGST_ID) AS rgstNm 
+			   ,DBO.FN_GETSABUNNAME(A.RGST_ID) AS rgstNm
 			   ,DBO.FN_GETDEPTNAME(B.SA_DEPT_NEW) AS deptNm
 			   ,DBO.FN_GETUSEREMAIL(C.SA_USER) as crgrMail
 			   ,C.SA_NAME AS crgrNm
@@ -138,7 +144,7 @@
 		AND    A.MCHN_PRCT_ID = #{mchnPrctId}
 		]]>
 	</select>
-	
+
 	<!-- 분석기기 > open기기 > 보유장비 예약(일정)   -->
 	<select id="retrieveMchnPrctCalInfo" resultType="hashmap" >
 		<![CDATA[
@@ -160,7 +166,7 @@
 		ORDER BY PRCT_FROM_TIM
 		]]>
 	</select>
-	
+
 	<!-- 분석기기 > open기기 > 보유장비 예약(일정)   -->
 	<select id="retrieveMchnPrctCalInfo2" resultType="hashmap" >
 		<![CDATA[
@@ -192,7 +198,7 @@
 		ORDER BY PRCT_FROM_TIM
 		]]>
 	</select>
-	
+
 	<!-- 기기교육 수료일   -->
 	<select id="retrieveMchnEduInfo" resultType="hashmap" >
 		<![CDATA[
@@ -201,7 +207,7 @@
 					,CASE WHEN B.EDU_ST_CD = 'RQ' THEN '요청'
 						  WHEN B.EDU_ST_CD = 'CCS' THEN '수료'
 						  WHEN B.EDU_ST_CD = 'NCPE' THEN '미수료' END AS eduStNm
-					,B.EDU_ST_CD AS eduStCd	
+					,B.EDU_ST_CD AS eduStCd
 			FROM	IRIS_MCHN_EDU_MST A
 				   ,IRIS_MCHN_EDU_DTL B
 			WHERE   A.DEL_YN ='N'
@@ -222,7 +228,7 @@
 							)
 		]]>
 	</select>
-	
+
 	<!-- 기기예약 중복체크   -->
 	<select id="checkPrctInfo" resultType="int" >
 		<![CDATA[
@@ -233,19 +239,19 @@
 		AND    RGST_ID  =  #{rgstId}
 		AND    PRCT_DT =  #{prctDt}
 		AND    PRCT_SCN_CD IN ('RQ', 'APPR')
-		AND  ( #{prctFromTim} BETWEEN PRCT_FROM_TIM AND PRCT_TO_TIM 
+		AND  ( #{prctFromTim} BETWEEN PRCT_FROM_TIM AND PRCT_TO_TIM
 		     OR #{prctToTim} BETWEEN  PRCT_FROM_TIM AND PRCT_TO_TIM )
 		]]>
 	</select>
-	
+
 	<select id="checkRlabSmpoQty" resultType="int" >
 		<![CDATA[
 		SELECT #{smpoQty} - CONVERT(INT,SMPO_QTY) AS SMPO_QTY
-		FROM   IRIS_RLAB_MCHN_INFO_MGMT    
+		FROM   IRIS_RLAB_MCHN_INFO_MGMT
 		WHERE    MCHN_INFO_ID =  #{mchnInfoId} /**P*/
 		]]>
 	</select>
-	
+
 	<select id="checkRlabPrctInfo" resultType="int" >
 		<![CDATA[
 		SELECT COUNT(*) cnt
@@ -259,7 +265,7 @@
 		AND  D.PRCT_DT BETWEEN #{prctFromDt} AND #{prctToDt}
 		]]>
 	</select>
-	
+
 	<select id="checkRlabPrctInfo2" resultType="int" >
 		<![CDATA[
 		SELECT COUNT(*) cnt
@@ -275,12 +281,12 @@
 						AND    M.MCHN_INFO_ID =  #{mchnInfoId} /**P*/
 						AND D.PRCT_DT BETWEEN #{prctFromDt} AND #{prctToDt}
 				    GROUP BY D.PRCT_DT, I.SMPO_QTY
-		     ) A		
+		     ) A
 		WHERE A.SMPO_QTY > 0
-		
+
 		]]>
 	</select>
-	
+
 	<!-- 기기교육  신청 및 수정 -->
 	<update id="saveMchnPrctInfo" >
 		<![CDATA[
@@ -344,33 +350,33 @@
 			   ,#{_teamDept}
 			   ,#{_userDept}
 			   ,GETDATE()
-			   , #{_userId} 
+			   , #{_userId}
 			   ,GETDATE()
 			   , #{_userId}
 			);
 		]]>
 	</update>
-	
+
 	<!-- 기기교육 삭제 -->
 	<update id="deleteMchnPrctInfo" >
 		<![CDATA[
 		UPDATE IRIS_RLAB_MCHN_PRCT_MST
 		SET    DEL_YN = 'Y'
 		      ,LAST_MDFY_DT = GETDATE()
-			  ,LAST_MDFY_ID = #{_userId} 
-		WHERE  MCHN_PRCT_ID = #{mchnPrctId} 
+			  ,LAST_MDFY_ID = #{_userId}
+		WHERE  MCHN_PRCT_ID = #{mchnPrctId}
 		]]>
 	</update>
-	
+
 	<!-- 기기예약 번호 생성(조회) -->
 	<select id="getMchnPrctId" resultType="int">
-	
+
 		   SELECT IDENT_CURRENT('iris_rlab_mchn_prct_mst') AS mchnPrctId
-			 
+
 	</select>
-	
+
 	<insert id="saveMchnPrctDetail" parameterType="map">
-	
+
 		insert into IRIS_RLAB_MCHN_PRCT_DTL(
             MCHN_PRCT_ID
            ,PRCT_DT
@@ -386,10 +392,10 @@
 			  ,#{smpoQty}
 			  ,'N'
 			  ,GETDATE()
-			  , #{_userId} 
+			  , #{_userId}
 			  ,GETDATE()
 			  , #{_userId}
 			  )
-	
+
 	</insert>
 </mapper>
