@@ -187,6 +187,16 @@
               , RSRT_DIVN_CD AS mchnClCd
               , (SELECT SMPO_QTY FROM IRIS_RLAB_MCHN_INFO_MGMT D
                  WHERE D.MCHN_INFO_ID = A.MCHN_INFO_ID) AS totSmpoQty
+              , (SELECT SUM(D.SMPO_QTY) 
+                 FROM  IRIS_RLAB_MCHN_PRCT_MST C,
+		               IRIS_RLAB_MCHN_PRCT_DTL D
+                 WHERE  C.MCHN_INFO_ID =   #{mchnInfoId}
+                 AND C.MCHN_PRCT_ID = D.MCHN_PRCT_ID
+                 AND  C.PRCT_SCN_CD IN ('RQ', 'APPR')
+                 AND D.PRCT_DT = B.PRCT_DT
+                 AND C.DEL_YN = 'N'
+                 group by D.PRCT_DT
+                ) as sumQty
 		FROM  IRIS_RLAB_MCHN_PRCT_MST A,
 		      IRIS_RLAB_MCHN_PRCT_DTL B
 		WHERE  A.MCHN_PRCT_ID = B.MCHN_PRCT_ID
