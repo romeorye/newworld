@@ -205,8 +205,9 @@ var mchnPrctId;
           	<span class="date"><a href="javascript:parent.fncMchnPrctPop('','<%=year%>', '<%=month+1%>','<%=dispDay%>','');"><%=dispDay%></a></span>
           	<ul class='sche'>
           		<%
+          		int chkQty = 0;
           		if ( mchnPrctList.size() > 0 ){
-          			int chkQty = 0;
+          			
           			for (int z=0; z < mchnPrctList.size(); z++){
           				item =  (HashMap<String, Object>)mchnPrctList.get(z);
           				int chkDt = Integer.valueOf(item.get("dateNo").toString());
@@ -246,9 +247,7 @@ var mchnPrctId;
 				          		</li> 
 				          		<%          						
 							}
-          				} else {
-          					chkQty = 0;
-          				}
+          				} 
           			}
           		}
           		%>
@@ -256,6 +255,7 @@ var mchnPrctId;
           </td><%
                          count += 1;
                          dispDay += 1;
+                         chkQty = 0;
                     }else{
 %>
           <td class="weeks">&nbsp;</td>
