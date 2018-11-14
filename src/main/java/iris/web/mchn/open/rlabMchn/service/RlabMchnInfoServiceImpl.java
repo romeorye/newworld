@@ -98,11 +98,11 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 		if(mchnClCd.equals("02")){
 			chkPrct = commonDao.select("open.rlabMchnInfo.checkRlabSmpoQty", input);
 		}
-		
+
 		if( chkPrct  >   0 ){
 			throw new Exception("시료수가 초과 되었습니다.");
 		}
-		
+
 		chkPrct = 0;
 		//기존 예약시간 중복 체크
 		if(mchnClCd.equals("01")){
@@ -156,7 +156,7 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 
 			//장비예약신청 담당자에게 메일 발송
 			mailSender.setFromMailAddress( input.get("_userEmail").toString(), input.get("_userNm").toString());
-			mailSender.setToMailAddress( input.get("toMailAddr").toString() , input.get("_userEmail").toString());
+			mailSender.setToMailAddress( input.get("toMailAddr").toString().split(","));
 			mailSender.setSubject(NullUtil.nvl(input.get("mailTitl").toString(),""));
 
 			vo.setRgstNm(NullUtil.nvl(input.get("_userNm").toString(),""));
