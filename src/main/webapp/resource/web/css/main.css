@@ -310,7 +310,7 @@ h4 span{color:#969696!important; font-size:13px; padding-left:3px; font-weight:4
 
 /* main swiper */
 .swiper-container {width: 188px; height: 100%;}
-.swiper-slide{margin-bottom:0;}
+.swiper-slide{margin-bottom:200px;}
 
 /* main left 아이콘및 메뉴 */
 .side_iconList{border: none; border-bottom-left-radius:10px; border-bottom-right-radius:30px; background-color: #f8f8f8; margin:0 -10px;}
