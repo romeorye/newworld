@@ -20,6 +20,14 @@
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 <link type="text/css" href="<%=cssPath%>/main.css" rel="stylesheet">
 <link type="text/css" href="<%=cssPath%>/common.css" rel="stylesheet">
+
+<script type="text/javascript">
+ //내부 스크롤 제거
+	    $(window).load(function() {
+	        initFrameSetHeight();
+	    });
+	    
+</script>	    
 </head>
 <body>
 <table>
