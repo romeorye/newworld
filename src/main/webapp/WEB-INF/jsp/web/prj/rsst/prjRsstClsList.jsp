@@ -38,6 +38,8 @@
 				roleCheck = "ADM";
 			}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T03') > -1) {
 				roleCheck = "ADM";
+			}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T05') > -1) {
+				roleCheck = "ADM";
 			}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
 				roleCheck = "ADM";
 			}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
