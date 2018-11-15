@@ -234,7 +234,7 @@ var mchnPrctId;
 								} 
 				          		%>
 				          		<li><a href="javascript:parent.fncMchnPrctPop('<%=item.get("mchnPrctId")%>','<%=year%>', '<%=month%>','<%=dispDay%>','<%=item.get("mchnClCd")%>');">
-				          		    <span><%=item.get("rgstNm") %></span>&nbsp;<%=item.get("smpoQty") %>
+				          		    <span><%=item.get("rgstNm") %></span>&nbsp;<%=item.get("smpoQty") %>&nbsp;<%=item.get("prctScnNm") %>
 				          		    </a>
 				          		</li> 
 				          		<%
@@ -242,7 +242,7 @@ var mchnPrctId;
 							if(mchnClCd.equals("03")){
 				          		%>
 				          		<li><a href="javascript:parent.fncMchnPrctPop('<%=item.get("mchnPrctId")%>','<%=year%>', '<%=month%>','<%=dispDay%>','<%=item.get("mchnClCd")%>');">
-				          		    <%=item.get("prctTim")%>&nbsp;<span><%=item.get("rgstNm") %></span>&nbsp;
+				          		    <%=item.get("prctTim")%>&nbsp;<span><%=item.get("rgstNm") %></span>&nbsp;<%=item.get("prctScnNm") %>
 				          		    </a>
 				          		</li> 
 				          		<%          						
