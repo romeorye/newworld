@@ -80,11 +80,11 @@
 			   ,F.SEQ AS seq
 			   ,(SELECT STUFF((SELECT ',' + sa_mail FROM (select sa_mail from dbo.IRIS_SSO_USER
   														   where 1=1
+  														     and sso_ex_flag!='D'
+  														     and sa_func!='FO0'
   															 and sa_dept_new=(select sa_dept_new
   															 					from dbo.IRIS_SSO_USER sub
-  															 				   where sub.sa_user=su.sa_user
-  															 				     and sub.sso_ex_flag!='D'
-  															 				     and sub.sa_func!='FG0')) a FOR XML PATH ('')), 1, 1, '')) as crgrMail
+  															 				   where sub.sa_user=su.sa_user)) a FOR XML PATH ('')), 1, 1, '')) as crgrMail
 			   ,A.MCHN_CL_CD AS mchnClCd
 		FROM   IRIS_RLAB_MCHN_INFO_MGMT  A
 		       LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
@@ -187,7 +187,7 @@
               , RSRT_DIVN_CD AS mchnClCd
               , (SELECT SMPO_QTY FROM IRIS_RLAB_MCHN_INFO_MGMT D
                  WHERE D.MCHN_INFO_ID = A.MCHN_INFO_ID) AS totSmpoQty
-              , (SELECT SUM(D.SMPO_QTY) 
+              , (SELECT SUM(D.SMPO_QTY)
                  FROM  IRIS_RLAB_MCHN_PRCT_MST C,
 		               IRIS_RLAB_MCHN_PRCT_DTL D
                  WHERE  C.MCHN_INFO_ID =   #{mchnInfoId}
