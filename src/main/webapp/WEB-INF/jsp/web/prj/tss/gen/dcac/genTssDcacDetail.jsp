@@ -222,7 +222,7 @@
                 if(gvTssSt == "102") btnCsusRq.show(); //GRS - 100:작성중
             }
 
-            if(gvTssSt!="100"){
+            if(gvTssSt=="104"){
                 setReadonly("dcacBStrtDd");
                 setReadonly("dcacBFnhDd");
             }
@@ -279,6 +279,7 @@
         });
         dataSet.on('load', function(e) {
             gvTssCd    = stringNullChk(dataSet.getNameValue(0, "pgTssCd")); //진행단계 과제코드
+            gvTssSt    = stringNullChk(dataSet.getNameValue(0, "pgTssSt")); //진행단계 과제코드
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvPkWbsCd  = dataSet.getNameValue(0, "pkWbsCd");
             document.tabForm.tssSt.value = dataSet.getNameValue(0, "tssSt");
@@ -355,8 +356,7 @@
         //서버전송용
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         dm.on('success', function(e) {
-
-        	var data = dataSet.getReadData(e);
+            var data = dataSet.getReadData(e);
 
             Rui.alert(data.records[0].rtVal);
 

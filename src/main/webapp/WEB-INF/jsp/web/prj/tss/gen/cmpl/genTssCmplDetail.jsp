@@ -221,7 +221,7 @@
                 if(gvTssSt == "102") btnCsusRq.show(); //GRS - 100:작성중
             }
 
-            if(gvTssSt!="100"){
+            if(gvTssSt=="104"){
                 setReadonly("cmplBStrtDd");
                 setReadonly("cmplBFnhDd");
             }
