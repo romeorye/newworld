@@ -320,7 +320,14 @@
                     if(rWgvl > gWgvl){
                         pg = pgS ;
                     }else if(rWgvl < gWgvl){
-                        pg = pgD ;
+                        //pg = pgD ;
+                    	rWgvl = rWgvl+3;
+
+                    	if( rWgvl < gWgvl ){
+	                    	pg = pgD ;
+                    	}else{
+	                        pg = pgN ;
+                    	}
                     }else if(rWgvl = gWgvl){
                         pg = pgN ;
                     }
