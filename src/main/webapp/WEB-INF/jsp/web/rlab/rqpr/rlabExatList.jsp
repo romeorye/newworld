@@ -127,17 +127,18 @@
 
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'exatNm',			validExp: '시험명:true:maxByteLength=100' },
-                { id: 'dspNo',			validExp: '순서:true:number' }
+                { id: 'exatNm',			validExp: '시험명:true:maxByteLength=100' }
                 ]
             });
 
             var vm2 = new Rui.validate.LValidatorManager({
                 validators:[
                 { id: 'exatNm',			validExp: '시험명:true:maxByteLength=100' },
+                { id: 'exatMtdNo',			validExp: '시험법NO:true:number' },
                 { id: 'expCrtnScnCd',	validExp: '비용구분:true' },
-                { id: 'utmExp',			validExp: '시험수가:true:number' },
-                { id: 'dspNo',			validExp: '순서:true:number' }
+                { id: 'utmExatTim',			validExp: '단위시험일수:true:number' },
+                { id: 'utmSmpoQty',			validExp: '단위시료수량:true:number' },
+                { id: 'utmExp',			validExp: '시험수가:true:number' }
                 ]
             });
 
@@ -152,7 +153,7 @@
                     , { id: 'supiExatNm' }
                     , { id: 'supiExatCd', type: 'number' }
                     , { id: 'exatCdL', type: 'number' }
-                    , { id: 'exatMtdNo' }
+                    , { id: 'exatMtdNo', type: 'number' }
                     , { id: 'utmExp', type: 'number' }
                     , { id: 'expCrtnScnCd' }
                     , { id: 'utmSmpoQty', type: 'number', defaultValue: 1 }
@@ -215,10 +216,10 @@
                 	  { field: 'path',			label: 'Path',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 300 }
                     , { field: 'exatNm',		label: '시험명(대분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 100 }
                     , { field: 'exatNm',		label: '시험명(소분류)',		sortable: false,	editable: true,		editor: textBox,		align:'left',	width: 100 }
-                    , { field: 'exatMtdNo',			label: '시험법 No',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 100 }
+                    , { field: 'exatMtdNo',			label: '시험법 No',	sortable: false,	editable: true, 	editor: numberBox,		align:'left',	width: 100 }
                     , { field: 'expCrtnScnCd',	label: '비용구분',		sortable: false,	editable: false, 	editor: expCrtnScnCd,	align:'center',	width: 80 }
                     , { field: 'utmSmpoQty',	label: '단위시료수량',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
-                    , { field: 'utmExatTim',	label: '시험일수',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
+                    , { field: 'utmExatTim',	label: '단위시험일수',	sortable: false,	editable: false,	editor: numberBox,		align:'center',	width: 80 }
                     , { field: 'utmExp',		label: '시험수가',		sortable: false,	editable: true,		editor: numberBox,		align:'right',	width: 80,
                     	renderer: function(val, p, record, row, col) {
                     		return Rui.isNumber(val) ? Rui.util.LNumber.toMoney(val, '') + '원' : val;
@@ -253,7 +254,7 @@
                 columns: [
                 	  { field: 'supiExatNm',		label: '시험명(대분류)',		sortable: false,	editable: false,		editor: textBox,		align:'left',	width: 240 }
                     , { field: 'exatNm',			label: '시험명(소분류)',	sortable: false,	editable: true, 	editor: textBox,		align:'left',	width: 240 }
-                    , { field: 'exatMtdNo',	label: '시험법No',		sortable: false,	editable: true, 	editor: textBox,	align:'center',	width: 80 }
+                    , { field: 'exatMtdNo',	label: '시험법No',		sortable: false,	editable: true, 	editor: numberBox,	align:'center',	width: 80 }
                     , { field: 'expCrtnScnCd',	label: '비용구분',	sortable: false,	editable: true,	editor: expCrtnScnCd,		align:'center',	width: 80 }
                     , { field: 'utmExatTim',	label: '단위시험일수',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 80 }
                     , { field: 'utmSmpoQty',	label: '단위시료수량',	sortable: false,	editable: true,	editor: numberBox,		align:'center',	width: 80 }
@@ -469,7 +470,7 @@
             };
 
             saveRlabExatMst = function() {
-            	var vm = rlabExatMstGridDataSetView.getNameValue(rlabExatMstGridDataSetView.getRow(), 'exatCdL') == 4 ? vm2 : vm1;
+            	var vm = rlabExatMstGridDataSetView.getNameValue(rlabExatMstGridDataSetView.getRow(), 'exatCdL') == 3 ? vm2 : vm1;
 
             	if (vm.validateDataSet(rlabExatMstGridDataSetView, rlabExatMstGridDataSetView.getRow()) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
