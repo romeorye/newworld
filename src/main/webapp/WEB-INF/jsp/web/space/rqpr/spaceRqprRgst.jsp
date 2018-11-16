@@ -92,7 +92,7 @@
                 width: 980,
                 height: 75
             });
-            /* 평가구분 */
+            /* 평가목적 */
         	var spaceScnCd = new Rui.ui.form.LCombo({
                 applyTo: 'spaceScnCd',
                 name: 'spaceScnCd',
@@ -837,7 +837,7 @@
                 validators:[
                 { id: 'spaceNm',		validExp: '평가명:true:maxByteLength=100' },
                 { id: 'spaceSbc',		validExp: '평가상세:true' },
-                { id: 'spaceScnCd',		validExp: '평가구분:true' },
+                { id: 'spaceScnCd',		validExp: '평가목적:true' },
                 { id: 'spaceUgyYn',		validExp: '긴급유무:true' },
                 { id: 'oppbScpCd',		validExp: '공개범위:true' },
                 { id: 'evCtgr',			validExp: '평가카테고리:true' },
@@ -964,7 +964,7 @@
    							</td>
    						</tr>
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>평가구분</th>
+   							<th align="right"><span style="color:red;">* </span>평가목적</th>
    							<td>
                                 <div id="spaceScnCd"></div>
    							</td>

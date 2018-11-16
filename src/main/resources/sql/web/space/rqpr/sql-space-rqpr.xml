@@ -1024,12 +1024,12 @@
 	</select>
 
 
-	<select id="getExprWay" resultType="String">
+	<select id="getExatWay" resultType="String">
 		<![CDATA[
-			-- getExprWay 개발방법 조회
-		SELECT EXPR_WAY as exatWay
-		FROM  IRIS_SPACE_RQPR_EXPR
-		WHERE   RQPR_EXPR_ID = ${rqprExprId}
+			-- getExatWay 개발방법 조회
+		SELECT EXAT_WAY as exatWay
+		FROM  IRIS_SPACE_RQPR_EXAT
+		WHERE   RQPR_EXAT_ID = ${rqprExatId}
 		AND     RQPR_ID = #{rqprId}
 		]]>
 	</select>

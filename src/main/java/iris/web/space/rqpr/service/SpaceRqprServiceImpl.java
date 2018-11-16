@@ -794,8 +794,8 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 	}
 
 	/* 실험방법 내용 조회*/
-	public String getExprWay(HashMap<String, String> input){
-		return commonDao.select("space.rqpr.getExprWay", input);
+	public String getExatWay(HashMap<String, String> input){
+		return commonDao.select("space.rqpr.getExatWay", input);
 	}
 
 	/* 의견 상세 정보 조회*/

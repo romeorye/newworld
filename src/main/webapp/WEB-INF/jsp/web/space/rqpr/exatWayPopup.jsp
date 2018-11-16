@@ -5,7 +5,7 @@
 /*
  *************************************************************************
  * $Id		: exprWayPopup.jsp
- * @desc    : 시험 > 시험결과 > 실험정보등록 리스트 > 상세팝업
+ * @desc    : 평가 > 평가결과 > 실험정보등록 리스트 > 상세팝업
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
@@ -23,10 +23,10 @@
 <script>
 Rui.onReady(function() {
 	var exprWay = new Rui.ui.form.LTextArea({            // LTextBox개체를 선언
-        applyTo: 'exprWay',                           // 해당 DOM Id 위치에 텍스트박스를 적용
+        applyTo: 'exatWay',                           // 해당 DOM Id 위치에 텍스트박스를 적용
         width: 560,                                    // 텍스트박스 폭을 설정
         height: 270,
-        defaultValue: '<c:out value="${inputData.exprWay}"/>',
+        defaultValue: '<c:out value="${inputData.exatWay}"/>',
         placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
         invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
     });
@@ -41,7 +41,7 @@ Rui.onReady(function() {
 		<table class="table table_txt_right">
 			<tr>
 				<td>
-					<input type="text" id="exprWay" name="exprWay" />
+					<input type="text" id="exatWay" name="exatWay" />
 				</td>
 			</tr>
 		</table>

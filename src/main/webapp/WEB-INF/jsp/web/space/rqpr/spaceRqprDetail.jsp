@@ -197,7 +197,7 @@
             /* 평가명 */
             var spaceNm = new Rui.ui.form.LTextBox({
             	applyTo: 'spaceNm',
-                placeholder: '평가명을 입력해주세요.',
+                placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 width: 390
@@ -205,12 +205,12 @@
 			/*평가상세*/
             var spaceSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'spaceSbc',
-                placeholder: '평가배경과 목적, 결과 활용방안을 자세히 기재하여 주시기 바랍니다.',
+                placeholder: '',
                 emptyValue: '',
                 width: 950,
                 height: 75
             });
-            /* 평가구분 */
+            /* 평가목적 */
         	var spaceScnCd = new Rui.ui.form.LCombo({
                 applyTo: 'spaceScnCd',
                 name: 'spaceScnCd',
@@ -225,7 +225,7 @@
             /* WBS 팝업 설정*/
             var spaceRqprWbsCd = new Rui.ui.form.LPopupTextBox({
             	applyTo: 'spaceRqprWbsCd',
-                placeholder: 'WBS코드를 입력해주세요.',
+                placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 editable: false,
@@ -272,7 +272,7 @@
 			/* 비밀사유 */
             var scrtRson = new Rui.ui.form.LTextBox({
             	applyTo: 'scrtRson',
-            	placeholder: '상세 사유 기재',
+            	placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 width: 300
@@ -282,7 +282,7 @@
                 applyTo: 'spaceRqprInfmView',
                 width: 600,
                 editable: false,
-                placeholder: '통보자를 입력해주세요.',
+                placeholder: '',
                 emptyValue: '',
                 enterToPopup: true
             });
@@ -293,7 +293,7 @@
             /* 평가대상명 */
             var evSubjNm = new Rui.ui.form.LTextBox({
             	applyTo: 'evSubjNm',
-                placeholder: 'IFC, 상평동 복합문화단지(假稱)…',
+                placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 width: 985
@@ -313,7 +313,7 @@
             /* 제출처 명*/
             var sbmpNm = new Rui.ui.form.LTextBox({
             	applyTo: 'sbmpNm',
-                placeholder: '제출기관명 직접 입력',
+                placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 width: 845
@@ -321,7 +321,7 @@
             /* 정량지표 */
             var qtasDpst = new Rui.ui.form.LTextBox({
             	applyTo: 'qtasDpst',
-                placeholder: '영업, Spec-in 금액, 매출목표 등',
+                placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 width: 390
@@ -329,7 +329,7 @@
             /* 정성지표 */
             var qnasDpst = new Rui.ui.form.LTextBox({
             	applyTo: 'qnasDpst',
-                placeholder: '*** 개발 연구 등',
+                placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 width: 395
@@ -337,7 +337,7 @@
             /* 목표성능 */
             var goalPfmc = new Rui.ui.form.LTextBox({
             	applyTo: 'goalPfmc',
-                placeholder: '열관류율 1.2 W/㎡K 이하, 표면온도 15℃ 이상, 1차 에너지 소요량 90 kWh/㎡ 이하',
+                placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 width: 390
@@ -345,7 +345,7 @@
             /* 결과지표 */
             var rsltDpst = new Rui.ui.form.LTextBox({
             	applyTo: 'rsltDpst',
-                placeholder: '열관류율 (W/㎡K), 열전도율 (W/mK), 표면온도 (℃)…',
+                placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 width: 395
@@ -353,7 +353,7 @@
             /* 평가 cases(개수) */
             var evCases = new Rui.ui.form.LTextBox({
             	applyTo: 'evCases',
-                placeholder: '5건 (창호 1~5등급, 5케이스 적용)',
+                placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 width: 390
@@ -361,7 +361,7 @@
             /* 평가대상 상세 */
             var evSubjDtl = new Rui.ui.form.LTextBox({
             	applyTo: 'evSubjDtl',
-                placeholder: '넷마블 사옥, 시행사 XX, 시공사 XX…',
+                placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 width: 395
@@ -370,7 +370,7 @@
             /* T-Cloud 링크*/
             var tCloud = new Rui.ui.form.LTextBox({
             	applyTo: 'tCloud',
-                placeholder: '대용량 첨부파일 링크 입력.',
+                placeholder: '',
                 defaultValue: '',
                 emptyValue: '',
                 width: 10
@@ -383,7 +383,7 @@
                 fields: [
 					  { id: 'rqprId'		}	//의뢰ID
 					, { id: 'spaceNm'		}	//평가명
-					, { id: 'spaceScnCd'	}	//평가구분코드
+					, { id: 'spaceScnCd'	}	//평가목적코드
 					, { id: 'spaceSbc'		}	//평가상세
 					, { id: 'acpcNo'		}	//접수번호
 					, { id: 'rgstNm'		}	//의뢰자
@@ -410,6 +410,7 @@
 					, { id: 'rqprAttcFileId', defaultValue: '' }
 					, { id: 'spaceAcpcStCd'		}
 					, { id: 'cmplParrDt'		}
+					, { id: 'reqItgRdcsId'		}
                 ]
             });
 
@@ -1225,7 +1226,7 @@
         	/* 피드백내용 */
              var fbRsltSbcTxtArea = new Rui.ui.form.LTextArea({
             	 applyTo: 'fbRsltSbc',
-            	 placeholder: '- Spec-in 혹은 영업 매출 규모 : 창호+유리 50억\n- 과제 진행 단계 : SEED 검토, GRS 1 통과, GRS 2 통과, Drop…',
+            	 placeholder: '',
                   editable: true,
                   disabled:false,
                   width: 800,
@@ -1450,7 +1451,7 @@
                 validators:[
                 { id: 'spaceNm',		validExp: '평가명:true:maxByteLength=100' },
                 { id: 'spaceSbc',		validExp: '평가상세:true' },
-                { id: 'spaceScnCd',		validExp: '평가구분:true' },
+                { id: 'spaceScnCd',		validExp: '평가목적:true' },
                 { id: 'spaceUgyYn',		validExp: '긴급유무:true' },
                 { id: 'oppbScpCd',		validExp: '공개범위:true' },
 				{ id: 'evSubjNm',		validExp: '평가대상명:true:maxByteLength=100' },
@@ -1666,7 +1667,7 @@
     						<td><span id="acpcDt"/></td>
    						</tr>
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>평가구분</th>
+   							<th align="right"><span style="color:red;">* </span>평가목적</th>
    							<td>
                                 <div id="spaceScnCd"></div>
    							</td>

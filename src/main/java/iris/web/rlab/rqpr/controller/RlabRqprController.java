@@ -1529,7 +1529,7 @@ public class RlabRqprController extends IrisBaseController {
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
-		;
+
 		input.put("exatWay", rlabRqprService.getExatWay(input));
 		model.addAttribute("inputData", input);
 

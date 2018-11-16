@@ -101,7 +101,7 @@ public interface SpaceRqprService {
 	public boolean deleteSpaceExatDtl(List<Map<String,Object>> list) throws Exception;
 
 	/* 실험방법 내용 조회*/
-	public String getExprWay(HashMap<String, String> input);
+	public String getExatWay(HashMap<String, String> input);
 
 	/* 의견 상세 정보 조회*/
 	public String retrieveOpiSbc(HashMap<String, String> input);

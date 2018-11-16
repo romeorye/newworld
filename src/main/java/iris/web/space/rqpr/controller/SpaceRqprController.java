@@ -1459,8 +1459,8 @@ public class SpaceRqprController extends IrisBaseController {
 		return "web/space/rqpr/spaceRqprSrchView";
 	}
 
-	@RequestMapping(value="/space/exprWayPopup.do")
-	public String exprWayPopupView(
+	@RequestMapping(value="/space/exatWayPopup.do")
+	public String exatWayPopupView(
 			@RequestParam HashMap<String, String> input,
 			HttpServletRequest request,
 			HttpSession session,
@@ -1471,15 +1471,15 @@ public class SpaceRqprController extends IrisBaseController {
 		checkSession(input, session, model);
 
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("exprWayPopupView - exprWayPopupView [실험방법 상세 팝업화면 이동]");
+		LOGGER.debug("exatWayPopupView - exatWayPopupView [실험방법 상세 팝업화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
 		;
-		input.put("exprWay", spaceRqprService.getExprWay(input));
+		input.put("exatWay", spaceRqprService.getExatWay(input));
 		model.addAttribute("inputData", input);
 
-		return "web/space/rqpr/exprWayPopup";
+		return "web/space/rqpr/exatWayPopup";
 	}
 
 	/**
