@@ -1059,7 +1059,7 @@ input[type=text], input[type=password], input[type=month], input[type=date], inp
 .L-form-field textarea{padding:2px 5px;}
 
 /* 공통 input color 재조정 */ /* placeholder */
-table input, table textarea{color:#000 !important;}
+table input, table textarea{color:#aaa} 
 table input::-webkit-input-placeholder{color:#aaa;}
 table input::-moz-placeholder{color:#aaa;}
 table input:-ms-input-placeholder{color:#aaa;}
