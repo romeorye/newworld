@@ -1072,6 +1072,14 @@ a.l-blue {color:#3970a8; text-decoration:underline;}
     padding-left: 5px;
     font-weight: normal;
 }
+.titArea h4 {
+	float:left;
+	font-size:11px !important;
+	/*background: url('../images/common/bl_st_arr.png') no-repeat 0 50%;
+	padding-left:14px;*/
+	margin:0 !important;
+	font-weight:normal;
+}
 
 .titArea .desc {
 	float:left;
@@ -1897,9 +1905,6 @@ fieldset .table + .table{margin-top:20px}
 .docu_con h4 {font-size:14px; font-weight:bold; line-height:2;}
 
 .mt20 {margin-top:20px !important;}
-
-
-
 
 
 
