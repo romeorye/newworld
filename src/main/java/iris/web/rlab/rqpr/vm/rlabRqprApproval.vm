@@ -1,5 +1,5 @@
 <div class="contents">
-    <h3>의뢰정보</h3>
+    <h4>의뢰정보</h4>
         <table class="table table_txt_right">
             <colgroup>
                 <col width="15%" />
@@ -41,7 +41,7 @@
             </tbody>
         </table>
         <br/>
-    <h3>시료정보</h3>
+    <h4>시료정보</h4>
         <table class="table">
             <colgroup>
                 <col width="30%" />
@@ -66,7 +66,7 @@
     <div class="wrap">
 	   <div class="table04">
            <!-- left table contents start -->
-            <h3>관련시험</h3>
+            <h4>관련시험</h4>
                 <table class="table">
                     <colgroup>
                         <col width="15%" />
@@ -90,7 +90,7 @@
        </div>
 	   <div class="table05">
            <!-- right table contents start -->
-            <h3>시료사진/첨부파일</h3>
+            <h4>시료사진/첨부파일</h4>
                 <table class="table">
                     <colgroup>
                         <col width="5%" />
