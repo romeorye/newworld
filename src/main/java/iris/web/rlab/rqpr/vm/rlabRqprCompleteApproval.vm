@@ -117,9 +117,6 @@
             </tbody>
         </table>
 
-   <!-- 가로 2개 테이블  start -->
-    <div class="wrap">
-	   <div class="table04">
            <!-- left table contents start -->
             <h5>관련시험</h5>
                 <table class="table">
@@ -142,8 +139,6 @@
                     </tbody>
                 </table>
            <!-- left table contents end -->
-       </div>
-	   <div class="table05">
            <!-- right table contents start -->
             <h5>시료사진/첨부파일</h5>
                 <table class="table">
@@ -162,7 +157,5 @@
                     </tbody>
                 </table>
             <!-- right table contents end -->
-        </div>
-    </div>
     <!-- 가로 2개 테이블 end -->
 </div>
