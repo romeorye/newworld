@@ -238,6 +238,15 @@ var flag;
 								<c:out value='${result.prctScnNm}'/>
 							</td>
 						</tr>
+						<tr>
+							<th  align="right">개요</th>
+
+							<td colspan="3">
+								<c:out value='${result.dtlSbc}' escapeXml="false"/>
+
+							</td>
+
+						</tr>
 						</tbody>
 				</table>
 			</form>
