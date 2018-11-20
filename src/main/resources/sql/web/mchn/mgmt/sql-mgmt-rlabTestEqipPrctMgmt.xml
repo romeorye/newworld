@@ -14,7 +14,7 @@
 		      ,PRCT.PRCT_TITL AS prctTitl
 			  ,INFO.MCHN_HAN_NM AS mchnHanNm
 			  ,PRCT.RGST_TEAM_CD AS rgstTeamCd
-			  --,PRCT.RGST_TEAM_NM 팀명
+			  ,dbo.fn_getDeptName(PRCT.RGST_TEAM_CD)  AS rgstTeamNm
 			  ,PRCT.RGST_ID AS rgstId
 			  ,SU2.SA_NAME AS rgstNm
 		      ,CASE WHEN INFO.MCHN_CL_CD='03'
@@ -85,6 +85,7 @@
 			  ,INFO.MCHN_EN_NM AS mchnEnNm
 			  ,PRCT.RGST_TEAM_CD AS rgstTeamCd
 			  --,PRCT.RGST_TEAM_NM 팀명
+			  ,PRCT.DTL_SBC AS dtlSbc
 			  ,PRCT.RGST_ID AS rgstId
 			  ,SU.SA_NAME AS rgstNm
 			  ,SU.SA_DEPT_NAME AS teamNm
