@@ -290,7 +290,11 @@
             		var exatDct = exatRecord.get('exatDct');
 
             		if(Rui.isNumber(exatDct)) {
-            			var exatExp = treeRecord.get('utmExp') * exatDct;
+
+            			var utmExp = treeRecord.get('utmExp');
+            			if( utmExp == null || utmExp == "" ) utmExp = 0;
+
+            			var exatExp = utmExp * exatDct;
 
             			exatRecord.set('exatExp', exatExp);
             			exatRecord.set('exatExpView', Rui.util.LNumber.toMoney(exatExp, '') + '원');

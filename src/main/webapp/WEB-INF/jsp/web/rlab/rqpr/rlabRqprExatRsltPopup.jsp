@@ -317,31 +317,17 @@
             	var treeRecord = rlabRqprExatMstTreeDataSet.getAt(row);
             	var exatRecord = rlabRqprExatDataSet.getAt(0);
 
-            	if(treeRecord.get('expCrtnScnCd') == '1') {
-            		var smpoQty = exatRecord.get('smpoQty');
+            	var smpoQty = exatRecord.get('smpoQty');
 
-            		if(Rui.isNumber(smpoQty)) {
-            			var exatExp = treeRecord.get('utmExp') * smpoQty;
+        		if(Rui.isNumber(smpoQty)) {
+        			var exatExp = treeRecord.get('utmExp') * smpoQty;
 
-            			exatRecord.set('exatExp', exatExp);
-            			exatRecord.set('exatExpView', Rui.util.LNumber.toMoney(exatExp, '') + '원');
-            		} else {
-            			exatRecord.set('exatExp', null);
-            			exatRecord.set('exatExpView', null);
-            		}
-            	} else {
-            		var exatTim = exatRecord.get('exatTim') / treeRecord.get('utmExatTim');
-
-            		if(exatTim > 0) {
-            			var exatExp = treeRecord.get('utmExp') * exatTim;
-
-            			exatRecord.set('exatExp', exatExp);
-            			exatRecord.set('exatExpView', Rui.util.LNumber.toMoney(exatExp, '') + '원');
-            		} else {
-            			exatRecord.set('exatExp', null);
-            			exatRecord.set('exatExpView', null);
-            		}
-            	}
+        			exatRecord.set('exatExp', exatExp);
+        			exatRecord.set('exatExpView', Rui.util.LNumber.toMoney(exatExp, '') + '원');
+        		} else {
+        			exatRecord.set('exatExp', null);
+        			exatRecord.set('exatExpView', null);
+        		}
             };
 
             var rlabRqprExatDataSet = new Rui.data.LJsonDataSet({
