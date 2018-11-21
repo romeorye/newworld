@@ -104,6 +104,13 @@ public class RlabLibServiceImpl implements RlabLibService {
     public List<Map<String, Object>> rlabBbsCodeList(HashMap<String, String> input){
         return commonDao.selectList("rlab.lib.rlabBbsCodeList",input);
     }
+    
+    @Override
+    public List<Map<String, Object>> rlabBbsDtlCdList(HashMap<String, String> input){
+        return commonDao.selectList("rlab.lib.rlabBbsDtlCdList",input);
+    }    
+    
+    
 
 
 }

@@ -42,5 +42,7 @@ public interface RlabLibService {
 	
 	public List<Map<String, Object>> rlabBbsCodeList(HashMap<String, String> input);
 	
+	public List<Map<String, Object>> rlabBbsDtlCdList(HashMap<String, String> input);
+	
 
 }

@@ -1141,5 +1141,41 @@ public class RlabLibController  extends IrisBaseController {
 
         return modelAndView;
     }
+    
+    @RequestMapping(value="/rlab/lib/retrieveRlabClDtlCd.do")
+     public ModelAndView retrieveRlabClDtlCd(
+            @RequestParam HashMap<String, String> input,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            ModelMap model
+            ) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("retrieveRlabClDtlCd [통계 > 신뢰성시험 > 장비사용통계 장비분류 소분류조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        // 공통코드 캐쉬조회
+        
+        if("02".equals(input.get("comDtlCd"))){
+        	input.put("comClCd", "RLAB_DB_CD");
+        }else if("03".equals(input.get("comDtlCd"))){
+        	input.put("comClCd", "RLAB_REFERENCE_CD");
+        }else if("04".equals(input.get("comDtlCd"))){
+        	input.put("comClCd", "RLAB_IP_CD");
+        }
+        
+        System.out.println("\n\n input : "+input);
+        
+        //List codeList = anlBbsService.anlBbsCodeList(NullUtil.nvl(input.get("comCd"), ""));
+        List codeList = rlabLibService.rlabBbsDtlCdList(input);
+         
+        modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", codeList));
+
+        return modelAndView;
+    }
 
 }//class end
