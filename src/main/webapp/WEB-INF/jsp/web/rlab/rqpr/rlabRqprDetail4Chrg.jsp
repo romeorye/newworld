@@ -1383,6 +1383,22 @@
            		openWindow(url, 'openRsltReportPopup', width, 500, 'yes');
     	    };
 
+
+    	    openRsltReportPopup2 = function(type) {
+    	    	var width = 1200;
+            	var url = '<%=lghausysReportPath%>/rlabRqprReportRslt.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
+
+            	if(rlabRqprDataSet.getNameValue(0, 'infmTypeCd') == 'T') {
+            		width = 850;
+            		url = '<%=lghausysReportPath%>/rlabRqprReportRslt_new.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
+            	}
+
+           		openWindow(url, 'openRsltReportPopup2', width, 500, 'yes');
+    	    };
+
+
+
+
 	    	dm.loadDataSet({
                 dataSets: [rlabRqprDataSet, rlabRqprSmpoDataSet, rlabRqprRltdDataSet, rlabRqprAttachDataSet, rlabRqprRsltAttachDataSet, rlabRqprExatDataSet,rlabRqprStptDataSet],
                 url: '<c:url value="/rlab/getRlabRqprDetailInfo.do"/>',
@@ -1647,7 +1663,8 @@
    				<div class="titArea">
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="rsltApprStateBtn" name="rsltApprStateBtn" onclick="openApprStatePopup('C')" style="display:none;">결재상태</button>
-   						<button type="button" class="btn"  id="rsltReportBtn" name="rsltReportBtn" onclick="openRsltReportPopup()">REPORT</button>
+   						<button type="button" class="btn"  id="rsltReportBtn" name="rsltReportBtn" onclick="openRsltReportPopup()">REPORT 1</button>
+   						<button type="button" class="btn"  id="rsltReportBtn" name="rsltReportBtn" onclick="openRsltReportPopup2()">REPORT 2</button>
    						<button type="button" class="btn"  id="saveRsltBtn" name="saveRsltBtn" onclick="saveRlabRqprRslt()">저장</button>
    						<button type="button" class="btn"  id="approvalBtn" name="rejectBtn" onclick="approval()">결재의뢰</button>
    						<button type="button" class="btn"  id="stopBtn" name="stopBtn" onclick="stop()">시험중단</button>
