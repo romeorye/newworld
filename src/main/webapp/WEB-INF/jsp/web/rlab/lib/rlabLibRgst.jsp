@@ -34,6 +34,7 @@
 
 	<script type="text/javascript">
 	var rlabLibRgstDataSet;
+	var rlabClDtlCdDataSet;
 	var vm;			//  Validator
 	var userId = '${inputData._userId}';
 	var bbsCd = '${inputData.bbsCd}';
@@ -61,23 +62,132 @@
             var bbsSbc = new Rui.ui.form.LTextArea({
                 applyTo: 'bbsSbc'
             });
-
+            
             if(target == 'tabContentIfrm0' && pageMode == 'C'){
-	            var anlBbsCd = new Rui.ui.form.LCombo({
+
+	    		//대분류/소분류 dataset
+	    	    rlabClDtlCdDataSet = new Rui.data.LJsonDataSet({
+	                id: 'rlabClDtlCdDataSet',
+	                remainRemoved: true,
+	                lazyLoad: true,
+	                fields: [
+	                	  { id: 'COM_DTL_CD' }
+	                	, { id: 'COM_DTL_NM' }
+	                ]
+	            });
+	        		
+				var anlBbsCd = new Rui.ui.form.LCombo({
 	                applyTo: 'anlBbsCd',
 	                name: 'anlBbsCd',
 	                useEmptyText: true,
 	                emptyText: '선택',
 	                defaultValue: '',
 	                emptyValue: '',
-	                listPosition: 'up',
+	                width: 180,
+	                //listPosition: 'up',
 	                url: '<c:url value="/rlab/lib/rlabBbsCodeList.do?comCd=RLAB_BBS_CD"/>',
-
+	
 	                displayField: 'COM_DTL_NM',
 	                valueField: 'COM_DTL_CD'
 	            });
+	            
+	            anlBbsCd.on('changed', function(e){
+	    			rlabClDtlCdDataSet.clearData();
+	    			rlabClDtlCdDataSet.load({
+	    				url: '<c:url value="/rlab/lib/retrieveRlabClDtlCd.do"/>' 
+	    	                ,params :{
+	    	                	comDtlCd : e.value
+	    	                }
+	                });
+	    		});
+	            /*
+	       		var rlabClDtlCd = new Rui.ui.form.LCombo({
+	       		 	applyTo : 'rlabClDtlCd',
+	       			name : 'rlabClDtlCd',
+	       			useEmptyText: true,
+	       		    emptyText: '선택',
+	       		    width: 180,
+	       		    dataSet: rlabClDtlCdDataSet,
+	       			displayField: 'COM_DTL_NM',
+	
+	       			valueField: 'COM_DTL_CD'
+	       		});
+	            */
+			}
+            
+            if(target == 'tabContentIfrm0'){
+            	
+            	if(bbsCd == '01'){
+    	       		var rlabClDtlCd = new Rui.ui.form.LCombo({
+    	       		 	applyTo : 'rlabClDtlCd',
+    	       			name : 'rlabClDtlCd',
+    	       			useEmptyText: true,
+    	       		    emptyText: '선택',
+    	       		    width: 180,
+    	       		    dataSet: rlabClDtlCdDataSet,
+    	       			displayField: 'COM_DTL_NM',
+    	
+    	       			valueField: 'COM_DTL_CD'
+    	       		});
+            	}else{
+            		var url = '';
+            		if(bbsCd == '02'){
+            			url = '<c:url value="/rlab/lib/retrieveRlabClDtlCd.do?comDtlCd=02"/>';
+            		} else if (bbsCd == '03'){
+            			url = '<c:url value="/rlab/lib/retrieveRlabClDtlCd.do?comDtlCd=03"/>';
+            		} else if (bbsCd == '04'){
+            			url = '<c:url value="/rlab/lib/retrieveRlabClDtlCd.do?comDtlCd=04"/>';
+            		}
+            		
+    	       		var rlabClDtlCd = new Rui.ui.form.LCombo({
+    	       		 	applyTo : 'rlabClDtlCd',
+    	       			name : 'rlabClDtlCd',
+    	       			useEmptyText: true,
+    	       		    emptyText: '선택',
+    	       		    width: 180,
+    	       		    dataSet: rlabClDtlCdDataSet,
+    	       			displayField: 'COM_DTL_NM',
+    	       			//url: '<c:url value="/rlab/lib/retrieveRlabClDtlCd.do?comDtlCd=02"/>',
+                        url: url,
+    	       			valueField: 'COM_DTL_CD'
+    	       		});
+            	}
+            }else if(target == 'tabContentIfrm1'){
+	       		var rlabClDtlCd = new Rui.ui.form.LCombo({
+	       		 	applyTo : 'rlabClDtlCd',
+	       			name : 'rlabClDtlCd',
+	       			useEmptyText: true,
+	       		    emptyText: '선택',
+	       		    width: 180,
+	       		    url: '<c:url value="/rlab/lib/retrieveRlabClDtlCd.do?comDtlCd=02"/>',
+	       			displayField: 'COM_DTL_NM',
+	       			valueField: 'COM_DTL_CD'
+	       		});
+            }else if(target == 'tabContentIfrm2'){
+	       		var rlabClDtlCd = new Rui.ui.form.LCombo({
+	       		 	applyTo : 'rlabClDtlCd',
+	       			name : 'rlabClDtlCd',
+	       			useEmptyText: true,
+	       		    emptyText: '선택',
+	       		    width: 180,
+	       		    url: '<c:url value="/rlab/lib/retrieveRlabClDtlCd.do?comDtlCd=03"/>',
+	       			displayField: 'COM_DTL_NM',
+	       			valueField: 'COM_DTL_CD'
+	       		});
+            }else if(target == 'tabContentIfrm3'){
+	       		var rlabClDtlCd = new Rui.ui.form.LCombo({
+	       		 	applyTo : 'rlabClDtlCd',
+	       			name : 'rlabClDtlCd',
+	       			useEmptyText: true,
+	       		    emptyText: '선택',
+	       		    width: 180,
+	       		    url: '<c:url value="/rlab/lib/retrieveRlabClDtlCd.do?comDtlCd=04"/>',
+	       			displayField: 'COM_DTL_NM',
+	       			valueField: 'COM_DTL_CD'
+	       		});
             }
-
+            
+            
             <%-- DATASET --%>
             rlabLibRgstDataSet = new Rui.data.LJsonDataSet({
                 id: 'rlabLibRgstDataSet',
@@ -96,6 +206,8 @@
 		   			, { id: 'attcFilId' }   /*첨부파일ID*/
 		   			, { id: 'docNo' }       /*문서번호*/
 		   			, { id: 'anlBbsCd' }    /*SOP번호*/
+		   			, { id: 'rlabClDtlCd' }    /*SOP번호*/
+		   			
 		   			, { id: 'anlTlcgClCd' } /*분석기술정보분류코드*/
 		   			, { id: 'anlTlcgClNm' } /*분석기술정보분류이름*/
 		   			, { id: 'qnaClCd' }     /*질문답변구분코드*/
@@ -104,6 +216,8 @@
 		   			, { id: 'delYn' }       /*삭제여부*/
 	   	  		]
             });
+            
+
 
             rlabLibRgstDataSet.on('load', function(e) {
             	lvAttcFilId = rlabLibRgstDataSet.getNameValue(0, "attcFilId");
@@ -112,8 +226,10 @@
                 if(rlabLibRgstDataSet.getNameValue(0, "bbsId")  != "" ||  rlabLibRgstDataSet.getNameValue(0, "bbsId")  !=  undefined ){
     				CrossEditor.SetBodyValue( rlabLibRgstDataSet.getNameValue(0, "bbsSbc") );
     			}
+
             });
 
+    		
             /* [DataSet] bind */
             var anlLibRgstBind = new Rui.data.LBind({
                 groupId: 'aform',
@@ -124,6 +240,7 @@
                     , { id: 'bbsSbc',     ctrlId: 'bbsSbc',     value: 'value' }
                     , { id: 'docNo',      ctrlId: 'docNo',      value: 'value' }
                     , { id: 'anlBbsCd',   ctrlId: 'anlBbsCd',   value: 'value' }
+                    , { id: 'rlabClDtlCd',   ctrlId: 'rlabClDtlCd',   value: 'value' }
                     , { id: 'anlTlcgClCd',ctrlId: 'anlTlcgClCd',value: 'value' }
                     , { id: 'attcFilId',  ctrlId: 'attcFilId',  value: 'value' }
                     , { id: 'bbsKwd',     ctrlId: 'bbsKwd',     value: 'value' }
@@ -249,6 +366,7 @@
             validators:[
             	{ id: 'bbsTitl',    validExp: '제목:true:maxByteLength=400' },
             	{ id: 'anlBbsCd',   validExp: '구분:true:maxByteLength=400' },
+            	{ id: 'rlabClDtlCd', validExp: '구분(상세분류):true:maxByteLength=400' },
             	{ id: 'bbsKwd',   	validExp: '키워드:false:maxByteLength=100' }
             ]
         });
@@ -398,34 +516,69 @@
    								<input type="text" id="bbsTitl" value="">
    							</td>
    						</tr>
+   					
    						<tr>
    							<th align="right"><span style="color:red;">* </span>구분</th>
 
    							<c:if test="${inputData.target == 'tabContentIfrm0' && inputData.pageMode == 'C'}">
 	   							<td colspan="3">
-	   								<div id="anlBbsCd"></div>
+	   								<div id="anlBbsCd"></div>&nbsp; / &nbsp;<div id="rlabClDtlCd"></div>
+									
 	   							</td>
    							</c:if>
+
    							<c:if test="${(inputData.bbsCd == '02' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm1'}">
 	   							<td colspan="3">
-	   								<label>신뢰성DB </label>
+	   								<label>신뢰성DB </label> &nbsp; / &nbsp; <div id="rlabClDtlCd"></div>
 	   							</td>
    							</c:if>
    							<c:if test="${(inputData.bbsCd == '03' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm2'}">
 	   							<td colspan="3">
-	   								<label>신뢰성자료실</label>
+	   								<label>신뢰성자료실</label> &nbsp; / &nbsp; <div id="rlabClDtlCd"></div>
 	   							</td>
    							</c:if>
    							<c:if test="${(inputData.bbsCd == '04' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
    							               inputData.target == 'tabContentIfrm3'}">
 	   							<td colspan="3">
-	   								<label>신뢰성IP</label>
+	   								<label>신뢰성IP</label> &nbsp; / &nbsp; <div id="rlabClDtlCd"></div>
 	   							</td>
    							</c:if>
    							</td>
+   							   						
    						</tr>
+  <!--  
+   						<tr>
+   							<th align="right"><span style="color:red;">* </span>분류</th>
+
+   							<c:if test="${inputData.target == 'tabContentIfrm0' && inputData.pageMode == 'C'}">
+	   							<td colspan="3">
+									<div id="rlabClDtlCd"></div>
+	   							</td>
+   							</c:if>
+   							<c:if test="${(inputData.bbsCd == '02' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
+   							               inputData.target == 'tabContentIfrm1'}">
+	   							<td colspan="3">
+	   								<div id="rlabClDtlCd"></div>
+	   							</td>
+   							</c:if>
+   							<c:if test="${(inputData.bbsCd == '03' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
+   							               inputData.target == 'tabContentIfrm2'}">
+	   							<td colspan="3">
+	   								<div id="rlabClDtlCd"></div>
+	   							</td>
+   							</c:if>
+   							<c:if test="${(inputData.bbsCd == '04' && inputData.target == 'tabContentIfrm0' && inputData.pageMode != 'C') ||
+   							               inputData.target == 'tabContentIfrm3'}">
+	   							<td colspan="3">
+	   								<div id="rlabClDtlCd"></div>
+	   							</td>
+   							</c:if>
+   							</td>
+   						</tr>  
+   						
+ 						-->
    						<c:if test="${inputData.pageMode=='V'}">
    						<tr>
     						<th align="right">등록자</th>
@@ -462,6 +615,7 @@
    							<td colspan="3">
    								<input type="text" id="bbsKwd" value="">
    							</td>
+
    						</tr>
    						<tr>
    							<th align="right">첨부파일</th>

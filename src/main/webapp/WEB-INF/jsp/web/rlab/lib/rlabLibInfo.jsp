@@ -153,11 +153,20 @@
             setAttachFileInfo = function(attachFileList) {
                 $('#attchFileView').html('');
 
-                for(var i = 0; i < attachFileList.length; i++) {
-                    $('#attchFileView').append($('<a/>', {
-                        href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
-                        text: attachFileList[i].data.filNm
-                    })).append('<br/>');
+                if(roleIdIndex != -1) {
+	                for(var i = 0; i < attachFileList.length; i++) {
+	                    $('#attchFileView').append($('<a/>', {
+	                        href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
+	                        text: attachFileList[i].data.filNm
+	                    })).append('<br/>');
+	                }
+                }else {
+	                for(var i = 0; i < attachFileList.length; i++) {
+	                    $('#attchFileView').append($('<a/>', {
+	                        //href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
+	                        text: attachFileList[i].data.filNm
+	                    })).append('<br/>');
+	                }                	
                 }
 
                 if(Rui.isEmpty(lvAttcFilId)) {
@@ -165,7 +174,6 @@
                 	rlabLibDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
                 }
             };
-
 
             /*첨부파일 다운로드*/
             downloadAttachFile = function(attcFilId, seq) {
