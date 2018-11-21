@@ -1385,13 +1385,8 @@
 
 
     	    openRsltReportPopup2 = function(type) {
-    	    	var width = 1200;
-            	var url = '<%=lghausysReportPath%>/rlabRqprReportRslt.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
-
-            	if(rlabRqprDataSet.getNameValue(0, 'infmTypeCd') == 'T') {
-            		width = 850;
-            		url = '<%=lghausysReportPath%>/rlabRqprReportRslt_new.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
-            	}
+    	    	var width = 850;
+            	var url = '<%=lghausysReportPath%>/rlabRqprReportRslt_new.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
 
            		openWindow(url, 'openRsltReportPopup2', width, 500, 'yes');
     	    };
