@@ -431,7 +431,6 @@
             		$( '#deleteRlabRqprExatBtn' ).hide();
             	}
 
-
             	if(Rui.isEmpty(rlabRqprDataSet.getNameValue(0, "rsltAttcFileId"))) {
             		rlabRqprDataSet.setNameValue(0, "rsltAttcFileId", '')
             	}
@@ -533,6 +532,19 @@
    	                 	{ id: 'rlabCrgrComm',		ctrlId:'rlabCrgrComm',		value:'value'}
    	                ]
    	            });
+
+
+
+        		//report 버튼명 변경
+        		if(rlabRqprDataSet.getNameValue(0, 'infmTypeCd') == 'T') {
+        			//시험결과서
+        			$('#rsltReportBtn1').html("결과서1");
+        			$('#rsltReportBtn2').html("결과서2");
+        		}else {
+        			//시험성적서
+        			$('#rsltReportBtn1').html("성적서");
+        			$('#rsltReportBtn2').hide();
+        		}
             });
 
 
@@ -1371,20 +1383,24 @@
            		openWindow(url, 'openApprStatePopup', 800, 250, 'yes');
     	    };
 
+
+
     	    openRsltReportPopup = function(type) {
-    	    	var width = 1200;
-            	var url = '<%=lghausysReportPath%>/rlabRqprReportRslt.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
+    	    	//시험성적서
+    	    	var width = 850;
+            	var url = '<%=lghausysReportPath%>/rlabRqprTestRslt.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
 
             	if(rlabRqprDataSet.getNameValue(0, 'infmTypeCd') == 'T') {
-            		width = 850;
-            		url = '<%=lghausysReportPath%>/rlabRqprTestRslt.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
+            		//시험결과서1
+            		width = 1200;
+            		url = '<%=lghausysReportPath%>/rlabRqprReportRslt.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
             	}
 
            		openWindow(url, 'openRsltReportPopup', width, 500, 'yes');
     	    };
 
-
     	    openRsltReportPopup2 = function(type) {
+    	    	//시험결과서2
     	    	var width = 850;
             	var url = '<%=lghausysReportPath%>/rlabRqprReportRslt_new.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
 
@@ -1658,8 +1674,13 @@
    				<div class="titArea">
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="rsltApprStateBtn" name="rsltApprStateBtn" onclick="openApprStatePopup('C')" style="display:none;">결재상태</button>
-   						<button type="button" class="btn"  id="rsltReportBtn" name="rsltReportBtn" onclick="openRsltReportPopup()">REPORT 1</button>
-   						<button type="button" class="btn"  id="rsltReportBtn" name="rsltReportBtn" onclick="openRsltReportPopup2()">REPORT 2</button>
+
+   						<button type="button" class="btn"  id="rsltReportBtn1" name="rsltReportBtn1" onclick="openRsltReportPopup()"></button>
+   						<button type="button" class="btn"  id="rsltReportBtn2" name="rsltReportBtn2" onclick="openRsltReportPopup2()"></button>
+
+
+
+
    						<button type="button" class="btn"  id="saveRsltBtn" name="saveRsltBtn" onclick="saveRlabRqprRslt()">저장</button>
    						<button type="button" class="btn"  id="approvalBtn" name="rejectBtn" onclick="approval()">결재의뢰</button>
    						<button type="button" class="btn"  id="stopBtn" name="stopBtn" onclick="stop()">시험중단</button>
