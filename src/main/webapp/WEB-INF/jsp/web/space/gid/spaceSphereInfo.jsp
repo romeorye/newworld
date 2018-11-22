@@ -197,12 +197,12 @@
 									<th></th>
 									<th>
 										<dl>
-											<dt>에너지</dt>
+											<dt>열</dt>
 										</dl>
 									</th>
 									<th>
 										<dl>
-											<dt>열</dt>
+											<dt>에너지</dt>
 										</dl>
 									</th>
 									<th>
@@ -230,6 +230,10 @@
 												<dd>부:이유지선임</dd>
 											</dl>
 										</th>
+										<td style="vertical-align:middle !important;">
+											<span class="bullet_txt">Window/therm: 송수빈P / 김준혁S <em>(2W)</em></span>
+											<span class="bullet_txt">Physibel: 이진욱P / 이유지S <em>(2W)</em></span>
+										</td>
 										<td>
 											<p>
 												<span class="bullet_txt">TRNSYS : 송수빈P / 이진욱P <em>(2W)</em></span>
@@ -237,10 +241,6 @@
 												<span class="bullet_txt">Energyplus :박상훈 <em>(2W)</em></span>
 												<span class="bullet_txt">ECO2:이유지S <em>(2W)</em></span>
 											</p>
-										</td>
-										<td style="vertical-align:middle !important;">
-											<span class="bullet_txt">Window/therm: 송수빈P / 김준혁S <em>(2W)</em></span>
-											<span class="bullet_txt">Physibel: 이진욱P / 이유지S <em>(2W)</em></span>
 										</td>
 										<td style="vertical-align:middle !important;">
 											<span class="bullet_txt">EcoTec: 이진욱P <em>(2W)</em></span>
