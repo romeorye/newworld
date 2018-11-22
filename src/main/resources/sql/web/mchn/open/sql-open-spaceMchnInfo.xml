@@ -7,48 +7,56 @@
 	<!-- 분석기기 > open기기 > 보유기기관리 목록조회  -->
 	<select id="retrieveMchnInfoSearchList" resultType="hashmap" >
 		<![CDATA[
-		SELECT  A.MCHN_INFO_ID AS mchnInfoId
-		       ,A.TOOL_NM AS mchnHanNm
-			   ,A.TOOL_NM AS mchnNm
-			   ,dbo.fn_getComDtlNm('MCHN_PRCT_ST' , A.MCHN_USE_PSBL_YN) as mchnUsePsblNm
-			   ,A.MCHN_USE_PSBL_YN AS mchnUsePsblYn
-			   ,A.MDL_NM AS mdlNm
-			   ,A.MKR_NM AS mkrNm
-			   ,A.MCHN_EXPL AS mchnExpl
-			   ,A.OPN_YN AS opnYn
-			   ,CASE WHEN OPN_YN = 'Y' THEN 'OPEN'
-			         ELSE '' END opnNm
-			   ,CONCAT( SU.SA_NAME, ' ', SU.sa_jobx_name) AS crgrNm
-			   ,SU.SA_DEPT_NAME AS deptNm
-			   ,F.ATTC_FIL_ID AS attcFilId
-			   ,F.SEQ AS seq
-			   ,A.MCHN_CL_CD AS mchnClCd
-			   ,dbo.fn_getEvWay(A.MCHN_INFO_ID) AS evWay
-			   ,A.VER AS ver
-		FROM   IRIS_SPACE_MCHN_INFO_MGMT  A
-		       LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
-			   ON F.ATTC_FIL_ID = A.ATTC_FIL_ID
-			   AND F.DEL_YN = 'N'
-		       LEFT OUTER JOIN IRIS_SSO_USER   SU
-			   ON SU.SA_SABUN_NEW = A.MCHN_CRGR_ID
-		WHERE A.DEL_YN = 'N' 
+		SELECT * FROM (
+			SELECT  A.MCHN_INFO_ID AS mchnInfoId
+			       ,A.TOOL_NM AS mchnHanNm
+				   ,A.TOOL_NM AS mchnNm
+				   ,dbo.fn_getComDtlNm('MCHN_PRCT_ST' , A.MCHN_USE_PSBL_YN) as mchnUsePsblNm
+				   ,A.MCHN_USE_PSBL_YN AS mchnUsePsblYn
+				   ,A.MDL_NM AS mdlNm
+				   ,A.MKR_NM AS mkrNm
+				   ,A.MCHN_EXPL AS mchnExpl
+				   ,A.OPN_YN AS opnYn
+				   ,CASE WHEN OPN_YN = 'Y' THEN 'OPEN'
+				         ELSE '' END opnNm
+				   ,CONCAT( SU.SA_NAME, ' ', SU.sa_jobx_name) AS crgrNm
+				   ,SU.SA_DEPT_NAME AS deptNm
+				   ,F.ATTC_FIL_ID AS attcFilId
+				   ,F.SEQ AS seq
+				   ,A.MCHN_CL_CD AS mchnClCd
+				   ,dbo.fn_getEvWay(A.MCHN_INFO_ID) AS evWay
+				   ,A.VER AS ver
+				   ,CASE WHEN CHARINDEX('열', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '1'
+                         WHEN CHARINDEX('에너지', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '2'
+                         WHEN CHARINDEX('빛', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '3'
+                         WHEN CHARINDEX('공기', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '4'
+                         ELSE '5'
+                    END AS ord
+			FROM   IRIS_SPACE_MCHN_INFO_MGMT  A
+			       LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
+				   ON F.ATTC_FIL_ID = A.ATTC_FIL_ID
+				   AND F.DEL_YN = 'N'
+			       LEFT OUTER JOIN IRIS_SSO_USER   SU
+				   ON SU.SA_SABUN_NEW = A.MCHN_CRGR_ID
+			WHERE A.DEL_YN = 'N' 
 		]]>
 
-		<if test="( cbSrh == 'nm' and srhInput != '' )">
-			AND A.TOOL_NM LIKE '%'+#{srhInput}+'%'
-	    </if>
-		<if test="( cbSrh == 'id'  and srhInput != '' )">
-			AND SU.SA_NAME LIKE '%'+#{srhInput}+'%'  
-	    </if>
-		<if test="( mchnClCd != 'ALL' )">
-			AND A.MCHN_CL_CD = #{mchnClCd}
-	    </if>
-		<if test="( opnYn != 'ALL' )">
-			AND A.OPN_YN = #{opnYn}
-	    </if>
-	    <![CDATA[
-		ORDER BY A.TOOL_NM
-		]]>
+			<if test="( cbSrh == 'nm' and srhInput != '' )">
+				AND A.TOOL_NM LIKE '%'+#{srhInput}+'%'
+		    </if>
+			<if test="( cbSrh == 'id'  and srhInput != '' )">
+				AND SU.SA_NAME LIKE '%'+#{srhInput}+'%'  
+		    </if>
+			<if test="( mchnClCd != 'ALL' )">
+				AND A.MCHN_CL_CD = #{mchnClCd}
+		    </if>
+			<if test="( opnYn != 'ALL' )">
+				AND A.OPN_YN = #{opnYn}
+		    </if>
+		    <![CDATA[
+		    ) B
+    		ORDER BY mchnClCd, ord, mchnNm
+			]]>
 
 	</select>
 
