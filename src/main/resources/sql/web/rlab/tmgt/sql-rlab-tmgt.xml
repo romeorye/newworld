@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="rlab.tmgt">
+
+	<select id="rlabTeamGateList" resultType="hashmap">
+		<![CDATA[
+		-- rlabTeamGateList team gate 조회
+		SELECT TEAM_GATE_ID AS teamGateId
+		      ,TITL         AS titl
+			  ,SBC          AS sbc
+			  ,CMPL_YN      AS cmplYn
+			  ,CASE WHEN CMPL_YN='Y'
+			        THEN '종료'
+			        ELSE '진행중'
+			    END      AS cmplNm
+			  ,ATTC_FIL_ID  AS attcFilId
+			  ,DEL_YN       AS delYn
+			  ,FRST_RGST_DT AS frstRgstDt
+			  ,FRST_RGST_ID AS frstRgstId
+			  ,dbo.fn_getUserName(FRST_RGST_ID) AS frstRgstNm
+			  ,(SELECT COUNT(1) FROM IRIS_TEAM_GATE_DTL DTL WHERE DTL.TEAM_GATE_ID=A.TEAM_GATE_ID) AS evCnt
+		  FROM IRIS_TEAM_GATE_MST A
+		 WHERE 1=1
+		   AND DEL_YN='N'
+		]]>
+
+		<if test="(cmplYn != null and cmplYn != '')">
+			AND CMPL_YN=#{cmplYn}
+	    </if>
+	    <if test="(titl != null and titl != '')">
+			AND TITL LIKE '%'+#{titl}+'%'
+	    </if>
+	</select>
+
+	<select id="rlabTeamGateDtl" resultType="hashmap">
+		<![CDATA[
+		-- rlabTeamGateDtl TEAM GATE 상세리스트
+		SELECT MST.TEAM_GATE_ID AS teamGateId
+		      ,MST.TITL         AS titl
+			  ,MST.SBC          AS sbc
+			  ,MST.ATTC_FIL_ID  AS attcFilId
+			  ,MST.FRST_RGST_DT AS frstRgstDt
+			  ,MST.FRST_RGST_ID AS frstRgstId
+			  ,dbo.fn_getUserName(MST.FRST_RGST_ID) AS frstRgstNm
+			  ,DTL.TEAM_GATE_DTL_ID AS teamGateDtlId
+			  ,DTL.EV1 AS ev1
+			  ,DTL.EV2 AS ev2
+			  ,DTL.EV3 AS ev3
+			  ,DTL.EV4 AS ev4
+			  ,DTL.EV5 AS ev5
+			  ,DTL.EV6 AS ev6
+			  ,DTL.EV7 AS ev7
+			  ,DTL.EV8 AS ev8
+			  ,DTL.EV9 AS ev9
+			  ,DTL.EV10 AS ev10
+			  ,DTL.EV_CMPL_YN AS evCmplYn
+			  ,(SELECT COUNT(1) FROM IRIS_TEAM_GATE_DTL SUB WHERE SUB.TEAM_GATE_ID=MST.TEAM_GATE_ID) AS evCnt
+		  FROM IRIS_TEAM_GATE_MST MST
+		  LEFT OUTER JOIN IRIS_TEAM_GATE_DTL DTL
+		    ON MST.TEAM_GATE_ID=DTL.TEAM_GATE_ID
+		   AND DTL.FRST_RGST_ID=#{_userId}
+		 WHERE 1=1
+		   AND MST.TEAM_GATE_ID=#{teamGateId}
+		]]>
+
+	</select>
+
+	<select id="rlabTeamGateCmplDtl" resultType="hashmap">
+		<![CDATA[
+		-- rlabTeamGateCmplDtl TEAM GATE 결과상세
+		SELECT MST.TEAM_GATE_ID AS teamGateId
+		      ,MST.TITL         AS titl
+			  ,MST.SBC          AS sbc
+			  ,MST.ATTC_FIL_ID  AS attcFilId
+			  ,MST.FRST_RGST_DT AS frstRgstDt
+			  ,MST.FRST_RGST_ID AS frstRgstId
+			  ,dbo.fn_getUserName(MST.FRST_RGST_ID) AS frstRgstNm
+			  ,SUM(DTL.EV1)/CONVERT(FLOAT,COUNT(1)) AS ev1
+			  ,SUM(DTL.EV2)/CONVERT(FLOAT,COUNT(1)) AS ev2
+			  ,SUM(DTL.EV3)/CONVERT(FLOAT,COUNT(1)) AS ev3
+			  ,SUM(DTL.EV4)/CONVERT(FLOAT,COUNT(1)) AS ev4
+			  ,SUM(DTL.EV5)/CONVERT(FLOAT,COUNT(1)) AS ev5
+			  ,SUM(DTL.EV6)/CONVERT(FLOAT,COUNT(1)) AS ev6
+			  ,SUM(DTL.EV7)/CONVERT(FLOAT,COUNT(1)) AS ev7
+			  ,SUM(DTL.EV8)/CONVERT(FLOAT,COUNT(1)) AS ev8
+			  ,SUM(DTL.EV9)/CONVERT(FLOAT,COUNT(1)) AS ev9
+			  ,SUM(DTL.EV10)/CONVERT(FLOAT,COUNT(1)) AS ev10
+			  ,(SUM(DTL.EV1)
+			  +SUM(DTL.EV2)
+			  +SUM(DTL.EV3)
+			  +SUM(DTL.EV4)
+			  +SUM(DTL.EV5)
+			  +SUM(DTL.EV6)
+			  +SUM(DTL.EV7)
+			  +SUM(DTL.EV8)
+			  +SUM(DTL.EV9)
+			  +SUM(DTL.EV10))/CONVERT(FLOAT,COUNT(1)) AS evSum
+			  ,COUNT(1) AS evCnt
+		  FROM IRIS_TEAM_GATE_MST MST
+		  inner JOIN IRIS_TEAM_GATE_DTL DTL
+		    ON MST.TEAM_GATE_ID=DTL.TEAM_GATE_ID
+		 WHERE 1=1
+		   AND MST.TEAM_GATE_ID=#{teamGateId}
+		 GROUP BY  MST.TEAM_GATE_ID
+		      ,MST.TITL
+			  ,MST.SBC
+			  ,MST.ATTC_FIL_ID
+			  ,MST.FRST_RGST_DT
+			  ,MST.FRST_RGST_ID
+			  ,dbo.fn_getUserName(MST.FRST_RGST_ID)
+		]]>
+
+	</select>
+
+	<insert id="insertRlabTeamGate"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="TEAM_GATE_ID" >
+	-- insertRlabTeamGate
+	INSERT INTO dbo.IRIS_TEAM_GATE_MST
+        (TITL
+		,SBC
+		,ATTC_FIL_ID
+		,FRST_RGST_ID
+		,LAST_MDFY_ID
+		)
+    VALUES
+        (#{titl}
+		,#{sbc}
+		,#{attcFilId}
+        ,#{_userId}  -- 세션 사번
+        ,#{_userId}  -- 세션 사번
+        )
+	</insert>
+
+	<!-- team gate 임시저장 -->
+	<update id="saveTempRlabTeamGateEv" parameterType="map">
+	<![CDATA[
+	-- saveTempRlabTeamGateEv team gate 임시저장
+        MERGE IRIS_TEAM_GATE_DTL A
+         USING  (SELECT #{teamGateId}   AS TEAM_GATE_ID , #{_userId} AS FRST_RGST_ID) AS B
+            ON  A.TEAM_GATE_ID  	= B.TEAM_GATE_ID
+			AND A.FRST_RGST_ID  	= B.FRST_RGST_ID
+          WHEN NOT MATCHED THEN
+        INSERT
+             (  TEAM_GATE_ID
+             ,  EV1
+             ,  EV2
+             ,  EV3
+             ,  EV4
+             ,  EV5
+             ,  EV6
+             ,  EV7
+             ,  EV8
+             ,  EV9
+             ,  EV10
+             ,  FRST_RGST_ID
+             ,  LAST_MDFY_ID
+            )
+        VALUES
+             (  #{teamGateId}
+             ,  #{ev1}
+             ,  #{ev2}
+             ,  #{ev3}
+             ,  #{ev4}
+             ,  #{ev5}
+             ,  #{ev6}
+             ,  #{ev7}
+             ,  #{ev8}
+             ,  #{ev9}
+             ,  #{ev10}
+             ,  #{_userId}
+             ,  #{_userId}
+             )
+          WHEN MATCHED THEN
+        UPDATE
+           SET A.EV1 	  = #{ev1}
+             , A.EV2 	  = #{ev2}
+             , A.EV3 	  = #{ev3}
+             , A.EV4 	  = #{ev4}
+             , A.EV5 	  = #{ev5}
+             , A.EV6 	  = #{ev6}
+             , A.EV7 	  = #{ev7}
+             , A.EV8 	  = #{ev8}
+             , A.EV9 	  = #{ev9}
+             , A.EV10 	  = #{ev10}
+             , A.LAST_MDFY_DT = GETDATE()
+             , A.LAST_MDFY_ID = #{_userId}
+             ;
+	]]>
+	</update>
+
+	<!-- team gate 임시저장 -->
+	<update id="saveRlabTeamGateEv" parameterType="map">
+	<![CDATA[
+	-- saveRlabTeamGateEv team gate 투표저장
+        MERGE IRIS_TEAM_GATE_DTL A
+         USING  (SELECT #{teamGateId}   AS TEAM_GATE_ID , #{_userId} AS FRST_RGST_ID) AS B
+            ON  A.TEAM_GATE_ID  	= B.TEAM_GATE_ID
+			AND A.FRST_RGST_ID  	= B.FRST_RGST_ID
+          WHEN NOT MATCHED THEN
+        INSERT
+             (  TEAM_GATE_ID
+             ,  EV1
+             ,  EV2
+             ,  EV3
+             ,  EV4
+             ,  EV5
+             ,  EV6
+             ,  EV7
+             ,  EV8
+             ,  EV9
+             ,  EV10
+             ,  EV_CMPL_YN
+             ,  FRST_RGST_ID
+             ,  LAST_MDFY_ID
+            )
+        VALUES
+             (  #{teamGateId}
+             ,  #{ev1}
+             ,  #{ev2}
+             ,  #{ev3}
+             ,  #{ev4}
+             ,  #{ev5}
+             ,  #{ev6}
+             ,  #{ev7}
+             ,  #{ev8}
+             ,  #{ev9}
+             ,  #{ev10}
+             ,  'Y'
+             ,  #{_userId}
+             ,  #{_userId}
+             )
+          WHEN MATCHED THEN
+        UPDATE
+           SET A.EV1 	  = #{ev1}
+             , A.EV2 	  = #{ev2}
+             , A.EV3 	  = #{ev3}
+             , A.EV4 	  = #{ev4}
+             , A.EV5 	  = #{ev5}
+             , A.EV6 	  = #{ev6}
+             , A.EV7 	  = #{ev7}
+             , A.EV8 	  = #{ev8}
+             , A.EV9 	  = #{ev9}
+             , A.EV10 	  = #{ev10}
+             , A.EV_CMPL_YN = 'Y'
+             , A.LAST_MDFY_DT = GETDATE()
+             , A.LAST_MDFY_ID = #{_userId}
+             ;
+	]]>
+	</update>
+
+	<!-- team gate 투표완료 -->
+	<update id="saveRlabTeamGateEvCmpl">
+	<![CDATA[
+	-- saveRlabTeamGateEvCmpl team gate 투표완료
+		UPDATE IRIS_TEAM_GATE_MST
+		   SET TITL = #{titl}
+			  ,SBC  = #{sbc}
+			  ,CMPL_YN = 'Y'
+			  ,ATTC_FIL_ID  = #{attcFilId}
+			  ,LAST_MDFY_ID = #{_userId}
+			  ,LAST_MDFY_DT = GETDATE()
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND TEAM_GATE_ID = #{teamGateId}
+	]]>
+	</update>
+
+	<!-- team gate 투표수정 -->
+	<update id="saveRlabTeamGateEvReg">
+	<![CDATA[
+	-- saveRlabTeamGateEvReg team gate 투표수정
+		UPDATE IRIS_TEAM_GATE_MST
+		   SET TITL = #{titl}
+			  ,SBC  = #{sbc}
+			  ,ATTC_FIL_ID  = #{attcFilId}
+			  ,LAST_MDFY_ID = #{_userId}
+			  ,LAST_MDFY_DT = GETDATE()
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND TEAM_GATE_ID = #{teamGateId}
+	]]>
+	</update>
+
+	<!-- team gate 삭제 -->
+	<update id="delRlabTeamGateEvReg">
+	<![CDATA[
+	-- delRlabTeamGateEvReg team gate 투표삭제
+		UPDATE IRIS_TEAM_GATE_MST
+		   SET DEL_YN = 'Y'
+			  ,LAST_MDFY_ID = #{_userId}
+			  ,LAST_MDFY_DT = GETDATE()
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND TEAM_GATE_ID = #{teamGateId}
+	]]>
+	</update>
+
+</mapper>
