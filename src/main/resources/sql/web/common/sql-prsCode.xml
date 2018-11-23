@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common.prsCode">
+	
+	<select id="retrieveEkgrpInfo" resultType="HashMap">
+	/*retrieveEkgrpInfo 구매담당자 코드 목록*/
+		SELECT   CODE
+	            ,CODE_NM 
+		FROM PR_CODEMASTER_T x 
+		WHERE x.DEL_FLAG ='0'
+		and   x.GROUP_CODE = '01'
+		and   x.REGION_CD = '01'     
+	</select>
+	
+	<select id="retrieveMengeInfo" resultType="HashMap">
+	/*retrieveMengeInfo  단위리스트 코드 목록*/
+		select CODE as CODE
+		      ,code+'/'+CODE_NM as CODE_NM 
+		from [dbo].[PR_CODEMASTER_T] 
+		where DEL_FLAG = 0
+		and     GROUP_CODE = '04'	
+	</select>
+	
+	<select id="retrieveWbsCdInfoList" resultType="HashMap">
+	/*retrieveWbsCdInfoList  프로젝트 리스트 코드 목록*/
+		select  POSID as posid
+	          ,POST1 as post1
+	          ,ENAME as ename
+			  ,FKSTL as fkstl
+			  ,WONJANG as wonjang
+			  ,PERNR as pernr
+		from   [dbo].[PR_PROJETINFO_T]
+	</select>
+	
+
+
+</mapper>
