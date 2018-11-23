@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prs.purRq">
+
+
+	<select id="retrievePurRqList" resultType="hashmap">
+		<![CDATA[
+		/* retrievePurRqList  리스트 조회 */
+			select a.S_CODE   as sCode
+		         ,a.SAMPLE    as sample
+				 ,a.M_CODE    as mCode
+				 ,a.KNTTP     as knttp
+				 ,a.USED_CODE as usedCode
+				 ,a.PSTYP     as pstyp
+				 ,a.IZWEK     as izwek
+				 ,a.BIZ_CD    as bizCd
+				 ,a.SAKTO     as sakto
+		        ,(SELECT CODE_NM
+		                    FROM PR_CODEMASTER_T x 
+		                WHERE x.DEL_FLAG ='0'
+						and       x.REGION_CD =a.region_cd 
+						and       x.CODE = a.EKGRP
+				 )	as ekgrpnm
+				 ,EKGRP       as ekgrp
+				 ,WERKS       as werks
+				 ,ANLKL       as anlkl
+				 ,SEQ_NUM     as seqNum
+			from [dbo].[PR_HELPMASTER_T] a	 
+			where   a.REGION_CD ='01' 
+			]]>
+			<if test="tabId == 'EM' ">
+			and   a.KNTTP = 'P'
+			and   a.PSTYP = ''
+			and   a.USED_CODE ='S'
+			and   a.IZWEK != '01'
+			</if>
+			<if test="tabId == 'EF' ">
+			and   a.KNTTP = 'A'
+			and   a.PSTYP = ''
+			</if>
+			<if test="tabId == 'CR' ">
+			and   a.KNTTP = 'P'
+			and   a.M_CODE ='투자'
+			</if>
+			<if test="tabId == 'OM' ">
+			and   a.KNTTP = 'P'
+			and   a.PSTYP = ''
+			and   a.USED_CODE = 'O'
+			</if>
+			
+	
+	</select>
+
+
+
+</mapper>
