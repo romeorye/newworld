@@ -27,6 +27,8 @@
 				<entry key="fxaPolicy" value-ref="fxaPolicy"></entry>
 				<entry key="knldPolicy" value-ref="knldPolicy"></entry>
 				<entry key="knldPolicy2" value-ref="knldPolicy2"></entry>
+				
+				<entry key="prsPolicy" value-ref="prsPolicy"></entry>
 			</map>
 		</property>
 	</bean>
@@ -150,6 +152,20 @@
 		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/knld" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/knld" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	<bean id="prsPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/prsPolicy" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/prsPolicy" /> -->
 		<property name="allowPattern" value="*"/>
 		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
 		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
