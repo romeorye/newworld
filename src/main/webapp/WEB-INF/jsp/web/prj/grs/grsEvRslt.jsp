@@ -475,20 +475,6 @@ function setUserInfo(userInfo) {
     dataSet.setNameValue(0, "dlbrCrgrNm", userInfo.saName); //담당자명
 }
 
-
-function setDef(){
-    // cboGrsEvSt.setSelectedIndex(1);
-    dlbrParrDt.setValue("2018-11-30");
-    // $("#grsEvSnNm").val("중앙연구소 GRS P1(초기) 심의 평가표");
-    $("#dlbrCrgrNm").val("김민정");
-    // dataSet.setNameValue(0, "grsEvSn", "5");   //평가표코드
-    // dataSet.setNameValue(0, "grsEvSnNm", "중앙연구소 GRS P1(초기) 심의 평가표"); //평가명
-
-    dataSet.setNameValue(0, "dlbrCrgr", "00206790");  //담당자사번
-    dataSet.setNameValue(0, "dlbrCrgrId", "minjeong");  //담당자id
-    dataSet.setNameValue(0, "dlbrCrgrNm", "김민정"); //담당자명
-}
-
 </script>
 
 </head>
@@ -517,7 +503,7 @@ function setDef(){
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th align="right" onclick="setDef()">프로젝트명</th>
+                                    <th align="right">프로젝트명</th>
                                     <td><input type="text"
                                         id="prjNm" /></td>
                                     <th align="right">과제유형</th>

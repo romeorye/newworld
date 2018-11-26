@@ -1252,7 +1252,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 							</colgroup>
 							<tbody>
 								<tr>
-									<th align="right" onclick="setDefault()"><span style="color:red;">* </span>과제구분</th>
+									<th align="right" ><span style="color:red;">* </span>과제구분</th>
 									<td><div id="tssScnCd" /></td>
 									<th align="right"><span style="color:red;">* </span>GRS초기(P1)<br/>수행여부</th>
 									<td><div id="grsYn" /></td>
@@ -1367,7 +1367,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 							</colgroup>--%>
 							<tbody>
 								<tr>
-									<th align="right" width="208" onclick="setEvTest()"><span style="color:red;">* </span>회의 일정/장소</th>
+									<th align="right" width="208" ><span style="color:red;">* </span>회의 일정/장소</th>
 									<td colspan="2"><div id="evTitl" /></td>
 								</tr>
 								<tr>
@@ -1550,48 +1550,6 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 	}
 
 
-    function setDefault(){
-        //기본값 세팅
-        tssScnCd.setSelectedIndex(3);
-        grsYn.setSelectedIndex(0);
-        tssNm.setValue("개발과제 테스트");
-        prjNm.setValue("창호.창호개발연구PJT");
-
-        $("#prjCd").val("PRJ00025");
-        $("#deptCode").val("58117903");
-
-
-        bizDptCd.setSelectedIndex(2);
-        prodG.setSelectedIndex(2);
-
-        saSabunNm.setValue("조윤혜");
-        $("#saSabunCd").val("FB0399");
-        tssStrtDd.setValue("2018-08-10");
-        tssFnhDd.setValue("2019-08-10");
-        custSqlt.setSelectedIndex(1);
-        tssAttrCd.setSelectedIndex(1);
-        tssType.setSelectedIndex(1);
-    }
-
-    function setEvTest(){
-        evTitl.setValue("마곡 엘지하우시스 3층");
-        cfrnAtdtCdTxtNm.setValue("성정식");
-        $("#cfrnAtdtCdTxt").val("FB2154");
-        commTxt.setValue("과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견과제 평가 의견");
-        $("#attcFilId").val("201805287");
-        $('#attchFileView').html('<a href=\'javascript:downloadAttachFile("201805287", "1")\' id="L-gen261">180419_GRS과제 평가 종합(경량화 Spec-In)_PAB Housing.xlsx(12037byte)</a>');
-        grsEvSnNm.setValue("창호재-초기심의 P1(신규 Item)");
-        $("#grsEvSn").val("8");
-
-        gridDataSet.load({
-            url: '/iris/prj/grs/selectGrsEvRsltInfo.do',
-            params: {
-                grsEvSn: 8,
-                tssCd: tssCd,
-                tssCdSn: 1
-            }
-        })
-    }
 
 
 	// Comment

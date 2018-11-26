@@ -355,7 +355,7 @@ $(window).load(function() {
             </colgroup>
             <tbody>
             <tr>
-                <th align="right" onclick="setTestVal()"><span style="color:red;">* </span>Summary 개요</th>
+                <th align="right"><span style="color:red;">* </span>Summary 개요</th>
                 <td colspan="3" class="space_tain bdtype"><input type="text" id="smrSmryTxt" name="smrSmryTxt" style="width: 100%"></td>
             </tr>
             <tr>
@@ -391,15 +391,4 @@ $(window).load(function() {
     </div>
 </div>
 </body>
-<script>
-    function setTestVal(){
-        smrSmryTxt.setValue("서머리개요");
-        smrGoalTxt.setValue("서머리 목ㄹ표");
-        ctyOtPlnM.setValue("2018-10");
-        nprodSalsPlnY.setValue("100");
-        smryForm.attcFilId.value="201806107"
-        // $("#attcFilId").val("201806107");
-        $('#attchFileView').html('<a href=\'javascript:downloadAttachFile("201806107", "1")\'>approveForm.jpg(328747byte)</a>');
-    }
-</script>
 </html>
