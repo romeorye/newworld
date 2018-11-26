@@ -32,7 +32,8 @@
 			
 			var tabView = new Rui.ui.tab.LTabView({
                 tabs: [
-            		{ label: '전체', 			content: '<div id="tabContent0"></div>' },
+                	// 전체 탭 주석 처리
+            		//{ label: '전체', 			content: '<div id="tabContent0"></div>' },
                     { label: 'Simulation',       	content: '<div id="tabContent1"></div>' },
             		{ label: 'Mock-up',        content: '<div id="tabContent2"></div>' },
                     { label: 'Certification',        content: '<div id="tabContent3"></div>' }
@@ -61,7 +62,8 @@
 	            }
 
 	            var tabUrl = "";
-
+	            
+	        	/* 전체 탭 주석 처리로 변경됨
 	        	switch(e.activeIndex){
 	        	//전체
 	        	case 0:
@@ -80,6 +82,25 @@
                 	goPage('tabContentIfrm3', '03');
 	        		break;
 	        	}
+	        	*/
+	            
+	        	switch(e.activeIndex){
+	        	//Simulation
+	        	case 0:
+	                goPage('tabContentIfrm0', '01');
+	        		break;
+	            //Mock-up
+	        	case 1:
+                	goPage('tabContentIfrm1', '02');
+	        		break;
+	        	//Certification
+	        	case 2:
+                	goPage('tabContentIfrm2', '03');
+	        		break;
+
+	        	}
+	        	
+
 	        });
 			
 			if(Rui.isEmpty(mchnClCd)){
@@ -87,6 +108,7 @@
 			}
 			
 			//원하는 탭으로 호출
+			/* 전체 탭 주석처리로 변경됨
 			if(mchnClCd == ''|| mchnClCd == 'ALL'){
 				tabView.selectTab(0);
 			}
@@ -98,6 +120,21 @@
 			}
 			else if(mchnClCd == '03'){
 				tabView.selectTab(3);
+			}
+			*/
+			
+			//원하는 탭으로 호출
+			if(mchnClCd == ''|| mchnClCd == 'ALL'){
+				tabView.selectTab(0);
+			}
+			else if(mchnClCd == '01'){
+				tabView.selectTab(0);
+			}
+			else if(mchnClCd == '02'){
+				tabView.selectTab(1);
+			}
+			else if(mchnClCd == '03'){
+				tabView.selectTab(2);
 			}
 
 			
