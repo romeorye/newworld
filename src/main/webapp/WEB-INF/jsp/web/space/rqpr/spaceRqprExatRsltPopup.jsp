@@ -102,13 +102,14 @@
             });
 
 
-            var exatMdul = new Rui.ui.form.LTextBox({
+            /*사용안함
+            	var exatMdul = new Rui.ui.form.LTextBox({
             	applyTo: 'exatMdul',
                 placeholder: 'Sketch up, TRENFLOW(직접입력) ',
                 defaultValue: '',
                 emptyValue: '',
                 width: 310
-            });
+            }); */
 
             var exatCaseQty = new Rui.ui.form.LNumberBox({
             	applyTo: 'exatCaseQty',
@@ -189,7 +190,7 @@
                 placeholder: '평가방법을 입력해주세요.',
                 emptyValue: '',
                 width: 300,
-                height: 95
+                height: 135
             });
 
             exatWay.on('blur', function(e) {
@@ -213,8 +214,8 @@
                 { id: 'mchnInfoId',			validExp: '평가기기:true' },
                 { id: 'exatDct',			validExp: '평가일자:true:number' },
                 { id: 'exatCaseQty',		validExp: '평가케이스수:true:number' },
-                { id: 'exatStrtDt',			validExp: '실험기간:true:date=YYYY-MM-DD' },
-                { id: 'exatFnhDt',			validExp: '실험기간:true:date=YYYY-MM-DD' },
+                { id: 'exatStrtDt',			validExp: '평가기간:true:date=YYYY-MM-DD' },
+                { id: 'exatFnhDt',			validExp: '평가기간:true:date=YYYY-MM-DD' },
                 { id: 'exatWay',			validExp: '실험방법:true:maxByteLength=4000' }
                 ]
             });
@@ -314,7 +315,7 @@
                 	, { id: 'rqprId', type: 'number', defaultValue: ${inputData.rqprId} }
 					, { id: 'exatCd' }
 					, { id: 'exatNm' }
-					, { id: 'exatMdul' }
+					/* , { id: 'exatMdul' } */
 					, { id: 'mchnInfoId' }
 					, { id: 'exatCaseQty', type: 'number' }
 					, { id: 'exatDct', type: 'number' }
@@ -342,7 +343,7 @@
                 bind: true,
                 bindInfo: [
                     { id: 'exatNm',				ctrlId:'exatNm',			value:'html'},
-                    { id: 'exatMdul',			ctrlId:'exatMdul',			value:'value'},
+                    /* { id: 'exatMdul',			ctrlId:'exatMdul',			value:'value'}, */
                     { id: 'mchnInfoId',			ctrlId:'mchnInfoId',		value:'value'},
                     { id: 'exatCaseQty',		ctrlId:'exatCaseQty',		value:'value'},
                     { id: 'exatDct',			ctrlId:'exatDct',			value:'value'},
@@ -417,10 +418,10 @@
 			   							<th align="right">평가TOOL</th>
 			   							<td><div id="mchnInfoId"></div></td>
 			   						</tr>
-			   						<tr>
+			   						<!-- 사용안함 <tr>
 			   							<th align="right">평가모듈</th>
 			   							<td><input type="text" id="exatMdul"></td>
-			   						</tr>
+			   						</tr> -->
 			   						<tr>
 			   							<th align="right">평가<br/>케이스수</th>
 			   							<td><input type="text" id="exatCaseQty"></td>
@@ -430,11 +431,11 @@
 			   							<td><input type="text" id="exatDct"></td>
 			   						</tr>
 			   						<tr>
-			   							<th align="right">실험수가</th>
+			   							<th align="right">평가수가</th>
 			   							<td><span id="exatExpView"/></td>
 			   						</tr>
 			   						<tr>
-			   							<th align="right">실험기간</th>
+			   							<th align="right">평가기간</th>
 			   							<td>
 			   								<input type="text" id="exatStrtDt"/><em class="gab"> ~ </em>
 			   								<input type="text" id="exatFnhDt"/>

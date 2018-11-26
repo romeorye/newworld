@@ -1078,7 +1078,7 @@
     	    	}
     	    };
 
-    	    /* 실험정보 */
+    	    /* 평가정보 */
             var spaceRqprExatDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceRqprExatDataSet',
                 remainRemoved: false,
@@ -1094,7 +1094,7 @@
                 ]
             });
 
-            /* 평가결과 실험정보 */
+            /* 평가정보 */
             var spaceRqprExatColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
@@ -1191,10 +1191,10 @@
     	    };
     	    // 평가의뢰 반려/평가중단 팝업 끝
 
-    	    // 실험정보 등록/수정 팝업 시작
+    	    // 평가정보 등록/수정 팝업 시작
     	    spaceRqprExatRsltDialog = new Rui.ui.LFrameDialog({
     	        id: 'spaceRqprExatRsltDialog',
-    	        title: '실험정보 등록/수정',
+    	        title: '평가정보 등록/수정',
     	        width: 740,
     	        height: 580,
     	        modal: true,
@@ -1615,7 +1615,7 @@
     	    	}
 
     	    	if (spaceRqprExatDataSet.getCount() == 0) {
-                    alert('실험정보를 등록 해 주세요');
+                    alert('평가정보를 등록 해 주세요');
                     return false;
                 } else if (vm2.validateDataSet(spaceRqprExatDataSet) == false) {
                     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm2.getMessageList().join('\n'));
@@ -2065,7 +2065,7 @@
    				</table>
 
    				<div class="titArea" style="margin-top:35px;">
-   					<h3>실험정보 등록</h3>
+   					<h3>평가정보 등록</h3>
    					<div class="LblockButton">
    						<button type="button" class="btn"  id="addSpaceRqprExatBtn" name="addSpaceRqprExatBtn" onclick="addSpaceRqprExat()">등록</button>
    						<button type="button" class="btn"  id="deleteSpaceRqprExatBtn" name="deleteSpaceRqprExatBtn" onclick="deleteSpaceRqprExat()">삭제</button>

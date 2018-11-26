@@ -177,7 +177,7 @@
             /* 평가대상명 */
             var evSubjNm = new Rui.ui.form.LTextBox({
             	applyTo: 'evSubjNm',
-                placeholder: 'IFC, 상평동 복합문화단지(假稱)…',
+                placeholder: 'IFC, 상평동 복합문화단지…',
                 defaultValue: '',
                 emptyValue: '',
                 width: 985
@@ -245,7 +245,7 @@
             /* 평가대상 상세 */
             var evSubjDtl = new Rui.ui.form.LTextBox({
             	applyTo: 'evSubjDtl',
-                placeholder: '넷마블 사옥, 시행사 XX, 시공사 XX…',
+                placeholder: '기타사항, 특이점',
                 defaultValue: '',
                 emptyValue: '',
                 width: 395
@@ -846,8 +846,8 @@
 				{ id: 'evSubjNm',		validExp: '평가대상명:true:maxByteLength=100' },
 				{ id: 'sbmpCd',			validExp: '제출처:true' },
 				{ id: 'sbmpNm',			validExp: '제출기관명:true:maxByteLength=100' },
-				{ id: 'qtasDpst',		validExp: '정량지표:true:maxByteLength=100' },
-				{ id: 'qnasDpst',		validExp: '정성지표:true:maxByteLength=100' },
+				/* { id: 'qtasDpst',		validExp: '정량지표:true:maxByteLength=100' },
+				{ id: 'qnasDpst',		validExp: '정성지표:true:maxByteLength=100' }, */
 				{ id: 'goalPfmc',		validExp: '목표성능:true:maxByteLength=100' },
 				{ id: 'rsltDpst',		validExp: '결과지표:true:maxByteLength=100' },
 				{ id: 'evCases',		validExp: '평가case(개수):true' },
@@ -1008,11 +1008,11 @@
    						</tr>
 
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>목표(정량지표)</th>
+   							<th align="right">목표(정량지표)</th>
    							<td class="rlabrqpr_tain01">
    								<input type="text" id="qtasDpst">
    							</td>
-   							<th align="right"><span style="color:red;">* </span>목표(정성지표)</th>
+   							<th align="right">목표(정성지표)</th>
    							<td class="rlabrqpr_tain01">
                                 <input type="text" id="qnasDpst">
    							</td>

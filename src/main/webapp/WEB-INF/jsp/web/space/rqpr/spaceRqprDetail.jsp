@@ -112,7 +112,8 @@
 	                break;
 
 	            case 1:
-	            	if(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '07') {
+	            	if(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '07' &&
+	            			spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '08'	) {
 	            		alert('평가 결과 확인은 평가 완료 된 후 확인이 가능 합니다.');
 	            		return false;
 	            	}
@@ -124,7 +125,8 @@
 	                break;
 
 	            case 3:
-	            	if(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '07') {
+	            	if(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '07' &&
+	            			spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd') != '08') {
 	            		alert('결과 통보 이후 의견 피드백을 작성해 주시기 바랍니다.');
 	            		return false;
 	            	}
@@ -553,13 +555,24 @@
                     { id: 'evSubjDtl',		 	ctrlId: 'evSubjDtl',		value:'value'},
                     { id: 'tCloud',		 		ctrlId: 'tCloud',		 	value:'value'},
                     { id: 'spaceAcpcStCd',		ctrlId: 'spaceAcpcStCd',	value:'value'},
-
                     { id: 'cmplParrDt',			ctrlId: 'cmplParrDt',		value:'value'}
-
-
                 ]
             });
             spaceRqprDataSet.newRecord();
+
+            bind = new Rui.data.LBind({
+                groupId: 'cform',
+                dataSet: spaceRqprDataSet,
+                bind: true,
+                bindInfo: [
+					{ id: 'spaceNm',			ctrlId: 'spaceNm',			value:'html'},	//평가명
+					{ id: 'acpcNo',		 		ctrlId: 'acpcNo',		 	value:'html'},	//접수번호
+					{ id: 'cmplParrDt',			ctrlId: 'cmplParrDt',		value:'html'},	//완료예정일
+					{ id: 'cmplDt',				ctrlId: 'cmplDt',			value:'html'},	//완료일
+					{ id: 'spaceRqprInfmView',	ctrlId: 'spaceRqprInfmView',value:'html'},	//통보자
+					{ id: 'spaceRsltSbc',		ctrlId: 'spaceRsltSbc',		value:'html'}	//평가결과
+                ]
+            });
 
             opinitionBind = new Rui.data.LBind({
                 groupId: 'spaceRqprOpinitionDiv',
@@ -1821,46 +1834,50 @@
    				</div>
 
    				<div id="spaceRqprResultDiv">
-   				<div class="titArea">
-   					<div class="LblockButton">
-   						<button type="button" class="btn"  id="resultTabListBtn" name="resultTabListBtn" onclick="goSpaceRqprList()">목록</button>
-   					</div>
-   				</div>
 
-   				<table class="table table_txt_right">
-   					<colgroup>
-   						<col style="width:15%;"/>
-   						<col style="width:35%;"/>
-   						<col style="width:15%;"/>
-   						<col style="width:35%;"/>
-   					</colgroup>
-   					<tbody>
-   						<tr>
-   							<th align="right">평가명</th>
-   							<td><span id="spaceNm"/></td>
-   							<th align="right">접수번호</th>
-   							<td><span id="acpcNo"/></td>
-   						</tr>
-   						<tr>
-   							<th align="right">완료예정일</th>
-   							<td><span id="cmplParrDt"/></td>
-   							<th align="right">완료일</th>
-    						<td><span id="cmplDt"/></td>
-   						</tr>
-   						<tr>
-   							<th align="right">통보자</th>
-    						<td colspan="3"><span id="spaceRqprInfmView"/></td>
-   						</tr>
-   						<tr>
-   							<th align="right">평가결과</th>
-   							<td colspan="3"><span id="spaceRsltSbc"/></td>
-   						</tr>
-   						<tr>
-   							<th align="right">평가결과서</th>
-   							<td id="rsltAttcFileView" colspan="3"></td>
-   						</tr>
-   					</tbody>
-   				</table>
+   				<form name="cform" id="cform">
+	   				<div class="titArea">
+	   					<div class="LblockButton">
+	   						<button type="button" class="btn"  id="resultTabListBtn" name="resultTabListBtn" onclick="goSpaceRqprList()">목록</button>
+	   					</div>
+	   				</div>
+
+	   				<table class="table table_txt_right">
+	   					<colgroup>
+	   						<col style="width:15%;"/>
+	   						<col style="width:35%;"/>
+	   						<col style="width:15%;"/>
+	   						<col style="width:35%;"/>
+	   					</colgroup>
+	   					<tbody>
+	   						<tr>
+	   							<th align="right">평가명</th>
+	   							<td><span id="spaceNm"/></td>
+	   							<th align="right">접수번호</th>
+	   							<td><span id="acpcNo"/></td>
+	   						</tr>
+	   						<tr>
+	   							<th align="right">완료예정일</th>
+	   							<td><span id="cmplParrDt"/></td>
+	   							<th align="right">완료일</th>
+	    						<td><span id="cmplDt"/></td>
+	   						</tr>
+	   						<tr>
+	   							<th align="right">통보자</th>
+	    						<td colspan="3"><span id="spaceRqprInfmView"/></td>
+	   						</tr>
+	   						<tr>
+	   							<th align="right">평가결과</th>
+	   							<td colspan="3"><span id="spaceRsltSbc"/></td>
+	   						</tr>
+	   						<tr>
+	   							<th align="right">평가결과서</th>
+	   							<td id="rsltAttcFileView" colspan="3"></td>
+	   						</tr>
+	   					</tbody>
+	   				</table>
+   				</form>
+
    				</div>
 				<div id="spaceRqprOpinitionDiv">
    				<div class="titArea">
