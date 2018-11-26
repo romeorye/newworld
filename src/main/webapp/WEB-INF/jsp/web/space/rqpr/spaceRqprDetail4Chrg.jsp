@@ -128,7 +128,7 @@
 
 	            case 1:
 
-	            	if('03|05|06|07'.indexOf(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd')) == -1) {
+	            	if('03|05|06|07|08'.indexOf(spaceRqprDataSet.getNameValue(0, 'spaceAcpcStCd')) == -1) {
 	            		return false;
 	            	}
 
