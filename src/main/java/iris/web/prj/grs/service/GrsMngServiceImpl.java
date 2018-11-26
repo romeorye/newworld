@@ -15,12 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 @Service("grsMngService")
 public class GrsMngServiceImpl implements GrsMngService {
@@ -53,14 +48,6 @@ public class GrsMngServiceImpl implements GrsMngService {
 
 	@Resource(name = "genTssPlnService")
 	private GenTssPlnService genTssPlnService;
-
-	/* 울산 DB Connection */
-	@Resource(name="commonDaoQasU")
-	private CommonDao commonDaoQasU;
-
-	/* 청주 DB Connection */
-	@Resource(name="commonDaoQasC")
-	private CommonDao commonDaoQasC;
 
 
 	static final Logger LOGGER = LogManager.getLogger(GrsMngService.class);
@@ -161,40 +148,63 @@ public class GrsMngServiceImpl implements GrsMngService {
 	}
 
 	@Override
-	public Map<String, String> evGrs(HashMap<String, Object> input,List<Map<String, Object>>dsLst,HashMap<String, Object>dtlDs) {
-			HashMap<String, String> result = new HashMap<String, String>();
-			input.put("evTitl", dtlDs.get("evTitl"));
-			input.put("commTxt", dtlDs.get("commTxt"));
+	public Map<String, String> evGrs(HashMap<String, Object> input, List<Map<String, Object>> dsLst, HashMap<String, Object> dtlDs) {
+		HashMap<String, String> result = new HashMap<>();
+		input.put("evTitl", dtlDs.get("evTitl"));
+		input.put("commTxt", dtlDs.get("commTxt"));
 
-            input.put("userId", input.get("_userId"));
-            input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
-            input = StringUtil.toUtf8Input(input);
-
-            grsReqService.insertGrsEvRsltSave(dsLst, input);
-
-			LOGGER.debug("===GRS 평가 완료후 과제 상태값 변경===");
-            input.put("tssSt", "102");
-            genTssPlnService.updateGenTssPlnMstTssSt(input);
-            grsMngService.updateDefTssSt(input);
+		input.put("userId", input.get("_userId"));
+		input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
+		input = StringUtil.toUtf8Input(input);
 
 
-            if(grsMngService.isBeforGrs(input).equals("1")){
-                LOGGER.debug("===GRS 관리에서 기본정보를 입력한경우===");
-                LOGGER.debug("===과제 관리 마스터로 데이터 복제 (과제정보, 개요)===");
-                input.put("fromTssCd", input.get("tssCd"));
-                input.put("pgsStepCd", "PL");
-                grsMngService.moveDefGrsDefInfo(input);
-                grsMngService.deleteDefGrsDefInfo(input);
-            }
+		//중간(M)GRS평가후 Drop과제인 경우 중단으로 변경
+		if(input.get("egrsEvSt").toString().indexOf("M")>-1){
+			if(input.get("dropYn")!=null && input.get("dropYn").equals("Y")){
+				// 과제 Drop
+				input.put("grsEvSt","D");
+			}else{
+				// 과제 변경
+				input.put("grsEvSt","M");
+			}
+		}
 
-			LOGGER.debug("===해당과제 리더에게 완료 메일 발송===");
-            genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121
+		LOGGER.debug("===GRS 평가 완료 등록===");
+		grsReqService.insertGrsEvRsltSave(dsLst, input);
 
 
-			result.put("rtnMsg", "평가완료되었습니다.");
-			result.put("rtnSt", "S");
+		LOGGER.debug("===GRS 평가 완료후 과제 상태값 변경 102===");
 
-            return result;
+
+		if(input.get("egrsEvSt").toString().indexOf("M")>-1 && input.get("grsEvMType").equals("IN")){
+			// 중간 평가 > 진척도 점검 IN 인경우 >> 진행/진행중
+			input.put("tssSt", "100");
+		}else{
+			input.put("tssSt", "102");
+			// 그외 평가완료
+		}
+
+
+
+		genTssPlnService.updateGenTssPlnMstTssSt(input);		// tssSt update
+		grsMngService.updateDefTssSt(input);							// tssSt update
+
+			if (grsMngService.isBeforGrs(input).equals("1")) {
+				LOGGER.debug("===GRS 관리에서 기본정보를 입력한경우===");
+				LOGGER.debug("===과제 관리 마스터로 데이터 복제 (과제정보, 개요)===");
+				input.put("fromTssCd", input.get("tssCd"));
+				input.put("pgsStepCd", "PL");
+				grsMngService.moveDefGrsDefInfo(input);
+				grsMngService.deleteDefGrsDefInfo(input);
+			}
+
+		LOGGER.debug("===해당과제 리더에게 완료 메일 발송===");
+		genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121
+
+		result.put("rtnMsg", "평가완료되었습니다.");
+		result.put("rtnSt", "S");
+
+		return result;
 	}
 
 	@Override
@@ -219,6 +229,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 		LOGGER.debug("=============== GRS기본정보를 과제 마스터로 등록(마스터, 개요, 산출물) ===============");
 		String tssScnCd = (String) input.get("tssScnCd");
 		String tssAttrCd = (String) input.get("tssAttrCd");
+		String dropYn = (String) input.get("dropYn");
 
 
 		if("N".equals(tssScnCd)){
@@ -228,6 +239,10 @@ public class GrsMngServiceImpl implements GrsMngService {
 
 		//GRS 기본정보 과제 관리 마스터로 복제
 		commonDao.insert("prj.grs.moveGrsDefInfo", input);
+
+		//================== Drop 과제인 경우 기본 정보 마스터만 이관 후 return ======================//
+		if(dropYn!=null && dropYn.equals("Y"))return;
+
 
 
 		if(tssScnCd.equals("D")){
@@ -261,7 +276,6 @@ public class GrsMngServiceImpl implements GrsMngService {
 			input.put("rsstSphe", rsstSphe);
 			commonDao.update("prj.grs.updateGrsDefInfo02", input);
 		}
-
 
 /*
 

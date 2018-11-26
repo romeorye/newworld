@@ -1,17 +1,5 @@
 package iris.web.prj.tss.gen.service;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
 import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
@@ -20,6 +8,12 @@ import iris.web.common.util.CommonUtil;
 import iris.web.mailBatch.vo.ReplacementVo;
 import iris.web.prj.grs.vo.GrsSendMailInfoVo;
 import iris.web.prj.mm.mail.service.MmMailService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.*;
 /*********************************************************************************
  * NAME : GenTssServiceImpl.java
  * DESC :
@@ -138,7 +132,8 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
         smryDs.put("yldItmType", "01");
         smryDs.put("arslYymm",  mstDs.get("tssStrtDd").toString().substring(0,4) + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
         commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
-        
+        commonDao.update("prj.tss.com.updateYldFile", smryDs);  // 개요 파일 산출물 연결
+
         if(mstDs.get("tssAttrCd").equals("00")){
         	//qgate1
             smryDs.put("goalY",       mstDs.get("tssStrtDd").toString().substring(0,4));
@@ -481,37 +476,39 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
         
     	GrsSendMailInfoVo grsInfoVo = new GrsSendMailInfoVo();
         Map<String, Object>  recMailInfo =  commonDao.select("prj.grs.retrieveGrsMailInfo", input);
-       
-        String tssPgsNm ="";
-        
-        if("P1".equals(recMailInfo.get("grsCd").toString().trim())){
-            tssPgsNm = "계획";
-        }else if("P2".equals(recMailInfo.get("grsCd").toString().trim())){
-            tssPgsNm = "완료";
-        }else if("D".equals(recMailInfo.get("grsCd").toString().trim())){
-            tssPgsNm = "중단";
-        }else if("M".equals(recMailInfo.get("grsCd").toString().trim())){
-            tssPgsNm = "변경";
-        }
-        
-        mailSender.setFromMailAddress("iris@lghausys.com" ,"관리자");
-        mailSender.setToMailAddress((String)recMailInfo.get("saMail"));
-        mailSender.setSubject(tssPgsNm+"품의 진행안내");
-        grsInfoVo.setGrsStCd(recMailInfo.get("grsCd").toString());
-        grsInfoVo.setGrsStNm(recMailInfo.get("grsNm").toString());
-        grsInfoVo.setTssPgsNm(tssPgsNm);
-       
-        mailSender.setHtmlTemplate("mailBatchGrshtml", grsInfoVo);
-        
-        mailSender.send();
-        
-        HashMap<String, Object> mailMap = new HashMap<String, Object>();
-        mailMap.put("mailTitl", tssPgsNm+"품의 진행안내");
-        mailMap.put("adreMail", recMailInfo.get("saMail") );
-        mailMap.put("trrMail", "iris@lghausys.com");
-        mailMap.put("_userId", input.get("userId").toString());
 
-        commonDao.insert("open.mchnEduAnl.insertMailHis", mailMap);
+        if(recMailInfo!=null){
+            String tssPgsNm ="";
+
+            if("P1".equals(recMailInfo.get("grsCd").toString().trim())){
+                tssPgsNm = "계획";
+            }else if("P2".equals(recMailInfo.get("grsCd").toString().trim())){
+                tssPgsNm = "완료";
+            }else if("D".equals(recMailInfo.get("grsCd").toString().trim())){
+                tssPgsNm = "중단";
+            }else if("M".equals(recMailInfo.get("grsCd").toString().trim())){
+                tssPgsNm = "중간";
+            }
+
+            mailSender.setFromMailAddress("iris@lghausys.com" ,"관리자");
+            mailSender.setToMailAddress((String)recMailInfo.get("saMail"));
+            mailSender.setSubject(tssPgsNm+"품의 진행안내");
+            grsInfoVo.setGrsStCd(recMailInfo.get("grsCd").toString());
+            grsInfoVo.setGrsStNm(recMailInfo.get("grsNm").toString());
+            grsInfoVo.setTssPgsNm(tssPgsNm);
+
+            mailSender.setHtmlTemplate("mailBatchGrshtml", grsInfoVo);
+
+            mailSender.send();
+
+            HashMap<String, Object> mailMap = new HashMap<String, Object>();
+            mailMap.put("mailTitl", tssPgsNm+"품의 진행안내");
+            mailMap.put("adreMail", recMailInfo.get("saMail") );
+            mailMap.put("trrMail", "iris@lghausys.com");
+            mailMap.put("_userId", input.get("userId").toString());
+
+            commonDao.insert("open.mchnEduAnl.insertMailHis", mailMap);
+        }
     }
     
     /**

@@ -247,32 +247,14 @@
 	</select>
 
 	<select id="retrieveGenTssDcacItmCheck" resultType="String">
-	-- retrieveGenTssDcacItmCheck
-		select  case when a.sCnt + b.eCnt = 2 then 'Y'
-		             else 'N' end checkItm
-		from   (
-				select  case when count(*) > 0 then 1
-			                 else 0 end as sCnt
-				from    IRIS_COM_ATTC_FIL
-				where   del_yn ='N'
-				and     ATTC_FIL_ID = (
-										select ATTC_FIL_ID
-										from   IRIS_TSS_YLD_ITM
-										where  tss_cd = left(#{tssCd}, 9)+'2'
-										and    YLD_ITM_TYPE = '01'
-										)
-		       ) a
-			   ,(
-				select  case when count(*) > 0 then 1
-			                 else 0 end as eCnt
-				from    IRIS_COM_ATTC_FIL
-				where   del_yn ='N'
-				and     ATTC_FIL_ID = (
-										select ATTC_FIL_ID
-										from   IRIS_TSS_YLD_ITM
-										where  tss_cd = left(#{tssCd}, 9)+'2'
-										and    YLD_ITM_TYPE = '03'
-										)
-				) b
+	-- retrieveGenTssDcacItmCheck 필수 산출물 등록 체크
+		SELECT
+		  CASE WHEN COUNT(*)>0 THEN 'N' ELSE 'Y' END checkItm
+		FROM
+		  IRIS_TSS_YLD_ITM
+		WHERE
+				TSS_CD =  substring(#{tssCd},1, 9)+'2'
+		AND YLD_ITM_TYPE IN ('01','03','06') -- 제안/GRS, 완료/중단, Qgate01
+		AND ISNULL(ATTC_FIL_ID,'')='' AND ISNULL(QGATE_LINK_URL,'')=''
 	</select>
 </mapper>

@@ -1150,6 +1150,22 @@
 		where  tss_cd = #{tssCd}
 		and    yld_itm_type = #{yldItmType}
     </update>
+    <!-- 과제 산출물 연결-->
+    <update id="updateYldFile">
+        UPDATE Y
+        SET
+            Y.YLD_ITM_NM     = F.FIL_NM
+            , Y.ATTC_FIL_ID  = F.ATTC_FIL_ID
+            , Y.LAST_MDFY_DT = GETDATE()
+            , Y.LAST_MDFY_ID = F.LAST_MDFY_ID
+        FROM IRIS_TSS_YLD_ITM Y, IRIS_COM_ATTC_FIL F
+        WHERE
+            Y.TSS_CD = #{tssCd}
+            AND Y.YLD_ITM_TYPE = #{yldItmType}
+            AND F.ATTC_FIL_ID = #{attcFilId}
+            and F.DEL_YN = 'N'
+    </update>
+
 
 
 	<!-- QAS 과제등록을 위해 과제정보 조회 -->

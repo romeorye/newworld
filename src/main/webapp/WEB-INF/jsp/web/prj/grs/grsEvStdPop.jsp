@@ -1,8 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*,
-                 java.util.*,
-                 devonframe.util.NullUtil,
-                 devonframe.util.DateUtil"%>
 
 <%--
 /*
@@ -198,7 +194,6 @@
             parent.grsEvSnDialog.submit(true);
         });
     });
-</script>
 </script>
 </head>
 <body>

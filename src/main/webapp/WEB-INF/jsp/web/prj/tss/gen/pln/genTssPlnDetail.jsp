@@ -115,7 +115,7 @@
         //과제명
         tssNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssNm',
-            width: 300
+            width: 500
         });
 
         //과제리더

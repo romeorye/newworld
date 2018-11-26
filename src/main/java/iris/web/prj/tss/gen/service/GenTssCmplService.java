@@ -18,30 +18,30 @@ import java.util.Map;
 
 public interface GenTssCmplService {
 
-    //마스터
-    public Map<String, Object> retrieveGenTssCmplMst(HashMap<String, String> input);
+	//마스터
+	Map<String, Object> retrieveGenTssCmplMst(HashMap<String, String> input);
 
-    public int insertGenTssCmplMst(HashMap<String, Object> mstDs, HashMap<String, Object> smryDs);
+	void insertGenTssCmplMst(HashMap<String, Object> mstDs, HashMap<String, Object> smryDs);
 
-    public int updateGenTssCmplMst(HashMap<String, Object> mstDs, HashMap<String, Object> smryDs);
-
-
-    //완료개요
-    public Map<String, Object> retrieveGenTssCmplSmry(HashMap<String, String> input);
-
-    public int insertGenTssCmplSmry(HashMap<String, Object> input);
-
-    public int updateGenTssCmplSmry(HashMap<String, Object> input);
+	void updateGenTssCmplMst(HashMap<String, Object> mstDs, HashMap<String, Object> smryDs);
 
 
-    //품의서
-    public Map<String, Object> retrieveGenTssCmplInfo(HashMap<String, String> input);
+	//완료개요
+	Map<String, Object> retrieveGenTssCmplSmry(HashMap<String, String> input);
 
-    public List<Map<String, Object>> retrieveGenTssCmplAttc(HashMap<String, String> inputInfo);
+	int insertGenTssCmplSmry(HashMap<String, Object> input);
 
-    public int insertGenTssCmplCsusRq(Map<String, Object> map);
+	int updateGenTssCmplSmry(HashMap<String, Object> input);
 
-    //필수산출물 count	
-	public String retrieveGenTssCmplCheck(HashMap<String, String> input);
+
+	//품의서
+	Map<String, Object> retrieveGenTssCmplInfo(HashMap<String, String> input);
+
+	List<Map<String, Object>> retrieveGenTssCmplAttc(HashMap<String, String> inputInfo);
+
+	int insertGenTssCmplCsusRq(Map<String, Object> map);
+
+	//필수산출물 count
+	String retrieveGenTssCmplCheck(HashMap<String, String> input);
 
 }

@@ -163,7 +163,7 @@
         /* [버튼] 목록 */
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
-            nwinsActSubmit(window.document.aform, "<%=request.getContextPath()+TctmUrl.doList%>");
+            location.href = "<%=request.getContextPath()+TctmUrl.doList%>";
         });
 
 

@@ -28,8 +28,8 @@ public interface GrsReqService {
 
     void insertGrsEvRsltSave(List<Map<String, Object>> dsLst, HashMap<String, Object> input);
 
-    public boolean grsSendMail(Map<String, Object> input);
-    
+    boolean grsSendMail(Map<String, Object> input);
+
     void updateGrsDecode(HashMap<String, Object> data);
 
 	List<Map<String, Object>> retrieveGrsDecodeList(HashMap<String, Object> input);

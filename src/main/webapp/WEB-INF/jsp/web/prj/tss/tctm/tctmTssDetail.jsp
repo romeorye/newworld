@@ -158,6 +158,7 @@
                 console.log('tssType :: load');
             });
 
+
             function setBtn() {
                 btnDelRq.hide();	//삭제
                 btnAltrRq.hide();	//변경요청
@@ -174,19 +175,18 @@
                     // }
 
                     if (
-                        (pgsStepCd == "PL" && gvTssSt == "100")
+                        (pgsStepCd == "PL" && grsYn == "N" && gvTssSt == "100")
                         || (pgsStepCd == "PG" && gvTssSt == "100")
                     ) {
                         //진행중
                         btnGrsRq.show();	//GRS  요청
                     }
 
-                    console.log(pgsStepCd, grsYn, gvTssSt);
-
                     if (
                         (pgsStepCd == "PL" && grsYn == "N" && gvTssSt == "100")			//GRS N(계획) 인경우 바로 품의서 요청
                         || (pgsStepCd == "PL" && grsYn == "Y" && gvTssSt == "302")	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
-                        || (pgsStepCd == "PG" && gvTssSt == "102")							//진행인 경우 GRS 평가완료
+                        // || (pgsStepCd == "PG" && gvTssSt == "102")							//진행인 경우 GRS 평가완료
+                        // || (pgsStepCd == "AL" && gvTssSt == "100")							//완료진행인 경우 GRS 평가완료
                         || (pgsStepCd == "CM" && gvTssSt == "100")							//완료진행인 경우 GRS 평가완료
                         || (pgsStepCd == "DC" && gvTssSt == "100")							//중단진행인 경우 GRS 평가완료
                     ) {
@@ -207,11 +207,11 @@
 
 
                 if ("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-                    $("#btnDelRq").hide();
+                    // $("#btnDelRq").hide();
                     $("#btnGrsRq").hide();
                     $("#btnCsusRq").hide();
                 } else if ("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-                    $("#btnDelRq").hide();
+                    // $("#btnDelRq").hide();
                     $("#btnGrsRq").hide();
                     $("#btnCsusRq").hide();
                 }
@@ -219,11 +219,11 @@
 
                 //조건에 따른 보이기
                 if (isOwner()) {
-                    if (gvTssSt == "100") {
+                    if ((pgsStepCd == "PL" || pgsStepCd == "PG") && gvTssSt == "100") {
                         btnGrsRq.show();
-                        btnDelRq.show();
-                    } else if (gvTssSt == "102") {
-                        btnCsusRq.show();
+                        // btnDelRq.show();
+                    // } else if (gvTssSt == "102") {
+                    //     btnCsusRq.show();
                     }
                 }
 
@@ -464,13 +464,11 @@
                 isEditable =
                     isFirst
                     || pgsStepCd == "PL" && gvTssSt == "302"
+                    || pgsStepCd == "PL" && gvTssSt == "100" && grsYn == "N"
                 // || dataSet.getNameValue(0, "grsYn")=="N" && (pgsStepCd=="PL" )
                 ;
 
 
-                console.log(gvTssSt);
-                console.log(">>>>>>>>>>>>>>>>>>>>>");
-                console.log(isEditable);
                 disableFields();
 
                 setTab();				//Tab 생성
@@ -569,7 +567,7 @@
                         }
                     }
                     var tabUrl = "";
-                    console.log("tabb Idx", e.activeIndex);
+
 
                     if (e.isFirst) {
                         nwinsActSubmit(document.tabForm, IfrmUrls[e.activeIndex], 'tabContent' + e.activeIndex);
@@ -611,16 +609,14 @@
                 }
 
                 // 보여지는 첫번째 탭 선택
-                var fIdx = 0;
+                var fIdx = null;
                 for (var i = 0; i < $(".L-nav").children().length; i++) {
                     if ($(".L-nav").children().eq(i).css("display") == "block") {
-                        fIdx = i;
-                        break;
+                        if (fIdx==null)fIdx = i;
+                        nwinsActSubmit(document.tabForm, IfrmUrls[i], 'tabContent' + i);
                     }
                 }
-
                 tabView.selectTab(fIdx);
-                nwinsActSubmit(document.tabForm, IfrmUrls[fIdx], 'tabContent' + fIdx);
             }
 
 
@@ -648,6 +644,7 @@
                 // }catch(e){}
 
             }
+
 
 
             function isPg() {
@@ -680,27 +677,17 @@
                 setReadonly("custSqlt");
                 setReadonly("saSabunName");
 
-                setReadonly("tssStrtDd");
-                $("#tssStrtDd").css("cssText", "border-width:0px; width: 80px !important;");
-                $("#tssStrtDd").next().css("cssText", "padding-right:5px;margin:0px !important");
-                setReadonly("tssFnhDd");
+                setReadonlyDate("tssStrtDd","tssFnhDd");
+                // setReadonly("tssStrtDd");
+                // $("#tssStrtDd").css("cssText", "border-width:0px; width: 80px !important;");
+                // $("#tssStrtDd").next().css("cssText", "padding-right:5px;margin:0px !important");
+                // setReadonly("tssFnhDd");
 
                 setReadonly("tssSmryTxt");
                 setReadonly("ppslMbdCd");
                 setReadonly("rsstSphe");
                 setReadonly("tssAttrCd");
                 setReadonly("tssType");
-
-                //완료시점
-                setReadonly("cmplBStrtDd");
-                $("#cmplBStrtDd").css("cssText", "border-width:0px; width: 80px !important;");
-                $("#cmplBFnhDd").next().css("margin-left", "0px");
-                setReadonly("cmplBFnhDd");
-                //중단시점
-                setReadonly("dcacBStrtDd");
-                $("#dcacBStrtDd").css("cssText", "border-width:0px; width: 80px !important;");
-                $("#dcacBStrtDd").next().css("margin-left", "0px");
-                setReadonly("dcacBFnhDd");
 
 
                 if (gvTssSt == "102" || gvTssSt == "100") {
@@ -715,8 +702,22 @@
                         setEditable("dcacBStrtDd");
                         setEditable("dcacBFnhDd");
                     }
-                }
+                }else{
+                    //완료시점
+                    setReadonlyDate("cmplBStrtDd","cmplBFnhDd");
+                    // setReadonly("cmplBStrtDd");
+                    // $("#cmplBStrtDd").css("cssText", "border-width:0px; width: 80px !important;");
+                    // $("#cmplBFnhDd").next().css("margin-left", "0px");
+                    // setReadonly("cmplBFnhDd");
 
+                    //중단시점
+                    setReadonlyDate("dcacBStrtDd","dcacBFnhDd");
+                    // setReadonly("dcacBStrtDd");
+                    // $("#dcacBStrtDd").css("cssText", "border-width:0px; width: 80px !important;");
+                    // $("#dcacBStrtDd").next().css("margin-left", "0px");
+                    // setReadonly("dcacBFnhDd");
+
+                }
 
             }
 
@@ -788,7 +789,9 @@
                 // }
 
                 var tcd = "";
-                if (pgsStepCd == "CM") {
+                if (pgsStepCd == "PL") {
+                    tcd = gvTssCd;
+                }else if (pgsStepCd == "CM") {
                     tcd = cmTssCd;
                 } else if (pgsStepCd == "DC") {
                     tcd = dcTssCd;
@@ -798,7 +801,7 @@
 
 
                 if (errMsg == "") {
-                    if (regCntMap.gbn != "GRS") {		//GRS효청
+                    if (regCntMap.gbn != "GRS") {		//GRS 요청
                         if (regCntMap.gbn == "CSUS") {	//품의서 요청
                             nwinsActSubmit(document.mstForm, "<%=request.getContextPath()+TctmUrl.doCsusView%>" + "?tssCd=" + tcd + "&pgsStepCd=" + pgsStepCd + "&userId=" + gvUserId + "&appCode=APP00332");
                         }
@@ -865,7 +868,10 @@
 
 
                 var tcd = "";
-                if (pgsStepCd == "AL") {
+                if (pgsStepCd == "PL") {
+                    tcd = gvTssCd;
+                    frmName = "tabContent3";    //개요
+                }else if (pgsStepCd == "AL") {
                     tcd = alTssCd;
                     frmName = "tabContent2";    //변경
                 }else if (pgsStepCd == "CM") {
@@ -879,12 +885,21 @@
                     frmName = "tabContent3";    //개요
                 }
 
+                if (pgsStepCd == "CM" || pgsStepCd == "DC"){
+                    if ($("#tabContent4").contents().find("[yldType='01']:contains('N'),[yldType='02']:contains('N'),[yldType='05']:contains('N')").size()>0){
+                        Rui.alert("필수산출물을 모두 등록하셔야 합니다.");
+                        return;
+                    }
+                }
 
                 if (document.getElementById(frmName).contentWindow.fnIfmIsUpdate()) {
                     if (confirm("품의서요청을 하시겠습니까?")) {
                         regDm.update({
-                            url: '<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
-                            params: 'gbn=CSUS&tssCd=' + tcd
+                            url: '<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',    //탭 등록갯수 확인
+                            params: {
+                                gbn: "CSUS"
+                                , tssCd: tcd
+                            }
                         });
                     }
                 }
@@ -1067,7 +1082,6 @@
                     dataSet.setNameValue(0, "userId", gvUserId); //사용자ID
                     dataSet.setNameValue(0, "tssRoleType", "W"); //화면권한
 
-                    console.log(dataSet);
                     smryDs.setNameValue(0, "tssCd", gvTssCd); //과제코드
                     smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
                     dm.updateDataSet({
@@ -1168,7 +1182,6 @@
                     smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
 
 
-                    console.log(smryDs);
                     dm.updateDataSet({
                         modifiedOnly: false,
                         url: '<%=request.getContextPath()+TctmUrl.doUpdateCmplInfo%>',
@@ -1254,15 +1267,10 @@
             });
 
             //최초 데이터 셋팅
-            if (${resultCnt} >
-            0
-        )
-            {
+            if (${resultCnt} >0){
                 console.log("mst searchData1");
                 dataSet.loadData(${result});
-            }
-        else
-            {
+            }else{
                 console.log("mst searchData2");
                 dataSet.newRecord();
                 tabView.selectTab(0);

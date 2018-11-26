@@ -89,7 +89,12 @@
 		                                      WHERE Z.OVER_STEP_RANK = 1) Y)
 	              AND M.DEL_YN = 'N' --삭제여부
 		        ) z
-		       where  1=1
+                  LEFT OUTER JOIN
+                  (SELECT TOP 1 * FROM
+                  (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
+                    ON z.tssCd = g.TSS_CD
+                    WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
+
 		        ]]>
 		        <if test="tssRoleType.equals('S2')">
 		          and  ( z.wbsCd in (select distinct wbs_cd

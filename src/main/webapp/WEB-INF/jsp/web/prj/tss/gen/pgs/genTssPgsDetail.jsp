@@ -1,5 +1,4 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -101,7 +100,7 @@
          tssNm = new Rui.ui.form.LTextBox({
              applyTo: 'tssNm',
              editable: false,
-             width: 300
+             width: 500
          });
 
         //과제리더

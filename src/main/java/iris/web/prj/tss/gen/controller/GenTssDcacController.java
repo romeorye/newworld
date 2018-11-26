@@ -1,15 +1,14 @@
 package iris.web.prj.tss.gen.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import devonframe.message.saymessage.SayMessage;
+import devonframe.util.NullUtil;
+import iris.web.common.code.service.CodeService;
+import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.StringUtil;
+import iris.web.prj.tss.com.service.TssUserService;
+import iris.web.prj.tss.gen.service.GenTssDcacService;
+import iris.web.prj.tss.gen.service.GenTssService;
+import iris.web.system.base.IrisBaseController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -21,15 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import devonframe.message.saymessage.SayMessage;
-import devonframe.util.NullUtil;
-import iris.web.common.code.service.CodeService;
-import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.StringUtil;
-import iris.web.prj.tss.com.service.TssUserService;
-import iris.web.prj.tss.gen.service.GenTssDcacService;
-import iris.web.prj.tss.gen.service.GenTssService;
-import iris.web.system.base.IrisBaseController;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /********************************************************************************
@@ -100,7 +98,7 @@ public class GenTssDcacController  extends IrisBaseController {
             Map<String, Object> mbrCnt = genTssService.retrieveCmDcTssPtcMbrCnt(input);
             result.put("mbrCnt", mbrCnt.get("mbrCnt"));
             
-            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+            List<Map<String, Object>> list = new ArrayList<>();
             list.add(result);
 
             JSONObject obj = new JSONObject();
@@ -138,8 +136,8 @@ public class GenTssDcacController  extends IrisBaseController {
 
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
-        HashMap<String, Object> mstDs  = null;
-        HashMap<String, Object> smryDs = null;
+        HashMap<String, Object> mstDs = new HashMap<>();
+        HashMap<String, Object> smryDs = new HashMap<>();
         String rtnMsg = "";
         int rtCnt = 0;
         
@@ -156,12 +154,13 @@ public class GenTssDcacController  extends IrisBaseController {
         		mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
         		mstDs.put("rtType", "I");
         	}
-        	
+
         } catch(Exception e) {
             e.printStackTrace();
             mstDs.put("rtCd", "FAIL");
-            mstDs.put("rtVal", "오류가 발생하였습니다. 관리자에게 문읳"); //오류가 발생하였습니다.
+            mstDs.put("rtVal", messageSourceAccessor.getMessage("msg.alert.error")); //오류가 발생하였습니다.
         }
+
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", mstDs));
         return modelAndView;
     }
@@ -310,7 +309,7 @@ public class GenTssDcacController  extends IrisBaseController {
         if( !rtnMsg.equals("N") ){
     		input.put("rtnMsg", rtnMsg); 
     		
-    		return this.genTssDcacMst(input, request, session, model);
+    		return genTssDcacMst(input, request, session, model);
     	}
         
         if(pageMoveChkSession(input.get("_userId"))) {

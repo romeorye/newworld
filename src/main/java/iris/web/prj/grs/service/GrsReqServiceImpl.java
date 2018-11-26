@@ -42,7 +42,6 @@ public class GrsReqServiceImpl implements  GrsReqService{
     
     @Override
     public List<Map<String, Object>> retrieveGrsReqList(HashMap<String, Object> input) {
-
         return commonDao.selectList("prj.grs.retrieveGrsReqList", input);
     }
 
@@ -119,13 +118,13 @@ public class GrsReqServiceImpl implements  GrsReqService{
 
     @Override
     public void insertGrsEvRsltSave(List<Map<String, Object>> dsLst, HashMap<String, Object> input) {
-        this.updateGrsEvRslt(input);
+		updateGrsEvRslt(input);
 
         for(Map<String, Object> ds  : dsLst) {
             ds.put("userId", input.get("_userId"));
             ds.put("tssCd", input.get("tssCd"));
             ds.put("tssCdSn", input.get("tssCdSn"));
-            this.updateGrsEvStdRslt(ds);
+			updateGrsEvStdRslt(ds);
         }
 
         String tssCd = (String)input.get("tssCd");

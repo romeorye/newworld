@@ -9,8 +9,9 @@
       , (SELECT COM_DTL_NM FROM IRIS_ADM_COM_CD WHERE COM_CD_CD =  'TSS_ST' AND COM_DTL_CD = tssSt) AS tssStNm
       , (SELECT COM_DTL_NM FROM IRIS_ADM_COM_CD WHERE COM_CD_CD =  'GRS_ST' AND COM_DTL_CD = tssSt) AS grsStNm
       , iif(tssSt='101', '1', '0') AS isReq
-      , iif((stdCnt > 0 AND tssSt!='101')   , '1', '0') AS isConfirm
+      ,iif(tssSt='101' AND dropYn IS NULL,'0','1') AS  isConfirm
       , iif((frstRgstDt!=lastMdfyDt AND tssSt='101')   , '1', '0') AS isTmp
+      , iif(tssSt='101' AND dropYn is null,'',iif(dropYn='Y','DROP','PASS')) as evResult
     FROM(
                SELECT m.tss_scn_cd       tssScnCd
                  , dbo.fn_getComDtlNm('TSS_SCN_CD',m.tss_scn_cd) AS tssScnNm
@@ -42,6 +43,7 @@
                 , g.last_mdfy_dt								 AS lastMdfyDt
                  ,iif((select count(*) from IRIS_GRS_MGMT_MST where TSS_CD= m.tss_cd)>0,'1','0') AS isFirstGrs
                  , right(m.PK_WBS_CD, 5) as sortNum
+                , g.DROP_YN as dropYn
                FROM iris_grs_ev_rslt_rgst g
                  INNER JOIN iris_tss_mgmt_mst m
                    ON 	g.tss_cd = m.tss_cd
@@ -76,12 +78,13 @@
                 , g.last_mdfy_dt								 AS lastMdfyDt
                  ,iif((select count(*) from IRIS_GRS_MGMT_MST where TSS_CD= m.tss_cd)>0,'1','0') AS isFirstGrs
                  , right(m.PK_WBS_CD, 5) as sortNum
+                 , g.DROP_YN as dropYn
                FROM iris_grs_ev_rslt_rgst g
                  INNER JOIN IRIS_GRS_MGMT_MST m
                    ON 	g.tss_cd = m.tss_cd
              ) a
+         WHERE 1=1
 		 ]]>
-        WHERE a.tssSt >= '101'
         --AND a.tss_cd in ( SELECT MAX(TSS_CD) FROM iris_grs_ev_rslt_rgst where subString(TSS_CD,0,7) = a.PK_WBS_CD)
         <if test="tssRoleType == 'null' or tssRoleType.equals('') or tssRoleType.equals('S1')">
             AND 1 = 1
@@ -115,6 +118,9 @@
         <if test="dlbrCrgrNm != null  and dlbrCrgrNm != 'null' and dlbrCrgrNm != ''">
             AND a.dlbrCrgrNm like '%'+#{dlbrCrgrNm}+'%'
         </if>
+        <if test="leaderNm != null  and leaderNm != 'null' and leaderNm != ''">
+            AND a.leaderNm like '%'+#{leaderNm}+'%'
+        </if>
         <if test="grsEvSt != null and grsEvSt != 'null' and grsEvSt != ''">
             AND a.grsEvSt = #{grsEvSt}
         </if>
@@ -122,7 +128,6 @@
             AND a.tssSt = #{tssSt}
         </if>
 
-        
         ORDER BY  lastMdfyDt desc, sortNum  desc 
     </select>
 
@@ -230,11 +235,11 @@
             ,IIF((SELECT COUNT(*)
                  FROM IRIS_GRS_EV_STD_RSLT_RGST
                  WHERE TSS_CD = B.TSS_CD AND TSS_CD_SN = B.TSS_CD_SN) > 0, 'Y', 'N') AS saveYN
-            ,IIF(((SELECT COUNT(*)
-                 FROM IRIS_GRS_EV_STD_RSLT_RGST
-                 WHERE TSS_CD = B.TSS_CD AND TSS_CD_SN = B.TSS_CD_SN) > 0 AND A.TSS_ST!='101'), '1', '0') AS  isConfirm
+            ,iif(A.TSS_ST='101' AND B.DROP_YN IS NULL,'0','1') AS  isConfirm
             ,A.TSS_STRT_DD AS tssStrtDd
             ,A.TSS_FNH_DD AS tssFnhDd
+            ,iif(A.TSS_ST='101' AND B.DROP_YN is null,'',iif(B.DROP_YN='Y','DROP','PASS')) as evResult
+            ,iif(B.GRS_EV_M_TYPE is null,'AL',B.GRS_EV_M_TYPE) as grsEvMType
             ]]>
         <choose>
             <when test="beforGrs == 1">
@@ -516,6 +521,7 @@
         , LAST_MDFY_ID --최종수정자
         , SA_SABUN_NAME --리더이름
         , DROP_YN
+        , GRS_EV_M_TYPE
         )
         VALUES
         ( #{tssCd}
@@ -536,7 +542,8 @@
         , #{userId}
         , GETDATE()
         , #{userId}
-        ,dropYn
+        ,#{dropYn}
+        ,#{grsEvMType}
         , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
         )
         WHEN MATCHED THEN
@@ -557,6 +564,7 @@
         , LAST_MDFY_ID = #{userId}
         , SA_SABUN_NAME = (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
         , DROP_YN = #{dropYn}
+        , GRS_EV_M_TYPE = #{grsEvMType}
         ;
     </update>
 
@@ -672,8 +680,8 @@
 			LAST_MDFY_DT AS lastMdfyDt,
 			LAST_MDFY_ID AS lastMdfyId
   		FROM dbo.IRIS_GRS_MGMT_MST GMM
+  		WHERE 1=1
     	]]>
-        <where>
             <if test="stssScnCd != null and stssScnCd != 'null' and stssScnCd != ''">
                 AND TSS_SCN_CD = #{stssScnCd}
             </if>
@@ -692,7 +700,6 @@
             <if test="ssaSabunNm != null and ssaSabunNm != 'null' and ssaSabunNm != ''">
                 AND SA_SABUN_NM LIKE '%'+#{ssaSabunNm}+'%'
             </if>
-        </where>
         ORDER BY FRST_RGST_DT DESC
     </select>
 
@@ -926,7 +933,6 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             WHERE g.TSS_CD = #{fromTssCd}
     </insert>
 
-    <!-- GRS 기본 정보 마스터로 이관 -->
     <update id="updateGrsDefInfo02">
         UPDATE IRIS_TSS_MGMT_MST
         SET
@@ -1081,24 +1087,15 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 --retrieveGrsApproval GRS 품의요청 내역 조회
         SELECT
             A.PRJ_CD         AS prjCd      --프로젝트코드
-            ,
-            C.PRJ_NM         AS prjNm      --프로젝트명
-            ,
-            A.TSS_CD         AS tssCd      --과제코드
-            ,
-            A.TSS_NM         AS tssNm      --과제명
-            ,
-            ISNULL(A.SA_SABUN_NAME, (select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new=A.SA_SABUN_NEW)) as saSabunName  -- 과제책임자
-            ,
-            ISNULL(A.TSS_TYPE,'')       AS tssType    -- 개발유형
-            ,
-            B.EV_TITL        AS evTitl     --일시, 장소
-		    , 
-		    B.grs_ev_st	     AS grsEvSt	--P1:초기,P2:최종,M:변경      심의단계
-		    , 
-		    dbo.fn_getComDtlNm('GRS_EV_ST',B.grs_ev_st)   AS grsEvStNm     -- 심의단계명
-            ,
-            (select stuff((select ',' +
+            ,C.PRJ_NM         AS prjNm      --프로젝트명
+            ,A.TSS_CD         AS tssCd      --과제코드
+            ,A.TSS_NM         AS tssNm      --과제명
+            ,ISNULL(A.SA_SABUN_NAME, (select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new=A.SA_SABUN_NEW)) as saSabunName  -- 과제책임자
+            ,ISNULL(A.TSS_TYPE,'')       AS tssType    -- 개발유형
+            ,B.EV_TITL        AS evTitl     --일시, 장소
+		    ,B.grs_ev_st	     AS grsEvSt	--P1:초기,P2:최종,M:변경      심의단계
+		    ,dbo.fn_getComDtlNm('GRS_EV_ST',B.grs_ev_st)   AS grsEvStNm     -- 심의단계명
+            ,(select stuff((select ',' +
                                   sa_name
                            from IRIS_SSO_USER
                            where sa_sabun_new in (SELECT value
@@ -1106,28 +1103,25 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                                                   WHERE RTRIM(value) <> '')
                            order by sa_name
                            FOR XML PATH ('')), 1, 1, '')) AS cfrnAtdtCdTxtNm --참석자
-            ,
-            B.COMM_TXT       AS commTxt            --주요 Comment
-            ,
-            B.ATTC_FIL_ID    AS attcFilId        --첨부파일
-            ,
-            (SELECT CONVERT(DECIMAL(3,1),ROUND(avg(srr.EV_SCR),1),2)
+            ,B.COMM_TXT       AS commTxt            --주요 Comment
+            ,B.ATTC_FIL_ID    AS attcFilId        --첨부파일
+            ,(SELECT CONVERT(DECIMAL(3,1),ROUND(avg(srr.EV_SCR),1),2)
              FROM iris_grs_ev_std_rslt_rgst srr,
                   IRIS_GRS_EV_STD_MGMT sm
              WHERE sm.GRS_EV_SN = srr.GRS_EV_SN
                    AND sm.GRS_EV_SEQ = srr.GRS_EV_SEQ
                    AND srr.TSS_CD =  A.TSS_CD /**P*/
                    AND srr.tss_cd_sn =  '1' /**P*/) AS evScr    --등급평균
-        FROM IRIS_TSS_MGMT_MST A  /*과제관리마스터*/
-            left JOIN IRIS_PRJ_RSST_MST C  /*프로젝트연구마스터*/
+          ,iif(B.DROP_YN is null or B.DROP_YN='','N',B.DROP_YN) as  dropYn
+        FROM
+            IRIS_TSS_MGMT_MST A
+            LEFT JOIN IRIS_PRJ_RSST_MST C  /*프로젝트연구마스터*/
                 ON A.PRJ_CD = C.PRJ_CD
             LEFT JOIN IRIS_GRS_EV_RSLT_RGST B  /*GRS평가결과등록1*/
                 ON A.TSS_CD = B.TSS_CD
-                   AND B.TSS_CD_SN = (SELECT MAX(TSS_CD_SN) 
-                                      FROM IRIS_GRS_EV_RSLT_RGST
-                                      WHERE TSS_CD = A.TSS_CD)
-        ]]>
+                   AND B.TSS_CD_SN = (SELECT MAX(TSS_CD_SN)  FROM IRIS_GRS_EV_RSLT_RGST WHERE TSS_CD = A.TSS_CD)
        WHERE A.TSS_CD IN
+        ]]>
 	        <foreach collection="tssCdList" index="index" item="item" separator="," open="(" close=")">
             	'${tssCdList[index]}'
         	</foreach>
@@ -1135,7 +1129,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	</select>
 	
 	<update id="updateApprGuid">
-	-- IRIS_TSS_MGMT_MST
+        /*updateApprGuid GRS 품의 요청  GUID update(마스타 테이블)*/
 		update	IRIS_TSS_MGMT_MST
 		set		GUID = #{guid}
 		where	TSS_CD IN
@@ -1144,7 +1138,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
         	</foreach>
 
 	</update>
-	
+
 	<select id="getGuid" resultType="String">
                 <![CDATA[
             SELECT 'H'

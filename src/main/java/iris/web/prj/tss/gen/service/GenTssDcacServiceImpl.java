@@ -1,16 +1,14 @@
 package iris.web.prj.tss.gen.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import devonframe.dataaccess.CommonDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import devonframe.dataaccess.CommonDao;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /*********************************************************************************
@@ -47,6 +45,10 @@ public class GenTssDcacServiceImpl implements GenTssDcacService {
             smryMap.put("tssCd", mstMap.get("tssCd"));
             rtCnt += this.insertGenTssDcacSmry(smryMap);
         }
+		//중단 산출물 연결
+		smryMap.put("tssCd", mstMap.get("pgTssCd"));
+		smryMap.put("yldItmType", "03");
+		commonDao.update("prj.tss.com.updateYldFile", smryMap);
 
         return rtCnt;
     }
@@ -58,6 +60,10 @@ public class GenTssDcacServiceImpl implements GenTssDcacService {
         rtCnt  = commonDao.update("prj.tss.gen.dcac.updateGenTssDcacMst", mstMap);
         rtCnt += this.updateGenTssDcacSmry(smryMap);
 
+		//중단 산출물 연결
+		smryMap.put("tssCd", mstMap.get("pgTssCd"));
+		smryMap.put("yldItmType", "03");
+		commonDao.update("prj.tss.com.updateYldFile", smryMap);
         return rtCnt;
     }
 

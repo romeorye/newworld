@@ -79,11 +79,11 @@
 %>
     <!-- 그리드 소스 -->
 <script type="text/javascript">
+    var gbGrsEvSt;
     /* ====================================== 평가요청 바로 접속 시작 ====================================== */
 	var evTssCd = "<%=evTssCd%>";
 	var evTssCdSn = "<%=evTssCdSn%>";
 	var evGrsEvSn = "<%=evGrsEvSn%>";
-    console.log(evTssCd,evTssCdSn,evGrsEvSn);
 	window.onload = function(){
         drEvTssPop(evTssCd,evTssCdSn,evGrsEvSn);
 	}
@@ -141,7 +141,9 @@
                  { id: 'tssCdSn'},
                  { id: 'grsEvSn'},
                  { id: 'grsStNm'},
-                 { id: 'frstRgstId'}
+                 { id: 'frstRgstId'},
+                 { id: 'dropYn'},
+                 { id: 'evResult'}
               ]
          });
 
@@ -165,6 +167,7 @@
                      { field: 'grsStNm',   label: 'GRS상태',  align:'center',  width: 65 , renderer: function(val, p, record, row, i) {
                              return (val == null) ? "GRS품의완료" : val;
 					 }},
+                     { field: 'evResult',   label: '평가결과',  align:'center',  width: 65 },
                      { field: 'isReq',        label: '관리',       align:'center',      width: 90  , renderer: function(val, p, record, row, i){
 /*                         return ((val==1)?"<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>":"")
 							 +((record.data.isFirstGrs==1 && val==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"");*/
@@ -173,7 +176,8 @@
                      } }
              ]
          });
-        var listGrid = new Rui.ui.grid.LGridPanel({ //masterGrid
+
+         var listGrid = new Rui.ui.grid.LGridPanel({ //masterGrid
             columnModel: listColumnModel,
             dataSet: listDataSet,
             height: 450,
@@ -317,7 +321,8 @@
                         , { id: 'isConfirm' }
                         , { id: 'tssStrtDd' }
                         , { id: 'tssFnhDd' }
-
+                        , { id: 'evResult' }
+                        , { id: 'grsEvMType' }
                      ]
                 });
 
@@ -348,6 +353,8 @@
                 , { id: 'cfrnAtdtCdTxtNm',  ctrlId: 'cfrnAtdtCdTxtNm',  value: 'value' }//회의참석자명
                 , { id: 'commTxt',          ctrlId: 'commTxt',          value: 'value' }//Comments
                 , { id: 'attcFilId',        ctrlId: 'attcFilId',        value: 'value' }//첨부파일
+                 , { id: 'evResult',            ctrlId: 'evResult',            value: 'value' }
+                 , { id: 'grsEvMType',            ctrlId: 'grsEvMType',            value: 'value' }
                     ]
                 });
 
@@ -495,7 +502,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
                     ,wbsCd  : swbsCd.getValue()
                     ,tssNm : encodeURIComponent(stssNm.getValue())
                     ,prjNm    : encodeURIComponent(sprjNm.getValue())
-                    ,dlbrCrgrNm    : encodeURIComponent(dlbrCrgrNm.getValue())
+                    ,leaderNm    : encodeURIComponent(sleaderNm.getValue())
                     ,tssSt    : sgrsSt.getValue()
                 }
             });
@@ -668,14 +675,28 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
                                     return false;
                                 }
 
+                                var evPoint = $(".L-grid-cell-inner.L-grid-col-calScr:last").html();
+                                var limitPoint = 70;
+                                var limitMsg = "";
+                                var isDrop = evPoint < limitPoint;
+
+                                if (isDrop) {
+                                    if (gbGrsEvSt=="P2"){
+                                        alert("최종 평가 점수 합계는 " + limitPoint + "점 미만일 수 없습니다.");
+                                        return;
+									}else{
+                                        limitMsg = "<font color='#DA1C5A'>※ 평가 환산점수 합계가 " + limitPoint + " 미만 입니다.</font><br><br>";
+                                    }
+                                }
 
                                 Rui.confirm({
-                                    text: '평가완료하시겠습니까?<br>완료후에는 수정/삭제가 불가능합니다.',
+                                    text: limitMsg+'평가완료하시겠습니까?<br>완료후에는 수정/삭제가 불가능합니다.',
                                     handlerYes: function () {
                                         var param = jQuery("#evTssForm").serialize().replace(/%/g, '%25');
                                         param += "&tssStrtDd=" + evInfoDataSet.getNameValue(0, "tssStrtDd");
                                         param += "&tssFnhDd=" + evInfoDataSet.getNameValue(0, "tssFnhDd");
                                         param += "&tssAttrCd=" + evInfoDataSet.getNameValue(0, "tssAttrCd");
+                                        param += "&dropYn=" + ((isDrop) ? "Y" : "N");
 
                                         dm.updateDataSet({
                                             modifiedOnly: false,
@@ -716,7 +737,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 		           guid = resultData.records[0].guid;
 
 		           if(resultData.records[0].rtnSt == 'Y') {
-		                var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00332&from=iris&guid='+guid;
+		                var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00382&from=iris&guid='+guid;
 		                openWindow(url, 'grsApprPop', 800, 500, 'yes');
 		           }
 		       });
@@ -750,27 +771,20 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
             if(confirm('품의 요청을 하시겠습니까?')) {
 
 		   			if(listDataSet.getCount() > 0 ) {
-		   				//체크박스 체크 유무 (1건이상))
-		   				// if(listDataSet.getMarkedCount() == 0 ){
-		   				// 	Rui.alert("품의 요청할 과제를 선택해주십시오");
-		   				// 	return;
-		   				// }
-
 		   				// 선택ID 목록 세팅
-		   		 		var chkTssCdList = [];
-		   				var chkTssCds = '';
+		   		 		var tssCdList = [];
 		   				for( var i = 0 ; i < listDataSet.getCount() ; i++ ){
 		   			    	if(listDataSet.isMarked(i)){
 		   			    		//chkWbsCdList.push("'"+listDataSet.getNameValue(i, 'tssCd')+"'");
-		   			    		chkTssCdList.push(listDataSet.getNameValue(i, 'tssCd'));
+		   			    		tssCdList.push(listDataSet.getNameValue(i, 'tssCd'));
 		   			    	}
 		   				}
-		   				chkTssCds = chkTssCdList.join(',');
+		   				var tssCds = tssCdList.join(',');
 
 		                dm.updateDataSet({
 		                    url:'<c:url value="/prj/grs/requestGrsApproval.do"/>',
 		                    params: {
-		                        tssCds: chkTssCds
+		                        tssCds: tssCds
 		                    }
 		                });
 
@@ -871,16 +885,11 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
             var isConfirm = (evInfoDataSet.getNameValue(0, "isConfirm") == "1");
             var isReq = (evInfoDataSet.getNameValue(0, "tssSt") == "101");
             var isFirstGrs = (evInfoDataSet.getNameValue(0, "isFirstGrs") == "1");
+            gbGrsEvSt = evInfoDataSet.getNameValue(0, "grsEvSt")
+            var evResult = evInfoDataSet.getNameValue(0, "evResult")
 
             $("#attchFileView").html('');
 
-			if(isReq){
-                $(".first-child:contains('임시저장')").css("display", "block");
-                $(".first-child:contains('평가완료')").css("display", "block");
-            }else{
-                $(".first-child:contains('임시저장')").css("display", "none");
-                $(".first-child:contains('평가완료')").css("display", "none");
-			}
 
 
             if (isConfirm) {
@@ -890,13 +899,33 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
                 setReadonly("commTxt");
                 $("#attchFileMngBtn").hide();
 
+                $("#trEvResult").show();
+                setReadonly("evResult");
+                setReadonly("grsEvMType");
+
+                $(".first-child:contains('임시저장')").css("display", "none");
+                $(".first-child:contains('평가완료')").css("display", "none");
             } else {
                 evTableGrid.setEditable(true);
                 setEditable("evTitl");
                 setEditable("cfrnAtdtCdTxtNm");
                 setEditable("commTxt");
                 $("#attchFileMngBtn").show();
+
+                $("#trEvResult").hide();
+                setEditable("grsEvMType");
+
+                $(".first-child:contains('임시저장')").css("display", "block");
+                $(".first-child:contains('평가완료')").css("display", "block");
             }
+
+
+            // 중간 평가 평가 방법 선택(변경,진척도 점검)
+            if (gbGrsEvSt=="M" && evResult!="DROP"){
+			    $("#trGrsEvMType").show();
+            }else{
+        		$("#trGrsEvMType").hide();
+			}
 
             // if(isFirstGrs && isReq){
             //    $(".first-child:contains('삭제')").css("display","block");
@@ -981,9 +1010,9 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
         grsEvSn = listDataSet.getAt(row).data.grsEvSn;
         if (grsEvSn == '0' || grsEvSn == undefined) {
             grsEvSn = '';
-            $("#chooseEv").show();
+            $("#trEv").show();
         } else {
-            $("#chooseEv").hide();
+            $("#trEv").hide();
         }
 
 
@@ -1010,7 +1039,6 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
             }
         })
         gridDataSet.on('load', function (e) {
-
         });
 
         evTssDialog.show();
@@ -1023,9 +1051,9 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 
 
 		if(grsEvSn=="null"){
-            $("#chooseEv").show();
+            $("#trEv").show();
         }else{
-            $("#chooseEv").hide();
+            $("#trEv").hide();
 		}
 
         evInfoDataSet.clearData();
@@ -1078,6 +1106,8 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
                setEditable("tssNm");
                setEditable("prodG");
                setEditable("tssStrtDd");
+               $("#tssStrtDd").css("cssText","width:88px !important");
+               $("#tssStrtDd").next().css("cssText","margin-left:33px !important");
                setEditable("tssFnhDd");
                setEditable("custSqlt");
                setEditable("tssAttrCd");
@@ -1179,7 +1209,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 						</tr>
 						<tr>
 							<th align="right">과제리더</th>
-							<td><div id="dlbrCrgrNm" /></td>
+							<td><div id="sleaderNm" /></td>
 							<th align="right">GRS상태</th>
 							<td><div id="sgrsSt"/> </td>
 						</tr>
@@ -1291,8 +1321,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 
                         <input type="hidden" id="dlbrParrDt" name="dlbrParrDt" value=""/>
                         <input type="hidden" id="dlbrCrgr" name="dlbrCrgr" value=""/>
-
-                        <table class="table table_txt_right">
+						<table class="table table_txt_right">
 							<colgroup>
 								<col style="width: 20%;" />
 								<col style="width: 30%;" />
@@ -1358,9 +1387,17 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 									<td id="attchFileView" />
 									<td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
 								</tr>
-								<tr id="chooseEv">
+								<tr id="trEv">
 									<th align="right"><span style="color:red;">* </span>평가표 선택</th>
 									<td colspan="2"><div id="grsEvSnNm" /></td>
+								</tr>
+								<tr id="trGrsEvMType">
+									<th align="right"><span style="color:red;">* </span>중간평가 방법 선택</th>
+									<td colspan="2"><div id="grsEvMType"/> </td>
+								</tr>
+								<tr id="trEvResult">
+									<th align="right">평가결과</th>
+									<td colspan="3"><input type="text" id="evResult"/></td>
 								</tr>
 							</tbody>
 						</table>
@@ -1380,7 +1417,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 	nTextBox('swbsCd', 300, '과제코드를 입력해주세요'); // 과제코드
 	nTextBox('stssNm', 300, '과제명을 입력해주세요'); // 과제명
 	nTextBox('sprjNm', 300, '프로젝트명을 입력해주세요'); // 프로젝트명
-	nTextBox('dlbrCrgrNm', 300, '과제리더명을 입력해주세요'); // 과제명
+	nTextBox('sleaderNm', 300, '과제리더명을 입력해주세요'); // 과제명
 
 
 
@@ -1416,6 +1453,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 
 	/* 평가 */
 	// 회의 일정/장소
+    nTextBox('evResult', 400,"",false); // 평가결과
     nTextBox('eprjNm', 300,"",false); // 프로젝트명
     nTextBox('ebizDptNm', 300,"",false); // 과제유형
     nTextBox('etssAttrNm', 300,"",false); // 과제속성
@@ -1438,6 +1476,23 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
         emptyValue: '',
         enterToPopup: true
     });
+
+
+    var grsEvMType = new Rui.ui.form.LCombo({
+        applyTo : 'grsEvMType',
+        emptyValue : '',
+        emptyText : '선택',
+        width : 120,
+        defaultValue : '${inputData.custSqlt}',
+        items : [ {
+            text : '변경',
+            value : 'AL'
+        }, {
+            text : '진척도 점검',
+            value : 'IN'
+        }, ]
+    });
+
 
     cfrnAtdtCdTxtNm.on('popup', function(e){
         if(todoYN) {
@@ -1466,7 +1521,6 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 		}
 
     });
-
 
 
     setUsersInfo = function(userList) {

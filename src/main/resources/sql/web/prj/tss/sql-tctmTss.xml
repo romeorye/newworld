@@ -186,7 +186,11 @@
 												  WHERE OVER_STEP_RANK = 1
 												  )
 						) m
-				where   1=1
+                      LEFT OUTER JOIN
+                      (SELECT TOP 1 * FROM
+                      (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
+                        ON m.TSS_CD = g.TSS_CD
+                        WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
 				) z
 		where  1=1
 		]]>
@@ -367,7 +371,8 @@
     <select id="selectInfoSmry" parameterType="String"  resultType="hashmap" >
         <![CDATA[
             /*selectInfoSmry 기술팀 과제 개요 조회*/
-            SELECT SMR_SMRY_TXT AS smrSmryTxt,
+            SELECT TSS_CD AS tssCd,
+                   SMR_SMRY_TXT AS smrSmryTxt,
                    SMR_GOAL_TXT AS smrGoalTxt,
                    CTY_OT_PLN_M AS ctyOtPlnM,
                    isnull(NPROD_SALS_PLN_Y, '0') AS nprodSalsPlnY,
@@ -726,7 +731,6 @@ MERGE INTO dbo.IRIS_TSS_MGMT_MST tbl
                TSS_ATTR_CD,
                TSS_STRT_DD,
                TSS_FNH_DD,
-               TSS_ST,
                FRST_RGST_DT,
                FRST_RGST_ID,
                LAST_MDFY_DT,
@@ -755,7 +759,6 @@ MERGE INTO dbo.IRIS_TSS_MGMT_MST tbl
                 #{tssAttrCd},
                 #{tssStrtDd},
                 #{tssFnhDd},
-                #{tssSt},
 				GETDATE(),
 				#{userId},
 				GETDATE(),
@@ -785,7 +788,6 @@ MERGE INTO dbo.IRIS_TSS_MGMT_MST tbl
             TSS_ATTR_CD = #{tssAttrCd},
             TSS_STRT_DD = #{tssStrtDd},
             TSS_FNH_DD = #{tssFnhDd},
-            TSS_ST = #{tssSt},
             LAST_MDFY_DT = GETDATE(),
             LAST_MDFY_ID = #{userId},
             PROD_G = #{prodG},

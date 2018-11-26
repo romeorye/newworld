@@ -95,14 +95,26 @@
                 return;
             }
 
-            if(lvTssScnCd=="D" && cboGrsEvSt.getValue() == "M") {
-                Rui.alert("기술팀과제는  변경GRS는 선택 불가입니다.");
-                cboGrsEvSt.setValue("");
-                return;
-            }
+            // if(lvTssScnCd=="D" && cboGrsEvSt.getValue() == "M") {
+            //     Rui.alert("기술팀과제는  변경GRS는 선택 불가입니다.");
+            //     cboGrsEvSt.setValue("");
+            //     return;
+            // }
             return;
         });
-        
+
+        //중단 제거
+        cboGrsEvSt.on('expand', function(e) {
+            $( "div.L-display-field:contains('중단')" ).parent().remove();
+
+            // //기술팀의 경우 중간GRS 제거
+            // if (lvTssScnCd=="D"){
+            //     $( "div.L-display-field:contains('중간')" ).parent().remove();
+            // }
+        });
+
+/*
+
         //평가표
         grsEvSnNm = new Rui.ui.form.LPopupTextBox({
             applyTo: 'grsEvSnNm',
@@ -115,7 +127,8 @@
         grsEvSnNm.on('popup', function(e){
             openGrsEvSnDialog();
         });
-        
+*/
+
         //심의예정일
         dlbrParrDt = new Rui.ui.form.LDateBox({
             applyTo: 'dlbrParrDt',
@@ -191,8 +204,8 @@
                 document.getElementById('bodyTitle').innerHTML = "";
                 document.getElementById('grsEvSt').style.border = 0;
                 
-                $('#grsEvSnNm').attr('style', "border-color:white;");
-                $('#grsEvSnNm > a').attr('style', "display:none;");
+                // $('#grsEvSnNm').attr('style', "border-color:white;");
+                // $('#grsEvSnNm > a').attr('style', "display:none;");
                 $('#dlbrParrDt').attr('style', "border-color:white;");
                 $('#dlbrParrDt > a').attr('style', "display:none;");
                 $('#dlbrCrgrNm').attr('style', "border-color:white;");
@@ -264,8 +277,8 @@
         /* [DataSet] 유효성 설정 */
         var vm = new Rui.validate.LValidatorManager({
             validators: [  
-                  { id: 'grsEvSnNm',  validExp: '평가표:true' }
-                , { id: 'dlbrParrDt', validExp: '심의예정일:true' }
+                  // { id: 'grsEvSnNm',  validExp: '평가표:true' }
+                 { id: 'dlbrParrDt', validExp: '심의예정일:true' }
                 , { id: 'dlbrCrgrNm', validExp: '심의담당자:true' }
                 , { id: 'grsEvSt',    validExp: '심의단계:true' }
             ]
@@ -284,7 +297,7 @@
                 , { id: 'tssAttrCd',  ctrlId: 'tssAttrCd',  value: 'value' }
                 , { id: 'tssNm',      ctrlId: 'tssNm',      value: 'value' }
                 , { id: 'grsEvSt',    ctrlId: 'grsEvSt',    value: 'value' }
-                , { id: 'grsEvSnNm',  ctrlId: 'grsEvSnNm',  value: 'value' }
+                // , { id: 'grsEvSnNm',  ctrlId: 'grsEvSnNm',  value: 'value' }
                 , { id: 'dlbrParrDt', ctrlId: 'dlbrParrDt', value: 'value' }
                 , { id: 'dlbrCrgrNm', ctrlId: 'dlbrCrgrNm', value: 'value' }
             ]
@@ -448,6 +461,8 @@
     });
 </script>
 <script type="text/javascript">
+
+
 //평가표 팝업 셋팅
 function setGrsEvSnInfo(grsInfo) {
     dataSet.setNameValue(0, "grsEvSn", grsInfo.grsEvSn);   //평가표코드
@@ -459,6 +474,21 @@ function setUserInfo(userInfo) {
     dataSet.setNameValue(0, "dlbrCrgrId", userInfo.saUser);  //담당자id
     dataSet.setNameValue(0, "dlbrCrgrNm", userInfo.saName); //담당자명
 }
+
+
+function setDef(){
+    // cboGrsEvSt.setSelectedIndex(1);
+    dlbrParrDt.setValue("2018-11-30");
+    // $("#grsEvSnNm").val("중앙연구소 GRS P1(초기) 심의 평가표");
+    $("#dlbrCrgrNm").val("김민정");
+    // dataSet.setNameValue(0, "grsEvSn", "5");   //평가표코드
+    // dataSet.setNameValue(0, "grsEvSnNm", "중앙연구소 GRS P1(초기) 심의 평가표"); //평가명
+
+    dataSet.setNameValue(0, "dlbrCrgr", "00206790");  //담당자사번
+    dataSet.setNameValue(0, "dlbrCrgrId", "minjeong");  //담당자id
+    dataSet.setNameValue(0, "dlbrCrgrNm", "김민정"); //담당자명
+}
+
 </script>
 
 </head>
@@ -487,7 +517,7 @@ function setUserInfo(userInfo) {
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th align="right">프로젝트명</th>
+                                    <th align="right" onclick="setDef()">프로젝트명</th>
                                     <td><input type="text"
                                         id="prjNm" /></td>
                                     <th align="right">과제유형</th>
@@ -505,12 +535,16 @@ function setUserInfo(userInfo) {
                                 </tr>
                                 <tr>
                                     <th align="right">심의단계</th>
-                                    <td class="tssLableCss bdtype">
+                                    <td class="tssLableCss bdtype" colspan="3">
                                         <div id="grsEvSt"></div>
                                     </td>
+<%--
+
                                     <th align="right">평가표</th>
                                     <td><input type="text"
-                                        id="grsEvSnNm" /></td>
+                                               id="grsEvSnNm"/></td>
+--%>
+
                                 </tr>
                                 <tr>
                                     <th align="right">심의예정일</th>

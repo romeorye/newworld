@@ -1,16 +1,14 @@
 package iris.web.prj.grs.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import devonframe.message.saymessage.SayMessage;
+import devonframe.util.NullUtil;
+import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.StringUtil;
+import iris.web.prj.grs.service.GrsMngService;
+import iris.web.prj.grs.service.GrsReqService;
+import iris.web.prj.tss.com.service.TssUserService;
+import iris.web.prj.tss.gen.service.GenTssPlnService;
+import iris.web.system.base.IrisBaseController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -22,15 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import devonframe.message.saymessage.SayMessage;
-import devonframe.util.NullUtil;
-import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.StringUtil;
-import iris.web.prj.grs.service.GrsMngService;
-import iris.web.prj.grs.service.GrsReqService;
-import iris.web.prj.tss.com.service.TssUserService;
-import iris.web.prj.tss.gen.service.GenTssPlnService;
-import iris.web.system.base.IrisBaseController;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /********************************************************************************
  * NAME : GrsReqController.java
@@ -62,8 +60,8 @@ public class GrsReqController  extends IrisBaseController {
     /*
      * GRS 조회
      */
-    @RequestMapping(value="/prj/grs/grsReqList.do")
-    public String grsReqList(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpSession session, ModelMap model ){
+    @RequestMapping("/prj/grs/grsReqList.do")
+    public String grsReqList(@RequestParam HashMap<String, String> input, HttpSession session, ModelMap model){
 
         LOGGER.debug("###########################################################");
         LOGGER.debug("GrsReqController - grsReqList [grs화면 호출]");
@@ -83,9 +81,8 @@ public class GrsReqController  extends IrisBaseController {
     }
 
 
-    @RequestMapping(value="/prj/grs/retrieveGrsReqList.do")
-    public ModelAndView retrieveGrsReqList(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-            HttpServletResponse response, HttpSession session, ModelMap model) {
+    @RequestMapping("/prj/grs/retrieveGrsReqList.do")
+    public ModelAndView retrieveGrsReqList(@RequestParam HashMap<String, Object> input, HttpSession session, ModelMap model) {
 
         LOGGER.debug("###########################################################");
         LOGGER.debug("retrieveGrsReqList - retrieveGrsReqList [grs req]");
@@ -120,7 +117,7 @@ public class GrsReqController  extends IrisBaseController {
      * @return String
      * @throws JSONException
      * */
-    @RequestMapping(value="/prj/grs/grsEvRslt.do")
+    @RequestMapping("/prj/grs/grsEvRslt.do")
     public String grsEvRslt(@RequestParam HashMap<String, String> input, HttpServletRequest request,
             HttpSession session, ModelMap model) throws JSONException {
 
@@ -158,7 +155,7 @@ public class GrsReqController  extends IrisBaseController {
      * @return String
      * @throws JSONException
      * */
-    @RequestMapping(value="/prj/grs/grsItgSrch.do")
+    @RequestMapping("/prj/grs/grsItgSrch.do")
     public String grsItgSrch(@RequestParam HashMap<String, String> input, HttpServletRequest request,
             HttpSession session, ModelMap model) throws JSONException {
 
@@ -198,7 +195,7 @@ public class GrsReqController  extends IrisBaseController {
      * @param model ModelMap
      * @return ModelAndView
      * */
-    @RequestMapping(value="/prj/grs/updateGrsEvRslt.do")
+    @RequestMapping("/prj/grs/updateGrsEvRslt.do")
     public ModelAndView updateGrsEvRslt(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpServletResponse response,
             HttpSession session, ModelMap model) {
 
@@ -248,7 +245,7 @@ public class GrsReqController  extends IrisBaseController {
      * @return String
      * @throws JSONException
      * */
-    @RequestMapping(value="/prj/grs/grsEvStdPop.do")
+    @RequestMapping("/prj/grs/grsEvStdPop.do")
     public String grsEvStdPop(@RequestParam HashMap<String, String> input, HttpServletRequest request,
             HttpSession session, ModelMap model) throws JSONException {
 
@@ -285,9 +282,8 @@ public class GrsReqController  extends IrisBaseController {
      * @param model ModelMap
      * @return ModelAndView
      * */
-    @RequestMapping(value="/prj/grs/retrieveGrsEvStd.do")
-    public ModelAndView retrieveGrsEvStd(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpServletResponse response,
-            HttpSession session, ModelMap model) {
+    @RequestMapping("/prj/grs/retrieveGrsEvStd.do")
+    public ModelAndView retrieveGrsEvStd(@RequestParam HashMap<String, String> input, HttpServletRequest request, HttpSession session, ModelMap model) {
 
         LOGGER.debug("###########################################################");
         LOGGER.debug("retrieveGrsEvStd [GRS 평가항목 목록 조회]");
@@ -322,7 +318,7 @@ public class GrsReqController  extends IrisBaseController {
      * @return String
      * @throws JSONException
      * */
-    @RequestMapping(value="/prj/grs/grsEvStdDtlPop.do")
+    @RequestMapping("/prj/grs/grsEvStdDtlPop.do")
     public String grsEvStdDtlPop(@RequestParam HashMap<String, String> input, HttpServletRequest request,
             HttpSession session, ModelMap model) throws JSONException {
 
@@ -359,7 +355,7 @@ public class GrsReqController  extends IrisBaseController {
      */
 
 
-    @RequestMapping(value="/prj/grs/grsEvRsltDtl.do")
+    @RequestMapping("/prj/grs/grsEvRsltDtl.do")
     public String grsReqDtl(@RequestParam HashMap<String, String> input,HttpServletRequest request,
             HttpSession session,ModelMap model) throws Exception{
 
@@ -404,7 +400,7 @@ public class GrsReqController  extends IrisBaseController {
      */
 
 
-    @RequestMapping(value="/prj/grs/grsReqDtlToDo.do")
+    @RequestMapping("/prj/grs/grsReqDtlToDo.do")
     public String grsReqDtlToDo(@RequestParam HashMap<String, String> input,HttpServletRequest request,
             HttpSession session,ModelMap model) throws Exception{
 
@@ -454,15 +450,10 @@ public class GrsReqController  extends IrisBaseController {
     /**
      * 상세 화면 조회
      * @param input
-     * @param request
-     * @param response
-     * @param session
-     * @param model
      * @return
      */
-    @RequestMapping(value="/prj/grs/retrieveGrsReqDtl.do")
-    public ModelAndView retrieveGrsReqDtl(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
-            HttpServletResponse response, HttpSession session, ModelMap model) {
+    @RequestMapping("/prj/grs/retrieveGrsReqDtl.do")
+    public ModelAndView retrieveGrsReqDtl(@RequestParam HashMap<String, Object> input) {
 
         LOGGER.debug("###########################################################");
         LOGGER.debug("retrieveGrsTempList - retrieveGrsReqDtl [grs req]");
@@ -474,7 +465,7 @@ public class GrsReqController  extends IrisBaseController {
         input = StringUtil.toUtf8(input);
 
 
-        HashMap<String, Object> inputMap = new HashMap<String, Object>();
+        HashMap<String, Object> inputMap = new HashMap<>();
         String grsEvSn =  (String) input.get("grsEvSn");
 
         inputMap.put("grsEvSn", grsEvSn);
@@ -493,7 +484,7 @@ public class GrsReqController  extends IrisBaseController {
     }
 
     @SuppressWarnings("static-access")
-    @RequestMapping(value="/prj/grs/insertGrsEvRsltSave.do")
+    @RequestMapping("/prj/grs/insertGrsEvRsltSave.do")
     public ModelAndView insertGrsEvRsltSave(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
                                             HttpSession session, ModelMap model) {
 
@@ -506,8 +497,8 @@ public class GrsReqController  extends IrisBaseController {
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
         HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-        List<Map<String, Object>> dsLst = null;
-        HashMap<String, Object> dtlDs =  new HashMap<String, Object>();
+        List<Map<String, Object>> dsLst;
+        HashMap<String, Object> dtlDs;
 
         Map<String, String> msgMap = new HashMap<>();
 
@@ -546,7 +537,7 @@ public class GrsReqController  extends IrisBaseController {
         return rtVal;
     }
 
-    @RequestMapping(value="/prj/grs/updateGrsDecode.do")
+    @RequestMapping("/prj/grs/updateGrsDecode.do")
     public ModelAndView updateGrsDecode(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
                                             HttpSession session, ModelMap model) {
 
@@ -559,7 +550,7 @@ public class GrsReqController  extends IrisBaseController {
         ModelAndView modelAndView = new ModelAndView("ruiView");
         
         HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-        List<Map<String, Object>> grsLst = null;
+        List<Map<String, Object>> grsLst;
 
         Map<String, String> msgMap = new HashMap<>();
         Map<String, Object> grsMap = new HashMap<>();

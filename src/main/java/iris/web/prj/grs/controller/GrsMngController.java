@@ -301,7 +301,7 @@ public class GrsMngController extends IrisBaseController {
 			input.put("commTxt", dtlDs.get("commTxt"));
 			input.put("userId", input.get("_userId"));
 			input.put("cfrnAtdtCdTxt", input.get("cfrnAtdtCdTxt").toString().replaceAll("%2C", ",")); //참석자
-			
+
 			grsReqService.updateGrsEvRslt(input);
 			for(Map<String, Object> ds  : dsLst) {
 				ds.put("userId", input.get("_userId"));
@@ -342,7 +342,7 @@ public class GrsMngController extends IrisBaseController {
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<>();
 
 		try {
 			input.put("cmd", "requestApproval");
@@ -352,10 +352,11 @@ public class GrsMngController extends IrisBaseController {
 
 			input = StringUtil.toUtf8Input(input);
 
-			String tssCode = (String) input.get("tssCds");
+//			String tssCode = (String) input.get("tssCds");
 
 			String[] tssCds = (NullUtil.nvl(input.get("tssCds"), "")).split(",");
-			List<String> tssCdList = new ArrayList<String>();
+			List<String> tssCdList = new ArrayList<>();
+
 			String commTxt = "";
 
 			for (String tssCd : tssCds) {
@@ -366,7 +367,7 @@ public class GrsMngController extends IrisBaseController {
 
 			String guid = grsMngService.getGuid(input);
 
-			Map<String, Object> grsApprInfo = new HashMap<String, Object>();
+			Map<String, Object> grsApprInfo = new HashMap<>();
 
 			List<Map<String, Object>> grsInfo = grsMngService.retrieveGrsApproval(input);
 
@@ -376,6 +377,14 @@ public class GrsMngController extends IrisBaseController {
 			List<Map<String, Object>> rqprAttachFileList = commonDao.selectList("common.attachFile.getAttachFileList", input);
 
 			for (int i = 0; i < grsInfo.size(); i++) {
+				String dropYn = "";
+				if(grsInfo.get(i).get("dropYn")!=null){
+					if(grsInfo.get(i).get("dropYn").equals("Y")){
+						dropYn = "DROP";
+					}else if(grsInfo.get(i).get("dropYn").equals("N")){
+						dropYn = "PASS";
+					}
+				}
 				sb.append("<tr>")
 						.append("<th>").append(grsInfo.get(i).get("grsEvSt")).append("</th>")
 						.append("<td>").append(grsInfo.get(i).get("prjNm")).append("</td>")
@@ -383,7 +392,7 @@ public class GrsMngController extends IrisBaseController {
 						.append("<td>").append(grsInfo.get(i).get("saSabunName")).append("</td>")
 						.append("<td>").append(grsInfo.get(i).get("tssType")).append("</td>")
 						.append("<td>").append(grsInfo.get(i).get("evScr")).append("</td>")
-						.append("<td>").append("PASS").append("</td>")
+						.append("<td>").append(dropYn).append("</td>")
 						.append("</tr>");
 			}
 

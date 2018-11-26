@@ -264,7 +264,7 @@ function makeGrsEvTable() {
 	/* 합계 */
 
 	var sumColumns = [ 'evScr', 'wgvl', 'calScr' ];
-	var summary = new Rui.ui.grid.LTotalSummary();
+	summary = new Rui.ui.grid.LTotalSummary();
 	summary.on('renderTotalCell', summary.renderer({
 		label : {
 			id : 'evPrvsNm_1',

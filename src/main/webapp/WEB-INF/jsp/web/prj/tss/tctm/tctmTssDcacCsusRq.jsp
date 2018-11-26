@@ -1,3 +1,4 @@
+<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
@@ -158,8 +159,8 @@
         
         /* [버튼] 목록 */
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {                
-            nwinsActSubmit(window.document.aform, "<c:url value='/prj/tss/tctm/tctmTssList.do'/>");
+        btnList.on('click', function() {
+            location.href = "<%=request.getContextPath()+TctmUrl.doList%>";
         });
         
         downloadAttachFile = function(attcFilId, seq) {

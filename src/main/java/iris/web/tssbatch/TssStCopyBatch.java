@@ -1,24 +1,18 @@
 package iris.web.tssbatch;
 
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
+import iris.web.common.util.StringUtil;
+import iris.web.prj.tss.gen.service.GenTssPlnService;
+import iris.web.system.base.IrisBaseController;
+import iris.web.tssbatch.service.TssStCopyService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
-import iris.web.common.util.StringUtil;
-import iris.web.prj.tss.gen.service.GenTssPlnService;
-import iris.web.system.base.IrisBaseController;
-import iris.web.tssbatch.service.TssStCopyService;
+import javax.annotation.Resource;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /********************************************************************************
@@ -73,6 +67,8 @@ public class TssStCopyBatch extends IrisBaseController {
 
 			//2. 과제 상태 변경 -> 104
 			for (Map<String, Object> data : retrieveTssComItgRdcs) {
+				LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>>"+ "과재 품의 대상");
+				LOGGER.debug(data);
 				String aprdocstate = String.valueOf(data.get("aprdocstate")); //결재상태코드 A01 : 결재요청, A02 : 최종승인완료 ,A03 : 반려, A04 : 취소
 
 				if (!StringUtil.isNullString(aprdocstate)) {

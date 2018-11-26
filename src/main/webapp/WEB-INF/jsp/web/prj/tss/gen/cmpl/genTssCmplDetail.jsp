@@ -92,7 +92,7 @@
          tssNm = new Rui.ui.form.LTextBox({
              applyTo: 'tssNm',
              editable: false,
-             width: 300
+             width: 500
          });
 
         //wbs code
