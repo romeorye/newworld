@@ -78,6 +78,7 @@
             	     , { field: 'pstyp' , hidden : true}
             	     , { field: 'izwek' , hidden : true}
             	     , { field: 'ekgrp' , hidden : true}
+            	     , { field: 'sakto' , hidden : true}
             ]
         });
         
@@ -101,11 +102,12 @@
         	frm.seqNum.value = record.get("seqNum");
  			frm.knttp.value  = record.get("knttp");
  			frm.pstyp.value  = record.get("pstyp");
- 			frm.mCode.value  = escape(encodeURIComponent(record.get("mCode")));
+ 			frm.mCode.value  = encodeURIComponent(record.get("mCode"));
  			frm.bizCd.value  = record.get("bizCd");
  			frm.izwek.value  = record.get("izwek");
- 			frm.sCode.value  = escape(encodeURIComponent(record.get("sCode")));
+ 			frm.sCode.value  = encodeURIComponent(record.get("sCode"));
  			frm.ekgrp.value  = record.get("ekgrp");
+ 			frm.sakto.value  = record.get("sakto");
  			
  			nwinsActSubmit(document.aform, "<c:url value='/prs/purRq/purRqDetail.do'/>");
         }
@@ -191,6 +193,7 @@
 <input type="hidden" id="izwek"  name="izwek" />
 <input type="hidden" id="sCode"  name="sCode" />
 <input type="hidden" id="ekgrp"  name="ekgrp" />
+<input type="hidden" id="sakto"  name="sakto" />
 
 <div class="contents">
 	<div class="sub-content">

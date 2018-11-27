@@ -35,5 +35,11 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		return commonDao.selectList("prs.purRq.retrievePurRqList", input );
 	}
 	
+	public int insertPurRqInfo(Map<String, Object> dataMap){
+		return commonDao.insert("prs.purRq.insertPurRqInfo", dataMap);
+	}
 
+	public HashMap<String, Object> retrievePurRqInfo(HashMap<String, Object> input){
+		return commonDao.select("prs.purRq.retrievePurRqInfo", input );
+	}
 }

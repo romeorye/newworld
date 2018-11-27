@@ -48,10 +48,60 @@
 			and   a.PSTYP = ''
 			and   a.USED_CODE = 'O'
 			</if>
-			
 	
 	</select>
 
-
+	<insert id="insertPurRqInfo" >
+	insert into PR_PRSREQ_T
+		(
+		 SEQ_NUM
+		 ,S_CODE,BANFN,BNFPO,KNTTP,PSTYP,TXZ01,MENGE,MEINS,EEIND,AFNAM,MATKL,WERKS,EKGRP,BEDNR
+		,PREIS,WAERS,PEINH,SAKTO,POSID,PRS_FLAG,MAKER,VENDOR,CATALOGNO,POSITION,USED_CODE,BIZ_CD,ATTC_FIL_ID, BADATE
+		) 
+		values 
+		(
+		 (select max(SEQ_NUM)+1 from [dbo].[PR_PRSREQ_T] ) 
+		,#{sCode},#{banfn},#{bnfpo},#{knttp},#{pstyp},#{txz01},#{menge},#{meins},#{eeind},#{afnam},#{matkl},#{werks},#{ekgrp},#{bednr}
+        ,#{preis},#{waers},#{peinh},#{sakto},#{posid},#{prsFlag},#{maker},#{vendor},#{catalogno},#{position},#{usedCode},#{bizCd},#{attcFilId},getdate()
+		)
+	
+	</insert>
+	
+	<select id="retrievePurRqInfo"  resultType="hashmap">
+	/* retrievePurRqInfo  리스트 조회 */
+	select   BANFN_PRS  as  banfnPrs   
+			,BNFPO_PRS  as  bnfpoPrs   
+			,SEQ_NUM    as  seqNum     
+			,S_CODE     as  sCode      
+			,BANFN      as  banfn       
+			,BNFPO      as  bnfpo       
+			,KNTTP      as  knttp       
+			,PSTYP      as  pstyp       
+			,TXZ01      as  txz01       
+			,MENGE      as  menge       
+			,MEINS      as  meins       
+			,EEIND      as  eeind       
+			,AFNAM      as  afnam       
+			,MATKL      as  matkl       
+			,WERKS      as  werks       
+			,EKGRP      as  ekgrp       
+			,BEDNR      as  bednr       
+	        ,PREIS      as  preis       
+	        ,WAERS      as  waers       
+	      	,PEINH      as  peinh       
+	      	,SAKTO      as  sakto       
+	      	,ANLKL      as  anlkl       
+	      	,TXT50      as  txt50       
+	      	,KOSTL      as  kostl       
+			,POSID      as  posid       
+			,POST1      as  post1       
+			,ITEM_TXT   as  itemTxt       
+			,PRS_FLAG   as  prsFlag    
+			,BIZ_CD     as  bizCd   
+			,ATTC_FIL_ID as attcFilId   
+		from [dbo].[PR_PRSREQ_T]
+		where BANFN_PRS = cast(#{banfnPrs} as int) 
+		
+	</select>
 
 </mapper>

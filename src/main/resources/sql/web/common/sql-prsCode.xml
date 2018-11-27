@@ -13,8 +13,8 @@
 		and   x.REGION_CD = '01'     
 	</select>
 	
-	<select id="retrieveMengeInfo" resultType="HashMap">
-	/*retrieveMengeInfo  단위리스트 코드 목록*/
+	<select id="retrieveWaersInfo" resultType="HashMap">
+	/*retrieveWaersInfo  단위리스트 코드 목록*/
 		select CODE as CODE
 		      ,code+'/'+CODE_NM as CODE_NM 
 		from [dbo].[PR_CODEMASTER_T] 
@@ -24,15 +24,39 @@
 	
 	<select id="retrieveWbsCdInfoList" resultType="HashMap">
 	/*retrieveWbsCdInfoList  프로젝트 리스트 코드 목록*/
-		select  POSID as posid
+		
+		select  distinct 
+			   POSID as posid
 	          ,POST1 as post1
-	          ,ENAME as ename
+	          ,vernrna  as ename
 			  ,FKSTL as fkstl
 			  ,WONJANG as wonjang
-			  ,PERNR as pernr
+			  ,vernr as pernr
 		from   [dbo].[PR_PROJETINFO_T]
 	</select>
 	
+	<select id="retrieveSaktoInfoList" resultType="HashMap">
+	/*retrieveSaktoInfoList  계정 리스트 코드 목록*/
+		select   CODE
+	           , CODE_NM
+		from   PR_CODEMASTER_T
+		where   del_flag = '0'
+		and      group_code = '10'
+		and      REGION_CD ='01'
+		and      CODE = #{code}
+	</select>
+	
+	<select id="retrieveWerksInfo" resultType="HashMap">
+	/*retrieveWerksInfo  플랜트 리스트 코드 목록*/
+		select CODE
+            ,CODE_NM 
+		from [dbo].[PR_CODEMASTER_T] 
+		where DEL_FLAG = 0
+		and   GROUP_CODE = '02'
+		and   REGION_CD ='01'
+	</select>
+
+
 
 
 </mapper>

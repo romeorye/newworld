@@ -33,37 +33,82 @@ var callback;
 
 	Rui.onReady(function() {
 		var frm = document.aform;
-		
-		var purRqUserDataSet = new Rui.data.LJsonDataSet({
-			id: 'purRqUserDataSet',
+		var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
+
+		<%-- RESULT DATASET --%>
+		resultDataSet = new Rui.data.LJsonDataSet({
+            id: 'resultDataSet',
             remainRemoved: true,
+            lazyLoad: true,
             fields: [
-            	  { id: 'knttp'}	/*품목구분*/
-            	 ,{ id: 'sCode'}	/*품목*/
-            	 ,{ id: 'eeind'}	/*납품요청일*/
-            	 ,{ id: 'bizCd'}	/*납품위치*/
-            	 ,{ id: 'posid'}	/* 프로젝트코드*/
-            	 ,{ id: 'itemTxt'}	/* 구매요청*/
-            	 ,{ id: 'bednr'}	/* 사번*/ 
-            	 ,{ id: 'sakto'}	/* 계정코드 */
+                  { id: 'rtnSt' }   //결과코드
+                , { id: 'rtnMsg' }  //결과메시지
             ]
         });
 
+        resultDataSet.on('load', function(e) {
+        });
+		
+		var purRqUserDataSet = new Rui.data.LJsonDataSet({
+			id: 'purRqUserDataSet',
+			remainRemoved: true,
+            lazyLoad: true,
+            fields: [
+            	 { id : 'banfnPrs'}   
+            	,{ id : 'bnfpoPrs'}   
+            	,{ id : 'seqNum'}     
+            	,{ id : 'sCode'}      
+            	,{ id : 'banfn'}       
+            	,{ id : 'bnfpo'}       
+            	,{ id : 'knttp'}       
+            	,{ id : 'pstyp'}       
+            	,{ id : 'meins'}       
+            	,{ id : 'eeind'}       
+            	,{ id : 'afnam'}       
+            	,{ id : 'matkl'}       
+            	,{ id : 'ekgrp'}       
+            	,{ id : 'bednr'}       
+            	,{ id : 'peinh'}       
+            	,{ id : 'anlkl'}       
+            	,{ id : 'txt50'}       
+            	,{ id : 'itemTxt'}       
+            	,{ id : 'kostl'}       
+            	,{ id : 'posid'}       
+            	,{ id : 'post1'}       
+            	,{ id : 'prsFlag'}    
+            	,{ id : 'bizCd'}      
+            	,{ id:  'attcFilId'}	
+            	,{ id: 'txz01'}	/*요청품명*/
+		    	,{ id: 'maker'}	/*메이커*/
+		    	,{ id: 'vendor'}	/* 벤더*/
+		    	,{ id: 'catalogno'}	/*카탈로그 no*/
+		    	,{ id: 'waers'}	/* 요청단위 콤보*/
+		    	,{ id: 'menge'}	/* 요청 수량*/
+		    	,{ id: 'preis'}	/* 예상단가*/
+		    	,{ id: 'sakto'}	/* 계정코드*/
+		    	,{ id: 'usedCode'}	/* */
+		    	,{ id: 'werks'}	/* 플랜트*/
+            ]
+        });
+
+		
 		purRqUserDataSet.on('load', function(e){
-			//purRqUserDataSet.setNameValue(0, 'bednrNm', '${inputData.userNm}');
-	    });
+			purRqUserDataSet.setNameValue(0, 'sakto', '${inputData.sakto}');
+			purRqUserDataSet.setNameValue(0, 'bednr', '${inputData._userSabun}');
+			purRqUserDataSet.setNameValue(0, 'bnfpoPrs', '1');   // 추가할 경우 변경됨
+		});
 
 		/* prject list 팝업 설정*/
-        var prjNm = new Rui.ui.form.LPopupTextBox({
-        	applyTo: 'prjNm',
-            placeholder: 'prjNm코드를 입력해주세요.',
+        var post1 = new Rui.ui.form.LPopupTextBox({
+        	applyTo: 'post1',
+            placeholder: 'prj정보를 입력해주세요.',
             defaultValue: '',
             emptyValue: '',
             editable: false,
             width: 200
         });
 		
-        prjNm.on('popup', function(e){
+        post1.on('popup', function(e){
         	openWbsListSearchDialog(setWbsCdInfo);
         });
 		
@@ -75,15 +120,17 @@ var callback;
         
 	  	//project  코드 팝업 세팅
 		setWbsCdInfo = function(r){
-		  	prjNm.setValue(r.post1);
-		  	//wbs cd  r.posid;
-		  	frm.PrjCd.value = r.posid;
+			post1.setValue(r.post1);
+			
+			purRqUserDataSet.setNameValue(0, 'post1', r.post1);
+			purRqUserDataSet.setNameValue(0, 'posid', r.posid);
 	  	} 
 			
 		//품목
         var sCode = new Rui.ui.form.LCombo({
 			applyTo : 'sCode',
 			width: 180,
+			defaultValue: '<c:out value="${inputData.sCode}"/>',
 			useEmptyText: false,
 			items: [
 	                   { code: '견본', value: '견본' } 
@@ -93,7 +140,12 @@ var callback;
 	               ]
 		});
 		
-
+        sCode.getDataSet().on('load', function(e) {
+        	if(!Rui.isEmpty('${inputData.sCode}')  ){
+            	sCode.setValue( '${inputData.sCode}' );
+           	}
+        });
+       	
 		//납품요청일
 		var eeind = new Rui.ui.form.LDateBox({
 			applyTo: 'eeind',
@@ -170,7 +222,7 @@ var callback;
 		            { field: 'menge',  		label:'단위', 	sortable: false, align: 'center', width: 115},
 		            { field: 'eeind', 	label: '남품요청일', 		sortable: false, align: 'center', width: 120},
 		            { field: 'preis', 		label: '예상단가',   	sortable: false, align: 'left',	  width: 100},
-		            { field: 'rgstDt', 			label: '통화',   	sortable: false, align: 'center', width: 100},
+		            { field: 'meins', 			label: '통화',   	sortable: false, align: 'center', width: 100},
 		            { field: 'itemTxt', 		label: '구매요청 사유 및 세부스펙',   	sortable: false, align: 'center', width: 300},
 		            { field: 'bednr',  		hidden : true}
 		        ]
@@ -185,21 +237,35 @@ var callback;
 		});
 
 		//grid.render('purRqGrid');
-		/* 
-		var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-		
-		fnSearch = function(){
-	    	dm.loadDataSet({
-				dataSets: [ purRqUserDataSet, purListDataSet],
-	        	url: '<c:url value="/prs/purRq/retrievePurRqInfo.do"/>' 
-	    	})	
-		};
+
+		fnSearch = function() {
+			purRqUserDataSet.load({
+	 	 		url: '<c:url value="/prs/purRq/retrievePurRqInfo.do"/>', 
+	 	        params :{
+	 	        	banfnPrs  : '${inputData.banfnPrs}'
+	 	    	         }
+	        });
+	    }
 
 		fnSearch();
 		
-		 */
-		 
-		 prjInfoListDialog= new Rui.ui.LFrameDialog({
+		var bind = new Rui.data.LBind({
+		     groupId: 'aform',
+		     dataSet: purRqUserDataSet,
+		     bind: true,
+		     bindInfo: [
+		         { id: 'sCode', ctrlId: 'sCode', value: 'value' },
+		         { id: 'post1', ctrlId: 'post1', value: 'value' },
+		         { id: 'eeind', ctrlId: 'eeind', value: 'value' },
+		         { id: 'position', ctrlId: 'position', value: 'value' },
+		         { id: 'ekgrp', ctrlId: 'ekgrp', value: 'value' },
+		         { id: 'itemTxt', ctrlId: 'itemTxt', value: 'value' },
+		         { id: 'sakto', ctrlId: 'sakto', value: 'html' },
+		         { id: 'saktoNm', ctrlId: 'saktoNm', value: 'html' }
+		     ]
+		 });
+	
+		prjInfoListDialog= new Rui.ui.LFrameDialog({
 		     id: 'prjInfoListDialog',
 		     title: 'Project Code',
 		     width:  980,
@@ -221,8 +287,8 @@ var callback;
 		 purRqItemDialog = new Rui.ui.LFrameDialog({
 		     id: 'purRqItemDialog',
 		     title: '구매요청 Item',
-		     width:  980,
-		     height: 550,
+		     width:  1100,
+		     height: 700,
 		     modal: true,
 		     visible: false,
 		     buttons : [
@@ -235,14 +301,51 @@ var callback;
 
 		 purRqItemDialog.render(document.body);
 		 
-		  
 		/* [버튼] 추가 */
 	    var btnAddPurRq = new Rui.ui.LButton('btnAddPurRq');
 		btnAddPurRq.on('click', function() {
-			//구매요청 정보 팝업창 호출	 
-			purRqItemDialog.setUrl('<c:url value="/prs/purRq/purRqItemPop.do"/>');
+			//구매요청 정보 팝업창 호출	
+			var params = "?code="+'${inputData.sakto}';
+			
+			purRqItemDialog.setUrl('<c:url value="/prs/popup/purRqItemPop.do"/>'+params);
 			purRqItemDialog.show(true); 
 		});
+		
+		
+		fncSave = function(dataSet){
+			purRqUserDataSet.setNameValue(0, 'txz01', dataSet.getNameValue(0, 'txz01'));
+	    	purRqUserDataSet.setNameValue(0, 'maker', dataSet.getNameValue(0, 'maker'));
+	    	purRqUserDataSet.setNameValue(0, 'vendor', dataSet.getNameValue(0, 'vendor'));
+	    	purRqUserDataSet.setNameValue(0, 'catalogno', dataSet.getNameValue(0, 'catalogno'));
+	    	purRqUserDataSet.setNameValue(0, 'waers', dataSet.getNameValue(0, 'waers'));
+	    	purRqUserDataSet.setNameValue(0, 'menge', dataSet.getNameValue(0, 'menge'));
+	    	purRqUserDataSet.setNameValue(0, 'preis', dataSet.getNameValue(0, 'preis'));
+	    	purRqUserDataSet.setNameValue(0, 'werks', dataSet.getNameValue(0, 'werks'));
+			
+			//구매요청 Item 정보 저장	 
+	    	if( confirm("저장하시겠습니까?") == true ){
+	    		dm.updateDataSet({
+                    modifiedOnly: false,
+                    url:'<c:url value="/prs/purRq/insertPurRqInfo.do"/>',
+                    dataSets:[purRqUserDataSet]
+                });
+	    	} 
+		}
+		
+		dm.on('success', function(e) {
+			var resultData = resultDataSet.getReadData(e);
+   			
+			if( resultData.records[0].rtnSt == "S"){
+				Rui.alert(resultData.records[0].rtnMsg);
+            	grid.render('purRqGrid');
+			}
+        });
+        dm.on('failure', function(e) {
+        	var resultData = resultDataSet.getReadData(e);
+   			Rui.alert(resultData.records[0].rtnMsg);
+        });
+
+		
 		 
 		/* [기능] 첨부파일 조회*/
         var attachFileDataSet = new Rui.data.LJsonDataSet({
@@ -299,7 +402,7 @@ var callback;
 
                 if(Rui.isEmpty(lvAttcFilId)) {
                 	lvAttcFilId =  attachFileList[0].data.attcFilId;
-                	anlBbsRgstDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
+                	purRqUserDataSet.setNameValue(0, "attcFilId", attachFileList[0].data.attcFilId);
                 }
             }
         };
@@ -336,8 +439,8 @@ var callback;
 
 	<form id="aform" name ="aform">
 	<input type="hidden" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">  
-	<input type="hidden" id="bednr" name="bednr" value="<c:out value='${inputData._userSabun}'/>">  
-	<input type="hidden" id="PrjCd" name="PrjCd" />  
+	<input type="hidden" id="sakto" name="sakto" value="<c:out value='${inputData.sakto}'/>">  
+	<input type="hidden" id="posid" name="posid" />  
 	
 	<div class="sub-content">
 			<table class="table table_txt_right">
@@ -356,7 +459,7 @@ var callback;
 			            </td>
 			            <th>Project Code</th>
 			            <td>
-							<input type="text" class="" id="prjNm" name="prjNm" value="" >
+							<input type="text" class="" id="post1" name="post1" value="" >
 						</div>
 			            </td>
 			        </tr>
@@ -393,13 +496,13 @@ var callback;
 	                </tr>
 				</tbody>
 			</table>
-	</div>
 	    <div class="titArea">
 	    	<span class="Ltotal" id="cnt_text">총 : 0 </span>
 	    	<div class="LblockButton">
 	    	 	<button type="button" id="btnAddPurRq" name="btnAddPurRq" class="redBtn">추가</button>
 	    	</div> 
 	    </div>
+	</div>
 	    
 	    
 		<div id="purRqGrid"></div>
