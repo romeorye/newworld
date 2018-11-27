@@ -286,8 +286,12 @@
 			,#{tCloud}
 			,dbo.fn_getDeptName( dbo.fn_getDeptCode(#{userId}) )
 		)
-
 	</insert>
+
+	<select id="getNewRqprId" resultType="int">
+		   SELECT IDENT_CURRENT('IRIS_SPACE_RQPR_MST') as newRqprId
+	</select>
+
 
 	<update id="updateSpaceRqpr">
 
@@ -940,20 +944,12 @@
 				  ,space_name											as spaceNm
 				  ,acpc_no												as acpcNo
 				  ,dbo.fn_getUserEmail(rgst_id)
-				   + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(rqpr_team_cd)), '')
-				   + isnull(',' + ( SELECT TOP 1 STUFF((SELECT ',' + DBO.FN_GETUSEREMAIL(INFM_PRSN_ID)
+				   + isnull(',' + ( SELECT TOP 1 STUFF((SELECT DISTINCT ',' + DBO.FN_GETUSEREMAIL(INFM_PRSN_ID)
 			                          FROM IRIS_SPACE_WAY_CRGR
 								     WHERE 1=1
 			                           AND RQPR_ID = ${rqprId}
 									   FOR XML PATH('')), 1, 1, '')), '')
-				   + isnull(',' + (SELECT TOP 1 STUFF((SELECT DBO.FN_GETUSEREMAIL(DBO.FN_GETDEPTLEADERID(SA_DEPT_NEW))
-			                                             FROM IRIS_SSO_USER B
-			                                            WHERE B.SA_USER IN (SELECT INFM_PRSN_ID
-			                                                                  FROM IRIS_SPACE_WAY_CRGR
-								                                             WHERE 1=1
-								                                               AND RQPR_ID = ${rqprId})
-			                                            GROUP BY SA_DEPT_NEW
-			                                              FOR XML PATH('')),1,1,'')), '') as receivers
+				   as receivers --의뢰자, 담당자
 			from	iris_space_rqpr_mst
 		 ]]>
 			where	rqpr_id = ${rqprId}

@@ -82,7 +82,7 @@
                 		;
                 	} else if(data.records[0].cmd == 'requestRsltApproval') {
                 		// guid= B : 신뢰성 분석의뢰, D : 신뢰성 분석완료, E : 공간성능 평가의뢰, G : 공간성능 평가완료 + rqprId
-                    	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00333&approvalLineInform=SUB002&from=iris&guid=D${inputData.rqprId}';
+                    	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00384&approvalLineInform=SUB002&from=iris&guid=D${inputData.rqprId}';
 
                    		openWindow(url, 'rlabRqprCompleteApprovalPop', 800, 500, 'yes');
                 	}

@@ -61,9 +61,13 @@
 
                 alert(data.records[0].resultMsg);
 
-                if(data.records[0].resultYn == 'Y') {
+
+            	$('#rqprId').val(data.records[0].newRqprId);
+            	nwinsActSubmit(searchForm, "<c:url value='/space/spaceRqprDetail.do'/>");
+
+                /* if(data.records[0].resultYn == 'Y') {
                 	goSpaceRqprList();
-                }
+                } */
             });
 
             var textBox = new Rui.ui.form.LTextBox({
@@ -79,7 +83,7 @@
 			/* 평가명 */
             var spaceNm = new Rui.ui.form.LTextBox({
             	applyTo: 'spaceNm',
-                placeholder: '평가명을 입력해주세요.',
+                placeholder: '평가명 직접입력.',
                 defaultValue: '',
                 emptyValue: '',
                 width: 980
@@ -107,7 +111,7 @@
             /* WBS 팝업 설정*/
             var spaceRqprWbsCd = new Rui.ui.form.LPopupTextBox({
             	applyTo: 'spaceRqprWbsCd',
-                placeholder: 'WBS코드를 입력해주세요.',
+                placeholder: 'WBS코드 검색',
                 defaultValue: '',
                 emptyValue: '',
                 editable: false,
@@ -166,7 +170,7 @@
                 applyTo: 'spaceRqprInfmView',
                 width: 600,
                 editable: false,
-                placeholder: '통보자를 입력해주세요.',
+                placeholder: '통보자 검색',
                 emptyValue: '',
                 enterToPopup: true
             });
@@ -177,7 +181,7 @@
             /* 평가대상명 */
             var evSubjNm = new Rui.ui.form.LTextBox({
             	applyTo: 'evSubjNm',
-                placeholder: 'IFC, 상평동 복합문화단지…',
+                placeholder: '예)IFC, 상평동 복합문화단지…,등',
                 defaultValue: '',
                 emptyValue: '',
                 width: 985
@@ -205,7 +209,7 @@
             /* 정량지표 */
             var qtasDpst = new Rui.ui.form.LTextBox({
             	applyTo: 'qtasDpst',
-                placeholder: '영업, Spec-in 금액, 매출목표 등',
+                placeholder: '예)영업, Spec-in 금액, 매출목표 등',
                 defaultValue: '',
                 emptyValue: '',
                 width: 400
@@ -213,7 +217,7 @@
             /* 정성지표 */
             var qnasDpst = new Rui.ui.form.LTextBox({
             	applyTo: 'qnasDpst',
-                placeholder: '*** 개발 연구 등',
+                placeholder: '예)*** 개발 연구 등',
                 defaultValue: '',
                 emptyValue: '',
                 width: 395
@@ -221,7 +225,7 @@
             /* 목표성능 */
             var goalPfmc = new Rui.ui.form.LTextBox({
             	applyTo: 'goalPfmc',
-                placeholder: '열관류율 1.2 W/㎡K 이하, 표면온도 15℃ 이상, 1차 에너지 소요량 90 kWh/㎡ 이하',
+                placeholder: '예)열관류율 1.2 W/㎡K 이하, 표면온도 15℃ 이상, 1차 에너지 소요량 90 kWh/㎡ 이하,등',
                 defaultValue: '',
                 emptyValue: '',
                 width: 400
@@ -229,7 +233,7 @@
             /* 결과지표 */
             var rsltDpst = new Rui.ui.form.LTextBox({
             	applyTo: 'rsltDpst',
-                placeholder: '열관류율 (W/㎡K), 열전도율 (W/mK), 표면온도 (℃)…',
+                placeholder: '예)열관류율 (W/㎡K), 열전도율 (W/mK), 표면온도 (℃)…,등',
                 defaultValue: '',
                 emptyValue: '',
                 width: 395
@@ -918,6 +922,9 @@
 
 		<input type="hidden" name="acpcNo" value="${inputData.acpcNo}"/>
 		<input type="hidden" name="spaceAcpcStCd" value="${inputData.spaceAcpcStCd}"/>
+
+		<input type="hidden" id="rqprId" name="rqprId" value=""/>
+
     </form>
     <form name="fileDownloadForm" id="fileDownloadForm">
 		<input type="hidden" id="attcFilId" name="attcFilId" value=""/>

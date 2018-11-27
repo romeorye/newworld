@@ -38,7 +38,7 @@ public interface SpaceRqprService {
 	public List<Map<String, Object>> getSpaceRqprRltdList(Map<String, Object> input);
 
 	/* 평가의뢰 등록 */
-	public boolean insertSpaceRqpr(Map<String,Object> dataMap) throws Exception;
+	public int insertSpaceRqpr(Map<String,Object> dataMap) throws Exception;
 
 	/* 평가의뢰 수정 */
 	public boolean updateSpaceRqpr(Map<String,Object> dataMap) throws Exception;

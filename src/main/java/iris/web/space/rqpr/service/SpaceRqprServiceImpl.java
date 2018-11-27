@@ -83,7 +83,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 	}
 
 	/* 평가의뢰 등록 */
-	public boolean insertSpaceRqpr(Map<String,Object> dataMap) throws Exception {
+	public int insertSpaceRqpr(Map<String,Object> dataMap) throws Exception {
 		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
 
 		Map<String, Object> spaceRqprDataSet = (Map<String, Object>)dataMap.get("spaceRqprDataSet");							//메인
@@ -96,6 +96,9 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 		spaceRqprDataSet.put("userId", userId);
 		spaceRqprDataSet.put("userDeptCd", input.get("_userDept"));
 		spaceRqprDataSet.put("userTeamCd", input.get("_teamDept"));
+
+
+		int newRpqrId = commonDao.select("space.rqpr.getNewRqprId", input);
 
     	if(commonDao.insert("space.rqpr.insertSpaceRqpr", spaceRqprDataSet) == 1) {
     		Object rqprId = spaceRqprDataSet.get("rqprId");
@@ -133,7 +136,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
         			&& commonDao.batchInsert("space.rqpr.insertSpaceRqprProd", spaceRqprProdDataSet) == spaceRqprProdDataSet.size()
         			&& commonDao.batchInsert("space.rqpr.insertSpaceRqprRltd", spaceRqprRltdDataSet) == spaceRqprRltdDataSet.size()
         			&& commonDao.batchInsert("space.rqpr.insertSpaceRqprInfm", spaceRqprInfmList) == spaceRqprInfmList.size()) {
-        		return true;
+        		return newRpqrId;
         	} else {
         		throw new Exception("평가의뢰 등록 오류");
         	}
