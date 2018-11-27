@@ -26,4 +26,19 @@ public class PrsCodeServiceImpl implements PrsCodeService{
 		return commonDao.selectList("common.prsCode.retrieveWbsCdInfoList",input);
 	}
 	
+	@Override
+	public List<Map<String, Object>> retrieveWaersInfo(HashMap<String, Object> input) {
+		return commonDao.selectList("common.prsCode.retrieveWaersInfo",input);
+	}
+	
+	@Override
+	public Map<String, Object> retrieveSaktoInfoList(HashMap<String, Object> input) {
+		return commonDao.select("common.prsCode.retrieveSaktoInfoList",input);
+	}
+	
+	@Override
+	public List<Map<String, Object>> retrieveWerksInfo(HashMap<String, Object> input){
+		return commonDao.selectList("common.prsCode.retrieveWerksInfo",input);
+	}
+	
 }

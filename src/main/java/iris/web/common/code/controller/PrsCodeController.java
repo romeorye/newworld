@@ -61,4 +61,55 @@ public class PrsCodeController extends IrisBaseController  {
 
         return modelAndView;
     }   
+	
+	@RequestMapping(value="/common/prsCode/retrieveWaersInfo.do")
+	public ModelAndView retrieveMengeInfo(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session,
+			ModelMap model
+			){
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PrsCodeController - retrieveWaersInfo [구매 단위수량 캐쉬조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+		
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		
+		input = StringUtil.toUtf8Input(input);
+		//input.put("code", input.get("ekgrp"));
+		
+		// 공통코드 캐쉬조회
+		List waersCodeList = prsCodeService.retrieveWaersInfo(input);
+		
+		modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", waersCodeList));
+		
+		return modelAndView;
+	}   
+	
+	@RequestMapping(value="/common/prsCode/retrieveWerksInfo.do")
+	public ModelAndView retrieveWerksInfo(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session,
+			ModelMap model
+			){
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PrsCodeController - retrieveWerksInfo [플랜트 캐쉬조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+		
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		
+		// 공통코드 캐쉬조회
+		List werksCodeList = prsCodeService.retrieveWerksInfo(input);
+		
+		modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", werksCodeList));
+		
+		return modelAndView;
+	}   
 }
