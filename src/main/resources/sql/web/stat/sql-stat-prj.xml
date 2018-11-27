@@ -154,20 +154,60 @@
 						left outer join IRIS_TSS_GEN_SMRY c
 						on c.tss_cd = a.pgTss_cd
 						left outer join (SELECT NP_CD
-											  ,PJT_NM
-											  ,LNCH_YM
-											  ,MIN_YY
+											  ,MIN(MIN_YY) AS MIN_YY
+											  ,MIN(LNCH_YM) AS LNCH_YM
 											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY THEN SAL_SUM_AMT ELSE 0 END) AS YY
 											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END) AS YY1
 											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END) AS YY2
 											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END) AS YY3
 											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END) AS YY4
-											  ,(SUM(CASE WHEN LEFT(YM,4) = MIN_YY THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END))
-											   /CONVERT(FLOAT,5) AS AVG_YY
+											  ,CASE WHEN (CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END) = 0
+													THEN 0
+												ELSE (SUM(CASE WHEN LEFT(YM,4) = MIN_YY THEN SAL_SUM_AMT ELSE 0 END)
+													   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END)
+													   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END)
+													   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END)
+													   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END))
+													 /(CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END)
+												END AVG_YY
 										  FROM (SELECT MST.NP_CD
 													  ,MST.PJT_NM
 													  ,MST.LNCH_YM
@@ -190,10 +230,7 @@
 														   AND MST.PJT_NM=YYCNT.PJT_NM
 														   AND MST.YM=YYCNT.YM) MST
 										 WHERE 1=1
-										GROUP BY  NP_CD
-											  ,PJT_NM
-											  ,LNCH_YM
-											  ,MIN_YY) d
+										GROUP BY  NP_CD) d
 						on a.wbs_cd=d.np_cd
 				where   1=1
 				and     #{condYy} BETWEEN LEFT(a.TSS_STRT_DD, 4) AND LEFT(a.TSS_FNH_DD, 4)
@@ -335,20 +372,60 @@
 						left outer join IRIS_TSS_TCTM_SMRY c
 						on c.tss_cd = a.pgTss_cd
 						left outer join (SELECT NP_CD
-											  ,PJT_NM
-											  ,LNCH_YM
-											  ,MIN_YY
+											  ,MIN(MIN_YY) AS MIN_YY
+											  ,MIN(LNCH_YM) AS LNCH_YM
 											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY THEN SAL_SUM_AMT ELSE 0 END) AS YY
 											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END) AS YY1
 											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END) AS YY2
 											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END) AS YY3
 											  ,SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END) AS YY4
-											  ,(SUM(CASE WHEN LEFT(YM,4) = MIN_YY THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END)
-											   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END))
-											   /CONVERT(FLOAT,5) AS AVG_YY
+											  ,CASE WHEN (CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END) = 0
+													THEN 0
+												ELSE (SUM(CASE WHEN LEFT(YM,4) = MIN_YY THEN SAL_SUM_AMT ELSE 0 END)
+													   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END)
+													   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END)
+													   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END)
+													   +SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END))
+													 /(CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+1 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+2 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+3 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END
+														  + CASE WHEN SUM(CASE WHEN LEFT(YM,4) =  MIN_YY+4 THEN SAL_SUM_AMT ELSE 0 END) = 0
+																THEN 0
+																ELSE 1
+															END)
+												END AVG_YY
 										  FROM (SELECT MST.NP_CD
 													  ,MST.PJT_NM
 													  ,MST.LNCH_YM
@@ -371,10 +448,7 @@
 														   AND MST.PJT_NM=YYCNT.PJT_NM
 														   AND MST.YM=YYCNT.YM) MST
 										 WHERE 1=1
-										GROUP BY  NP_CD
-											  ,PJT_NM
-											  ,LNCH_YM
-											  ,MIN_YY) d
+										GROUP BY  NP_CD) d
 						on a.wbs_cd=d.np_cd
 				where   1=1
 				and     #{condYy} BETWEEN LEFT(a.TSS_STRT_DD, 4) AND LEFT(a.TSS_FNH_DD, 4)
