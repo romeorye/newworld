@@ -188,10 +188,11 @@
 						<div>
 							<table class="table p-admin">
 								<colgroup>
-									<col style="width:180px;">
 									<col style="">
-									<col style="width:22%;">
 									<col style="width:20%;">
+									<col style="width:25%;">
+									<col style="width:15%;">
+									<col style="width:25%;">
 								</colgroup>
 								<thead>
 									<th></th>
@@ -246,7 +247,7 @@
 											<span class="bullet_txt">EcoTec: 이진욱P <em>(2W)</em></span>
 										</td>
 										<td style="vertical-align:middle !important;">
-											<span class="bullet_txt">Star CCM+ : 황효근P / 안남혁S <em>(2W)</em></span>
+											<span class="bullet_txt">Star CCM+ 프로그램 1개 추가: 황효근P / 안남혁S <em>(2W)</em></span>
 										</td>
 
 										<!-- <td style="vertical-align:middle !important;">
