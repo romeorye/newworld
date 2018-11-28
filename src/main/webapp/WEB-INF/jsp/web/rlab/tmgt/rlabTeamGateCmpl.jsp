@@ -315,17 +315,15 @@ var firstLoad = "Y";	//화면오픈
 
 <table class="table table_txt_right">
 					<colgroup>
-						<col style="width: 15%" />
+						<col style="width: 20%" />
 						<col style="width: 25%" />
-						<col style="width: 15%" />
-						<col style="width: 15%" />
-						<col style="width: 15%" />
+						<col style="width: 20%" />
+						<col style="width: 20%" />
 						<col style="" />
 					</colgroup>
 					<tbody>						<tr>
 							<th>평가구분</th>
 							<th>평가지표</th>
-							<th>총점수</th>
 							<th>영역점수</th>
 							<th>개별점수</th>
 							<th>평가의견</th>
@@ -333,7 +331,6 @@ var firstLoad = "Y";	//화면오픈
 						<tr>
 							<td rowspan="3">고객가치지표</td>
 							<td>고객 삶에 대한 혁신성</td>
-							<td rowspan="10">100점</td>
 							<td rowspan="3">30점</td>
 							<td>10점</td>
 							<td>
@@ -410,7 +407,7 @@ var firstLoad = "Y";	//화면오픈
 							</td>
 						</tr>
 						<tr>
-							<td colspan='4'></td>
+							<td colspan='3'></td>
 							<td>합계</td>
 							<td>
 								<span id="evSum"></span>
