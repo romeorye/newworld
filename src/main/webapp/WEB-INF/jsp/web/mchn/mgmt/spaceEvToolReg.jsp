@@ -362,7 +362,7 @@ var firstLoad = "Y";	//화면오픈
     	var butMnalFil = new Rui.ui.LButton('butMnalFil');
     	butMnalFil.on('click', function(){
     		var mnalFilId = document.aform.mnalFilId.value;
-    		openAttachFileDialog(setMenualFileInfo, mnalFilId,'spacePolicy', '*');
+    		openAttachFileDialog3(setMenualFileInfo, mnalFilId,'spacePolicy', '*');
     	});
 
     	/* [버튼] : 등록 정보 저장 */
