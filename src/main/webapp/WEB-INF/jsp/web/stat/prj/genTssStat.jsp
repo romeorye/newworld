@@ -213,7 +213,7 @@
                     , { field: 'nprodSalsPlnY3',  label: 'Y+3', groupId: 'G4', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsPlnY }
                     , { field: 'nprodSalsPlnY4',  label: 'Y+4', groupId: 'G4', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsPlnY }
 
-                    , { field: 'nprodSalsPlnSum', label: '5년평균',groupId: 'G4',  sortable: false,  align:'right', width: 70, renderer: function(value, p, record, row, col) {
+                    , { field: 'nprodSalsPlnSum', label: '평균',groupId: 'G4',  sortable: false,  align:'right', width: 70, renderer: function(value, p, record, row, col) {
                         var cnt = 0;
                         var nprodSalsPlnY = record.data.nprodSalsPlnY;
                         var nprodSalsPlnY1 = record.data.nprodSalsPlnY1;
@@ -239,7 +239,7 @@
                     , { field: 'nprodSalsY2',  label: 'Y+2', groupId: 'G8', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsY }
                     , { field: 'nprodSalsY3',  label: 'Y+3', groupId: 'G8', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsY }
                     , { field: 'nprodSalsY4',  label: 'Y+4', groupId: 'G8', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsY }
-                    , { field: 'nprodSalsSum',  label: '5년평균', groupId: 'G8', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsPlnY }
+                    , { field: 'nprodSalsSum',  label: '평균', groupId: 'G8', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsPlnY }
 
                     , { id: 'G5', label: '비용(Y년)(단위:억원)' }
                     , { field: 'yYPlnExp',        label: '계획', groupId: 'G5', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
