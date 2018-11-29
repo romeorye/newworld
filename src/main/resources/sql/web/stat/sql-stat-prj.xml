@@ -247,38 +247,59 @@
     <select id="retrieveGenTssStatDtlPopList" resultType="hashmap">
     <![CDATA[
         --retrieveGenTssStatDtlPopList
-		select np_cd as npCd
-			  ,CASE WHEN GROUPING(pjt_nm) = 1
+		select npCd
+		      ,CASE WHEN GROUPING(nm) = 1
             		THEN '합계'
-					ELSE pjt_nm
+					ELSE nm
 			    END  as nm
-			  ,round(sum(case when mm =  '01' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m1
-			  ,round(sum(case when mm =  '02' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m2
-			  ,round(sum(case when mm =  '03' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m3
-			  ,round(sum(case when mm =  '04' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m4
-			  ,round(sum(case when mm =  '05' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m5
-			  ,round(sum(case when mm =  '06' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m6
-			  ,round(sum(case when mm =  '07' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m7
-			  ,round(sum(case when mm =  '08' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m8
-			  ,round(sum(case when mm =  '09' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m9
-			  ,round(sum(case when mm =  '10' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m10
-			  ,round(sum(case when mm =  '11' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m11
-			  ,round(sum(case when mm =  '12' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m12
-			  ,round(sum(sal_sum_amt)/convert(float,100000000),2) as totSum
-		  from
-		(select np_cd
-			  ,pjt_nm
-			  ,lnch_ym
-			  ,exp_lnch_ym
-			  ,ym
-			  ,right(ym,2) as mm
-			  ,count(1) over (partition by pjt_nm,ym) as cnt
-			  ,convert(float,sal_sum_amt)/count(1) over (partition by pjt_nm,ym) as sal_sum_amt
-		  from iris_new_prdt_sal_stat
-		 where 1=1
-				   and left(ym,4)=#{yy}
-				   and np_cd=#{npCd}) main
-		  group by rollup((np_cd ,pjt_nm))
+			  ,sum(m1) as m1
+			  ,sum(m2) as m2
+			  ,sum(m3) as m3
+			  ,sum(m4) as m4
+			  ,sum(m5) as m5
+			  ,sum(m6) as m6
+			  ,sum(m7) as m7
+			  ,sum(m8) as m8
+			  ,sum(m9) as m9
+			  ,sum(m10) as m10
+			  ,sum(m11) as m11
+			  ,sum(m12) as m12
+			  ,sum(totSum) as totSum
+		 from
+			(
+			select np_cd as npCd
+				  ,CASE WHEN GROUPING(pjt_nm) = 1
+	            		THEN '합계'
+						ELSE pjt_nm
+				    END  as nm
+				  ,round(sum(case when mm =  '01' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m1
+				  ,round(sum(case when mm =  '02' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m2
+				  ,round(sum(case when mm =  '03' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m3
+				  ,round(sum(case when mm =  '04' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m4
+				  ,round(sum(case when mm =  '05' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m5
+				  ,round(sum(case when mm =  '06' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m6
+				  ,round(sum(case when mm =  '07' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m7
+				  ,round(sum(case when mm =  '08' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m8
+				  ,round(sum(case when mm =  '09' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m9
+				  ,round(sum(case when mm =  '10' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m10
+				  ,round(sum(case when mm =  '11' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m11
+				  ,round(sum(case when mm =  '12' then sal_sum_amt else 0 end)/convert(float,100000000),2) as m12
+				  ,round(sum(sal_sum_amt)/convert(float,100000000),2) as totSum
+			  from
+			(select np_cd
+				  ,pjt_nm
+				  ,lnch_ym
+				  ,exp_lnch_ym
+				  ,ym
+				  ,right(ym,2) as mm
+				  ,count(1) over (partition by pjt_nm,ym) as cnt
+				  ,convert(float,sal_sum_amt)/count(1) over (partition by pjt_nm,ym) as sal_sum_amt
+			  from iris_new_prdt_sal_stat
+			 where 1=1
+					   and left(ym,4)=#{yy}
+					   and np_cd=#{npCd}) main
+			  		  group by np_cd ,pjt_nm) mm
+		  group by rollup((npCd ,nm))
 		]]>
     </select>
 
