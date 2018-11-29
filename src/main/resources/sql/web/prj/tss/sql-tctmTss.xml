@@ -6,7 +6,7 @@
     <select id="selectList" resultType="hashmap">
         <![CDATA[
 /*selectList 기술팀 과제 목록 조회*/
-        select   z.wbs_cd  													as wbsCd
+        select  distinct  z.wbs_cd  													as wbsCd
                     ,z.wbs_cd  													as wbsCd2
 		        ,z.PK_WBS_CD 												as pkWbsCd
 				,z.tss_cd as tssCd
@@ -187,7 +187,7 @@
 												  )
 						) m
                       LEFT OUTER JOIN
-                      (SELECT TOP 1 * FROM
+                      (SELECT * FROM
                       (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
                         ON m.TSS_CD = g.TSS_CD
                         WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
@@ -359,7 +359,7 @@
             ,dbo.fn_getGrsStepNm(#{tssCd},'1') as grsStepNm
             ,dbo.fn_getQgateStepNm(A.WBS_CD,'1') as qgateStepNm
             ,a.GRS_YN as grsYn
-
+            ,(select top 1 iif(GRS_EV_ST='M' AND GRS_EV_M_TYPE='AL','Y','N') FROM IRIS_GRS_EV_RSLT_RGST where TSS_CD=#{pgTssCd} order by  FRST_RGST_DT desc) as isGrsAl
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
             ON A.PRJ_CD = B.PRJ_CD
@@ -371,7 +371,7 @@
     <select id="selectInfoSmry" parameterType="String"  resultType="hashmap" >
         <![CDATA[
             /*selectInfoSmry 기술팀 과제 개요 조회*/
-            SELECT TSS_CD AS tssCd,
+            SELECT TOP 1 TSS_CD AS tssCd,
                    SMR_SMRY_TXT AS smrSmryTxt,
                    SMR_GOAL_TXT AS smrGoalTxt,
                    CTY_OT_PLN_M AS ctyOtPlnM,
@@ -394,6 +394,8 @@
                    LAST_MDFY_ID AS lastMdfyId
               FROM IRIS_TSS_TCTM_SMRY
              WHERE TSS_CD = #{tssCd}
+             ORDER BY  FRST_RGST_DT DESC
+
         ]]>
     </select>
 

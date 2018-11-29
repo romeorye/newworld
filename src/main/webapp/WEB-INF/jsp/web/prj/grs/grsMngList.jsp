@@ -927,12 +927,6 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
         		$("#trGrsEvMType").hide();
 			}
 
-            // if(isFirstGrs && isReq){
-            //    $(".first-child:contains('삭제')").css("display","block");
-            // }else{
-            //    $(".first-child:contains('삭제')").css("display","none");
-            // }
-
 
             lvAttcFilId = evInfoDataSet.getNameValue(0, "attcFilId");
             if (!Rui.isEmpty(lvAttcFilId)) {
@@ -1020,6 +1014,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 
         evInfoDataSet.clearData();
         grsEvSnNm.setValue('');
+        grsEvMType.setValue('');
         evInfoDataSet.load({
             url: '<c:url value="/prj/grs/selectGrsTssInfo.do"/>',
             params: {
@@ -1426,7 +1421,9 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 	nCombo('tssScnCd', 'TSS_SCN_CD') // 과제구분
 	nCombo('grsYn', 'COMM_YN') // GRS 수행여부
 	nTextBox('tssNm', 620, '과제명을 입력해주세요'); // 과제명
-	popProject('prjNm', 'prjCd', 'deptCode', 'prjSearchDialog') // 프로젝트명
+    nTextBox('prjNm', 620, ''); // 프로젝트명
+    setReadonly("prjNm");
+	// popProject('prjNm', 'prjCd', 'deptCode', 'prjSearchDialog') // 프로젝트명
 	nCombo('bizDptCd', 'BIZ_DPT_CD') // 사업부
 	nCombo('prodG', 'PROD_G'); // 제품군
 	popSabun('saSabunNm', 'saSabunCd') // 담당자
@@ -1480,10 +1477,8 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 
     var grsEvMType = new Rui.ui.form.LCombo({
         applyTo : 'grsEvMType',
-        emptyValue : '',
         emptyText : '선택',
         width : 120,
-        defaultValue : '${inputData.custSqlt}',
         items : [ {
             text : '변경',
             value : 'AL'

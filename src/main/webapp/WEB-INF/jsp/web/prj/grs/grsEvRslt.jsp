@@ -438,16 +438,20 @@
         btnList.on('click', function () {
             //일반과제
             if (lvTssScnCd == "G") {
-                nwinsActSubmit(window.document.mstForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
+                <%--nwinsActSubmit(window.document.mstForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");--%>
+                location.href = "<c:url value='/prj/tss/gen/genTssList.do'/>";
             } else if (lvTssScnCd == "N") {
                 //국책과제
-                nwinsActSubmit(window.document.mstForm, "<c:url value='/prj/tss/nat/natTssList.do'/>");
+                <%--nwinsActSubmit(window.document.mstForm, "<c:url value='/prj/tss/nat/natTssList.do'/>");--%>
+                location.href = "<c:url value='/prj/tss/nat/natTssList.do'/>";
             } else if (lvTssScnCd == "O") {
                 //대외협력과제
-                nwinsActSubmit(window.document.mstForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssList.do'/>");
+                <%--nwinsActSubmit(window.document.mstForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssList.do'/>");--%>
+                location.href = "<c:url value='/prj/tss/ousdcoo/ousdCooTssList.do'/>";
             } else if (lvTssScnCd == "D") {
                 // 기술팀 과제
-                nwinsActSubmit(window.document.mstForm, "<%=request.getContextPath()+TctmUrl.doList%>");
+                <%--nwinsActSubmit(window.document.mstForm, "<c:url value='<%=TctmUrl.doList%>'/>");--%>
+                location.href = "<c:url value='<%=TctmUrl.doList%>'/>";
             }
         });
         

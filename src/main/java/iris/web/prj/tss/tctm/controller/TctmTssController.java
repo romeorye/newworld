@@ -897,7 +897,10 @@ public class TctmTssController extends IrisBaseController {
 		String view;
 		String fileColumn;
 
-		if ("CM".equals(input.get("pgsStepCd"))) {                //완료
+		if ("AL".equals(input.get("pgsStepCd"))) {                //
+			view = TctmUrl.jspAltrCsusView;
+			fileColumn = "altrAttcFilId";
+		}else if ("CM".equals(input.get("pgsStepCd"))) {                //완료
 			view = TctmUrl.jspCmCsusView;
 			fileColumn = "cmplAttcFilId";
 		} else if ("DC".equals(input.get("pgsStepCd"))) {        //중단

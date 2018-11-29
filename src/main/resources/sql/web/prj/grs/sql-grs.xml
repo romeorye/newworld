@@ -239,7 +239,7 @@
             ,A.TSS_STRT_DD AS tssStrtDd
             ,A.TSS_FNH_DD AS tssFnhDd
             ,iif(A.TSS_ST='101' AND B.DROP_YN is null,'',iif(B.DROP_YN='Y','DROP','PASS')) as evResult
-            ,iif(B.GRS_EV_M_TYPE is null,'AL',B.GRS_EV_M_TYPE) as grsEvMType
+            ,iif(B.GRS_EV_M_TYPE is null,'',B.GRS_EV_M_TYPE) as grsEvMType
             ]]>
         <choose>
             <when test="beforGrs == 1">

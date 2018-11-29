@@ -163,7 +163,7 @@
                 btnDelRq.hide();	//삭제
                 btnAltrRq.hide();	//변경요청
                 btnStepPg.hide();	//변경취소
-                btnGrsRq.hide();	//GRS요청
+                // btnGrsRq.hide();	//GRS요청
                 btnCsusRq.hide();	//품의서요청
                 btnCsusRq2.hide();//내부품의서요청
 
@@ -179,14 +179,14 @@
                         || (pgsStepCd == "PG" && gvTssSt == "100")
                     ) {
                         //진행중
-                        btnGrsRq.show();	//GRS  요청
+                        // btnGrsRq.show();	//GRS  요청
                     }
 
                     if (
                         (pgsStepCd == "PL" && grsYn == "N" && gvTssSt == "100")			//GRS N(계획) 인경우 바로 품의서 요청
                         || (pgsStepCd == "PL" && grsYn == "Y" && gvTssSt == "302")	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
                         // || (pgsStepCd == "PG" && gvTssSt == "102")							//진행인 경우 GRS 평가완료
-                        // || (pgsStepCd == "AL" && gvTssSt == "100")							//완료진행인 경우 GRS 평가완료
+                        || (pgsStepCd == "AL" && gvTssSt == "100")							//완료진행인 경우 GRS 평가완료
                         || (pgsStepCd == "CM" && gvTssSt == "100")							//완료진행인 경우 GRS 평가완료
                         || (pgsStepCd == "DC" && gvTssSt == "100")							//중단진행인 경우 GRS 평가완료
                     ) {
@@ -201,18 +201,18 @@
                     if (pgsStepCd == "AL" && gvTssSt == "100") {
                         btnStepPg.show();
                         btnCsusRq2.show();
-                        btnGrsRq.hide();
+                        // btnGrsRq.hide();
                     }
                 }
 
 
                 if ("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
                     // $("#btnDelRq").hide();
-                    $("#btnGrsRq").hide();
+                    // $("#btnGrsRq").hide();
                     $("#btnCsusRq").hide();
                 } else if ("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
                     // $("#btnDelRq").hide();
-                    $("#btnGrsRq").hide();
+                    // $("#btnGrsRq").hide();
                     $("#btnCsusRq").hide();
                 }
 
@@ -220,7 +220,7 @@
                 //조건에 따른 보이기
                 if (isOwner()) {
                     if ((pgsStepCd == "PL" || pgsStepCd == "PG") && gvTssSt == "100") {
-                        btnGrsRq.show();
+                        // btnGrsRq.show();
                         // btnDelRq.show();
                     // } else if (gvTssSt == "102") {
                     //     btnCsusRq.show();
@@ -244,11 +244,10 @@
                 $('#wbsCd').attr('style', "border-color:white;");
 
 
-                if (isOwner()) {
-                    $('#prjNm > a').attr('style', "display:block;");
-                    $('#prjNm').attr('style', "border-color:;");
-                }
-                /*임시 주석
+                // if (isOwner()) {
+                //     $('#prjNm > a').attr('style', "display:block;");
+                //     $('#prjNm').attr('style', "border-color:;");
+                // }
 
                             var objs = [prjNm, deptName, ppslMbdCd, bizDptCd, wbsCd, tssNm, saSabunName, tssAttrCd, tssStrtDd, tssFnhDd, prodG, rsstSphe, tssType];
                             for (var i = 0; i < objs.length; i++) {
@@ -258,7 +257,6 @@
                                     objs[i].enable();
                                 }
                             }
-                */
 
             }
 
@@ -444,12 +442,6 @@
                     dataSet.setNameValue(0, "deptName", "${userMap.upDeptName}");  //조직명
                     dataSet.setNameValue(0, "saSabunNew", "${inputData._userSabun}"); //과제리더사번
                     dataSet.setNameValue(0, "saSabunName", "${inputData._userNm}");    //과제리더명
-                    /* 임시 주석
-                                    if(stringNullChk("
-                    ${userMap.prjCd}") == "") {
-                    alert("프로젝트 등록을 먼저 해주시기 바랍니다.");
-                }
-*/
 
                 }
 
@@ -490,6 +482,10 @@
                 }
                 if (!isEditable) setViewform();		//읽기용 뷰로 변경
                 setBtn()					//버튼 표시
+
+                if (isAl() && (gvTssSt=="" || gvTssSt=="100" || gvTssSt=="102")){
+                    reqAltr();
+                }
             });
 
 
@@ -623,9 +619,9 @@
             // 변경 요청
             function reqAltr() {
                 btnAltrRq.hide();
-                btnGrsRq.hide();
+                // btnGrsRq.hide();
                 btnStepPg.show();
-                btnGrsRq.hide();
+                // btnGrsRq.hide();
 
                 $(".L-nav").children().eq(2).css("display", "block");
                 $(".L-nav").children().eq(5).css("display", "block");
@@ -635,14 +631,6 @@
 
 
                 setEditform();
-                // // isEditable =  false;
-                // // setViewform();	//수정불가능하도록 (과제 내용)
-                // try{
-                //     //화면 생성전 접근할경우 에러 발생
-                //     // document.getElementById('tabContent3').contentWindow.setViewform();	//수정불가능하도록 (개요)
-                //     // document.getElementById('tabContent4').contentWindow.disableFields();	//수정불가능하도록 (산출물)
-                // }catch(e){}
-
             }
 
 
@@ -652,7 +640,7 @@
             }
 
             function isAl() {
-                return pgsStepCd == "AL";
+                return (grsEvSt == "M" && gvTssSt == "102" ) || pgsStepCd == "AL";
             }
 
             function isCm() {
@@ -791,6 +779,8 @@
                 var tcd = "";
                 if (pgsStepCd == "PL") {
                     tcd = gvTssCd;
+                }else if (pgsStepCd == "AL") {
+                    tcd = alTssCd;
                 }else if (pgsStepCd == "CM") {
                     tcd = cmTssCd;
                 } else if (pgsStepCd == "DC") {
@@ -832,6 +822,7 @@
                     location.href = "<%=request.getContextPath()+TctmUrl.doList%>";
                 });
             });
+/*
 
             //GRS요청
             btnGrsRq = new Rui.ui.LButton('btnGrsRq');
@@ -860,6 +851,7 @@
                     }
                 }
             });
+*/
 
             //품의서요청
             btnCsusRq = new Rui.ui.LButton('btnCsusRq');
@@ -908,52 +900,61 @@
 
             //변경요청
             btnAltrRq = new Rui.ui.LButton('btnAltrRq');
-            btnAltrRq.on('click', function () {
-                if (confirm("변경요청을 하시겠습니까?")) {
-                    reqAltr();
-                }
-                /*                Rui.confirm({
-                                    text: "과제변경을 진행하겠습니까? ",
-                                    // "본 변경요청은 단순 데이터 변경으로, 팀 내부승인 진행 건에 한해 진행됩니다. <br/><br/> "
-                                    // + "하기 변경이 발생하는 경우에는 반드시 <span style = 'color : red'>GRS심의(GRS요청버튼)를 완료</span>하신 후 변경요청을 해야 합니다. <br/>"
-                                    // + "Case 1. '과제 총 기간'이 변경되는 경우 (ex. 2017.12.31 -> 2018.12.31) <br/>"
-                                    // + "Case 2. '참여연구원'의 총 M/M가 증가하는 경우 (ex. 4 M/M -> 5 M/M) <br/>"
-                                    // + "Case 3. '목표' 항목이 추가/삭제 되는 경우 <br/><br/>"
-                                    // + "단순과제변경을 진행하겠습니까? ",
-                                    width : 630 ,
-                                    height : 270 ,
-                                    handlerYes: function() {
-                                        /!*nwinsActSubmit(document.mstForm, "
-                <c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId);*!/
-                        reqAltr();
-                    },
-                    handlerNo: Rui.emptyFn
-                });*/
+            btnAltrRq.on('click', function() {
+                openDialog();
             });
 
-            /*            btnAltr = new Rui.ui.LButton('btnAltr');
-                        btnAltr.on('click', function(){
 
-                            Rui.confirm({
-                                text: '변경하시겠습니까?',
-                                buttons: [{
-                                    text: '내부변경'
-                                },{
-                                    text: 'GRS변경'
-                                }],
-                                handlerYes: function() {
-                                    reqAltr();
-                                },
-                                handlerNo: function() {
-                                    regDm.update({
-                                        url:'
-            <c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
-                            params:'gbn=GRS&tssCd='+gvTssCd
-                        });
-                    }
-                })
+        var confirmDialog = new Rui.ui.LFrameDialog({
+            id: 'confirmDialog',
+            title: '변경요청',
+            width: 550,
+            height: 320,
+            modal: true,
+            visible: false,
+            buttons: [
+                { text: '단순변경', handler: function(){
+                        reqAltr();
+                        this.cancel();
+                    }},
+                { text: 'GRS심의요청', handler: function(){
+                        var tcd = "";
+                        if (pgsStepCd == "AL") {
+                            tcd = alTssCd;
+                            frmName = "tabContent2";    //변경
+                        }else if (pgsStepCd == "CM") {
+                            tcd = cmTssCd;
+                            frmName = "tabContent0";    //완료
+                        } else if (pgsStepCd == "DC") {
+                            tcd = dcTssCd;
+                            frmName = "tabContent1";    //중단
+                        } else {
+                            tcd = pgTssCd;
+                            frmName = "tabContent3";    //개요
+                        }
 
-            });*/
+                        if (document.getElementById(frmName).contentWindow.fnIfmIsUpdate()) {
+                            if (confirm("GRS요청을 하시겠습니까?")) {
+                                regDm.update({
+                                    url: '<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
+                                    params: 'gbn=GRS&tssCd=' + gvTssCd
+                                });
+                                this.cancel();
+                            }
+                        }
+                    }},
+                { text: 'Close', handler: function(){
+                        this.cancel();
+                    }},
+            ]
+        });
+
+        confirmDialog.render(document.body);
+
+        openDialog = function(url){
+            confirmDialog.setUrl('<c:url value="/prj/tss/gen/confirmPopup.do?tssCd="/>' + gvTssCd + '&userIds=' + gvUserId);
+            confirmDialog.show();
+        };
 
 
             //변경 취소
@@ -989,44 +990,28 @@
             smrySave = function () {
                 tssStrtDd.blur();
                 tssFnhDd.blur();
-                /*	 임시주석
 
-                            if(!vm.validateGroup("mstForm")) {
-                                alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join(''));
-                                return;
-                            }
-                */
+                if(!vm.validateGroup("mstForm")) {
+                    alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join(''));
+                    return;
+                }
 
-                /* 임시주석
 
-                            //개요탭 validation
-                            var ifmUpdate = document.getElementById('tabContent0').contentWindow.fnIfmIsUpdate("SAVE");
-                            if(!ifmUpdate) return false;
-                */
+                //개요탭 validation
+                var ifmUpdate = document.getElementById('tabContent3').contentWindow.fnIfmIsUpdate("SAVE");
+                if(!ifmUpdate) return false;
 
                 //수정여부
-                var smryDs = document.getElementById('tabContent3').contentWindow.dataSet;                  //개요탭 DS
-                // var smryIsUpdate = document.getElementById('tabContent0').contentWindow.fnEditorIsUpdate(); //개요탭 에디터 변경여부
-                /* 임시주석
+                smryDs = document.getElementById('tabContent3').contentWindow.dataSet;                  //개요탭 DS
 
-                            if(!dataSet.isUpdated() && !smryDs.isUpdated() && !smryIsUpdate) {
-                                alert("변경된 데이터가 없습니다.");
-                                return;
-                            }
-                */
+                if (!dataSet.isUpdated() && !smryDs.isUpdated()) {
+                    alert("변경된 데이터가 없습니다.");
+                    return;
+                }
 
-                // var pmisTxt = document.getElementById('tabContent0').contentWindow.smryForm.pmisTxt.value;
                 var bizDpt = bizDptCd.getValue();
                 var bizDptNm = bizDptCd.getDisplayValue();
 
-                // if(  bizDpt == "07" || bizDpt == "08" || bizDpt == "09"  ){
-                // 	var bizMsg =  bizDptNm+" 사업부문일경우 지적재산권 통보내용을 입력하셔야 합니다";
-                //
-                // 	if( Rui.isEmpty(pmisTxt)){
-                // 		alert(bizMsg);
-                // 		return;
-                // 	}
-                // }
 
                 if (confirm("저장하시겠습니까?")) {
 
@@ -1338,7 +1323,7 @@
                 <%--<button type="button" id="btnAltr" name="btnAltr">변경</button>--%>
                 <button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button>
                 <button type="button" id="btnStepPg" name="btnStepPg">변경취소</button>
-                <button type="button" id="btnGrsRq" name="btnGrsRq">GRS요청</button>
+                <%--<button type="button" id="btnGrsRq" name="btnGrsRq">GRS요청</button>--%>
                 <button type="button" id="btnCsusRq" name="btnCsusRq">품의서요청</button>
                 <button type="button" id="btnCsusRq2" name="btnCsusRq2">내부품의서요청</button>
                 <button type="button" id="btnList" name="btnList">목록</button>

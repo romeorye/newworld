@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
-<%@ page import="iris.web.prj.tss.tctm.TctmUrl" %>
+<%@ page import="iris.web.prj.tss.tctm.TctmUrl"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
@@ -45,7 +44,7 @@
         var lvTssSt    = window.parent.gvTssSt;
         var lvPageMode = window.parent.gvPageMode;
 
-        var pageMode = (lvTssSt == "100" || lvTssSt == "") && (lvPageMode == "W" || lvPageMode == "") ? "W" : "R";
+        var pageMode = (lvTssSt == "100" || lvTssSt == "102" || lvTssSt == "") && (lvPageMode == "W" || lvPageMode == "") ? "W" : "R";
 
         var dataSet1;
         var dataSet2;
@@ -61,14 +60,14 @@
             altrRsonTxt = new Rui.ui.form.LTextArea({
                 applyTo: 'altrRsonTxt',
                 height: 80,
-                width: 600
+                width: 900
             });
 
             //추가사유
             addRsonTxt = new Rui.ui.form.LTextArea({
                 applyTo: 'addRsonTxt',
                 height: 80,
-                width: 600
+                width: 900
             });
 
             //Form 비활성화

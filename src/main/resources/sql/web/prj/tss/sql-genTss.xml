@@ -5,7 +5,7 @@
 	<select id="retrieveGenTssList" resultType="hashmap">
     <![CDATA[
     /*retrieveGenTssList 일반과제 목록*/
-        select   z.wbs_cd  													as wbsCd
+        select  distinct  z.wbs_cd  													as wbsCd
 		        ,z.PK_WBS_CD 												as pkWbsCd
 				,z.tss_cd as tssCd
 				,case when z.PGS_STEP_CD = 'AL' then Z.al_TSS_NM
@@ -18,6 +18,8 @@
 				      else z.TSS_STRT_DD end 								as tssStrtDd
 				,case when z.PGS_STEP_CD = 'AL' then Z.al_TSS_FNH_DD
 					  else z.TSS_FNH_DD end 								as tssFnhDd
+				   ,z.TSS_STRT_DD
+				   ,z.TSS_FNH_DD
 				, CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_STRT_DD
 				       WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_STRT_DD END  AS cmplNxStrtDd --과제실적시작
 				, CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_FNH_DD
@@ -183,7 +185,7 @@
 												  )
 						) m
 						LEFT OUTER JOIN
-                      (SELECT TOP 1 * FROM
+                      (SELECT  * FROM
                       (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
 						  ON m.TSS_CD = g.TSS_CD
 						  WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
