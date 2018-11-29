@@ -70,7 +70,7 @@ public class MailBatchServiceImpl implements MailBatchService{
     public void makeMailSendWbs(HashMap<String, Object> input) {
     	MailSender mailSender = mailSenderFactory.createMailSender();
         ReplacementVo replacementVo = new ReplacementVo();
-        String ccMailAddr = "guswldms@lghausys.com,sojeongm@lghausys.com";
+        String ccMailAddr = "sojeongm@lghausys.com";
         
         //WBS 생성
         List<Map<String, Object>>  retrieveWbsCdCreateReq   =    commonDao.selectList("batch.retrieveWbsCdCreateReq", "");
