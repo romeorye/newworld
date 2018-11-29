@@ -359,7 +359,7 @@
             ,dbo.fn_getGrsStepNm(#{tssCd},'1') as grsStepNm
             ,dbo.fn_getQgateStepNm(A.WBS_CD,'1') as qgateStepNm
             ,a.GRS_YN as grsYn
-            ,(select top 1 iif(GRS_EV_ST='M' AND GRS_EV_M_TYPE='AL','Y','N') FROM IRIS_GRS_EV_RSLT_RGST where TSS_CD=#{pgTssCd} order by  FRST_RGST_DT desc) as isGrsAl
+            ,(select top 1  iif(TSS_CD_SN>0,'Y','N') from IRIS_GRS_EV_RSLT_RGST where TSS_CD=substring(#{tssCd},1,9)+'2' and DROP_YN!='Y' and GRS_EV_M_TYPE='AL' order by  TSS_CD_SN desc) as isGrsAl
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
             ON A.PRJ_CD = B.PRJ_CD

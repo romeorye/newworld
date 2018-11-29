@@ -38,6 +38,8 @@
 
         var isEditable = false;
 
+        var isGrsAl="";
+
         Rui.onReady(function () {
             var isInsert = false;
             var form = new Rui.ui.form.LForm('mstForm');
@@ -186,7 +188,7 @@
                         (pgsStepCd == "PL" && grsYn == "N" && gvTssSt == "100")			//GRS N(계획) 인경우 바로 품의서 요청
                         || (pgsStepCd == "PL" && grsYn == "Y" && gvTssSt == "302")	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
                         // || (pgsStepCd == "PG" && gvTssSt == "102")							//진행인 경우 GRS 평가완료
-                        || (pgsStepCd == "AL" && gvTssSt == "100")							//완료진행인 경우 GRS 평가완료
+                        || (pgsStepCd == "AL" && gvTssSt == "100" && isGrsAl=="Y")							//완료진행인 경우 GRS 평가완료
                         || (pgsStepCd == "CM" && gvTssSt == "100")							//완료진행인 경우 GRS 평가완료
                         || (pgsStepCd == "DC" && gvTssSt == "100")							//중단진행인 경우 GRS 평가완료
                     ) {
@@ -198,7 +200,7 @@
                     }
 
 
-                    if (pgsStepCd == "AL" && gvTssSt == "100") {
+                    if (pgsStepCd == "AL" && gvTssSt == "100" && isGrsAl!="Y") {
                         btnStepPg.show();
                         btnCsusRq2.show();
                         // btnGrsRq.hide();
@@ -319,6 +321,7 @@
                     , {id: 'grsStepNm'}	//GRS 단계
                     , {id: 'qgateStepNm'}	//Qgate 단계
                     , {id: 'grsYn'}	//grs(p1) 사용여부
+                    , {id: 'isGrsAl'}	//GRS변경 여부 Y/N
 
 
                 ]
@@ -414,6 +417,7 @@
                 grsEvSt = stringNullChk(dataSet.getNameValue(0, "grsEvSt"));
                 hasAltr = stringNullChk(dataSet.getNameValue(0, "hasAltr"));
                 grsYn = stringNullChk(dataSet.getNameValue(0, "grsYn"));
+                isGrsAl = stringNullChk(dataSet.getNameValue(0, "isGrsAl"));
 
 
                 //계획 단계의 경우 SEED 표현, width 조정
@@ -620,7 +624,7 @@
             function reqAltr() {
                 btnAltrRq.hide();
                 // btnGrsRq.hide();
-                btnStepPg.show();
+                if(isGrsAl!="Y")btnStepPg.show();
                 // btnGrsRq.hide();
 
                 $(".L-nav").children().eq(2).css("display", "block");
@@ -952,7 +956,7 @@
         confirmDialog.render(document.body);
 
         openDialog = function(url){
-            confirmDialog.setUrl('<c:url value="/prj/tss/gen/confirmPopup.do?tssCd="/>' + gvTssCd + '&userIds=' + gvUserId);
+            confirmDialog.setUrl('<c:url value="/prj/tss/tctm/confirmPopup.do?tssCd="/>' + gvTssCd + '&userIds=' + gvUserId);
             confirmDialog.show();
         };
 

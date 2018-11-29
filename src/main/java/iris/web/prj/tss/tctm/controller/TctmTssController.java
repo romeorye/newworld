@@ -1027,4 +1027,32 @@ public class TctmTssController extends IrisBaseController {
 
 		return "web/prj/tss/nat/natTssItgSrch";
 	}
+
+
+
+
+	/**
+	 * 과제관리 > 기술팀과제 > 진행 > 변경이동 팝업 화면
+	 *
+	 * @param input HashMap<String, String>
+	 * @param request HttpServletRequest
+	 * @param session HttpSession
+	 * @param model ModelMap
+	 * @return String
+	 * @throws JSONException
+	 * */
+	@RequestMapping(value="/prj/tss/tctm/confirmPopup.do")
+	public String confirmPopup(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+							   HttpSession session, ModelMap model) throws JSONException {
+
+		checkSession(input, session, model);
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("confirmPopup [과제관리 > 기술팀과제 > 진행 > 변경이동 팝업 화면 ]");
+		LOGGER.debug("###########################################################");
+
+		request.setAttribute("inputData", input);
+
+		return "web/prj/tss/tctm/confirmPopup";
+	}
 }
