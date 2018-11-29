@@ -411,7 +411,7 @@
 			   					</colgroup>
 			   					<tbody>
 			   						<tr>
-			   							<th align="right">실험명</th>
+			   							<th align="right">평가명</th>
 			   							<td><span id="exatNm"/></td>
 			   						</tr>
 			   						<tr>

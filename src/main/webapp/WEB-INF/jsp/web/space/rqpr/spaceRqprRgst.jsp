@@ -181,7 +181,7 @@
             /* 평가대상명 */
             var evSubjNm = new Rui.ui.form.LTextBox({
             	applyTo: 'evSubjNm',
-                placeholder: '예)IFC, 상평동 복합문화단지…,등',
+                placeholder: '예)IFC, 상평동 복합문화단지, 등',
                 defaultValue: '',
                 emptyValue: '',
                 width: 985
@@ -233,7 +233,7 @@
             /* 결과지표 */
             var rsltDpst = new Rui.ui.form.LTextBox({
             	applyTo: 'rsltDpst',
-                placeholder: '예)열관류율 (W/㎡K), 열전도율 (W/mK), 표면온도 (℃)…,등',
+                placeholder: '예)열관류율 (W/㎡K), 열전도율 (W/mK), 표면온도 (℃),등',
                 defaultValue: '',
                 emptyValue: '',
                 width: 395
@@ -387,7 +387,7 @@
 			// 평가 방법 / 담당자 선택팝업 시작
 		    spaceChrgListDialog = new Rui.ui.LFrameDialog({
 		        id: 'spaceChrgListDialog',
-		        title: '평가담당자(Working Day, W:Week)',
+		        title: '평가방법(Tool)',
 		        width: 1100,
 		        height: 530,
 		        modal: true,

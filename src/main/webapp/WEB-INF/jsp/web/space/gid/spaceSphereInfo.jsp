@@ -190,8 +190,8 @@
 								<colgroup>
 									<col style="">
 									<col style="width:20%;">
-									<col style="width:25%;">
-									<col style="width:15%;">
+									<col style="width:20%;">
+									<col style="width:20%;">
 									<col style="width:25%;">
 								</colgroup>
 								<thead>
@@ -232,26 +232,26 @@
 											</dl>
 										</th>
 										<td style="vertical-align:middle !important;">
-											<span class="bullet_txt">Window/therm: 송수빈P / 김준혁S <em>(2W)</em></span>
-											<span class="bullet_txt">Physibel: 이진욱P / 이유지S <em>(2W)</em></span>
+											<span class="bullet_txt">Window/therm : 송수빈P / 김준혁S</span>
+											<span class="bullet_txt">Physibel : 이진욱P / 이유지S</span>
 										</td>
 										<td>
 											<p>
-												<span class="bullet_txt">TRNSYS : 송수빈P / 이진욱P <em>(2W)</em></span>
-												<span class="bullet_txt">Design Builder : 이진욱P / 이유지S / 안남혁S <em>(2W)</em></span>
-												<span class="bullet_txt">Energyplus :박상훈 <em>(2W)</em></span>
-												<span class="bullet_txt">ECO2:이유지S <em>(2W)</em></span>
+												<span class="bullet_txt">TRNSYS : 송수빈P / 이진욱P</span>
+												<span class="bullet_txt">Design Builder : 이진욱P / 이유지S / 안남혁S</span>
+												<span class="bullet_txt">Energyplus :박상훈</span>
+												<span class="bullet_txt">ECO2 : 이유지S</span>
 											</p>
 										</td>
 										<td style="vertical-align:middle !important;">
-											<span class="bullet_txt">EcoTec: 이진욱P <em>(2W)</em></span>
+											<span class="bullet_txt">EcoTec : 이진욱P</span>
 										</td>
 										<td style="vertical-align:middle !important;">
-											<span class="bullet_txt">Star CCM+ 프로그램 1개 추가: 황효근P / 안남혁S <em>(2W)</em></span>
+											<span class="bullet_txt">Star CCM+ : 황효근P / 안남혁S</span>
 										</td>
 
 										<!-- <td style="vertical-align:middle !important;">
-											<span class="bullet_txt">김준혁S / 안남혁S <em>(협의)</em></span>
+											<span class="bullet_txt">김준혁S / 안남혁S</span>
 										</td> -->
 
 									</tr>
@@ -265,22 +265,22 @@
 										</th>
 										<td>
 											<p>
-												<span class="bullet_txt">황효근P / 이유지S <em>(협의)</em></span>
+												<span class="bullet_txt">황효근P / 이유지S</span>
 											</p>
 										</td>
 										<td>
 											<p>
-												<span class="bullet_txt">황효근P / 이유지S <em>(협의)</em></span>
+												<span class="bullet_txt">황효근P / 이유지S</span>
 											</p>
 										</td>
 										<td>
 											<p>
-												<span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></span>
+												<span class="bullet_txt">박상훈P / 안남혁S</span>
 											</p>
 										</td>
 										<td>
 											<p>
-												<span class="bullet_txt">김준혁S / 안남혁S <em>(협의)</em></span>
+												<span class="bullet_txt">김준혁S / 안남혁S</span>
 											</p>
 										</td>
 
@@ -293,10 +293,10 @@
 												<dd>부:안남혁선임</dd>
 											</dl>
 										</th>
-										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
-										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
-										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
-										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
 									</tr>
 
 									<!-- <tr>
@@ -307,10 +307,10 @@
 												<dd>부:안남혁선임</dd>
 											</dl>
 										</th>
-										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
-										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
-										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
-										<td><span class="bullet_txt">박상훈P / 안남혁S <em>(협의)</em></td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
+										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
 									</tr> -->
 								</tbody>
 							</table>
