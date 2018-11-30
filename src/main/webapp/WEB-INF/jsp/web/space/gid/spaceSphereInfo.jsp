@@ -119,8 +119,8 @@
 											<div class="asset_img"><img src="/iris/resource/web/images/newIris/img_tachnical02.png" alt="에너지.열"></div>
 											<div class="analyze_field asset_txt">
 												<p class="analyze_s_txt">건물 에너지 효율 등급, 제로에너지주택 등급</p>
-												<p class="analyze_s_txt">재실자의 PMV1) (열쾌적도) 평가</p>
-												<p class="analyze_s_txt">공간의 내결로 성능 평가 </p>
+												<p class="analyze_s_txt">재실자의 PMV (열쾌적도) 평가</p>
+												<p class="analyze_s_txt">공간의 결로 성능 평가 </p>
 											</div>
 										</td>
 									</tr>
@@ -188,11 +188,11 @@
 						<div>
 							<table class="table p-admin">
 								<colgroup>
-									<col style="">
-									<col style="width:20%;">
-									<col style="width:20%;">
-									<col style="width:20%;">
-									<col style="width:25%;">
+									<col style="width:16%;">
+									<col style="width:21%;">
+									<col style="width:21%;">
+									<col style="width:21%;">
+									<col style="width:21%;">
 								</colgroup>
 								<thead>
 									<th></th>
@@ -223,7 +223,7 @@
 									</th> -->
 								</thead>
 								<tbody>
-									<tr>
+									<tr style="height:120px">
 										<th class="txt-center">
 											<dl>
 												<dt>Simulation</dt>
@@ -231,7 +231,8 @@
 												<dd>부:이유지선임</dd>
 											</dl>
 										</th>
-										<td style="vertical-align:middle !important;">
+										<!-- <td style="vertical-align:middle !important;"> -->
+										<td>
 											<span class="bullet_txt">Window/therm : 송수빈P / 김준혁S</span>
 											<span class="bullet_txt">Physibel : 이진욱P / 이유지S</span>
 										</td>
@@ -243,10 +244,10 @@
 												<span class="bullet_txt">ECO2 : 이유지S</span>
 											</p>
 										</td>
-										<td style="vertical-align:middle !important;">
-											<span class="bullet_txt">EcoTec : 이진욱P</span>
+										<td>
+											<span class="bullet_txt">EcoTect : 이진욱P</span>
 										</td>
-										<td style="vertical-align:middle !important;">
+										<td>
 											<span class="bullet_txt">Star CCM+ : 황효근P / 안남혁S</span>
 										</td>
 
@@ -255,7 +256,7 @@
 										</td> -->
 
 									</tr>
-									<tr>
+									<tr style="height:120px">
 										<th>
 											<dl>
 												<dt>Mockup</dt>
@@ -265,27 +266,27 @@
 										</th>
 										<td>
 											<p>
-												<span class="bullet_txt">황효근P / 이유지S</span>
+												<span class="bullet_txt">옥산 Test Cell : 황효근P / 이유지S</span>
 											</p>
 										</td>
 										<td>
 											<p>
-												<span class="bullet_txt">황효근P / 이유지S</span>
+												<span class="bullet_txt">옥산 Test Cell : 황효근P / 이유지S</span>
 											</p>
 										</td>
 										<td>
 											<p>
-												<span class="bullet_txt">박상훈P / 안남혁S</span>
+												<span class="bullet_txt">옥산 Test Cell : 박상훈P / 안남혁S</span>
 											</p>
 										</td>
 										<td>
 											<p>
-												<span class="bullet_txt">김준혁S / 안남혁S</span>
+												<span class="bullet_txt">옥산 Test Cell : 김준혁S / 안남혁S</span>
 											</p>
 										</td>
 
 									</tr>
-									<tr>
+									<tr style="height:120px">
 										<th>
 											<dl>
 												<dt>Certification</dt>
@@ -293,10 +294,26 @@
 												<dd>부:안남혁선임</dd>
 											</dl>
 										</th>
-										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
-										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
-										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
-										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
+										<td>
+											<span class="bullet_txt">G-Seed 기반 : 박상훈P / 안남혁S</span>
+											<span class="bullet_txt">LEED 기반 : 박상훈P / 안남혁S</span>
+											<span class="bullet_txt">기타 : 박상훈P / 안남혁S</span>
+										</td>
+										<td>
+											<span class="bullet_txt">G-Seed 기반 : 박상훈P / 안남혁S</span>
+											<span class="bullet_txt">LEED 기반 : 박상훈P / 안남혁S</span>
+											<span class="bullet_txt">기타 : 박상훈P / 안남혁S</span>
+										</td>
+										<td>
+											<span class="bullet_txt">G-Seed 기반 : 박상훈P / 안남혁S</span>
+											<span class="bullet_txt">LEED 기반 : 박상훈P / 안남혁S</span>
+											<span class="bullet_txt">기타 : 박상훈P / 안남혁S</span>
+										</td>
+										<td>
+											<span class="bullet_txt">G-Seed 기반 : 박상훈P / 안남혁S</span>
+											<span class="bullet_txt">LEED 기반 : 박상훈P / 안남혁S</span>
+											<span class="bullet_txt">기타 : 박상훈P / 안남혁S</span>
+										</td>
 									</tr>
 
 									<!-- <tr>
@@ -314,6 +331,7 @@
 									</tr> -->
 								</tbody>
 							</table>
+							* ‘열’ 항목은 자재 단위 (비정상 상태 해석) , ‘에너지’ 항목은 공간 단위 (정상 상태 해석) 를 기반으로 평가
 						</div>
 					</div>
 					<!--  //평가 담당자 -->
