@@ -778,6 +778,7 @@ $(window).load(function() {
                                 Wec = new NamoSE('smryTxt');
                                 Wec.params.Width = "100%";
                                 Wec.params.UserLang = "auto";
+                                Wec.params.Font = fontParam;
                                 uploadPath = "<%=uploadPath%>";
                                 Wec.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec.params.FullScreen = false;

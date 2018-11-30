@@ -599,7 +599,11 @@
 										var CrossEditor = new NamoSE('bbsSbc');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
-										CrossEditor.params.ImageSavePath = "/iris/resource/fileupload/mchn";
+										CrossEditor.params.Font = fontParam;
+										
+										var uploadPath = "<%=uploadPath%>";
+										
+										CrossEditor.params.ImageSavePath = uploadPath"/rlab";
 										CrossEditor.params.FullScreen = false;
 										CrossEditor.params.Height = 350;
 										CrossEditor.EditorStart();

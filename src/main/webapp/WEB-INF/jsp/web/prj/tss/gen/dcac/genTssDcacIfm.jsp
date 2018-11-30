@@ -282,7 +282,7 @@
         }
 
         if(gbn != "SAVE" && dataSet.isUpdated()) {
-           Rui.alert("완료탭 저장을 먼저 해주시기 바랍니다.");
+           Rui.alert("중단탭 저장을 먼저 해주시기 바랍니다.");
            return false;
         }
 

@@ -344,7 +344,8 @@ var dataSet01;
 								var CrossEditor0 = new NamoSE('rsstDevScp');
 								CrossEditor0.params.Width = "100%";
 								CrossEditor0.params.UserLang = "auto";
-
+								CrossEditor0.params.Font = fontParam;
+								
 								var uploadPath = "<%=uploadPath%>";
 
 								CrossEditor0.params.ImageSavePath = uploadPath+"/prj";
@@ -363,7 +364,7 @@ var dataSet01;
 								var CrossEditor1 = new NamoSE('bizArea');
 								CrossEditor1.params.Width = "100%";
 								CrossEditor1.params.UserLang = "auto";
-
+								CrossEditor1.params.Font = fontParam;
 								var uploadPath = "<%=uploadPath%>";
 
 								CrossEditor1.params.ImageSavePath = uploadPath+"/prj";
@@ -382,7 +383,7 @@ var dataSet01;
 								var CrossEditor2 = new NamoSE('mnBaseTclg');
 								CrossEditor2.params.Width = "100%";
 								CrossEditor2.params.UserLang = "auto";
-
+								CrossEditor2.params.Font = fontParam;
 								var uploadPath = "<%=uploadPath%>";
 
 								CrossEditor2.params.ImageSavePath = uploadPath+"/prj";

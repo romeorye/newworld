@@ -408,6 +408,7 @@
                                 Wec0 = new NamoSE('surrNcssTxt');
                                 Wec0.params.Width = "100%";
                                 Wec0.params.UserLang = "auto";
+                                Wec0.params.Font = fontParam;
                                 uploadPath = "<%=uploadPath%>";
                                 Wec0.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec0.params.FullScreen = false;
@@ -420,6 +421,7 @@
                                 Wec1 = new NamoSE('sbcSmryTxt');
                                 Wec1.params.Width = "100%";
                                 Wec1.params.UserLang = "auto";
+                                Wec1.params.Font = fontParam;
                                 uploadPath = "<%=uploadPath%>";
                                 Wec1.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec1.params.FullScreen = false;
@@ -432,6 +434,7 @@
                                 Wec2 = new NamoSE('oucmPlnTxt');
                                 Wec2.params.Width = "100%";
                                 Wec2.params.UserLang = "auto";
+                                Wec2.params.Font = fontParam;
                                 uploadPath = "<%=uploadPath%>";
                                 Wec2.params.ImageSavePath = uploadPath+"/prj";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
                                 Wec2.params.FullScreen = false;

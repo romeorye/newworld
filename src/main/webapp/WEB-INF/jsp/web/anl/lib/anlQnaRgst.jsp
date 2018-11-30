@@ -435,7 +435,11 @@
 										var CrossEditor = new NamoSE('bbsSbc');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
-										CrossEditor.params.ImageSavePath = "/iris/resource/fileupload/mchn";
+										CrossEditor.params.Font = fontParam;
+										
+										var uploadPath = "<%=uploadPath%>";
+										CrossEditor.params.ImageSavePath = uploadPath+"/bbsSbc";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조
+										
 										CrossEditor.params.FullScreen = false;
 										CrossEditor.params.Height = 400;
 										CrossEditor.EditorStart();

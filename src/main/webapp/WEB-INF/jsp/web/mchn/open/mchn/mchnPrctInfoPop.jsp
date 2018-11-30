@@ -598,6 +598,7 @@ var mailTitl ="보유기기 예약신청";
 										var CrossEditor = new NamoSE('dtlSbc');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
+										CrossEditor.params.Font = fontParam;
 										
 										var uploadPath = "<%=uploadPath%>"; 
 										

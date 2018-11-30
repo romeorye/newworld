@@ -774,6 +774,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 										var CrossEditor = new NamoSE('mchnSmry');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
+										CrossEditor.params.Font = fontParam;
 										var uploadPath = "<%=uploadPath%>";
 
 										CrossEditor.params.ImageSavePath = uploadPath+"/rlab";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조

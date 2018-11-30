@@ -533,7 +533,7 @@
 
             /* 시료정보 삭제 */
             deleteAnlRqprSmpo = function() {
-                if(anlRqprSmpoDataSet.getMarkedCount() > 0) {
+            	if(anlRqprSmpoDataSet.getMarkedCount() > 0) {
                 	anlRqprSmpoDataSet.removeMarkedRows();
                 } else {
                 	alert('삭제 대상을 선택해주세요.');

@@ -726,7 +726,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 										var CrossEditor = new NamoSE('mchnSmry');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
-
+										CrossEditor.params.Font = fontParam;
 										var uploadPath = "<%=uploadPath%>";
 
 										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";

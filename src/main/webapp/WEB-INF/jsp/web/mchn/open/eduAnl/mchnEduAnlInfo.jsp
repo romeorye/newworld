@@ -612,7 +612,8 @@ var openMchnSearchDialog;
 										var CrossEditor = new NamoSE('dtlSbc');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
-
+										CrossEditor.params.Font = fontParam;
+										
 										var uploadPath = "<%=uploadPath%>";
 
 										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";

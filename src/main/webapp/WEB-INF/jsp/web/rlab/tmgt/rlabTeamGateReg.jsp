@@ -313,6 +313,7 @@ var firstLoad = "Y";	//화면오픈
 									var CrossEditor = new NamoSE('sbc');
 									CrossEditor.params.Width = "100%";
 									CrossEditor.params.UserLang = "auto";
+									CrossEditor.params.Font = fontParam;
 									var uploadPath = "<%=uploadPath%>";
 
 									CrossEditor.params.ImageSavePath = uploadPath+"/rlab";		//하위메뉴 폴더명은 변경  project.properties KeyStore.UPLOAD_ 참조

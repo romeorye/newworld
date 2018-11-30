@@ -764,7 +764,10 @@ var dtlSbc = "";
 										var CrossEditor = new NamoSE('dtlSbc');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
-										CrossEditor.params.ImageSavePath = "/iris/resource/fileupload/mchn";
+										CrossEditor.params.Font = fontParam;
+										var uploadPath = "<%=uploadPath%>";
+										
+										CrossEditor.params.ImageSavePath = uploadPath+"/mchn";
 										CrossEditor.params.FullScreen = false;
 										CrossEditor.params.Height = 320;
 										CrossEditor.EditorStart();

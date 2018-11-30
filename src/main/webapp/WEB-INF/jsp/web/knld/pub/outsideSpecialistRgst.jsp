@@ -461,7 +461,7 @@
 										var CrossEditor = new NamoSE('timpCarr');
 										CrossEditor.params.Width = "100%";
 										CrossEditor.params.UserLang = "auto";
-										
+										CrossEditor.params.Font = fontParam;
 										var uploadPath = "<%=uploadPath%>"; 
 										
 										CrossEditor.params.ImageSavePath = uploadPath+"/knld";
