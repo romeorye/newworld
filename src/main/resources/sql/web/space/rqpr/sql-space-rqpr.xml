@@ -389,6 +389,7 @@
 				last_mdfy_dt	= getdate(),
 				last_mdfy_id	= #{userId}
 		WHERE	RQPR_ID = ${rqprId}
+		  AND   CRGR_ID = ${crgrId}
 
 	</update>
 
@@ -400,6 +401,7 @@
 				LAST_MDFY_DT = getdate(),
 				LAST_MDFY_ID = #{userId}
 		WHERE	RQPR_ID = ${rqprId}
+		  AND   CRGR_ID = ${crgrId}
 
 	</update>
 
@@ -451,7 +453,7 @@
 				LAST_MDFY_DT = getdate(),
 				LAST_MDFY_ID = #{userId}
 		WHERE	RQPR_ID = ${rqprId}
-
+		  AND   PROD_ID = ${prodId}
 	</update>
 
 	<insert id="insertSpaceRqprRltd" parameterType="map">
