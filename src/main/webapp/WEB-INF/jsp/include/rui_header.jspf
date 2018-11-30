@@ -221,6 +221,7 @@
 <script type="text/javascript" src="<%=scriptPath%>/jquery.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/jquery.iframeResizer.min.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/common.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/commonFont.js"></script>
 
 <script type="text/javascript" src="<%=scriptPath%>/nwins_common.js"></script>
 
@@ -229,7 +230,7 @@
 <script type="text/javascript" src="<%=namoPath%>/js/namo_scripteditor.js"></script>
 
 <script type="text/javascript">
-
+var fontParam = {"맑은 고딕" : "맑은 고딕","돋움" : "돋움","굴림" : "굴림","바탕" : "바탕","궁서" : "궁서","David" : "David","LG스마트체" : "LG스마트체", "LG스마트체2.0" : "LG스마트체2.0","MS PGothic" : "MS PGothic","New MingLiu" : "New MingLiu","Simplified Arabic" : "Simplified Arabic","simsun" : "simsun","Arial" : "Arial","Courier New" : "Courier New","Tahoma" : "Tahoma","Times New Roman" : "Times New Roman","Verdana" : "Verdana" }; 
 	var _callback;
 	var agent = navigator.userAgent.toLowerCase();
 	var mPageNum='<c:out value="${inputData.pageNum}"/>';
