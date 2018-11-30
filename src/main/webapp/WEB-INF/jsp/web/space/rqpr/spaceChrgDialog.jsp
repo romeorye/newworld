@@ -115,12 +115,6 @@
 							<a href="#" onClick="setSpaceChrgInfo('01','04','nhahn',     '안남혁')">안남혁S</a>
 						</span>
 					</td>
-					<!-- <td>
-						<span class="bullet_txt">CFD :<br>
-							<a href="#" onClick="setSpaceChrgInfo('01','04','hyokeun',   '황효근')">황효근P</a>
-							<a href="#" onClick="setSpaceChrgInfo('01','04','nhahn',     '안남혁')">안남혁S</a>
-						</span>
-					</td> -->
 				</tr>
 				<tr>
 					<th>
@@ -131,35 +125,29 @@
 						</dl>
 					</th>
 					<td>
-						<span class="bullet_txt">
+						<span class="bullet_txt">옥산 Test Cell :<br>
 						 	<a href="#" onClick="setSpaceChrgInfo('02','02','hyokeun',   '황효근')">황효근P</a> /
 							<a href="#" onClick="setSpaceChrgInfo('02','02','yujilee',   '이유지')">이유지S</a>
 						</span>
 					</td>
 					<td>
-						<span class="bullet_txt">
+						<span class="bullet_txt">옥산 Test Cell :<br>
 							<a href="#" onClick="setSpaceChrgInfo('02','01','hyokeun',   '황효근')">황효근P</a> /
 							<a href="#" onClick="setSpaceChrgInfo('02','01','yujilee',   '이유지')">이유지S</a>
 						</span>
 					</td>
 					<td>
-						<span class="bullet_txt">
+						<span class="bullet_txt">옥산 Test Cell :<br>
 							<a href="#" onClick="setSpaceChrgInfo('02','03','shoonpark', '박상훈')">박상훈P</a> /
 							<a href="#" onClick="setSpaceChrgInfo('02','03','nhahn',     '안남혁')">안남혁S</a>
 						</span>
 					</td>
 					<td>
-						<span class="bullet_txt">
+						<span class="bullet_txt">옥산 Test Cell :<br>
 							<a href="#" onClick="setSpaceChrgInfo('02','04','giantsteps','김준혁')">김준혁S</a> /
 							<a href="#" onClick="setSpaceChrgInfo('02','04','nhahn',     '안남혁')">안남혁S</a>
 						</span>
 					</td>
-					<!-- <td class="txt_gray">
-						<span class="bullet_txt">
-							<a href="#" onClick="setSpaceChrgInfo('02','05','shoonpark', '박상훈')">박상훈P</a> /
-							<a href="#" onClick="setSpaceChrgInfo('02','05','giantsteps','김준혁')">김준혁S</a>
-						</span>
-					</td> -->
 				</tr>
 				<tr>
 					<th>
@@ -169,62 +157,68 @@
 							<dd>부:안남혁선임</dd>
 						</dl>
 					</th>
-					<td><span class="bullet_txt">
-						<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
-						<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+					<td>
+						<span class="bullet_txt">G-Seed 기반 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>	
+						<span class="bullet_txt">LEED 기반 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>	
+						<span class="bullet_txt">기타 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>	
 					</td>
-					<td><span class="bullet_txt">
-						<a href="#" onClick="setSpaceChrgInfo('03','01','shoonpark', '박상훈')">박상훈P</a> /
-						<a href="#" onClick="setSpaceChrgInfo('03','01','nhahn',     '안남혁')">안남혁S</a>
+					<td>
+						<span class="bullet_txt">G-Seed 기반 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>	
+						<span class="bullet_txt">LEED 기반 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>	
+						<span class="bullet_txt">기타 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>
 					</td>
-					<td><span class="bullet_txt">
-						<a href="#" onClick="setSpaceChrgInfo('03','03','shoonpark', '박상훈')">박상훈P</a> /
-						<a href="#" onClick="setSpaceChrgInfo('03','03','nhahn',     '안남혁')">안남혁S</a>
+					<td>
+						<span class="bullet_txt">G-Seed 기반 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>	
+						<span class="bullet_txt">LEED 기반 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>	
+						<span class="bullet_txt">기타 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>
 					</td>
-					<td><span class="bullet_txt">
-						<a href="#" onClick="setSpaceChrgInfo('03','04','shoonpark', '박상훈')">박상훈P</a> /
-						<a href="#" onClick="setSpaceChrgInfo('03','04','nhahn',     '안남혁')">안남혁S</a>
+					<td>
+						<span class="bullet_txt">G-Seed 기반 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>	
+						<span class="bullet_txt">LEED 기반 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>	
+						<span class="bullet_txt">기타 :<br>
+							<a href="#" onClick="setSpaceChrgInfo('03','02','shoonpark', '박상훈')">박상훈P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('03','02','nhahn',     '안남혁')">안남혁S</a>
+						</span>
 					</td>
-					<!-- <td class="txt_gray"><span class="bullet_txt">
-						<a href="#" onClick="setSpaceChrgInfo('03','05','shoonpark', '박상훈')">박상훈P</a> /
-						<a href="#" onClick="setSpaceChrgInfo('03','05','nhahn',     '안남혁')">안남혁S</a>
-					</td> -->
 				</tr>
-				<!-- <tr>
-					<th class="txt-center">
-						<dl>
-							<dt>Measurement</dt>
-							<dd>주:박상훈책임</dd>
-							<dd>부:안남혁선임</dd>
-						</dl>
-					</th>
-					<td><span class="bullet_txt">
-						<a href="#" onClick="setSpaceChrgInfo('04','01','shoonpark', '박상훈')">박상훈P</a> /
-						<a href="#" onClick="setSpaceChrgInfo('04','01','nhahn',     '안남혁')">안남혁S</a>
-					</td>
-					<td><span class="bullet_txt">
-						<a href="#" onClick="setSpaceChrgInfo('04','02','shoonpark', '박상훈')">박상훈P</a> /
-						<a href="#" onClick="setSpaceChrgInfo('04','02','nhahn',     '안남혁')">안남혁S</a>
-					</td>
-					<td><span class="bullet_txt">
-						<a href="#" onClick="setSpaceChrgInfo('04','03','shoonpark', '박상훈')">박상훈P</a> /
-						<a href="#" onClick="setSpaceChrgInfo('04','03','nhahn',     '안남혁')">안남혁S</a>
-					</td>
-					<td><span class="bullet_txt">
-						<a href="#" onClick="setSpaceChrgInfo('04','04','shoonpark', '박상훈')">박상훈P</a> /
-						<a href="#" onClick="setSpaceChrgInfo('04','04','nhahn',     '안남혁')">안남혁S</a>
-					</td>
-					<td class="txt_gray"><span class="bullet_txt">
-						<a href="#" onClick="setSpaceChrgInfo('04','05','shoonpark', '박상훈')">박상훈P</a> /
-						<a href="#" onClick="setSpaceChrgInfo('04','05','nhahn',     '안남혁')">안남혁S</a>
-					</td>
-				</tr> -->
 
 			</tbody>
 		</table>
 	</div>
 	<!-- //pop컨텐츠 -->
-	* ‘열’ 항목은 자재 단위 (비정상 상태 해석) , ‘에너지’ 항목은 공간 단위 (정상 상태 해석) 를 기반으로  평가
 
 
 
