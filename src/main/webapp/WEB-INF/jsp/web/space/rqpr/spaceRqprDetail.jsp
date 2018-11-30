@@ -651,7 +651,7 @@
 		        id: 'spaceChrgListDialog',
 		        title: '평가방법(Tool)',
 		        width: 1100,
-		        height: 530,
+		        height: 600,
 		        modal: true,
 		        visible: false,
 		        buttons: [
