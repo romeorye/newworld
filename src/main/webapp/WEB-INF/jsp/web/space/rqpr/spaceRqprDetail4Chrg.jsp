@@ -632,7 +632,7 @@
             //평가방법 / 담당자 데이터셋
             var spaceRqprWayCrgrDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceRqprWayCrgrDataSet',
-                remainRemoved: false,
+                remainRemoved: true,
                 lazyLoad: true,
                 fields: [
                 	  { id: 'crgrId', defaultValue: '' }
@@ -649,6 +649,7 @@
             var spaceRqprWayCrgrColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
+                	, new Rui.ui.grid.LStateColumn()
                     , new Rui.ui.grid.LNumberColumn()
                 	, { field: 'evCtgr',		label: '<span style="color:red;">* </span>평가카테고리',	sortable: false,	editable: false, editor: evCtgrCombo,	align:'center',	width: 400}
                 	, { field: 'evPrvs',		label: '<span style="color:red;">* </span>평가항목',		sortable: false,	editable: false, editor: evPrvsCombo,	align:'center',	width: 400 }
@@ -850,7 +851,7 @@
             //제품군 그리드 데이터셋
             var spaceRqprProdDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceRqprProdDataSet',
-                remainRemoved: false,
+                remainRemoved: true,
                 lazyLoad: true,
                 fields: [
                 	  { id: 'evCtgr0' }
@@ -868,6 +869,7 @@
             var spaceRqprProdColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
+                  	, new Rui.ui.grid.LStateColumn()
                     , new Rui.ui.grid.LNumberColumn()
                 	, { field: 'evCtgr0',	label: 'evCtgr0',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
                 	, { field: 'evCtgr1',	label: 'evCtgr1',	sortable: false,	editable: false, editor: textBox,	align:'center',	width: 100,	hidden:true }
@@ -1933,11 +1935,11 @@
    						</tr>
 
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>목표(정량지표)</th>
+   							<th align="right">기대효과(정량지표)</th>
    							<td class="space_tain">
    								<input type="text" id="qtasDpst">
    							</td>
-   							<th align="right"><span style="color:red;">* </span>목표(정성지표)</th>
+   							<th align="right">기대효과(정성지표)</th>
    							<td class="space_tain">
                                 <input type="text" id="qnasDpst">
    							</td>
