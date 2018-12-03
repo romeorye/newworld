@@ -595,6 +595,7 @@
 					,ARE.EXPR_STRT_DT							 as exprStrtDt
 					,ARE.EXPR_FNH_DT							 as exprFnhDt
 					,ARE.EXPR_WAY								 as exprWay
+					,ARE.EXPR_STRT_DT+'~'+ARE.EXPR_FNH_DT	     as exprDt
 			 FROM EXPR_MST EM
 				,IRIS_ANL_RQPR_EXPR ARE
 		 ]]>

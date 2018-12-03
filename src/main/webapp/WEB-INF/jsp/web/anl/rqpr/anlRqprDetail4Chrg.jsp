@@ -729,6 +729,9 @@
 					, { id: 'exprTim' }
 					, { id: 'exprExp' }
 					, { id: 'exprWay' }
+					, { id: 'exprDt' }
+					, { id: 'exprStrtDt' }
+					, { id: 'exprFnhDt' }
                 ]
             });
 
@@ -739,6 +742,7 @@
                     , { field: 'exprNm',	label: '실험명',		sortable: false,	align:'left',	width: 400 }
                     , { field: 'smpoQty',	label: '실험수',		sortable: false,	align:'center',	width: 70 }
                     , { field: 'exprTim',	label: '실험시간',		sortable: false,	align:'center',	width: 80 }
+                    , { field: 'exprDt',	label: '실험시간',		sortable: false,	align:'center',	width: 180 }
                     , { field: 'exprExp',	label: '수가',		sortable: false,	align:'center',	width: 100, renderer: function(val, p, record, row, col) {
                     	return Rui.util.LNumber.toMoney(val, '') + '원';
                       } }
