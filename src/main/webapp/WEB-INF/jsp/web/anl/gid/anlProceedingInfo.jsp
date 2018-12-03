@@ -80,7 +80,7 @@
 		         <div class="analy_adress">
 		            <div class="analy_adress_box">
 		                <div class="adress_txt_box"><div class="adress_txt">주소</div></div>
-		                <div class="adress_txt_s">서울특별시 강서구 마곡중앙10로 30 (마곡동) LG사이언스파크 LG하우시스.중앙연구소.분석PJT</div>
+		                <div class="adress_txt_s">서울특별시 강서구 마곡중앙10로 30 (마곡동) LG사이언스파크 LG하우시스.연구소.분석PJT</div>
 		                <div class="adress_txt_ss">* 수령인에 분석담당자의 이름과 연락처를 기재하여 발송해 주시기 바랍니다.</div>
 		            </div>
 		        </div>
