@@ -84,6 +84,10 @@
 							<a href="#" onClick="setSpaceChrgInfo('01','02','rumor',     '이진욱')">이진욱P</a> /
 							<a href="#" onClick="setSpaceChrgInfo('01','02','yujilee',   '이유지')">이유지S</a>
 						</span>
+						<span class="bullet_txt">Star CCM+ :<br>
+							<a href="#" onClick="setSpaceChrgInfo('01','04','hyokeun',   '황효근')">황효근P</a> /
+							<a href="#" onClick="setSpaceChrgInfo('01','01','nhahn',     '안남혁')">안남혁S</a>
+						</span>
 					</td>
 					<td>
 						<p>

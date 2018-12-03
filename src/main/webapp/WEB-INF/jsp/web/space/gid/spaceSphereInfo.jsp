@@ -235,6 +235,7 @@
 										<td>
 											<span class="bullet_txt">Window/therm : 송수빈P / 김준혁S</span>
 											<span class="bullet_txt">Physibel : 이진욱P / 이유지S</span>
+											<span class="bullet_txt">Star CCM+ : 황효근P / 안남혁S</span>
 										</td>
 										<td>
 											<p>
@@ -250,11 +251,6 @@
 										<td>
 											<span class="bullet_txt">Star CCM+ : 황효근P / 안남혁S</span>
 										</td>
-
-										<!-- <td style="vertical-align:middle !important;">
-											<span class="bullet_txt">김준혁S / 안남혁S</span>
-										</td> -->
-
 									</tr>
 									<tr style="height:120px">
 										<th>
