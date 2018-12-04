@@ -603,7 +603,7 @@
 										
 										var uploadPath = "<%=uploadPath%>";
 										
-										CrossEditor.params.ImageSavePath = uploadPath"/rlab";
+										CrossEditor.params.ImageSavePath = uploadPath+"/rlab";
 										CrossEditor.params.FullScreen = false;
 										CrossEditor.params.Height = 350;
 										CrossEditor.EditorStart();
