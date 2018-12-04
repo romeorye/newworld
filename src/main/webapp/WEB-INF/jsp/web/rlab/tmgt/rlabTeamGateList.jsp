@@ -64,7 +64,7 @@
 	            { field: 'frstRgstNm', 		label:'등록자',   	sortable: false, align: 'center', width: 220},
 	            { field: 'frstRgstDt',  	label:'등록일', 		sortable: false, align: 'center', width: 220},
 	            { field: 'cmplNm',  		label:'완료여부', 	sortable: false, align: 'center', width: 200},
-	            { field: 'evCnt',  			label:'참여인원', 	sortable: false, align: 'center', width: 165},
+	            { field: 'evCnt',  			label:'참여인원', 	sortable: false, align: 'center', width: 185},
 	            { field: 'sbc',  			hidden : true},
 	            { field: 'teamGateId',  hidden : true},
 	            { field: 'delYn',  		hidden : true},
