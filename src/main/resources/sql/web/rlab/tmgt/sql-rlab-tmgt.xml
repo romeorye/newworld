@@ -16,7 +16,7 @@
 			    END      AS cmplNm
 			  ,ATTC_FIL_ID  AS attcFilId
 			  ,DEL_YN       AS delYn
-			  ,FRST_RGST_DT AS frstRgstDt
+			  ,convert(nvarchar(10), FRST_RGST_DT, 23) AS frstRgstDt
 			  ,FRST_RGST_ID AS frstRgstId
 			  ,dbo.fn_getUserName(FRST_RGST_ID) AS frstRgstNm
 			  ,(SELECT COUNT(1) FROM IRIS_TEAM_GATE_DTL DTL WHERE DTL.TEAM_GATE_ID=A.TEAM_GATE_ID) AS evCnt
