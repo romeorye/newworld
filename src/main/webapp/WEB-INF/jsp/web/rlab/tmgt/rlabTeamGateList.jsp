@@ -60,11 +60,11 @@
 	    var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	{ field: 'titl', 			label:'제목' , 		sortable: false, align: 'left', width: 400},
-	            { field: 'frstRgstDt',  	label:'등록일', 		sortable: false, align: 'center', width: 200},
-	            { field: 'frstRgstNm', 		label:'등록자',   	sortable: false, align: 'center', width: 200},
-	            { field: 'cmplNm',  		label:'완료여부', 		sortable: false, align: 'center', width: 200},
-	            { field: 'evCnt',  			label:'참여인원', 		sortable: false, align: 'center', width: 200},
+	        	{ field: 'titl', 			label:'제목' , 		sortable: false, align: 'left', width: 500},
+	            { field: 'frstRgstNm', 		label:'등록자',   	sortable: false, align: 'center', width: 220},
+	            { field: 'frstRgstDt',  	label:'등록일', 		sortable: false, align: 'center', width: 220},
+	            { field: 'cmplNm',  		label:'완료여부', 	sortable: false, align: 'center', width: 200},
+	            { field: 'evCnt',  			label:'참여인원', 	sortable: false, align: 'center', width: 165},
 	            { field: 'sbc',  			hidden : true},
 	            { field: 'teamGateId',  hidden : true},
 	            { field: 'delYn',  		hidden : true},
