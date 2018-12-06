@@ -339,6 +339,9 @@
                 if(chkRows[i].data.yldItmSn == 1) {
                     Rui.alert("GRS심의파일은 삭제가 불가합니다.");
                     return;
+                }else if (chkRows[i].data.yldItmType == '06' || chkRows[i].data.yldItmType == '07' || chkRows[i].data.yldItmType == '08'  ){
+                	Rui.alert("Q-GATE 파일은 삭제가 불가합니다.");
+                    return;
                 }
             }
             
