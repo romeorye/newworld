@@ -197,7 +197,7 @@ nG.saveExcel(encodeURIComponent('TeamGate_') + new Date().format('%Y%m%d') + '.x
 	        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 	        	<span class="hidden">Toggle 버튼</span>
         	</a>
-			<h2>TEAM GATE 관리</h2>
+			<h2>TEAM GATE</h2>
 		</div>
 
 		<div class="sub-content">
