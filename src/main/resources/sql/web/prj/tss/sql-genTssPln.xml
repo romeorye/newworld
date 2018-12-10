@@ -175,11 +175,11 @@
              , CTY_OT_PLN_M       = #{ctyOtPlnM}
              , SMR_SMRY_TXT			= #{smrSmryTxt}
 			 , SMR_GOAL_TXT         = #{smrGoalTxt}
-			 , BIZ_PRFT_PRO_Y       = #{bizPrftProY}
-			 , BIZ_PRFT_PRO_Y_1     = #{bizPrftProY1}
-			 , BIZ_PRFT_PRO_Y_2     = #{bizPrftProY2}
-			 , BIZ_PRFT_PRO_Y_3     = #{bizPrftProY3}
-			 , BIZ_PRFT_PRO_Y_4     = #{bizPrftProY4}
+			 , BIZ_PRFT_PRO_Y       = CONVERT(numeric(15, 0), CASE WHEN #{bizPrftProY} = '' THEN '0' ELSE #{bizPrftProY} END) 
+			 , BIZ_PRFT_PRO_Y_1     = CONVERT(numeric(15, 0), CASE WHEN #{bizPrftProY1} = '' THEN '0' ELSE #{bizPrftProY1} END)
+			 , BIZ_PRFT_PRO_Y_2     = CONVERT(numeric(15, 0), CASE WHEN #{bizPrftProY2} = '' THEN '0' ELSE #{bizPrftProY2} END)
+			 , BIZ_PRFT_PRO_Y_3     = CONVERT(numeric(15, 0), CASE WHEN #{bizPrftProY3} = '' THEN '0' ELSE #{bizPrftProY3} END)
+			 , BIZ_PRFT_PRO_Y_4     = CONVERT(numeric(15, 0), CASE WHEN #{bizPrftProY4} = '' THEN '0' ELSE #{bizPrftProY4} END)
              , NPROD_SALS_PLN_Y   = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)   --신제품매출계획Y
              , NPROD_SALS_PLN_Y_1 = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY1} = '' THEN '0' ELSE #{nprodSalsPlnY1} END) --신제품매출계획Y+1
              , NPROD_SALS_PLN_Y_2 = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY2} = '' THEN '0' ELSE #{nprodSalsPlnY2} END) --신제품매출계획Y+2
