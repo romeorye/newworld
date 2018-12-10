@@ -53,6 +53,9 @@
 		 <if test="searchCd == 'bbsTitlSbcCode'">
 			  AND (BBS_TITL like '%${searchNm}%' OR BBS_SBC like '%${searchNm}%')
 		 </if>
+		 <if test="gbSearchCd != null and gbSearchCd != ''">
+			  AND GUBUN = #{gbSearchCd}
+		 </if>
 		 <if test="anlTlcgClCd != null and anlTlcgClCd != ''">
 			  AND ANL_TLCG_CL_CD = '${anlTlcgClCd}'
 		 </if>

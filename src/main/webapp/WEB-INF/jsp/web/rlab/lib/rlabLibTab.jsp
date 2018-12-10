@@ -43,12 +43,24 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T17");
 var bbsId = "${inputData.bbsId}";
 var bbsCd = "${inputData.bbsCd}";
 var target = "${inputData.target}";
+var gb = "";
 
 	Rui.onReady(function() {
        /*******************
         * 변수 및 객체 선언
         *******************/
-           /* 검색 코드 */
+		 if( bbsCd == "01" ){
+			 gb = "AAAAA";
+	     }else if( bbsCd == "02" ){
+	    	 gb = "RLAB_DB_CD";
+	     }else if( bbsCd == "03" ){
+	    	 gb = "RLAB_REFERENCE_CD";
+	     }else if( bbsCd == "04" ){
+	    	 gb = "RLAB_IP_CD";
+	     }
+		
+        
+        /* 검색 코드 */
            var searchCd = new Rui.ui.form.LCombo({
         	   applyTo: 'searchCd',
                name: 'searchCd',
@@ -74,7 +86,23 @@ var target = "${inputData.target}";
 	     			getAnlLibList();
      			}
              });
-
+           
+           /* 구분 검색 코드 */
+           var gbSearchCd = new Rui.ui.form.LCombo({
+        	   applyTo: 'gbSearchCd',
+               name: 'gbSearchCd',
+               defaultValue: '<c:out value="${inputData.gbSearchCd}"/>',
+               useEmptyText: true,
+               width: 150,
+               url: '<c:url value="/common/code/retrieveCodeListForCache.do"/>'+'?comCd='+gb,
+               displayField: 'COM_DTL_NM',
+               valueField: 'COM_DTL_CD'
+           });
+           
+           gbSearchCd.getDataSet().on('load', function(e) {
+        	   
+           });
+           
        	   /* [버튼] 신규 등록 */
        	   var rgstBtn = new Rui.ui.LButton('rgstBtn');
 
@@ -343,6 +371,7 @@ var target = "${inputData.target}";
                 	   bbsCd : '${inputData.bbsCd}',
                 	   target : '${inputData.target}',
                 	   searchCd : escape(encodeURIComponent(document.aform.searchCd.value)),
+                	   gbSearchCd : escape(encodeURIComponent(document.aform.gbSearchCd.value)),
                 	   searchNm : escape(encodeURIComponent(document.aform.searchNm.value))
                    }
                });
@@ -398,14 +427,15 @@ function fncAnlLibRgstPage(record) {
 }
 
 init = function() {
-	   var searchNm='${inputData.searchNm}';
+	var searchNm='${inputData.searchNm}';
 	   anlLibDataSet.load({
          url: '<c:url value="/rlab/lib/getRlabLibList.do"/>',
          params :{
          	bbsCd : '${inputData.bbsCd}',
       	    target : '${inputData.target}',
          	searchNm : escape(encodeURIComponent(searchNm)),
-         	searchCd : '${inputData.searchCd}'
+         	searchCd : '${inputData.searchCd}',
+         	gbSearchCd : '${inputData.gbSearchCd}'
          }
      });
  }
@@ -435,8 +465,9 @@ init = function() {
    					</colgroup>
    					<tbody>
    						<tr>
-   							<td colspan="2">
+   							<td colspan="3">
    								<div id="searchCd"></div>
+   								<div id="gbSearchCd"></div>
    								<input type="text" id="searchNm" value="">
    							</td>
    							<td class="t_center">
