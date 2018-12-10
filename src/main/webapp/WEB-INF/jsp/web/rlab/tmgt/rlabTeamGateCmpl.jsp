@@ -93,7 +93,12 @@ var firstLoad = "Y";	//화면오픈
 
 	    dataSet.on('load', function(e){
 			document.aform.teamGateId.value = dataSet.getNameValue(0, "teamGateId");
-
+			if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1  || '${inputData._userSabun}'  == '00207780') {
+				butRegDel.show();
+			}else{
+				butRegDel.hide();
+			}
+			
 			firstLoad = "N";
 	    });
 
@@ -187,6 +192,34 @@ var firstLoad = "Y";	//화면오픈
 
 
 //************** button *************************************************************************************************/
+		var butRegDel = new Rui.ui.LButton('butRegDel');
+		
+		butRegDel.on('click', function(){
+   			var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
+
+    		dm.on('success', function(e) {      // 업데이트 성공시
+    			var resultData = resultDataSet.getReadData(e);
+    			alert(resultData.records[0].rtnMsg);
+
+    			if( resultData.records[0].rtnSt == "S"){
+    				fncRlabTeamGateList();
+    			}
+    	    });
+
+    	    dm.on('failure', function(e) {      // 업데이트 실패시
+    	    	var resultData = resultDataSet.getReadData(e);
+    			alert(resultData.records[0].rtnMsg);
+    	    });
+
+   			if(confirm("삭제 하시겠습니까?")) {
+   				dm.updateForm({
+   					url: "<c:url value='/rlab/tmgt/delRlabTeamGateEvReg.do'/>",
+   	        	    form: 'aform'
+   	        	});
+    	    }
+   	 	});
+	
+		
 		/* [버튼] : team gate 목록 이동 */
     	var butList = new Rui.ui.LButton('butList');
 
@@ -263,6 +296,7 @@ var firstLoad = "Y";	//화면오픈
 
 				<input type="hidden" id="teamGateId" name="teamGateId" value="<c:out value='${inputData.teamGateId}'/>">
 				<div class="LblockButton top mt10">
+					<button type="button" id="butRegDel">삭제</button>
 					<button type="button" id="butList">목록</button>
 				</div>
 				<table class="table table_txt_right">
