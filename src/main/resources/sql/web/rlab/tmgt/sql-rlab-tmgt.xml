@@ -31,6 +31,7 @@
 	    <if test="(titl != null and titl != '')">
 			AND TITL LIKE '%'+#{titl}+'%'
 	    </if>
+	    order by FRST_RGST_DT DESC
 	</select>
 
 	<select id="rlabTeamGateDtl" resultType="hashmap">
@@ -98,7 +99,7 @@
 			  +SUM(DTL.EV10))/CONVERT(FLOAT,COUNT(1)) AS evSum
 			  ,COUNT(1) AS evCnt
 		  FROM IRIS_TEAM_GATE_MST MST
-		  inner JOIN IRIS_TEAM_GATE_DTL DTL
+		  left outer JOIN IRIS_TEAM_GATE_DTL DTL
 		    ON MST.TEAM_GATE_ID=DTL.TEAM_GATE_ID
 		 WHERE 1=1
 		   AND MST.TEAM_GATE_ID=#{teamGateId}
