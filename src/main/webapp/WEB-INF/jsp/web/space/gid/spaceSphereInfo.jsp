@@ -241,7 +241,7 @@
 											<p>
 												<span class="bullet_txt">TRNSYS : 송수빈P / 이진욱P</span>
 												<span class="bullet_txt">Design Builder : 이진욱P / 이유지S / 안남혁S</span>
-												<span class="bullet_txt">Energyplus :박상훈</span>
+												<span class="bullet_txt">Energyplus :박상훈P</span>
 												<span class="bullet_txt">ECO2 : 이유지S</span>
 											</p>
 										</td>
