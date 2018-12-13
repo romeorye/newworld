@@ -9,20 +9,37 @@
 	<![CDATA[
 	-- retrieveMmInSearchInfo M/M 입력 목록조회 (내가 참여중인  과제)
 		with tmp_tssInfo as (
-				select  wbs_cd
-				       ,max(tss_cd) as tss_cd
-				from   IRIS_TSS_MGMT_MST
-				where  del_yn ='N'
-				and    tss_scn_cd ='G'
-				and    tss_cd in (
-								select  a.tss_cd
-								from   IRIS_TSS_PTC_RSST_MBR  a
-								where   a.sa_sabun_new = #{_userSabun}
-								and    #{searchMonth} between left(a.PTC_STRT_DT, 7) and left(a.PTC_FNH_DT, 7)
-								)
-				and    PGS_STEP_CD <> 'PL'
-				and    prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059')
-				group by wbs_cd
+				select  a.wbs_cd
+				        ,a.tss_cd
+				from   (
+							select  a.wbs_cd
+									 , a.tss_cd
+							from   IRIS_TSS_MGMT_MST a
+							where  a.del_yn ='N'
+							and    a.tss_scn_cd ='G'
+							and    a.TSS_CD IN (SELECT TSS_CD
+												FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
+														   , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
+													  FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' OR PGS_STEP_CD = 'DC' THEN 1
+																		WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
+																		WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102' OR TSS_ST = '301' OR TSS_ST = '302' ) THEN 3
+																		WHEN PGS_STEP_CD = 'AL' THEN 4
+																		WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 5
+																		WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
+																   , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
+															 FROM IRIS_TSS_MGMT_MST
+															 where tss_scn_cd ='G' ) X) Y
+													  WHERE OVER_STEP_RANK = 1
+													  )
+							and    a.PGS_STEP_CD <> 'PL'
+							and    a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059')		
+							) a
+				where 1=1
+				and   a.tss_cd in  (    select  a.tss_cd
+												from   IRIS_TSS_PTC_RSST_MBR  a
+												where   a.sa_sabun_new = #{_userSabun}
+												and     #{searchMonth} between left(a.PTC_STRT_DT, 7) and left(a.PTC_FNH_DT, 7)
+												)		
 				)
 
 				select 0 as chk
@@ -46,7 +63,7 @@
 				from  (
 						select  a.prj_cd
 							   ,dbo.fn_getPrjName(a.prj_cd) as prj_nm
-							   ,left(a.tss_cd, 9)+'2' as tss_cd
+							   ,a.tss_cd
 							   ,a.tss_nm
 							   ,a.wbs_cd
 							   ,case when a.PGS_STEP_CD = 'DC' then DCAC_B_STRT_DD
