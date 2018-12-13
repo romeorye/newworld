@@ -178,7 +178,7 @@
         SELECT
             A.PRJ_CD                                                                 AS prjCd      --프로젝트코드
           , A.TSS_ATTR_CD as  tssAttrCd -- 제품구분
-          ,A.PRJ_NM                                                                 AS prjNm      --프로젝트명
+          ,dbo.fn_getPrjName(A.PRJ_CD)                                               AS prjNm      --프로젝트명
             ,
             A.BIZ_DPT_CD                                                             AS bizDptCd   --사업부문코드
             ,
