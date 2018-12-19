@@ -143,7 +143,7 @@
 			WHERE	1=1
 			AND		SP.RQPR_ID = MST.RQPR_ID
 			AND		SP.DEL_YN = 'N'
-			AND     MST.SPACE_ACPC_ST_CD='07'
+			AND     MST.SPACE_ACPC_ST_CD='08'
 		]]>
 
 		<if test="(supiCd0 != null and supiCd0 != '')">
