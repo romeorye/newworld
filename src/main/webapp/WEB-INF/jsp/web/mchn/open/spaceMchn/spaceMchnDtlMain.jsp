@@ -49,7 +49,7 @@ var mchnInfoId;
 		}
 
 		//동작원리, 예약현황 TAB
-		if(mchnClCd == "01"||mchnClCd == "03"){
+		if(mchnClCd == "01"||mchnClCd == "03" || mchnClCd == "04"){
 			tabView = new Rui.ui.tab.LTabView({
 	             tabs: [
 	            	     {label: 'TOOL개요',	content: '<div id="tabContent0"></div>' }

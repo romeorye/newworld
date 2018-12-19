@@ -63,8 +63,6 @@
 			var url = "<c:url value='/mchn/open/spaceMchn/retrieveMchnTab.do'/>";
 			fnSearch = function() {
 				var frm = document.aform;
-				//frm.opnYn.value = opnYn;
-				//frm.mchnClCd.value = mchnClCd;
 				frm.action = url;
 				frm.submit();
 	     	}
@@ -85,11 +83,6 @@
             	<span class="table_summay_number" id="cnt_text">총 <%=mchnList.size()%>건</span>
 
                 <div class="fr">
-
-                 <!--
-                	<input type="radio" id="opnYn" name="opnYn" value="ALL">전체</>&nbsp;
-                    <input type="radio" id="opnYn" name="opnYn" value="Y">OPEN</>&nbsp;&nbsp;&nbsp;
-                 -->
                     <input type="hidden" id="opnYn" name="opnYn" value="ALL">
                     <select class="select" id="cbSrh" name="cbSrh">
                         <option value="nm">TOOL명</option>
@@ -97,8 +90,6 @@
                     </select>
                     <div class="equ_search"><span class="equ_info"><input type="text" id="srhInput" name="srhInput" class="equ_search_input" placeholder="검색어를 입력하세요" onkeypress="if(event.keyCode==13) {fnSearch();}"> <a href="javascript:fnSearch();"><span class="equ_icon_search"></span></a></span></div>
                 </div>
-
-
             </fieldset>
         </form>
      	 <!-- equipment -->

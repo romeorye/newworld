@@ -36,7 +36,8 @@
             		//{ label: '전체', 			content: '<div id="tabContent0"></div>' },
                     { label: 'Simulation',       	content: '<div id="tabContent1"></div>' },
             		{ label: 'Mock-up',        content: '<div id="tabContent2"></div>' },
-                    { label: 'Certification',        content: '<div id="tabContent3"></div>' }
+                    { label: 'Certification',        content: '<div id="tabContent3"></div>' },
+                    { label: 'Measurement',        content: '<div id="tabContent4"></div>' }
                 ]
             });
 			
@@ -51,8 +52,8 @@
 			tabView.render('tabView');
 			
 			tabView.on('activeTabChange', function(e){
-	        	 //iframe 숨기기
-	            for(var i = 0; i < 4; i++) {
+				//iframe 숨기기
+	            for(var i = 0; i < 5; i++) {
 	                if(i == e.activeIndex) {
 	                    Rui.get('tabContentIfrm' + i).show();
 	                }
@@ -62,27 +63,6 @@
 	            }
 
 	            var tabUrl = "";
-	            
-	        	/* 전체 탭 주석 처리로 변경됨
-	        	switch(e.activeIndex){
-	        	//전체
-	        	case 0:
-	                goPage('tabContentIfrm0', 'ALL');
-	        		break;
-	            //형상분석
-	        	case 1:
-                	goPage('tabContentIfrm1', '01');
-	        		break;
-	        	//유기분석
-	        	case 2:
-                	goPage('tabContentIfrm2', '02');
-	        		break;
-	        	//무기분석
-	        	case 3:
-                	goPage('tabContentIfrm3', '03');
-	        		break;
-	        	}
-	        	*/
 	            
 	        	switch(e.activeIndex){
 	        	//Simulation
@@ -97,7 +77,10 @@
 	        	case 2:
                 	goPage('tabContentIfrm2', '03');
 	        		break;
-
+	        	//Measurement
+	        	case 3:
+                	goPage('tabContentIfrm3', '04');
+	        		break;
 	        	}
 	        	
 
@@ -108,33 +91,20 @@
 			}
 			
 			//원하는 탭으로 호출
-			/* 전체 탭 주석처리로 변경됨
 			if(mchnClCd == ''|| mchnClCd == 'ALL'){
 				tabView.selectTab(0);
 			}
 			else if(mchnClCd == '01'){
-				tabView.selectTab(1);
+				tabView.selectTab(0);
 			}
 			else if(mchnClCd == '02'){
-				tabView.selectTab(2);
+				tabView.selectTab(1);
 			}
 			else if(mchnClCd == '03'){
+				tabView.selectTab(2);
+			}
+			else if(mchnClCd == '04'){
 				tabView.selectTab(3);
-			}
-			*/
-			
-			//원하는 탭으로 호출
-			if(mchnClCd == ''|| mchnClCd == 'ALL'){
-				tabView.selectTab(0);
-			}
-			else if(mchnClCd == '01'){
-				tabView.selectTab(0);
-			}
-			else if(mchnClCd == '02'){
-				tabView.selectTab(1);
-			}
-			else if(mchnClCd == '03'){
-				tabView.selectTab(2);
 			}
 
 			
@@ -180,6 +150,7 @@
  				<iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="no" width="100%" height="700px" frameborder="0" ></iframe>
  				<iframe name="tabContentIfrm2" id="tabContentIfrm2" scrolling="no" width="100%" height="700px" frameborder="0" ></iframe>
  				<iframe name="tabContentIfrm3" id="tabContentIfrm3" scrolling="no" width="100%" height="700px" frameborder="0" ></iframe>
+ 				<iframe name="tabContentIfrm4" id="tabContentIfrm4" scrolling="no" width="100%" height="700px" frameborder="0" ></iframe>
 
 		</form>
 		
