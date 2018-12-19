@@ -218,7 +218,31 @@
 						</span>
 					</td>
 				</tr>
-
+				<tr>
+					<th class="txt-center">
+						<dl>
+							<dt>Measurement</dt>
+							<dd>주:박상훈책임</dd>
+							<dd>부:안남혁선임</dd>
+						</dl>
+					</th>
+					<td><span class="bullet_txt">
+						<a href="#" onClick="setSpaceChrgInfo('04','01','shoonpark', '박상훈')">박상훈P</a> /
+						<a href="#" onClick="setSpaceChrgInfo('04','01','nhahn',     '안남혁')">안남혁S</a>
+					</td>
+					<td><span class="bullet_txt">
+						<a href="#" onClick="setSpaceChrgInfo('04','02','shoonpark', '박상훈')">박상훈P</a> /
+						<a href="#" onClick="setSpaceChrgInfo('04','02','nhahn',     '안남혁')">안남혁S</a>
+					</td>
+					<td><span class="bullet_txt">
+						<a href="#" onClick="setSpaceChrgInfo('04','03','shoonpark', '박상훈')">박상훈P</a> /
+						<a href="#" onClick="setSpaceChrgInfo('04','03','nhahn',     '안남혁')">안남혁S</a>
+					</td>
+					<td><span class="bullet_txt">
+						<a href="#" onClick="setSpaceChrgInfo('04','04','shoonpark', '박상훈')">박상훈P</a> /
+						<a href="#" onClick="setSpaceChrgInfo('04','04','nhahn',     '안남혁')">안남혁S</a>
+					</td>
+				</tr> 	
 			</tbody>
 		</table>
 	</div>
