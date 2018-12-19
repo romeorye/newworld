@@ -99,14 +99,8 @@
 									<col style="width:150px;">
 									<col style="">
 								</colgroup>
-								<thead>
-									<tr>
-										<th><span>평가항목</span></th>
-										<th></th>
-										<th><span>Simulation/ Mock-up/ Certification</span></th>
-									</tr>
-								</thead>
 								<tbody>
+									<br/>
 									<tr>
 										<th>
 											<div class="asset_list">
@@ -118,6 +112,7 @@
 										<td class="asset_right">
 											<div class="asset_img"><img src="/iris/resource/web/images/newIris/img_tachnical02.png" alt="에너지.열"></div>
 											<div class="analyze_field asset_txt">
+												<p class="analyze_s_txt">건물 에너지 부하, 건물 에너지 소비량, 건물 에너지 비용 산정</p>
 												<p class="analyze_s_txt">건물 에너지 효율 등급, 제로에너지주택 등급</p>
 												<p class="analyze_s_txt">재실자의 PMV (열쾌적도) 평가</p>
 												<p class="analyze_s_txt">공간의 결로 성능 평가 </p>
@@ -311,8 +306,7 @@
 											<span class="bullet_txt">기타 : 박상훈P / 안남혁S</span>
 										</td>
 									</tr>
-
-									<!-- <tr>
+									<tr>
 										<th>
 											<dl>
 												<dt>Measurement</dt>
@@ -324,7 +318,7 @@
 										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
 										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
 										<td><span class="bullet_txt">박상훈P / 안남혁S</td>
-									</tr> -->
+									</tr>
 								</tbody>
 							</table>
 						</div>
