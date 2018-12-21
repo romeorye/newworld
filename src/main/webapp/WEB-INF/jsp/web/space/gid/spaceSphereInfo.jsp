@@ -45,14 +45,14 @@
         tabView = new Rui.ui.tab.LTabView({
         	tabs: [
         		{ label: '평가분야', content: '<div id="tabContent0"></div>' },
-        		{ label: '평가담당자', content: '<div id="tabContent1"></div>' },
-                { label: '평가의뢰 절차 및 메뉴얼', content: '<div id="tabContent2"></div>' }
+        		//{ label: '평가담당자', content: '<div id="tabContent1"></div>' },
+                { label: '평가의뢰 절차 및 메뉴얼', content: '<div id="tabContent1"></div>' }
             ]
         });
 
         tabView.on('activeTabChange', function(e){
         	// 숨기기 / 보이기
-            for(var i = 0; i < 3; i++) {
+            for(var i = 0; i < 2; i++) {
                 if(i == e.activeIndex) {
                     Rui.get('tab' + i).show();
                 }
@@ -177,8 +177,8 @@
 					</div>
 					<!--  //평가분야 -->
 
-
-					<!-- 평가 담당자 -->
+<!-- 
+					평가 담당자
 					<div class="tab-pane fade" id="tab1" >
 						<div>
 							<table class="table p-admin">
@@ -211,11 +211,11 @@
 											<dt>공기질</dt>
 										</dl>
 									</th>
-									<!-- <th>
+									<th>
 										<dl>
 											<dt>음</dt>
 										</dl>
-									</th> -->
+									</th>
 								</thead>
 								<tbody>
 									<tr style="height:120px">
@@ -226,7 +226,7 @@
 												<dd>부:이유지선임</dd>
 											</dl>
 										</th>
-										<!-- <td style="vertical-align:middle !important;"> -->
+										<td style="vertical-align:middle !important;">
 										<td>
 											<span class="bullet_txt">Window/therm : 송수빈P / 김준혁S</span>
 											<span class="bullet_txt">Physibel : 이진욱P / 이유지S</span>
@@ -322,12 +322,12 @@
 								</tbody>
 							</table>
 						</div>
-					</div>
+					</div> -->
 					<!--  //평가 담당자 -->
 
 
 					<!-- 평가의뢰 절차 및 메뉴얼 -->
-					<div class="tab-pane fade" id="tab2" >
+					<div class="tab-pane fade" id="tab1" >
 						<div style="padding:20px 20px 0 0;">
 							<ul class="processs">
 								<li>
