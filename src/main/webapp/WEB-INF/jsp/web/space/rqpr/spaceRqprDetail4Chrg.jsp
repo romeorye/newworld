@@ -611,21 +611,46 @@
 			/********** 평가방법 설정 **********/
 			// 평가카테고리 combo 설정
 			var evCtgrCombo = new Rui.ui.form.LCombo({
-                rendererField: 'value',
+				applyTo: 'evCtgrCombo',
+				width: 200,
+				rendererField: 'value',
                 autoMapping: true,
-                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_EV_CTGR"/>',
+				url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_EV_CTGR"/>',
                 displayField: 'COM_DTL_NM',
-                valueField: 'COM_DTL_CD'
+                valueField: 'COM_DTL_CD',
+                
             });
-
+			
 			// 평가항목 combo 설정
 			var evPrvsCombo = new Rui.ui.form.LCombo({
-                rendererField: 'value',
+				applyTo: 'evPrvsCombo',
+				width: 200,
+				rendererField: 'value',
                 autoMapping: true,
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_EV_PRVS"/>',
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
+
+			var userInfo = new Rui.ui.form.LCombo({
+                applyTo: 'userInfo',
+                defaultValue: 'userInfo',
+                items: [
+                   { value: 'rumor', text: '이진욱'}, // text는 생략 가능하며, 생략시 value값을 그대로 사용한다. 
+                   { value: 'jollypeas', text: '송수빈' },  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+                   { value: 'shoonpark', text: '박상훈' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+                ]
+            });	
+			
+			evPrvsCombo.on('changed', function(e) {
+				if(evCtgrCombo.getValue() == "01"){
+					userInfo.setValue('rumor');
+				}else if(evCtgrCombo.getValue() == "02"){
+					userInfo.setValue('jollypeas');
+				}else if(evCtgrCombo.getValue() == "03" || evCtgrCombo.getValue() == "04"){
+					userInfo.setValue('shoonpark');
+				}
+			});
 
 
 
@@ -691,6 +716,27 @@
 				spaceChrgListDialog.setUrl('<c:url value="/space/spaceChrgDialog.do"/>');
 				spaceChrgListDialog.show();
 			};
+			
+			addSpaceChrgList = function(){
+				
+				if (Rui.isEmpty(evCtgrCombo.getValue()) ){
+					Rui.alert("평가 카테고리를 선택하세요");
+					return;
+				}else if (Rui.isEmpty(evPrvsCombo.getValue()) ){
+					Rui.alert("평가항목을 선택하세요");
+					return;
+				}else if (Rui.isEmpty(userInfo.getValue()) ){
+					Rui.alert("담당자를 선택하세요");
+					return;
+				}
+				
+				spaceRqprWayCrgrDataSet.newRecord();
+				
+				spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'evCtgr', evCtgrCombo.getValue());
+            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'evPrvs', evPrvsCombo.getValue());
+            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'infmPrsnId', userInfo.getValue());
+            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'infmPrsnNm', userInfo.getDisplayValue());
+			}
 
 			//평가방법/담당자 리턴
 			setSpaceChrgInfo = function(spaceChrgInfo) {
@@ -1988,7 +2034,13 @@
    				<div class="titArea" style="margin-top:20px;">
    					<h3><span style="color:red;">* </span>평가방법</h3>
    					<div class="LblockButton">
+   						<select id="evCtgrCombo"></select>
+   						<select id="evPrvsCombo"></select>
+   						<select id="userInfo"></select>
+   						<!-- 
    						<button type="button" class="btn"  id="penSpaceChrgListDialogBtn" name="penSpaceChrgListDialogBtn" onclick="openSpaceChrgListDialog(setSpaceChrgInfo);">추가</button>
+   						 -->
+	   					<button type="button" class="btn"  id="addSpaceChrgListBtn" name="addSpaceChrgListBtn" onclick="addSpaceChrgList();">추가</button>
    						<button type="button" class="btn"  id="deleteSpaceRqprWayCrgrBtn" name="deleteSpaceRqprWayCrgrBtn" onclick="deleteSpaceRqprWayCrgr();">삭제</button>
    					</div>
    				</div>

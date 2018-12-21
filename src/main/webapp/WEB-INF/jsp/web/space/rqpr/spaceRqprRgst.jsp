@@ -262,6 +262,54 @@
                 emptyValue: '',
                 width: 980
             });
+            
+            /********** 평가방법 설정 **********/
+			// 평가카테고리 combo 설정
+			var evCtgrCombo = new Rui.ui.form.LCombo({
+				applyTo: 'evCtgrCombo',
+				width: 200,
+				emptyText: '평가 카테고리를 선택하세요',
+				rendererField: 'value',
+                autoMapping: true,
+				url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_EV_CTGR"/>',
+                displayField: 'COM_DTL_NM',
+                valueField: 'COM_DTL_CD',
+                
+            });
+			
+			// 평가항목 combo 설정
+			var evPrvsCombo = new Rui.ui.form.LCombo({
+				applyTo: 'evPrvsCombo',
+				width: 200,
+				emptyText: '평가항목을 선택하세요',
+				rendererField: 'value',
+                autoMapping: true,
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_EV_PRVS"/>',
+                displayField: 'COM_DTL_NM',
+                valueField: 'COM_DTL_CD'
+            });
+
+			var userInfo = new Rui.ui.form.LCombo({
+                applyTo: 'userInfo',
+                emptyText: '담당자를 선택하세요',
+                width: 200,
+                items: [
+                   { value: 'rumor', text: '이진욱'}, // text는 생략 가능하며, 생략시 value값을 그대로 사용한다. 
+                   { value: 'jollypeas', text: '송수빈' },  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+                   { value: 'shoonpark', text: '박상훈' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+                ]
+            });	
+			
+			evPrvsCombo.on('changed', function(e) {
+				if(evCtgrCombo.getValue() == "01"){
+					userInfo.setValue('rumor');
+				}else if(evCtgrCombo.getValue() == "02"){
+					userInfo.setValue('jollypeas');
+				}else if(evCtgrCombo.getValue() == "03" || evCtgrCombo.getValue() == "04"){
+					userInfo.setValue('shoonpark');
+				}
+			});
+			
 
             spaceRqprDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceRqprDataSet',
@@ -326,26 +374,6 @@
             });
             spaceRqprDataSet.newRecord();
 
-
-			/********** 평가방법 설정 **********/
-			// 평가카테고리 combo 설정
-			var evCtgrCombo = new Rui.ui.form.LCombo({
-                rendererField: 'value',
-                autoMapping: true,
-                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_EV_CTGR"/>',
-                displayField: 'COM_DTL_NM',
-                valueField: 'COM_DTL_CD'
-            });
-
-			// 평가항목 combo 설정
-			var evPrvsCombo = new Rui.ui.form.LCombo({
-                rendererField: 'value',
-                autoMapping: true,
-                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_EV_PRVS"/>',
-                displayField: 'COM_DTL_NM',
-                valueField: 'COM_DTL_CD'
-            });
-
             //평가방법 / 담당자 데이터셋
             var spaceRqprWayCrgrDataSet = new Rui.data.LJsonDataSet({
                 id: 'spaceRqprWayCrgrDataSet',
@@ -368,8 +396,8 @@
                 	  new Rui.ui.grid.LSelectionColumn()
                 	, new Rui.ui.grid.LStateColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                	, { field: 'evCtgr',		label: '<span style="color:red;">* </span>평가카테고리',	sortable: false,	editable: false, editor: evCtgrCombo,	align:'center',	width: 400}
-                	, { field: 'evPrvs',		label: '<span style="color:red;">* </span>평가항목',		sortable: false,	editable: false, editor: evPrvsCombo,	align:'center',	width: 400 }
+                	, { field: 'evCtgr',		label: '<span style="color:red;">* </span>평가카테고리',	sortable: false,	editor: evCtgrCombo, editable: false, align:'center',	width: 400}
+                	, { field: 'evPrvs',		label: '<span style="color:red;">* </span>평가항목',		sortable: false,	editor: evPrvsCombo, editable: false, align:'center',	width: 400 }
                 	, { field: 'infmPrsnId',	label: '<span style="color:red;">* </span>담당자ID',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 300 , hidden:true}
                     , { field: 'infmPrsnNm',	label: '<span style="color:red;">* </span>담당자',		sortable: false,	editable: false, editor: textBox,	align:'center',	width: 300 }
                 ]
@@ -409,6 +437,26 @@
 				spaceChrgListDialog.show();
 			};
 
+			addSpaceChrgList = function(){
+				if (Rui.isEmpty(evCtgrCombo.getValue()) ){
+					Rui.alert("평가 카테고리를 선택하세요");
+					return;
+				}else if (Rui.isEmpty(evPrvsCombo.getValue()) ){
+					Rui.alert("평가항목을 선택하세요");
+					return;
+				}else if (Rui.isEmpty(userInfo.getValue()) ){
+					Rui.alert("담당자를 선택하세요");
+					return;
+				}
+				
+				spaceRqprWayCrgrDataSet.newRecord();
+				
+				spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'evCtgr', evCtgrCombo.getValue());
+            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'evPrvs', evPrvsCombo.getValue());
+            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'infmPrsnId', userInfo.getValue());
+            	spaceRqprWayCrgrDataSet.setNameValue(spaceRqprWayCrgrDataSet.getRow(), 'infmPrsnNm', userInfo.getDisplayValue());
+			}
+			
 			//평가방법/담당자 리턴
 			setSpaceChrgInfo = function(spaceChrgInfo) {
 				//alert(spaceChrgInfo.spaceEvCtgr +" : "+ spaceChrgInfo.spaceEvPrvs +" : "+ spaceChrgInfo.id +" : "+ spaceChrgInfo.name);
@@ -1073,7 +1121,13 @@
    				<div class="titArea" style="margin-top:35px;">
    					<h3><span style="color:red;">* </span>평가방법</h3>
    					<div class="LblockButton">
+   						<select id="evCtgrCombo"></select>
+   						<select id="evPrvsCombo"></select>
+   						<select id="userInfo"></select>
+   						<!-- 
    						<button type="button" class="btn"  id="penSpaceChrgListDialogBtn" name="penSpaceChrgListDialogBtn" onclick="openSpaceChrgListDialog(setSpaceChrgInfo);">추가</button>
+   						 -->
+	   					<button type="button" class="btn"  id="addSpaceChrgListBtn" name="addSpaceChrgListBtn" onclick="addSpaceChrgList();">추가</button>
    						<button type="button" class="btn"  id="deleteSpaceRqprWayCrgrBtn" name="deleteSpaceRqprWayCrgrBtn" onclick="deleteSpaceRqprWayCrgr();">삭제</button>
    					</div>
    				</div>
