@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.DateUtil;
-
 import iris.web.mchn.open.rlabMchn.service.RlabMchnInfoService;
 import iris.web.system.base.IrisBaseController;
 
@@ -277,8 +275,6 @@ public class RlabMchnInfoController extends IrisBaseController {
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
 		
-		System.out.println("\n\n ...................input : "+input);
-
 		String rtnSt ="F";
 		String rtnMsg = "";
 		
