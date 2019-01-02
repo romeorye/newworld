@@ -69,7 +69,7 @@
 		                <div class="person_guide" >* 기타 사업조직 분석의뢰 시, 분석PJT PL과 상담해주시기 바랍니다.</div>
 		                <thead>
 		                    <tr>
-		                        <th>사업부</th>
+		                        <th>사업분야</th>
 <!-- 		                        <th>팀(PJT)</th> -->
 		                        <th>형상분석</th>
 		                        <th>유기분석</th>
@@ -78,7 +78,7 @@
 		                </thead>
 		                <tbody>
 		                    <tr>
-		                        <th >중앙연구소</th>
+		                        <th >기반기술</th>
 		                        <td>
 		                        	<a href="javascript:getPersonInfo('00207677','soonbo')" class="person_link">이순보</a>
 		                        </td>

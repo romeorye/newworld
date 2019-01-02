@@ -54,12 +54,12 @@
 		</colgroup>
 		<tbody>
 			<tr>
-				<th align="center">사업부</th>
+				<th align="center">사업분야</th>
 				<th align="center">분석분야</th>
 				<th align="center">담당자</th>
 			</tr>
 			<tr>
-				<th align="center" rowspan="3">중앙연구소</th>
+				<th align="center" rowspan="3">기반기술</th>
 				<td align="center">형상분석</td>
 				<td align="center">
 <!-- 					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>, -->
