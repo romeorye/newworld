@@ -17,7 +17,7 @@
 				     , EMP.SA_NAME AS "saName"
 				     , MST.DEPT_CD AS "deptCd"
 				     , DET.DEPT_NAME AS "deptName"
-		             , UDET.DEPT_NAME  AS "uperdeptName"
+		             , UDET.uperdept_name  AS "uperdeptName"
 			         , MST.PRJ_STR_DT AS "prjStrDt"
 				     , MST.PRJ_END_DT AS "prjEndDt"
 				     --, MST.PRJ_CPSN AS "prjCpsn"
@@ -36,7 +36,7 @@
 				     , MST.WBS_CD_A  AS "wbsCdA"	/*WBS코드약어*/
 				     ,MST.FRST_RGST_DT as frstRgstDt
 				  FROM IRIS_PRJ_RSST_MST MST
-				  LEFT OUTER JOIN  IRIS_SSO_DEPT UDET ON MST.DEPT_UPER = UDET.DEPT_CODE
+				  LEFT OUTER JOIN  IRIS_SSO_DEPT UDET ON MST.DEPT_CD = UDET.DEPT_CODE
 		          LEFT OUTER JOIN IRIS_SSO_USER EMP ON MST.PL_EMP_NO = EMP.SA_SABUN_NEW
 				  LEFT OUTER JOIN IRIS_SSO_DEPT DET ON MST.DEPT_CD = DET.DEPT_CODE
 				  AND DET.DEPT_LEVEL <> 0
