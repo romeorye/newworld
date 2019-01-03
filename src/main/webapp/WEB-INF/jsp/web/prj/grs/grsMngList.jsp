@@ -162,15 +162,12 @@
                      { field: 'leaderNm',   label: '과제리더',  align:'center',  width: 70},
                      { field: 'dlbrCrgrNm',   label: '심의담당자',  align:'center',  width: 70},
                      { field: 'tssDd',   label: '과제기간',  align:'center',  width: 100 },
-                     // { field: 'dlbrParrDt',   label: '심의예정일',  align:'center',  width: 60 },
                      { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 65 },
                      { field: 'grsStNm',   label: 'GRS상태',  align:'center',  width: 65 , renderer: function(val, p, record, row, i) {
                              return (val == null) ? "GRS품의완료" : val;
 					 }},
                      { field: 'evResult',   label: '평가결과',  align:'center',  width: 65 },
                      { field: 'isReq',        label: '관리',       align:'center',      width: 90  , renderer: function(val, p, record, row, i){
-/*                         return ((val==1)?"<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>":"")
-							 +((record.data.isFirstGrs==1 && val==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"");*/
                          return ("<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>")
                              +((record.data.isFirstGrs==1 && val==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"<input type='button' data='"+record.data.tssCd+"' value='보기' onclick='modifyTss(\""+row+"\")'/>");
                      } }
@@ -890,7 +887,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 
             $("#attchFileView").html('');
 
-
+            
 
             if (isConfirm) {
                 evTableGrid.setEditable(false);
@@ -911,7 +908,6 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
                 setEditable("cfrnAtdtCdTxtNm");
                 setEditable("commTxt");
                 $("#attchFileMngBtn").show();
-
                 $("#trEvResult").hide();
                 setEditable("grsEvMType");
 
@@ -919,14 +915,12 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
                 $(".first-child:contains('평가완료')").css("display", "block");
             }
 
-
             // 중간 평가 평가 방법 선택(변경,진척도 점검)
-            if (gbGrsEvSt=="M" && evResult!="DROP"){
+            if ($.trim(gbGrsEvSt) =="M" && evResult != "DROP"){
 			    $("#trGrsEvMType").show();
             }else{
         		$("#trGrsEvMType").hide();
 			}
-
 
             lvAttcFilId = evInfoDataSet.getNameValue(0, "attcFilId");
             if (!Rui.isEmpty(lvAttcFilId)) {
@@ -1229,8 +1223,6 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 				<div class="bd">
 					<!-- <div class="titArea"> -->
 					<div class="LblockButton" style="margin-bottom: 10px">
-						<!-- <button type="button" id="butEtcTssClear" name="butEtcTssClear">초기화</button> -->
-						<!-- <button type="button" id="butEtcTssRgst" name="butEtcTssRgst">저장</button> -->
 					</div>
 					<!-- </div> -->
 					<form name="defTssForm" id="defTssForm" method="post">
