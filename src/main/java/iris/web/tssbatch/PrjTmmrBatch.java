@@ -55,10 +55,11 @@ public class PrjTmmrBatch  extends IrisBaseController {
         
         // 1.1. 프로젝트 참여연구원 퇴사자 참여종료일 업데이트
         List<HashMap<String,Object>> prjTmmrResignList = prjTmmrService.retrievePrjTmmrResignList(input);
+       
         if(prjTmmrResignList != null && prjTmmrResignList.size() > 0) {
         	for(HashMap<String,Object> prjTmmrResignMap : prjTmmrResignList) {
         		
-        		if( !"00999999".equals(prjTmmrResignMap.get("tmmrEmpNo")) ) { continue; }
+        		//if( !"00999999".equals(prjTmmrResignMap.get("tmmrEmpNo")) ) { continue; }
         		
         		prjTmmrResignMap.put("_userId", userId);
         		
@@ -72,7 +73,7 @@ public class PrjTmmrBatch  extends IrisBaseController {
         if(prjTmmrMoveOutList != null && prjTmmrMoveOutList.size() > 0) {
         	for(HashMap<String,Object> prjTmmrMoveOutMap : prjTmmrMoveOutList) {
         		
-        		if( !"00999999".equals(prjTmmrMoveOutMap.get("tmmrEmpNo")) ) { continue; }
+        		//if( !"00999999".equals(prjTmmrMoveOutMap.get("tmmrEmpNo")) ) { continue; }
         		
         		prjTmmrMoveOutMap.put("_userId", userId);
         		
@@ -86,7 +87,7 @@ public class PrjTmmrBatch  extends IrisBaseController {
         if(prjTmmrMoveInList != null && prjTmmrMoveInList.size() > 0) {
         	for(HashMap<String,Object> prjTmmrMoveInMap : prjTmmrMoveInList) {
         		
-        		if( !"00999999".equals(prjTmmrMoveInMap.get("tmmrEmpNo")) ) { continue; }
+        		//if( !"00999999".equals(prjTmmrMoveInMap.get("tmmrEmpNo")) ) { continue; }
         		
         		prjTmmrMoveInMap.put("_userId", userId);
         		

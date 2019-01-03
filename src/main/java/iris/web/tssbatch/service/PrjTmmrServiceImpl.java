@@ -55,26 +55,25 @@ public class PrjTmmrServiceImpl implements PrjTmmrService{
 	/* 프로젝트 팀원 퇴사자 참여종료일 업데이트 */
 	@Override
 	public void updatePrjTmmrResign( HashMap<String, Object> input){
-		//commonDao.update("prjTmmr.batch.updatePrjTmmrEnd", input);
-		
+		commonDao.update("prjTmmr.batch.updatePrjTmmrEnd", input);
 		//퇴사자 지적재산권 삭제
-		deletePrjPimsInfo(input);
+		//deletePrjPimsInfo(input);
 	}
 	
 	/* 프로젝트 팀원 부서이동(이동 전) 참여종료일 업데이트 */
 	@Override
 	public void updatePrjTmmrMoveOut( HashMap<String, Object> input){
-		//commonDao.update("prjTmmr.batch.updatePrjTmmrEnd", input);
+		commonDao.update("prjTmmr.batch.updatePrjTmmrEnd", input);
 		//퇴사자 지적재산권 삭제
-		chgPrjPimsInfo(input);
+		//chgPrjPimsInfo(input);
 	}
 	
 	/* 프로젝트 팀원 부서이동(이동 후) 신규추가 */
 	@Override
 	public void insertPrjTmmrMoveIn( HashMap<String, Object> input) {
-		//commonDao.insert("prjTmmr.batch.insertPrjTmmr", input);
+		commonDao.insert("prjTmmr.batch.insertPrjTmmr", input);
 		//퇴사자 지적재산권 등록
-		insertPrjPimsInfo(input);
+		//insertPrjPimsInfo(input);
 	}
 	
 	/* 퇴사자 지적재산권 제거*/
