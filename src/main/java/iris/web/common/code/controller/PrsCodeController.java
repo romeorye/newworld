@@ -2,6 +2,7 @@ package iris.web.common.code.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +63,7 @@ public class PrsCodeController extends IrisBaseController  {
         return modelAndView;
     }   
 	
-	@RequestMapping(value="/common/prsCode/retrieveWaersInfo.do")
+	@RequestMapping(value="/common/prsCode/retrieveMeinsInfo.do")
 	public ModelAndView retrieveMengeInfo(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request,
@@ -72,7 +73,7 @@ public class PrsCodeController extends IrisBaseController  {
 			){
 		
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("PrsCodeController - retrieveWaersInfo [구매 단위수량 캐쉬조회]");
+		LOGGER.debug("PrsCodeController - retrieveMeinsInfo [구매 단위수량 캐쉬조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -82,9 +83,9 @@ public class PrsCodeController extends IrisBaseController  {
 		//input.put("code", input.get("ekgrp"));
 		
 		// 공통코드 캐쉬조회
-		List waersCodeList = prsCodeService.retrieveWaersInfo(input);
+		List meinsCodeList = prsCodeService.retrieveMeinsInfo(input);
 		
-		modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", waersCodeList));
+		modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", meinsCodeList));
 		
 		return modelAndView;
 	}   
@@ -112,4 +113,70 @@ public class PrsCodeController extends IrisBaseController  {
 		
 		return modelAndView;
 	}   
+	
+	@RequestMapping(value="/common/prsCode/retrieveItemGubunInfo.do")
+    public ModelAndView retrieveItemGubunInfo(
+            @RequestParam HashMap<String, Object> input,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            ModelMap model
+            ){
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("PrsCodeController - retrieveItemGubunInfo [구매요청시 품목구분에 사용할 수 있는 목록 조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+        
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        input = StringUtil.toUtf8Input(input);
+        System.out.println("-------------------------------------------");
+        System.out.println(input.get("tabId"));
+        System.out.println("-------------------------------------------");
+        // 공통코드 캐쉬조회
+        List prsCodeList = prsCodeService.retrieveItemGubunInfo(input);
+         
+        modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", prsCodeList));
+
+        return modelAndView;
+    }   
+	
+	/**
+	 *  품목구분관련정보 조회
+	 * @param input
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/common/prsCode/retrieveScodeInfo.do")
+	public ModelAndView retrieveScodeInfo(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session,
+			ModelMap model
+			){
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		input = StringUtil.toUtf8(input);
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PrsCodeController - retrieveScodeInfo [품목구분관련정보 조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        //구매요청 리스트 조회
+		List<Map<String,Object>> prsRqScodeInfo = prsCodeService.retrieveScodeInfo(input);
+
+		modelAndView.addObject("purRqScodeDataSet", RuiConverter.createDataset("purRqScodeDataSet", prsRqScodeInfo));
+
+		return modelAndView;
+	}
+	
 }
