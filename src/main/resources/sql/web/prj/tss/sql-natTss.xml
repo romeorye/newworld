@@ -14,16 +14,10 @@
 		             , M.PK_WBS_CD        AS pkWbsCd       --과제코드
 		             , M.TSS_CD           AS tssCd         --과제코드
 		             , M.TSS_NM           AS tssNm         --과제명
-
-		             --, A.PRJ_NM           AS prjNm         --소속명(프로젝트명)
-		             --, dbo.fn_getDeptName(M.DEPT_CODE)     AS deptName    --조직
-		             , SUBSTRING(ISNULL(dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD), M.PRJ_NM)
-		                        , CHARINDEX('.', ISNULL(dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD), M.PRJ_NM))+1
-		                        , LEN(ISNULL(dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD), M.PRJ_NM))) AS prjNm        --소속명(프로젝트명)
-		            , ISNULL(dbo.fn_getUpperDeptNm(M.DEPT_CODE), M.DEPT_NAME) AS deptName
-		             --, SUBSTRING(ISNULL(dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'DEPT', M.DEPT_CODE), M.DEPT_NAME), 1,
-		             --   case when CHARINDEX('.', ISNULL(dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'DEPT', M.DEPT_CODE), M.DEPT_NAME)) <= 0 then len(ISNULL(dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'DEPT', M.DEPT_CODE), M.DEPT_NAME))
-		             --        else CHARINDEX('.', ISNULL(dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'DEPT', M.DEPT_CODE), M.DEPT_NAME))-1 end) AS deptName     --조직
+		             , SUBSTRING(ISNULL(M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD))
+		                        , CHARINDEX('.', ISNULL(M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD)))+1
+		                        , LEN(ISNULL(M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD)))) AS prjNm        --소속명(프로젝트명)
+		             , ISNULL(M.DEPT_NAME, dbo.fn_getUpperDeptNm(M.DEPT_CODE)) AS deptName
 		             , CASE WHEN M.PGS_STEP_CD != 'AL' THEN S.STRT_DT
 		                    ELSE (SELECT TOP 1 X.STRT_DT FROM IRIS_TSS_NAT_PLCY_SMRY X, IRIS_TSS_MGMT_MST Y
 		                           WHERE X.TSS_CD = Y.TSS_CD AND Y.PK_WBS_CD = M.PK_WBS_CD

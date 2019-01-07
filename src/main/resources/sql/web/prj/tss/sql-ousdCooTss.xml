@@ -15,8 +15,8 @@
 						, M.TSS_CD                                        AS tssCd        --과제코드
 						, M.TSS_NM                                        AS tssNm        --과제명
 						, SUBSTRING(ISNULL( M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD))
-											, CHARINDEX('.', ISNULL(dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD), M.PRJ_NM))+1
-											, LEN(ISNULL(dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD), M.PRJ_NM))) AS prjNm        --소속명(프로젝트명)
+											, CHARINDEX('.', ISNULL(M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD)))+1
+											, LEN(ISNULL(M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD)))) AS prjNm        --소속명(프로젝트명)
 										, ISNULL(M.DEPT_NAME, dbo.fn_getUpperDeptNm(M.DEPT_CODE) ) AS deptName
 									, CASE WHEN M.PGS_STEP_CD != 'AL' THEN M.TSS_STRT_DD
 											ELSE (SELECT TOP 1 X.TSS_STRT_DD FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = M.PK_WBS_CD AND X.PGS_STEP_CD = 'PG') END AS tssStrtDd    --과제기간시작
