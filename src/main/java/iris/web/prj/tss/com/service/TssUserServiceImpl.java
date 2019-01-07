@@ -11,14 +11,16 @@
  *********************************************************************************/
 package iris.web.prj.tss.com.service;
 
-import devonframe.dataaccess.CommonDao;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import devonframe.dataaccess.CommonDao;
 
 @Service("tssUserService")
 public class TssUserServiceImpl implements TssUserService {
@@ -83,7 +85,6 @@ public class TssUserServiceImpl implements TssUserService {
 
 	@Override
 	public Map<String, Object> getTssListRoleChk(HashMap<String, Object> input) {
-
 		String inputRole = String.valueOf(input.get("_roleId"));
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
@@ -142,7 +143,7 @@ public class TssUserServiceImpl implements TssUserService {
 			map.put("tssRoleCd", list);
 
 			//일반사용자
-			if (inputRole.indexOf("WORK_IRI_T02") > -1) {
+			if (inputRole.indexOf("WORK_IRI_T02") > -1 || inputRole.indexOf("WORK_IRI_T19") > -1) {
 				map.put("roleId", "WORK_IRI_T02");
 				map.put("userId", input.get("_userSabun"));
 				map.put("tssCd", "");
@@ -156,6 +157,7 @@ public class TssUserServiceImpl implements TssUserService {
 					map.put("tssRoleType", "S2");
 				}
 			}
+			
 		}
 
 		return map;
