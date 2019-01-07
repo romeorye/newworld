@@ -8,26 +8,37 @@
 		<![CDATA[
 		/* retrievePurRqList  리스트 조회 */
 			select a.S_CODE   as sCode
-		         ,a.SAMPLE    as sample
-				 ,a.M_CODE    as mCode
-				 ,a.KNTTP     as knttp
-				 ,a.USED_CODE as usedCode
-				 ,a.PSTYP     as pstyp
-				 ,a.IZWEK     as izwek
-				 ,a.BIZ_CD    as bizCd
-				 ,a.SAKTO     as sakto
-		        ,(SELECT CODE_NM
-		                    FROM PR_CODEMASTER_T x 
-		                WHERE x.DEL_FLAG ='0'
-						and       x.REGION_CD =a.region_cd 
-						and       x.CODE = a.EKGRP
-				 )	as ekgrpnm
-				 ,EKGRP       as ekgrp
-				 ,WERKS       as werks
-				 ,ANLKL       as anlkl
-				 ,SEQ_NUM     as seqNum
+		          ,a.SAMPLE    as sample
+				  ,a.M_CODE    as mCode
+				  ,a.KNTTP     as knttp
+				  ,a.USED_CODE as usedCode
+				  ,a.PSTYP     as pstyp
+				  ,a.IZWEK     as izwek
+				  ,a.BIZ_CD    as bizCd
+				  ,a.SAKTO     as sakto
+		          ,(SELECT CODE_NM
+		              FROM PR_CODEMASTER_T x
+		             WHERE x.CODE       = RTRIM(a.EKGRP) 
+		               AND x.DEL_FLAG   = '0'
+		               AND x.GROUP_CODE = '01'
+				       AND x.REGION_CD  = a.region_cd 
+				   ) as ekgrpnm
+	              ,(SELECT CODE_NM 
+                      FROM PR_CODEMASTER_T y 
+                     WHERE y.CODE       = RTRIM(a.SAKTO) 
+                       AND y.DEL_FLAG   = '0' 
+                       AND y.GROUP_CODE = '10' 
+                       AND y.REGION_CD  = a.region_cd
+                   ) as saktonm				  
+				  ,a.EKGRP       as ekgrp
+				  ,a.WERKS       as werks
+				  ,a.ANLKL       as anlkl
+				  ,a.SEQ_NUM     as sCodeSeq
+				  ,a.IS_MRO		 as isMro
 			from [dbo].[PR_HELPMASTER_T] a	 
-			where   a.REGION_CD ='01' 
+			where a.REGION_CD ='01' 
+			  and a.BIZ_CD = '01'      /* 추후 02, 03 등록 가능성 있음 */
+			  and a.USE_YN = 'Y'
 			]]>
 			<if test="tabId == 'EM' ">
 			and   a.KNTTP = 'P'
@@ -48,60 +59,410 @@
 			and   a.PSTYP = ''
 			and   a.USED_CODE = 'O'
 			</if>
-	
+			<if test="sCode != null and sCode != ''">
+			and   a.S_CODE = #{sCode}
+			</if>
+			order by a.L_CODE, a.M_CODE, a.S_CODE asc
 	</select>
 
-	<insert id="insertPurRqInfo" >
-	insert into PR_PRSREQ_T
+	<insert id="insertPurRqInfo" parameterType="map">
+		<![CDATA[
+		INSERT INTO PR_PRSREQ_T
 		(
-		 SEQ_NUM
-		 ,S_CODE,BANFN,BNFPO,KNTTP,PSTYP,TXZ01,MENGE,MEINS,EEIND,AFNAM,MATKL,WERKS,EKGRP,BEDNR
-		,PREIS,WAERS,PEINH,SAKTO,POSID,PRS_FLAG,MAKER,VENDOR,CATALOGNO,POSITION,USED_CODE,BIZ_CD,ATTC_FIL_ID, BADATE
+		 	  BANFN_PRS
+		 	, BNFPO_PRS
+		 	, SEQ_NUM
+		 	, S_CODE
+		 	, KNTTP
+		 	, PSTYP
+		 	, TXZ01
+		 	, MENGE
+		 	, MEINS
+		 	, EEIND
+		 	, AFNAM
+		 	, MATKL
+		 	, WERKS
+		 	, EKGRP
+		 	, BEDNR
+		 	, PREIS
+		 	, WAERS
+		 	, PEINH
+		 	, SAKTO
+		 	, POSID
+		 	, POST1
+		 	, PRS_FLAG
+		 	, IZWEK
+		 	, ITEM_TXT
+		 	, MAKER
+		 	, VENDOR
+		 	, CATALOGNO
+		 	, POSITION
+		 	, USED_CODE
+		 	, BIZ_CD
+		 	, ATTC_FIL_ID
+		 	, BADATE
 		) 
 		values 
 		(
-		 (select max(SEQ_NUM)+1 from [dbo].[PR_PRSREQ_T] ) 
-		,#{sCode},#{banfn},#{bnfpo},#{knttp},#{pstyp},#{txz01},#{menge},#{meins},#{eeind},#{afnam},#{matkl},#{werks},#{ekgrp},#{bednr}
-        ,#{preis},#{waers},#{peinh},#{sakto},#{posid},#{prsFlag},#{maker},#{vendor},#{catalogno},#{position},#{usedCode},#{bizCd},#{attcFilId},getdate()
+			  #{banfnPrs}
+			, ISNULL(#{bnfpoPrs}, 0)
+		 	, (next value for [dbo].[PR_PRSREQ_Q02]) 
+			, ISNULL(#{sCodeNm},'')
+			, ISNULL((SELECT KNTTP FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+			, ISNULL((SELECT PSTYP FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+			, ISNULL(#{itemnm},'')
+			, CONVERT(NUMERIC(13,0), ISNULL(#{menge},'0'))
+			, ISNULL(#{meins},'')
+			, REPLACE(#{eeind},'-','')
+			, ISNULL(#{afnam},'')
+			, ISNULL((SELECT MATKL FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+			, ISNULL(#{werks},'')
+			, ISNULL(#{ekgrp},'')
+			, ISNULL(#{bednr},'')
+			, CONVERT(NUMERIC(12,2), ISNULL(#{preis},'0'))
+			, 'KRW'
+			, CONVERT(NUMERIC(5,0), ISNULL(#{peinh},'1'))
+			, ISNULL((SELECT SAKTO FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+			, ISNULL(#{wbsCd},'')
+			, ISNULL(#{wbsCdNm},'')
+			, ISNULL(#{prsFlag},'0')
+			, ISNULL((SELECT IZWEK FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+			, ISNULL(#{itemTxt},'')
+			, ISNULL(#{maker},'')
+			, ISNULL(#{vendor},'')
+			, ISNULL(#{catalogno},'')
+			, ISNULL(#{position},'')
+			, ISNULL((SELECT USED_CODE FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+			, ISNULL((SELECT BIZ_CD FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+			, ISNULL(#{attcFilId},'')
+			, getdate()
 		)
-	
+		]]>
 	</insert>
+
+	<update id="deletePurRqInfo" parameterType="map">
+		<![CDATA[
+		UPDATE PR_PRSREQ_T  
+		   SET PRS_FLAG 	= 'D'
+		 WHERE BANFN_PRS 	= #{banfnPrs}
+		   AND BNFPO_PRS 	= #{bnfpoPrs}
+		   AND AFNAM		= #{_userNm}
+		   AND BEDNR		= #{_userSabun}
+		]]>
+	</update>
 	
+	<update id="updatePurRqInfo" parameterType="map">
+		<![CDATA[
+		UPDATE PR_PRSREQ_T  
+		   SET S_CODE   	= ISNULL(#{sCodeNm},'')
+		 	 , KNTTP    	= ISNULL((SELECT KNTTP FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , PSTYP		= ISNULL((SELECT PSTYP FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , TXZ01		= ISNULL(#{txz01},'')
+		 	 , MENGE		= CONVERT(NUMERIC(13,0), ISNULL(#{menge},'0'))
+		 	 , MEINS		= ISNULL(#{meins},'')
+		 	 , EEIND		= REPLACE(#{eeind},'-','')
+		 	 , MATKL		= ISNULL((SELECT MATKL FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , WERKS		= ISNULL(#{werks},'')
+		 	 , EKGRP		= ISNULL(#{ekgrp},'')
+		 	 , PREIS		= CONVERT(NUMERIC(12,2), ISNULL(#{preis},'0'))
+		 	 , PEINH		= CONVERT(NUMERIC(5,0), ISNULL(#{peinh},'1'))
+		 	 , SAKTO		= ISNULL((SELECT SAKTO FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , POSID		= ISNULL(#{posid},'')
+		 	 , IZWEK		= ISNULL((SELECT IZWEK FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , ITEM_TXT		= ISNULL(#{itemTxt},'')
+		 	 , MAKER		= ISNULL(#{maker},'')
+		 	 , VENDOR		= ISNULL(#{vendor},'')
+		 	 , CATALOGNO	= ISNULL(#{catalogno},'')
+		 	 , POSITION		= ISNULL(#{position},'')
+		 	 , USED_CODE	= ISNULL((SELECT USED_CODE FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , BIZ_CD		= ISNULL((SELECT BIZ_CD FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 WHERE BANFN_PRS 	= #{banfnPrs}
+		   AND BNFPO_PRS 	= #{bnfpoPrs}
+		   AND AFNAM		= #{_userNm}
+		   AND BEDNR		= #{_userSabun}
+		]]>
+	</update>
+
 	<select id="retrievePurRqInfo"  resultType="hashmap">
 	/* retrievePurRqInfo  리스트 조회 */
-	select   BANFN_PRS  as  banfnPrs   
-			,BNFPO_PRS  as  bnfpoPrs   
-			,SEQ_NUM    as  seqNum     
-			,S_CODE     as  sCode      
-			,BANFN      as  banfn       
-			,BNFPO      as  bnfpo       
-			,KNTTP      as  knttp       
-			,PSTYP      as  pstyp       
-			,TXZ01      as  txz01       
-			,MENGE      as  menge       
-			,MEINS      as  meins       
-			,EEIND      as  eeind       
-			,AFNAM      as  afnam       
-			,MATKL      as  matkl       
-			,WERKS      as  werks       
-			,EKGRP      as  ekgrp       
-			,BEDNR      as  bednr       
-	        ,PREIS      as  preis       
-	        ,WAERS      as  waers       
-	      	,PEINH      as  peinh       
-	      	,SAKTO      as  sakto       
-	      	,ANLKL      as  anlkl       
-	      	,TXT50      as  txt50       
-	      	,KOSTL      as  kostl       
-			,POSID      as  posid       
-			,POST1      as  post1       
-			,ITEM_TXT   as  itemTxt       
-			,PRS_FLAG   as  prsFlag    
-			,BIZ_CD     as  bizCd   
-			,ATTC_FIL_ID as attcFilId   
-		from [dbo].[PR_PRSREQ_T]
+	select   a.BANFN_PRS  	as  banfnPrs   
+			,a.BNFPO_PRS  	as  bnfpoPrs   
+			,a.SEQ_NUM    	as  seqNum     
+			,a.S_CODE     	as  sCode      
+			,a.BANFN      	as  banfn       
+			,a.BNFPO      	as  bnfpo       
+			,a.KNTTP      	as  knttp       
+			,a.PSTYP      	as  pstyp       
+			,a.TXZ01      	as  txz01       
+			,a.MENGE      	as  menge       
+			,a.MEINS      	as  meins       
+			,a.EEIND      	as  eeind       
+			,a.AFNAM      	as  afnam       
+			,a.MATKL      	as  matkl       
+			,a.WERKS      	as  werks       
+			,a.EKGRP      	as  ekgrp       
+			,a.BEDNR      	as  bednr       
+	        ,a.PREIS      	as  preis       
+	        ,a.WAERS      	as  waers       
+	      	,a.PEINH      	as  peinh       
+	      	,a.SAKTO      	as  sakto
+	        ,(SELECT CODE_NM 
+                FROM PR_CODEMASTER_T y 
+               WHERE y.CODE       = RTRIM(a.SAKTO) 
+                 AND y.DEL_FLAG   ='0' 
+                 AND y.GROUP_CODE ='10' 
+                 AND y.REGION_CD  =a.region_cd
+            ) as saktoNm
+            ,a.IT_ANLN1	  	as  itAnln1	
+            ,a.IT_DATE	  	as  itDate
+            ,a.IT_UNAME		as  itUname
+            ,a.IT_ACC_DATE	as  itAccDate
+            ,a.IT_UNAME2	as  itUname2
+            ,a.IT_ACC_OPIN	as  itAccOpin
+            ,a.ANLN1		as  anln1
+            ,a.ANLN1_CR		as  anln1Cr
+	      	,a.ANLKL      	as  anlkl       
+	      	,a.TXT50      	as  txt50       
+	      	,a.KOSTL      	as  kostl 
+	      	,a.ORD44  		as  ord44
+	      	,a.GDLGRP		as  gdlgrp
+			,a.POSID      	as  posid       
+			,a.POST1      	as  post1
+			,a.IMPRF		as  imprf
+			,a.IZWEK       	as  izwek
+			,a.ITEM_TXT   	as  itemTxt
+			,a.REFUSE_PART	as  refusePart
+			,a.REFUSE_REASON	as refuseReason
+			,a.BADATE		as  badate
+			,a.ERDATE		as  erdate
+			,a.ERNAM_PERNR	as  ernamPernr       
+			,a.PRS_FLAG   	as  prsFlag
+			,a.MAKER		as  maker
+			,a.VENDOR		as  vendor
+			,a.CATALOGNO	as  catalogno
+			,a.POSITION		as  position
+			,a.USED_CODE	as  usedCode
+			,a.MESSAGE		as  message
+			,a.APR4_PERNR	as  apr4Pernr
+			,a.APR4_PERNRNM	as  apr4Pernrnm
+			,a.FKSTL		as  fkstl
+			,a.LIFNR_PHONE	as  lifnrPhone
+			,a.REGION_CD	as  regionCd
+			,a.FIXTURE_DATE	as  fixtureDate
+			,a.FIXTURE_UNAME	as fixtureUname
+			,a.CURRENT_STATE	as currentState
+			,a.FIX_REASON	as  fixReason
+			,a.INS_REASON	as  insReason
+			,a.INS_DATE		as  insDate
+			,a.INS_UNAME	as  insUname
+			,a.IT_SWINS_DATE	as itSwinsDate
+			,a.IT_UNAME3	as  itUname3
+			,a.IT_REASON	as  itReason
+			,a.IT_SWINS_YN	as  itSwinsYn
+			,a.MATNR    	as  matnr
+			,a.BIZ_CD     	as  bizCd
+			,a.IT_SWREQ_DATE	as itSwreqDate   
+			,a.ATTC_FIL_ID as attcFilId
+			,(select count(*) from [dbo].[IRIS_COM_ATTC_FIL] b where b.ATTC_FIL_ID = a.ATTC_FIL_ID and b.MENU_TYPE = 'prsPolicy' and b.DEL_YN = 'N') fileCnt
+		from [dbo].[PR_PRSREQ_T] a
 		where BANFN_PRS = cast(#{banfnPrs} as int) 
-		
+		<if test="usedCode != null and usedCode != ''">
+		and   a.USED_CODE = #{usedCode}
+		</if>
+		<if test="prsFlag != null and prsFlag != ''">
+		and   a.PRS_FLAG = #{prsFlag}
+		</if>
 	</select>
+
+	<select id="getBanfnPrs"   resultType="int">
+	/* banfn_prs 번호채번 */
+		select next value for PR_PRSREQ_Q01;    
+	</select>
+
+	<select id="getBnfpoPrs"   resultType="int"  parameterType="map">
+	/* bnfpoPrs 번호채번 */
+		SELECT ISNULL(MAX(BNFPO_PRS), 0) + 1 
+               FROM PR_PRSREQ_T
+         WHERE BANFN_PRS = #{banfnPrs}    
+	</select>
+
+	<select id="getSeqNum"   resultType="int">
+	/* seq_num 번호채번 */
+		select next value for PR_PRSREQ_Q02;    
+	</select>
+
+	<select id="retrieveMyPurRqList" resultType="hashmap">
+	<![CDATA[
+	/* retrieveMyPurRqList  리스트 조회 */
+		select   CONVERT(varchar(10), a.BADATE, 23)     as  badate
+		        ,a.BANFN_PRS  as  banfnPrs   
+				,a.BNFPO_PRS  as  bnfpoPrs   
+				,a.SEQ_NUM    as  seqNum     
+				,a.S_CODE     as  sCode      
+				,a.BANFN      as  banfn       
+				,a.BNFPO      as  bnfpo       
+				,a.KNTTP      as  knttp       
+				,a.PSTYP      as  pstyp       
+				,a.TXZ01      as  txz01       
+				,a.MENGE      as  menge       
+				,a.MEINS      as  meins       
+				,a.EEIND      as  eeind       
+				,a.AFNAM      as  afnam       
+				,a.MATKL      as  matkl       
+				,a.WERKS      as  werks     
+				,(SELECT CODE_NM 
+					FROM [dbo].[PR_CODEMASTER_T] z 
+				   WHERE z.CODE       = RTRIM(a.WERKS)
+				     AND z.DEL_FLAG   = 0
+					 AND z.GROUP_CODE = '02'
+					 AND z.REGION_CD  = a.region_cd
+				)  as werksnm
+				,a.EKGRP      as  ekgrp  
+				,(SELECT CODE_NM
+		            FROM [dbo].[PR_CODEMASTER_T] x
+		           WHERE x.CODE       = RTRIM(a.EKGRP) 
+		             AND x.DEL_FLAG   = '0'
+		             AND x.GROUP_CODE = '01'
+				     AND x.REGION_CD  = a.region_cd 
+				) as ekgrpnm     
+				,a.BEDNR      as  bednr       
+		        ,a.PREIS      as  preis       
+	    	    ,a.WAERS      as  waers       
+		      	,a.PEINH      as  peinh       
+		      	,a.SAKTO      as  sakto
+	    	    ,(SELECT CODE_NM 
+            	    FROM [dbo].[PR_CODEMASTER_T] y 
+	               WHERE y.CODE       = RTRIM(a.SAKTO) 
+    	             AND y.DEL_FLAG   ='0' 
+        	         AND y.GROUP_CODE ='10' 
+            	     AND y.REGION_CD  =a.region_cd
+            	) as saktonm	       
+		      	,a.ANLKL      as  anlkl       
+		      	,a.TXT50      as  txt50       
+	    	  	,a.KOSTL      as  kostl       
+				,a.POSID      as  posid       
+				,a.POST1      as  posidnm       
+				,a.ITEM_TXT   as  itemTxt       
+				,a.PRS_FLAG   as  prsFlag    
+				,a.BIZ_CD     as  bizCd   
+				,a.POSITION   as  position
+				,a.MAKER 	  as  maker
+				,a.VENDOR 	  as  vendor
+				,a.CATALOGNO  as  catalogno
+				,a.ATTC_FIL_ID as attcFilId
+				,(select count(*) from [dbo].[IRIS_COM_ATTC_FIL] b where b.ATTC_FIL_ID = a.ATTC_FIL_ID and b.MENU_TYPE = 'prsPolicy' and b.DEL_YN = 'N') fileCnt
+		   from [dbo].[PR_PRSREQ_T] a
+		  where 1 = 1
+		  	and a.AFNAM		= #{_userNm}
+		    and a.BEDNR		= #{_userSabun}
+		    and a.PRS_FLAG  <> 'D'
+		    and a.EEIND between REPLACE(#{fromPurRqDt},'-','') and REPLACE(#{toPurRqDt},'-','')
+		    and CONVERT(varchar(8), a.BADATE, 112) between REPLACE(#{fromRegDt},'-','') and REPLACE(#{toRegDt},'-','')
+		]]>
+			<if test="prsFlag != null and prsFlag != '' and prsFlag != 'null' ">
+			and a.PRS_FLAG  = #{prsFlag}
+			</if>
+			<if test="itemnm != null and itemnm != '' and itemnm != 'null' ">
+			and a.TXZ01 = #{itemnm}
+			</if>
+			<if test="wbsCd != null and wbsCd != '' and wbsCd != 'null' ">
+			and a.POSID = #{wbsCd}
+			</if>
+			<if test="ekgrp != null and ekgrp != '' and ekgrp != 'null' ">
+			and a.EKGRP = #{ekgrp}
+			</if>
+			order by a.SEQ_NUM desc
+	</select>
+
+	<insert id="insertPurApprovalInfo" parameterType="map">
+		<![CDATA[
+		/* 구매요청 결재의뢰 저장 */
+		INSERT INTO PR_APPROVAL_T
+		(
+		 	  BANFN_PRS
+		 	, APR1_PERNR
+		 	, APR1_ENAME
+		 	, APR2_PERNR
+		 	, APR2_ENAME
+		 	, APR3_PERNR
+		 	, APR3_ENAME
+		 	, APR4_PERNR
+		 	, APR4_ENAME
+		 	, G_CHECK
+		 	, G_CHECK2
+		 	, OPIN_DOC
+		 	, WBS_PERNR
+		) 
+		values 
+		(
+			  ISNULL(#{banfnPrs} , '')
+			, ISNULL(#{apr1Pernr}, '')
+		 	, ISNULL(#{apr1Ename}, '') 
+			, ISNULL(#{apr2Pernr}, '')
+		 	, ISNULL(#{apr2Ename}, '') 
+			, ISNULL(#{apr3Pernr}, '')
+		 	, ISNULL(#{apr3Ename}, '') 
+			, ISNULL(#{apr4Pernr}, '')
+		 	, ISNULL(#{apr4Ename}, '') 
+			, ISNULL(#{gCheck}	 , 'N')
+			, ISNULL(#{gCheck2}	 , 'N')
+			, ISNULL(#{opinDoc}	 , '')
+			, ISNULL(#{wbsPernr} , '')
+		)
+		]]>
+	</insert>
+
+	<select id="retreivePurApprovalInfo" resultType="hashmap">
+		<![CDATA[
+		/* 구매요청 결재의뢰 조회 */
+		SELECT 
+			 	  BANFN_PRS		as banfnPrs
+			 	, APR1_PERNR	as apr1Pernr
+			 	, APR1_ENAME	as apr1Ename
+			 	, APR2_PERNR	as apr2Pernr
+			 	, APR2_ENAME	as apr2Ename
+			 	, APR3_PERNR	as apr3Pernr
+			 	, APR3_ENAME	as apr3Ename
+			 	, APR4_PERNR	as apr4Pernr
+			 	, APR4_ENAME	as apr4Ename
+			 	, G_CHECK		as gCheck
+			 	, G_CHECK2		as gCheck2
+			 	, OPIN_DOC		as opinDoc
+			 	, WBS_PERNR		as wbsPernr
+			 	, (SELECT DISTINCT BEDNR FROM PR_PRSREQ_T as a WHERE a.BANFN_PRS = #{banfnPrs}) as bednr
+		  FROM PR_APPROVAL_T
+		 WHERE BANFN_PRS = #{banfnPrs}
+		]]>
+		<if test="apr1Pernr != null and apr1Pernr != '' and apr1Pernr != 'null' ">
+		   AND APR1_PERNR  = #{apr1Pernr}
+		</if>
+		<if test="apr2Pernr != null and apr2Pernr != '' and apr2Pernr != 'null' ">
+		   AND APR2_PERNR  = #{apr2Pernr}
+		</if>
+		<if test="apr3Pernr != null and apr3Pernr != '' and apr3Pernr != 'null' ">
+		   AND APR3_PERNR  = #{apr3Pernr}
+		</if>
+		<if test="apr4Pernr != null and apr4Pernr != '' and apr4Pernr != 'null' ">
+		   AND APR4_PERNR  = #{apr4Pernr}
+		</if>
+	</select>
+
+	<update id="updateAppExpensePr" parameterType="map">
+		<![CDATA[
+		UPDATE PR_PRSREQ_T SET
+			   BANFN     = #{banfn},
+			   BNFPO     = #{bnfpo},
+			   ANLN1     = #{anln1},
+			   POSID     = #{posid},
+			   PRS_FLAG  = #{prsFlag},
+			   MESSAGE   = #{message}
+		 WHERE BANFN_PRS = #{banfnPrs}
+		   AND BNFPO_PRS = #{bnfpoPrs}
+		]]>
+		<if test="seqNum != null and seqNum != '' and seqNum != 'null' ">
+           AND SEQ_NUM =#{seqNum}
+        </if>
+		
+	</update>
 
 </mapper>
