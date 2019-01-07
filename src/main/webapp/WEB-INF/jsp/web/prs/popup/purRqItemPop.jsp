@@ -203,9 +203,10 @@
     </div>
 
 	<form id="aform" name ="aform">
-	<input type="hidden" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">  
-	<input type="hidden" id="bednr" name="bednr" value="<c:out value='${inputData._userSabun}'/>">  
-	<input type="hidden" id="PrjCd" name="PrjCd" />  
+	<input type="text" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">  
+	<input type="text" id="bednr" name="bednr" value="<c:out value='${inputData._userSabun}'/>">  
+	<input type="text" id="PrjCd" name="PrjCd" />
+	<input type="text" id="PrjCd" name="PrjCd" />  
 	
 	<div class="sub-content">
 			<table class="table table_txt_right">

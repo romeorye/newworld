@@ -48,11 +48,11 @@
 		var columnModel = new Rui.ui.grid.LColumnModel({
 		     groupMerge: true,
 		     columns: [
-		        	{ field: 'posid', 		label:'Project Code' , 	sortable: false, align: 'center', width: 80},
-		            { field: 'post1',  		label:'Porject Name', 	sortable: false, align: 'center', width: 200},
-		            { field: 'ename',  		label:'Project Reader',	sortable: false, align: 'right',  width: 60},
-		            { field: 'fkstl',  		label:'투자코드', 	sortable: false, align: 'center', width: 60},
-		            { field: 'wonjang', 	label: '책임코스트세터', 		sortable: false, align: 'center', width: 60},
+		        	{ field: 'posid', 		label:'Project Code' , 		sortable: false, align: 'center', width: 100},
+		            { field: 'post1',  		label:'Porject Name', 		sortable: false, align: 'center', width: 300},
+		            { field: 'ename',  		label:'Project Reader',		sortable: false, align: 'center', width: 100},
+		            { field: 'fkstl',  		label:'투자코드', 			sortable: false, align: 'center', width: 100},
+		            { field: 'wonjang', 	label: '책임코스트센터',	sortable: false, align: 'center', width: 100},
 		            { field: 'pernr',  		hidden : true}
 		        ]
 		 });
@@ -60,7 +60,7 @@
 		var grid = new Rui.ui.grid.LGridPanel({
 		    columnModel: columnModel,
 		    dataSet: dataSet,
-		    width:560,
+		    width: 400,
 		    height: 300,
 		    autoWidth : true
 		});
@@ -102,10 +102,12 @@
     </div>
 
 <form id="aform" name ="aform">
-	<div class="sub-content">
+	<div class="LblockMainBody">
+	<div class="sub-content" style="padding:0 0 0 2px;">
 	   <font color="red"> ※ 국책과제 참여 연구원은 반드시 국책과제 코드를 사용해 주십시오.</font> 
 	   <br/>
 		<div id="prjListGrid"></div>
+	</div>
 	</div>
 </form>
 </body>

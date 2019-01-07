@@ -51,10 +51,12 @@
 				, { id: 'izwek'}
 				, { id: 'ekgrp'}
 				, { id: 'ekgrpnm'}
+				, { id: 'saktonm'}
 				, { id: 'werks'}
 				, { id: 'anlkl'}
-				, { id: 'seqNum'}
+				, { id: 'sCodeSeq'}
 				, { id: 'ekgrp'}
+				, { id: 'isMro'}
 			]
         });
 
@@ -63,22 +65,24 @@
 
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
-					   { field: 'sCode'      , label: '구매요청',  		sortable: false,	align:'center', width: 300, renderer: function(value, p, record, row, col){
+					   { field: 'sCode'      , label: '구매요청',  		sortable: false,	align:'left', width: 240, renderer: function(value, p, record, row, col){
 		                    return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
 		                }}
-                     , { field: 'sample'     , label: '품목  Example', 	sortable: false,	align:'left', 	width: 480}
-                     , { field: 'ekgrpnm'    , label: '구매담당자',  	sortable: false,	align:'center', width: 300}
-                     , { field: 'mCode'      , label: '구분',  			sortable: false,	align:'left', 	width:100}
-            	     , { field: 'usedCode' , hidden : true}
-            	     , { field: 'anlkl' , hidden : true}
-            	     , { field: 'bizCd' , hidden : true}
-            	     , { field: 'knttp' , hidden : true}
-            	     , { field: 'ekgrp' , hidden : true}
-            	     , { field: 'seqNum' , hidden : true}
-            	     , { field: 'pstyp' , hidden : true}
-            	     , { field: 'izwek' , hidden : true}
-            	     , { field: 'ekgrp' , hidden : true}
-            	     , { field: 'sakto' , hidden : true}
+                     , { field: 'sample'    , label: '품목  Example', 	sortable: false,	align:'left', 	width: 350}
+                     , { field: 'ekgrpnm'   , label: '구매담당자',  	sortable: false,	align:'center', width: 230}
+                     , { field: 'mCode'     , label: '구분',  			sortable: false,	align:'center', 	width:115}
+                     , { field: 'saktonm'   , label: 'G/L계정명',  		sortable: false,	align:'center', 	width:250}
+            	     , { field: 'sakto' 	, label: 'G/L계정', 	 	sortable: false,	align:'center', 	width:140}
+                     , { field: 'usedCode' 	, hidden : true}
+            	     , { field: 'anlkl' 	, hidden : true}
+            	     , { field: 'bizCd' 	, hidden : true}
+            	     , { field: 'knttp' 	, hidden : true}
+            	     , { field: 'ekgrp' 	, hidden : true}
+            	     , { field: 'sCodeSeq'	, hidden : true}
+            	     , { field: 'pstyp' 	, hidden : true}
+            	     , { field: 'izwek' 	, hidden : true}
+            	     , { field: 'ekgrp' 	, hidden : true}
+            	     , { field: 'isMro' 	, hidden : true}
             ]
         });
         
@@ -99,7 +103,7 @@
         }
         
         var fncPurRqDetail = function(record){
-        	frm.seqNum.value = record.get("seqNum");
+        	frm.sCodeSeq.value = record.get("sCodeSeq");
  			frm.knttp.value  = record.get("knttp");
  			frm.pstyp.value  = record.get("pstyp");
  			frm.mCode.value  = encodeURIComponent(record.get("mCode"));
@@ -108,6 +112,8 @@
  			frm.sCode.value  = encodeURIComponent(record.get("sCode"));
  			frm.ekgrp.value  = record.get("ekgrp");
  			frm.sakto.value  = record.get("sakto");
+ 			frm.werks.value  = record.get("werks");
+ 			frm.saktonm.value  = encodeURIComponent(record.get("saktonm"));
  			
  			nwinsActSubmit(document.aform, "<c:url value='/prs/purRq/purRqDetail.do'/>");
         }
@@ -116,18 +122,10 @@
         	var record = dataSet.getAt(dataSet.getRow());
 
         	if(e.colId == "sCode") {
-             	if(frm.tabId.value == "OM" ){
-             		moveServeonPage();
+           		if( record.get("isMro") == "Y" ){
+           			moveServeonPage();
              	}else{
-             		if( record.get("ekgrp") == "9A4" ){
-             			if(record.get("sCode") == "견본" ||  record.get("sCode") == "금형제작"){
-	                 		fncPurRqDetail(record);
-             			}else{
-	             			moveServeonPage();
-             			}
-             		}else{
-                 		fncPurRqDetail(record);
-             		}
+                 	fncPurRqDetail(record);
              	}
             }	
         });
@@ -137,7 +135,7 @@
 				{ label: '실험용 자재(비용)', 	content: '<div id="purExprMtrlDiv"></div>' },
         		{ label: '실험용 설비(투자)',    content: '<div id="purExprFaclDiv"></div>' },
                 { label: '공사요청(투자)',       content: '<div id="purCsnwRqDiv"></div>' },
-                { label: '사무용 자제(비용)',    content: '<div id="purOwkMtrlDiv"></div>' }
+                { label: '사무용 자재(비용)',    content: '<div id="purOwkMtrlDiv"></div>' }
 		    ]  
 		});
 		
@@ -185,7 +183,7 @@
 <form id="aform" name ="aform">
 <input type="hidden" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">  
 
-<input type="hidden" id="seqNum" name="seqNum" />
+<input type="hidden" id="sCodeSeq" name="sCodeSeq" />
 <input type="hidden" id="knttp"  name="knttp" />
 <input type="hidden" id="pstyp"  name="pstyp" />
 <input type="hidden" id="mCode"  name="mCode" />
@@ -193,7 +191,9 @@
 <input type="hidden" id="izwek"  name="izwek" />
 <input type="hidden" id="sCode"  name="sCode" />
 <input type="hidden" id="ekgrp"  name="ekgrp" />
+<input type="hidden" id="werks"  name="werks" value="1010"/>
 <input type="hidden" id="sakto"  name="sakto" />
+<input type="hidden" id="saktonm"  name="saktonm" />
 
 <div class="contents">
 	<div class="sub-content">
