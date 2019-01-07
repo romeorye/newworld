@@ -10,10 +10,14 @@ public interface PrsCodeService {
 
 	List<Map<String, Object>> retrieveWbsCdInfoList(HashMap<String, Object> input);
 	
-	List<Map<String, Object>> retrieveWaersInfo(HashMap<String, Object> input);
+	List<Map<String, Object>> retrieveMeinsInfo(HashMap<String, Object> input);
 
 	Map<String, Object> retrieveSaktoInfoList(HashMap<String, Object> input);
 
 	List retrieveWerksInfo(HashMap<String, Object> input);
+	
+	List<Map<String, Object>> retrieveItemGubunInfo(HashMap<String, Object> input);
+	
+	List<Map<String, Object>> retrieveScodeInfo(HashMap<String, Object> input);
 
 }
