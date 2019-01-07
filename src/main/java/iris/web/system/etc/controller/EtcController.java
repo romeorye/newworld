@@ -98,7 +98,4 @@ public class EtcController  extends IrisBaseController {
 		return modelAndView;
 	}
 
-
-
-
 }
