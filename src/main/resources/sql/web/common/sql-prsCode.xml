@@ -13,8 +13,8 @@
 		and   x.REGION_CD = '01'     
 	</select>
 	
-	<select id="retrieveWaersInfo" resultType="HashMap">
-	/*retrieveWaersInfo  단위리스트 코드 목록*/
+	<select id="retrieveMeinsInfo" resultType="HashMap">
+	/*retrieveMeinsInfo  단위리스트 코드 목록*/
 		select CODE as CODE
 		      ,code+'/'+CODE_NM as CODE_NM 
 		from [dbo].[PR_CODEMASTER_T] 
@@ -57,6 +57,61 @@
 	</select>
 
 
+	<select id="retrieveItemGubunInfo" resultType="HashMap">
+		<![CDATA[	
+		/*retrieveItemGubunInfo 사용 품목구분 목록*/
+			select   SEQ_NUM CODE
+	        	   , S_CODE CODE_NM 
+		  	 from  PR_HELPMASTER_T x 
+		 	where  x.USE_YN ='Y'
+		   	  and  x.IS_MRO = 'N'
+		   	  and  x.WERKS = '1010'
+		]]>
+		<if test="tabId == 'EM' ">
+		  	  and  x.KNTTP = 'P'
+			  and  x.PSTYP = ''
+			  and  x.USED_CODE ='S'
+			  /* and  x.IZWEK != '01' */
+		</if>
+		<if test="tabId == 'EF' ">
+			  and  x.KNTTP = 'A'
+			  and  x.PSTYP = ''
+		</if>
+		<if test="tabId == 'CR' ">
+			  and  x.KNTTP = 'P'
+			  and  x.M_CODE ='투자'
+		</if>
+		<if test="tabId == 'OM' ">
+			  and  x.KNTTP = 'P'
+			  and  x.PSTYP = ''
+			  and  x.USED_CODE = 'O'
+		</if>
+		<if test="sCode != null and sCode != ''">
+			  and  x.S_CODE = #{sCode}
+		</if>
+		 order by x.L_CODE, x.M_CODE, x.S_CODE asc
+	</select>
 
+	<select id="retrieveScodeInfo" resultType="hashmap">
+		<![CDATA[
+		/* retrieveScodeInfo 조회 */
+			select a.SAKTO     as sakto
+	              ,(SELECT CODE_NM 
+                      FROM PR_CODEMASTER_T y 
+                     WHERE y.CODE       = RTRIM(a.SAKTO) 
+                       AND y.DEL_FLAG   = '0' 
+                       AND y.GROUP_CODE = '10' 
+                       AND y.REGION_CD  = a.region_cd
+                   ) as saktonm				  
+				  ,a.EKGRP       as ekgrp
+				  ,a.WERKS		 as werks
+			from [dbo].[PR_HELPMASTER_T] a	 
+			where a.REGION_CD ='01' 
+			  and a.BIZ_CD = '01'      /* 추후 02, 03 등록 가능성 있음 */
+			]]>
+			<if test="sCode != null and sCode != ''">
+			  and   a.SEQ_NUM = #{sCode}
+			</if>
+	</select>
 
 </mapper>
