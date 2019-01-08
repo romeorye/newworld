@@ -182,9 +182,9 @@
 		<select id="retrieveRlabExprStatList" resultType="hashmap">
 		--retrieveRlabExprStatList 년도별 시험법별 통계
 		<![CDATA[
-		SELECT CASE WHEN SUPI_EXAT_CD IS NULL
+		SELECT CASE WHEN EXAT_CD IS NULL
 		            THEN '합계'
-		            ELSE CONVERT(CHAR,SUPI_EXAT_CD)
+		            ELSE dbo.fn_getExatNm(EXAT_CD)
 		        END AS statGbn
 		      ,SUM(m01) AS m1
 		      ,SUM(m02) AS m2
@@ -200,7 +200,7 @@
 		      ,SUM(m12) AS m12
 		      ,SUM(m01)+SUM(m02)+SUM(m03)+SUM(m04)+SUM(m05)+SUM(m06)+SUM(m07)+SUM(m08)+SUM(m09)+SUM(m10)+SUM(m11)+SUM(m12) AS sum
 		      ,'해당월말'+char(13)+'완료기준건수' AS etc
-		  FROM (SELECT SUPI_EXAT_CD
+		  FROM (SELECT EXAT_CD
 		              ,CASE WHEN cmplMonth='01'
 		                    THEN cnt
 		                    ELSE 0
@@ -249,10 +249,10 @@
 		                   THEN cnt
 		                   ELSE 0
 		               END AS m12
-		         FROM (SELECT SUPI_EXAT_CD
+		         FROM (SELECT EXAT_CD
 		                     ,cmplMonth
 		                     ,COUNT(1) AS cnt
-		                 FROM (SELECT RLABEXAT.SUPI_EXAT_CD
+		                 FROM (SELECT RLABEXAT.EXAT_CD
 									  ,LEFT(RQPRMST.CMPL_PARR_DT,7) AS cmplYM
 									  ,RIGHT(LEFT(RQPRMST.CMPL_PARR_DT,7),2) AS cmplMonth
 								  FROM IRIS_RLAB_RQPR_MST RQPRMST
@@ -266,8 +266,8 @@
 		                        --AND RQPRMST.CMPL_PARR_DT IS NOT NULL
 		                        --AND RQPRMST.CMPL_PARR_DT BETWEEN '2018-01-01' AND '2018-12-31') mst
 		                          AND LEFT(RQPRMST.CMPL_DT,4) =#{yyyy}) mst
-		                GROUP BY SUPI_EXAT_CD,cmplYM,cmplMonth) mmm)sss
-		 GROUP BY ROLLUP(SUPI_EXAT_CD)
+		                GROUP BY EXAT_CD,cmplYM,cmplMonth) mmm)sss
+		 GROUP BY ROLLUP(EXAT_CD)
 		 ]]>
 	</select>
 
