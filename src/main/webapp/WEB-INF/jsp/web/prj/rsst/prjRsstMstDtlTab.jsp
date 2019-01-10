@@ -551,12 +551,6 @@ function fnChangeFormEdit(isEnable) {
 		<input type="hidden" id="userDeptCnt" name="userDeptCnt" value=""/>
 		<input type="hidden" id="orgWbsCd" name="orgWbsCd" value=""/>
 		<input type="hidden" id="deptUper" name="deptUper" value=""/>
-		<input type="hidden" name="wbsCd" value="${inputData.wbsCd}"/>
-		<input type="hidden" name="prjNm" value="${inputData.prjNm}"/>
-		<input type="hidden" name="saName" value="${inputData.saName}"/>
-		<input type="hidden" name="deptName" value="${inputData.deptName}"/>
-		<input type="hidden" name="fromDate" value="${inputData.fromDate}"/>
-		<input type="hidden" name="toDate" value="${inputData.toDate}"/>
 		<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 
    		<table class="table table_txt_right">
