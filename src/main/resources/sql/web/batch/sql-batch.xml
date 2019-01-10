@@ -239,6 +239,7 @@
 		inner join IRIS_PRJ_RSST_MST pm
 		   on mm.PRJ_CD = pm.PRJ_CD
 	    where mm.pgs_step_cd ='PL' and mm.TSS_ST = '104'
+	      and mm.TSS_SCN_CD in ('G' , 'O')
 	      AND MM.DEL_YN = 'N'
 		  and mm.TSS_CD  in ( select  tss_cd
 		  						from  IRIS_TSS_MGMT_MST mm
