@@ -177,11 +177,11 @@
 				                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
 				                        </td>
 				                        <td rowspan="5" class="bottomL" style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</a>
+				                        	<a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</br>(Q-gate 유해물질분석 등)</a>
 				                        	<br><br>
-				                        	<a href="javascript:getPersonInfo('00207779','lejaaa')" class="person_link">이은주</a>
+				                        	<a href="javascript:getPersonInfo('00207779','lejaaa')" class="person_link">이은주</br>(TVOC분석)</a>
 				                        	<br><br>
-				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
+				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</br>(중금속, 할로겐분석)</a>
 				                        </td>
 				                    </tr>
 				                    <tr>
