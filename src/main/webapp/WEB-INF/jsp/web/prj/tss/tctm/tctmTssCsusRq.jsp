@@ -264,7 +264,7 @@
                             </tbody>
                         </table>
 
-                    <div class="titArea"><h3>5. 기대성과<span class="h3_stitle">(상품출시(계획), 신제품 매출계획)</span></h3></div>
+                    <div class="titArea"><h3>4. 기대성과<span class="h3_stitle">(상품출시(계획), 신제품 매출계획)</span></h3></div>
                         <table class="table">
                             <colgroup>
                                 <col style="width:15%"/>
@@ -290,7 +290,7 @@
                         </table>
 
 
-                    <div class="titArea"><h3>9. 첨부파일</h3></div>
+                    <div class="titArea"><h3>5. 첨부파일</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:100%"/>
