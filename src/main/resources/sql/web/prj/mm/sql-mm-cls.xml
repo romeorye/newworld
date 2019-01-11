@@ -94,7 +94,28 @@
 											else a.PATC_END_DT end as PATC_END_DT
 								from   IRIS_PRJ_TMMR_INFO a
 								where  a.TMMR_EMP_NO = #{_userSabun}
-								and    a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059')
+								and    a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059'
+								,'PRJ00085'
+								,'PRJ00084'
+								,'PRJ00083'
+								,'PRJ00082'
+								,'PRJ00081'
+								,'PRJ00080'
+								,'PRJ00079'
+								,'PRJ00078'
+								,'PRJ00077'
+								,'PRJ00076'
+								,'PRJ00075'
+								,'PRJ00074'
+								,'PRJ00073'
+								,'PRJ00072'
+								,'PRJ00071'
+								,'PRJ00070'
+								,'PRJ00069'
+								,'PRJ00068'
+								,'PRJ00067'
+								,'PRJ00066'
+								,'PRJ00065')
 								) b
 						where 1=1
 						and    #{searchMonth} between left(b.PATC_STR_DT, 7) and left(b.PATC_END_DT, 7)
@@ -420,7 +441,28 @@
 									  ,DEPT_UPER
 								from  IRIS_PRJ_RSST_MST
 								where 1=1
-								and   prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059')
+								and   prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059'
+								,'PRJ00085'
+								,'PRJ00084'
+								,'PRJ00083'
+								,'PRJ00082'
+								,'PRJ00081'
+								,'PRJ00080'
+								,'PRJ00079'
+								,'PRJ00078'
+								,'PRJ00077'
+								,'PRJ00076'
+								,'PRJ00075'
+								,'PRJ00074'
+								,'PRJ00073'
+								,'PRJ00072'
+								,'PRJ00071'
+								,'PRJ00070'
+								,'PRJ00069'
+								,'PRJ00068'
+								,'PRJ00067'
+								,'PRJ00066'
+								,'PRJ00065')
 								and   wbs_cd <> 'R16TS0'
 								) a
 						where  1=1
