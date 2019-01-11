@@ -78,13 +78,7 @@
 			   ,SU.SA_DEPT_NAME AS deptNm
 			   ,F.ATTC_FIL_ID AS attcFilId
 			   ,F.SEQ AS seq
-			   ,(SELECT STUFF((SELECT ',' + sa_mail FROM (select sa_mail from dbo.IRIS_SSO_USER
-  														   where 1=1
-  														     and sso_ex_flag!='D'
-  														     and sa_func!='FO0'
-  															 and sa_dept_new=(select sa_dept_new
-  															 					from dbo.IRIS_SSO_USER sub
-  															 				   where sub.sa_user=su.sa_user)) a FOR XML PATH ('')), 1, 1, '')) as crgrMail
+			   ,SU.sa_mail as crgrMail
 			   ,A.MCHN_CL_CD AS mchnClCd
 		FROM   IRIS_RLAB_MCHN_INFO_MGMT  A
 		       LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
@@ -125,7 +119,9 @@
 			   ,B.SA_DEPT_NEW AS deptCd
 			   ,DBO.FN_GETSABUNNAME(A.RGST_ID) AS rgstNm
 			   ,DBO.FN_GETDEPTNAME(B.SA_DEPT_NEW) AS deptNm
+			  
 			   ,DBO.FN_GETUSEREMAIL(C.SA_USER) as crgrMail
+			  
 			   ,C.SA_NAME AS crgrNm
 			   ,A.PRCT_SCN_CD AS prctScnCd
 			   ,dbo.fn_getComDtlNm('MCHN_APPR_RQ_ST', A.PRCT_SCN_CD)  as prctScnNm
