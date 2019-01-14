@@ -68,14 +68,12 @@
 
              rlabRqprDataSet.on('load', function(e) {
     	    		$("#cnt_text").html('총 ' + rlabRqprDataSet.getCount() + '건');
-    	    		// 목록 페이징
-                    paging(rlabRqprDataSet,"rlabRqprGrid");
     	      	});
 
              var rlabRqprColumnModel = new Rui.ui.grid.LColumnModel({
                  columns: [
-                       { field: 'acpcNo',		label: '접수번호',	sortable: true,		align:'center',	width: 90 }
-                     , { field: 'rlabScnNm',	label: '시험구분',	sortable: false,	align:'center',	width: 100 }
+                       { field: 'acpcNo',		label: '접수번호',	sortable: true,		align:'center',	width: 80 }
+                     , { field: 'rlabScnNm',	label: '시험구분',	sortable: false,	align:'center',	width: 90 }
                      , { field: 'rlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 435 }
                      , { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 40 }
                      , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
@@ -93,7 +91,7 @@
                  columnModel: rlabRqprColumnModel,
                  dataSet: rlabRqprDataSet,
                  width: 600,
-                 height: 400,
+                 height: 320,
                  autoToEdit: false,
                  autoWidth: true
              });
@@ -107,17 +105,7 @@
                 emptyValue: '',
                 width: 200
             });
-           /*
-            rlabNm.on('blur', function(e) {
-            	rlabNm.setValue(rlabNm.getValue().trim());
-            }); */
-          /*
-            rlabNm.on('keypress', function(e) {
-            	if(e.keyCode == 13) {
-            		getRlabRqprList();
-            	}
-            });
-            */
+          
             var rqprDeptNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rqprDeptNm',
                 placeholder: '검색할 의뢰팀을 입력해주세요.',
@@ -145,21 +133,6 @@
 				width: 200
             });
 
-            /*
-            var rgstNm = new Rui.ui.form.LTextBox({
-                applyTo: 'rgstNm',
-                placeholder: '검색할 의뢰자를 입력해주세요.',
-                defaultValue: '<c:out value="${inputData.rgstNm}"/>',
-                emptyValue: '',
-				editable: false,
-                width: 360
-            });
-
-            rgstNm.on('focus', function(e) {
-            	rgstNm.setValue('');
-            	$('#rgstNm').val('');
-            });
-           */
             var acpcNo = new Rui.ui.form.LTextBox({
                 applyTo: 'acpcNo',
                 placeholder: '검색할 접수번호를 입력해주세요.',
@@ -167,17 +140,7 @@
                 emptyValue: '',
                 width: 200
             });
-          /*
-            acpcNo.on('blur', function(e) {
-            	acpcNo.setValue(acpcNo.getValue().trim());
-            }); */
-            /*
-            acpcNo.on('keypress', function(e) {
-            	if(e.keyCode == 13) {
-            		getRlabRqprList();
-            	}
-            });
-             */
+         
             var fromRqprDt = new Rui.ui.form.LDateBox({
 				applyTo: 'fromRqprDt',
 				mask: '9999-99-99',
@@ -232,18 +195,6 @@
                 valueField: 'userId'
             });
 
-         /*
-            var rlabChrgNm = new Rui.ui.form.LCombo({
-                applyTo: 'rlabChrgNm',
-                name: 'rlabChrgNm',
-                emptyText: '전체',
-                defaultValue: '<c:out value="${inputData.rlabChrgNm}"/>',
-                emptyValue: '',
-                url: '<c:url value="/rlab/getRlabChrgList.do"/>',
-                displayField: 'name',
-                valueField: 'userId'
-            });
-            */
             var rlabAcpcStCd = new Rui.ui.form.LCombo({
                 applyTo: 'rlabAcpcStCd',
                 name: 'rlabAcpcStCd',
@@ -276,17 +227,10 @@
         		rlabRqprDataSet.clearFilter();
         		var excelColumnModel = rlabRqprColumnModel.createExcelColumnModel(false);
                 duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') + '.xls');
+				nG.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') + '.xls');
              // 목록 페이징
-                paging(rlabRqprDataSet,"rlabRqprGrid");
+                //paging(rlabRqprDataSet,"rlabRqprGrid");
             };
-
-    		/*
-            setRgstInfo = function(userInfo) {
-    	    	rgstNm.setValue(userInfo.saName);
-    	    	$('#rgstNm').val(userInfo.saUser);
-    	    };
-           */
 
             /* 조회 */
             getRlabRqprList = function() {
@@ -300,14 +244,11 @@ nG.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') +
             		    rgstNm : encodeURIComponent(rgstNm.getValue()),
             		    rlabChrgNm : encodeURIComponent(rlabChrgNm.getValue()),
             		    acpcNo : encodeURIComponent(acpcNo.getValue()),
-//            		    rlabAcpcStCd : rlabAcpcStCd.getValue(),
             		    rlabAcpcStCd : document.aform.rlabAcpcStCd.value,
             		    isRlabChrg : 1
                     }
                 });
             };
-
-            //getRlabRqprList();
 
             init = function() {
         	   var rlabNm='${inputData.rlabNm}';
