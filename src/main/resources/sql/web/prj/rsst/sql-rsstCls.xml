@@ -293,7 +293,7 @@
 		   AND M.TSS_SCN_CD = ISNULL(#{tssScnCd}, 'G') --과제구분코드(G:일반, N , O)
 		   AND M.DEL_YN = 'N' --삭제여부
 		   AND 1 = 1
-			AND M.PGS_STEP_CD = 'PG' --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
+			AND M.PGS_STEP_CD IN ('PG', 'AL')  --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
 		) Z
 		WHERE   1=1
 			AND Z.PRJ_CD = #{prjCd}
