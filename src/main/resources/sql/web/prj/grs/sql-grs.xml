@@ -18,11 +18,11 @@
                  , iif(m.PGS_STEP_CD='PL' AND (select count(*) from IRIS_TSS_MGMT_MST where PK_WBS_CD = m.pk_wbs_cd)=1,'SEED-'+m.wbs_cd  , m.wbs_cd)           wbsCd
                  , m.pk_wbs_cd           pkWbsCd
                  , m.tss_nm           tssNm
-                 ,isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) as prjNm
+                  ,isnull(dbo.fn_getPrjName(m.PRJ_CD), m.PRJ_NM ) as prjNm
                  , m.BIZ_DPT_CD	      bizDptCd
                  , dbo.fn_getComDtlNm('BIZ_DPT_CD',m.biz_dpt_cd) AS bizDptNm
                 ,m.SA_SABUN_NEW  as leaderCd
-                ,isnull(m.SA_SABUN_NAME,(select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new=m.SA_SABUN_NEW)) as leaderNm
+                ,isnull((select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new=m.SA_SABUN_NEW), m.SA_SABUN_NAME) as leaderNm
                 ,m.DEPT_CODE as deptCd
                  , g.dlbr_crgr 									 AS dlbrCrgr
                  --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--심의 담당자
