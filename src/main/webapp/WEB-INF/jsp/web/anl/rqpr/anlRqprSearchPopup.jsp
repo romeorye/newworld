@@ -46,7 +46,7 @@
             /*******************
              * 변수 및 객체 선언
              *******************/
-			if( '${inputData._userDept}' == "58141801" ){
+			if( '${inputData._userDept}' == "58141801"  ||  '${inputData._userDept}' == "58171352" ){
 				isAnlChrg = 1;
 			}else{
 				isAnlChrg = 0;
