@@ -743,4 +743,13 @@ from  (
 		                  where dept_code = #{_userDept})
 
 	</select>
+	
+	<!-- M/M ERP연동시 실제 부서코드(SSO) 조회 -->
+	<select id="retrieveMmClsRealDeptCode" resultType="String" >
+	-- retrieveMmClsRealDeptCode
+		select sa_dept_new as deptCode
+		from  IRIS_SSO_USER 
+		where sa_sabun_new = #{saSabunNew}
+	</select>
+	
 </mapper>

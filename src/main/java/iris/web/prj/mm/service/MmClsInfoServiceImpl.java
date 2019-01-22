@@ -134,7 +134,7 @@ public class MmClsInfoServiceImpl implements MmClsInfoService {
             	
             	for(Map<String, Object> data : dataSetList) {
             		table.appendRow();
-            		LOGGER.debug("============data ::!! : " + data);         	
+            		//LOGGER.debug("============data ::!! : " + data);         	
     	        	String ilckst ="I";
     	        	if("Y".equals(data.get("ilckSt"))) {
     	        		ilckst = "U" ;
@@ -143,7 +143,8 @@ public class MmClsInfoServiceImpl implements MmClsInfoService {
     	        		table.setValue("PERNR", data.get("saSabunNew"));// 사원번호
         	        	table.setValue("BEGDA" , data.get("mmYymm").toString().replace("-", "")+""+"01");
         	        	table.setValue("ENDDA" , "99991231");
-        	        	table.setValue("ORGEH" , data.get("deptCode"));
+        	        	table.setValue("ORGEH" ,  commonDao.select("prj.mm.cls.retrieveMmClsRealDeptCode", data.get("saSabunNew")));
+        	        	//table.setValue("ORGEH" , data.get("deptCode"));
         	        	table.setValue("KOKRS" , "C100");
         	        	table.setValue("POSNR" , data.get("tssWbsCd"));
         	        	table.setValue("PROZT" , data.get("ptcPro"));
@@ -162,11 +163,9 @@ public class MmClsInfoServiceImpl implements MmClsInfoService {
     	        }
             	
            	//LOGGER.debug("============table ::!! : " + table);
-    	      function.execute(destination);
-    	      
+    	    function.execute(destination);
     	      LOGGER.debug("실행완료::!!");
-    	      
-    	      updateMmClsIlck(list);
+    	     updateMmClsIlck(list);
     	        
             }catch(Exception e){
             	
