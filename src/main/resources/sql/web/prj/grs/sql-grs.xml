@@ -25,7 +25,6 @@
                 ,isnull((select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new=m.SA_SABUN_NEW), m.SA_SABUN_NAME) as leaderNm
                 ,m.DEPT_CODE as deptCd
                  , g.dlbr_crgr 									 AS dlbrCrgr
-                 --, dbo.fn_getSabunName(g.dlbr_crgr	) 			 AS dlbrCrgrNm		--심의 담당자
                  , g.sa_sabun_name AS dlbrCrgrNm       --심의 담당자
                  ,m.TSS_STRT_DD + '~' + TSS_FNH_DD as tssDd
                  , g.dlbr_parr_dt     							 AS dlbrParrDt
@@ -44,6 +43,7 @@
                  ,iif((select count(*) from IRIS_GRS_MGMT_MST where TSS_CD= m.tss_cd)>0,'1','0') AS isFirstGrs
                  , right(m.PK_WBS_CD, 5) as sortNum
                 , g.DROP_YN as dropYn
+                 ,m.prj_cd
                FROM iris_grs_ev_rslt_rgst g
                  INNER JOIN iris_tss_mgmt_mst m
                    ON 	g.tss_cd = m.tss_cd
@@ -79,6 +79,7 @@
                  ,iif((select count(*) from IRIS_GRS_MGMT_MST where TSS_CD= m.tss_cd)>0,'1','0') AS isFirstGrs
                  , right(m.PK_WBS_CD, 5) as sortNum
                  , g.DROP_YN as dropYn
+                  ,m.prj_cd
                FROM iris_grs_ev_rslt_rgst g
                  INNER JOIN IRIS_GRS_MGMT_MST m
                    ON 	g.tss_cd = m.tss_cd
@@ -95,7 +96,7 @@
         <if test="tssRoleType != 'null' and tssRoleType.equals('S3')">
             AND
             (
-            dbo.fn_getUpperDeptCd(a.deptCd) = dbo.fn_getUpperDeptCd(#{_userDept})  -- 동일 조직
+            dbo.fn_getGrsDeptCd(a.prj_cd) = dbo.fn_getUpperDeptCd(#{_userDept})  -- 동일 조직
             OR a.dlbrCrgr = #{_userSabun}								                               --  심의담당자
             OR a.frstRgstId = #{_userId}									                                    -- 등록자
             )
@@ -898,7 +899,8 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             FRST_RGST_ID ,
             LAST_MDFY_DT ,
             LAST_MDFY_ID,
-            GRS_YN
+            GRS_YN,
+            DEL_YN
         )
             SELECT #{tssCd} ,
                 g.WBS_CD ,
@@ -928,7 +930,8 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 g.FRST_RGST_ID ,
                 g.LAST_MDFY_DT ,
                 g.LAST_MDFY_ID,
-                g.GRS_YN
+                g.GRS_YN,
+                #{delYn}
             FROM IRIS_GRS_MGMT_MST g
             WHERE g.TSS_CD = #{fromTssCd}
     </insert>
