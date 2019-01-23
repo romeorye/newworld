@@ -656,7 +656,7 @@
             }
 
             function isOwner() {
-                return "TR01" == gvRoleId || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew");
+                return "TR01" == gvRoleId || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew") || "TR11" == gvRoleId;
             }
 
 
@@ -1046,22 +1046,9 @@
                 tssStrtDd.blur();
                 tssFnhDd.blur();
 
-                // if(!vm.validateGroup("mstForm")) {
-                //     alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join(''));
-                //     return;
-                // }
-                //
-                // var ifmUpdate = document.getElementById('tabContent0').contentWindow.fnIfmIsUpdate("SAVE");
-                // if(!ifmUpdate) return false;
-                //
                 // //수정여부
                 var smryDs = document.getElementById('tabContent2').contentWindow.dataSet1; //개요탭 DS
                 var altrDs = document.getElementById('tabContent2').contentWindow.dataSet2; //개요탭 DS
-
-                // if(!dataSet.isUpdated() && !smryDs.isUpdated() && !altrDs.isUpdated()) {
-                //     alert("변경된 데이터가 없습니다.");
-                //     return;
-                // }
 
                 if (confirm('저장하시겠습니까?')) {
                     dataSet.setNameValue(0, "pgTssCd", gvTssCd);
