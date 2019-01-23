@@ -48,7 +48,7 @@
     var dcacTssCd   = "";
     var dataSet;
     var rtnMsg = "${inputData.rtnMsg}";
-
+    var itmFlag ="Y";	//필수산출물 체크 
     var altrHistDialog;
 
     Rui.onReady(function() {
@@ -466,7 +466,7 @@
             Rui.confirm({
                 text: '품의서요청을 하시겠습니까?',
                 handlerYes: function() {
-                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssDcacCsusRq.do'/>" + "?tssCd="+dcacTssCd+"&userId="+gvUserId+"&appCode=APP00332");
+                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssDcacCsusRq.do'/>" + "?tssCd="+dcacTssCd+"&userId="+gvUserId+"&itmFlag="+itmFlag+"&appCode=APP00332");
                 },
                 handlerNo: Rui.emptyFn
             });
