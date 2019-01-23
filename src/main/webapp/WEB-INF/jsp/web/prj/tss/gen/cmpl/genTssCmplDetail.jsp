@@ -49,7 +49,8 @@
     var dataSet;
     var altrHistDialog;
     var rtnMsg = "${inputData.rtnMsg}";
-
+    var itmFlag ="Y";	//필수산출물 체크
+    
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -467,18 +468,27 @@
         ============================================================================*/
         //품의서요청
         btnCsusRq = new Rui.ui.LButton('btnCsusRq');
+        
         btnCsusRq.on('click', function() {
           	document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
           	document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
-        	Rui.confirm({
+			
+          	var chkNum =   document.getElementById('tabContent0').contentWindow.fnAttchValid();  
+			
+        	if(chkNum == 0){
+        		Rui.alert("평가 결과서 첨부파일을 추가하셔야 합니다.");
+        		return;
+        	}
+        	
+          	Rui.confirm({
                 text: '품의서요청을 하시겠습니까?',
                 handlerYes: function() {
-                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&appCode=APP00332");
+                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&itmFlag="+itmFlag+"&appCode=APP00332"+"&appCode=APP00332");
                 },
                 handlerNo: Rui.emptyFn
             });
         });
-
+        
 
         //저장
         fnSave = function() {

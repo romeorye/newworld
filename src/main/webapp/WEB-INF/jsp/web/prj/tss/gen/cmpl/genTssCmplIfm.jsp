@@ -44,7 +44,8 @@
 
     var dataSet;
     var lvAttcFilId;
-
+    var tmpAttchFileList;
+    
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -276,6 +277,8 @@
             if(attachFileList.length > 0) {
                 lvAttcFilId = attachFileList[0].data.attcFilId;
                 dataSet.setNameValue(0, "attcFilId", lvAttcFilId)
+                
+                tmpAttchFileList = attachFileList;
             }
         };
 
@@ -288,7 +291,6 @@
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-            
         	if (fnIfmIsUpdate("SAVE") ){
 	        	window.parent.fnSave();
         	}
@@ -328,6 +330,18 @@
 
         return true;
     }
+    
+    function fnAttchValid(){
+    	var chkNum = 0;
+
+    	for(var i = 0; i < tmpAttchFileList.length; i++) {
+    		if( tmpAttchFileList[i].data.filNm.indexOf('완료') > -1 || tmpAttchFileList[i].data.filNm.indexOf('결과') > -1 || tmpAttchFileList[i].data.filNm.indexOf('최종') > -1 ){
+				chkNum++;    
+			}               
+        }
+		return chkNum;
+    }
+    
 </script>
 <script type="text/javascript">
 $(window).load(function() {
