@@ -20,8 +20,10 @@ import com.sap.conn.jco.JCoTable;
 
 import devonframe.configuration.ConfigService;
 import devonframe.dataaccess.CommonDao;
+import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
 import iris.web.rlab.rqpr.service.RlabRqprServiceImpl;
+import iris.web.sapBatch.service.SapBudgCostService;
 import iris.web.system.attach.service.AttachFileService;
 
 @Service("purRqInfoService")
@@ -40,6 +42,9 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	
 	@Resource(name = "attachFileService")
 	private AttachFileService attachFileService;
+	
+	@Resource(name = "sapBudgCostService")
+	private SapBudgCostService sapBudgCostService;
 	
 	static String ABAP_AS = "ABAP_AS_WITHOUT_POOL";  //sap 연결명(연결파일명으로 사용됨)
 	
@@ -120,9 +125,14 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	}
 	
 	@Override
-	public String sendSapExpensePr(Map<String, Object> dataMap) throws JCoException{
+	public HashMap<String, Object> sendSapExpensePr(Map<String, Object> dataMap){
 		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
-		String resultVal = "";
+		HashMap<String, Object> resultVal = new HashMap<String, Object>();
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoServiceImpl - sendSapExpensePr [결재의뢰 ERP 전송: Z_RFC_PRS01]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
 		
 		input.put("usedCode", "S");
 		input.put("prsFlag", "0");
@@ -136,43 +146,46 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		String zmm0112s ="IT_DISP";						// [PRS] PRS 구매요청 생성 결과 리스트
 		String zmm0159s ="IT_FILE";						// [PRS] Import Parameter - PR 첨부화일
 		
-	    JCoDestination destination = JCoDestinationManager.getDestination(ABAP_AS);
-	    //연결정보확인.
-	    System.out.println(destination.getApplicationServerHost());
-	    
-		JCoFunction function = destination.getRepository().getFunction(functionName); 
+	    JCoDestination destination;
+		try {
+			destination = JCoDestinationManager.getDestination(ABAP_AS);
+		    LOGGER.debug("destination => " + destination);
 		    
-        if(function == null) throw new RuntimeException("SAP_DATA not found in SAP.");
-           
-        JCoTable expenseInput = function.getTableParameterList().getTable(zmm0109s);
-        JCoTable itemTextInput = function.getTableParameterList().getTable(zmm0110s);
-        JCoTable expenseAppInput = function.getTableParameterList().getTable(zmm0111s);
-        JCoTable fileInput = function.getTableParameterList().getTable(zmm0159s);
-        JCoTable resultTable = function.getTableParameterList().getTable(zmm0112s);
-        
-        expenseInput = makeExpenseInputData(expenseInput, result);
-        itemTextInput = makeItemTextInputData(itemTextInput, result, input);
-        fileInput = makeFileInputData(fileInput, result);
-        expenseAppInput = makeExpenseAppInputData(expenseAppInput, result, input);
-        
-        try{
-            	
-        	//System.out.println(expenseInput);
-        	//System.out.println(itemTextInput);
-        	//System.out.println(fileInput);
-        	//System.out.println(expenseAppInput);
-        	
-        	function.execute(destination);
-        	
-        	//System.out.println(resultTable);
-        	
-        	resultVal = erpApprovalResultSave(resultTable);
-    	        
-        }catch(Exception e){
-           	
-        }finally{
-            return resultVal;
-        }
+	    	JCoFunction function = destination.getRepository().getFunction(functionName); 
+	    	LOGGER.debug("function => " + function);
+
+	    	JCoTable expenseInput = function.getTableParameterList().getTable(zmm0109s);
+	    	JCoTable itemTextInput = function.getTableParameterList().getTable(zmm0110s);
+	    	JCoTable expenseAppInput = function.getTableParameterList().getTable(zmm0111s);
+	    	JCoTable fileInput = function.getTableParameterList().getTable(zmm0159s);
+	    	JCoTable resultTable = function.getTableParameterList().getTable(zmm0112s);
+	        
+	    	expenseInput = makeExpenseInputData(expenseInput, result);
+	    	itemTextInput = makeItemTextInputData(itemTextInput, result, input);
+	    	fileInput = makeFileInputData(fileInput, result);
+	    	expenseAppInput = makeExpenseAppInputData(expenseAppInput, result, input);
+	    	
+	    	LOGGER.debug("expenseInput => ");
+	    	LOGGER.debug(expenseInput);
+	    	LOGGER.debug("itemTextInput => ");
+	    	LOGGER.debug(itemTextInput);
+	    	LOGGER.debug("fileInput => ");
+	    	LOGGER.debug(fileInput);
+	    	LOGGER.debug("expenseAppInput => ");
+	    	LOGGER.debug(expenseAppInput);
+		    	
+	       	function.execute(destination);
+	        	
+	       	LOGGER.debug("resultTable => ");
+	       	LOGGER.debug(resultTable);
+	       	
+	       	resultVal.put("retCode", erpApprovalResultSave(resultTable));;
+		} catch (JCoException e) {
+			resultVal.put("retCode", "F");
+			resultVal.put("retMsg", e.getMessage());
+		} finally {
+	        return resultVal;
+		}
 	}
 	
 	private JCoTable makeExpenseInputData(JCoTable jcoTable, List<Map<String, Object>> result) {
@@ -291,7 +304,7 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 					// Po특기사항 SAP function에 입력
 					jcoTable.setValue("BANFN_PRS", data.get("banfnPrs").toString());
 					jcoTable.setValue("BNFPO_PRS", data.get("bnfpoPrs").toString());
-					jcoTable.setValue("G_LINE", i + 1);
+					jcoTable.setValue("G_LINE", String.format("%02d", i + 1));
 					jcoTable.setValue("BANFN", data.get("banfn"));  
 	    		
 					if ("0".equals(data.get("bnfpo"))) {
@@ -309,6 +322,8 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 					}
 				}
 			}
+			
+			tdLineList.removeAllElements();
     	}
 
 		return jcoTable;
@@ -362,11 +377,13 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
     		
     		jcoTable.setValue("BANFN_PRS", data.get("banfnPrs").toString());
     		jcoTable.setValue("BANFN", "");  
-			jcoTable.setValue("RECE_PERNR", data.get("bednr").toString());
+			//jcoTable.setValue("RECE_PERNR", data.get("bednr").toString());    // 운영반영시 주석 풀고 아랫줄 주석 처리할 것
+			jcoTable.setValue("RECE_PERNR", "00206645");   // 정현철 책임으로 테스트 진행. 운영반영시 주석처리하고 윗줄 주석 풀것
     		jcoTable.setValue("APR1_PERNR", data.get("apr1Pernr").toString());
     		jcoTable.setValue("APR2_PERNR", data.get("apr2Pernr").toString());
     		jcoTable.setValue("APR3_PERNR", data.get("apr3Pernr").toString());
-    		jcoTable.setValue("APR4_PERNR", data.get("apr4Pernr").toString());
+    		//jcoTable.setValue("APR4_PERNR", data.get("apr4Pernr").toString());	// 운영반영시 주석 풀고 아랫줄 주석 처리할 것
+    		jcoTable.setValue("APR4_PERNR", "00060954");	// 장재용 책임으로 테스트 진행. 운영반영시 주석처리하고 윗줄 주석 풀것
     		jcoTable.setValue("WBS_PERNR", data.get("wbsPernr").toString());
 			
 			String gCheckFlag = "";
@@ -411,68 +428,16 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 				}
 			}
     	}
-//    			expensePrAppList = selectApprovalPr(temp_banfn_prs);
-//    			for (int i = 0; i < expensePrAppList.size(); i++) {
-//    				appVo = (ApprovalVO) expensePrAppList.get(i);
-//    				apr1_pernr = appVo.getApprovalEntity().getApr1_pernr();
-//    				apr2_pernr = appVo.getApprovalEntity().getApr2_pernr();
-//    				apr3_pernr = appVo.getApprovalEntity().getApr3_pernr();
-//    				apr4_pernr = appVo.getApprovalEntity().getApr4_pernr();
-//    				wbs_pernr = appVo.getApprovalEntity().getWbs_pernr();
-//    				g_check = appVo.getApprovalEntity().getG_check();
-//    				g_check2 = appVo.getApprovalEntity().getG_check2();
-//    				expenseAppInput.appendRow();
-//    				expenseAppInput.setRow(jj++);
-//    				// sap function값을 셋팅한다.
-//    				expenseAppInput.setValue(str.nullChange(banfn_prs), "BANFN_PRS");
-//    				expenseAppInput.setValue("", "BANFN");
-//    				expenseAppInput.setValue(str.nullChange(bednr), "RECE_PERNR");
-//    				expenseAppInput.setValue(str.nullChange(apr1_pernr), "APR1_PERNR");
-//    				expenseAppInput.setValue(str.nullChange(apr2_pernr), "APR2_PERNR");
-//    				expenseAppInput.setValue(str.nullChange(apr3_pernr), "APR3_PERNR");
-//    				expenseAppInput.setValue(str.nullChange(apr4_pernr), "APR4_PERNR");
-//    				expenseAppInput.setValue(str.nullChange(wbs_pernr), "WBS_PERNR");
-//
-//    				String gCheckFlag = "";
-//    				String gCheck2Flag = "";
-//    				if (StringUtil.getNullToEmpty(g_check).equals("Y")) {
-//    					gCheckFlag = "X";
-//    				}
-//    				if (StringUtil.getNullToEmpty(g_check2).equals("Y")) {
-//    					gCheck2Flag = "X";
-//    				}
-//
-//    				expenseAppInput.setValue(gCheckFlag, "G_CHECK");
-//    				expenseAppInput.setValue(gCheck2Flag, "G_CHECK2");
-//
-//    				opin_doc = appVo.getApprovalEntity().getOpin_doc();
-//    				if (str.nullCheck(opin_doc)) {
-//    					opin_doc = StringUtil.replace(opin_doc, "\n", " ");
-//    					opin_doc = StringUtil.replace(opin_doc, "\r", "");
-//
-//    					appList = StringUtil.getStringByteLengthList(opin_doc, ApprovalOpinLength);   // int ApprovalOpinLength = 65;
-//
-//    					if (null != appList && appList.size() > 0) {
-//    						for (int yy = 0; yy < appList.size(); yy++) {
-//
-//    							String tempOpin_doc = "OPIN_DOC" + yy;
-//    							String submitStringValue = (String) appList.get(yy);
-//
-//    							if (yy < 8) {
-//    								// 의견등록 SAP function에 입력
-//    								expenseAppInput.setValue((String) appList.get(yy), tempOpin_doc);
-//    							}
-//    						}
-//    					}
-//    				}
-//   			}
-//    		}
 		return jcoTable;
 	};
 
 	private String erpApprovalResultSave(JCoTable jcoTable) {
 		String resultVal = "";
 		int rowCnt = jcoTable.getNumRows();
+		MailSender mailSender = null;
+		String message = "";
+		
+		LOGGER.debug("##############################input############################# : " + jcoTable);
 		
 		if (rowCnt > 0) {
 			for (int i = 0; i < rowCnt; i++) {
@@ -481,30 +446,27 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 				String appBanfn = jcoTable.getString("BANFN");
 				String appBnfpo = jcoTable.getString("BNFPO");
 
-//				if ("E".equals(jcoTable.getString("STATUS").trim())) {
-//					// SAP 전송 에러일 경우 해당 요청자에게 처리 결과를 메일로 보낸다.
-//					String pernr = bednr;
-//
-//					PrsEmployeeVO empVo = new PrsEmployeeVO();
-//					empVo.getPrsEmployeeEntity().setPernr(pernr);
-//
-//					empVo = employee.retrievePrsEmployeeInfo(empVo);
-//
-//					String mailServer = "subspam.lghausys.com";
-//					String fromAddress = "admin@lghausys.com";
-//					String toAddress = empVo.getPrsEmployeeEntity().getSamail();
-//					String subject = "구매요청 SAP 전송 실패";
-//					String message = "<b>* 구매요청 내역</b><br>";
-//					message += "&nbsp;&nbsp;&nbsp;" + txz01 + "<br>";
-//					message += "<br><br>";
-//					message += "<b>* SAP 처리 결과</b><br>";
-//					message += "&nbsp;&nbsp;&nbsp;"	+ resultTable.getString("MESSAGE").trim();
-//
-//					SmtpClient.send(mailServer, fromAddress, SmtpClient.tokenToAddress(toAddress), subject, message);
-//				}
+				if ("S".equals(jcoTable.getString("STATUS").trim()) && i == 0) {		// to-do: "S" -> "E"로 변경하여 운영 반영
+					// SAP 전송 에러일 경우 해당 요청자에게 처리 결과를 메일로 보낸다.
+					mailSender = mailSenderFactory.createMailSender();
+	
+					mailSender.setFromMailAddress("iris@lghausys.com");
+					mailSender.setToMailAddress("sehonga@lghausys.com");    // to-do: 개발시에만 하드코딩, 운영은 처음 작성한 담당자에게 보내야 한다.
+					mailSender.setSubject("구매요청 SAP 전송 실패");
+					
+					message = "<b>* 구매요청 내역</b><br>";
+					message += "&nbsp;&nbsp;&nbsp;" + jcoTable.getString("BANFN_PRS") + "<br>";
+					message += "<br><br>";
+					message += "<b>* SAP 처리 결과</b><br>";
+					message += "&nbsp;&nbsp;&nbsp;"	+ jcoTable.getString("MESSAGE").trim();					
+					
+					mailSender.setText(message);
+					
+					mailSender.send();
+				}
 
 				/*
-				 * 구매요청 단계 플래그 D:삭제 , E:SAP전송에러 S:SAP로 데이터 전송, 0: 임시저장
+				 * 구매요청 단계 플래그 D:삭제 , E:SAP전송에러 S:SAP로 데이터 전송, 0: 임시저장 
 				 * 1:구매요청, 2:구매반려(PRS반려), 3:결재의뢰, 4:결재반려(SAP반려), 5:결재완료,
 				 * 6:구매발주, 7:입고완료 8:삭제된 결재반려건
 				 */
@@ -516,8 +478,16 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		        map.put("banfnPrs", Integer.parseInt(jcoTable.getString("BANFN_PRS")));
 		        map.put("bnfpoPrs", Integer.parseInt(jcoTable.getString("BNFPO_PRS")));
 		        map.put("anln1", jcoTable.getString("ANLN1"));
-		        map.put("posid", jcoTable.getString("POSID")); 
-		        map.put("prsFlag", jcoTable.getString("STATUS")); 
+		        map.put("posid", jcoTable.getString("POSID"));
+		        if(!"E".equals(resultVal) && !"".equals(jcoTable.getString("BANFN"))) {
+		        	map.put("prsFlag", "3");
+		        	resultVal = "S";
+		        } else if("E".equals(resultVal) && !"".equals(jcoTable.getString("BANFN"))) {
+		        	map.put("prsFlag", "1");
+		        	resultVal = "S";
+		        } else {
+		        	map.put("prsFlag", resultVal);
+		        }
 		        map.put("message", jcoTable.getString("MESSAGE")); 
 	            
 				updateAppExpensePr(map);

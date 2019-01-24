@@ -24,7 +24,7 @@ public interface PurRqInfoService {
 	
 	int insertPurApprovalInfo(Map<String, Object> input) throws Exception;
 	
-	String sendSapExpensePr(Map<String, Object> dataMap) throws JCoException;
+	HashMap<String, Object> sendSapExpensePr(Map<String, Object> dataMap) throws JCoException;
 	
 	List<Map<String, Object>> retrieveERPPrInfo(HashMap<String, Object> input);
 }
