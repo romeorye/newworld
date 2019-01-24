@@ -179,4 +179,31 @@ public class PrsCodeController extends IrisBaseController  {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value="/common/prsCode/retrievePrsFlagInfo.do")
+    public ModelAndView retrievePrsFlagInfo(
+            @RequestParam HashMap<String, Object> input,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            ModelMap model
+            ){
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("PrsCodeController - retrieveEkgrpInfo [구매 공통코드 캐쉬조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+        
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        input = StringUtil.toUtf8Input(input);
+		input.put("delFlag", "Display");			// 나의 목록조회에서 삭제한 것은 보여줄 필요 없음
+        
+        // 공통코드 캐쉬조회
+        List prsFlagList = prsCodeService.retrievePrsFlagInfo(input);
+         
+        modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", prsFlagList));
+
+        return modelAndView;
+    }   
+
 }
