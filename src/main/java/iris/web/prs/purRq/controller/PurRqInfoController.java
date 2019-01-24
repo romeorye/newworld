@@ -150,8 +150,10 @@ public class PurRqInfoController extends IrisBaseController {
 		input = StringUtil.toUtf8Output(input);
 		LOGGER.debug("############dddd###############################################  : " +    input.get("sCode")  );
 		
-		int banfnPrs = purRqInfoService.getBanfnPrsNumber();
-		input.put("banfnPrs", banfnPrs);
+		if("".equals(input.get("banfnPrs")) || null == input.get("banfnPrs")) {
+			int banfnPrs = purRqInfoService.getBanfnPrsNumber();
+			input.put("banfnPrs", banfnPrs);
+		}
 		
 		model.addAttribute("inputData", input);
 		
@@ -357,8 +359,6 @@ public class PurRqInfoController extends IrisBaseController {
 		
 		try{
 			purRqMap.put("input", input);
-			//purRqMap.put("prItemListDataSet", RuiConverter.convertToDataSet(request, "prItemListDataSet"));
-			//purRqMap.put("purRqUserDataSet", RuiConverter.convertToDataSet(request, "purRqUserDataSet"));
 			
 			LOGGER.debug("##############################purRqMap############################# : " + purRqMap);
 			
@@ -666,6 +666,7 @@ public class PurRqInfoController extends IrisBaseController {
 		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+		HashMap<String, Object> erpResult = new HashMap<String, Object>();
 		
 		input = StringUtil.toUtf8Input(input);
 		
@@ -678,19 +679,30 @@ public class PurRqInfoController extends IrisBaseController {
 			LOGGER.debug("##############################purRqMap############################# : " + input);
 			purRqAppMap.put("input", input);
 			
-			purRqInfoService.insertPurApprovalInfo(purRqAppMap);
-			rtnSt = purRqInfoService.sendSapExpensePr(purRqAppMap);
+			int rtnCnt = purRqInfoService.insertPurApprovalInfo(purRqAppMap);
+			
+			LOGGER.debug("--------------------------------------------------------- rtnCnt : " + rtnCnt);
+			
+			erpResult = purRqInfoService.sendSapExpensePr(purRqAppMap);
 
-			rtnMsg = "결재의뢰 되었습니다.";
+			LOGGER.debug("retCode => " + erpResult.get("retCode"));
+			LOGGER.debug("retMsg => " + erpResult.get("retMsg"));
+
+			if("E".equals(erpResult.get("retCode"))) {
+				rtnSt ="E";
+				rtnMsg = "결재의뢰 중 오류가 발생하였습니다.(" + erpResult.get("retMsg") + ")";
+			} else if("F".equals(erpResult.get("retCode"))) { 
+				rtnSt ="F";
+				rtnMsg = "결재의뢰 중 오류가 발생하였습니다.(" + erpResult.get("retMsg") + ")";
+			} else if("S".equals(erpResult.get("retCode"))) { 
+				rtnSt ="S";
+				rtnMsg = "결재의뢰 되었습니다.";
+			}
 		}catch(Exception e){
 			e.printStackTrace();
+			rtnSt ="F";
 			rtnMsg = "결재의뢰 중 오류가 발생하였습니다.";
 		}
-		
-		System.out.println("--------------------------------------------");
-		System.out.println("rtnMsg:" + rtnMsg);
-		System.out.println("rtnSt:" + rtnSt);
-		System.out.println("--------------------------------------------");
 		
 		rtnMeaasge.put("cmd", "insert");
 		rtnMeaasge.put("rtnMsg", rtnMsg);
