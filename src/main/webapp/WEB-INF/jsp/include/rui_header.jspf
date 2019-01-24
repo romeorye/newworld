@@ -458,4 +458,8 @@ var fontParam = {"맑은 고딕" : "맑은 고딕","돋움" : "돋움","굴림" 
 		    _attachFileDialog.show();
 	    };
     // 첨부파일 공통팝업 끝
+    
+    
+	});
+
 </script>
