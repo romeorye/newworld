@@ -114,4 +114,19 @@
 			</if>
 	</select>
 
+	<select id="retrievePrsFlagInfo" resultType="HashMap">
+		<![CDATA[
+		/*retrievePrsFlagInfo  단위리스트 코드 목록*/
+		select COM_DTL_CD as CODE
+		      ,COM_DTL_NM as CODE_NM 
+		from [dbo].[IRIS_ADM_COM_CD] 
+		where DEL_YN = 'N'
+		and   COM_CD_CD = 'PRS_FLAG'	
+		]]>
+		<if test="delFlag != null and delFlag != ''">
+	    and   COM_DTL_CD not in ('D','8')
+		</if>
+		order by COM_ORD asc		
+	</select>
+
 </mapper>
