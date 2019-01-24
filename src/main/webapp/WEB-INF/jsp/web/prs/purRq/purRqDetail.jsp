@@ -28,16 +28,18 @@
 
 <script type="text/javascript">
 var lvAttcFilId;
-var prjInfoListDialog;	//프로젝트 코드 팝업 dialog
+var prjInfoListDialog;	//WBS 코드 팝업 dialog
 var callback;
 var dblClickedRow;
 var curRow;
+var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 
 	Rui.onReady(function() {
 		var frm = document.aform;
 		var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 		var itemEditable = false;		// item Grid 변경 가능 속성
-
+		var prjCd = frm.prjCd;
+		
 		<%-- RESULT DATASET --%>
 		resultDataSet = new Rui.data.LJsonDataSet({
             id: 'resultDataSet',
@@ -101,8 +103,22 @@ var curRow;
    				};
        		});
 		});
-		
+
 		/* prject list 팝업 설정*/
+	    //var ltPrjNm = new Rui.ui.form.LPopupTextBox({
+	    //	applyTo: 'prjNm',
+	    //	placeholder: '프로젝트를 선택해주세요.',
+	    //	width : 200,
+	    //	editable: false,
+	    //	useHiddenValue : true,
+	    //	attrs: {
+	    //			maxLength: 33
+	    //			}
+	    //	});
+	    //ltPrjNm.on('popup', function(e){
+	    //	openPrjSearchDialog(setPrjInfo,'ALL');
+	    //});
+		
         var posid = new Rui.ui.form.LPopupTextBox({
         	applyTo: 'wbsCd',
             placeholder: 'WBS코드를 입력해주세요.',
@@ -122,7 +138,6 @@ var curRow;
 			purRqUserDataSet.setNameValue(0, "wbsCd", wbsInfo.wbsCd);
 			$('#wbsCdName', aform).html(wbsInfo.tssNm);
 		}
-		
 		
 		//납품요청일
 		var eeind = new Rui.ui.form.LDateBox({
@@ -318,7 +333,8 @@ var curRow;
 		    	,{ id : 'saktoNm'}		/* 계정명 */
 		    	,{ id : 'usedCode'}		/* */
 		    	,{ id : 'werks'}		/* 플랜트 */
-		    	,{ id : 'wbsCd'}		/* 프로젝트코드 */
+		    	,{ id : 'prjCd'}		/* 프로젝트코드 */
+		    	,{ id : 'wbsCd'}		/* WBS코드 */
 		    	,{ id : 'sCodeSeq'}     /* 품목구분 Seq */ 
             ]
         });
@@ -330,6 +346,7 @@ var curRow;
 			purRqUserDataSet.setNameValue(0, 'sCode', '${inputData.sCode}');
 			purRqUserDataSet.setNameValue(0, 'sCodeSeq', '${inputData.sCodeSeq}');
 			purRqUserDataSet.setNameValue(0, 'ekgrp', '${inputData.ekgrp}');
+			purRqUserDataSet.setNameValue(0, 'prjCd', '${inputData.prjCd}');
 			purRqUserDataSet.setNameValue(0, 'wbsCd', '${inputData.post1}');
 			purRqUserDataSet.setNameValue(0, 'saktoNm', '${inputData.saktonm}');
 			purRqUserDataSet.setNameValue(0, 'werks', '${inputData.werks}');
@@ -344,6 +361,7 @@ var curRow;
 		     bind: true,
 		     bindInfo: [
 		         { id: 'sCodeSeq', 	ctrlId: 'sCode', 	value: 'value' },
+		         { id: 'prjCd', 	ctrlId: 'prjCd', 	value: 'value' },
 		         { id: 'wbsCd', 	ctrlId: 'wbsCd', 	value: 'value' },
 		         { id: 'eeind', 	ctrlId: 'eeind', 	value: 'value' },
 		         { id: 'position', 	ctrlId: 'position', value: 'value' },
@@ -367,7 +385,7 @@ var curRow;
 	 	        	banfnPrs  : '${inputData.banfnPrs}'
 	 	    	        }
 	        });
-	    }
+	    };
 
 		fnSearch();
 		
@@ -391,8 +409,10 @@ var curRow;
             fields: [
                 //  { id: 'badate' }		// 요청일	1
                  { id: 'sCode' }     	// 요청구분	
-                , { id: 'posid' } 		// 프로젝트코드	
-                , { id: 'posidnm' } 	// 프로젝트명	
+                , { id: 'prjCd' } 		// 프로젝트코드	
+                , { id: 'prjNm' } 		// 프로젝트명	
+                , { id: 'posid' } 		// WBS코드	
+                , { id: 'posidnm' } 	// WBS명	
                 , { id: 'eeind' } 		// 납품요청일	5
                 , { id: 'position' } 	// 납품위치	
                 , { id: 'ekgrp' } 		// 구매그룹	
@@ -423,9 +443,11 @@ var curRow;
             columns: [
                 //new Rui.ui.grid.LSelectionColumn()
                 //, { field: 'badate', 	label: '요청일', 		sortable: true,	align:'center',	width: 80 }
-                 { field: 'sCode', 	label: '요청구분', 		sortable: false,	align:'center',	width: 80 }
-                , { field: 'posid', 	label: '프로젝트코드', 	sortable: false,	align:'center',	width: 90 }
-                , { field: 'posidnm', 	label: '프로젝트명', 	sortable: false,	align:'left',	width: 300 }
+                 { field: 'sCode', 	label: '요청구분', 			sortable: false,	align:'center',	width: 80 }
+                , { field: 'prjCd', 	label: '프로젝트코드', 	sortable: false,	align:'center',	width: 90, 	hidden:true }
+                , { field: 'prjNm', 	label: '프로젝트명', 	sortable: false,	align:'left',	width: 300, hidden:true }
+                , { field: 'posid', 	label: 'WBS코드', 		sortable: false,	align:'center',	width: 90 }
+                , { field: 'posidnm', 	label: 'WBS명', 		sortable: false,	align:'left',	width: 300 }
                 , { field: 'eeind', 	label: '납품요청일', 	sortable: false,	align:'center',	width: 80 }
                 , { field: 'position', 	label: '납품위치', 	 	sortable: false,	align:'center',	width: 130 }
                 , { field: 'ekgrp', 	label: '구매그룹', 	 	sortable: false,	align:'center',	width: 80 }
@@ -608,16 +630,16 @@ var curRow;
 		 	var url = "<c:url value="/prs/popup/myPurRqList.do"/>";
 		 	myForm.action = url;
 		 	myForm.method = "post";
-		 	myForm.target = "aform";
+		 	myForm.target = "_self";
 			myForm.submit();       		
-       	}
+       	};
 
 		// 요청품번이 없으며 삭제/수정/결재의뢰 버튼을 숨긴다.
 	    if('<c:out value="${inputData.bnfpoPrs}"/>' == '') {
 	    	btnDeleteItem.hide();
 	    	btnModifyItem.hide();
 	    	btnReqApproval.hide();
-	    }
+	    };
 		
 		fncSave = function(){
 			//구매요청 Item 정보 추가	 
@@ -625,13 +647,13 @@ var curRow;
 	    		dm.updateForm({
 	    			url:'<c:url value="/prs/purRq/insertPurRqInfo.do"/>',
 	    			form : 'aform',
-	    			params: {                                  
-	    				wbsCdNm: $('#wbsCdName', aform).html()
+	    			params: {
+	    				wbsCdNm: $('#wbsCdName', aform).html(),
+	    				sCodeSeq: 	sCode.getValue()
 	    	        }
-
 	    		});
 	    	} 
-		}
+		};
 		
 		fncDelete = function(){
 			//구매요청 Item 정보 추가	 
@@ -641,17 +663,20 @@ var curRow;
 	    			form : 'aform'
 	    		});
 	    	} 
-		}
+		};
 
 		fncUpdate = function(){
 			//구매요청 Item 정보 추가	 
 	    	if( confirm("수정하시겠습니까?") == true ){
 	    		dm.updateForm({
 	    			url:'<c:url value="/prs/purRq/updatePurRqInfo.do"/>',
-	    			form : 'aform'
+	    			form : 'aform',
+	    			params: {                                  
+		    				sCodeSeq: 	sCode.getValue()
+	    	        }
 	    		});
 	    	} 
-		}
+		};
 
 		dm.on('success', function(e) {
 			var resultData = resultDataSet.getReadData(e);
@@ -753,8 +778,16 @@ var curRow;
        	
 	    /* 유효성 검사 */
 	    isValidate = function(type) {
+            /*
+	         * 숨김처리되어 필수 입력에서 제외
+	        */
+            //if (ltPrjNm.getValue() == '') {
+            //    alert('Project를 선택하여 주세요.');
+            //    return false;
+            //}
+
             if (posid.getValue() == '') {
-                alert('Project Code를 선택하여 주세요.');
+                alert('WBS Code를 선택하여 주세요.');
                 return false;
             }
 
@@ -794,7 +827,7 @@ var curRow;
             }
 
             return true;
-	    }
+	    };
        	
 	    /* 결재의뢰 유효성 검사 */
 	    isApprovalValidate = function(type) {
@@ -804,12 +837,14 @@ var curRow;
 			}
 	    	
             return true;
-	    }
+	    };
 
        	addNewItemList = function(record) {
             record.set('sCode', 	sCode.getDisplayValue());			// 품묵구분
-            record.set('posid', 	posid.getValue()); 					// 프로젝트코드	
-            record.set('posidnm', 	$('#wbsCdName', aform).html()); 	// 프로젝트명	
+            //record.set('prjCd', 	prjCd.getValue()); 					// 프로젝트코드	
+            //record.set('prjNm', 	ltPrjNm.getDisplayValue()); 		// 프로젝트명
+            record.set('posid', 	posid.getValue()); 					// WBS코드	
+            record.set('posidnm', 	$('#wbsCdName', aform).html()); 	// WBS명	
             record.set('eeind', 	eeind.getValue()); 					// 납품요청일	5
             record.set('position', 	position.getValue()); 				// 납품위치	
             record.set('ekgrp', 	ekgrp.getValue()); 					// 구매그룹	
@@ -832,11 +867,14 @@ var curRow;
             record.set('banfnPrs', 	document.getElementById("banfnPrs").value);					// 요청번호
             record.set('bnfpoPrs', 	document.getElementById("bnfpoPrs").value);					// 요청품번
             itemEditable = false;
-       	}
+       	};
        	
        	clearItemContents = function() {
-            posid.setValue(''); 					// 프로젝트코드	
-            $('#wbsCdName', aform).html(''); 		// 프로젝트명	
+       		//prjCd.setValue('');						// 프로젝트코드
+       		//ltPrjNm.setValue('');					// 프로젝트코드
+       		//ltPrjNm.setDisplayValue('');			// 프로젝트명
+            posid.setValue(''); 					// WBS코드	
+            $('#wbsCdName', aform).html(''); 		// WBS명	
             eeind.setValue(''); 					// 납품요청일	
             itemnm.setValue(''); 					// 요청품명
             maker.setValue(''); 					// Maker
@@ -858,13 +896,16 @@ var curRow;
 	    	document.getElementById("sCodeNm").value = '';	// 품묵구분명
 	    	document.getElementById("bnfpoPrs").value = '';	// 요청 품번
             dblClickedRow = -1;
-       	}
+       	};
        	
        	changeItemContents = function(record) {
        		itemEditable = true;
        		sCode.setValue(record.get('sCodeSeq'));					// 품묵구분
-            posid.setValue(record.get('posid')); 					// 프로젝트코드	
-            $('#wbsCdName', aform).html(record.get('posidnm')); 	// 프로젝트명	
+            //prjCd.setValue(record.get('prjCd')); 					// 프로젝트코드	
+            //ltPrjNm.setValue(record.get('prjCd'));					// 프로젝트코드	
+            //ltPrjNm.setDisplayValue(record.get('prjNm'));			// 프로젝트명	
+            posid.setValue(record.get('posid')); 					// WBS코드	
+            $('#wbsCdName', aform).html(record.get('posidnm')); 	// WBS명	
             eeind.setValue(record.get('eeind')); 					// 납품요청일	
             position.setValue(record.get('position')); 				// 납품위치	
             ekgrp.setValue(record.get('ekgrp')); 					// 구매그룹	
@@ -891,14 +932,16 @@ var curRow;
 	    	btnModifyItem.show();									// 수정 버튼
 	    	btnAddPurRq.hide();										// 추가 버튼
             setExp();
-       	}
+       	};
        	
        	modifyItemContents = function(row) {
        		var record = prItemListDataSet.getAt(row);
        		
             record.set('sCode', 	sCode.getDisplayValue());			// 품묵구분
-            record.set('posid', 	posid.getValue()); 					// 프로젝트코드	
-            record.set('posidnm', 	$('#wbsCdName', aform).html()); 	// 프로젝트명	
+            //record.set('prjCd', 	prjCd.getValue()); 					// 프로젝트코드	
+            //record.set('prjNm', 	ltPrjNm.getDisplayValue());			// 프로젝트명	
+            record.set('posid', 	posid.getValue()); 					// WBS코드	
+            record.set('posidnm', 	$('#wbsCdName', aform).html()); 	// WBS명	
             record.set('eeind', 	eeind.getValue()); 					// 납품요청일	5
             record.set('position', 	position.getValue()); 				// 납품위치	
             record.set('ekgrp', 	ekgrp.getValue()); 					// 구매그룹	
@@ -914,21 +957,100 @@ var curRow;
             record.set('menge', 	menge.getValue()); 					// 요청수량
             record.set('meins', 	meins.getValue()); 					// 단위
             record.set('preis', 	preis.getValue()); 					// 단가
+            record.set('totamt', 	menge.getValue() * preis.getValue()); // 금액
             record.set('itemTxt', 	itemTxt.getValue()); 				// 요청사유
             record.set('attcFiles', $('#attchFileView').html()); 		// 첨부파일
             record.set('attcFileId', getAttachFileId()); 				// 첨부파일 Id   
             record.set('sCodeSeq', 	sCode.getValue());					// 품묵구분 Seq
             record.set('bnfpoPrs', 	document.getElementById("bnfpoPrs").value);					// 요청품번
-       	}
+       	};
+       	
+    	/* 프로젝트 조회팝업 닫은 후 세팅 */
+    	//setPrjInfo = function(prjInfo) {
+    	//	clearPrjInfo();
+        //
+    	//	// 화면표시 세팅
+        //   ltPrjNm.setValue(prjInfo.prjCd);
+        //    ltPrjNm.setDisplayValue(prjInfo.prjNm);
+        //    prjCd.value = prjInfo.prjCd;
+    	//	//document.getElementById("prjCd").value = prjInfo.prjCd; 
+        //};
+        //
+        //var clearPrjInfo = function(prjInfo) {
+    	//	ltPrjNm.setValue('');
+    	//	document.getElementById("prjCd").value = '';
+        //};    
+        //
+        //// 프로젝트 팝업 DIALOG
+        //prjSearchDialog = new Rui.ui.LFrameDialog({
+        //    id: 'prjSearchDialog',
+        //    title: '프로젝트 조회',
+        //    width: 620,
+        //    height: 500,
+        //    modal: true,
+        //    visible: false
+        //});
+        //prjSearchDialog.on('cancel', function(e) {
+        //	try{
+        //		tabContent0.$('object').css('visibility', 'visible');
+        //	}catch(e){}
+        //});
+        //prjSearchDialog.on('submit', function(e) {
+        //	try{
+        //		tabContent0.$('object').css('visibility', 'visible');
+        //	}catch(e){}
+        //});
+        //prjSearchDialog.on('show', function(e) {
+        //	try{
+        //		tabContent0.$('object').css('visibility', 'hidden');
+        //	}catch(e){}
+        //});
+		//
+        //prjSearchDialog.render(document.body);
+		//
+    	//openPrjSearchDialog = function(f,p) {
+    	//	var param = '?searchType=';
+    	//	if( !Rui.isEmpty(p)){
+    	//		param += p;
+    	//	}
+		//
+    	//	_callback = f;
+		//
+    	//	//prjSearchDialog.setUrl('<c:url value="/prj/rsst/mst/createPrjSearchPopup.do"/>' + param);
+    	//	prjSearchDialog.setUrl('<c:url value="/prj/rsst/mst/retrievePrjSearchPopup.do"/>' + param);
+    	//	prjSearchDialog.show();
+    	//};
+        
+		// PRS ERP결재 팝업 시작
+		// banfnPrs : 구매요청번호
+	    _prsApprovalDialog = new Rui.ui.LFrameDialog({
+	        id: '_prsApprovalDialog',
+	        title: '결재의뢰',
+	        width: 700,
+	        height: 600,
+	        modal: true,
+	        visible: false
+	    });
+
+	    _prsApprovalDialog.render(document.body);
+
+	    openPrsApprovalDialog = function(f, banfnPrs) {
+	    	_callback = f;
+
+	    	_prsApprovalDialog.setUrl('<c:url value="/prs/popup/prsApprovalPopup.do?banfnPrs="/>' + banfnPrs);
+	    	_prsApprovalDialog.show();
+	    };
+		// PRS ERP결재 팝업 끝
+    	
+        init = function() {
+			alert('<c:out value="${inputData.previous}"/>');
+        };
+		
 	});
-		
-		
-
-
 </script>
 
 </head>
-<body>
+<body onload="init();">
 <div class="contents">
 	<div class="titleArea">
 		<a class="leftCon" href="#">
@@ -940,7 +1062,7 @@ var curRow;
 
 	<form id="aform" name ="aform">
 	<input type="hidden" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">  
-	<!--input type="text" id="posid" name="posid" /-->  
+	<input type="hidden" id="prjCd" name="prjCd" value="<c:out value='${inputData.prjCd}'/>">  
 	<input type="hidden" id="banfnPrs" name="banfnPrs" value="<c:out value='${inputData.banfnPrs}'/>">
 	<input type="hidden" id="bnfpoPrs" name="bnfpoPrs" value="<c:out value='${inputData.bnfpoPrs}'/>"> 
 	<input type="hidden" id="sCodeNm" name="sCodeNm" />
@@ -968,9 +1090,9 @@ var curRow;
 			            <td>
 			            	<select id="sCode" name="sCode"></select> 
 			            </td>
-			            <th>Project Code</th>
+			            <th>WBS Code</th>
 			            <td>
-							<!--input type="text" class="" id="post1" name="post1" value="" -->
+							<input type="hidden" class="" id="prjNm" name="prjNm" value="" >
 							<input type="text" class="" id="wbsCd" name="wbsCd" value="" >&nbsp;<span id="wbsCdName" name="wbsCdName"></span>
 			            </td>
 			            <th>납품요청일</th>
