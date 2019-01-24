@@ -194,6 +194,7 @@
 <input type="hidden" id="werks"  name="werks" value="1010"/>
 <input type="hidden" id="sakto"  name="sakto" />
 <input type="hidden" id="saktonm"  name="saktonm" />
+<input type="hidden" id="previous" name="previous" value="purRqList">
 
 <div class="contents">
 	<div class="sub-content">
