@@ -101,6 +101,7 @@
 		 	, BIZ_CD
 		 	, ATTC_FIL_ID
 		 	, BADATE
+		 	, HELP_SEQNUM
 		) 
 		values 
 		(
@@ -136,6 +137,7 @@
 			, ISNULL((SELECT BIZ_CD FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
 			, ISNULL(#{attcFilId},'')
 			, getdate()
+			, CONVERT(NUMERIC(18,0), ISNULL(#{sCodeSeq},'0'))
 		)
 		]]>
 	</insert>
@@ -176,6 +178,7 @@
 		 	 , POSITION		= ISNULL(#{position},'')
 		 	 , USED_CODE	= ISNULL((SELECT USED_CODE FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
 		 	 , BIZ_CD		= ISNULL((SELECT BIZ_CD FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , HELP_SEQNUM  = CONVERT(NUMERIC(18,0), ISNULL(#{sCodeSeq},'0'))
 		 WHERE BANFN_PRS 	= #{banfnPrs}
 		   AND BNFPO_PRS 	= #{bnfpoPrs}
 		   AND AFNAM		= #{_userNm}
@@ -264,6 +267,8 @@
 			,a.IT_SWREQ_DATE	as itSwreqDate   
 			,a.ATTC_FIL_ID as attcFilId
 			,(select count(*) from [dbo].[IRIS_COM_ATTC_FIL] b where b.ATTC_FIL_ID = a.ATTC_FIL_ID and b.MENU_TYPE = 'prsPolicy' and b.DEL_YN = 'N') fileCnt
+			,a.HELP_SEQNUM  as helpSeqnum
+			,(select TABID from [dbo].[PR_HELPMASTER_T] where SEQ_NUM = a.HELP_SEQNUM) as tabid
 		from [dbo].[PR_PRSREQ_T] a
 		where BANFN_PRS = cast(#{banfnPrs} as int) 
 		<if test="usedCode != null and usedCode != ''">
@@ -306,7 +311,7 @@
 				,a.TXZ01      as  txz01       
 				,a.MENGE      as  menge       
 				,a.MEINS      as  meins       
-				,a.EEIND      as  eeind       
+				,CONVERT(DATE, a.EEIND)      as  eeind       
 				,a.AFNAM      as  afnam       
 				,a.MATKL      as  matkl       
 				,a.WERKS      as  werks     
@@ -350,7 +355,12 @@
 				,a.VENDOR 	  as  vendor
 				,a.CATALOGNO  as  catalogno
 				,a.ATTC_FIL_ID as attcFilId
+				,a.prs_flag   as prsFlag
+				,(select COM_DTL_NM from [dbo].[IRIS_ADM_COM_CD] b where COM_CD_CD = 'PRS_FLAG' and COM_DTL_CD = a.prs_flag) as prsNm
+				,a.message    as message
 				,(select count(*) from [dbo].[IRIS_COM_ATTC_FIL] b where b.ATTC_FIL_ID = a.ATTC_FIL_ID and b.MENU_TYPE = 'prsPolicy' and b.DEL_YN = 'N') fileCnt
+				,a.HELP_SEQNUM  as helpSeqnum
+				,(select TABID from [dbo].[PR_HELPMASTER_T] where SEQ_NUM = a.HELP_SEQNUM) as tabid
 		   from [dbo].[PR_PRSREQ_T] a
 		  where 1 = 1
 		  	and a.AFNAM		= #{_userNm}
@@ -371,7 +381,7 @@
 			<if test="ekgrp != null and ekgrp != '' and ekgrp != 'null' ">
 			and a.EKGRP = #{ekgrp}
 			</if>
-			order by a.SEQ_NUM desc
+			order by a.banfn_Prs desc, a.BNFPO_PRS asc
 	</select>
 
 	<insert id="insertPurApprovalInfo" parameterType="map">
@@ -453,7 +463,6 @@
 			   BANFN     = #{banfn},
 			   BNFPO     = #{bnfpo},
 			   ANLN1     = #{anln1},
-			   POSID     = #{posid},
 			   PRS_FLAG  = #{prsFlag},
 			   MESSAGE   = #{message}
 		 WHERE BANFN_PRS = #{banfnPrs}
