@@ -249,7 +249,7 @@
 		    			form : 'aform',
 		    			params: {                                  
 		    				wbsCdNm: $('#wbsCdName', aform).html(),
-		    				banfnPrs: ${inputData.banfnPrs}
+		    				banfnPrs: '<c:out value="${inputData.ekgrp}"/>'
 		    	        }
 		    		});
 		    	} 
@@ -260,9 +260,11 @@
 				var resultData = resultDataSet.getReadData(e);
 				
 				if( resultData.records[0].rtnSt == "S"){
-					Rui.alert(resultData.records[0].rtnMsg);
+					alert(resultData.records[0].rtnMsg);
  				} else if( resultData.records[0].rtnSt == "E"){
-	 				Rui.alert(resultData.records[0].rtnMsg);
+ 					alert(resultData.records[0].rtnMsg);
+				} else if( resultData.records[0].rtnSt == "F"){
+ 					alert(resultData.records[0].rtnMsg);
  				};
  				parent._callback();
  				parent._prsApprovalDialog.submit(true);
@@ -278,6 +280,7 @@
     </head>
     <body>
 	<form name="aform" id="aform" method="post" onSubmit="return false;">
+	<input type="hidden" id="banfnPrs" name="banfnPrs" value="<c:out value='${inputData.banfnPrs}'/>">
    	<div class="LblockMainBody">
 			<table class="table table_txt_right">
             	<colgroup>
