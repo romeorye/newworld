@@ -51,4 +51,9 @@ public class PrsCodeServiceImpl implements PrsCodeService{
 		return commonDao.selectList("common.prsCode.retrieveScodeInfo",input);
 	}
 
+	@Override
+    public List<Map<String, Object>> retrievePrsFlagInfo(HashMap<String, Object> input) {
+        return commonDao.selectList("common.prsCode.retrievePrsFlagInfo",input);
+    }
+	
 }
