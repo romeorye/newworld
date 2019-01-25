@@ -1,14 +1,15 @@
 package iris.web.prj.tss.gen.controller;
 
-import devonframe.message.saymessage.SayMessage;
-import devonframe.util.NullUtil;
-import iris.web.common.code.service.CodeService;
-import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.StringUtil;
-import iris.web.prj.tss.com.service.TssUserService;
-import iris.web.prj.tss.gen.service.GenTssDcacService;
-import iris.web.prj.tss.gen.service.GenTssService;
-import iris.web.system.base.IrisBaseController;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -20,14 +21,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import devonframe.message.saymessage.SayMessage;
+import devonframe.util.NullUtil;
+import iris.web.common.code.service.CodeService;
+import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.StringUtil;
+import iris.web.prj.tss.com.service.TssUserService;
+import iris.web.prj.tss.gen.service.GenTssDcacService;
+import iris.web.prj.tss.gen.service.GenTssService;
+import iris.web.system.base.IrisBaseController;
 
 
 /********************************************************************************
@@ -302,8 +304,12 @@ public class GenTssDcacController  extends IrisBaseController {
         checkSession(input, session, model);
 
         String rtnMsg = "";
-        
-        rtnMsg = genTssDcacService.retrieveGenTssDcacCheck(input);
+       
+        if( input.get("itmFlag").equals("Y")){
+        	rtnMsg = genTssDcacService.retrieveGenTssDcacCheck(input);
+        }else{
+        	rtnMsg = "N";
+        }
         
         LOGGER.debug("#######################rtnMsg#################################### : " + rtnMsg);
         if( !rtnMsg.equals("N") ){

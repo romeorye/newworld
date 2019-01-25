@@ -281,18 +281,22 @@ public class GenTssCmplController  extends IrisBaseController {
     public String genTssCmplCsusRq(@RequestParam HashMap<String, String> input, HttpServletRequest request,
             HttpSession session, ModelMap model) throws JSONException {
 
-        LOGGER.debug("###########################################################");
+
+    	LOGGER.debug("###########################################################");
         LOGGER.debug("GenTssController - genTssCmplGoalYldIfm [과제관리 > 일반과제 > 완료 > 품의서요청 화면 ]");
         LOGGER.debug("###########################################################");
 
         checkSession(input, session, model);
         
         String rtnMsg = "";
-        LOGGER.debug("###########################input################################ : " + input);	    
-        
-      //필수값 체크
-        rtnMsg = genTssCmplService.retrieveGenTssCmplCheck(input);	
+       
+        if( input.get("itmFlag").equals("Y")){
+        	rtnMsg = genTssCmplService.retrieveGenTssCmplCheck(input);	
+        }else{
+        	rtnMsg = "N";
+        }
         LOGGER.debug("###########################rtnMsg################################ : " + rtnMsg);	    
+        
         if(!rtnMsg.equals("N")){
         	input.put("rtnMsg", rtnMsg); //저장되었습니다.
         	
