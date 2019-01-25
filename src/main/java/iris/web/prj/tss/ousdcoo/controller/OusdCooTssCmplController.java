@@ -331,8 +331,8 @@ public class OusdCooTssCmplController  extends IrisBaseController {
             }
 
             searchParam = new HashMap<String,String>();
-            searchParam.put("tssCd",  NullUtil.nvl(input.get("pgTssCd"), ""));
-            Map<String, Object> resultExpStoa = ousdCooTssService.retrieveOusdCooTssExpStoa(searchParam);    //비용실적
+            //searchParam.put("tssCd",  NullUtil.nvl(input.get("tssCd"), ""));
+            Map<String, Object> resultExpStoa = ousdCooTssService.retrieveOusdCooTssExpStoa(input);    //비용실적
 
             HashMap<String, String> inputInfo = new HashMap<String, String>();
             inputInfo.put("tssCd",     String.valueOf(input.get("tssCd")));
