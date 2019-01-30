@@ -333,12 +333,14 @@
     
     function fnAttchValid(){
     	var chkNum = 0;
-
-    	for(var i = 0; i < tmpAttchFileList.length; i++) {
-    		if( tmpAttchFileList[i].data.filNm.indexOf('완료') > -1 || tmpAttchFileList[i].data.filNm.indexOf('결과') > -1 || tmpAttchFileList[i].data.filNm.indexOf('최종') > -1 ){
-				chkNum++;    
-			}               
-        }
+    	
+    	if( !Rui.isEmpty(tmpAttchFileList) ){
+	    	for(var i = 0; i < tmpAttchFileList.length; i++) {
+	    		if( tmpAttchFileList[i].data.filNm.indexOf('완료') > -1 || tmpAttchFileList[i].data.filNm.indexOf('결과') > -1 || tmpAttchFileList[i].data.filNm.indexOf('최종') > -1 ){
+					chkNum++;    
+				}               
+	        }
+    	}
 		return chkNum;
     }
     
