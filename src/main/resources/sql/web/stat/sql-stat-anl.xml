@@ -805,7 +805,7 @@
 	
 
 	<select id="getAnlChrgStateList" resultType="hashmap">
-	-- getAnlChrgStateList 분석 기기사용 통계 리스트 조회
+	-- getAnlChrgStateList 담당자 분석 통계 리스트 조회
 	with  complateRate  as (
 		SELECT  B.ANL_CHRG_ID
 	           ,(CASE WHEN SUM(B.ANL_07_CNT) = 0 THEN 0
@@ -927,16 +927,13 @@
 				group by ARM.ANL_CHRG_ID
 	)
 	, deptInfo as (
-		select  ANL_CHRG_ID  
-		from    IRIS_ANL_RQPR_MST  a
-				inner join iris_sso_user b
-				on b.sa_dept_new in ('58141801', '58171352')
-				and  b.sa_user = a.ANL_CHRG_ID
-					
+		select  b.sa_user as  ANL_CHRG_ID  
+		from    iris_sso_user b
+		where  b.sa_dept_new in ('58141801', '58171352')
+		and    b.sa_user != 'elinkim'
          <if test="anlChrgId != null and anlChrgId != ''">
-		where a.ANL_CHRG_ID = #{anlChrgId}
+		and    b.sa_user = #{anlChrgId}
 		</if>		
-		group by ANL_CHRG_ID
 	)
 	
 	select   m.anlChrgNm
@@ -1027,6 +1024,8 @@
 			) B
 			GROUP BY B.ANL_CHRG_ID ,B.CMPL_WK_DD_CNT,B.ANL_DIFF_COUNT
 		) m	
+		
+		order by m.anlChrgNm
 	</select>
 	
 </mapper>
