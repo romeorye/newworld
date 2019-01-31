@@ -540,7 +540,7 @@ public class AnlRqprController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		
-    	input = StringUtil.toUtf8(input);
+		input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("AnlRqprController - saveAnlRqprOpinition 분석의뢰 의견 저장");
@@ -739,7 +739,6 @@ public class AnlRqprController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		
-    	//input = StringUtil.toUtf8(input);
 		input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
@@ -980,7 +979,6 @@ public class AnlRqprController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		
-		//input = StringUtil.toUtf8(input);
     	input = StringUtil.toUtf8Input(input);
 
 		LOGGER.debug("###########################################################");
