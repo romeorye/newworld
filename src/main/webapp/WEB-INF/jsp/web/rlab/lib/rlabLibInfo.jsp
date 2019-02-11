@@ -163,7 +163,7 @@
                 }else {
 	                for(var i = 0; i < attachFileList.length; i++) {
 	                    $('#attchFileView').append($('<a/>', {
-	                        //href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
+	                        href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
 	                        text: attachFileList[i].data.filNm
 	                    })).append('<br/>');
 	                }                	
