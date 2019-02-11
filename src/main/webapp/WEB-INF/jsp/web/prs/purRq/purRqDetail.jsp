@@ -30,8 +30,6 @@
 var lvAttcFilId;
 var prjInfoListDialog;	//WBS 코드 팝업 dialog
 var callback;
-var dblClickedRow;
-var curRow;
 var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 
 	Rui.onReady(function() {
@@ -46,7 +44,8 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-                  { id: 'rtnSt' }   //결과코드
+                  { id: 'cmd' }   	//command
+                , { id: 'rtnSt' }   //결과코드
                 , { id: 'rtnMsg' }  //결과메시지
             ]
         });
@@ -427,6 +426,7 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
                 , { id: 'bnfpoPrs' } 	// 구매요청순번
                 , { id: 'seqNum' } 		// Seq No
                 , { id: 'sCodeSeq' }    // 요청구분 Seq
+                , { id: 'prsFlag' }     // prs 상태
             ]
         });		
 		
@@ -460,7 +460,7 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
                  { id: 'banfnPrs', 	ctrlId: 'banfnPrs', 	value: 'value' }, 	// 구매요청번호
                  { id: 'bnfpoPrs', 	ctrlId: 'bnfpoPrs', 	value: 'value' }, 	// 구매요청순번
                  { id: 'seqNum', 	ctrlId: 'seqNum', 		value: 'value' },	// Seq No
-                 { id: 'sCodeSeq', 	ctrlId: 'sCode', 	value: 'value' }    // 품목구분 Seq
+                 { id: 'sCodeSeq', 	ctrlId: 'sCode', 		value: 'value' }   // 품목구분 Seq
 		     ]
 		 });
 		
@@ -506,14 +506,14 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
                   }                
                 , { field: 'attcFiles', label: '첨부파일', 	 	sortable: false, width: 200,  
                     renderer: function(val, p, record, row, col) {
-                    			return val.replaceAll('\n', '<br/>');
+                    			return val.replaceAll('\n', '<br/>').replaceAll('|||','<br/>');
                               }
                   }
-                , { field: 'attcFileId', 	label: '첨부파일 Id', 	 	sortable: false,	align:'right',	width: 90, hidden:false }
-                , { field: 'banfnPrs', 		label: '구매요청번호', 	 	sortable: false,	align:'right',	width: 90, hidden:false }
-                , { field: 'bnfpoPrs', 		label: '구매요청순번', 	 	sortable: false,	align:'right',	width: 90, hidden:false }
-                , { field: 'seqNum', 		label: 'Seq No', 	 		sortable: false,	align:'right',	width: 90, hidden:false }
-                , { field: 'sCodeSeq', 		label: '품목구분 Seq', 		sortable: false,	align:'right',	width: 90, hidden:false }
+                , { field: 'attcFileId', 	label: '첨부파일 Id', 	 	sortable: false,	align:'right',	width: 90, hidden:true }
+                , { field: 'banfnPrs', 		label: '구매요청번호', 	 	sortable: false,	align:'right',	width: 90, hidden:true }
+                , { field: 'bnfpoPrs', 		label: '구매요청순번', 	 	sortable: false,	align:'right',	width: 90, hidden:true }
+                , { field: 'seqNum', 		label: 'Seq No', 	 		sortable: false,	align:'right',	width: 90, hidden:true }
+                , { field: 'sCodeSeq', 		label: '품목구분 Seq', 		sortable: false,	align:'right',	width: 90, hidden:true }
             ]
         });
 
@@ -548,10 +548,8 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
         // Grid double Click event 처리
         purItemGrid.on('cellDblClick', function(e) {
         	bind.setBind(true);
-	    	btnDeleteItem.show();									// 삭제 버튼
-	    	btnModifyItem.show();									// 수정 버튼
-	    	btnAddPurRq.hide();										// 추가 버튼
 	    	doubleClickGridPanel();			// Grid List Double Click 
+        	bind.setBind(false);
 	    	
         	//var dblClickRecord = prItemListDataSet.getAt(e.row);
         	//dblClickedRow = e.row;
@@ -562,6 +560,16 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
         // 초기화
         prItemListDataSet.on('load', function(e) {
 	    	$("#cnt_text").html('총 ' + prItemListDataSet.getCount() + '건');
+	    	
+	    	var bnfpo = '<c:out value="${inputData.bnfpoPrs}"/>';
+	    	
+	    	var row = prItemListDataSet.findRow('bnfpoPrs',bnfpo);
+	    	
+	    	bind.setBind(true);
+	    	prItemListDataSet.setRow(row);
+	    	bind.setBind(false);
+	    	
+	    	doubleClickGridPanel();			// Grid List Double Click
 	    });
         
         // Row 추가시
@@ -621,17 +629,7 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 	    var btnAddPurRq = new Rui.ui.LButton('btnAddPurRq');
 		btnAddPurRq.on('click', function() {
 			if(isValidate('추가')) {
-				document.getElementById("sCodeNm").value = sCode.getDisplayValue();
-
 				fncSave();
-				
-				if(dblClickedRow != null && dblClickedRow >= 0) return;
-				
-                var row = prItemListDataSet.newRecord();
-                var record = prItemListDataSet.getAt(row);
-                addNewItemList(record);
-                clearItemContents();
-                curRow = row;
 			};
 		});
 		/* [버튼] 추가 끝 */
@@ -639,7 +637,6 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 		 /* [버튼] 초기화 시작 */
 	    var btnClearItemContents = new Rui.ui.LButton('btnClearItemContents');
 	    btnClearItemContents.on('click', function() {
-        	alert('초기화 Clicked');
         	bind.setBind(false);
 	    	
             clearItemContents();
@@ -690,7 +687,13 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 		fncSave = function(){
 			//구매요청 Item 정보 추가	 
 	    	if( confirm("추가하시겠습니까?") == true ){
-	    		dm.updateForm({
+				document.getElementById("sCodeNm").value = sCode.getDisplayValue();
+	    		
+                var row = prItemListDataSet.newRecord();
+                var record = prItemListDataSet.getAt(row);
+                addNewItemList(record);
+                
+				dm.updateForm({
 	    			url:'<c:url value="/prs/purRq/insertPurRqInfo.do"/>',
 	    			form : 'aform',
 	    			params: {
@@ -698,6 +701,8 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 	    				sCodeSeq: 	sCode.getValue()
 	    	        }
 	    		});
+	    		
+                clearItemContents();
 	    	} 
 		};
 		
@@ -705,13 +710,11 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 			//구매요청 Item 정보 추가	 
 	    	if( confirm("삭제하시겠습니까?") == true ){
 	    		bind.setBind(false);
-
+				
 	    		dm.updateForm({
 	    			url:'<c:url value="/prs/purRq/deletePurRqInfo.do"/>',
 	    			form : 'aform'
 	    		});
-
-	    		prItemListDataSet.removeAt(prItemListDataSet.getRow());
 	    	} 
 		};
 
@@ -735,18 +738,17 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 				Rui.alert(resultData.records[0].rtnMsg);
 				
 				if( resultData.records[0].cmd == "insert" ) {
-					document.getElementById("bnfpoPrs").value = resultData.records[0].bnfpoPrs;
-					prItemListDataSet.getAt(curRow).set('bnfpoPrs', resultData.records[0].bnfpoPrs);
+					var rowIdx = prItemListDataSet.getCount() - 1;
+					prItemListDataSet.setValue(rowIdx, prItemListDataSet.getFieldIndex('bnfpoPrs'), resultData.records[0].bnfpoPrs);
 					btnReqApproval.show();
 				} else if( resultData.records[0].cmd == "delete" ) {
-					document.getElementById("bnfpoPrs").value = '';
-					prItemListDataSet.removeAt(curRow);
-					clearItemContents();
+		    		prItemListDataSet.removeAt(prItemListDataSet.findRow('bnfpoPrs',document.getElementById("bnfpoPrs").value));
+		    		clearItemContents();
 					if(prItemListDataSet.getCount() == 0) {
 						btnReqApproval.hide();
 					}
 				} else if( resultData.records[0].cmd == "update" ) {
-					modifyItemContents(curRow);
+					modifyItemContents(prItemListDataSet.findRow('bnfpoPrs',document.getElementById("bnfpoPrs").value));
 				}
 			}
         });
@@ -818,7 +820,7 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
         /*첨부파일 다운로드*/
         downloadAttachFile = function(attcFilId, seq) {
             downloadForm.action = '<c:url value="/system/attach/downloadAttachFile.do"/>';
-            $('#attcFilId').val(attcFilId);
+            downloadForm.elements["attcFilId"].value = attcFilId; 
             $('#seq').val(seq);
             downloadForm.submit();
         };
@@ -932,52 +934,26 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 	    	btnAddPurRq.show();						// 추가 버튼
 	    	document.getElementById("sCodeNm").value = '';	// 품묵구분명
 	    	document.getElementById("bnfpoPrs").value = '';	// 요청 품번
-            dblClickedRow = -1;
-       	};
-       	
-       	/* 내역 수정 */
-       	changeItemContents = function(record) {
-       		itemEditable = true;
-       		sCode.setValue(record.get('sCodeSeq'));					// 품묵구분
-            posid.setValue(record.get('posid')); 					// WBS코드	
-            $('#wbsCdName', aform).html(record.get('posidnm')); 	// WBS명	
-            eeind.setValue(record.get('eeind')); 					// 납품요청일	
-            position.setValue(record.get('position')); 				// 납품위치	
-            ekgrp.setValue(record.get('ekgrp')); 					// 구매그룹	
-            sakto.setValue(record.get('sakto')); 					// 계정코드	
-            saktonm.setValue(record.get('saktonm')); 				// 계정명	
-            itemnm.setValue(record.get('txz01')); 					// 요청품명
-            maker.setValue(record.get('maker')); 					// Maker
-            vendor.setValue(record.get('vendor')); 					// Vendor
-            catalogno.setValue(record.get('catalogno')); 			// Catalog No
-            werks.setValue(record.get('werks')); 					// 플랜트코드	
-            menge.setValue(record.get('menge')); 					// 요청수량
-            meins.setValue(record.get('meins')); 					// 단위
-            preis.setValue(record.get('preis')); 					// 단가
-            if (record.get('itemTxt') == null) {
-            	itemTxt.setValue('');
-            } else {
-            	itemTxt.setValue(record.get('itemTxt'));
-           	}; 	// 요청사유 
-           	lvAttcFilId = record.get('attcFileId');
-           	getAttachFileList();									// 첨부파일 ID
-           	document.getElementById("sCodeNm").value = record.get('sCode');	// 품묵구분명
-           	document.getElementById("bnfpoPrs").value = record.get('bnfpoPrs');	// 요청 품번
-	    	btnDeleteItem.show();									// 삭제 버튼
-	    	btnModifyItem.show();									// 수정 버튼
-	    	btnAddPurRq.hide();										// 추가 버튼
-            setExp();
        	};
        	
        	/* Grid Double Click */
        	doubleClickGridPanel = function() {
+       		var flag = prItemListDataSet.getAt(prItemListDataSet.getRow()).get('prsFlag');
        		itemEditable = true;
-            $('#wbsCdName', aform).html(prItemListDataSet.getAt(prItemListDataSet.getRow()).get('posidnm')); 	// WBS명	
-           	lvAttcFilId = prItemListDataSet.getAt(prItemListDataSet.getRow()).get('attcFileId');
-           	getAttachFileList();									// 첨부파일 ID
-	    	btnDeleteItem.show();									// 삭제 버튼
-	    	btnModifyItem.show();									// 수정 버튼
-	    	btnAddPurRq.hide();										// 추가 버튼
+            $('#wbsCdName', aform).html(prItemListDataSet.getAt(prItemListDataSet.getRow()).get('posidnm')); 	// WBS명
+           	lvAttcFilId = prItemListDataSet.getAt(prItemListDataSet.getRow()).get('attcFilId');
+       		getAttachFileList();									// 첨부파일 ID
+            
+            if(flag == '0' || flag == '') {							// 0: 임시저장, '':작성중
+	    		btnDeleteItem.show();								// 삭제 버튼
+	    		btnModifyItem.show();								// 수정 버튼
+	    		btnAddPurRq.hide();									// 추가 버튼
+            } else {
+	    		btnDeleteItem.hide();								// 삭제 버튼
+	    		btnModifyItem.hide();								// 수정 버튼
+	    		btnAddPurRq.hide();									// 추가 버튼
+	    		btnReqApproval.hide();								// 결재의뢰 버튼
+            }	    		
             setExp();
        	};      	
 
@@ -1034,7 +1010,17 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 		// PRS ERP결재 팝업 끝
     	
         init = function() {
-			alert('<c:out value="${inputData.previous}"/>');
+			var previous = '<c:out value="${inputData.previous}"/>';
+
+			if (previous == 'myPurRqList') {
+	        	prItemListDataSet.load({
+	                url: '<c:url value="/prs/purRq/retrievePurRqInfo.do"/>',
+	                params :{
+	                	 		banfnPrs: '<c:out value="${inputData.banfnPrs}"/>',
+	                	 		prsFlag: '<c:out value="${inputData.prsFlagCd}"/>'
+	                   		}
+	                });
+			}
         };
 		
 	});
@@ -1052,12 +1038,12 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
     </div>
 
 	<form id="aform" name ="aform">
-	<input type="text" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">  
-	<input type="text" id="prjCd" name="prjCd" value="<c:out value='${inputData.prjCd}'/>">  
-	<input type="text" id="banfnPrs" name="banfnPrs" value="<c:out value='${inputData.banfnPrs}'/>">
-	<input type="text" id="bnfpoPrs" name="bnfpoPrs" value="<c:out value='${inputData.bnfpoPrs}'/>"> 
-	<input type="text" id="sCodeNm" name="sCodeNm" />
-	<input type="text" id="attcFilId" name="attcFilId" />  
+	<input type="hidden" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">  
+	<input type="hidden" id="prjCd" name="prjCd" value="<c:out value='${inputData.prjCd}'/>">  
+	<input type="hidden" id="banfnPrs" name="banfnPrs" value="<c:out value='${inputData.banfnPrs}'/>">
+	<input type="hidden" id="bnfpoPrs" name="bnfpoPrs" value="<c:out value='${inputData.bnfpoPrs}'/>"> 
+	<input type="hidden" id="sCodeNm" name="sCodeNm" />
+	<input type="hidden" id="attcFilId" name="attcFilId" />  
 	
 	<div class="sub-content">
 	   		<div class="titArea mt0" style="margin-bottom:5px !important;">
@@ -1182,5 +1168,10 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 	<div id="purRqGrid"></div>
 
 </form>
+<form name="downloadForm" id="downloadForm">
+	<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
+	<input type="hidden" id="seq" name="seq" value=""/>
+</form>
+
 </body>
 </html>

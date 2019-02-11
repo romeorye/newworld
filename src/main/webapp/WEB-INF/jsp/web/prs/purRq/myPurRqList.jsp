@@ -211,7 +211,7 @@
                 , { id: 'totamt' } 		// 금액	20
                 , { id: 'itemTxt' } 	// 요청사유
                 , { id: 'attcFiles' } 	// 첨부파일
-                , { id: 'attcFileId' } 	// 첨부파일 Id
+                , { id: 'attcFilId' } 	// 첨부파일 Id
                 , { id: 'prsFlag'}		// 상태코드
                 , { id: 'prsNm'}		// 상태명
                 , { id: 'message'}		// Message
@@ -220,6 +220,22 @@
                 , { id: 'seqNum' } 		// Seq No
                 , { id: 'helpSeqnum' }  // 요청구분 Seq
                 , { id: 'tabid' } 	   	// TAB ID
+                , { id: 'banfn' } 		// ERP 구매요청번호
+                , { id: 'bnfpo' } 		// ERP 구매요청품목번호
+                , { id: 'badat' }		// PR 생성일
+        		, { id: 'apr4Date' }	// PR 결제일	
+				, { id: 'rejeDate' }	// PR 결제기각일	
+				, { id: 'ebeln' }		// PO 번호	
+				, { id: 'ebelp' }		// PO 품번	
+				, { id: 'bedat' }		// PO 생성일	
+				, { id: 'poMenge' }		// PO 수량
+				, { id: 'poMeins' }		// PO 단위
+				, { id: 'netwr' }		// PO 금액	
+				, { id: 'waers' }		// PO 통화	
+				, { id: 'name1' }		// Vendor	
+				, { id: 'grBudat' }		// 입고일
+				, { id: 'grMenge' }		// 입고수량
+				, { id: 'piBudat' }	    // 송장일            
             ]
         });		
 		
@@ -264,20 +280,51 @@
                     			return val.replaceAll('\n', '<br/>');
                               }
                   }                
-                , { field: 'attcFiles', label: '첨부파일', 	 	sortable: false, width: 200, hidden:true,  
+                , { field: 'attcFiles', label: '첨부파일', 	 	sortable: false, width: 200, hidden:false,  
                     renderer: function(val, p, record, row, col) {
-                    			return val.replaceAll('\n', '<br/>');
+                    			return val.replaceAll('\n', '<br/>').replaceAll('|||','<br/>');
                               }
                   }
                 , { field: 'prsFlag', 		label: '상태', 	 			sortable: false,	align:'center',	width: 20, hidden:true  }
                 , { field: 'prsNm', 		label: '상태명', 	 		sortable: false,	align:'center',	width: 100 }
                 , { field: 'message', 		label: '비고',	 	 		sortable: false,	align:'left',	width: 250 }
-                , { field: 'attcFileId', 	label: '첨부파일 Id', 	 	sortable: false,	align:'right',	width: 90, hidden:true }
-                , { field: 'banfnPrs', 		label: '구매요청번호', 	 	sortable: false,	align:'right',	width: 90, hidden:false }
-                , { field: 'bnfpoPrs', 		label: '구매요청순번', 	 	sortable: false,	align:'right',	width: 90, hidden:false }
-                , { field: 'seqNum', 		label: 'Seq No', 	 		sortable: false,	align:'right',	width: 90, hidden:false }
+                , { field: 'banfn', 		label: 'PR번호', 		 	sortable: false,	align:'center',	width: 90}
+                , { field: 'bnfpo', 		label: 'PR품번',	 	 	sortable: false,	align:'center',	width: 90}
+                , { field: 'badat', 		label: 'PR생성일',	 	 	sortable: false,	align:'center',	width: 90, hidden:true }		// PR 생성일
+        		, { field: 'apr4Date', 		label: 'PR결제일',	 	 	sortable: false,	align:'center',	width: 90 }						// PR 결제일	
+				, { field: 'rejeDate', 		label: 'PR결제기각일', 	 	sortable: false,	align:'center',	width: 90, hidden:true }		// PR 결제기각일	
+				, { field: 'ebeln', 		label: 'PO번호',	 	 	sortable: false,	align:'center',	width: 90 }						// PO 번호	
+				, { field: 'ebelp', 		label: 'PO품번',	 	 	sortable: false,	align:'center',	width: 90 }						// PO 품번	
+				, { field: 'bedat', 		label: 'PO생성일',	 	 	sortable: false,	align:'center',	width: 90, hidden:true }		// PO 생성일	
+				, { field: 'poMenge', 		label: 'PO수량',	 	 	sortable: false,	align:'right',	width: 90,
+                	renderer: function(value, p) {
+                				if(value == "" || null == value) { value = 0}
+                				return Rui.util.LNumber.toMoney(value);
+       			  			}   
+				  }						// PO 수량
+				, { field: 'poMeins', 		label: 'PO단위',	 	 	sortable: false,	align:'center',	width: 90 }						// PO 단위
+				, { field: 'netwr', 		label: 'PO금액',	 	 	sortable: false,	align:'right',	width: 90, hidden:true,
+                	renderer: function(value, p) {
+                				if(value == "" || null == value) { value = 0}
+        						return Rui.util.LNumber.toMoney(value);
+			  				}   
+				  }		// PO 금액	
+				, { field: 'waers', 		label: 'PO통화',	 	 	sortable: false,	align:'center',	width: 90, hidden:true }		// PO 통화	
+				, { field: 'name1', 		label: 'Vendor',	 	 	sortable: false,	align:'left',	width: 90, hidden:true }		// Vendor	
+				, { field: 'grBudat', 		label: '입고일',	 	 	sortable: false,	align:'center',	width: 90 }						// 입고일
+				, { field: 'grMenge', 		label: '입고수량',	 	 	sortable: false,	align:'right',	width: 90,
+                	renderer: function(value, p) {
+                				if(value == "" || null == value) { value = 0}
+						  		return Rui.util.LNumber.toMoney(value);
+	  						}   
+				  }						// 입고수량
+				, { field: 'piBudat', 		label: '송장일',	 	 	sortable: false,	align:'center',	width: 90, hidden:true }	    // 송장일            
+                , { field: 'attcFilId', 	label: '첨부파일 Id', 	 	sortable: false,	align:'right',	width: 90, hidden:true }
+                , { field: 'banfnPrs', 		label: '구매요청번호', 	 	sortable: false,	align:'right',	width: 90, hidden:true }
+                , { field: 'bnfpoPrs', 		label: '구매요청순번', 	 	sortable: false,	align:'right',	width: 90, hidden:true }
+                , { field: 'seqNum', 		label: 'Seq No', 	 		sortable: false,	align:'right',	width: 90, hidden:true }
                 , { field: 'helpSeqnum', 	label: '요청구분 Seq', 		sortable: false,	align:'right',	width: 90, hidden:true }
-                , { field: 'tabid', 		label: 'TAB ID', 			sortable: false,	align:'right',	width: 90, hidden:false }
+                , { field: 'tabid', 		label: 'TAB ID', 			sortable: false,	align:'right',	width: 90, hidden:true }
             ]
         });
  			
@@ -370,6 +417,8 @@
 	    	frm.banfnPrs.value = prItemListDataSet.getValue(prItemListDataSet.getRow(), prItemListDataSet.getFieldIndex('banfnPrs'));
 	    	frm.bnfpoPrs.value = prItemListDataSet.getValue(prItemListDataSet.getRow(), prItemListDataSet.getFieldIndex('bnfpoPrs'));
 	    	frm.seqNum.value = prItemListDataSet.getValue(prItemListDataSet.getRow(), prItemListDataSet.getFieldIndex('seqNum'));
+	    	frm.sCodeSeq.value = prItemListDataSet.getValue(prItemListDataSet.getRow(), prItemListDataSet.getFieldIndex('helpSeqnum'));
+	    	frm.prsFlagCd.value = prItemListDataSet.getValue(prItemListDataSet.getRow(), prItemListDataSet.getFieldIndex('prsFlag'));
 	    	
 		 	frm.action = url;
 		 	frm.method = "post";
@@ -397,7 +446,14 @@
             //  });
        	   	getMyPurRqList();
           };
-		
+          
+          /*첨부파일 다운로드*/
+          downloadAttachFile = function(attcFilId, seq) {
+              downloadForm.action = '<c:url value="/system/attach/downloadAttachFile.do"/>';
+              $('#attcFilId').val(attcFilId);
+              $('#seq').val(seq);
+              downloadForm.submit();
+          };
 	});
 	</script>
 	<%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
@@ -409,6 +465,8 @@
 	<input type="hidden" id="bnfpoPrs" name="bnfpoPrs" value=""> 
 	<input type="hidden" id="seqNum" name="seqNum" value="">
 	<input type="hidden" id="previous" name="previous" value="myPurRqList">
+	<input type="hidden" id="sCodeSeq" name="sCodeSeq" value="">
+	<input type="hidden" id="prsFlagCd" name="prsFlagCd" value="">
 	
    		<div class="contents">
    			<div class="titleArea">
@@ -485,5 +543,9 @@
    			</div><!-- //sub-content -->
    		</div><!-- //contents -->
 		</form>
+    	<form name="downloadForm" id="downloadForm">
+			<input type="hidden" id="attcFilId" name="attcFilId" value=""/>
+			<input type="hidden" id="seq" name="seq" value=""/>
+    	</form>
     </body>
 </html>
