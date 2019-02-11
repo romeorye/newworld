@@ -12,7 +12,7 @@ public interface PurRqInfoService {
 
 	int insertPurRqInfo(Map<String, Object> dataMap) throws Exception;
 
-	HashMap<String, Object> retrievePurRqInfo(HashMap<String, Object> input);
+	List<Map<String, Object>> retrievePurRqInfo(HashMap<String, Object> input);
 	
 	int getBanfnPrsNumber();
 	
@@ -27,4 +27,8 @@ public interface PurRqInfoService {
 	HashMap<String, Object> sendSapExpensePr(Map<String, Object> dataMap) throws JCoException;
 	
 	List<Map<String, Object>> retrieveERPPrInfo(HashMap<String, Object> input);
+	
+	List<Map<String, Object>> retrieveAttachFileList(HashMap<String, Object> input);
+	
+	List<Map<String, Object>> getPrRequestSAPStatus(List<Map<String,Object>> dataList);
 }

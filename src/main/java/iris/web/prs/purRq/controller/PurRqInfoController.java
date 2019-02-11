@@ -153,9 +153,20 @@ public class PurRqInfoController extends IrisBaseController {
 		if("".equals(input.get("banfnPrs")) || null == input.get("banfnPrs")) {
 			int banfnPrs = purRqInfoService.getBanfnPrsNumber();
 			input.put("banfnPrs", banfnPrs);
-		}
+		} 
 		
+        //구매요청 리스트 조회
+		List<Map<String,Object>> purRqInfoMap = purRqInfoService.retrievePurRqInfo(input);
+
+
 		model.addAttribute("inputData", input);
+		//model.addAttribute("prItemListDataSet", RuiConverter.createDataset("prItemListDataSet", purRqInfoMap));
+		model.addAttribute("prItemListDataSet", purRqInfoMap);
+		
+		LOGGER.debug("---------------------------------------------------------------------------------------------");
+		LOGGER.debug("purRqInfoMap = > ");		
+		LOGGER.debug(purRqInfoMap);
+		LOGGER.debug("---------------------------------------------------------------------------------------------");
 		
 		if("EM".equals(input.get("tabId"))) {
 			retPage = "web/prs/purRq/purRqDetail";
@@ -188,7 +199,24 @@ public class PurRqInfoController extends IrisBaseController {
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
         //구매요청 리스트 조회
-		HashMap<String,Object> purRqInfoMap = purRqInfoService.retrievePurRqInfo(input);
+		List<Map<String,Object>> purRqInfoMap = purRqInfoService.retrievePurRqInfo(input);
+		
+		//첨부파일 목록 조회
+		List<Map<String,Object>> attchFileList = null;
+
+		int i = 0;
+		for(Map item : purRqInfoMap) {
+			if(!"".equals(item.get("attcFilId")) && item.get("attcFilId") != null) {
+				attchFileList = purRqInfoService.retrieveAttachFileList((HashMap)item);
+				
+				String fileNm = makeAttachFilesURL(attchFileList);
+			
+				item.put("attcFiles", fileNm);
+				purRqInfoMap.set(i, item);
+			}
+			
+			i++;
+		}
 		
 		modelAndView.addObject("purRqUserDataSet", RuiConverter.createDataset("purRqUserDataSet", purRqInfoMap));
 
@@ -586,7 +614,62 @@ public class PurRqInfoController extends IrisBaseController {
 
         //구매요청 리스트 조회
 		List<Map<String,Object>> myPurRqList = purRqInfoService.retrieveMyPurRqList(input);
+		
+		List<Map<String,Object>> erpPurRqStatus = purRqInfoService.getPrRequestSAPStatus(myPurRqList);
+		
+		if(!erpPurRqStatus.isEmpty()) {
+			Map<String,Object> myListData = new HashMap<String,Object>();
+			int i = 0;
+			for(Map purRq : erpPurRqStatus) {
+				i = Integer.parseInt(purRq.get("idx").toString());
+				
+				LOGGER.debug("**************************************************************************************");
+				LOGGER.debug("i : " + i);	
+				LOGGER.debug(purRq);
+				LOGGER.debug("**************************************************************************************");
+				
+				myListData = myPurRqList.get(i);
+				
+				myListData.put("prsFlag", 	purRq.get("index"));
+				myListData.put("prsNm", 	purRq.get("status"));
+				myListData.put("badat", 	purRq.get("badat"));		
+				myListData.put("apr4Date", 	purRq.get("apr4Date"));		
+				myListData.put("rejeDate", 	purRq.get("rejeDate"));		
+				myListData.put("ebeln", 	purRq.get("ebeln"));			
+				myListData.put("ebelp", 	purRq.get("ebelp"));			
+				myListData.put("bedat", 	purRq.get("bedat"));			
+				myListData.put("poMenge", 	purRq.get("poMenge"));		
+				myListData.put("poMeins", 	purRq.get("poMeins"));		
+				myListData.put("netwr", 	purRq.get("netwr"));			
+				myListData.put("waers", 	purRq.get("waers"));			
+				myListData.put("name1", 	purRq.get("name1"));			
+				myListData.put("grBudat", 	purRq.get("grBudat"));		
+				myListData.put("grMenge", 	purRq.get("grMenge"));		
+				myListData.put("piBudat", 	purRq.get("piBudat"));		
 
+				LOGGER.debug(myListData);
+				LOGGER.debug("**************************************************************************************");
+				
+				myPurRqList.set(i, myListData);
+			}
+		}
+		//첨부파일 목록 조회
+		List<Map<String,Object>> attchFileList = null;
+
+		int i = 0;
+		for(Map item : myPurRqList) {
+			if(!"".equals(item.get("attcFilId")) && item.get("attcFilId") != null) {
+				attchFileList = purRqInfoService.retrieveAttachFileList((HashMap)item);
+				
+				String fileNm = makeAttachFilesURL(attchFileList);
+			
+				item.put("attcFiles", fileNm);
+				myPurRqList.set(i, item);
+			}
+			
+			i++;
+		}
+		
 		modelAndView.addObject("prItemListDataSet", RuiConverter.createDataset("prItemListDataSet", myPurRqList));
 
 		return modelAndView;
@@ -713,6 +796,33 @@ public class PurRqInfoController extends IrisBaseController {
 		return modelAndView;
 	}
 	
+	private String makeAttachFilesURL(List<Map<String,Object>> filesList) {
+		String fileNm = "";
+		int lastLine = 1;
+		
+		for(Map fileInfo : filesList) {
+            fileNm = fileNm + makeAttachFileDownloadURL(fileInfo.get("attcFilId").toString(),fileInfo.get("attcFilSeq").toString(),fileInfo.get("filNm").toString());
+			if(lastLine < filesList.size()) {
+				fileNm = fileNm + "|||";
+				lastLine++;
+			}
+		}
+		
+		return fileNm;
+	}
+	
+	private String makeAttachFileDownloadURL(String fileId, String fileSeq, String fileNm) {
+		String urlString = "";
+		
+		if("".equals(fileId) || fileId == null || "".equals(fileSeq) || fileSeq == null || "".equals(fileNm) || fileNm == null) {
+			return urlString;
+		} else {
+			urlString = "<a href=\"javascript:downloadAttachFile('" + fileId + "','" + fileSeq + "');\" >" + fileNm + "</a>";
+		}
+		
+		return urlString;
+	}
+
 }
 
 
