@@ -72,10 +72,30 @@ public class SapBudgCostServiceImpl implements  SapBudgCostService{
 
     @Override
     public void sapConnection() throws IOException {
-        LOGGER.debug("시작");
+        LOGGER.debug("====시작");
 
-        LOGGER.debug("HOST_NAME ::"+ this.getPropValues("SAP.pasSapPool.HOST_NAME"));
+        LOGGER.debug("HOST_NAME ::"+ this.getPropValues("SAP.sappool.HOST_NAME"));
 
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        System.out.println(this.getPropValues("SAP.sappool.HOST_NAME"));
+        
+                    
         Properties connectProperties = new Properties();
         connectProperties.setProperty(DestinationDataProvider.JCO_ASHOST, this.getPropValues("SAP.sappool.HOST_NAME"));  //SAP 호스트 정보
         connectProperties.setProperty(DestinationDataProvider.JCO_SYSNR,  this.getPropValues("SAP.sappool.SYSTEM_NO"));  //인스턴스번호
