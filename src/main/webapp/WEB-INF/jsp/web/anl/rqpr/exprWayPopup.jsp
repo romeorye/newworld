@@ -22,16 +22,15 @@
 <title>Insert title here</title>
 <script>
 Rui.onReady(function() {
+	
 	var exprWay = new Rui.ui.form.LTextArea({            // LTextBox개체를 선언
         applyTo: 'exprWay',                           // 해당 DOM Id 위치에 텍스트박스를 적용
         width: 550,                                    // 텍스트박스 폭을 설정
         height: 270,
-        defaultValue: '<c:out value="${inputData.exprWay}"/>',
         placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
         invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
     });
 	
-	//exprWay.setValue('${inputData.exprWay}');
 })
 </script>
 </head>
@@ -41,7 +40,7 @@ Rui.onReady(function() {
 		<table class="table table_txt_right">
 			<tr>
 				<td>
-					<input type="text" id="exprWay" name="exprWay" />
+					<textarea id="exprWay" name="exprWay">${inputData.exprWay}</textarea>>
 				</td>
 			</tr>	
 		</table>
