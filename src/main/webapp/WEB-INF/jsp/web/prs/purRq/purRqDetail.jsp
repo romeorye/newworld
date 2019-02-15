@@ -251,7 +251,7 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 	        maxValue: 9999999999,           				// 최대값 입력제한 설정
     	    minValue: 0,                  					// 최소값 입력제한 설정
         	width: 90,
-	        decimalPrecision: 0,            				// 소수점 자리수 3자리까지 허용
+	        decimalPrecision: 0            					// 소수점 자리수 3자리까지 허용
     	});
 	
 	  	menge.on('blur', function(e) {
@@ -283,100 +283,6 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
   		preis.on('blur', function(e) {
         	setExp();
 	    });
-		
-//		var purRqUserDataSet = new Rui.data.LJsonDataSet({
-//			id: 'purRqUserDataSet',
-//			remainRemoved: true,
-//            lazyLoad: true,
-//            fields: [
-//            	 { id : 'banfnPrs'}   
-//            	,{ id : 'bnfpoPrs'}   
-//            	,{ id : 'seqNum'}     
-//            	,{ id : 'sCode'}       /* 품목구분 */ 
-//            	,{ id : 'banfn'}       
-//            	,{ id : 'bnfpo'}       
-//            	,{ id : 'knttp'}       
-//            	,{ id : 'pstyp'}       
-//            	,{ id : 'meins'}       /* 단위 */
-//            	,{ id : 'eeind'}       
-//            	,{ id : 'afnam'}       
-//            	,{ id : 'matkl'}       
-//            	,{ id : 'ekgrp'}       /* 구매그룹 */
-//            	,{ id : 'bednr'}       
-//            	,{ id : 'peinh'}       
-//            	,{ id : 'anlkl'}       
-//            	,{ id : 'txt50'}       
-//            	,{ id : 'itemTxt'}       
-//            	,{ id : 'kostl'}       
-//            	,{ id : 'posid'}       
-//            	,{ id : 'post1'}       
-//            	,{ id : 'prsFlag'}    
-//            	,{ id : 'bizCd'}      
-//            	,{ id : 'attcFilId'}	
-//            	,{ id : 'txz01'}		/* 요청품명 */
-//		    	,{ id : 'maker'}		/* 메이커 */
-//		    	,{ id : 'vendor'}		/* 벤더 */
-//		    	,{ id : 'catalogno'}	/* 카탈로그 NO */
-//		    	,{ id : 'waers'}		/* 요청단위 콤보 */
-//		    	,{ id : 'menge'}		/* 요청수량 */
-//		    	,{ id : 'meins'}		/* 요청단위 */
-//		    	,{ id : 'preis'}		/* 예상단가 */
-//		    	,{ id : 'sakto'}		/* 계정코드 */
-//		    	,{ id : 'saktoNm'}		/* 계정명 */
-//		    	,{ id : 'usedCode'}		/* */
-//		    	,{ id : 'werks'}		/* 플랜트 */
-//		    	,{ id : 'wbsCd'}		/* WBS코드 */
-//		    	,{ id : 'sCodeSeq'}     /* 품목구분 Seq */ 
-//            ]
-//        });
-//
-//		
-//		purRqUserDataSet.on('load', function(e){
-//			purRqUserDataSet.setNameValue(0, 'sakto', '${inputData.sakto}');
-//			purRqUserDataSet.setNameValue(0, 'bednr', '${inputData._userSabun}');
-//			purRqUserDataSet.setNameValue(0, 'sCode', '${inputData.sCode}');
-//			purRqUserDataSet.setNameValue(0, 'sCodeSeq', '${inputData.sCodeSeq}');
-//			purRqUserDataSet.setNameValue(0, 'ekgrp', '${inputData.ekgrp}');
-//			purRqUserDataSet.setNameValue(0, 'wbsCd', '${inputData.post1}');
-//			purRqUserDataSet.setNameValue(0, 'saktoNm', '${inputData.saktonm}');
-//			purRqUserDataSet.setNameValue(0, 'werks', '${inputData.werks}');
-//			purRqUserDataSet.setNameValue(0, 'meins', 'EA');
-//			purRqUserDataSet.setNameValue(0, 'menge', '');
-//			purRqUserDataSet.setNameValue(0, 'banfnPrs', '${inputData.banfnPrs}');
-//		});
-//		
-//		var bind1 = new Rui.data.LBind({
-//		     groupId: 'aform',
-//		     dataSet: purRqUserDataSet,
-//		     bind: true,
-//		     bindInfo: [
-//		         { id: 'sCodeSeq', 	ctrlId: 'sCode', 	value: 'value' },
-//		         { id: 'wbsCd', 	ctrlId: 'wbsCd', 	value: 'value' },
-//		         { id: 'eeind', 	ctrlId: 'eeind', 	value: 'value' },
-//		         { id: 'position', 	ctrlId: 'position', value: 'value' },
-//		         { id: 'ekgrp', 	ctrlId: 'ekgrp', 	value: 'value' },
-//		         { id: 'itemTxt', 	ctrlId: 'itemTxt', 	value: 'value' },
-//		         { id: 'sakto', 	ctrlId: 'sakto', 	value: 'value' },
-//		         { id: 'werks', 	ctrlId: 'werks', 	value: 'value' },
-//		         { id: 'meins', 	ctrlId: 'meins', 	value: 'value' },
-//		         { id: 'menge', 	ctrlId: 'menge', 	value: 'value' },
-//		         { id: 'preis', 	ctrlId: 'preis', 	value: 'value' },
-//		         { id: 'eeind', 	ctrlId: 'eeind', 	value: 'value' },
-//		         { id: 'banfnPrs', 	ctrlId: 'banfnPrs', value: 'value' },
-//		         { id: 'saktoNm', 	ctrlId: 'saktoNm', 	value: 'html' }
-//		     ]
-//		 });
-		
-////		fnSearch = function() {
-////			purRqUserDataSet.load({
-////	 	 		url: '<c:url value="/prs/purRq/retrievePurRqInfo.do"/>', 
-////	 	        params :{
-////	 	        	banfnPrs  : '${inputData.banfnPrs}'
-////	 	    	        }
-////	        });
-////	    };
-////
-////		fnSearch();
 		
  		// 예상금액 계산 : 요청수량 * 예산단가
     	var setExp = function(){
@@ -460,14 +366,13 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
                  { id: 'banfnPrs', 	ctrlId: 'banfnPrs', 	value: 'value' }, 	// 구매요청번호
                  { id: 'bnfpoPrs', 	ctrlId: 'bnfpoPrs', 	value: 'value' }, 	// 구매요청순번
                  { id: 'seqNum', 	ctrlId: 'seqNum', 		value: 'value' },	// Seq No
-                 { id: 'sCodeSeq', 	ctrlId: 'sCode', 		value: 'value' }   // 품목구분 Seq
+                 { id: 'sCodeSeq', 	ctrlId: 'sCode', 		value: 'value' }    // 품목구분 Seq
 		     ]
 		 });
 		
         var itemColumnModel = new Rui.ui.grid.LColumnModel({
             columns: [
                 //new Rui.ui.grid.LSelectionColumn()
-                //, { field: 'badate', 	label: '요청일', 		sortable: true,	align:'center',	width: 80 }
                   { field: 'sCode', 	label: '품목구분', 		sortable: false,	align:'center',	width: 80 }
                 , { field: 'posid', 	label: 'WBS코드', 		sortable: false,	align:'center',	width: 90 }
                 , { field: 'posidnm', 	label: 'WBS명', 		sortable: false,	align:'left',	width: 300 }
@@ -514,6 +419,7 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
                 , { field: 'bnfpoPrs', 		label: '구매요청순번', 	 	sortable: false,	align:'right',	width: 90, hidden:true }
                 , { field: 'seqNum', 		label: 'Seq No', 	 		sortable: false,	align:'right',	width: 90, hidden:true }
                 , { field: 'sCodeSeq', 		label: '품목구분 Seq', 		sortable: false,	align:'right',	width: 90, hidden:true }
+                , { field: 'prsFlag', 		label: 'PRS 상태', 			sortable: false,	align:'right',	width: 90, hidden:true }
             ]
         });
 
@@ -551,10 +457,6 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 	    	doubleClickGridPanel();			// Grid List Double Click 
         	bind.setBind(false);
 	    	
-        	//var dblClickRecord = prItemListDataSet.getAt(e.row);
-        	//dblClickedRow = e.row;
-        	///curRow = e.row;
-        	//changeItemContents(dblClickRecord);
         });
         
         // 초기화
@@ -908,6 +810,7 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
             record.set('sCodeSeq', 	sCode.getValue());					// 품묵구분 Seq
             record.set('banfnPrs', 	document.getElementById("banfnPrs").value);					// 요청번호
             record.set('bnfpoPrs', 	document.getElementById("bnfpoPrs").value);					// 요청품번
+            record.set('prsFlag', 	'0');								// PRS 상태
             itemEditable = false;
        	};
        	
@@ -953,6 +856,7 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 	    		btnModifyItem.hide();								// 수정 버튼
 	    		btnAddPurRq.hide();									// 추가 버튼
 	    		btnReqApproval.hide();								// 결재의뢰 버튼
+	    		btnClearItemContents.hide();						// 초기화 버튼
             }	    		
             setExp();
        	};      	
