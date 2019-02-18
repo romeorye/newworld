@@ -46,6 +46,7 @@
 		  ON MM.TSS_CD = RM.TSS_CD
 	   WHERE MM.SA_SABUN_NEW  NOT IN (SELECT PM.TMMR_EMP_NO FROM IRIS_PRJ_TMMR_INFO PM WHERE PM.PRJ_CD = MM.PRJ_CD) --팀(프로젝트) 연구원조회
 		 AND MM.PGS_STEP_CD = 'PG' --과제 진행중
+		 and  mm.tss_scn_cd != 'D'
 		 AND MM.DEL_YN = 'N'
 		 AND NOT EXISTS (SELECT PK_WBS_CD FROM IRIS_TSS_MGMT_MST TM WHERE TM.PK_WBS_CD = MM.PK_WBS_CD AND TM.PGS_STEP_CD IN('DC', 'CM')) --완료가 안된것
 		 AND MM.SA_SABUN_NEW IS NOT NULL
@@ -95,8 +96,30 @@
 	  		 ON RM.PL_EMP_NO = SSO.SA_SABUN_NEW
 	  		 and  sso.sso_ex_flag != 'D'
       where (rm.PRJ_END_DT = '' or rm.PRJ_END_DT is null)
-
 	  and   PL_EMP_NO != '00203089'
+	  and   RM.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059'
+								,'PRJ00086'
+								,'PRJ00085'
+								,'PRJ00084'
+								,'PRJ00083'
+								,'PRJ00082'
+								,'PRJ00081'
+								,'PRJ00080'
+								,'PRJ00079'
+								,'PRJ00078'
+								,'PRJ00077'
+								,'PRJ00076'
+								,'PRJ00075'
+								,'PRJ00074'
+								,'PRJ00073'
+								,'PRJ00072'
+								,'PRJ00071'
+								,'PRJ00070'
+								,'PRJ00069'
+								,'PRJ00068'
+								,'PRJ00067'
+								,'PRJ00066'
+								,'PRJ00065')
 	  ]]>
    	</select>
 
@@ -111,7 +134,30 @@
 			  FROM IRIS_PRJ_RSST_MST RM
 			  INNER JOIN IRIS_SSO_USER SSO
 			  ON RM.PL_EMP_NO = SSO.SA_SABUN_NEW
-			  where RM.PRJ_NM not like '%중앙연구소%'
+			  where RM.PRJ_NM not like '%연구소%'
+			  and   RM.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059'
+								,'PRJ00086'
+								,'PRJ00085'
+								,'PRJ00084'
+								,'PRJ00083'
+								,'PRJ00082'
+								,'PRJ00081'
+								,'PRJ00080'
+								,'PRJ00079'
+								,'PRJ00078'
+								,'PRJ00077'
+								,'PRJ00076'
+								,'PRJ00075'
+								,'PRJ00074'
+								,'PRJ00073'
+								,'PRJ00072'
+								,'PRJ00071'
+								,'PRJ00070'
+								,'PRJ00069'
+								,'PRJ00068'
+								,'PRJ00067'
+								,'PRJ00066'
+								,'PRJ00065')
 	]]>
    	</select>
 
@@ -152,6 +198,7 @@
 									)
 		where  a.del_yn ='N'
 		and    a.tss_st = '102'
+		and    a.tss_scn_cd != 'D'
 		and    a.wbs_cd not in (  select wbs_cd 
 								  from IRIS_TSS_MGMT_MST 
 								  where PGS_STEP_CD in ('DC', 'CM') 
@@ -198,11 +245,10 @@
 
 					   WHERE  NOT EXISTS (SELECT PK_WBS_CD FROM IRIS_TSS_MGMT_MST TM WHERE TM.PK_WBS_CD = MM.PK_WBS_CD AND TM.PGS_STEP_CD ='CM') --완료가 안된것
 						 and mm.PGS_STEP_CD = 'PG'
+						 and  mm.tss_scn_cd != 'D'
 						 and  mm.sa_sabun_new is not null) a
 			where a.fnhDt != ''
 			AND convert(nvarchar(7), a.fnhDt, 23) = convert(nvarchar(7), GETDATE(), 23) --과제완료일이 해당월인것
-		-- AND DATENAME(mm ,a.fnhDt) = DATENAME(mm,GETDATE())--과제완료일이 해당월인것
-
 		 AND a.saMail IS NOT NULL
 		 ]]>
    	</select>
@@ -323,6 +369,7 @@
 				inner join iris_sso_user c
 				on   c.sa_sabun_new = g.DLBR_CRGR
 		WHERE	m.tss_st = '101'
+		and     g.TSS_CD_SN = (select max(TSS_CD_SN) from  iris_grs_ev_rslt_rgst where tss_cd = m.tss_cd)
    	 </select>
 
    	 <!-- 전자결재 과제 반려, 취소건 삭제 -->
