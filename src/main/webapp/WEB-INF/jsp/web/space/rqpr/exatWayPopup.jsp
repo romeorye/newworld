@@ -39,7 +39,7 @@ Rui.onReady(function() {
 		<table class="table table_txt_right">
 			<tr>
 				<td>
-					<teatarea>${inputData.exatWay}</teatarea>
+					<textarea id="exprWay" name="exprWay">${inputData.exprWay}</textarea>
 				</td>
 			</tr>
 		</table>
