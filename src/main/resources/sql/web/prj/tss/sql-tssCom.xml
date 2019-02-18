@@ -686,8 +686,13 @@
             ON A.PRJ_CD = B.PRJ_CD
     ]]>
 		<if test="userDeptCd != null and !userDeptCd.equals('')"><!-- 자기가 속한 과제만 조회 -->
-			AND B.PRJ_CD IN (SELECT PRJ_CD FROM IRIS_PRJ_RSST_MST WHERE DEPT_CD =
-			#{userDeptCd})
+			AND B.PRJ_CD IN (SELECT PRJ_CD 
+			                             FROM IRIS_PRJ_RSST_MST 
+										 WHERE DEPT_CD = ( select distinct team_dept_code 
+										                                  from vw_sso_dept 
+																		  where dept_code =#{userDeptCd}
+																		  )
+										)
 		</if>
     <![CDATA[
          WHERE A.PGS_STEP_CD = 'PG' --고정값: PG(진행)
