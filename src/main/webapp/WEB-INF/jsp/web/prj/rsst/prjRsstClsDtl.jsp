@@ -383,7 +383,6 @@
         }
 
 /* 산출물, 지적재산권 그리드 제거 : 김민정책임 요청 */
-
         mboGrid.render('mboGrid');
 //        pduGrid.render('pduGrid');
 //        ptoprptGrid.render('ptoprptGrid');
@@ -640,6 +639,15 @@
 	 		return false;
  		}
 
+	 	
+	 	var today = Rui.util.LDate.format(new Date(), '%Y%m');
+	 	var sMon = lmbSearchMonth.getValue().replace("-", "");
+
+	 	if( sMon >  today  ){
+	 		Rui.alert("저장 할 마감월이 잘못되었습니다. ");
+	 		return;
+	 	}
+	 	
 	 	return true;
 	 }
 </script>
