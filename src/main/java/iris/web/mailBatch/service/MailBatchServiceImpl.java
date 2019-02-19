@@ -219,7 +219,6 @@ public class MailBatchServiceImpl implements MailBatchService{
         String title = input.get("title").toString();
         for(Map<String, Object> addr : retrieveSendAddr) {
 
-            //	    	   input.put("receMailAdd" , "choinhee@lghausys.com") ;
             input.put("receMailAdd" , addr.get("saMail")) ;
             if("G".equals( input.get("Type"))){
 
@@ -244,7 +243,6 @@ public class MailBatchServiceImpl implements MailBatchService{
 
                 Map<String, Object> retrieveCCPrjPLsendAddr =    commonDao.select("batch.retrieveCCPrjPLsendAddr", addr.get("prjCd"));
 
-                //	    		   input.put("ccReceMailAdd" , "choinhee@lghausys.com") ;
                 input.put("ccReceMailAdd" , retrieveCCPrjPLsendAddr.get("saMail")) ;
             }
 
