@@ -35,6 +35,7 @@
     
     var dataSet;
     var lvAttcFilId;
+    var tmpAttchFileList;
     
     Rui.onReady(function() {
         /*============================================================================
@@ -206,6 +207,8 @@
             if(attachFileList.length > 0) {
                 lvAttcFilId = attachFileList[0].data.attcFilId;    
                 dataSet.setNameValue(0, "cmplAttcFilId", lvAttcFilId)
+                
+                tmpAttchFileList = attachFileList;
             }
             
             initFrameSetHeight();
@@ -220,7 +223,7 @@
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-            window.parent.fnSave();
+        	window.parent.fnSave();
         });
         
        /*  
@@ -248,6 +251,17 @@
         	document.getElementById('attchFileMngBtn').style.display = "none";
 		}
     });
+    
+    function fnAttchValid(){
+    	var chkNum = 0;
+
+    	for(var i = 0; i < tmpAttchFileList.length; i++) {
+    		if( tmpAttchFileList[i].data.filNm.indexOf('완료') > -1 || tmpAttchFileList[i].data.filNm.indexOf('결과') > -1 || tmpAttchFileList[i].data.filNm.indexOf('최종') > -1 ){
+				chkNum++;    
+			}               
+        }
+		return chkNum;
+    }
     
     // 내부 스크롤 제거
     $(window).load(function() {

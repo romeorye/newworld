@@ -62,14 +62,6 @@
             editable: false,
             width: 300
         });
-
-/*         //발의주체
-        ppslMbdNm = new Rui.ui.form.LTextBox({
-            applyTo: 'ppslMbdNm',
-            editable: false,
-            width: 300
-        });
-        */
         //과제유형
         bizDptNm = new Rui.ui.form.LTextBox({
             applyTo: 'bizDptNm',
@@ -325,10 +317,8 @@
                 , { id: 'tssStepNm',    ctrlId: 'tssStepNm',    value: 'html' }				//과제 단계명
                 , { id: 'grsStepNm',    ctrlId: 'grsStepNm',    value: 'html' }				// GRS 단계명
                 // , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }		//Qgate 단계명
-
             ]
         });
-
 
         //유효성 설정
         var vm = new Rui.validate.LValidatorManager({
@@ -337,7 +327,6 @@
                 , { id: 'cmplBFnhDd',  validExp: '실적종료일:true' }
             ]
         });
-
 
         //서버전송용
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
@@ -442,6 +431,13 @@
                  return;
             }
 
+			var chkNum =   document.getElementById('tabContent0').contentWindow.fnAttchValid();  
+			
+        	if(chkNum == 0){
+        		Rui.alert("평가 결과서 첨부파일을 추가하셔야 합니다.");
+        		return;
+        	}
+        	
             if(dataSet.isUpdated()) {
                 Rui.alert("완료탭 저장을 먼저 해주시기 바랍니다.");
                 return false;
