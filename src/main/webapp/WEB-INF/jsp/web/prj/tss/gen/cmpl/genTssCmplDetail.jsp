@@ -49,7 +49,7 @@
     var dataSet;
     var altrHistDialog;
     var rtnMsg = "${inputData.rtnMsg}";
-    var itmFlag ="Y";	//필수산출물 체크
+    var itmFlag ="Y";	//필수산출물 체크 
     
     Rui.onReady(function() {
         /*============================================================================
@@ -470,15 +470,15 @@
         btnCsusRq = new Rui.ui.LButton('btnCsusRq');
         
         btnCsusRq.on('click', function() {
-          	document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
+        	document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
           	document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
 			
-          	var chkNum =   document.getElementById('tabContent0').contentWindow.fnAttchValid();  
-			
-        	if(chkNum == 0){
-        		Rui.alert("평가 결과서 첨부파일을 추가하셔야 합니다.");
-        		return;
-        	}
+          	var chkNum = document.getElementById('tabContent0').contentWindow.fnAttchValid();  
+
+          	if(chkNum == 0){
+	        		Rui.alert("평가 결과서 첨부파일을 추가하셔야 합니다.");
+	        		return;
+          	}
         	
           	Rui.confirm({
                 text: '품의서요청을 하시겠습니까?',
