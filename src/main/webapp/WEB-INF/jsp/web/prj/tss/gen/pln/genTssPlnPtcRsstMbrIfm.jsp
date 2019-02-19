@@ -185,7 +185,7 @@
                 , { id: 'deptCode',     validExp: '소속:false' }
                 , { id: 'deptName',     validExp: '소속:false' }
                 , { id: 'ptcStrtDt',    validExp: '참여시작일:false' }
-                , { id: 'ptcFnhDt',     validExp: '참여종료일:false' }
+                , { id: 'ptcFnhDt',     validExp: '참여종료일:true' }
                 , { id: 'ptcRole',      validExp: '참여역할:false' }
                 , { id: 'ptcRoleDtl',   validExp: '참여역할상세:false' }
                 , { id: 'userId',       validExp: '사용자ID:false' }
@@ -272,11 +272,18 @@
             
             //과제리더 건수 확인
             var rdSnt = 0;
+            var rdDt = 0;
             for(var i = 0; i < dataSet.getCount(); i++) {
                 if(dataSet.getNameValue(i, "ptcRole") == "01") rdSnt++;
+            	if(!Rui.isEmpty(dataSet.getNameValue(i, "ptcFnhDt"))   )  rdDt++;
+                
             }
             if(rdSnt != 1) {
                 Rui.alert("과제리더는 1명으로 지정해야 합니다.");
+                return;
+            }
+            if(dataSet.getCount() != rdDt) {
+                Rui.alert("참여 종료일은 필수입니다.");
                 return;
             }
             
