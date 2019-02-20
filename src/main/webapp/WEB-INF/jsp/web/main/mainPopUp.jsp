@@ -5,33 +5,40 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
-<title><%=documentTitle%></title>
+<title>LSSP반출신청</title>
 
 <script type="text/javascript">
-
-
-
-function setCookie(name, value, expiredays){
- 	var todayDate = new Date();
- 	todayDate.setDate(todayDate.getDate()+expiredays);
- 	document.cookie = name+"="+escape(value)+"; path=/; expires="+todayDate.toGMTString() +";"
-}
-
-function closeWin(){
-	if(document.pop.Notice1.checked){
-  		setCookie("notice","done",1);
-  		self.close();
- 	} 
-}
+	
+	Rui.onReady(function() {
+	
+		moveApprovalPg = function(cd){
+			if( cd == "APP00369" ){
+				openWindow('<c:url value="http://uapproval.lghausys.com:7001/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00369"/>', '정보기기', 900, 800, 'yes');
+			}else if( cd == "APP00370" ){
+				openWindow('<c:url value="http://uapproval.lghausys.com:7001/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00370"/>', '시료/샘플', 900, 800, 'yes');
+			}else if( cd == "APP00371" ){
+				openWindow('<c:url value="http://uapproval.lghausys.com:7001/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00371"/>', '문서', 900, 800, 'yes');
+			}
+			
+			window.close();
+		} 
+	});
 
 </script>
 </head>
 <body>
-	<div class="logo"><img src="http://localhost:8080/iris/resource/web/images/newIris/logo.png"  width="254px;" height="250px;"></div>
-	
-	
-	<input type="checkbox" id="toCls" name="toCls" onclick="javascript:closeWin()" />오늘은 이 창을 열지 않습니다.
-	<input type="button" id="btn" name="btn">닫기</input>
+<div class="bd">
+	<div class="sub-content">
+			<h2>* 반출유형을 선택해주세요</h2>		
+		</br>
+		<div class="LblockButton1">
+			<button type="button" class="btn"  id="prjSearchBtn" name="prjSearchBtn" onclick="javascript:moveApprovalPg('APP00369');">정보기기</button>
+			<button type="button" class="btn"  id="prjSearchBtn" name="prjSearchBtn" onclick="javascript:moveApprovalPg('APP00370');">시료/샘플</button>
+			<button type="button" class="btn"  id="tssSearchBtn" name="tssSearchBtn" onclick="javascript:moveApprovalPg('APP00371');">문서</button>
+		</div>
+	</div>	
+</div>
+
 
 </body>
 </html>
