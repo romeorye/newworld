@@ -403,6 +403,7 @@
                 {id:'commTxt', validExp:'Comment:true'},
                 {id:'attcFilId', validExp:'첨부파일:true'},
                 {id:'grsEvSn', validExp:'평가표:true'},
+                {id:'grsEvMType', validExp:'중간평가방법:true'}
             ]
         });
 
