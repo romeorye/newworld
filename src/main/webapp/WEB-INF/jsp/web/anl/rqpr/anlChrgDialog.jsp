@@ -160,7 +160,8 @@
 			<tr>
 				<td align="center">유기분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
+					<a href="#" onClick="setAnlChrgInfo('leesangheon', '이상헌')">이상헌</a>
 				</td>
 			</tr>
 			<tr>

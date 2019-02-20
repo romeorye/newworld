@@ -128,7 +128,8 @@
 		                        	<a href="javascript:getPersonInfo('00208220',' jihachoi')" class="person_link">최지하</a>
 		                        </td>
 		                        <td class="rightL">
-		                        	<a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">이종한</a>
+		                        	<a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">이종한</a>,
+		                        	<a href="javascript:getPersonInfo('00208522','leesangheon')" class="person_link">이상헌</a>
 		                        </td>
 		                    </tr>
 
