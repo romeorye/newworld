@@ -522,7 +522,6 @@ table td .titArea button:hover {border:1px solid #da1c5a !important; }
 .titArea  { overflow:hidden;}
 .titArea .sub-tit {background: url(/iris/resource/web/images/newIris/bullet02.png) left center no-repeat; padding-left:12px;}
 .titArea .LblockButton { margin-right: 0; margin-left: 10px;}
-.titArea .LblockButton1 { margin-right: 0; margin-left: 0px;}
 .titArea.btn_top {margin-top:0 !important;}
 .titArea.mt0 {margin-bottom:0 !important; margin-top:0 !important;}
 
