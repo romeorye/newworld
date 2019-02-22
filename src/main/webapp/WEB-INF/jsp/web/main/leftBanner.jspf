@@ -63,7 +63,7 @@
 		
 		function fnPopLink(){
 			var popUrl =  '<c:url value="/prj/rsst/mainPopUp.do"/>';
-		    var popupOption = "width=350, height=150, top=300, left=400,location=no";
+		    var popupOption = "width=360, height=170, top=300, left=400,location=no";
 		    
 			window.open(popUrl,"LGSP 반출신청",popupOption);
 		}

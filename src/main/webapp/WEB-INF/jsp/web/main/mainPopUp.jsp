@@ -29,13 +29,21 @@
 <body>
 <div class="bd">
 	<div class="sub-content">
-			<h2>* 반출유형을 선택해주세요</h2>		
+			<div id="titArea">* 반출유형을 선택해주세요</div>		
 		</br>
+				<img src="/iris/resource/web/images/newIris/infoMchn.jpg" alt="정보기기"  style="cursor:pointer" width="80" height="100" onclick="javascript:moveApprovalPg('APP00369');" >
+				<em class="gab">
+				<img src="/iris/resource/web/images/newIris/sample.jpg" alt="시료/샘플"  style="cursor:pointer" width="80" height="100" onclick="javascript:moveApprovalPg('APP00370');" >
+				<em class="gab">
+				<img src="/iris/resource/web/images/newIris/document.jpg" alt="문서"   style="cursor:pointer" width="80" height="100" onclick="javascript:moveApprovalPg('APP00371');" >
+		
+		<!-- 
 		<div class="LblockButton1">
 			<button type="button" class="btn"  id="prjSearchBtn" name="prjSearchBtn" onclick="javascript:moveApprovalPg('APP00369');">정보기기</button>
 			<button type="button" class="btn"  id="prjSearchBtn" name="prjSearchBtn" onclick="javascript:moveApprovalPg('APP00370');">시료/샘플</button>
 			<button type="button" class="btn"  id="tssSearchBtn" name="tssSearchBtn" onclick="javascript:moveApprovalPg('APP00371');">문서</button>
 		</div>
+		 -->
 	</div>	
 </div>
 
