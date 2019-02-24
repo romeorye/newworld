@@ -31,11 +31,11 @@
 	<div class="sub-content">
 			<div id="titArea">* 반출유형을 선택해주세요</div>		
 		</br>
-				<img src="/iris/resource/web/images/newIris/infoMchn.jpg" alt="정보기기"  style="cursor:pointer" width="80" height="100" onclick="javascript:moveApprovalPg('APP00369');" >
+				<img src="/iris/resource/web/images/newIris/infoMchn.jpg" alt="정보기기"  style="cursor:pointer" width="70" height="100" onclick="javascript:moveApprovalPg('APP00369');" >
 				<em class="gab">
-				<img src="/iris/resource/web/images/newIris/sample.jpg" alt="시료/샘플"  style="cursor:pointer" width="80" height="100" onclick="javascript:moveApprovalPg('APP00370');" >
+				<img src="/iris/resource/web/images/newIris/sample.jpg" alt="시료/샘플"  style="cursor:pointer" width="80" height="95" onclick="javascript:moveApprovalPg('APP00370');" >
 				<em class="gab">
-				<img src="/iris/resource/web/images/newIris/document.jpg" alt="문서"   style="cursor:pointer" width="80" height="100" onclick="javascript:moveApprovalPg('APP00371');" >
+				<img src="/iris/resource/web/images/newIris/document.jpg" alt="문서"   style="cursor:pointer" width="60" height="100" onclick="javascript:moveApprovalPg('APP00371');" >
 		
 		<!-- 
 		<div class="LblockButton1">
