@@ -402,9 +402,13 @@
                 {id:'cfrnAtdtCdTxtNm', validExp:'회의 참석자:true'},
                 {id:'commTxt', validExp:'Comment:true'},
                 {id:'attcFilId', validExp:'첨부파일:true'},
-                {id:'grsEvSn', validExp:'평가표:true'},
-                {id:'grsEvMType', validExp:'중간평가방법:true'}
+                {id:'grsEvSn', validExp:'평가표:true'}
+                
+                
             ]
+        
+        
+        
         });
 
         var pointVali = new Rui.validate.LValidatorManager({
@@ -666,7 +670,10 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
                                     return;
                                 }
 
-
+								if( gbGrsEvSt  == "M" && Rui.isEmpty(grsEvMType.getValue()) ){
+									Rui.alert("중간평가 방법을 입력하세요");
+									return;
+								}
                                 //평가표 검사
                                 if(!pointVali.validateDataSet(gridDataSet)) {
                                     Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + pointVali.getMessageList().join('<br>'));
