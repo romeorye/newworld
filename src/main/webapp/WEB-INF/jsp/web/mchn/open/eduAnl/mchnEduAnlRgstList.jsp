@@ -305,6 +305,7 @@ var excelDataSet;
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
         	if(dataSet.getCount() > 0 ) {
+        		var excelColumnModel = columnModel.createExcelColumnModel(false);
                 grid.saveExcel(encodeURIComponent('기기관리_') + new Date().format('%Y%m%d') + '.xls', {
 	                columnModel: excelColumnModel
 	            });
@@ -316,8 +317,11 @@ var excelDataSet;
 
 		/* 엑셀 다운로드 */
 		var saveAllExcelBtn = new Rui.ui.LButton('butAllExcl');
+		
 		saveAllExcelBtn.on('click', function(){
-        	if(excelDataSet.getCount() > 0 ) {
+			
+			if(excelDataSet.getCount() > 0 ) {
+				var excelAllColumnModel = exelColumnModel.createExcelColumnModel(false);
                 excelGrid.saveExcel(encodeURIComponent('기기관리전체_') + new Date().format('%Y%m%d') + '.xls', {
 	                columnModel: excelAllColumnModel
 	            });
