@@ -823,6 +823,39 @@ public class PurRqInfoController extends IrisBaseController {
 		return urlString;
 	}
 
+	
+	/**
+	 * 
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/prs/purRq/retrieveSrhPrjPop.do")
+	public String retrieveSrhPrjPop(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoController - retrieveSrhPrjPop 프로젝트 조회 팝업");
+		LOGGER.debug("###########################################################");
+		/* 반드시 공통 호출 후 작업 */
+		checkSession(input, session, model);
+
+		input = StringUtil.toUtf8Input(input);
+
+		LOGGER.debug("input = > " + input);
+
+		model.addAttribute("inputData", input);
+		
+		return "web/prs/popup/purRqPrjPop";
+	}
+	
+	
 }
 
 

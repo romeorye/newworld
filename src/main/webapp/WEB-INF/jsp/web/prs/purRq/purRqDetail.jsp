@@ -32,6 +32,8 @@ var prjInfoListDialog;	//WBS 코드 팝업 dialog
 var callback;
 var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 
+
+
 	Rui.onReady(function() {
 		var frm = document.aform;
 		var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
@@ -52,6 +54,24 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 
         resultDataSet.on('load', function(e) {
         });
+        
+        openPrjSearchDialog = new Rui.ui.LFrameDialog({
+	        id: 'openPrjSearchDialog',
+	        title: 'Pjt',
+	        width:  900,
+	        height: 550,
+	        modal: true,
+	        visible: false,
+	        buttons : [
+	            { text:'닫기', handler: function() {
+	              	this.cancel(false);
+	              }
+	            }
+	        ]
+	    });
+
+        openPrjSearchDialog.render(document.body);
+
         
         //품목구분
         var sCode = new Rui.ui.form.LCombo({
@@ -114,14 +134,22 @@ var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
 		
         posid.on('popup', function(e){
         	var deptYn = "N";
-        	openWbsCdSearchDialog(setPrsWbsCd, deptYn);
+        	prjSearchDialog(setPrsWbsCd, deptYn);
+        	
         });
         
+        prjSearchDialog = function(f, deptYn) {
+	    	_callback = f;
+	    	openPrjSearchDialog.setUrl('<c:url value="/prs/purRq/retrieveSrhPrjPop.do"/>');
+	    	openPrjSearchDialog.show();
+	    };
+        
+ 		
 		//WBS 코드 팝업 세팅
 		function setPrsWbsCd(wbsInfo){
 			//purRqUserDataSet.setNameValue(0, "wbsCd", wbsInfo.wbsCd);
 			posid.setValue(wbsInfo.wbsCd);
-			$('#wbsCdName', aform).html(wbsInfo.tssNm);
+			$('#wbsCdName', aform).html(wbsInfo.prjNm);
 		}
 		
 		//납품요청일
