@@ -66,7 +66,7 @@
 						,a.TSS_NM as tssNm
 						,dbo.fn_getComDtlNm('RSST_SPHE', a.RSST_SPHE)                             AS rsstSphe     --연구분야
 						,dbo.fn_getComDtlNm('TSS_TYPE', a.TSS_TYPE)                               AS tssType      --과제유형
-						,dbo.fn_getSabunName(a.SA_SABUN_NEW)                                      AS saUserName   --과제리더명
+						,isnull(dbo.fn_getSabunName(a.SA_SABUN_NEW) , a.sa_sabun_name)            AS saUserName   --과제리더명
 						,a.TSS_STRT_DD                                                            AS tssStrtDd    --과제기간시작
 						,a.TSS_FNH_DD                                                             AS tssFnhDdPln  --과제종료일-계획
 						,CASE WHEN a.PGS_STEP_CD = 'DC' THEN a.DCAC_B_FNH_DD
