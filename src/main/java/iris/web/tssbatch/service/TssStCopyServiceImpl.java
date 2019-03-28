@@ -1,19 +1,21 @@
 package iris.web.tssbatch.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
 import devonframe.dataaccess.CommonDao;
 import iris.web.prj.tss.gen.service.GenTssAltrService;
 import iris.web.prj.tss.gen.service.GenTssCmplService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
 import iris.web.prj.tss.nat.service.NatTssAltrService;
 import iris.web.prj.tss.ousdcoo.service.OusdCooTssAltrService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /*********************************************************************************
  * NAME : TssCopyBatchServiceImpl.java
@@ -152,7 +154,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
                 if (!"Y".equals(finYn)) {                       // 최종차수 여부
                     input.put("pgsStepCd", "PL");       // 계획
                     input.put("tssSt", "104");                  // 품의완료
-                    input.put("0", psTssCd);
+                    input.put("pgTssCd", psTssCd);
 
                     int tssNosSt = Integer.parseInt(String.valueOf(input.get("tssNosSt")).trim());
                     input.put("tssNosSt", tssNosSt + 1);
@@ -185,7 +187,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 			}
 		}
 		//과제 생성시 지적재산권
-		saveTssPimsInfo(input);
+		//saveTssPimsInfo(input);
 	}
 
 
