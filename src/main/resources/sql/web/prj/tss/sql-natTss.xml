@@ -47,6 +47,7 @@
 					  ,m.TSS_FNH_DD as tssFnhDd
 					  ,m.prj_cd as prjCd
 					 ,m.BIZ_DPT_CD as bizDptCd
+					 ,g.DROP_YN
 		          FROM IRIS_TSS_MGMT_MST M  /*과제관리마스터*/
 		          LEFT JOIN IRIS_PRJ_RSST_MST A  /*프로젝트연구마스터*/
 		            ON M.PRJ_CD = A.PRJ_CD
