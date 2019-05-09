@@ -188,6 +188,7 @@
                       (SELECT  * FROM
                       (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
 						  ON m.TSS_CD = g.TSS_CD
+						  and left(m.TSS_CD, 1) = 'G'
 						  WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
 				) z
 		where  1=1

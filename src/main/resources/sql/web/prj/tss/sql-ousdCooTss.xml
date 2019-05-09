@@ -8,7 +8,6 @@
     <![CDATA[
 /*대외협력과제 목록 retrieveOusdCooTssList*/
         SELECT distinct Z.*
-        ,dbo.fn_getQgateStepNm(z.wbsCd,'0') as qgateStepNm
 		FROM   (
 				select    M.WBS_CD                                        AS wbsCd        --과제코드
 						, M.PK_WBS_CD                                     AS pkWbsCd      --과제코드(PK)
@@ -47,17 +46,17 @@
 						, ROUND((ISNULL(C.YY_NOS_CASH1,0) + ISNULL(C.YY_NOS_CASH2,0) + ISNULL(C.YY_NOS_CASH3,0) + ISNULL(C.YY_NOS_CASH4,0)) / convert(float, 100000000), 2) as arslExpConvertMil /*실적연구비(억원)*/
 				        , M.BIZ_DPT_CD AS bizDptCd
 				        , M.prj_cd as prjCd
-				        ,g.DROP_YN
 				FROM	IRIS_TSS_MGMT_MST M  /*과제관리마스터*/
 						LEFT JOIN IRIS_PRJ_RSST_MST A  /*프로젝트연구마스터*/
 						ON M.PRJ_CD = A.PRJ_CD
 						LEFT OUTER JOIN IRIS_TSS_OUSD_COO_SMRY B ON B.TSS_CD = M.TSS_CD /*대외협력과제 개요*/
 						LEFT OUTER JOIN IRIS_TSS_OUSD_EXP_STOA C ON C.TSS_CD = M.TSS_CD /*대외협력과제 비용*/
-					   LEFT OUTER JOIN
+						LEFT OUTER JOIN
 					   (SELECT  * FROM
 						 (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
 						 ON M.TSS_CD = g.TSS_CD
-
+						 and left(g.TSS_CD, 1) = 'O'
+						 
 				WHERE	M.TSS_CD IN (SELECT TSS_CD
 										FROM (SELECT WBS_CD, TSS_CD, STEPRANK
 													, RANK() OVER (PARTITION BY X.WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
@@ -76,7 +75,6 @@
 				AND M.TSS_SCN_CD = 'O'
 				AND M.DEL_YN = 'N' --삭제여부
 				AND iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN)= 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
-
 				) Z
                 WHERE  1=1
 		    ]]>
