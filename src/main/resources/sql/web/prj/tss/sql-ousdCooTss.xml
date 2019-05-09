@@ -46,6 +46,7 @@
 						, ROUND((ISNULL(C.YY_NOS_CASH1,0) + ISNULL(C.YY_NOS_CASH2,0) + ISNULL(C.YY_NOS_CASH3,0) + ISNULL(C.YY_NOS_CASH4,0)) / convert(float, 100000000), 2) as arslExpConvertMil /*실적연구비(억원)*/
 				        , M.BIZ_DPT_CD AS bizDptCd
 				        , M.prj_cd as prjCd
+				        ,g.DROP_YN
 				FROM	IRIS_TSS_MGMT_MST M  /*과제관리마스터*/
 						LEFT JOIN IRIS_PRJ_RSST_MST A  /*프로젝트연구마스터*/
 						ON M.PRJ_CD = A.PRJ_CD
