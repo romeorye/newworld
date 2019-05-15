@@ -221,7 +221,7 @@ var mailTitl;
 							</td>
 						</tr>
 						<tr>
-							<td colspan="4"  class="tabPadding1>
+							<td colspan="4"  class="tabPadding1">
 								<c:out value='${result.dtlSbc}'  escapeXml="false"/>
 							</td>
 						</tr>
