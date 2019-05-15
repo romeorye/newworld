@@ -203,9 +203,8 @@
 		SELECT COUNT(*) cnt
 		FROM   IRIS_MCHN_PRCT_MST
 		WHERE  DEL_YN ='N'
-		AND    PRCT_SCN_CD = 'APPR'
+		AND    PRCT_SCN_CD in ('RQ', 'APPR')
 		AND    MCHN_INFO_ID = #{mchnInfoId}
-		AND    RGST_ID  =  #{rgstId}
 		AND    PRCT_DT =  #{prctDt}
 		AND  ( #{prctFromTim} BETWEEN PRCT_FROM_TIM AND PRCT_TO_TIM
 		     OR #{prctToTim} BETWEEN  PRCT_FROM_TIM AND PRCT_TO_TIM )
