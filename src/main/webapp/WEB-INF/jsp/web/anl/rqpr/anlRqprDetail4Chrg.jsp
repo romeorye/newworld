@@ -537,7 +537,7 @@
 					, { id: 'smpoNm' }
 					, { id: 'mkrNm' }
 					, { id: 'mdlNm' }
-					, { id: 'smpoQty' }
+					, { id: 'smpoQty', type: 'number', defaultValue : 1 }
                 ]
             });
 
@@ -549,7 +549,7 @@
                     , { field: 'smpoNm',	label: '시료명',	editable: true, editor: textBox,	sortable: false,	align:'center',	width: 410 }
                     , { field: 'mkrNm',		label: '제조사',	editable: true, editor: textBox,	sortable: false,	align:'center',	width: 410 }
                     , { field: 'mdlNm',		label: '모델명',	editable: true, editor: textBox,	sortable: false,	align:'center',	width: 325 }
-                    , { field: 'smpoQty',	label: '수량',		editable: true, editor: numberBox,	sortable: false,	align:'center',	width: 100 }
+                   // , { field: 'smpoQty',	label: '수량',		editable: true, editor: numberBox,	sortable: false,	align:'center',	width: 100 }
                 ]
             });
 

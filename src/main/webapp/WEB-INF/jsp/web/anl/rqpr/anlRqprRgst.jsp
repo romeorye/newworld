@@ -266,7 +266,7 @@
 					, { id: 'smpoNm' }
 					, { id: 'mkrNm' }
 					, { id: 'mdlNm' }
-					, { id: 'smpoQty', type: 'number' }
+					, { id: 'smpoQty', type: 'number', defaultValue : 1  }
                 ]
             });
 
@@ -284,7 +284,7 @@
                     , { field: 'smpoNm',	label: '<span style="color:red;">* </span>시료명',		sortable: false,	editable: true, editor: textBox,	align:'center',	width: 400 }
                     , { field: 'mkrNm',		label: '<span style="color:red;">* </span>제조사',		sortable: false,	editable: true, editor: textBox,	align:'center',	width: 350 }
                     , { field: 'mdlNm',		label: '<span style="color:red;">* </span>모델명',		sortable: false,	editable: true, editor: textBox,	align:'center',	width: 300 }
-                    , { field: 'smpoQty',	label: '<span style="color:red;">* </span>수량',		sortable: false,	editable: true, editor: numberBox,	align:'center',	width: 50 }
+                    //, { field: 'smpoQty',	label: '<span style="color:red;">* </span>수량',		sortable: false,	editable: true, editor: numberBox,	align:'center',	width: 50 }
                 ]
             });
 
