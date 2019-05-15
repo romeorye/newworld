@@ -69,7 +69,14 @@
 		//페이지 온로드시 0번째 탭 선택
         tabView.selectTab(0);
 
+        
 	});//onReady 끝
+	
+	function getPersonInfo(sabunnew, loginSabun){
+			var popupUrl = "http://portal.lghausys.com/epWeb/com/ep/ibs/mypage/UserInfoController.jpf?sabunnew=" + sabunnew +"&loginSabun=" + loginSabun ;
+			var popupOption = "width=750, height=500, top=300, left=400";
+			window.open(popupUrl,"",popupOption);
+	}
 </script>
 
   <body style="overflow:auto">
