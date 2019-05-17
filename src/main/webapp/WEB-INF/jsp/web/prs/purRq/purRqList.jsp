@@ -29,7 +29,7 @@
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/tab/rui_tab.css"/>
 
 <script type="text/javascript">
-
+var linkUrl;
 	
 	Rui.onReady(function() {
 		var frm = document.aform;
@@ -102,22 +102,6 @@
            	window.open(url,'serveonemall','');
         }
         
-        var fncPurRqDetail = function(record){
-        	frm.sCodeSeq.value = record.get("sCodeSeq");
- 			frm.knttp.value  = record.get("knttp");
- 			frm.pstyp.value  = record.get("pstyp");
- 			frm.mCode.value  = encodeURIComponent(record.get("mCode"));
- 			frm.bizCd.value  = record.get("bizCd");
- 			frm.izwek.value  = record.get("izwek");
- 			frm.sCode.value  = encodeURIComponent(record.get("sCode"));
- 			frm.ekgrp.value  = record.get("ekgrp");
- 			frm.sakto.value  = record.get("sakto");
- 			frm.werks.value  = record.get("werks");
- 			frm.saktonm.value  = encodeURIComponent(record.get("saktonm"));
- 			
- 			nwinsActSubmit(document.aform, "<c:url value='/prs/purRq/purRqDetail.do'/>");
-        }
-        
         grid.on('cellClick', function(e) {
         	var record = dataSet.getAt(dataSet.getRow());
 
@@ -125,7 +109,19 @@
            		if( record.get("isMro") == "Y" ){
            			moveServeonPage();
              	}else{
-                 	fncPurRqDetail(record);
+                 	frm.sCodeSeq.value = record.get("sCodeSeq");
+         			
+                 	if( frm.tabId.value == "EM"){
+                 	   linkUrl = "<c:url value='/prs/purRq/purRqDetail.do'/>";
+                    }else if(frm.tabId.value == "EF"){
+                 	   linkUrl = "<c:url value='/prs/purRq/purRqLabEquipDetail.do'/>";
+                    }else if(frm.tabId.value == "CR"){
+                 	   linkUrl = "<c:url value='/prs/purRq/purRqWorkDetail.do'/>";
+                    }else if(frm.tabId.value == "OM"){
+                 	   linkUrl = "<c:url value='/prs/purRq/purRqOfficeDetail.do'/>";
+                    }
+                 	
+                 	nwinsActSubmit(document.aform, linkUrl);	
              	}
             }	
         });
@@ -182,19 +178,8 @@
 <body>
 <form id="aform" name ="aform">
 <input type="hidden" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">  
-
 <input type="hidden" id="sCodeSeq" name="sCodeSeq" />
-<input type="hidden" id="knttp"  name="knttp" />
-<input type="hidden" id="pstyp"  name="pstyp" />
-<input type="hidden" id="mCode"  name="mCode" />
-<input type="hidden" id="bizCd"  name="bizCd" />
-<input type="hidden" id="izwek"  name="izwek" />
-<input type="hidden" id="sCode"  name="sCode" />
-<input type="hidden" id="ekgrp"  name="ekgrp" />
 <input type="hidden" id="werks"  name="werks" value="1010"/>
-<input type="hidden" id="sakto"  name="sakto" />
-<input type="hidden" id="saktonm"  name="saktonm" />
-<input type="hidden" id="previous" name="previous" value="purRqList">
 
 <div class="contents">
 	<div class="sub-content">
