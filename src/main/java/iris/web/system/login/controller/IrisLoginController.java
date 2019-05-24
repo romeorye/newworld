@@ -30,6 +30,7 @@ import com.lghausys.eam.exception.EAMException;
 
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
+import iris.web.common.sso.SsoConfig;
 import iris.web.common.util.FormatHelper;
 import iris.web.system.login.service.IrisEncryptionService;
 import iris.web.system.login.service.IrisLoginService;
@@ -61,6 +62,7 @@ public class IrisLoginController {
     @Resource(name="messageSourceAccessor")
     private MessageSourceAccessor messageSourceAccessor;
     
+    
     static final Logger LOGGER = LogManager.getLogger(IrisLoginController.class);
 
 	@RequestMapping(value="/common/login/irisDirectLogin.do")
@@ -84,12 +86,40 @@ public class IrisLoginController {
 			vowFlag = "";
 			securityFlag = "";
 //			input.clear();
-			input.put("eeId", lycos);
+			//input.put("eeId", lycos);
+			
 			if (!"".equals(lycos)){
 				eeId ="directLoginTrue";	
 			}
-			LOGGER.debug("#######################################sessionsessionsessionsessionsession####################   : " + session);
-			return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
+			
+			SsoConfig sso = new SsoConfig();
+			
+			String sso_id = sso.getSsoId(request);
+			LOGGER.debug("###########################sso_id################################ : " + sso_id);
+			
+			if (sso_id == null || sso_id.equals("")) {
+				if(  !"".equals(lycos) ){
+					input.put("eeId", lycos );
+					return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
+				}else{
+					return "common/error/sessionError";
+				}
+				
+			} else {
+				//4.쿠키 유효성 확인 :0(정상)
+				String retCode = sso.getEamSessionCheckAndAgentVaild(request,response);
+				
+				LOGGER.debug("###########################retCode################################ : " + retCode);
+				if(!retCode.equals("0")){
+					return "redirect:/index.do";
+				}
+				//
+				//5.업무시스템에 읽을 사용자 아이디를 세션으로 생성
+				input.put("eeId", sso_id );
+				//6.업무시스템 페이지 호출(세션 페이지 또는 메인페이지 지정)  --> 업무시스템에 맞게 URL 수정!
+				return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
+			}
+					
 	}
 	
 	
@@ -442,7 +472,6 @@ public class IrisLoginController {
 		}
 		
         if(session != null) {
-            //System.out.println(session.toString());
               HashMap lsession = (HashMap)session.getAttribute("irisSession");
               session.invalidate();
           }else{
