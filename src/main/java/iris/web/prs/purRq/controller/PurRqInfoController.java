@@ -1,5 +1,6 @@
 package iris.web.prs.purRq.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.DateUtil;
 import iris.web.common.util.StringUtil;
 import iris.web.prs.purRq.service.PurRqInfoService;
-import iris.web.rlab.rqpr.controller.RlabRqprController;
+import iris.web.sapBatch.service.SapBudgCostService;
 import iris.web.system.base.IrisBaseController;
 
 /********************************************************************************
@@ -49,8 +50,10 @@ public class PurRqInfoController extends IrisBaseController {
 	@Resource(name = "purRqInfoService")
 	private PurRqInfoService purRqInfoService;
 	
+	@Resource(name = "sapBudgCostService")
+	private SapBudgCostService sapBudgCostService;
 	
-	static final Logger LOGGER = LogManager.getLogger(RlabRqprController.class);
+	static final Logger LOGGER = LogManager.getLogger(PurRqInfoController.class);
 	
 	/**
 	 *  구매요청시스템 리스트 화면으로 이동
@@ -60,6 +63,7 @@ public class PurRqInfoController extends IrisBaseController {
 	 * @param model
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/prs/purRq/purRqList.do")
 	public String purRqList(
 			@RequestParam HashMap<String, Object> input,
@@ -71,13 +75,13 @@ public class PurRqInfoController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		
-		input = StringUtil.toUtf8Input(input);
 		
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("PurRqInfoController - purRqList [구매요청시스템 리스트 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-		
+
+		input = StringUtil.toUtf8Input(input);
 		model.addAttribute("inputData", input);
 		
 		return "web/prs/purRq/purRqList";
@@ -93,6 +97,7 @@ public class PurRqInfoController extends IrisBaseController {
 	 * @param model
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/prs/pur/retrievePurRqList.do")
 	public ModelAndView retrievePurRqList(
 			@RequestParam HashMap<String, Object> input,
@@ -104,192 +109,151 @@ public class PurRqInfoController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
-		input = StringUtil.toUtf8(input);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
 		
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("PurRqInfoController - retrievePurRqList [구매요청 리스트 검색]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
-		ModelAndView modelAndView = new ModelAndView("ruiView");
+		input = StringUtil.toUtf8(input);
 
-        //구매요청 리스트 조회
+		//구매요청 리스트 조회
 		List<Map<String,Object>> rlabChrgList = purRqInfoService.retrievePurRqList(input);
-
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", rlabChrgList));
 
 		return modelAndView;
 	}
 	
-	
 	/**
-	 *  구매요청 화면으로 이동
+	 * 비용요청(구매)
 	 * @param input
 	 * @param request
 	 * @param session
 	 * @param model
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/prs/purRq/purRqDetail.do")
-	public String purRqDetail(
-			@RequestParam HashMap<String, Object> input,
-			HttpServletRequest request,
-			HttpSession session,
-			ModelMap model
-			){
-		String retPage = "";
-		
-		/* 반드시 공통 호출 후 작업 */
-		checkSessionObjRUI(input, session, model);
-		
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - purRqDetail [구매요청 화면 이동]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
-		
-		input = StringUtil.toUtf8Output(input);
-		LOGGER.debug("############dddd###############################################  : " +    input.get("sCode")  );
-		
-		if("".equals(input.get("banfnPrs")) || null == input.get("banfnPrs")) {
-			int banfnPrs = purRqInfoService.getBanfnPrsNumber();
-			input.put("banfnPrs", banfnPrs);
-		} 
-		
-        //구매요청 리스트 조회
-		List<Map<String,Object>> purRqInfoMap = purRqInfoService.retrievePurRqInfo(input);
-
-
-		model.addAttribute("inputData", input);
-		//model.addAttribute("prItemListDataSet", RuiConverter.createDataset("prItemListDataSet", purRqInfoMap));
-		model.addAttribute("prItemListDataSet", purRqInfoMap);
-		
-		LOGGER.debug("---------------------------------------------------------------------------------------------");
-		LOGGER.debug("purRqInfoMap = > ");		
-		LOGGER.debug(purRqInfoMap);
-		LOGGER.debug("---------------------------------------------------------------------------------------------");
-		
-		if("EM".equals(input.get("tabId"))) {
-			retPage = "web/prs/purRq/purRqDetail";
-		} else if("EF".equals(input.get("tabId"))) {
-			retPage = "web/prs/purRq/purRqLabEquipDetail";
-		} else if("CR".equals(input.get("tabId"))) {
-			retPage = "web/prs/purRq/purRqWorkDetail";
-		} else if("OM".equals(input.get("tabId"))) {
-			retPage = "web/prs/purRq/purRqOfficeDetail";
-		} 
-		
-		return retPage;
-	}
-	
-	
-	
-	@RequestMapping(value="/prs/purRq/retrievePurRqInfo.do")
-	public ModelAndView retrievePurRqInfo(
-			@RequestParam HashMap<String, Object> input,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			HttpSession session,
-			ModelMap model
-			){
-
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - retrievePurRqInfo [구매요청 상세]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
-
-		ModelAndView modelAndView = new ModelAndView("ruiView");
-        //구매요청 리스트 조회
-		List<Map<String,Object>> purRqInfoMap = purRqInfoService.retrievePurRqInfo(input);
-		
-		//첨부파일 목록 조회
-		List<Map<String,Object>> attchFileList = null;
-
-		int i = 0;
-		for(Map item : purRqInfoMap) {
-			if(!"".equals(item.get("attcFilId")) && item.get("attcFilId") != null) {
-				attchFileList = purRqInfoService.retrieveAttachFileList((HashMap)item);
-				
-				String fileNm = makeAttachFilesURL(attchFileList);
-			
-				item.put("attcFiles", fileNm);
-				purRqInfoMap.set(i, item);
-			}
-			
-			i++;
-		}
-		
-		modelAndView.addObject("purRqUserDataSet", RuiConverter.createDataset("purRqUserDataSet", purRqInfoMap));
-
-		return modelAndView;
-	}	
-		
-		
-		
-		
-		
-	/**
-	 *  Project list pop 화면으로 이동
-	 * @param input
-	 * @param request
-	 * @param session
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value="/prs/pur/wbsCdSearchPopup.do")
-	public String rlabRqprDetail(
+	public String retrievePurRqDetail(
 			@RequestParam HashMap<String, String> input,
 			HttpServletRequest request,
 			HttpSession session,
 			ModelMap model
-			) throws Exception{
-
+			){
+	
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
-
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - wbsCdSearchPopup [Project list pop 화면 이동]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
-
-		model.addAttribute("inputData", input);
-
-		return "web/prs/popup/prjListPop";
-	}
-
-/*	public String wbsCdSearchPopup(
-			@RequestParam HashMap<String, Object> input,
-			HttpServletRequest request,
-			HttpSession session,
-			ModelMap model
-			){
-		
-		 반드시 공통 호출 후 작업 
-		checkSessionObjRUI(input, session, model);
 		
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - wbsCdSearchPopup [Project list pop 화면 이동]");
-		LOGGER.debug("input = > " + input);
+		LOGGER.debug("PurRqInfoController - retrievePurRqDetail 비용요청(구매)");
+		LOGGER.debug("#########input################################## : " + input);
 		LOGGER.debug("###########################################################");
-		
+
 		input = StringUtil.toUtf8Input(input);
-		
 		model.addAttribute("inputData", input);
 		
-		return "web/prs/popup/prjListPop";
+		return "web/prs/purRq/purRqDetail";
 	}
-*/	
 	
 	/**
-	 *  Project list search
+	 * 투자요청(구매)
 	 * @param input
 	 * @param request
-	 * @param response
 	 * @param session
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/prs/pur/retrieveWbsCdInfoList.do")
-	public ModelAndView retrieveWbsCdInfoList(
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/prs/purRq/purRqLabEquipDetail.do")
+	public String retrievePurRqLabEquipDetail(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+	
+		/* 반드시 공통 호출 후 작업 */
+		checkSession(input, session, model);
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoController - retrievePurRqLabEquipDetail 투자요청(구매)");
+		LOGGER.debug("#########input################################## : " + input);
+		LOGGER.debug("###########################################################");
+		
+		input = StringUtil.toUtf8Input(input);
+		model.addAttribute("inputData", input);
+		
+		return "web/prs/purRq/purRqLabEquipDetail";
+	}
+
+	/**
+	 * 공사요청(투자)
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/prs/purRq/purRqWorkDetail.do")
+	public String retrievePurRqWorkDetail(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+	
+		/* 반드시 공통 호출 후 작업 */
+		checkSession(input, session, model);
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoController - retrievePurRqWorkDetail 공사요청(투자)");
+		LOGGER.debug("#########input################################## : " + input);
+		LOGGER.debug("###########################################################");
+		
+		input = StringUtil.toUtf8Input(input);
+	
+		model.addAttribute("inputData", input);
+		return "web/prs/purRq/purRqWorkDetail";
+	}
+
+	/**
+	 * 서비스요청(시설/전산)
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/prs/purRq/purRqOfficeDetail.do")
+	public String retrievePurRqOfficeDetail(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+	
+		/* 반드시 공통 호출 후 작업 */
+		checkSession(input, session, model);
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoController - retrievePurRqOfficeDetail 서비스요청(시설/전산)");
+		LOGGER.debug("#########input################################## : " + input);
+		LOGGER.debug("###########################################################");
+		
+		input = StringUtil.toUtf8Input(input);
+		model.addAttribute("inputData", input);
+		
+		return "web/prs/purRq/purRqOfficeDetail";
+	}
+	
+	/**
+	 *  비용요청(구매) 상세내용 조회
+	 */
+	@RequestMapping(value="/prs/purRq/retrievePurRqDetailList.do")
+	public ModelAndView retrievePurRqDetail(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -297,57 +261,25 @@ public class PurRqInfoController extends IrisBaseController {
 			ModelMap model
 			){
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - retrieveWbsCdInfoList [Project list 정보 검색]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
-
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-        //Project 정보 list 조회
-		List<Map<String,Object>> wbsCdInfoList = prsCodeService.retrieveWbsCdInfoList(input);
-
-		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", wbsCdInfoList));
-
-		return modelAndView;
-	}
-	
-	/**
-	 * 구매요청 Item 등록 팝업 화면 이동
-	 * @param input
-	 * @param request
-	 * @param session
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value="/prs/popup/purRqItemPop.do")
-	public String purRqItemPop(
-			@RequestParam HashMap<String, Object> input,
-			HttpServletRequest request,
-			HttpSession session,
-			ModelMap model
-			){
-		
-		/* 반드시 공통 호출 후 작업 */
-		checkSessionObjRUI(input, session, model);
-		
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - purRqItemPop [구매요청 Item 등록 팝업 화면 이동]");
+		LOGGER.debug("PurRqInfoController - retrievePurRqDetail [구매요청 상세조회]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
-		input = StringUtil.toUtf8Input(input);
+		//상세화면 조회
+		Map<String,Object> purRqDetail = purRqInfoService.retrievePurRqDetail(input);
+		//요청리스트 조회
+		List<Map<String,Object>> purRqDetailList = purRqInfoService.retrievePurRqDetailList(input);
 		
-		Map<String, Object> code = prsCodeService.retrieveSaktoInfoList(input);
+		modelAndView.addObject("prItemDataSet", RuiConverter.createDataset("prItemDataSet", purRqDetail));
+		modelAndView.addObject("prItemListDataSet", RuiConverter.createDataset("prItemListDataSet", purRqDetailList));
 		
-		input.put("saktoNm", code.get("CODE_NM"));
-		
-		model.addAttribute("inputData", input);
-		
-		return "web/prs/popup/purRqItemPop";
-	}
-	
-	
+		return modelAndView;
+	} 
+
+
 	/**
 	 * 구매요청 저장
 	 * @param input
@@ -357,6 +289,7 @@ public class PurRqInfoController extends IrisBaseController {
 	 * @param model
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/prs/purRq/insertPurRqInfo.do")
 	public ModelAndView insertPurRqInfo(
 			@RequestParam HashMap<String, Object> input,
@@ -381,16 +314,18 @@ public class PurRqInfoController extends IrisBaseController {
 		
 		String rtnSt ="F";
 		String rtnMsg = "";
-		int bnfpoPrs = 0;
 		
-		Map<String,Object> purRqMap = new HashMap<String, Object>();
+		Map<String,Object> purRqDetail = new HashMap<String, Object>();
 		
 		try{
-			purRqMap.put("input", input);
 			
-			LOGGER.debug("##############################purRqMap############################# : " + purRqMap);
+			purRqDetail = RuiConverter.convertToDataSet(request,"prItemDataSet").get(0);
 			
-			bnfpoPrs = purRqInfoService.insertPurRqInfo(purRqMap);
+			if( "".equals(purRqDetail.get("banfnPrs") ) ){
+				purRqDetail.put("banfnPrs", purRqInfoService.getBanfnPrsNumber());
+			}
+			
+			purRqInfoService.insertPurRqInfo(purRqDetail);
 			
 			rtnMsg = "추가되었습니다.";
 			rtnSt = "S";
@@ -402,7 +337,65 @@ public class PurRqInfoController extends IrisBaseController {
 		rtnMeaasge.put("cmd", "insert");
 		rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);
-		rtnMeaasge.put("bnfpoPrs", bnfpoPrs);
+		rtnMeaasge.put("banfnPrs", purRqDetail.get("banfnPrs") );
+		
+		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
+
+		return modelAndView;
+	}
+
+	/**
+	 * 구매요청 수정
+	 * @param input
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/prs/purRq/updatePurRqInfo.do")
+	public ModelAndView updatePurRqInfo(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session,
+			ModelMap model
+			){
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoController - insertPurRqInfo [구매요청 정보 수정]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+		
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+		
+		input = StringUtil.toUtf8Input(input);
+		
+		String rtnSt ="F";
+		String rtnMsg = "";
+		Map<String,Object> purRqDetail = new HashMap<String, Object>();
+		
+		try{
+			purRqDetail = RuiConverter.convertToDataSet(request,"prItemDataSet").get(0);
+			
+			purRqInfoService.updatePurRqInfo(purRqDetail);
+			
+			rtnMsg = "수정되었습니다.";
+			rtnSt = "S";
+		}catch(Exception e){
+			e.printStackTrace();
+			rtnMsg = "수정 중 오류가 발생하였습니다.";
+		}
+		
+		rtnMeaasge.put("cmd", "update");
+		rtnMeaasge.put("rtnMsg", rtnMsg);
+		rtnMeaasge.put("rtnSt", rtnSt);
+		rtnMeaasge.put("banfnPrs", purRqDetail.get("banfnPrs") );
 		
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
 
@@ -418,6 +411,7 @@ public class PurRqInfoController extends IrisBaseController {
 	 * @param model
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/prs/purRq/deletePurRqInfo.do")
 	public ModelAndView deletePurRqInfo(
 			@RequestParam HashMap<String, Object> input,
@@ -456,102 +450,24 @@ public class PurRqInfoController extends IrisBaseController {
 		rtnMeaasge.put("cmd", "delete");
 		rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);
+		rtnMeaasge.put("banfnPrs", input.get("banfnPrs") );
 		
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
 
 		return modelAndView;
 	}
-
+	
+	
 	/**
-	 * 구매요청 수정
-	 * @param input
-	 * @param request
-	 * @param response
-	 * @param session
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value="/prs/purRq/updatePurRqInfo.do")
-	public ModelAndView updatePurRqInfo(
-			@RequestParam HashMap<String, Object> input,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			HttpSession session,
-			ModelMap model
-			){
-
-		/* 반드시 공통 호출 후 작업 */
-		checkSessionObjRUI(input, session, model);
-		
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - insertPurRqInfo [구매요청 정보 수정]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
-		
-		ModelAndView modelAndView = new ModelAndView("ruiView");
-		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-		
-		input = StringUtil.toUtf8Input(input);
-		
-		String rtnSt ="F";
-		String rtnMsg = "";
-		
-		try{
-			purRqInfoService.updatePurRqInfo(input);
-			
-			rtnMsg = "수정되었습니다.";
-			rtnSt = "S";
-		}catch(Exception e){
-			e.printStackTrace();
-			rtnMsg = "수정 중 오류가 발생하였습니다.";
-		}
-		
-		rtnMeaasge.put("cmd", "update");
-		rtnMeaasge.put("rtnMsg", rtnMsg);
-		rtnMeaasge.put("rtnSt", rtnSt);
-		
-		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
-
-		return modelAndView;
-	}
-
-	/**
-	 * 구매요청 구매요청일 설명 Popup
+	 * 구매요청 My List 이동
 	 * @param input
 	 * @param request
 	 * @param session
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/prs/popup/purRqDateExplainPop.do")
-	public String purRqDateExplainPop(
-			@RequestParam HashMap<String, Object> input,
-			HttpServletRequest request,
-			HttpSession session,
-			ModelMap model
-			){
-		
-		/* 반드시 공통 호출 후 작업 */
-		checkSessionObjRUI(input, session, model);
-		
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - purRqDateExplainPop [구매요청 구매요청일 설명 Popup]");
-		LOGGER.debug("input = > " + input);
-		LOGGER.debug("###########################################################");
-		
-		
-		return "web/prs/popup/purRqDateExplainPop";
-	}
-
-	/**
-	 * 구매요청 My List
-	 * @param input
-	 * @param request
-	 * @param session
-	 * @param model
-	 * @return
-	 */	
-	@RequestMapping(value="/prs/popup/myPurRqList.do")
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/prs/purRq/myPurRqList.do")
 	public String myPurRqList(
 			@RequestParam HashMap<String, String> input,
 			HttpServletRequest request,
@@ -562,20 +478,17 @@ public class PurRqInfoController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
 		
-		input = StringUtil.toUtf8(input);
-		
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("PurRqInfoController - myPurRqList [나의 구매요청 리스트 화면 이동]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-		
+
+		input = StringUtil.toUtf8(input);
 		String today = DateUtil.getDateString();
 		
 		if(StringUtil.isNullString(input.get("fromRegDt"))) {
 			input.put("fromRegDt", DateUtil.addMonths(today, -1, "yyyy-MM-dd"));
 			input.put("toRegDt", today);
-			input.put("fromPurRqDt", today);
-			input.put("toPurRqDt", DateUtil.addMonths(today, 1, "yyyy-MM-dd"));
 		}
 		
 		model.addAttribute("inputData", input);
@@ -584,7 +497,7 @@ public class PurRqInfoController extends IrisBaseController {
 	}	
 	
 	/**
-	 * 구매요청 수정
+	 * 나의 구매요청 조회
 	 * @param input
 	 * @param request
 	 * @param response
@@ -592,8 +505,9 @@ public class PurRqInfoController extends IrisBaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="/prs/purRq/myPurRqList.do")
-	public ModelAndView myPurRqList(
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/prs/purRq/myPurRqSearchList.do")
+	public ModelAndView myPurRqSearchList(
 			@RequestParam HashMap<String, Object> input,
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -603,32 +517,31 @@ public class PurRqInfoController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		
 		input = StringUtil.toUtf8(input);
 		
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - myPurRqList [나의 구매요청 목록]");
+		LOGGER.debug("PurRqInfoController - myPurRqSearchList [나의 구매요청 목록]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
-		ModelAndView modelAndView = new ModelAndView("ruiView");
-
-        //구매요청 리스트 조회
+		//나의 구매요청 리스트 조회
 		List<Map<String,Object>> myPurRqList = purRqInfoService.retrieveMyPurRqList(input);
-		
 		List<Map<String,Object>> erpPurRqStatus = purRqInfoService.getPrRequestSAPStatus(myPurRqList);
 		
 		if(!erpPurRqStatus.isEmpty()) {
 			Map<String,Object> myListData = new HashMap<String,Object>();
 			int i = 0;
-			for(Map purRq : erpPurRqStatus) {
+			for(Map<String, Object> purRq : erpPurRqStatus) {
 				i = Integer.parseInt(purRq.get("idx").toString());
 				
+				
+				myListData = myPurRqList.get(i);
 				LOGGER.debug("**************************************************************************************");
 				LOGGER.debug("i : " + i);	
 				LOGGER.debug(purRq);
 				LOGGER.debug("**************************************************************************************");
-				
-				myListData = myPurRqList.get(i);
 				
 				myListData.put("prsFlag", 	purRq.get("index"));
 				myListData.put("prsNm", 	purRq.get("status"));
@@ -653,28 +566,20 @@ public class PurRqInfoController extends IrisBaseController {
 				myPurRqList.set(i, myListData);
 			}
 		}
-		//첨부파일 목록 조회
-		List<Map<String,Object>> attchFileList = null;
-
-		int i = 0;
-		for(Map item : myPurRqList) {
-			if(!"".equals(item.get("attcFilId")) && item.get("attcFilId") != null) {
-				attchFileList = purRqInfoService.retrieveAttachFileList((HashMap)item);
-				
-				String fileNm = makeAttachFilesURL(attchFileList);
-			
-				item.put("attcFiles", fileNm);
-				myPurRqList.set(i, item);
-			}
-			
-			i++;
-		}
 		
 		modelAndView.addObject("prItemListDataSet", RuiConverter.createDataset("prItemListDataSet", myPurRqList));
 
 		return modelAndView;
 	}
 	
+	/**
+	 * 
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/prs/popup/prsApprovalPopup.do")
 	public String prsApprovalPopup(
 			@RequestParam HashMap<String, String> input,
@@ -683,46 +588,21 @@ public class PurRqInfoController extends IrisBaseController {
 			ModelMap model
 			){
 
+		/* 반드시 공통 호출 후 작업 */
+		checkSession(input, session, model);
+		
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("PurRqInfoController - prsApprovalPopup PRS ERP결재 팝업");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
-
-
-		/* 반드시 공통 호출 후 작업 */
-		checkSession(input, session, model);
 
 		model.addAttribute("inputData", input);
 
 		return "web/prs/popup/prsApprovalPopup";
 	}
 	
-	@RequestMapping(value="/prs/popup/userSearchPopup.do")
-	public String prsUserSearchPopup(
-			@RequestParam HashMap<String, String> input,
-			HttpServletRequest request,
-			HttpSession session,
-			ModelMap model
-			){
-
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - prsUserSearchPopup 사용자 조회 팝업");
-		LOGGER.debug("###########################################################");
-		/* 반드시 공통 호출 후 작업 */
-		checkSession(input, session, model);
-
-		String userNm = "";
-		
-		StringUtil.toStringUtf8(input.get("userNm"));
-		LOGGER.debug("input = > " + input);
-
-		model.addAttribute("inputData", input);
-		
-		return "web/prs/popup/prsUserSearchPopup";
-	}
-	
 	/**
-	 * 구매요청 저장
+	 * 결재의뢰 저장
 	 * @param input
 	 * @param request
 	 * @param response
@@ -730,6 +610,7 @@ public class PurRqInfoController extends IrisBaseController {
 	 * @param model
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/prs/purRq/insertApprovalInfo.do")
 	public ModelAndView insertPerApprovalInfo(
 			@RequestParam HashMap<String, Object> input,
@@ -743,7 +624,7 @@ public class PurRqInfoController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		
 		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - insertPerApprovalInfo [구매요청 결재의뢰 저장]");
+		LOGGER.debug("PurRqInfoController - insertPerApprovalInfo [결재의뢰 저장]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
@@ -756,17 +637,21 @@ public class PurRqInfoController extends IrisBaseController {
 		String rtnSt ="F";
 		String rtnMsg = "";
 		
-		Map<String,Object> purRqAppMap = new HashMap<String, Object>();
+//		1.sap connection
+		try {
+			sapBudgCostService.sapConnection() ;
+		
+		} catch (IOException e) {
+		//오류가 발생하였습니다.
+			LOGGER.debug("ERROR >>>>> ERP IF : Connection Error "+e.toString());	
+			e.printStackTrace();
+		}
 		
 		try{
 			LOGGER.debug("##############################purRqMap############################# : " + input);
-			purRqAppMap.put("input", input);
+			int rtnCnt = purRqInfoService.insertPurApprovalInfo(input);
 			
-			int rtnCnt = purRqInfoService.insertPurApprovalInfo(purRqAppMap);
-			
-			LOGGER.debug("--------------------------------------------------------- rtnCnt : " + rtnCnt);
-			
-			erpResult = purRqInfoService.sendSapExpensePr(purRqAppMap);
+			erpResult = purRqInfoService.sendSapExpensePr(input);
 
 			LOGGER.debug("retCode => " + erpResult.get("retCode"));
 			LOGGER.debug("retMsg => " + erpResult.get("retMsg"));
@@ -796,42 +681,15 @@ public class PurRqInfoController extends IrisBaseController {
 		return modelAndView;
 	}
 	
-	private String makeAttachFilesURL(List<Map<String,Object>> filesList) {
-		String fileNm = "";
-		int lastLine = 1;
-		
-		for(Map fileInfo : filesList) {
-            fileNm = fileNm + makeAttachFileDownloadURL(fileInfo.get("attcFilId").toString(),fileInfo.get("attcFilSeq").toString(),fileInfo.get("filNm").toString());
-			if(lastLine < filesList.size()) {
-				fileNm = fileNm + "|||";
-				lastLine++;
-			}
-		}
-		
-		return fileNm;
-	}
-	
-	private String makeAttachFileDownloadURL(String fileId, String fileSeq, String fileNm) {
-		String urlString = "";
-		
-		if("".equals(fileId) || fileId == null || "".equals(fileSeq) || fileSeq == null || "".equals(fileNm) || fileNm == null) {
-			return urlString;
-		} else {
-			urlString = "<a href=\"javascript:downloadAttachFile('" + fileId + "','" + fileSeq + "');\" >" + fileNm + "</a>";
-		}
-		
-		return urlString;
-	}
-
-	
 	/**
-	 * 
+	 * 프로젝트 조회 팝업이동
 	 * @param input
 	 * @param request
 	 * @param session
 	 * @param model
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/prs/purRq/retrieveSrhPrjPop.do")
 	public String retrieveSrhPrjPop(
 			@RequestParam HashMap<String, String> input,
@@ -840,22 +698,116 @@ public class PurRqInfoController extends IrisBaseController {
 			ModelMap model
 			){
 
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoController - retrieveSrhPrjPop 프로젝트 조회 팝업");
-		LOGGER.debug("###########################################################");
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
 
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoController - retrieveSrhPrjPop 프로젝트 조회 팝업");
+		LOGGER.debug("###########################################################");
+
 		input = StringUtil.toUtf8Input(input);
-
-		LOGGER.debug("input = > " + input);
-
 		model.addAttribute("inputData", input);
 		
 		return "web/prs/popup/purRqPrjPop";
 	}
+
+	/**
+	 *  프로젝트 리스트 팝업 조회
+	 * @param input
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/prs/purRq/retrieveWbsCdInfoList.do")
+	public ModelAndView retrieveWbsCdInfoList(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session,
+			ModelMap model
+			){
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoController - retrieveWbsCdInfoList [프로젝트 리스트  정보 검색]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+        //Project 정보 list 조회
+		List<Map<String,Object>> wbsCdInfoList = prsCodeService.retrieveWbsCdInfoList(input);
+
+		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", wbsCdInfoList));
+
+		return modelAndView;
+	}
+	
+	/**
+	 * 사용자 조회 팝업 이동
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/prs/popup/userSearchPopup.do")
+	public String prsUserSearchPopup(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoController - prsUserSearchPopup 사용자 조회 팝업");
+		LOGGER.debug("###########################################################");
+		/* 반드시 공통 호출 후 작업 */
+		checkSession(input, session, model);
+
+		String userNm = "";
+		
+		StringUtil.toStringUtf8(input.get("userNm"));
+		LOGGER.debug("input = > " + input);
+
+		model.addAttribute("inputData", input);
+		
+		return "web/prs/popup/prsUserSearchPopup";
+	}
+	
+	/**
+	 * 구매요청 구매요청일 설명 Popup
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/prs/popup/purRqDateExplainPop.do")
+	public String purRqDateExplainPop(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
+		
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoController - purRqDateExplainPop [구매요청 구매요청일 설명 Popup]");
+		LOGGER.debug("###########################################################");
+		
+		return "web/prs/popup/purRqDateExplainPop";
+	}
+	
+	
+	
+	
 	
 	
 }
+
 
 

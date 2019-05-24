@@ -35,11 +35,14 @@
  .bgcolor-white {background-color: #FFFFFF}
 </style>
 
-	<script type="text/javascript">
+<script type="text/javascript">
+var banfnPrs; 
 
 		Rui.onReady(function() {
 			var frm = document.aform;
 			var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
+			
+			banfnPrs = '${inputData.banfnPrs}';
 			
 			<%-- RESULT DATASET --%>
 			resultDataSet = new Rui.data.LJsonDataSet({
@@ -54,6 +57,17 @@
 
 	        resultDataSet.on('load', function(e) {
 	        });
+	        
+	        _userSearchDialog = new Rui.ui.LFrameDialog({
+		        id: '_userSearchDialog',
+		        title: '사용자 조회',
+		        width: 550,
+		        height: 350,
+		        modal: true,
+		        visible: false
+		    });
+			
+			_userSearchDialog.render(document.body);
 			
 			/* 심의/협의1 팝업 설정*/
 	        var apr1 = new Rui.ui.form.LPopupTextBox({
@@ -171,20 +185,10 @@
 				return;
 			}
 			
-			_userSearchDialog = new Rui.ui.LFrameDialog({
-		        id: '_userSearchDialog',
-		        title: '사용자 조회',
-		        width: 550,
-		        height: 350,
-		        modal: true,
-		        visible: false
-		    });
-			
-			_userSearchDialog.render(document.body);
 			
 		    openUserSearchDialog = function(f, cnt, userIds, task, field, width, height) {
 		    	_callback = f;
-				
+		    	
 		    	if(cnt == 1) {
 		    	    if(stringNullChk(width) > 0) _userSearchDialog.setWidth(width);
 		    	    if(stringNullChk(height) > 0) _userSearchDialog.setHeight(height);
@@ -209,28 +213,6 @@
 			});
 		    /* [버튼] 의뢰 끝 */
 		    
-		    /* [버튼] 초기화 시작 */
-		    var btnClearPernrInfo = new Rui.ui.LButton('btnClearPernrInfo');
-		    btnClearPernrInfo.on('click', function() {
-		    	clearPernrInfo();
-		    });
-		    /* [버튼] 초기화 끝 */
-
-		    /* 심의자/확정자 초기화 */
-		    clearPernrInfo = function () {
-				apr1.setValue('');
-				apr1Sabun.setValue('');
-
-				apr2.setValue('');
-				apr2Sabun.setValue('');
-
-				apr3.setValue('');
-				apr3Sabun.setValue('');
-
-				apr4.setValue('');
-				apr4Sabun.setValue('');
-		    }
-		    
 		    /* 결재의뢰 유효성 검사 */
 		    isApprovalSaveValidate = function(type) {
 	            if (apr4.getValue() == '' || apr4Sabun.getValue() == '') {
@@ -249,12 +231,11 @@
 		    			form : 'aform',
 		    			params: {                                  
 		    				wbsCdNm: $('#wbsCdName', aform).html(),
-		    				banfnPrs: '<c:out value="${inputData.ekgrp}"/>'
+		    				banfnPrs: '<c:out value="${inputData.banfnPrs}"/>'
 		    	        }
 		    		});
 		    	} 
 			}
-		    
 		    
 			dm.on('success', function(e) {
 				var resultData = resultDataSet.getReadData(e);
@@ -345,7 +326,6 @@
 			<div class="titArea">
 	    		<div class="LblockButton">
 	    	 		<button type="button" id="btnApprovalSave" name="btnApprovalSave" class="redBtn">의뢰</button>
-	    	    	<button type="button" id="btnClearPernrInfo" name="btnClearPernrInfo" >초기화</button>
 	    		</div>
 	    	</div>
 	</div><!-- //LblockMainBody -->

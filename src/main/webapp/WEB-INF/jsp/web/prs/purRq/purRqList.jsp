@@ -180,6 +180,7 @@ var linkUrl;
 <input type="hidden" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">  
 <input type="hidden" id="sCodeSeq" name="sCodeSeq" />
 <input type="hidden" id="werks"  name="werks" value="1010"/>
+<input type="hidden" id="meins"  name="meins" value="EA"/>
 
 <div class="contents">
 	<div class="sub-content">

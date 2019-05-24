@@ -206,8 +206,8 @@ var curRow;
     	});
 		
 		//요청품명
-		var itemnm = new Rui.ui.form.LTextBox({            	// LTextBox개체를 선언
-    	    applyTo: 'itemnm',                           	// 해당 DOM Id 위치에 텍스트박스를 적용
+		var txz01 = new Rui.ui.form.LTextBox({            	// LTextBox개체를 선언
+    	    applyTo: 'txz01',                           	// 해당 DOM Id 위치에 텍스트박스를 적용
         	width: 200,                                    	// 텍스트박스 폭을 설정
 	        placeholder: '요청품명',						// [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
     	    invalidBlur: false                            	// [옵션] invalid시 blur를 할 수 있을지 여부를 설정
@@ -726,7 +726,7 @@ var curRow;
                 return false;
             }
 
-            if (itemnm.getDisplayValue() == '') {
+            if (txz01.getDisplayValue() == '') {
                 alert('요청품명을 입력하여 주세요.');
                 return false;
             }
@@ -764,7 +764,7 @@ var curRow;
             record.set('ekgrpnm', 	ekgrp.getDisplayValue()); 			// 구매그룹명	
             record.set('sakto', 	sakto.getValue()); 					// 계정코드	
             record.set('saktonm', 	saktonm.getValue()); 				// 계정명	10
-            record.set('txz01', 	itemnm.getValue()); 				// 요청품명
+            record.set('txz01', 	txz01.getValue()); 				// 요청품명
             record.set('lifnrphone',lifnrphone.getValue()); 			// 거래처전화번호
             record.set('werks', 	werks.getValue()); 					// 플랜트코드	15
             record.set('werksnm', 	werks.getDisplayValue()); 			// 플랜트명
@@ -784,7 +784,7 @@ var curRow;
             posid.setValue(''); 					// 프로젝트코드	
             $('#wbsCdName', aform).html(''); 		// 프로젝트명	
             eeind.setValue(''); 					// 납품요청일	
-            itemnm.setValue(''); 					// 요청품명
+            txz01.setValue(''); 					// 요청품명
             lifnrphone.setValue(''); 				// 거래처전화번호
             menge.setValue(''); 					// 요청수량
             // meins.setValue(''); 					// 단위
@@ -814,7 +814,7 @@ var curRow;
             ekgrp.setValue(record.get('ekgrp')); 					// 구매그룹	
             sakto.setValue(record.get('sakto')); 					// 계정코드	
             saktonm.setValue(record.get('saktonm')); 				// 계정명	
-            itemnm.setValue(record.get('txz01')); 					// 요청품명
+            txz01.setValue(record.get('txz01')); 					// 요청품명
             lifnrphone.setValue(record.get('lifnrphone')); 			// 거래처전화번호
             werks.setValue(record.get('werks')); 					// 플랜트코드	
             menge.setValue(record.get('menge')); 					// 요청수량
@@ -847,7 +847,7 @@ var curRow;
             record.set('ekgrpnm', 	ekgrp.getDisplayValue()); 			// 구매그룹명	
             record.set('sakto', 	sakto.getValue()); 					// 계정코드	
             record.set('saktonm', 	saktonm.getValue()); 				// 계정명	10
-            record.set('txz01', 	itemnm.getValue()); 				// 요청품명
+            record.set('txz01', 	txz01.getValue()); 				// 요청품명
             record.set('lifnrphone',lifnrphone.getValue()); 			// 거래처전화번호
             record.set('werks', 	werks.getValue()); 					// 플랜트코드	15
             record.set('werksnm', 	werks.getDisplayValue()); 			// 플랜트명
@@ -949,7 +949,7 @@ var curRow;
 			     	<tr>
 			        	<th>요청품명</th>
 			            <td>
-			            	<input type="text" id="itemnm" name="itemnm" />
+			            	<input type="text" id="txz01" name="txz01" />
 			            </td>
 			        	<th>거래처 전화번호</th>
 			            <td>

@@ -34,10 +34,13 @@
 		    fields: [
 		    	  { id: 'posid'}	/*wbs cd*/
 		    	 ,{ id: 'post1'}	/*프로젝트명*/
-		    	 ,{ id: 'ename'}	/* 리더이름 이라는데 리더이름이 아닌거 같음*/
-		    	 ,{ id: 'fkstl'}	/*투자코드 가 들어와야 함*/
-		    	 ,{ id: 'wonjang'}	/* 책임코스트센터 가 들어와야함*/
-		    	 ,{ id: 'pernr'}	/* 사번*/
+		    	 ,{ id: 'ename'}	/* */
+		    	 ,{ id: 'prjStrDt'}	/* */
+		    	 ,{ id: 'prjEndDt'}	/* */
+		    	
+		    	// ,{ id: 'fkstl'}	/*투자코드 가 들어와야 함*/
+		    	// ,{ id: 'wonjang'}	/* 책임코스트센터 가 들어와야함*/
+		    	// ,{ id: 'pernr'}	/* 사번*/
 		    ]
 		});	
 		
@@ -51,9 +54,11 @@
 		        	{ field: 'posid', 		label:'Project Code' , 		sortable: false, align: 'center', width: 100},
 		            { field: 'post1',  		label:'Porject Name', 		sortable: false, align: 'center', width: 300},
 		            { field: 'ename',  		label:'Project Reader',		sortable: false, align: 'center', width: 100},
-		            { field: 'fkstl',  		label:'투자코드', 			sortable: false, align: 'center', width: 100},
-		            { field: 'wonjang', 	label: '책임코스트센터',	sortable: false, align: 'center', width: 100},
-		            { field: 'pernr',  		hidden : true}
+		            { field: 'prjStrDt',  		label:'프로젝트 시작일',		sortable: false, align: 'center', width: 100},
+		            { field: 'prjEndDt',  		label:'프로젝트 종료일',		sortable: false, align: 'center', width: 100}
+		         //   { field: 'fkstl',  		label:'투자코드', 			sortable: false, align: 'center', width: 100},
+		         //   { field: 'wonjang', 	label: '책임코스트센터',	sortable: false, align: 'center', width: 100},
+		         //   { field: 'pernr',  		hidden : true}
 		        ]
 		 });
 
@@ -74,7 +79,7 @@
 		
 		fnSearch = function() {
 	    	dataSet.load({
-	            url: '<c:url value="/prs/pur/retrieveWbsCdInfoList.do"/>' ,
+	            url: '<c:url value="/prs/purRq/retrieveWbsCdInfoList.do"/>' ,
 	            params :{
 	            	adminYn : "Y"
                 }

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prs.purStts">
+
+	<select id="retrievePurSttsList" resultType="hashmap">
+	<![CDATA[
+	/* retrieveMyPurRqList  나의구매요청 리스트 조회 */
+		select   CONVERT(varchar(10), a.BADATE, 23)     as  badate
+		        ,a.BANFN_PRS  as  banfnPrs   
+				,a.BNFPO_PRS  as  bnfpoPrs   
+				,a.SEQ_NUM    as  seqNum     
+				,a.S_CODE     as  sCode      
+				,a.BANFN      as  banfn       
+				,a.BNFPO      as  bnfpo       
+				,a.KNTTP      as  knttp       
+				,a.PSTYP      as  pstyp       
+				,a.TXZ01      as  txz01       
+				,a.MENGE      as  menge       
+				,a.MEINS      as  meins       
+				,CONVERT(DATE, a.EEIND)      as  eeind       
+				,a.AFNAM      as  afnam       
+				,a.MATKL      as  matkl       
+				,a.WERKS      as  werks     
+				,(SELECT CODE_NM 
+					FROM [dbo].[PR_CODEMASTER_T] z 
+				   WHERE z.CODE       = RTRIM(a.WERKS)
+				     AND z.DEL_FLAG   = 0
+					 AND z.GROUP_CODE = '02'
+					 AND z.REGION_CD  = a.region_cd
+				)  as werksnm
+				,a.EKGRP      as  ekgrp  
+				,(SELECT CODE_NM
+		            FROM [dbo].[PR_CODEMASTER_T] x
+		           WHERE x.CODE       = RTRIM(a.EKGRP) 
+		             AND x.DEL_FLAG   = '0'
+		             AND x.GROUP_CODE = '01'
+				     AND x.REGION_CD  = a.region_cd 
+				) as ekgrpnm     
+				,a.BEDNR      as  bednr       
+		        ,a.PREIS      as  preis       
+	    	    ,a.WAERS      as  waers       
+		      	,a.PEINH      as  peinh       
+		      	,a.SAKTO      as  sakto
+	    	    ,(SELECT CODE_NM 
+            	    FROM [dbo].[PR_CODEMASTER_T] y 
+	               WHERE y.CODE       = RTRIM(a.SAKTO) 
+    	             AND y.DEL_FLAG   ='0' 
+        	         AND y.GROUP_CODE ='10' 
+            	     AND y.REGION_CD  =a.region_cd
+            	) as saktonm	       
+		      	,a.ANLKL      as  anlkl       
+		      	,a.TXT50      as  txt50       
+	    	  	,a.KOSTL      as  kostl       
+				,a.POSID      as  posid       
+				,a.POST1      as  posidnm       
+				,a.ITEM_TXT   as  itemTxt       
+				,a.PRS_FLAG   as  prsFlag    
+				,a.BIZ_CD     as  bizCd   
+				,a.POSITION   as  position
+				,a.MAKER 	  as  maker
+				,a.VENDOR 	  as  vendor
+				,a.CATALOGNO  as  catalogno
+				,a.ATTC_FIL_ID as attcFilId
+				,a.prs_flag   as prsFlag
+				,(select COM_DTL_NM from [dbo].[IRIS_ADM_COM_CD] b where COM_CD_CD = 'PRS_FLAG' and COM_DTL_CD = a.prs_flag) as prsNm
+				,a.message    as message
+				,(select count(*) from [dbo].[IRIS_COM_ATTC_FIL] b where b.ATTC_FIL_ID = a.ATTC_FIL_ID and b.MENU_TYPE = 'prsPolicy' and b.DEL_YN = 'N') fileCnt
+				,a.HELP_SEQNUM  as helpSeqnum
+				,(select TABID from [dbo].[PR_HELPMASTER_T] where SEQ_NUM = a.HELP_SEQNUM) as tabid
+		   from [dbo].[PR_PRSREQ_T] a
+		  where a.PRS_FLAG <> 'D'
+		    and CONVERT(varchar(8), a.BADATE, 112) between REPLACE(#{fromRegDt},'-','') and REPLACE(#{toRegDt},'-','')
+		]]>
+			<if test="txz01 != null and txz01 != '' and txz01 != 'null' ">
+			and a.TXZ01 like '%'+#{txz01}+'%'
+			</if>
+			<if test="posid != null and posid != '' and posid != 'null' ">
+			and (a.POSID like '%'+#{posid}+'%' or  a.POST1 like '%'+#{posid}+'%' )
+			</if>
+			<if test="prsFlag != null and prsFlag != '' and prsFlag != 'null' ">
+			and a.PRS_FLAG  = #{prsFlag}
+			</if>
+			<if test="ekgrp != null and ekgrp != '' and ekgrp != 'null' ">
+			and a.EKGRP = #{ekgrp}
+			</if>
+			order by a.banfn_prs desc, a.bnfpo_prs desc
+	</select>
+	
+	
+	
+</mapper>

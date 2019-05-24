@@ -25,9 +25,16 @@
 <title><%=documentTitle%></title>
 
 <script type="text/javascript">
-	
+var adminChk ="N";
+
+
 	Rui.onReady(function() {
-		var ltbPrjNm = new Rui.ui.form.LTextBox({
+		
+		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
+			adminChk = "Y";
+		}
+		
+		var prjNm = new Rui.ui.form.LTextBox({
 		     applyTo : 'prjNm',
 		     placeholder : '검색할 프로젝트명을 입력해주세요.',
 		     defaultValue : '',
@@ -35,11 +42,11 @@
 		     width : 250
 		});
 
-		ltbPrjNm.on('blur', function(e) {
-			ltbPrjNm.setValue(ltbPrjNm.getValue().trim());
+		prjNm.on('blur', function(e) {
+			prjNm.setValue(prjNm.getValue().trim());
 	    });
 
-		ltbPrjNm.on('keypress', function(e) {
+		prjNm.on('keypress', function(e) {
 	    	if(e.keyCode == 13) {
 	    		getPrjList();
 	    	}
@@ -51,26 +58,24 @@
 		    lazyLoad : true,
 		    fields : [
 		    	  { id : 'prjCd'}
-		    	, { id : 'wbsCd'}
-		    	, { id : 'prjNm'}
-		    	, { id : 'deptCd'}
-		    	, { id : 'deptName'}
-		    	, { id : 'upDeptCd'}
-		    	, { id : 'upDeptName'}
-		    	, { id : 'deptCnt'}
+		    	, { id : 'posid'}
+		    	, { id : 'post1'}
+		    	, { id : 'ename'}
 		    	, { id : 'plEmpNo'}
-		    	, { id : 'plEmpName'}
 		    	, { id : 'prjStrDt'}
 		    	, { id : 'prjEndDt'}
-		    	, { id : 'wbsCdA'}	// WBS코드약어
+		    	, { id : 'deptCd'}	// WBS코드약어
 		    ]
 		});
 
 		var prjColumnModel = new Rui.ui.grid.LColumnModel({
 			columns : [
-			      { field : 'upDeptName',	label : '조직',			align :'center',	width : 200 }
-			    , { field : 'prjNm',		label : '프로젝트명',	align :'left',	    width : 250 }
-			    , { field : 'plEmpName',    label : 'PL명',	        align :'center',	width : 100 }
+			      { field : 'posid',	label : 'WBS CODE',			align :'center',	width : 200 }
+			    , { field : 'post1',		label : '프로젝트명',	align :'left',	    width : 250 }
+			    , { field : 'ename',    label : 'PL명',	        align :'center',	width : 100 }
+			    , { field : 'prjStrDt',    label : '프로젝트 시작일',	        align :'center',	width : 100 }
+			    , { field : 'prjEndDt',    label : '프로젝트 종료일',	        align :'center',	width : 100 }
+			    , { field : 'deptCd',    hidden:true }
 			]
 		});
 
@@ -93,10 +98,10 @@
 		/* [버튼] 조회 */
 		getPrjList = function() {
 			prjDataSet.load({
-				url : '<c:url value="/prj/rsst/mst/retrievePrjSearchPopupSearchList.do"/>',
+				url : '<c:url value="/prs/purRq/retrieveWbsCdInfoList.do"/>',
 				params : {
-					prjNm      : encodeURIComponent(ltbPrjNm.getValue())
-				  , searchType : aform.searchType.value
+					prjNm      : encodeURIComponent(prjNm.getValue())
+				  , adminChk : adminChk
 				}
 			});
 		};
@@ -111,8 +116,6 @@
 <body>
 
 <form name="aform" id="aform" method="post" onSubmit="return false;">
-		<input type="hidden" id="searchType" name="searchType" value="${inputData.searchType}"/>
-
 		<div class="LblockMainBody">
 
    			<div class="sub-content" style="padding:0; padding-left:3px;">

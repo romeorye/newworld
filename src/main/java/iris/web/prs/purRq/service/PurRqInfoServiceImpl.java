@@ -23,14 +23,12 @@ import devonframe.configuration.ConfigService;
 import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
-import iris.web.rlab.rqpr.service.RlabRqprServiceImpl;
-import iris.web.sapBatch.service.SapBudgCostService;
 import iris.web.system.attach.service.AttachFileService;
 
 @Service("purRqInfoService")
 public class PurRqInfoServiceImpl implements PurRqInfoService{
 	
-	static final Logger LOGGER = LogManager.getLogger(RlabRqprServiceImpl.class);
+	static final Logger LOGGER = LogManager.getLogger(PurRqInfoServiceImpl.class);
 	
 	@Resource(name="commonDao")
 	private CommonDao commonDao;
@@ -44,90 +42,326 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	@Resource(name = "attachFileService")
 	private AttachFileService attachFileService;
 	
-	@Resource(name = "sapBudgCostService")
-	private SapBudgCostService sapBudgCostService;
-	
 	static String ABAP_AS = "ABAP_AS_WITHOUT_POOL";  //sap 연결명(연결파일명으로 사용됨)
 	
+	
+	/**
+	 * 구매요청 리스트 조회(main)
+	 */
 	public List<Map<String, Object>> retrievePurRqList(HashMap<String, Object> input){
 		return commonDao.selectList("prs.purRq.retrievePurRqList", input );
 	}
 	
-	public int insertPurRqInfo(Map<String, Object> dataMap) throws Exception {
-		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
-		List<Map<String, Object>> insertList = new ArrayList<Map<String, Object>>();
+	/**
+	 * 구매요청 상세내용 조회 
+	 */
+	public Map<String, Object> retrievePurRqDetail(HashMap<String, Object> input){
+		return commonDao.select("prs.purRq.retrievePurRqDetail", input );
+	}
 		
-		Map<String, Object> data = input;
-		
-		int bnfpoPrs = commonDao.select("getBnfpoPrs", data);
-			
-		data.put("bnfpoPrs", bnfpoPrs);
-		data.put("afnam", input.get("_userNm"));
-		data.put("bednr", input.get("_userSabun"));
-			
-		insertList.add(data);
-		
-		LOGGER.debug("##############################input############################# : " + input);
-		LOGGER.debug("##############################data############################# : " + data);
-		LOGGER.debug("##############################insertList############################# : " + insertList);
-		
-		if(commonDao.batchInsert("prs.purRq.insertPurRqInfo", insertList) != insertList.size()) {
+	/**
+	 * 구매요청상세 리스트 조회 
+	 */
+	public List<Map<String, Object>> retrievePurRqDetailList(HashMap<String, Object> input){
+		return commonDao.selectList("prs.purRq.retrievePurRqDetailList", input );
+	}
+	
+	/**
+	 * 구매요청번호 채번
+	 */
+	public int getBanfnPrsNumber(){
+		return commonDao.select("prs.purRq.getBanfnPrs");
+	}
+	
+	/**
+	 *  구매요청 등록 
+	 */
+	public void insertPurRqInfo(Map<String, Object> purRqDetail) throws Exception{
+		if(commonDao.insert("prs.purRq.insertPurRqInfo", purRqDetail) < 1 ) {
 			throw new Exception("구매요청 저장 오류");
 		}
-		
-		return bnfpoPrs;
 	}
-
-	public boolean deletePurRqInfo(Map<String, Object> input) throws Exception {
-    	if(commonDao.update("prs.purRq.deletePurRqInfo", input) == 1) {
-        	return true;
-    	} else {
+	
+	/**
+	 *  구매요청 삭제
+	 */
+	public void deletePurRqInfo(HashMap<String, Object> input) throws Exception{
+		if(commonDao.update("prs.purRq.deletePurRqInfo", input) < 1) {
     		throw new Exception("구매요청 삭제 오류");
     	}
 	}
-
-	public boolean updatePurRqInfo(Map<String, Object> input) throws Exception {
-    	if(commonDao.update("prs.purRq.updatePurRqInfo", input) == 1) {
-        	return true;
-    	} else {
+	
+	/**
+	 *  구매요청 수정
+	 */
+	public void updatePurRqInfo(Map<String, Object> purRqDetail) throws Exception {
+    	if(commonDao.update("prs.purRq.updatePurRqInfo", purRqDetail) < 1) {
     		throw new Exception("구매요청 수정 오류");
     	}
 	}
 	
-	public List<Map<String, Object>> retrievePurRqInfo(HashMap<String, Object> input){
-		return commonDao.selectList("prs.purRq.retrievePurRqInfo", input);
-	}
-	
-	public int getBanfnPrsNumber() {
-		return commonDao.select("prs.purRq.getBanfnPrs");
-	}
-	
+	/**
+	 *  나의구매 요청 리스트
+	 */
 	public List<Map<String, Object>> retrieveMyPurRqList(HashMap<String, Object> input){
 		return commonDao.selectList("prs.purRq.retrieveMyPurRqList", input );
 	}
 	
-	public int insertPurApprovalInfo(Map<String, Object> dataMap) throws Exception {
-		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
-		List<Map<String, Object>> insertList = new ArrayList<Map<String, Object>>();
+	/**
+	 *  SAP 구매요청 리스트 조회
+	 */
+	@Override
+	public List<Map<String, Object>> getPrRequestSAPStatus(List<Map<String,Object>> dataList){
+		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
 		
-		Map<String, Object> data = input;
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoServiceImpl - getPrRequestSAPStatus ");
+		LOGGER.debug("dataList = > " + dataList);
+		LOGGER.debug("###########################################################");
 		
-		insertList.add(data);
+		resultVal = callZ_RFC_PRS04_05(dataList);
+
+		return resultVal;
+	}
+	
+	private JCoTable makePrData(JCoTable jcoTable, List<Map<String, Object>> list) {
+		int i = 0;
+		for(Map<String, Object> data : list) {
+    		if(!"".equals(data.get("banfn"))) {
+    			jcoTable.appendRow();
+    
+    			jcoTable.setValue("BANFN", data.get("banfn").toString());
+    			jcoTable.setValue("BNFPO", data.get("bnfpo").toString());
+    			jcoTable.setValue("BANFN_PRS", i);
+    		}
+    		i++;
+    	}
+
+		return jcoTable;
+	};
+	
+	private JCoTable makePrList(JCoTable jcoTable, List<Map<String, Object>> list) {
+		int i = 0;
+		for(Map<String, Object> data : list) {
+    		if(!"".equals(data.get("banfn"))) {
+    			jcoTable.appendRow();
+    
+    			jcoTable.setValue("BANFN", data.get("banfn").toString());
+    			jcoTable.setValue("BNFPO", data.get("bnfpo").toString());
+    		}
+    		i++;
+    	}
+
+		return jcoTable;
+	};
+
+	private List<Map<String, Object>> makeGetPrRequestSAPReturn(JCoTable jcoTable) {
+		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
+		String erpIndex = "";
 		
-		LOGGER.debug("##############################input############################# : " + input);
-		LOGGER.debug("##############################data############################# : " + data);
-		LOGGER.debug("##############################insertList############################# : " + insertList);
+		for(int i = 0; i < jcoTable.getNumRows(); i++, jcoTable.nextRow()) {
+			HashMap<String, Object> record = new HashMap<String, Object>();
+			
+			record.put("banfn", jcoTable.getValue("BANFN"));
+			record.put("bnfpo", jcoTable.getValue("BNFPO"));
+			erpIndex = jcoTable.getValue("INDEX").toString();
+			
+			record.put("index", erpIndex);
+			record.put("idx", jcoTable.getValue("BANFN_PRS"));
+			LOGGER.debug(jcoTable.getValue("BANFN_PRS"));
+			switch (erpIndex) {
+				case "1":
+					record.put("status", "구매요청");
+					break;
+				case "2":
+					record.put("status", "구매반려(PRS)");
+					break;
+				case "3":
+					record.put("status", "결재의뢰");
+					break;
+				case "4":
+					record.put("status", "결재반려(SAP)");
+					break;
+				case "5":
+					record.put("status", "결재완료");
+					break;
+				case "6":
+					record.put("status", "구매발주");
+					break;
+				case "7":
+					record.put("status", "입고완료");
+					break;
+				case "8":
+					record.put("status", "삭제(결재반려)");
+					break;
+				default:
+					record.put("status", "");
+					break;
+			}
 		
-		if(commonDao.batchInsert("prs.purRq.insertPurApprovalInfo", insertList) != insertList.size()) {
-			throw new Exception("결재의뢰 저장 오류");
-		} else {
-			return input.size();
+			resultVal.add(i, record);
+    	}
+
+		LOGGER.debug(resultVal);
+		return resultVal;
+	};
+
+	private List<Map<String, Object>> callZ_RFC_PRS04(List<Map<String,Object>> dataList){
+		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
+		
+		//LOGGER.debug("###########################################################");
+		//LOGGER.debug("PurRqInfoServiceImpl - callZ_RFC_PRS04 [구매요청현황: Z_RFC_PRS04]");
+		//LOGGER.debug("###########################################################");
+		
+		String functionName = "Z_RFC_PRS04";			// 구매요청현황
+		String gubun ="I_GUBUN";						// 작업구분 (1:my구매내역,2:구매요청)
+		String zmm0126s ="I_PAGE";						// [PRS] import_page info
+		String zmm0128s ="I_SORT";						// [PRS] [PRS] Import parameter - 구매요청현황 (정렬 및 구매단계)
+		String zmm0115s ="E_OUTPUT";					// [PRS] RFC_EXPORT
+		String zmm0118s ="IT_INPUT";					// [PRS] Import parameter - 구매요청현황
+		String zmm0119s ="IT_LIST";						// [PRS] 구매요청현황 리스트
+		
+	    JCoDestination destination;
+		try {
+			destination = JCoDestinationManager.getDestination(ABAP_AS);
+	    	JCoFunction function = destination.getRepository().getFunction(functionName); 
+
+	    	JCoParameterList importList = function.getImportParameterList();
+	    	//JCoParameterList exportList = function.getExportParameterList();
+	    	JCoTable requestTable = function.getTableParameterList().getTable(zmm0118s);
+	    	JCoTable resultTable  = function.getTableParameterList().getTable(zmm0119s);
+	        
+	    	requestTable = makePrData(requestTable, dataList);
+	    	LOGGER.debug("requestTable");
+	    	LOGGER.debug(requestTable);
+	    	importList.setValue(gubun, "1");
+	       	function.execute(destination);
+	    	LOGGER.debug("resultTable");
+	    	LOGGER.debug(resultTable);
+	       	
+	       	resultVal = makeGetPrRequestSAPReturn(resultTable);
+		} catch (JCoException e) {
+			
+		} finally {
+	        return resultVal;
+		}
+	}
+
+	private List<Map<String, Object>> callZ_RFC_PRS05(List<Map<String,Object>> dataList){
+		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
+		
+		//LOGGER.debug("###########################################################");
+		//LOGGER.debug("PurRqInfoServiceImpl - callZ_RFC_PRS05 [구매진척현황: Z_RFC_PRS05]");
+		//LOGGER.debug("###########################################################");
+		
+		String functionName = "Z_RFC_PRS05";			// 구매요청현황
+		String zmm0126s ="I_PAGE";						// [PRS] import_page info
+		String zmm0115s ="E_OUTPUT";					// [PRS] RFC_EXPORT
+		String zmm0120s ="IT_INPUT";					// [PRS] Import parameter - 구매진척현황
+		String zmm0121s ="IT_LIST";						// [PRS] 구매진척현황 리스트
+		
+	    JCoDestination destination;
+		try {
+			destination = JCoDestinationManager.getDestination(ABAP_AS);
+	    	JCoFunction function = destination.getRepository().getFunction(functionName); 
+
+	    	JCoParameterList importList = function.getImportParameterList();
+	    	JCoParameterList exportList = function.getExportParameterList();
+	    	JCoTable requestTable = function.getTableParameterList().getTable(zmm0120s);
+	    	JCoTable resultTable  = function.getTableParameterList().getTable(zmm0121s);
+	        
+	    	requestTable = makePrList(requestTable, dataList);
+	       	function.execute(destination);
+	       	resultVal = makeGetPrProcessSAPReturn(resultTable);
+	       	
+		} catch (JCoException e) {
+			
+		} finally {
+	        return resultVal;
 		}
 	}
 	
+	private List<Map<String, Object>> callZ_RFC_PRS04_05(List<Map<String,Object>> dataList){
+		List<Map<String, Object>> resultVal04 = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> resultVal05 = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
+		
+		//LOGGER.debug("###########################################################");
+		//LOGGER.debug("PurRqInfoServiceImpl - callZ_RFC_PRS04_05");
+		//LOGGER.debug("###########################################################");
+		
+		resultVal04 = callZ_RFC_PRS04(dataList);
+		resultVal05 = callZ_RFC_PRS05(dataList);
+		
+		int i = 0;
+		for(Map item : resultVal04) {
+			Map<String, Object> record = new HashMap<String, Object>();
+
+			record.put("banfn", 	item.get("banfn"));
+			record.put("bnfpo", 	item.get("bnfpo"));
+			record.put("index", 	item.get("index"));
+			record.put("idx", 		item.get("idx"));
+			record.put("status", 	item.get("status"));
+			record.put("badat", 	resultVal05.get(i).get("badat"));		
+			record.put("apr4Date", 	resultVal05.get(i).get("apr4Date"));		
+			record.put("rejeDate", 	resultVal05.get(i).get("rejeDate"));		
+			record.put("ebeln", 	resultVal05.get(i).get("ebeln"));			
+			record.put("ebelp", 	resultVal05.get(i).get("ebelp"));			
+			record.put("bedat", 	resultVal05.get(i).get("bedat"));			
+			record.put("poMenge", 	resultVal05.get(i).get("poMenge"));		
+			record.put("poMeins", 	resultVal05.get(i).get("poMeins"));		
+			record.put("netwr", 	resultVal05.get(i).get("netwr"));			
+			record.put("waers", 	resultVal05.get(i).get("waers"));			
+			record.put("name1", 	resultVal05.get(i).get("name1"));			
+			record.put("grBudat", 	resultVal05.get(i).get("grBudat"));		
+			record.put("grMenge", 	resultVal05.get(i).get("grMenge"));		
+			record.put("piBudat", 	resultVal05.get(i).get("piBudat"));		
+			
+			resultVal.add(i, record);
+			
+			i++;
+		}
+		
+		LOGGER.debug(resultVal);
+		return resultVal;
+	}
+	
+	private List<Map<String, Object>> makeGetPrProcessSAPReturn(JCoTable jcoTable) {
+		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
+		for(int i = 0; i < jcoTable.getNumRows(); i++, jcoTable.nextRow()) {
+			HashMap<String, Object> record = new HashMap<String, Object>();
+
+			record.put("banfn", jcoTable.getValue("BANFN"));
+			record.put("bnfpo", jcoTable.getValue("BNFPO"));
+			record.put("badat", jcoTable.getValue("BADAT"));			// PR 생성일
+			record.put("apr4Date", jcoTable.getValue("APR4_DATE"));		// PR 결제일
+			record.put("rejeDate", jcoTable.getValue("REJE_DATE"));		// PR 결제기각일
+			record.put("ebeln", jcoTable.getValue("EBELN"));			// PO 번호
+			record.put("ebelp", jcoTable.getValue("EBELP").toString().replace("00000",""));			// PO 품번
+			record.put("bedat", jcoTable.getValue("BEDAT"));			// PO 생성일
+			record.put("poMenge", jcoTable.getValue("PO_MENGE"));		// PO 수량
+			record.put("poMeins", jcoTable.getValue("PO_MEINS"));		// PO 단위
+			record.put("netwr", jcoTable.getValue("NETWR"));			// PO 금액
+			record.put("waers", jcoTable.getValue("WAERS"));			// PO 통화
+			record.put("name1", jcoTable.getValue("NAME1"));			// Vendor
+			record.put("grBudat", jcoTable.getValue("GR_BUDAT"));		// 입고일
+			record.put("grMenge", jcoTable.getValue("GR_MENGE").toString().replace("","0"));		// 입고수량
+			record.put("piBudat", jcoTable.getValue("PI_BUDAT"));		// 송장일
+		
+			resultVal.add(i, record);
+    	}
+
+		return resultVal;
+	};
+	
+	
+	/**
+	 *  결재의뢰 저장
+	 */
+	@SuppressWarnings("finally")
 	@Override
-	public HashMap<String, Object> sendSapExpensePr(Map<String, Object> dataMap){
-		HashMap<String, Object> input = (HashMap<String, Object>)dataMap.get("input");
+	public HashMap<String, Object> sendSapExpensePr(Map<String, Object> input){
+		
 		HashMap<String, Object> resultVal = new HashMap<String, Object>();
 		
 		LOGGER.debug("###########################################################");
@@ -138,7 +372,7 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		input.put("usedCode", "S");
 		input.put("prsFlag", "0");
 		
-		List<Map<String, Object>> result = retrieveERPPrInfo(input);
+		List<Map<String, Object>> result = retrieveERPPrInfo((HashMap<String, Object>)input);
 		
 		String functionName = "Z_RFC_PRS01";			// PRS 구매요청 생성/수정
 		String zmm0109s ="IT_INPUT";					// [PRS] Import parameter - PRS 구매요청 생성/수정
@@ -155,6 +389,7 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	    	JCoFunction function = destination.getRepository().getFunction(functionName); 
 	    	LOGGER.debug("function => " + function);
 
+	    	LOGGER.debug("======================== => 0 : " + input);
 	    	JCoTable expenseInput = function.getTableParameterList().getTable(zmm0109s);
 	    	JCoTable itemTextInput = function.getTableParameterList().getTable(zmm0110s);
 	    	JCoTable expenseAppInput = function.getTableParameterList().getTable(zmm0111s);
@@ -162,17 +397,17 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	    	JCoTable resultTable = function.getTableParameterList().getTable(zmm0112s);
 	        
 	    	expenseInput = makeExpenseInputData(expenseInput, result);
-	    	itemTextInput = makeItemTextInputData(itemTextInput, result, input);
+	    	itemTextInput = makeItemTextInputData(itemTextInput, result, (HashMap<String, Object>)input);
 	    	fileInput = makeFileInputData(fileInput, result);
-	    	expenseAppInput = makeExpenseAppInputData(expenseAppInput, result, input);
+	    	expenseAppInput = makeExpenseAppInputData(expenseAppInput, result, (HashMap<String, Object>)input);
 	    	
-	    	LOGGER.debug("expenseInput => ");
+	    	LOGGER.debug("======expenseInput => ");
 	    	LOGGER.debug(expenseInput);
-	    	LOGGER.debug("itemTextInput => ");
+	    	LOGGER.debug("====itemTextInput => ");
 	    	LOGGER.debug(itemTextInput);
-	    	LOGGER.debug("fileInput => ");
+	    	LOGGER.debug("====fileInput => ");
 	    	LOGGER.debug(fileInput);
-	    	LOGGER.debug("expenseAppInput => ");
+	    	LOGGER.debug("=====expenseAppInput => ");
 	    	LOGGER.debug(expenseAppInput);
 		    	
 	       	function.execute(destination);
@@ -187,6 +422,89 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		} finally {
 	        return resultVal;
 		}
+	}
+	
+	private String erpApprovalResultSave(JCoTable jcoTable) {
+		String resultVal = "";
+		int rowCnt = jcoTable.getNumRows();
+		MailSender mailSender = null;
+		String message = "";
+		
+		LOGGER.debug("##############################input############################# : " + jcoTable);
+		
+		if (rowCnt > 0) {
+			LOGGER.debug("##############################1############################# : " + jcoTable.getString("STATUS").trim());
+			for (int i = 0; i < rowCnt; i++) {
+				jcoTable.setRow(i);
+
+				String appBanfn = jcoTable.getString("BANFN");
+				String appBnfpo = jcoTable.getString("BNFPO");
+
+				if ("S".equals(jcoTable.getString("STATUS").trim()) && i == 0) {		// to-do: "S" -> "E"로 변경하여 운영 반영
+					// SAP 전송 에러일 경우 해당 요청자에게 처리 결과를 메일로 보낸다.
+					mailSender = mailSenderFactory.createMailSender();
+	
+					mailSender.setFromMailAddress("iris@lghausys.com");
+					mailSender.setToMailAddress("singkro@lghausys.com");    // to-do: 개발시에만 하드코딩, 운영은 처음 작성한 담당자에게 보내야 한다.
+					mailSender.setSubject("구매요청 SAP 전송 실패");
+					
+					message = "<b>* 구매요청 내역</b><br>";
+					message += "&nbsp;&nbsp;&nbsp;" + jcoTable.getString("BANFN_PRS") + "<br>";
+					message += "<br><br>";
+					message += "<b>* SAP 처리 결과</b><br>";
+					message += "&nbsp;&nbsp;&nbsp;"	+ jcoTable.getString("MESSAGE").trim();					
+					
+					mailSender.setText(message);
+					
+					mailSender.send();
+				}
+
+				/*
+				 * 구매요청 단계 플래그 D:삭제 , E:SAP전송에러 S:SAP로 데이터 전송, 0: 임시저장 
+				 * 1:구매요청, 2:구매반려(PRS반려), 3:결재의뢰, 4:결재반려(SAP반려), 5:결재완료,
+				 * 6:구매발주, 7:입고완료 8:삭제된 결재반려건
+				 */
+				resultVal = jcoTable.getString("STATUS").trim();
+
+				Map<String, Object> map = new HashMap<String, Object>();
+		        map.put("banfn", jcoTable.getString("BANFN"));		// PR번호
+		        map.put("bnfpo", jcoTable.getString("BNFPO"));		// PR품목번호
+		        map.put("banfnPrs", Integer.parseInt(jcoTable.getString("BANFN_PRS")));
+		        map.put("bnfpoPrs", Integer.parseInt(jcoTable.getString("BNFPO_PRS")));
+		        map.put("anln1", jcoTable.getString("ANLN1"));
+		        map.put("posid", jcoTable.getString("POSID"));
+		        if(!"E".equals(resultVal) && !"".equals(jcoTable.getString("BANFN"))) {
+		        	map.put("prsFlag", "3");
+		        	resultVal = "S";
+		        } else if("E".equals(resultVal) && !"".equals(jcoTable.getString("BANFN"))) {
+		        	map.put("prsFlag", "1");
+		        	resultVal = "S";
+		        } else {
+		        	map.put("prsFlag", resultVal);
+		        }
+		        map.put("message", jcoTable.getString("MESSAGE")); 
+	            
+				updateAppExpensePr(map);
+			}
+		}
+		
+		return resultVal;
+	}
+	
+	public List<Map<String, Object>> retrieveERPPrInfo(HashMap<String, Object> input){
+		return commonDao.selectList("prs.purRq.retrievePurRqInfo", input);
+	}
+	
+	public List<Map<String, Object>> retreivePurApprovalInfo(HashMap<String, Object> input){
+		return commonDao.selectList("prs.purRq.retreivePurApprovalInfo", input);
+	}
+	
+	public int updateAppExpensePr(Map<String, Object> input){
+		return commonDao.update("prs.purRq.updateAppExpensePr", input);
+	}
+	
+	public List<Map<String, Object>> retrieveAttachFileList(HashMap<String, Object> input){
+		return commonDao.selectList("prs.purRq.retrieveMyPurRqListAttachFiles", input);
 	}
 	
 	private JCoTable makeExpenseInputData(JCoTable jcoTable, List<Map<String, Object>> result) {
@@ -329,6 +647,78 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 
 		return jcoTable;
 	};
+	
+	
+	private JCoTable makeExpenseAppInputData(JCoTable jcoTable, List<Map<String, Object>> result, HashMap<String, Object> input) {
+		List<Map<String, Object>> approvalList = retreivePurApprovalInfo(input);
+
+		int approvalOpinLength = 65; 
+		int approvalOpinMaxLine = 8; // 8줄까지만 가능
+		
+		try{
+		    	for(Map<String, Object> data : approvalList) {
+		    		jcoTable.appendRow();
+		    		
+		    		jcoTable.setValue("BANFN_PRS", data.get("banfnPrs").toString());
+		    		jcoTable.setValue("BANFN", "");  
+					//jcoTable.setValue("RECE_PERNR", data.get("bednr").toString());    // 운영반영시 주석 풀고 아랫줄 주석 처리할 것
+					jcoTable.setValue("RECE_PERNR", "00206645");   // 정현철 책임으로 테스트 진행. 운영반영시 주석처리하고 윗줄 주석 풀것
+		    		jcoTable.setValue("APR1_PERNR", data.get("apr1Pernr").toString());
+		    		jcoTable.setValue("APR2_PERNR", data.get("apr2Pernr").toString());
+		    		jcoTable.setValue("APR3_PERNR", data.get("apr3Pernr").toString());
+		    		//jcoTable.setValue("APR4_PERNR", data.get("apr4Pernr").toString());	// 운영반영시 주석 풀고 아랫줄 주석 처리할 것
+		    		jcoTable.setValue("APR4_PERNR", "00060954");	// 장재용 책임으로 테스트 진행. 운영반영시 주석처리하고 윗줄 주석 풀것
+		    		jcoTable.setValue("WBS_PERNR", data.get("wbsPernr").toString());
+					
+					String gCheckFlag = "";
+					String gCheck2Flag = "";
+					if ( data.get("gCheck").toString().equals("Y")) {
+						gCheckFlag = "X";
+					}
+					if ( data.get("gCheck2").toString().equals("Y")) {
+						gCheck2Flag = "X";
+					}
+					
+					jcoTable.setValue("G_CHECK", gCheckFlag);
+					jcoTable.setValue("G_CHECK2", gCheck2Flag);			
+		
+					
+					if (!"".equals(data.get("opinDoc").toString())) {
+						String itemLines[] = data.get("opinDoc").toString().split("\n");
+						String tempOpin_doc = "";
+						int lineIndex = 0;
+						
+						for(int i = 0; i < itemLines.length && lineIndex < approvalOpinMaxLine; i++) {
+							if(itemLines[i].length() > approvalOpinLength) {
+								int fromIndex = 0;
+								int toIndex = 0;
+								
+								for(int j = 0;(j <= itemLines[i].length() / approvalOpinLength) && lineIndex < approvalOpinMaxLine; j++) {
+									fromIndex = j * approvalOpinLength;
+									toIndex = (j * approvalOpinLength) + approvalOpinLength;
+									
+									if (toIndex > itemLines[i].length()) {
+										toIndex = itemLines[i].length();
+									}
+									
+									tempOpin_doc = "OPIN_DOC" + lineIndex;
+									jcoTable.setValue(tempOpin_doc, itemLines[i].toString().substring(fromIndex, toIndex));
+									lineIndex++;
+								}
+							} else {
+								tempOpin_doc = "OPIN_DOC" + lineIndex;
+								jcoTable.setValue(tempOpin_doc, itemLines[i].toString());
+								lineIndex++;
+							}
+						}
+					}
+		    	}
+		}catch(Exception e){
+			 throw new RuntimeException("===========================오류================", e);
+			
+		}
+		return jcoTable;
+	};
 
 	private JCoTable makeFileInputData(JCoTable jcoTable, List<Map<String, Object>> result) {
     	for(Map<String, Object> data : result) {
@@ -345,417 +735,34 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
     				jcoTable.setValue("PATH", attachFileInfo.get("attcFilId").toString() + "-" + attachFileInfo.get("seq").toString());
     				jcoTable.setValue("FILE", attachFileInfo.get("filNm").toString());    				
     			}
-
-    			
-//				fileList = file.fileList(seqNum, "01");
-//				for (int ll = 0; ll < fileList.size(); ll++) {
-//					fileVo = (FileVO) fileList.get(ll);
-//					canonicalpath = fileVo.getFileEntity().getCanonicalpath();
-//					org_filename = fileVo.getFileEntity().getOrg_filename();
-//					fileInput.appendRow();
-//					fileInput.setRow(kk++);
-//
-//					fileInput.setValue(str.nullChange(banfn_prs), "BANFN_PRS");
-//					fileInput.setValue(bnfpo_prs, "BNFPO_PRS");
-//					fileInput.setValue("", "BANFN");
-//					fileInput.setValue("", "BNFPO");
-//					fileInput.setValue(seqNum + "-01", "PATH");
-//					fileInput.setValue(str.nullChange(org_filename), "FILE");
-//				}    			
     		}
     	}
 
 		return jcoTable;
 	};
-
-	private JCoTable makeExpenseAppInputData(JCoTable jcoTable, List<Map<String, Object>> result, HashMap<String, Object> input) {
-		List<Map<String, Object>> approvalList = retreivePurApprovalInfo(input);
-		int approvalOpinLength = 65; 
-		int approvalOpinMaxLine = 8; // 8줄까지만 가능
-		
-    	for(Map<String, Object> data : approvalList) {
-    		jcoTable.appendRow();
-    		
-    		jcoTable.setValue("BANFN_PRS", data.get("banfnPrs").toString());
-    		jcoTable.setValue("BANFN", "");  
-			//jcoTable.setValue("RECE_PERNR", data.get("bednr").toString());    // 운영반영시 주석 풀고 아랫줄 주석 처리할 것
-			jcoTable.setValue("RECE_PERNR", "00206645");   // 정현철 책임으로 테스트 진행. 운영반영시 주석처리하고 윗줄 주석 풀것
-    		jcoTable.setValue("APR1_PERNR", data.get("apr1Pernr").toString());
-    		jcoTable.setValue("APR2_PERNR", data.get("apr2Pernr").toString());
-    		jcoTable.setValue("APR3_PERNR", data.get("apr3Pernr").toString());
-    		//jcoTable.setValue("APR4_PERNR", data.get("apr4Pernr").toString());	// 운영반영시 주석 풀고 아랫줄 주석 처리할 것
-    		jcoTable.setValue("APR4_PERNR", "00060954");	// 장재용 책임으로 테스트 진행. 운영반영시 주석처리하고 윗줄 주석 풀것
-    		jcoTable.setValue("WBS_PERNR", data.get("wbsPernr").toString());
-			
-			String gCheckFlag = "";
-			String gCheck2Flag = "";
-			if ( data.get("gCheck").toString().equals("Y")) {
-				gCheckFlag = "X";
-			}
-			if ( data.get("gCheck2").toString().equals("Y")) {
-				gCheck2Flag = "X";
-			}
-			
-			jcoTable.setValue("G_CHECK", gCheckFlag);
-			jcoTable.setValue("G_CHECK2", gCheck2Flag);			
-
-			if (!"".equals(data.get("opinDoc").toString())) {
-				String itemLines[] = data.get("opinDoc").toString().split("\n");
-				String tempOpin_doc = "";
-				int lineIndex = 0;
-				
-				for(int i = 0; i < itemLines.length && lineIndex < approvalOpinMaxLine; i++) {
-					if(itemLines[i].length() > approvalOpinLength) {
-						int fromIndex = 0;
-						int toIndex = 0;
-						
-						for(int j = 0;(j <= itemLines[i].length() / approvalOpinLength) && lineIndex < approvalOpinMaxLine; j++) {
-							fromIndex = j * approvalOpinLength;
-							toIndex = (j * approvalOpinLength) + approvalOpinLength;
-							
-							if (toIndex > itemLines[i].length()) {
-								toIndex = itemLines[i].length();
-							}
-							
-							tempOpin_doc = "OPIN_DOC" + lineIndex;
-							jcoTable.setValue(tempOpin_doc, itemLines[i].toString().substring(fromIndex, toIndex));
-							lineIndex++;
-						}
-					} else {
-						tempOpin_doc = "OPIN_DOC" + lineIndex;
-						jcoTable.setValue(tempOpin_doc, itemLines[i].toString());
-						lineIndex++;
-					}
-				}
-			}
-    	}
-		return jcoTable;
-	};
-
-	private String erpApprovalResultSave(JCoTable jcoTable) {
-		String resultVal = "";
-		int rowCnt = jcoTable.getNumRows();
-		MailSender mailSender = null;
-		String message = "";
-		
-		LOGGER.debug("##############################input############################# : " + jcoTable);
-		
-		if (rowCnt > 0) {
-			for (int i = 0; i < rowCnt; i++) {
-				jcoTable.setRow(i);
-
-				String appBanfn = jcoTable.getString("BANFN");
-				String appBnfpo = jcoTable.getString("BNFPO");
-
-				if ("S".equals(jcoTable.getString("STATUS").trim()) && i == 0) {		// to-do: "S" -> "E"로 변경하여 운영 반영
-					// SAP 전송 에러일 경우 해당 요청자에게 처리 결과를 메일로 보낸다.
-					mailSender = mailSenderFactory.createMailSender();
 	
-					mailSender.setFromMailAddress("iris@lghausys.com");
-					mailSender.setToMailAddress("sehonga@lghausys.com");    // to-do: 개발시에만 하드코딩, 운영은 처음 작성한 담당자에게 보내야 한다.
-					mailSender.setSubject("구매요청 SAP 전송 실패");
-					
-					message = "<b>* 구매요청 내역</b><br>";
-					message += "&nbsp;&nbsp;&nbsp;" + jcoTable.getString("BANFN_PRS") + "<br>";
-					message += "<br><br>";
-					message += "<b>* SAP 처리 결과</b><br>";
-					message += "&nbsp;&nbsp;&nbsp;"	+ jcoTable.getString("MESSAGE").trim();					
-					
-					mailSender.setText(message);
-					
-					mailSender.send();
-				}
-
-				/*
-				 * 구매요청 단계 플래그 D:삭제 , E:SAP전송에러 S:SAP로 데이터 전송, 0: 임시저장 
-				 * 1:구매요청, 2:구매반려(PRS반려), 3:결재의뢰, 4:결재반려(SAP반려), 5:결재완료,
-				 * 6:구매발주, 7:입고완료 8:삭제된 결재반려건
-				 */
-				resultVal = jcoTable.getString("STATUS").trim();
-
-				Map<String, Object> map = new HashMap<String, Object>();
-		        map.put("banfn", jcoTable.getString("BANFN"));		// PR번호
-		        map.put("bnfpo", jcoTable.getString("BNFPO"));		// PR품목번호
-		        map.put("banfnPrs", Integer.parseInt(jcoTable.getString("BANFN_PRS")));
-		        map.put("bnfpoPrs", Integer.parseInt(jcoTable.getString("BNFPO_PRS")));
-		        map.put("anln1", jcoTable.getString("ANLN1"));
-		        map.put("posid", jcoTable.getString("POSID"));
-		        if(!"E".equals(resultVal) && !"".equals(jcoTable.getString("BANFN"))) {
-		        	map.put("prsFlag", "3");
-		        	resultVal = "S";
-		        } else if("E".equals(resultVal) && !"".equals(jcoTable.getString("BANFN"))) {
-		        	map.put("prsFlag", "1");
-		        	resultVal = "S";
-		        } else {
-		        	map.put("prsFlag", resultVal);
-		        }
-		        map.put("message", jcoTable.getString("MESSAGE")); 
-	            
-				updateAppExpensePr(map);
-			}
-		}
+	/**
+	 *  결재의뢰 저장(IRIS+)
+	 */
+	public int insertPurApprovalInfo(Map<String, Object> input) throws Exception {
+		List<Map<String, Object>> insertList = new ArrayList<Map<String, Object>>();
 		
-		return resultVal;
-	}
-	
-	public List<Map<String, Object>> retrieveERPPrInfo(HashMap<String, Object> input){
-		return commonDao.selectList("prs.purRq.retrievePurRqInfo", input);
-	}
-	
-	public List<Map<String, Object>> retreivePurApprovalInfo(HashMap<String, Object> input){
-		return commonDao.selectList("prs.purRq.retreivePurApprovalInfo", input);
-	}
-	
-	public int updateAppExpensePr(Map<String, Object> input){
-		return commonDao.update("prs.purRq.updateAppExpensePr", input);
-	}
-	
-	public List<Map<String, Object>> retrieveAttachFileList(HashMap<String, Object> input){
-		return commonDao.selectList("prs.purRq.retrieveMyPurRqListAttachFiles", input);
-	}
-	
-	@Override
-	public List<Map<String, Object>> getPrRequestSAPStatus(List<Map<String,Object>> dataList){
-		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
+		Map<String, Object> data = input;
 		
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("PurRqInfoServiceImpl - getPrRequestSAPStatus ");
-		LOGGER.debug("dataList = > " + dataList);
-		LOGGER.debug("###########################################################");
+		insertList.add(data);
 		
-		resultVal = callZ_RFC_PRS04_05(dataList);
-
-		return resultVal;
-	}
-	
-	private JCoTable makePrData(JCoTable jcoTable, List<Map<String, Object>> list) {
-		int i = 0;
-		for(Map<String, Object> data : list) {
-    		if(!"".equals(data.get("banfn"))) {
-    			jcoTable.appendRow();
-    
-    			jcoTable.setValue("BANFN", data.get("banfn").toString());
-    			jcoTable.setValue("BNFPO", data.get("bnfpo").toString());
-    			jcoTable.setValue("BANFN_PRS", i);
-    		}
-    		i++;
-    	}
-
-		return jcoTable;
-	};
-	
-	private JCoTable makePrList(JCoTable jcoTable, List<Map<String, Object>> list) {
-		int i = 0;
-		for(Map<String, Object> data : list) {
-    		if(!"".equals(data.get("banfn"))) {
-    			jcoTable.appendRow();
-    
-    			jcoTable.setValue("BANFN", data.get("banfn").toString());
-    			jcoTable.setValue("BNFPO", data.get("bnfpo").toString());
-    		}
-    		i++;
-    	}
-
-		return jcoTable;
-	};
-
-	private List<Map<String, Object>> makeGetPrRequestSAPReturn(JCoTable jcoTable) {
-		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
-		String erpIndex = "";
+		LOGGER.debug("##############################input############################# : " + input);
+		LOGGER.debug("##############################data############################# : " + data);
+		LOGGER.debug("##############################insertList############################# : " + insertList);
 		
-		for(int i = 0; i < jcoTable.getNumRows(); i++, jcoTable.nextRow()) {
-			HashMap<String, Object> record = new HashMap<String, Object>();
-			
-			record.put("banfn", jcoTable.getValue("BANFN"));
-			record.put("bnfpo", jcoTable.getValue("BNFPO"));
-			erpIndex = jcoTable.getValue("INDEX").toString();
-			
-			record.put("index", erpIndex);
-			record.put("idx", jcoTable.getValue("BANFN_PRS"));
-			LOGGER.debug(jcoTable.getValue("BANFN_PRS"));
-			switch (erpIndex) {
-				case "1":
-					record.put("status", "구매요청");
-					break;
-				case "2":
-					record.put("status", "구매반려(PRS)");
-					break;
-				case "3":
-					record.put("status", "결재의뢰");
-					break;
-				case "4":
-					record.put("status", "결재반려(SAP)");
-					break;
-				case "5":
-					record.put("status", "결재완료");
-					break;
-				case "6":
-					record.put("status", "구매발주");
-					break;
-				case "7":
-					record.put("status", "입고완료");
-					break;
-				case "8":
-					record.put("status", "삭제(결재반려)");
-					break;
-				default:
-					record.put("status", "");
-					break;
-			}
-		
-			resultVal.add(i, record);
-    	}
-
-		LOGGER.debug(resultVal);
-		return resultVal;
-	};
-
-	private List<Map<String, Object>> callZ_RFC_PRS04(List<Map<String,Object>> dataList){
-		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
-		
-		//LOGGER.debug("###########################################################");
-		//LOGGER.debug("PurRqInfoServiceImpl - callZ_RFC_PRS04 [구매요청현황: Z_RFC_PRS04]");
-		//LOGGER.debug("###########################################################");
-		
-		String functionName = "Z_RFC_PRS04";			// 구매요청현황
-		String gubun ="I_GUBUN";						// 작업구분 (1:my구매내역,2:구매요청)
-		String zmm0126s ="I_PAGE";						// [PRS] import_page info
-		String zmm0128s ="I_SORT";						// [PRS] [PRS] Import parameter - 구매요청현황 (정렬 및 구매단계)
-		String zmm0115s ="E_OUTPUT";					// [PRS] RFC_EXPORT
-		String zmm0118s ="IT_INPUT";					// [PRS] Import parameter - 구매요청현황
-		String zmm0119s ="IT_LIST";						// [PRS] 구매요청현황 리스트
-		
-	    JCoDestination destination;
-		try {
-			destination = JCoDestinationManager.getDestination(ABAP_AS);
-	    	JCoFunction function = destination.getRepository().getFunction(functionName); 
-
-	    	JCoParameterList importList = function.getImportParameterList();
-	    	JCoParameterList exportList = function.getExportParameterList();
-	    	JCoTable requestTable = function.getTableParameterList().getTable(zmm0118s);
-	    	JCoTable resultTable  = function.getTableParameterList().getTable(zmm0119s);
-	        
-	    	requestTable = makePrData(requestTable, dataList);
-	    	LOGGER.debug("requestTable");
-	    	LOGGER.debug(requestTable);
-	    	importList.setValue(gubun, "1");
-	       	function.execute(destination);
-	    	LOGGER.debug("resultTable");
-	    	LOGGER.debug(resultTable);
-	       	
-	       	resultVal = makeGetPrRequestSAPReturn(resultTable);
-		} catch (JCoException e) {
-			
-		} finally {
-	        return resultVal;
-		}
-	}
-
-	private List<Map<String, Object>> callZ_RFC_PRS05(List<Map<String,Object>> dataList){
-		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
-		
-		//LOGGER.debug("###########################################################");
-		//LOGGER.debug("PurRqInfoServiceImpl - callZ_RFC_PRS05 [구매진척현황: Z_RFC_PRS05]");
-		//LOGGER.debug("###########################################################");
-		
-		String functionName = "Z_RFC_PRS05";			// 구매요청현황
-		String zmm0126s ="I_PAGE";						// [PRS] import_page info
-		String zmm0115s ="E_OUTPUT";					// [PRS] RFC_EXPORT
-		String zmm0120s ="IT_INPUT";					// [PRS] Import parameter - 구매진척현황
-		String zmm0121s ="IT_LIST";						// [PRS] 구매진척현황 리스트
-		
-	    JCoDestination destination;
-		try {
-			destination = JCoDestinationManager.getDestination(ABAP_AS);
-	    	JCoFunction function = destination.getRepository().getFunction(functionName); 
-
-	    	JCoParameterList importList = function.getImportParameterList();
-	    	JCoParameterList exportList = function.getExportParameterList();
-	    	JCoTable requestTable = function.getTableParameterList().getTable(zmm0120s);
-	    	JCoTable resultTable  = function.getTableParameterList().getTable(zmm0121s);
-	        
-	    	requestTable = makePrList(requestTable, dataList);
-	       	function.execute(destination);
-	       	resultVal = makeGetPrProcessSAPReturn(resultTable);
-	       	
-		} catch (JCoException e) {
-			
-		} finally {
-	        return resultVal;
+		if(commonDao.batchInsert("prs.purRq.insertPurApprovalInfo", insertList) != insertList.size()) {
+			throw new Exception("결재의뢰 저장 오류");
+		} else {
+			return input.size();
 		}
 	}
 	
-	private List<Map<String, Object>> callZ_RFC_PRS04_05(List<Map<String,Object>> dataList){
-		List<Map<String, Object>> resultVal04 = new ArrayList<Map<String, Object>>();
-		List<Map<String, Object>> resultVal05 = new ArrayList<Map<String, Object>>();
-		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
-		
-		//LOGGER.debug("###########################################################");
-		//LOGGER.debug("PurRqInfoServiceImpl - callZ_RFC_PRS04_05");
-		//LOGGER.debug("###########################################################");
-		
-		resultVal04 = callZ_RFC_PRS04(dataList);
-		resultVal05 = callZ_RFC_PRS05(dataList);
-		
-		int i = 0;
-		for(Map item : resultVal04) {
-			Map<String, Object> record = new HashMap<String, Object>();
-
-			record.put("banfn", 	item.get("banfn"));
-			record.put("bnfpo", 	item.get("bnfpo"));
-			record.put("index", 	item.get("index"));
-			record.put("idx", 		item.get("idx"));
-			record.put("status", 	item.get("status"));
-			record.put("badat", 	resultVal05.get(i).get("badat"));		
-			record.put("apr4Date", 	resultVal05.get(i).get("apr4Date"));		
-			record.put("rejeDate", 	resultVal05.get(i).get("rejeDate"));		
-			record.put("ebeln", 	resultVal05.get(i).get("ebeln"));			
-			record.put("ebelp", 	resultVal05.get(i).get("ebelp"));			
-			record.put("bedat", 	resultVal05.get(i).get("bedat"));			
-			record.put("poMenge", 	resultVal05.get(i).get("poMenge"));		
-			record.put("poMeins", 	resultVal05.get(i).get("poMeins"));		
-			record.put("netwr", 	resultVal05.get(i).get("netwr"));			
-			record.put("waers", 	resultVal05.get(i).get("waers"));			
-			record.put("name1", 	resultVal05.get(i).get("name1"));			
-			record.put("grBudat", 	resultVal05.get(i).get("grBudat"));		
-			record.put("grMenge", 	resultVal05.get(i).get("grMenge"));		
-			record.put("piBudat", 	resultVal05.get(i).get("piBudat"));		
-			
-			resultVal.add(i, record);
-			
-			i++;
-		}
-		
-		LOGGER.debug(resultVal);
-		return resultVal;
-	}
 	
-	private List<Map<String, Object>> makeGetPrProcessSAPReturn(JCoTable jcoTable) {
-		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
-		for(int i = 0; i < jcoTable.getNumRows(); i++, jcoTable.nextRow()) {
-			HashMap<String, Object> record = new HashMap<String, Object>();
-
-			record.put("banfn", jcoTable.getValue("BANFN"));
-			record.put("bnfpo", jcoTable.getValue("BNFPO"));
-			record.put("badat", jcoTable.getValue("BADAT"));			// PR 생성일
-			record.put("apr4Date", jcoTable.getValue("APR4_DATE"));		// PR 결제일
-			record.put("rejeDate", jcoTable.getValue("REJE_DATE"));		// PR 결제기각일
-			record.put("ebeln", jcoTable.getValue("EBELN"));			// PO 번호
-			record.put("ebelp", jcoTable.getValue("EBELP").toString().replace("00000",""));			// PO 품번
-			record.put("bedat", jcoTable.getValue("BEDAT"));			// PO 생성일
-			record.put("poMenge", jcoTable.getValue("PO_MENGE"));		// PO 수량
-			record.put("poMeins", jcoTable.getValue("PO_MEINS"));		// PO 단위
-			record.put("netwr", jcoTable.getValue("NETWR"));			// PO 금액
-			record.put("waers", jcoTable.getValue("WAERS"));			// PO 통화
-			record.put("name1", jcoTable.getValue("NAME1"));			// Vendor
-			record.put("grBudat", jcoTable.getValue("GR_BUDAT"));		// 입고일
-			record.put("grMenge", jcoTable.getValue("GR_MENGE").toString().replace("","0"));		// 입고수량
-			record.put("piBudat", jcoTable.getValue("PI_BUDAT"));		// 송장일
-		
-			resultVal.add(i, record);
-    	}
-
-		return resultVal;
-	};
+	
 	
 }

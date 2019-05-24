@@ -24,7 +24,52 @@
 	
 	<select id="retrieveWbsCdInfoList" resultType="HashMap">
 	/*retrieveWbsCdInfoList  프로젝트 리스트 코드 목록*/
-		
+		<![CDATA[	
+		select  a.prj_cd   as prjCd
+	          ,a.wbs_cd    as posid
+			  ,a.prj_nm    as post1
+			  ,a.pl_nm     as ename
+			  ,a.pl_emp_no  as plEmpNo
+			  ,a.prj_str_dt  as prjStrDt
+			  ,a.prj_end_dt  as prjEndDt
+			  ,a.dept_cd     as deptCd
+	         ,(select x.dept_name from IRIS_SSO_DEPT x where x.dept_code = a.dept_cd ) as dept_nm
+		from (
+		select  prj_cd
+		          ,wbs_cd
+				  ,prj_nm
+				  ,(select sa_name from iris_sso_user where sa_sabun_new = pl_emp_no)  as pl_nm
+				  ,pl_emp_no
+				  ,prj_str_dt
+				  ,prj_end_dt
+				  ,dept_cd
+		from   IRIS_PRJ_RSST_MST
+		where  TCLG_YN ='N'
+		and    ( PRJ_END_DT is null or PRJ_END_DT = '')
+		union
+		select a.prj_cd
+		         ,a.wbs_cd
+				 ,a.tss_nm
+				 ,(select sa_name from iris_sso_user x where x.sa_sabun_new = a.sa_sabun_new)  as pl_nm
+				 ,a.sa_sabun_new
+				 ,a.TSS_STRT_DD
+				 ,a.TSS_FNH_DD
+				 ,(select x.dept_cd from iris_prj_rsst_mst x where x.prj_cd = a.prj_cd ) as team_dept_code
+		from   IRIS_TSS_MGMT_MST  a
+		where a.del_yn ='N'
+		and     a.wbs_cd not in (select y.wbs_cd from iris_tss_mgmt_mst y where y.pgs_step_cd in ('DC','CM') )
+		and     a.PGS_STEP_CD = 'PG'
+		) a
+		where 1=1
+		]]>
+		<if test="adminChk.equals('Y') ">
+	    and   dept_cd = #{_userDept}
+		</if>
+		<if test="prjNm != null and prjNm != '' and prjNm != 'null' ">
+	    and (a.wbs_cd like '%'+#{prjNm}+'%' or  a.prj_nm like '%'+#{prjNm}+'%' )
+		</if>
+				
+	<!-- 		
 		select  distinct 
 			   POSID as posid
 	          ,POST1 as post1
@@ -32,7 +77,7 @@
 			  ,FKSTL as fkstl
 			  ,WONJANG as wonjang
 			  ,vernr as pernr
-		from   [dbo].[PR_PROJETINFO_T]
+		from   [dbo].[PR_PROJETINFO_T] -->
 	</select>
 	
 	<select id="retrieveSaktoInfoList" resultType="HashMap">

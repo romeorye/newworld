@@ -7,18 +7,17 @@
 <%--
 /*
  *************************************************************************
- * $Id		: myPurRqList.jsp
- * @desc    : 나의 구매요청 리스트
+ * $Id		: purSttsList.jsp
+ * @desc    : 구매요청현황 화면
  *------------------------------------------------------------------------
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
- * 1.0  2018.12.09  홍상의		최초생성
+ * 1.0  2019.05.03   김연태		최초생성
  * ---	-----------	----------	-----------------------------------------
- * 
+ * PRS 프로젝트
  *************************************************************************
  */
 --%>
-
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -42,11 +41,7 @@ var adminChk = "N";
 		/*******************
          * 변수 및 객체 선언
          *******************/
-         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
- 			adminChk = "Y";
- 		}
-         
-        /* WBS 코드 */
+		/* WBS 코드 */
  		var posid = new Rui.ui.form.LTextBox({
              applyTo: 'posid',
              placeholder: '',
@@ -107,6 +102,18 @@ var adminChk = "N";
 
 		txz01.on('blur', function(e) {
 			txz01.setValue(txz01.getValue().trim());
+        });
+		
+		
+		/* 구매그룹 */
+		var ekgrp = new Rui.ui.form.LCombo({
+            applyTo: 'ekgrp',
+            width: 200,
+            useEmptyText: true,
+            emptyText: '전체',
+            url: '<c:url value="/common/prsCode/retrieveEkgrpInfo.do"/>',
+            displayField: 'CODE_NM',
+            valueField: 'CODE'
         });
 			
 		/* 상태 */ 
@@ -182,7 +189,8 @@ var adminChk = "N";
 	    var itemColumnModel = new Rui.ui.grid.LColumnModel({
 	    	/* freezeColumnId: 'posid', */
 	        columns: [
-	              { field: 'badate', 	label: '작성일', 		sortable: false,	align:'center',	width: 80 }
+	              new Rui.ui.grid.LSelectionColumn({selectionType: 'radio'})
+	            , { field: 'badate', 	label: '작성일', 		sortable: false,	align:'center',	width: 80 }
 	            , { field: 'sCode', 	label: '요청구분', 		sortable: false,	align:'center',	width: 80 }
 	            , { field: 'posid', 	label: '프로젝트코드', 	sortable: false,	align:'center',	width: 90 }
 	            , { field: 'posidnm', 	label: '프로젝트명', 	sortable: false,	align:'left',	width: 300 }
@@ -284,7 +292,6 @@ var adminChk = "N";
 	       	
 	       	document.aform.banfnPrs.value = record.get("banfnPrs");
 	       	
-           
      	    if( record.get("tabid") == "EM" ){
      	    	linkUrl = "<c:url value='/prs/purRq/purRqDetail.do'/>";
 	       	}else if( record.get("tabid") == "EF"  ){
@@ -305,18 +312,19 @@ var adminChk = "N";
             params :{
                		fromRegDt : fromRegDt.getValue(),
                		toRegDt : toRegDt.getValue(),
-               		posid : escape(encodeURIComponent(posid.getValue())),
-               		txz01 : escape(encodeURIComponent(txz01.getValue())),
+               		posid :  posid.getValue(),
+               		txz01 : encodeURIComponent(txz01.getValue()),
+               		ekgrp : ekgrp.getValue(),
                		prsFlag : prsFlag.getValue(),
-               		adminChk : adminChk
+               		adminChk : "Y"
                		}
             });
         };
 		
         fnSearch();
+
+
 	});
-
-
 </script>
 </head>
 <body onkeypress="if(event.keyCode==13) {fnSearch();}">
@@ -327,7 +335,7 @@ var adminChk = "N";
 	<div class="titleArea">
   		<a class="leftCon" href="#"><img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
   		<span class="hidden">Toggle 버튼</span></a>
-  			<h2>My 구매요청 내역</h2>
+  			<h2>구매요청현황</h2>
   	</div>
 
    	<div class="sub-content">
@@ -354,9 +362,9 @@ var adminChk = "N";
    							<td></td>
    						</tr>
    						<tr>
-   							<th align="right">요청품명</th>
+   							<th align="right">구매그룹</th>
    							<td class="tdin_w100">
-   								<input type="text" id="txz01" name="txz01" />
+   								<select id="ekgrp" name="ekgrp"></select>
    							</td>
    							<th align="right">상태</th>
    							<td>
@@ -364,6 +372,12 @@ var adminChk = "N";
    							</td>
    							<td class="txt-right">
    								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+   							</td>
+   						</tr>
+   						<tr>
+   							<th align="right">요청품명</th>
+   							<td class="tdin_w100">
+   								<input type="text" id="txz01" name="txz01" />
    							</td>
    						</tr>
    					</tbody>
