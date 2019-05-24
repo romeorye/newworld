@@ -275,7 +275,7 @@
 	       		getAttachFileList();
 	       	}
 	       	
-	       	$("#totPreis").html(record.get('totPreis'));  
+	       	$("#totPreis").html(   Rui.util.LNumber.toMoney(record.get('totPreis'))     );  
 	    });
 		
 	  	//품목구분
