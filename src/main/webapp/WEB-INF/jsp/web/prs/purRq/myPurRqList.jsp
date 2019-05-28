@@ -184,20 +184,8 @@ var adminChk = "N";
 	        columns: [
 	              { field: 'badate', 	label: '작성일', 		sortable: false,	align:'center',	width: 80 }
 	            , { field: 'sCode', 	label: '요청구분', 		sortable: false,	align:'center',	width: 80 }
-	            , { field: 'posid', 	label: '프로젝트코드', 	sortable: false,	align:'center',	width: 90 }
-	            , { field: 'posidnm', 	label: '프로젝트명', 	sortable: false,	align:'left',	width: 300 }
-	            , { field: 'eeind', 	label: '납품요청일', 	sortable: false,	align:'center',	width: 80 }
-	            , { field: 'position', 	label: '납품위치', 	 	sortable: false,	align:'center',	width: 130 }
-	            , { field: 'ekgrp', 	label: '구매그룹', 	 	sortable: false,	align:'center',	width: 80 }
-	            , { field: 'ekgrpnm', 	label: '구매그룹명', 	sortable: false,	align:'center',	width: 100 }
-	            , { field: 'sakto', 	label: '계정코드', 	 	sortable: false,	align:'center',	width: 80 }
-	            , { field: 'saktonm', 	label: '계정명', 	 	sortable: false,	align:'left',	width: 150 }
 	            , { field: 'txz01', 	label: '요청품명', 	 	sortable: false,	align:'left',	width: 150 }
-	            , { field: 'maker', 	label: 'Maker', 	 	sortable: false,	align:'left',	width: 150 }
-	            , { field: 'vendor', 	label: 'Vendor', 	 	sortable: false,	align:'left',	width: 150 }
-	            , { field: 'catalogno', label: 'Catalog No', 	sortable: false,	align:'left',	width: 150 }
-	            , { field: 'werks', 	label: '플랜트코드', 	sortable: false,	align:'center',	width: 80 }
-	            , { field: 'werksnm', 	label: '플랜트명', 	 	sortable: false,	align:'left',	width: 120 }
+	            , { field: 'eeind', 	label: '납품요청일', 	sortable: false,	align:'center',	width: 80 }
 	            , { field: 'menge', 	label: '요청수량', 	 	sortable: false,	align:'right',	width: 90, 
 	            	renderer: function(value, p){
 	            				return Rui.util.LNumber.toMoney(value);
@@ -214,6 +202,19 @@ var adminChk = "N";
 	                 	        return Rui.util.LNumber.toMoney(record.get('menge') * record.get('preis'));
 	                 	      } 
 	              }
+	            , { field: 'posid', 	label: '프로젝트코드', 	sortable: false,	align:'center',	width: 90 }
+	            , { field: 'position', 	label: '납품위치', 	 	sortable: false,	align:'center',	width: 130 }
+	            , { field: 'ekgrpnm', 	label: '구매그룹명', 	sortable: false,	align:'center',	width: 100 }
+	            , { field: 'sakto', 	label: '계정코드', 	 	sortable: false,	align:'center',	width: 80 }
+	            , { field: 'saktonm', 	label: '계정명', 	 	sortable: false,	align:'left',	width: 150 }
+	            , { field: 'werksnm', 	label: '플랜트명', 	 	sortable: false,	align:'left',	width: 120 }
+	            , { field: 'posidnm', 	label: '프로젝트명', 	sortable: false,	align:'left',	width: 300 }
+	            , { field: 'maker', 	label: 'Maker', 	 	sortable: false,	align:'left',	width: 150 }
+	            , { field: 'vendor', 	label: 'Vendor', 	 	sortable: false,	align:'left',	width: 150 }
+	            , { field: 'catalogno', label: 'Catalog No', 	sortable: false,	align:'left',	width: 150 }
+	          /* 
+	            , { field: 'ekgrp', 	label: '구매그룹', 	 	sortable: false,	align:'center',	width: 80 }
+	            , { field: 'werks', 	label: '플랜트코드', 	sortable: false,	align:'center',	width: 80 }
 	            , { field: 'itemTxt', 	label: '요청사유', 	 	sortable: false, width: 200, editor: new Rui.ui.form.LTextArea({disabled: true}), 
 	                renderer: function(val, p, record, row, col) {
 	                			return val.replaceAll('\n', '<br/>');
@@ -224,17 +225,15 @@ var adminChk = "N";
 	                			return val.replaceAll('\n', '<br/>').replaceAll('|||','<br/>');
 	                          }
 	              }
-	            , { field: 'prsFlag', 		label: '상태', 	 			sortable: false,	align:'center',	width: 20, hidden:true  }
+	           */  
+	            , { field: 'prsFlag', 		label: '상태', 	 hidden:true  }
 	            , { field: 'prsNm', 		label: '상태명', 	 		sortable: false,	align:'center',	width: 100 }
-	            , { field: 'message', 		label: '비고',	 	 		sortable: false,	align:'left',	width: 250 }
+	            //, { field: 'message', 		label: '비고',	 	 		sortable: false,	align:'left',	width: 250 }
 	            , { field: 'banfn', 		label: 'PR번호', 		 	sortable: false,	align:'center',	width: 90}
 	            , { field: 'bnfpo', 		label: 'PR품번',	 	 	sortable: false,	align:'center',	width: 90}
-	            , { field: 'badat', 		label: 'PR생성일',	 	 	sortable: false,	align:'center',	width: 90, hidden:true }		// PR 생성일
 	    		, { field: 'apr4Date', 		label: 'PR결제일',	 	 	sortable: false,	align:'center',	width: 90 }						// PR 결제일	
-				, { field: 'rejeDate', 		label: 'PR결제기각일', 	 	sortable: false,	align:'center',	width: 90, hidden:true }		// PR 결제기각일	
 				, { field: 'ebeln', 		label: 'PO번호',	 	 	sortable: false,	align:'center',	width: 90 }						// PO 번호	
 				, { field: 'ebelp', 		label: 'PO품번',	 	 	sortable: false,	align:'center',	width: 90 }						// PO 품번	
-				, { field: 'bedat', 		label: 'PO생성일',	 	 	sortable: false,	align:'center',	width: 90, hidden:true }		// PO 생성일	
 				, { field: 'poMenge', 		label: 'PO수량',	 	 	sortable: false,	align:'right',	width: 90,
 	            	renderer: function(value, p) {
 	            				if(value == "" || null == value) { value = 0}
@@ -242,14 +241,6 @@ var adminChk = "N";
 	   			  			}   
 				  }						// PO 수량
 				, { field: 'poMeins', 		label: 'PO단위',	 	 	sortable: false,	align:'center',	width: 90 }						// PO 단위
-				, { field: 'netwr', 		label: 'PO금액',	 	 	sortable: false,	align:'right',	width: 90, hidden:true,
-	            	renderer: function(value, p) {
-	            				if(value == "" || null == value) { value = 0}
-	    						return Rui.util.LNumber.toMoney(value);
-			  				}   
-				  }		// PO 금액	
-				, { field: 'waers', 		label: 'PO통화',	 	 	sortable: false,	align:'center',	width: 90, hidden:true }		// PO 통화	
-				, { field: 'name1', 		label: 'Vendor',	 	 	sortable: false,	align:'left',	width: 90, hidden:true }		// Vendor	
 				, { field: 'grBudat', 		label: '입고일',	 	 	sortable: false,	align:'center',	width: 90 }						// 입고일
 				, { field: 'grMenge', 		label: '입고수량',	 	 	sortable: false,	align:'right',	width: 90,
 	            	renderer: function(value, p) {
@@ -257,13 +248,19 @@ var adminChk = "N";
 						  		return Rui.util.LNumber.toMoney(value);
 	  						}   
 				  }						// 입고수량
-				, { field: 'piBudat', 		label: '송장일',	 	 	sortable: false,	align:'center',	width: 90, hidden:true }	    // 송장일            
-	            , { field: 'attcFilId', 	label: '첨부파일 Id', 	 	sortable: false,	align:'right',	width: 90, hidden:true }
-	            , { field: 'banfnPrs', 		label: '구매요청번호', 	 	sortable: false,	align:'right',	width: 90, hidden:true }
-	            , { field: 'bnfpoPrs', 		label: '구매요청순번', 	 	sortable: false,	align:'right',	width: 90, hidden:true }
-	            , { field: 'seqNum', 		label: 'Seq No', 	 		sortable: false,	align:'right',	width: 90, hidden:true }
-	            , { field: 'helpSeqnum', 	label: '요청구분 Seq', 		sortable: false,	align:'right',	width: 90, hidden:true }
-	            , { field: 'tabid', 		label: 'TAB ID', 			sortable: false,	align:'right',	width: 90, hidden:true }
+	            , { field: 'badat', 		label: 'PR생성일',	 	hidden:true }		// PR 생성일
+				, { field: 'rejeDate', 		label: 'PR결제기각일', 	hidden:true }		// PR 결제기각일	
+				, { field: 'bedat', 		label: 'PO생성일',	 	hidden:true }		// PO 생성일	
+				, { field: 'netwr', 		label: 'PO금액',	 		hidden:true}		// PO 금액	
+				, { field: 'name1', 		label: 'Vendor',	  	hidden:true }		// Vendor	
+				, { field: 'waers', 		label: 'PO통화',	 	  	hidden:true }		// PO 통화	
+				, { field: 'piBudat', 		label: '송장일',	 		hidden:true }	    // 송장일            
+	            , { field: 'attcFilId', 	label: '첨부파일 Id', 	hidden:true }
+	            , { field: 'banfnPrs', 		label: '구매요청번호', 	hidden:true }
+	            , { field: 'bnfpoPrs', 		label: '구매요청순번', 	hidden:true }
+	            , { field: 'seqNum', 		label: 'Seq No', 		hidden:true }
+	            , { field: 'helpSeqnum', 	label: '요청구분 Seq', 	hidden:true }
+	            , { field: 'tabid', 		label: 'TAB ID', 		hidden:true }
 	        ]
 	    });
 				
