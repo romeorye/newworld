@@ -75,7 +75,6 @@ public class PurRqInfoController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		
-		
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("PurRqInfoController - purRqList [구매요청시스템 리스트 화면 이동]");
 		LOGGER.debug("input = > " + input);
@@ -86,7 +85,6 @@ public class PurRqInfoController extends IrisBaseController {
 		
 		return "web/prs/purRq/purRqList";
 	}
-	
 	
 	/**
 	 *  구매요청시스템 리스트 조회
@@ -535,14 +533,14 @@ public class PurRqInfoController extends IrisBaseController {
 			int i = 0;
 			for(Map<String, Object> purRq : erpPurRqStatus) {
 				i = Integer.parseInt(purRq.get("idx").toString());
-				
-				
+
 				myListData = myPurRqList.get(i);
+/*
 				LOGGER.debug("**************************************************************************************");
 				LOGGER.debug("i : " + i);	
 				LOGGER.debug(purRq);
 				LOGGER.debug("**************************************************************************************");
-				
+*/				
 				myListData.put("prsFlag", 	purRq.get("index"));
 				myListData.put("prsNm", 	purRq.get("status"));
 				myListData.put("badat", 	purRq.get("badat"));		
@@ -561,7 +559,6 @@ public class PurRqInfoController extends IrisBaseController {
 				myListData.put("piBudat", 	purRq.get("piBudat"));		
 
 				LOGGER.debug(myListData);
-				LOGGER.debug("**************************************************************************************");
 				
 				myPurRqList.set(i, myListData);
 			}
@@ -648,14 +645,12 @@ public class PurRqInfoController extends IrisBaseController {
 		}
 		
 		try{
-			LOGGER.debug("##############################purRqMap############################# : " + input);
 			int rtnCnt = purRqInfoService.insertPurApprovalInfo(input);
 			
 			erpResult = purRqInfoService.sendSapExpensePr(input);
 
-			LOGGER.debug("retCode => " + erpResult.get("retCode"));
-			LOGGER.debug("retMsg => " + erpResult.get("retMsg"));
-
+			//LOGGER.debug("retCode => " + erpResult.get("retCode"));
+			//LOGGER.debug("retMsg => " + erpResult.get("retMsg"));
 			if("E".equals(erpResult.get("retCode"))) {
 				rtnSt ="E";
 				rtnMsg = "결재의뢰 중 오류가 발생하였습니다.(" + erpResult.get("retMsg") + ")";
@@ -801,10 +796,6 @@ public class PurRqInfoController extends IrisBaseController {
 		
 		return "web/prs/popup/purRqDateExplainPop";
 	}
-	
-	
-	
-	
 	
 	
 }
