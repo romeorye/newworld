@@ -93,7 +93,7 @@
 		        	,{ id : 'ekgrp' }// 구매그룹
 		        	,{ id : 'preis' }// 단가
 		        	//,{ id : 'waers' }//단위
-		        	,{ id : 'peinh' }
+		        	//,{ id : 'peinh' }
 		        	,{ id : 'sakto' }// 계정코드	
 		        	,{ id : 'posid' }	// WBS코드
 		        	,{ id : 'post1' }	// WBS명	
@@ -116,10 +116,6 @@
 			Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
             Rui.select('.tssLableCss div').removeClass('L-disabled');
-            
-            sCode.setValue('${inputData.sCodeSeq}');	
-			werks.setValue('${inputData.werks}');	
-			meins.setValue('${inputData.meins}');	
 		});	
 		
 		/* 구매요청 리스트 품목  시작  */
@@ -142,7 +138,7 @@
 	        	 ,{ id : 'bednr'}
 	        	 ,{ id : 'preis'}
 	        	 ,{ id : 'waers'}
-	        	 ,{ id : 'peinh'}
+	        	 //,{ id : 'peinh'}
 	        	 ,{ id : 'sakto'}
 	        	 ,{ id : 'saktonm'}
 	        	 ,{ id : 'itAnln1'}
@@ -165,6 +161,13 @@
 	    });
 
 		prItemListDataSet.on('load', function(e) {
+			sCode.setValue('${inputData.sCodeSeq}');	
+			werks.setValue('${inputData.werks}');	
+			meins.setValue('${inputData.meins}');	
+			
+			if ( prItemListDataSet.getCount() > 0 ){
+				btnEvent();
+			}
 			
 		});	
 		
@@ -198,7 +201,7 @@
             	,{ field : 'ekgrp', hidden: true}   
             	,{ field : 'bednr', hidden: true}   
             	,{ field : 'preis', hidden: true}   
-            	,{ field : 'peinh', hidden: true}   
+            	//,{ field : 'peinh', hidden: true}   
             	,{ field : 'sakto', hidden: true}   
             	,{ field : 'saktonm', 	hidden: true}   
             	,{ field : 'itAnln1', 	hidden: true}  
@@ -266,7 +269,7 @@
 	       	werks.setValue(record.get('werks'));		//플랜트
 	       	
 	       	prItemDataSet.setNameValue(0, 'waers', record.get('waers'));
-	       	prItemDataSet.setNameValue(0, 'peinh', record.get('peinh'));
+	       	//prItemDataSet.setNameValue(0, 'peinh', record.get('peinh'));
 	       	prItemDataSet.setNameValue(0, 'attcFilId', record.get('attcFilId'));
 	       	
 	       	lvAttcFilId = record.get('attcFilId');
@@ -517,7 +520,6 @@
 			document.getElementById("totPreis").innerHTML = Rui.util.LNumber.toMoney(tot);
 		}; 
 		
-		
 		/*====================== 납품요청일 설명 Popup 시작 ========================== */
 		/* [ 납품요청일 설명 Dialog] */
 		purRqExplainDialog = new Rui.ui.LFrameDialog({
@@ -617,7 +619,12 @@
 		/* [버튼] 삭제 시작 */
 	    var btnDeleteItem = new Rui.ui.LButton('btnDeleteItem');
 	    btnDeleteItem.on('click', function() {
-	       fncDelete();
+			if(!Rui.isEmpty( banfnPrs ) && !Rui.isEmpty( bnfpoPrs ) ){
+		    	fncDelete();
+			}else{
+				alert("삭제할 구매 건을 선택하여 주십시오");
+				return;
+			}
 		});
 	    
 	    fncDelete = function(){
@@ -638,7 +645,7 @@
 	    var btnModifyItem = new Rui.ui.LButton('btnModifyItem');
 	    btnModifyItem.on('click', function() {
 	    	if(isValidate('수정')) {
-	    		fncUpdate();
+		    	fncUpdate();
 	    	};   	
 		});
 	    
@@ -675,13 +682,14 @@
 			}
 			
 			var flag = prItemListDataSet.getNameValue(0, 'prsFlag');
+			var bnfpo = prItemListDataSet.getNameValue(0, 'bnfpo');
 			
-			if( flag == "S"  ){
-				alert("결재 요청건입니다.");
+			if( flag == "0" && bnfpo == "0" ){
+	            return true;
+			}else{
+				alert("작성건 만 결재요청이 가능합니다.");
 				return false;
 			}
-			
-            return true;
 	    };
 		
 	    function afterApproval() {
@@ -693,7 +701,18 @@
 			myForm.submit();       		
        	};
 		
-     // PRS ERP결재 팝업 시작
+       	
+       	var btnEvent = function(){
+       		if( prItemListDataSet.getNameValue(0, 'bnfpo') == "0" && prItemListDataSet.getNameValue(0, 'prsFlag')   == "0"  ){
+       		}else{
+       			btnReqApproval.hide();
+           		btnModifyItem.hide();
+           		btnDeleteItem.hide();
+           		btnAddPurRq.hide();
+       		}
+       	}
+       	
+     	// PRS ERP결재 팝업 시작
 		// banfnPrs : 구매요청번호
 	    _prsApprovalDialog = new Rui.ui.LFrameDialog({
 	        id: '_prsApprovalDialog',
@@ -802,7 +821,6 @@
         };
 
        	//첨부파일 끝
-	    
 		var bind = new Rui.data.LBind({
 		     groupId: 'aform',
 		     dataSet: prItemDataSet,
