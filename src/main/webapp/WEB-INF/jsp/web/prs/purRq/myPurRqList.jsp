@@ -120,7 +120,6 @@ var adminChk = "N";
             valueField: 'CODE'
         });
 
-
 		/**
 		구매요청 품목 List 시작
 		**/
@@ -184,8 +183,9 @@ var adminChk = "N";
 	        columns: [
 	              { field: 'badate', 	label: '작성일', 		sortable: false,	align:'center',	width: 80 }
 	            , { field: 'sCode', 	label: '요청구분', 		sortable: false,	align:'center',	width: 80 }
+	            , { field: 'posid', 	label: '프로젝트코드', 	sortable: false,	align:'center',	width: 90 }
+	            , { field: 'posidnm', 	label: '프로젝트명', 	sortable: false,	align:'left',	width: 300 }
 	            , { field: 'txz01', 	label: '요청품명', 	 	sortable: false,	align:'left',	width: 150 }
-	            , { field: 'eeind', 	label: '납품요청일', 	sortable: false,	align:'center',	width: 80 }
 	            , { field: 'menge', 	label: '요청수량', 	 	sortable: false,	align:'right',	width: 90, 
 	            	renderer: function(value, p){
 	            				return Rui.util.LNumber.toMoney(value);
@@ -202,13 +202,12 @@ var adminChk = "N";
 	                 	        return Rui.util.LNumber.toMoney(record.get('menge') * record.get('preis'));
 	                 	      } 
 	              }
-	            , { field: 'posid', 	label: '프로젝트코드', 	sortable: false,	align:'center',	width: 90 }
+	            , { field: 'eeind', 	label: '납품요청일', 	sortable: false,	align:'center',	width: 80 }
 	            , { field: 'position', 	label: '납품위치', 	 	sortable: false,	align:'center',	width: 130 }
 	            , { field: 'ekgrpnm', 	label: '구매그룹명', 	sortable: false,	align:'center',	width: 100 }
 	            , { field: 'sakto', 	label: '계정코드', 	 	sortable: false,	align:'center',	width: 80 }
 	            , { field: 'saktonm', 	label: '계정명', 	 	sortable: false,	align:'left',	width: 150 }
 	            , { field: 'werksnm', 	label: '플랜트명', 	 	sortable: false,	align:'left',	width: 120 }
-	            , { field: 'posidnm', 	label: '프로젝트명', 	sortable: false,	align:'left',	width: 300 }
 	            , { field: 'maker', 	label: 'Maker', 	 	sortable: false,	align:'left',	width: 150 }
 	            , { field: 'vendor', 	label: 'Vendor', 	 	sortable: false,	align:'left',	width: 150 }
 	            , { field: 'catalogno', label: 'Catalog No', 	sortable: false,	align:'left',	width: 150 }
