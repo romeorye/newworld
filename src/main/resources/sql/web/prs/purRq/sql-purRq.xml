@@ -64,14 +64,14 @@
 			</if>
 			order by a.L_CODE, a.M_CODE, a.S_CODE asc
 	</select>
-	
-	
+		
 	<select id="retrievePurRqDetailList" resultType="map">
 		<![CDATA[
 		-- retrievePurRqDetailList 구매요청상세 리스트 조회)
 		select a.banfn_prs    as banfnPrs   
 		      ,a.bnfpo_prs    as bnfpoPrs   
-		      ,a.seq_num      as seqNum     
+		      ,a.seq_num      as seqNum  
+		      ,a.BNFPO        as bnfpo
 			  ,a.s_code       as sCode      
 			  ,a.TXZ01        as txz01
 			  ,a.KNTTP        as knttp         
@@ -183,8 +183,7 @@
 	/* seq_num 번호채번 */
 		select next value for PR_PRSREQ_Q02;    
 	</select>
-	
-	
+		
 	<insert id="insertPurRqInfo" parameterType="map">
 		<![CDATA[
 		/* insertPurRqInfo 구매요청 등록 */
@@ -244,7 +243,7 @@
 			, ISNULL(#{bednr},'')
 			, CONVERT(NUMERIC(12,2), ISNULL(#{preis},'0'))
 			, 'KRW'
-			, ISNULL(#{peinh},'1')
+			, CONVERT(NUMERIC(5,0), ISNULL(#{peinh},'1'))
 			, ISNULL((SELECT SAKTO FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
 			, ISNULL(#{posid},'')
 			, ISNULL(#{post1},'')
@@ -280,27 +279,27 @@
 		
 		UPDATE PR_PRSREQ_T  
 		   SET S_CODE   	= ISNULL(#{sCodeNm},'')
-		 	 , KNTTP    	= ISNULL((SELECT KNTTP FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
-		 	 , PSTYP		= ISNULL((SELECT PSTYP FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , KNTTP    	= ISNULL((SELECT KNTTP FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
+		 	 , PSTYP		= ISNULL((SELECT PSTYP FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
 		 	 , TXZ01		= ISNULL(#{txz01},'')
 		 	 , MENGE		= CONVERT(NUMERIC(13,0), ISNULL(#{menge},'0'))
 		 	 , MEINS		= ISNULL(#{meins},'')
 		 	 , EEIND		= REPLACE(#{eeind},'-','')
-		 	 , MATKL		= ISNULL((SELECT MATKL FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , MATKL		= ISNULL((SELECT MATKL FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
 		 	 , WERKS		= ISNULL(#{werks},'')
 		 	 , EKGRP		= ISNULL(#{ekgrp},'')
 		 	 , PREIS		= CONVERT(NUMERIC(12,2), ISNULL(#{preis},'0'))
 		 	 , PEINH		= CONVERT(NUMERIC(5,0), ISNULL(#{peinh},'1'))
-		 	 , SAKTO		= ISNULL((SELECT SAKTO FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , SAKTO		= ISNULL((SELECT SAKTO FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
 		 	 , POSID		= ISNULL(#{posid},'')
-		 	 , IZWEK		= ISNULL((SELECT IZWEK FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , IZWEK		= ISNULL((SELECT IZWEK FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
 		 	 , ITEM_TXT		= ISNULL(#{itemTxt},'')
 		 	 , MAKER		= ISNULL(#{maker},'')
 		 	 , VENDOR		= ISNULL(#{vendor},'')
 		 	 , CATALOGNO	= ISNULL(#{catalogno},'')
 		 	 , POSITION		= ISNULL(#{position},'')
-		 	 , USED_CODE	= ISNULL((SELECT USED_CODE FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
-		 	 , BIZ_CD		= ISNULL((SELECT BIZ_CD FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCode}),'')
+		 	 , USED_CODE	= ISNULL((SELECT USED_CODE FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
+		 	 , BIZ_CD		= ISNULL((SELECT BIZ_CD FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
 		 	 , HELP_SEQNUM  = CONVERT(NUMERIC(18,0), ISNULL(#{sCodeSeq},'0'))
 		 	 , ATTC_FIL_ID	= ISNULL(#{attcFilId},'')
 		 WHERE BANFN_PRS 	= #{banfnPrs}
@@ -394,7 +393,6 @@
 			</if>
 			order by a.banfn_Prs desc, a.BNFPO_PRS desc
 	</select>
-	
 	
 	<insert id="insertPurApprovalInfo" parameterType="map">
 		<![CDATA[
@@ -570,7 +568,8 @@
 			   ANLN1     = #{anln1},
 			   PRS_FLAG  = #{prsFlag},
 			   MESSAGE   = #{message}
-		 WHERE BANFN_PRS = #{banfnPrs}
+		 WHERE PRS_FLAG <> 'D'
+		   AND BANFN_PRS = #{banfnPrs}
 		   AND BNFPO_PRS = #{bnfpoPrs}
 		]]>
 		<if test="seqNum != null and seqNum != '' and seqNum != 'null' ">
