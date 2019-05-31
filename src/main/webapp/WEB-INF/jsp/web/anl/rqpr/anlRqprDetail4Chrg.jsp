@@ -423,6 +423,8 @@
                 ,columns: [
                 	  { field: 'rgstNm',		label: '작성자',		sortable: false,	align:'center',	width: 100 }
                     , { field: 'rgstDt',		label: '작성일',		sortable: false,	align:'center',	width: 100 }
+                    , { field: 'opiSbc',		label: '의견',		sortable: false,	align:'left',	width: 800 }
+                    /*
                     , { field: 'opiSbc',		label: '의견',		sortable: false,	align:'left',	width: 800,
                     	renderer: function(val, p, record, row, col) {
                     		var splitVal = val.split('\n');
@@ -444,6 +446,7 @@
 
                     		return val.replaceAll('\n', '<br/>');
                     } }
+                    */
                     , { id: 'attachDownBtn',  label: '첨부파일',  width: 65 ,
   		  	    	  renderer: function(val, p, record, row, i){
   		  	    		  var recordFilId = nullToString(record.data.attcFilId);
@@ -465,7 +468,7 @@
                 columnModel: anlRqprOpinitionColumnModel,
                 dataSet: anlRqprOpinitionDataSet,
                 width: 980,
-                height: 380,
+                height: 420,
                 autoToEdit: true,
                 autoWidth: true,
                 autoHeight: true
@@ -956,7 +959,7 @@
 		        id: 'opinitionUpdateDialog',
 		        title: '의견 수정',
 		        width:  800,
-		        height: 700,
+		        height: 600,
 		        modal: true,
 		        visible: false,
 		        buttons : []
