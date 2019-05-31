@@ -38,7 +38,7 @@
 	var nextBnfpoPrs;
 	var frm = document.aform;
 	var tmpScode;
-	
+	var btnEvent;
 	
 	Rui.onReady(function() {
 		var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
@@ -92,7 +92,7 @@
 		        	,{ id : 'werks' }// 플랜트코드
 		        	,{ id : 'ekgrp' }// 구매그룹
 		        	,{ id : 'preis' }// 단가
-		        	//,{ id : 'waers' }//단위
+		        	,{ id : 'waers' }//통화
 		        	//,{ id : 'peinh' }
 		        	,{ id : 'sakto' }// 계정코드	
 		        	,{ id : 'posid' }	// WBS코드
@@ -129,7 +129,6 @@
 	        	 ,{ id: 'meins' }
 	        	 ,{ id: 'eeind' }
 	        	 ,{ id: 'totPreis'}
-	        	 ,{ id: 'waers'}
 	        	 ,{ id: 'itemTxt'} 
 	        	 ,{ id : 'sCode'}
 	        	 ,{ id : 'afnam'}
@@ -262,13 +261,11 @@
 	       	catalogno.setValue(record.get('catalogno'));
 	       	menge.setValue(record.get('menge'));		//요청수량
 	       	meins.setValue(record.get('meins'));		//단위
-	       	//waers.setValue(record.get('waers'));		//통화
+	       	waers.setValue(record.get('waers'));		//통화
 	       	preis.setValue(record.get('preis'));		//단가
 	       	sakto.setValue( record.get('sakto'));
 	       	saktonm.setValue(record.get('saktonm'));
 	       	werks.setValue(record.get('werks'));		//플랜트
-	       	
-	       	prItemDataSet.setNameValue(0, 'waers', record.get('waers'));
 	       	//prItemDataSet.setNameValue(0, 'peinh', record.get('peinh'));
 	       	prItemDataSet.setNameValue(0, 'attcFilId', record.get('attcFilId'));
 	       	
@@ -495,7 +492,7 @@
         	displayField: 'CODE_NM',
 	        valueField: 'CODE'
 	    });
-      	
+	  	
 		//예상단가
   		var preis = new Rui.ui.form.LNumberBox({
         	applyTo: 'preis',
@@ -506,6 +503,15 @@
     	    decimalPrecision: 0           	 				// 소수점 자리수 3자리까지 허용
 	    });
 	
+  		//통화
+		var waers = new Rui.ui.form.LCombo({
+            applyTo: 'waers',
+            width: 100,
+            url: '<c:url value="/common/prsCode/retrieveWaersInfo.do"/>',
+            displayField: 'CODE_NM',
+            valueField: 'CODE'
+        });
+  	
   		preis.on('blur', function(e) {
         	setExp();
 	    });
@@ -702,13 +708,17 @@
        	};
 		
        	
-       	var btnEvent = function(){
+       	btnEvent = function(){
        		if( prItemListDataSet.getNameValue(0, 'bnfpo') == "0" && prItemListDataSet.getNameValue(0, 'prsFlag')   == "0"  ){
        		}else{
        			btnReqApproval.hide();
            		btnModifyItem.hide();
            		btnDeleteItem.hide();
            		btnAddPurRq.hide();
+           		
+           		$("input:text").attr("disabled", "true");
+           		$("select").attr("disabled", "true");
+           		$("textarea").attr("disabled", "true");
        		}
        	}
        	
@@ -744,6 +754,7 @@
             { id: 'menge',		validExp: '요청수량:true' },
             { id: 'meins',		validExp: '단위:true' },
             { id: 'preis',		validExp: '금액:true' },
+            { id: 'waers',		validExp: '통화:true' },
             { id: 'itemTxt',	validExp: '요청사유:false:maxByteLength=1000' }
             ]
         });
@@ -839,6 +850,7 @@
             ,{ id: 'werks', 		ctrlId: 'werks', 		value: 'value' 	}	// 플랜트코드	
             ,{ id: 'menge', 		ctrlId: 'menge', 		value: 'value' 	}	// 요청수량
             ,{ id: 'meins', 		ctrlId: 'meins', 		value: 'value' 	}	// 단위
+            ,{ id: 'waers', 		ctrlId: 'waers', 		value: 'value' 	}	// 통화
             ,{ id: 'preis', 		ctrlId: 'preis', 		value: 'value' 	}	// 단가
             ,{ id: 'itemTxt', 		ctrlId: 'itemTxt', 		value: 'value' 	} 	// 요청사유
            // ,{ id: 'saktonm', 		ctrlId: 'saktonm', 		value: 'html' 	} 	// 계정명
@@ -952,11 +964,11 @@
 			        <tr>
 			        	<th>요청 수량<span style="color:red;">*</span></th>
 			            <td>
-			            	<input type="text" id="menge" name="menge" /> <select id="meins" name="meins"></select>
+			            	<input type="text" id="menge" name="menge" /><select id="meins" name="meins"></select>
 			            </td>
 			        	<th>예상단가<span style="color:red;">*</span></th>
 			            <td>
-			            	<input type="text" id="preis" name="preis" /> KRW (원화환산) 
+			            	<input type="text" id="preis" name="preis" /><select id="waers" name="waers"></select>
 			            </td>
 			        	<th>예상 금액</th>
 			            <td>
