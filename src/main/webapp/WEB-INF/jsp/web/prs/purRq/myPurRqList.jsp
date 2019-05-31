@@ -175,36 +175,41 @@ var adminChk = "N";
 				, { id: 'grBudat' }		// 입고일
 				, { id: 'grMenge' }		// 입고수량
 				, { id: 'piBudat' }	    // 송장일            
+				, { id: 'afnam' }	    // 송장일            
 	        ]
 	    });		
 		
 	    var itemColumnModel = new Rui.ui.grid.LColumnModel({
 	    	/* freezeColumnId: 'posid', */
 	        columns: [
-	              { field: 'badate', 	label: '작성일', 		sortable: false,	align:'center',	width: 80 }
-	            , { field: 'sCode', 	label: '요청구분', 		sortable: false,	align:'center',	width: 80 }
-	            , { field: 'posid', 	label: '프로젝트코드', 	sortable: false,	align:'center',	width: 90 }
-	            , { field: 'posidnm', 	label: '프로젝트명', 	sortable: false,	align:'left',	width: 300 }
-	            , { field: 'txz01', 	label: '요청품명', 	 	sortable: false,	align:'left',	width: 150 }
-	            , { field: 'menge', 	label: '요청수량', 	 	sortable: false,	align:'right',	width: 90, 
+	        	  { field: 'eeind', 	label: '납품요청일', 	sortable: false,	align:'center',	width: 80 }
+	            , { field: 'txz01', 	label: '요청품명', 	 	sortable: false,	align:'left',	width: 200 }
+	            , { field: 'menge', 	label: '요청수량', 	 	sortable: false,	align:'right',	width: 70, 
 	            	renderer: function(value, p){
 	            				return Rui.util.LNumber.toMoney(value);
 	            	          }   
 	              }
-	            , { field: 'meins', 	label: '단위', 		 	sortable: false,	align:'center',	width: 80 }
-	            , { field: 'preis', 	label: '단가', 		 	sortable: false,	align:'right',	width: 90, 
+	            , { field: 'meins', 	label: '단위', 		 	sortable: false,	align:'center',	width: 70 }
+	            , { field: 'preis', 	label: '단가', 		 	sortable: false,	align:'right',	width: 80, 
 	            	renderer: function(value, p) {
 	                    		return Rui.util.LNumber.toMoney(value);
 	   	          			  }   
 	              }
-	            , { field: 'totamt', 	label: '금액', 		 	sortable: false,	align:'right',	width: 100,  
+	            , { field: 'totamt', 	label: '금액', 		 	sortable: false,	align:'right',	width: 90,  
 	            	renderer: function(val, p, record, row, i) {
 	                 	        return Rui.util.LNumber.toMoney(record.get('menge') * record.get('preis'));
 	                 	      } 
 	              }
-	            , { field: 'eeind', 	label: '납품요청일', 	sortable: false,	align:'center',	width: 80 }
+	        	,  { field: 'badate', 	label: '작성일', 		sortable: false,	align:'center',	width: 80 }
+	            , { field: 'posid', 	label: '프로젝트코드', 	sortable: false,	align:'center',	width: 90 }
+	            , { field: 'banfn', 	label: 'PR번호', 		sortable: false,	align:'center',	width: 90}
+	            , { field: 'bnfpo', 	label: 'PR품번',	 	 	sortable: false,	align:'center',	width: 70}
+	            , { field: 'ekgrpnm', 	label: '구매담당', 		sortable: false,	align:'center',	width: 100 }
+	            , { field: 'afnam', 	label: '구매요청자', 	sortable: false,	align:'center',	width: 80 }
+	            , { field: 'prsNm', 	label: '구매단계', 	 	sortable: false,	align:'center',	width: 100 }
+	            , { field: 'sCode', 	label: '요청구분', 		sortable: false,	align:'center',	width: 80 }
+	            , { field: 'posidnm', 	label: '프로젝트명', 	sortable: false,	align:'left',	width: 300 }
 	            , { field: 'position', 	label: '납품위치', 	 	sortable: false,	align:'center',	width: 130 }
-	            , { field: 'ekgrpnm', 	label: '구매그룹명', 	sortable: false,	align:'center',	width: 100 }
 	            , { field: 'sakto', 	label: '계정코드', 	 	sortable: false,	align:'center',	width: 80 }
 	            , { field: 'saktonm', 	label: '계정명', 	 	sortable: false,	align:'left',	width: 150 }
 	            , { field: 'werksnm', 	label: '플랜트명', 	 	sortable: false,	align:'left',	width: 120 }
@@ -226,10 +231,7 @@ var adminChk = "N";
 	              }
 	           */  
 	            , { field: 'prsFlag', 		label: '상태', 	 hidden:true  }
-	            , { field: 'prsNm', 		label: '상태명', 	 		sortable: false,	align:'center',	width: 100 }
 	            //, { field: 'message', 		label: '비고',	 	 		sortable: false,	align:'left',	width: 250 }
-	            , { field: 'banfn', 		label: 'PR번호', 		 	sortable: false,	align:'center',	width: 90}
-	            , { field: 'bnfpo', 		label: 'PR품번',	 	 	sortable: false,	align:'center',	width: 90}
 	    		, { field: 'apr4Date', 		label: 'PR결제일',	 	 	sortable: false,	align:'center',	width: 90 }						// PR 결제일	
 				, { field: 'ebeln', 		label: 'PO번호',	 	 	sortable: false,	align:'center',	width: 90 }						// PO 번호	
 				, { field: 'ebelp', 		label: 'PO품번',	 	 	sortable: false,	align:'center',	width: 90 }						// PO 품번	
