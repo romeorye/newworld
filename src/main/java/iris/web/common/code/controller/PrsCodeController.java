@@ -114,6 +114,43 @@ public class PrsCodeController extends IrisBaseController  {
 		return modelAndView;
 	}   
 	
+	/**
+	 * 금액단위 정보 조회
+	 * @param input
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/common/prsCode/retrieveWaersInfo.do")
+	public ModelAndView retrieveWaersInfo(
+			@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			HttpSession session,
+			ModelMap model
+			){
+
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		input = StringUtil.toUtf8(input);
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PrsCodeController - retrieveWaersInfo [금액단위 조회]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        //구매요청 리스트 조회
+		List<Map<String,Object>> waersList = prsCodeService.retrieveWaersInfo(input);
+
+		modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", waersList));
+
+		return modelAndView;
+	}
+	
 	@RequestMapping(value="/common/prsCode/retrieveItemGubunInfo.do")
     public ModelAndView retrieveItemGubunInfo(
             @RequestParam HashMap<String, Object> input,
@@ -205,5 +242,9 @@ public class PrsCodeController extends IrisBaseController  {
 
         return modelAndView;
     }   
+	
+	
+	
+	
 
 }

@@ -21,4 +21,6 @@ public interface PrsCodeService {
 	List<Map<String, Object>> retrieveScodeInfo(HashMap<String, Object> input);
 
 	List<Map<String, Object>> retrievePrsFlagInfo(HashMap<String, Object> input);
+
+	List<Map<String, Object>> retrieveWaersInfo(HashMap<String, Object> input);
 }
