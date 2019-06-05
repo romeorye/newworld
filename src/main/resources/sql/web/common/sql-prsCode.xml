@@ -44,7 +44,8 @@
 				  ,prj_end_dt
 				  ,dept_cd
 		from   IRIS_PRJ_RSST_MST
-		where  TCLG_YN ='N'
+		where  1=1
+		--and    TCLG_YN <>'Y'
 		and    ( PRJ_END_DT is null or PRJ_END_DT = '')
 		union
 		select a.prj_cd
@@ -62,22 +63,14 @@
 		) a
 		where 1=1
 		]]>
-		<if test="adminChk.equals('Y') ">
-	    and   dept_cd = #{_userDept}
+		
+		<if test='adminChk == "N" '>
+	    and   a.dept_cd = #{_userDept}
 		</if>
 		<if test="prjNm != null and prjNm != '' and prjNm != 'null' ">
 	    and (a.wbs_cd like '%'+#{prjNm}+'%' or  a.prj_nm like '%'+#{prjNm}+'%' )
 		</if>
-				
-	<!-- 		
-		select  distinct 
-			   POSID as posid
-	          ,POST1 as post1
-	          ,vernrna  as ename
-			  ,FKSTL as fkstl
-			  ,WONJANG as wonjang
-			  ,vernr as pernr
-		from   [dbo].[PR_PROJETINFO_T] -->
+		
 	</select>
 	
 	<select id="retrieveSaktoInfoList" resultType="HashMap">
@@ -173,5 +166,17 @@
 		</if>
 		order by COM_ORD asc		
 	</select>
+
+
+	<select id="retrieveWaersInfo" resultType="HashMap">
+		/*retrieveWaersInfo  금액단위리스트 코드 목록*/
+		select CODE as CODE
+		      ,code+'/'+CODE_NM as CODE_NM 
+		from [dbo].[PR_CODEMASTER_T] 
+		where DEL_FLAG = 0
+		and   GROUP_CODE = '20'	
+	</select>
+
+
 
 </mapper>
