@@ -5,7 +5,7 @@
 
 	<select id="retrievePurSttsList" resultType="hashmap">
 	<![CDATA[
-	/* retrieveMyPurRqList  나의구매요청 리스트 조회 */
+	/* retrievePurSttsList  구매요청 리스트 조회 */
 		select   CONVERT(varchar(10), a.BADATE, 23)     as  badate
 		        ,a.BANFN_PRS  as  banfnPrs   
 				,a.BNFPO_PRS  as  bnfpoPrs   
@@ -70,6 +70,7 @@
 				,(select TABID from [dbo].[PR_HELPMASTER_T] where SEQ_NUM = a.HELP_SEQNUM) as tabid
 		   from [dbo].[PR_PRSREQ_T] a
 		  where a.PRS_FLAG <> 'D'
+		    and (a.prs_flag <> '0' and a.BANFN != '')
 		    and CONVERT(varchar(8), a.BADATE, 112) between REPLACE(#{fromRegDt},'-','') and REPLACE(#{toRegDt},'-','')
 		]]>
 			<if test="txz01 != null and txz01 != '' and txz01 != 'null' ">
@@ -77,9 +78,6 @@
 			</if>
 			<if test="posid != null and posid != '' and posid != 'null' ">
 			and (a.POSID like '%'+#{posid}+'%' or  a.POST1 like '%'+#{posid}+'%' )
-			</if>
-			<if test="prsFlag != null and prsFlag != '' and prsFlag != 'null' ">
-			and a.PRS_FLAG  = #{prsFlag}
 			</if>
 			<if test="ekgrp != null and ekgrp != '' and ekgrp != 'null' ">
 			and a.EKGRP = #{ekgrp}
