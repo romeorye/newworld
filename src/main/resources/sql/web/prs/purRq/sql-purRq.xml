@@ -228,7 +228,7 @@
 		(
 			  #{banfnPrs}
 			, ISNULL(#{bnfpoPrs}, 1)
-		 	, (next value for [dbo].[PR_PRSREQ_Q02]) 
+		 	, ( SELECT MAX(SEQ_NUM)+1 FROM PR_PRSREQ_T )      
 			, ISNULL(#{sCodeNm},'')
 			, ISNULL((SELECT KNTTP FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
 			, ISNULL((SELECT PSTYP FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
@@ -242,7 +242,7 @@
 			, ISNULL(#{ekgrp},'')
 			, ISNULL(#{bednr},'')
 			, CONVERT(NUMERIC(12,2), ISNULL(#{preis},'0'))
-			, 'KRW'
+			, ISNULL(#{waers},'')
 			, CONVERT(NUMERIC(5,0), ISNULL(#{peinh},'1'))
 			, ISNULL((SELECT SAKTO FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
 			, ISNULL(#{posid},'')
@@ -284,6 +284,7 @@
 		 	 , TXZ01		= ISNULL(#{txz01},'')
 		 	 , MENGE		= CONVERT(NUMERIC(13,0), ISNULL(#{menge},'0'))
 		 	 , MEINS		= ISNULL(#{meins},'')
+		 	 , WAERS		= ISNULL(#{waers},'')
 		 	 , EEIND		= REPLACE(#{eeind},'-','')
 		 	 , MATKL		= ISNULL((SELECT MATKL FROM [dbo].[PR_HELPMASTER_T] a WHERE a.seq_num = #{sCodeSeq}),'')
 		 	 , WERKS		= ISNULL(#{werks},'')
