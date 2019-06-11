@@ -663,6 +663,7 @@ public class PurRqInfoController extends IrisBaseController {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			LOGGER.debug("retCode => " + erpResult.get("retCode"));
 			rtnSt ="F";
 			rtnMsg = "결재의뢰 중 오류가 발생하였습니다.";
 		}
@@ -724,6 +725,8 @@ public class PurRqInfoController extends IrisBaseController {
 			ModelMap model
 			){
 
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
 		LOGGER.debug("###########################################################");
