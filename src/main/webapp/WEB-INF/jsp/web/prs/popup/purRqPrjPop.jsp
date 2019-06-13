@@ -100,7 +100,7 @@ var adminChk ="N";
 			prjDataSet.load({
 				url : '<c:url value="/prs/purRq/retrieveWbsCdInfoList.do"/>',
 				params : {
-					prjNm      : encodeURIComponent(prjNm.getValue())
+					prjNm    : escape(encodeURIComponent(document.aform.prjNm.value))
 				  , adminChk : adminChk
 				}
 			});
