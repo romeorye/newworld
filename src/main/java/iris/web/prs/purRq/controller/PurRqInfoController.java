@@ -728,7 +728,8 @@ public class PurRqInfoController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-
+		input = StringUtil.toUtf8(input);
+		
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("PurRqInfoController - retrieveWbsCdInfoList [프로젝트 리스트  정보 검색]");
 		LOGGER.debug("input = > " + input);
