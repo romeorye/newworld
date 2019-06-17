@@ -36,7 +36,7 @@ public interface MchnInfoService {
 	 * @return
 	 * @throws Exception 
 	 */
-	void saveMchnPrctInfo(HashMap<String, Object> input)  throws Exception;
+	void saveMchnPrctInfo(Map<String, Object> mchnPrctInfo)  throws Exception;
 
 	/**
 	 * 보유기기 예약 삭제

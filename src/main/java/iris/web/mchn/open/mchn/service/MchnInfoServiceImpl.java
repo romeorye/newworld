@@ -75,12 +75,20 @@ public class MchnInfoServiceImpl implements MchnInfoService {
 	 * @return
 	 */
 	public HashMap<String, Object> retrieveMchnPrctInfo(HashMap<String, Object> input)  throws Exception{
-		HashMap<String, Object> rtnMap = commonDao.select("open.mchnInfo.retrieveMchnPrctInfo", input); 
+		//기기정보 조회
+		HashMap<String, Object> rtnMap = new HashMap<String, Object>();
 		
-		input.put("mchnInfoId", rtnMap.get("mchnInfoId"));
-		input.put("rgstId", rtnMap.get("rgstId"));
+		if( !"".equals(input.get("mchnPrctId"))){
+			rtnMap = commonDao.select("open.mchnInfo.retrieveMchnPrctInfo", input); 
+			input.put("rgstId", rtnMap.get("rgstId"));
+		
+		}else{
+			rtnMap = commonDao.select("open.mchnInfo.retrieveMchnInfoDtl", input);
+			input.put("rgstId", input.get("_userSabun"));
+		}
 		
 		HashMap<String, Object> eduMap = new HashMap<String, Object>();
+		
 		eduMap = commonDao.select("open.mchnInfo.retrieveMchnEduInfo", input); 
 		
 		if( eduMap != null  ){
@@ -103,49 +111,53 @@ public class MchnInfoServiceImpl implements MchnInfoService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public void saveMchnPrctInfo(HashMap<String, Object> input)  throws Exception{
+	public void saveMchnPrctInfo(Map<String, Object> mchnPrctInfo)  throws Exception{
 		//기존 예약시간 중복 체크
-		int chkPrct = commonDao.select("open.mchnInfo.checkPrctInfo", input);
+		int chkPrct = commonDao.select("open.mchnInfo.checkPrctInfo", mchnPrctInfo);
 		
 		if( chkPrct  >   0 ){
-			throw new Exception("기존 예약건이 존재합니다.");
+			int chkId =  commonDao.select("open.mchnInfo.checkPrctId", mchnPrctInfo);
+			
+			if( chkId > 0 ){
+				throw new Exception("기존 예약건이 존재합니다.");
+			}
 		}
 		
+		MchnInfoVo vo = new MchnInfoVo();
+		
         MailSender mailSender = mailSenderFactory.createMailSender(); 
-       
-        MchnInfoVo vo = new MchnInfoVo();
-
-        if(commonDao.update("open.mchnInfo.saveMchnPrctInfo", input) > 0){
+        
+        if(commonDao.update("open.mchnInfo.saveMchnPrctInfo", mchnPrctInfo) > 0){
 			//기기예약신청 담당자에게 메일 발송
-			mailSender.setFromMailAddress( input.get("_userEmail").toString(), input.get("_userNm").toString());
-			mailSender.setToMailAddress( input.get("toMailAddr").toString() , input.get("_userEmail").toString());
-			mailSender.setSubject(NullUtil.nvl(input.get("mailTitl").toString(),""));
+			mailSender.setFromMailAddress( mchnPrctInfo.get("_userEmail").toString(), mchnPrctInfo.get("_userNm").toString());
+			mailSender.setToMailAddress( mchnPrctInfo.get("crgrMail").toString() , mchnPrctInfo.get("crgrNm").toString());
+			mailSender.setSubject(NullUtil.nvl(mchnPrctInfo.get("mailTitl").toString(),""));
 			
-			vo.setRgstNm(NullUtil.nvl(input.get("_userNm").toString(),""));
-			vo.setMchnHanNm(NullUtil.nvl(input.get("mchnHanNm").toString(),""));
-			vo.setMchnEnNm(NullUtil.nvl(input.get("mchnEnNm").toString(),""));
-			vo.setPrctFromHH(NullUtil.nvl(input.get("prctFromHH").toString(),""));
-			vo.setPrctFrommm(input.get("prctFrommm").toString());
-			vo.setPrctToHH(input.get("prctToHH").toString());
-			vo.setPrctTomm(input.get("prctTomm").toString());
-			vo.setPrctFromTim(input.get("prctFromTim").toString());
-			vo.setPrctToTim(input.get("prctToTim").toString());
-			vo.setPrctDt(input.get("prctDt").toString());
+			vo.setRgstNm(NullUtil.nvl(mchnPrctInfo.get("_userNm").toString(),""));
+			vo.setMchnHanNm(NullUtil.nvl(mchnPrctInfo.get("mchnHanNm").toString(),""));
+			vo.setMchnEnNm(NullUtil.nvl(mchnPrctInfo.get("mchnEnNm").toString(),""));
+			vo.setPrctFromHH(NullUtil.nvl(mchnPrctInfo.get("prctFromHH").toString(),""));
+			vo.setPrctFrommm(mchnPrctInfo.get("prctFrommm").toString());
+			vo.setPrctToHH(mchnPrctInfo.get("prctToHH").toString());
+			vo.setPrctTomm(mchnPrctInfo.get("prctTomm").toString());
+			vo.setPrctFromTim(mchnPrctInfo.get("prctFromTim").toString());
+			vo.setPrctToTim(mchnPrctInfo.get("prctToTim").toString());
+			vo.setPrctDt(mchnPrctInfo.get("prctDt").toString());
 			// mailSender-context.xml에 설정한 메일 template의 bean id값과 치환시 사용될 VO클래스를 넘김
 			mailSender.setHtmlTemplate("mchnApprInfo", vo);
 			mailSender.send(); 
 			
-			input.put("menuType", "mchn");
-			input.put("mailTitl", NullUtil.nvl(input.get("mailTitl").toString(),""));
-			input.put("adreMail", input.get("toMailAddr").toString());
-			input.put("trrMail",  input.get("_userEmail").toString());
-			input.put("_userId", input.get("_userId").toString());
-			input.put("_userEmail", input.get("_userEmail").toString());
+			mchnPrctInfo.put("menuType", "mchn");
+			mchnPrctInfo.put("mailTitl", NullUtil.nvl(mchnPrctInfo.get("mailTitl").toString(),""));
+			mchnPrctInfo.put("adreMail", mchnPrctInfo.get("crgrMail").toString());
+			mchnPrctInfo.put("trrMail",  mchnPrctInfo.get("_userEmail").toString());
+			mchnPrctInfo.put("_userId", mchnPrctInfo.get("_userId").toString());
+			mchnPrctInfo.put("_userEmail", mchnPrctInfo.get("_userEmail").toString());
 			
-			mailInfoService.insertMailSndHist(input);
+			mailInfoService.insertMailSndHist(mchnPrctInfo);
 			
 		}else{
-			throw new Exception("처리중 오류가 발생했습니다. 관리자에게 문의하세요");
+			throw new Exception("예약 요청중 오류가 발생했습니다. 관리자에게 문의하세요");
 		}
 	}
 	

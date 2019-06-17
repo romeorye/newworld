@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.DateUtil;
+import iris.web.common.util.StringUtil;
 import iris.web.mchn.mgmt.service.AnlMchnService;
 import iris.web.mchn.open.mchn.service.MchnInfoService;
 import iris.web.system.base.IrisBaseController;
@@ -204,21 +205,8 @@ public class MchnInfoController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
-		HashMap lsession = (HashMap)session.getAttribute("irisSession");
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		//LOGGER.debug("session="+lsession);
-		String prctId = input.get("mchnPrctId").toString();
-		
-		if("".equals(prctId)){
-			input.put("userNm", lsession.get("_userNm"));
-			input.put("userDeptName", lsession.get("_userDeptName"));
-			input.put("userSabun", lsession.get("_userSabun"));
 
-			result = mchnInfoService.retrieveMchnInfoDtl(input);
-		}
-		//LOGGER.debug("result============================="+result);
 		model.addAttribute("inputData", input);
-		model.addAttribute("result", result);
 		
 		return  "web/mchn/open/mchn/mchnPrctInfoPop";
 	}
@@ -241,13 +229,11 @@ public class MchnInfoController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
-		HashMap lsession = (HashMap)session.getAttribute("irisSession");
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		
 		//보유기기 예약상세
 		HashMap<String, Object> result =  mchnInfoService.retrieveMchnPrctInfo(input);
-		result.put("userSabun", lsession.get("_userSabun"));
-		
+
 		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", result));		
 		return modelAndView;
 	}
@@ -271,22 +257,34 @@ public class MchnInfoController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
-		HashMap lsession = (HashMap)session.getAttribute("irisSession");
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
 
+		input = StringUtil.toUtf8Input(input);
+		
 		String rtnSt ="F";
 		String rtnMsg = "";
 		
+		Map<String,Object> mchnPrctInfo = new HashMap<String, Object>();
+		
 		try{
+			
+			mchnPrctInfo = RuiConverter.convertToDataSet(request,"dataSet").get(0);
+
+			mchnPrctInfo.put("_userEmail", input.get("_userEmail"));
+			mchnPrctInfo.put("_userNm", input.get("_userNm"));
+			mchnPrctInfo.put("_userId", input.get("_userId"));
+			mchnPrctInfo.put("_userDept", input.get("_userDept"));
+			mchnPrctInfo.put("_teamDept", input.get("_teamDept"));
+			mchnPrctInfo.put("mailTitl", input.get("mailTitl"));
+			
 			//보유기기 예약저장
-			mchnInfoService.saveMchnPrctInfo(input);
+			mchnInfoService.saveMchnPrctInfo(mchnPrctInfo);
 			
 			rtnMsg = "저장되었습니다.";
 			rtnSt= "S";
 		}catch(Exception e){
-			e.printStackTrace();
-			rtnMsg ="처리중 오류가발생했습니다. 관리자에게 문의해주십시오.";
+			rtnMsg =e.getMessage();
 		}
 		
 		rtnMeaasge.put("rtnMsg", rtnMsg);
@@ -322,6 +320,7 @@ public class MchnInfoController extends IrisBaseController {
 		String rtnMsg = "";
 		
 		try{
+			LOGGER.debug("==============================input==========================="+ input);
 			//보유기기 예약저장
 			mchnInfoService.deleteMchnPrctInfo(input);
 			
