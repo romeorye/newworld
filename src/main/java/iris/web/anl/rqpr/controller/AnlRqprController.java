@@ -1499,7 +1499,6 @@ public class AnlRqprController extends IrisBaseController {
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 		
-		; 
 		input.put("exprWay", anlRqprService.getExprWay(input));
 		model.addAttribute("inputData", input);
 
