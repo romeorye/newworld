@@ -74,9 +74,12 @@
 
     </style>
 	<script type="text/javascript">
-
+		var anlUgyYn;
+		
 		Rui.onReady(function() {
-            /*******************
+			anlUgyYn = '${inputData.anlUgyYn}';
+
+			/*******************
              * 변수 및 객체 선언
              *******************/
 
@@ -322,7 +325,11 @@
 
             		if(Rui.isNumber(smpoQty)) {
             			var exprExp = treeRecord.get('utmExp') * smpoQty;
-
+            			
+            			if( anlUgyYn == "U"   ){
+            				exprExp = exprExp * 2;
+            			}
+            			
             			exprRecord.set('exprExp', exprExp);
             			exprRecord.set('exprExpView', Rui.util.LNumber.toMoney(exprExp, '') + '원');
             		} else {
@@ -335,6 +342,10 @@
             		if(exprTim > 0) {
             			var exprExp = treeRecord.get('utmExp') * exprTim;
 
+            			if( anlUgyYn == "U"   ){
+            				exprExp = exprExp *2;
+            			}
+            			
             			exprRecord.set('exprExp', exprExp);
             			exprRecord.set('exprExpView', Rui.util.LNumber.toMoney(exprExp, '') + '원');
             		} else {

@@ -780,7 +780,7 @@
             anlRqprExprGrid.render('anlRqprExprGrid');
 
             openExprWayDialog = function(rqprExprId) {
-    	    	exprWayDialog.setUrl('<c:url value="/anl/exprWayPopup.do?rqprId="/>' + anlRqprDataSet.getNameValue(0, 'rqprId') + '&rqprExprId=' + rqprExprId);
+    	    	exprWayDialog.setUrl('<c:url value="/anl/exprWayPopup.do?rqprId="/>' + anlRqprDataSet.getNameValue(0, 'rqprId'));
     	    	exprWayDialog.show();
     	    };
 
@@ -880,7 +880,7 @@
     	    openAnlRqprExprRsltDialog = function(f, rqprExprId) {
     	    	callback = f;
 
-    	    	anlRqprExprRsltDialog.setUrl('<c:url value="/anl/anlRqprExprRsltPopup.do?rqprId="/>' + anlRqprDataSet.getNameValue(0, 'rqprId') + '&rqprExprId=' + rqprExprId);
+    	    	anlRqprExprRsltDialog.setUrl('<c:url value="/anl/anlRqprExprRsltPopup.do?rqprId="/>' + anlRqprDataSet.getNameValue(0, 'rqprId') + '&rqprExprId=' + rqprExprId+ '&anlUgyYn=' + anlRqprDataSet.getNameValue(0, 'anlUgyYn')  );
     	    	anlRqprExprRsltDialog.show();
     	    };
     	    // 실험결과 등록/수정 팝업 끝
