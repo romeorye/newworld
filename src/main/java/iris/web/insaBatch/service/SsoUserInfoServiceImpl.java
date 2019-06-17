@@ -58,6 +58,8 @@ public class SsoUserInfoServiceImpl implements SsoUserInfoService{
 				userInfoMap.put("saMail",       userInfoList[i].getSa_mail());
 				userInfoMap.put("saGsber",  	userInfoList[i].getAcct_unit());
 				userInfoMap.put("saExps", 		userInfoList[i].getSa_exps());
+				userInfoMap.put("saTemp", 		userInfoList[i].getSa_temp());
+				userInfoMap.put("saTempDate", 	userInfoList[i].getSa_temp_date());
 				userInfoMap.put("saExpsName",   userInfoList[i].getSa_exps_name());     
 				
 				userResultList.add(userInfoMap);

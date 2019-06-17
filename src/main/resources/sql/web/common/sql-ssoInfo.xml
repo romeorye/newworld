@@ -67,6 +67,8 @@
 		  ,sa_gsber
 		  ,sa_exps
 		  ,sa_exps_name
+		  ,sa_temp
+		  ,sa_temp_date
 		  ,frst_rgst_id
 		  ,frst_rgst_dt
 		  ,last_mdfy_id
@@ -94,6 +96,8 @@
 				 , #{saGsber}
 				 , #{saExps}
 				 , #{saExpsName}
+				 , #{saTemp}
+				 , #{saTempDate}
 				 , 'batch'
 				 , getdate()
 				 , 'batch'
@@ -120,7 +124,9 @@
 				   ,sa_mail       = #{saMail}
 				   ,sa_gsber      = #{saGsber}
 				   ,sa_exps       = #{saExps}
-				   ,sa_exps_name  = #{saExpsName}		 	  
+				   ,sa_exps_name  = #{saExpsName}	
+				   ,sa_temp       = #{saTemp}
+				   ,sa_temp_date  = #{saTempDate} 	 	  
 				   ,last_mdfy_id  = 'batch'
 				   ,last_mdfy_dt  = getdate();		
 	
