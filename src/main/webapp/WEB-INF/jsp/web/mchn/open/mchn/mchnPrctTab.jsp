@@ -203,7 +203,7 @@ var mchnPrctId;
                          cal2.set(year, month, dispDay);
 %>
           <td class='<%=d==1 ? "sun" : (d==7 ? "sat" : "weeks") %>'>
-          	<span class="date"><a href="javascript:parent.fncMchnPrctPop('','<%=year%>', '<%=month+1%>','<%=dispDay%>');"><%=dispDay%></a></span>
+          	<span class="date"><a href="javascript:parent.fncMchnPrctPop('','<%=year%>', '<%=month+1%>','<%=dispDay%>');"><p style="font-size:15px;"><%=dispDay%></p></a></span>
           	<ul class='sche'>
           		<%
           		if ( mchnPrctList.size() > 0 ){
