@@ -233,7 +233,9 @@
 										GROUP BY  NP_CD) d
 						on a.wbs_cd=d.np_cd
 				where   1=1
-				and     #{condYy} BETWEEN LEFT(a.TSS_STRT_DD, 4) AND LEFT(a.TSS_FNH_DD, 4)
+				and     #{condYy} BETWEEN LEFT(a.TSS_STRT_DD, 4) AND LEFT(    (case when   a.PGS_STEP_CD = 'CM' then a.CMPL_B_FNH_DD
+				                                                                                                                   when   a.PGS_STEP_CD = 'DC' then a.DCAC_B_FNH_DD 
+																																   else    a.TSS_FNH_DD end ) , 4)
 				) m
 		]]>
         	WHERE  1=1
