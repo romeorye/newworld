@@ -21,27 +21,24 @@ public class SsoConfig {
 	@Resource(name = "configService")
     private ConfigService configService;
 	
-/***[SERVICE CONFIGURATION : ¾÷¹«½Ã½ºÅÛ ¼³Á¤]***********************************************************************/
-	private String SERVICE_NAME = "IRIS+"; //¼­ºñ½º ÀÌ¸§ : ½Ã½ºÅÛº°·Î Áßº¹µÇÁö ¾Êµµ·Ï ¼³Á¤
+/***[SERVICE CONFIGURATION : 업무시스템 설정]***********************************************************************/
+	private String SERVICE_NAME = "IRIS+"; //서비스 이름 : 시스템별로 중복되지 않도록 설정
 /*local
-	private String SERVER_URL 	= "http://irislocal.lghausys.com"; //½Ã½ºÅÛ Á¢¼Ó URL
-	private String SERVER_PORT = "8080"; // ½Ã½ºÅÛ Á¢¼Ó Æ÷Æ®
-	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/iris/common/login/irisDirectLogin.do"; //¹èÆ÷ µÈ login_exec.jsp Á¢±Ù °æ·Î
+	private String SERVER_URL 	= "http://irislocal.lghausys.com"; //시스템 접속 URL
+	private String SERVER_PORT = "8080"; //시스템 접속 포트
+	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/iris/common/login/irisDirectLogin.do"; //배포 된 login_exec.jsp 접근 경로
 */
-/* DEV*/
-	private String SERVER_URL 	= "http://irisdev.lghausys.com"; //½Ã½ºÅÛ Á¢¼Ó URL
-	private String SERVER_PORT = "7030"; // ½Ã½ºÅÛ Á¢¼Ó Æ÷Æ®
-	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/iris/common/login/irisDirectLogin.do"; //¹èÆ÷ µÈ login_exec.jsp Á¢±Ù °æ·Î
+/* DEV
+	private String SERVER_URL 	= "http://irisdev.lghausys.com"; //시스템 접속 URL
+	private String SERVER_PORT = "7030"; //시스템 접속 포트
+	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/iris/common/login/irisDirectLogin.do"; //배포 된 login_exec.jsp 접근 경로
+*/
+/* PRD */
+	private String SERVER_URL 	= "http://iris.lghausys.com"; //시스템 접속 URL
+	private String SERVER_PORT = "7030"; //시스템 접속 포트
+	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/iris/common/login/irisDirectLogin.do"; //배포 된 login_exec.jsp 접근 경로
 
-/* PRD 
-	private String SERVER_URL 	= "http://iris.lghausys.com"; //½Ã½ºÅÛ Á¢¼Ó URL
-	private String SERVER_PORT = "7030"; // ½Ã½ºÅÛ Á¢¼Ó Æ÷Æ®
-	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/iris/common/login/irisDirectLogin.do"; //¹èÆ÷ µÈ login_exec.jsp Á¢±Ù °æ·Î
-*/
-	
-	
 	//private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/iris/login_exec.jsp"; //¹èÆ÷ µÈ login_exec.jsp Á¢±Ù °æ·Î
-	
 	
 	//private String SERVER_URL 	= "http://"+configService.getString("defaultUrl")+":"; //½Ã½ºÅÛ Á¢¼Ó URL
 	//private String SERVER_PORT = configService.getString("serverPort"); // ½Ã½ºÅÛ Á¢¼Ó Æ÷Æ®
@@ -52,7 +49,7 @@ public class SsoConfig {
 /*************************************************************************************************/
 
 
-	/***[SSO CONFIGURATION]**]***********************************************************************/
+/***[SSO CONFIGURATION] : 로그인 서버 및 데몬 서버 설정]***********************************************************************/
 	private String NLS_URL 		 = "http://lghsso.lghausys.com";
 	private String NLS_PORT 	 = "8001";
 	private String NLS_LOGIN_URL = NLS_URL + ":" + NLS_PORT + "/nls3/clientLogin.jsp";
@@ -63,10 +60,9 @@ public class SsoConfig {
 	private static String ND_URL2 = "http://lghsso2.lghausys.com:8001";
 
 	private static Vector PROVIDER_LIST = new Vector();
-
 	private static final int COOKIE_SESSTION_TIME_OUT = 3000000;
 
-	// AIAo A¸AO (ID/PW ¹æ½A : 1, AIAo¼­ : 3)
+	// 인증 타입 (ID/PW 방식 : 1, 인증서 : 3)
 	private String TOA = "1";
 	private String SSO_DOMAIN = ".lghausys.com";
 
@@ -84,23 +80,23 @@ public class SsoConfig {
 		PROVIDER_LIST.add("ssodev.lghausys.com");
 		PROVIDER_LIST.add("sso.lghausys.com");
 		
-		//NLS3 web.xmlAC CookiePadding °ª°u °°¾Æ¾ß CN´U. ¾E±×·³ °EAo ÆaAI³²
-		//InitechEamUID +"_V42" .... CuAA·I Ai¸i ≫y¼ºμE
+		//NLS3 web.xml의 CookiePadding 값과 같아야 한다. 안그럼 검증 페일남
+		//InitechEamUID +"_V42" .... 형태로 쿠명 생성됨
 		SECode.setCookiePadding("");
 	}
 
-	// AeCO SSO ID A¶E¸
+	//통합 SSO ID 조회¸
 	public String getSsoId(HttpServletRequest request) {
 		String sso_id = null;
 		sso_id = CookieManager.getCookieValue(SECode.USER_ID, request);
 		return sso_id;
 	}
-	// AeCO SSO ·I±×AIÆaAIAo AIμ¿
+	// 통합 SSO 로그인페이지 이동
 	public void goLoginPage(HttpServletResponse response)throws Exception {
 		CookieManager.addCookie(SECode.USER_URL, ASCP_URL, SSO_DOMAIN, response);
 		CookieManager.addCookie(SECode.R_TOA, TOA, SSO_DOMAIN, response);
 		
-	       //AUA¼ ·I±×AIA≫ CO°æ¿i ·I±×AI ÆaAIAo Setting
+	       //자체 로그인을 할경우 로그인 페이지 Setting
 	    if(custom_url.equals(""))
 	   	{
 	    	//CookieManager.addCookie("CLP", "", SSO_DOMAIN, response);
@@ -111,7 +107,7 @@ public class SsoConfig {
 		response.sendRedirect(NLS_LOGIN_URL);
 	}
 
-	// AeCOAIAo ¼¼¼CA≫ A¼Aⓒ CI±a A§CI¿ⓒ ≫c¿eμC´A API
+	// 통합인증 세션을 체크 하기 위하여 사용되는 API
 	public String getEamSessionCheckAndAgentVaild(HttpServletRequest request,HttpServletResponse response){
 		String retCode = "";
 		try {
@@ -123,7 +119,7 @@ public class SsoConfig {
 	}
 	
 	
-	// AeCOAIAo ¼¼¼CA≫ A¼Aⓒ CI±a A§CI¿ⓒ ≫c¿eμC´A API(Agent AIAo ¾ø´A CO¼o, ≫c¿eAUA|)
+	//통합인증 세션을 체크 하기 위하여 사용되는 API(Agent 인증 없는 함수, 사용자제)
 	//@deprecated
 	public String getEamSessionCheck(HttpServletRequest request,HttpServletResponse response){
 		String retCode = "";
@@ -136,7 +132,7 @@ public class SsoConfig {
 	}
 	
 	
-	//ND API¸| ≫c¿eCØ¼­ AiA°°EAoCI´A°I(CoAc C￥AØ¿¡¼­´A ≫c¿e¾ECO, ±Uμ￥ CØμμ μC±a´A CO)
+	//ND API를 사용해서 쿠키검증하는것(현재 표준에서는 사용안함, 근데 해도 되기는 함)
 	public String getEamSessionCheck2(HttpServletRequest request,HttpServletResponse response)
 	{
 		String retCode = "";
@@ -149,7 +145,7 @@ public class SsoConfig {
 		return retCode;
 	}
 
-	// SSO ¿¡·?ÆaAIAo URL
+	// SSO 에러페이지 URL
 	public void goErrorPage(HttpServletResponse response, int error_code)throws Exception {
 		CookieManager.removeNexessCookie(SSO_DOMAIN, response);
 		CookieManager.addCookie(SECode.USER_URL, ASCP_URL, SSO_DOMAIN, response);
