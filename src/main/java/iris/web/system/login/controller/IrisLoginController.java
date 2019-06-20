@@ -85,18 +85,18 @@ public class IrisLoginController {
 			pwd = "";
 			vowFlag = "";
 			securityFlag = "";
-//			input.clear();
 			//input.put("eeId", lycos);
 			
 			if (!"".equals(lycos)){
 				eeId ="directLoginTrue";	
 			}
-			
+			LOGGER.debug("###########################lycos################################ : " + lycos);
 			SsoConfig sso = new SsoConfig();
-			
+
 			String sso_id = sso.getSsoId(request);
 			LOGGER.debug("###########################sso_id################################ : " + sso_id);
-			
+			//return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
+
 			if (sso_id == null || sso_id.equals("")) {
 				if(  !"".equals(lycos) ){
 					input.put("eeId", lycos );
@@ -113,7 +113,6 @@ public class IrisLoginController {
 				if(!retCode.equals("0")){
 					return "redirect:/index.do";
 				}
-				//
 				//5.업무시스템에 읽을 사용자 아이디를 세션으로 생성
 				input.put("eeId", sso_id );
 				//6.업무시스템 페이지 호출(세션 페이지 또는 메인페이지 지정)  --> 업무시스템에 맞게 URL 수정!
