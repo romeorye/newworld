@@ -32,6 +32,8 @@ var adminChk ="N";
 		
 		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
 			adminChk = "Y";
+		}else if("<c:out value='${inputData._userDept}'/>" == "58129833" || "<c:out value='${inputData._userDept}'/>" == "58141952" ){
+			adminChk = "Y";
 		}
 		
 		var prjNm = new Rui.ui.form.LTextBox({
