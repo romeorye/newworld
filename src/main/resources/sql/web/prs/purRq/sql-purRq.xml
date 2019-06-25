@@ -376,10 +376,8 @@
 		   from [dbo].[PR_PRSREQ_T] a
 		  where a.PRS_FLAG <> 'D'
 		    and CONVERT(varchar(8), a.BADATE, 112) between REPLACE(#{fromRegDt},'-','') and REPLACE(#{toRegDt},'-','')
-		]]>
-			<if test="adminChk.equals('N') ">
 			and a.BEDNR = #{_userSabun}
-			</if>
+		]]>
 			<if test="txz01 != null and txz01 != '' and txz01 != 'null' ">
 			and a.TXZ01 like '%'+#{txz01}+'%'
 			</if>
