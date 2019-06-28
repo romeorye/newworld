@@ -361,6 +361,7 @@
     </form>
 </div>
 <div class="titArea btn_btm">
+<div><font color="red">첨부 : 과제완료보고서(협력기관 작성파일), 심의보고서(ppt), 심의회의록</font></div>
     <div class="LblockButton">
         <button type="button" id="btnSave" name="btnSave">저장</button>
         <!-- <button type="button" id="btnList" name="btnList">목록</button> -->
