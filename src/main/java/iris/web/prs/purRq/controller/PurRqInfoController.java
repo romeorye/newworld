@@ -527,7 +527,7 @@ public class PurRqInfoController extends IrisBaseController {
 		//나의 구매요청 리스트 조회
 		List<Map<String,Object>> myPurRqList = purRqInfoService.retrieveMyPurRqList(input);
 		List<Map<String,Object>> erpPurRqStatus = purRqInfoService.getPrRequestSAPStatus(myPurRqList);
-		
+
 		if(!erpPurRqStatus.isEmpty()) {
 			Map<String,Object> myListData = new HashMap<String,Object>();
 			int i = 0;
@@ -535,12 +535,12 @@ public class PurRqInfoController extends IrisBaseController {
 				i = Integer.parseInt(purRq.get("idx").toString());
 
 				myListData = myPurRqList.get(i);
-/*
+
 				LOGGER.debug("**************************************************************************************");
 				LOGGER.debug("i : " + i);	
 				LOGGER.debug(purRq);
 				LOGGER.debug("**************************************************************************************");
-*/				
+			
 				myListData.put("prsFlag", 	purRq.get("index"));
 				myListData.put("prsNm", 	purRq.get("status"));
 				myListData.put("badat", 	purRq.get("badat"));		
