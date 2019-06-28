@@ -120,18 +120,20 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		LOGGER.debug("###########################################################");
 		*/
 		resultVal = callZ_RFC_PRS04_05(dataList);
-
+		
 		return resultVal;
 	}
 	
 	private JCoTable makePrData(JCoTable jcoTable, List<Map<String, Object>> list) {
 		int i = 0;
+		
 		for(Map<String, Object> data : list) {
     		if(!"".equals(data.get("banfn"))) {
     			jcoTable.appendRow();
     
     			jcoTable.setValue("BANFN", data.get("banfn").toString());
     			jcoTable.setValue("BNFPO", data.get("bnfpo").toString());
+    			jcoTable.setValue("WERKS", data.get("werks").toString());
     			jcoTable.setValue("BANFN_PRS", i);
     		}
     		i++;
@@ -162,14 +164,17 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		for(int i = 0; i < jcoTable.getNumRows(); i++, jcoTable.nextRow()) {
 			HashMap<String, Object> record = new HashMap<String, Object>();
 			
+			LOGGER.debug("BANFN ================ > " + jcoTable.getValue("BANFN").toString());
+			LOGGER.debug("BNFPO ================ > " + jcoTable.getValue("BNFPO").toString());
+			LOGGER.debug("INDEX ================ > " + jcoTable.getValue("INDEX").toString());
 			record.put("banfn", jcoTable.getValue("BANFN"));
 			record.put("bnfpo", jcoTable.getValue("BNFPO"));
 			erpIndex = jcoTable.getValue("INDEX").toString();
+			//erpIndex = jcoTable.getValue("I").toString();
 			
 			record.put("index", erpIndex);
 			record.put("idx", jcoTable.getValue("BANFN_PRS"));
 			
-			//LOGGER.debug(jcoTable.getValue("BANFN_PRS"));
 			switch (erpIndex) {
 				case "1":
 					record.put("status", "구매요청");
@@ -232,12 +237,11 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	    	JCoTable resultTable  = function.getTableParameterList().getTable(zmm0119s);
 	        
 	    	requestTable = makePrData(requestTable, dataList);
-	    	//LOGGER.debug("requestTable");
-	    	//LOGGER.debug(requestTable);
+	    	LOGGER.debug("requestTable==================  : " + requestTable);
+	    	//LOGGER.debug("=========exportList   ============== : " + exportList);
 	    	importList.setValue(gubun, "1");
 	       	function.execute(destination);
-	    	//LOGGER.debug("resultTable");
-	    	//LOGGER.debug(resultTable);
+	    	LOGGER.debug("===============resultTable=============   " + resultTable);
 	       	
 	       	resultVal = makeGetPrRequestSAPReturn(resultTable);
 		} catch (JCoException e) {
@@ -271,6 +275,7 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	        
 	    	requestTable = makePrList(requestTable, dataList);
 	       	function.execute(destination);
+	       
 	       	resultVal = makeGetPrProcessSAPReturn(resultTable);
 	       	
 		} catch (JCoException e) {
@@ -288,9 +293,9 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		//LOGGER.debug("###########################################################");
 		//LOGGER.debug("PurRqInfoServiceImpl - callZ_RFC_PRS04_05");
 		//LOGGER.debug("###########################################################");
+
 		resultVal04 = callZ_RFC_PRS04(dataList);
 		resultVal05 = callZ_RFC_PRS05(dataList);
-		
 		int i = 0;
 	
 		for(Map<String, Object> item : resultVal04) {
@@ -410,8 +415,6 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		    	
 	       	function.execute(destination);
 	        	
-	       	LOGGER.debug("=======================resultTable => : " + resultTable);
-	       	
 	       	resultVal.put("retCode", erpApprovalResultSave(resultTable, input) );
 		} catch (JCoException e) {
 			resultVal.put("retCode", "F");
@@ -446,7 +449,7 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 					mailSender.setSubject("구매요청(PRS) SAP 전송 실패메일입니다.");
 					
 					message = "<b>* 구매요청 내역</b><br>";
-					message += "&nbsp;&nbsp;&nbsp;" + jcoTable.getString("BANFN_PRS") + "<br>";
+					message += "&nbsp;&nbsp;&nbsp;" + jcoTable.getString("TXZ01") + "<br>";
 					message += "<br><br>";
 					message += "<b>* SAP 처리 결과</b><br>";
 					message += "&nbsp;&nbsp;&nbsp;"	+ jcoTable.getString("MESSAGE").trim();					
@@ -722,6 +725,8 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
     	for(Map<String, Object> data : result) {
     		if(Integer.parseInt(data.get("fileCnt").toString()) > 0) {
     			List<Map<String, Object>> retreiveAttachFileInfoList = attachFileService.getAttachFileInfoList(data);
+
+    			String url ="http://iris.lghausys.com:7030/iris/index.do/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=";
     			
     			for(Map<String, Object> attachFileInfo : retreiveAttachFileInfoList) {
     				jcoTable.appendRow();
@@ -730,7 +735,8 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
     				jcoTable.setValue("BNFPO_PRS", data.get("bnfpoPrs").toString());
     				jcoTable.setValue("BANFN","");
     				jcoTable.setValue("BNFPO","");
-    				jcoTable.setValue("PATH", attachFileInfo.get("attcFilId").toString() + "-" + attachFileInfo.get("seq").toString());
+    				jcoTable.setValue("PATH", url+attachFileInfo.get("attcFilId").toString()+"&seq="+attachFileInfo.get("seq").toString());
+//    				jcoTable.setValue("PATH", attachFileInfo.get("attcFilId").toString() + "-" + attachFileInfo.get("seq").toString());
     				jcoTable.setValue("FILE", attachFileInfo.get("filNm").toString());    				
     			}
     		}
