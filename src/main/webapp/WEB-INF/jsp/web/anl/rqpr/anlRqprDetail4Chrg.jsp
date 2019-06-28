@@ -780,7 +780,7 @@
             anlRqprExprGrid.render('anlRqprExprGrid');
 
             openExprWayDialog = function(rqprExprId) {
-    	    	exprWayDialog.setUrl('<c:url value="/anl/exprWayPopup.do?rqprId="/>' + anlRqprDataSet.getNameValue(0, 'rqprId'));
+            	exprWayDialog.setUrl('<c:url value="/anl/exprWayPopup.do?rqprId="/>' + anlRqprDataSet.getNameValue(0, 'rqprId') + '&rqprExprId=' + rqprExprId);
     	    	exprWayDialog.show();
     	    };
 
