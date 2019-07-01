@@ -469,7 +469,7 @@
                     <td colspan="4" class="space_tain"><textarea id="rvwRsltTxt" name="rvwRsltTxt"></textarea></td>
                 </tr>
                 <tr>
-                    <th align="right">첨부파일<br/>(심의파일, 회의록 필수 첨부)</th>
+                    <th align="right">첨부파일 : <font color="red">심의파일, 회의록, <br/>연구계획서, 계약서</font> 필수첨부</th>
                     <td colspan="3" id="attchFileView">&nbsp;</td>
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
                 </tr>
