@@ -85,7 +85,7 @@ public class IrisLoginController {
 			pwd = "";
 			vowFlag = "";
 			securityFlag = "";
-			input.put("eeId", lycos);
+			//input.put("eeId", lycos);
 			
 			if (!"".equals(lycos)){
 				eeId ="directLoginTrue";	
@@ -96,9 +96,8 @@ public class IrisLoginController {
 			String sso_id = sso.getSsoId(request);
 			LOGGER.debug("###########################sso_id################################ : " + sso_id);
 			
-			return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
-
-			/*
+			//return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
+			
 			//4.쿠키 유효성 확인 :0(정상)
 			String retCode = sso.getEamSessionCheckAndAgentVaild(request,response);
 			
@@ -110,7 +109,7 @@ public class IrisLoginController {
 			input.put("eeId", sso_id );
 			//6.업무시스템 페이지 호출(세션 페이지 또는 메인페이지 지정)  --> 업무시스템에 맞게 URL 수정!
 			return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
-			*/
+			
 					
 	}
 	
