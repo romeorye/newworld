@@ -60,7 +60,8 @@ public class SsoConfig {
 	private static String ND_URL2 = "http://lghsso2.lghausys.com:8001";
 
 	private static Vector PROVIDER_LIST = new Vector();
-	private static final int COOKIE_SESSTION_TIME_OUT = 3000000;
+	//private static final int COOKIE_SESSTION_TIME_OUT = 3000000;
+	private static final int COOKIE_SESSTION_TIME_OUT = 43200;
 
 	// 인증 타입 (ID/PW 방식 : 1, 인증서 : 3)
 	private String TOA = "1";
