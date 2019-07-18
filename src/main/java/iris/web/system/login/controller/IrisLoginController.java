@@ -97,7 +97,7 @@ public class IrisLoginController {
 			LOGGER.debug("###########################sso_id################################ : " + sso_id);
 			
 			//return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
-			
+
 			//4.쿠키 유효성 확인 :0(정상)
 			String retCode = sso.getEamSessionCheckAndAgentVaild(request,response);
 			
@@ -110,7 +110,6 @@ public class IrisLoginController {
 			//6.업무시스템 페이지 호출(세션 페이지 또는 메인페이지 지정)  --> 업무시스템에 맞게 URL 수정!
 			return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
 			
-					
 	}
 	
 	
@@ -496,4 +495,58 @@ public class IrisLoginController {
 		
 		return "common/error/vpnError";
 	}
+	
+	
+	@RequestMapping(value="/common/login/todoLogin.do")
+	public String todoLogin(String redirectUrl,  HttpSession session, ModelMap model){
+		if(redirectUrl != null && !redirectUrl.trim().equals("")) {
+			model.addAttribute("redirectUrl", redirectUrl);
+		}
+		
+        if(session != null) {
+            //System.out.println(session.toString());
+              HashMap lsession = (HashMap)session.getAttribute("irisSession");
+              session.invalidate();
+          }else{
+              //System.out.println("session is null");
+        }
+        
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("retrieveVpnError - retrieveVpnError [로긴폼 호출]");
+		LOGGER.debug("###########################################################");
+		
+		return "common/error/vpnError";
+	}
+	
+	@RequestMapping(value="/common/login/irisTodoLogin.do")
+	public String irisTodoLogin( 
+			String xcmkCd, 
+			String eeId , 
+			String pwd, 
+			String vowFlag,
+			String securityFlag,
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			HttpSession session, 
+			ModelMap model , String lycos ){
+			
+			xcmkCd = "";
+			eeId = "";
+			pwd = "";
+			vowFlag = "";
+			securityFlag = "";
+
+			lycos = request.getParameter("user_id");
+			
+			input.put("eeId", lycos);
+			
+			if (!"".equals(lycos)){
+				eeId ="directLoginTrue";	
+			}
+			LOGGER.debug("###########################lycos################################ : " + lycos);
+			
+			return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
+	}
+	
 }
