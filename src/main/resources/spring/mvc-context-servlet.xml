@@ -27,6 +27,7 @@
 				<property name="skipUrls">
 					<list>
                         <value>/common/login/irisDirectLogin.do</value>
+                        <value>/common/login/irisTodoLogin.do</value>
                         <value>/common/login/itgLoginForm.do</value>
                         <value>/common/login/sessionError.do</value>
                         <value>/common/login/tryIrisLogin.do</value>
@@ -72,7 +73,9 @@
 	<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
 	
 	<bean id="beanRefreshManager" class="devonframe.refresh.BeanRefreshManager" />
-	<!-- 단일 instance -->
+		<!-- 단일 instance -->
+	<!-- http://iris.lghausys.com:7030/iris/sm/manager/refresh.do?beanName=commonDao&beanXmlFile=/WEB-INF/classes/spring/context-mybatis.xml -->
+	<!-- http://127.0.0.1:8080/iris/sm/manager/refresh.do?beanName=commonDao&beanXmlFile=/WEB-INF/classes/spring/context-mybatis.xml -->
 	<bean name="/sm/manager/refresh.do" class="devonframe.refresh.controller.BeanRefreshController">
 	    <property name="beanRefreshManager" ref="beanRefreshManager" />
 	</bean>
