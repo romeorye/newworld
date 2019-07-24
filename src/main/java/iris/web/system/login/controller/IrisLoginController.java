@@ -107,6 +107,8 @@ public class IrisLoginController {
 			}
 			//5.업무시스템에 읽을 사용자 아이디를 세션으로 생성
 			input.put("eeId", sso_id );
+			input.put("ssoUserId", input.get("lycos"));
+			
 			//6.업무시스템 페이지 호출(세션 페이지 또는 메인페이지 지정)  --> 업무시스템에 맞게 URL 수정!
 			return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
 			
@@ -169,11 +171,9 @@ public class IrisLoginController {
 		}
 		
         if(userOk){
-            
             List loginUserList = loginService.evalUser(input);
     		LOGGER.debug("loginUserList size => " + loginUserList.size());
     		LOGGER.debug("loginUserList => " + loginUserList);
-            
             
             // 사용자 정보가 없을 때
     		if(NullUtil.isNull(loginUserList)|| loginUserList.size() < 1){
@@ -196,7 +196,6 @@ public class IrisLoginController {
 		LOGGER.debug("######################### 로그인 정보 확인 #########################");
         LOGGER.debug(loginUser != null ? loginUser.toString(): "null");/*[EAM추가] - null참조방지*/
         LOGGER.debug("######################### 로그인 정보 확인 #########################");		       
-        
         LOGGER.debug("##### validation  : " + validation );
 		
         if(validation == "9999") {
@@ -208,7 +207,6 @@ public class IrisLoginController {
             LOGGER.debug("##### resultData  : " + resultData.toString() );
 
             if(!resultData.isEmpty()) {
-
             	//[EAM추가] - 사용자 시스템 권한 확인 Start ===========================================================
             	// ※  N 인경우 권한없음 오류 메시지 처리 / D 인경우 장기미사용 접근불가 오류 메시지 및 해제신청 가이드 처리
             	boolean errFlag = false;
@@ -370,6 +368,7 @@ public class IrisLoginController {
                 lsession.put("_userEmail"   , NullUtil.nvl(resultData.get("sa_mail"), ""));
                 lsession.put("_teamDept"   , NullUtil.nvl(resultData.get("team_dept"), ""));
                 lsession.put("_roleId", roleIds.substring(1));
+                lsession.put("_ssoUserId", input.get("ssoUserId"));
                 
                 lsession.put("_loginTime",  FormatHelper.curTime());  //로그인 시간
                 lsession.put("rowsPerPage",  "100");      // 그리드 리스트에서 한 화면에 보이는 row 수                                
@@ -544,7 +543,6 @@ public class IrisLoginController {
 			if (!"".equals(lycos)){
 				eeId ="directLoginTrue";	
 			}
-			LOGGER.debug("###########################lycos################################ : " + lycos);
 			
 			return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
 	}
