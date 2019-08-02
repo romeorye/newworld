@@ -116,11 +116,7 @@ public class MchnInfoServiceImpl implements MchnInfoService {
 		int chkPrct = commonDao.select("open.mchnInfo.checkPrctInfo", mchnPrctInfo);
 		
 		if( chkPrct  >   0 ){
-			int chkId =  commonDao.select("open.mchnInfo.checkPrctId", mchnPrctInfo);
-			
-			if( chkId > 0 ){
-				throw new Exception("기존 예약건이 존재합니다.");
-			}
+			throw new Exception("기존 예약건이 존재합니다.");
 		}
 		
 		MchnInfoVo vo = new MchnInfoVo();
