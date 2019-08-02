@@ -22,6 +22,9 @@
 <title><%=documentTitle%></title>
 <style>
 	div.L-combo-list-wrapper-nobg {max-height: 150px;}
+ .L-tssLable { 
+	 border: 0px
+ 			}
 </style>
 
 <script type="text/javascript">
@@ -205,6 +208,9 @@ var mchnPrctId;
 	    		$("input:text").attr("disabled", "true");
            		$("select").attr("disabled", "true");
            		//$("textarea").attr("disabled", "true");
+           		Rui.select('.tssLableCss input').addClass('L-tssLable');
+                Rui.select('.tssLableCss div').addClass('L-tssLable');
+                Rui.select('.tssLableCss div').removeClass('L-disabled');
 			}
 		} 
 		
@@ -342,12 +348,12 @@ var mchnPrctId;
                 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join('\n'));
                 return false;
             }
-        /*     운영반영시 주석제거
+       
             if( chkCcs != "CCS" ){
 				alert("교육수료후에 예약이 가능합니다.");
     			return false;
 			}
-          */   
+        
             if( Rui.isEmpty(dataSet.getNameValue(0, 'mchnInfoId'))  ){
             	alert("기기정보가 없습니다. 관리자에게 문의해주세요");
             	return false;
@@ -402,7 +408,7 @@ var mchnPrctId;
 					<tbody>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>신청제목</th>
-							<td colspan="3">
+							<td colspan="3"  class="tssLableCss">
 								<input type="text" id="prctTitl" />
 							</td>
 						</tr>
@@ -418,17 +424,17 @@ var mchnPrctId;
 						</tr>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>시료명</th>
-							<td>
+							<td  class="tssLableCss">
 								<input type="text" id="smpoNm" />
 							</td>
 							<th align="right"><span style="color:red;">*  </span>시료수</th>
-							<td>
+							<td  class="tssLableCss">
 								<input type="text" id="smpoQty" />
 							</td>
 						</tr>
 						<tr>
 							<th align="right"><span style="color:red;">*  </span>예약일시</th>
-							<td colspan="3">
+							<td colspan="3"  class="tssLableCss">
 								<input type="text" id="prctDt" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<select id="prctFromHH">
 									<option value="00">00</option>
@@ -456,11 +462,15 @@ var mchnPrctId;
    									<option value="22">22</option>
    									<option value="23">23</option>
 								</select> :
-								<select id="prctFrommm">
+								<select  class="tssLableCss" id="prctFrommm">
 									<option value="00">00</option>
+   									<option value="10">10</option>
+   									<option value="20">20</option>
    									<option value="30">30</option>
+   									<option value="40">40</option>
+   									<option value="50">50</option>
 								</select>
-								<select id="prctToHH">
+								<select  class="tssLableCss" id="prctToHH">
 									<option value="00">00</option>
    									<option value="01">01</option>
    									<option value="02">02</option>
@@ -486,9 +496,13 @@ var mchnPrctId;
    									<option value="22">22</option>
    									<option value="23">23</option>
 								</select> :
-								<select id="prctTomm">
+								<select  class="tssLableCss" id="prctTomm">
 									<option value="00">00</option>
+   									<option value="10">10</option>
+   									<option value="20">20</option>
    									<option value="30">30</option>
+   									<option value="40">40</option>
+   									<option value="50">50</option>
 								</select>
 							</td>
 						</tr>
