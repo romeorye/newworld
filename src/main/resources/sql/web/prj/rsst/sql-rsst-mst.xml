@@ -42,6 +42,7 @@
 				  AND DET.DEPT_LEVEL <> 0
 				 WHERE 1=1
 				       AND (MST.LAST_MDFY_ID <> 'MIG_DATA' AND  MST.WBS_CD <> 'R16TS0')   -- 기술팀 기술전략팀 제외
+				       AND  MST.TCLG_YN != 'Y'
 				       
 				]]>
 				<if test="( roleCheck != 'ADM'   )"><!-- Admin 사용자 아니면 로그인 사용자의 팀코드(조직)로 조회 -->
