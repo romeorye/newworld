@@ -576,4 +576,22 @@
         </if>
 		
 	</update>
+	
+	
+	<select id="retrievePrsMailAddr" resultType="String">
+		<![CDATA[
+		select case when EKGRP = '9B1' then 'mbjung@lghausys.com'
+                 when EKGRP = '1J6' then 'mwchae@lghausys.com'
+				 when EKGRP = '1D1' then 'jkyeom@lghausys.com'
+				 when EKGRP = '1D0' then 'doehyun@lghausys.com'
+				 when EKGRP = '1D8' then 'icharm@lghausys.com'
+				 when EKGRP = '1D6' then 'yrsong@lghausys.com'
+				 when EKGRP = '1D4' then 'jychoi@lghausys.com'
+				 else   'no' end addMail
+		from   PR_PRSREQ_T 
+		WHERE PRS_FLAG <> 'D'
+		   AND BANFN_PRS = #{banfnPrs}
+		   AND BNFPO_PRS = #{bnfpoPrs}
+		]]>
+	</select>
 </mapper>
