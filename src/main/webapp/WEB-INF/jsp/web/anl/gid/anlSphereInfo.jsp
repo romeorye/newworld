@@ -73,8 +73,9 @@
 	});//onReady 끝
 	
 	function getPersonInfo(sabunnew, loginSabun){
-			var popupUrl = "http://portal.lghausys.com/epWeb/com/ep/ibs/mypage/UserInfoController.jpf?sabunnew=" + sabunnew +"&loginSabun=" + loginSabun ;
-			var popupOption = "width=750, height=500, top=300, left=400";
+		var popupUrl = "http://gportal.lghausys.com/portal/main/listUserMain.do?hideOrgYN=true&rightFrameUrl=/support/profile/getProfile.do?targetUserId="+loginSabun ;	
+		//var popupUrl = "http://lghsearch.lghausys.com:8501/empSearchNew/emp.jsp?sabunnew=" + sabunnew +"&loginSabun=" + loginSabun ;
+			var popupOption = "width=900, height=700, top=300, left=400";
 			window.open(popupUrl,"",popupOption);
 	}
 </script>
@@ -178,7 +179,8 @@
 				                    <tr>
 				                        <th >기반기술</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207677','soonbo')" class="person_link">이순보</a>
+				                        	<a href="javascript:getPersonInfo('J7X7k1sRBjDWZYz/bk7PI7Tkyn57zuHZlc2NgEG84QY=','soonbo')" class="person_link">이순보</a>
+				                        	<!-- <a href="javascript:getPersonInfo('00207677','soonbo')" class="person_link">이순보</a> -->
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
@@ -206,7 +208,8 @@
 				                        	<a href="javascript:getPersonInfo('00208220',' jihachoi')" class="person_link">최지하</a>
 				                        </td>
 				                        <td class="rightL" style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
+				                        	<a href="javascript:getPersonInfo('qth6cTHuyhcxlcMVcYpYC84utJR9N1CW5WInRhuw9bk=','kimsb')" class="person_link">김샛별</a>
+				                        	<!-- <a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a> -->
 				                        </td>
 				                    </tr>
 
