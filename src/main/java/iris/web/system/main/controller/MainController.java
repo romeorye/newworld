@@ -70,25 +70,30 @@ public class MainController extends IrisBaseController {
 
 	static final Logger LOGGER = LogManager.getLogger(MainController.class);
 
-	/** 프로젝트 메인페이지 화면이동 **/
+	/** 프로젝트 메인페이지 화면이동 
+	 * @throws Exception **/
 	@RequestMapping(value="/prj/main.do")
 	public String retrievePrjMainInfo(
 			@RequestParam HashMap<String, String> input,
 			HttpServletRequest request,
 			HttpSession session,
 			ModelMap model
-			){
+			) throws Exception{
 		LOGGER.debug("########################################################################################");
 		LOGGER.debug("MainController - retrievePrjMainInfo [프로젝트 메인페이지 화면이동]");
 		LOGGER.debug("########################################################################################");
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
+		LOGGER.debug("#######################input################################################################# : " + input);
 
 		/* 지재권(지적 재산권) 사번 인코딩*/
-		byte[] row = input.get("_userSabun").getBytes();
-		String encSabun = CommonUtil.encode(row);
-
+		
+		//byte[] row =   CommonUtil.getCookieSabun(input.get("_userSabun")).getBytes();
+		
+		//String encrytoEmpNo = CommonUtil.encode(row);
+		String encrytoEmpNo = CommonUtil.getCookieSabun(input.get("_userSabun"));
+		//LOGGER.debug("###########################encSabun################################ : " + encrytoEmpNo);
 		if(NullUtil.isNull(input.get("_userId")) ||  NullUtil.nvl(input.get("_userId"), "").equals("-1")  ){
 			String rtnMsg = messageSourceAccessor.getMessage("msg.alert.sessionTimeout");
 			SayMessage.setMessage(rtnMsg);
@@ -107,8 +112,7 @@ public class MainController extends IrisBaseController {
         	input.put("nowDate", DateUtil.getDate("yyyy-MM-dd", Locale.getDefault()));
         	input.put("nowEngDay", DateUtil.getEngDay());
         	input.put("pageMode", "prj") ;
-        	input.put("encSabun", encSabun) ;
-
+        	input.put("encrytoEmpNo", encrytoEmpNo) ;
 
         	@SuppressWarnings("unchecked")
 			HashMap<String, Object> data = (HashMap<String, Object>) input.clone();
@@ -170,10 +174,14 @@ public class MainController extends IrisBaseController {
 		/* 지재권(지적 재산권) 사번 인코딩*/
 		byte[] row = ((String) input.get("_userSabun")).getBytes();
 		String encSabun = CommonUtil.encode(row);
-
+		
+		String encrytoEmpNo = CommonUtil.getCookieSabun(input.get("_userSabun").toString());
+		LOGGER.debug("###########################encSabun################################ : " + encrytoEmpNo);
+		
 		input.put("isAnlChrg", ((String)input.get("_roleId")).indexOf("WORK_IRI_T06") > -1 ? 1 : 0);
 		input.put("pageMode", "anl");
 		input.put("encSabun", encSabun) ;
+		input.put("encrytoEmpNo", encrytoEmpNo) ;
 
 		Map<String, Object> anlCntInfo1 = mainService.getAnlCntInfo1(input);
 		Map<String, Object> anlCntInfo2 = mainService.getAnlCntInfo2(input);
@@ -187,10 +195,6 @@ public class MainController extends IrisBaseController {
 
 		for(Map<String, Object> data : anlMchnSettingList) {
 			data.put("anlMchnReservList", mainService.getAnlMchnReservList(data));
-		}
-		
-		for(Map<String, Object> data : anlNoticeList) {
-			data.put("bbsSbc2", ((String)data.get("bbsSbc")).replaceAll("<p>", "").replaceAll("</p>", "").replaceAll("<P>", "").replaceAll("</P>", ""));
 		}
 		
 		model.addAttribute("inputData", input);

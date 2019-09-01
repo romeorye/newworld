@@ -1,13 +1,25 @@
 package iris.web.common.util;
 
+import java.net.URLDecoder;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TimeZone;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.lgcns.encypt.EncryptUtil;
 
 public class CommonUtil {
     static final Logger LOGGER = LogManager.getLogger(CommonUtil.class);
@@ -842,5 +854,38 @@ public class CommonUtil {
         return result;
     }
 
-
+    public static String getCookieSabun(String sabun) throws Exception  {
+        
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        TimeZone jst = TimeZone.getTimeZone ("GMT+0");
+        java.util.Calendar cal = java.util.Calendar.getInstance ( jst );
+        sdf.setTimeZone(cal.getTimeZone());
+        
+        String str = sdf.format(cal.getTime());
+		String encryptEmpNo = EncryptUtil.encryptText(str + "|" + "00203502"); 
+		
+		return encryptEmpNo;
+	}
+    
+    public static String getCookieSsoUserId(HttpServletRequest req) throws Exception  {
+	    Cookie[] cookies = req.getCookies();
+		String descramblingKey = "amZrbGRzYWpmO2tk";
+		
+		String sabun ="";
+		//G-Portal (Tip-Top 2.0)
+		for(int i = 0 ; i < cookies.length ; i++) {
+		  javax.servlet.http.Cookie cookie = cookies[i];
+		  
+		  if(cookie.getName().equals("URLENCODED_LG_GP_SI")) {
+			   String encUid = URLDecoder.decode(cookie.getValue(), "UTF-8");
+			   String plainUid = com.lgcns.encypt.EncryptUtil.decryptText(encUid, descramblingKey);
+			   
+			   sabun = plainUid ;
+			   break;
+		  }
+		}
+		return sabun;
+    }
+   
+		  
 }

@@ -31,6 +31,7 @@ import com.lghausys.eam.exception.EAMException;
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.sso.SsoConfig;
+import iris.web.common.util.CommonUtil;
 import iris.web.common.util.FormatHelper;
 import iris.web.system.login.service.IrisEncryptionService;
 import iris.web.system.login.service.IrisLoginService;
@@ -78,7 +79,7 @@ public class IrisLoginController {
 			HttpSession session, 
 			//RedirectAttributes redirectAttributes,
 			ModelMap model ,
-			@CookieValue(value="InitechEamUID", required=true) String lycos ){
+			@CookieValue(value="InitechEamUID", required=true) String lycos )  throws Exception{
 			
 			xcmkCd = "";
 			eeId = "";
@@ -91,23 +92,26 @@ public class IrisLoginController {
 				eeId ="directLoginTrue";	
 			}
 			LOGGER.debug("###########################lycos################################ : " + lycos);
+
 			SsoConfig sso = new SsoConfig();
 
 			String sso_id = sso.getSsoId(request);
-			LOGGER.debug("###########################sso_id################################ : " + sso_id);
 			
 			//return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
-
+			if( "".equals(sso_id)){
+				sso_id = CommonUtil.getCookieSsoUserId(request);
+				LOGGER.debug("###########################sso_id################################ : " + sso_id);
+			}
+			
 			//4.쿠키 유효성 확인 :0(정상)
 			String retCode = sso.getEamSessionCheckAndAgentVaild(request,response);
-			
 			LOGGER.debug("###########################retCode################################ : " + retCode);
 			if(!retCode.equals("0")){
 				return "common/error/error";
 			}
 			//5.업무시스템에 읽을 사용자 아이디를 세션으로 생성
 			input.put("eeId", sso_id );
-			input.put("ssoUserId", input.get("lycos"));
+			//input.put("ssoUserId", input.get("lycos"));
 			
 			//6.업무시스템 페이지 호출(세션 페이지 또는 메인페이지 지정)  --> 업무시스템에 맞게 URL 수정!
 			return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
@@ -259,9 +263,8 @@ public class IrisLoginController {
         		if(errFlag) {
         			LOGGER.error(logMsg);
         			SayMessage.setMessage(alertMsg);
-        			//return "redirect:/common/login/itgLoginForm.do";
-//        			return "web/system/main";
-        			return "redirect:/index.do";
+        			//return "redirect:/index.do";
+        			return "common/error/error";
         		}
         		//[EAM추가] - 사용자 시스템 권한 확인 END ===========================================================
         		
@@ -368,7 +371,7 @@ public class IrisLoginController {
                 lsession.put("_userEmail"   , NullUtil.nvl(resultData.get("sa_mail"), ""));
                 lsession.put("_teamDept"   , NullUtil.nvl(resultData.get("team_dept"), ""));
                 lsession.put("_roleId", roleIds.substring(1));
-                lsession.put("_ssoUserId", input.get("ssoUserId"));
+                //lsession.put("_ssoUserId", input.get("ssoUserId"));
                 
                 lsession.put("_loginTime",  FormatHelper.curTime());  //로그인 시간
                 lsession.put("rowsPerPage",  "100");      // 그리드 리스트에서 한 화면에 보이는 row 수                                
@@ -546,5 +549,7 @@ public class IrisLoginController {
 			
 			return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
 	}
+	
+	
 	
 }
