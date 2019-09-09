@@ -179,14 +179,15 @@
 				                    <tr>
 				                        <th >기반기술</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('J7X7k1sRBjDWZYz/bk7PI7Tkyn57zuHZlc2NgEG84QY=','soonbo')" class="person_link">이순보</a>
-				                        	<!-- <a href="javascript:getPersonInfo('00207677','soonbo')" class="person_link">이순보</a> -->
+				                        	<a href="javascript:getPersonInfo('00207677','soonbo')" class="person_link">이순보</a> 
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
 				                        </td>
 				                        <td rowspan="5" class="bottomL" style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</br>(Q-gate 유해물질분석 등)</a>
+				                        	<br><br>
+				                        	<a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">이종한</br>(장식재 TVOC 스몰챔버)</a>
 				                        	<br><br>
 				                        	<a href="javascript:getPersonInfo('00207779','lejaaa')" class="person_link">이은주</br>(TVOC분석)</a>
 				                        	<br><br>
@@ -229,7 +230,6 @@
 				                        	<a href="javascript:getPersonInfo('00208220',' jihachoi')" class="person_link">최지하</a>
 				                        </td>
 				                        <td class="rightL" style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">이종한</a>,
 				                        	<a href="javascript:getPersonInfo('00208522','leesangheon')" class="person_link">이상헌</a>
 				                        </td>
 				                    </tr>

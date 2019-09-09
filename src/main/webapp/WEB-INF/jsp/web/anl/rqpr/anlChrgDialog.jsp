@@ -81,6 +81,7 @@
 				<td align="center">
 					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
 					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
 				</td>
 			</tr>
@@ -102,6 +103,7 @@
 				<td align="center">
 					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
 					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
 				</td>
 			</tr>
@@ -123,6 +125,7 @@
 				<td align="center">
 					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
 					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
 				</td>
 			</tr>
@@ -146,6 +149,7 @@
 				<td align="center">
 					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
 					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
 				</td>
 			</tr>
@@ -160,7 +164,6 @@
 			<tr>
 				<td align="center">유기분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
 					<a href="#" onClick="setAnlChrgInfo('leesangheon', '이상헌')">이상헌</a>
 				</td>
 			</tr>
@@ -169,6 +172,7 @@
 				<td align="center">
 					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
 					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
 				</td>
 			</tr>
