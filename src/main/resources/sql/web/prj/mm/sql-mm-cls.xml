@@ -540,7 +540,8 @@ from  (
 								from (
 									select  a.prj_cd
 											,substring(dbo.fn_getPrjName(a.prj_cd), CHARINDEX ('.', dbo.fn_getPrjName(a.prj_cd)) +1, len(dbo.fn_getPrjName(a.prj_cd))  ) as prj_Nm
-											,a.tss_cd
+											,case when  a.PGS_STEP_CD ='AL' then   (select z.tss_cd from IRIS_TSS_mgmt_mst z where z.PGS_STEP_CD ='PG' and z.wbs_cd = a.wbs_cd)
+											        else a.tss_cd end tss_cd 
 											,a.tss_nm
 											,a.wbs_cd
 											,case when a.PGS_STEP_CD = 'DC' then DCAC_B_STRT_DD
