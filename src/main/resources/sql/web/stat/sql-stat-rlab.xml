@@ -77,14 +77,11 @@
 		                     ,cmplMonth
 		                     ,COUNT(1) AS cnt
 		                 FROM (SELECT RLAB_SCN_CD
-		                             ,LEFT(CMPL_PARR_DT,7) AS cmplYM
-		                             ,RIGHT(LEFT(CMPL_PARR_DT,7),2) AS cmplMonth
+		                             ,LEFT(CMPL_DT,7) AS cmplYM
+		                             ,RIGHT(LEFT(CMPL_DT,7),2) AS cmplMonth
 		                         FROM IRIS_RLAB_RQPR_MST
 		                        WHERE 1=1
 		                        AND CMPL_DT IS NOT NULL
-		                        --AND CMPL_DT BETWEEN '2018-01-01' AND '2018-12-31'
-		                        --AND  CMPL_PARR_DT IS NOT NULL
-		                        --AND  CMPL_PARR_DT BETWEEN '2018-01-01' AND '2018-12-31') mst
 		                          AND LEFT(CMPL_DT,4) =#{yyyy}) mst
 		                GROUP BY RLAB_SCN_CD,cmplYM,cmplMonth) mmm)sss
 		 GROUP BY ROLLUP(RLAB_SCN_CD)
@@ -165,14 +162,11 @@
 		                     ,cmplMonth
 		                     ,COUNT(1) AS cnt
 		                 FROM (SELECT RLAB_DZDV_CD
-		                             ,LEFT(CMPL_PARR_DT,7) AS cmplYM
-		                             ,RIGHT(LEFT(CMPL_PARR_DT,7),2) AS cmplMonth
+		                             ,LEFT(CMPL_DT,7) AS cmplYM
+		                             ,RIGHT(LEFT(CMPL_DT,7),2) AS cmplMonth
 		                         FROM IRIS_RLAB_RQPR_MST
 		                        WHERE 1=1
 		                          AND CMPL_DT IS NOT NULL
-		                        --AND CMPL_DT BETWEEN '2018-01-01' AND '2018-12-31'
-		                        --AND  CMPL_PARR_DT IS NOT NULL
-		                        --AND  CMPL_PARR_DT BETWEEN '2018-01-01' AND '2018-12-31') mst
 		                          AND LEFT(CMPL_DT,4) =#{yyyy}) mst
 		                GROUP BY RLAB_DZDV_CD,cmplYM,cmplMonth) mmm)sss
 		 GROUP BY ROLLUP(RLAB_DZDV_CD)
@@ -253,8 +247,8 @@
 		                     ,cmplMonth
 		                     ,COUNT(1) AS cnt
 		                 FROM (SELECT RLABEXAT.EXAT_CD
-									  ,LEFT(RQPRMST.CMPL_PARR_DT,7) AS cmplYM
-									  ,RIGHT(LEFT(RQPRMST.CMPL_PARR_DT,7),2) AS cmplMonth
+									  ,LEFT(RQPRMST.CMPL_DT,7) AS cmplYM
+									  ,RIGHT(LEFT(RQPRMST.CMPL_DT,7),2) AS cmplMonth
 								  FROM IRIS_RLAB_RQPR_MST RQPRMST
 								 INNER JOIN IRIS_RLAB_RQPR_EXAT RQPREXPR
 									ON RQPRMST.RQPR_ID=RQPREXPR.RQPR_ID
@@ -262,9 +256,6 @@
 									ON RQPREXPR.EXAT_CD=RLABEXAT.EXAT_CD
 		                        WHERE 1=1
 		                          AND RQPRMST.CMPL_DT IS NOT NULL
-		                        --AND RQPRMST.CMPL_DT BETWEEN '2018-01-01' AND '2018-12-31'
-		                        --AND RQPRMST.CMPL_PARR_DT IS NOT NULL
-		                        --AND RQPRMST.CMPL_PARR_DT BETWEEN '2018-01-01' AND '2018-12-31') mst
 		                          AND LEFT(RQPRMST.CMPL_DT,4) =#{yyyy}) mst
 		                GROUP BY EXAT_CD,cmplYM,cmplMonth) mmm)sss
 		 GROUP BY ROLLUP(EXAT_CD)
@@ -345,14 +336,11 @@
 		                     ,cmplMonth
 		                     ,COUNT(1) AS cnt
 		                 FROM (SELECT RLAB_CHRG_ID
-		                             ,LEFT(CMPL_PARR_DT,7) AS cmplYM
-		                             ,RIGHT(LEFT(CMPL_PARR_DT,7),2) AS cmplMonth
+		                             ,LEFT(CMPL_DT,7) AS cmplYM
+		                             ,RIGHT(LEFT(CMPL_DT,7),2) AS cmplMonth
 		                         FROM IRIS_RLAB_RQPR_MST
 		                        WHERE 1=1
 		                          AND CMPL_DT IS NOT NULL
-		                        --AND CMPL_DT BETWEEN '2018-01-01' AND '2018-12-31'
-		                        --AND  CMPL_PARR_DT IS NOT NULL
-		                        --AND  CMPL_PARR_DT BETWEEN '2018-01-01' AND '2018-12-31') mst
 		                          AND LEFT(CMPL_DT,4) =#{yyyy}) mst
 		                GROUP BY RLAB_CHRG_ID,cmplYM,cmplMonth) mmm)sss
 		 GROUP BY ROLLUP(RLAB_CHRG_ID)
