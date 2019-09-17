@@ -860,9 +860,10 @@ public class CommonUtil {
         TimeZone jst = TimeZone.getTimeZone ("GMT+0");
         java.util.Calendar cal = java.util.Calendar.getInstance ( jst );
         sdf.setTimeZone(cal.getTimeZone());
-        
         String str = sdf.format(cal.getTime());
-		String encryptEmpNo = EncryptUtil.encryptText(str + "|" + "00203502"); 
+        LOGGER.debug(">>>>>>>>>>>sabun data>>>>>>>>>>>>" + sabun);
+		String encryptEmpNo = EncryptUtil.encryptText(str + "|" + sabun); 
+		LOGGER.debug(">>>>>>>>>>>encryptEmpNo data>>>>>>>>>>>>" + encryptEmpNo);
 		
 		return encryptEmpNo;
 	}
