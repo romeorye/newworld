@@ -110,8 +110,10 @@ public class OusdCooTssServiceImpl implements OusdCooTssService {
 
     /* 비용지급 */
     @Override
-    public Map<String, Object> retrieveOusdCooTssExpStoa(HashMap<String, String> input){
-    	return commonDao.select("prj.tss.ousdcoo.retrieveOusdCooTssExpStoa", input);
+    //public Map<String, Object> retrieveOusdCooTssExpStoa(HashMap<String, String> input){
+    public List<Map<String, Object>> retrieveOusdCooTssExpStoa(HashMap<String, String> input){
+    	//return commonDao.select("prj.tss.ousdcoo.retrieveOusdCooTssExpStoa", input);
+    	return commonDao.selectList("prj.tss.ousdcoo.retrieveOusdCooTssExpStoa", input);
     }
 
     @Override
@@ -183,5 +185,8 @@ public class OusdCooTssServiceImpl implements OusdCooTssService {
 		return commonDao.select("prj.tss.com.ousdCooTssAltrDetailSearch", input);
 	}
 
-
+	/**개발비 실적값 년도 가져오기*/
+	public List<Map<String, Object>> retrieveYear(HashMap<String, String> input){
+		return commonDao.selectList("prj.tss.ousdcoo.retrieveYear", input);
+	}
 }

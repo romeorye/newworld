@@ -332,7 +332,7 @@ public class OusdCooTssCmplController  extends IrisBaseController {
 
             searchParam = new HashMap<String,String>();
             //searchParam.put("tssCd",  NullUtil.nvl(input.get("tssCd"), ""));
-            Map<String, Object> resultExpStoa = ousdCooTssService.retrieveOusdCooTssExpStoa(input);    //비용실적
+            List<Map<String, Object>> resultExpStoa = ousdCooTssService.retrieveOusdCooTssExpStoa(input);    //비용실적
 
             HashMap<String, String> inputInfo = new HashMap<String, String>();
             inputInfo.put("tssCd",     String.valueOf(input.get("tssCd")));
@@ -432,26 +432,10 @@ public class OusdCooTssCmplController  extends IrisBaseController {
         if(pageMoveChkSession(input.get("_userId"))) {
 
             //데이터 있을 경우
-            Map<String, Object> result = null;
-            Map<String, Object> smry = null;
-            if(!"".equals(input.get("tssCd"))) {
-            	result = ousdCooTssService.retrieveCmplOusdCooTssExpStoa(input);	//완료 비용지급실적 조회
-                smry = ousdCooTssService.retrieveOusdCooTssSmry(input);
-                if(smry != null) {
-                    input.put("rsstExp"           , NullUtil.nvl(smry.get("rsstExp"),"0"));
-                    input.put("rsstExpConvertMil" , NullUtil.nvl(smry.get("rsstExpConvertMil"),"0"));
-                }
-            }
-
-            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-            list.add(result);
-
-            JSONObject obj = new JSONObject();
-            obj.put("records", list);
-
+            List<Map<String, Object>> purYy = ousdCooTssService.retrieveYear(input);
+            
             request.setAttribute("inputData", input);
-            request.setAttribute("resultCnt", result == null ? 0 : result.size());
-            request.setAttribute("result", obj);
+            request.setAttribute("purYy", purYy);
         }
         LOGGER.debug("###########################################################################################");
         LOGGER.debug("input = > " + input);

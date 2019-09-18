@@ -381,6 +381,7 @@
     </form>
 </div>
 <div class="titArea">
+<div><font color="red">첨부 : 과제중단보고서(word파일), 심의보고서(ppt), 심의회의록</font></div>
     <div class="LblockButton">
         <button type="button" id="btnSave" name="btnSave">저장</button>
         <!-- <button type="button" id="btnList" name="btnList">목록</button> -->

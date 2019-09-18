@@ -33,6 +33,7 @@
     var gvWbsCd     = "";
     var gvPgTssCd;			//진행 과제코드
     var gvPageMode  = "";
+    var lvWbsCd  = "";
 
     var altrTssCd   = "";
     var dataSet;
@@ -298,7 +299,7 @@
             //조건에 따른 보이기
 //             if(pTssRoleId != "TR05" && pTssRoleId != "") {
 	        if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "pgSaSabunNew")) {
-	            if(gvTssSt == "100") {
+	            if(gvTssSt == "100" || gvTssSt == "102" ) {
 	            	btnCsusRq.show(); 		//GRS - 100:작성중
 //	            	btnInnerCsusRq.show();
 	            }
@@ -382,6 +383,7 @@
                 gvTssCd = stringNullChk(dataSet.getNameValue(0, "tssCd"));     //과제코드
                 gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt"));     //과제상태
                 gvPgTssCd = stringNullChk(dataSet.getNameValue(0, "pgTssCd")); //진행단계 과제코드
+                lvWbsCd = stringNullChk(dataSet.getNameValue(0, "wbsCd")); //진행단계 과제코드
             }
 
             disableFields();
@@ -533,7 +535,7 @@
             //비용지급실적
             case 3:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsExpStoaIfm.do?tssCd=" + gvPgTssCd + "'/>";
+                	tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplExpStoaIfm.do?wbsCd=" + lvWbsCd +"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent3');
                 }
                 break;

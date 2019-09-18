@@ -34,7 +34,8 @@ public interface OusdCooTssService {
     public int updateOusdCooTssSmry(HashMap<String, Object> input);
 
     /* 비용지급 */
-    public Map<String, Object> retrieveOusdCooTssExpStoa(HashMap<String, String> input);
+    //public Map<String, Object> retrieveOusdCooTssExpStoa(HashMap<String, String> input);
+    public List<Map<String, Object>> retrieveOusdCooTssExpStoa(HashMap<String, String> input);
 
     public int insertOusdCooTssExpStoa(HashMap<String, Object> input);
 
@@ -55,5 +56,8 @@ public interface OusdCooTssService {
 
 	/**  과제관리 > 대외협력과제 > 진행 > 변경이력 상세 조회  **/
 	public List<Map<String, Object>> retrieveOusdCooTssAltrList(HashMap<String, Object> input);
+
+	/*개발비 실적값 년도 가져오기*/
+	public List<Map<String, Object>> retrieveYear(HashMap<String, String> input);
 
 }

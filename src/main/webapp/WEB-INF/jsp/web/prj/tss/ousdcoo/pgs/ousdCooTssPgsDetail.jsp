@@ -31,6 +31,7 @@
     var gvTssSt     = "";
     var gvWbsCd     = "";
     var gvPageMode  = "";
+    var lvWbsCd  = "";
 
     var pgsStepNm = "";
     var dataSet;
@@ -114,8 +115,9 @@
              gvWbsCd     = stringNullChk(dataSet.getNameValue(0, "pkWbsCd"));
              gvCooInstCd = stringNullChk(dataSet.getNameValue(0, "cooInstCd"));
              gvPageMode  = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
+             lvWbsCd  = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
 
-           disableFields();
+             disableFields();
 
             tabView.selectTab(0);
         });
@@ -198,7 +200,7 @@
             //비용지급실적
             case 2:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsExpStoaIfm.do?tssCd=" + gvTssCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsExpStoaIfm.do?wbsCd=" + lvWbsCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
                 break;

@@ -38,6 +38,7 @@
     var gvPgsStepCd = "CM"; //진행상태:CM(완료)
     var gvWbsCd     = "";
     var gvPageMode  = "";
+    var lvWbsCd  = "";
 
     var cmplTssCd   = "";
     var dataSet;
@@ -260,6 +261,7 @@
         dataSet.on('load', function(e) {
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvWbsCd = dataSet.getNameValue(0, "pkWbsCd");
+            lvWbsCd = dataSet.getNameValue(0, "wbsCd");
             var pPgsStepCd = dataSet.getNameValue(0, "pgsStepCd");
 
             document.tabForm.tssSt.value = dataSet.getNameValue(0, "tssSt");
@@ -396,7 +398,7 @@
             //비용지급실적
             case 3:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplExpStoaIfm.do?tssCd=" + cmplTssCd + "&pgTssCd="+ gvTssCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplExpStoaIfm.do?wbsCd=" + lvWbsCd +"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent3');
                 }
                 break;

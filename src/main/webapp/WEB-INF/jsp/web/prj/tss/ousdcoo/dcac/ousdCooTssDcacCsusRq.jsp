@@ -201,82 +201,67 @@
 <br/>
 <table class="table">
 							        <colgroup>
-							            <col style="width: 10%;" />
-							            <col style="width: 10%;" />
-							            <col style="width: 15%;" />
-							            <col style="width: 15%;" />
-							            <col style="width: 15%;" />
-							            <col style="width: 15%;" />
-							            <col style="width: 20%;" />
+							            <col style="width: 8%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 7%;" />
+							            <col style="width: 8%;" />
 							        </colgroup>
 							        <tbody>
 							       		<tr>
-							        		<th colspan="7">비용실적</th>
+							        		<th colspan="14">비용실적</th>
 							        	</tr>
-							        	<tr>
-							        		<th class="alignC">총연구비(원)</th>
-							        		<th class="alignC">계획</th>
-							        		<th class="alignC">1차</th>
-							        		<th class="alignC">2차</th>
-							        		<th class="alignC">3차</th>
-							        		<th class="alignC">4차</th>
-							        		<th class="alignC">잔액(원)</th>
-							        	</tr>
-							        	<tr>
-							        		<td class="alignC" rowspan="2">
-							        			<c:choose>
-						                        	<c:when test="${resultExpStoa.rsstExp == null || resultExpStoa.rsstExp eq ''}">
-						                        		0
-													</c:when>
-													<c:otherwise>
-														<fmt:formatNumber value="${resultExpStoa.rsstExp}" type="number"/>
-													</c:otherwise>
-						                        </c:choose>
-							        		</td>
-							        		<td class="alignC">일시</td>
-							        		<td class="alignR"><c:out value="${resultExpStoa.yyNosDt1}"/></td>
-							        		<td class="alignR"><c:out value="${resultExpStoa.yyNosDt2}"/></td>
-							        		<td class="alignR"><c:out value="${resultExpStoa.yyNosDt3}"/></td>
-							        		<td class="alignR"><c:out value="${resultExpStoa.yyNosDt4}"/></td>
-							        		<td></th>
-							        	</tr>
-							        	<tr>
-							        		<td class="alignC">금액(원)</th>
-							        		<td class="alignR"><fmt:formatNumber value="${resultExpStoa.yyNosCash1}" type="number"/></td>
-							        		<td class="alignR"><fmt:formatNumber value="${resultExpStoa.yyNosCash2}" type="number"/></td>
-							        		<td class="alignR"><fmt:formatNumber value="${resultExpStoa.yyNosCash3}" type="number"/></td>
-							        		<td class="alignR"><fmt:formatNumber value="${resultExpStoa.yyNosCash4}" type="number"/></td>
-							        		<td class="alignR">
-							        			<c:choose>
-						                        	<c:when test="${resultExpStoa.remainCash == null || resultExpStoa.remainCash eq ''}">
-						                        		0
-													</c:when>
-													<c:otherwise>
-														<fmt:formatNumber value="${resultExpStoa.remainCash}" type="number"/>
-													</c:otherwise>
-												</c:choose>
-							        		</td>
-							        	</tr>
-							        	<tr>
-							        		<td class="alignC">누적합계</td>
-							        		<td class="alignC">금액(원)</td>
-							        		<td class="alignC" colspan="4">
-							        			
-							        			<c:choose>
-						                        	<c:when test="${resultExpStoa.ttlCash == null || resultExpStoa.ttlCash eq ''}">
-						                        		0
-													</c:when>
-													<c:otherwise>
-														<fmt:formatNumber value="${resultExpStoa.ttlCash}" type="number"/>
-													</c:otherwise>
-												</c:choose>
-							        		</td>
-							        		<!-- 
-							        		<td class="alignR"></td>
-							        		<td class="alignR"></td>
-							        		<td class="alignR"></td> 
-							        		-->
-							        		<td class="alignR"></td>
+										<tr>
+											<th>WBS코드</th>
+											<th>1월</th>
+											<th>2월</th>
+											<th>3월</th>
+											<th>4월</th>
+											<th>5월</th>
+											<th>6월</th>
+											<th>7월</th>
+											<th>8월</th>
+											<th>9월</th>
+											<th>10월</th>
+											<th>11월</th>
+											<th>12월</th>
+											<th>합계</th>
+										</tr>
+								
+						<c:choose>
+              				<c:when test="${fn:length(resultExpStoa) == 0}">
+                            			<tr><td colspan="14"></td></tr>
+              				</c:when>
+              				<c:otherwise>
+								<c:forEach var="list" items="${resultExpStoa}" varStatus="status">
+										<tr>
+											<td>${list.wbsCd}</td>
+											<td><fmt:formatNumber value="${list.mm1}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.mm2}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.mm3}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.mm4}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.mm5}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.mm6}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.mm7}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.mm8}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.mm9}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.mm10}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.mm11}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.mm12}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.totSum}" pattern="#,###" /> </td>
+										</tr>					        	
+							    </c:forEach>
+							</c:otherwise>
+						</c:choose>	       			 	
 							        	</tr>
 							        </tbody>
 							    </table>
@@ -377,3 +362,5 @@
     </div>
 </body>
 </html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+

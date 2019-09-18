@@ -457,25 +457,77 @@
     <select id="retrieveOusdCooTssExpStoa" resultType="hashmap">
     <![CDATA[
     -- retrieveOusdCooTssExpStoa 대외협력과제 비용지급 조회
-		SELECT A.TSS_CD        as tssCd
-			 , A.TTL_CASH	   as ttlCash	 /*총액*/
-			 , A.YY_NOS_CASH1  as yyNosCash1 /*1차현금*/
-			 , A.YY_NOS_DT1	   as yyNosDt1	 /*1차지급일자*/
-			 , A.YY_NOS_CASH2  as yyNosCash2 /*2차현금*/
-			 , A.YY_NOS_DT2	   as yyNosDt2	 /*2차지급일자*/
-			 , A.YY_NOS_CASH3  as yyNosCash3 /*3차현금*/
-			 , A.YY_NOS_DT3	   as yyNosDt3	 /*3차지급일자*/
-			 , A.YY_NOS_CASH4  as yyNosCash4 /*4차현금*/
-			 , A.YY_NOS_DT4	   as yyNosDt4	 /*4차지급일자*/
-			 , ISNULL(B.RSST_EXP,0) as rsstExp    /*연구비(원)*/
-			 , round(ISNULL(B.RSST_EXP,0) / convert(float, 100000000), 2) as rsstExpConvertMil           /*연구비(억원)*/
-			 , (ISNULL(B.RSST_EXP,0) - ISNULL(A.TTL_CASH,0)) as remainCash     /*잔액*/
-		  FROM IRIS_TSS_OUSD_EXP_STOA A   /*대외협력과제비용지급*/
-		       INNER JOIN IRIS_TSS_OUSD_COO_SMRY B ON A.TSS_CD = B.TSS_CD
-		 WHERE A.TSS_CD = #{tssCd}
+		select wbs_cd as wbsCd
+	          ,isnull(sum(mm1) , 0) as mm1
+			  ,isnull(sum(mm2) , 0) as mm2
+			  ,isnull(sum(mm3) , 0) as mm3
+			  ,isnull(sum(mm4) , 0) as mm4
+			  ,isnull(sum(mm5) , 0) as mm5
+			  ,isnull(sum(mm6) , 0) as mm6
+			  ,isnull(sum(mm7) , 0) as mm7
+			  ,isnull(sum(mm8) , 0) as mm8
+			  ,isnull(sum(mm9) , 0) as mm9
+			  ,isnull(sum(mm10), 0) as mm10
+			  ,isnull(sum(mm11), 0) as mm11
+			  ,isnull(sum(mm12), 0) as mm12
+			  ,isnull(sum(mm1), 0) + isnull(sum(mm2), 0)+isnull(sum(mm3), 0)+isnull(sum(mm4), 0)+isnull(sum(mm5), 0)+isnull(sum(mm6), 0)
+			   +isnull(sum(mm7), 0)+isnull(sum(mm8), 0)+isnull(sum(mm9), 0)+isnull(sum(mm10), 0)+isnull(sum(mm11), 0)+isnull(sum(mm12), 0) as totSum
+		from  (					   
+				select  wbs_Cd
+						,case when right(a.yyyymm, 2) = '01' then sum(a.ARSL_EXP) end 'mm1'
+						,case when right(a.yyyymm, 2) = '02' then sum(a.ARSL_EXP) end 'mm2'
+						,case when right(a.yyyymm, 2) = '03' then sum(a.ARSL_EXP) end 'mm3'
+						,case when right(a.yyyymm, 2) = '04' then sum(a.ARSL_EXP) end 'mm4'
+						,case when right(a.yyyymm, 2) = '05' then sum(a.ARSL_EXP) end 'mm5'
+						,case when right(a.yyyymm, 2) = '06' then sum(a.ARSL_EXP) end 'mm6'
+						,case when right(a.yyyymm, 2) = '07' then sum(a.ARSL_EXP) end 'mm7'
+						,case when right(a.yyyymm, 2) = '08' then sum(a.ARSL_EXP) end 'mm8'
+						,case when right(a.yyyymm, 2) = '09' then sum(a.ARSL_EXP) end 'mm9'
+						,case when right(a.yyyymm, 2) = '10' then sum(a.ARSL_EXP) end 'mm10'
+						,case when right(a.yyyymm, 2) = '11' then sum(a.ARSL_EXP) end 'mm11'
+						,case when right(a.yyyymm, 2) = '12' then sum(a.ARSL_EXP) end 'mm12'
+				from  (
+						select RANK() OVER (PARTITION BY erp_cd, yyyymm, S_GROUP ORDER BY FRST_RGST_DT  DESC) AS OVER_STEP_RANK
+								 ,erp_cd as wbs_cd
+								 ,yyyymm
+								 ,S_GROUP
+								 ,convert(numeric(20,6), convert(numeric(20),KO_RSLT)/1000000)  as arsl_exp_1
+								 ,convert(numeric(20,6), convert(numeric(20),KO_RSLT))   as arsl_exp
+						from   IRIS_SAP_BUDG_S_COST
+						where  erp_cd in ( select wbs_cd
+										   from   IRIS_TSS_MGMT_MST
+										   where  tss_scn_cd ='O'
+										   and     pgs_step_cd ='PG'
+										   )	
+						  ) 	a	
+				where   a.OVER_STEP_RANK = 1
+				and     a.WBS_CD = #{wbsCd}   
     ]]>
+				<if test="searchYear != null and !searchYear.equals('')">
+				AND     left(a.yyyymm, 4) = #{searchYear}  
+				</if>
+				group by  a.wbs_cd, a.yyyymm
+	         ) aa
+		group by 	aa.wbs_cd								   
     </select>
 
+	<!--실적년도 조회  -->
+	<select id="retrieveYear"  resultType="hashmap" >
+		select distinct yyyy
+		from (
+				select left(yyyymm, 4) as yyyy
+				from   IRIS_SAP_BUDG_S_COST
+				where  erp_cd in ( select wbs_cd
+										   from   IRIS_TSS_MGMT_MST
+										   where  tss_scn_cd ='O'
+										   and     pgs_step_cd ='PG'
+										   )
+									  
+				and   erp_CD =#{wbsCd}
+				) a
+		order by yyyy
+	</select>
+	
     <!-- 대외협력과제 비용지급 저장 -->
     <insert id="insertOusdCooTssExpStoa">
     <![CDATA[

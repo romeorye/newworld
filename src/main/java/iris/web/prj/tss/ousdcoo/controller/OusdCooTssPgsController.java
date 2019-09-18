@@ -527,28 +527,10 @@ public class OusdCooTssPgsController  extends IrisBaseController {
 
         checkSession(input, session, model);
         if(pageMoveChkSession(input.get("_userId"))) {
-
-            //데이터 있을 경우
-            Map<String, Object> result = null;
-            Map<String, Object> smry = null;
-            if(!"".equals(input.get("tssCd"))) {
-                result = ousdCooTssService.retrieveOusdCooTssExpStoa(input);
-                smry = ousdCooTssService.retrieveOusdCooTssSmry(input);
-                if(smry != null) {
-                    input.put("rsstExp"           , NullUtil.nvl(smry.get("rsstExp"),"0"));
-                    input.put("rsstExpConvertMil" , NullUtil.nvl(smry.get("rsstExpConvertMil"),"0"));
-                }
-            }
-
-            List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-            list.add(result);
-
-            JSONObject obj = new JSONObject();
-            obj.put("records", list);
-
+            List<Map<String, Object>> purYy = ousdCooTssService.retrieveYear(input);
+            
             request.setAttribute("inputData", input);
-            request.setAttribute("resultCnt", result == null ? 0 : result.size());
-            request.setAttribute("result", obj);
+            request.setAttribute("purYy", purYy);
         }
         LOGGER.debug("###########################################################################################");
         LOGGER.debug("input = > " + input);
@@ -579,9 +561,9 @@ public class OusdCooTssPgsController  extends IrisBaseController {
         checkSessionRUI(input, session, model);
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
-        Map<String, Object> result = ousdCooTssService.retrieveOusdCooTssExpStoa(input);
-        Map<String, Object> smry = ousdCooTssService.retrieveOusdCooTssSmry(input);
-        if(smry != null) { input.put("rsstExp", NullUtil.nvl(smry.get("rsstExp"),"0")); }
+        List<Map<String, Object>> result = ousdCooTssService.retrieveOusdCooTssExpStoa(input);
+        //Map<String, Object> smry = ousdCooTssService.retrieveOusdCooTssSmry(input);
+        //if(smry != null) { input.put("rsstExp", NullUtil.nvl(smry.get("rsstExp"),"0")); }
         modelAndView.addObject("dataset", RuiConverter.createDataset("dataset", result));
 
         return modelAndView;

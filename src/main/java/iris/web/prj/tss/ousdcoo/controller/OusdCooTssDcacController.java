@@ -334,8 +334,7 @@ public class OusdCooTssDcacController  extends IrisBaseController {
 
             inputInfo = new HashMap<String, String>();
             inputInfo.put("tssCd" , String.valueOf(resultMst.get("pgTssCd")));
-            Map<String, Object> resultExpStoa     = ousdCooTssService.retrieveOusdCooTssExpStoa(inputInfo);   //진행 비용정보
-
+            List<Map<String, Object>> resultExpStoa = ousdCooTssService.retrieveOusdCooTssExpStoa(inputInfo);   //진행 비용정보
             inputInfo = new HashMap<String, String>();
             inputInfo.put("attcFilId" , String.valueOf(resultSmry.get("dcacAttcFilId")));
             List<Map<String, Object>> resultAttc  = genTssDcacService.retrieveGenTssDcacAttc(inputInfo);      //중단 첨부파일정보
