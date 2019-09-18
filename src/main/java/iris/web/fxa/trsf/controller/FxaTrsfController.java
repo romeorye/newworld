@@ -120,14 +120,18 @@ public class FxaTrsfController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
-
+		
+		List<Map<String, Object>> trsfList = null;
 		String rtnMsg = "";
 		String rtnSt = "F";
-
+		String guid ="";
+		
 		try{
 			//LOGGER.debug("input===================================="+input);
 			//이관데이터 저장
-			fxaTrsfService.insertFxaTrsfInfo(input);
+			trsfList = RuiConverter.convertToDataSet(request, "dataSet");
+			guid = fxaTrsfService.insertFxaTrsfInfo(trsfList, input);
+
 			rtnSt = "S";
 			rtnMsg = "이관신청되었습니다.";
 		}catch(Exception e){
@@ -137,12 +141,38 @@ public class FxaTrsfController extends IrisBaseController {
 
 		rtnMeaasge.put("rtnMsg", rtnMsg);
 		rtnMeaasge.put("rtnSt", rtnSt);
-		rtnMeaasge.put("guId", input.get("fxaTrsfId"));
+		rtnMeaasge.put("guid", guid);
 		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
 
 		return  modelAndView;
 	}
 
 
+	/**
+	 *  자산이관 팝업목록 조회
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/fxa/trsf/retrieveFxaTrsfPopList.do")
+	public ModelAndView retrieveFxaTrsfPopList(@RequestParam HashMap<String, Object> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			){
 
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		input = StringUtil.toUtf8Input(input);
+
+		
+		List<Map<String, Object>> resultList = fxaTrsfService.retrieveFxaTrsfPopList(input);
+		modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", resultList));
+		
+		return  modelAndView;
+	}
+	
 }

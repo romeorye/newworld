@@ -38,7 +38,7 @@ var imgHeight;
 
 	Rui.onReady(function() {
 
-		var butRgst = new Rui.ui.LButton('butRgst');
+		//var butRgst = new Rui.ui.LButton('butRgst');
 		var butMail = new Rui.ui.LButton('butMail');
 		var butExcl = new Rui.ui.LButton('butExcl');
 
@@ -50,17 +50,20 @@ var imgHeight;
 			adminChk = "Y";
 		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T04') > -1) {
 			adminChk = "Y";
+			adminChk = "Y";
 		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
 			btnRole = "N";
 		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
 			btnRole = "N";
+		}else if("<c:out value='${inputData._userSabun}'/>" == "00206465") {
+			adminChk = "Y";
 		}
 
 		if( adminChk == "Y"){
-			butRgst.show();
+			//butRgst.show();
 			butMail.show();
 		}else{
-			butRgst.hide();
+			//butRgst.hide();
 			butMail.hide();
 		}
 
@@ -223,7 +226,7 @@ var imgHeight;
 	        id: 'fxaTrsfDialog',
 	        title: '자산이관',
 	        width:  900,
-	        height: 500,
+	        height: 570,
 	        modal: true,
 	        visible: false
 	    });
@@ -284,18 +287,7 @@ var imgHeight;
 			width: 100,
 			dateType: 'string'
 		});
-/*
-		fromDate.on('blur', function(){
-			if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(fromDate.getValue(),"-","")) ) )  {
-				alert('날자형식이 올바르지 않습니다.!!');
-				fromDate.setValue(new Date());
-			}
-			if( fromDate.getValue() > toDate.getValue() ) {
-				alert('시작일이 종료일보다 클 수 없습니다.!!');
-				fromDate.setValue(toDate.getValue());
-			}
-		});
- */
+
 	 	//자산이관 종료일
 		var toDate = new Rui.ui.form.LDateBox({
 			applyTo: 'toDate',
@@ -305,18 +297,7 @@ var imgHeight;
 			width: 100,
 			dateType: 'string'
 		});
-/*
-		toDate.on('blur', function(){
-			if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toDate.getValue(),"-","")) ) )  {
-				alert('날자형식이 올바르지 않습니다.!!');
-				toDate.setValue(new Date());
-			}
-			if( fromDate.getValue() > toDate.getValue() ) {
-				alert('시작일이 종료일보다 클 수 없습니다.!!');
-				toDate.setValue(toDate.getValue());
-			}
-		});
- */
+
         fnSearch = function() {
 	    	dataSet.load({
 	            url: '<c:url value="/fxa/anl/retrieveFxaAnlSearchList.do"/>' ,
@@ -337,10 +318,10 @@ var imgHeight;
 
 
 	    /* [버튼] : 자산신규 페이지로 이동 */
-		butRgst.on('click', function(){
+		/* butRgst.on('click', function(){
 			document.aform.action='<c:url value="/fxa/anl/retrieveFxaAnlUpdate.do"/>';
 			document.aform.submit();
-		});
+		}); */
 
 		var chkUserId="";
 		var chkNm="";
@@ -404,16 +385,6 @@ var imgHeight;
 		var butTrsf = new Rui.ui.LButton('butTrsf');
 		butTrsf.on('click', function(){
 			if(dataSet.getCount() > 0 ) {
-				//체크박스 체크 유무 (1건만))
-				if(dataSet.getMarkedCount() == 0 ){
-					Rui.alert("이관할 자산을 체크해주십시오");
-					return;
-				}
-				if(dataSet.getMarkedCount() > 1 ){
-					Rui.alert("자산이관은 1개씩만 가능합니다.");
-					return;
-				}
-
 			    var chkRow;
 				//체크된 자산의 상태 체크
 				for(var i = 0; i < dataSet.getCount(); i++){
@@ -433,6 +404,7 @@ var imgHeight;
 					}
 			  	}
 
+				var fxaNoList = [];
 				//관리자가 아닐경우 자기 부서 자산만 이관 가능
 				if( adminChk == "Y" ){
 
@@ -448,15 +420,15 @@ var imgHeight;
 						return;
 					}
 				}
-
-				var params = "?fxaNm="+escape(encodeURIComponent(dataSet.getNameValue(chkRow, "fxaNm")))
-						    +"&fxaNo="+dataSet.getNameValue(chkRow, "fxaNo")
-						    +"&deptCd="+dataSet.getNameValue(chkRow, "deptCd")
-						    +"&crgrId="+dataSet.getNameValue(chkRow, "crgrId")
-						    +"&wbsCd="+dataSet.getNameValue(chkRow, "wbsCd")
-						    +"&prjNm="+escape(encodeURIComponent(dataSet.getNameValue(chkRow, "prjNm")))
-						    +"&crgrNm="+escape(encodeURIComponent(dataSet.getNameValue(chkRow, "crgrNm")))
-						    +"&fxaInfoId="+dataSet.getNameValue(chkRow, "fxaInfoId")
+				
+				for( var i = 0 ; i < dataSet.getCount() ; i++ ){
+   			    	if(dataSet.isMarked(i)){
+   			    		fxaNoList.push(dataSet.getNameValue(i, 'fxaInfoId'));
+   			    	}
+   				}
+   				var fxaNos = fxaNoList.join(',');
+				
+   				var params = "?fxaNos="+fxaNos;
 						     ;
 				fxaTrsfDialog.setUrl('<c:url value="/fxa/anl/retrieveFxaTrsfPop.do"/>'+params);
 				fxaTrsfDialog.show(true);
@@ -473,7 +445,7 @@ var imgHeight;
         	if(dataSet.getCount() > 0 ) {
 	            var excelColumnModel = columnModel.createExcelColumnModel(false);
                 duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('분석기기_') + new Date().format('%Y%m%d') + '.xls', {
+nG.saveExcel(encodeURIComponent('자산정보_') + new Date().format('%Y%m%d') + '.xls', {
 	                columnModel: excelColumnModel
 	            });
         	}else{
@@ -652,9 +624,11 @@ function imgResize(img){
     				<div class="titArea">
     					<span class=table_summay_number id="cnt_text"></span>
 						<div class="LblockButton">
-    						<button type="button" id="butRgst" name="butRgst" >자산신규</button>
+    						<!-- <button type="button" id="butRgst" name="butRgst" >자산신규</button> -->
     						<button type="button" id="butMail" name="butMail" >메일</button>
     						<button type="button" id="butTrsf" name="butTrsf" >자산이관</button>
+    						<button type="button" id="butDsu" name="butDsu" >자산폐기</button>
+    						<button type="button" id="butOscp" name="butOscp" >사외자산</button>
     						<button type="button" id="butExcl" name="butExcl">EXCEL</button>
     					</div>
     				</div>

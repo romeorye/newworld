@@ -15,9 +15,16 @@ public interface FxaTrsfService {
 
 	/**
 	 * 자산관리 > 이관 정보 저장
-	 * @param input
+	 * @param trsfList
 	 * */
-	void insertFxaTrsfInfo(HashMap<String, Object> input) throws Exception;
+	String insertFxaTrsfInfo(List<Map<String, Object>> trsfList, HashMap<String, Object> input) throws Exception;
+
+	/**
+	 * 자산관리 > 자산이관 목록 조회
+	 * @param input
+	 * @return
+	 */
+	List<Map<String, Object>> retrieveFxaTrsfPopList(HashMap<String, Object> input);
 	 
 
 	/**
