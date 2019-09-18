@@ -672,92 +672,132 @@
     <![CDATA[
         /* stat.prj.retrieveOusdTssStatList 대외협력과제 년도별 통계 */
 		WITH TSS_LIST AS (
-		    SELECT Y.PK_WBS_CD    AS PK_WBS_CD
-		         , Y.PGS_STEP_CD  AS PGS_STEP_CD
-		         , Y.TSS_CD       AS TSS_CD
-		         , Z.TSS_CD       AS PG_TSS_CD
-		     FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK, PGS_STEP_CD
-		                 , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
-		             FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' OR PGS_STEP_CD = 'DC' THEN 1
-		                             WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
-		                             WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102') THEN 3
-		                             WHEN PGS_STEP_CD = 'AL' THEN 4
-		                             WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 5
-		                             WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
-		                         , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
-		                     FROM IRIS_TSS_MGMT_MST) X) Y
-		         , IRIS_TSS_MGMT_MST Z
-		     WHERE Y.PK_WBS_CD = Z.PK_WBS_CD
-		       AND Y.OVER_STEP_RANK = 1
-		       AND Z.PGS_STEP_CD = 'PG'
-		       AND Z.TSS_SCN_CD = 'O'
+		    select   a.PRJ_CD
+					,a.TSS_CD
+					,left(a.tss_cd,9)+'2' as pgTss_cd
+					,a.TSS_NM
+					,a.WBS_CD
+					,a.PK_WBS_CD
+					,a.PGS_STEP_CD
+					,a.BIZ_DPT_CD
+					,a.TSS_ATTR_CD
+					,a.PROD_G
+					,a.PPSL_MBD_CD
+					,a.RSST_SPHE
+					,a.TSS_TYPE
+					,a.TSS_ST
+					,a.COO_INST_CD
+					,a.dept_code
+                   ,A.DEPT_NAME
+					,a.sa_sabun_new
+					,a.sa_sabun_name
+					,a.dept_name as asDeptName
+					,substring(a.PRJ_NM, CHARINDEX ('.', a.PRJ_NM) +1, len(a.PRJ_NM))  as asPrjNm
+					,a.TSS_STRT_DD
+					,a.TSS_FNH_DD
+					,a.CMPL_B_STRT_DD
+					,a.CMPL_B_FNH_DD
+					,a.DCAC_B_STRT_DD
+					,a.DCAC_B_FNH_DD
+			from   IRIS_TSS_MGMT_MST a
+			where  a.DEL_YN ='N'
+			and    a.TSS_SCN_CD ='O'
+			and    a.prj_cd <> 'PRJ00004'
+			and    a.tss_cd in (SELECT TSS_CD
+								FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
+											, RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
+										FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' OR PGS_STEP_CD = 'DC' THEN 1
+														WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
+														WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102') THEN 3
+														WHEN PGS_STEP_CD = 'AL' THEN 4
+														WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 5
+														WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
+													, TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
+												FROM IRIS_TSS_MGMT_MST
+												where tss_scn_cd ='O' ) X) Y
+										WHERE OVER_STEP_RANK = 1
+										)
+			and   a.PGS_STEP_CD <> 'PL'
 		)
-		SELECT AA.BIZ_DPT_CD   as bizDptCd   /*과제유형코드*/
-		     , AA.BIZ_DPT_NM   as bizBptNm   /*과제유형명*/
-		     , AA.DEPT_CODE    as deptCode   /*조직코드*/
-			 , AA.DEPT_NAME    as deptName   /*조직명*/
-			 , AA.PRJ_CD       as prjCd      /*프로젝트코드*/
-			 , AA.PRJ_NM       as prjNm      /*프로젝트명*/
-			 , AA.CNTT_TYPE_CD as cnttTypeCd /*계약유형코드*/
-			 , AA.CNTT_TYPE_NM as cnttTypeNm /*계약유형명*/
-			 , AA.TSS_CD       as tssCd      /*과제코드*/
-			 , AA.TSS_NM       as tssNm      /*과제명*/
-			 , AA.COO_INST_CD  as cooInstCd  /*협력기관코드*/
-			 , AA.COO_INST_NM  as cooInstNm  /*협력기관명*/
-			 , AA.SPLT_NM      as spltNm     /*협력기관연구책임자*/
-			 , AA.TSS_STRT_DD  as tssStrtDd  /*과제시작일자*/
-			 , AA.TSS_FNH_DD   as tssFnhDd   /*과제종료일자*/
-			 , SUBSTRING(CONVERT(CHAR(8), CONVERT(DATETIME, AA.TSS_STRT_DD), 2),1,5) as strTssStrtDd /*화면표시용 과제시작일자*/
-			 , SUBSTRING(CONVERT(CHAR(8), CONVERT(DATETIME, AA.TSS_FNH_DD), 2),1,5)  as strTssFnhDd  /*화면표시용 과제종료일자*/
-			 --, ROUND(CONVERT(float,DATEDIFF (day, CONVERT(DATETIME, AA.TSS_STRT_DD) , CONVERT(DATETIME, AA.TSS_FNH_DD) )) / 31,2,1) as tssDiffMon /*과제소요월수(31일단위로 나눠서 소수점2자리표시)*/
-			 , (CASE WHEN CONVERT(DATETIME, AA.TSS_FNH_DD) > CONVERT(DATETIME, AA.TSS_STRT_DD)
-				     THEN ROUND(CONVERT(float,DATEDIFF (MONTH, CONVERT(DATETIME, AA.TSS_STRT_DD) , CONVERT(DATETIME, AA.TSS_FNH_DD) )),1,1)  + 1
-				ELSE 0 END)  as tssDiffMon /*과제소요월수(월단위로 일자 채워서 계산)*/
-			 , AA.WBS_CD       as wbsCd      /*(과제)WBS코드*/
-			 , AA.RSST_EXP     as rsstExp    /*연구비(원)*/
-			 , AA.RSST_EXP_MIL as rsstExpMil /*연구비(억원)*/
-			 , AA.SA_SABUN_NEW as saSabunNew /*과제리더사번*/
-			 , AA.SA_NAME      as saName     /*과제리더명*/
-          FROM (
-				SELECT B.BIZ_DPT_CD    /*과제유형코드*/
-					 , (SELECT TOP 1 X.COM_DTL_NM FROM IRIS_ADM_COM_CD X WHERE X.COM_CD_CD = 'BIZ_DPT_CD' AND X.COM_DTL_CD = B.BIZ_DPT_CD) AS BIZ_DPT_NM /*과제유형명*/
-					 , B.DEPT_CODE     /*조직코드*/
-					 , CASE WHEN B.DEPT_NAME IS NULL OR B.DEPT_NAME ='' THEN dbo.fn_getDeptName(E.DEPT_UPER)
-							WHEN B.DEPT_NAME IS NOT NULL OR B.DEPT_NAME !='' THEN B.DEPT_NAME END           		AS DEPT_NAME     --조직명
-					 , B.PRJ_CD        /*프로젝트코드*/
-					 , CASE WHEN B.PRJ_NM IS NULL OR B.PRJ_NM=''  THEN RIGHT(dbo.fn_getPrjName(B.PRJ_CD),LEN(dbo.fn_getPrjName(B.PRJ_CD))-CHARINDEX('.',dbo.fn_getPrjName(B.PRJ_CD) ))
-							WHEN B.PRJ_NM IS NOT NULL OR B.PRJ_NM !='' THEN RIGHT(B.PRJ_NM,LEN(B.PRJ_NM)-CHARINDEX('.',B.PRJ_NM ))  END							AS PRJ_NM        --소속명(프로젝트명)
-					 , C.CNTT_TYPE_CD /*계약유형코드*/
-					 , (SELECT TOP 1 X.COM_DTL_NM FROM IRIS_ADM_COM_CD X WHERE X.COM_CD_CD = 'CNTT_TYPE_CD' AND X.COM_DTL_CD = C.CNTT_TYPE_CD) AS CNTT_TYPE_NM /*계약유형명*/
-					 , B.TSS_CD
-					 , B.TSS_NM
-					 , B.COO_INST_CD   /*협력기관코드*/
-					 , (SELECT TOP 1 X.INST_NM FROM IRIS_KNLD_OSCP_SPLT X WHERE X.DEL_YN = 'N' AND X.OSCP_SPLT_ID = B.COO_INST_CD ) AS COO_INST_NM /*협력기관명*/
-					 , (SELECT TOP 1 X.SPLT_NM FROM IRIS_KNLD_OSCP_SPLT X WHERE X.DEL_YN = 'N' AND X.OSCP_SPLT_ID = B.COO_INST_CD ) AS SPLT_NM /*협력기관연구책임자*/
-					 , (CASE WHEN A.PGS_STEP_CD = 'CM' THEN B.CMPL_B_STRT_DD WHEN A.PGS_STEP_CD = 'DC' THEN B.DCAC_B_STRT_DD ELSE B.TSS_STRT_DD END) AS TSS_STRT_DD /*과제시작일자*/
-					 , (CASE WHEN A.PGS_STEP_CD = 'CM' THEN B.CMPL_B_FNH_DD  WHEN A.PGS_STEP_CD = 'DC' THEN B.DCAC_B_FNH_DD  ELSE B.TSS_FNH_DD END)  AS TSS_FNH_DD  /*과제종료일자*/
-					 , B.WBS_CD /*WBS코드*/
-					 , C.RSST_EXP /*연구비(원)*/
-					 , (ISNULL(C.RSST_EXP,0) / 100000000) AS RSST_EXP_MIL /*연구비(억원)*/
-					 , B.SA_SABUN_NEW /*과제리더사번*/
-					 , ISNULL((SELECT TOP 1 X.SA_NAME FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = B.SA_SABUN_NEW AND X.SSO_EX_FLAG != 'D' AND X.SA_USER IS NOT NULL AND X.SA_USER != '' ),B.SA_SABUN_NAME) AS SA_NAME /*과제리더명*/
-				  FROM TSS_LIST A
-				 INNER JOIN IRIS_TSS_MGMT_MST B
-					ON A.TSS_CD = B.TSS_CD
-				 LEFT OUTER JOIN IRIS_PRJ_RSST_MST E
-					ON B.PRJ_CD = E.PRJ_CD
-				 INNER JOIN IRIS_TSS_OUSD_COO_SMRY C
-					ON A.TSS_CD = C.TSS_CD
-				 WHERE #{searchYyyy} BETWEEN  LEFT(B.TSS_STRT_DD, 4) AND  LEFT(B.TSS_FNH_DD, 4)
-				   AND B.DEL_YN = 'N'
-			) AA
-
-		 WHERE   1=1
+		, outArsl as (
+			select wbs_cd 
+			          ,isnull(sum(mm1), 0) + isnull(sum(mm2), 0)+isnull(sum(mm3), 0)+isnull(sum(mm4), 0)+isnull(sum(mm5), 0)+isnull(sum(mm6), 0)
+					   +isnull(sum(mm7), 0)+isnull(sum(mm8), 0)+isnull(sum(mm9), 0)+isnull(sum(mm10), 0)+isnull(sum(mm11), 0)+isnull(sum(mm12), 0) as totSum
+				from  (					   
+						select  wbs_Cd
+								,case when right(a.yyyymm, 2) = '01' then sum(a.ARSL_EXP) end 'mm1'
+								,case when right(a.yyyymm, 2) = '02' then sum(a.ARSL_EXP) end 'mm2'
+								,case when right(a.yyyymm, 2) = '03' then sum(a.ARSL_EXP) end 'mm3'
+								,case when right(a.yyyymm, 2) = '04' then sum(a.ARSL_EXP) end 'mm4'
+								,case when right(a.yyyymm, 2) = '05' then sum(a.ARSL_EXP) end 'mm5'
+								,case when right(a.yyyymm, 2) = '06' then sum(a.ARSL_EXP) end 'mm6'
+								,case when right(a.yyyymm, 2) = '07' then sum(a.ARSL_EXP) end 'mm7'
+								,case when right(a.yyyymm, 2) = '08' then sum(a.ARSL_EXP) end 'mm8'
+								,case when right(a.yyyymm, 2) = '09' then sum(a.ARSL_EXP) end 'mm9'
+								,case when right(a.yyyymm, 2) = '10' then sum(a.ARSL_EXP) end 'mm10'
+								,case when right(a.yyyymm, 2) = '11' then sum(a.ARSL_EXP) end 'mm11'
+								,case when right(a.yyyymm, 2) = '12' then sum(a.ARSL_EXP) end 'mm12'
+						from  (
+								select RANK() OVER (PARTITION BY erp_cd, yyyymm, S_GROUP ORDER BY FRST_RGST_DT  DESC) AS OVER_STEP_RANK
+										 ,erp_cd as wbs_cd
+										 ,yyyymm
+										 ,S_GROUP
+										-- ,convert(numeric(20,6), convert(numeric(20),KO_RSLT)/1000000)  as arsl_exp
+										 ,convert(numeric(20,6), convert(numeric(20),KO_RSLT))   as arsl_exp
+								from   IRIS_SAP_BUDG_S_COST
+								where  erp_cd in ( select wbs_cd
+												   from   IRIS_TSS_MGMT_MST
+												   where  tss_scn_cd ='O'
+												   and     pgs_step_cd ='PG'
+												   )	
+								  ) 	a	
+						where   a.OVER_STEP_RANK = 1
+						AND     left(a.yyyymm, 4) =  #{searchYyyy}
+						group by  a.wbs_cd, a.yyyymm
+			         ) aa
+				group by 	aa.wbs_cd			
+			)
+			
+			select m.*
+			from  (
+					  select a.wbs_cd as wbsCd
+							   , CASE WHEN A.DEPT_NAME IS NULL OR A.DEPT_NAME ='' THEN dbo.fn_getDeptName(b.DEPT_UPER)
+											WHEN a.DEPT_NAME IS NOT NULL OR a.DEPT_NAME !='' THEN a.DEPT_NAME END  AS deptName     --조직명
+							   , CASE WHEN B.PRJ_NM IS NULL OR B.PRJ_NM=''  THEN RIGHT(dbo.fn_getPrjName(B.PRJ_CD),LEN(dbo.fn_getPrjName(B.PRJ_CD))-CHARINDEX('.',dbo.fn_getPrjName(B.PRJ_CD) ))
+							      WHEN B.PRJ_NM IS NOT NULL OR B.PRJ_NM !='' THEN RIGHT(B.PRJ_NM,LEN(B.PRJ_NM)-CHARINDEX('.',B.PRJ_NM ))  END as prjNm
+							   , (SELECT TOP 1 X.COM_DTL_NM FROM IRIS_ADM_COM_CD X WHERE X.COM_CD_CD = 'BIZ_DPT_CD' AND X.COM_DTL_CD = a.BIZ_DPT_CD) AS bizDptNm /*과제유형명*/
+							   , (SELECT TOP 1 X.COM_DTL_NM FROM IRIS_ADM_COM_CD X WHERE X.COM_CD_CD = 'CNTT_TYPE_CD' AND X.COM_DTL_CD = C.CNTT_TYPE_CD) AS cnttTypeNm /*계약유형명*/
+							   ,a.tss_nm as tssNm		 
+							   , (SELECT TOP 1 X.INST_NM FROM IRIS_KNLD_OSCP_SPLT X WHERE X.DEL_YN = 'N' AND X.OSCP_SPLT_ID = a.COO_INST_CD ) AS cooInstNm /*협력기관명*/
+							   , (SELECT TOP 1 X.SPLT_NM FROM IRIS_KNLD_OSCP_SPLT X WHERE X.DEL_YN = 'N' AND X.OSCP_SPLT_ID = a.COO_INST_CD ) AS spltNm /*협력기관연구책임자*/
+							   ,a.TSS_STRT_DD as tssStrtDd
+								,a.TSS_FNH_DD as tssFnhDd
+								,dbo.fn_getComDtlNm('PGS_STEP_CD', a.PGS_STEP_CD)  AS pgsStepNm
+								,CASE WHEN a.PGS_STEP_CD = 'DC' THEN a.DCAC_B_FNH_DD
+										  WHEN a.PGS_STEP_CD = 'CM' THEN a.CMPL_B_FNH_DD END   AS tssFnhDdArsl --과제종료일-실적
+								,CASE WHEN a.PGS_STEP_CD = 'DC' THEN DATEDIFF(MM, a.TSS_STRT_DD, a.DCAC_B_FNH_DD)+1
+										  WHEN a.PGS_STEP_CD = 'CM' THEN DATEDIFF(MM, a.TSS_STRT_DD, a.CMPL_B_FNH_DD)+1 END AS tssDiffMon  --소요기간-실적
+								, C.RSST_EXP  as rsstExpMil /*연구비(원)*/		
+								,d.totSum
+								, ISNULL((SELECT TOP 1 X.SA_NAME FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = a.SA_SABUN_NEW AND X.SSO_EX_FLAG != 'D' AND X.SA_USER IS NOT NULL AND X.SA_USER != '' ), a.SA_SABUN_NAME) AS saName /*과제리더명*/   				  
+					  from   TSS_LIST a
+								inner join IRIS_PRJ_RSST_MST b
+								on b.prj_cd = a.prj_cd
+								INNER JOIN IRIS_TSS_OUSD_COO_SMRY C
+									ON A.TSS_CD = C.TSS_CD
+								left outer  join outArsl d
+									on d.wbs_cd = a.wbs_cd
+					  where  1=1
+					  and   #{searchYyyy} BETWEEN LEFT(a.TSS_STRT_DD, 4) AND LEFT((case when   a.PGS_STEP_CD = 'CM' then a.CMPL_B_FNH_DD
+																							 when   a.PGS_STEP_CD = 'DC' then a.DCAC_B_FNH_DD 
+																							 else    a.TSS_FNH_DD end ) , 4)
+																					 
+							)  m					
     ]]>
 		 <if test="_roleId == 'WORK_IRI_T16' ">
-		 	AND   AA.DEPT_NAME LIKE '%'+#{_userDeptName}+'%'
+		 where   m.deptName LIKE '%'+#{_userDeptName}+'%'
 		 </if>
-		 ORDER BY AA.BIZ_DPT_NM, AA.DEPT_NAME, AA.PRJ_NM
+		 ORDER BY m.bizDptNm, m.deptName, m.prjNm
     </select>
 
 
