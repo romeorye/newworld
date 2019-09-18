@@ -127,18 +127,22 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 			} else if ("D".equals(input.get("tssScnCd"))) {//기술팀과제
 				updateTctmData(input);
 			}
-/*
+
 			if( !"D".equals(input.get("tssScnCd")) )  {
 				//변경시 과제리더 업데이트 처리
 	            String chgTssSabun = "";
 	            chgTssSabun = commonDao.select("batch.getChgTssSabunNew", input);
 
 	            if(!"".equals(chgTssSabun)){
+	            	//모두연구원 권한으로업데이트
+	            	commonDao.update("batch.updateTssPtcSabunNew", input);
+	            	
 	            	input.put("chgTssSabun", chgTssSabun);
+	            	commonDao.update("batch.updateTssPtcLeaderSabunNew", input);
 	            	commonDao.update("batch.updateTssMstSabunNew", input);
 	            }
 			}
-	*/		
+			
 		} else if ("CM".equals(input.get("pgsStepCd"))) {
 			/*******************완료*******************/
 			if ("G".equals(input.get("tssScnCd"))) { //일반과제
@@ -685,7 +689,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		commonDao.delete("batch.deleteGenTssPlnMstTssSt", input);
 	}
 
-
+/*
 	public void saveTssPimsInfo(Map<String, Object> input) {
 		String psTssCd = getRetrievePgTss(input.get("affrCd").toString());
 		input.put("pgTssCd", psTssCd);
@@ -706,7 +710,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 			}
 		}
 	}
-
+*/
 	// QAS 과제 등록
 	@Override
 	public void insertToQasTssQasIF(Map<String, Object> input) {
@@ -717,8 +721,12 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		if(tssInfo!=null && "00".equals(tssInfo.get("tssAttrCd"))){
 			tssInfo.put("userId", "Batch");
 
-			commonDaoQasU.insert("prj.tss.com.insertToQasTssQasIF",tssInfo);	//울산
-			commonDaoQasC.insert("prj.tss.com.insertToQasTssQasIF",tssInfo);	//청주
+			//공장 
+			if( input.get("fcCd").equals("U") ){
+				commonDaoQasU.insert("prj.tss.com.insertToQasTssQasIF",tssInfo);	//울산
+			}else{
+				commonDaoQasC.insert("prj.tss.com.insertToQasTssQasIF",tssInfo);	//청주
+			}
 		}
 	}
 }

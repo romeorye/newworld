@@ -14,7 +14,6 @@
 		     , mm.TSS_SCN_CD   as tssScnCd    --G : 일반 , O:대외 ,  N: 국책
 		     , mm.WBS_CD       as wbsCd
 		     , mm.PK_WBS_CD       as pkWbsCd
-		     , mm.TSS_NOS_ST   as tssNosSt  --국책과제  차수
 		     , (select FIN_YN from IRIS_TSS_NAT_PLCY_SMRY where tss_cd = mm.tss_cd) as finYn
 		     , mm.dept_code as deptCode
 		     , mm.TSS_NM       as tssNm
@@ -24,8 +23,8 @@
 			 , (select prj_nm from IRIS_PRJ_RSST_MST where prj_cd = mm.prj_cd) as  prjNm
 			 , mm.TSS_STRT_DD as tssStrtDd
 			 , mm.TSS_FNH_DD  as tssFnhDd
-		     , mm.TSS_SCN_CD   as tssScnCd
 		     , mm.GRS_YN as grsYn
+		     , mm.FC_CD as fcCd
 		  FROM IRIS_COM_ITG_RDCS ir
 		 INNER JOIN IRIS_TSS_MGMT_MST mm
 		    ON ir.AFFR_CD = mm.TSS_CD
@@ -383,17 +382,34 @@
    	 -- getChgTssSabunNew 과제 리더 사번 조회
    	 	select sa_sabun_new as chgTssSabun
 		from  IRIS_TSS_PTC_RSST_MBR
-		where  tss_cd = #{tssCd}
+		where  tss_cd = #{pgTssCd}
 		and    PTC_ROLE = '01'
 		and    (PTC_FNH_DT >= convert(nvarchar(10), getdate()) or PTC_FNH_DT is null or PTC_FNH_DT = '')
    	 </select>
 
+	<!-- 변경시 연구원권한으로 모두  업데이트 처리   -->
+    <update id="updateTssPtcSabunNew" >
+    -- updateTssMstSabunNew 변경시 과제리더 업데이트 처리
+	    update IRIS_TSS_PTC_RSST_MBR
+	    set    PTC_ROLE = '02'
+	    where  tss_cd = #{tssCd}
+    </update>
+    
+	<!-- 변경시 리더권한으로  업데이트 처리   -->
+    <update id="updateTssPtcLeaderSabunNew" >
+    -- updateTssMstSabunNew 변경시 과제리더 업데이트 처리
+	    update IRIS_TSS_PTC_RSST_MBR
+	    set    PTC_ROLE = '01'
+	    where  tss_cd = #{tssCd}
+	    and    sa_sabun_new = #{chgTssSabun} 
+    </update>
+    
 	<!-- 변경시 과제리더 업데이트 처리   -->
     <update id="updateTssMstSabunNew" >
     -- updateTssMstSabunNew 변경시 과제리더 업데이트 처리
 	    update IRIS_TSS_MGMT_MST
-	    set    sa_sabun_new = #{saSabunNew}
-	    where  tss_cd = #{pgTssCd}
+	    set    sa_sabun_new = #{chgTssSabun}
+	    where  tss_cd = #{tssCd}
     </update>
 
    	  <!-- 과제 신규생성시 지적재산권 등록 -->
