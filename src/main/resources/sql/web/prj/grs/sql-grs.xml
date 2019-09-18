@@ -805,6 +805,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	           SMR_GOAL_TXT,
 	           NPROD_SALS_PLN_Y,
 	           CTY_OT_PLN_M,
+	           FC_CD,
 	           FRST_RGST_DT,
 	           FRST_RGST_ID,
 	           LAST_MDFY_DT,
@@ -835,6 +836,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	           #{smrGoalTxt},
 	           cast(#{nprodSalsPlnY} as FLOAT),
 				#{ctyOtPlnM},
+				#{fcCd},
 				GETDATE(),
 				#{_userId},
 				GETDATE(),
@@ -861,6 +863,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 				SMR_GOAL_TXT = #{smrGoalTxt},
 				NPROD_SALS_PLN_Y = cast(#{nprodSalsPlnY} as FLOAT),
 				CTY_OT_PLN_M = #{ctyOtPlnM},
+				FC_CD = #{fcCd},
 	           LAST_MDFY_DT = GETDATE(),
 	           LAST_MDFY_ID = #{_userId}
     ;
@@ -899,8 +902,8 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             FRST_RGST_ID ,
             LAST_MDFY_DT ,
             LAST_MDFY_ID,
-            GRS_YN,
-            DEL_YN
+            GRS_YN
+            ,FC_CD 
         )
             SELECT #{tssCd} ,
                 g.WBS_CD ,
@@ -930,8 +933,8 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 g.FRST_RGST_ID ,
                 g.LAST_MDFY_DT ,
                 g.LAST_MDFY_ID,
-                g.GRS_YN,
-                #{delYn}
+                g.GRS_YN
+                ,g.FC_CD
             FROM IRIS_GRS_MGMT_MST g
             WHERE g.TSS_CD = #{fromTssCd}
     </insert>

@@ -143,7 +143,8 @@
                  { id: 'grsStNm'},
                  { id: 'frstRgstId'},
                  { id: 'dropYn'},
-                 { id: 'evResult'}
+                 { id: 'evResult'},
+                 { id: 'fcCd'}
               ]
          });
 
@@ -170,7 +171,9 @@
                      { field: 'isReq',        label: '관리',       align:'center',      width: 90  , renderer: function(val, p, record, row, i){
                          return ("<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='evTssPop(\""+row+"\")'/>")
                              +((record.data.isFirstGrs==1 && val==1)?"<input type='button' data='"+record.data.tssCd+"' value='수정' onclick='modifyTss(\""+row+"\")'/>":"<input type='button' data='"+record.data.tssCd+"' value='보기' onclick='modifyTss(\""+row+"\")'/>");
-                     } }
+                     } },
+                     { field: 'tssScnCd', hidden:true }
+                     ,{ field: 'fcCd', hidden:true }
              ]
          });
 
@@ -216,6 +219,7 @@
                 ,{ id: 'tssAttrCd'}
                 ,{ id: 'tssType'}
                 ,{ id: 'isEditable'}
+                ,{ id: 'fcCd'}
 
             ]
         });
@@ -244,6 +248,7 @@
                 ,{ id: 'custSqlt',            ctrlId: 'custSqlt',            value: 'value' }
                 ,{ id: 'tssAttrCd',            ctrlId: 'tssAttrCd',            value: 'value' }
                 ,{ id: 'tssType',            ctrlId: 'tssType',            value: 'value' }
+                ,{ id:  'fcCd',            ctrlId: 'fcCd',            value: 'value' }
 
             ]
         });
@@ -262,6 +267,7 @@
                 {id:'custSqlt', validExp:'고객특성:true'},
                 {id:'tssAttrCd', validExp:'과제속성:true'},
                 {id:'tssType', validExp:'신제품유형:true'}
+             ,   {id:'fcCd', validExp:'공장구분:true'}
             ]
         });
 
@@ -281,6 +287,8 @@
                 {id:'custSqlt', validExp:'고객특성:false'},
                 {id:'tssAttrCd', validExp:'과제속성:false'},
                 {id:'tssType', validExp:'신제품유형:false'}
+                //,{id:'fcCd', validExp:'공장구분:true'}
+                
             ]
         });
 
@@ -742,8 +750,15 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 		           guid = resultData.records[0].guid;
 
 		           if(resultData.records[0].rtnSt == 'Y') {
-		                var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00382&from=iris&guid='+guid;
-		                openWindow(url, 'grsApprPop', 800, 500, 'yes');
+		                	 var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00382&from=iris&guid='+guid;
+				             openWindow(url, 'grsApprPop', 800, 500, 'yes');
+		                //if( listDataSet.getNameValue(tssScnCd               ){
+		              <%-- 
+				             }else{  //기술팀 GRS 품의
+		                	 var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00393&from=iris&guid=='+guid;
+				            openWindow(url, 'grsApprPop', 800, 500, 'yes');
+		                }
+				       --%>       
 		           }
 		       });
 
@@ -989,6 +1004,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 
        setEditable("saSabunNm");
        setEditable("bizDptCd");
+       //setEditable("fcCd");
        setEditable("tssNm");
        setEditable("prodG");
        setEditable("tssStrtDd");
@@ -1042,7 +1058,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
     }
 
     function drEvTssPop(tssCd, tssCdSn, grsEvSn) {
-        if(tssCd=="null" || tssCdSn=="null")return;
+        if(tssCd=="null" || tssCdSn=="null") return;
         this.tssCd = tssCd;
         this.tssCdSn=tssCdSn;
 
@@ -1259,9 +1275,10 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 									<td><div id="bizDptCd" /></td>
 								</tr>
 								<tr>
-									<th align="right"><span style="color:red;">* </span>프로젝트명<br />(개발부서)
-									</th>
-									<td colspan="3"><input type="text" id="prjNm" /></td>
+									<th align="right"><span style="color:red;">* </span>프로젝트명<br />(개발부서)</th>
+									<td><input type="text" id="prjNm" /></td>
+									<th align="right"><span style="color:red;">* </span>공장구분</th>
+									<td><div id="fcCd" /></td>
 								</tr>
 								<tr>
 									<th align="right"><span style="color:red;">* </span>과제명</th>
@@ -1420,8 +1437,9 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 	/* 등록 */
 	nCombo('tssScnCd', 'TSS_SCN_CD') // 과제구분
 	nCombo('grsYn', 'COMM_YN') // GRS 수행여부
+	nCombo('fcCd', 'FC_CD') // 공장구분
 	nTextBox('tssNm', 620, '과제명을 입력해주세요'); // 과제명
-    nTextBox('prjNm', 620, ''); // 프로젝트명
+    nTextBox('prjNm', 200, ''); // 프로젝트명
     setReadonly("prjNm");
 	// popProject('prjNm', 'prjCd', 'deptCode', 'prjSearchDialog') // 프로젝트명
 	nCombo('bizDptCd', 'BIZ_DPT_CD') // 사업부
