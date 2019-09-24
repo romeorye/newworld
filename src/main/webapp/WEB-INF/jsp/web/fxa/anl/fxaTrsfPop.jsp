@@ -52,8 +52,8 @@ var prjSearchDialog; //프로젝트 코드 팝업 dialog
 	    prjSearchDialog = new Rui.ui.LFrameDialog({
 	        id: 'prjSearchDialog',
 	        title: '프로젝트 조회',
-	        width: 700,
-	        height: 350,
+	        width: 620,
+	        height: 460,
 	        modal: true,
 	        visible: false
 	    });
@@ -131,7 +131,7 @@ var prjSearchDialog; //프로젝트 코드 팝업 dialog
             columnModel: columnModel,
             dataSet: dataSet,
             width: 1200,
-            height: 300,
+            height: 430,
             autoWidth: true
         });
 

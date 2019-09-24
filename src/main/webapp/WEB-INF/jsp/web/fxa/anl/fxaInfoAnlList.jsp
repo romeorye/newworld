@@ -544,46 +544,6 @@ function imgResize(img){
 		    						<col style=""/>
 		    					</colgroup>
 		    					<tbody>
-		    					    <!-- <tr>
-		    							<th align="right">WBS 코드</th>
-			   							<td>
-			   								<span>
-												<input type="text" class="" id="wbsCd" >
-											</span>
-			   							</td>
-		    							<th align="right">프로젝트명</th>
-			    						<td>
-			    							<input type="text" class="" id="prjNm" >
-			    						</td>
-			    						<td></td>
-		    						</tr>
-		    					    <tr>
-		    							<th align="right">자산명</th>
-			   							<td>
-			   								<span>
-												<input type="text" class="" id="fxaNm" >
-											</span>
-			   							</td>
-		    							<th align="right">자산번호</th>
-			    						<td>
-			    							<input type="text" class="" id="fxaNo">
-			    						</td>
-			    						<td></td>
-		    						</tr>
-		    						<tr>
-		    							<th align="right">자산이관일</th>
-		    							<td>
-		    								<input type="text" id="fromDate" /><em class="gab"> ~ </em>	<input type="text" id="toDate" />
-		    							</td>
-		    							<th align="right">담당자</th>
-			    						<td>
-			    							<input type="text" class="" id="crgrNm" >
-			    						</td>
-			    						<td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-		    						</tr> -->
-
-
-		    						<tr>
 		    							<th align="right">WBS 코드</th>
 			   							<td>
 			   								<span>
