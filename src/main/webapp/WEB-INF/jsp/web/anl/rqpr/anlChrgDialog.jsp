@@ -139,8 +139,8 @@
 			<tr>
 				<td align="center">유기분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
-<!-- 					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>, -->
+					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>,
+					<a href="#" onClick="setAnlChrgInfo('jyhan', '한종윤')">한종윤</a>
 <!-- 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a> -->
 				</td>
 			</tr>

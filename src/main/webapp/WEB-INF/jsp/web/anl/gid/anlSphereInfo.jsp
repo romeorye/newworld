@@ -209,7 +209,7 @@
 				                        	<a href="javascript:getPersonInfo('00208220',' jihachoi')" class="person_link">최지하</a>
 				                        </td>
 				                        <td class="rightL" style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('qth6cTHuyhcxlcMVcYpYC84utJR9N1CW5WInRhuw9bk=','kimsb')" class="person_link">김샛별</a>
+				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
 				                        	<!-- <a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a> -->
 				                        </td>
 				                    </tr>
@@ -220,7 +220,8 @@
 				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
 				                        </td>
 				                        <td class="rightL" style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
+				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>,
+				                        	<a href="javascript:getPersonInfo('00208667','jyhan')" class="person_link">한종윤</a>
 				                        </td>
 				                    </tr>
 				                    <tr>
