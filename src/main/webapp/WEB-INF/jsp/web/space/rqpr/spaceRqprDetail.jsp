@@ -619,8 +619,8 @@
                 width: 200,
                 items: [
                    { value: 'rumor', text: '이진욱'}, // text는 생략 가능하며, 생략시 value값을 그대로 사용한다. 
-                   { value: 'jollypeas', text: '송수빈' },  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
-                   { value: 'shoonpark', text: '박상훈' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+                   { value: 'yujilee', text: '이유지' },  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+                   { value: 'nhahn', text: '안남혁' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
                 ]
             });	
 			
@@ -628,9 +628,9 @@
 				if(evCtgrCombo.getValue() == "01"){
 					userInfo.setValue('rumor');
 				}else if(evCtgrCombo.getValue() == "02"){
-					userInfo.setValue('jollypeas');
+					userInfo.setValue('yujilee');
 				}else if(evCtgrCombo.getValue() == "03" || evCtgrCombo.getValue() == "04"){
-					userInfo.setValue('shoonpark');
+					userInfo.setValue('nhahn');
 				}
 			});
 			
