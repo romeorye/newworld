@@ -32,7 +32,7 @@
 													  WHERE OVER_STEP_RANK = 1
 													  )
 							and    a.PGS_STEP_CD <> 'PL'
-							and    a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059')		
+							and    a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059', 'PRJ00090')		
 							) a
 				where 1=1
 				and   a.tss_cd in  (    select  a.tss_cd
@@ -116,7 +116,9 @@
 								,'PRJ00068'
 								,'PRJ00067'
 								,'PRJ00066'
-								,'PRJ00065')
+								,'PRJ00065'
+								,'PRJ00090'
+								)
 								) b
 						where 1=1
 						and    #{searchMonth} between left(b.PATC_STR_DT, 7) and left(b.PATC_END_DT, 7)
@@ -408,7 +410,7 @@
 												  )
 							)
 			and    PGS_STEP_CD <> 'PL'
-			and    prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059')
+			and    prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059','PRJ00090')
 			group by wbs_cd
 			)
 		,prj_main as (
@@ -464,7 +466,8 @@
 								,'PRJ00068'
 								,'PRJ00067'
 								,'PRJ00066'
-								,'PRJ00065')
+								,'PRJ00065'
+								,'PRJ00090')
 								and   wbs_cd <> 'R16TS0'
 								) a
 						where  1=1
