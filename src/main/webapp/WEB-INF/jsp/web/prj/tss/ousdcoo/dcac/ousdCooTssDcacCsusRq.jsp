@@ -68,7 +68,7 @@
                 
                 if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03" || gvAprdocState == "A04") {
 					// GRS없는 변경
-					var pUrl = "http://dv.lghausys.com:7001/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00339&from=iris&guid="+gvGuid;
+					var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00339&from=iris&guid="+gvGuid;
 					window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
                 }
             } else {
