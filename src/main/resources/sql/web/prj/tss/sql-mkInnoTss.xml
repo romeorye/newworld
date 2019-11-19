@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mkInno.tss">
+	
+	<insert id="saveMkInnoTssReg" >
+	-- saveMkInnoTssReg   신규과제등록  
+	<selectKey keyProperty="tssCd" resultType="String" order="BEFORE">
+        <![CDATA[
+            SELECT #{pkWbsCd} + REPLICATE('0', 4 - LEN(COUNT(X.TSS_CD)+1)) + CAST(COUNT(X.TSS_CD) + 1 AS NVARCHAR(4))
+              FROM IRIS_TSS_MGMT_MST X
+             WHERE X.PK_WBS_CD = #{pkWbsCd}
+        ]]>
+        </selectKey>
+    <![CDATA[
+        INSERT
+          INTO IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+             ( PRJ_CD            --프로젝트코드
+             , TSS_CD            --과제코드
+             , PGS_STEP_CD       --진행단계코드
+             , TSS_SCN_CD        --과제구분코드
+             , WBS_CD            --WBS코드
+             , PK_WBS_CD         --WBS코드
+             , DEPT_CODE         --조직코드(소속)
+             , BIZ_DPT_CD        --사업부문코드
+             , TSS_NM            --과제명
+             , SA_SABUN_NEW      --과제리더사번
+             , TSS_STRT_DD       --과제시작일
+             , TSS_FNH_DD        --과제종료일
+             , TSS_ST            --과제상태
+             , PROD_G
+             , FC_CD
+             , FRST_RGST_DT      --최초등록일시
+             , FRST_RGST_ID      --최초등록자
+             , LAST_MDFY_DT      --최종수정일시
+             , LAST_MDFY_ID      --최종수정자
+             )
+         values
+	        ( #{prjCd}   --프로젝트코드
+			, #{tssCd}   --과제코드
+			, #{pgsStepCd}   --진행단계코드
+			, #{tssScnCd}   --과제구분코드
+			, #{wbsCd}   --WBS코드
+			, #{pkWbsCd}   --WBS코드
+			, #{deptCode}   --조직코드(소속)
+			, #{bizDptCd}   --사업부문코드
+			, #{tssNm}   --과제명
+			, #{saSabunNew}   --과제리더사번
+			, #{tssStrtDd}   --과제시작일
+			, #{tssFnhDd}   --과제종료일
+			, #{tssSt}   --과제상태
+			, #{prodG}
+			, #{fcCd}
+			, getdate()   --최초등록일시
+			, #{userId}   --최초등록자
+			, getdate()  --최종수정일시
+			, #{userId}   --최종수정자
+		)
+	]]>
+	</insert>
+	
+	
+	<update id="saveMkInnoMst">
+	-- saveMkInnoMst   마스터 업데이트  
+		update iris_tss_mgmt_mst
+		set  prj_cd  		= #{prjCd}
+	        ,tss_nm  		= #{tssNm}
+			,sa_sabun_new 	= #{saSabunNew} 
+	       	,BIZ_DPT_CD 	= #{bizDptCd}
+			,TSS_STRT_DD 	= #{tssStrtDd}
+			,TSS_FNH_DD 	= #{tssFnhDd}
+			,PROD_G 		= #{prodGCd}
+		where  tss_cd 		= #{tssCd}
+	</update>
+	
+	<update id="saveMkInnoSmry">
+	-- saveMkInnoSmry   smry 업데이트  
+		merge IRIS_TSS_MK_INNO_SMRY a
+		using   (select #{tssCd}  as tss_cd ) b
+		on     a.tss_cd = b.tss_cd
+		 WHEN NOT MATCHED THEN
+		 	INSERT
+             ( 	 TSS_CD
+             	,DVLP_GOAL_TXT  	
+				,SBC_TCLG_TXT  		
+				,CNSU   					
+				,ORDN  						
+				,WHSN  						
+				,MSSP  						
+				,QUAN  						
+				,QT_TXT  					
+				,TSS_STAT_F  			
+				,TSS_STAT_S   		
+				,TSS_DFCR  				
+				,ANCP_SCL_TXT  		
+				,ISTL_PL_TXT   		
+				,RCM_COF_TXT  		
+				,TSS_TXT    			
+				,EMPS_REQ_TXT   	
+				,COO_REQ_TXT  		
+				,ATTC_FIL_ID  
+				,FRST_RGST_DT
+				,FRST_RGST_ID
+				,LAST_MDFY_DT
+				,LAST_MDFY_ID  	
+			 )
+        VALUES
+             (   #{tssCd}
+             	,#{dvlpGoalTxt}   
+				,#{sbcTclgTxt }   
+				,#{cnsu}	  
+				,#{ordn}	  
+				,#{whsn}	
+				,#{mssp}	  
+				,#{quan}   
+				,#{qtTxt} 	
+				,#{tssStatF} 	
+				,#{tssStatS}	  
+				,#{tssDfcr}	
+				,#{ancpSclTxt}   
+				,#{istlPlTxt}   
+				,#{rcmCofTxt}   
+				,#{tssTxt}   
+				,#{empsReqTxt}   
+				,#{cooReqTxt}   
+				,#{attcFilId}   
+			    ,GETDATE()
+	            ,#{userId}
+	            ,GETDATE()
+	            ,#{userId}
+	            )
+          WHEN MATCHED THEN
+        	UPDATE
+           	SET  DVLP_GOAL_TXT  = #{dvlpGoalTxt}   --개발목표
+				,SBC_TCLG_TXT   = #{sbcTclgTxt }   --주요기술
+				,CNSU   		= #{cnsu}	       --품의
+				,ORDN  			= #{ordn}	       --발주
+				,WHSN  			= #{whsn}	       --입고
+				,MSSP  			= #{mssp}	       --양산
+				,QUAN  			= #{quan}          --정량적
+				,QT_TXT  		= #{qtTxt} 	       --정성적
+				,TSS_STAT_F  	= #{tssStatF} 	   --과제성격1
+				,TSS_STAT_S   	= #{tssStatS}	   --과제성격2
+				,TSS_DFCR  		= #{tssDfcr}	   --과제난이도
+				,ANCP_SCL_TXT  	= #{ancpSclTxt}    --예상투자규모
+				,ISTL_PL_TXT   	= #{istlPlTxt}     --설치장소
+				,RCM_COF_TXT  	= #{rcmCofTxt}     --추천업체
+				,TSS_TXT    	= #{tssTxt}        --과제개요 및 Output Image
+				,EMPS_REQ_TXT   = #{empsReqTxt}    --중점요청사항
+				,COO_REQ_TXT  	= #{cooReqTxt}     --협력요청사항
+				,ATTC_FIL_ID    = #{attcFilId}     --첨부파일
+                ,LAST_MDFY_DT = GETDATE()
+                ,LAST_MDFY_ID = #{userId}
+             ;
+	</update>
+	
+	<!-- 참여연구원 저장 -->
+	<update id="saveMkInnoMbr">
+    <![CDATA[
+	-- saveMkInnoMbr 참여연구원 저장
+         MERGE IRIS_TSS_PTC_RSST_MBR A  /*과제참여연구원*/
+         USING (SELECT #{tssCd} AS TSS_CD, #{ptcRsstMbrSn} AS PTC_RSST_MBR_SN) B
+            ON A.TSS_CD          = B.TSS_CD
+           AND A.PTC_RSST_MBR_SN = B.PTC_RSST_MBR_SN
+          WHEN NOT MATCHED THEN
+        INSERT
+             ( TSS_CD          --과제코드
+             , PTC_RSST_MBR_SN --참여연구원일련번호
+             , SA_SABUN_NEW    --연구원사번
+             , DEPT_CODE       --소속
+             , PTC_STRT_DT     --참여시작일
+             , PTC_FNH_DT      --참여종료일
+             , PTC_ROLE        --참여역할
+             , PTC_ROLE_DTL    --참여역할상세
+             , PTC_PRO         --참여율
+             , FRST_RGST_DT    --최초등록일시
+             , FRST_RGST_ID    --최초등록자
+             , LAST_MDFY_DT    --최종수정일시
+             , LAST_MDFY_ID    --최종수정자
+             )
+        VALUES
+             ( #{tssCd}
+             , (SELECT ISNULL(MAX(X.PTC_RSST_MBR_SN), 0) + 1 FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.TSS_CD = #{tssCd})
+             , #{saSabunNew}
+             , #{deptCode}
+             , convert(nvarchar(10), convert(datetime, convert(nvarchar(8), #{ptcStrtDt} ), 23), 23) 
+             , convert(nvarchar(10), convert(datetime, convert(nvarchar(8), #{ptcFnhDt} ), 23), 23)  
+             , #{ptcRole}
+             , #{ptcRoleDtl}
+             , #{ptcPro}
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+          WHEN MATCHED THEN
+        UPDATE
+           SET A.SA_SABUN_NEW = #{saSabunNew}
+             , A.DEPT_CODE    = #{deptCode}
+             , A.PTC_STRT_DT  = convert(nvarchar(10), convert(datetime, convert(nvarchar(8), #{ptcStrtDt} ), 23), 23) 
+             , A.PTC_FNH_DT   = convert(nvarchar(10), convert(datetime, convert(nvarchar(8), #{ptcFnhDt} ), 23), 23)  
+             , A.PTC_ROLE     = #{ptcRole}
+             , A.PTC_ROLE_DTL = #{ptcRoleDtl}
+             , A.PTC_PRO      = #{ptcPro}
+             , A.LAST_MDFY_DT = GETDATE()
+             , A.LAST_MDFY_ID = #{userId}
+             ;
+    ]]>
+	</update>
+
+	<insert id="insertMkInnoTsslMst">
+		<selectKey keyProperty="tssCd" resultType="String" order="BEFORE">
+        <![CDATA[
+            SELECT #{pkWbsCd} + REPLICATE('0', 4 - LEN(COUNT(X.TSS_CD)+1)) + CAST(COUNT(X.TSS_CD) + 1 AS NVARCHAR(4))
+              FROM IRIS_TSS_MGMT_MST X
+             WHERE X.PK_WBS_CD = #{pkWbsCd}
+        ]]>
+        </selectKey>
+		<![CDATA[
+        INSERT
+          INTO IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+             ( PRJ_CD            --프로젝트코드
+             , TSS_CD            --과제코드
+             , PGS_STEP_CD       --진행단계코드
+             , TSS_SCN_CD        --과제구분코드
+             , WBS_CD            --WBS코드
+             , PK_WBS_CD         --WBS코드
+             , DEPT_CODE         --조직코드(소속)
+             , PPSL_MBD_CD       --발의주체코드
+             , BIZ_DPT_CD        --사업부문코드
+             , TSS_NM            --과제명
+             , SA_SABUN_NEW      --과제리더사번
+             , TSS_ATTR_CD       --과제속성코드
+             , TSS_STRT_DD       --과제시작일
+             , TSS_FNH_DD        --과제종료일
+             , ALTR_B_STRT_DD    --변경전시작일
+             , ALTR_B_FNH_DD     --변경전종료일
+             , ALTR_NX_STRT_DD   --변경후시작일
+             , ALTR_NX_FNH_DD    --변경후종료일
+             , CMPL_B_STRT_DD    --완료전시작일
+             , CMPL_B_FNH_DD     --완료전종료일
+             , CMPL_NX_STRT_DD   --완료후시작일
+             , CMPL_NX_FNH_DD    --완료후종료일
+             , DCAC_B_STRT_DD    --중단전시작일
+             , DCAC_B_FNH_DD     --중단전종료일
+             , DCAC_NX_STRT_DD   --중단후시작일
+             , DCAC_NX_FNH_DD    --중단후종료일
+             , COO_INST_CD       --협력기관코드
+             , SUPV_OPS_NM       --주관부서명
+             , EXRS_INST_NM      --전담기관명
+             , BIZ_NM            --사업명
+             , TSS_ST            --과제상태
+             , TSS_NOS_ST        --과제차수상태
+             , TSS_ST_TXT        --과제상태의견
+             , PROD_G
+             , RSST_SPHE
+             , TSS_TYPE
+             , SA_SABUN_NAME
+             , DEPT_NAME
+             , PRJ_NM
+             , CUST_SQLT
+             , TSS_SMRY_TXT
+             , FRST_RGST_DT      --최초등록일시
+             , FRST_RGST_ID      --최초등록자
+             , LAST_MDFY_DT      --최종수정일시
+             , LAST_MDFY_ID      --최종수정자
+             )
+        SELECT PRJ_CD
+             , #{tssCd}
+             , #{pgsStepCd}
+             , #{tssScnCd}
+             , WBS_CD
+             , PK_WBS_CD
+             , DEPT_CODE
+             , PPSL_MBD_CD
+             , BIZ_DPT_CD
+             , TSS_NM
+             , SA_SABUN_NEW
+             , TSS_ATTR_CD
+             , TSS_STRT_DD
+             , TSS_FNH_DD
+             , ALTR_B_STRT_DD
+             , ALTR_B_FNH_DD
+             , ALTR_NX_STRT_DD
+             , ALTR_NX_FNH_DD
+             , #{cmplBStrtDd}
+             , #{cmplBFnhDd}
+             , CMPL_NX_STRT_DD
+             , CMPL_NX_FNH_DD
+             , DCAC_B_STRT_DD
+             , DCAC_B_FNH_DD
+             , DCAC_NX_STRT_DD
+             , DCAC_NX_FNH_DD
+             , COO_INST_CD
+             , SUPV_OPS_NM
+             , EXRS_INST_NM
+             , BIZ_NM
+             , #{tssSt}
+             , #{tssNosSt}
+             , TSS_ST_TXT
+             , PROD_G
+             , RSST_SPHE
+             , TSS_TYPE
+             , SA_SABUN_NAME
+             , DEPT_NAME
+             , PRJ_NM
+             , CUST_SQLT
+             ,TSS_SMRY_TXT
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+          FROM IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+         WHERE TSS_CD = #{pgTssCd}
+    ]]>
+	</insert>
+	
+	<insert id="insertMkInnoTssSmry">
+	<![CDATA[
+	-- insertMkInnoTssSmry 개요 신규
+        INSERT
+          INTO IRIS_TSS_MK_INNO_SMRY  /*제조혁신과제개요*/
+             ( TSS_CD             --과제코드
+              ,DVLP_GOAL_TXT  	
+				,SBC_TCLG_TXT  		
+				,CNSU   					
+				,ORDN  						
+				,WHSN  						
+				,MSSP  						
+				,QUAN  						
+				,QT_TXT  					
+				,TSS_STAT_F  			
+				,TSS_STAT_S   		
+				,TSS_DFCR  				
+				,ANCP_SCL_TXT  		
+				,ISTL_PL_TXT   		
+				,RCM_COF_TXT  		
+				,TSS_TXT    			
+				,EMPS_REQ_TXT   	
+				,COO_REQ_TXT  		
+				,ATTC_FIL_ID  
+             , FRST_RGST_DT       --최초등록일시
+             , FRST_RGST_ID       --최초등록자
+             , LAST_MDFY_DT       --최종수정일시
+             , LAST_MDFY_ID       --최종수정자
+             )
+        SELECT 	#{tssCd}
+              	,DVLP_GOAL_TXT  	
+			  	,SBC_TCLG_TXT  		
+				,CNSU   					
+				,ORDN  						
+				,WHSN  						
+				,MSSP  						
+				,QUAN  						
+				,QT_TXT  					
+				,TSS_STAT_F  			
+				,TSS_STAT_S   		
+				,TSS_DFCR  				
+				,ANCP_SCL_TXT  		
+				,ISTL_PL_TXT   		
+				,RCM_COF_TXT  		
+				,TSS_TXT    			
+				,EMPS_REQ_TXT   	
+				,COO_REQ_TXT  		
+				,ATTC_FIL_ID   
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+          FROM IRIS_TSS_MK_INNO_SMRY
+         WHERE TSS_CD = #{pgTssCd}
+	
+	]]>
+	</insert>
+	
+	<insert id="insertMkInnoTssPtcRsstMbr">
+	<![CDATA[
+	  -- insertGenTssAltrPtcRsstMbr 참여연구원 신규
+        INSERT
+          INTO IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
+             ( TSS_CD             --과제코드
+             , PTC_RSST_MBR_SN    --참여연구원일련번호
+             , SA_SABUN_NEW       --연구원사번
+             , DEPT_CODE          --소속
+             , PTC_STRT_DT        --참여시작일
+             , PTC_FNH_DT         --참여종료일
+             , PTC_ROLE           --참여역할
+             , PTC_ROLE_DTL       --참여역할상세
+             , PTC_PRO            --참여율
+             , FRST_RGST_DT       --최초등록일시
+             , FRST_RGST_ID       --최초등록자
+             , LAST_MDFY_DT       --최종수정일시
+             , LAST_MDFY_ID       --최종수정자
+             )
+        SELECT #{tssCd}
+             , PTC_RSST_MBR_SN
+             , SA_SABUN_NEW
+             , DEPT_CODE
+             , PTC_STRT_DT
+             , PTC_FNH_DT
+             , PTC_ROLE
+             , PTC_ROLE_DTL
+             , PTC_PRO
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+          FROM IRIS_TSS_PTC_RSST_MBR
+         WHERE TSS_CD = #{pgTssCd}
+	
+	]]>
+	</insert>
+
+	<update id="updateMstTssSt" >
+		update iris_tss_mgmt_mst 
+		set    tss_st ='104'
+		where  tss_cd = #{pgTssCd}
+	</update>
+	
+	
+	<insert id="updateCmplAttcFilId">
+	<![CDATA[
+	update IRIS_TSS_MK_INNO_SMRY
+	set    CMPL_ATTC_FIL_ID = #{cmplAttcFilId}
+	where  tss_cd =#{tssCd} 
+	]]>
+	</insert>
+
+
+
+</mapper>
