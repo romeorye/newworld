@@ -107,6 +107,8 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				} else if ("D".equals(input.get("tssScnCd"))) {//기술팀과제
 					insertTctmData(input);
 					insertToQasTssQasIF(input); //QAS 과제등록
+				} else if("M".equals(input.get("tssScnCd"))) {
+					insertMkInnoData(input);
 				}
 			}
 		} else if ("AL".equals(input.get("pgsStepCd"))) {
@@ -177,7 +179,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
                 }
 			} else if ("D".equals(input.get("tssScnCd"))) {//기술팀과제
 				updateTctmNmData(input);
-			}
+			} 
 		} else if ("DC".equals(input.get("pgsStepCd"))) {
 			/*******************중단*******************/
 			if ("G".equals(input.get("tssScnCd"))) { //일반과제
@@ -309,6 +311,19 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		commonDao.insert("prj.tss.tctm.insertTctmTssAltrSmry", input);            //개요
 		commonDao.insert("prj.tss.gen.altr.insertGenTssAltrYld", input);        //산출물
 		commonDao.insert("prj.tss.com.updateTssMstWbsCd", input);            //WBS_CD Update
+	}
+	
+	/**
+	 * 제조혁신 과제 계획 -> 진행시 진행데이터생성
+	 *
+	 * @param input
+	 * @return
+	 */
+	private void insertMkInnoData(Map<String, Object> input) {
+		commonDao.insert("mkInno.tss.insertMkInnoTsslMst", input);    			//마스터
+		commonDao.insert("mkInno.tss.insertMkInnoTssSmry", input);            	//개요
+		commonDao.insert("mkInno.tss.insertMkInnoTssPtcRsstMbr", input);	//참여연구원
+		//commonDao.insert("mkInno.tss.insertMkInnoTssYld", input);        		//산출물
 	}
 
 
@@ -456,7 +471,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 
 	}
 
-
 	/**
 	 * 대외협력과제 완료시 사용자정보 Update
 	 *
@@ -464,14 +478,11 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	 * @return
 	 */
 	private void updateOusdNmData(Map<String, Object> input) {
-
 		//  1. 마스터
 		commonDao.update("prj.tss.com.updateMstUserNmDeptNm", input);
 		//  2. 멤버
 		commonDao.update("prj.tss.com.updateMbrUserNmDeptNm", input);
-
 	}
-
 
 	/**
 	 * 국책과제 완료시 사용자정보 Update
@@ -565,6 +576,8 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				} else if ("N".equals(tssScnCd)) {
 					if (wbsCdSeqS.charAt(0) >= 90) errYn = true; //90:Z
 				} else if ("D".equals(tssScnCd)) {
+					if (wbsCdSeqS.charAt(0) >= 78) errYn = true; //78:N
+				} else if ("M".equals(tssScnCd)) {
 					if (wbsCdSeqS.charAt(0) >= 78) errYn = true; //78:N
 				}
 
@@ -676,6 +689,32 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				} else {
 					wbsCdSeq = String.valueOf((char) (matchSeq + 1));
 				}
+			}else if ("M".equals(tssScnCd)) {
+				// 제조혁신 과제
+				if (matchSeq != 0) {
+					//1~9 사이 숫자 비교
+					for (int i = 1; i <= 9; i++) {
+						if (String.valueOf(i).equals(wbsCdSeqS)) {
+							matchSeq = i;
+							break;
+						}
+					}
+
+					//A~N 사이 문자 비교
+					for (int i = 65; i < 78; i++) {
+						if (wbsCdSeqS.charAt(0) == i) {
+							matchSeq = i;
+							break;
+						}
+					}
+				}
+				if (matchSeq < 9) {
+					wbsCdSeq = String.valueOf(matchSeq + 1);
+				} else if (matchSeq == 9) {
+					wbsCdSeq = "A";
+				} else {
+					wbsCdSeq = String.valueOf((char) (matchSeq + 1));
+				}
 			}
 
 			//WBS_CD 조합 후 생성
@@ -689,28 +728,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		commonDao.delete("batch.deleteGenTssPlnMstTssSt", input);
 	}
 
-/*
-	public void saveTssPimsInfo(Map<String, Object> input) {
-		String psTssCd = getRetrievePgTss(input.get("affrCd").toString());
-		input.put("pgTssCd", psTssCd);
-		//과제 지적재산권 등록 및 수정
-		commonDaoPims.update("batch.saveTssPimsInfo", input);
-		LOGGER.debug("###############saveTssPimsInfo############################################ : " + input);
-
-		//과제 인원 지적재산권 삭제
-		commonDaoPims.delete("batch.delPimsInfo", input);
-		//과제 인원 지적재산권 등록
-		List<HashMap<String, Object>> saveResult = commonDao.selectList("batch.selectTssMbrList", input);
-		LOGGER.debug("###############saveResult############################################ : " + saveResult.size());
-
-		if (saveResult.size() > 0) {
-			for (HashMap<String, Object> map : saveResult) {
-				LOGGER.debug("###############map############################################ : " + map);
-				commonDaoPims.insert("batch.insertTssPimsInfo", map);
-			}
-		}
-	}
-*/
 	// QAS 과제 등록
 	@Override
 	public void insertToQasTssQasIF(Map<String, Object> input) {
