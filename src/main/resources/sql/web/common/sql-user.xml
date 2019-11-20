@@ -18,6 +18,9 @@
 				   ,concat(sa_phone_area, '-', sa_phone_o) as saPhoneArea
 				   ,sa_hand								   as saHand
 				   ,sa_mail								   as saMail
+				   ,dbo.fn_getUpperDeptNm(sa_dept_new)  as uperDeptNm
+				   ,dbo.fn_getUpperDeptCd(sa_dept_new)  as uperDeptCd
+				   ,(select prj_cd from iris_prj_rsst_mst where dept_cd = sa_dept_new) as prjCd
 			from    IRIS_SSO_USER
 			where   1 = 1
 			and     sso_ex_flag !='D'
