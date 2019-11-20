@@ -29,6 +29,7 @@
 				,D.sa_mail 				as "sendMail"
 				,D.sa_user 				as "saUserId"
 				,C.TRSF_ST_CD 			as "trsfStCd"
+				,E.OSCP_ST_CD 			as "oscpStCd"
 				,CASE WHEN C.TRSF_ST_CD = 'REJ' AND C.DEL_YN = 'N' THEN 'Y'
 					ELSE 'N' END 		as "trsfYn"
 				,F.ATTC_FIL_ID 			as "attcFilId"
@@ -46,10 +47,13 @@
 				LEFT OUTER JOIN IRIS_FXA_TRSF_LIST C
 					ON  C.FXA_INFO_ID = A.FXA_INFO_ID
 					AND C.DEL_YN = 'N'
+				LEFT OUTER JOIN IRIS_FXA_OSCP_LIST E
+					ON  E.FXA_INFO_ID = A.FXA_INFO_ID
+					AND E.DEL_YN = 'N'
 				LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
 					ON  F.ATTC_FIL_ID = A.ATTC_FIL_ID
 					AND F.DEL_YN = 'N'
-		WHERE   A.FXA_ST_CD = 'USE'
+		WHERE   1=1
 		]]>
 
 		<if test="( wbsCd != null and wbsCd != '')">
