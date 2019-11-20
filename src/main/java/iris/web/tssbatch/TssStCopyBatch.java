@@ -1,18 +1,24 @@
 package iris.web.tssbatch;
 
-import iris.web.common.util.StringUtil;
-import iris.web.prj.tss.gen.service.GenTssPlnService;
-import iris.web.system.base.IrisBaseController;
-import iris.web.tssbatch.service.TssStCopyService;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import iris.web.common.util.StringUtil;
+import iris.web.prj.tss.gen.service.GenTssPlnService;
+import iris.web.system.base.IrisBaseController;
+import iris.web.tssbatch.service.TssStCopyService;
 
 
 /********************************************************************************
@@ -67,8 +73,7 @@ public class TssStCopyBatch extends IrisBaseController {
 
 			//2. 과제 상태 변경 -> 104
 			for (Map<String, Object> data : retrieveTssComItgRdcs) {
-				LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>>"+ "과재 품의 대상");
-				LOGGER.debug(data);
+				//LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>과재 품의 대상  : " + data);
 				String aprdocstate = String.valueOf(data.get("aprdocstate")); //결재상태코드 A01 : 결재요청, A02 : 최종승인완료 ,A03 : 반려, A04 : 취소
 
 				if (!StringUtil.isNullString(aprdocstate)) {
@@ -96,9 +101,18 @@ public class TssStCopyBatch extends IrisBaseController {
 							} else {
 								tssSt = "100"; //진행중
 							}
-						} else {
-							tssSt = "102"; // GRS평가완료
+						 }else{ 
+							 if( data.get("pgsStepCd").equals("PL") ){
+								 if ( data.get("tssScnCd").equals("M") ){
+									 tssSt = "102"; // GRS평가완료
+								 }else{
+									 tssSt = "302"; // GRS평가완료
+								 }
+							}else{
+								tssSt = "102"; // GRS평가완료
+							}
 						}
+						
 						input.put("tssSt", tssSt); //상태 코드
 
 						genTssPlnService.updateGenTssPlnMstTssSt(input); //tssSt update
