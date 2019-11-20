@@ -25,6 +25,8 @@ public class SsoUserInfoServiceImpl implements SsoUserInfoService{
 	@Override
 	public void insertUserInfoIf() throws Exception{
 		
+		commonDao.delete("common.ssoInfo.deleteSsoUserIf", "");
+		
 		// TODO Auto-generated method stub
 		ImServerPortTypeProxy imServerImpl = new ImServerPortTypeProxy();
 			

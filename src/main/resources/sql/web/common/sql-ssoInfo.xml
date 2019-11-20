@@ -3,6 +3,15 @@
 
 <mapper namespace="common.ssoInfo">
 
+
+	<delete id="deleteSsoUserIf">
+		delete iris_sso_user_if	
+	</delete>
+	
+	<delete id="deleteSsoDeptIf">
+		delete iris_sso_dept_if	
+	</delete>
+	
 	<!-- IF 사용자 테이블 조회 -->
 	<select id="getSsoUser" resultType="hashmap">
 		<![CDATA[

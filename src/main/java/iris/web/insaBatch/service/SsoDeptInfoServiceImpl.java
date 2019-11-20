@@ -26,6 +26,8 @@ public class SsoDeptInfoServiceImpl  implements SsoDeptInfoService{
 	
 	public void insertDeptInfoIf() throws Exception {
 		
+		commonDao.delete("common.ssoInfo.deleteSsoDeptIf", "");
+		
 		// TODO Auto-generated method stub
 		ImServerPortTypeProxy imServerImpl = new ImServerPortTypeProxy();
 				
