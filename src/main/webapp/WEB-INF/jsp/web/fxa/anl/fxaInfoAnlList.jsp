@@ -100,6 +100,7 @@ var imgHeight;
  				, { id: 'imgFilPath'}
  				, { id: 'attcFilCd'}
  				, { id: 'seq'}
+ 				, { id: 'oscpStCd'}
  				, { id: 'trsfYn'}
  			]
          });
@@ -233,6 +234,18 @@ var imgHeight;
 
      	fxaTrsfDialog.render(document.body);
 
+     	//사외자산대상 
+     	fxaOscpDialog = new Rui.ui.LFrameDialog({
+	        id: 'fxaOscpDialog',
+	        title: '사외자산대상',
+	        width:  900,
+	        height: 570,
+	        modal: true,
+	        visible: false
+	    });
+
+     	fxaOscpDialog.render(document.body);
+
         //WBS 코드
  	    var wbsCd = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
  	        applyTo: 'wbsCd',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -316,7 +329,6 @@ var imgHeight;
         // 화면로드시 조회
 	    fnSearch();
 
-
 	    /* [버튼] : 자산신규 페이지로 이동 */
 		/* butRgst.on('click', function(){
 			document.aform.action='<c:url value="/fxa/anl/retrieveFxaAnlUpdate.do"/>';
@@ -362,7 +374,7 @@ var imgHeight;
 	        modal: true,
 	        visible: false,
 	        buttons: [
-	            { text:'닫기', isDefault: true, handler: function() {
+	            { text:'닫기', isDefault: true, handler: function() {[ ]
 	                this.cancel(false);
 	            } }
 	        ]
@@ -392,13 +404,10 @@ var imgHeight;
 						var record = dataSet.getAt(i);
 						chkRow = i;
 
-						if(record.get("trsfStCd") == undefined || record.get("trsfStCd") == "REJ" || record.get("trsfStCd") == "APPR" || record.get("trsfStCd") == "" ){
-						}else{
-							if(record.get("trsfStCd") == "RQ"){
-								if(  record.get("delYn") == "N" ){
-									Rui.alert("이관요청중인 자산입니다.");
-									return;
-								}
+						if(record.get("trsfStCd") == "RQ" || record.get("oscpStCd") == "RQ"){
+							if(  record.get("delYn") == "N" ){
+								Rui.alert("이관요청중인 자산입니다.");
+								return;
 							}
 						}
 					}
@@ -435,6 +444,50 @@ var imgHeight;
 			}
 		});
 
+		
+		fncOscpTrsf = function(){
+			if(dataSet.getCount() > 0 ) {
+			    var chkRow;
+				//체크된 자산의 상태 체크
+				for(var i = 0; i < dataSet.getCount(); i++){
+					if(dataSet.isMarked(i)) {
+						var record = dataSet.getAt(i);
+						chkRow = i;
+						
+						if( record.get("oscpStCd") == "RQ"){
+							Rui.alert("요청중인 자산입니다.");
+							return;
+						}
+					}
+			  	}
+
+				var fxaNoList = [];
+				//관리자가 아닐경우 자기 부서 자산만 이관 가능
+				if( adminChk == "Y" ){
+
+				}else{
+					var chkDeptCd = dataSet.getNameValue(chkRow, "deptCd");
+
+					if( sDeptCd == "58171352"   ){
+						sDeptCd = "58141801";
+					}
+				}
+				
+				for( var i = 0 ; i < dataSet.getCount() ; i++ ){
+   			    	if(dataSet.isMarked(i)){
+   			    		fxaNoList.push(dataSet.getNameValue(i, 'fxaInfoId'));
+   			    	}
+   				}
+   				var fxaNos = fxaNoList.join(',');
+				
+   				var params = "?fxaNos="+fxaNos;
+						     ;
+				fxaOscpDialog.setUrl('<c:url value="/fxa/anl/retrieveFxaOscpPop.do"/>'+params);
+				fxaOscpDialog.show(true);
+			}
+		}
+		
+		
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
@@ -587,8 +640,7 @@ function imgResize(img){
     						<!-- <button type="button" id="butRgst" name="butRgst" >자산신규</button> -->
     						<button type="button" id="butMail" name="butMail" >메일</button>
     						<button type="button" id="butTrsf" name="butTrsf" >자산이관</button>
-    						<button type="button" id="butDsu" name="butDsu" >자산폐기</button>
-    						<button type="button" id="butOscp" name="butOscp" >사외자산</button>
+    						<button type="button" id="butOscp" name="butOscp"  onClick="fncOscpTrsf();">사외자산</button>
     						<button type="button" id="butExcl" name="butExcl">EXCEL</button>
     					</div>
     				</div>
