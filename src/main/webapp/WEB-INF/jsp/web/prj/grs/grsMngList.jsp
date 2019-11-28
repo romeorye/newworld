@@ -92,7 +92,8 @@
     var todoYN = stringNullChk("${inputData.LOGIN_SYS_CD}") != "" ? true : false;
 
     var roleId   = '${inputData._roleId}';
-
+	var loginSabun = '${inputData._userSabun}'; 
+	
     Rui.onReady(function() {
 
     	var resultDataSet = new Rui.data.LJsonDataSet({
@@ -287,7 +288,6 @@
                 {id:'custSqlt', validExp:'고객특성:false'},
                 {id:'tssAttrCd', validExp:'과제속성:false'},
                 {id:'tssType', validExp:'신제품유형:false'}
-                //,{id:'fcCd', validExp:'공장구분:true'}
                 
             ]
         });
@@ -395,7 +395,6 @@
                         }else{
                             prjNm.setValue(deptNm);
                         }
-                        $("#deptCode").val(upDeptCd);
 					}else{
                         alert('부서정보가 없습니다. 관리자에게 문의하세요.');
 					}
@@ -750,15 +749,8 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 		           guid = resultData.records[0].guid;
 
 		           if(resultData.records[0].rtnSt == 'Y') {
-		                	 var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00382&from=iris&guid='+guid;
-				             openWindow(url, 'grsApprPop', 800, 500, 'yes');
-		                //if( listDataSet.getNameValue(tssScnCd               ){
-		              <%-- 
-				             }else{  //기술팀 GRS 품의
-		                	 var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00393&from=iris&guid=='+guid;
-				            openWindow(url, 'grsApprPop', 800, 500, 'yes');
-		                }
-				       --%>       
+	                	var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00393&from=iris&guid='+guid;
+		                openWindow(url, 'grsApprPop', 800, 500, 'yes');
 		           }
 		       });
 
@@ -779,11 +771,15 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
                 if(listDataSet.isMarked(i)){
                     var tssSt = listDataSet.getNameValue(i, 'tssSt');
                     var tssNm = listDataSet.getNameValue(i, 'tssNm');
+                    var tssScnCd = listDataSet.getNameValue(i, 'tssScnCd');
                     if(tssSt!="102"){
                         alert("GRS평가완료 과제만 품의 요청이 가능합니다.");
                         return;
                     }
+                    
+                    
                 }
+                
             }
 
 
@@ -1017,7 +1013,17 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 
    	// 평가 Popup
     function evTssPop(row) {
-        tssCd = listDataSet.getAt(row).data.tssCd;
+   		
+   		if( roleId.indexOf("WORK_IRI_T01") > -1	|| roleId.indexOf("WORK_IRI_T03") > -1  ){
+   			
+   		}else{
+   			if ( loginSabun != listDataSet.getNameValue(row, 'dlbrCrgr')  ){
+   	   			alert("GRS평가는 심의담당자만 가능합니다.");
+   	   			return;
+   	   		}
+   		}
+   		
+   		tssCd = listDataSet.getAt(row).data.tssCd;
         tssCdSn = listDataSet.getAt(row).data.tssCdSn;
         grsEvSn = listDataSet.getAt(row).data.grsEvSn;
         if (grsEvSn == '0' || grsEvSn == undefined) {
@@ -1276,9 +1282,7 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 								</tr>
 								<tr>
 									<th align="right"><span style="color:red;">* </span>프로젝트명<br />(개발부서)</th>
-									<td><input type="text" id="prjNm" /></td>
-									<th align="right"><span style="color:red;">* </span>공장구분</th>
-									<td><div id="fcCd" /></td>
+									<td colspan="3"><input type="text" id="prjNm" /></td>
 								</tr>
 								<tr>
 									<th align="right"><span style="color:red;">* </span>과제명</th>
@@ -1299,7 +1303,9 @@ nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.
 								</tr>
 								<tr id="displayDiv2">
 									<th align="right"><span style="color:red;">* </span>신제품 유형</th>
-									<td colspan="3"><div id="tssType" /></td>
+									<td><div id="tssType" /></td>
+									<th align="right"><span style="color:red;">* </span>공장구분</th>
+									<td><div id="fcCd" /></td>
 								</tr>
 							</tbody>
 						</table>
