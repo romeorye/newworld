@@ -72,6 +72,13 @@
 
 	            <!-- 공간평가 TOOL 예약 메일발송 추가 김동욱 2018.09.05 -->
 	            <entry key="spaceMchnAppr" value-ref="spaceMchnAppr" />
+	            
+	            <!-- 임차주택 메일발송 추가 김연태 2019.10.24 -->
+	            <entry key="leasHousRvw" value-ref="leasHousRvw" />
+	            <entry key="leasHousCnrRvw" value-ref="leasHousCnrRvw" />
+	            <entry key="leasHousRvwRpl" value-ref="leasHousRvwRpl" />
+	            
+	            
 	        </map>
 	    </property>
 	</bean>
@@ -79,7 +86,7 @@
 	<bean id="mailPolicy" class="devonframe.mail.policy.MailPolicy">
 
 	    <property name="testMode" value="true" />
-	    <property name="testReceivers" value="jhoonoh@lghausys.com" />
+	    <property name="testReceivers" value="singkro@hausyspartner.com" />
 	    <property name="mailHost" value="subspam.lghausys.com" />
 	    <property name="mailPort" value="25" />
 	    <property name="authenticationEnabled" value="false" />
@@ -122,7 +129,7 @@
 	<bean id="anlRqprOpinition" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprOpinition.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -132,7 +139,7 @@
 	<bean id="anlRqprReceiptRequest" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprReceiptRequest.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -142,7 +149,7 @@
 	<bean id="anlRqprReceipt" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprReceipt.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -152,7 +159,7 @@
 	<bean id="anlRqprReject" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprReject.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -162,7 +169,7 @@
 	<bean id="anlRqprStop" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprStop.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -172,7 +179,7 @@
 	<bean id="anlRqprResult" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/anl" />
 	    <property name="htmlName" value="anlRqprResult.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -182,7 +189,7 @@
 	<bean id="mchnEduCoures" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/mchn" />
 	    <property name="htmlName" value="mchnEdu.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -192,7 +199,7 @@
 	<bean id="mchnApprInfo" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/mchn" />
 	    <property name="htmlName" value="mchnApprInfo.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -202,7 +209,7 @@
 	<bean id="mchnApprReq" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/mchn" />
 	    <property name="htmlName" value="mchnApprReq.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -212,7 +219,7 @@
 	<bean id="rlabApprReq" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/mchn" />
 	    <property name="htmlName" value="rlabApprReq.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -222,7 +229,7 @@
 	<bean id="prjSendMailPopup" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/mm" />
 	    <property name="htmlName" value="sendMailPopup.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -235,7 +242,7 @@
 	<bean id="mailBatchArslhtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchArsl.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -245,7 +252,7 @@
 	<bean id="mailBatchCmTsshtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchCmTss.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -255,7 +262,7 @@
 	<bean id="mailBatchGrshtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchGrs.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -266,7 +273,7 @@
 	<bean id="mailBatchMfrhtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchMfr.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -277,7 +284,7 @@
 	<bean id="mailBatchMmhtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchMm.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -288,7 +295,7 @@
 	<bean id="mailBatchMmClshtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchMmCls.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -300,7 +307,7 @@
 		<bean id="mailBatchWbsCdCrdhtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchWbsCdCrd.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -311,7 +318,7 @@
 		<bean id="mailBatchWbsCdDelhtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailBatchWbsCdDel.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -322,7 +329,7 @@
 		<bean id="grsSendMail" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="grsSendMail.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -333,7 +340,7 @@
 		<bean id="mailRfpReqFormhtml" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/prj/tss" />
 	    <property name="htmlName" value="mailRfpReqForm.html" />
-	    <property name="imgServerIp" value="127.0.0.1" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -348,7 +355,7 @@
 	<bean id="rlabRqprReceipt" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlab" />
 	    <property name="htmlName" value="rlabRqprReceipt.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -358,7 +365,7 @@
 	<bean id="rlabRqprReceiptRequest" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlab" />
 	    <property name="htmlName" value="rlabRqprReceiptRequest.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -368,7 +375,7 @@
 	<bean id="rlabRqprReject" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlab" />
 	    <property name="htmlName" value="rlabRqprReject.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -378,7 +385,7 @@
 	<bean id="rlabRqprResult" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlab" />
 	    <property name="htmlName" value="rlabRqprResult.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -388,7 +395,7 @@
 	<bean id="rlabRqprStop" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlab" />
 	    <property name="htmlName" value="rlabRqprStop.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -398,7 +405,7 @@
 	<bean id="rlabMchnAppr01" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlabMchn" />
 	    <property name="htmlName" value="rlabMchnAppr01.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -408,7 +415,7 @@
 	<bean id="rlabMchnAppr02" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlabMchn" />
 	    <property name="htmlName" value="rlabMchnAppr02.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -418,7 +425,7 @@
 	<bean id="rlabMchnAppr03" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlabMchn" />
 	    <property name="htmlName" value="rlabMchnAppr03.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -428,7 +435,7 @@
 	<bean id="spaceMchnAppr" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/spaceMchn" />
 	    <property name="htmlName" value="spaceMchnAppr.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -438,7 +445,7 @@
 	<bean id="spaceRqprOpinition" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/spaceMchn" />
 	    <property name="htmlName" value="spaceRqprOpinition.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -448,7 +455,7 @@
 	<bean id="rlabRqprOpinition" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/rlabMchn" />
 	    <property name="htmlName" value="rlabRqprOpinition.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -461,7 +468,7 @@
 	<bean id="spaceRqprReceipt" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/space" />
 	    <property name="htmlName" value="spaceRqprReceipt.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -471,7 +478,7 @@
 	<bean id="spaceRqprReceiptRequest" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/space" />
 	    <property name="htmlName" value="spaceRqprReceiptRequest.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -481,7 +488,7 @@
 	<bean id="spaceRqprReject" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/space" />
 	    <property name="htmlName" value="spaceRqprReject.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -491,7 +498,7 @@
 	<bean id="spaceRqprResult" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/space" />
 	    <property name="htmlName" value="spaceRqprResult.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -501,7 +508,7 @@
 	<bean id="spaceRqprStop" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/space" />
 	    <property name="htmlName" value="spaceRqprStop.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
@@ -511,11 +518,44 @@
 	<bean id="spaceEvRnew" class="devonframe.mail.policy.MailTemplate">
 	    <property name="directory" value="classpath:/mail/space" />
 	    <property name="htmlName" value="spaceEvRnew.html" />
-	    <property name="imgServerIp" value="local.lghausys.com" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
 	    <property name="imgServerPort" value="8080" />
 	    <property name="imgServerContext" value="iris" />
 	    <property name="saveResolvedhtmlFlag" value="false" />
 	    <property name="saveResolvedhtmlDir" value="c:/" />
 	</bean>
+	
+	<!-- 임차주택 메일 template  -->	            
+	<bean id="leasHousRvw" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/knld" />
+	    <property name="htmlName" value="leasHousRvw.html" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+	
+	<bean id="leasHousCnrRvw" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/knld" />
+	    <property name="htmlName" value="leasHousCnrRvw.html" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+	
+	<bean id="leasHousRvwRpl" class="devonframe.mail.policy.MailTemplate">
+	    <property name="directory" value="classpath:/mail/knld" />
+	    <property name="htmlName" value="leasHousRvwRpl.html" />
+	    <property name="imgServerIp" value="irislocal.lghausys.com" />
+	    <property name="imgServerPort" value="8080" />
+	    <property name="imgServerContext" value="iris" />
+	    <property name="saveResolvedhtmlFlag" value="false" />
+	    <property name="saveResolvedhtmlDir" value="c:/" />
+	</bean>
+	
+	
 
 </beans>
