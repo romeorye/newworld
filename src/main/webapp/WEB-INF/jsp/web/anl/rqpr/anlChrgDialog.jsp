@@ -62,18 +62,35 @@
 				<th align="center" rowspan="3">기반기술</th>
 				<td align="center">형상분석</td>
 				<td align="center">
-<!-- 					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>, -->
 					<a href="#" onClick="setAnlChrgInfo('soonbo', '이순보')">이순보</a>
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a> -->
 				</td>
 			</tr>
 			<tr>
 				<td align="center">유기분석</td>
 				<td align="center">
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>, -->
+					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
+				</td>
+			</tr>
+			<tr>
+				<td align="center">유해물질분석</td>
+				<td align="center">
+					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
+					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
+				</td>
+			</tr>
+			<tr>
+				<th align="center" rowspan="3">인테리어</th>
+				<td align="center">형상분석</td>
+				<td align="center">
+					<a href="#" onClick="setAnlChrgInfo('soonbo', '이순보')">이순보</a>
+				</td>
+			</tr>
+			<tr>
+				<td align="center">유기분석</td>
+				<td align="center">
 					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a> -->
 				</td>
 			</tr>
 			<tr>
@@ -117,7 +134,7 @@
 			<tr>
 				<td align="center">유기분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
+					<a href="#" onClick="setAnlChrgInfo('jyhan', '한종윤')">한종윤</a>
 				</td>
 			</tr>
 			<tr>
@@ -139,9 +156,7 @@
 			<tr>
 				<td align="center">유기분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>,
-					<a href="#" onClick="setAnlChrgInfo('jyhan', '한종윤')">한종윤</a>
-<!-- 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a> -->
+					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
 				</td>
 			</tr>
 			<tr>
@@ -176,28 +191,6 @@
 					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
 				</td>
 			</tr>
-<!-- 			<tr> -->
-<!-- 				<th align="center" rowspan="3">고기능소재</th> -->
-<!-- 				<td align="center">형상/무기분석</td> -->
-<!-- 				<td align="center"> -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('soonbo', '이순보')">이순보</a> -->
-<!-- 				</td> -->
-<!-- 			</tr> -->
-<!-- 			<tr> -->
-<!-- 				<td align="center">유기분석</td> -->
-<!-- 				<td align="center"> -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a> -->
-<!-- 				</td> -->
-<!-- 			</tr> -->
-<!-- 			<tr> -->
-<!-- 				<td align="center">유해물질분석</td> -->
-<!-- 				<td align="center"> -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>, -->
-<!-- 					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a> -->
-<!-- 				</td> -->
-<!-- 			</tr> -->
 		</tbody>
 	</table>
 	</body>
