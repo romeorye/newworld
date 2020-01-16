@@ -34,7 +34,7 @@ var chkCmplYn='${inputData.chkCmpl}';
 	Rui.onReady(function() {
 		
 		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
-			adminChk = "Y";
+			adminChk = "N";
 		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T22') > -1) {
 			adminChk = "Y";
 		}
@@ -42,7 +42,7 @@ var chkCmplYn='${inputData.chkCmpl}';
 		chkListDialog = new Rui.ui.LFrameDialog({
 	        id: 'chkListDialog',
 	        title: '임차주택 사전 검토 Checklist',
-	        width:  890,
+	        width:  840,
 	        height: 600,
 	        modal: true,
 	        visible: false,
@@ -76,9 +76,9 @@ var chkCmplYn='${inputData.chkCmpl}';
              columns: [
                    { field: 'empNm',		label: '신청자명',		sortable: true,		align:'center',	width: 200 }
                  , { field: 'deptNm',		label: '부서명',			sortable: false,	align:'center',	width: 300 }
-                 , { field: 'cnttStrDt',	label: '계약시작일',		sortable: false,	align:'left',	width: 120 }
+                 , { field: 'cnttStrDt',	label: '계약시작일',		sortable: false,	align:'center',	width: 120 }
                  , { field: 'cnttEndDt',	label: '계약종료일',		sortable: false,	align:'center',	width: 120 }
-                 , { field: 'supAmt',		label: '지원금',			sortable: false,	align:'center',	width: 150 , renderer: function(value, p, record){
+                 , { field: 'supAmt',		label: '지원금',			sortable: false,	align:'right',	width: 150 , renderer: function(value, p, record){
   	        		return Rui.util.LFormat.numberFormat(parseInt(value));
 	        		}
      		 	}
@@ -117,9 +117,11 @@ var chkCmplYn='${inputData.chkCmpl}';
 				}
 				
 			}else{
-				if( record.data.pgsStCd == "RQ" || ( record.data.pgsStCd == "PRI" && record.data.reqStCd == "RQ") ){	//사전검토
+				if(record.data.pgsStCd == "PRI" && record.data.reqStCd == "RQ" ){	//사전검토
 					nwinsActSubmit(aform, "<c:url value='/knld/leasHous/leasHousDtl.do'/>");
-				}else if( record.data.pgsStCd == "CNR" && ( record.data.reqStCd == "APPR" || record.data.reqStCd == "REJ" ||  record.data.reqStCd == "RQ") ){				//계약검토						
+				}else if( record.data.pgsStCd == "PRI" && ( record.data.reqStCd == "APPR" || record.data.reqStCd == "REJ" ||  record.data.reqStCd == "RQ") ){				//계약검토						
+					nwinsActSubmit(aform, "<c:url value='/knld/leasHous/leasHousCnrDtl.do'/>");
+				}else if( record.data.pgsStCd == "CNR" && ( record.data.reqStCd == "APPR" || record.data.reqStCd == "REJ" ||  record.data.reqStCd == "RQ") ){			//계약완료
 					nwinsActSubmit(aform, "<c:url value='/knld/leasHous/leasHousCnrDtl.do'/>");
 				}else if( record.data.pgsStCd == "CNR" && ( record.data.reqStCd == "APPR" || record.data.reqStCd == "REJ") ){			//계약완료
 					nwinsActSubmit(aform, "<c:url value='/knld/leasHous/leasHousCnrCmpl.do'/>");
@@ -195,13 +197,14 @@ var chkCmplYn='${inputData.chkCmpl}';
  			chkListDialog.show(true);
         }
 
-        /* 쿠키 한루에 팝업창 한번만 띄우기  */
+        fncChkList();
+        /* 쿠키 한루에 팝업창 한번만 띄우기 
         var yourname = getCookie("MyCookie")
 		if(yourname != 'adexe'){
 			fncChkList();
 			//window.open('자식페이지.html','event1','width=345,height=427,left=430,top=0,scrollbars=no,resizable=no');
 		}
-        
+         */
         
 	});//onReady 끝
 

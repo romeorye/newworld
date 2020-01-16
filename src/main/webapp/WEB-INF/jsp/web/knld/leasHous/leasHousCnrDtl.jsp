@@ -102,7 +102,12 @@ var lshCnttSpctDialog
             	 ,{ id : 'rlySubjAttcFilId'}  //    --중개대상물확인설명서              
             	 ,{ id : 'asmyAchtAttcFilId'}  //    --집합건축물대장(전유무.갑)         
             	 ,{ id : 'lesrPfdcAttcFilId'}  //    --임대인 신분증 사본                
-            	 ,{ id : 'lshCntdAttcFilId'}  //    --전세계약서  
+            	 ,{ id : 'lshCntdAttcFilId'}  //    --전세계약서 
+            	 ,{ id : 'muagAttcFilId'}  //    --임차주택관리합의서 첨부파일 id  
+            	 ,{ id : 'dplAttcFilId'}  //    --확약서 첨부파일 id   
+            	 ,{ id : 'nrmAttcFilId'}  //    --규격 첨부파일 id   
+            	 ,{ id : 'muagScanAttcFilId'}  //    --합의서 스캔 첨부파일 id   
+            	 ,{ id : 'dplScanAttcFilId'}  //    --협약서 스캔 첨부파일 id
             	 ,{ id : 'rvwCmmt'}  			//
             	 ,{ id : 'crnCmmt'}  			//
             	 ,{ id : 'empNm'}  			//
@@ -116,9 +121,10 @@ var lshCnttSpctDialog
         	if(  dataSet.getNameValue(0, 'pgsStCd') == "PRI"){
 				$("#btnReq").show();
 			}else{
+				$("#lshCntdAttchFileMngBtn").hide();
 				$("#btnReq").hide();
 			}
-        	
+			
 			if( !Rui.isEmpty( dataSet.getNameValue(0, 'rgsPfdcAttcFilId') )  ){
 				getAttachFileList(dataSet.getNameValue(0, 'rgsPfdcAttcFilId'));
 			}
@@ -134,11 +140,6 @@ var lshCnttSpctDialog
 			if( !Rui.isEmpty( dataSet.getNameValue(0, 'lshCntdAttcFilId') )  ){
 				getAttachFileList4(dataSet.getNameValue(0, 'lshCntdAttcFilId'));
 			}
-			/* 
-			if(  dataSet.getNameValue(0, 'pgsStCd') != "PRI" &&  dataSet.getNameValue(0, 'reqStCd') != "RQ"){
-				$("#btnReq").hide();
-			} */
-			
 			if( !Rui.isEmpty( dataSet.getNameValue(0, 'muagAttcFilId') )  ){
 				getAttachFileList5(dataSet.getNameValue(0, 'muagAttcFilId'));
 			}
@@ -148,7 +149,12 @@ var lshCnttSpctDialog
 			if( !Rui.isEmpty( dataSet.getNameValue(0, 'nrmAttcFilId') )  ){
 				getAttachFileList7(dataSet.getNameValue(0, 'nrmAttcFilId'));
 			}	
-			
+			if( !Rui.isEmpty( dataSet.getNameValue(0, 'muagScanAttcFilId') )  ){
+				getAttachFileList8(dataSet.getNameValue(0, 'muagScanAttcFilId'), 'MS');
+			}
+			if( !Rui.isEmpty( dataSet.getNameValue(0, 'dplScanAttcFilId') )  ){
+				getAttachFileList9(dataSet.getNameValue(0, 'dplScanAttcFilId'), 'DS');
+			}
 			
  		});
         
@@ -288,6 +294,38 @@ var lshCnttSpctDialog
         attachFileDataSet7.on('load', function(e) {
             getAttachFileInfoList7();
         });
+        
+        /* [기능] 첨부파일 조회*/
+        var attachFileDataSet8 = new Rui.data.LJsonDataSet({
+            id: 'attachFileDataSet',
+            remainRemoved: true,
+            lazyLoad: true,
+            fields: [
+                  { id: 'attcFilId'}
+                , { id: 'seq' }
+                , { id: 'filNm' }
+                , { id: 'filSize' }
+            ]
+        });
+        /* [기능] 첨부파일 조회*/
+        var attachFileDataSet9 = new Rui.data.LJsonDataSet({
+            id: 'attachFileDataSet',
+            remainRemoved: true,
+            lazyLoad: true,
+            fields: [
+                  { id: 'attcFilId'}
+                , { id: 'seq' }
+                , { id: 'filNm' }
+                , { id: 'filSize' }
+            ]
+        });
+        attachFileDataSet8.on('load', function(e) {
+   		 getAttachFileInfoList8();
+        });
+        attachFileDataSet9.on('load', function(e) {
+   		 getAttachFileInfoList9();
+        });
+        
         getAttachFileList = function(id) {
             attachFileDataSet.load({
                 url: '<c:url value="/system/attach/getAttachFileList.do"/>' ,
@@ -346,6 +384,22 @@ var lshCnttSpctDialog
         };
         getAttachFileList7 = function(id) {
             attachFileDataSet7.load({
+                url: '<c:url value="/system/attach/getAttachFileList.do"/>' ,
+                params :{
+                	attcFilId : id
+                }
+            });
+        };
+        getAttachFileList8 = function(id) {
+            attachFileDataSet8.load({
+                url: '<c:url value="/system/attach/getAttachFileList.do"/>' ,
+                params :{
+                	attcFilId : id
+                }
+	         });
+        };
+        getAttachFileList9 = function(id) {
+            attachFileDataSet9.load({
                 url: '<c:url value="/system/attach/getAttachFileList.do"/>' ,
                 params :{
                 	attcFilId : id
@@ -422,6 +476,24 @@ var lshCnttSpctDialog
             }
 
             setAttachFileInfo7(attachFileInfoList);
+        };
+        getAttachFileInfoList8 = function(gbn) {
+            var attachFileInfoList = [];
+
+            for( var i = 0, size = attachFileDataSet8.getCount(); i < size ; i++ ) {
+                attachFileInfoList.push(attachFileDataSet8.getAt(i).clone());
+            }
+
+          	 setAttachFileInfo8(attachFileInfoList);
+        };
+        getAttachFileInfoList9 = function(gbn) {
+            var attachFileInfoList = [];
+
+            for( var i = 0, size = attachFileDataSet9.getCount(); i < size ; i++ ) {
+                attachFileInfoList.push(attachFileDataSet9.getAt(i).clone());
+            }
+
+          	 setAttachFileInfo9(attachFileInfoList);
         };
         
       	//등기사항전부증명서(을구사항 포함)
@@ -560,20 +632,58 @@ var lshCnttSpctDialog
                 }
             }
         };
+        setAttachFileInfo8 = function(attachFileList) {
+         	$('#muagScanAttchFileView').html('');
+         	
+         	if(attachFileList.length > 0) {
+             	for(var i = 0; i < attachFileList.length; i++) {
+                     $('#muagScanAttchFileView').append($('<a/>', {
+                     	href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
+                         text: attachFileList[i].data.filNm
+                     })).append('<br/>');
+                 }
+               
+             	dataSet.setNameValue(0, "muagScanAttcFilId", attachFileList[0].data.attcFilId);
+             }
+         }
+         setAttachFileInfo9 = function(attachFileList) {
+         	$('#dplScanAttchFileView').html('');
+         	
+         	if(attachFileList.length > 0) {
+             	for(var i = 0; i < attachFileList.length; i++) {
+                     $('#dplScanAttchFileView').append($('<a/>', {
+                     	href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
+                         text: attachFileList[i].data.filNm
+                     })).append('<br/>');
+                 }
+               
+             	dataSet.setNameValue(0, "dplScanAttcFilId", attachFileList[0].data.attcFilId);
+             }
+         }
+         
+        
         getAttachFileId = function(gbn) {
             var lvAttcFilId;
 			
             if ( gbn =="RG" ){
-            	lvAttcFilId = dataSet.getNameValue(0, 'rgsPfdcAttcFilId');
-           }else if( gbn =="RL" ){
-            	lvAttcFilId = dataSet.getNameValue(0, 'rlySubjAttcFilId');
-            }else if( gbn =="AS" ){
-            	lvAttcFilId = dataSet.getNameValue(0, 'asmyAchtAttcFilId');
-            }else if( gbn =="LE" ){
-            	lvAttcFilId = dataSet.getNameValue(0, 'lesrPfdcAttcFilId');
-            }else if( gbn =="LS" ){
-            	lvAttcFilId = dataSet.getNameValue(0, 'lshCntdAttcFilId');
-            }
+             	lvAttcFilId = dataSet.getNameValue(0, 'rgsPfdcAttcFilId');
+             }else if( gbn =="RL" ){
+             	lvAttcFilId = dataSet.getNameValue(0, 'rlySubjAttcFilId');
+             }else if( gbn =="AS" ){
+             	lvAttcFilId = dataSet.getNameValue(0, 'asmyAchtAttcFilId');
+             }else if( gbn =="LE" ){
+             	lvAttcFilId = dataSet.getNameValue(0, 'lesrPfdcAttcFilId');
+             }else if( gbn =="MU" ){
+             	lvAttcFilId = dataSet.getNameValue(0, 'muagAttcFilId');
+             }else if( gbn =="DP" ){
+             	lvAttcFilId = dataSet.getNameValue(0, 'dplAttcFilId');
+             }else if( gbn =="NR" ){
+             	lvAttcFilId = dataSet.getNameValue(0, 'nrmAttcFilId');
+             }else if( gbn =="MS" ){
+             	lvAttcFilId = dataSet.getNameValue(0, 'muagScanAttcFilId');
+             }else if( gbn =="DS" ){
+             	lvAttcFilId = dataSet.getNameValue(0, 'dplScanAttcFilId');
+             }
             
             if(Rui.isEmpty(lvAttcFilId)) lvAttcFilId = "";
             
@@ -780,11 +890,11 @@ var lshCnttSpctDialog
    							</td>
    						</tr>
    						<tr>
-   							<th align="right">부동산명</th>
+   							<th align="right">공인중계사명</th>
    							<td>
    								<span id="reNm"></span>
    							</td>
-   						    <th align="right">부동산 연락처</th>
+   						    <th align="right">공인중계사 연락처</th>
     						<td>
    								<span id="reCcpcHpF"></span>-<span id="reCcpcHpS"></span>-<span id="reCcpcHpE"></span>
     						</td>
@@ -850,22 +960,25 @@ var lshCnttSpctDialog
    				<table class="table table_txt_right">
    					<colgroup>
    						<col style="width:15%;"/>
-   						<col style="width:10%;"/>
-   						<col style="width:70%;"/>
+   						<col style="width:35%;"/>
+   						<col style="width:15%;"/>
+   						<col style="width:35%;"/>
    					</colgroup>
    					<tbody>
    						<tr>
-   							<th align="right">임차주택관리합의서 여부</th>
+   							<th align="right">임차주택관리합의서 동의여부</th>
 							<td>
 								<span id="leasMuagYn">동의</span>
 							</td>
+							<th align="right">필수제출서류</th>
 							<td  id="muagAttchFileView">&nbsp;</td>
    						</tr>
    						<tr>
-   							<th align="right">확약서 동의여부</th>
+   							<th align="right">임차주택확약서 동의여부</th>
    							<td>
    								<span id="dplYn">동의</span>
    							</td>
+   							<th align="right">필수제출서류</th>
    							<td id="dplAttchFileView">&nbsp;</td>
    						</tr>
    						<tr>	
@@ -873,6 +986,7 @@ var lshCnttSpctDialog
    							<td>
    								<span id="nrmYn">동의</span>
    							</td>
+   							<th align="right">확인서류</th>
    							<td id="nrmAttchFileView">&nbsp;</td>
    						</tr>
    					</tbody>
@@ -902,6 +1016,14 @@ var lshCnttSpctDialog
    						<tr>
 		         			<th>임대인 신분증 사본 </th>
 		         			<td colspan="3" id="lesrPfdcAttchFileView">&nbsp;</td>
+		         		</tr>
+		         		<tr>
+		         			<th>임차주택관리합의서 서명(스캔본)</th>
+		         			<td colspan="3" id="muagScanAttchFileView">&nbsp;</td>
+		         		</tr>
+   						<tr>
+		         			<th>임차주택확약서 서명(스캔본)</th>
+		         			<td colspan="3" id="dplScanAttchFileView">&nbsp;</td>
 		         		</tr>
    					</tbody>
    				</table>
@@ -938,7 +1060,7 @@ var lshCnttSpctDialog
 		         			<td id="lshCntdAttchFileView">&nbsp;</td>
 		         			<td><button type="button" class="btn" id="lshCntdAttchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo4, getAttachFileId('LS'), 'knldPolicy', '*')">첨부파일등록</button></td>
 		         			<td>
-		         				 <button type="button" class="btn" id="btnReq" onclick="fncLshCnttSpctPop()">전세계약 특약사항</button>
+		         				 <button type="button" class="btn" id="lshCnttSpctbtn" onclick="fncLshCnttSpctPop()">전세계약 특약사항</button>
 		         			</td>
 		         		</tr>
    					</tbody>
