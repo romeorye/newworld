@@ -38,27 +38,33 @@
 <body>
 <div class="LblockMainBody">
 	<div class="sub-content">
-   			<div style="text-align:center">
-   			<h1> 전세계약서 작성시 </h1>
+   			<div style="text-align:left;font-size:1.6em;font-family:LG스마트체2.0;" >
+   			 - 특약 사항 /(필수기재사항) 
    			</div>
-   			
    			<br/>
    			<br/>
-   			1. 전세 계약기간-2년(24개월).<br/>
-   			<br/>
-   			2. 계약내용:잔금일자-계약시작일-보증금-계약금-잔금<br/>
-   			<br/>
-   			3. 임대인 주소작성-실거주지역-주민등록주소지로한다<br/>
-   			<br/>
-   			4. 임차인주소-법인명의<br/>
-   			<br/>
-   			5. 특약사항 예시)- (주)엘지하우시스에서 임대인○○○에게 잔금일자 10/02  원을 송금하기로한다 
-                           예시)세입자000은 임대인000 명의의 계좌로00원을 00일자로 송금한다(임대인 계좌00-0000)
-                <br/>
-   			<br/>
-   			6. 임대인은 잔금일자에 입금과 동시에 전세권설정을 진행한다<br/>
-   			<br/>
-   			
+   			<div style="text-align:left;font-size:1.1em;font-family:LG스마트체2.0;" >
+   			1. 예시)- (주)엘지하우시스에서 잔금일자 10/02에 임대인 ○○○ 명의계좌로
+   			   &nbsp;&nbsp;&nbsp;000원을 송금하기로 한다. 세입자가 추가로 부담하는 경우- 세입자 ○○○는 
+   			     &nbsp;&nbsp;&nbsp;임대인 명의계좌로 000원을 송금한다
+               (임대인 ○○○명의/계좌00-0000)<br/>
+   			</div>
+   			</br>
+   			<div style="text-align:left;font-size:1.1em;font-family:LG스마트체2.0;" >
+   			2. 본 계약 만기시에는 ㈜엘지하우시스 법인명의 계좌로 000원을 송금하며 세
+   			      &nbsp;&nbsp;&nbsp;입자○○○에게 000원을 송금하기로 한다 (법인명의계좌 00-000-0000)
+   			</div>
+   			</br>
+   			<div style="text-align:left;font-size:1.1em;font-family:LG스마트체2.0;" >
+   			3. 임대인은 잔금일자에 보증금 입금과 동시에 법인명의로 전세권설정을 진행
+   			   &nbsp;&nbsp;&nbsp;한다.
+   			</div>
+   			</br>
+   			<div style="text-align:left;font-size:1.1em;font-family:LG스마트체2.0;" >
+   			4. 본 계약 종료 후 임대인은 임대차 보증금 중 ( )원을 주식회사 엘지하우시스 
+   			   &nbsp;&nbsp;&nbsp;대표계좌( )으로 입금하여  반환하여야 하고, 이외의 계좌로 입금한 경우 보증
+   			   &nbsp;&nbsp;&nbsp;금 반환의 효력이  없다.
+   			</div>
 	</div>   		
 </div>
 </body>
