@@ -25,7 +25,9 @@
 			,m.fcNm
 	from  (
 				select  a.PRJ_CD
-					   ,isnull(a.PRJ_NM, dbo.fn_getPrjName(a.PRJ_CD))  as prj_nm
+					   ,case when a.pgs_step_cd ='CM' then isnull(a.PRJ_NM, dbo.fn_getPrjName(a.PRJ_CD)) 
+					         when a.pgs_step_cd ='DC' then isnull(a.PRJ_NM, dbo.fn_getPrjName(a.PRJ_CD)) 
+					         else  isnull(dbo.fn_getPrjName(a.PRJ_CD), a.PRJ_NM )  end  prj_nm
 					   ,a.TSS_CD
 					   ,a.TSS_SCN_CD
 					   ,a.WBS_CD
@@ -143,7 +145,7 @@
 			  ,m.PGS_STEP_CD 	as pgsStepCd
 			  ,m.WBS_CD 		as wbsCd
 			  ,m.pgs_step_nm 	as pgsStepNm
-			  ,dbo.fn_getComDtlNm('BIZ_DPT_CD', m.BIZ_DPT_CD) AS bizDptNm   --사업부문명 
+			  ,dbo.fn_getComDtlNm('MK_BIZ_DPT_CD', m.BIZ_DPT_CD) AS bizDptNm   --사업부문명 
 			  ,m.BIZ_DPT_CD 	as bizDptCd
 			  ,m.TSS_STRT_DD 	as tssStrtDd
 			  ,m.TSS_FNH_DD 	as tssFnhDd
@@ -221,7 +223,8 @@
 		 ,sa_sabun_new 		as saSabunNew
          ,PTC_RSST_MBR_SN 	as ptcRsstMbrSn
          ,dept_code 		as deptCode
-		 ,ptc_role	   		as ptcRole        
+		 ,ptc_role	   		as ptcRole   
+		 ,tss_cd            as tssCd     
 	from IRIS_TSS_PTC_RSST_MBR
 	where  tss_cd = #{tssCd}
 	]]>	
@@ -235,7 +238,8 @@
 		   ,FIL_NM		as filNm
 		   ,FIL_SIZE	as filSize
 	from   IRIS_COM_ATTC_FIL
-	where ATTC_FIL_ID = (
+	where  del_yn ='N'
+	and     ATTC_FIL_ID = (
                         select case when #{pgsStepCd} = 'CM' then CMPL_ATTC_FIL_ID
                                     else ATTC_FIL_ID END as ATTC_FIL_ID
 				   		from  IRIS_TSS_MK_INNO_SMRY 
@@ -251,7 +255,7 @@
 		SELECT TOP 1
 				GUID AS guid
 				, AFFR_CD AS affrCd
-				, APRDOCSTATE AS aprdocstate
+				, rtrim(ltrim(ltrim(APRDOCSTATE))) AS aprdocstate
 				, APPROVAL_USERID AS approvalUserid
 				, APPROVAL_USERNAME AS approvalUsername
 				, APPROVAL_JOBTITLE AS approvalJobtitle

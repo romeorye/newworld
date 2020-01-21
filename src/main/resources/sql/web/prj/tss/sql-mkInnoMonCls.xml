@@ -95,7 +95,7 @@
 						  on b.tss_cd = a.tss_cd
 						  and b.CLS_YYMM = #{searchMonth}
 						  left outer join IRIS_MK_INNO_CLS c
-						  on b.tss_cd = c.tss_cd
+						  on c.tss_cd = a.tss_cd
 						  and c.CLS_YYMM = CONVERT(NVARCHAR(7), DATEADD(MM, -1, #{searchMonth}+'-01 00:00:00'), 23)
 				where a.tss_cd = #{tssCd} 
 				) m

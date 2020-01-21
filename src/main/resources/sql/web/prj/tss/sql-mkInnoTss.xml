@@ -426,6 +426,11 @@
 	]]>
 	</insert>
 
+	<delete id="deleteMkInnoTssPtcRsstMbr">
+	delete IRIS_TSS_PTC_RSST_MBR
+	where  tss_cd = #{tssCd}
+	and    sa_sabun_new = #{saSabunNew}
+	</delete>
 
 
 </mapper>
