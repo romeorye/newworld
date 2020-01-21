@@ -7,32 +7,55 @@
 	<select id="retrieveCntBizSearchList"  resultType="hashmap">
 		<![CDATA[
 		-- retrieveCntBizSearchList 과제건수 사업부별 과제 관리
-		select  dbo.fn_getComDtlNm('BIZ_DPT_CD', a.BIZ_DPT_CD) as bizNm
-		         ,a.BIZ_DPT_CD
-				,isnull(case when a.PGS_STEP_CD = 'PG' and  left(a.TSS_STRT_DD, 4) = left(#{searchMonth},4) then count(a.PGS_STEP_CD)  end, 0)  as tssPlCnt
-				,isnull(case when a.PGS_STEP_CD = 'PG' or (a.PGS_STEP_CD = 'CM' and a.TSS_ST != '104')  then count(a.PGS_STEP_CD)  end, 0)  as tssPgCnt
-				,isnull(case when a.PGS_STEP_CD = 'CM' and a.TSS_ST = '104' then count(a.PGS_STEP_CD)  end, 0)  as tssCmCnt
-				,isnull(case when a.PGS_STEP_CD = 'PG' and  left(a.TSS_FNH_DD, 4) < left(#{searchMonth},4)    then count(a.PGS_STEP_CD)  end, 0) as tssDlCnt
-				,count(a.PGS_STEP_CD) as tssTot
-		from   IRIS_TSS_MGMT_MST a
-		where   a.tss_scn_cd ='M'
-		and     #{searchMonth} between left(a.TSS_STRT_DD, 7) and left(a.TSS_FNH_DD,7)
-		and     tss_cd in (SELECT TSS_CD
-								FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
-										   , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
-									  FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' THEN 1
-														WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
-														WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102' OR TSS_ST = '301' OR TSS_ST = '302' ) THEN 3
-														WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 4 END AS STEPRANK
-												   , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
-											 FROM IRIS_TSS_MGMT_MST
-											 where tss_scn_cd ='M' 
-											 and     pgs_step_cd <> 'PL'
-											 ) X) Y
-									  WHERE OVER_STEP_RANK = 1
-									  )
-		group by a.BIZ_DPT_CD,a.PGS_STEP_CD,a.TSS_STRT_DD
-				,a.TSS_FNH_DD ,a.TSS_ST
+		with tmp_CntBiz  as (
+		select    m.bizNm
+           ,sum(m.tssPlCnt) as tssPlCnt
+		   ,sum(m.tssPgCnt) as tssPgCnt
+		   ,sum(m.tssCmCnt) as tssCmCnt
+		   ,sum(m.tssDlCnt)  as tssDlCnt
+		   ,sum(m.tssTot) as tssTot
+		from (		
+				select  dbo.fn_getComDtlNm('MK_BIZ_DPT_CD', a.BIZ_DPT_CD) as bizNm
+				         ,a.BIZ_DPT_CD
+						,isnull(case when a.PGS_STEP_CD = 'PG' and  left(a.TSS_STRT_DD, 4) = left(#{searchMonth},4) then count(a.PGS_STEP_CD)  end, 0)  as tssPlCnt
+						,isnull(case when a.PGS_STEP_CD = 'PG' or (a.PGS_STEP_CD = 'CM' and a.TSS_ST != '104')  then count(a.PGS_STEP_CD)  end, 0)  as tssPgCnt
+						,isnull(case when a.PGS_STEP_CD = 'CM' and a.TSS_ST = '104' then count(a.PGS_STEP_CD)  end, 0)  as tssCmCnt
+						,isnull(case when a.PGS_STEP_CD = 'PG' and  left(a.TSS_FNH_DD, 4) < left(#{searchMonth},4)    then count(a.PGS_STEP_CD)  end, 0) as tssDlCnt
+						,count(a.PGS_STEP_CD) as tssTot
+				from   IRIS_TSS_MGMT_MST a
+				where   a.tss_scn_cd ='M'
+				and     #{searchMonth} between left(a.TSS_STRT_DD, 7) and left(a.TSS_FNH_DD,7)
+				and     tss_cd in (SELECT TSS_CD
+										FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
+												   , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
+											  FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' THEN 1
+																WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
+																WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102' OR TSS_ST = '301' OR TSS_ST = '302' ) THEN 3
+																WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 4 END AS STEPRANK
+														   , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
+													 FROM IRIS_TSS_MGMT_MST
+													 where tss_scn_cd ='M' 
+													 and     pgs_step_cd <> 'PL'
+													 ) X) Y
+											  WHERE OVER_STEP_RANK = 1
+											  )
+				group by a.BIZ_DPT_CD,a.PGS_STEP_CD,a.TSS_STRT_DD
+						,a.TSS_FNH_DD ,a.TSS_ST
+				) m
+		group by m.bizNm	
+		)
+		
+		select * 
+		from  tmp_CntBiz
+		union all
+		select '총합'
+		      , isnull(sum(tssPlCnt), 0)
+			  , isnull(sum(tssPgCnt), 0)
+			  , isnull(sum(tssCmCnt), 0)
+			  , isnull(sum(tssDlCnt), 0)
+			  , isnull(sum(tssTot), 0)
+		from  tmp_CntBiz
+		
 		]]>
 	</select>
 	
@@ -40,11 +63,13 @@
 	<select id="retrieveCntTeamSearchList"  resultType="hashmap">
 		<![CDATA[
 		-- retrieveCntTeamSearchList 과제건수 팀별 과제 관리
+		with tmp_CntTeam as (
 		select m.teamNm
 		         ,sum(m.tssPlCnt) as tssPlCnt
 				 ,sum(m.tssPgCnt) as tssPgCnt
 		         ,sum(m.tssCmCnt) as tssCmCnt
 				 ,sum(m.tssDlCnt) as tssDlCnt   
+				  ,sum(m.tssTot) as tssTot
 		from  (
 				select   (select prj_nm from iris_prj_rsst_mst where prj_cd = a.PRJ_CD) as teamNm
 		                 ,a.prj_cd
@@ -74,6 +99,19 @@
 						,a.TSS_FNH_DD ,a.TSS_ST
 			) m
 		group by  m.teamNm		
+		)
+
+		select *
+		from  tmp_CntTeam
+		union all
+		select '총합'
+			, isnull(sum(tssPlCnt), 0)
+			, isnull(sum(tssPgCnt), 0)
+			, isnull(sum(tssCmCnt), 0)
+			, isnull(sum(tssDlCnt), 0)
+			, isnull(sum(tssTot), 0)
+		from  tmp_CntTeam
+				
 		]]>
 	</select>
 	
@@ -81,20 +119,41 @@
 	<select id="retrievePgsBizSearchList"  resultType="hashmap">
 		<![CDATA[
 		-- retrievePgsBizSearchList 과제진행현황 사업부별 관리
-		select  dbo.fn_getComDtlNm('BIZ_DPT_CD', a.BIZ_DPT_CD) as bizNm
-		         ,a.BIZ_DPT_CD
-		         ,isnull(case when c.MK_ST_CD = 'RED' then count(c.MK_ST_CD) end, 0) as red
-				 ,isnull(case when c.MK_ST_CD = 'GRN' then count(c.MK_ST_CD) end, 0)  as grn
-				 ,isnull(case when c.MK_ST_CD = 'YEL' then count(c.MK_ST_CD) end, 0)  as yel
-				 ,count(c.MK_ST_CD) as tot
-		from  IRIS_TSS_MGMT_MST a
-		         inner join IRIS_PRJ_RSST_MST b
-				 on b.prj_cd = a.prj_cd
-				 inner join IRIS_MK_INNO_CLS c
-				 on a.tss_cd = c.tss_cd
-				 and  c.CLS_YYMM = #{searchMonth}
-		where   a.tss_scn_cd ='M'
-		group by a.BIZ_DPT_CD, c.MK_ST_CD 
+		with tmp_PgsBiz as (
+		select m.bizNm
+	         ,sum(m.red) as red 
+			 ,sum(m.grn) as grn
+			 ,sum(m.yel) as yel
+			 ,sum(m.tot) as tot
+		from  (
+				select  dbo.fn_getComDtlNm('MK_BIZ_DPT_CD', a.BIZ_DPT_CD) as bizNm
+				         ,a.BIZ_DPT_CD
+				         ,isnull(case when c.MK_ST_CD = 'RED' then count(c.MK_ST_CD) end, 0) as red
+						 ,isnull(case when c.MK_ST_CD = 'GRN' then count(c.MK_ST_CD) end, 0)  as grn
+						 ,isnull(case when c.MK_ST_CD = 'YEL' then count(c.MK_ST_CD) end, 0)  as yel
+						 ,count(c.MK_ST_CD) as tot
+				from  IRIS_TSS_MGMT_MST a
+				         inner join IRIS_PRJ_RSST_MST b
+						 on b.prj_cd = a.prj_cd
+						 inner join IRIS_MK_INNO_CLS c
+						 on a.tss_cd = c.tss_cd
+						 and  c.CLS_YYMM = #{searchMonth}
+				where   a.tss_scn_cd ='M'
+				group by a.BIZ_DPT_CD, c.MK_ST_CD 
+					)  m
+		group by m.bizNm
+		)
+
+		select *
+		from tmp_PgsBiz
+		union all 
+		select '총합'
+				,isnull(sum(red), 0) as red
+				,isnull(sum(grn), 0) as grn
+				,isnull(sum(yel), 0) as yel
+				,isnull(sum(tot), 0) as tot 
+		from tmp_PgsBiz
+
 		]]>
 	</select>
 	
@@ -102,6 +161,7 @@
 	<select id="retrievePgsTeamSearchList"  resultType="hashmap">
 		<![CDATA[
 		-- retrievePgsTeamSearchList 과제진행현황 팀별 관리
+		with tmp_PgsTeam as (
 		select m.teamNm
 		         ,sum(m.red) as red
 				 ,sum(m.grn) as grn
@@ -125,6 +185,17 @@
 				group by a.prj_cd, c.MK_ST_CD 
 						) m
 		group by m.teamNm	
+		)
+
+		select *
+		from tmp_PgsTeam
+		union all 
+		select '총합'
+				,isnull(sum(red), 0) as red
+				,isnull(sum(grn), 0) as grn
+				,isnull(sum(yel), 0) as yel
+				,isnull(sum(tot), 0) as tot 
+		from tmp_PgsTeam
 		]]>
 	</select>
 	
