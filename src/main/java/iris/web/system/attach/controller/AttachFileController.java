@@ -45,6 +45,7 @@ import devonframe.fileupload.FileUpload;
 import devonframe.fileupload.model.UploadFileInfo;
 import iris.web.common.MarkAny.MarkAnyDrm;
 import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.CommonUtil;
 import iris.web.system.attach.service.AttachFileService;
 import iris.web.system.base.IrisBaseController;
 
@@ -208,14 +209,20 @@ public class AttachFileController extends IrisBaseController {
 				multipartFile = attachFiles.getFile((String)fileNames.next());
 
 				uploadFileInfo = fileUpload.upload(multipartFile, policy, subDir);
-				/*
-				//첨부파일이 암호화인지 체크
-				if( markAnyDrm.EncryptFileCheck((String) uploadFileInfo.getServerPath()) > 0 ){		//1 : 암호화 -암호화 파일이면 복호화 한다
+			/*
+				//첨부파일이 암호화인지 체크  */
+				if( markAnyDrm.EncryptFileCheck((String) uploadFileInfo.getServerPath()) == 0){
+				
+				}else if( markAnyDrm.EncryptFileCheck((String) uploadFileInfo.getServerPath()) == 1){		//1 : 암호화 -암호화 파일이면 복호화 한다
 					if( markAnyDrm.DecryptFile((String)uploadFileInfo.getServerPath()) != 0){
 						throw new Exception("첨부파일 복호화중 오류가 발생하였습니다.");
 					}
+				}else{
+					throw new Exception("암호화 체크중 오류가 발생하였습니다.");
 				}
-		*/
+		
+				
+				
 				fileInfos.add(uploadFileInfo);
 
 				attachFileInfo = new HashMap<String, Object>();
@@ -326,9 +333,9 @@ public class AttachFileController extends IrisBaseController {
 		input.put("lastMdfyId", attachFileInfo.get("lastMdfyId"));
 		drmCfgMap = attachFileService.retrieveDrmConfig(input);
 
-		/*
 		String encodePath = "\\\\165.244.161.122\\e\\encode\\"+attachFileInfo.get("filPath").toString().substring(attachFileInfo.get("filPath").toString().lastIndexOf("\\") + 1, attachFileInfo.get("filPath").toString().length());
-
+		LOGGER.debug("#############################encodePath##############################  : " + encodePath);
+		/* 운영반영시 해제  */
 		if( CommonUtil.getExtension((String)attachFileInfo.get("filNm"))  ){
 			if(  markAnyDrm.EncryptFileCheck(attachFileInfo.get("filPath").toString() ) > 0 ){		//암호화 체크
 
@@ -354,11 +361,13 @@ public class AttachFileController extends IrisBaseController {
 		}else{
 			FileDownloadView fileDownloadView = new FileDownloadView((String)attachFileInfo.get("filPath"), (String)attachFileInfo.get("filNm"));
 			return fileDownloadView;
-		}*/
+		}
+		
+		/* 개발시 해제
 		FileDownloadView fileDownloadView = new FileDownloadView((String)attachFileInfo.get("filPath"), (String)attachFileInfo.get("filNm"));
 		return fileDownloadView;
+		*/
 	}
-
 
 
 }
