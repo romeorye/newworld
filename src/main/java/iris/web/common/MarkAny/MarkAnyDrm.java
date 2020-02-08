@@ -31,15 +31,17 @@ public class MarkAnyDrm {
 	
 	//암호화
 	public int fncEncyto(Map<String, Object> attachFileInfo, HashMap<String, Object> input, Map<String, Object> drmCfgMap) {
-		
 		m_enc_dec = new WDSCryptAll();
 		SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyyMMddHHmmss");
 		
 		m_enc_dec.sDrmServerIp = MarkAnyDrm.sDrmServerIp;
+		LOGGER.debug("#############################sDrmServerIp##############################  : " + m_enc_dec.sDrmServerIp);
 		m_enc_dec.sSourceFilePath = attachFileInfo.get("filPath").toString(); 									//파일을 포함하는 풀 경로(절대 경로)
+		LOGGER.debug("#############################sSourceFilePath##############################  : " + m_enc_dec.sSourceFilePath);
 		//LOGGER.debug("encode  path ======================== = > " + "\\\\165.244.161.122\\e\\encode\\"+attachFileInfo.get("filPath").toString().substring(attachFileInfo.get("filPath").toString().lastIndexOf("\\") + 1, attachFileInfo.get("filPath").toString().length()));
 		
 		m_enc_dec.sDestFilePath =  "\\\\165.244.161.122\\e\\encode\\"+attachFileInfo.get("filPath").toString().substring(attachFileInfo.get("filPath").toString().lastIndexOf("\\") + 1, attachFileInfo.get("filPath").toString().length());			//파일을 포함하는 풀 경로(절대 경로)
+		LOGGER.debug("#############################sDestFilePath##############################  : " + m_enc_dec.sDestFilePath);
 		
 		m_enc_dec.sUserId = input.get("_userId").toString();			// [필수] 사용자 아이디 또는 사번
 		m_enc_dec.sEnterpriseId = MarkAnyDrm.sEnterpriseId;				// [필수] 그룹아이디
@@ -93,14 +95,22 @@ public class MarkAnyDrm {
 	//암호화 체크
 	public int EncryptFileCheck(String filePath){
 		m_enc_dec = new WDSCryptAll();
-		LOGGER.debug("암호화 체크 =======EncryptFileCheck=====filePath============ = > " + filePath);
 		m_enc_dec.sSourceFilePath = filePath; 
+		LOGGER.debug("암호화 체크 ============filePath============ = > " + filePath);
 		int chkNum = m_enc_dec.iEncCheck();
 		
 		LOGGER.debug("암호화 체크 결과============chkNum============ = > " + chkNum);
 		String cryto ="암호화";
 		String deCryto ="평문화";
 		String enc = chkNum == 1?cryto:deCryto;
+		
+		if ( chkNum == 1    ){
+			enc = cryto;
+		}else if (chkNum == 0 ){
+			enc = deCryto;
+		}else {
+			enc = "암호화 체크 오류";
+		}
 		
 		LOGGER.debug("암호화 체크 결과=============enc=========== = > " + enc);
         return chkNum;
