@@ -101,6 +101,19 @@ Rui.onReady(function() {
     	applyTo: 'chkPtcPro',
         label: '참여율 0건'
     });
+    
+	// 마감 여부 combo
+	var selClsYn = new Rui.ui.form.LCombo({
+		applyTo : 'selClsYn',
+		name : 'selClsYn',
+		defaultValue: '<c:out value="${inputData.selClsYn}"/>',
+		emptyText: '선택하세요',
+			items: [
+				{ text: '마감전', value: 'N'},
+                { text: '마감', value: 'Y' }
+                ]
+	});
+    
 
     /* [팝업텍스트박스] 조직조회 */
     searchDeptName = new Rui.ui.form.LTextBox({
@@ -150,19 +163,21 @@ Rui.onReady(function() {
 	});
 	mmClsDataSet.on('load', function(e){
 		/*권한체크
-		  1. 연동버튼(ADMIN, MM담당자만)
+		  1. 연동버튼(ADMIN, MM담당자만)7
 		 */
 		if( lmbSearchMonth.getValue() ==  createDashMonthToString(new Date) ){
-			if( roleId.indexOf("WORK_IRI_T01") != -1 || roleId.indexOf("WORK_IRI_T05") != -1 ){
+			if( roleId.indexOf("WORK_IRI_T01") > -1 || roleId.indexOf("WORK_IRI_T05") > -1 ){
 				butSave.show();
 				lbButIlck.show();
 				lbButOpenSendMailPop.show();
 				chkPtcPro.show()
+				selClsYn.show()
 			}else{
 				butSave.hide();
 				lbButIlck.hide();
 				lbButOpenSendMailPop.hide();
 				chkPtcPro.hide()
+				selClsYn.hide()
 
 				if('${inputData._userSabun}' != '${inputData.plEmpNo}'){
 					lbButClsClose.hide();
@@ -267,6 +282,30 @@ Rui.onReady(function() {
 	});
 	mmClsGrid.render('defaultGrid');
 
+
+	mmClsColumnModel2 = new Rui.ui.grid.LColumnModel({
+		columns: [
+	    	  { field: 'clsYn',         label: '마감여부',    align:'center', width: 55 }
+	    	, { field: 'clsDt',         label: '마감일자',    align:'center', width: 80 }
+	        , { field: 'saName',        label: '성명',       align:'center', width: 50 }
+	        , { field: 'prjNm',         label: '프로젝트명',   align:'left', width: 220 }
+	        , { field: 'tssWbsCd',      label: '과제코드',    align:'center', width: 70 }
+	        , { field: 'tssNm',         label: '과제명',     	align:'left', width: 300  }
+	        , { field: 'prePtcPro',     label: '전월참여율', 	align:'right', width: 80}
+	        , { field: 'ptcPro',        label: '참여율', 		align:'right', width: 60 }
+	        , { field: 'ilckSt',        label: '연동상태',   	align:'center', width: 60 }
+	        , { field: 'commTxt',       label: '메모',   		align:'left', width: 300}
+	    ]
+	});
+
+	/* [그리드] MM마감 */
+	mmClsGrid2 = new Rui.ui.grid.LGridPanel({
+	    columnModel: mmClsColumnModel2,
+	    dataSet: mmClsDataSet
+	});
+	
+	mmClsGrid2.render('excelGrid');
+	
 	/**
 	총 건수 표시
 	**/
@@ -281,7 +320,6 @@ Rui.onReady(function() {
 		document.getElementById("cnt_text").innerHTML = '총: '+ mmClsDataSet.getCount();
 
 	});
-
 
 	/* [다이얼로그] 메일발송 */
     _mailDialog = new Rui.ui.LFrameDialog({
@@ -538,7 +576,18 @@ Rui.onReady(function() {
 	/* [버튼] 엑셀다운로드 */
 	var lbButExcl = new Rui.ui.LButton('butExcl');
 	lbButExcl.on('click', function() {
-		fncExcelDown();
+	
+		if( mmClsDataSet.getCount() > 0){
+			var excelColumnModel = mmClsColumnModel2.createExcelColumnModel(false);
+			
+			mmClsGrid2.saveExcel(toUTF8('MM마감 목록_') + new Date().format('%Y%m%d') + '.xls' , {
+                columnModel: excelColumnModel
+			}) ;
+			
+		} else {
+	    	Rui.alert('조회된 데이타가 없습니다.!!');
+	    }
+		
 	});
 
 	/* [함수] 화면초기화 */
@@ -562,6 +611,7 @@ Rui.onReady(function() {
 			    searchMonth    : lmbSearchMonth.getValue()
 			  , searchDeptName : encodeURIComponent(searchDeptName.getValue())
 			  , chkPtcPro : chkPtcPro.getValue()
+			  , selClsYn : selClsYn.getValue()
 			  , roleCheck : roleCheck
 	        }
 	    });
@@ -602,11 +652,6 @@ function fnDataSetChkMark(mDataSet, mClsYn, mLlckSt){
 *******************************************************************************/--%>
 function fncExcelDown() {
 
-    if( mmClsDataSet.getCount() > 0){
-    	mmClsGrid.saveExcel(toUTF8('MM마감 목록_') + new Date().format('%Y%m%d') + '.xls');
-    } else {
-    	Rui.alert('조회된 데이타가 없습니다.!!');
-    }
 }
 
 <%--/*******************************************************************************
@@ -694,11 +739,11 @@ function fnDataChkPtcProComp(vDataSet){
 					<div class="search-content">
 			   			<table id="mmSearchTable">
 		   					<colgroup>
-		   						<col style="width:120px" />
+		   						<col style="width:80px" />
 								<col style="width:200px" />
-								<col style="width:120px" />
+								<col style="width:80px" />
 								<col style="width:200px" />
-								<col style="width:200px" />
+								<col style="width:400px" />
 								<col style="" />
 		   					</colgroup>
 		   					<tbody>
@@ -713,6 +758,8 @@ function fnDataChkPtcProComp(vDataSet){
 									</td>
 		   							<td>
 		   								<input type="checkbox" id="chkPtcPro" name="chkPtcPro"/>
+		   								&nbsp;&nbsp;&nbsp; 
+		   								<select id="selClsYn">마감여부</select>
 									</td>
 									<td class="txt-right">
 										<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
@@ -739,7 +786,7 @@ function fnDataChkPtcProComp(vDataSet){
 			</div>
 
    			<div id="defaultGrid"></div>
-
+<div id="excelGrid"></div>
    		</div><!-- //sub-content -->
    	</div><!-- //contents -->
 </body>
