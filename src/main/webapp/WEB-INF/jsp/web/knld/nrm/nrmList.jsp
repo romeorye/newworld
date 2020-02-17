@@ -65,11 +65,11 @@
 		
          var knldNrmColumnModel = new Rui.ui.grid.LColumnModel({
              columns: [
-                   { field: 'nrmNo',	label: '규격번호',	sortable: false,	align:'center',	width: 100 }
-                 , { field: 'nrmNm',	label: '규격명',		sortable: false,	align:'left',	width: 680 }
-                 , { field: 'issAuth',	label: '발행기관',	sortable: false,	align:'center',	width: 250 }
-                 , { field: 'aplcNm',	label: '신청자',		sortable: false,	align:'center',	width: 100 }
-				 , { field: 'getDt',	label: '입수일',		sortable: false, 	align:'center',	width: 100 }
+                   { field: 'nrmNo',	label: '규격번호',	sortable: false,	align:'center',	width: 180 }
+                 , { field: 'nrmNm',	label: '규격명',		sortable: false,	align:'left',	width: 740 }
+                 , { field: 'issAuth',	label: '발행기관',	sortable: false,	align:'center',	width: 210 }
+                 , { field: 'aplcNm',	label: '신청자',		sortable: false,	align:'center',	width: 80 }
+				 , { field: 'getDt',	label: '입수일',		sortable: false, 	align:'center',	width: 80 }
 				 , { field: 'nrmId',	hidden:true}
              ]
          });
