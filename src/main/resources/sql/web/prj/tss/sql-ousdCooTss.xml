@@ -7,15 +7,46 @@
 	<select id="retrieveOusdCooTssList" resultType="hashmap">
     <![CDATA[
 /*대외협력과제 목록 retrieveOusdCooTssList*/
-        SELECT distinct Z.*
+        SELECT distinct  z.wbsCd        --과제코드
+				,z.pkWbsCd      --과제코드(PK)
+				,z.tssCd        --과제코드
+				,z.tssNm        --과제명
+				, SUBSTRING(z.prjNm,CHARINDEX('.',z.prjNm)+1,LEN(z.prjNm) ) as prjNm
+				,z.deptName
+				,z.tssStrtDd    --과제기간시작
+				,z.tssFnhDd     --과제기간종료
+				,z.cmplNxStrtDd --과제실적시작
+				,z.cmplNxFnhDd  --과제실적종료
+				,z.tssSt        --상태
+				,z.tssStNm        --상태명
+				,z.progressrate --진척율
+				,z.frstRgstDt   --최종실적등록일
+				,z.saUserName   --과제리더
+				,z.pgsStepCd    --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
+				,z.pgsStepNm    --진행상태명
+				,z.tssNosSt     --과제차수상태코드(1차년도, 2 차년도, 3 차년도, 4차년도, 5차년도:국책과제)
+				,z.tssNosStNm   --과제차수상태명
+				,z.grsEvSt --GRS상태
+				,z.myTss
+				,z.cmplBStrtDd  --완료전시작일
+				,z.cmplBFnhDd   --완료전종료일
+				,z.dcacBStrtDd  --중단전시작일
+				,z.dcacBFnhDd   --중단전종료일
+				,z.rsstExp             /*연구비(원)*/
+				,z.rsstExpConvertMil   /*연구비(억원)*/
+				,z.arslExp           /*실적연구비(원)*/
+				,z.arslExpConvertMil /*실적연구비(억원)*/
+				,z.bizDptCd
+				,z.prjCd
+        
 		FROM   (
 				select    M.WBS_CD                                        AS wbsCd        --과제코드
 						, M.PK_WBS_CD                                     AS pkWbsCd      --과제코드(PK)
 						, M.TSS_CD                                        AS tssCd        --과제코드
 						, M.TSS_NM                                        AS tssNm        --과제명
-						, SUBSTRING(ISNULL( M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD))
-											, CHARINDEX('.', ISNULL(M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD)))+1
-											, LEN(ISNULL(M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD)))) AS prjNm        --소속명(프로젝트명)
+						,case when m.PGS_STEP_CD = 'CM' then isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) 
+							  when m.PGS_STEP_CD = 'DC' then isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) 
+							         else dbo.fn_getPrjName(m.PRJ_CD)  end prjNm   --소속명(프로젝트명)
 										, ISNULL(M.DEPT_NAME, dbo.fn_getUpperDeptNm(M.DEPT_CODE) ) AS deptName
 									, CASE WHEN M.PGS_STEP_CD != 'AL' THEN M.TSS_STRT_DD
 											ELSE (SELECT TOP 1 X.TSS_STRT_DD FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = M.PK_WBS_CD AND X.PGS_STEP_CD = 'PG') END AS tssStrtDd    --과제기간시작
@@ -43,11 +74,13 @@
 						, ISNULL(B.RSST_EXP,0)                            AS rsstExp             /*연구비(원)*/
 						, ROUND(ISNULL(B.RSST_EXP,0) / convert(float, 100000000), 2)       AS rsstExpConvertMil   /*연구비(억원)*/
 						, (ISNULL(C.YY_NOS_CASH1,0) + ISNULL(C.YY_NOS_CASH2,0) + ISNULL(C.YY_NOS_CASH3,0) + ISNULL(C.YY_NOS_CASH4,0))                      as arslExp           /*실적연구비(원)*/
-						, ROUND((ISNULL(C.YY_NOS_CASH1,0) + ISNULL(C.YY_NOS_CASH2,0) + ISNULL(C.YY_NOS_CASH3,0) + ISNULL(C.YY_NOS_CASH4,0)) / convert(float, 100000000), 2) as arslExpConvertMil /*실적연구비(억원)*/
+						, round(x.asrlExp / convert(float, 100000000), 3)  as arslExpConvertMil 
+						--, ROUND((ISNULL(C.YY_NOS_CASH1,0) + ISNULL(C.YY_NOS_CASH2,0) + ISNULL(C.YY_NOS_CASH3,0) + ISNULL(C.YY_NOS_CASH4,0)) / convert(float, 100000000), 2) as arslExpConvertMil /*실적연구비(억원)*/
 				        , M.BIZ_DPT_CD AS bizDptCd
 				        , M.prj_cd as prjCd
 				        ,g.DROP_YN
 				FROM	IRIS_TSS_MGMT_MST M  /*과제관리마스터*/
+				        left outer join vw_budg_s x on x.wbs_cd = m.wbs_cd 
 						LEFT JOIN IRIS_PRJ_RSST_MST A  /*프로젝트연구마스터*/
 						ON M.PRJ_CD = A.PRJ_CD
 						LEFT OUTER JOIN IRIS_TSS_OUSD_COO_SMRY B ON B.TSS_CD = M.TSS_CD /*대외협력과제 개요*/
@@ -56,6 +89,7 @@
 					   (SELECT  * FROM
 						 (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
 						 ON M.TSS_CD = g.TSS_CD
+						 
 						 and left(g.TSS_CD, 1) = 'O'
 						 
 				WHERE	M.TSS_CD IN (SELECT TSS_CD
@@ -75,7 +109,7 @@
 													WHERE OVER_STEP_RANK = 1)
 				AND M.TSS_SCN_CD = 'O'
 				AND M.DEL_YN = 'N' --삭제여부
-				AND iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN)= 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
+				--AND iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN)= 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
 				) Z
                 WHERE  1=1
 		    ]]>
@@ -458,20 +492,19 @@
     <![CDATA[
     -- retrieveOusdCooTssExpStoa 대외협력과제 비용지급 조회
 		select wbs_cd as wbsCd
-	          ,isnull(sum(mm1) , 0) as mm1
-			  ,isnull(sum(mm2) , 0) as mm2
-			  ,isnull(sum(mm3) , 0) as mm3
-			  ,isnull(sum(mm4) , 0) as mm4
-			  ,isnull(sum(mm5) , 0) as mm5
-			  ,isnull(sum(mm6) , 0) as mm6
-			  ,isnull(sum(mm7) , 0) as mm7
-			  ,isnull(sum(mm8) , 0) as mm8
-			  ,isnull(sum(mm9) , 0) as mm9
-			  ,isnull(sum(mm10), 0) as mm10
-			  ,isnull(sum(mm11), 0) as mm11
-			  ,isnull(sum(mm12), 0) as mm12
-			  ,isnull(sum(mm1), 0) + isnull(sum(mm2), 0)+isnull(sum(mm3), 0)+isnull(sum(mm4), 0)+isnull(sum(mm5), 0)+isnull(sum(mm6), 0)
-			   +isnull(sum(mm7), 0)+isnull(sum(mm8), 0)+isnull(sum(mm9), 0)+isnull(sum(mm10), 0)+isnull(sum(mm11), 0)+isnull(sum(mm12), 0) as totSum
+	          ,isnull(round(sum(mm1), 2) , 0) as mm1
+			  ,isnull(round(sum(mm2), 2) , 0) as mm2
+			  ,isnull(round(sum(mm3), 2) , 0) as mm3
+			  ,isnull(round(sum(mm4), 2) , 0) as mm4
+			  ,isnull(round(sum(mm5), 2) , 0) as mm5
+			  ,isnull(round(sum(mm6), 2) , 0) as mm6
+			  ,isnull(round(sum(mm7), 2) , 0) as mm7
+			  ,isnull(round(sum(mm8), 2) , 0) as mm8
+			  ,isnull(round(sum(mm9), 2) , 0) as mm9
+			  ,isnull(round(sum(mm10), 2), 0) as mm10
+			  ,isnull(round(sum(mm11), 2), 0) as mm11
+			  ,isnull(round(sum(mm12), 2), 0) as mm12
+			  ,isnull(round(sum(arsl_exp), 2), 0) as totSum
 		from  (					   
 				select  wbs_Cd
 						,case when right(a.yyyymm, 2) = '01' then sum(a.ARSL_EXP) end 'mm1'
@@ -486,13 +519,14 @@
 						,case when right(a.yyyymm, 2) = '10' then sum(a.ARSL_EXP) end 'mm10'
 						,case when right(a.yyyymm, 2) = '11' then sum(a.ARSL_EXP) end 'mm11'
 						,case when right(a.yyyymm, 2) = '12' then sum(a.ARSL_EXP) end 'mm12'
+						,sum(arsl_exp) as arsl_exp
 				from  (
 						select RANK() OVER (PARTITION BY erp_cd, yyyymm, S_GROUP ORDER BY FRST_RGST_DT  DESC) AS OVER_STEP_RANK
 								 ,erp_cd as wbs_cd
 								 ,yyyymm
 								 ,S_GROUP
-								 ,convert(numeric(20,6), convert(numeric(20),KO_RSLT)/1000000)  as arsl_exp_1
-								 ,convert(numeric(20,6), convert(numeric(20),KO_RSLT))   as arsl_exp
+								 ,convert(numeric(20,2), convert(numeric(20),KO_RSLT)/1000000)  as arsl_exp
+								-- ,convert(numeric(20,6), convert(numeric(20),KO_RSLT))   as arsl_exp
 						from   IRIS_SAP_BUDG_S_COST
 						where  erp_cd in ( select wbs_cd
 										   from   IRIS_TSS_MGMT_MST
@@ -720,24 +754,15 @@
      <select id="retrieveOusdCooTssCmplItmCheck"  resultType="String">
      	<![CDATA[
      	-- retrieveOusdCooTssCmplItmCheck 필수산출물 count 조회
-     	select  case when a.allCnt - b.attCnt = 0 then 'Y'
-                     else 'N' end as chkYn
-		from  (
-				select count(*) as allCnt
-				from   IRIS_TSS_YLD_ITM
-				where  tss_cd = left(#{tssCd}, 9)+'2'
-				  ) a
-			  ,(
-			    select  count(distinct ATTC_FIL_ID)  as attCnt
-				from   IRIS_COM_ATTC_FIL
-				where  DEL_YN ='N'
-				and   ATTC_FIL_ID in (
-									select ATTC_FIL_ID
-									from   IRIS_TSS_YLD_ITM
-									where  tss_cd = left(#{tssCd}, 9)+'2'
-									)
-			   ) b
-		]]>
+     	SELECT  CASE WHEN COUNT(*)>0 THEN 'Y' ELSE 'N' END checkItm
+		FROM    IRIS_TSS_YLD_ITM
+		WHERE   TSS_CD in (select tss_cd   
+				           from IRIS_TSS_MGMT_MST 
+				           where wbs_cd =#{wbsCd}
+				           and  tss_scn_cd ='O' 
+				           and pgs_step_cd ='PG')
+		and     YLD_ITM_TYPE = '05'		           
+        ]]>
     </select>
 
 </mapper>

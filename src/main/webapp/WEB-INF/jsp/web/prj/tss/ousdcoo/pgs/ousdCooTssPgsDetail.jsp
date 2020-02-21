@@ -58,13 +58,15 @@
         var disableFields = function(disable) {
 
             //버튼여부
-            btnGrsRq.hide();
-
+            //btnGrsRq.hide();
+            btnAltrRq.hide();
+            
             var pTssRoleId = stringNullChk(dataSet.getNameValue(0, "tssRoleId"));
 
             //조건에 따른 보이기
             if(pTssRoleId != "TR05" && pTssRoleId != "") {
-                if(gvTssSt == "100") btnGrsRq.show(); //GRS - 100:작성중
+                //if(gvTssSt == "100") btnGrsRq.show(); //GRS - 100:작성중
+                if(gvTssSt == "100") btnAltrRq.show(); //GRS - 100:작성중
             }
         }
 
@@ -244,7 +246,7 @@
 //                else if(regCntMap.gbn == "CSUS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPlnCsusRq.do'/>" + "?tssCd="+gvTssCd+"&userId="+gvUserId+"&appCode=APP00332");
 //             }
         });
-
+        /* 
         //GRS요청
         btnGrsRq = new Rui.ui.LButton('btnGrsRq');
         btnGrsRq.on('click', function() {
@@ -258,7 +260,7 @@
         });
 
         //변경품의
-/*         btnAltrRq = new Rui.ui.LButton('btnAltrRq');
+		        btnAltrRq = new Rui.ui.LButton('btnAltrRq');
         btnAltrRq.on('click', function() {
             Rui.confirm({
                 text: '변경품의를 진행 하시겠습니까?',
@@ -269,7 +271,39 @@
             });
         }); */
 
+        var confirmDialog = new Rui.ui.LFrameDialog({
+		     id: 'confirmDialog',
+		     title: '변경요청',
+		     width: 550,
+		     height: 320,
+		     modal: true,
+		     visible: false,
+		     buttons: [
+		             { text: '단순변경', handler: function(){
+		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssAltrDetail.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId);
+		             }},
+		             { text: 'GRS심의요청', handler: function(){
+		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&callPageId=ousdCooTss");
+		             }},
+		             { text: 'Close', handler: function(){
+		                 this.cancel();
+		             }},
+		         ]
+		 });
+        
+        confirmDialog.render(document.body);
 
+		 openDialog = function(url){
+			 confirmDialog.setUrl('<c:url value="/prj/tss/gen/confirmPopup.do?tssCd="/>' + gvTssCd + '&userIds=' + gvUserId);
+			 confirmDialog.show();
+        };
+
+		 //변경요청
+       btnAltrRq = new Rui.ui.LButton('btnAltrRq');
+       btnAltrRq.on('click', function() {
+       	openDialog();
+       });
+       
         //목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
@@ -286,9 +320,9 @@
         }
 
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#btnGrsRq").hide();
+        	$("#btnAltrRq").hide();
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#btnGrsRq").hide();
+        	$("#btnAltrRq").hide();
 		}
     });
 
@@ -327,8 +361,8 @@
         <div class="sub-content">
             <div class="titArea mt0">
                 <div class="LblockButton">
-<!--                     <button type="button" id="btnAltrRq" name="btnAltrRq">변경품의</button> -->
-                    <button type="button" id="btnGrsRq" name="btnGrsRq">GRS요청</button>
+					<button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button>
+                    <!-- <button type="button" id="btnGrsRq" name="btnGrsRq">GRS요청</button> -->
                     <button type="button" id="btnList" name="btnList">목록</button>
                 </div>
             </div>

@@ -52,19 +52,19 @@
             id: 'dataSet',
             fields: [
             	    { id:'wbsCd' }
-                  , { id:'mm1'}
-                  , { id:'mm2'}
-                  , { id:'mm3'}
-                  , { id:'mm4'}
-                  , { id:'mm5'}
-                  , { id:'mm6'}
-                  , { id:'mm7'}
-                  , { id:'mm8'}
-                  , { id:'mm9'}
-                  , { id:'mm10'}
-                  , { id:'mm11'}
-                  , { id:'mm12'}
-                  , { id:'totSum'}
+                  , { id:'mm1', type:'number'}
+                  , { id:'mm2', type:'number'}
+                  , { id:'mm3', type:'number'}
+                  , { id:'mm4', type:'number'}
+                  , { id:'mm5', type:'number'}
+                  , { id:'mm6', type:'number'}
+                  , { id:'mm7', type:'number'}
+                  , { id:'mm8', type:'number'}
+                  , { id:'mm9', type:'number'}
+                  , { id:'mm10', type:'number'}
+                  , { id:'mm11', type:'number'}
+                  , { id:'mm12', type:'number'}
+                  , { id:'totSum', type:'number'}
             ]
         });
         dataSet.on('load', function(e) {
@@ -75,71 +75,19 @@
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
                    { field: 'wbsCd', label: 'WBS코드', sortable: false, align:'center', width: 110}
-                , { field: 'mm1', label: '1월', sortable: false, align:'right', width: 85 ,
-	               	 renderer: function(value, p, record){
-	  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-	  		        }
-	              }
-                , { field: 'mm2', label: '2월', sortable: false, align:'right', width: 85 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
-                , { field: 'mm3', label: '3월', sortable: false, align:'right', width: 85 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
-                , { field: 'mm4', label: '4월', sortable: false, align:'right', width: 85 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
-                , { field: 'mm5', label: '5월', sortable: false, align:'right', width: 85 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
-                , { field: 'mm6', label: '6월', sortable: false, align:'right', width: 85 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
-                , { field: 'mm7', label: '7월', sortable: false, align:'right', width: 85 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
-                , { field: 'mm8', label: '8월', sortable: false, align:'right', width: 85 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
-                , { field: 'mm9', label: '9월', sortable: false, align:'right', width: 85 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
-                , { field: 'mm10', label: '10월', sortable: false, align:'right', width: 85 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
-                , { field: 'mm11', label: '11월', sortable: false, align:'right', width: 85 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
-                , { field: 'mm12', label: '12월', sortable: false, align:'right', width: 85 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
-                , { field: 'totSum', label: '합계', sortable: false, align:'right', width: 110 ,
-               	 renderer: function(value, p, record){
-  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
-  		        }
-              }
+                , { field: 'mm1', label: '1월', sortable: false, align:'right', width: 85}
+                , { field: 'mm2', label: '2월', sortable: false, align:'right', width: 85}
+                , { field: 'mm3', label: '3월', sortable: false, align:'right', width: 85 }
+                , { field: 'mm4', label: '4월', sortable: false, align:'right', width: 85}
+                , { field: 'mm5', label: '5월', sortable: false, align:'right', width: 85}
+                , { field: 'mm6', label: '6월', sortable: false, align:'right', width: 85}
+                , { field: 'mm7', label: '7월', sortable: false, align:'right', width: 85}
+                , { field: 'mm8', label: '8월', sortable: false, align:'right', width: 85}
+                , { field: 'mm9', label: '9월', sortable: false, align:'right', width: 85 }
+                , { field: 'mm10', label: '10월', sortable: false, align:'right', width: 85}
+                , { field: 'mm11', label: '11월', sortable: false, align:'right', width: 85 }
+                , { field: 'mm12', label: '12월', sortable: false, align:'right', width: 85}
+                , { field: 'totSum', label: '합계', sortable: false, align:'right', width: 110}
             ]
         });
        
