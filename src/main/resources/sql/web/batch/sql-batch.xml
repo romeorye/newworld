@@ -192,13 +192,14 @@
 		from   IRIS_TSS_MGMT_MST a
 		       inner join IRIS_GRS_EV_RSLT_RGST b
 			   on a.TSS_CD = b.TSS_CD
+			   and b.DROP_YN <> 'Y'
 			   and  b.TSS_CD_SN = (
 									select max(TSS_CD_SN) 
 									from IRIS_GRS_EV_RSLT_RGST 
 									where tss_cd = a.TSS_CD
 									)
 		where  a.del_yn ='N'
-		and    a.tss_st = '102'
+		and    a.tss_st = '302'
 		and    a.tss_scn_cd not in ('D', 'M')
 		and    a.wbs_cd not in (  select wbs_cd 
 								  from IRIS_TSS_MGMT_MST 
@@ -281,7 +282,8 @@
 					when mm.tss_scn_cd = 'N' then '국책'
 					else '' end  as tssScnNm
 			 , (select sa_name from iris_sso_user where sa_sabun_new = mm.sa_sabun_new) as tssSaNm
-			 , 'maeng@lghausys.com'+','+'minjeong@lghausys.com'+','+'eunjoomyung@lghausys.com' as receMailAdd
+			 , 'gapseong@lghausys.com'+','+'eunjoomyung@lghausys.com' as receMailAdd
+			 , 'sojeongm@lghausys.com'+','+'parksb@lghausys.com'+','+'minjeong@lghausys.com'+','+'jkkangc@lghausys.com'+','+'blueoxygen@lghausys.com'+','+'jihyunlee@lghausys.com'+','+'hyokeun@lghausys.com'+','+'ideaman@lghausys.com' as ccMailAddr
 		 from IRIS_TSS_MGMT_MST mm
 		inner join IRIS_PRJ_RSST_MST pm
 		   on mm.PRJ_CD = pm.PRJ_CD
@@ -310,8 +312,9 @@
                     when mm.tss_scn_cd = 'O' then '대외협력'
                     when mm.tss_scn_cd = 'N' then '국책'
                     else '' end  as tssScnNm
-                , (select sa_name from iris_sso_user where sa_sabun_new = mm.sa_sabun_new) as tssSaNm
-                , 'maeng@lghausys.com'+','+'minjeong@lghausys.com'+','+'eunjoomyung@lghausys.com' as receMailAdd
+                 , (select sa_name from iris_sso_user where sa_sabun_new = mm.sa_sabun_new) as tssSaNm
+                 , 'gapseong@lghausys.com'+','+'eunjoomyung@lghausys.com' as receMailAdd
+			     , 'sojeongm@lghausys.com'+','+'parksb@lghausys.com'+','+'minjeong@lghausys.com'+','+'jkkangc@lghausys.com'+','+'blueoxygen@lghausys.com'+','+'jihyunlee@lghausys.com'+','+'hyokeun@lghausys.com'+','+'ideaman@lghausys.com' as ccMailAddr
 		  from IRIS_TSS_MGMT_MST mm
 		 inner join IRIS_PRJ_RSST_MST pm
 		    on mm.PRJ_CD = pm.PRJ_CD
