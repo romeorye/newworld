@@ -70,15 +70,14 @@ public class MailBatchServiceImpl implements MailBatchService{
     public void makeMailSendWbs(HashMap<String, Object> input) {
     	MailSender mailSender = mailSenderFactory.createMailSender();
         ReplacementVo replacementVo = new ReplacementVo();
-        String ccMailAddr = "sojeongm@lghausys.com";
         
         //WBS 생성
-        List<Map<String, Object>>  retrieveWbsCdCreateReq   =    commonDao.selectList("batch.retrieveWbsCdCreateReq", "");
+        List<Map<String, Object>>  retrieveWbsCdCreateReq = commonDao.selectList("batch.retrieveWbsCdCreateReq", "");
 
         for(Map<String, Object> context : retrieveWbsCdCreateReq) {
         	mailSender.setFromMailAddress("iris@lghausys.com");
             mailSender.setToMailAddress(context.get("receMailAdd").toString().split(","));
-            mailSender.setCcMailAddress(ccMailAddr.split(","));
+            mailSender.setCcMailAddress(context.get("ccMailAddr").toString().split(","));
             mailSender.setSubject("WBS 코드 생성의 件");
             
             replacementVo.setPrjNm(NullUtil.nvl(context.get("prjNm").toString(), ""));
@@ -94,7 +93,7 @@ public class MailBatchServiceImpl implements MailBatchService{
             HashMap<String, Object> mailMap = new HashMap<String, Object>();
             mailMap.put("mailTitl", " WBS 코드 생성의 件");
             mailMap.put("adreMail", context.get("receMailAdd"));
-            mailMap.put("rfpMail", ccMailAddr);
+            mailMap.put("rfpMail", context.get("ccMailAddr"));
             mailMap.put("trrMail", "iris@lghausys.com");
             mailMap.put("_userId", input.get("userId").toString());
            
@@ -108,7 +107,7 @@ public class MailBatchServiceImpl implements MailBatchService{
         for(Map<String, Object> context : retrieveWbsCdDeleteReq) {
         	mailSender.setFromMailAddress("iris@lghausys.com");
             mailSender.setToMailAddress(context.get("receMailAdd").toString().split(","));
-            mailSender.setCcMailAddress(ccMailAddr.split(","));
+            mailSender.setToMailAddress(context.get("ccMailAddr").toString().split(","));
             mailSender.setSubject(" WBS 코드 폐지의 件");
             
             wbcCdDelVo.setPrjNm(NullUtil.nvl(context.get("prjNm").toString(), ""));
@@ -124,7 +123,7 @@ public class MailBatchServiceImpl implements MailBatchService{
             HashMap<String, Object> mailMap = new HashMap<String, Object>();
             mailMap.put("mailTitl", " WBS 코드 폐지의 件");
             mailMap.put("adreMail", context.get("receMailAdd") );
-            mailMap.put("rfpMail",  ccMailAddr);
+            mailMap.put("adreMail", context.get("ccMailAddr") );
             mailMap.put("trrMail", "iris@lghausys.com");
             mailMap.put("_userId", input.get("userId").toString());
            
@@ -262,7 +261,7 @@ public class MailBatchServiceImpl implements MailBatchService{
          
     	//grs 심의 요청건 추출
     	List<Map<String, Object>>  grsReqList = commonDao.selectList("batch.retrieveGrsReqSendMailInfo", input) ;
-    	String mailTitle ="GRS 심의요청 메일입니다.";
+    	String mailTitle ="GRS 평가 요청 메일입니다.";
     	//local
     	//String sendMailAddr = "irisLocal@lghausys.com";
     	//dev
