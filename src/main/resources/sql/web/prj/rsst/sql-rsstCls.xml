@@ -75,6 +75,7 @@
 					 WHERE 1=1
 					 AND (A.LAST_MDFY_ID <> 'MIG_DATA' AND  A.WBS_CD <> 'R16TS0')   -- 기술팀 기술전략팀 제외
 					 and   A.TCLG_YN != 'Y'
+					 and   (a.PRJ_END_DT is null OR a.PRJ_END_DT = '')
 			]]>
 			<if test="( roleCheck != 'ADM'   )"><!-- Admin 사용자 아니면 로그인 사용자의 팀코드(조직)로 조회 -->
 					   AND A.DEPT_CD = #{_teamDept}
@@ -333,7 +334,7 @@
 				,DEPT_NAME   		as deptName
 				,TSS_STRT_DD  		as tssStrtDd
 				,TSS_FNH_DD   		as tssFnhDd
-				,PROGRESSRATE 	as progressrate
+				,PROGRESSRATE 	as progressrateReal 
 		FROM   iris_prj_cls_prog
 		WHERE  PRJ_CD = #{prjCd}
 		AND    PRJ_CLS_YYMM = #{searchMonth}
