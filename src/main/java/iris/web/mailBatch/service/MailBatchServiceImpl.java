@@ -107,7 +107,7 @@ public class MailBatchServiceImpl implements MailBatchService{
         for(Map<String, Object> context : retrieveWbsCdDeleteReq) {
         	mailSender.setFromMailAddress("iris@lghausys.com");
             mailSender.setToMailAddress(context.get("receMailAdd").toString().split(","));
-            mailSender.setToMailAddress(context.get("ccMailAddr").toString().split(","));
+            mailSender.setCcMailAddress(context.get("ccMailAddr").toString().split(","));
             mailSender.setSubject(" WBS 코드 폐지의 件");
             
             wbcCdDelVo.setPrjNm(NullUtil.nvl(context.get("prjNm").toString(), ""));
@@ -123,7 +123,7 @@ public class MailBatchServiceImpl implements MailBatchService{
             HashMap<String, Object> mailMap = new HashMap<String, Object>();
             mailMap.put("mailTitl", " WBS 코드 폐지의 件");
             mailMap.put("adreMail", context.get("receMailAdd") );
-            mailMap.put("adreMail", context.get("ccMailAddr") );
+            mailMap.put("rfpMail", context.get("ccMailAddr") );
             mailMap.put("trrMail", "iris@lghausys.com");
             mailMap.put("_userId", input.get("userId").toString());
            
