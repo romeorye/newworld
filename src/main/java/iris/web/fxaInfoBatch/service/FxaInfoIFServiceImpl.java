@@ -68,8 +68,8 @@ public class FxaInfoIFServiceImpl implements FxaInfoIFService {
 			
 			savefxaList.add(fxaMap);
 		}
-		
-		commonDao.batchUpdate("fxaBatch.updateFxaInfoMst", savefxaList);
+		commonDao.delete("fxaBatch.deleteFxaInfoMst", savefxaList);
+		commonDao.batchUpdate("fxaBatch.insertFxaInfoMst", savefxaList);
 	}
 
 	

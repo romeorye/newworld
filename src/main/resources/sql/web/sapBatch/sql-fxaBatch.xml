@@ -124,6 +124,14 @@
    	]]>
    </select>
 
+<!-- 고정자산 마스터 테이블 DELETE -->
+   <update id="deleteFxaInfoMst">
+ 	<![CDATA[
+ 	-- deleteFxaInfoMst 고정자산 마스터 테이블 DELETE
+   		DELETE IRIS_FXA_INFO_MST
+   	]]>
+   </update>
+   
 
  	<!-- 고정자산 IF 이관 데이터 추출-->
    <select  id="retrieveFxaTrsfInfo" resultType="hashmap" >
@@ -144,30 +152,10 @@
    </select>
 
    <!-- 고정자산 연동테이블 정보 고정자산 테이블에 UPDATE -->
-   <update id="updateFxaInfoMst">
+   <update id="insertFxaInfoMst">
  	<![CDATA[
- 	-- updateFxaInfoMst 고정자산 연동테이블 정보 고정자산 테이블에 UPDATE
-   		MERGE IRIS_FXA_INFO_MST MEM
-			USING ( SELECT #{fxaNo} AS FXA_NO ) AS Tab1
-			ON  (MEM.FXA_NO = Tab1.FXA_NO)
-			WHEN MATCHED THEN
-	UPDATE SET	 FXA_NM       = #{fxaNm}
-	            ,FXA_ST_CD    = #{fxaStCd}
-				,CRGR_ID	  = #{crgrId}
-				,WBS_CD	      = #{wbsCd}
-				,FXA_CLSS	  = #{fxaClss}
-				,FXA_QTY	  = #{fxaQty}
-				,FXA_UTM_NM	  = #{fxaUtmNm}
-				,OBT_PCE      = #{obtPce}
-				,BKP_PCE 	  = #{bkpPce}
-				,OBT_DT		  = #{obtDt}
-				,USE_USF	  = #{useUsf}
-				,DSU_DT	  	  = #{dsuDt}
-				,DEPT_CD      = #{deptCd}
-				,LAST_MDFY_DT = GETDATE()
-				,LAST_MDFY_ID = 'batch'
-		WHEN NOT MATCHED THEN
-		INSERT (
+ 	-- insertFxaInfoMst 고정자산 연동테이블 정보 고정자산 테이블에 UPDATE
+		INSERT into IRIS_FXA_INFO_MST (
 		         FXA_NM
 				,FXA_NO
 				,FXA_ST_CD
