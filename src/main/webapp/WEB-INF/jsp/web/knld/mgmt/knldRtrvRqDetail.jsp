@@ -88,7 +88,7 @@
 	            	params = "?mchnEduId="+docNo;
 	            } else if(rtrvRqDocCd == 'FA') {
 	            	params = "?fxaInfoId="+docNo;
-	            }else if(rtrvRqDocCd == '00'  || rtrvRqDocCd == '01'  || rtrvRqDocCd == '02'  ||  rtrvRqDocCd == '03'  || rtrvRqDocCd == '04' || rtrvRqDocCd == '05') {
+	            }else if(rtrvRqDocCd == '00'  || rtrvRqDocCd == '01'  || rtrvRqDocCd == '02'  ||  rtrvRqDocCd == '03'  || rtrvRqDocCd == '04' || rtrvRqDocCd == '05' ||  rtrvRqDocCd == '07' ) {
 	            	params = "?bbsId="+docNo;
 	            }else if(rtrvRqDocCd == 'SPACE') {
 	            	params = "?attcFilId="+docNo;
