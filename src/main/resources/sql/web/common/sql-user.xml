@@ -20,7 +20,14 @@
 				   ,sa_mail								   as saMail
 				   ,dbo.fn_getUpperDeptNm(sa_dept_new)  as uperDeptNm
 				   ,dbo.fn_getUpperDeptCd(sa_dept_new)  as uperDeptCd
-				   ,(select prj_cd from iris_prj_rsst_mst where dept_cd = sa_dept_new) as prjCd
+				   ,(select prj_cd 
+				     from iris_prj_rsst_mst
+					 where dept_cd = (
+									select distinct team_dept_code
+									from   VW_SSO_DEPT
+									where  dept_code = sa_dept_new)
+					 and   (PRJ_END_DT is null or PRJ_END_DT = '')
+					 ) as prjCd
 			from    IRIS_SSO_USER
 			where   1 = 1
 			and     sso_ex_flag !='D'
