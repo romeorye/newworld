@@ -110,6 +110,7 @@
 					, { id: 'anlUgyYnNm' }
 					, { id: 'anlScnNm' }
 					, { id: 'anlNm' }
+					, { id: 'smpoNm' }
 					, { id: 'smpoCnt', type:'number' }
 					, { id: 'exprSmpoCnt' }
 					, { id: 'exprExp' }
@@ -132,6 +133,7 @@
 					, { field: 'anlUgyYnNm',		label: '긴급여부',		sortable: false, 	align:'center',	width: 80 }
 					, { field: 'anlScnNm',			label: '분석구분',		sortable: false, 	align:'center',	width: 80 }
 					, { field: 'anlNm',				label: '분석명',		sortable: false, 	align:'left',	width: 370 }
+					, { field: 'smpoNm',			label: '시료명',		sortable: false, 	align:'left',	width: 200 }
                     , { field: 'smpoCnt',			label: '시료 수',		sortable: false, 	align:'center',	width: 60}
                     , { field: 'exprSmpoCnt',		label: '실험 수',		sortable: false,  	align:'center',	width: 60 }
 					, { field: 'exprExp',			label: '분석 수가',		sortable: false, 	align:'center',	width: 80,
@@ -187,10 +189,11 @@
                          , { field: 'busiDeptNm',		label: '사업부',		sortable: false,	align:'center',	width: 150 }
                          , { field: 'rqprDeptNm',		label: '팀(PJT)',	sortable: false,	align:'center',	width: 150 }
                          , { field: 'rgstNm',			label: '의뢰자',		sortable: false,	align:'center',	width: 70 }
-     					 , { field: 'anlChrgNm',			label: '분석담당자',	sortable: false, 	align:'center',	width: 80 }
+     					 , { field: 'anlChrgNm',		label: '분석담당자',	sortable: false, 	align:'center',	width: 80 }
      					 , { field: 'anlUgyYnNm',		label: '긴급여부',		sortable: false, 	align:'center',	width: 80 }
      					 , { field: 'anlScnNm',			label: '분석구분',		sortable: false, 	align:'center',	width: 80 }
-     					 , { field: 'anlNm',				label: '분석명',		sortable: false, 	align:'left',	width: 370 }
+     					 , { field: 'anlNm',			label: '분석명',		sortable: false, 	align:'left',	width: 370 }
+     					 , { field: 'smpoNm',			label: '시료명',		sortable: false, 	align:'left',	width: 370 }
                          , { field: 'smpoCnt',			label: '시료 수',		sortable: false, 	align:'center',	width: 60,  renderer : 'number'}
                          , { field: 'exprSmpoCnt',		label: '실험 수',		sortable: false,  	align:'center',	width: 60 }
      					 , { field: 'exprExp',			label: '분석 수가',		sortable: false, 	align:'center',	width: 80,

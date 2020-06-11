@@ -40,6 +40,14 @@
 					dbo.fn_getComDtlNm('ANL_UGY_YN', anl_ugy_yn)	as anlUgyYnNm,
 					dbo.fn_getComDtlNm('ANL_SCN_CD', anl_scn_cd)	as anlScnNm,
 					anl_name										as anlNm,
+					(	SELECT STUFF(  
+					(  
+						SELECT      ', ' + QUOTENAME(SMPO_NM)  
+						FROM        IRIS_ANL_RQPR_SMPO 
+						where   RQPR_ID = mst.rqpr_id
+						ORDER BY    SMPO_NM  
+						FOR XML PATH(''),TYPE  
+					).value('.','NVARCHAR(MAX)')  ,1,1,'') ) smpoNm,  
 					(select isnull(sum(smpo_qty), 0)
 					 from	iris_anl_rqpr_smpo
 					 where	rqpr_id = mst.rqpr_id
