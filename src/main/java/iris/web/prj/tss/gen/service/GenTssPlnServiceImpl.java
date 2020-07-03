@@ -1,5 +1,17 @@
 package iris.web.prj.tss.gen.service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
 import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
@@ -8,12 +20,6 @@ import iris.web.common.util.CommonUtil;
 import iris.web.mailBatch.vo.ReplacementVo;
 import iris.web.prj.grs.vo.GrsSendMailInfoVo;
 import iris.web.prj.mm.mail.service.MmMailService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.*;
 /*********************************************************************************
  * NAME : GenTssServiceImpl.java
  * DESC :
@@ -120,7 +126,7 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
 
     @Override
     public int updateGenTssPlnMst(HashMap<String, Object> mstDs, HashMap<String, Object> smryDs, boolean upWbsCd) {
-        commonDao.update("prj.tss.com.updateTssMst", mstDs);
+        //commonDao.update("prj.tss.com.updateTssMst", mstDs);
         commonDao.update("prj.tss.gen.pln.updateGenTssPlnSmry", smryDs);
 
       //과제 제안서
@@ -153,13 +159,13 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
             smryDs.put("arslYymm",    mstDs.get("tssFnhDd").toString().substring(0,7));
             commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
         }
-        
+       /* 
         //지적재산권 
         smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
         smryDs.put("yldItmType", "05");
         smryDs.put("arslYymm",  CommonUtil.getFormattedDate(pmisDt, "-").substring(0, 7));
         commonDao.update("prj.tss.com.updateTssYldItmDate", smryDs);
-        
+        */
         //중단 완료 보고서
         smryDs.put("goalY",       mstDs.get("tssFnhDd").toString().substring(0,4));
         smryDs.put("yldItmType", "03");
@@ -551,6 +557,62 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
         return rst;
 
     }
+    
+    
+    /**
+     *  mst info
+     * @param input
+     * @return
+     */
+	public Map<String, Object> retrievveTssGenMstInfo(HashMap<String, Object> input){
+		return  commonDao.select("prj.tss.gen.pln.retrievveTssGenMstInfo", input);
+	}
+
+	/**
+	 * smry info
+	 * @param input
+	 * @return
+	 */
+	public Map<String, Object> retrievveTssGenSmryInfo(HashMap<String, Object> input){
+		return  commonDao.select("prj.tss.gen.pln.retrievveTssGenSmryInfo", input);
+	}
+
+	/**
+	 * mbr info
+	 * @param input
+	 * @return
+	 */
+	public List<Map<String, Object>> retrievveTssGenMbrList(HashMap<String, Object> input){
+		return  commonDao.selectList("prj.tss.gen.pln.retrievveTssGenMbrList", input);
+	}
+
+	/**
+	 * wbs info
+	 * @param input
+	 * @return
+	 */
+	public List<Map<String, Object>> retrievveTssGenWbsList(HashMap<String, Object> input){
+		return  commonDao.selectList("prj.tss.gen.pln.retrievveTssGenWbsList", input);
+	}
+	
+	/**
+	 * yld info
+	 * @param input
+	 * @return
+	 */
+	public List<Map<String, Object>> retrievveTssGenYldList(HashMap<String, Object> input){
+		return  commonDao.selectList("prj.tss.gen.pln.retrievveTssGenYldList", input);
+	}
+
+	/**
+	 * itm info
+	 * @param input
+	 * @return
+	 */
+	public List<Map<String, Object>> retrievveTssGenItmList(HashMap<String, Object> input){
+		return  commonDao.selectList("prj.tss.gen.pln.retrievveTssGenItmList", input);
+	}
+	
 
     
 }

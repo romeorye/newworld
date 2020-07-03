@@ -66,4 +66,10 @@ public interface GenTssPgsService {
 
 	/* 변경이력 상세 조회*/
 	public Map<String, Object> genTssAltrDetailSearch(HashMap<String, Object> input);
+
+	/* 비용 건수 체크*/
+	public int retrieveGenTssBudgCnt(HashMap<String, String> input);
+
+	/* 비용리스트 0 건일경우*/
+	public List<Map<String, Object>> retrieveGenTssTmpBudg(HashMap<String, String> input);
 }

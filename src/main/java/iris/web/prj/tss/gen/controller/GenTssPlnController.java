@@ -110,7 +110,8 @@ public class GenTssPlnController  extends IrisBaseController {
 
             //사용자권한
             Map<String, Object> role = tssUserService.getTssBtnRoleChk(input, result);
-            result.put("tssRoleType", "W");
+            //result.put("tssRoleType", "W");
+            result.put("tssRoleType", role.get("tssRoleType"));
             result.put("tssRoleId",   role.get("tssRoleId"));
 
             //사용자조직
@@ -137,6 +138,115 @@ public class GenTssPlnController  extends IrisBaseController {
     }
 
 
+    
+    
+	/**
+     * 과제관리 > 일반과제 > 계획  info 조회
+     *
+     * @param input HashMap<String, Object>
+     * @param request HttpServletRequest
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return ModelAndView
+     * */
+    @RequestMapping(value="/prj/tss/gen/retrievveGenTssInfo.do")
+    public ModelAndView retrievveGenTssInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+            HttpSession session, ModelMap model) {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("retrievveGenTssInfo [과제관리 > 일반과제 > 계획  info 조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        checkSessionObjRUI(input, session, model);
+
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        Map<String, Object> mstInfo = null;;		//mst
+    	Map<String, Object> smryInfo =  null;;		//smry
+    	List<Map<String, Object>> mbrList = null;//mbr
+    	List<Map<String, Object>> wbsList = null; //wbs
+    	List<Map<String, Object>> yldList = null; //yld
+    	List<Map<String, Object>> itmList = null;
+    			
+        try {
+
+        	mstInfo  = genTssPlnService.retrievveTssGenMstInfo(input);		//mst
+        	smryInfo = genTssPlnService.retrievveTssGenSmryInfo(input);		//smry
+        	mbrList  = genTssPlnService.retrievveTssGenMbrList(input);	//mbr
+        	wbsList  = genTssPlnService.retrievveTssGenWbsList(input); //wbs
+        	yldList  = genTssPlnService.retrievveTssGenYldList(input); //yld
+        	itmList  = genTssPlnService.retrievveTssGenItmList(input); //itm
+        	
+        }  catch(Exception e) {
+            e.printStackTrace();
+        }
+      //dataSet, smryDataSet,mbrDataSet, wbsDataSet, yldDataSet, itmDataSet
+        modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", mstInfo));
+        modelAndView.addObject("smryDataSet", RuiConverter.createDataset("smryDataSet", smryInfo));
+        modelAndView.addObject("mbrDataSet", RuiConverter.createDataset("mbrDataSet", mbrList));
+        modelAndView.addObject("wbsDataSet", RuiConverter.createDataset("wbsDataSet", wbsList));
+        modelAndView.addObject("yldDataSet", RuiConverter.createDataset("yldDataSet", yldList));
+        modelAndView.addObject("itmDataSet", RuiConverter.createDataset("itmDataSet", itmList));
+
+        return modelAndView;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /******************************* 구버전****************************************************************************************/
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * 과제관리 > 일반과제 > 계획 > 마스터 신규
      *
@@ -1295,7 +1405,7 @@ public class GenTssPlnController  extends IrisBaseController {
             List<Map<String, Object>> resultMbr   = genTssPlnService.retrieveGenTssPlnPtcRsstMbr(input); //참여연구원
             List<Map<String, Object>> resultGoal  = genTssPlnService.retrieveGenTssPlnGoal(input); //목표기술성과
             List<Map<String, Object>> resultTssYy = genTssPlnService.retrieveGenTssPlnTssYy(input); //과제년도
-            List<Map<String, Object>> resultBudg  = genTssPlnService.retrieveGenTssPlnBudgGroupYy(input, resultTssYy); //예산
+            //List<Map<String, Object>> resultBudg  = genTssPlnService.retrieveGenTssPlnBudgGroupYy(input, resultTssYy); //예산
 
             HashMap<String, String> inputInfo = new HashMap<String, String>();
             inputInfo.put("tssCd",     String.valueOf(input.get("tssCd")));
@@ -1305,7 +1415,7 @@ public class GenTssPlnController  extends IrisBaseController {
             inputInfo.put("attcFilId", String.valueOf(resultSmry.get("attcFilId")));
 
             List<Map<String, Object>> resultAttc  = genTssCmplService.retrieveGenTssCmplAttc(inputInfo);
- 
+ /*
             LOGGER.debug("#######################resultBudg #################################### : " + resultBudg);
             
             for(int i=0; i < resultBudg.size() ; i++){
@@ -1321,7 +1431,7 @@ public class GenTssPlnController  extends IrisBaseController {
             		resultSmry.put("total", resultBudg.get(i).get("totSum"));
             	}
             }
-            
+        */    
             resultMst  = StringUtil.toUtf8Output((HashMap) resultMst);
             resultSmry = StringUtil.toUtf8Output((HashMap) resultSmry);
             resultCsus = StringUtil.toUtf8Output((HashMap) resultCsus);
@@ -1335,7 +1445,7 @@ public class GenTssPlnController  extends IrisBaseController {
             model.addAttribute("resultMbr", resultMbr);
             model.addAttribute("resultGoal", resultGoal);
             model.addAttribute("resultTssYy", resultTssYy);
-            model.addAttribute("resultBudg", resultBudg);
+           // model.addAttribute("resultBudg", resultBudg);
             model.addAttribute("resultCsus", resultCsus);
             model.addAttribute("resultAttc", resultAttc);
 

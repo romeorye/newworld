@@ -192,8 +192,6 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				updateTctmNmData(input);
 			}
 		}
-		//과제 생성시 지적재산권
-		//saveTssPimsInfo(input);
 	}
 
 
@@ -207,15 +205,15 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 		//		1.1 IRIS_TSS_MGMT_MST		- 과제관리마스터
 		commonDao.insert("prj.tss.gen.cmpl.insertGenTssCmplMst", input);
 		//		1.2 IRIS_TSS_GEN_SMRY 		- 일반과제 개요
-		commonDao.insert("prj.tss.gen.altr.insertGenTssAltrSmry", input); //진행과제코드로 변경개요
+		commonDao.insert("prj.tss.com.insertGenTssSmry", input); //진행과제코드로 변경개요
 		//		1.3 IRIS_TSS_PTC_RSST_MBR 	- 과제참여연구원
 		commonDao.insert("prj.tss.gen.altr.insertGenTssAltrPtcRsstMbr", input);
 		//	 	1.4 IRIS_TSS_GEN_WBS 		- 일반과제WBS
 		commonDao.insert("prj.tss.gen.altr.insertGenTssAltrWBS", input);
 		//		1.5 IRIS_TSS_GEN_TRWI_BUDG_LIST - 일반과제투입예산목록(계획)
-		commonDao.insert("prj.tss.gen.altr.insertGenTssTrwlBudgList", input);
+		//commonDao.insert("prj.tss.gen.altr.insertGenTssTrwlBudgList", input);
 		//		1.5 IRIS_TSS_GEN_TRWI_BUDG_LIST - 일반과제투입예산마스터
-		commonDao.insert("prj.tss.gen.altr.insertGenTssTrwlBudgMst", input);
+		//commonDao.insert("prj.tss.gen.altr.insertGenTssTrwlBudgMst", input);
 		//		1.6 IRIS_TSS_GOAL_ARSL 		- 과제목표/실적
 		commonDao.insert("prj.tss.gen.altr.insertGenTssAltrGoal", input);
 		//		1.7 IRIS_TSS_YLD_ITM		- 과제산출물
@@ -336,7 +334,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	private void updateGenData(Map<String, Object> input) {
 
 		//		1.1 IRIS_TSS_MGMT_MST		- 과제관리마스터
-		genTssAltrService.updateGenTssMgmtMstToSelect(input);
+		//genTssAltrService.updateGenTssMgmtMstToSelect(input);
 		//		1.2 IRIS_TSS_GEN_SMRY 		- 일반과제 개요
 		genTssAltrService.updateGenTssSmryToSelect(input);
 

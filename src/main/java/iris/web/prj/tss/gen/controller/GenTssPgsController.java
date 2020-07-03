@@ -488,7 +488,17 @@ public class GenTssPgsController  extends IrisBaseController {
         checkSessionRUI(input, session, model);
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
-        List<Map<String, Object>> result = genTssPgsService.retrieveGenTssPgsTrwiBudg(input);
+        List<Map<String, Object>> result = null;
+        
+        int budgCnt = 0;
+        budgCnt = genTssPgsService.retrieveGenTssBudgCnt(input);
+        
+        if ( budgCnt > 0    ) {
+        	result = genTssPgsService.retrieveGenTssPgsTrwiBudg(input);
+        }else{
+        	result = genTssPgsService.retrieveGenTssTmpBudg(input);
+        }
+        		
         modelAndView.addObject("dataset", RuiConverter.createDataset("dataset", result));
 
         return modelAndView;

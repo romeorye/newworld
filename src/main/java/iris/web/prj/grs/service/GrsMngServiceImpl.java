@@ -123,11 +123,6 @@ public class GrsMngServiceImpl implements GrsMngService {
 				//LOGGER.debug("=============== GRG 과제 기본정보 삭제 ===============");
 				input.put("tssCd", tssCd);
 				deleteDefGrsDefInfo(input);
-
-				//Qgate I/F
-				//리더에게 에게 메일 발송
-//					genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121
-
 			}
 
 			result.put("rtnMsg", "저장되었습니다.");
@@ -521,4 +516,306 @@ public class GrsMngServiceImpl implements GrsMngService {
 		updateApprGuid(input);
 		return guid;
 	}
+	
+	
+	//**************************   GRS 개선 **********************************************************//
+	
+	/**
+	 * 신규 과제 등록 
+	 * @throws Exception 
+	 */
+	public void saveTssInfo(Map<String, Object> ds) throws Exception{
+		//신규 TSS 등록
+		if( "".equals( ds.get("tssCd") ) ){
+			HashMap<String, Object> getWbs = genTssService.getTssCd((HashMap) ds);
+			//SEED WBS_CD 생성
+			int seqMax = Integer.parseInt(String.valueOf(getWbs.get("seqMax")));
+			String seqMaxS = String.valueOf(seqMax + 1);
+	
+			String wbsCd = ds.get("tssScnCd") + seqMaxS;
+			
+			ds.put("wbsCd", wbsCd);
+			ds.put("pkWbsCd", wbsCd);
+			
+			String grsYn = (String) ds.get("grsYn");
+			
+			// GRS(P1)을 수행하는 경우 계획 GRS요청  하지 않는 경우 계획 진행중, PG 도 함께 생성
+			if ( grsYn.equals("Y")) {
+				ds.put("pgsStepCd", "PL");  
+				ds.put("grsStCd", "101");// 과제 진행 단계 코드
+				ds.put("tssSt","101");
+			}else {
+				ds.put("pgsStepCd","PL");
+				ds.put("tssSt","100");
+			}
+			
+			//mst 등록
+			try{
+				updateGrsInfo(ds); 
+			
+				//과제 기본정보 등록
+				ds.put("tssCd", ds.get("newTssCd"));
+			
+				if (grsYn.equals("Y")) {
+					ds.put("grsEvSt", "P1");
+					ds.put("dlbrCrgr", ds.get("_userSabun"));
+					
+					try{
+						updateGrsReqInfo(ds);                                            //GRS 정보 등록
+					}catch(Exception e){
+						throw new Exception("GRS생성 중 오류가 발생하였습니다.");
+					}
+					
+				}else if (grsYn.equals("N")) {
+					String tssCd = (String) ds.get("tssCd");
+					ds.put("fromTssCd", tssCd); //GRS 기본정보 TSS_CD
+					ds.put("dropYn", "N");
+					createTssDtlInfo(ds);                                          //GRS 정보 등록
+					
+					deleteDefGrsDefInfo( (HashMap) ds);
+				}
+			}catch(Exception e){
+				throw new Exception("기본과제 정보 저장 중 오류가 발생하였습니다.");
+			}
+			
+			
+		}else{
+			updateGrsInfo(ds);     
+		}
+	}
+	
+	private void createTssDtlInfo(Map<String, Object> ds) throws Exception {
+		// TODO Auto-generated method stub
+		String tssScnCd = (String) ds.get("tssScnCd");
+		//tss_mgmt_mst
+		if( tssScnCd.equals("N")){
+			ds.put("tssNosSt", "1");
+		}
+		
+		commonDao.insert("prj.grs.moveGrsDefInfo", ds);
+		
+		if (ds.get("dropYn").equals("Y") ) return;
+	
+		if ( tssScnCd.equals("G")){
+			commonDao.insert("prj.grs.moveGrsDefSmry", ds);
+		}
+		
+		//산출물
+		Calendar cal = Calendar.getInstance();
+        int mm   = cal.get(Calendar.MONTH) + 1;
+		
+        ds.put("attcFilId", "");	 // 최초 등록시 파일 초기화
+		
+        String goalYStart = ds.get("tssStrtDd").toString().substring(0, 4);
+		String goalYEnd   = ds.get("tssFnhDd").toString().substring(0, 4);
+		String arslYymm01 = ds.get("tssFnhDd").toString().substring(0, 7);
+		
+		if(tssScnCd.equals("G")){
+			String pmisDt = CommonUtil.getMonthSearch_1( CommonUtil.replace(ds.get("tssFnhDd").toString(), "-", ""));
+			
+			ds.put("goalY", goalYStart);
+            ds.put("yldItmType", "01");
+            ds.put("arslYymm",  goalYStart + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+			commonDao.update("prj.tss.com.updateTssYld", ds);
+			
+			if( ds.get("tssAttrCd").equals("00")){
+				ds.put("goalY", goalYStart);
+				ds.put("yldItmType", "06");
+				ds.put("arslYymm",  goalYStart + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+				commonDao.update("prj.tss.com.updateTssYld", ds);
+				
+				//qgate2
+				ds.put("goalY", goalYEnd);
+				ds.put("yldItmType", "07");
+				ds.put("arslYymm", arslYymm01);
+				commonDao.update("prj.tss.com.updateTssYld", ds);
+
+				//qgate3
+				ds.put("goalY", goalYEnd);
+				ds.put("yldItmType", "08");
+				ds.put("arslYymm", arslYymm01);
+				commonDao.update("prj.tss.com.updateTssYld", ds);
+			}
+			/*
+			//지적재산권
+            ds.put("goalY", goalYEnd);
+            ds.put("yldItmType", "05");
+            ds.put("arslYymm",  CommonUtil.getFormattedDate(pmisDt, "-").substring(0, 7));
+			commonDao.update("prj.tss.com.updateTssYld", ds);
+			 */
+            //중단 완료 보고서
+            ds.put("goalY", goalYEnd);
+            ds.put("yldItmType", "03");
+            ds.put("arslYymm", arslYymm01);
+			commonDao.update("prj.tss.com.updateTssYld", ds);
+			
+		}else if(tssScnCd.equals("O")){
+			//대외
+			ds.put("goalY", goalYStart);
+			ds.put("yldItmType", "01");
+			ds.put("arslYymm",  goalYStart + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+			commonDao.update("prj.tss.com.updateTssYld", ds);
+
+            //중단 완료 보고서
+            ds.put("goalY", goalYEnd);
+            ds.put("yldItmType", "05");
+            ds.put("arslYymm", arslYymm01);
+			commonDao.update("prj.tss.com.updateTssYld", ds);
+		}else if(tssScnCd.equals("N")){
+			ds.put("goalY", goalYStart);
+			ds.put("yldItmType", "01");
+			ds.put("arslYymm",  goalYStart + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+			commonDao.update("prj.tss.com.updateTssYld", ds);
+
+            //중단 완료 보고서
+            ds.put("goalY", goalYEnd);
+            ds.put("yldItmType", "04");
+            ds.put("arslYymm", arslYymm01);
+			commonDao.update("prj.tss.com.updateTssYld", ds);
+		}else if(tssScnCd.equals("D")){
+			ds.put("goalY", goalYStart);
+			ds.put("yldItmType", "01");
+			ds.put("arslYymm", goalYStart + "-" + CommonUtil.getZeroAddition(String.valueOf(mm), 2));
+			commonDao.update("prj.tss.com.updateTssYld", ds);
+			
+			if( ds.get("tssAttrCd").equals("00")){
+				//과제속성이 제품인 경우에만 Qgate 연동
+				//Qgate 1,2,3
+				ds.put("goalY", goalYEnd);
+				ds.put("arslYymm", arslYymm01);
+
+				ds.put("yldItmType", "02");
+				commonDao.update("prj.tss.com.updateTssYld", ds);
+
+				ds.put("yldItmType", "03");
+				commonDao.update("prj.tss.com.updateTssYld", ds);
+
+				ds.put("yldItmType", "04");
+				commonDao.update("prj.tss.com.updateTssYld", ds);
+			}
+			
+			//중단 완료 보고
+			ds.put("yldItmType", "05");
+			commonDao.update("prj.tss.com.updateTssYld", ds);
+			
+		}
+	}
+
+	/**
+	 * GRS 정보 조회
+	 * @param input
+	 * @return
+	 */
+	public Map<String, Object> retrievveGrsInfo(HashMap<String, Object> input){
+		return commonDao.select("prj.grs.retrievveGrsInfo", input);
+	}
+	
+	/**
+	 * GRS평가 임시저장
+	 * @param dsMap
+	 * @throws Exception 
+	 */
+	public void saveTmpGrsEvRsltInfo(Map<String, Object> dsMap) throws Exception{
+		Map<String, Object> input = (Map<String, Object>)dsMap.get("input");
+		Map<String, Object> dataSet = (Map<String, Object>)dsMap.get("dataSet");
+		List<Map<String, Object>> gridDataSet = (List<Map<String, Object>>)dsMap.get("gridDataSet");
+		
+		if(  commonDao.update("prj.grs.saveTmpGrsInfo", dataSet)  >  0 ){
+			if(gridDataSet.size() > 0 ){
+				for(Map<String, Object> data : gridDataSet) {
+					data.put("userId", dataSet.get("userId"));
+					data.put("tssCd",  dataSet.get("tssCd"));
+					data.put("tssCdSn", dataSet.get("tssCdSn"));
+					data.put("grsEvSn", dataSet.get("grsEvSn"));
+				}
+
+				if(  commonDao.batchUpdate("prj.grs.updateGrsEvStdRslt", gridDataSet)  > 0 ){
+				}else{
+					throw new Exception("GRS평가  저장 중 오류가 발생하였습니다.");
+				}
+			}	
+		}else{
+			throw new Exception("GRS정보 저장 중 오류가 발생하였습니다.");
+		}
+	}
+	
+	/**
+	 * GRS평가 저장
+	 * @throws Exception 
+	 */
+	public void saveGrsEvRsltInfo(Map<String, Object> dsMap) throws Exception {
+		Map<String, Object> input = (Map<String, Object>) dsMap.get("input");
+		Map<String, Object> dataSet = (Map<String, Object>) dsMap.get("dataSet");
+		List<Map<String, Object>> gridDataSet = (List<Map<String, Object>>)dsMap.get("gridDataSet");
+		
+		String dropYn = dataSet.get("dropYn").toString();
+		
+		if(  commonDao.update("prj.grs.saveGrsInfo", dataSet)  > 0 ){
+			if(gridDataSet.size() > 0 ){
+				for(Map<String, Object> data : gridDataSet) {
+					data.put("userId", dataSet.get("userId"));
+					data.put("tssCd",  dataSet.get("tssCd"));
+					data.put("tssCdSn", dataSet.get("tssCdSn"));
+					data.put("grsEvSn", dataSet.get("grsEvSn"));
+				}
+				
+				if( commonDao.batchUpdate("prj.grs.updateGrsEvStdRslt", gridDataSet) > 0 ){
+				}else{
+					throw new Exception("GRS평가표  저장 중 오류가 발생하였습니다.");
+				}
+			}
+		}else{
+			throw new Exception("GRS평가  저장 중 오류가 발생하였습니다.");
+		}
+		
+		dataSet.put("fromTssCd", dataSet.get("tssCd"));
+		dataSet.put("tssSt", "102");
+
+		
+		if( dataSet.get("grsEvSt").equals("P1")   ){
+			grsMngService.updateDefTssSt((HashMap<String, Object>) dataSet);
+
+			if( dropYn.equals("N") ){			//drop
+				//신규과제 생성
+				try{
+					createTssDtlInfo(dataSet);
+					
+					dataSet.put("deptCode", dataSet.get("deptCode"));
+					dataSet.put("ptcRole", "01");
+					dataSet.put("ptcStrtDt", dataSet.get("tssStrtDd"));
+					dataSet.put("ptcFnhDt", dataSet.get("tssFnhDd"));
+					
+					commonDao.insert("prj.tss.com.updateTssPtcRsstMbr", dataSet);
+					deleteDefGrsDefInfo((HashMap<String, Object>) dataSet);
+				}catch(Exception e){
+					throw new Exception("과제등록 중 오류가 발생하였습니다.");
+				}
+			}
+		}else if (dataSet.get("grsEvSt").equals("M")  ){
+				
+			if( dataSet.get("grsEvMType").equals("IN")  ){	//진척률
+				dataSet.put("tssSt", "100");
+			}
+			commonDao.update("prj.tss.com.updateTssMstTssSt", dataSet);
+		}else if (dataSet.get("grsEvSt").equals("D") ){
+			commonDao.update("prj.tss.com.updateTssMstTssSt", dataSet);
+			dataSet.put("yldItmType", "03");
+			commonDao.update("prj.tss.com.updateYldFile", dataSet);
+
+		}else if (dataSet.get("grsEvSt").equals("P2") ){
+			commonDao.update("prj.tss.com.updateTssMstTssSt", dataSet);
+			dataSet.put("yldItmType", "03");
+			commonDao.update("prj.tss.com.updateYldFile", dataSet);
+		}
+	}
+	
+
+	/**
+	 * GRS 결재번호 업데이트
+	 * @param appList
+	 */
+	public void updateGrsGuid(List<Map<String, Object>> appList){
+		commonDao.batchUpdate("prj.grs.updateGrsGuid", appList);
+	}
+	
 }

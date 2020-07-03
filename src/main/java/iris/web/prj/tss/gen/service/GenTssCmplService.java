@@ -26,8 +26,8 @@ public interface GenTssCmplService {
 	void updateGenTssCmplMst(HashMap<String, Object> mstDs, HashMap<String, Object> smryDs);
 
 
-	//완료개요
-	Map<String, Object> retrieveGenTssCmplSmry(HashMap<String, String> input);
+	//완료
+	Map<String, Object> retrieveGenTssCmplIfm(HashMap<String, String> input);
 
 	int insertGenTssCmplSmry(HashMap<String, Object> input);
 
@@ -43,5 +43,8 @@ public interface GenTssCmplService {
 
 	//필수산출물 count
 	String retrieveGenTssCmplCheck(HashMap<String, String> input);
+	
+
+	
 
 }

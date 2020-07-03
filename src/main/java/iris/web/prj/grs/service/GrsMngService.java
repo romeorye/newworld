@@ -34,4 +34,35 @@ public interface GrsMngService {
 	String getGuid(HashMap<String, Object> input);
 
 	String reqGrsApproval(HashMap<String, Object> input) throws Exception;
+
+	//**************************   GRS 개선 **********************************************************//
+	/**
+	 * 신규 과제 등록
+	 * @param ds
+	 */
+	void saveTssInfo(Map<String, Object> ds) throws Exception;
+
+	/**
+	 * GRS 정보 조회
+	 * @param input
+	 * @return
+	 */
+	Map<String, Object> retrievveGrsInfo(HashMap<String, Object> input);
+
+	/**
+	 * GRS평가 임시저장
+	 * @param dsMap
+	 */
+	void saveTmpGrsEvRsltInfo(Map<String, Object> dsMap) throws Exception;
+
+	/**
+	 * GRS평가 저장
+	 */
+	void saveGrsEvRsltInfo(Map<String, Object> dsMap) throws Exception;
+
+	/**
+	 * GRS 결재번호 업데이트
+	 * @param appList
+	 */
+	void updateGrsGuid(List<Map<String, Object>> appList);
 }

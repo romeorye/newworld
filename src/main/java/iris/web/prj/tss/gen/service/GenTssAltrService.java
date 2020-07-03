@@ -115,6 +115,17 @@ public interface GenTssAltrService {
      */
     public int updateGenTssYldItmToSelect(Map<String, Object> input);
 
+    
+    
+    
+    
+    /**
+     *  변경개요 탭 정보 
+     * @param input
+     * @return
+     */
+	public Map<String, Object> retrieveGenTssAltrInfo(HashMap<String, String> input);
+
 
 
 

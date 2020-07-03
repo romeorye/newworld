@@ -250,7 +250,7 @@ public class GenTssAltrController  extends IrisBaseController {
             HttpSession session, ModelMap model) throws JSONException {
 
         LOGGER.debug("###########################################################");
-        LOGGER.debug("retrieveGenTssAltrSmry [과제관리 > 일반과제 > 변경 > 개요 조회]");
+        LOGGER.debug("retrieveGenTssAltrSmry [과제관리 > 일반과제 > 변경개요 > 변경개요 조회]");
         LOGGER.debug("input = > " + input);
         LOGGER.debug("###########################################################");
 
@@ -259,9 +259,9 @@ public class GenTssAltrController  extends IrisBaseController {
         if(pageMoveChkSession(input.get("_userId"))) {
             //데이터 있을 경우
             Map<String, Object> result = null;
-            if(!"".equals(input.get("tssCd")) && null != input.get("tssCd")) {
-                result = genTssAltrService.retrieveGenTssAltrSmry(input);
-            }
+            
+            result = genTssAltrService.retrieveGenTssAltrInfo(input);
+            
             result = StringUtil.toUtf8Output((HashMap) result);
 
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();

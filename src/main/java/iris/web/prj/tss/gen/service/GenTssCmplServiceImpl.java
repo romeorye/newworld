@@ -1,14 +1,16 @@
 package iris.web.prj.tss.gen.service;
 
-import devonframe.dataaccess.CommonDao;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import devonframe.dataaccess.CommonDao;
 
 
 /*********************************************************************************
@@ -47,27 +49,27 @@ public class GenTssCmplServiceImpl implements GenTssCmplService {
         insertGenTssCmplSmry(smryDs);
 
 		//완료 산출물 연결
-		smryDs.put("tssCd", mstDs.get("pgTssCd"));
-		smryDs.put("yldItmType", "03");
-		commonDao.update("prj.tss.com.updateYldFile", smryDs);
-
+		//smryDs.put("tssCd", mstDs.get("pgTssCd"));
+		//smryDs.put("yldItmType", "03");
+		//commonDao.update("prj.tss.com.updateYldFile", smryDs);
     }
 
     @Override
     public void updateGenTssCmplMst(HashMap<String, Object> mstDs, HashMap<String, Object> smryDs) {
         commonDao.update("prj.tss.gen.cmpl.updateGenTssCmplMst", mstDs);
 		updateGenTssCmplSmry(smryDs);
+		
 		//완료 산출물 연결
-		smryDs.put("tssCd", mstDs.get("pgTssCd"));
-		smryDs.put("yldItmType", "03");
-		commonDao.update("prj.tss.com.updateYldFile", smryDs);
+		//smryDs.put("tssCd", mstDs.get("pgTssCd"));
+		//smryDs.put("yldItmType", "03");
+		//commonDao.update("prj.tss.com.updateYldFile", smryDs);
     }
 
 
     //개요
     @Override
-    public Map<String, Object> retrieveGenTssCmplSmry(HashMap<String, String> input) {
-        return commonDao.select("prj.tss.gen.cmpl.retrieveGenTssCmplSmry", input);
+    public Map<String, Object> retrieveGenTssCmplIfm(HashMap<String, String> input) {
+        return commonDao.select("prj.tss.gen.cmpl.retrieveGenTssCmplIfm", input);
     }
 
     @Override

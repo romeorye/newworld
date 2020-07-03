@@ -102,14 +102,14 @@ public class TssStCopyBatch extends IrisBaseController {
 								tssSt = "100"; //진행중
 							}
 						 }else{ 
-							 if( data.get("pgsStepCd").equals("PL") ){
+							 if( data.get("pgsStepCd").equals("PL")){
 								 if ( data.get("tssScnCd").equals("M") ){
-									 tssSt = "102"; // GRS평가완료
+									 tssSt = "100"; // GRS평가완료
 								 }else{
 									 tssSt = "302"; // GRS평가완료
 								 }
 							}else{
-								tssSt = "102"; // GRS평가완료
+								tssSt = "100"; // GRS평가완료
 							}
 						}
 						

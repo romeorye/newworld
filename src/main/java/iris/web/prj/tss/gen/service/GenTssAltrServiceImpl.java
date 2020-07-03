@@ -87,13 +87,14 @@ public class GenTssAltrServiceImpl implements GenTssAltrService {
             smryDs.put("pgTssCd", mstDs.get("pgTssCd"));
 
             //개요 첨부파일ID 신규생성
+           /*
             HashMap<String, Object> attachFile = commonDao.select("prj.tss.gen.getGenTssFileId", mstDs);
             if(!attachFile.isEmpty()) {
                 attachFile.put("userId", mstDs.get("userId"));
                 commonDao.insert("prj.tss.com.insertTssAttachFile", attachFile);
                 smryDs.put("attcFilId", attachFile.get("newAttcFilId"));
             }
-
+*/
             commonDao.insert("prj.tss.gen.altr.insertGenTssAltrSmry", smryDs); //진행과제코드로 변경개요
             commonDao.update("prj.tss.gen.altr.updateGenTssAltrSmry1", smryDs); //변경개요
             commonDao.insert("prj.tss.gen.altr.insertGenTssAltrPtcRsstMbr", smryDs);
@@ -115,7 +116,7 @@ public class GenTssAltrServiceImpl implements GenTssAltrService {
 
     @Override
     public int updateGenTssAltrMst(HashMap<String, Object> mstDs, HashMap<String, Object> smryDs, List<Map<String, Object>> altrDs, boolean upWbsCd) {
-        commonDao.update("prj.tss.com.updateTssMst", mstDs);
+        //commonDao.update("prj.tss.com.updateTssMst", mstDs);
         commonDao.update("prj.tss.gen.altr.updateGenTssAltrSmry1", smryDs);
 
         for(int i = 0; i < altrDs.size(); i++) {
@@ -137,7 +138,8 @@ public class GenTssAltrServiceImpl implements GenTssAltrService {
     //변경개요
     @Override
     public Map<String, Object> retrieveGenTssAltrSmry(HashMap<String, String> input) {
-        return commonDao.select("prj.tss.gen.retrieveGenTssSmry", input);
+        //return commonDao.select("prj.tss.gen.retrieveGenTssSmry", input);
+    	return commonDao.select("prj.tss.gen.altr.retrieveGenTssAltrInfo", input);
     }
 
     @Override
@@ -331,4 +333,19 @@ public class GenTssAltrServiceImpl implements GenTssAltrService {
         commonDao.insert("prj.tss.gen.altr.insertGenTssAltrYld", input);
         return 0;
     }
+    
+    
+    /**
+     *  변경개요 탭 정보 
+     * @param input
+     * @return
+     */
+	public Map<String, Object> retrieveGenTssAltrInfo(HashMap<String, String> input){
+		if ( "".equals(input.get("tssCd"))  ){
+			input.put("tssCd", input.get("pgTssCd") );
+		}
+		
+		return commonDao.select("prj.tss.gen.altr.retrieveGenTssAltrInfo", input);
+	}
+
 }

@@ -216,6 +216,7 @@ public class GenTssCmplController  extends IrisBaseController {
 
 
     //================================================================================================ 개요
+    
     /**
      * 과제관리 > 일반과제 > 완료 > 완료 iframe 조회
      *
@@ -226,12 +227,12 @@ public class GenTssCmplController  extends IrisBaseController {
      * @return String
      * @throws JSONException
      * */
-    @RequestMapping(value="/prj/tss/gen/genTssCmplSmryIfm.do")
-    public String genTssCmplSmryIfm(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+    @RequestMapping(value="/prj/tss/gen/genTssCmplIfm.do")
+    public String genTssCmplIfm(@RequestParam HashMap<String, String> input, HttpServletRequest request,
             HttpSession session, ModelMap model) throws JSONException {
 
         LOGGER.debug("###########################################################");
-        LOGGER.debug("genTssCmplSmryIfm [과제관리 > 일반과제 > 완료 > iframe 조회]");
+        LOGGER.debug("genTssCmplIfm [과제관리 > 일반과제 > 완료 > iframe 조회]");
         LOGGER.debug("input = > " + input);
         LOGGER.debug("###########################################################");
 
@@ -243,8 +244,15 @@ public class GenTssCmplController  extends IrisBaseController {
         }else{
         	rtnUrl = "web/prj/tss/gen/cmpl/genTssCmplIfm";
         }
+        
         if(pageMoveChkSession(input.get("_userId"))) {
-            Map<String, Object> result = genTssCmplService.retrieveGenTssCmplSmry(input);
+        	Map<String, Object> result = genTssCmplService.retrieveGenTssCmplIfm(input);
+           
+            if( result == null || result.size() == 0 ){
+            	input.put( "tssCd", input.get("pgTssCd") );  	
+            	result = genTssCmplService.retrieveGenTssCmplIfm(input);
+            }
+            
             result = StringUtil.toUtf8Output((HashMap) result);
             StringUtil.toUtf8Output((HashMap) result);
 
@@ -260,10 +268,10 @@ public class GenTssCmplController  extends IrisBaseController {
             request.setAttribute("result", obj);
         }
         
-        
         return rtnUrl;
     }
 
+    
 
 
     //================================================================================================ 품의서
@@ -295,7 +303,6 @@ public class GenTssCmplController  extends IrisBaseController {
         }else{
         	rtnMsg = "N";
         }
-        LOGGER.debug("###########################rtnMsg################################ : " + rtnMsg);	    
         
         if(!rtnMsg.equals("N")){
         	input.put("rtnMsg", rtnMsg); //저장되었습니다.
@@ -306,10 +313,12 @@ public class GenTssCmplController  extends IrisBaseController {
         if(pageMoveChkSession(input.get("_userId"))) {
         	Map<String, Object> resultMst         = genTssCmplService.retrieveGenTssCmplMst(input); //마스터
             Map<String, Object> resultCsus        = genTssService.retrieveGenTssCsus(resultMst); //품의서
-            Map<String, Object> resultSmry        = genTssCmplService.retrieveGenTssCmplSmry(input); //개요
-
+            Map<String, Object> resultSmry        = genTssCmplService.retrieveGenTssCmplIfm(input); //개요
+            //Map<String, Object> resultSmry        = genTssCmplService.retrieveGenTssCmplSmry(input); //개요
+            
             HashMap<String, String> inputInfo = new HashMap<String, String>();
             inputInfo.put("tssCd",     String.valueOf(input.get("tssCd")));
+            inputInfo.put("wbsCd",     String.valueOf(input.get("wbsCd")));
             inputInfo.put("pgTssCd",   String.valueOf(resultMst.get("pgTssCd")));
             inputInfo.put("tssStrtDd", String.valueOf(resultMst.get("tssStrtDd")));
             inputInfo.put("tssFnhDd",  String.valueOf(resultMst.get("tssFnhDd")));

@@ -262,7 +262,11 @@ public class GenTssDcacController  extends IrisBaseController {
             Map<String, Object> result = null;
             if(!"".equals(input.get("tssCd")) && null != input.get("tssCd")) {
                 result = genTssDcacService.retrieveGenTssDcacSmry(input);
+            }else{
+            	input.put( "tssCd", input.get("pgTssCd") ); 
+            	result = genTssDcacService.retrieveGenTssDcacSmry(input);
             }
+            
             result = StringUtil.toUtf8Output((HashMap) result);
 
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();

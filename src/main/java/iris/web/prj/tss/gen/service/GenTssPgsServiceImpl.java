@@ -128,56 +128,6 @@ public class GenTssPgsServiceImpl implements GenTssPgsService {
     //투입예산
     @Override
     public List<Map<String, Object>> retrieveGenTssPgsTrwiBudg(HashMap<String, String> input) {
-
-        String choiceYm = input.get("choiceYm");
-        String tssYy = "";
-
-        String pivotTitle = "[";
-        String pivotSum = "ISNULL([";
-        String unionTitle = "ROUND([";
-        String unionSum = "ROUND(SUM([";
-
-        if("yy".equals(choiceYm)) {
-            List<Map<String, Object>> rtList = commonDao.selectList("prj.tss.com.retrieveTssTssYy", input);
-
-            for(int i = 0; i < rtList.size(); i++) {
-                tssYy = (String)rtList.get(i).get("tssYy");
-
-                pivotTitle += tssYy + "],[";
-                pivotSum   += tssYy + "],0)+ISNULL([";
-                unionTitle += tssYy + "],2) AS '" + tssYy + "',ROUND([";
-                unionSum   += tssYy + "]),2),ROUND(SUM([";
-            }
-        }
-        else if("mm".equals(choiceYm)) {
-            tssYy = input.get("tssYy");
-            String mm = "";
-
-            for(int i = 1; i <= 12; i++) {
-                if(i < 10) {
-                    mm = "0" + String.valueOf(i);
-                } else {
-                    mm = String.valueOf(i);
-                }
-
-                pivotTitle += tssYy + mm + "],[";
-                pivotSum   += tssYy + mm + "],0)+ISNULL([";
-                unionTitle += tssYy + mm + "],2) AS '" + mm + "',ROUND([";
-                unionSum   += tssYy + mm + "]),2),ROUND(SUM([";
-            }
-
-        }
-
-        pivotTitle = pivotTitle.substring(0, pivotTitle.length() - 2);
-        pivotSum   = pivotSum.substring(0, pivotSum.length() - 9);
-        unionTitle = unionTitle.substring(0, unionTitle.length() - 8);
-        unionSum   = unionSum.substring(0, unionSum.length() - 12);
-
-        input.put("pivotTitle", pivotTitle);
-        input.put("pivotSum",   pivotSum);
-        input.put("unionTitle", unionTitle);
-        input.put("unionSum",   unionSum);
-
         return commonDao.selectList("prj.tss.gen.pgs.retrieveGenTssPgsTrwiBudg", input);
     }
 
@@ -226,4 +176,15 @@ public class GenTssPgsServiceImpl implements GenTssPgsService {
 	public Map<String, Object> genTssAltrDetailSearch(HashMap<String, Object> input){
 		return commonDao.select("prj.tss.gen.pgs.genTssAltrDetailSearch", input);
 	}
+	
+	/* 비용 건수 체크*/
+	public int retrieveGenTssBudgCnt(HashMap<String, String> input){
+		return commonDao.select("prj.tss.gen.pgs.retrieveGenTssBudgCnt", input);
+	}
+	
+	/* 비용리스트 0 건일경우*/
+	public List<Map<String, Object>> retrieveGenTssTmpBudg(HashMap<String, String> input){
+		return commonDao.selectList("prj.tss.gen.pgs.retrieveGenTssTmpBudg", input);
+	}
+	
 }

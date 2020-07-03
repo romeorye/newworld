@@ -105,6 +105,53 @@ public interface GenTssPlnService {
 
     public void retrieveSendMail(HashMap<String, Object> input);
 
+    
+    
+   /**********************************renewal*****************************************************************/ 
+    /**
+     *  mst info
+     * @param input
+     * @return
+     */
+	public Map<String, Object> retrievveTssGenMstInfo(HashMap<String, Object> input);
+
+	/**
+	 * smry info
+	 * @param input
+	 * @return
+	 */
+	public Map<String, Object> retrievveTssGenSmryInfo(HashMap<String, Object> input);
+
+	/**
+	 * mbr info
+	 * @param input
+	 * @return
+	 */
+	public List<Map<String, Object>> retrievveTssGenMbrList(HashMap<String, Object> input);
+
+	/**
+	 * wbs info
+	 * @param input
+	 * @return
+	 */
+	public List<Map<String, Object>> retrievveTssGenWbsList(HashMap<String, Object> input);
+	
+	/**
+	 * yld info
+	 * @param input
+	 * @return
+	 */
+	public List<Map<String, Object>> retrievveTssGenYldList(HashMap<String, Object> input);
+
+	/**
+	 * itm info
+	 * @param input
+	 * @return
+	 */
+	public List<Map<String, Object>> retrievveTssGenItmList(HashMap<String, Object> input);
+
+	
+
 
 
 
