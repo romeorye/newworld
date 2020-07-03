@@ -244,6 +244,8 @@
                 , { id: 'phNm' }      //
                 , { id: 'itgSrch' }       //
                 , { id: 'attcFilId' }     //
+                , { id: 'grsStCd' }     //
+                , { id: 'cmYn' }     //
             ]
         });
         dataSet.on('load', function(e) {
@@ -297,7 +299,6 @@
                 , { id: 'tssAttrCd',  ctrlId: 'tssAttrCd',  value: 'value' }
                 , { id: 'tssNm',      ctrlId: 'tssNm',      value: 'value' }
                 , { id: 'grsEvSt',    ctrlId: 'grsEvSt',    value: 'value' }
-                // , { id: 'grsEvSnNm',  ctrlId: 'grsEvSnNm',  value: 'value' }
                 , { id: 'dlbrParrDt', ctrlId: 'dlbrParrDt', value: 'value' }
                 , { id: 'dlbrCrgrNm', ctrlId: 'dlbrCrgrNm', value: 'value' }
             ]
@@ -367,6 +368,7 @@
                 handlerYes: function() {
                     dataSet.setNameValue(0, "userId",   gvUserId);
                     dataSet.setNameValue(0, "tssSt",    "101"); //101:GRS요청
+                    dataSet.setNameValue(0, "grsStCd",    "101"); //101:GRS요청
                     dataSet.setNameValue(0, "reqSabun", "${inputData._userSabun}"); //요청자사번
 		            dataSet.setNameValue(0, 'mailTitl', "IRIS GRS심의 요청메일입니다");
 		            dataSet.setNameValue(0, 'phNm', cboGrsEvSt.getDisplayValue() );
