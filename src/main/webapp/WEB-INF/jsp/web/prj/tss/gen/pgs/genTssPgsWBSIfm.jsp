@@ -243,7 +243,7 @@
 	                    
 	                    return record.data.arslCd;
 	              } }
-                , { field: 'delay', label: '지연', sortable: false, renderRow: true, align:'center', width: 60, editor: new Rui.ui.form.LNumberBox()  
+                , { field: 'delay', label: '지연', sortable: false, renderRow: true, align:'center', editable : false, width: 60
                 	 , renderer: function(value, p, record, row, col) {
                          if ( record.get("depth") == 2 ||  record.get("depth") == 3){
                         	 if( value < 0 ){

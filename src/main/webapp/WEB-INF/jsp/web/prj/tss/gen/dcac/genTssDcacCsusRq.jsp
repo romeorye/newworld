@@ -260,11 +260,13 @@
                                     <td class="alignC">${resultMst.tssStrtDd} ~ ${resultMst.tssFnhDd}</td>
                                     <td class="alignC">${resultMst.dcacBStrtDd} ~ ${resultMst.dcacBFnhDd}</td>
                                 </tr>
+                               <%-- 
                                 <tr>
-                                    <td align="center">총투자 비용 (백만원)</td>
+                                    <td align="center">총투자 비용 (억원)</td>
                                     <td class="alignR"><fmt:formatNumber value="${resultDcac.plnExp}" pattern="#,###.##" /></td>
                                     <td class="alignR"><fmt:formatNumber value="${resultDcac.arslExp}" pattern="#,###.##" /></td>
                                 </tr>
+                                --%> 
                             </tbody>
                         </table>
                     <div class="titArea"><h3>4. 연구개발 성과</h3></div>
@@ -289,12 +291,11 @@
                     <div class="titArea"><h3>5. 향후 계획</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width:20%"/>
-                                <col style="width:80%"/>
+                                <col style="width:100%"/>
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th>사업화(출시) 및 양산이관계획</th>
+                                 <%--    <th>사업화(출시) 및 양산이관계획</th> --%>
                                     <td><c:out value="${fn:replace(resultSmry.fnoPlnTxt, cn, br)}" escapeXml="false"/></td>
                                 </tr>
                             </tbody>

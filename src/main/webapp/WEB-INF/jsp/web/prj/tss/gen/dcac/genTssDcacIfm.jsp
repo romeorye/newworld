@@ -363,18 +363,7 @@ $(window).load(function() {
                 <tr>
                     <th align="right">향후 계획</th>
                     <td colspan="2">
-                        <table class="table table_txt_right">
-                            <colgroup>
-                                <col style="width: 150px;" />
-                                <col style="width: *;" />
-                            </colgroup>
-                            <tbody>
-                                <tr>
-                                    <th align="right">사업화(출시) 및 양산이관계획</th>
-                                    <td><input type="text" id="fnoPlnTxt" /></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <input type="text" id="fnoPlnTxt" />
                     </td>
                 </tr>
                 <tr>
@@ -383,14 +372,14 @@ $(window).load(function() {
                 </tr>
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
-                    <td id="attchFileView">&nbsp;</td>
-                    <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
+                    <td id="attchFileView"  colspan="2">&nbsp;</td>
                 </tr>
             </tbody>
         </table>
     </form>
 </div>
 <div class="titArea">
+<!-- <div><font color="red">첨부 : 과제중단보고서(word파일), 심의보고서(ppt), 심의회의록</font></div> -->
     <div class="LblockButton">
         <button type="button" id="btnSave" name="btnSave">저장</button>
         <!-- <button type="button" id="btnList" name="btnList">목록</button> -->

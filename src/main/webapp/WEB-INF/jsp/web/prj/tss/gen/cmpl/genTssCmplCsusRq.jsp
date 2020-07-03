@@ -222,7 +222,133 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>2. 과제 개요</h3></div>
+                    <div class="titArea"><h3>2. 기대 성과 및 R&D 자원 투입 실적</h3></div>
+                  		<table class="table table_txt_right" id="grsDev">
+							<colgroup>
+								<col style="width: 20%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+							</colgroup>
+							<tbody>
+								<tr>
+					  				<th rowspan="2"></th>
+					  				<th class="alignC"  colspan="2">출시년도</th>
+					  				<th class="alignC"  colspan="2">출시년도+1</th>
+					  				<th class="alignC"  colspan="2">출시년도+2</th>
+					  				<th class="alignC"  colspan="2">출시년도+3</th>
+					  				<th class="alignC"  colspan="2">출시년도+4</th>
+					  			</tr>
+					  			<tr>
+					  				<th class="alignC">前단계</th>
+					  				<th class="alignC">현재</th>
+					  				<th class="alignC">前단계</th>
+					  				<th class="alignC">현재</th>
+					  				<th class="alignC">前단계</th>
+					  				<th class="alignC">현재</th>
+					  				<th class="alignC">前단계</th>
+					  				<th class="alignC">현재</th>
+					  				<th class="alignC">前단계</th>
+					  				<th class="alignC">현재</th>
+					  			</tr>
+					  			<tr>
+					  				<th>매출이익률(%)</th>
+					  				<td>${resultSmry.bizPrftProY}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProCurY}</td>
+					  				<td>${resultSmry.bizPrftProY1}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProCurY1}</td>
+					  				<td>${resultSmry.bizPrftProY2}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProCurY2}</td>
+					  				<td></td>
+					  				<td bgcolor='#E6E6E6'></td>
+					  				<td></td>
+					  				<td bgcolor='#E6E6E6'></td>
+					  			</tr>
+					  			<tr>
+					  				<th>매출액(억원)</th>
+					  				<td>${resultSmry.nprodSalsPlnY}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.nprodSalsCurY}</td>
+					  				<td>${resultSmry.nprodSalsPlnY1}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.nprodSalsCurY1}</td>
+					  				<td>${resultSmry.nprodSalsPlnY2}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.nprodSalsCurY2}</td>
+					  				<td></td>
+					  				<td bgcolor='#E6E6E6'></td>
+					  				<td></td>
+					  				<td bgcolor='#E6E6E6'></td>
+					  			</tr>
+					  			<tr>
+					  				<th>영업이익(억원)</th>
+					  				<td>${resultSmry.bizPrftPlnY}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftCurY}</td>
+					  				<td>${resultSmry.bizPrftPlnY1}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftCurY1}</td>
+					  				<td>${resultSmry.bizPrftPlnY2}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftCurY2}</td>
+					  				<td></td>
+					  				<td bgcolor='#E6E6E6'></td>
+					  				<td></td>
+					  				<td bgcolor='#E6E6E6'></td>
+					  			</tr>
+								<tr>
+					  				<th rowspan="2"></th>
+					  				<th class="alignC"  colspan="2">과제시작년도</th>
+					  				<th class="alignC"  colspan="2">과제시작년도+1</th>
+					  				<th class="alignC"  colspan="2">과제시작년도+2</th>
+					  				<th class="alignC"  colspan="2">과제시작년도+3</th>
+					  				<th class="alignC"  colspan="2">과제시작년도+4</th>
+					  			</tr>
+					  			<tr>
+					  				<th class="alignC">계획</th>
+					  				<th class="alignC">실적</th>
+					  				<th class="alignC">계획</th>
+					  				<th class="alignC">실적</th>
+					  				<th class="alignC">계획</th>
+					  				<th class="alignC">실적</th>
+					  				<th class="alignC">계획</th>
+					  				<th class="alignC">실적</th>
+					  				<th class="alignC">계획</th>
+					  				<th class="alignC">실적</th>
+					  			</tr>
+					  			<tr>
+					  				<th>투입인원(명)</th>
+					  				<td>${resultSmry.ptcCpsnY}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnCurY}</td>
+					  				<td>${resultSmry.ptcCpsnY1}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnCurY1}</td>
+					  				<td>${resultSmry.ptcCpsnY2}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnCurY2}</td>
+					  				<td>${resultSmry.ptcCpsnY3}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnCurY3}</td>
+					  				<td>${resultSmry.ptcCpsnY4}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnCurY4}</td>
+					  			</tr>
+					  			<tr>
+					  				<th>투입비용(억원)</th>
+					  				<td>${resultSmry.expArslY}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.expArslCurY}</td>
+					  				<td>${resultSmry.expArslY1}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.expArslCurY1}</td>
+					  				<td>${resultSmry.expArslY2}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.expArslCurY2}</td>
+					  				<td>${resultSmry.expArslY3}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.expArslCurY3}</td>
+					  				<td>${resultSmry.expArslY4}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.expArslCurY4}</td>
+					  			</tr>
+							</tbody>
+						</table>
+                  
+                  
+                  
+                    <div class="titArea"><h3>3. 과제 개요</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:20%"/>
@@ -239,7 +365,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>3. 개발계획 대비 실적 개요</h3></div>
+                    <div class="titArea"><h3>4. 개발계획 대비 실적 개요</h3></div>
                         <table class="table">
                             <colgroup>
                                 <col style="width:20%"/>
@@ -257,14 +383,16 @@
                                     <td class="alignC">${resultMst.tssStrtDd} ~ ${resultMst.tssFnhDd}</td>
                                     <td class="alignC">${resultMst.cmplBStrtDd} ~ ${resultMst.cmplBFnhDd}</td>
                                 </tr>
+                               <%-- 
                                 <tr>
-                                    <td align="center">총투자 비용 (백만원)</td>
+                                    <td align="center">총투자 비용 (억 원)</td>
                                     <td class="alignR">${resultCmpl.plnExp}</td>
                                     <td class="alignR">${resultCmpl.arslExp}</td>
                                 </tr>
+                                --%> 
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>4. 연구개발 성과</h3></div>
+                    <div class="titArea"><h3>5. 연구개발 성과</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:15%"/>
@@ -275,7 +403,11 @@
                                 <tr>
                                     <th>지적재산권</th>
                                     <td colspan="2">
-										<table>
+										<table  class="table table_txt_right">
+											<colgroup>
+				                                <col style="width:20%"/>
+				                                <col style="width:80%"/>
+				                            </colgroup>
 											<tr>
 												<th align="right">지재권 출원현황<br/>(국내/해외)</th>
 			                                    <td><c:out value="${fn:replace(resultSmry.rsstDvlpOucmTxt, cn, br)}" escapeXml="false"/></td>
@@ -298,21 +430,25 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>5. 향후 계획</h3></div>
+                    <div class="titArea"><h3>6. 향후 계획</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width:20%"/>
-                                <col style="width:*"/>
+                                <col style="width:25%"/>
+                                <col style="width:25%"/>
+                                <col style="width:25%"/>
+                                <col style="width:25%"/>
                             </colgroup>
                             <tbody>
                                 <tr>
                                     <th>사업화(출시) 및 양산이관계획</th>
                                     <td><c:out value="${fn:replace(resultSmry.fwdPlnTxt, cn, br)}" escapeXml="false"/><br/>
                                     <c:out value="${fn:replace(resultSmry.fnoPlnTxt, cn, br)}" escapeXml="false"/></td>
+                                    <th>예상출시일(계획)</th>
+                                    <td>${resultSmry.ancpOtPlnDt}</td>
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>6. 첨부파일</h3></div>
+                    <div class="titArea"><h3>7. 첨부파일</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:100%"/>

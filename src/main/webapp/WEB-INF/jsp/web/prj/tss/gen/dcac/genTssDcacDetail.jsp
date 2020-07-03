@@ -41,6 +41,7 @@
     var gvTssSt     = "";
     var gvPgsStepCd = "DC"; //진행상태:DC(중단)
     var gvPkWbsCd   = "";
+    var gvWbsCd   = "";
     var gvPageMode  = "";
     var progressrateReal = "${inputData.progressrateReal}";
     var progressrate     = "${inputData.progressrate}";
@@ -282,6 +283,7 @@
             gvTssSt    = stringNullChk(dataSet.getNameValue(0, "pgTssSt")); //진행단계 과제코드
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvPkWbsCd  = dataSet.getNameValue(0, "pkWbsCd");
+            gvWbsCd  = dataSet.getNameValue(0, "wbsCd");
             document.tabForm.tssSt.value = dataSet.getNameValue(0, "tssSt");
             document.tabForm.pgsStepCd.value = dataSet.getNameValue(0, "pgsStepCd");
 
@@ -403,7 +405,8 @@
             //완료
             case 0:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssDcacSmryIfm.do?tssCd=" + dcacTssCd + "'/>";
+                    /* tabUrl = "<c:url value='/prj/tss/gen/genTssDcacSmryIfm.do?tssCd=" + dcacTssCd + "'/>"; */
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssDcacSmryIfm.do?tssCd=" + dcacTssCd+"&pgTssCd="+gvTssCd+"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent0');
                 }
                 break;

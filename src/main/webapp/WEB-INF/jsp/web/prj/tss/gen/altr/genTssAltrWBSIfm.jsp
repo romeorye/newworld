@@ -233,8 +233,8 @@
         //날짜 체크
         fnTssDateChk = function() {
             //과제기간과의 범위체크
-            var pTssStartDt = window.parent.tssStrtDd.getValue().replace(/\-/g, "").toDate();
-            var pTssFnhDd   = window.parent.tssFnhDd.getValue().replace(/\-/g, "").toDate();
+            var pTssStartDt = window.parent.tssStrtDd.replace(/\-/g, "").toDate();
+            var pTssFnhDd   = window.parent.tssFnhDd.replace(/\-/g, "").toDate();
             
             if(!(pTssStartDt instanceof Date)) pTssStartDt = pTssStartDt.replace(/\-/g, "").toDate();
             if(!(pTssFnhDd instanceof Date)) pTssFnhDd = pTssFnhDd.replace(/\-/g, "").toDate();
@@ -257,7 +257,7 @@
                 if(!(pFnhDt instanceof Date)) pFnhDt = pFnhDt.replace(/\-/g, "").toDate();
                 
                 if(i == 0) {
-                    //부모와 시작일비교 
+                	//부모와 시작일비교 
                     if(!fnDateBetweenCheck(pStartDt, pTssStartDt, pTssFnhDd, i)) return false;
                     
                     //부모와 종료일비교
@@ -293,7 +293,8 @@
         
         //부모날짜와 비교
         fnDateBetweenCheck = function(cDt, pStartDt, pFnhDt, cRow) {
-            if(!cDt.between(pStartDt, pFnhDt)) {
+        
+        	if(!cDt.between(pStartDt, pFnhDt)) {
                 pStartDt.setDate(pStartDt.getDate() + 1);
                 pFnhDt.setDate(pFnhDt.getDate() - 1);
                 
@@ -450,10 +451,10 @@
             record.set("userId",   lvUserId);  //사용자
             record.set("wbsSn",    record.id); //임시 wbsSn
             record.set("depthSeq", 1); //순서
-            record.set("strtDt",   window.parent.tssStrtDd.getValue().replace(/\-/g, "").toDate()); //시작일
-            record.set("fnhDt",    window.parent.tssFnhDd.getValue().replace(/\-/g, "").toDate());  //종료일
+            record.set("strtDt",   window.parent.tssStrtDd.replace(/\-/g, "").toDate()); //시작일
+            record.set("fnhDt",    window.parent.tssFnhDd.replace(/\-/g, "").toDate());  //종료일
             record.set("wgvl",     "100"); //가중치
-            record.set("tssNm",    window.parent.tssNm.getValue());  //제목
+            record.set("tssNm",    window.parent.tssNm);  //제목
         });
         
         

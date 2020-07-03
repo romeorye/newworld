@@ -39,17 +39,21 @@
     var lvUserId   = window.parent.gvUserId;
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
-    
+    var gbnCd      = window.parent.gbnCd;
     var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
     
     var dataSet1;
     var dataSet2;
     var vm1;
     var vm2;
+    
     var lvAttcFilId;
     
+    var lvTssAttrCd = window.parent.tssAttrCd;
+    var lvBizDptCd = window.parent.bizDptCd;
+    
     Rui.onReady(function() {
-        /*============================================================================
+    	/*============================================================================
         =================================    Form     ================================
         ============================================================================*/
         //변경사유
@@ -68,21 +72,19 @@
         
         //Form 비활성화
         disableFields = function() {
-            Rui.select('.tssLableCss input').addClass('L-tssLable');
+            if(pageMode == "W") return;
+            /* 
+        	Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
             
-            if(pageMode == "W") return;
             
             butRecordNew.hide();
             butRecordDel.hide();
             btnSave.hide();
-            
+             
+        	*/
             grid.setEditable(false);
-            
-            document.getElementById('attchFileMngBtn').style.display = "none";
         };
-      
-
         
         /*============================================================================
         =================================    DataSet     =============================
@@ -93,16 +95,61 @@
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-                  { id: 'tssCd' }         //과제코드
-                , { id: 'userId' }        //로그인ID
-                , { id: 'altrRsonTxt' }   //변경사유
-                , { id: 'addRsonTxt' }    //추가사유
-                , { id: 'altrAttcFilId' } //첨부파일
+            	 { id: 'ancpOtPlnDt'}
+            	,{ id: 'bizPrftProY'}   
+                ,{ id: 'bizPrftProY1'}  
+                ,{ id: 'bizPrftProY2'}  
+                ,{ id: 'bizPrftProY3'}  
+                ,{ id: 'bizPrftProY4'}  
+            	,{ id: 'bizPrftPlnY'}
+            	,{ id: 'bizPrftPlnY1'}
+            	,{ id: 'bizPrftPlnY2'}
+            	,{ id: 'nprodSalsPlnY'}
+            	,{ id: 'nprodSalsPlnY1'}
+            	,{ id: 'nprodSalsPlnY2'}
+            	,{ id: 'nprodSalsPlnY3'}
+            	,{ id: 'nprodSalsPlnY4'}
+            	,{ id: 'ptcCpsnY'}
+            	,{ id: 'ptcCpsnY1'}
+            	,{ id: 'ptcCpsnY2'}
+            	,{ id: 'ptcCpsnY3'}
+            	,{ id: 'ptcCpsnY4'}
+            	,{ id: 'expArslY'}
+            	,{ id: 'expArslY1'}
+            	,{ id: 'expArslY2'}
+            	,{ id: 'expArslY3'}
+            	,{ id: 'exparsly4'}
+            	,{ id: 'bizPrftProYBefore'}   
+                ,{ id: 'bizPrftProY1Before'}  
+                ,{ id: 'bizPrftProY2Before'}  
+                ,{ id: 'bizPrftProY3Before'}  
+                ,{ id: 'bizPrftProY4Before'}  
+            	,{ id: 'bizPrftPlnYBefore'}
+            	,{ id: 'bizPrftPlnY1Before'}
+            	,{ id: 'bizPrftPlnY2Before'}
+            	,{ id: 'nprodSalsPlnYBefore'}
+            	,{ id: 'nprodSalsPlnY1Before'}
+            	,{ id: 'nprodSalsPlnY2Before'}
+            	,{ id: 'ptcCpsnYBefore'}
+            	,{ id: 'ptcCpsnY1Before'}
+            	,{ id: 'ptcCpsnY2Before'}
+            	,{ id: 'ptcCpsnY3Before'}
+            	,{ id: 'ptcCpsnY4Before'}
+            	,{ id: 'expArslYBefore'}
+            	,{ id: 'expArslY1Before'}
+            	,{ id: 'expArslY2Before'}
+            	,{ id: 'expArslY3Before'}
+            	,{ id: 'exparsly4Before'}
+            	,{ id: 'altrRsonTxt'}
+            	,{ id: 'addRsonTxt'}
+            	,{ id: 'altrAttcFilId'}
+            	,{ id: 'tssCd'}
+            	,{ id: 'userId'}
             ]
         });
         dataSet1.on('load', function(e) {
             console.log("smry load DataSet Success");
-
+            
             dataSet2.load({
                 url: '<c:url value="/prj/tss/gen/retrieveGenTssAltrSmryList.do"/>',
                 params :{
@@ -120,10 +167,268 @@
             dataSet: dataSet1,
             bind: true,
             bindInfo: [
-                  { id: 'tssCd',       ctrlId: 'tssCd',       value: 'value' }
-                , { id: 'userId',      ctrlId: 'userId',      value: 'value' }
-                , { id: 'altrRsonTxt', ctrlId: 'altrRsonTxt', value: 'value' }
-                , { id: 'addRsonTxt',  ctrlId: 'addRsonTxt',  value: 'value' }
+            	 { id: 'ancpOtPlnDt', 		ctrlId: 'ancpOtPlnDt',		value: 'html'}
+            	,{ id: 'bizPrftProY',      ctrlId: 'bizPrftProY',      value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'bizPrftProYBefore',      ctrlId: 'bizPrftProYBefore',      value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                ,{ id: 'bizPrftProY1',     ctrlId: 'bizPrftProY1',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                ,{ id: 'bizPrftProY1Before',     ctrlId: 'bizPrftProY1Before',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                ,{ id: 'bizPrftProY2',     ctrlId: 'bizPrftProY2',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                ,{ id: 'bizPrftProY2Before',     ctrlId: 'bizPrftProY2Before',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                ,{ id: 'bizPrftProY3',     ctrlId: 'bizPrftProY3',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                ,{ id: 'bizPrftProY3Before',     ctrlId: 'bizPrftProY3Before',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                ,{ id: 'bizPrftProY4',     ctrlId: 'bizPrftProY4',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                ,{ id: 'bizPrftProY4Before',     ctrlId: 'bizPrftProY4Before',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'bizPrftPlnY', 		ctrlId: 'bizPrftPlnY', 		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'bizPrftPlnYBefore', 		ctrlId: 'bizPrftPlnYBefore', 		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'bizPrftPlnY1', 		ctrlId: 'bizPrftPlnY1', 	value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'bizPrftPlnY1Before', 		ctrlId: 'bizPrftPlnY1Before', 	value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'bizPrftPlnY2', 		ctrlId: 'bizPrftPlnY2', 	value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'bizPrftPlnY2Before', 		ctrlId: 'bizPrftPlnY2Before', 	value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'nprodSalsPlnY', 	ctrlId: 'nprodSalsPlnY', 	value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'nprodSalsPlnYBefore', 	ctrlId: 'nprodSalsPlnYBefore', 	value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'nprodSalsPlnY1',	ctrlId: 'nprodSalsPlnY1', 	value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'nprodSalsPlnY1Before',	ctrlId: 'nprodSalsPlnY1Before', 	value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'nprodSalsPlnY2', 	ctrlId: 'nprodSalsPlnY2', 	value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'nprodSalsPlnY2Before', 	ctrlId: 'nprodSalsPlnY2Before', 	value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'ptcCpsnY', 			ctrlId: 'ptcCpsnY', 		value: 'html'}
+            	,{ id: 'ptcCpsnYBefore', 			ctrlId: 'ptcCpsnYBefore', 		value: 'html'}
+            	,{ id: 'ptcCpsnY1', 		ctrlId: 'ptcCpsnY1', 		value: 'html'}
+            	,{ id: 'ptcCpsnY1Before', 		ctrlId: 'ptcCpsnY1Before', 		value: 'html'}
+            	,{ id: 'ptcCpsnY2', 		ctrlId: 'ptcCpsnY2', 		value: 'html'}
+            	,{ id: 'ptcCpsnY2Before', 		ctrlId: 'ptcCpsnY2Before', 		value: 'html'}
+            	,{ id: 'ptcCpsnY3', 		ctrlId: 'ptcCpsnY3', 		value: 'html'}
+            	,{ id: 'ptcCpsnY3Before', 		ctrlId: 'ptcCpsnY3Before', 		value: 'html'}
+            	,{ id: 'ptcCpsnY4', 		ctrlId: 'ptcCpsnY4', 		value: 'html'}
+            	,{ id: 'ptcCpsnY4Before', 		ctrlId: 'ptcCpsnY4Before', 		value: 'html'}
+            	,{ id: 'expArslY', 			ctrlId: 'expArslY', 		value: 'html'}
+            	,{ id: 'expArslYBefore', 			ctrlId: 'expArslYBefore', 		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'expArslY1', 		ctrlId: 'expArslY1', 		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'expArslY1Before', 		ctrlId: 'expArslY1Before', 		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'expArslY2', 		ctrlId: 'expArslY2', 		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'expArslY2Before', 		ctrlId: 'expArslY2Before', 		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'expArslY3', 		ctrlId: 'expArslY3', 		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'expArslY3Before', 		ctrlId: 'expArslY3Before', 		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'exparsly4', 		ctrlId: 'exparsly4', 		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'exparsly4Before', 		ctrlId: 'exparsly4Before', 		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+            	,{ id: 'altrRsonTxt', 		ctrlId: 'altrRsonTxt', 		value: 'value'}
+            	,{ id: 'addRsonTxt', 		ctrlId: 'addRsonTxt', 		value: 'value'}
             ]
         });
         
@@ -150,8 +455,10 @@
         });
         dataSet2.on('load', function(e) {
             console.log("altr load DataSet Success");
+            //lvAttcFilId = stringNullChk(dataSet1.getNameValue(0, "altrAttcFilId"));
+            //if(lvAttcFilId != "") getAttachFileList();
         });
-        
+       
         
         //유효성 설정
         vm2 = new Rui.validate.LValidatorManager({
@@ -179,18 +486,15 @@
             columnModel: columnModel,
             dataSet: dataSet2,
             width: 600,
-            height: 308,
+            height: 250,
             autoToEdit: true,
             clickToEdit: true,
             enterToEdit: true,
             autoWidth: true,
-            autoHeight: true,
             multiLineEditor: true,
             useRightActionMenu: false
         });
         grid.render('defaultGrid');
-        
-        
         
         /*============================================================================
         =================================    기능     ================================
@@ -264,6 +568,7 @@
             dataSet2.add(record);
         });
         
+        if(lvAttcFilId != "") getAttachFileList();
         
         //삭제
         var butRecordDel = new Rui.ui.LButton('butRecordDel');
@@ -282,14 +587,15 @@
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-            window.parent.fnSave();
+            //dataSet1.setNameValue(0, 'altrAttcFilId', lvAttcFilId)
+        	window.parent.fnSave();
         });
         
         
         //목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {                
-            nwinsActSubmit(window.parent.document.mstForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
+        	nwinsActSubmit(window.parent.document.mstForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
         });
         
         
@@ -340,30 +646,154 @@
 </script>
 <script type="text/javascript">
 $(window).load(function() {
-    initFrameSetHeight();
+	initFrameSetHeight();
 }); 
 </script>
 </head>
-<body>
-<div class="titArea">
-    <div class="LblockButton">
-        <button type="button" id="butRecordNew">+</button>
-        <button type="button" id="butRecordDel">-</button>
-    </div>
-</div>
-<div id="defaultGrid"></div>
+<body style="overflow: hidden">
 <div id="aFormDiv">
     <form name="aForm" id="aForm" method="post" style="padding: 10px 1px 0 0;">
         <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
         <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
-        
-        <table class="table table_txt_right">
+		
+		<div class="titArea">
+		    <div class="LblockButton">
+		        <button type="button" id="butRecordNew">+</button>
+		        <button type="button" id="butRecordDel">-</button>
+		    </div>
+		</div>
+		<div id="defaultGrid"></div>
+		<table class="table table_txt_right" id="tbDlView">
             <colgroup>
-                <col style="width: 150px;" />
-                <col style="width: *;" />
-                <col style="width: 150px;" />
+                <col style="width: 20%;" />
+				<col style="width: 8%;" />
+				<col style="width: 8%;" />
+				<col style="width: 8%;" />
+				<col style="width: 8%;" />
+				<col style="width: 8%;" />
+				<col style="width: 8%;" />
+				<col style="width: 8%;" />
+				<col style="width: 8%;" />
+				<col style="width: 8%;" />
+				<col style="width: 8%;" />
             </colgroup>
             <tbody>
+            	<tr>
+                    <th align="right">상품출시(계획)</th>
+                    <td colspan="10"><span id="ancpOtPlnDt" /></td>
+                </tr>
+                <tr  id="trNprodSalHead">
+	  				<th rowspan="2"></th>
+	  				<th class="alignC"  colspan="2">출시년도</th>
+	  				<th class="alignC"  colspan="2">출시년도+1</th>
+	  				<th class="alignC"  colspan="2">출시년도+2</th>
+	  				<th class="alignC"  colspan="2">출시년도+3</th>
+	  				<th class="alignC"  colspan="2">출시년도+4</th>
+	  			</tr>
+	  			<tr>
+	  				<th class="alignC">변경 前</th>
+	  				<th class="alignC">변경 後</th>
+	  				<th class="alignC">변경 前</th>
+	  				<th class="alignC">변경 後</th>
+	  				<th class="alignC">변경 前</th>
+	  				<th class="alignC">변경 後</th>
+	  				<th class="alignC">변경 前</th>
+	  				<th class="alignC">변경 後</th>
+	  				<th class="alignC">변경 前</th>
+	  				<th class="alignC">변경 後</th>
+	  			</tr>
+	  			<tr id="trNprodSal">
+	  				<th>매출이익률(%)</th>
+	  				<td class="alignR"><span id="bizPrftProYBefore" /></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="bizPrftProY"  /></td>
+	  				<td class="alignR"><span id="bizPrftProY1Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="bizPrftProY1" /></td>
+	  				<td class="alignR"><span id="bizPrftProY2Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="bizPrftProY2" /></td>
+	  				<td class="alignR"></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'></td>
+	  				<td class="alignR"></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'></td>
+	  			</tr>
+	  			<tr id="trNprodSal"  >
+	  				<th>매출액(억원)</th>
+	  				<td class="alignR"><span id="nprodSalsPlnYBefore" /></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsPlnY"  /></td>
+	  				<td class="alignR"><span id="nprodSalsPlnY1Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsPlnY1" /></td>
+	  				<td class="alignR"><span id="nprodSalsPlnY2Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsPlnY2" /></td>
+	  				<td class="alignR"></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'></td>
+	  				<td class="alignR"></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'></td>
+	  			</tr>
+	  			<tr id="trbizPrftPln" >
+	  				<th>영업이익(억원)</th>
+	  				<td class="alignR"><span id="bizPrftPlnYBefore"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="bizPrftPlnY" /></td>
+	  				<td class="alignR"><span id="bizPrftPlnY1Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="bizPrftPlnY1" /></td>
+	  				<td class="alignR"><span id="bizPrftPlnY2Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="bizPrftPlnY2" /></td>
+	  				<td class="alignR"></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'></td>
+	  				<td class="alignR"></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'></td>
+	  			</tr>
+				<tr id="trPtcCpsnHead" >
+	  				<th rowspan="2"></th>
+	  				<th class="alignC"  colspan="2">과제시작년도</th>
+	  				<th class="alignC"  colspan="2">과제시작년도+1</th>
+	  				<th class="alignC"  colspan="2">과제시작년도+2</th>
+	  				<th class="alignC"  colspan="2">과제시작년도+3</th>
+	  				<th class="alignC"  colspan="2">과제시작년도+4</th>
+	  			</tr>
+	  			<tr>
+	  				<th class="alignC">변경 前</th>
+	  				<th class="alignC">변경 後</th>
+	  				<th class="alignC">변경 前</th>
+	  				<th class="alignC">변경 後</th>
+	  				<th class="alignC">변경 前</th>
+	  				<th class="alignC">변경 後</th>
+	  				<th class="alignC">변경 前</th>
+	  				<th class="alignC">변경 後</th>
+	  				<th class="alignC">변경 前</th>
+	  				<th class="alignC">변경 後</th>
+	  			</tr>
+	  			<tr id="trPtcCpsn" >
+	  				<th>투입인원(명)</th>
+	  				<td class="alignR"><span id="ptcCpsnYBefore"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="ptcCpsnY" /></td>
+	  				<td class="alignR"><span id="ptcCpsnY1Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="ptcCpsnY1" /></td>
+	  				<td class="alignR"><span id="ptcCpsnY2Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="ptcCpsnY2" /></td>
+	  				<td class="alignR"><span id="ptcCpsnY3Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="ptcCpsnY3" /></td>
+	  				<td class="alignR"><span id="ptcCpsnY4Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="ptcCpsnY4" /></td>
+	  			</tr>
+	  			<tr id="trExpArsl" >
+	  				<th>투입비용(억원)</th>
+	  				<td class="alignR"><span id="expArslYBefore" /></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="expArslY" /></td>
+	  				<td class="alignR"><span id="expArslY1Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="expArslY1" /></td>
+	  				<td class="alignR"><span id="expArslY2Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="expArslY2" /></td>
+	  				<td class="alignR"><span id="expArslY3Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="expArslY3" /></td>
+	  				<td class="alignR"><span id="expArslY4Before"/></td>
+	  				<td class="alignR" bgcolor='#E6E6E6'><span id="expArslY4" /></td>
+	  			</tr>
+	  		</table>
+	  		
+	  		<table class="table table_txt_right">
+	  			<colgroup>
+	                <col style="width: 20%;" />
+					<col style="width: 80%;" />
+	            </colgroup>	
                 <tr>
                     <th align="right">변경사유</th>
                     <td colspan="2">
@@ -379,20 +809,21 @@ $(window).load(function() {
                         <input type="text" id="addRsonTxt" />
                     </td>
                 </tr>
-                <tr>
+                <tr id="trALView" >
                     <th align="right">첨부파일</th>
-                    <td id="attchFileView">&nbsp;</td>
-                    <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
+                    <td  colspan="2" id="attchFileView"></td>
                 </tr>
+                
+                
             </tbody>
         </table>
-    </form>
-</div>
-<div class="titArea btn_btm">
+        <div class="titArea btn_btm">
     <div class="LblockButton">
         <button type="button" id="btnSave" name="btnSave">저장</button>
         <button type="button" id="btnList" name="btnList">목록</button>
     </div>
+</div>
+    </form>
 </div>
 </body>
 </html>

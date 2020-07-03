@@ -35,6 +35,9 @@
     var dataSet;
     var popupRow;
     
+    var tssStDt   = window.parent.tmpTssStrtDd;
+    var tssEndDt   = window.parent.tmpTssFnhDd;
+
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -81,8 +84,8 @@
                 , { id: 'saUserName' }                                        //연구원이름         
                 , { id: 'deptCode' }                                          //소속               
                 , { id: 'deptName' }                                          //소속               
-                , { id: 'ptcStrtDt', type: 'date', defaultValue: new Date() } //참여시작일         
-                , { id: 'ptcFnhDt', type: 'date' }  //참여종료일         
+                , { id: 'ptcStrtDt', type: 'date', defaultValue: new Date(tssStDt) } //참여시작일         
+                , { id: 'ptcFnhDt', type: 'date', defaultValue: new Date(tssEndDt)}  //참여종료일         
                 //, { id: 'ptcFnhDt', type: 'date', defaultValue: new Date() }  //참여종료일         
                 , { id: 'oldStrtDt' } //참여시작일         
                 , { id: 'oldFnhDt' }  //참여종료일         
@@ -106,17 +109,17 @@
                 , { field: 'deptName', label: '소속', sortable: false, align:'left', width: 250 }
                 , { field: 'ptcStrtDt', label: '참여시작일', sortable: false, align:'center', width: 120, editor: new Rui.ui.form.LDateBox({id:'ptcStrtDt'}) 
                     , renderer: function(value, p, record) {
-                        if(record.data.ptcStrtDt != null) {
+                    	if(record.data.ptcStrtDt != null) {
                             var valDate = Rui.util.LFormat.stringToDate(record.data.ptcStrtDt, {format: '%x'});
                             return Rui.util.LFormat.dateToString(valDate, {format: '%x (%a)'});
                         }
-                        if(value!="") {
+                        if(value !="") {
                             return Rui.util.LFormat.dateToString(value, {format: '%x (%a)'});
                         }
                   } }
                  , { field: 'ptcFnhDt', label: '참여종료일', sortable: false, align:'center', width: 120, editor: new Rui.ui.form.LDateBox({id:'ptcFnhDt'}) 
                     , renderer: function(value, p, record) {
-                        if(record.data.ptcStrtDt != null) {
+                        if(record.data.ptcFnhDt != null) {
                             var valDate = Rui.util.LFormat.stringToDate(record.data.ptcFnhDt, {format: '%x'});
                             return Rui.util.LFormat.dateToString(valDate, {format: '%x (%a)'});
                         }
@@ -209,7 +212,7 @@
         //추가
         var butRecordNew = new Rui.ui.LButton('butRecordNew');
         butRecordNew.on('click', function() {
-            var row = dataSet.newRecord();
+        	var row = dataSet.newRecord();
             var record = dataSet.getAt(row);
             
             record.set("tssCd",  lvTssCd);
@@ -367,8 +370,8 @@ $(window).load(function() {
 	        <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
 	    </form>
 	    <div id="defaultGrid"></div>
+	    <span style="coloer:red" >참여 연구원 변경 시, 연구원 History 관리를 위해 참여 시작일과 종료일을 수정하시길 바랍니다. (연구원 삭제 하지 말 것)</span>
 	</div>
-
 </div>
 </body>
 </html>

@@ -34,10 +34,8 @@
     var lvUserId = window.parent.gvUserId;
     var lvTssSt  = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
-    var strDt =window.parent.tssStrtDd.getValue();
-    var endDt =window.parent.tssFnhDd.getValue();
     
-    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" || lvTssSt == "102" ) && lvPageMode == "W" ? "W" : "R";
     
     var dataSet;
     var lvAttcFilId;
@@ -68,208 +66,6 @@
             width: 600
         });
       
-        //상품출시(계획)
-        ctyOtPlnM = new Rui.ui.form.LMonthBox({
-            applyTo: 'ctyOtPlnM',
-            mask: '9999-99',
-            displayValue: '%Y-%m',
-            width: 100,
-            dateType: 'string'
-        });
-        ctyOtPlnM.on('blur', function() {
-            if(ctyOtPlnM.getValue() == "") {
-                return;
-            }
-        });
-        
-        //신제품매출계획Y
-        nprodSalsPlnY = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnY',
-            decimalPrecision: 2,
-            maxValue: 999999999.999999,
-            width: 120
-        });
-        nprodSalsPlnY.on('changed', function() {
-            fnGetYAvg("nprod");
-        });
-        
-        //신제품매출계획Y+1
-        nprodSalsPlnY1 = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnY1',
-            decimalPrecision: 2,
-            maxValue: 999999999.999999,
-            width: 120
-        });
-        nprodSalsPlnY1.on('changed', function() {
-            fnGetYAvg("nprod");
-        });
-        
-        //신제품매출계획Y+2
-        nprodSalsPlnY2 = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnY2',
-            decimalPrecision: 2,
-            maxValue: 999999999.999999,
-            width: 120
-        });
-        nprodSalsPlnY2.on('changed', function() {
-            fnGetYAvg("nprod");
-        });
-        
-        //신제품매출계획Y+3
-        nprodSalsPlnY3 = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnY3',
-            decimalPrecision: 2,
-            maxValue: 999999999.999999,
-            width: 120
-        });
-        nprodSalsPlnY3.on('changed', function() {
-            fnGetYAvg("nprod");
-        });
-        
-        //신제품매출계획Y+4
-        nprodSalsPlnY4 = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnY4',
-            decimalPrecision: 2,
-            maxValue: 999999999.999999,
-            width: 120
-        });
-        nprodSalsPlnY4.on('changed', function() {
-            fnGetYAvg("nprod");
-        });
-        
-        //신제품매출계획평균
-        nprodSalsPlnYAvg = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnYAvg',
-            decimalPrecision: 2,
-            editable: false,
-            width: 120
-        });
-        
-        //투입인원(M/M)Y
-        ptcCpsnY = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnY',
-            decimalPrecision: 0,
-            maxValue: 999,
-            width: 120
-        });
-        ptcCpsnY.on('changed', function() {
-            fnGetYAvg("ptc");
-        });
-        
-        //투입인원(M/M)Y+1
-        ptcCpsnY1 = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnY1',
-            decimalPrecision: 0,
-            maxValue: 999,
-            width: 120
-        });
-        ptcCpsnY1.on('changed', function() {
-            fnGetYAvg("ptc");
-        });
-        
-        //투입인원(M/M)Y+2
-        ptcCpsnY2 = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnY2',
-            decimalPrecision: 0,
-            maxValue: 999,
-            width: 120
-        });
-        ptcCpsnY2.on('changed', function() {
-            fnGetYAvg("ptc");
-        });
-        
-        //투입인원(M/M)Y+3
-        ptcCpsnY3 = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnY3',
-            decimalPrecision: 0,
-            maxValue: 999,
-            width: 120
-        });
-        ptcCpsnY3.on('changed', function() {
-            fnGetYAvg("ptc");
-        });
-        
-        //투입인원(M/M)Y+4
-        ptcCpsnY4 = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnY4',
-            decimalPrecision: 0,
-            maxValue: 999,
-            width: 120
-        });
-        ptcCpsnY4.on('changed', function() {
-            fnGetYAvg("ptc");
-        });
-        
-        //투입인원(M/M)평균
-        ptcCpsnYAvg = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnYAvg',
-            decimalPrecision: 2,
-            editable: false,
-            width: 120
-        });
-        
-        //영업이익율Y
-        bizPrftProY = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProY',
-            decimalPrecision: 2,
-            maxValue: 999.99,
-            width: 120
-        });
-        bizPrftProY.on('changed', function() {
-            fnGetYAvg("biz");
-        });
-        
-        //영업이익율Y+1
-        bizPrftProY1 = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProY1',
-            decimalPrecision: 2,
-            maxValue: 999.99,
-            width: 120
-        });
-        bizPrftProY1.on('changed', function() {
-            fnGetYAvg("biz");
-        });
-        
-        //영업이익율Y+2
-        bizPrftProY2 = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProY2',
-            decimalPrecision: 2,
-            maxValue: 999.99,
-            width: 120
-        });
-        bizPrftProY2.on('changed', function() {
-            fnGetYAvg("biz");
-        });
-        
-        //영업이익율Y+3
-        bizPrftProY3 = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProY3',
-            decimalPrecision: 2,
-            maxValue: 999.99,
-            width: 120
-        });
-        bizPrftProY3.on('changed', function() {
-            fnGetYAvg("biz");
-        });
-        
-        //영업이익율Y+4
-        bizPrftProY4 = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProY4',
-            decimalPrecision: 2,
-            maxValue: 999.99,
-            width: 120
-        });
-        bizPrftProY4.on('changed', function() {
-            fnGetYAvg("biz");
-        });
-        
-        //영업이익율평균
-        bizPrftProYAvg = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProYAvg',
-            decimalPrecision: 2,
-            editable: false,
-            width: 120
-        });
         
       //지적재산권 통보
         pmisTxt = new Rui.ui.form.LTextArea({
@@ -280,16 +76,9 @@
       
         //Form 비활성화
         disableFields = function() {
-            document.getElementById('nprodSalsPlnYAvg').style.border = 0;
-            document.getElementById('ptcCpsnYAvg').style.border = 0;
-            document.getElementById('bizPrftProYAvg').style.border = 0;
-
             if(pageMode == "W") return;
-            
-            document.getElementById('attchFileMngBtn').style.display = "none";
             btnSave.hide();
         };
-        
         
 
         /*============================================================================
@@ -309,27 +98,56 @@
                 , { id: 'smryDTxt' }         //Deliverables 
                 , { id: 'mrktSclTxt' }       //시장규모
                 , { id: 'ctyOtPlnM' }        //상품출시(계획)
+                , { id: 'ancpOtPlnDt' }        //상품출시(계획)
                 , { id: 'smrSmryTxt' }       //Summary 개요
                 , { id: 'smrGoalTxt' }       //Summary 목표
-                , { id: 'bizPrftProY',  type: 'number', defaultValue:0 }     //영업이익율Y
-                , { id: 'bizPrftProY1', type: 'number', defaultValue:0 }     //영업이익율Y+1
-                , { id: 'bizPrftProY2', type: 'number', defaultValue:0 }     //영업이익율Y+2
-                , { id: 'bizPrftProY3', type: 'number', defaultValue:0 }     //영업이익율Y+3
-                , { id: 'bizPrftProY4', type: 'number', defaultValue:0 }     //영업이익율Y+4
-//                 , { id: 'bizPrftProYAvg', type: 'number', defaultValue:0 }   //영업이익율평균
-                , { id: 'nprodSalsPlnY', type: 'number', defaultValue:0 }    //신제품매출계획Y  
-                , { id: 'nprodSalsPlnY1', type: 'number', defaultValue:0 }   //신제품매출계획Y+1
-                , { id: 'nprodSalsPlnY2', type: 'number', defaultValue:0 }   //신제품매출계획Y+2
-                , { id: 'nprodSalsPlnY3', type: 'number', defaultValue:0 }   //신제품매출계획Y+3
-                , { id: 'nprodSalsPlnY4', type: 'number', defaultValue:0 }   //신제품매출계획Y+4
-//                 , { id: 'nprodSalsPlnYAvg', type: 'number', defaultValue:0 } //신제품매출계획평균
-                , { id: 'ptcCpsnY', type: 'number', defaultValue:0 }         //투입인원(M/M)Y  
-                , { id: 'ptcCpsnY1', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+1
-                , { id: 'ptcCpsnY2', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+2
-                , { id: 'ptcCpsnY3', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+3
-                , { id: 'ptcCpsnY4', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+4
-//                 , { id: 'ptcCpsnYAvg', type: 'number', defaultValue:0 }      //투입인원(M/M)평균
-				, { id: 'pmisTxt' }       //지적재산권 통보
+                , { id: 'bizPrftProY' }   
+                , { id: 'bizPrftProY1' }  
+                , { id: 'bizPrftProY2' }  
+                , { id: 'bizPrftProY3' }  
+                , { id: 'bizPrftProY4' }  
+                , { id: 'bizPrftPlnY'}  
+                , { id: 'bizPrftPlnY1'}  
+                , { id: 'bizPrftPlnY2'} 
+                , { id: 'nprodSalsPlnY'}    //신제품매출계획Y  
+                , { id: 'nprodSalsPlnY1' }   //신제품매출계획Y+1
+                , { id: 'nprodSalsPlnY2' }   //신제품매출계획Y+2
+                , { id: 'nprodSalsPlnY3' }   //신제품매출계획Y+3
+                , { id: 'nprodSalsPlnY4'}   //신제품매출계획Y+4
+                , { id: 'ptcCpsnY'}         //투입인원(M/M)Y  
+                , { id: 'ptcCpsnY1' }        //투입인원(M/M)Y+1
+                , { id: 'ptcCpsnY2' }        //투입인원(M/M)Y+2
+                , { id: 'ptcCpsnY3' }        //투입인원(M/M)Y+3
+                , { id: 'ptcCpsnY4' }        //투입인원(M/M)Y+4
+                , { id: 'expArslY'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY1'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY2'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY3'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY4'}        //투입인원(M/M)Y+4
+                , { id: 'bizPrftProYBefore' }   
+                , { id: 'bizPrftProY1Before' }  
+                , { id: 'bizPrftProY2Before' }  
+                , { id: 'bizPrftProY3Before' }  
+                , { id: 'bizPrftProY4Before' }  
+                , { id: 'bizPrftPlnYBefore'}  
+                , { id: 'bizPrftPlnY1Before'}  
+                , { id: 'bizPrftPlnY2Before'} 
+                , { id: 'nprodSalsPlnYBefore'}    //신제품매출계획Y  
+                , { id: 'nprodSalsPlnY1Before' }   //신제품매출계획Y+1
+                , { id: 'nprodSalsPlnY2Before' }   //신제품매출계획Y+2
+                , { id: 'nprodSalsPlnY3Before' }   //신제품매출계획Y+3
+                , { id: 'nprodSalsPlnY4Before'}   //신제품매출계획Y+4
+                , { id: 'ptcCpsnYBefore'}         //투입인원(M/M)Y  
+                , { id: 'ptcCpsnY1Before' }        //투입인원(M/M)Y+1
+                , { id: 'ptcCpsnY2Before' }        //투입인원(M/M)Y+2
+                , { id: 'ptcCpsnY3Before' }        //투입인원(M/M)Y+3
+                , { id: 'ptcCpsnY4Before' }        //투입인원(M/M)Y+4
+                , { id: 'expArslYBefore'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY1Before'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY2Before'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY3Before'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY4Before'}        //투입인원(M/M)Y+4
+				, { id: 'pmisTxt'}       //지적재산권 통보
                 , { id: 'attcFilId' }        //첨부파일ID
                 , { id: 'userId' }           //로그인ID
             ]
@@ -339,53 +157,15 @@
             
             lvAttcFilId = dataSet.getNameValue(0, "attcFilId");
             if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
-            
-            var dsNprodSalsPlnY  = (dataSet.getNameValue(0, "nprodSalsPlnY")  / 100000000).toFixed(2);
-            var dsNprodSalsPlnY1 = (dataSet.getNameValue(0, "nprodSalsPlnY1") / 100000000).toFixed(2);
-            var dsNprodSalsPlnY2 = (dataSet.getNameValue(0, "nprodSalsPlnY2") / 100000000).toFixed(2);
-            var dsNprodSalsPlnY3 = (dataSet.getNameValue(0, "nprodSalsPlnY3") / 100000000).toFixed(2);
-            var dsNprodSalsPlnY4 = (dataSet.getNameValue(0, "nprodSalsPlnY4") / 100000000).toFixed(2);
-            
+
             Wec0.SetBodyValue( dataSet.getNameValue(0, "smryNTxt") );
             Wec1.SetBodyValue( dataSet.getNameValue(0, "smryATxt") );
             Wec2.SetBodyValue( dataSet.getNameValue(0, "smryBTxt") );
             Wec3.SetBodyValue( dataSet.getNameValue(0, "smryCTxt") );
             Wec4.SetBodyValue( dataSet.getNameValue(0, "smryDTxt") );
-            
-            nprodSalsPlnY.setValue(dsNprodSalsPlnY);
-            nprodSalsPlnY1.setValue(dsNprodSalsPlnY1);
-            nprodSalsPlnY2.setValue(dsNprodSalsPlnY2);
-            nprodSalsPlnY3.setValue(dsNprodSalsPlnY3);
-            nprodSalsPlnY4.setValue(dsNprodSalsPlnY4);
-            
-            fnGetYAvg("nprod");
-            fnGetYAvg("biz");
-            fnGetYAvg("ptc");
-            
-            var arr1 = strDt.split("-"); 
-            var arr2 = endDt.split("-"); 
-            
-            var diffCnt = (Number(arr2[0]) - Number(arr1[0])) + 1;
-            
-            if( diffCnt == 1 ){
-            	ptcCpsnY1.disable();		
-            	ptcCpsnY2.disable();		
-            	ptcCpsnY3.disable();		
-            	ptcCpsnY4.disable();		
-            }else if( diffCnt == 2 ){
-            	ptcCpsnY2.disable();		
-            	ptcCpsnY3.disable();		
-            	ptcCpsnY4.disable();		
-            }else if( diffCnt == 3 ){
-            	ptcCpsnY3.disable();		
-            	ptcCpsnY4.disable();		
-            }else if( diffCnt == 4 ){
-            	ptcCpsnY4.disable();		
-            }
-            
+
             tabViewS.selectTab(0);
         });
-        
         
         //Form 바인드
         var bind = new Rui.data.LBind({
@@ -400,33 +180,276 @@
                 , { id: 'smryCTxt',         ctrlId: 'smryCTxt',         value: 'value' }
                 , { id: 'smryDTxt',         ctrlId: 'smryDTxt',         value: 'value' }
                 , { id: 'mrktSclTxt',       ctrlId: 'mrktSclTxt',       value: 'value' }
-                , { id: 'bizPrftPro',       ctrlId: 'bizPrftPro',       value: 'value' }
-                , { id: 'smrSmryTxt',       ctrlId: 'smrSmryTxt',       value: 'value' }
-                , { id: 'smrGoalTxt',       ctrlId: 'smrGoalTxt',       value: 'value' }
-                , { id: 'bizPrftProY',      ctrlId: 'bizPrftProY',      value: 'value' }
-                , { id: 'bizPrftProY1',     ctrlId: 'bizPrftProY1',     value: 'value' }
-                , { id: 'bizPrftProY2',     ctrlId: 'bizPrftProY2',     value: 'value' }
-                , { id: 'bizPrftProY3',     ctrlId: 'bizPrftProY3',     value: 'value' }
-                , { id: 'bizPrftProY4',     ctrlId: 'bizPrftProY4',     value: 'value' }
-//                 , { id: 'bizPrftProYAvg',   ctrlId: 'bizPrftProYAvg',   value: 'value' }
-                , { id: 'ctyOtPlnM',        ctrlId: 'ctyOtPlnM',        value: 'value' }
-//                 , { id: 'nprodSalsPlnY',    ctrlId: 'nprodSalsPlnY',    value: 'value' }
-//                 , { id: 'nprodSalsPlnY1',   ctrlId: 'nprodSalsPlnY1',   value: 'value' }
-//                 , { id: 'nprodSalsPlnY2',   ctrlId: 'nprodSalsPlnY2',   value: 'value' }
-//                 , { id: 'nprodSalsPlnY3',   ctrlId: 'nprodSalsPlnY3',   value: 'value' }
-//                 , { id: 'nprodSalsPlnY4',   ctrlId: 'nprodSalsPlnY4',   value: 'value' }
-//                 , { id: 'nprodSalsPlnYAvg', ctrlId: 'nprodSalsPlnYAvg', value: 'value' }
-                , { id: 'ptcCpsnY',         ctrlId: 'ptcCpsnY',         value: 'value' }
-                , { id: 'ptcCpsnY1',        ctrlId: 'ptcCpsnY1',        value: 'value' }
-                , { id: 'ptcCpsnY2',        ctrlId: 'ptcCpsnY2',        value: 'value' }
-                , { id: 'ptcCpsnY3',        ctrlId: 'ptcCpsnY3',        value: 'value' }
-                , { id: 'ptcCpsnY4',        ctrlId: 'ptcCpsnY4',        value: 'value' }
-//                 , { id: 'ptcCpsnYAvg',      ctrlId: 'ptcCpsnYAvg',      value: 'value' }
+                , { id: 'ctyOtPlnM',        ctrlId: 'ctyOtPlnM',        value: 'html' }
+                , { id: 'smrSmryTxt',       ctrlId: 'smrSmryTxt',       value: 'html' }
+                , { id: 'smrGoalTxt',       ctrlId: 'smrGoalTxt',       value: 'html' }
+                , { id: 'bizPrftProY',      ctrlId: 'bizPrftProY',      value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY1',     ctrlId: 'bizPrftProY1',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY2',     ctrlId: 'bizPrftProY2',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY3',     ctrlId: 'bizPrftProY3',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY4',     ctrlId: 'bizPrftProY4',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftPlnY',      ctrlId: 'bizPrftPlnY',      value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftPlnY1',     ctrlId: 'bizPrftPlnY1',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftPlnY2',     ctrlId: 'bizPrftPlnY2',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY',   	ctrlId: 'nprodSalsPlnY',   	value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY1',   ctrlId: 'nprodSalsPlnY1',   value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY2',   ctrlId: 'nprodSalsPlnY2',   value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY3',   ctrlId: 'nprodSalsPlnY3',   value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY4',   ctrlId: 'nprodSalsPlnY4',   value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'ptcCpsnY',         ctrlId: 'ptcCpsnY',         value: 'html' }
+                , { id: 'ptcCpsnY1',        ctrlId: 'ptcCpsnY1',        value: 'html' }
+                , { id: 'ptcCpsnY2',        ctrlId: 'ptcCpsnY2',        value: 'html' }
+                , { id: 'ptcCpsnY3',        ctrlId: 'ptcCpsnY3',        value: 'html' }
+                , { id: 'ptcCpsnY4',        ctrlId: 'ptcCpsnY4',        value: 'html' }
+                , { id: 'expArslY',         ctrlId: 'expArslY',         value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY1',        ctrlId: 'expArslY1',        value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY2',        ctrlId: 'expArslY2',        value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY3',        ctrlId: 'expArslY3',        value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY4',        ctrlId: 'expArslY4',        value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProYBefore',      ctrlId: 'bizPrftProYBefore',      value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY1Before',     ctrlId: 'bizPrftProY1Before',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY2Before',     ctrlId: 'bizPrftProY2Before',     value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY3Before',     ctrlId: 'bizPrftProY3Before',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY4Before',     ctrlId: 'bizPrftProY4Before',     value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftPlnYBefore',      ctrlId: 'bizPrftPlnYBefore',      value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftPlnY1Before',     ctrlId: 'bizPrftPlnY1Before',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftPlnY2Before',     ctrlId: 'bizPrftPlnY2Before',     value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnYBefore',   	ctrlId: 'nprodSalsPlnYBefore',   	value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY1Before',   ctrlId: 'nprodSalsPlnY1Before',   value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY2Before',   ctrlId: 'nprodSalsPlnY2Before',   value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY3Before',   ctrlId: 'nprodSalsPlnY3Before',   value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY4Before',   ctrlId: 'nprodSalsPlnY4Before',   value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'ptcCpsnYBefore',         ctrlId: 'ptcCpsnYBefore',         value: 'html' }
+                , { id: 'ptcCpsnY1Before',        ctrlId: 'ptcCpsnY1Before',        value: 'html' }
+                , { id: 'ptcCpsnY2Before',        ctrlId: 'ptcCpsnY2Before',        value: 'html' }
+                , { id: 'ptcCpsnY3Before',        ctrlId: 'ptcCpsnY3Before',        value: 'html' }
+                , { id: 'ptcCpsnY4Before',        ctrlId: 'ptcCpsnY4Before',        value: 'html' }
+                , { id: 'expArslYBefore',         ctrlId: 'expArslYBefore',         value: 'html' }
+                , { id: 'expArslY1Before',        ctrlId: 'expArslY1Before',        value: 'html' }
+                , { id: 'expArslY2Before',        ctrlId: 'expArslY2Before',        value: 'html' }
+                , { id: 'expArslY3Before',        ctrlId: 'expArslY3Before',        value: 'html' }
+                , { id: 'expArslY4Before',        ctrlId: 'expArslY4Before',        value: 'html' }
 				, { id: 'pmisTxt',       	ctrlId: 'pmisTxt',       	value: 'value' }
                 , { id: 'userId',           ctrlId: 'userId',           value: 'value' }
             ]
         });
-        
         
         //서버전송용 
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
@@ -441,7 +464,6 @@
             }
         });
         
-        
         //유효성
         vm = new Rui.validate.LValidatorManager({
             validators: [
@@ -452,29 +474,8 @@
                 , { id: 'smryCTxt',          validExp: 'Competition:false' }
                 , { id: 'smryDTxt',          validExp: 'Deliverables:false' }
                 , { id: 'mrktSclTxt',        validExp: '시장규모:true' }
-                , { id: 'ctyOtPlnM',         validExp: '상품출시(계획):true' }
                 , { id: 'smrSmryTxt',        validExp: 'Summary 개요:true' }
                 , { id: 'smrGoalTxt',        validExp: 'Summary 목표:true' }
-//                 , { id: 'bizPrftProY',       validExp: '영업이익율Y:true' }
-//                 , { id: 'bizPrftProY1',      validExp: '영업이익율Y+1:true' }
-//                 , { id: 'bizPrftProY2',      validExp: '영업이익율Y+2:true' }
-//                 , { id: 'bizPrftProY3',      validExp: '영업이익율Y+3:true' }
-//                 , { id: 'bizPrftProY4',      validExp: '영업이익율Y+4:true' }
-//                 , { id: 'bizPrftProYAvg',    validExp: '영업이익율평균:false' }
-//                 , { id: 'nprodSalsPlnY',     validExp: '신제품매출계획Y:true:minNumber=0.000001' }
-//                 , { id: 'nprodSalsPlnY1',    validExp: '신제품매출계획Y+1:true' }
-//                 , { id: 'nprodSalsPlnY2',    validExp: '신제품매출계획Y+2:true' }
-//                 , { id: 'nprodSalsPlnY3',    validExp: '신제품매출계획Y+3:true' }
-//                 , { id: 'nprodSalsPlnY4',    validExp: '신제품매출계획Y+4:true' }
-//                 , { id: 'nprodSalsPlnYAvg',  validExp: '신제품매출계획평균:false' }
-//                 , { id: 'ptcCpsnY',          validExp: '투입인원(M/M)Y:true' }
-//                 , { id: 'ptcCpsnY1',         validExp: '투입인원(M/M)Y+1:true' }
-//                 , { id: 'ptcCpsnY2',         validExp: '투입인원(M/M)Y+2:true' }
-//                 , { id: 'ptcCpsnY3',         validExp: '투입인원(M/M)Y+3:true' }
-//                 , { id: 'ptcCpsnY4',         validExp: '투입인원(M/M)Y+4:true' }
-//                 , { id: 'ptcCpsnYAvg',       validExp: '투입인원(M/M)평균:false' }
-                , { id: 'attcFilId',         validExp: 'GRS심의파일:true' }
-                , { id: 'userId',            validExp: '로그인ID:false' }
             ]
         });
         
@@ -518,42 +519,12 @@
                 alert("Deliverables 는 필수입력입니다.");
                 return false;
             }
-            
-            var y= bizPrftProY.getValue();
-            var y1 = bizPrftProY1.getValue();
-            var y2 = bizPrftProY2.getValue();
-            var y3 = bizPrftProY3.getValue();
-            var y4 = bizPrftProY4.getValue();
-            if(y + y1+ y2+ y3+ y4 <= 0) {
-                alert("영업이익율(%)은 필수입력입니다.");
-                return false;
-            }
-
-            var y  = nprodSalsPlnY.getValue();
-            var y1 = nprodSalsPlnY1.getValue();
-            var y2 = nprodSalsPlnY2.getValue();
-            var y3 = nprodSalsPlnY3.getValue();
-            var y4 = nprodSalsPlnY4.getValue();
-            if(y + y1+ y2+ y3+ y4 <= 0) {
-                alert("신제품 매출계획은 필수입력입니다.");
-                return false;
-            }
-
-            var y  = ptcCpsnY.getValue();
-            var y1 = ptcCpsnY1.getValue();
-            var y2 = ptcCpsnY2.getValue();
-            var y3 = ptcCpsnY3.getValue();
-            var y4 = ptcCpsnY4.getValue();
-            if(y + y1+ y2+ y3+ y4 <= 0) {
-                alert("투입인원(M/M)은 필수입력입니다.");
-                return false;
-            }
-            
+        
             var pmisTxt = dataSet.getNameValue(0, "pmisTxt");
-            var bizDpt = parent.bizDptCd.getValue();
-            var bizDptNm =  parent.bizDptCd.getDisplayValue();
-
-            if(  bizDpt == "07" || bizDpt == "08" || bizDpt == "09"  ){
+            var bizDpt = window.parent.bizDptCd;
+            var bizDptNm = window.parent.bizDptNm;
+            
+            if( bizDpt == "09"  ){
             	var bizMsg =  bizDptNm+" 사업부문일경우 지적재산팀 검토의견을 입력하셔야 합니다";
             	
             	if( Rui.isEmpty(pmisTxt)){
@@ -564,13 +535,9 @@
                     
         	if(confirm("저장하시겠습니까?")) {
                 var frm = document.smryForm;
-           
-                dataSet.setNameValue(0, "nprodSalsPlnY" , Math.round(nprodSalsPlnY.getValue()  * 100000000));
-                dataSet.setNameValue(0, "nprodSalsPlnY1", Math.round(nprodSalsPlnY1.getValue() * 100000000));
-                dataSet.setNameValue(0, "nprodSalsPlnY2", Math.round(nprodSalsPlnY2.getValue() * 100000000));
-                dataSet.setNameValue(0, "nprodSalsPlnY3", Math.round(nprodSalsPlnY3.getValue() * 100000000));
-                dataSet.setNameValue(0, "nprodSalsPlnY4", Math.round(nprodSalsPlnY4.getValue() * 100000000));
 
+                dataSet.setNameValue(0, 'tssCd', lvTssCd);
+                
                 dm.updateDataSet({
                     modifiedOnly: false,
                     url:'<c:url value="/prj/tss/gen/updateGenTssAltrSmry.do"/>',
@@ -725,73 +692,8 @@
     
     //평균구하기
     function fnGetYAvg(gbn) {
-        var y  = 0;
-        var y1 = 0;
-        var y2 = 0;
-        var y3 = 0;
-        var y4 = 0;
-        var cnt = 0;
-
-        var yAvg = 0;
-
-        if(gbn == "nprod") {
-            y  = nprodSalsPlnY.getValue();
-            y1 = nprodSalsPlnY1.getValue();
-            y2 = nprodSalsPlnY2.getValue();
-            y3 = nprodSalsPlnY3.getValue();
-            y4 = nprodSalsPlnY4.getValue();
-            
-            if(y > 0) cnt++;
-            if(y1 > 0) cnt++;
-            if(y2 > 0) cnt++;
-            if(y3 > 0) cnt++;
-            if(y4 > 0) cnt++;
-            
-            if(cnt == 0) cnt++;
-
-            yAvg = (y + y1 + y2 + y3 + y4) / cnt;
-
-            nprodSalsPlnYAvg.setValue(yAvg);
-        }
-        else if(gbn == "ptc") {
-            y  = ptcCpsnY.getValue();
-            y1 = ptcCpsnY1.getValue();
-            y2 = ptcCpsnY2.getValue();
-            y3 = ptcCpsnY3.getValue();
-            y4 = ptcCpsnY4.getValue();
-
-            if(y > 0) cnt++;
-            if(y1 > 0) cnt++;
-            if(y2 > 0) cnt++;
-            if(y3 > 0) cnt++;
-            if(y4 > 0) cnt++;
-            
-            if(cnt == 0) cnt++;
-
-            yAvg = (y + y1 + y2 + y3 + y4) / cnt;
-            
-            ptcCpsnYAvg.setValue(yAvg.toFixed(2));
-        }
-        else if(gbn == "biz") {
-            y  = bizPrftProY.getValue();
-            y1 = bizPrftProY1.getValue();
-            y2 = bizPrftProY2.getValue();
-            y3 = bizPrftProY3.getValue();
-            y4 = bizPrftProY4.getValue();
-
-            if(y > 0) cnt++;
-            if(y1 > 0) cnt++;
-            if(y2 > 0) cnt++;
-            if(y3 > 0) cnt++;
-            if(y4 > 0) cnt++;
-            
-            if(cnt == 0) cnt++;
-
-            yAvg = (y + y1 + y2 + y3 + y4) / cnt;
-
-            bizPrftProYAvg.setValue(yAvg);
-        }
     }
+    
 </script>
 <script type="text/javascript">
 $(window).load(function() {
@@ -919,7 +821,7 @@ $(window).load(function() {
                 </tr>
                 <tr>
                     <th align="right">상품출시(계획)</th>
-                    <td colspan="6"><input type="text" id="ctyOtPlnM" /></td>
+                    <td colspan="6"><span id="ctyOtPlnM" /></td>
                 </tr>
                 <tr>
                     <th rowspan="2">영업이익율(%)</th>
@@ -928,15 +830,28 @@ $(window).load(function() {
                     <th class="alignC">Y+2</th>
                     <th class="alignC">Y+3</th>
                     <th class="alignC">Y+4</th>
-                    <th class="alignC">평균</th>
                 </tr>
                 <tr>
-                    <td><input type="text" id="bizPrftProY" name="bizPrftProY"></td>
-                    <td><input type="text" id="bizPrftProY1" name="bizPrftProY1"></td>
-                    <td><input type="text" id="bizPrftProY2" name="bizPrftProY2"></td>
-                    <td><input type="text" id="bizPrftProY3" name="bizPrftProY3"></td>
-                    <td><input type="text" id="bizPrftProY4" name="bizPrftProY4"></td>
-                    <td><input type="text" id="bizPrftProYAvg" name="bizPrftProYAvg"></td>
+                    <td class="alignR"><span id="bizPrftProYBefore"></td>
+                    <td class="alignR"><span id="bizPrftProY1Before"></td>
+                    <td class="alignR"><span id="bizPrftProY2Before"></td>
+                    <td class="alignR"><span id="bizPrftProY3Before"></td>
+                    <td class="alignR"><span id="bizPrftProY4Before"></td>
+                </tr>
+                <tr>
+                    <th rowspan="2">영업이익(억원)</th>
+                    <th class="alignC">Y</th>
+                    <th class="alignC">Y+1</th>
+                    <th class="alignC">Y+2</th>
+                    <th class="alignC">Y+3</th>
+                    <th class="alignC">Y+4</th>
+                </tr>
+                <tr>
+                    <td class="alignR"><span id="bizPrftPlnYBefore"></td>
+                    <td class="alignR"><span id="bizPrftPlnY1Before"></td>
+                    <td class="alignR"><span id="bizPrftPlnY2Before"></td>
+                    <td class="alignR"></td>
+                    <td class="alignR"></td>
                 </tr>
                 <tr>
                     <th rowspan="2">신제품 매출계획(단위:억원)</th>
@@ -945,15 +860,13 @@ $(window).load(function() {
                     <th class="alignC">Y+2</th>
                     <th class="alignC">Y+3</th>
                     <th class="alignC">Y+4</th>
-                    <th class="alignC">평균</th>
                 </tr>
                 <tr>
-                    <td><input type="text" id="nprodSalsPlnY" name="nprodSalsPlnY"></td>
-                    <td><input type="text" id="nprodSalsPlnY1" name="nprodSalsPlnY1"></td>
-                    <td><input type="text" id="nprodSalsPlnY2" name="nprodSalsPlnY2"></td>
-                    <td><input type="text" id="nprodSalsPlnY3" name="nprodSalsPlnY3"></td>
-                    <td><input type="text" id="nprodSalsPlnY4" name="nprodSalsPlnY4"></td>
-                    <td><input type="text" id="nprodSalsPlnYAvg" name="nprodSalsPlnYAvg"></td>
+                    <td class="alignR"><span id="nprodSalsPlnYBefore"></td>
+                    <td class="alignR"><span id="nprodSalsPlnY1Before"></td>
+                    <td class="alignR"><span id="nprodSalsPlnY2Before"></td>
+                    <td class="alignR"><span id="nprodSalsPlnY3Before"></td>
+                    <td class="alignR"><span id="nprodSalsPlnY4Before"></td>
                 </tr>
                 <tr>
                     <th rowspan="2">투입인원(M/M)</th>
@@ -962,15 +875,28 @@ $(window).load(function() {
                     <th class="alignC">Y+2</th>
                     <th class="alignC">Y+3</th>
                     <th class="alignC">Y+4</th>
-                    <th class="alignC">평균</th>
                 </tr>
                 <tr>
-                    <td><input type="text" id="ptcCpsnY" name="ptcCpsnY"></td>
-                    <td><input type="text" id="ptcCpsnY1" name="ptcCpsnY1"></td>
-                    <td><input type="text" id="ptcCpsnY2" name="ptcCpsnY2"></td>
-                    <td><input type="text" id="ptcCpsnY3" name="ptcCpsnY3"></td>
-                    <td><input type="text" id="ptcCpsnY4" name="ptcCpsnY4"></td>
-                    <td><input type="text" id="ptcCpsnYAvg" name="ptcCpsnYAvg"></td>
+                    <td class="alignR"><span id="ptcCpsnYBefore"></td>
+                    <td class="alignR"><span id="ptcCpsnY1Before"></td>
+                    <td class="alignR"><span id="ptcCpsnY2Before"></td>
+                    <td class="alignR"><span id="ptcCpsnY3Before"></td>
+                    <td class="alignR"><span id="ptcCpsnY4Before"></td>
+                </tr>
+                <tr id="trExpArslHead">
+                    <th rowspan="2">투입비용</th>
+                    <th class="alignC">Y<br/>(과제 시작 년도)</th>
+                    <th class="alignC">Y+1</th>
+                    <th class="alignC">Y+2</th>
+                    <th class="alignC">Y+3</th>
+                    <th class="alignC">Y+4</th>
+                </tr>
+                <tr id="trExpArsl">
+                    <td class="alignR"><span id="expArslYBefore"></td>
+                    <td class="alignR"><span id="expArslY1Before"></td>
+                    <td class="alignR"><span id="expArslY2Before"></td>
+                    <td class="alignR"><span id="expArslY3Before"></td>
+                    <td class="alignR"><span id="expArslY4Before"></td>
                 </tr>
                 <tr>
                     <th align="right">지적재산팀 검토의견</th>
@@ -978,17 +904,16 @@ $(window).load(function() {
                 </tr>
                 <tr>
                     <th align="right">GRS심의파일<br/>(심의파일, 회의록 필수 첨부)</th>
-                    <td colspan="5" id="attchFileView">&nbsp;</td>
-                    <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
+                    <td colspan="6" id="attchFileView">&nbsp;</td>
                 </tr>
             </tbody>
         </table>
-	 <div class="titArea btn_btm">
-	    <div class="LblockButton">
-	        <button type="button" id="btnSave" name="btnSave">저장</button>
-	        <button type="button" id="btnList" name="btnList">목록</button>
-	    </div>
-	</div>
+        <div class="titArea btn_btm">
+		    <div class="LblockButton">
+		        <button type="button" id="btnSave" name="btnSave">저장</button>
+		        <button type="button" id="btnList" name="btnList">목록</button>
+		    </div>
+		</div>
     </form>
 </div>
 </body>

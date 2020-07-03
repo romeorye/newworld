@@ -143,104 +143,11 @@
             if(dataSet.getCount() == 0) butSchedule.click();
         });
 
-
-//         //날짜 체크
-//         fnTssDateChk = function(e) {
-//             var eColId = e.colId;
-
-//             var pStartDt = window.parent.tssStrtDd.getValue().replace(/\-/g, "").toDate();
-//             var pEndDt   = window.parent.tssFnhDd.getValue().replace(/\-/g, "").toDate();
-
-//             pStartDt.setDate(pStartDt.getDate() - 1);
-//             pEndDt.setDate(pEndDt.getDate() + 1);
-
-//             var cDt;
-//             if(eColId == "strtDt") cDt = e.record.data.strtDt;
-//             else if(eColId == "fnhDt") cDt = e.record.data.fnhDt;
-
-//             var bfDate = stringNullChk(e.beforeValue) == "" ? cDt : e.beforeValue;
-//             if(!(cDt instanceof Date)) cDt = cDt.replace(/\-/g, "").toDate();
-//             if(!(bfDate instanceof Date)) bfDate = bfDate.replace(/\-/g, "").toDate();
-
-//             //자식 row의 날짜 null
-//             if(!bfDate.equals(cDt)) {
-//                 var allRow = treeGridView.getAllChildRows(e.row);
-//                 for(var j = 0; j < allRow.length; j++) {
-//                     dataSet.setNameValue(allRow[j], "strtDt", null);
-//                     dataSet.setNameValue(allRow[j], "fnhDt", null);
-//                     dataSet.setNameValue(allRow[j], "period", null);
-//                 }
-//             }
-
-//             //과제기간 날짜 비교
-//             if(!cDt.between(pStartDt, pEndDt)) {
-//                 dataSet.setNameValue(e.row, eColId, null);
-//                 dataSet.setNameValue(e.row, "period", null);
-
-//                 Rui.alert("과제기간의 범위를 벗어났습니다.");
-//                 return false;
-//             }
-
-//             //부모 row의 기간 체크
-//             var pWbsSn;
-//             var cPidSn = e.record.data.pidSn;
-//             var cDepth = e.record.data.depth;
-
-//             pStartDt = null;
-//             pEndDt   = null;
-
-//             if(cDepth != 0) {
-//                 //부모 정보 찾기
-//                 for(var i = 0; i < dataSet.getCount(); i++) {
-//                     pWbsSn = dataSet.getNameValue(i, "wbsSn");
-//                     if(pWbsSn == cPidSn) {
-//                         pStartDt = dataSet.getNameValue(i, "strtDt");
-//                         pEndDt   = dataSet.getNameValue(i, "fnhDt");
-//                         break;
-//                     }
-//                 }
-
-//                 //부모 날짜와 비교
-//                 if(stringNullChk(pStartDt) != "" && stringNullChk(pEndDt) != "") {
-//                     if(!(pStartDt instanceof Date)) pStartDt = pStartDt.replace(/\-/g, "").toDate();
-//                     if(!(pEndDt instanceof Date)) pEndDt = pEndDt.replace(/\-/g, "").toDate();
-
-//                     pStartDt.setDate(pStartDt.getDate() - 1);
-//                     pEndDt.setDate(pEndDt.getDate() + 1);
-
-//                     if(!Rui.util.LDate.isDate(cDt)) cDt = cDt.replace(/\-/g, "").toDate();
-
-//                     if(!cDt.between(pStartDt, pEndDt)) {
-//                         dataSet.setNameValue(e.row, eColId, null);
-//                         dataSet.setNameValue(e.row, "period", null);
-
-//                         pStartDt.setDate(pStartDt.getDate() + 1);
-//                         pEndDt.setDate(pEndDt.getDate() - 1);
-
-//                         Rui.alert("상위레벨 과제기간의 범위를 벗어났습니다.");
-//                         return false;
-//                     } else {
-//                         pStartDt.setDate(pStartDt.getDate() + 1);
-//                         pEndDt.setDate(pEndDt.getDate() - 1);
-//                     }
-//                 }
-//                 else {
-//                     dataSet.setNameValue(e.row, eColId, null);
-//                     dataSet.setNameValue(e.row, "period", null);
-
-//                     Rui.alert("상위레벨 과제기간을 먼저 입력해 주세요.");
-//                     return false;
-//                 }
-//             }
-
-//             return true;
-//         }
-
         //날짜 체크
         fnTssDateChk = function() {
             //과제기간과의 범위체크
-            var pTssStartDt = window.parent.tssStrtDd.getValue().replace(/\-/g, "").toDate();
-            var pTssFnhDd   = window.parent.tssFnhDd.getValue().replace(/\-/g, "").toDate();
+            var pTssStartDt = window.parent.tmpTssStrtDd.replace(/\-/g, "").toDate();
+            var pTssFnhDd   = window.parent.tmpTssFnhDd.replace(/\-/g, "").toDate();
             
             if(!(pTssStartDt instanceof Date)) pTssStartDt = pTssStartDt.replace(/\-/g, "").toDate();
             if(!(pTssFnhDd instanceof Date)) pTssFnhDd = pTssFnhDd.replace(/\-/g, "").toDate();
@@ -263,7 +170,7 @@
                 if(!(pFnhDt instanceof Date)) pFnhDt = pFnhDt.replace(/\-/g, "").toDate();
                 
                 if(i == 0) {
-                    //부모와 시작일비교 
+                	//부모와 시작일비교 
                     if(!fnDateBetweenCheck(pStartDt, pTssStartDt, pTssFnhDd, i)) return false;
                     
                     //부모와 종료일비교
@@ -299,7 +206,7 @@
         
         //부모날짜와 비교
         fnDateBetweenCheck = function(cDt, pStartDt, pFnhDt, cRow) {
-            if(!cDt.between(pStartDt, pFnhDt)) {
+        	if(!cDt.between(pStartDt, pFnhDt)) {
                 pStartDt.setDate(pStartDt.getDate() + 1);
                 pFnhDt.setDate(pFnhDt.getDate() - 1);
                 
@@ -460,10 +367,10 @@
             record.set("userId",   lvUserId);  //사용자
             record.set("wbsSn",    record.id); //임시 wbsSn
             record.set("depthSeq", 1); //순서
-            record.set("strtDt",   window.parent.tssStrtDd.getValue().replace(/\-/g, "").toDate()); //시작일
-            record.set("fnhDt",    window.parent.tssFnhDd.getValue().replace(/\-/g, "").toDate());  //종료일
+            record.set("strtDt",   window.parent.tmpTssStrtDd.replace(/\-/g, "").toDate()); //시작일
+            record.set("fnhDt",    window.parent.tmpTssFnhDd.replace(/\-/g, "").toDate());  //종료일
             record.set("wgvl",     "100"); //가중치
-            record.set("tssNm",    window.parent.tssNm.getValue());  //제목
+            record.set("tssNm",    window.parent.tssNm);  //제목
             record.set("arslCd",   "0"); //실적
         });
 

@@ -33,202 +33,26 @@
 <script type="text/javascript">
     var gvTssCd     = "";
     var gvUserId    = "${inputData._userId}";
+    var gbnCd    = "${inputData.gbnCd}";
     var gvTssSt     = "";
     var gvPgsStepCd = "AL"; //진행상태:AL(변경)
     var gvPkWbsCd   = "";
     var gvPageMode  = "";
     var gvPgTssCd   = "";
-
+    var gvWbsCd   = "";
     var altrTssCd   = "";
     var dataSet;
-
+    
+    var tssAttrCd;
+    var bizDptCd;
+    var tssStrtDd;
+    var tssFnhDd;
+    var tssNm;
+    
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
         ============================================================================*/
-        //프로젝트명
-        prjNm = new Rui.ui.form.LPopupTextBox({
-            applyTo: 'prjNm',
-            width: 300,
-            editable: false,
-            enterToPopup: true
-        });
-        prjNm.on('popup', function(e){
-            openPrjSearchDialog(setPrjInfo,'');
-        });
-
-        //조직코드
-        deptName = new Rui.ui.form.LTextBox({
-            applyTo: 'deptName',
-            width: 300
-        });
-
-        //발의주체
-        ppslMbdCd = new Rui.ui.form.LCombo({
-            applyTo: 'ppslMbdCd',
-            name: 'ppslMbdCd',
-            useEmptyText: true,
-            emptyText: '전체',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PPSL_MBD_CD"/>',
-            displayField: 'COM_DTL_NM',
-            valueField: 'COM_DTL_CD',
-            width: 150
-        });
-
-        //사업부문(Funding기준)
-        bizDptCd = new Rui.ui.form.LCombo({
-            applyTo: 'bizDptCd',
-            name: 'bizDptCd',
-            useEmptyText: true,
-            emptyText: '전체',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=BIZ_DPT_CD"/>',
-            displayField: 'COM_DTL_NM',
-            valueField: 'COM_DTL_CD',
-            width: 150
-        });
-
-        //WBS Code
-        wbsCd = new Rui.ui.form.LTextBox({
-            applyTo: 'wbsCd',
-            width: 100
-        });
-
-        //과제명
-        tssNm = new Rui.ui.form.LTextBox({
-            applyTo: 'tssNm',
-            width: 500
-        });
-
-        //과제리더
-        saUserName = new Rui.ui.form.LPopupTextBox({
-            applyTo: 'saUserName',
-            width: 100,
-            editable: false,
-            enterToPopup: true
-        });
-        saUserName.on('popup', function(e){
-            openUserSearchDialog(setLeaderInfo, 1, '');
-        });
-     	// 공통 유저조회 Dialog
-        _userSearchDialog.on('cancel', function(e) {
-        	try{
-        		tabContent1.$('object').css('visibility', 'visible');
-        	}catch(e){}
-        });
-        _userSearchDialog.on('submit', function(e) {
-        	try{
-        		tabContent1.$('object').css('visibility', 'visible');
-        	}catch(e){}
-        });
-        _userSearchDialog.on('show', function(e) {
-        	try{
-        		tabContent1.$('object').css('visibility', 'hidden');
-        	}catch(e){}
-        });
-
-        // 과제속성
-        tssAttrCd = new Rui.ui.form.LCombo({
-            applyTo: 'tssAttrCd',
-            name: 'tssAttrCd',
-            useEmptyText: true,
-            emptyText: '전체',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=TSS_ATTR_CD"/>',
-            displayField: 'COM_DTL_NM',
-            valueField: 'COM_DTL_CD',
-            width: 100
-        });
-
-        //제품군
-        prodGCd = new Rui.ui.form.LCombo({
-            applyTo: 'prodGCd',
-            name: 'prodGCd',
-            useEmptyText: true,
-            emptyText: '전체',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PROD_G"/>',
-            displayField: 'COM_DTL_NM',
-            valueField: 'COM_DTL_CD',
-            width: 100
-        });
-
-        //과제기간 시작일
-        tssStrtDd = new Rui.ui.form.LDateBox({
-            applyTo: 'tssStrtDd',
-            mask: '9999-99-99',
-            width: 100,
-            dateType: 'string'
-        });
-        tssStrtDd.on('blur', function() {
-            if(Rui.isEmpty(tssStrtDd.getValue())) return;
-
-            if(!Rui.isEmpty(tssFnhDd.getValue())) {
-                var startDt = tssStrtDd.getValue().replace(/\-/g, "").toDate();
-                var fnhDt   = tssFnhDd.getValue().replace(/\-/g, "").toDate();
-
-                var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
-
-                if(rtnValue <= 0) {
-                    alert("시작일보다 종료일이 빠를 수 없습니다.");
-                    tssStrtDd.setValue("");
-                    return;
-                }
-            }
-        });
-
-        // 과제기간 종료일
-        tssFnhDd = new Rui.ui.form.LDateBox({
-            applyTo: 'tssFnhDd',
-            mask: '9999-99-99',
-            width: 100,
-            dateType: 'string'
-        });
-        tssFnhDd.on('blur', function() {
-            if(Rui.isEmpty(tssFnhDd.getValue())) return;
-
-            if(!Rui.isEmpty(tssStrtDd.getValue())) {
-                var startDt = tssStrtDd.getValue().replace(/\-/g, "").toDate();
-                var fnhDt   = tssFnhDd.getValue().replace(/\-/g, "").toDate();
-
-                var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
-
-                if(rtnValue <= 0) {
-                    alert("시작일보다 종료일이 빠를 수 없습니다.");
-                    tssFnhDd.setValue("");
-                    return;
-                }
-            }
-        });
-
-        //참여인원
-        mbrCnt = new Rui.ui.form.LTextBox({
-            applyTo: 'mbrCnt',
-            editable: false,
-            width: 200
-        });
-
-      //연구분야
-        rsstSphe = new Rui.ui.form.LCombo({
-            applyTo: 'rsstSphe',
-            name: 'rsstSphe',
-            useEmptyText: true,
-            emptyText: '전체',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RSST_SPHE"/>',
-            displayField: 'COM_DTL_NM',
-            valueField: 'COM_DTL_CD',
-            width: 150
-        });
-        
-        //유형
-        tssType = new Rui.ui.form.LCombo({
-            applyTo: 'tssType',
-            name: 'tssType',
-            useEmptyText: true,
-            emptyText: '전체',
-            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=TSS_TYPE"/>',
-            displayField: 'COM_DTL_NM',
-            valueField: 'COM_DTL_CD',
-            width: 150
-        });
-        
         //Form 비활성화 여부
         disableFields = function(disable) {
             //버튼여부
@@ -247,50 +71,7 @@
                     }
                 }
             }
-
-            deptName.setEditable(false);
-            mbrCnt.setEditable(false);
-            wbsCd.setEditable(false);
-
-            document.getElementById('deptName').style.border = 0;
-            document.getElementById('mbrCnt').style.border = 0;
-            document.getElementById('wbsCd').style.border = 0;
-
-            if(disable) {
-	            prjNm.disable();
-	            deptName.disable();
-	            ppslMbdCd.disable();
-	            bizDptCd.disable();
-	            tssNm.disable();
-	            saUserName.disable();
-	            tssAttrCd.disable();
-	            tssStrtDd.disable();
-	            tssFnhDd.disable();
-	            mbrCnt.disable();
-	            wbsCd.disable();
-	            prodGCd.disable();
-	            rsstSphe.disable();
-                tssType.disable();
-            } else {
-                prjNm.enable();
-                deptName.enable();
-                ppslMbdCd.enable();
-                bizDptCd.enable();
-                tssNm.enable();
-                saUserName.enable();
-                tssAttrCd.enable();
-                tssStrtDd.enable();
-                tssFnhDd.enable();
-                mbrCnt.enable();
-                wbsCd.enable();
-                prodGCd.enable();
-                rsstSphe.enable();
-                tssType.enable();
-            }
         }
-
-
-
 
         /*============================================================================
         =================================    DataSet     =============================
@@ -349,7 +130,9 @@
                 , { id: 'pgTssSt' }        //진행상태의상태값
                 , { id: 'pgSaSabunNew' }   //진행상태의과제리더
                 , { id: 'rsstSphe' }      //연구분야
+                , { id: 'rsstSpheNm' }      //연구분야
                 , { id: 'tssType' }      //유형
+                , { id: 'tssTypeNm' }      //유형
                 , { id: 'tssRoleType' }
                 , { id: 'tssRoleId' }
                 , {id: 'tssStepNm'}	//관제 단계
@@ -363,6 +146,15 @@
             var pPgsStepCd = dataSet.getNameValue(0, "pgsStepCd");
             gvPgTssCd = dataSet.getNameValue(0, "pgTssCd");
 
+            tssAttrCd = dataSet.getNameValue(0, 'tssAttrCd');
+            bizDptCd = dataSet.getNameValue(0, 'bizDptCd');
+            bizDptNm = dataSet.getNameValue(0, 'bizDptNm');
+            
+            tssStrtDd = dataSet.getNameValue(0, 'tssStrtDd');
+            tssFnhDd  = dataSet.getNameValue(0, 'tssFnhDd');
+            tssNm  = dataSet.getNameValue(0, 'tssNm');
+            gvWbsCd = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
+            
             //PG:진행단계
             if(pPgsStepCd == "PG") {
                 gvTssCd = ""; //과제코드
@@ -374,11 +166,8 @@
                 gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt")); //과제상태
             }
 
-            disableFields(false);
-
             tabView.selectTab(0);
         });
-
 
         //폼에 출력
         var bind = new Rui.data.LBind({
@@ -386,28 +175,31 @@
             dataSet: dataSet,
             bind: true,
             bindInfo: [
-                  { id: 'prjNm',       ctrlId: 'prjNm',       value: 'value' }
-                , { id: 'deptName',    ctrlId: 'deptName',    value: 'value' }
-                , { id: 'ppslMbdCd',   ctrlId: 'ppslMbdCd',   value: 'value' }
+                  { id: 'prjNm',       ctrlId: 'prjNm',       value: 'html' }
+                , { id: 'deptName',    ctrlId: 'deptName',    value: 'html' }
+                , { id: 'ppslMbdCd',   ctrlId: 'ppslMbdCd',   value: 'html' }
                 , { id: 'bizDptCd',    ctrlId: 'bizDptCd',    value: 'value' }
-                , { id: 'tssNm',       ctrlId: 'tssNm',       value: 'value' }
-                , { id: 'saUserName',  ctrlId: 'saUserName',  value: 'value' }
-                , { id: 'tssAttrCd',   ctrlId: 'tssAttrCd',   value: 'value' }
-                , { id: 'tssStrtDd',   ctrlId: 'tssStrtDd',   value: 'value' }
-                , { id: 'tssFnhDd',    ctrlId: 'tssFnhDd',    value: 'value' }
-                , { id: 'mbrCnt',      ctrlId: 'mbrCnt',      value: 'value' }
-                , { id: 'wbsCd',       ctrlId: 'wbsCd',       value: 'value' }
-                , { id: 'prodGCd',     ctrlId: 'prodGCd',     value: 'value' }
-                , { id: 'rsstSphe',   ctrlId: 'rsstSphe',   value: 'value' }
-                , { id: 'tssType',    ctrlId: 'tssType',    value: 'value' }
+                , { id: 'bizDptNm',    ctrlId: 'bizDptNm',    value: 'html' }
+                , { id: 'tssNm',       ctrlId: 'tssNm',       value: 'html' }
+                , { id: 'saUserName',  ctrlId: 'saUserName',  value: 'html' }
+                , { id: 'tssAttrCd',   ctrlId: 'tssAttrCd',   value: 'html' }
+                , { id: 'tssAttrNm',   ctrlId: 'tssAttrNm',   value: 'html' }
+                , { id: 'tssStrtDd',   ctrlId: 'tssStrtDd',   value: 'html' }
+                , { id: 'tssFnhDd',    ctrlId: 'tssFnhDd',    value: 'html' }
+                , { id: 'mbrCnt',      ctrlId: 'mbrCnt',      value: 'html' }
+                , { id: 'wbsCd',       ctrlId: 'wbsCd',       value: 'html' }
+                , { id: 'prodGCd',     ctrlId: 'prodGCd',     value: 'html' }
+                , { id: 'prodGNm',     ctrlId: 'prodGNm',     value: 'html' }
+                , { id: 'rsstSpheNm',   ctrlId: 'rsstSpheNm',   value: 'html' }
+                , { id: 'rsstSphe',   ctrlId: 'rsstSphe',   value: 'html' }
+                , { id: 'tssType',    ctrlId: 'tssType',    value: 'html' }
+                , { id: 'tssTypeNm',    ctrlId: 'tssTypeNm',    value: 'html' }
                 , { id: 'tssStepNm',    ctrlId: 'tssStepNm',    value: 'html' }				//과제 단계명
                 , { id: 'grsStepNm',    ctrlId: 'grsStepNm',    value: 'html' }				// GRS 단계명
+                , { id: 'ppslMbdNm',    ctrlId: 'ppslMbdNm',    value: 'html' }				// GRS 단계명
                 // , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }		//Qgate 단계명
-
-
             ]
         });
-
 
         //유효성 설정
         var vm = new Rui.validate.LValidatorManager({
@@ -490,13 +282,12 @@
                 }
             }
 
-            var tabUrl = "";
-
+            var tabUrl = ""; 
             switch(e.activeIndex) {
             //변경개요
             case 0:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrIfm.do?tssCd=" + gvTssCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrIfm.do?tssCd=" + gvTssCd +"&pgTssCd="+gvPgTssCd+" '/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent0');
                 } else {
                     disableFields(false);
@@ -505,7 +296,7 @@
             //개요
             case 1:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrSmryIfm.do?tssCd=" + gvTssCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrSmryIfm.do?tssCd=" + gvTssCd + "&pgTssCd="+gvPgTssCd+"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
                 }
                 disableFields(true);
@@ -529,7 +320,7 @@
             //개발비
             case 4:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssPlnTrwiBudgIfm.do'/>"+"?tssCd=" + gvPgTssCd + "&pgsStepCd=" + gvPgsStepCd + "&alTssCd=" + gvTssCd;
+                	tabUrl = "<c:url value='/prj/tss/gen/genTssPgsTrwiBudgIfm.do?tssCd=" + gvPgTssCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent4');
                 }
                 disableFields(true);
@@ -573,8 +364,8 @@
         //품의서요청-GRS품의
         btnCsusRq = new Rui.ui.LButton('btnCsusRq');
         btnCsusRq.on('click', function() {
-            if(confirm('품의서요청을 하시겠습니까?')) {
-                nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssAltrCsusRq.do'/>"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&appCode=APP00332");
+        	if(confirm('품의서요청을 하시겠습니까?')) {
+                nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssAltrCsusRq.do'/>"+"?tssCd="+gvTssCd+"&pgTssCd="+gvPgTssCd+"&userId="+gvUserId+"&appCode=APP00332");
             }
         });
         
@@ -583,16 +374,13 @@
         btnCsusRq2 = new Rui.ui.LButton('btnCsusRq2');
         btnCsusRq2.on('click', function() {
             if(confirm('품의서요청을 하시겠습니까?')) {
-                nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssAltrCsusRq.do'/>"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&appCode=APP00339");
+                nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssAltrCsusRq.do'/>"+"?tssCd="+gvTssCd+"&pgTssCd="+gvPgTssCd+"&userId="+gvUserId+"&appCode=APP00339");
             }
         });
 
 
         //저장
         fnSave = function() {
-            tssStrtDd.blur();
-            tssFnhDd.blur();
-            
             if(!vm.validateGroup("mstForm")) {
                 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + vm.getMessageList().join(''));
                 return;
@@ -615,7 +403,6 @@
 	
 	            smryDs.setNameValue(0, "tssCd",  gvTssCd); //과제코드
 	            smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
-	
 	            //신규
 	            if(gvTssCd == "") {
 	                dm.updateDataSet({
@@ -755,64 +542,63 @@ function setPrjInfo(prjInfo) {
                                 <tr>
                                     <th align="right">프로젝트명</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="prjNm" />
+                                        <span id="prjNm" />
                                     </td>
                                     <th align="right">조직</th>
                                     <td>
-                                        <input type="text" id="deptName" />
+                                        <span id="deptName" />
                                     </td>
                                 </tr>
                                 <tr>
                                   <th align="right">WBSCode/과제명</th>
                                     <td class="tssLableCss" colspan="3">
-                                        <input type="text" id="wbsCd" /> /<em class="gab"> <input type="text" id="tssNm" />
+                                        <span id="wbsCd"></span> / <span id="tssNm"></span>
                                     </td>
                                  </tr>
                                  <tr> 
                                  	<th align="right">과제리더</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="saUserName" />
+                                        <span id="saUserName" />
                                     </td>
                                     <th align="right">사업부문(Funding기준)</th>
                                     <td class="tssLableCss">
-                                        <div id="bizDptCd" />
+                                        <span id="bizDptNm" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <th align="right">발의주체</th>
                                     <td class="tssLableCss">
-                                        <div id="ppslMbdCd" />
+                                        <span id="ppslMbdNm" />
                                     </td>
                                     <th align="right">제품군</th>
                                     <td class="tssLableCss">
-                                        <div id="prodGCd" />
+                                        <span id="prodGNm" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <th align="right">과제속성</th>
                                     <td class="tssLableCss">
-                                        <div id="tssAttrCd"></div>
+                                        <span id="tssAttrNm"></div>
                                     </td>
                                     <th align="right">참여인원</th>
                                     <td>
-                                        <input type="text" id="mbrCnt" />
+                                        <span id="mbrCnt" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <th align="right">연구분야</th>
                                     <td>
-                                        <div id="rsstSphe">
+                                        <span id="rsstSpheNm">
                                     </td>
                                     <th align="right">유형</th>
                                     <td>
-                                        <div id="tssType">
+                                        <span id="tssTypeNm">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th align="right">과제기간</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="tssStrtDd" /><em class="gab"> ~ </em>
-                                        <input type="text" id="tssFnhDd" />
+                                        <span id="tssStrtDd"></span> ~ <span id="tssFnhDd"></span>
                                     </td>
                                     <th align="right">진행단계 / GRS</th>
                                     <td colspan="3"><span id="tssStepNm"/> / <span id="grsStepNm"/></td>

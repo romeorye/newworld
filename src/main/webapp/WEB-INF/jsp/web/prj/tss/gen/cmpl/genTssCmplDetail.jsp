@@ -44,12 +44,14 @@
     var gvPageMode  = "";
     var progressrateReal = "${inputData.progressrateReal}";
     var progressrate     = "${inputData.progressrate}";
+    var pGrsEvSt     = "${inputData.pGrsEvSt}";
 
     var cmplTssCd   = "";
     var dataSet;
     var altrHistDialog;
     var rtnMsg = "${inputData.rtnMsg}";
     var itmFlag ="Y";	//필수산출물 체크 
+    var gvWbsCd   = "";
     
     Rui.onReady(function() {
         /*============================================================================
@@ -283,6 +285,7 @@
             gvTssCd    = stringNullChk(dataSet.getNameValue(0, "pgTssCd")); //진행단계 과제코드
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvPkWbsCd  = dataSet.getNameValue(0, "pkWbsCd");
+            gvWbsCd = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
 
             document.tabForm.tssSt.value = dataSet.getNameValue(0, "tssSt");
             document.tabForm.pgsStepCd.value = dataSet.getNameValue(0, "pgsStepCd");
@@ -409,14 +412,14 @@
             //완료
             case 0:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssCmplSmryIfm.do?tssCd=" + cmplTssCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssCmplIfm.do?tssCd="+cmplTssCd+"&pgTssCd="+gvTssCd+"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent0');
                 }
                 break;
             //개요
             case 1:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssPgsSmryIfm.do?tssCd=" + gvTssCd + "'/>";
+                	tabUrl = "<c:url value='/prj/tss/gen/genTssPgsSmryIfm.do?tssCd=" + gvTssCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
                 }
                 break;
@@ -472,18 +475,20 @@
         btnCsusRq.on('click', function() {
         	document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
           	document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
-			
+          	/* 			
           	var chkNum = document.getElementById('tabContent0').contentWindow.fnAttchValid();  
 
           	if(chkNum == 0){
 	        		Rui.alert("평가 결과서 첨부파일을 추가하셔야 합니다.");
 	        		return;
           	}
-        	
+         */	
+         itmFlag = "N";
+         
           	Rui.confirm({
                 text: '품의서요청을 하시겠습니까?',
                 handlerYes: function() {
-                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&itmFlag="+itmFlag+"&appCode=APP00332"+"&appCode=APP00332");
+                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00332"+"&appCode=APP00332");
                 },
                 handlerNo: Rui.emptyFn
             });
@@ -523,7 +528,6 @@
 
 	                smryDs.setNameValue(0, "tssCd",  cmplTssCd); //과제코드
 	                smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
-
 	                //신규
 	                if(cmplTssCd == "") {
 	                    dm.updateDataSet({
@@ -567,6 +571,7 @@
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#btnCsusRq").hide();
 		}
+        
     });
 
     function fncGenTssAltrDetail(cd) {

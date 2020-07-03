@@ -85,158 +85,12 @@
             width: 600
         });
       
-        //상품출시(계획)
-        ctyOtPlnM = new Rui.ui.form.LTextBox({
-            applyTo: 'ctyOtPlnM',
-            editable: false,
-            width: 120
-        });
-        
-        //영업이익율Y
-        bizPrftProY = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProY',
-            decimalPrecision: 2,
-            width: 120
-        });
-        
-        //영업이익율Y+1
-        bizPrftProY1 = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProY1',
-            decimalPrecision: 2,
-            width: 120
-        });
-        
-        //영업이익율Y+2
-        bizPrftProY2 = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProY2',
-            decimalPrecision: 2,
-            width: 120
-        });
-        
-        //영업이익율Y+3
-        bizPrftProY3 = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProY3',
-            decimalPrecision: 2,
-            width: 120
-        });
-        
-        //영업이익율Y+4
-        bizPrftProY4 = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProY4',
-            decimalPrecision: 2,
-            width: 120
-        });
-        
-        //영업이익율평균
-        bizPrftProYAvg = new Rui.ui.form.LNumberBox({
-            applyTo: 'bizPrftProYAvg',
-            decimalPrecision: 2,
-            editable: false,
-            width: 120
-        });
-        
-        //신제품매출계획Y
-        nprodSalsPlnY = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnY',
-            decimalPrecision: 2,
-            editable: false,
-            width: 120
-        });
-        
-        //신제품매출계획Y+1
-        nprodSalsPlnY1 = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnY1',
-            decimalPrecision: 2,
-            editable: false,
-            width: 120
-        });
-        
-        //신제품매출계획Y+2
-        nprodSalsPlnY2 = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnY2',
-            decimalPrecision: 2,
-            editable: false,
-            width: 120
-        });
-        
-        //신제품매출계획Y+3
-        nprodSalsPlnY3 = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnY3',
-            decimalPrecision: 2,
-            editable: false,
-            width: 120
-        });
-        
-        //신제품매출계획Y+4
-        nprodSalsPlnY4 = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnY4',
-            decimalPrecision: 2,
-            editable: false,
-            width: 120
-        });
-        
-        //신제품매출계획평균
-        nprodSalsPlnYAvg = new Rui.ui.form.LNumberBox({
-            applyTo: 'nprodSalsPlnYAvg',
-            decimalPrecision: 2,
-            editable: false,
-            width: 120
-        });
-        
-        //투입인원(M/M)Y
-        ptcCpsnY = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnY',
-            editable: false,
-            width: 120
-        });
-        
-        //투입인원(M/M)Y+1
-        ptcCpsnY1 = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnY1',
-            editable: false,
-            width: 120
-        });
-        
-        //투입인원(M/M)Y+2
-        ptcCpsnY2 = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnY2',
-            editable: false,
-            width: 120
-        });
-        
-        //투입인원(M/M)Y+3
-        ptcCpsnY3 = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnY3',
-            editable: false,
-            width: 120
-        });
-        
-        //투입인원(M/M)Y+4
-        ptcCpsnY4 = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnY4',
-            editable: false,
-            width: 120
-        });
-        
-        //투입인원(M/M)평균
-        ptcCpsnYAvg = new Rui.ui.form.LNumberBox({
-            applyTo: 'ptcCpsnYAvg',
-            editable: false,
-            width: 120
-        });
-        
         //Form 비활성화
         disableFields = function() {
             if(pageMode == "R") {
             }
-            
-            //css적용
-            Rui.select('.tssLableCss input').addClass('L-tssLable');
-            Rui.select('.tssLableCss div').addClass('L-tssLable');
         };
       
-
-        
         /*============================================================================
         =================================    DataSet     =============================
         ============================================================================*/
@@ -256,24 +110,29 @@
                 , { id: 'ctyOtPlnM' }        //상품출시(계획)
                 , { id: 'smrSmryTxt' }      
                 , { id: 'smrGoalTxt' }  
-                , { id: 'bizPrftProY',  type: 'number', defaultValue:0 }   
-                , { id: 'bizPrftProY1', type: 'number', defaultValue:0 }  
-                , { id: 'bizPrftProY2', type: 'number', defaultValue:0 }  
-                , { id: 'bizPrftProY3', type: 'number', defaultValue:0 }  
-                , { id: 'bizPrftProY4', type: 'number', defaultValue:0 }  
-//                 , { id: 'bizPrftProYAvg', type: 'number', defaultValue:0 } 
-                , { id: 'nprodSalsPlnY', type: 'number', defaultValue:0 }    //신제품매출계획Y  
-                , { id: 'nprodSalsPlnY1', type: 'number', defaultValue:0 }   //신제품매출계획Y+1
-                , { id: 'nprodSalsPlnY2', type: 'number', defaultValue:0 }   //신제품매출계획Y+2
-                , { id: 'nprodSalsPlnY3', type: 'number', defaultValue:0 }   //신제품매출계획Y+3
-                , { id: 'nprodSalsPlnY4', type: 'number', defaultValue:0 }   //신제품매출계획Y+4
-//                 , { id: 'nprodSalsPlnYAvg', type: 'number', defaultValue:0 } //신제품매출계획평균
-                , { id: 'ptcCpsnY', type: 'number', defaultValue:0 }         //투입인원(M/M)Y  
-                , { id: 'ptcCpsnY1', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+1
-                , { id: 'ptcCpsnY2', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+2
-                , { id: 'ptcCpsnY3', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+3
-                , { id: 'ptcCpsnY4', type: 'number', defaultValue:0 }        //투입인원(M/M)Y+4
-//                 , { id: 'ptcCpsnYAvg', type: 'number', defaultValue:0 }      //투입인원(M/M)평균
+                , { id: 'bizPrftProY' }   
+                , { id: 'bizPrftProY1' }  
+                , { id: 'bizPrftProY2' }  
+                , { id: 'bizPrftProY3' }  
+                , { id: 'bizPrftProY4' }  
+                , { id: 'bizPrftPlnY'}  
+                , { id: 'bizPrftPlnY1'}  
+                , { id: 'bizPrftPlnY2'}  
+                , { id: 'nprodSalsPlnY'}    //신제품매출계획Y  
+                , { id: 'nprodSalsPlnY1'}   //신제품매출계획Y+1
+                , { id: 'nprodSalsPlnY2'}   //신제품매출계획Y+2
+                , { id: 'nprodSalsPlnY3'}   //신제품매출계획Y+3
+                , { id: 'nprodSalsPlnY4'}   //신제품매출계획Y+4
+                , { id: 'ptcCpsnY'}         //투입인원(M/M)Y  
+                , { id: 'ptcCpsnY1' }        //투입인원(M/M)Y+1
+                , { id: 'ptcCpsnY2' }        //투입인원(M/M)Y+2
+                , { id: 'ptcCpsnY3' }        //투입인원(M/M)Y+3
+                , { id: 'ptcCpsnY4' }        //투입인원(M/M)Y+4
+                , { id: 'expArslY'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY1'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY2'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY3'}        //투입인원(M/M)Y+4
+                , { id: 'expArslY4'}        //투입인원(M/M)Y+4
                 , { id: 'pmisTxt' }        //첨부파일ID
                 , { id: 'attcFilId' }        //첨부파일ID
                 , { id: 'userId' }           //로그인ID
@@ -289,22 +148,7 @@
             
             lvAttcFilId = dataSet.getNameValue(0, "attcFilId");
             if(!Rui.isEmpty(lvAttcFilId)) getAttachFileList();
-            
-            var dsNprodSalsPlnY  = (dataSet.getNameValue(0, "nprodSalsPlnY")  / 1000000).toFixed(6);
-            var dsNprodSalsPlnY1 = (dataSet.getNameValue(0, "nprodSalsPlnY1") / 1000000).toFixed(6);
-            var dsNprodSalsPlnY2 = (dataSet.getNameValue(0, "nprodSalsPlnY2") / 1000000).toFixed(6);
-            var dsNprodSalsPlnY3 = (dataSet.getNameValue(0, "nprodSalsPlnY3") / 1000000).toFixed(6);
-            var dsNprodSalsPlnY4 = (dataSet.getNameValue(0, "nprodSalsPlnY4") / 1000000).toFixed(6);
-            
-            nprodSalsPlnY.setValue(dsNprodSalsPlnY);
-            nprodSalsPlnY1.setValue(dsNprodSalsPlnY1);
-            nprodSalsPlnY2.setValue(dsNprodSalsPlnY2);
-            nprodSalsPlnY3.setValue(dsNprodSalsPlnY3);
-            nprodSalsPlnY4.setValue(dsNprodSalsPlnY4);
-            
-            fnGetYAvg();
         });
-        
         
         //폼에 출력 
         var bind = new Rui.data.LBind({
@@ -314,33 +158,210 @@
             bindInfo: [
                   { id: 'tssCd',            ctrlId: 'tssCd',            value: 'value' }
                 , { id: 'mrktSclTxt',       ctrlId: 'mrktSclTxt',       value: 'value' }
-                , { id: 'ctyOtPlnM',        ctrlId: 'ctyOtPlnM',        value: 'value' }
+                , { id: 'ctyOtPlnM',        ctrlId: 'ctyOtPlnM',        value: 'html' }
                 , { id: 'smrSmryTxt',       ctrlId: 'smrSmryTxt',       value: 'value' }
                 , { id: 'smrGoalTxt',       ctrlId: 'smrGoalTxt',       value: 'value' }
                 , { id: 'pmisTxt',       	ctrlId: 'pmisTxt',       	value: 'value' }
-//                 , { id: 'bizPrftProY',      ctrlId: 'bizPrftProY',      value: 'value' }
-//                 , { id: 'bizPrftProY1',     ctrlId: 'bizPrftProY1',     value: 'value' }
-//                 , { id: 'bizPrftProY2',     ctrlId: 'bizPrftProY2',     value: 'value' }
-//                 , { id: 'bizPrftProY3',     ctrlId: 'bizPrftProY3',     value: 'value' }
-//                 , { id: 'bizPrftProY4',     ctrlId: 'bizPrftProY4',     value: 'value' }
-//                 , { id: 'bizPrftProYAvg',   ctrlId: 'bizPrftProYAvg',   value: 'value' }
-//                 , { id: 'nprodSalsPlnY',    ctrlId: 'nprodSalsPlnY',    value: 'value' }
-//                 , { id: 'nprodSalsPlnY1',   ctrlId: 'nprodSalsPlnY1',   value: 'value' }
-//                 , { id: 'nprodSalsPlnY2',   ctrlId: 'nprodSalsPlnY2',   value: 'value' }
-//                 , { id: 'nprodSalsPlnY3',   ctrlId: 'nprodSalsPlnY3',   value: 'value' }
-//                 , { id: 'nprodSalsPlnY4',   ctrlId: 'nprodSalsPlnY4',   value: 'value' }
-//                 , { id: 'nprodSalsPlnYAvg', ctrlId: 'nprodSalsPlnYAvg', value: 'value' }
-//                 , { id: 'ptcCpsnY',         ctrlId: 'ptcCpsnY',         value: 'value' }
-//                 , { id: 'ptcCpsnY1',        ctrlId: 'ptcCpsnY1',        value: 'value' }
-//                 , { id: 'ptcCpsnY2',        ctrlId: 'ptcCpsnY2',        value: 'value' }
-//                 , { id: 'ptcCpsnY3',        ctrlId: 'ptcCpsnY3',        value: 'value' }
-//                 , { id: 'ptcCpsnY4',        ctrlId: 'ptcCpsnY4',        value: 'value' }
-//                 , { id: 'ptcCpsnYAvg',      ctrlId: 'ptcCpsnYAvg',      value: 'value' }
-                , { id: 'userId',           ctrlId: 'userId',           value: 'value' }
+                , { id: 'bizPrftPlnY',      ctrlId: 'bizPrftPlnY',      value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftPlnY1',     ctrlId: 'bizPrftPlnY1',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftPlnY2',     ctrlId: 'bizPrftPlnY2',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY',      ctrlId: 'bizPrftProY',      value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY1',     ctrlId: 'bizPrftProY1',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY2',     ctrlId: 'bizPrftProY2',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY3',     ctrlId: 'bizPrftProY3',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'bizPrftProY4',     ctrlId: 'bizPrftProY4',     value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY',         ctrlId: 'expArslY',     	value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY',         ctrlId: 'expArslY',     	value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY1',        ctrlId: 'expArslY1',     	value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY2',        ctrlId: 'expArslY2',   		value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY3',        ctrlId: 'expArslY3',    	value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY4',        ctrlId: 'expArslY4',   		value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY',   	ctrlId: 'nprodSalsPlnY',   	value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY1',   ctrlId: 'nprodSalsPlnY1',   value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY2',   ctrlId: 'nprodSalsPlnY2',   value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY3',   ctrlId: 'nprodSalsPlnY3',   value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'nprodSalsPlnY4',   ctrlId: 'nprodSalsPlnY4',   value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY',         ctrlId: 'expArslY',         value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY1',        ctrlId: 'expArslY1',        value: 'html', renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY2',        ctrlId: 'expArslY2',        value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY3',        ctrlId: 'expArslY3',        value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'expArslY4',        ctrlId: 'expArslY4',        value: 'html' , renderer: function(value) {
+                	if ( parseFloat(value) > 0 ){
+                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
+        			}else{
+        				return "";
+        			}
+                }
+            }    
+                , { id: 'ptcCpsnY',         ctrlId: 'ptcCpsnY',         value: 'html' }
+                , { id: 'ptcCpsnY1',        ctrlId: 'ptcCpsnY1',        value: 'html' }
+                , { id: 'ptcCpsnY2',        ctrlId: 'ptcCpsnY2',        value: 'html' }
+                , { id: 'ptcCpsnY3',        ctrlId: 'ptcCpsnY3',        value: 'html' }
+                , { id: 'ptcCpsnY4',        ctrlId: 'ptcCpsnY4',        value: 'html' }
+                , { id: 'userId',           ctrlId: 'userId',           value: 'html' }
             ]
         });
-        
-        
         
         tabViewS = new Rui.ui.tab.LTabView({
             tabs: [
@@ -466,7 +487,7 @@
     
     //평균구하기
     function fnGetYAvg() {
-        var y  = 0;
+        /* var y  = 0;
         var y1 = 0;
         var y2 = 0;
         var y3 = 0;
@@ -557,7 +578,7 @@
 
         yAvg = (y + y1 + y2 + y3 + y4) / cnt;
 
-        bizPrftProYAvg.setValue(yAvg);
+        bizPrftProYAvg.setValue(yAvg); */
     }
 </script>
 <script type="text/javascript">
@@ -591,41 +612,40 @@ function initFrameSetHeight2(pId) {
         
         <table class="table table_txt_right">
             <colgroup>
+                <col style="width: 20%;" />
                 <col style="width: 16%;" />
-                <col style="width: 14%;" />
-                <col style="width: 14%;" />
-                <col style="width: 14%;" />
-                <col style="width: 14%;" />
-                <col style="width: 14%;" />
-                <col style="width: 14%;" />
+                <col style="width: 16%;" />
+                <col style="width: 16%;" />
+                <col style="width: 16%;" />
+                <col style="width: 16%;" />
             </colgroup>
             <tbody>
                 <tr>
                     <th align="right">Summary 개요</th>
-                    <td class="tssLableCss space_tain" colspan="6"><input type="text" id="smrSmryTxt" name="smrSmryTxt" /></td>
+                    <td class="tssLableCss space_tain" colspan="5"><input type="text" id="smrSmryTxt" name="smrSmryTxt" /></td>
                 </tr>
                 <tr>
                     <th align="right">Summary 목표</th>
-                    <td class="tssLableCss space_tain" colspan="6"><input type="text" id="smrGoalTxt" name="smrGoalTxt" /></td>
+                    <td class="tssLableCss space_tain" colspan="5"><input type="text" id="smrGoalTxt" name="smrGoalTxt" /></td>
                 </tr>
                 <tr>
                     <th align="right" rowspan="2"> 개요 상세</th>
-                    <td colspan="6" class="space_tain">
+                    <td colspan="5" class="space_tain">
                         <div id="tabViewS" />
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="5">
 	                    <div id="smryTxt" />
                     </td>
                 </tr>
                 <tr>
                     <th align="right">시장규모</th>
-                    <td class="tssLableCss space_tain" colspan="6"><input type="text" id="mrktSclTxt" /></td>
+                    <td class="tssLableCss space_tain" colspan="5"><input type="text" id="mrktSclTxt" /></td>
                 </tr>
                 <tr>
                     <th align="right">상품출시(계획)</th>
-                    <td class="tssLableCss" colspan="6"><input type="text" id="ctyOtPlnM" /></td>
+                    <td colspan="5"><span id="ctyOtPlnM" /></td>
                 </tr>
                 <tr>
                     <th rowspan="2">영업이익율(%)</th>
@@ -634,15 +654,28 @@ function initFrameSetHeight2(pId) {
                     <th class="alignC">출시년도+2</th>
                     <th class="alignC">출시년도+3</th>
                     <th class="alignC">출시년도+4</th>
-                    <th class="alignC">평균</th>
                 </tr>
                 <tr>
-                    <td class="tssLableCss"><input type="text" id="bizPrftProY" name="bizPrftProY"></td>
-                    <td class="tssLableCss"><input type="text" id="bizPrftProY1" name="bizPrftProY1"></td>
-                    <td class="tssLableCss"><input type="text" id="bizPrftProY2" name="bizPrftProY2"></td>
-                    <td class="tssLableCss"><input type="text" id="bizPrftProY3" name="bizPrftProY3"></td>
-                    <td class="tssLableCss"><input type="text" id="bizPrftProY4" name="bizPrftProY4"></td>
-                    <td class="tssLableCss"><input type="text" id="bizPrftProYAvg" name="bizPrftProYAvg"></td>
+                    <td class="alignR"><span id="bizPrftProY" name="bizPrftProY"></td>
+                    <td class="alignR"><span id="bizPrftProY1" name="bizPrftProY1"></td>
+                    <td class="alignR"><span id="bizPrftProY2" name="bizPrftProY2"></td>
+                    <td class="alignR"><span id="bizPrftProY3" name="bizPrftProY3"></td>
+                    <td class="alignR"><span id="bizPrftProY4" name="bizPrftProY4"></td>
+                </tr>
+                 <tr id="trbizPrftPlnHead">
+                    <th rowspan="2">영업이익(억원)</th>
+                    <th class="alignC">출시년도</th>
+                    <th class="alignC">출시년도+1</th>
+                    <th class="alignC">출시년도+2</th>
+                    <th class="alignC">출시년도+3</th>
+                    <th class="alignC">출시년도+4</th>
+                </tr>
+                <tr id="trbizPrftPln">
+                    <td class="alignR"><span id="bizPrftPlnY" name="bizPrftPlnY" /></td>
+                    <td class="alignR"><span id="bizPrftPlnY1" name="bizPrftPlnY1"></td>
+                    <td class="alignR"><span id="bizPrftPlnY2" name="bizPrftPlnY2"></td>
+                    <td class="alignR"></td>
+                    <td class="alignR"></td>
                 </tr>
                 <tr>
                     <th rowspan="2">신제품 매출계획(단위:억원)</th>
@@ -651,15 +684,13 @@ function initFrameSetHeight2(pId) {
                     <th class="alignC">출시년도+2</th>
                     <th class="alignC">출시년도+3</th>
                     <th class="alignC">출시년도+4</th>
-                    <th class="alignC">평균</th>
                 </tr>
                 <tr>
-                    <td class="tssLableCss"><input type="text" id="nprodSalsPlnY" name="nprodSalsPlnY"></td>
-                    <td class="tssLableCss"><input type="text" id="nprodSalsPlnY1" name="nprodSalsPlnY1"></td>
-                    <td class="tssLableCss"><input type="text" id="nprodSalsPlnY2" name="nprodSalsPlnY2"></td>
-                    <td class="tssLableCss"><input type="text" id="nprodSalsPlnY3" name="nprodSalsPlnY3"></td>
-                    <td class="tssLableCss"><input type="text" id="nprodSalsPlnY4" name="nprodSalsPlnY4"></td>
-                    <td class="tssLableCss"><input type="text" id="nprodSalsPlnYAvg" name="nprodSalsPlnYAvg"></td>
+                    <td class="alignR"><span id="nprodSalsPlnY" ></td>
+                    <td class="alignR"><span id="nprodSalsPlnY1" ></td>
+                    <td class="alignR"><span id="nprodSalsPlnY2" ></td>
+                    <td class="alignR"><span id="nprodSalsPlnY3" ></td>
+                    <td class="alignR"><span id="nprodSalsPlnY4"></td>
                 </tr>
                 <tr>
                     <th rowspan="2">투입인원(M/M)</th>
@@ -668,23 +699,36 @@ function initFrameSetHeight2(pId) {
                     <th class="alignC">Y+2</th>
                     <th class="alignC">Y+3</th>
                     <th class="alignC">Y+4</th>
-                    <th class="alignC">평균</th>
                 </tr>
                 <tr>
-                    <td class="tssLableCss"><input type="text" id="ptcCpsnY" name="ptcCpsnY"></td>
-                    <td class="tssLableCss"><input type="text" id="ptcCpsnY1" name="ptcCpsnY1"></td>
-                    <td class="tssLableCss"><input type="text" id="ptcCpsnY2" name="ptcCpsnY2"></td>
-                    <td class="tssLableCss"><input type="text" id="ptcCpsnY3" name="ptcCpsnY3"></td>
-                    <td class="tssLableCss"><input type="text" id="ptcCpsnY4" name="ptcCpsnY4"></td>
-                    <td class="tssLableCss"><input type="text" id="ptcCpsnYAvg" name="ptcCpsnYAvg"></td>
+                    <td class="alignR"><span id="ptcCpsnY" name="ptcCpsnY"></td>
+                    <td class="alignR"><span id="ptcCpsnY1" name="ptcCpsnY1"></td>
+                    <td class="alignR"><span id="ptcCpsnY2" name="ptcCpsnY2"></td>
+                    <td class="alignR"><span id="ptcCpsnY3" name="ptcCpsnY3"></td>
+                    <td class="alignR"><span id="ptcCpsnY4" name="ptcCpsnY4"></td>
+                </tr>
+                <tr id="trExpArslHead">
+                    <th rowspan="2">투입비용</th>
+                    <th class="alignC">Y<br/>(과제 시작 년도)</th>
+                    <th class="alignC">Y+1</th>
+                    <th class="alignC">Y+2</th>
+                    <th class="alignC">Y+3</th>
+                    <th class="alignC">Y+4</th>
+                </tr>
+                <tr id="trExpArsl">
+                    <td class="alignR"><span id="expArslY" name="expArslY"></td>
+                    <td class="alignR"><span id="expArslY1" name="expArslY1"></td>
+                    <td class="alignR"><span id="expArslY2" name="expArslY2"></td>
+                    <td class="alignR"><span id="expArslY3" name="expArslY3"></td>
+                    <td class="alignR"><span id="expArslY4" name="expArslY4"></td>
                 </tr>
                 <tr>
                     <th align="right">지적재산팀 검토의견</th>
-                    <td colspan="6" class="space_tain"><input type="text" id="pmisTxt" name="pmisTxt"></td>
+                    <td colspan="5" class="space_tain"><input type="text" id="pmisTxt" name="pmisTxt"></td>
                 </tr>
                 <tr>
                     <th align="right">GRS심의파일<br/>(심의파일, 회의록 필수 첨부)</th>
-                    <td class="tssLableCss" colspan="6" id="attchFileView">&nbsp;</td>
+                    <td class="tssLableCss" colspan="5" id="attchFileView">&nbsp;</td>
                 </tr>
             </tbody>
         </table>

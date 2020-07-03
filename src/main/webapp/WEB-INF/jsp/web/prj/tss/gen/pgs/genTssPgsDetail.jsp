@@ -36,6 +36,7 @@
     var gvPgsStepCd = "PG"; //진행상태:PG(진행)
     var gvTssSt     = "";
     var gvPkWbsCd   = "";
+    var gvWbsCd   = "";
     var gvPageMode  = "";
     var progressrateReal = "${inputData.progressrateReal}";
     var progressrate     = "${inputData.progressrate}";
@@ -238,9 +239,7 @@
             gvTssSt   = stringNullChk(dataSet.getNameValue(0, "tssSt"));
             gvPkWbsCd = stringNullChk(dataSet.getNameValue(0, "pkWbsCd"));
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
-
-            //document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
-
+            gvWbsCd = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
             disableFields();
 
             tabView.selectTab(0);
@@ -379,7 +378,7 @@
 		     visible: false,
 		     buttons: [
 		             { text: '단순변경', handler: function(){
-		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId);
+		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&gbnCd=DL");
 		             }},
 		             { text: 'GRS심의요청', handler: function(){
 		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&callPageId=genTss");

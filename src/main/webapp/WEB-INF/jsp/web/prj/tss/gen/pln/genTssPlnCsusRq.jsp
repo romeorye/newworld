@@ -298,66 +298,22 @@
                                 </c:forEach>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>5. 기대성과<span class="h3_stitle">(영업이익률, 상품출시(계획), 신제품 매출계획)</span></h3></div>
+                    <div class="titArea"><h3>5. 기대성과 및 R&D 자원 투입 계획</h3></div>
                         <table class="table">
                             <colgroup>
-                                <col style="width:18%"/>
-                                <col style="width:16%"/>
-                                <col style="width:16%"/>
-                                <col style="width:16%"/>
-                                <col style="width:16%"/>
-                                <col style="width:16%"/>
+                                <col style="width:20%"/>
+                                <col style="width:20%"/>
+                                <col style="width:20%"/>
+                                <col style="width:20%"/>
+                                <col style="width:20%"/>
                             </colgroup>
                             <tbody>
                                 <tr>
                                     <th>상품출시(계획)</th>
-                                    <td colspan="5">${resultSmry.ctyOtPlnM}</td>
+                                    <td colspan="4">${resultSmry.ctyOtPlnM}</td>
                                 </tr>
                                 <tr>
-                                    <th colspan="6">영업이익율(%)</th>
-                                </tr>
-                                <tr>
-                                    <th>Y</th>
-                                    <th>Y+1</th>
-                                    <th>Y+2</th>
-                                    <th>Y+3</th>
-                                    <th>Y+4</th>
-                                    <th>평균</th>
-                                </tr>
-                                <tr>
-                                    <fmt:parseNumber var="bizPrftProYCnt" value="${0}" pattern="#.##" />
-                                    <td class="alignR">
-                                        <fmt:parseNumber var="bizPrftProY" value="${resultSmry.bizPrftProY}" pattern="#.##" />
-                                        <fmt:formatNumber value="${bizPrftProY}" pattern="#,###.##"/>
-                                    </td>
-                                    <td class="alignR">
-                                        <fmt:parseNumber var="bizPrftProY1" value="${resultSmry.bizPrftProY1}" pattern="#.##" />
-                                        <fmt:formatNumber value="${bizPrftProY1}" pattern="#,###.##"/>
-                                    </td>
-                                    <td class="alignR">
-                                        <fmt:parseNumber var="bizPrftProY2" value="${resultSmry.bizPrftProY2}" pattern="#.##" />
-                                        <fmt:formatNumber value="${bizPrftProY2}" pattern="#,###.##"/>
-                                    </td>
-                                    <td class="alignR">
-                                        <fmt:parseNumber var="bizPrftProY3" value="${resultSmry.bizPrftProY3}" pattern="#.##" />
-                                        <fmt:formatNumber value="${bizPrftProY3}" pattern="#,###.##"/>
-                                    </td>
-                                    <td class="alignR">
-                                        <fmt:parseNumber var="bizPrftProY4" value="${resultSmry.bizPrftProY4}" pattern="#.##" />
-                                        <fmt:formatNumber value="${bizPrftProY4}" pattern="#,###.##"/>
-                                    </td>
-                                    <td class="alignR">
-                                        <c:if test="${bizPrftProY > 0}"><c:set var="bizPrftProYCnt" value="${bizPrftProYCnt + 1}" /></c:if>
-                                        <c:if test="${bizPrftProY1 > 0}"><c:set var="bizPrftProYCnt" value="${bizPrftProYCnt + 1}" /></c:if>
-                                        <c:if test="${bizPrftProY2 > 0}"><c:set var="bizPrftProYCnt" value="${bizPrftProYCnt + 1}" /></c:if>
-                                        <c:if test="${bizPrftProY3 > 0}"><c:set var="bizPrftProYCnt" value="${bizPrftProYCnt + 1}" /></c:if>
-                                        <c:if test="${bizPrftProY4 > 0}"><c:set var="bizPrftProYCnt" value="${bizPrftProYCnt + 1}" /></c:if>
-                                        <c:if test="${bizPrftProYCnt eq 0}"><c:set var="bizPrftProYCnt" value="${bizPrftProYCnt + 1}" /></c:if>
-                                        <fmt:formatNumber value="${(bizPrftProY + bizPrftProY1 + bizPrftProY2 + bizPrftProY3 + bizPrftProY4) / bizPrftProYCnt}" pattern="#,###.##" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th colspan="6">신제품 매출계획(단위:억원)</th>
+                                    <th colspan="5">영업이익율(%)</th>
                                 </tr>
                                 <tr>
                                     <th>Y</th>
@@ -365,39 +321,76 @@
                                     <th>Y+2</th>
                                     <th>Y+3</th>
                                     <th>Y+4</th>
-                                    <th>평균</th>
                                 </tr>
                                 <tr>
-                                    <fmt:parseNumber var="nprodSalsPlnYSub" value="${100000000}" pattern="#.##" />
-                                    <fmt:parseNumber var="nprodSalsPlnYCnt" value="${0}" pattern="#.##" />
                                     <td class="alignR">
-                                        <fmt:parseNumber var="nprodSalsPlnY" value="${resultSmry.nprodSalsPlnY}" pattern="#.##" />
-                                        <fmt:formatNumber value="${nprodSalsPlnY/nprodSalsPlnYSub}" pattern="#,###.##"/>
+                                        <c:out value="${resultSmry.bizPrftProY}" />
                                     </td>
                                     <td class="alignR">
-                                        <fmt:parseNumber var="nprodSalsPlnY1" value="${resultSmry.nprodSalsPlnY1}" pattern="#.##" />
-                                        <fmt:formatNumber value="${nprodSalsPlnY1/nprodSalsPlnYSub}" pattern="#,###.##"/>
+                                        <c:out value="${resultSmry.bizPrftProY1}" />
                                     </td>
                                     <td class="alignR">
-                                        <fmt:parseNumber var="nprodSalsPlnY2" value="${resultSmry.nprodSalsPlnY2}" pattern="#.##" />
-                                        <fmt:formatNumber value="${nprodSalsPlnY2/nprodSalsPlnYSub}" pattern="#,###.##"/>
+                                        <c:out value="${resultSmry.bizPrftProY2}" />
                                     </td>
                                     <td class="alignR">
-                                        <fmt:parseNumber var="nprodSalsPlnY3" value="${resultSmry.nprodSalsPlnY3}" pattern="#.##" />
-                                        <fmt:formatNumber value="${nprodSalsPlnY3/nprodSalsPlnYSub}" pattern="#,###.##"/>
+                                        <c:out value="${resultSmry.bizPrftProY3}" />
                                     </td>
                                     <td class="alignR">
-                                        <fmt:parseNumber var="nprodSalsPlnY4" value="${resultSmry.nprodSalsPlnY4}" pattern="#.##" />
-                                        <fmt:formatNumber value="${nprodSalsPlnY4/nprodSalsPlnYSub}" pattern="#,###.##"/>
+                                        <c:out value="${resultSmry.bizPrftProY4}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="5">영업이익(단위 :억원)</th>
+                                </tr>
+                                <tr>
+                                    <th>Y</th>
+                                    <th>Y+1</th>
+                                    <th>Y+2</th>
+                                    <th>Y+3</th>
+                                    <th>Y+4</th>
+                                </tr>
+                                <tr>
+                                    <td class="alignR">
+                                        <c:out value="${resultSmry.bizPrftPlnY}" />
                                     </td>
                                     <td class="alignR">
-                                        <c:if test="${nprodSalsPlnY > 0}"><c:set var="nprodSalsPlnYCnt" value="${nprodSalsPlnYCnt + 1}" /></c:if>
-                                        <c:if test="${nprodSalsPlnY1 > 0}"><c:set var="nprodSalsPlnYCnt" value="${nprodSalsPlnYCnt + 1}" /></c:if>
-                                        <c:if test="${nprodSalsPlnY2 > 0}"><c:set var="nprodSalsPlnYCnt" value="${nprodSalsPlnYCnt + 1}" /></c:if>
-                                        <c:if test="${nprodSalsPlnY3 > 0}"><c:set var="nprodSalsPlnYCnt" value="${nprodSalsPlnYCnt + 1}" /></c:if>
-                                        <c:if test="${nprodSalsPlnY4 > 0}"><c:set var="nprodSalsPlnYCnt" value="${nprodSalsPlnYCnt + 1}" /></c:if>
-                                        <c:if test="${nprodSalsPlnYCnt eq 0}"><c:set var="nprodSalsPlnYCnt" value="${nprodSalsPlnYCnt + 1}" /></c:if>
-                                        <fmt:formatNumber value="${((nprodSalsPlnY + nprodSalsPlnY1 + nprodSalsPlnY2 + nprodSalsPlnY3 + nprodSalsPlnY4) / nprodSalsPlnYCnt) / nprodSalsPlnYSub}" pattern="#,###.##" />
+                                        <c:out value="${resultSmry.bizPrftPlnY1}" />
+                                    </td>
+                                    <td class="alignR">
+                                        <c:out value="${resultSmry.bizPrftPlnY2}" />
+                                    </td>
+                                    <td class="alignR">
+                                        
+                                    </td>
+                                    <td class="alignR">
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="5">신제품 매출계획(단위:억원)</th>
+                                </tr>
+                                <tr>
+                                    <th>Y</th>
+                                    <th>Y+1</th>
+                                    <th>Y+2</th>
+                                    <th>Y+3</th>
+                                    <th>Y+4</th>
+                                </tr>
+                                <tr>
+                                    <td class="alignR">
+                                        <c:out value="${resultSmry.nprodSalsPlnY}" />
+                                    </td>
+                                    <td class="alignR">
+                                        <c:out value="${resultSmry.nprodSalsPlnY1}" />
+                                    </td>
+                                    <td class="alignR">
+                                        <c:out value="${resultSmry.nprodSalsPlnY2}" />
+                                    </td>
+                                    <td class="alignR">
+                                        <c:out value="${resultSmry.nprodSalsPlnY3}" />
+                                    </td>
+                                    <td class="alignR">
+                                        <c:out value="${resultSmry.nprodSalsPlnY4}" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -409,74 +402,34 @@
                                     <th>Y+2</th>
                                     <th>Y+3</th>
                                     <th>Y+4</th>
-                                    <th>평균</th>
                                 </tr>
                                 <tr>
-                                    <fmt:parseNumber var="ptcCpsnYCnt" value="${0}" pattern="#.##" />
-                                    <td class="alignR"><fmt:formatNumber value="${resultSmry.ptcCpsnY}" pattern="#,###.##" /></td>
-                                    <td class="alignR"><fmt:formatNumber value="${resultSmry.ptcCpsnY1}" pattern="#,###.##" /></td>
-                                    <td class="alignR"><fmt:formatNumber value="${resultSmry.ptcCpsnY2}" pattern="#,###.##" /></td>
-                                    <td class="alignR"><fmt:formatNumber value="${resultSmry.ptcCpsnY3}" pattern="#,###.##" /></td>
-                                    <td class="alignR"><fmt:formatNumber value="${resultSmry.ptcCpsnY4}" pattern="#,###.##" /></td>
-                                    <td class="alignR">
-                                        <c:if test="${resultSmry.ptcCpsnY > 0}"><c:set var="ptcCpsnYCnt" value="${ptcCpsnYCnt + 1}" /></c:if>
-                                        <c:if test="${resultSmry.ptcCpsnY1 > 0}"><c:set var="ptcCpsnYCnt" value="${ptcCpsnYCnt + 1}" /></c:if>
-                                        <c:if test="${resultSmry.ptcCpsnY2 > 0}"><c:set var="ptcCpsnYCnt" value="${ptcCpsnYCnt + 1}" /></c:if>
-                                        <c:if test="${resultSmry.ptcCpsnY3 > 0}"><c:set var="ptcCpsnYCnt" value="${ptcCpsnYCnt + 1}" /></c:if>
-                                        <c:if test="${resultSmry.ptcCpsnY4 > 0}"><c:set var="ptcCpsnYCnt" value="${ptcCpsnYCnt + 1}" /></c:if>
-                                        <c:if test="${ptcCpsnYCnt eq 0}"><c:set var="ptcCpsnYCnt" value="${ptcCpsnYCnt + 1}" /></c:if>
-                                        <fmt:formatNumber value="${(resultSmry.ptcCpsnY + resultSmry.ptcCpsnY1 + resultSmry.ptcCpsnY2 + resultSmry.ptcCpsnY3 + resultSmry.ptcCpsnY4) / ptcCpsnYCnt}" pattern="#,###.##" />
-                                    </td>
+                                    <td class="alignR">${resultSmry.ptcCpsnY}</td>
+                                    <td class="alignR">${resultSmry.ptcCpsnY1}</td>
+                                    <td class="alignR">${resultSmry.ptcCpsnY2}</td>
+                                    <td class="alignR">${resultSmry.ptcCpsnY3}</td>
+                                    <td class="alignR">${resultSmry.ptcCpsnY4}</td>
+                                </tr>
+                                <tr>
+                                    <th colspan="5">투입비용(단위 :억원)</th>
+                                </tr>
+                                <tr>
+                                    <th>Y</th>
+                                    <th>Y+1</th>
+                                    <th>Y+2</th>
+                                    <th>Y+3</th>
+                                    <th>Y+4</th>
+                                </tr>
+                                <tr>
+                                    <td class="alignR">${resultSmry.expArslY}</td>
+                                    <td class="alignR">${resultSmry.expArslY1}</td>
+                                    <td class="alignR">${resultSmry.expArslY2}</td>
+                                    <td class="alignR">${resultSmry.expArslY3}</td>
+                                    <td class="alignR">${resultSmry.expArslY4}</td>
                                 </tr>
                             </tbody>    
                         </table>
-                    <div class="titArea"><h3>6.전체 추정 예산<span class="h3_stitle">(단위: 백만원)</span></h3></div>
-                        <table class="table table_txt_right">
-                            <colgroup>
-                                <col style="width:20%"/>
-                                <col style="width:30%"/>
-                                <col style="width:20%"/>
-                                <col style="width:30%"/>
-                            </colgroup>
-                            <tbody>
-                                <tr>
-                                    <th>합계</th>
-                                    <td colspan="3" class="alignR"><fmt:formatNumber value="${resultSmry.total}" pattern="#,###.##" /></td>
-                                </tr>
-                                <tr>
-                                    <th>인건비</th>
-                                    <td class="alignR"><fmt:formatNumber value="${resultSmry.ingun}" pattern="#,###.##" /></td>
-                                    <th>감가상각비</th>
-                                    <td class="alignR""><fmt:formatNumber value="${resultSmry.gamgaDev}" pattern="#,###.##" /></td>
-                                </tr>
-                                <tr>
-                                    <th>운영경비</th>
-                                    <td class="alignR"><fmt:formatNumber value="${resultSmry.ounYoung}" pattern="#,###.##" /></td>
-                                    <th>경상개발비</th>
-                                    <td class="alignR"><fmt:formatNumber value="${resultSmry.kungDev}" pattern="#,###.##" /></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    <div class="titArea"><h3>7. 년도별추정예산<span class="h3_stitle">(단위: 백만원)</span></h3></div>
-                        <table class="table">
-                            <tr>
-                                <th>&nbsp;</th>
-                                <th>합계</th>
-                                <c:forEach var="resultTssYy" items="${resultTssYy}">
-                                    <th>${resultTssYy.tssYy}</th>
-                                </c:forEach>
-                            </tr>
-                            <c:forEach var="resultBudg" items="${resultBudg}">
-                                <tr>
-                                    <td align="left">${resultBudg.expScnNm}</td>
-                                    <td class="alignR"><fmt:formatNumber value="${resultBudg.totSum}" pattern="#,###.##" /></td>
-                                    <c:forEach var="resultTssYy" items="${resultTssYy}">
-                                       <td class="alignR"><fmt:formatNumber value="${resultBudg[resultTssYy.tssYy]}" pattern="#,###.##" /></td>    
-                                    </c:forEach>
-                                </tr>
-                            </c:forEach>
-                        </table>
-                    <div class="titArea"><h3>8.목표기술성과</h3></div>
+                    <div class="titArea"><h3>6.목표기술성과</h3></div>
                         <table class="table">
                             <colgroup>
                                 <col style="width:34%"/>
@@ -506,9 +459,7 @@
                             </tbody>
                         </table>
                 
-      <c:choose>
-      		<c:when test="${resultMst.bizDptCd =='07'|| resultMst.bizDptCd == '08' ||  resultMst.bizDptCd == '09' }">	
-      			<div class="titArea"><h3>9. 지적재산팀 검토의견</h3></div>
+      			<div class="titArea"><h3>7. 지적재산팀 검토의견</h3></div>
                         <table class="table">
                         	<tbody>
                         		<tr>
@@ -516,7 +467,7 @@
                         		</tr>
                         	</tbody>
                         </table>        
-                    <div class="titArea"><h3>10. 첨부파일</h3></div>
+                    <div class="titArea"><h3>8. 첨부파일</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:100%"/>
@@ -529,32 +480,7 @@
                                 </td></tr>
                             </tbody>
                         </table>
-      		</c:when>
-	  		<c:otherwise>
-	      				<div class="titArea"><h3>9. 첨부파일</h3></div>
-                        <table class="table table_txt_right">
-                            <colgroup>
-                                <col style="width:100%"/>
-                            </colgroup>
-                            <tbody>
-                                <tr><td>
-                                    <c:forEach var="resultAttc" items="${resultAttc}">
-                                        <a href="http://<spring:eval expression='@jspProperties[defaultUrl]'/>:<spring:eval expression='@jspProperties[serverPort]'/>/<spring:eval expression='@jspProperties[contextPath]'/>/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=${resultAttc.attcFilId}&seq=${resultAttc.seq}">${resultAttc.filNm} (${resultAttc.filSize}byte)</a><br/>
-                                    </c:forEach> 
-                                </td></tr>
-                            </tbody>
-                        </table>
-	      	</c:otherwise>
-      </c:choose>      
-                
-                    
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+	      				
                         
                 </div>
             </form>

@@ -43,11 +43,16 @@
 %>
 <script type="text/javascript">
 	var gvGuid        = "${resultCsus.guid}";
+	var gbnCd        = "${inputData.gbnCd}";
 	var gvAprdocState = "${resultCsus.aprdocstate}";
     var csusCont = "";
 
     Rui.onReady(function() {
-
+/* 
+    	if (gbnCd == "DL"){
+	       	 $("#tbDlView").hide(); 
+        }
+    	 */
         /* [DataSet] 설정 */
         var dataSet = new Rui.data.LJsonDataSet({
             id: 'dataSet',
@@ -208,6 +213,130 @@
                             </tbody>
                         </table>
                     <br/>
+                    
+                    	<table class="table" id="tbDlView">
+                    		<colgroup>
+                                <col style="width: 20%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+								<col style="width: 8%;" />
+                            </colgroup>
+	                    	<tbody>
+	                    		<tr  id="trNprodSalHead">
+					  				<th rowspan="2"></th>
+					  				<th class="alignC"  colspan="2">출시년도</th>
+					  				<th class="alignC"  colspan="2">출시년도+1</th>
+					  				<th class="alignC"  colspan="2">출시년도+2</th>
+					  				<th class="alignC"  colspan="2">출시년도+3</th>
+					  				<th class="alignC"  colspan="2">출시년도+4</th>
+					  			</tr>
+					  			<tr>
+					  				<th class="alignC">변경 前</th>
+					  				<th class="alignC">변경 後</th>
+					  				<th class="alignC">변경 前</th>
+					  				<th class="alignC">변경 後</th>
+					  				<th class="alignC">변경 前</th>
+					  				<th class="alignC">변경 後</th>
+					  				<th class="alignC">변경 前</th>
+					  				<th class="alignC">변경 後</th>
+					  				<th class="alignC">변경 前</th>
+					  				<th class="alignC">변경 後</th>
+					  			</tr>
+					  			<tr id="trNprodSal">
+					  				<th>매출이익률(%)</th>
+					  				<td>${resultSmry.bizPrftProYBefore}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProY}</td>
+					  				<td>${resultSmry.bizPrftProY1Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProY1}</td>
+					  				<td>${resultSmry.bizPrftProY2Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProY2}</td>
+					  				<td></td>
+					  				<td></td>
+					  				<td></td>
+					  				<td></td>
+					  			</tr>
+					  			<tr id="trNprodSal"  >
+					  				<th>매출액(억원)</th>
+					  				<td>${resultSmry.nprodSalsPlnYBefore}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.nprodSalsPlnY}</td>
+					  				<td>${resultSmry.nprodSalsPlnY1Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.nprodSalsPlnY1}</td>
+					  				<td>${resultSmry.nprodSalsPlnY2Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.nprodSalsPlnY2}</td>
+					  				<td></td>
+					  				<td></td>
+					  				<td></td>
+					  				<td></td>
+					  			</tr>
+					  			<tr id="trbizPrftPln" >
+					  				<th>영업이익(억원)</th>
+					  				<td>${resultSmry.bizPrftPlnYBefore}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftPlnY}</td>
+					  				<td>${resultSmry.bizPrftPlnY1Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftPlnY1}</td>
+					  				<td>${resultSmry.bizPrftPlnY2Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftPlnY2}</td>
+					  				<td></td>
+					  				<td></td>
+					  				<td></td>
+					  				<td></td>
+					  			</tr>
+								<tr id="trPtcCpsnHead" >
+					  				<th rowspan="2"></th>
+					  				<th class="alignC"  colspan="2">과제시작년도</th>
+					  				<th class="alignC"  colspan="2">과제시작년도+1</th>
+					  				<th class="alignC"  colspan="2">과제시작년도+2</th>
+					  				<th class="alignC"  colspan="2">과제시작년도+3</th>
+					  				<th class="alignC"  colspan="2">과제시작년도+4</th>
+					  			</tr>
+					  			<tr>
+					  				<th class="alignC">변경 前</th>
+					  				<th class="alignC">변경 後</th>
+					  				<th class="alignC">변경 前</th>
+					  				<th class="alignC">변경 後</th>
+					  				<th class="alignC">변경 前</th>
+					  				<th class="alignC">변경 後</th>
+					  				<th class="alignC">변경 前</th>
+					  				<th class="alignC">변경 後</th>
+					  				<th class="alignC">변경 前</th>
+					  				<th class="alignC">변경 後</th>
+					  			</tr>
+					  			<tr id="trPtcCpsn" >
+					  				<th>투입인원(명)</th>
+					  				<td>${resultSmry.ptcCpsnYBefore}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnY}</td>
+					  				<td>${resultSmry.ptcCpsnY1Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnY1}</td>
+					  				<td>${resultSmry.ptcCpsnY2Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnY2}</td>
+					  				<td>${resultSmry.ptcCpsnY3Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnY3}</td>
+					  				<td>${resultSmry.ptcCpsnY4Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnY4}</td>
+					  			</tr>
+					  			<tr id="trExpArsl" >
+					  				<th>투입비용(억원)</th>
+					  				<td>${resultSmry.expArslYBefore}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.expArslY}</td>
+					  				<td>${resultSmry.expArslY1Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.expArslY1}</td>
+					  				<td>${resultSmry.expArslY2Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.expArslY2}</td>
+					  				<td>${resultSmry.expArslY3Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.expArslY3}</td>
+					  				<td>${resultSmry.expArslY4Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.expArslY4}</td>
+					  			</tr>
+	                    	</tbody>
+                    	</table>
+                    </br>
                         <table class="table">
                             <colgroup>
                                 <col style="width:100%"/>
@@ -238,14 +367,18 @@
                     <br/>
                         <table class="table">
                             <colgroup>
-                                <col style="width:100%"/>
+                                <col style="width:20%"/>
+                                <col style="width:80%"/>
                             </colgroup>
                             <tbody>
-                                <tr><td>
-                                    <c:forEach var="resultAttc" items="${resultAttc}">
-                                        <a href="http://<spring:eval expression='@jspProperties[defaultUrl]'/>:<spring:eval expression='@jspProperties[serverPort]'/>/<spring:eval expression='@jspProperties[contextPath]'/>/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=${resultAttc.attcFilId}&seq=${resultAttc.seq}">${resultAttc.filNm} (${resultAttc.filSize}byte)</a><br/>
-                                    </c:forEach>
-                                </td></tr>
+                                <tr>
+                                	<th>첨부파일</th>
+                                	<td>
+                                    	<c:forEach var="resultAttc" items="${resultAttc}">
+                                        	<a href="http://<spring:eval expression='@jspProperties[defaultUrl]'/>:<spring:eval expression='@jspProperties[serverPort]'/>/<spring:eval expression='@jspProperties[contextPath]'/>/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=${resultAttc.attcFilId}&seq=${resultAttc.seq}">${resultAttc.filNm} (${resultAttc.filSize}byte)</a><br/>
+                                    	</c:forEach>
+                                	</td>
+                                </tr>
                             </tbody>
                         </table>
                 </div>

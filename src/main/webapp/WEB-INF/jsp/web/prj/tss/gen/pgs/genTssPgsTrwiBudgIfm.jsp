@@ -37,7 +37,8 @@
     var lvPgsCd    = window.parent.gvPgsStepCd; //진행코드
     var lvTssSt    = window.parent.gvTssSt;     //과제상태
     var lvPageMode = window.parent.gvPageMode;
-
+    var lvWbsCd    = window.parent.gvWbsCd;
+    
     var pageMode = lvPgsCd == "PG" && lvTssSt == "100" && lvPageMode == "W" ? "W" : "R";
 
     var dataSet;
@@ -68,19 +69,6 @@
         	fn_search();
         });
 
-        //년월
-        var rdoYyMm = new Rui.ui.form.LRadioGroup({
-        	applyTo: 'yyMm',
-        	name: 'rdoYyMm',
-            items : [
-                { label: '월별  ', value: 'mm', checked: true },
-                { label: '년도별   ', value: 'yy' }
-            ]
-        });
-        rdoYyMm.on('changed', function(e) {
-        	fn_search();
-        });
-
         //Form 비활성화
         disableFields = function() {
             if(pageMode == "R") {
@@ -98,7 +86,6 @@
             fields: [
                   { id:'totTitle' }
                 , { id:'expScnNm' }
-                , { id:'gbn' }
                 , { id:'01', type:'number' }
                 , { id:'02', type:'number' }
                 , { id:'03', type:'number' }
@@ -126,20 +113,19 @@
                 , { id: 'G1', label: '계정' }
                 , { field: 'totTitle', label: '구분1', groupId: 'G1', sortable: false, align:'center', width: 190, vMerge: true, hMerge: true }
                 , { field: 'expScnNm', label: '구분2', groupId: 'G1', sortable: false, align:'left', width: 190, vMerge: true, hMerge: true }
-                , { field: 'gbn', label: '구분', sortable: false, align:'center', width: 70 }
-                , { field: '01', label: '1월', sortable: false, align:'right', width: 60 }
-                , { field: '02', label: '2월', sortable: false, align:'right', width: 60 }
-                , { field: '03', label: '3월', sortable: false, align:'right', width: 60 }
-                , { field: '04', label: '4월', sortable: false, align:'right', width: 60 }
-                , { field: '05', label: '5월', sortable: false, align:'right', width: 60 }
-                , { field: '06', label: '6월', sortable: false, align:'right', width: 60 }
-                , { field: '07', label: '7월', sortable: false, align:'right', width: 60 }
-                , { field: '08', label: '8월', sortable: false, align:'right', width: 60 }
-                , { field: '09', label: '9월', sortable: false, align:'right', width: 60 }
-                , { field: '10', label: '10월', sortable: false, align:'right', width: 60 }
-                , { field: '11', label: '11월', sortable: false, align:'right', width: 60 }
-                , { field: '12', label: '12월', sortable: false, align:'right', width: 60 }
-                , { field: 'totSum', label: '합계', sortable: false, align:'right', width: 100 }
+                , { field: '01', label: '1월', sortable: false, align:'right', width: 65 }
+                , { field: '02', label: '2월', sortable: false, align:'right', width: 65 }
+                , { field: '03', label: '3월', sortable: false, align:'right', width: 65 }
+                , { field: '04', label: '4월', sortable: false, align:'right', width: 65 }
+                , { field: '05', label: '5월', sortable: false, align:'right', width: 65 }
+                , { field: '06', label: '6월', sortable: false, align:'right', width: 65 }
+                , { field: '07', label: '7월', sortable: false, align:'right', width: 65 }
+                , { field: '08', label: '8월', sortable: false, align:'right', width: 65 }
+                , { field: '09', label: '9월', sortable: false, align:'right', width: 65 }
+                , { field: '10', label: '10월', sortable: false, align:'right', width: 65 }
+                , { field: '11', label: '11월', sortable: false, align:'right', width: 65 }
+                , { field: '12', label: '12월', sortable: false, align:'right', width: 65 }
+                , { field: 'totSum', label: '합계', sortable: false, align:'right', width: 110 }
             ]
         });
 
@@ -147,7 +133,7 @@
             columnModel: columnModel1,
             dataSet: dataSet1,
             width: 600,
-            height: 400,
+            height: 900,
             autoToEdit: true,
             multiLineEditor: true,
             useRightActionMenu: false,
@@ -157,93 +143,21 @@
         grid1.render('tbMmGrid');
 
 
-        //DataSet 년별
-        dataSet2 = new Rui.data.LJsonDataSet({
-            id: 'tbYyDataSet',
-            fields: [
-                  { id:'totTitle' }
-                , { id:'expScnNm' }
-                , { id:'gbn' }
-                <c:forEach var="purYy" items="${purYy}">
-                , { id:'${purYy.tssYy}', type:'number' }
-                </c:forEach>
-                , { id:'totSum', type:'number' }
-            ]
-        });
-        dataSet2.on('load', function(e) {
-            console.log("tb load DataSet Success");
-        });
-
-
-        //그리드 월별
-        var columnModel2 = new Rui.ui.grid.LColumnModel({
-            columns: [
-                  new Rui.ui.grid.LNumberColumn()
-                , { id: 'G1', label: '계정' }
-                , { field: 'totTitle', label: '', groupId: 'G1', sortable: false, align:'center', width: 150, vMerge: true, hMerge: true }
-                , { field: 'expScnNm', label: '', groupId: 'G1', sortable: false, align:'left', width: 150, vMerge: true, hMerge: true }
-                , { field: 'gbn', label: '구분', sortable: false, align:'center', width: 70 }
-                <c:forEach var="purYy" items="${purYy}">
-                , { field: '${purYy.tssYy}', label: '${purYy.tssYy}', sortable: false, align:'right', width: 100 }
-                </c:forEach>
-                , { field: 'totSum', label: '합계', sortable: false, align:'right', width: 100 }
-            ]
-        });
-
-        var grid2 = new Rui.ui.grid.LGridPanel({
-            columnModel: columnModel2,
-            dataSet: dataSet2,
-            width: 600,
-            height: 400,
-            autoToEdit: true,
-            clickToEdit: true,
-            enterToEdit: true,
-            autoWidth: true,
-            autoHeight: true,
-            multiLineEditor: true,
-            useRightActionMenu: false
-        });
-
-        grid2.render('tbYyGrid');
-
-
-
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
         //조회
         fn_search = function() {
-        	if(rdoYyMm.getValue() == "mm") {
-        		grid1.show();
-        		grid2.hide();
 
         		dataSet1.load({
                     url: "<c:url value='/prj/tss/gen/retrieveGenTssPgsTrwiBudg.do'/>"
                   , params : {
                          tssCd: lvPgsCd == "AL" ? window.parent.gvPgTssCd : lvTssCd
                        , userId: lvUserId
-                       , tssYy: cboPurY.getValue()
-                       , choiceYm: rdoYyMm.getValue()
+                       , wbsCd: lvWbsCd
+                       , yyyy: cboPurY.getValue()
                     }
                 });
-        	} else {
-        		grid1.hide();
-        		grid2.show();
-
-        		if(!isSearch2) {
-        		    isSearch2 = true;
-
-            		dataSet2.load({
-                        url: "<c:url value='/prj/tss/gen/retrieveGenTssPgsTrwiBudg.do'/>"
-                      , params : {
-                             tssCd: lvPgsCd == "AL" ? window.parent.gvPgTssCd : lvTssCd
-                           , userId: lvUserId
-                           , tssYy: cboPurY.getValue()
-                           , choiceYm: rdoYyMm.getValue()
-                        }
-                    });
-        		}
-        	}
         };
 
 
@@ -272,13 +186,11 @@ $(window).load(function() {
 	<div class="titArea">
 	    <div class="LblockButton">
 	    	<div id="purY"></div>
-	    	<div id="yyMm"></div>
-	    	<label>단위:백만원</label>
+	    	<label>단위:억원</label>
 	    </div>
 	</div>
 
 	<div id="tbMmGrid"></div>
-	<div id="tbYyGrid"></div>
 
 <!-- 	<div class="titArea">
 	    <div class="LblockButton">

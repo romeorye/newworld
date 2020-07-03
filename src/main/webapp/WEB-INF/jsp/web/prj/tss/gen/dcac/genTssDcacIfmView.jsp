@@ -277,27 +277,14 @@ $(window).load(function() {
                 <tr>
                     <th align="right">향후 계획</th>
                     <td colspan="2">
-                        <table class="table table_txt_right">
-                            <colgroup>
-                                <col style="width: 150px;" />
-                                <col style="width: *;" />
-                            </colgroup>
-                            <tbody>
-                                <tr>
-                                    <th align="right">사업화(출시) 및 양산이관계획</th>
-                                    <td>
-                                    	<c:choose>
-				                        	<c:when test="${id eq 'MIG' }">
-												${resultData.fnoPlnTxt} 
-											</c:when>
-											<c:otherwise>
-												<c:out value="${fn:replace(resultData.fnoPlnTxt, cn, br)}" escapeXml="false"/>
-											</c:otherwise>
-				                        </c:choose>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <c:choose>
+                        	<c:when test="${id eq 'MIG' }">
+								${resultData.fnoPlnTxt} 
+							</c:when>
+							<c:otherwise>
+								<c:out value="${fn:replace(resultData.fnoPlnTxt, cn, br)}" escapeXml="false"/>
+							</c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
                 <tr>
@@ -315,8 +302,7 @@ $(window).load(function() {
                 </tr>
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
-                    <td id="attchFileView">&nbsp;</td>
-                    <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
+                    <td id="attchFileView"  colspan="2">&nbsp;</td>
                 </tr>
             </tbody>
         </table>
