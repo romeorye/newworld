@@ -28,7 +28,10 @@
 			 , BIZ_PRFT_PRO_Y_2
 			 , BIZ_PRFT_PRO_Y_3
 			 , BIZ_PRFT_PRO_Y_4
-             , NPROD_SALS_PLN_Y   --신제품매출변경Y
+             , BIZ_PRFT_PLN_Y
+			 , BIZ_PRFT_PLN_Y_1
+			 , BIZ_PRFT_PLN_Y_2
+			 , NPROD_SALS_PLN_Y   --신제품매출변경Y
              , NPROD_SALS_PLN_Y_1 --신제품매출변경Y+1
              , NPROD_SALS_PLN_Y_2 --신제품매출변경Y+2
              , NPROD_SALS_PLN_Y_3 --신제품매출변경Y+3
@@ -38,7 +41,12 @@
              , PTC_CPSN_Y_2       --투입인원수Y+2
              , PTC_CPSN_Y_3       --투입인원수Y+3
              , PTC_CPSN_Y_4       --투입인원수Y+4
-             , TSS_SMRY_TXT            --과제개요 - 연구과제배경
+			 , EXP_ARSL_Y   
+             , EXP_ARSL_Y_1 
+             , EXP_ARSL_Y_2 
+             , EXP_ARSL_Y_3 
+             , EXP_ARSL_Y_4 
+			 , TSS_SMRY_TXT            --과제개요 - 연구과제배경
              , TSS_SMRY_DVLP_TXT       --과제개요 - 주요연구개발내용
              , RSST_DVLP_OUCM_TXT      --연구개발성과 - 지재권
              , RSST_DVLP_OUCM_CTQ_TXT  --연구개발성과 - CTQ
@@ -69,39 +77,47 @@
              , SMRY_D_TXT
              , MRKT_SCL_TXT
              , BIZ_PRFT_PRO
-             , CTY_OT_PLN_M
+             , #{ancpOtPlnDt} 
              , SMR_SMRY_TXT
 			 , SMR_GOAL_TXT
-			 , BIZ_PRFT_PRO_Y
-			 , BIZ_PRFT_PRO_Y_1
-			 , BIZ_PRFT_PRO_Y_2
-			 , BIZ_PRFT_PRO_Y_3
-			 , BIZ_PRFT_PRO_Y_4
-			 , NPROD_SALS_PLN_Y
-             , NPROD_SALS_PLN_Y_1
-             , NPROD_SALS_PLN_Y_2
-             , NPROD_SALS_PLN_Y_3
-             , NPROD_SALS_PLN_Y_4
-             , PTC_CPSN_Y
-             , PTC_CPSN_Y_1
-             , PTC_CPSN_Y_2
-             , PTC_CPSN_Y_3
-             , PTC_CPSN_Y_4
+			 , CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY}	 = '' THEN '0' ELSE #{bizPrftProY}  END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY1} = '' THEN '0' ELSE #{bizPrftProY1} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY2} = '' THEN '0' ELSE #{bizPrftProY2} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY3} = '' THEN '0' ELSE #{bizPrftProY3} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY4} = '' THEN '0' ELSE #{bizPrftProY4} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY} = '' THEN '0' ELSE #{bizPrftPlnY} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY1} = '' THEN '0' ELSE #{bizPrftPlnY1} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY2} = '' THEN '0' ELSE #{bizPrftPlnY2} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY1} = '' THEN '0' ELSE #{nprodSalsPlnY1} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY2} = '' THEN '0' ELSE #{nprodSalsPlnY2} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY3} = '' THEN '0' ELSE #{nprodSalsPlnY3} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY4} = '' THEN '0' ELSE #{nprodSalsPlnY4} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{expArslY} = '' THEN '0' ELSE #{expArslY} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{expArslY1} = '' THEN '0' ELSE #{expArslY1} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{expArslY2} = '' THEN '0' ELSE #{expArslY2} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{expArslY3} = '' THEN '0' ELSE #{expArslY3} END)
+			 , CONVERT(numeric(15, 2), CASE WHEN #{expArslY4} = '' THEN '0' ELSE #{expArslY4} END)
              , TSS_SMRY_TXT
              , TSS_SMRY_DVLP_TXT
              , RSST_DVLP_OUCM_TXT
              , RSST_DVLP_OUCM_CTQ_TXT
              , RSST_DVLP_OUCM_EFF_TXT
              , NPROD_NM
-             , ANCP_OT_PLN_DT
+             , #{ancpOtPlnDt}
              , Qgate3_DT
              , FWD_PLN_TXT
              , FNO_PLN_TXT
              , ALTR_RSON_TXT
              , ADD_RSON_TXT
              , DCAC_RSON_TXT
-             , CASE WHEN ISNULL(#{attcFilId}, '') = '' THEN ATTC_FIL_ID ELSE #{attcFilId} END
-             , ALTR_ATTC_FIL_ID
+             , ATTC_FIL_ID
+             , CASE WHEN ISNULL(#{altrAttcFilId}, '') = '' THEN ATTC_FIL_ID ELSE #{altrAttcFilId} END
              , CMPL_ATTC_FIL_ID
              , DCAC_ATTC_FIL_ID
              , PMIS_TXT
@@ -122,7 +138,6 @@
         UPDATE IRIS_TSS_GEN_SMRY  /*일반과제개요*/
            SET ALTR_RSON_TXT    = #{altrRsonTxt}
              , ADD_RSON_TXT     = #{addRsonTxt}
-             , ALTR_ATTC_FIL_ID = #{altrAttcFilId}
              , LAST_MDFY_DT     = GETDATE()
              , LAST_MDFY_ID     = #{userId}
          WHERE TSS_CD = #{tssCd}
@@ -141,26 +156,8 @@
              , SMRY_C_TXT         = #{smryCTxt}                                                                                   --Competition
              , SMRY_D_TXT         = #{smryDTxt}                                                                                   --Deliverables
              , MRKT_SCL_TXT       = #{mrktSclTxt}                                                                                 --시장규모
-             , BIZ_PRFT_PRO       = CONVERT(numeric(5, 2), CASE WHEN #{bizPrftPro} = '' THEN '0' ELSE #{bizPrftPro} END)          --영업이익율
-             , CTY_OT_PLN_M       = #{ctyOtPlnM}
-             , SMR_SMRY_TXT			= #{smrSmryTxt}
-			, SMR_GOAL_TXT         = #{smrGoalTxt}
-			, BIZ_PRFT_PRO_Y       = #{bizPrftProY}
-			, BIZ_PRFT_PRO_Y_1     = #{bizPrftProY1}
-			, BIZ_PRFT_PRO_Y_2     = #{bizPrftProY2}
-			, BIZ_PRFT_PRO_Y_3     = #{bizPrftProY3}
-			, BIZ_PRFT_PRO_Y_4     = #{bizPrftProY4}                                                                                  --상품출시변경월
-             , NPROD_SALS_PLN_Y   = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)   --신제품매출변경Y
-             , NPROD_SALS_PLN_Y_1 = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY1} = '' THEN '0' ELSE #{nprodSalsPlnY1} END) --신제품매출변경Y+1
-             , NPROD_SALS_PLN_Y_2 = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY2} = '' THEN '0' ELSE #{nprodSalsPlnY2} END) --신제품매출변경Y+2
-             , NPROD_SALS_PLN_Y_3 = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY3} = '' THEN '0' ELSE #{nprodSalsPlnY3} END) --신제품매출변경Y+3
-             , NPROD_SALS_PLN_Y_4 = CONVERT(numeric(15, 0), CASE WHEN #{nprodSalsPlnY4} = '' THEN '0' ELSE #{nprodSalsPlnY4} END) --신제품매출변경Y+4
-             , PTC_CPSN_Y         = CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)              --투입인원수Y
-             , PTC_CPSN_Y_1       = CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)            --투입인원수Y+1
-             , PTC_CPSN_Y_2       = CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)            --투입인원수Y+2
-             , PTC_CPSN_Y_3       = CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)            --투입인원수Y+3
-             , PTC_CPSN_Y_4       = CONVERT(numeric(3, 0), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)            --투입인원수Y+4
-             , ATTC_FIL_ID        = #{attcFilId}                                                                                  --첨부파일ID
+             , SMR_SMRY_TXT		  = #{smrSmryTxt}
+			 , SMR_GOAL_TXT       = #{smrGoalTxt}
              , PMIS_TXT           = #{pmisTxt}
              , LAST_MDFY_DT       = GETDATE()
              , LAST_MDFY_ID       = #{userId}
@@ -180,8 +177,17 @@
              , ALTR_AFT     AS altrAft    --변경후
              , #{_userId}   AS userId
           FROM IRIS_TSS_SMRY_ALTR_LIST  /*변경개요 목록*/
-         WHERE TSS_CD = #{tssCd}
+         WHERE 1=1
     ]]>
+    <choose>
+		<when test="tssCd == '' ||  tssCd == null ">
+         and   TSS_CD = '1'
+       </when>
+		<otherwise>  
+         and   TSS_CD = #{tssCd}
+         </otherwise>
+	</choose>	
+	
     </select>
 
 
@@ -637,25 +643,35 @@ WITH w_WBS AS (
              , t1.SMRY_D_TXT          = t2.SMRY_D_TXT
              , t1.MRKT_SCL_TXT        = t2.MRKT_SCL_TXT
              , t1.BIZ_PRFT_PRO        = t2.BIZ_PRFT_PRO
-             , t1.CTY_OT_PLN_M        = t2.CTY_OT_PLN_M
-             , t1.SMR_SMRY_TXT        = t1.SMR_SMRY_TXT
-             , t1.SMR_GOAL_TXT        = t1.SMR_GOAL_TXT
-             , t1.BIZ_PRFT_PRO_Y      = t1.BIZ_PRFT_PRO_Y
-             , t1.BIZ_PRFT_PRO_Y_1    = t1.BIZ_PRFT_PRO_Y_1
-             , t1.BIZ_PRFT_PRO_Y_2    = t1.BIZ_PRFT_PRO_Y_2
-             , t1.BIZ_PRFT_PRO_Y_3    = t1.BIZ_PRFT_PRO_Y_3
-             , t1.BIZ_PRFT_PRO_Y_4    = t1.BIZ_PRFT_PRO_Y_4
+             , t1.CTY_OT_PLN_M        = t2.ANCP_OT_PLN_DT
+			 , t1.ANCP_OT_PLN_DT      = t2.ANCP_OT_PLN_DT
+             , t1.SMR_SMRY_TXT        = t2.SMR_SMRY_TXT
+             , t1.SMR_GOAL_TXT        = t2.SMR_GOAL_TXT
+             , t1.BIZ_PRFT_PLN_Y      = t2.BIZ_PRFT_PLN_Y
+             , t1.BIZ_PRFT_PLN_Y_1    = t2.BIZ_PRFT_PLN_Y_1
+             , t1.BIZ_PRFT_PLN_Y_2    = t2.BIZ_PRFT_PLN_Y_2
+             , t1.BIZ_PRFT_PRO_Y      = t2.BIZ_PRFT_PRO_Y
+             , t1.BIZ_PRFT_PRO_Y_1    = t2.BIZ_PRFT_PRO_Y_1
+             , t1.BIZ_PRFT_PRO_Y_2    = t2.BIZ_PRFT_PRO_Y_2
+             , t1.BIZ_PRFT_PRO_Y_3    = 0.00
+             , t1.BIZ_PRFT_PRO_Y_4    = 0.00
              , t1.NPROD_SALS_PLN_Y    = t2.NPROD_SALS_PLN_Y
              , t1.NPROD_SALS_PLN_Y_1  = t2.NPROD_SALS_PLN_Y_1
              , t1.NPROD_SALS_PLN_Y_2  = t2.NPROD_SALS_PLN_Y_2
-             , t1.NPROD_SALS_PLN_Y_3  = t2.NPROD_SALS_PLN_Y_3
-             , t1.NPROD_SALS_PLN_Y_4  = t2.NPROD_SALS_PLN_Y_4
+             , t1.NPROD_SALS_PLN_Y_3  = 0.00
+             , t1.NPROD_SALS_PLN_Y_4  = 0.00
              , t1.PTC_CPSN_Y          = t2.PTC_CPSN_Y
              , t1.PTC_CPSN_Y_1        = t2.PTC_CPSN_Y_1
              , t1.PTC_CPSN_Y_2        = t2.PTC_CPSN_Y_2
              , t1.PTC_CPSN_Y_3        = t2.PTC_CPSN_Y_3
              , t1.PTC_CPSN_Y_4        = t2.PTC_CPSN_Y_4
+             , t1.EXP_ARSL_Y          = t2.EXP_ARSL_Y
+             , t1.EXP_ARSL_Y_1        = t2.EXP_ARSL_Y_1
+             , t1.EXP_ARSL_Y_2        = t2.EXP_ARSL_Y_2
+             , t1.EXP_ARSL_Y_3        = t2.EXP_ARSL_Y_3
+             , t1.EXP_ARSL_Y_4        = t2.EXP_ARSL_Y_4
              , t1.ATTC_FIL_ID         = t2.ATTC_FIL_ID
+             , t1.ALTR_ATTC_FIL_ID    = t2.ALTR_ATTC_FIL_ID
              , t1.PMIS_TXT            = t2.PMIS_TXT
              , t1.LAST_MDFY_DT        = GETDATE()
              , t1.LAST_MDFY_ID        = #{userId}
@@ -667,8 +683,12 @@ WITH w_WBS AS (
                      , MRKT_SCL_TXT
                      , BIZ_PRFT_PRO
                      , CTY_OT_PLN_M
+                     , ANCP_OT_PLN_DT
                      , SMR_SMRY_TXT
                      , SMR_GOAL_TXT
+                     , BIZ_PRFT_PLN_Y
+                     , BIZ_PRFT_PLN_Y_1
+                     , BIZ_PRFT_PLN_Y_2
                      , BIZ_PRFT_PRO_Y
                      , BIZ_PRFT_PRO_Y_1
                      , BIZ_PRFT_PRO_Y_2
@@ -684,13 +704,19 @@ WITH w_WBS AS (
                      , PTC_CPSN_Y_2
                      , PTC_CPSN_Y_3
                      , PTC_CPSN_Y_4
+                     , EXP_ARSL_Y
+                     , EXP_ARSL_Y_1
+                     , EXP_ARSL_Y_2
+                     , EXP_ARSL_Y_3
+                     , EXP_ARSL_Y_4
                      , ATTC_FIL_ID
+                     , ALTR_ATTC_FIL_ID
                      , PMIS_TXT
                      , LAST_MDFY_DT
                      , LAST_MDFY_ID
                   FROM IRIS_TSS_GEN_SMRY
                  WHERE tss_cd =  #{psTssCd} )  T1
-             , IRIS_TSS_GEN_SMRY T2
+                     , IRIS_TSS_GEN_SMRY T2
          WHERE t2.TSS_CD = #{tssCd}
     </update>
 
@@ -703,4 +729,87 @@ WITH w_WBS AS (
 	       AND PK_WBS_CD = subString(#{tssCd},0,7)
 	     ORDER BY tss_nos_st DESC
     </select>
+    
+    <select  id="retrieveGenTssAltrInfo" resultType="hashMap">
+    	--retrieveGenTssAltrInfo
+    	select  a.TSS_CD as tssCd
+		       , a.SMRY_N_TXT  as smryNTxt
+               , a.SMRY_A_TXT as smryATxt
+               , a.SMRY_B_TXT as smryBTxt
+               , a.SMRY_C_TXT as smryCTxt
+               , a.SMRY_D_TXT as smryDTxt
+               , a.MRKT_SCL_TXT as mrktSclTxt
+               , a.BIZ_PRFT_PRO as bizPrftPro
+		       , a.SMR_SMRY_TXT as smrSmryTxt
+               , a.SMR_GOAL_TXT as smrGoalTxt
+		       , a.ATTC_FIL_ID as attcFilId
+		       , c.CTY_OT_PLN_M as ctyOtPlnM
+		       , a.pmis_txt            as pmisTxt
+		       ,case when b.ANCP_OT_PLN_DT  = '' then a.CTY_OT_PLN_M
+			         when b.ANCP_OT_PLN_DT is null then a.CTY_OT_PLN_M
+					 else  b.ANCP_OT_PLN_DT end  as ancpOtPlnDt
+			  
+			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PRO_Y	   , a.BIZ_PRFT_PRO_Y )) as bizPrftProY
+			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PRO_Y_1  , a.BIZ_PRFT_PRO_Y_1  )) as bizPrftProY1
+			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PRO_Y_2  , a.BIZ_PRFT_PRO_Y_2  )) as bizPrftProY2
+			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PRO_Y_3  , a.BIZ_PRFT_PRO_Y_3  )) as bizPrftProY3
+			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PRO_Y_4  , a.BIZ_PRFT_PRO_Y_4  )) as bizPrftProY4
+			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PLN_Y	   , a.BIZ_PRFT_PLN_Y )) as bizPrftPlnY
+			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PLN_Y_1  , a.BIZ_PRFT_PLN_Y_1  )) as bizPrftPlnY1
+			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PLN_Y_2  , a.BIZ_PRFT_PLN_Y_2  )) as bizPrftPlnY2
+			   ,dbo.fn_getConvertInt(isnull(b.NPROD_SALS_PLN_Y  , a.NPROD_SALS_PLN_Y  )) as nprodSalsPlnY
+			   ,dbo.fn_getConvertInt(isnull(b.NPROD_SALS_PLN_Y_1, a.NPROD_SALS_PLN_Y_1)) as nprodSalsPlnY1
+		       ,dbo.fn_getConvertInt(isnull(b.NPROD_SALS_PLN_Y_2, a.NPROD_SALS_PLN_Y_2)) as nprodSalsPlnY2
+			   ,dbo.fn_getConvertInt(isnull(b.PTC_CPSN_Y		   , a.PTC_CPSN_Y	  )) as ptcCpsnY
+			   ,dbo.fn_getConvertInt(isnull(b.PTC_CPSN_Y_1	   , a.PTC_CPSN_Y_1		  )) as ptcCpsnY1
+			   ,dbo.fn_getConvertInt(isnull(b.PTC_CPSN_Y_2	   , a.PTC_CPSN_Y_2		  )) as ptcCpsnY2
+			   ,dbo.fn_getConvertInt(isnull(b.PTC_CPSN_Y_3	   , a.PTC_CPSN_Y_3		  )) as ptcCpsnY3
+			   ,dbo.fn_getConvertInt(isnull(b.PTC_CPSN_Y_4	   , a.PTC_CPSN_Y_4		  )) as ptcCpsnY4
+		       ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y		   , a.EXP_ARSL_Y	  )) as expArslY
+			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_1	   , a.EXP_ARSL_Y_1		  )) as expArslY1
+			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_2	   , a.EXP_ARSL_Y_2		  )) as expArslY2
+			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_3	   , a.EXP_ARSL_Y_3		  )) as expArslY3
+			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_4	   , a.EXP_ARSL_Y_4		  )) as exparsly4
+			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y	 )      as bizPrftProYBefore	    
+			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y_1	 )	   as bizPrftProY1Before	 
+			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y_2	 )	   as bizPrftProY2Before	 
+			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y_3	 )	   as bizPrftProY3Before	 
+			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y_4	 )	   as bizPrftProY4Before	 
+			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PLN_Y	 )	   as bizPrftPlnYBefore	 
+			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PLN_Y_1	 )	   as bizPrftPlnY1Before	 
+			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PLN_Y_2	 )	   as bizPrftPlnY2Before	 
+			   ,dbo.fn_getconvertInt(c.NPROD_SALS_PLN_Y	 )	   as nprodSalsPlnYBefore	 
+			   ,dbo.fn_getconvertInt(c.NPROD_SALS_PLN_Y_1)	   as nprodSalsPlnY1Before
+			   ,dbo.fn_getconvertInt(c.NPROD_SALS_PLN_Y_2)	   as nprodSalsPlnY2Before
+			   ,dbo.fn_getconvertInt(c.NPROD_SALS_PLN_Y_3)	   as nprodSalsPlnY3Before
+			   ,dbo.fn_getconvertInt(c.NPROD_SALS_PLN_Y_4)	   as nprodSalsPlnY4Before
+			   ,dbo.fn_getconvertInt(c.PTC_CPSN_Y		 )	   as ptcCpsnYBefore		 
+			   ,dbo.fn_getconvertInt(c.PTC_CPSN_Y_1		 )	   as ptcCpsnY1Before		 
+			   ,dbo.fn_getconvertInt(c.PTC_CPSN_Y_2		 )	   as ptcCpsnY2Before		 
+			   ,dbo.fn_getconvertInt(c.PTC_CPSN_Y_3		 )	   as ptcCpsnY3Before		 
+			   ,dbo.fn_getconvertInt(c.PTC_CPSN_Y_4		 )	   as ptcCpsnY4Before		 
+			   ,dbo.fn_getconvertInt(c.EXP_ARSL_Y		 )	   as expArslYBefore		 
+			   ,dbo.fn_getconvertInt(c.EXP_ARSL_Y_1		 )	   as expArslY1Before		 
+			   ,dbo.fn_getconvertInt(c.EXP_ARSL_Y_2		 )	   as expArslY2Before		 
+			   ,dbo.fn_getconvertInt(c.EXP_ARSL_Y_3		 )	   as expArslY3Before		 
+			   ,dbo.fn_getconvertInt(c.EXP_ARSL_Y_4		 )	   as expArslY4Before			
+			   ,a.ALTR_RSON_TXT                                    as altrRsonTxt
+			   ,a.ADD_RSON_TXT                                     as addRsonTxt
+			   ,isnull(b.ATTC_FIL_ID , a.ALTR_ATTC_FIL_ID)          as altrAttcFilId
+		from   IRIS_TSS_GEN_SMRY  a
+		       left outer join  IRIS_GRS_EV_RSLT_RGST b
+			   on b.tss_cd =#{pgTssCd}
+			   and b.TSS_CD_SN = ( select max(TSS_CD_SN )
+		                       from IRIS_GRS_EV_RSLT_RGST 
+							   where  tss_cd =#{pgTssCd}
+							   and    GRS_EV_ST = 'M'
+							 )  
+			   and b.GRS_EV_ST ='M'
+			   left outer join IRIS_TSS_GEN_SMRY c
+			   on  c.tss_cd = #{pgTssCd}
+		where  a.TSS_CD = #{tssCd}
+    
+    </select>
+    
+    
 </mapper>

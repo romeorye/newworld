@@ -29,7 +29,7 @@
 				, CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_FNH_DD
 				       WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_FNH_DD END  	AS cmplNxFnhDd  --과제실적종료
 				, Z.TSS_ST                                                  AS tssSt        --상태
-				, dbo.fn_getComDtlNm('TSS_ST', Z.TSS_ST)                    AS tssStNm      --상태명
+				
 				, Z.FRST_RGST_DT
 				, CASE WHEN Z.PGS_STEP_CD = 'AL' THEN Z.AL_SA_SABUN_NAME
 				       ELSE Z.SA_SABUN_NAME END 							AS saUserName   --과제리더명
@@ -127,7 +127,9 @@
 						, CASE WHEN SUBSTRING(M.PK_WBS_CD, 1, 1) = 'G' THEN 1 ELSE 2 END AS R_NUM
 				from   (
 						select  a.PRJ_CD
-							   ,isnull(a.PRJ_NM, dbo.fn_getPrjName(a.PRJ_CD))  as prj_nm
+							   ,case when a.PGS_STEP_CD = 'CM' then isnull(a.PRJ_NM,dbo.fn_getPrjName(a.PRJ_CD)) 
+							         when a.PGS_STEP_CD = 'DC' then isnull(a.PRJ_NM,dbo.fn_getPrjName(a.PRJ_CD)) 
+							         else dbo.fn_getPrjName(a.PRJ_CD)  end prj_nm
 							   ,a.TSS_CD
 							   ,a.PGS_STEP_CD
 							   ,a.TSS_SCN_CD
@@ -276,7 +278,7 @@
     <select id="retrieveGenTssSmry" resultType="hashmap">
     <![CDATA[
     -- retrieveGenTssSmry 일반과제 개요 조회
-        SELECT TSS_CD                 AS tssCd               --과제코드
+        SELECT a.TSS_CD                 AS tssCd               --과제코드
              , SMRY_N_TXT             AS smryNTxt            --Needs
              , SMRY_A_TXT             AS smryATxt            --Approach
              , SMRY_B_TXT             AS smryBTxt            --Benefit
@@ -284,33 +286,38 @@
              , SMRY_D_TXT             AS smryDTxt            --Deliverables
              , MRKT_SCL_TXT           AS mrktSclTxt          --시장규모
              , BIZ_PRFT_PRO           AS bizPrftPro          --영업이익율
-             , CTY_OT_PLN_M           AS ctyOtPlnM           --상품출시계획월
+             , a.CTY_OT_PLN_M         AS ctyOtPlnM            --상품출시계획월
              , SMR_SMRY_TXT			  AS smrSmryTxt			 --요약개요
              , SMR_GOAL_TXT			  AS smrGoalTxt			 --요약목표
-             , BIZ_PRFT_PRO_Y		  AS bizPrftProY		 --영업이익율Y
-			 , BIZ_PRFT_PRO_Y_1		  AS bizPrftProY1
-			 , BIZ_PRFT_PRO_Y_2 	  AS bizPrftProY2
-			 , BIZ_PRFT_PRO_Y_3		  AS bizPrftProY3
-			 , BIZ_PRFT_PRO_Y_4		  AS bizPrftProY4
-			 , 0 AS bizPrftProYAvg
-             , NPROD_SALS_PLN_Y       AS nprodSalsPlnY       --신제품매출계획Y
-             , NPROD_SALS_PLN_Y_1     AS nprodSalsPlnY1      --신제품매출계획Y+1
-             , NPROD_SALS_PLN_Y_2     AS nprodSalsPlnY2      --신제품매출계획Y+2
-             , NPROD_SALS_PLN_Y_3     AS nprodSalsPlnY3      --신제품매출계획Y+3
-             , NPROD_SALS_PLN_Y_4     AS nprodSalsPlnY4      --신제품매출계획Y+4
-             , 0 AS nprodSalsPlnYAvg
-             , PTC_CPSN_Y             AS ptcCpsnY            --투입인원수Y
-             , PTC_CPSN_Y_1           AS ptcCpsnY1           --투입인원수Y+1
-             , PTC_CPSN_Y_2           AS ptcCpsnY2           --투입인원수Y+2
-             , PTC_CPSN_Y_3           AS ptcCpsnY3           --투입인원수Y+3
-             , PTC_CPSN_Y_4           AS ptcCpsnY4           --투입인원수Y+4
-             , 0 AS ptcCpsnYAvg
+             , dbo.fn_getConvertInt(BIZ_PRFT_PRO_Y	)	  AS bizPrftProY		 --영업이익율Y
+			 , dbo.fn_getConvertInt(BIZ_PRFT_PRO_Y_1)	  AS bizPrftProY1
+			 , dbo.fn_getConvertInt(BIZ_PRFT_PRO_Y_2) 	  AS bizPrftProY2
+			 , dbo.fn_getConvertInt(BIZ_PRFT_PRO_Y_3)		AS bizPrftProY3
+			 , dbo.fn_getConvertInt(BIZ_PRFT_PRO_Y_4)		AS bizPrftProY4
+			 , dbo.fn_getConvertInt(a.BIZ_PRFT_PLN_Y	)  AS bizPrftPlnY
+			 , dbo.fn_getConvertInt(a.BIZ_PRFT_PLN_Y_1 	)  AS bizPrftPlnY1
+			 , dbo.fn_getConvertInt(a.BIZ_PRFT_PLN_Y_2	)  AS bizPrftPlnY2
+             , dbo.fn_getConvertInt(a.NPROD_SALS_PLN_Y  )  AS nprodSalsPlnY       --신제품매출계획Y
+             , dbo.fn_getConvertInt(a.NPROD_SALS_PLN_Y_1)  AS nprodSalsPlnY1      --신제품매출계획Y+1
+             , dbo.fn_getConvertInt(a.NPROD_SALS_PLN_Y_2)  AS nprodSalsPlnY2      --신제품매출계획Y+2
+             , dbo.fn_getConvertInt(a.NPROD_SALS_PLN_Y_3)  AS nprodSalsPlnY3      --신제품매출계획Y+3
+             , dbo.fn_getConvertInt(a.NPROD_SALS_PLN_Y_4)  AS nprodSalsPlnY4      --신제품매출계획Y+4
+             , dbo.fn_getConvertInt(a.PTC_CPSN_Y        )  AS ptcCpsnY            --투입인원수Y
+             , dbo.fn_getConvertInt(a.PTC_CPSN_Y_1      )  AS ptcCpsnY1           --투입인원수Y+1
+             , dbo.fn_getConvertInt(a.PTC_CPSN_Y_2      )  AS ptcCpsnY2           --투입인원수Y+2
+             , dbo.fn_getConvertInt(a.PTC_CPSN_Y_3      )  AS ptcCpsnY3           --투입인원수Y+3
+             , dbo.fn_getConvertInt(a.PTC_CPSN_Y_4      )  AS ptcCpsnY4           --투입인원수Y+4
+             , dbo.fn_getConvertInt(a.EXP_ARSL_Y		)	as expArslY
+             , dbo.fn_getConvertInt(a.EXP_ARSL_Y_1		)	as expArslY1
+             , dbo.fn_getConvertInt(a.EXP_ARSL_Y_2		)	as expArslY2
+             , dbo.fn_getConvertInt(a.EXP_ARSL_Y_3		)	as expArslY3
+             , dbo.fn_getConvertInt(a.EXP_ARSL_Y_4		)	as expArslY4
              , TSS_SMRY_TXT           AS tssSmryTxt          --과제개요 - 연구과제배경
              , TSS_SMRY_DVLP_TXT      AS tssSmryDvlpTxt      --과제개요 - 주요연구개발내용
              , RSST_DVLP_OUCM_TXT     AS rsstDvlpOucmTxt     --연구개발성과 - 지재권
              , RSST_DVLP_OUCM_CTQ_TXT AS rsstDvlpOucmCtqTxt  --연구개발성과 - CTQ
              , RSST_DVLP_OUCM_EFF_TXT AS rsstDvlpOucmEffTxt  --연구개발성과 - 파급효과
-             , NPROD_NM               AS nprodNm             --신제품명
+             , a.NPROD_NM             AS nprodNm             --신제품명          --신제품명
              , ANCP_OT_PLN_DT         AS ancpOtPlnDt         --예상출시일(계획)
              , Qgate3_DT              AS qgate3Dt            --Qgate3(품질평가단계) 패스일자
              , FWD_PLN_TXT            AS fwdPlnTxt           --사업화출시계획
@@ -318,13 +325,17 @@
              , ALTR_RSON_TXT          AS altrRsonTxt         --변경사유
              , ADD_RSON_TXT           AS addRsonTxt          --추가사유
              , DCAC_RSON_TXT          AS dcacRsonTxt         --중단사유
-             , ATTC_FIL_ID            AS attcFilId           --첨부파일
+             , isnull(a.ATTC_FIL_ID, ( select ATTC_FIL_ID
+				    from IRIS_GRS_EV_RSLT_RGST 
+					where TSS_CD = a.TSS_CD 
+					and   TSS_CD_SN = (select max(tss_cd_sn) from IRIS_GRS_EV_RSLT_RGST where tss_cd = a.TSS_CD)
+				  )) as attcFilId --첨부파일
              , ALTR_ATTC_FIL_ID       AS altrAttcFilId       --변경첨부파일
              , CMPL_ATTC_FIL_ID       AS cmplAttcFilId       --완료첨부파일
              , DCAC_ATTC_FIL_ID       AS dcacAttcFilId       --중단첨부파일
              , PMIS_TXT               AS pmisTxt
-          FROM IRIS_TSS_GEN_SMRY  /*일반과제 개요*/
-         WHERE TSS_CD = #{tssCd}
+          FROM IRIS_TSS_GEN_SMRY a /*일반과제 개요*/
+         WHERE a.TSS_CD = #{tssCd}
     ]]>
     </select>
 

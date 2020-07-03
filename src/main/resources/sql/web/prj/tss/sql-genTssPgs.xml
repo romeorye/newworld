@@ -92,85 +92,211 @@ WITH w_WBS AS (
 
 
     <!--================== 일반과제_진행_개발비 ==================-->
-    <!-- 개발비 조회 -->
+    
+    <select id="retrieveGenTssBudgCnt" resultType="int">
+    	select count(erp_cd) as budgCnt 
+    	from   IRIS_SAP_BUDG_S_COST a
+		where   erp_cd = #{wbsCd}
+		and     left(YYYYMM, 4) = #{yyyy} 
+    </select>
+    
+    <!-- 개발비 조회(값이 있을 경우) -->
     <select id="retrieveGenTssPgsTrwiBudg" resultType="hashmap">
         <![CDATA[
         -- retrieveGenTssPgsTrwiBudg 개발비 조회
-        WITH BUDG_LIST AS (
-            SELECT ${pivotTitle}
-                 , ${pivotSum} AS totSum
-                 , EXP_SCN_CD  AS expScnCd
-                 , COM_DTL_NM  AS expScnNm
-                 , TOT_TITLE   AS totTitle
-                 , '계획'      AS gbn
-              FROM (SELECT A.EXP_SCN_CD, A.PLN_EXP, B.COM_DTL_NM, C.COM_DTL_NM AS TOT_TITLE
-            ]]>
-            <if test="choiceYm.equals('yy')">
-                         , SUBSTRING(YY_MM, 1, 4) AS YY_MM
-            </if>
-            <if test="choiceYm.equals('mm')">
-                         , YY_MM
-            </if>
-            <![CDATA[
-                      FROM IRIS_TSS_GEN_TRWI_BUDG_LIST A  WITH (NOLOCK)
-                         , IRIS_ADM_COM_CD B
-                         , IRIS_ADM_COM_CD C
-                     WHERE A.EXP_SCN_CD = B.COM_DTL_CD
-                       AND B.COM_CD_CD = C.COM_CD_CD
-                       AND SUBSTRING(B.COM_DTL_CD, 1, 2) = C.COM_DTL_CD
-                       AND A.TSS_CD = #{tssCd}
-                       AND B.COM_CD_CD = 'EXP_SCN_CD'
-                   ) AS X
-             PIVOT (SUM(X.PLN_EXP) FOR YY_MM IN(${pivotTitle})) Y
-             UNION ALL
-            SELECT ${pivotTitle}
-                 , ${pivotSum} AS totSum
-                 , EXP_SCN_CD  AS expScnCd
-                 , COM_DTL_NM  AS expScnNm
-                 , TOT_TITLE   AS totTitle
-                 , '실적'      AS gbn
-              FROM (SELECT A.EXP_SCN_CD, A.ARSL_EXP, B.COM_DTL_NM, C.COM_DTL_NM AS TOT_TITLE
-            ]]>
-            <if test="choiceYm.equals('yy')">
-                         , SUBSTRING(YY_MM, 1, 4) AS YY_MM
-            </if>
-            <if test="choiceYm.equals('mm')">
-                         , YY_MM
-            </if>
-            <![CDATA[
-                      FROM IRIS_TSS_GEN_TRWI_BUDG_LIST A  WITH (NOLOCK)
-                         , IRIS_ADM_COM_CD B
-                         , IRIS_ADM_COM_CD C
-                     WHERE A.EXP_SCN_CD = B.COM_DTL_CD
-                       AND B.COM_CD_CD = C.COM_CD_CD
-                       AND SUBSTRING(B.COM_DTL_CD, 1, 2) = C.COM_DTL_CD
-                       AND A.TSS_CD = #{tssCd}
-                       AND B.COM_CD_CD = 'EXP_SCN_CD'
-                   ) AS X
-             PIVOT (SUM(X.ARSL_EXP) FOR YY_MM IN(${pivotTitle})) Y
-        )
-        SELECT ${unionTitle}
-             , ROUND(totSum, 2) AS totSum
-             , expScnCd
-             , expScnNm
-             , totTitle
-             , gbn
-             , 1 AS uniSort
-          FROM BUDG_LIST
-         UNION ALL
-        SELECT ${unionSum}
-             , ROUND(SUM(totSum), 2)
-             , '00'
-             , '합계'
-             , '합계'
-             , gbn
-             , 2
-          FROM BUDG_LIST
-         GROUP BY gbn
-         ORDER BY uniSort, expScnCd, gbn
+        select	L_GROUPTXT   as totTitle
+			   ,S_GROUPTXT   as expScnNm
+						,isnull(round(sum(mm1), 2) , 0) as '01'
+						,isnull(round(sum(mm2), 2) , 0) as '02'
+						,isnull(round(sum(mm3), 2) , 0) as '03'
+						,isnull(round(sum(mm4), 2) , 0) as '04'
+						,isnull(round(sum(mm5), 2) , 0) as '05'
+						,isnull(round(sum(mm6), 2) , 0) as '06'
+						,isnull(round(sum(mm7), 2) , 0) as '07'
+						,isnull(round(sum(mm8), 2) , 0) as '08'
+						,isnull(round(sum(mm9), 2) , 0) as '09'
+						,isnull(round(sum(mm10), 2), 0) as '10'
+						,isnull(round(sum(mm11), 2), 0) as '11'
+						,isnull(round(sum(mm12), 2), 0) as '12'
+						,isnull(round(sum(arsl_exp), 2), 0) as totSum
+		from (
+		select  yyyymm
+		       ,L_GROUP
+		       ,L_GROUPTXT
+			   ,S_GROUP
+			   ,S_GROUPTXT
+			   ,case when right(a.yyyymm, 2) = '01' then sum( convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm1'
+				,case when right(a.yyyymm, 2) = '02' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm2'
+				,case when right(a.yyyymm, 2) = '03' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm3'
+				,case when right(a.yyyymm, 2) = '04' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm4'
+				,case when right(a.yyyymm, 2) = '05' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm5'
+				,case when right(a.yyyymm, 2) = '06' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm6'
+				,case when right(a.yyyymm, 2) = '07' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm7'
+				,case when right(a.yyyymm, 2) = '08' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm8'
+				,case when right(a.yyyymm, 2) = '09' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm9'
+				,case when right(a.yyyymm, 2) = '10' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm10'
+				,case when right(a.yyyymm, 2) = '11' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm11'
+				,case when right(a.yyyymm, 2) = '12' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm12'
+			   ,sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/1000000)) as arsl_exp
+		from   IRIS_SAP_BUDG_S_COST a
+		where   erp_cd = #{wbsCd}
+		and     left(YYYYMM, 4) = #{yyyy}
+		group by yyyymm,L_GROUP
+		       ,L_GROUPTXT
+			   ,S_GROUP
+			   ,S_GROUPTXT
+			   ) a
+		group by L_GROUP
+		       ,L_GROUPTXT
+			   ,S_GROUP
+			   ,S_GROUPTXT
+		union all
+		select	'합계'   as totTitle
+			   ,'합계'  as expScnNm
+				,isnull(round(sum(mm1), 2) , 0) as '01'
+				,isnull(round(sum(mm2), 2) , 0) as '02'
+				,isnull(round(sum(mm3), 2) , 0) as '03'
+				,isnull(round(sum(mm4), 2) , 0) as '04'
+				,isnull(round(sum(mm5), 2) , 0) as '05'
+				,isnull(round(sum(mm6), 2) , 0) as '06'
+				,isnull(round(sum(mm7), 2) , 0) as '07'
+				,isnull(round(sum(mm8), 2) , 0) as '08'
+				,isnull(round(sum(mm9), 2) , 0) as '09'
+				,isnull(round(sum(mm10), 2), 0) as '10'
+				,isnull(round(sum(mm11), 2), 0) as '11'
+				,isnull(round(sum(mm12), 2), 0) as '12'
+				,isnull(round(sum(arsl_exp), 2), 0) as totSum
+		from (
+		select  yyyymm
+		       ,L_GROUP
+		       ,L_GROUPTXT
+			   ,S_GROUP
+			   ,S_GROUPTXT
+			   ,case when right(a.yyyymm, 2) = '01' then sum( convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm1'
+				,case when right(a.yyyymm, 2) = '02' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm2'
+				,case when right(a.yyyymm, 2) = '03' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm3'
+				,case when right(a.yyyymm, 2) = '04' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm4'
+				,case when right(a.yyyymm, 2) = '05' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm5'
+				,case when right(a.yyyymm, 2) = '06' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm6'
+				,case when right(a.yyyymm, 2) = '07' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm7'
+				,case when right(a.yyyymm, 2) = '08' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm8'
+				,case when right(a.yyyymm, 2) = '09' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm9'
+				,case when right(a.yyyymm, 2) = '10' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm10'
+				,case when right(a.yyyymm, 2) = '11' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm11'
+				,case when right(a.yyyymm, 2) = '12' then sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) end 'mm12'
+			   ,sum(convert(numeric(20,6), convert(numeric(20),a.KO_RSLT)/100000000)) as arsl_exp
+		from   IRIS_SAP_BUDG_S_COST a
+		where   erp_cd = #{wbsCd}
+		and     left(YYYYMM, 4) = #{yyyy}
+		group by yyyymm,L_GROUP
+		       ,L_GROUPTXT
+			   ,S_GROUP
+			   ,S_GROUPTXT
+			   ) a
         ]]>
     </select>
 
+ <!-- 개발비 조회(값이 없을 경우) -->
+    <select id="retrieveGenTssTmpBudg" resultType="hashmap">
+        <![CDATA[
+        -- retrieveGenTssTmpBudg 개발비 
+        	select '인건비' as totTitle
+			      ,COM_DTL_NM as expScnNm
+				  ,''  as  '01'
+				  ,''  as  '02'
+				  ,''  as  '03'
+				  ,''  as  '04'
+				  ,''  as  '05'
+				  ,''  as  '06'
+				  ,''  as  '07'
+				  ,''  as  '08'
+				  ,''  as  '09'
+				  ,''  as  '10'
+				  ,''  as  '11'
+				  ,''  as  '12'
+				  ,''  as  'totSum'
+			from   IRIS_ADM_COM_CD
+			where  COM_CD_CD = 'EXP_SCN_CD'
+			and    COM_DTL_CD like '01%'
+			and    COM_DTL_CD <> '01'
+			union all
+			select '운영경비' as totTitle
+			      ,COM_DTL_NM as expScnNm
+				  ,''  as  '01'
+				  ,''  as  '02'
+				  ,''  as  '03'
+				  ,''  as  '04'
+				  ,''  as  '05'
+				  ,''  as  '06'
+				  ,''  as  '07'
+				  ,''  as  '08'
+				  ,''  as  '09'
+				  ,''  as  '10'
+				  ,''  as  '11'
+				  ,''  as  '12'
+				  ,''  as  'totSum'
+			from   IRIS_ADM_COM_CD
+			where  COM_CD_CD = 'EXP_SCN_CD'
+			and    COM_DTL_CD like '02%'
+			and    COM_DTL_CD <> '02'
+			union all
+			select '경상개발비' as totTitle
+			      ,COM_DTL_NM as expScnNm
+				  ,''  as  '01'
+				  ,''  as  '02'
+				  ,''  as  '03'
+				  ,''  as  '04'
+				  ,''  as  '05'
+				  ,''  as  '06'
+				  ,''  as  '07'
+				  ,''  as  '08'
+				  ,''  as  '09'
+				  ,''  as  '10'
+				  ,''  as  '11'
+				  ,''  as  '12'
+				  ,''  as  'totSum'
+			from   IRIS_ADM_COM_CD
+			where  COM_CD_CD = 'EXP_SCN_CD'
+			and    COM_DTL_CD like '03%'
+			and    COM_DTL_CD <> '03'
+			union all
+			select '감가상각비' as totTitle
+			      ,COM_DTL_NM as expScnNm
+				  ,''  as  '01'
+				  ,''  as  '02'
+				  ,''  as  '03'
+				  ,''  as  '04'
+				  ,''  as  '05'
+				  ,''  as  '06'
+				  ,''  as  '07'
+				  ,''  as  '08'
+				  ,''  as  '09'
+				  ,''  as  '10'
+				  ,''  as  '11'
+				  ,''  as  '12'
+				  ,''  as  'totSum'
+			from   IRIS_ADM_COM_CD
+			where  COM_CD_CD = 'EXP_SCN_CD'
+			and    COM_DTL_CD like '04%'
+			and    COM_DTL_CD <> '04'
+			union all
+			select '합계'
+			      ,'합계'
+				  ,''  as  '01'
+				  ,''  as  '02'
+				  ,''  as  '03'
+				  ,''  as  '04'
+				  ,''  as  '05'
+				  ,''  as  '06'
+				  ,''  as  '07'
+				  ,''  as  '08'
+				  ,''  as  '09'
+				  ,''  as  '10'
+				  ,''  as  '11'
+				  ,''  as  '12'
+				  ,''  as  'totSum'
+        ]]>
+    </select>
 
     <!--========================== 일반과제_진행_목표및산출물 ==========================-->
 

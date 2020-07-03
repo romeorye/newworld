@@ -74,6 +74,11 @@
             ,dbo.fn_getTssStepNm(#{tssCd}) as tssStepNm
             ,dbo.fn_getGrsStepNm(#{tssCd},'1') as grsStepNm
             ,dbo.fn_getQgateStepNm(A.WBS_CD,'1') as qgateStepNm
+            , ( select ATTC_FIL_ID
+			    from IRIS_GRS_EV_RSLT_RGST 
+				where TSS_CD = a.TSS_CD 
+				and   TSS_CD_SN = (select max(tss_cd_sn) from IRIS_GRS_EV_RSLT_RGST where tss_cd = a.TSS_CD)
+			  ) as attcFilId
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
             ON A.PRJ_CD = B.PRJ_CD
@@ -236,7 +241,7 @@
              , #{tssSt}
              , #{tssNosSt}
              , #{tssStTxt}
-             , #{prodG}
+             , #{prodGCd}
              , #{rsstSphe}
              , #{tssType}
              , GETDATE()
@@ -1186,7 +1191,7 @@
 			   dbo.fn_getComDtlNm('BIZ_DPT_CD',BIZ_DPT_CD)   as bizDptNm, -- 코드가 아닌 text로 전달
 			   mst.PROD_G        as prodG,
 			   dbo.fn_getComDtlNm('PROD_G',mst.PROD_G)   as prodGNm, --코드가 아닌 text로 전달
-			   mst.SA_SABUN_NEW  as saSabunCd,
+			   mst.SA_SABUN_NEW  as saSabunNew,
 			   mst.SA_SABUN_NAME as saSabunNm,
 			   mst.TSS_STRT_DD   as tssStrtDd,
 			   mst.CUST_SQLT     as custSqlt,
@@ -1246,7 +1251,7 @@
 					   #{prjNm},
 					   #{bizDptNm},
 					   #{prodGNm},
-					   #{saSabunCd},
+					   #{saSabunNew},
 					   #{saSabunNm},
 					   #{tssStrtDd},
 					   #{custSqlt},
@@ -1265,7 +1270,7 @@
 						PRJ_NM = #{prjNm},
 						BIZ_DPT_CD = #{bizDptNm},
 						PROD_G = #{prodGNm},
-						SA_SABUN_CD = #{saSabunCd},
+						SA_SABUN_CD = #{saSabunNew},
 						SA_SABUN_NM = #{saSabunNm},
 						TSS_STRT_DD = #{tssStrtDd},
 						CUST_SQLT = #{custSqlt},
@@ -1295,7 +1300,7 @@
     <insert id="insertGateToIrisQasIF">
     /*insertGateToIrisQasIF from QAS 결과 to IRSI 배치용 Insert/Update MSSQL*/
     <![CDATA[
-        MERGE INTO dbo.IRIS_TSS_QGATE_IF A
+        MERGE INTO dbo.tmp_IRIS_TSS_QGATE_IF A
             USING (SELECT
                 #{WBSCD} AS WBS_CD,
                 #{STEPNO} AS STEP_NO,
@@ -1349,7 +1354,7 @@
 
 	<!-- Qgate 파일 과제 연결-->
 	<update id="updateGateToYldQasIF">
-		UPDATE IRIS_TSS_YLD_ITM set
+		UPDATE tmp_IRIS_TSS_YLD_ITM set
 	  		QGATE_LINK_URL = #{ATTACHURL}
 	  		,last_mdfy_dt = GETDATE()
 	  		,last_mdfy_id = 'Batch'
@@ -1357,4 +1362,129 @@
 	  	 TSS_CD = #{tssCd}
 	  	 AND YLD_ITM_TYPE = #{yldItmType}
 	</update>
+	
+	
+	<!-- 개요 신규 -->
+    <insert id="insertGenTssSmry">
+    <![CDATA[
+    -- insertGenTssSmry 개요 신규
+        INSERT
+          INTO IRIS_TSS_GEN_SMRY  /*일반과제개요*/
+             ( TSS_CD             --과제코드
+             , SMRY_N_TXT         --Needs
+             , SMRY_A_TXT         --Approach
+             , SMRY_B_TXT         --Benefit
+             , SMRY_C_TXT         --Competition
+             , SMRY_D_TXT         --Deliverables
+             , MRKT_SCL_TXT       --시장규모
+             , BIZ_PRFT_PRO       --영업이익율
+             , CTY_OT_PLN_M       --상품출시변경월
+             , SMR_SMRY_TXT
+			 , SMR_GOAL_TXT
+			 , BIZ_PRFT_PRO_Y
+			 , BIZ_PRFT_PRO_Y_1
+			 , BIZ_PRFT_PRO_Y_2
+			 , BIZ_PRFT_PRO_Y_3
+			 , BIZ_PRFT_PRO_Y_4
+			 , BIZ_PRFT_PLN_Y     
+			 , BIZ_PRFT_PLN_Y_1   
+			 , BIZ_PRFT_PLN_Y_2 
+             , NPROD_SALS_PLN_Y   --신제품매출변경Y
+             , NPROD_SALS_PLN_Y_1 --신제품매출변경Y+1
+             , NPROD_SALS_PLN_Y_2 --신제품매출변경Y+2
+             , NPROD_SALS_PLN_Y_3 --신제품매출변경Y+3
+             , NPROD_SALS_PLN_Y_4 --신제품매출변경Y+4
+             , PTC_CPSN_Y         --투입인원수Y
+             , PTC_CPSN_Y_1       --투입인원수Y+1
+             , PTC_CPSN_Y_2       --투입인원수Y+2
+             , PTC_CPSN_Y_3       --투입인원수Y+3
+             , PTC_CPSN_Y_4       --투입인원수Y+4
+             , EXP_ARSL_Y         
+			 , EXP_ARSL_Y_1       
+			 , EXP_ARSL_Y_2       
+			 , EXP_ARSL_Y_3       
+			 , EXP_ARSL_Y_4  
+             , TSS_SMRY_TXT            --과제개요 - 연구과제배경
+             , TSS_SMRY_DVLP_TXT       --과제개요 - 주요연구개발내용
+             , RSST_DVLP_OUCM_TXT      --연구개발성과 - 지재권
+             , RSST_DVLP_OUCM_CTQ_TXT  --연구개발성과 - CTQ
+             , RSST_DVLP_OUCM_EFF_TXT  --연구개발성과 - 파급효과
+             , NPROD_NM                --신제품명
+             , ANCP_OT_PLN_DT          --예상출시일(계획)
+             , Qgate3_DT               --Qgate3(품질평가단계) 패스일자
+             , FWD_PLN_TXT             --사업화출시계획
+             , FNO_PLN_TXT             --향후 계획
+             , ALTR_RSON_TXT           --변경사유
+             , ADD_RSON_TXT            --추가사유
+             , DCAC_RSON_TXT           --중단사유
+             , ATTC_FIL_ID             --첨부파일
+             , ALTR_ATTC_FIL_ID             --첨부파일
+             , CMPL_ATTC_FIL_ID             --첨부파일
+             , DCAC_ATTC_FIL_ID             --첨부파일
+             , PMIS_TXT
+             , FRST_RGST_DT       --최초등록일시
+             , FRST_RGST_ID       --최초등록자
+             , LAST_MDFY_DT       --최종수정일시
+             , LAST_MDFY_ID       --최종수정자
+             )
+        SELECT #{tssCd}
+             , SMRY_N_TXT
+             , SMRY_A_TXT
+             , SMRY_B_TXT
+             , SMRY_C_TXT
+             , SMRY_D_TXT
+             , MRKT_SCL_TXT
+             , BIZ_PRFT_PRO
+             , CTY_OT_PLN_M
+             , SMR_SMRY_TXT
+			 , SMR_GOAL_TXT
+			 , BIZ_PRFT_PRO_Y
+			 , BIZ_PRFT_PRO_Y_1
+			 , BIZ_PRFT_PRO_Y_2
+			 , BIZ_PRFT_PRO_Y_3
+			 , BIZ_PRFT_PRO_Y_4
+			 , BIZ_PRFT_PLN_Y     
+			 , BIZ_PRFT_PLN_Y_1   
+			 , BIZ_PRFT_PLN_Y_2 
+			 , NPROD_SALS_PLN_Y
+             , NPROD_SALS_PLN_Y_1
+             , NPROD_SALS_PLN_Y_2
+             , NPROD_SALS_PLN_Y_3
+             , NPROD_SALS_PLN_Y_4
+             , PTC_CPSN_Y
+             , PTC_CPSN_Y_1
+             , PTC_CPSN_Y_2
+             , PTC_CPSN_Y_3
+             , PTC_CPSN_Y_4
+             , EXP_ARSL_Y         
+			 , EXP_ARSL_Y_1       
+			 , EXP_ARSL_Y_2       
+			 , EXP_ARSL_Y_3       
+			 , EXP_ARSL_Y_4  
+             , TSS_SMRY_TXT
+             , TSS_SMRY_DVLP_TXT
+             , RSST_DVLP_OUCM_TXT
+             , RSST_DVLP_OUCM_CTQ_TXT
+             , RSST_DVLP_OUCM_EFF_TXT
+             , NPROD_NM
+             , ANCP_OT_PLN_DT
+             , Qgate3_DT
+             , FWD_PLN_TXT
+             , FNO_PLN_TXT
+             , ALTR_RSON_TXT
+             , ADD_RSON_TXT
+             , DCAC_RSON_TXT
+             , CASE WHEN ISNULL(#{attcFilId}, '') = '' THEN ATTC_FIL_ID ELSE #{attcFilId} END
+             , ALTR_ATTC_FIL_ID
+             , CMPL_ATTC_FIL_ID
+             , DCAC_ATTC_FIL_ID
+             , PMIS_TXT
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+          FROM IRIS_TSS_GEN_SMRY
+         WHERE TSS_CD = #{pgTssCd}
+    ]]>
+    </insert>
 </mapper>

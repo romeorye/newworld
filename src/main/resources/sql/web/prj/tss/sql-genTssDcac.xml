@@ -124,22 +124,25 @@
     <select id="retrieveGenTssDcacSmry" resultType="hashmap">
     <![CDATA[
     -- retrieveGenTssDcacSmry 개요 조회
-        SELECT TSS_CD                  AS tssCd               --과제코드
-             , TSS_SMRY_TXT            AS tssSmryTxt          --과제개요_연구과제배경
-             , RSST_DVLP_OUCM_EFF_TXT  AS rsstDvlpOucmEffTxt  --연구개발성과_파급효과
-             , TSS_SMRY_DVLP_TXT       AS tssSmryDvlpTxt      --과제개요_주요연구개발내용
-             , RSST_DVLP_OUCM_TXT      AS rsstDvlpOucmTxt     --연구개발성과_지재권
-             , RSST_DVLP_OUCM_CTQ_TXT  AS rsstDvlpOucmCtqTxt  --연구개발성과_CTQ
-             , FNO_PLN_TXT             AS fnoPlnTxt           --향후 계획
-             , DCAC_RSON_TXT           AS dcacRsonTxt         --중단사유
-             , ATTC_FIL_ID             AS attcFilId           --첨부파일
-             , DCAC_ATTC_FIL_ID        AS dcacAttcFilId       --첨부파일
-             , FRST_RGST_DT            AS frstRgstDt          --최초등록일시
-             , FRST_RGST_ID            AS frstRgstId          --최초등록자
-             , LAST_MDFY_DT            AS lastMdfyDt          --최종수정일시
-             , LAST_MDFY_ID            AS lastMdfyId          --최종수정자
-          FROM IRIS_TSS_GEN_SMRY  /*일반과제개요*/
-         WHERE TSS_CD = #{tssCd}
+                SELECT a.TSS_CD                  AS tssCd               --과제코드
+             , a.TSS_SMRY_TXT            AS tssSmryTxt          --과제개요_연구과제배경
+             , a.RSST_DVLP_OUCM_EFF_TXT  AS rsstDvlpOucmEffTxt  --연구개발성과_파급효과
+             , a.TSS_SMRY_DVLP_TXT       AS tssSmryDvlpTxt      --과제개요_주요연구개발내용
+             , a.RSST_DVLP_OUCM_TXT      AS rsstDvlpOucmTxt     --연구개발성과_지재권
+             , a.RSST_DVLP_OUCM_CTQ_TXT  AS rsstDvlpOucmCtqTxt  --연구개발성과_CTQ
+             , a.FNO_PLN_TXT             AS fnoPlnTxt           --향후 계획
+             , a.DCAC_RSON_TXT           AS dcacRsonTxt         --중단사유
+             , a.ATTC_FIL_ID             AS attcFilId           --첨부파일
+             , isnull(a.DCAC_ATTC_FIL_ID, b.ATTC_FIL_ID)        AS dcacAttcFilId       --첨부파일
+             , a.FRST_RGST_DT            AS frstRgstDt          --최초등록일시
+             , a.FRST_RGST_ID            AS frstRgstId          --최초등록자
+             , a.LAST_MDFY_DT            AS lastMdfyDt          --최종수정일시
+             , a.LAST_MDFY_ID            AS lastMdfyId          --최종수정자
+          FROM IRIS_TSS_GEN_SMRY  a /*일반과제개요*/
+		       left outer join IRIS_GRS_EV_RSLT_RGST b
+			   on b.TSS_CD = a.TSS_CD
+			   and b.GRS_EV_ST ='D'
+         WHERE a.TSS_CD = #{tssCd}
     ]]>
     </select>
 
@@ -211,8 +214,14 @@
     -- retrieveGenTssDcacInfo 품의서 정보 조회
         SELECT TSS_CD
              , mbrNmList
-             , plnExp
-             , arslExp
+             ,isnull((select EXP_ARSL_Y+isnull(EXP_ARSL_Y_1, 0)+isnull(EXP_ARSL_Y_2, 0)+isnull(EXP_ARSL_Y_3,0)+isnull(EXP_ARSL_Y_4, 0) as plnSum
+				from   IRIS_TSS_GEN_SMRY
+				where  tss_cd = #{pgTssCd}
+			   ), 0) as plnExp	
+             , isnull((select sum(convert(numeric(20,6), convert(numeric(20),KO_RSLT)/1000000)) as arslExcp
+			     from   IRIS_SAP_BUDG_S_COST
+				 where  erp_cd =  #{wbsCd}
+			   )  , 0) as arslExp
              , CONVERT(VARCHAR, GETDATE(), 23) AS createDate
           FROM (SELECT TSS_CD
                      , STUFF((SELECT DISTINCT
@@ -221,13 +230,9 @@
                                WHERE T1.TSS_CD = T2.TSS_CD
                                  FOR XML PATH('')), 1, 2, '') AS mbrNmList
                   FROM IRIS_TSS_PTC_RSST_MBR T2
-                 WHERE T2.TSS_CD = #{pgTssCd}
-                 GROUP BY TSS_CD) A
-             , (SELECT SUM(PLN_EXP)  AS plnExp
-                     , SUM(ARSL_EXP) AS arslExp
-                  FROM IRIS_TSS_GEN_TRWI_BUDG_LIST
-                 WHERE TSS_CD = #{pgTssCd}
-                   AND YY_MM BETWEEN SUBSTRING(REPLACE(#{tssStrtDd}, '-', ''), 1, 6) AND SUBSTRING(REPLACE(#{tssFnhDd}, '-', ''), 1, 6)) B
+                 WHERE T2.TSS_CD =  #{pgTssCd}
+                 GROUP BY TSS_CD
+			 ) A
     ]]>
     </select>
 
