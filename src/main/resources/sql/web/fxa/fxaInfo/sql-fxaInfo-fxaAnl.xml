@@ -161,6 +161,7 @@
 				,ATTC_FIL_ID  = #{attcFilId}
 				,PRC_DPT	  = #{prcDpt}
 				,FXA_SPC	  = #{fxaSpc}
+				,RLIS_DT	  = #{rlisDt}
 				,LAST_MDFY_DT = GETDATE()
 				,LAST_MDFY_ID = #{_userId}
 		WHEN NOT MATCHED THEN
