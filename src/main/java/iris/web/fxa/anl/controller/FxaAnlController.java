@@ -56,7 +56,11 @@ public class FxaAnlController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
-		LOGGER.debug("####################input################################################################# : " + input);
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("FxaAnlController - retrieveFxaAnlList [자산관리 목록 화면]");
+		LOGGER.debug("input => " + input);
+		LOGGER.debug("###########################################################");
+		
 
 		model.addAttribute("inputData", input);
 
@@ -82,7 +86,10 @@ public class FxaAnlController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		input = StringUtil.toUtf8(input);
-		//LOGGER.debug("################################input##################################################### : " + input);
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("FxaAnlController - retrieveFxaAnlSearchList [자산관리 목록 조회]");
+		LOGGER.debug("input => " + input);
+		LOGGER.debug("###########################################################");
 
 		List<Map<String, Object>> resultList = fxaAnlService.retrieveFxaAnlSearchList(input);
 		
@@ -109,7 +116,10 @@ public class FxaAnlController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		ModelAndView modelAndView = new ModelAndView("ruiView");
-		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("FxaAnlController - retrieveFxaAnlDtl [자산관리 상세 화면]");
+		LOGGER.debug("input => " + input);
+		LOGGER.debug("###########################################################");
 		model.addAttribute("inputData", input);
 
 		return  "web/fxa/anl/fxaInfoAnlDtl";
@@ -132,12 +142,16 @@ public class FxaAnlController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
-
 		ModelAndView modelAndView = new ModelAndView("ruiView");
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("FxaAnlController - retrieveFxaDtlSearchInfo [자산관리 상세 조회]");
+		LOGGER.debug("input => " + input);
+		LOGGER.debug("###########################################################");
+		
 		Map<String, Object> result = fxaAnlService.retrieveFxaAnlSearchDtl(input);
 
 		modelAndView.addObject("fxaDtlDataSet", RuiConverter.createDataset("fxaDtlDataSet", result));
-		model.addAttribute("inputData", input);
 
 		return  modelAndView;
 	}
@@ -156,11 +170,17 @@ public class FxaAnlController extends IrisBaseController {
 			HttpSession session,
 			ModelMap model
 			){
+		
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("FxaAnlController - retrieveFxaDtlSearchInfo [자산관리 상세 조회]");
+		LOGGER.debug("input => " + input);
+		LOGGER.debug("###########################################################");
 
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 
-		/* 반드시 공통 호출 후 작업 */
-		checkSessionObjRUI(input, session, model);
 
 		model.addAttribute("inputData", input);
 
@@ -189,7 +209,7 @@ public class FxaAnlController extends IrisBaseController {
 		
 		String rtnSt ="F";
 		String rtnMsg = "";
-		LOGGER.debug("input===================================="+input);
+
 		try{
 			fxaAnlService.deleteFxaInfo(input);
 			
@@ -224,15 +244,24 @@ public class FxaAnlController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("FxaAnlController - saveFxaInfo [자산관리 정보 저장]");
+		LOGGER.debug("input => " + input);
+		LOGGER.debug("###########################################################");
+		
 		ModelAndView modelAndView = new ModelAndView("ruiView");
 		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+		HashMap<String,Object> dsMap = new HashMap<String, Object>();
 		
 		String rtnSt ="F";
 		String rtnMsg = "";
-		LOGGER.debug("input===================================="+input);
 		
 		try{
-			fxaAnlService.saveFxaInfo(input);
+			
+			dsMap = (HashMap<String, Object>) RuiConverter.convertToDataSet(request, "fxaDtlDataSet").get(0);
+			dsMap.put("_userId", input.get("_userId"));			
+			fxaAnlService.saveFxaInfo(dsMap);
 			
 			rtnMsg = "저장되었습니다.";
 			rtnSt = "S";
@@ -268,7 +297,6 @@ public class FxaAnlController extends IrisBaseController {
 		checkSessionObjRUI(input, session, model);
 		
 		input = StringUtil.toUtf8(input);
-		LOGGER.debug("input===================================="+input);
 		model.addAttribute("inputData", input);
 
 		return  "web/fxa/anl/fxaTrsfPop";
@@ -292,7 +320,6 @@ public class FxaAnlController extends IrisBaseController {
 
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
-		LOGGER.debug("input===================================="+input);
 		
 		Map<String, Object> result = fxaInfoService.retrieveFxaDtlSearchInfo(input);
 		model.addAttribute("inputData", input);

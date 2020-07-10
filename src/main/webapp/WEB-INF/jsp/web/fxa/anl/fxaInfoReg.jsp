@@ -13,12 +13,12 @@
  * VER	DATE		AUTHOR		DESCRIPTION
  * ---	-----------	----------	-----------------------------------------
  * 1.0  2016.09.11  IRIS05		최초생성
+ * 1.0  2020.07.08  IRIS05		최초생성
  * ---	-----------	----------	-----------------------------------------
  * IRIS 구축 프로젝트
  *************************************************************************
  */
 --%>
-
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -35,10 +35,12 @@
 <script type="text/javascript">
 var fxaDtlDataSet; // 자산 상세정보 데이터셋
 var prjSearchDialog;
-var attId;
-
+var lvAttcFilId;
+var fxaInfoId;
 
 	Rui.onReady(function() {
+		
+		fxaInfoId = '${inputData.fxaInfoId}';
 		
 		<%-- RESULT DATASET --%>
 		resultDataSet = new Rui.data.LJsonDataSet({
@@ -54,8 +56,7 @@ var attId;
         resultDataSet.on('load', function(e) {
         });
 		
-	
-		/* DATASET : grid */
+        /* DATASET : grid */
 		fxaDtlDataSet = new Rui.data.LJsonDataSet({
 		    id: 'fxaDtlDataSet',
 		    remainRemoved: true,
@@ -89,23 +90,22 @@ var attId;
 		    	, {id: 'crgrId'  } /*담당자id*/
 		    ]
 		});
-        
-		//자산명
-		var fxaNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
-	        applyTo: 'fxaNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
-	        width: 200,                                    // 텍스트박스 폭을 설정
-	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
-	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
-	    });
+            
+		fxaDtlDataSet.on('load', function(e){
+			if(fxaDtlDataSet.getNameValue(0, "tagYn") == "Y"){
+				tagYn.setValue(true);
+			}else{
+				tagYn.setValue(false);
+			}
+			
+			lvAttcFilId = fxaDtlDataSet.getNameValue(0, "attcFilId");
 
-	  	//자산번호
-		var fxaNo = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
-	        applyTo: 'fxaNo',                           // 해당 DOM Id 위치에 텍스트박스를 적용
-	        width: 200,                                    // 텍스트박스 폭을 설정
-	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
-	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
-	    });
-
+			if(!Rui.isEmpty(lvAttcFilId)){
+				getAttachFileList();
+			}
+			
+		});    
+	        
 	  	//WBC CD
 		var wbsCd = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	        applyTo: 'wbsCd',                           // 해당 DOM Id 위치에 텍스트박스를 적용
@@ -125,14 +125,14 @@ var attId;
 	    });
 
     	//프로젝트 명
-    	var ltPrjNm = new Rui.ui.form.LPopupTextBox({
+    	var prjNm = new Rui.ui.form.LPopupTextBox({
 	    	applyTo: 'prjNm',
 	    	width: 200,
             editable: false,
             placeholder: ''
 	    });
     	
-	    ltPrjNm.on('popup', function(e){
+    	prjNm.on('popup', function(e){
 	    	openPrjSearchDialog(setPrjInfo,'ALL');
 	    });
 
@@ -153,34 +153,14 @@ var attId;
 		setPrjInfo = function(prjInfo) {
 			clearPrjInfo();
 
-			ltPrjNm.setValue(prjInfo.prjNm);
+			prjNm.setValue(prjInfo.prjNm);
 			wbsCd.setValue(prjInfo.wbsCd);
 	    };
 
 	    clearPrjInfo = function(prjInfo) {
-	    	ltPrjNm.setValue('');
+	    	prjNm.setValue('');
 	    	wbsCd.setValue('');
 	    };
-
-		//취득가
-	  	var obtPce = new Rui.ui.form.LNumberBox({
-	        applyTo: 'obtPce',
-	        placeholder: '취득금액을 입력해주세요.',
-	        maxValue: 9999999999,           // 최대값 입력제한 설정
-	        minValue: 0,                  // 최소값 입력제한 설정
-	        width: 200,
-	        decimalPrecision: 0,            // 소수점 자리수 3자리까지 허용
-	    });
-
-	  	//장부가
-	  	var bkpPce = new Rui.ui.form.LNumberBox({
-	        applyTo: 'bkpPce',
-	        placeholder: '장부금액을 입력해주세요.',
-	        maxValue: 9999999999,           // 최대값 입력제한 설정
-	        minValue: 0,                  // 최소값 입력제한 설정
-	        width: 200,
-	        decimalPrecision: 0            // 소수점 자리수 3자리까지 허용
-	    });
 
 		/* 담당자 팝업 */
 	    var crgrNm = new Rui.ui.form.LPopupTextBox({
@@ -197,7 +177,7 @@ var attId;
 
 	    setUserInfo = function (user){
 	    	crgrNm.setValue(user.saName);
-	    	document.aform.crgrId.value = user.saSabun;
+	    	dataSet.setValue(0, 'crgrId',   user.saSabun )
 	    };
 
 	  	//위치
@@ -225,7 +205,7 @@ var attId;
 	    });
 
 	  	/* 태그 여부*/
-		var ckTagYn = new Rui.ui.form.LCheckBox({ // 체크박스를 생성
+		var tagYn = new Rui.ui.form.LCheckBox({ // 체크박스를 생성
 	        applyTo: 'tagYn',
 	        checked : true,
 	        value : "Y"
@@ -250,23 +230,14 @@ var attId;
 		// 취득일
 		var obtDt = new Rui.ui.form.LDateBox({
             applyTo: 'obtDt',
-            mask: '9999-99-99',
-            displayValue: '%Y-%m-%d',
-            defaultValue: '',
             dateType: 'string'
         });
 
 		// 실사일
-		/* 
 		var rlisDt = new Rui.ui.form.LDateBox({
             applyTo: 'rlisDt',
-            mask: '9999-99-99',
-            displayValue: '%Y-%m-%d',
-            defaultValue: '',
-            defaultValue: new Date(),
             dateType: 'string'
         });
- */
 		// 수량
 		var fxaQty = new Rui.ui.form.LNumberBox({
 	        applyTo: 'fxaQty',
@@ -292,30 +263,18 @@ var attId;
             width: 900,
             height: 100
         });
-
+    
 		var fnSearch = function(){
 			fxaDtlDataSet.load({
 		        url: '<c:url value="/fxa/anl/retrieveFxaDtlSearchInfo.do"/>' ,
 		        params :{
-		        	fxaInfoId : document.aform.fxaInfoId.value
+		        	fxaInfoId : fxaInfoId
 		        }
 		    });
 		}
 
-		fnSearch();
-		
-		var id = document.aform.fxaInfoId.value;
-		
-		if(id != ""){
-			fxaNm.disable();
-			fxaNo.disable();
-			wbsCd.disable();
-			ltPrjNm.disable();
-			obtPce.disable();
-			bkpPce.disable();
-			fxaClss.disable();
-		}
-	  	
+		fnSearch();   
+	        
 		/* [DataSet] bind */
 	    var fxaDtlBind = new Rui.data.LBind({
 	        groupId: 'aform',
@@ -323,8 +282,8 @@ var attId;
 	        bind: true,
 	        bindInfo: [
 		    	  {id: 'fxaInfoId',   ctrlId: 'fxaInfoId',  value: 'value' }
-		    	, {id: 'fxaNm',       ctrlId: 'fxaNm',      value: 'value' }
-		    	, {id: 'fxaNo',       ctrlId: 'fxaNo',      value: 'value' }
+		    	, {id: 'fxaNm',       ctrlId: 'fxaNm',      value: 'html' }
+		    	, {id: 'fxaNo',       ctrlId: 'fxaNo',      value: 'html' }
 		    	, {id: 'fxaStCd',     ctrlId: 'fxaStCd',    value: 'value' }
 		    	, {id: 'wbsCd',       ctrlId: 'wbsCd',      value: 'value' }
 		    	, {id: 'prjNm',       ctrlId: 'prjNm',      value: 'value' }
@@ -333,10 +292,18 @@ var attId;
 		    	, {id: 'fxaClss',     ctrlId: 'fxaClss',    value: 'value' }
 		    	, {id: 'fxaQty',      ctrlId: 'fxaQty',     value: 'value' }
 		    	, {id: 'fxaUtmNm',    ctrlId: 'fxaUtmNm',   value: 'value' }
-		    	, {id: 'obtPce',      ctrlId: 'obtPce',     value: 'value' }
-		    	, {id: 'bkpPce',      ctrlId: 'bkpPce',     value: 'value' }
+		    	, {id: 'obtPce',      ctrlId: 'obtPce',     value: 'html' ,
+	               	 renderer: function(value, p, record){
+		  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
+		  		        }
+		              }
+		    	, {id: 'bkpPce',      ctrlId: 'bkpPce',     value: 'html' ,
+	               	 renderer: function(value, p, record){
+		  	        		return Rui.util.LFormat.numberFormat(parseInt(value));
+		  		        }
+		              }
 		    	, {id: 'obtDt' ,      ctrlId: 'obtDt',      value: 'value' }
-		    	, {id: 'rlisDt',      ctrlId: 'rlisDt',     value: 'html' }
+		    	, {id: 'rlisDt',      ctrlId: 'rlisDt',     value: 'value' }
 		    	, {id: 'dsuDt',       ctrlId: 'dsuDt',      value: 'value' }
 				, {id: 'mkNm' ,       ctrlId: 'mkNm',       value: 'value' }
 				, {id: 'useUsf',      ctrlId: 'useUsf',     value: 'value' }
@@ -345,38 +312,20 @@ var attId;
 				, {id: 'fxaSpc',      ctrlId: 'fxaSpc',     value: 'value' }
 		    	, {id: 'imgFilPath',  ctrlId: 'imgFilPath', value: 'value' }
 		    	, {id: 'imgFilNm',    ctrlId: 'imgFilNm',   value: 'value' }
-		    	, {id: 'attcFilId',   ctrlId: 'attcFilId',  value: 'value' }
 		    	, {id: 'crgrId',      ctrlId: 'crgrId',     value: 'value' }
 	        ]
-	    });
+	    });   
+	        
 		
-	    fxaDtlDataSet.on('load', function(e){
-			if(fxaDtlDataSet.getNameValue(0, "tagYn") == "Y"){
-				ckTagYn.setValue(true);
-			}else{
-				ckTagYn.setValue(false);
-			}
-			document.aform.crgrId.value = fxaDtlDataSet.getNameValue(0, "crgrId");
-			attId = fxaDtlDataSet.getNameValue(0, "attcFilId");
-
-			if(attId == undefined){
-				attId ="";
-			}
-			if(!Rui.isEmpty(attId)) getAttachFileList();
-			
-			document.aform.fxaStCd.value = fxaDtlDataSet.getNameValue(0, "fxaStCd");
-		});
-
-		/* [버튼] : 저장  */
-    	var butSave = new Rui.ui.LButton('butSave');
-    	butSave.on('click', function(){
-    		var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-    		dm.on('success', function(e) {      // 업데이트 성공시
+	    fncSave = function(){
+	    	var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
+    		
+	    	dm.on('success', function(e) {      // 업데이트 성공시
     			var resultData = resultDataSet.getReadData(e);
 	   			Rui.alert(resultData.records[0].rtnMsg);
     		 	
     			if( resultData.records[0].rtnSt == "S"){
-	    			fncFxaAnlList();
+    				fncFxaList();
     			}
     	    });
 
@@ -384,146 +333,104 @@ var attId;
     	    	var resultData = resultDataSet.getReadData(e);
 	   			Rui.alert(resultData.records[0].rtnMsg);
     	    });
-
-			if(fncVaild()){
-				Rui.confirm({
-		   			text: '저장하시겠습니까?',
-		   	        handlerYes: function() {
-		   	        	 dm.updateForm({
-		   	        	    url: "<c:url value='/fxa/anl/saveFxaInfo.do'/>",
-		   	        	    form : 'aform'
-		   	        	    });
-		  	     	}
-	    	    });
+		
+    	    if(valid.validateGroup('aform') == false) {
+    	    	alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid.getMessageList().join(''));
+                return;
+			}	
+			
+    	    if(confirm('저장 하시겠습니까?')) {
+				dm.updateDataSet({
+                    modifiedOnly: false,
+                    url: "<c:url value='/fxa/anl/saveFxaInfo.do'/>",
+                    dataSets:[fxaDtlDataSet]
+                });
 			}
-    	});
-
-		/* [버튼] : 첨부파일 팝업 호출 */
-    	var butAttcFilBtn = new Rui.ui.LButton('butAttcFil');
-    	butAttcFilBtn.on('click', function(){
-    		openAttachFileDialog(setAttachFileInfo, attId,'fxaPolicy', '*');
-    	});
-
-    	/* [버튼] : 자산관리 목록으로 이동 */
-    	var butList = new Rui.ui.LButton('butList');
-    	butList.on('click', function(){
-    		fncFxaAnlList();
-    	});
-
-/*************************첨부파일****************************/
-    	/* 첨부파일*/
-		var attachFileDataSet = new Rui.data.LJsonDataSet({
-            id: 'attachFileDataSet',
-            remainRemoved: true,
-            lazyLoad: true,
-            fields: [
-				  { id: 'attcFilId'}
-				, { id: 'seq' }
-				, { id: 'filNm' }
-				, { id: 'filSize' }
+	    }
+	    
+		
+	    fncFxaList = function(){
+	    	nwinsActSubmit(document.aform, "<c:url value='/fxa/anl/retrieveFxaAnlList.do'/>");
+	    }
+		
+	    var valid = new Rui.validate.LValidatorManager({
+       	 validators:[
+           	  { id: 'prjNm'    , validExp:'프로젝트명:true' }
+           	 ,{ id: 'crgrNm'   , validExp:'담당자:true' }
+           	 ,{ id: 'wbsCd'    , validExp:'wbsCd코드:true' }
             ]
         });
+	    
+	    
+	    /*************************첨부파일****************************/
+    	/* [기능] 첨부파일 조회 */
+         var attachFileDataSet = new Rui.data.LJsonDataSet({
+             id: 'attachFileDataSet',
+             remainRemoved: true,
+             lazyLoad: true,
+             fields: [
+                   { id: 'attcFilId'}
+                 , { id: 'seq' }
+                 , { id: 'filNm' }
+                 , { id: 'filSize' }
+             ]
+         });
+         attachFileDataSet.on('load', function(e) {
+             getAttachFileInfoList();
+         });
 
-		getAttachFileList = function(){
-			attachFileDataSet.load({
-                url: '<c:url value="/system/attach/getAttachFileList.do"/>' ,
-                params :{
-                    attcFilId : attId
-                }
-            });
-		}
+         getAttachFileList = function() {
+             attachFileDataSet.clearData();
+             attachFileDataSet.load({
+                 url: '<c:url value="/system/attach/getAttachFileList.do"/>' ,
+                 params :{
+                     attcFilId : lvAttcFilId
+                 }
+             });
+         };
 
-		attachFileDataSet.on('load', function(e) {
-            getAttachFileInfoList();
-        });
+         getAttachFileInfoList = function() {
+             var attachFileInfoList = [];
 
-		getAttachFileInfoList = function() {
-            var attachFileInfoList = [];
+             for( var i = 0, size = attachFileDataSet.getCount(); i < size ; i++ ) {
+                 attachFileInfoList.push(attachFileDataSet.getAt(i).clone());
+             }
 
-            for( var i = 0, size = attachFileDataSet.getCount(); i < size ; i++ ) {
-                attachFileInfoList.push(attachFileDataSet.getAt(i).clone());
-            }
+             setAttachFileInfo(attachFileInfoList);
+         };
 
-            setAttachFileInfo(attachFileInfoList);
-        };
-	  	//첨부파일 callback
-		setAttachFileInfo = function(attcFilList) {
-            $('#atthcFilVw').html('');
+         getAttachFileId = function() {
+             if(Rui.isEmpty(lvAttcFilId)) lvAttcFilId = "";
 
-            var chkCnt = attcFilList.length;
-            
-            if(chkCnt > 1 ){
-            	Rui.alert("고정자산 이미지첨부파일은 1개만 가능합니다");
-            	return;
-            }
-            
-            for(var i = 0; i < attcFilList.length; i++) {
-                $('#atthcFilVw').append($('<a/>', {
-                    href: 'javascript:downloadAttcFil("' + attcFilList[i].data.attcFilId + '", "' + attcFilList[i].data.seq + '")',
-                    text: attcFilList[i].data.filNm
-                })).append('<br/>');
-            document.aform.attcFilId.value = attcFilList[i].data.attcFilId;
-            }
-        };
+             return lvAttcFilId;
+         };
+         setAttachFileInfo = function(attachFileList) {
+             $('#attchFileView').html('');
 
-        //첨부파일 다운로드
-        downloadAttcFil = function(attId, seq){
-        	var param = "?attcFilId=" + attId + "&seq=" + seq;
-        	document.aform.action = '<c:url value='/system/attach/downloadAttachFile.do'/>' + param;
-        	document.aform.submit();
-        }
+             for(var i = 0; i < attachFileList.length; i++) {
+                 $('#attchFileView').append($('<a/>', {
+                     href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
+                     text: attachFileList[i].data.filNm + '(' + attachFileList[i].data.filSize + 'byte)'
+                 })).append('<br/>');
+             }
+             
+             if(attachFileList.length > 0) {
+                 lvAttcFilId = attachFileList[0].data.attcFilId;
+                 fxaDtlDataSet.setNameValue(0, "attcFilId", lvAttcFilId)
+             }
+         };
 
-		//vaild check
-	    var fncVaild = function(){
-			var chkTag = ckTagYn.getValue();
+         downloadAttachFile = function(attcFilId, seq) {
+        	aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
+      		aform.submit();
+         };
 
-			if(Rui.isEmpty(fxaNm.getValue())){
-				Rui.alert("자산명은 필수입니다.");
-				fxaNm.focus();
-				return false;
-			}
-			if(Rui.isEmpty(fxaNo.getValue())){
-				Rui.alert("자산번호는 필수입니다.");
-				fxaNo.focus();
-				return false;
-			}
-			if(Rui.isEmpty(wbsCd.getValue())){
-				Rui.alert("WBS CD는 필수입니다.");
-				wbsCd.focus();
-				return false;
-			}
-			/* 
-			if(Rui.isEmpty(ltPrjNm.getValue())){
-				Rui.alert("프로젝트명은 필수입니다.");
-				ltPrjNm.focus();
-				return false;
-			} */
-			if(Rui.isEmpty(crgrNm.getValue())){
-				Rui.alert("담당자명은 필수입니다.");
-				crgrNm.focus();
-				return false;
-			}
-			if(chkTag != "Y" ){
-				document.aform.tagYn.value = "N";
-			}
-
-			return true;
-	    }
-
-		//자산관리 목록으로 이동
-		var fncFxaAnlList = function(){
-			var rtnUrl = document.aform.rtnUrl.value;
-			
-			ltPrjNm.setValue('');
-			fxaNm.setValue('');
-			crgrNm.setValue('');
-			useUsf.setValue('');
-			document.aform.action = contextPath+rtnUrl;
-			document.aform.submit();
-    	}
-
-	}); // end RUI Lodd
-
+		
+		
+   
+	}); // end RUI Lodd	        
+	        
+	        
 </script>
 </head>
 <style type="text/css">
@@ -541,19 +448,14 @@ var attId;
 	</div>
 <div class="sub-content">
 	<form name="aform" id="aform" method="post">
-		<input type="hidden" id="attcFilId" name="attcFilId" />
 		<input type="hidden" id="menuType" name="menuType" value="IRIFI010"/>
-		<input type="hidden" id="crgrId" name="crgrId" />
 		<input type="hidden" id="fxaStCd" name="fxaStCd" />
-		<input type="hidden" id="fxaInfoId" name="fxaInfoId" value="<c:out value='${inputData.fxaInfoId}'/>">
 		<input type="hidden" id="rtnUrl" name="rtnUrl"  value="<c:out value='${inputData.rtnUrl}'/>">
-
-	
     
 		<div class="titArea btn_top">
 			<div class="LblockButton">    
-				<button type="button" id="butSave">저장</button>
-				<button type="button" id="butList">목록</button>
+				<button type="button" id="butSave" onClick="fncSave();">저장</button>
+				<button type="button" id="butList" onClick="fncFxaList();">목록</button>
 			</div>
 		</div>
 	
@@ -566,13 +468,13 @@ var attId;
 			</colgroup>
 			<tbody>
 				<tr>
-					<th align="right"><span style="color:red;">*  </span>자산명</th>
+					<th align="right">자산명</th>
 					<td>
-						<input type="text" id="fxaNm" />
+						<span id="fxaNm" />
 					</td>
-					<th align="right"><span style="color:red;">*  </span>자산번호</th>
+					<th align="right">자산번호</th>
 					<td>
-						<input type="text" id="fxaNo" />
+						<span id="fxaNo" />
 					</td>
 				</tr>
 				<tr>
@@ -607,13 +509,13 @@ var attId;
 				</tr>
 
 				<tr>
-					<th align="right"><span style="color:red;">*  </span>취득가</th>
+					<th align="right"></span>취득가</th>
 					<td>
-						<input type="text" id="obtPce" />
+						<span id="obtPce" />
 					</td>
-					<th align="right"><span style="color:red;">*  </span>장부가</th>
+					<th align="right">장부가</th>
 					<td>
-						<input type="text" id="bkpPce" />
+						<span id="bkpPce" />
 					</td>
 				</tr>
 				<tr>
@@ -623,7 +525,7 @@ var attId;
 					</td>
 					<th align="right">실사일</th>
 					<td>
-						<span id="rlisDt" ></span> 
+						<input typt="text" id="rlisDt">
 					</td>
 				</tr>
 				</tr>
@@ -655,10 +557,10 @@ var attId;
 				</tr>
 				<tr>
 					<th align="right">이미지</th>
-					<td id="atthcFilVw" colspan="2">&nbsp;&nbsp;
+					<td id="attchFileView" colspan="2">&nbsp;&nbsp;
 					</td>
 					<td>
-						<button type="button" id="butAttcFil">첨부파일등록</button>
+						<button type="button" class="btn"  id="butAttcFil" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'fxaPolicy', '*')">첨부파일등록</button>
 					</td>
 				</tr>
 			</tbody>
@@ -667,4 +569,6 @@ var attId;
 	</div>
 </div>
 </body>
-</html>
+</html>        
+	        
+	

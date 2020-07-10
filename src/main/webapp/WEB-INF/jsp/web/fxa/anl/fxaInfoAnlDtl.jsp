@@ -142,42 +142,13 @@ var fxaDtlDataSet; // 자산 상세정보 데이터셋
 			document.aform.submit();
 		});
 
-		/* [버튼] : 삭제 이동 */
-		var butDel = new Rui.ui.LButton('butDel');
-		butDel.on('click', function(){
-			var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
-
-    		dm.on('success', function(e) {      // 업데이트 성공시
-    			alert('삭제했습니다.');
-    			fncFxaAnlInfoList();
-    	    });
-
-    	    dm.on('failure', function(e) {      // 업데이트 실패시
-                Rui.alert("Delete Fail");
-    	    });
-
-	   		Rui.confirm({
-	   			text: '삭제하시겠습니까?',
-	   	        handlerYes: function() {
-	           	    dm.updateDataSet({
-	   	        	    url: "<c:url value='/fxa/anl/deleteFxaInfo.do'/>",
-	   	        	    dataSets:[fxaDtlDataSet],
-	   	        	    params: {
-	   	        	    	fxaInfoId : document.aform.fxaInfoId.value
-	        	        }
-	   	        	});
-	   	        }
-	   		});
-		});
 
 		var adminChk = "<c:out value='${inputData.adminChk}'/>";
 
 		if( adminChk == "Y"){
 			butSave.show();
-			butDel.show();
 		}else{
 			butSave.hide();
-			butDel.hide();
 		}
 
 		/* [버튼] : 자산관리 목록으로 이동 */
@@ -233,7 +204,6 @@ var fxaDtlDataSet; // 자산 상세정보 데이터셋
 		<div class="titArea btn_top">
 			<div class="LblockButton">
 				<button type="button" id="butSave">수정</button>
-				<button type="button" id="butDel">삭제</button>
 				<button type="button" id="butList">목록</button>
 			</div>
 		</div>
