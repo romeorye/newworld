@@ -1,5 +1,5 @@
 package iris.web.qasBatch.service;
 
 public interface QasBatchService {
-	public void batchProcess();
+	public void batchProcess() throws Exception;
 }

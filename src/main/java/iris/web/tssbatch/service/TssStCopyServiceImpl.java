@@ -1,5 +1,7 @@
 package iris.web.tssbatch.service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import devonframe.dataaccess.CommonDao;
+import iris.web.common.dbConn.DbConn;
 import iris.web.prj.tss.gen.service.GenTssAltrService;
 import iris.web.prj.tss.gen.service.GenTssCmplService;
 import iris.web.prj.tss.gen.service.GenTssPlnService;
@@ -53,16 +56,14 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	@Resource(name = "commonDaoPims")
 	private CommonDao commonDaoPims;    // 지적재산권 조회 Dao
 
-	/* 울산 DB Connection */
+	/* 울산 DB Connection
 	@Resource(name="commonDaoQasU")
 	private CommonDao commonDaoQasU;
-
-	/* 청주 DB Connection */
+   */
+	/* 청주 DB Connection .
 	@Resource(name="commonDaoQasC")
 	private CommonDao commonDaoQasC;
-
-
-
+ */ 
 	@Resource(name = "ousdCooTssAltrService")
 	private OusdCooTssAltrService ousdCooTssAltrService;
 
@@ -99,14 +100,23 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 
 				if ("G".equals(input.get("tssScnCd"))) { //일반과제
 					insertGenData(input);
-					insertToQasTssQasIF(input); //QAS 과제등록
+					try{
+						insertToQasTssQasIF(input); //QAS 과제등록
+					}catch(Exception e){
+						
+					}
 				} else if ("O".equals(input.get("tssScnCd"))) {//대외협력과제
 					insertOusdData(input);
 				} else if ("N".equals(input.get("tssScnCd"))) {//국책과제
 					insertNatData(input);
 				} else if ("D".equals(input.get("tssScnCd"))) {//기술팀과제
 					insertTctmData(input);
-					insertToQasTssQasIF(input); //QAS 과제등록
+					try{
+						insertToQasTssQasIF(input); //QAS 과제등록
+					}catch(Exception e){
+						
+					}
+					
 				} else if("M".equals(input.get("tssScnCd"))) {
 					insertMkInnoData(input);
 				}
@@ -728,21 +738,131 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 
 	// QAS 과제 등록
 	@Override
-	public void insertToQasTssQasIF(Map<String, Object> input) {
-
+	public void insertToQasTssQasIF(Map<String, Object> input) throws Exception {
+		DbConn dbConn = new DbConn();
+		Connection con;
+		
 		HashMap<String,Object> tssInfo = commonDao.select("prj.tss.com.selectTssInfo",input);
+		PreparedStatement pstmt = null;
+		
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			//제품만 등록
+			if(tssInfo!=null && "00".equals(tssInfo.get("tssAttrCd"))){
+				tssInfo.put("userId", "Batch");
+				//공장 
+				if( input.get("fcCd").equals("U") ){
+					con = dbConn.getUConn();
+				}else{
+					con = dbConn.getUConn();
+				}
+				
+				sb.append("MERGE INTO IF_QGATE 							");
+				sb.append("					USING DUAL 					");
+				sb.append("					ON (WBS_CD = ? )			");
+				sb.append("					WHEN NOT MATCHED THEN 		");
+				sb.append("			INSERT  							");
+				sb.append("				   (                            ");
+				sb.append("					   WBS_CD,                  ");
+				sb.append("					   TSS_NM,                  ");
+				sb.append("					   PRJ_CD,                  ");
+				sb.append("					   PRJ_NM,                  ");
+				sb.append("					   BIZ_DPT_CD,              ");
+				sb.append("					   PROD_G,                  ");
+				sb.append("					   SA_SABUN_CD,             ");
+				sb.append("					   SA_SABUN_NM,             ");
+				sb.append("					   TSS_STRT_DD,             ");
+				sb.append("					   CUST_SQLT,               ");
+				sb.append("					   TSS_TYPE,                ");
+				sb.append("					   NPROD_SALS_PLN_Y,        ");
+				sb.append("					   CTY_OT_PLN_M,            ");
+				sb.append("					   FRST_RGST_DT,            ");
+				sb.append("					   FRST_RGST_ID,            ");
+				sb.append("					   LAST_MDFY_DT,            ");
+				sb.append("					   LAST_MDFY_ID             ");
+				sb.append("				   )                            ");
+				sb.append("				   VALUES                       ");
+				sb.append("				   (                            ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   ?,                       ");
+				sb.append("					   SYSDATE,                 ");
+				sb.append("					   ?,                       ");
+				sb.append("					   SYSDATE,                 ");
+				sb.append("					   ?                        ");
+				sb.append("				   )                            ");
+				sb.append("					WHEN MATCHED THEN           ");
+				sb.append("					UPDATE SET                  ");
+				sb.append("						TSS_NM = ?,             ");
+				sb.append("						PRJ_CD = ?,             ");
+				sb.append("						PRJ_NM = ?,             ");
+				sb.append("						BIZ_DPT_CD = ?,         ");
+				sb.append("						PROD_G = ?,             ");
+				sb.append("						SA_SABUN_CD = ?,        ");
+				sb.append("						SA_SABUN_NM = ?,        ");
+				sb.append("						TSS_STRT_DD = ?,        ");
+				sb.append("						CUST_SQLT = ?,          ");
+				sb.append("						TSS_TYPE = ?,           ");
+				sb.append("						NPROD_SALS_PLN_Y = ?,   ");
+				sb.append("						CTY_OT_PLN_M = ?,       ");
+				sb.append("						LAST_MDFY_DT = SYSDATE, ");
+				sb.append("						LAST_MDFY_ID = ?        ");
+			
+				pstmt = con.prepareStatement(sb.toString()); 
 
-		//제품만 등록
-		if(tssInfo!=null && "00".equals(tssInfo.get("tssAttrCd"))){
-			tssInfo.put("userId", "Batch");
-
-			//공장 
-			if( input.get("fcCd").equals("U") ){
-				commonDaoQasU.insert("prj.tss.com.insertToQasTssQasIF",tssInfo);	//울산
-			}else{
-				commonDaoQasC.insert("prj.tss.com.insertToQasTssQasIF",tssInfo);	//청주
+				pstmt.setString(1,  tssInfo.get("wbsCd").toString());
+				pstmt.setString(2,  tssInfo.get("wbsCd").toString());
+				pstmt.setString(3,  tssInfo.get("tssNm").toString());
+				pstmt.setString(4,  tssInfo.get("prjCd").toString());
+				pstmt.setString(5,  tssInfo.get("prjNm").toString());
+				pstmt.setString(6,  tssInfo.get("bizDptNm").toString());
+				pstmt.setString(7,  tssInfo.get("prodGNm").toString());
+				pstmt.setString(8,  tssInfo.get("saSabunNew").toString());
+				pstmt.setString(9,  tssInfo.get("saSabunNm").toString());
+				pstmt.setString(10, tssInfo.get("tssStrtDd").toString());
+				pstmt.setString(11, tssInfo.get("custSqlt").toString());
+				pstmt.setString(12, tssInfo.get("tssType").toString());
+				pstmt.setString(13, tssInfo.get("nprodSalsPlnY").toString());
+				pstmt.setString(14, tssInfo.get("ctyOtPlnM").toString());
+				pstmt.setString(15, tssInfo.get("userId").toString());
+				pstmt.setString(16, tssInfo.get("userId").toString());
+				pstmt.setString(17, tssInfo.get("tssNm").toString());
+				pstmt.setString(18, tssInfo.get("prjCd").toString());
+				pstmt.setString(19, tssInfo.get("prjNm").toString());
+				pstmt.setString(20, tssInfo.get("bizDptNm").toString());
+				pstmt.setString(21, tssInfo.get("prodGNm").toString());
+				pstmt.setString(22, tssInfo.get("saSabunNew").toString());
+				pstmt.setString(23, tssInfo.get("saSabunNm").toString());
+				pstmt.setString(24, tssInfo.get("tssStrtDd").toString());
+				pstmt.setString(25, tssInfo.get("custSqlt").toString());
+				pstmt.setString(26, tssInfo.get("tssType").toString());
+				pstmt.setString(27, tssInfo.get("nprodSalsPlnY").toString());
+				pstmt.setString(28, tssInfo.get("ctyOtPlnM").toString());
+				pstmt.setString(29, tssInfo.get("userId").toString());
+				
+				pstmt.executeUpdate();
 			}
+			
+			
+		}catch(Exception e){
+			pstmt.close();
+			dbConn.closeConnection();
+			throw new Exception("QAS 등록시 오류가 발생했습니다.");
 		}
+		
+		pstmt.close();
+		dbConn.closeConnection();
 	}
 }
 

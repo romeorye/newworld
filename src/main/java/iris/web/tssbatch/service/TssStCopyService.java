@@ -15,5 +15,5 @@ public interface TssStCopyService {
 	public String createWbsCd(Map<String, Object> input);
 
 	// QAS 과제 등록
-	void insertToQasTssQasIF(Map<String, Object> input);
+	void insertToQasTssQasIF(Map<String, Object> input) throws Exception;
 }
