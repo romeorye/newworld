@@ -106,7 +106,8 @@
 				<th align="center" rowspan="3">자동차소재부품</th>
 				<td align="center">형상분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>
+					<!-- <a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a> -->
+					<a href="#" onClick="setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a>
 				</td>
 			</tr>
 			<tr>
@@ -150,7 +151,8 @@
 				<th align="center" rowspan="3">장식재</th>
 				<td align="center">형상분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>
+					<!-- <a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a> -->
+					<a href="#" onClick="setAnlChrgInfo('jihachoi', '최지하')">최지하</a>
 				</td>
 			</tr>
 			<tr>

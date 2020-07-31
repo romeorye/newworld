@@ -208,7 +208,8 @@
 				                    <tr>
 				                        <th>자동차소재부품</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
+<!-- 				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a> -->
+				                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a> 
 				                        </td>
 				                        <td class="rightL" style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
@@ -227,10 +228,11 @@
 				                    <tr>
 				                        <th>장식재</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
+				                        	<!-- <a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a> -->
+				                        	<a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a>
 				                        </td>
 				                        <td class="rightL" style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>,
+				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
 				                        </td>
 				                    </tr>
 				                    <tr>
