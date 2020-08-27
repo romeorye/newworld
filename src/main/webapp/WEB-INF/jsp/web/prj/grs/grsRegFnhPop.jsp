@@ -39,6 +39,8 @@ var strDt;
 var endDt;
 var tmpAttchFileList;
 var chkVaild;
+var roleCheck = '${inputData.roleCheck}';
+
 
 	Rui.onReady(function() {
     	<%-- RESULT DATASET --%>
@@ -175,6 +177,14 @@ var chkVaild;
 		
         
 		dataSet.on('load', function(e){
+			if (roleCheck == "Y" ){
+				$("#butImSave").show()
+				$("#btnGrsSave").show()
+			}else{
+				$("#butTssNew").hide()
+				$("#btnGrsSave").hide()
+			}
+			
 			//일반과제일 경우
 			if( dataSet.getNameValue(0, 'tssScnCd') == "G"  ){
 				$("#grsDev").show();
@@ -539,6 +549,7 @@ var chkVaild;
                     tssCd : '${inputData.tssCd}'                        //과제코드
                    ,tssCdSn :'${inputData.tssCdSn}'   
                    ,grsEvSn :'${inputData.grsEvSn}'   
+                   ,roleCheck :'${inputData.roleCheck}'   
                 }
             });
         };
@@ -728,8 +739,14 @@ var chkVaild;
          };
 
     	 downloadAttachFile = function(attcFilId, seq) {
-    		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
-    		aform.submit();
+    		
+    		 document.aform.attcFilId.value = attcFilId;
+      		document.aform.seq.value = seq;
+     		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
+     		aform.submit();
+     		
+    		// aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
+    		//aform.submit();
          };
          
          //임시저장
@@ -1101,6 +1118,9 @@ var chkVaild;
 <div class="contents">
 	<div class="sub-content">  
   	<form id="aform" name="aform">	
+  		 <input type="hidden" id="attcFilId" name="attcFilId" />
+		  <input type="hidden" id="seq" name="seq" />
+		  
   		<table class="table table_txt_right">
 			<colgroup>
 				<col style="width: 20%;" />

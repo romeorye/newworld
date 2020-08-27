@@ -39,6 +39,7 @@ var strDt;
 var endDt;
 var chkVaild;
 var tmpAttchFileList;
+var roleCheck = '${inputData.roleCheck}';
 
 	Rui.onReady(function() {
     	<%-- RESULT DATASET --%>
@@ -174,6 +175,13 @@ var tmpAttchFileList;
 		
         
 		dataSet.on('load', function(e){
+			if (roleCheck == "Y" ){
+				$("#butImSave").show()
+				$("#btnGrsSave").show()
+			}else{
+				$("#butImSave").hide()
+				$("#btnGrsSave").hide()
+			}
 			//일반과제일 경우
 			if( dataSet.getNameValue(0, 'tssScnCd') == "G"  ){
 				$("#grsDev").show();
@@ -603,6 +611,7 @@ var tmpAttchFileList;
                    ,grsEvSn :'${inputData.grsEvSn}'   
                    ,grsEvSt :'${inputData.grsEvSt}'   
                    ,grsStCd :'${inputData.grsStCd}'   
+                   ,roleCheck :'${inputData.roleCheck}'   
                 }
             });
         };
@@ -754,8 +763,13 @@ var tmpAttchFileList;
          };
 
     	 downloadAttachFile = function(attcFilId, seq) {
-    		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
-    		aform.submit();
+    		 document.aform.attcFilId.value = attcFilId;
+       		document.aform.seq.value = seq;
+      		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
+      		aform.submit();
+      		
+     		// aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
+     		//aform.submit();
          };
          
          //임시저장
@@ -947,17 +961,8 @@ var tmpAttchFileList;
              var evPoint = $(".L-grid-cell-inner.L-grid-col-calScr:last").html();
              var grsMsg = "";
              
-             if( evPoint < 70  ){
-	            	dataSet.setNameValue(0, 'grsEvSt', "D");
-	            	dataSet.setNameValue(0, 'dropYn', "Y");
-	            	grsMsg ="<font color='#DA1C5A'>※ 평가 환산점수 합계가  70점 미만 입니다.</font><br><br>";
-             }else{
-             	dataSet.setNameValue(0, 'dropYn', "N");
-             }
-             
              if( dataSet.getNameValue(0, 'tssScnCd') == "G" ){
-           		 
-            	 if(  dataSet.getNameValue(0, 'grsEvSt') == 'M'  &&  grsEvMType.getValue() == "IN" ){
+            	 if( dataSet.getNameValue(0, 'grsEvSt') == 'M'  &&  grsEvMType.getValue() == "IN" ){
             		 if(valid.validateGroup('aform') == false) {
                        	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid.getMessageList().join(''));
                          return;
@@ -1000,7 +1005,7 @@ var tmpAttchFileList;
                      return;
                  }
              }
-             
+            
              if( gridDataSet.getCount() == 0  ){
             	 alert("GRS평가표를 작성하세요");
             	 return;
@@ -1010,6 +1015,14 @@ var tmpAttchFileList;
 				Rui.alert("중간평가 방법을 입력하세요");
 				return;
 			 }
+             
+             if( evPoint < 70  ){
+	           	dataSet.setNameValue(0, 'grsEvSt', "D");
+	           	dataSet.setNameValue(0, 'dropYn', "Y");
+	           	grsMsg ="<font color='#DA1C5A'>※ 평가 환산점수 합계가  70점 미만 입니다.</font><br><br>";
+	         }else{
+	         	dataSet.setNameValue(0, 'dropYn', "N");
+	         }
              
              Rui.confirm({
                  text: grsMsg+'평가완료하시겠습니까?<br>완료후에는 수정/삭제가 불가능합니다.',
@@ -1131,6 +1144,9 @@ var tmpAttchFileList;
 <div class="contents">
 	<div class="sub-content">  
  <form id="aform" name="aform">	
+  		 <input type="hidden" id="attcFilId" name="attcFilId" />
+		  <input type="hidden" id="seq" name="seq" />
+		  
   		<table class="table table_txt_right">
 			<colgroup>
 				<col style="width: 20%;" />

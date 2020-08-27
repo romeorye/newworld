@@ -31,8 +31,8 @@
 var tssRegPopDialog;
 //grs 평가 팝업
 var grsPopupDialog;
-
-
+var roleId = '${inputData._roleId}';
+var roleCheck ="N";
 	Rui.onReady(function() {
 		var resultDataSet = new Rui.data.LJsonDataSet({
             id: 'resultDataSet',
@@ -116,6 +116,28 @@ var grsPopupDialog;
          listDataSet.on('load', function(e) {
         	 document.getElementById("cnt_text").innerHTML = '총: '+ listDataSet.getCount();
         	 paging(listDataSet,"listGrid");
+        	 
+        	 if(
+        				roleId.indexOf("WORK_IRI_T01") > -1			//시스템관리자
+        				|| roleId.indexOf("WORK_IRI_T03") > -1		//과제담당자
+
+        				|| roleId.indexOf("WORK_IRI_T08") > -1		//창호재GRS
+        				|| roleId.indexOf("WORK_IRI_T09") > -1		//장식재GRS
+        				|| roleId.indexOf("WORK_IRI_T10") > -1		//ALGRS
+        				|| roleId.indexOf("WORK_IRI_T11") > -1		//표면소재GRS
+        				|| roleId.indexOf("WORK_IRI_T12") > -1		//고기능소재GRS
+        				|| roleId.indexOf("WORK_IRI_T13") > -1		//자동차GRS
+        				|| roleId.indexOf("WORK_IRI_T14") > -1		//법인GRS
+        				|| roleId.indexOf("WORK_IRI_T25") > -1		//인테리어GRS
+        			){
+        		 		roleCheck ="Y";
+        		 		
+        		 		$("#butTssNew").show();
+        		 		$("#butAppr").show();
+        			}else{
+	        	 		$("#butTssNew").hide();
+	        	 		$("#butAppr").hide();
+        			}
          });
 		
          appDataSet = new Rui.data.LJsonDataSet({
@@ -147,7 +169,7 @@ var grsPopupDialog;
                      { field: 'grsStNm',   label: 'GRS상태',  align:'center',  width: 65 },
                      { field: 'evResult',   label: '평가결과',  align:'center',  width: 65 },
                      { field: 'isReq',        label: '관리',       align:'center',      width: 90  , renderer: function(val, p, record, row, i){
-                         return ("<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='fncGrsReqPop(\""+row+"\")'/>")
+                    	 return ("<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='fncGrsReqPop(\""+row+"\")'/>")
                      } },
                      { field: 'tssScnCd', hidden:true }
                      ,{ field: 'fcCd', hidden:true }
@@ -261,8 +283,7 @@ var grsPopupDialog;
       	//GRS평가등록 팝업창
         fncGrsReqPop = function(row){
         	var recode = listDataSet.getAt(row);
-        	var param = "?tssCd="+recode.get("tssCd")+"&tssCdSn="+recode.get("tssCdSn")+"&grsEvSn="+recode.get("grsEvSn")+"&grsStCd="+recode.get("grsStCd")+"&grsEvSt="+recode.get("grsEvSt") ;
-        	
+        	var param = "?tssCd="+recode.get("tssCd")+"&tssCdSn="+recode.get("tssCdSn")+"&grsEvSn="+recode.get("grsEvSn")+"&grsStCd="+recode.get("grsStCd")+"&grsEvSt="+recode.get("grsEvSt")+"&roleCheck="+roleCheck;
         	//평가요청 화면
         	grsPopupDialog.setUrl('<c:url value="/prj/grs/grsRegPop.do"/>'+param);
            	grsPopupDialog.show(true);
