@@ -368,6 +368,19 @@ var roleCheck ="N";
 	        	}
         };
 		
+        
+        
+        /* 분석의뢰 리스트 엑셀 다운로드 */
+    	fncExcelDownLoad = function() {
+    		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+    		listDataSet.clearFilter();
+    		var excelColumnModel = listColumnModel.createExcelColumnModel(false);
+            duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.xls');
+         // 목록 페이징
+	    		paging(listDataSet,"listGrid");
+
+        };
 		
 	});
 </script>
@@ -446,7 +459,7 @@ var roleCheck ="N";
 	                <div class="LblockButton">
 	                    <button type="button" id="butTssNew" class="redBtn" onClick="fncTssRegPop();">신규과제등록</button>
 	                    <button type="button" id="butAppr"  onClick="fncGrsAppr();">품의요청</button>
-	                    <button type="button" id="butExcel" name="butExcel">EXCEL다운로드</button>
+	                    <button type="button" id="butExcel" name="butExcel" onclick="fncExcelDownLoad();">EXCEL다운로드</button>
 	                </div>
 	            </div>
 				<div id="listGrid"></div>
