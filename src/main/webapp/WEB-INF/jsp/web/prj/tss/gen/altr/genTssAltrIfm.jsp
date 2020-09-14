@@ -703,7 +703,7 @@ $(window).load(function() {
 	  				<th class="alignC">변경 後</th>
 	  			</tr>
 	  			<tr id="trNprodSal">
-	  				<th>매출이익률(%)</th>
+	  				<th>영업이익율(%)</th>
 	  				<td class="alignR"><span id="bizPrftProYBefore" /></td>
 	  				<td class="alignR" bgcolor='#E6E6E6'><span id="bizPrftProY"  /></td>
 	  				<td class="alignR"><span id="bizPrftProY1Before"/></td>
