@@ -250,7 +250,7 @@
 					  				<th class="alignC">변경 後</th>
 					  			</tr>
 					  			<tr id="trNprodSal">
-					  				<th>매출이익률(%)</th>
+					  				<th>영업이익율(%)</th>
 					  				<td>${resultSmry.bizPrftProYBefore}</td>
 					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProY}</td>
 					  				<td>${resultSmry.bizPrftProY1Before}</td>
