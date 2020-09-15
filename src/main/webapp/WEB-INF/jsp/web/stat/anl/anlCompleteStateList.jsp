@@ -93,6 +93,16 @@
                 valueField: 'userId'
             });
 
+            var infmTypeCd = new Rui.ui.form.LCombo({
+                applyTo: 'infmTypeCd',
+                emptyText: '전체',
+                defaultValue: '',
+                emptyValue: '',
+                width: 110,
+                url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=INFM_TYPE_CD"/>',
+                displayField: 'COM_DTL_NM',
+                valueField: 'COM_DTL_CD'
+            });
             /*******************
              * 변수 및 객체 선언
             *******************/
@@ -119,6 +129,7 @@
 					, { id: 'cmplWkDdCnt' }
 					, { id: 'cmplParrDt' }
 					, { id: 'complObservanceYn' }
+					, { id: 'infmTypeNm' }
                 ]
             });
 
@@ -132,6 +143,7 @@
 					, { field: 'anlChrgNm',			label: '분석담당자',	sortable: false, 	align:'center',	width: 80 }
 					, { field: 'anlUgyYnNm',		label: '긴급여부',		sortable: false, 	align:'center',	width: 80 }
 					, { field: 'anlScnNm',			label: '분석구분',		sortable: false, 	align:'center',	width: 80 }
+					, { field: 'infmTypeNm',		label: '통보유형',		sortable: false, 	align:'center',	width: 80 }
 					, { field: 'anlNm',				label: '분석명',		sortable: false, 	align:'left',	width: 370 }
 					, { field: 'smpoNm',			label: '시료명',		sortable: false, 	align:'left',	width: 200 }
                     , { field: 'smpoCnt',			label: '시료 수',		sortable: false, 	align:'center',	width: 60}
@@ -163,6 +175,7 @@
                     url: '<c:url value="/stat/anl/getAnlCompleteStateList.do"/>',
                     params :{
             		    anlChrgId : anlChrgId.getValue(),
+            		    infmTypeCd : infmTypeCd.getValue(),
             		    fromCmplDt : fromCmplDt.getValue(),
             		    toCmplDt : toCmplDt.getValue()
                     }
@@ -247,6 +260,10 @@
 		   							<th align="right">담당자</th>
 		    						<td>
 		                                <div id="anlChrgId"></div>
+		    						</td>
+		   							<th align="right">통보유형</th>
+		    						<td>
+		                                <select id="infmTypeCd"></select>
 		    						</td>
 		   							<th align="right">분석 완료일</th>
 		    						<td>

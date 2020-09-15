@@ -39,6 +39,7 @@
 					dbo.fn_getUserName(anl_chrg_id)					as anlChrgNm,
 					dbo.fn_getComDtlNm('ANL_UGY_YN', anl_ugy_yn)	as anlUgyYnNm,
 					dbo.fn_getComDtlNm('ANL_SCN_CD', anl_scn_cd)	as anlScnNm,
+					dbo.fn_getComDtlNm('INFM_TYPE_CD', infm_type_cd)	as infmTypeNm,
 					anl_name										as anlNm,
 					(	SELECT STUFF(  
 					(  
@@ -74,6 +75,9 @@
 			and		mst.rqpr_dept_cd = M.DEPT_CODE
         <if test="anlChrgId != null and anlChrgId != ''">
 			and		anl_chrg_id = #{anlChrgId}
+		</if>
+        <if test="infmTypeCd != null and infmTypeCd != ''">
+			and		infm_type_cd = #{infmTypeCd}
 		</if>
 			and		cmpl_dt between #{fromCmplDt} and #{toCmplDt}
 			and		del_yn = 'N'
@@ -935,12 +939,12 @@
 				group by ARM.ANL_CHRG_ID
 	)
 	, deptInfo as (
-		select  b.sa_user as  ANL_CHRG_ID  
+		select  b.sa_sabun_new as  ANL_CHRG_ID  
 		from    iris_sso_user b
 		where  b.sa_dept_new in ('58141801', '58171352')
-		and    b.sa_user != 'elinkim'
+		and    b.sa_sabun_new != 'elinkim'
          <if test="anlChrgId != null and anlChrgId != ''">
-		and    b.sa_user = #{anlChrgId}
+		and    b.sa_sabun_new = #{anlChrgId}
 		</if>		
 	)
 	
