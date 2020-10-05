@@ -126,14 +126,28 @@
         <if test="tssRoleType != 'null' and tssRoleType.equals('S2')">
             AND (1 = 2 OR m.leaderCd = #{_userSabun})
         </if>
+        <if test="tssRoleType.equals('S3')">
+           AND m.bizDptCd IN
+            <foreach collection="tssRoleCd" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+            OR (
+            dbo.fn_getGrsDeptCd(m.prjCd) = dbo.fn_getUpperDeptCd(#{_userDept})  
+            OR m.dlbrCrgr = #{_userSabun}								        
+            OR m.frstRgstId = #{_userId}									    
+            )
+		</if>
+       <!-- 
         <if test="tssRoleType != 'null' and tssRoleType.equals('S3')">
             AND
             (
-            dbo.fn_getGrsDeptCd(m.prjCd) = dbo.fn_getUpperDeptCd(#{_userDept})  -- 동일 조직
-            OR m.dlbrCrgr = #{_userSabun}								                               --  심의담당자
-            OR m.frstRgstId = #{_userId}									                                    -- 등록자
+            dbo.fn_getGrsDeptCd(m.prjCd) = dbo.fn_getUpperDeptCd(#{_userDept})  
+            OR dbo.fn_getGrsDeptCd(m.prjCd) = dbo.fn_getRndDeptCd(#{_userDept}) 
+            OR m.dlbrCrgr = #{_userSabun}								        
+            OR m.frstRgstId = #{_userId}									    
             )
         </if>
+        -->
         <if test="tssScnCd != null and tssScnCd != 'null' and tssScnCd != ''">
             AND a.tssScnCd = #{tssScnCd}
         </if>
