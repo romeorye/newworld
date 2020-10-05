@@ -80,47 +80,57 @@
 		                    <tr>
 		                        <th >기반기술</th>
 		                        <td>
-		                        	<a href="javascript:getPersonInfo('00207677','soonbo')" class="person_link">이순보</a>
+		                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>,
+		                        	<a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a>
+		                        	<!-- <a href="javascript:getPersonInfo('00207677','soonbo')" class="person_link">이순보</a> -->
 		                        </td>
 		                        <td>
-		                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
+		                        	<!-- <a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a> -->
+		                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
 		                        </td>
 		                        <td rowspan="5" class="bottomL">
+		                        	<a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">이종한</a>
+		                        	<br><br>
 		                        	<a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</a>
 		                        	<br><br>
 		                        	<a href="javascript:getPersonInfo('00207779','lejaaa')" class="person_link">이은주</a>
 		                        	<br><br>
 		                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
+		                        	<br><br>
+		                        	
+		                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
 		                        </td>
 		                    </tr>
 		                    <tr>
 		                        <th>자동차소재부품</th>
 		                        <td>
-		                        	<!-- <a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a> -->
 		                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>
 		                        </td>
 		                        <td class="rightL">
-		                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
+		                        	<!-- <a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a> -->
+		                        	<a href="javascript:getPersonInfo('00208667','jyhan')" class="person_link">한종윤</a>
 		                        </td>
 		                    </tr>
 		                    <tr>
 		                        <th>창호</th>
 		                        <td>
-		                        	<a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a>
+		                        	<!-- <a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a> -->
+		                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>
 		                        </td>
 		                        <td class="rightL">
-		                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
+		                        	<!-- <a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a> -->
+		                        	<a href="javascript:getPersonInfo('00208667','jyhan')" class="person_link">한종윤</a>
 		                        </td>
 		                    </tr>
 
 		                    <tr>
 		                        <th>장식재</th>
 		                        <td>
-		                        	<!-- <a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a> -->
 		                        	<a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a>
 		                        </td>
 		                        <td class="rightL">
-		                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
+		                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>,
+		                        	<a href="javascript:getPersonInfo('00208667','jyhan')" class="person_link">한종윤</a>
 		                        </td>
 		                    </tr>
 		                    <tr>
@@ -130,7 +140,7 @@
 		                        	<a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a>
 		                        </td>
 		                        <td class="rightL">
-		                        	<a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">이종한</a>,
+		                        	<!-- <a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">이종한</a>, -->
 		                        	<a href="javascript:getPersonInfo('00208522','leesangheon')" class="person_link">이상헌</a>
 		                        </td>
 		                    </tr>

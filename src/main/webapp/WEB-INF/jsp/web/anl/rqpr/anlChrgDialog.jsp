@@ -62,7 +62,9 @@
 				<th align="center" rowspan="3">기반기술</th>
 				<td align="center">형상분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('soonbo', '이순보')">이순보</a>
+					<a href="#" onClick="setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a>,
+					<a href="#" onClick="setAnlChrgInfo('jihachoi', '최지하')">최지하</a>
+					<!-- <a href="#" onClick="setAnlChrgInfo('soonbo', '이순보')">이순보</a> -->
 				</td>
 			</tr>
 			<tr>
@@ -74,32 +76,38 @@
 			<tr>
 				<td align="center">유해물질분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">TVOC 이종한</a></br>
+					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">포름알데히드 고재윤</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">중금속 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">프탈레이트 이은주</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">라돈(방사능농도) 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">항균 김수연</a>
 				</td>
 			</tr>
 			<tr>
 				<th align="center" rowspan="3">인테리어</th>
 				<td align="center">형상분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('soonbo', '이순보')">이순보</a>
+					<!-- <a href="#" onClick="setAnlChrgInfo('soonbo', '이순보')">이순보</a> -->
+					<a href="#" onClick="setAnlChrgInfo('jihachoi', '최지하')">최지하</a>
 				</td>
 			</tr>
 			<tr>
 				<td align="center">유기분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>
+					<!-- <a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a> -->
+					<a href="#" onClick="setAnlChrgInfo('leesangheon', '이상헌')">이상헌</a>
 				</td>
 			</tr>
 			<tr>
 				<td align="center">유해물질분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">TVOC 이종한</a></br>
+					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">포름알데히드 고재윤</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">중금속 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">프탈레이트 이은주</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">라돈(방사능농도) 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">항균 김수연</a>
 				</td>
 			</tr>
 			<tr>
@@ -113,23 +121,27 @@
 			<tr>
 				<td align="center">유기분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>
+					<!-- <a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a> -->
+					<a href="#" onClick="setAnlChrgInfo('jyhan', '한종윤')">한종윤</a>
 				</td>
 			</tr>
 			<tr>
 				<td align="center">유해물질분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">TVOC 이종한</a></br>
+					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">포름알데히드 고재윤</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">중금속 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">프탈레이트 이은주</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">라돈(방사능농도) 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">항균 김수연</a>
 				</td>
 			</tr>
 			<tr>
 				<th align="center" rowspan="3">창호</th>
 				<td align="center">형상분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('jihachoi', '최지하')">최지하</a>
+					<!-- <a href="#" onClick="setAnlChrgInfo('jihachoi', '최지하')">최지하</a> -->
+					<a href="#" onClick="setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a>
 				</td>
 			</tr>
 			<tr>
@@ -141,10 +153,12 @@
 			<tr>
 				<td align="center">유해물질분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">TVOC 이종한</a></br>
+					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">포름알데히드 고재윤</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">중금속 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">프탈레이트 이은주</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">라돈(방사능농도) 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">항균 김수연</a>
 				</td>
 			</tr>
 			<tr>
@@ -158,16 +172,19 @@
 			<tr>
 				<td align="center">유기분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
+					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>,
+					<a href="#" onClick="setAnlChrgInfo('jyhan', '한종윤')">한종윤</a>
 				</td>
 			</tr>
 			<tr>
 				<td align="center">유해물질분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">TVOC 이종한</a></br>
+					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">포름알데히드 고재윤</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">중금속 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">프탈레이트 이은주</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">라돈(방사능농도) 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">항균 김수연</a>
 				</td>
 			</tr>
 			<tr>
@@ -187,10 +204,12 @@
 			<tr>
 				<td align="center">유해물질분석</td>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a>,
-					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>,
-					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a>,
-					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
+					<a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">TVOC 이종한</a></br>
+					<a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">포름알데히드 고재윤</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">중금속 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">프탈레이트 이은주</a></br>
+					<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">라돈(방사능농도) 권수민</a></br>
+					<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">항균 김수연</a>
 				</td>
 			</tr>
 		</tbody>
