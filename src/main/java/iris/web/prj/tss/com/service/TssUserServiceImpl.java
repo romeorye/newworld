@@ -139,6 +139,21 @@ public class TssUserServiceImpl implements TssUserService {
 				list.add("08");
 			}
 
+			if (inputRole.indexOf("WORK_IRI_T26 ") > -1 && input.get("deptCode").equals("58190032") ) {		//창호
+				list.add("01");
+				list.add("02");
+			}else if  (inputRole.indexOf("WORK_IRI_T26 ") > -1 && input.get("deptCode").equals("58190038") ) {		//장식재	
+				list.add("03");
+			}else if  (inputRole.indexOf("WORK_IRI_T26 ") > -1 && input.get("deptCode").equals("58190039") ) {		//표면소재
+				list.add("04");
+				list.add("06");
+			}else if  (inputRole.indexOf("WORK_IRI_T26 ") > -1 && input.get("deptCode").equals("58190040") ) {		//인테리어
+				list.add("11");
+			}else if  (inputRole.indexOf("WORK_IRI_T26 ") > -1 && input.get("deptCode").equals("58190041") ) {		//기반기술
+				list.add("07");
+				list.add("08");
+			}
+		
 			map.put("tssRoleType", "S3");
 			map.put("tssRoleCd", list);
 
