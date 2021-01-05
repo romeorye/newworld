@@ -881,7 +881,7 @@
 				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
 				   ,chrg.sa_mail																					as chrgEmail
 				   ,mst.anl_dcac_rson																				as anlDcacRson
-				   ,rgst.sa_mail + ',' + isnull(dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+
+				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+
 				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
 								                                             where   b.sa_user = mst.anl_chrg_id))), '') as receivers
@@ -912,6 +912,16 @@
 		FROM IRIS_ANL_RQPR_OPI
 		WHERE  DEL_YN ='N'
 		AND    OPI_ID =  #{opiId}
+		]]>
+	</select>
+	
+	<select id="getAnlGvbRson" resultType="String">
+		<![CDATA[
+			-- getAnlGvbRson 반려의견 조회
+		SELECT case when ACPC_ST_CD ='04' then ANL_GVB_RSON
+				    else  ANL_DCAC_RSON end AS anlGvbRson
+		FROM   iris_anl_rqpr_mst
+		WHERE  RQPR_ID =  #{rqprId}
 		]]>
 	</select>
 </mapper>
