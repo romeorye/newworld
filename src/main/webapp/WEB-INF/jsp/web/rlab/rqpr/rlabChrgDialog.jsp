@@ -28,6 +28,7 @@
  .bgcolor-gray {background-color: #999999}
  .bgcolor-white {background-color: #FFFFFF}
 </style>
+
 <link rel="stylesheet" type="text/css" href="<%=cssPath%>/common.css">
 <link rel="stylesheet" type="text/css" href="<%=cssPath%>/rui.css">
 <link rel="stylesheet" type="text/css" href="<%=cssPath%>/rui_skin_new.css">
@@ -52,56 +53,49 @@
 
 	<!-- pop컨텐츠 -->
 	<div class="bd pop_conin">
-		<div>기타 산업조직 시험의뢰시, 신뢰성연구 PJT PL과 상의해 주시기 바랍니다.</div>
-		<table class="table p-admin">
+		<div>기타 산업조직 시험의뢰시, 제품신뢰성연구 PJT PL과 상의해 주시기 바랍니다.</div>
+		<table class="table anlch_ta">
 			<colgroup>
-				<col style="width:50%;">
+				<col style="width:25%;">
+				<col style="width:25%;">
 				<col style="width:50%;">
 			</colgroup>
-			<thead>
-				<th>사업부</th>
-				<th>담당자</th>
-			</thead>
 			<tbody>
+				<th colspan="2">사업부</th>
+				<th>담당자</th>
 				<tr>
-					<td>중앙연구소</td>
-					<td>
-						<a href="#" onClick="setRlabChrgInfo('keunjung', '정근')">정근</a>,
-						<a href="#" onClick="setRlabChrgInfo('duhwanlee', '이두환')">이두환</a>
-					</td>
-				</tr>
-				<tr>
-					<td>자동차 소재부품</td>
-					<td>
-						<a href="#" onClick="setRlabChrgInfo('tekang', '강태의')">강태의</a>
-					</td>
-				</tr>
-				<tr>
-					<td>창호</td>
-					<td>
+					<th rowspan="2"  align="center">인테리어</th>
+					<th align="center">주방</th>
+					<td align="center">
 						<a href="#" onClick="setRlabChrgInfo('jndkim', '김지니다')">김지니다</a>,
-						<a href="#" onClick="setRlabChrgInfo('induohgee', '이동희')">이동희</a>
+						<a href="#" onClick="setRlabChrgInfo('duhwanlee', '이두환')">이두환</a>,
+						<a href="#" onClick="setRlabChrgInfo('shmyoung', '명석한')">명석한</a>
 					</td>
 				</tr>
 				<tr>
-					<td>장식재</td>
-					<td>
+					<th align="center">욕실</th>
+					<td align="center">
 						<a href="#" onClick="setRlabChrgInfo('sheleemin', '이민')">이민,
+						<a href="#" onClick="setRlabChrgInfo('tekang', '강태의')">강태의</a>,
+						<a href="#" onClick="setRlabChrgInfo('jhbyun', '변재현')">변재현</a>
+					</td>
+				</tr>				
+				<tr>
+					<th colspan="2" align="center">장식재</th>
+					<td align="center">
 						<a href="#" onClick="setRlabChrgInfo('kangbg', '강봉규')">강봉규
 					</td>
 				</tr>
 				<tr>
-					<td>표면소재</td>
-					<td>
-						<a href="#" onClick="setRlabChrgInfo('keunjung', '정근')">정근,
-						<a href="#" onClick="setRlabChrgInfo('duhwanlee', '이두환')">이두환
+					<th colspan="2" align="center">창호, 표면소재, 자동차</th>
+					<td align="center">
+						<a href="#" onClick="setRlabChrgInfo('ehkang', '강은희')">강은희,
+						<a href="#" onClick="setRlabChrgInfo('induohgee', '이동희')">이동희
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 	<!-- //pop컨텐츠 -->
-
-
 	</body>
 </html>
