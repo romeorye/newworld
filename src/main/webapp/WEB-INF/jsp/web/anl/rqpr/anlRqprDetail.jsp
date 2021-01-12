@@ -660,7 +660,7 @@
     	    	var nameList = [];
 
     	    	for(var i=0, size=userList.length; i<size; i++) {
-    	    		idList.push(userList[i].saUser);
+    	    		idList.push(userList[i].saSabun);
     	    		nameList.push(userList[i].saName);
     	    	}
 

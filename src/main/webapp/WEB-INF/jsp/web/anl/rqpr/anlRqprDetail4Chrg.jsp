@@ -30,6 +30,8 @@
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LEditButtonColumn.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.js"></script>
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LPopupTextBox"></script>
+<link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LPopupTextBox.css"/>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.css"/>
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
@@ -37,6 +39,7 @@
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/tab/rui_tab.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/tab/rui_tab.css"/>
+
 
 <style>
  .bgcolor-gray {background-color: #999999}
@@ -50,7 +53,8 @@
 		var anlRqprDataSet;
 
 		var exprWayDialog;
-
+		var anlGvbRsonDialog;
+		
 		var opiId;
 		var rqprId = '${inputData.rqprId}';
 
@@ -327,6 +331,7 @@
 					, { id: 'rsltAttcFileId' }
 					, { id: 'reqItgRdcsId' }
 					, { id: 'rsltItgRdcsId' }
+					, { id: 'anlGvbRson' }
                 ]
             });
 
@@ -342,6 +347,7 @@
             		$( '#saveBtn' ).hide();
             		$( '#receiptBtn' ).hide();
             		$( '#rejectBtn' ).hide();
+            		$( '#anlGvbRsonBtn' ).show();
 
             		//시료정보
             		$( '#addAnlRqprSmpoBtn' ).hide();
@@ -1215,11 +1221,31 @@
             	if(anlRqprDataSet.getNameValue(0, 'infmTypeCd') == 'T') {
             		width = 850;
             		url = '<%=lghausysReportPath%>/anlRqprTestRslt.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
+            	}else if(anlRqprDataSet.getNameValue(0, 'infmTypeCd') == 'K') {
+            		width = 850;
+            		url = '<%=lghausysReportPath%>/kolasTestRslt.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=<c:out value="${inputData.rqprId}"/>';
             	}
 
            		openWindow(url, 'openRsltReportPopup', width, 500, 'yes');
     	    };
+    	    
+    	    // 분석의뢰 반려의견 팝업 시작
+    	    anlGvbRsonDialog = new Rui.ui.LFrameDialog({
+    	        id: 'anlGvbRsonDialog',
+    	        title: '반려의견',
+    	        width: 600,
+    	        height: 300,
+    	        modal: true,
+    	        visible: false
+    	    });
 
+    	    anlGvbRsonDialog.render(document.body);
+
+    	    openAnlGvbRsonPopup = function() {
+    	    	anlGvbRsonDialog.setUrl('<c:url value="/anl/anlGvbRsonPopup.do?rqprId=${inputData.rqprId}"/>');
+    	    	anlGvbRsonDialog.show();
+    	    };
+    	    
 	    	dm.loadDataSet({
                 dataSets: [anlRqprDataSet, anlRqprSmpoDataSet, anlRqprRltdDataSet, anlRqprAttachDataSet, anlRqprRsltAttachDataSet, anlRqprExprDataSet],
                 url: '<c:url value="/anl/getAnlRqprDetailInfo.do"/>',
@@ -1318,6 +1344,7 @@
 					<input type="hidden" id="anlChrgId" name="anlChrgId" value=""/>
    				<div class="titArea">
    					<div class="LblockButton">
+   						<button type="button" class="btn"  id="anlGvbRsonBtn" name="anlGvbRsonBtn" onclick="openAnlGvbRsonPopup('C')">반려의견</button>
    						<button type="button" class="btn"  id="reqApprStateBtn" name="reqApprStateBtn" onclick="openApprStatePopup('A')" style="display:none;">결재상태</button>
    						<button type="button" class="btn"  id="saveBtn" name="saveBtn" onclick="saveAnlRqpr()">저장</button>
    						<button type="button" class="btn"  id="receiptBtn" name="receiptBtn" onclick="receipt()">접수</button>
