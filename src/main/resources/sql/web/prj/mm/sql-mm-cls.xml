@@ -32,7 +32,7 @@
 													  WHERE OVER_STEP_RANK = 1
 													  )
 							and    a.PGS_STEP_CD <> 'PL'
-							and    a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059', 'PRJ00090')		
+							and    a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059', 'PRJ00090','PRJ00102' )		
 							) a
 				where 1=1
 				and   a.tss_cd in  (    select  a.tss_cd
@@ -94,31 +94,9 @@
 											else a.PATC_END_DT end as PATC_END_DT
 								from   IRIS_PRJ_TMMR_INFO a
 								where  a.TMMR_EMP_NO = #{_userSabun}
-								and    a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059','PRJ00089'
-								,'PRJ00086'
-								,'PRJ00085'
-								,'PRJ00084'
-								,'PRJ00083'
-								,'PRJ00082'
-								,'PRJ00081'
-								,'PRJ00080'
-								,'PRJ00079'
-								,'PRJ00078'
-								,'PRJ00077'
-								,'PRJ00076'
-								,'PRJ00075'
-								,'PRJ00074'
-								,'PRJ00073'
-								,'PRJ00072'
-								,'PRJ00071'
-								,'PRJ00070'
-								,'PRJ00069'
-								,'PRJ00068'
-								,'PRJ00067'
-								,'PRJ00066'
-								,'PRJ00065'
-								,'PRJ00090'
-								)
+								and    a.prj_cd in (
+								         select prj_cd from iris_prj_rsst_mst where tclg_yn = 'N'
+										)
 								) b
 						where 1=1
 						and    #{searchMonth} between left(b.PATC_STR_DT, 7) and left(b.PATC_END_DT, 7)
@@ -410,7 +388,9 @@
 												  )
 							)
 			and    PGS_STEP_CD <> 'PL'
-			and    prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059','PRJ00090')
+			and    prj_cd in ( 
+								     select prj_cd from iris_prj_rsst_mst where tclg_yn = 'N'
+							 	)
 			group by wbs_cd
 			)
 		,prj_main as (
@@ -444,30 +424,8 @@
 									  ,DEPT_UPER
 								from  IRIS_PRJ_RSST_MST
 								where 1=1
-								and   prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059','PRJ00089'
-								,'PRJ00086'
-								,'PRJ00085'
-								,'PRJ00084'
-								,'PRJ00083'
-								,'PRJ00082'
-								,'PRJ00081'
-								,'PRJ00080'
-								,'PRJ00079'
-								,'PRJ00078'
-								,'PRJ00077'
-								,'PRJ00076'
-								,'PRJ00075'
-								,'PRJ00074'
-								,'PRJ00073'
-								,'PRJ00072'
-								,'PRJ00071'
-								,'PRJ00070'
-								,'PRJ00069'
-								,'PRJ00068'
-								,'PRJ00067'
-								,'PRJ00066'
-								,'PRJ00065'
-								,'PRJ00090')
+								and   prj_cd in ( select prj_cd from iris_prj_rsst_mst where tclg_yn = 'N'
+                               )   
 								and   wbs_cd <> 'R16TS0'
 								) a
 						where  1=1
@@ -609,13 +567,15 @@ from  (
 		</if>
 		<if test="( chkPtcPro == 'on')">
 		<![CDATA[
-		 and   z.saSabunNew  not in ( select  distinct sa_sabun_new
-			                         from    iris_mm_cls
-									 where   mm_yymm = #{searchMonth}
-									 and     PTC_PRO >  0
-									 )
+		 and   z.ptcPro  = 0
 		]]>
 		</if>
+		<if test="( selClsYn != 'null' and selClsYn != '' )">
+		<![CDATA[
+		 and   z.clsYn = #{selClsYn}
+		]]>
+		</if>
+		
 	     order by z.prjCd, z.saName ,z.type
 	</select>
 
@@ -671,6 +631,16 @@ from  (
 				</if>
 				<if test="searchDeptName != null and searchDeptName != '' ">
 						and  m.prjNm like '%'+#{searchDeptName}+'%'
+				</if>
+				<if test="( chkPtcPro == 'on')">
+				<![CDATA[
+				 and   m.ptcPro  = 0
+				]]>
+				</if>
+				<if test="( selClsYn != 'null' and selClsYn != '' )">
+				<![CDATA[
+				 and   m.clsYn = #{selClsYn}
+				]]>
 				</if>
 				 order by  m.prjCd, m.saName
 	</select>
@@ -745,6 +715,7 @@ from  (
 		where  DEPT_CD = (select team_dept_code
 		                  from VW_SSO_DEPT
 		                  where dept_code = #{_userDept})
+		and    (PRJ_END_DT is null OR PRJ_END_DT = '')                   
 
 	</select>
 	
