@@ -68,21 +68,21 @@
 
             fnNprodSalsPlnY = function(value, p, record, row, col) {
                 if(stringNullChk(value) == "") value = 0;
-                value = (value / 100000000).toFixed(6);
-                return Rui.util.LFormat.numberFormat(Math.round(value * 100) / 100);
+                //value = (value / 100000000).toFixed(6);
+                //return Rui.util.LFormat.numberFormat(Math.round(value * 100) / 100);
+                return Rui.util.LFormat.numberFormat(value);
             };
 
             fnNprodSalsY = function(value, p, record, row, col) {
                 if(stringNullChk(value) == "") value = 0;
-                value = (value / 100000000).toFixed(6);
+                //value = (value / 100000000).toFixed(6);
+                //return "<a href='javascript:void(0);'><u>" + Rui.util.LFormat.numberFormat(Math.round(value * 100) / 100)+ "<u></a>";;
                 return "<a href='javascript:void(0);'><u>" + Rui.util.LFormat.numberFormat(Math.round(value * 100) / 100)+ "<u></a>";;
             };
 
 
             fnGridNumberFormt = function(value, p, record, row, col) {
                 if(stringNullChk(value) == "") value = 0;
-
-
                 return Rui.util.LFormat.numberFormat(value.toFixed(1));
             };
 
@@ -149,9 +149,25 @@
                     , { id: 'searchYy'}       //조회년도
                     , { id: 'minYy'}       //최초년도
 
+                    , { id: 'expArslY',  type: 'number', defaultValue:0 }    //매출실적Y
+                    , { id: 'expArslY1',  type: 'number', defaultValue:0 }   //매출실적Y1
+                    , { id: 'expArslY2',  type: 'number', defaultValue:0 }   //매출실적Y2
+                    , { id: 'expArslY3',  type: 'number', defaultValue:0 }   //매출실적Y2
+                    , { id: 'expArslY4',  type: 'number', defaultValue:0 }   //매출실적Y2
+                    
+                    , { id: 'bizPrftCurY',  type: 'number', defaultValue:0 }   //매출실적Y3
+                    , { id: 'bizPrftCurY1',  type: 'number', defaultValue:0 }   //매출실적Y4
+                    , { id: 'bizPrftCurY2',  type: 'number', defaultValue:0 }   //매출실적Y4
+                    , { id: 'ptcCpsnY',  type: 'number', defaultValue:0 }   //매출실적Y4
+                    , { id: 'ptcCpsnY1',  type: 'number', defaultValue:0 }   //매출실적Y4
+                    , { id: 'ptcCpsnY2',  type: 'number', defaultValue:0 }   //매출실적Y4
+                    , { id: 'ptcCpsnY3',  type: 'number', defaultValue:0 }   //매출실적Y4
+                    , { id: 'ptcCpsnY4',  type: 'number', defaultValue:0 }   //매출실적Y4
+                    , { id: 'yYPlnExp',  type: 'number', defaultValue:0 }   //매출실적Y4
                 ]
             });
 
+            
             var columnModel = new Rui.ui.grid.LColumnModel({
             	groupMerge: true,
                 columns: [
@@ -212,27 +228,6 @@
                     , { field: 'nprodSalsPlnY2',  label: 'Y+2', groupId: 'G4', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsPlnY }
                     , { field: 'nprodSalsPlnY3',  label: 'Y+3', groupId: 'G4', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsPlnY }
                     , { field: 'nprodSalsPlnY4',  label: 'Y+4', groupId: 'G4', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsPlnY }
-
-                    , { field: 'nprodSalsPlnSum', label: '평균',groupId: 'G4',  sortable: false,  align:'right', width: 70, renderer: function(value, p, record, row, col) {
-                        var cnt = 0;
-                        var nprodSalsPlnY = record.data.nprodSalsPlnY;
-                        var nprodSalsPlnY1 = record.data.nprodSalsPlnY1;
-                        var nprodSalsPlnY2 = record.data.nprodSalsPlnY2;
-                        var nprodSalsPlnY3 = record.data.nprodSalsPlnY3;
-                        var nprodSalsPlnY4 = record.data.nprodSalsPlnY4;
-
-                        if(nprodSalsPlnY > 0) cnt++;
-                        if(nprodSalsPlnY1 > 0) cnt++;
-                        if(nprodSalsPlnY2 > 0) cnt++;
-                        if(nprodSalsPlnY3 > 0) cnt++;
-                        if(nprodSalsPlnY4 > 0) cnt++;
-                        if(cnt == 0) cnt++;
-
-                        value = (nprodSalsPlnY + nprodSalsPlnY1 + nprodSalsPlnY2 + nprodSalsPlnY3 + nprodSalsPlnY4) / cnt / 100000000.00;
-                        value = (value * 100) / 100;
-
-                        return Rui.util.LFormat.numberFormat(value.toFixed(1));
-                    }}
                     , { id: 'G8', label: '매출 실적(단위:억원)' }
                     , { field: 'nprodSalsY',   label: 'Y',  groupId: 'G8', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsY }
                     , { field: 'nprodSalsY1',  label: 'Y+1', groupId: 'G8', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsY }
@@ -241,16 +236,53 @@
                     , { field: 'nprodSalsY4',  label: 'Y+4', groupId: 'G8', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsY }
                     , { field: 'nprodSalsSum',  label: '평균', groupId: 'G8', sortable: false,  align:'right', width: 50, renderer: fnNprodSalsPlnY }
 
-                    , { id: 'G5', label: '비용(Y년)(단위:억원)' }
-                    , { field: 'yYPlnExp',        label: '계획', groupId: 'G5', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
-                    , { field: 'yYArslExp',       label: '실적', groupId: 'G5', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
-
-                    , { id: 'G6', label: '비용(총합)(단위:억원)' }
-                    , { field: 'allPlnExp',       label: '계획', groupId: 'G6', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
-                    , { field: 'allArslExp',      label: '실적', groupId: 'G6', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
-
+                    , { id: 'G5', label: '비용 계획(단위:억원)' }
+                    , { field: 'expArslY',        label: 'Y', groupId: 'G5', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
+                    , { field: 'expArslY1',        label: 'Y+1', groupId: 'G5', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
+                    , { field: 'expArslY2',        label: 'Y+2', groupId: 'G5', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
+                    , { field: 'expArslY3',        label: 'Y+3', groupId: 'G5', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
+                    , { field: 'expArslY4',        label: 'Y+4', groupId: 'G5', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
+                    , { id: 'G6', label: '비용 실적(단위:억원)' }
+                    , { field: 'yYPlnExp',         label: '계획', groupId: 'G6', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
+                    , { field: 'allArslExp',       label: '실적', groupId: 'G6', sortable: false,  align:'right', width: 80, renderer: fnGridNumberFormt }
                     , { id: 'G7', label: '투입인원(Y년)' }
-                    , { field: 'mbrCntPln',       label: '계획', groupId: 'G7', sortable: false,  align:'center', width: 60
+                    , { field: 'ptcCpsnY',       label: 'Y', groupId: 'G7', sortable: false,  align:'center', width: 60
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '명'
+                    		}else{
+                    			return '0명'
+                    		}
+                    	}
+                    }
+                    , { field: 'ptcCpsnY1',       label: 'Y+1', groupId: 'G7', sortable: false,  align:'center', width: 60
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '명'
+                    		}else{
+                    			return '0명'
+                    		}
+                    	}
+                    }
+                    , { field: 'ptcCpsnY2',       label: 'Y+2', groupId: 'G7', sortable: false,  align:'center', width: 60
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '명'
+                    		}else{
+                    			return '0명'
+                    		}
+                    	}
+                    }
+                    , { field: 'ptcCpsnY3',       label: 'Y+3', groupId: 'G7', sortable: false,  align:'center', width: 60
+                    	, renderer: function(value, p, record, row, col){
+                    		if( value != '' && value != null && value != 'undefined' ){
+                    			return value + '명'
+                    		}else{
+                    			return '0명'
+                    		}
+                    	}
+                    }
+                    , { field: 'ptcCpsnY4',       label: 'Y+4', groupId: 'G7', sortable: false,  align:'center', width: 60
                     	, renderer: function(value, p, record, row, col){
                     		if( value != '' && value != null && value != 'undefined' ){
                     			return value + '명'
