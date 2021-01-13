@@ -304,8 +304,8 @@ $(window).load(function() {
         <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
         <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
     </form>
+        <div><span style="color:red; font-weight:bold" >참여 연구원 변경 시, 연구원 History 관리를 위해 참여 시작일과 종료일을 수정하시길 바랍니다. (연구원 삭제 하지 말 것)</span></div></br>
     <div id="defaultGrid"></div>
-        <span style="coloer:red" >참여 연구원 변경 시, 연구원 History 관리를 위해 참여 시작일과 종료일을 수정하시길 바랍니다. (연구원 삭제 하지 말 것)</span>
 </div>
 <div class="titArea btn_btm">
     <div class="LblockButton">
