@@ -65,7 +65,7 @@
 				<th>담당자</th>
 				<tr>
 					<th rowspan="2"  align="center">인테리어</th>
-					<th align="center">주방</th>
+					<th align="center">주방·도어</th>
 					<td align="center">
 						<a href="#" onClick="setRlabChrgInfo('jndkim', '김지니다')">김지니다</a>,
 						<a href="#" onClick="setRlabChrgInfo('duhwanlee', '이두환')">이두환</a>,
