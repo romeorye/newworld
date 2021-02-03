@@ -235,7 +235,7 @@
 							        </colgroup>
 							        <tbody>
 							       		<tr>
-							        		<th colspan="14">비용실적</th>
+							        		<th colspan="14">비용실적 (백만원)</th>
 							        	</tr>
 										<tr>
 											<th>WBS코드</th>
@@ -262,7 +262,20 @@
 								<c:forEach var="list" items="${resultExpStoa}" varStatus="status">
 										<tr>
 											<td>${list.wbsCd}</td>
-											<td><fmt:formatNumber value="${list.mm1}" pattern="#,###" /> </td>
+											<td><c:out value="${list.mm1}"/></td>
+											<td><c:out value="${list.mm2}"/></td>
+											<td><c:out value="${list.mm3}"/></td>
+											<td><c:out value="${list.mm4}"/></td>
+											<td><c:out value="${list.mm5}"/></td>
+											<td><c:out value="${list.mm6}"/></td>
+											<td><c:out value="${list.mm7}"/></td>
+											<td><c:out value="${list.mm8}"/></td>
+											<td><c:out value="${list.mm9}"/></td>
+											<td><c:out value="${list.mm10}"/></td>
+											<td><c:out value="${list.mm11}"/></td>
+											<td><c:out value="${list.mm12}"/></td>
+											<td><c:out value="${list.totSum}"/></td>
+											<%-- <td><fmt:formatNumber value="${list.mm1}" pattern="#,###" /> </td>
 											<td><fmt:formatNumber value="${list.mm2}" pattern="#,###" /> </td>
 											<td><fmt:formatNumber value="${list.mm3}" pattern="#,###" /> </td>
 											<td><fmt:formatNumber value="${list.mm4}" pattern="#,###" /> </td>
@@ -274,7 +287,7 @@
 											<td><fmt:formatNumber value="${list.mm10}" pattern="#,###" /> </td>
 											<td><fmt:formatNumber value="${list.mm11}" pattern="#,###" /> </td>
 											<td><fmt:formatNumber value="${list.mm12}" pattern="#,###" /> </td>
-											<td><fmt:formatNumber value="${list.totSum}" pattern="#,###" /> </td>
+											<td><fmt:formatNumber value="${list.totSum}" pattern="#,###" /> </td> --%>
 										</tr>					        	
 							    </c:forEach>
 							</c:otherwise>
