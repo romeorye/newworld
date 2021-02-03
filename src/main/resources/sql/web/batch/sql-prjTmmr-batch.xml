@@ -40,6 +40,7 @@
 			   AND X.SSO_EX_FLAG != 'D'
 			   AND Z.PRJ_CD = A.PRJ_CD
 		   )
+		and   A.PRJ_CD <> 'PRJ00103'   
 	 ORDER BY B.PRJ_CD
 	]]>
     </select>
@@ -76,7 +77,6 @@
 		 , LAST_MDFY_ID = #{_userId}
 	     , LAST_MDFY_DT = getdate()
 	 WHERE PRJ_CD = #{prjCd}
-	   AND WBS_CD = #{wbsCd}
 	   AND TMMR_EMP_NO = #{tmmrEmpNo}
    	]]>
    	</update>
