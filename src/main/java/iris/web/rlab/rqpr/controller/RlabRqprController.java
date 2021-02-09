@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import iris.web.rlab.rqpr.service.RlabRqprService;
 import iris.web.common.code.service.CodeCacheManager;
 import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.DateUtil;
 import iris.web.common.util.StringUtil;
+import iris.web.rlab.rqpr.service.RlabRqprService;
 import iris.web.stat.rlab.service.RlabStatService;
 import iris.web.system.attach.service.AttachFileService;
 import iris.web.system.base.IrisBaseController;
@@ -76,7 +76,7 @@ public class RlabRqprController extends IrisBaseController {
 		String today = DateUtil.getDateString();
 
 		if(StringUtil.isNullString(input.get("fromRqprDt"))) {
-			input.put("fromRqprDt", DateUtil.addMonths(today, -1, "yyyy-MM-dd"));
+			input.put("fromRqprDt", DateUtil.addMonths(today, -12, "yyyy-MM-dd"));
 			input.put("toRqprDt", today);
 		}
 
@@ -719,7 +719,7 @@ public class RlabRqprController extends IrisBaseController {
 		String today = DateUtil.getDateString();
 
 		if(input.get("fromRqprDt") == null) {
-			input.put("fromRqprDt", DateUtil.addMonths(today, -1, "yyyy-MM-dd"));
+			input.put("fromRqprDt", DateUtil.addMonths(today, -12, "yyyy-MM-dd"));
 			input.put("toRqprDt", today);
 		}
 
