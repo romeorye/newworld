@@ -1463,6 +1463,7 @@
    						</tr>
    					</tbody>
    				</table>
+					<span  style="color:red; font-weight:bold">EX) 주방욕실사업부문 관련 시험 의뢰시, 결과가 인테리어개발실장에게 자동통보됩니다.</span>
 
    				<div class="titArea">
    					<h3>시료정보</h3>
@@ -1532,7 +1533,9 @@
    						</tr>
    						<tr>
    							<th align="right">통보자</th>
-    						<td colspan="3"><span id="rlabRqprInfmView"/></td>
+    						<td colspan="3">
+    							<span id="rlabRqprInfmView"/>
+    						</td>
    						</tr>
    						<tr>
    							<th align="right">시험결과</th>
