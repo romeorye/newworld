@@ -86,18 +86,18 @@
             fields: [
                   { id:'totTitle' }
                 , { id:'expScnNm' }
-                , { id:'01', type:'number' }
-                , { id:'02', type:'number' }
-                , { id:'03', type:'number' }
-                , { id:'04', type:'number' }
-                , { id:'05', type:'number' }
-                , { id:'06', type:'number' }
-                , { id:'07', type:'number' }
-                , { id:'08', type:'number' }
-                , { id:'09', type:'number' }
-                , { id:'10', type:'number' }
-                , { id:'11', type:'number' }
-                , { id:'12', type:'number' }
+                , { id:'mm01', type:'number' }
+                , { id:'mm02', type:'number' }
+                , { id:'mm03', type:'number' }
+                , { id:'mm04', type:'number' }
+                , { id:'mm05', type:'number' }
+                , { id:'mm06', type:'number' }
+                , { id:'mm07', type:'number' }
+                , { id:'mm08', type:'number' }
+                , { id:'mm09', type:'number' }
+                , { id:'mm10', type:'number' }
+                , { id:'mm11', type:'number' }
+                , { id:'mm12', type:'number' }
                 , { id:'totSum', type:'number' }
             ]
         });
@@ -113,18 +113,18 @@
                 , { id: 'G1', label: '계정' }
                 , { field: 'totTitle', label: '구분1', groupId: 'G1', sortable: false, align:'center', width: 190, vMerge: true, hMerge: true }
                 , { field: 'expScnNm', label: '구분2', groupId: 'G1', sortable: false, align:'left', width: 190, vMerge: true, hMerge: true }
-                , { field: '01', label: '1월', sortable: false, align:'right', width: 65 }
-                , { field: '02', label: '2월', sortable: false, align:'right', width: 65 }
-                , { field: '03', label: '3월', sortable: false, align:'right', width: 65 }
-                , { field: '04', label: '4월', sortable: false, align:'right', width: 65 }
-                , { field: '05', label: '5월', sortable: false, align:'right', width: 65 }
-                , { field: '06', label: '6월', sortable: false, align:'right', width: 65 }
-                , { field: '07', label: '7월', sortable: false, align:'right', width: 65 }
-                , { field: '08', label: '8월', sortable: false, align:'right', width: 65 }
-                , { field: '09', label: '9월', sortable: false, align:'right', width: 65 }
-                , { field: '10', label: '10월', sortable: false, align:'right', width: 65 }
-                , { field: '11', label: '11월', sortable: false, align:'right', width: 65 }
-                , { field: '12', label: '12월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm01', label: '1월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm02', label: '2월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm03', label: '3월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm04', label: '4월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm05', label: '5월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm06', label: '6월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm07', label: '7월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm08', label: '8월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm09', label: '9월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm10', label: '10월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm11', label: '11월', sortable: false, align:'right', width: 65 }
+                , { field: 'mm12', label: '12월', sortable: false, align:'right', width: 65 }
                 , { field: 'totSum', label: '합계', sortable: false, align:'right', width: 110 }
             ]
         });
@@ -186,7 +186,7 @@ $(window).load(function() {
 	<div class="titArea">
 	    <div class="LblockButton">
 	    	<div id="purY"></div>
-	    	<label>단위:억원</label>
+	    	<label>단위:백만원</label>
 	    </div>
 	</div>
 

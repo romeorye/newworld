@@ -62,7 +62,6 @@
 
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "pgSaSabunNew")) {
                 if(gvTssSt == "100") {
-                    console.log(">>>>>>" + dataSet.getNameValue(0, "pgTssSt"));
                     if (stringNullChk(dataSet.getNameValue(0, "pgTssSt")) == "202") {
                         btnCsusRq.show();
                     } else if (stringNullChk(dataSet.getNameValue(0, "pgTssSt")) == "201") {
@@ -165,6 +164,8 @@
                 gvTssCd = stringNullChk(dataSet.getNameValue(0, "tssCd")); //과제코드
                 gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt")); //과제상태
             }
+            
+            disableFields(false);
 
             tabView.selectTab(0);
         });

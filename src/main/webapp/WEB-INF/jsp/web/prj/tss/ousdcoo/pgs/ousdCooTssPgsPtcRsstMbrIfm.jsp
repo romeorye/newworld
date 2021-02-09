@@ -29,6 +29,7 @@
     var lvUserId   = window.parent.gvUserId;    //로그인ID
     var lvPgsCd = window.parent.gvPgsStepCd; //진행코드
     var lvTssSt = window.parent.gvTssSt;     //과제상태
+    var lvWbsCd = window.parent.lvWbsCd;     //과제상태
     var lvPageMode = window.parent.gvPageMode;
     
     var pageMode = lvPgsCd == "PG" && lvTssSt == "100" && lvPageMode == "W" ? "W" : "R";

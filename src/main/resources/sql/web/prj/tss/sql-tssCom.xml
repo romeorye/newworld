@@ -326,8 +326,8 @@
 	<select id="retrieveTssPtcRsstMbr" resultType="hashmap">
     <![CDATA[
 --retrieveTssPtcRsstMbr   참여연구원 조회
-        SELECT TSS_CD          AS tssCd        --과제코드
-             , PTC_RSST_MBR_SN AS ptcRsstMbrSn --참여연구원일련번호
+        SELECT DISTINCT
+               PTC_RSST_MBR_SN AS ptcRsstMbrSn --참여연구원일련번호
              , SA_SABUN_NEW    AS saSabunNew   --연구원사번
              , DEPT_CODE       AS deptCode     --소속
              , PTC_STRT_DT     AS ptcStrtDt    --참여시작일
@@ -342,7 +342,9 @@
              , dbo.fn_getComDtlNm('PTC_ROLE', PTC_ROLE) AS ptcRoleNm  --참여역할명
              , #{_userId}      AS userId
           FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
-         WHERE TSS_CD = #{tssCd}
+         WHERE TSS_CD in (
+         			select tss_cd from IRIS_TSS_MGMT_MST where wbs_cd = #{wbsCd}
+               )
     ]]>
 	</select>
 
@@ -424,10 +426,14 @@
 	<select id="retrieveTssPtcMbrCnt" resultType="hashmap">
     <![CDATA[
 -- retrieveTssPtcMbrCnt 과제참여연구원 수
-        SELECT COUNT(DISTINCT SA_SABUN_NEW) AS mbrCnt
-          FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
-         WHERE TSS_CD = #{tssCd}
-         and   convert(nvarchar(12), getdate(), 23) between ptc_strt_dt and ptc_fnh_dt 
+        select COUNT(DISTINCT SA_SABUN_NEW) AS mbrCnt
+		from  IRIS_TSS_PTC_RSST_MBR 
+		where  tss_cd  = (
+		                  select tss_cd 
+						  from IRIS_TSS_MGMT_MST 
+						  where wbs_cd = #{wbsCd}
+						  and PGS_STEP_CD = 'PG')
+		and   convert(nvarchar(12), getdate(), 23) between ptc_strt_dt and ptc_fnh_dt 
     ]]>
 	</select>
 
@@ -1106,27 +1112,13 @@
     <!-- 중단, 완료 참여연구원  count 조회 -->
      <select id="retrieveCmDcTssPtcMbrCnt"  resultType="hashMap">
 -- retrieveCmDcTssPtcMbrCnt 중단, 완료 참여연구원  count 조회
-     	select count(*) mbrCnt
-		from  (
-				SELECT DISTINCT          
-		               PTC_RSST_MBR_SN AS ptcRsstMbrSn --참여연구원일련번호
-		             , SA_SABUN_NEW    AS saSabunNew   --연구원사번        
-		             , DEPT_CODE       AS deptCode     --소속              
-		             , PTC_STRT_DT     AS ptcStrtDt    --참여시작일        
-		             , PTC_FNH_DT      AS ptcFnhDt     --참여종료일        
-		             , PTC_ROLE        AS ptcRole      --참여역할          
-		             , PTC_ROLE_DTL    AS ptcRoleDtl   --참여역할상세      
-		             , PTC_PRO         AS ptcPro       --참여율
-		             , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'USER', SA_SABUN_NEW) , SA_SABUN_NAME) AS saUserName --과제리더명
-		             , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'DEPT', DEPT_CODE) , DEPT_NAME) AS deptName   --소속명
-		             , dbo.fn_getComDtlNm('PTC_ROLE', PTC_ROLE) AS ptcRoleNm  --참여역할명 )
-		             
-		          FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
-		         WHERE TSS_CD IN (SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PK_WBS_CD = (select PK_WBS_CD
-																						  from   IRIS_TSS_MGMT_MST
-																						  where  tss_cd =#{tssCd})
-								)
-		         ) a
+		select COUNT(DISTINCT SA_SABUN_NEW) AS mbrCnt
+		from  IRIS_TSS_PTC_RSST_MBR 
+		where  tss_cd  = (
+		                  select tss_cd 
+						  from IRIS_TSS_MGMT_MST 
+						  where wbs_cd = #{wbsCd}
+						  and PGS_STEP_CD = 'PG')
     </select>	
     
     <!--과제 상세 내용  -->
@@ -1198,7 +1190,7 @@
 			   mst.TSS_TYPE      as tssType,
 			   mst.TSS_ATTR_CD   as tssAttrCd,
 			   smr.NPROD_SALS_PLN_Y as nprodSalsPlnY,
-			   smr.CTY_OT_PLN_M as ctyOtPlnM
+			   left(smr.CTY_OT_PLN_M, 7) as ctyOtPlnM
 		from IRIS_TSS_MGMT_MST mst,
         <choose>
             <when test='tssScnCd != null and tssScnCd=="G"'>
@@ -1300,7 +1292,7 @@
     <insert id="insertGateToIrisQasIF">
     /*insertGateToIrisQasIF from QAS 결과 to IRSI 배치용 Insert/Update MSSQL*/
     <![CDATA[
-        MERGE INTO dbo.tmp_IRIS_TSS_QGATE_IF A
+        MERGE INTO dbo.IRIS_TSS_QGATE_IF A
             USING (SELECT
                 #{WBSCD} AS WBS_CD,
                 #{STEPNO} AS STEP_NO,
@@ -1354,7 +1346,7 @@
 
 	<!-- Qgate 파일 과제 연결-->
 	<update id="updateGateToYldQasIF">
-		UPDATE tmp_IRIS_TSS_YLD_ITM set
+		UPDATE IRIS_TSS_YLD_ITM set
 	  		QGATE_LINK_URL = #{ATTACHURL}
 	  		,last_mdfy_dt = GETDATE()
 	  		,last_mdfy_id = 'Batch'

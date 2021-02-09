@@ -319,7 +319,7 @@
                         p.editable = false;
                         return value;
                     } }
-                // , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 100 }
+                 , { field: 'wbsCd', hidden:true}
             ]
         });
 
@@ -344,11 +344,15 @@
                 var pPgsStepCd = dataSet.getNameValue(e.row, "pgsStepCd"); //진행상태코드
                 var pTssSt     = dataSet.getNameValue(e.row, "tssSt");     //과제상태
                 var pGrsEvSt   = dataSet.getNameValue(e.row, "grsEvSt");   //GRS상태
-
+                var pWbsCd   = dataSet.getNameValue(e.row, "wbsCd");   //GRS상태
+				
+                var urlParam = "?tssCd="+pTssCd+"&wbsCd="+pWbsCd;
+                
                 //계획
                 if(pPgsStepCd == "PL") {
                 	console.log('이동 : 계획_상세(수정)');
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssPlnDetail.do?tssCd="+pTssCd+"'/>");
+                	nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssPlnDetail.do'/>"+urlParam);
+                	/* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssPlnDetail.do?tssCd="+pTssCd+"'/>"); */
                 }
                 //진행
                  else if(pPgsStepCd == "PG") {
@@ -356,37 +360,44 @@
                         //진행_GRS완료_중단(신규등록)
                         if(pGrsEvSt == "D") {
                         	console.log('이동 : 진행_GRS완료_중단(신규등록)');
-                            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssDcacDetail.do?tssCd="+pTssCd+"'/>");
+                        	nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssDcacDetail.do'/>"+urlParam);
+                        	/* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssDcacDetail.do?tssCd="+pTssCd+"'/>"); */
                         }
                         //진행_GRS완료_완료(신규등록)
                         else if(pGrsEvSt == "P2") {
                         	console.log('이동 : 진행_GRS완료_완료(신규등록)');
-                            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplDetail.do?tssCd="+pTssCd+"'/>");
+                        	nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplDetail.do'/>"+urlParam);
+                            /* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplDetail.do?tssCd="+pTssCd+"'/>"); */
                         }
                         //진행_GRS완료_변경(신규등록)
                         else {
                         	console.log('진행_GRS완료_변경(신규등록)');
-                            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssAltrDetail.do?tssCd="+pTssCd+"'/>");
+                        	nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssAltrDetail.do'/>"+urlParam);
+                            /* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssAltrDetail.do?tssCd="+pTssCd+"'/>"); */
                         }
                     } else {
                     	console.log('이동 : 진행_상세(수정)');
-                        nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsDetail.do?tssCd="+pTssCd+"'/>");
+                        nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsDetail.do'/>"+urlParam);
+                        /* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsDetail.do?tssCd="+pTssCd+"'/>"); */
                     }
                 }
                 //완료(조회 및 수정)
                 else if(pPgsStepCd == "CM") {
                 	console.log('이동 : 완료(조회 및 수정)');
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplDetail.do?tssCd="+pTssCd+"'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplDetail.do'/>"+urlParam);
+                    /* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplDetail.do?tssCd="+pTssCd+"'/>"); */
                 }
                 //변경(조회 및 수정)
                 else if(pPgsStepCd == "AL") {
                 	console.log('이동 : 변경(조회 및 수정)');
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssAltrDetail.do?tssCd="+pTssCd+"'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssAltrDetail.do'/>"+urlParam);
+                    /* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssAltrDetail.do?tssCd="+pTssCd+"'/>"); */
                 }
                 //중단(조회 및 수정)
                 else if(pPgsStepCd == "DC") {
                 	console.log('이동 : 중단(조회 및 수정)');
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssDcacDetail.do?tssCd="+pTssCd+"'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssDcacDetail.do'/>"+urlParam);
+                    /* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssDcacDetail.do?tssCd="+pTssCd+"'/>"); */
                 }
             }
         });
