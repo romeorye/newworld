@@ -865,7 +865,31 @@
 					isnull(',' + dbo.fn_getUserEmail(rlab_chrg_id), '')	+
 					isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
-								                                             where   b.sa_user = rlab_chrg_id))), '') as receivers
+								                                             where   b.sa_user = rlab_chrg_id))), '')
+					+ isnull(',' +  STUFF( 
+					                    (select ','+ sa_mail
+										from   iris_sso_user 
+										where  sa_user in (
+														select infm_prsn_id
+														from  IRIS_RLAB_RQPR_INFM 
+														where  rqpr_id =${rqprId}
+														union
+														select  case when addReMailYn = 'Y' then 'taeyichoi'
+																else '' end 
+														from   (
+																select case when a.RLAB_DZDV_CD = 'KC_BATH' then  'Y'
+																			when a.RLAB_DZDV_CD = 'CEU_LABT' and a.rlab_prod_cd = '03' then 'Y'
+																			when a.RLAB_DZDV_CD = 'CORP'  and a.rlab_prod_cd = '03' then 'Y'
+																			else 'N' end addReMailYn
+																from  iris_rlab_rqpr_mst a
+																where a.rqpr_id =${rqprId}
+																) a
+											)
+                                        FOR XML PATH('') ), 1,1, ''
+										 
+										 ), '')        
+										 
+										   as receivers			                                             
 			from	iris_rlab_rqpr_mst
 		 ]]>
 			where	rqpr_id = ${rqprId}
@@ -884,7 +908,31 @@
 				   ,chrg.sa_mail																					as chrgEmail
 				   ,mst.acpc_dt																						as acpcDt
 				   ,mst.cmpl_parr_dt																				as cmplParrDt
-				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')	as receivers
+				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')	
+                                 + isnull(',' +  STUFF( 
+					                    (select ','+ sa_mail
+										from   iris_sso_user 
+										where  sa_user in (
+														select infm_prsn_id
+														from  IRIS_RLAB_RQPR_INFM 
+														where  rqpr_id =${rqprId}
+														union
+														select  case when addReMailYn = 'Y' then 'taeyichoi'
+																else '' end 
+														from   (
+																select case when a.RLAB_DZDV_CD = 'KC_BATH' then  'Y'
+																			when a.RLAB_DZDV_CD = 'CEU_LABT' and a.rlab_prod_cd = '03' then 'Y'
+																			when a.RLAB_DZDV_CD = 'CORP'  and a.rlab_prod_cd = '03' then 'Y'
+																			else 'N' end addReMailYn
+																from  iris_rlab_rqpr_mst a
+																where a.rqpr_id =${rqprId}
+																) a
+											)
+                                        FOR XML PATH('') ), 1,1, ''
+										 
+										 ), '')        
+										 
+										   as receivers
 			from	iris_rlab_rqpr_mst mst,
 					iris_sso_user rgst,
 					iris_sso_user chrg
@@ -907,7 +955,31 @@
 				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
 				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
-								                                             where   b.sa_user = mst.rlab_chrg_id))), '') as receivers
+								                                             where   b.sa_user = mst.rlab_chrg_id))), '') 
+					+ isnull(',' +  STUFF( 
+					                    (select ','+ sa_mail
+										from   iris_sso_user 
+										where  sa_user in (
+														select infm_prsn_id
+														from  IRIS_RLAB_RQPR_INFM 
+														where  rqpr_id =${rqprId}
+														union
+														select  case when addReMailYn = 'Y' then 'taeyichoi'
+																else '' end 
+														from   (
+																select case when a.RLAB_DZDV_CD = 'KC_BATH' then  'Y'
+																			when a.RLAB_DZDV_CD = 'CEU_LABT' and a.rlab_prod_cd = '03' then 'Y'
+																			when a.RLAB_DZDV_CD = 'CORP'  and a.rlab_prod_cd = '03' then 'Y'
+																			else 'N' end addReMailYn
+																from  iris_rlab_rqpr_mst a
+																where a.rqpr_id =${rqprId}
+																) a
+											)
+                                        FOR XML PATH('') ), 1,1, ''
+										 
+										 ), '')        
+										 
+										   as receivers
 			from	iris_rlab_rqpr_mst mst,
 					iris_sso_user rgst,
 					iris_sso_user chrg
@@ -932,7 +1004,31 @@
 				   ,rgst.sa_mail +  isnull(',' +dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+
 				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
 			                                                                 from    iris_sso_user b
-								                                             where   b.sa_user = mst.rlab_chrg_id))), '') as receivers
+								                                             where   b.sa_user = mst.rlab_chrg_id))), '') 
+                    + isnull(',' +  STUFF( 
+					                    (select ','+ sa_mail
+										from   iris_sso_user 
+										where  sa_user in (
+														select infm_prsn_id
+														from  IRIS_RLAB_RQPR_INFM 
+														where  rqpr_id =${rqprId}
+														union
+														select  case when addReMailYn = 'Y' then 'taeyichoi'
+																else '' end 
+														from   (
+																select case when a.RLAB_DZDV_CD = 'KC_BATH' then  'Y'
+																			when a.RLAB_DZDV_CD = 'CEU_LABT' and a.rlab_prod_cd = '03' then 'Y'
+																			when a.RLAB_DZDV_CD = 'CORP'  and a.rlab_prod_cd = '03' then 'Y'
+																			else 'N' end addReMailYn
+																from  iris_rlab_rqpr_mst a
+																where a.rqpr_id =${rqprId}
+																) a
+											)
+                                        FOR XML PATH('') ), 1,1, ''
+										 
+										 ), '')        
+										 
+										   as receivers
 			from	iris_rlab_rqpr_mst mst,
 					iris_sso_user rgst,
 					iris_sso_user chrg
