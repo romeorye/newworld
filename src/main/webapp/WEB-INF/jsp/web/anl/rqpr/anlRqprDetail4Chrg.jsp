@@ -165,6 +165,15 @@
             var textBox = new Rui.ui.form.LTextBox({
                 emptyValue: ''
             });
+            
+            /* 실의뢰자 팝업 */
+    	    var realRgstNm = new Rui.ui.form.LPopupTextBox({
+                applyTo: 'realRgstNm',
+                width: 200,
+                editable: true,
+                placeholder: '실의뢰자를 입력해주세요.',
+                enterToPopup: true
+            });
 
             var numberBox = new Rui.ui.form.LNumberBox({
                 emptyValue: '',
@@ -332,6 +341,8 @@
 					, { id: 'reqItgRdcsId' }
 					, { id: 'rsltItgRdcsId' }
 					, { id: 'anlGvbRson' }
+					, { id: 'realRgstNm' }
+					, { id: 'realRgstId' }
                 ]
             });
 
@@ -508,6 +519,7 @@
                     { id: 'infmTypeCd',			ctrlId:'infmTypeCd',		value:'value'},
                     { id: 'smpoTrtmCd',			ctrlId:'smpoTrtmCd',		value:'value'},
                     { id: 'acpcStNm',			ctrlId:'acpcStNm',			value:'html'},
+                    { id: 'realRgstNm',	        ctrlId:'realRgstNm',	    value:'value'},
                     { id: 'anlRqprInfmView',	ctrlId:'anlRqprInfmView',	value:'html'}
                 ]
             });
@@ -791,7 +803,16 @@
     	    };
 
 
+    	    realRgstNm.on('popup', function(e){
+    	    	openUserSearchDialog(setUserInfo, 1, '');
+           	});
 
+    	    setUserInfo = function (user){
+    	    	realRgstNm.setValue(user.saName);
+    	    	anlRqprDataSet.setNameValue(0, 'realRgstId', user.saUser);   
+    	    };
+
+    	    
     	    // 실험방법 팝업
        	 exprWayDialog = new Rui.ui.LFrameDialog({
        	        id: 'exprWayDialog',
@@ -1425,7 +1446,11 @@
    						</tr>
    						<tr>
    							<th align="right">통보자</th>
-   							<td colspan="3"><span id="anlRqprInfmView"/></td>
+   							<td><span id="anlRqprInfmView"/></td>
+   							<th align="right">실의뢰자</th>
+   							<td>
+   							 	<input type="text" id="realRgstNm" />
+   							</td>
    						</tr>
    					</tbody>
    				</table>

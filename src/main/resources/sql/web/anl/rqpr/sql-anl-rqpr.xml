@@ -24,7 +24,9 @@
 				 from	IRIS_ANL_RQPR_SMPO
 				 where	rqpr_id = mst.rqpr_id
 				 and	del_yn = 'N'
-				)												AS 'smpoCnt'
+				)												AS 'smpoCnt',
+				(select sa_name from iris_sso_user where sa_user = REAL_RGST_ID) as realRgstNm
+				
 			FROM	IRIS_ANL_RQPR_MST mst
 		 ]]>
 			WHERE	1 = 1
@@ -153,8 +155,13 @@
 				(select	CIR.ITG_RDCS_ID
 				 from	IRIS_COM_ITG_RDCS CIR
 				 WHERE	CIR.GUID = 'C' + cast(mst.RQPR_ID as nvarchar)
-				)													AS rsltItgRdcsId
-
+				)													AS rsltItgRdcsId,
+                real_rgst_id                                        AS realRgstId,
+                (select sa_name 
+                 from iris_sso_user 
+                 where sa_user = real_rgst_id  
+                )                                                   AS  realRgstNm
+                
 			FROM	IRIS_ANL_RQPR_MST mst
 			WHERE	RQPR_ID = ${rqprId}
 
@@ -246,6 +253,7 @@
 						   where  acpc_no like 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '%'),
 				acpc_dt = Convert(varchar(10), getdate(), 120),
 			</if>
+				real_rgst_id = #{realRgstId}, 
 				cmpl_parr_dt = #{cmplParrDt},
 				rqpr_attc_file_id = #{rqprAttcFileId},
 				last_mdfy_dt = getdate(),
