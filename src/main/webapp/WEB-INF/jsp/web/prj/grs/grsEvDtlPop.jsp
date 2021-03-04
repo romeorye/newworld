@@ -119,6 +119,7 @@ var userIds;
 	            	,{ id: 'dropYn'}
 	            	,{ id: 'evResult'}
 	            	,{ id: 'grsEvMTypeNm'}
+	            	,{ id: 'evDt'}
 	             ]
         });
 		
@@ -327,6 +328,7 @@ var userIds;
             	,{ id: 'dlbrCrgrNm'        , ctrlId : 'dlbrCrgrNm'       ,value : 'html' }
             	,{ id: 'commTxt'           , ctrlId : 'commTxt'          ,value : 'value'}
             	,{ id: 'evTitl'            , ctrlId : 'evTitl'           ,value : 'html' }
+            	,{ id: 'evDt'              , ctrlId : 'evDt'             ,value : 'html' }
             	,{ id: 'cfrnAtdtCdTxtNm'   , ctrlId : 'cfrnAtdtCdTxtNm'  ,value : 'html' }
             	,{ id: 'grsEvSn'           , ctrlId : 'grsEvSn'          ,value : 'html' }
             	,{ id: 'ctyOtPlnM'         , ctrlId : 'ctyOtPlnM'        ,value : 'html' }
@@ -474,7 +476,6 @@ var userIds;
             	,{ id: 'tssAttrCd'         , ctrlId : 'tssAttrCd'        ,value : 'html' }
             	,{ id: 'tssAttrNm'         , ctrlId : 'tssAttrNm'        ,value : 'html' }
             	,{ id: 'cfrnAtdtCdTxt'     , ctrlId : 'cfrnAtdtCdTxt'    ,value : 'html' }
-            	,{ id: 'attcFilId'         , ctrlId : 'attcFilId'        ,value : 'html' }
             	,{ id: 'tssCdSn'           , ctrlId : 'tssCdSn'          ,value : 'html' } 
             	,{ id: 'evSbcNm'           , ctrlId : 'grsEvSnNm'        ,value : 'html' } 
             	,{ id: 'evResult'           , ctrlId : 'evResult'        ,value : 'html' } 
@@ -545,7 +546,9 @@ var userIds;
          };
 
     	 downloadAttachFile = function(attcFilId, seq) {
-    		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
+     		document.aform.attcFilId.value = attcFilId;
+     		document.aform.seq.value = seq;
+    		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
     		aform.submit();
          };
         
@@ -564,7 +567,7 @@ var userIds;
 <div class="contents">
 	<div class="sub-content">  
   	<form id="aform" name="aform">	
-				<table class="table table_txt_right">
+			<table class="table table_txt_right">
 			<colgroup>
 				<col style="width: 20%;" />
 				<col style="width: 30%;" />
@@ -601,8 +604,10 @@ var userIds;
 				<td><span id="dlbrCrgrNm"/></td>
 			</tr>
 			<tr>
-				<th align="right"><span style="color:red;">* </span>회의 일정/장소</th>
-				<td colspan="3"><span id="evTitl" /></td>
+				<th align="right"><span style="color:red;">* </span>회의 일정</th>
+				<td><span id="evDt" /></td>
+				<th align="right"><span style="color:red;">* </span>회의 장소</th>
+				<td><span id="evTitl" /></td>
 			</tr>
 			<tr>
 				<th align="right"><span style="color:red;">* </span>회의 참석자</th>
@@ -618,6 +623,9 @@ var userIds;
 					<textarea id="commTxt"></textarea>
 				</td>
 			</tr>
+		
+		  <input type="hidden" id="attcFilId" name="attcFilId" />
+		  <input type="hidden" id="seq" name="seq" />
 			<tr>
 				<th align="right"><span style="color:red;">* </span>첨부파일</th>
 				<td  colspan="3" id="attchFileView" />

@@ -115,6 +115,7 @@ var lvAttcFilId;
 		    	,{ id: 'evSbcNm'}
 		    	,{ id: 'dropYn'}
 		    	,{ id: 'evResult'}
+		    	,{ id: 'evDt'}
 	             ]
         });
 		
@@ -314,6 +315,7 @@ var lvAttcFilId;
             	,{ id: 'dlbrCrgrNm'        , ctrlId : 'dlbrCrgrNm'       ,value : 'html' }
             	,{ id: 'commTxt'           , ctrlId : 'commTxt'          ,value : 'value' }
             	,{ id: 'evTitl'            , ctrlId : 'evTitl'           ,value : 'html' }
+            	,{ id: 'evDt'              , ctrlId : 'evDt'             ,value : 'html' }
             	,{ id: 'cfrnAtdtCdTxtNm'   , ctrlId : 'cfrnAtdtCdTxtNm'  ,value : 'html' }
             	,{ id: 'grsEvSn'           , ctrlId : 'grsEvSn'          ,value : 'html' }
             	,{ id: 'ancpOtPlnDt'       , ctrlId : 'ancpOtPlnDt'      ,value : 'html' }
@@ -533,8 +535,13 @@ var lvAttcFilId;
          };
 
     	 downloadAttachFile = function(attcFilId, seq) {
-    		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
-    		aform.submit();
+    		 document.aform.attcFilId.value = attcFilId;
+       		document.aform.seq.value = seq;
+      		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
+      		aform.submit();
+      		
+     		// aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
+     		//aform.submit();
          };
          
          //닫기
@@ -550,6 +557,8 @@ var lvAttcFilId;
 <div class="contents">
 	<div class="sub-content">  
   	<form id="aform" name="aform">	
+  		 <input type="hidden" id="attcFilId" name="attcFilId" />
+		  <input type="hidden" id="seq" name="seq" />
   		<table class="table table_txt_right">
 			<colgroup>
 				<col style="width: 20%;" />
@@ -587,8 +596,10 @@ var lvAttcFilId;
 				<td><span id="dlbrCrgrNm"/></td>
 			</tr>
 			<tr>
-				<th align="right"><span style="color:red;">* </span>회의 일정/장소</th>
-				<td colspan="3"><span id="evTitl" /></td>
+				<th align="right"><span style="color:red;">* </span>회의 일정</th>
+				<td><span id="evDt" /></td>
+				<th align="right"><span style="color:red;">* </span>회의 장소</th>
+				<td><span id="evTitl" /></td>
 			</tr>
 			<tr>
 				<th align="right"><span style="color:red;">* </span>회의 참석자</th>

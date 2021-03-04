@@ -31,6 +31,7 @@
 				   ,m.grsEvSn
 				   ,m.grsEvSt
 				   ,m.prjCd
+				   ,m.evDt
 			from   (
 			select  dbo.fn_getComDtlNm('TSS_SCN_CD',b.tss_scn_cd) AS tssScnNm
 				   ,iif(b.PGS_STEP_CD='PL' AND (select count(*) from IRIS_TSS_MGMT_MST where PK_WBS_CD = b.pk_wbs_cd)=1,'SEED-'+b.wbs_cd  , b.wbs_cd) as wbsCd
@@ -59,6 +60,7 @@
 				   ,a.grs_Ev_Sn as grsEvSn
 				   ,a.grs_Ev_ST as grsEvSt
 				   ,b.PRJ_CD as prjCd
+				   ,a.EV_DT as evDt
 			from    iris_grs_ev_rslt_rgst  a
 					inner join IRIS_TSS_MGMT_MST b
 					on b.TSS_CD = a.TSS_CD
@@ -90,6 +92,7 @@
 				   ,a.grs_Ev_Sn  as grsEvSn
 				   ,a.grs_Ev_ST as grsEvSt
 				   ,b.PRJ_CD as prjCd
+				   ,a.EV_DT as evDt
 			from   iris_grs_ev_rslt_rgst a
 				   inner join iris_grs_mgmt_mst b
 				   on a.tss_cd = b.tss_cd
@@ -116,6 +119,12 @@
 				,isnull(m.grsEvSn, 0)  as grsEvSn 
 				,m.grsEvSt
 				,m.prjCd
+				,m.evDt
+				,m.dlbrCrgr
+				,(select count(*)
+				  from   IRIS_ADM_COM_CD
+				  where  COM_CD_CD = 'GRS_USER'
+				  and    COM_DTL_CD = #{_userSabun} ) as grsUserChk 
 		from   tmp_grs m
 		where  1=1
 		 ]]>
@@ -149,7 +158,7 @@
         </if>
         -->
         <if test="tssScnCd != null and tssScnCd != 'null' and tssScnCd != ''">
-            AND a.tssScnCd = #{tssScnCd}
+            AND m.tssScnCd = #{tssScnCd}
         </if>
         <if test="wbsCd != null and wbsCd != 'null' and wbsCd != ''">
             AND m.wbsCd like '%'+#{wbsCd}+'%'
@@ -283,6 +292,7 @@
             ,iif(A.TSS_ST='101' AND B.DROP_YN is null,'',iif(B.DROP_YN='Y','DROP','PASS')) as evResult
             ,iif(B.GRS_EV_M_TYPE is null,'',B.GRS_EV_M_TYPE) as grsEvMType
             ,a.cm_yn as cmYn
+            ,B.EV_DT
             ]]>
         <choose>
             <when test="beforGrs == 1">
@@ -513,6 +523,7 @@
         , LAST_MDFY_DT --최종수정일시
         , LAST_MDFY_ID --최종수정자
         , SA_SABUN_NAME
+        , EV_DT
         )
         VALUES
         ( #{tssCd}
@@ -533,6 +544,7 @@
         , GETDATE()
         , #{userId}
         , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
+        , #{evDt}
         )
     </insert>
 
@@ -567,6 +579,7 @@
         , SA_SABUN_NAME --리더이름
         , DROP_YN
         , GRS_EV_M_TYPE
+        , EV_DT
         )
         VALUES
         ( #{tssCd}
@@ -589,6 +602,7 @@
         , #{userId}
         ,#{dropYn}
         ,#{grsEvMType}
+        , #{evDt}
         , (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
         )
         WHEN MATCHED THEN
@@ -610,6 +624,7 @@
         , SA_SABUN_NAME = (SELECT sa_name FROM IRIS_SSO_USER X WHERE X.SA_SABUN_NEW = #{dlbrCrgr})
         , DROP_YN = #{dropYn}
         , GRS_EV_M_TYPE = #{grsEvMType}
+        , EV_DT = #{evDt}
         ;
     </update>
 
@@ -777,6 +792,14 @@
                m.TSS_TYPE AS tssType,
                m.RSST_SPHE AS rsstSphe,
                m.PPSL_MBD_CD AS ppslMbdCd,
+               m.FC_CD as fcCd,
+			   m.CM_YN as cmYn,
+			   dbo.fn_getComDtlNm('BIZ_DPT_CD',m.BIZ_DPT_CD)  AS  bizDptNm ,
+			   dbo.fn_getComDtlNm('CUST_SQLT',m.CUST_SQLT)  AS  custSqltNm ,
+			   dbo.fn_getComDtlNm('TSS_ATTR_CD',m.TSS_ATTR_CD)  AS tssAttrNm  ,
+			   dbo.fn_getComDtlNm('RSST_SPHE',m.RSST_SPHE)  AS  rsstSpheNm ,
+			   dbo.fn_getComDtlNm('PPSL_MBD_CD',m.PPSL_MBD_CD)  AS ppslMbdNm  ,
+			   dbo.fn_getComDtlNm('FC_CD',m.FC_CD)  AS  fcNm ,
                '1' as isEditable
         FROM dbo.IRIS_GRS_MGMT_MST m
         WHERE m.TSS_CD = #{tssCd}
@@ -806,6 +829,14 @@
                m.TSS_TYPE AS tssType,
                m.RSST_SPHE AS rsstSphe,
                m.PPSL_MBD_CD AS ppslMbdCd,
+               m.FC_CD as fcCd,
+			   m.CM_YN as cmYn,
+			   dbo.fn_getComDtlNm('BIZ_DPT_CD',m.BIZ_DPT_CD)  AS  bizDptNm ,
+			   dbo.fn_getComDtlNm('CUST_SQLT',m.CUST_SQLT)  AS  custSqltNm ,
+			   dbo.fn_getComDtlNm('TSS_ATTR_CD',m.TSS_ATTR_CD)  AS tssAttrNm  ,
+			   dbo.fn_getComDtlNm('RSST_SPHE',m.RSST_SPHE)  AS  rsstSpheNm ,
+			   dbo.fn_getComDtlNm('PPSL_MBD_CD',m.PPSL_MBD_CD)  AS ppslMbdNm  ,
+			   dbo.fn_getComDtlNm('FC_CD',m.FC_CD)  AS  fcNm ,
                '0' as isEditable
         FROM dbo.IRIS_TSS_MGMT_MST m
         WHERE m.TSS_CD = #{tssCd}
@@ -1269,6 +1300,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                    AND srr.TSS_CD =  A.TSS_CD /**P*/
                    AND srr.tss_cd_sn =  '1' /**P*/) AS evScr    --등급평균
           ,iif(B.DROP_YN is null or B.DROP_YN='','N',B.DROP_YN) as  dropYn
+          ,B.EV_DT
         FROM
             IRIS_TSS_MGMT_MST A
             LEFT JOIN IRIS_PRJ_RSST_MST C  /*프로젝트연구마스터*/
@@ -1485,6 +1517,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 				,m.grsEvMTypeNm 
 				,m.deptCode
 				,m.saSabunNew
+				,m.evDt
 		from    (
 				select   dbo.fn_getPrjName(b.PRJ_CD)						as prj_Nm
 						,dbo.fn_getComDtlNm('BIZ_DPT_CD', b.BIZ_DPT_CD)		AS bizDptNm
@@ -1568,6 +1601,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 				              else '' end grsEvMTypeNm
 				       ,(select dept_cd from iris_prj_rsst_mst where prj_cd = b.prj_cd ) as deptCode    
 				       ,b.sa_sabun_new as saSabunNew     
+				       ,a.EV_DT as evDt
 				from   IRIS_GRS_EV_RSLT_RGST a
 				]]>
 				<choose>
@@ -1594,6 +1628,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 			,COMM_TXT            = #{commTxt}
 			,GRS_EV_SN           = #{grsEvSn}
 			,ATTC_FIL_ID         = #{attcFilId}
+			,EV_DT               = #{evDt}
 <choose>
 		<when test="grsEvSt == 'P1' ">
 			,CTY_OT_PLN_M        = #{ctyOtPlnM}
@@ -1662,6 +1697,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 			,GRS_EV_SN           = #{grsEvSn}
 			,GRS_EV_ST           = #{grsEvSt}
 			,ATTC_FIL_ID         = #{attcFilId}
+			,EV_DT               = #{evDt}
 	<choose>
 		<when test="grsEvSt == 'P1' ">
 			,CTY_OT_PLN_M        = #{ctyOtPlnM}

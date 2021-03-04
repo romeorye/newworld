@@ -172,6 +172,7 @@ var roleCheck = '${inputData.roleCheck}';
 		    	,{ id: 'evSbcNm'}
 		    	,{ id: 'dropYn'}
 		    	,{ id: 'evResult'}
+		    	,{ id: 'evDt'}
 	             ]
         });
 		
@@ -367,9 +368,19 @@ var roleCheck = '${inputData.roleCheck}';
 			commTxt.setValue(commTxt.getValue().trim());
         });
 		 */
+		 
+		//회의일자 
+	        var evDt = new Rui.ui.form.LDateBox({
+	            applyTo: 'evDt',
+	            mask: '9999-99-99',
+	            width: 100,
+	            listPosition : 'down',
+	            dateType: 'string'
+	        });
+		 
 		var evTitl = new Rui.ui.form.LTextBox({
             applyTo: 'evTitl',
-            width: 600,
+            width: 200,
             dateType: 'string'
         }); 
 		nprodNm = new Rui.ui.form.LTextBox({
@@ -570,6 +581,7 @@ var roleCheck = '${inputData.roleCheck}';
             	,{ id: 'dlbrCrgrNm'        , ctrlId : 'dlbrCrgrNm'       ,value : 'html' }
             	,{ id: 'commTxt'           , ctrlId : 'commTxt'          ,value : 'value' }
             	,{ id: 'evTitl'            , ctrlId : 'evTitl'           ,value : 'value' }
+            	,{ id: 'evDt'            , ctrlId : 'evDt'           ,value : 'value' }
             	,{ id: 'cfrnAtdtCdTxtNm'   , ctrlId : 'cfrnAtdtCdTxtNm'  ,value : 'value' }
             	,{ id: 'grsEvSn'           , ctrlId : 'grsEvSn'          ,value : 'value' }
             	,{ id: 'ancpOtPlnDt'       , ctrlId : 'ancpOtPlnDt'      ,value : 'value' }
@@ -941,6 +953,16 @@ var roleCheck = '${inputData.roleCheck}';
                 }
                 
              }else{
+            	 
+            	 if ( dataSet.getNameValue(0, 'tssScnCd') == "D" ){
+            		 var chkCnt = fnAttchValid();
+
+                     if (chkCnt < 3  ){
+                    	 alert("첨부파일이 누락되어있습니다. ");
+                    	 return;
+                     }
+            	 }
+            	 
             	 if(valid.validateGroup('aform') == false) {
                    	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid.getMessageList().join(''));
                      return;
@@ -995,7 +1017,8 @@ var roleCheck = '${inputData.roleCheck}';
         
          var valid1 = new Rui.validate.LValidatorManager({
         	 validators:[
-            	  { id: 'evTitl'            , validExp:'회의일정/장소:true'}
+            	  { id: 'evTitl'            , validExp:'회의 장소:true'}
+            	 ,{ id: 'evDt'              , validExp:'회의일정:true'}
             	 ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true'}
             	 ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
             	 ,{ id: 'commTxt'           , validExp:'Comment:true'}
@@ -1158,8 +1181,10 @@ var roleCheck = '${inputData.roleCheck}';
 				<td><span id="dlbrCrgrNm"/></td>
 			</tr>
 			<tr>
-				<th align="right"><span style="color:red;">* </span>회의 일정/장소</th>
-				<td colspan="3"><input type="text" id="evTitl" /></td>
+				<th align="right"><span style="color:red;">* </span>회의 일정</th>
+				<td><input type="text" id="evDt" /></td>
+				<th align="right"><span style="color:red;">* </span>회의 장소</th>
+				<td><input type="text" id="evTitl" /></td>
 			</tr>
 			<tr>
 				<th align="right"><span style="color:red;">* </span>회의 참석자</th>
