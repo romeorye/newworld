@@ -58,6 +58,8 @@
              , CUST_SQLT
              , TSS_SMRY_TXT
              , CM_YN
+             , FC_CD
+             , GRS_YN
              , FRST_RGST_DT      --최초등록일시
              , FRST_RGST_ID      --최초등록자
              , LAST_MDFY_DT      --최종수정일시
@@ -105,6 +107,8 @@
              , CUST_SQLT
              , TSS_SMRY_TXT
              , CM_YN
+             , FC_CD
+             , GRS_YN
              , GETDATE()
              , #{userId}
              , GETDATE()
