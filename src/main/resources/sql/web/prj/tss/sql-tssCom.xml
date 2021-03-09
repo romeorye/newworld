@@ -199,6 +199,10 @@
              , PROD_G
              , RSST_SPHE
              , TSS_TYPE
+             , TSS_TYPE
+             , CM_YN
+             , FC_CD
+             , GRS_YN
              , FRST_RGST_DT      --최초등록일시
              , FRST_RGST_ID      --최초등록자
              , LAST_MDFY_DT      --최종수정일시
@@ -244,6 +248,9 @@
              , #{prodGCd}
              , #{rsstSphe}
              , #{tssType}
+             , #{cmYn}
+             , #{fcCd}
+             , #{grsYn}
              , GETDATE()
              , #{userId}
              , GETDATE()
