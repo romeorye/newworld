@@ -28,6 +28,7 @@
     var lvTssCd    = window.parent.gvTssCd;
     var lvUserId   = window.parent.gvUserId;
     var lvTssSt    = window.parent.gvTssSt;
+    var lvWbsCd    = window.parent.gvWbsCd;
     var lvPageMode = window.parent.gvPageMode;
     
     var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";

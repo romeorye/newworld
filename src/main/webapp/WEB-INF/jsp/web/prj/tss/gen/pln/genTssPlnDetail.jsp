@@ -33,7 +33,7 @@ var tssAttrCd;
 var bizDptCd;
 var gvRoleId;
 var pgsStepCd;
-
+var gvWbsCd;
 
     Rui.onReady(function() {
         var isInsert = false;
@@ -129,6 +129,7 @@ var pgsStepCd;
             tssNm = stringNullChk(dataSet.getNameValue(0, "tssNm"));
             tssAttrCd = dataSet.getNameValue(0, "tssAttrCd");
             bizDptCd  = dataSet.getNameValue(0, "bizDptCd");
+            gvWbsCd  = dataSet.getNameValue(0, "wbsCd");
             
             if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T08') > -1 || "<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T09') > -1 
                 || "<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T11') > -1  || "<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T13') > -1	
@@ -302,7 +303,7 @@ var pgsStepCd;
             //참여연구원
             case 1:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssPlnPtcRsstMbrIfm.do?tssCd=" + gvTssCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssPlnPtcRsstMbrIfm.do?tssCd="+gvTssCd+"&wbsCd="+gvWbsCd+ "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
                 }
                 disableFields(true);
