@@ -483,7 +483,7 @@
                 var fnhDt   = cmplBFnhDd.getValue().replace(/\-/g, "").toDate();
               	
                 if(fnhDt < evDt) {
-                    Rui.alert("GRS평가일보다 종료일이 빠를 수 없습니다.");
+                    Rui.alert("GRS 회의일보다 실적종료일이 빠를 수 없습니다.");
                     cmplBFnhDd.setValue("");
                     cmplBFnhDd.focus();
                     return;
