@@ -279,6 +279,7 @@
                 , {id: 'tssStepNm'}	//관제 단계
                 , {id: 'grsStepNm'}	//GRS 단계
                 , {id: 'qgateStepNm'}	//Qgate 단계
+                , {id: 'evDt'}	//Qgate 단계
             ]
         });
         dataSet.on('load', function(e) {
@@ -475,6 +476,21 @@
         btnCsusRq.on('click', function() {
         	document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
           	document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
+          	
+          	
+          	if (!Rui.isEmpty( dataSet.getNameValue(0, 'evDt')   )    )  {
+          		var evDt = dataSet.getNameValue(0, 'evDt').replace(/\-/g, "").toDate();
+                var fnhDt   = cmplBFnhDd.getValue().replace(/\-/g, "").toDate();
+              	
+                if(fnhDt < evDt) {
+                    Rui.alert("GRS평가일보다 종료일이 빠를 수 없습니다.");
+                    cmplBFnhDd.setValue("");
+                    cmplBFnhDd.focus();
+                    return;
+                }
+          	}      	
+          	
+          	
           	/* 			
           	var chkNum = document.getElementById('tabContent0').contentWindow.fnAttchValid();  
 
@@ -483,8 +499,6 @@
 	        		return;
           	}
          */	
-         itmFlag = "N";
-         
           	Rui.confirm({
                 text: '품의서요청을 하시겠습니까?',
                 handlerYes: function() {
@@ -494,7 +508,6 @@
             });
         });
         
-
         //저장
         fnSave = function() {
             cmplBStrtDd.blur();

@@ -79,6 +79,16 @@
 				where TSS_CD = a.TSS_CD 
 				and   TSS_CD_SN = (select max(tss_cd_sn) from IRIS_GRS_EV_RSLT_RGST where tss_cd = a.TSS_CD)
 			  ) as attcFilId
+			,( select ev_dt as evDt
+			   from  IRIS_GRS_EV_RSLT_RGST x
+			   where tss_cd = ( select  y.tss_cd 
+			                      from  iris_tss_mgmt_mst y
+			                      where y.wbs_cd = #{wbsCd}
+			                      and   y.pgs_Step_Cd = 'PG'
+			                   )   
+			   and  x.grs_ev_st = 'P2'
+			   ) as evDt               
+			                     
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
             ON A.PRJ_CD = B.PRJ_CD
@@ -198,7 +208,6 @@
              , TSS_ST_TXT        --과제상태의견
              , PROD_G
              , RSST_SPHE
-             , TSS_TYPE
              , TSS_TYPE
              , CM_YN
              , FC_CD
