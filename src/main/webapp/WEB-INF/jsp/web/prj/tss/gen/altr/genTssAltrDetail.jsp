@@ -305,7 +305,7 @@
             //참여연구원
             case 2:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrPtcRsstMbrIfm.do?tssCd=" + gvTssCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrPtcRsstMbrIfm.do?tssCd="+gvTssCd+"&wbsCd="+gvWbsCd+" '/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
                 disableFields(true);
