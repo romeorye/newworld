@@ -11,7 +11,7 @@
 				   ,rqpr_dept_cd					                as rqprDeptCd
 				   ,(select  isnull([dbo].[fn_getUpperDeptNm](sa_dept_new), (select uperdept_name from iris_sso_dept where dept_code = sa_dept_new) )
 					 from   iris_sso_user
-					 where  sa_user = isnull(real_rgst_id, rgst_id)
+					 where  sa_user =  (case when real_rgst_id is null OR real_rgst_id = '' then rgst_id else real_rgst_id end)
 					)  as busiDeptNm
 				  
 				   ,(select case when left(mst.rqpr_dept_cd, 1) = 'A' then  dept_name
@@ -20,10 +20,10 @@
 					where dept_code = (
 									select  sa_dept_new
 									from   iris_sso_user
-									where  sa_user = isnull(real_rgst_id, rgst_id)
+									where  sa_user =  (case when real_rgst_id is null OR real_rgst_id = '' then rgst_id else real_rgst_id end)
 									)
 					)  as rqprDeptNm
-				   ,dbo.fn_getUserName( isnull(real_rgst_id, rgst_id )   )	as rgstNm
+				   ,dbo.fn_getUserName( (case when real_rgst_id is null OR real_rgst_id = '' then rgst_id else real_rgst_id end) )	as rgstNm
 								,dbo.fn_getUserName(anl_chrg_id)					as anlChrgNm
 								,dbo.fn_getComDtlNm('ANL_UGY_YN', anl_ugy_yn)	as anlUgyYnNm
 								,dbo.fn_getComDtlNm('ANL_SCN_CD', anl_scn_cd)	as anlScnNm
