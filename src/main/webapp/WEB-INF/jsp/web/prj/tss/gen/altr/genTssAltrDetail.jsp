@@ -375,7 +375,7 @@
         btnCsusRq2 = new Rui.ui.LButton('btnCsusRq2');
         btnCsusRq2.on('click', function() {
             if(confirm('품의서요청을 하시겠습니까?')) {
-                nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssAltrCsusRq.do'/>"+"?tssCd="+gvTssCd+"&pgTssCd="+gvPgTssCd+"&userId="+gvUserId+"&appCode=APP00339");
+                nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssAltrCsusRq.do'/>"+"?tssCd="+gvTssCd+"&pgTssCd="+gvPgTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&appCode=APP00339");
             }
         });
 

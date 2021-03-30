@@ -362,7 +362,7 @@ var gvWbsCd;
             if(errMsg != "") alert(errMsg);
             else {
                 if(regCntMap.gbn == "GRS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do?tssCd="+gvTssCd+"&userId="+gvUserId+"'/>");
-                else if(regCntMap.gbn == "CSUS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPlnCsusRq.do'/>" + "?tssCd="+gvTssCd+"&userId="+gvUserId+"&appCode=APP00332");
+                else if(regCntMap.gbn == "CSUS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPlnCsusRq.do'/>" + "?tssCd="+gvTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&appCode=APP00332");
             }
         });
 
@@ -403,7 +403,7 @@ var gvWbsCd;
             if(confirm("품의서요청을 하시겠습니까?")) {
         	    regDm.update({
                     url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
-                    params:'gbn=CSUS&tssCd='+gvTssCd
+                    params:'gbn=CSUS&tssCd='+gvTssCd+'&wbsCd='+gvWbsCd
                 });
         	}
         });
