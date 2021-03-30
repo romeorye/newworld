@@ -31,6 +31,7 @@
     var gvCooInstCd = "";
     var gvPageMode  = "";
     var gvPgsStepCd = "";
+    var gvWbsCd;
 
     var pgsStepNm = "";
     var dataSet;
@@ -299,6 +300,7 @@
             gvCooInstCd = stringNullChk(dataSet.getNameValue(0, "cooInstCd"));
             gvPageMode  = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvPgsStepCd = stringNullChk(dataSet.getNameValue(0, "pgsStepCd"));
+            gvWbsCd = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
 
             //최초 로그인사용자 정보 셋팅
             if(gvTssCd == "") {
@@ -434,7 +436,7 @@
 	            //참여연구원
 	            case 1:
 	                if(e.isFirst) {
-	                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPlnPtcRsstMbrIfm.do?tssCd=" + gvTssCd + "'/>";
+	                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPlnPtcRsstMbrIfm.do?tssCd="+gvTssCd+"&wbsCd="+gvWbsCd+ "'/>";
 	                    nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
 	                }
 	                disableFields(true);
@@ -470,7 +472,7 @@
             if(errMsg != "") alert(errMsg);
             else {
                 if(regCntMap.gbn == "GRS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do?tssCd="+gvTssCd+"&userId="+gvUserId+"'/>");
-                else if(regCntMap.gbn == "CSUS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssPlnCsusRq.do?tssCd="+gvTssCd+"&userId="+gvUserId+"&outSpclId="+gvCooInstCd+"'/>");
+                else if(regCntMap.gbn == "CSUS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssPlnCsusRq.do?tssCd="+gvTssCd+"&wbsCd="+gvWbsCd+"&userId="+gvUserId+"&outSpclId="+gvCooInstCd+"'/>");
 
             }
         });
@@ -522,7 +524,6 @@
 
         //저장
         fnSave = function() {
-
         	// 달력 blur
         	tssStrtDd.blur();
         	tssFnhDd.blur();

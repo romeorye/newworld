@@ -528,7 +528,7 @@
             //참여연구원
             case 2:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssAltrPtcRsstMbrIfm.do?tssCd=" + gvTssCd + "&wbsCd="+ lvWbsCd +"'/>";
+                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssAltrPtcRsstMbrIfm.do?tssCd=" + gvTssCd + "&wbsCd="+lvWbsCd+"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
                 break;
@@ -569,7 +569,7 @@
             if(!ifmUpdate) return false;
 
             if( confirm("품의서요청을 하시겠습니까?") == true ){
-            	nwinsActSubmit(document.mstForm1, "<c:url value='/prj/tss/ousdcoo/ousdCooTssAltrCsusRq.do?tssCd="+gvTssCd+"&userId="+gvUserId+"&innerCsusRqYn=Y'/>");
+            	nwinsActSubmit(document.mstForm1, "<c:url value='/prj/tss/ousdcoo/ousdCooTssAltrCsusRq.do?tssCd="+gvTssCd+"&wbsCd="+lvWbsCd+"&userId="+gvUserId+"&innerCsusRqYn=Y'/>");
             }
         });
 

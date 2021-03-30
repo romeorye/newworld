@@ -448,7 +448,7 @@
             Rui.confirm({
                 text: '품의서요청을 하시겠습니까?',
                 handlerYes: function() {
-                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&pgTssCd="+gvTssCd);
+                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&wbsCd="+lvWbsCd+"&userId="+gvUserId+"&pgTssCd="+gvTssCd);
                 },
                 handlerNo: Rui.emptyFn
             });

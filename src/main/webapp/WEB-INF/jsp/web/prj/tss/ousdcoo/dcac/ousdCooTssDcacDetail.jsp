@@ -32,7 +32,8 @@
     var gvPgsStepCd = "DC"; //진행상태:DC(중단)
     var gvPkWbsCd   = "";
     var gvPageMode  = "";
-
+    var gvWbsCd  = "";
+    
     var dcacTssCd   = "";	//중단단계 과제코드
     var dataSet;
     var rtnMsg = "${inputData.rtnMsg}";
@@ -177,6 +178,7 @@
         dataSet.on('load', function(e) {
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvPkWbsCd = dataSet.getNameValue(0, "pkWbsCd");
+            gvWbsCd = dataSet.getNameValue(0, "wbsCd");
             var pPgsStepCd = dataSet.getNameValue(0, "pgsStepCd");
 
             document.tabForm.tssSt.value = dataSet.getNameValue(0, "tssSt");
@@ -311,7 +313,7 @@
             //참여연구원
             case 2:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsPtcRsstMbrIfm.do?tssCd=" + gvTssCd + "&pkWbsCd="+ gvPkWbsCd +"'/>";
+                    tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsPtcRsstMbrIfm.do?tssCd="+gvTssCd+"&wbsCd="+gvWbsCd+"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
                 break;
@@ -351,7 +353,7 @@
             Rui.confirm({
                 text: '품의서요청을 하시겠습니까?',
                 handlerYes: function() {
-                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssDcacCsusRq.do'/>" + "?tssCd="+dcacTssCd+"&pgTssCd="+gvTssCd+"&userId="+gvUserId);
+                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/ousdcoo/ousdCooTssDcacCsusRq.do'/>" + "?tssCd="+dcacTssCd+"&wbsCd="+gvWbsCd+"&pgTssCd="+gvTssCd+"&userId="+gvUserId);
                 },
                 handlerNo: Rui.emptyFn
             });
