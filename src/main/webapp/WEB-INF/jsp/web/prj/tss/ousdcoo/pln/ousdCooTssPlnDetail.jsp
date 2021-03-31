@@ -555,14 +555,13 @@
 
                 //신규
                 if(gvTssCd == "") {
-
                     dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/ousdcoo/insertOusdCooTssPlnMst.do"/>',
                         dataSets:[dataSet, smryDs]
                     });
                 }else {								//수정
-                    dm.updateDataSet({
+                	dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/ousdcoo/updateOusdCooTssPlnMst.do"/>',
                         dataSets:[dataSet, smryDs]

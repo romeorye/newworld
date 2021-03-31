@@ -29,6 +29,7 @@
     var lvUserId = window.parent.gvUserId;
     var lvTssSt  = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
+    var lvWbsCd    = window.parent.gvWbsCd;
     
     var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302") && lvPageMode == "W" ? "W" : "R";
     
@@ -189,7 +190,8 @@
             dataSet.load({ 
                 url: "<c:url value='/prj/tss/ousdcoo/retrieveOusdCooTssPlnPtcRsstMbr.do'/>"
               , params : {
-                    tssCd : lvTssCd
+                    tssCd : lvTssCd,
+                    wbsCd : lvWbsCd
                 }
             });
         };
@@ -207,8 +209,12 @@
         //삭제
         var butRecordDel = new Rui.ui.LButton('butRecordDel');
         butRecordDel.on('click', function() {                
-            Rui.confirm({
-                text: Rui.getMessageManager().get('$.base.msg107'),
+        	for(var i = 0; i < dataSet.getCount(); i++) {
+         		dataSet.setNameValue(i, 'tssCd', lvTssCd );
+             }
+        	
+        	Rui.confirm({
+            	text: Rui.getMessageManager().get('$.base.msg107'),
                 handlerYes: function() {
                     //실제 DB삭제건이 있는지 확인
                     var dbCallYN = false;
