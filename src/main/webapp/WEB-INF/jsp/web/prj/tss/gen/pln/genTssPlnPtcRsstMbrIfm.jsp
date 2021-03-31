@@ -205,7 +205,8 @@
             dataSet.load({ 
                 url: "<c:url value='/prj/tss/gen/retrieveGenTssPlnPtcRsstMbr.do'/>"
               , params : {
-                    tssCd : lvTssCd
+                    tssCd : lvTssCd,
+                    wbsCd : lvWbsCd
                 }
             });
         };
@@ -222,8 +223,11 @@
         
         //삭제
         var butRecordDel = new Rui.ui.LButton('butRecordDel');
-        butRecordDel.on('click', function() {                
-            Rui.confirm({
+        butRecordDel.on('click', function() {
+        	 for(var i = 0; i < dataSet.getCount(); i++) {
+         		dataSet.setNameValue(i, 'tssCd', lvTssCd );
+             }
+        	Rui.confirm({
                 text: Rui.getMessageManager().get('$.base.msg107'),
                 handlerYes: function() {
                     //실제 DB삭제건이 있는지 확인
@@ -241,10 +245,8 @@
                     } else {
                         var row = dataSet.getRow();
                         if(row < 0) return;
-                        
                         dataSet.removeAt(row);
                     }
-                    
                     if(dbCallYN) {
 	                    //삭제된 레코드 외 상태 정상처리
 	                    for(var i = 0; i < dataSet.getCount(); i++) {
