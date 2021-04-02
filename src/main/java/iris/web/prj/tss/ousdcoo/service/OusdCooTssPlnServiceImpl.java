@@ -66,8 +66,15 @@ public class OusdCooTssPlnServiceImpl implements OusdCooTssPlnService {
     @Override
     public int updateOusdCooTssPlnMst(HashMap<String, Object> mstDs, HashMap<String, Object> smryDs, boolean upWbsCd) {
         commonDao.update("prj.tss.com.updateTssMst", mstDs);
-        commonDao.update("prj.tss.ousdcoo.updateOusdCooTssPlnSmry", smryDs);
-
+        
+        int chkOusdCooSmry = commonDao.select("prj.tss.ousdcoo.chkOusdCooTssSmry", mstDs) ;
+        
+        if (chkOusdCooSmry == 0 ){
+        	commonDao.insert("prj.tss.ousdcoo.insertOusdCooTssSmry", smryDs); //개요 생성
+        }else{
+        	commonDao.update("prj.tss.ousdcoo.updateOusdCooTssPlnSmry", smryDs);
+        }
+        
         //과제 제안서
         Calendar cal = Calendar.getInstance();
         int mm   = cal.get(Calendar.MONTH) + 1;
