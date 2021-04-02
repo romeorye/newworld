@@ -546,10 +546,10 @@ var userIds;
          };
 
     	 downloadAttachFile = function(attcFilId, seq) {
-     		document.aform.attcFilId.value = attcFilId;
-     		document.aform.seq.value = seq;
-    		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
-    		aform.submit();
+    		 document.pform.attcFilId.value = attcFilId;
+	       		document.pform.seq.value = seq;
+	       		pform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
+	       		pform.submit();
          };
         
          //닫기
@@ -566,6 +566,12 @@ var userIds;
 <body>
 <div class="contents">
 	<div class="sub-content">  
+  	<form  id="pform" name="pform" method="post">
+	<input type="hidden" id="attcFilId" name="attcFilId" />
+	<input type="hidden" id="seq" name="seq" />
+</form>
+  	
+  	
   	<form id="aform" name="aform">	
 			<table class="table table_txt_right">
 			<colgroup>
@@ -623,9 +629,6 @@ var userIds;
 					<textarea id="commTxt"></textarea>
 				</td>
 			</tr>
-		
-		  <input type="hidden" id="attcFilId" name="attcFilId" />
-		  <input type="hidden" id="seq" name="seq" />
 			<tr>
 				<th align="right"><span style="color:red;">* </span>첨부파일</th>
 				<td  colspan="3" id="attchFileView" />
@@ -646,6 +649,7 @@ var userIds;
 				<col style="width: 16%;" />
 				<col style="width: 16%;" />
 				<col style="width: 16%;" />
+				 
 				<col style="width: 16%;" />
 				<col style="width: 16%;" />
 			</colgroup>

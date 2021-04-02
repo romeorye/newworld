@@ -535,13 +535,10 @@ var lvAttcFilId;
          };
 
     	 downloadAttachFile = function(attcFilId, seq) {
-    		 document.aform.attcFilId.value = attcFilId;
-       		document.aform.seq.value = seq;
-      		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
-      		aform.submit();
-      		
-     		// aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
-     		//aform.submit();
+    		 document.pform.attcFilId.value = attcFilId;
+       		document.pform.seq.value = seq;
+       		pform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
+       		pform.submit();
          };
          
          //닫기
@@ -556,9 +553,13 @@ var lvAttcFilId;
 <body>
 <div class="contents">
 	<div class="sub-content">  
+  	<form  id="pform" name="pform" method="post">
+	<input type="hidden" id="attcFilId" name="attcFilId" />
+	<input type="hidden" id="seq" name="seq" />
+</form>
+  	
+  	
   	<form id="aform" name="aform">	
-  		 <input type="hidden" id="attcFilId" name="attcFilId" />
-		  <input type="hidden" id="seq" name="seq" />
   		<table class="table table_txt_right">
 			<colgroup>
 				<col style="width: 20%;" />
@@ -668,7 +669,7 @@ var lvAttcFilId;
 	  				<th class="alignC">현재</th>
 	  			</tr>
 	  			<tr id="trNprodSal">
-	  				<th>매출이익률(%)</th>
+	  				<th>영업이익률(%)</th>
 	  				<td class="alignR" ><span id="bizPrftProY" /></td>
 	  				<td class="alignR" ><span id="bizPrftProCurY" /></td>
 	  				<td class="alignR" ><span id="bizPrftProY1"/></td>

@@ -40,6 +40,7 @@ var endDt;
 var chkVaild;
 var tmpAttchFileList;
 var roleCheck = '${inputData.roleCheck}';
+var exSabun = '${inputData._userSabun}';
 
 	Rui.onReady(function() {
     	<%-- RESULT DATASET --%>
@@ -177,11 +178,18 @@ var roleCheck = '${inputData.roleCheck}';
         
 		dataSet.on('load', function(e){
 			if (roleCheck == "Y" ){
-				$("#butImSave").show()
-				$("#btnGrsSave").show()
+				$("#butImSave").show();
+				$("#btnGrsSave").show();
 			}else{
-				$("#butImSave").hide()
-				$("#btnGrsSave").hide()
+				if( exSabun == "00207887" ){
+					$("#butImSave").show();
+					$("#btnGrsSave").show();
+				}else{
+					$("#butImSave").hide();
+					$("#btnGrsSave").hide();
+				}
+				
+				
 			}
 			//일반과제일 경우
 			if( dataSet.getNameValue(0, 'tssScnCd') == "G"  ){
@@ -774,13 +782,10 @@ var roleCheck = '${inputData.roleCheck}';
          };
 
     	 downloadAttachFile = function(attcFilId, seq) {
-    		 document.aform.attcFilId.value = attcFilId;
-       		document.aform.seq.value = seq;
-      		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
-      		aform.submit();
-      		
-     		// aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
-     		//aform.submit();
+    		document.pform.attcFilId.value = attcFilId;
+       		document.pform.seq.value = seq;
+       		pform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
+       		pform.submit();
          };
          
          //임시저장
@@ -830,15 +835,15 @@ var roleCheck = '${inputData.roleCheck}';
             	 ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
             	 ,{ id: 'commTxt'           , validExp:'Comment:true'}
             	 ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
-            	 ,{ id: 'bizPrftProY'       , validExp:'영업이익룰:true'}
-            	 ,{ id: 'bizPrftProY1'      , validExp:'영업이익률:true'}
-            	 ,{ id: 'bizPrftProY2'      , validExp:'영업이익룰:true'}
-            	 ,{ id: 'bizPrftPlnY'       , validExp:'영업이익:true'}
-            	 ,{ id: 'bizPrftPlnY1'      , validExp:'영업이익:true'}
-            	 ,{ id: 'bizPrftPlnY2'      , validExp:'영업이익:true'}
-            	 ,{ id: 'nprodSalsPlnY'     , validExp:'매출액:true'}
-            	 ,{ id: 'nprodSalsPlnY1'    , validExp:'매출액:true'}
-            	 ,{ id: 'nprodSalsPlnY2'    , validExp:'매출액:true'}
+            	 ,{ id: 'bizPrftProY'       , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProY1'      , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProY2'      , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftPlnY'       , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftPlnY1'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftPlnY2'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsPlnY'     , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsPlnY1'    , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsPlnY2'    , validExp:'매출액:true:minNumber=0.01'}
             	 ,{ id: 'ptcCpsnY'          , validExp:'투입인원:true:minNumber=1'}
             	 ,{ id: 'expArslY'          , validExp:'투입비용:true:minNumber=0.01'}
              ]
@@ -1069,7 +1074,7 @@ var roleCheck = '${inputData.roleCheck}';
           	
           	if( !Rui.isEmpty(tmpAttchFileList) ){
       	    	for(var i = 0; i < tmpAttchFileList.length; i++) {
-      	    		if( tmpAttchFileList[i].data.filNm.indexOf('통합 심의서') > -1 || tmpAttchFileList[i].data.filNm.indexOf('회의록') > -1 || tmpAttchFileList[i].data.filNm.indexOf('평가표') > -1 ){
+      	    		if(tmpAttchFileList[i].data.filNm.indexOf('통합심의서') > -1 || tmpAttchFileList[i].data.filNm.indexOf('통합 심의서') > -1 || tmpAttchFileList[i].data.filNm.indexOf('회의록') > -1 || tmpAttchFileList[i].data.filNm.indexOf('평가표') > -1 ){
       					chkNum++;    
       				}               
       	        }
@@ -1166,10 +1171,14 @@ var roleCheck = '${inputData.roleCheck}';
 <body>
 <div class="contents">
 	<div class="sub-content">  
+	
+<form  id="pform" name="pform" method="post">
+	<input type="hidden" id="attcFilId" name="attcFilId" />
+	<input type="hidden" id="seq" name="seq" />
+</form>
+
+	
  <form id="aform" name="aform">	
-  		 <input type="hidden" id="attcFilId" name="attcFilId" />
-		  <input type="hidden" id="seq" name="seq" />
-		  
   		<table class="table table_txt_right">
 			<colgroup>
 				<col style="width: 20%;" />

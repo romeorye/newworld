@@ -751,14 +751,10 @@ var roleCheck = '${inputData.roleCheck}';
          };
 
     	 downloadAttachFile = function(attcFilId, seq) {
-    		
-    		 document.aform.attcFilId.value = attcFilId;
-      		document.aform.seq.value = seq;
-     		aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
-     		aform.submit();
-     		
-    		// aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
-    		//aform.submit();
+    		document.pform.attcFilId.value = attcFilId;
+       		document.pform.seq.value = seq;
+       		pform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>";
+       		pform.submit();
          };
          
          //임시저장
@@ -1024,15 +1020,15 @@ var roleCheck = '${inputData.roleCheck}';
             	 ,{ id: 'commTxt'           , validExp:'Comment:true'}
             	 ,{ id: 'nprodNm'           , validExp:'신체품명:true'}
             	 ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
-            	 ,{ id: 'nprodSalsCurY'     , validExp:'매출액:true'}
-            	 ,{ id: 'nprodSalsCurY1'    , validExp:'매출액:true'}
-            	 ,{ id: 'nprodSalsCurY2'    , validExp:'매출액:true'}
-            	 ,{ id: 'bizPrftProCurY'    , validExp:'영업이익룰:true'}
-            	 ,{ id: 'bizPrftProCurY1'   , validExp:'영업이익률:true'}
-            	 ,{ id: 'bizPrftProCurY2'   , validExp:'영업이익룰:true'}
-            	 ,{ id: 'bizPrftCurY'       , validExp:'영업이익:true'}
-            	 ,{ id: 'bizPrftCurY1'      , validExp:'영업이익:true'}
-            	 ,{ id: 'bizPrftCurY2'      , validExp:'영업이익:true'}
+            	 ,{ id: 'nprodSalsCurY'     , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsCurY1'    , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsCurY2'    , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProCurY'    , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProCurY1'   , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProCurY2'   , validExp:'영업이익룰:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftCurY'       , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftCurY1'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftCurY2'      , validExp:'영업이익:true:minNumber=0.01'}
             	 ,{ id: 'ptcCpsnCurY'       , validExp:'투입인원:true:minNumber=1'}
             /* 
             	 ,{ id: 'ptcCpsnCurY1'      , validExp:'투입인원:true'}
@@ -1140,10 +1136,14 @@ var roleCheck = '${inputData.roleCheck}';
 <body>
 <div class="contents">
 	<div class="sub-content">  
+  	
+  	<form  id="pform" name="pform" method="post">
+	<input type="hidden" id="attcFilId" name="attcFilId" />
+	<input type="hidden" id="seq" name="seq" />
+</form>
+  	
+  	
   	<form id="aform" name="aform">	
-  		 <input type="hidden" id="attcFilId" name="attcFilId" />
-		  <input type="hidden" id="seq" name="seq" />
-		  
   		<table class="table table_txt_right">
 			<colgroup>
 				<col style="width: 20%;" />
