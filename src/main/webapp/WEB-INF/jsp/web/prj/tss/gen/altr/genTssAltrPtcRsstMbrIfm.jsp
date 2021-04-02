@@ -28,6 +28,7 @@
     var lvUserId   = window.parent.gvUserId;
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
+    var lvWbsCd    = window.parent.gvWbsCd;
     
     var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
     
@@ -180,7 +181,8 @@
             dataSet.load({ 
                 url: "<c:url value='/prj/tss/gen/retrieveGenTssAltrPtcRsstMbr.do'/>"
               , params : {
-                    tssCd : lvTssCd
+                    tssCd : lvTssCd,
+                    wbsCd : lvWbsCd
                 }
             });
         };
