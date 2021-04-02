@@ -755,7 +755,7 @@
      	<![CDATA[
      	-- retrieveOusdCooTssCmplItmCheck 필수산출물 count 조회
      	SELECT  CASE WHEN COUNT(*)>0 THEN 'Y' ELSE 'N' END checkItm
-		FROM    IRIS_TSS_YLD_ITM
+		FROM    IRIS_TSS_OUSD_COO_SMRY
 		WHERE   TSS_CD in (select tss_cd   
 				           from IRIS_TSS_MGMT_MST 
 				           where wbs_cd =#{wbsCd}
@@ -764,5 +764,17 @@
 		and     YLD_ITM_TYPE = '05'		           
         ]]>
     </select>
+    
+    <!-- 필수산출물 count 조회 -->
+     <select id="chkOusdCooTssSmry"  resultType="int">
+     	<![CDATA[
+     	-- chkOusdCooTssSmry smryinfo 여부
+     	SELECT  COUNT(*) as checkItm
+		FROM    IRIS_TSS_OUSD_COO_SMRY
+		WHERE   TSS_CD = #{tssCd}
+        ]]>
+    </select>
+
+
 
 </mapper>
