@@ -268,7 +268,7 @@
                 , { id: 'G2', label: '과제실적일' }
                 , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
                 , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
-                , { field: 'progressrateReal', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 80 }
+                , { field: 'progressrate', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 80 }
                 , { id: 'pg', label: '진척도', align:'center', width: 50 ,renderer :function(value, p, record, row, col) {
 
                     var pgN =' <img src="<%=contextPath%>/resource/images/icon/sign_green.png"/> ';
@@ -281,7 +281,8 @@
 
                     var rWgvl = floatNullChk(arrPrg[0]) ; // 실적
                     var gWgvl  = floatNullChk(arrPrg[1]) ; //목표
-
+                    rWgvl = rWgvl + 1;
+                    
                     var pg = pgN ;
 
                     if(rWgvl > gWgvl){
@@ -336,16 +337,14 @@
 
 
         grid.on('cellClick', function(e) {
-
-
             if(e.colId == "tssNm") {
                 var pTssCd     = dataSet.getNameValue(e.row, "tssCd");     //과제코드
                 var pPgsStepCd = dataSet.getNameValue(e.row, "pgsStepCd"); //진행상태코드
                 var pTssSt     = dataSet.getNameValue(e.row, "tssSt");     //과제상태
+                var pWbsCd     = dataSet.getNameValue(e.row, "wbsCd");     //과제상태
                 var pGrsEvSt   = stringNullChk(dataSet.getNameValue(e.row, "grsEvSt")); //GRS상태
-
                 //진척률
-                var progressrateReal = dataSet.getNameValue(e.row, "progressrateReal");
+                var progressrateReal = dataSet.getNameValue(e.row, "progressrate");
                 var progressrate = dataSet.getNameValue(e.row, "progressrate");
 
                 var arrPrg = progressrate.split('/')
@@ -356,7 +355,7 @@
                 if(rWgvl > gWgvl){
                 	progressrate = "S";
                 }else if(rWgvl < gWgvl){
-                	rWgvl = rWgvl+3;
+                	rWgvl = rWgvl;
 
                 	if( rWgvl < gWgvl ){
 	                	progressrate = "D";
@@ -368,7 +367,7 @@
                 	progressrate = "N";
                 }
 
-                var urlParam = "?tssCd="+pTssCd+"&progressrateReal="+progressrateReal+"&progressrate="+progressrate;
+                var urlParam = "?tssCd="+pTssCd+"&progressrateReal="+progressrateReal+"&progressrate="+progressrate+"&wbsCd="+pWbsCd;
 
                 //계획
                 if(pPgsStepCd == "PL") {
@@ -505,13 +504,13 @@
                          return value;
                      } }
                      , { id: 'G3', label: '현재 진척율' }
-                     , { id: 'progressrateReal', groupId: 'G3', label: '계획', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
-                    	 var arrPrg = record.get("progressrateReal").split('/');
+                     , { id: 'progressrate', groupId: 'G3', label: '계획', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
+                    	 var arrPrg = record.get("progressrate").split('/');
 
                     	 return arrPrg[1];
                      } }
-                     , { id: 'progressrateReal1', groupId: 'G3', label: '실적', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
-                    	 var arrPrg = record.get("progressrateReal").split('/');
+                     , { id: 'progressrate', groupId: 'G3', label: '실적', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
+                    	 var arrPrg = record.get("progressrate").split('/');
 
                     	 return arrPrg[0];
                      } }
@@ -522,7 +521,7 @@
                          var pgS ="초과";
                          var pgD ="미달";
 
-                         var progressrate= record.get('progressrateReal');
+                         var progressrate= record.get('progressrate');
 
                          var arrPrg = progressrate.split('/')
 
@@ -534,7 +533,7 @@
                          if(rWgvl > gWgvl){
                              pg = pgS ;
                          }else if(rWgvl < gWgvl){
-                         	rWgvl = rWgvl+3;
+                         	rWgvl = rWgvl;
 
                          	if( rWgvl < gWgvl ){
      	                    	pg = pgD ;
