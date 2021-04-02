@@ -4,6 +4,7 @@
 <%@page import="iris.web.common.util.HelpDesk" %>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -164,19 +165,11 @@ $(function(){
 
 
 function goHelpDesk(){
-	var sa = '${inputData._userSabun}';
-    <%
-	String sabun =  (String)((HashMap<String, String>)request.getAttribute("inputData")).get("_userSabun");
-	HelpDesk hd = new HelpDesk();
-	%>
-
-	var emp_no = "921700"+sa;
-	var fmd5_emp_no = "<%=hd.fmd5_user_id(sabun)%>";
-	var popUrl =  '<c:url value="/prj/rsst/helpdesPopUp.do"/>';
+	var popUrl =  '<c:url value="https://itms.lgstation.com/hausys"/>';
     var popupOption = "width=1200, height=700, top=200, left=400";
 
     alert("IRIS+ 문의사항은 02-6987-7396 으로 연락바랍니다.");
-    popUrl = popUrl+"?emp_no="+emp_no+"&fmd5_emp_no="+fmd5_emp_no;
+    popUrl = popUrl;
     window.open(popUrl,"",popupOption);
 }
 
@@ -201,7 +194,7 @@ function moveMenu(vMenuId, scrnUrl, menuId){
 			$("#menuForm").find("#anlChrgNm").val('${inputData._userNm}');
 		}
 	}
-
+/* 
 	if( '${inputData.progressrateReal}' != "" ||   '${inputData.progressrateReal}' != null ||   '${inputData.progressrateReal}' != undefined ){
 		$("#menuForm").find("#progressrateReal").val('${inputData.progressrateReal}');
 	}
@@ -210,7 +203,8 @@ function moveMenu(vMenuId, scrnUrl, menuId){
 		$("#menuForm").find("#progressrate").val('${inputData.progressrate}');
 	}
 
-	//[EAM추가] - 변수 Start
+ */	
+ 	//[EAM추가] - 변수 Start
 	$("#menuForm").find("#subSysId").val(vMenuId);
 	$("#menuForm").find("#menuPath").val(scrnUrl);
 	$("#menuForm").find("#menuId").val(menuId);
@@ -222,8 +216,8 @@ function moveMenu(vMenuId, scrnUrl, menuId){
 	$("#menuForm").submit();
 
 	$("#menuForm").find("#anlChrgNm").val('');
-	$("#menuForm").find("#progressrateReal").val('');
-	$("#menuForm").find("#progressrate").val('');
+	//$("#menuForm").find("#progressrateReal").val('');
+	//$("#menuForm").find("#progressrate").val('');
 }
 
 <%--/*******************************************************************************
@@ -246,18 +240,16 @@ function setMenuView(menuId) {
 </script>
 </head>
 <body style="background:#f8f8f8;>
-<form  name="mainForm2" method="post">
- <input type="hidden" name="emp_no" />
- <input type="hidden" name="fmd5_emp_no" />
- <input type="hidden" name="comp_no" value="921700">
+<form  name="mainForm2" method="post" >
+ 
 </form>
 
 <form id="menuForm" name="menuForm" method="post">
 <input type="hidden" id="vMenuId" name="vMenuId" value="" />
 <input type="hidden" id="menuMoveYn" name="menuMoveYn" value="N"/>
 <input type="hidden" id="anlChrgNm" name="anlChrgNm"/>
-<input type="hidden" id="progressrateReal" name="progressrateReal"/>
-<input type="hidden" id="progressrate" name="progressrate"/>
+/* <input type="hidden" id="progressrateReal" name="progressrateReal"/>
+<input type="hidden" id="progressrate" name="progressrate"/> */
 <!-- [EAM추가]Start ===================================================================================== -->
 <input type="hidden" id="menuId" name="menuId"/>
 <input type="hidden" id="menuPath" name="menuPath"/>

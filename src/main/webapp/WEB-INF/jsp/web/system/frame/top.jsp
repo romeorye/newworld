@@ -72,7 +72,7 @@ function goHelpDesk(){
 
 	var emp_no = "921700"+sa;
 	var fmd5_emp_no = "<%=hd.fmd5_user_id(sabun)%>";
-	var popUrl =  '<c:url value="/prj/rsst/helpdesPopUp.do"/>';
+	var popUrl =  '<c:url value="https://itms.lgstation.com/hausys"/>';
     var popupOption = "width=1200, height=700, top=200, left=400";
     
     alert("IRIS+ 문의사항은 02-6987-7396 으로 연락바랍니다.");
