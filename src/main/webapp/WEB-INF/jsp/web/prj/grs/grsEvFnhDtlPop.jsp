@@ -676,9 +676,9 @@ var lvAttcFilId;
 	  				<td class="alignR" ><span id="bizPrftProCurY1"/></td>
 	  				<td class="alignR" ><span id="bizPrftProY2"/></td>
 	  				<td class="alignR" ><span id="bizPrftProCurY2"/></td>
-	  				<td class="alignR" ><span id="bizPrftProY3"/></td>
 	  				<td class="alignR" ></td>
-	  				<td class="alignR" ><span id="bizPrftProY4"/></td>
+	  				<td class="alignR" ></td>
+	  				<td class="alignR" ></td>
 	  				<td class="alignR" ></td>
 	  			</tr>
 	  			<tr id="trNprodSal"  >
@@ -689,9 +689,9 @@ var lvAttcFilId;
 	  				<td class="alignR" ><span id="nprodSalsCurY1"/></td>
 	  				<td class="alignR" ><span id="nprodSalsPlnY2"/></td>
 	  				<td class="alignR" ><span id="nprodSalsCurY2"/></td>
-	  				<td class="alignR" ><span id="nprodSalsPlnY3"/></td>
 	  				<td class="alignR" ></td>
-	  				<td class="alignR" ><span id="nprodSalsPlnY4"/></td>
+	  				<td class="alignR" ></td>
+	  				<td class="alignR" ></td>
 	  				<td class="alignR" ></td>
 	  			</tr>
 	  			<tr id="trbizPrftPln" >

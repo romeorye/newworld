@@ -1023,11 +1023,11 @@ var roleCheck = '${inputData.roleCheck}';
             	 ,{ id: 'nprodSalsCurY'     , validExp:'매출액:true:minNumber=0.01'}
             	 ,{ id: 'nprodSalsCurY1'    , validExp:'매출액:true:minNumber=0.01'}
             	 ,{ id: 'nprodSalsCurY2'    , validExp:'매출액:true:minNumber=0.01'}
-            	 ,{ id: 'bizPrftProCurY'    , validExp:'영업이익률:true:minNumber=0.01'}
-            	 ,{ id: 'bizPrftProCurY1'   , validExp:'영업이익률:true:minNumber=0.01'}
+            	 //,{ id: 'bizPrftProCurY'    , validExp:'영업이익률:true:minNumber=0.01'}
+            	 //,{ id: 'bizPrftProCurY1'   , validExp:'영업이익률:true:minNumber=0.01'}
             	 ,{ id: 'bizPrftProCurY2'   , validExp:'영업이익룰:true:minNumber=0.01'}
-            	 ,{ id: 'bizPrftCurY'       , validExp:'영업이익:true:minNumber=0.01'}
-            	 ,{ id: 'bizPrftCurY1'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 //,{ id: 'bizPrftCurY'       , validExp:'영업이익:true:minNumber=0.01'}
+            	 //,{ id: 'bizPrftCurY1'      , validExp:'영업이익:true:minNumber=0.01'}
             	 ,{ id: 'bizPrftCurY2'      , validExp:'영업이익:true:minNumber=0.01'}
             	 ,{ id: 'ptcCpsnCurY'       , validExp:'투입인원:true:minNumber=1'}
             /* 

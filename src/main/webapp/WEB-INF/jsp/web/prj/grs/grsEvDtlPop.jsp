@@ -134,15 +134,14 @@ var userIds;
 				}else{
 					$("#trAncpOtPlnDt").show();
 				}
-				
+
 				//중간 평가
-				if( dataSet.getNameValue(0, 'grsEvSt') == "M" ){
-						$("#trGrsEvMType").show();			//중간평가
+				if( dataSet.getNameValue(0, 'grsEvSt').trim() == "M" ){
+					$("#trGrsEvMType").show();			//중간평가
 				}
 			}else{
 				$("#grsDev").hide();
 			}
-			
 			
 			commTxt.setEditable(false);
 			lvAttcFilId = dataSet.getNameValue(0, 'attcFilId');
@@ -346,6 +345,7 @@ var userIds;
 	            		return Rui.util.LFormat.numberFormat(value);
 	        		}
 	        	}
+          /*
             	,{ id: 'nprodSalsPlnY3'    , ctrlId : 'nprodSalsPlnY3'   ,value : 'html' , renderer: function(value) {
 	            		return Rui.util.LFormat.numberFormat(value);
 	        		}
@@ -354,6 +354,7 @@ var userIds;
 	            		return Rui.util.LFormat.numberFormat(value);
 	        		}
 	        	}
+           */ 	
             	,{ id: 'nprodSalsCurY'     , ctrlId : 'nprodSalsCurY'    ,value : 'html' , renderer: function(value) {
 	            		return Rui.util.LFormat.numberFormat(value);
 	        		}
@@ -402,6 +403,7 @@ var userIds;
 	            		return Rui.util.LFormat.numberFormat(value);
 	        		}
 	        	}
+            	/*
             	,{ id: 'bizPrftProY3'      , ctrlId : 'bizPrftProY3'     ,value : 'html' , renderer: function(value) {
 	            		return Rui.util.LFormat.numberFormat(value);
 	        		}
@@ -410,6 +412,7 @@ var userIds;
 	            		return Rui.util.LFormat.numberFormat(value);
 	        		}
 	        	}
+            	*/
             	,{ id: 'bizPrftProCurY'    , ctrlId : 'bizPrftProCurY'   ,value : 'html' , renderer: function(value) {
 	            		return Rui.util.LFormat.numberFormat(value);
 	        		}
@@ -678,8 +681,8 @@ var userIds;
 	  				<td class="alignR" ><span id="bizPrftProY"></td>
 	  				<td class="alignR" ><span id="bizPrftProY1"></td>
 	  				<td class="alignR" ><span id="bizPrftProY2"></td>
-	  				<td class="alignR" ><span id="bizPrftProY3"></td>
-	  				<td class="alignR" ><span id="bizPrftProY4"></td>
+	  				<td class="alignR" ></td>
+	  				<td class="alignR" ></td>
 	  			</tr>
 	  			<tr id="trbizPrftPlnHead">
 	  				<th rowspan="2">영업이익(억원)</th>

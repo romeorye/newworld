@@ -188,9 +188,8 @@ var exSabun = '${inputData._userSabun}';
 					$("#butImSave").hide();
 					$("#btnGrsSave").hide();
 				}
-				
-				
 			}
+			
 			//일반과제일 경우
 			if( dataSet.getNameValue(0, 'tssScnCd') == "G"  ){
 				$("#grsDev").show();
@@ -204,9 +203,10 @@ var exSabun = '${inputData._userSabun}';
 				strDt = dataSet.getNameValue(0, 'tssStrtDd');
 				endDt = dataSet.getNameValue(0, 'tssFnhDd');
 				
+				fncPtcCpsnYDisable();
+				
 				//중간 평가
 				if( dataSet.getNameValue(0, 'grsEvSt') == "M" ){
-					fncPtcCpsnYDisable();
 
 					$("table#grsDev").each(function() {
 						ctyOtPlnM.disable();
@@ -227,7 +227,7 @@ var exSabun = '${inputData._userSabun}';
 				$("#trEvResult").show();
 			}
 			
-			if( dataSet.getNameValue(0, 'grsEvSt') == "M" ){
+			if( dataSet.getNameValue(0, 'grsEvSt').trim() == "M" ){
 				$("#trGrsEvMType").show();			//중간평가
 			}
 			
@@ -835,11 +835,11 @@ var exSabun = '${inputData._userSabun}';
             	 ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
             	 ,{ id: 'commTxt'           , validExp:'Comment:true'}
             	 ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
-            	 ,{ id: 'bizPrftProY'       , validExp:'영업이익률:true:minNumber=0.01'}
-            	 ,{ id: 'bizPrftProY1'      , validExp:'영업이익률:true:minNumber=0.01'}
+            	// ,{ id: 'bizPrftProY'       , validExp:'영업이익률:true:minNumber=0.01'}
+            	// ,{ id: 'bizPrftProY1'      , validExp:'영업이익률:true:minNumber=0.01'}
             	 ,{ id: 'bizPrftProY2'      , validExp:'영업이익률:true:minNumber=0.01'}
-            	 ,{ id: 'bizPrftPlnY'       , validExp:'영업이익:true:minNumber=0.01'}
-            	 ,{ id: 'bizPrftPlnY1'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 //,{ id: 'bizPrftPlnY'       , validExp:'영업이익:true:minNumber=0.01'}
+            	 //,{ id: 'bizPrftPlnY1'      , validExp:'영업이익:true:minNumber=0.01'}
             	 ,{ id: 'bizPrftPlnY2'      , validExp:'영업이익:true:minNumber=0.01'}
             	 ,{ id: 'nprodSalsPlnY'     , validExp:'매출액:true:minNumber=0.01'}
             	 ,{ id: 'nprodSalsPlnY1'    , validExp:'매출액:true:minNumber=0.01'}
@@ -1279,8 +1279,8 @@ var exSabun = '${inputData._userSabun}';
 	  				<td><input type="text" id="bizPrftProY"></td>
 	  				<td><input type="text" id="bizPrftProY1"></td>
 	  				<td><input type="text" id="bizPrftProY2"></td>
-	  				<td><span id="bizPrftProY3"></td>
-	  				<td><span id="bizPrftProY4"></td>
+	  				<td></td>
+	  				<td></td>
 	  			</tr>
 	  			<tr id="trbizPrftPlnHead">
 	  				<th rowspan="2">영업이익(억원)</th>
