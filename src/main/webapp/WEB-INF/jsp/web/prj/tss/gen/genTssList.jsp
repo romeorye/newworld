@@ -551,6 +551,7 @@
                          }
                          return pg;
                      }}
+                     , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 117 }
                  ]
              });
             	duplicateExcelGrid(excelColumnModel);
