@@ -725,12 +725,16 @@
 											  ,isnull(dbo.fn_getUpperDeptCd(  
 											                             (  select  sa_dept_new                
 																		    from    iris_sso_user
-																			where    sa_user = isnull(a.real_rgst_id, a.rgst_id)
+																			where    sa_user = (case when  a.real_rgst_id is null then a.rgst_id
+																			                        when  a.real_rgst_id = '' then a.rgst_id
+																									else   a.real_rgst_id end)
 																		 ) ), '00000000' ) as dept_cd
 											   ,ISNULL(dbo.fn_getUpperDeptNm(
 																		 (  select  sa_dept_new                
 																		    from    iris_sso_user
-																			where    sa_user = isnull(a.real_rgst_id, a.rgst_id)
+																			where    sa_user = (case when  a.real_rgst_id is null then a.rgst_id
+																			                        when  a.real_rgst_id = '' then a.rgst_id
+																									else   a.real_rgst_id end)
 																		 ) ), '±‚≈∏') as dept_nm
 											   ,( select sum(x.SMPO_QTY) 
 												  from   IRIS_ANL_RQPR_EXPR x
