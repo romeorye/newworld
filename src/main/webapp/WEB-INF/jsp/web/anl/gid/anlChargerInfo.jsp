@@ -39,7 +39,7 @@
 	<script type="text/javascript">
 
   		function getPersonInfo(sabunnew, loginSabun){
-  			var popupUrl = "http://portal.lghausys.com/epWeb/com/ep/ibs/mypage/UserInfoController.jpf?sabunnew=" + sabunnew +"&loginSabun=" + loginSabun ;
+  			var popupUrl = "http://portal.lxhausys.com/epWeb/com/ep/ibs/mypage/UserInfoController.jpf?sabunnew=" + sabunnew +"&loginSabun=" + loginSabun ;
   			var popupOption = "width=750, height=500, top=300, left=400";
   			window.open(popupUrl,"",popupOption);
   		}
