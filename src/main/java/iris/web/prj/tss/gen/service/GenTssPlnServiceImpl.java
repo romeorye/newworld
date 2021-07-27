@@ -496,7 +496,7 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
                 tssPgsNm = "중간";
             }
 
-            mailSender.setFromMailAddress("iris@lghausys.com" ,"관리자");
+            mailSender.setFromMailAddress("iris@lxhausys.com" ,"관리자");
             mailSender.setToMailAddress((String)recMailInfo.get("saMail"));
             mailSender.setSubject(tssPgsNm+"품의 진행안내");
             grsInfoVo.setGrsStCd(recMailInfo.get("grsCd").toString());
@@ -510,7 +510,7 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
             HashMap<String, Object> mailMap = new HashMap<String, Object>();
             mailMap.put("mailTitl", tssPgsNm+"품의 진행안내");
             mailMap.put("adreMail", recMailInfo.get("saMail") );
-            mailMap.put("trrMail", "iris@lghausys.com");
+            mailMap.put("trrMail", "iris@lxhausys.com");
             mailMap.put("_userId", input.get("userId").toString());
 
             commonDao.insert("open.mchnEduAnl.insertMailHis", mailMap);
