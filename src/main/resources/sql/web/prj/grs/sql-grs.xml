@@ -1307,8 +1307,9 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                   IRIS_GRS_EV_STD_MGMT sm
              WHERE sm.GRS_EV_SN = srr.GRS_EV_SN
                    AND sm.GRS_EV_SEQ = srr.GRS_EV_SEQ
-                   AND srr.TSS_CD =  A.TSS_CD /**P*/
-                   AND srr.tss_cd_sn =  '1' /**P*/) AS evScr    --등급평균
+                   AND srr.TSS_CD =  A.TSS_CD 
+                   AND srr.tss_cd_sn = #{tssCdSn}
+                   ) AS evScr    --등급평균
           ,iif(B.DROP_YN is null or B.DROP_YN='','N',B.DROP_YN) as  dropYn
           ,B.EV_DT
         FROM
