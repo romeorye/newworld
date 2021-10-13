@@ -650,6 +650,7 @@ var exSabun = '${inputData._userSabun}';
             	,{ id: 'dlbrCrgrNm'        , ctrlId : 'dlbrCrgrNm'       ,value : 'html' }
             	,{ id: 'commTxt'           , ctrlId : 'commTxt'          ,value : 'value' }
             	,{ id: 'evTitl'            , ctrlId : 'evTitl'           ,value : 'value' }
+            	,{ id: 'grsEvMType'        , ctrlId : 'grsEvMType'       ,value : 'value' }
             	,{ id: 'evDt'              , ctrlId : 'evDt'             ,value : 'value' }
             	,{ id: 'cfrnAtdtCdTxtNm'   , ctrlId : 'cfrnAtdtCdTxtNm'  ,value : 'value' }
             	,{ id: 'grsEvSn'           , ctrlId : 'grsEvSn'          ,value : 'value' }
@@ -835,6 +836,28 @@ var exSabun = '${inputData._userSabun}';
             	 ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
             	 ,{ id: 'commTxt'           , validExp:'Comment:true'}
             	 ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
+            	 ,{ id: 'bizPrftProY'       , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProY1'      , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProY2'      , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftPlnY'       , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftPlnY1'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftPlnY2'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsPlnY'     , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsPlnY1'    , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsPlnY2'    , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'ptcCpsnY'          , validExp:'투입인원:true:minNumber=1'}
+            	 ,{ id: 'expArslY'          , validExp:'투입비용:true:minNumber=0.01'}
+             ]
+         });
+         
+         var valid2 = new Rui.validate.LValidatorManager({
+        	 validators:[
+            	  { id: 'evTitl'            , validExp:'회의일정/장소:true'}
+            	 ,{ id: 'evDt'            , validExp:'회의일정/장소:true'}
+            	 ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true'}
+            	 ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
+            	 ,{ id: 'commTxt'           , validExp:'Comment:true'}
+            	 ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
             	// ,{ id: 'bizPrftProY'       , validExp:'영업이익률:true:minNumber=0.01'}
             	// ,{ id: 'bizPrftProY1'      , validExp:'영업이익률:true:minNumber=0.01'}
             	 ,{ id: 'bizPrftProY2'      , validExp:'영업이익률:true:minNumber=0.01'}
@@ -986,10 +1009,17 @@ var exSabun = '${inputData._userSabun}';
                          return;
                      }
             	 }else{
-            		 if(valid1.validateGroup('aform') == false) {
-                       	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid1.getMessageList().join(''));
-                         return;
-                     }
+            		 if (  dataSet.getNameValue(0, 'bizDptCd') == "01" || dataSet.getNameValue(0, 'bizDptCd') == "03" || dataSet.getNameValue(0, 'bizDptCd') == "06"){
+                		 if(valid1.validateGroup('aform') == false) {
+                           	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid1.getMessageList().join(''));
+                             return;
+                         }
+                	 }else{
+                		 if(valid2.validateGroup('aform') == false) {
+                           	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid2.getMessageList().join(''));
+                             return;
+                         }
+                	 }
             	 }
             	 
             	 if ( dataSet.getNameValue(0, 'grsEvSt') == "P1" ){

@@ -201,6 +201,22 @@
                     return;
                 }
             }
+            
+
+          	if (!Rui.isEmpty( dataSet.getNameValue(0, 'evDt')   )    )  {
+          		var evDt  =  dataSet.getNameValue(0, 'evDt').replace(/\-/g, "").toDate();
+                var fnhDt =  cmplBFnhDd.getValue().replace(/\-/g, "").toDate();
+            
+                var rtnValue = ((fnhDt - evDt) / 60 / 60 / 24 / 1000) + 1;
+                
+                if(rtnValue <= 0) {
+                    Rui.alert("GRS 회의일보다 실적종료일이 빠를 수 없습니다.");
+                    cmplBFnhDd.setValue("");
+                    cmplBFnhDd.focus();
+                    return;
+                }
+          	}      	
+          	
         });
 
         altrHistDialog = new Rui.ui.LFrameDialog({
@@ -330,8 +346,8 @@
             bind: true,
             bindInfo: [
                   { id: 'prjNm',       ctrlId: 'prjNm',       value: 'value' }
-                , { id: 'wbsCd',       ctrlId: 'wbsCd',    value: 'value' }
-                , { id: 'tssNm',       ctrlId: 'tssNm',    value: 'value' }
+                , { id: 'wbsCd',       ctrlId: 'wbsCd',    	  value: 'value' }
+                , { id: 'tssNm',       ctrlId: 'tssNm',       value: 'value' }
                 , { id: 'deptName',    ctrlId: 'deptName',    value: 'value' }
                 , { id: 'ppslMbdNm',   ctrlId: 'ppslMbdNm',   value: 'value' }
                 , { id: 'bizDptNm',    ctrlId: 'bizDptNm',    value: 'value' }
@@ -419,7 +435,8 @@
                 break;
             //개요
             case 1:
-                if(e.isFirst) {
+               alert(gvTssCd);
+            	if(e.isFirst) {
                 	tabUrl = "<c:url value='/prj/tss/gen/genTssPgsSmryIfm.do?tssCd=" + gvTssCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
                 }
@@ -427,7 +444,7 @@
             //참여연구원
             case 2:
                 if(e.isFirst) {
-                	tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=PG'/>";
+                	tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=PG'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
                 break;
@@ -476,20 +493,6 @@
         btnCsusRq.on('click', function() {
         	document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
           	document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
-          	
-          	
-          	if (!Rui.isEmpty( dataSet.getNameValue(0, 'evDt')   )    )  {
-          		var evDt = dataSet.getNameValue(0, 'evDt').replace(/\-/g, "").toDate();
-                var fnhDt   = cmplBFnhDd.getValue().replace(/\-/g, "").toDate();
-              	
-                if(fnhDt < evDt) {
-                    Rui.alert("GRS 회의일보다 실적종료일이 빠를 수 없습니다.");
-                    cmplBFnhDd.setValue("");
-                    cmplBFnhDd.focus();
-                    return;
-                }
-          	}      	
-          	
           	
           	/* 			
           	var chkNum = document.getElementById('tabContent0').contentWindow.fnAttchValid();  

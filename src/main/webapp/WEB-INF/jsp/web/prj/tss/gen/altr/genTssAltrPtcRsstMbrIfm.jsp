@@ -58,7 +58,7 @@
             
             btnSave.hide();
             butRecordNew.hide();
-            butRecordDel.hide();
+            //butRecordDel.hide();
             
             grid.setEditable(false);
         };
@@ -198,6 +198,7 @@
         });
         
         //삭제
+        /*
         var butRecordDel = new Rui.ui.LButton('butRecordDel');
         butRecordDel.on('click', function() {                
             Rui.confirm({
@@ -237,7 +238,8 @@
                 handlerNo: Rui.emptyFn
             });
         });
-                
+        */
+             
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
@@ -298,7 +300,7 @@ $(window).load(function() {
     <div class="LblockButton">
         <button type="button" id="butRecordNew">추가</button>
         <button type="button" id="btnSave" name="btnSave">저장</button>
-        <button type="button" id="butRecordDel">삭제</button>
+        <!-- <button type="button" id="butRecordDel">삭제</button> -->
     </div>
 </div>
 <div id="mbrFormDiv">

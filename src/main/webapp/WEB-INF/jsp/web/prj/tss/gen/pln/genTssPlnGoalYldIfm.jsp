@@ -342,6 +342,9 @@
                 }else if (chkRows[i].data.yldItmType == '06' || chkRows[i].data.yldItmType == '07' || chkRows[i].data.yldItmType == '08'  ){
                 	Rui.alert("Q-GATE 파일은 삭제가 불가합니다.");
                     return;
+                }else if (chkRows[i].data.yldItmType == '10'   ){
+                	Rui.alert("완료/중단 GRS 심의서 파일은 삭제가 불가합니다.");
+                    return;
                 }
             }
             

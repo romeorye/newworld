@@ -194,7 +194,6 @@
                 break;
             //참여연구원
             case 1:
-              alert(lvWbsCd);
             	if(e.isFirst) {
                     tabUrl = "<c:url value='/prj/tss/ousdcoo/ousdCooTssPgsPtcRsstMbrIfm.do?tssCd="+gvTssCd+"&wbsCd="+lvWbsCd+"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');

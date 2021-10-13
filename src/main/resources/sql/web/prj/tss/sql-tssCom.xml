@@ -357,10 +357,9 @@
              , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'DEPT', DEPT_CODE) , DEPT_NAME) AS deptName   --소속명
              , dbo.fn_getComDtlNm('PTC_ROLE', PTC_ROLE) AS ptcRoleNm  --참여역할명
              , #{_userId}      AS userId
+             , tss_cd as tssCd
           FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
-         WHERE TSS_CD in (
-         			select tss_cd from IRIS_TSS_MGMT_MST where wbs_cd = #{wbsCd}
-               )
+         WHERE TSS_CD = #{tssCd} 
     ]]>
 	</select>
 

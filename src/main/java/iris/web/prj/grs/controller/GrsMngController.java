@@ -694,6 +694,29 @@ public class GrsMngController extends IrisBaseController {
 		return modelAndView;
 	}
 
+
+	/**
+	 * 신규과제 수정 팝업 화면
+	 */
+	@RequestMapping("/prj/grs/tssUpdatePop.do")
+	public String tssUpdatePop(@RequestParam HashMap<String, String> input,
+			HttpSession session, ModelMap model) {
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("GrsMngController - tssUpdatePop [과제수정팝업화면 호출]");
+		LOGGER.debug("inputData => " + input);
+		LOGGER.debug("###########################################################");
+		
+		/* 반드시 공통 호출 후 작업 */
+		checkSession(input, session, model);
+		input = StringUtil.toUtf8(input);
+		
+		model.addAttribute("inputData", input);
+		
+		return "web/prj/grs/tssUpdatePop";
+	}
+
+	
 	
 	/**
 	 * 페이지 이동시 세션체크

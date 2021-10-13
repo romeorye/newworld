@@ -143,11 +143,11 @@ public class GrsReqServiceImpl implements  GrsReqService{
    public boolean grsSendMail(Map<String, Object> input){
 	   GrsMailInfoVo vo = new GrsMailInfoVo();
 	   MailSender mailSender = mailSenderFactory.createMailSender(); 
-	   String reciveMailAddr = input.get("dlbrCrgrId").toString()+"@lghausys.com";
+	   String reciveMailAddr = input.get("dlbrCrgrId").toString()+"@lxhausys.com";
 	   
 	   Map<String,Object> mailMap = new HashMap<String, Object>();
 
-	   mailSender.setFromMailAddress("iris@lghausys.com", "관리자");
+	   mailSender.setFromMailAddress("iris@lxhausys.com", "관리자");
 	   mailSender.setToMailAddress(reciveMailAddr, input.get("dlbrCrgrNm").toString());
 	   mailSender.setSubject(NullUtil.nvl(input.get("mailTitl").toString(),""));
 	   
@@ -164,7 +164,7 @@ public class GrsReqServiceImpl implements  GrsReqService{
 		mailMap.put("mailTitl", NullUtil.nvl(input.get("mailTitl").toString(),""));
 		mailMap.put("adreMail", reciveMailAddr );
 		mailMap.put("rfpMail", "");
-		mailMap.put("trrMail", input.get("userId")+"@lghausys.com");
+		mailMap.put("trrMail", input.get("userId")+"@lxhausys.com");
 		mailMap.put("_userId", input.get("userId"));
 		
 		commonDao.insert("open.mchnEduAnl.insertMailHis", mailMap);

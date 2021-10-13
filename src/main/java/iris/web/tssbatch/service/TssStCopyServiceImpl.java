@@ -344,7 +344,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 	private void updateGenData(Map<String, Object> input) {
 
 		//		1.1 IRIS_TSS_MGMT_MST		- 과제관리마스터
-		//genTssAltrService.updateGenTssMgmtMstToSelect(input);
+		genTssAltrService.updateGenTssMgmtMstToSelect(input);
 		//		1.2 IRIS_TSS_GEN_SMRY 		- 일반과제 개요
 		genTssAltrService.updateGenTssSmryToSelect(input);
 
@@ -755,7 +755,7 @@ public class TssStCopyServiceImpl implements TssStCopyService {
 				if( input.get("fcCd").equals("U") ){
 					con = dbConn.getUConn();
 				}else{
-					con = dbConn.getUConn();
+					con = dbConn.getOConn();
 				}
 				
 				sb.append("MERGE INTO IF_QGATE 							");

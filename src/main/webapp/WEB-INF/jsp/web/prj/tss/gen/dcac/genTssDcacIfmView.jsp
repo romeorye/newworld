@@ -300,10 +300,12 @@ $(window).load(function() {
                         </c:choose>
                     </td>
                 </tr>
+                <!-- 
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
                     <td id="attchFileView"  colspan="2">&nbsp;</td>
                 </tr>
+                 -->
             </tbody>
         </table>
     </form>

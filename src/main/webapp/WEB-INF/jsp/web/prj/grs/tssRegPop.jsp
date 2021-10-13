@@ -84,12 +84,13 @@ var tssCd = '${inputData.tssCd}';
 		dataSet.on('load', function(e){
 			if (Rui.isEmpty(tssCd) ){
 				$("#btnTssReg").show();
-				
-				if (  dataSet.getNameValue(0, 'pgsStepCd') == "PL" &&  dataSet.getNameValue(0, 'tssSt') == "101" ){
-					$("#btnTssReg").show();
-				}
 			}else{
-				$("#btnTssReg").hide();
+				if ( dataSet.getNameValue(0, 'pgsStepCd') == "PL" &&  dataSet.getNameValue(0, 'tssSt') == "101" ){
+					$("#btnTssReg").show();
+				}else{
+					$("#btnTssReg").hide();
+				}
+				
 			}
 		});
 		
@@ -127,7 +128,8 @@ var tssCd = '${inputData.tssCd}';
         });
 		
 		//GRS 수행여부
-        grsYn = new Rui.ui.form.LCombo({
+        /*
+		grsYn = new Rui.ui.form.LCombo({
             applyTo: 'grsYn',
             name: 'grsYn',
             useEmptyText: true,
@@ -137,6 +139,7 @@ var tssCd = '${inputData.tssCd}';
             valueField: 'COM_DTL_CD',
             width: 150
         });
+        */
         
 		//사업부문(Funding기준)
         bizDptCd = new Rui.ui.form.LCombo({
@@ -202,6 +205,21 @@ var tssCd = '${inputData.tssCd}';
         		return;
         	}
         	
+        	
+        	if(Rui.isEmpty(tssFnhDd.getValue())) return;
+
+            if(!Rui.isEmpty(tssStrtDd.getValue())) {
+                var startDt = tssStrtDd.getValue().replace(/\-/g, "").toDate();
+                var fnhDt   = tssFnhDd.getValue().replace(/\-/g, "").toDate();
+
+                var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
+
+                if(rtnValue <= 0) {
+                    Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
+                    tssStrtDd.setValue("");
+                    return;
+                }
+            }
         });
 
         // 과제기간 종료일
@@ -212,6 +230,27 @@ var tssCd = '${inputData.tssCd}';
             listPosition : 'down',
             dateType: 'string'
         });
+        
+        tssFnhDd.on('blur', function() {
+        	if(Rui.isEmpty(tssStrtDd.getValue())) return;
+
+            if(!Rui.isEmpty(tssFnhDd.getValue())) {
+                var startDt = tssStrtDd.getValue().replace(/\-/g, "").toDate();
+                var fnhDt   = tssFnhDd.getValue().replace(/\-/g, "").toDate();
+
+                var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
+
+                if(rtnValue <= 0) {
+                    Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
+                    tssFnhDd.setValue("");
+                    return;
+                }
+            }
+        	
+        });
+        
+        
+        
         
       	//고객 특성
     	var custSqlt = new Rui.ui.form.LCombo({
@@ -299,13 +338,16 @@ var tssCd = '${inputData.tssCd}';
         
       	//연구소 과제의 경우 GRS(초기(P1)) 반드시 수행
         tssScnCd.on('changed', function(e) {
+        	/*
         	if($.inArray( e.value, [ "G", "O", "N"])>-1){
                 grsYn.setValue('Y');
                 setReadonly('grsYn');
     		}else{
                 setEditable('grsYn');
     		}
-
+			
+			grsYn.setValue('Y');
+			*/
             if($.inArray( e.value, [ "O", "N"])>-1){
     			$('#displayDiv1').css('display', 'none');
     			$('#displayDiv2').css('display', 'none');
@@ -319,6 +361,7 @@ var tssCd = '${inputData.tssCd}';
     			}
     		}
         });
+    	
     	
       	//과제 등록
         fncTssReg = function(){
@@ -373,7 +416,9 @@ var tssCd = '${inputData.tssCd}';
             }
             
         	if(confirm('등록하시겠습니까?')) {
-                dm.updateDataSet({
+        		dataSet.setNameValue(0, 'grsYn', "Y");
+        		
+        		dm.updateDataSet({
                     dataSets:[dataSet],
                     url:'<c:url value="/prj/grs/saveTssInfo.do"/>',
                     modifiedOnly: false
@@ -389,7 +434,7 @@ var tssCd = '${inputData.tssCd}';
         var valid = new Rui.validate.LValidatorManager({
             validators:[
                 {id:'tssScnCd', validExp:'과제구분:true'},
-                {id:'grsYn', validExp:'GRS(P1)수행여부:true'},
+                //{id:'grsYn', validExp:'GRS(P1)수행여부:true'},
                 {id:'saSabunNm', validExp:'과제리더:true'},
                 {id:'bizDptCd', validExp:'사업부:true'},
                 {id:'prjNm', validExp:'프로젝트명:true'},
@@ -408,7 +453,7 @@ var tssCd = '${inputData.tssCd}';
         var valid2 = new Rui.validate.LValidatorManager({
             validators:[
                 {id:'tssScnCd', validExp:'과제구분:true'},
-                {id:'grsYn', validExp:'GRS(P1)수행여부:true'},
+                //{id:'grsYn', validExp:'GRS(P1)수행여부:true'},
                 {id:'saSabunNm', validExp:'과제리더:true'},
                 {id:'bizDptCd', validExp:'사업부:true'},
                 {id:'prjNm', validExp:'프로젝트명:true'},
@@ -435,7 +480,7 @@ var tssCd = '${inputData.tssCd}';
                 ,{ id: 'pgsStepCd',        ctrlId: 'pgsStepCd',        value: 'value' }
                 ,{ id: 'tssSt',            ctrlId: 'tssSt',            value: 'value' }
                 ,{ id: 'tssScnCd',         ctrlId: 'tssScnCd',         value: 'value' }
-                ,{ id: 'grsYn',            ctrlId: 'grsYn',            value: 'value' }
+               // ,{ id: 'grsYn',            ctrlId: 'grsYn',            value: 'value' }
                 ,{ id: 'tssNm',            ctrlId: 'tssNm',            value: 'value' }
                 ,{ id: 'prjCd',            ctrlId: 'prjCd',            value: 'value' }
                 ,{ id: 'prjNm',            ctrlId: 'prjNm',            value: 'html' }
@@ -476,7 +521,7 @@ var tssCd = '${inputData.tssCd}';
 					<th align="right" ><span style="color:red;">* </span>과제구분</th>
 					<td><div id="tssScnCd" /></td>
 					<th align="right"><span style="color:red;">* </span>GRS초기(P1)<br/>수행여부</th>
-					<td><div id="grsYn" /></td>
+					<td><div id="grsYn" />Y</td>
 				</tr>
 				<tr>
 					<th align="right"><span style="color:red;">* </span>과제리더</th>

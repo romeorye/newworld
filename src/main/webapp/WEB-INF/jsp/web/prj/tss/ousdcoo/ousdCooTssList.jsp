@@ -319,7 +319,6 @@
                         p.editable = false;
                         return value;
                     } }
-                 , { field: 'wbsCd', hidden:true}
             ]
         });
 
@@ -339,7 +338,7 @@
         });
 
          grid.on('cellClick', function(e) {
-            if(e.colId == "tssNm") {
+        	 if(e.colId == "tssNm") {
                 var pTssCd     = dataSet.getNameValue(e.row, "tssCd");     //과제코드
                 var pPgsStepCd = dataSet.getNameValue(e.row, "pgsStepCd"); //진행상태코드
                 var pTssSt     = dataSet.getNameValue(e.row, "tssSt");     //과제상태
@@ -400,6 +399,7 @@
                     /* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssDcacDetail.do?tssCd="+pTssCd+"'/>"); */
                 }
             }
+        	 
         });
 
         grid.render('defaultGrid');

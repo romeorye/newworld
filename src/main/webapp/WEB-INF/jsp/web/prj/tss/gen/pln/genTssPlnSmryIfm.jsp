@@ -404,131 +404,131 @@
                         , { id: 'smrSmryTxt',       ctrlId: 'smrSmryTxt',       value: 'value' }
                         , { id: 'smrGoalTxt',       ctrlId: 'smrGoalTxt',       value: 'value' }
                         , { id: 'bizPrftProY',      ctrlId: 'bizPrftProY',      value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'bizPrftProY1',     ctrlId: 'bizPrftProY1',     value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'bizPrftProY2',     ctrlId: 'bizPrftProY2',     value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'bizPrftProY3',     ctrlId: 'bizPrftProY3',     value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'bizPrftProY4',     ctrlId: 'bizPrftProY4',     value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'bizPrftPlnY',      ctrlId: 'bizPrftPlnY',      value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'bizPrftPlnY1',     ctrlId: 'bizPrftPlnY1',     value: 'html', renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'bizPrftPlnY2',     ctrlId: 'bizPrftPlnY2',     value: 'html', renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'nprodSalsPlnY',    ctrlId: 'nprodSalsPlnY',    value: 'html', renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'nprodSalsPlnY1',   ctrlId: 'nprodSalsPlnY1',   value: 'html', renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'nprodSalsPlnY2',   ctrlId: 'nprodSalsPlnY2',   value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'expArslY',         ctrlId: 'expArslY',         value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'expArslY1',        ctrlId: 'expArslY1',        value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'expArslY2',        ctrlId: 'expArslY2',        value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'expArslY3',        ctrlId: 'expArslY3',        value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'expArslY4',        ctrlId: 'expArslY4',        value: 'html' , renderer: function(value) {
-                        	if ( parseFloat(value) > 0 ){
+                        	//if ( parseFloat(value) > 0 ){
 	                        	return Rui.util.LFormat.numberFormat(parseFloat(value));
-                			}else{
-                				return "";
-                			}
+                			//}else{
+                			//	return "";
+                			//}
                         }
                     }    
                         , { id: 'ptcCpsnY',         ctrlId: 'ptcCpsnY',         value: 'html' }

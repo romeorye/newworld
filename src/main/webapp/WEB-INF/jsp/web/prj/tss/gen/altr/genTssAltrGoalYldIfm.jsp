@@ -338,7 +338,11 @@
                 if(chkRows[i].data.yldItmSn == 1) {
                     Rui.alert("GRS심의파일은 삭제가 불가합니다.");
                     return;
+                }else if (chkRows[i].data.yldItmType == '10'   ){
+                	Rui.alert("완료/중단 GRS 심의서 파일은 삭제가 불가합니다.");
+                    return;
                 }
+                
             }
             
             Rui.confirm({

@@ -29,10 +29,13 @@
 
 //과제 등록 팝업
 var tssRegPopDialog;
+var tssUpdatePopDialog;
 //grs 평가 팝업
 var grsPopupDialog;
 var roleId = '${inputData._roleId}';
 var roleCheck ="N";
+var loginSabun = '${inputData._userSabun}'; 
+
 	Rui.onReady(function() {
 		var resultDataSet = new Rui.data.LJsonDataSet({
             id: 'resultDataSet',
@@ -49,7 +52,7 @@ var roleCheck ="N";
 		/* [ 제조혁신과제 등록 Dialog] */
 		tssRegPopDialog = new Rui.ui.LFrameDialog({
 	        id: 'tssRegPopDialog',
-	        title: '신규과제 기본정 등록',
+	        title: '신규과제 기본정보 등록',
 	        width:  890,
 	        height: 530,
 	        modal: true,
@@ -57,6 +60,18 @@ var roleCheck ="N";
 	    });
 
 		tssRegPopDialog.render(document.body);
+		
+		/* [ 제조혁신과제 등록 Dialog] */
+		tssUpdatePopDialog = new Rui.ui.LFrameDialog({
+	        id: 'tssUpdatePopDialog',
+	        title: '과제정보 수정 ',
+	        width:  890,
+	        height: 530,
+	        modal: true,
+	        visible: false,
+	    });
+
+		tssUpdatePopDialog.render(document.body);
 		
 		
 		/* [ GRS평가 등록 Dialog] */
@@ -109,6 +124,7 @@ var roleCheck ="N";
                  { id: 'dropYn'},
                  { id: 'evResult'},
                  { id: 'guid'},
+                 { id: 'grsUserChk'},
                  { id: 'fcCd'}
               ]
          });
@@ -117,8 +133,7 @@ var roleCheck ="N";
         	 document.getElementById("cnt_text").innerHTML = '총: '+ listDataSet.getCount();
         	 paging(listDataSet,"listGrid");
         	 
-        	 if(
-        				roleId.indexOf("WORK_IRI_T01") > -1			//시스템관리자
+        	 if(  	roleId.indexOf("WORK_IRI_T01") > -1			//시스템관리자
         				|| roleId.indexOf("WORK_IRI_T03") > -1		//과제담당자
 
         				|| roleId.indexOf("WORK_IRI_T08") > -1		//창호재GRS
@@ -131,9 +146,20 @@ var roleCheck ="N";
         				|| roleId.indexOf("WORK_IRI_T25") > -1		//인테리어GRS
         			){
         		 		roleCheck ="Y";
-        		 		
-        		 		$("#butTssNew").show();
-        		 		$("#butAppr").show();
+        		 		if( roleId.indexOf("WORK_IRI_T01") > -1	|| roleId.indexOf("WORK_IRI_T03") > -1  ){
+        		 			$("#butTssNew").show();
+	        		 		$("#butAppr").show();
+        		 		}else{
+        		 			if ( listDataSet.getNameValue(0, 'grsUserChk') > 0 ){
+    	        		 		$("#butTssNew").show();
+    	        		 		$("#butAppr").show();
+                   	   		}else{
+    		        	 		$("#butTssNew").hide();
+    		        	 		$("#butAppr").hide();
+                   	   		}
+        		 		}
+	        		 	//	$("#butTssNew").show();
+	        		 	//	$("#butAppr").show();
         			}else{
 	        	 		$("#butTssNew").hide();
 	        	 		$("#butAppr").hide();
@@ -157,18 +183,18 @@ var roleCheck ="N";
              columns: [
             	 new Rui.ui.grid.LSelectionColumn(),
                      { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
-                     { field: 'wbsCd',   	label: '과제코드',  align:'center',  width: 70, vMerge: true },
+                     { field: 'wbsCd',   	label: '과제코드',  align:'center',  width: 60, vMerge: true },
 				     { field: 'tssNm',      label: '과제명',       align:'left',      width: 200  , vMerge: true , renderer: function(val, p, record, row, i){
                          return "<a href='javascript:fncTssPop("+row+");'><u>" + val +"<u></a>";
                      } },
-                     { field: 'prjNm',   label: '프로젝트명',  align:'center',  width: 100 },
-                     { field: 'leaderNm',   label: '과제리더',  align:'center',  width: 70},
-                     { field: 'dlbrCrgrNm',   label: '심의담당자',  align:'center',  width: 70},
-                     { field: 'tssDd',   label: '과제기간',  align:'center',  width: 100 },
-                     { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 65 },
+                     { field: 'prjNm',   label: '프로젝트명',  align:'center',  width: 120 },
+                     { field: 'leaderNm',   label: '과제리더',  align:'center',  width: 60},
+                     { field: 'dlbrCrgrNm',   label: '심의담당자',  align:'center',  width: 60},
+                     { field: 'tssDd',   label: '과제기간',  align:'center',  width: 140 },
+                     { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 55 },
                      { field: 'grsStNm',   label: 'GRS상태',  align:'center',  width: 65 },
-                     { field: 'evResult',   label: '평가결과',  align:'center',  width: 65 },
-                     { field: 'isReq',        label: '관리',       align:'center',      width: 90  , renderer: function(val, p, record, row, i){
+                     { field: 'evResult',   label: '평가결과',  align:'center',  width: 60 },
+                     { field: 'isReq',        label: '관리',       align:'center',      width: 60  , renderer: function(val, p, record, row, i){
                     	 return ("<input type='button' data='"+record.data.tssCd+"' value='평가' onclick='fncGrsReqPop(\""+row+"\")'/>")
                      } },
                      { field: 'tssScnCd', hidden:true }
@@ -265,7 +291,7 @@ var roleCheck ="N";
          };
 		
          fnSearch()
-		
+         
 		//신규과제 등록 팝업창
          fncTssRegPop = function(row){
         	 tssRegPopDialog.setUrl('<c:url value="/prj/grs/tssRegPop.do"/>');
@@ -276,14 +302,29 @@ var roleCheck ="N";
         	 var recode = listDataSet.getAt(row);
          	 var param = "?tssCd="+recode.get("tssCd");
         	 
-        	 tssRegPopDialog.setUrl('<c:url value="/prj/grs/tssRegPop.do"/>'+param);
-        	 tssRegPopDialog.show(true);
+         	 if (  recode.get("grsEvSt") == "M" &&  recode.get("grsStCd") == "101"  ){
+         		tssUpdatePopDialog.setUrl('<c:url value="/prj/grs/tssUpdatePop.do"/>'+param);
+         		tssUpdatePopDialog.show(true);
+         	 }else{
+		        tssRegPopDialog.setUrl('<c:url value="/prj/grs/tssRegPop.do"/>'+param);
+        	 	tssRegPopDialog.show(true);
+         	 }
          }
 		
       	//GRS평가등록 팝업창
         fncGrsReqPop = function(row){
         	var recode = listDataSet.getAt(row);
         	var param = "?tssCd="+recode.get("tssCd")+"&tssCdSn="+recode.get("tssCdSn")+"&grsEvSn="+recode.get("grsEvSn")+"&grsStCd="+recode.get("grsStCd")+"&grsEvSt="+recode.get("grsEvSt")+"&roleCheck="+roleCheck;
+        	
+        	if( roleId.indexOf("WORK_IRI_T01") > -1	|| roleId.indexOf("WORK_IRI_T03") > -1  ){
+       			
+       		}else{
+       			if ( loginSabun != listDataSet.getNameValue(row, 'dlbrCrgr')  ){
+       	   			alert("GRS평가는 심의담당자만 가능합니다.");
+       	   			return;
+       	   		}
+       		}
+        	
         	//평가요청 화면
         	grsPopupDialog.setUrl('<c:url value="/prj/grs/grsRegPop.do"/>'+param);
            	grsPopupDialog.show(true);

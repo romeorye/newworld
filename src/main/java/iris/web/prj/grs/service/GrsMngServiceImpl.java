@@ -229,7 +229,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 			input.put("delYn", "N");	
 		}
 
-		LOGGER.debug("===============moveGrsDefInfo =============== : " + input);
+		//LOGGER.debug("===============moveGrsDefInfo =============== : " + input);
 		//GRS 기본정보 과제 관리 마스터로 복제
 		commonDao.insert("prj.grs.moveGrsDefInfo", input);
 		
@@ -580,7 +580,12 @@ public class GrsMngServiceImpl implements GrsMngService {
 			
 			
 		}else{
-			updateGrsInfo(ds);     
+			//과제 정보 수정 2021.02.04
+			if (  ds.get("pgsStepCd").equals("PL")  ){
+				updateGrsInfo(ds);     
+			}else{
+				//commonDao.update("prj.tss.com.updateTssMstInfo", ds);
+			}
 		}
 	}
 	
@@ -636,13 +641,27 @@ public class GrsMngServiceImpl implements GrsMngService {
 				ds.put("arslYymm", arslYymm01);
 				commonDao.update("prj.tss.com.updateTssYld", ds);
 			}
-			/*
-			//지적재산권
-            ds.put("goalY", goalYEnd);
-            ds.put("yldItmType", "05");
-            ds.put("arslYymm",  CommonUtil.getFormattedDate(pmisDt, "-").substring(0, 7));
+			
+			if ( ds.get("bizDptCd").equals("07") || ds.get("bizDptCd").equals("08") || ds.get("bizDptCd").equals("09") ) {
+				//지적재산권
+				ds.put("goalY", goalYEnd);
+				ds.put("yldItmType", "05");
+				ds.put("arslYymm",  CommonUtil.getFormattedDate(pmisDt, "-").substring(0, 7));
+				commonDao.update("prj.tss.com.updateTssYld", ds);
+			}
+			
+			//중간 심의서 필수 생성(선택)
+			ds.put("goalY", goalYEnd);
+            ds.put("yldItmType", "09");
+            ds.put("arslYymm", arslYymm01);
 			commonDao.update("prj.tss.com.updateTssYld", ds);
-			 */
+			
+			//완료/중단 GRS 심의서(필수)
+			ds.put("goalY", goalYEnd);
+            ds.put("yldItmType", "10");
+            ds.put("arslYymm", arslYymm01);
+			commonDao.update("prj.tss.com.updateTssYld", ds);
+		
             //중단 완료 보고서
             ds.put("goalY", goalYEnd);
             ds.put("yldItmType", "03");
@@ -771,7 +790,6 @@ public class GrsMngServiceImpl implements GrsMngService {
 		dataSet.put("fromTssCd", dataSet.get("tssCd"));
 		dataSet.put("tssSt", "102");
 
-		
 		if( dataSet.get("grsEvSt").equals("P1")   ){
 			grsMngService.updateDefTssSt((HashMap<String, Object>) dataSet);
 
@@ -792,19 +810,18 @@ public class GrsMngServiceImpl implements GrsMngService {
 				}
 			}
 		}else if (dataSet.get("grsEvSt").equals("M")  ){
-				
 			if( dataSet.get("grsEvMType").equals("IN")  ){	//진척률
 				dataSet.put("tssSt", "100");
 			}
 			commonDao.update("prj.tss.com.updateTssMstTssSt", dataSet);
 		}else if (dataSet.get("grsEvSt").equals("D") ){
 			commonDao.update("prj.tss.com.updateTssMstTssSt", dataSet);
-			dataSet.put("yldItmType", "03");
+			dataSet.put("yldItmType", "10");
 			commonDao.update("prj.tss.com.updateYldFile", dataSet);
 
 		}else if (dataSet.get("grsEvSt").equals("P2") ){
 			commonDao.update("prj.tss.com.updateTssMstTssSt", dataSet);
-			dataSet.put("yldItmType", "03");
+			dataSet.put("yldItmType", "10");
 			commonDao.update("prj.tss.com.updateYldFile", dataSet);
 		}
 	}

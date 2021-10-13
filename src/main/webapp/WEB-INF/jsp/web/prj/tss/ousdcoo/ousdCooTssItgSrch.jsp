@@ -192,7 +192,7 @@
 				                    <tr>
 				                        <td>
 				                            <c:forEach var="resultAttc" items="${resultAttc}">
-				                                <a href="http://iris.lghausys.com:7030/iris/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=${resultAttc.attcFilId}&seq=${resultAttc.seq}">${resultAttc.filNm} (${resultAttc.filSize}byte)</a><br/>
+				                                <a href="http://iris.lxhausys.com:7030/iris/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=${resultAttc.attcFilId}&seq=${resultAttc.seq}">${resultAttc.filNm} (${resultAttc.filSize}byte)</a><br/>
 				                            </c:forEach>
 				                        </td>
 				                    </tr>

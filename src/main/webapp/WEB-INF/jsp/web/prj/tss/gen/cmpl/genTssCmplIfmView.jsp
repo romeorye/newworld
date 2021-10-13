@@ -735,10 +735,12 @@ $(window).load(function() {
                     <th align="right">향후 계획</th>
                     <td colspan="2"><span id="fnoPlnTxt" /></td>
                 </tr>
+                <!-- 
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
                     <td id="attchFileView" colspan="2">&nbsp;</td>
                 </tr>
+                 -->
             </tbody>
         </table>
             

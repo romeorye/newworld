@@ -927,11 +927,18 @@ var roleCheck = '${inputData.roleCheck}';
              dataSet.setNameValue(0, 'grsStCd', '102');
              
              if( dataSet.getNameValue(0, 'tssScnCd') == "G" ){
-            	 if(valid1.validateGroup('aform') == false) {
-                   	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid1.getMessageList().join(''));
-                     return;
-                 }
-            	
+            	 if (  dataSet.getNameValue(0, 'bizDptCd') == "01" || dataSet.getNameValue(0, 'bizDptCd') == "03" || dataSet.getNameValue(0, 'bizDptCd') == "06"){
+              		 if(valid1.validateGroup('aform') == false) {
+                         	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid1.getMessageList().join(''));
+                           return;
+                       }
+              	 }else{
+              		 if(valid2.validateGroup('aform') == false) {
+                         	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid2.getMessageList().join(''));
+                           return;
+                       }
+              	 }
+            	 
                	 if(Rui.isEmpty( ancpOtPlnDt.getValue())   ){
                		alert("상품출시일는 필수입력값입니다.");
                		return;
@@ -1012,6 +1019,37 @@ var roleCheck = '${inputData.roleCheck}';
          });
         
          var valid1 = new Rui.validate.LValidatorManager({
+        	 validators:[
+            	  { id: 'evTitl'            , validExp:'회의 장소:true'}
+            	 ,{ id: 'evDt'              , validExp:'회의일정:true'}
+            	 ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true'}
+            	 ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
+            	 ,{ id: 'commTxt'           , validExp:'Comment:true'}
+            	 ,{ id: 'nprodNm'           , validExp:'신체품명:true'}
+            	 ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
+            	 ,{ id: 'nprodSalsCurY'     , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsCurY1'    , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsCurY2'    , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProCurY'    , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProCurY1'   , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProCurY2'   , validExp:'영업이익룰:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftCurY'       , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftCurY1'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftCurY2'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'ptcCpsnCurY'       , validExp:'투입인원:true:minNumber=1'}
+            	 ,{ id: 'ptcCpsnCurY1'      , validExp:'투입인원:true'}
+            	 ,{ id: 'ptcCpsnCurY2'      , validExp:'투입인원:true'}
+            	 ,{ id: 'ptcCpsnCurY3'      , validExp:'투입인원:true'}
+            	 ,{ id: 'ptcCpsnCurY4'      , validExp:'투입인원:true'}
+            	 ,{ id: 'expArslCurY'       , validExp:'투입비용:true:minNumber=0.01'}
+            	 ,{ id: 'expArslCurY1'      , validExp:'투입비용:true'}
+            	 ,{ id: 'expArslCurY2'      , validExp:'투입비용:true'}
+            	 ,{ id: 'expArslCurY3'      , validExp:'투입비용:true'}
+            	 ,{ id: 'expArslCurY4'      , validExp:'투입비용:true'}
+             ]
+         });
+         
+         var valid2 = new Rui.validate.LValidatorManager({
         	 validators:[
             	  { id: 'evTitl'            , validExp:'회의 장소:true'}
             	 ,{ id: 'evDt'              , validExp:'회의일정:true'}
