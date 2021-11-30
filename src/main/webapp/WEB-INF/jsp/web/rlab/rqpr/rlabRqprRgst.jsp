@@ -816,7 +816,7 @@
 						        <div>
 						            <div id="rlabRqprInfmView">
 						            </div>
-							          &nbsp;&nbsp;<span  style="color:red; font-weight:bold">주방욕실사업부문 관련 시험 의뢰시, 결과가 인테리어개발실장에게 자동통보됩니다.</span>
+							          <!-- &nbsp;&nbsp;<span  style="color:red; font-weight:bold">주방욕실사업부문 관련 시험 의뢰시, 결과가 인테리어개발실장에게 자동통보됩니다.</span> -->
 						        </div>
    							</td>
    						</tr>

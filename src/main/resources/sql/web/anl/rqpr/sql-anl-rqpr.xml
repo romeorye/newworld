@@ -63,7 +63,10 @@
 																	from   IRIS_ANL_RQPR_INFM
 																	where  del_yn ='N'
 																	and    infm_prsn_id = #{_userId}
-																	))
+																	)
+				)
+				or MST.rgst_id = #{_userId}		
+															
         	</when>
         	<otherwise>
 			AND ACPC_ST_CD != '00'
@@ -163,7 +166,7 @@
                 )                                                   AS  realRgstNm
                 
 			FROM	IRIS_ANL_RQPR_MST mst
-			WHERE	RQPR_ID = ${rqprId}
+			WHERE	RQPR_ID = #{rqprId}
 
 	</select>
 
@@ -440,7 +443,7 @@
 				     end as userYn
 			from	iris_anl_rqpr_opi
 			where	1=1
-			and		rqpr_id = ${rqprId}
+			and		rqpr_id = #{rqprId}
 			and		del_yn = 'N'
 			]]>
 			<if test="opiId != null and opiId != '' and opiId != '0'">

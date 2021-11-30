@@ -1625,7 +1625,7 @@
    						</tr>
    					</tbody>
    				</table>
-				<span  style="color:red; font-weight:bold">주방욕실사업부문 관련 시험 의뢰시, 결과가 인테리어개발실장에게 자동통보됩니다.</span>
+				<!-- <span  style="color:red; font-weight:bold">주방욕실사업부문 관련 시험 의뢰시, 결과가 인테리어개발실장에게 자동통보됩니다.</span> -->
    				<div class="titArea">
    					<h3>시료정보</h3>
    					<div class="LblockButton">
