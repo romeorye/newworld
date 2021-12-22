@@ -228,39 +228,26 @@
 --retrieveGrsEvRslt GRS 평가 상세
         SELECT
             A.PRJ_CD                                                                 AS prjCd      --프로젝트코드
-          , A.TSS_ATTR_CD as  tssAttrCd -- 제품구분
-          ,dbo.fn_getPrjName(A.PRJ_CD)                                               AS prjNm      --프로젝트명
-            ,
-            A.BIZ_DPT_CD                                                             AS bizDptCd   --사업부문코드
-            ,
-            dbo.fn_getComDtlNm('BIZ_DPT_CD', A.BIZ_DPT_CD)                           AS bizDptNm,
-            A.TSS_ATTR_CD                                                            AS tssAttrCd  --과제속성코드
-            ,
-            dbo.fn_getComDtlNm('TSS_ATTR_CD', A.TSS_ATTR_CD)                         AS tssAttrNm,
-            A.TSS_NM                                                                 AS tssNm      --과제명
-            ,
-            A.TSS_STRT_DD+' ~ '+A.TSS_FNH_DD                            AS tssDd      --과제기간
-            ,
-            B.GRS_EV_ST                                                              AS grsEvSt    --GRS상태
-            ,
-            dbo.fn_getComDtlNm('GRS_EV_ST', B.GRS_EV_ST)                             AS grsEvStNm,
-            B.GRS_EV_SN                                                              AS grsEvSn    --GRS평가표
-            ,
-            (SELECT sm.EV_SBC_NM
+           , A.TSS_ATTR_CD as  tssAttrCd -- 제품구분
+           ,dbo.fn_getPrjName(A.PRJ_CD)                                               AS prjNm      --프로젝트명
+           ,A.BIZ_DPT_CD                                                             AS bizDptCd   --사업부문코드
+           ,dbo.fn_getComDtlNm('BIZ_DPT_CD', A.BIZ_DPT_CD)                           AS bizDptNm
+           ,A.TSS_ATTR_CD                                                            AS tssAttrCd  --과제속성코드
+           ,dbo.fn_getComDtlNm('TSS_ATTR_CD', A.TSS_ATTR_CD)                         AS tssAttrNm
+           ,A.TSS_NM                                                                 AS tssNm      --과제명
+           ,A.TSS_STRT_DD+' ~ '+A.TSS_FNH_DD                            AS tssDd      --과제기간
+           ,rtrim(B.GRS_EV_ST)                                                              AS grsEvSt    --GRS상태
+           ,dbo.fn_getComDtlNm('GRS_EV_ST', B.GRS_EV_ST)                             AS grsEvStNm
+           ,B.GRS_EV_SN                                                              AS grsEvSn    --GRS평가표
+           ,(SELECT sm.EV_SBC_NM
              FROM IRIS_GRS_EV_STD_MGMT sm
              WHERE sm.GRS_EV_SN = B.GRS_EV_SN AND sm.GRS_EV_SEQ = 0)                 AS grsEvSnNm    --GRS평가표
-            ,
-            B.DLBR_PARR_DT                                                           AS dlbrParrDt --심의예정일
-
-            ,
-            B.DLBR_CRGR                                                              AS dlbrCrgr   --심의담당자
+           ,B.DLBR_PARR_DT                                                           AS dlbrParrDt --심의예정일
+           ,B.DLBR_CRGR                                                              AS dlbrCrgr   --심의담당자
             --, dbo.fn_getSabunName(B.DLBR_CRGR	) AS dlbrCrgrNm
-            ,
-            b.sa_sabun_name                                                          AS dlbrCrgrNm       --심의 담당자
-            ,
-            A.TSS_CD                                                                 AS tssCd      --과제코드
-            ,
-            B.TSS_CD_SN                                                              AS tssCdSn,
+           ,b.sa_sabun_name                                                          AS dlbrCrgrNm       --심의 담당자
+           ,A.TSS_CD                                                                 AS tssCd      --과제코드
+           ,B.TSS_CD_SN                                                              AS tssCdSn,
             A.PGS_STEP_CD                                                            AS pgsStepCd  --진행단계코드
             ,
             A.TSS_SCN_CD                                                             AS tssScnCd   --과제구분코드
@@ -1308,7 +1295,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
              WHERE sm.GRS_EV_SN = srr.GRS_EV_SN
                    AND sm.GRS_EV_SEQ = srr.GRS_EV_SEQ
                    AND srr.TSS_CD =  A.TSS_CD 
-                   AND srr.tss_cd_sn = #{tssCdSn}
+                   AND srr.tss_cd_sn = (SELECT MAX(TSS_CD_SN)  FROM IRIS_GRS_EV_RSLT_RGST WHERE TSS_CD = A.TSS_CD )
                    ) AS evScr    --등급평균
           ,iif(B.DROP_YN is null or B.DROP_YN='','N',B.DROP_YN) as  dropYn
           ,B.EV_DT
