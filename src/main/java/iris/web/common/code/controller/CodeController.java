@@ -71,4 +71,28 @@ public class CodeController extends IrisBaseController  {
         return modelAndView;
     }   
     
+    @RequestMapping(value="/common/code/retrieveCodeAllListForCache.do")
+    public ModelAndView retrieveCodeAllListForCache(
+            @RequestParam HashMap<String, String> input,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            ModelMap model
+            ){
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("CodeController - retrieveCodeAllListForCache [공통코드 캐쉬조회]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+        
+        
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+            
+        // 공통코드 캐쉬조회
+        List codeList = codeService.retrieveCodeValueAllList(NullUtil.nvl(input.get("comCd"), ""));
+         
+        modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", codeList));
+
+        return modelAndView;
+    }   
 }

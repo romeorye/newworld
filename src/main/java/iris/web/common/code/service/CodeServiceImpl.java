@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-
 import org.springframework.stereotype.Service;
 
 import devonframe.dataaccess.CommonDao;
@@ -46,5 +45,10 @@ public class CodeServiceImpl implements CodeService {
     @Override
     public List<Map<String, Object>> retrieveCodeValueList(String string) {
         return commonDao.selectList("common.code.retrieveCodeValueList",string);
+    }
+    
+    @Override
+    public List<Map<String, Object>> retrieveCodeValueAllList(String string) {
+    	return commonDao.selectList("common.code.retrieveCodeValueAllList",string);
     }
 }

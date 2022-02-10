@@ -51,5 +51,11 @@ public class CodeCacheManager {
     public List<Map<String, Object>> retrieveCodeValueListForCache(String input) {
 		return codeService.retrieveCodeValueList(input);
     }
+
+    @Cacheable(value="codeListForCache")
+	public List<Map<String, Object>> retrieveCodeAllListForCache(String input) {
+		// TODO Auto-generated method stub
+		return codeService.retrieveCodeValueAllList(input);
+	}
 }
 
