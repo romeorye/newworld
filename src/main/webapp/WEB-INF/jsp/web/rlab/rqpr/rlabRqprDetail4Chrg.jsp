@@ -213,7 +213,7 @@
                 emptyText: '선택',
                 defaultValue: '',
                 emptyValue: '',
-                width: 110,
+                width: 150,
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_SCN_CD"/>',
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
@@ -230,7 +230,7 @@
                 ]
             });
             rlabDzdvCdDataSet.load({
-                url: '<c:url value="/common/code/retrieveCodeListForCache.do"/>',
+                url: '<c:url value="/common/code/retrieveCodeAllListForCache.do"/>',
                 params :{
                 	comCd : 'RLAB_DZDV_CD'
                 }
@@ -248,7 +248,7 @@
             });
             /*사업부 조회 끝*/
 
-            /* WBS 팝업 설정*/
+            /* WBS 팝업 설정
            var wbsCd = new Rui.ui.form.LPopupTextBox({
             	applyTo: 'wbsCd',
                 placeholder: 'WBS코드를 입력해주세요.',
@@ -260,7 +260,7 @@
             wbsCd.on('popup', function(e){
             	openWbsCdSearchDialog(setRlabWbsCd);
             });
-
+            */
             var rlabUgyYn = new Rui.ui.form.LCombo({
                 applyTo: 'rlabUgyYn',
                 name: 'rlabUgyYn',
@@ -391,8 +391,8 @@
 					, { id: 'reqItgRdcsId' }
 					, { id: 'rsltItgRdcsId' }
 					, { id: 'rlabDzdvCd' }
-					, { id: 'rlabProdCd' }
-					, { id: 'wbsCd' }
+					/* , { id: 'rlabProdCd' } */
+					/* , { id: 'wbsCd' } */
 					, { id: 'rlabCrgrComm' }
                 ]
             });
@@ -462,7 +462,7 @@
                 }
 
 
-            	/*시료 제품군 조회*/
+            	/*시료 제품군 조회
 
             	//사업부 변경시 시료 제품군 재조회
 	            rlabDzdvCd.on('changed', function(e) {
@@ -503,6 +503,8 @@
                     displayField: 'COM_DTL_NM',
                     valueField: 'COM_DTL_CD'
                 });
+   	        	
+   	        	*/
    	            /*시료 제품군 조회 끝*/
 
    	        	bind = new Rui.data.LBind({
@@ -527,8 +529,8 @@
    	                    { id: 'rlabRqprInfmView',	ctrlId:'rlabRqprInfmView',	value:'value'},
    	                    { id: 'cmplParrDt',			ctrlId:'cmplParrDt',		value:'html'},
    	                    { id: 'rlabDzdvCd',			ctrlId:'rlabDzdvCd',		value:'value'},
-   	                    { id: 'rlabProdCd',			ctrlId:'rlabProdCd',		value:'value'},
-   	                 	{ id: 'wbsCd',				ctrlId:'wbsCd',				value:'value'},
+   	                    /* { id: 'rlabProdCd',			ctrlId:'rlabProdCd',		value:'value'}, */
+   	                 /* 	{ id: 'wbsCd',				ctrlId:'wbsCd',				value:'value'}, */
    	                 	{ id: 'rlabCrgrComm',		ctrlId:'rlabCrgrComm',		value:'value'}
    	                ]
    	            });
@@ -942,7 +944,7 @@
 		        id: 'rlabChrgListDialog',
 		        title: '시험담당자',
 		        width: 530,
-		        height: 380,
+		        height: 400,
 		        modal: true,
 		        visible: false,
 		        buttons: [
@@ -1481,11 +1483,12 @@
 
         });
 
-
+/* 
 		//WBS 코드 팝업 세팅
 		function setRlabWbsCd(wbsInfo){
 			rlabRqprDataSet.setNameValue(0, "wbsCd", wbsInfo.wbsCd);
-		}
+	}
+ */			
 	</script>
     </head>
     <body>
@@ -1575,10 +1578,16 @@
    							<td>
                                 <div id="rlabDzdvCd"></div>
    							</td>
+   							<th align="right"><span style="color:red;">* </span>시료처리</th>
+   							<td>
+   								<div id="smpoTrtmCd"></div>
+   							</td>
+   							<!-- 
    							<th align="right"><span style="color:red;">* </span>시료 제품군</th>
    							<td>
                                 <div id="rlabProdCd"></div>
    							</td>
+   							 -->
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>시험구분</th>
@@ -1601,16 +1610,15 @@
                                 <a href="javascript:openRlabChrgListDialog(setRlabChrgInfo);" class="icoBtn">검색</a>
                             </td>
    						</tr>
+   						<!--
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>시료처리</th>
-   							<td>
-   								<div id="smpoTrtmCd"></div>
-   							</td>
    							<th align="right">WBS 코드</th>
    							<td>
    								<input type="text" id="wbsCd">
    							</td>
+   							 
    						</tr>
+   						-->
    						<tr>
    							<th align="right">통보자</th>
    							<td><span id="rlabRqprInfmView"/></td>

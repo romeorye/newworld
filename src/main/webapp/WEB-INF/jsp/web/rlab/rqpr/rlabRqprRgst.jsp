@@ -126,7 +126,7 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-
+/* 
             rlabDzdvCd.on('changed', function(e) {
 	        	//alert(rlabDzdvCd.getValue());
 	        	var selectDzdvCd = rlabDzdvCd.getValue();
@@ -138,10 +138,12 @@
 	                }
 	            });
 	        });
+            
+   */          
             /*사업부 조회 끝*/
 
 
-            /*시료 제품군 조회*/
+            /*시료 제품군 조회
             var rlabProdCdDataSet = new Rui.data.LJsonDataSet({
                 id: 'rlabProdCdDataSet',
                 remainRemoved: true,
@@ -163,6 +165,8 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
+            */
+            
             /*제품군 조회 끝*/
 
 
@@ -270,7 +274,7 @@
 		        id: 'rlabChrgListDialog',
 		        title: '시험담당자',
 		        width: 500,
-		        height: 380,
+		        height: 400,
 		        modal: true,
 		        visible: false,
 		        buttons: [
@@ -317,7 +321,7 @@
             });
 
 
-            /* WBS 팝업 설정*/
+            /* WBS 팝업 설정
             var wbsCd = new Rui.ui.form.LPopupTextBox({
             	applyTo: 'wbsCd',
                 placeholder: 'WBS코드를 입력해주세요.',
@@ -330,7 +334,7 @@
             	var deptYn = "Y";
             	openWbsCdSearchDialog(setRlabWbsCd , deptYn);
             });
-
+            */
 
             /* 통보자 팝업 설정*/
             rlabRqprInfmView = new Rui.ui.form.LPopupTextBox({
@@ -360,7 +364,7 @@
                 validators:[
                 { id: 'rlabNm',				validExp: '시험명:true:maxByteLength=100' },
                 { id: 'rlabSbc',			validExp: '시험목적:true' },
-				{ id: 'rlabProdCd',			validExp: '시료 제품군:true' },
+				/* { id: 'rlabProdCd',			validExp: '시료 제품군:true' }, */
                 { id: 'rlabScnCd',			validExp: '시험구분:true' },
                 { id: 'rlabUgyYn',			validExp: '긴급유무:true' },
                 { id: 'infmTypeCd',			validExp: '통보유형:true' },
@@ -380,7 +384,7 @@
                 fields: [
                 	  { id: 'rlabNm' }
   					, { id: 'rlabSbc' }
-  					, { id: 'rlabProdCd' }
+  					/* , { id: 'rlabProdCd' } */
                 	, { id: 'rlabScnCd' }
 					, { id: 'rlabUgyYn' }
 					, { id: 'infmTypeCd' }
@@ -390,7 +394,7 @@
 					, { id: 'infmPrsnIds' }
 					, { id: 'rlabRqprInfmView' }
 					, { id: 'rqprAttcFileId', defaultValue: '' }
-					, { id: 'wbsCd' }
+					/* , { id: 'wbsCd' } */
 					, { id: 'rlabDzdvCd' }
 					, { id: 'rlabCrgrComm' }
                 ]
@@ -416,9 +420,9 @@
                     { id: 'rlabChrgNm',			ctrlId:'rlabChrgNm',		value:'value'},
                     { id: 'smpoTrtmCd',			ctrlId:'smpoTrtmCd',		value:'value'},
                     { id: 'rlabRqprInfmView',	ctrlId:'rlabRqprInfmView',	value:'value'},
-                    { id: 'wbsCd',				ctrlId:'wbsCd',				value:'value'},
+                 /*    { id: 'wbsCd',				ctrlId:'wbsCd',				value:'value'}, */
                     { id: 'rlabDzdvCd',			ctrlId:'rlabDzdvCd',		value:'value'},
-                    { id: 'rlabProdCd',			ctrlId:'rlabProdCd',		value:'value'},
+                  /*   { id: 'rlabProdCd',			ctrlId:'rlabProdCd',		value:'value'}, */
                     { id: 'rlabCrgrComm',		ctrlId:'rlabCrgrComm',		value:'value'}
                 ]
             });
@@ -705,12 +709,13 @@
 			rlabRqprDataSet.setNameValue(0, "rlabChrgNm", userInfo.saName);
 		} */
 
+		/* 
 		//WBS 코드 팝업 세팅
 		function setRlabWbsCd(wbsInfo){
 			//alert(wbsInfo.wbsCd);
 			rlabRqprDataSet.setNameValue(0, "wbsCd", wbsInfo.wbsCd);
 		}
-
+ */
 
 	</script>
     </head>
@@ -775,25 +780,21 @@
    							<td>
                                 <div id="rlabDzdvCd"></div>
    							</td>
+   							<th align="right"><span style="color:red;">* </span>긴급유무</th>
+   							<td>
+                                <div id="rlabUgyYn"></div>
+   							</td>
+   							<!-- 
    							<th align="right"><span style="color:red;">* </span>시료 제품군</th>
    							<td>
                                 <div id="rlabProdCd"></div>
    							</td>
+   							 -->
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>시험구분</th>
    							<td>
                                 <div id="rlabScnCd"></div>
-   							</td>
-   							<th align="right"><span style="color:red;">* </span>긴급유무</th>
-   							<td>
-                                <div id="rlabUgyYn"></div>
-   							</td>
-   						</tr>
-   						<tr>
-   							<th align="right"><span style="color:red;">* </span>통보유형</th>
-   							<td>
-   								<div id="infmTypeCd"></div>
    							</td>
    							<th align="right"><span style="color:red;">* </span>시험담당자</th>
    							<td>
@@ -801,15 +802,25 @@
    							</td>
    						</tr>
    						<tr>
+   							<th align="right"><span style="color:red;">* </span>통보유형</th>
+   							<td>
+   								<div id="infmTypeCd"></div>
+   							</td>
+   							
    							<th align="right"><span style="color:red;">* </span>시료처리</th>
    							<td>
    								<div id="smpoTrtmCd"></div>
    							</td>
+   						</tr>
+   						<!-- 
+   						<tr>
+   							
    							<th align="right">WBS 코드</th>
    							<td>
    								<input type="text" id="wbsCd">
    							</td>
    						</tr>
+   						 -->
    						<tr>
    							<th align="right">통보자</th>
    							<td colspan="3">
