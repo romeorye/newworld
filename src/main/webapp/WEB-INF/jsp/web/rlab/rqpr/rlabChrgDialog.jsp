@@ -53,7 +53,7 @@
 
 	<!-- pop컨텐츠 -->
 	<div class="bd pop_conin">
-		<div>기타 산업조직 시험의뢰시, 제품신뢰성연구 PJT PL과 상의해 주시기 바랍니다.</div>
+		<!-- <div>기타 산업조직 시험의뢰시, 제품신뢰성연구 PJT PL과 상의해 주시기 바랍니다.</div> -->
 		<table class="table anlch_ta">
 			<colgroup>
 				<col style="width:25%;">
@@ -68,8 +68,8 @@
 					<th align="center">주방·도어</th>
 					<td align="center">
 						<a href="#" onClick="setRlabChrgInfo('jndkim', '김지니다')">김지니다</a>,
-						<a href="#" onClick="setRlabChrgInfo('duhwanlee', '이두환')">이두환</a>,
-						<a href="#" onClick="setRlabChrgInfo('shmyoung', '명석한')">명석한</a>
+						<a href="#" onClick="setRlabChrgInfo('duhwanlee', '이두환')">이두환</a>
+						<!-- <a href="#" onClick="setRlabChrgInfo('shmyoung', '명석한')">명석한</a> -->
 					</td>
 				</tr>
 				<tr>
@@ -77,21 +77,30 @@
 					<td align="center">
 						<a href="#" onClick="setRlabChrgInfo('sheleemin', '이민')">이민,
 						<a href="#" onClick="setRlabChrgInfo('tekang', '강태의')">강태의</a>,
-						<a href="#" onClick="setRlabChrgInfo('jhbyun', '변재현')">변재현</a>
+						<a href="#" onClick="setRlabChrgInfo('sungfepark', '박성철')">박성철</a>
+<!-- 						<a href="#" onClick="setRlabChrgInfo('jhbyun', '변재현')">변재현</a> -->
 					</td>
 				</tr>				
 				<tr>
-					<th colspan="2" align="center">장식재</th>
-					<td align="center">
-						<a href="#" onClick="setRlabChrgInfo('kangbg', '강봉규')">강봉규
+					<th colspan="2" align="center">창호</th>
+					<td rowspan ="3" align="center">
+						<a href="#" onClick="setRlabChrgInfo('jhbyun', '변재현')">변재현</a>,
+						<a href="#" onClick="setRlabChrgInfo('induohgee', '이동희')">이동희
 					</td>
 				</tr>
 				<tr>
-					<th colspan="2" align="center">창호, 표면소재, 자동차</th>
-					<td align="center">
+					<th colspan="2" align="center">단열재, 바닥재, 벽지</th>
+					<!-- <td align="center">
 						<a href="#" onClick="setRlabChrgInfo('ehkang', '강은희')">강은희,
 						<a href="#" onClick="setRlabChrgInfo('induohgee', '이동희')">이동희
-					</td>
+					</td> -->
+				</tr>
+				<tr>
+					<th colspan="2" align="center">표면소재, 산업용필름, 자동차</th>
+					<!-- <td align="center">
+						<a href="#" onClick="setRlabChrgInfo('ehkang', '강은희')">강은희,
+						<a href="#" onClick="setRlabChrgInfo('induohgee', '이동희')">이동희
+					</td> -->
 				</tr>
 			</tbody>
 		</table>
