@@ -182,6 +182,14 @@ var roleCheck = '${inputData.roleCheck}';
 				$("#butImSave").show()
 				$("#btnGrsSave").show()
 			}else{
+				if( dataSet.getNameValue(0, 'bizDptCd') == "07" &&  ( exSabun == "00207887" ||  exSabun == "00207772")){
+					$("#butImSave").show();
+					$("#btnGrsSave").show();
+				}else{
+					$("#butImSave").hide();
+					$("#btnGrsSave").hide();
+				}
+				
 				$("#butTssNew").hide()
 				$("#btnGrsSave").hide()
 			}
@@ -995,7 +1003,7 @@ var roleCheck = '${inputData.roleCheck}';
            	
            	if( !Rui.isEmpty(tmpAttchFileList) ){
        	    	for(var i = 0; i < tmpAttchFileList.length; i++) {
-       	    		if( tmpAttchFileList[i].data.filNm.indexOf('통합 심의서') > -1 || tmpAttchFileList[i].data.filNm.indexOf('회의록') > -1 || tmpAttchFileList[i].data.filNm.indexOf('평가표') > -1 ){
+       	    		if( tmpAttchFileList[i].data.filNm.indexOf('통합심의서') > -1 || tmpAttchFileList[i].data.filNm.indexOf('통합 심의서') > -1 || tmpAttchFileList[i].data.filNm.indexOf('회의록') > -1 || tmpAttchFileList[i].data.filNm.indexOf('평가표') > -1 ){
        					chkNum++;    
        				}               
        	        }

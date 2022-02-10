@@ -172,6 +172,7 @@ var exSabun = '${inputData._userSabun}';
 	            	,{ id: 'grsEvMType'}
 	            	,{ id: 'grsEvMTypeNm'}
 	            	,{ id: 'evDt'}
+	            	,{ id: 'tssType'}
 	             ]
         });
 		
@@ -181,7 +182,7 @@ var exSabun = '${inputData._userSabun}';
 				$("#butImSave").show();
 				$("#btnGrsSave").show();
 			}else{
-				if( exSabun == "00207887" ){
+				if( dataSet.getNameValue(0, 'bizDptCd') == "07" &&  ( exSabun == "00207887" ||  exSabun == "00207772")){
 					$("#butImSave").show();
 					$("#btnGrsSave").show();
 				}else{
@@ -716,6 +717,7 @@ var exSabun = '${inputData._userSabun}';
             	,{ id: 'tssCdSn'           , ctrlId : 'tssCdSn'          ,value : 'value' } 
             	,{ id: 'evSbcNm'           , ctrlId : 'grsEvSnNm'        ,value : 'value' } 
             	,{ id: 'grsEvMTypeNm'      , ctrlId : 'grsEvMTypeNm'     ,value : 'html' } 
+            	,{ id: 'tssType'           , ctrlId : 'tssType'          ,value : 'html' } 
             ]
         });
     	
@@ -860,10 +862,10 @@ var exSabun = '${inputData._userSabun}';
             	 ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
             	// ,{ id: 'bizPrftProY'       , validExp:'영업이익률:true:minNumber=0.01'}
             	// ,{ id: 'bizPrftProY1'      , validExp:'영업이익률:true:minNumber=0.01'}
-            	 ,{ id: 'bizPrftProY2'      , validExp:'영업이익률:true:minNumber=0.01'}
+            	// ,{ id: 'bizPrftProY2'      , validExp:'영업이익률:true:minNumber=0.01'}
             	 //,{ id: 'bizPrftPlnY'       , validExp:'영업이익:true:minNumber=0.01'}
             	 //,{ id: 'bizPrftPlnY1'      , validExp:'영업이익:true:minNumber=0.01'}
-            	 ,{ id: 'bizPrftPlnY2'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 //,{ id: 'bizPrftPlnY2'      , validExp:'영업이익:true:minNumber=0.01'}
             	 ,{ id: 'nprodSalsPlnY'     , validExp:'매출액:true:minNumber=0.01'}
             	 ,{ id: 'nprodSalsPlnY1'    , validExp:'매출액:true:minNumber=0.01'}
             	 ,{ id: 'nprodSalsPlnY2'    , validExp:'매출액:true:minNumber=0.01'}
@@ -1001,7 +1003,7 @@ var exSabun = '${inputData._userSabun}';
              var grsEvSt = dataSet.getNameValue(0, 'grsEvSt');
              var evPoint = $(".L-grid-cell-inner.L-grid-col-calScr:last").html();
              var grsMsg = "";
-             
+          
              if( dataSet.getNameValue(0, 'tssScnCd') == "G" ){
             	 if( dataSet.getNameValue(0, 'grsEvSt') == 'M'  &&  grsEvMType.getValue() == "IN" ){
             		 if(valid.validateGroup('aform') == false) {
@@ -1038,11 +1040,15 @@ var exSabun = '${inputData._userSabun}';
             	 
             	 var chkCnt = fnAttchValid();
 
-                 if (chkCnt < 3  ){
-                	 alert("첨부파일이 누락되어있습니다. ");
-                	 return;
-                 }
-                 
+            	 alert(dataSet.getNameValue(0, 'tssType'));
+            	 //첨부파일 체크 시 pb팀 예외
+            	 if ( dataSet.getNameValue(0, 'tssType') !="CB" ){
+            		 if (chkCnt < 3  ){
+                    	 alert("첨부파일이 누락되어있습니다. ");
+                    	 return;
+                     }
+            	 }
+            	 
                  if( fncInputChk()  ){
                 	 return true;
                  }
@@ -1052,10 +1058,12 @@ var exSabun = '${inputData._userSabun}';
             	 if ( dataSet.getNameValue(0, 'tssScnCd') == "D" ){
             		 var chkCnt = fnAttchValid();
 
-                     if (chkCnt < 3  ){
-                    	 alert("첨부파일이 누락되어있습니다. ");
-                    	 return;
-                     }
+            		 if ( dataSet.getNameValue(0, 'tssType') !="CB" ){
+            			 if (chkCnt < 3  ){
+                        	 alert("첨부파일이 누락되어있습니다. ");
+                        	 return;
+                         }
+            		 }
             	 }
             	 
             	 if(valid.validateGroup('aform') == false) {
@@ -1064,9 +1072,11 @@ var exSabun = '${inputData._userSabun}';
                  }
              }
             
-             if( gridDataSet.getCount() == 0  ){
-            	 alert("GRS평가표를 작성하세요");
-            	 return;
+             if ( dataSet.getNameValue(0, 'tssType') !="CB" ){
+            	 if( gridDataSet.getCount() == 0  ){
+                	 alert("GRS평가표를 작성하세요");
+                	 return;
+                 }
              }
              
              if( dataSet.getNameValue(0, 'grsEvSt') == "M" && Rui.isEmpty(grsEvMType.getValue()) ){
@@ -1074,13 +1084,18 @@ var exSabun = '${inputData._userSabun}';
 				return;
 			 }
              
-             if( evPoint < 70  ){
-	           	dataSet.setNameValue(0, 'grsEvSt', "D");
-	           	dataSet.setNameValue(0, 'dropYn', "Y");
-	           	grsMsg ="<font color='#DA1C5A'>※ 평가 환산점수 합계가  70점 미만 입니다.</font><br><br>";
-	         }else{
-	         	dataSet.setNameValue(0, 'dropYn', "N");
-	         }
+             if ( dataSet.getNameValue(0, 'tssType') == "CB" ){
+            	 dataSet.setNameValue(0, 'dropYn', "N");
+             }else{
+            	 if( evPoint < 70  ){
+     	           	dataSet.setNameValue(0, 'grsEvSt', "D");
+     	           	dataSet.setNameValue(0, 'dropYn', "Y");
+     	           	grsMsg ="<font color='#DA1C5A'>※ 평가 환산점수 합계가  70점 미만 입니다.</font><br><br>";
+     	         }else{
+     	         	dataSet.setNameValue(0, 'dropYn', "N");
+     	         }
+                  
+             }
              
              Rui.confirm({
                  text: grsMsg+'평가완료하시겠습니까?<br>완료후에는 수정/삭제가 불가능합니다.',
