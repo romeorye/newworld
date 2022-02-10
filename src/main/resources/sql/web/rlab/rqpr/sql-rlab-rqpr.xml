@@ -873,17 +873,6 @@
 														select infm_prsn_id
 														from  IRIS_RLAB_RQPR_INFM 
 														where  rqpr_id =${rqprId}
-														union
-														select  case when addReMailYn = 'Y' then 'taeyichoi'
-																else '' end 
-														from   (
-																select case when a.RLAB_DZDV_CD = 'KC_BATH' then  'Y'
-																			when a.RLAB_DZDV_CD = 'CEU_LABT' and a.rlab_prod_cd = '03' then 'Y'
-																			when a.RLAB_DZDV_CD = 'CORP'  and a.rlab_prod_cd = '03' then 'Y'
-																			else 'N' end addReMailYn
-																from  iris_rlab_rqpr_mst a
-																where a.rqpr_id =${rqprId}
-																) a
 											)
                                         FOR XML PATH('') ), 1,1, ''
 										 
@@ -916,17 +905,6 @@
 														select infm_prsn_id
 														from  IRIS_RLAB_RQPR_INFM 
 														where  rqpr_id =${rqprId}
-														union
-														select  case when addReMailYn = 'Y' then 'taeyichoi'
-																else '' end 
-														from   (
-																select case when a.RLAB_DZDV_CD = 'KC_BATH' then  'Y'
-																			when a.RLAB_DZDV_CD = 'CEU_LABT' and a.rlab_prod_cd = '03' then 'Y'
-																			when a.RLAB_DZDV_CD = 'CORP'  and a.rlab_prod_cd = '03' then 'Y'
-																			else 'N' end addReMailYn
-																from  iris_rlab_rqpr_mst a
-																where a.rqpr_id =${rqprId}
-																) a
 											)
                                         FOR XML PATH('') ), 1,1, ''
 										 
