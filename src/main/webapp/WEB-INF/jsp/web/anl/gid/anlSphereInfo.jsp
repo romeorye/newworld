@@ -153,110 +153,130 @@
 					<!--  //분석안내 -->
 
 
+
+
+
+
 					<!-- 분석 담당자 -->
 					<div class="tab-pane fade" id="tab1" >
 						<div class="analyze_person" style="padding:20px 20px 0 0;">
 				            <table class="table p-admin">
 				                <caption>분류</caption>
 				                <colgroup>
-				                    <col width="20%" />
-				                    <col width="20%" />
-				                    <col width="20%" />
-				                    <col width="20%" />
+				                    <col width="30%" />
+				                    <col width="30%" />
+				                    <col width="30%" />
 				                    <col />
 				                </colgroup>
-				                <div class="person_guide mb" >* 기타 사업조직 분석의뢰 시, 분석PJT PL과 상담해주시기 바랍니다.</div>
-				                <thead>
+				                <div class="person_guide mb" >* 기타 사업조직 분석의뢰 시, 무해성검증 PJT PL과 상담해주시기 바랍니다.</div>
+				               <thead>
 				                    <tr>
 				                        <th>사업분야</th>
-				                        <th>형상분석</th>
-				                        <th>유기분석</th>
-				                        <th>유해물질분석</th>
+				                        <th>형상</th>
+				                        <th>유기</th>
 				                    </tr>
 				                </thead>
 				                <tbody>
-				                    <tr>
+				               		<tr>
 				                        <th >기반기술</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>, 
+				                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>
+				                        </td>
+				                        <td style="text-align:center;vertical-align:middle !important;">
+				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
+				                        </td>
+				                    </tr>
+				               		<tr>
+				                        <th >자동차</th>
+				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a> 
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>,
 				                        	<a href="javascript:getPersonInfo('00208522','leesangheon')" class="person_link">이상헌</a>
 				                        </td>
-				                        <td rowspan="6" class="bottomL" style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">TVOC 이종한</a>
-				                        	<br><br>
-				                        	<a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">포름알데히드 고재윤</a>
-				                        	<br><br>
-				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">중금속 권수민</a>
-				                        	<br><br>
-				                        	<a href="javascript:getPersonInfo('00207779','lejaaa')" class="person_link">프탈레이트 이은주</a>
-				                        	<br><br>
-				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">라돈(방사능농도) 권수민</a>
-				                        	<br><br>
-				                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">항균 김수연</a>
+				                    </tr>
+				               		<tr>
+				                        <th >단열재,벽지,바닥재</th>
+				                        <td style="text-align:center;vertical-align:middle !important;">
+				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
+				                        </td>
+				                        <td style="text-align:center;vertical-align:middle !important;">
+				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
 				                        </td>
 				                    </tr>
-				                    <tr>
+				               		<tr>
 				                        <th >인테리어</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a>
+				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
 				                        </td>
 				                    </tr>
-				                    <tr>
-				                        <th>장식재</th>
+				               		<tr>
+				                        <th >창호</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
-				                        	<!-- <a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a> -->
+				                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>
 				                        </td>
-				                        <td class="rightL" style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
-				                        </td>
-				                    </tr>
-				                    <tr>
-				                        <th>자동차소재부품</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
-				                        	<!-- <a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>  -->
-				                        </td>
-				                        <td class="rightL" style="text-align:center;vertical-align:middle !important;">
-				                        	<!-- <a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a> -->
 				                        	<a href="javascript:getPersonInfo('00208522','leesangheon')" class="person_link">이상헌</a>
 				                        </td>
 				                    </tr>
-				                    <tr>
-				                        <th>창호</th>
+				               		<tr>
+				                        <th >표면소재</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a> 
-				                        	<!-- <a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a> -->
+				                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>
+				                        	
 				                        </td>
-				                        <td class="rightL" style="text-align:center;vertical-align:middle !important;">
+				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00208522','leesangheon')" class="person_link">이상헌</a>
 				                        </td>
 				                    </tr>
-				                    <tr>
-				                        <th>표면소재</th>
+				               		<tr>
+				                        <th >산업용필름</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a> ,
+				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>,
 				                        	<a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a>
 				                        </td>
-				                        <td class="rightL" style="text-align:center;vertical-align:middle !important;">
+				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00208522','leesangheon')" class="person_link">이상헌</a>
 				                        </td>
 				                    </tr>
-
-				                 </tbody>
+				               		<tr>
+				                        <th >TVOC, 라돈</th>
+				                        <td style="text-align:center;vertical-align:middle !important;" colspan="2">
+				                        	<a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">이종한</a>
+				                        </td>
+				                    </tr>
+				               		<tr>
+				                        <th >HCHO, 실내공기질</th>
+				                        <td style="text-align:center;vertical-align:middle !important;" colspan="2">
+				                        	<a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</a>
+				                        </td>
+				                    </tr>
+				               		<tr>
+				                        <th >중금속, 방사능농도</th>
+				                        <td style="text-align:center;vertical-align:middle !important;" colspan="2">
+				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
+				                        </td>
+				                    </tr>
+				               		<tr>
+				                        <th >프탈레이트, 할로겐,Q-Gate유해물질분석</th>
+				                        <td style="text-align:center;vertical-align:middle !important;" colspan="2">
+				                        	<a href="javascript:getPersonInfo('00207779','lejaaa')" class="person_link">이은주</a>
+				                        </td>
+				                    </tr>
+				               		<tr>
+				                        <th >향균시험</th>
+				                        <td style="text-align:center;vertical-align:middle !important;" colspan="2">
+				                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
+				                        </td>
+				                    </tr>
 				            </table>
 				        </div>
 					</div>
 					<!--  //분석 담당자 -->
-
-
+					
 					<!-- 평가의뢰 절차 및 메뉴얼 -->
 					<div class="tab-pane fade" id="tab2" >
 						<div class="analy_proce" style="padding:20px 20px 0 0;">
@@ -299,7 +319,7 @@
 				         <div class="analy_adress">
 				            <div class="analy_adress_box">
 				                <div class="adress_txt_box"><div class="adress_txt">주소</div></div>
-				                <div class="adress_txt_s">서울특별시 강서구 마곡중앙10로 30 (마곡동) LG사이언스파크 LG하우시스.연구소.분석PJT</div>
+				                <div class="adress_txt_s">서울특별시 강서구 마곡중앙10로 30 (마곡동) LG사이언스파크 LX하우시스.연구소.무해성검증PJT</div>
 				                <div class="adress_txt_ss">* 수령인에 분석담당자의 이름과 연락처를 기재하여 발송해 주시기 바랍니다.</div>
 				            </div>
 				        </div>
