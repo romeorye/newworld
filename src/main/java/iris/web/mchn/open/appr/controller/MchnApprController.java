@@ -1,5 +1,6 @@
 package iris.web.mchn.open.appr.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import devonframe.util.NullUtil;
 import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.StringUtil;
 import iris.web.mchn.mgmt.controller.AnlMchnController;
@@ -49,7 +51,7 @@ public class MchnApprController extends IrisBaseController {
 			HttpSession session,
 			ModelMap model
 			){
-		LOGGER.debug("#######################mchnapprtList######input######################################################## : "+ input);
+		
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		input = StringUtil.toUtf8(input);
@@ -157,5 +159,60 @@ public class MchnApprController extends IrisBaseController {
 
 		return  modelAndView;
 	}
+	
+	
+	/**
+	 *  보유기기관리 승인, 반려 업데이트
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value="/mchn/open/appr/updateMachineApprList.do")
+	public ModelAndView updateMachineApprList(@RequestParam HashMap<String, Object> input,
+			//MultipartFile file,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			) throws Exception{
+		/* 반드시 공통 호출 후 작업 */
+		checkSessionObjRUI(input, session, model);
+		input = StringUtil.toUtf8Input(input);
+		
+		ModelAndView modelAndView = new ModelAndView("ruiView");
+		HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+		
+		String rtnMsg = "";
+		String rtnSt = "F";
+		
+		String[] mchnPrctIds = (NullUtil.nvl(input.get("mchnPrctIds"), "")).split(",");
+		List<String> mchnPrctIdList = new ArrayList<>();
+
+		for (String mchnPrctId : mchnPrctIds) {
+			mchnPrctIdList.add(mchnPrctId);
+		}
+
+		input.put("mchnPrctIdList", mchnPrctIdList);
+		
+		try{
+			mchnApprService.updateMachineApprList(input);
+			
+			rtnMsg = "승인되었습니다.";
+	       	rtnSt = "Y";
+		}catch(Exception e){
+			e.printStackTrace();
+			rtnMsg = "처리중 오류가발생했습니다. 담당자에게 문의해주세요";
+		}
+		
+		rtnMeaasge.put("rtnMsg", rtnMsg);
+		rtnMeaasge.put("rtnSt", rtnSt);
+		
+		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
+
+		return  modelAndView;
+	}
+	
 }
 

@@ -22,11 +22,7 @@
 <title><%=documentTitle%></title>
 
 <%-- staus bar --%>
-<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LEditButtonColumn.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridView.js"></script>
-<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridPanelExt.js"></script>
-<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.js"></script>
-<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LTotalSummary.css"/>
@@ -34,16 +30,23 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
 
-<%
-	response.setHeader("Pragma", "No-cache");
-	response.setDateHeader("Expires", 0);
-	response.setHeader("Cache-Control", "no-cache");
-%>
-
-
 <script type="text/javascript">
 
 	Rui.onReady(function(){
+		<%-- RESULT DATASET --%>
+		resultDataSet = new Rui.data.LJsonDataSet({
+            id: 'resultDataSet',
+            remainRemoved: true,
+            lazyLoad: true,
+            fields: [
+                  { id: 'rtnSt' }   //결과코드
+                , { id: 'rtnMsg' }  //결과메시지
+            ]
+        });
+
+        resultDataSet.on('load', function(e) {
+        });
+		
 		/* grid */
 		var dataSet = new Rui.data.LJsonDataSet({
 	        id: 'dataSet',
@@ -74,7 +77,10 @@
 	    var columnModel = new Rui.ui.grid.LColumnModel({
 	        groupMerge: true,
 	        columns: [
-	        	{ field: 'prctTitl', 	label: '신청제목', 	sortable: false, align: 'left', width: 330},
+	        	new Rui.ui.grid.LSelectionColumn(),
+	        	{ field: 'prctTitl', 	label: '신청제목', 	sortable: false, align: 'left', width: 330, renderer: function(value, p, record, row, col){
+                    return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
+                }},
 	            { field: 'mchnNm',  	label: '기기명', 	sortable: false, align: 'left', width: 300},
 	            { field: 'teamNm',  	label: '팀',	  	sortable: false, align: 'center', width: 240},
 	            { field: 'rgstNm',  	label: '예약자', 	sortable: false, align: 'center', width: 82},
@@ -100,12 +106,14 @@
 	    grid.render('mhcnGrid');
 
 	    grid.on('cellClick', function(e) {
-			var record = dataSet.getAt(dataSet.getRow());
-			if(dataSet.getRow() > -1) {
-				document.aform.mchnPrctId.value = record.get("mchnPrctId");
-				document.aform.action="<c:url value="/mchn/open/appr/retrieveMchnApprDtl.do"/>";
-				document.aform.submit();
-			}
+	    	if(e.colId == "prctTitl") { 
+	    		var record = dataSet.getAt(dataSet.getRow());
+				if(dataSet.getRow() > -1) {
+					document.aform.mchnPrctId.value = record.get("mchnPrctId");
+					document.aform.action="<c:url value="/mchn/open/appr/retrieveMchnApprDtl.do"/>";
+					document.aform.submit();
+				}
+	    	}
 	 	});
 
 	  	//신청제목
@@ -166,6 +174,59 @@
 		};
 
 		//fnSearch();
+		
+		
+		var apprBtn = new Rui.ui.LButton('butAppr'); 
+		apprBtn.on('click', function(){
+			// 승인 가능 예약 검사
+        	for( var i = 0 ; i < dataSet.getCount() ; i++ ){
+                if(dataSet.isMarked(i)){
+                    if(dataSet.getNameValue(i, 'prctScnCd') !="RQ"){
+                        alert("요청건만 승인이 가능합니다.");
+                        return;
+                    }
+                }
+            }
+	    	
+        	if(dataSet.getMarkedCount() == 0 ){
+                Rui.alert("승인할 기기를 선택해주십시오");
+                return;
+            }
+        	
+        	fncSaveAppr();
+		});
+
+		
+		fncSaveAppr = function(){
+			var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
+            dm.on('success', function (e) {      // 업데이트 성공시
+                var resultData = resultDataSet.getReadData(e);
+				 alert(resultData.records[0].rtnMsg);
+				 fnSearch();
+            });
+
+            dm.on('failure', function (e) {      // 업데이트 실패시
+                alert("승인에 실패했습니다. 관리자에게 문의해주세요!!!");
+            });
+			
+            var mchnPrctIdList = [];
+    		
+        	for( var i = 0 ; i < dataSet.getCount() ; i++ ){
+        		if(dataSet.isMarked(i)){
+        			mchnPrctIdList.push(dataSet.getNameValue(i, 'mchnPrctId'));
+        		}
+        	}
+        	var mchnPrctIds = mchnPrctIdList.join(',');
+        	
+        	if(confirm('승인하시겠습니까?')) {
+               	 dm.updateDataSet({
+               		url: "<c:url value='/mchn/open/appr/updateMachineApprList.do'/>",
+               		params: {
+               			mchnPrctIds: mchnPrctIds
+                    }
+                })
+             }
+		}
 
 		/* 엑셀 다운로드 */
 		var saveExcelBtn = new Rui.ui.LButton('butExcl');
@@ -261,6 +322,7 @@ nG.saveExcel(encodeURIComponent('분석기기 예약관리_') + new Date().forma
 				<div class="titArea">
 					<h3><span class="table_summay_number" id="cnt_text"></span></h3>
 					<div class="LblockButton">
+					<button type="button" id="butAppr">승인</button>
 					<button type="button" id="butExcl">EXCEL</button>
 					</div>
 				</div>

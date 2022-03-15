@@ -90,5 +90,53 @@ public class MchnApprServiceImpl implements MchnApprService{
 		}
 	}
 	
+	/**
+	 *  보유기기관리 일괄 승인 업데이트
+	 * @param input
+	 * @return
+	 * @throws Exception 
+	 */
+	public void updateMachineApprList(Map<String, Object> input) throws Exception{
+		//
+		MailSender mailSender = mailSenderFactory.createMailSender();
+		MchnAppVo vo = new MchnAppVo();
+
+		try{
+			commonDao.update("open.mchnAppr.updateMachineApprInfoList", input); 
+			//승인건 조회
+			List<Map<String,Object>> machineApprInfoList = commonDao.selectList("open.mchnAppr.retrieveMachineApprInfo", input);
+			
+			for(Map<String,Object> machineApprInfo : machineApprInfoList) {
+				mailSender.setFromMailAddress( input.get("_userEmail").toString(), input.get("_userNm").toString());
+				//송신자
+				mailSender.setToMailAddress(machineApprInfo.get("toMailAddr").toString(), machineApprInfo.get("rgstNm").toString());
+				mailSender.setSubject(NullUtil.nvl(machineApprInfo.get("mailTitl").toString(),""));
+				
+				vo.setRgstNm(NullUtil.nvl(machineApprInfo.get("rgstNm").toString(),""));
+				vo.setMchnHanNm(NullUtil.nvl(machineApprInfo.get("mchnHanNm").toString(),""));
+				vo.setMchnEnNm(NullUtil.nvl(machineApprInfo.get("mchnEnNm").toString(),""));
+				vo.setPrctDt(machineApprInfo.get("prctDt").toString());
+				vo.setPrctFromTim(machineApprInfo.get("prctFromTim").toString());
+				vo.setPrctToTim(machineApprInfo.get("prctToTim").toString());
+				vo.setPrctScnNm(machineApprInfo.get("prctScnNm").toString());
+				mailSender.setHtmlTemplate("mchnApprReq", vo);
+				
+				mailSender.send();
+				
+				input.put("mailTitl", NullUtil.nvl(machineApprInfo.get("mailTitl").toString(),""));
+				input.put("adreMail", machineApprInfo.get("toMailAddr").toString());
+				input.put("trrMail",  input.get("_userEmail").toString());
+				input.put("rfpMail",  "");
+				input.put("_userId", input.get("_userId").toString());
+				input.put("_userEmail", input.get("_userEmail").toString());
+				
+				/* 전송메일 정보 hist 저장*/
+				commonDao.insert("open.mchnAppr.insertMailHist", input);
+			}
+			
+		}catch(Exception e){
+			throw new Exception("저장중 오류가발생하였습니다.");
+		}	
+	}
 	
 }

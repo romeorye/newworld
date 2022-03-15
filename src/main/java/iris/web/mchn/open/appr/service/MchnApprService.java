@@ -27,5 +27,14 @@ public interface MchnApprService {
 	 * @return
 	 */
 	void updateMachineApprInfo(HashMap<String, Object> input)  throws Exception;
+
+	
+	/**
+	 *  보유기기관리 일괄 승인 업데이트
+	 * @param input
+	 * @return
+	 * @throws Exception 
+	 */
+	void updateMachineApprList(Map<String, Object> input) throws Exception;
 	
 }

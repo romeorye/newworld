@@ -134,5 +134,48 @@
 		)
 	]]>
 	</insert>
-
+	
+	
+	
+	<!-- 보유기기관리 승인, 반려 업데이트  -->
+	<update id="updateMachineApprInfoList">
+	-- updateMachineApprInfo 보유기기관리 승인, 반려 업데이트
+		UPDATE    IRIS_MCHN_PRCT_MST
+		SET  	  PRCT_APPR_DT = CONVERT(NVARCHAR(10), GETDATE(), 23)
+				 ,PRCT_SCN_CD  = 'APPR'
+				 ,LAST_MDFY_DT = GETDATE()
+				 ,LAST_MDFY_ID = #{_userId}
+		WHERE     MCHN_PRCT_ID in
+		<foreach collection="mchnPrctIdList" index="index" item="item" separator="," open="(" close=")">
+            	'${mchnPrctIdList[index]}'
+        </foreach>
+	</update>
+	
+	
+	
+<!-- 기기예약 상세 조회 -->
+	<select id="retrieveMachineApprInfo" resultType="hashmap" >
+		<![CDATA[
+		-- retrieveMachineApprInfo 기기예약 상세 조회
+		select '기기예약 신청 결과 안내' as mailTitl
+		       ,c.sa_name as rgstNm
+			   ,a.MCHN_HAN_NM as  mchnHanNm
+			   ,a.MCHN_EN_NM as mchnEnNm
+			   ,b.PRCT_DT as prctDt
+			   ,b.PRCT_FROM_TIM as prctFromTim
+			   ,b.PRCT_TO_TIM as prctToTim
+			   ,(select COM_DTL_NM  from IRIS_ADM_COM_CD where COM_CD_CD = 'MCHN_APPR_RQ_ST' and COM_DTL_CD = b.PRCT_SCN_CD ) as prctScnNm	   
+			   ,c.sa_mail as toMailAddr
+			   ,b.MCHN_PRCT_ID as mchnPrctId
+		from   IRIS_MCHN_INFO_MST a
+		       inner join IRIS_MCHN_PRCT_MST b
+			   on b.MCHN_INFO_ID = a.MCHN_INFO_ID
+			   left outer join IRIS_SSO_USER c
+			   on c.sa_sabun_new = b.RGST_ID
+		where  b.MCHN_PRCT_ID IN
+		]]>
+		<foreach collection="mchnPrctIdList" index="index" item="item" separator="," open="(" close=")">
+            	'${mchnPrctIdList[index]}'
+        </foreach>
+	</select>
 </mapper>
