@@ -145,21 +145,26 @@ var loginSabun = '${inputData._userSabun}';
         				|| roleId.indexOf("WORK_IRI_T14") > -1		//법인GRS
         				|| roleId.indexOf("WORK_IRI_T25") > -1		//인테리어GRS
         			){
-        		 		roleCheck ="Y";
         		 		if( roleId.indexOf("WORK_IRI_T01") > -1	|| roleId.indexOf("WORK_IRI_T03") > -1  ){
+        		 			roleCheck ="Y";
         		 			$("#butTssNew").show();
 	        		 		$("#butAppr").show();
         		 		}else{
         		 			if ( listDataSet.getNameValue(0, 'grsUserChk') > 0 ){
-    	        		 		$("#butTssNew").show();
+        				 		roleCheck ="Y";
+        		 				$("#butTssNew").show();
     	        		 		$("#butAppr").show();
                    	   		}else{
-    		        	 		$("#butTssNew").hide();
-    		        	 		$("#butAppr").hide();
+	                   	   		if (  loginSabun =="00206548" || loginSabun =="00206494" || loginSabun =="00209071" || loginSabun =="00206740" ){
+			        		 		roleCheck ="Y";
+		                   	   		$("#butTssNew").show();
+	    	        		 		$("#butAppr").show();
+	    		 				}else{
+	    		        	 		$("#butTssNew").hide();
+	    		        	 		$("#butAppr").hide();
+	    		 				}
                    	   		}
         		 		}
-	        		 	//	$("#butTssNew").show();
-	        		 	//	$("#butAppr").show();
         			}else{
 	        	 		$("#butTssNew").hide();
 	        	 		$("#butAppr").hide();
@@ -316,13 +321,15 @@ var loginSabun = '${inputData._userSabun}';
         	var recode = listDataSet.getAt(row);
         	var param = "?tssCd="+recode.get("tssCd")+"&tssCdSn="+recode.get("tssCdSn")+"&grsEvSn="+recode.get("grsEvSn")+"&grsStCd="+recode.get("grsStCd")+"&grsEvSt="+recode.get("grsEvSt")+"&roleCheck="+roleCheck;
         	
-        	if( roleId.indexOf("WORK_IRI_T01") > -1	|| roleId.indexOf("WORK_IRI_T03") > -1  ){
+        	if( roleId.indexOf("WORK_IRI_T01") > -1	|| roleId.indexOf("WORK_IRI_T03") > -1  || roleId.indexOf("WORK_IRI_T15") > -1      ){
        			
        		}else{
+       			/*
        			if ( loginSabun != listDataSet.getNameValue(row, 'dlbrCrgr')  ){
        	   			alert("GRS평가는 심의담당자만 가능합니다.");
        	   			return;
        	   		}
+       			*/
        		}
         	
         	//평가요청 화면
