@@ -617,10 +617,10 @@
                 applyTo: 'userInfo',
                 emptyText: '담당자를 선택하세요',
                 width: 200,
-                items: [
+                items: [		
                    { value: 'rumor', text: '이진욱'}, // text는 생략 가능하며, 생략시 value값을 그대로 사용한다. 
-                   { value: 'yujilee', text: '이유지' },  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
-                   { value: 'nhahn', text: '안남혁' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+                   { value: 'hyokeun', text: '황효근' },  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+                   { value: 'vickim', text: '김형근' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
                 ]
             });	
 			
