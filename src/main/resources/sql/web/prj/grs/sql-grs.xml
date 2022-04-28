@@ -1515,6 +1515,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 				,m.evResult                
 				,m.nprodNm
 				,m.tssType
+				,dbo.fn_getComDtlNm('GRS_EV_ST',m.GRS_EV_ST)  AS grsEvStNm
 		from    (
 				select   dbo.fn_getPrjName(b.PRJ_CD)						as prjNm
 						,dbo.fn_getComDtlNm('BIZ_DPT_CD', b.BIZ_DPT_CD)		AS bizDptNm
