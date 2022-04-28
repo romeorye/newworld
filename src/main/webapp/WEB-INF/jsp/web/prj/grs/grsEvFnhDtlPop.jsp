@@ -116,6 +116,7 @@ var lvAttcFilId;
 		    	,{ id: 'dropYn'}
 		    	,{ id: 'evResult'}
 		    	,{ id: 'evDt'}
+		    	,{ id: 'grsEvStNm'}
 	             ]
         });
 		
@@ -469,6 +470,7 @@ var lvAttcFilId;
             	,{ id: 'tssCdSn'           , ctrlId : 'tssCdSn'          ,value : 'value' } 
             	,{ id: 'evSbcNm'           , ctrlId : 'grsEvSnNm'        ,value : 'html' } 
             	,{ id: 'evResult'           , ctrlId : 'evResult'        ,value : 'html' } 
+            	,{ id: 'grsEvStNm'           , ctrlId : 'grsEvStNm'        ,value : 'html' } 
             ]
         });
     	
@@ -585,7 +587,8 @@ var lvAttcFilId;
 			<tr>
 				<th align="right">심의단계</th>
 				<td class="tssLableCss">
-					<span id="grsEvSt"></<span>
+					<span id="grsEvStNm"></<span>
+					<!-- <span id="grsEvSt"></<span> -->
 				</td>
 				<th align="right">C&M여부</th>
 				<td ><span type="text" id="cmYn"></span></td>

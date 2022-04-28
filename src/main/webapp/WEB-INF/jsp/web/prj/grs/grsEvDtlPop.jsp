@@ -120,6 +120,7 @@ var userIds;
 	            	,{ id: 'evResult'}
 	            	,{ id: 'grsEvMTypeNm'}
 	            	,{ id: 'evDt'}
+	            	,{ id: 'grsEvStNm'}
 	             ]
         });
 		
@@ -483,6 +484,7 @@ var userIds;
             	,{ id: 'evSbcNm'           , ctrlId : 'grsEvSnNm'        ,value : 'html' } 
             	,{ id: 'evResult'           , ctrlId : 'evResult'        ,value : 'html' } 
             	,{ id: 'grsEvMTypeNm'           , ctrlId : 'grsEvMTypeNm'        ,value : 'html' } 
+            	,{ id: 'grsEvStNm'           , ctrlId : 'grsEvStNm'        ,value : 'html' } 
             ]
         });
     	
@@ -601,7 +603,8 @@ var userIds;
 			<tr>
 				<th align="right">심의단계</th>
 				<td class="tssLableCss">
-					<span id="grsEvSt"></<span>
+					<span id="grsEvStNm"></<span>
+					<!-- <span id="grsEvSt"></<span> -->
 				</td>
 				<th align="right">C&M여부</th>
 				<td ><span type="text" id="cmYn"></span></td>
