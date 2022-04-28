@@ -173,6 +173,7 @@ var exSabun = '${inputData._userSabun}';
 	            	,{ id: 'grsEvMTypeNm'}
 	            	,{ id: 'evDt'}
 	            	,{ id: 'tssType'}
+	            	,{ id: 'grsEvStNm'}
 	             ]
         });
 		
@@ -718,6 +719,7 @@ var exSabun = '${inputData._userSabun}';
             	,{ id: 'evSbcNm'           , ctrlId : 'grsEvSnNm'        ,value : 'value' } 
             	,{ id: 'grsEvMTypeNm'      , ctrlId : 'grsEvMTypeNm'     ,value : 'html' } 
             	,{ id: 'tssType'           , ctrlId : 'tssType'          ,value : 'html' } 
+            	,{ id: 'grsEvStNm'           , ctrlId : 'grsEvStNm'          ,value : 'html' } 
             ]
         });
     	
@@ -1005,7 +1007,7 @@ var exSabun = '${inputData._userSabun}';
              var grsMsg = "";
           
              if( dataSet.getNameValue(0, 'tssScnCd') == "G" ){
-            	 if( dataSet.getNameValue(0, 'grsEvSt') == 'M'  &&  grsEvMType.getValue() == "IN" ){
+            	 if( dataSet.getNameValue(0, 'grsEvSt').trim() == 'M'  &&  grsEvMType.getValue() == "IN" ){
             		 if(valid.validateGroup('aform') == false) {
                        	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid.getMessageList().join(''));
                          return;
@@ -1040,14 +1042,15 @@ var exSabun = '${inputData._userSabun}';
             	 
             	 var chkCnt = fnAttchValid();
 
-            	 alert(dataSet.getNameValue(0, 'tssType'));
             	 //첨부파일 체크 시 pb팀 예외
-            	 if ( dataSet.getNameValue(0, 'tssType') !="CB" ){
-            		 if (chkCnt < 3  ){
+            	 if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC"   ){
+             		
+        		 }else{		 
+        			 if (chkCnt < 3  ){
                     	 alert("첨부파일이 누락되어있습니다. ");
                     	 return;
                      }
-            	 }
+        		 }
             	 
                  if( fncInputChk()  ){
                 	 return true;
@@ -1058,7 +1061,9 @@ var exSabun = '${inputData._userSabun}';
             	 if ( dataSet.getNameValue(0, 'tssScnCd') == "D" ){
             		 var chkCnt = fnAttchValid();
 
-            		 if ( dataSet.getNameValue(0, 'tssType') !="CB" ){
+            		 if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC"   ){
+            		
+            		 }else{		 
             			 if (chkCnt < 3  ){
                         	 alert("첨부파일이 누락되어있습니다. ");
                         	 return;
@@ -1072,7 +1077,8 @@ var exSabun = '${inputData._userSabun}';
                  }
              }
             
-             if ( dataSet.getNameValue(0, 'tssType') !="CB" ){
+             if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC"   ){
+             }else{	 
             	 if( gridDataSet.getCount() == 0  ){
                 	 alert("GRS평가표를 작성하세요");
                 	 return;
@@ -1084,7 +1090,7 @@ var exSabun = '${inputData._userSabun}';
 				return;
 			 }
              
-             if ( dataSet.getNameValue(0, 'tssType') == "CB" ){
+             if ( dataSet.getNameValue(0, 'tssType') == "CB" || dataSet.getNameValue(0, 'tssType') =="RC"   ){
             	 dataSet.setNameValue(0, 'dropYn', "N");
              }else{
             	 if( evPoint < 70  ){
@@ -1250,7 +1256,8 @@ var exSabun = '${inputData._userSabun}';
 			<tr>
 				<th align="right">심의단계</th>
 				<td class="tssLableCss">
-					<span id="grsEvSt"></<span>
+					<span id="grsEvStNm"></<span>
+					<!-- <span id="grsEvMTypeNm"></<span> -->
 				</td>
 				<th align="right">C&M여부</th>
 				<td ><span type="text" id="cmYn"></span></td>

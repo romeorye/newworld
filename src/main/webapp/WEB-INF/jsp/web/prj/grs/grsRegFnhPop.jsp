@@ -173,6 +173,7 @@ var roleCheck = '${inputData.roleCheck}';
 		    	,{ id: 'dropYn'}
 		    	,{ id: 'evResult'}
 		    	,{ id: 'evDt'}
+		    	,{ id: 'grsEvStNm'}
 	             ]
         });
 		
@@ -692,6 +693,7 @@ var roleCheck = '${inputData.roleCheck}';
             	,{ id: 'wbsCd'             , ctrlId : 'wbsCd'            ,value : 'value' } 
             	,{ id: 'tssCdSn'           , ctrlId : 'tssCdSn'          ,value : 'value' } 
             	,{ id: 'evSbcNm'           , ctrlId : 'grsEvSnNm'        ,value : 'value' } 
+            	,{ id: 'grsEvStNm'           , ctrlId : 'grsEvStNm'        ,value : 'value' } 
             ]
         });
     	
@@ -954,10 +956,15 @@ var roleCheck = '${inputData.roleCheck}';
                	 
                	var chkCnt = fnAttchValid();
 
-                if (chkCnt < 3  ){
-               	 alert("첨부파일이 누락되어있습니다. ");
-               	 return;
-                }
+              	//첨부파일 체크 시 pb팀 예외
+	           	if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC"   ){
+	            	
+	       		}else{		 
+	       			if (chkCnt < 3  ){
+	                	alert("첨부파일이 누락되어있습니다. ");
+	                   	return;
+	                }
+	       		}
                 
                 if( fncInputChk()  ){
                 	return true;
@@ -968,10 +975,15 @@ var roleCheck = '${inputData.roleCheck}';
             	 if ( dataSet.getNameValue(0, 'tssScnCd') == "D" ){
             		 var chkCnt = fnAttchValid();
 
-                     if (chkCnt < 3  ){
-                    	 alert("첨부파일이 누락되어있습니다. ");
-                    	 return;
-                     }
+            		//첨부파일 체크 시 pb팀 예외
+                	 if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC"   ){
+                 		
+            		 }else{		 
+            			 if (chkCnt < 3  ){
+                        	 alert("첨부파일이 누락되어있습니다. ");
+                        	 return;
+                         }
+            		 }
             	 }
             	 
             	 if(valid.validateGroup('aform') == false) {
@@ -980,9 +992,12 @@ var roleCheck = '${inputData.roleCheck}';
                  }
              }
              
-             if( gridDataSet.getCount() == 0  ){
-            	 alert("GRS평가표를 작성하세요");
-            	 return;
+             if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC"   ){
+             }else{	 
+            	 if( gridDataSet.getCount() == 0  ){
+                	 alert("GRS평가표를 작성하세요");
+                	 return;
+                 }
              }
              
              Rui.confirm({
@@ -1215,7 +1230,8 @@ var roleCheck = '${inputData.roleCheck}';
 			<tr>
 				<th align="right">심의단계</th>
 				<td class="tssLableCss">
-					<span id="grsEvSt"></<span>
+					<span id="grsEvStNm"></<span>
+					<!-- <span id="grsEvSt"></<span> -->
 				</td>
 				<th align="right">C&M여부</th>
 				<td ><span type="text" id="cmYn"></span></td>
