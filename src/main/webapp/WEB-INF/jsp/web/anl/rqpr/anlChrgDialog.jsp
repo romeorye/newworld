@@ -120,8 +120,7 @@
 			<tr>
 				<th align="center">단열재,벽지,바닥재</th>
 				<td align="center">
-					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>,
-					<a href="#" onClick="setAnlChrgInfo('yejee', '전예지')">전예지</a>
+					<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
 				</td>
 			</tr>
 			<tr>
