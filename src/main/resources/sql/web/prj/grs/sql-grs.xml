@@ -124,10 +124,6 @@
 				,m.prjCd
 				,m.evDt
 				,m.dlbrCrgr
-				,(select count(*)
-				  from   IRIS_ADM_COM_CD
-				  where  COM_CD_CD = 'GRS_USER'
-				  and    COM_DTL_CD = #{_userSabun} ) as grsUserChk 
 				,m.tssType 
 		from   tmp_grs m
 		where  1=1
@@ -1770,4 +1766,11 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
     </update>
     
     
+    <select id="retrieveGrsUserChk" resultType="String">
+    	select case when count(*) > 0 then 'Y'
+    	       else 'N' end as  grsUserChk
+		from   IRIS_ADM_COM_CD
+		where  COM_CD_CD = 'GRS_USER'
+		and    COM_DTL_CD = #{_userSabun}  
+    </select>
 </mapper>

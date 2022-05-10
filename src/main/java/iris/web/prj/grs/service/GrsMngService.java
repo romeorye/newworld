@@ -65,4 +65,6 @@ public interface GrsMngService {
 	 * @param appList
 	 */
 	void updateGrsGuid(List<Map<String, Object>> appList);
+
+	String retrieveGrsUserChk(HashMap<String, String> input);
 }

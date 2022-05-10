@@ -76,6 +76,8 @@ public class GrsMngController extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSession(input, session, model);
 		input = StringUtil.toUtf8(input);
+		
+		input.put("grsUserChk",  grsMngService.retrieveGrsUserChk(input));
 
 		model.addAttribute("inputData", input);
 
@@ -102,7 +104,7 @@ public class GrsMngController extends IrisBaseController {
         Map<String, Object> role = tssUserService.getTssListRoleChk(input);
         input.put("tssRoleType", role.get("tssRoleType"));
         input.put("tssRoleCd",   role.get("tssRoleCd"));
-
+       
         List<Map<String,Object>> list = grsMngService.selectListGrsMngList(input);
 
         modelAndView.addObject("dataSet", RuiConverter.createDataset("dataSet", list));

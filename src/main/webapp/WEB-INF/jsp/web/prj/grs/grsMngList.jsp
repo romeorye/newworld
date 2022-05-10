@@ -35,6 +35,8 @@ var grsPopupDialog;
 var roleId = '${inputData._roleId}';
 var roleCheck ="N";
 var loginSabun = '${inputData._userSabun}'; 
+var grsUserChk = '${inputData.grsUserChk}'; 
+
 
 	Rui.onReady(function() {
 		var resultDataSet = new Rui.data.LJsonDataSet({
@@ -124,7 +126,6 @@ var loginSabun = '${inputData._userSabun}';
                  { id: 'dropYn'},
                  { id: 'evResult'},
                  { id: 'guid'},
-                 { id: 'grsUserChk'},
                  { id: 'fcCd'}
               ]
          });
@@ -150,12 +151,13 @@ var loginSabun = '${inputData._userSabun}';
         		 			$("#butTssNew").show();
 	        		 		$("#butAppr").show();
         		 		}else{
-        		 			if ( listDataSet.getNameValue(0, 'grsUserChk') > 0 ){
-        				 		roleCheck ="Y";
+        				 	roleCheck ="Y";
+        				 	
+        				 	if ( grsUserChk == "Y" ){
         		 				$("#butTssNew").show();
     	        		 		$("#butAppr").show();
                    	   		}else{
-	                   	   		if (  loginSabun =="00206548" || loginSabun =="00206494" || loginSabun =="00209071" || loginSabun =="00206740" ){
+	                   	   		if (loginSabun =="00206548" || loginSabun =="00206494" || loginSabun =="00209071" || loginSabun =="00206740" ||  loginSabun =="00207772"  ){
 			        		 		roleCheck ="Y";
 		                   	   		$("#butTssNew").show();
 	    	        		 		$("#butAppr").show();
@@ -164,7 +166,7 @@ var loginSabun = '${inputData._userSabun}';
 	    		        	 		$("#butAppr").hide();
 	    		 				}
                    	   		}
-        		 		}
+        		 		} 	
         			}else{
 	        	 		$("#butTssNew").hide();
 	        	 		$("#butAppr").hide();
@@ -424,7 +426,7 @@ var loginSabun = '${inputData._userSabun}';
     		listDataSet.clearFilter();
     		var excelColumnModel = listColumnModel.createExcelColumnModel(false);
             duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.xls');
+			nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.xls');
          // 목록 페이징
 	    		paging(listDataSet,"listGrid");
 

@@ -835,4 +835,9 @@ public class GrsMngServiceImpl implements GrsMngService {
 		commonDao.batchUpdate("prj.grs.updateGrsGuid", appList);
 	}
 	
+	
+	public String retrieveGrsUserChk(HashMap<String, String> input){
+		return commonDao.select("prj.grs.retrieveGrsUserChk", input);
+	}
+	
 }
