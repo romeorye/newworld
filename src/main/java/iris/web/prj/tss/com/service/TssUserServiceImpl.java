@@ -56,7 +56,10 @@ public class TssUserServiceImpl implements TssUserService {
 			//GRS담당자
 			if (inputRole.indexOf("WORK_IRI_T08") > -1 || inputRole.indexOf("WORK_IRI_T09") > -1
 					|| inputRole.indexOf("WORK_IRI_T10") > -1 || inputRole.indexOf("WORK_IRI_T11") > -1
-					|| inputRole.indexOf("WORK_IRI_T12") > -1 || inputRole.indexOf("WORK_IRI_T13") > -1 || inputRole.indexOf("WORK_IRI_T14") > -1) {
+					|| inputRole.indexOf("WORK_IRI_T12") > -1 || inputRole.indexOf("WORK_IRI_T13") > -1 || inputRole.indexOf("WORK_IRI_T14") > -1
+					|| inputRole.indexOf("WORK_IRI_T26") > -1 || inputRole.indexOf("WORK_IRI_T26") > -1
+					) {
+
 
 				map.put("tssRoleType", "R");
 			}
@@ -115,6 +118,24 @@ public class TssUserServiceImpl implements TssUserService {
 			//장식재 GRS
 			if (inputRole.indexOf("WORK_IRI_T09") > -1) {
 				list.add("03");
+				list.add("12");
+				list.add("13");
+				list.add("14");
+			}
+			//단열재 GRS
+			if (inputRole.indexOf("WORK_IRI_T27") > -1) {
+				list.add("03");
+				list.add("12");
+			}
+			//바닥재 GRS
+			if (inputRole.indexOf("WORK_IRI_T28") > -1) {
+				list.add("03");
+				list.add("13");
+			}
+			//벽지 GRS
+			if (inputRole.indexOf("WORK_IRI_T29") > -1) {
+				list.add("03");
+				list.add("14");
 			}
 			//AL GRS
 			if (inputRole.indexOf("WORK_IRI_T10") > -1) {
@@ -122,12 +143,13 @@ public class TssUserServiceImpl implements TssUserService {
 			}
 			//표면소재 GRS
 			if (inputRole.indexOf("WORK_IRI_T11") > -1) {
-				list.add("04");
 				list.add("06");
+				list.add("15");
 			}
 			//고기능소재 GRS
 			if (inputRole.indexOf("WORK_IRI_T12") > -1) {
 				list.add("04");
+				list.add("15");
 			}
 			//자동차 GRS
 			if (inputRole.indexOf("WORK_IRI_T13") > -1) {
@@ -138,18 +160,19 @@ public class TssUserServiceImpl implements TssUserService {
 				list.add("07");
 				list.add("08");
 			}
-
-			if (inputRole.indexOf("WORK_IRI_T26 ") > -1 && input.get("deptCode").equals("58190032") ) {		//창호
-				list.add("01");
-				list.add("02");
-			}else if  (inputRole.indexOf("WORK_IRI_T26 ") > -1 && input.get("deptCode").equals("58190038") ) {		//장식재	
-				list.add("03");
-			}else if  (inputRole.indexOf("WORK_IRI_T26 ") > -1 && input.get("deptCode").equals("58190039") ) {		//표면소재
-				list.add("04");
-				list.add("06");
-			}else if  (inputRole.indexOf("WORK_IRI_T26 ") > -1 && input.get("deptCode").equals("58190040") ) {		//인테리어
+			//주방 GRS
+			if (inputRole.indexOf("WORK_IRI_T25") > -1) {
 				list.add("11");
-			}else if  (inputRole.indexOf("WORK_IRI_T26 ") > -1 && input.get("deptCode").equals("58190041") ) {		//기반기술
+			}
+			//개발실 GRS
+			if (inputRole.indexOf("WORK_IRI_T26") > -1) {
+				list.add("03");
+				list.add("12");
+				list.add("13");
+				list.add("14");
+			}
+
+			if  (inputRole.indexOf("WORK_IRI_T26 ") > -1 && input.get("deptCode").equals("58190041") ) {		//기반기술
 				list.add("07");
 				list.add("08");
 			}
