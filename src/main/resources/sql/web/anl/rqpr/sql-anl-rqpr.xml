@@ -6,44 +6,80 @@
 	<select id="getAnlRqprList" resultType="hashmap">
 		<![CDATA[
 			-- anlRqprList 분석의뢰 리스트 조회
-			SELECT
-				RQPR_ID											AS 'rqprId',
-				ACPC_NO											AS 'acpcNo',
-				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ANL_SCN_CD' and COM_DTL_CD = ANL_SCN_CD) AS 'anlScnNm',
-				ANL_NAME										AS 'anlNm',
-				RGST_ID											AS 'rgstId',
-				(select sa_name from iris_sso_user where sa_user = RGST_ID)					AS 'rgstNm',
-				(select sa_name from iris_sso_user where sa_user = ANL_CHRG_ID)						AS 'anlChrgNm',
-				RQPR_DT											AS 'rqprDt',
-				ACPC_DT											AS 'acpcDt',
-				CMPL_PARR_DT									AS 'cmplParrDt',
-				CMPL_DT											AS 'cmplDt',
-				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ANL_UGY_YN' and COM_DTL_CD = ANL_UGY_YN) 	AS 'anlUgyYnNm',
-				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ACPC_ST_CD' and COM_DTL_CD = ACPC_ST_CD) 	AS 'acpcStNm',
-				(select isnull(sum(smpo_qty), 0)
-				 from	IRIS_ANL_RQPR_SMPO
-				 where	rqpr_id = mst.rqpr_id
-				 and	del_yn = 'N'
-				)												AS 'smpoCnt',
-				(select sa_name from iris_sso_user where sa_user = REAL_RGST_ID) as realRgstNm
-				
-			FROM	IRIS_ANL_RQPR_MST mst
-		 ]]>
-			WHERE	1 = 1
-        <if test="fromRqprDt != null and fromRqprDt != ''">
-			AND RQPR_DT between #{fromRqprDt} AND #{toRqprDt}
-		</if>
+			select   a.ACPC_NO    as acpcNo
+					,a.anlScnNm
+					,a.ANL_NAME			as anlNm
+					,(select isnull(sum(smpo_qty), 0)
+								from	IRIS_ANL_RQPR_SMPO
+								where	rqpr_id = a.rqpr_id
+								and	del_yn = 'N'
+					)	as smpoCnt
+					,a.rgstNm
+					,a.anlChrgNm
+					,a.RQPR_DT  		as rqprDt
+					,a.ACPC_DT  		as acpcDt
+					,a.CMPL_PARR_DT		as cmplParrDt
+					,a.CMPL_DT			as cmplDt
+					,a.anlUgyYnNm
+					,a.acpcStNm
+					,a.RQPR_ID			as rqprId
+			
+			from   (
+					select   MST.RQPR_ID 
+							,mst.ACPC_NO
+							,mst.ANL_NAME
+							,mst.ACPC_ST_CD
+							,mst.ANL_SCN_CD
+							,mst.RQPR_DT
+							,mst.RGST_ID
+							,mst.RQPR_DEPT_CD
+							,mst.real_rgst_id
+							,mst.ANL_UGY_YN
+							,mst.ANL_CHRG_ID
+							,mst.ACPC_DT
+							,mst.CMPL_PARR_DT
+							,mst.CMPL_DT
+							,(select isnull(sum(smpo_qty), 0)
+										from	IRIS_ANL_RQPR_SMPO
+										where	rqpr_id = mst.rqpr_id
+										and	del_yn = 'N'
+							)	as smpoCnt
+							,(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ANL_SCN_CD' and COM_DTL_CD = mst.ANL_SCN_CD) AS 'anlScnNm'
+							,(select sa_name from iris_sso_user where sa_user = mst.RGST_ID)					AS 'rgstNm'
+							,(select sa_name from iris_sso_user where sa_user = mst.ANL_CHRG_ID)						AS 'anlChrgNm'
+							,(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ANL_UGY_YN' and COM_DTL_CD = mst.ANL_UGY_YN) 	AS 'anlUgyYnNm'
+							,(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ACPC_ST_CD' and COM_DTL_CD = mst.ACPC_ST_CD) 	AS 'acpcStNm'
+							,(select sa_name from iris_sso_user where sa_user = mst.REAL_RGST_ID) as realRgstNm
+					from   IRIS_ANL_RQPR_MST MST
+					where  DEL_YN = 'N' 
+				]]>
+				<if test="fromRqprDt != null and fromRqprDt != ''">
+					AND RQPR_DT between #{fromRqprDt} AND #{toRqprDt}
+				</if>
+				<choose>
+        			<when test="isAnlChrg == 0">
+					AND ( MST.rgst_id = #{_userId} or MST.RQPR_ID in (select rqpr_id
+																	from   IRIS_ANL_RQPR_INFM
+																	where  del_yn ='N'
+																	and    infm_prsn_id = #{_userId}
+																	)
+													)
+						
+					</when>
+        			<otherwise>
+					AND ACPC_ST_CD != '00'
+        			</otherwise>
+        		</choose>	
+					) a
+			where   1=1	
         <if test="anlNm != null and anlNm != ''">
-			AND ANL_NAME like '%${anlNm}%'
+			AND a.ANL_NAME like '%${anlNm}%'
 		</if>
         <if test="rgstNm != null and rgstNm != ''">
-			AND RGST_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${rgstNm}%')
-		</if>
-        <if test="rqprDeptCd != null and rqprDeptCd != ''">
-			AND RQPR_DEPT_CD = #{rqprDeptCd}
+			AND a.rgstNm like '%${rgstNm}%'
 		</if>
         <if test="anlChrgNm != null and anlChrgNm != ''">
-			AND ANL_CHRG_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${anlChrgNm}%')
+			AND anlChrgNm like '%${anlChrgNm}%'
 		</if>
         <if test="acpcNo != null and acpcNo != ''">
 			AND ACPC_NO like '${acpcNo}%'
@@ -51,29 +87,7 @@
         <if test="acpcStCd != null and acpcStCd != ''">
 			AND ACPC_ST_CD = #{acpcStCd}
 		</if>
-		<if test="anlChrgId != null and anlChrgId != ''">
-			AND ANL_CHRG_ID = #{anlChrgId}
-		</if>
-		<if test="rgstId != null and rgstId != ''">
-			AND RGST_ID = #{rgstId}
-		</if>
-        <choose>
-        	<when test="isAnlChrg == 0">
-			AND (MST.RQPR_DEPT_CD =  #{_userDept} or MST.RQPR_ID in (select rqpr_id
-																	from   IRIS_ANL_RQPR_INFM
-																	where  del_yn ='N'
-																	and    infm_prsn_id = #{_userId}
-																	)
-				)
-				or MST.rgst_id = #{_userId}		
-															
-        	</when>
-        	<otherwise>
-			AND ACPC_ST_CD != '00'
-        	</otherwise>
-        </choose>
-			AND DEL_YN = 'N'
-			ORDER BY RQPR_ID DESC
+		ORDER BY ACPC_NO DESC
 	</select>
 
 	<select id="getAnlChrgList" resultType="hashmap">
