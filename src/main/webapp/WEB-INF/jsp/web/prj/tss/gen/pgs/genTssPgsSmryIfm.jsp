@@ -163,195 +163,99 @@
                 , { id: 'smrGoalTxt',       ctrlId: 'smrGoalTxt',       value: 'value' }
                 , { id: 'pmisTxt',       	ctrlId: 'pmisTxt',       	value: 'value' }
                 , { id: 'bizPrftPlnY',      ctrlId: 'bizPrftPlnY',      value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'bizPrftPlnY1',     ctrlId: 'bizPrftPlnY1',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'bizPrftPlnY2',     ctrlId: 'bizPrftPlnY2',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'bizPrftProY',      ctrlId: 'bizPrftProY',      value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'bizPrftProY1',     ctrlId: 'bizPrftProY1',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'bizPrftProY2',     ctrlId: 'bizPrftProY2',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'bizPrftProY3',     ctrlId: 'bizPrftProY3',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'bizPrftProY4',     ctrlId: 'bizPrftProY4',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'expArslY',         ctrlId: 'expArslY',     	value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'expArslY',         ctrlId: 'expArslY',     	value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'expArslY1',        ctrlId: 'expArslY1',     	value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'expArslY2',        ctrlId: 'expArslY2',   		value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'expArslY3',        ctrlId: 'expArslY3',    	value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'expArslY4',        ctrlId: 'expArslY4',   		value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'nprodSalsPlnY',   	ctrlId: 'nprodSalsPlnY',   	value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'nprodSalsPlnY1',   ctrlId: 'nprodSalsPlnY1',   value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'nprodSalsPlnY2',   ctrlId: 'nprodSalsPlnY2',   value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'nprodSalsPlnY3',   ctrlId: 'nprodSalsPlnY3',   value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'nprodSalsPlnY4',   ctrlId: 'nprodSalsPlnY4',   value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'expArslY',         ctrlId: 'expArslY',         value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'expArslY1',        ctrlId: 'expArslY1',        value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'expArslY2',        ctrlId: 'expArslY2',        value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'expArslY3',        ctrlId: 'expArslY3',        value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'expArslY4',        ctrlId: 'expArslY4',        value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 , { id: 'ptcCpsnY',         ctrlId: 'ptcCpsnY',         value: 'html' }
