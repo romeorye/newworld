@@ -40,7 +40,7 @@ var endDt;
 var tmpAttchFileList;
 var chkVaild;
 var roleCheck = '${inputData.roleCheck}';
-
+var exSabun = '${inputData._userSabun}';
 
 	Rui.onReady(function() {
     	<%-- RESULT DATASET --%>
@@ -190,9 +190,6 @@ var roleCheck = '${inputData.roleCheck}';
 					$("#butImSave").hide();
 					$("#btnGrsSave").hide();
 				}
-				
-				$("#butTssNew").hide()
-				$("#btnGrsSave").hide()
 			}
 			
 			//일반과제일 경우
@@ -693,7 +690,7 @@ var roleCheck = '${inputData.roleCheck}';
             	,{ id: 'wbsCd'             , ctrlId : 'wbsCd'            ,value : 'value' } 
             	,{ id: 'tssCdSn'           , ctrlId : 'tssCdSn'          ,value : 'value' } 
             	,{ id: 'evSbcNm'           , ctrlId : 'grsEvSnNm'        ,value : 'value' } 
-            	,{ id: 'grsEvStNm'           , ctrlId : 'grsEvStNm'        ,value : 'value' } 
+            	,{ id: 'grsEvStNm'           , ctrlId : 'grsEvStNm'        ,value : 'html' } 
             ]
         });
     	
@@ -942,6 +939,11 @@ var roleCheck = '${inputData.roleCheck}';
                          	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid1.getMessageList().join(''));
                            return;
                        }
+              	 }else if ( dataSet.getNameValue(0, 'bizDptCd') == "11" ) {
+              		 if(valid3.validateGroup('aform') == false) {
+                         	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid3.getMessageList().join(''));
+                           return;
+                       }
               	 }else{
               		 if(valid2.validateGroup('aform') == false) {
                          	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid2.getMessageList().join(''));
@@ -957,7 +959,8 @@ var roleCheck = '${inputData.roleCheck}';
                	var chkCnt = fnAttchValid();
 
               	//첨부파일 체크 시 pb팀 예외
-	           	if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC"   ){
+	           	if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC" || dataSet.getNameValue(0, 'tssType') =="BB"  
+	           		|| dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC" ){
 	            	
 	       		}else{		 
 	       			if (chkCnt < 3  ){
@@ -976,8 +979,8 @@ var roleCheck = '${inputData.roleCheck}';
             		 var chkCnt = fnAttchValid();
 
             		//첨부파일 체크 시 pb팀 예외
-                	 if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC"   ){
-                 		
+                	 if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC" || dataSet.getNameValue(0, 'tssType') =="BB"   
+                		 || dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC"	){
             		 }else{		 
             			 if (chkCnt < 3  ){
                         	 alert("첨부파일이 누락되어있습니다. ");
@@ -992,7 +995,8 @@ var roleCheck = '${inputData.roleCheck}';
                  }
              }
              
-             if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC"   ){
+             if ( dataSet.getNameValue(0, 'tssType') =="CB" || dataSet.getNameValue(0, 'tssType') =="RC" || dataSet.getNameValue(0, 'tssType') =="BB"   
+            	 || dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC"	){
              }else{	 
             	 if( gridDataSet.getCount() == 0  ){
                 	 alert("GRS평가표를 작성하세요");
@@ -1086,7 +1090,7 @@ var roleCheck = '${inputData.roleCheck}';
             	 ,{ id: 'nprodSalsCurY2'    , validExp:'매출액:true:minNumber=0.01'}
             	 //,{ id: 'bizPrftProCurY'    , validExp:'영업이익률:true:minNumber=0.01'}
             	 //,{ id: 'bizPrftProCurY1'   , validExp:'영업이익률:true:minNumber=0.01'}
-            	 ,{ id: 'bizPrftProCurY2'   , validExp:'영업이익룰:true:minNumber=0.01'}
+            	 //,{ id: 'bizPrftProCurY2'   , validExp:'영업이익룰:true:minNumber=0.01'}
             	 //,{ id: 'bizPrftCurY'       , validExp:'영업이익:true:minNumber=0.01'}
             	 //,{ id: 'bizPrftCurY1'      , validExp:'영업이익:true:minNumber=0.01'}
             	 ,{ id: 'bizPrftCurY2'      , validExp:'영업이익:true:minNumber=0.01'}
@@ -1107,6 +1111,39 @@ var roleCheck = '${inputData.roleCheck}';
              ]
          });
          
+         var valid3 = new Rui.validate.LValidatorManager({
+        	 validators:[
+            	  { id: 'evTitl'            , validExp:'회의 장소:true'}
+            	 ,{ id: 'evDt'              , validExp:'회의일정:true'}
+            	 ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true'}
+            	 ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
+            	 ,{ id: 'commTxt'           , validExp:'Comment:true'}
+            	 ,{ id: 'nprodNm'           , validExp:'신체품명:true'}
+            	 ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
+            /*	 ,{ id: 'nprodSalsCurY'     , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsCurY1'    , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'nprodSalsCurY2'    , validExp:'매출액:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProCurY'    , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProCurY1'   , validExp:'영업이익률:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftProCurY2'   , validExp:'영업이익룰:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftCurY'       , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftCurY1'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'bizPrftCurY2'      , validExp:'영업이익:true:minNumber=0.01'}
+            	 ,{ id: 'ptcCpsnCurY'       , validExp:'투입인원:true:minNumber=1'}
+             
+            	 ,{ id: 'ptcCpsnCurY1'      , validExp:'투입인원:true'}
+            	 ,{ id: 'ptcCpsnCurY2'      , validExp:'투입인원:true'}
+            	 ,{ id: 'ptcCpsnCurY3'      , validExp:'투입인원:true'}
+            	 ,{ id: 'ptcCpsnCurY4'      , validExp:'투입인원:true'}
+            	  
+            	 ,{ id: 'expArslCurY'       , validExp:'투입비용:true:minNumber=0.01'}
+            	 ,{ id: 'expArslCurY1'      , validExp:'투입비용:true'}
+            	 ,{ id: 'expArslCurY2'      , validExp:'투입비용:true'}
+            	 ,{ id: 'expArslCurY3'      , validExp:'투입비용:true'}
+            	 ,{ id: 'expArslCurY4'      , validExp:'투입비용:true'}
+            	 */
+             ]
+         });
          
          fncPtcCpsnYDisable = function(){
         	 var arr1 = strDt.split("-"); 
