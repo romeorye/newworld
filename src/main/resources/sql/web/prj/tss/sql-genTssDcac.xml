@@ -245,7 +245,14 @@
 		from (
 				SELECT  count(*)  as arslCnt
 				FROM IRIS_TSS_GOAL_ARSL  /*과제목표_실적*/
-				WHERE TSS_CD = left(#{tssCd}, 9)+'2'
+				WHERE TSS_CD = (select tss_cd 
+								from   IRIS_TSS_MGMT_MST 
+								where  wbs_cd = (select wbs_cd 
+								                 from  IRIS_TSS_MGMT_MST 
+												 where tss_cd = #{tssCd}
+												) 
+								and    PGS_STEP_CD = 'PG'
+								)
 				and  (convert(nvarchar(max), ARSL) = '' or convert(nvarchar(max), ARSL) is null)
 			) a
 		]]>
@@ -257,8 +264,14 @@
 		  CASE WHEN COUNT(*)>0 THEN 'N' ELSE 'Y' END checkItm
 		FROM
 		  IRIS_TSS_YLD_ITM
-		WHERE
-				TSS_CD =  substring(#{tssCd},1, 9)+'2'
+		WHERE TSS_CD = (select tss_cd 
+								from   IRIS_TSS_MGMT_MST 
+								where  wbs_cd = (select wbs_cd 
+								                 from  IRIS_TSS_MGMT_MST 
+												 where tss_cd = #{tssCd}
+												) 
+								and    PGS_STEP_CD = 'PG'
+								)
 		AND YLD_ITM_TYPE IN ('01','03','06') -- 제안/GRS, 완료/중단, Qgate01
 		AND ISNULL(ATTC_FIL_ID,'')='' AND ISNULL(QGATE_LINK_URL,'')=''
 	</select>
