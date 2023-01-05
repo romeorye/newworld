@@ -273,6 +273,7 @@
 				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
 				                        </td>
 				                    </tr>
+				            	</tbody>        
 				            </table>
 				        </div>
 					</div>

@@ -829,7 +829,7 @@
 		    anlChrgListDialog = new Rui.ui.LFrameDialog({
 		        id: 'anlChrgListDialog',
 		        title: '분석담당자',
-		        width: 530,
+		        width: 850,
 		        height: 500,
 		        modal: true,
 		        visible: false,
