@@ -282,8 +282,9 @@
 					when mm.tss_scn_cd = 'N' then '국책'
 					else '' end  as tssScnNm
 			 , (select sa_name from iris_sso_user where sa_sabun_new = mm.sa_sabun_new) as tssSaNm
-			  , 'gisellekim@lxhausys.com'+','+'eunjoomyung@lxhausys.com'+','+'sojeongm@lxhausys.com'+','+'kimmmyj@lxhausys.com' as receMailAdd
-			  , 'ideaman@lxhausys.com'+','+'minjeong@lxhausys.com'+','+'jihyunlee@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'singkro@hausyspartner.com'  as ccMailAddr
+			  , 'gisellekim@lxhausys.com'+','+'eunjoomyung@lxhausys.com'+','+'Yoonseonhwa@lxhausys.com'+','+'kimmmyj@lxhausys.com' as receMailAdd
+			  , 'ideaman@lxhausys.com'+','+'minjeong@lxhausys.com'+','+'jihyunlee@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'singkro@hausyspartner.com'+','+'kwonbin@hausyspartner.com'
+			    as ccMailAddr
 		 from IRIS_TSS_MGMT_MST mm
 		inner join IRIS_PRJ_RSST_MST pm
 		   on mm.PRJ_CD = pm.PRJ_CD
@@ -313,8 +314,9 @@
                     when mm.tss_scn_cd = 'N' then '국책'
                     else '' end  as tssScnNm
                  , (select sa_name from iris_sso_user where sa_sabun_new = mm.sa_sabun_new) as tssSaNm
-                  , 'gisellekim@lxhausys.com'+','+'eunjoomyung@lxhausys.com'+','+'sojeongm@lxhausys.com'+','+'kimmmyj@lxhausys.com' as receMailAdd
-			     , 'ideaman@lxhausys.com'+','+'minjeong@lxhausys.com'+','+'jihyunlee@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'singkro@hausyspartner.com'  as ccMailAddr
+                 , 'gisellekim@lxhausys.com'+','+'eunjoomyung@lxhausys.com'+','+'Yoonseonhwa@lxhausys.com'+','+'kimmmyj@lxhausys.com' as receMailAdd
+			     , 'ideaman@lxhausys.com'+','+'minjeong@lxhausys.com'+','+'jihyunlee@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'singkro@hausyspartner.com'+','+'kwonbin@hausyspartner.com'
+			        as ccMailAddr
 		  from IRIS_TSS_MGMT_MST mm
 		 inner join IRIS_PRJ_RSST_MST pm
 		    on mm.PRJ_CD = pm.PRJ_CD
