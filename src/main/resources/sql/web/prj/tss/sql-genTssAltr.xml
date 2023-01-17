@@ -769,7 +769,7 @@ WITH w_WBS AS (
 			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_1	   , a.EXP_ARSL_Y_1		  )) as expArslY1
 			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_2	   , a.EXP_ARSL_Y_2		  )) as expArslY2
 			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_3	   , a.EXP_ARSL_Y_3		  )) as expArslY3
-			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_4	   , a.EXP_ARSL_Y_4		  )) as exparsly4
+			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_4	   , a.EXP_ARSL_Y_4		  )) as expArslY4
 			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y	 )      as bizPrftProYBefore	    
 			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y_1	 )	   as bizPrftProY1Before	 
 			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y_2	 )	   as bizPrftProY2Before	 

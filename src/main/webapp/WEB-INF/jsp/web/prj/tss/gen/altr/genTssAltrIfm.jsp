@@ -118,7 +118,7 @@
             	,{ id: 'expArslY1'}
             	,{ id: 'expArslY2'}
             	,{ id: 'expArslY3'}
-            	,{ id: 'exparsly4'}
+            	,{ id: 'expArslY4'}
             	,{ id: 'bizPrftProYBefore'}   
                 ,{ id: 'bizPrftProY1Before'}  
                 ,{ id: 'bizPrftProY2Before'}  
@@ -139,7 +139,7 @@
             	,{ id: 'expArslY1Before'}
             	,{ id: 'expArslY2Before'}
             	,{ id: 'expArslY3Before'}
-            	,{ id: 'exparsly4Before'}
+            	,{ id: 'expArslY4Before'}
             	,{ id: 'altrRsonTxt'}
             	,{ id: 'addRsonTxt'}
             	,{ id: 'altrAttcFilId'}
@@ -168,180 +168,89 @@
             bind: true,
             bindInfo: [
             	 { id: 'ancpOtPlnDt', 		ctrlId: 'ancpOtPlnDt',		value: 'html'}
-            	,{ id: 'bizPrftProY',      ctrlId: 'bizPrftProY',      value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
-                }
-            }    
+            	,{ id: 'bizPrftProY',      ctrlId: 'bizPrftProY',      value: 'html'}    
             	,{ id: 'bizPrftProYBefore',      ctrlId: 'bizPrftProYBefore',      value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProY1',     ctrlId: 'bizPrftProY1',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProY1Before',     ctrlId: 'bizPrftProY1Before',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
                     	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
                 }
             }    
                 ,{ id: 'bizPrftProY2',     ctrlId: 'bizPrftProY2',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProY2Before',     ctrlId: 'bizPrftProY2Before',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProY3',     ctrlId: 'bizPrftProY3',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProY3Before',     ctrlId: 'bizPrftProY3Before',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProY4',     ctrlId: 'bizPrftProY4',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProY4Before',     ctrlId: 'bizPrftProY4Before',     value: 'html' , renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'bizPrftPlnY', 		ctrlId: 'bizPrftPlnY', 		value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'bizPrftPlnYBefore', 		ctrlId: 'bizPrftPlnYBefore', 		value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'bizPrftPlnY1', 		ctrlId: 'bizPrftPlnY1', 	value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'bizPrftPlnY1Before', 		ctrlId: 'bizPrftPlnY1Before', 	value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'bizPrftPlnY2', 		ctrlId: 'bizPrftPlnY2', 	value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'bizPrftPlnY2Before', 		ctrlId: 'bizPrftPlnY2Before', 	value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'nprodSalsPlnY', 	ctrlId: 'nprodSalsPlnY', 	value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'nprodSalsPlnYBefore', 	ctrlId: 'nprodSalsPlnYBefore', 	value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'nprodSalsPlnY1',	ctrlId: 'nprodSalsPlnY1', 	value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'nprodSalsPlnY1Before',	ctrlId: 'nprodSalsPlnY1Before', 	value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'nprodSalsPlnY2', 	ctrlId: 'nprodSalsPlnY2', 	value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'nprodSalsPlnY2Before', 	ctrlId: 'nprodSalsPlnY2Before', 	value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+            		return Rui.util.LFormat.numberFormat(value);
                 }
             }    
             	,{ id: 'ptcCpsnY', 			ctrlId: 'ptcCpsnY', 		value: 'html'}
@@ -411,7 +320,7 @@
         			}
                 }
             }    
-            	,{ id: 'exparsly4', 		ctrlId: 'exparsly4', 		value: 'html', renderer: function(value) {
+            	,{ id: 'expArslY4', 		ctrlId: 'expArslY4', 		value: 'html', renderer: function(value) {
                 	if ( parseFloat(value) > 0 ){
                     	return Rui.util.LFormat.numberFormat(parseFloat(value));
         			}else{
@@ -419,7 +328,7 @@
         			}
                 }
             }    
-            	,{ id: 'exparsly4Before', 		ctrlId: 'exparsly4Before', 		value: 'html', renderer: function(value) {
+            	,{ id: 'expArslY4Before', 		ctrlId: 'expArslY4Before', 		value: 'html', renderer: function(value) {
                 	if ( parseFloat(value) > 0 ){
                     	return Rui.util.LFormat.numberFormat(parseFloat(value));
         			}else{
