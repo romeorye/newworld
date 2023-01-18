@@ -166,7 +166,7 @@ Rui.onReady(function() {
 		  1. 연동버튼(ADMIN, MM담당자만)7
 		 */
 		if( lmbSearchMonth.getValue() ==  createDashMonthToString(new Date) ){
-			if( roleId.indexOf("WORK_IRI_T01") > -1 || roleId.indexOf("WORK_IRI_T05") > -1 ){
+			if( roleId.indexOf("WORK_IRI_T01") > -1 || roleId.indexOf("WORK_IRI_T05") || roleId.indexOf("WORK_IRI_T03")    > -1 ){
 				butSave.show();
 				lbButIlck.show();
 				lbButOpenSendMailPop.show();
@@ -178,12 +178,19 @@ Rui.onReady(function() {
 				lbButOpenSendMailPop.hide();
 				chkPtcPro.hide()
 				selClsYn.hide()
-
+				
 				if('${inputData._userSabun}' != '${inputData.plEmpNo}'){
 					lbButClsClose.hide();
 					lbButClsOpen.hide();
 					lbButExcl.hide();
 				}
+				
+				if ('${inputData._userSabun}' == "00208577" ){
+					lbButClsClose.show();
+					lbButClsOpen.show();
+					lbButExcl.show();
+				}
+				
 			}
 		}else{
 			butSave.hide();
