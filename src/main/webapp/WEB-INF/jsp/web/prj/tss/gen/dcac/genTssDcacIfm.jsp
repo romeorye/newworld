@@ -370,12 +370,10 @@ $(window).load(function() {
                     <th align="right">중단 사유</th>
                     <td colspan="2"><input type="text" id="dcacRsonTxt" /></td>
                 </tr>
-                <!-- 
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
                     <td id="attchFileView"  colspan="2">&nbsp;</td>
                 </tr>
-                 -->
             </tbody>
         </table>
     </form>

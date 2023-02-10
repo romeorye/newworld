@@ -420,7 +420,8 @@
             //참여연구원
             case 2:
                 if(e.isFirst) {
-                	tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?pkWbsCd=" + gvPkWbsCd +"&pgsStepCd=PG'/>";
+                	tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?tssCd=" + gvTssCd + "'/>" + "&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=PG";
+                	/* tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?pkWbsCd=" + gvPkWbsCd +"&pgsStepCd=PG'/>"; */
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
                 break;
