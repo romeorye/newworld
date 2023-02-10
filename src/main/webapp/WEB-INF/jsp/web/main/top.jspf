@@ -9,6 +9,7 @@ $(document).ready(function() {
 	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
 
 	});
 
@@ -19,6 +20,7 @@ $(document).ready(function() {
 	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
 	});
 
 	$('#DE').hover( function(e){
@@ -28,6 +30,7 @@ $(document).ready(function() {
 	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
 	});
 
 	$('#FI').hover( function(e){
@@ -37,6 +40,7 @@ $(document).ready(function() {
 	  $('.Mgnb .top_gnb #sub_menu4').css("display","block");
 	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
 	});
 
 	$('#KL').hover( function(e){
@@ -46,18 +50,31 @@ $(document).ready(function() {
 	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu5').css("display","block");
 	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
 	});
 
+	$('#PR').hover( function(e){
+		  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+		  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+		  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+		  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+		  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+		  $('.Mgnb .top_gnb #sub_menu6').css("display","block");
+		  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
+	});
+	
 	$('#ST').hover( function(e){
 	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
 	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
-	  $('.Mgnb .top_gnb #sub_menu6').css("display","block");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","block");
 	});
 });
 function fnSearch(){
+	
 	var frm = document.aform;
 
 	var openWeight = 1035;
@@ -67,10 +84,11 @@ function fnSearch(){
 	var settings = 'width=' + openWeight + ', height=' + openHeight + ', resizable=yes, scrollbars=yes, menubar=no, toolbar=no, status=yes';
 	settings += ', top=' + wintop;
 	settings += ', left=' + winleft;
-    /* var keyword = document.getElementById('NavigatorControl_tbSearchKeyWord').value; */
-    var keyword = frm.srh.value;
+    //var keyword = document.getElementById('NavigatorControl_tbSearchKeyWord').value; 
+    var keyword = document.getElementById('srh').value; 
+    //var keyword = frm.srh.value;
 
-    var url = 'http://search.lghausys.com:8501/iris/search.jsp?query='+encodeURI(keyword);
+    var url = 'http://search.lxhausys.com:8501/iris/search.jsp?query='+encodeURI(keyword);
 	var win = window.open(url, "searchPop", settings);
     //win.focus();
                 if(window.focus){
@@ -122,7 +140,7 @@ function goHelpDesk(){
 		                	<span style="font-weight:bold"><a href="#" onclick="goHelpDesk();"><img src="<%=imagePath%>/newIris/icon_helpdesk.gif"> Helpdesk </a>  </span>&nbsp; | &nbsp;
 		                	<span class="user-name"><c:out value="${inputData._userDeptName}"/> <c:out value="${inputData._userNm}"/> <c:out value="${inputData._userJobxName}"/></span>
 		                <c:if test="${fn:indexOf(inputData._roleId, 'WORK_IRI_T07') == -1}">
-		                	<span class="name_info"><input type="text" id="srh" class="search_input" placeholder="Knowledge" onkeypress="if(event.keyCode==13) {fnSearch();}"> <a href="javascript:fnSearch(this);"><span class="icon_search"></span></a></span>
+		                	<span class="name_info"><input type="text" id="srh" class="search_input" placeholder="Knowledge" onkeypress="if(event.keyCode==13) {fnSearch();}"/> <a href="javascript:fnSearch(this);"><span class="icon_search"></span></a></span>
 						</c:if>
 		                </div>
 		                </fieldset>
@@ -320,9 +338,46 @@ function goHelpDesk(){
 		        	            </div>
 							</div>
 		                    <!-- //submenu05::Knowledge -->
-
-		                    <!-- submenu06::Statistic -->
+		                    
+		                    <!-- submenu0::prs -->
 		                    <div class="m_gnb" id="sub_menu6" style="display:none;">
+			                     <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Prs</div>
+			                    <div class="menu_2depth">
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='PR'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='PR'}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						 </c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
+		                    <!-- //submenu06::prs -->
+		                    
+
+		                    <!-- submenu07::Statistic -->
+		                    <div class="m_gnb" id="sub_menu7" style="display:none;">
 		                         <!-- m_bm-->
 			                    <!-- div class="menu" -->
 			                    <div class="sub_tit"><p>Statistic</div>
