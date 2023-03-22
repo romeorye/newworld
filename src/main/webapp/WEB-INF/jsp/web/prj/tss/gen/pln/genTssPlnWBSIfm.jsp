@@ -372,8 +372,53 @@
             record.set("wgvl",     "100"); //가중치
             record.set("tssNm",    window.parent.tssNm);  //제목
             record.set("arslCd",   "0"); //실적
+            
+            defaultSubSchedule();
         });
 
+		defaultSubSchedule = function(){
+			//부모 row
+            var row = dataSet.getRow();
+
+            if(row < 0) return;
+            if(dataSet.getState(row) == 3) return;
+
+            var depth = dataSet.getNameValue(row, "depth");
+            var wbsSn = dataSet.getNameValue(row, "wbsSn");
+
+            if(depth >= 4) return;
+
+            var childRows = []; //child row 배열
+            var childLen  = 0;  //child row 배열의 위치
+            var allRow = treeGridView.getAllChildRows(row); //체크된 row의 child row
+            var tssNm = "";
+            
+            
+            for(var j = 1; j < 4; j++) {
+                newChildRow = row + j;
+              //자식 row
+                var newRow = dataSet.newRecord(newChildRow);
+                var record = dataSet.getAt(newRow);
+
+                record.set("tssCd",  lvTssCd);   //과제코드
+                record.set("userId", lvUserId);  //사용자
+                record.set("wbsSn",  record.id); //임시 wbsSn
+                record.set("pidSn",  1);     //부모 wbsSn
+                record.set("depth",  depth + 1); //depth
+                record.set("arslCd", "0");       //실적
+                
+                if ( j == 1 ){
+                	tssNm= "제품/공정설계";
+                }else if ( j == 2 ){
+                	tssNm= "제품성능검증";
+                }else if ( j == 3 ){
+                	tssNm= "양산성검증";
+                }
+              	record.set("tssNm",  tssNm);  //제목
+                treeGridView.expand(newChildRow);
+            }
+		}
+		
 
         //하위일정등록
         var butSubSchedule = new Rui.ui.LButton('butSubSchedule');
@@ -509,7 +554,7 @@
         var butExcel = new Rui.ui.LButton('butExcel');
         butExcel.on('click', function() {
             if(dataSet.getCount() > 0) {
-                grid.saveExcel(toUTF8('과제관리_일반과제_WBS_') + new Date().format('%Y%m%d') + '.xls');
+                grid.saveExcel(toUTF8('과제관리_연구팀과제_WBS_') + new Date().format('%Y%m%d') + '.xls');
             } else {
                 Rui.alert('조회된 데이타가 없습니다.');
             }
