@@ -24,7 +24,7 @@
              , A.SA_SABUN_NEW    AS saSabunNew   --과제리더사번
              , A.TSS_ATTR_CD     AS tssAttrCd    --과제속성코드
              , A.TSS_STRT_DD     AS tssStrtDd    --과제시작일
-             , A.TSS_FNH_DD      AS tssFnhDd     --과제종료일
+             , isnull((select  tss_fnh_dd from iris_tmp_tss where tss_cd = A.TSS_CD),  A.TSS_FNH_DD )      AS tssFnhDd     --과제종료일
              , A.ALTR_B_STRT_DD  AS altrBStrtDd  --변경전시작일
              , A.ALTR_B_FNH_DD   AS altrBFnhDd   --변경전종료일
              , A.ALTR_NX_STRT_DD AS altrNxStrtDd --변경후시작일
@@ -86,7 +86,7 @@
 			                      where y.wbs_cd = #{wbsCd}
 			                      and   y.pgs_Step_Cd = 'PG'
 			                   )   
-			   and  x.grs_ev_st = 'P2'
+			   and  x.grs_ev_st = 'G2'
 			   ) as evDt               
 			                     
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
@@ -171,7 +171,6 @@
         INSERT
           INTO IRIS_TSS_MGMT_MST  /*과제관리마스터*/
              ( PRJ_CD            --프로젝트코드
-             , PRJ_NM            --프로젝트명
              , CUST_SQLT     --
              , TSS_CD            --과제코드
              , PGS_STEP_CD       --진행단계코드
@@ -209,7 +208,6 @@
              , PROD_G
              , RSST_SPHE
              , TSS_TYPE
-             , CM_YN
              , FC_CD
              , GRS_YN
              , FRST_RGST_DT      --최초등록일시
@@ -219,7 +217,6 @@
              )
         VALUES
              ( #{prjCd}
-             , #{prjNm}
              , #{custSqlt}
              , #{tssCd}
              , #{pgsStepCd}
@@ -257,7 +254,6 @@
              , #{prodGCd}
              , #{rsstSphe}
              , #{tssType}
-             , #{cmYn}
              , #{fcCd}
              , #{grsYn}
              , GETDATE()
@@ -1494,4 +1490,12 @@
          WHERE TSS_CD = #{pgTssCd}
     ]]>
     </insert>
+    
+    
+    <!-- 과제신규 연구원 지적재산권 삭제 -->
+	<delete id="deleteTmpTss">
+	-- deleteTmpTss 과제날짜 임시 테이블정보 삭제
+   		delete iris_tmp_tss where tss_cd = #{pgTss_cd}
+	</delete>
+    
 </mapper>
