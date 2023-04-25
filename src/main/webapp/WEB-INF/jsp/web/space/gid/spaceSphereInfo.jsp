@@ -45,7 +45,6 @@
         tabView = new Rui.ui.tab.LTabView({
         	tabs: [
         		{ label: '평가분야', content: '<div id="tabContent0"></div>' },
-        		//{ label: '평가담당자', content: '<div id="tabContent1"></div>' },
                 { label: '평가의뢰 절차 및 메뉴얼', content: '<div id="tabContent1"></div>' }
             ]
         });
@@ -78,7 +77,7 @@
 					<span class="hidden">Toggle 버튼</span>
 				</a>
 				<!-- <h2>분석분야</h2> -->
-				<h2>공간성능평가 안내</h2>
+				<h2>CAE(구조/공간) 안내</h2>
 		    </div>
 
 			<div class="sub-content">
@@ -95,82 +94,14 @@
 						<div style="padding:0 20px;">
 							<table class="tcn_tab01">
 								<colgroup>
-									<col style="width:150px;">
-									<col style="width:150px;">
-									<col style="">
+									<col style="width:100%;">
 								</colgroup>
 								<tbody>
-									<br/>
 									<tr>
-										<th>
-											<div class="asset_list">
-												<p></p>
-												<p><span>에너지.열</span></p>
-											</div>
-										</th>
-										<td class="bg_arrow"></td>
-										<td class="asset_right">
-											<div class="asset_img"><img src="/iris/resource/web/images/newIris/img_tachnical02.png" alt="에너지.열"></div>
-											<div class="analyze_field asset_txt">
-												<p class="analyze_s_txt">건물 에너지 부하, 건물 에너지 소비량, 건물 에너지 비용 산정</p>
-												<p class="analyze_s_txt">건물 에너지 효율 등급, 제로에너지주택 등급</p>
-												<p class="analyze_s_txt">재실자의 PMV (열쾌적도) 평가</p>
-												<p class="analyze_s_txt">공간의 결로 성능 평가 </p>
-											</div>
+										<td>
+											<div><img src="/iris/resource/web/images/newIris/img_tachincal_new.png" ></div>
 										</td>
 									</tr>
-									<tr>
-										<th>
-											<div class="asset_list">
-												<p></p>
-												<p><span>빛</span></p>
-											</div>
-										</th>
-										<td class="bg_arrow"></td>
-										<td class="asset_right">
-											<div class="asset_img"><img src="/iris/resource/web/images/newIris/img_tachnical03.png" alt="빛"></div>
-											<div class="analyze_field asset_txt">
-												<p class="analyze_s_txt">채광 확보 수준</p>
-												<p class="analyze_s_txt">일사로 인한 실내 현휘(눈부심) 평가 </p>
-												<p class="analyze_s_txt">유리면 반사에 기인한 주변 건물 빛공해 평가 </p>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th>
-											<div class="asset_list">
-												<p></p>
-												<p><span>공기질</span></p>
-											</div>
-										</th>
-										<td class="bg_arrow"></td>
-										<td class="asset_right">
-											<div class="asset_img"><img src="/iris/resource/web/images/newIris/img_tachnical04.png" alt="공기질"></div>
-											<div class="analyze_field asset_txt">
-												<p class="analyze_s_txt">실내 공기질 개선도 평가</p>
-												<p class="analyze_s_txt">제습, 가습 능력 평가</p>
-											</div>
-										</td>
-									</tr>
-									<!--
-									 현재는 사용하지 않지만 나중에 사용할 부분임
-
-									<tr>
-										<th>
-											<div class="asset_list">
-												<p></p>
-												<p><span>음</span></p>
-											</div>
-										</th>
-										<td class="bg_arrow"></td>
-										<td class="analyze_field asset_right">
-											<div class="asset_img"><img src="/iris/resource/web/images/newIris/img_tachnical05.png" alt="음"></div>
-											<div class="asset_txt">
-												<p class="analyze_s_txt">층간 소음 개선도 평가  </p>
-												<p class="analyze_s_txt">외피를 통한 소음 저감 효과 평가</p>
-											</div>
-										</td>
-									</tr> -->
 								</tbody>
 							</table>
 						</div>
