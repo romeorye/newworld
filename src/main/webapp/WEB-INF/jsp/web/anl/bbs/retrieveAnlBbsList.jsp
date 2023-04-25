@@ -50,7 +50,7 @@ var refresh = "";
         		{ label: '전체', content: '<div id="tabContent0"></div>' },
         		{ label: '기기분석',            content: '<div id="tabContent1"></div>' },
                 { label: '신뢰성시험',         content: '<div id="tabContent2"></div>' },
-                { label: '공간평가',       content: '<div id="tabContent3"></div>' }
+                { label: 'CAE(구조/공간)',       content: '<div id="tabContent3"></div>' }
             ]
         });
 
@@ -116,10 +116,10 @@ var refresh = "";
     		   	}
 
         		break;
-        	//공간평가
+        	//CAE(구조/공간)
         	case 3:
         		refresh  = true;
-        		$('#h2Titl').text('공지사항 - 공간평가');
+        		$('#h2Titl').text('공지사항 - CAE(구조/공간)');
 
                 if(e.isFirst){
                 	goPage('tabContentIfrm3', '09');
