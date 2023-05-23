@@ -196,7 +196,7 @@
             exatWay.on('blur', function(e) {
             	exatWay.setValue(exatWay.getValue().trim());
             });
-
+/* 
             var mchnInfoId = new Rui.ui.form.LCombo({
                 applyTo: 'mchnInfoId',
                 name: 'mchnInfoId',
@@ -208,10 +208,10 @@
                 displayField: 'mchnInfoNm',
                 valueField: 'mchnInfoId'
             });
-
+ */
             var vm1 = new Rui.validate.LValidatorManager({
                 validators:[
-                { id: 'mchnInfoId',			validExp: '평가기기:true' },
+                //{ id: 'mchnInfoId',			validExp: '평가기기:true' },
                 { id: 'exatDct',			validExp: '평가일자:true:number' },
                 { id: 'exatCaseQty',		validExp: '평가케이스수:true:number' },
                 { id: 'exatStrtDt',			validExp: '평가기간:true:date=YYYY-MM-DD' },
@@ -267,11 +267,12 @@
             	spaceRqprExatDataSet.setNameValue(0, 'exatNm', treeRecord.get('path'));
         		setExatExp();
 
-            	mchnInfoId.setValue('');
-
+            	//mchnInfoId.setValue('');
+/* 
             	mchnInfoId.getDataSet().load({
             	    url: '<c:url value="/space/getSpaceExatDtlComboList.do?exatCd="/>' + exatCd
             	});
+            	 */
             });
 
             spaceRqprExatTreeView.render('spaceRqprExatTreeView');
@@ -298,10 +299,10 @@
             			var exatExp = utmExp * exatDct;
 
             			exatRecord.set('exatExp', exatExp);
-            			exatRecord.set('exatExpView', Rui.util.LNumber.toMoney(exatExp, '') + '원');
+            			//exatRecord.set('exatExpView', Rui.util.LNumber.toMoney(exatExp, '') + '원');
             		} else {
             			exatRecord.set('exatExp', null);
-            			exatRecord.set('exatExpView', null);
+            			//exatRecord.set('exatExpView', null);
             		}
             	}
             };
@@ -315,12 +316,12 @@
                 	, { id: 'rqprId', type: 'number', defaultValue: ${inputData.rqprId} }
 					, { id: 'exatCd' }
 					, { id: 'exatNm' }
-					/* , { id: 'exatMdul' } */
-					, { id: 'mchnInfoId' }
+					/* , { id: 'exatMdul' } 
+					, { id: 'mchnInfoId' }*/
 					, { id: 'exatCaseQty', type: 'number' }
 					, { id: 'exatDct', type: 'number' }
 					, { id: 'exatExp' }
-					, { id: 'exatExpView' }
+					//, { id: 'exatExpView' }
 					, { id: 'exatStrtDt' }
 					, { id: 'exatFnhDt' }
 					, { id: 'exatWay' }
@@ -343,11 +344,11 @@
                 bind: true,
                 bindInfo: [
                     { id: 'exatNm',				ctrlId:'exatNm',			value:'html'},
-                    /* { id: 'exatMdul',			ctrlId:'exatMdul',			value:'value'}, */
-                    { id: 'mchnInfoId',			ctrlId:'mchnInfoId',		value:'value'},
+                    /* { id: 'exatMdul',			ctrlId:'exatMdul',			value:'value'}, 
+                    { id: 'mchnInfoId',			ctrlId:'mchnInfoId',		value:'value'},*/
                     { id: 'exatCaseQty',		ctrlId:'exatCaseQty',		value:'value'},
                     { id: 'exatDct',			ctrlId:'exatDct',			value:'value'},
-                    { id: 'exatExpView',		ctrlId:'exatExpView',		value:'html'},
+                    //{ id: 'exatExpView',		ctrlId:'exatExpView',		value:'html'},
                     { id: 'exatStrtDt',			ctrlId:'exatStrtDt',		value:'value'},
                     { id: 'exatFnhDt',			ctrlId:'exatFnhDt',			value:'value'},
                     { id: 'exatWay',			ctrlId:'exatWay',			value:'value'}
@@ -414,11 +415,12 @@
 			   							<th align="right">평가명</th>
 			   							<td><span id="exatNm"/></td>
 			   						</tr>
+			   						<!-- 사용안함
 			   						<tr>
 			   							<th align="right">평가TOOL</th>
 			   							<td><div id="mchnInfoId"></div></td>
 			   						</tr>
-			   						<!-- 사용안함 <tr>
+			   						 <tr>
 			   							<th align="right">평가모듈</th>
 			   							<td><input type="text" id="exatMdul"></td>
 			   						</tr> -->
@@ -430,10 +432,12 @@
 			   							<th align="right">평가일수</th>
 			   							<td><input type="text" id="exatDct"></td>
 			   						</tr>
+			   						<!-- 
 			   						<tr>
 			   							<th align="right">평가수가</th>
 			   							<td><span id="exatExpView"/></td>
 			   						</tr>
+			   						 -->
 			   						<tr>
 			   							<th align="right">평가기간</th>
 			   							<td>

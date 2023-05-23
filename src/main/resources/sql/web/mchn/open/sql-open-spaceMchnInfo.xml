@@ -26,10 +26,10 @@
 				   ,A.MCHN_CL_CD AS mchnClCd
 				   ,dbo.fn_getEvWay(A.MCHN_INFO_ID) AS evWay
 				   ,A.VER AS ver
-				   ,CASE WHEN CHARINDEX('열', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '1'
-                         WHEN CHARINDEX('에너지', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '2'
+				   ,CASE WHEN CHARINDEX('열/에너지', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '1'
+                         WHEN CHARINDEX('환기/공기질', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '2'
                          WHEN CHARINDEX('빛', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '3'
-                         WHEN CHARINDEX('공기', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '4'
+                         WHEN CHARINDEX('구조', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '4'
                          ELSE '5'
                     END AS ord
 			FROM   IRIS_SPACE_MCHN_INFO_MGMT  A

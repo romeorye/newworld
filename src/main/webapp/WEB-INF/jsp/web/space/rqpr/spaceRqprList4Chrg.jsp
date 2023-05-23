@@ -111,7 +111,7 @@
   					fromRqprDt.setValue(toRqprDt.getValue());
   				}
   			});
-
+/* 
   			var rgstNm = new Rui.ui.form.LTextBox({
                  applyTo: 'wbsCd',
                  placeholder: 'WBS코드를 입력해주세요.',
@@ -119,7 +119,7 @@
                  emptyValue: '',
                  width: 400
              });
-
+ */
              var spaceNm = new Rui.ui.form.LTextBox({
                  applyTo: 'spaceNm',
                  placeholder: '검색할 평가명을 입력해주세요.',
@@ -203,7 +203,7 @@
  					, { field: 'CtrgNames',		label: '평가카테고리',	sortable: false,	align:'center',	width: 120 }
  					, { field: 'PrvsNames',		label: '평가항목',		sortable: false,	align:'center',	width: 90 }
  					, { field: 'rgstNm',		label: '의뢰자',			sortable: false, 	align:'center',	width: 70 }
- 					, { field: 'CrgrNames',		label: '담당자',			sortable: false, 	align:'center',	width: 100 }
+ 					, { field: 'CrgrNames',		label: '담당자',			sortable: false, 	align:'center',	width: 70 }
  					, { field: 'rqprDt',		label: '의뢰일',			sortable: true, 	align:'center',	width: 90 }
  					, { field: 'cmplDt',		label: '완료일',			sortable: true, 	align:'center',	width: 90 }
  					, { field: 'spaceUgyYnNm',	label: '긴급',			sortable: false,  	align:'center',	width: 50 }
@@ -268,7 +268,7 @@ nG.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') +
    	      	});
             //getSpaceRqprList();
             init = function() {
-        	   var wbsCd='${inputData.wbsCd}';
+        	   //var wbsCd='${inputData.wbsCd}';
         	   var rgstNm='${inputData.rgstNm}';
         	   var spaceNm='${inputData.spaceNm}';
         	   var spaceChrgNm='${inputData.spaceChrgNm}';
@@ -279,7 +279,7 @@ nG.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') +
                     	cmbCtgr0Cd : '${inputData.cmbCtgr0Cd}',
                     	fromRqprDt : '${inputData.fromRqprDt}',
                     	toRqprDt : '${inputData.toRqprDt}',
-                    	wbsCd : escape(encodeURIComponent(wbsCd)),
+                    	//wbsCd : escape(encodeURIComponent(wbsCd)),
                     	rgstNm : escape(encodeURIComponent(rgstNm)),
                     	spaceNm : escape(encodeURIComponent(spaceNm)),
                     	spaceChrgNm : escape(encodeURIComponent(spaceChrgNm)),
@@ -335,9 +335,9 @@ nG.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') +
 		   						</tr>
 
 		   						<tr>
-		   							<th align="right">WBS Code</th>
-		   							<td class="spacerq_sch">
-		   								<input type="text" id="wbsCd">
+		   							<th align="right">접수번호</th>
+		   							<td>
+		   								<input type="text" id="acpcNo">
 		   							</td>
 		   							<th align="right">의뢰자</th>
 		    						<td class="spacerq_sch">
@@ -360,10 +360,6 @@ nG.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') +
 		    						<td></td>
 		   						</tr>
 		   						<tr>
-		   							<th align="right">접수번호</th>
-		   							<td>
-		   								<input type="text" id="acpcNo">
-		   							</td>
 		   							<th align="right">상태</th>
 		   							<td>
 		                                <div id="spaceAcpcStCd"></div>

@@ -18,10 +18,10 @@ import devonframe.configuration.ConfigService;
 import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
-import iris.web.space.rqpr.vo.SpaceMailInfo;
 import iris.web.common.converter.RuiConstants;
 import iris.web.common.util.FormatHelper;
 import iris.web.common.util.StringUtil;
+import iris.web.space.rqpr.vo.SpaceMailInfo;
 
 /*********************************************************************************
  * NAME : SpaceRqprServiceImpl.java
@@ -512,7 +512,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     		mailSender.setFromMailAddress(spaceMailInfo.getFromMailAddress(), spaceMailInfo.getFromMailNm());
     		*/
 
-    		mailSender.setFromMailAddress("iris@lghausys.com");
+    		mailSender.setFromMailAddress("iris@lxhausys.com");
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
     		mailSender.setSubject("'" + spaceMailInfo.getSpaceNm() + "' 평가의뢰 접수 통보");
 
@@ -523,10 +523,10 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
 			input.put("mailTitl", "'" + spaceMailInfo.getSpaceNm() + "' 평가의뢰 접수 통보");
 			input.put("adreMail", spaceMailInfo.getReceivers());
-			input.put("trrMail",  "iris@lghausys.com");
+			input.put("trrMail",  "iris@lxhausys.com");
 			input.put("rfpMail",  "");
 			input.put("_userId", dataMap.get("userId"));
-			input.put("_userEmail", "iris@lghausys.com");
+			input.put("_userEmail", "iris@lxhausys.com");
 
 			/* 전송메일 정보 hist 저장*/
 			commonDao.update("open.mchnAppr.insertMailHist", input);
@@ -566,7 +566,7 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
     		mailSender.setFromMailAddress(spaceMailInfo.getFromMailAddress(), spaceMailInfo.getFromMailNm());
     		*/
-    		mailSender.setFromMailAddress("iris@lghausys.com");
+    		mailSender.setFromMailAddress("iris@lxhausys.com");
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
     		mailSender.setSubject(subject.toString());
 
@@ -577,10 +577,10 @@ public class SpaceRqprServiceImpl implements SpaceRqprService {
 
 			input.put("mailTitl", subject.toString());
 			input.put("adreMail", spaceMailInfo.getReceivers());
-			input.put("trrMail",  "iris@lghausys.com");
+			input.put("trrMail",  "iris@lxhausys.com");
 			input.put("rfpMail",  "");
 			input.put("_userId", dataMap.get("_userId"));
-			input.put("_userEmail", "iris@lghausys.com");
+			input.put("_userEmail", "iris@lxhausys.com");
 
 			/* 전송메일 정보 hist 저장*/
 			commonDao.update("open.mchnAppr.insertMailHist", input);

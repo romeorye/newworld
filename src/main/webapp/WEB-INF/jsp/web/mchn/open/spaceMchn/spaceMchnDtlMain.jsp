@@ -48,6 +48,12 @@ var mchnInfoId;
 			tabId = "SMRY";
 		}
 
+		tabView = new Rui.ui.tab.LTabView({
+            tabs: [
+           	     {label: 'TOOL개요',	content: '<div id="tabContent0"></div>' }
+            		]
+        });
+	/* 	
 		//동작원리, 예약현황 TAB
 		if(mchnClCd == "01"||mchnClCd == "03" || mchnClCd == "04"){
 			tabView = new Rui.ui.tab.LTabView({
@@ -60,11 +66,11 @@ var mchnInfoId;
 			tabView = new Rui.ui.tab.LTabView({
 	             tabs: [
 	            	     {label: 'TOOL개요',	content: '<div id="tabContent0"></div>' }
-	            	     ,{label: '예약현황',	content: '<div id="tabContent1"></div>' }
+	            	     ,{label: '예약현황',	content: '<div id="tabContent1"></div>' } 
 	             		]
 	         });
 		}
-
+ */
 		var tabUrl = "";
 
 		goPage = function(target, id) {
@@ -87,9 +93,9 @@ var mchnInfoId;
 			tabView.removeAt(tabView.getTabCount() - 1);
 		}
 
-
+/* 
 		tabView.on('activeTabChange', function(e){
-        	 //iframe 숨기기
+        	  //iframe 숨기기
         	 for(var i = 0; i < 2; i++) {
                 if(i == e.activeIndex) {
                     Rui.get('tabContentIfrm' + i).show();
@@ -98,7 +104,7 @@ var mchnInfoId;
                     Rui.get('tabContentIfrm' + i).hide();
                 }
             }
-
+ 
         	switch(e.activeIndex){
         	//전체
         	case 0:
@@ -107,22 +113,26 @@ var mchnInfoId;
                 	goPage('tabContentIfrm0', 'SMRY');
                 }
         		break;
-        	case 1:
+        	 case 1:
                 if(e.isFirst){
         			rtnUrl = "web/mchn/open/spaceMchn/spaceMchnPrctTab";
                 	goPage('tabContentIfrm1', 'PRCT');
                 }
-        		break;
+        		break; 
         	}
         });
-
+ */
+ tabView.selectTab(0);
+ rtnUrl = "web/mchn/open/spaceMchn/spaceMchnSmry";
+	goPage('tabContentIfrm0', 'SMRY');
+/*
 		//원하는 탭으로 호출
 		if(tabId == 'PRCT'){
 			tabView.selectTab(1);
 		}else{
 			tabView.selectTab(0);
 		}
-
+		*/
 
 		/* [ 보유TOOL신청 예약 Dialog] */
 		mchnPrctInfoDialog = new Rui.ui.LFrameDialog({
@@ -289,7 +299,7 @@ var mchnInfoId;
            <div id="tabView"></div>
             <!-- 메인1 tab start --><!-- **** rui 컴포넌트 이용시 불필요한 내용임 **** -->
  			<iframe name="tabContentIfrm0" id="tabContentIfrm0" scrolling="no" width="100%" height="1200px" frameborder="0" ></iframe>
- 			<iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="yes" width="100%" height="700px" frameborder="0" ></iframe>
+ 			<!-- <iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="yes" width="100%" height="700px" frameborder="0" ></iframe> -->
             <!-- 메인1  tab end -->
         </div>
         <!-- // schedule_reserv -->

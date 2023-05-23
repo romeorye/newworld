@@ -61,13 +61,14 @@
 
                 alert(data.records[0].resultMsg);
 
-
+                /*
             	$('#rqprId').val(data.records[0].newRqprId);
             	nwinsActSubmit(searchForm, "<c:url value='/space/spaceRqprDetail.do'/>");
 
-                /* if(data.records[0].resultYn == 'Y') {
+                if(data.records[0].resultYn == 'Y') {
                 	goSpaceRqprList();
-                } */
+                } 
+                */
             });
 
             var textBox = new Rui.ui.form.LTextBox({
@@ -108,7 +109,7 @@
                 displayField: 'COM_DTL_NM',
                 valueField: 'COM_DTL_CD'
             });
-            /* WBS 팝업 설정*/
+            /* WBS 팝업 설정
             var spaceRqprWbsCd = new Rui.ui.form.LPopupTextBox({
             	applyTo: 'spaceRqprWbsCd',
                 placeholder: 'WBS코드 검색',
@@ -121,6 +122,7 @@
             	var deptYn = "Y";
             	openWbsCdSearchDialog(setSpaceWbsCd , deptYn);
             });
+            */
 			/* 긴급유무 */
             var spaceUgyYn = new Rui.ui.form.LCombo({
                 applyTo: 'spaceUgyYn',
@@ -168,7 +170,7 @@
             /* 통보자 팝업 설정*/
             spaceRqprInfmView = new Rui.ui.form.LPopupTextBox({
                 applyTo: 'spaceRqprInfmView',
-                width: 600,
+                width: 400,
                 editable: false,
                 placeholder: '통보자 검색',
                 emptyValue: '',
@@ -178,7 +180,7 @@
             	openUserSearchDialog(setSpaceRqprInfm, 10, spaceRqprDataSet.getNameValue(0, 'infmPrsnIds'), 'space');
             });
 
-            /* 평가대상명 */
+            /* 평가대상명 
             var evSubjNm = new Rui.ui.form.LTextBox({
             	applyTo: 'evSubjNm',
                 placeholder: '예)IFC, 상평동 복합문화단지, 등',
@@ -186,6 +188,7 @@
                 emptyValue: '',
                 width: 985
             });
+            */
             /* 제출처 코드 */
             var sbmpCd = new Rui.ui.form.LCombo({
                 applyTo: 'sbmpCd',
@@ -222,7 +225,7 @@
                 emptyValue: '',
                 width: 395
             });
-            /* 목표성능 */
+            /* 목표성능 
             var goalPfmc = new Rui.ui.form.LTextBox({
             	applyTo: 'goalPfmc',
                 placeholder: '예)열관류율 1.2 W/㎡K 이하, 표면온도 15℃ 이상, 1차 에너지 소요량 90 kWh/㎡ 이하,등',
@@ -230,7 +233,8 @@
                 emptyValue: '',
                 width: 400
             });
-            /* 결과지표 */
+            */
+            /* 결과지표
             var rsltDpst = new Rui.ui.form.LTextBox({
             	applyTo: 'rsltDpst',
                 placeholder: '예)열관류율 (W/㎡K), 열전도율 (W/mK), 표면온도 (℃),등',
@@ -238,7 +242,8 @@
                 emptyValue: '',
                 width: 395
             });
-            /* 평가 cases(개수) */
+            */
+            /* 평가 cases(개수) 
             var evCases = new Rui.ui.form.LTextBox({
             	applyTo: 'evCases',
                 placeholder: '5건 (창호 1~5등급, 5케이스 적용)',
@@ -246,7 +251,8 @@
                 emptyValue: '',
                 width: 400
             });
-            /* 평가대상 상세 */
+            */
+            /* 평가대상 상세 
             var evSubjDtl = new Rui.ui.form.LTextBox({
             	applyTo: 'evSubjDtl',
                 placeholder: '기타사항, 특이점',
@@ -254,7 +260,8 @@
                 emptyValue: '',
                 width: 395
             });
-            /* T-Cloud 링크*/
+            */
+            /* T-Cloud 링크
             var tCloud = new Rui.ui.form.LTextBox({
             	applyTo: 'tCloud',
                 placeholder: '대용량 첨부파일 링크 입력.',
@@ -262,7 +269,7 @@
                 emptyValue: '',
                 width: 980
             });
-            
+            */
             /********** 평가방법 설정 **********/
 			// 평가카테고리 combo 설정
 			var evCtgrCombo = new Rui.ui.form.LCombo({
@@ -296,7 +303,8 @@
                 items: [
                 	{ value: 'rumor', text: '이진욱'}, // text는 생략 가능하며, 생략시 value값을 그대로 사용한다. 
                     { value: 'hyokeun', text: '황효근' },  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
-                    { value: 'vickim', text: '김형근' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+                    { value: 'vickim', text: '김형근' },  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
+                    { value: 'sdcha', text: '차순도' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
                 ]
             });	
 			
@@ -304,9 +312,7 @@
 				if(evCtgrCombo.getValue() == "01"){
 					userInfo.setValue('rumor');
 				}else if(evCtgrCombo.getValue() == "02"){
-					userInfo.setValue('yujilee');
-				}else if(evCtgrCombo.getValue() == "03" || evCtgrCombo.getValue() == "04"){
-					userInfo.setValue('nhahn');
+					userInfo.setValue('hyokeun');
 				}
 			});
 			
@@ -322,18 +328,18 @@
 					, { id: 'spaceUgyYn'	}
 					, { id: 'infmPrsnIds'	}
 					, { id: 'oppbScpCd'		}
-					, { id: 'spaceRqprWbsCd'}
+					//, { id: 'spaceRqprWbsCd'}
 					, { id: 'scrtRson'		}
-					, { id: 'evSubjNm'		}
+					//, { id: 'evSubjNm'		}
 					, { id: 'sbmpCd'		}
 					, { id: 'sbmpNm'		}
 					, { id: 'qtasDpst'		}
 					, { id: 'qnasDpst'		}
-					, { id: 'goalPfmc'		}
-					, { id: 'rsltDpst'		}
-					, { id: 'evCases'		}
-					, { id: 'evSubjDtl'		}
-					, { id: 'tCloud'		}
+					//, { id: 'goalPfmc'		}
+					//, { id: 'rsltDpst'		}
+					//, { id: 'evCases'		}
+					//, { id: 'evSubjDtl'		}
+					//, { id: 'tCloud'		}
 					, { id: 'spaceRqprInfmView' } //통보자 명
 					, { id: 'rqprAttcFileId', defaultValue: '' }
 
@@ -357,19 +363,19 @@
                     { id: 'spaceUgyYn',			ctrlId: 'spaceUgyYn',		value:'value'},
                     { id: 'infmPrsnIds',		ctrlId: 'infmPrsnIds',		value:'value'},
                     { id: 'oppbScpCd',			ctrlId: 'oppbScpCd',		value:'value'},
-                    { id: 'spaceRqprWbsCd',		ctrlId: 'spaceRqprWbsCd',	value:'value'},
+                   // { id: 'spaceRqprWbsCd',		ctrlId: 'spaceRqprWbsCd',	value:'value'},
                     { id: 'scrtRson',			ctrlId: 'scrtRson',			value:'value'},
                     { id: 'spaceRqprInfmView',	ctrlId: 'spaceRqprInfmView',value:'value'},
-                    { id: 'evSubjNm',			ctrlId: 'evSubjNm',			value:'value'},
+                  //  { id: 'evSubjNm',			ctrlId: 'evSubjNm',			value:'value'},
                     { id: 'sbmpCd',				ctrlId: 'sbmpCd',			value:'value'},
                     { id: 'sbmpNm',				ctrlId: 'sbmpNm',			value:'value'},
                     { id: 'qtasDpst',			ctrlId: 'qtasDpst',			value:'value'},
-                    { id: 'qnasDpst',		 	ctrlId: 'qnasDpst',		 	value:'value'},
-                    { id: 'goalPfmc',		 	ctrlId: 'goalPfmc',		 	value:'value'},
-                    { id: 'rsltDpst',		 	ctrlId: 'rsltDpst',		 	value:'value'},
-                    { id: 'evCases',			ctrlId: 'evCases',			value:'value'},
-                    { id: 'evSubjDtl',		 	ctrlId: 'evSubjDtl',		value:'value'},
-                    { id: 'tCloud',		 		ctrlId: 'tCloud',		 	value:'value'}
+                    { id: 'qnasDpst',		 	ctrlId: 'qnasDpst',		 	value:'value'}
+                    //{ id: 'goalPfmc',		 	ctrlId: 'goalPfmc',		 	value:'value'},
+                    //{ id: 'rsltDpst',		 	ctrlId: 'rsltDpst',		 	value:'value'},
+                    //{ id: 'evCases',			ctrlId: 'evCases',			value:'value'},
+                    //{ id: 'evSubjDtl',		 	ctrlId: 'evSubjDtl',		value:'value'},
+                    //{ id: 'tCloud',		 		ctrlId: 'tCloud',		 	value:'value'}
                 ]
             });
             spaceRqprDataSet.newRecord();
@@ -897,15 +903,13 @@
                 { id: 'evCtgr',			validExp: '평가카테고리:true' },
                 { id: 'evPrvs',			validExp: '평가항목:true' },
                 { id: 'infmPrsnId',		validExp: '담당자:true' },
-				{ id: 'evSubjNm',		validExp: '평가대상명:true:maxByteLength=100' },
+				//{ id: 'evSubjNm',		validExp: '평가대상명:true:maxByteLength=100' },
 				{ id: 'sbmpCd',			validExp: '제출처:true' },
-				{ id: 'sbmpNm',			validExp: '제출기관명:true:maxByteLength=100' },
-				/* { id: 'qtasDpst',		validExp: '정량지표:true:maxByteLength=100' },
-				{ id: 'qnasDpst',		validExp: '정성지표:true:maxByteLength=100' }, */
-				{ id: 'goalPfmc',		validExp: '목표성능:true:maxByteLength=100' },
-				{ id: 'rsltDpst',		validExp: '결과지표:true:maxByteLength=100' },
-				{ id: 'evCases',		validExp: '평가case(개수):true' },
-				{ id: 'evSubjDtl',		validExp: '평가대상 상세:true:maxByteLength=100' }
+				{ id: 'sbmpNm',			validExp: '제출기관명:true:maxByteLength=100' }
+				//{ id: 'goalPfmc',		validExp: '목표성능:true:maxByteLength=100' },
+				//{ id: 'rsltDpst',		validExp: '결과지표:true:maxByteLength=100' }
+				//{ id: 'evCases',		validExp: '평가case(개수):true' },
+				//{ id: 'evSubjDtl',		validExp: '평가대상 상세:true:maxByteLength=100' }
                 ]
             });
 
@@ -1025,11 +1029,18 @@
    							<td>
                                 <div id="spaceScnCd"></div>
    							</td>
+   							<!-- 
    							<th align="right">WBS 코드</th>
    							<td>
    								<input type="text" id="spaceRqprWbsCd">
    							</td>
-
+ -->
+ 							<th align="right">통보자</th>
+   							<td colspan="3">
+						        <div class="LblockMarkupCode">
+						            <div id="spaceRqprInfmView"></div>
+						        </div>
+   							</td>
    						</tr>
    						<tr>
    							<th align="right"><span style="color:red;">* </span>긴급유무</th>
@@ -1041,22 +1052,14 @@
                                 <div id="oppbScpCd"></div>&nbsp;<input type="text" id="scrtRson">
    							</td>
    						</tr>
+<!-- 
    						<tr>
-   							<th align="right">통보자</th>
-   							<td colspan="3">
-						        <div class="LblockMarkupCode">
-						            <div id="spaceRqprInfmView"></div>
-						        </div>
-   							</td>
-   						</tr>
-
-
-   						<tr>
-   							<th align="right"><span style="color:red;">* </span>평가대상명</th>
+   							<th align="right">평가대상명</th>
    							<td colspan="3" class="rlabrqpr_tain01">
    								<input type="text" id="evSubjNm">
    							</td>
    						</tr>
+   						 -->
    						<tr>
    							<th align="right"><span style="color:red;">* </span>제출처</th>
    							<td colspan="3" class="rlabrqpr_tain05">
@@ -1074,7 +1077,7 @@
                                 <input type="text" id="qnasDpst">
    							</td>
    						</tr>
-
+<!-- 
    						<tr>
    							<th align="right"><span style="color:red;">* </span>목표성능</th>
    							<td class="rlabrqpr_tain01">
@@ -1086,11 +1089,11 @@
    							</td>
    						</tr>
    						<tr>
-   							<th align="right"><span style="color:red;">* </span>평가 cases(개수)</th>
+   							<th align="right">평가 cases(개수)</th>
    							<td class="rlabrqpr_tain01">
                                 <input type="text" id="evCases">
    							</td>
-   							<th align="right"><span style="color:red;">* </span>평가대상 상세</th>
+   							<th align="right">평가대상 상세</th>
    							<td class="rlabrqpr_tain01">
                                 <input type="text" id="evSubjDtl">
    							</td>
@@ -1100,21 +1103,15 @@
    							<td class="rlabrqpr_tain01" colspan="3">
                                 <input type="text" id="tCloud">
    							</td>
-   						</tr>
+   						</tr> 
+   						-->
    					</tbody>
    				</table>
 
 				<br/>
-   				<!-- <div class="titArea">
-   					<h3><span style="color:red;">* </span>평가대상 정보</h3>
-   				</div> -->
 				<div class="space_txt">
    					<b>제출자료</b><br/>
-   					&nbsp;&nbsp;1) Simulation <br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;공간단위 : 현장 사진, 평면도, 단면도, 적용자재 Spec (자재 도면, 물성 등) 및 시험성적서<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;자재단위 : 적용자재 Spec (자재도면, 물성 등) 및 시험 성적서<br/>
-					&nbsp;&nbsp;2) Mock-up : 적용자재 Spec (자재도면, 물성 등) 및 시험 성적서<br/>
-					&nbsp;&nbsp;3) Certification : 적용자재 Spec (자재도면, 물성 등) 및 시험 성적서
+   					&nbsp;&nbsp;- 재료 물성, 자재 또는 제품 Spec, 도면, 현장사진 및 시험성적서  <br/>
    				</div>
 
 

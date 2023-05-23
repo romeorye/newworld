@@ -34,10 +34,11 @@
                 tabs: [
                 	// 전체 탭 주석 처리
             		//{ label: '전체', 			content: '<div id="tabContent0"></div>' },
-                    { label: 'Simulation',       	content: '<div id="tabContent1"></div>' },
-            		{ label: 'Mock-up',        content: '<div id="tabContent2"></div>' },
+                    { label: 'CAE',       	content: '<div id="tabContent1"></div>' },
+            		{ label: '실험 평가',        content: '<div id="tabContent2"></div>' }
+                    /* ,
                     { label: 'Certification',        content: '<div id="tabContent3"></div>' },
-                    { label: 'Measurement',        content: '<div id="tabContent4"></div>' }
+                    { label: 'Measurement',        content: '<div id="tabContent4"></div>' } */
                 ]
             });
 			
@@ -53,7 +54,7 @@
 			
 			tabView.on('activeTabChange', function(e){
 				//iframe 숨기기
-	            for(var i = 0; i < 5; i++) {
+	            for(var i = 0; i < 2; i++) {
 	                if(i == e.activeIndex) {
 	                    Rui.get('tabContentIfrm' + i).show();
 	                }
@@ -73,14 +74,15 @@
 	        	case 1:
                 	goPage('tabContentIfrm1', '02');
 	        		break;
-	        	//Certification
+	        	/* 
+	        		//Certification
 	        	case 2:
                 	goPage('tabContentIfrm2', '03');
 	        		break;
 	        	//Measurement
 	        	case 3:
                 	goPage('tabContentIfrm3', '04');
-	        		break;
+	        		break; */
 	        	}
 	        	
 
@@ -100,12 +102,12 @@
 			else if(mchnClCd == '02'){
 				tabView.selectTab(1);
 			}
-			else if(mchnClCd == '03'){
+			/* else if(mchnClCd == '03'){
 				tabView.selectTab(2);
 			}
 			else if(mchnClCd == '04'){
 				tabView.selectTab(3);
-			}
+			} */
 
 			
 		});	//end ready
@@ -148,9 +150,9 @@
 			<input type="hidden" id="opnYn" name="opnYn" />
  				<iframe name="tabContentIfrm0" id="tabContentIfrm0" scrolling="no" width="100%" height="700px" frameborder="0" ></iframe>
  				<iframe name="tabContentIfrm1" id="tabContentIfrm1" scrolling="no" width="100%" height="700px" frameborder="0" ></iframe>
- 				<iframe name="tabContentIfrm2" id="tabContentIfrm2" scrolling="no" width="100%" height="700px" frameborder="0" ></iframe>
+ 				<!-- <iframe name="tabContentIfrm2" id="tabContentIfrm2" scrolling="no" width="100%" height="700px" frameborder="0" ></iframe>
  				<iframe name="tabContentIfrm3" id="tabContentIfrm3" scrolling="no" width="100%" height="700px" frameborder="0" ></iframe>
- 				<iframe name="tabContentIfrm4" id="tabContentIfrm4" scrolling="no" width="100%" height="700px" frameborder="0" ></iframe>
+ 				<iframe name="tabContentIfrm4" id="tabContentIfrm4" scrolling="no" width="100%" height="700px" frameborder="0" ></iframe> -->
 
 		</form>
 		

@@ -30,10 +30,6 @@
 		<if test="cmbCtgr0Cd != null and cmbCtgr0Cd != ''">
 			AND RQPR_ID IN (SELECT SP.RQPR_ID FROM IRIS_SPACE_PROD SP WHERE SP.EV_CTGR0 = #{cmbCtgr0Cd})
 		</if>
-		<if test="wbsCd != null and wbsCd != ''">
-			AND WBS_CD = #{wbsCd}
-		</if>
-
         <if test="fromRqprDt != null and fromRqprDt != ''">
 			AND RQPR_DT between #{fromRqprDt} AND #{toRqprDt}
 		</if>
