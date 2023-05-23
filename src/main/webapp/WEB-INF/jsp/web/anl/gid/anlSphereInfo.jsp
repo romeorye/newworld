@@ -188,16 +188,13 @@
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                            <a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
 				                        </td>
-				                        <td style="text-align:center;vertical-align:middle !important;">
-				                            <a href="javascript:getPersonInfo('00207779','lejaaa')" class="person_link">이은주</a>
+				                        <td style="text-align:center;vertical-align:middle !important;" rowspan="7" >
+				                            <a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;" rowspan="7">
-				                        	TVOC : <a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">이종한</a><br/>	
+				                        	TVOC : <a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</a><br/>
 				                        	알데하이드 : <a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</a><br/>
-				                        	프탈레이트 :<a href="javascript:getPersonInfo('00207779','lejaaa')" class="person_link">이은주</a><br/>
-				                        	라돈 : <a href="javascript:getPersonInfo('00207466','chlee')" class="person_link">이종한</a><br/>
-				                        	<br/>
-				                        	Q-Gate : <a href="javascript:getPersonInfo('00207779','lejaaa')" class="person_link">이은주</a>
+				                        	방사능농도(라돈) : <a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a><br/>
 				                        </td>
 				                    </tr>
 				               		<tr>
@@ -208,9 +205,6 @@
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                            <a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
 				                        </td>
-				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
-				                        </td>
 				                    </tr>
 				               		<tr>
 				                        <th >단열재,벽지,바닥재</th>
@@ -219,9 +213,6 @@
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
-				                        </td>
-				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
 				                        </td>
 				                    </tr>
 				               		<tr>
@@ -232,9 +223,6 @@
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                            <a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
 				                        </td>
-				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
-				                        </td>
 				                    </tr>
 				               		<tr>
 				                        <th >창호</th>
@@ -243,9 +231,6 @@
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
-				                        </td>
-				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
 				                        </td>
 				                    </tr>
 				               		<tr>
@@ -256,9 +241,6 @@
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
 				                        </td>
-				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
-				                        </td>
 				                    </tr>
 				               		<tr>
 				                        <th >산업용필름</th>
@@ -268,9 +250,6 @@
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
-				                        </td>
-				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
 				                        </td>
 				                    </tr>
 				            	</tbody>        
