@@ -1160,13 +1160,10 @@
                 columns: [
                 	  new Rui.ui.grid.LSelectionColumn()
                     , new Rui.ui.grid.LNumberColumn()
-                    , { field: 'exatNm',		label: '평가 실험명',		sortable: false,	align:'left',	width: 380 }
+                    , { field: 'exatNm',		label: '평가 실험명',		sortable: false,	align:'left',	width: 420 }
                     , { field: 'exatCaseQty',	label: '평가케이스수',	sortable: false,	align:'center',	width: 100 }
                     , { field: 'exatDct',		label: '평가일수',		sortable: false,	align:'center',	width: 80 }
-                    , { field: 'exatExp',		label: '수가',			sortable: false,	align:'center',	width: 100, renderer: function(val, p, record, row, col) {
-                    	return Rui.util.LNumber.toMoney(val, '') + '원';
-                      } }
-                    , { field: 'exatWay',		label: '평가방법',		sortable: false,	align:'left',	width: 430 }
+                    , { field: 'exatWay',		label: '평가방법',		sortable: false,	align:'left',	width: 800 }
                 ]
             });
 
