@@ -61,6 +61,9 @@
 
                 alert(data.records[0].resultMsg);
 
+                if(data.records[0].resultYn == 'Y') {
+                	goSpaceRqprList();
+                } 
                 /*
             	$('#rqprId').val(data.records[0].newRqprId);
             	nwinsActSubmit(searchForm, "<c:url value='/space/spaceRqprDetail.do'/>");
