@@ -186,7 +186,8 @@
 				                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                            <a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
+				                            <a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>,
+				                            <a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;" rowspan="7" >
 				                            <a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
@@ -207,7 +208,7 @@
 				                        </td>
 				                    </tr>
 				               		<tr>
-				                        <th >단열재,벽지,바닥재</th>
+				                        <th >단열재</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
 				                        </td>
@@ -216,12 +217,12 @@
 				                        </td>
 				                    </tr>
 				               		<tr>
-				                        <th >인테리어</th>
+				                        <th >벽지,바닥재, 인테리어</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                            <a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
+				                            <a href="javascript:getPersonInfo('00207929','duhwanlee')" class="person_link">이두환</a>
 				                        </td>
 				                    </tr>
 				               		<tr>
@@ -249,7 +250,7 @@
 				                        	<a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a>
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
+				                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
 				                        </td>
 				                    </tr>
 				            	</tbody>        

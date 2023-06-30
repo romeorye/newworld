@@ -71,18 +71,16 @@
                   	<a href="#" onClick="setAnlChrgInfo('kwonjihye', '권지혜')">권지혜</a>
                   </td>
                   <td style="text-align:center;vertical-align:middle !important;">
-                      <a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>
+                      <a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>,
+                      <a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
                   </td>
-                  <td style="text-align:center;vertical-align:middle !important;">
-                      <a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>
+                  <td style="text-align:center;vertical-align:middle !important;"  rowspan="7">
+                      <a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
                   </td>
                   <td style="text-align:center;vertical-align:middle !important;" rowspan="7">
-                  	TVOC : <a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a><br/>	
+                  	TVOC : <a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a><br/>
                   	알데하이드 : <a href="#" onClick="setAnlChrgInfo('kojaeyoon', '고재윤')">고재윤</a><br/>
-                  	프탈레이트 :<a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a><br/>
-                  	라돈 : <a href="#" onClick="setAnlChrgInfo('chlee', '이종한')">이종한</a><br/>
-                  	<br/>
-                  	Q-Gate : <a href="#" onClick="setAnlChrgInfo('lejaaa', '이은주')">이은주</a>
+                  	방사능농도(라돈) : <a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a><br/>
                   </td>
               </tr>
          		<tr>
@@ -93,32 +91,23 @@
                   <td style="text-align:center;vertical-align:middle !important;">
                       <a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>
                   </td>
-                  <td style="text-align:center;vertical-align:middle !important;">
-                  	<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-                  </td>
               </tr>
          		<tr>
-                  <th >단열재,벽지,바닥재</th>
+                  <th >단열재</th>
                   <td style="text-align:center;vertical-align:middle !important;">
                   	<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>
                   </td>
                   <td style="text-align:center;vertical-align:middle !important;">
                   	<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
                   </td>
-                  <td style="text-align:center;vertical-align:middle !important;">
-                  	<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-                  </td>
               </tr>
          		<tr>
-                  <th >인테리어</th>
+                  <th >벽지,바닥재, 인테리어</th>
                   <td style="text-align:center;vertical-align:middle !important;">
                   	<a href="#" onClick="setAnlChrgInfo('jihee', '손지희')">손지희</a>
                   </td>
                   <td style="text-align:center;vertical-align:middle !important;">
-                      <a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>
-                  </td>
-                  <td style="text-align:center;vertical-align:middle !important;">
-                  	<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
+                      <a href="#" onClick="setAnlChrgInfo('duhwanlee', '이두환')">이두환</a>
                   </td>
               </tr>
          		<tr>
@@ -129,9 +118,6 @@
                   <td style="text-align:center;vertical-align:middle !important;">
                   	<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
                   </td>
-                  <td style="text-align:center;vertical-align:middle !important;">
-                  	<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-                  </td>
               </tr>
          		<tr>
                   <th >표면소재</th>
@@ -141,9 +127,6 @@
                   <td style="text-align:center;vertical-align:middle !important;">
                   	<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
                   </td>
-                  <td style="text-align:center;vertical-align:middle !important;">
-                  	<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
-                  </td>
               </tr>
          		<tr>
                   <th >산업용필름</th>
@@ -152,10 +135,7 @@
                   	<a href="#" onClick="setAnlChrgInfo('jihachoi', '최지하')">최지하</a>
                   </td>
                   <td style="text-align:center;vertical-align:middle !important;">
-                  	<a href="#" onClick="setAnlChrgInfo('kimsb', '김샛별')">김샛별</a>
-                  </td>
-                  <td style="text-align:center;vertical-align:middle !important;">
-                  	<a href="#" onClick="setAnlChrgInfo('sumin', '권수민')">권수민</a>
+                  	<a href="#" onClick="setAnlChrgInfo('suyune', '김수연')">김수연</a>
                   </td>
               </tr>
       	</tbody>       
