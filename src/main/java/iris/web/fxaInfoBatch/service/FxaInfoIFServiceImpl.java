@@ -87,7 +87,7 @@ public class FxaInfoIFServiceImpl implements FxaInfoIFService {
 	    HashMap<String, Object> fxaTrsfMap = new HashMap<String, Object>();
 	    String msg = "";
 	    String returnCd = "";
-	    
+	    //LOGGER.debug("#################################functionName#################################################### + " + functionName);
 	    try{
 	    	
 	    	 List<Map<String, Object>> fxaTrsfList = commonDao.selectList("fxaBatch.retrieveFxaTrsfInfo", list);
@@ -106,6 +106,7 @@ public class FxaInfoIFServiceImpl implements FxaInfoIFService {
 	    		// 테이블 호출
 	    	    returnCd = function.getExportParameterList().getString("RETURN"); // 
 	    	    msg = function.getExportParameterList().getString("MESSAGE"); // 
+	    	    
 	    	    //LOGGER.debug("#################################returnStructure#################################################### + " + returnCd);    
 	    	    //LOGGER.debug("#################################msg#################################################### + " + msg);    
 	            
@@ -116,7 +117,7 @@ public class FxaInfoIFServiceImpl implements FxaInfoIFService {
 	    	}
 			
 		}catch(AbapException e){
-	       	LOGGER.debug("ERROR >> FxaInfoIFBatch : IRIS_SAP_BUDG_S_COST  function.execute Error"+e.toString());	
+	       	LOGGER.debug("ERROR >> FxaTrsfIFBatch : IRIS_FxaTrsf  function.execute Error"+e.toString());	
 	        e.printStackTrace();
 	    }
 	 
