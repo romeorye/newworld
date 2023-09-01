@@ -57,7 +57,6 @@
              , PRJ_NM
              , CUST_SQLT
              , TSS_SMRY_TXT
-             , CM_YN
              , FC_CD
              , GRS_YN
              , FRST_RGST_DT      --최초등록일시
@@ -106,7 +105,6 @@
              , PRJ_NM
              , CUST_SQLT
              , TSS_SMRY_TXT
-             , CM_YN
              , FC_CD
              , GRS_YN
              , GETDATE()
@@ -203,7 +201,7 @@
           FROM IRIS_TSS_GEN_SMRY  a/*일반과제개요*/
 		       left outer join IRIS_GRS_EV_RSLT_RGST b
 			   on b.tss_cd = a.TSS_CD
-			   and b.grs_ev_st = 'P2'
+			   and b.grs_ev_st = 'G2'
          WHERE a.TSS_CD = #{tssCd}
     ]]>
     </select>
@@ -286,46 +284,46 @@
              , #{pmisCmplTxt}
              , #{nprodNm}
 			 , #{ancpOtPlnDt}
-		     , convert(numeric(15,2), case when #{bizPrftProY}    = '' then '0' else #{bizPrftProY}     end )
-			 , convert(numeric(15,2), case when #{bizPrftProY1}   = '' then '0' else #{bizPrftProY1}    end )
-			 , convert(numeric(15,2), case when #{bizPrftProY2}   = '' then '0' else #{bizPrftProY2}    end )
-			 , convert(numeric(15,2), case when #{bizPrftProCurY} = '' then '0' else #{bizPrftProCurY}  end )
-			 , convert(numeric(15,2), case when #{bizPrftProCurY1}= '' then '0' else #{bizPrftProCurY1} end )
-			 , convert(numeric(15,2), case when #{bizPrftProCurY2}= '' then '0' else #{bizPrftProCurY2} end )
-			 , convert(numeric(15,2), case when #{bizPrftPlnY}	  = '' then '0' else #{bizPrftPlnY}	    end )
-			 , convert(numeric(15,2), case when #{bizPrftPlnY1}	  = '' then '0' else #{bizPrftPlnY1}	end )
-			 , convert(numeric(15,2), case when #{bizPrftPlnY2}	  = '' then '0' else #{bizPrftPlnY2}	end )
-			 , convert(numeric(15,2), case when #{bizPrftCurY}	  = '' then '0' else #{bizPrftCurY}	    end )
-			 , convert(numeric(15,2), case when #{bizPrftCurY1}	  = '' then '0' else #{bizPrftCurY1}	end )
-			 , convert(numeric(15,2), case when #{bizPrftCurY2}	  = '' then '0' else #{bizPrftCurY2}	end )
-			 , convert(numeric(15,2), case when #{nprodSalsPlnY}  = '' then '0' else #{nprodSalsPlnY}	end )
-			 , convert(numeric(15,2), case when #{nprodSalsPlnY1} = '' then '0' else #{nprodSalsPlnY1}  end )
-			 , convert(numeric(15,2), case when #{nprodSalsPlnY2} = '' then '0' else #{nprodSalsPlnY2}  end )
-			 , convert(numeric(15,2), case when #{nprodSalsPlnY3} = '' then '0' else #{nprodSalsPlnY3}  end )
-			 , convert(numeric(15,2), case when #{nprodSalsPlnY4} = '' then '0' else #{nprodSalsPlnY4}  end )
-			 , convert(numeric(15,2), case when #{nprodSalsCurY}  = '' then '0' else #{nprodSalsCurY}	end )
-			 , convert(numeric(15,2), case when #{nprodSalsCurY1} = '' then '0' else #{nprodSalsCurY1}  end )
-			 , convert(numeric(15,2), case when #{nprodSalsCurY2} = '' then '0' else #{nprodSalsCurY2}  end )
-			 , convert(numeric(15,2), case when #{ptcCpsnY}		  = '' then '0' else #{ptcCpsnY}		end )
-			 , convert(numeric(15,2), case when #{ptcCpsnY1}      = '' then '0' else #{ptcCpsnY1}		end )
-			 , convert(numeric(15,2), case when #{ptcCpsnY2}	  = '' then '0' else #{ptcCpsnY2}		end )
-			 , convert(numeric(15,2), case when #{ptcCpsnY3}	  = '' then '0' else #{ptcCpsnY3}		end )
-			 , convert(numeric(15,2), case when #{ptcCpsnY4}	  = '' then '0' else #{ptcCpsnY4}		end )
-			 , convert(numeric(15,2), case when #{ptcCpsnCurY}	  = '' then '0' else #{ptcCpsnCurY}	    end )
-			 , convert(numeric(15,2), case when #{ptcCpsnCurY1}	  = '' then '0' else #{ptcCpsnCurY1}	end )
-			 , convert(numeric(15,2), case when #{ptcCpsnCurY2}	  = '' then '0' else #{ptcCpsnCurY2}	end )
-			 , convert(numeric(15,2), case when #{ptcCpsnCurY3}	  = '' then '0' else #{ptcCpsnCurY3}	end )
-			 , convert(numeric(15,2), case when #{ptcCpsnCurY4}	  = '' then '0' else #{ptcCpsnCurY4}	end )
-			 , convert(numeric(15,2), case when #{expArslY}		  = '' then '0' else #{expArslY}		end )
-			 , convert(numeric(15,2), case when #{expArslY1}	  = '' then '0' else #{expArslY1}		end )
-			 , convert(numeric(15,2), case when #{expArslY2}	  = '' then '0' else #{expArslY2}		end )
-			 , convert(numeric(15,2), case when #{expArslY3}	  = '' then '0' else #{expArslY3}		end )
-			 , convert(numeric(15,2), case when #{expArslY4}	  = '' then '0' else #{expArslY4}		end )
-			 , convert(numeric(15,2), case when #{expArslCurY}	  = '' then '0' else #{expArslCurY}	    end )
-			 , convert(numeric(15,2), case when #{expArslCurY1}	  = '' then '0' else #{expArslCurY1}	end )
-			 , convert(numeric(15,2), case when #{expArslCurY2}	  = '' then '0' else #{expArslCurY2}	end )
-			 , convert(numeric(15,2), case when #{expArslCurY3}	  = '' then '0' else #{expArslCurY3}	end )
-			 , convert(numeric(15,2), case when #{expArslCurY4}	  = '' then '0' else #{expArslCurY4}	end )
+		     , case when #{bizPrftProY}    = '' then '0' else #{bizPrftProY}     end 
+			, case when #{bizPrftProY1}   = '' then '0' else #{bizPrftProY1}    end 
+			, case when #{bizPrftProY2}   = '' then '0' else #{bizPrftProY2}    end 
+			, case when #{bizPrftProCurY} = '' then '0' else #{bizPrftProCurY}  end 
+			, case when #{bizPrftProCurY1}= '' then '0' else #{bizPrftProCurY1} end 
+			, case when #{bizPrftProCurY2}= '' then '0' else #{bizPrftProCurY2} end 
+			, case when #{bizPrftPlnY}	  = '' then '0' else #{bizPrftPlnY}	    end 
+			, case when #{bizPrftPlnY1}	  = '' then '0' else #{bizPrftPlnY1}	end 
+			, case when #{bizPrftPlnY2}	  = '' then '0' else #{bizPrftPlnY2}	end 
+			, case when #{bizPrftCurY}	  = '' then '0' else #{bizPrftCurY}	    end 
+			, case when #{bizPrftCurY1}	  = '' then '0' else #{bizPrftCurY1}	end 
+			, case when #{bizPrftCurY2}	  = '' then '0' else #{bizPrftCurY2}	end 
+			, case when #{nprodSalsPlnY}  = '' then '0' else #{nprodSalsPlnY}	end 
+			, case when #{nprodSalsPlnY1} = '' then '0' else #{nprodSalsPlnY1}  end 
+			, case when #{nprodSalsPlnY2} = '' then '0' else #{nprodSalsPlnY2}  end 
+			, case when #{nprodSalsPlnY3} = '' then '0' else #{nprodSalsPlnY3}  end 
+			, case when #{nprodSalsPlnY4} = '' then '0' else #{nprodSalsPlnY4}  end 
+			, case when #{nprodSalsCurY}  = '' then '0' else #{nprodSalsCurY}	end 
+			, case when #{nprodSalsCurY1} = '' then '0' else #{nprodSalsCurY1}  end 
+			, case when #{nprodSalsCurY2} = '' then '0' else #{nprodSalsCurY2}  end 
+			, case when #{ptcCpsnY}		  = '' then '0' else #{ptcCpsnY}		end 
+			, case when #{ptcCpsnY1}      = '' then '0' else #{ptcCpsnY1}		end 
+			, case when #{ptcCpsnY2}	  = '' then '0' else #{ptcCpsnY2}		end 
+			, case when #{ptcCpsnY3}	  = '' then '0' else #{ptcCpsnY3}		end 
+			, case when #{ptcCpsnY4}	  = '' then '0' else #{ptcCpsnY4}		end 
+			, case when #{ptcCpsnCurY}	  = '' then '0' else #{ptcCpsnCurY}	    end 
+			, case when #{ptcCpsnCurY1}	  = '' then '0' else #{ptcCpsnCurY1}	end 
+			, case when #{ptcCpsnCurY2}	  = '' then '0' else #{ptcCpsnCurY2}	end 
+			, case when #{ptcCpsnCurY3}	  = '' then '0' else #{ptcCpsnCurY3}	end 
+			, case when #{ptcCpsnCurY4}	  = '' then '0' else #{ptcCpsnCurY4}	end 
+			, case when #{expArslY}		  = '' then '0' else #{expArslY}		end 
+			, case when #{expArslY1}	  = '' then '0' else #{expArslY1}		end 
+			, case when #{expArslY2}	  = '' then '0' else #{expArslY2}		end 
+			, case when #{expArslY3}	  = '' then '0' else #{expArslY3}		end 
+			, case when #{expArslY4}	  = '' then '0' else #{expArslY4}		end 
+			, case when #{expArslCurY}	  = '' then '0' else #{expArslCurY}	    end 
+			, case when #{expArslCurY1}	  = '' then '0' else #{expArslCurY1}	end 
+			, case when #{expArslCurY2}	  = '' then '0' else #{expArslCurY2}	end 
+			, case when #{expArslCurY3}	  = '' then '0' else #{expArslCurY3}	end 
+			, case when #{expArslCurY4}	  = '' then '0' else #{expArslCurY4}	end 
 			 , #{cmplAttcFilId}	
 			 , GETDATE()
              , #{userId}
