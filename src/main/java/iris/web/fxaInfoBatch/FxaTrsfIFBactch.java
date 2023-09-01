@@ -28,12 +28,12 @@ public class FxaTrsfIFBactch extends IrisBaseController {
     List<Map<String, Object>> list = null;
     
     public void batchProcess() {
-    	LOGGER.debug("FxaInfoIFBatch_START >> Start >>>>>>>>>>>>>>>>>>>>>>");	
+    	LOGGER.debug("FxaTrsfIFBatch_START >> Start >>>>>>>>>>>>>>>>>>>>>>");	
 		//1.sap 연결
 		try {
 			sapBudgCostService.sapConnection() ;
 		} catch (IOException e) {
-			LOGGER.debug("ERROR >> FxaInfoIFBatch : batchProcess  Connection Error "+e.toString());	
+			LOGGER.debug("ERROR >> FxaTrsfIFBatch : batchProcess  Connection Error "+e.toString());	
 			e.printStackTrace();
 		}
     	

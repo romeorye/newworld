@@ -114,7 +114,7 @@ public class FxaInfoIFBatch  extends IrisBaseController {
 		    
 			}catch(AbapException e){
 		        	LOGGER.debug("ERROR >> FxaInfoIFBatch : IRIS_SAP_BUDG_S_COST  function.execute Error"+e.toString());	
-		            System.out.println(e.toString());
+		            //System.out.println(e.toString());
 		    }
 	    
 			// 테이블 호출
