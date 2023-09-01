@@ -187,7 +187,7 @@
                     if (
                         (pgsStepCd == "PL" && grsYn == "N" && gvTssSt == "100")			//GRS N(계획) 인경우 바로 품의서 요청
                         || (pgsStepCd == "PL" && grsYn == "Y" && gvTssSt == "302")	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
-                        // || (pgsStepCd == "PG" && gvTssSt == "102")							//진행인 경우 GRS 평가완료
+                        || (pgsStepCd == "PG" && gvTssSt == "302")							//진행인 경우 GRS 평가완료
                         || (pgsStepCd == "AL" && gvTssSt == "100" && isGrsAl=="Y")							//완료진행인 경우 GRS 평가완료
                         || (pgsStepCd == "CM" && gvTssSt == "100")							//완료진행인 경우 GRS 평가완료
                         || (pgsStepCd == "DC" && gvTssSt == "100")							//중단진행인 경우 GRS 평가완료
@@ -238,13 +238,14 @@
                 prjNm.setEditable(false);
                 deptName.setEditable(false);
                 // wbsCd.setEditable(false);
+                tssNm.setEditable(false);
+                ppslMbdCd.setEditable(false);
 
                 //style
                 $('#prjNm > a').attr('style', "display:none;");
                 $('#prjNm').attr('style', "border-color:white;");
                 $('#deptName').attr('style', "border-color:white;");
                 $('#wbsCd').attr('style', "border-color:white;");
-
 
                 // if (isOwner()) {
                 //     $('#prjNm > a').attr('style', "display:block;");
@@ -320,7 +321,7 @@
                     , {id: 'tssStepNm'}	//관제 단계
                     , {id: 'grsStepNm'}	//GRS 단계
                     , {id: 'qgateStepNm'}	//Qgate 단계
-                    , {id: 'grsYn'}	//grs(p1) 사용여부
+                    , {id: 'grsYn'}	//grs(G1) 사용여부
                     , {id: 'isGrsAl'}	//GRS변경 여부 Y/N
 
 
@@ -456,12 +457,11 @@
                 // }
 
                 isFirst = gvTssSt == "";
-
+                
                 isEditable =
                     isFirst
                     || pgsStepCd == "PL" && gvTssSt == "302"
                     || pgsStepCd == "PL" && gvTssSt == "100" && grsYn == "N"
-                // || dataSet.getNameValue(0, "grsYn")=="N" && (pgsStepCd=="PL" )
                 ;
 
 
@@ -485,6 +485,7 @@
                     // $("#grsYnTd02").hide();
                 }
                 if (!isEditable) setViewform();		//읽기용 뷰로 변경
+                serDisableForm();
                 setBtn()					//버튼 표시
 
                 if (isAl() && (gvTssSt=="" || gvTssSt=="100" || gvTssSt=="102")){
@@ -516,7 +517,7 @@
                 if (pgsStepNm == "") {
                     $("#stepNm").html("계획");
                 } else {
-                    if (grsEvSt == "P2" && gvTssSt == "102") {
+                    if (grsEvSt == "G2" && gvTssSt == "102") {
                         //완료 GRS 완료
                         $("#stepNm").html("완료");
                     } else if (grsEvSt == "D" && gvTssSt == "102") {
@@ -597,6 +598,10 @@
                     //완료 GRS 완료
                     $(".L-nav").children().eq(0).css("display", "block");    //완료
                     $("#cmDdRow").show();
+                } else if (isCm1()) {
+                    //완료 GRS 완료
+                    $(".L-nav").children().eq(0).css("display", "block");    //완료
+                    $("#cmDdRow").show();
                 } else if (isDc()) {
                     //중단 GRS 완료
                     $(".L-nav").children().eq(1).css("display", "block");    //중단
@@ -648,7 +653,10 @@
             }
 
             function isCm() {
-                return (grsEvSt == "P2" && gvTssSt == "102") || pgsStepCd == "CM";
+                return (grsEvSt == "G2" && gvTssSt == "102") || pgsStepCd == "CM";
+            }
+            function isCm1() {
+                return (grsEvSt == "G2" &&  gvTssSt == "302");
             }
 
             function isDc() {
@@ -659,7 +667,23 @@
                 return "TR01" == gvRoleId || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew") || "TR11" == gvRoleId;
             }
 
-
+            function serDisableForm(){
+            	setReadonly("wbsCd");
+                setReadonly("tssNm");
+                setReadonly("prjNm");
+                setReadonly("prodG");
+                setReadonly("bizDptCd");
+                setReadonly("custSqlt");
+                setReadonly("saSabunName");
+                setReadonlyDate("tssStrtDd","tssFnhDd");
+                setReadonly("tssSmryTxt");
+                setReadonly("ppslMbdCd");
+                setReadonly("rsstSphe");
+                setReadonly("tssAttrCd");
+                setReadonly("tssType");
+            	
+            }
+            
             function setViewform() {
                 setReadonly("wbsCd");
                 setReadonly("tssNm");
@@ -682,13 +706,13 @@
                 setReadonly("tssType");
 
 
-                if (gvTssSt == "102" || gvTssSt == "100") {
-                    if (isCm()) {
+                if (gvTssSt == "102" || gvTssSt == "100" || gvTssSt == "302") {
+                	if (isCm()) {
                         //품의 요청시 개발완기간 수정가능
                         setEditable("cmplBStrtDd");
                         setEditable("cmplBFnhDd");
                     }
-
+                	
                     if (isDc()) {
                         //품의 요청시 개발완기간 수정가능
                         setEditable("dcacBStrtDd");
@@ -717,21 +741,21 @@
                 // setEditable("wbsCd");
                 // setEditable("tssNm");
                 // setEditable("prjNm");
-                setEditable("prodG");
-                setEditable("bizDptCd");
-                setEditable("custSqlt");
+                //setEditable("prodG");
+                //setEditable("bizDptCd");
+                //setEditable("custSqlt");
                 // setEditable("saSabunName");
 
-                setEditable("tssStrtDd");
-                $("#tssStrtDd").css("cssText", "border-width:1px; width: 120px !important;");
-                $("#tssStrtDd").next().css("cssText", "padding-right:5px;margin-left:40px !important");
-                setEditable("tssFnhDd");
+                //setEditable("tssStrtDd");
+                //$("#tssStrtDd").css("cssText", "border-width:1px; width: 120px !important;");
+                //$("#tssStrtDd").next().css("cssText", "padding-right:5px;margin-left:40px !important");
+                //setEditable("tssFnhDd");
 
                 setEditable("tssSmryTxt");
-                setEditable("ppslMbdCd");
-                setEditable("rsstSphe");
-                setEditable("tssAttrCd");
-                setEditable("tssType");
+                //setEditable("ppslMbdCd");
+                //setEditable("rsstSphe");
+                //setEditable("tssAttrCd");
+                //setEditable("tssType");
 
                 // //완료시점
                 // setEditable("cmplBStrtDd");
@@ -879,6 +903,17 @@
                 } else {
                     tcd = pgTssCd;
                     frmName = "tabContent3";    //개요
+                   /* 
+                    if (  grsEvSt == "G2" && (gvTssSt == "102" || gvTssSt == "302" )  ){
+	                    frmName = "tabContent0";    //완료
+                    }else if ( grsEvSt == "D" &&  (gvTssSt == "102" || gvTssSt == "302" ) ){
+	                    frmName = "tabContent1";    //중단
+                    }else if (grsEvSt == "M" &&  (gvTssSt == "102" || gvTssSt == "302" ) ){
+	                    frmName = "tabContent2";    //변경
+                    }else {
+	                    frmName = "tabContent3";    //개요
+                    }
+                    */ 
                 }
 
                 if (pgsStepCd == "CM" || pgsStepCd == "DC"){
@@ -1374,7 +1409,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th align="right">고객특성</th>
+                            <th align="right">사업유형</th>
                             <td>
                                 <div id="custSqlt"/>
                             </td>
@@ -1398,7 +1433,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th align="right">신제품 유형</th>
+                            <th align="right">개발등급</th>
                             <td>
                                 <div id="tssType"/>
                             </td>
@@ -1409,7 +1444,7 @@
                             <th align="right">진행단계</th>
                             <td><span id="tssStepNm"/></td>
 
-                            <th align="right" id="grsYnTd0101" style="display: none">GRS(P1) 사용여부</th>
+                            <th align="right" id="grsYnTd0101" style="display: none">GRS 사용여부</th>
                             <td id="grsYnTd0102" style="display: none">
                                 <div id="grsYn"/>
                             </td>
@@ -1522,21 +1557,16 @@
         dateType: 'string'
     });
 
-    //고객 특성
-    var custSqlt = new Rui.ui.form.LCombo({
-        applyTo: 'custSqlt',
-        emptyValue: '',
-        emptyText: '선택',
-        width: 140,
-        defaultValue: '${inputData.custSqlt}',
-        items: [{
-            text: 'B2B제품군',
-            value: '01'
-        }, {
-            text: '일반제품군',
-            value: '02'
-        },]
-    });
+    //고객 특성 ->사업유형
+   	var custSqlt = new Rui.ui.form.LCombo({
+   		applyTo : 'custSqlt',
+   		name: 'custSqlt',
+   		emptyText: '전체',
+   		url: '<c:url value="/common/code/retrieveCodeValueAllList.do?comCd=CUST_SQLT"/>',
+   		displayField: 'COM_DTL_NM',
+           valueField: 'COM_DTL_CD',
+           width: 150
+   	});
 
 
     //Concept
@@ -1716,7 +1746,7 @@
         }
 
         ppslMbdCd.setValue('02');	//사업부 fix
-        grsYn.setValue('N');	// P1 수행하지 않음(기본값)
+        grsYn.setValue('N');	// G1 수행하지 않음(기본값)
     }
 
 </script>
