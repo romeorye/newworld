@@ -63,6 +63,7 @@
 																	where  del_yn ='N'
 																	and    infm_prsn_id = #{_userId}
 																	)
+												   or  mst.rqpr_dept_cd = #{_userDept}	
 													)
 						
 					</when>
@@ -87,6 +88,11 @@
         <if test="acpcStCd != null and acpcStCd != ''">
 			AND ACPC_ST_CD = #{acpcStCd}
 		</if>
+        <if test="rqprDeptCd != null and rqprDeptCd != ''">
+			AND RQPR_DEPT_CD = #{rqprDeptCd}
+		</if>
+		
+		
 		ORDER BY ACPC_NO DESC
 	</select>
 
