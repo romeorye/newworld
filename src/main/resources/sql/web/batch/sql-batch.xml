@@ -285,6 +285,7 @@
 			 , 'spacekyk@lxhausys.com'+','+'sunflower@lxhausys.com'+','+'kimmmyj@lxhausys.com' as receMailAdd
 			 , 'ideaman@lxhausys.com'+','+'minjeong@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'singkro@hausyspartner.com'+','+'leesangheon@lxhausys.com' 
 			 as ccMailAddr
+			 , isnull(dbo.fn_getComDtlNm('PROD_G',mm.PROD_G), '') AS prodGNm
 		 from IRIS_TSS_MGMT_MST mm
 		inner join IRIS_PRJ_RSST_MST pm
 		   on mm.PRJ_CD = pm.PRJ_CD
@@ -316,9 +317,8 @@
                  , (select sa_name from iris_sso_user where sa_sabun_new = mm.sa_sabun_new) as tssSaNm
                  , 'spacekyk@lxhausys.com'+','+'sunflower@lxhausys.com'+','+'kimmmyj@lxhausys.com' as receMailAdd
 			     , 'ideaman@lxhausys.com'+','+'minjeong@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'singkro@hausyspartner.com'+','+'leesangheon@lxhausys.com' 
-			     
-			     
 			     as ccMailAddr
+			     , isnull(dbo.fn_getComDtlNm('PROD_G',mm.PROD_G), '') AS prodGNm
 		  from IRIS_TSS_MGMT_MST mm
 		 inner join IRIS_PRJ_RSST_MST pm
 		    on mm.PRJ_CD = pm.PRJ_CD
