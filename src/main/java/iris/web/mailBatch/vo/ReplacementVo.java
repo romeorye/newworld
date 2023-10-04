@@ -15,7 +15,15 @@ package iris.web.mailBatch.vo;
 		private String wbsCd = "";
 		private String bizDptNm = "";
 		private String tssSaNm = "";
+		private String prodGNm = "";
 		
+		public String getProdGNm() {
+			return prodGNm;
+		}
+
+		public void setProdGNm(String prodGNm) {
+			this.prodGNm = prodGNm;
+		}
 		
 		public String getTssSaNm() {
 			return tssSaNm;
