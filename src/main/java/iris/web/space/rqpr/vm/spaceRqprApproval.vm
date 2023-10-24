@@ -71,43 +71,6 @@
             </tbody>
         </table>
         <br/>
-    <h5>평가대상 정보</h5>
-        <table class="table table_txt_right">
-            <colgroup>
-                <col width="15%" />
-                <col width="35%" />
-                <col width="15%" />
-                <col width="35%" />
-            </colgroup>
-            <tbody>
-                <tr>
-                    <th>평가대상명</th>
-                    <td class="txt_layout" colspan="3">${evSubjNm}</td>
-                </tr>
-                <tr>
-                    <th>제출처</th>
-                    <td colspan="3" class="txt_layout">${sbmpNm}</td>
-                </tr>
-                <tr>
-                    <th>정량지표</th>
-                    <td class="txt_layout">${qtasDpst}</td>
-                    <th>정성지표</th>
-                    <td class="txt_layout">${qnasDpst}</td>
-                </tr>
-                <tr>
-                    <th>목표성능</th>
-                    <td class="txt_layout">${goalPfmc}</td>
-                    <th>결과지표</th>
-                    <td class="txt_layout">${rsltDpst}</td>
-                </tr>
-                <tr>
-                    <th>평가 cases</th>
-                    <td class="txt_layout">${evCases}</td>
-                    <th>평가대상 상세</th>
-                    <td class="txt_layout">${evSubjDtl}</td>
-                </tr>
-            </tbody>
-        </table>
 
            <!-- left table contents start -->
             <h5>관련평가</h5>
