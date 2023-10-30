@@ -37,14 +37,13 @@
 <script type="text/javascript">
 	var lmbSearchMonth;
 	var mboDataSet;
-//	var pduDataSet;
-//	var ptoprptDataSet;
 	var clsDataSet;
 	var prjDataSet;
 	var tssPgsDataSet;
 	var clsVm;			// cls 폼 validator manager
 	var lcbPgsStatCd;
 	var fnoPln;
+	var chkPgsYn="Y";
 
 	Rui.onReady(function() {
 
@@ -247,26 +246,25 @@
                 , { id: 'G1', label: '과제기간(계획일)' }
                 , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 150 }
                 , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 150 }
-                , { field: 'progressrate', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 110 }
+                , { field: 'progressrateReal', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 110 }
                 , { id: 'pg', label: '진척도', align:'center', width: 120 ,renderer :function(value, p, record, row, col) {
 
                     var pgN ="달성";
                     var pgS ="초과";
                     var pgD ="미달";
 
-                    var progressrate= record.get('progressrate');
-
-                    var arrPrg = progressrate.split('/')
+                    var progressrateReal= record.get('progressrateReal');
+                    var arrPrg = progressrateReal.split('/')
 
                     var rWgvl = floatNullChk(arrPrg[0]) ; // 실적
                     var gWgvl  = floatNullChk(arrPrg[1]) ; //목표
-
+                    rWgvl = rWgvl+1;
                     var pg = pgN ;
 
                     if(rWgvl > gWgvl){
                         pg = pgS ;
                     }else if(rWgvl < gWgvl){
-                    	rWgvl = rWgvl+3;
+                    	rWgvl = rWgvl;
 
                     	if( rWgvl < gWgvl ){
 	                    	pg = pgD ;
@@ -298,30 +296,26 @@
 
         tssPgsGrid.render('tssPgsGrid');
 
-        var chkPgsYn="Y";
-
         tssPgsDataSet.on('load', function(e){
-
         	if (tssPgsDataSet.getCount() > 0 ){
         		for(var i=0; i < tssPgsDataSet.getCount(); i++){
         			var pgN ="달성";
                     var pgS ="초과";
                     var pgD ="미달";
 
-                    var progressrate= tssPgsDataSet.getNameValue(i, 'progressrate');
+                    var progressrateReal= tssPgsDataSet.getNameValue(i, 'progressrateReal');
 
-                    var arrPrg = progressrate.split('/')
+                    var arrPrg = progressrateReal.split('/')
 
                     var rWgvl = floatNullChk(arrPrg[0]) ; // 실적
                     var gWgvl  = floatNullChk(arrPrg[1]) ; //목표
-
+                    rWgvl = rWgvl+1;
                     var pg = pgN ;
 
                     if(rWgvl > gWgvl){
                         pg = pgS ;
                     }else if(rWgvl < gWgvl){
-                        //pg = pgD ;
-                    	rWgvl = rWgvl+3;
+                    	rWgvl = rWgvl;
 
                     	if( rWgvl < gWgvl ){
 	                    	pg = pgD ;
@@ -334,10 +328,10 @@
 
                     if(pg == "미달"){
         				//콤보 cha
-                    	chkPgsYn = "N"
+                    	chkPgsYn = "N";
         			}
         		}
-
+        		
         		if( chkPgsYn == "Y" ){
         			fncPgsProcess('ON');
         		}else{
@@ -361,6 +355,7 @@
         });
 
         var fncPgsProcess = function(val){
+        	
         	if (!Rui.isEmpty(clsDataSet.getNameValue(0, 'pgsStatCd'))){
         		lcbPgsStatCd.setValue(clsDataSet.getNameValue(0, 'pgsStatCd'));
         		lcbPgsStatCd.disable();
@@ -475,9 +470,15 @@
         	var dmRgst = new Rui.data.LDataSetManager({defaultFailureHandler: false});
 
   			// 1. 데이터셋 valid
-  			if(!validation('clsForm')){
-  	    		return false;
+  			if(!clsVm.validateGroup("clsForm") ){
+  				alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + clsVm.getMessageList().join(''));
+                return;
   	    	}
+  			
+  			if( Rui.isEmpty(clsForm.hfilId.value) ){
+  				alert("첨부파일을 등록하셔야 합니다.");
+  				return;
+  			}
 
 //         	if(clsDataSet.isUpdated()){
        		// 2. 데이터 저장&업데이트
