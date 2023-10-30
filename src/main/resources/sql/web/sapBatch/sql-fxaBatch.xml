@@ -206,7 +206,7 @@
  	-- insertWbsPrjIFInfo wbs PRJ 정보테이블에 UPDATE
    		MERGE IRIS_WBS_PJT_IF MEM
 			USING ( SELECT #{wbsCd} AS WBS_CD ) AS Tab1
-			ON  (MEM.WBS_CD = Tab1.WBS_CD)
+			ON  (MEM.WBS_CD = Tab1.WBS_CD )
 			WHEN MATCHED THEN
 	UPDATE SET	 PRJ_NM       = #{prjNm}
 				,LAST_MDFY_DT = GETDATE()
