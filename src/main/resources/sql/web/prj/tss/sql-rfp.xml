@@ -141,6 +141,4 @@
 		      ,LAST_MDFY_ID = #{_userId}
 	    where  RFP_ID = #{rfpId}
 	</update>
-
-
 </mapper>
