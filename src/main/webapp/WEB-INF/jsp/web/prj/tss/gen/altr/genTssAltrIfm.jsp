@@ -552,12 +552,14 @@
         
         return true;
     }
+    
+    $(window).load(function() {
+    	setTimeout(() => {
+    		initFrameSetHeight();	
+		}, 500);
+    }); 
 </script>
-<script type="text/javascript">
-$(window).load(function() {
-	initFrameSetHeight();
-}); 
-</script>
+
 </head>
 <body style="overflow: hidden">
 <div id="aFormDiv">
@@ -726,7 +728,7 @@ $(window).load(function() {
                 
             </tbody>
         </table>
-        <div class="titArea btn_btm">
+<div class="titArea btn_btm">
     <div class="LblockButton">
         <button type="button" id="btnSave" name="btnSave">저장</button>
         <button type="button" id="btnList" name="btnList">목록</button>
