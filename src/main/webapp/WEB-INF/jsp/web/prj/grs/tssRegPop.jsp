@@ -29,7 +29,7 @@ var today = new Date();
 var dd = today.getDate();
 var mm = today.getMonth()+1; //January is 0!
 var yyyy = today.getFullYear();
-var fromStrDt = today.getFullYear() +""+ pad(today.getMonth()+1)+"";
+var fromStrDt = today.getFullYear() +""+ pad(today.getMonth())+"";
 
 var tssCd = '${inputData.tssCd}';    
     
@@ -74,7 +74,6 @@ var tssCd = '${inputData.tssCd}';
                 ,{ id: 'tssAttrCd'}
                 ,{ id: 'tssType'}
                 ,{ id: 'fcCd'}
-                ,{ id: 'cmYn'}
                 ,{ id: 'ppslMbdCd'}
                 ,{ id: 'rsstSphe'}
                 ,{ id: 'deptCode'}
@@ -85,7 +84,7 @@ var tssCd = '${inputData.tssCd}';
 			if (Rui.isEmpty(tssCd) ){
 				$("#btnTssReg").show();
 			}else{
-				if ( dataSet.getNameValue(0, 'pgsStepCd') == "PL" &&  dataSet.getNameValue(0, 'tssSt') == "101" ){
+				if ( dataSet.getNameValue(0, 'pgsStepCd') == "PL" &&  dataSet.getNameValue(0, 'tssSt') == "101"    ){
 					$("#btnTssReg").show();
 				}else{
 					$("#btnTssReg").hide();
@@ -152,22 +151,7 @@ var tssCd = '${inputData.tssCd}';
             valueField: 'COM_DTL_CD',
             width: 150
         });
-		
-		//C&M여부
-        cmYn = new Rui.ui.form.LCombo({
-            applyTo: 'cmYn',
-            emptyText: '전체',
-            width : 150,
-    		defaultValue : '${inputData.cmYn}',
-    		items : [ {
-    			text : 'Y',
-    			value : 'Y'
-    		}, {
-    			text : 'N',
-    			value : 'N'
-    		}, ]
-        });
-		
+	
       	//과제명
         tssNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssNm',
@@ -200,11 +184,10 @@ var tssCd = '${inputData.tssCd}';
         	var strDt = strMm[0]+strMm[1];
         	
         	if( fromStrDt > strDt ){
-        		alert("과제등록일은 현재월 기준입니다.");
+        		alert("과제등록일은 1개월 전 기준입니다.");
         		tssStrtDd.focus();
         		return;
         	}
-        	
         	
         	if(Rui.isEmpty(tssFnhDd.getValue())) return;
 
@@ -248,24 +231,17 @@ var tssCd = '${inputData.tssCd}';
             }
         	
         });
-        
-        
-        
-        
-      	//고객 특성
+      
+      
+      	//고객 특성 ->사업유형
     	var custSqlt = new Rui.ui.form.LCombo({
     		applyTo : 'custSqlt',
-    		emptyValue : '',
-    		emptyText : '선택',
-    		width : 150,
-    		defaultValue : '${inputData.custSqlt}',
-    		items : [ {
-    			text : 'B2B제품군',
-    			value : '01'
-    		}, {
-    			text : '일반제품군',
-    			value : '02'
-    		}, ]
+    		name: 'custSqlt',
+    		emptyText: '전체',
+    		url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=CUST_SQLT"/>',
+    		displayField: 'COM_DTL_NM',
+            valueField: 'COM_DTL_CD',
+            width: 150
     	});
         
     	//과제속성
@@ -336,7 +312,7 @@ var tssCd = '${inputData.tssCd}';
         
         fnSearch();
         
-      	//연구소 과제의 경우 GRS(초기(P1)) 반드시 수행
+      	//연구소 과제의 경우 GRS(초기(G1)) 반드시 수행
         tssScnCd.on('changed', function(e) {
         	/*
         	if($.inArray( e.value, [ "G", "O", "N"])>-1){
@@ -401,10 +377,6 @@ var tssCd = '${inputData.tssCd}';
             }
             
             if( tssScnCd.getValue() == "G"){
-            	if(Rui.isEmpty( cmYn.getValue())){
-            		alert("C&M 여부값을 선택하세요");
-            		return;
-            	}
             	if(Rui.isEmpty( rsstSphe.getValue())){
             		alert("연구분야를 선택하세요");
             		return;
@@ -434,7 +406,7 @@ var tssCd = '${inputData.tssCd}';
         var valid = new Rui.validate.LValidatorManager({
             validators:[
                 {id:'tssScnCd', validExp:'과제구분:true'},
-                //{id:'grsYn', validExp:'GRS(P1)수행여부:true'},
+                //{id:'grsYn', validExp:'GRS(G1)수행여부:true'},
                 {id:'saSabunNm', validExp:'과제리더:true'},
                 {id:'bizDptCd', validExp:'사업부:true'},
                 {id:'prjNm', validExp:'프로젝트명:true'},
@@ -442,10 +414,9 @@ var tssCd = '${inputData.tssCd}';
                 {id:'prodG', validExp:'제품군:true'},
                 {id:'tssStrtDd', validExp:'과제기간시작:true'},
                 {id:'tssFnhDd', validExp:'과제기간끝:true'},
-                {id:'custSqlt', validExp:'고객특성:true'},
+                {id:'custSqlt', validExp:'사업유형:true'},
                 {id:'tssAttrCd', validExp:'과제속성:true'},
                 {id:'tssType', validExp:'신제품유형:true'},
-                {id:'cmYn', validExp:'C&M:true'},
                 {id:'fcCd', validExp:'공장구분:true'}
             ]
         });
@@ -453,7 +424,7 @@ var tssCd = '${inputData.tssCd}';
         var valid2 = new Rui.validate.LValidatorManager({
             validators:[
                 {id:'tssScnCd', validExp:'과제구분:true'},
-                //{id:'grsYn', validExp:'GRS(P1)수행여부:true'},
+                //{id:'grsYn', validExp:'GRS(G1)수행여부:true'},
                 {id:'saSabunNm', validExp:'과제리더:true'},
                 {id:'bizDptCd', validExp:'사업부:true'},
                 {id:'prjNm', validExp:'프로젝트명:true'},
@@ -461,9 +432,8 @@ var tssCd = '${inputData.tssCd}';
                 {id:'prodG', validExp:'제품군:true'},
                 {id:'tssStrtDd', validExp:'과제기간시작:true'},
                 {id:'tssFnhDd', validExp:'과제기간끝:true'},
-                {id:'custSqlt', validExp:'고객특성:false'},
+                {id:'custSqlt', validExp:'사업유형:false'},
                 {id:'tssAttrCd', validExp:'과제속성:false'},
-                {id:'cmYn', validExp:'C&M:true'},
                 {id:'tssType', validExp:'신제품유형:false'}
                 
             ]
@@ -494,7 +464,6 @@ var tssCd = '${inputData.tssCd}';
                 ,{ id: 'tssAttrCd',        ctrlId: 'tssAttrCd',        value: 'value' }
                 ,{ id: 'tssType',          ctrlId: 'tssType',          value: 'value' }
                 ,{ id: 'fcCd',             ctrlId: 'fcCd',             value: 'value' }
-                ,{ id: 'cmYn',             ctrlId: 'cmYn',             value: 'value' }
                 ,{ id: 'rsstSphe',         ctrlId: 'rsstSphe',         value: 'value' }
                 ,{ id: 'ppslMbdCd',        ctrlId: 'ppslMbdCd',        value: 'value' }
 
@@ -520,7 +489,7 @@ var tssCd = '${inputData.tssCd}';
 				<tr>
 					<th align="right" ><span style="color:red;">* </span>과제구분</th>
 					<td><div id="tssScnCd" /></td>
-					<th align="right"><span style="color:red;">* </span>GRS초기(P1)<br/>수행여부</th>
+					<th align="right"><span style="color:red;">* </span>G1 수행여부</th>
 					<td><div id="grsYn" />Y</td>
 				</tr>
 				<tr>
@@ -531,9 +500,7 @@ var tssCd = '${inputData.tssCd}';
 				</tr>
 				<tr>
 					<th align="right"><span style="color:red;">* </span>프로젝트명<br />(개발부서)</th>
-					<td ><span id="prjNm"></span>
-					<th align="right"><span style="color:red;">* </span>C&M여부<br /></th>
-					<td ><select id="cmYn"></select>
+					<td colspan="3" ><span id="prjNm"></span>
 				</tr>
 				<tr>
 					<th align="right"><span style="color:red;">* </span>과제명</th>
@@ -546,13 +513,13 @@ var tssCd = '${inputData.tssCd}';
 					<td><input type="text" id="tssStrtDd"> <em class="gab">~ </em> <input type="text" id="tssFnhDd"></td>
 				</tr>
 				<tr id="displayDiv1">
-					<th align="right"><span style="color:red;">* </span>고객특성</th>
+					<th align="right"><span style="color:red;">* </span>사업유형</th>
 					<td><div id="custSqlt" /></td>
 					<th align="right"><span style="color:red;">* </span>과제속성</th>
 					<td><div id="tssAttrCd" /></td>
 				</tr>
 				<tr id="displayDiv2">
-					<th align="right"><span style="color:red;">* </span>신제품 유형</th>
+					<th align="right"><span style="color:red;">* </span>개발등급</th>
 					<td><div id="tssType" /></td>
 					<th align="right"><span style="color:red;">* </span>공장구분</th>
 					<td><div id="fcCd" /></td>
