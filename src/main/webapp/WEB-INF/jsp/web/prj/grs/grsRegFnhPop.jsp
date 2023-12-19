@@ -106,7 +106,6 @@ var exSabun = '${inputData._userSabun}';
 		    	,{ id: 'tssNm'}
 		    	,{ id: 'grsEvSt'}
 		    	,{ id: 'tssAttrNm'}
-		    	,{ id: 'cmYn'}
 		    	,{ id: 'tssDd'}
 		    	,{ id: 'dlbrCrgrNm'}
 		    	,{ id: 'evTitl'}
@@ -174,6 +173,7 @@ var exSabun = '${inputData._userSabun}';
 		    	,{ id: 'evResult'}
 		    	,{ id: 'evDt'}
 		    	,{ id: 'grsEvStNm'}
+		    	,{ id: 'tssTypeNm'}
 	             ]
         });
 		
@@ -201,7 +201,20 @@ var exSabun = '${inputData._userSabun}';
 				
 				fncPtcCpsnYDisable();
 			}else{
-				$("#grsDev").hide();
+				if ( dataSet.getNameValue(0, 'tssScnCd') == "D" ){
+					if ( dataSet.getNameValue(0, 'bizDptCd') == "05" && dataSet.getNameValue(0, 'custSqlt') == "05"    ){
+						$("#grsDev").hide();
+					}else{
+						strDt = dataSet.getNameValue(0, 'tssStrtDd');
+						endDt = dataSet.getNameValue(0, 'tssFnhDd');
+						
+						fncPtcCpsnYDisable();
+						
+						$("#grsDev").show();
+					}					
+				}else{
+					$("#grsDev").hide();
+				}
 			}
 			
 			//평가요청일 경우
@@ -582,12 +595,12 @@ var exSabun = '${inputData._userSabun}';
             	,{ id: 'bizDptNm'          , ctrlId : 'bizDptNm'         ,value : 'html' }    
             	,{ id: 'tssNm'             , ctrlId : 'tssNm'            ,value : 'html' }
             	,{ id: 'grsEvSt'           , ctrlId : 'grsEvSt'          ,value : 'html' }
-            	,{ id: 'cmYn'              , ctrlId : 'cmYn'             ,value : 'html' }
+            	,{ id: 'tssTypeNm'         , ctrlId : 'tssTypeNm'        ,value : 'html' }
             	,{ id: 'tssDd'             , ctrlId : 'tssDd'            ,value : 'html' }
             	,{ id: 'dlbrCrgrNm'        , ctrlId : 'dlbrCrgrNm'       ,value : 'html' }
             	,{ id: 'commTxt'           , ctrlId : 'commTxt'          ,value : 'value' }
             	,{ id: 'evTitl'            , ctrlId : 'evTitl'           ,value : 'value' }
-            	,{ id: 'evDt'            , ctrlId : 'evDt'           ,value : 'value' }
+            	,{ id: 'evDt'              , ctrlId : 'evDt'             ,value : 'value' }
             	,{ id: 'cfrnAtdtCdTxtNm'   , ctrlId : 'cfrnAtdtCdTxtNm'  ,value : 'value' }
             	,{ id: 'grsEvSn'           , ctrlId : 'grsEvSn'          ,value : 'value' }
             	,{ id: 'ancpOtPlnDt'       , ctrlId : 'ancpOtPlnDt'      ,value : 'value' }
@@ -918,60 +931,87 @@ var exSabun = '${inputData._userSabun}';
              var evPoint = $(".L-grid-cell-inner.L-grid-col-calScr:last").html();
              var grsMsg = "";
              
-             if( evPoint < 70  ){
-             	if (gbGrsEvSt == "P2"){
-             		alert("최종 평가 점수 합계는 70점 미만일 수 없습니다.");
-                    return;
-             	}else{
-	            	dataSet.setNameValue(0, 'dropYn', "Y");
-	            	grsMsg ="<font color='#DA1C5A'>※ 평가 환산점수 합계가  70점 미만 입니다.</font><br><br>";
-             	}
-            	 
+
+             if ( dataSet.getNameValue(0, 'tssType') == "CB" || dataSet.getNameValue(0, 'tssType') =="BB" || dataSet.getNameValue(0, 'tssType') =="TT" || dataSet.getNameValue(0, 'custSqlt') =="05" 
+            	 || dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC"	){
+            	 dataSet.setNameValue(0, 'dropYn', "N");
              }else{
-             	dataSet.setNameValue(0, 'dropYn', "N");
+            	 if( evPoint < 70  ){
+                  	if (gbGrsEvSt == "G2"){
+                  		alert("최종 평가 점수 합계는 70점 미만일 수 없습니다.");
+                         return;
+                  	}else{
+     	            	dataSet.setNameValue(0, 'dropYn', "Y");
+     	            	grsMsg ="<font color='#DA1C5A'>※ 평가 환산점수 합계가  70점 미만 입니다.</font><br><br>";
+                  	}
+                  }else{
+                  	dataSet.setNameValue(0, 'dropYn', "N");
+                  }
              }
+             
              
              dataSet.setNameValue(0, 'grsStCd', '102');
              
              if( dataSet.getNameValue(0, 'tssScnCd') == "G" ){
-            	 if (  dataSet.getNameValue(0, 'bizDptCd') == "01" || dataSet.getNameValue(0, 'bizDptCd') == "03" || dataSet.getNameValue(0, 'bizDptCd') == "06"){
-              		 if(valid1.validateGroup('aform') == false) {
-                         	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid1.getMessageList().join(''));
-                           return;
-                       }
+            	 if ( dataSet.getNameValue(0, 'tssType') == "TT"){
+        			 if(valid5.validateGroup('aform') == false) {
+                       	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid5.getMessageList().join(''));
+                         return;
+                     }
+        		 }else if (  dataSet.getNameValue(0, 'bizDptCd') == "01" || dataSet.getNameValue(0, 'bizDptCd') == "03" || dataSet.getNameValue(0, 'bizDptCd') == "06"){
+            		if(valid1.validateGroup('aform') == false) {
+                       	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid1.getMessageList().join(''));
+                         return;
+            		}
               	 }else if ( dataSet.getNameValue(0, 'bizDptCd') == "11" ) {
               		 if(valid3.validateGroup('aform') == false) {
                          	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid3.getMessageList().join(''));
                            return;
                        }
-              	 }else{
+              	}else if ( dataSet.getNameValue(0, 'bizDptCd') == "05" ) {
+             		 if(valid4.validateGroup('aform') == false) {
+                        	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid4.getMessageList().join(''));
+                          return;
+                     }	 
+              	}else if ( dataSet.getNameValue(0, 'custSqlt') == "05" ) {
+             		 if(valid4.validateGroup('aform') == false) {
+                        	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid4.getMessageList().join(''));
+                          return;
+                     }	 
+              	}else{
               		 if(valid2.validateGroup('aform') == false) {
                          	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid2.getMessageList().join(''));
                            return;
                        }
               	 }
             	 
-               	 if(Rui.isEmpty( ancpOtPlnDt.getValue())   ){
-               		alert("상품출시일는 필수입력값입니다.");
-               		return;
-               	 }
+            	 if (  dataSet.getNameValue(0, 'tssType') != "TT"  ){
+            		 if(Rui.isEmpty( ancpOtPlnDt.getValue())   ){
+                    		alert("상품출시일는 필수입력값입니다.");
+                    		return;
+                     }
+            	 }
+               	 
                	 
                	var chkCnt = fnAttchValid();
 
               	//첨부파일 체크 시 pb팀 예외
-	           	if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC" || dataSet.getNameValue(0, 'tssType') =="BB"  
-	           		|| dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC" ){
+	           	if ( dataSet.getNameValue(0, 'tssType') =="CB" || dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC" ){
 	            	
 	       		}else{		 
-	       			if (chkCnt < 3  ){
-	                	alert("첨부파일이 누락되어있습니다. ");
-	                   	return;
-	                }
+	       			if ( dataSet.getNameValue(0, 'custSqlt') != "05" ){
+       				 if (chkCnt < 3  ){
+                       	 alert("첨부파일이 누락되어있습니다. ");
+                       	 return;
+                        }
+       			 }
 	       		}
                 
-                if( fncInputChk()  ){
-                	return true;
-                }
+	           	if ( dataSet.getNameValue(0, 'custSqlt') != "05" ){
+	           		 if( fncInputChk()   ){
+	                   	 return true;
+	                 }	
+           	 	}
                 
              }else{
             	 
@@ -979,24 +1019,42 @@ var exSabun = '${inputData._userSabun}';
             		 var chkCnt = fnAttchValid();
 
             		//첨부파일 체크 시 pb팀 예외
-                	 if ( dataSet.getNameValue(0, 'tssType') =="CB" ||  dataSet.getNameValue(0, 'tssType') =="RC" || dataSet.getNameValue(0, 'tssType') =="BB"   
-                		 || dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC"	){
+                	 if ( dataSet.getNameValue(0, 'tssType') =="CB" || dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC"	){
             		 }else{		 
-            			 if (chkCnt < 3  ){
-                        	 alert("첨부파일이 누락되어있습니다. ");
-                        	 return;
-                         }
+            			 if ( dataSet.getNameValue(0, 'custSqlt') != "05" ){
+            				 if (chkCnt < 3  ){
+                            	 alert("첨부파일이 누락되어있습니다. ");
+                            	 return;
+                             }
+            			 }
             		 }
             	 }
             	 
-            	 if(valid.validateGroup('aform') == false) {
-                   	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid.getMessageList().join(''));
-                     return;
-                 }
+            	 if ( dataSet.getNameValue(0, 'tssType') == "TT"){
+        			 if(valid5.validateGroup('aform') == false) {
+                       	 alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid5.getMessageList().join(''));
+                         return;
+                     }
+        		 }else if ( dataSet.getNameValue(0, 'bizDptCd') == "05"){
+ 					if(valid4.validateGroup('aform') == false) {
+                     	alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid4.getMessageList().join(''));
+                       	return;
+                  	}	 
+            	 }else if ( dataSet.getNameValue(0, 'custSqlt') == "05" ){
+ 					if(valid4.validateGroup('aform') == false) {
+                     	alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid4.getMessageList().join(''));
+                       	return;
+                  	}		
+             	 }else {
+             		if(valid.validateGroup('aform') == false) {
+ 	                   	alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid.getMessageList().join(''));
+                      	return;
+                  	}
+             	}	
              }
              
-             if ( dataSet.getNameValue(0, 'tssType') =="CB" || dataSet.getNameValue(0, 'tssType') =="RC" || dataSet.getNameValue(0, 'tssType') =="BB"   
-            	 || dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC"	){
+             if ( dataSet.getNameValue(0, 'tssType') =="CB" || dataSet.getNameValue(0, 'tssType') =="IA" ||  dataSet.getNameValue(0, 'custSqlt') =="05" 
+            		 || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC"	){
              }else{	 
             	 if( gridDataSet.getCount() == 0  ){
                 	 alert("GRS평가표를 작성하세요");
@@ -1145,6 +1203,31 @@ var exSabun = '${inputData._userSabun}';
              ]
          });
          
+         var valid4 = new Rui.validate.LValidatorManager({
+        	 validators:[
+            	  { id: 'evTitl'            , validExp:'회의 장소:true'}
+            	 ,{ id: 'evDt'              , validExp:'회의일정:true'}
+            	 ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true'}
+            	 ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
+            	 ,{ id: 'commTxt'           , validExp:'Comment:true'}
+             ]
+         });
+         
+       //T형
+         var valid5 = new Rui.validate.LValidatorManager({
+        	 validators:[
+            	  { id: 'evTitl'            , validExp:'회의일정/장소:true'}
+            	 ,{ id: 'evDt'            , validExp:'회의일정/장소:true'}
+            	 ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true'}
+            	 ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
+            	 ,{ id: 'commTxt'           , validExp:'Comment:true'}
+            	 ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
+            	 ,{ id: 'ptcCpsnY'          , validExp:'투입인원:true:minNumber=1'}
+            	 ,{ id: 'expArslY'          , validExp:'투입비용:true:minNumber=0.1'}
+             ]
+         });
+         
+       
          fncPtcCpsnYDisable = function(){
         	 var arr1 = strDt.split("-"); 
              var arr2 = endDt.split("-"); 
@@ -1270,8 +1353,8 @@ var exSabun = '${inputData._userSabun}';
 					<span id="grsEvStNm"></<span>
 					<!-- <span id="grsEvSt"></<span> -->
 				</td>
-				<th align="right">C&M여부</th>
-				<td ><span type="text" id="cmYn"></span></td>
+				<th align="right">개발등급</th>
+				<td ><span type="text" id="tssTypeNm"></span></td>
 			</tr>
 			<tr>
 				<th align="right">과제기간</th>

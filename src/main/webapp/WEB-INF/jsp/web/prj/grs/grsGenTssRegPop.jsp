@@ -316,7 +316,7 @@
 				<tr>
 					<th align="right" ><span style="color:red;">* </span>과제구분</th>
 					<td><div id="tssScnCd" /></td>
-					<th align="right"><span style="color:red;">* </span>GRS초기(P1)<br/>수행여부</th>
+					<th align="right"><span style="color:red;">* </span>GRS초기<br/>수행여부</th>
 					<td><div id="grsYn" /></td>
 				</tr>
 				<tr>
@@ -340,7 +340,7 @@
 					<td><input type="text" id="tssStrtDd"> <em class="gab"> ~ </em> <input type="text" id="tssFnhDd"></td>
 				</tr>
 				<tr id="displayDiv1">
-					<th align="right"><span style="color:red;">* </span>고객특성</th>
+					<th align="right"><span style="color:red;">* </span>사업유형</th>
 					<td><div id="custSqlt" /></td>
 					<th align="right"><span style="color:red;">* </span>과제속성</th>
 					<td><div id="tssAttrCd" /></td>
@@ -358,7 +358,7 @@
 	</div>
   		<div class="titArea">
 	    <div class="LblockButton">
-	        <button type="button" id="btnMkInnoReg" onclick="fncTssReg()">등록</button>
+	        <button type="button" id="btnMkInnoReg" onclick="fncTssReg()">수정</button>
 	        <button type="button" id="butCancel" onClick="fncCancel()">취소</button>
 	    </div>
 	</div>  

@@ -134,43 +134,31 @@ var grsUserChk = '${inputData.grsUserChk}';
         	 document.getElementById("cnt_text").innerHTML = '총: '+ listDataSet.getCount();
         	 paging(listDataSet,"listGrid");
         	 
-        	 if(  	roleId.indexOf("WORK_IRI_T01") > -1			//시스템관리자
-        				|| roleId.indexOf("WORK_IRI_T03") > -1		//과제담당자
+    	 		if(  (roleId.indexOf("WORK_IRI_T01") > -1			//시스템관리자
+    				|| roleId.indexOf("WORK_IRI_T03") > -1		//과제담당자
 
-        				|| roleId.indexOf("WORK_IRI_T08") > -1		//창호재GRS
-        				|| roleId.indexOf("WORK_IRI_T09") > -1		//장식재GRS
-        				|| roleId.indexOf("WORK_IRI_T10") > -1		//ALGRS
-        				|| roleId.indexOf("WORK_IRI_T11") > -1		//표면소재GRS
-        				|| roleId.indexOf("WORK_IRI_T12") > -1		//고기능소재GRS
-        				|| roleId.indexOf("WORK_IRI_T13") > -1		//자동차GRS
-        				|| roleId.indexOf("WORK_IRI_T14") > -1		//법인GRS
-        				|| roleId.indexOf("WORK_IRI_T25") > -1		//인테리어GRS
-        			){
-        		 		if( roleId.indexOf("WORK_IRI_T01") > -1	|| roleId.indexOf("WORK_IRI_T03") > -1  ){
-        		 			roleCheck ="Y";
-        		 			$("#butTssNew").show();
-	        		 		$("#butAppr").show();
-        		 		}else{
-        				 	roleCheck ="Y";
-        				 	
-        				 	if ( grsUserChk == "Y" ){
-        		 				$("#butTssNew").show();
-    	        		 		$("#butAppr").show();
-                   	   		}else{
-	                   	   		if (loginSabun =="00206548" || loginSabun =="00206494" || loginSabun =="00209071" || loginSabun =="00206740" ||  loginSabun =="00207772"  ){
-			        		 		roleCheck ="Y";
-		                   	   		$("#butTssNew").show();
-	    	        		 		$("#butAppr").show();
-	    		 				}else{
-	    		        	 		$("#butTssNew").hide();
-	    		        	 		$("#butAppr").hide();
-	    		 				}
-                   	   		}
-        		 		} 	
-        			}else{
-	        	 		$("#butTssNew").hide();
-	        	 		$("#butAppr").hide();
-        			}
+    				|| roleId.indexOf("WORK_IRI_T08") > -1		//창호재GRS
+    				|| roleId.indexOf("WORK_IRI_T09") > -1		//장식재GRS
+    				|| roleId.indexOf("WORK_IRI_T10") > -1		//ALGRS
+    				|| roleId.indexOf("WORK_IRI_T11") > -1		//표면소재GRS
+    				|| roleId.indexOf("WORK_IRI_T12") > -1		//고기능소재GRS
+    				|| roleId.indexOf("WORK_IRI_T13") > -1		//자동차GRS
+    				|| roleId.indexOf("WORK_IRI_T14") > -1		//법인GRS
+    				|| roleId.indexOf("WORK_IRI_T25") > -1		//인테리어GRS
+    				) ||  grsUserChk == "Y" 
+    			){
+    		 			roleCheck ="Y";
+    		 			$("#butTssNew").show();
+     		 			$("#butAppr").show();
+    			}else{
+    				if ( grsUserChk == "Y" || (loginSabun =="00206548" || loginSabun =="00206494" || loginSabun =="00209071" || loginSabun =="00206740" ||  loginSabun =="00207772" ||  loginSabun =="00206461")){
+		 				$("#butTssNew").show();
+     		 			$("#butAppr").show();
+				 	}else{
+	    				$("#butTssNew").hide();
+	     	 			$("#butAppr").hide();
+				 	}
+    			}
          });
 		
          appDataSet = new Rui.data.LJsonDataSet({
@@ -308,8 +296,8 @@ var grsUserChk = '${inputData.grsUserChk}';
          fncTssPop = function(row){
         	 var recode = listDataSet.getAt(row);
          	 var param = "?tssCd="+recode.get("tssCd");
-        	 
-         	 if (  recode.get("grsEvSt") == "M" &&  recode.get("grsStCd") == "101"  ){
+         	
+         	 if (  recode.get("grsEvSt") == "M" && recode.get("grsStCd") == "101"  ){
          		tssUpdatePopDialog.setUrl('<c:url value="/prj/grs/tssUpdatePop.do"/>'+param);
          		tssUpdatePopDialog.show(true);
          	 }else{
@@ -361,7 +349,7 @@ var grsUserChk = '${inputData.grsUserChk}';
 			       --%>       
 		        	   
 		        	   var url = '<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00382&from=iris&guid='+guid;
-		                openWindow(url, 'grsApprPop', 800, 500, 'yes');
+		               openWindow(url, 'grsApprPop', 800, 500, 'yes');
 		           }
 		       });
 
@@ -373,7 +361,12 @@ var grsUserChk = '${inputData.grsUserChk}';
 		    	// 품의 가능 과제 검사
 	        	for( var i = 0 ; i < listDataSet.getCount() ; i++ ){
 	                if(listDataSet.isMarked(i)){
-	                    if(listDataSet.getNameValue(i, 'grsStCd') !="102"){
+	                    if ( listDataSet.getNameValue(i, 'tssScnCd') == "G" ){
+	                    	alert("연구과제는 GRS품의 제외대상입니다.");
+	                        return;
+	                    }
+	                	
+	                	if(listDataSet.getNameValue(i, 'grsStCd') !="102"){
 	                        alert("GRS평가완료 과제만 품의 요청이 가능합니다.");
 	                        return;
 	                    }
@@ -424,12 +417,46 @@ var grsUserChk = '${inputData.grsUserChk}';
     	fncExcelDownLoad = function() {
     		// 엑셀 다운로드시 전체 다운로드를 위해 추가
     		listDataSet.clearFilter();
-    		var excelColumnModel = listColumnModel.createExcelColumnModel(false);
-            duplicateExcelGrid(excelColumnModel);
-			nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.xls');
-         // 목록 페이징
-	    		paging(listDataSet,"listGrid");
+    		var dataSet2 = listDataSet.clone('listDataSet');
+    		/* [Grid] 엑셀 */
+            var grid2 = new Rui.ui.grid.LGridPanel({
+                columnModel: columnModel,
+                dataSet: dataSet2,
+                width: 0,
+                height: 0
+            });
+    		
+            grid2.render('defaultGrid2');
+	         // 목록 페이징
+            paging(listDataSet,"listGrid");
+	         
+            // 목록 페이징
+            if(listDataSet.getCount() > 0) {
 
+            	var excelColumnModel = new Rui.ui.grid.LColumnModel({
+                    gridView: columnModel,
+                    columns: [
+                    	 { field: 'tssScnNm',        label: '과제구분', sortable: true, align:'center', width: 120 }
+                    	,{ field: 'wbsCd',      label: 'WBS코드', sortable: true, align:'center', width: 85}
+                     , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 240 }
+                     , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
+                     , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
+                     , { field: 'dlbrCrgrNm',     label: '심의담당자', sortable: true, align:'center', width: 100 }
+                     , { id: 'G1', label: '과제기간(계획일)' }
+                     , { field: 'tssDd',    label: '과제기간', sortable: true, align:'center', width: 73 }
+                     , { field: 'grsEvStNm',    label: '심의단계', sortable: true, align:'center', width: 50 }
+                     , { field: 'grsStNm',        label: 'GRS상태', sortable: true, align:'center', width: 80}
+                     , { field: 'evResult', label: '평가결과',  sortable: true, align:'center', width: 117 }
+                 ]
+             	});
+            	duplicateExcelGrid(excelColumnModel);
+            	
+				nG.saveExcel(encodeURIComponent('GRS관리_') + new Date().format('%Y%m%d') + '.xls',{
+					columnModel: excelColumnModel
+				});
+			}else {
+                Rui.alert("조회 후 엑셀 다운로드 해주세요.");
+            }
         };
 		
 	});
@@ -513,7 +540,7 @@ var grsUserChk = '${inputData.grsUserChk}';
 	                </div>
 	            </div>
 				<div id="listGrid"></div>
-				<!-- <div style="display:none" id="defaultGrid2"></div>  -->
+				<div style="display:none" id="defaultGrid2"></div>
     </div>
 </div>    
 	            

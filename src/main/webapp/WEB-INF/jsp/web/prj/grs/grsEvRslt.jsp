@@ -89,7 +89,7 @@
         });
         cboGrsEvSt.on('blur', function(e) {
             //진행중일때 초기상태 선택 불가
-            if(lvTssScnCd!="D" && lvPgsStepCd == "PG" && cboGrsEvSt.getValue() == "P1") {
+            if(lvTssScnCd!="D" && lvPgsStepCd == "PG" && cboGrsEvSt.getValue() == "G1") {
                 Rui.alert("진행중일때 초기 단계는 선택 불가입니다.");
                 cboGrsEvSt.setValue("");
                 return;
@@ -245,7 +245,7 @@
                 , { id: 'itgSrch' }       //
                 , { id: 'attcFilId' }     //
                 , { id: 'grsStCd' }     //
-                , { id: 'cmYn' }     //
+                , { id: 'tssTypeNm' }     //
             ]
         });
         dataSet.on('load', function(e) {
@@ -263,8 +263,8 @@
             //심의단계
             lvGrsEvSt = dataSet.getNameValue(0, "grsEvSt");
             if(stringNullChk(lvGrsEvSt) == "") {
-                if(lvPgsStepCd == "PL") lvGrsEvSt = "P1";     //PL:계획, P1:초기
-                else if(lvPgsStepCd == "CM") lvGrsEvSt = "P2"; //CM:종료
+                if(lvPgsStepCd == "PL") lvGrsEvSt = "G1";     //PL:계획, G1:초기
+                else if(lvPgsStepCd == "CM") lvGrsEvSt = "G2"; //CM:종료
             }
             cboGrsEvSt.setValue(lvGrsEvSt);
             dataSet.setNameValue(0, "grsEvSt", lvGrsEvSt);

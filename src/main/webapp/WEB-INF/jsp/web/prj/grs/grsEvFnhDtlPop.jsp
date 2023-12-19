@@ -47,7 +47,6 @@ var lvAttcFilId;
 		    	,{ id: 'tssNm'}
 		    	,{ id: 'grsEvSt'}
 		    	,{ id: 'tssAttrNm'}
-		    	,{ id: 'cmYn'}
 		    	,{ id: 'tssDd'}
 		    	,{ id: 'dlbrCrgrNm'}
 		    	,{ id: 'evTitl'}
@@ -117,6 +116,7 @@ var lvAttcFilId;
 		    	,{ id: 'evResult'}
 		    	,{ id: 'evDt'}
 		    	,{ id: 'grsEvStNm'}
+		    	,{ id: 'tssTypeNm'}
 	             ]
         });
 		
@@ -126,7 +126,15 @@ var lvAttcFilId;
 			if( dataSet.getNameValue(0, 'tssScnCd') == "G"  ){
 				$("#grsDev").show();
 			}else{
-				$("#grsDev").hide();
+				if ( dataSet.getNameValue(0, 'tssScnCd') == "D" ){
+					if ( dataSet.getNameValue(0, 'bizDptCd') == "05" && dataSet.getNameValue(0, 'custSqlt') == "05"    ){
+						$("#grsDev").hide();
+					}else{
+						$("#grsDev").show();
+					}					
+				}else{
+					$("#grsDev").hide();
+				}
 			}
 
 			$("#trEv").hide();
@@ -311,7 +319,7 @@ var lvAttcFilId;
             	,{ id: 'bizDptNm'          , ctrlId : 'bizDptNm'         ,value : 'html' }    
             	,{ id: 'tssNm'             , ctrlId : 'tssNm'            ,value : 'html' }
             	,{ id: 'grsEvSt'           , ctrlId : 'grsEvSt'          ,value : 'html' }
-            	,{ id: 'cmYn'              , ctrlId : 'cmYn'             ,value : 'html' }
+            	,{ id: 'tssTypeNm'         , ctrlId : 'tssTypeNm'        ,value : 'html' }
             	,{ id: 'tssDd'             , ctrlId : 'tssDd'            ,value : 'html' }
             	,{ id: 'dlbrCrgrNm'        , ctrlId : 'dlbrCrgrNm'       ,value : 'html' }
             	,{ id: 'commTxt'           , ctrlId : 'commTxt'          ,value : 'value' }
@@ -590,8 +598,8 @@ var lvAttcFilId;
 					<span id="grsEvStNm"></<span>
 					<!-- <span id="grsEvSt"></<span> -->
 				</td>
-				<th align="right">C&M여부</th>
-				<td ><span type="text" id="cmYn"></span></td>
+				<th align="right">개발등급</th>
+				<td ><span type="text" id="tssTypeNm"></span></td>
 			</tr>
 			<tr>
 				<th align="right">과제기간</th>

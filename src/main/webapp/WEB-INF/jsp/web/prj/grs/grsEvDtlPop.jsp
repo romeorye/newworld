@@ -141,7 +141,16 @@ var userIds;
 					$("#trGrsEvMType").show();			//중간평가
 				}
 			}else{
-				$("#grsDev").hide();
+				//$("#grsDev").hide();
+				if ( dataSet.getNameValue(0, 'tssScnCd') == "D" ){
+					if ( dataSet.getNameValue(0, 'bizDptCd') == "05" && dataSet.getNameValue(0, 'custSqlt') == "05"    ){
+						$("#grsDev").hide();
+					}else{
+						$("#grsDev").show();
+					}					
+				}else{
+					$("#grsDev").hide();
+				}
 			}
 			
 			commTxt.setEditable(false);
