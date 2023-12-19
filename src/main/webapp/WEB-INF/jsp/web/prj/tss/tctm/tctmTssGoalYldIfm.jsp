@@ -311,9 +311,9 @@
             
             Rui.alert(data.records[0].rtVal);
             
-            if(data.records[0].rtCd == "SUCCESS") {
-                fnSearch(data.records[0].targetDs);
-            }
+            //if(data.records[0].rtCd == "SUCCESS") {
+            //    fnSearch(data.records[0].targetDs);
+            //}
         });
         dm.on('failure', function(e) {
             var data = dataSet1.getReadData(e);
@@ -617,9 +617,10 @@
 </script>
 <script>
 $(window).load(function() {
-    // initFrameSetHeight();
-    var fId = window.frameElement.id;
-    window.parent.document.getElementById(fId).height = '600px';
+	setTimeout(() => {
+		initFrameSetHeight();	
+	}, 500);
+	//	initFrameSetHeight("smryFormDiv");
 });
 </script>
 </head>

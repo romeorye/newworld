@@ -100,7 +100,7 @@
 				<tr>
 					<th align="right">진행단계</th>
 					<td><span id="tssStepNm"/></td>
-					<th align="right" id="grsYnTd0101" style="display: none">GRS(P1) 사용여부</th>
+					<th align="right" id="grsYnTd0101" style="display: none">GRS 사용여부</th>
                           <td id="grsYnTd0102" style="display: none"><div id="grsYn"/></td>
                           <th align="right" id="grsYnTd0201"">GRS 상태</th>
                           <td id="grsYnTd0202"><span id="grsStepNm"/> </td>

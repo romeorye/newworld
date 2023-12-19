@@ -241,9 +241,9 @@
                     <div class="titArea"><h3>3. 향후 계획</h3></div>
                     <table class="table table_txt_right">
                         <colgroup>
-                            <col style="width: 200px;" />
+                            <col style="width: 100px;" />
                             <col style="width: *;" />
-                            <col style="width: 150px;" />
+                            <col style="width: 250px;" />
                         </colgroup>
                         <tbody>
                         <tr>
@@ -251,7 +251,7 @@
                             <td colspan="2">
                                 <table class="table table_txt_right">
                                     <colgroup>
-                                        <col style="width: 250px;" />
+                                        <col style="width: 100px;" />
                                         <col style="width: *;" />
                                     </colgroup>
                                     <tbody>

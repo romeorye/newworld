@@ -366,7 +366,7 @@
                             nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssDcacDetail.do'/>"+urlParam);
                         }
                         //진행_GRS완료_완료
-                        else if(pGrsEvSt == "P2") {
+                        else if(pGrsEvSt == "G2") {
                             nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssCmplDetail.do'/>"+urlParam);
                         }
                         //진행_GRS완료_변경

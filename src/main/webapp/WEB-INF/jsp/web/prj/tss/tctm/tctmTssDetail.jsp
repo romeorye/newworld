@@ -34,6 +34,8 @@
 
         var pgsStepNm = "";
         var pgsStepCd = "";
+        var grsBtnYn = "";
+        
         var dataSet;
 
         var isEditable = false;
@@ -419,6 +421,7 @@
                 hasAltr = stringNullChk(dataSet.getNameValue(0, "hasAltr"));
                 grsYn = stringNullChk(dataSet.getNameValue(0, "grsYn"));
                 isGrsAl = stringNullChk(dataSet.getNameValue(0, "isGrsAl"));
+                grsBtnYn = stringNullChk(dataSet.getNameValue(0, "grsBtnYn"));
 
 
                 //계획 단계의 경우 SEED 표현, width 조정
@@ -664,7 +667,7 @@
             }
 
             function isOwner() {
-                return "TR01" == gvRoleId || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew") || "TR11" == gvRoleId;
+            	return "TR01" == gvRoleId || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew") || "TR11" == gvRoleId || "Y" == grsBtnYn;
             }
 
             function serDisableForm(){
@@ -837,9 +840,9 @@
             btnDelRq.on('click', function () {
                 if (confirm("삭제를 하시겠습니까?")) {
                     dm.updateDataSet({
-                        modifiedOnly: false,
                         <%--url:'<c:url value="/prj/tss/gen/deleteGenTssPlnMst.do"/>',--%>
                         url: '<%=request.getContextPath()+TctmUrl.doDeleteInfo%>',
+                        modifiedOnly: false,
                         dataSets: [dataSet],
                         params: {
                             tssCd: gvTssCd
@@ -1562,7 +1565,8 @@
    		applyTo : 'custSqlt',
    		name: 'custSqlt',
    		emptyText: '전체',
-   		url: '<c:url value="/common/code/retrieveCodeValueAllList.do?comCd=CUST_SQLT"/>',
+   		//url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=CUST_SQLT"/>',
+   		url: '<c:url value="/common/code/retrieveCodeAllListForCache.do?comCd=CUST_SQLT"/>',
    		displayField: 'COM_DTL_NM',
            valueField: 'COM_DTL_CD',
            width: 150

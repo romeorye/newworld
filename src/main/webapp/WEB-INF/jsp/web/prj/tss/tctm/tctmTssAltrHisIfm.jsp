@@ -172,7 +172,7 @@
         var butExcel = new Rui.ui.LButton('butExcel');
         butExcel.on('click', function() {
             if(dataSet.getCount() > 0) {
-                grid.saveExcel(toUTF8('과제관리_일반과제_변경이력_') + new Date().format('%Y%m%d') + '.xls');
+                grid.saveExcel(toUTF8('과제관리_기술팀과제_변경이력_') + new Date().format('%Y%m%d') + '.xls');
             } else {
                 Rui.alert('조회된 데이타가 없습니다.');
             }
