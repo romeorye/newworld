@@ -190,7 +190,7 @@
                       (SELECT * FROM
                       (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
                         ON m.TSS_CD = g.TSS_CD
-                        WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
+                        WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='G1')
 				) z
 		where  1=1
 		]]>
@@ -212,6 +212,20 @@
             where  	del_yn ='N'
             and     tss_scn_cd ='D'
             and     sa_sabun_new = #{_userSabun}
+            
+            union 
+ 
+			 select distinct wbs_cd
+			 from   IRIS_TSS_MGMT_MST
+			 where  prj_cd = (
+							 select prj_cd 
+							 from iris_prj_rsst_mst 
+							 where  DEPT_CD = (
+												select  sa_dept_new 
+												from iris_sso_user 
+												where sa_sabun_new = #{_userSabun}
+												)
+							)
             )
             or  Z.PRJ_CD in (select prj_cd  from iris_prj_rsst_mst where  pl_emp_no = #{_userSabun})
 
@@ -360,6 +374,12 @@
             ,dbo.fn_getQgateStepNm(A.WBS_CD,'1') as qgateStepNm
             ,a.GRS_YN as grsYn
             ,(select top 1  iif(TSS_CD_SN>0,'Y','N') from IRIS_GRS_EV_RSLT_RGST where TSS_CD=substring(#{tssCd},1,9)+'2' and DROP_YN!='Y' and GRS_EV_M_TYPE='AL' order by  TSS_CD_SN desc) as isGrsAl
+            ,(select case when count(tss_cd)  > 0 then 'Y' else 'N' end 
+			  from IRIS_GRS_EV_RSLT_RGST 
+			  where DLBR_CRGR = #{_userSabun}
+			  and   TSS_CD_SN =  (select max(TSS_CD_SN) from IRIS_GRS_EV_RSLT_RGST where DLBR_CRGR = #{_userSabun})
+			  ) as grsBtnYn
+            
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
             ON A.PRJ_CD = B.PRJ_CD
