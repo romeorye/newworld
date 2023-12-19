@@ -29,10 +29,10 @@
 				   ,m.pgsStepCd
 				   ,m.evResult
 				   ,m.grsEvSn
-				   ,m.grsEvSt
+				   ,rtrim(m.grsEvSt) as grsEvSt
 				   ,m.prjCd
 				   ,m.evDt
-				   ,m.tssType
+				   ,m.tssType 
 			from   (
 			select  dbo.fn_getComDtlNm('TSS_SCN_CD',b.tss_scn_cd) AS tssScnNm
 				   ,iif(b.PGS_STEP_CD='PL' AND (select count(*) from IRIS_TSS_MGMT_MST where PK_WBS_CD = b.pk_wbs_cd)=1,'SEED-'+b.wbs_cd  , b.wbs_cd) as wbsCd
@@ -44,6 +44,7 @@
 				   , dbo.fn_getComDtlNm('GRS_EV_ST',a.grs_ev_st)  AS grsEvStNm
 				   , dbo.fn_getComDtlNm('GRS_ST',a.grs_st_cd)  AS grsStNm
 				   , case when a.drop_yn = 'Y' then 'DROP'
+						  when a.GRS_EV_M_TYPE = 'HD' then '보류'
 						  when a.grs_st_cd ='101' and (a.drop_yn is null  or  a.drop_yn = '') then ''
 						  else 'PASS' end as evResult
 				   ,a.tss_cd as tssCd
@@ -125,6 +126,7 @@
 				,m.evDt
 				,m.dlbrCrgr
 				,m.tssType 
+				,m.tssScnCd
 		from   tmp_grs m
 		where  1=1
 		 ]]>
@@ -248,7 +250,7 @@
            ,b.sa_sabun_name                                                          AS dlbrCrgrNm       --심의 담당자
            ,A.TSS_CD                                                                 AS tssCd      --과제코드
            ,B.TSS_CD_SN                                                              AS tssCdSn,
-            A.PGS_STEP_CD                                                            AS pgsStepCd  --진행단계코드
+            A.PGS_STEP_CD                                                            AS pgsStepCd  --진행단계코드439600
             ,
             A.TSS_SCN_CD                                                             AS tssScnCd   --과제구분코드
             ,
@@ -278,7 +280,6 @@
             ,A.TSS_FNH_DD AS tssFnhDd
             ,iif(A.TSS_ST='101' AND B.DROP_YN is null,'',iif(B.DROP_YN='Y','DROP','PASS')) as evResult
             ,iif(B.GRS_EV_M_TYPE is null,'',B.GRS_EV_M_TYPE) as grsEvMType
-            ,a.cm_yn as cmYn
             ,B.EV_DT
             ]]>
         <choose>
@@ -778,7 +779,6 @@
                m.RSST_SPHE AS rsstSphe,
                m.PPSL_MBD_CD AS ppslMbdCd,
                m.FC_CD as fcCd,
-			   m.CM_YN as cmYn,
 			    case when CUST_SQLT = '01' then 'B2B제품군'
 			        when CUST_SQLT = '02' then '일반제품군'
 					else '' end as custSqltNm,
@@ -821,7 +821,6 @@
                m.RSST_SPHE AS rsstSphe,
                m.PPSL_MBD_CD AS ppslMbdCd,
                m.FC_CD as fcCd,
-			   m.CM_YN as cmYn,
 			    case when CUST_SQLT = '01' then 'B2B제품군'
 			        when CUST_SQLT = '02' then '일반제품군'
 					else '' end as custSqltNm,
@@ -884,7 +883,6 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	           NPROD_SALS_PLN_Y,
 	           CTY_OT_PLN_M,
 	           FC_CD,
-	           CM_YN,
 	           RSST_SPHE,
 	           PPSL_MBD_CD,
 	           FRST_RGST_DT,
@@ -918,7 +916,6 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	           cast(#{nprodSalsPlnY} as FLOAT),
 				#{ctyOtPlnM},
 				#{fcCd},
-				#{cmYn},
 				#{rsstSphe},
 				#{ppslMbdCd},
 				GETDATE(),
@@ -948,7 +945,6 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 				NPROD_SALS_PLN_Y = cast(#{nprodSalsPlnY} as FLOAT),
 				CTY_OT_PLN_M = #{ctyOtPlnM},
 				FC_CD = #{fcCd},
-				CM_YN = #{cmYn},
 	           LAST_MDFY_DT = GETDATE(),
 	           LAST_MDFY_ID = #{userId}
     ;
@@ -989,7 +985,6 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             ,LAST_MDFY_ID
             ,GRS_YN
             ,FC_CD 
-            ,CM_YN 
             ,RSST_SPHE 
             ,PPSL_MBD_CD 
         )
@@ -1023,7 +1018,6 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 ,g.LAST_MDFY_ID
                 ,g.GRS_YN
                 ,g.FC_CD
-                ,g.CM_YN
                 ,g.RSST_SPHE
                 ,g.PPSL_MBD_CD
             FROM IRIS_GRS_MGMT_MST g
@@ -1051,7 +1045,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 ,CTY_OT_PLN_M
                 ,ANCP_OT_PLN_DT
 		<choose>
-		<when test="grsEvSt == 'P2' ">
+		<when test="grsEvSt == 'G2' ">
 			    ,NPROD_NM          
 				,NPROD_SALS_CUR_Y  
 				,NPROD_SALS_CUR_Y_1
@@ -1107,7 +1101,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 ,#{ctyOtPlnM}
                 ,#{ancpOtPlnDt}
                <choose>
-                <when test="grsEvSt == 'P2' ">
+                <when test="grsEvSt == 'G2' ">
 			    ,#{nprodNm}
 				,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY} = '' THEN '0' ELSE #{nprodSalsCurY} END)
 				,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY1} = '' THEN '0' ELSE #{nprodSalsCurY1} END)
@@ -1276,8 +1270,9 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             ,A.TSS_NM         AS tssNm      --과제명
             ,ISNULL(A.SA_SABUN_NAME, (select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new=A.SA_SABUN_NEW)) as saSabunName  -- 과제책임자
             ,ISNULL(A.TSS_TYPE,'')       AS tssType    -- 개발유형
+            ,dbo.fn_getComDtlNm('TSS_TYPE',A.TSS_TYPE)   AS tssTypeNm     -- 심의단계명
             ,B.EV_TITL        AS evTitl     --일시, 장소
-		    ,B.grs_ev_st	     AS grsEvSt	--P1:초기,P2:최종,M:변경      심의단계
+		    ,B.grs_ev_st	     AS grsEvSt	--G1:초기,G2:최종,M:변경      심의단계
 		    ,dbo.fn_getComDtlNm('GRS_EV_ST',B.grs_ev_st)   AS grsEvStNm     -- 심의단계명
             ,(select stuff((select ',' +
                                   sa_name
@@ -1289,7 +1284,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                            FOR XML PATH ('')), 1, 1, '')) AS cfrnAtdtCdTxtNm --참석자
             ,B.COMM_TXT       AS commTxt            --주요 Comment
             ,B.ATTC_FIL_ID    AS attcFilId        --첨부파일
-            ,(SELECT CONVERT(DECIMAL(3,1),ROUND(avg(srr.EV_SCR),1),2)
+            ,(SELECT CONVERT(DECIMAL(3,1),ROUND(sum(srr.EV_SCR / 5 * sm.WGVL),1),2)
              FROM iris_grs_ev_std_rslt_rgst srr,
                   IRIS_GRS_EV_STD_MGMT sm
              WHERE sm.GRS_EV_SN = srr.GRS_EV_SN
@@ -1365,7 +1360,6 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 				,m.sa_sabun_nm   as  saSabunNm  
 				,m.BIZ_DPT_CD    as  bizDptCd   
 				,m.PROD_G        as  prodG      
-				,m.CM_YN         as  cmYn       
 				,m.CUST_SQLT     as  custSqlt   
 				,m.TSS_CD        as  tssCd      
 				,m.WBS_CD        as  wbsCd      
@@ -1388,7 +1382,6 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 					,dbo.fn_getSabunName(sa_sabun_new) as sa_sabun_nm
 					,BIZ_DPT_CD
 					,PROD_G
-					,CM_YN
 					,TSS_CD
 					,WBS_CD
 					,TSS_NM
@@ -1413,7 +1406,6 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 					,dbo.fn_getSabunName(SA_SABUN_NEW) as sa_sabun_nm
 					,BIZ_DPT_CD
 					,PROD_G
-					,CM_YN
 					,TSS_CD
 					,WBS_CD
 					,TSS_NM
@@ -1441,8 +1433,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 				,m.bizDptNm             as bizDptNm            
 				,m.tssAttrNm            as tssAttrNm           
 				,m.TSS_NM               as tssNm              
-				,m.GRS_EV_ST            as grsEvSt           
-				,m.CM_YN                as cmYn               
+				,rtrim(m.GRS_EV_ST)     as grsEvSt           
 				,m.tssDd                as tssDd               
 				,m.dlbrCrgrNm           as dlbrCrgrNm          
 				,m.EV_TITL              as evTitl             
@@ -1511,15 +1502,16 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 				,m.evResult                
 				,m.nprodNm
 				,m.tssType
-				,dbo.fn_getComDtlNm('GRS_EV_ST',m.GRS_EV_ST)  AS grsEvStNm
+				,dbo.fn_getComDtlNm('GRS_EV_ST',rtrim(m.GRS_EV_ST))  AS grsEvStNm
+				,dbo.fn_getComDtlNm('TSS_TYPE',rtrim(m.tssType))  AS tssTypeNm
+				,m.custSqlt
 		from    (
 				select   dbo.fn_getPrjName(b.PRJ_CD)						as prjNm
 						,dbo.fn_getComDtlNm('BIZ_DPT_CD', b.BIZ_DPT_CD)		AS bizDptNm
 						,dbo.fn_getComDtlNm('TSS_ATTR_CD', b.TSS_ATTR_CD)	AS tssAttrNm
 						,b.TSS_NM						                    
-						,a.GRS_EV_ST										
-						,b.CM_YN		
-						,b.TSS_STRT_DD+' ~ '+b.TSS_FNH_DD					AS tssDd      --과제기간
+						,rtrim(a.GRS_EV_ST) as  GRS_EV_ST											
+						,b.TSS_STRT_DD+' ~ '+isnull((select  tss_fnh_dd from iris_tmp_tss where tss_cd =#{tssCd}), b.TSS_FNH_DD ) AS tssDd      --과제기간
 						,dbo.fn_getSabunName(a.DLBR_CRGR	)				AS dlbrCrgrNm
 						,a.EV_TITL
 						,(select stuff((select ',' +
@@ -1534,8 +1526,10 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 						,a.grs_ev_sn
 						,a.grs_st_cd
 						, case when a.drop_yn = 'Y' then 'DROP'
+						  when a.GRS_EV_M_TYPE = 'HD' then '보류'
 						  when a.grs_st_cd ='101' and (a.drop_yn is null  or  a.drop_yn = '') then ''
 						  else 'PASS' end as evResult
+						  
 						,a.nprod_Nm  as nprodNm  
 					    ,isnull(a.CTY_OT_PLN_M           , c.CTY_OT_PLN_M         )  as CTY_OT_PLN_M                                    
 						,isnull(a.ANCP_OT_PLN_DT         , c.ANCP_OT_PLN_DT       )  as ANCP_OT_PLN_DT                       
@@ -1581,7 +1575,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 						,b.BIZ_DPT_CD
 						,b.TSS_ATTR_CD
 						,b.TSS_STRT_DD
-						,b.TSS_FNH_DD 
+						,isnull((select  tss_fnh_dd from iris_tmp_tss where tss_cd =#{tssCd}), b.TSS_FNH_DD ) as TSS_FNH_DD 
 						,a.CFRN_ATDT_CD_TXT
 						,a.ATTC_FIL_ID
 						,b.TSS_CD	    
@@ -1593,15 +1587,17 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 						,a.GRS_EV_M_TYPE
 						,case when GRS_EV_M_TYPE = 'IN' then '진척도 점검'
 								when GRS_EV_M_TYPE = 'AL' then '변경'
+								when GRS_EV_M_TYPE = 'HD' then '보류'
 								else '' end grsEvMTypeNm
 						,(select dept_cd from iris_prj_rsst_mst where prj_cd = b.prj_cd ) as deptCode    
 						,b.sa_sabun_new as saSabunNew     
 						,a.EV_DT as evDt
 						,b.tss_Type as tssType
+						,b.cust_sqlt as custSqlt
 				from    iris_grs_ev_rslt_rgst a
 				]]>
 				<choose>
-					<when test="grsEvSt == 'P1' and grsStCd == '101' ">
+					<when test="grsEvSt == 'G1' and grsStCd == '101' ">
 						inner join IRIS_GRS_MGMT_MST b
 					</when>
 					<otherwise>	
@@ -1626,7 +1622,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 			,ATTC_FIL_ID         = #{attcFilId}
 			,EV_DT               = #{evDt}
 <choose>
-		<when test="grsEvSt == 'P1' ">
+		<when test="grsEvSt == 'G1' ">
 			,CTY_OT_PLN_M        = #{ctyOtPlnM}
 		</when>
 		<otherwise>
@@ -1634,7 +1630,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	   </otherwise>
 </choose>			
 	<choose>
-		<when test="grsEvSt == 'P2' ">
+		<when test="grsEvSt == 'G2' ">
 		    ,NPROD_NM            = #{nprodNm}
 			,NPROD_SALS_CUR_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY} = '' THEN '0' ELSE #{nprodSalsCurY} END)
 			,NPROD_SALS_CUR_Y_1  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY1} = '' THEN '0' ELSE #{nprodSalsCurY1} END)
@@ -1695,7 +1691,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 			,ATTC_FIL_ID         = #{attcFilId}
 			,EV_DT               = #{evDt}
 	<choose>
-		<when test="grsEvSt == 'P1' ">
+		<when test="grsEvSt == 'G1' ">
 			,CTY_OT_PLN_M        = #{ctyOtPlnM}
 		</when>
 		<otherwise>
@@ -1703,7 +1699,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 	   </otherwise>
 	</choose>	
 	<choose>
-		<when test="grsEvSt == 'P2' ">
+		<when test="grsEvSt == 'G2' ">
 		    ,NPROD_NM            = #{nprodNm}
 			,NPROD_SALS_CUR_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY} = '' THEN '0' ELSE #{nprodSalsCurY} END)
 			,NPROD_SALS_CUR_Y_1  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY1} = '' THEN '0' ELSE #{nprodSalsCurY1} END)
@@ -1773,4 +1769,39 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 		where  COM_CD_CD = 'GRS_USER'
 		and    COM_DTL_CD = #{_userSabun}  
     </select>
+    
+    
+    <!-- 과제정보 변경 업데이트 -->
+    <insert id="updateTssInfo">
+        <![CDATA[
+		/*updateTssInfo 과제정보 변경 업데이트*/
+		MERGE INTO dbo.iris_tmp_tss tbl
+		    USING (SELECT #{tssCd} AS TSS_CD) src
+		    ON (tbl.TSS_CD = src.TSS_CD)
+		    WHEN NOT MATCHED THEN
+       
+		INSERT
+		       (
+	           TSS_CD,
+	           TSS_FNH_DD,
+	           FRST_RGST_DT,
+	           FRST_RGST_ID,
+	           LAST_MDFY_DT,
+	           LAST_MDFY_ID
+		       )VALUES(
+				#{tssCd},
+				#{tssFnhDd},
+				GETDATE(),
+				#{userId},
+				GETDATE(),
+				#{userId}
+		       )
+    WHEN MATCHED THEN
+        UPDATE SET
+				TSS_FNH_DD = #{tssFnhDd},
+				LAST_MDFY_DT = GETDATE(),
+	            LAST_MDFY_ID = #{userId}
+    ;
+    	]]>
+    </insert>
 </mapper>
