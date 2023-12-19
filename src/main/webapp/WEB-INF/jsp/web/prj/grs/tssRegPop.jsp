@@ -184,7 +184,7 @@ var tssCd = '${inputData.tssCd}';
         	var strDt = strMm[0]+strMm[1];
         	
         	if( fromStrDt > strDt ){
-        		alert("과제등록일은 1개월 전 기준입니다.");
+        		alert("과제등록일은 전월까지입니다.");
         		tssStrtDd.focus();
         		return;
         	}
