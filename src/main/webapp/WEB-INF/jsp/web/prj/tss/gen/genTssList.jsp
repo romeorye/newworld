@@ -381,7 +381,7 @@
                             nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssDcacDetail.do'/>"+urlParam);
                         }
                         //진행_GRS완료_완료
-                        else if(pGrsEvSt == "P2") {
+                        else if(pGrsEvSt == "G2") {
                             nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssCmplDetail.do'/>"+urlParam);
                         }
                         //진행_GRS완료_변경
@@ -398,7 +398,8 @@
                 }
                 //변경
                 else if(pPgsStepCd == "AL") {
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssAltrDetail.do?tssCd="+pTssCd+"'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssAltrDetail.do'/>"+urlParam);
+                    /* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssAltrDetail.do?tssCd="+pTssCd+"'/>"); */
                 }
                 //중단
                 else if(pPgsStepCd == "DC") {
@@ -555,7 +556,7 @@
                  ]
              });
             	duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('과제관리_일반과제_') + new Date().format('%Y%m%d') + '.xls', {
+nG.saveExcel(encodeURIComponent('과제관리_연구과제_') + new Date().format('%Y%m%d') + '.xls', {
 		            columnModel: excelColumnModel
 		        });
 
@@ -646,7 +647,7 @@ function setDeptInfo(deptInfo) {
 	        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 	        	<span class="hidden">Toggle 버튼</span>
         	</a>
-            <h2>일반 과제관리</h2>
+            <h2>연구팀 과제관리</h2>
         </div>
 
         <div class="sub-content">
