@@ -25,6 +25,7 @@
 
         var gvTssCd = "";
         var gvUserId = "${inputData._userId}";
+        var gvSabun = "${inputData._userSabun}";
         var gvTssSt = "";
         var gvPageMode = "";
         var gvRoleId = "";
@@ -189,7 +190,7 @@
                     if (
                         (pgsStepCd == "PL" && grsYn == "N" && gvTssSt == "100")			//GRS N(계획) 인경우 바로 품의서 요청
                         || (pgsStepCd == "PL" && grsYn == "Y" && gvTssSt == "302")	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
-                        || (pgsStepCd == "PG" && gvTssSt == "302")							//진행인 경우 GRS 평가완료
+                        //|| (pgsStepCd == "PG" && gvTssSt == "302")							//진행인 경우 GRS 평가완료
                         || (pgsStepCd == "AL" && gvTssSt == "100" && isGrsAl=="Y")							//완료진행인 경우 GRS 평가완료
                         || (pgsStepCd == "CM" && gvTssSt == "100")							//완료진행인 경우 GRS 평가완료
                         || (pgsStepCd == "DC" && gvTssSt == "100")							//중단진행인 경우 GRS 평가완료
@@ -520,10 +521,10 @@
                 if (pgsStepNm == "") {
                     $("#stepNm").html("계획");
                 } else {
-                    if (grsEvSt == "G2" && gvTssSt == "102") {
+                    if (grsEvSt == "G2" && (gvTssSt == "102" || gvTssSt == "302")) {
                         //완료 GRS 완료
                         $("#stepNm").html("완료");
-                    } else if (grsEvSt == "D" && gvTssSt == "102") {
+                    } else if (grsEvSt == "D" && (gvTssSt == "102" || gvTssSt == "302") ) {
                         //중단 GRS 완료
                         $("#stepNm").html("중단");
                     } else {
@@ -663,7 +664,7 @@
             }
 
             function isDc() {
-                return (grsEvSt == "D" && gvTssSt == "102") || pgsStepCd == "DC";
+                return (grsEvSt == "D" && (gvTssSt == "102" || gvTssSt == "302") ) || pgsStepCd == "DC";
             }
 
             function isOwner() {
