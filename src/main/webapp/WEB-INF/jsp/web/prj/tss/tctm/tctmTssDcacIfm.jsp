@@ -46,7 +46,7 @@
 
     var pageMode =
         (
-            (window.parent.pgsStepCd=="PG" && window.parent.gvTssSt=="102")
+            (window.parent.pgsStepCd=="PG" && (window.parent.gvTssSt=="102" || window.parent.gvTssSt=="302")  )
             || (window.parent.pgsStepCd=="DC" && window.parent.gvTssSt=="100")
         )
             ? "W" : "R";
