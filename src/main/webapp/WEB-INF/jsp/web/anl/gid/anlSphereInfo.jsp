@@ -175,8 +175,8 @@
 				                        <th>사업분야</th>
 				                        <th>형상분석</th>
 				                        <th>유기분석</th>
-				                        <th>무기분석</th>
-				                        <th>유해물질</th>
+				                        <th>TVOC, HCHO</th>
+				                        <th>무기, 방사선농도분석</th>
 				                    </tr>
 				                </thead>
 				                <tbody>
@@ -187,15 +187,13 @@
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                            <a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>,
-				                            <a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
+				                            <a href="javascript:getPersonInfo('00207036','elinkim')" class="person_link">김은경</a>
 				                        </td>
-				                        <td style="text-align:center;vertical-align:middle !important;" rowspan="7" >
-				                            <a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a>
+				                        <td style="text-align:center;vertical-align:middle !important;" rowspan="5" >
+				                            <a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</a><br/>
 				                        </td>
-				                        <td style="text-align:center;vertical-align:middle !important;" rowspan="7">
-				                        	TVOC : <a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</a><br/>
-				                        	알데하이드 : <a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</a><br/>
-				                        	방사능농도(라돈) : <a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a><br/>
+				                        <td style="text-align:center;vertical-align:middle !important;" rowspan="9">
+				                        	<a href="javascript:getPersonInfo('00208219','sumin')" class="person_link">권수민</a><br/>
 				                        </td>
 				                    </tr>
 				               		<tr>
@@ -213,11 +211,41 @@
 				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
+				                        	<a href="javascript:getPersonInfo('00207929','duhwanlee')" class="person_link">이두환</a>
 				                        </td>
 				                    </tr>
 				               		<tr>
-				                        <th >벽지,바닥재, 인테리어</th>
+				                        <th >바닥재</th>
+				                        <td style="text-align:center;vertical-align:middle !important;">
+				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
+				                        </td>
+				                        <td style="text-align:center;vertical-align:middle !important;">
+				                            <a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</a><br/>
+				                        </td>
+				                    </tr>
+				                    <tr>
+				                        <th >창호</th>
+				                        <td style="text-align:center;vertical-align:middle !important;">
+				                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>
+				                        </td>
+				                        <td style="text-align:center;vertical-align:middle !important;">
+				                        	<a href="javascript:getPersonInfo('00207036','elinkim')" class="person_link">김은경</a>
+				                        </td>
+				                    </tr>
+				               		<tr>
+				                        <th >인테리어</th>
+				                        <td style="text-align:center;vertical-align:middle !important;">
+				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
+				                        </td>
+				                        <td style="text-align:center;vertical-align:middle !important;">
+				                            <a href="javascript:getPersonInfo('00207036','elinkim')" class="person_link">김은경</a>
+				                        </td>
+				                        <td style="text-align:center;vertical-align:middle !important;" rowspan="2" >
+				                        	<a href="javascript:getPersonInfo('00207929','duhwanlee')" class="person_link">이두환</a>
+				                        </td>
+				                    </tr>
+				                    <tr>
+				                        <th >벽지</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00206766','jihee')" class="person_link">손지희</a>
 				                        </td>
@@ -226,21 +254,15 @@
 				                        </td>
 				                    </tr>
 				               		<tr>
-				                        <th >창호</th>
-				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>
-				                        </td>
-				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
-				                        </td>
-				                    </tr>
-				               		<tr>
 				                        <th >표면소재</th>
 				                        <td style="text-align:center;vertical-align:middle !important;">
 				                        	<a href="javascript:getPersonInfo('00207776','kwonjihye')" class="person_link">권지혜</a>
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00207783','kimsb')" class="person_link">김샛별</a>
+				                        	<a href="javascript:getPersonInfo('00207036','elinkim')" class="person_link">김은경</a>
+				                        </td>
+				                        <td style="text-align:center;vertical-align:middle !important;" rowspan="2" >
+				                            <a href="javascript:getPersonInfo('00207068','kojaeyoon')" class="person_link">고재윤</a><br/>
 				                        </td>
 				                    </tr>
 				               		<tr>
@@ -250,7 +272,8 @@
 				                        	<a href="javascript:getPersonInfo('00208220','jihachoi')" class="person_link">최지하</a>
 				                        </td>
 				                        <td style="text-align:center;vertical-align:middle !important;">
-				                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연</a>
+				                        	<a href="javascript:getPersonInfo('00206813','suyune')" class="person_link">김수연(데코,가전)</a></br>
+				                        	<a href="javascript:getPersonInfo('00207036','elinkim')" class="person_link">김은경(점착)</a>
 				                        </td>
 				                    </tr>
 				            	</tbody>        
