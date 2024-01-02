@@ -547,7 +547,7 @@ $(window).load(function() {
 	  				<th class="alignC">현재</th>
 	  			</tr>
 	  			<tr id="trNprodSal">
-	  				<th>매출이익률(%)</th>
+	  				<th>영업이익률(%)</th>
 	  				<td class="alignR" ><span id="bizPrftProY" /></td>
 	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="bizPrftProCurY" /></td>
 	  				<td class="alignR" ><span id="bizPrftProY1"/></td>
@@ -735,12 +735,10 @@ $(window).load(function() {
                     <th align="right">향후 계획</th>
                     <td colspan="2"><span id="fnoPlnTxt" /></td>
                 </tr>
-                <!-- 
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
                     <td id="attchFileView" colspan="2">&nbsp;</td>
                 </tr>
-                 -->
             </tbody>
         </table>
             

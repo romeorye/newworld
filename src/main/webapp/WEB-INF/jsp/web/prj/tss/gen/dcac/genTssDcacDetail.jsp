@@ -221,6 +221,7 @@
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
                 if(gvTssSt == "100") btnCsusRq.show(); //GRS - 100:작성중
                 if(gvTssSt == "102") btnCsusRq.show(); //GRS - 100:작성중
+                if(gvTssSt == "302") btnCsusRq.show(); //GRS - 100:작성중
             }
 
             if(gvTssSt=="104"){
@@ -470,7 +471,7 @@
             Rui.confirm({
                 text: '품의서요청을 하시겠습니까?',
                 handlerYes: function() {
-                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssDcacCsusRq.do'/>" + "?tssCd="+dcacTssCd+"&userId="+gvUserId+"&itmFlag="+itmFlag+"&appCode=APP00332");
+                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssDcacCsusRq.do'/>" + "?tssCd="+dcacTssCd+"&userId="+gvUserId+"&itmFlag="+itmFlag+"&appCode=APP00332"+"&pgTssCd="+gvTssCd );
                 },
                 handlerNo: Rui.emptyFn
             });
@@ -585,7 +586,7 @@
 			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 			        <span class="hidden">Toggle 버튼</span>
 				</a>
-	        <h2>일반과제 &gt;&gt; 중단</h2>
+	        <h2>연구팀 과제 &gt;&gt; 중단</h2>
 	    </div>
         <div class="sub-content">
             <div class="titArea mt0">
@@ -657,7 +658,7 @@
                                     <td class="tssLableCss">
                                         <div id="rsstSpheNm">
                                     </td>
-                                    <th align="right">유형</th>
+                                    <th align="right">개발등급</th>
                                     <td class="tssLableCss">
                                         <div id="tssTypeNm">
                                     </td>

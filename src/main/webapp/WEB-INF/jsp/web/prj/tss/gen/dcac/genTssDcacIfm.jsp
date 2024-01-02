@@ -310,7 +310,7 @@ $(window).load(function() {
             </colgroup>
             <tbody>
                 <tr>
-                    <th align="right">과재개요</th>
+                    <th align="right">과제개요</th>
                     <td colspan="2">
                         <table class="table table_txt_right">
                             <colgroup>

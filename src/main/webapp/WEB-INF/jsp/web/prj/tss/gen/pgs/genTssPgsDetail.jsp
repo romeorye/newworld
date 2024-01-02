@@ -456,8 +456,8 @@
 		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		        <span class="hidden">Toggle 버튼</span>
 			</a>
-	        <h2>일반과제 &gt;&gt; 진행</h2>
-	    </div>
+	        <h2>연구팀 과제 &gt;&gt; 진행</h2>
+	    </div> 
         <div class="sub-content">
             <div class="titArea mt0">
                 <div class="LblockButton">
@@ -527,7 +527,7 @@
                                     <td class="tssLableCss">
                                         <div id="rsstSpheNm">
                                     </td>
-                                    <th align="right">유형</th>
+                                    <th align="right">개발등급</th>
                                     <td class="tssLableCss">
                                         <div id="tssTypeNm">
                                     </td>

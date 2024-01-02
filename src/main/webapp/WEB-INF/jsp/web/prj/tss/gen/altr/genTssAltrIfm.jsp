@@ -556,7 +556,7 @@
     $(window).load(function() {
     	setTimeout(() => {
     		initFrameSetHeight();	
-		}, 500);
+		}, 600);
     }); 
 </script>
 

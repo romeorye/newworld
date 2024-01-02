@@ -65,8 +65,7 @@ var gvWbsCd;
 	            	btnGrsRq.show();
 	            	btnDelRq.show();
 	            }else if(
-                    pgsStepCd=="PL" && gvTssSt == "302" ||  // P1 GRS품의 완료
-                    pgsStepCd!="PL" && gvTssSt == "102"){   // GRS평가 완료
+                    pgsStepCd =="PL" && (gvTssSt == "102" || gvTssSt == "302") ){   // GRS평가 완료
 	            	btnCsusRq.show();
 	            }
 	        }
@@ -117,7 +116,7 @@ var gvWbsCd;
                 , { id: 'tssTypeNm' }      //유형
                 , { id: 'tssRoleType' }
                 , { id: 'tssRoleId' }
-                , { id: 'grsYn'}	// GRS P1 수행여부
+                , { id: 'grsYn'}	// GRS G1 수행여부
                 , { id: 'tssStepNm'}	//관제 단계
                 , { id: 'grsStepNm'}	//GRS 단계
                 , { id: 'qgateStepNm'}	//Qgate 단계
@@ -157,7 +156,7 @@ var gvWbsCd;
 
             isFirst = gvTssSt == "";
             isEditable =
-                 gvTssSt=="100" || gvTssSt=="302"
+                 gvTssSt=="100" || gvTssSt=="102" ||  gvTssSt=="302" 
                 // || dataSet.getNameValue(0, "grsYn")=="N" && (pgsStepCd=="PL" )
             ;
             tabView.selectTab(0);
@@ -267,15 +266,16 @@ var gvWbsCd;
                 { label: '목표 및 산출물', content: '<div id="div-content-test5"></div>' }
             ]
         });
+       
         tabView.on('canActiveTabChange', function(e) {
-            /*
-        	if(gvTssCd == "" || dataSet.isUpdated()) {
+        	/* 
+        	if(!dataSet.isUpdated()) {
                 if(tabView.getActiveIndex() != 0) {
                     alert("개요 저장을 먼저 해주시기 바랍니다.");
                     return false;
                 }
             }
-            */
+        	 */
         });
         tabView.on('activeTabChange', function(e) {
             //iframe 숨기기
@@ -362,7 +362,7 @@ var gvWbsCd;
             if(errMsg != "") alert(errMsg);
             else {
                 if(regCntMap.gbn == "GRS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do?tssCd="+gvTssCd+"&userId="+gvUserId+"'/>");
-                else if(regCntMap.gbn == "CSUS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPlnCsusRq.do'/>" + "?tssCd="+gvTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&appCode=APP00332");
+                else if(regCntMap.gbn == "CSUS") nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPlnCsusRq.do'/>" + "?tssCd="+gvTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&appCode=APP00332"+"&pgTssCd="+gvTssCd);
             }
         });
 
@@ -403,7 +403,7 @@ var gvWbsCd;
             if(confirm("품의서요청을 하시겠습니까?")) {
         	    regDm.update({
                     url:'<c:url value="/prj/tss/gen/getTssRegistCnt.do"/>',
-                    params:'gbn=CSUS&tssCd='+gvTssCd+'&wbsCd='+gvWbsCd
+                    params:'gbn=CSUS&tssCd='+gvTssCd+'&wbsCd='+gvWbsCd+"&pgTssCd="+gvTssCd
                 });
         	}
         });
@@ -599,7 +599,7 @@ GenTssAltrDetail(cd) {
 	        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 	        	<span class="hidden">Toggle 버튼</span>
         	</a>
-            <h2>일반과제 &gt;&gt; 계획</h2>
+            <h2>연구팀 과제 &gt;&gt; 계획</h2>
         </div>
 
         <div class="sub-content">
@@ -682,7 +682,7 @@ GenTssAltrDetail(cd) {
                                     <td>
                                         <span id="rsstSpheNm"></span>
                                     </td>
-                                    <th align="right">유형</th>
+                                    <th align="right">개발등급</th>
                                     <td>
                                         <span id="tssTypeNm"></span>
                                     </td>

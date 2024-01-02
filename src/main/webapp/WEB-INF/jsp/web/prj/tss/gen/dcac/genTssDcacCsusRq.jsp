@@ -178,12 +178,53 @@
         <div class="sub-content">
             <form name="aform" id="aform" method="post">
                 <div id="csusContents">
-                                    <div class="titleArea"><h2>${resultMst.tssNm}</h2></div>
-                    <br/>
-                    <div class="titArea alignR">
-                        과제리더: ${resultMst.saUserName}, 작성일: ${resultDcac.createDate}
-                    </div>
-                    <div class="titArea"><h3>1. 개요기본 사항</h3></div>
+                    <div class="docu_box">
+						<p class="txt">아래와 같이, 연구/개발과제의 GRS 심의결과를 보고드리오니, 검토 후 재가 부탁드립니다. </p>
+						
+						<div class="docu_con">
+							<p class="txt2">- 아&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;래 -</p>
+							<div class="titArea"><h2>1. 일시 :${resultGrs.evDt}</h2></div>
+							<div class="titArea"><h2>2. 장소 : ${resultGrs.evTitl}</h2></div>
+							<div class="titArea"><h2>3. 참석자 : ${resultGrs.cfrnAtdtCdTxtNm}</h2></div>
+							<div class="titArea"><h2>4. Agenda 및 심의결과</h2></div>
+							<table class="table">
+								<colgroup>
+									<col style="width:6%;">
+									<col style="width:26%;">
+									<col style="width:;">
+									<col style="width:9%;">
+									<col style="width:6%;">
+									<col style="width:6%;">
+									<col style="width:6%;">
+								</colgroup>
+								<thead>
+									<tr>
+										<th rowspan="2">심의<br>단계</th>
+										<th rowspan="2">PJT</th>
+										<th rowspan="2">과제명</th>
+										<th rowspan="2">과제<br>책임자</th>
+										<th rowspan="2">개발<br>유형</th>
+										<th colspan="2">심의결과</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>${resultGrs.grsEvStNm}</td>
+										<td>${resultGrs.prjNm}</td>
+										<td>${resultGrs.tssNm}</td>
+										<td>${resultGrs.saSabunName}</td>
+										<td>${resultGrs.tssTypeNm}</td>
+										<td colspan="2">${resultGrs.dropYn}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>                
+                                    
+                                    
+                                    
+                                    
+                    <div class="titArea"><h3>5. 개요기본 사항</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:20%"/>
@@ -218,7 +259,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>2. 과제 개요</h3></div>
+                    <div class="titArea"><h3>6. 과제 개요</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:15%"/>
@@ -242,7 +283,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>3. 개발계획 대비 실적 개요</h3></div>
+                    <div class="titArea"><h3>7. 개발계획 대비 실적 개요</h3></div>
                         <table class="table">
                             <colgroup>
                                 <col style="width:20%"/>
@@ -260,16 +301,9 @@
                                     <td class="alignC">${resultMst.tssStrtDd} ~ ${resultMst.tssFnhDd}</td>
                                     <td class="alignC">${resultMst.dcacBStrtDd} ~ ${resultMst.dcacBFnhDd}</td>
                                 </tr>
-                               <%-- 
-                                <tr>
-                                    <td align="center">총투자 비용 (억원)</td>
-                                    <td class="alignR"><fmt:formatNumber value="${resultDcac.plnExp}" pattern="#,###.##" /></td>
-                                    <td class="alignR"><fmt:formatNumber value="${resultDcac.arslExp}" pattern="#,###.##" /></td>
-                                </tr>
-                                --%> 
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>4. 연구개발 성과</h3></div>
+                    <div class="titArea"><h3>8. 연구개발 성과</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:15%"/>
@@ -288,7 +322,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>5. 향후 계획</h3></div>
+                    <div class="titArea"><h3>9. 향후 계획</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:100%"/>
@@ -300,7 +334,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>6. 중단 사유</h3></div>
+                    <div class="titArea"><h3>10. 중단 사유</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:100%"/>

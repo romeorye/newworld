@@ -40,7 +40,6 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
     var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
-
     var dataSet;
     var lvAttcFilId;
     var tmpAttchFileList;
@@ -227,181 +226,93 @@
                 ,{ id: 'nprodNm'           , ctrlId: 'nprodNm'           , value: 'html'}
                 ,{ id: 'ancpOtPlnDt'       , ctrlId: 'ancpOtPlnDt'       , value: 'html'}
                 ,{ id: 'bizPrftProY'       , ctrlId: 'bizPrftProY'       , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProY1'      , ctrlId: 'bizPrftProY1'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProY2'      , ctrlId: 'bizPrftProY2'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProY3'      , ctrlId: 'bizPrftProY3'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProY4'      , ctrlId: 'bizPrftProY4'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
 
                 ,{ id: 'bizPrftProCurY'    , ctrlId: 'bizPrftProCurY'    , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProCurY1'   , ctrlId: 'bizPrftProCurY1'   , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftProCurY2'   , ctrlId: 'bizPrftProCurY2'   , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 
                 ,{ id: 'bizPrftPlnY'       , ctrlId: 'bizPrftPlnY'       , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftPlnY1'      , ctrlId: 'bizPrftPlnY1'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftPlnY2'      , ctrlId: 'bizPrftPlnY2'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftCurY'       , ctrlId: 'bizPrftCurY'       , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftCurY1'      , ctrlId: 'bizPrftCurY1'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'bizPrftCurY2'      , ctrlId: 'bizPrftCurY2'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'nprodSalsPlnY'     , ctrlId: 'nprodSalsPlnY'     , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'nprodSalsPlnY1'    , ctrlId: 'nprodSalsPlnY1'    , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'nprodSalsPlnY2'    , ctrlId: 'nprodSalsPlnY2'    , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'nprodSalsPlnY3'    , ctrlId: 'nprodSalsPlnY3'    , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'nprodSalsPlnY4'    , ctrlId: 'nprodSalsPlnY4'    , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'nprodSalsCurY'     , ctrlId: 'nprodSalsCurY'     , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'nprodSalsCurY1'    , ctrlId: 'nprodSalsCurY1'    , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'nprodSalsCurY2'    , ctrlId: 'nprodSalsCurY2'    , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                	return Rui.util.LFormat.numberFormat(value);
                 }
             }    
                 ,{ id: 'ptcCpsnY'          , ctrlId: 'ptcCpsnY'          , value: 'html'}
@@ -689,7 +600,7 @@ $(window).load(function() {
 	  				<th class="alignC">현재</th>
 	  			</tr>
 	  			<tr id="trNprodSal">
-	  				<th>매출이익률(%)</th>
+	  				<th>영업이익률(%)</th>
 	  				<td class="alignR"><span id="bizPrftProY" /></td>
 	  				<td  class="alignR" bgcolor='#E6E6E6'><span id="bizPrftProCurY"  style="font-weight:bold;"/></td>
 	  				<td class="alignR"><span id="bizPrftProY1"/></td>
@@ -873,13 +784,13 @@ $(window).load(function() {
                     <th align="right">향후 계획</th>
                     <td colspan="2"><input type="text" id="fnoPlnTxt" /></td>
                 </tr>
-               <!--  
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
                     <td id="attchFileView" colspan="2">&nbsp;</td>
+               <!--  
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
-                </tr>
                  -->
+                </tr>
             </tbody>
         </table>
             

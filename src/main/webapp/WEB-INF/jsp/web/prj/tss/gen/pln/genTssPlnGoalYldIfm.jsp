@@ -30,7 +30,7 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
     
-    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "102" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
     
     var dataSet1;
     var dataSet2;
@@ -337,13 +337,13 @@
             var chkRows = dataSet2.getMarkedRange().items;
             for(var i = 0; i < chkRows.length; i++) {
                 if(chkRows[i].data.yldItmSn == 1) {
-                    Rui.alert("GRS심의파일은 삭제가 불가합니다.");
+                    Rui.alert("신제품/신기술 개발 제안서는 삭제가 불가합니다.");
                     return;
                 }else if (chkRows[i].data.yldItmType == '06' || chkRows[i].data.yldItmType == '07' || chkRows[i].data.yldItmType == '08'  ){
-                	Rui.alert("Q-GATE 파일은 삭제가 불가합니다.");
+                	Rui.alert("Q-gate 파일은 삭제가 불가합니다.");
                     return;
                 }else if (chkRows[i].data.yldItmType == '10'   ){
-                	Rui.alert("완료/중단 GRS 심의서 파일은 삭제가 불가합니다.");
+                	Rui.alert("신제품/신기술 개발 완료/중단 보고서는 삭제가 불가합니다.");
                     return;
                 }
             }

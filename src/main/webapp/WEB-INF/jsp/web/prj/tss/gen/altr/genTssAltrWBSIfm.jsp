@@ -718,7 +718,9 @@ function checkValidation(gbn) {
     return returnCd;
 }
 $(window).load(function() {
-    initFrameSetHeight();
+	setTimeout(() => {
+		initFrameSetHeight();	
+	}, 500);
 }); 
 </script>
 </head>

@@ -50,7 +50,7 @@
     var dataSet;
     var altrHistDialog;
     var rtnMsg = "${inputData.rtnMsg}";
-    var itmFlag ="Y";	//필수산출물 체크 
+    var itmFlag ="N";	//필수산출물 체크 
     var gvWbsCd   = "";
     
     Rui.onReady(function() {
@@ -303,7 +303,6 @@
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvPkWbsCd  = dataSet.getNameValue(0, "pkWbsCd");
             gvWbsCd = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
-
             document.tabForm.tssSt.value = dataSet.getNameValue(0, "tssSt");
             document.tabForm.pgsStepCd.value = dataSet.getNameValue(0, "pgsStepCd");
 
@@ -435,7 +434,6 @@
                 break;
             //개요
             case 1:
-               alert(gvTssCd);
             	if(e.isFirst) {
                 	tabUrl = "<c:url value='/prj/tss/gen/genTssPgsSmryIfm.do?tssCd=" + gvTssCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
@@ -494,18 +492,10 @@
         	document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
           	document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
           	
-          	/* 			
-          	var chkNum = document.getElementById('tabContent0').contentWindow.fnAttchValid();  
-
-          	if(chkNum == 0){
-	        		Rui.alert("평가 결과서 첨부파일을 추가하셔야 합니다.");
-	        		return;
-          	}
-         */	
           	Rui.confirm({
                 text: '품의서요청을 하시겠습니까?',
                 handlerYes: function() {
-                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00332"+"&appCode=APP00332");
+                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00332"+"&appCode=APP00332"+"&pgTssCd="+gvTssCd);
                 },
                 handlerNo: Rui.emptyFn
             });
@@ -618,7 +608,7 @@
 		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
 		        <span class="hidden">Toggle 버튼</span>
 			</a>
-	        <h2>일반과제 &gt;&gt; 완료</h2>
+	        <h2>연구팀 과제 &gt;&gt; 완료</h2>
 	    </div>
         <div class="sub-content">
             <div class="titArea mt0">
@@ -681,7 +671,7 @@
                                     <td class="tssLableCss">
                                         <div id="rsstSpheNm">
                                     </td>
-                                    <th align="right">유형</th>
+                                    <th align="right">개발등급</th>
                                     <td class="tssLableCss">
                                         <div id="tssTypeNm">
                                     </td>
@@ -726,7 +716,7 @@
             <form name="tabForm" id="tabForm" method="post">
             	<input type="hidden" id="tssSt" name="tssSt" value=""/>
             	<input type="hidden" id="pgsStepCd" name="pgsStepCd" value=""/>
-                <iframe name="tabContent0" id="tabContent0" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
+                <iframe name="tabContent0" id="tabContent0" scrolling="yes" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent1" id="tabContent1" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent2" id="tabContent2" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent3" id="tabContent3" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
