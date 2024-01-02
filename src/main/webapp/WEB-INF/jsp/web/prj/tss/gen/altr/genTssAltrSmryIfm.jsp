@@ -697,7 +697,9 @@
 </script>
 <script type="text/javascript">
 $(window).load(function() {
-	initFrameSetHeight();
+	setTimeout(() => {
+		initFrameSetHeight();	
+	}, 600);
 }); 
 </script>
 </head>
