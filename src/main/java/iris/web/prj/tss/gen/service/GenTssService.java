@@ -41,4 +41,10 @@ public interface GenTssService {
 	
 	public HashMap<String, Object> retrievePrjSearch(HashMap<String, Object> userMap);
 
+	/**
+	 * GRS Info 
+	 * @param input
+	 * @return
+	 */
+	public Map<String, Object> retrieveGenGrs(HashMap<String, String> input);
 }

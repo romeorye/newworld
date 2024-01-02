@@ -486,9 +486,9 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
         if(recMailInfo!=null){
             String tssPgsNm ="";
 
-            if("P1".equals(recMailInfo.get("grsCd").toString().trim())){
+            if("G1".equals(recMailInfo.get("grsCd").toString().trim())){
                 tssPgsNm = "계획";
-            }else if("P2".equals(recMailInfo.get("grsCd").toString().trim())){
+            }else if("G2".equals(recMailInfo.get("grsCd").toString().trim())){
                 tssPgsNm = "완료";
             }else if("D".equals(recMailInfo.get("grsCd").toString().trim())){
                 tssPgsNm = "중단";

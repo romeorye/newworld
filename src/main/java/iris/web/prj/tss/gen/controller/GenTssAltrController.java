@@ -165,7 +165,7 @@ public class GenTssAltrController  extends IrisBaseController {
 
             smryDs = StringUtil.toUtf8Input(smryDs);
             genTssAltrService.insertGenTssAltrMst(mstDs, smryDs, altrDs, upWbsCd);
-
+            
             mstDs.put("rtCd", "SUCCESS");
             mstDs.put("rtVal",messageSourceAccessor.getMessage("msg.alert.saved")); //저장되었습니다.
             mstDs.put("rtType", "I");
@@ -1116,7 +1116,8 @@ public class GenTssAltrController  extends IrisBaseController {
         checkSession(input, session, model);
 
         if(pageMoveChkSession(input.get("_userId"))) {
-            Map<String, Object> resultMst        = genTssAltrService.retrieveGenTssAltrMst(input); //마스터
+        	Map<String, Object> resultGrs         = genTssService.retrieveGenGrs(input); //마스터
+        	Map<String, Object> resultMst        = genTssAltrService.retrieveGenTssAltrMst(input); //마스터
             Map<String, Object> resultCsus       = genTssService.retrieveGenTssCsus(resultMst); //품의서
             Map<String, Object> resultSmry       = genTssAltrService.retrieveGenTssAltrSmry(input); //개요
             List<Map<String, Object>> resultAltr = genTssAltrService.retrieveGenTssAltrSmryList(input);
@@ -1125,12 +1126,14 @@ public class GenTssAltrController  extends IrisBaseController {
             inputInfo.put("attcFilId", String.valueOf(resultSmry.get("altrAttcFilId")));
 
             List<Map<String, Object>> resultAttc  = genTssAltrService.retrieveGenTssAltrAttc(inputInfo);
-
+            
+            resultGrs  = StringUtil.toUtf8Output((HashMap) resultGrs);
             resultMst  = StringUtil.toUtf8Output((HashMap) resultMst);
             resultCsus = StringUtil.toUtf8Output((HashMap) resultCsus);
             resultSmry = StringUtil.toUtf8Output((HashMap) resultSmry);
 
             model.addAttribute("inputData", input);
+            model.addAttribute("resultGrs", resultGrs);
             model.addAttribute("resultMst", resultMst);
             model.addAttribute("resultSmry", resultSmry);
             model.addAttribute("resultAltr", resultAltr);

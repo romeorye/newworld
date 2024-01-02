@@ -302,7 +302,7 @@ public class GenTssDcacController  extends IrisBaseController {
             HttpSession session, ModelMap model) throws JSONException {
 
         LOGGER.debug("###########################################################");
-        LOGGER.debug("GenTssController - genTssDcacGoalYldIfm [과제관리 > 일반과제 > 중단 > 품의서요청 화면 ]");
+        LOGGER.debug("GenTssController - genTssDcacGoalYldIfm [과제관리 > 일반과제 > 중단 > 품의서요청 화면 ]: " + input);
         LOGGER.debug("###########################################################");
 
         checkSession(input, session, model);
@@ -315,7 +315,6 @@ public class GenTssDcacController  extends IrisBaseController {
         	rtnMsg = "N";
         }
         
-        LOGGER.debug("#######################rtnMsg#################################### : " + rtnMsg);
         if( !rtnMsg.equals("N") ){
     		input.put("rtnMsg", rtnMsg); 
     		
@@ -323,6 +322,7 @@ public class GenTssDcacController  extends IrisBaseController {
     	}
         
         if(pageMoveChkSession(input.get("_userId"))) {
+        	Map<String, Object> resultGrs         = genTssService.retrieveGenGrs(input); //GRS 
             Map<String, Object> resultMst         = genTssDcacService.retrieveGenTssDcacMst(input); //마스터
             Map<String, Object> resultCsus        = genTssService.retrieveGenTssCsus(resultMst); //품의서
             Map<String, Object> resultSmry        = genTssDcacService.retrieveGenTssDcacSmry(input); //개요
@@ -337,12 +337,14 @@ public class GenTssDcacController  extends IrisBaseController {
             Map<String, Object> resultDcac        = genTssDcacService.retrieveGenTssDcacInfo(inputInfo);
             List<Map<String, Object>> resultAttc  = genTssDcacService.retrieveGenTssDcacAttc(inputInfo);
 
+            resultGrs  = StringUtil.toUtf8Output((HashMap) resultGrs);
             resultMst  = StringUtil.toUtf8Output((HashMap) resultMst);
             resultCsus = StringUtil.toUtf8Output((HashMap) resultCsus);
             resultSmry = StringUtil.toUtf8Output((HashMap) resultSmry);
             resultDcac = StringUtil.toUtf8Output((HashMap) resultDcac);
 
             model.addAttribute("inputData", input);
+            model.addAttribute("resultGrs", resultGrs);
             model.addAttribute("resultMst", resultMst);
             model.addAttribute("resultSmry", resultSmry);
             model.addAttribute("resultDcac", resultDcac);

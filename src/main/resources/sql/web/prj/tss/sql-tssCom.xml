@@ -302,6 +302,20 @@
          WHERE TSS_CD = #{tssCd}
     ]]>
 	</update>
+	
+		<!-- 마스터 과제상태 수정 -->
+	<update id="updateTssMstHdTssSt">
+    <![CDATA[
+		--updateTssMstTssSt 마스터 과제상태 수정
+        UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+           SET TSS_ST       = #{tssSt}
+              ,PGS_STEP_CD  = #{pgsStepCd}
+             , LAST_MDFY_DT = GETDATE()
+             , LAST_MDFY_ID = #{userId}
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+	</update>
+	
 
 	<!-- 마스터 WBS코드 수정 -->
 	<update id="updateTssMstWbsCd">
@@ -1498,4 +1512,52 @@
    		delete iris_tmp_tss where tss_cd = #{pgTss_cd}
 	</delete>
     
+        <!-- GRS 품의요청 내역 조회 -->
+    <select id="retrieveGenGrs" resultType="hashmap">
+		<![CDATA[
+--retrieveGenGrs GRS 품의요청 내역 조회
+        SELECT
+            A.PRJ_CD         AS prjCd      --프로젝트코드
+            ,C.PRJ_NM         AS prjNm      --프로젝트명
+            ,A.TSS_CD         AS tssCd      --과제코드
+            ,A.TSS_NM         AS tssNm      --과제명
+            ,ISNULL(A.SA_SABUN_NAME, (select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new=A.SA_SABUN_NEW)) as saSabunName  -- 과제책임자
+            ,ISNULL(A.TSS_TYPE,'')       AS tssType    -- 개발유형
+            ,dbo.fn_getComDtlNm('TSS_TYPE',A.TSS_TYPE)   AS tssTypeNm     -- 심의단계명
+            ,B.EV_DT        AS evDt     --일시
+            ,B.EV_TITL        AS evTitl     --장소
+		    ,B.grs_ev_st	     AS grsEvSt	--G1:초기,G2:최종,M:변경      심의단계
+		    ,dbo.fn_getComDtlNm('GRS_EV_ST',B.grs_ev_st)   AS grsEvStNm     -- 심의단계명
+            ,(select stuff((select ',' +
+                                  sa_name
+                           from IRIS_SSO_USER
+                           where sa_sabun_new in (SELECT value
+                                                  FROM STRING_SPLIT(convert(nvarchar(4000), B.CFRN_ATDT_CD_TXT), ',')
+                                                  WHERE RTRIM(value) <> '')
+                           order by sa_name
+                           FOR XML PATH ('')), 1, 1, '')) AS cfrnAtdtCdTxtNm --참석자
+            ,B.COMM_TXT       AS commTxt            --주요 Comment
+            ,B.ATTC_FIL_ID    AS attcFilId        --첨부파일
+            ,(SELECT ROUND(sum(srr.EV_SCR / 5 * sm.WGVL),1)
+             FROM iris_grs_ev_std_rslt_rgst srr,
+                  IRIS_GRS_EV_STD_MGMT sm
+             WHERE sm.GRS_EV_SN = srr.GRS_EV_SN
+                   AND sm.GRS_EV_SEQ = srr.GRS_EV_SEQ
+                   AND srr.TSS_CD =  A.TSS_CD 
+                   AND srr.tss_cd_sn = (SELECT MAX(TSS_CD_SN)  FROM IRIS_GRS_EV_RSLT_RGST WHERE TSS_CD = A.TSS_CD )
+                   ) AS evScr    --등급평균
+          ,iif(B.DROP_YN = 'Y', 'Drop', 'PASS') as  dropYn
+          ,B.EV_DT
+        FROM
+            IRIS_TSS_MGMT_MST A
+            LEFT JOIN IRIS_PRJ_RSST_MST C  /*프로젝트연구마스터*/
+                ON A.PRJ_CD = C.PRJ_CD
+            LEFT JOIN IRIS_GRS_EV_RSLT_RGST B  /*GRS평가결과등록1*/
+                ON A.TSS_CD = B.TSS_CD
+                   AND B.TSS_CD_SN = (SELECT MAX(TSS_CD_SN)  FROM IRIS_GRS_EV_RSLT_RGST WHERE TSS_CD = A.TSS_CD)
+       WHERE 1=1
+       and A.TSS_CD =  #{tssCd}
+        ]]>
+	</select>
+	
 </mapper>

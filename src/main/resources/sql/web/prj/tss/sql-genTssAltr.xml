@@ -623,7 +623,8 @@ WITH w_WBS AS (
           FROM IRIS_TSS_MGMT_MST T1
              , (SELECT dept_code, PPSL_MBD_CD, BIZ_DPT_CD, TSS_NM
                      , sa_sabun_new, TSS_ATTR_CD, TSS_STRT_DD
-                     , TSS_FNH_DD, wbs_cd, pk_wbs_cd, PROD_G, RSST_SPHE, TSS_TYPE
+                     , TSS_FNH_DD
+                     , wbs_cd, pk_wbs_cd, PROD_G, RSST_SPHE, TSS_TYPE
                      , PRJ_CD, SUPV_OPS_NM, EXRS_INST_NM, BIZ_NM
                   FROM IRIS_TSS_MGMT_MST
                  WHERE tss_cd = #{tssCd}
@@ -749,50 +750,50 @@ WITH w_WBS AS (
 			         when b.ANCP_OT_PLN_DT is null then a.CTY_OT_PLN_M
 					 else  b.ANCP_OT_PLN_DT end  as ancpOtPlnDt
 			  
-			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PRO_Y	   , a.BIZ_PRFT_PRO_Y )) as bizPrftProY
-			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PRO_Y_1  , a.BIZ_PRFT_PRO_Y_1  )) as bizPrftProY1
-			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PRO_Y_2  , a.BIZ_PRFT_PRO_Y_2  )) as bizPrftProY2
-			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PRO_Y_3  , a.BIZ_PRFT_PRO_Y_3  )) as bizPrftProY3
-			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PRO_Y_4  , a.BIZ_PRFT_PRO_Y_4  )) as bizPrftProY4
-			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PLN_Y	   , a.BIZ_PRFT_PLN_Y )) as bizPrftPlnY
-			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PLN_Y_1  , a.BIZ_PRFT_PLN_Y_1  )) as bizPrftPlnY1
-			   ,dbo.fn_getConvertInt(isnull(b.BIZ_PRFT_PLN_Y_2  , a.BIZ_PRFT_PLN_Y_2  )) as bizPrftPlnY2
-			   ,dbo.fn_getConvertInt(isnull(b.NPROD_SALS_PLN_Y  , a.NPROD_SALS_PLN_Y  )) as nprodSalsPlnY
-			   ,dbo.fn_getConvertInt(isnull(b.NPROD_SALS_PLN_Y_1, a.NPROD_SALS_PLN_Y_1)) as nprodSalsPlnY1
-		       ,dbo.fn_getConvertInt(isnull(b.NPROD_SALS_PLN_Y_2, a.NPROD_SALS_PLN_Y_2)) as nprodSalsPlnY2
-			   ,dbo.fn_getConvertInt(isnull(b.PTC_CPSN_Y		   , a.PTC_CPSN_Y	  )) as ptcCpsnY
-			   ,dbo.fn_getConvertInt(isnull(b.PTC_CPSN_Y_1	   , a.PTC_CPSN_Y_1		  )) as ptcCpsnY1
-			   ,dbo.fn_getConvertInt(isnull(b.PTC_CPSN_Y_2	   , a.PTC_CPSN_Y_2		  )) as ptcCpsnY2
-			   ,dbo.fn_getConvertInt(isnull(b.PTC_CPSN_Y_3	   , a.PTC_CPSN_Y_3		  )) as ptcCpsnY3
-			   ,dbo.fn_getConvertInt(isnull(b.PTC_CPSN_Y_4	   , a.PTC_CPSN_Y_4		  )) as ptcCpsnY4
-		       ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y		   , a.EXP_ARSL_Y	  )) as expArslY
-			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_1	   , a.EXP_ARSL_Y_1		  )) as expArslY1
-			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_2	   , a.EXP_ARSL_Y_2		  )) as expArslY2
-			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_3	   , a.EXP_ARSL_Y_3		  )) as expArslY3
-			   ,dbo.fn_getConvertInt(isnull(b.EXP_ARSL_Y_4	   , a.EXP_ARSL_Y_4		  )) as expArslY4
-			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y	 )      as bizPrftProYBefore	    
-			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y_1	 )	   as bizPrftProY1Before	 
-			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y_2	 )	   as bizPrftProY2Before	 
-			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y_3	 )	   as bizPrftProY3Before	 
-			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PRO_Y_4	 )	   as bizPrftProY4Before	 
-			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PLN_Y	 )	   as bizPrftPlnYBefore	 
-			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PLN_Y_1	 )	   as bizPrftPlnY1Before	 
-			   ,dbo.fn_getconvertInt(c.BIZ_PRFT_PLN_Y_2	 )	   as bizPrftPlnY2Before	 
-			   ,dbo.fn_getconvertInt(c.NPROD_SALS_PLN_Y	 )	   as nprodSalsPlnYBefore	 
-			   ,dbo.fn_getconvertInt(c.NPROD_SALS_PLN_Y_1)	   as nprodSalsPlnY1Before
-			   ,dbo.fn_getconvertInt(c.NPROD_SALS_PLN_Y_2)	   as nprodSalsPlnY2Before
-			   ,dbo.fn_getconvertInt(c.NPROD_SALS_PLN_Y_3)	   as nprodSalsPlnY3Before
-			   ,dbo.fn_getconvertInt(c.NPROD_SALS_PLN_Y_4)	   as nprodSalsPlnY4Before
-			   ,dbo.fn_getconvertInt(c.PTC_CPSN_Y		 )	   as ptcCpsnYBefore		 
-			   ,dbo.fn_getconvertInt(c.PTC_CPSN_Y_1		 )	   as ptcCpsnY1Before		 
-			   ,dbo.fn_getconvertInt(c.PTC_CPSN_Y_2		 )	   as ptcCpsnY2Before		 
-			   ,dbo.fn_getconvertInt(c.PTC_CPSN_Y_3		 )	   as ptcCpsnY3Before		 
-			   ,dbo.fn_getconvertInt(c.PTC_CPSN_Y_4		 )	   as ptcCpsnY4Before		 
-			   ,dbo.fn_getconvertInt(c.EXP_ARSL_Y		 )	   as expArslYBefore		 
-			   ,dbo.fn_getconvertInt(c.EXP_ARSL_Y_1		 )	   as expArslY1Before		 
-			   ,dbo.fn_getconvertInt(c.EXP_ARSL_Y_2		 )	   as expArslY2Before		 
-			   ,dbo.fn_getconvertInt(c.EXP_ARSL_Y_3		 )	   as expArslY3Before		 
-			   ,dbo.fn_getconvertInt(c.EXP_ARSL_Y_4		 )	   as expArslY4Before			
+			   ,isnull(b.BIZ_PRFT_PRO_Y	   , a.BIZ_PRFT_PRO_Y ) as bizPrftProY
+				,isnull(b.BIZ_PRFT_PRO_Y_1  , a.BIZ_PRFT_PRO_Y_1  ) as bizPrftProY1
+				,isnull(b.BIZ_PRFT_PRO_Y_2  , a.BIZ_PRFT_PRO_Y_2  ) as bizPrftProY2
+				,isnull(b.BIZ_PRFT_PRO_Y_3  , a.BIZ_PRFT_PRO_Y_3  ) as bizPrftProY3
+				,isnull(b.BIZ_PRFT_PRO_Y_4  , a.BIZ_PRFT_PRO_Y_4  ) as bizPrftProY4
+				,isnull(b.BIZ_PRFT_PLN_Y	   , a.BIZ_PRFT_PLN_Y ) as bizPrftPlnY
+				,isnull(b.BIZ_PRFT_PLN_Y_1  , a.BIZ_PRFT_PLN_Y_1  ) as bizPrftPlnY1
+				,isnull(b.BIZ_PRFT_PLN_Y_2  , a.BIZ_PRFT_PLN_Y_2  ) as bizPrftPlnY2
+				,isnull(b.NPROD_SALS_PLN_Y  , a.NPROD_SALS_PLN_Y  ) as nprodSalsPlnY
+				,isnull(b.NPROD_SALS_PLN_Y_1, a.NPROD_SALS_PLN_Y_1) as nprodSalsPlnY1
+				,isnull(b.NPROD_SALS_PLN_Y_2, a.NPROD_SALS_PLN_Y_2) as nprodSalsPlnY2
+				,isnull(b.PTC_CPSN_Y		   , a.PTC_CPSN_Y	  ) as ptcCpsnY
+				,isnull(b.PTC_CPSN_Y_1	   , a.PTC_CPSN_Y_1		  ) as ptcCpsnY1
+				,isnull(b.PTC_CPSN_Y_2	   , a.PTC_CPSN_Y_2		  ) as ptcCpsnY2
+				,isnull(b.PTC_CPSN_Y_3	   , a.PTC_CPSN_Y_3		  ) as ptcCpsnY3
+				,isnull(b.PTC_CPSN_Y_4	   , a.PTC_CPSN_Y_4		  ) as ptcCpsnY4
+				,isnull(b.EXP_ARSL_Y		   , a.EXP_ARSL_Y	  ) as expArslY
+				,isnull(b.EXP_ARSL_Y_1	   , a.EXP_ARSL_Y_1		  ) as expArslY1
+				,isnull(b.EXP_ARSL_Y_2	   , a.EXP_ARSL_Y_2		  ) as expArslY2
+				,isnull(b.EXP_ARSL_Y_3	   , a.EXP_ARSL_Y_3		  ) as expArslY3
+				,isnull(b.EXP_ARSL_Y_4	   , a.EXP_ARSL_Y_4		  ) as expArslY4
+				,c.BIZ_PRFT_PRO_Y	       as bizPrftProYBefore	    
+				,c.BIZ_PRFT_PRO_Y_1	 	   as bizPrftProY1Before	 
+				,c.BIZ_PRFT_PRO_Y_2	 	   as bizPrftProY2Before	 
+				,c.BIZ_PRFT_PRO_Y_3	 	   as bizPrftProY3Before	 
+				,c.BIZ_PRFT_PRO_Y_4	 	   as bizPrftProY4Before	 
+				,c.BIZ_PRFT_PLN_Y	 	   as bizPrftPlnYBefore	 
+				,c.BIZ_PRFT_PLN_Y_1	 	   as bizPrftPlnY1Before	 
+				,c.BIZ_PRFT_PLN_Y_2	 	   as bizPrftPlnY2Before	 
+				,c.NPROD_SALS_PLN_Y	 	   as nprodSalsPlnYBefore	 
+				,c.NPROD_SALS_PLN_Y_1	   as nprodSalsPlnY1Before
+				,c.NPROD_SALS_PLN_Y_2	   as nprodSalsPlnY2Before
+				,c.NPROD_SALS_PLN_Y_3	   as nprodSalsPlnY3Before
+				,c.NPROD_SALS_PLN_Y_4	   as nprodSalsPlnY4Before
+				,c.PTC_CPSN_Y		 	   as ptcCpsnYBefore		 
+				,c.PTC_CPSN_Y_1		 	   as ptcCpsnY1Before		 
+				,c.PTC_CPSN_Y_2		 	   as ptcCpsnY2Before		 
+				,c.PTC_CPSN_Y_3		 	   as ptcCpsnY3Before		 
+				,c.PTC_CPSN_Y_4		 	   as ptcCpsnY4Before		 
+				,c.EXP_ARSL_Y		 	   as expArslYBefore		 
+				,c.EXP_ARSL_Y_1		 	   as expArslY1Before		 
+				,c.EXP_ARSL_Y_2		 	   as expArslY2Before		 
+				,c.EXP_ARSL_Y_3		 	   as expArslY3Before		 
+				,c.EXP_ARSL_Y_4		 	   as expArslY4Before				
 			   ,a.ALTR_RSON_TXT                                    as altrRsonTxt
 			   ,a.ADD_RSON_TXT                                     as addRsonTxt
 			   ,isnull(b.ATTC_FIL_ID , a.ALTR_ATTC_FIL_ID)          as altrAttcFilId

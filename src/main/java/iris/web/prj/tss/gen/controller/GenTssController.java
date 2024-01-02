@@ -475,6 +475,7 @@ public class GenTssController  extends IrisBaseController {
         try {
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("tssCd", String.valueOf(input.get("tssCd")));
+            map.put("pgTssCd", String.valueOf(input.get("pgTssCd")));
 
             resultMap = genTssService.getTssRegistCnt(map);
 

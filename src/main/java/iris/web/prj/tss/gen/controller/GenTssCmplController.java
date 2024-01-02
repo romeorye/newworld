@@ -291,7 +291,7 @@ public class GenTssCmplController  extends IrisBaseController {
 
 
     	LOGGER.debug("###########################################################");
-        LOGGER.debug("GenTssController - genTssCmplGoalYldIfm [과제관리 > 일반과제 > 완료 > 품의서요청 화면 ]");
+        LOGGER.debug("GenTssController - genTssCmplCsusRq [과제관리 > 일반과제 > 완료 > 품의서요청 화면 ]=== : " + input );
         LOGGER.debug("###########################################################");
 
         checkSession(input, session, model);
@@ -311,10 +311,10 @@ public class GenTssCmplController  extends IrisBaseController {
         }
         
         if(pageMoveChkSession(input.get("_userId"))) {
+        	Map<String, Object> resultGrs         = genTssService.retrieveGenGrs(input); //마스터
         	Map<String, Object> resultMst         = genTssCmplService.retrieveGenTssCmplMst(input); //마스터
             Map<String, Object> resultCsus        = genTssService.retrieveGenTssCsus(resultMst); //품의서
             Map<String, Object> resultSmry        = genTssCmplService.retrieveGenTssCmplIfm(input); //개요
-            //Map<String, Object> resultSmry        = genTssCmplService.retrieveGenTssCmplSmry(input); //개요
             
             HashMap<String, String> inputInfo = new HashMap<String, String>();
             inputInfo.put("tssCd",     String.valueOf(input.get("tssCd")));
@@ -327,12 +327,14 @@ public class GenTssCmplController  extends IrisBaseController {
             Map<String, Object> resultCmpl        = genTssCmplService.retrieveGenTssCmplInfo(inputInfo);
             List<Map<String, Object>> resultAttc  = genTssCmplService.retrieveGenTssCmplAttc(inputInfo);
 
+            resultGrs  = StringUtil.toUtf8Output((HashMap) resultGrs);
             resultMst  = StringUtil.toUtf8Output((HashMap) resultMst);
             resultCsus = StringUtil.toUtf8Output((HashMap) resultCsus);
             resultSmry = StringUtil.toUtf8Output((HashMap) resultSmry);
             resultCmpl = StringUtil.toUtf8Output((HashMap) resultCmpl);
 
             model.addAttribute("inputData", input);
+            model.addAttribute("resultGrs", resultGrs);
             model.addAttribute("resultMst", resultMst);
             model.addAttribute("resultSmry", resultSmry);
             model.addAttribute("resultCmpl", resultCmpl);

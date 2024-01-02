@@ -150,11 +150,4 @@ public interface GenTssPlnService {
 	 */
 	public List<Map<String, Object>> retrievveTssGenItmList(HashMap<String, Object> input);
 
-	
-
-
-
-
-
-
 }

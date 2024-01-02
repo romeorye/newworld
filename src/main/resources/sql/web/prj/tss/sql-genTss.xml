@@ -45,8 +45,10 @@
 				,dbo.fn_getQgateStepNm(z.wbs_cd,'0') as qgateStepNm
 		from  (
 				select   m.PRJ_CD
-						,substring(m.prj_nm, CHARINDEX ('.', m.prj_nm) +1, len(m.prj_nm)  ) as prj_nm
-						,substring(m.al_prj_nm, CHARINDEX ('.', m.al_prj_nm) +1, len(m.al_prj_nm)  ) as al_prj_nm
+						,case when m.prj_cd in ('PRJ00021','PRJ00015','PRJ00002') then m.prj_nm
+						        else substring(dbo.fn_getPrjName(m.prj_cd), CHARINDEX ('.', dbo.fn_getPrjName(m.prj_cd)) +1, len(dbo.fn_getPrjName(m.prj_cd))  ) end as prj_nm
+                        ,case when m.prj_cd in ('PRJ00021','PRJ00015','PRJ00002') then m.al_prj_nm
+						        else substring(m.al_prj_nm, CHARINDEX ('.', m.al_prj_nm) +1, len(m.al_prj_nm)  ) end as al_prj_nm
 						,m.TSS_CD
 						,m.PGS_STEP_CD
 						,m.TSS_SCN_CD
@@ -195,7 +197,7 @@
                       (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
 						  ON m.TSS_CD = g.TSS_CD
 						  and left(m.TSS_CD, 1) = 'G'
-						  WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
+						  WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='G1')
 				) z
 		where  1=1
 		]]>
@@ -289,29 +291,29 @@
              , a.CTY_OT_PLN_M         AS ctyOtPlnM            --상품출시계획월
              , SMR_SMRY_TXT			  AS smrSmryTxt			 --요약개요
              , SMR_GOAL_TXT			  AS smrGoalTxt			 --요약목표
-             , dbo.fn_getConvertInt(BIZ_PRFT_PRO_Y	)	  AS bizPrftProY		 --영업이익율Y
-			 , dbo.fn_getConvertInt(BIZ_PRFT_PRO_Y_1)	  AS bizPrftProY1
-			 , dbo.fn_getConvertInt(BIZ_PRFT_PRO_Y_2) 	  AS bizPrftProY2
-			 , dbo.fn_getConvertInt(BIZ_PRFT_PRO_Y_3)		AS bizPrftProY3
-			 , dbo.fn_getConvertInt(BIZ_PRFT_PRO_Y_4)		AS bizPrftProY4
-			 , dbo.fn_getConvertInt(a.BIZ_PRFT_PLN_Y	)  AS bizPrftPlnY
-			 , dbo.fn_getConvertInt(a.BIZ_PRFT_PLN_Y_1 	)  AS bizPrftPlnY1
-			 , dbo.fn_getConvertInt(a.BIZ_PRFT_PLN_Y_2	)  AS bizPrftPlnY2
-             , dbo.fn_getConvertInt(a.NPROD_SALS_PLN_Y  )  AS nprodSalsPlnY       --신제품매출계획Y
-             , dbo.fn_getConvertInt(a.NPROD_SALS_PLN_Y_1)  AS nprodSalsPlnY1      --신제품매출계획Y+1
-             , dbo.fn_getConvertInt(a.NPROD_SALS_PLN_Y_2)  AS nprodSalsPlnY2      --신제품매출계획Y+2
-             , dbo.fn_getConvertInt(a.NPROD_SALS_PLN_Y_3)  AS nprodSalsPlnY3      --신제품매출계획Y+3
-             , dbo.fn_getConvertInt(a.NPROD_SALS_PLN_Y_4)  AS nprodSalsPlnY4      --신제품매출계획Y+4
-             , dbo.fn_getConvertInt(a.PTC_CPSN_Y        )  AS ptcCpsnY            --투입인원수Y
-             , dbo.fn_getConvertInt(a.PTC_CPSN_Y_1      )  AS ptcCpsnY1           --투입인원수Y+1
-             , dbo.fn_getConvertInt(a.PTC_CPSN_Y_2      )  AS ptcCpsnY2           --투입인원수Y+2
-             , dbo.fn_getConvertInt(a.PTC_CPSN_Y_3      )  AS ptcCpsnY3           --투입인원수Y+3
-             , dbo.fn_getConvertInt(a.PTC_CPSN_Y_4      )  AS ptcCpsnY4           --투입인원수Y+4
-             , dbo.fn_getConvertInt(a.EXP_ARSL_Y		)	as expArslY
-             , dbo.fn_getConvertInt(a.EXP_ARSL_Y_1		)	as expArslY1
-             , dbo.fn_getConvertInt(a.EXP_ARSL_Y_2		)	as expArslY2
-             , dbo.fn_getConvertInt(a.EXP_ARSL_Y_3		)	as expArslY3
-             , dbo.fn_getConvertInt(a.EXP_ARSL_Y_4		)	as expArslY4
+             , BIZ_PRFT_PRO_Y	  AS bizPrftProY		 --영업이익율Y
+			, BIZ_PRFT_PRO_Y_1  AS bizPrftProY1
+			, BIZ_PRFT_PRO_Y_2	  AS bizPrftProY2
+			, BIZ_PRFT_PRO_Y_3	AS bizPrftProY3
+			, BIZ_PRFT_PRO_Y_4	AS bizPrftProY4
+			, a.BIZ_PRFT_PLN_Y  AS bizPrftPlnY
+			, a.BIZ_PRFT_PLN_Y_1 	  AS bizPrftPlnY1
+			, a.BIZ_PRFT_PLN_Y_2	  AS bizPrftPlnY2
+			, a.NPROD_SALS_PLN_Y    AS nprodSalsPlnY       --신제품매출계획Y
+			, a.NPROD_SALS_PLN_Y_1  AS nprodSalsPlnY1      --신제품매출계획Y+1
+			, a.NPROD_SALS_PLN_Y_2  AS nprodSalsPlnY2      --신제품매출계획Y+2
+			, a.NPROD_SALS_PLN_Y_3  AS nprodSalsPlnY3      --신제품매출계획Y+3
+			, a.NPROD_SALS_PLN_Y_4  AS nprodSalsPlnY4      --신제품매출계획Y+4
+			, a.PTC_CPSN_Y          AS ptcCpsnY            --투입인원수Y
+			, a.PTC_CPSN_Y_1        AS ptcCpsnY1           --투입인원수Y+1
+			, a.PTC_CPSN_Y_2        AS ptcCpsnY2           --투입인원수Y+2
+			, a.PTC_CPSN_Y_3        AS ptcCpsnY3           --투입인원수Y+3
+			, a.PTC_CPSN_Y_4        AS ptcCpsnY4           --투입인원수Y+4
+			, a.EXP_ARSL_Y			as expArslY
+			, a.EXP_ARSL_Y_1			as expArslY1
+			, a.EXP_ARSL_Y_2			as expArslY2
+			, a.EXP_ARSL_Y_3			as expArslY3
+			, a.EXP_ARSL_Y_4			as expArslY4
              , TSS_SMRY_TXT           AS tssSmryTxt          --과제개요 - 연구과제배경
              , TSS_SMRY_DVLP_TXT      AS tssSmryDvlpTxt      --과제개요 - 주요연구개발내용
              , RSST_DVLP_OUCM_TXT     AS rsstDvlpOucmTxt     --연구개발성과 - 지재권

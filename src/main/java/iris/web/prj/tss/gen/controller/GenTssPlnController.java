@@ -1393,20 +1393,20 @@ public class GenTssPlnController  extends IrisBaseController {
             HttpSession session, ModelMap model) throws JSONException {
 
         LOGGER.debug("###########################################################");
-        LOGGER.debug("GenTssController - genTssPlnGoalYldIfm [과제관리 > 일반과제 > 계획 > 품의서요청 화면 ]");
+        LOGGER.debug("GenTssController - genTssPlnCsusRq [과제관리 > 일반과제 > 계획 > 품의서요청 화면 ]== : " + input);
         LOGGER.debug("###########################################################");
 
         checkSession(input, session, model);
 
         if(pageMoveChkSession(input.get("_userId"))) {
-            Map<String, Object> resultMst         = genTssPlnService.retrieveGenTssPlnMst(input); //마스터
+        	Map<String, Object> resultGrs         = genTssService.retrieveGenGrs(input); //GRS 
+        	Map<String, Object> resultMst         = genTssPlnService.retrieveGenTssPlnMst(input); //마스터
             Map<String, Object> resultSmry        = genTssPlnService.retrieveGenTssPlnSmry(input); //개요
             Map<String, Object> resultCsus        = genTssService.retrieveGenTssCsus(resultMst); //품의서
             List<Map<String, Object>> resultMbr   = genTssPlnService.retrieveGenTssPlnPtcRsstMbr(input); //참여연구원
             List<Map<String, Object>> resultGoal  = genTssPlnService.retrieveGenTssPlnGoal(input); //목표기술성과
             List<Map<String, Object>> resultTssYy = genTssPlnService.retrieveGenTssPlnTssYy(input); //과제년도
-            //List<Map<String, Object>> resultBudg  = genTssPlnService.retrieveGenTssPlnBudgGroupYy(input, resultTssYy); //예산
-
+           
             HashMap<String, String> inputInfo = new HashMap<String, String>();
             inputInfo.put("tssCd",     String.valueOf(input.get("tssCd")));
             inputInfo.put("pgTssCd",   String.valueOf(resultMst.get("pgTssCd")));
@@ -1414,38 +1414,22 @@ public class GenTssPlnController  extends IrisBaseController {
             inputInfo.put("tssFnhDd",  String.valueOf(resultMst.get("tssFnhDd")));
             inputInfo.put("attcFilId", String.valueOf(resultSmry.get("attcFilId")));
 
-            List<Map<String, Object>> resultAttc  = genTssCmplService.retrieveGenTssCmplAttc(inputInfo);
- /*
-            LOGGER.debug("#######################resultBudg #################################### : " + resultBudg);
             
-            for(int i=0; i < resultBudg.size() ; i++){
-            	if(i == 0 ){
-            		resultSmry.put("ingun", resultBudg.get(i).get("totSum"));
-            	}else if(i == 1 ){
-            		resultSmry.put("ounYoung", resultBudg.get(i).get("totSum"));
-            	}else if(i == 2 ){
-            		resultSmry.put("kungDev", resultBudg.get(i).get("totSum"));
-            	}else if(i == 3 ){
-            		resultSmry.put("gamgaDev", resultBudg.get(i).get("totSum"));
-            	}else if(i == 4 ){
-            		resultSmry.put("total", resultBudg.get(i).get("totSum"));
-            	}
-            }
-        */    
+            List<Map<String, Object>> resultAttc  = genTssCmplService.retrieveGenTssCmplAttc(inputInfo);
+ 
+            
+            resultGrs  = StringUtil.toUtf8Output((HashMap) resultGrs);
             resultMst  = StringUtil.toUtf8Output((HashMap) resultMst);
             resultSmry = StringUtil.toUtf8Output((HashMap) resultSmry);
             resultCsus = StringUtil.toUtf8Output((HashMap) resultCsus);
-            //            for(int i = 0; i < resultGoal.size(); i++) {
-            //                StringUtil.toUtf8Input((HashMap)resultGoal.get(i));
-            //            }
 
             model.addAttribute("inputData", input);
+            model.addAttribute("resultGrs", resultGrs);
             model.addAttribute("resultMst", resultMst);
             model.addAttribute("resultSmry", resultSmry);
             model.addAttribute("resultMbr", resultMbr);
             model.addAttribute("resultGoal", resultGoal);
             model.addAttribute("resultTssYy", resultTssYy);
-           // model.addAttribute("resultBudg", resultBudg);
             model.addAttribute("resultCsus", resultCsus);
             model.addAttribute("resultAttc", resultAttc);
 
