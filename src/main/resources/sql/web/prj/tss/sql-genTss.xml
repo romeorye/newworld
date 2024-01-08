@@ -45,9 +45,9 @@
 				,dbo.fn_getQgateStepNm(z.wbs_cd,'0') as qgateStepNm
 		from  (
 				select   m.PRJ_CD
-						,case when m.prj_cd in ('PRJ00021','PRJ00015','PRJ00002') then m.prj_nm
+						,case when m.prj_cd in ('PRJ00021','PRJ00015','PRJ00002', 'PRJ00025','PRJ00026') then m.prj_nm
 						        else substring(dbo.fn_getPrjName(m.prj_cd), CHARINDEX ('.', dbo.fn_getPrjName(m.prj_cd)) +1, len(dbo.fn_getPrjName(m.prj_cd))  ) end as prj_nm
-                        ,case when m.prj_cd in ('PRJ00021','PRJ00015','PRJ00002') then m.al_prj_nm
+                        ,case when m.prj_cd in ('PRJ00021','PRJ00015','PRJ00002', 'PRJ00025','PRJ00026') then m.al_prj_nm
 						        else substring(m.al_prj_nm, CHARINDEX ('.', m.al_prj_nm) +1, len(m.al_prj_nm)  ) end as al_prj_nm
 						,m.TSS_CD
 						,m.PGS_STEP_CD
