@@ -29,7 +29,18 @@ var today = new Date();
 var dd = today.getDate();
 var mm = today.getMonth()+1; //January is 0!
 var yyyy = today.getFullYear();
-var fromStrDt = today.getFullYear() +""+ pad(today.getMonth())+"";
+var fromStrDt = "";
+
+if (pad(mm) == "01"){
+	yyyy = today.getFullYear()-1;
+	mm = "12";
+	
+	fromStrDt = yyyy +""+ pad(mm);
+}else{
+	fromStrDt = today.getFullYear() +""+ pad(today.getMonth())+"";
+}
+
+
 
 var tssCd = '${inputData.tssCd}';    
     
