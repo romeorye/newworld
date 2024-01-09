@@ -31,7 +31,7 @@
     var lvWbsCd    = window.parent.gvWbsCd;
     var lvPageMode = window.parent.gvPageMode;
     
-    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" || lvTssSt == "102" ) && lvPageMode == "W" ? "W" : "R";
     
     var dataSet;
     var popupRow;
@@ -156,7 +156,7 @@
             useRightActionMenu: false
         });
         grid.on('popup', function(e) {
-            if((lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302") && pageMode == "W") {
+            if((lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" || lvTssSt == "102") && pageMode == "W") {
 	            popupRow = e.row;
 	            openUserSearchDialog(setGridUserInfo, 1, '');
             }
