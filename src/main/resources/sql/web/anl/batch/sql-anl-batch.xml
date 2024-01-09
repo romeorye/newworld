@@ -46,7 +46,6 @@
 			and		mst.rgst_trsf_flag = 'W'
 			and		mst.rgst_id = rgst.sa_user
 			and		mst.anl_chrg_id = chrg.sa_user
-
 	</select>
 
 	<update id="updateAnlChrgTrsfFlag" parameterType="iris.web.anl.rqpr.vo.AnlMailInfo">
