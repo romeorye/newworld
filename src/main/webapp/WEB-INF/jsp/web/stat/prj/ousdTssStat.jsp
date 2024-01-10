@@ -167,7 +167,7 @@
                     	columns: [
                       	  new Rui.ui.grid.LNumberColumn()
                       	, { field: 'wbsCd',        		label: 'WBS 코드',                	sortable: false,  align:'center', width: 60 }
-                      	, { field: 'bizBptNm',        	label: '사업부문(Funding기준)',	    sortable: false,  align:'center', width: 130 }
+                      	, { field: 'bizDptNm',        	label: '사업부문(Funding기준)',	    sortable: false,  align:'center', width: 130 }
                       	, { field: 'deptName',        	label: '조직',                		sortable: false,  align:'center', width: 100 }
                       	, { field: 'prjNm',        		label: 'Project',                	sortable: false,  align:'center', width: 200 }
                       	, { field: 'cnttTypeNm',        label: '계약 유형',               	sortable: false,  align:'center', width: 70 }
