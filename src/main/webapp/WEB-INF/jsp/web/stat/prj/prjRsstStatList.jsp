@@ -311,6 +311,7 @@ nG.saveExcel(encodeURIComponent('통계_프로젝트') + new Date().format('%Y%m
 												<option value="2021">2021</option>
 												<option value="2022">2022</option>
 												<option value="2023">2023</option>
+												<option value="2024">2024</option>
 			   								</select>
 
 			   								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>

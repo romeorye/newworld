@@ -56,7 +56,7 @@
 		      ,sum( convert(numeric(20,6), convert(numeric(20),KO_RSLT)/100000000))  as allArsl
 		from   IRIS_SAP_BUDG_S_COST
 		where  1=1
-		and   left(YYYYMM, 4) =  '2020' /**P*/ 
+		and   left(YYYYMM, 4) =  #{condYy} 
 		group by erp_cd
 		      
 		)
@@ -118,7 +118,7 @@
 						,b.PTC_CPSN_Y_2	  as ptcCpsnY2
 						,b.PTC_CPSN_Y_3	  as ptcCpsnY3
 						,b.PTC_CPSN_Y_4	  as ptcCpsnY4
-						,round(isnull((select round((sum(PTC_PRO) / 100) / (select case when count(distinct mm_yymm) = 0 then 1 else count(distinct mm_yymm) end  from IRIS_MM_CLS where tss_cd = a.pgtssCd and cls_yn ='Y' and left(MM_YYMM, 4) =  '2020' /**P*/ ) , 2) from IRIS_MM_CLS where tss_cd  = a.pgtssCd and left(MM_YYMM, 4) =  '2020' /**P*/ and cls_yn ='Y'), 0), 1) AS mbrCntArsl --투입인원Y년-실적
+						,round(isnull((select round((sum(PTC_PRO) / 100) / (select case when count(distinct mm_yymm) = 0 then 1 else count(distinct mm_yymm) end  from IRIS_MM_CLS where tss_cd = a.pgtssCd and cls_yn ='Y' and left(MM_YYMM, 4) =  #{condYy} ) , 2) from IRIS_MM_CLS where tss_cd  = a.pgtssCd and left(MM_YYMM, 4) = #{condYy} and cls_yn ='Y'), 0), 1) AS mbrCntArsl --투입인원Y년-실적
 						,#{condYy}  as searchYy
 						,d.MIN_YY AS minYy
 				from    TSS_LIST a
@@ -208,7 +208,7 @@
 										GROUP BY  NP_CD) d
 						on a.wbs_cd=d.np_cd
 				where   1=1
-				and      '2020' /**P*/ BETWEEN LEFT(a.TSS_STRT_DD, 4) AND LEFT(    (case when   a.PGS_STEP_CD = 'CM' then a.CMPL_B_FNH_DD
+				and      #{condYy} BETWEEN LEFT(a.TSS_STRT_DD, 4) AND LEFT(    (case when   a.PGS_STEP_CD = 'CM' then a.CMPL_B_FNH_DD
 				                                                                                                                   when   a.PGS_STEP_CD = 'DC' then a.DCAC_B_FNH_DD 
 																																   else    a.TSS_FNH_DD end ) , 4)
 				) m
