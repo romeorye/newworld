@@ -223,7 +223,7 @@
 		        id: 'rlabChrgListDialog',
 		        title: '시험담당자',
 		        width: 500,
-		        height: 380,
+		        height: 570,
 		        modal: true,
 		        visible: false,
 		        buttons: [

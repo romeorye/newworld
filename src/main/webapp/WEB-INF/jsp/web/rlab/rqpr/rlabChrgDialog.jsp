@@ -53,7 +53,7 @@
 
 	<!-- pop컨텐츠 -->
 	<div class="bd pop_conin">
-		<!-- <div>기타 산업조직 시험의뢰시, 제품신뢰성연구 PJT PL과 상의해 주시기 바랍니다.</div> -->
+		<div align="right">※ 신뢰성시험 의뢰 시, 시험 담당자 or 제품신뢰성연구PJT PL에게 문의 바랍니다.</div>
 		<table class="table anlch_ta">
 			<colgroup>
 				<col style="width:25%;">
@@ -61,46 +61,60 @@
 				<col style="width:50%;">
 			</colgroup>
 			<tbody>
-				<th colspan="2">사업부</th>
-				<th>담당자</th>
+				<th colspan="2">사업부/사업담당</th>
+				<th>시험 담당자</th>
 				<tr>
-					<th rowspan="2"  align="center">인테리어</th>
-					<th align="center">주방·도어</th>
-					<td align="center">
-						<a href="#" onClick="setRlabChrgInfo('jndkim', '김지니다')">김지니다</a>,
-						<a href="#" onClick="setRlabChrgInfo('duhwanlee', '이두환')">이두환</a>
-						<!-- <a href="#" onClick="setRlabChrgInfo('shmyoung', '명석한')">명석한</a> -->
+					<th colspan="2" align="center">총괄</th>
+					<td style="text-align:center;vertical-align:middle !important;">
+						<a href="#" onClick="setRlabChrgInfo('sheleemin', '이민')">이민</a>
 					</td>
 				</tr>
 				<tr>
-					<th align="center">욕실</th>
-					<td align="center">
-						<a href="#" onClick="setRlabChrgInfo('sheleemin', '이민')">이민,
-						<a href="#" onClick="setRlabChrgInfo('tekang', '강태의')">강태의</a>,
+					<th rowspan="2" align="center">창호</th>
+					<th align="center">시스템창, 중문, 통합시공</th>
+					<td style="text-align:center;vertical-align:middle !important;">
+						<a href="#" onClick="setRlabChrgInfo('hobaly', '임호연')">임호연</a>
+					</td>
+				</tr>
+				<tr>
+					<th align="center">PL창</th>
+					<td style="text-align:center;vertical-align:middle !important;">
+						<a href="#" onClick="setRlabChrgInfo('jhbyun', '변재현')">변재현</a>
+					</td>
+				</tr>
+				<tr>
+					<th colspan="2" align="center">인테리어</th>
+					<td style="text-align:center;vertical-align:middle !important;">
+						<a href="#" onClick="setRlabChrgInfo('induohgee', '이동희')">이동희</a>
+					</td>
+				</tr>
+				<tr>
+					<th colspan="2" align="center">표면소재</th>
+					<td style="text-align:center;vertical-align:middle !important;">
+						<a href="#" onClick="setRlabChrgInfo('jndkim', '김지니다')">김지니다</a>
+					</td>
+				</tr>
+				<tr>
+					<th colspan="2" align="center">산업용필름</th>
+					<td style="text-align:center;vertical-align:middle !important;">
+						<a href="#" onClick="setRlabChrgInfo('tekang', '강태의')">강태의</a>
+					</td>
+				</tr>
+				<tr>
+					<th colspan="2" align="center">바닥재</th>
+					<td rowspan="2" style="text-align:center;vertical-align:middle !important;">
 						<a href="#" onClick="setRlabChrgInfo('sungfepark', '박성철')">박성철</a>
-<!-- 						<a href="#" onClick="setRlabChrgInfo('jhbyun', '변재현')">변재현</a> -->
-					</td>
-				</tr>				
-				<tr>
-					<th colspan="2" align="center">창호</th>
-					<td rowspan ="3" align="center">
-						<a href="#" onClick="setRlabChrgInfo('jhbyun', '변재현')">변재현</a>,
-						<a href="#" onClick="setRlabChrgInfo('induohgee', '이동희')">이동희
 					</td>
 				</tr>
 				<tr>
-					<th colspan="2" align="center">단열재, 바닥재, 벽지</th>
-					<!-- <td align="center">
-						<a href="#" onClick="setRlabChrgInfo('ehkang', '강은희')">강은희,
-						<a href="#" onClick="setRlabChrgInfo('induohgee', '이동희')">이동희
-					</td> -->
+					<th colspan="2" align="center">벽지</th>
 				</tr>
 				<tr>
-					<th colspan="2" align="center">표면소재, 산업용필름, 자동차</th>
-					<!-- <td align="center">
-						<a href="#" onClick="setRlabChrgInfo('ehkang', '강은희')">강은희,
-						<a href="#" onClick="setRlabChrgInfo('induohgee', '이동희')">이동희
-					</td> -->
+					<th colspan="2" align="center">단열재</th>
+					<td style="text-align:center;vertical-align:middle !important;">
+						<a href="#" onClick="setRlabChrgInfo('jndkim', '김지니다')">김지니다 책임</a>,
+						<a href="#" onClick="setRlabChrgInfo('sungfepark', '박성철')">박성철 사원</a>
+					</td> 
 				</tr>
 			</tbody>
 		</table>

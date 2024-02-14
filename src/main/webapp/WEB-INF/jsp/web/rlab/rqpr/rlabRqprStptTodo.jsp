@@ -393,7 +393,7 @@
    								<div id="rlabCnsQlty"></div>
    							</td>
    							<td class="t_center" rowspan="3">
-   								<a style="cursor: pointer;" onclick="rlabStptSave();" class="btnL">저장</a>
+   								<button type="button" id="btnCsusRq" name="btnCsusRq" onclick="rlabStptSave();">저장</button>
    							</td>
    						</tr>
    						<tr>
