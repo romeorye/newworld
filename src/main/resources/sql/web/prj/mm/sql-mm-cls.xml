@@ -17,21 +17,7 @@
 							from   IRIS_TSS_MGMT_MST a
 							where  a.del_yn ='N'
 							and    a.tss_scn_cd ='G'
-							and    a.TSS_CD IN (SELECT TSS_CD
-												FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
-														   , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
-													  FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' OR PGS_STEP_CD = 'DC' THEN 1
-																		WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
-																		WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102' OR TSS_ST = '301' OR TSS_ST = '302' ) THEN 3
-																		WHEN PGS_STEP_CD = 'AL' THEN 4
-																		WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 5
-																		WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
-																   , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
-															 FROM IRIS_TSS_MGMT_MST
-															 where tss_scn_cd ='G' ) X) Y
-													  WHERE OVER_STEP_RANK = 1
-													  )
-							and    a.PGS_STEP_CD <> 'PL'
+							and    a.PGS_STEP_CD = 'PG'
 							and    a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059', 'PRJ00090','PRJ00102' )		
 							) a
 				where 1=1
@@ -55,7 +41,7 @@
 					  ,b.COMM_TXT as commTxt
 					  ,(case when b.tss_cd is null then 'N' else 'Y' end) as clsDataYn
 					  ,isnull(b.TO_DO_YN, case when ISNULL(b.MM_YYMM,  #{searchMonth}) > '2017-12' then 'N' else 'Y' end ) as clsToDoYn
-								,isnull(b.MM_YYMM,  #{searchMonth} ) as mmYymm
+					  ,isnull(b.MM_YYMM,  #{searchMonth} ) as mmYymm
 					  ,#{_userSabun} as saSabunNew
 					  ,isnull(b.OUSD_TSS_YN, 'N') as ousdTssYn
 					  ,isnull(b.CLS_YN, case when ISNULL(b.MM_YYMM,  #{searchMonth}) > '2017-12' then 'N' else 'Y' end) as clsYn
@@ -115,15 +101,70 @@
 						where  a.sa_sabun_new = #{_userSabun}
 						and    a.MM_YYMM = #{searchMonth}
 						and    a.OUSD_TSS_YN = 'Y'
+						
+						union
+						select b.PRJ_CD
+							  ,b.prj_nm
+							  ,b.tss_cd
+							  ,b.tss_nm+'_Seed검토'
+							  ,(select x.WBS_CD_P from iris_prj_rsst_mst x where x.PRJ_CD = b.PRJ_CD) as wbs_cd
+							  ,b.PATC_STR_DT
+							  ,b.PATC_END_DT
+						from  (
+								select a.prj_cd
+									  ,dbo.fn_getPrjName(a.prj_cd) as prj_nm
+									  ,a.prj_cd as tss_cd
+									  ,dbo.fn_getPrjName(a.prj_cd) as tss_nm
+									  ,a.wbs_cd
+									  ,a.PATC_STR_DT
+									  ,case when a.PATC_END_DT = '' or a.PATC_END_DT is null then '9999-12-31'
+											else a.PATC_END_DT end as PATC_END_DT
+								from   IRIS_PRJ_TMMR_INFO a
+								where  a.TMMR_EMP_NO = #{_userSabun}
+								and    a.prj_cd in (
+								         select prj_cd from iris_prj_rsst_mst where tclg_yn = 'N'
+										)
+								) b
+						where 1=1
+						and    #{searchMonth} between left(b.PATC_STR_DT, 7) and left(b.PATC_END_DT, 7)
+						
+						union
+						select b.PRJ_CD
+							  ,b.prj_nm
+							  ,b.tss_cd
+							  ,b.tss_nm+'_배부임시'
+							  ,(select x.WBS_CD_T from iris_prj_rsst_mst x where x.PRJ_CD = b.PRJ_CD) as wbs_cd
+							  ,b.PATC_STR_DT
+							  ,b.PATC_END_DT
+						from  (
+								select a.prj_cd
+									  ,dbo.fn_getPrjName(a.prj_cd) as prj_nm
+									  ,a.prj_cd as tss_cd
+									  ,dbo.fn_getPrjName(a.prj_cd) as tss_nm
+									  ,a.wbs_cd
+									  ,a.PATC_STR_DT
+									  ,case when a.PATC_END_DT = '' or a.PATC_END_DT is null then '9999-12-31'
+											else a.PATC_END_DT end as PATC_END_DT
+								from   IRIS_PRJ_TMMR_INFO a
+								where  a.TMMR_EMP_NO = #{_userSabun}
+								and    a.prj_cd in (
+								         select prj_cd from iris_prj_rsst_mst where tclg_yn = 'N'
+										)
+								) b
+						where 1=1
+						and    #{searchMonth} between left(b.PATC_STR_DT, 7) and left(b.PATC_END_DT, 7)
+						
 						) m
 						left outer join iris_mm_cls b
 							on b.tss_cd = m.tss_Cd
 							and b.prj_cd = m.prj_Cd
+							and b.wbs_cd = m.WBS_CD
 							and b.sa_sabun_new =  #{_userSabun}
 							and b.mm_yymm =  #{searchMonth}
 						LEFT OUTER JOIN IRIS_MM_CLS F
 							ON F.TSS_CD = m.tss_Cd
 							and  F.prj_cd = m.prj_Cd
+							and f.wbs_cd = m.WBS_CD
 							AND  F.SA_SABUN_NEW = #{_userSabun}
 							AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)
 
@@ -185,6 +226,7 @@
 		 , FRST_RGST_DT
 		 , LAST_MDFY_ID
 		 , LAST_MDFY_DT
+		 , WBS_CD
 	]]>
 		 <if test="( toDoYn != null and toDoYn != '')"><!-- todo완료여부 -->
 		 , TO_DO_YN
@@ -206,6 +248,7 @@
 		 , getdate()
 		 , #{_userId}
 		 , getdate()
+		 , #{tssWbsCd}
 	]]>
 		 <if test="( toDoYn != null and toDoYn != '')"><!-- todo완료여부 -->
 		 , #{toDoYn}
@@ -248,6 +291,7 @@
 		 WHERE TSS_CD = #{tssCd}
 	       AND SA_SABUN_NEW = #{saSabunNew}
 	       AND MM_YYMM = #{mmYymm}
+	       and WBS_CD = #{tssWbsCd}
 	]]>
 	</update>
 
@@ -265,6 +309,7 @@
 		and    TSS_CD = #{tssCd}
 		and    MM_YYMM = #{mmYymm}
 		and    sa_sabun_new = #{saSabunNew}
+		and    wbs_cd = #{tssWbsCd}
 
 	]]>
 	</update>
@@ -276,13 +321,19 @@
 		MERGE INTO IRIS_MM_CLS A
 			USING ( SELECT	#{saSabunNew} as SA_SABUN_NEW,
 							#{mmYymm}     as MM_YYMM,
-							#{tssCd}      as TSS_CD ) B
-			ON ( A.SA_SABUN_NEW = B.SA_SABUN_NEW and A.MM_YYMM = B.MM_YYMM and A.TSS_CD = B.TSS_CD)
+							#{tssCd}      as TSS_CD, 
+							#{tssWbsCd}   as WBS_CD 
+							) B
+			ON ( A.SA_SABUN_NEW = B.SA_SABUN_NEW and A.MM_YYMM = B.MM_YYMM and A.TSS_CD = B.TSS_CD and a.WBS_CD = b.WBS_CD)
 			WHEN MATCHED THEN
 				UPDATE
 			       SET LAST_MDFY_ID = #{_userId}
 				     , LAST_MDFY_DT = getdate()
+				     
 		]]>
+				<if test="( tssWbsCd != null and tssWbsCd != '')"><!-- wbs코드 -->
+				     , WBS_CD =  #{tssWbsCd}
+				</if>
 				<if test="( ptcPro != null and ptcPro != '')"><!-- 참여율 -->
 				     , PTC_PRO = #{ptcPro}
 				</if>
@@ -321,6 +372,7 @@
 				 , FRST_RGST_DT
 				 , LAST_MDFY_ID
 				 , LAST_MDFY_DT
+				 , WBS_CD
 		]]>
 				 <if test="( clsDt != null and clsDt != '')"><!-- 마감일자 -->
 				 , CLS_DT
@@ -345,6 +397,7 @@
 				 , getdate()
 				 , #{_userId}
 				 , getdate()
+				 , #{tssWbsCd}
 		]]>
 				 <if test="( clsDt != null and clsDt != '')"><!-- 마감일자 -->
 				 , CONVERT(NVARCHAR(10), GETDATE(), 23)
@@ -361,222 +414,206 @@
 	<select id="retrieveMmClsSearchInfo" resultType="hashmap" >
  	<![CDATA[
  	-- retrieveMmClsSearchInfo M/M 마감 목록조회
- 	  with tmp_tssInfo as (
-			select  wbs_cd
-			       ,max(tss_cd) as tss_cd
-			from   IRIS_TSS_MGMT_MST
-			where  del_yn ='N'
-			and    tss_scn_cd ='G'
-			and    tss_cd in (
-							select  a.tss_cd
-							from   IRIS_TSS_PTC_RSST_MBR  a
-							where  1=1
-							and    #{searchMonth} between left(a.PTC_STRT_DT, 7) and left(a.PTC_FNH_DT, 7)
-							and    tss_cd in (SELECT TSS_CD
-											  FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
-													   , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
-												  FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' OR PGS_STEP_CD = 'DC' THEN 1
-																	WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
-																	WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102') THEN 3
-																	WHEN PGS_STEP_CD = 'AL' THEN 4
-																	WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 5
-																	WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
-															   , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
-														 FROM IRIS_TSS_MGMT_MST
-														 where tss_scn_cd ='G' ) X) Y
-												  WHERE OVER_STEP_RANK = 1
-												  )
-							)
-			and    PGS_STEP_CD <> 'PL'
-			and    prj_cd in ( 
-								     select prj_cd from iris_prj_rsst_mst where tclg_yn = 'N'
-							 	)
-			group by wbs_cd
+ 	 with tmp_mmInfo as (
+			select m.prjCd
+			      ,m.prjNm
+				  ,m.tssCd 
+				  ,m.tssWbsCd
+				  ,m.tssNm
+				  ,m.saSabunNew
+				  ,m.saName
+				  ,m.deptCode
+				  ,m.uperdeptName
+				  ,m.saUser
+				  ,m.mailUser
+				  ,m.type
+				  ,isnull(b.CLS_DT, '') as clsDt
+				  ,isnull(b.CLS_YN, 'N') as clsYn
+				  ,isnull(b.ILCK_ST, 'N') as ilckSt
+				  ,isnull(b.PTC_PRO, 0) as ptcPro
+				  ,isnull(f.ptc_pro, 0) as prePtcPro
+				  ,isnull(b.MM_YYMM, #{searchMonth}) as mmYymm
+				  ,convert(nvarchar(max), b.comm_txt) as commTxt
+				  ,isnull(b.TO_DO_YN, 'N') as toDoYn
+			from  (
+					select a.PRJ_CD  as prjCd
+						  ,case when a.prj_cd in ('PRJ00021','PRJ00015','PRJ00002', 'PRJ00025','PRJ00026') then a.prj_nm
+						        else substring(dbo.fn_getPrjName(a.prj_cd), CHARINDEX ('.', dbo.fn_getPrjName(a.prj_cd)) +1, len(dbo.fn_getPrjName(a.prj_cd))  ) end as prjNm 
+						  ,b.TSS_CD as tssCd
+						  ,a.WBS_CD as tssWbsCd
+						  ,a.TSS_NM as tssNm
+						  ,b.sa_sabun_new as saSabunNew
+						  ,dbo.fn_getSabunName(b.sa_sabun_new) as saName
+						  ,(select dept_cd from iris_prj_rsst_mst where prj_cd = a.prj_cd) as deptCode
+						  ,(select distinct dept_name from iris_sso_dept where dept_code = a.dept_code and ps_flag <> 'D') as uperdeptName
+						  ,c.sa_user as saUser
+						  ,c.sa_mail as mailUser
+						  , '1' as type  
+					from   IRIS_TSS_MGMT_MST a
+						   inner join  (
+									select distinct tss_cd
+										   ,sa_sabun_new
+									from   IRIS_TSS_PTC_RSST_MBR a
+									where  #{searchMonth} between left(PTC_STRT_DT, 7) and left(PTC_FNH_DT, 7)
+									) b
+						   on a.TSS_CD = b.TSS_CD
+						   inner join iris_sso_user c
+						   on c.sa_sabun_new = b.sa_sabun_new
+						   and  c.sso_ex_flag <> 'D'
+					where  a.TSS_SCN_CD ='G'
+					and    a.PGS_STEP_CD = 'PG'  
+					union all
+					select a.prj_cd as prjCd
+						  ,case when b.prj_cd in ('PRJ00021','PRJ00015','PRJ00002', 'PRJ00025','PRJ00026') then b.prj_nm
+						        else substring(dbo.fn_getPrjName(b.prj_cd), CHARINDEX ('.', dbo.fn_getPrjName(b.prj_cd)) +1, len(dbo.fn_getPrjName(b.prj_cd))  ) end as prjNm
+						  ,a.tss_cd as tssCd 
+						  ,b.wbs_cd as tssWbsCd
+						  ,b.tss_nm as tssNm
+						  ,a.sa_sabun_new as saSabunNew
+						  ,dbo.fn_getSabunName(a.sa_sabun_new) as saName
+						  ,(select dept_cd from iris_prj_rsst_mst where prj_cd = b.prj_cd) as deptCode
+						  ,(select distinct dept_name from iris_sso_dept where dept_code = b.dept_code and ps_flag <> 'D') as uperdeptName
+						  ,c.sa_user as saUser
+						  ,c.sa_mail as mailUser
+						  , '1' as type
+					from   IRIS_MM_CLS a
+						   inner join iris_tss_mgmt_mst b
+						   on b.tss_cd = a.tss_cd
+						   inner join iris_sso_user  c
+						   on c.sa_sabun_new = a.sa_sabun_new
+						   and  c.sso_ex_flag <> 'D'
+					where  a.MM_YYMM =  #{searchMonth}
+					and    a.OUSD_TSS_YN ='Y'
+					union all
+					select a.PRJ_CD as prjCd
+						  ,case when a.prj_cd in ('PRJ00021','PRJ00015','PRJ00002', 'PRJ00025','PRJ00026') then a.prj_nm
+						        else substring(dbo.fn_getPrjName(a.prj_cd), CHARINDEX ('.', dbo.fn_getPrjName(a.prj_cd)) +1, len(dbo.fn_getPrjName(a.prj_cd))  ) end as prjNm  
+						  ,a.prj_cd as tssCd 
+						  ,a.WBS_CD as tssWbsCd
+						  ,a.PRJ_NM as tssNm
+						  ,b.TMMR_EMP_NO as saSabunNew
+						  ,dbo.fn_getSabunName(b.TMMR_EMP_NO)  as  saName
+						  ,a.dept_cd as deptCode
+						  ,(select dept_name from iris_sso_dept where dept_code = a.DEPT_UPER) as uperdeptName
+						  , c.sa_user  as saUser
+						  , c.sa_mail as mailUser
+						  , 2 as type
+					from   IRIS_PRJ_RSST_MST a
+						   inner join IRIS_PRJ_TMMR_INFO b
+						   on a.WBS_CD = b.WBS_CD   
+						   and  #{searchMonth} between left(b.PATC_STR_DT, 7)  and left(case when b.PATC_END_DT = '' then '9999-12-31'
+																						when b.PATC_END_DT is null then '9999-12-31'
+																						else b.PATC_END_DT end , 7)
+						   inner join IRIS_SSO_USER c
+						   on c.sa_sabun_new = b.TMMR_EMP_NO
+						   and  c.sso_ex_flag <> 'D'
+					where  a.TCLG_YN = 'N'
+					and    #{searchMonth} between left(a.PRJ_STR_DT, 7) and left( case when a.PRJ_END_DT = '' then '9999-12-31'
+																				  when a.PRJ_END_DT is null then '9999-12-31'
+																				  else a.PRJ_END_DT end , 7)
+					union all
+					select a.PRJ_CD as prjCd
+						  ,case when a.prj_cd in ('PRJ00021','PRJ00015','PRJ00002', 'PRJ00025','PRJ00026') then a.prj_nm
+						        else substring(dbo.fn_getPrjName(a.prj_cd), CHARINDEX ('.', dbo.fn_getPrjName(a.prj_cd)) +1, len(dbo.fn_getPrjName(a.prj_cd))  ) end as prjNm  
+						  ,a.prj_cd as tssCd 
+						  ,a.WBS_CD_P as tssWbsCd
+						  ,a.PRJ_NM+'_Seed검토' as tssNm
+						  ,b.TMMR_EMP_NO as saSabunNew
+						  ,dbo.fn_getSabunName(b.TMMR_EMP_NO)  as  saName
+						  ,a.dept_cd as deptCode
+						  ,(select dept_name from iris_sso_dept where dept_code = a.DEPT_UPER) as uperdeptName
+						  , c.sa_user  as saUser
+						  , c.sa_mail as mailUser
+						  , 3 as type
+					from   IRIS_PRJ_RSST_MST a
+						   inner join IRIS_PRJ_TMMR_INFO b
+						   on a.WBS_CD = b.WBS_CD   
+						   and  #{searchMonth} between left(b.PATC_STR_DT, 7)  and left(case when b.PATC_END_DT = '' then '9999-12-31'
+																						when b.PATC_END_DT is null then '9999-12-31'
+																						else b.PATC_END_DT end , 7)
+						   inner join IRIS_SSO_USER c
+						   on c.sa_sabun_new = b.TMMR_EMP_NO
+						   and  c.sso_ex_flag <> 'D'
+					where  a.TCLG_YN = 'N'
+					and    #{searchMonth} between left(a.PRJ_STR_DT, 7) and left( case when a.PRJ_END_DT = '' then '9999-12-31'
+																				  when a.PRJ_END_DT is null then '9999-12-31'
+																				  else a.PRJ_END_DT end , 7)															  
+					union all
+					select a.PRJ_CD as prjCd
+						  ,case when a.prj_cd in ('PRJ00021','PRJ00015','PRJ00002', 'PRJ00025','PRJ00026') then a.prj_nm
+						        else substring(dbo.fn_getPrjName(a.prj_cd), CHARINDEX ('.', dbo.fn_getPrjName(a.prj_cd)) +1, len(dbo.fn_getPrjName(a.prj_cd))  ) end as prjNm  
+						  ,a.prj_cd as tssCd 
+						  ,a.WBS_CD_T as tssWbsCd
+						  ,a.PRJ_NM+'_배부임시' as tssNm
+						  ,b.TMMR_EMP_NO as saSabunNew
+						  ,dbo.fn_getSabunName(b.TMMR_EMP_NO)  as  saName
+						  ,a.dept_cd as deptCode
+						  ,(select dept_name from iris_sso_dept where dept_code = a.DEPT_UPER) as uperdeptName
+						  , c.sa_user  as saUser
+						  , c.sa_mail as mailUser
+						  , 4 as type
+					from   IRIS_PRJ_RSST_MST a
+						   inner join IRIS_PRJ_TMMR_INFO b
+						   on a.WBS_CD = b.WBS_CD   
+						   and  #{searchMonth} between left(b.PATC_STR_DT, 7)  and left(case when b.PATC_END_DT = '' then '9999-12-31'
+																						when b.PATC_END_DT is null then '9999-12-31'
+																						else b.PATC_END_DT end , 7)
+						   inner join IRIS_SSO_USER c
+						   on c.sa_sabun_new = b.TMMR_EMP_NO
+						   and  c.sso_ex_flag <> 'D'
+					where  a.TCLG_YN = 'N'
+					and    #{searchMonth} between left(a.PRJ_STR_DT, 7) and left( case when a.PRJ_END_DT = '' then '9999-12-31'
+																				  when a.PRJ_END_DT is null then '9999-12-31'
+																				  else a.PRJ_END_DT end , 7)
+					
+					
+					
+					
+					
+					) m
+			        left outer join IRIS_MM_CLS b
+					on  b.PRJ_CD = m.prjCd
+					and b.tss_cd = m.tssCd
+					and b.wbs_cd = m.tssWbsCd
+					and b.sa_sabun_new = m.saSabunNew
+					and b.MM_YYMM =  #{searchMonth}
+			        LEFT OUTER JOIN IRIS_MM_CLS F
+					ON   F.TSS_CD = m.tssCd
+					and  F.prj_cd = m.prjCd
+					and  F.wbs_cd = m.tssWbsCd
+					AND  F.SA_SABUN_NEW = m.saSabunNew
+					AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)
 			)
-		,prj_main as (
-				select a.prj_cd
-					   ,substring(a.prj_nm, CHARINDEX ('.', a.prj_nm) +1, len(a.prj_nm)  ) as prj_nm
-					   ,a.prj_cd as tss_cd
-					    ,substring(a.prj_nm, CHARINDEX ('.', a.prj_nm) +1, len(a.prj_nm)  ) as tss_Nm
-					   ,a.WBS_CD
-					   ,a.DEPT_CD
-					   ,a.DEPT_UPER
-					   ,b.TMMR_EMP_NO as sa_sabun_new
-					   ,b.PATC_STR_DT
-					   ,case when b.PATC_END_DT = '' then '9999-12-31'
-							when  b.PATC_END_DT is null then '9999-12-31'
-							else  b.PATC_END_DT end PATC_END_DT
-				from  (
-						select prj_cd
-							  ,prj_nm
-							  ,wbs_cd
-							  ,dept_cd
-							  ,DEPT_UPER
-						from  (
-								select prj_cd
-									  ,prj_nm
-									  ,wbs_cd
-									  ,PRJ_STR_DT
-									  ,case when PRJ_END_DT = '' then '9999-12-31'
-											when PRJ_END_DT is null then '9999-12-31'
-											else    PRJ_END_DT end PRJ_END_DT
-									  ,DEPT_CD
-									  ,DEPT_UPER
-								from  IRIS_PRJ_RSST_MST
-								where 1=1
-								and   prj_cd in ( select prj_cd from iris_prj_rsst_mst where tclg_yn = 'N'
-                               )   
-								and   wbs_cd <> 'R16TS0'
-								) a
-						where  1=1
-						and    #{searchMonth} between left(PRJ_STR_DT, 7) and left(PRJ_END_DT, 7)
-						) a
-						inner join IRIS_PRJ_TMMR_INFO b
-						on b.PRJ_CD = a.PRJ_CD
-						inner join iris_sso_user c
-						on c.sa_sabun_new = b.TMMR_EMP_NO
-						and c.sso_ex_flag <> 'D'
-		)
-select  0 as chk
-       ,z.prjCd
-	   ,z.prjNm
-	   ,z.tssCd
-	   ,z.tssNm
-	   ,z.tssWbsCd
-	   ,z.saSabunNew
-	   ,z.saName
-	   ,z.deptCode
-	   ,z.uperdeptName
-	   ,z.clsDt
-	   ,z.clsYn
-	   ,z.ilckSt
-	   ,z.prePtcPro
-	   ,z.ptcPro
-	   ,z.mmYymm
-	   ,z.commTxt
-	   ,z.toDoYn
-	   ,z.mailUser
-	   ,z.saUser
-	   ,z.type
-from  (
-		select   m.PRJ_CD  as prjCd
-				,m.prj_nm as prjNm
-				,m.tss_cd as tssCd
-				,m.TSS_NM as tssNm
-				,m.WBS_CD as tssWbsCd
-				,m.sa_sabun_new as saSabunNew
-				,dbo.fn_getSabunName(m.sa_sabun_new) as saName
-				,(select dept_cd from iris_prj_rsst_mst where prj_cd = m.prj_cd) as deptCode
-				,(select DEPT_UPER from iris_prj_rsst_mst where prj_cd = m.prj_cd) as uperdeptName
-				,isnull(b.CLS_DT, '') as clsDt
-				,isnull(b.CLS_YN, 'N') as clsYn
-				,isnull(b.ILCK_ST, 'N') as ilckSt
-				,isnull(b.PTC_PRO, 0) as ptcPro
-				,isnull(f.ptc_pro, 0) as prePtcPro
-				,isnull(b.MM_YYMM,  #{searchMonth}) as mmYymm
-				,convert(nvarchar(max), b.comm_txt) as commTxt
-				,isnull(b.TO_DO_YN, 'N') as toDoYn
-				,(select sa_user from iris_sso_user where  sa_sabun_new = m.sa_sabun_new) as mailUser
-				,(select sa_user from iris_sso_user where  sa_sabun_new = m.sa_sabun_new) as saUser
-				,m.type
-		from  (
-				select  1 as type
-					  ,c.prj_cd
-					  ,c.prj_nm
-					  ,c.tss_cd
-					  ,c.tss_nm
-					  ,c.wbs_cd
-					  ,c.sa_sabun_new
-				from (
-						select  b.prj_cd
-							   ,b.prj_nm
-							   ,b.tss_cd
-							   ,b.tss_nm
-							   ,b.WBS_CD
-							   ,a.sa_sabun_new
-
-						from   IRIS_TSS_PTC_RSST_MBR a
-							  ,(
-								select x.*
-								from (
-									select  a.prj_cd
-											,substring(dbo.fn_getPrjName(a.prj_cd), CHARINDEX ('.', dbo.fn_getPrjName(a.prj_cd)) +1, len(dbo.fn_getPrjName(a.prj_cd))  ) as prj_Nm
-											,case when  a.PGS_STEP_CD ='AL' then   (select z.tss_cd from IRIS_TSS_mgmt_mst z where z.PGS_STEP_CD ='PG' and z.wbs_cd = a.wbs_cd)
-											        else a.tss_cd end tss_cd 
-											,a.tss_nm
-											,a.wbs_cd
-											,case when a.PGS_STEP_CD = 'DC' then DCAC_B_STRT_DD
-													when a.PGS_STEP_CD = 'CM' then CMPL_B_STRT_DD
-													else a.TSS_STRT_DD end TSS_STRT_DD
-											,case when a.PGS_STEP_CD = 'DC' then DCAC_B_FNH_DD
-													when a.PGS_STEP_CD = 'CM' then CMPL_B_FNH_DD
-													else a.TSS_FNH_DD end TSS_FNH_DD
-									from   iris_tss_mgmt_mst a
-									where   a.tss_cd in (select tss_cd from tmp_tssInfo)
-								) x
-								where   #{searchMonth} between left(x.TSS_STRT_DD, 7) and left(x.TSS_FNH_DD, 7)
-								) b
-						where  a.tss_cd = b.tss_cd
-						and   #{searchMonth} between left(a.PTC_STRT_DT, 7) and left(a.PTC_FNH_DT, 7)
-						and   (a.sa_sabun_new <> '' or a.sa_sabun_new is not null)
-
-						union
-						select  a.prj_cd
-							  ,substring(dbo.fn_getPrjName(a.prj_cd), CHARINDEX ('.', dbo.fn_getPrjName(a.prj_cd)) +1, len(dbo.fn_getPrjName(a.prj_cd))  ) as prj_Nm
-							  , a.tss_cd
-							  , b.tss_nm
-							  , b.wbs_cd
-							  , a.sa_sabun_new
-						from   IRIS_MM_CLS a
-							   inner join iris_tss_mgmt_mst b
-							   on b.tss_cd = a.tss_cd
-						where   a.MM_YYMM =  #{searchMonth}
-						and     a.OUSD_TSS_YN ='Y'
-						) c
-				union
-				select  2 as type
-						,a.prj_cd
-						,a.prj_nm
-						,a.tss_cd
-						,a.tss_nm
-						,a.wbs_cd
-						,a.sa_sabun_new
-				from  prj_main a
-				where  #{searchMonth} between  left(a.PATC_STR_DT, 7) and left(a.PATC_END_DT, 7)
-
-			) m
-			left outer join IRIS_MM_CLS b
-			on b.PRJ_CD = m.prj_cd
-			and b.tss_cd = m.tss_cd
-			and b.sa_sabun_new = m.sa_sabun_new
-			and b.MM_YYMM =  #{searchMonth}
-			LEFT OUTER JOIN IRIS_MM_CLS F
-			ON F.TSS_CD = m.tss_Cd
-			and  F.prj_cd = m.prj_cd
-			AND  F.SA_SABUN_NEW = m.SA_SABUN_NEW
-			AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,  #{searchMonth}+'-01')), 23)
-		) z
-
-		where 1=1
-		]]>
-		<if test="( roleCheck != 'ADM'   )">
-		       AND z.deptCode = (select team_dept_code from vw_sso_dept where dept_code = #{_userDept})
-		</if>
-		<if test="searchDeptName != null and searchDeptName != '' ">
-				and z.prjNm like '%'+#{searchDeptName}+'%'
-		</if>
-		<if test="( chkPtcPro == 'on')">
-		<![CDATA[
-		 and   z.ptcPro  = 0
-		]]>
-		</if>
-		<if test="( selClsYn != 'null' and selClsYn != '' )">
-		<![CDATA[
-		 and   z.clsYn = #{selClsYn}
-		]]>
-		</if>
-		
-	     order by z.prjCd, z.saName ,z.type
+			
+			select *
+			from   tmp_mmInfo
+			where 1=1
+			]]>
+			<if test="( roleCheck != 'ADM'   )">
+			       AND prjCd IN (SELECT PRJ_CD 
+			                             FROM IRIS_PRJ_RSST_MST 
+										 WHERE DEPT_CD = ( select distinct team_dept_code 
+										                                  from vw_sso_dept 
+																		  where dept_code =#{_userDept}
+																		  )
+										)
+			       
+			</if>
+			<if test="searchDeptName != null and searchDeptName != '' ">
+					and prjNm like '%'+#{searchDeptName}+'%'
+			</if>
+			<if test="( chkPtcPro == 'on')">
+			<![CDATA[
+			 and   ptcPro  = 0
+			]]>
+			</if>
+			<if test="( selClsYn != 'null' and selClsYn != '' )">
+			<![CDATA[
+			 and   clsYn = #{selClsYn}
+			]]>
+			</if>
+			
+			order by prjCd, saName ,type 
 	</select>
 
 
@@ -705,7 +742,7 @@ from  (
 	<!-- M/M마감 To-Do 프로시져 실행 --> <!-- todoTypeCd(MMP,MML) todo_req_no(키), todo대상id -->
 	<update id="saveMmlUpMwTodoReq" parameterType="map">
 	-- saveMmlUpMwTodoReq M/M마감 To-Do 프로시져 실행
-			EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'MML', #{todoReqNo}, #{todoEmpNo}
+		<!--	EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'MML', #{todoReqNo}, #{todoEmpNo}-->
 	</update>
 
 	<select id="retrievePrjLeaderEmpNo" resultType="String" >
