@@ -166,7 +166,7 @@ Rui.onReady(function() {
 		  1. 연동버튼(ADMIN, MM담당자만)7
 		 */
 		if( lmbSearchMonth.getValue() ==  createDashMonthToString(new Date) ){
-			if( roleId.indexOf("WORK_IRI_T01") > -1 || roleId.indexOf("WORK_IRI_T05") || roleId.indexOf("WORK_IRI_T03")    > -1 ){
+			if( roleId.indexOf("WORK_IRI_T01") > -1 || roleId.indexOf("WORK_IRI_T05")  > -1 || roleId.indexOf("WORK_IRI_T03")  > -1 ){
 				butSave.show();
 				lbButIlck.show();
 				lbButOpenSendMailPop.show();
@@ -185,7 +185,7 @@ Rui.onReady(function() {
 					lbButExcl.hide();
 				}
 				
-				if ('${inputData._userSabun}' == "00208577" ){
+				if ('${inputData._userSabun}' == "00208577" || '${inputData._userSabun}' == "00208396"){
 					lbButClsClose.show();
 					lbButClsOpen.show();
 					lbButExcl.show();
@@ -410,7 +410,6 @@ Rui.onReady(function() {
 			var data = Rui.util.LJson.decode(e.responseText);
 	        Rui.alert(data[0].records[0].rtnMsg);
 		});
-
 	});
 
 	/* [버튼] 마감 => 마감여부 Y */
@@ -476,9 +475,9 @@ Rui.onReady(function() {
 		if(mmClsDataSet.getMarkedCount() > 0) {
 
 			// 1. 데이터셋 valid
-			if(!validation(mmClsDataSet,'N')){
-	    		return false;
-	    	}
+			//if(!validation(mmClsDataSet,'N')){
+	    	//	return false;
+	    	//}
 
 			// 2. 데이터 업데이트
 			Rui.confirm({
