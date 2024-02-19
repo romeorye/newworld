@@ -53,7 +53,7 @@ public class SsoDeptInfoServiceImpl  implements SsoDeptInfoService{
 				deptResultList.add(deptInfoMap);
 			}	
 				
-			commonDao.batchUpdate("common.ssoInfo.saveDeptInfo", deptResultList);
+			commonDao.batchInsert("common.ssoInfo.saveDeptInfo", deptResultList);
 
 		} else {
 			LOGGER.debug(" >> insertDeptInfoIf  >>>>>>>>>>>>>>>>>>>>>> : return message connect fail");

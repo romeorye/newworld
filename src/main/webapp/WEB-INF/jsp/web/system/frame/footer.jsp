@@ -19,7 +19,7 @@
 function privacyPopup(){
 	var args = new Object();
 	//var url	= contextPath + "/security/WINS_Security.jsp";
-	var url	= "http://portal.lghausys.com/epWeb/resources/notice/sequrityguide/Tip-Top_Security.html";
+	var url	= "http://m.lxhausys.co.kr/mobile/hausys/customers/privacy.jsp";
 	var result = window.showModalDialog(url, "privacyPopup", "dialogWidth:820px;dialogHeight:700px;x-scroll:no;y-scroll:yes;status:no;,resizable=yes");
 }
 </script>
@@ -29,8 +29,8 @@ function privacyPopup(){
 	<!--footer-->
     <div class="footer">
         <img src="<%=imagePath%>/newIris/bottom_logo.png" class="fl">
-        <p class="mr15">COPYRIGHT ©  2017 LG HAUSYS ALL RIGHT RESERVED.</p>
-        <p class="color_mint bold"><a href="javascript:privacyPopup();">개인정보처리방침</a></p>
+        <p class="mr15">COPYRIGHT ©  2021 LX HAUSYS ALL RIGHT RESERVED.</p>
+        <!-- <p class="color_mint bold"><a href="javascript:privacyPopup();">개인정보처리방침</a></p> -->
     </div><!-- //footer -->
 </body>
 </html>

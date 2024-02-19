@@ -104,6 +104,9 @@
                 	, { id : 'saPhoneArea'}
                 	, { id : 'saHand'}
                 	, { id : 'saMail'}
+                	, { id : 'uperDeptCd'}
+                	, { id : 'uperDeptNm'}
+                	, { id : 'prjCd'}
                 ]
             });
 
@@ -115,6 +118,9 @@
                       { field : 'saName',		label : '이름',		sortable : false,	align :'center',	width : 80 }
                     , { field : 'saJobxName',	label : '직위',		sortable : false,	align :'center',	width : 80 }
                     , { field : 'deptName',		label : '분석',		sortable : false,	align :'center',	width : 300 }
+                    , { field : 'uperDeptCd',	hidden: true }
+                    , { field : 'prjCd',		hidden: true }
+                    , { field : 'saSabun',		hidden: true }
                 ]
             });
 

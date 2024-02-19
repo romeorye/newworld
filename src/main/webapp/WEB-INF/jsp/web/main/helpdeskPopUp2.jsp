@@ -37,7 +37,7 @@ href="http://165.244.161.87:7030/iris/resource/web/css/com_itg.css">
     <TH>결과</TH></TR></THEAD>
   <TBODY>
   <TR>
-    <TH>P2</TH>
+    <TH>G2</TH>
     <TD>창호.창호개발연구PJT</TD>
     <TD>개발과제 테스트</TD>
     <TD>김건휘</TD>
@@ -45,7 +45,7 @@ href="http://165.244.161.87:7030/iris/resource/web/css/com_itg.css">
     <TD>5.0</TD>
     <TD>PASS</TD></TR>
   <TR>
-    <TH>P1</TH>
+    <TH>G1</TH>
     <TD>창호.창호개발연구PJT</TD>
     <TD>개발과제 테스트 20181011</TD>
     <TD>김민정</TD>
@@ -66,4 +66,4 @@ href="http://165.244.161.87:7030/iris/resource/web/css/com_itg.css">
   <P class=analyze_s_txt><B>참석자 :</B>회의</P>
   <P class=analyze_s_txt><B>주요 Comment :</B>코멘트</P>
   <P class=analyze_s_txt><B>첨부파일 :</B><A 
-  href="http://local.lghausys.com:8080/iris/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&amp;attcFilId=201806100&amp;seq=1">11.xls</A></P></LI></UL></DIV></DIV></DIV></DIV></BODY></HTML>
+  href="http://local.lxhausys.com:8080/iris/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&amp;attcFilId=201806100&amp;seq=1">11.xls</A></P></LI></UL></DIV></DIV></DIV></DIV></BODY></HTML>

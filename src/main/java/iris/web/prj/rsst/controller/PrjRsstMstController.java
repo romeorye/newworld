@@ -1,15 +1,14 @@
 package iris.web.prj.rsst.controller;
 
-import devonframe.message.saymessage.SayMessage;
-import devonframe.util.NullUtil;
-import iris.web.common.converter.RuiConverter;
-import iris.web.common.util.MimeDecodeException;
-import iris.web.common.util.StringUtil;
-import iris.web.prj.rsst.service.PrjRsstMstInfoService;
-import iris.web.prj.rsst.service.PrjTmmrInfoService;
-import iris.web.prj.tss.ousdcoo.service.OusdCooTssService;
-import iris.web.system.base.IrisBaseController;
-import iris.web.system.dept.service.DeptService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -19,13 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import devonframe.message.saymessage.SayMessage;
+import devonframe.util.NullUtil;
+import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.HelpDesk;
+import iris.web.common.util.MimeDecodeException;
+import iris.web.common.util.StringUtil;
+import iris.web.prj.rsst.service.PrjRsstMstInfoService;
+import iris.web.prj.rsst.service.PrjTmmrInfoService;
+import iris.web.prj.tss.ousdcoo.service.OusdCooTssService;
+import iris.web.system.base.IrisBaseController;
+import iris.web.system.dept.service.DeptService;
 
 /********************************************************************************
  * NAME : PrjRsstMstController.java
@@ -574,7 +577,16 @@ public class PrjRsstMstController  extends IrisBaseController {
 		/* 반드시 공통 호출 후 작업 */
 		checkSessionObjRUI(input, session, model);
 		//LOGGER.debug("session="+lsession);
-		LOGGER.debug("####################input################################################################ : " + input);
+		LOGGER.debug("####################left input################################################################ : " + input);
+
+		String sabun =  (String) input.get("_userSabun");
+		HelpDesk hd = new HelpDesk();
+		
+		String emp_no = "921700"+sabun;
+		String fmd5_emp_no = hd.fmd5_user_id(sabun);
+		
+		input.put("emp_no", emp_no);
+		input.put("fmd5_emp_no", fmd5_emp_no);
 		
 		model.addAttribute("inputData", input);
 		

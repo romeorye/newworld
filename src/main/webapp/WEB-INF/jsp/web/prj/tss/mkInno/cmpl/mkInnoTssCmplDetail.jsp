@@ -37,7 +37,21 @@ var tssCd = '${inputData.tssCd}';
 var userId = '${inputData._userId}';
 
 	Rui.onReady(function() {
-		
+		<%-- RESULT DATASET --%>
+		resultDataSet = new Rui.data.LJsonDataSet({
+            id: 'resultDataSet',
+            remainRemoved: true,
+            lazyLoad: true,
+            fields: [
+                  { id: 'rtnSt' }   //결과코드
+                , { id: 'rtnMsg' }  //결과메시지
+                , { id: 'cmplTssCd' }  //완료과제코드
+            ]
+        });
+
+        resultDataSet.on('load', function(e) {
+        });
+        
 		var dm = new Rui.data.LDataSetManager();
 
 		dm.on('load', function(e) {
@@ -45,23 +59,21 @@ var userId = '${inputData._userId}';
         
 		dm.on('success', function(e) {
 			var data = mstDataSet.getReadData(e);
-			
-			if(Rui.isEmpty(data.records[0].resultMsg) == false) {
-                alert(data.records[0].resultMsg);
-                
-            }
+            
+			alert(data.records[0].rtnMsg);
+			if(data.records[0].rtnSt == "S") {
+			}
         });
 		
 		var tabView = new Rui.ui.tab.LTabView({
             tabs: [
                 { 
-               	  
                   active : true,
                	  label: '개요',
                   id : 'smryInfoDiv'
                 },
                 { 
-                	label: '참여연구원',
+                	label: '과제멤버',
                   id : 'mbrInfoDiv'
                 }
             ]
@@ -127,6 +139,7 @@ var userId = '${inputData._userId}';
              	, { id: 'deptName' }
              	, { id: 'deptCode' }
              	, { id: 'bizDptCd' }
+             	, { id: 'bizDptNm' }
              	, { id: 'tssNm' }
              	, { id: 'saUserName' }
              	, { id: 'tssStrtDd' }
@@ -144,6 +157,7 @@ var userId = '${inputData._userId}';
 			
 			if( mstDataSet.getNameValue(0, 'pgsStepCd') == "CM" && ( mstDataSet.getNameValue(0, 'tssSt') =="104" || mstDataSet.getNameValue(0, 'tssSt') == "103"   ) ){
 				$("#btnCsusRq").hide();
+				$("#btnSave").hide();
 				$("#butRecordNew").hide();
 				$("#btnMbrSave").hide();
 				$("#butRecordDel").hide();
@@ -223,7 +237,7 @@ var userId = '${inputData._userId}';
                   new Rui.ui.grid.LSelectionColumn()
                 , new Rui.ui.grid.LStateColumn()
                 , new Rui.ui.grid.LNumberColumn()
-                , { field: 'saUserName', label: '연구원', sortable: false, align:'center', width: 150, renderer: Rui.util.LRenderer.popupRenderer() }
+                , { field: 'saUserName', label: '과제멤버', sortable: false, align:'center', width: 150, renderer: Rui.util.LRenderer.popupRenderer() }
                 , { field: 'deptName', 	label: '소속', sortable: false, align:'left', width: 250 }
                 , { field: 'ptcStrtDt', label: '참여시작일', sortable: false, align:'center', width: 120, editor: new Rui.ui.form.LDateBox({id:'ptcStrtDt'}) 
 	                , renderer: function(value, p, record) {
@@ -251,10 +265,11 @@ var userId = '${inputData._userId}';
                              return rtcRole.getCheckedItem().label;
                          } else {
                              if(v == '01') return "과제리더";
-                             else if(v == '02') return "연구원";
+                             else if(v == '02') return "과제멤버";
                          } 
                       }    
                  }
+                 , { field: 'tssCd', hidden:true }
             ]
         });
 		
@@ -316,45 +331,40 @@ var userId = '${inputData._userId}';
             });
             
             //mbr 삭제
-            var butRecordDel = new Rui.ui.LButton('butRecordDel');
-            butRecordDel.on('click', function() {                
-                Rui.confirm({
-                    text: Rui.getMessageManager().get('$.base.msg107'),
-                    handlerYes: function() {
-                        //실제 DB삭제건이 있는지 확인
-                        var dbCallYN = false;
-                        var chkRows = mbrDataSet.getMarkedRange().items;
-                        for(var i = 0; i < chkRows.length; i++) {
-                            if(stringNullChk(chkRows[i].data.ptcRsstMbrSn) != "") {
-                                dbCallYN = true;
-                                break;
-                            }
-                        }
-                        
-                        if(mbrDataSet.getMarkedCount() > 0) {
-                        	mbrDataSet.removeMarkedRows();
-                        } else {
-                            var row = mbrDataSet.getRow();
-                            if(row < 0) return;
-                            
-                            mbrDataSet.removeAt(row);
-                        }
-                        
-                        if(dbCallYN) {
-    	                    //삭제된 레코드 외 상태 정상처리
-    	                    for(var i = 0; i < mbrDataSet.getCount(); i++) {
-    	                    	if(mbrDataSet.getState(i) != 3) mbrDataSet.setState(i, Rui.data.LRecord.STATE_NORMAL);
-    	                    }
-                        
-    	                    dm.updateDataSet({
-    	                        url:'<c:url value="/prj/tss/mkInno/deleteMkInnoTssPlnPtcRsstMbr.do"/>',
-    	                        dataSets:[mbrDataSet]
-    	                    });
-                        }
-                    },
-                    handlerNo: Rui.emptyFn
-                });
-            });
+          //mbr 삭제
+            fnMbrdel = function(){
+				var dbCallYN = false;
+				
+				if( mbrDataSet.getMarkedCount() == 0 ){
+					alert("삭제할 목록을 선택하세요");
+					return;
+				}
+				
+				if(confirm('삭제하시겠습니까?')) {
+					for( var i = 0 ; i < mbrDataSet.getCount(); i++ ){
+						if(mbrDataSet.isMarked(i)){
+				    		if((mbrDataSet.getNameValue(i, 'ptcRsstMbrSn') != "") ){
+				    			dbCallYN = true;
+				    		}
+				    	}
+					}
+					
+					if(mbrDataSet.getMarkedCount() > 0) {
+						mbrDataSet.removeMarkedRows();
+	                } else {
+	                    var row = mbrDataSet.getRow();
+	                    if(row < 0) return;
+	                    mbrDataSet.removeAt(row);
+	                }
+
+					if( dbCallYN ){
+						dm.updateDataSet({
+	                        url:'<c:url value="/prj/tss/mkInno/deleteMkInnoTssPtcRsstMbr.do"/>',
+	                        dataSets:[mbrDataSet]
+	                    });
+					}
+	            }
+          	}     
                     
             /* mbr 저장 */
            fnMbrSave = function(){
@@ -543,6 +553,7 @@ var userId = '${inputData._userId}';
                 , { id: 'prjNm',      ctrlId: 'prjNm',      value: 'html' }
                 , { id: 'deptName',   ctrlId: 'deptName',   value: 'html' }
                 , { id: 'bizDptCd',   ctrlId: 'bizDptCd',   value: 'html' }
+                , { id: 'bizDptNm',   ctrlId: 'bizDptNm',   value: 'html' }
                 , { id: 'wbsCd',      ctrlId: 'wbsCd',      value: 'html' }
                 , { id: 'tssNm',      ctrlId: 'tssNm',      value: 'html' }
                 , { id: 'saSabunNew', ctrlId: 'saSabunNew', value: 'html' }
@@ -618,7 +629,7 @@ var userId = '${inputData._userId}';
              	</colgroup>
              	<tbody>
 		 			<tr>
-                    	<th align="right">프로젝트명</th>
+                    	<th align="right">팀명</th>
                         <td>
                             <span id="prjNm"></span>
                         </td>
@@ -677,7 +688,7 @@ var userId = '${inputData._userId}';
          		<tbody>
          			<tr>
 	         			<th rowspan="2">사양</th>
-	         			<th>개발목표</th>
+	         			<th><span style="color:red;">* </span>개발목표</th>
 	         			<td colspan="2">
 	         				<span id="dvlpGoalTxt"></span>
 	         			</td>
@@ -715,7 +726,7 @@ var userId = '${inputData._userId}';
 	         		</tr>
          			<tr>
 	         			<th rowspan="2">기대효과</th>
-	         			<th>정량적</th>
+	         			<th><span style="color:red;">* </span>정량적</th>
 	         			<td colspan="2">
 	         				<span id="quan"></span>
 	         			</td>
@@ -727,19 +738,19 @@ var userId = '${inputData._userId}';
 	         			</td>
 	         		</tr>
          			<tr>
-	         			<th colspan="2">과제 성격(Ⅰ)</th>
+	         			<th colspan="2"><span style="color:red;">* </span>과제 성격(Ⅰ)</th>
 	         			<td colspan="2">
 	         				<span id="tssStatF"></span>
 	         			</td>
 	         		</tr>
          			<tr>
-	         			<th colspan="2">과제 성격(Ⅱ)</th>
+	         			<th colspan="2"><span style="color:red;">* </span>과제 성격(Ⅱ)</th>
 	         			<td colspan="2">
 	         				<span id="tssStatS"></span>
 	         			</td>
 	         		</tr>
          			<tr>
-	         			<th colspan="2">과제난이도</th>
+	         			<th colspan="2"><span style="color:red;">* </span>과제난이도</th>
 	         			<td colspan="2">
 	         				<span id="tssDfcr"></span>
 	         			</td>
@@ -751,13 +762,13 @@ var userId = '${inputData._userId}';
 	         			</td>
 	         		</tr>
          			<tr>
-	         			<th colspan="2">설치장소</th>
+	         			<th colspan="2">설치장소<br/>(장비성과제시)</th>
 	         			<td colspan="2">
 	         				<span id="istlPlTxt"></span>
 	         			</td>
 	         		</tr>
          			<tr>
-	         			<th colspan="2">추천업체</th>
+	         			<th colspan="2">추천업체<br/>(장비성과제시)</th>
 	         			<td colspan="2">
 	         				<span id="rcmCofTxt"></span>
 	         			</td>
@@ -804,9 +815,9 @@ var userId = '${inputData._userId}';
         	 <br/>
         	 <div class="titArea">
 			    <div class="LblockButton">
-			        <button type="button" id="butRecordNew">추가</button>
+			        <button type="button" id="butRecordNew"  onclick="fnMbrAdd()">추가</button>
 			        <button type="button" id="btnMbrSave" onclick="fnMbrSave()">저장</button>
-			        <button type="button" id="butRecordDel">삭제</button>
+			        <button type="button" id="butRecordDel" onclick="fnMbrdel()">삭제</button>
 			    </div>
 			</div>
 			<div id="defaultGrid"></div>

@@ -9,54 +9,32 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-
-
-	<!-- 
-	      Jasper 2 JSP Engine How to 
-	      ref-url : http://tomcat.apache.org/tomcat-7.0-doc/jasper-howto.html 
-	-->
-    <servlet>
-        <servlet-name>jsp</servlet-name>
-        <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
-        <init-param>
-            <param-name>fork</param-name>
-            <param-value>false</param-value>
-        </init-param>
-
-        <!-- apache-tomcat java.lang.OutOfMemoryError 에러
-              원인 : heap 메모리의 특정 영역에 객체를 할당 할 수 있는 공간이 충분하지 않아서 발생하는 것으로 클래스와 매써드 객체가 저장되는 영역이 부족해서 생긴다. 
-              해결 : enablePooling 옵션을 아래와 같이 사용하지 않는 것으로 설정하면, jsp를 로딩한 후에 메모리 상에서 제거하게 되므로 위의 에러가 나타날 가능성을 줄여준다. 
-                       Pooling 을 사용하지 않으므로 동시 요청이 많은 경우 약간의 성능 차이는 발생할 수 있음.
-        -->
-        <init-param> 
-           <param-name>enablePooling</param-name>
-           <param-value>false</param-value>
-        </init-param>
-
-
-        <!-- jsp 컴파일 시 encoding 방법 : default 는 UTF-8 -->
-		<init-param>
-            <param-name>javaEncoding</param-name>
-            <param-value>utf-8</param-value>
-        </init-param>
-
-
-        <!-- jsp 컴파일 size 24KByte초과시 해결방법 : statement 출력을 없애서.. 사이즈를 줄임 -->
-         <init-param>
-        	<param-name>mappedfile</param-name>
-        	<param-value>false</param-value>
-        </init-param>
-
-
-        <init-param>
-            <param-name>xpoweredBy</param-name>
-            <param-value>false</param-value>
-        </init-param>
-        <load-on-startup>3</load-on-startup>
-    </servlet>
-  
-  <!-- UTF-8 -->
-   <servlet>
+  <servlet>
+    <servlet-name>jsp</servlet-name>
+    <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+    <init-param>
+      <param-name>fork</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <param-name>enablePooling</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <param-name>javaEncoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>mappedfile</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <param-name>xpoweredBy</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <load-on-startup>3</load-on-startup>
+  </servlet>
+  <servlet>
     <servlet-name>DispatcherServlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
@@ -64,12 +42,11 @@
       <param-value>classpath*:/spring/mvc-context-*.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
-  </servlet>  
+  </servlet>
   <servlet-mapping>
-    <servlet-name>DispatcherServlet</servlet-name>    
+    <servlet-name>DispatcherServlet</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
-  
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -86,33 +63,54 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>*.do</url-pattern>
   </filter-mapping>
-  
   <filter>
     <filter-name>xssFilter</filter-name>
     <filter-class>iris.web.common.filter.XSSFilter</filter-class>
   </filter>
-  
   <filter-mapping>
     <filter-name>xssFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  
   <error-page>
-	<error-code>403</error-code>
-	<location>/WEB-INF/jsp/common/error/error.jsp</location>
+    <error-code>403</error-code>
+    <location>/WEB-INF/jsp/common/error/error.jsp</location>
   </error-page>
-  
   <error-page>
-	<error-code>404</error-code>
-	<location>/WEB-INF/jsp/common/error/error.jsp</location>
+    <error-code>404</error-code>
+    <location>/WEB-INF/jsp/common/error/error.jsp</location>
   </error-page>
-  
   <error-page>
-	<error-code>500</error-code>
-	<location>/WEB-INF/jsp/common/error/error.jsp</location>
+    <error-code>500</error-code>
+    <location>/WEB-INF/jsp/common/error/error.jsp</location>
   </error-page>
-  
-  <welcome-file-list>    
+  <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <display-name>Apache-Axis Servlet</display-name>
+    <servlet-name>AxisServlet</servlet-name>
+    <servlet-class>org.apache.axis.transport.http.AxisServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>/servlet/AxisServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>*.jws</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>/services/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>Axis Admin Servlet</display-name>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>org.apache.axis.transport.http.AdminServlet</servlet-class>
+    <load-on-startup>100</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/servlet/AdminServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

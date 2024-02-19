@@ -149,6 +149,7 @@ define([
 
 				NHIE.workspace.setSize(width, height);
 				NHIE.workspace.syncResizerSize();
+				NHIE.workspace.syncCropperSize();
 				_.each(NHIE.workspace.getAllLayers(), function(layer) {
 					layer.syncTrackerSize();
 				});
@@ -312,7 +313,17 @@ define([
 							NHIE.app.status.tracker = NHIE.workspace.workspace_resizer;
 							NHIE.app.status.tracker.fireEvent('mousedown_tracker', e);
 						}
-						break;
+					break;
+					case 'crop-workspace':
+						if(
+							$target.hasClass('tracker-handle') ||
+							$target.hasClass('layer-tracker') ||
+							(NHIE.lib.useragent.info.IsIE10 && $target.hasClass('tracker-body') && $target.closest('.workspace-cropper').length )
+						) {
+							NHIE.app.status.tracker = NHIE.workspace.workspace_cropper;
+							NHIE.app.status.tracker.fireEvent('mousedown_tracker', e);
+						}
+					break;
 					case 'move-layer':
 						console.log($target)
 						var layer = NHIE.workspace.getSelectedLayer();
@@ -344,6 +355,7 @@ define([
 					case 'insert-textbox':
 					case 'insert-textballoon':
 					case 'resize-workspace':
+					case 'crop-workspace':
 					case 'resize-layer':
 						if(tracker) {
 							var action = NHIE.app.status.action;
@@ -380,6 +392,7 @@ define([
 					case 'insert-textbox':
 					case 'insert-textballoon':
 					case 'resize-workspace':
+					case 'crop-workspace':
 					case 'resize-layer':
 						if(tracker) {
 							var tracker = NHIE.app.status.tracker;
@@ -487,6 +500,10 @@ define([
 					console.log('no image set.. just close');
 					$('button[data-action=NHIE-cancel]').click();
 					return;
+				}
+
+				if(NHIE.app.getCurrentTool() && typeof NHIE.app.getCurrentTool().onRestoreProperty === 'function') {
+					NHIE.app.getCurrentTool().onRestoreProperty();
 				}
 				NHIE.adapter.onApply();
 			});

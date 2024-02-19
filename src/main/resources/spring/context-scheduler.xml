@@ -66,6 +66,15 @@
    <!-- SpaceEvRnewMailBatch 배치-->
    <bean id="spaceEvRnewBatch" class="iris.web.space.batch.SpaceEvRnewMailBatch" />
 
+
+<!-- sso user if-->
+   <bean id="ssoUserInfoBatch" class="iris.web.insaBatch.SsoUserInfoBatch" />
+   
+   <!-- sso dept if -->
+   <bean id="ssoDeptInfoBatch" class="iris.web.insaBatch.SsoDeptInfoBatch" />
+   
+   
+
 <!--******************************************************** job********************************************************* -->
     <!--과제 비용예산 -->
     <bean id="sapBudgSCostInsertBatchJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -223,6 +232,20 @@
     </bean>
 
 
+<!--SsoUserInfoBatch 배치-->
+    <bean id="ssoUserInfoBatchJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject"><ref bean="ssoUserInfoBatch" /></property>
+        <property name="targetMethod"><value>batchProcess</value></property>
+        <property name="concurrent"><value>false</value></property>
+    </bean>
+
+
+<!--SsoDeptInfoBatch 배치-->
+    <bean id="ssoDeptInfoBatchJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject"><ref bean="ssoDeptInfoBatch" /></property>
+        <property name="targetMethod"><value>batchProcess</value></property>
+        <property name="concurrent"><value>false</value></property>
+    </bean>
 
 
 <!--******************************************************** trigger********************************************************* -->
@@ -230,16 +253,16 @@
 
 	<bean id="sapBudgSCostInsertBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="sapBudgSCostInsertBatchJob"/>
-		<property name="cronExpression" value="0 0 23 1 * ?"/> <!-- 매월 1일  12시 실행  -->
-<!-- 			<property name="cronExpression" value="0 0/5 * * * ?"/>  5분마다 실행    -->
+		<!--<property name="cronExpression" value="0 0 23 1 * ?"/>  매월 1일  12시 실행  -->
+ 			<property name="cronExpression" value="0 55 14 * * ?"/>  <!--5분마다 실행    -->
 		<!-- 매월 1일  11시 50분 실행 ,  매일 오전 10시 15분  -->
 	</bean>
 
 
 	<bean id="sapBudgTCostInsertBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="sapBudgTCostInsertBatchJob"/>
-		<property name="cronExpression" value="0 0 22 1 * ?"/> <!-- 매월 1일  11시 실행 -->
-<!-- 			<property name="cronExpression" value="0 0/5 * * * ?"/>  31분마다 실행    -->
+		<!-- <property name="cronExpression" value="0 0 22 1 * ?"/> 매월 1일  11시 실행 -->
+ 			<property name="cronExpression" value="0 0/5 * * * ?"/>  <!--5분마다 실행    -->
 	</bean>
 
 
@@ -259,20 +282,20 @@
 	<bean id="prjTmmrBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="prjTmmrBatchJob"/>
 		<!-- <property name="cronExpression" value="0 0 3 * * ?"/> -->  <!-- 매일 새벽 3시    -->
-		<property name="cronExpression" value="0 0/5 * * * ?"/>  <!-- 매일 새벽 3시    -->
+		<property name="cronExpression" value="0 0/3 * * * ?"/>  <!-- 매일 새벽 3시    -->
 	</bean>
 
 <!-- 고정자산 일배치  -->
 	<bean id="sapFxaInfoInsertBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="fxaInfoIFBatchJob"/>
-		 <property name="cronExpression" value="* * 3 * * ?"/>
-<!-- 		<property name="cronExpression" value="0 0/3  * * * ?"/>  -->
+		 <!-- <property name="cronExpression" value="* * 3 * * ?"/> -->
+		<property name="cronExpression" value="0 26 10  * * ?"/> 
 	</bean>
 
 	<!-- 고정자산 이관 IF  -->
 	<bean id="sapFxaTrsfBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="fxaTrsfIFBactchJob"/>
-		 <property name="cronExpression" value="0 0/60 * * * ?"/>  <!--1시간마다 실행  -->
+		 <property name="cronExpression" value="0 0/05 * * * ?"/>  <!--1시간마다 실행  -->
 	</bean>
 
 <!-- M/M 입력/마감 To-Do 월배치 -->
@@ -350,51 +373,62 @@
 
 	<bean id="mailBatchWbsCdTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="mailBatchWbsCdJob"/>
-		<property name="cronExpression" value="0 0 3 * * ?"/>   <!--	매일 3시 마다-->
-		<!--  <property name="cronExpression" value="0 0/3 * * * ?"/>-->
+		<!--<property name="cronExpression" value="0 0 3 * * ?"/>   	매일 3시 마다-->
+		 <property name="cronExpression" value="0 0/3 * * * ?"/>
 	</bean>
 
 	<bean id="mailBatchGrsReqTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="mailBatchGrsReqJob"/>
-	 	<property name="cronExpression" value="0 0 3 * * ?"/>  <!-- 매일 3시 마다-->
-		<!-- <property name="cronExpression" value="0 0/5   * * * ?"/>    -->
+	 	<!-- <property name="cronExpression" value="0 0 3 * * ?"/> -->  <!-- 매일 3시 마다-->
+		<property name="cronExpression" value="0 0/3   * * * ?"/>   
 	</bean>
 
 <!-- sso user , dept -->
 	<bean id="insaInfoBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="insaInfoBatchJob"/>
-	 	<property name="cronExpression" value="0 0 6 * * ?"/>  <!-- 매일 6시 마다-->
-		<!-- <property name="cronExpression" value="0 0/2 * * * ?"/>    -->
+	 	<!-- <property name="cronExpression" value="0 0 6 * * ?"/>  매일 6시 마다-->
+		<property name="cronExpression" value="0 0/5 * * * ?"/>   
 	</bean>
 
 <!-- IRIS_NEW_PRDT_SAL_STAT 배치 -->
 	<bean id="genTssStatBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="genTssStatBatchJob"/>
-	 	<property name="cronExpression" value="0 0 0 15 * ?"/> <!--  매월 15일 마다 -->
-	 	<!-- <property name="cronExpression" value="0 22 * * * ?"/> 매 51분 -->
-	</bean>
+	 	<!--<property name="cronExpression" value="0 0 0 15 * ?"/>   매월 15일 마다 -->
+	 	<property name="cronExpression" value="0 0/5 * * * ?"/> <!--매 51분 -->
+	</bean> 
 
 
 	<!-- IRIS_NEW_PRDT_SAL_STAT 배치 -->
 	<bean id="QasTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="qasBatchJob"/>
-        <!-- <property name="cronExpression" value="0 0 3 * * ?"/> -->  <!-- 매일 새벽 3시    -->
-        <!-- 		<property name="cronExpression" value="0 0/5 * * * ?"/>  5분마다 실행    -->
-        <!--<property name="cronExpression" value="0 0/1 * * * ?"/> --><!--1분마다-->
-		 <property name="cronExpression" value="0 0 3 * * ?"/>  <!-- 매일 새벽 3시    -->
+        <!-- 		<property name="cronExpression" value="0 0 3 * * * ?"/>  매일 새벽 3시   -->
+		 <property name="cronExpression" value="0 0/5 * * * ?"/>  <!-- 5분마다 실행     -->
 	</bean>
 
 		<!-- IRIS_NEW_PRDT_SAL_STAT 배치 -->
 	<bean id="spaceEvRnewBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="spaceEvRnewBatchJob"/>
-        <!-- <property name="cronExpression" value="0 0 3 * * ?"/> -->  <!-- 매일 새벽 3시    -->
         <!-- 		<property name="cronExpression" value="0 0/5 * * * ?"/>  5분마다 실행    -->
-        <!--<property name="cronExpression" value="0 0/1 * * * ?"/> --><!--1분마다-->
 		 <property name="cronExpression" value="0 0 1 * * ?"/>  <!-- 매일 새벽 1시    -->
 	</bean>
 
 
 
+
+<!--  sso user if 배치 -->
+	<bean id="ssoUserInfoBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="ssoUserInfoBatchJob"/>
+        <!-- 		<property name="cronExpression" value="0 0/5 * * * ?"/>  5분마다 실행    -->
+		 <property name="cronExpression" value="0 0/5 * * * ?"/>  <!-- 매일 새벽 1시    -->
+	</bean>
+	
+	
+<!-- sso dept if  배치 -->
+	<bean id="ssoDeptInfoBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="ssoDeptInfoBatchJob"/>
+        <!-- 		<property name="cronExpression" value="0 0/5 * * * ?"/>  5분마다 실행    -->
+		 <property name="cronExpression" value="0 0/3 * * * ?"/>  <!-- 매일 새벽 1시    -->
+	</bean>	
 
 
 <!--******************************************************** execute********************************************************* -->
@@ -402,15 +436,13 @@
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> <!--운영반영시 트리거 주석제거 후 반영해야 함 -->
 		<property name="triggers">
 			<list>
+<!--
 			<ref bean="genTssStatBatchTrigger"/>
 			<ref bean="QasTrigger"/>
 			<ref bean="spaceEvRnewBatchTrigger"/>
-
-<!--
 			<ref bean="tssStCopyBatchTrigger"/>
 				<ref bean="sapBudgSCostInsertBatchTrigger"/>
 		   		<ref bean="sapBudgTCostInsertBatchTrigger"/>
-				<ref bean="tssStCopyBatchTrigger"/>
 				<ref bean="tssPgPtcMbrBatchTrigger"/>
 
 				<ref bean="anlApprMailBatchTrigger"/>
@@ -420,9 +452,11 @@
 				<ref bean="wbsPjtIFBatchTrigger"/>
  		   		<ref bean="sapFxaInfoInsertBatchTrigger"/>
 				<ref bean="sapFxaTrsfBatchTrigger"/>
- 		  		<ref bean="mmTodoCalBatchTrigger"/>
+ 		  		<ref bean="mmTodoCalBatchTrigger"/>!
+ 		  		
 			 	<ref bean="insaInfoBatchTrigger"/>
-
+<ref bean="ssoUserInfoBatchTrigger"/>
+<ref bean="ssoDeptInfoBatchTrigger"/>
 -->
 <!-- MAIL -->
 <!--

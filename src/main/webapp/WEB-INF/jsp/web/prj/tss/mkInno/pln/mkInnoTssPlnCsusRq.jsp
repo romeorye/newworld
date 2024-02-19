@@ -98,12 +98,10 @@ var aprdocState = "${resultCsus.aprdocstate}";
         });
         
         fncSaveCsus = function(){
-        	if( !Rui.isEmpty(aprdocState) ){
-        		if( aprdocState == "A01" || aprdocState == "A02" ){
-            		Rui.alert("이미 품의가 요청되었습니다.");
-                	return;
-            	}
-        	}else{
+        	if( aprdocState == "A01" || aprdocState == "A02" ){
+        		Rui.alert("이미 품의가 요청되었습니다.");
+            	return;
+        	}else {
         		if(confirm('결재요청 하시겠습니까?')) {
         			var row = 0;
     				var record;
@@ -111,7 +109,6 @@ var aprdocState = "${resultCsus.aprdocstate}";
     				if(dataSet.getCount() <= 0) row = dataSet.newRecord();
     	       	 	
     				record = dataSet.getAt(row);
-    				
     				record.set("tssCd",   "${inputData.tssCd}");
     	            record.set("userId",  "${inputData._userId}");
     	            record.set("affrGbn", "T"); //T:과제
@@ -140,10 +137,10 @@ var aprdocState = "${resultCsus.aprdocstate}";
                         url: url,
                         dataSets:[dataSet]
                     });
-        		}
-        	}
+        		}  
+        			
+        	}	
         }
-        
         
         fncList = function(){
 	        nwinsActSubmit(window.document.aform, "<c:url value='/prj/tss/mkInno/mkInnoTssList.do'/>");
@@ -169,7 +166,7 @@ var aprdocState = "${resultCsus.aprdocstate}";
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th>프로젝트명</th>
+                                    <th>팀명</th>
                                     <td>${resultMst.prjNm}</td>
                                     <th>조직</th>
                                     <td>${resultMst.deptName}</td>
@@ -313,7 +310,7 @@ var aprdocState = "${resultCsus.aprdocstate}";
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>4. 참여연구원</h3></div>
+                    <div class="titArea"><h3>4. 과제멤버</h3></div>
                         <table class="table">
                             <colgroup>
                                 <col style="width:20%;"/>
@@ -322,7 +319,7 @@ var aprdocState = "${resultCsus.aprdocstate}";
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th>연구원</th>
+                                    <th>과제멤버</th>
                                     <th>참여기간</th>
                                     <th>참여역할</th>
                                 </tr>

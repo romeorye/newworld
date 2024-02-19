@@ -27,6 +27,8 @@ if(namoFileKind != null && "file".equals(namoFileKind)){
 	imageUPath = namoImageUPath;
 }
 
-useExternalServer = "websourchPath" + "websource/jsp/ImageUploadExecute.jsp"; 
 */
+
+//imagePhysicalPath = "C:\\cejava\\htdocs\\uploadfile";
+//imageUPath = "/uploadfile";
 %>

@@ -75,4 +75,10 @@ public interface MkInnoTssService {
 	 */
 	String saveMkInnoTssCmpl(Map<String, Object> input);
 
+	/**
+	 * 제조혁신과제 연구원 삭제
+	 * @param ds
+	 */
+	void deleteMkInnoTssPlnPtcRsstMbr(Map<String, Object> ds);
+
 }

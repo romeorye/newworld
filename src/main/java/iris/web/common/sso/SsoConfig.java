@@ -29,43 +29,53 @@ public class SsoConfig {
 	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/iris/common/login/irisDirectLogin.do"; //배포 된 login_exec.jsp 접근 경로
 */
 /* DEV
-	private String SERVER_URL 	= "http://irisdev.lghausys.com"; //시스템 접속 URL
+	//private String SERVER_URL 	= "http://irisdev.lghausys.com"; //시스템 접속 URL
+	private String SERVER_URL 	= "http://irisdev.lxhausys.com"; //시스템 접속 URL
 	private String SERVER_PORT = "7030"; //시스템 접속 포트
 	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/iris/common/login/irisDirectLogin.do"; //배포 된 login_exec.jsp 접근 경로
 */
 /* PRD */
-	private String SERVER_URL 	= "http://iris.lghausys.com"; //시스템 접속 URL
+	//private String SERVER_URL 	= "http://iris.lghausys.com"; //시스템 접속 URL
+	private String SERVER_URL 	= "http://iris.lxhausys.com"; //시스템 접속 URL
 	private String SERVER_PORT = "7030"; //시스템 접속 포트
 	private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/iris/common/login/irisDirectLogin.do"; //배포 된 login_exec.jsp 접근 경로
-
-	//private String ASCP_URL = SERVER_URL + ":" + SERVER_PORT + "/iris/login_exec.jsp"; //¹èÆ÷ µÈ login_exec.jsp Á¢±Ù °æ·Î
 	
-	//private String SERVER_URL 	= "http://"+configService.getString("defaultUrl")+":"; //½Ã½ºÅÛ Á¢¼Ó URL
-	//private String SERVER_PORT = configService.getString("serverPort"); // ½Ã½ºÅÛ Á¢¼Ó Æ÷Æ®
-	
-	//Custom Login Url
-	//private String custom_url = SERVER_URL + ":" + SERVER_PORT + "/agent/sso/loginFormPageCoustom.jsp";
 	private String custom_url = "";
 /*************************************************************************************************/
 
 
 /***[SSO CONFIGURATION] : 로그인 서버 및 데몬 서버 설정]***********************************************************************/
+	/*
 	private String NLS_URL 		 = "http://lghsso.lghausys.com";
 	private String NLS_PORT 	 = "8001";
 	private String NLS_LOGIN_URL = NLS_URL + ":" + NLS_PORT + "/nls3/clientLogin.jsp";
-	//private String NLS_LOGIN_URL = NLS_URL + ":" + NLS_PORT + "/nls3/cookieLogin.jsp";
 	private String NLS_LOGOUT_URL= NLS_URL + ":" + NLS_PORT + "/nls3/NCLogout.jsp";
 	private String NLS_ERROR_URL = NLS_URL + ":" + NLS_PORT + "/nls3/error.jsp";
 	private static String ND_URL1 = "http://lghsso1.lghausys.com:8001";
 	private static String ND_URL2 = "http://lghsso2.lghausys.com:8001";
+	*/
+	
+	
+	//private String NLS_URL 		 = "http://lxhsso.lxhausys.com";
+	//private String NLS_PORT 	 = "8001";
+	private String NLS_URL 		 = "https://lxhsso.lxhausys.com";
+	private String NLS_PORT 	 = "8002";
+	private String NLS_LOGIN_URL = NLS_URL + ":" + NLS_PORT + "/nls3/clientLogin.jsp";
+	private String NLS_LOGOUT_URL= NLS_URL + ":" + NLS_PORT + "/nls3/NCLogout.jsp";
+	private String NLS_ERROR_URL = NLS_URL + ":" + NLS_PORT + "/nls3/error.jsp";
+	private static String ND_URL1 = "http://lxhsso1.lxhausys.com:8001";
+	private static String ND_URL2 = "http://lxhsso2.lxhausys.com:8001";
 
+	
+	
 	private static Vector PROVIDER_LIST = new Vector();
 	//private static final int COOKIE_SESSTION_TIME_OUT = 3000000;
 	private static final int COOKIE_SESSTION_TIME_OUT = 43200;
 
 	// 인증 타입 (ID/PW 방식 : 1, 인증서 : 3)
 	private String TOA = "1";
-	private String SSO_DOMAIN = ".lghausys.com";
+	//private String SSO_DOMAIN = ".lghausys.com";
+	private String SSO_DOMAIN = ".lxhausys.com";
 
 	private static final int timeout = 15000;
 	private static NXContext context = null;
@@ -77,9 +87,12 @@ public class SsoConfig {
 
 		context = new NXContext(serverurlList,timeout);
 		CookieManager.setEncStatus(true);
-
+/*
 		PROVIDER_LIST.add("ssodev.lghausys.com");
 		PROVIDER_LIST.add("sso.lghausys.com");
+*/		
+		PROVIDER_LIST.add("ssodev.lxhausys.com");
+		PROVIDER_LIST.add("lxhsso.lxhausys.com");
 		
 		//NLS3 web.xml의 CookiePadding 값과 같아야 한다. 안그럼 검증 페일남
 		//InitechEamUID +"_V42" .... 형태로 쿠명 생성됨

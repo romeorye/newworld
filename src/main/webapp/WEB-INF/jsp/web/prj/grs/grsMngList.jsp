@@ -20,6 +20,8 @@
 
 <title><%=documentTitle%></title>
 
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridView.js"></script>
+<script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridPanelExt.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
@@ -418,9 +420,10 @@ var grsUserChk = '${inputData.grsUserChk}';
     		// 엑셀 다운로드시 전체 다운로드를 위해 추가
     		listDataSet.clearFilter();
     		var dataSet2 = listDataSet.clone('listDataSet');
+    		
     		/* [Grid] 엑셀 */
             var grid2 = new Rui.ui.grid.LGridPanel({
-                columnModel: columnModel,
+                columnModel: listColumnModel,
                 dataSet: dataSet2,
                 width: 0,
                 height: 0
@@ -434,13 +437,13 @@ var grsUserChk = '${inputData.grsUserChk}';
             if(listDataSet.getCount() > 0) {
 
             	var excelColumnModel = new Rui.ui.grid.LColumnModel({
-                    gridView: columnModel,
+                    gridView: listColumnModel,
                     columns: [
                     	 { field: 'tssScnNm',        label: '과제구분', sortable: true, align:'center', width: 120 }
                     	,{ field: 'wbsCd',      label: 'WBS코드', sortable: true, align:'center', width: 85}
                      , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 240 }
                      , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
-                     , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
+                     , { field: 'leaderNm',   label: '과제리더', sortable: true, align:'center', width: 80 }
                      , { field: 'dlbrCrgrNm',     label: '심의담당자', sortable: true, align:'center', width: 100 }
                      , { id: 'G1', label: '과제기간(계획일)' }
                      , { field: 'tssDd',    label: '과제기간', sortable: true, align:'center', width: 73 }

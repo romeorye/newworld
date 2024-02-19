@@ -7,6 +7,10 @@
 	"minImageWidth": 50,
 	"minImageHeight": 50,
 
+	"cropWorkspace": {
+		"defaultWidth": 200,
+		"defaultHeight": 200
+	},
 	"resources": {
 		"font-family": [
 			"gulim",
@@ -37,7 +41,7 @@
 			"|",
 			["history-undo", "history-redo"],
 			"|",
-			["resize-workspace"],
+			["resize-workspace", "crop-workspace"],
 			"|",
 			["move-layer", "rotate-left", "rotate-right", "inverse-h", "inverse-v"],
 			"|",

@@ -106,10 +106,7 @@
              WBS_CODE
             ,EMP_NO     
             ,REC_STATUS   
-            ,ENTRY_ID  
-            ,ENTRY_DATE
-            ,MODIFY_ID
-            ,MODIFY_DATE
+         
             )
              VALUES (
                #{wbsCd}

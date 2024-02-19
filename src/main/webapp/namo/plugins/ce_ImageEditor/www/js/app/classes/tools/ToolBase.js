@@ -18,6 +18,7 @@ define([
 				var me = this;
 				if(this.type === 'normal') {
 					NHIE.toolbar.resetToggle();
+					NHIE.app.setMode('empty');
 					this.handle();
 				} else if(this.type === 'toggle') {
 					var onoff = !this.$button.hasClass('on');
@@ -27,6 +28,11 @@ define([
 						}).catch(function(e){
 							console.error(e);
 						});
+					} else {
+						// me.fireEvent('toggle', onoff);
+						NHIE.app.getCurrentTool().onRestoreProperty();
+						NHIE.toolbar.resetToggle();
+						NHIE.app.setMode('empty');
 					}
 				}
 				NHIE.toolbar.resetButtonStatus();

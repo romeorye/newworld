@@ -1261,8 +1261,8 @@ var chkDownNrm  = "N";
    					</tbody>
    				</table>
    				<div class="titArea" style="color:red;font-weight:bold">
-				   <div id="txt1" >※필독: 임차주택관리합의서 및 확약서는 원본을 출력하여 반드시 자필서명 후에 주택관리합의서는 운영팀 담당자,확약서는 H.R담당자에게 제출하여주시기바랍니다.</br>
-				   		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(합의서,확약서 스켄본은 유첨 파일에 저장하여주시기바랍니다)
+				   <div id="txt1" >※ 필독 : 임차주택관리합의서 및 확약서는 원본을 출력하여 반드시 자필서명 후에 주택관리합의서는 운영팀 담당자, 확약서는 H.R담당자에게 제출하여주시기바랍니다.</br>
+				   		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(합의서, 확약서 스켄본은 유첨 파일에 저장하여주시기바랍니다)
 				   </div>
 				</div>
    				<br/>

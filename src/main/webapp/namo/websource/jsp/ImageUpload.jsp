@@ -1,29 +1,23 @@
 <%@page contentType="text/html;charset=utf-8" %>
-<%@page import="java.util.*"%>
 <%@page import="java.util.regex.PatternSyntaxException"%>
 <%@page import="java.io.*"%>
 <%@page import="java.net.*"%>
 <%@page import="java.awt.*"%>
-<%@page import="java.awt.Image"%>
-<%@page import="java.awt.image.BufferedImage"%>
-<%@page import="javax.imageio.ImageIO"%>
 <%@page import="javax.swing.ImageIcon"%>
-<%@page import="java.io.File"%>
-<%@page import="java.io.IOException"%>
 <%@page import="java.util.List"%>
-<%@page import="java.util.Iterator"%>
 <%@page import="org.apache.commons.fileupload.servlet.ServletFileUpload"%>
 <%@page import="org.apache.commons.fileupload.disk.DiskFileItemFactory"%>
 <%@page import="org.apache.commons.fileupload.FileItem"%>
-<%@page import="org.apache.commons.fileupload.FileUploadException"%>
 <%@page import="org.apache.commons.fileupload.FileUploadBase"%>
 <%@page import="org.apache.commons.codec.binary.Base64"%>
 <%@include file="Util.jsp"%>
 <%@include file="SecurityTool.jsp"%>
-<%@include file="Vaccine.jsp"%>
+<%--@include file="Vaccine.jsp"--%>
 <%@page import="javax.imageio.*"%>
 <%@page import="javax.imageio.stream.ImageInputStream"%>
 <%@page import="javax.imageio.stream.FileImageInputStream"%>
+<%@page import="java.net.UnknownHostException"%>
+<%@page import="java.util.Calendar"%>
 
 <%!
 public Dimension getImageDim(final String path) {
@@ -32,20 +26,29 @@ public Dimension getImageDim(final String path) {
     Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(suffix);
     if (iter.hasNext()) {
         ImageReader reader = iter.next();
+		ImageInputStream stream = null;
+		boolean exceptionCheck = false;
         try {
-            ImageInputStream stream = new FileImageInputStream(new File(path));
+            stream = new FileImageInputStream(new File(path));
             reader.setInput(stream);
             int width = reader.getWidth(reader.getMinIndex());
             int height = reader.getHeight(reader.getMinIndex());
             result = new Dimension(width, height);
         } catch (IOException e) {
-            //System.out.println(e.getMessage());
-			return null;
+            result = null;
         } finally {
-            reader.dispose();
+			try {
+				if(stream != null){
+					stream.close();
+				}
+			} catch (IOException e) {
+				 result = null;
+        	}
+
+			if(reader != null){
+				reader.dispose();
+			}
         }
-    } else {
-        System.out.println("No reader found for given format: " + suffix);
     }
     return result;
 }
@@ -55,7 +58,7 @@ private String getFileSuffix(final String path) {
         result = "";
         if (path.lastIndexOf('.') != -1) {
             result = path.substring(path.lastIndexOf('.'));
-            if (result.startsWith(".")) {
+            if (result.charAt(0) == '.') {
                 result = result.substring(1);
             }
         }
@@ -65,7 +68,6 @@ private String getFileSuffix(final String path) {
 %>
 
 <%
-	String encType = "utf-8"; 
 	/*
 	if(detectXSSEx(request.getParameter("licenseCheck")) != null){
 		if(detectXSSEx(request.getParameter("licenseCheck")).toLowerCase().equalsIgnoreCase("true")){
@@ -74,19 +76,60 @@ private String getFileSuffix(final String path) {
 		}
 	}
 	*/
+
+	boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+	DiskFileItemFactory factory = null;
+	ServletFileUpload upload = null;
+	List items = null;
+	//try {
+		
+		if (isMultipart) {
+			factory = new DiskFileItemFactory();                             
+			factory.setSizeThreshold(2 * 1024 * 1024); 
+			upload = new ServletFileUpload(factory);  
+			upload.setSizeMax(-1); 
+			upload.setHeaderEncoding("utf-8");
+			items = upload.parseRequest(request);       
+		}else{
+			response.getWriter().println("not encoding type multipart/form-data");
+		}
+
+	//} catch (Exception e) {
+	//	response.getWriter().println("not encoding type multipart/form-data");
+	//	return;
+	//}
+
+	String messageText = "";
 	int maxSize = 5242880;
 	if(request.getParameter("imageSizeLimit") != null){
 		maxSize = Integer.parseInt(detectXSSEx(request.getParameter("imageSizeLimit")));
 	}
 	String defaultUPath = detectXSSEx(request.getParameter("defaultUPath"));
 	String imageUPath = detectXSSEx(request.getParameter("imageUPath"));
-	String imageUPathHost = "http://" + request.getHeader("host");
+
+	String protocol = "http://";
+	//if(request.isSecure()){
+	//	protocol = "https://";
+	//}
+	String requestUrl = request.getRequestURL().toString();
+	if(requestUrl.indexOf("https://") == 0){
+		protocol = "https://";
+	}
+
+	String imageUPathHost = protocol + detectXSSEx(request.getHeader("host"));
+
 	String imagePhysicalPath = "";
+	String imageSubDirName = "";
 	String useExternalServer = detectXSSEx(request.getParameter("useExternalServer"));
-	String strVaccinePath = "";
+
+	String uploadFileExtBlockList = "";
+	
+	//2018-11-20[4.2.0.12]vaccine로직 주석(수정된 빌드로 나갈 때 추가)
+	//String strVaccinePath = "";
 %>
-<%@include file="VaccinePath.jsp"%>
+<%--@include file="VaccinePath.jsp"--%>
 <%@include file="ImagePath.jsp"%>
+<%@include file="UploadFileExtBlockList.jsp"%>
 <%
 	String imageModify = ""; 
 	if (detectXSSEx(request.getParameter("imagemodify")) != null)
@@ -118,12 +161,11 @@ private String getFileSuffix(final String path) {
 		
 	String imageTemp = "";
 	String scriptValue = "";
-	String fileRealPath = "";
 	String saveFolder = "";
 	String returnParam ="";
-	String scriptTag = "";
 	String ContextPath = request.getContextPath();
-	String ServerName = request.getServerName();
+	String tempFileName = "";
+	boolean diFlag = false;
 	
 	ServletContext context = getServletConfig().getServletContext();
 
@@ -156,6 +198,7 @@ private String getFileSuffix(final String path) {
 			}
 		}
 	} else {
+		diFlag = true;
 		if (defaultUPath.length() > 7) {
 			if (defaultUPath.substring(0, 7).equalsIgnoreCase("http://")) {
 				imageTemp = defaultUPath.substring(7);
@@ -186,11 +229,11 @@ private String getFileSuffix(final String path) {
 		}
 	}
 
-	if (imageUPath.lastIndexOf("/") != imageUPath.length() - 1)
+	if (imageUPath.length() > 0 && imageUPath.lastIndexOf("/") != imageUPath.length() - 1)
 		imageUPath = imageUPath + "/";
 
 	if (imagePhysicalPath.equalsIgnoreCase("")) {
-		String DompaserValue = Dompaser(imageUPath);
+		String DompaserValue = dompaser(imageUPath);
 		if (DompaserValue.equalsIgnoreCase("")) {
 			imagePhysicalPath = context.getRealPath(imageUPath);
 
@@ -210,7 +253,7 @@ private String getFileSuffix(final String path) {
 		else
 			imagePhysicalPath = DompaserValue;
 	}
-		
+  
 	File fileRealFolderWriteCheck = new File(imagePhysicalPath);
 	if (!fileRealFolderWriteCheck.exists()) {
 		scriptValue = executeScript(response, "invalid_path", "" , useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
@@ -227,7 +270,7 @@ private String getFileSuffix(final String path) {
 		return;
 	}
 
-	if (imagePhysicalPath.lastIndexOf(File.separator) != imagePhysicalPath.length() - 1)
+	if (imagePhysicalPath.length() > 0 && imagePhysicalPath.lastIndexOf(File.separator) != imagePhysicalPath.length() - 1)
 		imagePhysicalPath += File.separator;
 
 	String imagePhysicalPathsubFolder = imagePhysicalPath;
@@ -237,12 +280,18 @@ private String getFileSuffix(final String path) {
 		SaveSubFolder.setReadable(true);
 		SaveSubFolder.setWritable(false, true);
 
-		SaveSubFolder.mkdir();
+		boolean returnRes = SaveSubFolder.mkdir();
+		if(returnRes == false && !SaveSubFolder.exists()){
+			scriptValue = executeScript(response, "invalid_path", "" , useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
+			response.getWriter().println(scriptValue);
+			return;
+		}
 	}
 	imagePhysicalPathsubFolder += "upload" + File.separator;
 	File DeleteTempFolder = null;
+
+	try{
 	
-	try {
 		String tempFileFolder = "";
 
 		if (uploadFileSubDir.equalsIgnoreCase("false") && !imageUPath.equalsIgnoreCase(""))
@@ -250,15 +299,22 @@ private String getFileSuffix(final String path) {
 		else
 			tempFileFolder = imagePhysicalPath;
 					
-		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+		//boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 		if (isMultipart) {
 			String realDir = imagePhysicalPathsubFolder;
-			DiskFileItemFactory factory = new DiskFileItemFactory();                                   
-			factory.setSizeThreshold(2 * 1024 * 1024);   
-			ServletFileUpload upload = new ServletFileUpload(factory);                               
-			upload.setSizeMax(-1); 
-			upload.setHeaderEncoding("utf-8");
-			List items = upload.parseRequest(request);       
+			//DiskFileItemFactory factory = new DiskFileItemFactory();                                   
+			//factory.setSizeThreshold(2 * 1024 * 1024);   
+			//ServletFileUpload upload = new ServletFileUpload(factory);                               
+			//upload.setSizeMax(-1); 
+			//upload.setHeaderEncoding("utf-8");
+			//List items = upload.parseRequest(request);
+			if(items == null){
+				scriptValue = executeScript(response, "", messageText, useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
+				if(scriptValue != null){
+					response.getWriter().println(scriptValue);
+				}
+				return;
+			}  
 			//Iterator iter=items.iterator();                                                                            
 
 			
@@ -284,6 +340,8 @@ private String getFileSuffix(final String path) {
 			String imageMarginTopUnit ="";
 			String imageMarginBottom = "";
 			String imageMarginBottomUnit = ""; 
+
+			int oriWidthCheck = 0, oriHeightCheck = 0;
 			
 			String imageAlign = "";
 			String imageId = "";
@@ -300,6 +358,8 @@ private String getFileSuffix(final String path) {
 			String type = "";
 
 			String imageSize = "";
+
+			boolean invalidImage = false;
 
 			//while(iter.hasNext()){
 			//	FileItem fileItem = (FileItem) iter.next();    
@@ -355,6 +415,10 @@ private String getFileSuffix(final String path) {
 						filename = fileItem.getName();
 
 						if (filename != null) {
+
+							//filename = detectXSSEx(filename);
+							filename = detectXSSEx2(filename);
+							
 							/*
 							if (filename.endsWith(".jsp") || filename.endsWith(".js") || filename.endsWith(".html") || filename.endsWith(".htm")) {
 							   scriptValue = executeScript(response, "invalid_image", "", useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
@@ -362,13 +426,16 @@ private String getFileSuffix(final String path) {
 							   return;
 							}
 							*/
-							if (filename.toLowerCase().indexOf(".jsp") != -1 || filename.toLowerCase().indexOf(".jspx") != -1 || filename.toLowerCase().indexOf(".js") != -1 || filename.toLowerCase().indexOf(".html") != -1 || filename.toLowerCase().indexOf(".htm") != -1) {
+							if (filename.toLowerCase().indexOf(".jar") != -1 || filename.toLowerCase().indexOf(".war") != -1 || filename.toLowerCase().indexOf(".jsp") != -1 || filename.toLowerCase().indexOf(".jspx") != -1 || filename.toLowerCase().indexOf(".js") != -1 || filename.toLowerCase().indexOf(".html") != -1 || filename.toLowerCase().indexOf(".htm") != -1) {
 							   //scriptValue = executeScript(response, "invalid_image", "prohibited extensions", useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
-								scriptValue = executeScript(response, "UploadFileExtBlock", "", useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
+							   /*
+								scriptValue = executeScript(response, "invalid_image", "", useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
 								if(scriptValue != null){
 									response.getWriter().println(scriptValue);
 								}
 							   return;
+							   */
+							   invalidImage = true;
 							}
 						}
 
@@ -383,12 +450,19 @@ private String getFileSuffix(final String path) {
 						type = fileItem.getContentType();
 
 						try{
-							File uploadedFile=new File(realDir,filename);
+							tempFileName = filename;
+							File uploadedFile = new File(realDir + tempFileName);
+							if(uploadedFile.exists()){
+								tempFileName = fileNameTimeSetting() + filename.substring(filename.lastIndexOf(".")).toLowerCase();
+								uploadedFile = new File(realDir + tempFileName);
+							}
+							//File uploadedFile=new File(realDir,filename);
 							fileItem.write(uploadedFile);
 							fileItem.delete(); 
 							DeleteTempFolder = uploadedFile;
 						}catch(IOException ex) {
 							//System.out.println("An internal exception occured!");
+							messageText = "upload fail";
 						} 
 					}
 				}
@@ -415,20 +489,34 @@ private String getFileSuffix(final String path) {
 				//fileTempName = encoder.encode(keyByte);
 				//라이브러리 추가 요함 -> https://commons.apache.org/proper/commons-codec/download_codec.cgi
 				byte[] encoded = Base64.encodeBase64(fileTempName.getBytes());
-				fileTempName = new String(encoded);
+				fileTempName = new String(encoded, "ISO-8859-1");
 
 				if (fileTempName.indexOf("/") != -1)
 					fileTempName = fileTempName.replaceAll("/", "==NamOSeSlaSH==");
 			}
 			String realFileName = fileTempName.replace(' ', '_');
 			String fileCheck =filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();	
-			String typeCheck = type.substring(0,type.indexOf("/")); 
-			
-			if (!isImageValid(imageKind, fileCheck)) {
-				if(uploadFileSubDir.equalsIgnoreCase("false") && !imageUPath.equalsIgnoreCase(""))
-					tempFolderDelete(tempFileFolder);
 
-				scriptValue = executeScript(response, "invalid_image", getImageKind(imageKind), useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
+			if(uploadFileExtBlockList.length() > 0 && !isArray(uploadFileExtBlockList, fileCheck)){
+				scriptValue = executeScript(response, "UploadFileExtBlock", "", useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
+				response.getWriter().println(scriptValue);
+				return;
+			}
+			
+			if (!isImageValid(imageKind, fileCheck) || invalidImage) {
+				if(uploadFileSubDir.equalsIgnoreCase("false") && !imageUPath.equalsIgnoreCase("")){
+					boolean returnRes = tempFolderDelete(tempFileFolder);
+					if(returnRes == false){
+						messageText = "delete fail";
+					}
+				}
+
+				if(invalidImage){
+					scriptValue = executeScript(response, "invalid_image", "", useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
+				}else{
+					scriptValue = executeScript(response, "invalid_image", getImageKind(imageKind), useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
+				}
+				
 				if(scriptValue != null){
 					response.getWriter().println(scriptValue);
 				}
@@ -443,55 +531,120 @@ private String getFileSuffix(final String path) {
 			//2016.11.09 update by nkpark (문제가 있어서 일시적으로 주석처리 추후 다시 살펴봐야함)
 			//2018-08-07 [CROSS4-799][롯데백화점] 실제 이미지 파일인지 체크하는 로직
 			if("image".equalsIgnoreCase(imageKind) || "backgroundimage".equalsIgnoreCase(imageKind)) {
-				int oriWidthCheck = 0, oriHeightCheck = 0;
+				
 				//Image imgCheck = new ImageIcon(imagePhysicalPathsubFolder + filename).getImage();
 				//oriWidthCheck = imgCheck.getWidth(null);
 				//oriHeightCheck = imgCheck.getHeight(null);
-				Dimension ds = getImageDim(imagePhysicalPathsubFolder + filename);
+				Dimension ds = getImageDim(imagePhysicalPathsubFolder + tempFileName);
 				
 				if (ds == null) {
-					if(uploadFileSubDir.equalsIgnoreCase("false") && !imageUPath.equalsIgnoreCase(""))
-						tempFolderDelete(tempFileFolder);
+					if(uploadFileSubDir.equalsIgnoreCase("false") && !imageUPath.equalsIgnoreCase("")){
+						boolean returnRes = tempFolderDelete(tempFileFolder);
 
+						if(returnRes == false){
+							messageText = "delete fail";
+						}
+					}
 					scriptValue = executeScript(response, "fail_image", getImageKind(imageKind), useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
 					response.getWriter().println(scriptValue);
 					return;
 				}
-
 				oriWidthCheck = ds.width;
 				oriHeightCheck = ds.height;
 			} 
 			/* end */
 			
+			Calendar cal = Calendar.getInstance();
+			String year = Integer.toString(cal.get(Calendar.YEAR));
+			String month = Integer.toString(cal.get(Calendar.MONTH)+1);
+			String day = Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
+			String sPath = "";
+			if(month.length() == 1)
+				month = "0" + month;
+			if(day.length() == 1)
+				day = "0" + day;
+
 			if(uploadFileSubDir.equalsIgnoreCase("false")) { 
-				if(imageUPath.equalsIgnoreCase("")) {
-					File imageSaveSubFolder = new File(imagePhysicalPath + imageKindSubFolder);
+				if(imageSubDirName != "")
+					imagePhysicalPath += "data" + File.separator;
+
+				File imageSaveSubFolder = new File(imagePhysicalPath);
+
+				synchronized (this){
 					if(!imageSaveSubFolder.exists()){
 						imageSaveSubFolder.setExecutable(false, true);
 						imageSaveSubFolder.setReadable(true);
 						imageSaveSubFolder.setWritable(false, true);
 
-						imageSaveSubFolder.mkdir();
+						boolean returnRes = imageSaveSubFolder.mkdirs();
+						if(returnRes == false){
+							scriptValue = executeScript(response, "invalid_path", "" , useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
+							response.getWriter().println(scriptValue);
+							return;
+						}
 					}
-					imagePhysicalPath += imageKindSubFolder + File.separator;
+				}
+
+				if(imageSubDirName != ""){
+					sPath = year + File.separator + month + File.separator + day + File.separator + imageSubDirName;
+					imagePhysicalPath += sPath + File.separator;
+
+					File folderPath = new File(imagePhysicalPath);
+					synchronized (this){
+						if(!folderPath.exists()){
+							folderPath.setExecutable(false, true);
+							folderPath.setReadable(true);
+							folderPath.setWritable(false, true);
+							folderPath.mkdirs();
+						}
+					}
 				}
 			} else {
+				if(imageSubDirName != "")
+					imagePhysicalPath += "data" + File.separator;
+					
 				File imageSaveSubFolder = new File(imagePhysicalPath + imageKindSubFolder);
-				if(!imageSaveSubFolder.exists()){
-					imageSaveSubFolder.setExecutable(false, true);
-					imageSaveSubFolder.setReadable(true);
-					imageSaveSubFolder.setWritable(false, true);
+				synchronized (this){
+					if(!imageSaveSubFolder.exists()){
+						imageSaveSubFolder.setExecutable(false, true);
+						imageSaveSubFolder.setReadable(true);
+						imageSaveSubFolder.setWritable(false, true);
 
-					imageSaveSubFolder.mkdir();
+						boolean returnRes = imageSaveSubFolder.mkdirs();
+						if(returnRes == false){
+							scriptValue = executeScript(response, "invalid_path", "" , useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
+							response.getWriter().println(scriptValue);
+							return;
+						}
+					}
 				}
 				imagePhysicalPath += imageKindSubFolder + File.separator;
+
+				if(imageSubDirName != ""){
+					sPath = year + File.separator + month + File.separator + day + File.separator + imageSubDirName;
+					imagePhysicalPath += sPath + File.separator;
+
+					File folderPath = new File(imagePhysicalPath);
+					synchronized (this){
+						if(!folderPath.exists()){
+							folderPath.setExecutable(false, true);
+							folderPath.setReadable(true);
+							folderPath.setWritable(false, true);
+							folderPath.mkdirs();
+						}
+					}
+				}
 
 				saveFolder = getChildDirectory(imagePhysicalPath, imageMaxCount); 
 				
 				if (saveFolder.equalsIgnoreCase("")) {	
-					if(uploadFileSubDir.equalsIgnoreCase("false") && !imageUPath.equalsIgnoreCase(""))
-						tempFolderDelete(tempFileFolder);
+					if(uploadFileSubDir.equalsIgnoreCase("false") && !imageUPath.equalsIgnoreCase("")){
+						boolean returnRes = tempFolderDelete(tempFileFolder);
 
+						if(returnRes == false){
+							messageText = "delete fail";
+						}
+					}
 					scriptValue = executeScript(response, "invalid_path", "", useExternalServer, imageDomain, imageEditorFlag, checkPlugin);
 					if(scriptValue != null){
 						response.getWriter().println(scriptValue);
@@ -506,12 +659,16 @@ private String getFileSuffix(final String path) {
 			String urlFilePath = imageUPathHost + imageUPath;
 
 			if(uploadFileSubDir.equalsIgnoreCase("false")) {
-				if(imageUPath.equalsIgnoreCase(""))
-					urlFilePath += imageKindSubFolder + File.separator;
-			} else
-				urlFilePath += imageKindSubFolder + File.separator + saveFolder + File.separator;
+				if(imageSubDirName != "")
+					urlFilePath += "data" + File.separator + sPath + File.separator;
+			} else{
+				if(imageSubDirName != "")
+					urlFilePath += "data" + File.separator + imageKindSubFolder + File.separator + sPath + File.separator + saveFolder + File.separator;
+				else
+					urlFilePath += imageKindSubFolder + File.separator + saveFolder + File.separator;
+			}
 			urlFilePath = urlFilePath.replace('\\', '/');
-
+			/*
 			if (imageViewerPlay.equalsIgnoreCase("true")) {
 				String curUrlPath = request.getRequestURI();
 
@@ -527,18 +684,22 @@ private String getFileSuffix(final String path) {
 					//라이브러리 추가 요함 -> https://commons.apache.org/proper/commons-codec/download_codec.cgi
 					//imgLinkParams = java.net.URLEncoder.encode(urlFilePath + encoder.encode(keyByte).replaceAll("/", "==NamOSeSlaSH==") + enFileExt + "|" + imageUNameType);
 					byte[] encoded2 = Base64.encodeBase64(enFileName.getBytes());
-					enFileName = new String(encoded2);
+					enFileName = new String(encoded2, "ISO-8859-1");
 
-					imgLinkParams = java.net.URLEncoder.encode(urlFilePath + enFileName.replaceAll("/", "==NamOSeSlaSH==") + enFileExt + "|" + imageUNameType);
+					imgLinkParams =  URLEncoder.encode(urlFilePath + enFileName.replaceAll("/", "==NamOSeSlaSH==") + enFileExt + "|" + imageUNameType);
 					urlFilePath = imgLinkPathRename + imgLinkParams;
 				} else {
-					imgLinkParams = java.net.URLEncoder.encode(urlFilePath + filenamecheck + "|" + imageUNameType);
+					imgLinkParams =  URLEncoder.encode(urlFilePath + filenamecheck + "|" + imageUNameType);
 					urlFilePath = imgLinkPathRename + imgLinkParams;
 				}
 			} else {
 				urlFilePath += filenamecheck;
 				imgLinkParams = urlFilePath; 
 			}
+			*/
+			urlFilePath += filenamecheck;
+			imgLinkParams = urlFilePath;
+
 			if (imageOrgPath != null && !imageOrgPath.equalsIgnoreCase(""))
 				imageOrgPath += "|" + urlFilePath;
 	
@@ -629,20 +790,21 @@ private String getFileSuffix(final String path) {
 			returnParam += "\"imageKind\":\"" + imageKind + "\",";
 			returnParam += "\"imageOrgPath\":\"" + imageOrgPath + "\",";
 			if(imageKind.equalsIgnoreCase("image")) {
+				/*
 				int oriWidth = 0;
 				int oriHeight = 0;
 				try {
 					//2012.06.05 [2.0.4.16->2.0.4.17] nkpark heap memory
-					File oriObj = new File(imagePhysicalPathsubFolder + filename);
-					Image img = new ImageIcon(imagePhysicalPathsubFolder + filename).getImage();
+					Image img = new ImageIcon(imagePhysicalPathsubFolder + tempFileName).getImage();
 					oriWidth = img.getWidth(null);
 					oriHeight = img.getHeight(null);
-				} catch(RuntimeException e) {
+				} catch(Exception e) {
 					//System.out.println("An internal exception occured!");
+					messageText = "get ImageSize fail";
 				}
-				
-				returnParam += "\"imageOrgWidth\":\"" + oriWidth + "\",";
-				returnParam += "\"imageOrgHeight\":\"" + oriHeight + "\",";
+				*/
+				returnParam += "\"imageOrgWidth\":\"" + oriWidthCheck + "\",";
+				returnParam += "\"imageOrgHeight\":\"" + oriHeightCheck + "\",";
 			}
 			if (imageModify.equalsIgnoreCase("true"))
 				returnParam += "\"imageModify\":\"true\",";
@@ -650,24 +812,42 @@ private String getFileSuffix(final String path) {
 			returnParam += "}";	
 			
 			String moveFilePath = imagePhysicalPath + File.separator + filenamecheck;
-			int check = fileCopy(imagePhysicalPathsubFolder + filename, moveFilePath);
+			int check = fileCopy(imagePhysicalPathsubFolder + tempFileName, moveFilePath);
 
 			if(DeleteTempFolder != null){
-				DeleteTempFolder.delete();
+				boolean returnRes = tempFileDelete(DeleteTempFolder);
+				if(returnRes == false){
+					messageText = "delete fail";
+				}
 			}
 
 			if (check == 1) {
+
+				//2018-11-20[4.2.0.12]vaccine로직 주석(수정된 빌드로 나갈 때 추가)
+				/*
 				if (strVaccinePath.length() <= 0) {
 					strVaccinePath = imagePhysicalPath + "/../../../vse";
 				}
 
  				String strName = checkVirusFile (moveFilePath, imagePhysicalPath + File.separator, strVaccinePath);
+				*/
 
-				if(uploadFileSubDir.equalsIgnoreCase("false") && !imageUPath.equalsIgnoreCase(""))
-					tempFolderDelete(tempFileFolder);
-				if (SaveSubFolder.exists()){
-					SaveSubFolder.delete();
+				if(uploadFileSubDir.equalsIgnoreCase("false") && !imageUPath.equalsIgnoreCase("")){
+					boolean returnRes = tempFolderDelete(tempFileFolder);
+					if(returnRes == false){
+						messageText = "delete fail";
+					}
 				}
+				
+				if (SaveSubFolder.exists()){
+					boolean returnRes = SaveSubFolder.delete();
+					if(returnRes == false){
+						messageText = "delete fail";
+					}
+				}
+
+				//2018-11-20[4.2.0.12]vaccine로직 주석(수정된 빌드로 나갈 때 추가)
+				/*
 				if (strName.length() > 0) {
 					String msg = "found virus (";
 					msg += strName + ")";
@@ -677,6 +857,7 @@ private String getFileSuffix(final String path) {
 					}
 					return;
 				}
+				*/
 
 				if (imageEditorFlag.equalsIgnoreCase("flashPhoto")) {
 					scriptValue = "{";
@@ -699,8 +880,12 @@ private String getFileSuffix(final String path) {
 				
 				return;
 			} else {
-				if(uploadFileSubDir.equalsIgnoreCase("false") && !imageUPath.equalsIgnoreCase(""))
-					tempFolderDelete(tempFileFolder);
+				if(uploadFileSubDir.equalsIgnoreCase("false") && !imageUPath.equalsIgnoreCase("")){
+					boolean returnRes = tempFolderDelete(tempFileFolder);
+					if(returnRes == false){
+						messageText = "delete fail";
+					}
+				}
 
 				scriptValue = executeScript(response, "fileCopyFail", "", useExternalServer, imageDomain, imageEditorFlag, checkPlugin);	
 				if(scriptValue != null){
@@ -727,7 +912,7 @@ private String getFileSuffix(final String path) {
 		return;
     } catch (RuntimeException e) {	
 		
-		String messageText = "RuntimeException";
+		messageText += " RuntimeException";
 		messageText = "<System Error>" + messageText;
 		
 		scriptValue = executeScript(response, "", messageText, useExternalServer, imageDomain, imageEditorFlag, checkPlugin);

@@ -117,7 +117,6 @@ function openWindow(mypage, myname, w, h, scroll) {
  *  Output Data   :
  ********************************************************************/
 function initFrameSetHeight(pId) {
-
     var pageHeight;
 
     if(stringNullChk(pId) != "") {
@@ -126,12 +125,22 @@ function initFrameSetHeight(pId) {
         var body = document.body;
         var html = document.documentElement;
 
-        pageHeight = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+        console.log('elemnet size?', {
+        	bodyScrollheight: body.scrollHeight,
+        	bodyOffsetHeight: body.offsetHeight,
+        	bodyClientHeight: body.clientHeight,
+        	htmlScrollHeight: html.scrollHeight,
+        	htmlOffsetHeight: html.offsetHeight,
+        	htmlClientHeight: html.clientHeight
+        })
+        
+        pageHeight = Math.max( body.scrollHeight+50, body.offsetHeight+50, html.clientHeight+50, html.scrollHeight+50, html.offsetHeight+50 );
+      //pageHeight = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+        
     }
 
     var fId = window.frameElement.id;
-
-//    $(fId, window.parent.document).attr('height', pageHeight+'px');
+    
     window.parent.document.getElementById(fId).height = pageHeight+'px';
 }
 

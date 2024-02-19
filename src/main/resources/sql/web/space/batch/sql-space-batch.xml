@@ -32,7 +32,7 @@
 				   ,mst.cmpl_dt																		as cmplDt
 				   ,dbo.fn_getSpaceEmailReceivers(mst.rqpr_id)   as receivers --담당자 + 의뢰자 + 리더 + 통보자
 			from	iris_space_rqpr_mst mst
-			where	mst.space_acpc_st_cd = '07'
+			where	mst.space_acpc_st_cd = '08'
 			and		mst.del_yn = 'N'
 			and		mst.rgst_trsf_flag = 'W'
 

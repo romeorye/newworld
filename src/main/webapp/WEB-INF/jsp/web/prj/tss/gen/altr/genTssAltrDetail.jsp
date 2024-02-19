@@ -33,13 +33,13 @@
 <script type="text/javascript">
     var gvTssCd     = "";
     var gvUserId    = "${inputData._userId}";
-    var gbnCd    = "${inputData.gbnCd}";
+    var gbnCd    	= "${inputData.gbnCd}";
     var gvTssSt     = "";
     var gvPgsStepCd = "AL"; //진행상태:AL(변경)
     var gvPkWbsCd   = "";
     var gvPageMode  = "";
     var gvPgTssCd   = "";
-    var gvWbsCd   = "";
+    var gvWbsCd   	= "";
     var altrTssCd   = "";
     var dataSet;
     
@@ -375,7 +375,7 @@
         btnCsusRq2 = new Rui.ui.LButton('btnCsusRq2');
         btnCsusRq2.on('click', function() {
             if(confirm('품의서요청을 하시겠습니까?')) {
-                nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssAltrCsusRq.do'/>"+"?tssCd="+gvTssCd+"&pgTssCd="+gvPgTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&appCode=APP00339");
+                nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genSimpleTssAltrCsusRq.do'/>"+"?tssCd="+gvTssCd+"&pgTssCd="+gvPgTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&appCode=APP00339");
             }
         });
 

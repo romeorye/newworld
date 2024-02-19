@@ -580,13 +580,13 @@
 	
 	<select id="retrievePrsMailAddr" resultType="String">
 		<![CDATA[
-		select case when EKGRP = '9B1' then 'mbjung@lghausys.com'
-                 when EKGRP = '1J6' then 'mwchae@lghausys.com'
-				 when EKGRP = '1D1' then 'jkyeom@lghausys.com'
-				 when EKGRP = '1D0' then 'doehyun@lghausys.com'
-				 when EKGRP = '1D8' then 'icharm@lghausys.com'
-				 when EKGRP = '1D6' then 'yrsong@lghausys.com'
-				 when EKGRP = '1D4' then 'jychoi@lghausys.com'
+		select case when EKGRP = '9B1' then 'mbjung@lxhausys.com'
+                 when EKGRP = '1J6' then 'mwchae@lxhausys.com'
+				 when EKGRP = '1D1' then 'jkyeom@lxhausys.com'
+				 when EKGRP = '1D0' then 'doehyun@lxhausys.com'
+				 when EKGRP = '1D8' then 'icharm@lxhausys.com'
+				 when EKGRP = '1D6' then 'yrsong@lxhausys.com'
+				 when EKGRP = '1D4' then 'jychoi@lxhausys.com'
 				 else   'no' end addMail
 		from   PR_PRSREQ_T 
 		WHERE PRS_FLAG <> 'D'

@@ -239,7 +239,7 @@
 		        <div class="body_con pj_content">
 		            <!--fir-->
 		            <div class="fir_subject_con">
-		                		                <div class="notice_con">
+		                <div class="notice_con">
 		                <h4 class="notice_title">NOTICE<span class="plus"><a href="javascript:moveMenu('AN', 'IRIAN0200', '/anl/bbs/retrieveAnlBbsList.do', 'IRIAN0201')">&#43;</a></span></h4>
 		                <div class="side_scroll_con">
 		                        <div class="swiper-container swiper-container03">
@@ -252,17 +252,17 @@
                     	<c:otherwise>
                             <c:forEach items="${anlNoticeList}" var="noticeInfo" varStatus="status">
 		                        <div class="swiper-slide">
-		                                    <ul class="reser_txt" onClick="moveMenu('AN', 'IRIAN0200', '/anl/bbs/retrieveAnlBbsList.do?bbsId=<c:out value="${noticeInfo.bbsId}"/>', 'IRIAN0201')">
-		                                        <li><c:out value="${noticeInfo.bbsTitl}"/></li>
-		                                        <li><P><c:out value="${noticeInfo.bbsSbc2}" escapeXml="false"/></P></li>
-		                                    </ul>
-		                                </div>
+                                    <ul class="reser_txt" onClick="moveMenu('AN', 'IRIAN0200', '/anl/bbs/retrieveAnlBbsList.do?bbsId=<c:out value="${noticeInfo.bbsId}"/>', 'IRIAN0201')">
+                                    	<div><li><c:out value="${noticeInfo.bbsTitl}"/></li></div>
+                                        <div><c:out value="${noticeInfo.bbsSbc}" escapeXml="false"/></div>
+                                    </ul>
+                                </div>
                             </c:forEach>
                     	</c:otherwise>
                     </c:choose>
 		                </div>
-		                <div class="swiper-pagination"></div>
 		                </div>
+		                <div class="swiper-pagination"></div>
 		                </div>
 		                </div>
 

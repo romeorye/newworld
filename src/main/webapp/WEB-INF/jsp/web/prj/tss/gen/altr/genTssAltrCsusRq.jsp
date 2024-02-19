@@ -289,19 +289,6 @@
 					  				<th class="alignC">변경 前</th>
 					  				<th class="alignC">변경 後</th>
 					  			</tr>
-					  			<tr id="trNprodSal">
-					  				<th>영업이익율(%)</th>
-					  				<td>${resultSmry.bizPrftProYBefore}</td>
-					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProY}</td>
-					  				<td>${resultSmry.bizPrftProY1Before}</td>
-					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProY1}</td>
-					  				<td>${resultSmry.bizPrftProY2Before}</td>
-					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProY2}</td>
-					  				<td></td>
-					  				<td></td>
-					  				<td></td>
-					  				<td></td>
-					  			</tr>
 					  			<tr id="trNprodSal"  >
 					  				<th>매출액(억원)</th>
 					  				<td>${resultSmry.nprodSalsPlnYBefore}</td>
@@ -328,6 +315,20 @@
 					  				<td></td>
 					  				<td></td>
 					  			</tr>
+					  			<tr id="trNprodSal">
+					  				<th>영업이익율(%)</th>
+					  				<td>${resultSmry.bizPrftProYBefore}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProY}</td>
+					  				<td>${resultSmry.bizPrftProY1Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProY1}</td>
+					  				<td>${resultSmry.bizPrftProY2Before}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProY2}</td>
+					  				<td></td>
+					  				<td></td>
+					  				<td></td>
+					  				<td></td>
+					  			</tr>
+					  			
 								<tr id="trPtcCpsnHead" >
 					  				<th rowspan="2"></th>
 					  				<th class="alignC"  colspan="2">과제시작년도</th>

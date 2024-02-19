@@ -288,7 +288,7 @@
                 , { id: 'cooInstNm' }  //협력기관명
                 , { id: 'tssRoleType' }
                 , { id: 'tssRoleId' }
-                , {id: 'grsYn'}	// GRS P1 수행여부
+                , {id: 'grsYn'}	// GRS G1 수행여부
                 , {id: 'tssStepNm'}	//관제 단계
                 , {id: 'grsStepNm'}	//GRS 단계
                 // , {id: 'qgateStepNm'}	//Qgate 단계

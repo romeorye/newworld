@@ -2,7 +2,7 @@
 <head>
 	<title>IsProhibitProfanity</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
-	<meta name="author" content="NamoEditor Co., Ltd." />
+	<meta name="author" content="JIRANSOFT Co., Ltd." />
 	<link rel="stylesheet" href="../images/linkstyle.css" />
 </head>
 <body>
@@ -70,14 +70,16 @@
             <p class="scode">JavaScript</p>
             <pre class="scodedsc">var object = new NamoSE(&quot;test&quot;);
 object.EditorStart();
-var info = object.<b>IsProhibitProfanity</b>();
-if(info)
-{
-    alert(&quot;욕설단어가 발견되었습니다.&quot;);
-}
-else
-{
-    alert(&quot;욕설단어가 발견되지 않았습니다.&quot;);
+function <b>OnInitCompleted</b>(){
+   var info = object.<b>IsProhibitProfanity</b>();
+   if(info)
+   {
+       alert(&quot;욕설단어가 발견되었습니다.&quot;);
+   }
+   else
+   {
+       alert(&quot;욕설단어가 발견되지 않았습니다.&quot;);
+   }
 }</pre>
             <p class="dscrpt">&nbsp;</p>
         </td>

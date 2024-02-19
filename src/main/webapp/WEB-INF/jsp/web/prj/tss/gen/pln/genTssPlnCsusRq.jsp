@@ -356,8 +356,8 @@
                                     <th>상품출시(계획)</th>
                                     <td colspan="4">${resultSmry.ctyOtPlnM}</td>
                                 </tr>
-                                <tr>
-                                    <th colspan="5">영업이익율(%)</th>
+                               <tr>
+                                    <th colspan="5">신제품 매출계획(단위:억원)</th>
                                 </tr>
                                 <tr>
                                     <th>Y</th>
@@ -368,19 +368,19 @@
                                 </tr>
                                 <tr>
                                     <td class="alignR">
-                                        <c:out value="${resultSmry.bizPrftProY}" />
+                                        <c:out value="${resultSmry.nprodSalsPlnY}" />
                                     </td>
                                     <td class="alignR">
-                                        <c:out value="${resultSmry.bizPrftProY1}" />
+                                        <c:out value="${resultSmry.nprodSalsPlnY1}" />
                                     </td>
                                     <td class="alignR">
-                                        <c:out value="${resultSmry.bizPrftProY2}" />
+                                        <c:out value="${resultSmry.nprodSalsPlnY2}" />
                                     </td>
                                     <td class="alignR">
-                                        <c:out value="${resultSmry.bizPrftProY3}" />
+                                        <c:out value="${resultSmry.nprodSalsPlnY3}" />
                                     </td>
                                     <td class="alignR">
-                                        <c:out value="${resultSmry.bizPrftProY4}" />
+                                        <c:out value="${resultSmry.nprodSalsPlnY4}" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -411,7 +411,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th colspan="5">신제품 매출계획(단위:억원)</th>
+                                    <th colspan="5">영업이익율(%)</th>
                                 </tr>
                                 <tr>
                                     <th>Y</th>
@@ -422,19 +422,19 @@
                                 </tr>
                                 <tr>
                                     <td class="alignR">
-                                        <c:out value="${resultSmry.nprodSalsPlnY}" />
+                                        <c:out value="${resultSmry.bizPrftProY}" />
                                     </td>
                                     <td class="alignR">
-                                        <c:out value="${resultSmry.nprodSalsPlnY1}" />
+                                        <c:out value="${resultSmry.bizPrftProY1}" />
                                     </td>
                                     <td class="alignR">
-                                        <c:out value="${resultSmry.nprodSalsPlnY2}" />
+                                        <c:out value="${resultSmry.bizPrftProY2}" />
                                     </td>
                                     <td class="alignR">
-                                        <c:out value="${resultSmry.nprodSalsPlnY3}" />
+                                        <c:out value="${resultSmry.bizPrftProY3}" />
                                     </td>
                                     <td class="alignR">
-                                        <c:out value="${resultSmry.nprodSalsPlnY4}" />
+                                        <c:out value="${resultSmry.bizPrftProY4}" />
                                     </td>
                                 </tr>
                                 <tr>

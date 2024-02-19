@@ -7,16 +7,38 @@
     <select id="retrieveNatTssList" resultType="hashmap">
         <![CDATA[
         /*retrieveNatTssList 국책과제 목록*/
-        SELECT distinct  z.*
-        ,dbo.fn_getQgateStepNm(z.wbsCd,'0') as qgateStepNm
+        SELECT distinct z.wbsCd         --과제코드
+		               ,z.pkWbsCd       --과제코드
+		               , z.tssCd         --과제코드
+		               , z.tssNm         --과제명
+		               , SUBSTRING(z.prjNm,CHARINDEX('.',z.prjNm)+1,LEN(z.prjNm) ) as prjNm
+		             , z.deptName
+		             , z.ttlCrroStrtDt --과제계획시작
+		             , z.ttlCrroFnhDt  --과제계획종료
+		             , z.cmplNxStrtDd --과제실적시작
+		             , z.cmplNxFnhDd  --과제실적종료
+		             , z.tssSt         --상태
+		             , z.tssStNm        --상태명
+		             , z.frstRgstDt    --최종실적등록일
+		             , z.pgsStepCd     --PL:계획, PG:진행, CM:완료, AL:변경, DC:중단
+		             , z.tssNosSt      --1차년도, 2 차년도, 3 차년도, 4차년도, 5차년도:국책과제
+		             , z.saUserName --과제리더명
+		             , z.pgsStepNm
+		             , z.tssNosStNm
+		             , z.myTss
+		             ,z.tssStrtDd
+					  ,z.tssFnhDd
+					  ,z.prjCd
+					 ,z.bizDptCd
 		FROM  (
 		        SELECT M.WBS_CD           AS wbsCd         --과제코드
 		             , M.PK_WBS_CD        AS pkWbsCd       --과제코드
 		             , M.TSS_CD           AS tssCd         --과제코드
 		             , M.TSS_NM           AS tssNm         --과제명
-		             , SUBSTRING(ISNULL(M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD))
-		                        , CHARINDEX('.', ISNULL(M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD)))+1
-		                        , LEN(ISNULL(M.PRJ_NM, dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'PRJ', M.PRJ_CD)))) AS prjNm        --소속명(프로젝트명)
+		            
+		            ,case when m.PGS_STEP_CD = 'CM' then isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) 
+							  when m.PGS_STEP_CD = 'DC' then isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) 
+							  else dbo.fn_getPrjName(m.PRJ_CD)  end prjNm   --소속명(프로젝트명)
 		             , ISNULL(M.DEPT_NAME, dbo.fn_getUpperDeptNm(M.DEPT_CODE)) AS deptName
 		             , CASE WHEN M.PGS_STEP_CD != 'AL' THEN S.STRT_DT
 		                    ELSE (SELECT TOP 1 X.STRT_DT FROM IRIS_TSS_NAT_PLCY_SMRY X, IRIS_TSS_MGMT_MST Y
@@ -89,7 +111,7 @@
 		                                              AND B.TSS_NOS_ST = B.MAX_TSS_NOS_ST) X) Z
 		                                      WHERE Z.OVER_STEP_RANK = 1) Y)
 	              AND M.DEL_YN = 'N' --삭제여부
-	              AND iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
+	              AND iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='G1')
 	              
 	              
 		        ) z
@@ -342,8 +364,83 @@
     <update id="updateNatTssPlnSmry">
     <![CDATA[
     -- updateNatTssPlnSmry 개요 수정
-        UPDATE IRIS_TSS_NAT_PLCY_SMRY  /*국책과제개요*/
-           SET TTL_CRRO_STRT_DT        = #{ttlCrroStrtDt}           --총수행시작일
+        MERGE IRIS_TSS_NAT_PLCY_SMRY A
+        USING (SELECT #{tssCd} AS TSS_CD ) B
+        ON A.TSS_CD = B.TSS_CD
+        WHEN NOT MATCHED THEN
+        INSERT (
+			   TSS_CD                       --과제코드
+             , TTL_CRRO_STRT_DT             --총수행시작일
+             , TTL_CRRO_FNH_DT              --총수행종료일
+             , STRT_DT                      --과제시작일
+             , FNH_DT                       --과제종료일
+             , FIN_YN                       --최종차수여부
+             , SMRY_TXT                     --개발대상기술 및 제품개요
+             , TSS_SMRY_TXT                 --과제개요
+             , TSS_SMRY_CTQ_TXT             --과제개요  - CTQ
+             , TSS_SMRY_DVLP_TXT            --과제개요 - 주요연구개발내용
+             , RSST_DVLP_OUCM_TXT           --연구개발성과 - 지재권
+             , RSST_DVLP_OUCM_EFF_TXT       --연구개발성과 - 파급효과
+             , FNO_PLN_TXT                  --향후계획
+             , BIZ_EXP_ARSL_TXT             --사업비실적
+             , BIZ_EXP                      --사업비실적
+             , ALTR_RSON_TXT                --변경사유
+             , ADD_RSON_TXT                 --추가사유
+             , DCAC_RSON_TXT                --중단사유
+             , ATTC_FIL_ID                  --첨부파일
+             , FRST_RGST_DT                 --최초등록일시
+             , FRST_RGST_ID                 --최초등록자
+             , LAST_MDFY_DT                 --최종수정일시
+             , LAST_MDFY_ID                 --최종수정자
+             , STRT_DT_1
+             , FNH_DT_1
+             , STRT_DT_2
+             , FNH_DT_2
+             , STRT_DT_3
+             , FNH_DT_3
+             , STRT_DT_4
+             , FNH_DT_4
+             , STRT_DT_5
+             , FNH_DT_5
+             )
+        VALUES
+             ( #{tssCd}
+             , #{ttlCrroStrtDt}
+             , #{ttlCrroFnhDt}
+             , #{strtDt1}
+             , #{fnhDt1}
+             , IIF(LEN(#{strtDt2}) = 0, 'Y', 'N')
+             , #{smryTxt}
+             , #{tssSmryTxt}
+             , #{tssSmryCtqTxt}
+             , #{tssSmryDvlpTxt}
+             , #{rsstDvlpOucmTxt}
+             , #{rsstDvlpOucmEffTxt}
+             , #{fnoPlnTxt}
+             , #{bizExpArslTxt}
+             , #{bizExp}
+             , #{altrRsonTxt}
+             , #{addRsonTxt}
+             , #{dcacRsonTxt}
+             , #{attcFilId}
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             , #{strtDt1}
+             , #{fnhDt1}
+             , #{strtDt2}
+             , #{fnhDt2}
+             , #{strtDt3}
+             , #{fnhDt3}
+             , #{strtDt4}
+             , #{fnhDt4}
+             , #{strtDt5}
+             , #{fnhDt5}
+	   )
+		WHEN MATCHED THEN
+        UPDATE
+		   SET TTL_CRRO_STRT_DT        = #{ttlCrroStrtDt}           --총수행시작일
              , TTL_CRRO_FNH_DT         = #{ttlCrroFnhDt}            --총수행종료일
              , STRT_DT                 = CASE #{tssNosSt} WHEN '1' THEN #{strtDt1} WHEN '2' THEN #{strtDt2}
                                                           WHEN '3' THEN #{strtDt3} WHEN '4' THEN #{strtDt4} WHEN '5' THEN #{strtDt5} END
@@ -379,7 +476,7 @@
 		     , FNH_DT_4                = #{fnhDt4}
 		     , STRT_DT_5               = #{strtDt5}
 		     , FNH_DT_5                = #{fnhDt5}
-         WHERE TSS_CD = #{tssCd}
+		     ;
     ]]>
     </update>
 

@@ -880,11 +880,11 @@ var curRow;
     </div>
 
 	<form id="aform" name ="aform">
-	<input type="text" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">  
-	<input type="text" id="banfnPrs" name="banfnPrs" value="<c:out value='${inputData.banfnPrs}'/>">
-	<input type="text" id="bnfpoPrs" name="bnfpoPrs" value="<c:out value='${inputData.bnfpoPrs}'/>"> 
-	<input type="text" id="sCodeNm" name="sCodeNm" />
-	<input type="text" id="attcFilId" name="attcFilId" />  
+	<input type="hidden" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">  
+	<input type="hidden" id="banfnPrs" name="banfnPrs" value="<c:out value='${inputData.banfnPrs}'/>">
+	<input type="hidden" id="bnfpoPrs" name="bnfpoPrs" value="<c:out value='${inputData.bnfpoPrs}'/>"> 
+	<input type="hidden" id="sCodeNm" name="sCodeNm" />
+	<input type="hidden" id="attcFilId" name="attcFilId" />  
 	
 	<div class="sub-content">
 	   		<div class="titArea mt0" style="margin-bottom:5px !important;">

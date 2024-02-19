@@ -2,7 +2,7 @@
 <head>
 	<title>GetBodyElementsByTagName</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
-	<meta name="author" content="NamoEditor Co., Ltd." />
+	<meta name="author" content="JIRANSOFT Co., Ltd." />
 	<link rel="stylesheet" href="../images/linkstyle.css" />
 </head>
 <body>
@@ -54,9 +54,11 @@
             <p class="scode">JavaScript</p>
             <pre class="scodedsc">var object = new NamoSE(&quot;test&quot;);
 object.EditorStart();
-var TagList = object.<b>GetBodyElementsByTagName</b>(&quot;img&quot;);
-for (i=0; i&lt;TagList.length; i++){
-    alert(TagList[i].src);
+function <b>OnInitCompleted</b>(){
+   var TagList = object.<b>GetBodyElementsByTagName</b>(&quot;img&quot;);
+   for (i=0; i&lt;TagList.length; i++){
+      alert(TagList[i].src);
+   }
 }</pre>
             <p class="dscrpt">&nbsp;</p>
         </td>

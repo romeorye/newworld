@@ -1,18 +1,20 @@
 package iris.web.mailBatch;
 
-import iris.web.common.util.StringUtil;
-import iris.web.mailBatch.service.MailBatchService;
-import iris.web.system.base.IrisBaseController;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Controller;
-
-import javax.annotation.Resource;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
+
+import javax.annotation.Resource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Controller;
+
+import iris.web.common.util.StringUtil;
+import iris.web.mailBatch.service.MailBatchService;
+import iris.web.system.base.IrisBaseController;
 
 /********************************************************************************
  * NAME : MailBatchArsl.java
@@ -58,7 +60,7 @@ public class MailBatchArsl  extends IrisBaseController {
         input.put("Type", "B");
         input.put("title", toMonth+"월 과제 진척도 입력 요청");
         input.put("mailTemplateName", "mailBatchArslhtml");
-        input.put("sendMailAdd", "iris@lghausys.com");
+        input.put("sendMailAdd", "iris@lxhausys.com");
         input.put("sendMailName", "관리자");
  
          mailBatchService.makeMailSend(input);

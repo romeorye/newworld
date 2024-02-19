@@ -1150,6 +1150,58 @@ public class GenTssAltrController  extends IrisBaseController {
         return "web/prj/tss/gen/altr/genTssAltrCsusRq";
     }
 
+    /**
+     * 과제관리 > 일반과제 > 변경 > 단순변경 품의서요청 화면
+     *
+     * @param input HashMap<String, String>
+     * @param request HttpServletRequest
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return String
+     * @throws JSONException
+     * */
+    @RequestMapping(value="/prj/tss/gen/genSimpleTssAltrCsusRq.do")
+    public String genSimpleTssAltrCsusRq(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+            HttpSession session, ModelMap model) throws JSONException {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("genTssAltrCsusRq [과제관리 > 일반과제 > 변경 > 단순 품의서요청 화면 ]");
+        LOGGER.debug("###########################################################");
+
+        checkSession(input, session, model);
+
+        if(pageMoveChkSession(input.get("_userId"))) {
+        	Map<String, Object> resultMst        = genTssAltrService.retrieveGenTssAltrMst(input); //마스터
+            Map<String, Object> resultCsus       = genTssService.retrieveGenTssCsus(resultMst); //품의서
+            Map<String, Object> resultSmry       = genTssAltrService.retrieveGenTssAltrSmry(input); //개요
+            List<Map<String, Object>> resultAltr = genTssAltrService.retrieveGenTssAltrSmryList(input);
+
+            HashMap<String, String> inputInfo = new HashMap<String, String>();
+            inputInfo.put("attcFilId", String.valueOf(resultSmry.get("altrAttcFilId")));
+
+            List<Map<String, Object>> resultAttc  = genTssAltrService.retrieveGenTssAltrAttc(inputInfo);
+            
+            resultMst  = StringUtil.toUtf8Output((HashMap) resultMst);
+            resultCsus = StringUtil.toUtf8Output((HashMap) resultCsus);
+            resultSmry = StringUtil.toUtf8Output((HashMap) resultSmry);
+
+            model.addAttribute("inputData", input);
+            model.addAttribute("resultMst", resultMst);
+            model.addAttribute("resultSmry", resultSmry);
+            model.addAttribute("resultAltr", resultAltr);
+            model.addAttribute("resultAttc", resultAttc);
+            model.addAttribute("resultCsus", resultCsus);
+
+            //text컬럼을 위한 json변환
+            JSONObject obj = new JSONObject();
+            obj.put("records", resultSmry);
+
+            request.setAttribute("jsonSmry", obj);
+        }
+
+        return "web/prj/tss/gen/altr/genSimpleTssAltrCsusRq";
+    }
+    
 
     /**
      * 과제관리 > 일반과제 > 변경 > 품의서요청 생성

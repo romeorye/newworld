@@ -2,7 +2,7 @@
 <head>
 	<title>SetUISize</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
-	<meta name="author" content="NamoEditor Co., Ltd." />
+	<meta name="author" content="JIRANSOFT Co., Ltd." />
 	<link rel="stylesheet" href="../images/linkstyle.css" />
 </head>
 <body>
@@ -57,17 +57,23 @@
             <pre class="scodedsc">[너비만 변경할 경우]
 var object = new NamoSE(&quot;test&quot;);
 object.EditorStart();
-object.<b>SetUISize(&quot;500&quot;,&quot;&quot;);</b></span>
+function <b>OnInitCompleted</b>(){
+   object.<b>SetUISize(&quot;500&quot;,&quot;&quot;);</b></span>
+}
 
 [높이만 변경할 경우]
 var object = new NamoSE(&quot;test&quot;);
 object.EditorStart();
-object.<b>SetUISize(&quot;&quot;,&quot;600&quot;)</b>;
+function <b>OnInitCompleted</b>(){
+   object.<b>SetUISize(&quot;&quot;,&quot;600&quot;)</b>;
+}
 
 [너비와 높이 모두 변경할 경우]
 var object = new NamoSE(&quot;test&quot;);
 object.EditorStart();
-object.<b>SetUISize(&quot;500&quot;,&quot;600&quot;);</b></span></pre>
+function <b>OnInitCompleted</b>(){
+   object.<b>SetUISize(&quot;500&quot;,&quot;600&quot;);</b></span>
+}</pre>
             <p class="dscrpt">&nbsp;</p>
         </td>
     </tr>

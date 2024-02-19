@@ -295,7 +295,7 @@
                             nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssDcacDetail.do?tssCd="+pTssCd+"'/>");
                         }
                         //진행_GRS완료_완료
-                        else if(pGrsEvSt == "P2") {
+                        else if(pGrsEvSt == "G2") {
                             nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssCmplDetail.do?tssCd="+pTssCd+"'/>");
                         }
                         //진행_GRS완료_변경

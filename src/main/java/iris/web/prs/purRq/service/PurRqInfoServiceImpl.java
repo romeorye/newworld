@@ -163,10 +163,9 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		
 		for(int i = 0; i < jcoTable.getNumRows(); i++, jcoTable.nextRow()) {
 			HashMap<String, Object> record = new HashMap<String, Object>();
-			
-			LOGGER.debug("BANFN ================ > " + jcoTable.getValue("BANFN").toString());
-			LOGGER.debug("BNFPO ================ > " + jcoTable.getValue("BNFPO").toString());
-			LOGGER.debug("INDEX ================ > " + jcoTable.getValue("INDEX").toString());
+			//LOGGER.debug("BANFN ================ > " + jcoTable.getValue("BANFN").toString());
+			//LOGGER.debug("BNFPO ================ > " + jcoTable.getValue("BNFPO").toString());
+			//LOGGER.debug("INDEX ================ > " + jcoTable.getValue("INDEX").toString());
 			record.put("banfn", jcoTable.getValue("BANFN"));
 			record.put("bnfpo", jcoTable.getValue("BNFPO"));
 			erpIndex = jcoTable.getValue("INDEX").toString();
@@ -215,9 +214,9 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	private List<Map<String, Object>> callZ_RFC_PRS04(List<Map<String,Object>> dataList){
 		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
 		
-		//LOGGER.debug("###########################################################");
-		//LOGGER.debug("PurRqInfoServiceImpl - callZ_RFC_PRS04 [구매요청현황: Z_RFC_PRS04]");
-		//LOGGER.debug("###########################################################");
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoServiceImpl - callZ_RFC_PRS04 [구매요청현황: Z_RFC_PRS04]");
+		LOGGER.debug("###########################################################");
 		String functionName = "Z_RFC_PRS04";			// 구매요청현황
 		String gubun ="I_GUBUN";						// 작업구분 (1:my구매내역,2:구매요청)
 		String zmm0126s ="I_PAGE";						// [PRS] import_page info
@@ -237,11 +236,10 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	    	JCoTable resultTable  = function.getTableParameterList().getTable(zmm0119s);
 	        
 	    	requestTable = makePrData(requestTable, dataList);
-	    	LOGGER.debug("requestTable==================  : " + requestTable);
 	    	//LOGGER.debug("=========exportList   ============== : " + exportList);
 	    	importList.setValue(gubun, "1");
 	       	function.execute(destination);
-	    	LOGGER.debug("===============resultTable=============   " + resultTable);
+	    	//LOGGER.debug("===============resultTable=============   " + resultTable);
 	       	
 	       	resultVal = makeGetPrRequestSAPReturn(resultTable);
 		} catch (JCoException e) {
@@ -290,9 +288,9 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		List<Map<String, Object>> resultVal05 = new ArrayList<Map<String, Object>>();
 		List<Map<String, Object>> resultVal = new ArrayList<Map<String, Object>>();
 		
-		//LOGGER.debug("###########################################################");
-		//LOGGER.debug("PurRqInfoServiceImpl - callZ_RFC_PRS04_05");
-		//LOGGER.debug("###########################################################");
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("PurRqInfoServiceImpl - callZ_RFC_PRS04_05");
+		LOGGER.debug("###########################################################");
 
 		resultVal04 = callZ_RFC_PRS04(dataList);
 		resultVal05 = callZ_RFC_PRS05(dataList);
@@ -325,7 +323,7 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 			
 			i++;
 		}
-		//LOGGER.debug(resultVal);
+		LOGGER.debug(resultVal);
 		return resultVal;
 	}
 	
@@ -370,13 +368,15 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		input.put("usedCode", "S");
 		input.put("prsFlag", "0");
 		input.put("toMailAddr", input.get("_userEmail"));
-
+		
 		LOGGER.debug("###########################################################");
 		LOGGER.debug("PurRqInfoServiceImpl - sendSapExpensePr [결재의뢰 ERP 전송: Z_RFC_PRS01]");
 		LOGGER.debug("input = > " + input);
 		LOGGER.debug("###########################################################");
 
 		List<Map<String, Object>> result = retrieveERPPrInfo((HashMap<String, Object>)input);
+		
+		input.put("txz01", result.get(0).get("txz01"));
 		
 		String functionName = "Z_RFC_PRS01";			// PRS 구매요청 생성/수정
 		String zmm0109s ="IT_INPUT";					// [PRS] Import parameter - PRS 구매요청 생성/수정
@@ -388,10 +388,10 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	    JCoDestination destination;
 		try {
 			destination = JCoDestinationManager.getDestination(ABAP_AS);
-		    //LOGGER.debug("destination => " + destination);
+		    LOGGER.debug("destination => " + destination);
 		    
 	    	JCoFunction function = destination.getRepository().getFunction(functionName); 
-	    	//LOGGER.debug("function => " + function);
+	    	LOGGER.debug("function => " + function);
 
 	    	JCoTable expenseInput = function.getTableParameterList().getTable(zmm0109s);
 	    	JCoTable itemTextInput = function.getTableParameterList().getTable(zmm0110s);
@@ -403,19 +403,21 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	    	itemTextInput = makeItemTextInputData(itemTextInput, result, (HashMap<String, Object>)input);
 	    	fileInput = makeFileInputData(fileInput, result);
 	    	expenseAppInput = makeExpenseAppInputData(expenseAppInput, result, (HashMap<String, Object>)input);
-	    	
-	    	//LOGGER.debug("======expenseInput => ");
-	    	//LOGGER.debug(expenseInput);
-	    	//LOGGER.debug("====itemTextInput => ");
-	    	//LOGGER.debug(itemTextInput);
-	    	//LOGGER.debug("====fileInput => ");
-	    	//LOGGER.debug(fileInput);
-	    	//LOGGER.debug("=====expenseAppInput => ");
-	    	//LOGGER.debug(expenseAppInput);
-		    	
+	    	/*
+	    	LOGGER.debug("======expenseInput => ");
+	    	LOGGER.debug(expenseInput);
+	    	LOGGER.debug("====itemTextInput => ");
+	    	LOGGER.debug(itemTextInput);
+	    	LOGGER.debug("====fileInput => ");
+	    	LOGGER.debug(fileInput);
+	    	LOGGER.debug("=====resultTable =>  :" + resultTable);
+		    */	
 	       	function.execute(destination);
 	        	
 	       	resultVal.put("retCode", erpApprovalResultSave(resultTable, input) );
+	       	
+	       	LOGGER.debug("=====resultVal =>  :" + resultVal.get("retCode").toString());
+	       	
 		} catch (JCoException e) {
 			resultVal.put("retCode", "F");
 			resultVal.put("retMsg", e.getMessage());
@@ -427,29 +429,28 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 	private String erpApprovalResultSave(JCoTable jcoTable, Map<String, Object> input ) {
 		String resultVal = "";
 		int rowCnt = jcoTable.getNumRows();
-		MailSender mailSender = null;
+		MailSender mailSender = mailSenderFactory.createMailSender();
 		String message = "";
-		
-		LOGGER.debug("##############################jcoTable############################# : " + jcoTable);
-		
+
 		if (rowCnt > 0) {
 			for (int i = 0; i < rowCnt; i++) {
 				jcoTable.setRow(i);
 
+				String banfnPrs = jcoTable.getString("BANFN_PRS");
+				int bnfpoPrs = Integer.parseInt(jcoTable.getString("BNFPO_PRS"));
 				String appBanfn = jcoTable.getString("BANFN");
 				String appBnfpo = jcoTable.getString("BNFPO");
+				String status = jcoTable.getString("STATUS").trim();
 
-				if ("E".equals(jcoTable.getString("STATUS").trim()) && i == 0) {		// to-do: "S" -> "E"로 변경하여 운영 반영
+				if ("E".equals(status) && i == 0) {		// to-do: "S" -> "E"로 변경하여 운영 반영
 					// SAP 전송 에러일 경우 해당 요청자에게 처리 결과를 메일로 보낸다.
-					mailSender = mailSenderFactory.createMailSender();
-	
-					mailSender.setFromMailAddress("iris@lghausys.com");
+					mailSender.setFromMailAddress("iris@lxhausys.com");
 					//mailSender.setToMailAddress( "singkro@hausyspartner.com" );    // to-do: 개발시에만 하드코딩, 운영은 처음 작성한 담당자에게 보내야 한다.
 					mailSender.setToMailAddress( (String)input.get("toMailAddr") );    // to-do: 개발시에만 하드코딩, 운영은 처음 작성한 담당자에게 보내야 한다.
 					mailSender.setSubject("구매요청(PRS) SAP 전송 실패메일입니다.");
 					
 					message = "<b>* 구매요청 내역</b><br>";
-					message += "&nbsp;&nbsp;&nbsp;" + jcoTable.getString("TXZ01") + "<br>";
+					message += "&nbsp;&nbsp;&nbsp;" + input.get("txz01") + "<br>";
 					message += "<br><br>";
 					message += "<b>* SAP 처리 결과</b><br>";
 					message += "&nbsp;&nbsp;&nbsp;"	+ jcoTable.getString("MESSAGE").trim();					
@@ -457,6 +458,24 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 					mailSender.setText(message);
 					
 					mailSender.send();
+				}else if ( "S".equals(status) && i == 0) {
+					input.put("banfnPrs", banfnPrs);
+					input.put("bnfpoPrs", bnfpoPrs);
+					
+					input.put("prsMailAddr", commonDao.select("prs.purRq.retrievePrsMailAddr", input) );
+					
+					if( !input.get("prsMailAddr").equals("no") ) {
+						mailSender = mailSenderFactory.createMailSender();
+						mailSender.setFromMailAddress("iris@lxhausys.com");
+						mailSender.setToMailAddress( (String)input.get("prsMailAddr") );    // to-do: 개발시에만 하드코딩, 운영은 처음 작성한 담당자에게 보내야 한다.
+						mailSender.setSubject("구매요청(PRS) 구매 신청메일입니다.");
+						
+						message = "<b>* 구매요청 내역</b><br><br>";
+						message += "&nbsp;&nbsp;&nbsp; -<b>" +  input.get("txz01") + "</b> 구매건이 신청되었습니다. <br>";
+						
+						mailSender.setText(message);
+						mailSender.send();
+					}
 				}
 
 				/*
@@ -465,7 +484,7 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 				 * 6:구매발주, 7:입고완료 8:삭제된 결재반려건
 				 */
 				resultVal = jcoTable.getString("STATUS").trim();
-
+				
 				Map<String, Object> map = new HashMap<String, Object>();
 		        map.put("banfn", jcoTable.getString("BANFN"));		// PR번호
 		        map.put("bnfpo", jcoTable.getString("BNFPO"));		// PR품목번호
@@ -726,7 +745,7 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
     		if(Integer.parseInt(data.get("fileCnt").toString()) > 0) {
     			List<Map<String, Object>> retreiveAttachFileInfoList = attachFileService.getAttachFileInfoList(data);
 
-    			String url ="http://iris.lghausys.com:7030/iris/index.do/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=";
+    			String url ="http://iris.lxhausys.com:7030/iris/index.do/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=";
     			
     			for(Map<String, Object> attachFileInfo : retreiveAttachFileInfoList) {
     				jcoTable.appendRow();
@@ -766,7 +785,12 @@ public class PurRqInfoServiceImpl implements PurRqInfoService{
 		}
 	}
 	
-	
+	/**
+	 * 구매 담당자 메일 주소
+	 */
+	public Object retrievePrsMailAddr(Map<String, Object> input) throws Exception {
+		return commonDao.select("prs.purRq.retrievePrsMailAddr", input);
+	}
 	
 	
 }

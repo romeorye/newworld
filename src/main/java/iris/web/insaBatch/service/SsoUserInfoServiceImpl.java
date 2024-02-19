@@ -67,7 +67,9 @@ public class SsoUserInfoServiceImpl implements SsoUserInfoService{
 				userResultList.add(userInfoMap);
 			}
 			
-			commonDao.batchUpdate("common.ssoInfo.saveUserInfo", userResultList);
+			commonDao.batchInsert("common.ssoInfo.saveUserInfo", userResultList);
+			
+			
 			
 		} else {
 			LOGGER.debug(" >> insertUserInfoIf  >>>>>>>>>>>>>>>>>>>>>> : return message connect fail");

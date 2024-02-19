@@ -227,7 +227,6 @@ function showTmpMenu(){
 }
 
 </script>
-<div style="position:absolute;z-index: 999;top: 0px"><input type="button" value="임시메뉴" onclick="showTmpMenu()"></div>
 <div id="tmpMenu" style="position:absolute;z-index: 999;">
 	<div>
 		<input type="button" value="닫기" onclick="hideTmpMenu()"/>

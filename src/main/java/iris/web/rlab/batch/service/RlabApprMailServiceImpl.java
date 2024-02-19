@@ -70,7 +70,7 @@ public class RlabApprMailServiceImpl implements RlabApprMailService {
 			input.put("trrMail",  rlabMailInfo.getRgstEmail());
 			input.put("rfpMail",  "");
 			input.put("_userId", "Batch-RlabApprMail");
-			input.put("_userEmail", "iris@lghausys.com");
+			input.put("_userEmail", "iris@lxhausys.com");
 
 			/* 전송메일 정보 hist 저장*/
 			commonDao.update("open.mchnAppr.insertMailHist", input);
@@ -100,7 +100,7 @@ public class RlabApprMailServiceImpl implements RlabApprMailService {
 			input.put("trrMail",  rlabMailInfo.getChrgEmail());
 			input.put("rfpMail",  "");
 			input.put("_userId", "Batch-RlabApprMail");
-			input.put("_userEmail", "iris@lghausys.com");
+			input.put("_userEmail", "iris@lxhausys.com");
 
 			/* 전송메일 정보 hist 저장*/
 			commonDao.update("open.mchnAppr.insertMailHist", input);

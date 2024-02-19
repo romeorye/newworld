@@ -57,7 +57,7 @@ public class SpaceApprMailServiceImpl implements SpaceApprMailService {
 
     		MailSender mailSender = mailSenderFactory.createMailSender();
     		//mailSender.setFromMailAddress(spaceMailInfo.getRgstEmail(), spaceMailInfo.getRgstNm());
-    		mailSender.setFromMailAddress("iris@lghausys.com");
+    		mailSender.setFromMailAddress("iris@lxhausys.com");
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
     		mailSender.setSubject("'" + spaceMailInfo.getSpaceNm() + "' 평가의뢰 접수 요청");
     		mailSender.setHtmlTemplate("spaceRqprReceiptRequest", spaceMailInfo);
@@ -70,7 +70,7 @@ public class SpaceApprMailServiceImpl implements SpaceApprMailService {
 			input.put("trrMail",  spaceMailInfo.getRgstEmail());
 			input.put("rfpMail",  "");
 			input.put("_userId", "Batch-SpaceApprMail");
-			input.put("_userEmail", "iris@lghausys.com");
+			input.put("_userEmail", "iris@lxhausys.com");
 
 			/* 전송메일 정보 hist 저장*/
 			commonDao.update("open.mchnAppr.insertMailHist", input);
@@ -88,7 +88,7 @@ public class SpaceApprMailServiceImpl implements SpaceApprMailService {
 
     		MailSender mailSender = mailSenderFactory.createMailSender();
     		//mailSender.setFromMailAddress(spaceMailInfo.getChrgEmail(), spaceMailInfo.getChrgNm());
-    		mailSender.setFromMailAddress("iris@lghausys.com");
+    		mailSender.setFromMailAddress("iris@lxhausys.com");
     		mailSender.setToMailAddress(spaceMailInfo.getReceivers().split(","));
     		mailSender.setSubject("'" + spaceMailInfo.getSpaceNm() + "' 평가결과 통보");
     		mailSender.setHtmlTemplate("spaceRqprResult", spaceMailInfo);
@@ -101,7 +101,7 @@ public class SpaceApprMailServiceImpl implements SpaceApprMailService {
 			input.put("trrMail",  spaceMailInfo.getRgstEmail());
 			input.put("rfpMail",  "");
 			input.put("_userId", "Batch-SpaceApprMail");
-			input.put("_userEmail", "iris@lghausys.com");
+			input.put("_userEmail", "iris@lxhausys.com");
 
 			/* 전송메일 정보 hist 저장*/
 			commonDao.update("open.mchnAppr.insertMailHist", input);

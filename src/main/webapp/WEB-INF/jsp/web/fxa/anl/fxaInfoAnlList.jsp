@@ -50,20 +50,11 @@ var imgHeight;
 			adminChk = "Y";
 		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T04') > -1) {
 			adminChk = "Y";
-			adminChk = "Y";
-		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-			btnRole = "N";
-		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-			btnRole = "N";
-		}else if("<c:out value='${inputData._userSabun}'/>" == "00206465") {
-			adminChk = "Y";
 		}
 
 		if( adminChk == "Y"){
-			//butRgst.show();
 			butMail.show();
 		}else{
-			//butRgst.hide();
 			butMail.hide();
 		}
 
@@ -109,6 +100,14 @@ var imgHeight;
  	    	document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
  	    	// 목록 페이징
 	    	paging(dataSet,"defaultGrid");
+ 	    	
+ 	    	
+ 	    	
+ 	    	
+ 	    	
+ 	    	
+ 	    	
+ 	    	
  	    });
 
          var columnModel = new Rui.ui.grid.LColumnModel({
@@ -197,7 +196,7 @@ var imgHeight;
 	 				document.aform.rtnUrl.value = "/fxa/anl/retrieveFxaAnlList.do";
 
 	 				if(adminChk == "N" && !Rui.isEmpty(record.get("deptCd")) ){
-	 					if(record.get("deptCd") == sDeptCd ){
+	 					if(record.get("crgrId") == '${inputData._userSabun}' ){
 	 						document.aform.adminChk.value = "Y";
 	 					}
 	 				}

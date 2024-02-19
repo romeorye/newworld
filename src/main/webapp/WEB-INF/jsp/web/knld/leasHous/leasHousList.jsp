@@ -34,7 +34,7 @@ var chkCmplYn='${inputData.chkCmpl}';
 	Rui.onReady(function() {
 		
 		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T01') > -1) {
-			adminChk = "N";
+			adminChk = "Y";
 		}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T22') > -1) {
 			adminChk = "Y";
 		}
@@ -197,14 +197,13 @@ var chkCmplYn='${inputData.chkCmpl}';
  			chkListDialog.show(true);
         }
 
-        fncChkList();
-        /* 쿠키 한루에 팝업창 한번만 띄우기 
+        /* 쿠키 한루에 팝업창 한번만 띄우기  */ 
         var yourname = getCookie("MyCookie")
 		if(yourname != 'adexe'){
 			fncChkList();
 			//window.open('자식페이지.html','event1','width=345,height=427,left=430,top=0,scrollbars=no,resizable=no');
 		}
-         */
+       
         
 	});//onReady 끝
 

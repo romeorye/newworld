@@ -58,6 +58,7 @@ var attId;
 				,{ id : 'issAuth'}			// 발행기관
 				,{ id : 'aplcNo'}			//	신청자사번 
 				,{ id : 'aplcNm'}			//신청자 명   
+				,{ id : 'reportingDt'}		//신청일  
 				,{ id : 'getDt'}			//입수일  
 				,{ id : 'enctDt'}			//제정일 
 				,{ id : 'lastRfrmDt'}		//최종개정일  
@@ -114,7 +115,7 @@ var attId;
         //규격명  
 		var nrmNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
 	        applyTo: 'nrmNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
-	        width: 800,                                    // 텍스트박스 폭을 설정
+	        width: 900,                                    // 텍스트박스 폭을 설정
 	        placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
 	        invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
 	    });
@@ -184,9 +185,9 @@ var attId;
              dateType: 'string'
         });
 		
-		//입수일
-		var getDt = new Rui.ui.form.LDateBox({
-             applyTo: 'getDt',
+		//신청일
+		var reportingDt = new Rui.ui.form.LDateBox({
+             applyTo: 'reportingDt',
              mask: '9999-99-99',
              displayValue: '%Y-%m-%d',
              dateType: 'string'
@@ -317,6 +318,7 @@ var attId;
 	        	,{id : 'pageCnt', 			ctrlId : 'pageCnt',  		value : 'value'}
 	        	,{id : 'pce', 				ctrlId : 'pce',  			value : 'value'}
 	        	,{id : 'aplcNm', 			ctrlId : 'aplcNm',  		value : 'value'}
+	        	,{id : 'reportingDt', 			ctrlId : 'reportingDt',  		value : 'value'}
 	        	//,{id : 'colaboTclg', 	ctlId : 'colaboTclg',  		value : 'value'}
 	        ]
 	    });
@@ -326,7 +328,7 @@ var attId;
             	 	 { id : 'nrmNn'		, validExp : '규격명 :true'}           
             		,{ id : 'nrmNo'		, validExp : '규격번호:true'}           
             		,{ id : 'issAuth'	, validExp : '발행기관:true'}        
-            		,{ id : 'aplcNm'	, validExp : '신청자:true'}  
+            		//,{ id : 'aplcNm'	, validExp : '신청자:true'}  
             ]
         });
 	    
@@ -402,9 +404,9 @@ var attId;
 							<td>
 								<input type="text" id='subsidiaryInfo' name='subsidiaryInfo' />
 							</td>
-							<th align="right">입수일</th>
+							<th align="right">신청일</th>
 							<td>
-								<input type="text" id='getDt' name='getDt' />
+								<input type="text" id='reportingDt' name='reportingDt' />
 							</td>
 						</tr>
 						<tr>
@@ -462,7 +464,7 @@ var attId;
 	</div>
 	<!-- //contents -->
 
-
+\
 
 
 </body>

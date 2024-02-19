@@ -45,16 +45,13 @@
 	 UPDATE IRIS_PRJ_RSST_MST
 	 	SET    PRJ_NM = #{saDeptName}
 	 WHERE  DEPT_CD = #{saDeptNew}
+	 and    (PRJ_END_DT = '' or PRJ_END_DT is null)
 	</update>
 
 
-	<update id="saveUserInfo">
+	<insert id="saveUserInfo">
 	-- saveUserInfo
-	MERGE IRIS_SSO_USER_IF SU
-            USING ( SELECT #{saSabunNew} AS sa_sabun_new ) AS Tab1
-			ON  (SU.sa_sabun_new = Tab1.sa_sabun_new)	
-            WHEN NOT MATCHED THEN
-	INSERT 
+	INSERT INTO IRIS_SSO_USER_IF
          ( sa_sabun_new
 		  ,sso_ex_flag
 		  ,sa_user
@@ -112,43 +109,12 @@
 				 , 'batch'
 				 , getdate()
                  )
-              WHEN MATCHED THEN
-				UPDATE 
-        		SET sso_ex_flag   = #{ssoExFlag}  
-				   ,sa_user       = #{saUser}
-				   ,sa_name       = #{saName}
-				   ,sa_ename      = #{saEname}
-			 	   ,sa_cname      = #{saCname}
-				   ,sa_dept_name  = #{saDeptName}
-				   ,sa_dept_new   = #{saDeptNew}
-				   ,sa_upmu       = #{saUpmu}
-				   ,sa_func       = #{saFunc}
-				   ,sa_func_name  = #{saFuncName}
-				   ,sa_jobx_name  = #{saJobxName}
-				   ,sa_jobx       = #{saJobx}
-				   ,sa_phone_area = #{saPhoneArea}
-				   ,sa_phone_o    = #{saPhoneo}
-				   ,sa_hand       = #{saHand}
-				   ,sso_ex_auth   = #{ssoExAuth}
-				   ,sa_mail       = #{saMail}
-				   ,sa_gsber      = #{saGsber}
-				   ,sa_exps       = #{saExps}
-				   ,sa_exps_name  = #{saExpsName}	
-				   ,sa_temp       = #{saTemp}
-				   ,sa_temp_date  = #{saTempDate} 	 	  
-				   ,last_mdfy_id  = 'batch'
-				   ,last_mdfy_dt  = getdate();		
-	
-	</update>
+	</insert>
 
 
-	<update id="saveDeptInfo">
+	<insert id="saveDeptInfo">
 	-- saveDeptInfo
-	MERGE IRIS_SSO_DEPT_IF SD
-            USING ( SELECT #{deptCode} AS dept_code ) AS Tab1
-			ON  (SD.dept_code = Tab1.dept_code)	
-            WHEN NOT MATCHED THEN
-            INSERT 
+            INSERT INTO IRIS_SSO_DEPT_IF
                  ( dept_code
 				  ,ps_flag
 				  ,dept_name
@@ -176,17 +142,5 @@
 				 , 'batch'
 				 , getdate()
                  )
-              WHEN MATCHED THEN
-				UPDATE 
-                SET ps_flag    = #{psFlag}
-				   ,dept_name  = #{deptName}
-				   ,dept_ename = #{deptEname}
-				   ,dept_cname = #{deptCname}
-				   ,dept_level = #{deptLevel}
-				   ,dept_uper  = #{deptUper}
-				   ,uperdept_name = #{uperdeptName}				  
-				   ,last_mdfy_id  = 'batch'
-				   ,last_mdfy_dt  = getdate();
-	
-	</update>
+	</insert>
 </mapper>

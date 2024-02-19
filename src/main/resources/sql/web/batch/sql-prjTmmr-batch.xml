@@ -10,7 +10,7 @@
 	SELECT C.PRJ_CD       as prjCd
 	     , C.WBS_CD       as wbsCd
 		 , A.SA_SABUN_NEW as tmmrEmpNo
-		 , convert(varchar(10),  GETDATE() ,23) as patcEndDt
+		 , convert(varchar(10),  DATEADD(DD,-1,GETDATE()) ,23) as patcEndDt
 	  FROM IRIS_SSO_USER A
 	       INNER JOIN VW_SSO_DEPT B ON A.SA_DEPT_NEW = B.DEPT_CODE  -- DEPT 뷰
 		   INNER JOIN IRIS_PRJ_RSST_MST C ON B.TEAM_DEPT_CODE = C.DEPT_CD AND (C.DEPT_CD IS NOT NULL AND C.DEPT_CD != '')-- 프로젝트마스터

@@ -21,7 +21,7 @@ function makeGrsEvPop() {
 	});
 
 	openGrsEvSnDialog = function() {
-		grsEvSnDialog.setUrl('/iris/prj/grs/grsEvStdPop.do?tssCd=' + infoDataSet.getNameValue(0, "tssCd") + '&userId=' + infoDataSet.getNameValue(0, "saSabunCd"));
+		grsEvSnDialog.setUrl('/iris/prj/grs/grsEvStdPop.do?tssCd=' + dataSet.getNameValue(0, "tssCd") + '&userId=' + dataSet.getNameValue(0, "saSabunCd"));
 		grsEvSnDialog.show();
 	};
 
@@ -65,7 +65,6 @@ function makeGrsEvTable() {
 
     gridDataSet = new Rui.data.LJsonDataSet({ //listGrid dataSet
         id: 'gridDataSet',
-        //focusFirstRow: 0,
         lazyLoad: true,
         fields: [
                 { id: 'grsEvSn'},           					//GRS 일련번호

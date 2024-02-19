@@ -15,23 +15,20 @@
 --%>
 <%@ page language ="java"  pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
 
-<%
-	response.setStatus(HttpServletResponse.SC_OK);
-	
-	if("true".equals(request.getParameter("devonframe_ajax_mode"))) {
-		request.getRequestDispatcher("errorAjax.jsp").forward(request, response);
-	}
-%>
-
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
-<title>Error Page</title>
-</head>
-<body>
-<div class="errorArea">
+<script type="text/javascript">
+	function init(){
+			alert("오류가 발생했습니다. 관리자에게 문의하십시오");
+		//top.location = contextPath+"/error.html";
+	}
+
+
+</script>
+
+<body onload="init();">
+
+<!--
+ <div class="errorArea">
 		<div class="errorTop">
 			<h2>
 				<strong>죄송합니다.</strong><br />
@@ -53,5 +50,5 @@
 			Copyright (C) 2016  All Rights Reserved. <br />
 		</div>
 	</div>
+	 -->
 </body>
-</html>

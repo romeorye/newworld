@@ -42,15 +42,18 @@
 	encrypt = encrypt.toLowerCase();
 	u_pass = u_pass.toLowerCase();
 
-	if(encrypt.equals(u_pass))
-	{
+	String login_id = encrypt("SHA-256", detectXSSEx(request.getParameter("u_id")));
+	String enc_id = encrypt("SHA-256", detectXSSEx("admin"));
+
+	if(encrypt.equals(u_pass) && login_id.equals(enc_id))
+	{	
 			//encrypt = encrypt("SHA1", request.getParameter("newPasswd").replaceAll(" ",""));
 			encrypt = encrypt("SHA-256", detectXSSEx(request.getParameter("newPasswd")));
 			encrypt = encrypt.toLowerCase();
 
 			String filenames = fileRealFolder + "manageInfo.jsp";
 			String xmlText = "<%\n";
-			xmlText += "	String u_id =\"" + request.getParameter("u_id") + "\";\n";
+			xmlText += "	String u_id =\"" + enc_id + "\";\n";
 			xmlText += "	String u_pass =\"" + encrypt + "\";\n";
 			xmlText += "%" + ">";
 			
@@ -58,15 +61,15 @@
 			if(check)
 			{
 				session.invalidate(); 
-				result_sc = "<script>alert(NamoSELang.pe_vB);window.document.location.href='../index.html';</script>";
+				result_sc = "<script>alert(NamoSELang.pe_Cq);window.document.location.href='../index.html';</script>";
 			}
 			else
 			{
-				result_sc = "<script>alert(NamoSELang.pe_sF+'" + fileName + "');history.back();</script> ";
+				result_sc = "<script>alert(NamoSELang.pe_yQ+'" + fileName + "');history.back();</script> ";
 			}
 	}
 	else{
-		result_sc = "<script>alert(NamoSELang.pe_xj);location.href='account_setting.jsp';</script>";
+		result_sc = "<script>alert(NamoSELang.pe_Dx);location.href='account_setting.jsp';</script>";
 	}
 
 %>
@@ -74,7 +77,7 @@
 <html>
 <head>
 	<script type="text/javascript" src="../../lib/jquery-1.7.2.min.js"> </script>
-	<script type="text/javascript">var ce$=$.noConflict(true); </script>
+	<script type="text/javascript">var ce$=namo$.noConflict(true); </script>
 	<script type="text/javascript" src="../manage_common.js"> </script>
 	<script type="text/javascript" src="../../js/namo_cengine.js"> </script>
 </head>

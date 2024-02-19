@@ -296,19 +296,6 @@
 					  				<th class="alignC">현재</th>
 					  			</tr>
 					  			<tr>
-					  				<th>영업이익률(%)</th>
-					  				<td>${resultSmry.bizPrftProY}</td>
-					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProCurY}</td>
-					  				<td>${resultSmry.bizPrftProY1}</td>
-					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProCurY1}</td>
-					  				<td>${resultSmry.bizPrftProY2}</td>
-					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProCurY2}</td>
-					  				<td></td>
-					  				<td bgcolor='#E6E6E6'></td>
-					  				<td></td>
-					  				<td bgcolor='#E6E6E6'></td>
-					  			</tr>
-					  			<tr>
 					  				<th>매출액(억원)</th>
 					  				<td>${resultSmry.nprodSalsPlnY}</td>
 					  				<td bgcolor='#E6E6E6'>${resultSmry.nprodSalsCurY}</td>
@@ -329,6 +316,19 @@
 					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftCurY1}</td>
 					  				<td>${resultSmry.bizPrftPlnY2}</td>
 					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftCurY2}</td>
+					  				<td></td>
+					  				<td bgcolor='#E6E6E6'></td>
+					  				<td></td>
+					  				<td bgcolor='#E6E6E6'></td>
+					  			</tr>
+					  			<tr>
+					  				<th>영업이익률(%)</th>
+					  				<td>${resultSmry.bizPrftProY}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProCurY}</td>
+					  				<td>${resultSmry.bizPrftProY1}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProCurY1}</td>
+					  				<td>${resultSmry.bizPrftProY2}</td>
+					  				<td bgcolor='#E6E6E6'>${resultSmry.bizPrftProCurY2}</td>
 					  				<td></td>
 					  				<td bgcolor='#E6E6E6'></td>
 					  				<td></td>

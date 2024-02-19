@@ -46,8 +46,10 @@ public static Element configXMlLoad(String configValue)
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		doc = db.parse(severXml);
 		Element root = doc.getDocumentElement();
-		root.normalize();
-		return root;
+		if(root !=null){
+			root.normalize();
+			return root;
+		}
 	}catch (SAXParseException err) {
 		//System.out.println("System Error 1");
 	} catch (SAXException e) {
@@ -344,14 +346,33 @@ public boolean update_check(String update_xml_url,String before_xml_url){
 	Element before_xml_root = configXMlLoad(before_xml_url);
 	List before_xml= xmlField_list(before_xml_root);
 	
+	Hashtable update_xml_settingValue = childValueList(update_xml_root);
+	Hashtable before_xml_settingValue = childValueList(before_xml_root);
+
+	String getValue1 = "";
+	String getValue2 = "";
+
 	boolean check = false;
 	for (int i=0; i<update_xml.size(); i++){
 
 		check = false;
 		for (int j=0; j<before_xml.size(); j++){
 			if(update_xml.get(i).toString().equalsIgnoreCase(before_xml.get(j).toString())){
-				check = true;
-				break;
+
+				if(update_xml.get(i).toString() == "Version" || update_xml.get(i).toString() == "Version_daemon" || update_xml.get(i).toString() == "Version_com") {
+					getValue1 = update_xml_settingValue.get(update_xml.get(i)).toString();
+					getValue2 = before_xml_settingValue.get(before_xml.get(j)).toString();
+
+					if(getValue1.equals(getValue2)) {
+						check = true;
+						break;
+					}
+
+				} else {
+					check = true;
+					break;
+				}
+
 			}
 		}
 		if(check == false)
@@ -378,6 +399,7 @@ public String update_xml(String update_xml_url,String before_xml_url){
 	xml_Text += "<" + StartTag + ">\n";
 
 	List parent = childrenList(update_xml_root);
+	boolean chkForce = false;
 
 	for(int i=0;i<parent.size();i++){
 		xml_Text +="	<" + parent.get(i) + ">\n";
@@ -386,22 +408,41 @@ public String update_xml(String update_xml_url,String before_xml_url){
 		List children = childrenList(node);
 
 		for(int j=0;j<children.size();j++){
+
+			// node 이름이 Version, Version_daemon, Version_com 이면 강제 업데이트
+			String getNode_Name = children.get(j).toString();
+			if( getNode_Name.equals("Version") || getNode_Name.equals("Version_daemon") || getNode_Name.equals("Version_com") ) {
+				chkForce = true;
+			}
 			
-			if(children.get(j).toString().equalsIgnoreCase("AddMenu") && before_xml_settingValue.get("AddMenuCheck").toString().equalsIgnoreCase("true")) {
-				List addMenuListValue = (List)before_xml_settingValue.get("AddMenu");
-				for(int k=0; k<addMenuListValue.size(); k++){
-					xml_Text += "		<" + children.get(j) + ">" + addMenuListValue.get(k) + "</" + children.get(j) + ">\n";
-				}
-			}
-			else if(before_xml_settingValue.get(children.get(j)) != null){
-				xml_Text += "		<" + children.get(j) + ">" + before_xml_settingValue.get(children.get(j)) + "</" + children.get(j) + ">\n";
-			}
-			else{
-				String getXmlSettingValue = " " + update_xml_settingValue.get(children.get(j)) + " ";
-				getXmlSettingValue = getXmlSettingValue.trim();
-				if(getXmlSettingValue.equalsIgnoreCase("[]")) getXmlSettingValue = "";
+			if(chkForce) {
+				String getNode_Value = " " + update_xml_settingValue.get(children.get(j)) + " ";
+				getNode_Value = getNode_Value.trim();
+				if(getNode_Value.equalsIgnoreCase("[]")) getNode_Value = "";
+
+				xml_Text += "		<" + children.get(j) + ">" + getNode_Value + "</" + children.get(j) + ">\n";
 				
-				xml_Text += "		<" + children.get(j) + ">" + getXmlSettingValue + "</" + children.get(j) + ">\n";
+				// 강제 수정 후 조건 false
+				chkForce = false;
+			} else {
+				
+				if(children.get(j).toString().equalsIgnoreCase("AddMenu") && before_xml_settingValue.get("AddMenuCheck").toString().equalsIgnoreCase("true")) {
+					List addMenuListValue = (List)before_xml_settingValue.get("AddMenu");
+					for(int k=0; k<addMenuListValue.size(); k++){
+						xml_Text += "		<" + children.get(j) + ">" + addMenuListValue.get(k) + "</" + children.get(j) + ">\n";
+					}
+				}
+				else if(before_xml_settingValue.get(children.get(j)) != null){
+					xml_Text += "		<" + children.get(j) + ">" + before_xml_settingValue.get(children.get(j)) + "</" + children.get(j) + ">\n";
+				}
+				else{
+					String getXmlSettingValue = " " + update_xml_settingValue.get(children.get(j)) + " ";
+					getXmlSettingValue = getXmlSettingValue.trim();
+					if(getXmlSettingValue.equalsIgnoreCase("[]")) getXmlSettingValue = "";
+					
+					xml_Text += "		<" + children.get(j) + ">" + getXmlSettingValue + "</" + children.get(j) + ">\n";
+				}
+
 			}
 
 		}

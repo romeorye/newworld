@@ -51,18 +51,18 @@ var HAS_TYPED = typeof Uint8Array !== 'undefined' &&
 var CAN_CHARCODE_APPLY = false;
 var CAN_CHARCODE_APPLY_TYPED = false;
 
-try {
+//try {
   if (fromCharCode.apply(null, [0x61]) === 'a') {
     CAN_CHARCODE_APPLY = true;
   }
-} catch (e) {}
+//} catch (e) {}
 
 if (HAS_TYPED) {
-  try {
+  //try {
     if (fromCharCode.apply(null, new Uint8Array([0x61])) === 'a') {
       CAN_CHARCODE_APPLY_TYPED = true;
     }
-  } catch (e) {}
+  //} catch (e) {}
 }
 
 // Function.prototype.apply stack max range

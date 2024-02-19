@@ -42,7 +42,7 @@
     var lvPageMode  = window.parent.gvPageMode;
     var lvPDS       = window.parent.dataSet;
     
-    var pageMode = (lvTssSt == "100" || lvTssSt == "") && (lvPageMode == "W" || lvPageMode == "") ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "302" || lvTssSt == "") && (lvPageMode == "W" || lvPageMode == "") ? "W" : "R";
 
     var dataSet;
     var smryDataLstSet;
@@ -673,7 +673,6 @@ $(window).load(function() {
 
 <div id="smryFormDiv">
     <form name="smryForm" id="smryForm" method="post" style="padding: 20px 1px 0 0;">
-        <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
         <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
         <input type="hidden" id="attcFilId" name="attcFilId" value=""/>
         <input type="hidden" id="seq" name="seq" value=""/>

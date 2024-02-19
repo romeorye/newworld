@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
+<%@ page import="java.text.*,java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
 <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 <%--
 /*
@@ -15,6 +15,7 @@
  *************************************************************************
  */
 --%>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -22,7 +23,7 @@
 <!--     <meta http-equiv="X-UA-Compatible" content="IE=edge" /> -->
 
     <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
-    <title><%=documentTitle%></title><!-- <title>엘지하우시스</title> -->
+    <title><%=documentTitle%></title><!-- <title>LX하우시스</title> -->
     <link type="text/css" href="<%=cssPath%>/main.css" rel="stylesheet">
     <link type="text/css" href="<%=cssPath%>/swiper.min.css" rel="stylesheet">
 	<script src="<%=scriptPath%>/main.js" type="text/javascript" charset="utf-8"></script>
@@ -33,15 +34,7 @@
 
 	$(document).ready(function(){
 
-		var popUrl =  '<c:url value="/prj/rsst/mainPopUp.do"/>';
-	    var popupOption = "width=750, height=500, top=300, left=400";
-
-	    //var blnCookie  = getCookie( winName );
-
-	    //if( !blnCookie ) {
-		//    window.open(popUrl,"",popupOption);
-	    //}
-
+	    //chekPop();
 
 			var swiper = new Swiper('.swiper-container', {
 				slidesPerView: 1,
@@ -83,6 +76,19 @@
 
 	    }); // end Rui Ready
 
+	    chekPop = function(){
+	    	
+	    	var cookieData = document.cookie;
+
+	    	if ( cookieData.indexOf("notic=done") < 0 ){
+	    		var popUrl =  '<c:url value="/notics.jsp"/>';
+	    	    var popupOption = "width=750, height=500, top=300, left=400";
+	    	    
+	    		window.open(popUrl,"",popupOption);
+	    	}
+	    	
+	    }
+	    
 		   function fnTssPageMove(gbn, pPgsStepCd, pGrsEvSt, pTssCd, pTssSt, pProgressrate) {
 		       var returnUrl;
 
@@ -114,7 +120,7 @@
 	                           returnUrl = "/prj/tss/gen/genTssDcacDetail.do?tssCd=" + pTssCd+progressParam;
 	                       }
 	                       //진행_GRS완료_완료
-	                       else if(pGrsEvSt == "P2") {
+	                       else if(pGrsEvSt == "G2") {
 	                           returnUrl = "/prj/tss/gen/genTssCmplDetail.do?tssCd=" + pTssCd+progressParam;
 	                       }
 	                       //진행_GRS완료_변경
@@ -151,7 +157,7 @@
 	                           returnUrl = "/prj/tss/ousdcoo/ousdCooTssDcacDetail.do?tssCd=" + pTssCd+progressParam;
 	                       }
 	                       //진행_GRS완료_완료(신규등록)
-	                       else if(pGrsEvSt == "P2") {
+	                       else if(pGrsEvSt == "G2") {
 	                           returnUrl = "/prj/tss/ousdcoo/ousdCooTssCmplDetail.do?tssCd=" + pTssCd+progressParam;
 	                       }
 	                       //진행_GRS완료_변경(신규등록)
@@ -188,7 +194,7 @@
 	                           returnUrl = "/prj/tss/nat/natTssDcacDetail.do?tssCd=" + pTssCd+progressParam;
 	                       }
 	                       //진행_GRS완료_완료
-	                       else if(pGrsEvSt == "P2") {
+	                       else if(pGrsEvSt == "G2") {
 	                           returnUrl = "/prj/tss/nat/natTssCmplDetail.do?tssCd=" + pTssCd+progressParam;
 	                       }
 	                       //진행_GRS완료_변경
@@ -464,7 +470,7 @@
         		<div class="visual" style="position:relative;">
 	        		<div class="main_txt">
 	        			<div>
-		        			<span>LG하우시스의 미래기술, LG Science Park에서 </span>
+		        			<span>LX하우시스의 미래기술, LG Science Park에서 </span>
 							<p>새로운 도약의 꿈을 키웁니다!</p>
 						</div>
 	        		</div>

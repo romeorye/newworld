@@ -129,8 +129,7 @@
               columnModel: columnModel,
               dataSet: cntBizDataSet,
               width: 1100,
-              height: 180,
-              autoHeight: true
+              height: 230
           });
   		
           grid.render('tssCntBizGrid');
@@ -169,8 +168,7 @@
               columnModel: columnModel1,
               dataSet: cntTeamDataSet,
               width: 1100,
-              height: 180,
-              autoHeight: true
+              height: 230
          });
   		
          grid1.render('tssCntTeamGrid');
@@ -208,8 +206,7 @@
               columnModel: columnModel2,
               dataSet: pgsBizDataSet,
               width: 1100,
-              height: 180,
-              autoHeight: true
+              height: 230
           });
   		
           grid2.render('tssPgsBizGrid');
@@ -247,8 +244,7 @@
               columnModel: columnModel3,
               dataSet: pgsTeamDataSet,
               width: 1100,
-              height: 180,
-              autoHeight: true
+              height: 230
           });
   		
         grid3.render('tssPgsTeamGrid');

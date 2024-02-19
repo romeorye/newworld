@@ -223,13 +223,13 @@ public class GrsMngController extends IrisBaseController {
 		String url = "";
 		
 		if( input.get("grsStCd").equals("101") ){
-			if( input.get("grsEvSt").equals("P2")  ){
+			if( input.get("grsEvSt").equals("G2")  ){
 				url = "web/prj/grs/grsRegFnhPop";
 			}else{
 				url = "web/prj/grs/grsRegPop";
 			}
 		}else{
-			if( input.get("grsEvSt").equals("P2")  ){
+			if( input.get("grsEvSt").equals("G2")  ){
 				url = "web/prj/grs/grsEvFnhDtlPop";
 			}else{
 				url = "web/prj/grs/grsEvDtlPop";
@@ -420,11 +420,11 @@ public class GrsMngController extends IrisBaseController {
 					}
 				}
 				sb.append("<tr>")
-						.append("<th>").append(grsInfo.get(i).get("grsEvSt")).append("</th>")
+						.append("<th>").append(grsInfo.get(i).get("grsEvStNm")).append("</th>")
 						.append("<td>").append(grsInfo.get(i).get("prjNm")).append("</td>")
 						.append("<td>").append(grsInfo.get(i).get("tssNm")).append("</td>")
 						.append("<td>").append(grsInfo.get(i).get("saSabunName")).append("</td>")
-						.append("<td>").append(grsInfo.get(i).get("tssType")).append("</td>")
+						.append("<td>").append(grsInfo.get(i).get("tssTypeNm")).append("</td>")
 						.append("<td>").append(grsInfo.get(i).get("evScr")).append("</td>")
 						.append("<td>").append(dropYn).append("</td>")
 						.append("</tr>");
@@ -718,6 +718,49 @@ public class GrsMngController extends IrisBaseController {
 		return "web/prj/grs/tssUpdatePop";
 	}
 
+	/**
+	 * 과제 정보 수정 팝업 화면 (변경용)
+	 */
+	@RequestMapping("/prj/grs/updateTssInfo.do")
+	public ModelAndView updateTssInfo(@RequestParam HashMap<String, Object> input, HttpServletRequest request, HttpSession session, ModelMap model) {
+		
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("GrsMngController - updateTssInfo [과제 정보 수정 팝업 화면 (변경용)]");
+		LOGGER.debug("inputData => " + input);
+		LOGGER.debug("###########################################################");
+		
+		checkSessionObjRUI(input, session, model);
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+		input = StringUtil.toUtf8Input(input);
+		
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		Map<String,Object> ds = new HashMap<String, Object>();
+		
+		resultMap.put("rtnSt", "F");
+		
+		try{
+			
+			ds = RuiConverter.convertToDataSet(request, "dataSet").get(0);
+			
+			ds.put("userId", input.get("_userId"));
+			ds.put("_userSabun", input.get("_userSabun"));
+			
+			grsMngService.updateTssInfo(ds);
+			
+			resultMap.put("rtnSt", "S");
+			resultMap.put("rtnMsg", "저장 되었습니다.");
+		}catch(Exception e){
+			resultMap.put("rtnMsg", e.getMessage());
+		}
+		
+		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", resultMap));
+
+
+        return modelAndView;
+	}
+	
+	
 	
 	
 	/**

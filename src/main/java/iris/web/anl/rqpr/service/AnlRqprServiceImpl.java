@@ -693,5 +693,10 @@ public class AnlRqprServiceImpl implements AnlRqprService {
 
 		commonDao.batchInsert("anl.rqpr.insertAnlRqprInfm", anlRqprInfmList);
 	}
+	
+	/* 반려의견 */
+	public String getAnlGvbRson(HashMap<String, String> input){
+		return commonDao.select("anl.rqpr.getAnlGvbRson", input);
+	};
 
 }

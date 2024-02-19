@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
+<%-- <%@ include file="/WEB-INF/jsp/include/doctype.jspf"%> --%>
 <%--
 /*
  *************************************************************************
@@ -14,19 +14,20 @@
  *************************************************************************
  */
 --%>
-
+<%-- 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+
+<title>Session Error Page</title> --%>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
-<title>Session Error Page</title>
 <script type="text/javascript">
 setTimeout("relogin()",1000);
 
 function relogin(){
-	top.location = contextPath+"/noResponsibilty.html";
-	//top.location = "http://portal.lghausys.com/epWeb/index.jsp";
+	top.location = contextPath+"/sessionError.html";
 }
 </script> 
+
 </head>
 <body id="LblockBody">
 <div id="LblockError">

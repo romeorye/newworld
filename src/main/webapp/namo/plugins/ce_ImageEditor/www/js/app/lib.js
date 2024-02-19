@@ -213,6 +213,8 @@ define([
 				try{
 					CONFIG_BASE = JSON.parse(_cfgText);
 				} catch(e) {
+					console.log(e);
+					return null;
 				}
 			}
 
@@ -229,6 +231,7 @@ define([
 						}
 					}
 				} catch(e) {
+					return null;
 				}
 				if(typeof value !== 'undefined') {
 					return value;

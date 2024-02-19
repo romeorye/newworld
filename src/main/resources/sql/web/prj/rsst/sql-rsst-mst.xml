@@ -329,7 +329,8 @@
 		)
 		SELECT AA.TYPE           as 'type'
 		     , AA.PRJ_CD         as 'prjCd'      /*프로젝트코드*/
-		     , AA.WBS_CD	     as 'wbsCd'	     /*WBS코드*/
+		      , case when AA.DEPT_CD = '58129833' or AA.DEPT_CD = '58137924'   then 'RND330'
+			        else  AA.WBS_CD  end     as 'wbsCd'	     /*WBS코드*/
 			 , AA.PRJ_NM	     as 'prjNm'	     /*프로젝트명*/
 			 , AA.DEPT_CD	     as 'deptCd'	 /*팀코드*/
 			 , AA.DEPT_NAME	     as 'deptName'   /*팀명*/

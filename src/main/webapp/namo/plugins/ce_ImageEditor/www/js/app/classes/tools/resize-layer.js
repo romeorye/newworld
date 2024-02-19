@@ -23,6 +23,7 @@ define([
 				var layer = NHIE.workspace.getSelectedLayer();
 				if (layer) {
 					data = layer.style;
+					layer.restore_state = layer.getCurrentState();
 					layer.tracker.show();
 				}
 			}

@@ -109,8 +109,8 @@ public class LeasHousServiceImpl implements LeasHousService {
 		
 		if(   commonDao.update("knld.leasHous.updateLeasHousSt", input) > 0  ){
 			//메일 발송
-			String rvwNm ="정명봉";
-			String revMail ="mbjung@lghausys.com";
+			String rvwNm ="마융";
+			String revMail ="yoongma@lxhausys.com";
 			String mailTitl = "임차주택  사전검토 신청 메일입니다.";
 			
 			mailSender.setToMailAddress( revMail , rvwNm);
@@ -161,8 +161,8 @@ public class LeasHousServiceImpl implements LeasHousService {
 		if( commonDao.update("knld.leasHous.updateLeasHousSt", leasHousInfo) > 0  ){
 			if(  commonDao.update("knld.leasHous.updateLeasHousCnrRvwCmmt", leasHousInfo) > 0  ){
 				//메일 발송
-				String rvwNm ="정명봉";
-				String revMail ="mbjung@lghausys.com";
+				String rvwNm ="마융";
+				String revMail ="yoongma@lxhausys.com";
 				String mailTitl = "임차주택 시전검토결과 메일입니다.";
 				
 				mailSender.setToMailAddress( (String) sndMailInfo.get("email") , (String) sndMailInfo.get("saName"));
@@ -220,8 +220,8 @@ public class LeasHousServiceImpl implements LeasHousService {
 		if(  commonDao.update("knld.leasHous.updateLeasHousCnrSt", leasHousInfo) > 0   ){
 			if( commonDao.update("knld.leasHous.updateLeasHousSt", leasHousInfo) > 0  ){
 				//메일 발송
-				String rvwNm ="정명봉";
-				String revMail ="mbjung@lghausys.com";
+				String rvwNm ="마융";
+				String revMail ="yoongma@lxhausys.com";
 				String mailTitl = "임차주택 계약서검토 신청 메일입니다.";
 				
 				mailSender.setToMailAddress( revMail , rvwNm);
@@ -273,8 +273,8 @@ public class LeasHousServiceImpl implements LeasHousService {
 		if( commonDao.update("knld.leasHous.updateLeasHousSt", leasHousInfo) > 0  ){
 			if(  commonDao.update("knld.leasHous.updateLeasHousCnrCrnCmmt", leasHousInfo) > 0  ){
 				//메일 발송
-				String rvwNm ="정명봉";
-				String revMail ="mbjung@lghausys.com";
+				String rvwNm ="마융";
+				String revMail ="yoongma@lxhausys.com";
 				String mailTitl = "임차주택 계약서검토결과 메일입니다.";
 				
 				mailSender.setToMailAddress( (String) sndMailInfo.get("email") , (String) sndMailInfo.get("saName"));
@@ -293,7 +293,7 @@ public class LeasHousServiceImpl implements LeasHousService {
 					vo.setRvwStNm("반려");
 				}
 				
-				mailSender.setHtmlTemplate("leasHousRvwRpl", vo);
+				mailSender.setHtmlTemplate("leasHousCnrRvwRpl", vo);
 				mailSender.send(); 
 				
 				mailInfo.put("menuType", "lHR");

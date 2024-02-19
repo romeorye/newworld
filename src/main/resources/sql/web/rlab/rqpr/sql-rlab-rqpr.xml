@@ -57,11 +57,12 @@
 		</if>
         <choose>
         	<when test="isRlabChrg == 0">
-			AND (MST.RQPR_DEPT_CD =  #{_userDept} or MST.RQPR_ID in (select rqpr_id
+			AND ((MST.RQPR_DEPT_CD =  #{_userDept} or MST.RQPR_ID in (select rqpr_id
 																	from   IRIS_RLAB_RQPR_INFM
 																	where  del_yn ='N'
 																	and    infm_prsn_id = #{_userId}
 																	))
+				  or mst.RGST_ID =	#{_userId})												
         	</when>
         	<otherwise>
 			AND RLAB_ACPC_ST_CD != '00'

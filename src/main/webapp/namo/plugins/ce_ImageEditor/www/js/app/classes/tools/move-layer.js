@@ -12,13 +12,16 @@ define([
 		propertyTpl: _propertyTpl,
 		type: 'toggle',
 		handler: function($button, toggleStatus) {
+			var layer = NHIE.workspace.getSelectedLayer();
 			if(toggleStatus === false) {
-				var layer = NHIE.workspace.getSelectedLayer();
 				if(layer && layer.modified) {
 					this.onApplyProperty();
 				}
 				$('.nhie-body').css('cursor', '');
 			} else {
+				if(layer) {
+					layer.restore_state = layer.getCurrentState();
+				}
 				$('.nhie-body').css('cursor', 'move');
 			}
 		},

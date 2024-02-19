@@ -113,7 +113,7 @@ public class WbsPjtIFBatch  extends IrisBaseController {
 				function.execute(destination);
 		    
 			}catch(AbapException e){
-		        	LOGGER.debug("ERROR >> WbsPjtIFBatch : IRIS_SAP_BUDG_S_COST  function.execute Error"+e.toString());	
+		        	LOGGER.debug("ERROR >> WbsPjtIFBatch :   function.execute Error"+e.toString());	
 		            System.out.println(e.toString());
 		    }
 	    

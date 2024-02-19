@@ -95,7 +95,7 @@
         //과제명
         tssNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssNm',
-            width: 900
+            width: 400
         });
 
         //과제유형
@@ -248,7 +248,7 @@
                 , { id: 'userId' }     //로그인ID
                 , { id: 'tssRoleType' }
                 , { id: 'tssRoleId' }
-                , {id: 'grsYn'}	// GRS P1 수행여부
+                , {id: 'grsYn'}	// GRS G1 수행여부
                 , {id: 'tssStepNm'}	//관제 단계
                 , {id: 'grsStepNm'}	//GRS 단계
                 // , {id: 'qgateStepNm'}	//Qgate 단계
@@ -492,7 +492,8 @@
                 }
                 //수정
                 else {
-                    dm.updateDataSet({
+                	
+                	dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/nat/updateNatTssPlnMst.do"/>',
                         dataSets:[dataSet, smryDs, smryLstDs]
@@ -739,7 +740,7 @@ function setPrjInfo(prjInfo) {
                                 <tr>
                                    <th align="right">WBSCode / 과제명</th>
                                     <td colspan="3" class="nat_tain">
-                                        <span id='seed'></span><input type="text" id="wbsCd" /><span>/</span> <em class="gab"><input type="text" id="tssNm" />
+                                        <span id='seed'></span><input type="text" id="wbsCd" /> / <input type="text" id="tssNm" />
                                     </td>
                                 </tr>
                                 <tr>

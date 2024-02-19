@@ -110,7 +110,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 
 			if (grsYn.equals("Y")) {
 				//LOGGER.debug("=============== GRS=Y 인경우 GRS 요청정보 생성 ===============");
-				input.put("grsEvSt", "P1");
+				input.put("grsEvSt", "G1");
 				input.put("dlbrCrgr", input.get("_userSabun"));
 				updateGrsReqInfo(input);                                            //GRS 정보 등록
 			}else if (grsYn.equals("N")) {
@@ -182,8 +182,8 @@ public class GrsMngServiceImpl implements GrsMngService {
 				grsMngService.deleteDefGrsDefInfo(input);
 			}
 
-		//LOGGER.debug("===해당과제 리더에게 완료 메일 발송===  :  " + input.get("egrsEvSt").equals("P1"));
-		if(!input.get("egrsEvSt").equals("P1") ){
+		//LOGGER.debug("===해당과제 리더에게 완료 메일 발송===  :  " + input.get("egrsEvSt").equals("G1"));
+		if(!input.get("egrsEvSt").equals("G1") ){
 			genTssPlnService.retrieveSendMail(input); //개발에서 데이터 등록위해 반영위해 주석 1121
 		}
 
@@ -557,7 +557,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 				ds.put("tssCd", ds.get("newTssCd"));
 			
 				if (grsYn.equals("Y")) {
-					ds.put("grsEvSt", "P1");
+					ds.put("grsEvSt", "G1");
 					ds.put("dlbrCrgr", ds.get("_userSabun"));
 					
 					try{
@@ -790,7 +790,7 @@ public class GrsMngServiceImpl implements GrsMngService {
 		dataSet.put("fromTssCd", dataSet.get("tssCd"));
 		dataSet.put("tssSt", "102");
 
-		if( dataSet.get("grsEvSt").equals("P1")   ){
+		if( dataSet.get("grsEvSt").equals("G1")   ){
 			grsMngService.updateDefTssSt((HashMap<String, Object>) dataSet);
 
 			if( dropYn.equals("N") ){			//drop
@@ -812,14 +812,21 @@ public class GrsMngServiceImpl implements GrsMngService {
 		}else if (dataSet.get("grsEvSt").equals("M")  ){
 			if( dataSet.get("grsEvMType").equals("IN")  ){	//진척률
 				dataSet.put("tssSt", "100");
+				commonDao.update("prj.tss.com.updateTssMstTssSt", dataSet);
 			}
-			commonDao.update("prj.tss.com.updateTssMstTssSt", dataSet);
+			if( dataSet.get("grsEvMType").equals("HD") ){	//진척률
+				dataSet.put("tssSt", "100");
+				dataSet.put("pgsStepCd", "HD");
+				commonDao.update("prj.tss.com.updateTssMstHdTssSt", dataSet);
+			}else{
+				commonDao.update("prj.tss.com.updateTssMstTssSt", dataSet);
+			}
 		}else if (dataSet.get("grsEvSt").equals("D") ){
 			commonDao.update("prj.tss.com.updateTssMstTssSt", dataSet);
 			dataSet.put("yldItmType", "10");
 			commonDao.update("prj.tss.com.updateYldFile", dataSet);
 
-		}else if (dataSet.get("grsEvSt").equals("P2") ){
+		}else if (dataSet.get("grsEvSt").equals("G2") ){
 			commonDao.update("prj.tss.com.updateTssMstTssSt", dataSet);
 			dataSet.put("yldItmType", "10");
 			commonDao.update("prj.tss.com.updateYldFile", dataSet);
@@ -838,6 +845,14 @@ public class GrsMngServiceImpl implements GrsMngService {
 	
 	public String retrieveGrsUserChk(HashMap<String, String> input){
 		return commonDao.select("prj.grs.retrieveGrsUserChk", input);
+	}
+	
+	
+	/**
+	 *  과제변경 저장 (변경용)
+	 * */
+	public void updateTssInfo(Map<String, Object> ds) {
+		commonDao.update("prj.grs.updateTssInfo", ds);
 	}
 	
 }

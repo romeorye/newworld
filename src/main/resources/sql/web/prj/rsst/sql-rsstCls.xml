@@ -372,7 +372,7 @@
 		,#{deptName}
 		,#{tssStrtDd}
 		,#{tssFnhDd}
-		,#{progressrate}
+		,#{progressrateReal}
 		,GETDATE()
 		,#{_userId}
 		,GETDATE()

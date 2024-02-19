@@ -105,4 +105,7 @@ public interface AnlRqprService {
 
 	/* 통보자 추가 저장*/
 	public void insertAnlRqprInfm(Map<String, Object> dataMap);
+
+	/* 반려의견 */
+	public String getAnlGvbRson(HashMap<String, String> input);
 }

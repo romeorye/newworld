@@ -180,7 +180,7 @@ var roleUserId = '${inputData._userId}';
                         return value;
                   }}
                 , { field: 'tssNm',   label: '과제명', sortable: true, align:'center', width: 350 }
-                , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 135 }
+                , { field: 'prjNm',        label: '팀명', sortable: true, align:'center', width: 135 }
                 , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
                 , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 200 }
                 , { id: 'G1', label: '과제기간(계획일)' }
@@ -291,7 +291,7 @@ var roleUserId = '${inputData._userId}';
                              return value;
                        }}
                      , { field: 'tssNm',         label: '과제명', sortable: true, align:'center', width: 290 }
-                     , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
+                     , { field: 'prjNm',        label: '팀명', sortable: true, align:'center', width: 120 }
                      , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
                      , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 100 }
                      , { id: 'G1', label: '과제기간(계획일)' }
@@ -392,7 +392,7 @@ nG.saveExcel(encodeURIComponent('과제관리_제조혁신과제_') + new Date()
 		                            <td>
 		                            	<input type="text" id="tssStrtDd" /><em class="gab"> ~ </em><input type="text" id="tssFnhDd" />
 		                            </td>
-		                            <th>프로젝트명</th>
+		                            <th>팀명</th>
 		                            <td>
 		                                <input type="text" id="prjNm" value="">
 		                            </td>

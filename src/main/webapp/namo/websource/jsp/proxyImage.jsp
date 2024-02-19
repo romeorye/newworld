@@ -1,6 +1,6 @@
 
 
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@page import="java.io.IOException"%>
 <%@page import="java.io.InputStream"%>
 <%@page import="java.io.OutputStream"%>
@@ -29,31 +29,39 @@
 		String contentType = connection.getContentType();
 		int nLength = connection.getContentLength();
 
-		if (callback == null) {
-			response.setContentType(contentType);
-			response.setContentLength(nLength);
-			ByteStreams.copy(data, response.getOutputStream());
-		} else {
-			if (!callbackPattern.matcher(callback).matches()) {
-				//System.out.println("Invalid callback name");
-			}
-			response.setContentType("application/javascript");
-			output = new OutputStreamWriter(response.getOutputStream(), "UTF-8") {
-				public void close() throws IOException {
-					//Base64 stream will try to close before jsonp suffix is added.
-				};
-			};
-					
-			String dataUri = new Gson().toJson("data:" + contentType + ";base64,");
-			output.write(callback + "(" + dataUri.substring(0, dataUri.length()-1));
-
-			OutputStream base64Stream = BaseEncoding.base64().encodingStream(output);
-			ByteStreams.copy(data, base64Stream); 
-			base64Stream.close();
-
-			output.write("\");");
-			output.flush();
+		boolean imageFlag = false;
+		if(contentType != null && contentType.split("/")[0].equalsIgnoreCase("image")){
+			imageFlag = true;
 		}
+
+		if(imageFlag){
+			if (callback == null) {
+				response.setContentType(contentType);
+				response.setContentLength(nLength);
+				ByteStreams.copy(data, response.getOutputStream());
+			} else {
+				//if (!callbackPattern.matcher(callback).matches()) {
+					//System.out.println("Invalid callback name");
+				//}
+				response.setContentType("application/javascript");
+				output = new OutputStreamWriter(response.getOutputStream(), "utf-8") {
+					public void close() throws IOException {
+						//Base64 stream will try to close before jsonp suffix is added.
+					};
+				};
+						
+				String dataUri = new Gson().toJson("data:" + contentType + ";base64,");
+				output.write(callback + "(" + dataUri.substring(0, dataUri.length()-1));
+
+				OutputStream base64Stream = BaseEncoding.base64().encodingStream(output);
+				ByteStreams.copy(data, base64Stream); 
+				base64Stream.close();
+
+				output.write("\");");
+				output.flush();
+			}
+		}
+		
 	} catch (IOException ioe) {
 		//System.out.println("An IOException occurred.");
     } catch (RuntimeException e) {	

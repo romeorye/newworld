@@ -189,4 +189,11 @@ public class MkInnoTssServiceImpl implements MkInnoTssService {
 		return cmTssCd;
 	}
 	
+	/**
+	 * 제조혁신과제 연구원 삭제
+	 * @param ds
+	 */
+	public void deleteMkInnoTssPlnPtcRsstMbr(Map<String, Object> ds) {
+		commonDao.update("mkInno.tss.deleteMkInnoTssPtcRsstMbr", ds);  
+	}
 }

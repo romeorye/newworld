@@ -37,7 +37,22 @@
 				   ,mst.acpc_dt													as acpcDt
 				   ,mst.cmpl_dt													as cmplDt
 				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
-				    isnull(dbo.fn_getRlabRqprInfmPrsnEmails(mst.rqpr_id), '')	as receivers
+				    isnull(dbo.fn_getRlabRqprInfmPrsnEmails(mst.rqpr_id), '') +
+					  isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
+			                                                                 from    iris_sso_user b
+								                                             where   b.sa_user = mst.rlab_chrg_id))), '') 
+                    + isnull(',' +  STUFF( 
+					                    (select ','+ sa_mail
+										from   iris_sso_user 
+										where  sa_user in (
+														select infm_prsn_id
+														from  IRIS_RLAB_RQPR_INFM 
+														where  rqpr_id = mst.rqpr_id
+														
+											)
+                                        FOR XML PATH('') ), 1,1, ''
+										 
+										 ), '')        	as receivers
 			from	iris_rlab_rqpr_mst mst,
 					iris_sso_user rgst,
 					iris_sso_user chrg

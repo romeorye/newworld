@@ -28,7 +28,7 @@
 *******************************************************************************/--%>
 function privacyPopup(){
     var args 		= new Object();
-    var url			= contextPath + "/jsp/security/WINS_Security.jsp";
+    var url			= contextPath + "http://m.lxhausys.co.kr/mobile/hausys/customers/privacy.jsp";
     var result = window.showModalDialog(url, "privacyPopup", "dialogWidth:720px;dialogHeight:800px;x-scroll:no;y-scroll:yes;status:no");
 }
 

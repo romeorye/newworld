@@ -56,7 +56,7 @@ define(['module'], function(module) {
 					for (var i = 0, len = arr.length; i < len; i++) {
 						var sheet = arr[i];
 						if (sheet.ownerNode.className == linkClassName) {
-							try{
+							//try{
 								if(sheet.addRule) {
 									sheet.addRule('.' + linkClassName, 'height:10px');
 								} else if(sheet.insertRule) {
@@ -67,8 +67,8 @@ define(['module'], function(module) {
 									clearInterval(interval);
 									load();
 								}
-							}catch(e){
-							}
+							//}catch(e){
+							//}
 						}
 					}
 				}, 50);

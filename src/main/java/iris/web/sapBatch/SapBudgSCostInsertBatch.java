@@ -59,22 +59,6 @@ public class SapBudgSCostInsertBatch  extends IrisBaseController {
     static String functionName = "ZCOPMS04";
     static String tableName ="S_COST";
     static String ABAP_AS = "ABAP_AS_WITHOUT_POOL";  //sap 연결명(연결파일명으로 사용됨)
-    //	   //개발
-    // 	final static String SAP_CLIENT ="310";
-    //     final static String USER_ID ="SH9023";
-    //     final static String PASSWORD = "SH9023";
-    //     final static String LANGUAGE = "KO";
-    //     final static String IP_ADDRESS = "165.243.83.54";
-    //     final static String SYSTEM_NUMBER = "01";
-
-
-
-    // 	 final static String SAP_CLIENT ="100";
-    //     final static String USER_ID ="SH9023";
-    //     final static String PASSWORD = "78806538";
-    //     final static String LANGUAGE = "KO";
-    //     final static String IP_ADDRESS = "165.243.83.47";
-    //     final static String SYSTEM_NUMBER = "00";
 
     List<Map<String, Object>> list = null;
     int yy;
@@ -120,7 +104,7 @@ public class SapBudgSCostInsertBatch  extends IrisBaseController {
 
                 map.put("yyyymm", String.valueOf(yy) + pMm);
 
-                sapBudgCostService.updateTssGenTrwiBudgMst(map);
+                //sapBudgCostService.updateTssGenTrwiBudgMst(map);
             }
         }
 

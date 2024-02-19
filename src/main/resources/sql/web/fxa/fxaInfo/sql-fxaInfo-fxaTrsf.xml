@@ -27,11 +27,11 @@
 		         ,A.FXA_TRSF_ID AS "fxaTrsfId"
 		         ,A.FXA_INFO_ID AS "fxaInfoId"
 		FROM     IRIS_FXA_TRSF_LIST A
-		         INNER JOIN IRIS_FXA_INFO_MST B
+		         left outer JOIN IRIS_FXA_INFO_MST B
 		         ON A.FXA_INFO_ID = B.FXA_INFO_ID
-				 INNER JOIN  IRIS_WBS_PJT_IF C
+				 left outer  JOIN  IRIS_WBS_PJT_IF C
 				 ON C.WBS_CD = A.FROM_WBS_CD
-				 INNER JOIN IRIS_WBS_PJT_IF D
+				 left outer  JOIN IRIS_WBS_PJT_IF D
 				 ON D.WBS_CD = A.TO_WBS_CD
 				 ,IRIS_ADM_COM_CD E
 		WHERE  E.COM_CD_CD = 'TRSF_ST_CD'
@@ -51,6 +51,7 @@
 		<if test="( prjNm != null and prjNm != '')">
 			AND  (C.PRJ_NM LIKE '%'+#{prjNm}+'%'  OR   D.PRJ_NM LIKE '%'+#{prjNm}+'%')
 	    </if>
+	    order by a.last_mdfy_dt desc 
 	</select>
 
 	<!-- 자산이관정보 저장 -->

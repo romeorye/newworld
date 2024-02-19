@@ -2,7 +2,7 @@
 <head>
 	<title>ShowToolbar</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
-	<meta name="author" content="NamoEditor Co., Ltd." />
+	<meta name="author" content="JIRANSOFT Co., Ltd." />
 	<link rel="stylesheet" href="../images/linkstyle.css" />
 </head>
 <body>
@@ -74,7 +74,11 @@
             <h4>Sample Codes</h4>
             <p class="scode">JavaScript</p>
             <pre class="scodedsc">var object = new NamoSE(&quot;test&quot;);
-object.EditorStart();<br>object.<b>ShowToolbar</b>(0,1);<br>object.<b>ShowToolbar</b>(1,0);</pre>
+object.EditorStart();
+function <b>OnInitCompleted</b>(){
+   object.<b>ShowToolbar</b>(0,1);
+   object.<b>ShowToolbar</b>(1,0);
+}</pre>
             <p class="dscrpt">&nbsp;</p>
         </td>
     </tr>

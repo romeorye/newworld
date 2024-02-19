@@ -109,7 +109,7 @@ var adminChk = "N";
 			txz01.setValue(txz01.getValue().trim());
         });
 			
-		/* 상태 */ 
+		/* 상태 
 		var prsFlag = new Rui.ui.form.LCombo({
             applyTo: 'prsFlag',
             width: 100,
@@ -119,7 +119,7 @@ var adminChk = "N";
             displayField: 'CODE_NM',
             valueField: 'CODE'
         });
-
+*/ 
 		/**
 		구매요청 품목 List 시작
 		**/
@@ -305,7 +305,7 @@ var adminChk = "N";
                		toRegDt : toRegDt.getValue(),
                		posid : escape(encodeURIComponent(posid.getValue())),
                		txz01 : escape(encodeURIComponent(txz01.getValue())),
-               		prsFlag : prsFlag.getValue(),
+               		//prsFlag : prsFlag.getValue(),
                		adminChk : adminChk
                		}
             });
@@ -356,10 +356,13 @@ var adminChk = "N";
    							<td class="tdin_w100">
    								<input type="text" id="txz01" name="txz01" />
    							</td>
+   							<td></td>
+   							<!-- 
    							<th align="right">상태</th>
    							<td>
                                 <div id="prsFlag"></div>
    							</td>
+   							 -->
    							<td class="txt-right">
    								<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
    							</td>

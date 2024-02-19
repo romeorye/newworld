@@ -1,7 +1,7 @@
-<%@ page pageEncoding = "UTF-8" %>
+<%@ page pageEncoding = "utf-8" %>
 <%@page import="java.util.regex.PatternSyntaxException"%>
 <%!
-// @UTF-8 SecurityUtil.jsp
+// @utf-8 SecurityUtil.jsp
 /*
  * SecurityUtil: CrossEditor Web Attack Defender 
  * Author : djlee <djlee@namo.co.kr>
@@ -53,17 +53,21 @@
 
 		boolean bStatus = false;
 		java.util.Enumeration e = listXSS.elements();
-
-		while (e.hasMoreElements()) {
-			String r = (String)e.nextElement();
-			r = new String(getBase64Decode(r));
-			if (r.length() == 0)
-				continue;
-			
-			// r:Roll, s:String
-			if (compareRegex(r, s)) {
-				bStatus = true;
+		
+		try{
+			while (e.hasMoreElements()) {
+				String r = (String)e.nextElement();
+				r = new String(getBase64Decode(r), "ISO-8859-1");
+				if (r.length() == 0)
+					continue;
+				
+				// r:Roll, s:String
+				if (compareRegex(r, s)) {
+					bStatus = true;
+				}
 			}
+		}catch(UnsupportedEncodingException ex){
+			bStatus = true;
 		}
 		return bStatus;
 	}
@@ -101,8 +105,9 @@
 
 		int pad = 0;
 
-		for (int i = base64.length() - 1; base64.charAt(i) == '='; i--)
+		for (int i = base64.length() - 1; base64.charAt(i) == '='; i--){
 			pad++;
+		}
 
 		int length = base64.length() * 6 / 8 - pad;
 		byte[] raw = new byte[length];
@@ -116,8 +121,9 @@
 					+ (getValue(base64.charAt(i + 2)) << 6)
 					+ (getValue(base64.charAt(i + 3)));
 
-			for (int j = 0; j < 3 && rawIndex + j < raw.length; j++)
+			for (int j = 0; j < 3 && rawIndex + j < raw.length; j++){
 				raw[rawIndex + j] = (byte) ((block >> (8 * (2 - j))) & 0xff);
+			}
 
 			rawIndex += 3;
 		}
@@ -149,7 +155,7 @@
 
 		try {
 
-			String ns = new String(s.getBytes("UTF-8"), "eucKR");
+			String ns = new String(s.getBytes("utf-8"), "eucKR");
 
 			java.util.regex.Pattern p = java.util.regex.Pattern.compile(r, java.util.regex.Pattern.UNICODE_CASE | java.util.regex.Pattern.CASE_INSENSITIVE);
 			java.util.regex.Matcher m = p.matcher(ns); 	

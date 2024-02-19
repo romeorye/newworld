@@ -242,7 +242,8 @@ var Nwagon = {
     		}
 
     	}catch(e){
-    		//console.error(e);
+            //console.error(e);
+            return false;
     	}
     	return false;
     },
@@ -262,7 +263,7 @@ var Nwagon = {
 
     		var $names = $(wrapper).find('text');
 
-    		console.log('ellipsisGroupText ',groupName, size)
+    		//console.log('ellipsisGroupText ',groupName, size)
 
     		$names.each(function(i,textObject){
     			//console.log
@@ -1528,18 +1529,25 @@ var Nwagon = {
 					if(lastLength<6){
 						if(parseInt(axis_y_info.format.fontSize)<18){
 							lastLength = 12;
-						}else if(parseInt(axis_y_info.format.fontSize)>=18&&parseInt(axis_y_info.format.fontSize)<=26){
-							lastLength = 10;
+						}else if(parseInt(axis_y_info.format.fontSize)>=18&&parseInt(axis_y_info.format.fontSize)<26){
+							lastLength = 8;
+						}else if(parseInt(axis_y_info.format.fontSize)>=26&&parseInt(axis_y_info.format.fontSize)<=36){
+							lastLength = 5;
 						}else{
-							lastLength = 6;
-						}
+                            lastLength = 4;
+                        }
 					}
-					axis_y_elem.textContent = axis_y_elem.textContent.substring(0, lastLength) + '...';
-						if(axis_y_elem){
-							var tooltip = Nwagon.createSvgElem('title', {});
-							tooltip.textContent = axis_y_info.title;
-							axis_y_elem.appendChild(tooltip);
-						}
+                    YtextContent = axis_y_elem.textContent.substring(0, lastLength);
+                    if(YtextContent == axis_y_elem.textContent){
+                        axis_y_elem.textContent = axis_y_elem.textContent.substring(0, lastLength);
+                    }else{
+                        axis_y_elem.textContent = axis_y_elem.textContent.substring(0, lastLength) + '...';
+                    }
+                    if(axis_y_elem){
+                        var tooltip = Nwagon.createSvgElem('title', {});
+                        tooltip.textContent = axis_y_info.title;
+                        axis_y_elem.appendChild(tooltip);
+                    }
 
 				}else{
 					//setTimeout(function(){
@@ -2779,7 +2787,11 @@ var CPSChart = {
 		var $chart_comp = $('[data-cps-chart-uuid="'+uuid+'"]');
 		var $conf = $('.cps-chart-configuration',$chart_comp);
 		var conf = {};
-		try{conf = JSON.parse($conf.get(0).textContent);}catch(e){}
+		//try{
+            if($conf.length > 0){
+                conf = JSON.parse($conf.get(0).textContent);
+            }
+        //}catch(e){}
 		return conf;
 	},
 	renderChart:function(dom,config){

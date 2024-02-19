@@ -13,7 +13,7 @@
 	fileRealFolder = context.getRealPath(urlPath);
 
 	//2013.08.26 [2.0.5.23] mwhong tomcat8.0 에서 getRealPath가 null을 리턴하여 수정
-	if(fileRealFolder == null && urlPath != null && ContextPath != null){
+	if(/*fileRealFolder == null &&*/ urlPath != null && ContextPath != null){
 		fileRealFolder = context.getRealPath(urlPath.substring(ContextPath.length()));
 	}
 
@@ -65,7 +65,15 @@
 				xmlText += "		<" + children.get(j) + "></" + children.get(j) + ">\n";
 			}
 			else{ 
-				xmlText += "		<" + children.get(j) + ">" + detectXSSEx(request.getParameter((String)children.get(j))) + "</" + children.get(j) + ">\n";
+				if(children.get(j).equals("Width")){
+					if(detectXSSEx(request.getParameter("WidthUnit")) !="" && request.getParameter("WidthUnit").equals("%")){
+						xmlText += "		<" + children.get(j) + ">" + detectXSSEx(request.getParameter((String)children.get(j))) + "%" + "</" + children.get(j) + ">\n";
+					}else{
+						xmlText += "		<" + children.get(j) + ">" + detectXSSEx(request.getParameter((String)children.get(j))) + "</" + children.get(j) + ">\n";
+					}
+				}else {
+					xmlText += "		<" + children.get(j) + ">" + detectXSSEx(request.getParameter((String)children.get(j))) + "</" + children.get(j) + ">\n";
+				}
 			}
 		}
 		xmlText += "	</" + parent.get(i) + ">\n";
@@ -77,10 +85,10 @@
 	boolean check =  xmlCreate(xmlText,filenames);
 	
 	if(check){
-		result_sc = "<script type='text/javascript' language='javascript'>alert(NamoSELang.pe_vB);window.document.location.href='manager_setting.jsp?Tab=" + detectXSSEx(request.getParameter("Tab")) + "';</script>";
+		result_sc = "<script type='text/javascript' language='javascript'>alert(NamoSELang.pe_Cq);window.document.location.href='manager_setting.jsp?Tab=" + detectXSSEx(request.getParameter("Tab")) + "';</script>";
 	}
 	else{
-		result_sc = "<script>alert(NamoSELang.pe_sF+'" + fileName + "');history.back();</script> ";
+		result_sc = "<script>alert(NamoSELang.pe_yQ+'" + fileName + "');history.back();</script> ";
 	}
 
 %>
@@ -88,7 +96,7 @@
 <html>
 <head>
 	<script type="text/javascript" src="../../lib/jquery-1.7.2.min.js"> </script>
-	<script type="text/javascript">var ce$=$.noConflict(true); </script>
+	<script type="text/javascript">var ce$=namo$.noConflict(true); </script>
 	<script type="text/javascript" src="../manage_common.js"> </script>
 	<script type="text/javascript" src="../../js/namo_cengine.js"> </script>
 </head>

@@ -60,9 +60,9 @@ define(['module'], function(module) {
       } else if (typeof ActiveXObject !== "undefined") {
         for (i = 0; i < 3; i += 1) {
           progId = progIds[i];
-          try {
+          //try {
             xhr = new ActiveXObject(progId);
-          } catch (e) {}
+          //} catch (e) {}
 
           if (xhr) {
             progIds = [progId]; // so faster next time

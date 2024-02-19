@@ -284,6 +284,7 @@ public class MmClsInfoController extends IrisBaseController {
         		inputParamMap.put("commTxt", dataSetMap.get("commTxt"));
         		inputParamMap.put("ousdTssYn", NullUtil.nvl(dataSetMap.get("ousdTssYn"), "N"));
         		inputParamMap.put("clsDt", NullUtil.nvl(dataSetMap.get("clsDt"), ""));
+        		inputParamMap.put("tssWbsCd", dataSetMap.get("tssWbsCd"));
         		inputParamMap.put("ilckSt", "N");
         		inputParamMap.put("toDoYn", "Y");
         			
@@ -365,6 +366,7 @@ public class MmClsInfoController extends IrisBaseController {
 				inputParamMap.put("ptcPro"     , NullUtil.nvl(dataSetMap.get("ptcPro"), ""));	   // 참여율
 				inputParamMap.put("commTxt"    , NullUtil.nvl(dataSetMap.get("commTxt"), ""));	   // 메모
 				inputParamMap.put("prjCd"      , NullUtil.nvl(dataSetMap.get("prjCd"), ""));	   // 프로젝트코드
+				inputParamMap.put("tssWbsCd"      , NullUtil.nvl(dataSetMap.get("tssWbsCd"), ""));	   // WBS코드
 
 				// 마감
 				if("Y".equals(NullUtil.nvl(dataSetMap.get("clsYn"),""))) {

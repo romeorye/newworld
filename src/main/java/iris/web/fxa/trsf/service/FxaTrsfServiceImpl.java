@@ -60,30 +60,26 @@ public class FxaTrsfServiceImpl implements FxaTrsfService {
 			
 			trsfInfoList.add(trsfInfo);
 		}
-		
-		if (commonDao.batchInsert("fxaInfo.fxaTrsf.insertFxaTrsfInfo", trsfList) > 0 ){
+
+		if (commonDao.batchInsert("fxaInfo.fxaTrsf.insertFxaTrsfInfo", trsfInfoList) > 0 ){
 			StringBuffer sb = new StringBuffer();
 			StringBuffer sbGrid = new StringBuffer();
 			HashMap<String, Object> fxaTrsfInfo = new HashMap<String, Object>();
 			
 			sb.append("<tr>");
-			sb.append("</tr>");
-			sb.append("<tr>");
-			sb.append("</br></br>");
-			sb.append("<th rowspan='2' align='center'>자산명</th>");
-			sb.append("<th rowspan='2'  align='center'>자산번호</th>");
-			sb.append("<th rowspan='2'  align='right'>수량</th>");
-			sb.append("<th rowspan='2'  align='right'>단위</th>");
-			//sb.append("<th rowspan='2'  align=right'>취득가</th>");
-			sb.append("<th rowspan='2'  align='right'>장부가</th>");
-			sb.append("<th colspan='2' align='center'>이관 前</th>");
-			sb.append("<th colspan='2' align='center'>이관 後</th>");
+			sb.append("<th rowspan='2'>자산명</th>");
+			sb.append("<th rowspan='2'>자산번호</th>");
+			sb.append("<th rowspan='2'>수량</th>");
+			sb.append("<th rowspan='2'>단위</th>");
+			sb.append("<th rowspan='2'>장부가</th>");
+			sb.append("<th colspan='2'>이관 前</th>");
+			sb.append("<th colspan='2'>이관 後</th>");
 			sb.append("</tr>");       
 			sb.append("<tr>");
-			sb.append("<th align='center'>PJT코드</th>");
-			sb.append("<th align='center'>담당자</th>");
-			sb.append("<th align='center'>PJT코드</th>");
-			sb.append("<th align='center'>담당자</th>");
+			sb.append("<th>PJT코드</th>");
+			sb.append("<th>담당자</th>");
+			sb.append("<th>PJT코드</th>");
+			sb.append("<th>담당자</th>");
 			sb.append("</tr>  ");
 			
 			fxaTrsfInfo.put("fxaTrsfHead", sb);

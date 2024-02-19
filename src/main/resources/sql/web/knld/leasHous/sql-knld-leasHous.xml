@@ -81,6 +81,8 @@
 					,b.ASMY_ACHT_ATTC_FIL_ID	as asmyAchtAttcFilId    --집합건축물대장(전유무.갑)         
 					,b.LESR_PFDC_ATTC_FIL_ID	as lesrPfdcAttcFilId    --임대인 신분증 사본                
 					,b.LSH_CNTD_ATTC_FIL_ID	 	as lshCntdAttcFilId	    --전세계약서  
+					,b.MUAG_SCAN_ATTC_FIL_ID    as muagScanAttcFilId	--합의서 스캔본	
+					,b.DPL_SCAN_ATTC_FIL_ID     as dplScanAttcFilId		--협약서 스캔본
 					,c.muag_ATTC_FIL_ID as muagAttcFilId
 		            ,c.dpl_ATTC_FIL_ID  as dplAttcFilId
 		            ,c.nrm_ATTC_FIL_ID  as nrmAttcFilId 
@@ -182,7 +184,9 @@
 					,RLY_SUBJ_ATTC_FIL_ID	= #{rlySubjAttcFilId}
 					,ASMY_ACHT_ATTC_FIL_ID	= #{asmyAchtAttcFilId}	
 					,LESR_PFDC_ATTC_FIL_ID	= #{lesrPfdcAttcFilId}	
-					,LSH_CNTD_ATTC_FIL_ID	= #{lshCntdAttcFilId}    	
+					,LSH_CNTD_ATTC_FIL_ID	= #{lshCntdAttcFilId}    
+					,MUAG_SCAN_ATTC_FIL_ID	= #{muagScanAttcFilId}    
+					,DPL_SCAN_ATTC_FIL_ID	= #{dplScanAttcFilId}    
 					,RVW_CMMT	= #{rvwCmmt}    	
 					,CRN_CMMT	= #{crnCmmt}    	
 					,LAST_MDFY_DT = GETDATE()
@@ -217,6 +221,8 @@
 				,ASMY_ACHT_ATTC_FIL_ID	
 				,LESR_PFDC_ATTC_FIL_ID	
 				,LSH_CNTD_ATTC_FIL_ID	
+				,MUAG_SCAN_ATTC_FIL_ID   	
+				,DPL_SCAN_ATTC_FIL_ID    
 				,RVW_CMMT
 				,CRN_CMMT
 				,FRST_RGST_DT    
@@ -253,6 +259,8 @@
 				,#{asmyAchtAttcFilId}	
 				,#{lesrPfdcAttcFilId}	
 				,#{lshCntdAttcFilId}   
+				,#{muagScanAttcFilId}   
+				,#{dplScanAttcFilId}   
 				,#{rvwCmmt}   
 				,#{crnCmmt}   
 				,GETDATE()

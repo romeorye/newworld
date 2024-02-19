@@ -2,7 +2,7 @@
 <head>
 	<title>GetTextValue</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />	
-	<meta name="author" content="NamoEditor Co., Ltd." />
+	<meta name="author" content="JIRANSOFT Co., Ltd." />
 	<link rel="stylesheet" href="../images/linkstyle.css" />
 </head>
 <body>
@@ -70,8 +70,10 @@
             <p class="scode">JavaScript</p>
             <pre class="scodedsc">var object = new NamoSE(&quot;test&quot;);
 object.EditorStart();
-var returnValue = object.<b>GetTextValue</b>();
-alert(returnValue);</pre>
+function <b>OnInitCompleted</b>(){
+   var info = object.<b>GetTextValue</b>();
+   alert(info);
+}</pre>
             <p class="dscrpt">&nbsp;</p>
         </td>
     </tr>

@@ -1112,6 +1112,7 @@ public class AnlRqprController extends IrisBaseController {
 
 			dataMap.put("cmd", input.get("save"));
 			dataMap.put("userId", input.get("_userId"));
+			dataMap.put("realRgstId", input.get("realRgstId"));
 			
 			anlRqprService.saveAnlRqprRslt(dataMap);
 
@@ -1504,4 +1505,37 @@ public class AnlRqprController extends IrisBaseController {
 
 		return "web/anl/rqpr/exprWayPopup";
 	}
+	
+	/**
+	 * 반려의견 팝업
+	 * @param input
+	 * @param request
+	 * @param session
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/anl/anlGvbRsonPopup.do")
+	public String anlGvbRsonPopup(
+			@RequestParam HashMap<String, String> input,
+			HttpServletRequest request,
+			HttpSession session,
+			ModelMap model
+			) throws Exception{
+		
+		/* 반드시 공통 호출 후 작업 */
+		checkSession(input, session, model);
+
+		LOGGER.debug("###########################################################");
+		LOGGER.debug("exprWayPopupView - anlGvbRsonPopup [반려의견 팝업화면 이동]");
+		LOGGER.debug("input = > " + input);
+		LOGGER.debug("###########################################################");
+		
+		input.put("anlGvbRson", anlRqprService.getAnlGvbRson(input));
+		model.addAttribute("inputData", input);
+
+		return "web/anl/rqpr/anlGvbRsonPopup";
+	}
+	
+	
 }

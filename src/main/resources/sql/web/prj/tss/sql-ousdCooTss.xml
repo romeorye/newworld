@@ -109,7 +109,7 @@
 													WHERE OVER_STEP_RANK = 1)
 				AND M.TSS_SCN_CD = 'O'
 				AND M.DEL_YN = 'N' --삭제여부
-				--AND iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN)= 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='P1')
+				--AND iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN)= 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='G1')
 				) Z
                 WHERE  1=1
 		    ]]>

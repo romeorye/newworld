@@ -12,7 +12,7 @@
 	byte[] b2 = decoder.decodeBuffer(detectXSSEx(request.getParameter("m_id")));
     String idval = new String(b2);
 
-	String id = idval;
+	String id = encrypt("SHA-256", idval);
 	String passwd = encrypt("SHA-256", pwval);
 
 	String webPageKind = detectXSSEx(request.getParameter("webPageKind"));
@@ -81,20 +81,20 @@
 
 	}
 
-	if(id.equalsIgnoreCase(u_id)){
+	if(id.equalsIgnoreCase(u_id) || id.equalsIgnoreCase(encrypt("SHA-256", u_id))){
 		passwd = passwd.toLowerCase();
 		if(passwd.equalsIgnoreCase(u_pass)){
 
-			session.setAttribute("memId",id);
+			session.setAttribute("memId",idval);
 			session.setAttribute("webPageKind",webPageKind);
 			result_sc = "<script>window.document.location.href='update_check.jsp';</script>";
 		}
 		else{
-			result_sc = "<script>alert(NamoSELang.pe_xj);history.back();</script>";
+			result_sc = "<script>alert(NamoSELang.pe_Dx);history.back();</script>";
 		}
 	}
 	else{
-		result_sc = "<script>alert(NamoSELang.pe_JD);history.back();</script>";
+		result_sc = "<script>alert(NamoSELang.pe_TD);history.back();</script>";
 	}
 
 %>
@@ -102,7 +102,7 @@
 <html>
 	<head>
 	<script type="text/javascript" src="../../lib/jquery-1.7.2.min.js"> </script>
-	<script type="text/javascript">var ce$=$.noConflict(true); </script>
+	<script type="text/javascript">var ce$=namo$.noConflict(true); </script>
 		<script type="text/javascript" src="../manage_common.js"> </script>
 		<script type="text/javascript" language="javascript" src="../../js/namo_cengine.js"> </script>
 	</head>

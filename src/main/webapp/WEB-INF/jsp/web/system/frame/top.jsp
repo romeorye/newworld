@@ -53,7 +53,7 @@ function fnSearch(){
     /* var keyword = document.getElementById('NavigatorControl_tbSearchKeyWord').value; */
     var keyword = frm.srh.value; 
    
-    var url = 'http://search.lghausys.com:8501/iris/search.jsp?query='+encodeURI(keyword);	
+    var url = 'http://search.lxhausys.com:8501/iris/search.jsp?query='+encodeURI(keyword);	
 	var win = window.open(url, "searchPop", settings);
     //win.focus();
      if(window.focus){

@@ -58,7 +58,11 @@ define([
 							this.fireEvent('startresize', e, type);
 						}
 					}
-				} else if($target.hasClass('layer-tracker') || (opt && opt.forceDragMove===true)) {
+				} else if(
+						$target.hasClass('layer-tracker') || 
+						(NHIE.lib.useragent.info.IsIE10 && $target.hasClass('tracker-body') && $target.closest('.workspace-cropper').length ) ||
+						(opt && opt.forceDragMove===true)
+					) {
 					console.log('--mousedown to move~')
 					// move-layer
 					if(this.enable_dragmove) {
@@ -380,7 +384,7 @@ define([
 			//console.log(layerStyle, scale, this.dom, 'rotate('+layerStyle.rotation+')deg');
 			var $dom = $(this.dom);
 			if(byTracker) {
-				var target = this.target;
+				var target = this.target;				
 				target.setStyle({
 					width: parseFloat($dom.css('width')),
 					height: parseFloat($dom.css('height')),
@@ -388,13 +392,15 @@ define([
 					top: parseFloat($dom.css('top')),
 				});
 			} else {
-				$dom.css({
+				var style = {
 					width: scale * layerStyle.width,
 					height: scale * layerStyle.height,
 					left: scale * layerStyle.left,
 					top: scale * layerStyle.top,
 					transform: 'rotate('+layerStyle.rotation+'deg)'
-				});
+				};
+				$dom.css(style);
+				this.style = style;
 			}
 		},
 		getDegreeOfPoints:function(p1x,p1y,p2x,p2y,cx,cy){
@@ -433,6 +439,15 @@ define([
 				x:(ox+(x-ox)*Math.cos(__d2p(d))-(y-oy)*Math.sin(__d2p(d))),
 				y:(oy+(y-oy)*Math.cos(__d2p(d))+(x-ox)*Math.sin(__d2p(d)))
 			};
+		},
+		getStyle: function() {
+			var $dom = $(this.dom);
+			return {
+				left: $dom.css('left'),
+				top: $dom.css('top'),
+				width: $dom.css('width'),
+				height: $dom.css('height')
+			}
 		},
 		show: function() {
 			$(this.dom).removeClass('hidden visible').addClass('visible');

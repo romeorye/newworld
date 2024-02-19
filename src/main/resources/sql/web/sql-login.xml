@@ -51,7 +51,7 @@
 			   FROM IRIS_SSO_USER SU2
 			   WHERE  su.sso_ex_flag != 'D'
 			   AND  SU2.sa_dept_new = SU.SA_DEPT_NEW
-			   AND  SU2.sa_func IN ('FO0','FG0','FB1') ) AS LEADER_CNT
+			   AND  SU2.sa_func IN ('FO0','FG0','FB1', 'FQ0') ) AS LEADER_CNT
 			 FROM IRIS_SSO_USER SU
 			 WHERE SU.SA_USER = #{sa_user}
 			 AND   su.sso_ex_flag != 'D'

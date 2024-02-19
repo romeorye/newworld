@@ -162,6 +162,7 @@ public class MkInnoTssController  extends IrisBaseController {
         Map<String,Object> dataMap = new HashMap<String, Object>();
         
         input = StringUtil.toUtf8Input(input);
+        resultMap.put("rtnSt", "F");
         
         try{
         	dataMap.put("input", input);
@@ -170,15 +171,13 @@ public class MkInnoTssController  extends IrisBaseController {
 
         	mkInnoTssService.saveMkInnoMst(dataMap);
         	
-			resultMap.put("resultYn", "Y");
-			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
+			resultMap.put("rtnSt", "S");
+			resultMap.put("rtnMsg", "저장 되었습니다.");
         }catch(Exception e){
-        	resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "저장에 실패하였습니다\\n관리자에게 문의하세요.");
+			resultMap.put("rtnMsg", "저장에 실패하였습니다\\n관리자에게 문의하세요.");
         }
-
         
-        modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
+        modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", resultMap));
 
         return modelAndView;
     } 
@@ -212,20 +211,21 @@ public class MkInnoTssController  extends IrisBaseController {
         Map<String,Object> dataMap = new HashMap<String, Object>();
         
         input = StringUtil.toUtf8Input(input);
+        resultMap.put("rtnSt", "N");
         
         try{
         	List<Map<String, Object>> mbrDataSetList = RuiConverter.convertToDataSet(request, "mbrDataSet");
 
         	mkInnoTssService.saveMkInnoMbr(mbrDataSetList);
         	
-			resultMap.put("resultYn", "Y");
-			resultMap.put("resultMsg", "정상적으로 저장 되었습니다.");
+			resultMap.put("rtnSt", "S");
+			resultMap.put("rtnMsg", "저장 되었습니다.");
         }catch(Exception e){
-        	resultMap.put("resultYn", "N");
-			resultMap.put("resultMsg", "저장에 실패하였습니다\\n관리자에게 문의하세요.");
+        	
+			resultMap.put("rtnMsg", "저장에 실패하였습니다\\n관리자에게 문의하세요.");
         }
 
-        modelAndView.addObject("result", RuiConverter.createDataset("result", resultMap));
+        modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", resultMap));
 
         return modelAndView;
     } 
@@ -365,7 +365,6 @@ public class MkInnoTssController  extends IrisBaseController {
         modelAndView.addObject("mstDataSet", RuiConverter.createDataset("mstDataSet", mstInfo));
         modelAndView.addObject("smryDataSet", RuiConverter.createDataset("smryDataSet", smryInfo));
         modelAndView.addObject("mbrDataSet", RuiConverter.createDataset("mbrDataSet", mbrlist));
-        //modelAndView.addObject("yldDataSet", RuiConverter.createDataset("yldDataSet", yldlist));
 
         return modelAndView;
     }
@@ -643,6 +642,59 @@ public class MkInnoTssController  extends IrisBaseController {
 
         return modelAndView;
     }
+    
+    /**
+     * 과제관리 > 제조혁신과제 완료보고서 등록
+     *
+     * @param input HashMap<String, Object>
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return ModelAndView
+     * */
+    @SuppressWarnings("unchecked")
+    @RequestMapping(value="/prj/tss/mkInno/deleteMkInnoTssPtcRsstMbr.do")
+    public ModelAndView deleteMkInnoTssPlnPtcRsstMbr(@RequestParam HashMap<String, Object> input, HttpServletRequest request,
+            HttpServletResponse response, HttpSession session, ModelMap model) {
+
+    	checkSessionObjRUI(input, session, model);
+    	
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("retrievefGenTssList - deleteMkInnoTssPtcRsstMbr [과제관리 > 제조혁신과제 연구원삭제]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        input = StringUtil.toUtf8Input(input);
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+        HashMap<String, Object> rtnMeaasge = new HashMap<String, Object>();
+        Map<String, Object> ds = null;
+        
+        String rtnMsg = "";
+		String rtnSt = "F";
+        
+        try {
+            
+        	ds = RuiConverter.convertToDataSet(request, "mbrDataSet").get(0);
+            ds.put("userId", input.get("_userId"));
+            
+        	mkInnoTssService.deleteMkInnoTssPlnPtcRsstMbr(ds);
+
+            rtnSt = "S";
+			rtnMsg = "삭제되었습니다.";
+        } catch(Exception e) {
+        	e.printStackTrace();
+			rtnMsg = e.getMessage();
+        }
+        
+        rtnMeaasge.put("rtnMsg", rtnMsg);
+		rtnMeaasge.put("rtnSt", rtnSt);
+		
+		modelAndView.addObject("resultDataSet", RuiConverter.createDataset("resultDataSet", rtnMeaasge));
+
+        return modelAndView;
+    }
+    
 
     /**
      * 페이지 이동시 세션체크

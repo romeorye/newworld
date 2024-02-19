@@ -63,7 +63,7 @@
 
 	<bean id="rlabPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/rlab" />
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/rlab" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/anl" /> -->
 		<property name="allowPattern" value="*"/>
@@ -77,7 +77,7 @@
 	
 	<bean id="spacePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/fileupload/space" />
+		<property name="uploadTargetDir" value="file:c:/weblogic/user_projects/domains/iris_domain/fileupload/space" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/anl" /> -->
 		<property name="allowPattern" value="*"/>
@@ -92,7 +92,7 @@
 	
 	<bean id="prjPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/prj" />
+		<property name="uploadTargetDir" value="file:c:/weblogic/user_projects/domains/iris_domain/fileupload/prj" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/prj" /> -->
 		<property name="allowPattern" value="*"/>
@@ -106,7 +106,7 @@
 
 	<bean id="mchnPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/mchn" />
+		<property name="uploadTargetDir" value="file:c:/weblogic/user_projects/domains/iris_domain/fileupload/mchn" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/mchn" /> -->
 		<property name="allowPattern" value="*"/>
@@ -120,7 +120,7 @@
 
 	<bean id="fxaPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/fxa" />
+		<property name="uploadTargetDir" value="file:c:/weblogic/user_projects/domains/iris_domain/fileupload/fxa" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/fxa" /> -->
 		<property name="allowPattern" value="*"/>
@@ -134,7 +134,7 @@
 
 	<bean id="knldPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/knld" />
+		<property name="uploadTargetDir" value="file:C:/IRIS_DevonFrame/workspace/iris/src/main/webapp/resource/fileupload/knld" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/knld" /> -->
 		<property name="allowPattern" value="*"/>
@@ -149,7 +149,7 @@
 
 	<bean id="knldPolicy2" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/knld" />
+		<property name="uploadTargetDir" value="file:c:/weblogic/user_projects/domains/iris_domain/fileupload/knld" />
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/knld" /> -->
 		<property name="allowPattern" value="*"/>
@@ -163,7 +163,8 @@
 	
 	<bean id="prsPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
 		<!-- LOCAL -->
-		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/prsPolicy" />
+		<property name="uploadTargetDir" value="file:C:/IRIS_DevonFrame/workspace/newiris/src/main/resources/fileupload/prs" />
+<!-- 		<property name="uploadTargetDir" value="file:d:/weblogic/user_projects/domains/iris_domain/fileupload/prs" /> -->
 		<!-- DEV / PRD  -->
 		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/prsPolicy" /> -->
 		<property name="allowPattern" value="*"/>

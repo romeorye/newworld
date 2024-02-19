@@ -64,4 +64,10 @@ $(function () {
 		
 	});
 });
-
+/*
+function fontValue(){
+	var font = {"맑은 고딕" : "맑은 고딕","돋움" : "돋움","굴림" : "굴림","바탕" : "바탕","궁서" : "궁서","David" : "David","LG스마트체" : "LG스마트체", "LG스마트체2.0" : "LG스마트체2.0","MS PGothic" : "MS PGothic","New MingLiu" : "New MingLiu","Simplified Arabic" : "Simplified Arabic","simsun" : "simsun","Arial" : "Arial","Courier New" : "Courier New","Tahoma" : "Tahoma","Times New Roman" : "Times New Roman","Verdana" : "Verdana", };
+	
+	return font;
+}
+*/

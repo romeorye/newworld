@@ -47,7 +47,7 @@ public class SpaceEvRnewMailServiceImpl implements SpaceEvRnewMailService {
 	public boolean sendSpaceEvRnewMail(SpaceEvRnewMailInfo spaceEvRnewMailInfo) throws Exception {
     		MailSender mailSender = mailSenderFactory.createMailSender();
     		//mailSender.setFromMailAddress(spaceMailInfo.getRgstEmail(), spaceMailInfo.getRgstNm());
-    		mailSender.setFromMailAddress("iris@lghausys.com");
+    		mailSender.setFromMailAddress("iris@lxhausys.com");
 
     		mailSender.setToMailAddress(spaceEvRnewMailInfo.getReceivers().split(","));
 
@@ -63,10 +63,10 @@ public class SpaceEvRnewMailServiceImpl implements SpaceEvRnewMailService {
 
 			input.put("mailTitl", spaceEvRnewMailInfo.getTitl() + " 인증서(성적서) 갱신 요청의 건.");
 			input.put("adreMail", spaceEvRnewMailInfo.getReceivers());
-			input.put("trrMail",  "iris@lghausys.com");
+			input.put("trrMail",  "iris@lxhausys.com");
 			input.put("rfpMail",  spaceEvRnewMailInfo.getRfp());
 			input.put("_userId", "Batch-SpaceApprMail");
-			input.put("_userEmail", "iris@lghausys.com");
+			input.put("_userEmail", "iris@lxhausys.com");
 
 			/* 전송메일 정보 hist 저장*/
 			commonDao.update("open.mchnAppr.insertMailHist", input);

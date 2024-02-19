@@ -1,6 +1,8 @@
 package iris.web.mchn.open.rlabMchn.service;
 
-import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,15 +18,8 @@ import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
 import devonframe.util.NullUtil;
-import iris.web.common.util.CommonUtil;
-import iris.web.common.util.NamoMime;
 import iris.web.fxa.anl.service.FxaAnlServiceImpl;
 import iris.web.mchn.open.rlabMchn.vo.RlabMchnInfoVo;
-import iris.web.mchn.open.rlabMchn.vo.RlabMchnMailVo;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 
 @Service("rlabMchnInfoService")
 public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
@@ -116,27 +111,6 @@ public class RlabMchnInfoServiceImpl implements RlabMchnInfoService {
 		if( chkPrct  >   0 ){
 			throw new Exception("기존 예약건이 존재합니다.");
 		}
-
-		//int chkPrct2 = commonDao.select("open.rlabMchnInfo.checkRlabPrctInfo2", input);
-
-		NamoMime mime = new NamoMime();
-		//저장 및 수정
-		String dtlSbcHtml = "";
-		String dtlSbcHtml_temp = "";
-
-		String uploadPath = "";
-        String uploadUrl = "";
-
-        //uploadUrl =  configService.getString("KeyStore.UPLOAD_URL") + configService.getString("KeyStore.UPLOAD_MCHN");   // 파일명에 세팅되는 경로
-        //uploadPath = configService.getString("KeyStore.UPLOAD_BASE") + configService.getString("KeyStore.UPLOAD_MCHN");  // 파일이 실제로 업로드 되는 경로
-
-        //mime.setSaveURL(uploadUrl);
-        //mime.setSavePath(uploadPath);
-        //mime.decode(input.get("dtlSbc").toString());                  // MIME 디코딩
-        //mime.saveFileAtPath(uploadPath+File.separator);
-        //dtlSbcHtml = mime.getBodyContent();
-        //dtlSbcHtml_temp = CommonUtil.replaceSecOutput(CommonUtil.replace(CommonUtil.replace(dtlSbcHtml, "<", "@![!@"),">","@!]!@"));
-        //input.put("dtlSbc", dtlSbcHtml);
 
         MailSender mailSender = mailSenderFactory.createMailSender();
         RlabMchnInfoVo vo = new RlabMchnInfoVo();

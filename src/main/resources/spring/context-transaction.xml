@@ -20,16 +20,16 @@
 		<property name="dataSources" ref="dataSourceSalStat" />
 	</bean>
 
-	<!-- QAS(울산) -->
+	<!-- QAS(울산) 
 	<bean id="txManagerQasU" class="devonframe.transaction.CompositeDataSourceTransactionManager">
 		<property name="dataSources" ref="dataSourceQasU" />
 	</bean>
-	
-	<!-- QAS(청주) -->
+	-->
+	<!-- QAS(청주) 
 	<bean id="txManagerQasC" class="devonframe.transaction.CompositeDataSourceTransactionManager">
 		<property name="dataSources" ref="dataSourceQasC" />
 	</bean>
-	
+	-->
 	<!-- TO DO -->
 	<bean id="txManagerTodo" class="devonframe.transaction.CompositeDataSourceTransactionManager">
 		<property name="dataSources" ref="dataSourceTodo" />
@@ -72,7 +72,7 @@
 	</tx:advice>
 
 
-	<!-- QAS(울산) db -->
+	<!-- QAS(울산) db 
 	<tx:advice id="txAdviceQasU" transaction-manager="txManagerQasU">
 		<tx:attributes>
 			<tx:method name="retrieve*" read-only="true" />
@@ -81,8 +81,8 @@
 			<tx:method name="get*" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
-
-	<!-- QAS(청주) db -->
+-->
+	<!-- QAS(청주) db 
 	<tx:advice id="txAdviceQasC" transaction-manager="txManagerQasC">
 		<tx:attributes>
 			<tx:method name="retrieve*" read-only="true" />
@@ -91,6 +91,7 @@
 			<tx:method name="get*" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
+	-->
 	
 	<!--TODO db -->
 	<tx:advice id="txAdviceTodo" transaction-manager="txManagerTodo">
@@ -118,14 +119,15 @@
 		<aop:advisor advice-ref="txAdviceSalStat" pointcut="execution(* *..*Service.*(..))" />
 		<aop:advisor advice-ref="txAdviceSalStat" pointcut="execution(* *..*ServiceImpl.*(..))" />
 
-		<!-- Qas(울산) db -->
+		<!-- Qas(울산) db 
 		<aop:advisor advice-ref="txAdviceQasU" pointcut="execution(* *..*Service.*(..))" />
 		<aop:advisor advice-ref="txAdviceQasU" pointcut="execution(* *..*ServiceImpl.*(..))" />
+-->
 
-
-		<!-- Qas(청주) db -->
+		<!-- Qas(청주) db 
 		<aop:advisor advice-ref="txAdviceQasC" pointcut="execution(* *..*Service.*(..))" />
 		<aop:advisor advice-ref="txAdviceQasC" pointcut="execution(* *..*ServiceImpl.*(..))" />
+-->
 
 		<!-- Todo db -->
 		<aop:advisor advice-ref="txAdviceTodo" pointcut="execution(* *..*Service.*(..))" />
@@ -141,10 +143,12 @@
 		<!-- 일반과제통계뷰 db -->
 	<tx:annotation-driven transaction-manager="txManagerSalStat"/>
 
-	<!-- Qas(울산) db -->
+	<!-- Qas(울산) db 
 	<tx:annotation-driven transaction-manager="txManagerQasU"/>
-	<!-- Qas(청주) db -->
+	-->
+	<!-- Qas(청주) db
 	<tx:annotation-driven transaction-manager="txManagerQasC"/>
+	 -->
 	<!-- TODO db -->
 	<tx:annotation-driven transaction-manager="txManagerTodo"/>
 

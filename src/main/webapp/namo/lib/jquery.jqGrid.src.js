@@ -9984,6 +9984,9 @@ $.jgrid.extend({
 	saveCell : function (iRow, iCol){
 		return this.each(function(){
 			var $t= this, fr;
+			if(!$t.rows[iRow] || typeof $t.rows[iRow] == "undefined"){
+				return;
+			}
 			if (!$t.grid || $t.p.cellEdit !== true) {return;}
 			if ( $t.p.savedRow.length >= 1) {fr = 0;} else {fr=null;}
 			if(fr !== null) {

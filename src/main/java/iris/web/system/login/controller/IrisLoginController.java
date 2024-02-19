@@ -91,23 +91,20 @@ public class IrisLoginController {
 			if (!"".equals(lycos)){
 				eeId ="directLoginTrue";	
 			}
-			LOGGER.debug("###########################lycos################################ : " + lycos);
 
 			SsoConfig sso = new SsoConfig();
 
 			String sso_id = sso.getSsoId(request);
 			
-			//return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
 			if( "".equals(sso_id)){
 				sso_id = CommonUtil.getCookieSsoUserId(request);
-				LOGGER.debug("###########################sso_id################################ : " + sso_id);
 			}
 			
 			//4.쿠키 유효성 확인 :0(정상)
 			String retCode = sso.getEamSessionCheckAndAgentVaild(request,response);
-			LOGGER.debug("###########################retCode################################ : " + retCode);
+			
 			if(!retCode.equals("0")){
-				return "common/error/error";
+				return "common/error/ssoError";
 			}
 			//5.업무시스템에 읽을 사용자 아이디를 세션으로 생성
 			input.put("eeId", sso_id );
@@ -154,7 +151,6 @@ public class IrisLoginController {
         // 주소창에 get방식으로 입력하여 로그인할 경우 차단. 
         // direct에서 들어오는 경우가 아니라면 주소창에서 직접입력을 차단함.        
 		if(!"directLoginTrue".equals(eeId)){
-	        LOGGER.debug("getMethod------------------>" + request.getMethod()+"<");  // get or post
 	        if("GET".equals(request.getMethod())) {
 	            userOk = false;
 	            validation = "0007";
@@ -165,8 +161,6 @@ public class IrisLoginController {
 		//vpn 접속 차단
 		String userip = request.getRemoteAddr();
 
-		LOGGER.debug("#########################userip ################################## : " + userip);
-		//userip = "10.0.39.104";
 		if(userip.equals("10.0.39.110") || userip.equals("10.0.39.104")){
 			userOk = false;
             validation = "0008";
@@ -176,8 +170,7 @@ public class IrisLoginController {
 		
         if(userOk){
             List loginUserList = loginService.evalUser(input);
-    		LOGGER.debug("loginUserList size => " + loginUserList.size());
-    		LOGGER.debug("loginUserList => " + loginUserList);
+    		//LOGGER.debug("loginUserList => " + loginUserList);
             
             // 사용자 정보가 없을 때
     		if(NullUtil.isNull(loginUserList)|| loginUserList.size() < 1){
@@ -185,8 +178,7 @@ public class IrisLoginController {
                 validation = "0001";    			
     		} else {	
                 loginUser = (HashMap)loginUserList.get(0);
-        		LOGGER.debug("loginUserList.get(0) => " + loginUser);
-        		
+        		//LOGGER.debug("loginUserList.get(0) => " + loginUser);
         		validation = "9999";  // 정상 
     		}
             LOGGER.debug("사용자 조회 완료");
@@ -208,7 +200,6 @@ public class IrisLoginController {
 
             // 세션 생성하기 위한 사용자 정보 조회 
             resultData = loginService.retrieveUserDetail(loginUser);
-            LOGGER.debug("##### resultData  : " + resultData.toString() );
 
             if(!resultData.isEmpty()) {
             	//[EAM추가] - 사용자 시스템 권한 확인 Start ===========================================================
@@ -260,8 +251,9 @@ public class IrisLoginController {
         			logMsg = e.toString();
         			alertMsg = eamUtil.getDefaultAlertMessage();
         		}
+        		
         		if(errFlag) {
-        			LOGGER.error(logMsg);
+        			//LOGGER.error(logMsg);
         			SayMessage.setMessage(alertMsg);
         			//return "redirect:/index.do";
         			return "common/error/error";
@@ -293,12 +285,13 @@ public class IrisLoginController {
         			logMsg = e.toString();
         			alertMsg = eamUtil.getDefaultAlertMessage();
         		}
+        		
         		if(errFlag) {
         			topMenuList = new ArrayList();
-        			LOGGER.error(logMsg);
         			SayMessage.setMessage(alertMsg);
         		}            	    		
-    			LOGGER.debug("topMenuList:" + topMenuList);
+    			
+        		//LOGGER.debug("topMenuList:" + topMenuList);
             	//[EAM추가] - TOP 메뉴 정보 조회 End =============================================================
         		
         		//[EAM추가] - EAM 관리 전체 메뉴 URL 조회 Start ===========================================================
@@ -307,6 +300,7 @@ public class IrisLoginController {
         		List menuList = new ArrayList();
         		List subMenuList = null;
             	reqData = new HashMap();
+            	
         		reqData.put("SYS_CD", "IRI");		//시스템 코드
         		reqData.put("EMP_NO", userSabun);	//사용자 사번
         		reqData.put("MENU_TYPE", "B");		//TOP메뉴프레임('A':TOP메뉴사용 / 'B':TOP메뉴미사용 / 'C':전체메뉴조회)
@@ -348,7 +342,7 @@ public class IrisLoginController {
         			alertMsg = eamUtil.getDefaultAlertMessage();
         		}
         		if(errFlag) {
-        			LOGGER.error(logMsg);
+        			//LOGGER.error(logMsg);
         			SayMessage.setMessage(alertMsg);
         			//return "redirect:/common/login/itgLoginForm.do";
         			return "web/system/main";
@@ -387,10 +381,10 @@ public class IrisLoginController {
                 session.setAttribute("eamMenuAcceptList", eamMenuAcceptList);
                
                 //로그인 유저관리 클래스 호출.
-                LOGGER.debug("*****세션 생성 시작");
-                LOGGER.debug("생성된 세션ID: [" + session.getId() + "]");
-                LOGGER.debug("생성된 로그인ID: [" + lsession.get("_userId") + "]");
-                LOGGER.debug("*****세션 생성 끝");
+                //LOGGER.debug("*****세션 생성 시작");
+                //LOGGER.debug("생성된 세션ID: [" + session.getId() + "]");
+                //LOGGER.debug("생성된 로그인ID: [" + lsession.get("_userId") + "]");
+                //LOGGER.debug("*****세션 생성 끝");
                     
                 //LActionContext.setAttribute("loginUser", lsession);
                 model.addAttribute("loginUser", lsession);
@@ -406,7 +400,9 @@ public class IrisLoginController {
         	SayMessage.setMessage(rtnMsg);
 
             SayMessage.setMessage(rtnMsg);
-            LOGGER.debug("##### rtnMsg => " + rtnMsg);
+            
+            return "common/error/ssoError";
+            
         }else if (validation == "0008"){
         	String rtnMsg = "";
         	
@@ -414,11 +410,11 @@ public class IrisLoginController {
         	SayMessage.setMessage(rtnMsg);
 
             SayMessage.setMessage(rtnMsg);
-            LOGGER.debug("##### rtnMsg => " + rtnMsg);
+            //LOGGER.debug("##### rtnMsg => " + rtnMsg);
         }
         
         String reUrl = input.get("reUrl");
-        LOGGER.debug("############################################# reUrl => " + reUrl);    
+        
         if(StringUtils.isNotEmpty(reUrl)) {
         	Map.Entry entry = null;
         	StringBuffer params = new StringBuffer("");

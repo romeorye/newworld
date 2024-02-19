@@ -10,6 +10,7 @@ define([
 	'app/classes/tools/history-undo',
 	'app/classes/tools/history-redo',
 	'app/classes/tools/resize-workspace',
+	'app/classes/tools/crop-workspace',
 	'app/classes/tools/move-layer',
 	'app/classes/tools/rotate-left',
 	'app/classes/tools/rotate-right',
@@ -33,6 +34,7 @@ tools_history_undo,
 tools_history_redo,
 
 tools_resize_workspace,
+tools_crop_workspace,
 tools_move_layer,
 
 tools_rotate_left,
@@ -60,6 +62,7 @@ tools_apply_filter
 		'history-redo': tools_history_redo,
 
 		'resize-workspace': tools_resize_workspace,
+		'crop-workspace': tools_crop_workspace,
 
 		'move-layer': tools_move_layer,
 		'rotate-left': tools_rotate_left,

@@ -61,7 +61,7 @@ public class MailBatchGrs  extends IrisBaseController {
         input.put("Type", "G");
         input.put("title", "품의 진행 안내");
         input.put("mailTemplateName", "mailBatchGrshtml");
-        input.put("sendMailAdd", "iris@lghausys.com");
+        input.put("sendMailAdd", "iris@lxhausys.com");
         input.put("sendMailName", "관리자");
  
          mailBatchService.makeMailSend(input);

@@ -47,9 +47,8 @@ public class TssUserServiceImpl implements TssUserService {
 		if (inputRole.indexOf("WORK_IRI_T01") > -1) {
 			map.put("tssRoleType", "W");
 			map.put("tssRoleId", "TR01");
-		}
-		//과제리더
-		else if (inputRole.indexOf("WORK_IRI_T03") > -1) {
+			
+		}else if (inputRole.indexOf("WORK_IRI_T03") > -1) { //과제리더
 			map.put("tssRoleType", "W");
 			map.put("tssRoleId", "TR01");
 		} else {
@@ -65,7 +64,7 @@ public class TssUserServiceImpl implements TssUserService {
 			}
 
 			//일반사용자
-			if (inputRole.indexOf("WORK_IRI_T02") > -1) {
+			if (inputRole.indexOf("WORK_IRI_T02") > -1 || inputRole.indexOf("WORK_IRI_T19") > -1) {
 				map.put("roleId", "WORK_IRI_T02");
 				map.put("userId", input.get("_userSabun"));
 				map.put("tssCd", mstMap.get("tssCd"));
@@ -94,19 +93,15 @@ public class TssUserServiceImpl implements TssUserService {
 		//시스템관리자
 		if (inputRole.indexOf("WORK_IRI_T01") > -1) {
 			map.put("tssRoleType", "S1");
-		}
-		//과제리더
-		else if (inputRole.indexOf("WORK_IRI_T03") > -1) {
+		}else if (inputRole.indexOf("WORK_IRI_T03") > -1) {	//과제리더
 			map.put("tssRoleType", "S1");
-		}
-		//mm담당자
-		else if (inputRole.indexOf("WORK_IRI_T05") > -1) {
+		}else if (inputRole.indexOf("WORK_IRI_T05") > -1) { //mm담당자
 			map.put("tssRoleType", "S1");
-		} else if (inputRole.indexOf("WORK_IRI_T15") > -1) {
+		}else if (inputRole.indexOf("WORK_IRI_T15") > -1) {
 			map.put("tssRoleType", "S1");
-		} else if (inputRole.indexOf("WORK_IRI_T16") > -1) {
+		}else if (inputRole.indexOf("WORK_IRI_T16") > -1) {
 			map.put("tssRoleType", "S1");
-		} else {
+		}else {
 			ArrayList<String> list = new ArrayList<String>();
 			list.add("00");
 

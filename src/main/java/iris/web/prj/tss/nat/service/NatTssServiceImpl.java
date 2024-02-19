@@ -269,6 +269,8 @@ public class NatTssServiceImpl implements  NatTssService{
     public int updateNatTssPlnMst(HashMap<String, Object> mstDs, HashMap<String, Object> smryDs, List<Map<String, Object>> smryDsListLst, boolean upWbsCd) {
         int mstCnt = commonDao.update("prj.tss.nat.updateNatTssPlnMst", mstDs); //마스터 수정
         
+        smryDs.put("tssCd" ,mstDs.get("tssCd"));
+        
         if(mstCnt > 0) {
             commonDao.update("prj.tss.nat.updateNatTssPlnSmry", smryDs); //개요 수정
 

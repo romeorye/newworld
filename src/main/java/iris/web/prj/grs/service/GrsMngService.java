@@ -67,4 +67,9 @@ public interface GrsMngService {
 	void updateGrsGuid(List<Map<String, Object>> appList);
 
 	String retrieveGrsUserChk(HashMap<String, String> input);
+
+	/**
+	 *  과제변경 저장 (변경용)
+	 * */
+	void updateTssInfo(Map<String, Object> ds);
 }

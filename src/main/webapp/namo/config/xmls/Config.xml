@@ -8,7 +8,7 @@
 	</Product>
 	<General>
 		<WebServerOS>WINDOW</WebServerOS>
-		<WebServerInfo>Apache</WebServerInfo>
+		<WebServerInfo>Tomcat</WebServerInfo>
 		<WebLanguage>JSP</WebLanguage>
 		<ImageSavePath></ImageSavePath>
 		<Width>730</Width>
@@ -16,13 +16,13 @@
 		<UploadFileNameType>real</UploadFileNameType>
 		<UploadFileViewer>false</UploadFileViewer>
 		<UploadFileSizeLimit></UploadFileSizeLimit>
-		<UploadFileSubDir>false</UploadFileSubDir>
+		<UploadFileSubDir>true</UploadFileSubDir>
 		<UploadFileExtBlockList>0|zip,doc,docx,xlsx,xls</UploadFileExtBlockList>
 		<UploadImageFileExtBlockList>0|gif,jpeg,jpg,png,bmp</UploadImageFileExtBlockList>
 		<AttributeBlockList>0|onclick,onerror,onblur</AttributeBlockList>
 		<TagBlockList>0|script,iframe</TagBlockList>
 		<Template></Template>
-		<ServerUrl>1</ServerUrl>
+		<ServerUrl></ServerUrl>
 		<ResizeBar>true</ResizeBar>
 		<MenuInEditor></MenuInEditor>
 		<AutoSavePeriod></AutoSavePeriod>
@@ -42,6 +42,7 @@
 		<AccessibilityOption>0</AccessibilityOption>
 		<FontColor>#000000</FontColor>
 		<FontSizeList>7.5pt,8pt,9pt,10pt,11pt,12pt,14pt,16pt,18pt,20pt,22pt,24pt,26pt,28pt,36pt,40pt</FontSizeList>
+		<Font></Font>
 		<LineHeightList>100%,120%,140%,150%,160%,180%,200%</LineHeightList>
 		<IndentPaddingValue>40</IndentPaddingValue>
 		<ReturnKeyActionBR>false</ReturnKeyActionBR>
@@ -54,6 +55,9 @@
 		<Csslist></Csslist>
 		<ProfanityStr>초딩,깡패,꺼벙이,멍청이,바보,사이비</ProfanityStr>
 		<LimitClipboardNodeCount>1000</LimitClipboardNodeCount>
+		<PasteSelectFormat></PasteSelectFormat>
+		<UseTagCleaner></UseTagCleaner>
+		<NoUseLayerTracker></NoUseLayerTracker>
 	</Editor>
 	<Document>
 		<CharSet>auto</CharSet>
@@ -70,14 +74,25 @@
 		<UserSkinColor></UserSkinColor>
 		<Css></Css>
 		<UserToolbar>true</UserToolbar>
-		<CreateToolbar>newdoc|fopen|saveas|print|spacebar|undo|redo|spacebar|search|replace|spacebar|inserthorizontalrule|hyperlink|remove_hyperlink|spacebar|image|tableinsert|tabledraginsert|tablerowinsert|tablerowdelete|tablecolumninsert|tablecolumndelete|tablecellmerge|tablecellsplit|tablecellattribute|spacebar|enter|formatblock|fontname|fontsize|lineheight|word_style|word_color|cancelattribute|word_justify|word_indentset|txtmargin|word_dir</CreateToolbar>
+		<CreateToolbar></CreateToolbar>
 		<CreateTab>0|1|2</CreateTab>
 		<IsQuestAutoSave></IsQuestAutoSave>
-		<Menu>false</Menu>
-		<QuickMenu>false</QuickMenu>
+		<Menu>true</Menu>
+		<QuickMenu>true</QuickMenu>
 		<DisplayLoadingBar>true</DisplayLoadingBar>
-		<ShowRuler></ShowRuler>
+		<ShowRuler>false</ShowRuler>
 	</UI>
+	<ToolBarTheme>
+		<NewToolbar>false</NewToolbar>
+		<ThemeIconColor>#666666</ThemeIconColor>
+		<ThemeBgColor>#FFFFFF</ThemeBgColor>
+		<ThemeBorderColor>#CCCCCC</ThemeBorderColor>
+		<ThemeOutlineColor>#CCCCCC</ThemeOutlineColor>
+		<ThemeButtonHoverColor>#CCCCCC</ThemeButtonHoverColor>
+		<ThemeButtonSelectColor>#B6B6B6</ThemeButtonSelectColor>
+		<ThemeButtonSelectIconColor>#666666</ThemeButtonSelectIconColor>
+		<ThemeButtonSize>30</ThemeButtonSize>
+	</ToolBarTheme>
 	<ImageEditor>
 		<CanvasWidth>1600</CanvasWidth>
 		<CanvasHeight>1600</CanvasHeight>
@@ -85,4 +100,18 @@
 	<User>
 		<AddMenu></AddMenu>
 	</User>
+	<Plugins>
+		<Version>1.0.0.24</Version>
+		<Version_daemon>1.0.0.3</Version_daemon>
+		<Version_com>1.0.0.20</Version_com>
+		<SupportBrowser></SupportBrowser>
+		<AutoInstall></AutoInstall>
+	</Plugins>
+	<Mime>
+		<MimeEncodeFileScope>0</MimeEncodeFileScope>
+		<MimeEncodeFilter>1</MimeEncodeFilter>
+		<MimeEncodeIncludeUrl></MimeEncodeIncludeUrl>
+		<MimeEncodeRange>0</MimeEncodeRange>
+		<MimeEncodeType>1</MimeEncodeType>
+	</Mime>
 </Configuration>

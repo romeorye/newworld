@@ -1,6 +1,4 @@
 <%@page import="java.util.*"%>
-<%@page import="java.util.Date"%>
-<%@page import="java.lang.*"%>
 <%@page import="java.io.*"%>
 <%@page import="java.net.*"%>
 <%@page import ="javax.xml.parsers.DocumentBuilder"%>
@@ -65,7 +63,7 @@ public String getImageKind(String typeCheck)
 	}
 }
 
-public boolean IsArray(String appExtensions, String fileCheck)
+public boolean isArray(String appExtensions, String fileCheck)
 {
 	String app[] =  appExtensions.split(",");
 	boolean value = false;
@@ -90,7 +88,7 @@ public String getChildDirectory(String path, String maxCount)
 	File dir = new File(path);
 	if(!dir.exists()){return childName = "";}
 	int listLength = 0;
-	if (dir != null) {
+	if (dir != null && dir.list() != null) {
 		listLength = dir.list().length;
 	}
 	
@@ -126,7 +124,13 @@ public String getChildDirectory(String path, String maxCount)
 			dirNew.setReadable(true);
 			dirNew.setWritable(false, true);
 
-			dirNew.mkdir();
+			boolean returnRes = dirNew.mkdir();
+			if(returnRes == false){
+				dirNew.setExecutable(true);
+				dirNew.setReadable(true);
+				dirNew.setWritable(true);
+				return "";
+			}
 		}
 	}
 
@@ -134,7 +138,7 @@ public String getChildDirectory(String path, String maxCount)
 	
 	File dir3 = new File(childPath);
 	int cCount = 0;
-	if (dir3 != null) {
+	if (dir3 != null && dir3.list() != null) {
 		listLength = dir3.list().length;
 	}
 	for(int i=0;i<listLength;i++)
@@ -161,7 +165,13 @@ public String getChildDirectory(String path, String maxCount)
 			dir4.setReadable(true);
 			dir4.setWritable(false, true);
 
-			dir4.mkdir();
+			boolean returnRes = dir4.mkdir();
+			if(returnRes == false){
+				dir4.setExecutable(true);
+				dir4.setReadable(true);
+				dir4.setWritable(true);
+				return "";
+			}
 		}
 	}
 	return childName;
@@ -190,7 +200,7 @@ public String checkFileUniqueName(String realFileName, String image_physical_pat
 	return strFileName;
 }
 
-public int fileCopy(String path, String savePath)
+public synchronized int fileCopy(String path, String savePath)
 {
 	int check = 0; 
 
@@ -245,6 +255,7 @@ public int fileCopy(String path, String savePath)
 		}
 		catch(IOException e)
 		{
+			check = 0;
 			//System.out.println("1:An internal exception occured!");
 		}
 	}
@@ -273,7 +284,7 @@ public String getEditorAuth(String filename, String conn, String conval)
 //			str += data;
 //		}
 
-		br.read(buffer,0,1024);
+		int returnRes = br.read(buffer,0,1024);
 
 //		for (char c : buffer)
 //        {
@@ -283,14 +294,16 @@ public String getEditorAuth(String filename, String conn, String conval)
 //            }
 //        }
 //       }
-
-		for (int i=0; buffer.length>i; i++)
-        {
-			if(buffer[i] != (char)0)
-            {
-               str += buffer[i];
-            }
-        }
+		
+		if(returnRes > 0){
+			for (int i=0; buffer.length>i; i++)
+			{
+				if(buffer[i] != (char)0)
+				{
+				   str += buffer[i];
+				}
+			}
+		}
 
 		if (str.equalsIgnoreCase("valid")){
 			result = "true";
@@ -301,7 +314,8 @@ public String getEditorAuth(String filename, String conn, String conval)
 		}
 	}
 	catch(IOException e)
-	{
+	{	
+		result = "false";
 		//System.out.println("2:An internal exception occured!");
 	}
 	finally
@@ -320,6 +334,7 @@ public String getEditorAuth(String filename, String conn, String conval)
 		}
 		catch(IOException e)
 		{
+			result = "false";
 			//System.out.println("3:An internal exception occured!");
 		}
 	}
@@ -332,22 +347,28 @@ public String createEncodeEditorKey(String genkey)
 	//byte[] keyByte = genkey.getBytes();
 	//String base64_encodeText = encoder.encode(keyByte);
 	//라이브러리 추가 요함 -> https://commons.apache.org/proper/commons-codec/download_codec.cgi
-	byte[] encoded = Base64.encodeBase64(genkey.getBytes());
-	String base64_encodeText = new String(encoded);
-	
-	int str_length = base64_encodeText.length();
-	String strLeft = base64_encodeText.substring(0,str_length/2);
-	String strRight = base64_encodeText.substring(str_length/2,str_length);
+	try{
+		byte[] encoded = Base64.encodeBase64(genkey.getBytes());
+		String base64_encodeText = new String(encoded, "ISO-8859-1");
+		
+		int str_length = base64_encodeText.length();
+		String strLeft = base64_encodeText.substring(0,str_length/2);
+		String strRight = base64_encodeText.substring(str_length/2,str_length);
 
-	int strLeft_length = strLeft.length();
-	String strLeftSubLeft = strLeft.substring(0,strLeft_length/2);
-	String strLeftSubRight = strLeft.substring(strLeft_length/2,strLeft_length);
+		int strLeft_length = strLeft.length();
+		String strLeftSubLeft = strLeft.substring(0,strLeft_length/2);
+		String strLeftSubRight = strLeft.substring(strLeft_length/2,strLeft_length);
 
-	int strRight_length = strRight.length();
-	String strRightSubLeft = strRight.substring(0,strRight_length/2);
-	String strRightSubRight = strRight.substring(strRight_length/2,strRight_length);
-	
-	genkey = strLeftSubLeft + strRightSubLeft + strRightSubRight + strLeftSubRight;
+		int strRight_length = strRight.length();
+		String strRightSubLeft = strRight.substring(0,strRight_length/2);
+		String strRightSubRight = strRight.substring(strRight_length/2,strRight_length);
+		
+		genkey = strLeftSubLeft + strRightSubLeft + strRightSubRight + strLeftSubRight;
+
+		
+	}catch(UnsupportedEncodingException e){
+		genkey = "EncodingException";
+	}
 
 	return genkey;
 }
@@ -356,7 +377,7 @@ public long getDateDiff(String targetDate)
 {
 	long dateDiff = 1;
 
-	try{
+	//try{
 		Calendar gCal = Calendar.getInstance();
 		gCal.setTime(new Date());
 		int cur_year = gCal.get(Calendar.YEAR);
@@ -380,9 +401,10 @@ public long getDateDiff(String targetDate)
         long diffInMSec = milisecond2 - milisecond1;
 
         dateDiff = diffInMSec / (24 * 60 * 60 * 1000);
-	}catch(RuntimeException e){
+	//}catch(Exception e){
 		//System.out.println("4:An internal exception occured!");
-	}
+	//	dateDiff = -1;
+	//}
 
 	return dateDiff;
 }
@@ -436,15 +458,17 @@ public String executeFileScript(HttpServletResponse response, String result, Str
 				param = "'" + result + "'";
 		}
 		
-
+		//2018-11-20[4.2.0.12]보안취약점 불필요한 코드 주석
+		result_sc = param;
+		/*
 		if (checkPlugin.equalsIgnoreCase("false")) {
 			// 20141118 image drag&drop event
 			result_sc = param;
 		} else if (!useExternalServer.equalsIgnoreCase("")) {
 			try {
-				result_sc = "?userdomain=" + URLEncoder.encode(userDomain, "UTF-8");
-				result_sc += "&funcname=" + URLEncoder.encode("setInsertFile", "UTF-8");
-				result_sc += "&param=" + URLEncoder.encode(param, "UTF-8");
+				result_sc = "?userdomain=" + URLEncoder.encode(userDomain, "utf-8");
+				result_sc += "&funcname=" + URLEncoder.encode("setInsertFile", "utf-8");
+				result_sc += "&param=" + URLEncoder.encode(param, "utf-8");
 
 				response.sendRedirect(useExternalServer + result_sc);
 				return "";
@@ -456,6 +480,8 @@ public String executeFileScript(HttpServletResponse response, String result, Str
 			result_sc += userDomain;
 			result_sc += " parent.window.setInsertFile(" + param + ");</script>";
 		}
+		*/
+		result_sc = param;
 	}
 
 	return result_sc;
@@ -510,14 +536,17 @@ public String executeScript(HttpServletResponse response, String result, String 
 				param = "'" + result + "'";
 		}
 
+		//2018-11-20[4.2.0.12]보안취약점 불필요한 코드 주석
+		result_sc = param;
+		/*
 		if (checkPlugin.equalsIgnoreCase("false")) {
 			// 20141118 image drag&drop event
 			result_sc = param;
 		} else if(!useExternalServer.equalsIgnoreCase("")) {	
 			try {
-				result_sc = "?userdomain=" + URLEncoder.encode(userDomain, "UTF-8");
-				result_sc += "&funcname=" + URLEncoder.encode("setInsertImageFile", "UTF-8");
-				result_sc += "&param=" + URLEncoder.encode(param, "UTF-8");
+				result_sc = "?userdomain=" + URLEncoder.encode(userDomain, "utf-8");
+				result_sc += "&funcname=" + URLEncoder.encode("setInsertImageFile", "utf-8");
+				result_sc += "&param=" + URLEncoder.encode(param, "utf-8");
 				response.setHeader("Access-Control-Allow-Origin", "*"); 
 				response.sendRedirect(useExternalServer + result_sc);
 				return "";
@@ -529,13 +558,14 @@ public String executeScript(HttpServletResponse response, String result, String 
 			result_sc += userDomain;
 			result_sc += " parent.window.setInsertImageFile(" + param + ");</script>";
 		}
+		*/
 	}
 
 	return result_sc;
 }
 
 
-public String Dompaser(String image_temp)
+public String dompaser(String image_temp)
 {
 	String imageUrl = image_temp;
 	String oContextPath = "";
@@ -563,35 +593,38 @@ public String Dompaser(String image_temp)
 			
 			NodeList nodeLst = doc.getElementsByTagName("Context");
 					
-			for(int i = 0; i<nodeLst.getLength(); i++)
-			{
-				pathValue = ((Element)nodeLst.item(i)).getAttribute("path");
-				
-				try{
-					if (pathValue.equalsIgnoreCase(imageUrl.substring(0,pathValue.length())))
-					{
-						if(pathValue.length() > oContextPath.length())
+			if(nodeLst != null)	{
+				for(int i = 0; i<nodeLst.getLength(); i++)
+				{
+					pathValue = ((Element)nodeLst.item(i)).getAttribute("path");
+					
+					//try{
+						if (pathValue.equalsIgnoreCase(imageUrl.substring(0,pathValue.length())))
 						{
-							oContextPath = pathValue;
-							oDocPath = ((Element)nodeLst.item(i)).getAttribute("docBase");
-							
-							if(pathValue.lastIndexOf("/") == pathValue.length()-1)
+							if(pathValue.length() > oContextPath.length())
 							{
-								pathValue = pathValue.substring(0,pathValue.lastIndexOf("/"));
-							}
-							
-							oPhygicalPath = oDocPath;
-							String pathArr[] = imageUrl.substring(pathValue.length()).split("/");
-							for (int t = 0; t < pathArr.length; t++){
-								if (!pathArr[t].equalsIgnoreCase("")){
-									oPhygicalPath += File.separator + pathArr[t];
+								oContextPath = pathValue;
+								oDocPath = ((Element)nodeLst.item(i)).getAttribute("docBase");
+								
+								if(pathValue.lastIndexOf("/") == pathValue.length()-1)
+								{
+									pathValue = pathValue.substring(0,pathValue.lastIndexOf("/"));
+								}
+								
+								oPhygicalPath = oDocPath;
+								String pathArr[] = imageUrl.substring(pathValue.length()).split("/");
+								for (int t = 0; t < pathArr.length; t++){
+									if (!pathArr[t].equalsIgnoreCase("")){
+										oPhygicalPath += File.separator + pathArr[t];
+									}
 								}
 							}
 						}
-					}
-				} catch(RuntimeException e2) {
-					//continue;
-					//System.out.println("7:An internal exception occured!");
+					//} catch(Exception e2) {
+					//	oPhygicalPath = "";
+						//continue;
+						//System.out.println("7:An internal exception occured!");
+					//}
 				}
 			}
 		}
@@ -696,18 +729,6 @@ public String mediaMimeType(String fileExt) {
 	return returnValue;
 }
 
-public int getRandomSeed(String div, String cpath)
-{
-	
-	int returnVal = 0;
-	String url1 = xmlUrl1(cpath);
-	Element root1 = configXMlLoad1(url1);
-	Hashtable settingValue = childValueList1(root1);
-	returnVal = Integer.parseInt(settingValue.get(div).toString());
-
-	return returnVal;
-}
-
 public String rootFolderPath1(String urlPath)
 {
 	String fileRealFolder = "";
@@ -719,42 +740,6 @@ public String rootFolderPath1(String urlPath)
 public String xmlUrl1(String urlPPath)
 {
 	return  urlPPath + File.separator +  "config" + File.separator + "xmls" + File.separator + "Config.xml";
-}
-
-//xml data load
-public static Element configXMlLoad1(String configValue)
-{
-	File severXml = new File(configValue);
-	
-	Document doc = null;
-	try{
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		
-		//2016-06-07 보안취약성처리
-		/*
-		dbf.setValidating(true);
-		dbf.setFeature("http://javax.xml.XMLConstants/feature/secure-processing",true);
-		dbf.setFeature("http://xml.org/sax/features/external-general-entities",false);
-		dbf.setFeature("http://xml.org/sax/features/external-parameter-entities",false);
-		dbf.setFeature("http://xml.org/sax/features/validation", true);
-		*/
-		DocumentBuilder db = dbf.newDocumentBuilder();
-		doc = db.parse(severXml);
-		Element root = doc.getDocumentElement();
-		root.normalize();
-		return root;
-	}catch (SAXParseException err) {
-		//System.out.println("internal exception occured!");
-	} catch (SAXException e) {
-		//System.out.println("internal exception occured!");
-	} catch (java.net.MalformedURLException mfx) {
-		//System.out.println("internal exception occured!");
-	} catch (java.io.IOException e) {
-		//System.out.println("internal exception occured!");
-	} catch (Exception pce) {
-		//System.out.println("internal exception occured!");
-	}
-	return null;
 }
 
 public Hashtable childValueList1(Element root)
@@ -774,31 +759,35 @@ public Hashtable childValueList1(Element root)
 			for(int i=0; i<nodeList.getLength(); i++){
 				
 				node = nodeList.item(i);
-				if(node.getNodeType() == Node.ELEMENT_NODE){
-					
-					childNodes = node.getChildNodes();
-					for(int j=0; j<childNodes.getLength();j++){
+				if(node !=null){
+					if(node.getNodeType() == Node.ELEMENT_NODE){
 						
-						cNode = childNodes.item(j);
-						if(cNode.getNodeType() == Node.ELEMENT_NODE){
+						childNodes = node.getChildNodes();
+						for(int j=0; j<childNodes.getLength();j++){
 							
-							if(cNode.getNodeName().equalsIgnoreCase("AddMenu")) settingValue.put("AddMenuCheck", "true");
-							
-							if(cNode.getFirstChild() != null){
-								if(cNode.getNodeName().equalsIgnoreCase("AddMenu")){
-									addMenuList.add(cNode.getFirstChild().getNodeValue());
-									settingValue.put(cNode.getNodeName(),addMenuList);	
-								}
-								else {
-									settingValue.put(cNode.getNodeName(),cNode.getFirstChild().getNodeValue());
-								}
-							}
-							else{
-								if(cNode.getNodeName().equalsIgnoreCase("AddMenu")){
-									addMenuList.add("");
-									settingValue.put(cNode.getNodeName(),addMenuList);	
-								}else{
-									settingValue.put(cNode.getNodeName(),"");
+							cNode = childNodes.item(j);
+							if(cNode != null){
+								if(cNode.getNodeType() == Node.ELEMENT_NODE){
+									
+									if(cNode.getNodeName().equalsIgnoreCase("AddMenu")) settingValue.put("AddMenuCheck", "true");
+									
+									if(cNode.getFirstChild() != null){
+										if(cNode.getNodeName().equalsIgnoreCase("AddMenu")){
+											addMenuList.add(cNode.getFirstChild().getNodeValue());
+											settingValue.put(cNode.getNodeName(),addMenuList);	
+										}
+										else {
+											settingValue.put(cNode.getNodeName(),cNode.getFirstChild().getNodeValue());
+										}
+									}
+									else{
+										if(cNode.getNodeName().equalsIgnoreCase("AddMenu")){
+											addMenuList.add("");
+											settingValue.put(cNode.getNodeName(),addMenuList);	
+										}else{
+											settingValue.put(cNode.getNodeName(),"");
+										}
+									}
 								}
 							}
 						}
@@ -886,22 +875,40 @@ public String tempFolderCreate(String path)
 		tempSubFolder.setReadable(true);
 		tempSubFolder.setWritable(false, true);
 
-		tempSubFolder.mkdir();
+		boolean returnRes = tempSubFolder.mkdir();
+		if(returnRes == false){
+			tempSubFolder.setExecutable(true);
+			tempSubFolder.setReadable(true);
+			tempSubFolder.setWritable(true);
+			return "";
+		}
 	}
 
 	return path;
 }
 
-public void tempFolderDelete(String path)
+public synchronized boolean tempFolderDelete(String path)
 {
-	synchronized(this){
+	boolean returnRes = true;
+	//synchronized(this){
 		File tempFolder = new File(path);
 		if(tempFolder.exists()){
-			tempFolder.delete();
+			returnRes = tempFolder.delete();
 		}
-	}
+	//}
+	return returnRes;
 }
- 
+
+public synchronized boolean tempFileDelete(File tempFile)
+{
+	boolean returnRes = true;
+
+	if(tempFile.exists()){
+		returnRes = tempFile.delete();
+	}
+	
+	return returnRes;
+}
 
 public static String toString ( String s ) { 
 	if ( s == null ) return ""; 

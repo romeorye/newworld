@@ -293,10 +293,12 @@ define([
 		},
 		selected: false,
 		show: function() {
+			this.hidden = false;
 			this.$canvasWrapper.show();
 			NHIE.app.fireEvent('changecontent');
 		},
 		hide: function() {
+			this.hidden = true;
 			this.$canvasWrapper.hide();
 			NHIE.app.fireEvent('changecontent');
 		},

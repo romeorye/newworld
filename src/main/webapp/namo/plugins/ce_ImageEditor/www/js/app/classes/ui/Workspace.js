@@ -3,9 +3,10 @@ define([
 	'app/classes/ui/UIElement',
 	'app/classes/ui/workspace/LayerCanvas',
 	'app/classes/ui/workspace/WorkspaceResizer',
+	'app/classes/ui/workspace/WorkspaceCropper',
 
 	'text!resources/tpl/ui/ui-workspace.tpl.html'
-], function($, _, UIElement, LayerCanvas, WorkspaceResizer, _tpl) {
+], function($, _, UIElement, LayerCanvas, WorkspaceResizer, WorkspaceCropper, _tpl) {
 	var Workspace = UIElement.extend({
 		defaultConfig: {
 			renderTo: '.nhie-body .workspace',
@@ -20,6 +21,7 @@ define([
 		events: {
 			render: function(e) {
 				this.initResizer();
+				this.initCropper();
 				this.$clipping_area = $('.layer-container.layer-foreground.clipping-area');
 			}
 		},
@@ -30,6 +32,16 @@ define([
 			});
 			workspace_resizer.render();
 			this.workspace_resizer = workspace_resizer;
+		},
+		initCropper: function() {
+			var workspace_cropper = new WorkspaceCropper({
+				id: 'workspace-cropper',
+				target : this
+			});
+			//workspace_cropper.target = workspace_cropper;
+			workspace_cropper.render();
+			this.workspace_cropper = workspace_cropper;
+
 		},
 		getSize: function() {
 			return {
@@ -172,6 +184,29 @@ define([
 				});
 			}
 		},
+		$getCropper: function() {
+			var $workspace_cropper = $(this.dom).find('.layer-tracker-container .workspace-cropper');
+			if (!$workspace_cropper.length) {
+				this.initCropper();
+				$workspace_cropper = $(this.dom).find('.layer-tracker-container .workspace-cropper');
+			}
+			return $workspace_cropper;
+		},
+		activateCropper: function(enable) {
+			var $workspace_cropper = this.$getCropper();
+			if (enable) {
+				$workspace_cropper.show();
+				_.each(this.layers, function(layer) {
+					layer.tracker.hide();
+				});
+				// console.log('cropper activated!')
+				this.syncCropperSize();
+				this.workspace_cropper.markCurrentCropperStatus();
+			} else {
+				$workspace_cropper.hide();
+				//this.workspace_cropper.clearCropperStatus();
+			}			
+		},
 		/**
 		 * workspace 크기와 리사이즈 트래커의 크기를 동기화
 		 * @param  {boolean} fromTracker 동기화 기준이 tracker 인지 여부
@@ -216,6 +251,82 @@ define([
 
 			}
 		},
+		/**
+		 * workspace 크기와 리사이즈 트래커의 크기를 동기화
+		 * @param  {boolean} fromTracker 동기화 기준이 tracker 인지 여부
+		 */
+		syncCropperSize: function(fromTracker) {
+			// console.log('------ call syncCropperSize()', arguments)
+			var zoom = (NHIE.app.data('navigator-zoom') || 100)/100;
+			// 현재 설정되어 있는 더미 영역에 맞도록 cropper 트래의 크기를 적절히 변경
+			if(!fromTracker) {
+				// sync current size
+				var workspace_size = this.getSize();
+				var $workspace_cropper = this.$getCropper();
+
+				var resizer_style = {};
+				var style_before = this.workspace_cropper.target.getStyle();
+
+				if(!style_before.width) {
+					// 기본 사이즈로 변경
+					var cropperSize = this.workspace_cropper.getDefaultCropperSize();
+
+					resizer_style = {
+						width: cropperSize.width * zoom ,
+						height: cropperSize.height * zoom,
+						left: workspace_size.width * zoom / 2,
+						top: workspace_size.height * zoom / 2,
+						marginLeft: cropperSize.width * zoom /-2,
+						marginTop: cropperSize.height * zoom /-2
+					};
+
+				} else {
+					resizer_style = {
+						width: style_before.width * zoom ,
+						height: style_before.height * zoom,
+						left:style_before.left * zoom,
+						top:style_before.top * zoom,
+						marginLeft: style_before.marginLeft * zoom,
+						marginTop: style_before.marginTop * zoom
+					}
+				}
+				
+				this.workspace_cropper.target.setStyle(resizer_style);
+				$workspace_cropper.css(resizer_style);
+				
+			} else {
+				// 설정되어있는 cropper 크기에 맞도록 작업영역 크기 변경
+
+				// var $workspace_wrapper = $('.workspace .layer-container.layer-workspace .layer-wrapper');
+
+				// var scale = {
+				// 	x: parseFloat($workspace_wrapper.attr('data-scale-x') || 1),
+				// 	y: parseFloat($workspace_wrapper.attr('data-scale-y') || 1)
+				// };
+
+				var cropperStyle = this.workspace_cropper.target.getStyle();
+				var offset = {
+					left: cropperStyle.left + (parseFloat(this.workspace_cropper.target.$dom.css('margin-left')||0))/zoom,
+					top: cropperStyle.top + (parseFloat(this.workspace_cropper.target.$dom.css('margin-top')||0))/zoom
+				};
+
+				_.each(this.layers, function(layer) {
+					var style = _.clone(layer.style);
+					style = _.extend(style, {
+						left: (style.left - offset.left),
+						top: (style.top - offset.top),
+					});
+					layer.setCanvasStyle(style);
+				});
+
+				NHIE.workspace.setSize(cropperStyle.width, cropperStyle.height);
+
+				// 작업 영역 크기가 변경되었으므로 cropper 크기도 다시 조정
+				this.syncCropperSize();
+				NHIE.app.fireEvent('changecontent');
+
+			}
+		},		
 		/**
 		 * 좌 /우측 90도 회전 수행
 		 * @param  {string} direction 회전 방향 ("left" / "right")
@@ -339,9 +450,11 @@ define([
 			});
 			return NHIE.lib.Promise.all(p_arr).then(function() {
 				_.each(layers, function(layer) {
-					var style = layer.getStyle();
-					var layerCanvas = layer.getCanvasElement();
-					ctx.drawImage(layerCanvas, style.left, style.top);
+					if(!layer.hidden) {
+						var style = layer.getStyle();
+						var layerCanvas = layer.getCanvasElement();
+						ctx.drawImage(layerCanvas, style.left, style.top);
+					}
 				});
 				return canvas;
 			});

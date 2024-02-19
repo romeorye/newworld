@@ -22,7 +22,7 @@ define([
 			}
 		},
 		saveHistory: function() {
-			console.error('save history!!')
+			console.warn('save history!!')
 			var workspace_size = NHIE.workspace.getSize();
 			var workspace_content = $('.workspace-contents .workspace-contents-wrapper .layer-wrapper').html();
 

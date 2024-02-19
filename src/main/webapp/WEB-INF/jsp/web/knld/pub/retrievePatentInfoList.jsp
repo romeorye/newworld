@@ -45,7 +45,7 @@
    		
 		<div class="sub-content">
 	        <div>
-		   		<iframe src="http://epapp.lghausys.com:9904/bt.type01.board125.list.laf?ispmis=Y&bbsid=board125" frameborder="0" width="800" height="500" scrolling="no">
+		   		<iframe src="http://epapp.lxhausys.com:9904/bt.type01.board125.list.laf?ispmis=Y&bbsid=board125" frameborder="0" width="800" height="500" scrolling="no">
 		   		</iframe>
 	        </div>
        </div>

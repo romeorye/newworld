@@ -363,7 +363,7 @@
                         	/* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssDcacDetail.do?tssCd="+pTssCd+"'/>"); */
                         }
                         //진행_GRS완료_완료(신규등록)
-                        else if(pGrsEvSt == "P2") {
+                        else if(pGrsEvSt == "G2") {
                         	console.log('이동 : 진행_GRS완료_완료(신규등록)');
                         	nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplDetail.do'/>"+urlParam);
                             /* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/ousdcoo/ousdCooTssCmplDetail.do?tssCd="+pTssCd+"'/>"); */

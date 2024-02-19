@@ -244,7 +244,7 @@ public class PurRqInfoController extends IrisBaseController {
 		input = StringUtil.toUtf8Input(input);
 		model.addAttribute("inputData", input);
 		
-		return "web/prs/purRq/purRqOfficeDetail";
+		return "web/prs/purRq/purRqWorkDetail";
 	}
 	
 	/**
@@ -535,12 +535,10 @@ public class PurRqInfoController extends IrisBaseController {
 				i = Integer.parseInt(purRq.get("idx").toString());
 
 				myListData = myPurRqList.get(i);
-
-				LOGGER.debug("**************************************************************************************");
-				LOGGER.debug("i : " + i);	
-				LOGGER.debug(purRq);
-				LOGGER.debug("**************************************************************************************");
-			
+				//LOGGER.debug("**************************************************************************************");
+				//LOGGER.debug("i : " + i);	
+				//LOGGER.debug(purRq);
+				//LOGGER.debug("**************************************************************************************");
 				myListData.put("prsFlag", 	purRq.get("index"));
 				myListData.put("prsNm", 	purRq.get("status"));
 				myListData.put("badat", 	purRq.get("badat"));		
@@ -558,8 +556,7 @@ public class PurRqInfoController extends IrisBaseController {
 				myListData.put("grMenge", 	purRq.get("grMenge"));		
 				myListData.put("piBudat", 	purRq.get("piBudat"));		
 
-				LOGGER.debug(myListData);
-				
+				//LOGGER.debug(myListData);
 				myPurRqList.set(i, myListData);
 			}
 		}

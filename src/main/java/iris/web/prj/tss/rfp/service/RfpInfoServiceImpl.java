@@ -71,8 +71,8 @@ static final Logger LOGGER = LogManager.getLogger(RfpInfoServiceImpl.class);
 		//메일 발송
 		MailSender mailSender = mailSenderFactory.createMailSender();
 		
-		mailSender.setFromMailAddress("iris@lghausys.com");
-        mailSender.setToMailAddress("jihyunlee@lghausys.com");
+		mailSender.setFromMailAddress("iris@lxhausys.com");
+        mailSender.setToMailAddress("jihyunlee@lxhausys.com");
         mailSender.setSubject(" RFP요청서 제출");
         
         StringUtil.toUtf8Output((HashMap) retrieveRfpInfo);
@@ -113,8 +113,8 @@ static final Logger LOGGER = LogManager.getLogger(RfpInfoServiceImpl.class);
         
         HashMap<String, Object> mailMap = new HashMap<String, Object>();
         mailMap.put("mailTitl", " RFP요청서 제출");
-        mailMap.put("adreMail", "jihyunlee@lghausys.com");
-        mailMap.put("trrMail", "iris@lghausys.com");
+        mailMap.put("adreMail", "jihyunlee@lxhausys.com");
+        mailMap.put("trrMail", "iris@lxhausys.com");
         mailMap.put("_userId", input.get("_userId").toString());
        
         mailInfoService.insertMailSndHist(mailMap);

@@ -7,15 +7,15 @@ define([
 ], function($, _, lib, Dialog) {
 	var Promise = lib.Promise;
 	var langCode = 'kr';
-	try{
+	//try{
 		//langCode = opener.NamoSE.DefaultConfig.EditorBaseLanguage || 'kr';
 		if (opener.NamoSELang.LangCode == 'ko') {
 			langCode = 'kr';
 		} else {
 			langCode = opener.NamoSELang.LangCode || 'kr';
 		}
-	} catch(e) {
-	}
+	//} catch(e) {
+	//}
 
 	var getOpenerPlugin = function() {
 		var opener_plugin = {};
@@ -86,9 +86,12 @@ define([
 							}
 						} else {
 							result.success = false;
-							switch(result.result) {
+							switch(res.result) {
 								case 'invalid_size':
 									result.message = lib.err.ERR_FILE_SIZE_LIMIT;
+									break;
+								case 'UploadFileExtBlock':
+									result.message = res.result;
 									break;
 								case '':
 									result.message = '';
@@ -221,6 +224,10 @@ define([
 							height: canvas.height,
 							mode:run_mode
 						});
+					}else if(result.message){
+						getOpenerPlugin().execute({
+							error : result.message
+						});
 					}
 					window.close();
 				}).catch(function(e){
@@ -237,11 +244,11 @@ define([
 		},
 		onCancel: function() {
 			console.log('close NHIE window');
-			try{
+			//try{
 				getOpenerPlugin().unmaskParent();
 				getOpenerPlugin().cancel();
-			}catch(e){
-			}
+			//}catch(e){
+			//}
 
 		},
 		onUnload: function() {

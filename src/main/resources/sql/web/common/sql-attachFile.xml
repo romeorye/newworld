@@ -13,7 +13,7 @@
 			from	iris_com_attc_fil
 			where  attc_fil_id = #{attcFilId}
 			and	   DEL_YN = 'N'
-			order by seq
+			order by seq desc
 	</select>
 
 	<select id="getAttachFileInfo" resultType="hashmap">

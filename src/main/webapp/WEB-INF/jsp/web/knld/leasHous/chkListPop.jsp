@@ -62,7 +62,7 @@
    			<div style="text-align:left;font-weight:bold;font-size:2.0em;font-family:LG스마트체2.0;" >- 계약 전 체크사항</div> 
    			<br/>
    			<div style="text-align:left;font-size:1.3em;font-family:LG스마트체2.0;" >
-   			1. 본 임차주택의 계약 시 임차인은 ㈜엘지하우시스  법인 명으로 한다.<br/>
+   			1. 본 임차주택의 계약 시 임차인은 ㈜LX하우시스  법인 명으로 한다.<br/>
    			</div>
    			<br/>
    			<div style="text-align:left;font-size:1.3em;font-family:LG스마트체2.0;" >
@@ -94,10 +94,10 @@
    			 </div>
    			 </br>
    			 <div style="text-align:left;font-size:1.3em;font-family:LG스마트체2.0;" >
-   			 2. 특약 필수기제사항으로는 00억 전세보증금인 경우 잔금일자,㈜엘지하우시스에서,0억을 임대인 명의계좌로</br>&nbsp;&nbsp;
+   			 2. 특약 필수기제사항으로는 00억 전세보증금인 경우 잔금일자,㈜LX하우시스에서,0억을 임대인 명의계좌로</br>&nbsp;&nbsp;
    			       송금하며 (임대인계좌 00은행/123-3456-000 홍길동) 나머지 00천 만원은  세입자 000씨가 임대인 명의계좌로</br>&nbsp;&nbsp;&nbsp;송금한다 </br>
    			   </br>   
-                    &nbsp;&nbsp;&nbsp;예시) 본 계약 만기 시에는 임대인 명의로 ㈜엘지하우시스 법인계좌(우리은행 123-456-000)로  00억을</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;송금하며 나머지 잔금 0천만원에 대하여 임대인은 세입자 홍길동 계좌명의로 송금한다</br>
+                    &nbsp;&nbsp;&nbsp;예시) 본 계약 만기 시에는 임대인 명의로 ㈜LX하우시스 법인계좌(우리은행 123-456-000)로  00억을</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;송금하며 나머지 잔금 0천만원에 대하여 임대인은 세입자 홍길동 계좌명의로 송금한다</br>
                     &nbsp;&nbsp;&nbsp;예시) 계약금에 대한 법적 lisk발생시 세입자 본인과 임대인과의 체결로 규정한다</br>
    			 </div>
    			 </br>
