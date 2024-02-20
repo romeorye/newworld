@@ -374,7 +374,7 @@
                     nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssPlnDetail.do?tssCd="+pTssCd+"'/>");
                 }
                 //진행
-                else if(pPgsStepCd == "PG") {
+                else if(pPgsStepCd == "PG" || pPgsStepCd == "HD") {
                     if(pTssSt == "102" || pTssSt == "301" || pTssSt == "302") {
                         //진행_GRS완료_중단
                         if(pGrsEvSt == "D") {
