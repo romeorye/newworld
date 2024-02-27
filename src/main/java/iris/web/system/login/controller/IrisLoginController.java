@@ -30,8 +30,6 @@ import com.lghausys.eam.exception.EAMException;
 
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
-import iris.web.common.sso.SsoConfig;
-import iris.web.common.util.CommonUtil;
 import iris.web.common.util.FormatHelper;
 import iris.web.system.login.service.IrisEncryptionService;
 import iris.web.system.login.service.IrisLoginService;
@@ -79,7 +77,7 @@ public class IrisLoginController {
 			HttpSession session, 
 			//RedirectAttributes redirectAttributes,
 			ModelMap model ,
-			@CookieValue(value="InitechEamUID", required=true) String lycos )  throws Exception{
+			@CookieValue(value="LG_GP_SI", required=true) String lycos )  throws Exception{
 			
 			xcmkCd = "";
 			eeId = "";
@@ -88,28 +86,50 @@ public class IrisLoginController {
 			securityFlag = "";
 			//input.put("eeId", lycos);
 			
+			
+			/*
 			if (!"".equals(lycos)){
 				eeId ="directLoginTrue";	
 			}
 
-			SsoConfig sso = new SsoConfig();
+			
+			 * SsoConfig sso = new SsoConfig();
 
 			String sso_id = sso.getSsoId(request);
 			
+			//return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
 			if( "".equals(sso_id)){
 				sso_id = CommonUtil.getCookieSsoUserId(request);
 			}
 			
 			//4.쿠키 유효성 확인 :0(정상)
 			String retCode = sso.getEamSessionCheckAndAgentVaild(request,response);
-			
 			if(!retCode.equals("0")){
 				return "common/error/ssoError";
 			}
 			//5.업무시스템에 읽을 사용자 아이디를 세션으로 생성
 			input.put("eeId", sso_id );
 			//input.put("ssoUserId", input.get("lycos"));
+			*/
 			
+			javax.servlet.http.Cookie [] cookies = request.getCookies();
+			
+			if(cookies != null) {
+			 for(int i = 0 ; i < cookies.length ; i++) {
+			  javax.servlet.http.Cookie cookie = cookies[i];
+			
+			  if(cookie.getName().equals("LG_GP_SI")) {
+			   String encUid = cookie.getValue();
+			   System.out.println("ENC UID : " + encUid);
+			  
+			   String plainUid = com.lgcns.encypt.EncryptUtil.decryptText(encUid, "amZrbGRzYWpmO2tk");
+			   System.out.println("PLAIN UID : " + plainUid);
+			   eeId = plainUid;
+			  }
+			 }
+			}
+			System.out.println("eeId UID : " + eeId);
+			input.put("eeId", eeId);
 			//6.업무시스템 페이지 호출(세션 페이지 또는 메인페이지 지정)  --> 업무시스템에 맞게 URL 수정!
 			return this.doLogin(xcmkCd, eeId, pwd, vowFlag, securityFlag, input, request, response, session, model) ;
 			
@@ -148,6 +168,7 @@ public class IrisLoginController {
         //세션 생성
         HashMap resultData = null;    // 세션 생성을 하기 위한 정보 조회         
         
+        /*
         // 주소창에 get방식으로 입력하여 로그인할 경우 차단. 
         // direct에서 들어오는 경우가 아니라면 주소창에서 직접입력을 차단함.        
 		if(!"directLoginTrue".equals(eeId)){
@@ -157,7 +178,7 @@ public class IrisLoginController {
 	        }
 	        // get 방식 방지 끝
 		}
-		
+		*/
 		//vpn 접속 차단
 		String userip = request.getRemoteAddr();
 
