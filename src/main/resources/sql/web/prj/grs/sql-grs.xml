@@ -4,132 +4,132 @@
 <mapper namespace="prj.grs">
     <select id="retrieveGrsReqList" resultType="hashmap">
         <![CDATA[
-		/*retrieveGrsReqList GRS 평가 목록*/
-	    with tmp_grs as (
-			select  m.wbsCd
-				   ,m.tssScnNm
-				   ,m.tssNm
-				   ,m.prjNm
-				   ,m.leaderNm
-				   ,m.dlbrCrgrNm
-				   ,m.tssDd
-				   ,m.grsEvStNm
-				   ,m.grsStNm
-				   ,m.tssCd
-				   ,m.tssCdSn
-				   ,m.grsStCd
-				   ,m.deptCd
-				   ,m.last_mdfy_dt
-				   ,m.tssSt
-				   ,m.tssScnCd
-				   ,m.frstRgstId
-				   ,m.dlbrCrgr
-				   ,m.leaderCd
-				   ,m.bizDptCd
-				   ,m.pgsStepCd
-				   ,m.evResult
-				   ,m.grsEvSn
-				   ,rtrim(m.grsEvSt) as grsEvSt
-				   ,m.prjCd
-				   ,m.evDt
-				   ,m.tssType 
-			from   (
-			select  dbo.fn_getComDtlNm('TSS_SCN_CD',b.tss_scn_cd) AS tssScnNm
-				   ,iif(b.PGS_STEP_CD='PL' AND (select count(*) from IRIS_TSS_MGMT_MST where PK_WBS_CD = b.pk_wbs_cd)=1,'SEED-'+b.wbs_cd  , b.wbs_cd) as wbsCd
-				   ,b.TSS_NM as tssNm
-				   ,isnull(dbo.fn_getPrjName(b.PRJ_CD), b.PRJ_NM ) as prjNm
-				   ,isnull((select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new= b.SA_SABUN_NEW), a.SA_SABUN_NAME) as leaderNm
-				   ,isnull((select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new= a.dlbr_crgr), a.SA_SABUN_NAME) as dlbrCrgrNm
-				   ,b.tss_strt_dd+' ~ '+b.tss_fnh_dd as tssDd
-				   , dbo.fn_getComDtlNm('GRS_EV_ST',a.grs_ev_st)  AS grsEvStNm
-				   , dbo.fn_getComDtlNm('GRS_ST',a.grs_st_cd)  AS grsStNm
-				   , case when a.drop_yn = 'Y' then 'DROP'
-						  when a.GRS_EV_M_TYPE = 'HD' then '보류'
-						  when a.grs_st_cd ='101' and (a.drop_yn is null  or  a.drop_yn = '') then ''
-						  else 'PASS' end as evResult
-				   ,a.tss_cd as tssCd
-				   ,a.tss_cd_sn as tssCdSn
-				   ,b.tss_scn_cd  as tssScnCd
-				   ,a.grs_st_cd   as grsStCd
-				   ,a.last_mdfy_dt 
-				   ,b.tss_st as tssSt
-				   ,b.dept_code  as deptCd
-				   ,a.dlbr_crgr as dlbrCrgr
-				   ,a.frst_rgst_id as frstRgstId
-				   ,b.SA_SABUN_NEW  as leaderCd
-				   ,b.biz_dpt_cd as bizDptCd
-				   ,b.pgs_step_cd as pgsStepCd
-				   ,a.grs_Ev_Sn as grsEvSn
-				   ,a.grs_Ev_ST as grsEvSt
-				   ,b.PRJ_CD as prjCd
-				   ,a.EV_DT as evDt
-				   ,b.TSS_TYPE as tssType
-			from    iris_grs_ev_rslt_rgst  a
-					inner join IRIS_TSS_MGMT_MST b
-					on b.TSS_CD = a.TSS_CD
-			union
-			select dbo.fn_getComDtlNm('TSS_SCN_CD',b.tss_scn_cd) AS tssScnNm
-				   ,iif(b.PGS_STEP_CD='PL' AND (select count(*) from IRIS_GRS_MGMT_MST where PK_WBS_CD = b.pk_wbs_cd)=1,'SEED-'+b.wbs_cd  , b.wbs_cd) as wbsCd
-				   ,b.TSS_NM
-				   ,isnull(dbo.fn_getPrjName(b.PRJ_CD), b.PRJ_NM ) as prjNm
-				   ,isnull((select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new= b.SA_SABUN_NEW), a.SA_SABUN_NAME) as leaderNm
-				   ,isnull((select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new= a.dlbr_crgr), a.SA_SABUN_NAME) as dlbrCrgrNm
-				   ,b.tss_strt_dd+' ~ '+b.tss_fnh_dd as tssDd
-				   , dbo.fn_getComDtlNm('GRS_EV_ST',a.grs_ev_st)  AS grsEvStNm
-				   , dbo.fn_getComDtlNm('GRS_ST',a.grs_st_cd)  AS grsStNm
-				   , case when a.drop_yn = 'Y' then 'DROP'
-						  when a.grs_st_cd ='101' and (a.drop_yn is null  or  a.drop_yn = '') then ''
-						  else 'PASS' end as evResult
-				   ,a.tss_cd as tssCd
-				   ,a.tss_cd_sn as tssCdSn
-				   ,b.tss_scn_cd  as tssScnCd
-				   ,a.grs_st_cd   as grsStCd
-				   ,a.last_mdfy_dt
-				   ,b.tss_st as tssSt
-				   ,b.dept_Cd  as deptCd
-				   ,a.dlbr_crgr as dlbrCrgr
-				   ,a.frst_rgst_id as frstRgstId
-				   ,b.SA_SABUN_NEW  as leaderCd
-				   ,b.biz_dpt_cd as bizDptCd
-				   ,b.pgs_step_cd as pgsStepCd
-				   ,a.grs_Ev_Sn  as grsEvSn
-				   ,a.grs_Ev_ST as grsEvSt
-				   ,b.PRJ_CD as prjCd
-				   ,a.EV_DT as evDt
-				   ,b.TSS_TYPE as tssType
-			from   iris_grs_ev_rslt_rgst a
-				   inner join iris_grs_mgmt_mst b
-				   on a.tss_cd = b.tss_cd
-			) m
-		)
-	
-		select  wbsCd, max(last_mdfy_dt) over(partition by wbsCd order by last_mdfy_dt desc), max(wbsCd) over(partition by wbsCd order by last_mdfy_dt desc)
-		        ,m.tssScnNm
-			    ,m.tssNm
-				,m.prjNm
-				,m.leaderNm
-				,m.dlbrCrgrNm
-				,m.tssDd
-				,m.grsEvStNm
-				,m.grsStNm
-				,m.evResult
-				,m.tssCd
-				,m.tssCdSn
-				,m.grsStCd
-				,m.deptCd
-				,m.tssSt
-				,m.bizDptCd
-				,m.pgsStepCd
-				,isnull(m.grsEvSn, 0)  as grsEvSn 
-				,m.grsEvSt
-				,m.prjCd
-				,m.evDt
-				,m.dlbrCrgr
-				,m.tssType 
-				,m.tssScnCd
-		from   tmp_grs m
-		where  1=1
-		 ]]>
+        /*retrieveGrsReqList GRS 평가 목록*/
+        with tmp_grs as (
+            select  m.wbsCd
+                   ,m.tssScnNm
+                   ,m.tssNm
+                   ,m.prjNm
+                   ,m.leaderNm
+                   ,m.dlbrCrgrNm
+                   ,m.tssDd
+                   ,m.grsEvStNm
+                   ,m.grsStNm
+                   ,m.tssCd
+                   ,m.tssCdSn
+                   ,m.grsStCd
+                   ,m.deptCd
+                   ,m.last_mdfy_dt
+                   ,m.tssSt
+                   ,m.tssScnCd
+                   ,m.frstRgstId
+                   ,m.dlbrCrgr
+                   ,m.leaderCd
+                   ,m.bizDptCd
+                   ,m.pgsStepCd
+                   ,m.evResult
+                   ,m.grsEvSn
+                   ,rtrim(m.grsEvSt) as grsEvSt
+                   ,m.prjCd
+                   ,m.evDt
+                   ,m.tssType
+            from   (
+            select  dbo.fn_getComDtlNm('TSS_SCN_CD',b.tss_scn_cd) AS tssScnNm
+                   ,iif(b.PGS_STEP_CD='PL' AND (select count(*) from IRIS_TSS_MGMT_MST where PK_WBS_CD = b.pk_wbs_cd)=1,'SEED-'+b.wbs_cd  , b.wbs_cd) as wbsCd
+                   ,b.TSS_NM as tssNm
+                   ,isnull(dbo.fn_getPrjName(b.PRJ_CD), b.PRJ_NM ) as prjNm
+                   ,isnull((select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new= b.SA_SABUN_NEW), a.SA_SABUN_NAME) as leaderNm
+                   ,isnull((select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new= a.dlbr_crgr), a.SA_SABUN_NAME) as dlbrCrgrNm
+                   ,b.tss_strt_dd+' ~ '+b.tss_fnh_dd as tssDd
+                   , dbo.fn_getComDtlNm('GRS_EV_ST',a.grs_ev_st)  AS grsEvStNm
+                   , dbo.fn_getComDtlNm('GRS_ST',a.grs_st_cd)  AS grsStNm
+                   , case when a.drop_yn = 'Y' then 'DROP'
+                          when a.GRS_EV_M_TYPE = 'HD' then '보류'
+                          when a.grs_st_cd ='101' and (a.drop_yn is null  or  a.drop_yn = '') then ''
+                          else 'PASS' end as evResult
+                   ,a.tss_cd as tssCd
+                   ,a.tss_cd_sn as tssCdSn
+                   ,b.tss_scn_cd  as tssScnCd
+                   ,a.grs_st_cd   as grsStCd
+                   ,a.last_mdfy_dt
+                   ,b.tss_st as tssSt
+                   ,b.dept_code  as deptCd
+                   ,a.dlbr_crgr as dlbrCrgr
+                   ,a.frst_rgst_id as frstRgstId
+                   ,b.SA_SABUN_NEW  as leaderCd
+                   ,b.biz_dpt_cd as bizDptCd
+                   ,b.pgs_step_cd as pgsStepCd
+                   ,a.grs_Ev_Sn as grsEvSn
+                   ,a.grs_Ev_ST as grsEvSt
+                   ,b.PRJ_CD as prjCd
+                   ,a.EV_DT as evDt
+                   ,b.TSS_TYPE as tssType
+            from    iris_grs_ev_rslt_rgst  a
+                    inner join IRIS_TSS_MGMT_MST b
+                    on b.TSS_CD = a.TSS_CD
+            union
+            select dbo.fn_getComDtlNm('TSS_SCN_CD',b.tss_scn_cd) AS tssScnNm
+                   ,iif(b.PGS_STEP_CD='PL' AND (select count(*) from IRIS_GRS_MGMT_MST where PK_WBS_CD = b.pk_wbs_cd)=1,'SEED-'+b.wbs_cd  , b.wbs_cd) as wbsCd
+                   ,b.TSS_NM
+                   ,isnull(dbo.fn_getPrjName(b.PRJ_CD), b.PRJ_NM ) as prjNm
+                   ,isnull((select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new= b.SA_SABUN_NEW), a.SA_SABUN_NAME) as leaderNm
+                   ,isnull((select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new= a.dlbr_crgr), a.SA_SABUN_NAME) as dlbrCrgrNm
+                   ,b.tss_strt_dd+' ~ '+b.tss_fnh_dd as tssDd
+                   , dbo.fn_getComDtlNm('GRS_EV_ST',a.grs_ev_st)  AS grsEvStNm
+                   , dbo.fn_getComDtlNm('GRS_ST',a.grs_st_cd)  AS grsStNm
+                   , case when a.drop_yn = 'Y' then 'DROP'
+                          when a.grs_st_cd ='101' and (a.drop_yn is null  or  a.drop_yn = '') then ''
+                          else 'PASS' end as evResult
+                   ,a.tss_cd as tssCd
+                   ,a.tss_cd_sn as tssCdSn
+                   ,b.tss_scn_cd  as tssScnCd
+                   ,a.grs_st_cd   as grsStCd
+                   ,a.last_mdfy_dt
+                   ,b.tss_st as tssSt
+                   ,b.dept_Cd  as deptCd
+                   ,a.dlbr_crgr as dlbrCrgr
+                   ,a.frst_rgst_id as frstRgstId
+                   ,b.SA_SABUN_NEW  as leaderCd
+                   ,b.biz_dpt_cd as bizDptCd
+                   ,b.pgs_step_cd as pgsStepCd
+                   ,a.grs_Ev_Sn  as grsEvSn
+                   ,a.grs_Ev_ST as grsEvSt
+                   ,b.PRJ_CD as prjCd
+                   ,a.EV_DT as evDt
+                   ,b.TSS_TYPE as tssType
+            from   iris_grs_ev_rslt_rgst a
+                   inner join iris_grs_mgmt_mst b
+                   on a.tss_cd = b.tss_cd
+            ) m
+        )
+
+        select  wbsCd, max(last_mdfy_dt) over(partition by wbsCd order by last_mdfy_dt desc), max(wbsCd) over(partition by wbsCd order by last_mdfy_dt desc)
+                ,m.tssScnNm
+                ,m.tssNm
+                ,m.prjNm
+                ,m.leaderNm
+                ,m.dlbrCrgrNm
+                ,m.tssDd
+                ,m.grsEvStNm
+                ,m.grsStNm
+                ,m.evResult
+                ,m.tssCd
+                ,m.tssCdSn
+                ,m.grsStCd
+                ,m.deptCd
+                ,m.tssSt
+                ,m.bizDptCd
+                ,m.pgsStepCd
+                ,isnull(m.grsEvSn, 0)  as grsEvSn
+                ,m.grsEvSt
+                ,m.prjCd
+                ,m.evDt
+                ,m.dlbrCrgr
+                ,m.tssType
+                ,m.tssScnCd
+        from   tmp_grs m
+        where  1=1
+         ]]>
         --AND a.tss_cd in ( SELECT MAX(TSS_CD) FROM iris_grs_ev_rslt_rgst where subString(TSS_CD,0,7) = a.PK_WBS_CD)
         <if test="tssRoleType == 'null' or tssRoleType.equals('') or tssRoleType.equals('S1')">
             AND 1 = 1
@@ -143,19 +143,19 @@
                 #{item}
             </foreach>
             OR (
-            dbo.fn_getGrsDeptCd(m.prjCd) = dbo.fn_getUpperDeptCd(#{_userDept})  
-            OR m.dlbrCrgr = #{_userSabun}								        
-            OR m.frstRgstId = #{_userId}									    
+            dbo.fn_getGrsDeptCd(m.prjCd) = dbo.fn_getUpperDeptCd(#{_userDept})
+            OR m.dlbrCrgr = #{_userSabun}
+            OR m.frstRgstId = #{_userId}
             ))
-		</if>
-       <!-- 
+        </if>
+       <!--
         <if test="tssRoleType != 'null' and tssRoleType.equals('S3')">
             AND
             (
-            dbo.fn_getGrsDeptCd(m.prjCd) = dbo.fn_getUpperDeptCd(#{_userDept})  
-            OR dbo.fn_getGrsDeptCd(m.prjCd) = dbo.fn_getRndDeptCd(#{_userDept}) 
-            OR m.dlbrCrgr = #{_userSabun}								        
-            OR m.frstRgstId = #{_userId}									    
+            dbo.fn_getGrsDeptCd(m.prjCd) = dbo.fn_getUpperDeptCd(#{_userDept})
+            OR dbo.fn_getGrsDeptCd(m.prjCd) = dbo.fn_getRndDeptCd(#{_userDept})
+            OR m.dlbrCrgr = #{_userSabun}
+            OR m.frstRgstId = #{_userId}
             )
         </if>
         -->
@@ -180,14 +180,14 @@
         <if test="grsStCd != null and grsStCd != 'null' and grsStCd != ''">
             AND m.grsStCd = #{grsStCd}
         </if>
-        
+
         order by 2 desc
     </select>
 
 
     <!-- GRS Todo 조회 -->
     <select id="retrieveGrsTodo" resultType="hashmap">
-		<![CDATA[
+        <![CDATA[
 --retrieveGrsTodo GRS Todo 조회
         SELECT
             TODO_SYS_CD     AS todoSysCd        --시스템 코드
@@ -218,7 +218,7 @@
         FROM VW_GRS_TODO
         WHERE TODO_REQ_NO = #{MW_TODO_REQ_NO}
         ]]>
-	</select>
+    </select>
 
     <select id="selectIsBeforGrs" resultType="String">
         SELECT COUNT(*)  FROM IRIS_GRS_MGMT_MST WHERE TSS_CD = #{tssCd}
@@ -226,7 +226,7 @@
 
     <!-- GRS결과요청 조회 -->
     <select id="retrieveGrsEvRslt" resultType="hashmap">
-		<![CDATA[
+        <![CDATA[
 --retrieveGrsEvRslt GRS 평가 상세
         SELECT
             A.PRJ_CD                                                                 AS prjCd      --프로젝트코드
@@ -246,7 +246,7 @@
              WHERE sm.GRS_EV_SN = B.GRS_EV_SN AND sm.GRS_EV_SEQ = 0)                 AS grsEvSnNm    --GRS평가표
            ,B.DLBR_PARR_DT                                                           AS dlbrParrDt --심의예정일
            ,B.DLBR_CRGR                                                              AS dlbrCrgr   --심의담당자
-            --, dbo.fn_getSabunName(B.DLBR_CRGR	) AS dlbrCrgrNm
+            --, dbo.fn_getSabunName(B.DLBR_CRGR    ) AS dlbrCrgrNm
            ,b.sa_sabun_name                                                          AS dlbrCrgrNm       --심의 담당자
            ,A.TSS_CD                                                                 AS tssCd      --과제코드
            ,B.TSS_CD_SN                                                              AS tssCdSn,
@@ -309,7 +309,7 @@
                    AND B.TSS_CD_SN = #{tssCdSn}
         WHERE A.TSS_CD = #{tssCd}
         ]]>
-	</select>
+    </select>
 
 
     <select id="retrieveGrsReqDtlLst" resultType="hashmap">
@@ -363,8 +363,8 @@
                    AND srr.TSS_CD = #{tssCd}
                    AND srr.tss_cd_sn = #{tssCdSn}) AS evScr
         FROM IRIS_GRS_EV_STD_MGMT sm
-		 ]]>
-			WHERE sm.GRS_EV_SN = '${grsEvSn}'
+         ]]>
+            WHERE sm.GRS_EV_SN = '${grsEvSn}'
               AND sm.GRS_EV_SEQ != 0
 
     </select>
@@ -372,13 +372,13 @@
 
     <!-- GRS평가항목 년도 조회 -->
     <select id="retrieveGrsEvStdGrsY" resultType="hashmap">
-		<![CDATA[
+        <![CDATA[
 --retrieveGrsEvStdGrsY GRS평가항목 년도 조회
         SELECT DISTINCT GRS_Y AS grsY -- 년도
         FROM IRIS_GRS_EV_STD_MGMT /*GRS평가표준*/
         WHERE GRS_Y IS NOT NULL
         ]]>
-	</select>
+    </select>
 
 
     <!-- GRS평가항목 목록 조회 -->
@@ -408,7 +408,7 @@
           FROM IRIS_GRS_EV_STD_MGMT  /*GRS평가표준*/
          WHERE GRS_EV_SEQ = 0
          AND   USE_YN ='Y'
-		 ]]>
+         ]]>
         <if test="grsY != null and !grsY.equals('')">
             AND GRS_Y = #{grsY}
         </if>
@@ -427,7 +427,7 @@
 
     <!-- GRS평가항목 상세 조회 -->
     <select id="retrieveGrsEvStdDtl" resultType="hashmap">
-		<![CDATA[
+        <![CDATA[
 --retrieveGrsEvStdDtl GRS평가항목 상세 조회
         SELECT
             A.GRS_EV_SN      AS grsEvSn     --평가표일련번호
@@ -468,7 +468,7 @@
         WHERE B.GRS_EV_SN = #{grsEvSn}
               AND B.GRS_EV_SEQ = '0'
         ]]>
-	</select>
+    </select>
 
 
     <!-- GRS평가결과 TODO호출 -->
@@ -667,7 +667,7 @@
 
     <!-- GRS 평가 완료 메일 정보  -->
     <select id="retrieveGrsMailInfo" resultType="hashmap">
-    	<![CDATA[
+        <![CDATA[
 --retrieveGrsMailInfo GRS 평가 완료 메일 정보
         select
             (select sa_mail
@@ -692,44 +692,44 @@
     <select id="selectGrsList" resultType="hashmap">
         <![CDATA[
 /*selectGrsList GRS 평가 목록 조회*/
-		SELECT
-			TSS_CD AS tssCd,
-			WBS_CD AS wbsCd,
-			PK_WBS_CD AS pkWbsCd,
-			PGS_STEP_CD AS pgsStepCd,
-			(SELECT COM_DTL_NM FROM DBO.IRIS_ADM_COM_CD WHERE COM_CD_CD='PGS_STEP_CD' AND GMM.PGS_STEP_CD=COM_DTL_CD) AS pgsStepNm,
-			TSS_ST AS tssSt,
-			(SELECT COM_DTL_NM FROM DBO.IRIS_ADM_COM_CD WHERE COM_CD_CD='TSS_ST' AND GMM.TSS_ST=COM_DTL_CD) AS tssStNm,
-			TSS_NM AS tssNm,
-			PRJ_CD AS prjCd,
-			PRJ_NM AS prjNm,
-			BIZ_DPT_CD AS bizDptCd,
-			PROD_G AS prodG,
-			TSS_SMRY_TXT AS tssSmryTxt,
-			CUST_SQLT AS custSqlt,
-			NPROD_SALS_PLN_Y AS nprodSalsPlnY,
-			CTY_OT_PLN_M AS ctyOtPlnM,
-			TSS_SCN_CD AS tssScnCd,
-			(SELECT COM_DTL_NM FROM DBO.IRIS_ADM_COM_CD WHERE COM_CD_CD='TSS_SCN_CD' AND GMM.TSS_SCN_CD=COM_DTL_CD) AS tssScnNm,
-			SA_SABUN_NEW AS saSabunNew,
-			SA_SABUN_NM AS saSabunNm,
-			TSS_STRT_DD AS tssStrtDd,
-			TSS_FNH_DD AS tssFnhDd,
-			TSS_FNH_DD + '~' +  TSS_STRT_DD AS tssDd,
-			GRS_YN AS grsYn,
-			TSS_ATTR_CD AS tssAttrCd,
-			TSS_TYPE AS tssType,
-			RSST_SPHE AS rsstSphe,
+        SELECT
+            TSS_CD AS tssCd,
+            WBS_CD AS wbsCd,
+            PK_WBS_CD AS pkWbsCd,
+            PGS_STEP_CD AS pgsStepCd,
+            (SELECT COM_DTL_NM FROM DBO.IRIS_ADM_COM_CD WHERE COM_CD_CD='PGS_STEP_CD' AND GMM.PGS_STEP_CD=COM_DTL_CD) AS pgsStepNm,
+            TSS_ST AS tssSt,
+            (SELECT COM_DTL_NM FROM DBO.IRIS_ADM_COM_CD WHERE COM_CD_CD='TSS_ST' AND GMM.TSS_ST=COM_DTL_CD) AS tssStNm,
+            TSS_NM AS tssNm,
+            PRJ_CD AS prjCd,
+            PRJ_NM AS prjNm,
+            BIZ_DPT_CD AS bizDptCd,
+            PROD_G AS prodG,
+            TSS_SMRY_TXT AS tssSmryTxt,
+            CUST_SQLT AS custSqlt,
+            NPROD_SALS_PLN_Y AS nprodSalsPlnY,
+            CTY_OT_PLN_M AS ctyOtPlnM,
+            TSS_SCN_CD AS tssScnCd,
+            (SELECT COM_DTL_NM FROM DBO.IRIS_ADM_COM_CD WHERE COM_CD_CD='TSS_SCN_CD' AND GMM.TSS_SCN_CD=COM_DTL_CD) AS tssScnNm,
+            SA_SABUN_NEW AS saSabunNew,
+            SA_SABUN_NM AS saSabunNm,
+            TSS_STRT_DD AS tssStrtDd,
+            TSS_FNH_DD AS tssFnhDd,
+            TSS_FNH_DD + '~' +  TSS_STRT_DD AS tssDd,
+            GRS_YN AS grsYn,
+            TSS_ATTR_CD AS tssAttrCd,
+            TSS_TYPE AS tssType,
+            RSST_SPHE AS rsstSphe,
             PPSL_MBD_CD AS ppslMbdCd,
-			SMR_SMRY_TXT AS smrSmryTxt,
-			SMR_GOAL_TXT AS smrGoalTxt,
-			FRST_RGST_DT AS frstRgstDt,
-			FRST_RGST_ID AS frstRgstId,
-			LAST_MDFY_DT AS lastMdfyDt,
-			LAST_MDFY_ID AS lastMdfyId
-  		FROM dbo.IRIS_GRS_MGMT_MST GMM
-  		WHERE 1=1
-    	]]>
+            SMR_SMRY_TXT AS smrSmryTxt,
+            SMR_GOAL_TXT AS smrGoalTxt,
+            FRST_RGST_DT AS frstRgstDt,
+            FRST_RGST_ID AS frstRgstId,
+            LAST_MDFY_DT AS lastMdfyDt,
+            LAST_MDFY_ID AS lastMdfyId
+          FROM dbo.IRIS_GRS_MGMT_MST GMM
+          WHERE 1=1
+        ]]>
             <if test="stssScnCd != null and stssScnCd != 'null' and stssScnCd != ''">
                 AND TSS_SCN_CD = #{stssScnCd}
             </if>
@@ -779,18 +779,18 @@
                m.RSST_SPHE AS rsstSphe,
                m.PPSL_MBD_CD AS ppslMbdCd,
                m.FC_CD as fcCd,
-			    case when CUST_SQLT = '01' then 'B2B제품군'
-			        when CUST_SQLT = '02' then '일반제품군'
-					else '' end as custSqltNm,
-			   dbo.fn_getComDtlNm('PROD_G',m.PROD_G)  AS  prodGNm ,
-			   dbo.fn_getComDtlNm('TSS_TYPE',m.TSS_TYPE)  AS  tssTypeNm ,
-			   dbo.fn_getComDtlNm('TSS_SCN_CD',m.TSS_SCN_CD)  AS  tssScnNm ,
-			   dbo.fn_getComDtlNm('BIZ_DPT_CD',m.BIZ_DPT_CD)  AS  bizDptNm ,
-			   dbo.fn_getComDtlNm('CUST_SQLT',m.CUST_SQLT)  AS  custSqltNm ,
-			   dbo.fn_getComDtlNm('TSS_ATTR_CD',m.TSS_ATTR_CD)  AS tssAttrNm  ,
-			   dbo.fn_getComDtlNm('RSST_SPHE',m.RSST_SPHE)  AS  rsstSpheNm ,
-			   dbo.fn_getComDtlNm('PPSL_MBD_CD',m.PPSL_MBD_CD)  AS ppslMbdNm  ,
-			   dbo.fn_getComDtlNm('FC_CD',m.FC_CD)  AS  fcNm ,
+                case when CUST_SQLT = '01' then 'B2B제품군'
+                    when CUST_SQLT = '02' then '일반제품군'
+                    else '' end as custSqltNm,
+               dbo.fn_getComDtlNm('PROD_G',m.PROD_G)  AS  prodGNm ,
+               dbo.fn_getComDtlNm('TSS_TYPE',m.TSS_TYPE)  AS  tssTypeNm ,
+               dbo.fn_getComDtlNm('TSS_SCN_CD',m.TSS_SCN_CD)  AS  tssScnNm ,
+               dbo.fn_getComDtlNm('BIZ_DPT_CD',m.BIZ_DPT_CD)  AS  bizDptNm ,
+               dbo.fn_getComDtlNm('CUST_SQLT',m.CUST_SQLT)  AS  custSqltNm ,
+               dbo.fn_getComDtlNm('TSS_ATTR_CD',m.TSS_ATTR_CD)  AS tssAttrNm  ,
+               dbo.fn_getComDtlNm('RSST_SPHE',m.RSST_SPHE)  AS  rsstSpheNm ,
+               dbo.fn_getComDtlNm('PPSL_MBD_CD',m.PPSL_MBD_CD)  AS ppslMbdNm  ,
+               dbo.fn_getComDtlNm('FC_CD',m.FC_CD)  AS  fcNm ,
                '1' as isEditable
         FROM dbo.IRIS_GRS_MGMT_MST m
         WHERE m.TSS_CD = #{tssCd}
@@ -821,18 +821,18 @@
                m.RSST_SPHE AS rsstSphe,
                m.PPSL_MBD_CD AS ppslMbdCd,
                m.FC_CD as fcCd,
-			    case when CUST_SQLT = '01' then 'B2B제품군'
-			        when CUST_SQLT = '02' then '일반제품군'
-					else '' end as custSqltNm,
-			   dbo.fn_getComDtlNm('PROD_G',m.PROD_G)  AS  prodGNm ,
-			   dbo.fn_getComDtlNm('TSS_TYPE',m.TSS_TYPE)  AS  tssTypeNm ,
-			   dbo.fn_getComDtlNm('TSS_SCN_CD',m.TSS_SCN_CD)  AS  tssScnNm ,
-			   dbo.fn_getComDtlNm('BIZ_DPT_CD',m.BIZ_DPT_CD)  AS  bizDptNm ,
-			   dbo.fn_getComDtlNm('CUST_SQLT',m.CUST_SQLT)  AS  custSqltNm ,
-			   dbo.fn_getComDtlNm('TSS_ATTR_CD',m.TSS_ATTR_CD)  AS tssAttrNm  ,
-			   dbo.fn_getComDtlNm('RSST_SPHE',m.RSST_SPHE)  AS  rsstSpheNm ,
-			   dbo.fn_getComDtlNm('PPSL_MBD_CD',m.PPSL_MBD_CD)  AS ppslMbdNm  ,
-			   dbo.fn_getComDtlNm('FC_CD',m.FC_CD)  AS  fcNm ,
+                case when CUST_SQLT = '01' then 'B2B제품군'
+                    when CUST_SQLT = '02' then '일반제품군'
+                    else '' end as custSqltNm,
+               dbo.fn_getComDtlNm('PROD_G',m.PROD_G)  AS  prodGNm ,
+               dbo.fn_getComDtlNm('TSS_TYPE',m.TSS_TYPE)  AS  tssTypeNm ,
+               dbo.fn_getComDtlNm('TSS_SCN_CD',m.TSS_SCN_CD)  AS  tssScnNm ,
+               dbo.fn_getComDtlNm('BIZ_DPT_CD',m.BIZ_DPT_CD)  AS  bizDptNm ,
+               dbo.fn_getComDtlNm('CUST_SQLT',m.CUST_SQLT)  AS  custSqltNm ,
+               dbo.fn_getComDtlNm('TSS_ATTR_CD',m.TSS_ATTR_CD)  AS tssAttrNm  ,
+               dbo.fn_getComDtlNm('RSST_SPHE',m.RSST_SPHE)  AS  rsstSpheNm ,
+               dbo.fn_getComDtlNm('PPSL_MBD_CD',m.PPSL_MBD_CD)  AS ppslMbdNm  ,
+               dbo.fn_getComDtlNm('FC_CD',m.FC_CD)  AS  fcNm ,
                '0' as isEditable
         FROM dbo.IRIS_TSS_MGMT_MST m
         WHERE m.TSS_CD = #{tssCd}
@@ -855,100 +855,100 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
         ]]>
         </selectKey>
         <![CDATA[
-		INSERT
-		       (
-	           TSS_CD,
-	           WBS_CD,
-	           PK_WBS_CD,
-	           PGS_STEP_CD,
-	           TSS_ST,
-	           TSS_SCN_CD,
-	           GRS_YN,
-	           TSS_NM,
-	           PRJ_CD,
-	           PRJ_NM,
-	           DEPT_CD,
-	           BIZ_DPT_CD,
-	           PROD_G,
-	           SA_SABUN_NEW,
-	           SA_SABUN_NM,
-	           TSS_STRT_DD,
-	           TSS_FNH_DD,
-	           CUST_SQLT,
-	           TSS_SMRY_TXT,
-	           TSS_ATTR_CD,
-	           TSS_TYPE,
-	           SMR_SMRY_TXT,
-	           SMR_GOAL_TXT,
-	           NPROD_SALS_PLN_Y,
-	           CTY_OT_PLN_M,
-	           FC_CD,
-	           RSST_SPHE,
-	           PPSL_MBD_CD,
-	           FRST_RGST_DT,
-	           FRST_RGST_ID,
-	           LAST_MDFY_DT,
-	           LAST_MDFY_ID
-		       )VALUES(
-				#{newTssCd},
-				#{wbsCd},
-				#{pkWbsCd},
-				#{pgsStepCd},
-				#{tssSt},
-				#{tssScnCd},
-				#{grsYn},
-				#{tssNm},
-				#{prjCd},
-				#{prjNm},
-				#{deptCode},
-				#{bizDptCd},
-				#{prodG},
-				#{saSabunNew},
-				#{saSabunNm},
-				#{tssStrtDd},
-				#{tssFnhDd},
-				#{custSqlt},
-				#{tssSmryTxt},
-	            #{tssAttrCd},
-	            #{tssType},
-	            #{smrSmryTxt},
-	            #{smrGoalTxt},
-	           cast(#{nprodSalsPlnY} as FLOAT),
-				#{ctyOtPlnM},
-				#{fcCd},
-				#{rsstSphe},
-				#{ppslMbdCd},
-				GETDATE(),
-				#{userId},
-				GETDATE(),
-				#{userId}
-		       )
+        INSERT
+               (
+               TSS_CD,
+               WBS_CD,
+               PK_WBS_CD,
+               PGS_STEP_CD,
+               TSS_ST,
+               TSS_SCN_CD,
+               GRS_YN,
+               TSS_NM,
+               PRJ_CD,
+               PRJ_NM,
+               DEPT_CD,
+               BIZ_DPT_CD,
+               PROD_G,
+               SA_SABUN_NEW,
+               SA_SABUN_NM,
+               TSS_STRT_DD,
+               TSS_FNH_DD,
+               CUST_SQLT,
+               TSS_SMRY_TXT,
+               TSS_ATTR_CD,
+               TSS_TYPE,
+               SMR_SMRY_TXT,
+               SMR_GOAL_TXT,
+               NPROD_SALS_PLN_Y,
+               CTY_OT_PLN_M,
+               FC_CD,
+               RSST_SPHE,
+               PPSL_MBD_CD,
+               FRST_RGST_DT,
+               FRST_RGST_ID,
+               LAST_MDFY_DT,
+               LAST_MDFY_ID
+               )VALUES(
+                #{newTssCd},
+                #{wbsCd},
+                #{pkWbsCd},
+                #{pgsStepCd},
+                #{tssSt},
+                #{tssScnCd},
+                #{grsYn},
+                #{tssNm},
+                #{prjCd},
+                #{prjNm},
+                #{deptCode},
+                #{bizDptCd},
+                #{prodG},
+                #{saSabunNew},
+                #{saSabunNm},
+                #{tssStrtDd},
+                #{tssFnhDd},
+                #{custSqlt},
+                #{tssSmryTxt},
+                #{tssAttrCd},
+                #{tssType},
+                #{smrSmryTxt},
+                #{smrGoalTxt},
+               cast(#{nprodSalsPlnY} as FLOAT),
+                #{ctyOtPlnM},
+                #{fcCd},
+                #{rsstSphe},
+                #{ppslMbdCd},
+                GETDATE(),
+                #{userId},
+                GETDATE(),
+                #{userId}
+               )
     WHEN MATCHED THEN
         UPDATE SET
-				GRS_YN = #{grsYn},
-				TSS_NM = #{tssNm},
-				PRJ_CD = #{prjCd},
-				PRJ_NM = #{prjNm},
-				DEPT_CD = #{deptCode},
-				BIZ_DPT_CD = #{bizDptCd},
-				PROD_G = #{prodG},
-				SA_SABUN_NEW = #{saSabunNew},
-				SA_SABUN_NM = #{saSabunNm},
-				TSS_STRT_DD = #{tssStrtDd},
-				TSS_FNH_DD = #{tssFnhDd},
-				CUST_SQLT = #{custSqlt},
-				TSS_SMRY_TXT = #{tssSmryTxt},
-				TSS_ATTR_CD = #{tssAttrCd},
-				TSS_TYPE = #{tssType},
-				SMR_SMRY_TXT = #{smrSmryTxt},
-				SMR_GOAL_TXT = #{smrGoalTxt},
-				NPROD_SALS_PLN_Y = cast(#{nprodSalsPlnY} as FLOAT),
-				CTY_OT_PLN_M = #{ctyOtPlnM},
-				FC_CD = #{fcCd},
-	           LAST_MDFY_DT = GETDATE(),
-	           LAST_MDFY_ID = #{userId}
+                GRS_YN = #{grsYn},
+                TSS_NM = #{tssNm},
+                PRJ_CD = #{prjCd},
+                PRJ_NM = #{prjNm},
+                DEPT_CD = #{deptCode},
+                BIZ_DPT_CD = #{bizDptCd},
+                PROD_G = #{prodG},
+                SA_SABUN_NEW = #{saSabunNew},
+                SA_SABUN_NM = #{saSabunNm},
+                TSS_STRT_DD = #{tssStrtDd},
+                TSS_FNH_DD = #{tssFnhDd},
+                CUST_SQLT = #{custSqlt},
+                TSS_SMRY_TXT = #{tssSmryTxt},
+                TSS_ATTR_CD = #{tssAttrCd},
+                TSS_TYPE = #{tssType},
+                SMR_SMRY_TXT = #{smrSmryTxt},
+                SMR_GOAL_TXT = #{smrGoalTxt},
+                NPROD_SALS_PLN_Y = cast(#{nprodSalsPlnY} as FLOAT),
+                CTY_OT_PLN_M = #{ctyOtPlnM},
+                FC_CD = #{fcCd},
+               LAST_MDFY_DT = GETDATE(),
+               LAST_MDFY_ID = #{userId}
     ;
-    	]]>
+        ]]>
     </insert>
 
 
@@ -958,63 +958,63 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
         INSERT
         INTO IRIS_TSS_MGMT_MST
         (
-            TSS_CD 
-            ,WBS_CD 
-            ,PK_WBS_CD 
-            ,PGS_STEP_CD 
-            ,TSS_ST 
-            ,TSS_SCN_CD 
-            ,DEPT_CODE 
-            ,TSS_NM 
-            ,PRJ_CD 
-            ,PRJ_NM 
-            ,BIZ_DPT_CD 
-            ,PROD_G 
-            ,SA_SABUN_NEW 
-            ,SA_SABUN_NAME 
-            ,TSS_STRT_DD 
-            ,TSS_FNH_DD 
-            ,CUST_SQLT 
+            TSS_CD
+            ,WBS_CD
+            ,PK_WBS_CD
+            ,PGS_STEP_CD
+            ,TSS_ST
+            ,TSS_SCN_CD
+            ,DEPT_CODE
+            ,TSS_NM
+            ,PRJ_CD
+            ,PRJ_NM
+            ,BIZ_DPT_CD
+            ,PROD_G
+            ,SA_SABUN_NEW
+            ,SA_SABUN_NAME
+            ,TSS_STRT_DD
+            ,TSS_FNH_DD
+            ,CUST_SQLT
             ,TSS_NOS_ST
-            ,TSS_SMRY_TXT 
-            ,TSS_ATTR_CD 
-            ,TSS_TYPE 
-            ,FRST_RGST_DT 
-            ,FRST_RGST_ID 
-            ,LAST_MDFY_DT 
+            ,TSS_SMRY_TXT
+            ,TSS_ATTR_CD
+            ,TSS_TYPE
+            ,FRST_RGST_DT
+            ,FRST_RGST_ID
+            ,LAST_MDFY_DT
             ,LAST_MDFY_ID
             ,GRS_YN
-            ,FC_CD 
-            ,RSST_SPHE 
-            ,PPSL_MBD_CD 
+            ,FC_CD
+            ,RSST_SPHE
+            ,PPSL_MBD_CD
         )
-            SELECT #{tssCd} 
-                ,g.WBS_CD 
-                ,g.PK_WBS_CD 
-                ,#{pgsStepCd} 
-                ,g.TSS_ST 
-                ,g.TSS_SCN_CD 
+            SELECT #{tssCd}
+                ,g.WBS_CD
+                ,g.PK_WBS_CD
+                ,#{pgsStepCd}
+                ,g.TSS_ST
+                ,g.TSS_SCN_CD
                 ,(SELECT dbo.fn_getUpperDeptCd(DEPT_CD)
                  FROM IRIS_PRJ_RSST_MST p
                  WHERE PRJ_CD=g.PRJ_CD
-                ) as DEPT_CODE 
-                ,g.TSS_NM 
-                ,g.PRJ_CD 
-                ,g.PRJ_NM 
-                ,g.BIZ_DPT_CD 
-                ,g.PROD_G 
-                ,g.SA_SABUN_NEW 
-                ,g.SA_SABUN_NM 
-                ,g.TSS_STRT_DD 
-                ,g.TSS_FNH_DD 
-                ,g.CUST_SQLT 
+                ) as DEPT_CODE
+                ,g.TSS_NM
+                ,g.PRJ_CD
+                ,g.PRJ_NM
+                ,g.BIZ_DPT_CD
+                ,g.PROD_G
+                ,g.SA_SABUN_NEW
+                ,g.SA_SABUN_NM
+                ,g.TSS_STRT_DD
+                ,g.TSS_FNH_DD
+                ,g.CUST_SQLT
                 ,#{tssNosSt}
-                ,g.TSS_SMRY_TXT 
-                ,g.TSS_ATTR_CD 
-                ,g.TSS_TYPE 
-                ,g.FRST_RGST_DT 
-                ,g.FRST_RGST_ID 
-                ,g.LAST_MDFY_DT 
+                ,g.TSS_SMRY_TXT
+                ,g.TSS_ATTR_CD
+                ,g.TSS_TYPE
+                ,g.FRST_RGST_DT
+                ,g.FRST_RGST_ID
+                ,g.LAST_MDFY_DT
                 ,g.LAST_MDFY_ID
                 ,g.GRS_YN
                 ,g.FC_CD
@@ -1041,58 +1041,58 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 INSERT
                 INTO IRIS_TSS_GEN_SMRY
                 (
-                 TSS_CD 
+                 TSS_CD
                 ,CTY_OT_PLN_M
                 ,ANCP_OT_PLN_DT
-		<choose>
-		<when test="grsEvSt == 'G2' ">
-			    ,NPROD_NM          
-				,NPROD_SALS_CUR_Y  
-				,NPROD_SALS_CUR_Y_1
-				,NPROD_SALS_CUR_Y_2
-				,BIZ_PRFT_Pro_CUR_Y  
-			    ,BIZ_PRFT_Pro_CUR_Y_1 
-			    ,BIZ_PRFT_Pro_CUR_Y_2 
-				,BIZ_PRFT_CUR_Y    
-				,BIZ_PRFT_CUR_Y_1  
-				,BIZ_PRFT_CUR_Y_2  
-				,PTC_CPSN_CUR_Y    
-				,PTC_CPSN_CUR_Y_1  
-				,PTC_CPSN_CUR_Y_2  
-				,PTC_CPSN_CUR_Y_3  
-				,PTC_CPSN_CUR_Y_4  
-				,EXP_ARSL_CUR_Y    
-				,EXP_ARSL_CUR_Y_1  
-				,EXP_ARSL_CUR_Y_2  
-				,EXP_ARSL_CUR_Y_3  
-				,EXP_ARSL_CUR_Y_4  
-		</when>
-		<otherwise>
-				,NPROD_SALS_PLN_Y   
-				,NPROD_SALS_PLN_Y_1 
-				,NPROD_SALS_PLN_Y_2 
-				,BIZ_PRFT_PLN_Y     
-				,BIZ_PRFT_PLN_Y_1   
-				,BIZ_PRFT_PLN_Y_2   
-				,BIZ_PRFT_Pro_Y
-			    ,BIZ_PRFT_Pro_Y_1  
-				,BIZ_PRFT_Pro_Y_2  
-				,PTC_CPSN_Y         
-				,PTC_CPSN_Y_1       
-				,PTC_CPSN_Y_2       
-				,PTC_CPSN_Y_3       
-				,PTC_CPSN_Y_4       
-				,EXP_ARSL_Y         
-				,EXP_ARSL_Y_1       
-				,EXP_ARSL_Y_2       
-				,EXP_ARSL_Y_3       
-				,EXP_ARSL_Y_4       
-    		</otherwise>
-		</choose>
-				,ATTC_FIL_ID
-                ,FRST_RGST_DT 
-                ,FRST_RGST_ID 
-                ,LAST_MDFY_DT 
+        <choose>
+        <when test="grsEvSt == 'G2' ">
+                ,NPROD_NM
+                ,NPROD_SALS_CUR_Y
+                ,NPROD_SALS_CUR_Y_1
+                ,NPROD_SALS_CUR_Y_2
+                ,BIZ_PRFT_Pro_CUR_Y
+                ,BIZ_PRFT_Pro_CUR_Y_1
+                ,BIZ_PRFT_Pro_CUR_Y_2
+                ,BIZ_PRFT_CUR_Y
+                ,BIZ_PRFT_CUR_Y_1
+                ,BIZ_PRFT_CUR_Y_2
+                ,PTC_CPSN_CUR_Y
+                ,PTC_CPSN_CUR_Y_1
+                ,PTC_CPSN_CUR_Y_2
+                ,PTC_CPSN_CUR_Y_3
+                ,PTC_CPSN_CUR_Y_4
+                ,EXP_ARSL_CUR_Y
+                ,EXP_ARSL_CUR_Y_1
+                ,EXP_ARSL_CUR_Y_2
+                ,EXP_ARSL_CUR_Y_3
+                ,EXP_ARSL_CUR_Y_4
+        </when>
+        <otherwise>
+                ,NPROD_SALS_PLN_Y
+                ,NPROD_SALS_PLN_Y_1
+                ,NPROD_SALS_PLN_Y_2
+                ,BIZ_PRFT_PLN_Y
+                ,BIZ_PRFT_PLN_Y_1
+                ,BIZ_PRFT_PLN_Y_2
+                ,BIZ_PRFT_Pro_Y
+                ,BIZ_PRFT_Pro_Y_1
+                ,BIZ_PRFT_Pro_Y_2
+                ,PTC_CPSN_Y
+                ,PTC_CPSN_Y_1
+                ,PTC_CPSN_Y_2
+                ,PTC_CPSN_Y_3
+                ,PTC_CPSN_Y_4
+                ,EXP_ARSL_Y
+                ,EXP_ARSL_Y_1
+                ,EXP_ARSL_Y_2
+                ,EXP_ARSL_Y_3
+                ,EXP_ARSL_Y_4
+            </otherwise>
+        </choose>
+                ,ATTC_FIL_ID
+                ,FRST_RGST_DT
+                ,FRST_RGST_ID
+                ,LAST_MDFY_DT
                 ,LAST_MDFY_ID
                 )
                 VALUES
@@ -1102,49 +1102,49 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 ,#{ancpOtPlnDt}
                <choose>
                 <when test="grsEvSt == 'G2' ">
-			    ,#{nprodNm}
-				,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY} = '' THEN '0' ELSE #{nprodSalsCurY} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY1} = '' THEN '0' ELSE #{nprodSalsCurY1} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY2} = '' THEN '0' ELSE #{nprodSalsCurY2} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY} = '' THEN '0' ELSE #{bizPrftProCurY} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY1} = '' THEN '0' ELSE #{bizPrftProCurY1} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY2} = '' THEN '0' ELSE #{bizPrftProCurY2} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY} = '' THEN '0' ELSE #{bizPrftCurY} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY1} = '' THEN '0' ELSE #{bizPrftCurY1} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY2} = '' THEN '0' ELSE #{bizPrftCurY2} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY} = '' THEN '0' ELSE #{ptcCpsnCurY} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY1} = '' THEN '0' ELSE #{ptcCpsnCurY1} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY2} = '' THEN '0' ELSE #{ptcCpsnCurY2} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY3} = '' THEN '0' ELSE #{ptcCpsnCurY3} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY4} = '' THEN '0' ELSE #{ptcCpsnCurY4} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY} = '' THEN '0' ELSE #{expArslCurY} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY1} = '' THEN '0' ELSE #{expArslCurY1} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY2} = '' THEN '0' ELSE #{expArslCurY2} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY3} = '' THEN '0' ELSE #{expArslCurY3} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY4} = '' THEN '0' ELSE #{expArslCurY4} END)
-		</when>
-		<otherwise>
-				,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY1} = '' THEN '0' ELSE #{nprodSalsPlnY1} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY2} = '' THEN '0' ELSE #{nprodSalsPlnY2} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY} = '' THEN '0' ELSE #{bizPrftPlnY} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY1} = '' THEN '0' ELSE #{bizPrftPlnY1} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY2} = '' THEN '0' ELSE #{bizPrftPlnY2} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY} = '' THEN '0' ELSE #{bizPrftProY} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY1} = '' THEN '0' ELSE #{bizPrftProY1} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY2} = '' THEN '0' ELSE #{bizPrftProY2} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{expArslY} = '' THEN '0' ELSE #{expArslY} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{expArslY1} = '' THEN '0' ELSE #{expArslY1} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{expArslY2} = '' THEN '0' ELSE #{expArslY2} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{expArslY3} = '' THEN '0' ELSE #{expArslY3} END)
-				,CONVERT(numeric(15, 2), CASE WHEN #{expArslY4} = '' THEN '0' ELSE #{expArslY4} END)
-	    		</otherwise>
-		</choose>
+                ,#{nprodNm}
+                ,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY} = '' THEN '0' ELSE #{nprodSalsCurY} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY1} = '' THEN '0' ELSE #{nprodSalsCurY1} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY2} = '' THEN '0' ELSE #{nprodSalsCurY2} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY} = '' THEN '0' ELSE #{bizPrftProCurY} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY1} = '' THEN '0' ELSE #{bizPrftProCurY1} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY2} = '' THEN '0' ELSE #{bizPrftProCurY2} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY} = '' THEN '0' ELSE #{bizPrftCurY} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY1} = '' THEN '0' ELSE #{bizPrftCurY1} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY2} = '' THEN '0' ELSE #{bizPrftCurY2} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY} = '' THEN '0' ELSE #{ptcCpsnCurY} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY1} = '' THEN '0' ELSE #{ptcCpsnCurY1} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY2} = '' THEN '0' ELSE #{ptcCpsnCurY2} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY3} = '' THEN '0' ELSE #{ptcCpsnCurY3} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY4} = '' THEN '0' ELSE #{ptcCpsnCurY4} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY} = '' THEN '0' ELSE #{expArslCurY} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY1} = '' THEN '0' ELSE #{expArslCurY1} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY2} = '' THEN '0' ELSE #{expArslCurY2} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY3} = '' THEN '0' ELSE #{expArslCurY3} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY4} = '' THEN '0' ELSE #{expArslCurY4} END)
+        </when>
+        <otherwise>
+                ,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY1} = '' THEN '0' ELSE #{nprodSalsPlnY1} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY2} = '' THEN '0' ELSE #{nprodSalsPlnY2} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY} = '' THEN '0' ELSE #{bizPrftPlnY} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY1} = '' THEN '0' ELSE #{bizPrftPlnY1} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY2} = '' THEN '0' ELSE #{bizPrftPlnY2} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY} = '' THEN '0' ELSE #{bizPrftProY} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY1} = '' THEN '0' ELSE #{bizPrftProY1} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY2} = '' THEN '0' ELSE #{bizPrftProY2} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{expArslY} = '' THEN '0' ELSE #{expArslY} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{expArslY1} = '' THEN '0' ELSE #{expArslY1} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{expArslY2} = '' THEN '0' ELSE #{expArslY2} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{expArslY3} = '' THEN '0' ELSE #{expArslY3} END)
+                ,CONVERT(numeric(15, 2), CASE WHEN #{expArslY4} = '' THEN '0' ELSE #{expArslY4} END)
+                </otherwise>
+        </choose>
                 , #{attcFilId}
                 , GETDATE()
                 , #{userId}
@@ -1231,14 +1231,14 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 
     <!-- GRS 기본 정보 삭제 -->
     <delete id="deleteDefInfo">
-	    <![CDATA[
+        <![CDATA[
 /* deleteDefInfo GRS 기본 정보 삭제*/
         DELETE FROM dbo.IRIS_GRS_MGMT_MST
         WHERE TSS_CD = #{tssCd};
         ]]>
     </delete>
     <delete id="deleteGrsInfo">
-	    <![CDATA[
+        <![CDATA[
 /* deleteDefInfo GRS 기본 정보 삭제*/
         DELETE FROM dbo.IRIS_GRS_EV_RSLT_RGST
         WHERE TSS_CD = #{tssCd};
@@ -1256,12 +1256,12 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             , LAST_MDFY_ID = #{userId}
         WHERE TSS_CD = #{tssCd}
         ]]>
-	</update>
+    </update>
 
-    
+
         <!-- GRS 품의요청 내역 조회 -->
     <select id="retrieveGrsApproval" resultType="hashmap">
-		<![CDATA[
+        <![CDATA[
 --retrieveGrsApproval GRS 품의요청 내역 조회
         SELECT
             A.PRJ_CD         AS prjCd      --프로젝트코드
@@ -1272,8 +1272,8 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             ,ISNULL(A.TSS_TYPE,'')       AS tssType    -- 개발유형
             ,dbo.fn_getComDtlNm('TSS_TYPE',A.TSS_TYPE)   AS tssTypeNm     -- 심의단계명
             ,B.EV_TITL        AS evTitl     --일시, 장소
-		    ,B.grs_ev_st	     AS grsEvSt	--G1:초기,G2:최종,M:변경      심의단계
-		    ,dbo.fn_getComDtlNm('GRS_EV_ST',B.grs_ev_st)   AS grsEvStNm     -- 심의단계명
+            ,B.grs_ev_st         AS grsEvSt    --G1:초기,G2:최종,M:변경      심의단계
+            ,dbo.fn_getComDtlNm('GRS_EV_ST',B.grs_ev_st)   AS grsEvStNm     -- 심의단계명
             ,(select stuff((select ',' +
                                   sa_name
                            from IRIS_SSO_USER
@@ -1284,12 +1284,12 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                            FOR XML PATH ('')), 1, 1, '')) AS cfrnAtdtCdTxtNm --참석자
             ,B.COMM_TXT       AS commTxt            --주요 Comment
             ,B.ATTC_FIL_ID    AS attcFilId        --첨부파일
-            ,(SELECT CONVERT(DECIMAL(3,1),ROUND(sum(srr.EV_SCR / 5 * sm.WGVL),1),2)
+            ,(SELECT CONVERT(DECIMAL(4,1),ROUND(sum(srr.EV_SCR / 5 * sm.WGVL),1),2)
              FROM iris_grs_ev_std_rslt_rgst srr,
                   IRIS_GRS_EV_STD_MGMT sm
              WHERE sm.GRS_EV_SN = srr.GRS_EV_SN
                    AND sm.GRS_EV_SEQ = srr.GRS_EV_SEQ
-                   AND srr.TSS_CD =  A.TSS_CD 
+                   AND srr.TSS_CD =  A.TSS_CD
                    AND srr.tss_cd_sn = (SELECT MAX(TSS_CD_SN)  FROM IRIS_GRS_EV_RSLT_RGST WHERE TSS_CD = A.TSS_CD )
                    ) AS evScr    --등급평균
           ,iif(B.DROP_YN is null or B.DROP_YN='','N',B.DROP_YN) as  dropYn
@@ -1303,505 +1303,505 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                    AND B.TSS_CD_SN = (SELECT MAX(TSS_CD_SN)  FROM IRIS_GRS_EV_RSLT_RGST WHERE TSS_CD = A.TSS_CD)
        WHERE A.TSS_CD IN
         ]]>
-	        <foreach collection="tssCdList" index="index" item="item" separator="," open="(" close=")">
-            	'${tssCdList[index]}'
-        	</foreach>
+            <foreach collection="tssCdList" index="index" item="item" separator="," open="(" close=")">
+                '${tssCdList[index]}'
+            </foreach>
 
-	</select>
-	
-	<update id="updateApprGuid">
+    </select>
+
+    <update id="updateApprGuid">
         /*updateApprGuid GRS 품의 요청  GUID update(마스타 테이블)*/
-		update	IRIS_TSS_MGMT_MST
-		set		GUID = #{guid}
-		where	TSS_CD IN
-	        <foreach collection="tssCdList" index="index" item="item" separator="," open="(" close=")">
-            	'${tssCdList[index]}'
-        	</foreach>
+        update    IRIS_TSS_MGMT_MST
+        set        GUID = #{guid}
+        where    TSS_CD IN
+            <foreach collection="tssCdList" index="index" item="item" separator="," open="(" close=")">
+                '${tssCdList[index]}'
+            </foreach>
 
-	</update>
+    </update>
 
-	<select id="getGuid" resultType="String">
+    <select id="getGuid" resultType="String">
                 <![CDATA[
             SELECT 'H'
-			     + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
-			     + REPLICATE('0', 4 - LEN(CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)))
-			     + CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)
-			  FROM IRIS_COM_ITG_RDCS X
-			 WHERE SUBSTRING(X.GUID, 1, 7) = 'H' + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
+                 + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
+                 + REPLICATE('0', 4 - LEN(CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)))
+                 + CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)
+              FROM IRIS_COM_ITG_RDCS X
+             WHERE SUBSTRING(X.GUID, 1, 7) = 'H' + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
         ]]>
     </select>
-    
+
        <update id="updateGrsDecode">
-    	update IRIS_GRS_EV_RSLT_RGST
-		set    EV_TITL = #{evTitl}
-		      ,COMM_TXT = #{commTxt}
-		where  tss_cd = #{tssCd}
-		and    TSS_CD_SN = #{tssCdSn}
+        update IRIS_GRS_EV_RSLT_RGST
+        set    EV_TITL = #{evTitl}
+              ,COMM_TXT = #{commTxt}
+        where  tss_cd = #{tssCd}
+        and    TSS_CD_SN = #{tssCdSn}
     </update>
-    
+
     <select id="retrieveGrsDecodeList"  resultType="hashmap">
-    	select  '0' as chk
-    	      , tss_cd   as tssCd
-		      ,tss_cd_sn as tssCdSn
-			  ,isnull(EV_TITL, '') as evTitl 
-			  ,isnull(COMM_TXT, '')  as commTxt
-		from   IRIS_GRS_EV_RSLT_RGST
-		 <![CDATA[
+        select  '0' as chk
+              , tss_cd   as tssCd
+              ,tss_cd_sn as tssCdSn
+              ,isnull(EV_TITL, '') as evTitl
+              ,isnull(COMM_TXT, '')  as commTxt
+        from   IRIS_GRS_EV_RSLT_RGST
+         <![CDATA[
         where  ( COMM_TXT <> '' or  COMM_TXT is not null)
         ]]>
         order by frst_rgst_dt desc
     </select>
-    
+
     <select id="retrieveTssInfo" resultType="hashmap">
-    	select   m.TSS_SCN_CD    as  tssScnCd   
-				,m.grs_yn        as  grsYn      
-				,m.prj_nm        as  prjNm      
-				,m.TSS_NM        as  tssNm      
-				,m.sa_sabun_nm   as  saSabunNm  
-				,m.BIZ_DPT_CD    as  bizDptCd   
-				,m.PROD_G        as  prodG      
-				,m.CUST_SQLT     as  custSqlt   
-				,m.TSS_CD        as  tssCd      
-				,m.WBS_CD        as  wbsCd      
-				,m.TSS_STRT_DD   as  tssStrtDd  
-				,m.TSS_FNH_DD    as  tssFnhDd   
-				,m.TSS_TYPE      as  tssType    
-				,m.FC_CD         as  fcCd       
-				,m.TSS_ATTR_CD   as  tssAttrCd  
-				,m.sa_Sabun_new  as  saSabunNew 
-				,m.PRJ_CD        as  prjCd    
-				,m.tss_st        as  tssSt  
-				,m.pgs_step_cd   as  pgs_step_cd
-				,m.pk_wbs_cd     as  pk_wbs_cd
-				,m.dept_code     as  dept_cd
-		from (
-			select  TSS_SCN_CD
-					,case when (select count(x.tss_cd) from IRIS_GRS_EV_RSLT_RGST x where  x.tss_cd = tss_cd ) > 0 then 'Y'
-							else 'N' end as grs_yn
-					,dbo.fn_getPrjName(prj_cd) as prj_nm
-					,dbo.fn_getSabunName(sa_sabun_new) as sa_sabun_nm
-					,BIZ_DPT_CD
-					,PROD_G
-					,TSS_CD
-					,WBS_CD
-					,TSS_NM
-					,CUST_SQLT
-					,TSS_ATTR_CD
-					,TSS_STRT_DD
-					,TSS_FNH_DD   
-					,TSS_TYPE
-					,FC_CD
-					,sa_Sabun_new
-					,PRJ_CD
-					,tss_st
-					,pgs_step_cd
-					,pk_wbs_cd
-					,dept_code  
-			from   IRIS_TSS_MGMT_MST
-			where  tss_cd = #{tssCd}
-			union 
-			select   TSS_SCN_CD
-					,grs_yn
-					,dbo.fn_getPrjName(prj_cd) as prj_nm
-					,dbo.fn_getSabunName(SA_SABUN_NEW) as sa_sabun_nm
-					,BIZ_DPT_CD
-					,PROD_G
-					,TSS_CD
-					,WBS_CD
-					,TSS_NM
-					,CUST_SQLT
-					,TSS_ATTR_CD
-					,TSS_STRT_DD
-					,TSS_FNH_DD   
-					,TSS_TYPE
-					,FC_CD
-					,SA_SABUN_NEW
-					,PRJ_CD
-					,tss_st
-					,pgs_step_cd
-					,pk_wbs_cd
-					,dept_cd as dept_code
-			from   IRIS_GRS_MGMT_MST
-			where  tss_cd = #{tssCd}
-			) m
+        select   m.TSS_SCN_CD    as  tssScnCd
+                ,m.grs_yn        as  grsYn
+                ,m.prj_nm        as  prjNm
+                ,m.TSS_NM        as  tssNm
+                ,m.sa_sabun_nm   as  saSabunNm
+                ,m.BIZ_DPT_CD    as  bizDptCd
+                ,m.PROD_G        as  prodG
+                ,m.CUST_SQLT     as  custSqlt
+                ,m.TSS_CD        as  tssCd
+                ,m.WBS_CD        as  wbsCd
+                ,m.TSS_STRT_DD   as  tssStrtDd
+                ,m.TSS_FNH_DD    as  tssFnhDd
+                ,m.TSS_TYPE      as  tssType
+                ,m.FC_CD         as  fcCd
+                ,m.TSS_ATTR_CD   as  tssAttrCd
+                ,m.sa_Sabun_new  as  saSabunNew
+                ,m.PRJ_CD        as  prjCd
+                ,m.tss_st        as  tssSt
+                ,m.pgs_step_cd   as  pgs_step_cd
+                ,m.pk_wbs_cd     as  pk_wbs_cd
+                ,m.dept_code     as  dept_cd
+        from (
+            select  TSS_SCN_CD
+                    ,case when (select count(x.tss_cd) from IRIS_GRS_EV_RSLT_RGST x where  x.tss_cd = tss_cd ) > 0 then 'Y'
+                            else 'N' end as grs_yn
+                    ,dbo.fn_getPrjName(prj_cd) as prj_nm
+                    ,dbo.fn_getSabunName(sa_sabun_new) as sa_sabun_nm
+                    ,BIZ_DPT_CD
+                    ,PROD_G
+                    ,TSS_CD
+                    ,WBS_CD
+                    ,TSS_NM
+                    ,CUST_SQLT
+                    ,TSS_ATTR_CD
+                    ,TSS_STRT_DD
+                    ,TSS_FNH_DD
+                    ,TSS_TYPE
+                    ,FC_CD
+                    ,sa_Sabun_new
+                    ,PRJ_CD
+                    ,tss_st
+                    ,pgs_step_cd
+                    ,pk_wbs_cd
+                    ,dept_code
+            from   IRIS_TSS_MGMT_MST
+            where  tss_cd = #{tssCd}
+            union
+            select   TSS_SCN_CD
+                    ,grs_yn
+                    ,dbo.fn_getPrjName(prj_cd) as prj_nm
+                    ,dbo.fn_getSabunName(SA_SABUN_NEW) as sa_sabun_nm
+                    ,BIZ_DPT_CD
+                    ,PROD_G
+                    ,TSS_CD
+                    ,WBS_CD
+                    ,TSS_NM
+                    ,CUST_SQLT
+                    ,TSS_ATTR_CD
+                    ,TSS_STRT_DD
+                    ,TSS_FNH_DD
+                    ,TSS_TYPE
+                    ,FC_CD
+                    ,SA_SABUN_NEW
+                    ,PRJ_CD
+                    ,tss_st
+                    ,pgs_step_cd
+                    ,pk_wbs_cd
+                    ,dept_cd as dept_code
+            from   IRIS_GRS_MGMT_MST
+            where  tss_cd = #{tssCd}
+            ) m
     </select>
-    
+
     <select id="retrievveGrsInfo" resultType="hashmap">
-    	<![CDATA[
-    	--retrievveGrsInfo
-    	select   m.prjNm                as prjNm               
-				,m.bizDptNm             as bizDptNm            
-				,m.tssAttrNm            as tssAttrNm           
-				,m.TSS_NM               as tssNm              
-				,rtrim(m.GRS_EV_ST)     as grsEvSt           
-				,m.tssDd                as tssDd               
-				,m.dlbrCrgrNm           as dlbrCrgrNm          
-				,m.EV_TITL              as evTitl             
-				,m.cfrnAtdtCdTxtNm      as cfrnAtdtCdTxtNm     
-				,m.COMM_TXT             as commTxt            
-				,m.grs_ev_sn            as grsEvSn           
-				,m.grs_st_cd            as grsStCd           
-				,m.CTY_OT_PLN_M         as ctyOtPlnM                
-				,m.ANCP_OT_PLN_DT       as ancpOtPlnDt      
-				,m.BIZ_PRFT_Pro_Y       as bizPrftProY      
-				,m.BIZ_PRFT_Pro_Y_1     as bizPrftProY1    
-				,m.BIZ_PRFT_Pro_Y_2     as bizPrftProY2    
-				,m.BIZ_PRFT_Pro_CUR_Y   as bizPrftProCurY  
-				,m.BIZ_PRFT_Pro_CUR_Y_1 as bizPrftProCurY1
-				,m.BIZ_PRFT_Pro_CUR_Y_2 as bizPrftProCurY2
-				,m.BIZ_PRFT_PLN_Y       as bizPrftPlnY      
-				,m.BIZ_PRFT_PLN_Y_1     as bizPrftPlnY1    
-				,m.BIZ_PRFT_PLN_Y_2     as bizPrftPlnY2    
-				,m.BIZ_PRFT_CUR_Y       as bizPrftCurY      
-				,m.BIZ_PRFT_CUR_Y_1     as bizPrftCurY1    
-				,m.BIZ_PRFT_CUR_Y_2     as bizPrftCurY2    
-				,m.NPROD_SALS_PLN_Y     as nprodSalsPlnY    
-				,m.NPROD_SALS_PLN_Y_1   as nprodSalsPlnY1  
-				,m.NPROD_SALS_PLN_Y_2   as nprodSalsPlnY2  
-				,m.NPROD_SALS_CUR_Y     as nprodSalsCurY    
-				,m.NPROD_SALS_CUR_Y_1   as nprodSalsCurY1  
-				,m.NPROD_SALS_CUR_Y_2   as nprodSalsCurY2  
-				,m.PTC_CPSN_Y           as ptcCpsnY          
-				,m.PTC_CPSN_Y_1         as ptcCpsnY1        
-				,m.PTC_CPSN_Y_2         as ptcCpsnY2        
-				,m.PTC_CPSN_Y_3         as ptcCpsnY3        
-				,m.PTC_CPSN_Y_4         as ptcCpsnY4        
-				,m.PTC_CPSN_CUR_Y       as ptcCpsnCurY      
-				,m.PTC_CPSN_CUR_Y_1     as ptcCpsnCurY1    
-				,m.PTC_CPSN_CUR_Y_2     as ptcCpsnCurY2    
-				,m.PTC_CPSN_CUR_Y_3     as ptcCpsnCurY3    
-				,m.PTC_CPSN_CUR_Y_4     as ptcCpsnCurY4    
-				,m.EXP_ARSL_Y           as expArslY          
-				,m.EXP_ARSL_Y_1         as expArslY1        
-				,m.EXP_ARSL_Y_2         as expArslY2        
-				,m.EXP_ARSL_Y_3         as expArslY3        
-				,m.EXP_ARSL_Y_4         as expArslY4        
-				,m.EXP_ARSL_CUR_Y       as expArslCurY      
-				,m.EXP_ARSL_CUR_Y_1     as expArslCurY1    
-				,m.EXP_ARSL_CUR_Y_2     as expArslCurY2    
-				,m.EXP_ARSL_CUR_Y_3     as expArslCurY3    
-				,m.EXP_ARSL_CUR_Y_4     as expArslCurY4    
-				,m.TSS_CD               as tssCd              
-				,m.PRJ_CD               as prjCd              
-				,m.BIZ_DPT_CD           as bizDptCd          
-				,m.TSS_ATTR_CD          as tssAttrCd         
-				,m.TSS_STRT_DD          as tssStrtDd         
-				,m.TSS_FNH_DD           as tssFnhDd          
-				,m.CFRN_ATDT_CD_TXT     as cfrnAtdtCdTxt    
-				,m.ATTC_FIL_ID          as attcFilId         
-				,m.WBS_CD	            as wbsCd	            
-				,m.TSS_SCN_CD           as tssScnCd          
-				,m.TSS_CD_SN	        as tssCdSn	          
-				,m.PGS_STEP_CD          as pgsStepCd         
-				,m.DROP_YN              as dropYn             
-				,m.GRS_EV_M_TYPE        as grsEvMType       
-				,m.grsEvMTypeNm         as grsEvMTypeNm        
-				,m.deptCode             as deptCode            
-				,m.saSabunNew           as saSabunNew                       
-				,m.evDt                 as evDt    
-				,m.evResult                
-				,m.nprodNm
-				,m.tssType
-				,dbo.fn_getComDtlNm('GRS_EV_ST',rtrim(m.GRS_EV_ST))  AS grsEvStNm
-				,dbo.fn_getComDtlNm('TSS_TYPE',rtrim(m.tssType))  AS tssTypeNm
-				,m.custSqlt
-		from    (
-				select   dbo.fn_getPrjName(b.PRJ_CD)						as prjNm
-						,dbo.fn_getComDtlNm('BIZ_DPT_CD', b.BIZ_DPT_CD)		AS bizDptNm
-						,dbo.fn_getComDtlNm('TSS_ATTR_CD', b.TSS_ATTR_CD)	AS tssAttrNm
-						,b.TSS_NM						                    
-						,rtrim(a.GRS_EV_ST) as  GRS_EV_ST											
-						,b.TSS_STRT_DD+' ~ '+isnull((select  tss_fnh_dd from iris_tmp_tss where tss_cd =#{tssCd}), b.TSS_FNH_DD ) AS tssDd      --과제기간
-						,dbo.fn_getSabunName(a.DLBR_CRGR	)				AS dlbrCrgrNm
-						,a.EV_TITL
-						,(select stuff((select ',' +
-													sa_name
-											from IRIS_SSO_USER
-											where sa_sabun_new in (SELECT value
-																	FROM STRING_SPLIT(a.CFRN_ATDT_CD_TXT, ',')
-																	WHERE RTRIM(value) <> '')
-											order by sa_name
-											FOR XML PATH ('')), 1, 1, ''))   AS cfrnAtdtCdTxtNm
-						,a.COMM_TXT
-						,a.grs_ev_sn
-						,a.grs_st_cd
-						, case when a.drop_yn = 'Y' then 'DROP'
-						  when a.GRS_EV_M_TYPE = 'HD' then '보류'
-						  when a.grs_st_cd ='101' and (a.drop_yn is null  or  a.drop_yn = '') then ''
-						  else 'PASS' end as evResult
-						  
-						,a.nprod_Nm  as nprodNm  
-					    ,isnull(a.CTY_OT_PLN_M           , c.CTY_OT_PLN_M         )  as CTY_OT_PLN_M                                    
-						,isnull(a.ANCP_OT_PLN_DT         , c.ANCP_OT_PLN_DT       )  as ANCP_OT_PLN_DT                       
-						,isnull(a.BIZ_PRFT_Pro_Y         , c.BIZ_PRFT_Pro_Y       )  as BIZ_PRFT_Pro_Y                       
-						,isnull(a.BIZ_PRFT_Pro_Y_1       , c.BIZ_PRFT_Pro_Y_1     )  as BIZ_PRFT_Pro_Y_1                     
-						,isnull(a.BIZ_PRFT_Pro_Y_2       , c.BIZ_PRFT_Pro_Y_2     )  as BIZ_PRFT_Pro_Y_2                     
-						,isnull(a.BIZ_PRFT_Pro_CUR_Y     , c.BIZ_PRFT_Pro_CUR_Y   )  as BIZ_PRFT_Pro_CUR_Y                   
-						,isnull(a.BIZ_PRFT_Pro_CUR_Y_1   , c.BIZ_PRFT_Pro_CUR_Y_1 )  as BIZ_PRFT_Pro_CUR_Y_1                 
-						,isnull(a.BIZ_PRFT_Pro_CUR_Y_2   , c.BIZ_PRFT_Pro_CUR_Y_2 )  as BIZ_PRFT_Pro_CUR_Y_2                 
-						,isnull(a.BIZ_PRFT_PLN_Y         , c.BIZ_PRFT_PLN_Y       )  as BIZ_PRFT_PLN_Y                       
-						,isnull(a.BIZ_PRFT_PLN_Y_1       , c.BIZ_PRFT_PLN_Y_1     )  as BIZ_PRFT_PLN_Y_1                     
-						,isnull(a.BIZ_PRFT_PLN_Y_2       , c.BIZ_PRFT_PLN_Y_2     )  as BIZ_PRFT_PLN_Y_2                     
-						,isnull(a.BIZ_PRFT_CUR_Y         , c.BIZ_PRFT_CUR_Y       )  as BIZ_PRFT_CUR_Y                       
-						,isnull(a.BIZ_PRFT_CUR_Y_1       , c.BIZ_PRFT_CUR_Y_1     )  as BIZ_PRFT_CUR_Y_1                     
-						,isnull(a.BIZ_PRFT_CUR_Y_2       , c.BIZ_PRFT_CUR_Y_2     )  as BIZ_PRFT_CUR_Y_2                     
-						,isnull(a.NPROD_SALS_PLN_Y       , c.NPROD_SALS_PLN_Y     )  as NPROD_SALS_PLN_Y                     
-						,isnull(a.NPROD_SALS_PLN_Y_1     , c.NPROD_SALS_PLN_Y_1   )  as NPROD_SALS_PLN_Y_1                   
-						,isnull(a.NPROD_SALS_PLN_Y_2     , c.NPROD_SALS_PLN_Y_2   )  as NPROD_SALS_PLN_Y_2                   
-						,isnull(a.NPROD_SALS_CUR_Y       , c.NPROD_SALS_CUR_Y     )  as NPROD_SALS_CUR_Y                     
-						,isnull(a.NPROD_SALS_CUR_Y_1     , c.NPROD_SALS_CUR_Y_1   )  as NPROD_SALS_CUR_Y_1                   
-						,isnull(a.NPROD_SALS_CUR_Y_2     , c.NPROD_SALS_CUR_Y_2   )  as NPROD_SALS_CUR_Y_2                   
-						,isnull(a.PTC_CPSN_Y             , c.PTC_CPSN_Y           )  as PTC_CPSN_Y                           
-						,isnull(a.PTC_CPSN_Y_1           , c.PTC_CPSN_Y_1         )  as PTC_CPSN_Y_1                         
-						,isnull(a.PTC_CPSN_Y_2           , c.PTC_CPSN_Y_2         )  as PTC_CPSN_Y_2                         
-						,isnull(a.PTC_CPSN_Y_3           , c.PTC_CPSN_Y_3         )  as PTC_CPSN_Y_3                         
-						,isnull(a.PTC_CPSN_Y_4           , c.PTC_CPSN_Y_4         )  as PTC_CPSN_Y_4                         
-						,isnull(a.PTC_CPSN_CUR_Y         , c.PTC_CPSN_CUR_Y       )  as PTC_CPSN_CUR_Y                       
-						,isnull(a.PTC_CPSN_CUR_Y_1       , c.PTC_CPSN_CUR_Y_1     )  as PTC_CPSN_CUR_Y_1                     
-						,isnull(a.PTC_CPSN_CUR_Y_2       , c.PTC_CPSN_CUR_Y_2     )  as PTC_CPSN_CUR_Y_2                     
-						,isnull(a.PTC_CPSN_CUR_Y_3       , c.PTC_CPSN_CUR_Y_3     )  as PTC_CPSN_CUR_Y_3                     
-						,isnull(a.PTC_CPSN_CUR_Y_4       , c.PTC_CPSN_CUR_Y_4     )  as PTC_CPSN_CUR_Y_4                     
-						,isnull(a.EXP_ARSL_Y             , c.EXP_ARSL_Y           )  as EXP_ARSL_Y                           
-						,isnull(a.EXP_ARSL_Y_1           , c.EXP_ARSL_Y_1         )  as EXP_ARSL_Y_1                         
-						,isnull(a.EXP_ARSL_Y_2           , c.EXP_ARSL_Y_2         )  as EXP_ARSL_Y_2                         
-						,isnull(a.EXP_ARSL_Y_3           , c.EXP_ARSL_Y_3         )  as EXP_ARSL_Y_3                         
-						,isnull(a.EXP_ARSL_Y_4           , c.EXP_ARSL_Y_4         )  as EXP_ARSL_Y_4                         
-						,isnull(a.EXP_ARSL_CUR_Y         , c.EXP_ARSL_CUR_Y       )  as EXP_ARSL_CUR_Y                       
-						,isnull(a.EXP_ARSL_CUR_Y_1       , c.EXP_ARSL_CUR_Y_1     )  as EXP_ARSL_CUR_Y_1                     
-						,isnull(a.EXP_ARSL_CUR_Y_2       , c.EXP_ARSL_CUR_Y_2     )  as EXP_ARSL_CUR_Y_2                     
-						,isnull(a.EXP_ARSL_CUR_Y_3       , c.EXP_ARSL_CUR_Y_3     )  as EXP_ARSL_CUR_Y_3                     
-						,isnull(a.EXP_ARSL_CUR_Y_4       , c.EXP_ARSL_CUR_Y_4     )  as EXP_ARSL_CUR_Y_4                     
-						,b.PRJ_CD
-						,b.BIZ_DPT_CD
-						,b.TSS_ATTR_CD
-						,b.TSS_STRT_DD
-						,isnull((select  tss_fnh_dd from iris_tmp_tss where tss_cd =#{tssCd}), b.TSS_FNH_DD ) as TSS_FNH_DD 
-						,a.CFRN_ATDT_CD_TXT
-						,a.ATTC_FIL_ID
-						,b.TSS_CD	    
-						,b.WBS_CD	  
-						,b.TSS_SCN_CD  
-						,a.TSS_CD_SN	  
-						,b.PGS_STEP_CD
-						,a.DROP_YN
-						,a.GRS_EV_M_TYPE
-						,case when GRS_EV_M_TYPE = 'IN' then '진척도 점검'
-								when GRS_EV_M_TYPE = 'AL' then '변경'
-								when GRS_EV_M_TYPE = 'HD' then '보류'
-								else '' end grsEvMTypeNm
-						,(select dept_cd from iris_prj_rsst_mst where prj_cd = b.prj_cd ) as deptCode    
-						,b.sa_sabun_new as saSabunNew     
-						,a.EV_DT as evDt
-						,b.tss_Type as tssType
-						,b.cust_sqlt as custSqlt
-				from    iris_grs_ev_rslt_rgst a
-				]]>
-				<choose>
-					<when test="grsEvSt == 'G1' and grsStCd == '101' ">
-						inner join IRIS_GRS_MGMT_MST b
-					</when>
-					<otherwise>	
-						inner join IRIS_TSS_MGMT_MST b
-					</otherwise>
-				</choose>	
-						on a.TSS_CD = b.TSS_CD
-						left outer join iris_tss_gen_smry c
-						on a.tss_cd = c.tss_cd
-				where  a.tss_cd = #{tssCd}
-				and    a.TSS_CD_SN = #{tssCdSn}
-				
-			) m
+        <![CDATA[
+        --retrievveGrsInfo
+        select   m.prjNm                as prjNm
+                ,m.bizDptNm             as bizDptNm
+                ,m.tssAttrNm            as tssAttrNm
+                ,m.TSS_NM               as tssNm
+                ,rtrim(m.GRS_EV_ST)     as grsEvSt
+                ,m.tssDd                as tssDd
+                ,m.dlbrCrgrNm           as dlbrCrgrNm
+                ,m.EV_TITL              as evTitl
+                ,m.cfrnAtdtCdTxtNm      as cfrnAtdtCdTxtNm
+                ,m.COMM_TXT             as commTxt
+                ,m.grs_ev_sn            as grsEvSn
+                ,m.grs_st_cd            as grsStCd
+                ,m.CTY_OT_PLN_M         as ctyOtPlnM
+                ,m.ANCP_OT_PLN_DT       as ancpOtPlnDt
+                ,m.BIZ_PRFT_Pro_Y       as bizPrftProY
+                ,m.BIZ_PRFT_Pro_Y_1     as bizPrftProY1
+                ,m.BIZ_PRFT_Pro_Y_2     as bizPrftProY2
+                ,m.BIZ_PRFT_Pro_CUR_Y   as bizPrftProCurY
+                ,m.BIZ_PRFT_Pro_CUR_Y_1 as bizPrftProCurY1
+                ,m.BIZ_PRFT_Pro_CUR_Y_2 as bizPrftProCurY2
+                ,m.BIZ_PRFT_PLN_Y       as bizPrftPlnY
+                ,m.BIZ_PRFT_PLN_Y_1     as bizPrftPlnY1
+                ,m.BIZ_PRFT_PLN_Y_2     as bizPrftPlnY2
+                ,m.BIZ_PRFT_CUR_Y       as bizPrftCurY
+                ,m.BIZ_PRFT_CUR_Y_1     as bizPrftCurY1
+                ,m.BIZ_PRFT_CUR_Y_2     as bizPrftCurY2
+                ,m.NPROD_SALS_PLN_Y     as nprodSalsPlnY
+                ,m.NPROD_SALS_PLN_Y_1   as nprodSalsPlnY1
+                ,m.NPROD_SALS_PLN_Y_2   as nprodSalsPlnY2
+                ,m.NPROD_SALS_CUR_Y     as nprodSalsCurY
+                ,m.NPROD_SALS_CUR_Y_1   as nprodSalsCurY1
+                ,m.NPROD_SALS_CUR_Y_2   as nprodSalsCurY2
+                ,m.PTC_CPSN_Y           as ptcCpsnY
+                ,m.PTC_CPSN_Y_1         as ptcCpsnY1
+                ,m.PTC_CPSN_Y_2         as ptcCpsnY2
+                ,m.PTC_CPSN_Y_3         as ptcCpsnY3
+                ,m.PTC_CPSN_Y_4         as ptcCpsnY4
+                ,m.PTC_CPSN_CUR_Y       as ptcCpsnCurY
+                ,m.PTC_CPSN_CUR_Y_1     as ptcCpsnCurY1
+                ,m.PTC_CPSN_CUR_Y_2     as ptcCpsnCurY2
+                ,m.PTC_CPSN_CUR_Y_3     as ptcCpsnCurY3
+                ,m.PTC_CPSN_CUR_Y_4     as ptcCpsnCurY4
+                ,m.EXP_ARSL_Y           as expArslY
+                ,m.EXP_ARSL_Y_1         as expArslY1
+                ,m.EXP_ARSL_Y_2         as expArslY2
+                ,m.EXP_ARSL_Y_3         as expArslY3
+                ,m.EXP_ARSL_Y_4         as expArslY4
+                ,m.EXP_ARSL_CUR_Y       as expArslCurY
+                ,m.EXP_ARSL_CUR_Y_1     as expArslCurY1
+                ,m.EXP_ARSL_CUR_Y_2     as expArslCurY2
+                ,m.EXP_ARSL_CUR_Y_3     as expArslCurY3
+                ,m.EXP_ARSL_CUR_Y_4     as expArslCurY4
+                ,m.TSS_CD               as tssCd
+                ,m.PRJ_CD               as prjCd
+                ,m.BIZ_DPT_CD           as bizDptCd
+                ,m.TSS_ATTR_CD          as tssAttrCd
+                ,m.TSS_STRT_DD          as tssStrtDd
+                ,m.TSS_FNH_DD           as tssFnhDd
+                ,m.CFRN_ATDT_CD_TXT     as cfrnAtdtCdTxt
+                ,m.ATTC_FIL_ID          as attcFilId
+                ,m.WBS_CD                as wbsCd
+                ,m.TSS_SCN_CD           as tssScnCd
+                ,m.TSS_CD_SN            as tssCdSn
+                ,m.PGS_STEP_CD          as pgsStepCd
+                ,m.DROP_YN              as dropYn
+                ,m.GRS_EV_M_TYPE        as grsEvMType
+                ,m.grsEvMTypeNm         as grsEvMTypeNm
+                ,m.deptCode             as deptCode
+                ,m.saSabunNew           as saSabunNew
+                ,m.evDt                 as evDt
+                ,m.evResult
+                ,m.nprodNm
+                ,m.tssType
+                ,dbo.fn_getComDtlNm('GRS_EV_ST',rtrim(m.GRS_EV_ST))  AS grsEvStNm
+                ,dbo.fn_getComDtlNm('TSS_TYPE',rtrim(m.tssType))  AS tssTypeNm
+                ,m.custSqlt
+        from    (
+                select   dbo.fn_getPrjName(b.PRJ_CD)                        as prjNm
+                        ,dbo.fn_getComDtlNm('BIZ_DPT_CD', b.BIZ_DPT_CD)        AS bizDptNm
+                        ,dbo.fn_getComDtlNm('TSS_ATTR_CD', b.TSS_ATTR_CD)    AS tssAttrNm
+                        ,b.TSS_NM
+                        ,rtrim(a.GRS_EV_ST) as  GRS_EV_ST
+                        ,b.TSS_STRT_DD+' ~ '+isnull((select  tss_fnh_dd from iris_tmp_tss where tss_cd =#{tssCd}), b.TSS_FNH_DD ) AS tssDd      --과제기간
+                        ,dbo.fn_getSabunName(a.DLBR_CRGR    )                AS dlbrCrgrNm
+                        ,a.EV_TITL
+                        ,(select stuff((select ',' +
+                                                    sa_name
+                                            from IRIS_SSO_USER
+                                            where sa_sabun_new in (SELECT value
+                                                                    FROM STRING_SPLIT(a.CFRN_ATDT_CD_TXT, ',')
+                                                                    WHERE RTRIM(value) <> '')
+                                            order by sa_name
+                                            FOR XML PATH ('')), 1, 1, ''))   AS cfrnAtdtCdTxtNm
+                        ,a.COMM_TXT
+                        ,a.grs_ev_sn
+                        ,a.grs_st_cd
+                        , case when a.drop_yn = 'Y' then 'DROP'
+                          when a.GRS_EV_M_TYPE = 'HD' then '보류'
+                          when a.grs_st_cd ='101' and (a.drop_yn is null  or  a.drop_yn = '') then ''
+                          else 'PASS' end as evResult
+
+                        ,a.nprod_Nm  as nprodNm
+                        ,isnull(a.CTY_OT_PLN_M           , c.CTY_OT_PLN_M         )  as CTY_OT_PLN_M
+                        ,isnull(a.ANCP_OT_PLN_DT         , c.ANCP_OT_PLN_DT       )  as ANCP_OT_PLN_DT
+                        ,isnull(a.BIZ_PRFT_Pro_Y         , c.BIZ_PRFT_Pro_Y       )  as BIZ_PRFT_Pro_Y
+                        ,isnull(a.BIZ_PRFT_Pro_Y_1       , c.BIZ_PRFT_Pro_Y_1     )  as BIZ_PRFT_Pro_Y_1
+                        ,isnull(a.BIZ_PRFT_Pro_Y_2       , c.BIZ_PRFT_Pro_Y_2     )  as BIZ_PRFT_Pro_Y_2
+                        ,isnull(a.BIZ_PRFT_Pro_CUR_Y     , c.BIZ_PRFT_Pro_CUR_Y   )  as BIZ_PRFT_Pro_CUR_Y
+                        ,isnull(a.BIZ_PRFT_Pro_CUR_Y_1   , c.BIZ_PRFT_Pro_CUR_Y_1 )  as BIZ_PRFT_Pro_CUR_Y_1
+                        ,isnull(a.BIZ_PRFT_Pro_CUR_Y_2   , c.BIZ_PRFT_Pro_CUR_Y_2 )  as BIZ_PRFT_Pro_CUR_Y_2
+                        ,isnull(a.BIZ_PRFT_PLN_Y         , c.BIZ_PRFT_PLN_Y       )  as BIZ_PRFT_PLN_Y
+                        ,isnull(a.BIZ_PRFT_PLN_Y_1       , c.BIZ_PRFT_PLN_Y_1     )  as BIZ_PRFT_PLN_Y_1
+                        ,isnull(a.BIZ_PRFT_PLN_Y_2       , c.BIZ_PRFT_PLN_Y_2     )  as BIZ_PRFT_PLN_Y_2
+                        ,isnull(a.BIZ_PRFT_CUR_Y         , c.BIZ_PRFT_CUR_Y       )  as BIZ_PRFT_CUR_Y
+                        ,isnull(a.BIZ_PRFT_CUR_Y_1       , c.BIZ_PRFT_CUR_Y_1     )  as BIZ_PRFT_CUR_Y_1
+                        ,isnull(a.BIZ_PRFT_CUR_Y_2       , c.BIZ_PRFT_CUR_Y_2     )  as BIZ_PRFT_CUR_Y_2
+                        ,isnull(a.NPROD_SALS_PLN_Y       , c.NPROD_SALS_PLN_Y     )  as NPROD_SALS_PLN_Y
+                        ,isnull(a.NPROD_SALS_PLN_Y_1     , c.NPROD_SALS_PLN_Y_1   )  as NPROD_SALS_PLN_Y_1
+                        ,isnull(a.NPROD_SALS_PLN_Y_2     , c.NPROD_SALS_PLN_Y_2   )  as NPROD_SALS_PLN_Y_2
+                        ,isnull(a.NPROD_SALS_CUR_Y       , c.NPROD_SALS_CUR_Y     )  as NPROD_SALS_CUR_Y
+                        ,isnull(a.NPROD_SALS_CUR_Y_1     , c.NPROD_SALS_CUR_Y_1   )  as NPROD_SALS_CUR_Y_1
+                        ,isnull(a.NPROD_SALS_CUR_Y_2     , c.NPROD_SALS_CUR_Y_2   )  as NPROD_SALS_CUR_Y_2
+                        ,isnull(a.PTC_CPSN_Y             , c.PTC_CPSN_Y           )  as PTC_CPSN_Y
+                        ,isnull(a.PTC_CPSN_Y_1           , c.PTC_CPSN_Y_1         )  as PTC_CPSN_Y_1
+                        ,isnull(a.PTC_CPSN_Y_2           , c.PTC_CPSN_Y_2         )  as PTC_CPSN_Y_2
+                        ,isnull(a.PTC_CPSN_Y_3           , c.PTC_CPSN_Y_3         )  as PTC_CPSN_Y_3
+                        ,isnull(a.PTC_CPSN_Y_4           , c.PTC_CPSN_Y_4         )  as PTC_CPSN_Y_4
+                        ,isnull(a.PTC_CPSN_CUR_Y         , c.PTC_CPSN_CUR_Y       )  as PTC_CPSN_CUR_Y
+                        ,isnull(a.PTC_CPSN_CUR_Y_1       , c.PTC_CPSN_CUR_Y_1     )  as PTC_CPSN_CUR_Y_1
+                        ,isnull(a.PTC_CPSN_CUR_Y_2       , c.PTC_CPSN_CUR_Y_2     )  as PTC_CPSN_CUR_Y_2
+                        ,isnull(a.PTC_CPSN_CUR_Y_3       , c.PTC_CPSN_CUR_Y_3     )  as PTC_CPSN_CUR_Y_3
+                        ,isnull(a.PTC_CPSN_CUR_Y_4       , c.PTC_CPSN_CUR_Y_4     )  as PTC_CPSN_CUR_Y_4
+                        ,isnull(a.EXP_ARSL_Y             , c.EXP_ARSL_Y           )  as EXP_ARSL_Y
+                        ,isnull(a.EXP_ARSL_Y_1           , c.EXP_ARSL_Y_1         )  as EXP_ARSL_Y_1
+                        ,isnull(a.EXP_ARSL_Y_2           , c.EXP_ARSL_Y_2         )  as EXP_ARSL_Y_2
+                        ,isnull(a.EXP_ARSL_Y_3           , c.EXP_ARSL_Y_3         )  as EXP_ARSL_Y_3
+                        ,isnull(a.EXP_ARSL_Y_4           , c.EXP_ARSL_Y_4         )  as EXP_ARSL_Y_4
+                        ,isnull(a.EXP_ARSL_CUR_Y         , c.EXP_ARSL_CUR_Y       )  as EXP_ARSL_CUR_Y
+                        ,isnull(a.EXP_ARSL_CUR_Y_1       , c.EXP_ARSL_CUR_Y_1     )  as EXP_ARSL_CUR_Y_1
+                        ,isnull(a.EXP_ARSL_CUR_Y_2       , c.EXP_ARSL_CUR_Y_2     )  as EXP_ARSL_CUR_Y_2
+                        ,isnull(a.EXP_ARSL_CUR_Y_3       , c.EXP_ARSL_CUR_Y_3     )  as EXP_ARSL_CUR_Y_3
+                        ,isnull(a.EXP_ARSL_CUR_Y_4       , c.EXP_ARSL_CUR_Y_4     )  as EXP_ARSL_CUR_Y_4
+                        ,b.PRJ_CD
+                        ,b.BIZ_DPT_CD
+                        ,b.TSS_ATTR_CD
+                        ,b.TSS_STRT_DD
+                        ,isnull((select  tss_fnh_dd from iris_tmp_tss where tss_cd =#{tssCd}), b.TSS_FNH_DD ) as TSS_FNH_DD
+                        ,a.CFRN_ATDT_CD_TXT
+                        ,a.ATTC_FIL_ID
+                        ,b.TSS_CD
+                        ,b.WBS_CD
+                        ,b.TSS_SCN_CD
+                        ,a.TSS_CD_SN
+                        ,b.PGS_STEP_CD
+                        ,a.DROP_YN
+                        ,a.GRS_EV_M_TYPE
+                        ,case when GRS_EV_M_TYPE = 'IN' then '진척도 점검'
+                                when GRS_EV_M_TYPE = 'AL' then '변경'
+                                when GRS_EV_M_TYPE = 'HD' then '보류'
+                                else '' end grsEvMTypeNm
+                        ,(select dept_cd from iris_prj_rsst_mst where prj_cd = b.prj_cd ) as deptCode
+                        ,b.sa_sabun_new as saSabunNew
+                        ,a.EV_DT as evDt
+                        ,b.tss_Type as tssType
+                        ,b.cust_sqlt as custSqlt
+                from    iris_grs_ev_rslt_rgst a
+                ]]>
+                <choose>
+                    <when test="grsEvSt == 'G1' and grsStCd == '101' ">
+                        inner join IRIS_GRS_MGMT_MST b
+                    </when>
+                    <otherwise>
+                        inner join IRIS_TSS_MGMT_MST b
+                    </otherwise>
+                </choose>
+                        on a.TSS_CD = b.TSS_CD
+                        left outer join iris_tss_gen_smry c
+                        on a.tss_cd = c.tss_cd
+                where  a.tss_cd = #{tssCd}
+                and    a.TSS_CD_SN = #{tssCdSn}
+
+            ) m
     </select>
-    
+
     <update id="saveTmpGrsInfo">
-    	update IRIS_GRS_EV_RSLT_RGST
-		set  EV_TITL             = #{evTitl}
-			,CFRN_ATDT_CD_TXT    = #{cfrnAtdtCdTxt}
-			,COMM_TXT            = #{commTxt}
-			,GRS_EV_SN           = #{grsEvSn}
-			,ATTC_FIL_ID         = #{attcFilId}
-			,EV_DT               = #{evDt}
+        update IRIS_GRS_EV_RSLT_RGST
+        set  EV_TITL             = #{evTitl}
+            ,CFRN_ATDT_CD_TXT    = #{cfrnAtdtCdTxt}
+            ,COMM_TXT            = #{commTxt}
+            ,GRS_EV_SN           = #{grsEvSn}
+            ,ATTC_FIL_ID         = #{attcFilId}
+            ,EV_DT               = #{evDt}
 <choose>
-		<when test="grsEvSt == 'G1' ">
-			,CTY_OT_PLN_M        = #{ctyOtPlnM}
-		</when>
-		<otherwise>
-			,ANCP_OT_PLN_DT      = #{ancpOtPlnDt}
-	   </otherwise>
-</choose>			
-	<choose>
-		<when test="grsEvSt == 'G2' ">
-		    ,NPROD_NM            = #{nprodNm}
-			,NPROD_SALS_CUR_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY} = '' THEN '0' ELSE #{nprodSalsCurY} END)
-			,NPROD_SALS_CUR_Y_1  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY1} = '' THEN '0' ELSE #{nprodSalsCurY1} END)
-			,NPROD_SALS_CUR_Y_2  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY2} = '' THEN '0' ELSE #{nprodSalsCurY2} END)
-			,BIZ_PRFT_CUR_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY} = '' THEN '0' ELSE #{bizPrftCurY} END)
-			,BIZ_PRFT_CUR_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY1} = '' THEN '0' ELSE #{bizPrftCurY1} END)
-			,BIZ_PRFT_CUR_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY2} = '' THEN '0' ELSE #{bizPrftCurY2} END)
-			,BIZ_PRFT_Pro_CUR_Y   = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY} = '' THEN '0' ELSE #{bizPrftProCurY} END)
-			,BIZ_PRFT_Pro_CUR_Y_1 = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY1} = '' THEN '0' ELSE #{bizPrftProCurY1} END)
-			,BIZ_PRFT_Pro_CUR_Y_2 = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY2} = '' THEN '0' ELSE #{bizPrftProCurY2} END)
-			,PTC_CPSN_CUR_Y      = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY} = '' THEN '0' ELSE #{ptcCpsnCurY} END)
-			,PTC_CPSN_CUR_Y_1    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY1} = '' THEN '0' ELSE #{ptcCpsnCurY1} END)
-			,PTC_CPSN_CUR_Y_2    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY2} = '' THEN '0' ELSE #{ptcCpsnCurY2} END)
-			,PTC_CPSN_CUR_Y_3    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY3} = '' THEN '0' ELSE #{ptcCpsnCurY3} END)
-			,PTC_CPSN_CUR_Y_4    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY4} = '' THEN '0' ELSE #{ptcCpsnCurY4} END)
-			,EXP_ARSL_CUR_Y      = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY} = '' THEN '0' ELSE #{expArslCurY} END)
-			,EXP_ARSL_CUR_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY1} = '' THEN '0' ELSE #{expArslCurY1} END)
-			,EXP_ARSL_CUR_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY2} = '' THEN '0' ELSE #{expArslCurY2} END)
-			,EXP_ARSL_CUR_Y_3    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY3} = '' THEN '0' ELSE #{expArslCurY3} END)
-			,EXP_ARSL_CUR_Y_4    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY4} = '' THEN '0' ELSE #{expArslCurY4} END)
-		</when>
-		<otherwise>
-			,NPROD_SALS_PLN_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)
-			,NPROD_SALS_PLN_Y_1  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY1} = '' THEN '0' ELSE #{nprodSalsPlnY1} END)
-			,NPROD_SALS_PLN_Y_2  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY2} = '' THEN '0' ELSE #{nprodSalsPlnY2} END)
-			,BIZ_PRFT_PLN_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY} = '' THEN '0' ELSE #{bizPrftPlnY} END)
-			,BIZ_PRFT_PLN_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY1} = '' THEN '0' ELSE #{bizPrftPlnY1} END)
-			,BIZ_PRFT_PLN_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY2} = '' THEN '0' ELSE #{bizPrftPlnY2} END)
-			,BIZ_PRFT_Pro_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY} = '' THEN '0' ELSE #{bizPrftProY} END)
-			,BIZ_PRFT_Pro_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY1} = '' THEN '0' ELSE #{bizPrftProY1} END)
-			,BIZ_PRFT_Pro_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY2} = '' THEN '0' ELSE #{bizPrftProY2} END)
-			,PTC_CPSN_Y          = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)
-			,PTC_CPSN_Y_1        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)
-			,PTC_CPSN_Y_2        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)
-			,PTC_CPSN_Y_3        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)
-			,PTC_CPSN_Y_4        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)
-			,EXP_ARSL_Y          = CONVERT(numeric(15, 2), CASE WHEN #{expArslY} = '' THEN '0' ELSE #{expArslY} END)
-			,EXP_ARSL_Y_1        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY1} = '' THEN '0' ELSE #{expArslY1} END)
-			,EXP_ARSL_Y_2        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY2} = '' THEN '0' ELSE #{expArslY2} END)
-			,EXP_ARSL_Y_3        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY3} = '' THEN '0' ELSE #{expArslY3} END)
-			,EXP_ARSL_Y_4        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY4} = '' THEN '0' ELSE #{expArslY4} END)
-    		</otherwise>
-		</choose>
-		    ,GRS_EV_M_TYPE       = #{grsEvMType}
-			,LAST_MDFY_ID        = #{userId}
-			,LAST_MDFY_DT        = getdate()   
-		where   tss_cd    = #{tssCd}
-		and     TSS_CD_SN = #{tssCdSn}  
+        <when test="grsEvSt == 'G1' ">
+            ,CTY_OT_PLN_M        = #{ctyOtPlnM}
+        </when>
+        <otherwise>
+            ,ANCP_OT_PLN_DT      = #{ancpOtPlnDt}
+       </otherwise>
+</choose>
+    <choose>
+        <when test="grsEvSt == 'G2' ">
+            ,NPROD_NM            = #{nprodNm}
+            ,NPROD_SALS_CUR_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY} = '' THEN '0' ELSE #{nprodSalsCurY} END)
+            ,NPROD_SALS_CUR_Y_1  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY1} = '' THEN '0' ELSE #{nprodSalsCurY1} END)
+            ,NPROD_SALS_CUR_Y_2  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY2} = '' THEN '0' ELSE #{nprodSalsCurY2} END)
+            ,BIZ_PRFT_CUR_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY} = '' THEN '0' ELSE #{bizPrftCurY} END)
+            ,BIZ_PRFT_CUR_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY1} = '' THEN '0' ELSE #{bizPrftCurY1} END)
+            ,BIZ_PRFT_CUR_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY2} = '' THEN '0' ELSE #{bizPrftCurY2} END)
+            ,BIZ_PRFT_Pro_CUR_Y   = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY} = '' THEN '0' ELSE #{bizPrftProCurY} END)
+            ,BIZ_PRFT_Pro_CUR_Y_1 = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY1} = '' THEN '0' ELSE #{bizPrftProCurY1} END)
+            ,BIZ_PRFT_Pro_CUR_Y_2 = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY2} = '' THEN '0' ELSE #{bizPrftProCurY2} END)
+            ,PTC_CPSN_CUR_Y      = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY} = '' THEN '0' ELSE #{ptcCpsnCurY} END)
+            ,PTC_CPSN_CUR_Y_1    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY1} = '' THEN '0' ELSE #{ptcCpsnCurY1} END)
+            ,PTC_CPSN_CUR_Y_2    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY2} = '' THEN '0' ELSE #{ptcCpsnCurY2} END)
+            ,PTC_CPSN_CUR_Y_3    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY3} = '' THEN '0' ELSE #{ptcCpsnCurY3} END)
+            ,PTC_CPSN_CUR_Y_4    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY4} = '' THEN '0' ELSE #{ptcCpsnCurY4} END)
+            ,EXP_ARSL_CUR_Y      = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY} = '' THEN '0' ELSE #{expArslCurY} END)
+            ,EXP_ARSL_CUR_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY1} = '' THEN '0' ELSE #{expArslCurY1} END)
+            ,EXP_ARSL_CUR_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY2} = '' THEN '0' ELSE #{expArslCurY2} END)
+            ,EXP_ARSL_CUR_Y_3    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY3} = '' THEN '0' ELSE #{expArslCurY3} END)
+            ,EXP_ARSL_CUR_Y_4    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY4} = '' THEN '0' ELSE #{expArslCurY4} END)
+        </when>
+        <otherwise>
+            ,NPROD_SALS_PLN_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)
+            ,NPROD_SALS_PLN_Y_1  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY1} = '' THEN '0' ELSE #{nprodSalsPlnY1} END)
+            ,NPROD_SALS_PLN_Y_2  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY2} = '' THEN '0' ELSE #{nprodSalsPlnY2} END)
+            ,BIZ_PRFT_PLN_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY} = '' THEN '0' ELSE #{bizPrftPlnY} END)
+            ,BIZ_PRFT_PLN_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY1} = '' THEN '0' ELSE #{bizPrftPlnY1} END)
+            ,BIZ_PRFT_PLN_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY2} = '' THEN '0' ELSE #{bizPrftPlnY2} END)
+            ,BIZ_PRFT_Pro_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY} = '' THEN '0' ELSE #{bizPrftProY} END)
+            ,BIZ_PRFT_Pro_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY1} = '' THEN '0' ELSE #{bizPrftProY1} END)
+            ,BIZ_PRFT_Pro_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY2} = '' THEN '0' ELSE #{bizPrftProY2} END)
+            ,PTC_CPSN_Y          = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)
+            ,PTC_CPSN_Y_1        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)
+            ,PTC_CPSN_Y_2        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)
+            ,PTC_CPSN_Y_3        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)
+            ,PTC_CPSN_Y_4        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)
+            ,EXP_ARSL_Y          = CONVERT(numeric(15, 2), CASE WHEN #{expArslY} = '' THEN '0' ELSE #{expArslY} END)
+            ,EXP_ARSL_Y_1        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY1} = '' THEN '0' ELSE #{expArslY1} END)
+            ,EXP_ARSL_Y_2        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY2} = '' THEN '0' ELSE #{expArslY2} END)
+            ,EXP_ARSL_Y_3        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY3} = '' THEN '0' ELSE #{expArslY3} END)
+            ,EXP_ARSL_Y_4        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY4} = '' THEN '0' ELSE #{expArslY4} END)
+            </otherwise>
+        </choose>
+            ,GRS_EV_M_TYPE       = #{grsEvMType}
+            ,LAST_MDFY_ID        = #{userId}
+            ,LAST_MDFY_DT        = getdate()
+        where   tss_cd    = #{tssCd}
+        and     TSS_CD_SN = #{tssCdSn}
     </update>
-    
+
     <update id="saveGrsInfo">
     update IRIS_GRS_EV_RSLT_RGST
-		set  EV_TITL             = #{evTitl}
-			,CFRN_ATDT_CD_TXT    = #{cfrnAtdtCdTxt}
-			,COMM_TXT            = #{commTxt}
-			,GRS_EV_SN           = #{grsEvSn}
-			,GRS_EV_ST           = #{grsEvSt}
-			,ATTC_FIL_ID         = #{attcFilId}
-			,EV_DT               = #{evDt}
-	<choose>
-		<when test="grsEvSt == 'G1' ">
-			,CTY_OT_PLN_M        = #{ctyOtPlnM}
-		</when>
-		<otherwise>
-			,ANCP_OT_PLN_DT      = #{ancpOtPlnDt}
-	   </otherwise>
-	</choose>	
-	<choose>
-		<when test="grsEvSt == 'G2' ">
-		    ,NPROD_NM            = #{nprodNm}
-			,NPROD_SALS_CUR_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY} = '' THEN '0' ELSE #{nprodSalsCurY} END)
-			,NPROD_SALS_CUR_Y_1  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY1} = '' THEN '0' ELSE #{nprodSalsCurY1} END)
-			,NPROD_SALS_CUR_Y_2  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY2} = '' THEN '0' ELSE #{nprodSalsCurY2} END)
-			,BIZ_PRFT_CUR_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY} = '' THEN '0' ELSE #{bizPrftCurY} END)
-			,BIZ_PRFT_CUR_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY1} = '' THEN '0' ELSE #{bizPrftCurY1} END)
-			,BIZ_PRFT_CUR_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY2} = '' THEN '0' ELSE #{bizPrftCurY2} END)
-			,BIZ_PRFT_Pro_CUR_Y   = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY} = '' THEN '0' ELSE #{bizPrftProCurY} END)
-			,BIZ_PRFT_Pro_CUR_Y_1 = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY1} = '' THEN '0' ELSE #{bizPrftProCurY1} END)
-			,BIZ_PRFT_Pro_CUR_Y_2 = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY2} = '' THEN '0' ELSE #{bizPrftProCurY2} END)
-			,PTC_CPSN_CUR_Y      = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY} = '' THEN '0' ELSE #{ptcCpsnCurY} END)
-			,PTC_CPSN_CUR_Y_1    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY1} = '' THEN '0' ELSE #{ptcCpsnCurY1} END)
-			,PTC_CPSN_CUR_Y_2    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY2} = '' THEN '0' ELSE #{ptcCpsnCurY2} END)
-			,PTC_CPSN_CUR_Y_3    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY3} = '' THEN '0' ELSE #{ptcCpsnCurY3} END)
-			,PTC_CPSN_CUR_Y_4    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY4} = '' THEN '0' ELSE #{ptcCpsnCurY4} END)
-			,EXP_ARSL_CUR_Y      = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY} = '' THEN '0' ELSE #{expArslCurY} END)
-			,EXP_ARSL_CUR_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY1} = '' THEN '0' ELSE #{expArslCurY1} END)
-			,EXP_ARSL_CUR_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY2} = '' THEN '0' ELSE #{expArslCurY2} END)
-			,EXP_ARSL_CUR_Y_3    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY3} = '' THEN '0' ELSE #{expArslCurY3} END)
-			,EXP_ARSL_CUR_Y_4    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY4} = '' THEN '0' ELSE #{expArslCurY4} END)
-		</when>
-		<otherwise>
-			,NPROD_SALS_PLN_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)
-			,NPROD_SALS_PLN_Y_1  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY1} = '' THEN '0' ELSE #{nprodSalsPlnY1} END)
-			,NPROD_SALS_PLN_Y_2  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY2} = '' THEN '0' ELSE #{nprodSalsPlnY2} END)
-			,BIZ_PRFT_PLN_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY} = '' THEN '0' ELSE #{bizPrftPlnY} END)
-			,BIZ_PRFT_PLN_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY1} = '' THEN '0' ELSE #{bizPrftPlnY1} END)
-			,BIZ_PRFT_PLN_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY2} = '' THEN '0' ELSE #{bizPrftPlnY2} END)
-			,BIZ_PRFT_Pro_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY} = '' THEN '0' ELSE #{bizPrftProY} END)
-			,BIZ_PRFT_Pro_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY1} = '' THEN '0' ELSE #{bizPrftProY1} END)
-			,BIZ_PRFT_Pro_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY2} = '' THEN '0' ELSE #{bizPrftProY2} END)
-			,PTC_CPSN_Y          = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)
-			,PTC_CPSN_Y_1        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)
-			,PTC_CPSN_Y_2        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)
-			,PTC_CPSN_Y_3        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)
-			,PTC_CPSN_Y_4        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)
-			,EXP_ARSL_Y          = CONVERT(numeric(15, 2), CASE WHEN #{expArslY} = '' THEN '0' ELSE #{expArslY} END)
-			,EXP_ARSL_Y_1        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY1} = '' THEN '0' ELSE #{expArslY1} END)
-			,EXP_ARSL_Y_2        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY2} = '' THEN '0' ELSE #{expArslY2} END)
-			,EXP_ARSL_Y_3        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY3} = '' THEN '0' ELSE #{expArslY3} END)
-			,EXP_ARSL_Y_4        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY4} = '' THEN '0' ELSE #{expArslY4} END)
-    		</otherwise>
-		</choose>
-		    ,GRS_EV_M_TYPE       = #{grsEvMType}
-			,DROP_YN             = #{dropYn} 
-	        ,GRS_ST_CD           = '102'
-			,LAST_MDFY_ID        = #{userId}
-			,LAST_MDFY_DT        = getdate()   
-		where   tss_cd = #{tssCd}
-		and     TSS_CD_SN = #{tssCdSn}  
+        set  EV_TITL             = #{evTitl}
+            ,CFRN_ATDT_CD_TXT    = #{cfrnAtdtCdTxt}
+            ,COMM_TXT            = #{commTxt}
+            ,GRS_EV_SN           = #{grsEvSn}
+            ,GRS_EV_ST           = #{grsEvSt}
+            ,ATTC_FIL_ID         = #{attcFilId}
+            ,EV_DT               = #{evDt}
+    <choose>
+        <when test="grsEvSt == 'G1' ">
+            ,CTY_OT_PLN_M        = #{ctyOtPlnM}
+        </when>
+        <otherwise>
+            ,ANCP_OT_PLN_DT      = #{ancpOtPlnDt}
+       </otherwise>
+    </choose>
+    <choose>
+        <when test="grsEvSt == 'G2' ">
+            ,NPROD_NM            = #{nprodNm}
+            ,NPROD_SALS_CUR_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY} = '' THEN '0' ELSE #{nprodSalsCurY} END)
+            ,NPROD_SALS_CUR_Y_1  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY1} = '' THEN '0' ELSE #{nprodSalsCurY1} END)
+            ,NPROD_SALS_CUR_Y_2  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsCurY2} = '' THEN '0' ELSE #{nprodSalsCurY2} END)
+            ,BIZ_PRFT_CUR_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY} = '' THEN '0' ELSE #{bizPrftCurY} END)
+            ,BIZ_PRFT_CUR_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY1} = '' THEN '0' ELSE #{bizPrftCurY1} END)
+            ,BIZ_PRFT_CUR_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY2} = '' THEN '0' ELSE #{bizPrftCurY2} END)
+            ,BIZ_PRFT_Pro_CUR_Y   = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY} = '' THEN '0' ELSE #{bizPrftProCurY} END)
+            ,BIZ_PRFT_Pro_CUR_Y_1 = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY1} = '' THEN '0' ELSE #{bizPrftProCurY1} END)
+            ,BIZ_PRFT_Pro_CUR_Y_2 = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProCurY2} = '' THEN '0' ELSE #{bizPrftProCurY2} END)
+            ,PTC_CPSN_CUR_Y      = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY} = '' THEN '0' ELSE #{ptcCpsnCurY} END)
+            ,PTC_CPSN_CUR_Y_1    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY1} = '' THEN '0' ELSE #{ptcCpsnCurY1} END)
+            ,PTC_CPSN_CUR_Y_2    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY2} = '' THEN '0' ELSE #{ptcCpsnCurY2} END)
+            ,PTC_CPSN_CUR_Y_3    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY3} = '' THEN '0' ELSE #{ptcCpsnCurY3} END)
+            ,PTC_CPSN_CUR_Y_4    = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnCurY4} = '' THEN '0' ELSE #{ptcCpsnCurY4} END)
+            ,EXP_ARSL_CUR_Y      = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY} = '' THEN '0' ELSE #{expArslCurY} END)
+            ,EXP_ARSL_CUR_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY1} = '' THEN '0' ELSE #{expArslCurY1} END)
+            ,EXP_ARSL_CUR_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY2} = '' THEN '0' ELSE #{expArslCurY2} END)
+            ,EXP_ARSL_CUR_Y_3    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY3} = '' THEN '0' ELSE #{expArslCurY3} END)
+            ,EXP_ARSL_CUR_Y_4    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY4} = '' THEN '0' ELSE #{expArslCurY4} END)
+        </when>
+        <otherwise>
+            ,NPROD_SALS_PLN_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)
+            ,NPROD_SALS_PLN_Y_1  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY1} = '' THEN '0' ELSE #{nprodSalsPlnY1} END)
+            ,NPROD_SALS_PLN_Y_2  = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY2} = '' THEN '0' ELSE #{nprodSalsPlnY2} END)
+            ,BIZ_PRFT_PLN_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY} = '' THEN '0' ELSE #{bizPrftPlnY} END)
+            ,BIZ_PRFT_PLN_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY1} = '' THEN '0' ELSE #{bizPrftPlnY1} END)
+            ,BIZ_PRFT_PLN_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftPlnY2} = '' THEN '0' ELSE #{bizPrftPlnY2} END)
+            ,BIZ_PRFT_Pro_Y      = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY} = '' THEN '0' ELSE #{bizPrftProY} END)
+            ,BIZ_PRFT_Pro_Y_1    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY1} = '' THEN '0' ELSE #{bizPrftProY1} END)
+            ,BIZ_PRFT_Pro_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY2} = '' THEN '0' ELSE #{bizPrftProY2} END)
+            ,PTC_CPSN_Y          = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)
+            ,PTC_CPSN_Y_1        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)
+            ,PTC_CPSN_Y_2        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)
+            ,PTC_CPSN_Y_3        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)
+            ,PTC_CPSN_Y_4        = CONVERT(numeric(15, 0), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)
+            ,EXP_ARSL_Y          = CONVERT(numeric(15, 2), CASE WHEN #{expArslY} = '' THEN '0' ELSE #{expArslY} END)
+            ,EXP_ARSL_Y_1        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY1} = '' THEN '0' ELSE #{expArslY1} END)
+            ,EXP_ARSL_Y_2        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY2} = '' THEN '0' ELSE #{expArslY2} END)
+            ,EXP_ARSL_Y_3        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY3} = '' THEN '0' ELSE #{expArslY3} END)
+            ,EXP_ARSL_Y_4        = CONVERT(numeric(15, 2), CASE WHEN #{expArslY4} = '' THEN '0' ELSE #{expArslY4} END)
+            </otherwise>
+        </choose>
+            ,GRS_EV_M_TYPE       = #{grsEvMType}
+            ,DROP_YN             = #{dropYn}
+            ,GRS_ST_CD           = '102'
+            ,LAST_MDFY_ID        = #{userId}
+            ,LAST_MDFY_DT        = getdate()
+        where   tss_cd = #{tssCd}
+        and     TSS_CD_SN = #{tssCdSn}
     </update>
-    
+
     <update id="updateGrsGuid">
     --updateGrsGuid GRS 전자결재 id 업데이트
-    	update IRIS_GRS_EV_RSLT_RGST
-    	set    guid = #{guid}
-    	where  tss_cd = #{tssCd}
-    	and    tss_cd_sn = #{tssCdSn}
-    	and    grs_ev_st = #{grsEvSt}
+        update IRIS_GRS_EV_RSLT_RGST
+        set    guid = #{guid}
+        where  tss_cd = #{tssCd}
+        and    tss_cd_sn = #{tssCdSn}
+        and    grs_ev_st = #{grsEvSt}
     </update>
-    
-    
+
+
     <select id="retrieveGrsUserChk" resultType="String">
-    	select case when count(*) > 0 then 'Y'
-    	       else 'N' end as  grsUserChk
-		from   IRIS_ADM_COM_CD
-		where  COM_CD_CD = 'GRS_USER'
-		and    COM_DTL_CD = #{_userSabun}  
+        select case when count(*) > 0 then 'Y'
+               else 'N' end as  grsUserChk
+        from   IRIS_ADM_COM_CD
+        where  COM_CD_CD = 'GRS_USER'
+        and    COM_DTL_CD = #{_userSabun}
     </select>
-    
-    
+
+
     <!-- 과제정보 변경 업데이트 -->
     <insert id="updateTssInfo">
         <![CDATA[
-		/*updateTssInfo 과제정보 변경 업데이트*/
-		MERGE INTO dbo.iris_tmp_tss tbl
-		    USING (SELECT #{tssCd} AS TSS_CD) src
-		    ON (tbl.TSS_CD = src.TSS_CD)
-		    WHEN NOT MATCHED THEN
-       
-		INSERT
-		       (
-	           TSS_CD,
-	           TSS_FNH_DD,
-	           FRST_RGST_DT,
-	           FRST_RGST_ID,
-	           LAST_MDFY_DT,
-	           LAST_MDFY_ID
-		       )VALUES(
-				#{tssCd},
-				#{tssFnhDd},
-				GETDATE(),
-				#{userId},
-				GETDATE(),
-				#{userId}
-		       )
+        /*updateTssInfo 과제정보 변경 업데이트*/
+        MERGE INTO dbo.iris_tmp_tss tbl
+            USING (SELECT #{tssCd} AS TSS_CD) src
+            ON (tbl.TSS_CD = src.TSS_CD)
+            WHEN NOT MATCHED THEN
+
+        INSERT
+               (
+               TSS_CD,
+               TSS_FNH_DD,
+               FRST_RGST_DT,
+               FRST_RGST_ID,
+               LAST_MDFY_DT,
+               LAST_MDFY_ID
+               )VALUES(
+                #{tssCd},
+                #{tssFnhDd},
+                GETDATE(),
+                #{userId},
+                GETDATE(),
+                #{userId}
+               )
     WHEN MATCHED THEN
         UPDATE SET
-				TSS_FNH_DD = #{tssFnhDd},
-				LAST_MDFY_DT = GETDATE(),
-	            LAST_MDFY_ID = #{userId}
+                TSS_FNH_DD = #{tssFnhDd},
+                LAST_MDFY_DT = GETDATE(),
+                LAST_MDFY_ID = #{userId}
     ;
-    	]]>
+        ]]>
     </insert>
 </mapper>
