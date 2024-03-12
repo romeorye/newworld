@@ -43,7 +43,7 @@
     var dataSet;
     var lvAttcFilId;
     var tmpAttchFileList;
-    
+
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -111,7 +111,7 @@
             height: 80,
             width: 600
         });
-      
+
         //Form 비활성화
         disableFields = function() {
             Rui.select('.tssLableCss input').addClass('L-tssLable');
@@ -135,63 +135,63 @@
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-            	 { id: 'tssCd'} 
-            	,{ id: 'tssSmryTxt'}
-            	,{ id: 'tssSmryDvlpTxt'}
-            	,{ id: 'rsstDvlpOucmTxt'}
-            	,{ id: 'rsstDvlpOucmCtqTxt'}
-            	,{ id: 'rsstDvlpOucmEffTxt'}
-            	,{ id: 'pmisTxt'}  
-            	,{ id: 'qgate3Dt'}
-            	,{ id: 'fwdPlnTxt'}
-            	,{ id: 'fnoPlnTxt'}
-            	,{ id: 'ancpOtPlnDt'} 
-            	,{ id: 'cmplAttcFilId'} 
-            	,{ id: 'pmisCmplTxt'}
-            	,{ id: 'bizPrftProY'}
-            	,{ id: 'bizPrftProY1'}  
-            	,{ id: 'bizPrftProY2'}  
-            	,{ id: 'bizPrftProY3'}  
-            	,{ id: 'bizPrftProY4'}
-            	,{ id: 'bizPrftProCurY'}
-            	,{ id: 'bizPrftProCurY1'}
-            	,{ id: 'bizPrftProCurY2'}
-            	,{ id: 'bizPrftPlnY'} 
-            	,{ id: 'bizPrftPlnY1'} 
-            	,{ id: 'bizPrftPlnY2'} 
-            	,{ id: 'bizPrftCurY'} 
-            	,{ id: 'bizPrftCurY1'} 
-            	,{ id: 'bizPrftCurY2'} 
-            	,{ id: 'nprodSalsPlnY'} 
-            	,{ id: 'nprodSalsPlnY1', type: 'number'} 
-            	,{ id: 'nprodSalsPlnY2', type: 'number'} 
-            	,{ id: 'nprodSalsPlnY3', type: 'number'} 
-            	,{ id: 'nprodSalsPlnY4', type: 'number'} 
-            	,{ id: 'nprodSalsCurY'} 
-            	,{ id: 'nprodSalsCurY1'} 
-            	,{ id: 'nprodSalsCurY2'} 
-            	,{ id: 'ptcCpsnY'} 
-            	,{ id: 'ptcCpsnY1'} 
-            	,{ id: 'ptcCpsnY2'} 
-            	,{ id: 'ptcCpsnY3'} 
-            	,{ id: 'ptcCpsnY4'} 
-            	,{ id: 'ptcCpsnCurY'} 
-            	,{ id: 'ptcCpsnCurY1'} 
-            	,{ id: 'ptcCpsnCurY2'} 
-            	,{ id: 'ptcCpsnCurY3'} 
-            	,{ id: 'ptcCpsnCurY4'} 
-            	,{ id: 'expArslY'} 
-            	,{ id: 'expArslY1'} 
-            	,{ id: 'expArslY2'} 
-            	,{ id: 'expArslY3'} 
-            	,{ id: 'expArslY4'} 
-            	,{ id: 'expArslCurY'} 
-            	,{ id: 'expArslCurY1'} 
-            	,{ id: 'expArslCurY2'} 
-            	,{ id: 'expArslCurY3'} 
-            	,{ id: 'expArslCurY4'} 
-            	,{ id: 'nprodNm'} 
-            	,{ id: 'userId'} 
+                 { id: 'tssCd'}
+                ,{ id: 'tssSmryTxt'}
+                ,{ id: 'tssSmryDvlpTxt'}
+                ,{ id: 'rsstDvlpOucmTxt'}
+                ,{ id: 'rsstDvlpOucmCtqTxt'}
+                ,{ id: 'rsstDvlpOucmEffTxt'}
+                ,{ id: 'pmisTxt'}
+                ,{ id: 'qgate3Dt'}
+                ,{ id: 'fwdPlnTxt'}
+                ,{ id: 'fnoPlnTxt'}
+                ,{ id: 'ancpOtPlnDt'}
+                ,{ id: 'cmplAttcFilId'}
+                ,{ id: 'pmisCmplTxt'}
+                ,{ id: 'bizPrftProY'}
+                ,{ id: 'bizPrftProY1'}
+                ,{ id: 'bizPrftProY2'}
+                ,{ id: 'bizPrftProY3'}
+                ,{ id: 'bizPrftProY4'}
+                ,{ id: 'bizPrftProCurY'}
+                ,{ id: 'bizPrftProCurY1'}
+                ,{ id: 'bizPrftProCurY2'}
+                ,{ id: 'bizPrftPlnY'}
+                ,{ id: 'bizPrftPlnY1'}
+                ,{ id: 'bizPrftPlnY2'}
+                ,{ id: 'bizPrftCurY'}
+                ,{ id: 'bizPrftCurY1'}
+                ,{ id: 'bizPrftCurY2'}
+                ,{ id: 'nprodSalsPlnY'}
+                ,{ id: 'nprodSalsPlnY1', type: 'number'}
+                ,{ id: 'nprodSalsPlnY2', type: 'number'}
+                ,{ id: 'nprodSalsPlnY3', type: 'number'}
+                ,{ id: 'nprodSalsPlnY4', type: 'number'}
+                ,{ id: 'nprodSalsCurY'}
+                ,{ id: 'nprodSalsCurY1'}
+                ,{ id: 'nprodSalsCurY2'}
+                ,{ id: 'ptcCpsnY'}
+                ,{ id: 'ptcCpsnY1'}
+                ,{ id: 'ptcCpsnY2'}
+                ,{ id: 'ptcCpsnY3'}
+                ,{ id: 'ptcCpsnY4'}
+                ,{ id: 'ptcCpsnCurY'}
+                ,{ id: 'ptcCpsnCurY1'}
+                ,{ id: 'ptcCpsnCurY2'}
+                ,{ id: 'ptcCpsnCurY3'}
+                ,{ id: 'ptcCpsnCurY4'}
+                ,{ id: 'expArslY'}
+                ,{ id: 'expArslY1'}
+                ,{ id: 'expArslY2'}
+                ,{ id: 'expArslY3'}
+                ,{ id: 'expArslY4'}
+                ,{ id: 'expArslCurY'}
+                ,{ id: 'expArslCurY1'}
+                ,{ id: 'expArslCurY2'}
+                ,{ id: 'expArslCurY3'}
+                ,{ id: 'expArslCurY4'}
+                ,{ id: 'nprodNm'}
+                ,{ id: 'userId'}
             ]
         });
         dataSet.on('load', function(e) {
@@ -199,8 +199,8 @@
 
             lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
             if(lvAttcFilId != "") {
-            	dataSet.setNameValue(0, 'attcFilId', dataSet.getNameValue(0, "cmplAttcFilId") );
-            	getAttachFileList();
+                dataSet.setNameValue(0, 'attcFilId', dataSet.getNameValue(0, "cmplAttcFilId") );
+                getAttachFileList();
             }
         });
 
@@ -226,95 +226,95 @@
                 ,{ id: 'nprodNm'           , ctrlId: 'nprodNm'           , value: 'html'}
                 ,{ id: 'ancpOtPlnDt'       , ctrlId: 'ancpOtPlnDt'       , value: 'html'}
                 ,{ id: 'bizPrftProY'       , ctrlId: 'bizPrftProY'       , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'bizPrftProY1'      , ctrlId: 'bizPrftProY1'      , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'bizPrftProY2'      , ctrlId: 'bizPrftProY2'      , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'bizPrftProY3'      , ctrlId: 'bizPrftProY3'      , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'bizPrftProY4'      , ctrlId: 'bizPrftProY4'      , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
 
                 ,{ id: 'bizPrftProCurY'    , ctrlId: 'bizPrftProCurY'    , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'bizPrftProCurY1'   , ctrlId: 'bizPrftProCurY1'   , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'bizPrftProCurY2'   , ctrlId: 'bizPrftProCurY2'   , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
-                
+            }
+
                 ,{ id: 'bizPrftPlnY'       , ctrlId: 'bizPrftPlnY'       , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'bizPrftPlnY1'      , ctrlId: 'bizPrftPlnY1'      , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'bizPrftPlnY2'      , ctrlId: 'bizPrftPlnY2'      , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'bizPrftCurY'       , ctrlId: 'bizPrftCurY'       , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'bizPrftCurY1'      , ctrlId: 'bizPrftCurY1'      , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'bizPrftCurY2'      , ctrlId: 'bizPrftCurY2'      , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'nprodSalsPlnY'     , ctrlId: 'nprodSalsPlnY'     , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'nprodSalsPlnY1'    , ctrlId: 'nprodSalsPlnY1'    , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'nprodSalsPlnY2'    , ctrlId: 'nprodSalsPlnY2'    , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'nprodSalsPlnY3'    , ctrlId: 'nprodSalsPlnY3'    , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'nprodSalsPlnY4'    , ctrlId: 'nprodSalsPlnY4'    , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'nprodSalsCurY'     , ctrlId: 'nprodSalsCurY'     , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'nprodSalsCurY1'    , ctrlId: 'nprodSalsCurY1'    , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'nprodSalsCurY2'    , ctrlId: 'nprodSalsCurY2'    , value: 'html', renderer: function(value) {
-                	return Rui.util.LFormat.numberFormat(value);
+                    return Rui.util.LFormat.numberFormat(value);
                 }
-            }    
+            }
                 ,{ id: 'ptcCpsnY'          , ctrlId: 'ptcCpsnY'          , value: 'html'}
                 ,{ id: 'ptcCpsnY1'         , ctrlId: 'ptcCpsnY1'         , value: 'html'}
                 ,{ id: 'ptcCpsnY2'         , ctrlId: 'ptcCpsnY2'         , value: 'html'}
@@ -326,85 +326,85 @@
                 ,{ id: 'ptcCpsnCurY3'      , ctrlId: 'ptcCpsnCurY3'      , value: 'html'}
                 ,{ id: 'ptcCpsnCurY4'      , ctrlId: 'ptcCpsnCurY4'      , value: 'html'}
                 ,{ id: 'expArslY'          , ctrlId: 'expArslY'          , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                    if ( parseFloat(value) > 0 ){
+                        return Rui.util.LFormat.numberFormat(parseFloat(value));
+                    }else{
+                        return "";
+                    }
                 }
-            }    
+            }
                 ,{ id: 'expArslY1'         , ctrlId: 'expArslY1'         , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                    if ( parseFloat(value) > 0 ){
+                        return Rui.util.LFormat.numberFormat(parseFloat(value));
+                    }else{
+                        return "";
+                    }
                 }
-            }    
+            }
                 ,{ id: 'expArslY2'         , ctrlId: 'expArslY2'         , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                    if ( parseFloat(value) > 0 ){
+                        return Rui.util.LFormat.numberFormat(parseFloat(value));
+                    }else{
+                        return "";
+                    }
                 }
-            }    
+            }
                 ,{ id: 'expArslY3'         , ctrlId: 'expArslY3'         , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                    if ( parseFloat(value) > 0 ){
+                        return Rui.util.LFormat.numberFormat(parseFloat(value));
+                    }else{
+                        return "";
+                    }
                 }
-            }    
+            }
                 ,{ id: 'expArslY4'         , ctrlId: 'expArslY4'         , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                    if ( parseFloat(value) > 0 ){
+                        return Rui.util.LFormat.numberFormat(parseFloat(value));
+                    }else{
+                        return "";
+                    }
                 }
-            }    
+            }
                 ,{ id: 'expArslCurY'       , ctrlId: 'expArslCurY'       , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                    if ( parseFloat(value) > 0 ){
+                        return Rui.util.LFormat.numberFormat(parseFloat(value));
+                    }else{
+                        return "";
+                    }
                 }
-            }    
+            }
                 ,{ id: 'expArslCurY1'      , ctrlId: 'expArslCurY1'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                    if ( parseFloat(value) > 0 ){
+                        return Rui.util.LFormat.numberFormat(parseFloat(value));
+                    }else{
+                        return "";
+                    }
                 }
-            }    
+            }
                 ,{ id: 'expArslCurY2'      , ctrlId: 'expArslCurY2'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                    if ( parseFloat(value) > 0 ){
+                        return Rui.util.LFormat.numberFormat(parseFloat(value));
+                    }else{
+                        return "";
+                    }
                 }
-            }    
+            }
                 ,{ id: 'expArslCurY3'      , ctrlId: 'expArslCurY3'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                    if ( parseFloat(value) > 0 ){
+                        return Rui.util.LFormat.numberFormat(parseFloat(value));
+                    }else{
+                        return "";
+                    }
                 }
-            }    
+            }
                 ,{ id: 'expArslCurY4'      , ctrlId: 'expArslCurY4'      , value: 'html', renderer: function(value) {
-                	if ( parseFloat(value) > 0 ){
-                    	return Rui.util.LFormat.numberFormat(parseFloat(value));
-        			}else{
-        				return "";
-        			}
+                    if ( parseFloat(value) > 0 ){
+                        return Rui.util.LFormat.numberFormat(parseFloat(value));
+                    }else{
+                        return "";
+                    }
                 }
-            }    
+            }
                 ,{ id: 'cmplAttcFilId'     , ctrlId: 'cmplAttcFilId'     , value: 'html'}
             ]
         });
@@ -484,7 +484,7 @@
             if(attachFileList.length > 0) {
                 lvAttcFilId = attachFileList[0].data.attcFilId;
                 dataSet.setNameValue(0, "attcFilId", lvAttcFilId)
-                
+
                 tmpAttchFileList = attachFileList;
             }
         };
@@ -498,9 +498,9 @@
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-        	if (fnIfmIsUpdate("SAVE") ){
-	        	window.parent.fnSave();
-        	}
+            if (fnIfmIsUpdate("SAVE") ){
+                window.parent.fnSave();
+            }
         });
 
         //데이터 셋팅
@@ -513,13 +513,13 @@
         }
 
         disableFields();
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#btnSave").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#btnSave").hide();
-		}
-        
+            $("#btnSave").hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $("#btnSave").hide();
+        }
+
     });
 
 
@@ -537,20 +537,20 @@
 
         return true;
     }
-    
+
     function fnAttchValid(){
-    	var chkNum = 0;
-    	
-    	if( !Rui.isEmpty(tmpAttchFileList) ){
-	    	for(var i = 0; i < tmpAttchFileList.length; i++) {
-	    		if( tmpAttchFileList[i].data.filNm.indexOf('완료') > -1 || tmpAttchFileList[i].data.filNm.indexOf('결과') > -1 || tmpAttchFileList[i].data.filNm.indexOf('최종') > -1 ){
-					chkNum++;    
-				}               
-	        }
-    	}
-		return chkNum;
+        var chkNum = 0;
+
+        if( !Rui.isEmpty(tmpAttchFileList) ){
+            for(var i = 0; i < tmpAttchFileList.length; i++) {
+                if( tmpAttchFileList[i].data.filNm.indexOf('완료') > -1 || tmpAttchFileList[i].data.filNm.indexOf('결과') > -1 || tmpAttchFileList[i].data.filNm.indexOf('최종') > -1 ){
+                    chkNum++;
+                }
+            }
+        }
+        return chkNum;
     }
-    
+
 </script>
 <script type="text/javascript">
 $(window).load(function() {
@@ -565,128 +565,128 @@ $(window).load(function() {
         <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
 
 <table class="table table_txt_right" id="grsDev">
-			<colgroup>
-				<col style="width: 20%;" />
-				<col style="width: 8%;" />
-				<col style="width: 8%;" />
-				<col style="width: 8%;" />
-				<col style="width: 8%;" />
-				<col style="width: 8%;" />
-				<col style="width: 8%;" />
-				<col style="width: 8%;" />
-				<col style="width: 8%;" />
-				<col style="width: 8%;" />
-				<col style="width: 8%;" />
-			</colgroup>
-			<tbody>
-				<tr>
-	  				<th rowspan="2"></th>
-	  				<th class="alignC"  colspan="2">출시년도</th>
-	  				<th class="alignC"  colspan="2">출시년도+1</th>
-	  				<th class="alignC"  colspan="2">출시년도+2</th>
-	  				<th class="alignC"  colspan="2">출시년도+3</th>
-	  				<th class="alignC"  colspan="2">출시년도+4</th>
-	  			</tr>
-	  			<tr>
-	  				<th class="alignC">前단계</th>
-	  				<th class="alignC">현재</th>
-	  				<th class="alignC">前단계</th>
-	  				<th class="alignC">현재</th>
-	  				<th class="alignC">前단계</th>
-	  				<th class="alignC">현재</th>
-	  				<th class="alignC">前단계</th>
-	  				<th class="alignC">현재</th>
-	  				<th class="alignC">前단계</th>
-	  				<th class="alignC">현재</th>
-	  			</tr>
-	  			<tr id="trNprodSal">
-	  				<th>영업이익률(%)</th>
-	  				<td class="alignR"><span id="bizPrftProY" /></td>
-	  				<td  class="alignR" bgcolor='#E6E6E6'><span id="bizPrftProCurY"  style="font-weight:bold;"/></td>
-	  				<td class="alignR"><span id="bizPrftProY1"/></td>
-	  				<td  class="alignR" bgcolor='#E6E6E6'><span id="bizPrftProCurY1" style="font-weight:bold;"/></td>
-	  				<td class="alignR"><span id="bizPrftProY2"/></td>
-	  				<td class="alignR" bgcolor='#E6E6E6'><span id="bizPrftProCurY2" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ></td>
-	  				<td class="alignR" ></td>
-	  				<td class="alignR" ></td>
-	  				<td class="alignR" ></td>
-	  			</tr>
-	  			<tr id="trNprodSal"  >
-	  				<th>매출액(억원)</th>
-	  				<td class="alignR" ><span id="nprodSalsPlnY" /></td>
-	  				<td  class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsCurY"  style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="nprodSalsPlnY1"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="nprodSalsCurY1" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="nprodSalsPlnY2"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="nprodSalsCurY2" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ></td>
-	  				<td class="alignR" ></td>
-	  				<td class="alignR" ></td>
-	  				<td class="alignR" ></td>
-	  			</tr>
-	  			<tr id="trbizPrftPln" >
-	  				<th>영업이익(억원)</th>
-	  				<td class="alignR" ><span id="bizPrftPlnY"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="bizPrftCurY" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="bizPrftPlnY1"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="bizPrftCurY1" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="bizPrftPlnY2"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="bizPrftCurY2" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ></td>
-	  				<td class="alignR" ></td>
-	  				<td class="alignR" ></td>
-	  				<td class="alignR" ></td>
-	  			</tr>
-				<tr id="trPtcCpsnHead" >
-	  				<th rowspan="2"></th>
-	  				<th class="alignC"  colspan="2">과제시작년도</th>
-	  				<th class="alignC"  colspan="2">과제시작년도+1</th>
-	  				<th class="alignC"  colspan="2">과제시작년도+2</th>
-	  				<th class="alignC"  colspan="2">과제시작년도+3</th>
-	  				<th class="alignC"  colspan="2">과제시작년도+4</th>
-	  			</tr>
-	  			<tr>
-	  				<th class="alignC">계획</th>
-	  				<th class="alignC">실적</th>
-	  				<th class="alignC">계획</th>
-	  				<th class="alignC">실적</th>
-	  				<th class="alignC">계획</th>
-	  				<th class="alignC">실적</th>
-	  				<th class="alignC">계획</th>
-	  				<th class="alignC">실적</th>
-	  				<th class="alignC">계획</th>
-	  				<th class="alignC">실적</th>
-	  			</tr>
-	  			<tr id="trPtcCpsn" >
-	  				<th>투입인원(명)</th>
-	  				<td class="alignR" ><span id="ptcCpsnY"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="ptcCpsnCurY" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="ptcCpsnY1"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="ptcCpsnCurY1" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="ptcCpsnY2"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="ptcCpsnCurY2" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="ptcCpsnY3"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="ptcCpsnCurY3" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="ptcCpsnY4"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="ptcCpsnCurY4" style="font-weight:bold;"/></td>
-	  			</tr>
-	  			<tr id="trExpArsl" >
-	  				<th>투입비용(억원)</th>
-	  				<td class="alignR" ><span id="expArslY" /></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="expArslCurY" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="expArslY1"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="expArslCurY1" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="expArslY2"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="expArslCurY2" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="expArslY3"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="expArslCurY3" style="font-weight:bold;"/></td>
-	  				<td class="alignR" ><span id="expArslY4"/></td>
-	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="expArslCurY4" style="font-weight:bold;"/></td>
-	  			</tr>
-			</tbody>
-		</table>
-		<table class="table table_txt_right">
+            <colgroup>
+                <col style="width: 20%;" />
+                <col style="width: 8%;" />
+                <col style="width: 8%;" />
+                <col style="width: 8%;" />
+                <col style="width: 8%;" />
+                <col style="width: 8%;" />
+                <col style="width: 8%;" />
+                <col style="width: 8%;" />
+                <col style="width: 8%;" />
+                <col style="width: 8%;" />
+                <col style="width: 8%;" />
+            </colgroup>
+            <tbody>
+                <tr>
+                      <th rowspan="2"></th>
+                      <th class="alignC"  colspan="2">출시년도</th>
+                      <th class="alignC"  colspan="2">출시년도+1</th>
+                      <th class="alignC"  colspan="2">출시년도+2</th>
+                      <th class="alignC"  colspan="2">출시년도+3</th>
+                      <th class="alignC"  colspan="2">출시년도+4</th>
+                  </tr>
+                  <tr>
+                      <th class="alignC">前단계</th>
+                      <th class="alignC">현재</th>
+                      <th class="alignC">前단계</th>
+                      <th class="alignC">현재</th>
+                      <th class="alignC">前단계</th>
+                      <th class="alignC">현재</th>
+                      <th class="alignC">前단계</th>
+                      <th class="alignC">현재</th>
+                      <th class="alignC">前단계</th>
+                      <th class="alignC">현재</th>
+                  </tr>
+                  <tr id="trNprodSal">
+                      <th>영업이익률(%)</th>
+                      <td class="alignR"><span id="bizPrftProY" /></td>
+                      <td  class="alignR" bgcolor='#E6E6E6'><span id="bizPrftProCurY"  style="font-weight:bold;"/></td>
+                      <td class="alignR"><span id="bizPrftProY1"/></td>
+                      <td  class="alignR" bgcolor='#E6E6E6'><span id="bizPrftProCurY1" style="font-weight:bold;"/></td>
+                      <td class="alignR"><span id="bizPrftProY2"/></td>
+                      <td class="alignR" bgcolor='#E6E6E6'><span id="bizPrftProCurY2" style="font-weight:bold;"/></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                  </tr>
+                  <tr id="trNprodSal"  >
+                      <th>매출액(억원)</th>
+                      <td class="alignR" ><span id="nprodSalsPlnY" /></td>
+                      <td  class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsCurY"  style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="nprodSalsPlnY1"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="nprodSalsCurY1" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="nprodSalsPlnY2"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="nprodSalsCurY2" style="font-weight:bold;"/></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                  </tr>
+                  <tr id="trbizPrftPln" >
+                      <th>영업이익(억원)</th>
+                      <td class="alignR" ><span id="bizPrftPlnY"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="bizPrftCurY" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="bizPrftPlnY1"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="bizPrftCurY1" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="bizPrftPlnY2"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="bizPrftCurY2" style="font-weight:bold;"/></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                  </tr>
+                <tr id="trPtcCpsnHead" >
+                      <th rowspan="2"></th>
+                      <th class="alignC"  colspan="2">과제시작년도</th>
+                      <th class="alignC"  colspan="2">과제시작년도+1</th>
+                      <th class="alignC"  colspan="2">과제시작년도+2</th>
+                      <th class="alignC"  colspan="2">과제시작년도+3</th>
+                      <th class="alignC"  colspan="2">과제시작년도+4</th>
+                  </tr>
+                  <tr>
+                      <th class="alignC">계획</th>
+                      <th class="alignC">실적</th>
+                      <th class="alignC">계획</th>
+                      <th class="alignC">실적</th>
+                      <th class="alignC">계획</th>
+                      <th class="alignC">실적</th>
+                      <th class="alignC">계획</th>
+                      <th class="alignC">실적</th>
+                      <th class="alignC">계획</th>
+                      <th class="alignC">실적</th>
+                  </tr>
+                  <tr id="trPtcCpsn" >
+                      <th>투입인원(명)</th>
+                      <td class="alignR" ><span id="ptcCpsnY"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="ptcCpsnCurY" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="ptcCpsnY1"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="ptcCpsnCurY1" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="ptcCpsnY2"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="ptcCpsnCurY2" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="ptcCpsnY3"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="ptcCpsnCurY3" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="ptcCpsnY4"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="ptcCpsnCurY4" style="font-weight:bold;"/></td>
+                  </tr>
+                  <tr id="trExpArsl" >
+                      <th>투입비용(억원)</th>
+                      <td class="alignR" ><span id="expArslY" /></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="expArslCurY" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="expArslY1"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="expArslCurY1" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="expArslY2"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="expArslCurY2" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="expArslY3"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="expArslCurY3" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="expArslY4"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="expArslCurY4" style="font-weight:bold;"/></td>
+                  </tr>
+            </tbody>
+        </table>
+        <table class="table table_txt_right">
             <colgroup>
                 <col style="width: 150px;" />
                 <col style="width: *;" />
@@ -726,18 +726,18 @@ $(window).load(function() {
                             <tbody>
                                 <tr>
                                     <th align="right">지적재산권</th>
-									<td colspan="2">
-										<table>
-											<tr>
-												<th align="right">지재권 출원현황<br/>(국내/해외)</th>
-                                    			<td><input type="text" id="rsstDvlpOucmTxt" /></td>
-											</tr>
-											<tr>
-												<th align="right">특허 Risk 검토결과</th>
-				                    			<td ><input type="text"  id="pmisCmplTxt" name="pmisCmplTxt"></td>
-											</tr>
-										</table>
-									</td>
+                                    <td colspan="2">
+                                        <table>
+                                            <tr>
+                                                <th align="right">지재권 출원현황<br/>(국내/해외)</th>
+                                                <td><input type="text" id="rsstDvlpOucmTxt" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th align="right">특허 Risk 검토결과</th>
+                                                <td ><input type="text"  id="pmisCmplTxt" name="pmisCmplTxt"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th align="right">목표기술성과</th>
@@ -787,17 +787,20 @@ $(window).load(function() {
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
                     <td id="attchFileView" colspan="2">&nbsp;</td>
-               <!--  
+               <!--
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
                  -->
                 </tr>
             </tbody>
         </table>
-            
+
+        <!-- [2024.03.12] 밑으로 스크롤이 안되어 추가함-->
+        <br/><br/><br/>
+
     </form>
 </div>
 <div class="titArea">
-	<!-- <div><font color="red">첨부 : 과제완료보고서(word파일), 심의보고서(ppt), 심의회의록</font></div> -->
+    <!-- <div><font color="red">첨부 : 과제완료보고서(word파일), 심의보고서(ppt), 심의회의록</font></div> -->
     <div class="LblockButton">
         <button type="button" id="btnSave" name="btnSave">저장</button>
         <!-- <button type="button" id="btnList" name="btnList">목록</button> -->
