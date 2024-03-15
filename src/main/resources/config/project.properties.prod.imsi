@@ -106,22 +106,17 @@ db.iris.encoding=utf-8
 #db.todo.encoding=utf-8
 
 
-#TODO DB DB(DEV) 연결 X
-##db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
-##db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
-##db.todo.url=jdbc:sqlserver://165.244.161.204:1433;databasename=TODO
-##db.todo.username=irisapp
-##db.todo.password=lghausys123!
-##db.todo.encoding=utf-8
-
-#TODO DB DB(DEV) [2024.03.13]부평서버 다운. 임시로 IRIS DB로 바꿔놓음
+#TODO DB(DEV)
 db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
 db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
+#db.todo.url=jdbc:sqlserver://165.244.161.204:1433;databasename=TODO
+#db.todo.username=irisapp
+#db.todo.password=lghausys123!
+#db.todo.encoding=utf-8
 db.todo.url=jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
 db.todo.username=irisapp
 db.todo.password=lghausys123!
 db.todo.encoding=utf-8
-db.todo.initialSize=1
 
 #MSSQL IRIS DBTEST(DEV)
 #db.iris.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -155,22 +150,17 @@ db.pims.encoding=utf-8
 #db.salStat.password=irisuser123!
 #db.salStat.encoding=utf-8
 
-#MSSQL SALSTAT DB(DEV) 연결 X
-##db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
-##db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
+#MSSQL SALSTAT DB(DEV)
+db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
 ##db.salStat.url=jdbc:sqlserver://165.244.161.88:1433;databasename=LGHSDW
 ##db.salStat.username=iris_user
 ##db.salStat.password=irisuser123!
-##db.salStat.encoding=utf-8
-
-#MSSQL SALSTAT DB(DEV) [2024.03.13]부평서버 다운. 임시로 IRIS DB로 바꿔놓음
-db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
+#db.salStat.encoding=utf-8
 db.salStat.url=jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
 db.salStat.username=irisapp
 db.salStat.password=lghausys123!
 db.salStat.encoding=utf-8
-db.salStat.initialSize=1
-
 
 #QAS U
 #db.qasU.driver=core.log.jdbc.driver.OracleDriver
