@@ -111,7 +111,7 @@
         saSabunNew.on('keyup', function(e){
             document.aform.saSabunName.value = "";
         });
-		*/
+        */
 
         //조직
         deptName = new Rui.ui.form.LTextBox({
@@ -119,7 +119,7 @@
             defaultValue: '<c:out value="${inputData.deptName}"/>',
             width: 200
         });
-		/*
+        /*
         deptName = new Rui.ui.form.LPopupTextBox({
             applyTo: 'deptName',
             width: 200,
@@ -129,7 +129,7 @@
         deptName.on('popup', function(e){
             openDeptSearchDialog(setDeptInfo, 'prj');
         });
- 		*/
+        */
         //과제기간 시작일
         tssStrtDd = new Rui.ui.form.LMonthBox({
             applyTo: 'tssStrtDd',
@@ -282,7 +282,7 @@
                     var rWgvl = floatNullChk(arrPrg[0]) ; // 실적
                     var gWgvl  = floatNullChk(arrPrg[1]) ; //목표
                     rWgvl = rWgvl + 1;
-                    
+
                     var pg = pgN ;
 
                     if(rWgvl > gWgvl){
@@ -295,7 +295,7 @@
                     var pgsStepCd= record.get('pgsStepCd');
 
                     if(pgsStepCd=='PL'){
-                    	pg = '';
+                        pg = '';
                     }
                     return pg;
                 }}
@@ -318,7 +318,7 @@
             dataSet: dataSet,
             width: 1210,
             height: 400,
-			autoWidth: true,
+            autoWidth: true,
         });
 
 /*
@@ -353,18 +353,18 @@
                 var gWgvl = numberNullChk(arrPrg[1]) ; //목표
 
                 if(rWgvl > gWgvl){
-                	progressrate = "S";
+                    progressrate = "S";
                 }else if(rWgvl < gWgvl){
-                	rWgvl = rWgvl;
+                    rWgvl = rWgvl;
 
-                	if( rWgvl < gWgvl ){
-	                	progressrate = "D";
-                	}else{
-	                	progressrate = "N";
-                	}
+                    if( rWgvl < gWgvl ){
+                        progressrate = "D";
+                    }else{
+                        progressrate = "N";
+                    }
 
                 }else if(rWgvl = gWgvl){
-                	progressrate = "N";
+                    progressrate = "N";
                 }
 
                 var urlParam = "?tssCd="+pTssCd+"&progressrateReal="+progressrateReal+"&progressrate="+progressrate+"&wbsCd="+pWbsCd;
@@ -398,8 +398,7 @@
                 }
                 //변경
                 else if(pPgsStepCd == "AL") {
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssAltrDetail.do'/>"+urlParam);
-                    /* nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssAltrDetail.do?tssCd="+pTssCd+"'/>"); */
+                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssAltrDetail.do?tssCd="+pTssCd+"'/>");
                 }
                 //중단
                 else if(pPgsStepCd == "DC") {
@@ -423,8 +422,8 @@
             document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
 
             if( '${inputData._roleId}' == "WORK_IRI_T16" ){
-            	deptName.setValue('${inputData._userDeptName}');
-            	deptName.disable();
+                deptName.setValue('${inputData._userDeptName}');
+                deptName.disable();
             }
 
             paging(dataSet,"defaultGrid");
@@ -434,7 +433,7 @@
         /* [버튼] 조회 */
         fnSearch = function() {
 
-        	dataSet.load({
+            dataSet.load({
                 url: '<c:url value="/prj/tss/gen/retrieveGenTssList.do"/>'
               , params : {
                     wbsCd : document.aform.wbsCd.value                        //과제코드
@@ -461,9 +460,9 @@
         /* [버튼] 엑셀 */
         var butExcel = new Rui.ui.LButton('butExcel');
         butExcel.on('click', function() {
-          	dataSet.clearFilter();
-        	var dataSet2 = dataSet.clone('dataSet2');
-        	/* [Grid] 엑셀 */
+            dataSet.clearFilter();
+            var dataSet2 = dataSet.clone('dataSet2');
+            /* [Grid] 엑셀 */
             var grid2 = new Rui.ui.grid.LGridPanel({
                 columnModel: columnModel,
                 dataSet: dataSet2,
@@ -471,14 +470,14 @@
                 height: 0
             });
             grid2.render('defaultGrid2');
-	         // 목록 페이징
+             // 목록 페이징
             paging(dataSet,"defaultGrid");
             if(dataSet.getCount() > 0) {
 
-            	var excelColumnModel = new Rui.ui.grid.LColumnModel({
+                var excelColumnModel = new Rui.ui.grid.LColumnModel({
                     gridView: columnModel,
                     columns: [
-                    	 { field: 'wbsCd',      label: '과제코드', sortable: true, align:'center', width: 85, renderer: function(value, p, record, row, col) {
+                         { field: 'wbsCd',      label: '과제코드', sortable: true, align:'center', width: 85, renderer: function(value, p, record, row, col) {
                              var stepCd = record.get("pgsStepCd");
                              if(stepCd == "PL") return "SEED-" + value;
                              return value;
@@ -506,14 +505,14 @@
                      } }
                      , { id: 'G3', label: '현재 진척율' }
                      , { id: 'progressrate', groupId: 'G3', label: '계획', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
-                    	 var arrPrg = record.get("progressrate").split('/');
+                         var arrPrg = record.get("progressrate").split('/');
 
-                    	 return arrPrg[1];
+                         return arrPrg[1];
                      } }
                      , { id: 'progressrate', groupId: 'G3', label: '실적', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
-                    	 var arrPrg = record.get("progressrate").split('/');
+                         var arrPrg = record.get("progressrate").split('/');
 
-                    	 return arrPrg[0];
+                         return arrPrg[0];
                      } }
 
                      , { id: 'pg', label: '진척도', align:'center', width: 70 ,renderer :function(value, p, record, row, col) {
@@ -534,13 +533,13 @@
                          if(rWgvl > gWgvl){
                              pg = pgS ;
                          }else if(rWgvl < gWgvl){
-                         	rWgvl = rWgvl;
+                            rWgvl = rWgvl;
 
-                         	if( rWgvl < gWgvl ){
-     	                    	pg = pgD ;
-                         	}else{
-     	                        pg = pgN ;
-                         	}
+                            if( rWgvl < gWgvl ){
+                                pg = pgD ;
+                            }else{
+                                pg = pgN ;
+                            }
                          }else if(rWgvl = gWgvl){
                              pg = pgN ;
                          }
@@ -548,17 +547,17 @@
                          var pgsStepCd= record.get('pgsStepCd');
 
                          if(pgsStepCd=='PL'){
-                         	pg = '';
+                            pg = '';
                          }
                          return pg;
                      }}
                      , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 117 }
                  ]
              });
-            	duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('과제관리_연구과제_') + new Date().format('%Y%m%d') + '.xls', {
-		            columnModel: excelColumnModel
-		        });
+                duplicateExcelGrid(excelColumnModel);
+nG.saveExcel(encodeURIComponent('과제관리_연구팀과제_') + new Date().format('%Y%m%d') + '.xls', {
+                    columnModel: excelColumnModel
+                });
 
             } else {
                 Rui.alert("조회 후 엑셀 다운로드 해주세요.");
@@ -571,32 +570,32 @@ nG.saveExcel(encodeURIComponent('과제관리_연구과제_') + new Date().forma
         disableFields();
 
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#butTssNew").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#butTssNew").hide();
-		}
+            $("#butTssNew").hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $("#butTssNew").hide();
+        }
 
         butTssNew.hide();
 
         // setGridFullHeight(grid,"defaultGrid");
         init = function() {
- 	   var wbsCd='${inputData.wbsCd}';
- 	   var tssNm='${inputData.tssNm}';
- 	   var saUserName='${inputData.saUserName}';
- 	   var prjNm='${inputData.prjNm}';
- 	   var deptName='${inputData.deptName}';
-       	dataSet.load({
+       var wbsCd='${inputData.wbsCd}';
+       var tssNm='${inputData.tssNm}';
+       var saUserName='${inputData.saUserName}';
+       var prjNm='${inputData.prjNm}';
+       var deptName='${inputData.deptName}';
+        dataSet.load({
              url: '<c:url value="/prj/tss/gen/retrieveGenTssList.do"/>',
              params :{
-            	 wbsCd : escape(encodeURIComponent(wbsCd)),
-            	 tssNm : escape(encodeURIComponent(tssNm)),
-            	 saUserName : escape(encodeURIComponent(saUserName)),
-            	 deptName : escape(encodeURIComponent(deptName)),
-            	 tssStrtDd : '${inputData.tssStrtDd}',
-     		    tssFnhDd : '${inputData.tssFnhDd}',
-     		   prjNm : escape(encodeURIComponent(prjNm)),
-     		  pgsStepCd : '${inputData.pgsStepCd}',
-     		 tssSt : '${inputData.tssSt}'
+                 wbsCd : escape(encodeURIComponent(wbsCd)),
+                 tssNm : escape(encodeURIComponent(tssNm)),
+                 saUserName : escape(encodeURIComponent(saUserName)),
+                 deptName : escape(encodeURIComponent(deptName)),
+                 tssStrtDd : '${inputData.tssStrtDd}',
+                tssFnhDd : '${inputData.tssFnhDd}',
+               prjNm : escape(encodeURIComponent(prjNm)),
+              pgsStepCd : '${inputData.pgsStepCd}',
+             tssSt : '${inputData.tssSt}'
              }
          });
      }
@@ -643,10 +642,10 @@ function setDeptInfo(deptInfo) {
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">
         <div class="titleArea">
-			<a class="leftCon" href="#">
-	        	<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
-	        	<span class="hidden">Toggle 버튼</span>
-        	</a>
+            <a class="leftCon" href="#">
+                <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+                <span class="hidden">Toggle 버튼</span>
+            </a>
             <h2>연구팀 과제관리</h2>
         </div>
 
@@ -656,91 +655,91 @@ function setDeptInfo(deptInfo) {
                 <div class="search">
                 <div class="search-content">
                     <form name="aform" id="aform" method="post">
-			            <input type="hidden" id="deptCode" value="">
-			                <table>
-			                    <colgroup>
+                        <input type="hidden" id="deptCode" value="">
+                            <table>
+                                <colgroup>
                                     <col width="120px">
                                     <col width="400px">
                                     <col width="110px">
                                     <col width="200px">
                                     <col width="*">
                                 </colgroup>
-			                    <tbody>
-			                        <tr>
-			                            <th>과제코드</th>
-			                            <td>
-			                                <input type="text" id="wbsCd" value="">
-			                            </td>
-			                            <th>과제명</th>
-			                            <td>
-			                                <input type="text" id="tssNm" value="">
-			                            </td>
-			                            <td></td>
-			                        </tr>
-			                        <tr>
-			                            <th>과제리더</th>
-			                            <td>
-			                                <input type="text" id="saUserName" value="">
-			                            </td>
-			                            <th>조직</th>
-			                            <td>
-			                                <input type="text" id="deptName" value="">
-			                            </td>
-										<td class="txt-right">
-											<a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
-										</td>
-			                        </tr>
-			                        <tr>
-			                            <th>과제기간</th>
-			                            <td>
-			                            	<input type="text" id="tssStrtDd" /><em class="gab"> ~ </em><input type="text" id="tssFnhDd" />
-			                            </td>
-			                            <th>프로젝트명</th>
-			                            <td>
-			                                <input type="text" id="prjNm" value="">
-			                            </td>
-			                            <td></td>
-			                        </tr>
-			                        <tr>
-			                            <th>상태</th>
-			                            <td>
-			                                <div id="pgsStepCd"></div>
-			                            </td>
-			                            <th>처리상태</th>
-			                            <td>
-			                                <div id="tssSt"></div>
-			                            </td>
-			                            <td></td>
-			                        </tr>
-			                    </tbody>
-			                </table>
-			            </form>
-					</div>
-            	</div>
-	            <div class="titArea">
-	                <span class="Ltotal" id="cnt_text">총 : 0 </span>
-	                <div class="LblockButton">
-	                    <ul class="progress">
-	                        <li>진척도</li>
-	                        <li><span class="progress_bg01"></span>정상</li>
-	                        <li><span class="progress_bg02"></span>단축</li>
-	                        <li><span class="progress_bg03"></span>지연&nbsp;&nbsp;&nbsp;<b>( 진척률:실시간, 진척도:전월실적기준 )</b></li>
-	                    </ul>
-	                    &nbsp;&nbsp;
-	                    <button type="button" id="butTssNew" name="itemCreate" class="redBtn">과제등록</button>
+                                <tbody>
+                                    <tr>
+                                        <th>과제코드</th>
+                                        <td>
+                                            <input type="text" id="wbsCd" value="">
+                                        </td>
+                                        <th>과제명</th>
+                                        <td>
+                                            <input type="text" id="tssNm" value="">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>과제리더</th>
+                                        <td>
+                                            <input type="text" id="saUserName" value="">
+                                        </td>
+                                        <th>조직</th>
+                                        <td>
+                                            <input type="text" id="deptName" value="">
+                                        </td>
+                                        <td class="txt-right">
+                                            <a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>과제기간</th>
+                                        <td>
+                                            <input type="text" id="tssStrtDd" /><em class="gab"> ~ </em><input type="text" id="tssFnhDd" />
+                                        </td>
+                                        <th>프로젝트명</th>
+                                        <td>
+                                            <input type="text" id="prjNm" value="">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>상태</th>
+                                        <td>
+                                            <div id="pgsStepCd"></div>
+                                        </td>
+                                        <th>처리상태</th>
+                                        <td>
+                                            <div id="tssSt"></div>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <div class="titArea">
+                    <span class="Ltotal" id="cnt_text">총 : 0 </span>
+                    <div class="LblockButton">
+                        <ul class="progress">
+                            <li>진척도</li>
+                            <li><span class="progress_bg01"></span>정상</li>
+                            <li><span class="progress_bg02"></span>단축</li>
+                            <li><span class="progress_bg03"></span>지연&nbsp;&nbsp;&nbsp;<b>( 진척률:실시간, 진척도:전월실적기준 )</b></li>
+                        </ul>
+                        &nbsp;&nbsp;
+                        <button type="button" id="butTssNew" name="itemCreate" class="redBtn">과제등록</button>
 
-	                    <button type="button" id="butExcel" name="butExcel">EXCEL다운로드</button>
-	                </div>
-	            </div>
+                        <button type="button" id="butExcel" name="butExcel">EXCEL다운로드</button>
+                    </div>
+                </div>
 
-					<div id="defaultGrid"></div>
-					<div style="display:none" id="defaultGrid2"></div>
+                    <div id="defaultGrid"></div>
+                    <div style="display:none" id="defaultGrid2"></div>
 
             <!-- radio check Test -->
 <%--            <div>
-            	<p style="font-size:20px; margin-bottom:10px;">radio check Test<p>
-            	<p>
-            		<label class="radio-inline">
+                <p style="font-size:20px; margin-bottom:10px;">radio check Test<p>
+                <p>
+                    <label class="radio-inline">
                        <input type="radio" name="s_rdo" checked="checked">
                        <ins class="form-control"></ins>
                        <span>Radio</span>
@@ -752,7 +751,7 @@ function setDeptInfo(deptInfo) {
                    </label>
                 </p>
                 <p>
-                	<label class="checkbox-inline">
+                    <label class="checkbox-inline">
                         <input type="checkbox" id="s_chk01" name="s_chk">
                         <ins class="form-control"></ins>
                         <span>Check1</span>
@@ -764,7 +763,7 @@ function setDeptInfo(deptInfo) {
                     </label>
                 </p>
             </div>--%>
-			<!-- //radio check Test -->
+            <!-- //radio check Test -->
         </div>
     </div>
 </body>
