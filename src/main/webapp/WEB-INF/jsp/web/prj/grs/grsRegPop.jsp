@@ -1193,8 +1193,8 @@ var exSabun = '${inputData._userSabun}';
                  || dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC"    ){*/
              if (dataSet.getNameValue(0, 'custSqlt') =="05") { //과제 GRS 기본 정보 마스터(추가).고객특성[05:B2B(수주형)]은 무조건 PASS되도록 함.
                  dataSet.setNameValue(0, 'dropYn', "N");
-             }else{
-                 if( evPoint < 70  ){ //그외에는 평균점수에 따라 PASS/DROP이 결정됨.
+             }else{ //그외에는 평균점수에 따라 PASS/DROP이 결정됨.
+                 if( evPoint < 70  ){
                         dataSet.setNameValue(0, 'grsEvSt', "D");
                         dataSet.setNameValue(0, 'dropYn', "Y");
                         grsMsg ="<font color='#DA1C5A'>※ 평가 환산점수 합계가  70점 미만 입니다.</font><br><br>";
