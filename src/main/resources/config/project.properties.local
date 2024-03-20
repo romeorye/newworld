@@ -115,7 +115,7 @@ db.iris.encoding=utf-8
 ##db.todo.encoding=utf-8
 
 #TODO DB DB(DEV) [2024.03.13]부평서버 다운. 임시로 IRIS DB로 바꿔놓음
-#db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
 db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
 db.todo.url=jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
 db.todo.username=irisapp
