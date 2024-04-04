@@ -23,11 +23,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <%
-	response.setHeader("Pragma", "No-cache");
-	response.setDateHeader("Expires", -1);
-	response.setHeader("Cache-Control", "no-cache");
+    response.setHeader("Pragma", "No-cache");
+    response.setDateHeader("Expires", -1);
+    response.setHeader("Cache-Control", "no-cache");
 
-	pageContext.setAttribute("nl", "\n");
+    pageContext.setAttribute("nl", "\n");
     pageContext.setAttribute("crlf", "\r\n");
     pageContext.setAttribute("blank", " ");
 
@@ -37,7 +37,7 @@
     ConfigService configService = (ConfigService) wac.getBean("configService");
 
     if ("/".equals(contextPath)) {
-    	contextPath = "";
+        contextPath = "";
     }
 
     String uploadPath       = contextPath + "/resource/fileupload";
@@ -59,7 +59,7 @@
     HistorialWatch historialWatch = (HistorialWatch)request.getAttribute(iris.web.system.base.Constants.SERVLET_STOPWATCH_KEY);
 
     if (historialWatch == null) {
-    	historialWatch = new HistorialWatch();
+        historialWatch = new HistorialWatch();
     }
 
     historialWatch.tick("Processing Jsp Begin");
@@ -67,122 +67,122 @@
     /* 그리드내 수정가능한 셀 색상지정 : 한민호 : 2010-05-19 */
     String edCellColor = "#C8FFB5";
 
-	HttpSession session = null;
-	session = request.getSession(false);
-	HashMap menuInfo	= null;
-	String topMenuNm 	= "";
-	String supiMenuNm 	= "";
-	String menuNm 		= "";
-	String authScnCd 	= "";
+    HttpSession session = null;
+    session = request.getSession(false);
+    HashMap menuInfo    = null;
+    String topMenuNm     = "";
+    String supiMenuNm     = "";
+    String menuNm         = "";
+    String authScnCd     = "";
 
     if(request.getSession() != null){
-		session = request.getSession(false);
-		if(session.getAttribute("menuInfoSession") != null) {
-			menuInfo = (HashMap)session.getAttribute("menuInfoSession");
+        session = request.getSession(false);
+        if(session.getAttribute("menuInfoSession") != null) {
+            menuInfo = (HashMap)session.getAttribute("menuInfoSession");
 
-			topMenuNm 	= menuInfo.get("topMenuNm").toString();
-			supiMenuNm 	= menuInfo.get("supiMenuNm").toString();
-			menuNm 		= menuInfo.get("menuNm").toString();
-			authScnCd 	= menuInfo.get("authScnCd").toString();
+            topMenuNm     = menuInfo.get("topMenuNm").toString();
+            supiMenuNm     = menuInfo.get("supiMenuNm").toString();
+            menuNm         = menuInfo.get("menuNm").toString();
+            authScnCd     = menuInfo.get("authScnCd").toString();
 
-		}
-	}
+        }
+    }
 
-	//[EAM추가] - 메뉴 권한 체크 및 시스템 액세스 로그 생성 Start ======================================
+    //[EAM추가] - 메뉴 권한 체크 및 시스템 액세스 로그 생성 Start ======================================
 
-	//에러발생 시 리턴되는 URL정의(로그인 후 최초페이지가 Default)
-	final String RET_URL = request.getContextPath() + "/index.do";
-	try {
-		HttpSession sess = request.getSession(false);
-		if(sess != null) {
-			EAMUtil eamUtil = EAMUtil.getInstance();
-			List eamMenuList = new ArrayList();	//EAM 시스템에서 허용된 메뉴URL 리스트
-			boolean eamSystemCheck = false;	//EAM시스템 체크 대상 여부 (true : 체크대상o / false : 체크대상x)
-			String alertMsg = "";
+    //에러발생 시 리턴되는 URL정의(로그인 후 최초페이지가 Default)
+    final String RET_URL = request.getContextPath() + "/index.do";
+    try {
+        HttpSession sess = request.getSession(false);
+        if(sess != null) {
+            EAMUtil eamUtil = EAMUtil.getInstance();
+            List eamMenuList = new ArrayList();    //EAM 시스템에서 허용된 메뉴URL 리스트
+            boolean eamSystemCheck = false;    //EAM시스템 체크 대상 여부 (true : 체크대상o / false : 체크대상x)
+            String alertMsg = "";
 
-			//메뉴 ID가 존재하면 메뉴를 클릭 하여 들어온 것으로 처리
-			String eamMenuId = "";
-			if(!eamUtil.checkNull(request.getAttribute("data"))) {
-				Map input = (Map)request.getAttribute("data");
-				eamMenuId = eamUtil.nvlObj(input.get("menuId"), "");
-			}
+            //메뉴 ID가 존재하면 메뉴를 클릭 하여 들어온 것으로 처리
+            String eamMenuId = "";
+            if(!eamUtil.checkNull(request.getAttribute("data"))) {
+                Map input = (Map)request.getAttribute("data");
+                eamMenuId = eamUtil.nvlObj(input.get("menuId"), "");
+            }
 
-			String servletPath = "";
-			if(!eamUtil.checkNull(request.getAttribute("javax.servlet.forward.request_uri"))) {	//null이 아니면
-				servletPath = ((String)request.getAttribute("javax.servlet.forward.request_uri")).replace(request.getContextPath(), "");
-			}
+            String servletPath = "";
+            if(!eamUtil.checkNull(request.getAttribute("javax.servlet.forward.request_uri"))) {    //null이 아니면
+                servletPath = ((String)request.getAttribute("javax.servlet.forward.request_uri")).replace(request.getContextPath(), "");
+            }
 
-			if("".equals(eamMenuId) && !"/temp".equals(servletPath)) {	//메뉴ID가 존재하지 않는다면 강제 URL입력으로 간주하여 처리
+            if("".equals(eamMenuId) && !"/temp".equals(servletPath)) {    //메뉴ID가 존재하지 않는다면 강제 URL입력으로 간주하여 처리
 
-				String queryString = eamUtil.nvl(request.getQueryString());
-				String requestPath = (servletPath + (("".equals(queryString)) ? "" : "?"+queryString)).trim();
+                String queryString = eamUtil.nvl(request.getQueryString());
+                String requestPath = (servletPath + (("".equals(queryString)) ? "" : "?"+queryString)).trim();
 
-				if(!"".equals(requestPath)) {
-					List eamMenuAcceptList = null;
-					if(sess.getAttribute("eamMenuAcceptList") != null) {
-						eamMenuAcceptList = (List)sess.getAttribute("eamMenuAcceptList");
-					}
+                if(!"".equals(requestPath)) {
+                    List eamMenuAcceptList = null;
+                    if(sess.getAttribute("eamMenuAcceptList") != null) {
+                        eamMenuAcceptList = (List)sess.getAttribute("eamMenuAcceptList");
+                    }
 
-					//EAM 시스템에서 존재하는 메뉴 URL 인지 체크
-					if(eamMenuAcceptList!=null && eamMenuAcceptList.size() > 0) {
-						for(int i=0; i<eamMenuAcceptList.size(); i++) {
-							String eamMenu = String.valueOf(eamMenuAcceptList.get(i));
-							if("".equals(eamMenu)) continue;
-							if(requestPath.equals(eamMenu)) {
-								eamSystemCheck = true;	//EAM시스템 체크대상o
-							}
-						}
-					}
+                    //EAM 시스템에서 존재하는 메뉴 URL 인지 체크
+                    if(eamMenuAcceptList!=null && eamMenuAcceptList.size() > 0) {
+                        for(int i=0; i<eamMenuAcceptList.size(); i++) {
+                            String eamMenu = String.valueOf(eamMenuAcceptList.get(i));
+                            if("".equals(eamMenu)) continue;
+                            if(requestPath.equals(eamMenu)) {
+                                eamSystemCheck = true;    //EAM시스템 체크대상o
+                            }
+                        }
+                    }
 
-					if(eamSystemCheck && !eamUtil.checkNull(sess.getAttribute("irisSession"))) {
-						HashMap lsession = (HashMap)sess.getAttribute("irisSession");
-						String userSabun = eamUtil.nvl((String)lsession.get("_userSabun"), "");
+                    if(eamSystemCheck && !eamUtil.checkNull(sess.getAttribute("irisSession"))) {
+                        HashMap lsession = (HashMap)sess.getAttribute("irisSession");
+                        String userSabun = eamUtil.nvl((String)lsession.get("_userSabun"), "");
 
-						Map reqData = new HashMap();
-						reqData.put("SYS_CD", "IRI");						//시스템 코드
-						reqData.put("EMP_NO", userSabun);					//사용자 사번
-						reqData.put("BACKDOOR_EMP_NO", "");					//백도어 통한 접근시에만 입력
-						reqData.put("MENU_ID", "");							//메뉴ID
-						reqData.put("MENU_PATH", requestPath);				//메뉴URL
-						reqData.put("IP_ADDRESS", eamUtil.nvl(eamUtil.getUserIp(request)));		//사용자IP
-						reqData.put("IP_ADDRESS_SVR", eamUtil.nvl(eamUtil.getServerIp()));		//서버IP
+                        Map reqData = new HashMap();
+                        reqData.put("SYS_CD", "IRI");                        //시스템 코드
+                        reqData.put("EMP_NO", userSabun);                    //사용자 사번
+                        reqData.put("BACKDOOR_EMP_NO", "");                    //백도어 통한 접근시에만 입력
+                        reqData.put("MENU_ID", "");                            //메뉴ID
+                        reqData.put("MENU_PATH", requestPath);                //메뉴URL
+                        reqData.put("IP_ADDRESS", eamUtil.nvl(eamUtil.getUserIp(request)));        //사용자IP
+                        reqData.put("IP_ADDRESS_SVR", eamUtil.nvl(eamUtil.getServerIp()));        //서버IP
 
-						boolean errFlag = false;
-						try {
-							List list = eamUtil.eamCall("EAM_LOG", reqData);
-							if(list!=null && list.size()>0) {
-								LogVO logVO = (LogVO)list.get(0);
-								String retCd = logVO.getRetCd();
-								if(!"Y".equals(retCd)) {
-									throw new EAMException(true, "MSG_ERR_MENU_NOAUTH");
-								}
-							}
-						}catch(EAMException ea) {
-							errFlag = true;
-							alertMsg = ea.getRemoveMessage();
-						}catch(Exception e) {
-							errFlag = true;
-							alertMsg = eamUtil.getDefaultAlertMessage();
-						}
+                        boolean errFlag = false;
+                        try {
+                            List list = eamUtil.eamCall("EAM_LOG", reqData);
+                            if(list!=null && list.size()>0) {
+                                LogVO logVO = (LogVO)list.get(0);
+                                String retCd = logVO.getRetCd();
+                                if(!"Y".equals(retCd)) {
+                                    throw new EAMException(true, "MSG_ERR_MENU_NOAUTH");
+                                }
+                            }
+                        }catch(EAMException ea) {
+                            errFlag = true;
+                            alertMsg = ea.getRemoveMessage();
+                        }catch(Exception e) {
+                            errFlag = true;
+                            alertMsg = eamUtil.getDefaultAlertMessage();
+                        }
 
-						java.lang.StringBuffer sb = new java.lang.StringBuffer("");
-						sb.append("<script>");
-						sb.append("alert('" + alertMsg + "');");
-						sb.append("top.location = '"+ RET_URL + "'");	//리턴페이지 처리(프레임 구조)
-						//sb.append("document.location.href='"+ RET_URL + "'");	//리턴페이지 처리(프레임 구조가 아닐 경우)
-						sb.append("</script>");
-						sb.append("</head>");
-						sb.append("</html>");
-						if(errFlag) {
-							out.write(sb.toString());
-							return;
-						}
-					}
-				}
-			}
-		}
-	}catch(Exception e) {}
-	//[EAM추가] - 메뉴 권한 체크 및 시스템 액세스 로그 생성 End ======================================
+                        java.lang.StringBuffer sb = new java.lang.StringBuffer("");
+                        sb.append("<script>");
+                        sb.append("alert('" + alertMsg + "');");
+                        sb.append("top.location = '"+ RET_URL + "'");    //리턴페이지 처리(프레임 구조)
+                        //sb.append("document.location.href='"+ RET_URL + "'");    //리턴페이지 처리(프레임 구조가 아닐 경우)
+                        sb.append("</script>");
+                        sb.append("</head>");
+                        sb.append("</html>");
+                        if(errFlag) {
+                            out.write(sb.toString());
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }catch(Exception e) {}
+    //[EAM추가] - 메뉴 권한 체크 및 시스템 액세스 로그 생성 End ======================================
 %>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -198,9 +198,9 @@
 <script type="text/javascript">
     var contextPath = "<%=contextPath%>";
 
-    <%--// 뒤로가기 방지 --%>
+    <%--// 뒤로가기 방지 [2024.04.04] 뒤로가기 허용
     window.history.forward(1);
-
+     --%>
 </script>
 
 <!-- script type="text/javascript" src="<%=scriptPath%>/prototype.js"></script  -->
@@ -230,70 +230,70 @@
 <script type="text/javascript" src="<%=namoPath%>/js/namo_scripteditor.js"></script>
 
 <script type="text/javascript">
-var fontParam = {"맑은 고딕" : "맑은 고딕","돋움" : "돋움","굴림" : "굴림","바탕" : "바탕","궁서" : "궁서","David" : "David","LG스마트체" : "LG스마트체", "LG스마트체2.0" : "LG스마트체2.0","MS PGothic" : "MS PGothic","New MingLiu" : "New MingLiu","Simplified Arabic" : "Simplified Arabic","simsun" : "simsun","Arial" : "Arial","Courier New" : "Courier New","Tahoma" : "Tahoma","Times New Roman" : "Times New Roman","Verdana" : "Verdana" }; 
-	var _callback;
-	var agent = navigator.userAgent.toLowerCase();
-	var mPageNum='<c:out value="${inputData.pageNum}"/>';
-	Rui.onReady(function() {
+var fontParam = {"맑은 고딕" : "맑은 고딕","돋움" : "돋움","굴림" : "굴림","바탕" : "바탕","궁서" : "궁서","David" : "David","LG스마트체" : "LG스마트체", "LG스마트체2.0" : "LG스마트체2.0","MS PGothic" : "MS PGothic","New MingLiu" : "New MingLiu","Simplified Arabic" : "Simplified Arabic","simsun" : "simsun","Arial" : "Arial","Courier New" : "Courier New","Tahoma" : "Tahoma","Times New Roman" : "Times New Roman","Verdana" : "Verdana" };
+    var _callback;
+    var agent = navigator.userAgent.toLowerCase();
+    var mPageNum='<c:out value="${inputData.pageNum}"/>';
+    Rui.onReady(function() {
 
-	    /*******************
-	     * 변수 및 객체 선언
-	     *******************/
-		// 사용자 조회 공통팝업 시작
-	    var _userSearchApply = function(){
-	        var frameWindow = this.getFrameWindow();		// Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
+        /*******************
+         * 변수 및 객체 선언
+         *******************/
+        // 사용자 조회 공통팝업 시작
+        var _userSearchApply = function(){
+            var frameWindow = this.getFrameWindow();        // Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
 
-	        var userList = frameWindow.getSelectUser();
+            var userList = frameWindow.getSelectUser();
 
-	        _callback(userList);
+            _callback(userList);
 
-	        this.submit(true);
-	    };
+            this.submit(true);
+        };
 
-	    _userSearchDialog = new Rui.ui.LFrameDialog({
-	        id: '_userSearchDialog',
-	        title: '사용자 조회',
-	        width: 550,
-	        height: 400,
-	        modal: true,
-	        visible: false
-	    });
+        _userSearchDialog = new Rui.ui.LFrameDialog({
+            id: '_userSearchDialog',
+            title: '사용자 조회',
+            width: 550,
+            height: 400,
+            modal: true,
+            visible: false
+        });
 
-	    var _userSearchDialogMulti = new Rui.ui.LFrameDialog({
-	        id: '_userSearchDialogMulti',
-	        title: '사용자 조회',
-	        width: 650,
-	        height: 600,
-	        modal: true,
-	        visible: false,
-	        buttons: [
+        var _userSearchDialogMulti = new Rui.ui.LFrameDialog({
+            id: '_userSearchDialogMulti',
+            title: '사용자 조회',
+            width: 650,
+            height: 600,
+            modal: true,
+            visible: false,
+            buttons: [
                 { text: '적용', handler: _userSearchApply, isDefault: true },
                 { text: '닫기', handler: function(){
                     this.cancel();
                 } }
             ]
-	    });
+        });
 
-	    _userSearchDialog.render(document.body);
-	    _userSearchDialogMulti.render(document.body);
+        _userSearchDialog.render(document.body);
+        _userSearchDialogMulti.render(document.body);
 
-	    openUserSearchDialog = function(f, cnt, userIds, task, width, height) {
-	    	_callback = f;
+        openUserSearchDialog = function(f, cnt, userIds, task, width, height) {
+            _callback = f;
 
-	    	if(cnt == 1) {
-	    	    if(stringNullChk(width) > 0) _userSearchDialog.setWidth(width);
-	    	    if(stringNullChk(height) > 0) _userSearchDialog.setHeight(height);
+            if(cnt == 1) {
+                if(stringNullChk(width) > 0) _userSearchDialog.setWidth(width);
+                if(stringNullChk(height) > 0) _userSearchDialog.setHeight(height);
 
-		        _userSearchDialog.setUrl('<c:url value="/system/user/userSearchPopup.do?cnt=1&userIds=&task="/>' + task);
-		        _userSearchDialog.show();
-	    	} else {
-	    	    if(stringNullChk(width) > 0) _userSearchDialogMulti.setWidth(width);
+                _userSearchDialog.setUrl('<c:url value="/system/user/userSearchPopup.do?cnt=1&userIds=&task="/>' + task);
+                _userSearchDialog.show();
+            } else {
+                if(stringNullChk(width) > 0) _userSearchDialogMulti.setWidth(width);
                 if(stringNullChk(height) > 0) _userSearchDialogMulti.setHeight(height);
 
-	    		_userSearchDialogMulti.setUrl('<c:url value="/system/user/userSearchPopup.do?cnt="/>' + cnt + '&userIds=' + userIds + '&task=' + task);
-	    		_userSearchDialogMulti.show();
-	    	}
-	    };
+                _userSearchDialogMulti.setUrl('<c:url value="/system/user/userSearchPopup.do?cnt="/>' + cnt + '&userIds=' + userIds + '&task=' + task);
+                _userSearchDialogMulti.show();
+            }
+        };
 
         openUserSearchNmDialog = function(f, userNm, width, height) {
             _callback = f;
@@ -303,163 +303,163 @@ var fontParam = {"맑은 고딕" : "맑은 고딕","돋움" : "돋움","굴림" 
             _userSearchDialog.show();
         }
 
-	    //사용자 popup Dialog
-	    openUserSearchDialog2 = function(f, cnt, userIds, task) {
-	    	 var params = '?cnt=1&userIds=&task=' + task;
-		   	 var loadingUrl = '<c:url value="/system/user/userSearchPopup2.do"/>'+params;
+        //사용자 popup Dialog
+        openUserSearchDialog2 = function(f, cnt, userIds, task) {
+             var params = '?cnt=1&userIds=&task=' + task;
+                var loadingUrl = '<c:url value="/system/user/userSearchPopup2.do"/>'+params;
 
-	 	   	 var sFeatures = "dialogHeight: 600px; dialogWidth:544px";
-	 	   	 if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
-	        	 window.showModalDialog(loadingUrl, self, sFeatures);
-	 	     }else{
-            	alert("Internet Explorer browser인지 확인해 주세요");
+                 var sFeatures = "dialogHeight: 600px; dialogWidth:544px";
+                 if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+                 window.showModalDialog(loadingUrl, self, sFeatures);
+              }else{
+                alert("Internet Explorer browser인지 확인해 주세요");
              }
-	    };
+        };
 
 
-		// 사용자 조회 공통팝업 끝
+        // 사용자 조회 공통팝업 끝
 
-		// 부서 조회 공통팝업 시작
-	    _deptSearchDialog = new Rui.ui.LFrameDialog({
-	        id: '_deptSearchDialog',
-	        title: '부서 조회',
-	        width: 450,
-	        height: 325,
-	        modal: true,
-	        visible: false
-	    });
+        // 부서 조회 공통팝업 시작
+        _deptSearchDialog = new Rui.ui.LFrameDialog({
+            id: '_deptSearchDialog',
+            title: '부서 조회',
+            width: 450,
+            height: 325,
+            modal: true,
+            visible: false
+        });
 
-	    _deptSearchDialog.render(document.body);
+        _deptSearchDialog.render(document.body);
 
-	    openDeptSearchDialog = function(f, task) {
-	    	_callback = f;
+        openDeptSearchDialog = function(f, task) {
+            _callback = f;
 
-	    	_deptSearchDialog.setUrl('<c:url value="/system/dept/deptSearchPopup.do?task="/>' + task);
-		    _deptSearchDialog.show();
-	    };
-		// 부서 조회 공통팝업 끝
-
-
-		// WBS 코드 조회 공통팝업 시작
-	    _wbsCdSearchDialog = new Rui.ui.LFrameDialog({
-	        id: '_wbsCdSearchDialog',
-	        title: 'WBS 코드 조회',
-	        width: 1050,
-	        height: 600,
-	        modal: true,
-	        visible: false
-	    });
-
-	    _wbsCdSearchDialog.render(document.body);
-
-	    openWbsCdSearchDialog = function(f, deptYn) {
-	    	_callback = f;
-
-	    	_wbsCdSearchDialog.setUrl('<c:url value="/system/etc/wbsCdSearchPopup.do?deptYn="/>' + deptYn);
-	    	_wbsCdSearchDialog.show();
-	    };
-		// WBS 코드 조회 공통팝업 끝
+            _deptSearchDialog.setUrl('<c:url value="/system/dept/deptSearchPopup.do?task="/>' + task);
+            _deptSearchDialog.show();
+        };
+        // 부서 조회 공통팝업 끝
 
 
-		// 첨부파일 공통팝업 시작
-	    var _attachFileApply = function(){
-	        var frameWindow = _attachFileDialog.getFrameWindow();		// Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
+        // WBS 코드 조회 공통팝업 시작
+        _wbsCdSearchDialog = new Rui.ui.LFrameDialog({
+            id: '_wbsCdSearchDialog',
+            title: 'WBS 코드 조회',
+            width: 1050,
+            height: 600,
+            modal: true,
+            visible: false
+        });
 
-	        var attachFileList = frameWindow.getAttachFileInfoList();
+        _wbsCdSearchDialog.render(document.body);
 
-	        _callback(attachFileList);
+        openWbsCdSearchDialog = function(f, deptYn) {
+            _callback = f;
 
-	        this.submit(true);
-	    };
+            _wbsCdSearchDialog.setUrl('<c:url value="/system/etc/wbsCdSearchPopup.do?deptYn="/>' + deptYn);
+            _wbsCdSearchDialog.show();
+        };
+        // WBS 코드 조회 공통팝업 끝
 
-	    var _attachFileApply2 = function(){
-	        var frameWindow = _attachFileDialog.getFrameWindow();		// Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
 
-	        var attachFileList = frameWindow.getAttachFileInfoList();
+        // 첨부파일 공통팝업 시작
+        var _attachFileApply = function(){
+            var frameWindow = _attachFileDialog.getFrameWindow();        // Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
 
-	      	if(attachFileList != ''){
-	      		_callback(attachFileList);
-	      	}
+            var attachFileList = frameWindow.getAttachFileInfoList();
 
-	    };
+            _callback(attachFileList);
 
-	    _attachFileDialog = new Rui.ui.LFrameDialog({
-	        id: '_attachFileDialog',
-	        title: '첨부파일',
-	        width: 440,
-	        height: 500,
-	        modal: true,
-	        visible: false,
-	        buttons: [
+            this.submit(true);
+        };
+
+        var _attachFileApply2 = function(){
+            var frameWindow = _attachFileDialog.getFrameWindow();        // Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
+
+            var attachFileList = frameWindow.getAttachFileInfoList();
+
+              if(attachFileList != ''){
+                  _callback(attachFileList);
+              }
+
+        };
+
+        _attachFileDialog = new Rui.ui.LFrameDialog({
+            id: '_attachFileDialog',
+            title: '첨부파일',
+            width: 440,
+            height: 500,
+            modal: true,
+            visible: false,
+            buttons: [
                 { text: '적용', handler: _attachFileApply, isDefault: true },
                 { text: '닫기', handler: function(){
                     this.cancel();
                 } }
             ]
-	    });
+        });
 
-	    _attachFileDialog.on('cancel', function(e) {
-	    	_attachFileApply2();
-	    });
+        _attachFileDialog.on('cancel', function(e) {
+            _attachFileApply2();
+        });
 
-	    _attachFileDialog.render(document.body);
+        _attachFileDialog.render(document.body);
 
-	    openAttachFileDialog = function(f, attcFilId, policy, ext, openMode, title) {
-	    	_callback = f;
+        openAttachFileDialog = function(f, attcFilId, policy, ext, openMode, title) {
+            _callback = f;
 
-	    	if(openMode == "R") {
-	    	    _attachFileDialog.setWidth(450);
-	    	    _attachFileDialog.setHeight(400);
-	    	    _attachFileDialog.setButtons();
-	    	}
-
-	    	var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
-
-	    	if(Rui.isEmpty(title) == false) {
-	    		$('#_attachFileDialog_h').html(title);
-	    	}
-	    	_attachFileDialog.setUrl('<c:url value="/system/attach/attachFilePopup.do"/>' + params);
-		    _attachFileDialog.show();
-	    };
-
-	    openAttachFileDialog2 = function(f, attcFilId, policy, ext, openMode) {
-	    	_callback = f;
-
-		    var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
-	   		var loadingUrl = '<c:url value="/system/attach/attachFilePopup2.do"/>'+params;
-
- 	   		var sFeatures = "dialogHeight: 500px; dialogWidth:430px";
-
- 	   		if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
-
-	   		 window.showModalDialog(loadingUrl, self, sFeatures);
- 	   	 	}else{
-         	alert("Internet Explorer browser인지 확인해 주세요");
+            if(openMode == "R") {
+                _attachFileDialog.setWidth(450);
+                _attachFileDialog.setHeight(400);
+                _attachFileDialog.setButtons();
             }
-// 	   		var win =  window.open(loadingUrl ,'win' , 'modal=1,Height=450 , width=400');
-// 	   		win.focus();
 
-   	    };
-   	 openAttachFileDialog3 = function(f, attcFilId, policy, ext, openMode, title) {
-	    	_callback = f;
+            var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
 
-	    	if(openMode == "R") {
-	    	    _attachFileDialog.setWidth(450);
-	    	    _attachFileDialog.setHeight(400);
-	    	    _attachFileDialog.setButtons();
-	    	}
+            if(Rui.isEmpty(title) == false) {
+                $('#_attachFileDialog_h').html(title);
+            }
+            _attachFileDialog.setUrl('<c:url value="/system/attach/attachFilePopup.do"/>' + params);
+            _attachFileDialog.show();
+        };
 
-	    	var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
+        openAttachFileDialog2 = function(f, attcFilId, policy, ext, openMode) {
+            _callback = f;
 
-	    	if(Rui.isEmpty(title) == false) {
-	    		$('#_attachFileDialog_h').html(title);
-	    	}
-	    	_attachFileDialog.setUrl('<c:url value="/system/attach/attachFilePopup3.do"/>' + params);
-		    _attachFileDialog.show();
-	    };
+            var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
+               var loadingUrl = '<c:url value="/system/attach/attachFilePopup2.do"/>'+params;
+
+                var sFeatures = "dialogHeight: 500px; dialogWidth:430px";
+
+                if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+
+                window.showModalDialog(loadingUrl, self, sFeatures);
+                 }else{
+             alert("Internet Explorer browser인지 확인해 주세요");
+            }
+//                var win =  window.open(loadingUrl ,'win' , 'modal=1,Height=450 , width=400');
+//                win.focus();
+
+           };
+        openAttachFileDialog3 = function(f, attcFilId, policy, ext, openMode, title) {
+            _callback = f;
+
+            if(openMode == "R") {
+                _attachFileDialog.setWidth(450);
+                _attachFileDialog.setHeight(400);
+                _attachFileDialog.setButtons();
+            }
+
+            var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
+
+            if(Rui.isEmpty(title) == false) {
+                $('#_attachFileDialog_h').html(title);
+            }
+            _attachFileDialog.setUrl('<c:url value="/system/attach/attachFilePopup3.do"/>' + params);
+            _attachFileDialog.show();
+        };
     // 첨부파일 공통팝업 끝
-    
-    
-	});
+
+
+    });
 
 </script>
