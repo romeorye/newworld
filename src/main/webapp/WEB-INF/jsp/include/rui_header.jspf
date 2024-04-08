@@ -50,7 +50,21 @@
     String ruiPathPlugins   = contextPath + "/rui/plugins";
     String newImagePath     = contextPath + "/resource/images";
     String namoPath         = contextPath + "/namo";
-    String documentTitle = "  :::  연구정보통합시스템(IRIS)  :::  ";
+
+    String serverEnv = configService.getString("serverEnv");
+    System.out.println("[serverEnv]"+serverEnv);
+    String serverEnvNm = "";
+    try {
+        serverEnvNm = NullUtil.nvl(serverEnv, "").toUpperCase();
+        if (serverEnvNm.equals("null") || serverEnvNm.equals("")) {
+            serverEnvNm = "";
+        } else {
+            serverEnvNm = serverEnv;
+        }
+    } catch (Exception e) {
+        serverEnvNm = ""+e.getMessage();
+    }
+    String documentTitle = serverEnvNm + "  :::  연구정보통합시스템(IRIS)  :::  ";
 
 
     String lghausysPath = configService.getString("lghausysPath");
