@@ -1,5 +1,5 @@
-serverEnv=PROD
-serverIp=10.39.178.219
+serverType=PROD
+serverIp=127.0.0.1
 serverPort=7030
 contextPath=iris
 defaultUrl=iris.lxhausys.com

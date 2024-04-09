@@ -1,3 +1,4 @@
+serverEnv=DEV
 serverIp=10.39.169.208
 serverPort=7030
 contextPath=iris
@@ -49,12 +50,12 @@ cnstw.root_path=D:/sorc001/iris/src/main/webapp/upload/cnstw/upFile
 upload.root_path=D:/sorc001/iris/src/main/resources/fileupload/esti
 cnstwFirm.root_path=D:/sorc001/iris/src/main/webapp/upload/cnstw/network
 
-
-
-#MSSQL IRIS DB (DEV) 연결 O
+#MSSQL IRIS DB (DEV)
 #db.iris.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
-db.iris.driver=core.log.jdbc.driver.Mssql2005Driver
-db.iris.url=jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
+#db.iris.driver=core.log.jdbc.driver.Mssql2005Driver
+db.iris.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+#jdbc:sqlserver -> jdbc:log4jdbc:sqlserver
+db.iris.url=jdbc:log4jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
 db.iris.username=irisapp
 db.iris.password=lghausys123!
 db.iris.encoding=utf-8
@@ -69,10 +70,20 @@ db.iris.initialSize=1
 ##db.todo.password=lghausys123!
 ##db.todo.encoding=utf-8
 
+#TODO DB DB(DEV) [2024.03.14]Cloud로 연결 -- 전자결재 완료되면 주석 풀기
+##db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+##db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
+##db.todo.url=jdbc:sqlserver://nonprod-b2b-tot3.cl4tnwsbivfl.ap-northeast-2.rds.amazonaws.com:1433;databasename=TODO
+#db.todo.username=todouser
+#db.todo.password=lghausys123!
+#db.todo.encoding=utf-8
+#db.todo.initialSize=1
+
 #TODO DB DB(DEV) [2024.03.13]부평서버 다운. 임시로 IRIS DB로 바꿔놓음
 #db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
-db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
-db.todo.url=jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
+#db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
+db.todo.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+db.todo.url=jdbc:log4jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
 db.todo.username=irisapp
 db.todo.password=lghausys123!
 db.todo.encoding=utf-8
@@ -94,9 +105,10 @@ db.todo.initialSize=1
 #db.pims.encoding=utf-8
 
 #MSSQL PIMS DB(DEV) ORACLE->MSSQL migration
-db.pims.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
-db.pims.driver=core.log.jdbc.driver.Mssql2005Driver
-db.pims.url=jdbc:sqlserver://10.39.174.14:1433;databasename=LGH_IP
+#db.pims.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#db.pims.driver=core.log.jdbc.driver.Mssql2005Driver
+db.pims.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+db.pims.url=jdbc:log4jdbc:sqlserver://10.39.174.14:1433;databasename=LGH_IP
 db.pims.username=LGH_IP
 db.pims.password=!lghausys0613
 db.pims.encoding=utf-8
@@ -107,30 +119,23 @@ db.pims.encoding=utf-8
 #db.pims.password=PIMS_0514
 #db.pims.encoding=utf-8
 
+#MSSQL SALSTAT DB(DEV)
+#db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
+db.salStat.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+db.salStat.url=jdbc:log4jdbc:sqlserver://10.39.174.17:1433;databasename=LGHSDW
+db.salStat.username=iris_user
+db.salStat.password=irisuser123!
+db.salStat.encoding=utf-8
+
 #MSSQL SALSTAT DB(PRD)
 #db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
 #db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
-#db.salStat.url=jdbc:sqlserver://165.244.161.90:1433;databasename=LGHSDW
+#db.salStat.url=jdbc:sqlserver://10.39.184.141:1433;databasename=LGHSDW
 #db.salStat.username=iris_user
 #db.salStat.password=irisuser123!
 #db.salStat.encoding=utf-8
 #db.salStat.initialSize=0
-
-#MSSQL SALSTAT DB(DEV) 연결 X
-##db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
-##db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
-##db.salStat.url=jdbc:sqlserver://165.244.161.88:1433;databasename=LGHSDW
-##db.salStat.username=iris_user
-##db.salStat.password=irisuser123!
-##db.salStat.encoding=utf-8
-
-#MSSQL SALSTAT DB(DEV) [2024.03.13]부평서버 다운. 임시로 IRIS DB로 바꿔놓음
-db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
-db.salStat.url=jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
-db.salStat.username=irisapp
-db.salStat.password=lghausys123!
-db.salStat.encoding=utf-8
-db.salStat.initialSize=1
 
 #SAP Connect Infomation : pasSapPool(dev)
 SAP.pasSapPool.POOL_SIZE=300
