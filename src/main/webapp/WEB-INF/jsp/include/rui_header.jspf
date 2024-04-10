@@ -51,6 +51,7 @@
     String newImagePath     = contextPath + "/resource/images";
     String namoPath         = contextPath + "/namo";
 
+    //[20240409.siseo]title에 접속환경 보여주기 추가
     String serverEnv = configService.getString("serverEnv");
     //System.out.println("[serverEnv]"+serverEnv);
     String serverEnvNm = "";
