@@ -52,9 +52,7 @@
     String namoPath         = contextPath + "/namo";
 
     String serverEnv = configService.getString("serverEnv");
-    String serverIp = configService.getString("serverIp");
-    System.out.println("[serverEnv]"+serverEnv);
-    System.out.println("[serverIp]"+serverIp);
+    //System.out.println("[serverEnv]"+serverEnv);
     String serverEnvNm = "";
     try {
         serverEnvNm = NullUtil.nvl(serverEnv, "").toUpperCase();
