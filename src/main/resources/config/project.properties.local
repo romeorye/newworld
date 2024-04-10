@@ -1,4 +1,5 @@
-serverEnv=local
+
+serverEnv=LOCAL.DEV
 serverIp=127.0.0.1
 serverPort=7030
 contextPath=iris
@@ -34,25 +35,6 @@ KeyStore.UPLOAD_MAX_SIZE=1024*1024*10
 KeyStore.UPLOAD_MAX_SIZE_100=1024*1024*100
 KeyStore.UPLOAD_MAX_SIZE_50=1024*1024*50
 
-#realServer
-#KeyStore.UPLOAD_BASE=/usr/Application/twms/twms.ear/twmsWeb.war/upload
-#KeyStore.UPLOAD_URL=http://wins2-d.hausyswindow.com/upload
-#KeyStore.EXCEL_BASE=/usr/Application/SimpsonD/SimpsonD.ear/SimpsonDWeb.war/WEB-INF/classes/fileupload/template
-#KeyStore.APP_PATH=wins2-d.hausyswindow.com
-#template.root_path=/usr/Application/SimpsonD/SimpsonD.ear/SimpsonDWeb.war/WEB-INF/classes/fileupload/template
-#cnstw.root_path=/usr/Application/twms/twms.ear/twmsWeb.war/upload/cnstw/upFile
-#upload.root_path=/usr/Application/SimpsonD/SimpsonD.ear/SimpsonDWeb.war/WEB-INF/classes/fileupload/esti
-#cnstwFirm.root_path=/usr/Application/twms/twms.ear/twmsWeb.war/upload/cnstw/network
-
-#developer sever
-#KeyStore.UPLOAD_BASE=/usr/Application/SimpsonD/SimpsonD.ear/SimpsonDWeb.war/upload
-#KeyStore.UPLOAD_URL=http://165.244.161.97:5083/upload
-#KeyStore.APP_PATH=165.244.161.97:5083
-#KeyStore.EXCEL_BASE=/usr/Application/SimpsonD/SimpsonD.ear/SimpsonDWeb.war/WEB-INF/classes/fileupload/template
-#template.root_path=/usr/Application/SimpsonD/SimpsonD.ear/SimpsonDWeb.war/WEB-INF/classes/fileupload/template
-#cnstw.root_path=/usr/Application/SimpsonD/SimpsonD.ear/SimpsonDWeb.war/upload/cnstw/upFile
-#upload.root_path=/usr/Application/SimpsonD/SimpsonD.ear/SimpsonDWeb.war/WEB-INF/classes/fileupload/esti
-#cnstwFirm.root_path=/usr/Application/SimpsonD/SimpsonD.ear/SimpsonDWeb.war/upload/cnstw/network
 
 #local
 #KeyStore.UPLOAD_BASE=C:/IRIS_DevonFrame/workspace/iris/src/main/webapp/upload
@@ -70,16 +52,14 @@ cnstwFirm.root_path=C:/IRIS_DevonFrame/workspace/iris/src/main/webapp/upload/cns
 
 
 #DEV/PRD
-#KeyStore.UPLOAD_BASE=D:\\weblogic\\user_projects\\domains\\iris_domain\\config\\deployments\\iris\\resource\\fileupload
-#KeyStore.UPLOAD_URL=http://165.244.161.87:7030/iris/resource/fileupload/
-#KeyStore.EXCEL_BASE=D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/resource/fileupload/template
-#KeyStore.APP_PATH=165.244.161.97:5083
-#template.root_path=D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/template
-#cnstw.root_path=D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/webapp/upload/cnstw/upFile
-#upload.root_path=D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/esti
-#cnstwFirm.root_path=D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/webapp/upload/cnstw/network
-
-
+KeyStore.UPLOAD_BASE=D:\\sorc001\iris\resource\fileupload\\
+KeyStore.UPLOAD_URL=http://iris.lxhausys.com:7030/iris/resource/fileupload/
+KeyStore.EXCEL_BASE=D:/sorc001/iris/resource/fileupload/template
+KeyStore.APP_PATH=iris.lxhausys.com:7030
+template.root_path=D:/sorc001/iris/src/main/resources/fileupload/template
+cnstw.root_path=D:/sorc001/iris/src/main/webapp/upload/cnstw/upFile
+upload.root_path=D:/sorc001/iris/src/main/resources/fileupload/esti
+cnstwFirm.root_path=D:/sorc001/iris/src/main/webapp/upload/cnstw/network
 
 #MSSQL IRIS DB (DEV)
 #db.iris.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver

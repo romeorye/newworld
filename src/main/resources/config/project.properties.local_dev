@@ -1,4 +1,5 @@
-serverType=DEV
+
+serverEnv=LOCAL.DEV
 serverIp=127.0.0.1
 serverPort=7030
 contextPath=iris

@@ -1,3 +1,4 @@
+
 serverEnv=PROD
 serverIp=10.39.178.219
 serverPort=7030
@@ -96,8 +97,8 @@ db.todo.encoding=utf-8
 #db.pims.password=1roqkfdb!
 #db.pims.encoding=utf-8
 
-##ORACLE PIMS DB(PROD)
-##db.pims.driver=core.log.jdbc.driver.OracleDriver
+#ORACLE PIMS DB(PROD)
+#db.pims.driver=core.log.jdbc.driver.OracleDriver
 #db.pims.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 #db.pims.url=jdbc:log4jdbc:oracle:thin:@165.244.161.237:1521:SCMPRD
 #db.pims.username=PIMS_USER
@@ -113,6 +114,7 @@ db.pims.url=jdbc:log4jdbc:sqlserver://NLB-Prod-B2E-IPM-DB-9410512156a5bfb3.elb.a
 db.pims.username=LGH_IP
 db.pims.password=!lghausys0613
 db.pims.encoding=utf-8
+db.pims.initialSize=0
 
 #MSSQL SALSTAT DB(DEV)
 #db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
