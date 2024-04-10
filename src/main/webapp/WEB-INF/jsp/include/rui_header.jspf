@@ -52,11 +52,13 @@
     String namoPath         = contextPath + "/namo";
 
     String serverEnv = configService.getString("serverEnv");
+    String serverIp = configService.getString("serverIp");
     System.out.println("[serverEnv]"+serverEnv);
+    System.out.println("[serverIp]"+serverIp);
     String serverEnvNm = "";
     try {
         serverEnvNm = NullUtil.nvl(serverEnv, "").toUpperCase();
-        if (serverEnvNm.equals("null") || serverEnvNm.equals("")) {
+        if ((serverEnvNm.equals("null") || serverEnvNm.equals("") || serverEnvNm.equals("PROD")) && !(serverEnvNm.toUpperCase().indexOf("LOCAL")>-1)) {
             serverEnvNm = "";
         } else {
             serverEnvNm = serverEnv;
