@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-				     <ul class="side_iconList">
+                     <ul class="side_iconList">
                         <c:if test="${inputData.pageMode=='prj'}"><li><a href="/iris/anl/main.do"><span>분석 Main 바로가기</span></a></li></c:if>
                         <c:if test="${inputData.pageMode=='anl'}"><span></span></c:if>
                         <li><a href="javascript:openWindow('<c:url value="/main/goLGSP.do"/>', 'LGSP', 1300, 800, 'yes');"><span>사이언스 포탈</span></a></li>
@@ -8,9 +8,10 @@
                         <%-- <li><a href="javascript:openWindow('<c:url value="http://rndesh.lxhausys.com/ssologin.do?ssoId=${inputData.encSabun}"/>', 'ESH', 1300, 800, 'yes');"><span>안전환경시스템</span></a></li> --%>
                         <li><a href="javascript:openWindow1('R');"><span>안전환경시스템</span></a></li>
                         <li><a href="javascript:openWindow('<c:url value="http://tsp.lxhausys.com:8140/resort/common/login/reqIdpLogin.do"/>', 'TSP', 1030, 680, 'yes');"><span>LGSP 방문 예약</span></a></li>
-                        <li><a href="javascript:openWindow('<c:url value="http://lgspconf.lxhausys.com"/>', 'LGSP_CONF', 1500, 900, 'yes');"><span>LGSP 회의실 예약</span></a></li>
-                        <li><a href="javascript:fnPopLink();"><span style="font-size:12px; letter-spacing: -0.1em; ">LGSP반출신청</span></a></li> 
-                        <li><a href="javascript:openWindow1('I');"><span>지식재산시스템</span></a></li> 
+                        <%-- <li><a href="javascript:openWindow('<c:url value="http://lgspconf.lxhausys.com"/>', 'LGSP_CONF', 1500, 900, 'yes');"><span>LGSP 회의실 예약</span></a></li> --%>
+                        <li><a href="javascript:openWindow('<c:url value="http://gportal.lxhausys.com/portal/main/portalVirtualModuleMenu.do?moduleId=MR_00001"/>', 'LGSP_CONF', 1500, 900, 'yes');"><span>LGSP 회의실 예약</span></a></li>
+                        <li><a href="javascript:fnPopLink();"><span style="font-size:12px; letter-spacing: -0.1em; ">LGSP반출신청</span></a></li>
+                        <li><a href="javascript:openWindow1('I');"><span>지식재산시스템</span></a></li>
                         <li><a href="javascript:postOpenWindow('drimhitech', 1500, 900, 'yes');"><span>식수관리시스템</span></a></li>
                         <%-- <li><a href="javascript:openWindow('<c:url value="http://pmis.lxhausys.com/DeployWeb/Portal/Enterprise/Default.aspx"/>', 'OLD_IRIS', 1300, 800, 'yes');"><span style="font-size:12px; letter-spacing: -0.1em; ">(구)연구정보통합시스템</span></a></li> --%>
                         <li><select name="jumpMenu" id="jumpMenu" onchange="MM_jumpMenu(1500,900,'yes')">
@@ -21,73 +22,74 @@
                               <option value="http://intra.lxhausys.com:9301/login.jsp?sa_user=${inputData._userId}">해외배송시스템</option>
                             </select>
                         </li>
-                        
+
                     </ul>
-		<script>
-		var key = "abcdefghijklmnopqrstuvwxyz123456";
-		
-		function MM_jumpMenu(w,h,s){
-			var mypage = $("#jumpMenu option:selected").val();
-			var myname = "";
+        <script>
+        var key = "abcdefghijklmnopqrstuvwxyz123456";
 
-			if(mypage!=0){
-			openWindow(mypage, myname,w,h,s);
+        function MM_jumpMenu(w,h,s){
+            var mypage = $("#jumpMenu option:selected").val();
+            var myname = "";
 
-			}
-		}
+            if(mypage!=0){
+            openWindow(mypage, myname,w,h,s);
 
-		function postOpenWindow(m,h,s){
-			var frm = document.dForm;
-			frm.empNo.value = AES_Encode("${inputData._userSabun}");
-			frm.cstCd.value = AES_Encode("00000284");
-			openWindow("", m, h,s) ;
+            }
+        }
 
-	        frm.action = "http://lgif.drimhitech.com/index.php";
-	        frm.submit(); 
-		}
+        function postOpenWindow(m,h,s){
+            var frm = document.dForm;
+            frm.empNo.value = AES_Encode("${inputData._userSabun}");
+            frm.cstCd.value = AES_Encode("00000284");
+            openWindow("", m, h,s) ;
 
-		function openWindow1(gb){
-			//alert("Tip-Top Upgrade에 따른 회의실 예약시스템 점검으로 금주중 재오픈예정입니다.\n 각 회의실앞 PAD에서는 예약이 가능합니다. (문의 : 7013)");
-			var encryptEmpNo = "${inputData.encrytoEmpNo}";
-			var param = "?encryptEmpNo="+replace(encryptEmpNo);
-	
-			if( gb == "I"){
-				openWindow('<c:url value="http://ipms.lxhausys.com:8001"/>'+param,'IP_RND', 1500, 900, 'yes');
-			}else if( gb == "R" ){
-				openWindow('<c:url value="http://rndesh.lxhausys.com/ssologin.do"/>'+param,'ESH', 1500, 900, 'yes', '_blank');
-			}else if (gb == "H"){
-				openWindow('<c:url value="http://chemical.lxhausys.com/ssologin.do"/>'+param,'HICMS', 1500, 900, 'yes', '_blank');
-			}
-		}
-	   
-		function replace(url) {
-		    url= url.replace(/&/g,"%26"); 
-		    url= url.replace(/\+/g,"%2B");
-		    return url;
-		}
-		
-	 	
-		function AES_Encode(plain_text)
-		{
-			GibberishAES.size(256);	
-			return GibberishAES.aesEncrypt(plain_text, key);
-		}
+            frm.action = "http://lgif.drimhitech.com/index.php";
+            frm.submit();
+        }
 
-		function AES_Decode(base64_text)
-		{
-			GibberishAES.size(256);	
-			return GibberishAES.aesDecrypt(base64_text, key);
-		}
-		
-		function fnPopLink(){
-			var popUrl =  '<c:url value="/prj/rsst/mainPopUp.do"/>';
-		    var popupOption = "width=360, height=170, top=300, left=400,location=no";
-		    
-			window.open(popUrl,"LGSP 반출신청",popupOption);
-		}
-		
-		</script>
-<form id="dForm" name = 'dForm' method="post"> 
-	<input type="hidden" id="cstCd" name ="cstCd" />
-	<input type="hidden" id="empNo" name ="empNo" />
-</form>		
+        function openWindow1(gb){
+            //alert("Tip-Top Upgrade에 따른 회의실 예약시스템 점검으로 금주중 재오픈예정입니다.\n 각 회의실앞 PAD에서는 예약이 가능합니다. (문의 : 7013)");
+            var encryptEmpNo = "${inputData.encrytoEmpNo}";
+            var param = "?encryptEmpNo="+replace(encryptEmpNo);
+
+            if( gb == "I"){
+                openWindow('<c:url value="http://ipms.lxhausys.com:8001"/>'+param,'IP_RND', 1500, 900, 'yes');
+            }else if( gb == "R" ){
+                /* openWindow('<c:url value="http://rndesh.lxhausys.com/ssologin.do"/>'+param,'ESH', 1500, 900, 'yes', '_blank'); */
+                openWindow('<c:url value="http://eshrnd.lxhausys.com/loginproc.do"/>'+param,'ESH', 1500, 900, 'yes', '_blank');
+            }else if (gb == "H"){
+                openWindow('<c:url value="http://chemical.lxhausys.com/ssologin.do"/>'+param,'HICMS', 1500, 900, 'yes', '_blank');
+            }
+        }
+
+        function replace(url) {
+            url= url.replace(/&/g,"%26");
+            url= url.replace(/\+/g,"%2B");
+            return url;
+        }
+
+
+        function AES_Encode(plain_text)
+        {
+            GibberishAES.size(256);
+            return GibberishAES.aesEncrypt(plain_text, key);
+        }
+
+        function AES_Decode(base64_text)
+        {
+            GibberishAES.size(256);
+            return GibberishAES.aesDecrypt(base64_text, key);
+        }
+
+        function fnPopLink(){
+            var popUrl =  '<c:url value="/prj/rsst/mainPopUp.do"/>';
+            var popupOption = "width=360, height=170, top=300, left=400,location=no";
+
+            window.open(popUrl,"LGSP 반출신청",popupOption);
+        }
+
+        </script>
+<form id="dForm" name = 'dForm' method="post">
+    <input type="hidden" id="cstCd" name ="cstCd" />
+    <input type="hidden" id="empNo" name ="empNo" />
+</form>
