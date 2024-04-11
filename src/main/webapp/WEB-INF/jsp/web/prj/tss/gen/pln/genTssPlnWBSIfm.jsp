@@ -15,14 +15,14 @@
  * IRIS 프로젝트
  *************************************************************************
  */
- 
- 
- 
+
+
+
  ** 운영반영시
  ** 가중치 validation 주석제거
- 
- 
- 
+
+
+
 --%>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -139,7 +139,7 @@
         });
         dataSet.on('load', function(e) {
             console.log("wbs load DataSet Success");
-            
+
             if(dataSet.getCount() == 0) butSchedule.click();
         });
 
@@ -148,68 +148,68 @@
             //과제기간과의 범위체크
             var pTssStartDt = window.parent.tmpTssStrtDd.replace(/\-/g, "").toDate();
             var pTssFnhDd   = window.parent.tmpTssFnhDd.replace(/\-/g, "").toDate();
-            
+
             if(!(pTssStartDt instanceof Date)) pTssStartDt = pTssStartDt.replace(/\-/g, "").toDate();
             if(!(pTssFnhDd instanceof Date)) pTssFnhDd = pTssFnhDd.replace(/\-/g, "").toDate();
-            
+
             pTssStartDt.setDate(pTssStartDt.getDate() - 1);
             pTssFnhDd.setDate(pTssFnhDd.getDate() + 1);
-            
+
             var pStartDt;
             var pFnhDt;
             var pChildRows;
             var cStartDt;
             var cFnhDt;
-            
+
             for(var i = 0; i < dataSet.getCount(); i++) {
                 //상위레벨 날짜
                 pStartDt = dataSet.getNameValue(i, "strtDt");
                 pFnhDt   = dataSet.getNameValue(i, "fnhDt");
-                
+
                 if(!(pStartDt instanceof Date)) pStartDt = pStartDt.replace(/\-/g, "").toDate();
                 if(!(pFnhDt instanceof Date)) pFnhDt = pFnhDt.replace(/\-/g, "").toDate();
-                
+
                 if(i == 0) {
-                	//부모와 시작일비교 
+                    //부모와 시작일비교
                     if(!fnDateBetweenCheck(pStartDt, pTssStartDt, pTssFnhDd, i)) return false;
-                    
+
                     //부모와 종료일비교
                     if(!fnDateBetweenCheck(pFnhDt, pTssStartDt, pTssFnhDd, i)) return false;
                 }
 
                 pStartDt.setDate(pStartDt.getDate() - 1);
                 pFnhDt.setDate(pFnhDt.getDate() + 1);
-                
+
                 //하위레벨 날짜
                 pChildRows = treeGridView.getChildRows(i);
-                
+
                 for(var j = 0; j < pChildRows.length; j++) {
                     cStartDt = dataSet.getNameValue(pChildRows[j], "strtDt");
                     cFnhDt   = dataSet.getNameValue(pChildRows[j], "fnhDt");
-                    
+
                     if(!(cStartDt instanceof Date)) cStartDt = cStartDt.replace(/\-/g, "").toDate();
                     if(!(cFnhDt instanceof Date)) cFnhDt = cFnhDt.replace(/\-/g, "").toDate();
-                    
-                    //부모와 시작일비교 
+
+                    //부모와 시작일비교
                     if(!fnDateBetweenCheck(cStartDt, pStartDt, pFnhDt, pChildRows[j])) return false;
-                    
+
                     //부모와 종료일비교
                     if(!fnDateBetweenCheck(cFnhDt, pStartDt, pFnhDt, pChildRows[j])) return false;
                 }
-                
+
                 pStartDt.setDate(pStartDt.getDate() + 1);
                 pFnhDt.setDate(pFnhDt.getDate() - 1);
             }
-            
+
             return true;
         }
-        
+
         //부모날짜와 비교
         fnDateBetweenCheck = function(cDt, pStartDt, pFnhDt, cRow) {
-        	if(!cDt.between(pStartDt, pFnhDt)) {
+            if(!cDt.between(pStartDt, pFnhDt)) {
                 pStartDt.setDate(pStartDt.getDate() + 1);
                 pFnhDt.setDate(pFnhDt.getDate() - 1);
-                
+
                 Rui.alert("상위 과제기간의 범위를 벗어났습니다.<br/>일정명: "+dataSet.getNameValue(cRow, "tssNm"));
                 return false;
             }
@@ -358,7 +358,7 @@
         var butSchedule = new Rui.ui.LButton('butSchedule');
         butSchedule.on('click', function() {
             if(dataSet.getCount() > 0) return;
-            
+
             var row = dataSet.getRow();
             row = dataSet.newRecord();
             var record = dataSet.getAt(row);
@@ -372,12 +372,12 @@
             record.set("wgvl",     "100"); //가중치
             record.set("tssNm",    window.parent.tssNm);  //제목
             record.set("arslCd",   "0"); //실적
-            
+
             defaultSubSchedule();
         });
 
-		defaultSubSchedule = function(){
-			//부모 row
+        defaultSubSchedule = function(){
+            //부모 row
             var row = dataSet.getRow();
 
             if(row < 0) return;
@@ -392,8 +392,8 @@
             var childLen  = 0;  //child row 배열의 위치
             var allRow = treeGridView.getAllChildRows(row); //체크된 row의 child row
             var tssNm = "";
-            
-            
+
+
             for(var j = 1; j < 4; j++) {
                 newChildRow = row + j;
               //자식 row
@@ -406,19 +406,19 @@
                 record.set("pidSn",  1);     //부모 wbsSn
                 record.set("depth",  depth + 1); //depth
                 record.set("arslCd", "0");       //실적
-                
+
                 if ( j == 1 ){
-                	tssNm= "제품/공정설계";
+                    tssNm= "제품/공정설계";
                 }else if ( j == 2 ){
-                	tssNm= "제품성능검증";
+                    tssNm= "제품성능검증";
                 }else if ( j == 3 ){
-                	tssNm= "양산성검증";
+                    tssNm= "양산성검증";
                 }
-              	record.set("tssNm",  tssNm);  //제목
+                  record.set("tssNm",  tssNm);  //제목
                 treeGridView.expand(newChildRow);
             }
-		}
-		
+        }
+
 
         //하위일정등록
         var butSubSchedule = new Rui.ui.LButton('butSubSchedule');
@@ -502,11 +502,11 @@
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
             if( dataSet.getCount() <  2  ) {
-            	Rui.alert("WBS 항목을 등록하셔야 합니다.");
-            	return;
+                Rui.alert("WBS 항목을 등록하셔야 합니다.");
+                return;
             }
-            
-        	if(!dataSet.isUpdated()) {
+
+            if(!dataSet.isUpdated()) {
                 Rui.alert("변경된 데이터가 없습니다.");
                 return;
             }
@@ -515,16 +515,16 @@
                 Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>'));
                 return false;
             }
-            
+
             if(!fnTssDateChk()) return; //날짜체크
 
             if(!checkValidation("wgvl")) return; //가중치확인
-           
-           
+
+
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
-                    
+
                     //depthSeq셋팅
                     var wbsSort = 1;
                     for(var i = 0; i < dataSet.getCount(); i++) {
@@ -532,7 +532,7 @@
                             dataSet.setNameValue(i, "depthSeq", wbsSort++);
                         }
                     }
-                    
+
                     dm.updateDataSet({
                         url:'<c:url value="/prj/tss/gen/updateGenTssPlnWBS.do"/>',
                         dataSets:[dataSet]
@@ -542,7 +542,7 @@
             });
         });
 
-/* 
+/*
         //목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
@@ -551,28 +551,31 @@
  */
 
         //엑셀다운
-        var butExcel = new Rui.ui.LButton('butExcel');
-        butExcel.on('click', function() {
-            if(dataSet.getCount() > 0) {
-                grid.saveExcel(toUTF8('과제관리_연구팀과제_WBS_') + new Date().format('%Y%m%d') + '.xls');
-            } else {
-                Rui.alert('조회된 데이타가 없습니다.');
-            }
-        });
+        if($("#butExcel").length > 0){
+            var butExcel = new Rui.ui.LButton('butExcel');
+            butExcel.on('click', function() {
+                if(dataSet.getCount() > 0) {
+                    grid.saveExcel(toUTF8('과제관리_연구팀과제_WBS_') + new Date().format('%Y%m%d') + '.xls');
+                } else {
+                    Rui.alert('조회된 데이타가 없습니다.');
+                }
+            });
+        }
 
         //간트차트
-        var butChart = new Rui.ui.LButton('butChart');
-        butChart.on('click', function() {
-             var args = new Object();
-             var url =  contextPath + "/prj/tss/gen/genWbsGanttChartPopup.do?" + "&tssCd="  +  lvTssCd ;
+        if($("#butChart").length > 0){ //[20240411.siseo]id 존재여부 체크 추가
+            var butChart = new Rui.ui.LButton('butChart');
+            butChart.on('click', function() {
+                 var args = new Object();
+                 var url =  contextPath + "/prj/tss/gen/genWbsGanttChartPopup.do?" + "&tssCd="  +  lvTssCd ;
 
-             if(dataSet.getCount() > 0) {
-                 nwinsOpenModal(url, args, 1200, 520 , 0);
-             } else {
-                  Rui.alert('조회된 데이타가 없습니다.');
-             }
-        });
-
+                 if(dataSet.getCount() > 0) {
+                     nwinsOpenModal(url, args, 1200, 520 , 0);
+                 } else {
+                      Rui.alert('조회된 데이타가 없습니다.');
+                 }
+            });
+        }
 
         //데이터 셋팅
         if(${resultCnt} > 0) {
@@ -587,19 +590,19 @@
             //버튼 비활성화 셋팅
             disableFields();
         }
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#butSchedule").hide();
-        	$("#butSubSchedule").hide();
-        	$("#butRecordDel").hide();
-        	$("#btnSave").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#butSchedule").hide();
-        	$("#butSubSchedule").hide();
-        	$("#butRecordDel").hide();
-        	$("#btnSave").hide();
-		}
-        
+            $("#butSchedule").hide();
+            $("#butSubSchedule").hide();
+            $("#butRecordDel").hide();
+            $("#btnSave").hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $("#butSchedule").hide();
+            $("#butSubSchedule").hide();
+            $("#butRecordDel").hide();
+            $("#btnSave").hide();
+        }
+
     });
 
     //validation
@@ -724,7 +727,7 @@ $(window).load(function() {
         <button type="button" id="butSchedule" name="">일정등록</button>
         <button type="button" id="butSubSchedule" name="">하위일정등록</button>
         <button type="button" id="butRecordDel" name="">일정삭제</button>
-        <button type="button" id="butChart" name="">간트차트보기</button>
+        <!-- <button type="button" id="butChart" name="">간트차트보기</button> -->
         <button type="button" id="butExcel" name="">Excel다운로드</button>
     </div>
 </div>
