@@ -6,12 +6,12 @@
 <%--                         <li><a href="javascript:openWindow('<c:url value="http://hicms.lxhausys.com"/>', 'HICMS', 1300, 800, 'yes');"><span>화학물질 관리</span></a></li> --%>
                         <li><a href="javascript:openWindow1('H');"><span>화학물질 관리</span></a></li>
                         <%-- <li><a href="javascript:openWindow('<c:url value="http://rndesh.lxhausys.com/ssologin.do?ssoId=${inputData.encSabun}"/>', 'ESH', 1300, 800, 'yes');"><span>안전환경시스템</span></a></li> --%>
-                        <li><a href="javascript:openWindow1('R');"><span>안전환경시스템</span></a></li>
+                        <li><a href="javascript:openWindow1('R');"><span>환경안전시스템</span></a></li>
                         <li><a href="javascript:openWindow('<c:url value="http://tsp.lxhausys.com:8140/resort/common/login/reqIdpLogin.do"/>', 'TSP', 1030, 680, 'yes');"><span>LGSP 방문 예약</span></a></li>
                         <%-- <li><a href="javascript:openWindow('<c:url value="http://lgspconf.lxhausys.com"/>', 'LGSP_CONF', 1500, 900, 'yes');"><span>LGSP 회의실 예약</span></a></li> --%>
                         <li><a href="javascript:openWindow('<c:url value="http://gportal.lxhausys.com/portal/main/portalVirtualModuleMenu.do?moduleId=MR_00001"/>', 'LGSP_CONF', 1500, 900, 'yes');"><span>LGSP 회의실 예약</span></a></li>
                         <li><a href="javascript:fnPopLink();"><span style="font-size:12px; letter-spacing: -0.1em; ">LGSP반출신청</span></a></li>
-                        <li><a href="javascript:openWindow1('I');"><span>지식재산시스템</span></a></li>
+                        <li><a href="javascript:openWindow1('I');"><span>지식재산관리시스템</span></a></li>
                         <li><a href="javascript:postOpenWindow('drimhitech', 1500, 900, 'yes');"><span>식수관리시스템</span></a></li>
                         <%-- <li><a href="javascript:openWindow('<c:url value="http://pmis.lxhausys.com/DeployWeb/Portal/Enterprise/Default.aspx"/>', 'OLD_IRIS', 1300, 800, 'yes');"><span style="font-size:12px; letter-spacing: -0.1em; ">(구)연구정보통합시스템</span></a></li> --%>
                         <li><select name="jumpMenu" id="jumpMenu" onchange="MM_jumpMenu(1500,900,'yes')">
@@ -53,10 +53,10 @@
             var param = "?encryptEmpNo="+replace(encryptEmpNo);
 
             if( gb == "I"){
-                openWindow('<c:url value="http://ipms.lxhausys.com:8001"/>'+param,'IP_RND', 1500, 900, 'yes');
+                openWindow('<c:url value="http://ipms.lxhausys.com:8001"/>'+param,'IP_RND', 1500, 900, 'yes'); //지식재산관리시스템
             }else if( gb == "R" ){
                 /* openWindow('<c:url value="http://rndesh.lxhausys.com/ssologin.do"/>'+param,'ESH', 1500, 900, 'yes', '_blank'); */
-                openWindow('<c:url value="http://eshrnd.lxhausys.com/loginproc.do"/>'+param,'ESH', 1500, 900, 'yes', '_blank');
+                openWindow('<c:url value="http://eshrnd.lxhausys.com/loginproc.do"/>'+param,'ESH', 1500, 900, 'yes', '_blank'); //연구소.환경안전시스템
             }else if (gb == "H"){
                 openWindow('<c:url value="http://chemical.lxhausys.com/ssologin.do"/>'+param,'HICMS', 1500, 900, 'yes', '_blank');
             }

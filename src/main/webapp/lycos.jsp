@@ -1,17 +1,17 @@
 <%--
 /*------------------------------------------------------------------------------
  * NAME : lycos.jsp
- * DESC : 초기화면 
+ * DESC : 초기화면
  * VER  : V1.0
  * PROJ : LG CNS 정보보안포탈
  * Copyright 2017 LG CNS All rights reserved
  *------------------------------------------------------------------------------
- *                               MODIFICATION LOG                       
+ *                               MODIFICATION LOG
  *------------------------------------------------------------------------------
- *    DATE     AUTHOR                      DESCRIPTION                        
- * ----------  ------  --------------------------------------------------------- 
- *  					initial release
- *  2017.02.08  dwshin		임시로그인
+ *    DATE     AUTHOR                      DESCRIPTION
+ * ----------  ------  ---------------------------------------------------------
+ *                      initial release
+ *  2017.02.08  dwshin        임시로그인
  *------------------------------------------------------------------------------*/
 --%>
 <%@ page language ="java"  pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
@@ -23,53 +23,53 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>::::::IRIS::::::</title>
 <script type="text/javascript">
-	
-	function setCookie(cookieName, value, exdays){
-		
-		if(value==""){
-			value = document.getElementById("ssoid").value;
-		}
-		
-		var exdate = new Date();
 
-	    exdate.setDate(exdate.getDate() + exdays);
+    function setCookie(cookieName, value, exdays){
 
-	   
-	   // alert(getCookie('user_id'));
-	    
-	    document.location = "<c:url value="/common/login/irisTodoLogin.do?user_id="/>"+value;
-	}
-	
-	function getCookie(cookieName) {
+        if(value==""){
+            value = document.getElementById("ssoid").value;
+        }
 
-	    cookieName = cookieName + '=';
+        var exdate = new Date();
 
-	    var cookieData = document.cookie;
+        exdate.setDate(exdate.getDate() + exdays);
 
-	    var start = cookieData.indexOf(cookieName);
 
-	    var cookieValue = '';
+       // alert(getCookie('user_id'));
 
-	    if(start != -1){
+        document.location = "<c:url value='/common/login/irisTodoLogin.do?user_id='/>"+value;
+    }
 
-	        start += cookieName.length;
+    function getCookie(cookieName) {
 
-	        var end = cookieData.indexOf(';', start);
+        cookieName = cookieName + '=';
 
-	        if(end == -1)end = cookieData.length;
+        var cookieData = document.cookie;
 
-	        cookieValue = cookieData.substring(start, end);
+        var start = cookieData.indexOf(cookieName);
 
-	    }
+        var cookieValue = '';
 
-	    return unescape(cookieValue);
+        if(start != -1){
 
-	}
+            start += cookieName.length;
+
+            var end = cookieData.indexOf(';', start);
+
+            if(end == -1)end = cookieData.length;
+
+            cookieValue = cookieData.substring(start, end);
+
+        }
+
+        return unescape(cookieValue);
+
+    }
 </script>
 </head>
 <body>
 
-<input name="name" type="button"  value="시스템관리자" onClick="setCookie('InitechEamUID', 'singkro', '1');"><br/>
+<input name="name" type="button"  value="시스템관리자" onClick="setCookie('InitechEamUID', 'siseo', '1');"><br/>
 <input name="name" type="button"  value="일반연구원" onClick="setCookie('InitechEamUID', 'aerioh', '1');"><br/>
 <input name="name" type="button"  value="일반연구원이성현" onClick="setCookie('InitechEamUID', 'lshinlg', '1');"><br/>
 <input name="name" type="button"  value="일반연구원PL안승현" onClick="setCookie('InitechEamUID', 'shahn', '1');"><br/>
@@ -90,7 +90,7 @@
 
 <input name="ssoid" type="text" id="ssoid"  value="" ><br/>
 <input name="submit" id="submit" value="로그인"  type="button" onClick="setCookie('InitechEamUID', '', '1');" />
- <!-- 
+ <!--
 <input name="name" type="button"  value="송수빈책임" onClick="setCookie('InitechEamUID', 'jollypeas', '1');"><br/>
 <input name="name" type="button"  value="이유지선임" onClick="setCookie('InitechEamUID', 'yujilee', '1');"><br/>
 <input name="name" type="button"  value="정근책임" onClick="setCookie('InitechEamUID', 'keunjung', '1');"><br/>
