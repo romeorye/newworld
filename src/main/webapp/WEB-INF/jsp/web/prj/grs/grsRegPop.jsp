@@ -1211,7 +1211,7 @@ var exSabun = '${inputData._userSabun}';
              }
 
              Rui.confirm({
-                 text: grsMsg+'평가완료하시겠습니까?<br>완료후에는 수정/삭제가 불가능합니다.',
+                 text: grsMsg+'평가완료 하시겠습니까?<br>완료후에는 수정/삭제가 불가능합니다.',
                  handlerYes: function () {
                      dm.updateDataSet({
                          modifiedOnly: false,

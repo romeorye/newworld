@@ -190,31 +190,19 @@
         <![CDATA[
 --retrieveGrsTodo GRS Todo 조회
         SELECT
-            TODO_SYS_CD     AS todoSysCd        --시스템 코드
-            ,
-            TODO_TYPE_CD    AS todoTypeCd       --ToDo 유형 코드
-            ,
-            TODO_REQ_NO     AS todoReqNo        --연계시스템 내 문서 ID
-            ,
-            TODO_REQ_NM     AS todoReqNm        --ToDo 문서제목
-            ,
-            TODO_REQ_EMP_NO AS todoReqEmpNo     --ToDo 등록자 ID
-            ,
-            TODO_REQ_DT     AS todoReqDt        --등록시각
-            ,
-            TODO_END_DT     AS todoEndDt        --마감시각
-            ,
-            TODO_STATUS     AS todoStatus       --처리상황명
-            ,
-            TODO_EMP_NO     AS todoEmpNo        --처리담당자 ID
-            ,
-            TODO_SGN_EMP_NO AS todoSgnEmpNo     --수임담당자 ID
-            ,
-            TODO_RESULT     AS todoResult       --완료여부
-            ,
-            TSS_CD          AS tssCd            --
-            ,
-            TSS_CD_SN       AS tssCdSn --
+             TODO_SYS_CD     AS todoSysCd        --시스템 코드
+            ,TODO_TYPE_CD    AS todoTypeCd       --ToDo 유형 코드
+            ,TODO_REQ_NO     AS todoReqNo        --연계시스템 내 문서 ID
+            ,TODO_REQ_NM     AS todoReqNm        --ToDo 문서제목
+            ,TODO_REQ_EMP_NO AS todoReqEmpNo     --ToDo 등록자 ID
+            ,TODO_REQ_DT     AS todoReqDt        --등록시각
+            ,TODO_END_DT     AS todoEndDt        --마감시각
+            ,TODO_STATUS     AS todoStatus       --처리상황명
+            ,TODO_EMP_NO     AS todoEmpNo        --처리담당자 ID
+            ,TODO_SGN_EMP_NO AS todoSgnEmpNo     --수임담당자 ID
+            ,TODO_RESULT     AS todoResult       --완료여부
+            ,TSS_CD          AS tssCd            --
+            ,TSS_CD_SN       AS tssCdSn --
         FROM VW_GRS_TODO
         WHERE TODO_REQ_NO = #{MW_TODO_REQ_NO}
         ]]>
@@ -249,16 +237,11 @@
             --, dbo.fn_getSabunName(B.DLBR_CRGR    ) AS dlbrCrgrNm
            ,b.sa_sabun_name                                                          AS dlbrCrgrNm       --심의 담당자
            ,A.TSS_CD                                                                 AS tssCd      --과제코드
-           ,B.TSS_CD_SN                                                              AS tssCdSn,
-            A.PGS_STEP_CD                                                            AS pgsStepCd  --진행단계코드439600
-            ,
-            A.TSS_SCN_CD                                                             AS tssScnCd   --과제구분코드
-            ,
-            B.EV_TITL                                                                AS evTitl            --평가제목
-            ,
-            B.CFRN_ATDT_CD_TXT                                                       AS cfrnAtdtCdTxt    --회의참석자사번
-            ,
-            (select stuff((select ',' +
+           ,B.TSS_CD_SN                                                              AS tssCdSn,A.PGS_STEP_CD                                                            AS pgsStepCd  --진행단계코드439600
+           ,A.TSS_SCN_CD                                                             AS tssScnCd   --과제구분코드
+           ,B.EV_TITL                                                                AS evTitl            --평가제목
+           ,B.CFRN_ATDT_CD_TXT                                                       AS cfrnAtdtCdTxt    --회의참석자사번
+           ,(select stuff((select ',' +
                                   sa_name
                            from IRIS_SSO_USER
                            where sa_sabun_new in (SELECT value
@@ -266,12 +249,9 @@
                                                   WHERE RTRIM(value) <> '')
                            order by sa_name
                            FOR XML PATH ('')), 1, 1, ''))                            AS cfrnAtdtCdTxtNm --회의참석자명
-            ,
-            B.COMM_TXT                                                               AS commTxt            --Comments
-            ,
-            B.ATTC_FIL_ID                                                            AS attcFilId        --첨부파일
-            ,
-            A.TSS_ST                                                                 AS tssSt --과제상태코드
+            ,B.COMM_TXT                                                               AS commTxt            --Comments
+            ,B.ATTC_FIL_ID                                                            AS attcFilId        --첨부파일
+            ,A.TSS_ST                                                                 AS tssSt --과제상태코드
             ,IIF((SELECT COUNT(*)
                  FROM IRIS_GRS_EV_STD_RSLT_RGST
                  WHERE TSS_CD = B.TSS_CD AND TSS_CD_SN = B.TSS_CD_SN) > 0, 'Y', 'N') AS saveYN
@@ -316,47 +296,27 @@
         <![CDATA[
 --retrieveGrsReqDtlLst GRS 평가표
         SELECT
-            sm.GRS_EV_SN                           AS grsEvSn               -- GRS 일련번호
-            ,
-            sm.GRS_EV_SEQ                          AS grsEvSeq               -- GRS  순번
-            ,
-            sm.EV_PRVS_NM_1                        AS evPrvsNm_1           -- 평가항목명1
-            ,
-            sm.EV_PRVS_NM_2                        AS evPrvsNm_2           -- 평가항목명2
-            ,
-            sm.EV_CRTN_NM                          AS evCrtnNm             -- 평가기준명
-            ,
-            sm.EV_SBC_TXT                          AS evSbcTxt             -- 평가내용
-            ,
-            sm.DTL_SBC_TITL_1                      AS dtlSbcTitl_1         -- 상세내용1
-            ,
-            sm.DTL_SBC_TITL_2                      AS dtlSbcTitl_2         -- 상세내용2
-            ,
-            sm.DTL_SBC_TITL_3                      AS dtlSbcTitl_3         -- 상세내용3
-            ,
-            sm.DTL_SBC_TITL_4                      AS dtlSbcTitl_4         -- 상세내용4
-            ,
-            sm.DTL_SBC_TITL_5                      AS dtlSbcTitl_5         -- 상세내용5
-            ,
-            sm.WGVL                                AS wgvl                 -- 가중치
-            ,
-            sm.GRS_Y                               AS grsY                 -- 년도
-            ,
-            sm.GRS_TYPE                            AS grsType              -- 유형
-            ,
-            sm.EV_SBC_NM                           AS evSbcNm              -- 템플릿명
-            ,
-            sm.USE_YN                              AS useYn                -- 사용여부
-            ,
-            sm.FRST_RGST_DT                        AS frstRgstDt           -- 최초등록일시
-            ,
-            sm.FRST_RGST_ID                        AS frstRgstId           -- 최초등록자
-            ,
-            sm.LAST_MDFY_DT                        AS lastMdfyDt           -- 최종수정일시
-            ,
-            sm.LAST_MDFY_ID                        AS lastMdfyId           -- 최종수정자
-            ,
-            (SELECT (srr.EV_SCR)
+             sm.GRS_EV_SN                           AS grsEvSn               -- GRS 일련번호
+            ,sm.GRS_EV_SEQ                          AS grsEvSeq               -- GRS  순번
+            ,sm.EV_PRVS_NM_1                        AS evPrvsNm_1           -- 평가항목명1
+            ,sm.EV_PRVS_NM_2                        AS evPrvsNm_2           -- 평가항목명2
+            ,sm.EV_CRTN_NM                          AS evCrtnNm             -- 평가기준명
+            ,sm.EV_SBC_TXT                          AS evSbcTxt             -- 평가내용
+            ,sm.DTL_SBC_TITL_1                      AS dtlSbcTitl_1         -- 상세내용1
+            ,sm.DTL_SBC_TITL_2                      AS dtlSbcTitl_2         -- 상세내용2
+            ,sm.DTL_SBC_TITL_3                      AS dtlSbcTitl_3         -- 상세내용3
+            ,sm.DTL_SBC_TITL_4                      AS dtlSbcTitl_4         -- 상세내용4
+            ,sm.DTL_SBC_TITL_5                      AS dtlSbcTitl_5         -- 상세내용5
+            ,sm.WGVL                                AS wgvl                 -- 가중치
+            ,sm.GRS_Y                               AS grsY                 -- 년도
+            ,sm.GRS_TYPE                            AS grsType              -- 유형
+            ,sm.EV_SBC_NM                           AS evSbcNm              -- 템플릿명
+            ,sm.USE_YN                              AS useYn                -- 사용여부
+            ,sm.FRST_RGST_DT                        AS frstRgstDt           -- 최초등록일시
+            ,sm.FRST_RGST_ID                        AS frstRgstId           -- 최초등록자
+            ,sm.LAST_MDFY_DT                        AS lastMdfyDt           -- 최종수정일시
+            ,sm.LAST_MDFY_ID                        AS lastMdfyId           -- 최종수정자
+            ,(SELECT (srr.EV_SCR)
              FROM iris_grs_ev_std_rslt_rgst srr
              WHERE sm.GRS_EV_SN = srr.GRS_EV_SN
                    AND sm.GRS_EV_SEQ = srr.GRS_EV_SEQ
@@ -430,37 +390,22 @@
         <![CDATA[
 --retrieveGrsEvStdDtl GRS평가항목 상세 조회
         SELECT
-            A.GRS_EV_SN      AS grsEvSn     --평가표일련번호
-            ,
-            A.GRS_EV_SEQ     AS grsEvSeq    --평가SEQ
-            ,
-            A.EV_PRVS_NM_1   AS evPrvsNm1   --평가항목명1
-            ,
-            A.EV_PRVS_NM_2   AS evPrvsNm2   --평가항목명2
-            ,
-            A.EV_CRTN_NM     AS evCrtnNm    --평가기준명
-            ,
-            A.EV_SBC_TXT     AS evSbcTxt    --평가내용
-            ,
-            A.DTL_SBC_TITL_1 AS dtlSbcTitl1 --상세내용1
-            ,
-            A.DTL_SBC_TITL_2 AS dtlSbcTitl2 --상세내용2
-            ,
-            A.DTL_SBC_TITL_3 AS dtlSbcTitl3 --상세내용3
-            ,
-            A.DTL_SBC_TITL_4 AS dtlSbcTitl4 --상세내용4
-            ,
-            A.DTL_SBC_TITL_5 AS dtlSbcTitl5 --상세내용5
-            ,
-            A.WGVL           AS wgvl        --가중치
-            ,
-            B.GRS_Y          AS grsY        --년도
-            ,
-            B.GRS_TYPE       AS grsType     --유형
-            ,
-            B.EV_SBC_NM      AS evSbcNm     --템플릿명
-            ,
-            B.USE_YN         AS useYn --사용여부
+             A.GRS_EV_SN      AS grsEvSn     --평가표일련번호
+            ,A.GRS_EV_SEQ     AS grsEvSeq    --평가SEQ
+            ,A.EV_PRVS_NM_1   AS evPrvsNm1   --평가항목명1
+            ,A.EV_PRVS_NM_2   AS evPrvsNm2   --평가항목명2
+            ,A.EV_CRTN_NM     AS evCrtnNm    --평가기준명
+            ,A.EV_SBC_TXT     AS evSbcTxt    --평가내용
+            ,A.DTL_SBC_TITL_1 AS dtlSbcTitl1 --상세내용1
+            ,A.DTL_SBC_TITL_2 AS dtlSbcTitl2 --상세내용2
+            ,A.DTL_SBC_TITL_3 AS dtlSbcTitl3 --상세내용3
+            ,A.DTL_SBC_TITL_4 AS dtlSbcTitl4 --상세내용4
+            ,A.DTL_SBC_TITL_5 AS dtlSbcTitl5 --상세내용5
+            ,A.WGVL           AS wgvl        --가중치
+            ,B.GRS_Y          AS grsY        --년도
+            ,B.GRS_TYPE       AS grsType     --유형
+            ,B.EV_SBC_NM      AS evSbcNm     --템플릿명
+            ,B.USE_YN         AS useYn --사용여부
         FROM IRIS_GRS_EV_STD_MGMT B  /*GRS평가표준*/
             LEFT JOIN IRIS_GRS_EV_STD_MGMT A  /*GRS평가표준*/
                 ON B.GRS_EV_SN = A.GRS_EV_SN
@@ -1112,11 +1057,11 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY} = '' THEN '0' ELSE #{bizPrftCurY} END)
                 ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY1} = '' THEN '0' ELSE #{bizPrftCurY1} END)
                 ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftCurY2} = '' THEN '0' ELSE #{bizPrftCurY2} END)
-                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY} = '' THEN '0' ELSE #{ptcCpsnCurY} END)
-                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY1} = '' THEN '0' ELSE #{ptcCpsnCurY1} END)
-                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY2} = '' THEN '0' ELSE #{ptcCpsnCurY2} END)
-                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY3} = '' THEN '0' ELSE #{ptcCpsnCurY3} END)
-                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnCurY4} = '' THEN '0' ELSE #{ptcCpsnCurY4} END)
+                ,CONVERT(numeric(15, 1), CASE WHEN #{ptcCpsnCurY} = '' THEN '0' ELSE #{ptcCpsnCurY} END)
+                ,CONVERT(numeric(15, 1), CASE WHEN #{ptcCpsnCurY1} = '' THEN '0' ELSE #{ptcCpsnCurY1} END)
+                ,CONVERT(numeric(15, 1), CASE WHEN #{ptcCpsnCurY2} = '' THEN '0' ELSE #{ptcCpsnCurY2} END)
+                ,CONVERT(numeric(15, 1), CASE WHEN #{ptcCpsnCurY3} = '' THEN '0' ELSE #{ptcCpsnCurY3} END)
+                ,CONVERT(numeric(15, 1), CASE WHEN #{ptcCpsnCurY4} = '' THEN '0' ELSE #{ptcCpsnCurY4} END)
                 ,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY} = '' THEN '0' ELSE #{expArslCurY} END)
                 ,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY1} = '' THEN '0' ELSE #{expArslCurY1} END)
                 ,CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY2} = '' THEN '0' ELSE #{expArslCurY2} END)
@@ -1133,11 +1078,11 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY} = '' THEN '0' ELSE #{bizPrftProY} END)
                 ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY1} = '' THEN '0' ELSE #{bizPrftProY1} END)
                 ,CONVERT(numeric(15, 2), CASE WHEN #{bizPrftProY2} = '' THEN '0' ELSE #{bizPrftProY2} END)
-                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)
-                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)
-                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)
-                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)
-                ,CONVERT(numeric(15, 2), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)
+                ,CONVERT(numeric(15, 1), CASE WHEN #{ptcCpsnY} = '' THEN '0' ELSE #{ptcCpsnY} END)
+                ,CONVERT(numeric(15, 1), CASE WHEN #{ptcCpsnY1} = '' THEN '0' ELSE #{ptcCpsnY1} END)
+                ,CONVERT(numeric(15, 1), CASE WHEN #{ptcCpsnY2} = '' THEN '0' ELSE #{ptcCpsnY2} END)
+                ,CONVERT(numeric(15, 1), CASE WHEN #{ptcCpsnY3} = '' THEN '0' ELSE #{ptcCpsnY3} END)
+                ,CONVERT(numeric(15, 1), CASE WHEN #{ptcCpsnY4} = '' THEN '0' ELSE #{ptcCpsnY4} END)
                 ,CONVERT(numeric(15, 2), CASE WHEN #{expArslY} = '' THEN '0' ELSE #{expArslY} END)
                 ,CONVERT(numeric(15, 2), CASE WHEN #{expArslY1} = '' THEN '0' ELSE #{expArslY1} END)
                 ,CONVERT(numeric(15, 2), CASE WHEN #{expArslY2} = '' THEN '0' ELSE #{expArslY2} END)
