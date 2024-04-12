@@ -537,35 +537,35 @@ var exSabun = '${inputData._userSabun}';
 
         ptcCpsnY = new Rui.ui.form.LNumberBox({
             applyTo: 'ptcCpsnY',
-            decimalPrecision: 0,
+            decimalPrecision: 1,
             maxValue: 9999,
             width: 110
         });
 
         ptcCpsnY1 = new Rui.ui.form.LNumberBox({
             applyTo: 'ptcCpsnY1',
-            decimalPrecision: 0,
+            decimalPrecision: 1,
             maxValue: 9999,
             width: 110
         });
 
         ptcCpsnY2 = new Rui.ui.form.LNumberBox({
             applyTo: 'ptcCpsnY2',
-            decimalPrecision: 0,
+            decimalPrecision: 1,
             maxValue: 9999,
             width: 110
         });
 
         ptcCpsnY3 = new Rui.ui.form.LNumberBox({
             applyTo: 'ptcCpsnY3',
-            decimalPrecision: 0,
+            decimalPrecision: 1,
             maxValue: 9999,
             width: 110
         });
 
         ptcCpsnY4 = new Rui.ui.form.LNumberBox({
             applyTo: 'ptcCpsnY4',
-            decimalPrecision: 0,
+            decimalPrecision: 1,
             maxValue: 9999,
             width: 110
         });
@@ -838,10 +838,11 @@ var exSabun = '${inputData._userSabun}';
          var valid = new Rui.validate.LValidatorManager({
              validators:[
                   { id: 'evTitl'            , validExp:'회의 장소:true' }
-                 ,{ id: 'evDt'            , validExp:'회의일정:true' }
+                 ,{ id: 'evDt'              , validExp:'회의일정:true' }
                  ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true' }
                  ,{ id: 'attcFilId'         , validExp:'첨부파일:true' }
                  ,{ id: 'commTxt'           , validExp:'Comment:true' }
+                 //,{ id: 'ctyOtPlnM'         , validExp:'상품출시계획:true' }
                  ,{ id: 'grsEvSn'           , validExp:'평가표:true' }
              ]
          });
@@ -849,10 +850,11 @@ var exSabun = '${inputData._userSabun}';
          var valid1 = new Rui.validate.LValidatorManager({
              validators:[
                   { id: 'evTitl'            , validExp:'회의일정/장소:true'}
-                 ,{ id: 'evDt'            , validExp:'회의일정/장소:true'}
+                 ,{ id: 'evDt'              , validExp:'회의일정/장소:true'}
                  ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true'}
                  ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
                  ,{ id: 'commTxt'           , validExp:'Comment:true'}
+                 //,{ id: 'ctyOtPlnM'         , validExp:'상품출시계획:true' }
                  ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
                  ,{ id: 'bizPrftProY'       , validExp:'영업이익률:true:minNumber=0.01'}
                  ,{ id: 'bizPrftProY1'      , validExp:'영업이익률:true:minNumber=0.01'}
@@ -863,24 +865,25 @@ var exSabun = '${inputData._userSabun}';
                  ,{ id: 'nprodSalsPlnY'     , validExp:'매출액:true:minNumber=0.01'}
                  ,{ id: 'nprodSalsPlnY1'    , validExp:'매출액:true:minNumber=0.01'}
                  ,{ id: 'nprodSalsPlnY2'    , validExp:'매출액:true:minNumber=0.01'}
-                 ,{ id: 'ptcCpsnY'          , validExp:'투입인원:true:minNumber=0'}
-                 ,{ id: 'expArslY'          , validExp:'투입비용:true:minNumber=0'}
+                 ,{ id: 'ptcCpsnY'          , validExp:'투입인원:true:minNumber=0.1'}
+                 ,{ id: 'expArslY'          , validExp:'투입비용:true:minNumber=0.1'}
              ]
          });
 
          var valid2 = new Rui.validate.LValidatorManager({
              validators:[
                   { id: 'evTitl'            , validExp:'회의일정/장소:true'}
-                 ,{ id: 'evDt'            , validExp:'회의일정/장소:true'}
+                 ,{ id: 'evDt'              , validExp:'회의일정/장소:true'}
                  ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true'}
                  ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
                  ,{ id: 'commTxt'           , validExp:'Comment:true'}
+                 //,{ id: 'ctyOtPlnM'         , validExp:'상품출시계획:true' }
                  ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
                  ,{ id: 'nprodSalsPlnY'     , validExp:'매출액:true:minNumber=0.01'}
                  ,{ id: 'nprodSalsPlnY1'    , validExp:'매출액:true:minNumber=0.01'}
                  ,{ id: 'nprodSalsPlnY2'    , validExp:'매출액:true:minNumber=0.01'}
-                 ,{ id: 'ptcCpsnY'          , validExp:'투입인원:true:minNumber=0'}
-                 ,{ id: 'expArslY'          , validExp:'투입비용:true:minNumber=0'}
+                 ,{ id: 'ptcCpsnY'          , validExp:'투입인원:true:minNumber=0.1'}
+                 ,{ id: 'expArslY'          , validExp:'투입비용:true:minNumber=0.1'}
              ]
          });
 
@@ -891,6 +894,7 @@ var exSabun = '${inputData._userSabun}';
                  ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true'}
                  ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
                  ,{ id: 'commTxt'           , validExp:'Comment:true'}
+                 //,{ id: 'ctyOtPlnM'         , validExp:'상품출시계획:true' }
                  ,{ id: 'nprodNm'           , validExp:'신체품명:true'}
                  ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
              ]
@@ -902,6 +906,7 @@ var exSabun = '${inputData._userSabun}';
                  ,{ id: 'evDt'              , validExp:'회의일정:true'}
                  ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true'}
                  ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
+                 //,{ id: 'ctyOtPlnM'         , validExp:'상품출시계획:true' }
                  ,{ id: 'commTxt'           , validExp:'Comment:true'}
              ]
          });
@@ -910,12 +915,13 @@ var exSabun = '${inputData._userSabun}';
          var valid5 = new Rui.validate.LValidatorManager({
              validators:[
                   { id: 'evTitl'            , validExp:'회의일정/장소:true'}
-                 ,{ id: 'evDt'            , validExp:'회의일정/장소:true'}
+                 ,{ id: 'evDt'              , validExp:'회의일정/장소:true'}
                  ,{ id: 'cfrnAtdtCdTxtNm'   , validExp:'회의 참석자:true'}
                  ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
                  ,{ id: 'commTxt'           , validExp:'Comment:true'}
+                 //,{ id: 'ctyOtPlnM'         , validExp:'상품출시계획:true' }
                  ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
-                 ,{ id: 'ptcCpsnY'          , validExp:'투입인원:true:minNumber=1'}
+                 ,{ id: 'ptcCpsnY'          , validExp:'투입인원:true:minNumber=0.1'}
                  ,{ id: 'expArslY'          , validExp:'투입비용:true:minNumber=0.1'}
              ]
          });
@@ -1411,7 +1417,7 @@ var exSabun = '${inputData._userSabun}';
             </colgroup>
             <tbody>
                 <tr  id="trCtyOtPlnM" style="display:none;">
-                    <th>상품출시계획</th>
+                    <th><span style="color:red;">* </span>상품출시계획</th>
                     <td  colspan="5">
                         <input type="text" id="ctyOtPlnM" />
                     </td>
