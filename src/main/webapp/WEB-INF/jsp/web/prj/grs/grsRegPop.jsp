@@ -1124,7 +1124,7 @@ var exSabun = '${inputData._userSabun}';
                      if ( dataSet.getNameValue(0, 'bizDptCd') == "05" && dataSet.getNameValue(0, 'custSqlt') == "05"    ){
                      }else{
                          if (chkCnt < 3  ){
-                             alert("첨부파일이 누락되어있습니다. ");
+                             alert("첨부파일(통합심의서, 회의록, 평가표 등)이 누락되어있습니다.");
                              return;
                          }
                      }
@@ -1148,7 +1148,7 @@ var exSabun = '${inputData._userSabun}';
                          if ( dataSet.getNameValue(0, 'bizDptCd') == "05" && dataSet.getNameValue(0, 'custSqlt') == "05" ){
                          }else{
                              if (chkCnt < 3  ){
-                                 alert("첨부파일이 누락되어있습니다. ");
+                                 alert("첨부파일(통합심의서, 회의록, 평가표 등)이 누락되어있습니다.");
                                  return;
                              }
                          }

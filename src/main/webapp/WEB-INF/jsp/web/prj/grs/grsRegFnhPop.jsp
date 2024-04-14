@@ -472,35 +472,35 @@ var exSabun = '${inputData._userSabun}';
 
         ptcCpsnCurY = new Rui.ui.form.LNumberBox({
             applyTo: 'ptcCpsnCurY',
-            decimalPrecision: 0,
+            decimalPrecision: 1,
             maxValue: 9999,
             width: 70
         });
 
         ptcCpsnCurY1 = new Rui.ui.form.LNumberBox({
             applyTo: 'ptcCpsnCurY1',
-            decimalPrecision: 0,
+            decimalPrecision: 1,
             maxValue: 9999,
             width: 70
         });
 
         ptcCpsnCurY2 = new Rui.ui.form.LNumberBox({
             applyTo: 'ptcCpsnCurY2',
-            decimalPrecision: 0,
+            decimalPrecision: 1,
             maxValue: 9999,
             width: 70
         });
 
         ptcCpsnCurY3 = new Rui.ui.form.LNumberBox({
             applyTo: 'ptcCpsnCurY3',
-            decimalPrecision: 0,
+            decimalPrecision: 1,
             maxValue: 9999,
             width: 70
         });
 
         ptcCpsnCurY4 = new Rui.ui.form.LNumberBox({
             applyTo: 'ptcCpsnCurY4',
-            decimalPrecision: 0,
+            decimalPrecision: 1,
             maxValue: 9999,
             width: 70
         });
@@ -1124,11 +1124,11 @@ var exSabun = '${inputData._userSabun}';
                  ,{ id: 'bizPrftCurY'       , validExp:'영업이익:true:minNumber=0.01'}
                  ,{ id: 'bizPrftCurY1'      , validExp:'영업이익:true:minNumber=0.01'}
                  ,{ id: 'bizPrftCurY2'      , validExp:'영업이익:true:minNumber=0.01'}
-                 ,{ id: 'ptcCpsnCurY'       , validExp:'투입인원:true:minNumber=1'}
-                 ,{ id: 'ptcCpsnCurY1'      , validExp:'투입인원:true'}
-                 ,{ id: 'ptcCpsnCurY2'      , validExp:'투입인원:true'}
-                 ,{ id: 'ptcCpsnCurY3'      , validExp:'투입인원:true'}
-                 ,{ id: 'ptcCpsnCurY4'      , validExp:'투입인원:true'}
+                 ,{ id: 'ptcCpsnCurY'       , validExp:'투입인원:true:minNumber=0.1'}
+                 ,{ id: 'ptcCpsnCurY1'      , validExp:'투입인원:true:minNumber=0.1'}
+                 ,{ id: 'ptcCpsnCurY2'      , validExp:'투입인원:true:minNumber=0.1'}
+                 ,{ id: 'ptcCpsnCurY3'      , validExp:'투입인원:true:minNumber=0.1'}
+                 ,{ id: 'ptcCpsnCurY4'      , validExp:'투입인원:true:minNumber=0.1'}
                  ,{ id: 'expArslCurY'       , validExp:'투입비용:true:minNumber=0.01'}
                  ,{ id: 'expArslCurY1'      , validExp:'투입비용:true'}
                  ,{ id: 'expArslCurY2'      , validExp:'투입비용:true'}
@@ -1225,7 +1225,7 @@ var exSabun = '${inputData._userSabun}';
                  ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
                  ,{ id: 'commTxt'           , validExp:'Comment:true'}
                  ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
-                 ,{ id: 'ptcCpsnY'          , validExp:'투입인원:true:minNumber=1'}
+                 ,{ id: 'ptcCpsnY'          , validExp:'투입인원:true:minNumber=0.1'}
                  ,{ id: 'expArslY'          , validExp:'투입비용:true:minNumber=0.1'}
              ]
          });
