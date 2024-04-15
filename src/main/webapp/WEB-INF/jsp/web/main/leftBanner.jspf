@@ -58,7 +58,8 @@
                 /* openWindow('<c:url value="http://rndesh.lxhausys.com/ssologin.do"/>'+param,'ESH', 1500, 900, 'yes', '_blank'); */
                 openWindow('<c:url value="http://eshrnd.lxhausys.com/loginproc.do"/>'+param,'ESH', 1500, 900, 'yes', '_blank'); //연구소.환경안전시스템
             }else if (gb == "H"){
-                openWindow('<c:url value="http://chemical.lxhausys.com/ssologin.do"/>'+param,'HICMS', 1500, 900, 'yes', '_blank');
+                /* openWindow('<c:url value="http://chemical.lxhausys.com/ssologin.do"/>'+param,'HICMS', 1500, 900, 'yes', '_blank'); */
+                openWindow('<c:url value="http://eshrnd.lxhausys.com/ssologin.do"/>'+param,'HICMS', 1500, 900, 'yes', '_blank');
             }
         }
 
