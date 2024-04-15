@@ -525,7 +525,7 @@
             var butExcel = new Rui.ui.LButton('butExcel');
             butExcel.on('click', function() {
                 if(dataSet.getCount() > 0) {
-                    grid.saveExcel(toUTF8('과제관리_연구팀과제_WBS_') + new Date().format('%Y%m%d') + '.xlsx');
+                    grid.saveExcel(toUTF8('과제관리_연구팀과제_WBS_') + new Date().format('%Y%m%d') + '.xls');
                 } else {
                     Rui.alert('조회된 데이타가 없습니다.');
                 }
