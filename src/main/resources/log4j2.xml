@@ -35,7 +35,7 @@ ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF
         <!-- 파일  -->
         <RollingFile name ="RollingFile">
             <FileName>${logDir}/${name}/${name}.out.log</FileName>
-            <FilePattern>D:/logs001/iris/%d{yyyyMM}/%d{yyyyMMdd}/%d{yyyyMMddHH}_${name}.out.zip</FilePattern>
+            <FilePattern>D:/logs001/iris/%d{yyyyMM}/%d{dd}/%d{yyyyMMddHH}_${name}.out.zip</FilePattern>
             <PatternLayout>
                 <Pattern>${pattern}</Pattern>
             </PatternLayout>
@@ -46,7 +46,7 @@ ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF
 
         <RollingFile name ="RollingFileError">
             <FileName>${logDir}/${name}/${name}.error.log</FileName>
-            <FilePattern>D:/logs001/iris/%d{yyyyMM}/%d{yyyyMMdd}/%d{yyyyMMddHH}_${name}.error.zip</FilePattern>
+            <FilePattern>D:/logs001/iris/%d{yyyyMM}/%d{dd}/%d{yyyyMMddHH}_${name}.error.zip</FilePattern>
             <PatternLayout>
                 <Pattern>${pattern}</Pattern>
             </PatternLayout>
