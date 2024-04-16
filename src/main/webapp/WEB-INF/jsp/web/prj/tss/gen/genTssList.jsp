@@ -268,16 +268,16 @@
                 , { id: 'G2', label: '과제실적일' }
                 , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
                 , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
-                , { field: 'progressrate', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 80 }
+                , { field: 'progressrateReal', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 80 }
                 , { id: 'pg', label: '진척도', align:'center', width: 50 ,renderer :function(value, p, record, row, col) {
 
                     var pgN =' <img src="<%=contextPath%>/resource/images/icon/sign_green.png"/> ';
                     var pgS =' <img src="<%=contextPath%>/resource/images/icon/sign_blue.png"/> ';
                     var pgD =' <img src="<%=contextPath%>/resource/images/icon/sign_red.png"/> ';
 
-                    var progressrate= record.get('progressrate');
+                    var progressrateReal= record.get('progressrateReal');
 
-                    var arrPrg = progressrate.split('/')
+                    var arrPrg = progressrateReal.split('/')
 
                     var rWgvl = floatNullChk(arrPrg[0]) ; // 실적
                     var gWgvl  = floatNullChk(arrPrg[1]) ; //목표
@@ -344,10 +344,10 @@
                 var pWbsCd     = dataSet.getNameValue(e.row, "wbsCd");     //과제상태
                 var pGrsEvSt   = stringNullChk(dataSet.getNameValue(e.row, "grsEvSt")); //GRS상태
                 //진척률
-                var progressrateReal = dataSet.getNameValue(e.row, "progressrate");
+                var progressrateReal = dataSet.getNameValue(e.row, "progressrateReal");
                 var progressrate = dataSet.getNameValue(e.row, "progressrate");
 
-                var arrPrg = progressrate.split('/')
+                var arrPrg = progressrateReal.split('/')
 
                 var rWgvl = numberNullChk(arrPrg[0]) ; //실적
                 var gWgvl = numberNullChk(arrPrg[1]) ; //목표
@@ -504,8 +504,8 @@
                          return value;
                      } }
                      , { id: 'G3', label: '현재 진척율' }
-                     , { id: 'progressrate', groupId: 'G3', label: '계획', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
-                         var arrPrg = record.get("progressrate").split('/');
+                     , { id: 'progressrateReal', groupId: 'G3', label: '계획', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
+                         var arrPrg = record.get("progressrateReal").split('/');
 
                          return arrPrg[1];
                      } }
@@ -521,9 +521,9 @@
                          var pgS ="초과";
                          var pgD ="미달";
 
-                         var progressrate= record.get('progressrate');
+                         var progressrateReal= record.get('progressrateReal');
 
-                         var arrPrg = progressrate.split('/')
+                         var arrPrg = progressrateReal.split('/')
 
                          var rWgvl = floatNullChk(arrPrg[0]) ; // 실적
                          var gWgvl  = floatNullChk(arrPrg[1]) ; //목표
