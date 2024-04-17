@@ -1097,7 +1097,7 @@ var exSabun = '${inputData._userSabun}';
                  }
 
                  if ( dataSet.getNameValue(0, 'grsEvSt') == "G1" ){
-                     if (  dataSet.getNameValue(0, 'tssType') != "TT"  ){ //[20240417.siseo] S급~C급까지 필수체크 하도록 수정
+                     if (  dataSet.getNameValue(0, 'tssType') !=  "TT"  ){ //[20240417.siseo] S급~C급까지 필수체크 하도록 수정
                      //if (  dataSet.getNameValue(0, 'tssType') == "ST" || dataSet.getNameValue(0, 'tssType') == "AT" || dataSet.getNameValue(0, 'tssType') == "BT" || dataSet.getNameValue(0, 'tssType') == "CT"  ){
                          if(Rui.isEmpty( ctyOtPlnM.getValue())   ){
                              alert("상품출시일는 필수입력값입니다.");
