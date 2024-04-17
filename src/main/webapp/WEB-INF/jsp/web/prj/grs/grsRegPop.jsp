@@ -895,7 +895,7 @@ var exSabun = '${inputData._userSabun}';
                  ,{ id: 'attcFilId'         , validExp:'첨부파일:true'}
                  ,{ id: 'commTxt'           , validExp:'Comment:true'}
                  //,{ id: 'ctyOtPlnM'         , validExp:'상품출시계획:true' }
-                 ,{ id: 'nprodNm'           , validExp:'신체품명:true'}
+                 ,{ id: 'nprodNm'           , validExp:'신제품명:true'}
                  ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
              ]
          });
@@ -1096,8 +1096,9 @@ var exSabun = '${inputData._userSabun}';
                      }
                  }
 
-                 if ( dataSet.getNameValue(0, 'tssType') == "G1" ){
-                     if (  dataSet.getNameValue(0, 'grsEvSt') != "TT"  ){
+                 if ( dataSet.getNameValue(0, 'grsEvSt') == "G1" ){
+                     if (  dataSet.getNameValue(0, 'tssType') != "TT"  ){ //[20240417.siseo] S급~C급까지 필수체크 하도록 수정
+                     //if (  dataSet.getNameValue(0, 'tssType') == "ST" || dataSet.getNameValue(0, 'tssType') == "AT" || dataSet.getNameValue(0, 'tssType') == "BT" || dataSet.getNameValue(0, 'tssType') == "CT"  ){
                          if(Rui.isEmpty( ctyOtPlnM.getValue())   ){
                              alert("상품출시일는 필수입력값입니다.");
                              return;
@@ -1106,8 +1107,9 @@ var exSabun = '${inputData._userSabun}';
 
                  }else{
                      if ( grsEvMType.getValue() == "AL" ){
-                         if (  dataSet.getNameValue(0, 'tssType') != "TT"  ){
-                             if(Rui.isEmpty( ancpOtPlnDt.getValue())   ){
+                        if (  dataSet.getNameValue(0, 'tssType') != "TT"  ){ //[20240417.siseo] S급~C급까지 필수체크 하도록 수정
+                        //if (  dataSet.getNameValue(0, 'tssType') == "ST" || dataSet.getNameValue(0, 'tssType') == "AT" || dataSet.getNameValue(0, 'tssType') == "BT" || dataSet.getNameValue(0, 'tssType') == "CT"  ){
+                            if(Rui.isEmpty( ancpOtPlnDt.getValue())   ){
                                   alert("상품출시일는 필수입력값입니다.");
                                   return;
                                }
@@ -1194,7 +1196,7 @@ var exSabun = '${inputData._userSabun}';
                 return;
              }
 
-             //[2024.03.20] 무조건 PASS 로직을 변경함.
+             //[20240320.siseo] 무조건 PASS 로직을 변경함.
              /*if ( dataSet.getNameValue(0, 'tssType') == "CB" || dataSet.getNameValue(0, 'tssType') =="BB" || dataSet.getNameValue(0, 'tssType') =="TT" || dataSet.getNameValue(0, 'custSqlt') =="05"
                  || dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC"    ){*/
              if (dataSet.getNameValue(0, 'custSqlt') =="05") { //과제 GRS 기본 정보 마스터(추가).고객특성[05:B2B(수주형)]은 무조건 PASS되도록 함.
