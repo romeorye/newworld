@@ -1116,24 +1116,24 @@ var exSabun = '${inputData._userSabun}';
                  ,{ id: 'nprodNm'           , validExp:'신체품명:true'}
                  ,{ id: 'grsEvSn'           , validExp:'평가표:true'}
                  ,{ id: 'nprodSalsCurY'     , validExp:'매출액:true:minNumber=0.01'}
-                 ,{ id: 'nprodSalsCurY1'    , validExp:'매출액:true:minNumber=0.01'}
-                 ,{ id: 'nprodSalsCurY2'    , validExp:'매출액:true:minNumber=0.01'}
+                 ,{ id: 'nprodSalsCurY1'    , validExp:'매출액1:true:minNumber=0.01'}
+                 ,{ id: 'nprodSalsCurY2'    , validExp:'매출액2:true:minNumber=0.01'}
                  ,{ id: 'bizPrftProCurY'    , validExp:'영업이익률:true:minNumber=0.01'}
-                 ,{ id: 'bizPrftProCurY1'   , validExp:'영업이익률:true:minNumber=0.01'}
-                 ,{ id: 'bizPrftProCurY2'   , validExp:'영업이익룰:true:minNumber=0.01'}
+                 ,{ id: 'bizPrftProCurY1'   , validExp:'영업이익률1:true:minNumber=0.01'}
+                 ,{ id: 'bizPrftProCurY2'   , validExp:'영업이익룰2:true:minNumber=0.01'}
                  ,{ id: 'bizPrftCurY'       , validExp:'영업이익:true:minNumber=0.01'}
-                 ,{ id: 'bizPrftCurY1'      , validExp:'영업이익:true:minNumber=0.01'}
-                 ,{ id: 'bizPrftCurY2'      , validExp:'영업이익:true:minNumber=0.01'}
+                 ,{ id: 'bizPrftCurY1'      , validExp:'영업이익1:true:minNumber=0.01'}
+                 ,{ id: 'bizPrftCurY2'      , validExp:'영업이익2:true:minNumber=0.01'}
                  ,{ id: 'ptcCpsnCurY'       , validExp:'투입인원:true:minNumber=0.1'}
-                 ,{ id: 'ptcCpsnCurY1'      , validExp:'투입인원:true:minNumber=0.1'}
-                 ,{ id: 'ptcCpsnCurY2'      , validExp:'투입인원:true:minNumber=0.1'}
-                 ,{ id: 'ptcCpsnCurY3'      , validExp:'투입인원:true:minNumber=0.1'}
-                 ,{ id: 'ptcCpsnCurY4'      , validExp:'투입인원:true:minNumber=0.1'}
+                 ,{ id: 'ptcCpsnCurY1'      , validExp:'투입인원1:true:minNumber=0.1'}
+                 ,{ id: 'ptcCpsnCurY2'      , validExp:'투입인원2:true'}
+                 ,{ id: 'ptcCpsnCurY3'      , validExp:'투입인원3:true'}
+                 ,{ id: 'ptcCpsnCurY4'      , validExp:'투입인원4:true'}
                  ,{ id: 'expArslCurY'       , validExp:'투입비용:true:minNumber=0.01'}
-                 ,{ id: 'expArslCurY1'      , validExp:'투입비용:true'}
-                 ,{ id: 'expArslCurY2'      , validExp:'투입비용:true'}
-                 ,{ id: 'expArslCurY3'      , validExp:'투입비용:true'}
-                 ,{ id: 'expArslCurY4'      , validExp:'투입비용:true'}
+                 ,{ id: 'expArslCurY1'      , validExp:'투입비용1:true'}
+                 ,{ id: 'expArslCurY2'      , validExp:'투입비용2:true'}
+                 ,{ id: 'expArslCurY3'      , validExp:'투입비용3:true'}
+                 ,{ id: 'expArslCurY4'      , validExp:'투입비용4:true'}
              ]
          });
 
