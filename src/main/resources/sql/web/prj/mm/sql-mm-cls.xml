@@ -585,7 +585,7 @@
                     AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)
             )
 
-            select *
+            select DISTINCT *
             from   tmp_mmInfo
             where 1=1
             ]]>
