@@ -240,7 +240,7 @@
 
 <script type="text/javascript" src="<%=scriptPath%>/nwins_common.js"></script>
 
-<script type="text/javascript" src="<%=scriptPath%>/iris_common.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/iris_common.js?ver=20240418"></script>
 <script type="text/javascript" src="<%=scriptPath%>/javascript-aes.js"></script>
 <script type="text/javascript" src="<%=namoPath%>/js/namo_scripteditor.js"></script>
 

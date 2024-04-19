@@ -9,11 +9,11 @@ function pad(num) {
     return num.length < 2 ? '0' + num : num;
 }
 function createDashDateToString(date){
-	return date.getFullYear() + '-' + pad(date.getMonth()+1) + '-' + pad(date.getDate());
+    return date.getFullYear() + '-' + pad(date.getMonth()+1) + '-' + pad(date.getDate());
 }
 
 function createDashMonthToString(date){
-	return date.getFullYear() + '-' + pad(date.getMonth()+1);
+    return date.getFullYear() + '-' + pad(date.getMonth()+1);
 }
 
 /********************************************************************
@@ -23,11 +23,11 @@ function createDashMonthToString(date){
 *  Output Data   : YYYY-MM 문자열
 ********************************************************************/
 function addDashMonthToString(dashMonth, i){
-	var arrDashMonth = dashMonth.split('-');
-	var addMonthDate = new Date(arrDashMonth[0],arrDashMonth[1],'01');
-	addMonthDate.setMonth(addMonthDate.getMonth() + i);
+    var arrDashMonth = dashMonth.split('-');
+    var addMonthDate = new Date(arrDashMonth[0],arrDashMonth[1],'01');
+    addMonthDate.setMonth(addMonthDate.getMonth() + i);
 
-	return addMonthDate.getFullYear() + '-' + pad(addMonthDate.getMonth()+1);
+    return addMonthDate.getFullYear() + '-' + pad(addMonthDate.getMonth()+1);
 }
 
 /********************************************************************
@@ -60,8 +60,8 @@ function numberNullChk(str) {
 
     if(str == null || str == "" || str == "undefined") { rtStr = 0; }
     else {
-    	if(typeof str == "number") { rtStr = str; }
-    	else if(typeof str == "string" && !isNaN(str)) { rtStr = parseInt(str.trim()); }
+        if(typeof str == "number") { rtStr = str; }
+        else if(typeof str == "string" && !isNaN(str)) { rtStr = parseInt(str.trim()); }
     }
 
     return rtStr;
@@ -79,8 +79,8 @@ function floatNullChk(str) {
 
     if(str == null || str == "" || str == "undefined") { rtStr = 0; }
     else {
-    	if(typeof str == "float") { rtStr = str; }
-    	else if(typeof str == "string" && !isNaN(str)) { rtStr = parseFloat(str.trim()); }
+        if(typeof str == "float") { rtStr = str; }
+        else if(typeof str == "string" && !isNaN(str)) { rtStr = parseFloat(str.trim()); }
     }
 
     return rtStr;
@@ -90,23 +90,23 @@ function floatNullChk(str) {
  *  Function Name : openWindow(mypage, myname, w, h, scroll)
  *  Description   : 모달리스 팝업창 띄우기
  *  Input Data    : mypage -> page url
- *              	myname -> target name
- *              	w -> width
- *              	h -> height
- *              	scroll -> scroll 여부
+ *                  myname -> target name
+ *                  w -> width
+ *                  h -> height
+ *                  scroll -> scroll 여부
  *  Output Data   :
  ********************************************************************/
 function openWindow(mypage, myname, w, h, scroll) {
-	var winl = (screen.width - w) / 2;
-	var wint = (screen.height - h) / 2;
+    var winl = (screen.width - w) / 2;
+    var wint = (screen.height - h) / 2;
 
-	winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl
+    winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl
              + ',scrollbars=' + scroll + ',resizable, status=yes';
-	win	= open(mypage, myname, winprops);
+    win    = open(mypage, myname, winprops);
 
-	if (parseInt(navigator.appVersion) >= 4) {
-		win.window.focus();
-	}
+    if (parseInt(navigator.appVersion) >= 4) {
+        win.window.focus();
+    }
 }
 
 
@@ -126,21 +126,21 @@ function initFrameSetHeight(pId) {
         var html = document.documentElement;
 
         console.log('elemnet size?', {
-        	bodyScrollheight: body.scrollHeight,
-        	bodyOffsetHeight: body.offsetHeight,
-        	bodyClientHeight: body.clientHeight,
-        	htmlScrollHeight: html.scrollHeight,
-        	htmlOffsetHeight: html.offsetHeight,
-        	htmlClientHeight: html.clientHeight
+            bodyScrollheight: body.scrollHeight,
+            bodyOffsetHeight: body.offsetHeight,
+            bodyClientHeight: body.clientHeight,
+            htmlScrollHeight: html.scrollHeight,
+            htmlOffsetHeight: html.offsetHeight,
+            htmlClientHeight: html.clientHeight
         })
-        
+
         pageHeight = Math.max( body.scrollHeight+50, body.offsetHeight+50, html.clientHeight+50, html.scrollHeight+50, html.offsetHeight+50 );
       //pageHeight = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
-        
+
     }
 
     var fId = window.frameElement.id;
-    
+
     window.parent.document.getElementById(fId).height = pageHeight+'px';
 }
 
@@ -184,5 +184,13 @@ $(function () {
 
 
 function chgChar(str){
-	alert(str);
+    alert(str);
+}
+
+//[20240419.siseo]사원정보 팝업
+function getPersonInfo(sabunnew, loginSabun){
+    //var popupUrl = "http://lghsearch.lxhausys.com:8501/empSearchNew/emp.jsp?sabunnew=" + sabunnew +"&loginSabun=" + loginSabun ;
+    var popupUrl = "http://gportal.lxhausys.com/portal/main/listUserMain.do?hideOrgYN=true&rightFrameUrl=/support/profile/getProfile.do?targetUserId="+loginSabun ;
+    var popupOption = "width=900, height=700, top=300, left=400";
+    window.open(popupUrl,"pInfo",popupOption);
 }
