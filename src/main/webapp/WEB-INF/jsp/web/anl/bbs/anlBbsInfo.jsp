@@ -327,6 +327,7 @@
                 setAttachFileInfo(attachFileInfoList);
             };
 
+
             setAttachFileInfo = function(attachFileList) {
                 $('#attchFileView').html('');
 
