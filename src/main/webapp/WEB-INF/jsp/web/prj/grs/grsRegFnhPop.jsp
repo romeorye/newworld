@@ -1467,7 +1467,7 @@ var exSabun = '${inputData._userSabun}';
                       <td></td>
                   </tr>
                   <tr id="trNprodSal">
-                      <th>매출액(억원)</th>
+                      <th><span style="color:red;">* </span>매출액(억원)</th>
                       <td><span id="nprodSalsPlnY" /></td>
                       <td><input type="text" id="nprodSalsCurY" /></td>
                       <td><span id="nprodSalsPlnY1"/></td>
@@ -1500,7 +1500,7 @@ var exSabun = '${inputData._userSabun}';
                       <th class="alignC">실적</th>
                   </tr>
                   <tr id="trPtcCpsn"">
-                      <th>투입인원(명)</th>
+                      <th><span style="color:red;">* </span>투입인원(명)</th>
                       <td><span id="ptcCpsnY"/></td>
                       <td><input type="text" id="ptcCpsnCurY"/></td>
                       <td><span id="ptcCpsnY1"/></td>
