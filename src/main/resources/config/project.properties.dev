@@ -71,7 +71,7 @@ db.iris.initialSize=1
 ##db.todo.password=lghausys123!
 ##db.todo.encoding=utf-8
 
-#TODO DB DB(DEV) [2024.03.14]Cloud로 연결 -- 전자결재 완료되면 주석 풀기
+#TODO DB DB(DEV) [2024.03.14]Cloud로 연결 -- 완료되면 주석 풀기
 ##db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
 ##db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
 ##db.todo.url=jdbc:sqlserver://nonprod-b2b-tot3.cl4tnwsbivfl.ap-northeast-2.rds.amazonaws.com:1433;databasename=TODO
