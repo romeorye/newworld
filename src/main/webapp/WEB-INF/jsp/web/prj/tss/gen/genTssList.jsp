@@ -11,6 +11,7 @@
  * VER  DATE        AUTHOR      DESCRIPTION
  * ---  ----------- ----------  -----------------------------------------
  * 1.0  2017.08.08
+ * 2.0  2024.04.22 서성일(siseo) RITM1601498_정근CH요청으로 진척율, 진척도 숨김처리
  * ---  ----------- ----------  -----------------------------------------
  * IRIS 프로젝트
  *************************************************************************
@@ -235,8 +236,8 @@
                 , { id: 'cmplNxStrtDd'} //과제실적시작
                 , { id: 'cmplNxFnhDd'}  //과제실적종료
                 , { id: 'tssSt'}        //상태
-                , { id: 'progressrateReal'} //진척율
-                , { id: 'progressrate'} //진척율
+                /* , { id: 'progressrateReal'} //진척율
+                , { id: 'progressrate'} //진척도 */
                 , { id: 'frstRgstDt'}   //최종실적등록일
                 , { id: 'tssCd'}        //과제코드
                 , { id: 'pgsStepCd'}    //진행단계코드
@@ -255,20 +256,20 @@
                         if(stepCd == "PL") return "SEED-" + value;
                         return value;
                   }}
-                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 178 , renderer: function(value, p, record, row, col){
+                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 278 , renderer: function(value, p, record, row, col){
                     if(record.get("myTss") == "Y") p.css.push('font-bold');
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
                 , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 160 }
                 , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
-                , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 109 }
+                , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 139 }
                 , { id: 'G1', label: '과제기간(계획일)' }
                 , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 80 }
                 , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 80 }
                 , { id: 'G2', label: '과제실적일' }
                 , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
                 , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
-                , { field: 'progressrateReal', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 80 }
+                <%-- , { field: 'progressrateReal', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 80 }
                 , { id: 'pg', label: '진척도', align:'center', width: 50 ,renderer :function(value, p, record, row, col) {
 
                     var pgN =' <img src="<%=contextPath%>/resource/images/icon/sign_green.png"/> ';
@@ -298,7 +299,7 @@
                         pg = '';
                     }
                     return pg;
-                }}
+                }} --%>
                 , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 60, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
                         p.editable = false;
                         return value;
@@ -451,11 +452,12 @@
         };
 
         /* [버튼] 과제등록 */
-        var butTssNew = new Rui.ui.LButton('butTssNew');
-        butTssNew.on('click', function() {
-            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssPlnDetail.do'/>");
-        });
-
+        if($("#butTssNew").length > 0){
+            var butTssNew = new Rui.ui.LButton('butTssNew');
+            butTssNew.on('click', function() {
+                nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssPlnDetail.do'/>");
+            });
+        }
 
         /* [버튼] 엑셀 */
         var butExcel = new Rui.ui.LButton('butExcel');
@@ -719,13 +721,13 @@ function setDeptInfo(deptInfo) {
                 <div class="titArea">
                     <span class="Ltotal" id="cnt_text">총 : 0 </span>
                     <div class="LblockButton">
-                        <ul class="progress">
+                        <!-- <ul class="progress">
                             <li>진척도</li>
                             <li><span class="progress_bg01"></span>정상</li>
                             <li><span class="progress_bg02"></span>단축</li>
                             <li><span class="progress_bg03"></span>지연&nbsp;&nbsp;&nbsp;<b>( 진척률:실시간, 진척도:전월실적기준 )</b></li>
                         </ul>
-                        &nbsp;&nbsp;
+                        &nbsp;&nbsp; -->
                         <button type="button" id="butTssNew" name="itemCreate" class="redBtn">과제등록</button>
 
                         <button type="button" id="butExcel" name="butExcel">EXCEL다운로드</button>

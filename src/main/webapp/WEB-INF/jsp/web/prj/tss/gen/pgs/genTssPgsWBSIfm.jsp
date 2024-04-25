@@ -148,7 +148,8 @@
             else if(lvPrate == "S") pRate = "단축";
             else if(lvPrate == "D") pRate = "지연";
 
-            document.getElementById('progressRate').innerHTML = "<B>진척율(실적/계획) : " + lvPrateReal + ",   상태: " + pRate+"</B>";
+            //[20240422.siseo]청근CH요청으로 주석처리함
+            /* document.getElementById('progressRate').innerHTML = "<B>진척율(실적/계획) : " + lvPrateReal + ",   상태: " + pRate+"</B>"; */
         };
 
 
