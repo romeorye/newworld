@@ -55,7 +55,7 @@ cnstwFirm.root_path=D:/sorc001/iris/src/main/webapp/upload/cnstw/network
 #db.iris.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
 #db.iris.driver=core.log.jdbc.driver.Mssql2005Driver
 db.iris.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-#$$$$ jdbc:sqlserver -> jdbc:log4jdbc:sqlserver
+###$$$$ jdbc:sqlserver -> jdbc:log4jdbc:sqlserver
 db.iris.url=jdbc:log4jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
 db.iris.username=irisapp
 db.iris.password=lghausys123!
