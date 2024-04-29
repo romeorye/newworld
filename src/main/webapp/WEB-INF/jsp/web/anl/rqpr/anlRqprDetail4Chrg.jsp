@@ -558,7 +558,7 @@
                     , { id: 'smpoNm' }
                     , { id: 'mkrNm' }
                     , { id: 'mdlNm' }
-                    //, { id: 'smpoQty', type: 'number', defaultValue : 1 }
+                    , { id: 'smpoQty', type: 'number', defaultValue : 1 }
                 ]
             });
 

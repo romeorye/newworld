@@ -341,7 +341,7 @@
         set        smpo_nm = #{smpoNm},
                 mkr_nm = #{mkrNm},
                 mdl_nm = #{mdlNm},
-                smpo_qty = ${smpoQty},
+                smpo_qty = iif(#{smpoQty} is null, 0, #{smpoQty}),
                 last_mdfy_dt = getdate(),
                 last_mdfy_id = #{userId}
         where    smpo_id = ${smpoId}

@@ -309,7 +309,7 @@
         and    TSS_CD = #{tssCd}
         and    MM_YYMM = #{mmYymm}
         and    sa_sabun_new = #{saSabunNew}
-        and    wbs_cd = #{tssWbsCd}
+        /*and    wbs_cd = tssWbsCd -- [20240429.siseo]update 오류로 인하여 주석으로 막음 */
 
     ]]>
     </update>
