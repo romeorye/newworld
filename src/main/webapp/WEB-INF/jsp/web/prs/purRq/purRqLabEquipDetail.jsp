@@ -1,8 +1,6 @@
 <%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
-<%@ page import="java.text.*,
-                 java.util.*,
-                 devonframe.util.NullUtil,
-                 devonframe.util.DateUtil"%>
+<%@ page import="java.text.*, java.util.*,devonframe.util.NullUtil,devonframe.util.DateUtil"%>
+<%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 
 <%--
 /*
@@ -19,7 +17,6 @@
  *************************************************************************
  */
 --%>
-<%@ include file="/WEB-INF/jsp/include/doctype.jspf"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
@@ -32,14 +29,14 @@
 </style>
 
 <script type="text/javascript">
-var lvAttcFilId;
-var callback;
-var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
-var banfnPrs;
-var bnfpoPrs;
-var nextBnfpoPrs;
-var frm = document.aform;
-var tmpScode;
+    var lvAttcFilId;
+    var callback;
+    var openPrjSearchDialog; //프로젝트 코드 팝업 dialog
+    var banfnPrs;
+    var bnfpoPrs;
+    var nextBnfpoPrs;
+    var frm = document.aform;
+    var tmpScode;
 
     Rui.onReady(function() {
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
@@ -78,6 +75,7 @@ var tmpScode;
 
         openPrjSearchDialog.render(document.body);
 
+        /* 실험용 설비 - 투자 */
         var purRqUserDataSet = new Rui.data.LJsonDataSet({
             id: 'purRqUserDataSet',
             remainRemoved: true,
@@ -351,9 +349,7 @@ var tmpScode;
             purRqExplainDialog.setUrl('<c:url value="/prs/popup/purRqDateExplainPop.do"/>');
             purRqExplainDialog.show(true);
         });
-        /**
-        납품요청일 설명 Popup 끝
-        **/
+        /*====================== 납품요청일 설명 Popup end ================== */
 
          /* [버튼] 추가 시작 */
         var btnAddPurRq = new Rui.ui.LButton('btnAddPurRq');
@@ -523,10 +519,9 @@ var tmpScode;
 
         /*첨부파일 다운로드*/
         downloadAttachFile = function(attcFilId, seq) {
-            downloadForm.action = '<c:url value="/system/attach/downloadAttachFile.do"/>';
-            $('#attcFilId').val(attcFilId);
-            $('#seq').val(seq);
-            downloadForm.submit();
+            var param = "?attcFilId=" + attcFilId + "&seq=" + seq;
+            aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + param;
+            aform.submit();
         };
 
         //첨부파일 끝
@@ -732,7 +727,7 @@ var tmpScode;
         <h2>투자요청(구매) 상세내용</h2>
     </div>
 
-    <form id="aform" name ="aform">
+    <form id="aform" name ="aform" method="post">
     <input type="hidden" id="tabId" name="tabId" value="<c:out value='${inputData.tabId}'/>">
     <input type="hidden" id="banfnPrs" name="banfnPrs" value="<c:out value='${inputData.banfnPrs}'/>">
 
@@ -838,6 +833,7 @@ var tmpScode;
                 </tbody>
 
             </table>
+</form>
         <div class="titArea">
             <span class="Ltotal" id="cnt_text">총 : 0건 </span>
             <div class="LblockButton">
@@ -852,8 +848,7 @@ var tmpScode;
     </div> <!-- //sub-content -->
 </div> <!-- //contents -->
 
-    <div id="purRqGrid"></div>
+    <!--<div id="purRqGrid"></div> -->
 
-</form>
 </body>
 </html>
