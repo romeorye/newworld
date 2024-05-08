@@ -687,6 +687,12 @@
             }
         };*/
 
+        //[20240508.siseo]임시로 버튼 막음
+        btnClearItemContents.hide();
+        btnDeleteItem.hide();
+        btnModifyItem.hide();
+        btnAddPurRq.hide();
+
         fncSave = function(){
             if( prItemListDataSet.getCount() == 0  ){
                 nextBnfpoPrs = 1;
