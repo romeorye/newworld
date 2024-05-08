@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common.prsCode">
+	
+	<select id="retrieveEkgrpInfo" resultType="HashMap">
+	/*retrieveEkgrpInfo 구매담당자 코드 목록*/
+		SELECT   CODE
+	            ,CODE_NM 
+		FROM PR_CODEMASTER_T x 
+		WHERE x.DEL_FLAG ='0'
+		and   x.GROUP_CODE = '01'
+		and   x.REGION_CD = '01'     
+	</select>
+	
+	<select id="retrieveMeinsInfo" resultType="HashMap">
+	/*retrieveMeinsInfo  단위리스트 코드 목록*/
+		select CODE as CODE
+		      ,code+'/'+CODE_NM as CODE_NM 
+		from [dbo].[PR_CODEMASTER_T] 
+		where DEL_FLAG = 0
+		and     GROUP_CODE = '04'	
+	</select>
+	
+	<select id="retrieveWbsCdInfoList" resultType="HashMap">
+	/*retrieveWbsCdInfoList  프로젝트 리스트 코드 목록*/
+		<![CDATA[	
+		select  a.prj_cd   as prjCd
+	          ,a.wbs_cd    as posid
+			  ,a.prj_nm    as post1
+			  ,a.pl_nm     as ename
+			  ,a.pl_emp_no  as plEmpNo
+			  ,a.prj_str_dt  as prjStrDt
+			  ,a.prj_end_dt  as prjEndDt
+			  ,a.dept_cd     as deptCd
+	         ,(select x.dept_name from IRIS_SSO_DEPT x where x.dept_code = a.dept_cd ) as dept_nm
+		from (
+		select  prj_cd
+		          ,wbs_cd
+				  ,prj_nm
+				  ,(select sa_name from iris_sso_user where sa_sabun_new = pl_emp_no)  as pl_nm
+				  ,pl_emp_no
+				  ,prj_str_dt
+				  ,prj_end_dt
+				  ,dept_cd
+		from   IRIS_PRJ_RSST_MST
+		where  1=1
+		--and    TCLG_YN <>'Y'
+		and    ( PRJ_END_DT is null or PRJ_END_DT = '')
+		union
+		select a.prj_cd
+		         ,a.wbs_cd
+				 ,a.tss_nm
+				 ,(select sa_name from iris_sso_user x where x.sa_sabun_new = a.sa_sabun_new)  as pl_nm
+				 ,a.sa_sabun_new
+				 ,a.TSS_STRT_DD
+				 ,a.TSS_FNH_DD
+				 ,(select x.dept_cd from iris_prj_rsst_mst x where x.prj_cd = a.prj_cd ) as team_dept_code
+		from   IRIS_TSS_MGMT_MST  a
+		where a.del_yn ='N'
+		and     a.wbs_cd not in (select y.wbs_cd from iris_tss_mgmt_mst y where y.pgs_step_cd in ('DC','CM') )
+		and     a.PGS_STEP_CD = 'PG'
+		) a
+		where 1=1
+		]]>
+		
+		<if test='adminChk == "N" '>
+	    and   a.dept_cd = #{_userDept}
+		</if>
+		<if test="prjNm != null and prjNm != '' and prjNm != 'null' ">
+	    and (a.wbs_cd like '%'+#{prjNm}+'%' or  a.prj_nm like '%'+#{prjNm}+'%' )
+		</if>
+		
+	</select>
+	
+	<select id="retrieveSaktoInfoList" resultType="HashMap">
+	/*retrieveSaktoInfoList  계정 리스트 코드 목록*/
+		select   CODE
+	           , CODE_NM
+		from   PR_CODEMASTER_T
+		where   del_flag = '0'
+		and      group_code = '10'
+		and      REGION_CD ='01'
+		and      CODE = #{code}
+	</select>
+	
+	<select id="retrieveWerksInfo" resultType="HashMap">
+	/*retrieveWerksInfo  플랜트 리스트 코드 목록*/
+		select CODE
+            ,CODE_NM 
+		from [dbo].[PR_CODEMASTER_T] 
+		where DEL_FLAG = 0
+		and   GROUP_CODE = '02'
+		and   REGION_CD ='01'
+	</select>
+
+
+	<select id="retrieveItemGubunInfo" resultType="HashMap">
+		<![CDATA[	
+		/*retrieveItemGubunInfo 사용 품목구분 목록*/
+			select   SEQ_NUM CODE
+	        	   , S_CODE CODE_NM 
+		  	 from  PR_HELPMASTER_T x 
+		 	where  x.USE_YN ='Y'
+		   	  and  x.IS_MRO = 'N'
+		   	  and  x.WERKS = '1010'
+		]]>
+		<if test="tabId == 'EM' ">
+		  	  and  x.KNTTP = 'P'
+			  and  x.PSTYP = ''
+			  and  x.USED_CODE ='S'
+			  /* and  x.IZWEK != '01' */
+		</if>
+		<if test="tabId == 'EF' ">
+			  and  x.KNTTP = 'A'
+			  and  x.PSTYP = ''
+		</if>
+		<if test="tabId == 'CR' ">
+			  and  x.KNTTP = 'P'
+			  and  x.M_CODE ='투자'
+		</if>
+		<if test="tabId == 'OM' ">
+			  and  x.KNTTP = 'P'
+			  and  x.PSTYP = ''
+			  and  x.USED_CODE = 'O'
+		</if>
+		<if test="sCode != null and sCode != ''">
+			  and  x.S_CODE = #{sCode}
+		</if>
+		 order by x.L_CODE, x.M_CODE, x.S_CODE asc
+	</select>
+
+	<select id="retrieveScodeInfo" resultType="hashmap">
+		<![CDATA[
+		/* retrieveScodeInfo 조회 */
+			select a.SAKTO     as sakto
+	              ,(SELECT CODE_NM 
+                      FROM PR_CODEMASTER_T y 
+                     WHERE y.CODE       = RTRIM(a.SAKTO) 
+                       AND y.DEL_FLAG   = '0' 
+                       AND y.GROUP_CODE = '10' 
+                       AND y.REGION_CD  = a.region_cd
+                   ) as saktonm				  
+				  ,a.EKGRP       as ekgrp
+				  ,a.WERKS		 as werks
+			from [dbo].[PR_HELPMASTER_T] a	 
+			where a.REGION_CD ='01' 
+			  and a.BIZ_CD = '01'      /* 추후 02, 03 등록 가능성 있음 */
+			]]>
+			<if test="sCode != null and sCode != ''">
+			  and   a.SEQ_NUM = #{sCode}
+			</if>
+	</select>
+
+	<select id="retrievePrsFlagInfo" resultType="HashMap">
+		<![CDATA[
+		/*retrievePrsFlagInfo  단위리스트 코드 목록*/
+		select COM_DTL_CD as CODE
+		      ,COM_DTL_NM as CODE_NM 
+		from [dbo].[IRIS_ADM_COM_CD] 
+		where DEL_YN = 'N'
+		and   COM_CD_CD = 'PRS_FLAG'	
+		]]>
+		<if test="delFlag != null and delFlag != ''">
+	    and   COM_DTL_CD not in ('D','8')
+		</if>
+		order by COM_ORD asc		
+	</select>
+
+
+	<select id="retrieveWaersInfo" resultType="HashMap">
+		/*retrieveWaersInfo  금액단위리스트 코드 목록*/
+		select CODE as CODE
+		      ,code+'/'+CODE_NM as CODE_NM 
+		from [dbo].[PR_CODEMASTER_T] 
+		where DEL_FLAG = 0
+		and   GROUP_CODE = '20'	
+	</select>
+
+
+
+</mapper>

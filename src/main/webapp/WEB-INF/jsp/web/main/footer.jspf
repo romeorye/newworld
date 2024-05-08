@@ -1,0 +1,8 @@
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
+	<div claas="main_footer_w" style=" background:#f4f4f4 url(/iris/resource/web/images/newIris/bg_footer.png) repeat-x left bottom;position:absolute; bottom:0; left:0; height:60px; width:100%;">
+	    <div class="main_footer">
+	        <div class="width_layout" style="height:50px; margin-top:6px;">
+	        <a href="javascript:void(0);"><img src="<%=imagePath%>/newIris/bottom_logo.png"></a><div class="copy">COPYRIGHT ©  2021 LX HAUSYS ALL RIGHT RESERVED.</div>
+	        </div>    
+	    </div>
+    </div>

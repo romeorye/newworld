@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+    <meta http-equiv="Cache-Control" content="no-cache; no-store; no-save"/>
+    <title>DevOn RichUI DEMO</title>
+
+    <style type="text/css" >
+        body {
+            width:100%;
+            height:100%;
+            padding:0;
+            margin:auto;
+            font-family: tahoma,sans-serif;
+            margin: 0px;
+            font-size: 12px;
+        }
+        .body {
+            padding: 5px 20px;
+        }
+        #bd h1 {
+            margin: 5px 0 0 5px;
+        }
+        .note {
+            margin-top: 5px;
+        }
+        .note.title {
+            padding-top: 20px;
+            padding-left: 20px;
+        }
+        .note.title h3 {
+            display: inline-block;
+            height: 30px;
+            border-bottom: 0px;
+            padding: 0px;
+        }
+        .note span {
+            margin-left: 10px;
+        }
+        .note ul {
+            list-style-type: decimal;
+        }
+        a, a:hover {
+        }
+        li {
+            line-height: 25px;
+        }
+        h3 {
+            margin: 0px;
+            border-bottom: 1px solid #2880B4;
+            padding: 10px 0px 10px 13px;
+            background: url("./../../resources/images/demo/subtitle_blue.gif") no-repeat 0px 16px;
+        }
+        h3 a {
+            padding: 10px 20px;
+			background-color: #2880B4;
+			color: #FFF;
+			text-decoration: inherit;
+			border: 1px solid #115780;
+        }
+        .note li a {
+            text-decoration: none;
+            color: #000;
+        }
+    </style>
+	
+	<!--[if lte IE 6]><link rel="stylesheet" href="../../resources/rui_ie6.css" type="text/css" /><![endif]-->
+</head>
+<body>
+<div id="bd">
+    <div class="note title">
+      <h3><a href="../../docs/guide/devGuide.html" target="_new">※ 프로젝트 역할 별 RUI 사용시 고려사항</a></h3><span>(PM/아키텍트/개발자/퍼블리셔/디자이너)</span>
+    </div>
+    <div class="body">
+	    <div class="note">
+	      <h3>DevOn RichUI License </h3>
+	      <ul>
+	        <li> 사내 사용시 <font color="#2880b4">DevOn RichUI 담당자를 통해 요청하여 사용허가를 받아야만 소프트웨어 라이센스 계약서에 동의하는 것</font>으로 간주됩니다.</li>
+	        <li> DevOn RichUI가 포함된 제품을 판매할 경우에도 담당자를 통해 요청하여 사용허가를 받아야만 합니다.</li>
+	        <li> <font color="#2880b4">담당자를 통해 사용허가를 받지 않은 경우</font> 소프트웨어 라이센스 계약을 위반한 것으로 간주하며, <font color="#2880b4">RichUI관련한 어떠한 지원도 받을 수 없습니다.</font></li>
+	        <li> DevOn License Center를 통해 라이센스를 발급 받지 않고 사용하는 경우 소프트웨어 라이센스 계약을 위반한 것으로 간주됩니다.</li>
+	        <li> 원저자의 허락없이 재배포 할 수 없으며 <font color="#2880b4">LG CNS 외부로의 유출</font>을 하여서는 안 됩니다.</li>
+	        <li> <font style="color:light#2880b4;">RichUI를 사용하기 전에 필히 RichUI 담당자에게 문의하여 설치 지원 및 사용 가이드를 받으세요.</font></li>
+	      </ul>
+	    </div>
+	    <div class="note">
+	      <h3>왜 웹표준으로 개발해야 하며, 이를 위해 무엇을 해야하는가?</h3>
+	      <ul>
+	        <!-- li>기기의 다양화 : 다양화 되어 가는 기기들. 스마트폰, 타블릿, 서피스 등 <br/>(타블릿을 위해 추가 개발해야 하는 비용은? / 복잡한 화면 10% VS 단순한 화면: 90%)</li -->
+	        <li>글로벌 웹 : 다양한 브라우저와 O/S들이 출시되고 있으며 이 모든 환경에 적응하는 방법은 웹표준이다. (<a href="http://gs.statcounter.com/" target="_newCounter">전세계 브라우저 점유율 보기</a>)</li>
+	        <li>느려지는 IE : 다양한 형태로 설치되는 ActiveX들에 의해 Interet Explorer의 랜더링 속도는 점점 저하되고 있다.</li>
+	        <li>브라우저의 성능 : 웹페이지 처리속도가 느리다고 PC를 바꿀것인가? 브라우저를 바꾸면 해결될수도 있다. <br/>
+	            IE8과 IE10의 성능 차이는 <font color="#2880b4">약 3배</font> 이 격차는 점차 커지고 있다.<br/> 
+	            최신버전의 IE를 사용하는것 만으로도 만족할만한 성능체감을 얻을 수 있다. (가능하다면 지금의 업무페이지를 IE8과 IE10 에서 각각 비교해 볼 것)</li>
+	        <li>OS의 성능 차이 : Window XP의 IE8보다 Window 7의 IE8이 더 빠르다. <font color="#2880b4">약 2배</font><br/>
+	            그렇다면 Window XP의 IE6와 Window 7의 IE8의 체감 속도 차이를 생각해보자.</li>
+	        <!-- li>ActiveX가 필요한 화면 : IE(ActiveX)에서만 사용할 수 있는  <font color="#2880b4">화면 5%</font> 미만, 웹표준 솔루션(그리드 포함)으로  대체 가능한 <font color="#2880b4">화면 95%</font>.<br/>(화면 5%를 위해 95%를 성능을 희생해야 하나? 대안이 없을까?)</li -->
+	        <!-- li>선택? 강요? : 본인이 만드는 시스템이 현재 ActiveX때문에 표준이 IE이라고 사용자들에게 계속 IE로만 강요해야 하는가? (<a href="http://gs.statcounter.com/#browser-KR-monthly-201206-201306" target="_newCounter">국내 브라우저 점유율 보기</a>)</li -->
+	        <li>브라우저는 지금 성능 전쟁중 : 향후 2~3년 후에도 여전히 IE를 사용할 것인가 (<a href="http://sixrevisions.com/infographics/performance-comparison-of-major-web-browsers/" target="_newCounter">브라우저 성능 비교</a>)<br/>(IE10이 부족하나마 타 브라우저와 유사한 성능 발휘. 내가 만드는 시스템은 과연 그 혜택을 보고 있는가?)</li>
+	        <!-- li>PC와 타블릿의 성능 차이 : 회사의 저사양 PC(XP)의 IE6이 빠를까? 아이패드3가 빠를까? (네트워크 속도 제외)</li -->
+	        <li>버전별 상호 호환성 : 새로운 버전의 브라우저가 출시되어도 웹표준을 준수한다면 그 시스템은 재개발 할 필요가 없다. <br/>(ActiveX등으로 개발된 업무 모듈들은 재개발 비용이 발생됨)</li>
+	      </ul>
+	    </div>
+    </div>
+</div>
+</body>
+</html>

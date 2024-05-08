@@ -1,0 +1,19 @@
+{
+  "name": "RUI ClipBoard",
+  "version": "1.0",
+  "icons": {
+    "16": "icon1.png",
+    "128": "icon2.png"
+  },
+  "background_page": "background.html",
+  "permissions": ["http://*/*","https://*/*", "clipboardWrite", "clipboardRead"],
+	"content_scripts": [
+    {
+      "matches": ["http://*/*","https://*/*"],
+      "js" : ["contentscript.js"]
+    }
+  ],
+  // Auto Update location
+  "update_url": "http://www.dev-on.com/rui/jsp/uip/rui/clipboard/updates.xml", 
+  "manifest_version": 1
+}

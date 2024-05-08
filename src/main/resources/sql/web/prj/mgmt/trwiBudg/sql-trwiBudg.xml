@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.mgmt.trwiBudg">
+
+	<select id="retrieveTrwiBudgList" resultType="hashmap">
+		<![CDATA[
+		/*retrieveTrwiBudgList*/
+		SELECT yy
+			, sum(MM_EXP) as totMmExp
+		  FROM iris_tss_gen_trwi_budg_edit_info
+		  GROUP BY yy
+		 ]]>
+
+	</select>
+
+	<select id="retrieveTrwiBudgDtl" resultType="hashmap">
+		-- retrieveTrwiBudgDtl
+			SELECT isnull('${yy}' , yy)  as yy
+				 , isnull( dbo.fn_getComDtlNm('EXP_SCN_CD' , Substring(cm.COM_DTL_CD,0,3)) , dbo.fn_getComDtlNm('EXP_SCN_CD' , Substring(bi.EXP_SCN_CD,0,3)) )  as lgExpScnNm
+				 , isnull( cm.COM_DTL_CD ,bi.EXP_SCN_CD ) as expScnCd
+				 ,  cm.COM_DTL_NM	as expScnNm
+				 , isnull( MM_EXP , 0) as mmExp
+				 ,PSNN_RISN_PRO as psnnRisnPro
+				 ,PCE_RISN_PRO as pceRisnPro
+			 FROM iris_tss_gen_trwi_budg_edit_info bi
+ RIGHT OUTER JOIN IRIS_ADM_COM_CD cm
+			  ON bi.EXP_SCN_CD = cm.COM_DTL_CD
+				<if test="yy != null and yy != ''">
+			  AND yy = '${yy}'
+				</if>
+
+		WHERE cm.COM_CD_CD = 'EXP_SCN_CD'
+		  AND len(cm.COM_DTL_CD)>2
+	</select>
+	 <!-- GRS 템플릿등록-->
+    <update id="saveTrwiBudg">
+    <![CDATA[
+    -- saveTrwiBudg GRS 템플릿등록
+        MERGE iris_tss_gen_trwi_budg_edit_info WITH (HOLDLOCK) AS A
+         USING  (SELECT #{yy}   AS yy , #{expScnCd} AS EXP_SCN_CD) AS B
+            ON  A.yy  			= B.yy
+			AND A.EXP_SCN_CD  	= B.EXP_SCN_CD
+          WHEN NOT MATCHED THEN
+        INSERT
+             (  YY				  		  --년도
+             ,  PSNN_RISN_PRO			  --인건비상승율
+			 ,  PCE_RISN_PRO			  --물가상승율
+             ,  EXP_SCN_CD 				  --비용구분코드
+             ,  MM_EXP                    --비용
+             ,  FRST_RGST_DT              --최초등록일시
+             ,  FRST_RGST_ID              --최초등록자
+             ,  LAST_MDFY_DT              --최종수정일시
+             ,  LAST_MDFY_ID              --최종수정자
+            )
+        VALUES
+             (  #{yy}
+             ,	CONVERT(numeric(20,6), CASE WHEN #{psnnRisnPro} = '' THEN '1' ELSE #{psnnRisnPro} END)
+             ,	CONVERT(numeric(20,6), CASE WHEN #{pceRisnPro} = '' THEN '1' ELSE #{pceRisnPro} END)
+			 ,	#{expScnCd}
+			 ,	CONVERT(numeric(20,6), CASE WHEN #{mmExp} = '' THEN '0' ELSE #{mmExp} END)
+			 , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+          WHEN MATCHED THEN
+        UPDATE
+           SET A.MM_EXP 	  = CONVERT(numeric(20,6), CASE WHEN #{mmExp} = '' THEN '0' ELSE #{mmExp} END)
+             , PSNN_RISN_PRO  = CONVERT(numeric(20,6), CASE WHEN #{psnnRisnPro} = '' THEN '1' ELSE #{psnnRisnPro} END)
+             , PCE_RISN_PRO	  = CONVERT(numeric(20,6), CASE WHEN #{pceRisnPro} = '' THEN '1' ELSE #{pceRisnPro} END)
+             , A.LAST_MDFY_DT = GETDATE()
+             , A.LAST_MDFY_ID = #{userId}
+             ;
+    ]]>
+    </update>
+
+
+    <update id="updateTrwiBudgPro">
+    -- updateTrwiBudgPro
+     UPDATE iris_tss_gen_trwi_budg_edit_info
+           SET PSNN_RISN_PRO  = #{psnnRisnPro}
+             , PCE_RISN_PRO	  = #{pceRisnPro}
+             , LAST_MDFY_DT = GETDATE()
+             , LAST_MDFY_ID = #{userId}
+       WHERE  YY = #{budgYY}
+    </update>
+
+
+    <delete id="deleteTrwiBudg">
+    -- deleteTrwiBudg
+    	delete from IRIS_TSS_GEN_TRWI_BUDG_EDIT_INFO
+    	where yy = #{budgYY}
+    </delete>
+</mapper>

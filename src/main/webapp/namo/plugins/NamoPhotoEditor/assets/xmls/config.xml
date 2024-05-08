@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<licenseNumber>9504-0631-190008</licenseNumber>
+	<domainKey>3bcf7dc3aff8964e43ff00294ff643b516cd2e0205c81283cbe95362adf101359d2d273f23ccac48f7d2053e7559a080ba40eebaf20d22869b8ea8d4e82fe1281dff335c0db360be44bd8b5cac31c6734cdb6d1feec574207369a14d4ca059b5084cbdc75724dd12011318371455d86812f2a1443090661ae7074a7abe39f4ec9770b0b1a49b53eddc0e7dba6355311cc268170b3d90603fdd5258d6e69656ad1dfd2a362a9eebc93d33ee486cad9f8e2e21867d188f584bf9abc27c5b175be523b06a25ad4fdf2683e3fe6a6a08a6e1b5d0e095612c01e3fa9b57a97992bdd59725032895c72b593a81c3099a96205796bbee75abdf510042d9f2f518023aa61c3f08a48567e0b6ca00807e02630bed7fd9dbda382a2291875e41fd9886cc2be93d7eaec0672ca84c3a98c21bc39b3baae664b69778cca53c07a49ec5ed29e1a25b3b6608a232fc345567b2014644d68f94675507ea34bf7546ad8d4bac5255aee965670d4894f1a0943492de477585d854aca150948809617967b687393baee3d2036132ad6afc398f3e3ee2923e0d7b5eeaf1a80f23eb1da4ea475fc01ccd8f56ef512332f21185c7cce325584647902ebe6485d07ca5c66bef56f034f095b6bef91d00c91dde43992feefc5eb1d7</domainKey>
+	<maxImageNum>20</maxImageNum>
+	<maxImageWidth>1600</maxImageWidth>
+	<maxImageHeight>1600</maxImageHeight>
+	<maxImageBytes>10485760</maxImageBytes>
+	<checkImageTitle>off</checkImageTitle>
+	<locale>kor</locale>
+	<services>
+		<service>
+			<name>Editor</name>
+			<iconURL></iconURL>
+			<url>com/namo/Editor.swf</url>
+		</service>
+		<service>
+			<name>Slideshow</name>
+			<iconURL>assets/images/slideshow/slideshow_icon.png</iconURL>
+			<url>com/namo/Slideshow.swf</url>
+		</service>
+	</services>
+</config>

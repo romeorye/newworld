@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LScroller Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var scroller = null;
+Rui.onReady(function() {
+    
+    scroller = new Rui.ui.LScroller({
+        //applyTo: 'scrollContainer',
+        content: 'scrollContent',
+        useVirtual: true,
+        marginSafe: true,
+        width: 300,
+        height: 100
+    });
+    scroller.render('scrollContainer');
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+var contentHeight;
+function testLScroller_method_setVirtualContentHeight() {
+    info('LScrollerTests : testLScroller_method_setVirtualContentHeight 작동 여부');
+    if(!contentHeight){
+        contentHeight = scroller.getContentHeight();
+    }
+    scroller.setVirtualContentHeight(contentHeight - 100);
+    assertEquals(scroller.yVirtualContentEl.dom.offsetHeight, contentHeight - 100);
+}
+function testLScroller_method_getSpace() {
+    info('LScrollerTests : testLScroller_method_getSpace 작동 여부');
+    assertEquals(scroller.getSpace('bottom'), 0);
+}
+function testLScroller_method_setSpace() {
+    info('LScrollerTests : testLScroller_method_setSpace 작동 여부');
+    scroller.setSpace(10, false, 'bottom');
+    assertEquals(scroller.getSpace('bottom'), 10);
+    scroller.setSpace(0);
+}
+function testLScroller_method_getMaxScrollTop() {
+    info('LScrollerTests : testLScroller_method_getMaxScrollTop 작동 여부');
+    assertEquals(scroller.getMaxScrollTop(), scroller.wrapperEl.getHeight() - scroller.scrollEl.getHeight(true));
+}
+function testLScroller_method_getMaxScrollLeft() {
+    info('LScrollerTests : testLScroller_method_getMaxScrollLeft 작동 여부');
+    assertEquals(scroller.getMaxScrollLeft(), scroller.wrapperEl.getWidth() - scroller.scrollEl.getWidth(true));
+}
+function testLScroller_method_getScrollWidth() {
+    info('LScrollerTests : testLScroller_method_getScrollWidth 작동 여부');
+    assertEquals(scroller.getScrollWidth(), scroller.scrollEl.getWidth());
+}
+function testLScroller_method_getScrollHeight() {
+    info('LScrollerTests : testLScroller_method_getScrollHeight 작동 여부');
+    assertEquals(scroller.getScrollHeight(), scroller.scrollEl.getHeight());
+}
+function testLScroller_method_getScrollTop() {
+    info('LScrollerTests : testLScroller_method_getScrollTop 작동 여부');
+    assertEquals(scroller.getScrollTop(), scroller.yScrollbarEl ? scroller.yScrollbarEl.dom.scrollTop : 0);
+}
+function testLScroller_method_setScrollTop() {
+    info('LScrollerTests : testLScroller_method_setScrollTop 작동 여부');
+    scroller.setScrollTop(10);
+    assertEquals(scroller.getScrollTop(), scroller.yScrollbarEl ? scroller.yScrollbarEl.dom.scrollTop : 0);
+    scroller.setScrollTop(0);
+}
+function testLScroller_method_getScrollLeft() {
+    info('LScrollerTests : testLScroller_method_getScrollLeft 작동 여부');
+    assertEquals(scroller.getScrollLeft(), scroller.xScrollbarEl ? scroller.xScrollbarEl.dom.scrollLeft : 0);
+}
+function testLScroller_method_setScrollLeft() {
+    info('LScrollerTests : testLScroller_method_setScrollLeft 작동 여부');
+    scroller.setScrollLeft(10);
+    assertEquals(scroller.getScrollLeft(), scroller.xScrollbarEl ? scroller.xScrollbarEl.dom.scrollLeft : 0);
+    scroller.setScrollLeft(0);
+}
+function testLScroller_method_getScroll() {
+    info('LScrollerTests : testLScroller_method_getScroll 작동 여부');
+    var coord = scroller.getScroll();
+    assertTrue(coord.top > -1 && coord.left > -1);
+}
+function testLScroller_method_setScroll() {
+    info('LScrollerTests : testLScroller_method_setScroll 작동 여부');
+    var coord = scroller.getScroll();
+    scroller.setScroll(coord);
+    assertTrue(scroller.getScrollTop() == coord.top);
+}
+function testLScroller_method_getScrollbarSize() {
+    info('LScrollerTests : testLScroller_method_getScrollbarSize 작동 여부');
+    assertEquals(scroller.getScrollbarSize(), scroller.yScrollbarEl ? scroller.yScrollbarEl.dom.offsetWidth : 0);
+}
+function testLScroller_method_isStart() {
+    info('LScrollerTests : testLScroller_method_isStart 작동 여부');
+    scroller.setScrollTop(10);
+    assertTrue(scroller.isStart());
+    scroller.setScrollTop(0);
+}
+function testLScroller_method_isEnd() {
+    info('LScrollerTests : testLScroller_method_isEnd 작동 여부');
+    scroller.setScrollTop(scroller.getMaxScrollTop());
+    assertTrue(scroller.isEnd());
+    scroller.setScrollTop(0);
+}
+function testLScroller_method_goStart() {
+    info('LScrollerTests : testLScroller_method_goStart 작동 여부');
+    var result = scroller.goStart();
+    assertEquals(scroller.isStart(), true);
+}
+function testLScroller_method_goEnd() {
+    info('LScrollerTests : testLScroller_method_goEnd 작동 여부');
+    var result = scroller.goEnd();
+    assertEquals(result, scroller.getMaxScrollTop());
+    scroller.goStart();
+}
+function testLScroller_method_setWidth() {
+    info('LScrollerTests : testLScroller_method_setWidth 작동 여부');
+    var width = 600; //int
+    scroller.setWidth(width);
+    assertEquals(scroller.getWidth(), 600);
+}
+function testLScroller_method_setHeight() {
+    info('LScrollerTests : testLScroller_method_setHeight 작동 여부');
+    var height = 300; //int
+    scroller.setHeight(height);
+    assertEquals(scroller.getHeight(), 300);
+}
+function testLScroller_method_refresh() {
+    info('LScrollerTests : testLScroller_method_refresh 작동 여부');
+    scroller.refresh();
+    assertNotUndefined(true);
+}
+function testLScroller_method_destroy() {
+    info('LScrollerTests : testLScroller_method_destroy 작동 여부');
+    scroller.destroy();
+    assertNotUndefined(scroller);
+    scroller = new Rui.ui.LScroller({
+        applyTo: 'scrollContainer',
+        content: 'scrollContent',
+        useVirtual: true,
+        marginSafe: true,
+        width: 400,
+        height: 200
+    });
+}
+function testLScroller_method_toString() {
+    info('LScrollerTests : testLScroller_method_toString 작동 여부');
+    var result = scroller.toString();
+    //return type : String
+    assertEquals(result, 'Rui.ui.LScroller scrollContainer');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LScroller Tests</h1>
+    <div style="position: relative">
+        <div id="scrollContainer">
+            <div id="scrollContent">
+                <ul style="width:600px">
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                    <li>setVirtualContentHeight</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLScroller_method_setVirtualContentHeight()">setVirtualContentHeight</a>
+            <a href="javascript:testLScroller_method_getSpace()">getSpace</a>
+            <a href="javascript:testLScroller_method_setSpace()">setSpace</a>
+            <a href="javascript:testLScroller_method_getMaxScrollTop()">getMaxScrollTop</a>
+            <a href="javascript:testLScroller_method_getMaxScrollLeft()">getMaxScrollLeft</a>
+            <a href="javascript:testLScroller_method_getScrollWidth()">getScrollWidth</a>
+            <a href="javascript:testLScroller_method_getScrollHeight()">getScrollHeight</a>
+            <a href="javascript:testLScroller_method_getScrollTop()">getScrollTop</a>
+            <a href="javascript:testLScroller_method_setScrollTop()">setScrollTop</a>
+            <a href="javascript:testLScroller_method_getScrollLeft()">getScrollLeft</a>
+            <a href="javascript:testLScroller_method_setScrollLeft()">setScrollLeft</a>
+            <a href="javascript:testLScroller_method_getScroll()">getScroll</a>
+            <a href="javascript:testLScroller_method_setScroll()">setScroll</a>
+            <a href="javascript:testLScroller_method_getScrollbarSize()">getScrollbarSize</a>
+            <a href="javascript:testLScroller_method_isStart()">isStart</a>
+            <a href="javascript:testLScroller_method_isEnd()">isEnd</a>
+            <a href="javascript:testLScroller_method_goStart()">goStart</a>
+            <a href="javascript:testLScroller_method_goEnd()">goEnd</a>
+            <a href="javascript:testLScroller_method_setWidth()">setWidth</a>
+            <a href="javascript:testLScroller_method_setHeight()">setHeight</a>
+            <a href="javascript:testLScroller_method_refresh()">refresh</a>
+            <a href="javascript:testLScroller_method_destroy()">destroy</a>
+            <a href="javascript:testLScroller_method_toString()">toString</a>
+        </div>
+
+    </div>        
+</body>
+</html>

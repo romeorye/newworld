@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common.ssoInfo">
+
+
+	<delete id="deleteSsoUserIf">
+		delete iris_sso_user_if	
+	</delete>
+	
+	<delete id="deleteSsoDeptIf">
+		delete iris_sso_dept_if	
+	</delete>
+	
+	<!-- IF 사용자 테이블 조회 -->
+	<select id="getSsoUser" resultType="hashmap">
+		<![CDATA[
+			-- getSsoUser 사용자 리스트 sp
+			EXEC dbo.sp_ssoUserIf
+		  ]]>
+	</select>
+
+	<!-- IF 부서테이블 조회  -->
+	<select id="getSsoDept" resultType="hashmap">
+		<![CDATA[
+			-- getSsoDept 부서 리스트 sp
+			EXEC dbo.sp_ssoDeptIf
+		  ]]>
+	</select>
+
+	<!-- IF 팀명 조회  -->
+	<select id="getSsoTeamInfo" resultType="hashmap">
+		<![CDATA[
+		-- getSsoTeamInfo IF 팀명 조회
+		SELECT   sa_dept_name  		as saDeptName
+				,sa_dept_new   		as saDeptNew
+		FROM   IRIS_SSO_USER
+		WHERE   SSO_EX_FLAG <> 'D'
+		AND     SA_GSBER = '1100'
+		]]>
+	</select>
+
+	<update id="updatePrjNm">
+	-- updatePrjNm
+	 UPDATE IRIS_PRJ_RSST_MST
+	 	SET    PRJ_NM = #{saDeptName}
+	 WHERE  DEPT_CD = #{saDeptNew}
+	 and    (PRJ_END_DT = '' or PRJ_END_DT is null)
+	</update>
+
+
+	<insert id="saveUserInfo">
+	-- saveUserInfo
+	INSERT INTO IRIS_SSO_USER_IF
+         ( sa_sabun_new
+		  ,sso_ex_flag
+		  ,sa_user
+		  ,sa_name
+		  ,sa_ename
+		  ,sa_cname
+		  ,sa_dept_name
+		  ,sa_dept_new
+		  ,sa_upmu
+		  ,sa_func
+		  ,sa_func_name
+		  ,sa_jobx_name
+		  ,sa_jobx
+		  ,sa_phone_area
+		  ,sa_phone_o
+		  ,sa_hand
+		  ,sso_ex_auth
+		  ,sa_mail
+		  ,sa_gsber
+		  ,sa_exps
+		  ,sa_exps_name
+		  ,sa_temp
+		  ,sa_temp_date
+		  ,frst_rgst_id
+		  ,frst_rgst_dt
+		  ,last_mdfy_id
+		  ,last_mdfy_dt            
+               ) 
+            VALUES
+                 ( #{saSabunNew}
+				 , #{ssoExFlag}
+				 , #{saUser}
+				 , #{saName}
+				 , #{saEname}
+				 , #{saCname}
+				 , #{saDeptName}
+				 , #{saDeptNew}
+				 , #{saUpmu}
+				 , #{saFunc}
+				 , #{saFuncName}
+				 , #{saJobxName}
+				 , #{saJobx}
+				 , #{saPhoneArea}
+				 , #{saPhoneo}
+				 , #{saHand}
+				 , #{ssoExAuth}
+				 , #{saMail}
+				 , #{saGsber}
+				 , #{saExps}
+				 , #{saExpsName}
+				 , #{saTemp}
+				 , #{saTempDate}
+				 , 'batch'
+				 , getdate()
+				 , 'batch'
+				 , getdate()
+                 )
+	</insert>
+
+
+	<insert id="saveDeptInfo">
+	-- saveDeptInfo
+            INSERT INTO IRIS_SSO_DEPT_IF
+                 ( dept_code
+				  ,ps_flag
+				  ,dept_name
+				  ,dept_ename
+				  ,dept_cname
+				  ,dept_level
+				  ,dept_uper
+				  ,uperdept_name
+				  ,frst_rgst_id
+				  ,frst_rgst_dt
+				  ,last_mdfy_id
+				  ,last_mdfy_dt            
+                 ) 
+            VALUES
+                 ( #{deptCode}  
+				 , #{psFlag}
+				 , #{deptName }
+				 , #{deptEname}
+				 , #{deptCname}
+				 , #{deptLevel}
+				 , #{deptUper}
+				 , #{uperdeptName}
+				 , 'batch'
+				 , getdate()
+				 , 'batch'
+				 , getdate()
+                 )
+	</insert>
+</mapper>

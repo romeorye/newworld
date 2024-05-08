@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>JsUnit Test Suite</title>
+    <link rel="stylesheet" type="text/css" href="./../../../jsunit/css/jsUnitStyle.css"/>
+    <script type="text/javascript" src="./../../../jsunit/app/jsUnitCore.js"></script>
+    <script type="text/javascript">
+        function coreSuite() {
+            var newsuite = new top.jsUnitTestSuite();
+            var testSuite = [
+                './../testcase/ui/grid/testLBufferGridView.html',
+                './../testcase/ui/grid/testLCellMerge.html',
+                './../testcase/ui/grid/testLColumn.html',
+                './../testcase/ui/grid/testLColumnDD.html',
+                './../testcase/ui/grid/testLColumnModel.html',
+                './../testcase/ui/grid/testLColumnResizer.html',
+                './../testcase/ui/grid/testLEditButtonColumn.html',
+                './../testcase/ui/grid/testLEditorPanel.html',
+                './../testcase/ui/grid/testLGridPanel.html',
+                './../testcase/ui/grid/testLGridScroller.html',
+                './../testcase/ui/grid/testLGridView.html',
+                './../testcase/ui/grid/testLHeaderContextMenu.html',
+                './../testcase/ui/grid/testLNumberColumn.html',
+                './../testcase/ui/grid/testLRowModel.html',
+                './../testcase/ui/grid/testLScroller.html',
+                './../testcase/ui/grid/testLSelectionColumn.html',
+                './../testcase/ui/grid/testLSelectionModel.html',
+                './../testcase/ui/grid/testLStateColumn.html',
+                './../testcase/ui/grid/testLTableView.html',
+                './../testcase/ui/grid/testLTotalSummary.html',
+                './../testcase/ui/grid/testLTreeGridSelectionModel.html',
+                './../testcase/ui/grid/testLTreeGridView.html',
+                './../testcase/ui/grid/testLTriggerColumn.html'
+            ];
+
+            for(var i = 0 ; i < testSuite.length ; i++) {        
+                newsuite.addTestPage(testSuite[i]);
+            }
+            return newsuite;
+        }
+
+        function librariesSuite() {
+            var result = new top.jsUnitTestSuite();
+            return result;
+        }
+
+        function suite() {
+            var newsuite = new top.jsUnitTestSuite();
+            newsuite.addTestSuite(coreSuite());
+            newsuite.addTestSuite(librariesSuite());
+            return newsuite;
+        }
+    </script>
+</head>
+
+<body>
+<h1>JsUnit Test Suite</h1>
+
+<p>This page contains a suite of tests for testing JsUnit.</p>
+</body>
+</html>

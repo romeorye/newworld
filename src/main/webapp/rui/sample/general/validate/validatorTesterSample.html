@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="devon-rui-sample" content="yes" />
+    <meta name="devon-rui-keyword" content="유효성 체크,필수여부,LValidatorManager,Validate,Tester" />
+    <title>Validator Tester</title>
+
+    <script type="text/javascript" src="./../../../js/rui_base.js"></script>
+    <script type="text/javascript" src="./../../../js/rui_core.js"></script>
+    <script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+    <script type="text/javascript" src="./../../../js/rui_form.js"></script>
+    <script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+    <script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+    <link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+    <script type="text/javascript" src="./../../../plugins/ui/LTooltip.js"></script>
+    <link rel="stylesheet" type="text/css" href="./../../../plugins/ui/LTooltip.css"/>
+    <script type="text/javascript" src="./../../../plugins/validate/LCustomValidator.js"></script>
+
+    <script type="text/javascript" src="./../../../sample/general/rui_sample.js"></script>
+
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+        }
+
+        caption {
+            margin: 10px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        td, th {
+            border: 1px solid #999;
+            padding: 5px 10px;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        .LblockMarkupCode {
+            position: relative;
+        }
+    </style>
+
+    <script type="text/javascript" class="script-code">
+        var button = null;
+        Rui.onReady(function(){
+            /*******************
+            * 변수 및 객체 선언
+            *******************/
+            var frm = Rui.get('frm');
+            var elementList = frm.select('tr');
+            
+            Rui.get('filterValidatorExpr').setValue('filter=`;!;@;#;$;%;^;*;(;);[;];{;};\';<;>;,;.;?;/;|;";=;\\;;\\');
+
+            /********************
+            * 버튼 선언 및 이벤트
+            ********************/
+            var submitTopBtn = new Rui.ui.LButton('submitTopBtn');
+            submitTopBtn.on('click', function(){
+
+                /*
+                아래의 소스는 동적으로 적용 여부를 볼 수 있게 위의 구조로 만드는 샘플이므로,
+                개별 화면에서는 validateSample.html을 참고하세요.
+                */
+                var validators = [];
+                elementList.each(function(e){
+                    var tdArr = e.getElementsByTagName('td');
+                    if (tdArr.length == 0)
+                        return;
+                    var itemTd = tdArr[0],
+                        mandTd = tdArr[1],
+                        expTd = tdArr[2],
+                        targetTd = tdArr[3],
+                        noteTd = tdArr[4],
+                        validExp, validator;
+                    validExp = itemTd.innerHTML.trim() + '항목:' + (!!mandTd.getElementsByTagName('input')[0].checked) + ':' + expTd.getElementsByTagName('input')[0].value;
+                    noteTd.innerHTML = validExp;
+                    validator = {
+                        id: targetTd.getElementsByTagName('input')[0].id,
+                        validExp: validExp
+                    }
+                    validators.push(validator);
+                });
+                var validatorManager = new Rui.validate.LValidatorManager({
+                    validators: validators
+                });
+                
+                if(validatorManager.validateGroup('frm') == false) {
+                    //Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + validatorManager.getMessageList().join('<br>') );
+                    alert('유효하지 않습니다.\r\n' + validatorManager.getMessageList().join('\r\n') );
+                }
+            });
+            var submitBottomBtn = new Rui.ui.LButton('submitBottomBtn');
+            submitBottomBtn.on('click', function(){
+                submitTopBtn.click();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id='hd'>
+        <h1>Validator Tester</h1>
+        <div class="LblockLine"></div>
+        <div class="LblockSubj">
+            <h2>유효성 검사기와 검사식 추출기</h2>
+            <div class="LblockDesc">
+		        <p>일반적으로 사용하는 Validator의 기능 예제들 입니다.</p>
+		        <p>아래 검사표에서 필수, 검사식, 검사대상 값들을 변경 하신 후 "Validate" 버튼을 클릭하시면 검사가 실행됩니다.</p>
+		        <p>실제 구현을 위한 소스코드 샘플은 "validateSample.html"을 참조하세요.</p>
+            </div>
+        </div>
+    </div>
+    <div id="bd">
+        <div class="LblockButton" >
+            <button type="button" id="submitTopBtn" >Validate</button>
+        </div>
+        <div class="LblockMarkupCode">
+            <div id="panel">
+                <form id="frm" name="frm" method="post" action="./../../data/savedCallback.json">
+                    <table id="vTable">
+                        <tr>
+                            <th>검사항목</th>
+                            <th>필수</th>
+                            <th>검사식</th>
+                            <th>검사대상</th>
+                            <th>비고</th>
+                        </tr>
+                        <tr>
+                            <td>Length</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input type="text" value="length=4" /></td>
+                            <td><input type="text" id="col2" value="" /></td>
+                            <td>반드시 4자리의 값을 입력해야함. 한글4자 영문4자</td>
+                        </tr>
+                        <tr>
+                            <td>Min Length</td>
+                            <td><input type="checkbox" /></td>
+                            <td><input type="text" value="minLength=6" /></td>
+                            <td><input type="text" id="col3" value="123456" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Max Length</td>
+                            <td><input type="checkbox" /></td>
+                            <td><input type="text" value="maxLength=12" /></td>
+                            <td><input type="text" id="col3_1" value="Hello RichUI" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Byte Length</td>
+                            <td><input type="checkbox" /></td>
+                            <td><input type="text" value="byteLength=4" /></td>
+                            <td><input type="text" id="col4" value="한글" /></td>
+                            <td>4바이트만 허용. UTF-8의 경우 한글은 3byte</td>
+                        </tr>
+                        <tr>
+                            <td>Min Byte Length</td>
+                            <td><input type="checkbox" /></td>
+                            <td><input type="text" value="minByteLength=8" /></td>
+                            <td><input type="text" id="col5" value="UTF-8 한글은 3바이트" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Max Byte Length</td>
+                            <td><input type="checkbox" /></td>
+                            <td><input type="text" value="maxByteLength=15" /></td>
+                            <td><input type="text" id="col5_1" value="한글테스트" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Number</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input type="text" value="number" /></td>
+                            <td><input type="text" id="col6" value="1234" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Number (3.2)</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input type="text" value="number=3.2" /></td>
+                            <td><input type="text" id="col7" value="123.32" /></td>
+                            <td>3자리의 정수와 소숫점 2자리의 값 허용</td>
+                        </tr>
+                        <tr>
+                            <td>Min Number</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input type="text" value="minNumber=100" /></td>
+                            <td><input type="text" id="col8" value="110" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Max Number</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input type="text" value="maxNumber=100" /></td>
+                            <td><input type="text" id="col9" value="90" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Number Between</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input type="text" value="inNumber=90~100" /></td>
+                            <td><input type="text" id="col10" value="101" /></td>
+                            <td>90 ~ 100 사이의 숫자만 허용</td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input type="text" value="date=YYYYMMDD" /></td>
+                            <td><input type="text" id="col11" value="20081111" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Min Date</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input type="text" value="minDate=2008/11/11(YYYY/MM/DD)" /></td>
+                            <td><input type="text" id="col12" value="2008/12/25" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Max Date</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input type="text" value="maxDate=20081111" /></td>
+                            <td><input type="text" id="col13" value="20081025" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Filter</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input id="filterValidatorExpr" type="text" /></td>
+                            <td><input type="text" id="col14" value="hello world!" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Allow</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input type="text" value="allow=\a;\n" /></td>
+                            <td><input type="text" id="col15" value="+" /></td>
+                            <td>영문(\a)과 숫자(\n)만 허용</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td><input type="checkbox" checked="checked" /></td>
+                            <td><input type="text" value="email" /></td>
+                            <td><input type="text" id="col16" value="nana@lgcns.com" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>주민등록번호</td>
+                            <td><input type="checkbox" /></td>
+                            <td><input type="text" value="ssn" /></td>
+                            <td><input type="text" id="col17" value="0101011616712" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>사업자등록번호</td>
+                            <td><input type="checkbox" /></td>
+                            <td><input type="text" value="csn" /></td>
+                            <td><input type="text" id="col18" value="1168119477" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="LblockButton" >
+            <button type="button" id="submitBottomBtn" >Validate</button>
+        </div>
+    </div>
+</body>
+</html>

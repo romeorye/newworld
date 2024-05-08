@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LFrameDialog Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+
+<script type="text/javascript" src="./../../../plugins/ui/LFrameDialog.js"></script>
+
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var frameDialog = null; 
+Rui.onReady(function() {
+    // 소스 넣을 위치
+
+    var handleApply = function() {
+            this.submit(true);
+        };
+
+        var handleClose = function() {
+            this.cancel();
+        };
+
+        frameDialog = new Rui.ui.LFrameDialog('test', {
+            width : 800,
+            height : 400,
+            modal : true,
+            visible : false,
+            buttons : [ {
+                text : 'Apply',
+                handler : handleApply,
+                isDefault : true
+            }, {
+                text : 'Close',
+                handler : handleClose
+            } ]
+        });
+        frameDialog.render(document.body);
+        /******************JsUnit용 소스 시작**********************/
+        //dataSet load event에 넣으면 작동되지 않는다.
+        setUpPageStatus = 'complete';
+        /******************JsUnit용 소스   끝**********************/
+    });
+
+    //setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+    function setUpPage() {
+        setUpPageStatus = 'running';
+    }
+
+    //test function이 실행되기 전에 먼저 실행된다.
+    function setUp() {
+    }
+
+    //모든 test function이 실행된 후 실행된다.
+    function tearDown() {
+    }
+
+    //**************test function 시작*****************
+    // testcase 넣을 위치
+     function testLFrameDialog_method_configUrl() {
+     info('LFrameDialogTests : testLFrameDialog_method_configUrl 작동 여부');
+     warn('RuiTests : testRui_method_dump 테스트 무시 => 디버그용');
+     
+     }
+
+    function testLFrameDialog_method_setUrl() {
+        info('LFrameDialogTests : testLFrameDialog_method_configUrl 작동 여부');
+        frameDialog.show();
+        frameDialog.setUrl('../../../sample/general/ui/grid/gridpanelEditSample.html');
+        assertNotNull(frameDialog.cfg.getProperty('url')); 
+     }
+     
+      function testLFrameDialog_method_setHeight() {
+            info('LFrameDialogTests : testLFrameDialog_method_setHeight 작동 여부');
+            frameDialog.show();
+            frameDialog.setHeight(400); 
+            assertEquals(frameDialog.frameEl.getHeight(), 400); 
+      }
+     
+      function testLFrameDialog_method_setWidth() {
+            info('LFrameDialogTests : testLFrameDialog_method_setWidth 작동 여부');
+            frameDialog.show();
+            frameDialog.setWidth(500); 
+            assertEquals(frameDialog.frameEl.getWidth(), 500); 
+      }
+     
+      function testLFrameDialog_method_hide() {
+           info('LFrameDialogTests : testLFrameDialog_method_hide 작동 여부');
+           frameDialog.show();
+           frameDialog.hide(); 
+           assertEquals(frameDialog.getFrameWindow().document.body.style.zoom, '100%'); 
+           
+      }
+    //**************test function   끝*****************
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LFrameDialog Tests</h1>
+
+    <div id="bd">
+        <div class="LblockMarkupCode">
+          <div id="test"></div>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLFrameDialog_method_configUrl()">setUrl</a>
+            <a href="javascript:testLFrameDialog_method_setUrl()">setUrl</a>
+            <a href="javascript:testLFrameDialog_method_setHeight()">setHeight</a>
+            <a href="javascript:testLFrameDialog_method_setWidth()">setWidth</a>
+            <a href="javascript:testLFrameDialog_method_hide()">hide</a>
+        </div>
+    </div>        
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.grid.LSummary Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js" ></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LSummary.js" ></script>
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LTotalSummary.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../plugins/ui/grid/LTotalSummary.css" />
+
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LGridView.js"></script>
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LGridPanelExt.js"></script>
+
+<script type="text/javascript" src="../../../../../jsunit/app/jsUnitCore.js" ></script>
+
+<style type="text/css">
+
+.L-grid-summary-depth-2 {
+    background-color: #aaaab3;
+}
+
+.L-grid-summary-depth-1 {
+    background-color: #ffaab3;
+}
+
+.L-grid-summary-depth-0 {
+    background-color: #ffffb3;
+}
+
+.L-grid-row .L-grid-bg-color-sum {
+    background-color: #bbaab3;
+}
+</style>
+
+<script type="text/javascript" >
+var isRun = false;
+Rui.onReady(function() {
+    /*******************
+     * 변수 및 객체 선언
+     *******************/
+    var dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'month'},
+            { id: 'company'},
+            { id: 'date', type: 'date' },
+            { id: 'monthSum', type: 'number', defaultValue: 0 },
+            { id: 'balance', type: 'number', defaultValue: 0 },
+            { id: 'assets', type: 'number', defaultValue: 0 }
+        ]
+    });
+    
+    dataSet.on('load', function() {
+        Rui.get('showLog').html(parseInt(Rui.get('showLog').getHtml(), 10) + 1);
+        if(isRun) {
+            setTimeout(function() {
+                searchBtn.click();
+            }, 500);
+        }
+    });
+
+    /*<b>*/
+    var columnModel = new Rui.ui.grid.LColumnModel({
+        freezeColumnId: 'date',
+        columns: [
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'month', label: 'Month', width: 70, sortable: true },
+            { field: 'company', label: 'Company', sortable: true, editor: new Rui.ui.form.LTextBox() },
+            { field: 'date', label: 'Date', align: 'center', renderer: 'date', editor: new Rui.ui.form.LDateBox() },
+            { field: 'monthSum', align: 'right', width: 150, renderer: 'money', summary: { ids: [ 'company' ] }, editor: new Rui.ui.form.LNumberBox() },
+            { field: 'balance', align: 'right', width: 150, renderer: 'money', summary: { ids: [ 'date' ] }, editor: new Rui.ui.form.LNumberBox() },
+            { id: 'difference', width:120, align: 'right', width: 150, renderRow: true, expression: function(val, record) {
+                    return record.get('monthSum') - record.get('balance');
+                }, renderer: function(val, p, record){
+                    p.css.push('L-grid-bg-color-sum');
+                    return Rui.util.LFormat.moneyFormat(val);
+                }
+            },
+            { id: 'rate', width: 60, align: 'right', width: 80, renderRow: true, expression: function(val, record) {
+                    if(record.get('monthSum')) {
+                        return (record.get('monthSum') - record.get('balance')) / record.get('monthSum') * 100;
+                    } else return 0;
+                }, renderer: function(val, p, record){
+                    p.css.push('L-grid-bg-color-sum');
+                    return Rui.util.LNumber.round(val, 2) + '%';
+                }
+            },
+            { field: 'assets', width: 120, align: 'right', width: 150, renderer: 'money' }
+        ]
+    });
+
+    var sumColumns = ['balance', 'monthSum', 'assets'];
+    var summary = new Rui.ui.grid.LTotalSummary();
+    summary.on('renderTotalCell', function(e){
+        if(e.col == 2) {
+            e.value = 'Total';
+        } else {
+            if (Rui.util.LArray.contains(sumColumns, e.colId)) {
+                // dataSet의 컬럼이 존재할 경우
+                e.value = Rui.util.LFormat.moneyFormat(dataSet.sum(e.colId));
+            } else if (e.colId == 'difference') {
+                // dataSet의 컬럼이 없고 GridView에만 존재할 경우
+                var value = 0;
+                for (var row = 0; row < dataSet.getCount(); row++) {
+                    var record = dataSet.getAt(row);
+                    var calVal = record.get('monthSum') - record.get('balance');
+                    value += calVal;
+                    record = null;
+                }
+
+                e.value = Rui.util.LFormat.moneyFormat(value);
+            } else if (e.colId == 'rate') {
+                // dataSet의 컬럼이 없고 GridView에만 존재할 경우
+                var value = 0;
+                for (var row = 0; row < dataSet.getCount(); row++) {
+                    var record = dataSet.getAt(row);
+                    var calVal = (record.get('monthSum') - record.get('balance')) / record.get('monthSum') * 100;
+                    value += Rui.util.LNumber.round(calVal, 2);
+                    record = null;
+                }
+
+                value = value > 0 ? value / dataSet.getCount() : 0;
+
+                e.value = Rui.util.LNumber.round(value, 2) + '%';
+            }
+        }
+    });
+    
+    /*</b>*/
+   
+    var grid = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        autoWidth: true,
+        autoToEdit: true,
+        viewConfig: {
+            plugins: [ summary ]
+        },
+        height: 400
+    });
+
+    grid.render('defaultGrid');
+
+    /********************
+     * 버튼 선언 및 이벤트
+     ********************/
+    var searchBtn = new Rui.ui.LButton('searchBtn');
+    searchBtn.on('click', function(){
+        dataSet.load({
+            url: './../../../../sample/data/summaryData20000.json'
+        });
+    });
+
+    var startBtn = new Rui.ui.LButton('startBtn');
+    startBtn.on('click', function(){
+        isRun = true;
+        searchBtn.click();
+    });
+    
+    var endBtn = new Rui.ui.LButton('endBtn');
+    endBtn.on('click', function(){
+        isRun = false;
+    });
+    
+    var newBtn = new Rui.ui.LButton('newBtn');
+    newBtn.on('click', function(){
+        dataSet.newRecord();
+    });
+
+    var insertBtn = new Rui.ui.LButton('insertBtn');
+    insertBtn.on('click', function(){
+        var row = dataSet.getRow();
+        if(row < 0) return;
+        var beforeRecord = dataSet.getAt(row);
+        var values = beforeRecord.getValues();
+        values.monthSum = 0;
+        values.balance = 0;
+        values.assets = 10000;
+        var row = dataSet.insert(row + 1, dataSet.createRecord(values));
+    });
+
+    var updateBtn = new Rui.ui.LButton('updateBtn');
+    updateBtn.on('click', function(){
+        var row = dataSet.getRow();
+        if(row < 0) return;
+        var record = dataSet.getAt(row);
+        record.set('col2', null);
+        record.set('col3', 'R2');
+        record.set('col8', 1);
+        record.set('code', 'code9');
+    });
+
+    var undoBtn = new Rui.ui.LButton('undoBtn');
+    undoBtn.on('click', function(){
+        if(dataSet.getMarkedCount() > 0) {
+            for(var i = 0 ; i < dataSet.getCount() ; i++) {
+                if(dataSet.isMarked(i))
+                    dataSet.undo(i);
+            }
+        } else {
+            var row = dataSet.getRow();
+            if(row < 0) return;
+            dataSet.undo(row);
+        }
+    });
+
+    var undoAllBtn = new Rui.ui.LButton('undoAllBtn');
+    undoAllBtn.on('click', function(){
+        dataSet.undoAll();
+    });
+
+    var deleteBtn = new Rui.ui.LButton('deleteBtn');
+    deleteBtn.on('click', function(){
+        if(dataSet.getMarkedCount() > 0) {
+            dataSet.removeMarkedRows();
+        } else {
+            var row = dataSet.getRow();
+            if(row < 0) return;
+            dataSet.removeAt(row);
+        }
+    });
+
+    var saveBtn = new Rui.ui.LButton('saveBtn');
+    saveBtn.on('click', function(){
+        // 여기서 유효성 체크를 하면 안됩니다. LDataSetManager의 beforeUpdate 이벤트를 참조하세요.(위에 소스에 있습니다.)
+        dm.updateDataSet({
+            dataSets:[dataSet],
+            url: './../../../data/savedCallback.json'
+        });
+    });
+
+    var clearBtn = new Rui.ui.LButton('clearBtn');
+    clearBtn.on('click', function(){
+        dataSet.clearData();
+    });
+
+    var filterBtn = new Rui.ui.LButton('filterBtn');
+    filterBtn.on('click', function(){
+        dataSet.filter(function(id, record){
+            return record.get('company') == 'Korea'
+        });
+    });
+
+    var clearFilterBtn = new Rui.ui.LButton('clearFilterBtn');
+    clearFilterBtn.on('click', function(){
+        dataSet.clearFilter();
+    });
+    
+    var go3Btn = new Rui.ui.LButton('go3Btn');
+    go3Btn.on('click', function(){
+        dataSet.setRow(3);
+    });
+    var go30Btn = new Rui.ui.LButton('go30Btn');
+    go30Btn.on('click', function(){
+        dataSet.setRow(30, {forceRow: true});
+    });
+    var go90Btn = new Rui.ui.LButton('go90Btn');
+    go90Btn.on('click', function(){
+        dataSet.setRow(90);
+    });
+    
+    var saveExcelBtn = new Rui.ui.LButton('saveExcelBtn');
+    saveExcelBtn.on('click', function(){
+        grid.saveExcel('한글테스트_' + new Date().format('%Y%m%d') + '.xls');
+
+    });
+
+    searchBtn.click();
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLSummary_method_destroy() {
+    warn('RuiTests : testLSummary_method_destroy 테스트 무시 => 내부에서만 사용');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.grid.LSummary Tests</h1>
+
+    <div id="bd">
+        <div id="defaultGrid"></div>
+        <div class="testcase-buttons">
+            <button type="button" id="searchBtn" >Search</button>
+            <button type="button" id="startBtn" >Start</button>
+            <button type="button" id="endBtn" >End</button>
+            <button type="button" id="newBtn" >new</button>
+            <button type="button" id="insertBtn" >insert</button>
+            <button type="button" id="updateBtn" >update</button>
+            <button type="button" id="deleteBtn" >delete</button>
+            <button type="button" id="saveBtn" >save</button>
+            <button type="button" id="undoBtn" >undo</button>
+            <button type="button" id="undoAllBtn" >undoAll</button>
+            <button type="button" id="clearBtn" >clear</button>
+            <button type="button" id="filterBtn" >filter</button>
+            <button type="button" id="clearFilterBtn" >clearfilter</button>
+            <button type="button" id="go3Btn">go 3</button>
+            <button type="button" id="go30Btn">go 30</button>
+            <button type="button" id="go90Btn">go 90</button>
+            <button type="button" id="saveExcelBtn">Excel download</button>
+            <a href="javascript:testLSummary_method_destroy()">destroy</a>
+        </div>
+        <div id="showLog">0</div>
+    </div>
+</body>
+</html>

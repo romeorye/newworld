@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LUnorderedList Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../plugins/tree/rui_tree.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../plugins/tree/rui_tree.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+
+var unorderedList = null; 
+var dataSet = null; 
+var dataSetChild = null; 
+var tree = null; 
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    dataSet = new Rui.data.LJsonDataSet({
+            id: 'dataSet',
+            focusFirstRow:false, 
+            fields: [
+                { id: 'menuId', type: 'number' },
+                { id: 'seq', type: 'number' },
+                { id: 'parentMenuId', type: 'number' },
+                { id: 'name' },
+                { id: 'url' },
+                { id: 'hasChild', type: 'number' }
+            ]
+        });
+        
+        
+        dataSetChild = new Rui.data.LJsonDataSet({
+            id: 'dataSetChild',
+            fields: [
+                { id: 'menuId', type: 'number' },
+                { id: 'seq', type: 'number' },
+                { id: 'parentMenuId', type: 'number' },
+                { id: 'name' },
+                { id: 'url' },
+                { id: 'hasChild', type: 'number' }
+            ]
+        });
+        
+  
+    /*
+    tree = new Rui.ui.tree.LTreeView({
+        dataSet: dataSet,
+        //useTempId: true, 
+        renderer : function(v,record){
+            return '<font color=\"blue\">' + v + '</font>';
+        },
+        fields: {
+            rootValue: null
+            , parentId: 'parentMenuId'
+            , id: 'menuId'
+            , label: 'name'
+            , order:'seq'
+        },
+        useTempId : true, 
+        width:200,
+        height:300,
+        nodeType: 'checkbox',
+        defaultOpenDepth: 1
+    }); 
+
+    unorderedList = tree; 
+*/
+    unorderedList = new Rui.ui.LUnorderedList({
+        dataSet: dataSet,
+        useTempId: true, 
+        childDataSet: dataSetChild,
+        fields: {
+            rootValue: null,
+            parentId: 'parentMenuId',
+            id: 'menuId',
+            label: 'name',
+            order: 'seq',
+            hasChild : 'hasChild'
+        }, 
+        defaultOpenDepth: 1
+    });
+    
+   unorderedList.on('dynamicLoadChild',function(e){
+    
+        var node = e.node;
+        var parentId = e.parentId;            
+        dataSetChild.load({ url: '../../../sample/data/treeDynamicChilds.json', params:{parentMenuId:parentId},method: 'get' });
+    });
+
+    unorderedList.render('divUl');
+    dataSet.load({ url: '../../../sample/data/treeDynamicRoot.json' });
+    
+
+    /******************JsUnit용 소스 시작**********************/
+    //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+function testLUnorderedList_method_setSyncDataSet() {
+    info('LUnorderedListTests : testLUnorderedList_method_setSyncDataSet 작동 여부');
+    var isSync = true; //boolean
+    unorderedList.setSyncDataSet(isSync);
+    assertEquals(unorderedList.cfg.getProperty('syncDataSet'), isSync);
+}
+function testLUnorderedList_method_getFocusNode() {
+    info('LUnorderedListTests : testLUnorderedList_method_getFocusNode 작동 여부');
+    assertNotNull(unorderedList.getFocusNode()); 
+}
+function testLUnorderedList_method_setFocusById() {
+    info('LUnorderedListTests : testLUnorderedList_method_setFocusById 작동 여부');
+    assertNotNull(unorderedList.setFocusById('name'));
+}
+function testLUnorderedList_method_setRootValue() {
+    info('LUnorderedListTests : testLUnorderedList_method_setRootValue 작동 여부');
+    
+    var rootValue = dataSet.get('menuId'); 
+    
+    assertUndefined(unorderedList.setRootValue(rootValue)); 
+   
+}
+function testLUnorderedList_method_setDataSet() {
+    info('LUnorderedListTests : testLUnorderedList_method_setDataSet 작동 여부');
+    unorderedList.setDataSet(dataSet); 
+    assertEquals(dataSet, unorderedList.dataSet); 
+
+}
+function testLUnorderedList_method_getAllChildRecords() {
+    info('LUnorderedListTests : testLUnorderedList_method_getAllChildRecords 작동 여부');
+    
+    var rs = null; //Array
+    var result = unorderedList.getAllChildRecords('menuId', dataSet, rs);
+    assertNotNull(result); 
+    
+}
+function testLUnorderedList_method_addTopNode() {
+    info('LUnorderedListTests : testLUnorderedList_method_addTopNode 작동 여부');
+    unorderedList.fields.rootValue = null; 
+    var result = unorderedList.addTopNode('testNode');
+    //return type : int
+    assertTrue(result > 0); 
+}
+function testLUnorderedList_method_addChildNode() {
+
+    info('LUnorderedListTests : testLUnorderedList_method_addChildNode 작동 여부');
+    var result = unorderedList.addChildNode();
+    assertNotNull(result);
+}
+function testLUnorderedList_method_deleteNode() {
+    info('LUnorderedListTests : testLUnorderedList_method_deleteNode 작동 여부');
+    var result = unorderedList.deleteNode(undefined, true, true);
+    //return type : array
+    assertNotNull(result); 
+}
+function testLUnorderedList_method_cutNode() {
+    info('LUnorderedListTests : testLUnorderedList_method_cutNode 작동 여부');
+    var node = null; //Rui.ui.LUnorderedListNode
+    assertUndefined(unorderedList.cutNode(node)); 
+}
+function testLUnorderedList_method_copyNode() {
+    info('LUnorderedListTests : testLUnorderedList_method_copyNode 작동 여부');
+    var widthChilds = null; //boolean
+    assertUndefined(unorderedList.copyNode(widthChilds)); 
+}
+function testLUnorderedList_method_pasteNode() {
+    info('LUnorderedListTests : testLUnorderedList_method_pasteNode 작동 여부');
+    assertUndefined(unorderedList.pasteNode()); 
+}
+
+function testLUnorderedList_method_destroy() {
+    
+    info('LUnorderedListTests : testLUnorderedList_method_destroy 작동 여부');
+    
+   var  dataSet1 = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        focusFirstRow:true, 
+        fields: [
+            { id: 'menuId', type: 'number' },
+            { id: 'seq', type: 'number' },
+            { id: 'parentMenuId', type: 'number' },
+            { id: 'name' },
+            { id: 'url' },
+            { id: 'hasChild', type: 'number' }
+        ]
+    });
+    
+    
+    var dataSetChild2 = new Rui.data.LJsonDataSet({
+        id: 'dataSetChild',
+        fields: [
+            { id: 'menuId', type: 'number' },
+            { id: 'seq', type: 'number' },
+            { id: 'parentMenuId', type: 'number' },
+            { id: 'name' },
+            { id: 'url' },
+            { id: 'hasChild', type: 'number' }
+        ]
+    });
+    
+    
+    var unorderedList2 = new Rui.ui.LUnorderedList({
+        dataSet: dataSet1,
+      
+        childDataSet: dataSetChild2, 
+        fields: {
+            rootValue: null,
+            parentId: 'parentMenuId',
+            id: 'menuId',
+            label: 'name',
+            order: 'seq',
+            hasChild : 'hasChild'
+        }, 
+        defaultOpenDepth: 1
+    });
+    
+    dataSet1.load({ url: '../../../sample/data/treeDynamicRoot.json' });
+    
+    unorderedList2.on('dynamicLoadChild',function(e){
+        
+        var node = e.node;
+        var parentId = e.parentId;            
+        dataSetChild2.load({ url: '../../../sample/data/treeDynamicChilds.json', params:{parentMenuId:parentId},method: 'get' });
+    });
+    
+    unorderedList2.destroy(); 
+    
+    assertEquals(unorderedList2.dataSet == null, true); 
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LUnorderedList Tests</h1>
+
+    <div id="bd">
+        <div class="LblockMarkupCode">
+            <div id="divUl"></div>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLUnorderedList_method_setSyncDataSet()">setSyncDataSet</a>
+            <a href="javascript:testLUnorderedList_method_getFocusNode()">getFocusNode</a>
+            <a href="javascript:testLUnorderedList_method_setFocusById()">setFocusById</a>
+            <a href="javascript:testLUnorderedList_method_setRootValue()">setRootValue</a>
+            <a href="javascript:testLUnorderedList_method_setDataSet()">setDataSet</a>
+            <a href="javascript:testLUnorderedList_method_getAllChildRecords()">getAllChildRecords</a>
+            <a href="javascript:testLUnorderedList_method_addTopNode()">addTopNode</a>
+            <a href="javascript:testLUnorderedList_method_addChildNode()">addChildNode</a>
+            <a href="javascript:testLUnorderedList_method_deleteNode()">deleteNode</a>
+            <a href="javascript:testLUnorderedList_method_cutNode()">cutNode</a>
+            <a href="javascript:testLUnorderedList_method_copyNode()">copyNode</a>
+            <a href="javascript:testLUnorderedList_method_pasteNode()">pasteNode</a>
+            <a href="javascript:testLUnorderedList_method_destroy()">destroy</a>
+        </div>
+    </div>        
+</body>
+</html>

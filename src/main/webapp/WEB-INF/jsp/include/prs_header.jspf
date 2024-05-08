@@ -1,0 +1,26 @@
+<script type="text/javascript">
+    
+		// PRS ERP결재 팝업 시작
+		// banfnPrs : 구매요청번호
+	    _prsApprovalDialog = new Rui.ui.LFrameDialog({
+	        id: '_prsApprovalDialog',
+	        title: '결재의뢰',
+	        width: 700,
+	        height: 600,
+	        modal: true,
+	        visible: false
+	    });
+
+	    _prsApprovalDialog.render(document.body);
+
+	    openPrsApprovalDialog = function(f, banfnPrs) {
+	    	_callback = f;
+
+	    	_prsApprovalDialog.setUrl('<c:url value="/prs/popup/prsApprovalPopup.do?banfnPrs="/>' + banfnPrs);
+	    	_prsApprovalDialog.show();
+	    };
+		// PRS ERP결재 팝업 끝
+    
+	});
+
+</script>

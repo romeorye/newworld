@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="anl.lib">
+
+
+    <!-- 리스트  -->
+	<select id="getAnlLibList" resultType="hashmap">
+		<![CDATA[
+	-- getAnlLibList 리스트
+			SELECT
+				   BBS_ID                                                   AS bbsId        /*게시판ID*/
+				  ,BBS_CD                                                   AS bbsCd        /*분석게시판코드*/
+				  ,dbo.fn_getComDtlNm('ANL_BBS_CD', A.BBS_CD)               AS bbsNm        /*분석게시판명*/
+				  ,BBS_TITL                                                 AS bbsTitl      /*게시판제목*/
+				  ,BBS_SBC                                                  AS bbsSbc       /*게시판내용*/
+				  ,RGST_ID                                                  AS rgstId       /*등록자ID*/
+			      ,dbo.fn_getUserName(RGST_ID)                              AS rgstNm       /*등록자이름*/
+				  ,RTRV_CT                                                  AS rtrvCt       /*조회건수*/
+				  ,BBS_KWD                                                  AS bbsKwd       /*키워드*/
+				  ,ATTC_FILE_ID                                             AS attcFilId    /*첨부파일ID*/
+				  ,DOC_NO                                                   AS docNo        /*문서번호*/
+				  ,SOP_NO                                                   AS sopNo        /*SOP번호*/
+				  ,ANL_TLCG_CL_CD                                           AS anlTlcgClCd  /*분석기술정보분류코드*/
+				  ,dbo.fn_getComDtlNm('ANL_TLCG_CL_CD', A.ANL_TLCG_CL_CD)   AS anlTlcgClNm  /*분석기술정보분류이름*/
+				  ,QNA_CL_CD                                                AS qnaClCd      /*질문답변구분코드*/
+				  ,dbo.fn_getComDtlNm('QNA_CL_CD', A.QNA_CL_CD)             AS qnaClNm      /*질문답변구분이름*/
+				  ,convert(varchar(20),A.FRST_RGST_DT,23)                   AS frstRgstDt   /*등록일*/
+				  ,DEL_YN                                                   AS delYn        /*삭제여부*/
+			 FROM IRIS_ANL_BBS_MST A
+			WHERE DEL_YN = 'N'
+			  AND BBS_CD = #{bbsCd}
+		 ]]>
+		 <if test="searchCd == 'bbsTitlCode'">
+			  AND BBS_TITL like '%${searchNm}%'
+		 </if>
+		 <if test="searchCd == 'bbsSbcCode'">
+			  AND BBS_SBC like '%${searchNm}%'
+		 </if>
+		 <if test="searchCd == 'rgstNmCode'">
+			  AND dbo.fn_getUserName(RGST_ID) like '%${searchNm}%'
+		 </if>
+		 <if test="searchCd == 'bbsTitlSbcCode'">
+			  AND (BBS_TITL like '%${searchNm}%' OR BBS_SBC like '%${searchNm}%')
+		 </if>
+		 <if test="anlTlcgClCd != null and anlTlcgClCd != ''">
+			  AND ANL_TLCG_CL_CD = '${anlTlcgClCd}'
+		 </if>
+			  ORDER BY BBS_ID DESC
+	</select>
+
+	  <!-- 상세화면  -->
+	<select id="getAnlLibInfo" resultType="hashmap">
+		<![CDATA[
+	-- getAnlLibInfo 상세화면
+			SELECT
+				  BBS_ID                                                   AS bbsId        /*게시판ID*/
+				 ,BBS_CD                                                   AS bbsCd        /*분석게시판코드*/
+				 ,dbo.fn_getComDtlNm('ANL_BBS_CD', A.BBS_CD)               AS bbsNm        /*분석게시판명*/
+				 ,BBS_TITL                                                 AS bbsTitl      /*게시글제목*/
+				 ,BBS_SBC                                                  AS bbsSbc       /*게시글내용*/
+				 ,RGST_ID                                                  AS rgstId       /*등록자ID*/
+				 ,dbo.fn_getUserName(RGST_ID)                              AS rgstNm       /*등록자이름*/
+				 ,RTRV_CT                                                  AS rtrvCt       /*조회건수*/
+				 ,BBS_KWD                                                  AS bbsKwd       /*키워드*/
+				 ,ATTC_FILE_ID                                             AS attcFilId    /*첨부파일ID*/
+				 ,DOC_NO                                                   AS docNo        /*문서번호*/
+				 ,SOP_NO                                                   AS sopNo        /*SOP번호*/
+				 ,RLTD_BUL_PATH                                            AS rltdBulPath  /*관련글ID*/
+				 ,ANL_TLCG_CL_CD                                           AS anlTlcgClCd  /*분석기술정보분류코드*/
+				 ,dbo.fn_getComDtlNm('ANL_TLCG_CL_CD', A.ANL_TLCG_CL_CD)   AS anlTlcgClNm  /*분석기술정보분류이름*/
+				 ,QNA_CL_CD                                                AS qnaClCd      /*질문답변구분코드*/
+				 ,dbo.fn_getComDtlNm('QNA_CL_CD', A.QNA_CL_CD)             AS qnaClNm      /*질문답변구분이름*/
+				 ,DEL_YN                                                   AS delYn        /*삭제여부*/
+				 ,convert(varchar(20),A.FRST_RGST_DT,23)                   AS frstRgstDt   /*등록일*/
+			 FROM IRIS_ANL_BBS_MST A
+			WHERE DEL_YN = 'N'
+			  AND BBS_ID = '${bbsId}'
+		 ]]>
+	</select>
+
+	<!-- 저장  -->
+	<insert id="insertAnlLibInfo">
+	<![CDATA[
+	-- insertAnlLibInfo 저장
+		insert into IRIS_ANL_BBS_MST
+	    (     BBS_CD
+		    , BBS_TITL
+			, BBS_SBC
+			, RGST_ID
+			, RTRV_CT
+            , RLTD_BUL_PATH
+	]]>
+			<if test="( bbsKwd != null and bbsKwd != '')">
+			, BBS_KWD
+			</if>
+			<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID
+			</if>
+			<if test="( docNo != null and docNo != '')">
+            , DOC_NO
+            </if>
+            <if test="( sopNo != null and sopNo != '')">
+            , SOP_NO
+            </if>
+            <if test="( anlTlcgClCd != null and anlTlcgClCd != '')">
+            , ANL_TLCG_CL_CD
+            </if>
+            <if test="( qnaClCd != null and qnaClCd != '')">
+            , QNA_CL_CD
+            </if>
+    <![CDATA[
+			, DEL_YN
+			, FRST_RGST_ID
+			, FRST_RGST_DT
+			, LAST_MDFY_ID
+			, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{bbsCd}
+		    , #{bbsTitl}
+		    , #{bbsSbc}
+		    , #{_userId}
+		    , 0
+		    , #{rltdBulPath}
+
+	]]>
+			<if test="( bbsKwd != null and bbsKwd != '')">
+		    , #{bbsKwd}
+		    </if>
+			<if test="( attcFilId != null and attcFilId != '')">
+		    , #{attcFilId}
+		    </if>
+			<if test="( docNo != null and docNo != '')">
+		    , #{docNo}
+		    </if>
+			<if test="( sopNo != null and sopNo != '')">
+		    , #{sopNo}
+		    </if>
+			<if test="( anlTlcgClCd != null and anlTlcgClCd != '')">
+		    , #{anlTlcgClCd}
+		    </if>
+			<if test="( qnaClCd != null and qnaClCd != '')">
+		    , #{qnaClCd}
+		    </if>
+	<![CDATA[
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+
+    <!-- 업데이트  -->
+	<update id="updateAnlLibInfo">
+	<![CDATA[
+	-- updateAnlLibInfo 업데이트
+		UPDATE IRIS_ANL_BBS_MST
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , BBS_TITL = #{bbsTitl}
+		     , BBS_CD = #{bbsCd}
+		     , BBS_SBC = #{bbsSbc}
+		     , BBS_KWD = #{bbsKwd}
+	]]>
+		<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID = #{attcFilId}
+	    </if>
+	    <if test="( docNo != null and docNo != '')">
+			, DOC_NO = #{docNo}
+	    </if>
+	    <if test="( sopNo != null and sopNo != '')">
+			, SOP_NO = #{sopNo}
+	    </if>
+	    <if test="( rltdBulPath != null and rltdBulPath != '')">
+			, RLTD_BUL_PATH = #{rltdBulPath}
+	    </if>
+	    <if test="( anlTlcgClCd != null and anlTlcgClCd != '')">
+			, ANL_TLCG_CL_CD = #{anlTlcgClCd}
+	    </if>
+	    <if test="( qnaClCd != null and qnaClCd != '')">
+			, QNA_CL_CD = #{qnaClCd}
+	    </if>
+	<![CDATA[
+		 WHERE BBS_ID = #{bbsId}
+	]]>
+	</update>
+
+
+	<!--  조회건수 업데이트  -->
+	<update id="updateAnlLibRtrvCnt">
+	<![CDATA[
+	-- updateAnlLibRtrvCnt 조회건수 업데이트
+		UPDATE IRIS_ANL_BBS_MST
+		   SET RTRV_CT = RTRV_CT + 1
+	]]>
+
+	<![CDATA[
+		 WHERE BBS_ID = #{bbsId}
+	]]>
+	</update>
+
+
+    <!-- 삭제  -->
+	<update id="deleteAnlLibInfo">
+	<![CDATA[
+	-- deleteAnlLibInfo 삭제
+		UPDATE IRIS_ANL_BBS_MST
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE BBS_ID = #{bbsId}
+	]]>
+	</update>
+
+
+	<!-- 분석QnA 리스트  -->
+	<select id="getAnlQnaList" resultType="hashmap">
+		<![CDATA[
+	-- getAnlQnaList 분석QnA 리스트
+			WITH qna_tree AS (
+				SELECT
+				     BBS_ID                                        AS 'bbsId'        /*게시판ID*/
+				    ,BBS_CD                                        AS 'bbsCd'        /*분석게시판코드*/
+				    ,RLTD_BUL_PATH                                 AS 'rltdBulPath'  /*댓글ID*/
+					,BBS_TITL									   AS 'bbsTitl'      /*제목*/
+					,BBS_SBC                                       AS 'bbsSbc'       /*내용*/
+					,DOC_NO                                        AS 'docNo'        /*문서번호*/
+					,SOP_NO                                        AS 'sopNo'        /*SOP번호*/
+					,ANL_TLCG_CL_CD                                AS 'anlTlcgClCd'  /*분석기술정보분류코드*/
+					,QNA_CL_CD                                     AS 'qnaClCd'      /*질문답변구분코드*/
+					,RTRV_CT                                       AS 'rtrvCt'       /*조회수*/
+					,BBS_KWD                                       AS 'bbsKwd'       /*키워드*/
+					,ATTC_FILE_ID								   AS 'attcFilId'    /*첨부파일*/
+					,RGST_ID                                       AS 'rgstId'       /*등록자ID*/
+					,DEL_YN                                        AS 'delYn'        /*삭제여부*/
+					,FRST_RGST_DT							       AS 'frstRgstDt'   /*등록일*/
+					,convert(varchar(255), BBS_ID - 10000000000)       sort1
+					,convert(varchar(255), '')                         sort2
+					,1 AS depth
+				FROM	IRIS_ANL_BBS_MST
+				WHERE	RLTD_BUL_PATH = 0
+				AND		DEL_YN = 'N'
+				AND     BBS_CD = '05'
+
+			    union all
+
+				SELECT
+				     BBS_ID                                        AS 'bbsId'        /*게시판ID*/
+				    ,BBS_CD                                        AS 'bbsCd'        /*분석게시판코드*/
+				    ,RLTD_BUL_PATH                                 AS 'rltdBulPath'  /*댓글ID*/
+					,BBS_TITL									   AS 'bbsTitl'      /*제목*/
+					,BBS_SBC                                       AS 'bbsSbc'       /*내용*/
+					,DOC_NO                                        AS 'docNo'        /*문서번호*/
+					,SOP_NO                                        AS 'sopNo'        /*SOP번호*/
+					,ANL_TLCG_CL_CD                                AS 'anlTlcgClCd'  /*분석기술정보분류코드*/
+					,QNA_CL_CD                                     AS 'qnaClCd'      /*질문답변구분코드*/
+					,RTRV_CT                                       AS 'rtrvCt'       /*조회수*/
+					,BBS_KWD                                       AS 'bbsKwd'       /*키워드*/
+					,ATTC_FILE_ID								   AS 'attcFilId'    /*첨부파일*/
+					,RGST_ID                                       AS 'rgstId'       /*등록자ID*/
+					,DEL_YN                                        AS 'delYn'        /*삭제여부*/
+					,FRST_RGST_DT							       AS 'frstRgstDt'   /*등록일*/
+					,sort1
+				    ,convert(varchar(255), convert(nvarchar,tree.sort2) + ' > ' + convert(varchar(255), qna.BBS_ID + 10000000000)) sort2
+				    ,tree.depth + 1 AS depth
+				FROM	IRIS_ANL_BBS_MST qna, qna_tree tree
+				WHERE	qna.RLTD_BUL_PATH = tree.bbsId
+				AND		qna.DEL_YN = 'N'
+			)
+			SELECT
+					bbsId												 AS 'bbsId'        /*게시판ID*/
+				   ,bbsCd                                                AS 'bbsCd'        /*구분코드*/
+				   ,dbo.fn_getComDtlNm('ANL_BBS_CD', bbsCd)              AS bbsNm          /*분석게시판명*/
+				   ,rltdBulPath                                          AS 'rltdBulPath'  /*댓글ID*/
+			       ,( CASE
+					   when (a.depth != 1 ) then '[RE] ' + bbsTitl  + IIF ( (SELECT COUNT(*) FROM IRIS_ANL_BBS_REB WHERE BBS_ID = bbsId AND DEL_YN = 'N') > 0,  '[' + convert(char,(SELECT COUNT(*) FROM IRIS_ANL_BBS_REB WHERE BBS_ID = bbsId AND DEL_YN = 'N')) + ']', '' )
+			           ELSE  bbsTitl + IIF ( (SELECT COUNT(*) FROM IRIS_ANL_BBS_REB WHERE BBS_ID = bbsId AND DEL_YN = 'N') > 0,  '[' + convert(nvarchar,(SELECT COUNT(*) FROM IRIS_ANL_BBS_REB WHERE BBS_ID = bbsId AND DEL_YN = 'N')) + ']', '' )
+			          END )                                              AS 'bbsTitl'      /*제목[댓글수]*/
+				   ,bbsSbc                                               AS 'bbsSbc'       /*내용*/
+				   ,docNo                                                AS 'docNo'        /*문서번호*/
+				   ,sopNo                                                AS 'sopNo'        /*SOP번호*/
+				   ,anlTlcgClCd                                          AS 'anlTlcgClCd'  /*분석기술정보분류코드번호*/
+				   ,dbo.fn_getComDtlNm('ANL_TLCG_CL_CD', anlTlcgClCd)    AS 'anlTlcgClNm'  /*분석기술정보분류코드이름*/
+				   ,qnaClCd                                              AS 'qnaClCd'      /*질문답변구분코드*/
+				   ,dbo.fn_getComDtlNm('QNA_CL_CD', qnaClCd)             AS 'qnaClNm'      /*질문답변구분코드이름*/
+				   ,rtrvCt                                               AS 'rtrvCt'       /*조회수*/
+				   ,bbsKwd                                               AS 'bbsKwd'       /*키워드*/
+				   ,(CASE
+				   		WHEN (select	count(1)
+				   		  	  from		IRIS_COM_ATTC_FIL
+				   		  	  where		ATTC_FIL_ID = attcFilId
+				   			    and		DEL_YN = 'N') = 0 THEN NULL
+				   		ELSE  attcFilId
+				      END)                                               AS 'attcFilId'    /*첨부파일*/
+				   ,rgstId                                               AS 'rgstId'       /*등록자ID*/
+				   ,dbo.fn_getUserName(rgstId)                           AS 'rgstNm'       /*등록자이름*/
+				   ,delYn                                                AS 'delYn'        /*삭제여부*/
+				   ,convert(varchar(10), frstRgstDt, 120)                AS 'frstRgstDt'   /*등록일*/
+				   ,depth
+			FROM	qna_tree a
+			WHERE   1=1
+		 ]]>
+        <if test="searchCd == 'bbsTitlCode'">
+			AND bbsTitl like '%${searchNm}%'
+		</if>
+        <if test="searchCd == 'bbsSbcCode'">
+			AND bbsSbc like '%${searchNm}%'
+		</if>
+        <if test="searchCd == 'rgstNmCode'">
+			AND dbo.fn_getUserName(rgstId) like '%${searchNm}%'
+		</if>
+		ORDER BY sort1, sort2
+	</select>
+
+
+
+
+
+
+
+	<!-- 덧글 시작 -->
+	<!-- 덧글 리스트  -->
+	<select id="getAnlLibRebList" resultType="hashmap">
+		<![CDATA[
+	-- getAnlLibRebList 덧글 리스트
+			SELECT
+	                 REB_ID                                                   AS 'rebId'        /*덧글ID*/
+	                ,BBS_ID                                                   AS 'bbsId'        /*QnAID*/
+					,SBC_NM                                                   AS 'rebNm'        /*내용*/
+					,RGST_ID                                                  AS 'rgstId'       /*등록자ID*/
+					,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'       /*등록자*/
+					,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)                   AS 'frstRgstDt'   /*등록일*/
+			FROM IRIS_ANL_BBS_REB A
+			WHERE DEL_YN = 'N'
+		 ]]>
+        <if test="bbsId != null and bbsId != ''">
+		 	AND BBS_ID = #{bbsId}
+		</if>
+			ORDER BY REB_ID DESC
+	</select>
+
+
+	<!-- 덧글 저장  -->
+	<insert id="insertAnlQnaRebInfo">
+	<![CDATA[
+	-- insertAnlQnaRebInfo 덧글 저장
+		insert into IRIS_ANL_BBS_REB
+		(			 BBS_ID
+					,SBC_NM
+					,RGST_ID
+					,DEL_YN
+					, FRST_RGST_ID
+					, FRST_RGST_DT
+					, LAST_MDFY_ID
+					, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{bbsId}
+		    , #{rebNm}
+		    , #{_userId}
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+
+    <!-- 덧글 업데이트  -->
+	<update id="updateAnlQnaRebInfo">
+	<![CDATA[
+	-- updateAnlQnaRebInfo 덧글 업데이트
+		UPDATE IRIS_ANL_BBS_REB
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , SBC_NM = #{rebNm}
+		     , BBS_ID = #{bbsId}
+
+		 WHERE REB_ID = #{rebId}
+	]]>
+	</update>
+
+
+	<!-- 덧글 리스트  -->
+	<select id="getAnlQnaRebList" resultType="hashmap">
+		<![CDATA[
+	-- getAnlQnaRebList 덧글 리스트
+			SELECT
+	                 REB_ID                                                   AS 'rebId'        /*덧글ID*/
+	                ,BBS_ID                                                   AS 'bbsId'        /*QnAID*/
+					,SBC_NM                                                   AS 'rebNm'        /*내용*/
+					,RGST_ID                                                  AS 'rgstId'       /*등록자ID*/
+					,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'       /*등록자*/
+					,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)                   AS 'frstRgstDt'   /*등록일*/
+			FROM IRIS_ANL_BBS_REB A
+			WHERE DEL_YN = 'N'
+		 	AND BBS_ID = #{bbsId}
+			ORDER BY REB_ID DESC
+		 ]]>
+	</select>
+
+	<!-- 덧글 삭제 -->
+	<update id="deleteAnlQnaRebInfo">
+	<![CDATA[
+	-- deleteAnlQnaRebInfo 덧글 삭제
+		UPDATE IRIS_ANL_BBS_REB
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE REB_ID = #{rebId}
+	]]>
+	</update>
+
+	<!-- 덧글 끝 -->
+
+
+
+</mapper>

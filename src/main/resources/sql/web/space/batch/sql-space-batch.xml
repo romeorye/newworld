@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="space.batch">
+
+	<select id="getSpaceRqprApprCompleteList" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
+			-- getSpaceRqprApprCompleteList 평가의뢰 요청 결재 완료 리스트 조회
+			select	mst.rqpr_id																	as rqprId
+				   ,mst.space_name																as spaceNm
+				   ,dbo.fn_getUserName(mst.rgst_id) + ' ' + dbo.fn_getUserJobxName(mst.rgst_id)	as rgstNm
+				   ,dbo.fn_getDeptName(dbo.fn_getDeptCode(mst.rgst_id))							as rgstDeptNm
+				   ,dbo.fn_getUserEmail(mst.rgst_id)											as rgstEmail
+				   ,mst.rqpr_dt																	as rqprDt
+				   ,dbo.fn_getSpaceCrgrJobxDeptNames(mst.rqpr_id)								as chrgNm
+				   ,dbo.fn_getSpaceEmailReceivers(mst.rqpr_id)   as receivers --담당자 + 의뢰자 + 리더 + 통보자
+			from	iris_space_rqpr_mst mst
+			where	mst.space_acpc_st_cd = '02'
+			and		mst.del_yn = 'N'
+			and		mst.space_chrg_trsf_flag = 'W'
+
+	</select>
+
+	<select id="getSpaceRsltApprCompleteList" resultType="iris.web.space.rqpr.vo.SpaceMailInfo">
+			-- getSpaceRsltApprCompleteList 평가 결과 결재 완료 리스트 조회
+			select	mst.rqpr_id																		as rqprId
+				   ,mst.space_name																	as spaceNm
+				   ,mst.acpc_no																		as acpcNo
+				   ,dbo.fn_getUserName(mst.rgst_id) + ' ' + dbo.fn_getUserJobxName(mst.rgst_id)		as rgstNm
+				   ,dbo.fn_getDeptName(dbo.fn_getDeptCode(mst.rgst_id))								as rgstDeptNm
+				   ,dbo.fn_getSpaceCrgrJobxDeptNames(mst.rqpr_id)									as chrgNm
+				   ,mst.acpc_dt																		as acpcDt
+				   ,mst.cmpl_dt																		as cmplDt
+				   ,dbo.fn_getSpaceEmailReceivers(mst.rqpr_id)   as receivers --담당자 + 의뢰자 + 리더 + 통보자
+			from	iris_space_rqpr_mst mst
+			where	mst.space_acpc_st_cd = '08'
+			and		mst.del_yn = 'N'
+			and		mst.rgst_trsf_flag = 'W'
+
+	</select>
+
+	<select id="getSpaceRsltApprTodoList" resultType="hashmap">
+			-- getSpaceRsltApprTodoList
+			select  rqpr_id as rqprId
+			       ,(select sa_sabun_new from iris_sso_user where  sa_user = rgst_Id) as sabun
+			from   IRIS_SPACE_RQPR_MST
+			where  space_acpc_st_cd = '07'
+			and	   del_yn = 'N'
+			and	   TO_DO_Flag not in ('Y', 'T')
+	</select>
+
+	<!-- 공간평가시험 todo정보 생성 -->
+	<update id="saveSpaceRqprTodo"  parameterType="map">
+	<![CDATA[
+	-- saveSpaceRqprTodo 공간평가시험 todo정보 생성
+		EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'SPC', #{rqprId}, #{sabun}
+    ]]>
+    </update>
+
+	<update id="updateSpaceChrgTrsfFlag" parameterType="iris.web.space.rqpr.vo.SpaceMailInfo">
+	-- updateSpaceChrgTrsfFlag
+		update	iris_space_rqpr_mst
+		set		space_chrg_trsf_flag = 'Y'
+		where	rqpr_id = ${rqprId}
+
+	</update>
+
+	<update id="updateRgstTrsfFlag" parameterType="iris.web.space.rqpr.vo.SpaceMailInfo">
+	-- updateRgstTrsfFlag
+		update	iris_space_rqpr_mst
+		set		rgst_trsf_flag = 'Y'
+		where	rqpr_id = ${rqprId}
+
+	</update>
+
+<update id="updateSpaceTodoFlag">
+	-- updateSpaceTodoFlag
+		update	IRIS_SPACE_RQPR_MST
+		set		TO_DO_Flag = 'T'
+		where	rqpr_id = ${rqprId}
+	</update>
+
+
+	<select id="getSpaceEvRnewMailList" resultType="iris.web.space.rqpr.vo.SpaceEvRnewMailInfo">
+	-- getSpaceEvRnewMailList
+	select
+	fnh_vld_dt as fnhVldDt
+	,bb.ctgr_nm as ctgrNm
+	,aa.scn as scn
+	,aa.ctgr0 as ctgr0
+	,aa.ev_cd as evCd
+	,(bb.ctgr_nm+'제품의 '+aa.scn) as titl
+	, (
+	select distinct
+		stuff ((
+			select ','+sa_mail
+			from  [dbo].[IRIS_SSO_USER] a ,dbo.IRIS_ADM_COM_CD b
+			where a.sa_sabun_new = b.com_dtl_cd
+			and b.com_cd_cd=cast(aa.ctgr0 as char(1))
+			FOR XML PATH('')
+			),1,1,'') AS saMail
+	) AS receivers
+	,(
+	select distinct
+stuff ((
+select ','+sa_mail
+from [dbo].[IRIS_SSO_USER]
+where sa_sabun_new = '00207851' or sa_sabun_new = '00207850'
+FOR XML PATH('')
+			),1,1,'') AS saMail2
+	) as rfp
+
+
+	from dbo.IRIS_SPACE_MTRL_UTM_EV aa, iris_space_ev_ctgr3 bb
+	where
+	aa.ctgr3 = bb.ctgr_cd
+	and aa.del_yn = 'N'
+	and aa.snd_eml_yn = 'Y'
+	and (strt_vld_dt = CONVERT(CHAR(10), dateadd(month,-6,getdate()), 23)
+	or strt_vld_dt = CONVERT(CHAR(10), dateadd(month,-3,getdate()), 23)
+	or strt_vld_dt = CONVERT(CHAR(10), dateadd(month,-1,getdate()), 23))
+	</select>
+
+
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common.dept">
+
+	<select id="getDeptList" resultType="hashmap">
+		<![CDATA[
+			-- getDeptList 부서 리스트 조회
+			select	dept_code	  as deptCd
+				   ,dept_name	  as deptNm
+				   ,dept_ename	  as deptENm
+				   ,dept_cname	  as deptCNm
+				   ,dept_uper	  as upperDeptCd
+				   ,uperdept_name as upperDeptNm
+			from	IRIS_SSO_DEPT
+		 ]]>
+			where	1 = 1
+        <if test="deptNm != null and deptNm != ''">
+			and		dept_name like '%${deptNm}%' or dept_code like '%${deptNm}%'
+		</if>
+		<if test="task == 'prj'">
+			and		dept_code in (select distinct su.sa_dept_new
+								  from IRIS_SSO_USER su
+								  where su.sa_gsber = '1100'
+								 )
+		</if>
+			order by deptNm
+	</select>
+
+	<!-- 조직 계층구조
+	     PARAM : searchType  : default 전체
+	                           DEPT    부서코드로 조회
+	                           SABUN   사번으로 조회
+	                           LABT    연구소(중앙연구소(50001226) 기준으로 조회)
+	             searchDept  : 조회부서코드
+	             searchSabun : 조회사번
+	 -->
+	<sql id="deptHieTable">
+	-- deptHieTable 조직 계층구조
+	    WITH DEPT_HIE(DEPT_CODE, DEPT_NAME, DEPT_UPER, UPERDEPT_NAME, level)
+		AS
+		(
+		SELECT A.DEPT_CODE, A.DEPT_NAME, A.DEPT_UPER, A.UPERDEPT_NAME, 0 FROM IRIS_SSO_DEPT A
+		WHERE 1=1
+		<if test=" searchType == null or searchType == '' ">
+		  AND (A.DEPT_UPER = '' OR A.DEPT_UPER IS NULL)
+		</if>
+		<if test="searchType != null and searchType != '' ">
+			<if test=" searchType == 'DEPT' "><!-- 부서코드 -->
+		  	AND A.DEPT_CODE = #{searchDept})
+			</if>
+			<if test=" searchType == 'SABUN' "><!-- 사번 -->
+		  	AND A.DEPT_CODE = (SELECT A.SA_DEPT_NEW FROM IRIS_SSO_USER A WHERE A.SA_SABUN_NEW = #{searchSabun})
+			</if>
+			<if test=" searchType == 'LABT' "><!-- 부서코드 -->
+		  	AND A.DEPT_CODE = '50001226' /*중앙연구소*/
+			</if>
+		</if>
+		UNION ALL
+		SELECT A1.DEPT_CODE, A1.DEPT_NAME, A1.DEPT_UPER, A1.UPERDEPT_NAME, A2.level+1
+		  FROM IRIS_SSO_DEPT A1 INNER JOIN DEPT_HIE A2 ON A1.DEPT_UPER = A2.DEPT_CODE
+		WHERE A1.DEPT_UPER IS NOT NULL
+		)
+	</sql>
+
+
+
+	 <update id="saveDeptCdA">
+    <![CDATA[
+    -- saveDeptCdA
+        MERGE IRIS_DEPT_UPER_CD_A_MGMT WITH (HOLDLOCK) AS A
+         USING  (SELECT #{upperDeptCd}   AS dept_uper_code,  #{deptCode}   AS dept_code ) AS B
+            ON  A.dept_uper_code  	= B.dept_uper_code
+		   and ISNULL(A.dept_code,'') =  ISNULL(B.dept_code,'')
+          WHEN NOT MATCHED THEN
+        INSERT
+             (
+			 	dept_uper_code
+			 ,	dept_uper_code_a				--부서코드 약어
+			 ,	dept_code
+             ,  USE_YN
+             ,  FRST_RGST_DT              --최초등록일시
+             ,  FRST_RGST_ID              --최초등록자
+             ,  LAST_MDFY_DT              --최종수정일시
+             ,  LAST_MDFY_ID              --최종수정자
+            )
+        VALUES
+             (
+				#{upperDeptCd}
+			 ,	#{deptUperCodeA}
+			 ,	#{deptCode}
+			 ,	#{useYn}
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+          WHEN MATCHED THEN
+        UPDATE
+           SET
+				A.dept_uper_code_a		=	#{deptUperCodeA}
+			,   A.USE_YN				=	#{useYn}
+            ,	A.LAST_MDFY_DT = GETDATE()
+            , 	A.LAST_MDFY_ID = #{userId}
+            ;
+    ]]>
+    </update>
+
+
+    <select id="retrieveUpperDeptList" resultType="hashmap"  statementType="CALLABLE">
+	<![CDATA[
+		-- retrieveUpperDeptList 부서 리스트 조회
+        DECLARE @PROC_TEMP_TB TABLE(UP_DEPT_LEVEL NUMERIC(10,0), UP_DEPT_CODE NVARCHAR(8), UP_DEPT_NAME NVARCHAR(80)
+                                        , DEPT_LEVEL NUMERIC(10,0), DEPT_CODE NVARCHAR(8), DEPT_NAME NVARCHAR(80))
+        INSERT @PROC_TEMP_TB
+        EXEC dbo.sp_upperDeptCodeAList
+
+        SELECT A.UP_DEPT_LEVEL       AS upperDeptLvl
+             , A.UP_DEPT_CODE        AS upperDeptCd
+             , A.UP_DEPT_NAME        AS upperDeptNm
+             , A.DEPT_LEVEL          AS deptLvl
+             , A.DEPT_CODE           AS deptCode
+             , A.DEPT_NAME           AS deptName
+             , B.DEPT_UPER_CODE_A    AS deptUperCodeA
+             , ISNULL(B.USE_YN, 'Y') AS useYn
+          FROM @PROC_TEMP_TB A
+          LEFT JOIN IRIS_DEPT_UPER_CD_A_MGMT B
+            ON A.UP_DEPT_CODE = B.DEPT_UPER_CODE
+           AND A.DEPT_CODE = B.DEPT_CODE
+    ]]>
+        <if test="upperDeptNm != null and upperDeptNm != ''">
+         WHERE A.UP_DEPT_NAME LIKE '%'+#{upperDeptNm}+'%' OR A.DEPT_NAME LIKE '%'+#{upperDeptNm}+'%'
+        </if>
+    <![CDATA[
+         UNION ALL
+        SELECT DISTINCT A.UP_DEPT_LEVEL
+             , A.UP_DEPT_CODE
+             , A.UP_DEPT_NAME
+             , NULL AS DEPT_LEVEL
+             , '' AS DEPT_CODE
+             , '' AS DEPT_NAME
+             , B.DEPT_UPER_CODE_A
+             , ISNULL(B.USE_YN, 'Y')
+          FROM @PROC_TEMP_TB A
+          LEFT JOIN IRIS_DEPT_UPER_CD_A_MGMT B
+            ON A.UP_DEPT_CODE = B.DEPT_UPER_CODE
+           AND (LEN(B.DEPT_CODE) = 0 OR B.DEPT_CODE IS NULL)
+    ]]>
+        <if test="upperDeptNm != null and upperDeptNm != ''">
+         WHERE A.UP_DEPT_NAME LIKE '%'+#{upperDeptNm}+'%'
+        </if>
+         ORDER BY 2,5
+	</select>
+</mapper>

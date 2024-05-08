@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LEventProvider Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLEventProvider_method_createEvent() {
+    info('LEventProviderTests : testLEventProvider_method_createEvent 작동 여부');
+    var eventProvider = new Rui.util.LEventProvider();
+    var type = 'click'; //string
+    var result = eventProvider.createEvent(type);
+    //return type : LCustomEvent
+    assertNotUndefined(eventProvider.__simple_events[type]);
+}
+function testLEventProvider_method_on() {
+    info('LEventProviderTests : testLEventProvider_method_on 작동 여부');
+    var p_type = 'click'; //string
+    var p_fn = function(e) {}; //function
+    var p_obj = this; //Object
+    var p_override = true; //boolean
+    var eventProvider = new Rui.util.LEventProvider();
+    var result = eventProvider.createEvent(p_type);
+
+    eventProvider.on(p_type, p_fn, p_obj, p_override);
+    assertEquals(eventProvider.__simple_events[p_type].length, 1);
+}
+function testLEventProvider_method_unOn() {
+    info('LEventProviderTests : testLEventProvider_method_unOn 작동 여부');
+    var p_type = 'click'; //string
+    var p_fn = function(e) {}; //function
+    var p_obj = this; //Object
+    var p_override = true; //boolean
+    var eventProvider = new Rui.util.LEventProvider();
+    var result = eventProvider.createEvent(p_type);
+
+    eventProvider.on(p_type, p_fn, p_obj, p_override);
+    var result = eventProvider.unOn(p_type, p_fn, p_obj);
+    //return type : boolean
+    assertEquals(eventProvider.__simple_events[p_type].length, 0);
+}
+function testLEventProvider_method_fireEvent() {
+    info('LEventProviderTests : testLEventProvider_method_fireEvent 작동 여부');
+    var type = 'click'; //string
+    var eventProvider = new Rui.util.LEventProvider();
+    var result = eventProvider.fireEvent(type);
+    //return type : boolean
+    assertTrue(true);
+}
+function testLEventProvider_method_unOnAll() {
+    info('LEventProviderTests : testLEventProvider_method_unOnAll 작동 여부');
+    var p_type = 'click'; //string
+    var p_fn = function(e) {}; //function
+    var p_obj = this; //Object
+    var p_override = true; //boolean
+    var eventProvider = new Rui.util.LEventProvider();
+    var result = eventProvider.createEvent(p_type);
+
+    eventProvider.on(p_type, p_fn, p_obj, p_override);
+    //return type : boolean
+    eventProvider.unOnAll();
+    assertUndefined(eventProvider.__simple_events[p_type]);
+}
+function testLEventProvider_method_hasEvent() {
+    info('LEventProviderTests : testLEventProvider_method_hasEvent 작동 여부');
+    var p_type = 'click'; //string
+    var p_fn = function(e) {}; //function
+    var p_obj = this; //Object
+    var p_override = true; //boolean
+    var eventProvider = new Rui.util.LEventProvider();
+    var result = eventProvider.createEvent(p_type);
+    eventProvider.on(p_type, p_fn, p_obj, p_override);
+    var result = eventProvider.hasEvent(p_type, p_fn, p_obj);
+    //return type : boolean
+    assertTrue(result);
+}
+function testLEventProvider_method_destroy() {
+    info('LEventProviderTests : testLEventProvider_method_destroy 작동 여부');
+    var p_type = 'click'; //string
+    var p_fn = function(e) {}; //function
+    var p_obj = this; //Object
+    var p_override = true; //boolean
+    var eventProvider = new Rui.util.LEventProvider();
+    var result = eventProvider.createEvent(p_type);
+    eventProvider.destroy();
+    assertNotUndefined(eventProvider.__simple_events);
+}
+function testLEventProvider_method_toString() {
+    info('LEventProviderTests : testLEventProvider_method_toString 작동 여부');
+    var eventProvider = new Rui.util.LEventProvider();
+    var result = eventProvider.toString();
+    //return type : String
+    assertEquals(result, 'Rui.util.LEventProvider Unknown');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LEventProvider Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLEventProvider_method_createEvent()">createEvent</a>
+            <a href="javascript:testLEventProvider_method_on()">on</a>
+            <a href="javascript:testLEventProvider_method_unOn()">unOn</a>
+            <a href="javascript:testLEventProvider_method_fireEvent()">fireEvent</a>
+            <a href="javascript:testLEventProvider_method_unOnAll()">unOnAll</a>
+            <a href="javascript:testLEventProvider_method_hasEvent()">hasEvent</a>
+            <a href="javascript:testLEventProvider_method_destroy()">destroy</a>
+            <a href="javascript:testLEventProvider_method_toString()">toString</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+<script type="text/javascript">
+
+/*******************************************************************************
+* FUNCTION 명 : closeWindow
+* FUNCTION 기능설명 : 팝업 닫기 
+*******************************************************************************/
+function closeWindow(){	
+	  if (document.frm.chk.checked) {	  
+	    setCookie("inNotice","openInTop",1); 
+	  }
+	  self.close();
+	}
+
+/*******************************************************************************
+* FUNCTION 명 : setCookie
+* FUNCTION 기능설명 : 오늘하루 열지 않음 
+*******************************************************************************/
+function setCookie( name, value, expiredays ) {
+  var todayDate = new Date();
+  todayDate.setDate( todayDate.getDate() + expiredays );
+
+  document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
+
+</script>
+
+ </head>
+<body style="overflow-x:hidden">
+<table width='100%' cellpadding='0' cellspacing='0' border='1'>
+	<col width='80'></col>
+    <col width=''></col>
+	<col width='80'></col>
+    <col width=''></col>
+    <tr>
+    <td class='TF01-H' bgcolor='#EAEAEA'><center><b>제목</b></center></td>
+    <td class='TF01-1' colspan='3' bgcolor='#F2FFED'><br><b>&nbsp;&nbsp;거래약정서 외 계약서류 일체 전자서명 시스템 도입 사전 안내</b><br><br></td>
+    </tr>
+    <tr>
+    <td class='TF01-H' bgcolor='#EAEAEA'><center><b>내용</b></center></td>
+    <td class='TF01-1' style='padding-top:10; padding-bottom:10;' colspan='3' valign='top'><br><b>&nbsp;&nbsp;1.&nbsp;개요:</b>&nbsp;기존에&nbsp;서류&nbsp;인쇄출력&nbsp;및&nbsp;인감날인&nbsp;등을&nbsp;통해서&nbsp;진행한&nbsp;계약&nbsp;관련&nbsp;서류&nbsp;일체를&nbsp;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공인인증서&nbsp;방식&nbsp;전자서명&nbsp;시스템으로&nbsp;대체할&nbsp;예정입니다.&nbsp;&nbsp;&nbsp;
+<BR>
+<BR><b>&nbsp;&nbsp;2.&nbsp;도입&nbsp;목적:</b>&nbsp;&nbsp;
+<BR>
+<BR>&nbsp;&nbsp;&nbsp;-&nbsp;영업사원이&nbsp;직접&nbsp;방문하는&nbsp;오프라인&nbsp;체결&nbsp;방식으로&nbsp;인한&nbsp;상호&nbsp;간의&nbsp;번거로움을&nbsp;줄일&nbsp;수&nbsp;있고&nbsp;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;방문&nbsp;지연&nbsp;등으로&nbsp;인해서&nbsp;계약서&nbsp;체결이&nbsp;늦어지거나&nbsp;서류&nbsp;일부가&nbsp;누락이&nbsp;되는&nbsp;일을&nbsp;미연에&nbsp;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;방지할&nbsp;수&nbsp;있습니다.&nbsp;&nbsp;
+<BR>
+<BR>&nbsp;&nbsp;&nbsp;-&nbsp;전산&nbsp;상으로&nbsp;계약&nbsp;서류를&nbsp;보관하고&nbsp;열람할&nbsp;수&nbsp;있기&nbsp;때문에&nbsp;별도로&nbsp;서류를&nbsp;보관하실&nbsp;필요가&nbsp;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;없고&nbsp;이에&nbsp;따라&nbsp;서류&nbsp;분실&nbsp;예방&nbsp;및&nbsp;간편&nbsp;열람&nbsp;또한&nbsp;가능합니다.&nbsp;&nbsp;
+<BR>
+<BR><b>&nbsp;&nbsp;3.&nbsp;계약&nbsp;체결방식:</b>&nbsp;범용기업&nbsp;공인인증서로&nbsp;LG하우시스&nbsp;전자서명시스템&nbsp;로그인&nbsp;후&nbsp;온라인으로&nbsp;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수신한&nbsp;계약서&nbsp;확인&nbsp;후&nbsp;동의버튼&nbsp;클릭하고&nbsp;이메일로&nbsp;발신하는&nbsp;방식&nbsp;&nbsp;
+<BR>
+<BR><b>&nbsp;&nbsp;4.&nbsp;시스템&nbsp;오픈&nbsp;시점:</b>&nbsp;17년&nbsp;5월&nbsp;중순&nbsp;예정&nbsp;&nbsp;
+<BR>
+<BR><b>&nbsp;&nbsp;5.&nbsp;사전&nbsp;준비&nbsp;요청사항:</b>&nbsp;5/1까지&nbsp;범용기업공인인증서&nbsp;발급&nbsp;요청&nbsp;&nbsp;&nbsp;
+<BR>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;전자서명&nbsp;방식에서는&nbsp;공인인증서가&nbsp;인감으로서의&nbsp;효력을&nbsp;갖기&nbsp;때문에&nbsp;반드시&nbsp;범용기업공인
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;인증서를&nbsp;발급받으셔야&nbsp;합니다.&nbsp;(단,&nbsp;은행용&nbsp;및&nbsp;전자세금용&nbsp;공인인증서는&nbsp;사용&nbsp;불가함)&nbsp;&nbsp;
+<BR>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;범용기업공인인증서&nbsp;발급을&nbsp;원활히&nbsp;지원하기&nbsp;위해서&nbsp;공인인증서&nbsp;발급기관과&nbsp;업무제휴를&nbsp;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;실시하였습니다.&nbsp;HOMS&nbsp;또는&nbsp;WINS&nbsp;하단에&nbsp;“공인인증서발급”&nbsp;배너를&nbsp;통해서&nbsp;발급업무를&nbsp;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;진행하시기&nbsp;바랍니다.&nbsp;(※시중은행&nbsp;대비&nbsp;50%이상&nbsp;발급비용&nbsp;인하&nbsp;협의된&nbsp;특별가)&nbsp;&nbsp;
+<BR>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;참고로,&nbsp;범용기업공인인증서를&nbsp;발급&nbsp;받으시면&nbsp;당사와의&nbsp;전자서명&nbsp;외&nbsp;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;전자잔액확인서,&nbsp;조달청&nbsp;입찰,&nbsp;은행&nbsp;거래&nbsp;등&nbsp;다방면으로&nbsp;활용이&nbsp;가능합니다.&nbsp;&nbsp;
+<BR>
+<BR><b>&nbsp;&nbsp;6.&nbsp;기타:</b>&nbsp;기존에&nbsp;범용기업공인인증서를&nbsp;타기관을&nbsp;통해&nbsp;발급받으셨다면&nbsp;추가로&nbsp;발급받으실&nbsp;필요는
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;없습니다.&nbsp;또한,&nbsp;전자서명&nbsp;계약&nbsp;방식은&nbsp;대리점&nbsp;의무사항이&nbsp;아닌&nbsp;선택사항이오니&nbsp;기존
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;방식을원&nbsp;하시면&nbsp;담당&nbsp;영업사원을&nbsp;통해서&nbsp;오프라인&nbsp;방식으로&nbsp;계약&nbsp;체결&nbsp;진행하시면&nbsp;됩니다.
+<BR><br></td>
+    </tr>
+
+</table>
+
+<form name="frm">
+	<table><tr height="2px;"><td></td></tr></table>
+	<div align="right">
+		<input type="checkbox" name="chk" onClick="javascript:closeWindow();">&nbsp;<FONT color="black" size="3">오늘하루 열지 않음&nbsp;&nbsp;</FONT>
+	</div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Namo CrossEditor : Admin</title>
+<link href="./css/common.css" rel="stylesheet" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../lib/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+	var ce$ = namo$.noConflict(true);
+	function addEvent(elm, pe_nN, fn) {
+		if (elm.addEventListener) {
+			elm.addEventListener(pe_nN, fn, false);
+		} else if (elm.attachEvent) {
+			elm.attachEvent('on' + pe_nN, fn);
+		} else {
+			elm['on' + pe_nN] = fn;
+		}
+	}
+	function pe_am(){
+		var pe_aOA = document.getElementById("pe_aOA");
+		addEvent(pe_aOA, 'keydown', function(e){
+			if(e.keyCode == "13"){
+				login.pe_bgP.click();
+			}
+		});
+
+		var pe_caG = document.getElementById("pe_bgh");
+		addEvent(pe_caG, 'click', function(e){
+			login.pe_bgP.click();
+		});
+	}
+
+</script>
+<script type="text/javascript" src="./manage_common.js"></script>
+<script type="text/javascript" src="../js/namo_cengine.js"></script>
+<script type="text/javascript" src="../js/ext/namo_servletContextPath.js"></script>
+<script type="text/javascript" src="./manager.js"></script>
+</head>
+
+<body style="background-color:#eeeff0" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onload="pe_am()">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
+    <tr>
+        <td background="images/intro_bg.gif">
+
+            <table width="760" height="368" border="0" cellpadding="0" cellspacing="0" align="center">
+            	<tr>
+                    <td height="95">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td height="84"><img src="images/login_top.jpg" border="0"></td>
+                </tr>
+                <tr>
+                    <td height="180" background="images/login_bg.jpg">
+                    <table class="pe_ft">
+						 <tr>
+							<td id="pe_cbh">&nbsp;</td>
+							<td style="text-align:center">
+							
+								<table id="pe_aOA">
+									<tr>
+										<td class="pe_bGI" >&nbsp;&nbsp;&nbsp;<span id="pe_To" style="font-weight: bold;"></span></td>
+										<td class="pe_bIv" ><input type="text" class="pe_bHV" name="m_id2" id="m_id2" /></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td class="pe_cae" colspan="3"></td>
+									<tr>
+									<tr>
+										<td class="pe_bGI">&nbsp;&nbsp;&nbsp;<span id="pe_Il" style="font-weight: bold;"></span></td>
+										<td class="pe_bIv"><input type="password" class="pe_bHV" name="pe_bzN" id="pe_bzN"  autocomplete="off"/></td>
+										<td>
+											<ul>
+												<li class="pe_kE">
+													<input type="submit" id="pe_bgh" value="" class="pe_lh pe_jD" style="width:66px; height:26px;"/>
+												</li>
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td class="pe_lo">
+											<table cellpadding="0" cellspacing="0" border="0">
+												<tr>
+													<td><input type="checkbox" id="pe_aRg" name="pe_aRg" /></td>
+													<td><span id="pe_bSP"></span></td>
+												</tr>
+											</table>
+										</td>
+										<td></td>
+									</tr>
+								</table>
+							
+							</td>
+							<td id="pe_caQ">&nbsp;</td>
+						</tr>
+					</table>
+                    <form method="post" id="login" name="login" action="" onsubmit="return pe_fe(this);" style='display:inline'>
+						<input type="hidden" name="m_id" id="m_id" value="" />
+						<input type="hidden" name="passwd" id="passwd" />
+						<input type="hidden" name="webPageKind" id="webPageKind" value="" />
+						<input type="hidden" name="pe_bfj" id="pe_bfj" />
+						<input type="hidden" name="pe_bfI" id="pe_bfI" />
+						<input type="submit" id="pe_bgP" name="pe_bgP" value="" class="pe_lh pe_jD" style="width:0px; height:0px; display:none;"/>
+					</form>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td height="106" style="position: relative;"><img src="images/login_bottom.jpg" border="0"><div style="position: absolute; top: 80px; left:132px; width:375px; background-color: #eeeff0;">Copyright (c) 2009-<span id="pe_bMS"></span> JIRANSOFT Co., Ltd. All rights reserved.</div></td>
+                </tr>
+            </table>
+    
+		</td>
+	</tr>
+</table>
+
+<div id="pe_aYE">
+	<table border="0" style="width:610px;">
+		<tr style="height:40px;">
+			<td style="width:10px"><img src="images/popup_top_left.gif" /></td>
+			<td id="pe_bTT"><span id="pe_Zq" style="color:#FFFFFF"></span></td>
+			<td style="width:10px"><img src="images/popup_top_right.gif" /></td>
+		</tr>
+		<tr>
+			<td id="pe_bSS"></td>
+			<td id="pe_bSw">
+			
+				<table class="pe_bSN">
+					<tr>
+						<td style="padding:10px;">
+							<b><span id="pe_Wl"></span></b>
+							&nbsp;&nbsp;&nbsp;<input type="text" class="pe_bFr" name="contextPath" id="contextPath" /><br />
+							<span id="pe_Xr" class="pe_bFz"></span>
+						</td>
+					</tr>
+					<tr>
+						<td class="pe_bFp"></td>
+					</tr>
+					<tr style="height:">
+						<td style="padding:10px;">
+						<b><span id="pe_Zv"></span></b>
+							&nbsp;&nbsp;&nbsp;<input type="text" class="pe_bFr" name="pe_bFf" id="pe_bFf" /><br />
+							<span id="pe_Ww" class="pe_bFz"></span>
+						</td>
+					</tr>
+					<tr>
+						<td class="pe_bFp"></td>
+					</tr>
+				</table>
+		
+			</td>
+			<td id="pe_bSU"></td>
+		</tr>
+		<tr style="height:50px">
+			<td style="width:10px"><img src="images/popup_bot_left.gif" /></td>
+			<td id="pe_bSL">
+				<ul style="margin:0 auto; width:80px;">
+					<li class="pe_kE">
+						<input type="submit" id="pe_bIE" value="" class="pe_lh pe_jD" style="width:66px; height:26px;" />
+					</li>
+				</ul>
+			</td>
+			<td style="width:10px"><img src="images/popup_bot_right.gif" /></td>
+		</tr>
+	</table>
+</div>
+
+<div id="bgDiv"></div>
+
+<script type="text/javascript" language="javascript">
+	pe_eF();
+
+	var pe_Xz = new Date();
+	var year = pe_Xz.getFullYear();
+	document.getElementById("pe_bMS").innerHTML = year;
+	
+</script>
+
+</body>
+</html>

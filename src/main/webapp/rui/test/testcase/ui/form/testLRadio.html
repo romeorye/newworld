@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.form.LRadio Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var radio = null;
+Rui.onReady(function() {
+    radio = new Rui.ui.form.LRadio({
+        applyTo: 'radio1',
+        name: 'col4',
+        label: 'R1',
+        value: 'R1',
+        width: 100
+    });
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLRadio_method_focus() {
+    info('LRadioTests : testLRadio_method_focus 작동 여부');
+    assertNotUndefined(radio.focus());
+}
+function testLRadio_method_blur() {
+    info('LRadioTests : testLRadio_method_blur 작동 여부');
+    assertNotUndefined(radio.blur());
+}
+function testLRadio_method_destroy() {
+    info('LRadioTests : testLRadio_method_destroy 작동 여부');
+    assertNotUndefined(radio.destroy());
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.form.LRadio Tests</h1>
+    <label for="radio1">
+        Radio
+    </label>
+    <div id="radio1">
+    </div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLRadio_method_focus()">focus</a>
+            <a href="javascript:testLRadio_method_blur()">blur</a>
+            <a href="javascript:testLRadio_method_destroy()">destroy</a>
+        </div>
+    </div>        
+</body>
+</html>

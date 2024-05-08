@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="space.ev">
+
+
+	<select id="getSpaceEvBzdvList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvBzdvList 사업부 조회
+		SELECT CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR0
+		WHERE DEL_YN = 'N'
+		]]>
+	</select>
+
+
+	<select id="getSpaceEvProdClList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvProdClList 제품군 조회
+		SELECT SUPI_CD AS supiCd
+			,CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR1
+		WHERE DEL_YN = 'N'
+		AND   SUPI_CD =  #{supiCd}
+		]]>
+	</select>
+
+	<select id="getSpaceEvClList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvClList 분류 조회
+		SELECT SUPI_CD AS supiCd
+			,CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR2
+		WHERE DEL_YN = 'N'
+		AND   SUPI_CD =  #{supiCd}
+		]]>
+	</select>
+
+	<select id="getSpaceEvProdList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvProdList 제품 조회
+		SELECT SUPI_CD AS supiCd
+			,CTGR_CD AS ctgrCd
+			,CTGR_NM AS ctgrNm
+			,DEL_YN
+			,FRST_RGST_DT
+			,FRST_RGST_ID
+			,LAST_MDFY_DT
+			,LAST_MDFY_ID
+		FROM IRIS_SPACE_EV_CTGR3
+		WHERE DEL_YN = 'N'
+		AND   SUPI_CD =  #{supiCd}
+		]]>
+	</select>
+
+	<select id="getSpaceEvMtrlList" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvMtrlList 상세리스트
+		SELECT CTGR0 AS ctgr0
+			,CTGR1 AS ctgr1
+			,CTGR2 AS ctgr2
+			,CTGR3 AS ctgr3
+			,PROD_NM AS prodNm
+			,SCN     AS scn
+			,PFMC_VAL AS pfmcVal
+			,STRT_VLD_DT AS strtVldDt
+			,FNH_VLD_DT AS fnhVldDt
+			,REM AS rem
+			,OTTP_YN AS ottpYn
+			,ATTC_FILE_ID AS attcFilId
+			,DEL_YN AS delYn
+			,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23) as frstRgstDt
+			,EV_CD AS evCd
+			,SND_EML_YN AS sndEmlYn
+		FROM IRIS_SPACE_MTRL_UTM_EV EV
+		WHERE DEL_YN = 'N'
+		  AND OTTP_YN='Y'
+		]]>
+
+		<if test="(supiCd0 != null and supiCd0 != '')">
+			AND EV.CTGR0=#{supiCd0}
+	    </if>
+	    <if test="(supiCd1 != null and supiCd1 != '')">
+			AND EV.CTGR1=#{supiCd1}
+	    </if>
+	    <if test="(supiCd2 != null and supiCd2 != '')">
+			AND EV.CTGR2=#{supiCd2}
+	    </if>
+	    <if test="(supiCd3 != null and supiCd3 != '')">
+			AND EV.CTGR3=#{supiCd3}
+	    </if>
+	</select>
+
+	<select id="spaceRqprRsltList" resultType="hashmap">
+		<![CDATA[
+		-- spaceRqprRsltList 평가결과
+			SELECT
+				SP.PROD_ID    AS prodId,
+				SP.RQPR_ID    AS rqprId,
+				SP.EV_CTGR0   AS evCtgr0,
+				SP.EV_CTGR1   AS evCtgr1,
+				SP.EV_CTGR2   AS evCtgr2,
+				SP.EV_CTGR3   AS evCtgr3,
+				(SELECT EC0.CTGR_NM FROM IRIS_SPACE_EV_CTGR0 EC0 WHERE EC0.CTGR_CD = SP.EV_CTGR0) AS evCtgr0Nm,
+				(SELECT EC1.CTGR_NM FROM IRIS_SPACE_EV_CTGR1 EC1 WHERE EC1.CTGR_CD = SP.EV_CTGR1) AS evCtgr1Nm,
+				(SELECT EC2.CTGR_NM FROM IRIS_SPACE_EV_CTGR2 EC2 WHERE EC2.CTGR_CD = SP.EV_CTGR2) AS evCtgr2Nm,
+				(SELECT EC3.CTGR_NM FROM IRIS_SPACE_EV_CTGR3 EC3 WHERE EC3.CTGR_CD = SP.EV_CTGR3) AS evCtgr3Nm,
+				CASE WHEN MST.RQPR_TEAM_CD=#{_teamDept}
+				     THEN 'Y'
+				     ELSE 'N'
+				 END AS openYn,
+				MST.SPACE_NAME										AS spaceNm,
+				dbo.fn_getSpaceCtrgNames(MST.RQPR_Id)				AS CtrgNames,
+				dbo.fn_getSpacePrvsNames(MST.RQPR_Id)				AS PrvsNames,
+				CASE WHEN MST.OPPB_SCP_CD='0'
+				     THEN 'Y'
+				     ELSE 'N'
+				 END								AS ottpYn,
+				'' 									AS rem,
+				(select dbo.fn_getUserName(max(LAST_MDFY_ID)) FROM IRIS_COM_ATTC_FIL FIL WHERE ATTC_FIL_ID=MST.RSLT_ATTC_FILE_ID) 					AS rgstNm,
+				CMPL_DT											AS cmplDt,
+				RSLT_ATTC_FILE_ID											AS rsltAttcFileId
+			FROM IRIS_SPACE_PROD SP
+				,IRIS_SPACE_RQPR_MST MST
+			WHERE	1=1
+			AND		SP.RQPR_ID = MST.RQPR_ID
+			AND		SP.DEL_YN = 'N'
+			AND     MST.SPACE_ACPC_ST_CD='08'
+		]]>
+
+		<if test="(supiCd0 != null and supiCd0 != '')">
+			AND SP.EV_CTGR0=#{supiCd0}
+	    </if>
+	    <if test="(supiCd1 != null and supiCd1 != '')">
+			AND SP.EV_CTGR1=#{supiCd1}
+	    </if>
+	    <if test="(supiCd2 != null and supiCd2 != '')">
+			AND SP.EV_CTGR2=#{supiCd2}
+	    </if>
+	    <if test="(supiCd3 != null and supiCd3 != '')">
+			AND SP.EV_CTGR3=#{supiCd3}
+	    </if>
+	</select>
+
+	<select id="getSpaceEvMtrlDtl" resultType="hashmap">
+		<![CDATA[
+		-- getSpaceEvMtrlDtl 상세리스트
+		SELECT CTGR0 AS ctgr0
+			,CTGR1 AS ctgr1
+			,CTGR2 AS ctgr2
+			,CTGR3 AS ctgr3
+			,PROD_NM AS prodNm
+			,SCN     AS scn
+			,PFMC_VAL AS pfmcVal
+			,STRT_VLD_DT AS strtVldDt
+			,FNH_VLD_DT AS fnhVldDt
+			,REM AS rem
+			,OTTP_YN AS ottpYn
+			,ATTC_FILE_ID AS attcFilId
+			,DEL_YN AS delYn
+			,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23) as frstRgstDt
+			,EV_CD as evCd
+			,SND_EML_YN AS sndEmlYn
+		FROM IRIS_SPACE_MTRL_UTM_EV EV
+		WHERE DEL_YN = 'N'
+		  AND EV_CD=#{evCd}
+		]]>
+
+	</select>
+
+	<insert id="insertSpaceEvMtrl"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="EV_CD" >
+	-- insertSpaceEvMtrl
+	INSERT INTO dbo.IRIS_SPACE_MTRL_UTM_EV
+        (CTGR0
+		,CTGR1
+		,CTGR2
+		,CTGR3
+		,PROD_NM
+		,SCN
+		,PFMC_VAL
+		,STRT_VLD_DT
+		,FNH_VLD_DT
+		,REM
+		,OTTP_YN
+		,ATTC_FILE_ID
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID
+		,SND_EML_YN
+		)
+    VALUES
+        (#{ctgr0}
+		,#{ctgr1}
+		,#{ctgr2}
+		,#{ctgr3}
+		,#{prodNm}
+		,#{scn}
+		,#{pfmcVal}
+		,#{strtVldDt}
+		,#{fnhVldDt}
+		,#{rem}
+		,#{ottpYn}
+		,#{attcFilId}
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        ,#{sndEmlYn}
+        )
+	</insert>
+
+	<!-- 자재단위평가 수정 -->
+	<update id="updateSpaceEvMtrl">
+	<![CDATA[
+	-- updateSpaceEvMtrl 자재단위평가 수정
+		UPDATE IRIS_SPACE_MTRL_UTM_EV
+		   SET SCN = #{scn}
+			,PFMC_VAL = #{pfmcVal}
+			,STRT_VLD_DT =#{strtVldDt}
+			,FNH_VLD_DT =#{fnhVldDt}
+			,REM =#{rem}
+			,OTTP_YN =#{ottpYn}
+			,ATTC_FILE_ID =#{attcFilId}
+			,LAST_MDFY_DT=GETDATE()
+			,LAST_MDFY_ID=#{userId}
+			,SND_EML_YN = #{sndEmlYn}
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND EV_CD = #{evCd}
+	]]>
+	</update>
+
+	<!-- 자재단위평가 삭제 -->
+	<update id="deleteSpaceEvMtrl">
+	<![CDATA[
+	-- deleteSpaceEvMtrl 자재단위평가 삭제
+		UPDATE IRIS_SPACE_MTRL_UTM_EV
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND EV_CD = #{evCd}
+	]]>
+	</update>
+
+	<!-- 사업부 삭제 -->
+	<update id="deleteSpaceEvCtgr0">
+	<![CDATA[
+	-- deleteSpaceEvCtgr0 사업부 삭제
+		UPDATE IRIS_SPACE_EV_CTGR0
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+
+	<!-- 제품군 삭제 -->
+	<update id="deleteSpaceEvCtgr1">
+	<![CDATA[
+	-- deleteSpaceEvCtgr1 제품군 삭제
+		UPDATE IRIS_SPACE_EV_CTGR1
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+
+	<!-- 분류 삭제 -->
+	<update id="deleteSpaceEvCtgr2">
+	<![CDATA[
+	-- deleteSpaceEvCtgr2 분류 삭제
+		UPDATE IRIS_SPACE_EV_CTGR2
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+
+	<!-- 제품 삭제 -->
+	<update id="deleteSpaceEvCtgr3">
+	<![CDATA[
+	-- deleteSpaceEvCtgr3 제품 삭제
+		UPDATE IRIS_SPACE_EV_CTGR3
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+
+	<insert id="insertSpaceEvCtgr0"   parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	-- insertSpaceEvCtgr0
+	INSERT INTO dbo.IRIS_SPACE_EV_CTGR0
+        (CTGR_NM
+		,DEL_YN
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID)
+    VALUES
+        (#{ctgrNm}
+		,'N'
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        )
+	</insert>
+
+	<insert id="insertSpaceEvCtgr1"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	-- insertSpaceEvCtgr1
+	INSERT INTO dbo.IRIS_SPACE_EV_CTGR1
+        (SUPI_CD
+        ,CTGR_NM
+		,DEL_YN
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID)
+    VALUES
+        (#{supiCd}
+		,#{ctgrNm}
+		,'N'
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        )
+	</insert>
+
+	<insert id="insertSpaceEvCtgr2"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	-- insertSpaceEvCtgr2
+	INSERT INTO dbo.IRIS_SPACE_EV_CTGR2
+        (SUPI_CD
+        ,CTGR_NM
+		,DEL_YN
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID)
+    VALUES
+        (#{supiCd}
+		,#{ctgrNm}
+		,'N'
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        )
+	</insert>
+
+	<insert id="insertSpaceEvCtgr3"    parameterType="hashmap" useGeneratedKeys="true" keyColumn="CTGR_CD" >
+	-- insertSpaceEvCtgr3
+	INSERT INTO dbo.IRIS_SPACE_EV_CTGR3
+        (SUPI_CD
+        ,CTGR_NM
+		,DEL_YN
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID)
+    VALUES
+        (#{supiCd}
+		,#{ctgrNm}
+		,'N'
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        ,GETDATE()
+        ,#{userId}  -- 세션 사번
+        )
+	</insert>
+
+	<!-- 사업부 업데이트저장 -->
+	<update id="updateSpaceEvCtgr0">
+	<![CDATA[
+	-- updateSpaceEvCtgr0 사업부 업데이트저장
+		UPDATE IRIS_SPACE_EV_CTGR0
+		   SET CTGR_NM = #{ctgrNm}
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+
+	<!-- 제품군 업데이트저장 -->
+	<update id="updateSpaceEvCtgr1">
+	<![CDATA[
+	-- updateSpaceEvCtgr1 제품군 업데이트저장
+		UPDATE IRIS_SPACE_EV_CTGR1
+		   SET CTGR_NM = #{ctgrNm}
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+
+	<!-- 분류 업데이트저장 -->
+	<update id="updateSpaceEvCtgr2">
+	<![CDATA[
+	-- updateSpaceEvCtgr2 분류 업데이트저장
+		UPDATE IRIS_SPACE_EV_CTGR2
+		   SET CTGR_NM = #{ctgrNm}
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+
+	<!-- 제품 업데이트저장 -->
+	<update id="updateSpaceEvCtgr3">
+	<![CDATA[
+	-- updateSpaceEvCtgr3 제품 업데이트저장
+		UPDATE IRIS_SPACE_EV_CTGR3
+		   SET CTGR_NM = #{ctgrNm}
+	]]>
+
+	<![CDATA[
+		 WHERE 1=1
+		   AND SUPI_CD = #{supiCd}
+		   AND CTGR_CD = #{ctgrCd}
+	]]>
+	</update>
+
+</mapper>

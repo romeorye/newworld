@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.LBase64 Tests</title>
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLBase64_method_encode() {
+    info('LBase64Tests : testLBase64_method_encode 작동 여부');
+    var input = "localhost"; //String
+    var result = Rui.LBase64.encode(input).split(';');
+    //return type : String
+    assertEquals(result[0], 'bG9jYWxob3N0');
+}
+
+function testLBase64_method_decode() {
+    info('LBase64Tests : testLBase64_method_decode 작동 여부');
+    var input = 'bG9jYWxob3N0'; //String
+    var result = Rui.LBase64.decode(input);
+    //return type : String
+    assertEquals(result, 'localhost');
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.LBase64 Tests</h1>
+    <span id="base64"></span>
+    <div id="bd">
+        <div class="testcase-button">
+            <a href="javascript:testLBase64_method_encode()">encode</a>
+            <a href="javascript:testLBase64_method_decode()">decode</a>
+        </div>
+    </div>        
+</body>
+</html>

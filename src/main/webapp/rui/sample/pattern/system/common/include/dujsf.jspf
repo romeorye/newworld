@@ -1,0 +1,15 @@
+
+<script type="text/javascript" src="/rui2/js/rui_base.js"></script>
+<script type="text/javascript" src="/rui2/js/rui_ext.js"></script>
+<script type="text/javascript" src="/rui2/resources/rui_config.js"></script>
+
+<script type="text/javascript" src="/rui2/resources/locale/lang-ko_KR.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/rui2/resources/rui.css" />
+<link rel="stylesheet" type="text/css" href="/rui2/resources/rui_skin1.css" />
+
+<script type="text/javascript">
+//<![CDATA[
+var gLocale = "US";
+//]]>-->
+</script>

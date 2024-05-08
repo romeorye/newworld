@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mkInno.com">
+	
+	<select id="retrieveMkInnoTssList" resultType="hashmap">
+	-- retrieveMkInnoTssList  제조혁신과제 리스트 조회
+	select   m.WBS_CD as wbsCd
+            ,m.tss_nm as tssNm
+		    ,substring(m.prj_nm, CHARINDEX ('.', m.prj_nm) +1, len(m.prj_nm)  ) as prjNm
+            ,m.sa_sabun_name as saUserName
+		    ,m.dept_nm as deptName
+		    ,m.TSS_STRT_DD as tssStrtDd
+		    ,m.TSS_FNH_DD as tssFnhDd
+		    ,m.CMPL_NX_FNH_DD as cmplNxFnhDd
+		    ,m.pgsStepNm	
+		    ,m.tssStNm
+		    ,m.PGS_STEP_CD as pgsStepCd
+		    ,m.TSS_ST 		as tssSt
+			,m.PRJ_CD  		as prjCd
+  		    ,m.TSS_CD  		as tssCd
+			,m.TSS_SCN_CD 	as tssScnCd
+			,m.PK_WBS_CD 	as pkWbsCd
+			,m.team_dept_cd 
+			,m.fcNm
+	from  (
+				select  a.PRJ_CD
+					   ,case when a.pgs_step_cd ='CM' then isnull(a.PRJ_NM, dbo.fn_getPrjName(a.PRJ_CD)) 
+					         when a.pgs_step_cd ='DC' then isnull(a.PRJ_NM, dbo.fn_getPrjName(a.PRJ_CD)) 
+					         else  isnull(dbo.fn_getPrjName(a.PRJ_CD), a.PRJ_NM )  end  prj_nm
+					   ,a.TSS_CD
+					   ,a.TSS_SCN_CD
+					   ,a.WBS_CD
+					   ,a.PK_WBS_CD
+					   ,isnull(a.dept_name, dbo.fn_getUpperDeptNm(a.dept_code))  as dept_nm
+					   ,a.tss_nm
+					   ,isnull(dbo.fn_getSabunName(a.sa_sabun_new), a.sa_sabun_name) as sa_sabun_name
+					   ,a.TSS_STRT_DD
+					   ,a.TSS_FNH_DD
+					   ,a.CMPL_B_STRT_DD
+					   ,a.CMPL_B_FNH_DD
+					   ,a.CMPL_NX_STRT_DD
+					   ,a.CMPL_NX_FNH_DD
+					   , dbo.fn_getComDtlNm('PGS_STEP_CD',a.PGS_STEP_CD) AS pgsStepNm    --진행상태명
+					   , dbo.fn_getComDtlNm('TSS_ST', a.TSS_ST)                    AS tssStNm      --상태명
+					   ,a.TSS_ST
+					   ,a.sa_sabun_new
+					   ,a.PGS_STEP_CD
+					   ,dbo.fn_getComDtlNm('FC_CD', a.fc_cd)                    AS fcNm
+					   ,b.dept_cd as  team_dept_cd        
+				from   IRIS_TSS_MGMT_MST a
+				          inner join IRIS_PRJ_RSST_MST b
+						 on b.prj_cd = a.PRJ_CD
+				where  a.DEL_YN ='N'
+				and    a.TSS_SCN_CD = 'M'
+				and    a.TSS_CD IN (SELECT TSS_CD
+									FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
+											   , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
+										  FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' THEN 1
+															WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
+															WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102' OR TSS_ST = '301' OR TSS_ST = '302' ) THEN 3
+															WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 4
+															WHEN PGS_STEP_CD = 'PL' THEN 5 END AS STEPRANK
+													   , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
+												 FROM IRIS_TSS_MGMT_MST
+												 where tss_scn_cd ='M' ) X) Y
+										  WHERE OVER_STEP_RANK = 1
+										  )
+				) m
+		where 1=1
+		<if test="roleCheck == 'TEAM'">
+			AND m.team_dept_cd = #{_userDept}
+		</if>
+		<if test="roleCheck == 'PER'">
+			and  (m.wbs_cd in (select distinct wbs_cd
+						from   IRIS_TSS_MGMT_MST a
+						where   del_yn ='N'
+						and     tss_cd in (
+											select tss_cd
+											from  IRIS_TSS_PTC_RSST_MBR
+											where  1=1
+											and    sa_sabun_new = #{_userSabun}
+											)
+						and   tss_scn_cd = 'M'
+
+						union
+						select  distinct wbs_cd
+						from    IRIS_TSS_MGMT_MST a
+						where  	del_yn ='N'
+						and     tss_scn_cd ='M'
+						and     sa_sabun_new = #{_userSabun}
+						)
+		       or  m.PRJ_CD in (select prj_cd  from iris_prj_rsst_mst where  pl_emp_no = #{_userSabun})
+
+			 )
+		</if>
+		
+		<if test="wbsCd != null and !wbsCd.equals('')">
+		AND (M.WBS_CD LIKE '%'+#{wbsCd}+'%' OR M.PGS_STEP_CD = CASE WHEN #{wbsCd} = 'SEED' THEN 'PL' ELSE 'X' END)
+		</if>
+		<if test="tssNm != null and !tssNm.equals('')">
+		and     m.tss_nm  like '%'+#{tssNm}+'%'
+		</if>
+		<if test="saUserName != null and !saUserName.equals('')">
+		AND m.SA_SABUN_NAME  LIKE '%'+#{saUserName}+'%' 
+		</if>
+		<if test="deptName != null and !deptName.equals('')">
+		and     m.dept_nm like '%'+#{deptName}+'%'
+		</if>
+		<if test="tssStrtDd != null and !tssStrtDd.equals('')">
+			<![CDATA[
+				AND convert(nvarchar(7), m.TSS_STRT_DD ) >= #{tssStrtDd}
+			]]>
+			</if>
+			<if test="tssFnhDd != null and !tssFnhDd.equals('')">
+			<![CDATA[
+				AND convert(nvarchar(7), m.TSS_FNH_DD ) <= #{tssFnhDd}
+			]]>
+		</if>
+		<if test="prjNm != null and !prjNm.equals('')">
+				AND m.PRJ_NM LIKE '%'+#{prjNm}+'%'
+			</if>
+		<if test="pgsStepCd != null and !pgsStepCd.equals('')">
+				AND m.PGS_STEP_CD = #{pgsStepCd} --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
+			</if>
+		<if test="tssSt != null and !tssSt.equals('')">
+				AND m.TSS_ST = #{tssSt}
+		</if>
+		
+		order by m.WBS_CD desc
+	</select>
+	
+
+	<!--제조혁신과제 상세  마스터 조회  -->
+	<select id="retrieveMkInnoMstInfo"   resultType="hashmap">
+	<![CDATA[
+	-- retrieveMkInnoMstInfo  제조혁신과제 상세 마스터 조회
+	 select   m.prj_cd 			as prjCd
+	          ,substring(m.prj_nm, CHARINDEX ('.', m.prj_nm) +1, len(m.prj_nm)  ) as prjNm
+			  ,m.tss_cd 		as tssCd
+			  ,m.tss_nm 		as tssNm
+			  ,m.sa_User_Name 	as saUserName 
+			  ,m.SA_SABUN_NEW 	as saSabunNew
+			  ,m.dept_nm 		as deptName
+			  ,m.PGS_STEP_CD 	as pgsStepCd
+			  ,m.WBS_CD 		as wbsCd
+			  ,m.pgs_step_nm 	as pgsStepNm
+			  ,dbo.fn_getComDtlNm('MK_BIZ_DPT_CD', m.BIZ_DPT_CD) AS bizDptNm   --사업부문명 
+			  ,m.BIZ_DPT_CD 	as bizDptCd
+			  ,m.TSS_STRT_DD 	as tssStrtDd
+			  ,m.TSS_FNH_DD 	as tssFnhDd
+			  ,m.TSS_ST 		as tssSt
+			  ,m.prodG_Nm 		as prodgNm
+			  ,m.PROD_G 		as prodGCd
+			  ,m.PK_WBS_CD 		as pkWbsCd
+			  ,m.fcNm
+	 from   (
+				 select  PRJ_CD
+					   ,isnull(a.PRJ_NM, dbo.fn_getPrjName(a.PRJ_CD))  as prj_nm
+					   ,a.TSS_CD
+					   ,TSS_NM
+					   ,SA_SABUN_NEW
+					   ,isnull(dbo.fn_getSabunName(a.sa_sabun_new), a.sa_sabun_name) as sa_User_Name
+					   ,DEPT_CODE
+					   ,isnull(a.dept_name, dbo.fn_getUpperDeptNm(a.dept_code))  as dept_nm
+					   ,WBS_CD
+					   ,a.PGS_STEP_CD
+					   , dbo.fn_getComDtlNm('PGS_STEP_CD',a.PGS_STEP_CD) as pgs_step_nm 
+					   ,BIZ_DPT_CD
+					   ,TSS_STRT_DD
+					   ,TSS_FNH_DD
+					   ,PK_WBS_CD
+					   ,TSS_ST
+					   , dbo.fn_getComDtlNm('PROD_G', A.PROD_G) AS prodG_Nm
+					   ,PROD_G
+					   ,dbo.fn_getComDtlNm('FC_CD', a.fc_cd)                    AS fcNm      
+			 from   IRIS_TSS_MGMT_MST a
+					   left outer join IRIS_GRS_EV_RSLT_RGST b
+					   on  b.TSS_CD = a.tss_cd
+			 where  a.tss_cd = #{tssCd}
+			 ) m
+	]]>	
+	</select>
+	
+	<!--제조혁신과제 개요 조회  -->
+	<select id="retrieveMkInnoSmryInfo"   resultType="hashmap">
+	<![CDATA[
+	-- retrieveMkInnoSmryInfo  제조혁신과제 개요 조회
+	select   TSS_CD 			as tssCd
+	        ,DVLP_GOAL_TXT  	as dvlpGoalTxt            --개발목표
+			,SBC_TCLG_TXT  		as sbcTclgTxt             --주요기술
+			,CNSU   			as cnsu   --품의
+			,ORDN  				as ordn --발주
+			,WHSN  				as whsn  --입고
+			,MSSP  				as mssp   --양산
+			,QUAN  				as quan           --정량적
+			,QT_TXT  			as qtTxt       --정성적
+			,TSS_STAT_F  		as tssStatF    --과제성격1
+			,TSS_STAT_S   		as tssStatS   --과제성격2
+			,TSS_DFCR  			as tssDfcr   --과제난이도
+			,ANCP_SCL_TXT  		as ancpSclTxt    --예상투자규모
+			,ISTL_PL_TXT   		as istlPlTxt         --설치장소
+			,RCM_COF_TXT  		as rcmCofTxt    --추천업체
+			,TSS_TXT    		as tssTxt                   --과제개요 및 Output Image
+			,EMPS_REQ_TXT   	as empsReqTxt             --중점요청사항
+			,COO_REQ_TXT  		as cooReqTxt         --협력요청사항
+			,ATTC_FIL_ID    	as attcFilId                 --첨부파일
+			,CMPL_ATTC_FIL_ID   as cmplAttcFilId
+	from  IRIS_TSS_MK_INNO_SMRY
+	where tss_cd = #{tssCd}
+	]]>	
+	</select>
+	
+	<!--제조혁신과제 인원 조회  -->
+	<select id="retrieveMkInnoMbrList"   resultType="hashmap">
+	<![CDATA[
+	-- retrieveMkInnoMbrList  제조혁신과제 인원 조회
+	select ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'USER', SA_SABUN_NEW) , SA_SABUN_NAME) AS saUserName --과제리더명
+         , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'DEPT', DEPT_CODE) , DEPT_NAME) AS deptName   --소속명
+		 ,ptc_strt_dt 		as ptcStrtDt
+		 ,ptc_fnh_dt 		as ptcFnhDt
+		 , dbo.fn_getComDtlNm('PTC_ROLE', PTC_ROLE) AS ptcRoleNm  --참여역할명 )
+		 ,sa_sabun_new 		as saSabunNew
+         ,PTC_RSST_MBR_SN 	as ptcRsstMbrSn
+         ,dept_code 		as deptCode
+		 ,ptc_role	   		as ptcRole   
+		 ,tss_cd            as tssCd     
+	from IRIS_TSS_PTC_RSST_MBR
+	where  tss_cd = #{tssCd}
+	]]>	
+	</select>
+	
+	<select id="retrieveMkInnoTssAttc"  resultType="hashmap">
+	<![CDATA[
+	-- retrieveMkInnoYldList  제조혁신과제 산출물 조회
+	select  ATTC_FIL_ID as attcFilId
+	       ,SEQ			as seq
+		   ,FIL_NM		as filNm
+		   ,FIL_SIZE	as filSize
+	from   IRIS_COM_ATTC_FIL
+	where  del_yn ='N'
+	and     ATTC_FIL_ID = (
+                        select case when #{pgsStepCd} = 'CM' then CMPL_ATTC_FIL_ID
+                                    else ATTC_FIL_ID END as ATTC_FIL_ID
+				   		from  IRIS_TSS_MK_INNO_SMRY 
+				   		where tss_cd = #{tssCd}
+				  		) 
+	
+	]]>	
+	</select> 
+	
+	<select id="retrieveMkInnoCsusInfo" resultType="hashmap">
+	<![CDATA[
+	-- retrieveMkInnoYldList  제조혁신 전자결재건 체크
+		SELECT TOP 1
+				GUID AS guid
+				, AFFR_CD AS affrCd
+				, rtrim(ltrim(ltrim(APRDOCSTATE))) AS aprdocstate
+				, APPROVAL_USERID AS approvalUserid
+				, APPROVAL_USERNAME AS approvalUsername
+				, APPROVAL_JOBTITLE AS approvalJobtitle
+				, APPROVAL_DEPTNAME AS approvalDeptname
+				, APPROVAL_PROCESSDATE AS approvalProcessdate
+				, APPROVER_PROCESSDATE AS approverProcessdate
+				, BODY AS body
+				, TITLE AS title
+				, UPDATE_DATE AS updateDate
+				, URL AS url
+				, (SELECT COUNT(*) FROM IRIS_COM_ITG_RDCS WHERE AFFR_CD = #{tssCd}) AS csusCnt
+		FROM IRIS_COM_ITG_RDCS
+		WHERE AFFR_CD = #{tssCd}
+		ORDER BY GUID DESC
+	]]>
+	</select>  
+	
+	<insert id="insertMkInnoTssCsusRq">
+	<selectKey keyProperty="guid" resultType="String" order="BEFORE">
+        <![CDATA[
+            SELECT #{affrGbn}
+			     + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
+			     + REPLICATE('0', 4 - LEN(CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)))
+			     + CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)
+			  FROM IRIS_COM_ITG_RDCS X
+			 WHERE SUBSTRING(X.GUID, 1, 7) = #{affrGbn} + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
+        ]]>
+		</selectKey>
+	    <![CDATA[
+		-- insertMkInnoTssCsusRq 통합결제 등록
+		        INSERT
+		          INTO IRIS_COM_ITG_RDCS
+		             ( GUID                    --고유코드
+		             , AFFR_CD                 --업무코드
+		             , APRDOCSTATE             --결재상태코드
+		             , APPROVAL_USERID         --결재 요청자 ID
+		             , APPROVAL_USERNAME       --결재 요청자명
+		             , APPROVAL_JOBTITLE       --결재 요청자 직위
+		             , APPROVAL_DEPTNAME       --결재 요청자 부서명
+		             , APPROVAL_PROCESSDATE    --결재 요청 일자
+		             , APPROVER_PROCESSDATE    --승인일자
+		             , BODY                    --결재 내용
+		             , TITLE                   --결재 제목
+		             , UPDATE_DATE             --수정일
+		             , URL                     --결재문서 url
+		             )
+		        VALUES
+		             ( #{guid}
+		             , #{affrCd}
+		             , #{aprdocstate}
+		             , #{approvalUserid}
+		             , #{approvalUsername}
+		             , #{approvalJobtitle}
+		             , #{approvalDeptname}
+		             , GETDATE()
+		             , ''
+		             , #{body}
+		             , #{title}
+		             , GETDATE()
+		             , #{url}
+		             )
+	    ]]>
+	</insert>
+	
+	<update id="updateMkInnoTssCsusRq">
+	<![CDATA[
+	-- updateMkInnoTssCsusRq 통합결제 업데이트
+	update IRIS_COM_ITG_RDCS
+	set      AFFR_CD                = #{affrCd} 				--업무코드
+			 , APRDOCSTATE          = #{aprdocstate}  			--결재상태코드
+			 , APPROVAL_USERID      = #{approvalUserid} 		--결재 요청자 ID
+			 , APPROVAL_USERNAME    = #{approvalUsername}  		--결재 요청자명
+			 , APPROVAL_JOBTITLE    = #{approvalJobtitle}  		--결재 요청자 직위
+			 , APPROVAL_DEPTNAME    = #{approvalDeptname}  		--결재 요청자 부서명
+			 , APPROVAL_PROCESSDATE = #{approvalProcessdate}  	--결재 요청 일자
+			 , APPROVER_PROCESSDATE = #{approverProcessdate}  	--승인일자
+			 , BODY                 = #{body}  					--결재 내용
+			 , TITLE                = #{title}  				--결재 제목
+			 , UPDATE_DATE          = getdate()   				--수정일
+			 , URL                  = #{url}  					--결재문서 url
+	where  guid = #{guid} 
+	]]>
+	</update>
+	
+	
+	
+	
+	
+</mapper>

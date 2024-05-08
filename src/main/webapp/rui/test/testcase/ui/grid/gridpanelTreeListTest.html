@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+    <meta name="devon-rui-sample" content="yes" />
+    <meta name="devon-rui-keyword" content="그리드(LGridPanel), 트리그리드(TreeGrid)" />
+    <title>Tree Grid</title>
+
+    <script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+    <script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+    <script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+    <script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+    <script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+    <script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+    <link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css"/>
+
+    <script type="text/javascript" src="./../../../../plugins/ui/grid/LTreeGridSelectionModel.js"></script>
+    <script type="text/javascript" src="./../../../../plugins/ui/grid/LTreeGridView.js"></script>
+    <link rel="stylesheet" type="text/css" href="./../../../../plugins/ui/grid/LTreeGridView.css"/>
+
+    <script type="text/javascript" src="./../../../../plugins/ui/grid/LGridStatusBar.js"></script>
+    <link rel="stylesheet" type="text/css" href="./../../../../plugins/ui/grid/LGridStatusBar.css"/>
+
+    <script type="text/javascript" src="./../../../../sample/general/rui_sample.js"></script>
+
+    <style type="text/css" >
+    .LblockGrid li.left, .LblockGrid li.right {
+        display: inline-block;
+        *display: inline;
+        *zoom: 100%;
+    }
+    </style>
+
+    <script type="text/javascript" class="script-code">
+    var loadPage = null;
+    var currSearchCnt = 0;
+    var MAX_SEARCH_COUNT = 1;
+    var searchFn = null;
+    var startTime = null;
+    var endTime = null;
+    Rui.onReady(function() {
+        /*******************
+         * 변수 및 객체 선언
+         *******************/
+        var dataSet = new Rui.data.LJsonDataSet({
+            id: 'dataSet',
+            fields: [
+                { id: 'id' },
+                { id: 'depth', type: 'number', defaultValue: 0 },
+                { id: 'seq' },
+                { id: 'name' },
+                { id: 'url' },
+                { id: 'desc' }
+            ]
+        });
+
+        var showLogEl = Rui.get('showLog');
+        dataSet.on('load', function(e) {
+            currSearchCnt++;
+            if(currSearchCnt < MAX_SEARCH_COUNT) {
+                searchFn();
+                showLogEl.html(currSearchCnt + '건');
+            } else {
+                endTime = new Date();
+                showLogEl.html('total time : ' + (endTime.getTime() - startTime.getTime()) + 'ms');
+            }
+        });
+
+        var columnModel = new Rui.ui.grid.LColumnModel({
+            columns: [
+                new Rui.ui.grid.LSelectionColumn(),
+                { id: 'rowId', label: 'id', width: 50, renderer: function(val, param, record, row, i) {
+                    return record.id;
+                } },
+                { id: 'pId', label: 'pid', width: 50, renderer: function(val, param, record, row, i) {
+                    return record.pId;
+                } },
+                { field: 'id', label: 'id', width: 200 },
+                { field: 'depth', label: 'depth' },
+                { id: 'show', label: 'Show', renderer: function(val, p, record) {
+                    return record.getAttribute('_show') + '';
+                } },
+                { id: 'expand', label: 'Expand', renderer: function(val, p, record) {
+                    return record.getAttribute('_expand') + '';
+                } }
+            ]
+        });
+
+        /*<b>*/
+        var treeGridView = new Rui.ui.grid.LTreeGridView({
+            defaultOpenDepth: -1,
+            columnModel: columnModel,
+            dataSet: dataSet,
+            fields: {
+                depthId: 'depth'
+            },
+            treeColumnId: 'id'
+        });
+        /*</b>*/
+
+        var grid = new Rui.ui.grid.LGridPanel({
+            columnModel: columnModel,
+            dataSet: dataSet,
+            /*<b>*/
+            view: treeGridView,
+            selectionModel: new Rui.ui.grid.LTreeGridSelectionModel(),
+            /*</b>*/
+            autoWidth: true,
+            // LGridStatusBar는 샘플용으로 사용
+            footerBar: new Rui.ui.grid.LGridStatusBar(),
+            height: 250
+        });
+
+        grid.render('defaultGrid');
+
+        /********************
+         * 버튼 선언 및 이벤트
+         ********************/
+
+        var searchFn = function() {
+            var sUrl = './../../../../sample/data/gridTree.json';
+            dataSet.load({
+                url: sUrl
+            });
+        };
+        
+        var searchBtn = new Rui.ui.LButton('searchBtn');
+        searchBtn.on('click', function(){
+            currSearchCnt = 0;
+            MAX_SEARCH_COUNT = 1;
+            startTime = new Date();
+            searchFn();
+        });
+
+        var search10Btn = new Rui.ui.LButton('search10Btn');
+        search10Btn.on('click', function(){
+            currSearchCnt = 0;
+            MAX_SEARCH_COUNT = 10;
+            startTime = new Date();
+            searchFn();
+        });
+
+        var search100Btn = new Rui.ui.LButton('search100Btn');
+        search100Btn.on('click', function(){
+            currSearchCnt = 0;
+            MAX_SEARCH_COUNT = 100;
+            startTime = new Date();
+            searchFn();
+        });
+    });
+    </script>
+</head>
+<body>
+    <h1>Tree Grid</h1>
+    <h2>Tree의 구조를 가지고 있는 Buffered Grid 입니다. (grid)</h2>
+    <div class="LblockLine"></div>
+    <div class="LblockDesc">
+        <p>Tree와 같은 형태로 동작하는 목록형 Grid 입니다. 일반적 Tree와 동일하게 expand, collapse 기능이 제공됩니다.</p>
+        <p>Grid와 연결되는 데이터셋은 Tree를 만족하는 형태로 구성되어야 하며, Buffered Grid의 구조를 가지므로 대량 데이터에도 성능 또한 빠릅니다 .</p>
+    </div>
+    <div id="bd">
+        <div class="LblockButton" >
+            <button type="button" id="searchBtn" >search</button>
+            <button type="button" id="search10Btn" >10번 검색</button>
+            <button type="button" id="search100Btn" >100번 검색</button>
+        </div>
+        <p></p>
+        <div class="LblockMarkupCode">
+            <div class="LblockGrid">
+                <ul>
+                    <li class="left">
+                        <div id="defaultGrid"></div>
+                    </li>
+                </ul>
+                <div id="showLog"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="rlab.batch">
+
+	<select id="getRlabRqprApprCompleteList" resultType="iris.web.rlab.rqpr.vo.RlabMailInfo">
+			-- getRlabRqprApprCompleteList
+			select	mst.rqpr_id								as rqprId
+				   ,mst.rlab_name							as rlabNm
+				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name	as rgstNm
+				   ,dbo.fn_getDeptName(rgst.sa_dept_new)	as rgstDeptNm
+				   ,rgst.sa_mail							as rgstEmail
+				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name	as chrgNm
+				   ,mst.rqpr_dt								as rqprDt
+				   ,chrg.sa_mail							as receivers
+			from	iris_rlab_rqpr_mst mst,
+					iris_sso_user rgst,
+					iris_sso_user chrg
+			where	mst.rlab_acpc_st_cd = '02'
+			and		mst.del_yn = 'N'
+			and		mst.rlab_chrg_trsf_flag = 'W'
+			and		mst.rgst_id = rgst.sa_user
+			and		mst.rlab_chrg_id = chrg.sa_user
+
+	</select>
+
+	<select id="getRlabRsltApprCompleteList" resultType="iris.web.rlab.rqpr.vo.RlabMailInfo">
+			-- getRlabRsltApprCompleteList
+			select	mst.rqpr_id													as rqprId
+				   ,mst.rlab_name												as rlabNm
+				   ,mst.acpc_no													as acpcNo
+				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name						as rgstNm
+				   ,dbo.fn_getDeptName(rgst.sa_dept_new)						as rgstDeptNm
+				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name						as chrgNm
+				   ,dbo.fn_getDeptName(chrg.sa_dept_new)						as chrgDeptNm
+				   ,chrg.sa_mail												as chrgEmail
+				   ,mst.acpc_dt													as acpcDt
+				   ,mst.cmpl_dt													as cmplDt
+				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
+				    isnull(dbo.fn_getRlabRqprInfmPrsnEmails(mst.rqpr_id), '') +
+					  isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
+			                                                                 from    iris_sso_user b
+								                                             where   b.sa_user = mst.rlab_chrg_id))), '') 
+                    + isnull(',' +  STUFF( 
+					                    (select ','+ sa_mail
+										from   iris_sso_user 
+										where  sa_user in (
+														select infm_prsn_id
+														from  IRIS_RLAB_RQPR_INFM 
+														where  rqpr_id = mst.rqpr_id
+														
+											)
+                                        FOR XML PATH('') ), 1,1, ''
+										 
+										 ), '')        	as receivers
+			from	iris_rlab_rqpr_mst mst,
+					iris_sso_user rgst,
+					iris_sso_user chrg
+			where	mst.rlab_acpc_st_cd = '07'
+			and		mst.del_yn = 'N'
+			and		mst.rgst_trsf_flag = 'W'
+			and		mst.rgst_id = rgst.sa_user
+			and		mst.rlab_chrg_id = chrg.sa_user
+
+	</select>
+
+	<select id="getRlabRqprApprTodoList" resultType="hashmap">
+			-- getRlabRqprApprTodoList
+			select  rqpr_id as rqprId
+			       ,(select sa_sabun_new from iris_sso_user where  sa_user = rgst_Id) as sabun
+			from   iris_rlab_rqpr_mst  
+			where  rlab_acpc_st_cd = '07'
+			and	   del_yn = 'N'
+			and	   TO_DO_Flag not in ('Y', 'T')
+	</select>
+	
+	<!-- 신뢰성 시험 todo정보 생성 -->
+	<update id="saveRlabRqprTodo"  parameterType="map">
+	<![CDATA[
+	-- saveRlabRqprTodo 신뢰성 시험 todo정보 생성
+		EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'RLA', #{rqprId}, #{sabun}
+    ]]>
+    </update>
+    
+	<update id="updateRlabChrgTrsfFlag" parameterType="iris.web.rlab.rqpr.vo.RlabMailInfo">
+	-- updateRlabChrgTrsfFlag
+		update	iris_rlab_rqpr_mst
+		set		rlab_chrg_trsf_flag = 'Y'
+		where	rqpr_id = ${rqprId}
+
+	</update>
+
+	<update id="updateRgstTrsfFlag" parameterType="iris.web.rlab.rqpr.vo.RlabMailInfo">
+	-- updateRgstTrsfFlag
+		update	iris_rlab_rqpr_mst
+		set		rgst_trsf_flag = 'Y'
+		where	rqpr_id = ${rqprId}
+
+	</update>
+	
+	<update id="updateRlabTodoFlag">
+	-- updateRgstTodoFlag
+		update	iris_rlab_rqpr_mst
+		set		TO_DO_Flag = 'T'
+		where	rqpr_id = ${rqprId}
+	</update>
+	
+	
+
+</mapper>

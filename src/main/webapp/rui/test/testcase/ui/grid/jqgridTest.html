@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="devon-rui-sample" content="yes" />
+    <title>Bufferd Grid</title>
+
+    <script type="text/javascript" src="/lib/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="/test/jquery.jqGrid-4.5.2/js/jquery.jqGrid.src.js"></script>
+    <script type="text/javascript" src="/test/jquery.jqGrid-4.5.2/js/i18n/grid.locale-en.js" ></script>
+
+    <link rel="stylesheet" type="text/css" href="/test/jquery.jqGrid-4.5.2/jqgrid.css" />
+    
+    <script type="text/javascript" class="script-code">
+    jQuery(document).ready(function(){
+        jQuery("#west-grid").jqGrid({
+            url:'/test/jquery.jqGrid-4.5.2/jqgrid5000.json',
+            datatype: "json",
+            height: 255,
+            width: 600,
+            colNames:['Index','Name', 'Code', "Col4", "Col5", "Col6"],
+            colModel:[
+                {name:'item_id',index:'item_id', width:65, editable:true},
+                {name:'item',index:'item', width:150, editable:true},
+                {name:'item_cd',index:'item_cd', width:100, editable:true},
+                {name:'Col4',index:'Col4', width:100, editable:true},
+                {name:'Col5',index:'Col5', width:100, editable:true},
+                {name:'Col6',index:'Col6', width:100, editable:true}
+            ],
+            rowNum:50,
+            rowTotal: 10000,
+            rowList : [20,30,50, 50, 50],
+            scroll:1,
+            loadonce:true,
+            mtype: "GET",
+            rownumbers: true,
+            rownumWidth: 40,
+            gridview: true,
+            sortname: 'item_id',
+            viewrecords: true,
+            sortorder: "asc",
+            cellEdit: true
+        });
+
+        $('#search1000Btn').on('click', function(e) {
+            $("#west-grid").setGridParam({url: '/test/jquery.jqGrid-4.5.2/jqgrid1000.json', datatype:'json' }).trigger("reloadGrid");
+        });
+
+        $('#search10000Btn').on('click', function(e) {
+            $("#west-grid").setGridParam({url: '/test/jquery.jqGrid-4.5.2/jqgrid10000.json', datatype:'json' }).trigger("reloadGrid");
+        });
+
+        $('#search100000Btn').on('click', function(e) {
+            $("#west-grid").setGridParam({url: '/test/jquery.jqGrid-4.5.2/jqgrid100000.json', datatype:'json' }).trigger("reloadGrid");
+        });
+
+    });
+    </script>
+</head>
+<body>
+    <h1>jqgrid Complex Grid</h1>
+    <h2>여러개의 Grid를 동시에 로딩 할 경우의 성능 입니다. (grid)</h2>
+    <div class="LblockLine"></div>
+    <div class="LblockDesc">
+        <p>다수의 그리드에서 데이터를 동시 로딩할 경우에도 빠르게 동작합니다.</p>
+    </div>
+    <div id="bd">
+        <div class="LblockButton">
+            <button type="button" id="search1000Btn" >1,000 Search</button>
+            <button type="button" id="search10000Btn" >10,000 Search</button>
+            <button type="button" id="search100000Btn" >100,000 Search</button>
+        </div>
+        <div class="LblockMarkupCode" id="textboxList"></div>
+        <div class="LblockMarkupCode" id="comboList"></div>
+        <div class="LblockMarkupCode" id="dateboxList"></div>
+        <div class="LblockMarkupCode" id="gridList"></div>
+        <table id="west-grid"></table>
+    </div>
+</body>
+</html>

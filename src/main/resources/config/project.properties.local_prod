@@ -1,0 +1,177 @@
+
+serverEnv=LOCAL.PROD
+serverIp=127.0.0.1
+serverPort=7030
+contextPath=iris
+defaultUrl=irislocal.lxhausys.com
+#configService.getString("template.root_path")
+#lghausysPath=http://dv.lxhausys.com:7001
+#lghausysReportPath=http://165.244.161.87:7030/iris/resource/aireport/report
+
+lghausysPath=http://uapproval.lxhausys.com:7010
+#lghausysReportPath=http://iris.lxhausys.com:7030/iris/resource/aireport/report
+lghausysReportPath=http://iris.lxhausys.com:7030/iris/resource/aireport/report
+
+# main left banner
+#
+#LGSP.key=p6z3OPIwgpGz0GodttjyBA==
+#LGSP.url=http://sso.gportal.com/ikep4sp-sso/lgspLogin.do
+#
+LGSP.key=XH5JjtPUDHdDZVNgjxxa9w==
+LGSP.url=https://sso.lgsp.co.kr/ikep4sp-sso/lgspLogin.do
+# main left banner
+LGSGSI.key=amZrbGRzYWpmO2tk
+
+
+KeyStore.UPLOAD_PRJ=prj
+KeyStore.UPLOAD_ANL=anl
+KeyStore.UPLOAD_MCHN=mchn
+KeyStore.UPLOAD_ASST=asst
+KeyStore.UPLOAD_KNLD=knld
+KeyStore.UPLOAD_STST=stst
+KeyStore.UPLOAD_ADM=adm
+KeyStore.UPLOAD_NAMO=namo
+KeyStore.UPLOAD_MAX_SIZE=1024*1024*10
+KeyStore.UPLOAD_MAX_SIZE_100=1024*1024*100
+KeyStore.UPLOAD_MAX_SIZE_50=1024*1024*50
+
+
+#local
+#KeyStore.UPLOAD_BASE=C:/IRIS_DevonFrame/workspace/iris/src/main/webapp/upload
+#KeyStore.UPLOAD_URL=C:/IRIS_DevonFrame/workspace/iris/src/main/webapp/upload
+
+#LOCAL
+KeyStore.UPLOAD_BASE=C:\\IRIS_DevonFrame\\workspace\\iris\\src\\main\\webapp\\resource\\fileupload\\
+KeyStore.UPLOAD_URL=http://localhost:8080/iris/resource/fileupload/
+KeyStore.EXCEL_BASE=C:/IRIS_DevonFrame/workspace/iris/resource/fileupload/template
+KeyStore.APP_PATH=165.244.161.97:5083
+template.root_path=C:/IRIS_DevonFrame/workspace/iris/src/main/resources/fileupload/template
+cnstw.root_path=C:/IRIS_DevonFrame/workspace/iris/src/main/webapp/upload/cnstw/upFile
+upload.root_path=C:/IRIS_DevonFrame/workspace/iris/src/main/resources/fileupload/esti
+cnstwFirm.root_path=C:/IRIS_DevonFrame/workspace/iris/src/main/webapp/upload/cnstw/network
+
+
+#DEV/PRD
+KeyStore.UPLOAD_BASE=D:\\sorc001\iris\resource\fileupload\\
+KeyStore.UPLOAD_URL=http://iris.lxhausys.com:7030/iris/resource/fileupload/
+KeyStore.EXCEL_BASE=D:/sorc001/iris/resource/fileupload/template
+KeyStore.APP_PATH=iris.lxhausys.com:7030
+template.root_path=D:/sorc001/iris/src/main/resources/fileupload/template
+cnstw.root_path=D:/sorc001/iris/src/main/webapp/upload/cnstw/upFile
+upload.root_path=D:/sorc001/iris/src/main/resources/fileupload/esti
+cnstwFirm.root_path=D:/sorc001/iris/src/main/webapp/upload/cnstw/network
+
+#MSSQL IRIS DB (DEV)
+#db.iris.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#db.iris.driver=core.log.jdbc.driver.Mssql2005Driver
+#db.iris.url=jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
+#db.iris.username=irisapp
+#db.iris.password=lghausys123!
+#db.iris.encoding=utf-8
+#db.iris.initialSize=1
+
+#MSSQL IRIS DB(PRD)
+#db.iris.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#db.iris.driver=core.log.jdbc.driver.Mssql2005Driver
+db.iris.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+###$$$$ jdbc:sqlserver -> jdbc:log4jdbc:sqlserver
+db.iris.url=jdbc:log4jdbc:sqlserver://NLB-Prod-B2E-IRIS-DB-e41dd4c2cf353687.elb.ap-northeast-2.amazonaws.com:1433;databasename=IRISDB
+db.iris.username=irisapp
+db.iris.password=lghausys123!
+db.iris.encoding=utf-8
+db.iris.initialSize=1
+
+
+#TODO DB DB(DEV)
+#db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
+#db.todo.url=jdbc:sqlserver://165.244.161.204:1433;databasename=TODO
+#db.todo.username=irisapp
+#db.todo.password=lghausys123!
+#db.todo.encoding=utf-8
+
+#TODO DB DB(PRD)
+#db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
+db.todo.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+db.todo.url=jdbc:log4jdbc:sqlserver://prod-b2b-tot3.c7zoikfsg9f1.ap-northeast-2.rds.amazonaws.com:1433;databasename=TODO
+db.todo.username=todouser
+db.todo.password=lghausys123!
+db.todo.encoding=utf-8
+
+
+#ORACLE PIMS DB(DEV)
+#db.pims.driver=core.log.jdbc.driver.OracleDriver
+#db.pims.url=jdbc:oracle:thin:@165.244.161.97:1526:TOPICSDB
+#db.pims.username=IPIMS
+#db.pims.password=1roqkfdb!
+#db.pims.encoding=utf-8
+
+#ORACLE PIMS DB(PROD)
+#db.pims.driver=core.log.jdbc.driver.OracleDriver
+#db.pims.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+#db.pims.url=jdbc:log4jdbc:oracle:thin:@165.244.161.237:1521:SCMPRD
+#db.pims.username=PIMS_USER
+#db.pims.password=PIMS_0514
+#db.pims.encoding=utf-8
+#db.pims.initialSize=0
+
+#MSSQL PIMS DB(PROD) ORACLE->MSSQL migration [2024.04.10]TOBE (SG연후)
+#db.pims.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#db.pims.driver=core.log.jdbc.driver.Mssql2005Driver
+db.pims.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+db.pims.url=jdbc:log4jdbc:sqlserver://NLB-Prod-B2E-IPM-DB-9410512156a5bfb3.elb.ap-northeast-2.amazonaws.com:1433;databasename=LGH_IP
+db.pims.username=LGH_IP
+db.pims.password=!lghausys0613
+db.pims.encoding=utf-8
+db.pims.initialSize=0
+
+#MSSQL SALSTAT DB(DEV)
+#db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
+#db.salStat.url=jdbc:sqlserver://10.39.174.17:1433;databasename=LGHSDW
+#db.salStat.username=iris_user
+#db.salStat.password=irisuser123!
+#db.salStat.encoding=utf-8
+
+#MSSQL SALSTAT DB(PRD)
+#db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
+db.salStat.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+db.salStat.url=jdbc:log4jdbc:sqlserver://10.39.184.141:1433;databasename=LGHSDW
+db.salStat.username=iris_user
+db.salStat.password=irisuser123!
+db.salStat.encoding=utf-8
+db.salStat.initialSize=0
+
+#SAP Connect Infomation : pasSapPool(dev)
+SAP.pasSapPool.POOL_SIZE=300
+SAP.pasSapPool.SAP_CLIENT=100
+SAP.pasSapPool.USER_ID=SH9020
+SAP.pasSapPool.PASSWORD=SH9020
+SAP.pasSapPool.LANGUAGE=KO
+SAP.pasSapPool.HOST_NAME=10.39.170.172
+SAP.pasSapPool.SYSTEM_NO=01
+
+
+##SAP Connect Infomation : sappool(prd)
+#SAP.sappool.POOL_SIZE=300
+#SAP.sappool.SAP_CLIENT=100
+#SAP.sappool.USER_ID=SH9020
+#SAP.sappool.PASSWORD=SH9020
+#SAP.sappool.LANGUAGE=KO
+#SAP.sappool.HOST_NAME=10.39.170.172
+#SAP.sappool.SYSTEM_NO=10
+
+#SAP Connect Infomation : sappool(dev)
+SAP.sappool.POOL_SIZE=300
+SAP.sappool.SAP_CLIENT=310
+SAP.sappool.USER_ID=SH9020
+SAP.sappool.PASSWORD=SH9020
+SAP.sappool.LANGUAGE=KO
+SAP.sappool.HOST_NAME=10.39.170.172
+SAP.sappool.SYSTEM_NO=01
+
+# RND포탈용 암호 해독용 KEY & IV
+RND_KEY=3wYcrxSs4ijt+NEeHTr9wQ==
+RND_IV=LGRND

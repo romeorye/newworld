@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.calendar.LCalendarGroup Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var calendarGroup;
+Rui.onReady(function() {
+    calendarGroup = new Rui.ui.calendar.LCalendarGroup({
+        applyTo: 'groupCalendarContainer', 
+        PAGES: 3
+    });
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+
+function testLCalendarGroup_method_setProperty() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_setProperty 작동 여부');
+    calendarGroup.setProperty('selected', 1);
+    assertTrue(calendarGroup.getProperty('selected') == 1);
+}
+function testLCalendarGroup_method_setChildFunction() {
+    warn('RuiTests : testLCalendarGroup_method_setMonth 테스트 무시 => 테스트불가.');
+}
+function testLCalendarGroup_method_setMonth() {
+    warn('RuiTests : testLCalendarGroup_method_setMonth 테스트 무시 => 작동방법 모름.');
+}
+function testLCalendarGroup_method_setYear() {
+    warn('RuiTests : testLCalendarGroup_method_setYear 테스트 무시 => 작동방법 모름.');
+}
+function testLCalendarGroup_method_render() {
+    warn('RuiTests : testLCalendarGroup_method_render 테스트 무시 => 랜더링 함수.');
+}
+function testLCalendarGroup_method_select() {
+    warn('RuiTests : testLCalendarGroup_method_selectCell 테스트 무시 => 작동방법 모름.');
+}
+function testLCalendarGroup_method_selectCell() {
+    warn('RuiTests : testLCalendarGroup_method_selectCell 테스트 무시 => 작동방법 모름.');
+}
+function testLCalendarGroup_method_deselect() {
+    warn('RuiTests : testLCalendarGroup_method_deselect 테스트 무시 => 작동방법 모름.');
+}
+function testLCalendarGroup_method_deselectAll() {
+    warn('RuiTests : testLCalendarGroup_method_deselectAll 테스트 무시 => 작동방법 모름.');
+}
+function testLCalendarGroup_method_deselectCell() {
+    warn('RuiTests : testLCalendarGroup_method_deselectCell 테스트 무시 => 작동방법 모름.');
+}
+function testLCalendarGroup_method_reset() {
+    warn('RuiTests : testLCalendarGroup_method_reset 테스트 무시 => 작동방법 모름.');
+}
+function testLCalendarGroup_method_clear() {
+    warn('RuiTests : testLCalendarGroup_method_clear 테스트 무시 => 작동방법 모름.');
+}
+function testLCalendarGroup_method_nextMonth() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_nextMonth 작동 여부');
+    calendarGroup.nextMonth();
+    var cn = Rui.select('#groupCalendarContainer_0 table').getAt(0).dom.className;
+    var date = Rui.util.LDate.subtract(new Date(), Rui.util.LDate.MONTH, 1);
+    assertTrue(cn.indexOf('' + (date).getMonth()) > -1);
+    calendarGroup.previousMonth();
+}
+function testLCalendarGroup_method_previousMonth() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_previousMonth 작동 여부');
+    calendarGroup.previousMonth();
+    var cn = Rui.select('#groupCalendarContainer_0 table').getAt(0).dom.className;
+    var date = Rui.util.LDate.subtract(new Date(), Rui.util.LDate.MONTH, 1);
+    assertTrue(cn.indexOf('' + (date).getMonth()) > -1);
+    calendarGroup.nextMonth();
+}
+function testLCalendarGroup_method_nextYear() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_nextYear 작동 여부');
+    calendarGroup.nextYear();
+    var cn = Rui.select('#groupCalendarContainer_0 table').getAt(0).dom.className;
+    var date = Rui.util.LDate.subtract(new Date(), Rui.util.LDate.YEAR, -1);
+    assertTrue(cn.indexOf('' + (date).getFullYear()) > -1);
+    calendarGroup.previousYear();
+}
+function testLCalendarGroup_method_previousYear() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_previousYear 작동 여부');
+    calendarGroup.previousYear();
+    var cn = Rui.select('#groupCalendarContainer_0 table').getAt(0).dom.className;
+    var date = Rui.util.LDate.subtract(new Date(), Rui.util.LDate.YEAR, 1);
+    assertTrue(cn.indexOf('' + (date).getFullYear()) > -1);
+    calendarGroup.nextYear();
+}
+function testLCalendarGroup_method_addRenderer() {
+    warn('RuiTests : testLCalendarGroup_method_addRenderer 테스트 무시 => 설정용함수.');
+}
+function testLCalendarGroup_method_addMonthRenderer() {
+    warn('RuiTests : testLCalendarGroup_method_addMonthRenderer 테스트 무시 => 설정용함수.');
+}
+function testLCalendarGroup_method_addWeekdayRenderer() {
+    warn('RuiTests : testLCalendarGroup_method_addWeekdayRenderer 테스트 무시 => 설정용함수.');
+}
+function testLCalendarGroup_method_removeRenderers() {
+    warn('RuiTests : testLCalendarGroup_method_removeRenderers 테스트 무시 => 설정용함수.');
+}
+function testLCalendarGroup_method_addMonths() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_addMonths 작동 여부');
+    calendarGroup.addMonths(1);
+    var cn = Rui.select('#groupCalendarContainer_0 table').getAt(0).dom.className;
+    var date = Rui.util.LDate.subtract(new Date(), Rui.util.LDate.MONTH, -1);
+    assertTrue(cn.indexOf('' + (date).getMonth()) > -1);
+    calendarGroup.subtractMonths(1);
+}
+function testLCalendarGroup_method_subtractMonths() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_subtractMonths 작동 여부');
+    calendarGroup.subtractMonths(1);
+    var cn = Rui.select('#groupCalendarContainer_0 table').getAt(0).dom.className;
+    var date = Rui.util.LDate.subtract(new Date(), Rui.util.LDate.MONTH, 1);
+    assertTrue(cn.indexOf('' + (date).getMonth()) > -1);
+    calendarGroup.addMonths(1);
+}
+function testLCalendarGroup_method_addYears() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_addYears 작동 여부');
+    calendarGroup.addYears(1);
+    var cn = Rui.select('#groupCalendarContainer_0 table').getAt(0).dom.className;
+    var date = Rui.util.LDate.subtract(new Date(), Rui.util.LDate.YEAR, -1);
+    assertTrue(cn.indexOf('' + (date).getFullYear()) > -1);
+    calendarGroup.subtractYears(1);
+}
+function testLCalendarGroup_method_subtractYears() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_subtractYears 작동 여부');
+    calendarGroup.subtractYears(1);
+    var cn = Rui.select('#groupCalendarContainer_0 table').getAt(0).dom.className;
+    var date = Rui.util.LDate.subtract(new Date(), Rui.util.LDate.YEAR, 1);
+    assertTrue(cn.indexOf('' + (date).getFullYear()) > -1);
+    calendarGroup.addYears(1);
+}
+function testLCalendarGroup_method_getCalendarPage() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_getCalendarPage 작동 여부');
+    var result = calendarGroup.getCalendarPage(new Date());
+    assertEquals(result.id, 'groupCalendarContainer_0');
+}
+function testLCalendarGroup_method_toString() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_toString 작동 여부');
+    var result = calendarGroup.toString();
+    assertEquals(result, 'LCalendarGroup groupCalendarContainer');
+}
+function testLCalendarGroup_method_destroy() {
+    info('LCalendarGroupTests : testLCalendarGroup_method_destroy 작동 여부');
+    calendarGroup.destroy();
+    calendarGroup = new Rui.ui.calendar.LCalendarGroup({
+        applyTo: 'groupCalendarContainer', 
+        PAGES: 3
+    });
+    assertNotUndefined(true);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.calendar.LCalendarGroup Tests</h1>
+    <div id="groupCalendarContainer"></div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLCalendarGroup_method_setProperty()">setProperty</a>
+            <a href="javascript:testLCalendarGroup_method_setChildFunction()">setChildFunction</a>
+            <a href="javascript:testLCalendarGroup_method_setMonth()">setMonth</a>
+            <a href="javascript:testLCalendarGroup_method_setYear()">setYear</a>
+            <a href="javascript:testLCalendarGroup_method_render()">render</a>
+            <a href="javascript:testLCalendarGroup_method_select()">select</a>
+            <a href="javascript:testLCalendarGroup_method_selectCell()">selectCell</a>
+            <a href="javascript:testLCalendarGroup_method_deselect()">deselect</a>
+            <a href="javascript:testLCalendarGroup_method_deselectAll()">deselectAll</a>
+            <a href="javascript:testLCalendarGroup_method_deselectCell()">deselectCell</a>
+            <a href="javascript:testLCalendarGroup_method_reset()">reset</a>
+            <a href="javascript:testLCalendarGroup_method_clear()">clear</a>
+            <a href="javascript:testLCalendarGroup_method_nextMonth()">nextMonth</a>
+            <a href="javascript:testLCalendarGroup_method_previousMonth()">previousMonth</a>
+            <a href="javascript:testLCalendarGroup_method_nextYear()">nextYear</a>
+            <a href="javascript:testLCalendarGroup_method_previousYear()">previousYear</a>
+            <a href="javascript:testLCalendarGroup_method_addRenderer()">addRenderer</a>
+            <a href="javascript:testLCalendarGroup_method_addMonthRenderer()">addMonthRenderer</a>
+            <a href="javascript:testLCalendarGroup_method_addWeekdayRenderer()">addWeekdayRenderer</a>
+            <a href="javascript:testLCalendarGroup_method_removeRenderers()">removeRenderers</a>
+            <a href="javascript:testLCalendarGroup_method_addMonths()">addMonths</a>
+            <a href="javascript:testLCalendarGroup_method_subtractMonths()">subtractMonths</a>
+            <a href="javascript:testLCalendarGroup_method_addYears()">addYears</a>
+            <a href="javascript:testLCalendarGroup_method_subtractYears()">subtractYears</a>
+            <a href="javascript:testLCalendarGroup_method_getCalendarPage()">getCalendarPage</a>
+            <a href="javascript:testLCalendarGroup_method_toString()">toString</a>
+            <a href="javascript:testLCalendarGroup_method_destroy()">destroy</a>
+        </div>
+    </div>        
+</body>
+</html>

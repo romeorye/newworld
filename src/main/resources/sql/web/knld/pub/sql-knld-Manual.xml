@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.pub">
+
+
+    <!-- 규정/업무Manual 리스트  -->
+	<select id="getManualList" resultType="hashmap">
+		<![CDATA[
+		-- getManualList 규정/업무Manual 리스트
+			SELECT
+					PRCP_MNL_ID                                               AS 'manualId'     /*규정/업무ManualID*/
+					,TITL_NM                                                  AS 'titlNm'       /*제목*/
+					,PRCP_MNL_SCN_CD                                          AS 'prcpMnlScnCd' /*구분코드*/
+					,dbo.fn_getComDtlNm('PRCP_MNL_SCN_CD', A.PRCP_MNL_SCN_CD) AS 'prcpMnlScnNm' /*구분이름*/
+					,ENFC_DT                                                  AS 'enfcDt'      /*시행일*/
+					,RFRM_SBC                                                 AS 'rfrmSbc'     /*개정내용*/
+					,SBC_NM                                                   AS 'sbcNm'       /*내용*/
+					,RTRV_CNT                                                 AS 'rtrvCnt'     /*조회수*/
+					,KEYWORD_NM                                               AS 'keywordNm'   /*키워드*/
+					,(CASE
+						WHEN (select	count(1)
+						  		from		IRIS_COM_ATTC_FIL
+						  		where		ATTC_FIL_ID = A.ATTC_FILE_ID
+								  and		DEL_YN = 'N') = 0 THEN NULL
+						ELSE  A.ATTC_FILE_ID
+					   END)                                                   AS 'attcFilId'    /*첨부파일*/
+					,RGST_ID                                                  AS 'rgstId'      /*등록자ID*/
+			        ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'      /*등록자*/
+					,RGST_OPS_ID                                              AS 'rgstOpsId'   /*등록자부서ID*/
+					,DEL_YN                                                   AS 'delYn'       /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)                   AS 'frstRgstDt'  /*등록일*/
+			FROM IRIS_KNLD_PRCP_MNL A
+			WHERE DEL_YN = 'N'
+		 ]]>
+        <if test="titlNm != null and titlNm != ''">
+			AND TITL_NM like '%${titlNm}%'
+		</if>
+        <if test="rgstNm != null and rgstNm != ''">
+			AND dbo.fn_getUserName(RGST_ID) like '%${rgstNm}%'
+		</if>
+        <if test="prcpMnlScnCd != null and prcpMnlScnCd != ''">
+			AND PRCP_MNL_SCN_CD = '${prcpMnlScnCd}'
+		</if>
+		<if test="( enfcStrtDt != null and enfcStrtDt != '')">
+			AND ENFC_DT >= #{enfcStrtDt}
+		</if>
+		<if test="( enfcFnhDt != null and enfcFnhDt != '')">
+			AND ENFC_DT <![CDATA[<]]>= #{enfcFnhDt}
+		</if>
+			ORDER BY PRCP_MNL_ID DESC
+	</select>
+
+
+	<!-- 규정/업무Manual 저장  -->
+	<insert id="insertManualInfo">
+	<![CDATA[
+	-- insertManualInfo 규정/업무Manual 저장
+		insert into IRIS_KNLD_PRCP_MNL
+		(			 TITL_NM
+					,PRCP_MNL_SCN_CD
+					,ENFC_DT
+					,RFRM_SBC
+					,SBC_NM
+					,RTRV_CNT
+					,KEYWORD_NM
+		]]>
+		            <if test="( attcFilId != null and attcFilId != '')">
+					,ATTC_FILE_ID
+		            </if>
+    <![CDATA[
+					,RGST_ID
+					,RGST_OPS_ID
+					,DEL_YN
+					, FRST_RGST_ID
+					, FRST_RGST_DT
+					, LAST_MDFY_ID
+					, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{titlNm}
+		    , #{prcpMnlScnCd}
+		    , #{enfcDt}
+		    , #{rfrmSbc}
+		    , #{sbcNm}
+		    , 0
+		    , #{keywordNm}
+		    ]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+		    , #{attcFilId}
+		    </if>
+		     <![CDATA[
+		    , #{_userId}
+		    , ( SELECT sa_dept_new FROM IRIS_SSO_USER WHERE sa_user = #{_userId} )
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+
+    <!-- 규정/업무Manual 업데이트  -->
+	<update id="updateManualInfo">
+	<![CDATA[
+	-- updateManualInfo 규정/업무Manual 업데이트
+		UPDATE IRIS_KNLD_PRCP_MNL
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , TITL_NM = #{titlNm}
+		     , PRCP_MNL_SCN_CD = #{prcpMnlScnCd}
+	         , ENFC_DT = #{enfcDt}
+	         , RFRM_SBC = #{rfrmSbc}
+		     , SBC_NM = #{sbcNm}
+		     , KEYWORD_NM = #{keywordNm}
+	]]>
+		<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID = #{attcFilId}
+	    </if>
+
+	<![CDATA[
+		 WHERE PRCP_MNL_ID = #{manualId}
+	]]>
+	</update>
+
+	<!--  규정/업무Manual 조회건수 업데이트  -->
+	<update id="updateManualRtrvCnt">
+	<![CDATA[
+	-- updateManualRtrvCnt 규정/업무Manual 조회건수 업데이트
+		UPDATE IRIS_KNLD_PRCP_MNL
+		   SET RTRV_CNT = RTRV_CNT + 1
+	]]>
+
+	<![CDATA[
+		 WHERE PRCP_MNL_ID = #{manualId}
+	]]>
+	</update>
+
+
+
+    <!-- 규정/업무Manual 삭제  -->
+	<update id="deleteManualInfo">
+	<![CDATA[
+	-- deleteManualInfo 규정/업무Manual 삭제
+		UPDATE IRIS_KNLD_PRCP_MNL
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE PRCP_MNL_ID = #{manualId}
+	]]>
+	</update>
+
+    <!-- 규정/업무Manual 상세화면  -->
+	<select id="getManualInfo" resultType="hashmap">
+		<![CDATA[
+		-- getManualInfo 규정/업무Manual 상세화면
+			SELECT
+					PRCP_MNL_ID                                               AS 'manualId'     /*규정/업무ManualID*/
+					,TITL_NM                                                  AS 'titlNm'       /*제목*/
+					,PRCP_MNL_SCN_CD                                          AS 'prcpMnlScnCd' /*구분코드*/
+					,dbo.fn_getComDtlNm('PRCP_MNL_SCN_CD', A.PRCP_MNL_SCN_CD) AS 'prcpMnlScnNm' /*구분이름*/
+					,ENFC_DT                                                  AS 'enfcDt'      /*시작일*/
+					,RFRM_SBC                                                 AS 'rfrmSbc'     /*개정내용*/
+					,SBC_NM                                            AS 'sbcNm'       /*내용*/
+					,RTRV_CNT                                          AS 'rtrvCnt'     /*조회수*/
+					,KEYWORD_NM                                        AS 'keywordNm'   /*키워드*/
+					,ATTC_FILE_ID                                      AS 'attcFilId'   /*첨부파일*/
+					,RGST_ID                                           AS 'rgstId'      /*등록자ID*/
+			        ,dbo.fn_getUserName(RGST_ID)                       AS 'rgstNm'      /*등록자*/
+					,RGST_OPS_ID                                       AS 'rgstOpsId'   /*등록자부서ID*/
+					,DEL_YN                                            AS 'delYn'       /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)            AS 'frstRgstDt'  /*등록일*/
+			FROM IRIS_KNLD_PRCP_MNL  A
+			WHERE DEL_YN = 'N'
+			  AND PRCP_MNL_ID = #{manualId}
+		 ]]>
+
+	</select>
+
+</mapper>

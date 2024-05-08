@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common.attachFile">
+
+	<select id="retrieveCommMchnInfo" resultType="hashmap">
+	<![CDATA[
+	-- retrieveCommMchnInfo
+	SELECT   MCHN_INFO_ID  AS "mchnInfoId"
+			,MCHN_HAN_NM  AS "mchnHanNm"
+			,MCHN_EN_NM  AS "mchnEnNm"
+			,MKR_NM  AS "mkrNm"
+			,MDL_NM  AS "mdlNm"
+			,MCHN_CL_CD  AS "mchnClCd"
+			,ACC2.COM_DTL_NM AS "mchnClNm"
+			,OPN_YN  AS "opnYn"
+			,MCHN_UFE_CL_CD  AS "mchnUfeClCd"
+			,ACC.COM_DTL_NM AS "mchnUsePsblNm"
+			,MCHN_UFE  AS "mchnUfe"
+			,FXA_NO  AS "fxaNo"
+			,MCHN_CRGR_ID  AS "mchnCrgrId"
+			,B.SA_NAME AS "mchnCrgrNm"
+			,MCHN_LOC  AS "mchnLoc"
+			,MCHN_EXPL  AS "mchnExpl"
+			,MCHN_MTN  AS "mchnMtn"
+			,MCHN_APL_SPHE  AS "mchnAplSphe"
+			,MCHN_SPC  AS "mchnSpc"
+			,ATTC_FIL_ID   AS "attcFilId"
+			,MCHN_USE_PSBL_YN  AS "mchnUsePsblYn"
+	FROM     IRIS_MCHN_INFO_MST A
+	         INNER JOIN IRIS_SSO_USER B
+	    	ON B.SA_SABUN_NEW = A.MCHN_CRGR_ID
+	    	,IRIS_ADM_COM_CD ACC
+			,IRIS_ADM_COM_CD ACC2
+    WHERE   A.DEL_YN = 'N'
+	AND 	ACC.COM_CD_CD = 'MCHN_PRCT_ST'
+	AND 	A.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
+	AND 	ACC2.COM_CD_CD = 'MCHN_CL_CD'
+	AND 	A.MCHN_CL_CD = ACC2.COM_DTL_CD
+	]]>
+	<if test="(mchnNm != null and mchnNm != '')">
+		AND  A.MCHN_HAN_NM LIKE '%'+#{mchnNm}+'%'
+	</if>
+ 	<if test="(mchnCrgrNm != null and mchnCrgrNm != '')">
+		AND  B.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
+	 </if>
+
+	</select>
+
+
+</mapper>

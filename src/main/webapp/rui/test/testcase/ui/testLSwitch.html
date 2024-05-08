@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LSwitch Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../plugins/ui/LSwitch.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../plugins/ui/LSwitch.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style>
+.L-switch li {
+    width: 20px;
+    height: 20px;
+}
+.L-switch-button{
+    background-color: blue;
+}
+.L-switch-on {
+    background-color: red;
+}
+</style>
+
+<script type="text/javascript" >
+var switch1 = null, switch2 = null;
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    switch1 = new Rui.ui.LSwitch({
+    	applyTo: 'switch1',
+    	count: 3,
+    	toggle: false
+    });
+    
+    switch2 = new Rui.ui.LSwitch({
+        applyTo: 'switch2',
+        count: 1,
+        toggle: true
+    });
+    
+   var  switch3 = new Rui.ui.LSwitch({
+        applyTo: 'switch3',
+        count: 2,
+        toggle: false
+    });
+
+   var  switch4 = new Rui.ui.LSwitch({
+        applyTo: 'switch4',
+        count: 4,
+        toggle: true
+    });
+    
+    switch1.push(1);
+    
+    switch1.on('turnOn', function(e){
+    	console.log('on=' + e.index);
+    });
+    switch1.on('turnOff', function(e){
+    	console.log('off=' + e.index);
+    });
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+
+function testLSwitch_method_push() {
+    info('LSwitchTests : testLSwitch_method_push 작동 여부');
+    switch1.push(2);
+    assertTrue(switch1.isOn(2));
+}
+function testLSwitch_method_getValue() {
+    info('LSwitchTests : testLSwitch_method_getValue 작동 여부');
+    switch1.push(2);
+    var value = switch1.getValue(2);
+    assertTrue(value == 2);
+    switch2.push(1);
+    var values = switch2.getValue();
+    assertTrue(values[1] == true);
+}
+function testLSwitch_method_destroy() {
+    info('LSwitchTests : testLSwitch_method_destroy 작동 여부');
+    switch1.destroy();
+    assertNotUndefined(true);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LSwitch Tests</h1>
+
+    <div id="bd">
+    <div class="LblockMarkupCode">
+        <div id="switch2"></div>
+        <div id="switch3"></div>
+        <div id="switch1"></div>
+        <div id="switch4"></div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLSwitch_method_push()">push</a>
+            <a href="javascript:testLSwitch_method_getValue()">getValue</a>
+            <a href="javascript:testLSwitch_method_destroy()">destroy</a>
+        </div>
+    </div>        
+</body>
+</html>

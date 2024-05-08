@@ -1,0 +1,28 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="Tag" uri="http://www.dev-on.com/Tag"  %>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache; no-store; no-save">
+
+<title>DevOn EZ Service</title>
+
+<link rel="stylesheet" type="text/css" href="<c:url value="/resource/css/import.css"/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/resource/css/ez_service.css"/>" />
+
+<script type="text/javascript">var _contextPath = "<c:url value='/'/>";</script>
+<script type="text/javascript" src="<c:url value="/resource/js/dui_prototype.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resource/js/dui_effect.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resource/js/dui_dragndrop.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resource/js/dui_hhmenu.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resource/js/dui_tree.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resource/js/dui_tab.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resource/js/dui_calendar.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resource/js/dui_webvalidator.js"/>"></script>
+
+<script type="text/javascript" src="<c:url value="/resource/js/common.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resource/js/xsync.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resource/js/saymessage.js"/>"></script>
+<script type="text/javascript" src="<c:url value='/resource/js/jquery/jquery-1.11.0.js'/>"></script>
+<script type="text/javascript" src="<c:url value="/resource/js/ez_ajax.js"/>"></script>

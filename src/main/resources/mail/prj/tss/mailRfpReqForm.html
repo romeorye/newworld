@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>LX하우시스</title>
+<style>
+@charset "utf-8";
+
+/*==============================default====================*/
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+	color:#7d7d7d; 
+    font-family:'Malgun Gothic','맑은 고딕','Noto Sans KR',
+    'Nanum Gothic','굴림',gulim,'돋움',dotum,'Microsoft NeoGothic', 'Droid sans', sans-serif;
+	font-size:13px; 
+	letter-spacing:-0.20px;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	overflow-y:scroll;
+    font-weight:400;
+    color:#555;
+}
+
+
+/*==============================공통====================*/
+
+.relative{position:relative;}
+.clear {clear:both}
+.bold{font-weight:500;}
+.block{display:block;}
+
+
+a:hover{text-decoration:none;}
+
+
+.clear{clear:both;}
+.clear:before,
+.clear:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+} 
+.clear:after {
+    clear: both;
+} 
+.clear {
+    *zoom: 1;
+}
+
+
+
+/* mail 전송 */
+
+#Wrap{width:100%; overflow: -webkit-paged-x; height:100%;}
+
+.mail_layout{margin:0 auto;}
+
+.mail_layout .logo{margin-top:15px; margin-left:20px; vertical-align: middle; text-align: left;}
+
+.top_line{border-top:2px solid #c40452; width:100%; margin-top: 10px;}
+
+.mail_cont{font-size: 12px; color:#666;  width: 100%; padding: 20px; max-height: 100%;}
+
+table {
+    width: 100%;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+    background-color: #D5D5D5;
+  }
+  th, td {
+    border: 1px solid #444444;
+    padding: 10px;
+  }
+
+  td{
+  	background-color: #FFFFFF;
+  }	
+</style>
+
+
+</head>
+
+<body>
+    
+<div id="Wrap">
+    <div>
+    <!--header-->
+    <div class="mail_layout">
+      <div class="logo"><img src="http://iris.lxhausys.com:7030/iris/resource/web/images/newIris/logo.png"  width="104px;" height="44px;"></div>  
+    
+     <div style="clear: both"></div>
+    </div>      
+    <div class="top_line"></div>
+    </div>
+    
+<!--content-->
+<div class="mail_cont">
+		<font size="4"><b>- RFP 요청서</b></font> <br/><br/>
+		<table>
+			<colgroup>
+                <col style="width: 30%;" />
+                <col style="width: 70%;" />
+            </colgroup>
+			<tr>
+				<th>Title(요청 기술명)</th>
+				<td>
+					${title}
+				</td>			
+			</tr>
+			<tr>
+				<th>RequestDate</th>
+				<td>
+					${reqDate}
+				</td>			
+			</tr>
+			<tr>
+				<th>ResearchEngineer</th>
+				<td>
+					${rsechEngn}
+				</td>			
+			</tr>
+			<tr>
+				<th>Description of Technology</th>
+				<td>
+					${descTclg}
+				</td>		
+			</tr>
+			<tr>
+				<th>Expected Applications</th>
+				<td>
+					${exptAppl}
+				</td>			
+			</tr>
+			<tr>
+				<th>Main Request<br/>(목표 스펙, 이슈)</th>
+				<td>
+					${mainReq}
+				</td>			
+			</tr>
+			<tr>
+				<th>Bench Marking Technology<br/>(State of the Art)<br/>(최신 기술 현황)</th>
+				<td>
+					${benchMarkTclg}
+				</td>			
+			</tr>
+			<tr>
+				<th>Collaboration Type<br/>(협력방법)</th>
+				<td>
+					&nbsp;<input type="checkbox"  name= "JR"  ${jr} > Joint development / R&D outsourcing<BR/>
+ 					&nbsp;<input type="checkbox"  name= "CS"  ${cs}  > Component sourcing<BR/>
+ 					&nbsp;<input type="checkbox"  name= "IO"  ${io}  > In- / out licensing<BR/>
+ 					&nbsp;<input type="checkbox"  name= "SS"  ${ss}   > Search for specialist / recruiting<BR/>
+ 					&nbsp;<input type="checkbox"  name= "MA"  ${ma}  > Meeting arrangement<BR/>
+ 					&nbsp;<input type="checkbox"  name= "BT"  ${bt}  > Benchmarking / technology evaluation<BR/> 
+				</td>		
+			</tr>
+			<tr>
+				<th>Timeline(일정)</th>
+				<td>
+					${timeline}
+				</td>			
+			</tr>
+			<tr>
+				<th>Comments</th>
+				<td>
+					${comments}
+				</td>			
+			</tr>
+			<tr>
+				<th>Company Name<br/>(Optional)</th>
+				<td>
+					${companyNm}
+				</td>			
+			</tr>
+			<tr>
+				<th>Output Image & Project Description</th>
+				<td>
+					${pjtImgView}
+				</td>			
+			</tr>
+		</table>
+	</div>		 
+</div>
+    
+</body>
+</html>

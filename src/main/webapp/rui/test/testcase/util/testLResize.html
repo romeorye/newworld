@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LResize Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../plugins/util/LResize.js"></script>
+    
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+ <style type="text/css">
+        body {
+            margin:0;
+            padding:0;
+        }
+        
+        #examplecontainer {
+            padding:10px;
+        }
+    
+        #resizablepanel .bd {
+            overflow:auto;
+            background-color:#fff;
+            padding:10px;
+        }
+    
+        #resizablepanel .ft {
+            height:15px;
+            padding:0;
+        }
+    
+        #resizablepanel .L-resize-handle-br {
+            right:0;
+            bottom:0;
+            height: 8px;
+            width: 8px;
+            position:absolute;
+        }
+    
+        /*  
+            The following CSS is added to prevent scrollbar bleedthrough on
+            Gecko browsers (e.g. Firefox) on MacOS.
+        */
+    
+        /*
+            PLEASE NOTE: It is necessary to toggle the "overflow" property 
+            of the body element between "hidden" and "auto" in order to 
+            prevent the scrollbars from remaining visible after the the 
+            Resizable Panel is hidden.  For more information on this issue, 
+            read the comments in the "container-core.css" file.
+           
+            We use the #reziablepanel_c id based specifier, so that the rule
+            is specific enough to over-ride the .bd overflow rule above.
+        */
+    
+        #resizablepanel_c.hide-scrollbars .L-resize .bd {
+            overflow: hidden;
+        }
+    
+        #resizablepanel_c.show-scrollbars .L-resize .bd {
+            overflow: auto;
+        }
+    
+        /*
+            PLEASE NOTE: It is necessary to set the "overflow" property of
+            the underlay element to "visible" in order for the 
+            scrollbars on the body of a Resizable Panel instance to be 
+            visible.  By default the "overflow" property of the underlay 
+            element is set to "auto" when a Panel is made visible on
+            Gecko for Mac OS X to prevent scrollbars from poking through
+            it on that browser + platform combintation.  For more 
+            information on this issue, read the comments in the 
+            "container-core.css" file.
+        */
+    
+        #resizablepanel_c.show-scrollbars .underlay {
+            overflow: visible;
+        }
+    </style>
+
+<script type="text/javascript" >
+var panel = null; 
+var resize = null; 
+Rui.onReady(function() {
+    // 소스 넣을 위치
+     // Create a panel Instance, from the 'resizablepanel' DIV standard module markup
+            panel = new Rui.ui.LPanel({
+                applyTo: 'resizablepanel',
+                draggable: true,
+                width: '500',
+                height: '150',
+                autofillheight: 'body', // default value, specified here to highlight its use in the example
+                constraintoviewport: true,
+                isDefaultCSS: false,
+                context: ['showbtn', 'tl', 'bl']
+            });
+            panel.render();
+            
+            panel.show(); 
+        
+            /*<b>*/
+            // Create Resize instance, binding it to the 'resizablepanel' DIV 
+            resize = new Rui.util.LResize({
+                el: 'resizablepanel',
+                attributes: {
+                    handles: ['br'],
+                    autoRatio: true,
+                    minWidth: 300,
+                    minHeight: 100,
+                    status: false 
+                }
+            });
+            
+        
+            /*
+            resize.on('resize', function(args) {
+                var panelHeight = args.height;
+                this.cfg.setProperty('height', panelHeight + 'px');
+            }, panel, true);
+            */
+ 
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+function testLResize_method_getResizeById() {
+    info('LResizeTests : testLResize_method_getResizeById 작동 여부');
+    
+    assertNotUndefined(Rui.util.LResize.getResizeById('examplecontainer')); 
+}
+function testLResize_method_lock() {
+    info('LResizeTests : testLResize_method_lock 작동 여부');
+    var result = resize.lock(true);
+    //return type : Rui.util.LResize
+    assertNotUndefined(result);
+}
+function testLResize_method_unlock() {
+    info('LResizeTests : testLResize_method_unlock 작동 여부');
+    var result = resize.unlock(true);
+    //return type : Rui.util.LResize
+    assertNotUndefined(result);
+}
+function testLResize_method_isLocked() {
+    info('LResizeTests : testLResize_method_isLocked 작동 여부');
+    assertNotUndefined(resize.isLocked()); 
+}
+function testLResize_method_reset() {
+    info('LResizeTests : testLResize_method_reset 작동 여부');
+    
+    var result = resize.reset();
+    //return type : Rui.util.LResize
+    assertNotUndefined(result); 
+}
+function testLResize_method_getProxyEl() {
+    info('LResizeTests : testLResize_method_getProxyEl 작동 여부');
+    assertNotUndefined(resize.getProxyEl()); 
+}
+function testLResize_method_getWrapEl() {
+    info('LResizeTests : testLResize_method_getWrapEl 작동 여부');
+    assertNotUndefined(resize.getWrapEl()); 
+}
+function testLResize_method_getStatusEl() {
+    info('LResizeTests : testLResize_method_getStatusEl 작동 여부');
+    assertNotUndefined(resize.getStatusEl()); 
+}
+function testLResize_method_getActiveHandleEl() {
+    info('LResizeTests : testLResize_method_getActiveHandleEl 작동 여부');
+    
+    assertUndefined(resize.getActiveHandleEl());
+}
+function testLResize_method_isActive() {
+    info('LResizeTests : testLResize_method_isActive 작동 여부');
+    assertNotUndefined(resize.isActive()); 
+}
+function testLResize_method_destroy() {
+    info('LResizeTests : testLResize_method_destroy 작동 여부');
+    
+    var resize2 = new Rui.util.LResize({
+        el: 'resizablepanel2',
+        attributes: {
+            handles: ['br'],
+            autoRatio: true,
+            minWidth: 300,
+            minHeight: 100,
+            status: false 
+        }
+    });
+        
+    assertUndefined(resize2.destroy()); 
+    
+}
+function testLResize_method_toString() {
+    info('LResizeTests : testLResize_method_toString 작동 여부');
+    var result = resize.toString();
+    //return type : String
+    assertNotUndefined(result); 
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LResize Tests</h1>
+
+    <div id="bd">
+            <div class="LblockMarkupCode">
+            <div id="examplecontainer">
+                <div id="resizablepanel">
+                    <div class="hd">Resizable Panel</div>
+                    <div class="bd">
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse nulla. Fusce mauris massa, rutrum eu, imperdiet ut, placerat at, nunc. Vestibulum consequat ligula ut lacus. Nulla nec pede. Fusce consequat, augue et eleifend ornare, nibh mi dapibus lorem, ut lacinia turpis eros at eros. Proin laoreet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla velit. Fusce id sem sit amet felis porta mollis. Aliquam erat volutpat. Etiam tortor. Donec dui felis, pretium quis, vulputate et, molestie non, nisi.</p>
+                    </div>
+                    <div class="ft"></div>
+                </div>
+                 <div id="resizablepanel2">
+                    <div class="hd">Resizable Panel</div>
+                    <div class="bd">
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Suspendisse nulla. Fusce mauris massa, rutrum eu, imperdiet ut, placerat at, nunc. Vestibulum consequat ligula ut lacus. Nulla nec pede. Fusce consequat, augue et eleifend ornare, nibh mi dapibus lorem, ut lacinia turpis eros at eros. Proin laoreet. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla velit. Fusce id sem sit amet felis porta mollis. Aliquam erat volutpat. Etiam tortor. Donec dui felis, pretium quis, vulputate et, molestie non, nisi.</p>
+                    </div>
+                    <div class="ft"></div>
+                </div>
+            </div>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLResize_method_getResizeById()">getResizeById</a>
+            <a href="javascript:testLResize_method_lock()">lock</a>
+            <a href="javascript:testLResize_method_unlock()">unlock</a>
+            <a href="javascript:testLResize_method_isLocked()">isLocked</a>
+            <a href="javascript:testLResize_method_reset()">reset</a>
+            <a href="javascript:testLResize_method_getProxyEl()">getProxyEl</a>
+            <a href="javascript:testLResize_method_getWrapEl()">getWrapEl</a>
+            <a href="javascript:testLResize_method_getStatusEl()">getStatusEl</a>
+            <a href="javascript:testLResize_method_getActiveHandleEl()">getActiveHandleEl</a>
+            <a href="javascript:testLResize_method_isActive()">isActive</a>
+            <a href="javascript:testLResize_method_destroy()">destroy</a>
+            <a href="javascript:testLResize_method_toString()">toString</a>
+        </div>
+    </div>        
+</body>
+</html>

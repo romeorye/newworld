@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="space.lib">
+
+
+    <!-- 리스트  -->
+	<select id="getSpaceLibList" resultType="hashmap">
+	-- getSpaceLibList 리스트
+		<![CDATA[
+			SELECT
+				   BBS_ID                                                   AS bbsId        /*게시판ID*/
+				  ,BBS_CD                                                   AS bbsCd        /*분석게시판코드*/
+				  ,dbo.fn_getComDtlNm('SPACE_BBS_CD', A.BBS_CD)               AS bbsNm        /*분석게시판명*/
+				  ,BBS_TITL                                                 AS bbsTitl      /*게시판제목*/
+				  ,BBS_SBC                                                  AS bbsSbc       /*게시판내용*/
+				  ,RGST_ID                                                  AS rgstId       /*등록자ID*/
+			      ,dbo.fn_getUserName(RGST_ID)                              AS rgstNm       /*등록자이름*/
+				  ,RTRV_CT                                                  AS rtrvCt       /*조회건수*/
+				  ,BBS_KWD                                                  AS bbsKwd       /*키워드*/
+				  ,ATTC_FILE_ID                                             AS attcFilId    /*첨부파일ID*/
+				  ,convert(varchar(20),A.FRST_RGST_DT,23)                   AS frstRgstDt   /*등록일*/
+				  ,DEL_YN                                                   AS delYn        /*삭제여부*/
+			 FROM IRIS_SPACE_BBS_MST A
+			WHERE DEL_YN = 'N'
+
+		 ]]>
+		 <if test="(bbsCd == '01' or target == 'tabContentIfrm0')">
+			  AND BBS_CD in ('02','03','04','05','06','07')
+		 </if>
+		 <if test="(bbsCd != '01' and target != 'tabContentIfrm0')">
+			  AND BBS_CD = #{bbsCd}
+		 </if>
+		 <if test="searchCd == 'bbsTitlCode'">
+			  AND BBS_TITL like '%${searchNm}%'
+		 </if>
+		 <if test="searchCd == 'bbsSbcCode'">
+			  AND BBS_SBC like '%${searchNm}%'
+		 </if>
+		 <if test="searchCd == 'rgstNmCode'">
+			  AND dbo.fn_getUserName(RGST_ID) like '%${searchNm}%'
+		 </if>
+		 <if test="searchCd == 'bbsTitlSbcCode'">
+			  AND (BBS_TITL like '%${searchNm}%' OR BBS_SBC like '%${searchNm}%')
+		 </if>
+		 <if test="anlTlcgClCd != null and anlTlcgClCd != ''">
+			  AND ANL_TLCG_CL_CD = '${anlTlcgClCd}'
+		 </if>
+			  ORDER BY BBS_ID DESC
+	</select>
+
+	  <!-- 상세화면  -->
+	<select id="getSpaceLibInfo" resultType="hashmap">
+	-- getSpaceLibInfo 상세화면
+		<![CDATA[
+			SELECT
+				  BBS_ID                                                   AS bbsId        /*게시판ID*/
+				 ,BBS_CD                                                   AS bbsCd        /*분석게시판코드*/
+				 ,dbo.fn_getComDtlNm('SPACE_BBS_CD', A.BBS_CD)               AS bbsNm        /*분석게시판명*/
+				 ,BBS_TITL                                                 AS bbsTitl      /*게시글제목*/
+				 ,BBS_SBC                                                  AS bbsSbc       /*게시글내용*/
+				 ,RGST_ID                                                  AS rgstId       /*등록자ID*/
+				 ,dbo.fn_getUserName(RGST_ID)                              AS rgstNm       /*등록자이름*/
+				 ,RTRV_CT                                                  AS rtrvCt       /*조회건수*/
+				 ,BBS_KWD                                                  AS bbsKwd       /*키워드*/
+				 ,ATTC_FILE_ID                                             AS attcFilId    /*첨부파일ID*/
+				 ,RLTD_BUL_PATH                                            AS rltdBulPath  /*관련글ID*/
+				 ,DEL_YN                                                   AS delYn        /*삭제여부*/
+				 ,convert(varchar(20),A.FRST_RGST_DT,23)                   AS frstRgstDt   /*등록일*/
+			 FROM IRIS_SPACE_BBS_MST A
+			WHERE DEL_YN = 'N'
+			  AND BBS_ID = '${bbsId}'
+		 ]]>
+	</select>
+
+	<!-- 저장  -->
+	<insert id="insertSpaceLibInfo">
+	<![CDATA[
+	-- insertSpaceLibInfo 저장
+		insert into IRIS_SPACE_BBS_MST
+	    (     BBS_TITL
+			, BBS_SBC
+			, RGST_ID
+			, RTRV_CT
+            , RLTD_BUL_PATH
+	]]>
+	        , BBS_CD
+			<if test="( bbsKwd != null and bbsKwd != '')">
+			, BBS_KWD
+			</if>
+			<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID
+			</if>
+
+    <![CDATA[
+			, DEL_YN
+			, FRST_RGST_ID
+			, FRST_RGST_DT
+			, LAST_MDFY_ID
+			, LAST_MDFY_DT
+		)
+		values
+		(
+
+		      #{bbsTitl}
+		    , #{bbsSbc}
+		    , #{_userId}
+		    , 0
+		    , #{rltdBulPath}
+	       ]]>
+
+			<if test="( anlBbsCd != null and anlBbsCd != '')">
+		    , #{anlBbsCd}
+		    </if>
+			<if test="( anlBbsCd == null or anlBbsCd == '')">
+		    , #{bbsCd}
+		    </if>
+			<if test="( bbsKwd != null and bbsKwd != '')">
+		    , #{bbsKwd}
+		    </if>
+			<if test="( attcFilId != null and attcFilId != '')">
+		    , #{attcFilId}
+		    </if>
+
+	<![CDATA[
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+
+    <!-- 업데이트  -->
+	<update id="updateSpaceLibInfo">
+	<![CDATA[
+	-- updateSpaceLibInfo 업데이트
+		UPDATE IRIS_SPACE_BBS_MST
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , BBS_TITL = #{bbsTitl}
+		     , BBS_CD = #{bbsCd}
+		     , BBS_SBC = #{bbsSbc}
+		     , BBS_KWD = #{bbsKwd}
+	]]>
+		<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID = #{attcFilId}
+	    </if>
+	    <if test="( rltdBulPath != null and rltdBulPath != '')">
+			, RLTD_BUL_PATH = #{rltdBulPath}
+	    </if>
+
+	<![CDATA[
+		 WHERE BBS_ID = #{bbsId}
+	]]>
+	</update>
+
+
+	<!--  조회건수 업데이트  -->
+	<update id="updateSpaceLibRtrvCnt">
+	<![CDATA[
+	-- updateSpaceLibRtrvCnt 조회건수 업데이트
+		UPDATE IRIS_SPACE_BBS_MST
+		   SET RTRV_CT = RTRV_CT + 1
+	]]>
+
+	<![CDATA[
+		 WHERE BBS_ID = #{bbsId}
+	]]>
+	</update>
+
+
+    <!-- 삭제  -->
+	<update id="deleteSpaceLibInfo">
+	<![CDATA[
+	-- deleteSpaceLibInfo 삭제
+		UPDATE IRIS_SPACE_BBS_MST
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE BBS_ID = #{bbsId}
+	]]>
+	</update>
+
+	<select id="spaceBbsCodeList" resultType="HashMap">
+	-- spaceBbsCodeList
+        <![CDATA[
+        SELECT A.COM_DTL_CD
+             , A.COM_DTL_NM
+          FROM IRIS_ADM_COM_CD A
+         WHERE A.COM_CD_CD = #{comCd}
+         AND A.DEL_YN = 'N'
+         AND COM_DTL_CD in ('02','03','04','05','06','07','08')
+         ORDER BY COM_ORD
+        ]]>
+
+    </select>
+
+
+</mapper>

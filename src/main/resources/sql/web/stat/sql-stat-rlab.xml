@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stat.rlab">
+
+	<select id="retrieveRlabScnStatList" resultType="hashmap">
+	--retrieveRlabScnStatList 년도별 시험구분별 통계
+		<![CDATA[
+		SELECT CASE WHEN RLAB_SCN_CD IS NULL
+		            THEN '합계'
+		            ELSE dbo.fn_getComDtlNm('RLAB_SCN_CD',RLAB_SCN_CD)
+		        END AS statGbn
+		      ,SUM(m01) AS m1
+		      ,SUM(m02) AS m2
+		      ,SUM(m03) AS m3
+		      ,SUM(m04) AS m4
+		      ,SUM(m05) AS m5
+		      ,SUM(m06) AS m6
+		      ,SUM(m07) AS m7
+		      ,SUM(m08) AS m8
+		      ,SUM(m09) AS m9
+		      ,SUM(m10) AS m10
+		      ,SUM(m11) AS m11
+		      ,SUM(m12) AS m12
+		      ,SUM(m01)+SUM(m02)+SUM(m03)+SUM(m04)+SUM(m05)+SUM(m06)+SUM(m07)+SUM(m08)+SUM(m09)+SUM(m10)+SUM(m11)+SUM(m12) AS sum
+		      ,'해당월말'+char(13)+'완료기준건수' AS etc
+		  FROM (SELECT RLAB_SCN_CD
+		              ,CASE WHEN cmplMonth='01'
+		                    THEN cnt
+		                    ELSE 0
+		                END AS m01
+		             ,CASE WHEN cmplMonth='02'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m02
+		             ,CASE WHEN cmplMonth='03'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m03
+		             ,CASE WHEN cmplMonth='04'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m04
+		             ,CASE WHEN cmplMonth='05'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m05
+		             ,CASE WHEN cmplMonth='06'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m06
+		             ,CASE WHEN cmplMonth='07'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m07
+		             ,CASE WHEN cmplMonth='08'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m08
+		             ,CASE WHEN cmplMonth='09'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m09
+		             ,CASE WHEN cmplMonth='10'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m10
+		             ,CASE WHEN cmplMonth='11'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m11
+		             ,CASE WHEN cmplMonth='12'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m12
+		         FROM (SELECT RLAB_SCN_CD
+		                     ,cmplMonth
+		                     ,COUNT(1) AS cnt
+		                 FROM (SELECT RLAB_SCN_CD
+		                             ,LEFT(CMPL_DT,7) AS cmplYM
+		                             ,RIGHT(LEFT(CMPL_DT,7),2) AS cmplMonth
+		                         FROM IRIS_RLAB_RQPR_MST
+		                        WHERE 1=1
+		                        AND CMPL_DT IS NOT NULL
+		                          AND LEFT(CMPL_DT,4) =#{yyyy}) mst
+		                GROUP BY RLAB_SCN_CD,cmplYM,cmplMonth) mmm)sss
+		 GROUP BY ROLLUP(RLAB_SCN_CD)
+		 ]]>
+	</select>
+
+	<select id="retrieveRlabDzdvStatList" resultType="hashmap">
+	--retrieveRlabDzdvStatList 년도별 사업장별 통계
+		<![CDATA[
+		SELECT CASE WHEN RLAB_DZDV_CD IS NULL
+		            THEN '합계'
+		            ELSE dbo.fn_getComDtlNm('RLAB_DZDV_CD',RLAB_DZDV_CD)
+		        END AS statGbn
+		      ,SUM(m01) AS m1
+		      ,SUM(m02) AS m2
+		      ,SUM(m03) AS m3
+		      ,SUM(m04) AS m4
+		      ,SUM(m05) AS m5
+		      ,SUM(m06) AS m6
+		      ,SUM(m07) AS m7
+		      ,SUM(m08) AS m8
+		      ,SUM(m09) AS m9
+		      ,SUM(m10) AS m10
+		      ,SUM(m11) AS m11
+		      ,SUM(m12) AS m12
+		      ,SUM(m01)+SUM(m02)+SUM(m03)+SUM(m04)+SUM(m05)+SUM(m06)+SUM(m07)+SUM(m08)+SUM(m09)+SUM(m10)+SUM(m11)+SUM(m12) AS sum
+		      ,'해당월말'+char(13)+'완료기준건수' AS etc
+		  FROM (SELECT RLAB_DZDV_CD
+		              ,CASE WHEN cmplMonth='01'
+		                    THEN cnt
+		                    ELSE 0
+		                END AS m01
+		             ,CASE WHEN cmplMonth='02'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m02
+		             ,CASE WHEN cmplMonth='03'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m03
+		             ,CASE WHEN cmplMonth='04'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m04
+		             ,CASE WHEN cmplMonth='05'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m05
+		             ,CASE WHEN cmplMonth='06'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m06
+		             ,CASE WHEN cmplMonth='07'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m07
+		             ,CASE WHEN cmplMonth='08'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m08
+		             ,CASE WHEN cmplMonth='09'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m09
+		             ,CASE WHEN cmplMonth='10'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m10
+		             ,CASE WHEN cmplMonth='11'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m11
+		             ,CASE WHEN cmplMonth='12'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m12
+		         FROM (SELECT RLAB_DZDV_CD
+		                     ,cmplMonth
+		                     ,COUNT(1) AS cnt
+		                 FROM (SELECT RLAB_DZDV_CD
+		                             ,LEFT(CMPL_DT,7) AS cmplYM
+		                             ,RIGHT(LEFT(CMPL_DT,7),2) AS cmplMonth
+		                         FROM IRIS_RLAB_RQPR_MST
+		                        WHERE 1=1
+		                          AND CMPL_DT IS NOT NULL
+		                          AND LEFT(CMPL_DT,4) =#{yyyy}) mst
+		                GROUP BY RLAB_DZDV_CD,cmplYM,cmplMonth) mmm)sss
+		 GROUP BY ROLLUP(RLAB_DZDV_CD)
+		 ]]>
+	</select>
+
+		<select id="retrieveRlabExprStatList" resultType="hashmap">
+		--retrieveRlabExprStatList 년도별 시험법별 통계
+		<![CDATA[
+		SELECT CASE WHEN EXAT_CD IS NULL
+		            THEN '합계'
+		            ELSE dbo.fn_getExatNm(EXAT_CD)
+		        END AS statGbn
+		      ,SUM(m01) AS m1
+		      ,SUM(m02) AS m2
+		      ,SUM(m03) AS m3
+		      ,SUM(m04) AS m4
+		      ,SUM(m05) AS m5
+		      ,SUM(m06) AS m6
+		      ,SUM(m07) AS m7
+		      ,SUM(m08) AS m8
+		      ,SUM(m09) AS m9
+		      ,SUM(m10) AS m10
+		      ,SUM(m11) AS m11
+		      ,SUM(m12) AS m12
+		      ,SUM(m01)+SUM(m02)+SUM(m03)+SUM(m04)+SUM(m05)+SUM(m06)+SUM(m07)+SUM(m08)+SUM(m09)+SUM(m10)+SUM(m11)+SUM(m12) AS sum
+		      ,'해당월말'+char(13)+'완료기준건수' AS etc
+		  FROM (SELECT EXAT_CD
+		              ,CASE WHEN cmplMonth='01'
+		                    THEN cnt
+		                    ELSE 0
+		                END AS m01
+		             ,CASE WHEN cmplMonth='02'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m02
+		             ,CASE WHEN cmplMonth='03'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m03
+		             ,CASE WHEN cmplMonth='04'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m04
+		             ,CASE WHEN cmplMonth='05'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m05
+		             ,CASE WHEN cmplMonth='06'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m06
+		             ,CASE WHEN cmplMonth='07'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m07
+		             ,CASE WHEN cmplMonth='08'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m08
+		             ,CASE WHEN cmplMonth='09'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m09
+		             ,CASE WHEN cmplMonth='10'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m10
+		             ,CASE WHEN cmplMonth='11'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m11
+		             ,CASE WHEN cmplMonth='12'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m12
+		         FROM (SELECT EXAT_CD
+		                     ,cmplMonth
+		                     ,COUNT(1) AS cnt
+		                 FROM (SELECT RLABEXAT.EXAT_CD
+									  ,LEFT(RQPRMST.CMPL_DT,7) AS cmplYM
+									  ,RIGHT(LEFT(RQPRMST.CMPL_DT,7),2) AS cmplMonth
+								  FROM IRIS_RLAB_RQPR_MST RQPRMST
+								 INNER JOIN IRIS_RLAB_RQPR_EXAT RQPREXPR
+									ON RQPRMST.RQPR_ID=RQPREXPR.RQPR_ID
+								 INNER JOIN IRIS_RLAB_EXAT_MST RLABEXAT
+									ON RQPREXPR.EXAT_CD=RLABEXAT.EXAT_CD
+		                        WHERE 1=1
+		                          AND RQPRMST.CMPL_DT IS NOT NULL
+		                          AND LEFT(RQPRMST.CMPL_DT,4) =#{yyyy}) mst
+		                GROUP BY EXAT_CD,cmplYM,cmplMonth) mmm)sss
+		 GROUP BY ROLLUP(EXAT_CD)
+		 ]]>
+	</select>
+
+	<select id="retrieveRlabChrgStatList" resultType="hashmap">
+	--retrieveRlabChrgStatList 년도별 담당자별 통계
+		<![CDATA[
+		SELECT CASE WHEN RLAB_CHRG_ID IS NULL
+		            THEN '합계'
+		            ELSE dbo.fn_getUserName(RLAB_CHRG_ID)
+		        END AS statGbn
+		      ,SUM(m01) AS m1
+		      ,SUM(m02) AS m2
+		      ,SUM(m03) AS m3
+		      ,SUM(m04) AS m4
+		      ,SUM(m05) AS m5
+		      ,SUM(m06) AS m6
+		      ,SUM(m07) AS m7
+		      ,SUM(m08) AS m8
+		      ,SUM(m09) AS m9
+		      ,SUM(m10) AS m10
+		      ,SUM(m11) AS m11
+		      ,SUM(m12) AS m12
+		      ,SUM(m01)+SUM(m02)+SUM(m03)+SUM(m04)+SUM(m05)+SUM(m06)+SUM(m07)+SUM(m08)+SUM(m09)+SUM(m10)+SUM(m11)+SUM(m12) AS sum
+		      ,'해당월말'+char(13)+'완료기준건수' AS etc
+		  FROM (SELECT RLAB_CHRG_ID
+		              ,CASE WHEN cmplMonth='01'
+		                    THEN cnt
+		                    ELSE 0
+		                END AS m01
+		             ,CASE WHEN cmplMonth='02'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m02
+		             ,CASE WHEN cmplMonth='03'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m03
+		             ,CASE WHEN cmplMonth='04'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m04
+		             ,CASE WHEN cmplMonth='05'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m05
+		             ,CASE WHEN cmplMonth='06'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m06
+		             ,CASE WHEN cmplMonth='07'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m07
+		             ,CASE WHEN cmplMonth='08'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m08
+		             ,CASE WHEN cmplMonth='09'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m09
+		             ,CASE WHEN cmplMonth='10'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m10
+		             ,CASE WHEN cmplMonth='11'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m11
+		             ,CASE WHEN cmplMonth='12'
+		                   THEN cnt
+		                   ELSE 0
+		               END AS m12
+		         FROM (SELECT RLAB_CHRG_ID
+		                     ,cmplMonth
+		                     ,COUNT(1) AS cnt
+		                 FROM (SELECT RLAB_CHRG_ID
+		                             ,LEFT(CMPL_DT,7) AS cmplYM
+		                             ,RIGHT(LEFT(CMPL_DT,7),2) AS cmplMonth
+		                         FROM IRIS_RLAB_RQPR_MST
+		                        WHERE 1=1
+		                          AND CMPL_DT IS NOT NULL
+		                          AND LEFT(CMPL_DT,4) =#{yyyy}) mst
+		                GROUP BY RLAB_CHRG_ID,cmplYM,cmplMonth) mmm)sss
+		 GROUP BY ROLLUP(RLAB_CHRG_ID)
+		 ]]>
+	</select>
+
+	<select id="retrieveRlabYyList" resultType="hashmap">
+	--retrieveRlabYyList 년도조회
+		<![CDATA[
+		SELECT LEFT(CMPL_DT,4) AS yy
+		  FROM IRIS_RLAB_RQPR_MST
+		 WHERE 1=1
+		   AND CMPL_DT IS NOT NULL
+		   AND CMPL_DT !=''
+		 GROUP BY LEFT(CMPL_DT,4)
+		 ORDER BY LEFT(CMPL_DT,4) DESC
+		 ]]>
+	</select>
+
+	<select id="retrieveRlabTermStatList" resultType="hashmap">
+	--retrieveRlabTermStatList 기간별 통계조회
+		<![CDATA[
+		SELECT '시험구분별' AS statGbn
+		       ,dbo.fn_getComDtlNm('RLAB_SCN_CD',RLAB_SCN_CD) AS cdNm
+		       ,COUNT(1) AS cnt
+			   ,'a'+CAST((SELECT COUNT(1)
+			                FROM IRIS_RLAB_RQPR_MST
+				           WHERE 1=1
+				             AND CMPL_DT IS NOT NULL
+		                     AND CMPL_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) AS sum
+		  FROM IRIS_RLAB_RQPR_MST
+		 WHERE 1=1
+		   AND CMPL_DT IS NOT NULL
+		   AND CMPL_DT BETWEEN #{frDt} AND #{toDt}
+		   GROUP BY RLAB_SCN_CD
+		   UNION ALL
+		SELECT '사업부별'
+		       ,dbo.fn_getComDtlNm('RLAB_DZDV_CD',RLAB_DZDV_CD)
+		       ,COUNT(1) AS cnt
+			   ,'b'+CAST((SELECT COUNT(1)
+			                FROM IRIS_RLAB_RQPR_MST
+				           WHERE 1=1
+				             AND CMPL_DT IS NOT NULL
+		                     AND CMPL_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) AS sum
+		  FROM IRIS_RLAB_RQPR_MST
+		 WHERE 1=1
+		   AND CMPL_DT IS NOT NULL
+		   AND CMPL_DT BETWEEN #{frDt} AND #{toDt}
+		   GROUP BY RLAB_DZDV_CD
+		   UNION ALL
+		SELECT '시험법별'
+		       ,RLABEXAT.EXAT_NM
+		       ,COUNT(1) AS cnt
+			   ,'c'+CAST((SELECT COUNT(1)
+			                FROM IRIS_RLAB_RQPR_MST MST
+			                    ,IRIS_RLAB_RQPR_EXAT EXAT
+				           WHERE 1=1
+						     AND MST.RQPR_ID=EXAT.RQPR_ID
+				             AND CMPL_DT IS NOT NULL
+		                     AND CMPL_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) AS sum
+		  FROM IRIS_RLAB_RQPR_MST RQPRMST
+		 INNER JOIN IRIS_RLAB_RQPR_EXAT RQPREXPR
+            ON RQPRMST.RQPR_ID=RQPREXPR.RQPR_ID
+         INNER JOIN IRIS_RLAB_EXAT_MST RLABEXAT
+            ON RQPREXPR.EXAT_CD=RLABEXAT.EXAT_CD
+		 WHERE 1=1
+		   AND RQPRMST.CMPL_DT IS NOT NULL
+		   AND RQPRMST.CMPL_DT BETWEEN #{frDt} AND #{toDt}
+		   GROUP BY RLABEXAT.SUPI_EXAT_CD,EXAT_NM
+		   UNION ALL
+		SELECT '시험담당자별'
+		       ,dbo.fn_getUserName(RLAB_CHRG_ID)
+		       ,COUNT(1) AS cnt
+			   ,'d'+CAST((SELECT COUNT(1)
+			                FROM IRIS_RLAB_RQPR_MST
+				           WHERE 1=1
+				             AND CMPL_DT IS NOT NULL
+		                     AND CMPL_DT BETWEEN #{frDt} AND #{toDt}) AS char(10)) AS sum
+		  FROM IRIS_RLAB_RQPR_MST
+		 WHERE 1=1
+		   AND CMPL_DT IS NOT NULL
+		   AND CMPL_DT BETWEEN #{frDt} AND #{toDt}
+		   GROUP BY RLAB_CHRG_ID
+		 ]]>
+	</select>
+
+	<select id="retrieveRlabMchnUseStatList" resultType="hashmap">
+	--retrieveRlabMchnUseStatList 장비사용 통계조회
+		<![CDATA[
+		with DEPT_MST AS
+					(
+					SELECT SD.dept_code
+							,SD.dept_name
+							,SD.DEPT_LEVEL AS DEPT_LEVEL
+							,SD.dept_name  AS master_lv1
+							,CAST(null AS NVARCHAR(300)) AS master_lv2
+							,CAST(null AS NVARCHAR(10)) AS master_code_lv2
+						FROM IRIS_SSO_DEPT SD
+						WHERE SD.dept_code = '50000000'
+						UNION ALL
+						SELECT SD2.dept_code
+							,SD2.DEPT_NAME
+							,SD2.DEPT_LEVEL AS DEPT_LEVEL
+							,AEM3.master_lv1
+							,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_name ELSE AEM3.master_lv2 END master_lv2
+							,CASE SD2.DEPT_LEVEL WHEN 2 THEN SD2.dept_code ELSE AEM3.master_code_lv2 END master_code_lv2
+						FROM IRIS_SSO_DEPT SD2
+							,DEPT_MST AEM3
+						WHERE  1=1
+						AND SD2.dept_uper = aem3.dept_code
+					)
+		SELECT DEPTMST.DEPT_NAME as deptName
+		      ,DEPTMST.master_lv2 as masterLv2
+			  ,EXAT.EXAT_STRT_DT as exatStrtDt
+			  ,EXAT.EXAT_FNH_DT as exatFhnDt
+			  ,EXAT.EXAT_STRT_DT +' ~ ' + EXAT.EXAT_FNH_DT as exatDt
+			  ,EXAT.EXAT_TIM as exatTim
+			  ,EXAT.SMPO_QTY AS exatQty
+			  ,MGMT.SMPO_QTY AS smpoQty
+			  ,(EXAT.SMPO_QTY/convert(float,MGMT.SMPO_QTY)) as mchnUse
+		  FROM DBO.IRIS_RLAB_RQPR_MST MST
+		 INNER JOIN DBO.IRIS_RLAB_RQPR_EXAT EXAT
+		    ON MST.RQPR_ID=EXAT.RQPR_ID
+		 INNER JOIN dbo.IRIS_RLAB_EXAT_MST EXATMST
+		    ON EXATMST.EXAT_CD=EXAT.EXAT_CD
+		 INNER JOIN dbo.IRIS_RLAB_EXAT_DTL EXATDTL
+		    ON EXATMST.EXAT_CD=EXATDTL.EXAT_CD
+		 INNER JOIN DBO.IRIS_RLAB_MCHN_INFO_MGMT MGMT
+		    ON MGMT.MCHN_INFO_ID=EXATDTL.MCHN_INFO_ID
+		   AND MGMT.MCHN_INFO_ID=EXAT.MCHN_INFO_ID
+		 INNER JOIN DEPT_MST AS DEPTMST
+		    ON MST.RQPR_DEPT_CD=DEPTMST.DEPT_CODE
+		 WHERE 1=1
+		   AND EXATMST.SUPI_EXAT_CD=#{supiExatCd}
+		   AND EXATMST.EXAT_CD=#{exatCd}
+		   AND MST.CMPL_DT IS NOT NULL
+		   AND MST.CMPL_DT BETWEEN #{frDt} AND #{toDt}
+		 ]]>
+	</select>
+
+
+
+</mapper>

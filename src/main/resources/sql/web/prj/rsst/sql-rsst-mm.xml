@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.rsst.mm">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 투입M/M 월별 목록 조회  -->
+	<select id="retrieveMmByMonthSearchInfo" resultType="hashmap" >
+	<![CDATA[
+	-- retrieveMmByMonthSearchInfo 투입M/M 월별 목록 조회
+		select   '1'           as 'selectType'
+				,m.tssNm
+				,(select case when [dbo].[NTH_STR](prj_nm, '.', 2) = '' then prj_nm else [dbo].[NTH_STR](prj_nm, '.', 2) end   from IRIS_PRJ_RSST_MST where prj_cd = #{prjCd}) as saDeptName
+		        ,m.saName
+				,m.tssCd
+				,m.m01
+				,m.m02
+				,m.m03
+				,m.m04
+				,m.m05
+				,m.m06
+				,m.m07
+				,m.m08
+				,m.m09
+				,m.m10
+				,m.m11
+				,m.m12
+				, m.m01+m.m02+m.m03+m.m04+m.m05+m.m06+m.m07+m.m08+m.m09+m.m10+m.m11+m.m12 as monthSum
+		from (
+				select t.saName
+					  ,t.TSS_CD as tssCd
+					  ,t.TSS_NM as tssNm
+					  ,isnull(sum(t.m1), 0) as m01
+					  ,isnull(sum(t.m2) ,0) as m02
+					  ,isnull(sum(t.m3) ,0) as m03
+					  ,isnull(sum(t.m4) ,0) as m04
+					  ,isnull(sum(t.m5) ,0) as m05
+					  ,isnull(sum(t.m6) ,0) as m06
+					  ,isnull(sum(t.m7) ,0) as m07
+					  ,isnull(sum(t.m8) ,0) as m08
+					  ,isnull(sum(t.m9) ,0) as m09
+					  ,isnull(sum(t.m10),0) as m10
+					  ,isnull(sum(t.m11),0) as m11
+					  ,isnull(sum(t.m12),0) as m12
+				from (
+				select a.saName
+					  ,a.TSS_CD
+					  ,a.TSS_NM
+					  ,case when right(a.MM_YYMM, 2) = '01' then sum(a.ptc_pro) end 'm1'
+					  ,case when right(a.MM_YYMM, 2) = '02' then sum(a.ptc_pro) end 'm2'
+					  ,case when right(a.MM_YYMM, 2) = '03' then sum(a.ptc_pro) end 'm3'
+					  ,case when right(a.MM_YYMM, 2) = '04' then sum(a.ptc_pro) end 'm4'
+					  ,case when right(a.MM_YYMM, 2) = '05' then sum(a.ptc_pro) end 'm5'
+					  ,case when right(a.MM_YYMM, 2) = '06' then sum(a.ptc_pro) end 'm6'
+					  ,case when right(a.MM_YYMM, 2) = '07' then sum(a.ptc_pro) end 'm7'
+					  ,case when right(a.MM_YYMM, 2) = '08' then sum(a.ptc_pro) end 'm8'
+					  ,case when right(a.MM_YYMM, 2) = '09' then sum(a.ptc_pro) end 'm9'
+					  ,case when right(a.MM_YYMM, 2) = '10' then sum(a.ptc_pro) end 'm10'
+					  ,case when right(a.MM_YYMM, 2) = '11' then sum(a.ptc_pro) end 'm11'
+					  ,case when right(a.MM_YYMM, 2) = '12' then sum(a.ptc_pro) end 'm12'
+				from
+					(select  isnull(dbo.fn_getSabunName(a.sa_sabun_new), a.sa_sabun_name) as saName
+						   ,a.tss_cd
+						   ,isnull(isnull((select tss_nm from iris_tss_mgmt_mst where tss_cd = a.tss_cd ), a.tss_nm) , dbo.fn_getPrjName(a.tss_cd)) as tss_nm
+						   ,a.MM_YYMM
+						   ,a.PTC_PRO
+					from   IRIS_MM_CLS a
+					where  a.prj_cd = #{prjCd}
+					and   left(a.MM_YYMM, 4) = #{searchYear}
+					and   a.ptc_pro <> 0
+					) a
+				where  1=1
+				group by a.saName, a.TSS_CD, a.TSS_NM, a.MM_YYMM
+				) t
+				group by t.saName
+					  ,t.TSS_CD
+					  ,t.TSS_NM
+			  ) m
+
+			  UNION
+			 select '9'       as 'selectType'
+				     , '합계'    as 'tssNm'
+				     , ''	 as 'saDeptName'
+					 , ''    as 'saName'
+					 ,''
+					,isnull(sum(t.m1), 0) as m01
+					,isnull(sum(t.m2) ,0) as m02
+					,isnull(sum(t.m3) ,0) as m03
+					,isnull(sum(t.m4) ,0) as m04
+					,isnull(sum(t.m5) ,0) as m05
+					,isnull(sum(t.m6) ,0) as m06
+					,isnull(sum(t.m7) ,0) as m07
+					,isnull(sum(t.m8) ,0) as m08
+					,isnull(sum(t.m9) ,0) as m09
+					,isnull(sum(t.m10),0) as m10
+					,isnull(sum(t.m11),0) as m11
+					,isnull(sum(t.m12),0) as m12
+					,isnull(sum(t.m1), 0)+isnull(sum(t.m2), 0)+isnull(sum(t.m3), 0)+isnull(sum(t.m4), 0)
+						  +isnull(sum(t.m5), 0)+isnull(sum(t.m6), 0)+isnull(sum(t.m7), 0)+isnull(sum(t.m8), 0)
+						  +isnull(sum(t.m9), 0)+isnull(sum(t.m10), 0)+isnull(sum(t.m11), 0)+isnull(sum(t.m12), 0)  as monthSum
+				from (
+				select   case when right(a.MM_YYMM, 2) = '01' then sum(a.ptc_pro) end 'm1'
+						,case when right(a.MM_YYMM, 2) = '02' then sum(a.ptc_pro) end 'm2'
+						,case when right(a.MM_YYMM, 2) = '03' then sum(a.ptc_pro) end 'm3'
+						,case when right(a.MM_YYMM, 2) = '04' then sum(a.ptc_pro) end 'm4'
+						,case when right(a.MM_YYMM, 2) = '05' then sum(a.ptc_pro) end 'm5'
+						,case when right(a.MM_YYMM, 2) = '06' then sum(a.ptc_pro) end 'm6'
+						,case when right(a.MM_YYMM, 2) = '07' then sum(a.ptc_pro) end 'm7'
+						,case when right(a.MM_YYMM, 2) = '08' then sum(a.ptc_pro) end 'm8'
+						,case when right(a.MM_YYMM, 2) = '09' then sum(a.ptc_pro) end 'm9'
+						,case when right(a.MM_YYMM, 2) = '10' then sum(a.ptc_pro) end 'm10'
+						,case when right(a.MM_YYMM, 2) = '11' then sum(a.ptc_pro) end 'm11'
+						,case when right(a.MM_YYMM, 2) = '12' then sum(a.ptc_pro) end 'm12'
+				from
+					(select  isnull((select sa_name
+							from  IRIS_SSO_USER x
+							where  x.sa_sabun_new =  a.sa_sabun_new), a.sa_sabun_name) as saName
+							,a.tss_cd
+							,a.tss_nm
+							,a.MM_YYMM
+							,a.PTC_PRO
+					from   IRIS_MM_CLS a
+					where  a.prj_cd = #{prjCd}
+					and   left(a.MM_YYMM, 4) = #{searchYear}
+					and   a.ptc_pro <> 0
+					) a
+				where 1=1
+				group by a.MM_YYMM
+				) t
+	]]>
+	</select>
+
+	<!-- 투입M/M 년도별 목록 조회  -->
+	<select id="retrieveMmByYearSearchInfo" resultType="hashmap" >
+	<![CDATA[
+	-- retrieveMmByYearSearchInfo 투입M/M 년도별 목록 조회
+		select   m.saName
+		,m.tssCd
+		,m.tssNm
+		,(select case when [dbo].[NTH_STR](prj_nm, '.', 2) = '' then prj_nm else [dbo].[NTH_STR](prj_nm, '.', 2) end   from IRIS_PRJ_RSST_MST where prj_cd = #{prjCd}) as saDeptName
+		, m.m01+m.m02+m.m03+m.m04+m.m05+m.m06+m.m07+m.m08+m.m09+m.m10+m.m11+m.m12 as yearSum
+from (
+		select t.saName
+			  ,t.TSS_CD as tssCd
+			  ,t.TSS_NM as tssNm
+			  ,isnull(sum(t.m1), 0) as m01
+			  ,isnull(sum(t.m2) ,0) as m02
+			  ,isnull(sum(t.m3) ,0) as m03
+			  ,isnull(sum(t.m4) ,0) as m04
+			  ,isnull(sum(t.m5) ,0) as m05
+			  ,isnull(sum(t.m6) ,0) as m06
+			  ,isnull(sum(t.m7) ,0) as m07
+			  ,isnull(sum(t.m8) ,0) as m08
+			  ,isnull(sum(t.m9) ,0) as m09
+			  ,isnull(sum(t.m10),0) as m10
+			  ,isnull(sum(t.m11),0) as m11
+			  ,isnull(sum(t.m12),0) as m12
+		from (
+		select a.saName
+			  ,a.TSS_CD
+			  ,a.TSS_NM
+			  ,case when right(a.MM_YYMM, 2) = '01' then sum(a.ptc_pro) end 'm1'
+			  ,case when right(a.MM_YYMM, 2) = '02' then sum(a.ptc_pro) end 'm2'
+			  ,case when right(a.MM_YYMM, 2) = '03' then sum(a.ptc_pro) end 'm3'
+			  ,case when right(a.MM_YYMM, 2) = '04' then sum(a.ptc_pro) end 'm4'
+			  ,case when right(a.MM_YYMM, 2) = '05' then sum(a.ptc_pro) end 'm5'
+			  ,case when right(a.MM_YYMM, 2) = '06' then sum(a.ptc_pro) end 'm6'
+			  ,case when right(a.MM_YYMM, 2) = '07' then sum(a.ptc_pro) end 'm7'
+			  ,case when right(a.MM_YYMM, 2) = '08' then sum(a.ptc_pro) end 'm8'
+			  ,case when right(a.MM_YYMM, 2) = '09' then sum(a.ptc_pro) end 'm9'
+			  ,case when right(a.MM_YYMM, 2) = '10' then sum(a.ptc_pro) end 'm10'
+			  ,case when right(a.MM_YYMM, 2) = '11' then sum(a.ptc_pro) end 'm11'
+			  ,case when right(a.MM_YYMM, 2) = '12' then sum(a.ptc_pro) end 'm12'
+		from
+			(select  isnull(dbo.fn_getSabunName(a.sa_sabun_new), a.sa_sabun_name) as saName
+					,a.tss_cd
+					,isnull(isnull((select tss_nm from iris_tss_mgmt_mst where tss_cd = a.tss_cd ), a.tss_nm) , dbo.fn_getPrjName(a.tss_cd)) as tss_nm
+				   ,a.MM_YYMM
+				   ,a.PTC_PRO
+			from   IRIS_MM_CLS a
+			where  a.prj_cd =#{prjCd}
+			and   left(a.MM_YYMM, 4) = #{searchYear}
+			and   a.ptc_pro <> 0
+			) a
+		where  1=1
+		group by a.saName, a.TSS_CD, a.TSS_NM, a.MM_YYMM
+		) t
+		group by t.saName
+			  ,t.TSS_CD
+			  ,t.TSS_NM
+	  ) m
+
+	  union
+	 select '합계'
+			,''
+			,''
+			,''
+			,isnull(sum(t.m1), 0)+isnull(sum(t.m2), 0)+isnull(sum(t.m3), 0)+isnull(sum(t.m4), 0)
+			  +isnull(sum(t.m5), 0)+isnull(sum(t.m6), 0)+isnull(sum(t.m7), 0)+isnull(sum(t.m8), 0)
+			  +isnull(sum(t.m9), 0)+isnull(sum(t.m10), 0)+isnull(sum(t.m11), 0)+isnull(sum(t.m12), 0) as yearSum
+		from (
+		select   case when right(a.MM_YYMM, 2) = '01' then sum(a.ptc_pro) end 'm1'
+				,case when right(a.MM_YYMM, 2) = '02' then sum(a.ptc_pro) end 'm2'
+				,case when right(a.MM_YYMM, 2) = '03' then sum(a.ptc_pro) end 'm3'
+				,case when right(a.MM_YYMM, 2) = '04' then sum(a.ptc_pro) end 'm4'
+				,case when right(a.MM_YYMM, 2) = '05' then sum(a.ptc_pro) end 'm5'
+				,case when right(a.MM_YYMM, 2) = '06' then sum(a.ptc_pro) end 'm6'
+				,case when right(a.MM_YYMM, 2) = '07' then sum(a.ptc_pro) end 'm7'
+				,case when right(a.MM_YYMM, 2) = '08' then sum(a.ptc_pro) end 'm8'
+				,case when right(a.MM_YYMM, 2) = '09' then sum(a.ptc_pro) end 'm9'
+				,case when right(a.MM_YYMM, 2) = '10' then sum(a.ptc_pro) end 'm10'
+				,case when right(a.MM_YYMM, 2) = '11' then sum(a.ptc_pro) end 'm11'
+				,case when right(a.MM_YYMM, 2) = '12' then sum(a.ptc_pro) end 'm12'
+		from
+			(select  isnull((select sa_name
+					from  IRIS_SSO_USER x
+					where  x.sa_sabun_new =  a.sa_sabun_new), a.sa_sabun_name) as saName
+					,a.tss_cd
+					,a.tss_nm
+					,a.MM_YYMM
+					,a.PTC_PRO
+			from   IRIS_MM_CLS a
+			where  a.prj_cd =#{prjCd}
+			and   left(a.MM_YYMM, 4) = #{searchYear}
+			and   a.ptc_pro <> 0
+			) a
+		where  1=1
+		group by a.MM_YYMM
+		) t
+	]]>
+	</select>
+
+</mapper>

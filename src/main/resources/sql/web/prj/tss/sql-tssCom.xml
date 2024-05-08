@@ -1,0 +1,1563 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.tss.com">
+	<!--========================== 과제_공통_마스터 ========================== -->
+	<!-- 과제 공통 마스터 조회 -->
+	<select id="retrieveTssMst" resultType="hashmap">
+    <![CDATA[
+		--retrieveTssMst 과제 공통 마스터 조회
+        SELECT A.PRJ_CD          AS prjCd        --프로젝트코드
+             --, B.PRJ_NM          AS prjNm        --프로젝트명
+             , ISNULL(dbo.fn_getNameOnTssPgsStep(A.TSS_CD, 'PRJ', A.PRJ_CD), A.PRJ_NM) AS prjNm        --프로젝트명
+             , A.TSS_CD          AS tssCd        --과제코드
+             , A.PGS_STEP_CD     AS pgsStepCd    --진행단계코드
+             , A.TSS_SCN_CD      AS tssScnCd     --과제구분코드
+             , A.WBS_CD          AS wbsCd        --WBS코드
+             , A.WBS_CD          AS orgWbsCd     --원본WBS코드
+             , A.TSS_NM+' ('+ A.WBS_CD + ')'  AS wbsNm
+      		 , A.PK_WBS_CD       AS pkWbsCd      --WBS코드
+             , A.DEPT_CODE       AS deptCode     --조직코드(소속)
+             , A.PPSL_MBD_CD     AS ppslMbdCd    --발의주체코드
+             , A.BIZ_DPT_CD      AS bizDptCd     --사업부문코드
+             , A.TSS_NM          AS tssNm        --과제명
+             , A.SA_SABUN_NEW    AS saSabunNew   --과제리더사번
+             , A.TSS_ATTR_CD     AS tssAttrCd    --과제속성코드
+             , A.TSS_STRT_DD     AS tssStrtDd    --과제시작일
+             , isnull((select  tss_fnh_dd from iris_tmp_tss where tss_cd = A.TSS_CD),  A.TSS_FNH_DD )      AS tssFnhDd     --과제종료일
+             , A.ALTR_B_STRT_DD  AS altrBStrtDd  --변경전시작일
+             , A.ALTR_B_FNH_DD   AS altrBFnhDd   --변경전종료일
+             , A.ALTR_NX_STRT_DD AS altrNxStrtDd --변경후시작일
+             , A.ALTR_NX_FNH_DD  AS altrNxFnhDd  --변경후종료일
+             , A.CMPL_B_STRT_DD  AS cmplBStrtDd  --완료전시작일
+             , A.CMPL_B_FNH_DD   AS cmplBFnhDd   --완료전종료일
+             , A.CMPL_NX_STRT_DD AS cmplNxStrtDd --완료후시작일
+             , A.CMPL_NX_FNH_DD  AS cmplNxFnhDd  --완료후종료일
+             , A.DCAC_B_STRT_DD  AS dcacBStrtDd  --중단전시작일
+             , A.DCAC_B_FNH_DD   AS dcacBFnhDd   --중단전종료일
+             , A.DCAC_NX_STRT_DD AS dcacNxStrtDd --중단후시작일
+             , A.DCAC_NX_FNH_DD  AS dcacNxFnhDd  --중단후종료일
+             , A.COO_INST_CD     AS cooInstCd    --협력기관코드
+             , A.SUPV_OPS_NM     AS supvOpsNm    --주관부서명
+             , A.EXRS_INST_NM    AS exrsInstNm   --전담기관명
+             , A.BIZ_NM          AS bizNm        --사업명
+             , A.TSS_ST          AS tssSt        --과제상태
+             , A.TSS_NOS_ST      AS tssNosSt     --과제차수상태
+             , A.TSS_ST_TXT      AS tssStTxt     --과제상태의견
+             , A.PROD_G          AS prodGCd
+             , ISNULL(dbo.fn_getNameOnTssPgsStep(A.TSS_CD, 'USER', A.SA_SABUN_NEW) , A.SA_SABUN_NAME) AS saUserName --과제리더명
+             , ISNULL(dbo.fn_getUpperDeptNm(A.DEPT_CODE)    , A.DEPT_NAME)     AS deptName   --조직(소속)명
+             , dbo.fn_getComDtlNm('PGS_STEP_CD', A.PGS_STEP_CD) AS pgsStepNm  --진행단계명
+             , dbo.fn_getComDtlNm('PPSL_MBD_CD', A.PPSL_MBD_CD) AS ppslMbdNm  --발의주체명
+             , dbo.fn_getComDtlNm('BIZ_DPT_CD', A.BIZ_DPT_CD)   AS bizDptNm   --사업부문명
+             , dbo.fn_getComDtlNm('TSS_ATTR_CD', A.TSS_ATTR_CD) AS tssAttrNm  --과제속성명
+             , dbo.fn_getComDtlNm('PROD_G', A.PROD_G) AS prodGNm
+             , dbo.fn_getComDtlNm('RSST_SPHE', A.RSST_SPHE) AS rsstSpheNm
+			 , dbo.fn_getComDtlNm('TSS_TYPE', A.TSS_TYPE)   AS tssTypeNm
+             , A.RSST_SPHE                                      AS rsstSphe
+             , A.TSS_TYPE                                       AS tssType
+             , ( CASE WHEN A.TSS_SCN_CD = 'N'
+                      THEN (SELECT X.TSS_CD FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = A.PK_WBS_CD AND X.PGS_STEP_CD = 'PG' AND X.TSS_NOS_ST = A.TSS_NOS_ST)
+                      ELSE  (SELECT X.TSS_CD FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = A.PK_WBS_CD AND X.PGS_STEP_CD = 'PG')
+                 END ) AS pgTssCd --진행과제코드
+             , ( CASE WHEN A.TSS_SCN_CD = 'N'
+                      THEN (SELECT X.TSS_ST FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = A.PK_WBS_CD AND X.PGS_STEP_CD = 'PG' AND X.TSS_NOS_ST = A.TSS_NOS_ST)
+                      ELSE  (SELECT X.TSS_ST FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = A.PK_WBS_CD AND X.PGS_STEP_CD = 'PG')
+                 END ) AS pgTssSt --진행과제상태코드
+             , ( CASE WHEN A.TSS_SCN_CD = 'N'
+                      THEN (SELECT X.SA_SABUN_NEW FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = A.PK_WBS_CD AND X.PGS_STEP_CD = 'PG' AND X.TSS_NOS_ST = A.TSS_NOS_ST)
+                      ELSE  (SELECT X.SA_SABUN_NEW FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = A.PK_WBS_CD AND X.PGS_STEP_CD = 'PG')
+                 END ) AS pgSaSabunNew --진행단계리더
+             , (SELECT INST_NM + ' / ' +  OPS_NM  + ' / ' +  SPLT_NM+ ' '+ POA_NM FROM IRIS_KNLD_OSCP_SPLT WHERE DEL_YN = 'N' AND OSCP_SPLT_ID = A.COO_INST_CD ) AS cooInstNm --협력기관명
+             , DATEDIFF ( month , CONVERT(DATE, A.TSS_STRT_DD) , CONVERT(DATE, A.TSS_FNH_DD) )  AS ttsDifMonth -- 과제소요기간
+             ,A.GRS_YN as grsYn
+            ,dbo.fn_getTssStepNm(#{tssCd}) as tssStepNm
+            ,dbo.fn_getGrsStepNm(#{tssCd},'1') as grsStepNm
+            ,dbo.fn_getQgateStepNm(A.WBS_CD,'1') as qgateStepNm
+            , ( select ATTC_FIL_ID
+			    from IRIS_GRS_EV_RSLT_RGST 
+				where TSS_CD = a.TSS_CD 
+				and   TSS_CD_SN = (select max(tss_cd_sn) from IRIS_GRS_EV_RSLT_RGST where tss_cd = a.TSS_CD)
+			  ) as attcFilId
+			,( select ev_dt as evDt
+			   from  IRIS_GRS_EV_RSLT_RGST x
+			   where tss_cd = ( select  y.tss_cd 
+			                      from  iris_tss_mgmt_mst y
+			                      where y.wbs_cd = #{wbsCd}
+			                      and   y.pgs_Step_Cd = 'PG'
+			                   )   
+			   and  x.grs_ev_st = 'G2'
+			   ) as evDt               
+			                     
+          FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
+          LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
+            ON A.PRJ_CD = B.PRJ_CD
+         WHERE A.TSS_CD = #{tssCd}
+    ]]>
+	</select>
+
+
+	<!-- 신규 TSS_CD -->
+		<select id="getTssCd" resultType="hashmap">
+		/*getTssCd 신규 TSS_CD*/
+		SELECT isnull(substring(max(u.pkMax), 2, 5), SUBSTRING(CONVERT(VARCHAR, GETDATE(), 2), 1, 2) + '000') as seqMax
+		  FROM
+			   (SELECT max(DISTINCT PK_WBS_CD) as pkMax
+				 FROM IRIS_GRS_MGMT_MST
+				WHERE TSS_SCN_CD = #{tssScnCd}
+					  AND PK_wbs_CD like '_' + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 2), 1, 2) + '___'
+				   UNION
+			   SELECT max(DISTINCT PK_WBS_CD) as pkMax
+				 FROM IRIS_TSS_MGMT_MST
+				WHERE TSS_SCN_CD = #{tssScnCd}
+					  AND PK_wbs_CD like '_' + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 2), 1, 2) + '___'
+			   ) u
+	</select>
+
+
+
+
+	<!-- 신규저장시 WBS_CD 자동생성 -->
+	<select id="getWbsCdStd" resultType="hashmap">
+		/*getWbsCdStd 신규저장시 WBS_CD 자동생성*/
+		WITH WBS_STD AS (
+			SELECT SUBSTRING(DEPT_UPER_CODE_A, 1, 1) + SUBSTRING(CONVERT(VARCHAR, 	GETDATE(), 2), 1, 2)+SUBSTRING(WBS_CD_A, 1, 2) AS WBS_CD_STD
+			     , SUBSTRING(CONVERT(VARCHAR, GETDATE(), 2), 1, 2) AS YY
+			  FROM IRIS_DEPT_UPER_CD_A_MGMT
+			     , IRIS_PRJ_RSST_MST
+			 WHERE DEPT_UPER_CODE = #{deptCode}
+			   AND USE_YN = 'Y'
+			   AND PRJ_CD = #{prjCd}
+			   AND (LEN(DEPT_CODE) = 0 OR DEPT_CODE IS NULL)
+		)
+		, TB2 AS (
+			SELECT SUBSTRING(MAX(WBS_CD), 6, 1) AS WBS_CD_SEQ
+			  FROM IRIS_TSS_MGMT_MST A
+			     , WBS_STD B
+			 WHERE A.WBS_CD LIKE B.WBS_CD_STD+'_'
+			   AND A.TSS_SCN_CD = #{tssScnCd}
+		)
+		SELECT
+		  WBS_CD_STD AS wbsCdStd,
+		  WBS_CD_SEQ AS wbsCdSeq,
+		(select isnull(substring(max(u.pkMax), 2, 5),YY+'000') as seqMax
+	   from (
+		 select max(distinct PK_WBS_CD) as pkMax
+		 FROM
+		   IRIS_GRS_MGMT_MST
+		 WHERE TSS_SCN_CD = #{tssScnCd} and PK_wbs_CD like '_' + YY + '___'
+		 union
+		 select max(distinct PK_WBS_CD) as pkMax
+		 FROM
+		   IRIS_TSS_MGMT_MST
+		 WHERE TSS_SCN_CD = #{tssScnCd} and PK_wbs_CD like '_' + YY + '___'
+	   ) u  ) as seqMax
+		 FROM WBS_STD A
+		    , TB2 B
+	</select>
+
+	<!-- 마스터 신규 -->
+	<insert id="insertTssMst">
+		<selectKey keyProperty="tssCd" resultType="String" order="BEFORE">
+        <![CDATA[
+            SELECT CASE WHEN #{createMod} = 'Altr' THEN #{pkWbsCd} ELSE #{wbsCd} END
+                     + REPLICATE('0', 4 - LEN(COUNT(X.TSS_CD)+1)) + CAST(COUNT(X.TSS_CD) + 1 AS NVARCHAR(4))
+              FROM IRIS_TSS_MGMT_MST X
+             WHERE X.WBS_CD = #{wbsCd}
+        ]]>
+		</selectKey>
+    <![CDATA[
+--insertTssMst  마스터 신규
+        INSERT
+          INTO IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+             ( PRJ_CD            --프로젝트코드
+             , CUST_SQLT     --
+             , TSS_CD            --과제코드
+             , PGS_STEP_CD       --진행단계코드
+             , TSS_SCN_CD        --과제구분코드
+             , WBS_CD            --WBS코드
+             , PK_WBS_CD         --WBS코드
+             , DEPT_CODE         --조직코드(소속)
+             , PPSL_MBD_CD       --발의주체코드
+             , BIZ_DPT_CD        --사업부문코드
+             , TSS_NM            --과제명
+             , SA_SABUN_NEW      --과제리더사번
+             , SA_SABUN_NAME      --과제리더이름
+             , TSS_ATTR_CD       --과제속성코드
+             , TSS_STRT_DD       --과제시작일
+             , TSS_FNH_DD        --과제종료일
+             , ALTR_B_STRT_DD    --변경전시작일
+             , ALTR_B_FNH_DD     --변경전종료일
+             , ALTR_NX_STRT_DD   --변경후시작일
+             , ALTR_NX_FNH_DD    --변경후종료일
+             , CMPL_B_STRT_DD    --완료전시작일
+             , CMPL_B_FNH_DD     --완료전종료일
+             , CMPL_NX_STRT_DD   --완료후시작일
+             , CMPL_NX_FNH_DD    --완료후종료일
+             , DCAC_B_STRT_DD    --중단전시작일
+             , DCAC_B_FNH_DD     --중단전종료일
+             , DCAC_NX_STRT_DD   --중단후시작일
+             , DCAC_NX_FNH_DD    --중단후종료일
+             , COO_INST_CD       --협력기관코드
+             , SUPV_OPS_NM       --주관부서명
+             , EXRS_INST_NM      --전담기관명
+             , BIZ_NM            --사업명
+             , TSS_ST            --과제상태
+             , TSS_NOS_ST        --과제차수상태
+             , TSS_ST_TXT        --과제상태의견
+             , PROD_G
+             , RSST_SPHE
+             , TSS_TYPE
+             , FC_CD
+             , GRS_YN
+             , FRST_RGST_DT      --최초등록일시
+             , FRST_RGST_ID      --최초등록자
+             , LAST_MDFY_DT      --최종수정일시
+             , LAST_MDFY_ID      --최종수정자
+             )
+        VALUES
+             ( #{prjCd}
+             , #{custSqlt}
+             , #{tssCd}
+             , #{pgsStepCd}
+             , #{tssScnCd}
+             , #{wbsCd}
+             , CASE WHEN #{createMod} = 'Altr' THEN #{pkWbsCd} ELSE #{wbsCd} END
+             , #{deptCode}
+             , #{ppslMbdCd}
+             , #{bizDptCd}
+             , #{tssNm}
+             , #{saSabunNew}
+             , #{saSabunName}
+             , #{tssAttrCd}
+             , #{tssStrtDd}
+             , #{tssFnhDd}
+             , #{altrBStrtDd}
+             , #{altrBFnhDd}
+             , #{altrNxStrtDd}
+             , #{altrNxFnhDd}
+             , #{cmplBStrtDd}
+             , #{cmplBFnhDd}
+             , #{cmplNxStrtDd}
+             , #{cmplNxFnhDd}
+             , #{dcacBStrtDd}
+             , #{dcacBFnhDd}
+             , #{dcacNxStrtDd}
+             , #{dcacNxFnhDd}
+             , #{cooInstCd}
+             , #{supvOpsNm}
+             , #{exrsInstNm}
+             , #{bizNm}
+             , #{tssSt}
+             , #{tssNosSt}
+             , #{tssStTxt}
+             , #{prodGCd}
+             , #{rsstSphe}
+             , #{tssType}
+             , #{fcCd}
+             , #{grsYn}
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+    ]]>
+	</insert>
+
+	<!-- 마스터 수정 -->
+	<update id="updateTssMst">
+    <![CDATA[
+-- updateTssMst 마스터 수정
+        UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+           SET PRJ_CD       = #{prjCd}      --프로젝트코드
+             , DEPT_CODE    = #{deptCode}   --조직코드(소속)
+             , PPSL_MBD_CD  = #{ppslMbdCd}  --발의주체코드
+             , BIZ_DPT_CD   = #{bizDptCd}   --사업부문코드
+             , TSS_NM       = #{tssNm}      --과제명
+             , SA_SABUN_NEW = #{saSabunNew} --과제리더사번
+             , TSS_ATTR_CD  = #{tssAttrCd}  --과제속성코드
+             , TSS_STRT_DD  = #{tssStrtDd}  --과제시작일
+             , TSS_FNH_DD   = #{tssFnhDd}   --과제종료일
+             , COO_INST_CD  = #{cooInstCd}  --협력기관코드
+             , SUPV_OPS_NM  = #{supvOpsNm}  --주관부서명
+             , EXRS_INST_NM = #{exrsInstNm} --전담기관명
+             , BIZ_NM       = #{bizNm}      --사업명
+             , PROD_G       = #{prodGCd}
+             , RSST_SPHE    = #{rsstSphe}
+             , TSS_TYPE     = #{tssType}
+             , LAST_MDFY_DT = GETDATE()     --최종수정일시
+             , LAST_MDFY_ID = #{userId}     --최종수정자
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+	</update>
+
+	<!-- 마스터 과제상태 수정 -->
+	<update id="updateTssMstTssSt">
+    <![CDATA[
+		--updateTssMstTssSt 마스터 과제상태 수정
+        UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+           SET TSS_ST       = #{tssSt}
+             , LAST_MDFY_DT = GETDATE()
+             , LAST_MDFY_ID = #{userId}
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+	</update>
+	
+		<!-- 마스터 과제상태 수정 -->
+	<update id="updateTssMstHdTssSt">
+    <![CDATA[
+		--updateTssMstTssSt 마스터 과제상태 수정
+        UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+           SET TSS_ST       = #{tssSt}
+              ,PGS_STEP_CD  = #{pgsStepCd}
+             , LAST_MDFY_DT = GETDATE()
+             , LAST_MDFY_ID = #{userId}
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+	</update>
+	
+
+	<!-- 마스터 WBS코드 수정 -->
+	<update id="updateTssMstWbsCd">
+    <![CDATA[
+--updateTssMstWbsCd 마스터 WBS코드 수정
+        UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+           SET WBS_CD       = #{wbsCd}
+             , LAST_MDFY_DT = GETDATE()
+             , LAST_MDFY_ID = #{userId}
+         WHERE PK_WBS_CD = #{pkWbsCd}
+    ]]>
+	</update>
+
+	<!-- 과제기간 년도 조회 -->
+	<select id="retrieveTssTssYy" resultType="hashmap">
+    <![CDATA[
+--retrieveTssTssYy 과제기간 년도 조회
+        WITH BASE_YY AS (
+            SELECT CAST(SUBSTRING(TSS_STRT_DD, 1, 4) AS INT) AS TSS_YY
+                 , CAST(SUBSTRING(TSS_FNH_DD, 1, 4) AS INT) AS E_YY
+              FROM IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+             WHERE TSS_CD = #{tssCd}
+             UNION ALL
+            SELECT B.TSS_YY + 1, B.E_YY
+              FROM BASE_YY B WHERE B.TSS_YY < B.E_YY
+        )
+        SELECT CAST(TSS_YY AS NVARCHAR) AS tssYy FROM BASE_YY
+    ]]>
+	</select>
+
+
+	<!--========================== 과제_공통_참여연구원 ========================== -->
+	<!-- 참여연구원 조회 -->
+	<select id="retrieveTssPtcRsstMbr" resultType="hashmap">
+    <![CDATA[
+--retrieveTssPtcRsstMbr   참여연구원 조회
+        SELECT DISTINCT
+               PTC_RSST_MBR_SN AS ptcRsstMbrSn --참여연구원일련번호
+             , SA_SABUN_NEW    AS saSabunNew   --연구원사번
+             , DEPT_CODE       AS deptCode     --소속
+             , PTC_STRT_DT     AS ptcStrtDt    --참여시작일
+             , PTC_FNH_DT      AS ptcFnhDt     --참여종료일
+             , PTC_STRT_DT     AS oldStrtDt
+             , PTC_FNH_DT      AS oldFnhDt
+             , PTC_ROLE        AS ptcRole      --참여역할
+             , PTC_ROLE_DTL    AS ptcRoleDtl   --참여역할상세
+             , PTC_PRO         AS ptcPro       --참여율
+             , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'USER', SA_SABUN_NEW) , SA_SABUN_NAME) AS saUserName --연구원명
+             , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'DEPT', DEPT_CODE) , DEPT_NAME) AS deptName   --소속명
+             , dbo.fn_getComDtlNm('PTC_ROLE', PTC_ROLE) AS ptcRoleNm  --참여역할명
+             , #{_userId}      AS userId
+             , tss_cd as tssCd
+          FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
+         WHERE TSS_CD = #{tssCd} 
+    ]]>
+	</select>
+
+	<!-- 참여연구원 저장 -->
+	<update id="updateTssPtcRsstMbr">
+    <![CDATA[
+-- updateTssPtcRsstMbr 참여연구원 저장
+         MERGE IRIS_TSS_PTC_RSST_MBR A  /*과제참여연구원*/
+         USING (SELECT #{tssCd} AS TSS_CD, #{ptcRsstMbrSn} AS PTC_RSST_MBR_SN) B
+            ON A.TSS_CD          = B.TSS_CD
+           AND A.PTC_RSST_MBR_SN = B.PTC_RSST_MBR_SN
+          WHEN NOT MATCHED THEN
+        INSERT
+             ( TSS_CD          --과제코드
+             , PTC_RSST_MBR_SN --참여연구원일련번호
+             , SA_SABUN_NEW    --연구원사번
+             , DEPT_CODE       --소속
+             , PTC_STRT_DT     --참여시작일
+             , PTC_FNH_DT      --참여종료일
+             , PTC_ROLE        --참여역할
+             , PTC_ROLE_DTL    --참여역할상세
+             , PTC_PRO         --참여율
+             , FRST_RGST_DT    --최초등록일시
+             , FRST_RGST_ID    --최초등록자
+             , LAST_MDFY_DT    --최종수정일시
+             , LAST_MDFY_ID    --최종수정자
+             )
+        VALUES
+             ( #{tssCd}
+             , (SELECT ISNULL(MAX(X.PTC_RSST_MBR_SN), 0) + 1 FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.TSS_CD = #{tssCd})
+             , #{saSabunNew}
+             , #{deptCode}
+             , #{ptcStrtDt}
+             , #{ptcFnhDt}
+             , #{ptcRole}
+             , #{ptcRoleDtl}
+             , #{ptcPro}
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+          WHEN MATCHED THEN
+        UPDATE
+           SET A.SA_SABUN_NEW = #{saSabunNew}
+             , A.DEPT_CODE    = #{deptCode}
+             , A.PTC_STRT_DT  = CASE WHEN #{ptcStrtDt} = '' OR #{ptcStrtDt} IS NULL THEN #{oldStrtDt} ELSE #{ptcStrtDt} END
+             , A.PTC_FNH_DT   = CASE WHEN #{ptcFnhDt} = '' OR #{ptcFnhDt} IS NULL THEN #{oldFnhDt} ELSE #{ptcFnhDt} END
+             , A.PTC_ROLE     = #{ptcRole}
+             , A.PTC_ROLE_DTL = #{ptcRoleDtl}
+             , A.PTC_PRO      = #{ptcPro}
+             , A.LAST_MDFY_DT = GETDATE()
+             , A.LAST_MDFY_ID = #{userId}
+             ;
+    ]]>
+	</update>
+
+	<!-- 참여연구원 삭제 -->
+	<delete id="deleteTssPtcRsstMbr">
+    <![CDATA[
+-- deleteTssPtcRsstMbr 참여연구원 삭제
+        DELETE
+          FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
+         WHERE TSS_CD          = #{tssCd}
+           AND PTC_RSST_MBR_SN = #{ptcRsstMbrSn}
+    ]]>
+	</delete>
+
+	<delete id="deleteTssPtcRsstMbrAllOfTssCd">
+    <![CDATA[
+-- deleteTssPtcRsstMbrAllOfTssCd
+        DELETE
+          FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
+         WHERE TSS_CD          = #{tssCd}
+    ]]>
+	</delete>
+
+	<!-- 과제참여연구원 수 -->
+	<select id="retrieveTssPtcMbrCnt" resultType="hashmap">
+    <![CDATA[
+-- retrieveTssPtcMbrCnt 과제참여연구원 수
+        select COUNT(DISTINCT SA_SABUN_NEW) AS mbrCnt
+		from  IRIS_TSS_PTC_RSST_MBR 
+		where  tss_cd  = (
+		                  select tss_cd 
+						  from IRIS_TSS_MGMT_MST 
+						  where wbs_cd = #{wbsCd}
+						  and PGS_STEP_CD = 'PG')
+		and   convert(nvarchar(12), getdate(), 23) between ptc_strt_dt and ptc_fnh_dt 
+    ]]>
+	</select>
+
+	<!-- 참여연구원 목록 조회 -->
+	<select id="retrieveChargeMbrList" resultType="hashmap">
+    <![CDATA[
+-- retrieveChargeMbrList 참여연구원 목록 조회
+        SELECT DISTINCT
+               SA_SABUN_NEW AS mbrUserId --연구원사번
+             , ISNULL(dbo.fn_getNameOnTssPgsStep(TSS_CD, 'USER', SA_SABUN_NEW), SA_SABUN_NAME) AS mbrUserNm --연구원명
+          FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+	</select>
+
+
+	<!--========================== 과제_공통_목표및산출물 ========================== -->
+	<!-- 목표기술성과 조회 -->
+	<select id="retrieveTssGoal" resultType="hashmap">
+    <![CDATA[
+--retrieveTssGoal 목표기술성과 조회
+        SELECT TSS_CD       AS tssCd      --과제코드
+             , GOAL_ARSL_SN AS goalArslSn --과제목표일련번호
+             , PRVS         AS prvs       --항목
+             , CUR          AS cur        --현재
+             , GOAL         AS goal       --목표
+             , ARSL         AS arsl       --실적
+             , STEP         AS step       --단계
+             , UTM          AS utm        --단위
+             , EV_WAY       AS evWay      --평가방법
+             , ACHV_L       AS achvL      --달성수준
+             , #{_userId}   AS userId
+          FROM IRIS_TSS_GOAL_ARSL  /*과제목표_실적*/
+         WHERE TSS_CD = #{tssCd}
+         ORDER BY GOAL_ARSL_SN
+    ]]>
+	</select>
+
+
+	<!-- 목표기술성과 저장 -->
+	<update id="updateTssGoal">
+    <![CDATA[
+-- updateTssGoal 목표기술성과 저장
+         MERGE IRIS_TSS_GOAL_ARSL A  /*과제목표_실적*/
+         USING (SELECT #{tssCd} AS TSS_CD, #{goalArslSn} AS GOAL_ARSL_SN) B
+            ON A.TSS_CD       = B.TSS_CD
+           AND A.GOAL_ARSL_SN = B.GOAL_ARSL_SN
+          WHEN NOT MATCHED THEN
+        INSERT
+             ( TSS_CD          --과제코드
+             , GOAL_ARSL_SN    --과제목표일련번호
+             , PRVS            --항목
+             , CUR             --현재
+             , GOAL            --목표
+             , ARSL            --실적
+             , STEP            --단계
+             , UTM             --단위
+             , EV_WAY          --평가방법
+             , ACHV_L          --달성수준
+             , FRST_RGST_DT    --최초등록일시
+             , FRST_RGST_ID    --최초등록자
+             , LAST_MDFY_DT    --최종수정일시
+             , LAST_MDFY_ID    --최종수정자
+             )
+        VALUES
+             ( #{tssCd}
+             , (SELECT ISNULL(MAX(X.GOAL_ARSL_SN), 0) + 1 FROM IRIS_TSS_GOAL_ARSL X WHERE X.TSS_CD = #{tssCd})
+             , #{prvs}
+             , #{cur}
+             , #{goal}
+             , #{arsl}
+             , #{step}
+             , #{utm}
+             , #{evWay}
+             , #{achvL}
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+          WHEN MATCHED THEN
+        UPDATE
+           SET A.PRVS         = #{prvs}
+             , A.CUR          = #{cur}
+             , A.GOAL         = #{goal}
+             , A.ARSL         = #{arsl}
+             , A.STEP         = #{step}
+             , A.UTM          = #{utm}
+             , A.EV_WAY       = #{evWay}
+             , A.ACHV_L       = #{achvL}
+             , A.LAST_MDFY_DT = GETDATE()
+             , A.LAST_MDFY_ID = #{userId}
+             ;
+    ]]>
+	</update>
+
+
+	<!-- 목표기술성과 삭제 -->
+	<delete id="deleteTssGoal">
+    <![CDATA[
+-- deleteTssGoal 목표기술성과 삭제
+        DELETE
+          FROM IRIS_TSS_GOAL_ARSL  /*과제목표_실적*/
+         WHERE TSS_CD       = #{tssCd}
+           AND GOAL_ARSL_SN = #{goalArslSn}
+    ]]>
+	</delete>
+	<delete id="deleteTssGoalOfTssCd">
+    <![CDATA[
+-- deleteTssGoalOfTssCd
+        DELETE
+          FROM IRIS_TSS_GOAL_ARSL  /*과제목표_실적*/
+         WHERE TSS_CD       = #{tssCd}
+    ]]>
+	</delete>
+
+	<!-- 필수산출물 조회 -->
+	<select id="retrieveTssYld" resultType="hashmap">
+    <![CDATA[
+		--retrieveTssYld 필수산출물 조회
+        SELECT TSS_CD       AS tssCd      --과제코드
+             , YLD_ITM_SN   AS yldItmSn   --과제산출물일련번호
+             , GOAL_Y       AS goalY      --목표년도
+             , YLD_ITM_TYPE AS yldItmType --산출물유형
+             , GOAL_CT      AS goalCt     --목표개수
+             , ARSL_YYMM    AS arslYymm   --실적년월
+             , YLD_ITM_NM   AS yldItmNm   --산출물명
+             , YLD_ITM_TXT  AS yldItmTxt  --산출물내용
+             , (CASE
+             		WHEN (select	COUNT(1)
+							from	IRIS_COM_ATTC_FIL
+						   where	ATTC_FIL_ID = a.ATTC_FIL_ID
+							 and	DEL_YN = 'N') = 0 THEN NULL
+					ELSE  a.ATTC_FIL_ID
+				END) 		AS attcFilId  --파일ID
+             , #{_userId}   AS userId
+             ,QGATE_LINK_URL as qgateLinkUrl
+          FROM IRIS_TSS_YLD_ITM  a /*과제산출물*/
+         WHERE TSS_CD = #{tssCd}
+         ORDER BY GOAL_Y, YLD_ITM_SN
+    ]]>
+	</select>
+
+
+	<!-- 필수산출물 저장 -->
+	<update id="updateTssYld">
+    <![CDATA[
+--updateTssYld 필수산출물 저장
+         MERGE IRIS_TSS_YLD_ITM A  /*과제산출물*/
+         USING (SELECT #{tssCd} AS TSS_CD, #{yldItmSn} AS YLD_ITM_SN) B
+            ON A.TSS_CD     = B.TSS_CD
+           AND A.YLD_ITM_SN = B.YLD_ITM_SN
+          WHEN NOT MATCHED THEN
+        INSERT
+             ( TSS_CD       --과제코드
+             , YLD_ITM_SN   --과제산출물일련번호
+             , GOAL_Y       --목표년도
+             , YLD_ITM_TYPE --산출물유형
+             , GOAL_CT      --목표개수
+             , ARSL_YYMM    --실적년월
+             , YLD_ITM_NM   --산출물명
+             , YLD_ITM_TXT  --산출물내용
+             , ATTC_FIL_ID  --파일ID
+             , FRST_RGST_DT --최초등록일시
+             , FRST_RGST_ID --최초등록자
+             , LAST_MDFY_DT --최종수정일시
+             , LAST_MDFY_ID --최종수정자
+             )
+        VALUES
+             ( #{tssCd}
+             , (SELECT ISNULL(MAX(X.YLD_ITM_SN), 0) + 1 FROM IRIS_TSS_YLD_ITM X WHERE X.TSS_CD = #{tssCd})
+             , #{goalY}
+             , #{yldItmType}
+             , CONVERT(numeric(2, 0), CASE WHEN #{goalCt} = '' THEN '0' ELSE #{goalCt} END)
+             , #{arslYymm}
+             , #{yldItmNm}
+             , #{yldItmTxt}
+             , #{attcFilId}
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+          WHEN MATCHED THEN
+        UPDATE
+           SET A.GOAL_Y       = #{goalY}
+             , A.YLD_ITM_TYPE = #{yldItmType}
+             , A.GOAL_CT      = CONVERT(numeric(2, 0), CASE WHEN #{goalCt} = '' THEN '0' ELSE #{goalCt} END)
+             , A.ARSL_YYMM    = #{arslYymm}
+             , A.YLD_ITM_NM   = #{yldItmNm}
+             , A.YLD_ITM_TXT  = #{yldItmTxt}
+             , A.ATTC_FIL_ID  = #{attcFilId}
+             , A.LAST_MDFY_DT = GETDATE()
+             , A.LAST_MDFY_ID = #{userId}
+             ;
+    ]]>
+	</update>
+
+
+	<!-- 필수산출물 삭제 -->
+	<delete id="deleteTssYld">
+    <![CDATA[
+-- deleteTssYld 필수산출물 삭제
+        DELETE
+          FROM IRIS_TSS_YLD_ITM  /*과제산출물*/
+         WHERE TSS_CD     = #{tssCd}
+           AND YLD_ITM_SN = #{yldItmSn}
+    ]]>
+	</delete>
+
+	<delete id="deleteTssYldOfTssCd">
+    <![CDATA[
+-- deleteTssYldOfTssCd
+        DELETE
+          FROM IRIS_TSS_YLD_ITM   /*과제산출물*/
+         WHERE TSS_CD     = #{tssCd}
+    ]]>
+	</delete>
+
+	<!--========================== 과제_공통 ========================== -->
+	<select id="retrieveTssPopupList" resultType="hashmap">
+    <![CDATA[
+-- retrieveTssPopupList 과제_공통
+        SELECT A.PRJ_CD          AS prjCd            --프로젝트코드
+             , B.PRJ_NM          AS prjNm            --프로젝트명
+             , A.TSS_CD          AS tssCd            --과제코드
+             , A.PGS_STEP_CD     AS pgsStepCd        --진행단계코드
+             , A.TSS_SCN_CD      AS tssScnCd         --과제구분코드
+             , A.WBS_CD          AS wbsCd            --WBS코드
+             , A.PK_WBS_CD       AS pkWbsCd            --WBS코드
+             , A.dept_code       AS deptCode         --조직코드(소속)
+             , A.PPSL_MBD_CD     AS ppslMbdCd        --발의주체코드
+             , A.BIZ_DPT_CD      AS bizDptCd         --사업부문코드
+             , A.TSS_NM          AS tssNm            --과제명
+             , A.sa_sabun_new    AS saSabunNew       --과제리더사번
+             , A.TSS_ATTR_CD     AS tssAttrCd        --과제속성코드
+             , A.TSS_STRT_DD     AS tssStrtDd        --과제시작일
+             , A.TSS_FNH_DD      AS tssFnhDd         --과제종료일
+             , A.ALTR_B_STRT_DD  AS altrBStrtDd      --변경전시작일
+             , A.ALTR_B_FNH_DD   AS altrBFnhDd       --변경전종료일
+             , A.ALTR_NX_STRT_DD AS altrNxStrtDd     --변경후시작일
+             , A.ALTR_NX_FNH_DD  AS altrNxFnhDd      --변경후종료일
+             , A.CMPL_B_STRT_DD  AS cmplBStrtDd      --완료전시작일
+             , A.CMPL_B_FNH_DD   AS cmplBFnhDd       --완료전종료일
+             , A.CMPL_NX_STRT_DD AS cmplNxStrtDd     --완료후시작일
+             , A.CMPL_NX_FNH_DD  AS cmplNxFnhDd      --완료후종료일
+             , A.DCAC_B_STRT_DD  AS dcacBStrtDd      --중단전시작일
+             , A.DCAC_B_FNH_DD   AS dcacBFnhDd       --중단전종료일
+             , A.DCAC_NX_STRT_DD AS dcacNxStrtDd     --중단후시작일
+             , A.DCAC_NX_FNH_DD  AS dcacNxFnhDd      --중단후종료일
+             , A.COO_INST_CD     AS cooInstCd        --협력기관코드
+             , A.SUPV_OPS_NM     AS supvOpsNm        --주관부서명
+             , A.EXRS_INST_NM    AS exrsInstNm       --전담기관명
+             , A.BIZ_NM          AS bizNm            --사업명
+             , A.TSS_ST          AS tssSt            --과제상태
+             , A.TSS_NOS_ST      AS tssNosSt         --과제차수상태
+             , A.TSS_ST_TXT      AS tssStTxt         --과제상태의견
+             , dbo.fn_getComDtlNm('TSS_SCN_CD', A.TSS_SCN_CD) AS tssScnNm  --과제구분명
+          FROM IRIS_TSS_MGMT_MST A  /*과제관리마스터*/
+          JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
+            ON A.PRJ_CD = B.PRJ_CD
+    ]]>
+		<if test="userDeptCd != null and !userDeptCd.equals('')"><!-- 자기가 속한 과제만 조회 -->
+			AND B.PRJ_CD IN (SELECT PRJ_CD 
+			                             FROM IRIS_PRJ_RSST_MST 
+										 WHERE DEPT_CD = ( select distinct team_dept_code 
+										                                  from vw_sso_dept 
+																		  where dept_code =#{userDeptCd}
+																		  )
+										)
+		</if>
+    <![CDATA[
+         WHERE A.PGS_STEP_CD = 'PG' --고정값: PG(진행)
+           AND (A.TSS_NOS_ST = 1 OR A.TSS_NOS_ST IS NULL)
+    ]]>
+		<if test="tssNm != null and !tssNm.equals('')">
+			AND A.TSS_NM LIKE '%'+#{tssNm}+'%'
+		</if>
+		<if test="prjNm != null and !prjNm.equals('')">
+			AND B.PRJ_NM LIKE '%'+#{prjNm}+'%'
+		</if>
+	</select>
+
+	<select id="getTssUserList" resultType="hashmap">
+		<![CDATA[
+			-- getTssUserList 사용자 리스트 조회
+			SELECT	a.sa_sabun_new						   as saSabun
+				   ,a.sa_user							   as saUser
+				   ,a.sa_name							   as saName
+				   ,a.sa_ename							   as saEName
+				   ,a.sa_cname							   as saCName
+				   ,a.sa_dept_name						   as deptName
+				   ,a.sa_dept_new						   as deptCd
+				   ,a.sa_jobx_name						   as saJobxName
+				   ,a.sa_jobx								   as saJobx
+				   ,concat(a.sa_phone_area, '-', a.sa_phone_o) as saPhoneArea
+				   ,a.sa_hand								   as saHand
+				   ,a.sa_mail								   as saMail
+				   ,b.TSS_NM 								  as tssNm
+				   ,b.PTC_STRT_DT 							  as ptcStrtDt
+				   ,b.PTC_FNH_DT   						  	  as ptcFnhDt
+				   ,b.PTC_PRO 								  as ptcPro
+			from   IRIS_SSO_USER a
+ LEFT OUTER JOIN
+						(SELECT t.TSS_NM , m.PTC_STRT_DT , m.PTC_FNH_DT , PTC_PRO , m.sa_sabun_new
+						   FROM IRIS_TSS_PTC_RSST_MBR m
+					 INNER JOIN  IRIS_TSS_MGMT_MST t
+							ON m.TSS_CD = t.TSS_CD
+						  WHERE t.TSS_SCN_CD 	= 'N'
+						   -- AND T.pgs_step_cd 	= 'PG'
+						    AND T.TSS_NOS_ST  	= (SELECT MAX(MM.TSS_NOS_ST) FROM IRIS_TSS_MGMT_MST MM WHERE MM.pk_wbs_cd = t.pk_wbs_cd )
+							AND t.pk_wbs_cd 	IN (SELECT mt.pk_wbs_cd FROM iris_tss_mgmt_mst MT
+							 			   	  		 WHERE mt.pgs_step_cd NOT IN ('DC' , 'CM')
+							                     	   AND mt.tss_scn_cd = 'N')
+							) b
+				on  a.sa_sabun_new = b.sa_sabun_new
+
+			WHERE   1 = 1
+		 ]]>
+		<if test="deptNm != null and deptNm != ''">
+			AND a.sa_dept_name like '%${deptNm}%'
+		</if>
+		<if test="userNm != null and userNm != ''">
+			AND a.sa_name like '%${userNm}%'
+		</if>
+		<if test="userIds != null and userIds != ''">
+			AND a.sa_user in
+			<foreach collection="userIdList" item="item" open="(" close=")"
+				separator=",">
+				#{item}
+			</foreach>
+		</if>
+		ORDER BY a.sa_name
+	</select>
+
+	<select id="getGrsUserList" resultType="hashmap">
+		<![CDATA[
+			-- getGrsUserList GRS 사용자 리스트 조회
+			SELECT	a.sa_sabun_new						   as saSabun
+				   ,a.sa_user							   as saUser
+				   ,a.sa_name							   as saName
+				   ,a.sa_ename							   as saEName
+				   ,a.sa_cname							   as saCName
+				   ,a.sa_dept_name						   as deptName
+				   ,a.sa_dept_new						   as deptCd
+				   ,a.sa_jobx_name						   as saJobxName
+				   ,a.sa_jobx								   as saJobx
+				   ,concat(a.sa_phone_area, '-', a.sa_phone_o) as saPhoneArea
+				   ,a.sa_hand								   as saHand
+				   ,a.sa_mail								   as saMail
+
+			from   IRIS_SSO_USER a
+    		WHERE   sa_sabun_new in
+						(select co.COM_DTL_CD from IRIS_ADM_COM_CD co where co.COM_CD_CD ='GRS_USER' and DEL_YN = 'N' )
+
+		 ]]>
+		<if test="deptNm != null and deptNm != ''">
+			AND a.sa_dept_name like '%${deptNm}%'
+		</if>
+		<if test="userNm != null and userNm != ''">
+			AND a.sa_name like '%${userNm}%'
+		</if>
+		<if test="userIds != null and userIds != ''">
+			AND a.sa_user in
+			<foreach collection="userIdList" item="item" open="(" close=")"
+				separator=",">
+				#{item}
+			</foreach>
+		</if>
+		ORDER BY a.sa_dept_new, a.sa_name
+	</select>
+
+	<!-- 통합결제 등록 -->
+	<insert id="insertTssCsusRq">
+		<selectKey keyProperty="guid" resultType="String" order="BEFORE">
+        <![CDATA[
+            SELECT #{affrGbn}
+			     + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
+			     + REPLICATE('0', 4 - LEN(CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)))
+			     + CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)
+			  FROM IRIS_COM_ITG_RDCS X
+			 WHERE SUBSTRING(X.GUID, 1, 7) = #{affrGbn} + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
+        ]]>
+		</selectKey>
+    <![CDATA[
+-- insertTssCsusRq 통합결제 등록
+        INSERT
+          INTO IRIS_COM_ITG_RDCS
+             ( GUID                    --고유코드
+             , AFFR_CD                 --업무코드
+             , APRDOCSTATE             --결재상태코드
+             , APPROVAL_USERID         --결재 요청자 ID
+             , APPROVAL_USERNAME       --결재 요청자명
+             , APPROVAL_JOBTITLE       --결재 요청자 직위
+             , APPROVAL_DEPTNAME       --결재 요청자 부서명
+             , APPROVAL_PROCESSDATE    --결재 요청 일자
+             , APPROVER_PROCESSDATE    --승인일자
+             , BODY                    --결재 내용
+             , TITLE                   --결재 제목
+             , UPDATE_DATE             --수정일
+             , URL                     --결재문서 url
+             )
+        VALUES
+             ( #{guid}
+             , #{affrCd}
+             , #{aprdocstate}
+             , #{approvalUserid}
+             , #{approvalUsername}
+             , #{approvalJobtitle}
+             , #{approvalDeptname}
+             , GETDATE()
+             , ''
+             , #{body}
+             , #{title}
+             , GETDATE()
+             , #{url}
+             )
+    ]]>
+	</insert>
+
+	<!-- 통합결제 수정 -->
+	<update id="updateTssCsusRq">
+    <![CDATA[
+-- updateTssCsusRq 통합결제 수정
+        UPDATE IRIS_COM_ITG_RDCS
+           SET BODY        = #{body}
+             , TITLE       = #{title}
+             , UPDATE_DATE = GETDATE()
+         WHERE GUID = #{guid}
+    ]]>
+	</update>
+
+	<!-- 통합결제 조회 -->
+	<select id="retrieveTssCsus" resultType="hashmap">
+--retrieveTssCsus 통합결제 조회
+		SELECT TOP 1
+		GUID AS guid
+		, AFFR_CD AS affrCd
+		, APRDOCSTATE AS aprdocstate
+		, APPROVAL_USERID AS approvalUserid
+		, APPROVAL_USERNAME AS approvalUsername
+		, APPROVAL_JOBTITLE AS approvalJobtitle
+		, APPROVAL_DEPTNAME AS approvalDeptname
+		, APPROVAL_PROCESSDATE AS approvalProcessdate
+		, APPROVER_PROCESSDATE AS approverProcessdate
+		, BODY AS body
+		, TITLE AS title
+		, UPDATE_DATE AS updateDate
+		, URL AS url
+		, (SELECT COUNT(*) FROM IRIS_COM_ITG_RDCS WHERE AFFR_CD = #{tssCd}) AS
+		csusCnt
+		FROM IRIS_COM_ITG_RDCS
+		WHERE AFFR_CD = #{tssCd}
+		ORDER BY GUID DESC
+	</select>
+
+
+	<select id="getTssRole" resultType="hashmap">
+-- getTssRole
+		SELECT dbo.fn_getTssRole(#{userId}, #{roleId}, #{tssCd}) AS tssRoleId
+	</select>
+
+	<insert id="insertTssAttachFile">
+		<selectKey keyProperty="newAttcFilId" resultType="String"
+			order="BEFORE">
+        <![CDATA[
+            SELECT convert(nvarchar(4), getdate(), 112)+RIGHT('00000' + CAST(next value for attch_idx  AS VARCHAR(5)), 5)
+        ]]>
+		</selectKey>
+    <![CDATA[
+--         insertTssAttachFile
+        insert into iris_com_attc_fil
+            (MENU_TYPE
+            ,ATTC_FIL_ID
+            ,SEQ
+            ,FIL_NM
+            ,FIL_PATH
+            ,FIL_SIZE
+            ,DEL_YN
+            ,FRST_RGST_ID
+            ,FRST_RGST_DT
+            ,LAST_MDFY_ID
+            ,LAST_MDFY_DT)
+        SELECT MENU_TYPE
+              ,#{newAttcFilId}
+              ,SEQ
+	            ,FIL_NM
+	            ,FIL_PATH
+	            ,FIL_SIZE
+	            ,DEL_YN
+              ,#{userId}
+              ,getdate()
+              ,#{userId}
+              ,getdate()
+         FROM iris_com_attc_fil
+         where ATTC_FIL_ID = #{attcFilId}
+    ]]>
+	</insert>
+
+	<!-- 첨부파일ID 다건 신규 생성 -->
+	<select id="insertTssAttcFilIdCreate" resultType="hashmap"
+		statementType="CALLABLE">
+    <![CDATA[
+-- insertTssAttcFilIdCreate 첨부파일ID 다건 신규 생성
+        DECLARE @return_value CHAR
+        EXEC dbo.sp_tssAttcFilIdCreate #{tssCd}, #{newAttcFilId}, #{gbn}, #{userId}, @return_value OUTPUT
+        SELECT @return_value AS rtVal
+    ]]>
+	</select>
+
+	<!-- 과제 탭등록건수 확인 -->
+	<select id="getTssRegistCnt" resultType="hashmap">
+    <![CDATA[
+--getTssRegistCnt 과제 탭등록건수 확인
+        SELECT (SELECT COUNT(*) FROM IRIS_TSS_GEN_SMRY WHERE TSS_CD = #{tssCd})                   AS genSmryCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_GEN_WBS WHERE TSS_CD = #{tssCd})                    AS genWbsCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_GEN_TRWI_BUDG_LIST WHERE TSS_CD = #{tssCd})         AS genTrwiCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_NAT_PLCY_SMRY WHERE TSS_CD = #{tssCd})              AS natSmryCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_NAT_PLCY_SMRY_CRRO_INST WHERE TSS_CD = #{tssCd})    AS natCrroCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_NAT_PLCY_BIZ_EXP WHERE TSS_CD = #{tssCd})           AS natBizCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_NAT_PLCY_IVST_IG WHERE TSS_CD = #{tssCd})           AS natIvstCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_NAT_PLCY_RSST_EXP_CDCD WHERE TSS_CD = #{tssCd})     AS natCdcdCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_OUSD_COO_SMRY WHERE TSS_CD = #{tssCd})              AS ousdSmryCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_OUSD_EXP_STOA WHERE TSS_CD = #{tssCd})              AS ousdStoaCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_PTC_RSST_MBR WHERE TSS_CD = #{tssCd})               AS comMbrCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_GOAL_ARSL WHERE TSS_CD = #{tssCd})                  AS comGoalCnt
+		     , (SELECT COUNT(*) FROM IRIS_TSS_YLD_ITM WHERE TSS_CD = #{tssCd})                    AS comYldCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_GEN_SMRY WHERE TSS_CD = #{pgTssCd})                 AS pgGenSmryCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_GEN_WBS WHERE TSS_CD = #{pgTssCd})                  AS pgGenWbsCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_GEN_TRWI_BUDG_LIST WHERE TSS_CD = #{pgTssCd})       AS pgGenTrwiCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_NAT_PLCY_SMRY WHERE TSS_CD = #{pgTssCd})            AS pgNatSmryCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_NAT_PLCY_SMRY_CRRO_INST WHERE TSS_CD = #{pgTssCd})  AS pgNatCrroCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_NAT_PLCY_BIZ_EXP WHERE TSS_CD = #{pgTssCd})         AS pgNatBizCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_NAT_PLCY_IVST_IG WHERE TSS_CD = #{pgTssCd})         AS pgNatIvstCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_NAT_PLCY_RSST_EXP_CDCD WHERE TSS_CD = #{pgTssCd})   AS pgNatCdcdCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_OUSD_COO_SMRY WHERE TSS_CD = #{pgTssCd})            AS pgOusdSmryCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_OUSD_EXP_STOA WHERE TSS_CD = #{pgTssCd})            AS pgOusdStoaCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_PTC_RSST_MBR WHERE TSS_CD = #{pgTssCd})             AS pgComMbrCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_GOAL_ARSL WHERE TSS_CD = #{pgTssCd})                AS pgComGoalCnt
+             , (SELECT COUNT(*) FROM IRIS_TSS_YLD_ITM WHERE TSS_CD = #{pgTssCd})                  AS pgComYldCnt
+			  , (SELECT COUNT(*) FROM IRIS_TSS_TCTM_SMRY WHERE TSS_CD = #{tssCd})                   AS tctmSmryCnt
+
+    ]]>
+	</select>
+
+
+	<!-- 마스터 이름 부서명 수정 -->
+	<update id="updateMstUserNmDeptNm">
+    <![CDATA[
+        --updateMstUserNmDeptNm 마스터 이름 부서명 수정
+        UPDATE T1
+		   SET T1.DEPT_NAME = T3.DEPT_NAME
+		     , T1.SA_SABUN_NAME = T2.SA_NAME
+		     , T1.PRJ_NM = T4.PRJ_NM
+		  FROM (SELECT TSS_CD
+		             , SA_SABUN_NEW
+		             , SA_SABUN_NAME
+		             , DEPT_CODE
+		             , DEPT_NAME
+		             , PRJ_CD
+                     , PRJ_NM
+		          FROM IRIS_TSS_MGMT_MST
+		         WHERE PK_WBS_CD = #{pkWbsCd}
+		           AND TSS_SCN_CD = #{tssScnCd}
+    ]]>
+		<if test='tssScnCd == "N"'>
+			AND TSS_NOS_ST = #{tssNosSt}
+		</if>
+	<![CDATA[
+		           ) T1
+		     , IRIS_SSO_USER T2
+		     , IRIS_SSO_DEPT T3
+		     , IRIS_PRJ_RSST_MST T4
+		 WHERE T1.SA_SABUN_NEW = T2.SA_SABUN_NEW
+		   AND T1.DEPT_CODE = T3.DEPT_CODE
+		   AND T1.PRJ_CD = T4.PRJ_CD
+    ]]>
+	</update>
+
+	<!-- 멤버 이름 부서명 수정 -->
+	<update id="updateMbrUserNmDeptNm">
+    <![CDATA[
+        --updateMbrUserNmDeptNm 멤버 이름 부서명 수정
+        UPDATE T1
+		   SET T1.DEPT_NAME = T3.DEPT_NAME
+		     , T1.SA_SABUN_NAME = T2.SA_NAME
+		  FROM (SELECT TSS_CD
+		             , SA_SABUN_NEW
+		             , SA_SABUN_NAME
+		             , DEPT_CODE
+		             , DEPT_NAME
+		          FROM IRIS_TSS_PTC_RSST_MBR) T1
+		     , IRIS_SSO_USER T2
+		     , IRIS_SSO_DEPT T3
+		     , IRIS_TSS_MGMT_MST T4
+		 WHERE T1.SA_SABUN_NEW = T2.SA_SABUN_NEW
+		   AND T1.DEPT_CODE = T3.DEPT_CODE
+		   AND T1.TSS_CD = T4.TSS_CD
+		   AND T4.PK_WBS_CD = #{pkWbsCd}
+		   AND T4.TSS_SCN_CD = #{tssScnCd}
+    ]]>
+		<if test='tssScnCd == "N"'>
+			AND T4.TSS_NOS_ST = #{tssNosSt}
+		</if>
+	</update>
+
+   <!--  과제 리더 -GRS 심의후 -->
+   <select id="retrieveSendAddrTssGrsPL"  resultType="hashmap">
+ -- retrieveSendAddrTssGrsPL 과제 리더 -GRS 심의후
+ SELECT  MM.PRJ_CD as prjCd
+	       , (SELECT SSO.SA_MAIL FROM IRIS_SSO_USER SSO WHERE MM.SA_SABUN_NEW  = SSO.SA_SABUN_NEW)  saMail
+		   , RR.GRS_EV_ST as grsCd
+		   , dbo.fn_getComDtlNm('GRS_EV_ST',RR.GRS_EV_ST) as grsNm
+		   , mm.PGS_STEP_CD
+	  FROM IRIS_TSS_MGMT_MST MM
+	 INNER JOIN IRIS_GRS_EV_RSLT_RGST RR
+ 		ON MM.TSS_CD  = RR.TSS_CD
+  	 WHERE MM.TSS_ST  = '102' --GRS완료
+	   AND MM.TSS_CD =  #{tssCd}
+	   AND MM.SA_SABUN_NEW !=''
+	   AND  RR.GRS_EV_ST !=''
+	   AND  RR.TSS_CD_SN =(select max(R.TSS_CD_SN) from IRIS_GRS_EV_RSLT_RGST R where r.TSS_CD = RR.tss_cd)
+   	</select>
+   	
+   	
+   	<!-- 변경개요 삭제 -->
+   	<delete id="deleteTssSmryAltrListOfTssCd">
+    <![CDATA[
+-- deleteTssSmryAltrListOfTssCd 변경개요 삭제
+        DELETE
+          FROM IRIS_TSS_SMRY_ALTR_LIST  /*변경개요*/
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+    </delete>
+   	
+   	
+   	<!-- 과제 마스터 삭제 -->
+   	<delete id="deleteTssMstOfTssCd">
+    <![CDATA[
+-- deleteTssMstOfTssCd 과제 마스터 삭제
+        DELETE
+          FROM IRIS_TSS_MGMT_MST  /*과제 마스터*/
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+    </delete>
+    
+     <!-- 변경이력 상세리스트 조회  -->
+    <select id="retrieveOusdCooTssAltrList"  resultType="hashmap">
+-- retrieveOusdCooTssAltrList 변경이력 상세리스트 조회
+     SELECT    A.TSS_CD       	  AS tssCd      --과제코드
+             , A.ALTR_SN      AS altrSn     --변경일련번호
+             , A.PRVS         AS prvs       --항목
+             , A.ALTR_PRE     AS altrPre    --변경전
+             , A.ALTR_AFT     AS altrAft    --변경후
+             , ISNULL(CONVERT(NVARCHAR, D.APPROVER_PROCESSDATE, 23), CONVERT(NVARCHAR, A.LAST_MDFY_DT, 23)) AS altrApprDd
+             , #{_userId}   AS userId 
+          FROM IRIS_TSS_SMRY_ALTR_LIST A /*변경개요 목록*/
+         	   LEFT OUTER JOIN IRIS_COM_ITG_RDCS D
+          		ON A.TSS_CD = D.AFFR_CD
+			   	AND D.APRDOCSTATE = 'A02' --고정값: A02(승인)
+         WHERE TSS_CD = #{tssCd}
+    </select>
+
+	<!-- 변경이력 상세 조회 -->
+     <select id="ousdCooTssAltrDetailSearch"  resultType="hashmap">
+-- ousdCooTssAltrDetailSearch 변경이력 상세 조회
+     SELECT    A.TSS_CD       		AS tssCd      		--과제코드
+             , A.ALTR_RSON      AS altrRsonTxt      --변경사유
+             , A.ADD_RSON     	AS addRsonTxt    	--추가사유
+             , A.ALTR_ATTC_FIL_ID   AS attcFilId    	--첨부파일
+          FROM IRIS_TSS_OUSD_COO_SMRY A 				
+         WHERE A.TSS_CD = #{tssCd}
+    </select>	
+    
+    
+    <!-- 중단, 완료 참여연구원  count 조회 -->
+     <select id="retrieveCmDcTssPtcMbrCnt"  resultType="hashMap">
+-- retrieveCmDcTssPtcMbrCnt 중단, 완료 참여연구원  count 조회
+		select COUNT(DISTINCT SA_SABUN_NEW) AS mbrCnt
+		from  IRIS_TSS_PTC_RSST_MBR 
+		where  tss_cd  = (
+		                  select tss_cd 
+						  from IRIS_TSS_MGMT_MST 
+						  where wbs_cd = #{wbsCd}
+						  and PGS_STEP_CD = 'PG')
+    </select>	
+    
+    <!--과제 상세 내용  -->
+    <select id="retrievePrjSearch" resultType="hashmap">
+-- retrievePrjSearch 과제 상세 내용
+		select a.PRJ_CD as prjCd
+		      ,a.WBS_CD as wbsCd
+			  ,a.PRJ_NM as prjNm
+			  ,a.DEPT_CD as deptCd
+			  ,[dbo].[fn_getDeptName](a.DEPT_CD) as deptName
+			  ,A.PRJ_CPSN as deptCnt
+			  ,a.DEPT_UPER as upDeptCd
+			  ,[dbo].[fn_getDeptName](a.DEPT_UPER) as upDeptName
+			  ,a.PL_EMP_NO as plEmpNo
+		      ,[dbo].[fn_getSabunName](a.PL_EMP_NO) as plEmpName
+			  ,a.PRJ_STR_DT as prjStrDt
+			  ,a.PRJ_END_DT as prj_end_dt
+			  ,a.WBS_CD_A as wbsCdA
+		from   IRIS_PRJ_RSST_MST a
+		where  1=1
+		and    (a.PRJ_END_DT is null or a.PRJ_END_DT = '')
+    	and  a.DEPT_CD = #{deptCd}  
+    </select>
+    
+     
+    <!-- 과제 계획 필수산출물  수정시  -->
+    <update id="updateTssYldItmDate">
+	    update IRIS_TSS_YLD_ITM
+		set    GOAL_Y = #{goalY}
+		      ,arsl_yymm = #{arslYymm}
+		where  tss_cd = #{tssCd}
+		and    yld_itm_type = #{yldItmType}
+    </update>
+    <!-- 과제 산출물 연결-->
+    <update id="updateYldFile">
+        UPDATE Y
+        SET
+            Y.YLD_ITM_NM     = F.FIL_NM
+            , Y.ATTC_FIL_ID  = F.ATTC_FIL_ID
+            , Y.LAST_MDFY_DT = GETDATE()
+            , Y.LAST_MDFY_ID = F.LAST_MDFY_ID
+        FROM IRIS_TSS_YLD_ITM Y, IRIS_COM_ATTC_FIL F
+        WHERE
+            Y.TSS_CD = #{tssCd}
+            AND Y.YLD_ITM_TYPE = #{yldItmType}
+            AND F.ATTC_FIL_ID = #{attcFilId}
+            and F.DEL_YN = 'N'
+    </update>
+
+
+
+	<!-- QAS 과제등록을 위해 과제정보 조회 -->
+	<select id="selectTssInfo" resultType="HashMap">
+/*selectTssInfo QAS 과제등록을 위해 과제정보 조회*/
+		select
+			   mst.TSS_CD as tssCd,
+			   mst.WBS_CD        as wbsCd,
+			   mst.TSS_NM        as tssNm,
+			   mst.PRJ_CD        as prjCd,
+			   mst.PRJ_NM        as prjNm,
+			   mst.BIZ_DPT_CD    as bizDptCd,
+			   dbo.fn_getComDtlNm('BIZ_DPT_CD',BIZ_DPT_CD)   as bizDptNm, -- 코드가 아닌 text로 전달
+			   mst.PROD_G        as prodG,
+			   dbo.fn_getComDtlNm('PROD_G',mst.PROD_G)   as prodGNm, --코드가 아닌 text로 전달
+			   mst.SA_SABUN_NEW  as saSabunNew,
+			   mst.SA_SABUN_NAME as saSabunNm,
+			   mst.TSS_STRT_DD   as tssStrtDd,
+			   mst.CUST_SQLT     as custSqlt,
+			   mst.TSS_TYPE      as tssType,
+			   mst.TSS_ATTR_CD   as tssAttrCd,
+			   smr.NPROD_SALS_PLN_Y as nprodSalsPlnY,
+			   left(smr.CTY_OT_PLN_M, 7) as ctyOtPlnM
+		from IRIS_TSS_MGMT_MST mst,
+        <choose>
+            <when test='tssScnCd != null and tssScnCd=="G"'>
+                IRIS_TSS_GEN_SMRY smr
+            </when>
+            <when test='tssScnCd != null and tssScnCd=="D"'>
+                IRIS_TSS_TCTM_SMRY smr
+            </when>
+            <otherwise>
+                IRIS_TSS_GEN_SMRY smr
+            </otherwise>
+        </choose>
+		where mst.TSS_CD = smr.TSS_CD
+		and mst.TSS_CD = #{pgTssCd}
+	</select>
+
+    <!--  QAS 과제 등록 Oracle-->
+    <insert id="insertToQasTssQasIF">
+    /*insertToQasTssQasIF QAS 과제 등록 Oracle*/
+    <![CDATA[
+		MERGE INTO IF_QGATE
+					USING DUAL
+					ON (WBS_CD = #{wbsCd})
+					WHEN NOT MATCHED THEN
+			INSERT
+				   (
+					   WBS_CD,
+					   TSS_NM,
+					   PRJ_CD,
+					   PRJ_NM,
+					   BIZ_DPT_CD,
+					   PROD_G,
+					   SA_SABUN_CD,
+					   SA_SABUN_NM,
+					   TSS_STRT_DD,
+					   CUST_SQLT,
+					   TSS_TYPE,
+					   NPROD_SALS_PLN_Y,
+					   CTY_OT_PLN_M,
+					   FRST_RGST_DT,
+					   FRST_RGST_ID,
+					   LAST_MDFY_DT,
+					   LAST_MDFY_ID
+				   )
+				   VALUES
+				   (
+					   #{wbsCd},
+					   #{tssNm},
+					   #{prjCd},
+					   #{prjNm},
+					   #{bizDptNm},
+					   #{prodGNm},
+					   #{saSabunNew},
+					   #{saSabunNm},
+					   #{tssStrtDd},
+					   #{custSqlt},
+					   #{tssType},
+					   #{nprodSalsPlnY},
+					   #{ctyOtPlnM},
+					   SYSDATE,
+					   #{userId},
+					   SYSDATE,
+					   #{userId}
+				   )
+					WHEN MATCHED THEN
+					UPDATE SET
+						TSS_NM = #{tssNm},
+						PRJ_CD = #{prjCd},
+						PRJ_NM = #{prjNm},
+						BIZ_DPT_CD = #{bizDptNm},
+						PROD_G = #{prodGNm},
+						SA_SABUN_CD = #{saSabunNew},
+						SA_SABUN_NM = #{saSabunNm},
+						TSS_STRT_DD = #{tssStrtDd},
+						CUST_SQLT = #{custSqlt},
+						TSS_TYPE = #{tssType},
+						NPROD_SALS_PLN_Y = #{nprodSalsPlnY},
+						CTY_OT_PLN_M = #{ctyOtPlnM},
+						LAST_MDFY_DT = SYSDATE,
+						LAST_MDFY_ID = #{userId}
+	]]>
+    </insert>
+
+    <!--QAS 결과 조회 Oracle-->
+    <select id="selectGateQasIF" resultType="HashMap">
+      /*selectGateQasIF QAS 결과 조회 Oracle*/
+      <![CDATA[
+        SELECT
+            SEQ AS seq,
+            WBS_CD AS wbsCd,
+            STEP_NO AS stepNo,
+            REQ_TYPE AS reqType,
+            ATTACH_URL AS attachUrl
+          FROM IF_QGATE_PROC
+	]]>
+    </select>
+
+    <!--from QAS 결과 to IRSI 배치용 Insert/Update MSSQL-->
+    <insert id="insertGateToIrisQasIF">
+    /*insertGateToIrisQasIF from QAS 결과 to IRSI 배치용 Insert/Update MSSQL*/
+    <![CDATA[
+        MERGE INTO dbo.IRIS_TSS_QGATE_IF A
+            USING (SELECT
+                #{WBSCD} AS WBS_CD,
+                #{STEPNO} AS STEP_NO,
+                #{REQTYPE} AS REQ_TYPE
+            ) B
+            ON (
+            A.WBS_CD = B.WBS_CD
+            AND A.STEP_NO = B.STEP_NO
+            AND A.REQ_TYPE = B.REQ_TYPE
+            )
+            WHEN NOT MATCHED THEN
+        INSERT
+               (
+                WBS_CD,
+                STEP_NO,
+                REQ_TYPE,
+                ATTACH_URL,
+				FRST_RGST_DT,
+				LAST_MDFY_DT
+                ) VALUES (
+                #{WBSCD},
+                #{STEPNO},
+                #{REQTYPE},
+                #{ATTACHURL},
+                GETDATE(),
+                GETDATE()
+                )
+                WHEN MATCHED THEN
+                UPDATE SET
+                ATTACH_URL = #{ATTACHURL},
+                LAST_MDFY_DT =  GETDATE()
+            ;
+    	]]>
+    </insert>
+
+
+	<!-- 과제정보 조회 QAS 산출물 연결을 위한-->
+	<select id="selectTssInfoQasIF" resultType="HashMap">
+		/*selectTssInfoQasIF 과제정보 조회 QAS 산출물 연결을 위한*/
+	<![CDATA[
+		SELECT
+		  TSS_CD as tssCd,
+		  WBS_CD as wbsCd,
+		  TSS_SCN_CD as tssScnCd
+		FROM IRIS_TSS_MGMT_MST
+		WHERE WBS_CD = #{WBSCD}
+		AND PGS_STEP_CD='PG'
+		ORDER BY TSS_CD DESC
+	]]>
+	</select>
+
+	<!-- Qgate 파일 과제 연결-->
+	<update id="updateGateToYldQasIF">
+		UPDATE IRIS_TSS_YLD_ITM set
+	  		QGATE_LINK_URL = #{ATTACHURL}
+	  		,last_mdfy_dt = GETDATE()
+	  		,last_mdfy_id = 'Batch'
+	  	WHERE
+	  	 TSS_CD = #{tssCd}
+	  	 AND YLD_ITM_TYPE = #{yldItmType}
+	</update>
+	
+	
+	<!-- 개요 신규 -->
+    <insert id="insertGenTssSmry">
+    <![CDATA[
+    -- insertGenTssSmry 개요 신규
+        INSERT
+          INTO IRIS_TSS_GEN_SMRY  /*일반과제개요*/
+             ( TSS_CD             --과제코드
+             , SMRY_N_TXT         --Needs
+             , SMRY_A_TXT         --Approach
+             , SMRY_B_TXT         --Benefit
+             , SMRY_C_TXT         --Competition
+             , SMRY_D_TXT         --Deliverables
+             , MRKT_SCL_TXT       --시장규모
+             , BIZ_PRFT_PRO       --영업이익율
+             , CTY_OT_PLN_M       --상품출시변경월
+             , SMR_SMRY_TXT
+			 , SMR_GOAL_TXT
+			 , BIZ_PRFT_PRO_Y
+			 , BIZ_PRFT_PRO_Y_1
+			 , BIZ_PRFT_PRO_Y_2
+			 , BIZ_PRFT_PRO_Y_3
+			 , BIZ_PRFT_PRO_Y_4
+			 , BIZ_PRFT_PLN_Y     
+			 , BIZ_PRFT_PLN_Y_1   
+			 , BIZ_PRFT_PLN_Y_2 
+             , NPROD_SALS_PLN_Y   --신제품매출변경Y
+             , NPROD_SALS_PLN_Y_1 --신제품매출변경Y+1
+             , NPROD_SALS_PLN_Y_2 --신제품매출변경Y+2
+             , NPROD_SALS_PLN_Y_3 --신제품매출변경Y+3
+             , NPROD_SALS_PLN_Y_4 --신제품매출변경Y+4
+             , PTC_CPSN_Y         --투입인원수Y
+             , PTC_CPSN_Y_1       --투입인원수Y+1
+             , PTC_CPSN_Y_2       --투입인원수Y+2
+             , PTC_CPSN_Y_3       --투입인원수Y+3
+             , PTC_CPSN_Y_4       --투입인원수Y+4
+             , EXP_ARSL_Y         
+			 , EXP_ARSL_Y_1       
+			 , EXP_ARSL_Y_2       
+			 , EXP_ARSL_Y_3       
+			 , EXP_ARSL_Y_4  
+             , TSS_SMRY_TXT            --과제개요 - 연구과제배경
+             , TSS_SMRY_DVLP_TXT       --과제개요 - 주요연구개발내용
+             , RSST_DVLP_OUCM_TXT      --연구개발성과 - 지재권
+             , RSST_DVLP_OUCM_CTQ_TXT  --연구개발성과 - CTQ
+             , RSST_DVLP_OUCM_EFF_TXT  --연구개발성과 - 파급효과
+             , NPROD_NM                --신제품명
+             , ANCP_OT_PLN_DT          --예상출시일(계획)
+             , Qgate3_DT               --Qgate3(품질평가단계) 패스일자
+             , FWD_PLN_TXT             --사업화출시계획
+             , FNO_PLN_TXT             --향후 계획
+             , ALTR_RSON_TXT           --변경사유
+             , ADD_RSON_TXT            --추가사유
+             , DCAC_RSON_TXT           --중단사유
+             , ATTC_FIL_ID             --첨부파일
+             , ALTR_ATTC_FIL_ID             --첨부파일
+             , CMPL_ATTC_FIL_ID             --첨부파일
+             , DCAC_ATTC_FIL_ID             --첨부파일
+             , PMIS_TXT
+             , FRST_RGST_DT       --최초등록일시
+             , FRST_RGST_ID       --최초등록자
+             , LAST_MDFY_DT       --최종수정일시
+             , LAST_MDFY_ID       --최종수정자
+             )
+        SELECT #{tssCd}
+             , SMRY_N_TXT
+             , SMRY_A_TXT
+             , SMRY_B_TXT
+             , SMRY_C_TXT
+             , SMRY_D_TXT
+             , MRKT_SCL_TXT
+             , BIZ_PRFT_PRO
+             , CTY_OT_PLN_M
+             , SMR_SMRY_TXT
+			 , SMR_GOAL_TXT
+			 , BIZ_PRFT_PRO_Y
+			 , BIZ_PRFT_PRO_Y_1
+			 , BIZ_PRFT_PRO_Y_2
+			 , BIZ_PRFT_PRO_Y_3
+			 , BIZ_PRFT_PRO_Y_4
+			 , BIZ_PRFT_PLN_Y     
+			 , BIZ_PRFT_PLN_Y_1   
+			 , BIZ_PRFT_PLN_Y_2 
+			 , NPROD_SALS_PLN_Y
+             , NPROD_SALS_PLN_Y_1
+             , NPROD_SALS_PLN_Y_2
+             , NPROD_SALS_PLN_Y_3
+             , NPROD_SALS_PLN_Y_4
+             , PTC_CPSN_Y
+             , PTC_CPSN_Y_1
+             , PTC_CPSN_Y_2
+             , PTC_CPSN_Y_3
+             , PTC_CPSN_Y_4
+             , EXP_ARSL_Y         
+			 , EXP_ARSL_Y_1       
+			 , EXP_ARSL_Y_2       
+			 , EXP_ARSL_Y_3       
+			 , EXP_ARSL_Y_4  
+             , TSS_SMRY_TXT
+             , TSS_SMRY_DVLP_TXT
+             , RSST_DVLP_OUCM_TXT
+             , RSST_DVLP_OUCM_CTQ_TXT
+             , RSST_DVLP_OUCM_EFF_TXT
+             , NPROD_NM
+             , ANCP_OT_PLN_DT
+             , Qgate3_DT
+             , FWD_PLN_TXT
+             , FNO_PLN_TXT
+             , ALTR_RSON_TXT
+             , ADD_RSON_TXT
+             , DCAC_RSON_TXT
+             , CASE WHEN ISNULL(#{attcFilId}, '') = '' THEN ATTC_FIL_ID ELSE #{attcFilId} END
+             , ALTR_ATTC_FIL_ID
+             , CMPL_ATTC_FIL_ID
+             , DCAC_ATTC_FIL_ID
+             , PMIS_TXT
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+          FROM IRIS_TSS_GEN_SMRY
+         WHERE TSS_CD = #{pgTssCd}
+    ]]>
+    </insert>
+    
+    
+    <!-- 과제신규 연구원 지적재산권 삭제 -->
+	<delete id="deleteTmpTss">
+	-- deleteTmpTss 과제날짜 임시 테이블정보 삭제
+   		delete iris_tmp_tss where tss_cd = #{pgTss_cd}
+	</delete>
+    
+        <!-- GRS 품의요청 내역 조회 -->
+    <select id="retrieveGenGrs" resultType="hashmap">
+		<![CDATA[
+--retrieveGenGrs GRS 품의요청 내역 조회
+        SELECT
+            A.PRJ_CD         AS prjCd      --프로젝트코드
+            ,C.PRJ_NM         AS prjNm      --프로젝트명
+            ,A.TSS_CD         AS tssCd      --과제코드
+            ,A.TSS_NM         AS tssNm      --과제명
+            ,ISNULL(A.SA_SABUN_NAME, (select  u.sa_name from IRIS_SSO_USER u where u.sa_sabun_new=A.SA_SABUN_NEW)) as saSabunName  -- 과제책임자
+            ,ISNULL(A.TSS_TYPE,'')       AS tssType    -- 개발유형
+            ,dbo.fn_getComDtlNm('TSS_TYPE',A.TSS_TYPE)   AS tssTypeNm     -- 심의단계명
+            ,B.EV_DT        AS evDt     --일시
+            ,B.EV_TITL        AS evTitl     --장소
+		    ,B.grs_ev_st	     AS grsEvSt	--G1:초기,G2:최종,M:변경      심의단계
+		    ,dbo.fn_getComDtlNm('GRS_EV_ST',B.grs_ev_st)   AS grsEvStNm     -- 심의단계명
+            ,(select stuff((select ',' +
+                                  sa_name
+                           from IRIS_SSO_USER
+                           where sa_sabun_new in (SELECT value
+                                                  FROM STRING_SPLIT(convert(nvarchar(4000), B.CFRN_ATDT_CD_TXT), ',')
+                                                  WHERE RTRIM(value) <> '')
+                           order by sa_name
+                           FOR XML PATH ('')), 1, 1, '')) AS cfrnAtdtCdTxtNm --참석자
+            ,B.COMM_TXT       AS commTxt            --주요 Comment
+            ,B.ATTC_FIL_ID    AS attcFilId        --첨부파일
+            ,(SELECT ROUND(sum(srr.EV_SCR / 5 * sm.WGVL),1)
+             FROM iris_grs_ev_std_rslt_rgst srr,
+                  IRIS_GRS_EV_STD_MGMT sm
+             WHERE sm.GRS_EV_SN = srr.GRS_EV_SN
+                   AND sm.GRS_EV_SEQ = srr.GRS_EV_SEQ
+                   AND srr.TSS_CD =  A.TSS_CD 
+                   AND srr.tss_cd_sn = (SELECT MAX(TSS_CD_SN)  FROM IRIS_GRS_EV_RSLT_RGST WHERE TSS_CD = A.TSS_CD )
+                   ) AS evScr    --등급평균
+          ,iif(B.DROP_YN = 'Y', 'Drop', 'PASS') as  dropYn
+          ,B.EV_DT
+        FROM
+            IRIS_TSS_MGMT_MST A
+            LEFT JOIN IRIS_PRJ_RSST_MST C  /*프로젝트연구마스터*/
+                ON A.PRJ_CD = C.PRJ_CD
+            LEFT JOIN IRIS_GRS_EV_RSLT_RGST B  /*GRS평가결과등록1*/
+                ON A.TSS_CD = B.TSS_CD
+                   AND B.TSS_CD_SN = (SELECT MAX(TSS_CD_SN)  FROM IRIS_GRS_EV_RSLT_RGST WHERE TSS_CD = A.TSS_CD)
+       WHERE 1=1
+       and A.TSS_CD =  #{tssCd}
+        ]]>
+	</select>
+	
+</mapper>

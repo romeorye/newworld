@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.data.LRecord Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var record;
+Rui.onReady(function() {
+    record = new Rui.data.LRecord({ col1: '값1', col2: '값2', col3: '값3' });
+    record.setAttribute('attr1', 'attr1값');
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLRecord_method_getId() {
+    info('LRecordTests : testLRecord_method_getId 작동 여부');
+    assertNotUndefined(record.getId());
+}
+function testLRecord_method_get() {
+    info('LRecordTests : testLRecord_method_get 작동 여부');
+    var key = 'col1'; //String
+    assertEquals(record.get(key), '값1');
+}
+function testLRecord_method_set() {
+    info('LRecordTests : testLRecord_method_set 작동 여부');
+    var key = 'col2'; //String
+    var value = '값변경2'; //Object
+    record.set(key, value);
+    assertEquals(record.get(key), '값변경2');
+}
+function testLRecord_method_getAttribute() {
+    info('LRecordTests : testLRecord_method_getAttribute 작동 여부');
+    var key = 'attr1'; //String
+    assertEquals(record.getAttribute(key), 'attr1값');
+}
+function testLRecord_method_setAttribute() {
+    info('LRecordTests : testLRecord_method_setAttribute 작동 여부');
+    var key = 'attr2'; //String
+    var value = 'attr2값'; //Object
+    record.setAttribute(key, value);
+    assertEquals(record.getAttribute(key), 'attr2값');
+}
+function testLRecord_method_undo() {
+    info('LRecordTests : testLRecord_method_undo 작동 여부');
+    var key = 'col2'; //String
+    var value = '값변경2'; //Object
+    record.set(key, value);
+    record.undo();
+    assertEquals(record.get(key), '값2');
+}
+function testLRecord_method_setState() {
+    info('LRecordTests : testLRecord_method_setState 작동 여부');
+    var state = Rui.data.LRecord.STATE_INSERT;
+    record.setState(state);
+    assertEquals(record.getState(), state);
+    record.setState(Rui.data.LRecord.STATE_NORMAL);
+}
+function testLRecord_method_getState() {
+    info('LRecordTests : testLRecord_method_getState 작동 여부');
+    assertEquals(record.getState(), Rui.data.LRecord.STATE_NORMAL);
+}
+function testLRecord_method_commit() {
+    info('LRecordTests : testLRecord_method_commit 작동 여부');
+    var record1 = record.clone();
+    var key = 'col1'; //String
+    var value = '값변경1'; //Object
+    record1.set(key, value);
+    record1.commit();
+    assertEquals(record1.get(key), '값변경1');
+}
+function testLRecord_method_getModifiedData() {
+    info('LRecordTests : testLRecord_method_getModifiedData 작동 여부');
+    var record1 = record.clone();
+    var key = 'col1'; //String
+    var value = '값변경1'; //Object
+    record1.set(key, value);
+    assertEquals(record1.getModifiedData().col1, value);
+}
+function testLRecord_method_getValues() {
+    info('LRecordTests : testLRecord_method_getValues 작동 여부');
+    assertEquals(record.getValues().col1, '값1');
+}
+function testLRecord_method_setValues() {
+    info('LRecordTests : testLRecord_method_setValues 작동 여부');
+    var record1 = record.clone();
+    var o = { col1: '값변경1'}; //Object
+    record1.setValues(o);
+    assertEquals(record1.getValues().col1, '값변경1');
+}
+function testLRecord_method_isModifiedField() {
+    info('LRecordTests : testLRecord_method_isModifiedField 작동 여부');
+    var record1 = record.clone();
+    var o = { col1: '값변경1'}; //Object
+    record1.setValues(o);
+    var id = 'col1'; //Object
+    assertEquals(record1.isModifiedField(id), true);
+}
+function testLRecord_method_isModified() {
+    info('LRecordTests : testLRecord_method_isModified 작동 여부');
+    var record1 = record.clone();
+    var o = { col1: '값변경1'}; //Object
+    record1.setValues(o);
+    assertEquals(record1.isModified(), true);
+}
+function testLRecord_method_clone() {
+    info('LRecordTests : testLRecord_method_clone 작동 여부');
+    var result = record.clone();
+    //return type : Rui.data.LRecord
+    assertTrue(result instanceof Rui.data.LRecord);
+}
+function testLRecord_method_destroy() {
+    info('LRecordTests : testLRecord_method_destroy 작동 여부');
+    var record1 = record.clone();
+    record1.destroy();
+    assertTrue(true);
+}
+function testLRecord_method_getNewRecordId() {
+    info('LRecordTests : testLRecord_method_getNewRecordId 작동 여부');
+    assertNotUndefined(Rui.data.LRecord.getNewRecordId());
+}
+function testLRecord_method_toString() {
+    info('LRecordTests : testLRecord_method_toString 작동 여부');
+    var result = record.toString();
+    //return type : String
+    assertEquals(result, 'Rui.data.LRecord null');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.data.LRecord Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLRecord_method_getId()">getId</a>
+            <a href="javascript:testLRecord_method_get()">get</a>
+            <a href="javascript:testLRecord_method_set()">set</a>
+            <a href="javascript:testLRecord_method_getAttribute()">getAttribute</a>
+            <a href="javascript:testLRecord_method_setAttribute()">setAttribute</a>
+            <a href="javascript:testLRecord_method_undo()">undo</a>
+            <a href="javascript:testLRecord_method_setState()">setState</a>
+            <a href="javascript:testLRecord_method_getState()">getState</a>
+            <a href="javascript:testLRecord_method_commit()">commit</a>
+            <a href="javascript:testLRecord_method_getModifiedData()">getModifiedData</a>
+            <a href="javascript:testLRecord_method_getValues()">getValues</a>
+            <a href="javascript:testLRecord_method_setValues()">setValues</a>
+            <a href="javascript:testLRecord_method_isModifiedField()">isModifiedField</a>
+            <a href="javascript:testLRecord_method_isModified()">isModified</a>
+            <a href="javascript:testLRecord_method_clone()">clone</a>
+            <a href="javascript:testLRecord_method_getNewRecordId()">getNewRecordId</a>
+            <a href="javascript:testLRecord_method_destroy()">destroy</a>
+            <a href="javascript:testLRecord_method_toString()">toString</a>
+        </div>
+    </div>
+</body>
+</html>

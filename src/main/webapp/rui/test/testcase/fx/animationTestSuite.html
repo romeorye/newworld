@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Animation Test Suite</title>
+    <link rel="stylesheet" type="text/css" href="./../../../../jsunit/css/jsUnitStyle.css" />
+    <script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+    <script type="text/javascript">        
+        function suite() {
+            var newsuite = new top.jsUnitTestSuite();
+            var testSuite = [
+                '../../sample/general/fx/animationAttributesSample.html',
+                '../../sample/general/fx/animationAttributesSample.html',  
+                '../../sample/general/fx/animationSample.html',  
+                '../../sample/general/fx/animationChainingSample.html',  
+                '../../sample/general/fx/animationColorsSample.html',  
+                '../../sample/general/fx/animationControlSample.html',  
+                '../../sample/general/fx/animationEasingSample.html',  
+                '../../sample/general/fx/animationFromSample.html',  
+                '../../sample/general/fx/animationMotionSample.html',  
+                '../../sample/general/fx/animationScrollSample.html',  
+                '../../sample/general/fx/animationUnitsSample.html' 
+           	];
+            for(var i = 0 ; i < testSuite.length ; i++) {
+                newsuite.addTestPage(testSuite[i]);
+            }
+            return newsuite;
+        }
+    </script>
+</head>
+
+<body>
+<h1>Animation Test Suite</h1>
+
+<p>This page contains a suite of tests for testing JsUnit.</p>
+</body>
+</html>

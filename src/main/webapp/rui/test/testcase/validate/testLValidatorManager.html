@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.validate.LValidatorManager Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var validatorManager = null;
+var dataSet = null;
+dsValidatorManager = null;
+Rui.onReady(function() {
+    validatorManager = new Rui.validate.LValidatorManager({
+        validators:[
+        { id: 'col2', validExp:'Col2:true:length=4'},
+        { id: 'col3', validExp:'Col3:true:minLength=6'},
+        { id: 'col4', validExp:'Col4:true:byteLength=4'},
+        { id: 'col5', validExp:'Col5:true:minByteLength=8'},
+        { id: 'col6', validExp:'Col6:true:number'},
+        { id: 'col7', validExp:'Col7:true:number=3.2'},
+        { id: 'col8', validExp:'Col8:true:minNumber=100'},
+        { id: 'col9', validExp:'Col9:true:maxNumber=100'},
+        { id: 'col10', validExp:'Col10:true:inNumber=90~100'},
+        { id: 'col11', validExp:'Col11:true:date=YYYYMMDD'},
+        { id: 'col12', validExp:'Col12:true:minDate=2008/11/11(YYYY/MM/DD)'},
+        { id: 'col13', validExp:'Col13:true:maxDate=20081111'},
+        { id: 'col14', validExp:'Col14:true:ssn'},
+        { id: 'col15', validExp:'Col15:true:csn'},
+        { id: 'col16', validExp:'Col16:true:filter=abc'},
+        { id: 'col17', validExp:'Col17:true:allow=\\a;\\n'},
+        { id: 'col18', validExp:'Col18:true:email'}
+        ]
+    });
+
+    dsValidatorManager = new Rui.validate.LValidatorManager({
+        validators:[
+            { id: 'col1', validExp: 'Col1:true:maxByteLength=50&minByteLength=5'},
+            { id: 'col2', validExp: 'Col2:true'},
+            { id: 'col3', validExp: 'Col3:true'},
+            { id: 'col6', validExp: 'Col6:true'},
+            { id: 'col8', validExp: 'Col8:true:number&maxNumber=20000'},
+            { id: 'code', validExp: 'Code:true'},
+            { id: 'date1', validExp: 'Date1:true'}
+        ]
+    });
+
+    dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col4' },
+            { id: 'col5' },
+            { id: 'col6' },
+            { id: 'col7' },
+            { id: 'col8', type: 'number' },
+            { id: 'code' },
+            { id: 'date1', type: 'date', defaultValue: new Date() }
+        ]
+    });  
+    dataSet.load({
+        url: './../../../sample/data/data.json',
+        sync: true
+    });  
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLValidatorManager_method_add() {
+    info('LValidatorManagerTests : testLValidatorManager_method_add 작동 여부');
+    var id = 'test'; //String
+    var validator = new Rui.validate.LLengthValidator({
+        id:'test',
+        label:'test',
+        length:4,
+        msgId:'$.base.msg.msg003',
+        required:true
+    }); //Rui.validate.LValidator
+    assertNotUndefined(validatorManager.add(id, validator));
+}
+function testLValidatorManager_method_validateGroup() {
+    info('LValidatorManagerTests : testLValidatorManager_method_validateGroup 작동 여부');
+    var id = 'vTable'; //String
+    var result = validatorManager.validateGroup(id);
+    //return type : boolean
+    assertTrue(result);
+}
+function testLValidatorManager_method_validateField() {
+    info('LValidatorManagerTests : testLValidatorManager_method_validateField 작동 여부');
+    var id = 'col3'; //String
+    var value = 'number'; //Object
+    var result = validatorManager.validateField(id, value);
+    //return type : Object
+    assertEquals(result.isValid, true);
+}
+function testLValidatorManager_method_validate() {
+    info('LValidatorManagerTests : testLValidatorManager_method_validate 작동 여부');
+    var obj = Rui.getDom('col2'); //Object
+    var result = validatorManager.validate(obj);
+    //return type : boolean
+    assertTrue(result);
+}
+function testLValidatorManager_method_validateEl() {
+    info('LValidatorManagerTests : testLValidatorManager_method_validateEl 작동 여부');
+    var el = Rui.get('col4'); //Rui.LElement
+    var result = validatorManager.validateEl(el);
+    //return type : boolean
+    assertTrue(result);
+}
+function testLValidatorManager_method_validateDataSet() {
+    info('LValidatorManagerTests : testLValidatorManager_method_validateDataSet 작동 여부');
+    var ds = dataSet; //Rui.data.LDataSet
+    ds.setNameValue(ds.getRow(),'col2', '');
+    var result = dsValidatorManager.validateDataSet(ds, ds.getRow());
+    //return type : boolean
+    assertEquals(result, false);
+}
+function testLValidatorManager_method_getValidatorList() {
+    info('LValidatorManagerTests : testLValidatorManager_method_getValidatorList 작동 여부');
+    var id = 'col2'; //String
+    var list = validatorManager.getValidatorList(id);
+    assertEquals(list[0].id, 'col2');
+}
+function testLValidatorManager_method_getValidator() {
+    info('LValidatorManagerTests : testLValidatorManager_method_getValidator 작동 여부');
+    var id = 'col2'; //String
+    var validatorId = 'length'; //String
+    assertEquals(validatorManager.getValidator(id, validatorId).id, 'col2');
+}
+function testLValidatorManager_method_getInvalidList() {
+    info('LValidatorManagerTests : testLValidatorManager_method_getInvalidList 작동 여부');
+    assertNotUndefined(validatorManager.getInvalidList());
+}
+function testLValidatorManager_method_getMessageList() {
+    info('LValidatorManagerTests : testLValidatorManager_method_getMessageList 작동 여부');
+    assertNotUndefined(validatorManager.getMessageList());
+}
+function testLValidatorManager_method_toString() {
+    info('LValidatorManagerTests : testLValidatorManager_method_toString 작동 여부');
+    var result = validatorManager.toString();
+    //return type : String
+    assertNotUndefined(result);
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.validate.LValidatorManager Tests</h1>
+                    <table id="vTable">
+                        <tr>
+                            <th>검사항목</th>
+                            <th>검사식</th>
+                            <th>검사대상</th>
+                        </tr>
+                        <tr>
+                            <td>length</td>
+                            <td><input type="text" value="length=4" /></td>
+                            <td><input type="text" id="col2" value="1234" /></td>
+                        </tr>
+                        <tr>
+                            <td>minLength</td>
+                            <td><input type="text" value="minLength=6" /></td>
+                            <td><input type="text" id="col3" value="123456" /></td>
+                        </tr>
+                        <tr>
+                            <td>byteLength</td>
+                            <td><input type="text" value="byteLength=4" /></td>
+                            <td><input type="text" id="col4" value="abcd" /></td>
+                        </tr>
+                        <tr>
+                            <td>minByteLength</td>
+                            <td><input type="text" value="minByteLength=8" /></td>
+                            <td><input type="text" id="col5" value="한글검사" /></td>
+                        </tr>
+                        <tr>
+                            <td>number</td>
+                            <td><input type="text" value="number" /></td>
+                            <td><input type="text" id="col6" value="1234" /></td>
+                        </tr>
+                        <tr>
+                            <td>number(3.2)</td>
+                            <td><input type="text" value="number=3.2" /></td>
+                            <td><input type="text" id="col7" value="123.32" /></td>
+                        </tr>
+                        <tr>
+                            <td>minNumber</td>
+                            <td><input type="text" value="minNumber=100" /></td>
+                            <td><input type="text" id="col8" value="110" /></td>
+                        </tr>
+                        <tr>
+                            <td>maxNumber</td>
+                            <td><input type="text" value="maxNumber=100" /></td>
+                            <td><input type="text" id="col9" value="90" /></td>
+                        </tr>
+                        <tr>
+                            <td>inNumber</td>
+                            <td><input type="text" value="inNumber=90~100" /></td>
+                            <td><input type="text" id="col10" value="95" /></td>
+                        </tr>
+                        <tr>
+                            <td>date</td>
+                            <td><input type="text" value="date=YYYYMMDD" /></td>
+                            <td><input type="text" id="col11" value="20081111" /></td>
+                        </tr>
+                        <tr>
+                            <td>minDate</td>
+                            <td><input type="text" value="minDate=2008/11/11(YYYY/MM/DD)" /></td>
+                            <td><input type="text" id="col12" value="2008/12/25" /></td>
+                        </tr>
+                        <tr>
+                            <td>maxDate</td>
+                            <td><input type="text" value="maxDate=20081111" /></td>
+                            <td><input type="text" id="col13" value="20081025" /></td>
+                        </tr>
+                        <tr>
+                            <td>ssn</td>
+                            <td><input type="text" value="ssn" /></td>
+                            <td><input type="text" id="col14" value="0101011616712" /></td>
+                        </tr>
+                        <tr>
+                            <td>csn</td>
+                            <td><input type="text" value="csn" /></td>
+                            <td><input type="text" id="col15" value="1168119477" /></td>
+                        </tr>
+                        <tr>
+                            <td>filter</td>
+                            <td><input type="text" value="filter=abc" /></td>
+                            <td><input type="text" id="col16" value="def" /></td>
+                        </tr>
+                        <tr>
+                            <td>allow</td>
+                            <td><input type="text" value="allow=\\a;\\n" /></td>
+                            <td><input type="text" id="col17" value="abc" /></td>
+                        </tr>
+                        <tr>
+                            <td>email</td>
+                            <td><input type="text" value="email" /></td>
+                            <td><input type="text" id="col18" value="nana@lgcns.com" /></td>
+                        </tr>
+                        <tr>
+                            <td>custom</td>
+                            <td><input type="text" value="custom" /></td>
+                            <td><input type="text" id="col19" value="test" /></td>
+                        </tr>
+                    </table>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLValidatorManager_method_add()">add</a>
+            <a href="javascript:testLValidatorManager_method_validateGroup()">validateGroup</a>
+            <a href="javascript:testLValidatorManager_method_validateField()">validateField</a>
+            <a href="javascript:testLValidatorManager_method_validate()">validate</a>
+            <a href="javascript:testLValidatorManager_method_validateEl()">validateEl</a>
+            <a href="javascript:testLValidatorManager_method_validateDataSet()">validateDataSet</a>
+            <a href="javascript:testLValidatorManager_method_getValidatorList()">getValidatorList</a>
+            <a href="javascript:testLValidatorManager_method_getValidator()">getValidator</a>
+            <a href="javascript:testLValidatorManager_method_getInvalidList()">getInvalidList</a>
+            <a href="javascript:testLValidatorManager_method_getMessageList()">getMessageList</a>
+            <a href="javascript:testLValidatorManager_method_toString()">toString</a>
+        </div>
+    </div>        
+</body>
+</html>

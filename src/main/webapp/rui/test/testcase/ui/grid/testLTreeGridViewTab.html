@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.grid.LTreeGridView Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LTreeGridSelectionModel.js"></script>
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LTreeGridView.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../plugins/ui/grid/LTreeGridView.css"/>
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var treeGridView = null;
+Rui.onReady(function() {
+    var dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'id' },
+            { id: 'depth', type: 'number', defaultValue: 0 },
+            { id: 'seq' },
+            { id: 'name' },
+            { id: 'url' },
+            { id: 'desc' },
+            { id: 'money' }
+        ]
+    });
+
+    var columnModel = new Rui.ui.grid.LColumnModel({
+        columns: [
+            new Rui.ui.grid.LSelectionColumn(),
+            { id: 'rowId', label: 'id', width: 50, renderer : function(val, param, record, row, i) {
+                return record.id;
+            } },
+            { id: 'pId', label: 'pid', width: 50, renderer : function(val, param, record, row, i) {
+                return record.pId;
+            } },
+            { field: 'id', label: 'id', width: 200 },
+            { field: 'depth', label: 'depth' },
+            { id: 'show', label: 'Show', renderer: function(val, p, record) {
+                return record.getAttribute('_show') + '';
+            } },
+            { id: 'expand', label: 'Expand', renderer: function(val, p, record) {
+                return record.getAttribute('_expand') + '';
+            } },
+            { field: 'money', label: 'Money', summary: { ids: ['month'] } }
+        ]
+    });
+
+    /*<b>*/
+    treeGridView = new Rui.ui.grid.LTreeGridView({
+        defaultOpenDepth: -1,
+        columnModel: columnModel,
+        dataSet: dataSet,
+        fields: {
+            depthId: 'depth'
+        },
+        treeColumnId: 'id'
+    });
+    /*</b>*/
+
+    var grid = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        /*<b>*/
+        view: treeGridView,
+        selectionModel: new Rui.ui.grid.LTreeGridSelectionModel(),
+        /*</b>*/
+        autoWidth: false,
+        width: 800,
+        height: 400
+    });
+
+    grid.render('defaultGrid');
+    dataSet.load({
+        sync: true,
+        url: './../../../../sample/data/gridTree.json'
+    });
+
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLTreeGridView_method_expand() {
+    info('LTreeGridViewTests : testLTreeGridView_method_expand 작동 여부');
+    var row = 17; //int
+    treeGridView.expand(row);
+    assertEquals(treeGridView.isExpand(row), true);
+}
+function testLTreeGridView_method_collapse() {
+    info('LTreeGridViewTests : testLTreeGridView_method_collapse 작동 여부');
+    var row = 17; //int
+    treeGridView.collapse(row);
+    assertEquals(treeGridView.isExpand(row), false);
+}
+function testLTreeGridView_method_isExpand() {
+    info('LTreeGridViewTests : testLTreeGridView_method_isExpand 작동 여부');
+    var row = 4; //int
+    treeGridView.expand(row);
+    assertEquals(treeGridView.isExpand(row), true);
+}
+function testLTreeGridView_method_toggle() {
+    info('LTreeGridViewTests : testLTreeGridView_method_toggle 작동 여부');
+    var row = 4; //int
+    assertNotUndefined(treeGridView.toggle(row));
+}
+function testLTreeGridView_method_expandDepth() {
+    info('LTreeGridViewTests : testLTreeGridView_method_expandDepth 작동 여부');
+    var depth = 1; //int
+    assertNotUndefined(treeGridView.expandDepth(depth));
+}
+function testLTreeGridView_method_findRow() {
+    warn('LTreeGridViewTests : testLTreeGridView_method_findRow 테스트 무시 => 2013/03/07 시점 주석처리된 코드 ');
+}
+function testLTreeGridView_method_getParentRow() {
+    info('LTreeGridViewTests : testLTreeGridView_method_getParentRow 작동 여부');
+    var row = 5; //int
+    assertEquals(treeGridView.getParentRow(row), 4);
+}
+function testLTreeGridView_method_getPrevSiblingRow() {
+    info('LTreeGridViewTests : testLTreeGridView_method_getPrevSiblingRow 작동 여부');
+    var row = 6; //int
+    assertEquals(treeGridView.getPrevSiblingRow(row), 5);
+}
+function testLTreeGridView_method_getNextSiblingRow() {
+    info('LTreeGridViewTests : testLTreeGridView_method_getNextSiblingRow 작동 여부');
+    var row = 5; //int
+    assertEquals(treeGridView.getNextSiblingRow(row), 6);
+}
+function testLTreeGridView_method_getChildRows() {
+    info('LTreeGridViewTests : testLTreeGridView_method_getChildRows 작동 여부');
+    var row = 4; //int
+    assertEquals(treeGridView.getChildRows(row)[0], 5);
+}
+function testLTreeGridView_method_getAllChildRows() {
+    info('LTreeGridViewTests : testLTreeGridView_method_getAllChildRows 작동 여부');
+    var row = 4; //int
+    assertEquals(treeGridView.getAllChildRows(row)[5], 10);
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.grid.LTreeGridView Tests</h1>
+    <div id="defaultGrid"></div>
+    
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLTreeGridView_method_expand()">expand</a>
+            <a href="javascript:testLTreeGridView_method_collapse()">collapse</a>
+            <a href="javascript:testLTreeGridView_method_isExpand()">isExpand</a>
+            <a href="javascript:testLTreeGridView_method_toggle()">toggle</a>
+            <a href="javascript:testLTreeGridView_method_expandDepth()">expandDepth</a>
+            <a href="javascript:testLTreeGridView_method_findRow()">findRow</a>
+            <a href="javascript:testLTreeGridView_method_getParentRow()">getParentRow</a>
+            <a href="javascript:testLTreeGridView_method_getPrevSiblingRow()">getPrevSiblingRow</a>
+            <a href="javascript:testLTreeGridView_method_getNextSiblingRow()">getNextSiblingRow</a>
+            <a href="javascript:testLTreeGridView_method_getChildRows()">getChildRows</a>
+            <a href="javascript:testLTreeGridView_method_getAllChildRows()">getAllChildRows</a>
+        </div>
+    </div>        
+</body>
+</html>

@@ -1,0 +1,25 @@
+<div class="contents">
+	<div class="sub-content">	
+		<h5>- 사외자산 정보</h5>
+		<br/>
+		<br/>
+		<h5><font color="red">해당 사외자산 사진파일을 필수 유첨바랍니다.</font></h5>
+		<table class="table">    
+			<colgroup>
+				<col style="width:120px"/>
+				<col style="width:30px"/>
+				<col style="width:20px"/>
+				<col style="width:20px"/>
+				<col style="width:50px"/>
+				<col style="width:120px"/>
+			</colgroup>
+			<thead>
+				${fxaOscpHead}  
+			</thead>
+			<tbody>
+				${fxaOscpList}  
+			</tbody>                               	
+		</table>
+	
+	</div>	
+</div>

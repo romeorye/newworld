@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.tclgInfo">
+	
+	<select id="retrievePrjInfo" resultType="hashmap">
+	-- retrievePrjInfo  로그인 사용자 pjt 정보 조회
+		select  b.prj_cd as prjCd
+		       ,b.prj_nm as prjNm
+		       ,team_dept_code as deptCd
+			   ,b.wbs_cd as wbsCd
+		from   vw_sso_dept a
+		       inner join IRIS_PRJ_RSST_MST b
+			   on a.team_dept_code = b.dept_cd
+		where dept_code = (select sa_dept_new from IRIS_SSO_USER 
+		                   where sa_sabun_new =  #{_userSabun}
+		                  )
+	</select>
+	
+	<!-- Project > 기술정보 > 기술정보요청 리스트 조회  -->
+	<select id="retrieveTclgInfoRqSearchList" resultType="hashmap" >
+	-- retrieveTclgInfoReqSearchList 요청서 목록 조회
+		select m.* 
+		from (
+			select  a.TCLG_RQ_ID as tclgRqId
+			       ,a.prj_cd as prjCd
+		           ,(select prj_nm from IRIS_PRJ_RSST_MST where  prj_cd = a.prj_cd) as prjNm
+				   ,(select sa_name from IRIS_SSO_USER where sa_sabun_new = a.RGST_NO) as rgstNm
+				   ,convert(nvarchar(10), a.LAST_MDFY_DT, 23) as rgstDt
+				   ,a.dept_cd as deptCd
+				   ,a.ATTC_FIL_ID as attcFilId
+			from   IRIS_TCLG_REQ_MST a
+			 )  m
+		where  1=1
+	<if test="adminYn.equals('N')">
+	       AND m.deptCd = (
+	                       select team_dept_code 
+	                       from vw_sso_dept 
+	                       where dept_code = #{_userDept}
+	                      ) 
+	</if>
+	<if test="( prjNm != '' and prjNm !=  null )">
+	       AND m.prjNm LIKE '%'+#{prjNm}+'%'
+	</if>
+	<if test="( rgstNm != '' and rgstNm != null )">
+	       AND m.rgstNm  LIKE '%'+#{rgstNm}+'%'
+	</if>
+		 ORDER BY m.tclgRqId desc
+	</select>
+
+	<insert id="insertTclgInfoReq">
+	insert into IRIS_TCLG_REQ_MST
+		(
+		 PRJ_CD
+		,WBS_CD
+		,DEPT_CD
+		,RGST_NO
+		,ATTC_FIL_ID
+		,FRST_RGST_DT
+		,FRST_RGST_ID
+		,LAST_MDFY_DT
+		,LAST_MDFY_ID
+		)
+		values
+		(
+	     #{prjCd}
+		,#{wbsCd}
+		,#{deptCd}
+		,#{rgstNo}
+		,#{attcFilId}
+		,getdate()
+		,#{_userId}
+		,getdate()
+		,#{_userId}
+		)
+	</insert>
+
+	<!-- Project > 기술정보 > 기술정보요청 상세 조회  -->
+	<select id="retrieveTclgInfoDetail" resultType="hashmap" >
+	-- retrieveTclgInfoDetail 기술정보요청 상세 조회
+		select  a.prj_cd 		as prjCd
+		         , b.prj_nm 	as prjNm
+				 , b.wbs_cd 	as wbsCd
+				 , b.dept_cd 	as  deptCd
+				 , a.RGST_NO 	as  rgstNo
+				 , c.sa_name 	as  rgstNm
+				 , a.ATTC_FIL_ID as   attcFilId
+		from   IRIS_TCLG_REQ_MST a
+		          inner join IRIS_PRJ_RSST_MST b
+				  on a.PRJ_CD = b.prj_cd
+				  inner join IRIS_SSO_USER c
+				  on a.RGST_NO = c.sa_sabun_new 
+		where  TCLG_RQ_ID = #{tclgRqId}
+	</select>
+
+</mapper>

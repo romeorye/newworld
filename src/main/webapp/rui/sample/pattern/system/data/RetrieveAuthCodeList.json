@@ -1,0 +1,12 @@
+[{
+    "metaData": {
+        "datasetId":"dataSet"
+    },
+    "records": [
+        { "code": "A001", "value": "Administrator1" },
+        { "code": "A002", "value": "Administrator2" },
+        { "code": "A003", "value": "Administrator3" },
+        { "code": "A004", "value": "Administrator4" },
+        { "code": "A005", "value": "Administrator5" }
+    ]
+}]

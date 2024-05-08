@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- [출처]https://blog.naver.com/deeperain/221623303795 -->
+<!-- [출처]https://blog.naver.com/ambion/220055219702 log level 정리 잘됨 -->
+
+<!-- [출처]https://mine-it-record.tistory.com/205 [나만의 기록들:티스토리] -->
+<!-- 일반적으로 log level은 
+ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF
+순으로 볼 수 있다. ( 낮은거에서 높은순으로 ALL → OFF )
+ -->
+
+<!-- [출처]https://tlatmsrud.tistory.com/m/32 -->
+<!--
+* interval은 앞서 설정한 FilePattern에 따라 1분이 될수도, 1시간이 될수도, 1일이 될수도 있다.
+
+%d{yyyy-MM-dd-hh-mm}.log.zip    interval = 1     1분마다 롤링
+%d{yyyy-MM-dd-hh}.log.zip   interval = 1     1시간마다 롤링
+%d{yyyy-MM-dd}.log.zip  interval = 1     1일마다 롤링
+ -->
+
+<configuration>
+
+    <properties>
+         <property name="logDir">D:/logs001</property>
+         <property name="name">iris</property>
+         <!-- <property name="pattern">[%d{yyyyMMdd HHmmss.SSS}][%-5.5p]%-30.30C::%-30.30M:%-5.5L|%msg%n</property> -->
+         <property name="pattern">[%d{yyyyMMdd HHmmss.SSS}]%5p [%c] %m%n</property>
+    </properties>
+
+    <Appenders>
+        <!-- 콜솔 -->
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+
+        <!-- 파일  -->
+        <RollingFile name ="RollingFile">
+            <FileName>${logDir}/${name}/${name}.out.log</FileName>
+            <FilePattern>D:/logs001/iris/%d{yyyyMM}/%d{dd}/%d{yyyyMMddHH}_${name}.out.zip</FilePattern>
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval = "1" modulate = "true"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name ="RollingFileError">
+            <FileName>${logDir}/${name}/${name}.error.log</FileName>
+            <FilePattern>D:/logs001/iris/%d{yyyyMM}/%d{dd}/%d{yyyyMMddHH}_${name}.error.zip</FilePattern>
+            <PatternLayout>
+                <Pattern>${pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval = "1" modulate = "true"/>
+            </Policies>
+        </RollingFile>
+
+    </Appenders>
+
+    <!--<loggers>
+        <root level="DEBUG" additivity="true">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="RollingFileError" level = "ERROR"/>
+        </root>
+    </loggers>-->
+
+    <!-- 출처: https://freehoon.tistory.com/113 [훈잇 블로그:티스토리] -->
+    <!-- 출처: https://girinprogram93.tistory.com/41 -->
+    <Loggers>
+
+        <!-- Root Logger -->
+        <root level="INFO" additivity="true">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </root>
+
+        <!-- Application Loggers -->
+        <logger name="iris.web" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </logger>
+
+        <!-- 3rdparty Loggers -->
+        <!-- <logger name="org.springframework.core" level="INFO">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </logger>
+        <logger name="org.springframework.beans" level="INFO">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </logger>
+        <logger name="org.springframework.context" level="INFO">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </logger>
+        <logger name="org.springframework.web" level="INFO">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </logger> -->
+
+        <!-- log4j2 -->
+        <Logger name="log4jdbc.log4j2" level="error" additivity="false">
+            <appender-ref ref="console" />
+        </Logger>
+
+        <!-- SQL Loggers -->
+        <!-- QUERY LOG -->
+        <Logger name="jdbc.sqlonly" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </Logger>
+
+        <!-- RESULTSET TABLE -->
+        <Logger name="jdbc.resultsettable" level="OFF">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </Logger>
+
+        <!-- query + time -->
+        <Logger name="jdbc.sqltiming" level="WARN" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </Logger>
+
+        <!-- Full Log (The amount has increased significantly) -->
+        <Logger name="jdbc.audit" level="OFF">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </Logger>
+
+        <!-- connection log -->
+        <Logger name="jdbc.connection" level="WARN" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </Logger>
+
+        <Logger name="jdbc.resultset" level="OFF">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="RollingFileError" level="ERROR" />
+        </Logger>
+
+    </Loggers>
+
+</configuration>

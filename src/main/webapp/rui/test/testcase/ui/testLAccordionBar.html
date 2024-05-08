@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.grid.LGridPanel Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../plugins/ui/grid/LGridView.js"></script>
+<script type="text/javascript" src="./../../../plugins/ui/grid/LGridPanelExt.js"></script>
+<script type="text/javascript" src="./../../../plugins/ui/grid/LGridSearchDialog.js"></script>
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style type="text/css">
+body {
+    height: 800px;
+    border: 1px solid red;
+}
+</style>
+
+<script type="text/javascript" >
+var dataSet, gridPanel, columnModel;
+Rui.onReady(function() {
+    dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col7' },
+            { id: 'col8' },
+            { id: 'date1', type: 'date' }
+        ]
+    });
+    
+    columnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        columns: [
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1', sortable: true, width: 200, vMerge: true},
+            { field: 'col3', label: 'Col3', sortable: true, width: 60, align: 'center', vMerge: true, renderer: function(value){
+                return '<font color="red">' + value + '</font>';
+            }},
+            { field: 'col2', label: 'Col2', sortable: true, width:130, align: 'center', renderer: function(value){
+                if(!value || value.length < 13) return value;
+                return value.substring(0, 6) + '-' + value.substring(6);
+            }},
+            { field: 'col7', width: 160, sortable: true, renderer: function(value){
+                return '<a href="javascript:alert(\'' + value + '\');">' + value + '</a>';
+            }},
+            { field: 'col8', width: 80, align: 'right', sortable: true, renderer: 'money'},
+            { field: 'date1', width: 200, align: 'left'}
+        ]
+    });
+
+    gridPanel = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        autoWidth: true,
+        width: 600,
+        height: 300
+    });
+
+    gridPanel.render('defaultGrid');
+
+    dataSet.load({
+        url: './../../../sample/data/data.json',
+        sync: true
+    });
+
+    var accordionBar = new Rui.ui.LAccordionBar({
+        applyTo: 'accordionBar',
+        title: 'Accordion Test',
+        buttons: {
+            more: {
+                title: 'more',
+                url: ''
+            },
+            expand: true,
+            size: true
+        }
+    });
+
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+Rui.ui.LAccordionBar = function(oConfig) {
+    Rui.ui.LAccordionBar.superclass.constructor.call(this, oConfig);
+}
+
+Rui.extend(Rui.ui.LAccordionBar, Rui.ui.LUIComponent, {
+    /**
+     * @description rendering
+     * @method doRender
+     * @protected
+     * @return {void}
+     */
+    doRender: function(appendToNode) {
+        Rui.ui.LAccordionBar.superclass.doRender.call(this, appendToNode);
+        this.el.addClass('L-accordion-bar');
+        this.createTemplete();
+    },
+    /**
+     * @description Dom객체 생성
+     * @method createTemplete
+     * @private 
+     * @param {String|Object} el 객체의 아이디나 객체
+     * @return {Rui.LElement} Element 객체
+     */
+    createTemplete: function(el){
+        var html = '<span class="L-title">Title</span>';
+        var bts = this.buttons;
+        if(bts) {
+            html += '<span class="L-buttons">';
+            if(bts.more) {
+                var title = bts.more.title || 'more';
+                var url = bts.url || '#';
+                html += '<span class="L-more"><a href="' + url + '">' + title + '</a></span>';
+            }
+            if(bts.expand) {
+                html += '<span class="L-collapse">△</span>';
+            }
+            if(bts.size) {
+                html += '<span class="L-size">□</span>';
+            }
+            html += '</span>';
+        }
+        this.el.html(html);
+    }
+});
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+
+//**************test function   끝*****************
+
+</script>
+<style type="text/css">
+    .L-accordion-bar {
+        position: relative;
+        border: 1px solid;
+        background-color: #F7F7F7;
+        padding: 5px 13px;
+        border-radius: 10px 10px 0px 0px;
+    }
+    
+    .L-accordion-bar .L-title {
+        font-weight: bold; 
+    }
+    
+    .L-accordion-bar .L-buttons {
+        position: absolute;
+        right: 13px;
+    }
+</style>
+</head>
+
+<body>
+    <h1>Rui.ui.grid.LGridPanel Tests</h1>
+    <div id="accordionBar"></div>
+    <div id="defaultGrid"></div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLGridPanel_method_getSelectionModel()">getSelectionModel</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<%@ page language="java" pageEncoding="utf-8" contentType="text/html; charset=utf-8" %>
+<%@page import="iris.web.common.util.HelpDesk" %>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#PJ').hover( function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","block");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
+
+	});
+
+	$('#AN').hover( function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","block");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
+	});
+
+	$('#DE').hover( function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","block");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
+	});
+
+	$('#FI').hover( function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","block");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
+	});
+
+	$('#KL').hover( function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","block");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
+	});
+
+	$('#PR').hover( function(e){
+		  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+		  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+		  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+		  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+		  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+		  $('.Mgnb .top_gnb #sub_menu6').css("display","block");
+		  $('.Mgnb .top_gnb #sub_menu7').css("display","none");
+	});
+	
+	$('#ST').hover( function(e){
+	  $('.Mgnb .top_gnb #sub_menu1').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu2').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu3').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu4').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu5').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu6').css("display","none");
+	  $('.Mgnb .top_gnb #sub_menu7').css("display","block");
+	});
+});
+function fnSearch(){
+	
+	var frm = document.aform;
+
+	var openWeight = 1035;
+	var openHeight = 720;
+	var winleft = (screen.width - openWeight) / 2;
+	var wintop = (screen.height - openHeight) / 2;
+	var settings = 'width=' + openWeight + ', height=' + openHeight + ', resizable=yes, scrollbars=yes, menubar=no, toolbar=no, status=yes';
+	settings += ', top=' + wintop;
+	settings += ', left=' + winleft;
+    //var keyword = document.getElementById('NavigatorControl_tbSearchKeyWord').value; 
+    var keyword = document.getElementById('srh').value; 
+    //var keyword = frm.srh.value;
+
+    var url = 'http://search.lxhausys.com:8501/iris/search.jsp?query='+encodeURI(keyword);
+	var win = window.open(url, "searchPop", settings);
+    //win.focus();
+                if(window.focus){
+                    setTimeout(function(){
+                     win.focus();
+                    }, 1000);
+                }
+
+
+}
+
+function goHelpDesk(){
+	var sa = '${inputData._userSabun}';
+    <%
+	String sabun =  (String)((HashMap<String, String>)request.getAttribute("inputData")).get("_userSabun");
+	HelpDesk hd = new HelpDesk();
+	%>
+
+	var emp_no = "921700"+sa;
+	var fmd5_emp_no = "<%=hd.fmd5_user_id(sabun)%>";
+	var popUrl =  '<c:url value="/prj/rsst/helpdesPopUp.do"/>';
+    var popupOption = "width=1200, height=700, top=200, left=400";
+
+    alert("IRIS+ 문의사항은 02-6987-7396 으로 연락바랍니다.");
+
+    popUrl = popUrl+"?emp_no="+emp_no+"&fmd5_emp_no="+fmd5_emp_no;
+    window.open(popUrl,"",popupOption);
+}
+
+</script>
+
+<c:set var="mainUrl" value="/prj/main.do"/>
+
+<c:if test="${fn:indexOf(inputData._roleId, 'WORK_IRI_T07') > -1 ||
+			  fn:indexOf(inputData._roleId, 'WORK_IRI_T08') > -1 ||
+			  fn:indexOf(inputData._roleId, 'WORK_IRI_T09') > -1 ||
+			  fn:indexOf(inputData._roleId, 'WORK_IRI_T10') > -1 ||
+			  fn:indexOf(inputData._roleId, 'WORK_IRI_T11') > -1 ||
+			  fn:indexOf(inputData._roleId, 'WORK_IRI_T12') > -1 ||
+			  fn:indexOf(inputData._roleId, 'WORK_IRI_T13') > -1 ||
+			  fn:indexOf(inputData._roleId, 'WORK_IRI_T14') > -1}">
+	<c:set var="mainUrl" value="/anl/main.do"/>
+</c:if>
+		        <div class="gnb_height">
+		            <form id="aform" name="afrom">
+		                <fieldset>
+		                <legend>검색어</legend>
+		                <div class="gnb_search">
+		                	<span style="font-weight:bold"><a href="#" onclick="goHelpDesk();"><img src="<%=imagePath%>/newIris/icon_helpdesk.gif"> Helpdesk </a>  </span>&nbsp; | &nbsp;
+		                	<span class="user-name"><c:out value="${inputData._userDeptName}"/> <c:out value="${inputData._userNm}"/> <c:out value="${inputData._userJobxName}"/></span>
+		                <c:if test="${fn:indexOf(inputData._roleId, 'WORK_IRI_T07') == -1}">
+		                	<span class="name_info"><input type="text" id="srh" class="search_input" placeholder="Knowledge" onkeypress="if(event.keyCode==13) {fnSearch();}"/> <a href="javascript:fnSearch(this);"><span class="icon_search"></span></a></span>
+						</c:if>
+		                </div>
+		                </fieldset>
+		            </form>
+		            <%-- <h1><a href="<c:url value="${mainUrl}"/>"><img src="<%=imagePath%>/newIris/logo.png" alt="로고" width="104px;" height="44px;"></a></h1> --%>
+		            <h1><a href="<c:url value="${mainUrl}"/>"><img src="<%=imagePath%>/newIris/logo.png" alt="로고"></a></h1>
+		            <nav class="Mgnb">
+		                <ul class="title">
+                        <c:forEach items="${menuList}" var="data" varStatus="status">
+		                    <li id="${data[0].subSysId}">
+		                        <c:out value="${data[0].menuNm}"/>
+		                    </li>
+                        </c:forEach>
+		                </ul>
+		                 <!-- 2depth -->
+			            <div class="top_gnb submenu">
+
+			            	<!-- submenu01::Project -->
+		                    <div class="m_gnb" id="sub_menu1" style="display:block;">
+			                      <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Project</div>
+			                    <div class="menu_2depth">
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='PJ'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					 <c:if test="${data2.subSysId=='PJ'}">
+			                    						  <c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						 </c:if>
+		    	                					  </c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
+		                    <!-- //submenu01::Project -->
+
+		                    <!-- submenu02::Technical Service -->
+		                    <div class="m_gnb" id="sub_menu2" style="display:none;">
+			                      <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Technical Service</div>
+			                    <div class="menu_2depth">
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='AN'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='AN'}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						 </c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
+		                    <!-- //submenu02::Technical Service -->
+
+
+		                    <!-- submenu03::Instrument -->
+		                    <div class="m_gnb" id="sub_menu3" style="display:none;">
+			                      <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Instrument</div>
+			                    <div class="menu_2depth">
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='DE'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='DE'}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						 </c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
+		                    <!-- //submenu03::Instrument -->
+
+		                    <!-- submenu04::Fixed Asset -->
+		                    <div class="m_gnb" id="sub_menu4" style="display:none;">
+			                     <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Fixed Asset</div>
+			                    <div class="menu_2depth">
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='FI'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='FI'}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						 </c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
+		                    <!-- //submenu04::Fixed Asset -->
+
+		                    <!-- submenu05::Knowledge -->
+		                    <div class="m_gnb" id="sub_menu5" style="display:none;">
+			                     <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Knowledge</div>
+			                    <div class="menu_2depth">
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='KL'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='KL'}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						 </c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
+		                    <!-- //submenu05::Knowledge -->
+		                    
+		                    <!-- submenu0::prs -->
+		                    <div class="m_gnb" id="sub_menu6" style="display:none;">
+			                     <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Prs</div>
+			                    <div class="menu_2depth">
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='PR'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='PR'}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						 </c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
+		                    <!-- //submenu06::prs -->
+		                    
+
+		                    <!-- submenu07::Statistic -->
+		                    <div class="m_gnb" id="sub_menu7" style="display:none;">
+		                         <!-- m_bm-->
+			                    <!-- div class="menu" -->
+			                    <div class="sub_tit"><p>Statistic</div>
+			                    <div class="menu_2depth">
+			                    <ul>
+			                    <c:forEach items="${menuList}" var="subMenu" varStatus="status">
+				            	<c:forEach items="${subMenu}" begin="1" var="data" varStatus="subStatus">
+				                    <c:if test="${data.subSysId=='ST'}">
+				                    	<c:if test="${data.menuLevel=='1'}">
+				                    		<li>
+				                    			<a href="javascript:moveMenu('<c:out value="${data.subSysId}"/>', '<c:out value="${parentMenuId}"/>', '<c:out value="${data.menuPath}"/>', '<c:out value="${data.menuId}"/>')"><c:out value="${data.menuNm}"/></a>
+		                    					<ul>
+			                    				<c:forEach items="${menuList}" var="subMenu2" varStatus="status">
+			                    				<c:forEach items="${subMenu2}" begin="1" var="data2" varStatus="subStatus">
+			                    					<c:if test="${data2.subSysId=='ST'}">
+			                    						 <c:if test="${data2.fkMenuId==data.menuId}">
+			                    							<li class="menu_3depth">
+			                    								<a href="javascript:moveMenu('<c:out value="${data2.subSysId}"/>', '<c:out value="${data2.fkMenuId}"/>', '<c:out value="${data2.menuPath}"/>', '<c:out value="${data2.menuId}"/>')"><c:out value="${data2.menuNm}"/></a>
+		    	                							</li>
+		    	                						 </c:if>
+		    	                					</c:if>
+		    	                				</c:forEach>
+		    	                				</c:forEach>
+		        	            				</ul>
+		        	            			</li>
+		        	            		</c:if>
+		        	            	</c:if>
+		        	            </c:forEach>
+		        	            </c:forEach>
+		        	            </ul>
+		        	            </div>
+							</div>
+		                    <!-- //submenu06::Statistic -->
+			            </div>
+			            <!-- //2depth -->
+		                    </div>
+			            </div>
+			            <!-- //2depth -->
+		            </nav>
+
+		        </div>
+
+<form id="menuForm" name="menuForm" method="post" action="/iris/index.do">
+	<input type="hidden" id="parentMenuId" name="parentMenuId" />
+	<input type="hidden" id="vMenuId" name="vMenuId" value="" />
+	<input type="hidden" id="menuMoveYn" name="menuMoveYn" value="Y"/>
+	<!-- [EAM추가]Start ===================================================================================== -->
+	<input type="hidden" id="menuId" name="menuId"/>
+	<input type="hidden" id="menuPath" name="menuPath"/>
+	<!-- [EAM추가]End ======================================================================================= -->
+</form>

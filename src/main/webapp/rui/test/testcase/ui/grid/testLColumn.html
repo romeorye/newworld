@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>LColumn Tests</title>
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style type="text/css">
+.testcase-buttons {
+    margin-top: 20px;
+}
+</style>
+
+<script type="text/javascript" >
+var columnModel, textBox;
+Rui.onReady(function() {
+    var dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col4' },
+            { id: 'col5' },
+            { id: 'col6' },
+            { id: 'col7' },
+            { id: 'col8', type: 'number' },
+            { id: 'code' },
+            { id: 'date1', type: 'date', defaultValue: new Date() }
+        ]
+    });
+    
+    textBox = new Rui.ui.form.LTextBox();
+
+    columnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        columns: [
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { id: 'group1' },
+            { field: 'col1', label: 'Col1', groupId: 'group1' },
+            { field: 'col2', sortable: true, align: 'center', editable: true, width: 120, editor: textBox },
+            { field: 'code', align: 'center', maxAutoWidth: true },
+            { field: 'col3', align: 'right' },
+            { field: 'col5', align: 'center', hidden: true },
+            { field: 'col6', label: 'Col6', width: 200 },
+            { field: 'col8', label: 'Col8', align: 'right', renderer:Rui.util.LRenderer.moneyRenderer() },
+            { field: 'date1' , align:'center', renderer: Rui.util.LRenderer.dateRenderer() }
+        ]
+    });
+
+    var grid = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        autoWidth: true,
+        height:300
+    });
+
+    grid.render('defaultGrid');
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+//**************test function   끝*****************
+
+function testLColumn_method_getId() {
+    info('LColumnTests : testLColumn_method_getId 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertNotUndefined(column.getId());
+}
+function testLColumn_method_getGroupId() {
+    info('LColumnTests : testLColumn_method_getGroupId 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertEquals(column.getGroupId(), 'group1');
+}
+function testLColumn_method_getField() {
+    info('LColumnTests : testLColumn_method_getField 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertEquals(column.getField(), 'col1');
+}
+function testLColumn_method_getColumnModel() {
+    info('LColumnTests : testLColumn_method_getColumnModel 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertEquals(column.getColumnModel(), columnModel);
+}
+function testLColumn_method_getLabel() {
+    info('LColumnTests : testLColumn_method_getLabel 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertEquals(column.getLabel(), 'Col1');
+}
+function testLColumn_method_setLabel() {
+    info('LColumnTests : testLColumn_method_setLabel 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    var lable = column.getLabel(); //String
+    column.setLabel('test1');
+    assertEquals(column.getLabel(), 'test1');
+    column.setLabel(lable);
+}
+function testLColumn_method_getWidth() {
+    info('LColumnTests : testLColumn_method_getWidth 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertEquals(column.getWidth(), 100);
+}
+function testLColumn_method_setWidth() {
+    info('LColumnTests : testLColumn_method_setWidth 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    var oldWidth = column.getWidth();
+    var width = 150; //int
+    column.setWidth(width);
+    assertEquals(column.getWidth(), 150);
+    column.setWidth(oldWidth);
+}
+function testLColumn_method_getMinWidth() {
+    info('LColumnTests : testLColumn_method_getMinWidth 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertEquals(column.getMinWidth(), 10);
+}
+function testLColumn_method_setMinWidth() {
+    info('LColumnTests : testLColumn_method_setMinWidth 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    var oldMinWidth = column.getMinWidth();
+    var minWidth = 30; //int
+    column.setMinWidth(minWidth);
+    assertEquals(column.getMinWidth(), minWidth);
+    column.setMinWidth(oldMinWidth);
+}
+function testLColumn_method_getMaxAutoWidth() {
+    info('LColumnTests : testLColumn_method_getMaxAutoWidth 작동 여부');
+    var column = columnModel.getColumnById('code');
+    assertEquals(column.getMaxAutoWidth(), true);
+}
+function testLColumn_method_setMaxAutoWidth() {
+    info('LColumnTests : testLColumn_method_setMaxAutoWidth 작동 여부');
+    var column = columnModel.getColumnById('code');
+    var oldMaxAutoWidth = column.getMaxAutoWidth(); //int
+    var maxAutoWidth = false; //int
+    column.setMaxAutoWidth(maxAutoWidth);
+    assertEquals(column.getMaxAutoWidth(), maxAutoWidth);
+    column.setMaxAutoWidth(oldMaxAutoWidth);
+}
+function testLColumn_method_isHidden() {
+    info('LColumnTests : testLColumn_method_isHidden 작동 여부');
+    var column = columnModel.getColumnById('col5');
+    assertEquals(column.isHidden(), true);
+}
+function testLColumn_method_setHidden() {
+    info('LColumnTests : testLColumn_method_setHidden 작동 여부');
+    var column = columnModel.getColumnById('col6');
+    var hidden = true; //boolean
+    column.setHidden(hidden);
+    assertEquals(column.isHidden(), hidden);
+    column.setHidden(false);
+}
+function testLColumn_method_isSelected() {
+    info('LColumnTests : testLColumn_method_isSelected 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertEquals(column.isSelected(), true);
+}
+function testLColumn_method_setSelected() {
+    info('LColumnTests : testLColumn_method_setSelected 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    var selected = false; //boolean
+    column.setSelected(selected);
+    assertEquals(column.isSelected(), false);
+    column.setSelected(!selected);
+}
+function testLColumn_method_isResizable() {
+    info('LColumnTests : testLColumn_method_isResizable 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertEquals(column.isResizable(), true);
+}
+function testLColumn_method_setResizable() {
+    info('LColumnTests : testLColumn_method_setResizable 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    var resizable = false; //boolean
+    column.setResizable(resizable);
+    assertEquals(column.isResizable(), resizable);
+    column.setResizable(!resizable);
+}
+function testLColumn_method_isFixed() {
+    info('LColumnTests : testLColumn_method_isFixed 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertEquals(column.isFixed(), false);
+}
+function testLColumn_method_setFixed() {
+    info('LColumnTests : testLColumn_method_setFixed 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    var fixed = true; //boolean
+    column.setFixed(fixed);
+    assertEquals(column.isFixed(), true);
+    column.setFixed(!fixed);
+}
+function testLColumn_method_isSortable() {
+    info('LColumnTests : testLColumn_method_isSortable 작동 여부');
+    var column = columnModel.getColumnById('col2');
+    assertEquals(column.isSortable(), true);
+}
+function testLColumn_method_setSortable() {
+    info('LColumnTests : testLColumn_method_setSortable 작동 여부');
+    var column = columnModel.getColumnById('col2');
+    var sortable = false; //boolean
+    column.setSortable(sortable);
+    assertEquals(column.isSortable(), false);
+    column.setSortable(!sortable);
+}
+function testLColumn_method_isEditable() {
+    info('LColumnTests : testLColumn_method_isEditable 작동 여부');
+    var column = columnModel.getColumnById('col2');
+    assertEquals(column.isEditable(), true);
+}
+function testLColumn_method_getEditor() {
+    info('LColumnTests : testLColumn_method_getEditor 작동 여부');
+    var column = columnModel.getColumnById('col2');
+    assertEquals(column.getEditor(), textBox);
+}
+function testLColumn_method_setEditor() {
+    info('LColumnTests : testLColumn_method_setEditor 작동 여부');
+    var column = columnModel.getColumnById('col2');
+    var newEditor = new Rui.ui.form.LTextBox(); //Object
+    column.setEditor(newEditor);
+    assertEquals(column.getEditor(), newEditor);
+    column.setEditor(textBox);
+}
+function testLColumn_method_isDraggable() {
+    info('LColumnTests : testLColumn_method_isDraggable 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertEquals(column.isDraggable(), true);
+}
+function testLColumn_method_setDraggable() {
+    info('LColumnTests : testLColumn_method_setDraggable 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    var draggable = false; //boolean
+    column.setDraggable(draggable);
+    assertEquals(column.isDraggable(), draggable);
+    column.setDraggable(!draggable);
+}
+function testLColumn_method_getColumnType() {
+    info('LColumnTests : testLColumn_method_getColumnType 작동 여부');
+    var column = columnModel.getColumnById('group1');
+    assertEquals(column.getColumnType(), 'group');
+}
+function testLColumn_method_isDataColumn() {
+    info('LColumnTests : testLColumn_method_isDataColumn 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    assertEquals(column.isDataColumn(), true);
+}
+function testLColumn_method_toString() {
+    info('LColumnTests : testLColumn_method_toString 작동 여부');
+    var column = columnModel.getColumnById('col1');
+    var result = column.toString();
+    //return type : String
+    assertEquals(result, 'Rui.ui.grid.LColumn col1');
+}
+</script>
+</head>
+
+<body>
+    <h1>LColumn Tests</h1>
+
+    <div id="bd">
+        <div id="defaultGrid"></div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLColumn_method_getId()">getId</a>
+            <a href="javascript:testLColumn_method_getGroupId()">getGroupId</a>
+            <a href="javascript:testLColumn_method_getField()">getField</a>
+            <a href="javascript:testLColumn_method_getColumnModel()">getColumnModel</a>
+            <a href="javascript:testLColumn_method_getLabel()">getLabel</a>
+            <a href="javascript:testLColumn_method_setLabel()">setLabel</a>
+            <a href="javascript:testLColumn_method_getWidth()">getWidth</a>
+            <a href="javascript:testLColumn_method_setWidth()">setWidth</a>
+            <a href="javascript:testLColumn_method_getMinWidth()">getMinWidth</a>
+            <a href="javascript:testLColumn_method_setMinWidth()">setMinWidth</a>
+            <a href="javascript:testLColumn_method_getMaxAutoWidth()">getMaxAutoWidth</a>
+            <a href="javascript:testLColumn_method_setMaxAutoWidth()">setMaxAutoWidth</a>
+            <a href="javascript:testLColumn_method_isHidden()">isHidden</a>
+            <a href="javascript:testLColumn_method_setHidden()">setHidden</a>
+            <a href="javascript:testLColumn_method_isSelected()">isSelected</a>
+            <a href="javascript:testLColumn_method_setSelected()">setSelected</a>
+            <a href="javascript:testLColumn_method_isResizable()">isResizable</a>
+            <a href="javascript:testLColumn_method_setResizable()">setResizable</a>
+            <a href="javascript:testLColumn_method_isFixed()">isFixed</a>
+            <a href="javascript:testLColumn_method_setFixed()">setFixed</a>
+            <a href="javascript:testLColumn_method_isSortable()">isSortable</a>
+            <a href="javascript:testLColumn_method_setSortable()">setSortable</a>
+            <a href="javascript:testLColumn_method_isEditable()">isEditable</a>
+            <a href="javascript:testLColumn_method_getEditor()">getEditor</a>
+            <a href="javascript:testLColumn_method_setEditor()">setEditor</a>
+            <a href="javascript:testLColumn_method_isDraggable()">isDraggable</a>
+            <a href="javascript:testLColumn_method_setDraggable()">setDraggable</a>
+            <a href="javascript:testLColumn_method_getColumnType()">getColumnType</a>
+            <a href="javascript:testLColumn_method_isDataColumn()">isDataColumn</a>
+            <a href="javascript:testLColumn_method_toString()">toString</a>
+        </div>
+    </div>
+</body>
+</html>

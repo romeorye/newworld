@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="batch">
+
+   <select id="retrieveTssComItgRdcs"  resultType="hashmap">
+		<![CDATA[
+		-- retrieveTssComItgRdcs
+		SELECT ir.AFFR_CD    as affrCd          -- 과제코드
+		     , ir.APRDOCSTATE  as aprdocstate --결재상태코드 A01 : 결재요청, A02 : 최종승인완료 ,A03 : 반려, A04 : 취소
+		     , mm.PGS_STEP_CD  as pgsStepCd   --진행단계코드 PL : 계획 , PG:진행 , CM:완료 , AL: 변경 , DC:중단
+		     , mm.TSS_ST       as tssSt       --과제상태
+		     , mm.TSS_NOS_ST   as tssNosSt    --과제차수상태   100 작성중,101 GRS요청,102 GRS완료,103 품의요청,104 품의완료,900 반려,500 정산작성중,503 정산품의요청,504 정산품의완료,
+		     , mm.TSS_SCN_CD   as tssScnCd    --G : 일반 , O:대외 ,  N: 국책
+		     , mm.WBS_CD       as wbsCd
+		     , mm.PK_WBS_CD       as pkWbsCd
+		     , (select FIN_YN from IRIS_TSS_NAT_PLCY_SMRY where tss_cd = mm.tss_cd) as finYn
+		     , mm.dept_code as deptCode
+		     , mm.TSS_NM       as tssNm
+		     , mm.sa_sabun_new  as saSabunNew
+		     , mm.PRJ_CD   as prjCd
+		     , (select sa_name from iris_sso_user where sa_sabun_new = mm.sa_sabun_new) as saName
+			 , (select prj_nm from IRIS_PRJ_RSST_MST where prj_cd = mm.prj_cd) as  prjNm
+			 , mm.TSS_STRT_DD as tssStrtDd
+			 , mm.TSS_FNH_DD  as tssFnhDd
+		     , mm.GRS_YN as grsYn
+		     , mm.FC_CD as fcCd
+		  FROM IRIS_COM_ITG_RDCS ir
+		 INNER JOIN IRIS_TSS_MGMT_MST mm
+		    ON ir.AFFR_CD = mm.TSS_CD
+		 WHERE mm.tss_st in ('103' , '503') --결재요청
+		   AND mm.DEL_YN = 'N'
+		   AND IR.GUID IN (SELECT MAX(IR.GUID) FROM IRIS_COM_ITG_RDCS IR GROUP BY IR.AFFR_CD)
+		   ]]>
+   </select>
+
+    <select id="retrieveTssPgMgr"  resultType="hashmap">
+   		<![CDATA[
+   			<!-- retrieveTssPgMgr -->
+		SELECT 	  MM.PRJ_CD
+				, MM.TSS_CD
+				, MM.SA_SABUN_NEW
+		FROM IRIS_TSS_MGMT_MST MM
+	   INNER JOIN IRIS_TSS_PTC_RSST_MBR RM
+		  ON MM.TSS_CD = RM.TSS_CD
+	   WHERE MM.SA_SABUN_NEW  NOT IN (SELECT PM.TMMR_EMP_NO FROM IRIS_PRJ_TMMR_INFO PM WHERE PM.PRJ_CD = MM.PRJ_CD) --팀(프로젝트) 연구원조회
+		 AND MM.PGS_STEP_CD = 'PG' --과제 진행중
+		 and  mm.tss_scn_cd not in ('D', 'M')
+		 AND MM.DEL_YN = 'N'
+		 AND NOT EXISTS (SELECT PK_WBS_CD FROM IRIS_TSS_MGMT_MST TM WHERE TM.PK_WBS_CD = MM.PK_WBS_CD AND TM.PGS_STEP_CD IN('DC', 'CM')) --완료가 안된것
+		 AND MM.SA_SABUN_NEW IS NOT NULL
+		 AND MM.TSS_FNH_DD > GETDATE() --과제완료일이 현재일보다 미래이다
+	   GROUP BY MM.PRJ_CD , MM.TSS_CD , MM.SA_SABUN_NEW
+	   ]]>
+   	</select>
+
+   	<update id="updateTssPgMgr">
+   	-- updateTssPgMgr
+		UPDATE MBR SET
+			 MBR.PTC_FNH_DT  = CONVERT(VARCHAR(10), GETDATE(), 126)
+			,MBR.OUT_FLAG 	= 'Y'
+			,MBR.LAST_MDFY_ID = #{userId}
+			,MBR.LAST_MDFY_DT = GETDATE()
+		FROM IRIS_TSS_PTC_RSST_MBR MBR , (
+			SELECT MM.PRJ_CD , MM.TSS_CD , MM.SA_SABUN_NEW
+			  FROM IRIS_TSS_MGMT_MST MM
+		  	 INNER JOIN IRIS_TSS_PTC_RSST_MBR RM
+			    ON MM.TSS_CD = RM.TSS_CD
+			 WHERE MM.SA_SABUN_NEW  NOT IN (SELECT PM.TMMR_EMP_NO FROM IRIS_PRJ_TMMR_INFO PM WHERE PM.PRJ_CD = MM.PRJ_CD)
+			   AND MM.PGS_STEP_CD = 'PG'
+			   AND NOT EXISTS (SELECT PK_WBS_CD FROM IRIS_TSS_MGMT_MST TM WHERE TM.PK_WBS_CD = MM.PK_WBS_CD AND TM.PGS_STEP_CD IN('DC', 'CM'))
+			   AND MM.SA_SABUN_NEW IS NOT NULL
+			   AND MM.TSS_FNH_DD > GETDATE()
+			   AND RM.OUT_FLAG !='Y'
+			   AND MM.DEL_YN = 'N'
+			 GROUP BY MM.PRJ_CD
+			  	    , MM.TSS_CD
+			  	    , MM.SA_SABUN_NEW ) B
+		WHERE MBR.TSS_CD = B.TSS_CD
+		  AND MBR.SA_SABUN_NEW = 	B.SA_SABUN_NEW
+   	</update>
+
+
+
+   	<!-- 모든 PL (연구 팀장) -->
+   <select id="retrieveSendAddrAllPL"  resultType="hashmap">
+	  <![CDATA[
+	  -- retrieveSendAddrAllPL 모든 PL (연구 팀장)
+	  SELECT    PL_EMP_NO
+			  , RM.PRJ_NM
+			  , SSO.SA_NAME
+			  , SA_MAIL as saMail
+	  FROM   IRIS_PRJ_RSST_MST RM
+	  		 INNER JOIN IRIS_SSO_USER SSO
+	  		 ON RM.PL_EMP_NO = SSO.SA_SABUN_NEW
+	  		 and  sso.sso_ex_flag != 'D'
+      where (rm.PRJ_END_DT = '' or rm.PRJ_END_DT is null)
+	  and   PL_EMP_NO != '00203089'
+	  and   RM.TCLG_YN = 'N'
+	  and   RM.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059'
+								,'PRJ00086'
+								,'PRJ00085'
+								,'PRJ00084'
+								,'PRJ00083'
+								,'PRJ00082'
+								,'PRJ00081'
+								,'PRJ00080'
+								,'PRJ00079'
+								,'PRJ00078'
+								,'PRJ00077'
+								,'PRJ00076'
+								,'PRJ00075'
+								,'PRJ00074'
+								,'PRJ00073'
+								,'PRJ00072'
+								,'PRJ00071'
+								,'PRJ00070'
+								,'PRJ00069'
+								,'PRJ00068'
+								,'PRJ00067'
+								,'PRJ00066'
+								,'PRJ00065')
+	  ]]>
+   	</select>
+
+   	 	<!-- 사업부 연구소 PL (연구 팀장) -->
+   <select id="retrieveSendAddrResPL"  resultType="hashmap">
+	<![CDATA[
+	 -- retrieveSendAddrResPL 사업부 연구소 PL (연구 팀장)
+		SELECT PL_EMP_NO
+			  , RM.PRJ_NM
+			  , SSO.SA_NAME
+			  , SA_MAIL as saMail
+			  FROM IRIS_PRJ_RSST_MST RM
+			  INNER JOIN IRIS_SSO_USER SSO
+			  ON RM.PL_EMP_NO = SSO.SA_SABUN_NEW
+			  where RM.PRJ_NM not like '%연구소%'
+			 and   RM.TCLG_YN = 'N'
+			  and   RM.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059'
+								,'PRJ00086'
+								,'PRJ00085'
+								,'PRJ00084'
+								,'PRJ00083'
+								,'PRJ00082'
+								,'PRJ00081'
+								,'PRJ00080'
+								,'PRJ00079'
+								,'PRJ00078'
+								,'PRJ00077'
+								,'PRJ00076'
+								,'PRJ00075'
+								,'PRJ00074'
+								,'PRJ00073'
+								,'PRJ00072'
+								,'PRJ00071'
+								,'PRJ00070'
+								,'PRJ00069'
+								,'PRJ00068'
+								,'PRJ00067'
+								,'PRJ00066'
+								,'PRJ00065')
+	]]>
+   	</select>
+
+   	 	<!-- 해당 PL (연구 팀장), 과제 리더 -진행과제 -->
+   <select id="retrieveSendAddrTssPGPL"  resultType="hashmap">
+   		<![CDATA[
+   		-- retrieveSendAddrTssPGPL 해당 PL (연구 팀장), 과제 리더 -진행과제
+   		SELECT 	  MM.PRJ_CD 
+				, MM.TSS_CD 
+				,(select sso.sa_mail from IRIS_SSO_USER sso where mm.sa_sabun_new  = sso.sa_sabun_new)    as saMail
+		FROM IRIS_TSS_MGMT_MST MM
+	   WHERE MM.PGS_STEP_CD = 'PG' --과제 진행중
+	   	 AND MM.DEL_YN = 'N'
+	   	 AND MM.TSS_SCN_CD ='G'
+		 AND NOT EXISTS (SELECT PK_WBS_CD FROM IRIS_TSS_MGMT_MST TM WHERE TM.PK_WBS_CD = MM.PK_WBS_CD AND TM.PGS_STEP_CD in ('CM', 'DC') and tm.tss_st = '104') --완료가 안된것
+		 AND MM.SA_SABUN_NEW IS NOT NULL 
+		 AND MM.TSS_FNH_DD > GETDATE() --과제완료일이 현재일보다 미래이다
+	   GROUP BY MM.PRJ_CD , MM.TSS_CD , MM.SA_SABUN_NEW 
+      	]]>
+   </select>
+
+   	 	<!--  과제 리더 -GRS 심의후 -->
+   <select id="retrieveSendAddrTssGrsPL"  resultType="hashmap">
+	<![CDATA[
+	-- retrieveSendAddrTssGrsPL 과제 리더 -GRS 심의후
+	 select   a.PRJ_CD as prjCd
+		      ,(select SA_MAIL from IRIS_SSO_USER where sa_sabun_new = a.sa_sabun_new) as saMail  
+			  , b.GRS_EV_ST as grsCd
+			  , dbo.fn_getComDtlNm('GRS_EV_ST',b.GRS_EV_ST) as grsNm
+			  , a.PGS_STEP_CD  
+		from   IRIS_TSS_MGMT_MST a
+		       inner join IRIS_GRS_EV_RSLT_RGST b
+			   on a.TSS_CD = b.TSS_CD
+			   and b.DROP_YN <> 'Y'
+			   and  b.TSS_CD_SN = (
+									select max(TSS_CD_SN) 
+									from IRIS_GRS_EV_RSLT_RGST 
+									where tss_cd = a.TSS_CD
+									)
+		where  a.del_yn ='N'
+		and    a.tss_st = (case when a.tss_scn_cd = 'G' then '102' else '302' end)  
+		and    a.tss_scn_cd not in ('D', 'M')
+		and    a.wbs_cd not in (  select wbs_cd 
+								  from IRIS_TSS_MGMT_MST 
+								  where PGS_STEP_CD in ('DC', 'CM') 
+								  union all
+								  select  wbs_cd
+								  from IRIS_TSS_MGMT_MST 
+								  where  PGS_STEP_CD ='AL' 
+								  and tss_st in ('100', '103')  
+							   )
+        AND DATEDIFF (DD,b.LAST_MDFY_DT ,GETDATE()) > 7							   
+		group by PRJ_CD, GRS_EV_ST, PGS_STEP_CD, sa_sabun_new
+			 ]]>
+   	</select>
+
+   	<!--참조-->
+   	<select id="retrieveCCPrjPLsendAddr" resultType="hashmap">
+   	  <![CDATA[
+   	  -- retrieveCCPrjPLsendAddr 참조
+   	  SELECT PM.PRJ_CD
+		   , (SELECT SSO.SA_MAIL FROM IRIS_SSO_USER SSO WHERE PM.PL_EMP_NO   = SSO.SA_SABUN_NEW)  saMail
+   	 	FROM IRIS_PRJ_RSST_MST PM
+   	   WHERE PRJ_CD  =#{prjCd}
+   	   ]]>
+   	</select>
+
+
+   	 	<!-- 완료예정 과제의 과제 리더  -->
+   <select id="retrieveSendAddrTssCmPL"  resultType="hashmap">
+	 	<![CDATA[
+	 	-- retrieveSendAddrTssCmPL 완료예정 과제의 과제 리더
+	 	select   a.PRJ_CD
+						, a.pk_wbs_cd
+						, saMail
+						, a.fnhDt
+				From (
+						SELECT 	  MM.PRJ_CD
+								, MM.pk_wbs_cd
+								,(select sso.sa_mail from IRIS_SSO_USER sso where mm.sa_sabun_new  = sso.sa_sabun_new)    as saMail
+								,ISNULL (MM.TSS_FNH_DD , ns.FNH_DT) fnhDt
+
+						FROM IRIS_TSS_MGMT_MST MM
+						left outer join IRIS_TSS_NAT_PLCY_SMRY ns
+						on MM.tss_cd = ns.tss_cd
+
+					   WHERE  NOT EXISTS (SELECT PK_WBS_CD FROM IRIS_TSS_MGMT_MST TM WHERE TM.PK_WBS_CD = MM.PK_WBS_CD AND TM.PGS_STEP_CD ='CM') --완료가 안된것
+						 and mm.PGS_STEP_CD = 'PG'
+						 and  mm.tss_scn_cd not in ( 'D', 'M')
+						 and  mm.sa_sabun_new is not null) a
+			where a.fnhDt != ''
+			AND convert(nvarchar(7), a.fnhDt, 23) = convert(nvarchar(7), GETDATE(), 23) --과제완료일이 해당월인것
+		 AND a.saMail IS NOT NULL
+		 ]]>
+   	</select>
+
+   <!-- 모든 연구원 (분석, 신뢰성, 주택제외) -->
+   <select id="retrieveSendAddrEve"  resultType="hashmap">
+   -- retrieveSendAddrEve 모든 연구원 (분석, 신뢰성, 주택제외)
+	   SELECT su.SA_MAIL as saMail
+	    FROM IRIS_SSO_USER SU
+	   INNER JOIN IRIS_SSO_DEPT SD
+		  ON SU.SA_DEPT_NEW = SD.DEPT_CODE
+	   WHERE SD.DEPT_CODE NOT IN (select co.COM_DTL_CD from IRIS_ADM_COM_CD co where co.COM_CD_CD ='EXP_DEPT_CD' )
+		AND SA_GSBER = '1100'
+   	</select>
+
+
+   	<!-- 1. 코드생성 요청 -->
+   	 <select id="retrieveWbsCdCreateReq"  resultType="hashmap">
+   	 	<![CDATA[
+   	 	-- retrieveWbsCdCreateReq 1. 코드생성 요청
+   	 	select mm.tss_cd as tssCd
+			 , pm.PRJ_NM 	 as prjNm
+			 , mm.tss_nm	 as tssNm
+			 , mm.WBS_CD	 as wbsCd
+			 , mm.BIZ_DPT_CD
+			 , dbo.fn_getComDtlNm('BIZ_DPT_CD',mm.biz_dpt_cd) AS bizDptNm
+			 , case when mm.tss_scn_cd =  'G' then '일반'
+			        when mm.tss_scn_cd = 'O' then '대외협력'
+					when mm.tss_scn_cd = 'N' then '국책'
+					else '' end  as tssScnNm
+			 , (select sa_name from iris_sso_user where sa_sabun_new = mm.sa_sabun_new) as tssSaNm
+			 , 'spacekyk@lxhausys.com'+','+'parkjuyong@lxhausys.com'+','+'kimmmyj@lxhausys.com' as receMailAdd
+			, 'ideaman@lxhausys.com'+','+'plsen@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'singkro@hausyspartner.com'+','+'keunjung@lxhausys.com'+','+'jihyunlee@lxhausys.com'   
+			 as ccMailAddr
+			 , isnull(dbo.fn_getComDtlNm('PROD_G',mm.PROD_G), '') AS prodGNm
+		 from IRIS_TSS_MGMT_MST mm
+		inner join IRIS_PRJ_RSST_MST pm
+		   on mm.PRJ_CD = pm.PRJ_CD
+	    where mm.pgs_step_cd ='PL' and mm.TSS_ST = '104'
+	      and mm.TSS_SCN_CD in ('G' , 'O')
+	      AND MM.DEL_YN = 'N'
+		  and mm.TSS_CD  in ( select  tss_cd
+		  						from  IRIS_TSS_MGMT_MST mm
+							 	inner join IRIS_COM_ITG_RDCS ir
+							 on mm.TSS_CD = ir.AFFR_CD
+							 where ir.APRDOCSTATE = 'A02'
+							 and  CONVERT(VARCHAR(10), ir.APPROVER_PROCESSDATE, 126) = CONVERT(VARCHAR(10), GETDATE()-1, 126))
+			]]>
+   	 </select>
+
+   	 <!-- 1. 코드삭제 요청 -->
+   	 <select id="retrieveWbsCdDeleteReq"  resultType="hashmap">
+   	 	<![CDATA[
+   	 	-- retrieveWbsCdDeleteReq 1. 코드삭제 요청
+   	 	select	  mm.tss_cd as tssCd
+				, pm.PRJ_NM  as prjNm
+				, mm.tss_nm	 as tssNm
+				, mm.WBS_CD	 as wbsCd
+				, dbo.fn_getComDtlNm('BIZ_DPT_CD',mm.biz_dpt_cd) AS bizDptNm
+				, case when mm.tss_scn_cd =  'G' then '일반'
+                    when mm.tss_scn_cd = 'O' then '대외협력'
+                    when mm.tss_scn_cd = 'N' then '국책'
+                    else '' end  as tssScnNm
+                 , (select sa_name from iris_sso_user where sa_sabun_new = mm.sa_sabun_new) as tssSaNm
+                 , 'spacekyk@lxhausys.com'+','+'parkjuyong@lxhausys.com'+','+'kimmmyj@lxhausys.com' as receMailAdd
+				, 'ideaman@lxhausys.com'+','+'plsen@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'singkro@hausyspartner.com'+','+'keunjung@lxhausys.com'+','+'jihyunlee@lxhausys.com'   
+			     as ccMailAddr
+			     , isnull(dbo.fn_getComDtlNm('PROD_G',mm.PROD_G), '') AS prodGNm
+		  from IRIS_TSS_MGMT_MST mm
+		 inner join IRIS_PRJ_RSST_MST pm
+		    on mm.PRJ_CD = pm.PRJ_CD
+		 where mm.pgs_step_cd in( 'CM' ,'DC' ) and mm.TSS_ST = '104'
+		   AND MM.DEL_YN = 'N'
+		   and mm.TSS_SCN_CD in ('G' , 'O')
+		   and mm.TSS_CD in (select  tss_cd
+		  					 from  IRIS_TSS_MGMT_MST mm
+									inner join IRIS_COM_ITG_RDCS ir
+								 on mm.TSS_CD = ir.AFFR_CD
+							 where ir.APRDOCSTATE = 'A02'
+							 and  CONVERT(VARCHAR(10), ir.APPROVER_PROCESSDATE, 126) = CONVERT(VARCHAR(10), GETDATE()-1, 126)
+							)
+			]]>
+   	 </select>
+
+
+   	<insert id="insertErrLog">
+   	-- insertErrLog
+   	    INSERT
+		  INTO IRIS_TSS_BATCH_ERR_LOG
+		     ( BTCH_EXE_DT      --배치실행일
+		     , BTCH_NM          --배치명
+		     , ERR_CD           --에러코드
+		     , ERR_MSG          --에러내용
+		     , ERR_PATH         --에러위치
+		     , FRST_RGST_DT     --최초등록일시
+		     , FRST_RGST_ID     --최초등록자
+		     )
+		VALUES
+		     ( GETDATE()
+		     , #{btchNm}
+		     , #{errCd}
+		     , #{errMsg}
+		     , #{errPath}
+		     , GETDATE()
+		     , #{userId}
+		     )
+   	</insert>
+
+   	<!-- grs 요청건 메일 발송 -->
+   	 <select id="retrieveGrsReqSendMailInfo"  resultType="hashmap">
+   	 	-- retrieveGrsReqSendMailInfo grs 요청건 메일 발송
+   	 	SELECT  distinct  g.dlbr_crgr 									 AS dlbrCrgr
+				, g.sa_sabun_name AS dlbrCrgrNm       --심의 담당자
+				, dbo.fn_getComDtlNm('GRS_EV_ST',g.grs_ev_st)   AS phNm
+				, m.tss_cd tssCd
+				, m.tss_nm as tssNm
+				, c.sa_mail as receiMailAddr
+				, g.TSS_CD_SN as tssCdSn
+				, g.TSS_CD+cast(TSS_CD_SN  as nvarchar) as reqNo
+				, g.GRS_EV_SN as grsEvSn
+		FROM iris_grs_ev_rslt_rgst g
+				INNER JOIN iris_tss_mgmt_mst m
+				ON 	g.tss_cd = m.tss_cd
+				inner join iris_sso_user c
+				on   c.sa_sabun_new = g.DLBR_CRGR
+		WHERE	m.tss_st = '101'
+		and     g.TSS_CD_SN = (select max(TSS_CD_SN) from  iris_grs_ev_rslt_rgst where tss_cd = m.tss_cd)
+   	 </select>
+
+   	 <!-- 전자결재 과제 반려, 취소건 삭제 -->
+   	 <delete id="deleteGenTssPlnMstTssSt" >
+   	 -- deleteGenTssPlnMstTssSt 전자결재 과제 반려, 취소건 삭제
+   	 	delete IRIS_COM_ITG_RDCS where AFFR_CD =#{tssCd}
+   	 </delete>
+
+	<!-- 과제 리더 사번 조회 -->
+   	 <select id="getChgTssSabunNew" resultType="String">
+   	 -- getChgTssSabunNew 과제 리더 사번 조회
+   	 	select sa_sabun_new as chgTssSabun
+		from  IRIS_TSS_PTC_RSST_MBR
+		where  tss_cd = #{pgTssCd}
+		and    PTC_ROLE = '01'
+		and    (PTC_FNH_DT >= convert(nvarchar(10), getdate(), 23) or PTC_FNH_DT is null or PTC_FNH_DT = '')
+   	 </select>
+
+	<!-- 변경시 연구원권한으로 모두  업데이트 처리   -->
+    <update id="updateTssPtcSabunNew" >
+    -- updateTssMstSabunNew 변경시 과제리더 업데이트 처리
+	    update IRIS_TSS_PTC_RSST_MBR
+	    set    PTC_ROLE = '02'
+	    where  tss_cd = #{tssCd}
+    </update>
+    
+	<!-- 변경시 리더권한으로  업데이트 처리   -->
+    <update id="updateTssPtcLeaderSabunNew" >
+    -- updateTssMstSabunNew 변경시 과제리더 업데이트 처리
+	    update IRIS_TSS_PTC_RSST_MBR
+	    set    PTC_ROLE = '01'
+	    where  tss_cd = #{tssCd}
+	    and    sa_sabun_new = #{chgTssSabun} 
+    </update>
+    
+	<!-- 변경시 과제리더 업데이트 처리   -->
+    <update id="updateTssMstSabunNew" >
+    -- updateTssMstSabunNew 변경시 과제리더 업데이트 처리
+	    update IRIS_TSS_MGMT_MST
+	    set    sa_sabun_new = #{chgTssSabun}
+	    where  tss_cd = #{tssCd}
+    </update>
+
+   	  <!-- 과제 신규생성시 지적재산권 등록 -->
+   	 <update id="saveTssPimsInfo">
+   	 -- saveTssPimsInfo 과제 신규생성시 지적재산권 등록
+		MERGE INTO tb_ea101_PMIS MEM
+				USING dual
+				ON  (MEM.WBS_CODE = #{wbsCd} )
+				WHEN MATCHED THEN
+		UPDATE SET	 WBS_NAME     = #{tssNm}
+					,PJT_INTERNAL = #{tssNm}
+					,WBS_INERNAL  = #{tssNm}
+					,PJT_LEADER	  = #{saSabunNew}
+					,WBS_PSDATE	  = replace(#{tssStrtDd}, '-', '')
+					,WBS_PEDATE	  = replace(#{tssFnhDd}, '-', '')
+					,REC_STATUS	  = 1
+					,MODIFY_DATE  = sysdate
+
+			WHEN NOT MATCHED THEN
+			INSERT (
+			         WBS_CODE
+					,WBS_NAME
+					,PJT_INTERNAL
+					,WBS_INERNAL
+					,PJT_LEADER
+					,WBS_PSDATE
+					,WBS_PEDATE
+					,REC_STATUS
+					,ENTRY_DATE
+					,MODIFY_DATE
+					)
+		       VALUES (
+				     #{wbsCd}
+					,#{tssNm}
+					,#{tssNm}
+					,#{tssNm}
+					,#{saSabunNew}
+					,replace(#{tssStrtDd}, '-', '')
+					,replace(#{tssFnhDd}, '-', '')
+					, 1
+					,sysdate
+					,sysdate
+				)
+	</update>
+
+	<!-- 과제신규 연구원 지적재산권 삭제 -->
+	<delete id="delPimsInfo">
+	-- delPimsInfo 과제신규 연구원 지적재산권 삭제
+   		delete tb_ea102_PMIS where WBS_CODE = #{wbsCd}
+	</delete>
+	
+	<!-- 과제신규 연구원 조회 -->
+	<select id="selectTssMbrList" resultType="hashmap">
+	-- selectTssMbrList	 과제신규 연구원 조회
+		select  sa_sabun_new as saSabunNew
+		       ,#{wbsCd} as wbsCd
+		from   IRIS_TSS_PTC_RSST_MBR
+		where   tss_cd = #{pgTssCd}
+		and    (PTC_FNH_DT >= convert(nvarchar(10), getdate()) or PTC_FNH_DT is null or PTC_FNH_DT ='')
+	</select>
+
+	<!-- 과제신규 연구원 지적재산권 등록 -->
+   	<insert id="insertTssPimsInfo">
+   		<![CDATA[
+   		-- insertTssPimsInfo 과제신규 연구원 지적재산권 등록
+   		INSERT into tb_ea102_PMIS (
+             WBS_CODE
+            ,EMP_NO
+            ,REC_STATUS
+            ,ENTRY_ID
+            ,ENTRY_DATE
+            ,MODIFY_ID
+            ,MODIFY_DATE
+            )
+             VALUES (
+               #{wbsCd}
+              ,#{saSabunNew}
+              , 1
+              ,'IRIS'
+              ,sysdate
+              ,'IRIS'
+              ,sysdate
+          )
+   		]]>
+   	</insert>
+
+
+
+</mapper>

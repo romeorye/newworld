@@ -1,0 +1,83 @@
+<%@ page language="java" session="false" pageEncoding="EUC-KR" contentType="text/html; charset=EUC-KR"%>
+<%@ page 
+  import="devonframe.util.HistorialWatch"
+  import="java.util.HashMap"
+  import="lghausys.twms.util.*"
+%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="Tag" uri="http://www.dev-on.com/Tag" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%
+    pageContext.setAttribute("crlf", "\r\n"); 
+    pageContext.setAttribute("blank", " "); 
+
+    String contextPath = request.getContextPath();
+
+    if ("/".equals(contextPath)) {
+    	contextPath = "";
+    }
+    /*
+    String imagePath        = contextPath + "/images";
+    String cssPath          = contextPath + "/css";
+    String scriptPath       = contextPath + "/js";
+    String jspPath          = contextPath + "/jsp";
+    String duiPathJs        = contextPath + "/common/js";
+    String duiPathCss       = contextPath + "/common/css";
+    */
+    String imagePath        = contextPath + "/resource/old/images";
+    String cssPath          = contextPath + "/css";
+    String scriptPath       = contextPath + "/js";
+    String jspPath          = contextPath + "/jsp";
+    String duiPathJs        = contextPath + "/resource/old/common/js";
+    String duiPathCss       = contextPath + "/resource/old/common/css";
+    String ruiPathJs        = contextPath + "/rui/js";
+    String ruiPathCss       = contextPath + "/rui/resources";    
+    
+    String newImagePath     = contextPath + "/resource/images";
+    
+    String documentTitle = "  :::  지인 창호 통합 시스템(WINS)  :::  ";
+    
+    HistorialWatch historialWatch = (HistorialWatch)request.getAttribute(iris.web.system.base.Constants.SERVLET_STOPWATCH_KEY);
+    if (historialWatch == null) {
+    	historialWatch = new HistorialWatch();
+    }
+    historialWatch.tick("Processing Jsp Begin");
+%>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr"/>
+
+
+<script type="text/javascript">
+    var contextPath = "<%=contextPath%>";
+</script>
+<script type="text/javascript" src="<%=duiPathJs%>/common.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/xsync_twms.js"></script>
+<%-- DevOn UI WebValidator 이용시 필요한 js 추가(prototype.js,dui_base.js, dui_webvalidator*.js) --%>
+<script type="text/javascript" src="<%=duiPathJs%>/prototype.js"></script>
+
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_base.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_core.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_form.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_grid.js"></script>
+<script type="text/javascript" src="<%=ruiPathJs%>/rui_ui.js"></script>
+
+<script type="text/javascript" src="<%=ruiPathCss%>/rui_config.js"></script>
+<script type="text/javascript" src="<%=ruiPathCss%>/rui_license.js"></script>
+
+<script type="text/javascript" src="<%=duiPathJs%>/dui_base.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_webvalidator.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_webvalidator_msg_ko.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_effect.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_dragndrop.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_hhmenu.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_tree.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_slidemenu.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/dui_tab.js"></script>
+
+<script type="text/javascript" src="<%=duiPathJs%>/epjs.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/calendar.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/calendarPopup.js"></script>
+<script type="text/javascript" src="<%=duiPathJs%>/lgchem.js"></script>
+<script type="text/javascript" src="<%=duiPathJs %>/saymessage.js"></script>
+<script type="text/javascript" src="<%=duiPathJs %>/twms.js"></script> 

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.pub">
+
+
+    <!-- 학회컨퍼런스 리스트  -->
+	<select id="getConferenceList" resultType="hashmap">
+		<![CDATA[
+		-- getConferenceList 학회컨퍼런스 리스트
+			SELECT
+					CFRN_ID                                                   AS 'conferenceId' /*컨퍼런스ID*/
+					,TITL_NM                                                  AS 'titlNm'       /*제목*/
+					,CFRN_LOC_SCN_CD                                          AS 'cfrnLocScnCd' /*장소코드*/
+			        ,dbo.fn_getComDtlNm('CFRN_LOC_SCN_CD', A.CFRN_LOC_SCN_CD) AS 'cfrnLocScnNm' /*장소이름*/
+					,CFRN_STRT_DT                                             AS 'cfrnStrtDt'   /*시작일*/
+					,CFRN_FNH_DT                                              AS 'cfrnFnhDt'    /*종료일*/
+					,SBC_NM                                                   AS 'sbcNm'        /*내용*/
+					,RTRV_CNT                                                 AS 'rtrvCnt'      /*조회수*/
+					,KEYWORD_NM                                               AS 'keywordNm'    /*키워드*/
+					,(CASE
+						WHEN (select	count(1)
+						  		from		IRIS_COM_ATTC_FIL
+						  		where		ATTC_FIL_ID = A.ATTC_FILE_ID
+								  and		DEL_YN = 'N') = 0 THEN NULL
+						ELSE  A.ATTC_FILE_ID
+					   END)                                                   AS 'attcFilId'    /*첨부파일*/
+					,RGST_ID                                                  AS 'rgstId'       /*등록자ID*/
+			        ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'       /*등록자*/
+					,RGST_OPS_ID                                              AS 'rgstOpsId'    /*등록자부서ID*/
+					,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)                   AS 'frstRgstDt'   /*등록일*/
+			FROM IRIS_KNLD_CFRN A
+			WHERE DEL_YN = 'N'
+		 ]]>
+        <if test="titlNm != null and titlNm != ''">
+			AND TITL_NM like '%${titlNm}%'
+		</if>
+        <if test="rgstNm != null and rgstNm != ''">
+			AND dbo.fn_getUserName(RGST_ID) like '%${rgstNm}%'
+		</if>
+        <if test="cfrnLocScnCd != null and cfrnLocScnCd != ''">
+			AND CFRN_LOC_SCN_CD = '${cfrnLocScnCd}'
+		</if>
+		<if test="(cfrnStrtDt != null and cfrnStrtDt != '')">
+			AND CFRN_STRT_DT >= #{cfrnStrtDt}
+		</if>
+		<if test="(cfrnFnhDt != null and cfrnFnhDt != '')">
+			AND CFRN_STRT_DT <![CDATA[<]]>= #{cfrnFnhDt}
+		</if>
+			ORDER BY CFRN_ID DESC
+	</select>
+
+
+	<!-- 학회컨퍼런스 저장  -->
+	<insert id="insertConferenceInfo">
+	<![CDATA[
+	-- insertConferenceInfo 학회컨퍼런스 저장
+		insert into IRIS_KNLD_CFRN
+		(			 TITL_NM
+					,CFRN_LOC_SCN_CD
+					,CFRN_STRT_DT
+					,CFRN_FNH_DT
+					,SBC_NM
+					,RTRV_CNT
+					,KEYWORD_NM
+		]]>
+		            <if test="( attcFilId != null and attcFilId != '')">
+					,ATTC_FILE_ID
+		            </if>
+    <![CDATA[
+					,RGST_ID
+					,RGST_OPS_ID
+					,DEL_YN
+					, FRST_RGST_ID
+					, FRST_RGST_DT
+					, LAST_MDFY_ID
+					, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{titlNm}
+		    , #{cfrnLocScnCd}
+		    , #{cfrnStrtDt}
+		    , #{cfrnFnhDt}
+		    , #{sbcNm}
+		    , 0
+		    , #{keywordNm}
+		    ]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+		    , #{attcFilId}
+		    </if>
+		     <![CDATA[
+		    , #{_userId}
+		    , ( SELECT sa_dept_new FROM IRIS_SSO_USER WHERE sa_user = #{_userId} )
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+
+    <!-- 학회컨퍼런스 업데이트  -->
+	<update id="updateConferenceInfo">
+	<![CDATA[
+	-- updateConferenceInfo 학회컨퍼런스 업데이트
+		UPDATE IRIS_KNLD_CFRN
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , TITL_NM = #{titlNm}
+		     , CFRN_LOC_SCN_CD = #{cfrnLocScnCd}
+	         , CFRN_STRT_DT = #{cfrnStrtDt}
+	         , CFRN_FNH_DT = #{cfrnFnhDt}
+		     , SBC_NM = #{sbcNm}
+		     , KEYWORD_NM = #{keywordNm}
+	]]>
+		<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID = #{attcFilId}
+	    </if>
+
+	<![CDATA[
+		 WHERE CFRN_ID = #{conferenceId}
+	]]>
+	</update>
+
+	<!--  학회컨퍼런스 조회건수 업데이트  -->
+	<update id="updateConferenceRtrvCnt">
+	<![CDATA[
+	-- updateConferenceRtrvCnt 학회컨퍼런스 조회건수 업데이트
+		UPDATE IRIS_KNLD_CFRN
+		   SET RTRV_CNT = RTRV_CNT + 1
+	]]>
+
+	<![CDATA[
+		 WHERE CFRN_ID = #{conferenceId}
+	]]>
+	</update>
+
+
+
+    <!-- 학회컨퍼런스 삭제  -->
+	<update id="deleteConferenceInfo">
+	<![CDATA[
+	-- deleteConferenceInfo 학회컨퍼런스 삭제
+		UPDATE IRIS_KNLD_CFRN
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE CFRN_ID = #{conferenceId}
+	]]>
+	</update>
+
+    <!-- 학회컨퍼런스 상세화면  -->
+	<select id="getConferenceInfo" resultType="hashmap">
+		<![CDATA[
+		-- getConferenceInfo 학회컨퍼런스 상세화면
+			SELECT
+					CFRN_ID                                                   AS 'conferenceId' /*컨퍼런스ID*/
+					,TITL_NM                                                  AS 'titlNm'       /*제목*/
+					,CFRN_LOC_SCN_CD                                          AS 'cfrnLocScnCd' /*장소코드*/
+			        ,dbo.fn_getComDtlNm('CFRN_LOC_SCN_CD', A.CFRN_LOC_SCN_CD) AS 'cfrnLocScnNm' /*장소이름*/
+					,CFRN_STRT_DT                                             AS 'cfrnStrtDt'   /*시작일*/
+					,CFRN_FNH_DT                                              AS 'cfrnFnhDt'    /*종료일*/
+					,SBC_NM                                                   AS 'sbcNm'        /*내용*/
+					,RTRV_CNT                                                 AS 'rtrvCnt'      /*조회수*/
+					,KEYWORD_NM                                               AS 'keywordNm'    /*키워드*/
+					,ATTC_FILE_ID                                             AS 'attcFilId'    /*첨부파일*/
+					,RGST_ID                                                  AS 'rgstId'       /*등록자ID*/
+			        ,B.sa_name                                                AS 'rgstNm'       /*등록자*/
+					,RGST_OPS_ID                                              AS 'rgstOpsId'    /*등록자부서ID*/
+					,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)                   AS 'frstRgstDt'   /*등록일*/
+			FROM IRIS_KNLD_CFRN A
+			LEFT OUTER JOIN IRIS_SSO_USER B ON A.RGST_ID = sa_user
+			WHERE DEL_YN = 'N'
+			  AND CFRN_ID = #{conferenceId}
+		 ]]>
+	</select>
+
+</mapper>

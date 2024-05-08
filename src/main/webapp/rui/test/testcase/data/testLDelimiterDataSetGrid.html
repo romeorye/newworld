@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.data.LDelimiterDataSet Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var dataSet = null;
+Rui.onReady(function() {
+    dataSet = new Rui.data.LDelimiterDataSet({
+        id: 'dataSet',
+        fields: [
+            {id:'col1'},
+            {id:'col2'},
+            {id:'col3'},
+            {id:'col4'},
+            {id:'col5'},
+            {id:'col6'},
+            {id:'col7'},
+            {id:'col8', type: 'number'},
+            {id:'col9'},
+            {id:'col10'},
+            {id:'col11'},
+            {id:'col12', type: 'date'}
+        ]
+    });
+    
+    var columnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        columns: [
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1' },
+            { field: 'col2', label: 'Col2' },
+            { field: 'col3', label: 'Col3' },
+            { field: 'col4', label: 'Col4', width: 50 },
+            { field: 'col5', label: 'Col5', width: 50 },
+            { field: 'col6', label: 'Col6', width: 50 },
+            { field: 'col7', label: 'Col7' },
+            { field: 'col8', label: 'Col8', align: 'right', renderer: 'money'},
+            { field: 'col9', label: 'Col9', width: 50 },
+            { field: 'col10', label: 'Col10' },
+            { field: 'col11', label: 'Col11' },
+            { field: 'col12', label: 'Col12', width: 200, align: 'center', renderer: 'date'}
+        ]
+    });
+
+    gridPanel = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        autoWidth: true,
+        width: 600,
+        height: 300
+    });
+
+    gridPanel.render('defaultGrid');
+
+    dataSet.load({
+        url: './../../../sample/data/delimiterData20.txt',
+        sync: true
+    });
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+function saveFn() {
+    var dm = new Rui.data.LDataSetManager();
+    dm.updateDataSet({
+        dataSets:[dataSet],
+        url: './../../../sample/data/savedCallback.json'
+    });
+}
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLDelimiterDataSet_method_getCount() {
+    info('LDelimiterDataSetTests : testLDelimiterDataSet_method_getCount 작동 여부');
+    assertEquals(dataSet.getCount(), 20);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.data.LDelimiterDataSet Tests</h1>
+
+    <div id="bd">
+        <div id="defaultGrid"></div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLDelimiterDataSet_method_getCount()">getCount</a>
+            <a href="javascript:saveFn()">save</a>
+        </div>
+    </div>
+</body>
+</html>

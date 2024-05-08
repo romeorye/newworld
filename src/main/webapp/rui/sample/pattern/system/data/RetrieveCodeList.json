@@ -1,0 +1,9 @@
+[{
+    "metaData": {
+        "datasetId":"dataSet"
+    },
+    "records": [
+        { "devonindex": 0, "codeGroup": "G001", "groupName": "그룹1", "codeId": "code1", "codeNamecode": "code1", 
+        "codeName": "코드1", "codeEditFlag": "", "codeSortcode": "", "codeDesc": "", "highLevelcode": "" }
+    ]
+}]

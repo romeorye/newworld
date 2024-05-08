@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.rsst">
+
+
+    <!-- 연구산출물 리스트  -->
+	<select id="getProductList" resultType="hashmap">
+		<![CDATA[
+		-- getProductList 연구산출물 리스트
+			SELECT
+					  A.RSST_DOC_ID                                     AS 'prdtId'       /*산출물ID*/
+					, A.AFFR_CL_ID                                      AS 'affrClId'     /*업무분류ID*/
+			        , B.AFFR_CL_NM                                      AS 'affrClNm'     /*업무분류이름*/
+			        , A.AFFR_CL_GROUP                                   AS 'affrClGroup'  /*게시판분류이름*/
+					, A.TITL_NM                                         AS 'titlNm'       /*제목*/
+					, A.SBC_NM                                          AS 'sbcNm'        /*내용*/
+					, A.RTRV_CNT                                        AS 'rtrvCnt'      /*조회수*/
+					, A.KEYWORD_NM                                      AS 'keywordNm'    /*키워드*/
+					, A.ATTC_FILE_ID                                    AS 'attcFilId'    /*첨부파일*/
+					, A.RGST_ID                                         AS 'rgstId'       /*등록자ID*/
+					, dbo.fn_getUserName(RGST_ID)                       AS 'rgstNm'       /*등록자*/
+					, A.RGST_OPS_ID                                     AS 'rgstOpsId'    /*등록자부서ID*/
+					, A.DEL_YN                                          AS 'delYn'        /*삭제여부*/
+				    , convert(varchar(10), A.FRST_RGST_DT, 120)         AS 'frstRgstDt'   /*등록일*/
+			FROM IRIS_KNLD_RSST_DOC A
+			JOIN IRIS_KNLD_AFFR_CL B ON B.AFFR_CL_ID = A.AFFR_CL_ID
+			WHERE A.DEL_YN = 'N'
+			AND   A.AFFR_CL_GROUP = '${affrClId}'
+		 ]]>
+        <if test="titlNm != null and titlNm != ''">
+			AND TITL_NM like '%${titlNm}%'
+		</if>
+        <if test="rgstNm != null and rgstNm != ''">
+			AND dbo.fn_getUserName(RGST_ID) like '%${rgstNm}%'
+		</if>
+			ORDER BY  A.RSST_DOC_ID DESC
+	</select>
+
+ 	<!-- 연구산출물 상세화면  -->
+	<select id="getProductListInfo" resultType="hashmap">
+		<![CDATA[
+		-- getProductListInfo 연구산출물 상세화면
+			WITH AFFR_MST AS
+			(
+			SELECT   KAC.AFFR_CL_ID
+					,KAC.AFFR_CL_L
+					,convert(varchar(255), AFFR_CL_NM) as master_path
+			 FROM IRIS_KNLD_AFFR_CL KAC
+			 WHERE KAC.DEL_YN = 'N'
+			 AND   KAC.SUPI_AFFR_CL_ID = '0'
+			 UNION ALL
+			 SELECT  KAC2.AFFR_CL_ID
+					,KAC2.AFFR_CL_L
+					,CAST(KAC3.master_path + '>' + KAC2.AFFR_CL_NM AS VARCHAR(255)) master_path
+			 FROM IRIS_KNLD_AFFR_CL KAC2
+			     ,AFFR_MST KAC3
+			 WHERE   KAC2.SUPI_AFFR_CL_ID = KAC3.AFFR_CL_ID
+			 )
+			 SELECT
+					  KRD.RSST_DOC_ID                                     AS 'prdtId'       /*산출물ID*/
+					, KRD.AFFR_CL_ID                                      AS 'affrClId'     /*업무분류ID*/
+			        , AM.master_path                                      AS 'affrClNm'     /*업무분류이름*/
+			        , KRD.AFFR_CL_GROUP                                   AS 'affrClGroup'  /*게시판분류이름*/
+					, KRD.TITL_NM                                         AS 'titlNm'       /*제목*/
+					, KRD.SBC_NM                                          AS 'sbcNm'        /*내용*/
+					, KRD.RTRV_CNT                                        AS 'rtrvCnt'      /*조회수*/
+					, KRD.KEYWORD_NM                                      AS 'keywordNm'    /*키워드*/
+					, KRD.ATTC_FILE_ID                                    AS 'attcFilId'    /*첨부파일*/
+					, KRD.RGST_ID                                         AS 'rgstId'       /*등록자ID*/
+					, dbo.fn_getUserName(RGST_ID)                         AS 'rgstNm'       /*등록자*/
+					, KRD.RGST_OPS_ID                                     AS 'rgstOpsId'    /*등록자부서ID*/
+					, KRD.DEL_YN                                          AS 'delYn'        /*삭제여부*/
+				    , convert(varchar(10), KRD.FRST_RGST_DT, 120)         AS 'frstRgstDt'   /*등록일*/
+			FROM	AFFR_MST AM
+					,IRIS_KNLD_RSST_DOC KRD
+			WHERE	KRD.DEL_YN = 'N'
+			--AND		AM.AFFR_CL_L = 3
+			AND		AM.AFFR_CL_ID = KRD.AFFR_CL_ID
+		    AND     RSST_DOC_ID = #{prdtId}
+		 ]]>
+	</select>
+
+	<!-- 연구산출물 저장  -->
+	<insert id="insertProductListInfo">
+	<![CDATA[
+	-- insertProductListInfo 연구산출물 저장
+		insert into IRIS_KNLD_RSST_DOC
+		(
+			  AFFR_CL_ID
+			, A.AFFR_CL_GROUP
+			, TITL_NM
+			, SBC_NM
+			, RTRV_CNT
+			, KEYWORD_NM
+			]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+            , ATTC_FILE_ID
+            </if>
+            <![CDATA[
+			, RGST_ID
+			, RGST_OPS_ID
+			, DEL_YN
+			, FRST_RGST_ID
+			, FRST_RGST_DT
+			, LAST_MDFY_ID
+			, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{affrClId}
+		    , #{affrClGroup}
+		    , #{titlNm}
+		    , #{sbcNm}
+		    , 0
+		    , #{keywordNm}
+		    ]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+            , #{attcFilId}
+            </if>
+            <![CDATA[
+		    , #{_userId}
+		    , ( SELECT sa_dept_new FROM IRIS_SSO_USER WHERE sa_user = #{_userId} )
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+
+    <!-- 연구산출물 업데이트  -->
+	<update id="updateProductListInfo">
+	<![CDATA[
+	-- updateProductListInfo 연구산출물 업데이트
+		UPDATE IRIS_KNLD_RSST_DOC
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , AFFR_CL_ID = #{affrClId}
+		     , TITL_NM = #{titlNm}
+		     , SBC_NM = #{sbcNm}
+		     , KEYWORD_NM = #{keywordNm}
+	]]>
+		<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID = #{attcFilId}
+	    </if>
+	<![CDATA[
+		 WHERE RSST_DOC_ID = #{prdtId}
+	]]>
+	</update>
+
+	<!--  연구산출물 조회건수 업데이트-->
+	<update id="updateProductListRtrvCnt">
+	<![CDATA[
+	-- updateProductListRtrvCnt 연구산출물 조회건수 업데이트
+		UPDATE IRIS_KNLD_RSST_DOC
+		   SET RTRV_CNT = RTRV_CNT + 1
+	]]>
+
+	<![CDATA[
+		 WHERE RSST_DOC_ID = #{prdtId}
+	]]>
+	</update>
+
+    <!-- 연구산출물 삭제  -->
+	<update id="deleteProductListInfo">
+	<![CDATA[
+	-- deleteProductListInfo 연구산출물 삭제
+		UPDATE IRIS_KNLD_RSST_DOC
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE RSST_DOC_ID = #{prdtId}
+	]]>
+	</update>
+
+	<!-- 트리 리스트 조회 -->
+	<select id="getKnldProductTreeList" resultType="hashmap">
+		<![CDATA[
+		-- getKnldProductTreeList 트리 리스트 조회
+			SELECT
+					AFFR_CL_ID			   as affrClId
+				   ,AFFR_CL_NM			   as affrClNm
+				   ,AFFR_NM			       as affrNm
+				   ,SUPI_AFFR_CL_ID		   as supiAffrClId
+				   ,AFFR_CL_L			   as affrClL
+				   ,AFFR_CL_GROUP		   as affrClGroup
+				   ,RTRV_SEQ			   as rtrvSeq
+				   ,DEL_YN				   as delYn
+			FROM	IRIS_KNLD_AFFR_CL
+			WHERE	DEL_YN = 'N'
+			AND		AFFR_CL_GROUP = #{affrClGroup}
+		 ]]>
+	</select>
+
+	<!-- 통합검색 조회 권한 체크 -->
+	<select id="getMenuAuthCheck" resultType="String">
+		<![CDATA[
+		-- getMenuAuthCheck 통합검색 조회 권한 체크
+			select [dbo].[fn_getSrchRead](#{_userId}, #{_userSabun}, #{_userDept},  #{docNo},  #{rtrvRqDocCd}) as readYn
+		 ]]>
+	</select>
+
+
+</mapper>

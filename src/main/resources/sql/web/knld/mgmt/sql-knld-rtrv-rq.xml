@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.rtrv.rq">
+
+	<select id="getKnldRtrvRqList" resultType="hashmap">
+		<![CDATA[
+			-- getKnldRtrvRqList 조회요청 리스트 조회
+			select	RSST_DOC_ID											 as rsstDocId
+				   ,RTRV_RQ_DOC_CD										 as rtrvRqDocCd
+				   ,dbo.fn_getComDtlNm('RTRV_RQ_DOC_CD', RTRV_RQ_DOC_CD) as rtrvRqDocNm
+				   ,DOC_NO												 as docNo
+				   ,RQ_DOC_NM											 as rqDocNm
+				   ,PGM_PATH											 as pgmPath
+				   ,RQ_DT												 as rqDt
+				   ,dbo.fn_getUserName(RQ_ID)							 as rqNm
+				   ,dbo.fn_getComDtlNm('MCHN_APPR_RQ_ST', RQ_APPR_ST_CD) as rqApprStNm
+				   ,APPR_DT												 as apprDt
+				   ,dbo.fn_getUserName(APPR_ID)							 as apprNm
+				   ,(CASE
+						WHEN RQ_APPR_ST_CD = 'APPR' THEN
+							(CASE
+								WHEN  DATEDIFF(day , RQ_DT, GETDATE())  <= 15 THEN 'Y'
+								ELSE 'N'
+							 END)
+						ELSE 'N'
+					 END)												 as readFlag
+				   ,DOC_URL												 as docUrl
+
+			from	iris_knld_rtrv_rq
+			where	del_yn = 'N'
+		 ]]>
+        <if test="rqDocNm != null and rqDocNm != ''">
+			and		rq_doc_nm like '%${rqDocNm}%'
+		</if>
+        <if test="sbcNm != null and sbcNm != ''">
+			and		sbc_nm like '%${sbcNm}%'
+		</if>
+        <if test="isAdmin != 1">
+			and		RQ_ID = #{_userId}
+		</if>
+			order by rsstDocId desc
+	</select>
+
+	<select id="getKnldRtrvRqInfo" resultType="hashmap">
+	-- getKnldRtrvRqInfo
+		   select	rtrv_rq.RSST_DOC_ID											 as rsstDocId
+				   ,rtrv_rq.RQ_DOC_NM											 as rqDocNm
+				   ,rtrv_rq.RTRV_RQ_DOC_CD										 as rtrvRqDocCd
+				   ,dbo.fn_getComDtlNm('RTRV_RQ_DOC_CD', rtrv_rq.RTRV_RQ_DOC_CD) as rtrvRqDocNm
+				   ,rtrv_rq.DOC_NO												 as docNo
+				   ,rtrv_rq.PGM_PATH											 as pgmPath
+				   ,rtrv_rq.SBC_NM												 as sbcNm
+				   ,rtrv_rq.RQ_APPR_ST_CD										 as rqApprStCd
+				   ,dbo.fn_getComDtlNm('MCHN_APPR_RQ_ST', rtrv_rq.RQ_APPR_ST_CD) as rqApprStNm
+				   ,rtrv_rq.RQ_DT												 as rqDt
+				   ,rtrv_rq.RQ_ID												 as rqId
+				   ,dbo.fn_getUserName(rtrv_rq.RQ_ID)							 as rqNm
+				   ,rtrv_rq.APPR_DT												 as apprDt
+				   ,rtrv_rq.APPR_ID												 as apprId
+				   ,rtrv_rq.APPR_SBC											 as apprSbc
+				   ,rtrv_rq.ATTC_FILE_ID										 as attcFileId
+				   ,rtrv_rq.RGST_ID												 as rgstId
+				   ,dbo.fn_getUserName(rtrv_rq.RGST_ID)						 	 as rgstNm
+				   ,rtrv_rq.RGST_OPS_ID											 as rgstOpsId
+				   ,rgst.sa_dept_name											 as rgstOpsNm
+				   ,rtrv_rq.DOC_URL											 	 as docUrl
+			from	iris_knld_rtrv_rq rtrv_rq,
+					iris_sso_user rgst
+			where	rtrv_rq.rsst_doc_id = ${rsstDocId}
+			and		rtrv_rq.rgst_id = rgst.sa_user
+
+	</select>
+
+	<select id="getKnldRtrvRqRsstDocId" resultType="int">
+	-- getKnldRtrvRqRsstDocId
+		   SELECT IDENT_CURRENT('iris_knld_rtrv_rq') AS rsstDocId
+
+	</select>
+
+	<insert id="insertKnldRtrvRq" parameterType="map">
+	-- insertKnldRtrvRq
+		insert into iris_knld_rtrv_rq(
+			RQ_DOC_NM
+		   ,RTRV_RQ_DOC_CD
+		   ,DOC_NO
+		   ,PGM_PATH
+		   ,SBC_NM
+		   ,RQ_APPR_ST_CD
+		   ,RQ_DT
+		   ,RQ_ID
+		   ,ATTC_FILE_ID
+		   ,RGST_ID
+		   ,RGST_OPS_ID
+		   ,FRST_RGST_ID
+		   ,LAST_MDFY_ID
+		   ,DOC_URL
+		   )
+		values(#{rqDocNm}
+			  ,#{rtrvRqDocCd}
+			  ,#{docNo}
+			  ,#{pgmPath}
+			  ,#{sbcNm}
+			  ,#{rqApprStCd}
+			  ,Convert(varchar(10), getdate(), 120)
+			  ,#{userId}
+			  ,#{attcFileId}
+			  ,#{rgstId}
+			  ,#{rgstOpsId}
+			  ,#{userId}
+			  ,#{userId}
+			  ,#{docUrl}
+			  )
+
+	</insert>
+
+	<update id="updateApproval" parameterType="map">
+	-- updateApproval
+		update	iris_knld_rtrv_rq
+		set		rq_appr_st_cd = #{rqApprStCd},
+				appr_dt = Convert(varchar(10), getdate(), 120),
+				appr_id = #{userId},
+				appr_sbc = #{apprSbc},
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{userId}
+		where	rsst_doc_id = ${rsstDocId}
+
+	</update>
+
+	<update id="saveUpMwTodoReq" parameterType="map">
+	-- saveUpMwTodoReq
+		EXEC TODO.dbo.UP_MW_TODO_REQ 'IRI', 'RTV', #{rsstDocId}, #{apprId}
+
+	</update>
+
+	<select id="retrieveDeptDetail" resultType="hashmap">
+	-- retrieveDeptDetail
+		SELECT B.DEPT_CODE AS rgstOpsId
+		      ,B.DEPT_NAME AS rgstOpsNm
+		FROM   IRIS_SSO_USER A
+		       INNER JOIN  VW_SSO_DEPT B
+			   ON B.DEPT_CODE = A.SA_DEPT_NEW
+		WHERE  A.SA_USER = #{rgstId}
+
+	</select>
+
+	<!--퇴사자 체크  -->
+	<select id="retrieveApprCnt" resultType="int">
+	-- retrieveApprCnt 퇴사자 체크
+		SELECT COUNT(SA_SABUN_NEW) AS cnt
+		FROM   IRIS_SSO_USER
+		WHERE  SA_USER = #{rgstId}
+		AND    SSO_EX_FLAG = 'D'
+	</select>
+
+	<!--등록자가 없을경우 체크  -->
+	<select id="retrieveApprCnt2" resultType="int">
+	-- retrieveApprCnt2 등록자가 없을경우 체크
+		SELECT COUNT(SA_SABUN_NEW) AS cnt
+		FROM   IRIS_SSO_USER
+		WHERE  SA_USER = #{rgstId}
+	</select>
+
+	<!--퇴사자, 등록자가  없을경우 기술전략팀장 정보 조회  -->
+	<select id="retrieveApprId" resultType="String">
+	-- retrieveApprId 퇴사자, 등록자가  없을경우 기술전략팀장 정보 조회
+		SELECT SA_USER AS apprId
+		FROM   IRIS_SSO_USER
+		WHERE  SA_DEPT_NEW ='58134871'
+		AND    SA_FUNC = 'FG0'
+	</select>
+
+	<!-- pl 정보 조회  -->
+	<select id="retrieveApprId2" resultType="String">
+	-- retrieveApprId2 pl 정보 조회
+		select  SA_USER as apprId
+		from   IRIS_SSO_USER
+		where  sa_dept_new = (
+							  SELECT  team_dept_code
+                              from    vw_sso_dept
+                              where   dept_code = ( 
+                                                   select  sa_dept_new  
+                                                   from   IRIS_SSO_USER  
+                                                   WHERE  SA_USER = #{rgstId}
+                                                  )     
+                              )                                  
+		AND    SA_FUNC IN ('FO0','FG0','FB1')
+
+	</select>
+
+</mapper>

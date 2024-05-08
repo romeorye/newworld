@@ -1,0 +1,33 @@
+<html>
+ <head>
+ <script type="text/javascript">
+   chrome.extension.onRequest.addListener(function (request, sender, sendResponse) {
+
+	  if(request.senderType == "copy"){
+	      var textarea = document.getElementById("txtClipboard");
+	      textarea.value = request.text;	    
+	      
+	      textarea.focus();
+	      textarea.select();
+	      
+	      document.execCommand("copy", false, null);	     
+	      
+	      // finally, cleanup / close the connection
+	      sendResponse({});	    
+	  }else{
+		  	
+        var textarea = document.getElementById("txtClipboard");	     
+        textarea.value = ''; 
+	      textarea.select(); 
+	      document.execCommand("paste", false, null);		       
+	      var txt =  textarea.value; 	     
+    
+	     sendResponse({data: txt}); 	    
+	}
+    });
+  </script>
+  </head>
+  <body>
+    <textarea id="txtClipboard"></textarea>
+  </body>
+</html>

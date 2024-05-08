@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.data.LDataSetManager Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var bind = null;
+var dataSet = null;
+var bindRow = 1;
+var dataSetManager = null;
+Rui.onReady(function() {
+    // 소스 넣을 위치
+        dataSetManager = new Rui.data.LDataSetManager();
+            /*</b>*/
+           
+            dataSet = new Rui.data.LJsonDataSet({
+                id:'dataSet',
+                fields:[
+                    {id:'id'},
+                    {id:'col1'},
+                    {id:'col2'},
+                    {id:'col3'},
+                    {id:'col4'},
+                    {id:'col5'},
+                    {id:'col6'}
+                ]
+            });
+        
+            bind = new Rui.data.LBind( 
+                {
+                    groupId:'frm',
+                    dataSet:dataSet,
+                    bindInfo: [
+                        {id:'id', ctrlId:'id', value:'value'},
+                        {id:'col1', ctrlId:'col1', value:'value'},
+                        {id:'col3', ctrlId:'col3', value:'value'},
+                        {id:'col4', ctrlId:'col4', value:'value'},
+                        {id:'col5', ctrlId:'col5', value:'value'},
+                        {id:'col6', ctrlId:'col6', value:'value'}
+                    ]
+                });
+        
+            /*
+             * rui_config.js에 기본으로 loadException에러가 탑재되어 있습니다. 공통으로 처리할때에는 failure를 처리할 필요가 없습니다.
+            dataSet.on('loadException', function(e) {
+                alert('error : ' + e.throwObject.message);
+            });
+            */
+           
+            dataSet.load({
+                url : './../../../sample/data/data.json'
+            });
+
+            /*******************
+             * 사용자 이벤트 처리
+             *******************/
+            dataSet.on('update', function(e) {
+                var record = dataSet.getAt(dataSet.getRow());
+                Rui.get('state').setValue(dataSet.getAt(dataSet.getRow()).state);
+                modifiedPrint(this);
+            });
+        
+            dataSet.on('rowPosChanged', function(e) {
+                Rui.get('state').setValue(dataSet.getAt(e.row));
+                modifiedPrint(this);
+            });
+         
+            /*<b>*/
+            dataSetManager.on('success', function(e) {
+                Rui.get('showData').html('no changed');
+                Rui.alert(Rui.getMessageManager().get('$.base.msg100'));
+                /*
+                 * 서버에 저장후 바로 다시 조회해 올 경우
+                 * 서버에서 저장 처리후 결과를 조회하여 dataSet의 포멧에 맞는 json으로 리턴해야만 가능합니다.
+                 var data = dataSet.getReadData(e);
+                 dataSet.loadData(data);
+                 */
+            });
+            
+            
+            /********************
+             * 사용자 정의 함수
+             ********************/
+            function modifiedPrint(dataSet) {
+                var data = dataSet.serializeModified();
+                if(data.length < 1) {
+                    Rui.get('showData').html('no changed');
+                    return;
+                }
+                Rui.get('showData').html(data);
+            }
+            
+
+
+
+            
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+function testLDataSetManager_method_update() {
+    info('LDataSetManagerTests : testLDataSetManager_method_update 작동 여부');
+    var options = {
+            url:'./../../../sample/data/savedCallback.json', 
+            params:'id=asdff&pwd=ddd&pwd=bbb'
+        }; 
+     
+    dataSetManager.update(options);
+    assertEquals(dataSetManager.defaultUrl, options.url);
+}
+function testLDataSetManager_method_updateForm() {
+    info('LDataSetManagerTests : testLDataSetManager_method_updateForm 작동 여부');
+    var options = {
+            form:'frm'
+    }; 
+    assertUndefined(dataSetManager.updateForm(options)); 
+    
+}
+function testLDataSetManager_method_updateDataSet() {
+    info('LDataSetManagerTests : testLDataSetManager_method_updateDataSet 작동 여부');
+    var options = {
+            dataSets:[dataSet],
+            modifiedOnly: false, 
+            url: './../../../sample/data/savedCallback.json'    
+        }; 
+    
+    assertUndefined(dataSetManager.updateDataSet(options)); 
+    
+}
+function testLDataSetManager_method_serializeByModifiedDataSet() {
+    info('LDataSetManagerTests : testLDataSetManager_method_serializeByModifiedDataSet 작동 여부');
+    var dataSets = [dataSet];  
+    var result = dataSetManager.serializeByModifiedDataSet(dataSets);
+    assertNotUndefined(result);
+}
+function testLDataSetManager_method_serializeByDataSet() {
+    info('LDataSetManagerTests : testLDataSetManager_method_serializeByDataSet 작동 여부');
+    var dataSets = [dataSet]; //Array
+    var result = dataSetManager.serializeByDataSet(dataSets);
+    assertNotUndefined(result);
+}
+function testLDataSetManager_method_loadDataSet() {
+    info('LDataSetManagerTests : testLDataSetManager_method_loadDataSet 작동 여부');
+    var options = {
+            dataSets:[dataSet], 
+            url : './../../../sample/data/data.json'
+        }; 
+    
+    assertUndefined(dataSetManager.loadDataSet(options)); 
+    
+}
+function testLDataSetManager_method_loadDataResponse() {
+    info('LDataSetManagerTests : testLDataSetManager_method_loadDataResponse 작동 여부');
+    warn('RuiTests : testLDataSetManager_method_loadDataResponse 테스트 무시 => loadDataSet 으로 테스트를 변경함.');
+    /*
+    var dataSets = null; //Array
+    var conn = null; //Object
+    var config = null; //Object
+    dataSetManager.loadDataResponse(dataSets, conn, config);
+    assertNotUndefined(true);
+    */
+}
+function testLDataSetManager_method_abort() {
+    info('LDataSetManagerTests : testLDataSetManager_method_abort 작동 여부');
+    assertUndefined(dataSetManager.abort()); 
+   
+}
+function testLDataSetManager_method_isUpdating() {
+    info('LDataSetManagerTests : testLDataSetManager_method_isUpdating 작동 여부');
+    assertNotUndefined(dataSetManager.isUpdating()); 
+}
+function testLDataSetManager_method_waitPanelShow() {
+    info('LDataSetManagerTests : testLDataSetManager_method_waitPanelShow 작동 여부');
+    assertUndefined(dataSetManager.waitPanelShow()); 
+    
+}
+function testLDataSetManager_method_waitPanelHide() {
+    info('LDataSetManagerTests : testLDataSetManager_method_waitPanelHide 작동 여부');
+    assertUndefined(dataSetManager.waitPanelHide());
+}
+
+
+function testLDataSetManager_method_toString() {
+    info('LDataSetManagerTests : testLDataSetManager_method_toString 작동 여부');
+    var result = dataSetManager.toString();
+    //return type : String
+    assertNotNull(result);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.data.LDataSetManager Tests</h1>
+
+    <div id="bd">
+        <div class="LblockMarkupCode">
+        </div>
+            <form id="frm" name="frm" method="post" enctype="application/x-www-form-urlencoded" action="./../../../sample/data/savedCallback.json">
+            <input type="hidden" id="test" name="test" />
+            <input type="text" id="state" name="state" /><br/>
+            <input type="text" id="id" name="id" /><br/>
+            <input type="text" id="col1" name="col1" /><br/>
+            <input type="text" id="col2" name="col2" /><br/>
+            <select id="col3" name="col3" >
+                <option value="all">ALL</option>
+                <option value="tes3">TES3</option>
+                <option value="tes4">TES4</option>
+            </select><br/>
+            <input type="radio" id="col4" name="col4" value="RADIO1"/>RADIO1<br/>
+            <input type="radio" id="col4-2" name="col4" value="RADIO2"/>RADIO2<br/>
+            <input type="checkbox" id="col5" name="col5" value="CHECKBOX1"/>CHECKBOX1<br/>
+            <input type="checkbox" id="col5-2" name="col5" value="CHECKBOX2"/>CHECKBOX2<br/>
+            <textarea id="col6" name="col6" rows="3" cols="50"></textarea><br/>
+
+            </form><p>
+        <div class="testcase-buttons">
+            <a href="javascript:testLDataSetManager_method_update()">update</a>
+            <a href="javascript:testLDataSetManager_method_updateForm()">updateForm</a>
+            <a href="javascript:testLDataSetManager_method_updateDataSet()">updateDataSet</a>
+            <a href="javascript:testLDataSetManager_method_serializeByModifiedDataSet()">serializeByModifiedDataSet</a>
+            <a href="javascript:testLDataSetManager_method_serializeByDataSet()">serializeByDataSet</a>
+            <a href="javascript:testLDataSetManager_method_loadDataSet()">loadDataSet</a>
+            <a href="javascript:testLDataSetManager_method_loadDataResponse()">loadDataResponse</a>
+            <a href="javascript:testLDataSetManager_method_abort()">abort</a>
+            <a href="javascript:testLDataSetManager_method_isUpdating()">isUpdating</a>
+            <a href="javascript:testLDataSetManager_method_waitPanelShow()">waitPanelShow</a>
+            <a href="javascript:testLDataSetManager_method_waitPanelHide()">waitPanelHide</a>
+            <a href="javascript:testLDataSetManager_method_toString()">toString</a>
+        </div>
+        <p></p>
+            <div id="showData">
+            </div>
+    </div>        
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LPanel Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+
+var panel = null; 
+Rui.onReady(function() {
+    // 소스 넣을 위치
+        panel = new Rui.ui.LPanel({
+                    applyTo: 'panel1',
+                    width: 320, 
+                    visible: false, 
+                    constraintoviewport:true
+                });
+            
+        // panel.setHeader('test me'); 
+         panel.show(true); 
+        /******************JsUnit용 소스 시작**********************/
+        //dataSet load event에 넣으면 작동되지 않는다.
+        setUpPageStatus = 'complete';
+        /******************JsUnit용 소스   끝**********************/
+    });
+
+    //setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+    function setUpPage() {
+        setUpPageStatus = 'running';
+    }
+
+    //test function이 실행되기 전에 먼저 실행된다.
+    function setUp() {
+    }
+
+    //모든 test function이 실행된 후 실행된다.
+    function tearDown() {
+    }
+
+    //**************test function 시작*****************
+    // testcase 넣을 위치
+    function testLPanel_method_getHeader() {
+        info('LPanelTests : testLPanel_method_getHeader 작동 여부');
+        assertNotNull(panel.getHeader()); 
+    }
+    function testLPanel_method_getBody() {
+        info('LPanelTests : testLPanel_method_getBody 작동 여부');
+        assertNotNull(panel.getBody()); 
+    }
+    function testLPanel_method_getFooter() {
+        info('LPanelTests : testLPanel_method_getFooter 작동 여부');
+        assertNotNull(panel.getFooter()); 
+    }
+    function testLPanel_method_setHeader() {
+        info('LPanelTests : testLPanel_method_setHeader 작동 여부');
+        var headerContent = 'test'; //String
+        
+    //    if(panel) panel.destroy(); 
+        
+          var panel2 = new Rui.ui.LPanel('panel2', { 
+              width: 320, 
+              visible: false, 
+              constraintoviewport:true
+          });
+      
+          panel2.render();
+          panel2.setHeader(headerContent); 
+   
+        assertNotUndefined(panel2.getHeader());
+    }
+    function testLPanel_method_appendToHeader() {
+        info('LPanelTests : testLPanel_method_appendToHeader 작동 여부');
+        warn('RuiTests : testLPanel_method_appendToHeader 테스트 무시 => NotFoundError 원인파악이 필요함. ');
+        
+        var node = document.createElement("LI"); 
+        var textNode = document.createTextNode("-header"); 
+        node.appendChild(textNode); 
+                
+        var element = node; 
+        panel.appendToHeader(element);
+        
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_setBody() {
+        info('LPanelTests : testLPanel_method_setBody 작동 여부');
+        var bodyContent = 'body test'; //String
+        
+        panel.setBody(bodyContent); 
+        assertNotNull(panel.getBody()); 
+    }
+    function testLPanel_method_appendToBody() {
+        info('LPanelTests : testLPanel_method_appendToBody 작동 여부');
+        
+        var node = document.createElement("LI"); 
+        var textNode = document.createTextNode("-body"); 
+        node.appendChild(textNode); 
+            
+        var element = node; //HTMLElement | DocumentFragment
+        panel.appendToBody(element);
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_setFooter() {
+        info('LPanelTests : testLPanel_method_setFooter 작동 여부');
+        var footerContent = 'footer test'; //String
+        
+         var panel2 = new Rui.ui.LPanel('panel2', { 
+             width: 320, 
+             visible: false, 
+             constraintoviewport:true
+         });
+     
+         panel2.render();
+                
+        panel.setFooter(footerContent); 
+        assertNotUndefined(panel.getFooter()); 
+    }
+    function testLPanel_method_appendToFooter() {
+        info('LPanelTests : testLPanel_method_appendToFooter 작동 여부');
+        var node = document.createElement("LI"); 
+        var textNode = document.createTextNode("-footer"); 
+        node.appendChild(textNode);
+        
+        var element = node; //HTMLElement | DocumentFragment
+        panel.appendToFooter(element);
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_render() {
+        info('LPanelTests : testLPanel_method_render 작동 여부');
+        var appendToNode = 'container'; //String
+        var result = panel.render(appendToNode); 
+        //return type : boolean
+        assertEquals(result, true);
+    }
+    function testLPanel_method_show() {
+        info('LPanelTests : testLPanel_method_show 작동 여부');
+        panel.show();
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_hide() {
+        info('LPanelTests : testLPanel_method_hide 작동 여부');
+        panel.hide();
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_moveTo() {
+        info('LPanelTests : testLPanel_method_moveTo 작동 여부');
+        var x = null; //Number
+        var y = null; //Number
+        panel.moveTo(x, y);
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_align() {
+        info('LPanelTests : testLPanel_method_align 작동 여부');
+        var elementAlign = 'TOP_LEFT'; //String
+        var contextAlign = 'BOTTOM_LEFT'; //String
+        panel.align(elementAlign, contextAlign);
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_center() {
+        info('LPanelTests : testLPanel_method_center 작동 여부');
+        panel.center();
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_syncPosition() {
+        info('LPanelTests : testLPanel_method_syncPosition 작동 여부');
+        panel.syncPosition();
+        assertNotNull(panel.cfg.getProperty("xy")); 
+    }
+    function testLPanel_method_bringToTop() {
+        info('LPanelTests : testLPanel_method_bringToTop 작동 여부');
+        panel.bringToTop();
+        
+        var node = document.createElement("LI"); 
+        var textNode = document.createTextNode('zindex :' + panel.cfg.getProperty("zindex")); 
+        node.appendChild(textNode);
+        
+        panel.appendToBody(node)
+        assertNotNull(panel.cfg.getProperty("zindex")); 
+    }
+    function testLPanel_method_focusFirst() {
+        info('LPanelTests : testLPanel_method_focusFirst 작동 여부');
+        panel.focusFirst();
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_focusLast() {
+        info('LPanelTests : testLPanel_method_focusLast 작동 여부');
+        panel.focusLast();
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_setTabLoop() {
+        info('LPanelTests : testLPanel_method_setTabLoop 작동 여부');
+        panel.setTabLoop(Rui.get('textBox1'), Rui.get('textBox2')); 
+        assertNotNull(panel.preventBackTab);
+        assertNotNull(panel.preventTabOut); 
+    }
+    function testLPanel_method_getFocusableElements() {
+        info('LPanelTests : testLPanel_method_getFocusableElements 작동 여부');
+        var root = Rui.get('panel1'); //HTMLElement
+        assertNotNull(panel.getFocusableElements(root)); 
+    }
+    function testLPanel_method_setFirstLastFocusable() {
+        info('LPanelTests : testLPanel_method_setFirstLastFocusable 작동 여부');
+        panel.setFirstLastFocusable(); 
+        assertNotNull(panel.firstElement);
+        assertNotNull(panel.lastElement); 
+    }
+    function testLPanel_method_removeMask() {
+        info('LPanelTests : testLPanel_method_removeMask 작동 여부');
+          panel = new Rui.ui.LPanel('panel1', { 
+              width: 320, 
+              visible: false, 
+              modal: true, 
+              constraintoviewport:true
+          });
+      
+          panel.render();
+   
+         // panel.setHeader('test me'); 
+         panel.show(true); 
+   
+        panel.removeMask();
+        assertNull(panel.mask); 
+    }
+    function testLPanel_method_hideMask() {
+        info('LPanelTests : testLPanel_method_hideMask 작동 여부');
+        panel = new Rui.ui.LPanel('panel1', { 
+            width: 320, 
+            visible: false, 
+            modal: true, 
+            constraintoviewport:true
+        });
+    
+        panel.render();
+       // panel.setHeader('test me'); 
+        panel.show(true); 
+       
+        panel.hideMask();
+        assertEquals(panel.mask.style.display, 'none')
+    }
+    function testLPanel_method_showMask() {
+        info('LPanelTests : testLPanel_method_showMask 작동 여부');
+        
+        if(panel) panel.destroy(); 
+        
+        panel = new Rui.ui.LPanel('panel1', { 
+            width: 320, 
+            visible: false, 
+            modal: true, 
+            constraintoviewport:true
+        });
+    
+        panel.render();
+       // panel.setHeader('test me'); 
+        panel.show(true);         
+        panel.hideMask();         
+        panel.showMask();
+        assertEquals(panel.mask.style.display,  'block');
+    }
+    function testLPanel_method_sizeMask() {
+        info('LPanelTests : testLPanel_method_sizeMask 작동 여부');
+        if(panel) panel.destroy(); 
+        
+        panel = new Rui.ui.LPanel('panel1', { 
+            width: 320, 
+            visible: false, 
+            modal: true, 
+            constraintoviewport:true
+        });
+    
+        panel.render();
+       // panel.setHeader('test me'); 
+        panel.show(true);         
+        
+        panel.sizeMask();
+        assertNotNull(panel.mask.style.height); 
+    }
+    function testLPanel_method_stackMask() {
+        info('LPanelTests : testLPanel_method_stackMask 작동 여부');
+        panel.stackMask();
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_setUrl() {
+        info('LPanelTests : testLPanel_method_setUrl 작동 여부');
+        var  pageUrl = './../../../sample/general/fx/fxAttributesSample.html';
+        panel.setUrl(pageUrl); 
+        assertEquals(panel.cfg.getProperty('pageUrl'), pageUrl);
+        
+    }
+    function testLPanel_method_toast() {
+        info('LPanelTests : testLPanel_method_toast 작동 여부');
+        var text = 'toast testing....'; //String
+        var config = null; //object
+        
+        if(panel) panel.destroy(); 
+        
+          panel = new Rui.ui.LPanel('panel1', { 
+                width: 320, 
+                visible: false, 
+                modal: true, 
+                constraintoviewport:true
+            });
+        
+            panel.render();
+           // panel.setHeader('test me'); 
+            panel.show(true);              
+        
+        panel.toast(text, config);
+        assertNotUndefined(true);
+    }
+    function testLPanel_method_destroy() {
+        info('LPanelTests : testLPanel_method_destroy 작동 여부');
+        
+        var panel3 = new Rui.ui.LPanel('panel1', { 
+            width: 320, 
+            visible: false, 
+            modal: true, 
+            constraintoviewport:true
+        });
+    
+        panel3.render();
+        panel3.destroy();
+        assertUndefined(panel3.cfg);
+        
+        
+    }
+    function testLPanel_method_toString() {
+        info('LPanelTests : testLPanel_method_toString 작동 여부');
+        var result = panel.toString();
+        //return type : String
+        assertNotNull(result);
+    }
+    //**************test function   끝*****************
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LPanel Tests</h1>
+
+    <div id="bd">
+        <div class="LblockMarkupCode">
+            <div id="container">
+                <div id="panel1">
+                    <div class="hd">Panel #1 from Markup &mdash; This Panel is
+                        Draggable</div>
+                    <div class="bd">This is a Panel that was marked up in the
+                        document.</div>
+                     <input type="text" id="textBox1" name="textBox1">
+                     <input    type="text" id="textBox2" name="textBox2">
+                    <div class="ft">End of Panel #1</div>
+
+                </div>                
+                <div id="panel2">
+                    <div class="hd">Panel #1 from Markup &mdash; This Panel is
+                        Draggable</div>
+                    <div class="bd">This is a Panel that was marked up in the
+                        document.</div>
+                     <input type="text" id="textBox1" name="textBox1">
+                     <input type="text" id="textBox2" name="textBox2">
+                    <div class="ft">End of Panel #1</div>
+
+                </div>              
+            </div>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLPanel_method_getHeader()">getHeader</a>
+            <a href="javascript:testLPanel_method_getBody()">getBody</a>
+            <a href="javascript:testLPanel_method_getFooter()">getFooter</a>
+            <a href="javascript:testLPanel_method_setHeader()">setHeader</a>
+            <a href="javascript:testLPanel_method_appendToHeader()">appendToHeader</a>
+            <a href="javascript:testLPanel_method_setBody()">setBody</a>
+            <a href="javascript:testLPanel_method_appendToBody()">appendToBody</a>
+            <a href="javascript:testLPanel_method_setFooter()">setFooter</a>
+            <a href="javascript:testLPanel_method_appendToFooter()">appendToFooter</a>
+            <a href="javascript:testLPanel_method_render()">render</a>
+            <a href="javascript:testLPanel_method_show()">show</a>
+            <a href="javascript:testLPanel_method_hide()">hide</a>
+            <a href="javascript:testLPanel_method_moveTo()">moveTo</a>
+            <a href="javascript:testLPanel_method_align()">align</a>
+            <a href="javascript:testLPanel_method_center()">center</a>
+            <a href="javascript:testLPanel_method_syncPosition()">syncPosition</a>
+            <a href="javascript:testLPanel_method_bringToTop()">bringToTop</a>
+            <a href="javascript:testLPanel_method_focusFirst()">focusFirst</a>
+            <a href="javascript:testLPanel_method_focusLast()">focusLast</a>
+            <a href="javascript:testLPanel_method_setTabLoop()">setTabLoop</a>
+            <a href="javascript:testLPanel_method_getFocusableElements()">getFocusableElements</a>
+            <a href="javascript:testLPanel_method_setFirstLastFocusable()">setFirstLastFocusable</a>
+            <a href="javascript:testLPanel_method_removeMask()">removeMask</a>
+            <a href="javascript:testLPanel_method_hideMask()">hideMask</a>
+            <a href="javascript:testLPanel_method_showMask()">showMask</a>
+            <a href="javascript:testLPanel_method_sizeMask()">sizeMask</a>
+            <a href="javascript:testLPanel_method_stackMask()">stackMask</a>
+            <a href="javascript:testLPanel_method_setUrl()">setUrl</a>
+            <a href="javascript:testLPanel_method_toast()">toast</a>
+            <a href="javascript:testLPanel_method_destroy()">destroy</a>
+            <a href="javascript:testLPanel_method_toString()">toString</a>
+        </div>
+    </div>        
+</body>
+</html>

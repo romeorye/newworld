@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.grid.LRowModel Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style type="text/css">
+#defaultGrid {
+    margin-bottom: 20px;
+}
+</style>
+
+<script type="text/javascript" >
+var gridPanel, rowModel;
+Rui.onReady(function() {
+    var dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col7' },
+            { id: 'col8' },
+            { id: 'date1', type: 'date' }
+        ]
+    });
+    
+    var columnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        columns: [
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1', sortable: true, width: 200, vMerge: true},
+            { field: 'col3', label: 'Col3', sortable: true, width: 60, align: 'center', vMerge: true, renderer: function(value){
+                return '<font color="red">' + value + '</font>';
+            }},
+            { field: 'col2', label: 'Col2', sortable: true, width:130, align: 'center', renderer: function(value){
+                if(!value || value.length < 13) return value;
+                return value.substring(0, 6) + '-' + value.substring(6);
+            }},
+            { field: 'col7', width: 160, sortable: true, renderer: function(value){
+                return '<a href="javascript:alert(\'' + value + '\');">' + value + '</a>';
+            }},
+            { field: 'col8', width: 80, align: 'right', sortable: true, renderer: 'money'},
+            { field: 'date1', width: 200, align: 'left'}
+        ]
+    });
+
+    gridPanel = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        autoWidth: true,
+        width: 600,
+        height: 300
+    });
+
+    gridPanel.render('defaultGrid');
+    
+    rowModel = gridPanel.getRowModel();
+
+    dataSet.load({
+        url: './../../../../sample/data/data.json',
+        sync: true
+    });
+
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLRowModel_method_setRowConfig() {
+    info('LRowModelTests : testLRowModel_method_setRowConfig 작동 여부');
+    var row = 9; //int
+    var key = 'attr1'; //String
+    var value = '값1'; //Object
+    rowModel.setRowConfig(row, key, value);
+    assertEquals(rowModel.getRowConfig(row, key), value);
+}
+function testLRowModel_method_getRowConfig() {
+    info('LRowModelTests : testLRowModel_method_getRowConfig 작동 여부');
+    var row = 9; //int
+    var key = 'attr1'; //String
+    var value = '값1'; //Object
+    rowModel.setRowConfig(row, key, value);
+    assertEquals(rowModel.getRowConfig(row, key), value);
+}
+function testLRowModel_method_destroy() {
+    info('LRowModelTests : testLRowModel_method_destroy 테스트 무시 => 독립적으로 destroy를 할 이유가 없음');
+}
+function testLRowModel_method_toString() {
+    info('LRowModelTests : testLRowModel_method_toString 작동 여부');
+    var result = rowModel.toString();
+    //return type : String
+    assertEquals(result, 'Rui.ui.grid.LRowModel undefined');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.grid.LRowModel Tests</h1>
+    <div id="defaultGrid"></div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLRowModel_method_setRowConfig()">setRowConfig</a>
+            <a href="javascript:testLRowModel_method_getRowConfig()">getRowConfig</a>
+            <a href="javascript:testLRowModel_method_destroy()">destroy</a>
+            <a href="javascript:testLRowModel_method_toString()">toString</a>
+        </div>
+    </div>
+</body>
+</html>

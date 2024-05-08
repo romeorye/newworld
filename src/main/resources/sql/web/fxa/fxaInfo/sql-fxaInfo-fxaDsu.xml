@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fxaInfo.fxaDsu">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 자산폐기 목록 조회  -->
+	<select id="retrieveFxaDsuSearchList" resultType="hashmap" >
+		<![CDATA[
+		-- retrieveFxaDsuSearchList 자산폐기 목록 조회
+		SELECT    A.WBS_CD as "wbsCd"
+		         ,A.DEPT_CD as "deptCd"
+				 ,ISNULL(B.PRJ_NM, DBO.FN_GETDEPTNAME(A.DEPT_CD)) as prjNm
+		         ,A.FXA_INFO_ID as "fxaInfoId"
+		         ,A.FXA_NO as "fxaNo"
+		         ,A.FXA_NM as "fxaNm"
+		         ,A.FXA_QTY as "fxaQty"
+		         ,A.FXA_UTM_NM as "fxaUtmNm"
+		         ,D.SA_NAME  as "crgrNm"
+		         ,A.CRGR_ID as "crgrId"
+		         ,A.LAST_MDFY_ID as "lastMdfyId"
+		         ,A.DSU_DT as "dsuDt"
+		         ,A.OBT_DT as "obtDt"
+		         ,A.OBT_PCE as "obtPce"
+		         ,F.ATTC_FIL_ID AS "attcFilId"
+		         ,F.SEQ AS "seq"
+		FROM     IRIS_FXA_INFO_MST A
+		         INNER JOIN IRIS_WBS_PJT_IF B
+				 ON B.WBS_CD = A.WBS_CD
+				 INNER JOIN IRIS_SSO_USER D
+				 ON D.sa_sabun_new = A.CRGR_ID
+				 LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
+				 ON F.ATTC_FIL_ID = A.ATTC_FIL_ID
+				 AND F.DEL_YN ='N'
+		WHERE    A.FXA_ST_CD = 'DSU'
+		]]>
+
+		<if test="( wbsCd != null and wbsCd != '')">
+			AND  A.WBS_CD = #{wbsCd}
+	    </if>
+		<if test="( prjNm != null and prjNm != '')">
+			AND B.PRJ_NM LIKE '%'+#{prjNm}+'%'
+	    </if>
+	    <if test="( fxaNm != null and fxaNm != '')">
+			AND A.FXA_NM LIKE '%'+#{fxaNm}+'%'
+	    </if>
+		<if test="(fxaNo != null and fxaNo != '')">
+			AND A.FXA_NO = #{fxaNo}
+	    </if>
+	    <if test="(fromDate != null and fromDate != '')">
+			AND A.DSU_DT BETWEEN #{fromDate} AND #{toDate}
+	    </if>
+		<if test="( crgrNm != null and crgrNm != '')">
+			AND D.SA_NAME LIKE '%'+#{crgrNm}+'%'
+	    </if>
+	</select>
+
+
+</mapper>

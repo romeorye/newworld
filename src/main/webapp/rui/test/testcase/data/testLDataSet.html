@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.data.LDataSet Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var dataSet;
+Rui.onReady(function() {
+    dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        timeout: 0.2,
+        fields: [
+            { id: 'id' },
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col4' },
+            { id: 'col5' },
+            { id: 'col6' },
+            { id: 'col7' },
+            { id: 'col8' }
+        ]
+    });
+
+    dataSet.load({
+        url: './../../../sample/data/data.json',
+        sync: true
+    });
+
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+    dataSet.undoAll();
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLDataSet_method_insert() {
+    info('LDataSetTests : testLDataSet_method_insert 작동 여부');
+    var idx = 0; //int
+    var record = new Rui.data.LRecord({ id: 'test' });
+    var result = dataSet.insert(idx, record);
+    //return type : int
+    assertEquals(dataSet.getNameValue(result, 'id'), 'test');
+}
+function testLDataSet_method_add() {
+    info('LDataSetTests : testLDataSet_method_add 작동 여부');
+    var record = new Rui.data.LRecord({ id: 'test1' });
+    var result = dataSet.add(record);
+    //return type : int
+    assertEquals(dataSet.getNameValue(result, 'id'), 'test1');
+}
+function testLDataSet_method_remove() {
+    info('LDataSetTests : testLDataSet_method_remove 작동 여부');
+    var key = 'r1015'; //String
+    var len = dataSet.getCount();
+    dataSet.remove(key);
+    //return type : Rui.data.LRecord
+    assertEquals(len, dataSet.getCount() + 1);
+}
+function testLDataSet_method_removeAt() {
+    info('LDataSetTests : testLDataSet_method_removeAt 작동 여부');
+    var index = 2; //int
+    var len = dataSet.getCount();
+    var result = dataSet.removeAt(index);
+    //return type : Rui.data.LRecord
+    assertEquals(len, dataSet.getCount() + 1);
+}
+function testLDataSet_method_removeAll() {
+    info('LDataSetTests : testLDataSet_method_removeAll 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var len = dataSet1.getCount();
+    dataSet1.removeAll();
+    assertEquals(dataSet1.getModifiedRecords().length, len);
+}
+function testLDataSet_method_clearData() {
+    info('LDataSetTests : testLDataSet_method_clearData 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    dataSet1.clearData();
+    assertEquals(dataSet1.getCount(), 0);
+}
+function testLDataSet_method_get() {
+    info('LDataSetTests : testLDataSet_method_get 작동 여부');
+    var id = 'r1010'; //String
+    assertTrue(dataSet.get(id) instanceof Rui.data.LRecord);
+}
+function testLDataSet_method_getAt() {
+    info('LDataSetTests : testLDataSet_method_getAt 작동 여부');
+    var idx = 0; //int
+    assertTrue(dataSet.getAt(idx) instanceof Rui.data.LRecord);
+}
+function testLDataSet_method_indexOfKey() {
+    info('LDataSetTests : testLDataSet_method_indexOfKey 작동 여부');
+    var id = 'r1010'; //String
+    var result = dataSet.indexOfKey(id);
+    //return type : int
+    assertTrue(result > -1);
+}
+function testLDataSet_method_findRow() {
+    info('LDataSetTests : testLDataSet_method_findRow 작동 여부');
+    var fieldName = 'id'; //String
+    var value = 'r1010'; //String
+    var result = dataSet.findRow(fieldName, value);
+    //return type : int
+    assertTrue(result > -1);
+}
+function testLDataSet_method_getFieldIndex() {
+    info('LDataSetTests : testLDataSet_method_getFieldIndex 작동 여부');
+    var id = 'col3'; //String
+    var result = dataSet.getFieldIndex(id);
+    //return type : int
+    assertTrue(result > -1);
+}
+function testLDataSet_method_getFieldById() {
+    info('LDataSetTests : testLDataSet_method_getFieldById 작동 여부');
+    var id = 'col3'; //String
+    assertTrue(dataSet.getFieldById(id) instanceof Rui.data.LField);
+}
+function testLDataSet_method_destroy() {
+    info('LDataSetTests : testLDataSet_method_destroy 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    dataSet1.destroy();
+    assertTrue(true);
+}
+function testLDataSet_method_load() {
+    info('LDataSetTests : testLDataSet_method_load 작동 여부');
+    var options = {
+        url: './../../../sample/data/data.json',
+        sync: true
+    }; //Object
+    dataSet.load(options);
+    assertTrue(dataSet.getCount() > 0);
+}
+function testLDataSet_method_getReadData() {
+    info('LDataSetTests : testLDataSet_method_getReadData 작동 여부');
+    var conn;
+    Rui.ajax({
+        url: './../../../sample/data/data.json',
+        sync: true,
+        success: function(e) {
+            conn = e;
+        }
+    });
+    var obj = dataSet.getReadData(conn);
+    assertTrue(obj.records.length > 0);
+}
+function testLDataSet_method_newRecord() {
+    info('LDataSetTests : testLDataSet_method_newRecord 작동 여부');
+    var len = dataSet.getCount();
+    var result = dataSet.newRecord();
+    //return type : int
+    assertEquals(len, dataSet.getCount() - 1);
+}
+function testLDataSet_method_createRecord() {
+    info('LDataSetTests : testLDataSet_method_createRecord 작동 여부');
+    var data = { id: 'test3' }; //Object
+    var result = dataSet.createRecord(data);
+    //return type : Rui.data.LRecord
+    assertTrue(result instanceof Rui.data.LRecord);
+}
+function testLDataSet_method_loadData() {
+    info('LDataSetTests : testLDataSet_method_loadData 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var data = {
+        records: [ {
+                "code": "code1",
+                "col1": "Kaden Q. Delacruz",
+                "col10": "1011",
+                "col2": "7602111111119",
+                "col3": "R2",
+                "col4": "R1",
+                "col5": "R1",
+                "col6": "risus a ultricies adipiscing, enim mi tempor lorem, eget mollis",
+                "col7": "nulla vulputate dui",
+                "col8": 10000,
+                "date1": "2009-08-18",
+                "id": "r1001",
+                "num": 1,
+                "state": "0",
+                "value": "코드1"
+            } ]
+    }; //Object
+    dataSet1.loadData(data);
+    assertEquals(dataSet1.getCount(), 1);
+}
+function testLDataSet_method_getCount() {
+    info('LDataSetTests : testLDataSet_method_getCount 작동 여부');
+    assertEquals(dataSet.getCount(), 20);
+}
+function testLDataSet_method_getModifiedRecords() {
+    info('LDataSetTests : testLDataSet_method_getModifiedRecords 작동 여부');
+    dataSet.setNameValue(0, 'col1', 'test');
+    assertEquals(dataSet.getModifiedRecords().length, 1);
+    dataSet.undoAll();
+}
+function testLDataSet_method_serialize() {
+    info('LDataSetTests : testLDataSet_method_serialize 작동 여부');
+    var result = dataSet.serialize();
+    //return type : String
+    assertNotUndefined(eval('[' + result + ']'));
+}
+function testLDataSet_method_serializeModified() {
+    info('LDataSetTests : testLDataSet_method_serializeModified 작동 여부');
+    dataSet.setNameValue(0, 'col1', 'test');
+    var result = dataSet.serializeModified();
+    //return type : String
+    var modData = eval('[' + result + ']');
+    assertEquals(modData[0].records[0].col1, 'test');
+    dataSet.undoAll();
+}
+function testLDataSet_method_commit() {
+    info('LDataSetTests : testLDataSet_method_commit 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    dataSet1.setNameValue(0, 'col1', 'test');
+    dataSet1.commit();
+    assertFalse(dataSet1.isUpdated());
+}
+function testLDataSet_method_undo() {
+    info('LDataSetTests : testLDataSet_method_undo 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var idx = 0; //int
+    var val = dataSet1.getNameValue(idx, 'col1');
+    dataSet1.setNameValue(idx, 'col1', 'test');
+    dataSet1.undo(idx);
+    assertEquals(val, dataSet1.getNameValue(idx, 'col1'));
+}
+function testLDataSet_method_undoAll() {
+    info('LDataSetTests : testLDataSet_method_undoAll 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var idx = 0; //int
+    var val = dataSet1.getNameValue(idx, 'col1');
+    dataSet1.setNameValue(idx, 'col1', 'test');
+    dataSet1.undoAll();
+    assertEquals(val, dataSet1.getNameValue(idx, 'col1'));
+}
+function testLDataSet_method_dataChanged() {
+    info('LDataSetTests : testLDataSet_method_dataChanged 작동 여부');
+    dataSetdataChange;
+    assertTrue(true);
+}
+function testLDataSet_method_getRow() {
+    info('LDataSetTests : testLDataSet_method_getRow 작동 여부');
+    dataSet.setRow(0);
+    assertEquals(dataSet.getRow(), 0);
+}
+function testLDataSet_method_setRow() {
+    info('LDataSetTests : testLDataSet_method_setRow 작동 여부');
+    var row = 0; //int
+    dataSet.setRow(row);
+    assertEquals(dataSet.getRow(), 0);
+}
+function testLDataSet_method_isRowInserted() {
+    info('LDataSetTests : testLDataSet_method_isRowInserted 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var row = dataSet1.newRecord(); //int
+    assertEquals(dataSet1.isRowInserted(row), true);
+}
+function testLDataSet_method_isRowUpdated() {
+    info('LDataSetTests : testLDataSet_method_isRowUpdated 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var row = 0; //int
+    dataSet1.setNameValue(row, 'col1', 'test');
+    assertEquals(dataSet1.isRowUpdated(row), true);
+}
+function testLDataSet_method_isRowDeleted() {
+    info('LDataSetTests : testLDataSet_method_isRowDeleted 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    dataSet1.remainRemoved = true;
+    var row = 0; //int
+    dataSet1.removeAt(row);
+    assertEquals(dataSet1.isRowDeleted(row), true);
+}
+function testLDataSet_method_isRowModified() {
+    info('LDataSetTests : testLDataSet_method_isRowModified 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var row = 0; //int
+    dataSet1.setNameValue(row, 'col1', 'test');
+    assertEquals(dataSet1.isRowModified(row), true);
+}
+function testLDataSet_method_isUpdated() {
+    info('LDataSetTests : testLDataSet_method_isUpdated 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var row = 0; //int
+    dataSet1.setNameValue(row, 'col1', 'test');
+    assertEquals(dataSet1.isUpdated(), true);
+}
+function testLDataSet_method_isMarkable() {
+    info('LDataSetTests : testLDataSet_method_isMarkable 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    dataSet1.canMarkableEvent  = true;
+    dataSet1.on('canMarkable', function(e) {
+        return false;
+    });
+    var row = 1; //int
+    assertEquals(dataSet1.isMarkable(row), false);
+}
+function testLDataSet_method_setMark() {
+    info('LDataSetTests : testLDataSet_method_setMark 작동 여부');
+    var row = 0; //int
+    var isSelect = true; //boolean
+    dataSet.setMark(row, isSelect);
+    assertEquals(dataSet.isMarked(row), true);
+}
+function testLDataSet_method_setMarkOnly() {
+    info('LDataSetTests : testLDataSet_method_setMarkOnly 작동 여부');
+    var row = 0; //int
+    var isSelect = true; //boolean
+    dataSet.setMark(row + 2, isSelect);
+    dataSet.setMarkOnly(row, isSelect);
+    assertEquals(dataSet.isMarked(row + 2), false);
+}
+function testLDataSet_method_setDemarkExcept() {
+    info('LDataSetTests : testLDataSet_method_setDemarkExcept 작동 여부');
+    var row = 0; //int
+    dataSet.setMark(row, true);
+    dataSet.setDemarkExcept(row);
+    assertEquals(dataSet.isMarked(row + 1), false);
+}
+function testLDataSet_method_isMarked() {
+    info('LDataSetTests : testLDataSet_method_isMarked 작동 여부');
+    var row = 0; //int
+    dataSet.setMark(row, true);
+    assertEquals(dataSet.isMarked(row), true);
+}
+function testLDataSet_method_getMarkedCount() {
+    info('LDataSetTests : testLDataSet_method_getMarkedCount 작동 여부');
+    dataSet.setMarkOnly(0, true);
+    assertEquals(dataSet.getMarkedCount(), 1);
+}
+function testLDataSet_method_setMarkRange() {
+    info('LDataSetTests : testLDataSet_method_setMarkRange 작동 여부');
+    var sInx = 0; //int
+    var eInx = 2; //int
+    var isSelect = true; //boolean
+    dataSet.setMarkRange(sInx, eInx, isSelect);
+    assertEquals(dataSet.selectedData.length, 3);
+}
+function testLDataSet_method_setMarkAll() {
+    info('LDataSetTests : testLDataSet_method_setMarkAll 작동 여부');
+    var isSelect = true; //boolean
+    dataSet.setMarkAll(isSelect);
+    assertEquals(dataSet.getMarkedCount(), dataSet.getCount());
+}
+function testLDataSet_method_clearMark() {
+    info('LDataSetTests : testLDataSet_method_clearMark 작동 여부');
+    dataSet.setMark(0, true);
+    dataSet.clearMark();
+    assertEquals(dataSet.getMarkedCount(), 0);
+}
+function testLDataSet_method_removeMarkedRows() {
+    info('LDataSetTests : testLDataSet_method_removeMarkedRows 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    dataSet1.setMark(0, true);
+    dataSet1.removeMarkedRows();
+    assertEquals(dataSet1.getCount() + 1, dataSet.getCount());
+}
+function testLDataSet_method_filter() {
+    info('LDataSetTests : testLDataSet_method_filter 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var fn = function(id, record){
+        if(record.get('col4') == 'R2')
+            return true;
+    }; //Function
+    dataSet1.filter(fn);
+    assertEquals(dataSet1.getCount(), 14);
+}
+function testLDataSet_method_clearFilter() {
+    info('LDataSetTests : testLDataSet_method_clearFilter 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var fn = function(id, record){
+        if(record.get('col4') == 'R2')
+            return true;
+    }; //Function
+    dataSet1.filter(fn);
+    dataSet1.clearFilter();
+    assertEquals(dataSet1.getCount(), dataSet.getCount());
+}
+function testLDataSet_method_isFiltered() {
+    info('LDataSetTests : testLDataSet_method_isFiltered 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var fn = function(id, record){
+        if(record.get('col4') == 'R2')
+            return true;
+    }; //Function
+    dataSet1.filter(fn);
+    assertEquals(dataSet1.isFiltered(), true);
+}
+function testLDataSet_method_query() {
+    info('LDataSetTests : testLDataSet_method_query 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var fn = function(id, record){
+        if(record.get('col4') == 'R2')
+            return true;
+    }; //Function
+    var scope = this; //Object
+    var result = dataSet.query(fn, scope);
+    //return type : Rui.util.LCollection
+    assertEquals(result.length, 14);
+}
+function testLDataSet_method_getTotalCount() {
+    info('LDataSetTests : testLDataSet_method_getTotalCount 작동 여부');
+    assertEquals(dataSet.getTotalCount(), 243);
+}
+function testLDataSet_method_getRecords() {
+    info('LDataSetTests : testLDataSet_method_getRecords 작동 여부');
+    var startIndex = 0; //int
+    var endIndex = 10; //int
+    assertEquals(dataSet.getRecords(startIndex, endIndex).length, 11);
+}
+function testLDataSet_method_sort() {
+    info('LDataSetTests : testLDataSet_method_sort 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var fn = function(vo1, vo2, c){
+        var r1 = vo1.value;
+        var r2 = vo2.value;
+        var v1 = r1.get('id');
+        var v2 = r2.get('id');
+        var ret = (v1 > v2 ? 1 : (v1 < v2 ? -1 : 0)) * 1;
+        return ret;
+    }; //Function
+    var desc = 'asc'; //String
+    dataSet1.sort(fn, desc);
+    //return type : Array
+    assertEquals(dataSet1.getNameValue(0 ,'id'), 'r1001');
+}
+function testLDataSet_method_sortField() {
+    info('LDataSetTests : testLDataSet_method_sortField 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var fieldName = 'id'; //String
+    var desc = 'asc'; //String
+    dataSet1.sortField(fieldName, desc);
+    //return type : boolean
+    assertEquals(dataSet1.getNameValue(0 ,'id'), 'r1001');
+}
+function testLDataSet_method_reverse() {
+    info('LDataSetTests : testLDataSet_method_reverse 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var fieldName = 'id'; //String
+    var desc = 'asc'; //String
+    dataSet1.sortField(fieldName, desc);
+    dataSet1.reverse();
+    assertEquals(dataSet1.getNameValue(0 ,'id'), 'r1020');
+}
+function testLDataSet_method_indexOfRecord() {
+    info('LDataSetTests : testLDataSet_method_indexOfRecord 작동 여부');
+    var record = dataSet.getAt(3); //Rui.data.LRecord
+    var result = dataSet.indexOfRecord(record);
+    //return type : int
+    assertEquals(result, 3);
+}
+function testLDataSet_method_setState() {
+    info('LDataSetTests : testLDataSet_method_setState 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var row = 3; //int
+    var state = Rui.data.LRecord.STATE_INSERT;
+    dataSet1.setState(row, state);
+    assertEquals(dataSet1.getState(row), Rui.data.LRecord.STATE_INSERT);
+}
+function testLDataSet_method_setFields() {
+    info('LDataSetTests : testLDataSet_method_setFields 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var fields = [
+        { id: 'id' },
+        { id: 'col1' },
+        { id: 'col2' },
+        { id: 'col3' }
+    ]; //Array
+    dataSet1.setFields(fields);
+    assertEquals(dataSet1.getFields().length, 4);
+}
+function testLDataSet_method_getFields() {
+    info('LDataSetTests : testLDataSet_method_getFields 작동 여부');
+    assertTrue(dataSet.getFields().length > 0);
+}
+function testLDataSet_method_getState() {
+    info('LDataSetTests : testLDataSet_method_getState 작동 여부');
+    var row = 0; //int
+    assertEquals(dataSet.getState(row), Rui.data.LRecord.STATE_NORMAL);
+}
+function testLDataSet_method_clone() {
+    info('LDataSetTests : testLDataSet_method_clone 작동 여부');
+    var newId = 'dataSet1'; //String|Object
+    var dataSet1 = dataSet.clone(newId);
+    //return type : Rui.data.LDataSet
+    assertEquals(dataSet1.getCount(), dataSet.getCount());
+}
+function testLDataSet_method_getValue() {
+    info('LDataSetTests : testLDataSet_method_getValue 작동 여부');
+    var row = 0; //int
+    var col = 1; //int
+    assertEquals(dataSet.getValue(row, col), 'Kaden Q. Delacruz');
+}
+function testLDataSet_method_getNameValue() {
+    info('LDataSetTests : testLDataSet_method_getNameValue 작동 여부');
+    var row = 0; //int
+    var colId = 'col1'; //String
+    assertEquals(dataSet.getNameValue(row, colId), 'Kaden Q. Delacruz');
+}
+function testLDataSet_method_setValue() {
+    info('LDataSetTests : testLDataSet_method_setValue 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var row = 0; //int
+    var col = 1; //int
+    var value = 'test'; //Object
+    dataSet1.setValue(row, col, value);
+    assertEquals(dataSet1.getValue(row, col), 'test');
+}
+function testLDataSet_method_setNameValue() {
+    info('LDataSetTests : testLDataSet_method_setNameValue 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var row = 0; //int
+    var colId = 'col1'; //String
+    var value = 'test'; //Object
+    dataSet1.setNameValue(row, colId, value);
+    assertEquals(dataSet1.getNameValue(row, colId), 'test');
+}
+function testLDataSet_method_sum() {
+    info('LDataSetTests : testLDataSet_method_sum 작동 여부');
+    var colId = 'col8'; //String
+    var result = dataSet.sum(colId);
+    //return type : int
+    assertEquals(result, 200000);
+}
+function testLDataSet_method_max() {
+    info('LDataSetTests : testLDataSet_method_max 작동 여부');
+    var colId = 'col8'; //String
+    var result = dataSet.max(colId);
+    //return type : int
+    assertEquals(result, 106000);
+}
+function testLDataSet_method_min() {
+    info('LDataSetTests : testLDataSet_method_min 작동 여부');
+    var colId = 'col8'; //String
+    var result = dataSet.min(colId);
+    //return type : int
+    assertEquals(result, 100);
+}
+function testLDataSet_method_validRow() {
+    info('LDataSetTests : testLDataSet_method_validRow 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    var row = 0; //int
+    dataSet1.validRow(row);
+    assertTrue(true);
+}
+function testLDataSet_method_batch() {
+    info('LDataSetTests : testLDataSet_method_batch 작동 여부');
+    var dataSet1 = dataSet.clone('dataSet1');
+    dataSet1.batch(function(){
+        for(var i = 0, len = dataSet1.getCount(); i < len; i++) {
+            var r = dataSet1.getAt(i).clone();
+            dataSet1.add(r);
+        }
+    });
+    assertEquals(dataSet1.getCount(), dataSet.getCount() * 2);
+}
+function testLDataSet_method_toString() {
+    info('LDataSetTests : testLDataSet_method_toString 작동 여부');
+    var result = dataSet.toString();
+    //return type : String
+    assertEquals(result, 'Rui.data.LDataSet dataSet');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.data.LDataSet Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLDataSet_method_insert()">insert</a>
+            <a href="javascript:testLDataSet_method_add()">add</a>
+            <a href="javascript:testLDataSet_method_remove()">remove</a>
+            <a href="javascript:testLDataSet_method_removeAt()">removeAt</a>
+            <a href="javascript:testLDataSet_method_removeAll()">removeAll</a>
+            <a href="javascript:testLDataSet_method_clearData()">clearData</a>
+            <a href="javascript:testLDataSet_method_get()">get</a>
+            <a href="javascript:testLDataSet_method_getAt()">getAt</a>
+            <a href="javascript:testLDataSet_method_indexOfKey()">indexOfKey</a>
+            <a href="javascript:testLDataSet_method_findRow()">findRow</a>
+            <a href="javascript:testLDataSet_method_getFieldIndex()">getFieldIndex</a>
+            <a href="javascript:testLDataSet_method_getFieldById()">getFieldById</a>
+            <a href="javascript:testLDataSet_method_destroy()">destroy</a>
+            <a href="javascript:testLDataSet_method_load()">load</a>
+            <a href="javascript:testLDataSet_method_getReadData()">getReadData</a>
+            <a href="javascript:testLDataSet_method_newRecord()">newRecord</a>
+            <a href="javascript:testLDataSet_method_createRecord()">createRecord</a>
+            <a href="javascript:testLDataSet_method_loadData()">loadData</a>
+            <a href="javascript:testLDataSet_method_getCount()">getCount</a>
+            <a href="javascript:testLDataSet_method_getModifiedRecords()">getModifiedRecords</a>
+            <a href="javascript:testLDataSet_method_serialize()">serialize</a>
+            <a href="javascript:testLDataSet_method_serializeModified()">serializeModified</a>
+            <a href="javascript:testLDataSet_method_commit()">commit</a>
+            <a href="javascript:testLDataSet_method_undo()">undo</a>
+            <a href="javascript:testLDataSet_method_undoAll()">undoAll</a>
+            <a href="javascript:testLDataSet_method_dataChanged()">dataChanged</a>
+            <a href="javascript:testLDataSet_method_getRow()">getRow</a>
+            <a href="javascript:testLDataSet_method_setRow()">setRow</a>
+            <a href="javascript:testLDataSet_method_isRowInserted()">isRowInserted</a>
+            <a href="javascript:testLDataSet_method_isRowUpdated()">isRowUpdated</a>
+            <a href="javascript:testLDataSet_method_isRowDeleted()">isRowDeleted</a>
+            <a href="javascript:testLDataSet_method_isRowModified()">isRowModified</a>
+            <a href="javascript:testLDataSet_method_isUpdated()">isUpdated</a>
+            <a href="javascript:testLDataSet_method_isMarkable()">isMarkable</a>
+            <a href="javascript:testLDataSet_method_setMark()">setMark</a>
+            <a href="javascript:testLDataSet_method_setMarkOnly()">setMarkOnly</a>
+            <a href="javascript:testLDataSet_method_setDemarkExcept()">setDemarkExcept</a>
+            <a href="javascript:testLDataSet_method_isMarked()">isMarked</a>
+            <a href="javascript:testLDataSet_method_getMarkedCount()">getMarkedCount</a>
+            <a href="javascript:testLDataSet_method_setMarkRange()">setMarkRange</a>
+            <a href="javascript:testLDataSet_method_setMarkAll()">setMarkAll</a>
+            <a href="javascript:testLDataSet_method_clearMark()">clearMark</a>
+            <a href="javascript:testLDataSet_method_removeMarkedRows()">removeMarkedRows</a>
+            <a href="javascript:testLDataSet_method_filter()">filter</a>
+            <a href="javascript:testLDataSet_method_clearFilter()">clearFilter</a>
+            <a href="javascript:testLDataSet_method_isFiltered()">isFiltered</a>
+            <a href="javascript:testLDataSet_method_query()">query</a>
+            <a href="javascript:testLDataSet_method_getTotalCount()">getTotalCount</a>
+            <a href="javascript:testLDataSet_method_getRecords()">getRecords</a>
+            <a href="javascript:testLDataSet_method_sort()">sort</a>
+            <a href="javascript:testLDataSet_method_sortField()">sortField</a>
+            <a href="javascript:testLDataSet_method_reverse()">reverse</a>
+            <a href="javascript:testLDataSet_method_indexOfRecord()">indexOfRecord</a>
+            <a href="javascript:testLDataSet_method_setState()">setState</a>
+            <a href="javascript:testLDataSet_method_setFields()">setFields</a>
+            <a href="javascript:testLDataSet_method_getFields()">getFields</a>
+            <a href="javascript:testLDataSet_method_getState()">getState</a>
+            <a href="javascript:testLDataSet_method_clone()">clone</a>
+            <a href="javascript:testLDataSet_method_getValue()">getValue</a>
+            <a href="javascript:testLDataSet_method_getNameValue()">getNameValue</a>
+            <a href="javascript:testLDataSet_method_setValue()">setValue</a>
+            <a href="javascript:testLDataSet_method_setNameValue()">setNameValue</a>
+            <a href="javascript:testLDataSet_method_sum()">sum</a>
+            <a href="javascript:testLDataSet_method_max()">max</a>
+            <a href="javascript:testLDataSet_method_min()">min</a>
+            <a href="javascript:testLDataSet_method_validRow()">validRow</a>
+            <a href="javascript:testLDataSet_method_batch()">batch</a>
+            <a href="javascript:testLDataSet_method_toString()">toString</a>
+        </div>
+    </div>
+</body>
+</html>

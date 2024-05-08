@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>LX하우시스</title>
+<style>
+@charset "utf-8";
+
+/*==============================default====================*/
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+	color:#7d7d7d; 
+    font-family:'Malgun Gothic','맑은 고딕','Noto Sans KR',
+    'Nanum Gothic','굴림',gulim,'돋움',dotum,'Microsoft NeoGothic', 'Droid sans', sans-serif;
+	font-size:13px; 
+	letter-spacing:-0.20px;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	overflow-y:scroll;
+    font-weight:400;
+    color:#555;
+}
+
+
+/*==============================공통====================*/
+
+.relative{position:relative;}
+.clear {clear:both}
+.bold{font-weight:500;}
+.block{display:block;}
+
+
+a:hover{text-decoration:none;}
+
+
+.clear{clear:both;}
+.clear:before,
+.clear:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+} 
+.clear:after {
+    clear: both;
+} 
+.clear {
+    *zoom: 1;
+}
+
+
+
+/* mail 전송 */
+
+
+#Wrap{width:100%; overflow: -webkit-paged-x; height:100%;}
+
+.mail_layout{margin:0 auto;}
+
+
+.mail_layout .logo{margin-top:15px; margin-left:20px; vertical-align: middle; text-align: left;}
+
+
+.top_line{border-top:2px solid #c40452; width:100%; margin-top: 10px;}
+
+
+.mail_cont{font-size: 12px; color:#666; width: 100%; padding: 20px; min-height: 600px;}
+
+</style>
+</head>
+
+<body>
+    
+<div id="Wrap">
+    <div>
+    <!--header-->
+    <div class="mail_layout">
+      <div class="logo"><img src="http://${imgServerIp}:${imgServerPort}/${imgServerContext}/resource/web/images/newIris/logo.png" alt="로고" width="104px;" height="44px;"></div>  
+    
+     <div style="clear: both"></div>
+    </div>      
+    <div class="top_line"></div>
+    </div>
+    
+    <!--content-->
+    <div class="mail_cont">
+       	${rgstNm}님이 의뢰한 분석 건이 아래와 같이 접수 되었음을 통보 드립니다.<br/>
+       	<br/>
+       	- 분석명 : [${acpcNo}] ${anlNm}<br/>
+       	- 의뢰자 : ${rgstNm} (${rgstDeptNm})<br/>
+       	- 담당자 : ${chrgNm} (${chrgDeptNm})<br/>
+       	- 접수일 : ${acpcDt}<br/>
+       	- 완료 예정일 : ${cmplParrDt}<br/>
+       	<br/>
+       	<b>* 분석완료일은 일정에 따라 변동될 수 있습니다.</b>
+    	<br/><a href="http://${imgServerIp}:${imgServerPort}/${imgServerContext}/common/login/irisDirectLogin.do?reUrl=/index.do&parentMenuId=IRIAN0100&vMenuId=AN&menuPath=/anl/anlRqprDetail.do?rqprId=${rqprId}&menuId=IRIAN0101&menuMoveYn=Y" target="_blank">&lt;분석의뢰서 바로가기&gt;</a>
+    </div>
+    
+</div>
+    
+</body>
+</html>

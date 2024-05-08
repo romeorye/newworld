@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="genTssStat.batch">
+
+	<!-- 뷰 실적데이터 조회 -->
+    <select id="getViewInfo"  resultType="hashmap">
+    <![CDATA[
+	/* 뷰 실적데이터 조회 */
+	SELECT NP_CD AS npCd          --신제품코드
+	      ,PJT_NM AS pjtNm        --프로젝트명
+	      ,LNCH_YM AS lnchYm        --실제출시년월
+	      ,EXP_LNCH_YM AS expLnchYm   --예상출시년월
+	      ,YM AS ym             --기준년월
+	      ,SAL_SUM_AMT AS salSumAmt   --매출액
+	  FROM VW_SA_NEW_PRDT_SAL
+	 WHERE YM=CONVERT(CHAR(6),DATEADD(MM,-1,GETDATE()), 112)
+	]]>
+    </select>
+
+	<update id="insertViewInfo">
+	-- insertViewInfo
+	INSERT INTO IRIS_NEW_PRDT_SAL_STAT
+	(NP_CD          --신제품코드
+     ,PJT_NM         --프로젝트명
+     ,LNCH_YM        --실제출시년월
+     ,EXP_LNCH_YM    --예상출시년월
+     ,YM             --기준년월
+     ,SAL_SUM_AMT    --매출액
+	)
+	VALUES
+	(#{npCd}          --신제품코드
+     ,#{pjtNm}         --프로젝트명
+     ,#{lnchYm}        --실제출시년월
+     ,#{expLnchYm}    --예상출시년월
+     ,#{ym}             --기준년월
+     ,#{salSumAmt}    --매출액
+	)
+
+	</update>
+</mapper>

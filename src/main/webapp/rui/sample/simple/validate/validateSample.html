@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="devon-rui-sample" content="yes" />
+        <title>Validate</title>
+        <script type="text/javascript" src='./../../../js/rui_base.js'></script>
+        <script type='text/javascript' src='./../../../js/rui_ext.js'></script>
+        <script type='text/javascript' src='./../../../resources/rui_config.js'></script>
+        <script type="text/javascript" src='./../../../plugins/util/simpleSyntax.js'></script>
+        <script type='text/javascript' src='./../../../plugins/validate/rui_validate.js'></script>
+        <script type='text/javascript' src='./../../../plugins/validate/projectValidator.js'></script>
+        <link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" >
+
+        <style type="text/css">
+            table {
+                border-collapse: collapse;
+            }
+            
+            caption {
+                margin: 10px 0;
+                font-size: 1.2em;
+                font-weight: bold;
+            }
+            
+            td, th {
+                border: 1px solid #999;
+                padding: 5px 10px;
+            }
+            
+            th {
+                background: #eee;
+            }
+            
+        </style>
+        <script type='text/javascript' class="script-code">
+            var button = null;
+            $C(function(){
+            
+                var frm = $C('#frm');
+                var elementList = frm.select('tr');
+                
+                /*<b>*//*
+                var validatorManager = $C.validatorManager({
+                    validators:[
+                    { id: 'col2', validExp:'Col2:true:length=4'},
+                    { id: 'col3', validExp:'Col3:true:minLength=6'},
+                    { id: 'col4', validExp:'Col4:true:byteLength=4'},
+                    { id: 'col5', validExp:'Col5:true:minByteLength=8'},
+                    { id: 'col5', validExp:'Col51:true:maxByteLength=8'},
+                    { id: 'col6', validExp:'Col6:true:number'},
+                    { id: 'col7', validExp:'Col7:true:number=3.2'},
+                    { id: 'col8', validExp:'Col8:true:minNumber=100'},
+                    { id: 'col9', validExp:'Col9:true:maxNumber=100'},
+                    { id: 'col10', validExp:'Col10:true:inNumber=90~100'},
+                    { id: 'col11', validExp:'Col11:true:date=YYYYMMDD'},
+                    { id: 'col12', validExp:'Col12:true:minDate=2008/11/11(YYYY/MM/DD)'},
+                    { id: 'col13', validExp:'Col13:true:maxDate=20081111'},
+                    { id: 'col14', validExp:'Col14:true:ssn'},
+                    { id: 'col15', validExp:'Col15:true:csn'},
+                    { id: 'col16', validExp:'Col16:true:filter=%;<;\\h;\\;;haha'},
+                    { id: 'col17', validExp:'Col17:true:allow=\\a;\\n'},
+                    { id: 'col18', validExp:'Col18:true:email'},
+                    { id: 'temp1' validExp:'Temp1:true', fn:function(val, row) {
+                        // alert 및 기타 focus된 객체가 blur 이벤트가 발생하는 모든 소스는 사용하면 안됨
+                        if(true) {
+                            this.message = '유효하지 않습니다.';
+                            return false;
+                        }
+                        return true;
+                    }}
+                    ]
+                });
+                아래의 소스는 동적으로 적용 여부를 볼 수 있게 위의 구조로 만드는 샘플이므로,
+                개별 화면에서는 해당 주석처리된 부분처럼 직접 validatorManager를 작성하면 된다.
+                 */
+                /*</b>*/
+                var validators = new Array();
+                elementList.each(function(e){
+                    var tdArr = e.getElementsByTagName("td");
+                    if (tdArr.length == 0) 
+                        return;
+                    var itemTd = tdArr[0];
+                    var expTd = tdArr[1];
+                    var targetTd = tdArr[2];
+                    var validExp = itemTd.innerHTML.trim() + "항목:true:" + expTd.getElementsByTagName('input')[0].value;
+                    var validator = {
+                        id: targetTd.getElementsByTagName('input')[0].id,
+                        validExp: validExp
+                    }
+                    validators.push(validator);
+                });
+
+                var validatorManager = $C.validatorManager({
+                    validators: validators
+                });
+                
+                // ex) col2에 test 문자를 입력해도 에러로 처리 
+                validatorManager.add('col19', new Rui.validate.LCustomValidator('col19', {label:'custom'}));
+                
+                button = $C("#submitBtn").button();
+                /*<b>*/
+                button.on('click', function(){
+                    if(validatorManager.validateGroup('frm') == false) {
+                        //$C.alert($C('!message').get('$.base.msg052') + '<br>' + validatorManager.getMessageList().join('<br>') );
+                        alert('유효하지 않습니다.\r\n' + validatorManager.getMessageList().join('\r\n') );
+                    }
+                }
+                /*</b>*/
+                );
+               
+            });
+            
+        </script>
+
+    </head>
+    <body>
+        <h1>validate sample</h1>
+        <h2>validate를 구현한 샘플</h2>
+        <div class="LblockLine"></div>
+        <div>
+            <p>일반적으로 사용하는 validaion 기능에 대한 예제입니다.</p>
+            <p>샘플상세와 개별 화면에서의 적용 방법이 다를 수 있으므로 꼭 샘플 파일을 참조하십시오.</p>
+        </div>
+        
+        <div id='bd'>
+            <div class="LblockMarkupCode">
+                <div id='panel'>
+                    <form id='frm' name='frm' method='post' action='/consoleLog.dev'>
+                        <table id="vTable">
+                            <caption>
+                                Devon UI Web Validator Example
+                            </caption>
+                            <tr>
+                                <th>
+                                    검사항목
+                                </th>
+                                <th>
+                                    검사식
+                                </th>
+                                <th>
+                                    검사대상
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    length
+                                </td>
+                                <td>
+                                    <input type="text" value="length=4" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col2" value="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    minLength
+                                </td>
+                                <td>
+                                    <input type="text" value="minLength=6" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col3" value="123456" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    byteLength
+                                </td>
+                                <td>
+                                    <input type="text" value="byteLength=6" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col4" value="한글" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    minByteLength
+                                </td>
+                                <td>
+                                    <input type="text" value="minByteLength=12" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col5" value="한글검사" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    maxByteLength
+                                </td>
+                                <td>
+                                    <input type="text" value="maxByteLength=12" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col51" value="한글검사" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    number
+                                </td>
+                                <td>
+                                    <input type="text" value="number" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col6" value="1234" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    number(3.2)
+                                </td>
+                                <td>
+                                    <input type="text" value="number=3.2" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col7" value="123.32" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    minNumber
+                                </td>
+                                <td>
+                                    <input type="text" value="minNumber=100" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col8" value="110" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    maxNumber
+                                </td>
+                                <td>
+                                    <input type="text" value="maxNumber=100" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col9" value="90" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    inNumber
+                                </td>
+                                <td>
+                                    <input type="text" value="inNumber=90~100" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col10" value="95" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    date
+                                </td>
+                                <td>
+                                    <input type="text" value="date=YYYYMMDD" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col11" value="20081111" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    minDate
+                                </td>
+                                <td>
+                                    <input type="text" value="minDate=2008/11/11(YYYY/MM/DD)" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col12" value="2008/12/25" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    maxDate
+                                </td>
+                                <td>
+                                    <input type="text" value="maxDate=20081111" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col13" value="20081025" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ssn
+                                </td>
+                                <td>
+                                    <input type="text" value="ssn" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col14" value="0101011616712" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    csn
+                                </td>
+                                <td>
+                                    <input type="text" value="csn" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col15" value="1168119477" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    filter
+                                </td>
+                                <td>
+                                    <input type="text" value="filter=%;<;\\h;\\;;haha" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col16" value="hello world!" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    allow
+                                </td>
+                                <td>
+                                    <input type="text" value="allow=\\a;\\n" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col17" value="ㅇ" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    email
+                                </td>
+                                <td>
+                                    <input type="text" value="email" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col18" value="nana@lgcns.com" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    custom
+                                </td>
+                                <td>
+                                    <input type="text" value="custom" />
+                                </td>
+                                <td>
+                                    <input type="text" id="col19" value="test" />
+                                </td>
+                            </tr>
+                        </table>
+                        <p>
+                            <button type="button" id="submitBtn" value="Submit">
+                                Validate
+                            </button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+            <a href="#" onclick='javascript:testValidate()'>testValidate</a>
+        </div>
+    </body>
+</html>

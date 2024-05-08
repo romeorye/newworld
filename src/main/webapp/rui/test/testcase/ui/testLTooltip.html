@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LTooltip Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../plugins/ui/LTooltip.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../plugins/ui/LTooltip.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var simpleTooltip = null; 
+Rui.onReady(function() {
+    simpleTooltip = new Rui.ui.LTooltip({
+        context: "link",
+        text: "This is A Link."
+    });
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLTooltip_method_setText() {
+    info('LTooltipTests : testLTooltip_method_setText 작동 여부');
+    var value = 'abcdef';
+    assertNotUndefined(simpleTooltip.setText(value));
+    assertEquals(simpleTooltip.text, value);
+}
+function testLTooltip_method_destroy() {
+    info('LTooltipTests : testLTooltip_method_destroy 작동 여부');
+    assertNotUndefined(simpleTooltip.destroy());
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LTooltip Tests</h1>
+    <p><a id="link" href="http://www.Rui.com/" title="Do you know RUI?">Hover over me to see a Tooltip!</a></p>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLTooltip_method_setText()">setText</a>
+            <a href="javascript:testLTooltip_method_destroy()">destroy</a>
+        </div>
+    </div>        
+</body>
+</html>

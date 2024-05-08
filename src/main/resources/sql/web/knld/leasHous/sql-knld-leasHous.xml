@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.leasHous">
+
+	<!-- 마스터 조회 -->
+	<select id="retrieveLeasHousSearchList" resultType="hashmap">
+		<![CDATA[
+			-- retrieveLeasHousSearchList 조회요청 리스트 조회
+		select m.*
+		from  (
+				select   dbo.fn_getSabunName(a.emp_no) 			as empNm
+						,dbo.fn_getDeptName(a.dept_cd) 			as deptNm
+						,dbo.fn_getComDtlNm('PGS_ST_CD', a.PGS_ST_CD) as pgsStNm
+						,dbo.fn_getComDtlNm('req_st_cd', a.req_st_cd) as reqStNm
+						,b.CNTT_str_dt	as cnttStrDt
+						,b.CNTT_end_dt	as cnttEndDt
+						,a.sup_amt		as supAmt
+						,a.req_st_cd	as reqStCd
+						,a.PGS_ST_CD	as pgsStCd
+						,a.emp_no		as empNo
+						,a.dept_cd		as deptCd
+						,a.leas_Id		as leasId
+				from   iris_knld_LeasHous_mst a
+						  inner join iris_knld_LeasHous_dtl b
+						  on b.leas_Id = a.leas_Id
+				where 1=1
+				) m
+		 ]]>
+		    where 1=1
+        <if test="empNm != null and empNm != ''">
+			and		m.empNm like '%${empNm}%'
+		</if>
+        <if test="deptNm != null and deptNm != ''">
+			and		m.deptNm like '%${deptNm}%'
+		</if>
+        <if test='adminChk == "N"'>
+			and		m.empNo = #{_userSabun}
+		</if>
+			order by m.leasId desc
+	</select>
+		
+	<!--  상세조회 -->
+	<select id="retrieveLeasHousDtlInfo" resultType="hashmap">
+		<![CDATA[
+			-- retrieveLeasHousDtlInfo 상세  조회
+			select   a.leas_Id 		            as leasId 		        
+					,a.emp_no	 		        as empNo	 		         
+					,a.dept_cd  	            as deptCd  	         	--부서                              
+					,a.sup_Dt	            	as supDt	         	--지원기간                   
+					,a.sup_amt                  as supAmt             	--회사지원금액                     
+					,a.req_st_cd 	            as reqStCd 	         	--요청 상태(승인/반려/완료)        
+					,a.PGS_ST_CD 	            as pgsStCd 	         	--진행상태(사전검토/ 계약검토/ )   
+					,a.tod			            as tod			        --회차                             
+					,a.etcp_dt		            as etcpDt		        --입사일                           
+					,a.JD_No   		            as jdNo   		        --법무시스템 No                    
+					,b.re_nm  					as reNm  				--부동산명                   
+					,b.re_CCPC_HP_F  		    as reCcpcHpF  		    --부동산 연락처              
+					,b.re_CCPC_HP_S  		    as reCcpcHpS  		    --부동산 연락처              
+					,b.re_CCPC_HP_E  		    as reCcpcHpE  		    --부동산 연락처              
+					,b.leas_addr 				as leasAddr 			--전세지역 주소              
+					,b.LESR_nm           		as lesrNm       		--임대인명              
+					,b.LESR_CCPC_HP_F           as lesrCcpcHpF       	--임대인 휴대폰              
+					,b.LESR_CCPC_HP_S           as lesrCcpcHpS       	--임대인 휴대폰              
+					,b.LESR_CCPC_HP_E           as lesrCcpcHpE       	--임대인 휴대폰              
+					,b.CNTT_str_dt			    as cnttStrDt			--계약기간 시작일            
+					,b.CNTT_end_dt 			    as cnttEndDt 			--계약기간 종료일            
+					,b.LEAS_GRN_amt    	      	as leasGrnAmt    	    --임차보증금                 
+					,b.PSLF_AMT					as pslfAmt				--본인부담금                 
+					,b.LVI_dt          	      	as lviDt          	    --입주일자                   
+					,b.BLN_dt          	      	as blnDt          	    --잔금일자                   
+					,b.ETC 						as etc 					--전세지역 주소--기타사항    
+					,b.ROL_YN  					as rolYn  				--전세권 설정 여부           
+					,b.LEAS_MUAG_YN 		    as leasMuagYn 		    --임차주택관리합의서 여부    
+					,b.RISK_YN  				as riskYn  				--법적인 risk 여부           
+					,b.LBLT_YN 					as lbltYn 				--채무관계 여부              
+					,b.DPL_YN    				as dplYn    			--확약서 여부                
+					,b.NRM_YN    				as nrmYn    			--규정 여부                
+					,b.RGS_PFDC_ATTC_FIL_ID		as rgsPfdcAttcFilId	    --등기사항전부증명서(을구사항 포함) 
+					,b.RLY_SUBJ_ATTC_FIL_ID		as rlySubjAttcFilId	    --중개대상물확인설명서              
+					,b.ASMY_ACHT_ATTC_FIL_ID	as asmyAchtAttcFilId    --집합건축물대장(전유무.갑)         
+					,b.LESR_PFDC_ATTC_FIL_ID	as lesrPfdcAttcFilId    --임대인 신분증 사본                
+					,b.LSH_CNTD_ATTC_FIL_ID	 	as lshCntdAttcFilId	    --전세계약서  
+					,b.MUAG_SCAN_ATTC_FIL_ID    as muagScanAttcFilId	--합의서 스캔본	
+					,b.DPL_SCAN_ATTC_FIL_ID     as dplScanAttcFilId		--협약서 스캔본
+					,c.muag_ATTC_FIL_ID as muagAttcFilId
+		            ,c.dpl_ATTC_FIL_ID  as dplAttcFilId
+		            ,c.nrm_ATTC_FIL_ID  as nrmAttcFilId 
+					,b.RVW_CMMT	 				as rvwCmmt	    --사전검토의견  
+					,b.CRN_CMMT	 				as crnCmmt	    --계약검토의견  
+					,dbo.fn_getSabunName(a.emp_no) as empNm
+					,dbo.fn_getDeptName(a.dept_cd) as deptNm
+					,dbo.fn_getComDtlNm('PGS_ST_CD', a.PGS_ST_CD) as pgsStNm
+					,dbo.fn_getComDtlNm('req_st_cd', a.req_st_cd) as reqStNm
+		from  iris_knld_LeasHous_mst a
+		         inner join iris_knld_LeasHous_dtl b
+				 on b.leas_Id = a.leas_Id
+				 ,iris_knld_LeasHous_attch_fil c
+		where a.leas_Id = #{leasId}	 
+		]]>
+		order by a.leas_Id desc
+	</select>		
+	
+
+	<!-- id채번  -->
+	<select id="getLeasId" resultType="String">
+		select isnull(max(leas_id)+1, 1)  from iris_knld_LeasHous_mst
+	</select>
+	
+	<!-- 기본정보 업데이트 -->
+	<update id="saveLeasHousMstInfo" >
+		MERGE iris_knld_LeasHous_mst m
+		USING ( SELECT #{leasId} AS leasId ) AS Tab1
+		ON  (m.leas_Id = Tab1.leasId)
+		WHEN MATCHED THEN
+		UPDATE SET   sup_Dt		= #{supDt}
+					,sup_amt  		= #{supAmt}
+					,etcp_dt		= #{etcpDt}
+					,LAST_MDFY_DT 	= getdate()
+					,LAST_MDFY_ID  	= #{userId}			
+		WHEN NOT MATCHED THEN
+				INSERT (
+			             leas_Id	
+			            ,emp_no	
+						,dept_cd
+						,sup_dt
+						,sup_amt   
+						,req_st_cd 
+						,PGS_ST_CD 
+						,tod	
+						,etcp_dt	
+						,FRST_RGST_DT
+						,FRST_RGST_ID
+						,LAST_MDFY_DT
+						,LAST_MDFY_ID
+						)
+				values
+				(
+				 #{leasId}	
+				,#{empNo}	
+				,#{deptCd}
+				,#{supDt}
+				,#{supAmt}   
+				,#{reqStCd} 
+				,#{pgsStCd} 
+				,#{tod}	
+				,#{etcpDt}
+			    ,getdate()
+				,#{userId}
+				,getdate()
+				,#{userId}
+				);
+	</update>
+	
+	<!-- 상세정보 업데이트 -->
+	<update id="saveLeasHousDtlInfo" >
+		MERGE iris_knld_LeasHous_dtl m
+		USING ( SELECT #{leasId} AS leasId ) AS Tab1
+		ON  (m.leas_Id = Tab1.leasId)
+		WHEN MATCHED THEN
+		UPDATE SET   re_nm          = #{reNm}            				
+					,re_CCPC_HP_F  	= #{reCcpcHpF}    	
+					,re_CCPC_HP_S  	= #{reCcpcHpS}    	
+					,re_CCPC_HP_E  	= #{reCcpcHpE}    	
+					,leas_addr 		= #{leasAddr}		
+					,LESR_nm        = #{lesrNm}  	
+					,LESR_CCPC_HP_F = #{lesrCcpcHpF}   
+					,LESR_CCPC_HP_S = #{lesrCcpcHpS}   
+					,LESR_CCPC_HP_E = #{lesrCcpcHpE}   
+					,CNTT_str_dt	= #{cnttStrDt}  
+					,CNTT_end_dt 	= #{cnttEndDt}  
+					,LEAS_GRN_amt   = #{leasGrnAmt}  
+					,PSLF_AMT		= #{pslfAmt}  
+					,LVI_dt         = #{lviDt}  
+					,BLN_dt         = #{blnDt}   
+					,ETC 			= #{etc}  
+					,ROL_YN  		= #{rolYn}  
+					,LEAS_MUAG_YN 	= #{leasMuagYn}  
+					,RISK_YN  		= #{riskYn}  
+					,LBLT_YN 		= #{lbltYn}  
+					,DPL_YN    	   	= #{dplYn}
+					,NRM_YN    	   	= #{nrmYn}
+					,RGS_PFDC_ATTC_FIL_ID	= #{rgsPfdcAttcFilId}
+					,RLY_SUBJ_ATTC_FIL_ID	= #{rlySubjAttcFilId}
+					,ASMY_ACHT_ATTC_FIL_ID	= #{asmyAchtAttcFilId}	
+					,LESR_PFDC_ATTC_FIL_ID	= #{lesrPfdcAttcFilId}	
+					,LSH_CNTD_ATTC_FIL_ID	= #{lshCntdAttcFilId}    
+					,MUAG_SCAN_ATTC_FIL_ID	= #{muagScanAttcFilId}    
+					,DPL_SCAN_ATTC_FIL_ID	= #{dplScanAttcFilId}    
+					,RVW_CMMT	= #{rvwCmmt}    	
+					,CRN_CMMT	= #{crnCmmt}    	
+					,LAST_MDFY_DT = GETDATE()
+					,LAST_MDFY_ID = #{userId}
+		WHEN NOT MATCHED THEN
+		INSERT (
+		         leas_Id  			
+		        ,re_nm  			
+				,re_CCPC_HP_F  		
+				,re_CCPC_HP_S  		
+				,re_CCPC_HP_E  		
+				,leas_addr 			
+				,LESR_nm        	
+				,LESR_CCPC_HP_F   	
+				,LESR_CCPC_HP_S   
+				,LESR_CCPC_HP_E  
+				,CNTT_str_dt	
+				,CNTT_end_dt 	
+				,LEAS_GRN_amt   
+				,PSLF_AMT		
+				,LVI_dt         
+				,BLN_dt         
+				,ETC 			
+				,ROL_YN  		
+				,LEAS_MUAG_YN 
+				,RISK_YN  	
+				,LBLT_YN 	
+				,DPL_YN    
+				,NRM_YN    
+				,RGS_PFDC_ATTC_FIL_ID	
+				,RLY_SUBJ_ATTC_FIL_ID	
+				,ASMY_ACHT_ATTC_FIL_ID	
+				,LESR_PFDC_ATTC_FIL_ID	
+				,LSH_CNTD_ATTC_FIL_ID	
+				,MUAG_SCAN_ATTC_FIL_ID   	
+				,DPL_SCAN_ATTC_FIL_ID    
+				,RVW_CMMT
+				,CRN_CMMT
+				,FRST_RGST_DT    
+				,FRST_RGST_ID    
+				,LAST_MDFY_DT    
+				,LAST_MDFY_ID    
+				)
+	       VALUES (
+			     #{leasId}
+			    ,#{reNm}
+				,#{reCcpcHpF}
+				,#{reCcpcHpS}
+				,#{reCcpcHpE}
+				,#{leasAddr}
+				,#{lesrNm}
+				,#{lesrCcpcHpF}
+				,#{lesrCcpcHpS}
+				,#{lesrCcpcHpE}
+				,#{cnttStrDt}
+				,#{cnttEndDt}
+				,#{leasGrnAmt}
+				,#{pslfAmt}
+				,#{lviDt}
+				,#{blnDt}
+				,#{etc}
+				,#{rolYn}
+				,#{leasMuagYn}
+				,#{riskYn}
+				,#{lbltYn}
+				,#{dplYn}
+				,#{nrmYn}
+				,#{rgsPfdcAttcFilId}
+				,#{rlySubjAttcFilId}
+				,#{asmyAchtAttcFilId}	
+				,#{lesrPfdcAttcFilId}	
+				,#{lshCntdAttcFilId}   
+				,#{muagScanAttcFilId}   
+				,#{dplScanAttcFilId}   
+				,#{rvwCmmt}   
+				,#{crnCmmt}   
+				,GETDATE()
+				,#{userId}
+				,GETDATE()
+				,#{userId}
+			);
+	</update>
+	
+	<!-- 진행상태 -->
+	<update id="updateLeasHousSt">
+		--updateLeasHousSt
+		update iris_knld_LeasHous_mst
+		set    PGS_ST_CD = #{pgsStCd}
+		      ,REQ_ST_CD = #{reqStCd}
+		      ,LAST_MDFY_DT  = getdate()    
+			  ,LAST_MDFY_ID  = #{userId}
+		where  leas_Id = #{leasId}
+	</update>
+	
+	<!-- 사전검토 comment  -->
+	<update id="updateLeasHousCnrRvwCmmt">
+		--updateLeasHousCnrRvwCmmt
+		update iris_knld_LeasHous_dtl
+		set    RVW_CMMT = #{rvwCmmt}
+		      ,LAST_MDFY_DT  = getdate()    
+			  ,LAST_MDFY_ID  = #{userId}
+		where  leas_Id = #{leasId}
+	</update>
+	
+	<!-- 보낼 메일정보 -->
+	<select id="retrieveSendMailInfo"  resultType="hashmap">
+	select a.emp_no 		as empNo
+          ,b.sa_name			as saName
+          ,b.sa_jobx_name 	as jobxNm
+		  ,b.sa_mail 		as email
+	from   iris_knld_LeasHous_mst a
+	       inner join  IRIS_SSO_USER b
+		    on b.sa_sabun_new = a.emp_no
+	where a.leas_id = #{leasId}
+	</select>
+	
+	<!-- 전세계약 -->
+	<update id="updateLeasHousCnrSt">
+		--updateLeasHousCnrSt
+		update iris_knld_LeasHous_dtl
+		set    LSH_CNTD_ATTC_FIL_ID = #{lshCntdAttcFilId}
+		      ,LAST_MDFY_DT  = getdate()    
+			  ,LAST_MDFY_ID  = #{userId}
+		where  leas_Id = #{leasId}
+	</update>
+	
+	<!-- 계약검토 comment -->
+	<update id="updateLeasHousCnrCrnCmmt">
+		--updateLeasHousCnrCrnCmmt
+		update iris_knld_LeasHous_dtl
+		set    CRN_CMMT = #{crnCmmt}
+		      ,LAST_MDFY_DT  = getdate()    
+			  ,LAST_MDFY_ID  = #{userId}
+		where  leas_Id = #{leasId}
+	</update>
+	
+</mapper>

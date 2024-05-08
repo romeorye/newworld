@@ -1,0 +1,8 @@
+[{
+    "metaData": {
+        "datasetId":"dataSet"
+    },
+    "records": [
+        { "codeGroup": "G001", "codeName2": "그룹1", "groupName": "그룹1", "codeSortcode": "", "codeDesc": "그룹1" }
+    ]
+}]

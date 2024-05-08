@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LDate Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+
+    Rui.getMessageManager().setLocale('ko_KR');
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLDate_method_add() {
+    info('LDateTests : testLDate_method_add 작동 여부');
+    var date = new Date(2012, 1, 1); //Date 2012/2/1
+    var field = Rui.util.LDate.DAY; //String
+    var amount = 1; //Number
+    var result = Rui.util.LDate.add(date, field, amount);
+    //return type : Date
+    assertEquals(result.getTime(), new Date(2012, 1, 2).getTime());
+}
+function testLDate_method_subtract() {
+    info('LDateTests : testLDate_method_subtract 작동 여부');
+    var date = new Date(2012, 1, 2); //Date 2012/2/1
+    var field = Rui.util.LDate.DAY; //String
+    var amount = 1; //Number
+    var result = Rui.util.LDate.subtract(date, field, amount);
+    //return type : Date
+    assertEquals(result.getTime(), new Date(2012, 1, 1).getTime());
+}
+function testLDate_method_format() {
+    info('LDateTests : testLDate_method_format 작동 여부');
+    var result = Rui.util.LDate.format(new Date(2013,2,5),'%x %X');
+    assertEquals(result, '2013-03-05');
+}
+function testLDate_method_equals() {
+    info('LDateTests : testLDate_method_equals 작동 여부');
+    var date1 = new Date(2013,2,5); //Date
+    var date2 = new Date(2013,2,5); //Date
+    var result = Rui.util.LDate.equals(date1, date2);
+    assertTrue(result);
+}
+function testLDate_method_getDate() {
+    info('LDateTests : testLDate_method_getDate 작동 여부');
+    var y = 2013; //Number
+    var m = 3; //Number
+    assertTrue(typeof Rui.util.LDate.getDate(y, m) == 'object');
+}
+function testLDate_method_getDayInMonth() {
+    info('LDateTests : testLDate_method_getDayInMonth 작동 여부');
+    assertEquals(Rui.util.LDate.getDayInMonth(0), 31);
+}
+function testLDate_method_getFirstDayOfMonth() {
+    info('LDateTests : testLDate_method_getFirstDayOfMonth 작동 여부');
+    var date = new Date(2013, 0, 11); //Date
+    assertEquals(Rui.util.LDate.getFirstDayOfMonth(date).getTime(), new Date(2013, 0, 1).getTime());
+}
+function testLDate_method_getLastDayOfMonth() {
+    info('LDateTests : testLDate_method_getLastDayOfMonth 작동 여부');
+    var date = new Date(2013, 0, 11); //Date
+    assertEquals(Rui.util.LDate.getLastDayOfMonth(date).getTime(), new Date(2013, 0, 31).getTime());
+}
+function testLDate_method_clearTime() {
+    info('LDateTests : testLDate_method_clearTime 작동 여부');
+    var date = new Date(2013, 0, 11, 22, 33, 0, 0); //Date
+    var result = Rui.util.LDate.clearTime(date);
+    //return type : Date
+    assertEquals(result.getTime(), new Date(2013, 0, 11, 12, 00, 00, 00).getTime());
+}
+function testLDate_method_isDate() {
+    info('LDateTests : testLDate_method_isDate 작동 여부');
+    assertEquals(Rui.util.LDate.isDate(new Date()), true);
+    assertEquals(Rui.util.LDate.isDate('2013-11-22'), false);
+}
+function testLDate_method_before() {
+    info('LDateTests : testLDate_method_before 작동 여부');
+    var date = new Date(2013, 0, 11); //Date
+    var compareTo = new Date(2013, 0, 12); //Date
+    var result = Rui.util.LDate.before(date, compareTo);
+    //return type : boolean
+    assertTrue(result);
+}
+function testLDate_method_after() {
+    info('LDateTests : testLDate_method_after 작동 여부');
+    var date = new Date(2013, 0, 11); //Date
+    var compareTo = new Date(2013, 0, 12); //Date
+    var result = Rui.util.LDate.after(date, compareTo);
+    //return type : boolean
+    assertFalse(result);
+}
+function testLDate_method_between() {
+    info('LDateTests : testLDate_method_between 작동 여부');
+    var date = new Date(2013, 0, 11); //Date
+    var dateBegin = new Date(2013, 0, 1); //Date
+    var dateEnd = new Date(2013, 0, 31); //Date
+    var result = Rui.util.LDate.between(date, dateBegin, dateEnd);
+    //return type : boolean
+    assertTrue(result);
+}
+
+
+function testLDate_method_compareString() {
+    info('LDateTests : testLDate_method_compareString 작동 여부');
+    var date1 = new Date(2013, 0, 1); //Date
+    var date2 = new Date(2013, 0, 1); //Date
+    var pattern = '%x'; //Date
+    var result = Rui.util.LDate.compareString(date1, date2, pattern);
+    assertTrue(result);
+}
+function testLDate_method_getJan1() {
+    info('LDateTests : testLDate_method_getJan1 작동 여부');
+    var calendarYear = 2013; //Number
+    var result = Rui.util.LDate.getJan1(calendarYear);
+    result = Rui.util.LDate.format(result, {format: '%x', locale: 'ko_KR'});
+    assertEquals(result, '2013-01-01');
+}
+function testLDate_method_getDayOffset() {
+    info('LDateTests : testLDate_method_getDayOffset 작동 여부');
+    var date = new Date(2013, 0, 15); //Date
+    var calendarYear = 2013; //Number
+    assertEquals(Rui.util.LDate.getDayOffset(date, calendarYear), 14);
+}
+function testLDate_method_isYearOverlapWeek() {
+    info('LDateTests : testLDate_method_isYearOverlapWeek 작동 여부');
+    var weekBeginDate = new Date(2013, 11, 30); //Date
+    assertEquals(Rui.util.LDate.isYearOverlapWeek(weekBeginDate), true);
+}
+function testLDate_method_isMonthOverlapWeek() {
+    info('LDateTests : testLDate_method_isMonthOverlapWeek 작동 여부');
+    var weekBeginDate1 = new Date(2013, 10, 21); //Date
+    var weekBeginDate2 = new Date(2012, 10, 30); //Date
+    assertEquals(Rui.util.LDate.isMonthOverlapWeek(weekBeginDate1), false);
+    assertEquals(Rui.util.LDate.isMonthOverlapWeek(weekBeginDate2), true);
+}
+function testLDate_method_getMonthInYear() {
+    info('LDateTests : testLDate_method_getMonthInYear 작동 여부');
+    Rui.getMessageManager().setLocale('ko_KR');
+    assertEquals(Rui.util.LDate.getMonthInYear(1), '02월');
+    Rui.getMessageManager().setLocale('en_US');
+    assertEquals(Rui.util.LDate.getMonthInYear(1), 'February');
+}
+function testLDate_method_getShortMonthInYear() {
+    info('LDateTests : testLDate_method_getShortMonthInYear 작동 여부');
+    Rui.getMessageManager().setLocale('ko_KR');
+    assertEquals(Rui.util.LDate.getShortMonthInYear(1), '2월');
+    Rui.getMessageManager().setLocale('en_US');
+    assertEquals(Rui.util.LDate.getShortMonthInYear(1), 'Feb');
+}
+function testLDate_method_getDayInWeek() {
+    info('LDateTests : testLDate_method_getDayInWeek 작동 여부');
+    Rui.getMessageManager().setLocale('ko_KR');
+    assertEquals(Rui.util.LDate.getDayInWeek(1), '월요일');
+    Rui.getMessageManager().setLocale('en_US');
+    assertEquals(Rui.util.LDate.getDayInWeek(1), 'Monday');
+}
+function testLDate_method_getShortDayInWeek() {
+    info('LDateTests : testLDate_method_getShortDayInWeek 작동 여부');
+    Rui.getMessageManager().setLocale('ko_KR');
+    assertEquals(Rui.util.LDate.getShortDayInWeek(1), '월');
+    Rui.getMessageManager().setLocale('en_US');
+    assertEquals(Rui.util.LDate.getShortDayInWeek(1), 'Mon');
+}
+function testLDate_method_getWeekNumber() {
+    info('LDateTests : testLDate_method_getWeekNumber 작동 여부');
+    var date = new Date(2013, 0, 31); //Date
+    var firstDayOfWeek = 0; //Number
+    var janDate = null; //Number
+    assertEquals(Rui.util.LDate.getWeekNumber(date, firstDayOfWeek, janDate), 5);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LDate Tests</h1>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLDate_method_add()">add</a>
+            <a href="javascript:testLDate_method_subtract()">subtract</a>
+            <a href="javascript:testLDate_method_format()">format</a>
+            <a href="javascript:testLDate_method_equals()">equals</a>
+            <a href="javascript:testLDate_method_getDate()">getDate</a>
+            <a href="javascript:testLDate_method_getDayInMonth()">getDayInMonth</a>
+            <a href="javascript:testLDate_method_getFirstDayOfMonth()">getFirstDayOfMonth</a>
+            <a href="javascript:testLDate_method_getLastDayOfMonth()">getLastDayOfMonth</a>
+            <a href="javascript:testLDate_method_clearTime()">clearTime</a>
+            <a href="javascript:testLDate_method_isDate()">isDate</a>
+            <a href="javascript:testLDate_method_before()">before</a>
+            <a href="javascript:testLDate_method_after()">after</a>
+            <a href="javascript:testLDate_method_between()">between</a>
+            
+            <a href="javascript:testLDate_method_compareString()">compareString</a>
+            <a href="javascript:testLDate_method_getJan1()">getJan1</a>
+            <a href="javascript:testLDate_method_getDayOffset()">getDayOffset</a>
+            <a href="javascript:testLDate_method_isYearOverlapWeek()">isYearOverlapWeek</a>
+            <a href="javascript:testLDate_method_isMonthOverlapWeek()">isMonthOverlapWeek</a>
+            <a href="javascript:testLDate_method_getMonthInYear()">getMonthInYear</a>
+            <a href="javascript:testLDate_method_getShortMonthInYear()">getShortMonthInYear</a>
+            <a href="javascript:testLDate_method_getDayInWeek()">getDayInWeek</a>
+            <a href="javascript:testLDate_method_getShortDayInWeek()">getShortDayInWeek</a>
+            <a href="javascript:testLDate_method_getWeekNumber()">getWeekNumber</a>
+            
+        </div>
+    </div>        
+</body>
+</html>

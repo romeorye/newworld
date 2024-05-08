@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>JsUnit Test Suite</title>
+    <link rel="stylesheet" type="text/css" href="./../../jsunit/css/jsUnitStyle.css"/>
+    <script type="text/javascript" src="./../../jsunit/app/jsUnitCore.js"></script>
+    <script type="text/javascript">
+        function coreSuite() {
+            var newsuite = new top.jsUnitTestSuite();
+            var testSuite = [
+                './../testcase/prototype/testDate.html',
+                './../testcase/prototype/testNumber.html',
+                './../testcase/prototype/testString.html'
+            ];
+
+            for(var i = 0 ; i < testSuite.length ; i++) {        
+                newsuite.addTestPage(testSuite[i]);
+            }
+            return newsuite;
+        }
+
+        function librariesSuite() {
+            var result = new top.jsUnitTestSuite();
+            return result;
+        }
+
+        function suite() {
+            var newsuite = new top.jsUnitTestSuite();
+            newsuite.addTestSuite(coreSuite());
+            newsuite.addTestSuite(librariesSuite());
+            return newsuite;
+        }
+    </script>
+</head>
+
+<body>
+<h1>JsUnit Test Suite</h1>
+
+<p>This page contains a suite of tests for testing JsUnit.</p>
+</body>
+</html>

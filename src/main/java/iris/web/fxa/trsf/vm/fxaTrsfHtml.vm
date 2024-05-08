@@ -1,0 +1,25 @@
+<div class="contents">
+	<h5>자산이관 정보</h5>
+	<br/>
+	<table class="table">    
+		<colgroup>
+			<col style="width:150px"/>
+			<col style="width:50px"/>
+			<col style="width:25px"/>
+			<col style="width:25px"/>
+			<col style="width:50px"/>
+			<col style="width:50px"/>
+			<col style="width:50px"/>
+			<col style="width:50px"/>
+			<col style="width:50px"/>
+		</colgroup>
+		<thead>
+			${fxaTrsfHead}  
+		</thead>
+		<tbody>
+			${fxaTrsfList}  
+		</tbody>                               	
+	</table>
+	
+	
+</div>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.grid.LGridPanel Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui_skin_red.css" />
+
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LGridView.js"></script>
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LGridPanelExt.js"></script>
+<script type="text/javascript" src="./../../../../plugins/ui/grid/LGridSearchDialog.js"></script>
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style type="text/css">
+body {
+    height: 800px;
+    border: 1px solid red;
+}
+</style>
+
+<script type="text/javascript" >
+    
+var dataSet, gridPanel, columnModel;
+Rui.onReady(function() {
+    var col1TextBox = new Rui.ui.form.LTextBox();
+    col1TextBox.on('keydown', function(e) {
+        if(e.keyCode == 13) {
+            window.open('http://www.naver.com');
+        }
+    });
+    
+    var col1Combo = new Rui.ui.form.LCombo({
+       rendererField: 'value',
+       autoMapping: true,
+       url: './../../../../sample/data/code.json'
+    });
+
+    dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col4' },
+            { id: 'col7' },
+            { id: 'col8' },
+            { id: 'col9' },
+            { id: 'code' },
+            { id: 'date1', type: 'date' }
+        ]
+    });
+    
+    dataSet.on('canRowPosChange', function(e){
+        if (vm.validateDataSet(dataSet, dataSet.getRow()) == false) {
+            Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>'));
+            return false;
+        }
+    });
+
+    dataSet.on('load', function(e) {
+        gridPanel.setCellConfig(1, 'col1', 'editable', false);
+    });
+    
+    var vm = new Rui.validate.LValidatorManager({
+        validators: [
+            { id: 'searchSelectedUserGrpId', validExp: '그룹:true' },
+            { id: 'col1', validExp: 'Col1:true:maxByteLength=50&minByteLength=5' },
+            { id: 'col2', validExp: 'Col2:true' },
+            { id: 'col3', validExp: 'Col3:true' }
+        ]
+    });
+    
+    columnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        //defaultEditable: false,
+        columns: [
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1', sortable: true, width: 200, editor: col1TextBox, vMerge: true, renderer: function(val, p) {
+                p.editable = true;
+                return val;
+            } },
+            { field: 'col3', label: 'Col<br>3', sortable: true, width: 60, align: 'center', vMerge: true, renderer: function(value){
+                return '<font color="red">' + value + '</font>';
+            }, clipboardRenderer: function(val) { return val; } },
+            { field: 'col2', label: 'Col2', sortable: true, width:130, align: 'center', editor: new Rui.ui.form.LTextBox(), renderer: function(value){
+                if(!value || value.length < 13) return value;
+                return value.substring(0, 6) + '-' + value.substring(6);
+            }},
+            { field: 'col7', width: 160, sortable: true, clipboard: false, renderer: function(value){
+                return '<a href="http://www.naver.com" target="_new">' + value + '</a>';
+            }},
+            { field: 'col8', width: 80, align: 'right', sortable: true, clipboardVirtual: false, renderer: 'money', editor: new Rui.ui.form.LNumberBox() },
+            { field: 'code', align: 'center', sortable: true, editor: col1Combo },
+            { field: 'date1', width: 200, align: 'left', renderer: 'date', editor: new Rui.ui.form.LDateBox() },
+            { id: 'col9-1', renderRow: true, renderer: function(val, p, record) {
+                return record.get('col9');
+            } }
+        ]
+    });
+
+    gridPanel = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        useMultiCellDeletable: true,
+        usePasteCellEvent: true,
+        autoToEdit: true,
+        autoWidth: true,
+        width: 600,
+        height: 240,
+        scrollerConfig: { scrollbar: 'y' }
+    });
+
+    gridPanel.render('defaultGrid');
+    
+    gridPanel.on('pasteCell', function(e){
+        if(e.colId == 'col2') {
+            if(e.value === '') 
+                e.value = null;
+            else e.value = e.value.split('-').join('');
+        }
+    });
+    
+    gridPanel.hide();
+    
+    dataSet.load({
+        url: './../../../../sample/data/data.json',
+        sync: true
+    });
+
+    
+    var datebox = new Rui.ui.form.LDateBox({
+        applyTo: 'input1',
+        placeholder: 'yyyy-mm-dd'
+    });
+    datebox.disable();
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLGridPanel_method_getSelectionModel() {
+    info('LGridPanelTests : testLGridPanel_method_getSelectionModel 작동 여부');
+    assertTrue(gridPanel.getSelectionModel() instanceof Rui.ui.grid.LSelectionModel);
+}
+function testLGridPanel_method_setFooter() {
+    info('LGridPanelTests : testLGridPanel_method_setFooter 작동 여부');
+    gridPanel.setFooter("<div>test</div>");
+    assertNotUndefined(gridPanel.footer);
+}
+function testLGridPanel_method_updateSizes() {
+    info('LGridPanelTests : testLGridPanel_method_updateSizes 작동 여부');
+    gridPanel.updateSizes();
+    assertTrue(true);
+}
+function testLGridPanel_method_setWidth() {
+    info('LGridPanelTests : testLGridPanel_method_setWidth 작동 여부');
+    var width = gridPanel.cfg.getProperty('width'); //int
+    gridPanel.setWidth(800);
+    assertEquals(gridPanel.cfg.getProperty('width'), 800);
+    gridPanel.setWidth(width);
+}
+function testLGridPanel_method_setHeight() {
+    info('LGridPanelTests : testLGridPanel_method_setHeight 작동 여부');
+    var height = gridPanel.cfg.getProperty('height'); //int
+    gridPanel.setHeight(400);
+    assertEquals(gridPanel.cfg.getProperty('height'), 400);
+    gridPanel.setHeight(height);
+}
+function testLGridPanel_method_getBorderWidth() {
+    info('LGridPanelTests : testLGridPanel_method_getBorderWidth 작동 여부');
+    assertEquals(gridPanel.getBorderWidth(), 1);
+}
+function testLGridPanel_method_selectCell() {
+    info('LGridPanelTests : testLGridPanel_method_selectCell 작동 여부');
+    var row = 9; //int
+    var col = 'col1'; //int|String
+    var edit = true; //boolean
+    gridPanel.selectCell(row, col, edit);
+    //return type : boolean
+    assertTrue(true);
+}
+function testLGridPanel_method_setSyncDataSet() {
+    info('LGridPanelTests : testLGridPanel_method_setSyncDataSet 작동 여부');
+    var isSync = false; //boolean
+    gridPanel.setSyncDataSet(isSync);
+    assertEquals(gridPanel.getView().isSyncDataSet(), isSync);
+    gridPanel.setSyncDataSet(!isSync);
+}
+function testLGridPanel_method_setDataSet() {
+    info('LGridPanelTests : testLGridPanel_method_setDataSet 작동 여부');
+    var newDataSet = new Rui.data.LJsonDataSet({
+        id: 'newDataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col7' },
+            { id: 'col8' },
+            { id: 'date1', type: 'date' }
+        ]
+    });
+
+    var newColumnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        columns: [
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1', sortable: true, width: 200, vMerge: true},
+            { field: 'col3', label: 'Col3', sortable: true, width: 60, align: 'center', vMerge: true, renderer: function(value){
+                return '<font color="red">' + value + '</font>';
+            }},
+            { field: 'col2', label: 'Col2', sortable: true, width:130, align: 'center', renderer: function(value){
+                if(!value || value.length < 13) return value;
+                return value.substring(0, 6) + '-' + value.substring(6);
+            }},
+            { field: 'col7', width: 160, sortable: true, renderer: function(value){
+                return '<a href="javascript:alert(\'' + value + '\');">' + value + '</a>';
+            }},
+            { field: 'col8', width: 80, align: 'right', sortable: true, renderer: 'money'},
+            { field: 'date1', width: 200, align: 'left'}
+        ]
+    });
+
+    var newGridPanel = new Rui.ui.grid.LGridPanel({
+        columnModel: newColumnModel,
+        dataSet: newDataSet,
+        autoWidth: true,
+        width: 600,
+        height: 300
+    });
+
+    newGridPanel.render('defaultGrid1');
+
+    newGridPanel.setDataSet(newDataSet);
+    assertTrue(true);
+    newGridPanel.destroy();
+}
+function testLGridPanel_method_setCellConfig() {
+    info('LGridPanelTests : testLGridPanel_method_setCellConfig 작동 여부');
+    var row = 19; //int
+    var colId = 'col1'; //String
+    var key = 'editable'; //String
+    var value = false; //Object
+    gridPanel.setCellConfig(row, colId, key, value);
+    assertEquals(columnModel.getCellConfig(row, colId, key), value);
+}
+function testLGridPanel_method_stopEditor() {
+    info('LGridPanelTests : testLGridPanel_method_stopEditor 작동 여부');
+    var isApply = true; //boolean
+    gridPanel.stopEditor(isApply);
+    assertTrue(true);
+}
+function testLGridPanel_method_setEditable() {
+    info('LGridPanelTests : testLGridPanel_method_setEditable 작동 여부');
+    var editable = false; //boolean
+    gridPanel.setEditable(editable);
+    assertEquals(gridPanel.isEditable(), editable);
+    gridPanel.setEditable(!editable);
+}
+function testLGridPanel_method_isEditable() {
+    info('LGridPanelTests : testLGridPanel_method_isEditable 작동 여부');
+    assertEquals(gridPanel.isEditable(), true);
+}
+function testLGridPanel_method_getView() {
+    info('LGridPanelTests : testLGridPanel_method_getView 작동 여부');
+    assertTrue(gridPanel.getView() instanceof Rui.ui.grid.LBufferGridView);
+}
+function testLGridPanel_method_getRowModel() {
+    info('LGridPanelTests : testLGridPanel_method_getRowModel 작동 여부');
+    assertTrue(gridPanel.getRowModel() instanceof Rui.ui.grid.LRowModel);
+}
+function testLGridPanel_method_destroy() {
+    info('LGridPanelTests : testLGridPanel_method_destroy 작동 여부');
+    var newDataSet = new Rui.data.LJsonDataSet({
+        id: 'newDataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col7' },
+            { id: 'col8' },
+            { id: 'date1', type: 'date' }
+        ]
+    });
+
+    var newColumnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        columns: [
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1', sortable: true, width: 200, vMerge: true},
+            { field: 'col3', label: 'Col3', sortable: true, width: 60, align: 'center', vMerge: true, renderer: function(value){
+                return '<font color="red">' + value + '</font>';
+            }},
+            { field: 'col2', label: 'Col2', sortable: true, width:130, align: 'center', renderer: function(value){
+                if(!value || value.length < 13) return value;
+                return value.substring(0, 6) + '-' + value.substring(6);
+            }},
+            { field: 'col7', width: 160, sortable: true, renderer: function(value){
+                return '<a href="javascript:alert(\'' + value + '\');">' + value + '</a>';
+            }},
+            { field: 'col8', width: 80, align: 'right', sortable: true, renderer: 'money'},
+            { field: 'date1', width: 200, align: 'left'}
+        ]
+    });
+
+    var newGridPanel = new Rui.ui.grid.LGridPanel({
+        columnModel: newColumnModel,
+        dataSet: newDataSet,
+        autoWidth: true,
+        width: 600,
+        height: 300
+    });
+
+    newGridPanel.render('defaultGrid1');
+    
+    newGridPanel.setDataSet(newDataSet);
+    assertTrue(true);
+    newGridPanel.destroy();
+    assertTrue(true);
+}
+function testLGridPanel_method_toString() {
+    info('LGridPanelTests : testLGridPanel_method_toString 작동 여부');
+    var result = gridPanel.toString();
+    //return type : String
+    dataSet.setNameValue(1, 'col4', 'test');
+    assertEquals(result, 'Rui.ui.grid.LGridPanel L-gen1');
+}
+function testLGridPanel_method_saveExcel() {
+    warn('LGridPanelTests : testLGridPanel_method_saveExcel 테스트 무시 => 다운로드가 되어야 하므로 테스트 무시');
+}
+function testLGridPanel_method_getHtmlforExcel() {
+    info('LGridPanelTests : testLGridPanel_method_getHtmlforExcel 작동 여부');
+    var view = gridPanel.getView(); //Object
+    assertTrue(gridPanel.getHtmlforExcel(view).length > 10);
+}
+function testLGridPanel_method_updateRenderRowColumn() {
+    info('LGridPanelTests : testLGridPanel_method_updateRenderRowColumn 작동 여부');
+    dataSet.setNameValue(dataSet.getRow(), 'col9', 'test');
+    assertTrue(true);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.grid.LGridPanel Tests</h1>
+    <div id="defaultGrid"></div>
+    <div id="defaultGrid1"></div>
+    <input id="input1">
+    <input id="input2">
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLGridPanel_method_getSelectionModel()">getSelectionModel</a>
+            <a href="javascript:testLGridPanel_method_setFooter()">setFooter</a>
+            <a href="javascript:testLGridPanel_method_updateSizes()">updateSizes</a>
+            <a href="javascript:testLGridPanel_method_setWidth()">setWidth</a>
+            <a href="javascript:testLGridPanel_method_setHeight()">setHeight</a>
+            <a href="javascript:testLGridPanel_method_getBorderWidth()">getBorderWidth</a>
+            <a href="javascript:testLGridPanel_method_selectCell()">selectCell</a>
+            <a href="javascript:testLGridPanel_method_setSyncDataSet()">setSyncDataSet</a>
+            <a href="javascript:testLGridPanel_method_setDataSet()">setDataSet</a>
+            <a href="javascript:testLGridPanel_method_setCellConfig()">setCellConfig</a>
+            <a href="javascript:testLGridPanel_method_stopEditor()">stopEditor</a>
+            <a href="javascript:testLGridPanel_method_setEditable()">setEditable</a>
+            <a href="javascript:testLGridPanel_method_isEditable()">isEditable</a>
+            <a href="javascript:testLGridPanel_method_getView()">getView</a>
+            <a href="javascript:testLGridPanel_method_getRowModel()">getRowModel</a>
+            <a href="javascript:testLGridPanel_method_destroy()">destroy</a>
+            <a href="javascript:testLGridPanel_method_toString()">toString</a>
+            <a href="javascript:testLGridPanel_method_saveExcel()">saveExcel</a>
+            <a href="javascript:testLGridPanel_method_getHtmlforExcel()">getHtmlforExcel</a>
+            <a href="javascript:testLGridPanel_method_updateRenderRowColumn()">updateRenderRowColumn</a>
+        </div>
+    </div>
+</body>
+</html>

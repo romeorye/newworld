@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.LElementList Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLElementList_method_add() {
+    info('LElementListTests : testLElementList_method_add 작동 여부');
+    var els = new Rui.LElement(); //Rui.LElement
+    var elementList = new Rui.LElementList();
+    elementList.add(els);
+    //return type : Rui.LElementList
+    assertEquals(elementList.length, 1);
+}
+function testLElementList_method_getAt() {
+    info('LElementListTests : testLElementList_method_getAt 작동 여부');
+    var els = new Rui.LElement(); //Rui.LElement
+    var elementList = new Rui.LElementList();
+    elementList.add(els);
+    var index = 0; //int
+    assertNotUndefined(elementList.getAt(index));
+}
+function testLElementList_method_clear() {
+    info('LElementListTests : testLElementList_method_clear 작동 여부');
+    var els = new Rui.LElement(); //Rui.LElement
+    var elementList = new Rui.LElementList();
+    elementList.add(els);
+    elementList.clear();
+    //return type : Rui.LElementList
+    assertEquals(elementList.length, 0);
+}
+function testLElementList_method_select() {
+    info('LElementListTests : testLElementList_method_select 작동 여부');
+    var elementList = Rui.get('bd');
+    var selector = 'a'; //String
+    var result = elementList.select(selector);
+    //return type : Rui.LElementList
+    assertTrue(result.length > 0);
+}
+function testLElementList_method_appendTo() {
+    info('LElementListTests : testLElementList_method_appendTo 작동 여부');
+    var parent = Rui.get('bd'); //HTMLElement|Rui.LElement
+    var len = parent.query('a').length;
+    var elementList = Rui.createElements('<a href="">appendTo</a>');
+    elementList.appendTo(parent);
+    //return type : Rui.LElementList
+    assertEquals(parent.query('a').length, len + 1);
+}
+function testLElementList_method_toArray() {
+    info('LElementListTests : testLElementList_method_toArray 작동 여부');
+    var elementList = Rui.select('#bd a');
+    var result = elementList.toArray();
+    //return type : Array
+    assertTrue(result.length > 0);
+}
+function testLElementList_method_test() {
+    info('LElementListTests : testLElementList_method_test 작동 여부');
+    var selector = '#bd a'; //String
+    var elementList = Rui.select(selector);
+    var result = elementList.test(selector);
+    //return type : boolean
+    assertTrue(result);
+}
+function testLElementList_method_toString() {
+    info('LElementListTests : testLElementList_method_toString 작동 여부');
+    var elementList = Rui.select('#bd a');
+    var result = elementList.toString();
+    //return type : String
+    assertEquals(result, 'Rui.LElementList ');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.LElementList Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLElementList_method_add()">add</a>
+            <a href="javascript:testLElementList_method_getAt()">getAt</a>
+            <a href="javascript:testLElementList_method_clear()">clear</a>
+            <a href="javascript:testLElementList_method_select()">select</a>
+            <a href="javascript:testLElementList_method_appendTo()">appendTo</a>
+            <a href="javascript:testLElementList_method_toArray()">toArray</a>
+            <a href="javascript:testLElementList_method_test()">test</a>
+            <a href="javascript:testLElementList_method_toString()">toString</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.grid.LBufferGridView Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style type="text/css">
+#defaultGrid {
+    margin-bottom: 20px;
+}
+</style>
+
+<script type="text/javascript" >
+var dataSet, view, columnModel;
+Rui.onReady(function() {
+    dataSet = new Rui.data.LJsonDataSet({
+        id: 'dataSet',
+        fields: [
+            { id: 'col1' },
+            { id: 'col2' },
+            { id: 'col3' },
+            { id: 'col7' },
+            { id: 'col8' },
+            { id: 'date1', type: 'date' }
+        ]
+    });
+    
+    columnModel = new Rui.ui.grid.LColumnModel({
+        groupMerge: true,
+        columns: [
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1', sortable: true, width: 200, vMerge: true},
+            { field: 'col3', label: 'Col3', sortable: true, width: 60, align: 'center', vMerge: true, renderer: function(value){
+                return '<font color="red">' + value + '</font>';
+            }},
+            { field: 'col2', label: 'Col2', sortable: true, width:130, align: 'center', renderer: function(value){
+                if(!value || value.length < 13) return value;
+                return value.substring(0, 6) + '-' + value.substring(6);
+            }},
+            { field: 'col7', width: 160, sortable: true, renderer: function(value){
+                return '<a href="javascript:alert(\'' + value + '\');">' + value + '</a>';
+            }},
+            { field: 'col8', width: 80, align: 'right', sortable: true, renderer: 'money'},
+            { field: 'date1', width: 200, align: 'left'}
+        ]
+    });
+
+    var grid = new Rui.ui.grid.LGridPanel({
+        columnModel: columnModel,
+        dataSet: dataSet,
+        autoWidth: true,
+        width: 600,
+        height: 300
+    });
+
+    grid.render('defaultGrid');
+
+    dataSet.load({
+        url: './../../../../sample/data/data.json',
+        sync: true
+    });
+
+    view = grid.getView();
+
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLBufferGridView_method_getDataSet() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getDataSet 작동 여부');
+    assertEquals(view.getDataSet(), dataSet);
+}
+function testLBufferGridView_method_hasRows() {
+    info('LBufferGridViewTests : testLBufferGridView_method_hasRows 작동 여부');
+    var result = view.hasRows();
+    //return type : Boolean
+    assertTrue(result);
+}
+function testLBufferGridView_method_getRows() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getRows 작동 여부');
+    assertTrue(view.getRows().length >= 10);
+}
+function testLBufferGridView_method_getScrollerEl() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getScrollerEl 작동 여부');
+    assertTrue(view.getScrollerEl() instanceof Rui.LElement);
+}
+function testLBufferGridView_method_getRowDom() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getRowDom 작동 여부');
+    var row = 9; //int
+    assertEquals(view.getRowDom(row).tagName, 'TR');
+}
+function testLBufferGridView_method_getRenderedRow() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getRenderedRow 작동 여부');
+    var row = 9; //int
+    assertEquals(view.getRenderedRow(row), 9);
+}
+function testLBufferGridView_method_getCellDom() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getCellDom 작동 여부');
+    var row = 9; //int
+    var col = 3; //int
+    assertEquals(view.getCellDom(row, col).tagName, 'TD');
+}
+function testLBufferGridView_method_getRowCellDom() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getRowCellDom 작동 여부');
+    var row = 9; //int
+    var col = 3; //int
+    var rowDom = view.getRowDom(row); //HTMLElement
+    assertEquals(view.getRowCellDom(rowDom, row, col).tagName, 'TD');
+}
+function testLBufferGridView_method_getHeaderCellEl() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getHeaderCellEl 작동 여부');
+    var colIndex = 3; //int
+    assertEquals(view.getHeaderCellEl(colIndex).dom.tagName, 'TD');
+}
+function testLBufferGridView_method_getHeaderEl() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getHeaderEl 작동 여부');
+    assertTrue(view.getHeaderEl().hasClass('L-grid-header'));
+}
+function testLBufferGridView_method_findHeaderCell() {
+    info('LBufferGridViewTests : testLBufferGridView_method_findHeaderCell 작동 여부');
+    var colIndex = 3; //int
+    var dom = view.getHeaderCellEl(colIndex).dom; //HTMLElement
+    var result = view.findHeaderCell(dom);
+    //return type : int
+    assertEquals(result, colIndex);
+}
+function testLBufferGridView_method_findRow() {
+    info('LBufferGridViewTests : testLBufferGridView_method_findRow 작동 여부');
+    var row = 9;
+    var rowDom = view.getRowDom(row); //HTMLElement
+    var result = view.findRow(rowDom);
+    //return type : int
+    assertEquals(result, row);
+}
+function testLBufferGridView_method_findCell() {
+    info('LBufferGridViewTests : testLBufferGridView_method_findCell 작동 여부');
+    var row = 9; //int
+    var col = 3; //int
+    var dom = view.getCellDom(row, col); //HTMLElement
+    var result = view.findCell(dom);
+    //return type : int
+    assertEquals(result, 3);
+}
+function testLBufferGridView_method_findRowDom() {
+    info('LBufferGridViewTests : testLBufferGridView_method_findRowDom 작동 여부');
+    var row = 9;
+    var rowDom = view.getRowDom(row); //HTMLElement
+    var result = view.findRowDom(rowDom);
+    //return type : HTMLElement
+    assertEquals(result.tagName, 'TR');
+}
+function testLBufferGridView_method_findCellDom() {
+    info('LBufferGridViewTests : testLBufferGridView_method_findCellDom 작동 여부');
+    var row = 9; //int
+    var col = 3; //int
+    var dom = view.getCellDom(row, col); //HTMLElement
+    var result = view.findCellDom(dom);
+    //return type : HTMLElement
+    assertEquals(result.tagName, 'TD');
+}
+function testLBufferGridView_method_findHeaderCellDom() {
+    info('LBufferGridViewTests : testLBufferGridView_method_findHeaderCellDom 작동 여부');
+    var colIndex = 3; //int
+    var dom = view.getHeaderCellEl(colIndex).dom; //HTMLElement
+    var result = view.findHeaderCellDom(dom);
+    //return type : HTMLElement
+    assertEquals(result.tagName, 'TD');
+}
+function testLBufferGridView_method_getLastSortInfo() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getLastSortInfo 작동 여부');
+    assertNull(view.getLastSortInfo().field);
+}
+function testLBufferGridView_method_findFieldName() {
+    info('LBufferGridViewTests : testLBufferGridView_method_findFieldName 작동 여부');
+    var colIndex = 3; //int
+    var dom = view.getHeaderCellEl(colIndex).dom; //HTMLElement
+    var result = view.findFieldName(dom);
+    //return type : string
+    assertEquals(result, 'col1');
+}
+function testLBufferGridView_method_addRowClass() {
+    info('LBufferGridViewTests : testLBufferGridView_method_addRowClass 작동 여부');
+    var row = 9; //int
+    var className = 'test'; //string
+    view.addRowClass(row, className);
+    var rowDom = view.getRowDom(row); //HTMLElement
+    assertTrue(Rui.get(rowDom).hasClass(className));
+    view.removeRowClass(row, className);
+}
+function testLBufferGridView_method_removeRowClass() {
+    info('LBufferGridViewTests : testLBufferGridView_method_removeRowClass 작동 여부');
+    var row = 9; //int
+    var className = 'test'; //string
+    view.addRowClass(row, className);
+    view.removeRowClass(row, className);
+    var rowDom = view.getRowDom(row); //HTMLElement
+    assertFalse(Rui.get(rowDom).hasClass(className));
+}
+function testLBufferGridView_method_addCellClass() {
+    info('LBufferGridViewTests : testLBufferGridView_method_addCellClass 작동 여부');
+    var row = 9; //int
+    var cell = 3; //int
+    var className = 'test'; //string
+    view.addCellClass(row, cell, className);
+    var dom = view.getCellDom(row, cell); //HTMLElement
+    assertTrue(Rui.get(dom).hasClass(className));
+    view.removeCellClass(row, cell, className);
+}
+function testLBufferGridView_method_removeCellClass() {
+    info('LBufferGridViewTests : testLBufferGridView_method_removeCellClass 작동 여부');
+    var row = 9; //int
+    var cell = 3; //int
+    var className = 'test'; //string
+    view.addCellClass(row, cell, className);
+    view.removeCellClass(row, cell, className);
+    var dom = view.getCellDom(row, cell); //HTMLElement
+    assertFalse(Rui.get(dom).hasClass(className));
+}
+function testLBufferGridView_method_getCellAlt() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getCellAlt 작동 여부');
+    var row = 9; //int
+    var cell = 3; //int
+    var title = 'title test'; //string
+    view.addCellAlt(row, cell, title);
+    assertEquals(view.getCellAlt(row, cell), title);
+    view.removeCellAlt(row, cell);
+}
+function testLBufferGridView_method_addCellAlt() {
+    info('LBufferGridViewTests : testLBufferGridView_method_addCellAlt 작동 여부');
+    var row = 9; //int
+    var cell = 3; //int
+    var title = 'title test'; //string
+    view.addCellAlt(row, cell, title);
+    assertEquals(view.getCellAlt(row, cell), title);
+    view.removeCellAlt(row, cell);
+}
+function testLBufferGridView_method_removeCellAlt() {
+    info('LBufferGridViewTests : testLBufferGridView_method_removeCellAlt 작동 여부');
+    var row = 9; //int
+    var cell = 3; //int
+    view.removeCellAlt(row, cell);
+    assertEquals(view.getCellAlt(row, cell), '');
+}
+function testLBufferGridView_method_getValue() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getValue 작동 여부');
+    var row = 9; //int
+    var col = 3; //int
+    assertTrue(view.getValue(row, col).indexOf('L-grid-cell-inner') > 0);
+}
+function testLBufferGridView_method_getBodyEl() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getBodyEl 작동 여부');
+    assertTrue(view.getBodyEl() instanceof Rui.LElement);
+}
+function testLBufferGridView_method_getColumnModel() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getColumnModel 작동 여부');
+    assertEquals(view.getColumnModel(), columnModel);
+}
+function testLBufferGridView_method_getBorderWidth() {
+    info('LBufferGridViewTests : testLBufferGridView_method_getBorderWidth 작동 여부');
+    assertEquals(view.getBorderWidth(), 1);
+}
+function testLBufferGridView_method_focus() {
+    info('LBufferGridViewTests : testLBufferGridView_method_focus 작동 여부');
+    view.focus();
+    assertTrue(view.isFocus);
+}
+function testLBufferGridView_method_blur() {
+    warn('LBufferGridViewTests : testLBufferGridView_method_blur 테스트 무시 => 테스트할 방법이 없음.');
+}
+function testLBufferGridView_method_destroy() {
+    info('LBufferGridViewTests : testLBufferGridView_method_destroy 작동 여부');
+    var newColumnModel = new Rui.ui.grid.LColumnModel({
+        id: 'newColumnModel',
+        groupMerge: true,
+        columns: [
+            new Rui.ui.grid.LSelectionColumn(),
+            new Rui.ui.grid.LStateColumn(),
+            new Rui.ui.grid.LNumberColumn(),
+            { field: 'col1', label: 'Col1', sortable: true, width: 200, vMerge: true},
+            { field: 'col3', label: 'Col3', sortable: true, width: 60, align: 'center', vMerge: true, renderer: function(value){
+                return '<font color="red">' + value + '</font>';
+            }},
+            { field: 'col2', label: 'Col2', sortable: true, width:130, align: 'center', renderer: function(value){
+                if(!value || value.length < 13) return value;
+                return value.substring(0, 6) + '-' + value.substring(6);
+            }},
+            { field: 'col7', width: 160, sortable: true, renderer: function(value){
+                return '<a href="javascript:alert(\'' + value + '\');">' + value + '</a>';
+            }},
+            { field: 'col8', width: 80, align: 'right', sortable: true, renderer: 'money'},
+            { field: 'date1', width: 200, align: 'left'}
+        ]
+    });
+
+    var newGrid = new Rui.ui.grid.LGridPanel({
+        columnModel: newColumnModel,
+        dataSet: dataSet,
+        autoWidth: true,
+        width: 600,
+        height: 300
+    });
+
+    newGrid.render('destroyGrid');
+    var newView = newGrid.getView();
+    newView.destroy();
+    assertTrue(newGrid.bodyEl.select('div').length < 1);
+}
+function testLBufferGridView_method_toString() {
+    info('LBufferGridViewTests : testLBufferGridView_method_toString 작동 여부');
+    var result = view.toString();
+    //return type : String
+    assertEquals(result, 'Rui.ui.grid.LBufferGridView L-gen1');
+}
+function testLBufferGridView_method_updateColumnFit() {
+    info('LBufferGridViewTests : testLBufferGridView_method_updateColumnFit 작동 여부');
+    var col = 3; //int
+    var column = columnModel.getColumnAt(col);
+    var width = column.getWidth();
+    view.updateColumnFit(col);
+    assertTrue(width != column.getWidth());
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.grid.LBufferGridView Tests</h1>
+    <div id="defaultGrid"></div>
+    <div id="destroyGrid"></div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLBufferGridView_method_getDataSet()">getDataSet</a>
+            <a href="javascript:testLBufferGridView_method_hasRows()">hasRows</a>
+            <a href="javascript:testLBufferGridView_method_getRows()">getRows</a>
+            <a href="javascript:testLBufferGridView_method_getScrollerEl()">getScrollerEl</a>
+            <a href="javascript:testLBufferGridView_method_getRowDom()">getRowDom</a>
+            <a href="javascript:testLBufferGridView_method_getRenderedRow()">getRenderedRow</a>
+            <a href="javascript:testLBufferGridView_method_getCellDom()">getCellDom</a>
+            <a href="javascript:testLBufferGridView_method_getRowCellDom()">getRowCellDom</a>
+            <a href="javascript:testLBufferGridView_method_getHeaderCellEl()">getHeaderCellEl</a>
+            <a href="javascript:testLBufferGridView_method_getHeaderEl()">getHeaderEl</a>
+            <a href="javascript:testLBufferGridView_method_findHeaderCell()">findHeaderCell</a>
+            <a href="javascript:testLBufferGridView_method_findRow()">findRow</a>
+            <a href="javascript:testLBufferGridView_method_findCell()">findCell</a>
+            <a href="javascript:testLBufferGridView_method_findRowDom()">findRowDom</a>
+            <a href="javascript:testLBufferGridView_method_findCellDom()">findCellDom</a>
+            <a href="javascript:testLBufferGridView_method_findHeaderCellDom()">findHeaderCellDom</a>
+            <a href="javascript:testLBufferGridView_method_getLastSortInfo()">getLastSortInfo</a>
+            <a href="javascript:testLBufferGridView_method_findFieldName()">findFieldName</a>
+            <a href="javascript:testLBufferGridView_method_addRowClass()">addRowClass</a>
+            <a href="javascript:testLBufferGridView_method_removeRowClass()">removeRowClass</a>
+            <a href="javascript:testLBufferGridView_method_addCellClass()">addCellClass</a>
+            <a href="javascript:testLBufferGridView_method_removeCellClass()">removeCellClass</a>
+            <a href="javascript:testLBufferGridView_method_getCellAlt()">getCellAlt</a>
+            <a href="javascript:testLBufferGridView_method_addCellAlt()">addCellAlt</a>
+            <a href="javascript:testLBufferGridView_method_removeCellAlt()">removeCellAlt</a>
+            <a href="javascript:testLBufferGridView_method_getValue()">getValue</a>
+            <a href="javascript:testLBufferGridView_method_getBodyEl()">getBodyEl</a>
+            <a href="javascript:testLBufferGridView_method_getColumnModel()">getColumnModel</a>
+            <a href="javascript:testLBufferGridView_method_getBorderWidth()">getBorderWidth</a>
+            <a href="javascript:testLBufferGridView_method_focus()">focus</a>
+            <a href="javascript:testLBufferGridView_method_blur()">blur</a>
+            <a href="javascript:testLBufferGridView_method_destroy()">destroy</a>
+            <a href="javascript:testLBufferGridView_method_toString()">toString</a>
+            <a href="javascript:testLBufferGridView_method_updateColumnFit()">updateColumnFit</a>
+        </div>
+    </div>
+</body>
+</html>

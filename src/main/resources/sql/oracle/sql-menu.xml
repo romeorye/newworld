@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sql-menu">
+<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="false"/>
+
+<select id="retrieveMenuAffrList" resultType="HashMap">
+	<![CDATA[
+	 -- 메뉴 권한 리스트 조회
+	SELECT CASE WHEN SIMD.CNT > 0 THEN 'SIMD'
+		             WHEN SIMC.CNT > 0 THEN 'SIMC'
+            ELSE 'N' 
+            END AS "affrScn"
+     , CASE WHEN SIMD.CNT > 0 AND SIMC.CNT = 0 THEN 'Y'
+     	      WHEN SIMC.CNT > 0 AND SIMD.CNT = 0 THEN 'Y'
+            ELSE 'N'
+            END AS "onlyAffrYn"
+    FROM (
+        SELECT COUNT(*) AS CNT 
+        FROM WOASIS.TB_USER_MENU_INFO A
+        JOIN WOASIS.TB_MENU_MST B ON (A.MENU_ID = B.MENU_ID)
+        WHERE A.AFFR_SCN IN ('SIMD')
+        AND XCMK_CD = #{xcmkCd}
+        AND EE_ID = #{eeId}
+        AND B.MENU_LVL = '1'
+        AND B.USE_YN = 'Y'
+        AND A.AUTH_SCN_CD != 'N'
+        ) SIMD ,
+         (
+        SELECT COUNT(*) AS CNT 
+        FROM WOASIS.TB_USER_MENU_INFO A
+        JOIN WOASIS.TB_MENU_MST B ON (A.MENU_ID = B.MENU_ID)
+        WHERE A.AFFR_SCN IN ('SIMC')
+        AND XCMK_CD = #{xcmkCd}
+        AND EE_ID = #{eeId}
+        AND B.MENU_LVL = '1'
+        AND B.USE_YN = 'Y'
+        AND A.AUTH_SCN_CD != 'N'
+        ) SIMC
+	]]>
+	</select>
+
+	<select id="retrieveTopMenuList" resultType="HashMap">
+	<![CDATA[
+     -- top menu list 조회
+    SELECT  MENU_ID AS "menuId"
+          , MENU_NM AS "menuNm"
+          , V_MENU_ID AS "vMenuId"
+          , SCRN_URL AS "scrnUrl"
+          , IQ_SEQ1 AS "igSeq1" 
+          , RNUM AS "rnum"
+     FROM (SELECT MENU_ID
+	            , MENU_NM
+	            , DECODE(MENU_ID3, NULL, MENU_ID2, MENU_ID3) V_MENU_ID
+	            , DECODE(SCRN3, NULL, SCRN2, SCRN3) SCRN_URL
+	            , IQ_SEQ1
+	            , ROW_NUMBER() OVER (PARTITION BY MENU_ID ORDER BY TO_NUMBER(IQ_SEQ2), TO_NUMBER(IQ_SEQ3)) AS RNUM
+          FROM (SELECT  AA.MENU_ID
+                   , AA.MENU_NM
+                   , AA.SCRN_URL SCRN_URL1
+                   , AB.MENU_ID AS MENU_ID2
+                   , AB.MENU_NM AS MENU_NM2
+                   , AB.SCRN_URL SCRN2
+                   , AC.MENU_ID MENU_ID3
+                   , AC.MENU_NM MENU_NM3
+                   , AC.SCRN_URL SCRN3
+                   , AA.IQ_SEQ IQ_SEQ1
+                   , AB.IQ_SEQ IQ_SEQ2
+                   , AC.IQ_SEQ IQ_SEQ3
+                   , AB.USE_YN SUB_USE_YN
+               , ( SELECT /*+ LEADING(B C A) */ COUNT(*)
+                   FROM WOASIS.TB_MENU_MST A,
+                        WOASIS.TB_MENU_MST B,
+                        WOASIS.TB_MENU_MST C
+                    WHERE C.MENU_LVL = '3'
+                        AND C.USE_YN = 'Y'
+                        AND B.MENU_ID = AB.MENU_ID
+                        AND A.MENU_ID = B.SUPI_MENU_ID
+                        AND B.MENU_ID = C.SUPI_MENU_ID
+                        AND EXISTS ( SELECT  /*+ no_unnest */'1'
+                               FROM WOASIS.TB_USER_MENU_INFO D
+                              WHERE C.MENU_ID = D.MENU_ID
+                                AND D.AUTH_SCN_CD != 'N'
+                                AND D.XCMK_CD =  #{xcmkCd}
+                                AND D.EE_ID =  #{eeId})
+                   ) AS THD_MENU_CNT   -- 사용자가 권한을 갖고 있는 3단계 메뉴 
+                   ,(SELECT COUNT(*)
+                       FROM WOASIS.TB_MENU_MST A
+                       JOIN WOASIS.TB_MENU_MST B ON (A.MENU_ID = B.SUPI_MENU_ID)
+                       JOIN WOASIS.TB_MENU_MST C ON (B.MENU_ID = C.SUPI_MENU_ID)
+                      WHERE C.MENU_LVL = '3'
+                        --AND C.MENU_YN = 'Y'
+                        AND C.USE_YN = 'Y'
+                        AND A.MENU_ID = AA.MENU_ID
+                        AND B.MENU_ID = AB.MENU_ID) AS RTHD_MENU_CNT  -- 실제로 존재하는 3단계 메뉴
+              FROM WOASIS.TB_MENU_MST AA
+                 , WOASIS.TB_MENU_MST AB
+                 , WOASIS.TB_USER_MENU_INFO BA
+                 , WOASIS.TB_USER_MENU_INFO BB
+                 , (SELECT A.*
+                      FROM WOASIS.TB_MENU_MST A 
+                         , WOASIS.TB_USER_MENU_INFO B
+                     WHERE A.MENU_LVL = '3' 
+                       AND A.MENU_ID  = B.MENU_ID 
+                       AND A.USE_YN       = 'Y' 
+                       AND B.XCMK_CD      = #{xcmkCd}
+                       AND B.EE_ID        = #{eeId}
+                       AND B.AUTH_SCN_CD != 'N') AC
+                 
+             WHERE AA.MENU_LVL = '1'
+               AND AA.USE_YN = 'Y'
+               AND AA.MENU_ID = AB.SUPI_MENU_ID
+               AND AA.MENU_ID = BA.MENU_ID
+               AND AB.MENU_LVL = '2'
+               AND AB.USE_YN = 'Y'         
+               AND AB.MENU_ID = BB.MENU_ID     
+               AND AB.MENU_ID = AC.SUPI_MENU_ID(+)
+               AND BA.AUTH_SCN_CD != 'N'
+               AND BA.XCMK_CD =   #{xcmkCd}
+               AND BA.EE_ID =  #{eeId}
+               AND BB.AUTH_SCN_CD != 'N'
+               AND BB.XCMK_CD =   #{xcmkCd}
+               AND BB.EE_ID =   #{eeId}
+               AND AA.AFFR_SCN IN
+               ]]>
+               <if test="affrScn != null and affrScn.equals('SIMD') ">
+		        ('SIMD')
+		       </if>
+		       <if test="affrScn != null and affrScn.equals('SIMC') ">
+		        ('SIMC')
+		       </if>
+		       <![CDATA[	
+           )
+       WHERE RTHD_MENU_CNT >= THD_MENU_CNT
+          AND THD_MENU_CNT != (CASE WHEN RTHD_MENU_CNT > 0 THEN 0
+                                 ELSE -1  END)
+       )
+  WHERE RNUM = '1'
+  ORDER BY TO_NUMBER(IQ_SEQ1)   
+	]]>
+	</select>
+	
+	<select id="retrieveSubMenuList" resultType="HashMap">
+		<![CDATA[	
+       -- left menu list 조회
+     SELECT A.MENU_ID AS "menuId"
+          , A.MENU_LVL AS "menuLvl"
+          , A.SCRN_URL AS "scrnUrl"
+          , A.MENU_NM AS "menuNm"
+          , A.TOP_MENU_NM AS "topMenuNm"
+          , A.V_MENU_ID AS "vMenuId"
+        FROM (SELECT M.SUPI_MENU_ID, M.MENU_ID, LEVEL AS LVL, M.MENU_LVL, M.MENU_NM, 
+                  DECODE(M.MENU_LVL, '2', CM.SCRN_URL, M.SCRN_URL) SCRN_URL, 
+                    DECODE(M.MENU_LVL, '2', CM.V_MENU_ID, M.MENU_ID) V_MENU_ID,                  
+                  NVL((SELECT MENU_NM 
+                            FROM  WOASIS.TB_MENU_MST 
+                          WHERE MENU_ID =  #{parentMenuId}), '') AS TOP_MENU_NM 
+                 FROM WOASIS.TB_MENU_MST M
+                 JOIN WOASIS.TB_MENU_MST SM ON (M.SUPI_MENU_ID = SM.MENU_ID)
+                 LEFT OUTER JOIN ( SELECT MENU_ID2, V_MENU_ID, SCRN_URL
+                     FROM (SELECT MENU_ID2 
+                               , DECODE(RTHD_MENU_CNT, '0', MENU_ID2, MENU_ID3) V_MENU_ID
+                               , DECODE(RTHD_MENU_CNT, '0', SCRN2, SCRN3) SCRN_URL 
+                               , ROW_NUMBER() OVER (PARTITION BY MENU_ID2 ORDER BY IQ_SEQ2, IQ_SEQ3) AS RNUM
+                            FROM (
+                                          SELECT AA.MENU_ID AS MENU_ID2 
+                                               , AA.SCRN_URL SCRN2 
+                                               , AB.MENU_ID MENU_ID3 
+                                               , AB.SCRN_URL SCRN3 
+                                               , AB.MENU_NM 
+                                               , AA.IQ_SEQ IQ_SEQ2 
+                                               , AB.IQ_SEQ IQ_SEQ3 
+                                               , AA.USE_YN 
+                                               , (SELECT COUNT( * ) 
+                                                    FROM WOASIS.TB_MENU_MST A 
+                                                    JOIN WOASIS.TB_MENU_MST B 
+                                                        ON (A.MENU_ID = B.SUPI_MENU_ID) 
+                                                  WHERE B.MENU_LVL = '3' 
+                                                    AND B.USE_YN   = 'Y' 
+                                                    AND A.MENU_ID  = AA.MENU_ID 
+                                                    AND A.SUPI_MENU_ID = #{parentMenuId}
+                                                 ) AS RTHD_MENU_CNT 
+                                            FROM WOASIS.TB_MENU_MST AA 
+                                               , WOASIS.TB_USER_MENU_INFO BA
+                                               , (SELECT A.*
+                                                    FROM WOASIS.TB_MENU_MST A 
+                                                       , WOASIS.TB_USER_MENU_INFO B
+                                                   WHERE A.MENU_LVL = '3' 
+                                                     AND A.MENU_ID  = B.MENU_ID 
+                                                     AND A.USE_YN       = 'Y' 
+                                                     AND B.XCMK_CD      = #{xcmkCd}
+                                                     AND B.EE_ID        = #{eeId}
+                                                     AND B.AUTH_SCN_CD != 'N') AB
+                                           WHERE AA.MENU_LVL = '2' 
+                                             AND AA.MENU_ID  = BA.MENU_ID 
+                                             AND AA.SUPI_MENU_ID = #{parentMenuId} 
+                                             AND AA.USE_YN       = 'Y' 
+                                             AND BA.XCMK_CD      = #{xcmkCd}
+                                             AND BA.EE_ID        = #{eeId} 
+                                             AND AA.MENU_ID      = AB.SUPI_MENU_ID(+)
+                               ) 
+                           ) WHERE RNUM = '1') CM ON (M.MENU_ID = CM.MENU_ID2)
+          JOIN (SELECT MA.MENU_ID 
+                            FROM WOASIS.TB_MENU_MST MA, WOASIS.TB_USER_MENU_INFO MB 
+                           WHERE MA.MENU_ID = MB.MENU_ID 
+                             AND MA.USE_YN = 'Y'
+                             AND MB.XCMK_CD = #{xcmkCd}
+                             AND MB.EE_ID = #{eeId}
+                             AND (MB.AUTH_SCN_CD = 'R' OR MB.AUTH_SCN_CD = 'W')                         
+                          ) S ON (M.MENU_ID = S.MENU_ID)
+                   WHERE  M.AFFR_SCN  IN ('SIMD', 'SIMC')
+                     AND M.USE_YN = 'Y'
+                     AND M.MENU_ID NOT IN ( SELECT MENU_ID
+                                     FROM ( SELECT MENU_ID
+                                             , CASE WHEN MENU_CNT <> USER_MENU_CNT AND USER_MENU_CNT = 0 THEN 0
+                                                   ELSE 1 END MENU_GB
+                                        FROM (SELECT  C.MENU_ID
+                                                    , (SELECT COUNT(*) FROM WOASIS.TB_MENU_MST WHERE SUPI_MENU_ID = C.MENU_ID AND USE_YN = 'Y') AS MENU_CNT
+                                                  , (SELECT COUNT(*)
+                                                       FROM WOASIS.TB_MENU_MST E
+                                                       JOIN WOASIS.TB_USER_MENU_INFO F ON (E.MENU_ID = F.MENU_ID)
+                                                      WHERE E.SUPI_MENU_ID = C.MENU_ID
+                                                        AND E.USE_YN = 'Y'
+                                                        AND F.EE_ID =    #{eeId}
+                                                        AND F.XCMK_CD =     #{xcmkCd}
+                                                        AND F.AUTH_SCN_CD <> 'N'
+                                                        AND E.MENU_LVL = '3') AS USER_MENU_CNT
+                                              FROM  WOASIS.TB_USER_MENU_INFO C
+                                                  , WOASIS.TB_MENU_MST D
+                                             WHERE C.MENU_ID = D.MENU_ID
+                                               AND C.EE_ID =    #{eeId}
+                                               AND C.XCMK_CD =     #{xcmkCd}
+                                               AND C.AUTH_SCN_CD <> 'N'
+                                               AND D.SUPI_MENU_ID =    #{parentMenuId}
+                                               AND D.USE_YN = 'Y'
+                                               AND D.MENU_LVL = '2'
+                                          )
+                                      )
+                           WHERE MENU_GB = 0 
+                            )
+                            
+                     START WITH M.SUPI_MENU_ID =  #{parentMenuId}
+                   CONNECT BY PRIOR M.MENU_ID  = M.SUPI_MENU_ID
+                     ORDER SIBLINGS BY TO_NUMBER(M.IQ_SEQ)
+          ) A, WOASIS.TB_USER_MENU_INFO B
+        WHERE A.MENU_ID = B.MENU_ID
+          AND B.XCMK_CD = #{xcmkCd}
+          AND B.EE_ID = #{eeId}
+		]]>
+	</select>
+
+	<select id="retrieveMenuInfo" resultType="HashMap">
+		<![CDATA[
+		--페이지별 메뉴경로 및 저장/조회 권한 정보 조회 
+		SELECT DECODE(C.MENU_LVL, '2', B.MENU_ID, A.MENU_ID) AS "topMenuId",
+		       DECODE(C.MENU_LVL, '2', B.MENU_NM, A.MENU_NM) AS "topMenuNm",
+		       DECODE(C.MENU_LVL, '3', B.MENU_ID, NULL) AS "supiMenuId",
+		       DECODE(C.MENU_LVL, '3', B.MENU_NM, NULL) AS "supiMenuNm",
+		       C.MENU_ID AS "menuId",
+		       C.MENU_NM AS "menuNm",
+		       D.AUTH_SCN_CD AS "authScnCd"
+		FROM   WOASIS.TB_MENU_MST A --1LEVEL
+		       RIGHT OUTER JOIN WOASIS.TB_MENU_MST B ON (A.MENU_ID = B.SUPI_MENU_ID) --상위레벨
+		       LEFT OUTER JOIN WOASIS.TB_MENU_MST C ON (B.MENU_ID = C.SUPI_MENU_ID)  --메인 프레임에 보이는 화면의 MENU_ID
+		       LEFT OUTER JOIN WOASIS.TB_USER_MENU_INFO D ON (C.MENU_ID = D.MENU_ID) --사용자메뉴정보
+		WHERE  C.MENU_ID = #{menuId} /**P*/
+		AND    D.XCMK_CD = #{xcmkCd} /**P*/
+		AND    D.EE_ID = #{userId}
+		]]>
+	</select>
+
+	<select id="checkMyMenu" resultType="HashMap">
+		SELECT SUM(CNT) AS "cnt",
+		       SUM(ALL_CNT) AS "allCnt"
+		FROM   (
+		    SELECT COUNT(*) AS CNT,
+		           0 AS ALL_CNT
+		    FROM   TWC_USER_MENU_INFO
+		    WHERE  MENU_ID = #{menuId}
+		    AND    XCMK_CD = #{_xcmkCd}
+		    AND    EE_ID = #{_userId}
+		    UNION ALL
+		    SELECT 0 AS CNT,
+		           COUNT(*) AS ALL_CNT
+		    FROM   TWC_USER_MENU_INFO
+		    WHERE  XCMK_CD = #{_xcmkCd}
+		    AND    EE_ID = #{_userId})		
+	</select>
+	
+	<insert id="insertMyMenu">
+		INSERT
+		INTO   TWC_USER_MENU_INFO
+		SELECT #{_xcmkCd} AS XCMK_CD,
+		       #{_userId} AS EE_ID,
+		       A.MENU_ID,
+		       B.AUTH_SCN_CD,
+		       #{_userId} AS FRST_RGST_ID,
+		       SYSDATE AS FRST_RGST_DT,
+		       #{_userId} AS LAST_MDFY_ID,
+		       SYSDATE AS LAST_MDFY_DT,
+		       B.AFFR_SCN AS AFFR_SCN
+		FROM   WOASIS.TB_MENU_MST A,
+		       WOASIS.TB_USER_MENU_INFO B
+		WHERE  A.MENU_ID = B.MENU_ID
+		AND    A.MENU_ID = #{menuId}
+		AND    B.XCMK_CD = #{_xcmkCd}
+		AND    B.EE_ID = #{_userId}
+	</insert>
+	
+	<delete id="deleteMyMenu">
+		DELETE
+		FROM   TWC_USER_MENU_INFO
+		WHERE  MENU_ID = #{menuId}
+		AND    XCMK_CD = #{_xcmkCd}
+		AND    EE_ID = #{_userId}
+	</delete>
+	
+	<select id="retrieveMyMenuList" resultType="HashMap">
+		<![CDATA[	
+			SELECT MENU_ID AS "menuId",
+			       MENU_LVL AS "menuLvl",
+			       SCRN_URL AS "scrnUrl",
+			       MENU_NM AS "menuNm",
+			       '즐겨찾기' AS "topMenuNm",
+			       V_MENU_ID AS "vMenuId"
+			FROM   (
+			    SELECT A.MENU_ID,
+			           DECODE(A.MENU_LVL, '2', B.SUPI_MENU_ID, A.SUPI_MENU_ID) AS SUPI_MENU_ID,
+			           A.MENU_NM,
+			           --DECODE(A.MENU_LVL, '2', B.V_SCRN_URL, A.SCRN_URL) AS SCRN_URL,
+			           CASE
+			            WHEN A.MENU_LVL = '2' AND A.SCRN_URL IS NULL THEN B.V_SCRN_URL --메뉴레벨이 2이면서 URL이 없으면 하위메뉴의 URL을 가져온다.
+			            ELSE A.SCRN_URL
+			           END AS SCRN_URL,
+			           --DECODE(A.MENU_LVL, '2', B.V_MENU_ID, A.MENU_ID) AS V_MENU_ID,
+			           CASE 
+			            WHEN A.MENU_LVL = '2' AND A.SCRN_URL IS NULL THEN B.V_MENU_ID --메뉴레벨이 2이면서 URL이 없으면 하위메뉴의 메뉴아이디를 가져온다.
+			            ELSE A.MENU_ID
+			           END AS V_MENU_ID,
+			           A.MENU_LVL,
+			           A.IQ_SEQ,
+			           B.AUTH_SCN_CD,
+			           B.AFFR_SCN
+			    FROM   WOASIS.TB_MENU_MST A,
+			           (
+			        SELECT A.MENU_ID,
+			               A.SUPI_MENU_ID,
+			               A.AUTH_SCN_CD,
+			               A.AFFR_SCN,
+			               NVL(A.V_MENU_ID, B.V_MENU_ID) AS V_MENU_ID,
+			               NVL(A.V_IQ_SEQ, B.V_IQ_SEQ) AS V_IQ_SEQ,
+			               NVL(A.V_SCRN_URL, B.V_SCRN_URL) AS V_SCRN_URL
+			        FROM   (
+			            SELECT DISTINCT(A.SUPI_MENU_ID) AS MENU_ID,
+			                   'S005000' AS SUPI_MENU_ID,
+			                   B.AUTH_SCN_CD,
+			                   B.AFFR_SCN,
+			                   '' AS V_MENU_ID,
+			                   '' AS V_IQ_SEQ,
+			                   '' AS V_SCRN_URL,
+			                   '' AS V_SUPI_MENU_ID
+			            FROM   WOASIS.TB_MENU_MST A,
+			                   (
+			                SELECT A.MENU_ID,
+			                       B.AUTH_SCN_CD,
+			                       B.AFFR_SCN
+			                FROM   TWC_USER_MENU_INFO A,
+			                       WOASIS.TB_USER_MENU_INFO B
+			                WHERE  A.XCMK_CD = B.XCMK_CD
+			                AND    A.EE_ID = B.EE_ID
+			                AND    A.MENU_ID = B.MENU_ID
+			                AND    B.AUTH_SCN_CD <> 'N'
+			                AND    B.AFFR_SCN IN ('SIMD', 'SIMC')
+			                AND    B.XCMK_CD = #{xcmkCd}
+			                AND    B.EE_ID = #{eeId}) B
+			            WHERE  A.MENU_ID = B.MENU_ID
+			            AND    A.MENU_LVL = '3') A,
+			               (
+			            SELECT MENU_ID,
+			                   SUPI_MENU_ID,
+			                   AUTH_SCN_CD,
+			                   AFFR_SCN,
+			                   V_MENU_ID,
+			                   V_IQ_SEQ,
+			                   V_SCRN_URL,
+			                   V_SUPI_MENU_ID
+			            FROM   (
+			                SELECT A.MENU_ID,
+			                       DECODE(A.MENU_LVL, '2', 'S005000', A.SUPI_MENU_ID) AS SUPI_MENU_ID,
+			                       B.AUTH_SCN_CD,
+			                       B.AFFR_SCN
+			                FROM   WOASIS.TB_MENU_MST A,
+			                       (
+			                    SELECT A.MENU_ID,
+			                           B.AUTH_SCN_CD,
+			                           B.AFFR_SCN
+			                    FROM   TWC_USER_MENU_INFO A,
+			                           WOASIS.TB_USER_MENU_INFO B
+			                    WHERE  A.XCMK_CD = B.XCMK_CD
+			                    AND    A.EE_ID = B.EE_ID
+			                    AND    A.MENU_ID = B.MENU_ID
+			                    AND    B.AUTH_SCN_CD <> 'N'
+			                    AND    B.AFFR_SCN IN ('SIMD', 'SIMC')
+			                    AND    B.XCMK_CD = #{xcmkCd}
+			                    AND    B.EE_ID = #{eeId}) B
+			                WHERE  A.MENU_ID = B.MENU_ID) A,
+			                   (
+			                SELECT MIN(MENU_ID) AS V_MENU_ID,
+			                       MIN(IQ_SEQ) AS V_IQ_SEQ,
+			                       MIN(SCRN_URL) AS V_SCRN_URL,
+			                       SUPI_MENU_ID AS V_SUPI_MENU_ID
+			                FROM   (
+			                    SELECT A.MENU_ID,
+			                           DECODE(A.MENU_LVL, '2', 'S005000', A.SUPI_MENU_ID) AS SUPI_MENU_ID,
+			                           B.AUTH_SCN_CD,
+			                           B.AFFR_SCN,
+			                           A.SCRN_URL,
+			                           A.MENU_LVL,
+			                           A.IQ_SEQ
+			                    FROM   WOASIS.TB_MENU_MST A,
+			                           (
+			                        SELECT A.MENU_ID,
+			                               B.AUTH_SCN_CD,
+			                               B.AFFR_SCN
+			                        FROM   TWC_USER_MENU_INFO A,
+			                               WOASIS.TB_USER_MENU_INFO B
+			                        WHERE  A.XCMK_CD = B.XCMK_CD
+			                        AND    A.EE_ID = B.EE_ID
+			                        AND    A.MENU_ID = B.MENU_ID
+			                        AND    B.AUTH_SCN_CD <> 'N'
+			                        AND    B.AFFR_SCN IN ('SIMD', 'SIMC')
+			                        AND    B.XCMK_CD = #{xcmkCd}
+			                        AND    B.EE_ID = #{eeId}) B
+			                    WHERE  A.MENU_ID = B.MENU_ID)
+			                WHERE  MENU_LVL = '3'
+			                GROUP BY SUPI_MENU_ID) B
+			            WHERE  A.MENU_ID = B.V_MENU_ID(+)) B
+			        WHERE  A.MENU_ID = B.V_SUPI_MENU_ID
+			        UNION ALL
+			        SELECT A.MENU_ID,
+			               DECODE(A.MENU_LVL, '2', 'S005000', A.SUPI_MENU_ID) AS SUPI_MENU_ID,
+			               B.AUTH_SCN_CD,
+			               B.AFFR_SCN,
+			               '' AS V_MENU_ID,
+			               '' AS V_IQ_SEQ,
+			               '' AS V_SCRN_URL
+			        FROM   WOASIS.TB_MENU_MST A,
+			               (
+			            SELECT A.MENU_ID,
+			                   B.AUTH_SCN_CD,
+			                   B.AFFR_SCN
+			            FROM   TWC_USER_MENU_INFO A,
+			                   WOASIS.TB_USER_MENU_INFO B
+			            WHERE  A.XCMK_CD = B.XCMK_CD
+			            AND    A.EE_ID = B.EE_ID
+			            AND    A.MENU_ID = B.MENU_ID
+			            AND    B.AUTH_SCN_CD <> 'N'
+			            AND    B.AFFR_SCN IN ('SIMD', 'SIMC')
+			            AND    B.XCMK_CD = #{xcmkCd}
+			            AND    B.EE_ID = #{eeId}) B
+			        WHERE  A.MENU_ID = B.MENU_ID) B
+			    WHERE  A.MENU_ID = B.MENU_ID
+			    AND    A.USE_YN = 'Y') START WITH SUPI_MENU_ID = 'S005000' CONNECT BY PRIOR MENU_ID = SUPI_MENU_ID
+			ORDER SIBLINGS BY TO_NUMBER(IQ_SEQ)
+		]]>
+	</select>
+
+	<!--  메뉴 이용 로그  -->
+	<update id="insertMenuHit">
+		<![CDATA[
+			MERGE
+			INTO   TB_MENU_HIT A USING (
+			    SELECT TO_CHAR (SYSDATE, 'YYYYMMDD') AS YYYYMMDD,
+			           CONNECT_BY_ROOT (A.MENU_ID) AS MENU_CD_L,
+			               CASE
+			                 WHEN A.MENU_LVL = '1' THEN '-'
+			                 WHEN A.MENU_LVL = '2' THEN A.MENU_ID
+			                 WHEN A.MENU_LVL = '3' THEN (
+			        SELECT MENU_ID
+			        FROM   WOASIS.TB_MENU_MST
+			        WHERE  MENU_ID = A.SUPI_MENU_ID)
+			               END AS MENU_CD_M,
+			               CASE
+			                 WHEN A.MENU_LVL = '1' THEN '-'
+			                 WHEN A.MENU_LVL = '2' THEN '-'
+			                 WHEN A.MENU_LVL = '3' THEN A.MENU_ID
+			               END AS MENU_CD_S
+			    FROM   WOASIS.TB_MENU_MST A
+			    WHERE  USE_YN = 'Y'
+			    AND    MENU_ID = #{menuId} START WITH MENU_ID IN (
+			        SELECT MENU_ID
+			        FROM   WOASIS.TB_MENU_MST
+			        WHERE  MENU_LVL = 1
+			        --AND    AFFR_SCN IN ('ESTI', 'SPOT', 'OEM', 'AGTS', 'TWN', 'ASSR')
+			        AND    AFFR_SCN IN ('SIMC', 'SIMD')
+			        ) CONNECT BY PRIOR MENU_ID = SUPI_MENU_ID
+			    ORDER SIBLINGS BY TO_NUMBER (IQ_SEQ)) B ON (A.YYYYMMDD = B.YYYYMMDD
+			    AND    A.MENU_CD_L = B.MENU_CD_L
+			    AND    A.MENU_CD_M = B.MENU_CD_M
+			    AND    A.MENU_CD_S = B.MENU_CD_S)
+			       WHEN MATCHED THEN
+			UPDATE
+			SET    MENU_HIT = (MENU_HIT) + 1,
+			       UPDT_DATE = SYSDATE,
+			       UPDT_USER = #{userId}
+			       WHEN NOT MATCHED THEN
+			INSERT (YYYYMMDD,
+			        MENU_CD_L,
+			        MENU_CD_M,
+			        MENU_CD_S,
+			        MENU_HIT,
+			        TRANSACTION_HIT,
+			        USE_YN,
+			        REGI_DATE,
+			        REGI_USER,
+			        UPDT_DATE,
+			        UPDT_USER)
+			VALUES (B.YYYYMMDD,
+			        B.MENU_CD_L,
+			        B.MENU_CD_M,
+			        B.MENU_CD_S,
+			        1,
+			        0,
+			        'Y',
+			        SYSDATE,
+			        #{userId},
+			        SYSDATE,
+			        #{userId})
+		]]>
+	</update>
+	
+ 	<!-- quick link 콤보리스트 조회 -->
+ 	<select id="retrieveQuickLinkList" resultType="hashmap">
+	 		<![CDATA[
+	 		SELECT CODE AS "code"
+			     , VALUE AS "value"
+			     , IQ_SEQ AS "iqSeq"
+			  FROM   
+					(SELECT BASE_CD AS CODE
+					     , BASE_CD_NM AS VALUE
+					     , IQ_SEQ AS IQ_SEQ  
+					  FROM WOASIS.TB_BASE_CD
+					 WHERE CL_CD = '255'
+					   AND USE_YN = 'Y'
+					   AND BASE_CD != '110'      
+					   AND BASE_CD NOT IN  ]]>
+			   	<if test="(hideCode != null and hideCode != '')">
+			   	<foreach close=")" collection="hideCode" index="index" item="item" open="(" separator=",">
+						 '${hideCode[index]}'
+				</foreach>
+				</if>
+				<![CDATA[
+				UNION 
+				SELECT BASE_CD AS CODE
+				     , BASE_CD_NM AS VALUE
+				     , IQ_SEQ AS IQ_SEQ  
+				  FROM WOASIS.TB_BASE_CD
+				 WHERE CL_CD = '2555' --WINS2용 공통코드 새로 등록함
+				   AND USE_YN = 'Y' 
+				   AND BASE_CD NOT IN  ]]> 
+				 <if test="(hideCode2 != null and hideCode2 != '')">
+			   	<foreach close=")" collection="hideCode2" index="index" item="item" open="(" separator=",">
+						 '${hideCode2[index]}'
+				</foreach>
+				</if>
+				<![CDATA[
+				--2013.06.04. 박은영D 추가. WINS SM 인원 및 LG하우시스 master 에게 WINS 운영매뉴얼 오픈.	
+				UNION 
+				SELECT BASE_CD AS CODE
+				     , BASE_CD_NM AS VALUE
+				     , IQ_SEQ AS IQ_SEQ
+				  FROM WOASIS.TB_BASE_CD
+				 WHERE CL_CD = '255'
+				   AND USE_YN = 'Y'
+				   AND BASE_CD = '110'
+				   AND EXISTS (SELECT XCMK_CD, EE_ID
+				                 FROM WOASIS.TB_USER_MST
+				                WHERE XCMK_CD = #{_xcmkCd}
+				                  AND EE_ID = #{_userId}
+				                  AND TWMS_ADMIN_SCN_CD IN ('00', '01')
+				                UNION 
+				               SELECT XCMK_CD, EE_ID
+				                 FROM WOASIS.TB_USER_MST
+				                WHERE XCMK_CD = #{_xcmkCd}
+				                  AND EE_ID = #{_userId}
+				                  AND #{_xcmkCd} = 'L1078718122'
+				                  AND #{_userId} IN ('master'))
+				 ORDER BY IQ_SEQ)
+		    ]]>
+	</select>  	
+	
+	<select id="retrieveSubMenuId" resultType="HashMap">
+		<![CDATA[
+    	-- 최초 화면 Top menu Id 와 Sub Menu ID 조회
+		SELECT MENU_ID AS "topMenuId"
+		       , SUB_MENU_ID AS "subMenuId"
+		       , THD_MENU_CNT AS "thdMenuCnt"
+		       , RTHD_MENU_CNT AS "rthdMenuCnt"
+		  FROM (
+		    SELECT  AA.MENU_ID
+		          , AB.MENU_ID AS SUB_MENU_ID
+		          , (SELECT /*+ LEADING(B C D A) */ COUNT(*)
+		               FROM WOASIS.TB_MENU_MST A
+		               JOIN WOASIS.TB_MENU_MST B ON (A.MENU_ID = B.SUPI_MENU_ID)
+		               JOIN WOASIS.TB_MENU_MST C ON (B.MENU_ID = C.SUPI_MENU_ID)
+		               JOIN WOASIS.TB_USER_MENU_INFO D ON (C.MENU_ID = D.MENU_ID)
+		              WHERE C.MENU_LVL = '3'
+		                AND C.USE_YN = 'Y'
+		                AND D.AUTH_SCN_CD != 'N'
+		                AND D.XCMK_CD = #{xcmkCd}
+		                AND D.EE_ID =#{eeId}
+		                AND B.MENU_ID = AB.MENU_ID) AS THD_MENU_CNT    -- 사용자가 권한 갖고 있는 3단계 레벨 메뉴 
+		           ,(SELECT COUNT(*)
+		               FROM WOASIS.TB_MENU_MST A
+		               JOIN WOASIS.TB_MENU_MST B ON (A.MENU_ID = B.SUPI_MENU_ID)
+		               JOIN WOASIS.TB_MENU_MST C ON (B.MENU_ID = C.SUPI_MENU_ID)
+		              WHERE C.MENU_LVL = '3'
+		                AND C.USE_YN = 'Y'
+		                AND A.MENU_ID = AA.MENU_ID
+		                AND B.MENU_ID = AB.MENU_ID) AS RTHD_MENU_CNT      -- 실제 3단계 레벨 메뉴 
+		      FROM WOASIS.TB_MENU_MST AA
+		      JOIN WOASIS.TB_MENU_MST AB ON (AA.MENU_ID = AB.SUPI_MENU_ID)
+		      JOIN WOASIS.TB_USER_MENU_INFO BB ON (AA.MENU_ID = BB.MENU_ID)
+		      JOIN WOASIS.TB_USER_MENU_INFO BC ON (AB.MENU_ID = BC.MENU_ID)
+		     WHERE AA.MENU_LVL = '1'
+		       AND AA.USE_YN = 'Y'
+		       --AND AA.AFFR_SCN IN ('SPOT', 'ESTI', 'OEM')
+		       AND AA.AFFR_SCN IN
+		       ]]>	
+		       <if test="affrScnQ != null and affrScnQ.equals('SIMD') ">
+		        ('SIMD')
+		       </if>
+		       <if test="affrScnQ != null and affrScnQ.equals('SIMC') ">
+		        ('SIMC')
+		       </if>
+		      <![CDATA[  
+		       AND BB.AUTH_SCN_CD != 'N'
+		       AND BB.XCMK_CD = #{xcmkCd}
+		       AND BB.EE_ID = #{eeId}
+		       AND AB.MENU_LVL = '2'
+		       AND AB.USE_YN = 'Y'
+		       AND BC.AUTH_SCN_CD != 'N'
+		       AND BC.XCMK_CD = #{xcmkCd}
+		       AND BC.EE_ID = #{eeId}
+		     ORDER BY AA.IQ_SEQ, AB.IQ_SEQ
+		       )
+		 WHERE RTHD_MENU_CNT >= THD_MENU_CNT
+		   AND THD_MENU_CNT != (CASE WHEN RTHD_MENU_CNT > 0 THEN 0
+		                             ELSE -1
+		                        END)
+		   AND ROWNUM = 1
+   		 ]]>	
+	</select>
+	
+	<select id="retrieveSubMenuYn" resultType="int">
+		<![CDATA[
+	    --사용자별 하위메뉴 존재여부  조회
+	      SELECT COUNT(*) AS "cnt"
+	        FROM WOASIS.TB_USER_MENU_INFO A
+	           , WOASIS.TB_MENU_MST B
+	       WHERE A.MENU_ID = B.MENU_ID
+	         AND A.EE_ID = #{eeId}
+	         AND A.XCMK_CD = #{xcmkCd}
+	         AND A.AUTH_SCN_CD != 'N'
+	         AND B.SUPI_MENU_ID = #{choiceSubMenuId}
+	     ]]>
+	</select>
+	
+	<select id="retrieveThirdMenuUrl" resultType="HashMap">
+		<![CDATA[
+    -- 최초화면 2단계 메뉴 url 조회 
+        SELECT MENU_ID AS "menuId"
+             , SCRN_URL AS "scrnUrl"
+             , (SELECT CASE WHEN #{_xcmkType} = 'T' OR #{_xcmkType} = 'C' OR #{_xcmkType} = 'L' THEN COUNT(1)
+                            ELSE 1 
+                        END AS POLL_CNT 
+             	  FROM TWC_POLL 
+                 WHERE POLL_SN = '10'
+                   AND AGEN_CD = #{_xcmkCdN}
+                   AND RGST_ID = #{_userId}) AS "pollCnt"
+          FROM WOASIS.TB_MENU_MST A
+         WHERE MENU_ID = #{choiceSubMenuId}
+     	]]>    
+	</select>
+	
+	<select id="retrieveSubMenuUrl" resultType="HashMap">
+		<![CDATA[
+    	-- 최초화면 3단계 메뉴 url 조회 : 사용여부 체크 
+		SELECT A.MENU_ID AS "menuId"
+		     , A.SCRN_URL AS "scrnUrl"
+		     , (SELECT CASE WHEN #{_xcmkType} = 'T' OR #{_xcmkType} = 'C' THEN COUNT(1)
+                            ELSE 1 
+                        END AS "pollCnt" 
+             	  FROM TWC_POLL 
+                 WHERE POLL_SN = '10'
+                   AND AGEN_CD = #{_xcmkCdN}
+                   AND RGST_ID = #{_userId}) AS "pollCnt"
+		  FROM WOASIS.TB_MENU_MST A
+		    JOIN (SELECT AA.MENU_ID
+		               , RANK() OVER(PARTITION BY SUPI_MENU_ID ORDER BY IQ_SEQ) RANK
+		            FROM WOASIS.TB_MENU_MST AA
+		              JOIN WOASIS.TB_USER_MENU_INFO BB ON (AA.MENU_ID = BB.MENU_ID)
+		           WHERE BB.EE_ID = #{eeId}
+		             AND BB.AUTH_SCN_CD != 'N'
+		             AND AA.SUPI_MENU_ID = #{choiceSubMenuId}
+		             AND BB.XCMK_CD = #{_xcmkCd}
+		         ) B ON (A.MENU_ID = B.MENU_ID)
+		 WHERE B.RANK = 1
+		]]>		 
+	</select>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="system.user.sql-system-user">
+
+    <!-- LG사용자 조회 -->
+	<select id="retreiveLgUserList" resultType="HashMap"><![CDATA[
+        SELECT DISTINCT B.SA_USER   AS "saUser"        --ID
+             , B.SA_NAME            AS "saName"        --사원명
+             , B.SA_JOBX_NAME       AS "saJobxName"   --직위
+             , B.SA_DEPT_NAME       AS "saDeptName"   --부서명
+             , (B.SA_PHONE_AREA||'-'|| B.SA_PHONE_O)  AS "saTel" -- 사무실번호  
+             , B.SA_HAND            AS "saHand"        --휴대폰번호
+			  FROM WOASIS.TB_USER_MST A
+			     , TWC_SSO_USER B
+			 WHERE A.EE_ID = B.SA_USER
+			   AND A.XCMK_CD = 'L1078718122'
+			   AND B.SSO_EX_FLAG != 'D'	]]> 
+		    <if test="eeId != null and eeId != ''">    
+		        <![CDATA[
+				AND B.SA_USER LIKE '%' || #{eeId} || '%'
+				]]> 
+			</if>
+		    <if test="eeNm != null and eeNm != ''">    
+		        <![CDATA[
+				AND B.SA_NAME LIKE '%' || #{eeNm} || '%'
+				]]> 
+			</if>
+		<![CDATA[ ORDER BY B.SA_NAME	]]> 
+		
+	</select>
+    
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.tss.tctm.test">
+    <select id="selectMst" resultType="hashmap">
+        <![CDATA[
+          select  * from IRIS_TSS_MGMT_MST  where TSS_CD = #{tssCd}
+        ]]>
+    </select>
+
+    <select id="selectSmry" resultType="hashmap">
+        <![CDATA[
+          select  * from IRIS_TSS_TCTM_SMRY where TSS_CD = #{tssCd}
+        ]]>
+    </select>
+
+    <select id="selectYld" resultType="hashmap">
+        <![CDATA[
+          select  * from IRIS_TSS_YLD_ITM where TSS_CD = #{tssCd}
+        ]]>
+    </select>
+
+
+
+
+    <select id="allCnt" resultType="hashmap">
+        <![CDATA[
+        select
+        (select count(*) from IRIS_TSS_MGMT_MST where TSS_SCN_CD='D') as 마스터                              --마스터
+        ,(select count(*) from IRIS_TSS_TCTM_SMRY where substring(TSS_CD,1,1) ='D') as 서머리                 -- 개요
+        ,(select count(*) from IRIS_TSS_YLD_ITM where substring(TSS_CD,1,1) ='D') as 산출물                      --산출물
+        ,(select count(*) from IRIS_TSS_SMRY_ALTR_LIST  where substring(TSS_CD,1,1) ='D') as 변경개요목록        --변경 개요 목록
+        ,(select count(*) from IRIS_GRS_EV_RSLT_RGST  where substring(TSS_CD,1,1) ='D') as  GRS평가표         --GRS 평가표 등록
+        ,(select count(*) from IRIS_GRS_EV_STD_RSLT_RGST  where substring(TSS_CD,1,1) ='D') as GRS평가내역  --GRS평가결과
+        ,(select count(*) from IRIS_COM_ITG_RDCS where substring(AFFR_CD,1,1) ='D') as 전자결재                --전자결제
+        ]]>
+    </select>
+
+
+
+    <delete id="delMsg"><![CDATA[delete from IRIS_TSS_MGMT_MST where TSS_SCN_CD='D']]></delete>
+    <delete id="delSMry"><![CDATA[delete from IRIS_TSS_TCTM_SMRY where substring(TSS_CD,1,1) ='D']]></delete>
+    <delete id="delYldg"><![CDATA[delete from IRIS_TSS_YLD_ITM where substring(TSS_CD,1,1) ='D']]></delete>
+    <delete id="delSmryAltr"><![CDATA[delete from IRIS_TSS_SMRY_ALTR_LIST  where substring(TSS_CD,1,1) ='D']]></delete>
+    <delete id="delEv"><![CDATA[delete from IRIS_GRS_EV_RSLT_RGST  where substring(TSS_CD,1,1) ='D']]></delete>
+    <delete id="delEvResult"><![CDATA[delete from IRIS_GRS_EV_STD_RSLT_RGST  where substring(TSS_CD,1,1) ='D']]></delete>
+    <delete id="delITG"><![CDATA[delete from IRIS_COM_ITG_RDCS where substring(AFFR_CD,1,1) ='D']]></delete>
+
+
+    <select id="ItgSp">
+		<![CDATA[
+			/* sp_updateComItgRdcs 통합결제 완료*/
+			EXEC dbo.sp_updateComItgRdcs #{gui}, #{aprdocstate}, #{itgRdcsId}, #{successFlag}
+		  ]]>
+    </select>
+
+
+    <select id="getGui" resultType="String">
+      select GUID from IRIS_COM_ITG_RDCS where AFFR_CD=#{tssCd}
+    </select>
+
+
+    <select id="prjList"  resultType="hashmap">
+        select
+        PRJ_CD as prjCd
+        ,PRJ_NM as prjNm
+--         ,DEPT_UPER as deptCode
+        ,dbo.fn_getUpperDeptCd(DEPT_CD)  as deptCode
+        ,WBS_CD_A as wbsCdA
+        from IRIS_PRJ_RSST_MST
+    </select>
+</mapper>

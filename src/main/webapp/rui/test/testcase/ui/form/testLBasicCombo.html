@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.form.LBasicCombo Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../plugins/ui/form/LBasicCombo.js"></script>
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var basicCombo = null;
+Rui.onReady(function() {
+       // 소스 넣을 위치
+       basicCombo = new Rui.ui.form.LBasicCombo({
+            applyTo : 'combo1'
+        });
+
+
+        basicCombo.getDataSet().load({
+            url: './../../../../sample/data/code.json',
+            sync: true
+        }); 
+        
+        basicCombo.setSelectedIndex(3);
+
+        /******************JsUnit용 소스 시작**********************/
+        //dataSet load event에 넣으면 작동되지 않는다.
+        setUpPageStatus = 'complete';
+        /******************JsUnit용 소스   끝**********************/
+    });
+
+    //setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+    function setUpPage() {
+        setUpPageStatus = 'running';
+    }
+
+    //test function이 실행되기 전에 먼저 실행된다.
+    function setUp() {
+    }
+
+    //모든 test function이 실행된 후 실행된다.
+    function tearDown() {
+    }
+
+    //**************test function 시작*****************
+    // testcase 넣을 위치
+    function testLBasicCombo_method_getValue() {
+        info('LBasicComboTests : testLBasicCombo_method_getValue 작동 여부');
+        assertEquals(basicCombo.getValue(), 'code4');
+    }
+
+    function testLBasicCombo_method_getDisplayValue() {
+
+        info('LBasicComboTests : testLBasicCombo_method_getDisplayValue 작동 여부');
+        assertEquals(basicCombo.getDisplayValue(), '코드4');
+    }
+
+    function testLBasicCombo_method_setValue() {
+
+        info('LBasicComboTests : testLBasicCombo_method_setValue 작동 여부');
+        var o = 'code2'; //String
+        basicCombo.setValue(o);
+        assertEquals(basicCombo.getValue(), 'code2');
+    }
+    //**************test function   끝*****************
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.form.LBasicCombo Tests</h1>
+
+    <div id="bd">
+    <div class="LblockMarkupCode">
+            <form id='frm' name='frm' method='post' action='./../../../../sample/data/savedCallback.json'>
+                <fieldset>
+                    <label for="combo1">
+                        col1
+                    </label>
+                    <div id="combo1">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLBasicCombo_method_getValue()">getValue</a>
+            <a href="javascript:testLBasicCombo_method_getDisplayValue()">getDisplayValue</a>
+            <a href="javascript:testLBasicCombo_method_setValue()">setValue</a>
+        </div>
+    </div>        
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>JsUnit Test Suite</title>
+    <link rel="stylesheet" type="text/css" href="./../../jsunit/css/jsUnitStyle.css"/>
+    <script type="text/javascript" src="./../../jsunit/app/jsUnitCore.js"></script>
+    <script type="text/javascript">
+        function coreSuite() {
+            var newsuite = new top.jsUnitTestSuite();
+            var testSuite = [
+                './../testcase/ui/testLButton.html',
+                './../testcase/ui/testLCommonPanel.html',
+                './../testcase/ui/testLConfig.html',
+                './../testcase/ui/testLDialog.html',
+                './../testcase/ui/testLFileUploadDialog.html',
+                './../testcase/ui/testLFileUploadPanel.html',
+                './../testcase/ui/testLFrameDialog.html',
+                './../testcase/ui/testLInlineEditor.html',
+                './../testcase/ui/testLLoadPage.html',
+                './../testcase/ui/testLMessageBox.html',
+                './../testcase/ui/testLPager.html',
+                './../testcase/ui/testLPanel.html',
+                './../testcase/ui/testLPanelManager.html',
+                './../testcase/ui/testLScroller.html',
+                './../testcase/ui/testLSimpleDialog.html',
+                './../testcase/ui/testLTooltip.html',
+                './../testcase/ui/testLUIComponent.html',
+                './../testcase/ui/testLUnorderedList.html',
+                './../testcase/ui/testLUnorderedListNode.html',
+                './../testcase/ui/testLWaitPanel.html'
+            ];
+
+            for(var i = 0 ; i < testSuite.length ; i++) {        
+                newsuite.addTestPage(testSuite[i]);
+            }
+            return newsuite;
+        }
+
+        function librariesSuite() {
+            var result = new top.jsUnitTestSuite();
+            return result;
+        }
+
+        function suite() {
+            var newsuite = new top.jsUnitTestSuite();
+            newsuite.addTestSuite(coreSuite());
+            newsuite.addTestSuite(librariesSuite());
+            return newsuite;
+        }
+    </script>
+</head>
+
+<body>
+<h1>JsUnit Test Suite</h1>
+
+<p>This page contains a suite of tests for testing JsUnit.</p>
+</body>
+</html>

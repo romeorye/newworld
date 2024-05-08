@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.tss.gen.cmpl">
+    <!--========================== 일반과제_완료_마스터 ==========================-->
+    <!-- 마스터 신규 -->
+    <insert id="insertGenTssCmplMst">
+    -- insertGenTssCmplMst 마스터 신규
+        <selectKey keyProperty="tssCd" resultType="String" order="BEFORE">
+        <![CDATA[
+            SELECT #{pkWbsCd} + REPLICATE('0', 4 - LEN(COUNT(X.TSS_CD)+1)) + CAST(COUNT(X.TSS_CD) + 1 AS NVARCHAR(4))
+              FROM IRIS_TSS_MGMT_MST X
+             WHERE X.PK_WBS_CD = #{pkWbsCd}
+        ]]>
+        </selectKey>
+    <![CDATA[
+        INSERT
+          INTO IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+             ( PRJ_CD            --프로젝트코드
+             , TSS_CD            --과제코드
+             , PGS_STEP_CD       --진행단계코드
+             , TSS_SCN_CD        --과제구분코드
+             , WBS_CD            --WBS코드
+             , PK_WBS_CD         --WBS코드
+             , DEPT_CODE         --조직코드(소속)
+             , PPSL_MBD_CD       --발의주체코드
+             , BIZ_DPT_CD        --사업부문코드
+             , TSS_NM            --과제명
+             , SA_SABUN_NEW      --과제리더사번
+             , TSS_ATTR_CD       --과제속성코드
+             , TSS_STRT_DD       --과제시작일
+             , TSS_FNH_DD        --과제종료일
+             , ALTR_B_STRT_DD    --변경전시작일
+             , ALTR_B_FNH_DD     --변경전종료일
+             , ALTR_NX_STRT_DD   --변경후시작일
+             , ALTR_NX_FNH_DD    --변경후종료일
+             , CMPL_B_STRT_DD    --완료전시작일
+             , CMPL_B_FNH_DD     --완료전종료일
+             , CMPL_NX_STRT_DD   --완료후시작일
+             , CMPL_NX_FNH_DD    --완료후종료일
+             , DCAC_B_STRT_DD    --중단전시작일
+             , DCAC_B_FNH_DD     --중단전종료일
+             , DCAC_NX_STRT_DD   --중단후시작일
+             , DCAC_NX_FNH_DD    --중단후종료일
+             , COO_INST_CD       --협력기관코드
+             , SUPV_OPS_NM       --주관부서명
+             , EXRS_INST_NM      --전담기관명
+             , BIZ_NM            --사업명
+             , TSS_ST            --과제상태
+             , TSS_NOS_ST        --과제차수상태
+             , TSS_ST_TXT        --과제상태의견
+             , PROD_G
+             , RSST_SPHE
+             , TSS_TYPE
+             , SA_SABUN_NAME
+             , DEPT_NAME
+             , PRJ_NM
+             , CUST_SQLT
+             , TSS_SMRY_TXT
+             , FC_CD
+             , GRS_YN
+             , FRST_RGST_DT      --최초등록일시
+             , FRST_RGST_ID      --최초등록자
+             , LAST_MDFY_DT      --최종수정일시
+             , LAST_MDFY_ID      --최종수정자
+             )
+        SELECT PRJ_CD
+             , #{tssCd}
+             , #{pgsStepCd}
+             , #{tssScnCd}
+             , WBS_CD
+             , PK_WBS_CD
+             , DEPT_CODE
+             , PPSL_MBD_CD
+             , BIZ_DPT_CD
+             , TSS_NM
+             , SA_SABUN_NEW
+             , TSS_ATTR_CD
+             , TSS_STRT_DD
+             , TSS_FNH_DD
+             , ALTR_B_STRT_DD
+             , ALTR_B_FNH_DD
+             , ALTR_NX_STRT_DD
+             , ALTR_NX_FNH_DD
+             , #{cmplBStrtDd}
+             , #{cmplBFnhDd}
+             , CMPL_NX_STRT_DD
+             , CMPL_NX_FNH_DD
+             , DCAC_B_STRT_DD
+             , DCAC_B_FNH_DD
+             , DCAC_NX_STRT_DD
+             , DCAC_NX_FNH_DD
+             , COO_INST_CD
+             , SUPV_OPS_NM
+             , EXRS_INST_NM
+             , BIZ_NM
+             , #{tssSt}
+             , #{tssNosSt}
+             , TSS_ST_TXT
+             , PROD_G
+             , RSST_SPHE
+             , TSS_TYPE
+             , SA_SABUN_NAME
+             , DEPT_NAME
+             , PRJ_NM
+             , CUST_SQLT
+             , TSS_SMRY_TXT
+             , FC_CD
+             , GRS_YN
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+          FROM IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+         WHERE TSS_CD = #{pgTssCd}
+    ]]>
+    </insert>
+
+
+    <!-- 마스터 수정 -->
+    <update id="updateGenTssCmplMst">
+    <![CDATA[
+    -- updateGenTssCmplMst 마스터 수정
+        UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+           SET CMPL_B_STRT_DD = #{cmplBStrtDd}
+             , CMPL_B_FNH_DD  = #{cmplBFnhDd}
+             , LAST_MDFY_DT   = GETDATE()
+             , LAST_MDFY_ID   = #{userId}
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+    </update>
+
+
+
+
+    <!--========================== 일반과제_완료_개요 ==========================-->
+    <!-- 개요 조회 -->
+    <select id="retrieveGenTssCmplIfm" resultType="hashmap">
+    <![CDATA[
+    -- retrieveGenTssCmplSmry 개요 조회
+        SELECT   a.TSS_CD                    AS tssCd               --과제코드
+	             , a.TSS_SMRY_TXT            AS tssSmryTxt          --과제개요_연구과제배경
+	             , a.TSS_SMRY_DVLP_TXT       AS tssSmryDvlpTxt      --과제개요_주요연구개발내용
+	             , a.RSST_DVLP_OUCM_TXT      AS rsstDvlpOucmTxt     --연구개발성과_지재권
+	             , a.RSST_DVLP_OUCM_CTQ_TXT  AS rsstDvlpOucmCtqTxt  --연구개발성과_CTQ
+	             , a.RSST_DVLP_OUCM_EFF_TXT  AS rsstDvlpOucmEffTxt  --연구개발성과_파급효과
+	             , a.QGATE3_DT               AS qgate3Dt            --Qgate3(품질평가단계) 패스일자
+	             , a.FWD_PLN_TXT             AS fwdPlnTxt           --사업화출시계획
+	             , a.FNO_PLN_TXT             AS fnoPlnTxt           --향후 계획
+	             , a.PMIS_CMPL_TXT           AS pmisCmplTxt
+	             , a.FRST_RGST_DT            AS frstRgstDt          --최초등록일시
+	             , a.FRST_RGST_ID            AS frstRgstId          --최초등록자
+	             , a.LAST_MDFY_DT            AS lastMdfyDt          --최종수정일시
+	             , a.LAST_MDFY_ID            AS lastMdfyId          --최종수정자
+	             , isnull(a.CMPL_ATTC_FIL_ID ,  b.ATTC_FIL_ID )  AS cmplAttcFilId       --첨부파일
+	             , isnull(a.NPROD_NM, b.NPROD_NM )   AS nprodNm             --신제품명
+				, case when b.ANCP_OT_PLN_DT is null or b.ANCP_OT_PLN_DT = '' then  a.ANCP_OT_PLN_DT
+				       else b.ANCP_OT_PLN_DT end as ancpOtPlnDt         --예상출시일(계획)
+				, isnull(a.BIZ_PRFT_PRO_Y	   , b.BIZ_PRFT_PRO_Y	    )	as bizPrftProY
+				, isnull(a.BIZ_PRFT_PRO_Y_1	   , b.BIZ_PRFT_PRO_Y_1 )	as bizPrftProY1
+				, isnull(a.BIZ_PRFT_PRO_Y_2	   , b.BIZ_PRFT_PRO_Y_2	)	as bizPrftProY2
+				, isnull(a.BIZ_PRFT_PRO_Y_3	   , b.BIZ_PRFT_PRO_Y_3	)	as bizPrftProY3
+				, isnull(a.BIZ_PRFT_PRO_Y_4	   , b.BIZ_PRFT_PRO_Y_4	)	as bizPrftProY4
+		        , isnull(a.BIZ_PRFT_Pro_CUR_Y  , b.BIZ_PRFT_Pro_CUR_Y  )	as bizPrftProCurY
+				, isnull(a.BIZ_PRFT_Pro_CUR_Y_1, b.BIZ_PRFT_Pro_CUR_Y_1)	as bizPrftProCurY1
+				, isnull(a.BIZ_PRFT_Pro_CUR_Y_2, b.BIZ_PRFT_Pro_CUR_Y_2)	as bizPrftProCurY2
+				, isnull(a.BIZ_PRFT_PLN_Y	   , b.BIZ_PRFT_PLN_Y		)	as bizPrftPlnY
+				, isnull(a.BIZ_PRFT_PLN_Y_1	   , b.BIZ_PRFT_PLN_Y_1	) 	as bizPrftPlnY1
+				, isnull(a.BIZ_PRFT_PLN_Y_2	   , b.BIZ_PRFT_PLN_Y_2	) 	as bizPrftPlnY2
+				, isnull(a.BIZ_PRFT_CUR_Y	   , b.BIZ_PRFT_CUR_Y		) 	as bizPrftCurY
+				, isnull(a.BIZ_PRFT_CUR_Y_1	   , b.BIZ_PRFT_CUR_Y_1	) 	as bizPrftCurY1
+				, isnull(a.BIZ_PRFT_CUR_Y_2	   , b.BIZ_PRFT_CUR_Y_2	) 	as bizPrftCurY2
+				, isnull(a.NPROD_SALS_PLN_Y	   , b.NPROD_SALS_PLN_Y	) 	as nprodSalsPlnY
+				, isnull(a.NPROD_SALS_PLN_Y_1  , b.NPROD_SALS_PLN_Y_1  ) 	as nprodSalsPlnY1
+				, isnull(a.NPROD_SALS_PLN_Y_2  , b.NPROD_SALS_PLN_Y_2  ) 	as nprodSalsPlnY2
+		        , isnull(a.NPROD_SALS_PLN_Y_3  , 0  )					 	as nprodSalsPlnY3
+				, isnull(a.NPROD_SALS_PLN_Y_4  , 0  )                   	as nprodSalsPlnY4
+				, isnull(a.NPROD_SALS_CUR_Y	   , b.NPROD_SALS_CUR_Y	) 	as nprodSalsCurY
+				, isnull(a.NPROD_SALS_CUR_Y_1  , b.NPROD_SALS_CUR_Y_1  ) 	as nprodSalsCurY1
+				, isnull(a.NPROD_SALS_CUR_Y_2  , b.NPROD_SALS_CUR_Y_2  ) 	as nprodSalsCurY2
+				, isnull(a.PTC_CPSN_Y		   , b.PTC_CPSN_Y		    ) 	as ptcCpsnY
+				, isnull(a.PTC_CPSN_Y_1		   , b.PTC_CPSN_Y_1		) 	as ptcCpsnY1
+				, isnull(a.PTC_CPSN_Y_2		   , b.PTC_CPSN_Y_2		) 	as ptcCpsnY2
+				, isnull(a.PTC_CPSN_Y_3		   , b.PTC_CPSN_Y_3		) 	as ptcCpsnY3
+				, isnull(a.PTC_CPSN_Y_4		   , b.PTC_CPSN_Y_4		) 	as ptcCpsnY4
+				, isnull(a.PTC_CPSN_CUR_Y	   , b.PTC_CPSN_CUR_Y	    )  as ptcCpsnCurY
+				, isnull(a.PTC_CPSN_CUR_Y_1	   , b.PTC_CPSN_CUR_Y_1 ) 	as ptcCpsnCurY1
+				, isnull(a.PTC_CPSN_CUR_Y_2	   , b.PTC_CPSN_CUR_Y_2 ) 	as ptcCpsnCurY2
+				, isnull(a.PTC_CPSN_CUR_Y_3	   , b.PTC_CPSN_CUR_Y_3 ) 	as ptcCpsnCurY3
+				, isnull(a.PTC_CPSN_CUR_Y_4	   , b.PTC_CPSN_CUR_Y_4 ) 	as ptcCpsnCurY4
+		        , isnull(a.EXP_ARSL_Y		   , b.EXP_ARSL_Y		    ) 	as expArslY
+				, isnull(a.EXP_ARSL_Y_1		   , b.EXP_ARSL_Y_1		) 	as expArslY1
+				, isnull(a.EXP_ARSL_Y_2		   , b.EXP_ARSL_Y_2		) 	as expArslY2
+				, isnull(a.EXP_ARSL_Y_3		   , b.EXP_ARSL_Y_3		) 	as expArslY3
+				, isnull(a.EXP_ARSL_Y_4		   , b.EXP_ARSL_Y_4		) 	as expArslY4
+				, isnull(a.EXP_ARSL_CUR_Y	   , b.EXP_ARSL_CUR_Y	    ) 	as expArslCurY
+				, isnull(a.EXP_ARSL_CUR_Y_1	   , b.EXP_ARSL_CUR_Y_1	) 	as expArslCurY1
+				, isnull(a.EXP_ARSL_CUR_Y_2	   , b.EXP_ARSL_CUR_Y_2	) 	as expArslCurY2
+				, isnull(a.EXP_ARSL_CUR_Y_3	   , b.EXP_ARSL_CUR_Y_3	) 	as expArslCurY3
+				, isnull(a.EXP_ARSL_CUR_Y_4	   , b.EXP_ARSL_CUR_Y_4	) 	as expArslCurY4
+          FROM IRIS_TSS_GEN_SMRY  a/*일반과제개요*/
+		       left outer join IRIS_GRS_EV_RSLT_RGST b
+			   on b.tss_cd = a.TSS_CD
+			   and b.grs_ev_st = 'G2'
+         WHERE a.TSS_CD = #{tssCd}
+    ]]>
+    </select>
+
+
+    <!-- 개요 신규 -->
+    <insert id="insertGenTssCmplSmry">
+    <![CDATA[
+    -- insertGenTssCmplSmry 개요 신규
+        INSERT
+          INTO IRIS_TSS_GEN_SMRY  
+             ( TSS_CD             
+             , TSS_SMRY_TXT       
+             , TSS_SMRY_DVLP_TXT  
+             , RSST_DVLP_OUCM_TXT 
+             , RSST_DVLP_OUCM_CTQ_TXT
+             , RSST_DVLP_OUCM_EFF_TXT
+             , QGATE3_DT             
+             , FWD_PLN_TXT           
+             , FNO_PLN_TXT           
+             , PMIS_CMPL_TXT
+			 , NPROD_NM
+			 , ANCP_OT_PLN_DT
+			 , BIZ_PRFT_PRO_Y
+			 , BIZ_PRFT_PRO_Y_1
+			 , BIZ_PRFT_PRO_Y_2
+             , BIZ_PRFT_Pro_CUR_Y
+			 , BIZ_PRFT_Pro_CUR_Y_1
+			 , BIZ_PRFT_Pro_CUR_Y_2 
+			 , BIZ_PRFT_PLN_Y	   
+			 , BIZ_PRFT_PLN_Y_1	 
+			 , BIZ_PRFT_PLN_Y_2	 
+			 , BIZ_PRFT_CUR_Y	   
+			 , BIZ_PRFT_CUR_Y_1	 
+			 , BIZ_PRFT_CUR_Y_2	 
+			 , NPROD_SALS_PLN_Y	 
+			 , NPROD_SALS_PLN_Y_1
+			 , NPROD_SALS_PLN_Y_2
+			 , NPROD_SALS_PLN_Y_3
+			 , NPROD_SALS_PLN_Y_4
+			 , NPROD_SALS_CUR_Y	 
+			 , NPROD_SALS_CUR_Y_1
+			 , NPROD_SALS_CUR_Y_2 
+			 , PTC_CPSN_Y		     
+			 , PTC_CPSN_Y_1		   
+			 , PTC_CPSN_Y_2		   
+			 , PTC_CPSN_Y_3		   
+			 , PTC_CPSN_Y_4		   
+			 , PTC_CPSN_CUR_Y	   
+			 , PTC_CPSN_CUR_Y_1	 
+			 , PTC_CPSN_CUR_Y_2	 
+			 , PTC_CPSN_CUR_Y_3	 
+			 , PTC_CPSN_CUR_Y_4	 
+			 , EXP_ARSL_Y		     
+			 , EXP_ARSL_Y_1		   
+			 , EXP_ARSL_Y_2		   
+			 , EXP_ARSL_Y_3		   
+			 , EXP_ARSL_Y_4		   
+			 , EXP_ARSL_CUR_Y	   
+			 , EXP_ARSL_CUR_Y_1	 
+			 , EXP_ARSL_CUR_Y_2	 
+			 , EXP_ARSL_CUR_Y_3	 
+			 , EXP_ARSL_CUR_Y_4	 
+			 , CMPL_ATTC_FIL_ID
+             , FRST_RGST_DT            --최초등록일시
+             , FRST_RGST_ID            --최초등록자
+             , LAST_MDFY_DT            --최종수정일시
+             , LAST_MDFY_ID            --최종수정자
+             )
+        VALUES
+             ( #{tssCd}
+             , #{tssSmryTxt}
+             , #{tssSmryDvlpTxt}
+             , #{rsstDvlpOucmTxt}
+             , #{rsstDvlpOucmCtqTxt}
+             , #{rsstDvlpOucmEffTxt}
+             , #{qgate3Dt}
+             , #{fwdPlnTxt}
+             , #{fnoPlnTxt}
+             , #{pmisCmplTxt}
+             , #{nprodNm}
+			 , #{ancpOtPlnDt}
+		     , case when #{bizPrftProY}    = '' then '0' else #{bizPrftProY}     end 
+			, case when #{bizPrftProY1}   = '' then '0' else #{bizPrftProY1}    end 
+			, case when #{bizPrftProY2}   = '' then '0' else #{bizPrftProY2}    end 
+			, case when #{bizPrftProCurY} = '' then '0' else #{bizPrftProCurY}  end 
+			, case when #{bizPrftProCurY1}= '' then '0' else #{bizPrftProCurY1} end 
+			, case when #{bizPrftProCurY2}= '' then '0' else #{bizPrftProCurY2} end 
+			, case when #{bizPrftPlnY}	  = '' then '0' else #{bizPrftPlnY}	    end 
+			, case when #{bizPrftPlnY1}	  = '' then '0' else #{bizPrftPlnY1}	end 
+			, case when #{bizPrftPlnY2}	  = '' then '0' else #{bizPrftPlnY2}	end 
+			, case when #{bizPrftCurY}	  = '' then '0' else #{bizPrftCurY}	    end 
+			, case when #{bizPrftCurY1}	  = '' then '0' else #{bizPrftCurY1}	end 
+			, case when #{bizPrftCurY2}	  = '' then '0' else #{bizPrftCurY2}	end 
+			, case when #{nprodSalsPlnY}  = '' then '0' else #{nprodSalsPlnY}	end 
+			, case when #{nprodSalsPlnY1} = '' then '0' else #{nprodSalsPlnY1}  end 
+			, case when #{nprodSalsPlnY2} = '' then '0' else #{nprodSalsPlnY2}  end 
+			, case when #{nprodSalsPlnY3} = '' then '0' else #{nprodSalsPlnY3}  end 
+			, case when #{nprodSalsPlnY4} = '' then '0' else #{nprodSalsPlnY4}  end 
+			, case when #{nprodSalsCurY}  = '' then '0' else #{nprodSalsCurY}	end 
+			, case when #{nprodSalsCurY1} = '' then '0' else #{nprodSalsCurY1}  end 
+			, case when #{nprodSalsCurY2} = '' then '0' else #{nprodSalsCurY2}  end 
+			, case when #{ptcCpsnY}		  = '' then '0' else #{ptcCpsnY}		end 
+			, case when #{ptcCpsnY1}      = '' then '0' else #{ptcCpsnY1}		end 
+			, case when #{ptcCpsnY2}	  = '' then '0' else #{ptcCpsnY2}		end 
+			, case when #{ptcCpsnY3}	  = '' then '0' else #{ptcCpsnY3}		end 
+			, case when #{ptcCpsnY4}	  = '' then '0' else #{ptcCpsnY4}		end 
+			, case when #{ptcCpsnCurY}	  = '' then '0' else #{ptcCpsnCurY}	    end 
+			, case when #{ptcCpsnCurY1}	  = '' then '0' else #{ptcCpsnCurY1}	end 
+			, case when #{ptcCpsnCurY2}	  = '' then '0' else #{ptcCpsnCurY2}	end 
+			, case when #{ptcCpsnCurY3}	  = '' then '0' else #{ptcCpsnCurY3}	end 
+			, case when #{ptcCpsnCurY4}	  = '' then '0' else #{ptcCpsnCurY4}	end 
+			, case when #{expArslY}		  = '' then '0' else #{expArslY}		end 
+			, case when #{expArslY1}	  = '' then '0' else #{expArslY1}		end 
+			, case when #{expArslY2}	  = '' then '0' else #{expArslY2}		end 
+			, case when #{expArslY3}	  = '' then '0' else #{expArslY3}		end 
+			, case when #{expArslY4}	  = '' then '0' else #{expArslY4}		end 
+			, case when #{expArslCurY}	  = '' then '0' else #{expArslCurY}	    end 
+			, case when #{expArslCurY1}	  = '' then '0' else #{expArslCurY1}	end 
+			, case when #{expArslCurY2}	  = '' then '0' else #{expArslCurY2}	end 
+			, case when #{expArslCurY3}	  = '' then '0' else #{expArslCurY3}	end 
+			, case when #{expArslCurY4}	  = '' then '0' else #{expArslCurY4}	end 
+			 , #{cmplAttcFilId}	
+			 , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+             )
+    ]]>
+    </insert>
+
+
+    <!-- 개요 수정 -->
+    <update id="updateGenTssCmplSmry">
+    <![CDATA[
+    -- updateGenTssCmplSmry 개요 수정
+        UPDATE IRIS_TSS_GEN_SMRY  /*일반과제개요*/
+           SET TSS_SMRY_TXT            = #{tssSmryTxt}          --과제개요_연구과제배경
+             , TSS_SMRY_DVLP_TXT       = #{tssSmryDvlpTxt}      --과제개요_주요연구개발내용
+             , RSST_DVLP_OUCM_TXT      = #{rsstDvlpOucmTxt}     --연구개발성과_지재권
+             , RSST_DVLP_OUCM_CTQ_TXT  = #{rsstDvlpOucmCtqTxt}  --연구개발성과_CTQ
+             , RSST_DVLP_OUCM_EFF_TXT  = #{rsstDvlpOucmEffTxt}  --연구개발성과_파급효과
+             , QGATE3_DT               = #{qgate3Dt}            --Qgate3(품질평가단계) 패스일자
+             , FWD_PLN_TXT             = #{fwdPlnTxt}           --사업화출시계획
+             , FNO_PLN_TXT             = #{fnoPlnTxt}           --향후 계획
+             , PMIS_CMPL_TXT           = #{pmisCmplTxt}         --지적재산권 risk 검토 
+             , LAST_MDFY_DT            = GETDATE()
+             , LAST_MDFY_ID            = #{userId}
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+    </update>
+
+
+
+    <!--========================== 일반과제_완료_품의서 ==========================-->
+    <!-- 품의서 정보 조회 -->
+    <select id="retrieveGenTssCmplInfo" resultType="hashmap">
+    <![CDATA[
+    -- retrieveGenTssCmplInfo 품의서 정보 조회
+        SELECT TSS_CD
+             , mbrNmList
+             ,isnull((select EXP_ARSL_Y+isnull(EXP_ARSL_Y_1, 0)+isnull(EXP_ARSL_Y_2, 0)+isnull(EXP_ARSL_Y_3,0)+isnull(EXP_ARSL_Y_4, 0) as plnSum
+				from   IRIS_TSS_GEN_SMRY
+				where  tss_cd = #{pgTssCd}
+			   ), 0) as plnExp	
+             , isnull((select sum(convert(numeric(20,6), convert(numeric(20),KO_RSLT)/1000000)) as arslExcp
+			     from   IRIS_SAP_BUDG_S_COST
+				 where  erp_cd =  #{wbsCd}
+			   )  , 0) as arslExp
+             , CONVERT(VARCHAR, GETDATE(), 23) AS createDate
+          FROM (SELECT TSS_CD
+                     , STUFF((SELECT DISTINCT
+                                     ', ' + dbo.fn_getSabunName(SA_SABUN_NEW)
+                                FROM IRIS_TSS_PTC_RSST_MBR as T1
+                               WHERE T1.TSS_CD = T2.TSS_CD
+                                 FOR XML PATH('')), 1, 2, '') AS mbrNmList
+                  FROM IRIS_TSS_PTC_RSST_MBR T2
+                 WHERE T2.TSS_CD =  #{pgTssCd}
+                 GROUP BY TSS_CD
+			 ) A
+    ]]>
+    </select>
+
+
+    <!--진척율 조회 -->
+     <select id="retrieveGenTssCmplPgsCheck"  resultType="int">
+     	<![CDATA[
+     	-- retrieveGenTssCmplPgsCheck 진척율 조회
+     	select round(arsl_cd, 0)  as arslCd
+		from   IRIS_TSS_GEN_WBS
+		where  tss_cd in (select tss_cd   from IRIS_TSS_MGMT_MST where wbs_cd =#{wbsCd} and pgs_step_cd ='PG')
+		and    wbs_sn = 1
+		]]>
+    </select>
+
+    <!--목표기술성과 조회 -->
+     <select id="retrieveGenTssCmplGoalCheck"  resultType="String">
+     	<![CDATA[
+     	-- retrieveGenTssCmplGoalCheck 목표기술성과 조회
+     	select  case when a.arslCnt > 0 then 'N'
+		             else 'Y' end as chkYn
+		from (
+				SELECT  count(*)  as arslCnt
+				FROM IRIS_TSS_GOAL_ARSL  /*과제목표_실적*/
+				WHERE TSS_CD in (select tss_cd   from IRIS_TSS_MGMT_MST where wbs_cd =#{wbsCd} and pgs_step_cd ='PG')
+				and  (convert(nvarchar(max), ARSL) = '' or convert(nvarchar(max), ARSL) is null)
+			) a
+		]]>
+    </select>
+
+    <!-- 필수산출물 count 조회 -->
+     <select id="retrieveGenTssCmplItmCheck"  resultType="String">
+     	<![CDATA[
+     	-- retrieveGenTssCmplItmCheck 필수산출물 등록 체크
+		SELECT
+		  CASE WHEN COUNT(*)>0 THEN 'N' ELSE 'Y' END checkItm
+		FROM
+		  IRIS_TSS_YLD_ITM
+		WHERE
+				TSS_CD in (select tss_cd   from IRIS_TSS_MGMT_MST where wbs_cd =#{wbsCd} and pgs_step_cd ='PG')
+		AND YLD_ITM_TYPE IN ('01','03','06','10') -- 제안/GRS, 완료/중단, Qgate01
+		AND ISNULL(ATTC_FIL_ID,'')='' AND ISNULL(QGATE_LINK_URL,'')=''
+		]]>
+    </select>
+
+</mapper>

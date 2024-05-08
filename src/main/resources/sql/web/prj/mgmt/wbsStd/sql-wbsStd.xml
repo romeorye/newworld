@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.mgmt.wbsStd">
+
+	<select id="retrieveWbsStdList" resultType="hashmap">
+		<![CDATA[
+		-- retrieveWbsStdList
+		SELECT	STD_SN          as stdSn 		--표준일정일련번호
+			,	STD_TITL        as stdTitl 		--표준일정명
+			,	WBS_SCN_CD      as wbsScnCd 	--WBS구분코드
+			,	dbo.fn_getComDtlNm('WBS_type',WBS_SCN_CD) wbsScnNm --WBS구분명
+			,   LAST_MDFY_DT	as lastRgstDt
+			,	dbo.fn_getUserName(LAST_MDFY_ID)	as lastRgstNm
+
+
+			 FROM IRIS_WBS_STD_MGMT
+		 ]]>
+			WHERE 1=1
+
+
+		 <if test="stdTitl != null and stdTitl != ''">
+			AND STD_TITL like '%${stdTitl}%'
+		</if>
+		 <if test="wbsScnCd != null and wbsScnCd != ''">
+			AND WBS_SCN_CD = '${wbsScnCd}'
+		</if>
+	</select>
+
+	<select id="retrieveWbsStdDtl" resultType="hashmap">
+		<![CDATA[
+		/*retrieveWbsStdList*/
+		SELECT	STD_SN		as	  stdSn           --표준일정일련번호
+			,	WBS_SN      as    wbsSn           --WBS일련번호
+			,	PID_SN      as    pidSn           --PID
+			,	DEPTH        as    depth             --DEPTH
+			,	DEPTH_SEQ    as    depthSeq         --순서
+			,	WBS_NM      as    wbsNm           --WBS명
+			,	STRT_DT     as    strtDt          --시작일
+			,	FNH_DT      as    fnhDt           --종료일
+			,	ATTC_FIL_ID as 	  attcFilId		   --첨부파일
+			,	isnull(WGVL,0) as    wgvl             --가중치
+			,   '0'			as	  trm			-- 기간
+		 FROM IRIS_WBS_STD_DTL_LIST
+		 ]]>
+		WHERE 	STD_SN = '${stdSn}'
+
+
+	</select>
+
+
+</mapper>

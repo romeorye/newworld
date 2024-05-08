@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LCollection Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var collection = null;
+Rui.onReady(function() {
+    collection = new Rui.util.LCollection();
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLCollection_method_insert() {
+    info('LCollectionTests : testLCollection_method_insert 작동 여부');
+    var len = collection.length;
+    var idx = 0; //int
+    var key = 'test'; //String
+    var item = '123'; //Object
+    collection.insert(idx, key, item);
+    assertEquals(collection.length, len + 1);
+}
+function testLCollection_method_add() {
+    info('LCollectionTests : testLCollection_method_add 작동 여부');
+    var len = collection.length;
+    var key = 'test1'; //String
+    var item = '456'; //Object
+    collection.add(key, item);
+    assertEquals(collection.length, len + 1);
+}
+function testLCollection_method_remove() {
+    info('LCollectionTests : testLCollection_method_remove 작동 여부');
+    var len = collection.length;
+    var idx = 0; //int
+    var key = 'test'; //String
+    var item = '123'; //Object
+    collection.insert(idx, key, item);
+    collection.remove(key);
+    //return type : boolean
+    assertEquals(collection.length, len);
+}
+function testLCollection_method_indexOfKey() {
+    info('LCollectionTests : testLCollection_method_indexOfKey 작동 여부');
+    var key = 'test'; //String
+    var item = '123'; //Object
+    if(!collection.has(key))
+        collection.add(key, item);
+    var result = collection.indexOfKey(key);
+    //return type : int
+    assertTrue(result > -1);
+}
+function testLCollection_method_get() {
+    info('LCollectionTests : testLCollection_method_get 작동 여부');
+    var key = 'test'; //String
+    var item = '123'; //Object
+    if(!collection.has(key))
+        collection.add(key, item);
+    assertEquals(collection.get(key), item);
+}
+function testLCollection_method_set() {
+    info('LCollectionTests : testLCollection_method_set 작동 여부');
+    var key = 'test'; //String
+    var item = '123'; //Object
+    if(!collection.has(key))
+        collection.add(key, item);
+    collection.set(key, item);
+    assertEquals(collection.get(key), item);
+}
+function testLCollection_method_getKey() {
+    info('LCollectionTests : testLCollection_method_getKey 작동 여부');
+    var idx = 0; //int
+    var key = 'test'; //String
+    var item = '123'; //Object
+    if(!collection.has(key))
+        collection.add(key, item);
+    assertEquals(collection.getKey(idx), key);
+}
+function testLCollection_method_getAt() {
+    info('LCollectionTests : testLCollection_method_getAt 작동 여부');
+    collection.clear();
+    var idx = collection.length; //int
+    var key = 'test'; //String
+    var item = '123'; //Object
+    if(!collection.has(key))
+        collection.add(key, item);
+    assertEquals(collection.getAt(idx), item);
+}
+function testLCollection_method_has() {
+    info('LCollectionTests : testLCollection_method_has 작동 여부');
+    var key = 'test'; //String
+    var item = '123'; //Object
+    if(!collection.has(key))
+        collection.add(key, item);
+    var result = collection.has(key);
+    //return type : Object
+    assertEquals(result, true);
+}
+function testLCollection_method_each() {
+    info('LCollectionTests : testLCollection_method_each 작동 여부');
+    var key = 'test'; //String
+    var item = '123'; //Object
+    if(!collection.has(key))
+        collection.add(key, item);
+    var isEach = false;
+    var func = function(v) {
+        isEach = true;
+    }; //Function
+    var scope = this; //Object
+    collection.each(func, scope);
+    assertTrue(isEach);
+}
+function testLCollection_method_query() {
+    info('LCollectionTests : testLCollection_method_query 작동 여부');
+    var key = 'test'; //String
+    var item = '123'; //Object
+    if(!collection.has(key))
+        collection.add(key, item);
+    var func = function(key) {
+        if(key=='test') return true;
+    };; //Function
+    var scope = null; //Object
+    var result = collection.query(func, scope);
+    //return type : Rui.util.LCollection
+    assertTrue(result.length > 0);
+}
+function testLCollection_method_sort() {
+    info('LCollectionTests : testLCollection_method_sort 작동 여부');
+    collection.clear();
+    var key = 'test' + Rui.id(); //String
+    var item = '123'; //Object
+    if(!collection.has(key))
+        collection.add(key, item);
+    var fn = function(vo1, vo2, c){
+        var r1 = vo1.value;
+        var r2 = vo2.value;
+        var v1 = r1.get('id');
+        var v2 = r2.get('id');
+        var ret = (v1 > v2 ? 1 : (v1 < v2 ? -1 : 0)) * 1;
+        return ret;
+    }; //Function
+    var dir = 'asc'; //String
+    collection.sort(fn, dir);
+    assertTrue(true);
+}
+function testLCollection_method_reverse() {
+    info('LCollectionTests : testLCollection_method_reverse 작동 여부');
+    var key = 'test' + Rui.id(); //String
+    var item = '123'; //Object
+    if(!collection.has(key))
+        collection.add(key, item);
+    var fn = function(vo1, vo2, c){
+        var r1 = vo1.value;
+        var r2 = vo2.value;
+        var v1 = r1.get('id');
+        var v2 = r2.get('id');
+        var ret = (v1 > v2 ? 1 : (v1 < v2 ? -1 : 0)) * 1;
+        return ret;
+    }; //Function
+    collection.reverse();
+    assertTrue(true);
+}
+function testLCollection_method_clone() {
+    info('LCollectionTests : testLCollection_method_clone 작동 여부');
+    var result = collection.clone();
+    //return type : Rui.util.LCollection
+    assertEquals(collection.length, result.length);
+}
+function testLCollection_method_toString() {
+    info('LCollectionTests : testLCollection_method_toString 작동 여부');
+    var result = collection.toString();
+    //return type : String
+    assertEquals(result, 'Rui.util.LCollection ');
+}
+function testLCollection_method_clear() {
+    info('LCollectionTests : testLCollection_method_clear 작동 여부');
+    collection.clear();
+    assertEquals(collection.length, 0);
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LCollection Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLCollection_method_insert()">insert</a>
+            <a href="javascript:testLCollection_method_add()">add</a>
+            <a href="javascript:testLCollection_method_remove()">remove</a>
+            <a href="javascript:testLCollection_method_indexOfKey()">indexOfKey</a>
+            <a href="javascript:testLCollection_method_get()">get</a>
+            <a href="javascript:testLCollection_method_set()">set</a>
+            <a href="javascript:testLCollection_method_getKey()">getKey</a>
+            <a href="javascript:testLCollection_method_getAt()">getAt</a>
+            <a href="javascript:testLCollection_method_has()">has</a>
+            <a href="javascript:testLCollection_method_clear()">clear</a>
+            <a href="javascript:testLCollection_method_each()">each</a>
+            <a href="javascript:testLCollection_method_query()">query</a>
+            <a href="javascript:testLCollection_method_sort()">sort</a>
+            <a href="javascript:testLCollection_method_reverse()">reverse</a>
+            <a href="javascript:testLCollection_method_clone()">clone</a>
+            <a href="javascript:testLCollection_method_toString()">toString</a>
+            <a href="javascript:testLCollection_method_clear()">clear</a>
+        </div>
+
+    </div>        
+</body>
+</html>

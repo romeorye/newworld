@@ -1,0 +1,415 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>iris</groupId>
+    <artifactId>iris</artifactId>
+    <version>1.6.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>wins upgrade project</name>
+    <url>http://maven.apache.org</url>
+
+    <!-- Properties -->
+    <properties>
+
+        <!-- Generic properties -->
+        <java.version>1.7</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <maven.test.skip>false</maven.test.skip>
+        <maven.javadoc.skip>false</maven.javadoc.skip>
+
+        <!-- Dependency library version -->
+
+        <!-- Devon Frame -->
+        <devonframe.version>1.6.1</devonframe.version>
+
+        <!-- Web -->
+        <jstl.version>1.2</jstl.version>
+        <servlet.api.version>2.5</servlet.api.version>
+        <taglibs.version>1.1.2</taglibs.version>
+
+        <!-- Spring -->
+        <org.springframework.version>3.2.10.RELEASE</org.springframework.version>
+        <org.springframework.security.version>3.1.4.RELEASE</org.springframework.security.version>
+        <org.spring.modules.validation.version>0.8</org.spring.modules.validation.version>
+
+        <!-- commons -->
+        <commons.io.version>2.2</commons.io.version>
+        <commons.fileupload.version>1.3.1</commons.fileupload.version>
+        <commons.dbcp.version>1.3</commons.dbcp.version>
+
+        <jsr250.api.version>1.0</jsr250.api.version>
+        <hsqldb.version>2.2.6</hsqldb.version>
+
+        <!-- Test -->
+        <junit.version>4.11</junit.version>
+
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>devon-repository</id>
+            <name>repository for DevOn</name>
+            <layout>default</layout>
+            <url>http://www.dev-on.com/devon_framework/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>devon-repository</id>
+            <name>repository for DevOn</name>
+            <layout>default</layout>
+            <url>http://www.dev-on.com/devon_framework/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+
+        <!-- devonframe -->
+        <dependency>
+            <groupId>devonframe</groupId>
+            <artifactId>devon-web</artifactId>
+            <version>${devonframe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>devonframe</groupId>
+            <artifactId>devon-dataaccess</artifactId>
+            <version>${devonframe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>devonframe</groupId>
+            <artifactId>devon-paging</artifactId>
+            <version>${devonframe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>devonframe</groupId>
+            <artifactId>devon-log</artifactId>
+            <version>${devonframe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>devonframe</groupId>
+            <artifactId>devon-idgenerator</artifactId>
+            <version>${devonframe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>devonframe</groupId>
+            <artifactId>devon-excel</artifactId>
+            <version>${devonframe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>devonframe</groupId>
+            <artifactId>devon-fileupload</artifactId>
+            <version>${devonframe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>devonframe</groupId>
+            <artifactId>devon-crypto</artifactId>
+            <version>${devonframe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>devonframe</groupId>
+            <artifactId>devon-mail</artifactId>
+            <version>${devonframe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>devonframe</groupId>
+            <artifactId>devon-validator</artifactId>
+            <version>${devonframe.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>devonframe</groupId>
+            <artifactId>devon-transaction</artifactId>
+            <version>${devonframe.version}</version>
+        </dependency>
+        <!-- devonframe -->
+
+        <!-- for Cache -->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+            <version>2.5.7</version>
+        </dependency>
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.springframework.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Spring -->
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.7.4</version>
+        </dependency>
+
+        <!-- javax -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${servlet.api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>jsr250-api</artifactId>
+            <version>${jsr250.api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>${taglibs.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Commons -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>${commons.dbcp.version}</version>
+        </dependency>
+
+        <!-- JDBC Client <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc</artifactId>
+            <version>14</version> </dependency> -->
+
+        <!-- <dependency> -->
+        <!-- <groupId>com.oracle</groupId> -->
+        <!-- <artifactId>ojdbc14</artifactId> -->
+        <!-- <version>10.2.0.4.0</version> -->
+        <!-- </dependency> -->
+
+        <!-- HSQL DB -->
+        <!-- <dependency> -->
+        <!-- <groupId>org.hsqldb</groupId> -->
+        <!-- <artifactId>hsqldb</artifactId> -->
+        <!-- <version>${hsqldb.version}</version> -->
+        <!-- </dependency> -->
+
+        <!-- UI template : Tiles -->
+        <dependency>
+            <groupId>org.apache.tiles</groupId>
+            <artifactId>tiles-extras</artifactId>
+            <version>2.2.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- for Using json -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
+        <!-- Bean Validation -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.2.0.Final</version>
+        </dependency>
+
+        <!-- Test -->
+        <!-- junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JSON -->
+        <!-- <dependency> -->
+        <!-- <groupId>org.json</groupId> -->
+        <!-- <artifactId>json</artifactId> -->
+        <!-- <version>20090211</version> -->
+        <!-- </dependency> -->
+
+        <!-- JSON -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20080701</version>
+        </dependency>
+
+
+
+        <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+        <!-- <dependency> -->
+        <!-- <groupId>com.googlecode.json-simple</groupId> -->
+        <!-- <artifactId>json-simple</artifactId> -->
+        <!-- <version>1.1.1</version> -->
+        <!-- </dependency> -->
+
+        <!-- <dependency> -->
+        <!-- <groupId>net.sf.json-lib</groupId> -->
+        <!-- <artifactId>json-lib</artifactId> -->
+        <!-- <version>2.3</version> -->
+        <!-- <classifier>jdk15</classifier> -->
+        <!-- <type>jar</type> -->
+        <!-- <optional>false</optional> -->
+        <!-- </dependency> -->
+        <!-- <dependency> -->
+        <!-- <groupId>net.sf.json-lib</groupId> -->
+        <!-- <artifactId>json-lib-ext-spring</artifactId> -->
+        <!-- <version>1.0.2</version> -->
+        <!-- <exclusions> -->
+        <!-- <exclusion> -->
+        <!-- <artifactId>json-lib</artifactId> -->
+        <!-- <groupId>net.sf.json-lib</groupId> -->
+        <!-- </exclusion> -->
+        <!-- </exclusions> -->
+        <!-- <optional>false</optional> -->
+        <!-- </dependency> -->
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <!-- PDF writer -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>1.8.13</version>
+        </dependency>
+
+        <!-- Logging -->
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>2.8.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>2.8.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.8.2</version>
+
+    </dependency>
+
+
+    <dependency>
+            <groupId>com.sap</groupId>
+            <artifactId>sapjco</artifactId>
+            <version>3</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/sapjco3.jar</systemPath>
+    </dependency>
+
+    <!-- HTML Parser -->
+    <dependency>
+        <groupId>org.jsoup</groupId>
+        <artifactId>jsoup</artifactId>
+        <version>1.11.1</version>
+    </dependency>
+
+    <!-- SQL 로그 출력 -->
+    <!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4 -->
+    <dependency>
+        <groupId>org.bgee.log4jdbc-log4j2</groupId>
+        <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+        <version>1.16</version>
+    </dependency>
+
+    </dependencies>
+
+    <build>
+        <defaultGoal>package</defaultGoal>
+        <directory>${basedir}/target</directory>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                    <includes>
+                        <include>devonframe/**/*Test.java</include>
+                    </includes>
+                    <testFailureIgnore>false</testFailureIgnore>
+                    <argLine>-Xms1024m -Xmx2048m -XX:MaxPermSize=128m -ea
+                        -Dfile.encoding=UTF-8</argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <description>iris</description>
+</project>

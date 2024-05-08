@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.rsst.pdu">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 산출물 목록 조회  -->
+	<select id="retrievePrjRsstPduSearchInfo" resultType="hashmap" >
+	<![CDATA[
+	-- retrievePrjRsstPduSearchInfo 산출물 목록 조회
+		SELECT 0 as "chk"
+		     , PRJ_CD as "prjCd"
+			 , WBS_CD as "wbsCd"
+			 , SEQ as "seq"
+			 , PDU_GOAL_YEAR as "pduGoalYear" /*목표년도*/
+			 , PDU_GOAL_CNT as "pduGoalCnt"   /*목표개수*/
+			 , YLD_TYPE as "yldType"          /*산출물 유형*/
+			 , dbo.fn_getComDtlNm('PRJ_PDU_TYPE_CD', YLD_TYPE) as "yldTypeNm"          /*산출물 유형명*/
+			 , YLD_TITL as "yldTitle"         /*산출물제목*/
+			 --, ARSL_YYMM as "arslYymm" /*실적년월*/
+			 , ARSL_YEAR_MON as "arslYearMon" /*실적년월*/
+			 --, ARSL_CNT as "arslCnt"          /*실적개수*/
+			 , FIL_ID as "filId"              /*파일ID*/
+			 , (CASE WHEN FIL_ID IS NOT NULL AND FIL_ID != ''
+			          AND (SELECT COUNT(1) FROM IRIS_COM_ATTC_FIL F WHERE  F.ATTC_FIL_ID = FIL_ID AND DEL_YN = 'N' ) > 0 THEN 'Y'
+			    ELSE 'N' END) as 'filYn'      /*첨부파일여부*/
+			 , (SELECT COUNT(1) FROM IRIS_COM_ATTC_FIL F WHERE  F.ATTC_FIL_ID = FIL_ID AND DEL_YN = 'N' ) as arslCnt /*첨부파일ID 등록개수*/
+		  FROM IRIS_PRJ_RSST_PDU A
+		 WHERE A.PRJ_CD = #{prjCd}
+	]]>
+	<if test="( searchMonth != null and searchMonth != '' )">
+	       AND ARSL_YEAR_MON = #{searchMonth}
+	</if>
+	<![CDATA[
+		 ORDER BY A.PDU_GOAL_YEAR DESC, A.YLD_TYPE ASC, A.ARSL_YEAR_MON DESC
+	]]>
+	</select>
+
+	<!-- 산출물 삭제  -->
+	<delete id="deletePrjRsstPduInfo">
+	<![CDATA[
+	-- deletePrjRsstPduInfo 산출물 삭제
+	     DELETE FROM IRIS_PRJ_RSST_PDU
+	      WHERE PRJ_CD = #{prjCd}
+	        AND WBS_CD = #{wbsCd}
+	        AND SEQ = #{seq}
+	]]>
+	</delete>
+
+	<!-- 산출물 등록  -->
+	<insert id="insertPrjRsstPduInfo">
+	<![CDATA[
+	-- insertPrjRsstPduInfo 산출물 등록
+		INSERT INTO IRIS_PRJ_RSST_PDU
+		(
+		      PRJ_CD
+		    , WBS_CD
+			, SEQ
+			, PDU_GOAL_YEAR
+			, PDU_GOAL_CNT
+			, YLD_TYPE
+			, YLD_TITL
+			, ARSL_YEAR_MON
+			, ARSL_CNT
+			, FIL_ID
+			, FRST_RGST_ID
+			, FRST_RGST_DT
+			, LAST_MDFY_ID
+			, LAST_MDFY_DT
+		)
+		VALUES
+		(
+		      #{prjCd}
+			, #{wbsCd}
+			, (SELECT ISNULL(MAX(SEQ)+1,1) FROM IRIS_PRJ_RSST_PDU
+		        WHERE PRJ_CD = #{prjCd}
+		          AND WBS_CD = #{wbsCd})
+			, #{pduGoalYear}
+			, #{pduGoalCnt}
+			, #{yldType}
+			, #{yldTitle}
+			, #{arslYearMon}
+			, #{arslCnt}
+			, #{filId}
+			, #{_userId}
+			, getdate()
+			, #{_userId}
+			, getdate()
+		)
+    ]]>
+	</insert>
+
+	<!-- 산출물 수정  -->
+	<update id="updatePrjRsstPduInfo">
+	<![CDATA[
+	-- updatePrjRsstPduInfo 산출물 수정
+		UPDATE IRIS_PRJ_RSST_PDU
+	       SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		]]>
+		<if test="( pduGoalYear != null and pduGoalYear != '')">
+		     , PDU_GOAL_YEAR = #{pduGoalYear}
+		</if>
+		<if test="( pduGoalYear != null and pduGoalYear != '')">
+		     , PDU_GOAL_CNT = #{pduGoalCnt}
+		</if>
+		<if test="( yldType != null and pduGoalYear != '')">
+		     , YLD_TYPE = #{yldType}
+		</if>
+		<if test="( yldTitle != null and yldTitle != '')">
+		     , YLD_TITL = #{yldTitle}
+		</if>
+		<if test="( arslYearMon != null and arslYearMon != '')">
+		     , ARSL_YEAR_MON = #{arslYearMon}
+		</if>
+		<if test="( arslCnt != null and arslCnt != '')">
+		     , ARSL_CNT = #{arslCnt}
+		</if>
+		<if test="( filId != null and filId != '')">
+		     , FIL_ID = #{filId}
+		</if>
+	<![CDATA[
+		 WHERE PRJ_CD = #{prjCd}
+	       AND WBS_CD = #{wbsCd}
+	       AND SEQ = #{seq}
+	]]>
+	</update>
+
+</mapper>

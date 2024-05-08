@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.leasHousMgmt">
+
+	<!-- 마스터 조회 -->
+	<select id="retrieveAttchFilInfo" resultType="hashmap">
+		<![CDATA[
+			-- retrieveAttchFilInfo 조회요청 리스트 조회
+		select  a.muag_ATTC_FIL_ID as muagAttcFilId
+		       ,a.dpl_ATTC_FIL_ID  as dplAttcFilId
+		       ,a.nrm_ATTC_FIL_ID  as nrmAttcFilId 
+		from  iris_knld_LeasHous_attch_fil a
+			      
+		]]>
+	</select>
+		
+	<!-- 필수첨부파일 삭제 -->
+	<delete id="deleteLeashousAttchFil">
+		<![CDATA[
+			-- deleteLeashousAttchFil 필수첨부파일 삭제
+			delete iris_knld_LeasHous_attch_fil
+		]]>
+	</delete>		
+
+	<!-- 필수첨부파일 등록  -->
+	<insert id="insertLeashousattchfil">
+	-- insertLeashousattchfil 필수첨부파일 등록
+		insert into iris_knld_LeasHous_attch_fil
+			(muag_ATTC_FIL_ID, dpl_ATTC_FIL_ID, nrm_ATTC_FIL_ID, FRST_RGST_DT, FRST_RGST_ID, LAST_MDFY_DT, LAST_MDFY_ID )
+		values
+			(#{muagAttcFilId}, #{dplAttcFilId}, #{nrmAttcFilId}, getdate(), #{userId}, getdate(), #{userId} )
+	</insert>
+	
+</mapper>

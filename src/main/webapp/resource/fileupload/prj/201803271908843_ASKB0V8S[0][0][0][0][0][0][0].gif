@@ -1,0 +1,276 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<link rel="stylesheet" type="text/css" href="/iris/rui/resources/rui.css" />
+<!-- link rel="stylesheet" type="text/css" href="/iris/rui/resources/ui_ie6.css" /-->
+<link rel="stylesheet" type="text/css" href="/iris/rui/resources/rui_skin_new.css" />
+<link rel="stylesheet" type="text/css" href="/iris/resource/web/css/common.css" />
+<link rel="stylesheet" type="text/css" href="/iris/rui/plugins/ui/LFrameDialog.css" />
+<link rel="stylesheet" type="text/css" href="/iris/rui/plugins/ui/form/LPopupTextBox.css" />
+
+<script type="text/javascript">
+    var contextPath = "/iris";
+
+    
+    window.history.forward(1);
+
+</script>
+
+<!-- script type="text/javascript" src="/iris/resource/web/js/prototype.js"></script  -->
+<script type="text/javascript" src="/iris/rui/js/rui_base.js"></script>
+<script type="text/javascript" src="/iris/rui/js/rui_core.js"></script>
+<script type="text/javascript" src="/iris/rui/js/rui_ui.js"></script>
+<script type="text/javascript" src="/iris/rui/js/rui_form.js"></script>
+<script type="text/javascript" src="/iris/rui/js/rui_grid.js"></script>
+<script type="text/javascript" src="/iris/rui/resources/rui_config.js"></script>
+<script type="text/javascript" src="/iris/rui/resources/rui_license.js"></script>
+<script type="text/javascript" src="/iris/rui/plugins/ui/LFrameDialog.js"></script>
+<script type="text/javascript" src="/iris/rui/plugins/ui/form/LPopupTextBox.js"></script>
+<script type="text/javascript" src="/iris/rui/plugins/ui/grid/LGridView.js"></script>
+<script type="text/javascript" src="/iris/rui/plugins/ui/grid/LGridPanelExt.js"></script>
+<script type="text/javascript" src="/iris/rui/plugins/validate/LCustomValidator.js"></script>
+
+
+<script type="text/javascript" src="/iris/resource/web/js/jquery.js"></script>
+<script type="text/javascript" src="/iris/resource/web/js/jquery.iframeResizer.min.js"></script>
+<script type="text/javascript" src="/iris/resource/web/js/common.js"></script>
+
+<script type="text/javascript" src="/iris/resource/web/js/nwins_common.js"></script>
+
+<script type="text/javascript" src="/iris/resource/web/js/iris_common.js"></script>
+<script type="text/javascript" src="/iris/resource/web/js/javascript-aes.js"></script>
+
+<script type="text/javascript" src="/iris/namo/NamoWec8.js"></script>
+
+<script type="text/javascript">
+
+	var _callback;
+	var agent = navigator.userAgent.toLowerCase();
+	Rui.onReady(function() {
+	    /*******************
+	     * 변수 및 객체 선언
+	     *******************/
+		// 사용자 조회 공통팝업 시작
+	    var _userSearchApply = function(){
+	        var frameWindow = this.getFrameWindow();		// Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
+
+	        var userList = frameWindow.getSelectUser();
+
+	        _callback(userList);
+
+	        this.submit(true);
+	    };
+
+	    _userSearchDialog = new Rui.ui.LFrameDialog({
+	        id: '_userSearchDialog',
+	        title: '사용자 조회',
+	        width: 570,
+	        height: 325,
+	        modal: true,
+	        visible: false
+	    });
+
+	    var _userSearchDialogMulti = new Rui.ui.LFrameDialog({
+	        id: '_userSearchDialogMulti',
+	        title: '사용자 조회',
+	        width: 595,
+	        height: 610,
+	        modal: true,
+	        visible: false,
+	        buttons: [
+                { text: '적용', handler: _userSearchApply, isDefault: true },
+                { text: '닫기', handler: function(){
+                    this.cancel();
+                } }
+            ]
+	    });
+
+	    _userSearchDialog.render(document.body);
+	    _userSearchDialogMulti.render(document.body);
+
+	    openUserSearchDialog = function(f, cnt, userIds, task, width, height) {
+	    	_callback = f;
+	    	
+	    	if(cnt == 1) {
+	    	    if(stringNullChk(width) > 0) _userSearchDialog.setWidth(width);
+	    	    if(stringNullChk(height) > 0) _userSearchDialog.setHeight(height);
+	    	        
+		        _userSearchDialog.setUrl('/iris/system/user/userSearchPopup.do?cnt=1&userIds=&task=' + task);
+		        _userSearchDialog.show();
+	    	} else {
+	    	    if(stringNullChk(width) > 0) _userSearchDialogMulti.setWidth(width);
+                if(stringNullChk(height) > 0) _userSearchDialogMulti.setHeight(height);
+                
+	    		_userSearchDialogMulti.setUrl('/iris/system/user/userSearchPopup.do?cnt=' + cnt + '&userIds=' + userIds + '&task=' + task);
+	    		_userSearchDialogMulti.show();
+	    	}
+	    };
+	    
+	    //사용자 popup Dialog
+	    openUserSearchDialog2 = function(f, cnt, userIds, task) {
+	    	 var params = '?cnt=1&userIds=&task=' + task;
+		   	 var loadingUrl = '/iris/system/user/userSearchPopup2.do'+params;
+		
+	 	   	 var sFeatures = "dialogHeight: 600px; dialogWidth:544px";
+	 	   	 if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+	        	 window.showModalDialog(loadingUrl, self, sFeatures);
+	 	     }else{
+            	alert("Internet Explorer browser인지 확인해 주세요");
+             } 
+	    };
+	    
+	    
+		// 사용자 조회 공통팝업 끝
+
+		// 부서 조회 공통팝업 시작
+	    _deptSearchDialog = new Rui.ui.LFrameDialog({
+	        id: '_deptSearchDialog',
+	        title: '부서 조회',
+	        width: 450,
+	        height: 325,
+	        modal: true,
+	        visible: false
+	    });
+
+	    _deptSearchDialog.render(document.body);
+
+	    openDeptSearchDialog = function(f, task) {
+	    	_callback = f;
+
+	    	_deptSearchDialog.setUrl('/iris/system/dept/deptSearchPopup.do?task=' + task);
+		    _deptSearchDialog.show();
+	    };
+		// 부서 조회 공통팝업 끝
+
+
+		// 첨부파일 공통팝업 시작
+	    var _attachFileApply = function(){
+	        var frameWindow = _attachFileDialog.getFrameWindow();		// Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
+
+	        var attachFileList = frameWindow.getAttachFileInfoList();
+
+	        _callback(attachFileList);
+
+	        this.submit(true);
+	    };
+
+	    var _attachFileApply2 = function(){
+	        var frameWindow = _attachFileDialog.getFrameWindow();		// Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
+
+	        var attachFileList = frameWindow.getAttachFileInfoList();
+	        
+	      	if(attachFileList != ''){
+	      		_callback(attachFileList);	
+	      	}  
+	        
+	    };
+
+	    _attachFileDialog = new Rui.ui.LFrameDialog({
+	        id: '_attachFileDialog',
+	        title: '첨부파일',
+	        width: 440,
+	        height: 500,
+	        modal: true,
+	        visible: false,
+	        buttons: [
+                { text: '적용', handler: _attachFileApply, isDefault: true },
+                { text: '닫기', handler: function(){
+                    this.cancel();
+                } }
+            ]
+	    });
+
+	    _attachFileDialog.on('cancel', function(e) {
+	    	_attachFileApply2();
+	    });
+
+	    _attachFileDialog.render(document.body);
+
+	    openAttachFileDialog = function(f, attcFilId, policy, ext, openMode, title) {
+	    	_callback = f;
+
+	    	if(openMode == "R") {
+	    	    _attachFileDialog.setWidth(450);
+	    	    _attachFileDialog.setHeight(400);
+	    	    _attachFileDialog.setButtons();
+	    	}
+
+	    	var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
+	    	
+	    	if(Rui.isEmpty(title) == false) {
+	    		$('#_attachFileDialog_h').html(title);
+	    	}
+	    	_attachFileDialog.setUrl('/iris/system/attach/attachFilePopup.do' + params);
+		    _attachFileDialog.show();
+	    };
+	    
+	    openAttachFileDialog2 = function(f, attcFilId, policy, ext, openMode) {
+	    	_callback = f;
+
+		    var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
+	   		var loadingUrl = '/iris/system/attach/attachFilePopup2.do'+params;
+	
+ 	   		var sFeatures = "dialogHeight: 500px; dialogWidth:430px";
+ 	   	 	
+ 	   		if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+ 	        
+	   		 window.showModalDialog(loadingUrl, self, sFeatures);
+ 	   	 	}else{
+         	alert("Internet Explorer browser인지 확인해 주세요");
+            } 
+// 	   		var win =  window.open(loadingUrl ,'win' , 'modal=1,Height=450 , width=400');
+// 	   		win.focus();
+	  	 
+   	    };
+    // 첨부파일 공통팝업 끝
+	});
+
+</script>
+<title>Error Page</title>
+</head>
+<body>
+<div class="errorArea">
+		<div class="errorTop">
+			<h2>
+				<strong>죄송합니다.</strong><br />
+				요청하신 페이지를 찾을 수 없습니다.
+			</h2>
+			<p>
+				이용하시려는 페이지의 주소가 잘못되었거나, <br />
+				페이지의 주소가 변경 혹은 삭제되어 요청하신 페이지를 찾을 수 없습니다. <br />
+				입력하신 주소가 정확한지 다시 한번 확인해 주시기 바랍니다. <br />
+				관련 문의사항은 고객센터(02-6987-7396)에 알려주시면 친절하게 안내해 드리겠습니다. <br />
+			</p>
+			<br>
+			<br>
+			<br>
+		</div>
+		<div class="errorBot">
+			개인정보취급방침  TEL : 080-005-4000 ( 평일 09:00~ 18:00 토, 일요일 및 공휴일 휴무 )  <br />
+			서울시 영등포구 국제금융로 10 ONE IFC빌딩 15-19F LG하우시스  <br />
+			Copyright (C) 2016  All Rights Reserved. <br />
+		</div>
+	</div>
+</body>
+</html>                                                                                                                                    

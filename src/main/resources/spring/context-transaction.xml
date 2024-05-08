@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean id="txManagerIris" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourceIris" />
+	</bean>
+
+	<bean id="txManagerPims" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourcePims" />
+	</bean>
+
+	<!-- 일반과제통계뷰 db -->
+	<bean id="txManagerSalStat" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourceSalStat" />
+	</bean>
+
+	<!-- QAS(울산) 
+	<bean id="txManagerQasU" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourceQasU" />
+	</bean>
+	-->
+	<!-- QAS(청주) 
+	<bean id="txManagerQasC" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourceQasC" />
+	</bean>
+	-->
+	<!-- TO DO -->
+	<bean id="txManagerTodo" class="devonframe.transaction.CompositeDataSourceTransactionManager">
+		<property name="dataSources" ref="dataSourceTodo" />
+	</bean>
+
+	<!-- XML based Transaction -->
+	<tx:advice id="txAdviceIris" transaction-manager="txManagerIris">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="update*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="create*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="regist*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="save*"	  propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="system*" propagation="REQUIRES_NEW" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+
+	<tx:advice id="txAdvicePims" transaction-manager="txManagerPims">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 일반과제통계뷰 db -->
+	<tx:advice id="txAdviceSalStat" transaction-manager="txManagerSalStat">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+
+	<!-- QAS(울산) db 
+	<tx:advice id="txAdviceQasU" transaction-manager="txManagerQasU">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+-->
+	<!-- QAS(청주) db 
+	<tx:advice id="txAdviceQasC" transaction-manager="txManagerQasC">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	-->
+	
+	<!--TODO db -->
+	<tx:advice id="txAdviceTodo" transaction-manager="txManagerTodo">
+		<tx:attributes>
+			<tx:method name="retrieve*" read-only="true" />
+			<tx:method name="retrive*" read-only="true" />
+			<tx:method name="search*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+
+	<aop:config>
+<!--
+		<aop:pointcut id="requiredTx" expression="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="requiredTx" />
+-->
+		<aop:advisor advice-ref="txAdviceIris" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdviceIris" pointcut="execution(* *..*ServiceImpl.*(..))" />
+
+		<aop:advisor advice-ref="txAdvicePims" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdvicePims" pointcut="execution(* *..*ServiceImpl.*(..))" />
+
+		<!-- 일반과제통계뷰 db -->
+		<aop:advisor advice-ref="txAdviceSalStat" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdviceSalStat" pointcut="execution(* *..*ServiceImpl.*(..))" />
+
+		<!-- Qas(울산) db 
+		<aop:advisor advice-ref="txAdviceQasU" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdviceQasU" pointcut="execution(* *..*ServiceImpl.*(..))" />
+-->
+
+		<!-- Qas(청주) db 
+		<aop:advisor advice-ref="txAdviceQasC" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdviceQasC" pointcut="execution(* *..*ServiceImpl.*(..))" />
+-->
+
+		<!-- Todo db -->
+		<aop:advisor advice-ref="txAdviceTodo" pointcut="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdviceTodo" pointcut="execution(* *..*ServiceImpl.*(..))" />
+
+		
+		
+	</aop:config>
+
+	<!-- Annotation based Transaction -->
+	<tx:annotation-driven transaction-manager="txManagerIris"/>
+	<tx:annotation-driven transaction-manager="txManagerPims"/>
+		<!-- 일반과제통계뷰 db -->
+	<tx:annotation-driven transaction-manager="txManagerSalStat"/>
+
+	<!-- Qas(울산) db 
+	<tx:annotation-driven transaction-manager="txManagerQasU"/>
+	-->
+	<!-- Qas(청주) db
+	<tx:annotation-driven transaction-manager="txManagerQasC"/>
+	 -->
+	<!-- TODO db -->
+	<tx:annotation-driven transaction-manager="txManagerTodo"/>
+
+
+</beans>

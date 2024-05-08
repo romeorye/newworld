@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.dd.LDragDrop Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var dragDrop;
+Rui.onReady(function() {
+    dragDrop = new Rui.dd.LDragDrop({
+        id: 'dd-demo-1'
+    });
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLDragDrop_method_on() {
+    warn('RuiTests : testLDragDrop_method_on 테스트 무시 => 내부에서만 사용');
+}
+function testLDragDrop_method_lock() {
+    warn('RuiTests : testLDragDrop_method_lock 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_unlock() {
+    warn('RuiTests : testLDragDrop_method_unlock 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_startDrag() {
+    warn('RuiTests : testLDragDrop_method_startDrag 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_getEl() {
+    info('LDragDropTests : testLDragDrop_method_getEl 작동 여부');
+    assertEquals(dragDrop.getEl().id, 'dd-demo-1');
+}
+function testLDragDrop_method_getDragEl() {
+    info('LDragDropTests : testLDragDrop_method_getDragEl 작동 여부');
+    assertEquals(dragDrop.getDragEl().id, 'dd-demo-1');
+}
+function testLDragDrop_method_setPadding() {
+    warn('RuiTests : testLDragDrop_method_setPadding 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_addToGroup() {
+    warn('RuiTests : testLDragDrop_method_addToGroup 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_removeFromGroup() {
+    warn('RuiTests : testLDragDrop_method_removeFromGroup 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_setDragElId() {
+    warn('RuiTests : testLDragDrop_method_setDragElId 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_setHandleElId() {
+    warn('RuiTests : testLDragDrop_method_setHandleElId 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_setOuterHandleElId() {
+    warn('RuiTests : testLDragDrop_method_setOuterHandleElId 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_unreg() {
+    warn('RuiTests : testLDragDrop_method_unreg 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_isLocked() {
+    info('LDragDropTests : testLDragDrop_method_isLocked 작동 여부');
+    assertEquals(dragDrop.isLocked(), false);
+    dragDrop.lock();
+    assertEquals(dragDrop.isLocked(), true);
+}
+function testLDragDrop_method_addInvalidHandleType() {
+    warn('RuiTests : testLDragDrop_method_addInvalidHandleType 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_addInvalidHandleId() {
+    warn('RuiTests : testLDragDrop_method_addInvalidHandleId 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_addInvalidHandleClass() {
+    warn('RuiTests : testLDragDrop_method_addInvalidHandleClass 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_removeInvalidHandleType() {
+    warn('RuiTests : testLDragDrop_method_removeInvalidHandleType 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_removeInvalidHandleId() {
+    warn('RuiTests : testLDragDrop_method_removeInvalidHandleId 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_removeInvalidHandleClass() {
+    warn('RuiTests : testLDragDrop_method_removeInvalidHandleClass 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_isValidHandleChild() {
+    info('LDragDropTests : testLDragDrop_method_isValidHandleChild 작동 여부');
+    var node = Rui.get('dd-demo-1').dom; //HTMLElement
+    assertEquals(dragDrop.isValidHandleChild(node), true);
+}
+function testLDragDrop_method_setXConstraint() {
+    warn('RuiTests : testLDragDrop_method_setXConstraint 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_clearConstraints() {
+    warn('RuiTests : testLDragDrop_method_clearConstraints 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_clearTicks() {
+    warn('RuiTests : testLDragDrop_method_clearTicks 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_setYConstraint() {
+    warn('RuiTests : testLDragDrop_method_setYConstraint 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_resetConstraints() {
+    warn('RuiTests : testLDragDrop_method_resetConstraints 테스트 무시 => 설정용 함수');
+}
+function testLDragDrop_method_toString() {
+    info('LDragDropTests : testLDragDrop_method_toString 작동 여부');
+    var result = dragDrop.toString();
+    //return type : string
+    assertEquals(result, 'LDragDrop dd-demo-1');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.dd.LDragDrop Tests</h1>
+    <div id="dd-demo-1" class="dd-demo">1</div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLDragDrop_method_on()">on</a>
+            <a href="javascript:testLDragDrop_method_lock()">lock</a>
+            <a href="javascript:testLDragDrop_method_unlock()">unlock</a>
+            <a href="javascript:testLDragDrop_method_startDrag()">startDrag</a>
+            <a href="javascript:testLDragDrop_method_getEl()">getEl</a>
+            <a href="javascript:testLDragDrop_method_getDragEl()">getDragEl</a>
+            <a href="javascript:testLDragDrop_method_setPadding()">setPadding</a>
+            <a href="javascript:testLDragDrop_method_addToGroup()">addToGroup</a>
+            <a href="javascript:testLDragDrop_method_removeFromGroup()">removeFromGroup</a>
+            <a href="javascript:testLDragDrop_method_setDragElId()">setDragElId</a>
+            <a href="javascript:testLDragDrop_method_setHandleElId()">setHandleElId</a>
+            <a href="javascript:testLDragDrop_method_setOuterHandleElId()">setOuterHandleElId</a>
+            <a href="javascript:testLDragDrop_method_unreg()">unreg</a>
+            <a href="javascript:testLDragDrop_method_isLocked()">isLocked</a>
+            <a href="javascript:testLDragDrop_method_addInvalidHandleType()">addInvalidHandleType</a>
+            <a href="javascript:testLDragDrop_method_addInvalidHandleId()">addInvalidHandleId</a>
+            <a href="javascript:testLDragDrop_method_addInvalidHandleClass()">addInvalidHandleClass</a>
+            <a href="javascript:testLDragDrop_method_removeInvalidHandleType()">removeInvalidHandleType</a>
+            <a href="javascript:testLDragDrop_method_removeInvalidHandleId()">removeInvalidHandleId</a>
+            <a href="javascript:testLDragDrop_method_removeInvalidHandleClass()">removeInvalidHandleClass</a>
+            <a href="javascript:testLDragDrop_method_isValidHandleChild()">isValidHandleChild</a>
+            <a href="javascript:testLDragDrop_method_setXConstraint()">setXConstraint</a>
+            <a href="javascript:testLDragDrop_method_clearConstraints()">clearConstraints</a>
+            <a href="javascript:testLDragDrop_method_clearTicks()">clearTicks</a>
+            <a href="javascript:testLDragDrop_method_setYConstraint()">setYConstraint</a>
+            <a href="javascript:testLDragDrop_method_resetConstraints()">resetConstraints</a>
+            <a href="javascript:testLDragDrop_method_toString()">toString</a>
+        </div>
+    </div>        
+</body>
+</html>

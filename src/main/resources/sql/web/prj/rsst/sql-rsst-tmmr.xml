@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.rsst.tmmr">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 프로젝트 팀원 조회  -->
+	<select id="retrievePrjTmmrSearchInfo" resultType="hashmap" >
+	<![CDATA[
+	-- retrievePrjTmmrSearchInfo 프로젝트 팀원 조회
+		SELECT ISNULL(EMP.SA_NAME ,MMR.SA_SABUN_NAME)       as "saName"                     /*연구원명*/
+			 , ISNULL(EMP.SA_JOBX_NAME ,MMR.SA_JOBX_NAME)   as "saJobxName"                 /*직급명*/
+			 , MMR.PATC_STR_DT                              as "patcStrDt"                  /*참여시작일*/
+			 , MMR.PATC_END_DT                              as "patcEndDt"                  /*참여종료일*/
+			 , (CASE WHEN MMR.SA_FUNC IS NOT NULL AND MMR.SA_FUNC IN ('FO0', 'FG0', 'FB1') THEN 'PL' ELSE '팀원' END)   as "saFuncName"  /*역할명*/
+		  FROM IRIS_PRJ_TMMR_INFO MMR
+			   LEFT OUTER JOIN IRIS_SSO_USER EMP ON MMR.TMMR_EMP_NO = EMP.SA_SABUN_NEW
+		 WHERE MMR.PRJ_CD = #{prjCd}
+		   AND MMR.TMMR_EMP_NO = EMP.SA_SABUN_NEW
+		 ORDER BY MMR.PATC_END_DT, MMR.SA_FUNC  DESC, EMP.SA_NAME ASC
+	]]>
+	</select>
+
+	<!-- 프로젝트 팀원 팀삭제  -->
+	<delete id="deletePrjTmmrDeptInfo">
+	<![CDATA[
+	-- deletePrjTmmrDeptInfo 프로젝트 팀원 팀삭제
+	     DELETE FROM IRIS_PRJ_TMMR_INFO
+	      WHERE PRJ_CD = #{prjCd}
+	        AND WBS_CD = #{wbsCd}
+	]]>
+	</delete>
+
+	<!-- 프로젝트 팀원 전체 팀등록  -->
+	<insert id="insertPrjTmmrDeptInfo">
+	<![CDATA[
+	-- insertPrjTmmrDeptInfo 프로젝트 팀원 전체 팀등록
+		INSERT INTO IRIS_PRJ_TMMR_INFO
+		SELECT #{prjCd}
+		     , #{wbsCd}
+			 , A.SA_SABUN_NEW
+			 , A.SA_JOBX
+			 , #{prjStrDt}
+			 , NULL
+			 , A.SA_FUNC
+			 , #{_userId}
+			 , GETDATE()
+			 , #{_userId}
+			 , GETDATE()
+			 , A.SA_NAME
+			 , A.SA_JOBX_NAME
+		  FROM IRIS_SSO_USER A
+		 WHERE A.SA_DEPT_NEW = #{deptCd}
+    ]]>
+	</insert>
+
+	<!-- 프로젝트 팀원 전체 팀등록(부서로 등록)  -->
+	<insert id="insertPrjTeamTmmrDeptInfo">
+	<![CDATA[
+	-- insertPrjTeamTmmrDeptInfo 프로젝트 팀원 전체 팀등록(부서로 등록)
+		INSERT INTO IRIS_PRJ_TMMR_INFO
+		SELECT #{prjCd}
+		     , #{wbsCd}
+			 , A.SA_SABUN_NEW
+			 , A.SA_JOBX
+			 , #{prjStrDt}
+			 , NULL
+			 , A.SA_FUNC
+			 , #{_userId}
+			 , GETDATE()
+			 , #{_userId}
+			 , GETDATE()
+			 , A.SA_NAME
+			 , A.SA_JOBX_NAME
+		  FROM IRIS_SSO_USER A
+		 WHERE A.SA_DEPT_NEW IN (
+								  SELECT DEPT_CODE FROM IRIS_SSO_DEPT A WHERE A.DEPT_CODE = #{deptCd}
+								  UNION ALL
+								  SELECT DEPT_CODE FROM IRIS_SSO_DEPT A WHERE A.DEPT_UPER = #{deptCd}
+		                          )
+		   AND A.SA_USER IS NOT NULL AND A.SA_USER != '' /* 유저ID없는 유저 제거 */
+    ]]>
+	</insert>
+	
+	
+	<select id="selectPrjTeamTmmrInfo" resultType="hashmap" >
+		<![CDATA[
+			select wbs_cd as wbsCd
+			      ,tmmr_emp_no as tmmrEmpNo
+			from IRIS_PRJ_TMMR_INFO
+			where  wbs_cd = #{wbsCd}	      
+		]]>
+	</select>
+	
+	<!--  프로젝트 변경연구원 지적재산권 삭제  -->
+   	<delete id="deletePrjPimsInfo">
+   	<![CDATA[
+   		delete tb_ea102_PMIS where WBS_CODE = #{wbsCd} and EMP_NO = #{tmmrEmpNo}
+   	]]>
+   	</delete>
+	
+	<!-- 프로젝트 변경연구원 지적재산권 등록 -->
+   	<insert id="insertPrjPimsInfo">
+   		<![CDATA[
+   		INSERT into tb_ea102_PMIS (
+             WBS_CODE
+            ,EMP_NO     
+            ,REC_STATUS   
+         
+            )
+             VALUES (
+               #{wbsCd}
+              ,#{tmmrEmpNo}
+              , 1
+              ,'IRIS'
+              ,sysdate
+              ,'IRIS'
+              ,sysdate
+          )
+   		]]>
+   	</insert>
+
+</mapper>

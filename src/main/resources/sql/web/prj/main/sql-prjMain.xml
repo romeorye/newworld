@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.main">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 프로젝트메인 공지사항 조회  -->
+	<select id="retrievePrjMainNoticeList" resultType="hashmap">
+	<![CDATA[
+	-- retrievePrjMainNoticeList 프로젝트메인 공지사항 조회
+	SELECT TOP 4 KPI.PWI_ID as pwiId     /*공지사항ID*/
+		 , KPI.TITL_NM      as titleNm   /*제목*/
+		 , KPI.SBC_NM       as sbcNm     /*내용*/
+	  FROM IRIS_KNLD_PWI_IMTR KPI
+	 WHERE KPI.DEL_YN = 'N'
+	 ORDER BY KPI.FRST_RGST_DT DESC
+	]]>
+	</select>
+
+	<!-- 프로젝트메인 QnA 조회  -->
+	<select id="retrievePrjMainQnaList" resultType="hashmap">
+	<![CDATA[
+	-- retrievePrjMainQnaList 프로젝트메인 QnA 조회
+	SELECT T.QNA_ID     as qnaId   /*QNA ID*/
+		 , T.TITL_NM    as titleNm /*제목*/
+		 , T.SBC_NM	    as sbcNm    /*내용*/
+		 , FRST_RGST_DT as frstRgstDt
+		 , (CASE WHEN TERM_NUM <= 2 THEN
+		    'Y'
+		    ELSE
+		    'N'
+		    END) AS newFlag   /*신규여부*/
+	  FROM (
+		    SELECT TOP 4 KQ.QNA_ID
+			     , KQ.TITL_NM
+			     , KQ.SBC_NM
+			     , KQ.FRST_RGST_DT
+			     , DATEDIFF(D, KQ.FRST_RGST_DT,GETDATE())  AS TERM_NUM
+	   	      FROM IRIS_KNLD_QNA KQ
+		     WHERE KQ.DEL_YN = 'N'
+		     ORDER BY KQ.FRST_RGST_DT DESC
+	       ) T
+       	]]>
+	</select>
+
+	<!-- 프로젝트메인 연구소 금주,차주일정 조회  -->
+	<select id="retrievePrjMainScheduleList" resultType="hashmap">
+	<![CDATA[
+	-- retrievePrjMainScheduleList 프로젝트메인 연구소 금주,차주일정 조회
+	SELECT TYPE          as type
+	     , LABT_ADSC_ID  as labtAdscId
+		 , ADSC_DT       as adscDt
+		 , DAY_NAME      as 'dayname'
+		 , ADSC_TIM      as adscTim
+		 , ADSC_TITL     as adscTitl
+		 , ADSC_STRT_TIM as adscStrtTim
+	  FROM (
+	        SELECT TOP 5 '1' as TYPE
+	             , KLA.LABT_ADSC_ID
+		         , KLA.ADSC_DT
+		         , DATENAME(DW, KLA.ADSC_DT) DAY_NAME
+		         , KLA.ADSC_STRT_TIM+':'+KLA.ADSC_STRT_MINU + '~' + KLA.ADSC_FNH_TIM+':'+KLA.ADSC_FNH_MINU AS ADSC_TIM
+		         , KLA.ADSC_TITL
+		         , KLA.ADSC_STRT_TIM
+	          FROM IRIS_KNLD_LABT_ADSC KLA
+	         WHERE KLA.DEL_YN = 'N'
+	           AND KLA.ADSC_DT BETWEEN CONVERT(NVARCHAR(10), DATEADD (DD, - DATEPART(DW,GETDATE()), GETDATE () + 1 + 0), 23) AND CONVERT(NVARCHAR(10),DATEADD (DD, (7 - DATEPART(DW,GETDATE()) ), GETDATE () + 0), 23)
+	        UNION
+	        SELECT TOP 5 '2' as TYPE
+	             , KLA.LABT_ADSC_ID
+		         , KLA.ADSC_DT
+		         , DATENAME(DW, KLA.ADSC_DT) DAY_NAME
+		         , KLA.ADSC_STRT_TIM+':'+KLA.ADSC_STRT_MINU + '~' + KLA.ADSC_FNH_TIM+':'+KLA.ADSC_FNH_MINU AS ADSC_TIM
+		         , KLA.ADSC_TITL
+		         , KLA.ADSC_STRT_TIM
+	          FROM IRIS_KNLD_LABT_ADSC KLA
+	         WHERE KLA.DEL_YN = 'N'
+	           AND KLA.ADSC_DT BETWEEN CONVERT(NVARCHAR(10), DATEADD (DD, - DATEPART(DW,GETDATE()), GETDATE () + 1 + 7), 23) AND CONVERT(NVARCHAR(10),DATEADD (DD, (7 - DATEPART(DW,GETDATE()) ), GETDATE () + 7), 23)
+	       ) A
+	 ORDER BY TYPE, ADSC_DT,ADSC_STRT_TIM DESC
+       	]]>
+	</select>
+
+</mapper>

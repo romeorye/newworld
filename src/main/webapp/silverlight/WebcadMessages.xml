@@ -1,0 +1,950 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- MESSAGE 변수
+	 WHEN  			: 메세지 발생 시점  
+	 FROM_DATE		: 시작시점	예) FROM_DATE="2010/10/10"	 
+	 TO_DATE		: 종료시점  예)  TO_DATE="2011/10/10"
+	 
+	 [WHEN 값]
+   		AFTER_STARTED 			 : 시작시
+   		AFTER_CATEGORY_LOADED    	: 카테고리 로드 후
+   		AFTER_BRAND_LOADED		 : 브랜드 로드 후
+   		AFTER_MODEL_LOADED		 : 모델 로드 후
+   		AFTER_PROTOTYPE_LOADED   	 : 프로토타입 로드 후 
+   		AFTER_SQLT_CHANGED		 : 특성값 변경 후    
+   		BEFORE_VENT_CHANGE       		 : 벤트 변경 전
+   		AFTER_VENT_CHANGED		 : 벤트 변경 후 
+   		BEFORE_SAVE				 : 저장 전 
+   		BEFORE_SAVE_EACH_VENT    	: 저장 전 각 벤트
+   		AFTER_GUBUN_CHANGED		 : 구분 변경 후 
+   		BEFORE_GLASS_SELECT
+-->
+
+<!--    조건문
+	IF 			 : IF 문
+	IF_NOT		 : IF NOT 
+	ELSE         : IF문 다음에서 
+	IF_OK        : OK_CANCEL문 안에서 확인 된 경우
+	IF_CANCEL	 : OK_CANCEL문 안에서 취소 된 경우 
+-->
+
+<!-- 값 변경
+ 	SET 		 : SET 문
+ 	[SET 변수]
+ 		SQLT_VALUE : 특성값 설정		  예1: SQLT="060=030"   예2: SQLT="060=030,070=01" 
+ 		SQLT_ENABLE    : 특성 수정 가능       예1:SQLT_ENABLE="060" 예2:SQLT_ENABLE="060,070'
+ 		SQLT_DISABLE   : 특성 수정 불가       예1:SQLT_DISABLE="060" 예2:SQLT_DISABLE="060,070'
+ 		TWOSASH_ENABLE : 투샤시 적용가능여부 
+ 		GUBUN_DISABLE  :           예) GUBUN_DISABLE="02,03"
+  -->
+
+<!-- 조건식 변수
+	CATEGORY: 카테고리 코드
+	MODEL   : 모델코드 , 		  예1: MODEL="A1643-01" 예2:"MODEL="A1643-01,A1643-02"
+	PROTOTYPE : 프토토타입 코드,   예1: PROTOTYPE="07"   예2:"PROTOTYPE="07,08"
+	SQLT : 특성  , 			  예1: SQLT="060=030"   예2: SQLT="060=030:040,070=01" 
+	GLASS   : 유리 코드  	
+	TARGET_SQLT :  대상특성 코드             : 메세지 검사 대상 
+	
+	[기타변수]
+	LT : Left 창타입    {없음:000, VENT:001, FIX:002, 2Sash:003} 
+	RT : Right 창타입    {없음:000, VENT:001, FIX:002, 2Sash:003} 
+	UT : UP 창타입    {없음:000, VENT:001, FIX:002, 2Sash:003} 
+	DT : Down 창타입    {없음:000, VENT:001, FIX:002, 2Sash:003}  
+	VT : Vent Type {T/T:001, T/U:002, T/I:003, B/H:004, S/H:005, P-S/T:006, Project:007, SH out:008, Rotary: 009, Pivot:010, InDoor:011, OutDoor:012, Casement:013, Awning:014, Fix:015 Slide:016}
+	HL : Handle위치       핸들없음:000, 좌:001, 우:002, 상단:003, 하단:004, 좌/우:005, 상/하:006
+	TW : 이중창 창순서	없음(아님):000, 내창:001, 외창:002
+	WCN: VENT 가로좌표
+	HCN: VENT 세로좌표
+	WSIZE: VENT 가로사이즈
+	HSIZE: VENT 세로사이즈
+	INCOLOR:    내부색 코드
+	OUTCOLOR:   외부색 코드
+	HANDLCOLOR: 핸들색 코드
+	GUBUN:      구분코드 
+	
+	[부정]
+	변수_NOT   ex)MODEL_NOT="A1643-01" => 모델의 코드가 A1643-01이 아닌경우
+-->
+
+<!-- 메세지 종류
+	ALERT		 : 알림
+	ERROR		 : 작업 취소
+	OK_CANCEL	 : 확인 또는 취소 
+	
+	[메세지 문자열 변수]
+		$CTGR_CD$   : 카테고리 코드
+		$CTGR_NM$   : 카테고리 이름
+		$BRND_CD$  : 브랜드 코드
+		$BRND_NM$  : 브랜드  이름
+		$MDL_CD$  : 모델코드
+		$MDL_NM$  : 모델 이름
+		$PRTO_CD$  : 프로토타입 코드
+		$PRTO_NM$   : 프로토타입 이름
+		
+		[특성 또는 특성값]
+		$SQLT(060)_NM$           : 060특성 이름 
+		$SQLT(060)_SELVAL_NM$    : 060특성의 선택값 이름
+		$SQLT(060)_SELVAL_CD$    : 060특성의 선택값 코드
+		$SQLT(060)_VAL(001)_NM$  : 060특성 001특성값 이름 
+		$SQLT(060)_VAL(001)_CD$  : 060특성 001특성값 이름 
+		
+		[기타변수 (조건식 기타변수 참고)]
+		$LT$  $RT$  $UT$  $DT$  $VT$  $HL$  $TW$
+		$W_CN$ $H_CN$ $WSIZE$  $HSIZE$ 
+		$INCOLOR$   : 내부색 이름
+		$OUTCOLOR$  : 외부색 이름
+		$HANDLCOLOR$ : 핸들색 이름
+		$GUBUN$ :구분 이름 
+ -->
+
+
+<MESSAGES>
+
+  <!--유리를 반드시 선택하도록-->
+  <!-- 
+  <MESSAGE WHEN="BEFORE_SAVE_EACH_VENT"> 
+      <IF GLASS=" " >
+        <ERROR TITLE="유리 선택">
+"($W_CN$,$H_CN$)위치에 유리가 선택 되지 않았습니다.
+유리는 반드시 선택 되어야 합니다."
+      	</ERROR>
+      </IF> 
+  </MESSAGE>
+   -->   
+      <!-- 20170629 박정민D 요청 -->
+   <MESSAGE WHEN="AFTER_CATEGORY_LOADED">
+   <ALERT>
+ ※ 시스템 완성창 납기 지연 공지 건
+ 
+최근 주문 급증으로 인하여, 시스템 완성창 공급이 원활하지 않아 
+판매 활동에 불편을 드려 죄송합니다.  
+당분간 납기 지연이 예상되어, 시스템창 주문 시 표준 납기 대비 
++3~5일 정도 납기를 반영하여 주문 부탁 드립니다. 
+아무쪼록 조속히 해결하도록 노력하겠으며, 다시 한번 양해 부탁 드립니다.  
+   </ALERT> 
+   </MESSAGE>
+   
+     <!--SGVent 에서는 Fix가 들어오지 못하도록-->
+  <MESSAGE WHEN="BEFORE_SAVE_EACH_VENT">
+    <IF MODEL="A1720-01" VT="015">
+      <ERROR TITLE="SG VENT 에러">
+	SG VENT 에는 FIX 창을 넣을 수 없습니다.
+   </ERROR>
+    </IF>
+  </MESSAGE>
+
+  <!--내부색 외부색  반드시 선택하도록-->
+  <MESSAGE WHEN="BEFORE_SAVE">
+    <IF INCOLOR=" " >
+      <CANCEL>내부색을 선택하세요. </CANCEL>
+    </IF>
+    <IF OUTCOLOR=" ">
+      <CANCEL>외부색을 선택하세요. </CANCEL>
+    </IF>
+    <IF HANDLCOLOR="">
+      <CANCEL>핸들색을 선택하세요. </CANCEL>
+    </IF>
+    <IF CATEGORY="03" BRAND="01,61" GUBUN="101">
+      <OK_CANCEL>
+방충망 색상과 완제품 외부 색상을 확인하시기 바랍니다.
+저장 하시겠습니까?
+      </OK_CANCEL>
+    </IF>
+  </MESSAGE>
+  <MESSAGE WHEN="BEFORE_SAVE">
+    <IF CATEGORY="04" BRAND="14">
+      <IF SQLT="025=001">
+        <IF  SQLT="055=002">
+          <ERROR>
+망레일과 마감용 하부 Attach의 특성을 일치 시키시오.
+Rail선택시 Rail용 Attach
+Rail 미 선택시  無Rail용 Attach 사용
+          </ERROR>
+        </IF>
+      </IF>
+      <IF SQLT="025=002">
+        <IF  SQLT="055=001">
+          <ERROR>
+망레일과 마감용 하부 Attach의 특성을 일치 시키시오.
+Rail선택시 Rail용 Attach
+Rail 미 선택시  無Rail용 Attach 사용
+          </ERROR>
+        </IF>
+      </IF>
+    </IF>
+    
+      <IF CATEGORY="04" SQLT="010=034" >
+        <IF SQLT="050=002">
+          <ERROR> 삼중유리 와  45도 GB는 동시에 선택할 수 없습니다.</ERROR>
+        </IF>
+      </IF>
+   
+    <IF CATEGORY="04" SQLT="010=037" >
+      <IF SQLT="050=002">
+        <ERROR> 삼중유리 와  45도 GB는 동시에 선택할 수 없습니다.</ERROR>
+      </IF>
+    </IF>
+    <IF CATEGORY="04" SQLT="010=044" >
+      <IF SQLT="050=002">
+        <ERROR> 삼중유리 와  45도 GB는 동시에 선택할 수 없습니다.</ERROR>
+      </IF>
+    </IF>
+  </MESSAGE>
+  
+
+
+  <!--2SASH는 WITH SILL, NO SILL B 만 가능합니다.-->
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED">
+<!--    <IF MODEL="A1643-01" >-->
+<!--  <IF MODEL="A1672-01" >  -->
+	  <IF CATEGORY="04" BRAND="03"> <!-- A 70P DR 브랜드 전체로 대상 변경 [CSR ID:2414650] -->
+      <SET SQLT_DISABLE="060" />
+      <IF  SQLT="060=003" >
+        <SET TWOSASH_ENABLE="FALSE" />
+      </IF>
+    </IF>
+  </MESSAGE>
+
+  <!--벤트 적용후 벤트 하부에 FIX 창 적용이 안되도록 -->
+  <MESSAGE WHEN="AFTER_VENT_CHANGED">
+<!--    <IF MODEL="A1643-01" DT="002" VT_NOT="015">-->
+	<IF MODEL="A1672-01" DT="002" VT_NOT="015">    <!-- A 70P DR(대표) -->
+      <ERROR>
+        "벤트 하부에 FIX 창 이 올 수 없습니다."
+      </ERROR>
+    </IF>
+  </MESSAGE>
+  
+  <MESSAGE WHEN="AFTER_VENT_CHANGED">
+<!--    <IF MODEL="A1643-01" UT="001,003" VT="015">-->
+	<IF MODEL="A1672-01" UT="001,003" VT="015"> <!--A 70P DR(대표)  -->    
+      <ERROR>
+        "벤트 하부에 FIX 창 이 올 수 없습니다."
+      </ERROR>
+    </IF>
+  </MESSAGE>
+
+  <!--프로토타입 선택시,20101223 진희창 -->
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+<!--    <IF MODEL="A1643-01" PROTOTYPE="056,057,058,059">-->
+	<IF MODEL="A1672-01" PROTOTYPE="056,057,058,059">    <!-- A 70P DR(대표) -->
+      <ALERT>
+   2SASH(양개) DOOR 주문시 프로토 타입을 ‘1FIX’로 선택한 후 다음 순서 진행해 주세요
+   
+ -2SASH(양개) DOOR 주문시 우측 ‘2SASH 도면 그리기’를 이용하여 프로토 타입을
+   선택 후 ‘배치’를 눌러주세요!
+주의)양개 도어 경우 일반 VENT를 이용하여 창호를 그릴 경우 중간바가 있는 타입으로 
+       선택되니 주의 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>
+  
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED">
+    <IF CATEGORY="04" BRAND="14">
+      <IF SQLT="025=001">
+        <IF  SQLT="055=002">
+          <ERROR>
+망레일과 마감용 하부 Attach의 특성을 일치 시키시오.
+Rail선택시 Rail용 Attach
+Rail 미 선택시  無Rail용 Attach 사용
+        </ERROR>
+        </IF>
+      </IF>
+      <IF SQLT="025=002">
+        <IF  SQLT="055=001">
+          <ERROR>
+망레일과 마감용 하부 Attach의 특성을 일치 시키시오.
+Rail선택시 Rail용 Attach
+Rail 미 선택시  無Rail용 Attach 사용
+          </ERROR>
+        </IF>
+      </IF>      
+    </IF>
+  </MESSAGE>
+
+  <!--시스템발포공틀 선택 시. 이미희D요청 [CSR ID:2420707]-->
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED">
+	 <IF CATEGORY="03" BRAND="85">
+      <ALERT>
+* 공틀 주문 관련 안내 사항*
+1. 프로토타입을 선택하기 전 반드시 공틀모형과 적용 창을 선택하세요.
+2. 공틀모형 “1면공틀” 선택시 프로토타입은 “TB-1SIDE”를 선택하세요.
+3. 공틀모형 “3면공틀” 또는 “4면공틀” 선택 시 프로토타입은 “TB-3 or 4SIDE”
+   를 선택하세요. 
+   "3면공틀" 선택 시 도면과 달리 상/좌/우 면에만 공틀 부착됩니다.
+4. 적용창 “PTT70K”선택 시 바닥면에 z자 플레이트가 부착되며,
+   “PTT70K이외” 선택 시 평자 플레이트가 부착됩니다. 
+       </ALERT>
+      </IF>
+  </MESSAGE>
+  
+  
+  
+  
+  <!--폴딩도어 선택 시. 최성범C요청 [CSR ID:2850360]-->
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED">
+	 <IF CATEGORY="04" BRAND="29">
+      <ALERT>
+[주의]
+1. 폴딩부 창짝 W 사이즈는 모두 같아야 합니다. 
+   그렇지 않으면, 유리 사이즈 산출 오류가 발생하오니, 
+   반드시 동일하게 설정하시기 바랍니다.
+2. 산출된 유리 사이즈는 1mm단위여야 합니다. 
+   그렇지 않으면, 폴딩 문짝별 제작 오차 누적에 따라 
+   주문 대비 제작 사이즈의 오차가 발생할 수 있습니다.
+   (ex.1짝당 0.9mm오차 시 20짝인 경우 주문 보다 
+       제작사이즈가 약 10mm(≒0.9X20짝) 작게 제작됨)   
+       </ALERT>
+      </IF>
+  </MESSAGE>
+  
+  
+  <!--조 원 호 입 력 -->
+
+  <MESSAGE WHEN="AFTER_BRAND_LOADED">
+    <IF CATEGORY="04" BRAND="14">
+      <ALERT>
+마감에 따라 하부 Attach Bar 적용시 수직방향 제작사이즈는 H-20을 입력 바랍니다.
+ex. 제작 사이즈 W1600 H2000인 경우
+1) 하부 Attach 적용시: W=2000 H=1980 입력
+2) 하부 Attach 미 적용시: W=2000 H=2000 입력
+      </ALERT>
+    </IF>
+    
+    <IF CATEGORY="04" BRAND="01,11"> <!--CSR ID:3433002] "A70P TT" 주문시 알림창 요청 건 -->
+      <ALERT>
+TT ＆ FIX 창호는 VENT 사이즈가 ( 1250 x 1850 )을
+초과 할 경우 구조 검토 확인 후 발주 바랍니다.
+	</ALERT>
+    </IF>
+  </MESSAGE>
+
+  <MESSAGE WHEN="AFTER_BRAND_LOADED">
+    <IF CATEGORY="03" BRAND="05">
+      <ALERT>
+FS-70K Mu 적용현장/H,W 3000이상/고층15층 이상지역/해안지역/바람이
+강한\n지역 등의 현장에서는 보강재 선택시 기술팀으로 문의 후 사양확정 바람.
+      </ALERT>
+    </IF>
+
+    
+    <!--  20120309 박은영 추가. 김윤정K 요청 -->
+    <!--  20120313 박은영 수정. 김윤정K 요청 -->
+    <!--  20120319 박은영 수정. 김윤정K 요청 -->
+   <IF CATEGORY="04" BRAND="02"> <!-- 02:A 158P LS  -->
+      <ALERT>
+해당제품이 커튼월에 Insert 되는경우 단열 Pad 적용에 따라 주문Size에서
+커튼월과 면하는 면은 각각 가로, 세로 각 7.5mm씩  축소하여 주문바랍니다.
+
+ Ex. 주문 size: W 1000 H800 인경우
+  - 커튼월과 사면(상,하,좌,우) 면함:  W985 H785로 주문함.
+  - 커튼월과 삼면(상,좌,우) 면함: W985 H792.5로 주문함.
+      </ALERT>   
+   </IF>  
+
+   <IF CATEGORY="04" BRAND="04,05,027,028"> <!-- 04:A150P LS, 05:A150P SL, 027: A 200P LS, 028 : A 210P PS-->
+      <ALERT>
+해당제품이 커튼월에 Insert 되는경우 단열 Pad 적용에 따라 주문Size에서
+커튼월과 면하는 면은 각각 가로, 세로 각 5mm씩  축소하여 주문바랍니다.
+
+ Ex. 주문 size: W 1000 H800 인경우
+  - 커튼월과 사면(상,하,좌,우) 면함:  W990 H790로 주문함.
+  - 커튼월과 삼면(상,좌,우) 면함: W990 H795로 주문함.
+      </ALERT>   
+   </IF>  
+
+   <IF CATEGORY="04" BRAND="03,14"> <!-- 03:A 70P DR, 14:A 70P ST -->
+      <ALERT>
+해당제품이 커튼월에 Insert 되는경우 단열 Pad 적용에 따라 주문Size에서
+커튼월과 면하는 면은 각각 가로, 세로 각 7.5mm씩  축소하여 주문바랍니다.
+
+ Ex. 주문 size: W 1000 H800 인경우
+  - 커튼월과 사면(상,하,좌,우) 면함:  W985 H785로 주문함.
+  - 커튼월과 삼면(상,좌,우) 면함: W985 H792.5로 주문함.
+      </ALERT>   
+   </IF> 
+   
+<!-- 20120313 김윤정K 요청. 삭제. -->
+   <!-- IF CATEGORY="04" BRAND_NOT="02,04,05,11,12,13"--> <!-- 11:A70P TT(Insert), 12:A70P TH(Insert), 13:A70P SH(Insert) -->
+   <!-- 
+      <ALERT>
+해당 제품이 커튼월에 Insert되는 경우 단열 Pad 적용에 따라 
+주문Size에서 가로, 세로 각 15mm씩 축소하여 주문바랍니다.
+
+Ex. 주문 size: W 1000 H800 인경우 W985 H785로 주문함.
+      </ALERT>   
+   </IF>
+    -->
+<!--  20120309 박은영 추가 끝 -->
+
+	<IF CATEGORY="04" BRAND="28"> <!-- 28 : A100P TT  -->
+      <ALERT>
+개폐 창호의 힌지 부착 위치는 외곽 BF가 기본이며, 입면 분할바에
+힌지 부착은 불가합니다. 
+자세한 사항은 [WINS]공지사항 게시번호 201501210002를 
+확인하시기 바랍니다.  
+      </ALERT>   
+   </IF>
+
+	<IF CATEGORY="04" BRAND="028"> <!-- [CSR ID:2961632] 028 : A 210P PS  -->
+      <ALERT>
+제품의 과대한 H 사이즈로, 멀리언 부 휨 현상이 일부 발생 할 수 있으니,
+현장 적용 시 게시판에 공지된 특기 시공 시방을 반드시 적용 하시기 바랍니다.
+(적용 대상 규격: 전 사이즈 대상, 게시판 게시번호 201506010004)
+      </ALERT>   
+   </IF>
+   
+   <IF CATEGORY="04" BRAND="29"> <!-- [CSR ID:3024699] 29 : Folding DR  -->
+      <ALERT>
+1. Folding DR 주문 시, AL시스템 창과 다른 견적차수 생성하여 별도 주문 바랍니다.
+    (他 시스템 창과 통합주문 시 배분 불가)
+2. 유리 통합 주문 시, 10짝 이상은 WINS 시스템 한계로 불가하오니,
+    10짝 이상은 유리 개별 주문 바랍니다. 
+    (유리 포함 10짝 견적 시, 유리 9장 산출 됨) 
+      </ALERT>   
+   </IF>
+   
+   <IF CATEGORY="04" BRAND="30"> <!-- [CSR ID:3024699] 30 : AL중문(AL중문)  -->
+      <ALERT>
+AL중문 주문 시, AL시스템 창과 다른 견적차수 생성하여 별도 주문 바랍니다
+
+(他 시스템 창과 통합주문 시 배분 불가)
+      </ALERT>   
+   </IF>
+
+   <IF CATEGORY="04" BRAND="32"> <!-- [CSR ID:3024699] 32 : 강화방충망  -->
+      <ALERT>
+강화방충망 주문 시, AL시스템 창과 다른 견적차수 생성하여 별도 주문 바랍니다
+
+(他 시스템 창과 통합주문 시 배분 불가)
+      </ALERT>   
+   </IF>   
+   
+   <IF CATEGORY="04" BRAND="31"> <!-- [CSR ID:3024699] 31 : AL 루버  -->
+      <ALERT>
+AL 루버 주문 시, AL시스템 창과 다른 견적차수 생성하여 별도 주문 바랍니다
+
+(他 시스템 창과 통합주문 시 배분 불가)
+      </ALERT>   
+   </IF>
+   
+   
+   <IF CATEGORY="04" BRAND="032"> <!-- [CSR ID:3316399] 032 : A90P TT(Slim TT)  -->
+      <ALERT>
+★주의★ : Hinge가 벽체가 아닌 부재(FS등)에 부착되는 입면은 제작
+             불가하오니, 주의하시기 바랍니다.
+             (WINS 시스템 특성상 해당 건의 차단이 되지 않으니, 주문 시
+             유의 하시기 바라며, 자세한 사항은 게시판을 참조하시기 바랍니다.)
+
+      </ALERT>   
+   </IF>
+   
+   <IF CATEGORY="04" BRAND="035"> <!-- [CSR ID:3377652] 035 : AL폴딩방충망  -->
+      <ALERT>
+1.높이(H)는 폭(W)보다 200mm 이상 커야 제작 가능 합니다. 
+  (방충망 체인 길이 제한) 
+  ex) 1000(W) x 1200(H) 제작가능 O , 1000(W) x 1100(H) 제작불가 X
+  
+2.선택사양 중 개폐 방향은 Single Sliding(편개형)의 경우 만 해당합니다.
+
+3.특이칼라 주문 시 비고란에 조광 페인트 색상 및 코드번호 기입해야 합니다.
+      </ALERT>   
+   </IF>
+   
+   <IF CATEGORY="04" BRAND="33"> <!--  [CSR ID:3445335] [AL 3연동 중문] 공지창 요청 건 -->
+      <ALERT>
+" 파티션 고시 높이는 변경 불가 합니다.
+
+  출고시 하부에서 1000mm로 고정되어 출고됩니다."
+
+      </ALERT>   
+   </IF>
+   
+
+
+  </MESSAGE>
+
+  <!--해당모델을 불러왔을때  -->
+
+  <MESSAGE WHEN="AFTER_MODEL_LOADED">
+    <IF CATEGORY="03" BRAND="01,61">
+      <SET GUBUN_DISABLE="105" />
+    </IF>
+    <ELSE>
+      <IF MODEL="p1698-01">
+        <SET GUBUN_DISABLE="105" />
+      </IF>
+      <ELSE>
+        <SET GUBUN_ENABLE="105" />
+      </ELSE>
+    </ELSE>
+  </MESSAGE>
+
+
+  <MESSAGE WHEN="AFTER_MODEL_LOADED">
+<!--    <IF CATEGORY="04" MODEL="A0024-01,A0034-01,A1679-01">-->
+	<IF CATEGORY="04" MODEL="A1679-01,A1686-01,A1679-01">    <!-- A 70P TT(2SASH), A 80P TT(2SASH), A 70P TT(2SASH)-->
+      <ALERT>
+        2Sash의  Vent H 최소 높이를 800mm로 입력 바랍니다.
+      </ALERT>
+    </IF>
+    
+    <IF CATEGORY="03" MODEL="P2119-01,P2223-01,P2212-01,P2121-01,P2205-01,P2144-01,P2227-01">    
+		<ALERT>
+시공시 턴첵을 부착할 경우, 견적 시 턴첵시공 옵션 선택을 해야합니다.
+제품별 참고 사이즈는 게시판 內  "PL시스템창 시공부자재(턴첵) 사양 공지 건" 
+(게시번호 : 201510300001) 참고 바랍니다.
+게시글 중 ESUB1537 옵션에 해당하는 사이즈는 반드시 "턴첵시공(소형창옵션)" 
+을 선택바랍니다.
+★턴첵은 시공부자재로써, 시공시에 부착하는 자재임을 알려드립니다.
+★턴첵은 WINS가 아닌 [통합주문시스템] 에서 주문가능합니다.
+기타 문의사항은 기술팀에 문의바랍니다.
+    	</ALERT>
+    </IF>
+  </MESSAGE>
+
+
+  <!-- MESSAGE WHEN="AFTER_MODEL_LOADED">
+    <IF CATEGORY="03" MODEL="P1657-01,P1711-01">
+      <ALERT>
+PLS220 1V2F 또는 PLS220 ASA 1V2F 주문시 유리제작은 기술팀과 반드시 협의 후 별도 주문 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE-->
+
+
+
+  <!--도면그리기 버튼을 눌렀을때  -->
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+   
+      <IF CATEGORY="04" SQLT="010=034" >
+        <IF SQLT="050=002">
+          <ERROR> 삼중유리 와  45도 GB는 동시에 선택할 수 없습니다.</ERROR>
+        </IF>
+      </IF>
+    <IF CATEGORY="04" SQLT="010=037" >
+      <IF SQLT="050=002">
+        <ERROR> 삼중유리 와  45도 GB는 동시에 선택할 수 없습니다.</ERROR>
+      </IF>
+    </IF>
+    <IF CATEGORY="04" SQLT="010=044" >
+      <IF SQLT="050=002">
+        <ERROR> 삼중유리 와  45도 GB는 동시에 선택할 수 없습니다.</ERROR>
+      </IF>
+    </IF>
+   
+  </MESSAGE>
+
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+    <IF MODEL="P1657-01,P1711-01">
+      <ALERT>
+2Fix Unbalance type의 제품 주문 시 유리 견적에 오류가 있습니다.
+유리는 별도 주문을 해주시기 바랍니다.(제작 규격은 게시판 내용 참조)
+      </ALERT>
+    </IF>
+  </MESSAGE>
+  
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+    <IF MODEL="A1798-01,A1800-01">
+      <ALERT>
+분할 창의 경우, 외부창 상하부는 유리 통합 주문이 불가 합니다 
+(상하부가 같은 타입의 유리가 선택됨).
+상하부 유리는 규격 및 타입 확인 후 별도로 개별 주문 하시기 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>
+
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+    <IF CATEGORY="03" BRAND="30">
+      <ALERT>
+Fix부 분할 타입 주문시, 분할 Fix부 W를 동일하게 설정해 주시기 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>
+
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+    <IF CATEGORY="03" BRAND="25,20,15,45,50,21,26,52"> <!-- 20130122 박은영. 21, 26 브랜드 추가 -->
+      <OK_CANCEL>
+해안가와 화학단지 등 장,단기적으로 부식이 우려되는 곳에는
+방충망 재질을 필히 ‘SUS분체도장’으로 선택/사용하시기 바랍니다.
+계속하시겠습니까?
+      </OK_CANCEL>
+    </IF>
+  </MESSAGE>
+
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+    <IF CATEGORY="05" BRAND="01,02,03">
+      <OK_CANCEL>
+해안가와 화학단지 등 장,단기적으로 부식이 우려되는 곳에는
+방충망 재질을 필히 ‘SUS분체도장’으로 선택/사용하시기 바랍니다.
+계속하시겠습니까?
+      </OK_CANCEL>
+    </IF>
+  </MESSAGE>
+
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+    <IF CATEGORY="04" BRAND="14,02">
+      <OK_CANCEL>
+해안가와 화학단지 등 장,단기적으로 부식이 우려되는 곳에는
+방충망 재질을 필히 ‘SUS분체도장’으로 선택/사용하시기 바랍니다.
+계속하시겠습니까?
+      </OK_CANCEL>
+    </IF>
+  </MESSAGE>
+
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+    <IF CATEGORY="03" BRAND="20,25,21,26"> <!-- 20130122 박은영. 21, 26 브랜드 추가 -->
+      <ALERT>
+핸들높이를 확인하시기 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>
+
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+    <IF CATEGORY="05" BRAND="02,05,06">
+      <ALERT>
+핸들높이를 확인하시기 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>
+
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+    <IF CATEGORY="04" BRAND="02">
+      <ALERT>
+핸들높이를 확인하시기 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>
+  
+<!-- 20120405 박은영추가.  코너유리 샘플 모형 메시지.-->
+<!-- 20130702 김수예 수정. 이미희D요청 [CSR ID : 2360851]-->
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED" >
+    <IF CATEGORY="03" BRAND="81"> <!-- 시스템창 코너샘플 -->
+      <ALERT>
+* 코너샘플 주문 관련 공지 * 
+1. 코너샘플은 매월 첫번째 영업일부터 일주일간 주문 가능합니다.
+2. 코너샘플은 사양(색상, 크기 등) 변경이 불가능합니다. 
+3. 유리는 별도 선택없이 정해진 사양대로 주문됩니다. 
+   - PLS220, PTT237 : 31T 삼복층 유리 
+   - PTT60NRK, PLS170N : 24T 복층 유리 
+   - PTT70K, PLS275D : 22T 복층 유리 
+   - PTT145, PTT100OS : 유리 미포함
+4. 소형 사이즈이므로 핸들은 미부착됩니다
+5. 일부 특판 전용 코너샘플(PTT145, PTT100OS 등)은 
+   별도 권한 요청이 필요합니다.(02-6930-0118)
+      </ALERT>
+    </IF>
+  </MESSAGE>
+<!--  20120405 박은영 추가 끝. -->
+
+<!-- 20131210 김수예 추가 이미희D요청. PLS220-2V2F-양개형 -->
+  <MESSAGE WHEN="AFTER_PROTOTYPE_LOADED">
+	<IF CATEGORY="03" BRAND="14">    
+      <ALERT>
+[필독]개폐방식 안내
+1. 오작동시 고장 및 인체 상해를 입을수 있으니 소비자에게 반드시 사전에 개폐방법을 안내하십시오. 
+2. 도면에 1로 표시되어있는 창짝의 잠금상태를 완전히 해지한후 창짝2를 열 수 있습니다.
+3. 닫을때는 창짝2를 반드시 먼저 닫고 핸들을 잠금상태로 작동후 창짝1을 닫아야합니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>
+  
+  
+  <MESSAGE WHEN="BEFORE_GLASS_SELECT" >
+    <IF MODEL="P1713-01,P1712-01" TARGET_SQLT ="015">
+      <ERROR>
+$MDL_NM$ 의 내창 유리는 자동으로 지정 됩니다.  
+      </ERROR>
+    </IF>
+  </MESSAGE>
+
+    <MESSAGE WHEN="BEFORE_GLASS_SELECT" >
+  <!-- 블라인드 메시지 처리. 20130423 염정호
+	- 모형 : B158BL(블라인드단창) 내 2가지 모형(P1674-01, P1675-01)
+	- 팝업 문구 : B158BL의 블라인드 유리는 자동으로 지정 됩니다. -->
+    <IF MODEL="P1674-01,P1675-01">
+      <ERROR>
+$MDL_NM$ 의 블라인드 유리는 자동으로 지정 됩니다.
+      </ERROR>
+    </IF>
+  </MESSAGE>
+   
+  <!-- 2011.01.20. 박은영 추가. 김윤정k 요청 : AL시스템창, AW시스템창 선택시 메시지 처리 -->
+  <!-- 2011.04.22. 진희창 수정. 최지웅k 요청 : AL시스템창, AW시스템창 선택시 메시지 제외 -->
+<!--
+    <MESSAGE WHEN="AFTER_CATEGORY_LOADED" >
+    <IF CATEGORY="04">
+       <ALERT>
+AL/ AL wood 제품의 경우 Roll방충망 주문시
+영업팀 담당자와 사양 검토 후 대리점 별도 주문하여 주시기 바랍니다.
+		</ALERT>
+	</IF>
+  </MESSAGE>
+-->
+
+
+    <!-- 2011.01.20. 박은영 추가. 김윤정k 요청 : AL시스템창, AW시스템창 선택시 메시지 처리 -->
+    <!-- 2011.04.22. 진희창 수정. 최지웅k 요청 : AL시스템창, AW시스템창 선택시 메시지 제외 -->
+<!--
+  <MESSAGE WHEN="AFTER_CATEGORY_LOADED" >
+    <IF CATEGORY="05">
+       <ALERT>
+AL/ AL wood 제품의 경우 Roll방충망 주문시
+영업팀 담당자와 사양 검토 후 대리점 별도 주문하여 주시기 바랍니다.
+		</ALERT>
+	</IF>
+  </MESSAGE>
+-->  
+  
+  
+ <!-- 20120315 박은영추가. 김세진S 요청 : SPS 상하부 유리 관련 메시지  -->
+<!-- 
+   <MESSAGE WHEN="BEFORE_GLASS_SELECT" >
+    <IF MODEL="P1794-01,P1797-01,P1809-01,P2098-01"" TARGET_SQLT ="027"> --> 
+    	<!--P1794-01 : 입면분할SPS, P1797-01 : 입면분할SPS(MC구조형-H높을때), P1809-01 :SPS상부Fix(주문금지), P2098-01 : 4.입면분할 unbalance SPS(MC 구조형)   -->
+    	<!-- SQLT_CD 027 : SPS 하부 유리 사양 -->
+<!--
+      <ALERT>
+하부 접합 유리를 사용할 경우
+"유리 선택" 탭에서 유리 두께를 선택하시고, 
+"개별속성" 탭에서 위치별 유리두께 및 사양을 별도 지정하여 주문하시기 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>
+    -->
+   
+   <MESSAGE WHEN="BEFORE_SAVE" >        
+    <IF CTGR_CD="03" BRAND="71">    
+      <ALERT>
+주의 1) 입면분할 제품 주문시 상하 유리 사양이 다를 경우 
+        유리 포함 발주가 불가합니다. 
+        상하 유리 분리 발주는 유리 사양(mm)만 선택하시고 
+        유리는 별도 주문 하시기 바랍니다.
+        
+주의 2) SPS 후시공 안내(공지사항(시스템창) 2013-01-16) 
+        내용 숙지 후 반드시 시방 준수 하십시오.
+       
+주의 3) SPS 핸들작동법 및 부자재 안내(공지사항(시스템창) 2014-06-17) 
+        내용 숙지하시고 고객 안내 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>
+  
+   <MESSAGE WHEN="BEFORE_SAVE" >     
+    <IF CTGR_CD="03" BRAND="72">
+      <ALERT>
+주의 1) 입면분할 제품 주문시 상하 유리 사양이 다를 경우 
+        유리 포함 발주가 불가합니다. 
+        상하 유리 분리 발주는 유리 사양(mm)만 선택하시고 
+        유리는 별도 주문 하시기 바랍니다.
+        
+주의 2) SPS 후시공 안내(공지사항(시스템창) 2013-01-16) 
+        내용 숙지 후 반드시 시방 준수 하십시오.
+       
+주의 3) SPS 핸들작동법 및 부자재 안내(공지사항(시스템창) 2014-06-17) 
+        내용 숙지하시고 고객 안내 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>
+  
+  <MESSAGE WHEN="BEFORE_SAVE" >     
+    <IF CTGR_CD="03" MODEL="P2213-01">
+      <ALERT>
+16년형 신규 제품은 기존 제품과 외관이 상이합니다.
+기존 PTT70IN으로 계약 체결/모델하우스 설치/실세대설치 등이
+되어있는 경우에 16년형 신규제품을 사용하고자 한다면, 
+반드시 해당 영업사원 및 제품담당자와 협의를 거친 후 견적 진행 
+바랍니다. 미협의시에는 기존 PTT70IN으로 견적 및 시공 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>    
+  
+   <!-- 20140214 김수예 수정 이미희D요청. SPS(입면분할) -->
+   <MESSAGE WHEN="BEFORE_GLASS_SELECT" >
+    <!-- IF MODEL="P1794-01,P1797-01,P1837-01,P2087-01,P2098-01" --> 
+    <IF CTGR_CD="03" BRAND="71">
+	   	<IF TARGET_SQLT ="026">	     	
+	      <ALERT>
+※유리 포함 주문 시 상부 유리 선택하시면 하부 유리는 자동으로 
+  동일한 유리가 선택됩니다. 
+  하부 유리 사양(mm)은 반드시 같은 두께를 선택하시기 바랍니다.
+  
+※상하 유리 사양이 다를 경우 유리 포함 발주가 불가합니다.
+  상하 유리 분리 발주는 유리 사양(mm)만 선택하시고 유리는 
+  별도 주문 하시기 바랍니다.
+	      </ALERT>
+	    </IF>
+	    <IF TARGET_SQLT ="027">	     	
+	      <ERROR>
+※유리 포함 주문 시 상부 유리 선택하시면 하부 유리는 자동으로 
+  동일한 유리가 선택됩니다. 
+  하부 유리 사양(mm)은 반드시 같은 두께를 선택하시기 바랍니다.
+  
+※상하 유리 사양이 다를 경우 유리 포함 발주가 불가합니다.
+  상하 유리 분리 발주는 유리 사양(mm)만 선택하시고 유리는 
+  별도 주문 하시기 바랍니다.
+	      </ERROR>
+	    </IF>
+    </IF>
+  </MESSAGE>
+  
+<!-- A 180P PS 모형 : 유리를 반드시 포함하도록 -->
+  <MESSAGE WHEN="AFTER_CATEGORY_LOADED">
+  	<IF MODEL="A1697-01" GLASSES="">
+		<OK_CANCEL>
+$MDL_NM$은 유리가 반드시 포함되어야 하는 모형입니다.
+유리제외요청시 승인되지 않을 수 있으니 유리자재를 반드시 선택하여 주시기 바랍니다. 
+계속하시겠습니까?   
+		</OK_CANCEL>
+  	</IF>
+  </MESSAGE>
+	
+<!-- 모형코드 A1697-01 제품(A 180P PS)에 대해 아래와 같은 팝업 공지 요청드립니다. -김윤정K-
+    - 팝업위치: 카테고리>브랜드에서 A180PPS 제품 선택시
+    - 내용: 본 제품은 공장Glazing 제품에 따라 유리 Glazing 및 양생으로 인해
+                      납기가 기본납기+2일이 소요됩니다. -->
+  <MESSAGE WHEN="AFTER_MODEL_LOADED">
+  	<IF MODEL="A1697-01">
+		<ALERT>
+본 제품은 공장Glazing 제품에 따라 유리 Glazing 및 양생으로 인해
+납기가 기본납기+2일이 소요됩니다. 
+		</ALERT>
+		
+		<ALERT>
+H 사이즈가 2470mm를 초과하는 경우 현재 롤방충망 견적이 산출되지 않습니다.
+상기 사이즈에 대해서는 지인커튼월시스템을 통한 수작업견적 요청바랍니다.
+		</ALERT>
+  	</IF>
+  </MESSAGE>
+  
+   <MESSAGE WHEN="BEFORE_SAVE" >
+    <IF MODEL="A1697-01">
+      <ALERT>
+H 사이즈가 2470mm를 초과하는 경우 현재 롤방충망 견적이 산출되지 않습니다.
+상기 사이즈에 대해서는 지인커튼월시스템을 통한 수작업견적 요청바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>  
+  	
+<!-- 20120627 박은영S 추가. 최태환D요청. Urban(라운드,화이트)★, Urban(일반,래핑가능)★  -->
+  <MESSAGE WHEN="AFTER_MODEL_LOADED">
+	<IF CATEGORY="03" MODEL="P1807-01,P1821-01">    <!-- Urban(일반, 래핑가능)★, Urban(라운드, 화이트)★  -->
+      <ALERT>
+선반 및 공틀 선택사양 입력 주의 할 것! (타입에 따라 자동 적용되지 않음) 
+========================================================================= 
+-가로바(Transom)에 선반 부착하지 않을 경우'선반유무:선반미사용' 선택 
+-가로바(Transom) 없으면 '선반유무:선반미사용' 선택[부착불가] 
+-가로바(Transom) 하부에 Vent 적용시 '선반유무:선반미사용' 선택[부착불가] 
+-하부공틀(130mm)이 없는 경우 '공틀선택:공틀미사용' 선택
+      </ALERT>
+    </IF>
+  </MESSAGE>
+	
+	<MESSAGE WHEN="BEFORE_SAVE">
+		<IF CATEGORY="03" BRAND="71,72"> <!-- SPS210 브랜드 전체 -->
+			<IF SQLT="137=010"> <!-- 시공자재 T브라켓을 선택했을 때 -->
+				<IF SQLT_NOT="135=004">
+					<IF SQLT_NOT="135=005">
+						<IF SQLT_NOT="135=007">
+					<ERROR>
+시공자재를 T브라켓으로 선택한 경우에는 
+플레이트 부착면을 반드시 선택하셔야 합니다.
+					</ERROR>
+						</IF>
+					</IF>
+				</IF>
+ 			</IF>
+		</IF>
+	</MESSAGE>
+	
+  <MESSAGE WHEN="AFTER_MODEL_LOADED">
+    <IF CATEGORY="04" BRAND="03">
+      <ALERT>
+A70P DR 연창 주문 불가 
+
+a. 양개도어+양개도어, 양개도어+Vent, Vent+Vent 와 같이 연창 Door 주문 불가
+   (door 개폐방향(in, out, 좌Vent, 우Vent 에 관계없이 주문불가)
+b. 2개 이상의 Vent가 연창을 형성하는 타입인 경우, 각각 주문하여 현장에서 연창 시공해야함.
+C. 자세한 사항은 wins>게시판>고객커뮤니케이션채널의 488번 게시내용 참조.
+
+
+      </ALERT>
+    </IF>
+  </MESSAGE>	
+  
+	<MESSAGE WHEN="BEFORE_SAVE">
+		<IF CATEGORY="03" MODEL="P2073-01,P2074-01,P2075-01,P2076-01,P2072-01"> <!-- PL시스템창-Euro Win(PTT60NR)-덧창 내 조립식 모형 5개 -->
+			<OK_CANCEL>
+※ 덧창 현장조립시 주의사항 ※
+덧창 현장조립시 분할되는 자재(트랜섬/멀리엄)의 설치위치에 따라 유리 치수가
+결정됨으로 현장 조립시 반드시 WINS상 제작 사이즈로 제작하시기 바랍니다.
+
+			</OK_CANCEL>
+		</IF>
+	</MESSAGE>
+
+
+<!-- 20130528 김수예 추가. IN선택시 매립형 도어 클로저로 견적 불가 -->
+	<MESSAGE WHEN="BEFORE_SAVE">
+		<IF SQLT="070=001"> 
+				<IF SQLT="701=003">
+			<ERROR>
+IN/OUT 구분을 IN으로 선택할 경우, 매립형 도어 클로저로 주문이 불가합니다.
+선택사양 중 Door Closer 옵션을 확인해주세요. 
+			</ERROR>
+				</IF>
+		</IF>
+	</MESSAGE>
+
+    <MESSAGE WHEN="BEFORE_GLASS_SELECT" >     
+    <IF CTGR_CD="03" BRAND="55">
+    	<IF TARGET_SQLT ="015">
+	 	<ERROR>
+※ 내창 유리는 전동블라인드와 세트로 별도 납품되며 두께는 
+   37mm(5CL+27간봉+5CL)로 변경 불가합니다.(z:in 유리 선택 불가)
+   로이 유리 필요 시 선택 사양에서 판유리 종류를 Low-e투명으로 
+   선택하시기 바랍니다.  
+		</ERROR>
+		</IF>
+    </IF>
+	<IF CTGR_CD="03" BRAND="60">
+	 	<ERROR>
+※ 유리는 전동블라인드와 세트로 별도 납품되며 두께는 
+   37mm(5CL+27간봉+5CL)로 변경 불가합니다.(z:in 유리 선택 불가)
+   로이 유리 필요 시 선택 사양에서 판유리 종류를 Low-e투명으로 
+   선택하시기 바랍니다.  
+		</ERROR>
+    </IF>    
+    </MESSAGE>	
+    
+<!-- SET아닌 견적시 ALERT 출력  -->    
+	<MESSAGE WHEN="BEFORE_SAVE">
+	<IF_NOT GUBUN="101">
+      <ALERT>
+SET가 아닌 견적 구분을 선택하셨습니다. 
+필요시 견적 구분을 다시 한번 확인하시기 바랍니다. 
+      </ALERT>
+    </IF_NOT>
+	</MESSAGE>    
+	
+<!-- 
+2015-11-19 김찬웅K 추가. 
+[CSR ID:2908144] PTT70IN 견적시 팝업 공지 요청의 건
+요청자: 황인재 사원/창호재.완성창혁신.상품기획팀(연락처:010-8866-5639/ghkdkiller@lghausys.com) 
+-->
+  <MESSAGE WHEN="AFTER_MODEL_LOADED">
+	<IF CATEGORY="03" MODEL="P2213-01">    <!-- (16년형 신제품)PTT70IN-2Sash(TU) -->
+      <ALERT>
+16년형 신규 제품은 기존 제품과 외관이 상이합니다.
+기존 PTT70IN으로 계약 체결/모델하우스 설치/실세대설치 등이
+되어있는 경우는 반드시 해당 영업사원 및 제품담당자와 협의를
+거친 후 진행해야 합니다. 그렇지 않은 경우는 기존 PTT70IN으로
+견적 및 시공 하시기 바랍니다.
+      </ALERT>
+    </IF>
+  </MESSAGE>	
+	
+	
+</MESSAGES>
+

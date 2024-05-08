@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prjTmmr.batch">
+
+	<!-- 프로젝트 팀원 퇴사자 대상조회 -->
+    <select id="retrievePrjTmmrResignList"  resultType="hashmap">
+    <![CDATA[
+	/* 프로젝트 팀원 퇴사자 대상조회 */
+	SELECT C.PRJ_CD       as prjCd
+	     , C.WBS_CD       as wbsCd
+		 , A.SA_SABUN_NEW as tmmrEmpNo
+		 , convert(varchar(10),  DATEADD(DD,-1,GETDATE()) ,23) as patcEndDt
+	  FROM IRIS_SSO_USER A
+	       INNER JOIN VW_SSO_DEPT B ON A.SA_DEPT_NEW = B.DEPT_CODE  -- DEPT 뷰
+		   INNER JOIN IRIS_PRJ_RSST_MST C ON B.TEAM_DEPT_CODE = C.DEPT_CD AND (C.DEPT_CD IS NOT NULL AND C.DEPT_CD != '')-- 프로젝트마스터
+	 WHERE A.SA_USER IS NOT NULL AND A.SA_USER != '' /* 유저ID없는 유저 제거 */
+	   AND A.SSO_EX_FLAG = 'D' -- 퇴사자
+	 ORDER BY C.PRJ_CD
+	]]>
+    </select>
+
+    <!-- 프로젝트 팀원 부서이동(이동 전) 대상조회 -->
+    <select id="retrievePrjTmmrMoveOutList"  resultType="hashmap">
+	<![CDATA[
+	/* retrievePrjTmmrMoveOutList 프로젝트 팀원 부서이동(이동 전) 대상조회 */
+	SELECT B.PRJ_CD      as prjCd
+	     , B.WBS_CD      as wbsCd
+		 , A.TMMR_EMP_NO as tmmrEmpNo
+		 , convert(varchar(10),  GETDATE() ,23) as patcEndDt
+	  FROM IRIS_PRJ_TMMR_INFO A -- 프로젝트참여연구원
+	       INNER JOIN IRIS_PRJ_RSST_MST B ON A.PRJ_CD = B.PRJ_CD
+	 WHERE (A.PATC_END_DT IS NULL OR A.PATC_END_DT = '')
+	   AND A.TMMR_EMP_NO NOT IN (
+		   SELECT X.SA_SABUN_NEW
+			  FROM IRIS_SSO_USER X
+				   INNER JOIN VW_SSO_DEPT Y ON X.SA_DEPT_NEW = Y.DEPT_CODE  -- DEPT 뷰
+				   INNER JOIN IRIS_PRJ_RSST_MST Z ON Y.TEAM_DEPT_CODE = Z.DEPT_CD AND (Z.DEPT_CD IS NOT NULL AND Z.DEPT_CD != '')-- 프로젝트마스터
+			 WHERE X.SA_USER IS NOT NULL AND X.SA_USER != '' /* 유저ID없는 유저 제거 */
+			   AND X.SSO_EX_FLAG != 'D'
+			   AND Z.PRJ_CD = A.PRJ_CD
+		   )
+		and   A.PRJ_CD <> 'PRJ00103'   
+	 ORDER BY B.PRJ_CD
+	]]>
+    </select>
+
+    <!-- 프로젝트 팀원 부서이동(이동 후) 대상조회 -->
+    <select id="retrievePrjTmmrMoveInList"  resultType="hashmap">
+    <![CDATA[
+	/* retrievePrjTmmrMoveInList 프로젝트 팀원 부서이동(이동 후) 대상조회 */
+	SELECT C.PRJ_CD       as prjCd
+	     , C.WBS_CD       as wbsCd
+		 , A.SA_SABUN_NEW as tmmrEmpNo
+		 , A.SA_NAME      as saSabunName
+		 , A.SA_JOBX      as saJobX
+		 , A.SA_JOBX_NAME as saJobXname
+	  FROM IRIS_SSO_USER A
+	       INNER JOIN VW_SSO_DEPT B ON A.SA_DEPT_NEW = B.DEPT_CODE  -- DEPT 뷰
+		   INNER JOIN IRIS_PRJ_RSST_MST C ON B.TEAM_DEPT_CODE = C.DEPT_CD AND (C.DEPT_CD IS NOT NULL AND C.DEPT_CD != '')-- 프로젝트마스터
+	 WHERE A.SA_USER IS NOT NULL AND A.SA_USER != '' /* 유저ID없는 유저 제거 */
+	   AND A.SSO_EX_FLAG != 'D'
+	   AND A.SA_SABUN_NEW NOT IN (
+			   SELECT X.TMMR_EMP_NO FROM IRIS_PRJ_TMMR_INFO X -- 프로젝트참여연구원
+				WHERE X.PRJ_CD = C.PRJ_CD
+				  AND (X.PATC_END_DT IS NULL OR X.PATC_END_DT = '')
+	       )
+	 ORDER BY C.PRJ_CD
+	]]>
+    </select>
+
+   	<update id="updatePrjTmmrEnd">
+   	/* updatePrjTmmrEnd 프로젝트 팀원 참여종료일 업데이트 */
+   	<![CDATA[
+	UPDATE IRIS_PRJ_TMMR_INFO
+	   SET PATC_END_DT = #{patcEndDt}
+		 , LAST_MDFY_ID = #{_userId}
+	     , LAST_MDFY_DT = getdate()
+	 WHERE PRJ_CD = #{prjCd}
+	   AND TMMR_EMP_NO = #{tmmrEmpNo}
+   	]]>
+   	</update>
+
+   	<insert id="insertPrjTmmr">
+   	<![CDATA[
+   	/* insertPrjTmmr 프로젝트 팀원 추가 */
+   	INSERT INTO IRIS_PRJ_TMMR_INFO
+	(
+		  PRJ_CD
+		, WBS_CD
+		, TMMR_EMP_NO
+		, SA_JOBX
+		, PATC_STR_DT
+		, PATC_END_DT
+		, SA_FUNC
+		, FRST_RGST_ID
+		, FRST_RGST_DT
+		, LAST_MDFY_ID
+		, LAST_MDFY_DT
+		, SA_SABUN_NAME
+		, SA_JOBX_NAME
+	)
+	VALUES
+	(
+		  #{prjCd}
+		, #{wbsCd}
+		, #{tmmrEmpNo}
+		, #{saJobX}
+		, (SELECT convert(varchar(10),  GETDATE() ,23))
+		, NULL
+		, #{saFunC}
+		, #{_userId}
+		, getdate()
+		, #{_userId}
+		, getdate()
+		, #{saSabunName}
+		, #{saJobXname}
+	)
+	]]>
+   	</insert>
+
+   	<!--  퇴사자 지적재산권 삭제  -->
+   	<delete id="deletePrjPimsInfo">
+   	/* deletePrjPimsInfo 퇴사자 지적재산권 삭제 */
+   	<![CDATA[
+   		delete tb_ea102_PMIS where  EMP_NO = #{tmmrEmpNo}
+   	]]>
+   	</delete>
+
+   	<!--  프로젝트 변경연구원 지적재산권 삭제  -->
+   	<delete id="chgPrjPimsInfo">
+   	/* chgPrjPimsInfo 프로젝트 변경연구원 지적재산권 삭제 */
+   	<![CDATA[
+   		delete tb_ea102_PMIS where WBS_CODE = #{wbsCd} and EMP_NO = #{tmmrEmpNo}
+   	]]>
+   	</delete>
+
+   	<!-- 프로젝트 변경연구원 지적재산권 등록 -->
+   	<insert id="insertPrjPimsInfo">
+   	/* insertPrjPimsInfo 프로젝트 변경연구원 지적재산권 등록 */
+   		<![CDATA[
+   		INSERT into tb_ea102_PMIS (
+             WBS_CODE
+            ,EMP_NO
+            ,REC_STATUS
+            ,ENTRY_ID
+            ,ENTRY_DATE
+            ,MODIFY_ID
+            ,MODIFY_DATE
+            )
+             VALUES (
+               #{wbsCd}
+              ,#{tmmrEmpNo}
+              , 1
+              ,'IRIS'
+              ,sysdate
+              ,'IRIS'
+              ,sysdate
+          )
+   		]]>
+   	</insert>
+
+
+</mapper>

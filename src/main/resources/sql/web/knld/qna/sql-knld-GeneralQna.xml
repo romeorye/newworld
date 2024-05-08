@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.qna">
+
+
+    <!-- 일반QnA 리스트  -->
+	<select id="getGeneralQnaList" resultType="hashmap">
+		<![CDATA[
+		-- getGeneralQnaList 일반QnA 리스트
+			WITH qna_tree AS (
+				SELECT
+				     QNA_ID                                                   AS 'qnaId'        /*QnAID*/
+				    ,QNA_CL_CD                                                AS 'qnaClCd'      /*QnA구분코드*/
+				    ,QUST_CL_CD                                               AS 'qustClCd'     /*질문유형코드*/
+				    ,RLTD_WRTG_ID                                             AS 'rltdWrtgId'   /*댓글ID*/
+					,TITL_NM												  AS 'titlNm'       /*제목*/
+					,SBC_NM                                                   AS 'sbcNm'        /*내용*/
+					,RTRV_CNT                                                 AS 'rtrvCnt'      /*조회수*/
+					,KEYWORD_NM                                               AS 'keywordNm'    /*키워드*/
+					,ATTC_FILE_ID											  AS 'attcFilId'    /*첨부파일*/
+					,RGST_ID                                                  AS 'rgstId'       /*등록자ID*/
+					,RGST_OPS_ID                                              AS 'rgstOpsId'    /*등록자부서ID*/
+					,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
+					,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+					,convert(varchar(255), qna_id - 10000000000)                  sort1
+					,convert(varchar(255), '')                                    sort2
+					,1 AS depth
+				FROM	IRIS_KNLD_QNA
+				WHERE	RLTD_WRTG_ID = 0
+				AND		DEL_YN = 'N'
+
+			    union all
+
+				SELECT
+				     QNA_ID                                                   AS 'qnaId'        /*QnAID*/
+				    ,QNA_CL_CD                                                AS 'qnaClCd'      /*QnA구분코드*/
+				    ,QUST_CL_CD                                               AS 'qustClCd'     /*질문유형코드*/
+				    ,RLTD_WRTG_ID                                             AS 'rltdWrtgId'   /*댓글ID*/
+					,TITL_NM												  AS 'titlNm'       /*제목*/
+					,SBC_NM                                                   AS 'sbcNm'        /*내용*/
+					,RTRV_CNT                                                 AS 'rtrvCnt'      /*조회수*/
+					,KEYWORD_NM                                               AS 'keywordNm'    /*키워드*/
+					,ATTC_FILE_ID											  AS 'attcFilId'    /*첨부파일*/
+					,RGST_ID                                                  AS 'rgstId'       /*등록자ID*/
+					,RGST_OPS_ID                                              AS 'rgstOpsId'    /*등록자부서ID*/
+					,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
+					,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+					,sort1
+				    ,convert(varchar(255), convert(nvarchar,tree.sort2) + ' > ' + convert(varchar(255), qna.qna_id + 10000000000)) sort2
+				    ,tree.depth + 1 AS depth
+				FROM	IRIS_KNLD_QNA qna, qna_tree tree
+				WHERE	qna.RLTD_WRTG_ID = tree.qnaId
+				AND		qna.DEL_YN = 'N'
+			)
+			SELECT
+					qnaId												 AS 'qnaId'        /*QnAID*/
+				   ,qnaClCd                                              AS 'qnaClCd'      /*QnA구분코드*/
+				   ,dbo.fn_getComDtlNm('QNA_CL_CD', qnaClCd)             AS 'qnaClNm'      /*QnA구분이름*/
+				   ,qustClCd                                             AS 'qustClCd'     /*질문유형코드*/
+			       ,dbo.fn_getComDtlNm('QUST_CL_CD', qustClCd)           AS 'qustClNm'     /*질문유형이름*/
+				   ,rltdWrtgId                                           AS 'rltdWrtgId'   /*댓글ID*/
+			       ,( CASE
+					   when (a.depth != 1 ) then '[RE] ' + titlNm  + IIF ( (SELECT COUNT(*) FROM IRIS_KNLD_QNA_REB WHERE QNA_ID = qnaId AND DEL_YN = 'N') > 0,  '[' + convert(char,(SELECT COUNT(*) FROM IRIS_KNLD_QNA_REB WHERE QNA_ID = qnaId AND DEL_YN = 'N')) + ']', '' )
+			           ELSE  titlNm + IIF ( (SELECT COUNT(*) FROM IRIS_KNLD_QNA_REB WHERE QNA_ID = qnaId AND DEL_YN = 'N') > 0,  '[' + convert(nvarchar,(SELECT COUNT(*) FROM IRIS_KNLD_QNA_REB WHERE QNA_ID = qnaId AND DEL_YN = 'N')) + ']', '' )
+			          END )                                              AS 'titlNm'       /*제목[댓글수]*/
+				   ,sbcNm                                                AS 'sbcNm'        /*내용*/
+				   ,rtrvCnt                                              AS 'rtrvCnt'      /*조회수*/
+				   ,keywordNm                                            AS 'keywordNm'    /*키워드*/
+				   ,(CASE
+				   		WHEN (select	count(1)
+				   		  	  from		IRIS_COM_ATTC_FIL
+				   		  	  where		ATTC_FIL_ID = attcFilId
+				   			    and		DEL_YN = 'N') = 0 THEN NULL
+				   		ELSE  attcFilId
+				      END)                                               AS 'attcFilId'    /*첨부파일*/
+				   ,rgstId                                               AS 'rgstId'       /*등록자ID*/
+				   ,dbo.fn_getUserName(rgstId)                           AS 'rgstNm'       /*등록자*/
+				   ,rgstOpsId                                            AS 'rgstOpsId'    /*등록자부서ID*/
+				   ,(SELECT DEPT_NAME FROM IRIS_SSO_DEPT WHERE DEPT_CODE = rgstOpsId)  AS 'rgstOpsNm' /*등록자부서이름*/
+				   ,delYn                                                AS 'delYn'        /*삭제여부*/
+				   ,convert(varchar(10), frstRgstDt, 120)                AS 'frstRgstDt'   /*등록일*/
+				   ,depth
+			FROM	qna_tree a
+			WHERE   1=1
+		 ]]>
+        <if test="titlNm != null and titlNm != ''">
+			AND titlNm like '%${titlNm}%'
+		</if>
+        <if test="rgstNm != null and rgstNm != ''">
+			AND dbo.fn_getUserName(rgstId) like '%${rgstNm}%'
+		</if>
+        <if test="qustClCd != null and qustClCd != ''">
+			AND qustClCd = '${qustClCd}'
+		</if>
+		<if test="(strtDt != null and strtDt != '')">
+			AND frstRgstDt >= #{strtDt}
+		</if>
+		<if test="(fnhDt != null and fnhDt != '')">
+			AND convert(varchar(10), frstRgstDt, 120) <![CDATA[<]]>= #{fnhDt}
+		</if>
+			ORDER BY sort1, sort2
+	</select>
+
+    <!-- 일반QnA 리스트
+	<select id="getGeneralQnaList" resultType="hashmap">
+		<![CDATA[
+			SELECT
+	                 QNA_ID                                                   AS 'qnaId'        /*QnAID*/
+	                ,QNA_CL_CD                                                AS 'qnaClCd'      /*QnA구분코드*/
+	                ,dbo.fn_getComDtlNm('QNA_CL_CD', A.QNA_CL_CD)             AS 'qnaClNm'      /*QnA구분이름*/
+	                ,QUST_CL_CD                                               AS 'qustClCd'     /*질문유형코드*/
+                    ,dbo.fn_getComDtlNm('QUST_CL_CD', A.QUST_CL_CD)           AS 'qustClNm'     /*질문유형이름*/
+                    ,( CASE
+	                    WHEN (SELECT COUNT(*) FROM IRIS_KNLD_QNA_REB WHERE QNA_ID = A.QNA_ID) = 0 THEN TITL_NM
+                        ELSE TITL_NM + '[' + convert(char,(SELECT COUNT(*) FROM IRIS_KNLD_QNA_REB WHERE QNA_ID = A.QNA_ID)) + ']'
+                       END )                                                  AS 'titlNm'       /*제목[댓글수]*/
+	                ,RLTD_WRTG_ID                                             AS 'rltdWrtgId'   /*댓글ID*/
+					,SBC_NM                                                   AS 'sbcNm'        /*내용*/
+					,RTRV_CNT                                                 AS 'rtrvCnt'      /*조회수*/
+					,KEYWORD_NM                                               AS 'keywordNm'    /*키워드*/
+					,(CASE
+						WHEN (select	count(1)
+						  		from		IRIS_COM_ATTC_FIL
+						  		where		ATTC_FIL_ID = A.ATTC_FILE_ID
+								  and		DEL_YN = 'N') = 0 THEN NULL
+						ELSE  A.ATTC_FILE_ID
+					   END)                                                   AS 'attcFilId'    /*첨부파일*/
+					,RGST_ID                                                  AS 'rgstId'       /*등록자ID*/
+			        ,B.sa_name                                                AS 'rgstNm'       /*등록자*/
+					,RGST_OPS_ID                                              AS 'rgstOpsId'    /*등록자부서ID*/
+					,dbo.fn_getComDtlNm('RGST_OPS_ID', A.RGST_OPS_ID)         AS 'rgstOpsNm'    /*등록자부서이름*/
+					,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)                   AS 'frstRgstDt'   /*등록일*/
+					,A.DEPTH
+			FROM IRIS_KNLD_QNA A
+			LEFT OUTER JOIN IRIS_SSO_USER B ON A.RGST_ID = sa_user
+			WHERE DEL_YN = 'N'
+		 ]]>
+        <if test="titlNm != null and titlNm != ''">
+			AND TITL_NM like '%${titlNm}%'
+		</if>
+        <if test="qustClCd != null and qustClCd != ''">
+			AND QUST_CL_CD = '${qustClCd}'
+		</if>
+		<if test="(StrtDt != null and StrtDt != '')">
+			AND FRST_RGST_DT BETWEEN #{strtDt} AND #{fnhDt}
+		</if>
+			ORDER BY QNA_ID DESC
+	</select>
+	-->
+	<!-- 일반QnA 상세화면  -->
+	<select id="getGeneralQnaInfo" resultType="hashmap">
+		<![CDATA[
+		-- getGeneralQnaInfo 일반QnA 상세화면
+			SELECT
+	                 QNA_ID                                                   AS 'qnaId'        /*QnAID*/
+	                ,QNA_CL_CD                                                AS 'qnaClCd'      /*QnA구분코드*/
+	                ,dbo.fn_getComDtlNm('QNA_CL_CD', A.QNA_CL_CD)             AS 'qnaClNm'      /*QnA구분이름*/
+	                ,QUST_CL_CD                                               AS 'qustClCd'     /*질문유형코드*/
+                    ,dbo.fn_getComDtlNm('QUST_CL_CD', A.QUST_CL_CD)           AS 'qustClNm'     /*질문유형이름*/
+                    ,TITL_NM                                                  AS 'titlNm'       /*제목[댓글수]*/
+	                ,RLTD_WRTG_ID                                             AS 'rltdWrtgId'   /*관련글ID*/
+					,SBC_NM                                                   AS 'sbcNm'        /*내용*/
+					,RTRV_CNT                                                 AS 'rtrvCnt'      /*조회수*/
+					,KEYWORD_NM                                               AS 'keywordNm'    /*키워드*/
+					,ATTC_FILE_ID                                             AS 'attcFilId'    /*첨부파일*/
+					,RGST_ID                                                  AS 'rgstId'       /*등록자ID*/
+			        ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'       /*등록자*/
+					,RGST_OPS_ID                                              AS 'rgstOpsId'    /*등록자부서ID*/
+                    ,(SELECT DEPT_NAME FROM IRIS_SSO_DEPT WHERE DEPT_CODE = A.RGST_OPS_ID)  AS 'rgstOpsNm' /*등록자부서이름*/
+					,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)                   AS 'frstRgstDt'   /*등록일*/
+			FROM IRIS_KNLD_QNA A
+			WHERE DEL_YN = 'N'
+			  AND QNA_ID = #{qnaId}
+		 ]]>
+	</select>
+
+
+	<!--  일반QnA 조회건수 업데이트  -->
+	<update id="updateGeneralQnaRtrvCnt">
+	<![CDATA[
+	-- updateGeneralQnaRtrvCnt 일반QnA 조회건수 업데이트
+		UPDATE IRIS_KNLD_QNA
+		   SET RTRV_CNT = RTRV_CNT + 1
+	]]>
+
+	<![CDATA[
+		 WHERE QNA_ID = #{qnaId}
+	]]>
+	</update>
+
+    <!-- 일반QnA 삭제  -->
+	<update id="deleteGeneralQnaInfo">
+	<![CDATA[
+	-- deleteGeneralQnaInfo 일반QnA 삭제
+		UPDATE IRIS_KNLD_QNA
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE QNA_ID = #{qnaId}
+	]]>
+	</update>
+
+	<!-- 일반Q&A 저장  -->
+	<insert id="insertGeneralQnaInfo">
+	<![CDATA[
+		insert into IRIS_KNLD_QNA
+		(			 TITL_NM
+					,QNA_CL_CD
+					,QUST_CL_CD
+					,RLTD_WRTG_ID
+					,SBC_NM
+					,RTRV_CNT
+					,KEYWORD_NM
+		]]>
+		            <if test="( attcFilId != null and attcFilId != '')">
+					,ATTC_FILE_ID
+		            </if>
+    <![CDATA[
+					,RGST_ID
+					,RGST_OPS_ID
+					,DEL_YN
+					, FRST_RGST_ID
+					, FRST_RGST_DT
+					, LAST_MDFY_ID
+					, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{titlNm}
+		    , #{qnaClCd}
+		    , #{qustClCd}
+		    , #{rltdWrtgId}
+		    , #{sbcNm}
+		    , 0
+		    , #{keywordNm}
+		    ]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+		    , #{attcFilId}
+		    </if>
+		     <![CDATA[
+		    , #{_userId}
+		    , ( SELECT sa_dept_new FROM IRIS_SSO_USER WHERE sa_user = #{_userId} )
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+
+    <!-- 일반Q&A 업데이트  -->
+	<update id="updateGeneralQnaInfo">
+	<![CDATA[
+		UPDATE IRIS_KNLD_QNA
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , TITL_NM = #{titlNm}
+		     , QNA_CL_CD = #{qnaClCd}
+	         , QUST_CL_CD = #{qustClCd}
+	         , RLTD_WRTG_ID = #{rltdWrtgId}
+		     , SBC_NM = #{sbcNm}
+		     , KEYWORD_NM = #{keywordNm}
+	]]>
+		<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID = #{attcFilId}
+	    </if>
+
+	<![CDATA[
+		 WHERE QNA_ID = #{qnaId}
+	]]>
+	</update>
+
+
+<!-- 덧글 저장  -->
+	<insert id="insertGeneralQnaRebInfo">
+	<![CDATA[
+		insert into IRIS_KNLD_QNA_REB
+		(			 QNA_ID
+					,SBC_NM
+					,RGST_ID
+					,DEL_YN
+					, FRST_RGST_ID
+					, FRST_RGST_DT
+					, LAST_MDFY_ID
+					, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{qnaId}
+		    , #{rebNm}
+		    , #{_userId}
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+
+    <!-- 덧글 업데이트  -->
+	<update id="updateGeneralQnaRebInfo">
+	<![CDATA[
+		UPDATE IRIS_KNLD_QNA_REB
+		   SET LAST_MDFY_ID = #{userId}
+		     , LAST_MDFY_DT = getdate()
+		     , SBC_NM = #{rebNm}
+		     , QNA_ID = #{qnaId}
+
+		 WHERE REB_ID = #{rebId}
+	]]>
+	</update>
+
+
+	<!-- 덧글 리스트  -->
+	<select id="getGeneralQnaRebList" resultType="hashmap">
+		<![CDATA[
+			SELECT
+	                 REB_ID                                                   AS 'rebId'        /*덧글ID*/
+	                ,QNA_ID                                                   AS 'qnaId'        /*QnAID*/
+					,SBC_NM                                                   AS 'rebNm'        /*내용*/
+					,RGST_ID                                                  AS 'rgstId'       /*등록자ID*/
+					,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'       /*등록자*/
+					,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)                   AS 'frstRgstDt'   /*등록일*/
+			FROM  IRIS_KNLD_QNA_REB A
+			WHERE DEL_YN = 'N'
+		 	 AND  QNA_ID = #{qnaId}
+			ORDER BY REB_ID DESC
+		 ]]>
+	</select>
+
+	<!-- 덧글 삭제 -->
+	<update id="deleteGeneralQnaRebInfo">
+	<![CDATA[
+		UPDATE IRIS_KNLD_QNA_REB
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE REB_ID = #{rebId}
+	]]>
+	</update>
+
+
+</mapper>

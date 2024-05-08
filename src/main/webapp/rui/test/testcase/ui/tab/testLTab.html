@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.tab.LTab Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../plugins/tab/rui_tab.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../plugins/tab/rui_tab.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+
+var tab = null; 
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    tab = new Rui.ui.tab.LTab({
+        label: 'testTab'        
+    }); 
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+function testLTab_method_toString() {
+    info('LTabTests : testLTab_method_toString 작동 여부');
+    var result = tab.toString();
+    assertEquals(result.length > 0, true);
+}
+function testLTab_method_addClass() {
+    info('LTabTests : testLTab_method_addClass 작동 여부');
+    var className = 'L-content-tab'; //String
+    tab.removeClass(className);     
+    
+    var result = tab.addClass(className);
+    assertTrue(result.el.className == className); 
+}
+function testLTab_method_hasClass() {
+    info('LTabTests : testLTab_method_hasClass 작동 여부');
+    
+    var className = 'L-content-tab'; //String
+    tab.removeClass(className);     
+    tab.addClass(className);
+    
+    var result = tab.hasClass(className);
+    assertEquals(result, true);
+}
+function testLTab_method_removeClass() {
+    info('LTabTests : testLTab_method_removeClass 작동 여부');
+    
+    var className = 'L-content-tab'; 
+    tab.addClass(className);
+    var result = tab.removeClass(className);
+
+    assertEquals(result.el.className == "", true);
+}
+function testLTab_method_get() {
+    info('LTabTests : testLTab_method_get 작동 여부');
+    var key = 'testTab'; //String
+    tab.set(key, 'test')
+    assertTrue(tab.get(key) == 'test');
+}
+function testLTab_method_set() {
+    info('LTabTests : testLTab_method_set 작동 여부');
+    var key = 'testKey'; //String
+    var value = 'test'; //Any
+    var silent = true; //boolean
+    assertEquals(tab.set(key, value, silent), true);
+    assertEquals(tab.get(key) == 'test', true);
+}
+function testLTab_method_destroy() {
+    info('LTabTests : testLTab_method_destroy 작동 여부');
+    tab.destroy();
+    assertTrue(tab.el == null); 
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.tab.LTab Tests</h1>
+
+    <div id="bd">
+        <div class="LblockMarkupCode">
+            <div id="tab-container"></div>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLTab_method_toString()">toString</a>
+            <a href="javascript:testLTab_method_addClass()">addClass</a>
+            <a href="javascript:testLTab_method_hasClass()">hasClass</a>
+            <a href="javascript:testLTab_method_removeClass()">removeClass</a>
+            <a href="javascript:testLTab_method_get()">get</a>
+            <a href="javascript:testLTab_method_set()">set</a>
+            <a href="javascript:testLTab_method_destroy()">destroy</a>
+        </div>
+    </div>        
+</body>
+</html>

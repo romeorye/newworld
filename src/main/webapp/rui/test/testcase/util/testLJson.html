@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LJson Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+Rui.onReady(function() {
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+
+function testLJson_method_encodeDate() {
+    info('LJsonTests : testLJson_method_encodeDate 작동 여부');
+    var o = new Date(2013, 0, 1, 0, 0, 0, 0); //Mixed
+    var result = Rui.util.LJson.encodeDate(o);
+    assertEquals(result, '"2013-01-01T00:00:00"');
+}
+function testLJson_method_encode() {
+    info('LJsonTests : testLJson_method_encode 작동 여부');
+    assertEquals(Rui.util.LJson.encode('a1'), '"a1"');
+    assertEquals(Rui.util.LJson.encode(100), '100');
+    assertEquals(Rui.util.LJson.encode(true), 'true');
+    assertEquals(Rui.util.LJson.encode([1, 2]), '[1,2]');
+}
+function testLJson_method_decode() {
+    info('LJsonTests : testLJson_method_decode 작동 여부');
+    assertEquals(Rui.util.LJson.decode('"a1"'), 'a1');
+    assertEquals(Rui.util.LJson.decode('100'), 100);
+    assertEquals(Rui.util.LJson.decode('true'), true);
+    assertEquals(Rui.util.LJson.decode('[1, 2]').length, 2);
+}
+function testLJson_method_jsonPath() {
+    info('LJsonTests : testLJson_method_jsonPath 작동 여부');
+    var obj = {
+        a1: 'a1',
+        a2: {
+            b1: 'b1',
+            b2: {
+                c1: 'c1',
+                c2: 'c2'
+            }
+        }
+    }; //Object
+    var expr = '$.a2.b2.c2'; //Object
+    var arg = {resultType: "VALUE"};
+    var results = Rui.util.LJson.jsonPath(obj, expr, arg);
+    //return type : Object
+    assertEquals(results[0], 'c2');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LJson Tests</h1>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLJson_method_encodeDate()">encodeDate</a>
+            <a href="javascript:testLJson_method_encode()">encode</a>
+            <a href="javascript:testLJson_method_decode()">decode</a>
+            <a href="javascript:testLJson_method_jsonPath()">jsonPath</a>
+        </div>
+    </div>        
+</body>
+</html>

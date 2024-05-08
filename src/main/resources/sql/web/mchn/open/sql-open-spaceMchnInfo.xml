@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="open.spaceMchnInfo">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 분석기기 > open기기 > 보유기기관리 목록조회  -->
+	<select id="retrieveMchnInfoSearchList" resultType="hashmap" >
+		<![CDATA[
+		SELECT * FROM (
+			SELECT  A.MCHN_INFO_ID AS mchnInfoId
+			       ,A.TOOL_NM AS mchnHanNm
+				   ,A.TOOL_NM AS mchnNm
+				   ,dbo.fn_getComDtlNm('MCHN_PRCT_ST' , A.MCHN_USE_PSBL_YN) as mchnUsePsblNm
+				   ,A.MCHN_USE_PSBL_YN AS mchnUsePsblYn
+				   ,A.MDL_NM AS mdlNm
+				   ,A.MKR_NM AS mkrNm
+				   ,A.MCHN_EXPL AS mchnExpl
+				   ,A.OPN_YN AS opnYn
+				   ,CASE WHEN OPN_YN = 'Y' THEN 'OPEN'
+				         ELSE '' END opnNm
+				   ,CONCAT( SU.SA_NAME, ' ', SU.sa_jobx_name) AS crgrNm
+				   ,SU.SA_DEPT_NAME AS deptNm
+				   ,F.ATTC_FIL_ID AS attcFilId
+				   ,F.SEQ AS seq
+				   ,A.MCHN_CL_CD AS mchnClCd
+				   ,dbo.fn_getEvWay(A.MCHN_INFO_ID) AS evWay
+				   ,A.VER AS ver
+				   ,CASE WHEN CHARINDEX('열/에너지', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '1'
+                         WHEN CHARINDEX('환기/공기질', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '2'
+                         WHEN CHARINDEX('빛', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '3'
+                         WHEN CHARINDEX('구조', dbo.fn_getEvWay(A.MCHN_INFO_ID)) > 0 THEN '4'
+                         ELSE '5'
+                    END AS ord
+			FROM   IRIS_SPACE_MCHN_INFO_MGMT  A
+			       LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
+				   ON F.ATTC_FIL_ID = A.ATTC_FIL_ID
+				   AND F.DEL_YN = 'N'
+			       LEFT OUTER JOIN IRIS_SSO_USER   SU
+				   ON SU.SA_SABUN_NEW = A.MCHN_CRGR_ID
+			WHERE A.DEL_YN = 'N' 
+		]]>
+
+			<if test="( cbSrh == 'nm' and srhInput != '' )">
+				AND A.TOOL_NM LIKE '%'+#{srhInput}+'%'
+		    </if>
+			<if test="( cbSrh == 'id'  and srhInput != '' )">
+				AND SU.SA_NAME LIKE '%'+#{srhInput}+'%'  
+		    </if>
+			<if test="( mchnClCd != 'ALL' )">
+				AND A.MCHN_CL_CD = #{mchnClCd}
+		    </if>
+			<if test="( opnYn != 'ALL' )">
+				AND A.OPN_YN = #{opnYn}
+		    </if>
+		    <![CDATA[
+		    ) B
+    		ORDER BY mchnClCd, ord, mchnNm
+			]]>
+
+	</select>
+
+	<!-- 보유기기 상세 조회 -->
+	<select id="retrieveMchnInfoDtl" resultType="hashmap" >
+		<![CDATA[
+		SELECT  A.MCHN_INFO_ID AS mchnInfoId
+		       ,A.TOOL_NM AS mchnHanNm
+			   ,A.TOOL_NM AS mchnNm
+			   ,dbo.fn_getComDtlNm('MCHN_PRCT_ST' , A.MCHN_USE_PSBL_YN) as mchnUsePsblNm
+			   ,A.MDL_NM AS mdlNm
+			   ,A.MKR_NM AS mkrNm
+			   ,A.MCHN_EXPL AS mchnExpl
+			   ,CASE WHEN A.OPN_YN = 'Y' THEN 'OPEN' 
+			         ELSE '' END AS opnNm
+			   ,A.OPN_YN  AS opnYn
+			   ,A.MCHN_SMRY AS mchnSmry
+			   ,SU.SA_NAME AS crgrNm
+			   ,SU.SA_DEPT_NAME AS deptNm
+			   ,F.ATTC_FIL_ID AS attcFilId
+			   ,F.SEQ AS seq
+			   ,DBO.FN_GETUSEREMAIL(SU.SA_USER) as crgrMail
+			   ,A.MCHN_CL_CD AS mchnClCd
+			   ,A.VER AS ver
+               ,A.CMPN_NM AS cmpnNm
+               ,dbo.fn_getEvWay(A.MCHN_INFO_ID) AS evWay
+               ,dbo.fn_getComDtlNm('SPACE_EV_CTGR' , A.MCHN_CL_CD) as evCtrgNm
+		FROM   IRIS_SPACE_MCHN_INFO_MGMT  A
+		       LEFT OUTER JOIN IRIS_COM_ATTC_FIL F
+			   ON F.ATTC_FIL_ID = A.ATTC_FIL_ID
+			   AND F.DEL_YN = 'N'
+		       LEFT OUTER JOIN IRIS_SSO_USER   SU
+			   ON SU.SA_SABUN_NEW = A.MCHN_CRGR_ID 
+		WHERE A.DEL_YN = 'N' 
+		AND A.MCHN_INFO_ID = #{mchnInfoId}
+		]]>
+	</select>
+	
+	<!-- 보유기기 예약 신규 및 Detail 화면조회-->
+	<select id="retrieveMchnPrctInfo" resultType="hashmap" >
+		<![CDATA[
+		SELECT  A.MCHN_PRCT_ID  AS mchnPrctId
+		       ,A.MCHN_INFO_ID AS mchnInfoId
+			   ,A.PRCT_TITL AS prctTitl
+			   ,M.TOOL_NM AS mchnHanNm
+	   		   
+			   ,A.PRCT_FROM_DT AS prctFromDt
+			   ,A.PRCT_TO_DT AS prctToDt
+			   ,A.RGST_ID AS rgstId
+			   ,M.MCHN_SMRY AS mchnSmry
+			   ,B.SA_DEPT_NEW AS deptCd
+			   ,DBO.FN_GETSABUNNAME(A.RGST_ID) AS rgstNm 
+			   ,DBO.FN_GETDEPTNAME(B.SA_DEPT_NEW) AS deptNm
+			   ,DBO.FN_GETUSEREMAIL(C.SA_USER) as crgrMail
+			   ,C.SA_NAME AS crgrNm
+			   ,A.PRCT_SCN_CD AS prctScnCd
+			   ,dbo.fn_getComDtlNm('MCHN_APPR_RQ_ST', A.PRCT_SCN_CD)  as prctScnNm
+		FROM   IRIS_SPACE_MCHN_PRCT_MST A
+			   INNER JOIN IRIS_SPACE_MCHN_INFO_MGMT M
+			   ON M.MCHN_INFO_ID = A.MCHN_INFO_ID
+		       INNER JOIN IRIS_SSO_USER B
+			   ON B.SA_SABUN_NEW = A.RGST_ID
+			   INNER JOIN IRIS_SSO_USER C
+			   ON C.SA_SABUN_NEW = M.MCHN_CRGR_ID
+		WHERE  1=1
+		AND    A.MCHN_PRCT_ID = #{mchnPrctId}
+		]]>
+	</select>
+	
+	<!-- 분석기기 > open기기 > 보유기기 예약(일정)   -->
+	<select id="retrieveMchnPrctCalInfo" resultType="hashmap" >
+		<![CDATA[
+		SELECT A.MCHN_PRCT_ID	  					AS mchnPrctId
+			  ,A.PRCT_TITL 							AS prctTitl
+			  ,A.RGST_ID 							AS rgstId
+			  ,DATENAME(D, B.PRCT_DT) 				AS dateNo
+			  ,DBO.FN_GETSABUNNAME(A.RGST_ID) 		AS rgstNm
+			  ,B.PRCT_DT 							AS prctDt
+			  ,dbo.fn_getComDtlNm('MCHN_APPR_RQ_ST', A.PRCT_SCN_CD)  as prctScnNm
+		FROM  IRIS_SPACE_MCHN_PRCT_MST A,
+		      IRIS_SPACE_MCHN_PRCT_DTL B
+		WHERE  A.MCHN_PRCT_ID = B.MCHN_PRCT_ID
+		AND  A.DEL_YN ='N'
+		AND  A.MCHN_INFO_ID =  #{mchnInfoId}
+		AND  A.PRCT_SCN_CD IN ('RQ', 'APPR')
+		AND  B.PRCT_DT LIKE '%'+#{srhDt}+'%'
+		AND  A.DEL_YN = 'N'
+		ORDER BY B.PRCT_DT
+		]]>
+	</select>
+	
+	<select id="checkPrctInfo" resultType="int" >
+		<![CDATA[
+		SELECT COUNT(*) cnt
+		FROM   IRIS_SPACE_MCHN_PRCT_MST M,
+               IRIS_SPACE_MCHN_PRCT_DTL D
+		WHERE  M.MCHN_PRCT_ID = D.MCHN_PRCT_ID
+        AND    M.DEL_YN ='N'
+        AND    M.PRCT_SCN_CD IN ('RQ', 'APPR')
+		AND    M.MCHN_INFO_ID = #{mchnInfoId}
+		AND  D.PRCT_DT BETWEEN #{prctFromDt} AND #{prctToDt}
+		]]>
+	</select>
+	
+	<!-- 기기교육  신청 및 수정 -->
+	<update id="saveMchnPrctInfo" >
+		<![CDATA[
+		MERGE IRIS_SPACE_MCHN_PRCT_MST MEM
+			USING ( SELECT #{mchnPrctId} AS MCHN_PRCT_ID ) AS Tab1
+			ON  (MEM.MCHN_PRCT_ID = Tab1.MCHN_PRCT_ID)
+			WHEN MATCHED THEN
+	UPDATE SET	PRCT_TITL	   = #{prctTitl}
+			   ,LAST_MDFY_DT = GETDATE()
+			   ,LAST_MDFY_ID = #{_userId}
+		WHEN NOT MATCHED THEN
+		INSERT	 (  MCHN_INFO_ID
+			   ,PRCT_TITL
+			   ,RGST_ID
+			   ,PRCT_FROM_DT
+			   ,PRCT_TO_DT
+			   ,PRCT_SCN_CD
+			   ,DEL_YN
+			   ,FRST_RGST_DT
+			   ,FRST_RGST_ID
+			   ,LAST_MDFY_DT
+			   ,LAST_MDFY_ID)
+		 VALUES
+			   (#{mchnInfoId}
+			   ,#{prctTitl}
+			   ,#{rgstId}
+			   ,#{prctFromDt}
+			   ,#{prctToDt}
+			   ,'RQ'
+			   ,'N'
+			   ,GETDATE()
+			   , #{_userId} 
+			   ,GETDATE()
+			   , #{_userId}
+			);
+		]]>
+	</update>
+	
+	<!-- 기기교육 삭제 -->
+	<update id="deleteMchnPrctInfo" >
+		<![CDATA[
+		UPDATE IRIS_SPACE_MCHN_PRCT_MST
+		SET    DEL_YN = 'Y'
+		      ,LAST_MDFY_DT = GETDATE()
+			  ,LAST_MDFY_ID = #{_userId} 
+		WHERE  MCHN_PRCT_ID = #{mchnPrctId} 
+		]]>
+	</update>
+	
+	<select id="getMchnPrctId" resultType="int">
+	
+		   SELECT IDENT_CURRENT('iris_space_mchn_prct_mst') AS mchnPrctId
+			 
+	</select>
+	
+	<insert id="saveMchnPrctDetail" parameterType="map">
+	
+		insert into IRIS_SPACE_MCHN_PRCT_DTL(
+            MCHN_PRCT_ID
+           ,PRCT_DT
+           ,DEL_YN
+           ,FRST_RGST_DT
+           ,FRST_RGST_ID
+           ,LAST_MDFY_DT
+           ,LAST_MDFY_ID
+		   )
+		values(#{mchnPrctId}
+			  ,#{prctDt}
+			  ,'N'
+			  ,GETDATE()
+			  , #{_userId} 
+			  ,GETDATE()
+			  , #{_userId}
+			  )
+	
+	</insert>
+</mapper>

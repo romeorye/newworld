@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- MESSAGE 변수
+	 WHEN  			: 메세지 발생 시점  
+	 FROM_DATE		: 시작시점	예) FROM_DATE="2010/10/10"	 
+	 TO_DATE		: 종료시점  예)  TO_DATE="2011/10/10"
+	 
+	 [WHEN 값]
+   		AFTER_STARTED 			 : 시작시
+   		AFTER_CATEGORY_LOADED    	: 카테고리 로드 후
+   		AFTER_BRAND_LOADED		 : 브랜드 로드 후
+   		AFTER_MODEL_LOADED		 : 모델 로드 후
+   		AFTER_PROTOTYPE_LOADED   	 : 프로토타입 로드 후 
+   		AFTER_SQLT_CHANGED		 : 특성값 변경 후    
+   		BEFORE_VENT_CHANGE       		 : 벤트 변경 전
+   		AFTER_VENT_CHANGED		 : 벤트 변경 후 
+   		BEFORE_SAVE				 : 저장 전 
+   		BEFORE_SAVE_EACH_VENT    	: 저장 전 각 벤트
+   		AFTER_GUBUN_CHANGED		 : 구분 변경 후 
+   		BEFORE_GLASS_SELECT
+		CORNER_ADDED             :90도 코너바 추가시
+-->
+
+<!--    조건문
+	IF 			 : IF 문
+	IF_NOT		 : IF NOT 
+	ELSE         : IF문 다음에서 
+	IF_OK        : OK_CANCEL문 안에서 확인 된 경우
+	IF_CANCEL	 : OK_CANCEL문 안에서 취소 된 경우 
+-->
+
+<!-- 값 변경
+ 	SET 		 : SET 문
+ 	[SET 변수]
+ 		SQLT_VALUE : 특성값 설정		  예1: SQLT="060=030"   예2: SQLT="060=030,070=01" 
+ 		SQLT_ENABLE    : 특성 수정 가능       예1:SQLT_ENABLE="060" 예2:SQLT_ENABLE="060,070'
+ 		SQLT_DISABLE   : 특성 수정 불가       예1:SQLT_DISABLE="060" 예2:SQLT_DISABLE="060,070'
+ 		TWOSASH_ENABLE : 투샤시 적용가능여부 
+ 		GUBUN_DISABLE  :           예) GUBUN_DISABLE="02,03"
+  -->
+
+<!-- 조건식 변수
+	CATEGORY: 카테고리 코드
+	MODEL   : 모델코드 , 		  예1: MODEL="A1643-01" 예2:"MODEL="A1643-01,A1643-02"
+	PROTOTYPE : 프토토타입 코드,   예1: PROTOTYPE="07"   예2:"PROTOTYPE="07,08"
+	SQLT : 특성  , 			  예1: SQLT="060=030"   예2: SQLT="060=030:040,070=01" 
+	GLASS   : 유리 코드  	
+	TARGET_SQLT :  대상특성 코드             : 메세지 검사 대상 
+	ARMATURE :배치된 보강재	
+	CORNER : 코너바 (없음:000,90도(IN):001,90도(OUT):002)
+		
+	[기타변수]
+	LT : Left 창타입    {없음:000, VENT:001, FIX:002, 2Sash:003} 
+	RT : Right 창타입    {없음:000, VENT:001, FIX:002, 2Sash:003} 
+	UT : UP 창타입    {없음:000, VENT:001, FIX:002, 2Sash:003} 
+	DT : Down 창타입    {없음:000, VENT:001, FIX:002, 2Sash:003}  
+	VT : Vent Type {T/T:001, T/U:002, T/I:003, B/H:004, S/H:005, P-S/T:006, Project:007, SH out:008, Rotary: 009, Pivot:010, InDoor:011, OutDoor:012, Casement:013, Awning:014, Fix:015 Slide:016}
+	HL : Handle위치       핸들없음:000, 좌:001, 우:002, 상단:003, 하단:004, 좌/우:005, 상/하:006
+	TW : 이중창 창순서	없음(아님):000, 내창:001, 외창:002
+	WCN: VENT 가로좌표
+	HCN: VENT 세로좌표
+	WSIZE: VENT 가로사이즈
+	HSIZE: VENT 세로사이즈
+	INCOLOR:    내부색 코드
+	OUTCOLOR:   외부색 코드
+	HANDLCOLOR: 핸들색 코드
+	GUBUN:      구분코드 
+
+	
+	[부정]
+	변수_NOT   ex)MODEL_NOT="A1643-01" => 모델의 코드가 A1643-01이 아닌경우
+-->
+
+<!-- 메세지 종류
+	ALERT		 : 알림
+	ERROR		 : 작업 취소
+	OK_CANCEL	 : 확인 또는 취소 
+	
+	[메세지 문자열 변수]
+		$CTGR_CD$   : 카테고리 코드
+		$CTGR_NM$   : 카테고리 이름
+		$BRND_CD$  : 브랜드 코드
+		$BRND_NM$  : 브랜드  이름
+		$MDL_CD$  : 모델코드
+		$MDL_NM$  : 모델 이름
+		$PRTO_CD$  : 프로토타입 코드
+		$PRTO_NM$   : 프로토타입 이름
+		
+		[특성 또는 특성값]
+		$SQLT(060)_NM$           : 060특성 이름 
+		$SQLT(060)_SELVAL_NM$    : 060특성의 선택값 이름
+		$SQLT(060)_SELVAL_CD$    : 060특성의 선택값 코드
+		$SQLT(060)_VAL(001)_NM$  : 060특성 001특성값 이름 
+		$SQLT(060)_VAL(001)_CD$  : 060특성 001특성값 이름 
+		
+		[기타변수 (조건식 기타변수 참고)]
+		$LT$  $RT$  $UT$  $DT$  $VT$  $HL$  $TW$
+		$W_CN$ $H_CN$ $WSIZE$  $HSIZE$ 
+		$INCOLOR$   : 내부색 이름
+		$OUTCOLOR$  : 외부색 이름
+		$HANDLCOLOR$ : 핸들색 이름
+		$GUBUN$ :구분 이름 
+ -->
+
+
+<MESSAGES>
+ 
+	<!-- 2013-08-28 조원호 추가          
+	         커튼월 특성(보강재) 제약
+				   	   T155	T175 T200 T230 
+////////////////////////////////////////////
+Mul 보강재 	75*50*1.6T	O	 O 	  O	   O
+			75*50*3.2T 	O	 O	  O    O
+			98*50*2.3T	X	 O	  O	   O
+			98*50*3.2T 	X	 O	  O	   O
+			98*50*4.5T	X	 O	  O	   O
+////////////////////////////////////////////			
+Tra 보강재	75*45*3.2T	O	 O	  O	   O -->
+
+<MESSAGE WHEN="AFTER_SQLT_CHANGED">
+    <IF SQLT="802=001" >
+        <IF SQLT="800=003:004:005" >  
+		<ERROR>$SQLT(802)_NM$ $SQLT(802)_VAL(001)_NM$ 에서는 선택할수 없는 보강재 입니다.</ERROR>
+		</IF>
+    </IF> 
+</MESSAGE>
+
+<!-- 2013-08-28 조원호 추가          
+                 커튼월 특성(코너바) 제약
+  코너		유리사양	T155	T175	T200	T230
+In Corner		24T		 O		 X		 X		 X
+				34T		 X		 X		 X		 X
+Out Corner		24T		 O		 O		 O		 X
+				34T		 X		 X		 X		 X	 
+	-->
+	
+<MESSAGE WHEN="AFTER_SQLT_CHANGED">
+	<IF SQLT="803=001">
+        <IF SQLT="010=024">  
+			<IF SQLT="802=002:003:004">
+				<ERROR>$SQLT(802)_NM$ : $SQLT(802)_VAL(002)_NM$, $SQLT(802)_VAL(003)_NM$, $SQLT(802)_VAL(004)_NM$ 는
+$SQLT(010)_NM$ $SQLT(010)_VAL(024)_NM$ 일때
+$SQLT(803)_VAL(001)_NM$을 사용할수 없습니다. </ERROR>
+			</IF>		   
+		</IF>
+		<IF SQLT="010=034">  
+			<IF SQLT="802=001:002:003:004">
+				<ERROR>$SQLT(802)_NM$ : $SQLT(802)_VAL(001)_NM$,$SQLT(802)_VAL(002)_NM$, $SQLT(802)_VAL(003)_NM$, $SQLT(802)_VAL(004)_NM$ 는
+$SQLT(010)_NM$ $SQLT(010)_VAL(034)_NM$ 일때  
+$SQLT(803)_VAL(001)_NM$을 사용할수 없습니다. </ERROR>
+			</IF>		   
+		</IF>
+    </IF> 
+	
+	<IF SQLT="803=002">
+		 <IF SQLT="010=024">  
+			<IF SQLT="802=004">
+				<ERROR>$SQLT(802)_NM$ : $SQLT(802)_VAL(004)_NM$ 는
+$SQLT(010)_NM$ $SQLT(010)_VAL(024)_NM$ 일때  
+$SQLT(803)_VAL(002)_NM$을 사용할수 없습니다. </ERROR>
+			</IF>		   
+		</IF>
+		<IF SQLT="010=034">  
+			<IF SQLT="802=001:002:003:004">
+				<ERROR>$SQLT(802)_NM$ : $SQLT(802)_VAL(001)_NM$,$SQLT(802)_VAL(002)_NM$, $SQLT(802)_VAL(003)_NM$, $SQLT(802)_VAL(004)_NM$ 는
+$SQLT(010)_NM$ $SQLT(010)_VAL(034)_NM$ 일때  
+$SQLT(803)_VAL(002)_NM$을 사용할수 없습니다. </ERROR>
+			</IF>		   
+		</IF>
+    </IF> 
+</MESSAGE>
+	<!--2013-08-28 조원호 추가      
+         	커튼월 특성(보강재) 제약
+				   	   T155	T175 T200 T230 
+////////////////////////////////////////////
+Mul 보강재 	75*50*1.6T	O	 O 	  O	   O
+			75*50*3.2T 	O	 O	  O    O
+			98*50*2.3T	X	 O	  O	   O
+			98*50*3.2T 	X	 O	  O	   O
+			98*50*4.5T	X	 O	  O	   O
+////////////////////////////////////////////			
+Tra 보강재	75*45*3.2T	O	 O	  O	   O
+ -->
+<MESSAGE WHEN="BEFORE_SAVE">
+    <IF SQLT="802=001" >
+        <IF ARMATURE="003,004,005" >  
+		<ERROR>$SQLT(802)_NM$ $SQLT(802)_VAL(001)_NM$ 에서 사용할수 없는 보강재가 추가되었습니다. 추가된 보강재를 확인해 주세요.</ERROR>
+		</IF>
+    </IF> 
+	<!-- 2013-08-28 조원호 추가
+	          커튼월 특성(코너바) 제약
+  코너		유리사양	T155	T175	T200	T230
+In Corner		24T		 O		 X		 X		 X
+				34T		 X		 X		 X		 X
+Out Corner		24T		 O		 O		 O		 X
+				34T		 X		 X		 X		 X	 
+	-->
+</MESSAGE>
+<MESSAGE WHEN="BEFORE_SAVE">
+    <IF CORNER="001" >
+        <IF SQLT="010=024">  
+			<IF SQLT="802=002:003:004">
+					<ERROR>$SQLT(802)_NM$ : $SQLT(802)_VAL(002)_NM$, $SQLT(802)_VAL(003)_NM$, $SQLT(802)_VAL(004)_NM$ 는
+$SQLT(010)_NM$ $SQLT(010)_VAL(024)_NM$ 일때
+$SQLT(803)_VAL(001)_NM$을 사용할수 없습니다. </ERROR>
+			</IF>		   
+		</IF>
+		<IF SQLT="010=034">  
+			<IF SQLT="802=001:002:003:004">
+				<ERROR>$SQLT(802)_NM$ : $SQLT(802)_VAL(001)_NM$,$SQLT(802)_VAL(002)_NM$, $SQLT(802)_VAL(003)_NM$, $SQLT(802)_VAL(004)_NM$ 는
+$SQLT(010)_NM$ $SQLT(010)_VAL(034)_NM$ 일때  
+$SQLT(803)_VAL(001)_NM$을 사용할수 없습니다. </ERROR>
+			</IF>		   
+		</IF>
+    </IF> 
+	
+	<IF CORNER="002" >
+		 <IF SQLT="010=024">  
+			<IF SQLT="802=004">
+				<ERROR>$SQLT(802)_NM$ : $SQLT(802)_VAL(004)_NM$ 는
+$SQLT(010)_NM$ $SQLT(010)_VAL(024)_NM$ 일때  
+$SQLT(803)_VAL(002)_NM$을 사용할수 없습니다. </ERROR>
+			</IF>		   
+		</IF>
+		<IF SQLT="010=034">  
+			<IF SQLT="802=001:002:003:004">
+				<ERROR>$SQLT(802)_NM$ : $SQLT(802)_VAL(001)_NM$,$SQLT(802)_VAL(002)_NM$, $SQLT(802)_VAL(003)_NM$, $SQLT(802)_VAL(004)_NM$ 는
+$SQLT(010)_NM$ $SQLT(010)_VAL(034)_NM$ 일때  
+$SQLT(803)_VAL(002)_NM$을 사용할수 없습니다. </ERROR>
+			</IF>		   
+		</IF>
+    </IF>  
+  </MESSAGE>
+   <MESSAGE WHEN="AFTER_VENT_CHANGED">
+	  <IF SQLT="802=007">  
+			<IF MODEL="A1679-01" VT="116,119"> 
+			  <ERROR>
+				A-Facada브랜드의 Capture 모형은 프로파일 사양 T130BST을 사용할 경우 
+Sliding(D)벤트 또는 LS(D) 벤트를 삽입할수 없습니다.
+			  </ERROR>
+			</IF>
+		</IF>
+	 </MESSAGE>
+	<MESSAGE WHEN="AFTER_VENT_CHANGED">
+	  <IF SQLT="802=001">  
+			<IF MODEL="A1675-01,A1676-01,A1678-01" VT="116,119"> 
+			  <ERROR>
+			  S-Facada브랜드의 2Side(수직), 2Side(수평), 4Side 모형은
+프로필사양 T155SST을 사용할 경우
+Sliding(D)벤트 또는 LS(D) 벤트를 삽입할수 없습니다.
+			  </ERROR>
+			</IF>
+		</IF>
+	 </MESSAGE>
+</MESSAGES>
+

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.form.LCombo Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+
+var combo = null; 
+Rui.onReady(function() {
+    // 소스 넣을 위치
+           combo = new Rui.ui.form.LCombo({
+                id: 'combo1',
+                applyTo: 'combo1',
+                //editable: true,
+                //useEmptyText: false,
+                defaultValue: 'code4',
+                //selectedIndex: -1
+            });
+            
+            combo.getDataSet().load({
+                url: './../../../../sample/data/code.json',
+                sync: true
+            })
+            
+            combo.on('changed', function(e){
+                console.log('changed : ' + this.getValue());
+            });
+            
+            Rui.get('combo1').focus();
+            
+            combo.setDisplayValue('코드4'); 
+            combo.setSelectedIndex(3); 
+            
+
+            
+            var dataSet = combo.getDataSet();
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+
+
+function testLCombo_method_setSelectedIndex() {
+    info('LComboTests : testLCombo_method_setSelectedIndex 작동 여부');
+    var idx = 3; //int
+    combo.setSelectedIndex(idx); 
+    assertEquals(combo.getDisplayValue(), '코드4');
+}
+function testLCombo_method_getDisplayValue() {
+    info('LComboTests : testLCombo_method_getDisplayValue 작동 여부');
+    assertEquals(combo.getDisplayValue(), '코드4');
+}
+function testLCombo_method_getBindValue() {
+    info('LComboTests : testLCombo_method_getBindValue 작동 여부');    
+    assertEquals(combo.getBindValue(), 'code4');
+}
+
+function testLCombo_method_repaint() {
+    info('LComboTests : testLCombo_method_repaint 작동 여부');
+    combo.repaint();
+    assertNotUndefined(true);
+}
+function testLCombo_method_getValue() {
+    info('LComboTests : testLCombo_method_getValue 작동 여부');
+    
+    combo.setDisplayValue('코드4'); 
+    combo.setSelectedIndex(3); 
+    
+    combo.setValue('code4'); 
+    assertEquals(combo.getValue(), 'code4');
+}
+function testLCombo_method_setValue() {
+    info('LComboTests : testLCombo_method_setValue 작동 여부');
+    var o = 'code4'; //String       
+    assertUndefined(combo.setValue(o)); 
+    assertEquals(combo.getValue(), o);
+}
+function testLCombo_method_displayRenderer() {
+    info('LComboTests : testLCombo_method_displayRenderer 작동 여부');
+ 
+  var combo1 =  new Rui.ui.form.LCombo({
+        id: 'combo2',
+        applyTo: 'combo2',
+        //editable: true,
+        //useEmptyText: false,
+        defaultValue: 'code2',
+        //selectedIndex: -1,
+        url: './../../../../sample/data/code.json'
+    });
+  
+    var result = combo1.displayRenderer(combo1);
+    //return type : String
+    assertNotUndefined(result);
+}
+function testLCombo_method_setDataSet() {
+    info('LComboTests : testLCombo_method_setDataSet 작동 여부');
+    var newDataSet = combo.getDataSet(); //Rui.data.LDataSet
+    combo.setDataSet(newDataSet); 
+    assertEquals(combo.getDataSet(), newDataSet);
+}
+
+function testLCombo_method_clearCacheData() {
+
+    info('LComboTests : testLCombo_method_clearCacheData 작동 여부');
+    combo.clearCacheData();
+    assertNotUndefined(true);
+}
+
+
+function testLCombo_method_destroy() {
+    info('LComboTests : testLCombo_method_destroy 작동 여부');
+    var combo3 = new Rui.ui.form.LCombo({
+        id: 'combo3',
+        applyTo: 'combo3',
+        defaultValue: 'code4',
+        url: './../../../../sample/data/code.json'
+    });
+    
+    Rui.get('combo3').focus();
+    
+    combo3.destroy();
+    assertNotUndefined(true);
+}
+
+function testLCombo_method_filter() {
+    info('LComboTests : testLCombo_method_filter 작동 여부');
+
+    combo.getDataSet().filter(function(id, record) {
+       if(record.get('code') == 'code2')
+           return true;
+    });
+    
+    assertNotUndefined(true);
+}
+
+
+function testLCombo_method_clearFilter() {
+    info('LComboTests : testLCombo_method_clearFilter 작동 여부');
+
+    combo.getDataSet().clearFilter();
+    
+    assertNotUndefined(true);
+}
+
+
+function testLCombo_method_load() {
+    info('LComboTests : testLCombo_method_load 작동 여부');
+    
+    combo.getDataSet().load({
+        url: './../../../../sample/data/code.json'
+    });
+    
+    assertNotUndefined(true);
+}
+
+function testLCombo_method_newRecord() {
+    info('LComboTests : testLCombo_method_newRecord 작동 여부');
+    
+    combo.getDataSet().add(combo.getDataSet().createRecord({ code: 'code21', value: '코드21'}));
+    
+    assertNotUndefined(true);
+}
+
+function testLCombo_method_update() {
+    info('LComboTests : testLCombo_method_update 작동 여부');
+    
+    combo.getDataSet().setNameValue(2, 'value', '테스트');
+    
+    assertNotUndefined(true);
+}
+
+function testLCombo_method_removeAt() {
+    info('LComboTests : testLCombo_method_removeAt 작동 여부');
+    
+    combo.getDataSet().removeAt(3);
+    
+    assertNotUndefined(true);
+}
+
+function testLCombo_changeText() {
+    
+    var dataSet = combo.getDataSet();
+    dataSet.setRow(2);
+    dataSet.setNameValue(2, 'value', 'CODE3');
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.form.LCombo Tests</h1>
+
+    <div id="bd">
+            <div class="LblockMarkupCode">
+            <form id="frm" name="frm" method="post" action="./../../../../sample/data/savedCallback.json">
+                <fieldset>
+                    <label for="combo1">
+                        Combo
+                    </label>
+                    <select id="combo1" name="combo1">
+                    </select>
+                     <label for="combo2">
+                        Combo
+                    </label>
+                    <select id="combo2" name="combo2">
+                    </select>
+                    <select id="combo3" name="combo3">
+                    </select>
+                </fieldset>
+            </form>
+        </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLCombo_method_setSelectedIndex()">setSelectedIndex</a>
+            <a href="javascript:testLCombo_method_getDisplayValue()">getDisplayValue</a>
+            <a href="javascript:testLCombo_method_getBindValue()">getBindValue</a>
+            <a href="javascript:testLCombo_method_destroy()">destroy</a>
+            <a href="javascript:testLCombo_method_repaint()">repaint</a>
+            <a href="javascript:testLCombo_method_getValue()">getValue</a>
+            <a href="javascript:testLCombo_method_setValue()">setValue</a>
+            <a href="javascript:testLCombo_method_displayRenderer()">displayRenderer</a>
+            <a href="javascript:testLCombo_method_setDataSet()">setDataSet</a>
+            <a href="javascript:testLCombo_method_clearCacheData()">clearCacheData</a>
+            <a href="javascript:testLCombo_method_filter()">filter</a>
+            <a href="javascript:testLCombo_method_clearFilter()">clearFilter</a>
+            <a href="javascript:testLCombo_method_load()">load</a>
+            <a href="javascript:testLCombo_method_newRecord()">newRecord</a>
+            <a href="javascript:testLCombo_method_update()">update</a>
+            <a href="javascript:testLCombo_method_removeAt()">removeAt</a>
+            <a href="javascript:testLCombo_changeText()">changeText</a>
+        </div>
+    </div>        
+</body>
+</html>

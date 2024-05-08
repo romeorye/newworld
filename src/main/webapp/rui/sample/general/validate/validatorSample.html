@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="devon-rui-sample" content="yes" />
+    <meta name="devon-rui-keyword" content="유효성 체크,필수여부,LValidatorManager,Validate" />
+    <title>Validator</title>
+
+    <script type="text/javascript" src="./../../../js/rui_base.js"></script>
+    <script type="text/javascript" src="./../../../js/rui_core.js"></script>
+    <script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+    <script type="text/javascript" src="./../../../js/rui_form.js"></script>
+    <script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+    <script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+    <link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+    <script type="text/javascript" src="./../../../plugins/ui/LTooltip.js"></script>
+    <link rel="stylesheet" type="text/css" href="./../../../plugins/ui/LTooltip.css"/>
+    <script type="text/javascript" src="./../../../plugins/validate/LCustomValidator.js"></script>
+
+    <script type="text/javascript" src="./../../../sample/general/rui_sample.js"></script>
+
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+        }
+
+        caption {
+            margin: 10px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        td, th {
+            border: 1px solid #999;
+            padding: 5px 10px;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        .LblockMarkupCode {
+            position: relative;
+        }
+    </style>
+
+    <script type="text/javascript" class="script-code">
+        var button = null;
+        Rui.onReady(function(){
+            /*******************
+             * 변수 및 객체 선언
+             *******************/
+            var frm = Rui.get('frm');
+            var elementList = frm.select('tr');
+
+            /*<b>*/
+            var validatorManager = new Rui.validate.LValidatorManager({
+                validators:[
+                    { id: 'col2', validExp:'Length:true:length=4'},
+                    { id: 'col3', validExp:'Min Length:true:minLength=6'},
+                    { id: 'col4', validExp:'Byte Length:true:byteLength=4'},
+                    { id: 'col5', validExp:'Min Byte length:true:minByteLength=8'},
+                    { id: 'col6', validExp:'Number:true:number'},
+                    { id: 'col7', validExp:'Number 3.2:true:number=3.2'},
+                    { id: 'col8', validExp:'Min Number:true:minNumber=100'},
+                    { id: 'col9', validExp:'Max Number:true:maxNumber=100'},
+                    { id: 'col10', validExp:'Number Between:true:inNumber=90~100'},
+                    { id: 'col11', validExp:'Date:true:date=YYYYMMDD'},
+                    { id: 'col12', validExp:'Min Date:true:minDate=2008/11/11(YYYY/MM/DD)'},
+                    { id: 'col13', validExp:'Max Date:true:maxDate=20081111'},
+                    { id: 'col14', validExp:'Filter:true:filter=%;<;\\h;\\;;haha'},
+                    { id: 'col15', validExp:'Allow:true:allow=\\a;\\n'},
+                    { id: 'col16', validExp:'Email:true:email'},
+                    { id: 'col17', validExp:'주민등록번호:true:ssn'},
+                    { id: 'col18', validExp:'사업자등록번호:true:csn'},
+                    { id: 'col20', validExp:'기간:true'},
+                    { id: 'col21', validExp:'기간:true', fn: function(value, row){
+                        var startEl = Rui.get('col20');
+                        var start = Rui.util.LFormat.stringToDate(startEl.getValue(), {format: '%Y%m%d'});
+                        var end = Rui.util.LFormat.stringToDate(value, {format: '%Y%m%d'});
+                           if(start.compareTo(end) > 0){
+                               this.message = '시작일이 종료일보다 큽니다.';
+                                startEl.invalid();
+                               return false;
+                           }
+                        startEl.valid();
+                        return true;
+                    } },
+                    { id: 'col22', validExp:'Temp1:true', fn: function(value, row) {
+                        // 이 함수 안에서 alert 또는 다른 객체로 focus어 검사대상 객체가 blur 될 상황을 만드는 소스코드는 사용하지 말것.
+                        if(isNaN(parseInt(value, 10))) {
+                            this.message = '숫자로 시작되는 문자를 입력하세요.';
+                            return false;
+                        }
+                        return true;
+                    } }
+                ]
+            });
+            /*</b>*/
+            
+            /*<b>*/
+            // ex) col19에 "test"가 입력되면 오류로 처리되는 CustomValidator 추가
+            validatorManager.add('col19', new Rui.validate.LCustomValidator('col19', {label:'Custom'}));
+            /*</b>*/
+
+            /********************
+             * 버튼 선언 및 이벤트
+             ********************/
+            var submitTopBtn = new Rui.ui.LButton('submitTopBtn');
+            submitTopBtn.on('click', function(){
+                /*<b>*/
+                if(validatorManager.validateGroup('frm') == false) {
+                    //Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + validatorManager.getMessageList().join('<br>') );
+                    Rui.alert({
+                    	text: '유효하지 않습니다.<br>' + validatorManager.getMessageList().join('<br>'),
+                    	width: 380,
+                    	handler: function(){
+                    		var list = validatorManager.getInvalidList();
+                    		if(list.length > 0)
+                    			Rui.get(list[0].id).focus();
+                    	}
+                    });
+                }
+                /*</b>*/
+            });
+            var clearInvalidTopBtn = new Rui.ui.LButton('clearInvalidTopBtn');
+            clearInvalidTopBtn.on('click', function(){
+                /*<b>*/
+                validatorManager.clearInvalids();
+                /*</b>*/
+            });
+            var submitBottomBtn = new Rui.ui.LButton('submitBottomBtn');
+            submitBottomBtn.on('click', function(){
+                submitTopBtn.click();
+            });
+            var clearInvalidBottomBtn = new Rui.ui.LButton('clearInvalidBottomBtn');
+            clearInvalidBottomBtn.on('click', function(){
+            	clearInvalidTopBtn.click();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id='hd'>
+        <h1>Validator</h1>
+        <div class="LblockLine"></div>
+        <div class="LblockSubj">
+            <h2>값의 유효성(Validation)을 간편하게 검사</h2>
+            <div class="LblockDesc">
+		        <p>일반적으로 사용하는 유효성(Validator)의 기능 예제들 입니다.</p>
+		        <p>실제 화면에서의 적용 방법은 다를 수 있으므로 꼭 샘플 파일을 참조하세요.</p>
+            </div>
+        </div>
+    </div>
+    <div id="bd">
+        <div class="LblockButton" >
+            <button type="button" id="submitTopBtn" >Validate</button>
+            <button type="button" id="clearInvalidTopBtn" >Clear Invalid</button>
+        </div>
+        <div class="LblockMarkupCode">
+            <div id="panel">
+                <form id="frm" name="frm" method="post" action="./../../data/savedCallback.json">
+                    <table id="vTable">
+                        <tr>
+                            <th>검사항목</th>
+                            <th>검사식</th>
+                            <th>검사대상</th>
+                            <th>비고</th>
+                        </tr>
+                        <tr>
+                            <td>Length</td>
+                            <td><input type="text" value="length=4" /></td>
+                            <td><input type="text" id="col2" value="" /></td>
+                            <td>반드시 4자리의 값을 입력해야함. 한글4자 영문4자</td>
+                        </tr>
+                        <tr>
+                            <td>Min Length</td>
+                            <td><input type="text" value="minLength=6" /></td>
+                            <td><input type="text" id="col3" value="123456" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Byte Length</td>
+                            <td><input type="text" value="byteLength=4" /></td>
+                            <td><input type="text" id="col4" value="한글" /></td>
+                            <td>4바이트만 허용. UTF-8의 경우 한글은 3byte</td>
+                        </tr>
+                        <tr>
+                            <td>Min Byte Length</td>
+                            <td><input type="text" value="minByteLength=8" /></td>
+                            <td><input type="text" id="col5" value="한글검사" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Number</td>
+                            <td><input type="text" value="number" /></td>
+                            <td><input type="text" id="col6" value="1234" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Number (3.2)</td>
+                            <td><input type="text" value="number=3.2" /></td>
+                            <td><input type="text" id="col7" value="123.32" /></td>
+                            <td>3자리의 정수와 소숫점 2자리의 값 허용</td>
+                        </tr>
+                        <tr>
+                            <td>Min Number</td>
+                            <td><input type="text" value="minNumber=100" /></td>
+                            <td><input type="text" id="col8" value="110" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Max Number</td>
+                            <td><input type="text" value="maxNumber=100" /></td>
+                            <td><input type="text" id="col9" value="90" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Number Between</td>
+                            <td><input type="text" value="inNumber=90~100" /></td>
+                            <td><input type="text" id="col10" value="101" /></td>
+                            <td>90 ~ 100 사이의 숫자만 허용</td>
+                        </tr>
+                        <tr>
+                            <td>Date</td>
+                            <td><input type="text" value="date=YYYYMMDD" /></td>
+                            <td><input type="text" id="col11" value="20081111" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Min Date</td>
+                            <td><input type="text" value="minDate=2008/11/11(YYYY/MM/DD)" /></td>
+                            <td><input type="text" id="col12" value="2008/12/25" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Max Date</td>
+                            <td><input type="text" value="maxDate=20081111" /></td>
+                            <td><input type="text" id="col13" value="20081025" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Filter</td>
+                            <td><input type="text" value="filter=%;<;\\h;\\;;haha" /></td>
+                            <td><input type="text" id="col14" value="hello world!" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Allow</td>
+                            <td><input type="text" value="allow=\\a;\\n" /></td>
+                            <td><input type="text" id="col15" value="+" /></td>
+                            <td>영문(\\a)과 숫자(\\n)만 허용</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td><input type="text" value="email" /></td>
+                            <td><input type="text" id="col16" value="nana@lgcns.com" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>주민등록번호</td>
+                            <td><input type="text" value="ssn" /></td>
+                            <td><input type="text" id="col17" value="0101011616712" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>사업자등록번호</td>
+                            <td><input type="text" value="csn" /></td>
+                            <td><input type="text" id="col18" value="1168119477" /></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>Custom</td>
+                            <td><input type="text" value="custom2" /></td>
+                            <td><input type="text" id="col19" value="test2" /></td>
+                            <td>Rui.validate.LValidator를 확장한 CustomValidator. "test"라는 문자열이 입력되면 오류임</td>
+                        </tr>
+                        <tr>
+                            <td>기간 시작일</td>
+                            <td>Validator Function</td>
+                            <td><input type="text" id="col20" value="20130101" /></td>
+                            <td>시작일 (종료일과 함께 검사되며 종료일보다 시작일이 미래일 경우 invalid)</td>
+                        </tr>
+                        <tr>
+                            <td>기간 종료일</td>
+                            <td>Validator Function</td>
+                            <td><input type="text" id="col21" value="20130102" /></td>
+                            <td>종료일 (시작일과 함께 검사되며 시작일보다 종료일이 과거일 경우 invalid)</td>
+                        </tr>
+                        <tr>
+                            <td>임의의 검사</td>
+                            <td>Validator Function</td>
+                            <td><input type="text" id="col22" value="101" /></td>
+                            <td>숫자로 시작되는 문자만 허용</td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="LblockButton" >
+            <button type="button" id="submitBottomBtn" >Validate</button>
+            <button type="button" id="clearInvalidBottomBtn" >Clear Invalid</button>
+        </div>
+    </div>
+</body>
+</html>

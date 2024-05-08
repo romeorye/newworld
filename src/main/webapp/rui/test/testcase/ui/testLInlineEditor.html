@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.ui.LInlineEditor Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../plugins/ui/LInlineEditor.js"></script>
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+
+var inlineEditor = null; 
+Rui.onReady(function() {
+    // 소스 넣을 위치
+    inlineEditor = new Rui.ui.LInlineEditor({
+                applyTo : "editor",
+                enterStopEdit: false,
+                field: new Rui.ui.form.LTextArea()
+            });
+
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+// testcase 넣을 위치
+function testLInlineEditor_method_cancelValue() {
+    info('LInlineEditorTests : testLInlineEditor_method_cancelValue 작동 여부');
+    inlineEditor.cancelValue();
+    assertUndefined(inlineEditor.oldValue);
+}
+function testLInlineEditor_method_enable() {
+    info('LInlineEditorTests : testLInlineEditor_method_enable 작동 여부');
+    
+    inlineEditor.enable(); 
+    assertEquals(inlineEditor.isDisable, true);
+}
+function testLInlineEditor_method_disable() {
+    info('LInlineEditorTests : testLInlineEditor_method_disable 작동 여부');
+    inlineEditor.disable();
+    assertEquals(inlineEditor.isDisable, false);
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.ui.LInlineEditor Tests</h1>
+
+    <div id="bd">
+          <div class="LblockMarkupCode">
+            <table style="border:1px solid gray;">
+            <tr>
+                <th>편집 가능</th>
+                <td>
+                    <pre id='editor'>
+    애국가 1절
+    
+    동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세.
+    
+    무궁화 삼천리 화려강산 대한 사람 대한으로 길이 보전하세
+    
+    
+    
+    애국가 2절
+    
+    남산 위에 저 소나무 철갑을 두른듯 바람서리 불변함은 우리 기상일세.
+    
+    무궁화 삼천리 화려강산 대한 사람 대한으로 길이 보전하세
+    
+    
+    
+    애국가 3절
+    
+    가을 하늘 공활한데 높고 구름 없이 밝은 달은 우리 가슴 일편 단심일세.
+    
+    무궁화 삼천리 화려강산 대한 사람 대한으로 길이 보전하세
+    
+    
+    
+    애국가 4절
+    
+    이 기상과 이 맘으로 충성을 다하여 괴로우나 즐거우나 나라 사랑하세.
+    
+    무궁화 삼천리 화려강산 대한 사람 대한으로 길이 보전하세
+                        </pre>
+                    </td>
+                </tr>
+                </table>
+            </div>
+        <div class="testcase-buttons">
+            <a href="javascript:testLInlineEditor_method_cancelValue()">cancelValue</a>
+            <a href="javascript:testLInlineEditor_method_enable()">enable</a>
+            <a href="javascript:testLInlineEditor_method_disable()">disable</a>
+        </div>
+    </div>        
+</body>
+</html>

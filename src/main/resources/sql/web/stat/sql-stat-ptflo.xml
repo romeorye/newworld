@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stat.ptflo">
+    
+    <!-- 일반과제 포트폴리오 인원통계 : 1. FUNDING 구조 -->    
+    <select id="retrieveGenTssBIzDptMmList" resultType="hashmap">
+    <![CDATA[
+    /* retrieveGenTssBIzDptMmList (일반과제 포트폴리오 인원통계 : 1. FUNDING 구조)*/
+	WITH TOTAL_CLS_MM AS
+	(
+	SELECT SUM(ROUND((A.PTC_PRO / 100),2)) AS TOTAL_MM
+	  FROM IRIS_MM_CLS A  
+ 	  WHERE A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+	)
+	, BIZ_DPT_CLS_MM AS
+	(
+	SELECT A.COM_DTL_CD
+		 , A.COM_DTL_NM
+		 , ISNULL(B.PROD_G_MM,0) AS PROD_G_MM
+		 , ISNULL(B.TOTAL_MM,0) AS TOTAL_MM
+		 , ISNULL(ROUND((B.PROD_G_MM / B.TOTAL_MM) * 100,1),0) AS MM_RATE
+	  FROM IRIS_ADM_COM_CD A 
+		   LEFT OUTER JOIN (
+							SELECT C.BIZ_DPT_CD
+								 , SUM(ROUND((A.PTC_PRO / 100),2))               AS PROD_G_MM
+								 , (SELECT TOP 1 X.TOTAL_MM FROM TOTAL_CLS_MM X) AS TOTAL_MM
+							  FROM IRIS_MM_CLS A -- PG기준 과제 MM테이블
+								   INNER JOIN IRIS_TSS_MGMT_MST C ON A.PRJ_CD = C.PRJ_CD AND A.TSS_CD = C.TSS_CD  AND C.TSS_SCN_CD = 'G'
+							 WHERE A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+							 GROUP BY C.BIZ_DPT_CD
+						) AS B ON A.COM_DTL_CD = B.BIZ_DPT_CD
+		WHERE A.COM_CD_CD = 'BIZ_DPT_CD' AND A.DEL_YN = 'N'
+	)
+	SELECT A.COM_DTL_CD as comDtlCd
+		 , A.COM_DTL_NM as comDtlNm
+		 , A.PROD_G_MM  as prodGMm
+		 , A.TOTAL_MM   as totalMm
+		 , A.MM_RATE    as mmRate
+	  FROM BIZ_DPT_CLS_MM A
+	UNION ALL
+	SELECT '99'        as comDtlCd
+	     , 'Sum(합계)' as comDtlNm
+		 , A.TOTAL_MM  as prodGMm
+		 , A.TOTAL_MM  as totalMm
+		 , (SELECT SUM(X.MM_RATE) FROM BIZ_DPT_CLS_MM X) as mmRate
+	FROM TOTAL_CLS_MM A
+	]]>
+    </select>
+    
+    <!-- 일반과제 포트폴리오 인원통계 : 2. 기간 -->    
+    <select id="retrieveGenTssDayDiffMmList" resultType="hashmap">
+    <![CDATA[
+    /* retrieveGenTssDayDiffMmList (일반과제 포트폴리오 인원통계 : 2. 기간)*/
+	WITH TOTAL_CLS_MM AS
+	(
+	SELECT SUM(ROUND((A.PTC_PRO / 100),2)) AS TOTAL_MM
+	  FROM IRIS_MM_CLS A  
+		   INNER JOIN IRIS_TSS_MGMT_MST C ON A.PRJ_CD = C.PRJ_CD AND A.TSS_CD = C.TSS_CD  AND C.TSS_SCN_CD = 'G'
+	 WHERE A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+	)
+	, DAY_DIFF AS
+	(
+	SELECT '01' AS DAY_DIFF_TYPE
+	UNION
+	SELECT '02' AS DAY_DIFF_TYPE
+	)
+	, DAY_DIFF_CLS_MM AS
+	(
+	SELECT A.DAY_DIFF_TYPE
+	    , (CASE WHEN A.DAY_DIFF_TYPE = '01' THEN '단기' 
+		        WHEN A.DAY_DIFF_TYPE = '02' THEN '장기' ELSE '' END ) AS DAY_DIFF_TYPE_NM
+	    , ISNULL(B.PROD_G_MM,0) AS PROD_G_MM 
+		, ISNULL(ROUND((B.PROD_G_MM / B.TOTAL_MM) * 100,1),0) AS MM_RATE
+	  FROM DAY_DIFF A
+	       LEFT OUTER JOIN 
+			(
+			SELECT A1.DAY_DIFF_TYPE
+			     , SUM(A1.PROD_G_MM) AS PROD_G_MM
+				 , A1.TOTAL_MM   
+			  FROM (
+					SELECT (CASE WHEN ISNULL(DATEDIFF( DAY , C.TSS_STRT_DD , C.TSS_FNH_DD ),0) <= 730 THEN '01' ELSE '02' END) AS DAY_DIFF_TYPE
+							, ROUND((A.PTC_PRO / 100),2) AS PROD_G_MM
+							, (SELECT TOP 1 X.TOTAL_MM FROM TOTAL_CLS_MM X) AS TOTAL_MM
+						FROM IRIS_MM_CLS A
+							INNER JOIN IRIS_TSS_MGMT_MST C ON A.PRJ_CD = C.PRJ_CD AND A.TSS_CD = C.TSS_CD  AND C.TSS_SCN_CD = 'G'
+						WHERE A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+				   ) A1
+			 GROUP BY A1.DAY_DIFF_TYPE, A1.TOTAL_MM
+			) AS B ON A.DAY_DIFF_TYPE = B.DAY_DIFF_TYPE
+	)
+	SELECT A.DAY_DIFF_TYPE    as dayDiffType
+		 , A.DAY_DIFF_TYPE_NM as dayDiffTypeNm
+		 , A.PROD_G_MM        as prodGMm
+		 , A.MM_RATE          as mmRate
+	  FROM DAY_DIFF_CLS_MM A
+	UNION ALL
+	SELECT '99'               as dayDiffType
+	     , 'Sum(합계)'        as dayDiffTypeNm
+		 , A.TOTAL_MM         as prodGMm
+		 , (SELECT SUM(X.MM_RATE) FROM DAY_DIFF_CLS_MM X) as mmRate
+	FROM TOTAL_CLS_MM A
+	]]>
+    </select>
+
+    <!-- 일반과제 포트폴리오 인원통계 : 3. 과제속성 -->    
+    <select id="retrieveGenTssAttrMmList" resultType="hashmap">
+    <![CDATA[
+    /* retrieveGenTssAttrMmList (일반과제 포트폴리오 인원통계 : 3. 과제속성)*/
+	WITH TOTAL_CLS_MM AS
+	(
+	SELECT SUM(ROUND((A.PTC_PRO / 100),2)) AS TOTAL_MM
+	  FROM IRIS_MM_CLS A  
+		   INNER JOIN IRIS_PRJ_RSST_CLS B ON A.PRJ_CD = B.PRJ_CD AND A.MM_YYMM = B.PRJ_CLS_YYMM AND B.PRJ_CLS_YN = 'Y' -- 월마감 완료건
+		   INNER JOIN IRIS_TSS_MGMT_MST C ON A.PRJ_CD = C.PRJ_CD AND A.TSS_CD = C.TSS_CD  AND C.TSS_SCN_CD = 'G'
+	 WHERE A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+	)
+	, ATTR_CLS_MM AS
+	( 
+	SELECT A.COM_DTL_CD
+		 , A.COM_DTL_NM
+		 , ISNULL(B.PROD_G_MM,0) AS PROD_G_MM
+		 , ISNULL(B.TOTAL_MM,0) AS TOTAL_MM
+		 , ISNULL(ROUND((B.PROD_G_MM / B.TOTAL_MM) * 100,1),0) AS MM_RATE
+	  FROM IRIS_ADM_COM_CD A 
+		   LEFT OUTER JOIN (
+							SELECT C.TSS_ATTR_CD
+								 , SUM(ROUND((A.PTC_PRO / 100),2))               AS PROD_G_MM
+								 , (SELECT TOP 1 X.TOTAL_MM FROM TOTAL_CLS_MM X) AS TOTAL_MM
+							  FROM IRIS_MM_CLS A -- PG기준 과제 MM테이블
+								   INNER JOIN IRIS_PRJ_RSST_CLS B ON A.PRJ_CD = B.PRJ_CD AND A.MM_YYMM = B.PRJ_CLS_YYMM AND B.PRJ_CLS_YN = 'Y' -- 월마감 완료건
+								   INNER JOIN IRIS_TSS_MGMT_MST C ON A.PRJ_CD = C.PRJ_CD AND A.TSS_CD = C.TSS_CD  AND C.TSS_SCN_CD = 'G'
+							 WHERE A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+							 GROUP BY C.TSS_ATTR_CD
+						) AS B ON A.COM_DTL_CD = B.TSS_ATTR_CD
+		WHERE A.COM_CD_CD = 'TSS_ATTR_CD' AND A.DEL_YN = 'N'
+	)
+	SELECT A.COM_DTL_CD as comDtlCd
+		 , A.COM_DTL_NM as comDtlNm
+		 , A.PROD_G_MM  as prodGMm
+		 , A.TOTAL_MM   as totalMm
+		 , A.MM_RATE    as mmRate
+	  FROM ATTR_CLS_MM A
+	UNION ALL
+	SELECT '99'        as comDtlCd
+	     , 'Sum(합계)' as comDtlNm
+		 , A.TOTAL_MM  as prodGMm
+		 , A.TOTAL_MM  as totalMm
+		 , (SELECT SUM(X.MM_RATE) FROM ATTR_CLS_MM X) as mmRate
+	FROM TOTAL_CLS_MM A
+	]]>
+    </select>
+
+    <!-- 일반과제 포트폴리오 인원통계 : 4. 연구분야 -->    
+    <select id="retrieveGenTssSpheMmList" resultType="hashmap">
+    <![CDATA[
+    /* retrieveGenTssSpheMmList (일반과제 포트폴리오 인원통계 : 4. 연구분야)*/
+	WITH TOTAL_CLS_MM AS
+	(
+	SELECT SUM(ROUND((A.PTC_PRO / 100),2)) AS TOTAL_MM
+	  FROM IRIS_MM_CLS A  
+		   INNER JOIN IRIS_PRJ_RSST_CLS B ON A.PRJ_CD = B.PRJ_CD AND A.MM_YYMM = B.PRJ_CLS_YYMM AND B.PRJ_CLS_YN = 'Y' -- 월마감 완료건
+		   INNER JOIN IRIS_TSS_MGMT_MST C ON A.PRJ_CD = C.PRJ_CD AND A.TSS_CD = C.TSS_CD  AND C.TSS_SCN_CD = 'G'
+	 WHERE A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+	)
+	, SPHE_CLS_MM AS
+	(
+	SELECT A.COM_DTL_CD
+		 , A.COM_DTL_NM
+		 , ISNULL(B.PROD_G_MM,0) AS PROD_G_MM
+		 , ISNULL(B.TOTAL_MM,0) AS TOTAL_MM
+		 , ISNULL(ROUND((B.PROD_G_MM / B.TOTAL_MM) * 100,1),0) AS MM_RATE
+	  FROM IRIS_ADM_COM_CD A 
+		   LEFT OUTER JOIN (
+							SELECT C.RSST_SPHE
+								 , SUM(ROUND((A.PTC_PRO / 100),2))               AS PROD_G_MM
+								 , (SELECT TOP 1 X.TOTAL_MM FROM TOTAL_CLS_MM X) AS TOTAL_MM
+							  FROM IRIS_MM_CLS A -- PG기준 과제 MM테이블
+								   INNER JOIN IRIS_PRJ_RSST_CLS B ON A.PRJ_CD = B.PRJ_CD AND A.MM_YYMM = B.PRJ_CLS_YYMM AND B.PRJ_CLS_YN = 'Y' -- 월마감 완료건
+								   INNER JOIN IRIS_TSS_MGMT_MST C ON A.PRJ_CD = C.PRJ_CD AND A.TSS_CD = C.TSS_CD  AND C.TSS_SCN_CD = 'G'
+							 WHERE A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+							 GROUP BY C.RSST_SPHE
+						) AS B ON A.COM_DTL_CD = B.RSST_SPHE
+		WHERE A.COM_CD_CD = 'RSST_SPHE' AND A.DEL_YN = 'N'
+	)
+	SELECT A.COM_DTL_CD as comDtlCd
+		 , A.COM_DTL_NM as comDtlNm
+		 , A.PROD_G_MM  as prodGMm
+		 , A.TOTAL_MM   as totalMm
+		 , A.MM_RATE    as mmRate
+	  FROM SPHE_CLS_MM A
+	UNION ALL
+	SELECT '99'        as comDtlCd
+	     , 'Sum(합계)' as comDtlNm
+		 , A.TOTAL_MM  as prodGMm
+		 , A.TOTAL_MM  as totalMm
+		 , (SELECT SUM(X.MM_RATE) FROM SPHE_CLS_MM X) as mmRate
+	FROM TOTAL_CLS_MM A
+	]]>
+    </select>
+    
+    <!-- 일반과제 포트폴리오 인원통계 : 5. 유형 -->    
+    <select id="retrieveGenTssTypeMmList" resultType="hashmap">
+    <![CDATA[
+    /* retrieveGenTssTypeMmList (일반과제 포트폴리오 인원통계 : 5. 유형)*/
+	WITH TOTAL_CLS_MM AS
+	(
+	SELECT SUM(ROUND((A.PTC_PRO / 100),2)) AS TOTAL_MM
+	  FROM IRIS_MM_CLS A  
+		   INNER JOIN IRIS_PRJ_RSST_CLS B ON A.PRJ_CD = B.PRJ_CD AND A.MM_YYMM = B.PRJ_CLS_YYMM AND B.PRJ_CLS_YN = 'Y' -- 월마감 완료건
+		   INNER JOIN IRIS_TSS_MGMT_MST C ON A.PRJ_CD = C.PRJ_CD AND A.TSS_CD = C.TSS_CD  AND C.TSS_SCN_CD = 'G'
+	 WHERE A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+	)
+	, TYPE_CLS_MM AS
+	(
+	SELECT A.COM_DTL_CD
+		 , A.COM_DTL_NM
+		 , ISNULL(B.PROD_G_MM,0) AS PROD_G_MM
+		 , ISNULL(B.TOTAL_MM,0) AS TOTAL_MM
+		 , ISNULL(ROUND((B.PROD_G_MM / B.TOTAL_MM) * 100,1),0) AS MM_RATE
+	  FROM IRIS_ADM_COM_CD A 
+		   LEFT OUTER JOIN (
+							SELECT C.TSS_TYPE
+								 , SUM(ROUND((A.PTC_PRO / 100),2))               AS PROD_G_MM
+								 , (SELECT TOP 1 X.TOTAL_MM FROM TOTAL_CLS_MM X) AS TOTAL_MM
+							  FROM IRIS_MM_CLS A -- PG기준 과제 MM테이블
+								   INNER JOIN IRIS_PRJ_RSST_CLS B ON A.PRJ_CD = B.PRJ_CD AND A.MM_YYMM = B.PRJ_CLS_YYMM AND B.PRJ_CLS_YN = 'Y' -- 월마감 완료건
+								   INNER JOIN IRIS_TSS_MGMT_MST C ON A.PRJ_CD = C.PRJ_CD AND A.TSS_CD = C.TSS_CD  AND C.TSS_SCN_CD = 'G'
+							 WHERE A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+							 GROUP BY C.TSS_TYPE
+						) AS B ON A.COM_DTL_CD = B.TSS_TYPE
+		WHERE A.COM_CD_CD = 'TSS_TYPE' AND A.DEL_YN = 'N'
+	)
+	SELECT A.COM_DTL_CD as comDtlCd
+		 , A.COM_DTL_NM as comDtlNm
+		 , A.PROD_G_MM  as prodGMm
+		 , A.TOTAL_MM   as totalMm
+		 , A.MM_RATE    as mmRate
+	  FROM TYPE_CLS_MM A
+	UNION ALL
+	SELECT 'ZZ'        as comDtlCd
+	     , 'Sum(합계)' as comDtlNm
+		 , A.TOTAL_MM  as prodGMm
+		 , A.TOTAL_MM  as totalMm
+		 , (SELECT SUM(X.MM_RATE) FROM TYPE_CLS_MM X) as mmRate
+	FROM TOTAL_CLS_MM A
+	]]>
+    </select>
+    
+    
+    
+    <select id="retrievePtfloFunding_a" resultType="hashmap">
+    <![CDATA[
+	    /* retrievePtfloFunding_a */
+		WITH EXP_LIST AS (
+		    SELECT BIZ_DPT_CD, ROUND(PLN_EXP/100,2) as PLN_EXP , SUM(PLN_EXP/100) OVER() AS PLN_EXP_SUM
+		         , ROUND(ARSL_EXP/100, 2) as ARSL_EXP, SUM(ARSL_EXP/100) OVER() AS ARSL_EXP_SUM 
+		      FROM (SELECT A.BIZ_DPT_CD, SUM(B.PLN_EXP) AS PLN_EXP, SUM(B.ARSL_EXP) AS ARSL_EXP
+		              FROM IRIS_TSS_MGMT_MST A
+		              JOIN (SELECT TSS_CD, SUM(ISNULL(PLN_EXP,0)) AS PLN_EXP, SUM(ISNULL(ARSL_EXP, 0)) AS ARSL_EXP
+		                      FROM IRIS_TSS_GEN_TRWI_BUDG_LIST
+		                     WHERE YY_MM BETWEEN replace( #{searchStartYymm}, '-', '') AND replace( #{searchEndYymm}, '-', '')
+		                     GROUP BY TSS_CD) B
+		                ON B.TSS_CD = A.TSS_CD
+		             WHERE A.TSS_SCN_CD = 'G' 
+		               AND A.PGS_STEP_CD = 'PG'
+		             GROUP BY A.BIZ_DPT_CD) X
+		)
+		select m.*
+		from (
+		SELECT A.COM_DTL_CD AS comDelCd
+		     , A.COM_DTL_NM AS comDelNm
+		     , ISNULL(EL.ARSL_EXP,0) AS arslExp
+		     , ISNULL(CONVERT(NUMERIC(5,2), ROUND((EL.ARSL_EXP/CASE WHEN EL.ARSL_EXP_SUM = 0 THEN 1 ELSE EL.ARSL_EXP_SUM END)*100,2)),0) AS arslExpSum
+		  FROM IRIS_ADM_COM_CD A
+		  LEFT JOIN EXP_LIST EL
+		    ON A.COM_DTL_CD = EL.BIZ_DPT_CD
+		 WHERE A.COM_CD_CD = 'BIZ_DPT_CD'
+		 UNION ALL
+		SELECT '99','Sum(합계)'
+		    , ROUND(SUM(EL.ARSL_EXP), 2)
+		    , ROUND(SUM(CONVERT(NUMERIC(5,2), ROUND((EL.ARSL_EXP/CASE WHEN EL.ARSL_EXP_SUM = 0 THEN 1 ELSE EL.ARSL_EXP_SUM END)*100,2))), 0)
+		  FROM EXP_LIST EL
+		 ) m
+		 where 1=1
+	     and   (m.arslExp <> '0' and arslExpSum <> '0')
+	]]>
+    </select>
+    
+    <select id="retrievePtfloFunding_p" resultType="hashmap">
+    <![CDATA[
+	    /* retrievePtfloFunding_p */
+		WITH  CLS_LIST AS (
+		    SELECT BIZ_DPT_CD, ROUND(PROD_G_MM, 2 ) AS PROD_G_MM, SUM(PROD_G_MM) OVER() AS PROD_G_SUM
+		      FROM (SELECT C.BIZ_DPT_CD
+		                 , SUM(ROUND((A.PTC_PRO / 100),2)) AS PROD_G_MM
+		              FROM IRIS_MM_CLS A -- PG기준 과제 MM테이블
+		             INNER JOIN IRIS_TSS_MGMT_MST C 
+		             ON  A.TSS_CD = C.TSS_CD  
+		            AND  A.PRJ_CD = C.PRJ_CD 
+						   AND C.TSS_SCN_CD = 'G' 
+						   AND C.DEL_YN = 'N'
+						   and c.PGS_STEP_CD ='PG'
+		             WHERE A.MM_YYMM BETWEEN  #{searchStartYymm} AND  #{searchEndYymm}
+		             GROUP BY C.BIZ_DPT_CD) X
+		)
+		select m.*
+		from (
+		SELECT A.COM_DTL_CD AS comDelCd
+		     , A.COM_DTL_NM AS comDelNm
+		     , round(ISNULL(CL.PROD_G_MM / (DATEDIFF(month , convert(datetime,  #{searchStartYymm}+'-01'), convert(datetime,   #{searchEndYymm}+'-01'))+1),0),2) AS prodGMm
+		     , ISNULL(CONVERT(NUMERIC(5,2),ROUND((CL.PROD_G_MM/CASE WHEN CL.PROD_G_SUM = 0 THEN 1 ELSE CL.PROD_G_SUM END)*100,2)), 0) AS prodGMmSum
+		  FROM IRIS_ADM_COM_CD A
+		  LEFT JOIN CLS_LIST CL
+		    ON A.COM_DTL_CD = CL.BIZ_DPT_CD
+		 WHERE A.COM_CD_CD = 'BIZ_DPT_CD'
+		 UNION ALL
+		SELECT '99','Sum(합계)'
+		    , ROUND(SUM(CL.PROD_G_MM) / (DATEDIFF(month , convert(datetime,  #{searchStartYymm}+'-01'), convert(datetime,  #{searchEndYymm}+'-01'))+1) , 2)
+		    , ROUND(SUM(CONVERT(NUMERIC(5,2),ROUND((CL.PROD_G_MM/CASE WHEN CL.PROD_G_SUM = 0 THEN 1 ELSE CL.PROD_G_SUM END)*100,2))),0)
+		 FROM  CLS_LIST CL
+		) m
+      where 1=1
+	  and   (m.prodGMm <> '0' and prodGMmSum <> '0')
+	]]>
+    </select>
+    
+    
+    <select id="retrievePtfloTrm_a" resultType="hashmap">
+    <![CDATA[
+	    /* retrievePtfloTrm_a */
+	    WITH EXP_LIST AS (
+		    SELECT DAY_DIFF_TYPE
+		         , ROUND(ARSL_EXP / 100, 2) AS ARSL_EXP
+		         , SUM(ARSL_EXP) OVER() AS ARSL_EXP_SUM
+		      FROM (SELECT (CASE WHEN ISNULL(DATEDIFF(DAY, A.TSS_STRT_DD, A.TSS_FNH_DD ),0) <= 730 THEN '01' ELSE '02' END) AS DAY_DIFF_TYPE
+		                 , SUM(B.ARSL_EXP) AS ARSL_EXP
+		              FROM IRIS_TSS_MGMT_MST A
+		              JOIN (SELECT TSS_CD, SUM(ISNULL(PLN_EXP,0)) AS PLN_EXP, SUM(ISNULL(ARSL_EXP, 0)) AS ARSL_EXP
+		                      FROM IRIS_TSS_GEN_TRWI_BUDG_LIST
+		                     WHERE YY_MM BETWEEN replace(#{searchStartYymm}, '-', '') AND replace(#{searchEndYymm}, '-', '')
+		                     GROUP BY TSS_CD) B
+		                ON B.TSS_CD = A.TSS_CD
+		             WHERE A.TSS_SCN_CD = 'G'
+		               AND A.PGS_STEP_CD = 'PG'
+		               AND A.DEL_YN = 'N'
+		             GROUP BY (CASE WHEN ISNULL(DATEDIFF(DAY, A.TSS_STRT_DD, A.TSS_FNH_DD ),0) <= 730 THEN '01' ELSE '02' END)) X
+		)
+		
+		SELECT A.COM_DTL_CD AS comDelCd
+		     , A.COM_DTL_NM AS comDelNm
+		     , ISNULL(EL.ARSL_EXP,0) AS arslExp
+		     , ISNULL(CONVERT(NUMERIC(5,2), ROUND((EL.ARSL_EXP/CASE WHEN EL.ARSL_EXP_SUM = 0 THEN 1 ELSE EL.ARSL_EXP_SUM END)*100,2)),0) AS arslExpSum
+		  FROM (SELECT '01' AS COM_DTL_CD, '단기' AS COM_DTL_NM UNION ALL SELECT '02', '장기' ) A
+		  LEFT JOIN EXP_LIST EL
+		    ON A.COM_DTL_CD = EL.DAY_DIFF_TYPE
+		 UNION ALL
+		SELECT '99','Sum(합계)'
+		    , ROUND(SUM(EL.ARSL_EXP) , 2)
+		    , ROUND(SUM(CONVERT(NUMERIC(5,2), ROUND((EL.ARSL_EXP/CASE WHEN EL.ARSL_EXP_SUM = 0 THEN 1 ELSE EL.ARSL_EXP_SUM END)*100,2))),0)
+		 FROM EXP_LIST EL
+	]]>
+    </select>
+    
+    <select id="retrievePtfloTrm_p" resultType="hashmap">
+    <![CDATA[
+	    /* retrievePtfloTrm_p */
+	    WITH  CLS_LIST AS (
+		    SELECT DAY_DIFF_TYPE
+		         , ROUND(PROD_G_MM, 2) AS PROD_G_MM
+		         , SUM(PROD_G_MM) OVER() AS PROD_G_SUM 
+		      FROM (SELECT (CASE WHEN ISNULL(DATEDIFF(DAY, C.TSS_STRT_DD , C.TSS_FNH_DD ),0) <= 730 THEN '01' ELSE '02' END) AS DAY_DIFF_TYPE
+		                 , SUM(ROUND((A.PTC_PRO / 100),2)) AS PROD_G_MM
+		             FROM IRIS_MM_CLS A
+				            INNER JOIN IRIS_TSS_MGMT_MST C 
+				            ON  A.TSS_CD = C.TSS_CD  
+							AND A.PRJ_CD = C.PRJ_CD 
+								   AND C.TSS_SCN_CD = 'G' 
+								   AND C.DEL_YN = 'N'
+								   and c.PGS_STEP_CD ='PG'
+		            WHERE A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+		            GROUP BY (CASE WHEN ISNULL(DATEDIFF(DAY, C.TSS_STRT_DD , C.TSS_FNH_DD ),0) <= 730 THEN '01' ELSE '02' END)) X
+		)
+		SELECT A.COM_DTL_CD AS comDelCd
+		     , A.COM_DTL_NM AS comDelNm
+		     , round(ISNULL(CL.PROD_G_MM / (DATEDIFF(month , convert(datetime,  #{searchStartYymm}+'-01'), convert(datetime,   #{searchEndYymm}+'-01'))+1),0),2) AS prodGMm
+		     , ISNULL(CONVERT(NUMERIC(5,2),ROUND((CL.PROD_G_MM/CASE WHEN CL.PROD_G_SUM = 0 THEN 1 ELSE CL.PROD_G_SUM END)*100,2)), 0) AS prodGMmSum
+		  FROM (SELECT '01' AS COM_DTL_CD, '단기' AS COM_DTL_NM UNION ALL SELECT '02', '장기' ) A
+		       , CLS_LIST CL
+		  WHERE A.COM_DTL_CD = CL.DAY_DIFF_TYPE
+		 UNION ALL
+		SELECT '99','Sum(합계)'
+		    , ROUND(SUM(CL.PROD_G_MM) / (DATEDIFF(month , convert(datetime,  #{searchStartYymm}+'-01'), convert(datetime,  #{searchEndYymm}+'-01'))+1) , 2)
+		    , ROUND(SUM(CONVERT(NUMERIC(5,2),ROUND((CL.PROD_G_MM/CASE WHEN CL.PROD_G_SUM = 0 THEN 1 ELSE CL.PROD_G_SUM END)*100,2))),0)		   
+		 FROM CLS_LIST CL
+	]]>
+    </select>
+    
+    
+    <select id="retrievePtfloAttr_a" resultType="hashmap">
+    <![CDATA[
+        /* retrievePtfloAttr_a */
+        WITH EXP_LIST AS (
+		    SELECT TSS_ATTR_CD, ROUND(PLN_EXP, 2) AS PLN_EXP, SUM(PLN_EXP) OVER() AS PLN_EXP_SUM
+		         , ROUND(ARSL_EXP / 100, 2) AS ARSL_EXP, SUM(ARSL_EXP) OVER() AS ARSL_EXP_SUM 
+		      FROM (SELECT A.TSS_ATTR_CD, SUM(B.PLN_EXP) AS PLN_EXP, SUM(B.ARSL_EXP) AS ARSL_EXP
+		              FROM IRIS_TSS_MGMT_MST A
+		              JOIN (SELECT TSS_CD, SUM(ISNULL(PLN_EXP,0)) AS PLN_EXP, SUM(ISNULL(ARSL_EXP, 0)) AS ARSL_EXP
+		                      FROM IRIS_TSS_GEN_TRWI_BUDG_LIST
+		                     WHERE YY_MM BETWEEN replace(#{searchStartYymm}, '-', '') AND replace(#{searchEndYymm}, '-', '')
+		                     GROUP BY TSS_CD) B
+		                ON B.TSS_CD = A.TSS_CD
+		             WHERE A.TSS_SCN_CD = 'G' 
+		               AND A.PGS_STEP_CD = 'PG'
+		               AND A.TSS_ATTR_CD != '  '
+		             GROUP BY A.TSS_ATTR_CD) X
+					)
+	
+		SELECT A.COM_DTL_CD AS comDelCd
+		     , A.COM_DTL_NM AS comDelNm
+		     , ISNULL(EL.ARSL_EXP,0) AS arslExp
+		     , ISNULL(CONVERT(NUMERIC(5,2), ROUND((EL.ARSL_EXP/CASE WHEN EL.ARSL_EXP_SUM = 0 THEN 1 ELSE EL.ARSL_EXP_SUM END)*100,2)),0) AS arslExpSum
+		  FROM IRIS_ADM_COM_CD A
+		  LEFT JOIN EXP_LIST EL
+		    ON A.COM_DTL_CD = EL.TSS_ATTR_CD
+		 WHERE A.COM_CD_CD = 'TSS_ATTR_CD'
+		 UNION ALL
+		SELECT '99','Sum(합계)'
+		    , ROUND(SUM(EL.ARSL_EXP), 2)
+		    , ROUND(SUM(CONVERT(NUMERIC(5,2), ROUND((EL.ARSL_EXP/CASE WHEN EL.ARSL_EXP_SUM = 0 THEN 1 ELSE EL.ARSL_EXP_SUM END)*100,2))), 0)
+		 FROM EXP_LIST EL
+	]]>
+    </select>
+    
+    
+    <select id="retrievePtfloAttr_p" resultType="hashmap">
+    <![CDATA[
+        /* retrievePtfloAttr_p */
+        WITH  CLS_LIST AS (
+		    SELECT TSS_ATTR_CD, ROUND(PROD_G_MM, 2) AS PROD_G_MM, SUM(PROD_G_MM) OVER() AS PROD_G_SUM
+		      FROM (SELECT C.TSS_ATTR_CD
+		                 , SUM(ROUND((A.PTC_PRO / 100),2)) AS PROD_G_MM
+		              FROM IRIS_MM_CLS A -- PG기준 과제 MM테이블
+				             INNER JOIN IRIS_TSS_MGMT_MST C 
+				             ON  A.TSS_CD = C.TSS_CD  
+							  AND	A.PRJ_CD = C.PRJ_CD 
+								   AND C.TSS_SCN_CD = 'G' 
+								   AND C.DEL_YN = 'N'
+								   and c.PGS_STEP_CD ='PG'
+		             WHERE C.TSS_ATTR_CD != '  '
+		               AND A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+		             GROUP BY C.TSS_ATTR_CD) X
+		)
+		SELECT A.COM_DTL_CD AS comDelCd
+		     , A.COM_DTL_NM AS comDelNm
+		     , round(ISNULL(CL.PROD_G_MM / (DATEDIFF(month , convert(datetime,  #{searchStartYymm}+'-01'), convert(datetime,   #{searchEndYymm}+'-01'))+1),0),2) AS prodGMm
+		     , ISNULL(CONVERT(NUMERIC(5,2),ROUND((CL.PROD_G_MM/CASE WHEN CL.PROD_G_SUM = 0 THEN 1 ELSE CL.PROD_G_SUM END)*100,2)), 0) AS prodGMmSum
+		  FROM IRIS_ADM_COM_CD A
+		  LEFT JOIN CLS_LIST CL
+		    ON A.COM_DTL_CD = CL.TSS_ATTR_CD
+		 WHERE A.COM_CD_CD = 'TSS_ATTR_CD'
+		 UNION ALL
+		SELECT '99','Sum(합계)'
+		    , ROUND(SUM(CL.PROD_G_MM) / (DATEDIFF(month , convert(datetime,  #{searchStartYymm}+'-01'), convert(datetime,  #{searchEndYymm}+'-01'))+1) , 2)
+		    , ROUND(SUM(CONVERT(NUMERIC(5,2),ROUND((CL.PROD_G_MM/CASE WHEN CL.PROD_G_SUM = 0 THEN 1 ELSE CL.PROD_G_SUM END)*100,2))),0)	
+		 FROM CLS_LIST CL
+	]]>
+    </select>
+    
+    
+    <select id="retrievePtfloSphe_a" resultType="hashmap">
+    <![CDATA[
+        /* retrievePtfloSphe_a */
+        WITH EXP_LIST AS (
+		    SELECT RSST_SPHE, ROUND(PLN_EXP, 2) AS PLN_EXP, SUM(PLN_EXP) OVER() AS PLN_EXP_SUM
+		         , ROUND(ARSL_EXP / 100, 2) AS ARSL_EXP, SUM(ARSL_EXP) OVER() AS ARSL_EXP_SUM 
+		      FROM (SELECT A.RSST_SPHE, SUM(B.PLN_EXP) AS PLN_EXP, SUM(B.ARSL_EXP) AS ARSL_EXP
+		              FROM IRIS_TSS_MGMT_MST A
+		              JOIN (SELECT TSS_CD, SUM(ISNULL(PLN_EXP,0)) AS PLN_EXP, SUM(ISNULL(ARSL_EXP, 0)) AS ARSL_EXP
+		                      FROM IRIS_TSS_GEN_TRWI_BUDG_LIST
+		                     WHERE YY_MM BETWEEN replace(#{searchStartYymm}, '-', '') AND replace(#{searchEndYymm}, '-', '')
+		                     GROUP BY TSS_CD) B
+		                ON B.TSS_CD = A.TSS_CD
+		             WHERE A.TSS_SCN_CD = 'G' 
+		               AND A.PGS_STEP_CD = 'PG'
+		               AND A.RSST_SPHE IS NOT NULL
+		             GROUP BY A.RSST_SPHE) X
+		)
+		
+		SELECT A.COM_DTL_CD AS comDelCd
+		     , A.COM_DTL_NM AS comDelNm
+		     , ISNULL(EL.ARSL_EXP,0) AS arslExp
+		     , ISNULL(CONVERT(NUMERIC(5,2), ROUND((EL.ARSL_EXP/CASE WHEN EL.ARSL_EXP_SUM = 0 THEN 1 ELSE EL.ARSL_EXP_SUM END)*100,2)),0) AS arslExpSum
+		  FROM IRIS_ADM_COM_CD A
+		  LEFT JOIN EXP_LIST EL
+		    ON A.COM_DTL_CD = EL.RSST_SPHE
+		 WHERE A.COM_CD_CD = 'RSST_SPHE'
+		 UNION ALL
+		SELECT '99','Sum(합계)'
+		    , ROUND(SUM(EL.ARSL_EXP), 2)
+		    , ROUND(SUM(CONVERT(NUMERIC(5,2), ROUND((EL.ARSL_EXP/CASE WHEN EL.ARSL_EXP_SUM = 0 THEN 1 ELSE EL.ARSL_EXP_SUM END)*100,2))),0)
+		 FROM EXP_LIST EL
+	]]>
+    </select>
+    
+    <select id="retrievePtfloSphe_p" resultType="hashmap">
+    <![CDATA[
+        /* retrievePtfloSphe_p */
+        WITH  CLS_LIST AS (
+		    SELECT RSST_SPHE, ROUND(PROD_G_MM, 2) AS PROD_G_MM, SUM(PROD_G_MM) OVER() AS PROD_G_SUM
+		      FROM (SELECT C.RSST_SPHE
+		                 , SUM(ROUND((A.PTC_PRO / 100),2)) AS PROD_G_MM
+		              FROM IRIS_MM_CLS A -- PG기준 과제 MM테이블
+		             INNER JOIN IRIS_TSS_MGMT_MST C 
+		                    ON A.PRJ_CD = C.PRJ_CD 
+		                    AND A.TSS_CD = C.TSS_CD  
+		                    AND C.TSS_SCN_CD = 'G' 
+		                    AND C.DEL_YN = 'N'
+		                    and c.PGS_STEP_CD ='PG'
+		             WHERE C.RSST_SPHE IS NOT NULL
+		               AND A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+		             GROUP BY C.RSST_SPHE) X
+		)
+		SELECT A.COM_DTL_CD AS comDelCd
+		     , A.COM_DTL_NM AS comDelNm
+		     , round(ISNULL(CL.PROD_G_MM / (DATEDIFF(month , convert(datetime,  #{searchStartYymm}+'-01'), convert(datetime,   #{searchEndYymm}+'-01'))+1),0),2) AS prodGMm
+		     , ISNULL(CONVERT(NUMERIC(5,2),ROUND((CL.PROD_G_MM/CASE WHEN CL.PROD_G_SUM = 0 THEN 1 ELSE CL.PROD_G_SUM END)*100,2)), 0) AS prodGMmSum
+		  FROM IRIS_ADM_COM_CD A
+		       LEFT JOIN  CLS_LIST CL
+		    ON A.COM_DTL_CD = CL.RSST_SPHE
+		 WHERE A.COM_CD_CD = 'RSST_SPHE'
+		 UNION ALL
+		SELECT '99','Sum(합계)'
+		    , ROUND(SUM(CL.PROD_G_MM) / (DATEDIFF(month , convert(datetime,  #{searchStartYymm}+'-01'), convert(datetime,  #{searchEndYymm}+'-01'))+1) , 2)
+		    , ROUND(SUM(CONVERT(NUMERIC(5,2),ROUND((CL.PROD_G_MM/CASE WHEN CL.PROD_G_SUM = 0 THEN 1 ELSE CL.PROD_G_SUM END)*100,2))),0)
+		 FROM CLS_LIST CL
+	]]>
+    </select>
+    
+    
+    <select id="retrievePtfloType_a" resultType="hashmap">
+    <![CDATA[
+        /* retrievePtfloType_a */
+        WITH EXP_LIST AS (
+		    SELECT TSS_TYPE, ROUND(PLN_EXP, 2) AS PLN_EXP, SUM(PLN_EXP) OVER() AS PLN_EXP_SUM
+		         , ROUND(ARSL_EXP / 100, 2) AS ARSL_EXP, SUM(ARSL_EXP) OVER() AS ARSL_EXP_SUM 
+		      FROM (SELECT A.TSS_TYPE, SUM(B.PLN_EXP) AS PLN_EXP, SUM(B.ARSL_EXP) AS ARSL_EXP
+		              FROM IRIS_TSS_MGMT_MST A
+		              JOIN (SELECT TSS_CD, SUM(ISNULL(PLN_EXP,0)) AS PLN_EXP, SUM(ISNULL(ARSL_EXP, 0)) AS ARSL_EXP
+		                      FROM IRIS_TSS_GEN_TRWI_BUDG_LIST
+		                     WHERE YY_MM BETWEEN replace(#{searchStartYymm}, '-', '') AND replace(#{searchEndYymm}, '-', '')
+		                     GROUP BY TSS_CD) B
+		                ON B.TSS_CD = A.TSS_CD
+		             WHERE A.TSS_SCN_CD = 'G' 
+		               AND A.PGS_STEP_CD = 'PG'
+		               AND A.TSS_TYPE IS NOT NULL
+		             GROUP BY A.TSS_TYPE) X
+		)
+		
+		SELECT A.COM_DTL_CD AS comDelCd
+		     , A.COM_DTL_NM AS comDelNm
+		     , ISNULL(EL.ARSL_EXP,0) AS arslExp
+		     , ISNULL(CONVERT(NUMERIC(5,2), ROUND((EL.ARSL_EXP/CASE WHEN EL.ARSL_EXP_SUM = 0 THEN 1 ELSE EL.ARSL_EXP_SUM END)*100,2)),0) AS arslExpSum
+		  FROM IRIS_ADM_COM_CD A
+		  LEFT JOIN EXP_LIST EL
+		    ON A.COM_DTL_CD = EL.TSS_TYPE
+		 WHERE A.COM_CD_CD = 'TSS_TYPE'
+		 UNION ALL
+		SELECT '99','Sum(합계)'
+		    , ROUND(SUM(EL.ARSL_EXP), 2)
+		    , ROUND(SUM(CONVERT(NUMERIC(5,2), ROUND((EL.ARSL_EXP/CASE WHEN EL.ARSL_EXP_SUM = 0 THEN 1 ELSE EL.ARSL_EXP_SUM END)*100,2))), 0)
+		 FROM EXP_LIST EL
+	]]>
+    </select>
+    
+    <select id="retrievePtfloType_p" resultType="hashmap">
+    <![CDATA[
+        /* retrievePtfloType_p */
+        WITH  CLS_LIST AS (
+		    SELECT TSS_TYPE, ROUND(PROD_G_MM, 2) AS PROD_G_MM, SUM(PROD_G_MM) OVER() AS PROD_G_SUM
+		      FROM (SELECT C.TSS_TYPE
+		                 , SUM(ROUND((A.PTC_PRO / 100),2)) AS PROD_G_MM
+		              FROM IRIS_MM_CLS A -- PG기준 과제 MM테이블
+		             INNER JOIN IRIS_TSS_MGMT_MST C 
+		               ON A.PRJ_CD = C.PRJ_CD 
+		               AND A.TSS_CD = C.TSS_CD  
+		               AND C.TSS_SCN_CD = 'G' 
+		               AND C.DEL_YN = 'N'
+		               and c.PGS_STEP_CD = 'PG'
+		             WHERE C.TSS_TYPE IS NOT NULL
+		               AND A.MM_YYMM BETWEEN #{searchStartYymm} AND #{searchEndYymm}
+		             GROUP BY C.TSS_TYPE) X
+		)
+		SELECT A.COM_DTL_CD AS comDelCd
+		     , A.COM_DTL_NM AS comDelNm
+		     , round(ISNULL(CL.PROD_G_MM / (DATEDIFF(month , convert(datetime,  #{searchStartYymm}+'-01'), convert(datetime,   #{searchEndYymm}+'-01'))+1),0),2) AS prodGMm
+		     , ISNULL(CONVERT(NUMERIC(5,2),ROUND((CL.PROD_G_MM/CASE WHEN CL.PROD_G_SUM = 0 THEN 1 ELSE CL.PROD_G_SUM END)*100,2)), 0) AS prodGMmSum
+		  FROM IRIS_ADM_COM_CD A
+		  LEFT JOIN CLS_LIST CL
+		    ON A.COM_DTL_CD = CL.TSS_TYPE
+		 WHERE A.COM_CD_CD = 'TSS_TYPE'
+		 UNION ALL
+		SELECT '99','Sum(합계)'
+		    , ROUND(SUM(CL.PROD_G_MM) / (DATEDIFF(month , convert(datetime,  #{searchStartYymm}+'-01'), convert(datetime,  #{searchEndYymm}+'-01'))+1) , 2)
+		    , ROUND(SUM(CONVERT(NUMERIC(5,2),ROUND((CL.PROD_G_MM/CASE WHEN CL.PROD_G_SUM = 0 THEN 1 ELSE CL.PROD_G_SUM END)*100,2))),0)		
+		 FROM CLS_LIST CL
+	]]>
+    </select>
+</mapper>

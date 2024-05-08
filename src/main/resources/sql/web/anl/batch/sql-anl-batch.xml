@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="anl.batch">
+
+    <select id="getAnlRqprApprCompleteList" resultType="iris.web.anl.rqpr.vo.AnlMailInfo">
+            -- getAnlRqprApprCompleteList 분석의뢰 요청 - 결재 완료 리스트 조회
+            select  mst.rqpr_id                                as rqprId
+                   ,mst.anl_name                            as anlNm
+                   ,rgst.sa_name + ' ' + rgst.sa_jobx_name    as rgstNm
+                   ,dbo.fn_getDeptName(rgst.sa_dept_new)    as rgstDeptNm
+                   ,rgst.sa_mail                            as rgstEmail
+                   ,chrg.sa_name + ' ' + chrg.sa_jobx_name    as chrgNm
+                   ,mst.rqpr_dt                                as rqprDt
+                   ,chrg.sa_mail                            as receivers
+            from    iris_anl_rqpr_mst mst,
+                    iris_sso_user rgst,
+                    iris_sso_user chrg
+            where   mst.acpc_st_cd = '02'
+            and     mst.del_yn = 'N'
+            and     mst.anl_chrg_trsf_flag = 'W'
+            and     mst.rgst_id = rgst.sa_user
+            and     mst.anl_chrg_id = chrg.sa_user
+
+    </select>
+
+    <select id="getAnlRsltApprCompleteList" resultType="iris.web.anl.rqpr.vo.AnlMailInfo">
+            -- getAnlRsltApprCompleteList 분석 결과 - 결재 완료 리스트 조회
+            select  mst.rqpr_id                                                    as rqprId
+                   ,mst.anl_name                                                as anlNm
+                   ,mst.acpc_no                                                    as acpcNo
+                   ,rgst.sa_name + ' ' + rgst.sa_jobx_name                        as rgstNm
+                   ,dbo.fn_getDeptName(rgst.sa_dept_new)                        as rgstDeptNm
+                   ,chrg.sa_name + ' ' + chrg.sa_jobx_name                        as chrgNm
+                   ,dbo.fn_getDeptName(chrg.sa_dept_new)                        as chrgDeptNm
+                   ,chrg.sa_mail                                                as chrgEmail
+                   ,mst.acpc_dt                                                    as acpcDt
+                   ,mst.cmpl_dt                                                    as cmplDt
+                   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
+                    isnull(dbo.fn_getAnlRqprInfmPrsnEmails(mst.rqpr_id), '')    as receivers
+            from    iris_anl_rqpr_mst mst,
+                    iris_sso_user rgst,
+                    iris_sso_user chrg
+            where   mst.acpc_st_cd = '07'
+            and     mst.del_yn = 'N'
+            and     mst.rgst_trsf_flag = 'W'
+            and     mst.rgst_id = rgst.sa_user
+            and     mst.anl_chrg_id = chrg.sa_user
+    </select>
+
+    <update id="updateAnlChrgTrsfFlag" parameterType="iris.web.anl.rqpr.vo.AnlMailInfo">
+        -- updateAnlChrgTrsfFlag
+        update    iris_anl_rqpr_mst
+        set       anl_chrg_trsf_flag = 'Y'
+        where     rqpr_id = ${rqprId}
+
+    </update>
+
+    <update id="updateRgstTrsfFlag" parameterType="iris.web.anl.rqpr.vo.AnlMailInfo">
+        -- updateRgstTrsfFlag
+        update    iris_anl_rqpr_mst
+        set       rgst_trsf_flag = 'Y'
+        where     rqpr_id = ${rqprId}
+
+    </update>
+
+</mapper>

@@ -1,0 +1,1092 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="rlab.rqpr">
+
+	<select id="getRlabRqprList" resultType="hashmap">
+		<![CDATA[
+			-- rlabRqprList 분석의뢰 리스트 조회
+			SELECT
+				RQPR_ID											AS 'rqprId',
+				ACPC_NO											AS 'acpcNo',
+				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'RLAB_SCN_CD' and COM_DTL_CD = RLAB_SCN_CD) AS 'rlabScnNm',
+				RLAB_NAME										AS 'rlabNm',
+				RGST_ID											AS 'rgstId',
+				(select sa_name from iris_sso_user where sa_user = RGST_ID)					AS 'rgstNm',
+				(select sa_name from iris_sso_user where sa_user = RLAB_CHRG_ID)						AS 'rlabChrgNm',
+				RQPR_DT											AS 'rqprDt',
+				ACPC_DT											AS 'acpcDt',
+				CMPL_PARR_DT									AS 'cmplParrDt',
+				CMPL_DT											AS 'cmplDt',
+				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'ANL_UGY_YN' and COM_DTL_CD = RLAB_UGY_YN) 	AS 'rlabUgyYnNm',
+				(select COM_DTL_NM from IRIS_ADM_COM_CD where COM_CD_CD = 'RLAB_ACPC_ST_CD' and COM_DTL_CD = RLAB_ACPC_ST_CD) 	AS 'acpcStNm',
+				(select isnull(sum(smpo_qty), 0)
+				 from	IRIS_RLAB_RQPR_SMPO
+				 where	rqpr_id = mst.rqpr_id
+				 and	del_yn = 'N'
+				)												AS 'smpoCnt'
+			FROM	IRIS_RLAB_RQPR_MST mst
+		 ]]>
+			WHERE	1 = 1
+        <if test="fromRqprDt != null and fromRqprDt != ''">
+			AND RQPR_DT between #{fromRqprDt} AND #{toRqprDt}
+		</if>
+        <if test="rlabNm != null and rlabNm != ''">
+			AND RLAB_NAME like '%${rlabNm}%'
+		</if>
+        <if test="rgstNm != null and rgstNm != ''">
+			AND RGST_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${rgstNm}%')
+		</if>
+        <if test="rqprDeptCd != null and rqprDeptCd != ''">
+			AND RQPR_DEPT_CD = #{rqprDeptCd}
+		</if>
+        <if test="rlabChrgNm != null and rlabChrgNm != ''">
+			AND RLAB_CHRG_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${rlabChrgNm}%')
+		</if>
+        <if test="acpcNo != null and acpcNo != ''">
+			AND ACPC_NO like '${acpcNo}%'
+		</if>
+        <if test="rlabAcpcStCd != null and rlabAcpcStCd != ''">
+			AND RLAB_ACPC_ST_CD = #{rlabAcpcStCd}
+		</if>
+		<if test="rlabChrgId != null and rlabChrgId != ''">
+			AND RLAB_CHRG_ID = #{rlabChrgId}
+		</if>
+		<if test="rgstId != null and rgstId != ''">
+			AND RGST_ID = #{rgstId}
+		</if>
+        <choose>
+        	<when test="isRlabChrg == 0">
+			AND ((MST.RQPR_DEPT_CD =  #{_userDept} or MST.RQPR_ID in (select rqpr_id
+																	from   IRIS_RLAB_RQPR_INFM
+																	where  del_yn ='N'
+																	and    infm_prsn_id = #{_userId}
+																	))
+				  or mst.RGST_ID =	#{_userId})												
+        	</when>
+        	<otherwise>
+			AND RLAB_ACPC_ST_CD != '00'
+        	</otherwise>
+        </choose>
+			AND DEL_YN = 'N'
+			ORDER BY RQPR_ID DESC
+	</select>
+
+	<select id="getRlabChrgList" resultType="hashmap">
+		<![CDATA[
+			-- getRlabChrgList 분석담당자 리스트 조회
+			SELECT	TA.name
+				   ,TA.userId
+			FROM   (SELECT	concat(su.sa_name, ' ',su.sa_jobx_name) AS name
+						   ,su.sa_user AS userId
+					FROM	IRIS_SSO_USER su
+					WHERE 1 = 1
+					AND   su.sa_dept_new = '58141801'
+					AND   su.sso_ex_flag !='D'
+					UNION ALL
+					SELECT	concat(su.sa_name, ' ',su.sa_jobx_name) AS name
+						   ,su.sa_user AS userId
+					FROM IRIS_SSO_USER su
+					WHERE 1 = 1
+					AND   su.sso_ex_flag !='D'
+					AND   su.sa_dept_new IN (SELECT	SD.dept_code
+											 FROM	IRIS_SSO_DEPT SD
+											 WHERE SD.DEPT_UPER = '58141801'
+											)
+					) TA
+			ORDER BY name
+		 ]]>
+	</select>
+
+	<select id="getRlabRqprInfo" resultType="hashmap">
+-- getRlabRqprInfo
+		   SELECT
+				RQPR_ID												AS rqprId,
+				RQPR_DT												AS rqprDt,
+				RGST_ID												AS rgstId,
+				dbo.fn_getUserName(RGST_ID)							AS rgstNm,
+				RQPR_DEPT_CD										AS rqprDeptCd,
+				--dbo.fn_getDeptName(RQPR_DEPT_CD)					AS rqprDeptNm,
+				DEPT_NM												AS rqprDeptNm,
+				RLAB_NAME											AS rlabNm,
+				RLAB_SCN_CD											AS rlabScnCd,
+				dbo.fn_getComDtlNm('RLAB_SCN_CD', RLAB_SCN_CD)		AS rlabScnNm,
+				RLAB_UGY_YN											AS rlabUgyYn,
+				dbo.fn_getComDtlNm('ANL_UGY_YN', RLAB_UGY_YN)		AS rlabUgyYnNm,
+				INFM_TYPE_CD										AS infmTypeCd,
+				dbo.fn_getComDtlNm('INFM_TYPE_CD', INFM_TYPE_CD)	AS infmTypeNm,
+				RLAB_CHRG_ID										AS rlabChrgId,
+				dbo.fn_getUserName(RLAB_CHRG_ID)					AS rlabChrgNm,
+				SMPO_TRTM_CD										AS smpoTrtmCd,
+				dbo.fn_getComDtlNm('SMPO_TRTM_CD', SMPO_TRTM_CD)	AS smpoTrtmNm,
+				RLAB_SBC											AS rlabSbc,
+				RLAB_ACPC_ST_CD										AS rlabAcpcStCd,
+				dbo.fn_getComDtlNm('ACPC_ST_CD', RLAB_ACPC_ST_CD)		AS acpcStNm,
+				RQPR_RDCS_DT										AS rqprRdcsDt,
+				ACPC_GVB_DT											AS acpcGvbDt,
+				ACPC_GVB_RSON										AS acpcGvbRson,
+				ACPC_NO												AS acpcNo,
+				ACPC_ID												AS acpcId,
+				dbo.fn_getUserName(ACPC_ID)							AS acpcNm,
+				ACPC_DT												AS acpcDt,
+				CMPL_PARR_DT										AS cmplParrDt,
+				CMPL_WK_DD_CNT										AS cmplWkDdCnt,
+				CMPL_DT												AS cmplDt,
+				RLAB_RSLT_SBC										AS rlabRsltSbc,
+				RLAB_RDCS_DT										AS rlabRdcsDt,
+				RLAB_GVB_DT											AS rlabGvbDt,
+				RLAB_GVB_RSON										AS rlabGvbRson,
+				RLAB_DCAC_DT										AS rlabDcacDt,
+				RLAB_DCAC_RSON										AS rlabDcacRson,
+				dbo.fn_getRlabRqprInfmPrsnIds(RQPR_ID)				AS infmPrsnIds,
+				dbo.fn_getRlabRqprInfmPrsnNames(RQPR_ID)				AS rlabRqprInfmView,
+				RQPR_ATTC_FILE_ID									AS rqprAttcFileId,
+				RSLT_ATTC_FILE_ID									AS rsltAttcFileId,
+				DEL_YN												AS delYn,
+				LAST_MDFY_ID                                        AS lastMdfyId,
+				(select	count(1)
+				 from	iris_rlab_rqpr_opi
+				 where	rqpr_id = mst.rqpr_Id
+				 and		del_yn = 'N')							AS opinitionCnt,
+				(select	CIR.ITG_RDCS_ID
+				 from	IRIS_COM_ITG_RDCS CIR
+				 WHERE	CIR.GUID = 'B' + cast(mst.RQPR_ID as nvarchar)
+				)													AS reqItgRdcsId,
+				(select	CIR.ITG_RDCS_ID
+				 from	IRIS_COM_ITG_RDCS CIR
+				 WHERE	CIR.GUID = 'D' + cast(mst.RQPR_ID as nvarchar)
+				)													AS rsltItgRdcsId,
+				RLAB_DZDV_CD AS rlabDzdvCd,
+				RLAB_PROD_CD AS rlabProdCd,
+				WBS_CD AS wbsCd,
+				RLAB_CRGR_COMM AS rlabCrgrComm
+			FROM	IRIS_RLAB_RQPR_MST mst
+			WHERE	RQPR_ID = ${rqprId}
+
+	</select>
+
+	<select id="getRlabRqprSmpoList" resultType="hashmap">
+-- getRlabRqprSmpoList
+		   SELECT
+				SMPO_ID		AS smpoId,
+				RQPR_ID		AS rqprId,
+				SMPO_NM		AS smpoNm,
+				MKR_NM		AS mkrNm,
+				MDL_NM		AS mdlNm,
+				SMPO_QTY	AS smpoQty
+			FROM	IRIS_RLAB_RQPR_SMPO
+			WHERE	RQPR_ID = ${rqprId}
+			AND		DEL_YN = 'N'
+
+	</select>
+
+	<select id="getRlabRqprRltdList" resultType="hashmap">
+-- getRlabRqprRltdList
+		   SELECT
+				rltd.RLTD_ID								AS rltdId,
+				rltd.RQPR_ID								AS rqprId,
+				rltd.PRE_RQPR_ID							AS preRqprId,
+				rltd.PRE_RLAB_NAME							AS preRlabNm,
+				mst.ACPC_NO									AS preAcpcNo,
+				dbo.fn_getUserName(mst.RLAB_CHRG_ID)			AS preRlabChrgNm,
+				rltd.PRE_RGST_ID							AS preRgstId,
+				dbo.fn_getUserName(rltd.PRE_RGST_ID)		AS preRgstNm
+			FROM	IRIS_RLAB_RQPR_RLTD rltd,
+					IRIS_RLAB_RQPR_MST mst
+			WHERE	rltd.RQPR_ID = ${rqprId}
+			AND		rltd.DEL_YN = 'N'
+			AND		rltd.PRE_RQPR_ID = mst.RQPR_ID
+
+	</select>
+
+	<insert id="insertRlabRqpr" parameterType="hashmap" useGeneratedKeys="true" keyProperty="rqprId" keyColumn="RQPR_ID">
+-- insertRlabRqpr
+		insert into iris_rlab_rqpr_mst(
+			RQPR_DT
+		   ,RGST_ID
+		   ,RQPR_DEPT_CD
+		   ,RQPR_TEAM_CD
+		   ,RLAB_NAME
+		   ,RLAB_SCN_CD
+		   ,RLAB_UGY_YN
+		   ,INFM_TYPE_CD
+		   ,RLAB_CHRG_ID
+		   ,SMPO_TRTM_CD
+		   ,RLAB_SBC
+		   ,RLAB_CRGR_COMM
+		   ,RQPR_ATTC_FILE_ID
+		   ,FRST_RGST_ID
+		   ,LAST_MDFY_ID
+		   ,WBS_CD
+		   ,RLAB_DZDV_CD
+		   ,RLAB_PROD_CD
+		   ,DEPT_NM)
+		values(Convert(varchar(10), Current_Timestamp, 120)
+			  ,#{userId}
+			  ,#{userDeptCd}
+			  ,#{userTeamCd}
+			  ,#{rlabNm}
+			  ,#{rlabScnCd}
+			  ,#{rlabUgyYn}
+			  ,#{infmTypeCd}
+			  ,#{rlabChrgId}
+			  ,#{smpoTrtmCd}
+			  ,#{rlabSbc}
+			  ,#{rlabCrgrComm}
+			  ,#{rqprAttcFileId}
+			  ,#{userId}
+			  ,#{userId}
+			  ,#{wbsCd}
+			  ,#{rlabDzdvCd}
+			  ,#{rlabProdCd}
+			  ,dbo.fn_getDeptName( dbo.fn_getDeptCode(#{userId}) )
+		  )
+	</insert>
+
+	<update id="updateRlabRqpr">
+-- updateRlabRqpr
+		update	iris_rlab_rqpr_mst
+		set		rlab_name = #{rlabNm},
+				rlab_scn_cd = #{rlabScnCd},
+				rlab_ugy_yn = #{rlabUgyYn},
+				infm_type_cd = #{infmTypeCd},
+				rlab_chrg_id = #{rlabChrgId},
+				smpo_trtm_cd = #{smpoTrtmCd},
+				rlab_sbc = #{rlabSbc},
+				rlab_acpc_st_cd = #{rlabAcpcStCd},
+				WBS_CD = #{wbsCd},
+			<if test="acpcNo == '' and rlabAcpcStCd == '03'">
+				acpc_no = (select 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '-' + RIGHT('0000' + CAST(count(1) + 1  AS VARCHAR(4)), 4)
+						   from   iris_rlab_rqpr_mst
+						   where  acpc_no like 'R' + substring(cast(year(getdate()) as nvarchar(4)), 3, 2) + '%'),
+				acpc_dt = Convert(varchar(10), getdate(), 120),
+			</if>
+				cmpl_parr_dt = #{cmplParrDt},
+				rqpr_attc_file_id = #{rqprAttcFileId},
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{userId},
+				RLAB_DZDV_CD = #{rlabDzdvCd},
+				RLAB_PROD_CD = #{rlabProdCd},
+				DEPT_NM = dbo.fn_getDeptName( dbo.fn_getDeptCode(#{userId}) ),
+				RLAB_CRGR_COMM = #{rlabCrgrComm}
+		where	rqpr_id = ${rqprId}
+
+	</update>
+
+	<update id="updateRlabRqprAcpcStCd">
+-- updateRlabRqprAcpcStCd
+		update	iris_rlab_rqpr_mst
+		set		RLAB_ACPC_ST_CD = #{rlabAcpcStCd},
+		<if test="rlabAcpcStCd == '04'">
+				rlab_gvb_dt = Convert(varchar(10), Current_Timestamp, 120),
+				rlab_gvb_rson = #{rson},
+		</if>
+		<if test="rlabAcpcStCd == '05'">
+				rlab_dcac_dt = Convert(varchar(10), Current_Timestamp, 120),
+				rlab_dcac_rson = #{rson},
+		</if>
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{_userId}
+		where	rqpr_id = ${rqprId}
+
+	</update>
+
+	<update id="updateRlabRqprDelYn">
+-- updateRlabRqprDelYn
+		update	iris_rlab_rqpr_mst
+		set		del_yn = 'Y',
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{_userId}
+		where	rqpr_id = ${rqprId}
+
+	</update>
+
+	<insert id="insertRlabRqprSmpo" parameterType="map">
+	/* insertRlabRqprSmpo 시료정보 등록 */
+		insert into iris_rlab_rqpr_smpo(
+			RQPR_ID
+		   ,SMPO_NM
+		   ,MKR_NM
+		   ,MDL_NM
+		   ,SMPO_QTY
+		   ,FRST_RGST_ID
+		   ,LAST_MDFY_ID
+		   )
+		values(#{rqprId}
+			  ,#{smpoNm}
+			  ,#{mkrNm}
+			  ,#{mdlNm}
+			  ,#{smpoQty}
+			  ,#{userId}
+			  ,#{userId}
+			  )
+
+	</insert>
+
+	<update id="updateRlabRqprSmpo">
+	/* updateRlabRqprSmpo 시료정보 수정 */
+		update	iris_rlab_rqpr_smpo
+		set		smpo_nm = #{smpoNm},
+				mkr_nm = #{mkrNm},
+				mdl_nm = #{mdlNm},
+				smpo_qty = ${smpoQty},
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{userId}
+		where	smpo_id = ${smpoId}
+
+	</update>
+
+	<update id="updateRlabRqprSmpoDelYn">
+	/* updateRlabRqprSmpoDelYn 시료정보 삭제 */
+		update	iris_rlab_rqpr_smpo
+		set		del_yn = 'Y',
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{userId}
+		where	smpo_id = ${smpoId}
+
+	</update>
+
+	<insert id="insertRlabRqprRltd" parameterType="map">
+-- insertRlabRqprRltd
+		insert into iris_rlab_rqpr_rltd(
+			RQPR_ID
+		   ,PRE_RQPR_ID
+		   ,PRE_RLAB_NAME
+		   ,PRE_RGST_ID
+		   ,FRST_RGST_ID
+		   ,LAST_MDFY_ID
+		   )
+		values(#{rqprId}
+			  ,#{preRqprId}
+			  ,#{preRlabNm}
+			  ,#{preRgstId}
+			  ,#{userId}
+			  ,#{userId}
+			  )
+
+	</insert>
+
+	<update id="updateRlabRqprRltd">
+-- updateRlabRqprRltd
+		update	iris_rlab_rqpr_rltd
+		set		pre_rqpr_id = #{preRqprId},
+				pre_rlab_name = #{preRlabNm},
+				pre_rgst_id = #{preRgstId},
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{userId}
+		where	rltd_id = #{rltdId}
+
+	</update>
+
+	<update id="updateRlabRqprRltdDelYn">
+-- updateRlabRqprRltdDelYn
+		update	iris_rlab_rqpr_rltd
+		set		del_yn = 'Y',
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{userId}
+		where	rltd_id = #{rltdId}
+
+	</update>
+
+	<insert id="insertRlabRqprInfm" parameterType="map">
+-- insertRlabRqprInfm
+		MERGE INTO iris_rlab_rqpr_infm a
+		USING ( SELECT	#{rqprId} as rqprId,
+						#{infmPrsnId} as infmPrsnId,
+						#{userId} as userId ) b
+		ON ( a.rqpr_id = b.rqprId and a.infm_prsn_id = b.infmPrsnId and a.del_yn = 'N')
+		WHEN NOT MATCHED THEN
+			insert (RQPR_ID
+				   ,INFM_PRSN_ID
+				   ,FRST_RGST_ID
+				   ,LAST_MDFY_ID
+					)
+			values(b.rqprId
+				  ,b.infmPrsnId
+				  ,b.userId
+				  ,b.userId
+				  );
+
+	</insert>
+
+	<update id="updateRlabRqprInfmDelYn">
+-- updateRlabRqprInfmDelYn
+		update	iris_rlab_rqpr_infm
+		set		del_yn = 'Y',
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{_userId}
+		where	rqpr_id = #{rqprId}
+		<if test="infmPrsnIdArr != null">
+		and		infm_prsn_id not in
+			<foreach collection="infmPrsnIdArr" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		and		del_yn = 'N'
+
+	</update>
+
+	<select id="getRlabRqprOpinitionListCnt" resultType="int">
+-- getRlabRqprOpinitionListCnt
+		   select	count(1) cnt
+			from	iris_rlab_rqpr_opi
+			where	rqpr_id = ${rqprId}
+			and		del_yn = 'N'
+
+	</select>
+
+	<select id="getRlabRqprOpinitionList" resultType="map">
+	/* getRlabRqprOpinitionList 의견목록*/
+		   select	OPI_ID								  as opiId
+				   ,RQPR_ID								  as rqprId
+				   ,RGST_ID								  as rgstId
+				   ,dbo.fn_getUserName(RGST_ID)			  as rgstNm
+				   ,Convert(varchar(10), RGST_DT, 120)	  as rgstDt
+				   ,OPI_SBC								  as opiSbc
+				   ,ATTC_FIL_ID	                          as attcFilId
+				   ,case when FRST_RGST_ID =#{_userId}
+				         then 'Y'
+				         else 'N'
+				     end as userYn
+			from	iris_rlab_rqpr_opi
+			where	rqpr_id = ${rqprId}
+			<if test="opiId != null and opiId != ''">
+				AND OPI_ID = #{opiId}
+			</if>
+			and		del_yn = 'N'
+			order by rgst_dt desc
+
+	</select>
+
+	<insert id="saveRlabRqprOpinition" parameterType="map">
+	/* saveRlabRqprOpinition 의견 등록 수정*/
+		MERGE INTO iris_rlab_rqpr_opi a
+		USING ( SELECT	${opiId} as opiId,
+						${rqprId} as rqprId,
+						#{opiSbc} as opiSbc,
+						#{attcFilId} as attcFilId,
+						#{_userId} as userId ) b
+		ON ( a.opi_id = b.opiId)
+		WHEN MATCHED THEN
+			update set	rgst_dt = getdate(),
+						opi_sbc = b.opiSbc,
+						attc_fil_id = b.attcFilId,
+						last_mdfy_dt = getdate(),
+						last_mdfy_id = b.userId
+		WHEN NOT MATCHED THEN
+			insert (rqpr_id
+				   ,rgst_id
+				   ,rgst_dt
+				   ,opi_sbc
+				   ,attc_fil_id
+				   ,frst_rgst_id
+				   ,last_mdfy_id
+				   )
+			values(b.rqprId
+				  ,b.userId
+				  ,getdate()
+				  ,b.opiSbc
+				  ,b.attcFilId
+				  ,b.userId
+				  ,b.userId
+				  );
+
+	</insert>
+
+	<update id="updateRlabRqprOpinitionDelYn" parameterType="map">
+	/* updateRlabRqprOpinitionDelYn 의견삭제*/
+		update	iris_rlab_rqpr_opi
+		set		del_yn = 'Y',
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{_userId}
+		where	opi_id = ${opiId}
+
+	</update>
+
+	<select id="getRlabExatTreeList" resultType="hashmap">
+		<![CDATA[
+			-- getRlabExatTreeList 실험정보 트리 리스트 조회
+			WITH exat_tree AS (
+				select	EXAT_CD
+					   ,EXAT_NM
+					   ,SUPI_EXAT_CD
+					   ,EXAT_CD_L
+					   ,EXAT_MTD_NO
+					   ,UTM_EXP
+					   ,EXP_CRTN_SCN_CD
+					   ,UTM_SMPO_QTY
+					   ,UTM_EXAT_TIM
+					   ,DSP_NO
+					   ,DEL_YN
+					   ,convert(varchar(255), EXAT_NM) path
+					   ,convert(varchar(255), convert(varchar(255), dsp_no + 1000) + EXAT_NM) sort
+				from	iris_rlab_exat_mst
+				where	supi_exat_cd = 0
+		 ]]>
+	        <if test="isMng == 0">
+				and		del_yn = 'N'
+			</if>
+		<![CDATA[
+			    union all
+				select	mst.EXAT_CD
+					   ,mst.EXAT_NM
+					   ,mst.SUPI_EXAT_CD
+					   ,mst.EXAT_CD_L
+					   ,mst.EXAT_MTD_NO
+					   ,mst.UTM_EXP
+					   ,mst.EXP_CRTN_SCN_CD
+					   ,mst.UTM_SMPO_QTY
+					   ,mst.UTM_EXAT_TIM
+					   ,mst.DSP_NO
+					   ,mst.DEL_YN
+					   ,convert(varchar(255), tree.path + ' > ' + mst.EXAT_NM) path
+					   ,convert(varchar(255), tree.sort + ' > ' + convert(varchar(255), mst.dsp_no + 1000) + mst.EXAT_NM) sort
+				from	iris_rlab_exat_mst mst,
+						exat_tree tree
+				where	mst.supi_exat_cd = tree.exat_cd
+		 ]]>
+	        <if test="isMng == 0">
+				and		mst.del_yn = 'N'
+			</if>
+			)
+			select	EXAT_CD				   as exatCd
+				   ,EXAT_NM				   as exatNm
+				   ,SUPI_EXAT_CD		   as supiExatCd
+				   ,EXAT_CD_L			   as exatCdL
+				   ,EXAT_MTD_NO				   as exatMtdNo
+				   ,UTM_EXP				   as utmExp
+				   ,EXP_CRTN_SCN_CD		   as expCrtnScnCd
+				   ,UTM_SMPO_QTY		   as utmSmpoQty
+				   ,UTM_EXAT_TIM		   as utmExatTim
+				   ,DSP_NO				   as dspNo
+				   ,DEL_YN				   as delYn
+				   ,path
+				   ,sort
+				   ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd=exat_tree.supi_exat_cd) as supiExatNm
+			from	exat_tree
+			ORDER BY sort
+	</select>
+
+	<select id="getRlabExatDtlComboList" resultType="hashmap">
+		<![CDATA[
+			-- getRlabExatDtlComboList 실험정보 상세 콤보 리스트 조회
+			select	MCHN_INFO_ID							as mchnInfoId
+				   ,dbo.fn_getRlabMchnInfoEnName(MCHN_INFO_ID)	as mchnInfoNm
+			from	iris_rlab_exat_dtl
+		 ]]>
+			where	exat_cd = ${exatCd}
+			and		del_yn = 'N'
+	</select>
+
+	<select id="getRlabRqprExatList" resultType="hashmap">
+		<![CDATA[
+			-- getRlabRqprExatList 분석결과 실험정보 리스트 조회
+			WITH EXAT_MST AS
+			(
+			SELECT   AEM.EXAT_CD
+					,AEM.EXAT_CD_L
+					,convert(varchar(255), EXAT_NM) as master_path
+			 FROM IRIS_RLAB_EXAT_MST AEM
+			 WHERE AEM.DEL_YN = 'N'
+			 AND   AEM.SUPI_EXAT_CD = '0'
+			 UNION ALL
+			 SELECT  AEM2.EXAT_CD
+					,AEM2.EXAT_CD_L
+					,CAST(AEM3.master_path + '>' + AEM2.EXAT_NM AS VARCHAR(255)) master_path
+			 FROM IRIS_RLAB_EXAT_MST AEM2
+			     ,EXAT_MST AEM3
+			 WHERE   AEM2.SUPI_EXAT_CD = AEM3.EXAT_CD
+			 )
+			 SELECT  ARE.RQPR_EXAT_ID							 as rqprExatId
+					,ARE.RQPR_ID								 as rqprId
+					,ARE.EXAT_CD								 as exatCd
+					,EM.master_path								 as exatNm
+					,ARE.MCHN_INFO_ID							 as mchnInfoId
+					,dbo.fn_getMchnInfoName(ARE.MCHN_INFO_ID)	 as mchnInfoNm
+					,ARE.SMPO_QTY								 as smpoQty
+					,ARE.EXAT_QTY								 as exatQty
+					,ARE.EXAT_TIM								 as exatTim
+					,ARE.EXAT_EXP								 as exatExp
+					,ARE.EXAT_STRT_DT							 as exatStrtDt
+					,ARE.EXAT_FNH_DT							 as exatFnhDt
+					,ARE.EXAT_WAY								 as exatWay
+			 FROM EXAT_MST EM
+				,IRIS_RLAB_RQPR_EXAT ARE
+		 ]]>
+			 WHERE	EM.EXAT_CD_L = 3
+			 AND	ARE.DEL_YN = 'N'
+			 AND	EM.EXAT_CD = ARE.EXAT_CD
+			 AND	ARE.RQPR_ID = ${rqprId}
+			 ORDER by RQPR_EXAT_ID
+	</select>
+
+	<select id="getRlabRqprExatInfo" resultType="hashmap">
+		<![CDATA[
+			-- getRlabRqprExatInfo 분석결과 실험정보 조회
+			select	RQPR_EXAT_ID	   as rqprExatId
+				   ,RQPR_ID			   as rqprId
+				   ,SMPO_QTY		   as smpoQty
+				   ,EXAT_QTY		   as exatQty
+				   ,EXAT_CD			   as exatCd
+				   ,MCHN_INFO_ID	   as mchnInfoId
+				   ,EXAT_TIM		   as exatTim
+				   ,EXAT_EXP		   as exatExp
+				   ,EXAT_STRT_DT	   as exatStrtDt
+				   ,EXAT_FNH_DT		   as exatFnhDt
+				   ,EXAT_WAY		   as exatWay
+			from	iris_rlab_rqpr_exat
+		 ]]>
+			where	rqpr_exat_id = ${rqprExatId}
+	</select>
+
+	<insert id="saveRlabRqprExat" parameterType="map">
+-- saveRlabRqprExat
+		MERGE INTO iris_rlab_rqpr_exat a
+		USING ( SELECT	#{rqprExatId} as rqprExatId,
+						#{rqprId} as rqprId,
+						#{exatCd} as exatCd,
+						#{mchnInfoId} as mchnInfoId,
+						#{smpoQty} as smpoQty,
+						#{exatQty} as exatQty,
+						#{exatTim} as exatTim,
+						#{exatExp} as exatExp,
+						#{exatStrtDt} as exatStrtDt,
+						#{exatFnhDt} as exatFnhDt,
+						#{exatWay} as exatWay,
+						#{userId} as userId ) b
+		ON ( a.rqpr_exat_id = b.rqprExatId)
+		WHEN MATCHED THEN
+			update set	exat_cd = b.exatCd,
+						mchn_info_id = b.mchnInfoId,
+						smpo_qty = b.smpoQty,
+						exat_qty = b.exatQty,
+						exat_tim = b.exatTim,
+						exat_exp = b.exatExp,
+						exat_strt_dt = b.exatStrtDt,
+						exat_fnh_dt = b.exatFnhDt,
+						exat_way = b.exatWay,
+						last_mdfy_dt = getdate(),
+						last_mdfy_id = b.userId
+		WHEN NOT MATCHED THEN
+			insert (rqpr_id
+				   ,exat_cd
+				   ,mchn_info_id
+				   ,smpo_qty
+				   ,exat_qty
+				   ,exat_tim
+				   ,exat_exp
+				   ,exat_strt_dt
+				   ,exat_fnh_dt
+				   ,exat_way
+				   ,frst_rgst_id
+				   ,last_mdfy_id
+				   )
+			values(b.rqprId
+				  ,b.exatCd
+				  ,b.mchnInfoId
+				  ,b.smpoQty
+				  ,b.exatQty
+				  ,b.exatTim
+				  ,b.exatExp
+				  ,b.exatStrtDt
+				  ,b.exatFnhDt
+				  ,b.exatWay
+				  ,b.userId
+				  ,b.userId
+				  );
+
+	</insert>
+
+	<update id="updateRlabRqprExatDelYn" parameterType="map">
+-- updateRlabRqprExatDelYn
+		update	iris_rlab_rqpr_exat
+		set		del_yn = 'Y',
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{userId}
+		where	rqpr_exat_id = ${rqprExatId}
+
+	</update>
+
+	<update id="saveRlabRqprRslt" parameterType="map">
+-- saveRlabRqprRslt
+		update	iris_rlab_rqpr_mst
+		set		rlab_rslt_sbc = #{rlabRsltSbc},
+				rslt_attc_file_id = #{rsltAttcFileId},
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{userId}
+		where	rqpr_id = ${rqprId}
+
+	</update>
+
+	<insert id="saveRlabExatMst" parameterType="map">
+-- saveRlabExatMst
+		MERGE INTO iris_rlab_exat_mst a
+		USING ( SELECT	#{exatCd} as exatCd,
+						#{exatNm} as exatNm,
+						#{supiExatCd} as supiExatCd,
+						#{exatCdL} as exatCdL,
+						#{exatMtdNo} as exatMtdNo,
+						#{utmExp} as utmExp,
+						#{expCrtnScnCd} as expCrtnScnCd,
+						#{utmSmpoQty} as utmSmpoQty,
+						#{utmExatTim} as utmExatTim,
+						#{dspNo} as dspNo,
+						#{delYn} as delYn,
+						#{userId} as userId ) b
+		ON ( a.exat_cd = b.exatCd)
+		WHEN MATCHED THEN
+			update set	exat_nm = b.exatNm,
+						exat_mtd_no = b.exatMtdNo,
+						utm_exp = b.utmExp,
+						exp_crtn_scn_cd = b.expCrtnScnCd,
+						utm_smpo_qty = b.utmSmpoQty,
+						utm_exat_tim = b.utmExatTim,
+						dsp_no = b.dspNo,
+						del_yn = b.delYn,
+						last_mdfy_dt = getdate(),
+						last_mdfy_id = b.userId
+		WHEN NOT MATCHED THEN
+			insert (exat_nm
+				   ,supi_exat_cd
+				   ,exat_cd_l
+				   ,exat_mtd_no
+				   ,utm_exp
+				   ,exp_crtn_scn_cd
+				   ,utm_smpo_qty
+				   ,utm_exat_tim
+				   ,dsp_no
+				   ,del_yn
+				   ,frst_rgst_id
+				   ,last_mdfy_id
+				   )
+			values(b.exatNm
+				  ,b.supiExatCd
+				  ,b.exatCdL
+				  ,b.exatMtdNo
+				  ,b.utmExp
+				  ,b.expCrtnScnCd
+				  ,b.utmSmpoQty
+				  ,b.utmExatTim
+				  ,b.dspNo
+				  ,b.delYn
+				  ,b.userId
+				  ,b.userId
+				  );
+
+	</insert>
+
+	<select id="getRlabExatDtlList" resultType="hashmap">
+		<![CDATA[
+			-- getRlabExatDtlList 신뢰성시험 상세 정보 리스트 조회
+			select	a.exat_cd										as exatCd
+				   ,a.mchn_info_id									as mchnInfoId
+				   ,b.mchn_han_nm									as mchnHanNm
+				   ,b.mdl_nm										as mdlNm
+				   ,b.mkr_nm										as mkrNm
+				   ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = b.MCHN_LACL_CD) AS "mchnLaclNm"
+	  		  	   ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = b.MCHN_CL_DTL_CD)  AS "mchnClDtlNm"
+				   ,dbo.fn_getSabunName(b.mchn_crgr_id)				as mchnCrgrNm
+			from	iris_rlab_exat_dtl a,
+					iris_rlab_mchn_info_mgmt b
+		 ]]>
+			where	a.exat_cd = ${exatCd}
+			and		a.del_yn = 'N'
+			and		a.mchn_info_id = b.mchn_info_id
+	</select>
+
+	<insert id="saveRlabExatDtl" parameterType="map">
+-- saveRlabExatDtl
+		insert into iris_rlab_exat_dtl(
+			EXAT_CD
+		   ,MCHN_INFO_ID
+		   ,FRST_RGST_ID
+		   ,LAST_MDFY_ID
+		)
+		values(${exatCd}
+			  ,${mchnInfoId}
+			  ,#{userId}
+			  ,#{userId}
+			  )
+
+	</insert>
+
+	<update id="updateRlabExatDtlDelYn" parameterType="map">
+-- updateRlabExatDtlDelYn
+		update	iris_rlab_exat_dtl
+		set		del_yn = 'Y',
+				last_mdfy_dt = getdate(),
+				last_mdfy_id = #{userId}
+		where	exat_cd = ${exatCd}
+		and		mchn_info_id = ${mchnInfoId}
+		and		del_yn = 'N'
+
+	</update>
+
+<select id="retrieveMachineList"  resultType="hashmap">
+		<![CDATA[
+		-- retrieveMachineList 신뢰성 장비 조회
+
+		SELECT  MCHN_HAN_NM+'('+MCHN_EN_NM+')' as "mchnNm"
+			   ,MDL_NM as "mdlNm"
+		       ,MKR_NM as "mkrNm"
+		       ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = MIM.MCHN_LACL_CD) AS "mchnLaclNm"
+	  		   ,(select exat_nm from IRIS_RLAB_EXAT_MST where exat_cd = MIM.MCHN_CL_DTL_CD)  AS "mchnClDtlNm"
+			   ,SU.SA_NAME  as "mchnCrgrNm"
+			   ,MCHN_INFO_ID as "mchnInfoId"
+			   ,MCHN_CRGR_ID as  "mchnCrgrId"
+			   ,MCHN_CL_CD as  "mchnClCd"
+		  FROM  IRIS_RLAB_MCHN_INFO_MGMT MIM
+				LEFT OUTER JOIN IRIS_SSO_USER   SU
+				ON  MIM.MCHN_CRGR_ID = SU.SA_SABUN_NEW
+			   ,IRIS_ADM_COM_CD ACC
+		  WHERE 1=1 --MIM.DEL_YN = 'N'
+		  AND 	ACC.COM_CD_CD = 'MCHN_PRCT_ST'
+		  AND 	MIM.MCHN_USE_PSBL_YN = ACC.COM_DTL_CD
+		]]>
+		  <if test="( mchnNm != null and mchnNm != '')">
+			AND (MIM.MCHN_HAN_NM LIKE '%'+#{mchnNm}+'%' or MIM.MCHN_EN_NM LIKE '%'+#{mchnNm}+'%')
+		  </if>
+		  <if test="( mchnCrgrNm != null and mchnCrgrNm != '')">
+			AND SU.SA_NAME LIKE '%'+#{mchnCrgrNm}+'%'
+		  </if>
+		  <if test="( mchnLaclCd != null and mchnLaclCd != '' and mchnLaclCd != 'null')">
+			AND  MIM.MCHN_LACL_CD = #{mchnLaclCd}
+		   </if>
+
+		   ORDER BY MCHN_INFO_ID
+	</select>
+
+	<select id="getRlabRqprOpinitionEmailInfo" resultType="iris.web.rlab.rqpr.vo.RlabMailInfo">
+		<![CDATA[
+			-- getRlabRqprOpinitionEmailInfo 의견 메일 발송 정보 조회
+			select	rqpr_id												as rqprId,
+					rlab_name											as rlabNm,
+					acpc_no												as acpcNo,
+					dbo.fn_getUserEmail(rgst_id) + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(rqpr_team_cd)), '') +
+					isnull(',' + dbo.fn_getUserEmail(rlab_chrg_id), '')	+
+					isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
+			                                                                 from    iris_sso_user b
+								                                             where   b.sa_user = rlab_chrg_id))), '')
+					+ isnull(',' +  STUFF( 
+					                    (select ','+ sa_mail
+										from   iris_sso_user 
+										where  sa_user in (
+														select infm_prsn_id
+														from  IRIS_RLAB_RQPR_INFM 
+														where  rqpr_id =${rqprId}
+											)
+                                        FOR XML PATH('') ), 1,1, ''
+										 
+										 ), '')        
+										 
+										   as receivers			                                             
+			from	iris_rlab_rqpr_mst
+		 ]]>
+			where	rqpr_id = ${rqprId}
+	</select>
+
+	<select id="getRlabRqprReceiptEmailInfo" resultType="iris.web.rlab.rqpr.vo.RlabMailInfo">
+		<![CDATA[
+			-- getRlabRqprReceiptEmailInfo 접수 통보 메일 발송 정보 조회
+			select	mst.rqpr_id																						as rqprId
+				   ,mst.rlab_name																					as rlabNm
+				   ,mst.acpc_no																						as acpcNo
+				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name															as rgstNm
+				   ,dbo.fn_getDeptName(rgst.sa_dept_new)															as rgstDeptNm
+				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name															as chrgNm
+				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
+				   ,chrg.sa_mail																					as chrgEmail
+				   ,mst.acpc_dt																						as acpcDt
+				   ,mst.cmpl_parr_dt																				as cmplParrDt
+				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')	
+                                 + isnull(',' +  STUFF( 
+					                    (select ','+ sa_mail
+										from   iris_sso_user 
+										where  sa_user in (
+														select infm_prsn_id
+														from  IRIS_RLAB_RQPR_INFM 
+														where  rqpr_id =${rqprId}
+											)
+                                        FOR XML PATH('') ), 1,1, ''
+										 
+										 ), '')        
+										 
+										   as receivers
+			from	iris_rlab_rqpr_mst mst,
+					iris_sso_user rgst,
+					iris_sso_user chrg
+		 ]]>
+			where	mst.rqpr_id = ${rqprId}
+			and		mst.rgst_id = rgst.sa_user
+			and		mst.rlab_chrg_id = chrg.sa_user
+	</select>
+
+	<select id="getRlabRqprRejectEmailInfo" resultType="iris.web.rlab.rqpr.vo.RlabMailInfo">
+		<![CDATA[
+			-- getRlabRqprRejectEmailInfo 반려 통보 메일 발송 정보 조회
+			select	mst.rqpr_id																						as rqprId
+				   ,mst.rlab_name																					as rlabNm
+				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name															as rgstNm
+				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name															as chrgNm
+				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
+				   ,chrg.sa_mail																					as chrgEmail
+				   ,mst.rlab_gvb_rson																				as rlabGvbRson
+				   ,rgst.sa_mail + isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '') +
+				   isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
+			                                                                 from    iris_sso_user b
+								                                             where   b.sa_user = mst.rlab_chrg_id))), '') 
+					+ isnull(',' +  STUFF( 
+					                    (select ','+ sa_mail
+										from   iris_sso_user 
+										where  sa_user in (
+														select infm_prsn_id
+														from  IRIS_RLAB_RQPR_INFM 
+														where  rqpr_id =${rqprId}
+														union
+														select  case when addReMailYn = 'Y' then 'taeyichoi'
+																else '' end 
+														from   (
+																select case when a.RLAB_DZDV_CD = 'KC_BATH' then  'Y'
+																			when a.RLAB_DZDV_CD = 'CEU_LABT' and a.rlab_prod_cd = '03' then 'Y'
+																			when a.RLAB_DZDV_CD = 'CORP'  and a.rlab_prod_cd = '03' then 'Y'
+																			else 'N' end addReMailYn
+																from  iris_rlab_rqpr_mst a
+																where a.rqpr_id =${rqprId}
+																) a
+											)
+                                        FOR XML PATH('') ), 1,1, ''
+										 
+										 ), '')        
+										 
+										   as receivers
+			from	iris_rlab_rqpr_mst mst,
+					iris_sso_user rgst,
+					iris_sso_user chrg
+		 ]]>
+			where	mst.rqpr_id = ${rqprId}
+			and		mst.rgst_id = rgst.sa_user
+			and		mst.rlab_chrg_id = chrg.sa_user
+	</select>
+
+	<select id="getRlabRqprStopEmailInfo" resultType="iris.web.rlab.rqpr.vo.RlabMailInfo">
+		<![CDATA[
+			-- getRlabRqprStopEmailInfo 분석중단 통보 메일 발송 정보 조회
+			select	mst.rqpr_id																						as rqprId
+				   ,mst.rlab_name																					as rlabNm
+				   ,mst.acpc_no																						as acpcNo
+				   ,rgst.sa_name + ' ' + rgst.sa_jobx_name															as rgstNm
+				   ,dbo.fn_getDeptName(rgst.sa_dept_new)															as rgstDeptNm
+				   ,chrg.sa_name + ' ' + chrg.sa_jobx_name															as chrgNm
+				   ,dbo.fn_getDeptName(chrg.sa_dept_new)															as chrgDeptNm
+				   ,chrg.sa_mail																					as chrgEmail
+				   ,mst.rlab_dcac_rson																				as rlabDcacRson
+				   ,rgst.sa_mail +  isnull(',' +dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId(mst.rqpr_team_cd)), '')+
+				    isnull(',' + dbo.fn_getUserEmail(dbo.fn_getDeptLeaderId((select sa_dept_new
+			                                                                 from    iris_sso_user b
+								                                             where   b.sa_user = mst.rlab_chrg_id))), '') 
+                    + isnull(',' +  STUFF( 
+					                    (select ','+ sa_mail
+										from   iris_sso_user 
+										where  sa_user in (
+														select infm_prsn_id
+														from  IRIS_RLAB_RQPR_INFM 
+														where  rqpr_id =${rqprId}
+														union
+														select  case when addReMailYn = 'Y' then 'taeyichoi'
+																else '' end 
+														from   (
+																select case when a.RLAB_DZDV_CD = 'KC_BATH' then  'Y'
+																			when a.RLAB_DZDV_CD = 'CEU_LABT' and a.rlab_prod_cd = '03' then 'Y'
+																			when a.RLAB_DZDV_CD = 'CORP'  and a.rlab_prod_cd = '03' then 'Y'
+																			else 'N' end addReMailYn
+																from  iris_rlab_rqpr_mst a
+																where a.rqpr_id =${rqprId}
+																) a
+											)
+                                        FOR XML PATH('') ), 1,1, ''
+										 
+										 ), '')        
+										 
+										   as receivers
+			from	iris_rlab_rqpr_mst mst,
+					iris_sso_user rgst,
+					iris_sso_user chrg
+		 ]]>
+			where	mst.rqpr_id = ${rqprId}
+			and		mst.rgst_id = rgst.sa_user
+			and		mst.rlab_chrg_id = chrg.sa_user
+	</select>
+
+
+	<select id="getExatWay" resultType="String">
+		<![CDATA[
+			-- getExatWay 개발방법 조회
+		SELECT EXAT_WAY as exatWay
+		FROM  IRIS_RLAB_RQPR_EXAT
+		WHERE   RQPR_EXAT_ID = ${rqprExatId}
+		AND     RQPR_ID = #{rqprId}
+		]]>
+	</select>
+
+	<select id="retrieveOpiSbc" resultType="String">
+		<![CDATA[
+			-- retrieveOpiSbc 의견 조회
+		SELECT OPI_SBC AS opiSbc
+		FROM IRIS_RLAB_RQPR_OPI
+		WHERE  DEL_YN ='N'
+		AND    OPI_ID =  #{opiId}
+		]]>
+	</select>
+
+	<select id="getRlabRqprStptInfo" resultType="hashmap">
+
+			/*getRlabRqprStptInfo 만족도조회*/
+			SELECT
+				RQPR_ID			AS rqprId,
+				ISNULL(RLAB_CNS_QLTY,0)	as rlabCnsQlty,			/* 상담 품질 */
+				ISNULL(RLAB_TRM_QLTY,0)	as rlabTrmQlty,		/* 기간 품질 */
+				ISNULL(RLAB_ALL_STPT,0)	as rlabAllStpt		/* 전체 만족도 */
+			FROM	IRIS_RLAB_RQPR_MST mst
+			WHERE	RQPR_ID = ${rqprId}
+
+	</select>
+
+	<update id="saveRlabRqprStpt" parameterType="map">
+	-- saveRlabRqprStpt 만족도저장
+		UPDATE	IRIS_RLAB_RQPR_MST
+		SET		RLAB_CNS_QLTY = #{rlabCnsQlty}
+				,RLAB_TRM_QLTY= #{rlabTrmQlty}
+				,RLAB_ALL_STPT= #{rlabAllStpt}
+				,LAST_MDFY_DT = getdate()
+				,LAST_MDFY_ID = #{_userId}
+				,TO_DO_FLAG = 'Y'
+		WHERE	RQPR_ID = ${rqprId}
+
+	</update>
+
+	<select id="retrieveRlabMchnClDtlCd" resultType="HashMap">
+        <![CDATA[
+	/*retrieveRlabMchnClDtlCd 장비소분류 코드 목록*/
+        SELECT EXAT_NM as COM_DTL_NM
+		      ,EXAT_CD as COM_DTL_CD
+		 FROM IRIS_RLAB_EXAT_MST
+		WHERE 1=1
+		  AND EXAT_CD_L='3'
+		  AND DEL_YN='N'
+		  AND CAST(SUPI_EXAT_CD AS CHAR(10))=#{exatCd}
+        ]]>
+    </select>
+
+    <select id="retrieveRlabMchnClCd" resultType="HashMap">
+        <![CDATA[
+	/*retrieveRlabMchnClDtlCd 장비대분류 코드 목록*/
+        SELECT EXAT_NM as COM_DTL_NM
+		      ,EXAT_CD as COM_DTL_CD
+		 FROM IRIS_RLAB_EXAT_MST
+		WHERE 1=1
+		  AND EXAT_CD_L='2'
+		  AND DEL_YN='N'
+        ]]>
+    </select>
+
+</mapper>

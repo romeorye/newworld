@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mgmt.mchnMgmt">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+	<!-- 기기관리 목록 조회  -->
+	<select id="retrieveMchnMgmtSearchList" resultType="hashmap" >
+		<![CDATA[
+		-- retrieveMchnMgmtSearchList 기기관리 목록 조회
+		SELECT [dbo].[fn_getMchnInfoName](MIG.MCHN_INFO_ID)+' '+' ('+[dbo].[fn_getMchnInfoEnName](MIG.MCHN_INFO_ID) +') ' AS mchnNm
+		      ,MIG.INFO_MGMT_ID as "infoMgmtId"
+		      ,MIG.MCHN_INFO_ID as "mchnInfoId"
+		      ,MIG.MGMT_DT as "mgmtDt"
+		      ,MIG.DTL_CL_CD as "dtlClCd"
+		      ,ACC.COM_DTL_NM  as "mchnMgmtNm"
+		      ,MIG.RGST_DT as "rgstDt"
+		      ,MIG.RGST_ID as "rgstId"
+		      ,SU.sa_name  as "rgstNm"
+		      ,MIG.MCHN_USE_PSBL_YN as "mchnUsePsblYn"
+		      ,MIG.MGMT_UFE as "mgmtUfe"
+		      ,MIG.SMRY_SBC as "smrySbc"
+		      ,MIG.DTL_SBC as "dtlSbc"
+		      ,MIG.ATTC_FIL_ID as "attcFilId"
+		      ,ACC2.COM_DTL_NM  as "mchnUsePsblNm"
+		FROM IRIS_MCHN_INFO_MGMT MIG
+		     LEFT OUTER JOIN
+		         IRIS_SSO_USER   SU
+			 ON  MIG.RGST_ID = SU.SA_SABUN_NEW
+		    ,IRIS_MCHN_INFO_MST  MIM
+		    ,IRIS_ADM_COM_CD ACC
+		    ,IRIS_ADM_COM_CD ACC2
+		WHERE MIG.DEL_YN = 'N'
+		AND	 MIG.MCHN_INFO_ID = MIM.MCHN_INFO_ID
+		AND  ACC.COM_CD_CD = 'MCHN_MGMT_CD'
+		AND  MIG.DTL_CL_CD = ACC.COM_DTL_CD
+		AND  ACC2.COM_CD_CD = 'MCHN_PRCT_ST'
+		AND  MIG.MCHN_USE_PSBL_YN =  ACC2.COM_DTL_CD
+		AND  MIG.MCHN_INFO_ID = #{mchnInfoId}
+		ORDER BY MIG.RGST_DT DESC, MIG.LAST_MDFY_DT DESC
+		]]>
+	</select>
+
+
+	<!-- 기기관리 상세 조회 -->
+	<select id="retrieveMchnMgmtInfoSearch" resultType="hashmap" >
+		<![CDATA[
+		-- retrieveMchnMgmtInfoSearch 기기관리 상세 조회
+		SELECT MIG.INFO_MGMT_ID as "infoMgmtId"
+		      ,MIG.MCHN_INFO_ID as "mchnInfoId"
+		      ,MIG.MGMT_DT as "mgmtDt"
+		      ,MIG.DTL_CL_CD as "dtlClCd"
+		      ,ACC.COM_DTL_NM  as "mchnMgmtNm"
+		      ,MIG.RGST_DT as "rgstDt"
+		      ,MIG.RGST_ID as "rgstId"
+		      ,SU.sa_name  as "rgstNm"
+		      ,MIG.MCHN_USE_PSBL_YN as "mchnUsePsblYn"
+		      ,MIG.MGMT_UFE as "mgmtUfe"
+		      ,MIG.SMRY_SBC as "smrySbc"
+		      ,MIG.DTL_SBC as "dtlSbc"
+		      ,MIG.ATTC_FIL_ID as "attcFilId"
+		FROM IRIS_MCHN_INFO_MGMT MIG
+		     LEFT OUTER JOIN
+		         IRIS_SSO_USER   SU
+			 ON  SU.SA_USER = #{_userId}
+		    ,IRIS_MCHN_INFO_MST  MIM
+		    ,IRIS_ADM_COM_CD ACC
+		WHERE MIG.DEL_YN = 'N'
+		AND	 MIG.MCHN_INFO_ID = MIM.MCHN_INFO_ID
+		AND  ACC.COM_CD_CD = 'MCHN_MGMT_CD'
+		AND  MIG.DTL_CL_CD = ACC.COM_DTL_CD
+		AND  MIG.INFO_MGMT_ID = #{infoMgmtId}
+		]]>
+	</select>
+
+
+	<update id="saveMachineMgmtInfo">
+	-- saveMachineMgmtInfo
+		MERGE IRIS_MCHN_INFO_MGMT MIG
+		USING ( SELECT #{infoMgmtId} AS INFO_MGMT_ID ) AS Tab1
+		ON  (MIG.INFO_MGMT_ID = Tab1.INFO_MGMT_ID)
+		WHEN matched THEN
+		UPDATE SET
+		       MCHN_INFO_ID   = #{mchnInfoId}
+		      ,MGMT_DT        = #{mgmtDt}
+		      ,DTL_CL_CD      = #{dtlClCd}
+		      ,RGST_ID        = #{rgstId}
+		      ,MCHN_USE_PSBL_YN = #{mchnUsePsblYn}
+		      ,MGMT_UFE       = #{mgmtUfe}
+		      ,SMRY_SBC       = #{smrySbc}
+		      ,DTL_SBC        = #{dtlSbc}
+		      ,ATTC_FIL_ID    = #{attcFilId}
+		      ,LAST_MDFY_DT   = GETDATE()
+		      ,LAST_MDFY_ID   = #{_userId}
+		WHEN not matched THEN
+		INSERT
+		       ( MCHN_INFO_ID
+				,MGMT_DT
+				,DTL_CL_CD
+				,RGST_DT
+				,RGST_ID
+				,MCHN_USE_PSBL_YN
+				,MGMT_UFE
+				,SMRY_SBC
+				,DTL_SBC
+				,ATTC_FIL_ID
+			    ,DEL_YN
+			    ,FRST_RGST_DT
+			    ,FRST_RGST_ID
+			    ,LAST_MDFY_DT
+			    ,LAST_MDFY_ID)
+		    VALUES
+		       ( #{mchnInfoId}
+				,#{mgmtDt}
+				,#{dtlClCd}
+				,CONVERT(nvarchar(10), GETDATE(), 23)
+				,#{rgstId}
+				,#{mchnUsePsblYn}
+				,#{mgmtUfe}
+				,#{smrySbc}
+				,#{dtlSbc}
+				,#{attcFilId}
+				,'N'
+				,GETDATE()
+				,#{_userId}
+				,GETDATE()
+				,#{_userId});
+
+	</update>
+
+	<update id="updateMachineInfo">
+	-- updateMachineInfo
+		UPDATE IRIS_MCHN_INFO_MST
+		SET    MCHN_USE_PSBL_YN = #{mchnUsePsblYn}
+		      ,LAST_MDFY_DT   	= GETDATE()
+		      ,LAST_MDFY_ID   	= #{_userId}
+		WHERE MCHN_INFO_ID 	  	= #{mchnInfoId}
+	</update>
+
+
+
+</mapper>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.message.LMessageManager Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var messageManager = null;
+Rui.onReady(function() {
+    messageManager = Rui.getMessageManager();
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLMessageManager_method_setLocale() {
+    info('LMessageManagerTests : testLMessageManager_method_setLocale 작동 여부');
+    var currentLocale = 'en_US'; //String
+    assertNotUndefined(messageManager.setLocale(currentLocale));
+}
+function testLMessageManager_method_addLocaleData() {
+    info('LMessageManagerTests : testLMessageManager_method_addLocaleData 작동 여부');
+    var localeData = {
+                locale: 'en_US',
+                message: {
+                    test2: 'english'
+                }
+            }; //Object
+    messageManager.addLocaleData(localeData);
+    messageManager.setLocale('en_US');
+    var data = messageManager.get('$.message.test2');
+    assertEquals(data, "english");
+}
+function testLMessageManager_method_get() {
+    info('LMessageManagerTests : testLMessageManager_method_get 작동 여부');
+    var name = '$.base.msg001'; //Object
+    var paramArray = null; //Array
+    assertNotUndefined(messageManager.get(name, paramArray));
+}
+function testLMessageManager_method_load() {
+    info('LMessageManagerTests : testLMessageManager_method_load 작동 여부');
+    var oConfig = null; //Object
+    assertNotUndefined(messageManager.load(oConfig));
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.message.LMessageManager Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLMessageManager_method_setLocale()">setLocale</a>
+            <a href="javascript:testLMessageManager_method_addLocaleData()">addLocaleData</a>
+            <a href="javascript:testLMessageManager_method_get()">get</a>
+            <a href="javascript:testLMessageManager_method_load()">load</a>
+        </div>
+    </div>        
+</body>
+</html>

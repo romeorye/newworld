@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LRenderer Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var renderer = null;
+Rui.onReady(function() {
+    renderer = Rui.util.LRenderer;
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLRenderer_method_dateRenderer() {
+    info('LRendererTests : testLRenderer_method_dateRenderer 작동 여부');
+    var result = renderer.dateRenderer();
+    //return type : function
+    assertNotUndefined(result(new Date()));
+}
+function testLRenderer_method_numberRenderer() {
+    info('LRendererTests : testLRenderer_method_numberRenderer 작동 여부');
+    var result = renderer.numberRenderer();
+    //return type : function
+    assertEquals(result(1000), '1,000');
+}
+function testLRenderer_method_moneyRenderer() {
+    info('LRendererTests : testLRenderer_method_moneyRenderer 작동 여부');
+    var result = renderer.moneyRenderer();
+    //return type : function
+    assertEquals(result(10000), '￦10,000');
+}
+function testLRenderer_method_rateRenderer() {
+    info('LRendererTests : testLRenderer_method_rateRenderer 작동 여부');
+    var result = renderer.rateRenderer();
+    //return type : function
+    assertEquals(result(123), '123%');
+}
+function testLRenderer_method_timeRenderer() {
+    info('LRendererTests : testLRenderer_method_timeRenderer 작동 여부');
+    var result = renderer.timeRenderer();
+    //return type : function
+    assertEquals(result(1452), '14:05:02');
+}
+function testLRenderer_method_weightRenderer() {
+    info('LRendererTests : testLRenderer_method_weightRenderer 작동 여부');
+    var result = renderer.weightRenderer('kg');
+    //return type : function
+    assertEquals(result(1234), '1234kg');
+}
+function testLRenderer_method_lengthRenderer() {
+    info('LRendererTests : testLRenderer_method_lengthRenderer 작동 여부');
+    var result = renderer.lengthRenderer('m');
+    //return type : function
+    assertEquals(result(123), '123m');
+}
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LRenderer Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLRenderer_method_dateRenderer()">dateRenderer</a>
+            <a href="javascript:testLRenderer_method_numberRenderer()">numberRenderer</a>
+            <a href="javascript:testLRenderer_method_moneyRenderer()">moneyRenderer</a>
+            <a href="javascript:testLRenderer_method_rateRenderer()">rateRenderer</a>
+            <a href="javascript:testLRenderer_method_timeRenderer()">timeRenderer</a>
+            <a href="javascript:testLRenderer_method_weightRenderer()">weightRenderer</a>
+            <a href="javascript:testLRenderer_method_lengthRenderer()">lengthRenderer</a>
+        </div>
+
+    </div>        
+</body>
+</html>

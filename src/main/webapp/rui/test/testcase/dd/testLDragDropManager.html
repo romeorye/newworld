@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.dd.LDragDropManager Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var dD;
+Rui.onReady(function() {
+    dD = new Rui.dd.LDD({
+        id: 'dd-demo-1'
+    });
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+
+function testLDragDropManager_method_lock() {
+    warn('RuiTests : testLDragDropManager_method_lock 테스트 무시 => 설정용 함수');
+}
+function testLDragDropManager_method_unlock() {
+    warn('RuiTests : testLDragDropManager_method_lock 테스트 무시 => 설정용 함수');
+}
+function testLDragDropManager_method_isLocked() {
+    info('LDragDropManagerTests : testLDragDropManager_method_isLocked 작동 여부');
+    Rui.dd.LDDM.lock();
+    assertEquals(Rui.dd.LDDM.isLocked(), true);
+}
+function testLDragDropManager_method_regDragDrop() {
+    warn('RuiTests : testLDragDropManager_method_lock 테스트 무시 => 설정용 함수');
+}
+function testLDragDropManager_method_regHandle() {
+    warn('RuiTests : testLDragDropManager_method_lock 테스트 무시 => 설정용 함수');
+}
+function testLDragDropManager_method_isDragDrop() {
+    info('LDragDropManagerTests : testLDragDropManager_method_isDragDrop 작동 여부');
+    var id = 'ndd'; //String
+    assertEquals(Rui.dd.LDDM.isDragDrop(id), false);
+}
+function testLDragDropManager_method_getRelated() {
+    warn('RuiTests : testLDragDropManager_method_getRelated 테스트 무시 => 내부용 함수');
+}
+function testLDragDropManager_method_isLegalTarget() {
+    warn('RuiTests : testLDragDropManager_method_isLegalTarget 테스트 무시 => 내부용 함수');
+}
+function testLDragDropManager_method_isTypeOfDD() {
+    warn('RuiTests : testLDragDropManager_method_isTypeOfDD 테스트 무시 => 내부용 함수');
+}
+function testLDragDropManager_method_isHandle() {
+    warn('RuiTests : testLDragDropManager_method_isHandle 테스트 무시 => 내부용 함수');
+}
+function testLDragDropManager_method_getDDById() {
+    info('LDragDropManagerTests : testLDragDropManager_method_getDDById 작동 여부');
+    assertEquals(Rui.dd.LDDM.getDDById(null), null);
+}
+function testLDragDropManager_method_startDrag() {
+    info('LDragDropManagerTests : testLDragDropManager_method_startDrag 작동 여부');
+    Rui.dd.LDDM.startDrag(1, 1);
+    assertTrue(true);
+}
+function testLDragDropManager_method_stopEvent() {
+    warn('RuiTests : testLDragDropManager_method_stopEvent 테스트 무시 => 내부용 함수');
+}
+function testLDragDropManager_method_stopDrag() {
+    warn('RuiTests : testLDragDropManager_method_stopDrag 테스트 무시 => 내부용 함수');
+}
+function testLDragDropManager_method_getBestMatch() {
+    warn('RuiTests : testLDragDropManager_method_getBestMatch 테스트 무시 => 내부용 함수');
+}
+function testLDragDropManager_method_refreshCache() {
+    warn('RuiTests : testLDragDropManager_method_getBestMatch 테스트 무시 => 설정용 함수');
+}
+function testLDragDropManager_method_verifyEl() {
+    warn('RuiTests : testLDragDropManager_method_verifyEl 테스트 무시 => 내부용 함수');
+}
+function testLDragDropManager_method_getLocation() {
+    info('LDragDropManagerTests : testLDragDropManager_method_getLocation 작동 여부');
+    assertTrue(typeof Rui.dd.LDDM.getLocation(dD) === 'object');
+}
+function testLDragDropManager_method_getElement() {
+    info('LDragDropManagerTests : testLDragDropManager_method_getElement 작동 여부');
+    assertTrue(typeof Rui.dd.LDDM.getElement('dd-demo-1') === 'object');
+}
+function testLDragDropManager_method_getCss() {
+    info('LDragDropManagerTests : testLDragDropManager_method_getCss 작동 여부');
+    assertTrue(typeof Rui.dd.LDDM.getCss('dd-demo-1') === 'object');
+}
+function testLDragDropManager_method_getPosX() {
+    info('LDragDropManagerTests : testLDragDropManager_method_getPosX 작동 여부');
+    assertEquals(Rui.dd.LDDM.getPosX(), false);
+}
+function testLDragDropManager_method_getPosY() {
+    info('LDragDropManagerTests : testLDragDropManager_method_getPosY 작동 여부');
+    assertEquals(Rui.dd.LDDM.getPosY(), false);
+}
+function testLDragDropManager_method_swapNode() {
+    warn('RuiTests : testLDragDropManager_method_swapNode 테스트 무시 => 내부용 함수');
+}
+function testLDragDropManager_method_getStyle() {
+    info('LDragDropManagerTests : testLDragDropManager_method_getStyle 작동 여부');
+    var el = 'dd-demo-1'; //HTMLElement
+    var styleProp = 'display'; //string
+    assertEquals(Rui.dd.LDDM.getStyle(el, styleProp), 'block');
+}
+function testLDragDropManager_method_getScrollTop() {
+    info('LDragDropManagerTests : testLDragDropManager_method_getScrollTop 작동 여부');
+    assertEquals(Rui.dd.LDDM.getScrollTop(), 0);
+}
+function testLDragDropManager_method_getScrollLeft() {
+    info('LDragDropManagerTests : testLDragDropManager_method_getScrollLeft 작동 여부');
+    assertEquals(Rui.dd.LDDM.getScrollLeft(), 0);
+}
+function testLDragDropManager_method_moveToEl() {
+    info('LDragDropManagerTests : testLDragDropManager_method_moveToEl 작동 여부');
+    var moveEl = Rui.get('dd-demo-1').dom; //HTMLElement
+    var targetEl = Rui.get('ndd').dom; //HTMLElement
+    Rui.dd.LDDM.moveToEl(moveEl, targetEl);
+    assertEquals(Rui.get('dd-demo-1').dom.offsetTop, Rui.get('ndd').dom.offsetTop);
+}
+function testLDragDropManager_method_getClientHeight() {
+    info('LDragDropManagerTests : testLDragDropManager_method_getClientHeight 작동 여부');
+    assertTrue(Rui.dd.LDDM.getClientHeight() > 0);
+}
+function testLDragDropManager_method_getClientWidth() {
+    info('LDragDropManagerTests : testLDragDropManager_method_getClientWidth 작동 여부');
+    assertTrue(Rui.dd.LDDM.getClientWidth() > 0);
+}
+function testLDragDropManager_method_numericSort() {
+    warn('RuiTests : testLDragDropManager_method_numericSort 테스트 무시 => 내부용 함수');
+}
+function testLDragDropManager_method_handleWasClicked() {
+    warn('RuiTests : testLDragDropManager_method_handleWasClicked 테스트 무시 => 내부용 함수');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.dd.LDragDropManager Tests</h1>
+    <div id="dd-demo-1" class="dd-demo">1</div>
+    <div id="ndd">None dragable DOM</div>
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLDragDropManager_method_lock()">lock</a>
+            <a href="javascript:testLDragDropManager_method_unlock()">unlock</a>
+            <a href="javascript:testLDragDropManager_method_isLocked()">isLocked</a>
+            <a href="javascript:testLDragDropManager_method_regDragDrop()">regDragDrop</a>
+            <a href="javascript:testLDragDropManager_method_regHandle()">regHandle</a>
+            <a href="javascript:testLDragDropManager_method_isDragDrop()">isDragDrop</a>
+            <a href="javascript:testLDragDropManager_method_getRelated()">getRelated</a>
+            <a href="javascript:testLDragDropManager_method_isLegalTarget()">isLegalTarget</a>
+            <a href="javascript:testLDragDropManager_method_isTypeOfDD()">isTypeOfDD</a>
+            <a href="javascript:testLDragDropManager_method_isHandle()">isHandle</a>
+            <a href="javascript:testLDragDropManager_method_getDDById()">getDDById</a>
+            <a href="javascript:testLDragDropManager_method_startDrag()">startDrag</a>
+            <a href="javascript:testLDragDropManager_method_stopEvent()">stopEvent</a>
+            <a href="javascript:testLDragDropManager_method_stopDrag()">stopDrag</a>
+            <a href="javascript:testLDragDropManager_method_getBestMatch()">getBestMatch</a>
+            <a href="javascript:testLDragDropManager_method_refreshCache()">refreshCache</a>
+            <a href="javascript:testLDragDropManager_method_verifyEl()">verifyEl</a>
+            <a href="javascript:testLDragDropManager_method_getLocation()">getLocation</a>
+            <a href="javascript:testLDragDropManager_method_getElement()">getElement</a>
+            <a href="javascript:testLDragDropManager_method_getCss()">getCss</a>
+            <a href="javascript:testLDragDropManager_method_getPosX()">getPosX</a>
+            <a href="javascript:testLDragDropManager_method_getPosY()">getPosY</a>
+            <a href="javascript:testLDragDropManager_method_swapNode()">swapNode</a>
+            <a href="javascript:testLDragDropManager_method_getStyle()">getStyle</a>
+            <a href="javascript:testLDragDropManager_method_getScrollTop()">getScrollTop</a>
+            <a href="javascript:testLDragDropManager_method_getScrollLeft()">getScrollLeft</a>
+            <a href="javascript:testLDragDropManager_method_moveToEl()">moveToEl</a>
+            <a href="javascript:testLDragDropManager_method_getClientHeight()">getClientHeight</a>
+            <a href="javascript:testLDragDropManager_method_getClientWidth()">getClientWidth</a>
+            <a href="javascript:testLDragDropManager_method_numericSort()">numericSort</a>
+            <a href="javascript:testLDragDropManager_method_handleWasClicked()">handleWasClicked</a>
+        </div>
+
+    </div>        
+</body>
+</html>

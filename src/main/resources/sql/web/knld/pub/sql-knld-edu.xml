@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.pub">
+
+	<select id="getEduList" resultType="hashmap">
+		<![CDATA[
+		-- getEduList
+			SELECT
+					EDU_SMN_ID                                            AS 'eduId'       /*교육세미나ID*/
+					,TITL_NM                                              AS 'titlNm'      /*제목*/
+					,EDU_PL_SCN_CD                                        AS 'eduPlScnCd'  /*교육장소코드*/
+					,dbo.fn_getComDtlNm('EDU_PL_SCN_CD', A.EDU_PL_SCN_CD) AS 'eduPlScnNm'  /*교육장소이름*/
+					,EDU_INST_NM                                          AS 'eduInstNm'   /*교육기관,강사명*/
+					,EDU_STRT_DT                                          AS 'eduStrtDt'   /*교육시작일*/
+					,EDU_FNH_DT                                           AS 'eduFnhDt'    /*교육종료일*/
+					,SBC_NM                                               AS 'sbcNm'       /*내용*/
+					,RTRV_CNT                                             AS 'rtrvCnt'     /*조회수*/
+					,KEYWORD_NM                                           AS 'keywordNm'   /*키워드*/
+					,(CASE
+						WHEN (select	count(1)
+						  		from		IRIS_COM_ATTC_FIL
+						  		where		ATTC_FIL_ID = A.ATTC_FILE_ID
+								  and		DEL_YN = 'N') = 0 THEN NULL
+						ELSE  A.ATTC_FILE_ID
+					   END)                                               AS 'attcFilId'    /*첨부파일*/
+					,RGST_ID                                              AS 'rgstId'      /*등록자ID*/
+			        ,dbo.fn_getUserName(RGST_ID)                          AS 'rgstNm'      /*등록자이름*/
+					,RGST_OPS_ID                                          AS 'rgstOpsId'   /*등록자부서ID*/
+					,DEL_YN                                               AS 'delYn'       /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)               AS 'frstRgstDt'  /*등록일*/
+			FROM IRIS_KNLD_EDU_SMN A
+			WHERE DEL_YN = 'N'
+		 ]]>
+        <if test="titlNm != null and titlNm != ''">
+			AND TITL_NM like '%${titlNm}%'
+		</if>
+        <if test="rgstNm != null and rgstNm != ''">
+			AND dbo.fn_getUserName(RGST_ID) like '%${rgstNm}%'
+		</if>
+        <if test="eduPlScnCd != null and eduPlScnCd != ''">
+			AND EDU_PL_SCN_CD = '${eduPlScnCd}'
+		</if>
+		<if test="(eduStrtDt != null and eduStrtDt != '')">
+			AND EDU_STRT_DT >= #{eduStrtDt}
+		</if>
+		<if test="(eduFnhDt != null and eduFnhDt != '')">
+			AND EDU_STRT_DT <![CDATA[<]]>= #{eduFnhDt}
+		</if>
+			ORDER BY EDU_SMN_ID DESC
+	</select>
+
+
+	<!-- 교육세미나 저장  -->
+	<insert id="insertEduInfo">
+	<![CDATA[
+	-- insertEduInfo 교육세미나 저장
+		insert into IRIS_KNLD_EDU_SMN
+		(			 TITL_NM
+					,EDU_PL_SCN_CD
+					,EDU_INST_NM
+					,EDU_STRT_DT
+					,EDU_FNH_DT
+					,SBC_NM
+					,RTRV_CNT
+					,KEYWORD_NM
+		]]>
+		            <if test="( attcFilId != null and attcFilId != '')">
+					,ATTC_FILE_ID
+		            </if>
+    <![CDATA[
+					,RGST_ID
+					,RGST_OPS_ID
+					,DEL_YN
+					, FRST_RGST_ID
+					, FRST_RGST_DT
+					, LAST_MDFY_ID
+					, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{titlNm}
+		    , #{eduPlScnCd}
+		    , #{eduInstNm}
+		    , #{eduStrtDt}
+		    , #{eduFnhDt}
+		    , #{sbcNm}
+		    , 0
+		    , #{keywordNm}
+		    ]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+		    , #{attcFilId}
+		    </if>
+		     <![CDATA[
+		    , #{_userId}
+		    , ( SELECT sa_dept_new FROM IRIS_SSO_USER WHERE sa_user = #{_userId} )
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+    <!-- 공지사항 업데이트  -->
+	<update id="updateEduInfo">
+	<![CDATA[
+	-- updateEduInfo 공지사항 업데이트
+		UPDATE IRIS_KNLD_EDU_SMN
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , TITL_NM = #{titlNm}
+		     , EDU_PL_SCN_CD = #{eduPlScnCd}
+		     , EDU_INST_NM = #{eduInstNm}
+	         , EDU_STRT_DT = #{eduStrtDt}
+	         , EDU_FNH_DT = #{eduFnhDt}
+		     , SBC_NM = #{sbcNm}
+		     , KEYWORD_NM = #{keywordNm}
+	]]>
+		<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID = #{attcFilId}
+	    </if>
+
+	<![CDATA[
+		 WHERE EDU_SMN_ID = #{eduId}
+	]]>
+	</update>
+
+	<!-- 공지사항 조회건수 업데이트  -->
+	<update id="updateEduRtrvCnt">
+	<![CDATA[
+	-- updateEduRtrvCnt 공지사항 조회건수 업데이트
+		UPDATE IRIS_KNLD_EDU_SMN
+		   SET RTRV_CNT = RTRV_CNT + 1
+	]]>
+
+	<![CDATA[
+		 WHERE EDU_SMN_ID = #{eduId}
+	]]>
+	</update>
+
+
+
+    <!-- 공지사항 삭제  -->
+	<update id="deleteEduInfo">
+	<![CDATA[
+	-- deleteEduInfo 공지사항 삭제
+		UPDATE IRIS_KNLD_EDU_SMN
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE EDU_SMN_ID = #{eduId}
+	]]>
+	</update>
+
+	<select id="getEduInfo" resultType="hashmap">
+		<![CDATA[
+		-- getEduInfo
+			SELECT
+					EDU_SMN_ID                                            AS 'eduId'       /*교육세미나ID*/
+					,TITL_NM                                              AS 'titlNm'      /*제목*/
+					,EDU_PL_SCN_CD                                        AS 'eduPlScnCd'  /*교육장소코드*/
+					,dbo.fn_getComDtlNm('EDU_PL_SCN_CD', A.EDU_PL_SCN_CD) AS 'eduPlScnNm'  /*교육장소이름*/
+					,EDU_INST_NM                                          AS 'eduInstNm'   /*교육기관,강사명*/
+					,EDU_STRT_DT                                          AS 'eduStrtDt'   /*교육시작일*/
+					,EDU_FNH_DT                                           AS 'eduFnhDt'    /*교육종료일*/
+					,SBC_NM                                               AS 'sbcNm'       /*내용*/
+					,RTRV_CNT                                             AS 'rtrvCnt'     /*조회수*/
+					,KEYWORD_NM                                           AS 'keywordNm'   /*키워드*/
+					,ATTC_FILE_ID                                         AS 'attcFilId'   /*첨부파일*/
+					,RGST_ID                                              AS 'rgstId'      /*등록자ID*/
+			        ,dbo.fn_getUserName(RGST_ID)                          AS 'rgstNm'      /*등록자이름*/
+					,RGST_OPS_ID                                          AS 'rgstOpsId'   /*등록자부서ID*/
+					,DEL_YN                                               AS 'delYn'       /*삭제여부*/
+					,convert(varchar(20),A.FRST_RGST_DT,23)               AS 'frstRgstDt'  /*등록일*/
+			FROM IRIS_KNLD_EDU_SMN A
+			WHERE DEL_YN = 'N'
+			  AND EDU_SMN_ID = #{eduId}
+		 ]]>
+
+	</select>
+
+</mapper>

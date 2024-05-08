@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.util.LObject Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<script type="text/javascript" >
+var object = null;
+Rui.onReady(function() {
+    object = Rui.util.LObject;
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLObject_method_clone() {
+    info('LObjectTests : testLObject_method_clone 작동 여부');
+    var o = '111'; //Object
+    var result = object.clone(o);
+    //return type : Object
+    assertEquals(result, o);
+}
+function testLObject_method_serialize() {
+    info('LObjectTests : testLObject_method_serialize 작동 여부');
+    var params = ['abc','def']; //Array
+    var result = object.serialize(params);
+    //return type : String
+    assertEquals(result, '0=abc&1=def');
+}
+function testLObject_method_isBoolean() {
+    info('LObjectTests : testLObject_method_isBoolean 작동 여부');
+    var o = false; //Object
+    assertEquals(object.isBoolean(o), true);
+}
+function testLObject_method_isFunction() {
+    info('LObjectTests : testLObject_method_isFunction 작동 여부');
+    var o = function() {}; //Object
+    assertEquals(object.isFunction(o), true);
+}
+function testLObject_method_isNull() {
+    info('LObjectTests : testLObject_method_isNull 작동 여부');
+    var o = null; //Object
+    assertEquals(object.isNull(o), true);
+}
+function testLObject_method_isUndefined() {
+    info('LObjectTests : testLObject_method_isUndefined 작동 여부');
+    var o;
+    assertEquals(object.isUndefined(o), true);
+}
+function testLObject_method_isEmpty() {
+    info('LObjectTests : testLObject_method_isEmpty 작동 여부');
+    var s = ''; //String
+    assertEquals(object.isEmpty(s), true);
+}
+function testLObject_method_isObject() {
+    info('LObjectTests : testLObject_method_isObject 작동 여부');
+    var o = Rui.get('bd'); //Object
+    assertEquals(object.isObject(o), true);
+}
+
+
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.util.LObject Tests</h1>
+
+    <div id="bd">
+        <div class="testcase-buttons">
+            <a href="javascript:testLObject_method_clone()">clone</a>
+            <a href="javascript:testLObject_method_serialize()">serialize</a>
+            <a href="javascript:testLObject_method_isBoolean()">isBoolean</a>
+            <a href="javascript:testLObject_method_isFunction()">isFunction</a>
+            <a href="javascript:testLObject_method_isNull()">isNull</a>
+            <a href="javascript:testLObject_method_isUndefined()">isUndefined</a>
+            <a href="javascript:testLObject_method_isEmpty()">isEmpty</a>
+            <a href="javascript:testLObject_method_isObject()">isObject</a>
+        </div>
+    </div>        
+</body>
+</html>

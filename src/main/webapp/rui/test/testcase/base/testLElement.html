@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Rui.LElement Tests</title>
+<meta name="devon-rui-testcase" content="yes" />
+<script type="text/javascript" src="./../../../js/rui_base.js"></script>
+<script type="text/javascript" src="./../../../js/rui_core.js"></script>
+<script type="text/javascript" src="./../../../js/rui_ui.js"></script>
+<script type="text/javascript" src="./../../../js/rui_form.js"></script>
+<script type="text/javascript" src="./../../../js/rui_grid.js"></script>
+<script type="text/javascript" src="./../../../resources/rui_config.js"></script>
+<link rel="stylesheet" type="text/css" href="./../../../resources/rui.css" />
+
+<script type="text/javascript" src="./../../../../jsunit/app/jsUnitCore.js"></script>
+
+<style type="text/css">
+#bd {
+    border: 2px solid;
+    padding: 2px;
+    margin: 2px;
+    height: 500px;
+}
+</style>
+<script type="text/javascript" >
+Rui.onReady(function() {
+    new Rui.ui.form.LTextBox({
+        applyTo: 'getComponent'
+    });
+    
+    /******************JsUnit용 소스 시작**********************/
+   //dataSet load event에 넣으면 작동되지 않는다.
+    setUpPageStatus = 'complete';
+    /******************JsUnit용 소스   끝**********************/
+});
+
+
+//setUpPageStatus == 'complete'가 되어야만  test function이 실행된다.
+function setUpPage(){
+    setUpPageStatus = 'running';
+}
+
+//test function이 실행되기 전에 먼저 실행된다.
+function setUp(){
+}
+
+//모든 test function이 실행된 후 실행된다.
+function tearDown(){
+}
+
+//**************test function 시작*****************
+function testLElement_method_select() {
+    info('LElementTests : testLElement_method_select 작동 여부');
+    var selector = 'a'; //String
+    var result = Rui.get('bd').select(selector);
+    //return type : Rui.LElementList
+    assertTrue(result.length > 0);
+}
+function testLElement_method_query() {
+    info('LElementTests : testLElement_method_query 작동 여부');
+    var selector = 'a'; //String
+    var result = Rui.get('bd').query(selector);
+    //return type : Array
+    assertTrue(result.length > 0);
+}
+function testLElement_method_filter() {
+    info('LElementTests : testLElement_method_filter 작동 여부');
+    var selector = 'a'; //String
+    var result = Rui.get('bd').filter(selector);
+    //return type : Rui.LElementList
+    assertTrue(result.length > 0);
+}
+function testLElement_method_test() {
+    info('LElementTests : testLElement_method_test 작동 여부');
+    var selector = '.test'; //String
+    var result = Rui.get('bd').test(selector);
+    //return type : boolean
+    assertTrue(result);
+}
+function testLElement_method_getValue() {
+    info('LElementTests : testLElement_method_getValue 작동 여부');
+    assertEquals(Rui.get('getValue').getValue(), 'getValue');
+}
+function testLElement_method_setValue() {
+    info('LElementTests : testLElement_method_setValue 작동 여부');
+    var value = null; //Object
+    Rui.get('setValue').setValue('setValue');
+    assertEquals(Rui.get('setValue').getValue(), 'setValue');
+}
+function testLElement_method_setChecked() {
+    info('LElementTests : testLElement_method_setChecked 작동 여부');
+    var value = true; //Object
+    Rui.get('setChecked').setChecked(value);
+    assertEquals(Rui.get('setChecked').dom.checked, true);
+}
+function testLElement_method_getElementsByTagName() {
+    info('LElementTests : testLElement_method_getElementsByTagName 작동 여부');
+    var tag = 'a'; //String
+    assertTrue(Rui.get('bd').getElementsByTagName(tag).length > 0);
+}
+function testLElement_method_hasChildNodes() {
+    info('LElementTests : testLElement_method_hasChildNodes 작동 여부');
+    var result = Rui.get('bd').hasChildNodes();
+    //return type : boolean
+    assertTrue(result);
+}
+function testLElement_method_getChildren() {
+    info('LElementTests : testLElement_method_getChildren 작동 여부');
+    assertTrue(Rui.get('bd').getChildren().length > 0);
+}
+function testLElement_method_on() {
+    info('LElementTests : testLElement_method_on 작동 여부');
+    var type = 'click'; //String
+    var fn = function(e){
+        
+    }; //Function
+    var obj = this; //Scope
+    var override = true; //Object
+    Rui.get('bd').on(type, fn, obj, override);
+    assertNotUndefined(Rui.get('bd').__simple_events[type]);
+}
+function testLElement_method_unOn() {
+    info('LElementTests : testLElement_method_unOn 작동 여부');
+    var type = 'dbclick'; //String
+    var fn = function(e){
+    }; //Function
+    var obj = this; //Scope
+    var override = true; //Object
+    Rui.get('bd').on(type, fn, obj, override);
+    Rui.get('bd').unOn(type, fn, obj);
+    assertEquals(Rui.get('bd').__simple_events[type].length, 0);
+}
+function testLElement_method_unOnAll() {
+    info('LElementTests : testLElement_method_unOnAll 작동 여부');
+    var type = 'click'; //String
+    var fn = function(e){
+    }; //Function
+    var obj = this; //Scope
+    var override = true; //Object
+    Rui.get('bd').on(type, fn, obj, override);
+    Rui.get('bd').on(type, fn, obj, override);
+    Rui.get('bd').unOnAll();
+    assertUndefined(Rui.get('bd').__simple_events[type]);
+}
+function testLElement_method_addClass() {
+    info('LElementTests : testLElement_method_addClass 작동 여부');
+    var className = 'addClass'; //String
+    var result = Rui.get('bd').addClass(className);
+    //return type : Rui.LElement
+    assertTrue(Rui.get('bd').hasClass(className));
+}
+function testLElement_method_hasClass() {
+    info('LElementTests : testLElement_method_hasClass 작동 여부');
+    var className = 'addClass'; //String
+    var result = Rui.get('bd').addClass(className);
+    //return type : Rui.LElement
+    assertTrue(Rui.get('bd').hasClass(className));
+}
+function testLElement_method_removeClass() {
+    info('LElementTests : testLElement_method_removeClass 작동 여부');
+    var className = 'addClass'; //String
+    var result = Rui.get('bd').addClass(className);
+    //return type : Rui.LElement
+    var result = Rui.get('bd').removeClass(className);
+    //return type : Rui.LElement
+    assertFalse(Rui.get('bd').hasClass(className));
+}
+function testLElement_method_getElementsByClassName() {
+    info('LElementTests : testLElement_method_getElementsByClassName 작동 여부');
+    var className = 'testcase-buttons'; //String
+    assertTrue(Rui.get('bd').getElementsByClassName(className).length > 0);
+}
+function testLElement_method_setStyle() {
+    info('LElementTests : testLElement_method_setStyle 작동 여부');
+    var property = 'display'; //String
+    var value = 'inline'; //String
+    Rui.get('bd').setStyle(property, value);
+    assertEquals(Rui.get('bd').getStyle(property), 'inline');
+}
+function testLElement_method_getStyle() {
+    info('LElementTests : testLElement_method_getStyle 작동 여부');
+    var property = 'display'; //String
+    var value = 'inline'; //String
+    Rui.get('bd').setStyle(property, value);
+    assertEquals(Rui.get('bd').getStyle(property), 'inline');
+}
+function testLElement_method_setStyles() {
+    info('LElementTests : testLElement_method_setStyles 작동 여부');
+    var props = { display: 'inline' }; //Object
+    Rui.get('bd').setStyles(props);
+    var styles = Rui.get('bd').getStyles(props);
+    assertNotUndefined(styles);
+}
+function testLElement_method_getStyles() {
+    info('LElementTests : testLElement_method_getStyles 작동 여부');
+    var props = { display: 'inline' }; //Object
+    assertNotUndefined(Rui.get('bd').getStyles(props));
+}
+function testLElement_method_findParent() {
+    info('LElementTests : testLElement_method_findParent 작동 여부');
+    var selector = '#bd'; //String
+    var result = Rui.get('getValue').findParent(selector);
+    //return type : Rui.LElement
+    assertEquals(result.dom, document.getElementById('bd'));
+}
+function testLElement_method_findParentNode() {
+    info('LElementTests : testLElement_method_findParentNode 작동 여부');
+    var selector = '#bd'; //String
+    var result = Rui.get('getValue').findParentNode(selector);
+    //return type : Rui.LElement
+    assertEquals(result, document.getElementById('bd'));
+}
+function testLElement_method_parent() {
+    info('LElementTests : testLElement_method_parent 작동 여부');
+    var result = Rui.get('getValue').parent();
+    //return type : Rui.LElement|HTMLElement
+    assertEquals(result.dom, document.getElementById('bd'));
+}
+function testLElement_method_getPreviousSibling() {
+    info('LElementTests : testLElement_method_getPreviousSibling 작동 여부');
+    assertEquals(Rui.get('getValue').getPreviousSibling().dom.tagName, 'DIV');
+}
+function testLElement_method_getNextSibling() {
+    info('LElementTests : testLElement_method_getNextSibling 작동 여부');
+    assertEquals(Rui.get('getValue').getNextSibling().dom.tagName, 'INPUT');
+}
+function testLElement_method_insertBefore() {
+    info('LElementTests : testLElement_method_insertBefore 작동 여부');
+    var newNode = 'input'; //HTMLElement
+    newNode.value = "insertBefore";
+    var result = Rui.get('getValue').insertBefore(newNode);
+    //return type : Rui.LElement
+    assertEquals(result.dom.tagName, 'INPUT');
+}
+function testLElement_method_insertAfter() {
+    info('LElementTests : testLElement_method_insertAfter 작동 여부');
+    var newNode = 'input'; //String | HTMLElement
+    newNode.value = "insertAfter";
+    var result = Rui.get('getValue').insertAfter(newNode);
+    //return type : Rui.LElement
+    assertEquals(result.dom.tagName, 'INPUT');
+}
+function testLElement_method_remove() {
+    info('LElementTests : testLElement_method_remove 작동 여부');
+    var result = Rui.get('remove').remove();
+    //return type : Rui.LElement
+    assertNull(Rui.get('remove'));
+}
+function testLElement_method_removeNode() {
+    info('LElementTests : testLElement_method_removeNode 작동 여부');
+    var result = Rui.get('removeNode').removeNode();
+    //return type : Rui.LElement
+    assertNull(Rui.get('removeNode'));
+}
+function testLElement_method_appendChild() {
+    info('LElementTests : testLElement_method_appendChild 작동 여부');
+    var child = document.createElement('input'); //Rui.LElement || HTMLElement
+    child.id = 'appendChild';
+    var result = Rui.get('bd').appendChild(child);
+    //return type : Rui.LElement
+    assertNotNull(document.getElementById('appendChild'));
+}
+function testLElement_method_appendTo() {
+    info('LElementTests : testLElement_method_appendTo 작동 여부');
+    var test = Rui.createElements('<span id="appendTo">test</span>'); //HTMLElement | Element
+    var result = test.appendTo(Rui.get('bd'));
+    //return type : HTMLElement
+    assertNotNull(document.getElementById('appendTo'));
+}
+function testLElement_method_appendChildByAjax() {
+    info('LElementTests : testLElement_method_appendChildByAjax 작동 여부');
+    var option = {
+        url: './testLBase64.html',
+        sync: true
+    }; //Object
+    var result = Rui.get('bd').appendChildByAjax(option);
+    //return type : Rui.LElement
+    assertNotNull(document.getElementById('base64'));
+}
+function testLElement_method_getHeight() {
+    info('LElementTests : testLElement_method_getHeight 작동 여부');
+    assertTrue(Rui.get('bd').getHeight() > 0);
+}
+function testLElement_method_getWidth() {
+    info('LElementTests : testLElement_method_getWidth 작동 여부');
+    assertTrue(Rui.get('bd').getWidth() > 0);
+}
+function testLElement_method_getBorderWidth() {
+    info('LElementTests : testLElement_method_getBorderWidth 작동 여부');
+    var side = 'tb'; //String
+    assertTrue(Rui.get('bd').getBorderWidth(side) > 0);
+}
+function testLElement_method_getPadding() {
+    info('LElementTests : testLElement_method_getPadding 작동 여부');
+    var side = 'tb'; //String
+    assertTrue(Rui.get('bd').getPadding(side) > 0);
+}
+function testLElement_method_setVisibilityMode() {
+    info('LElementTests : testLElement_method_setVisibilityMode 작동 여부');
+    var visMode = null; //boolean
+    Rui.get('bd').setVisibilityMode(true);
+    assertTrue(true);
+}
+function testLElement_method_show() {
+    info('LElementTests : testLElement_method_show 작동 여부');
+    Rui.get('show').show();
+    //return type : Rui.LElement
+    assertFalse(Rui.get('show').hasClass('L-hide-display'));
+}
+function testLElement_method_hide() {
+    info('LElementTests : testLElement_method_hide 작동 여부');
+    var result = Rui.get('hide').hide();
+    //return type : Rui.LElement
+    assertTrue(Rui.get('hide').hasClass('L-hide-display'));
+}
+function testLElement_method_isShow() {
+    info('LElementTests : testLElement_method_isShow 작동 여부');
+    assertEquals(Rui.get('isShow').isShow(), true);
+}
+function testLElement_method_html() {
+    info('LElementTests : testLElement_method_html 작동 여부');
+    var html = 'test'; //String
+    var result = Rui.get('html').html(html);
+    //return type : Rui.LElement
+    assertEquals(Rui.get('html').getHtml(), 'test');
+}
+function testLElement_method_getHtml() {
+    info('LElementTests : testLElement_method_getHtml 작동 여부');
+    var html = 'test'; //String
+    var result = Rui.get('html').html(html);
+    //return type : Rui.LElement
+    assertEquals(Rui.get('html').getHtml(), 'test');
+}
+function testLElement_method_toggle() {
+    info('LElementTests : testLElement_method_toggle 작동 여부');
+    Rui.get('toggle').toggle();
+    Rui.get('toggle').toggle()
+    Rui.get('toggle').toggle()
+    //return type : Rui.Elemnent
+    assertTrue(Rui.get('toggle').hasClass('L-hide-display'));
+}
+function testLElement_method_hover() {
+    warn('LElementTests : testLElement_method_hover 테스트 무시 => 마우스 over를 테스트할 수 없음');
+}
+function testLElement_method_toString() {
+    info('LElementTests : testLElement_method_toString 작동 여부');
+    var result = Rui.get('bd').toString();
+    //return type : String
+    assertEquals(result, 'Rui.LElement bd');
+}
+function testLElement_method_removeChild() {
+    info('LElementTests : testLElement_method_removeChild 작동 여부');
+    var child = Rui.get('removeChild'); //HTMLElement
+    var result = Rui.get('bd').removeChild(child);
+    //return type : HTMLElement
+    assertNull(Rui.get('removeChild'));
+}
+function testLElement_method_replaceClass() {
+    info('LElementTests : testLElement_method_replaceClass 작동 여부');
+    var oldClassName = 'replaceClass'; //String
+    var newClassName = 'replaceClass1'; //String
+    var result = Rui.get('bd').replaceClass(oldClassName, newClassName);
+    //return type : Boolean | Array
+    assertTrue(Rui.get('bd').hasClass(newClassName));
+}
+function testLElement_method_toggleClass() {
+    info('LElementTests : testLElement_method_toggleClass 작동 여부');
+    var className = 'toggleClass'; //String
+    var result = Rui.get('bd').toggleClass(className);
+    //return type : Rui.LElement
+    assertTrue(Rui.get('bd').hasClass(className));
+}
+function testLElement_method_applyStyles() {
+    info('LElementTests : testLElement_method_applyStyles 작동 여부');
+    var styles = { display: 'inline' }; //String|Object|Function
+    var result = Rui.get('bd').applyStyles(styles);
+    //return type : Rui.LElement
+    assertEquals(Rui.get('bd').getStyle('display'), 'inline');
+}
+function testLElement_method_getXY() {
+    info('LElementTests : testLElement_method_getXY 작동 여부');
+    assertNotUndefined(Rui.get('bd').getXY());
+}
+function testLElement_method_setXY() {
+    info('LElementTests : testLElement_method_setXY 작동 여부');
+    var pos = [10, 10]; //Array
+    Rui.get('bd').setXY(pos);
+    assertNotUndefined(Rui.get('bd').getXY());
+}
+function testLElement_method_getX() {
+    info('LElementTests : testLElement_method_getX 작동 여부');
+    assertTrue(Rui.get('bd').getX() > 0);
+}
+function testLElement_method_setX() {
+    info('LElementTests : testLElement_method_setX 작동 여부');
+    var x = 10; //int
+    Rui.get('bd').setX(x);
+    assertTrue(Rui.get('bd').getX() > 0);
+}
+function testLElement_method_getY() {
+    info('LElementTests : testLElement_method_getY 작동 여부');
+    assertTrue(Rui.get('bd').getY() > 0);
+}
+function testLElement_method_setY() {
+    info('LElementTests : testLElement_method_setY 작동 여부');
+    var y = 10; //int
+    Rui.get('bd').setY(y);
+    assertTrue(Rui.get('bd').getY() > 0);
+}
+function testLElement_method_moveTo() {
+    info('LElementTests : testLElement_method_moveTo 작동 여부');
+    var x = 10; //Number
+    var y = 10; //Number
+    var result = Rui.get('bd').moveTo(x, y);
+    //return type : Rui.LElement
+    assertTrue(Rui.get('bd').getY() >= 10);
+}
+function testLElement_method_animate() {
+    warn('LElementTests : testLElement_method_animate 테스트 무시 => 테스트할 방법이 없음');
+}
+function testLElement_method_setLeft() {
+    info('LElementTests : testLElement_method_setLeft 작동 여부');
+    var left = 10; //String
+    Rui.get('bd').setLeft(left);
+    assertTrue(Rui.get('bd').getLeft() > 0);
+}
+function testLElement_method_setTop() {
+    info('LElementTests : testLElement_method_setTop 작동 여부');
+    var top = 10; //String
+    Rui.get('bd').setTop(top);
+    assertTrue(Rui.get('bd').getTop() > 0);
+}
+function testLElement_method_setRight() {
+    info('LElementTests : testLElement_method_setRight 작동 여부');
+    var right = 10; //String
+    Rui.get('bd').setRight(right);
+    assertTrue(Rui.get('bd').getRight() > 0);
+}
+function testLElement_method_setBottom() {
+    info('LElementTests : testLElement_method_setBottom 작동 여부');
+    var bottom = 10; //String
+    Rui.get('bd').setBottom(bottom);
+    assertTrue(Rui.get('bd').getBottom() > 0);
+}
+function testLElement_method_setSize() {
+    info('LElementTests : testLElement_method_setSize 작동 여부');
+    var width = 600; //String
+    var height = 500; //String
+    Rui.get('bd').setSize(width, height);
+    assertTrue(true);
+}
+function testLElement_method_getLeft() {
+    info('LElementTests : testLElement_method_getLeft 작동 여부');
+    var local = true; //boolean
+    assertTrue(Rui.get('getLeft').getLeft(local) > 0);
+}
+function testLElement_method_getRight() {
+    info('LElementTests : testLElement_method_getRight 작동 여부');
+    var local = true; //boolean
+    assertTrue(Rui.get('getLeft').getRight(local) > 0);
+}
+function testLElement_method_getTop() {
+    info('LElementTests : testLElement_method_getTop 작동 여부');
+    var local = true; //boolean
+    assertTrue(Rui.get('getLeft').getTop(local) > 0);
+}
+function testLElement_method_getBottom() {
+    info('LElementTests : testLElement_method_getBottom 작동 여부');
+    var local = true; //boolean
+    assertTrue(Rui.get('getLeft').getBottom(local) > 0);
+}
+function testLElement_method_clip() {
+    info('LElementTests : testLElement_method_clip 작동 여부');
+    var result = Rui.get('getLeft').clip();
+    //return type : Rui.LElement
+    assertNotUndefined(result);
+}
+function testLElement_method_unclip() {
+    info('LElementTests : testLElement_method_unclip 작동 여부');
+    var result = Rui.get('getLeft').unclip();
+    //return type : Rui.LElement
+    assertNotUndefined(result);
+}
+function testLElement_method_repaint() {
+    warn('LElementTests : testLElement_method_repaint 테스트 무시 => 테스트할 방법이 없음.');
+}
+function testLElement_method_alignTo() {
+    info('LElementTests : testLElement_method_aplignTo 작동 여부');
+    var element = Rui.get('getLeft'); //Mixed
+    var position = 'tr'; //String
+    var result = element.alignTo(element, position);
+    //return type : Rui.LElement
+    assertNotUndefined(result);
+}
+function testLElement_method_getAnchorXY() {
+    info('LElementTests : testLElement_method_getAnchorXY 작동 여부');
+    assertTrue(Rui.get('getLeft').getAnchorXY()[0] > 0);
+}
+function testLElement_method_center() {
+    info('LElementTests : testLElement_method_center 작동 여부');
+    var result = Rui.get('getLeft').center();
+    //return type : Rui.LElement
+    assertNotUndefined(result);
+}
+function testLElement_method_getScroll() {
+    info('LElementTests : testLElement_method_getScroll 작동 여부');
+    assertEquals(Rui.get('scroll').getScroll().top, 0);
+}
+function testLElement_method_setScroll() {
+    info('LElementTests : testLElement_method_setScroll 작동 여부');
+    var objLeftTop = {
+        top: 10,
+        left: 10
+    }; //object
+    Rui.get('scroll').setScroll(objLeftTop);
+    assertEquals(Rui.get('scroll').getScroll().top, 10);
+}
+function testLElement_method_getVisibleScrollXY() {
+    warn('LElementTests : testLElement_method_getVisibleScrollXY 테스트 무시 => 테스트할 수 없음');
+}
+function testLElement_method_moveScroll() {
+    warn('LElementTests : testLElement_method_moveScroll 테스트 무시 => 테스트할 수 없음');
+}
+function testLElement_method_isMask() {
+    info('LElementTests : testLElement_method_isMask 작동 여부');
+    Rui.get('isMask').mask();
+    assertEquals(Rui.get('isMask').isMask(), true);
+}
+function testLElement_method_focus() {
+    info('LElementTests : testLElement_method_focus 작동 여부');
+    var isFocus = false;
+    Rui.get('getValue').on('focus', function(){
+        isFocus = true;
+    });
+    Rui.get('getValue').focus();
+    //return type : Rui.LElement
+    assertTrue(true);
+}
+function testLElement_method_blur() {
+    info('LElementTests : testLElement_method_blur 작동 여부');
+    Rui.get('getValue').focus();
+    var isBlur = false;
+    Rui.get('getValue').on('blur', function(){
+        isBlur = true;
+    });
+    Rui.get('getValue').blur();
+    //return type : Rui.LElement
+    assertTrue(true);
+}
+function testLElement_method_getDimensions() {
+    info('LElementTests : testLElement_method_getDimensions 작동 여부');
+    assertTrue(Rui.get('getDimensions').getDimensions().width > 0 && Rui.get('getDimensions').getDimensions().height > 0);
+}
+function testLElement_method_getHeight() {
+    info('LElementTests : testLElement_method_getHeight 작동 여부');
+    assertTrue(Rui.get('getValue').getHeight() > 0);
+}
+function testLElement_method_setWidth() {
+    info('LElementTests : testLElement_method_setWidth 작동 여부');
+    var width = 150; //Mixed
+    Rui.get('getValue').setWidth(width);
+    assertTrue(Rui.get('getValue').getWidth() >= 150); // border 값 + 2
+}
+function testLElement_method_setHeight() {
+    info('LElementTests : testLElement_method_setHeight 작동 여부');
+    var height = 50; //Mixed
+    Rui.get('getValue').setHeight(height);
+    assertTrue(Rui.get('getValue').getHeight() >= 50);
+}
+function testLElement_method_autoHeight() {
+    info('LElementTests : testLElement_method_autoHeight 작동 여부');
+    var result = Rui.get('autoHeight').autoHeight();
+    //return type : Rui.LElement
+    assertTrue(Rui.get('autoHeight').getHeight() > 0);
+}
+function testLElement_method_fillHeight() {
+    info('LElementTests : testLElement_method_fillHeight 작동 여부');
+    Rui.get('autoHeight').fillHeight();
+    //return type : Rui.LElement
+    assertTrue(Rui.get('autoHeight').getHeight() > 0);
+}
+function testLElement_method_mask() {
+    info('LElementTests : testLElement_method_mask 작동 여부');
+    Rui.get('mask').mask();
+    assertTrue(Rui.get('mask').select('.L-masked-panel').length > 0);
+}
+function testLElement_method_unmask() {
+    info('LElementTests : testLElement_method_unmask 작동 여부');
+    Rui.get('mask').mask();
+    Rui.get('mask').unmask();
+    assertTrue(Rui.get('mask').select('.L-hide-display').length > 0);
+}
+function testLElement_method_isAncestor() {
+    info('LElementTests : testLElement_method_isAncestor 작동 여부');
+    var node = Rui.get('autoHeight'); //HTMLElement
+    assertEquals(Rui.get('bd').isAncestor(node), true);
+}
+function testLElement_method_getRegion() {
+    info('LElementTests : testLElement_method_getRegion 작동 여부');
+    assertTrue(Rui.get('bd').getRegion().top > 0 && Rui.get('bd').getRegion().bottom > 0);
+}
+function testLElement_method_setRegion() {
+    info('LElementTests : testLElement_method_setRegion 작동 여부');
+    var region = new Rui.util.LRegion(10, 1024, 400, 10);
+    Rui.get('bd').setRegion(region);
+    assertEquals(Rui.get('bd').getRegion().top, 10); // border 추가
+}
+function testLElement_method_enable() {
+    info('LElementTests : testLElement_method_enable 작동 여부');
+    Rui.get('enable').disable();
+    Rui.get('enable').enable();
+    //return type : Rui.LElement
+    assertTrue(!Rui.get('enable').hasClass('L-disabled'));
+}
+function testLElement_method_disable() {
+    info('LElementTests : testLElement_method_disable 작동 여부');
+    Rui.get('enable').enable();
+    var result = Rui.get('enable').disable();
+    //return type : Rui.LElement
+    assertTrue(Rui.get('enable').hasClass('L-disabled'));
+}
+function testLElement_method_isDisable() {
+    info('LElementTests : testLElement_method_isDisable 작동 여부');
+    Rui.get('enable').disable();
+    assertTrue(Rui.get('enable').isDisable());
+    Rui.get('enable').enable();
+}
+function testLElement_method_valid() {
+    info('LElementTests : testLElement_method_valid 작동 여부');
+    Rui.get('valid').invalid();
+    Rui.get('valid').valid();
+    //return type : Rui.LElement
+    assertTrue(!Rui.get('valid').hasClass('L-invalid'));
+}
+function testLElement_method_invalid() {
+    info('LElementTests : testLElement_method_invalid 작동 여부');
+    Rui.get('valid').invalid();
+    //return type : Rui.LElement
+    assertTrue(Rui.get('valid').hasClass('L-invalid'));
+}
+function testLElement_method_isValid() {
+    info('LElementTests : testLElement_method_isValid 작동 여부');
+    Rui.get('valid').valid();
+    assertEquals(Rui.get('valid').isValid(), true);
+}
+function testLElement_method_getPadding() {
+    info('LElementTests : testLElement_method_getPadding 작동 여부');
+    var side = 'tb'; //String
+    assertEquals(Rui.get('getPadding').getPadding(side), 10);
+}
+function testLElement_method_getMargins() {
+    info('LElementTests : testLElement_method_getMargins 작동 여부');
+    var side = 'tb'; //String
+    assertEquals(Rui.get('getMargins').getMargins(side), 10);
+}
+function testLElement_method_getComponent() {
+    info('LElementTests : testLElement_method_getComponent 작동 여부');
+    var comp = Rui.get('getComponent').getComponent();
+    assertTrue(comp.id == 'getComponent');
+}
+//**************test function   끝*****************
+
+</script>
+</head>
+
+<body>
+    <h1>Rui.LElement Tests</h1>
+
+    <div id="bd" class="test replaceClass">
+        <div class="testcase-buttons">
+            <a href="javascript:testLElement_method_select()">select</a>
+            <a href="javascript:testLElement_method_query()">query</a>
+            <a href="javascript:testLElement_method_filter()">filter</a>
+            <a href="javascript:testLElement_method_test()">test</a>
+            <a href="javascript:testLElement_method_getValue()">getValue</a>
+            <a href="javascript:testLElement_method_setValue()">setValue</a>
+            <a href="javascript:testLElement_method_setChecked()">setChecked</a>
+            <a href="javascript:testLElement_method_getElementsByTagName()">getElementsByTagName</a>
+            <a href="javascript:testLElement_method_hasChildNodes()">hasChildNodes</a>
+            <a href="javascript:testLElement_method_getChildren()">getChildren</a>
+            <a href="javascript:testLElement_method_on()">on</a>
+            <a href="javascript:testLElement_method_unOn()">unOn</a>
+            <a href="javascript:testLElement_method_unOnAll()">unOnAll</a>
+            <a href="javascript:testLElement_method_addClass()">addClass</a>
+            <a href="javascript:testLElement_method_hasClass()">hasClass</a>
+            <a href="javascript:testLElement_method_removeClass()">removeClass</a>
+            <a href="javascript:testLElement_method_getElementsByClassName()">getElementsByClassName</a>
+            <a href="javascript:testLElement_method_setStyle()">setStyle</a>
+            <a href="javascript:testLElement_method_getStyle()">getStyle</a>
+            <a href="javascript:testLElement_method_setStyles()">setStyles</a>
+            <a href="javascript:testLElement_method_getStyles()">getStyles</a>
+            <a href="javascript:testLElement_method_findParent()">findParent</a>
+            <a href="javascript:testLElement_method_findParentNode()">findParentNode</a>
+            <a href="javascript:testLElement_method_parent()">parent</a>
+            <a href="javascript:testLElement_method_getPreviousSibling()">getPreviousSibling</a>
+            <a href="javascript:testLElement_method_getNextSibling()">getNextSibling</a>
+            <a href="javascript:testLElement_method_insertBefore()">insertBefore</a>
+            <a href="javascript:testLElement_method_insertAfter()">insertAfter</a>
+            <a href="javascript:testLElement_method_remove()">remove</a>
+            <a href="javascript:testLElement_method_removeNode()">removeNode</a>
+            <a href="javascript:testLElement_method_appendChild()">appendChild</a>
+            <a href="javascript:testLElement_method_appendTo()">appendTo</a>
+            <a href="javascript:testLElement_method_appendChildByAjax()">appendChildByAjax</a>
+            <a href="javascript:testLElement_method_getHeight()">getHeight</a>
+            <a href="javascript:testLElement_method_getWidth()">getWidth</a>
+            <a href="javascript:testLElement_method_getPadding()">getPadding</a>
+            <a href="javascript:testLElement_method_setVisibilityMode()">setVisibilityMode</a>
+            <a href="javascript:testLElement_method_show()">show</a>
+            <a href="javascript:testLElement_method_hide()">hide</a>
+            <a href="javascript:testLElement_method_isShow()">isShow</a>
+            <a href="javascript:testLElement_method_html()">html</a>
+            <a href="javascript:testLElement_method_getHtml()">getHtml</a>
+            <a href="javascript:testLElement_method_toggle()">toggle</a>
+            <a href="javascript:testLElement_method_hover()">hover</a>
+            <a href="javascript:testLElement_method_toString()">toString</a>
+            <a href="javascript:testLElement_method_removeChild()">removeChild</a>
+            <a href="javascript:testLElement_method_replaceClass()">replaceClass</a>
+            <a href="javascript:testLElement_method_toggleClass()">toggleClass</a>
+            <a href="javascript:testLElement_method_applyStyles()">applyStyles</a>
+            <a href="javascript:testLElement_method_getXY()">getXY</a>
+            <a href="javascript:testLElement_method_setXY()">setXY</a>
+            <a href="javascript:testLElement_method_getX()">getX</a>
+            <a href="javascript:testLElement_method_setX()">setX</a>
+            <a href="javascript:testLElement_method_getY()">getY</a>
+            <a href="javascript:testLElement_method_setY()">setY</a>
+            <a href="javascript:testLElement_method_moveTo()">moveTo</a>
+            <a href="javascript:testLElement_method_animate()">animate</a>
+            <a href="javascript:testLElement_method_setLeft()">setLeft</a>
+            <a href="javascript:testLElement_method_setTop()">setTop</a>
+            <a href="javascript:testLElement_method_setRight()">setRight</a>
+            <a href="javascript:testLElement_method_setBottom()">setBottom</a>
+            <a href="javascript:testLElement_method_setSize()">setSize</a>
+            <a href="javascript:testLElement_method_getLeft()">getLeft</a>
+            <a href="javascript:testLElement_method_getRight()">getRight</a>
+            <a href="javascript:testLElement_method_getTop()">getTop</a>
+            <a href="javascript:testLElement_method_getBottom()">getBottom</a>
+            <a href="javascript:testLElement_method_clip()">clip</a>
+            <a href="javascript:testLElement_method_unclip()">unclip</a>
+            <a href="javascript:testLElement_method_repaint()">repaint</a>
+            <a href="javascript:testLElement_method_alignTo()">alignTo</a>
+            <a href="javascript:testLElement_method_getAnchorXY()">getAnchorXY</a>
+            <a href="javascript:testLElement_method_center()">center</a>
+            <a href="javascript:testLElement_method_getScroll()">getScroll</a>
+            <a href="javascript:testLElement_method_setScroll()">setScroll</a>
+            <a href="javascript:testLElement_method_getVisibleScrollXY()">getVisibleScrollXY</a>
+            <a href="javascript:testLElement_method_moveScroll()">moveScroll</a>
+            <a href="javascript:testLElement_method_isMask()">isMask</a>
+            <a href="javascript:testLElement_method_focus()">focus</a>
+            <a href="javascript:testLElement_method_blur()">blur</a>
+            <a href="javascript:testLElement_method_getDimensions()">getDimensions</a>
+            <a href="javascript:testLElement_method_getHeight()">getHeight</a>
+            <a href="javascript:testLElement_method_setWidth()">setWidth</a>
+            <a href="javascript:testLElement_method_setHeight()">setHeight</a>
+            <a href="javascript:testLElement_method_autoHeight()">autoHeight</a>
+            <a href="javascript:testLElement_method_fillHeight()">fillHeight</a>
+            <a href="javascript:testLElement_method_mask()">mask</a>
+            <a href="javascript:testLElement_method_unmask()">unmask</a>
+            <a href="javascript:testLElement_method_isAncestor()">isAncestor</a>
+            <a href="javascript:testLElement_method_getRegion()">getRegion</a>
+            <a href="javascript:testLElement_method_setRegion()">setRegion</a>
+            <a href="javascript:testLElement_method_enable()">enable</a>
+            <a href="javascript:testLElement_method_disable()">disable</a>
+            <a href="javascript:testLElement_method_isDisable()">isDisable</a>
+            <a href="javascript:testLElement_method_valid()">valid</a>
+            <a href="javascript:testLElement_method_invalid()">invalid</a>
+            <a href="javascript:testLElement_method_isValid()">isValid</a>
+            <a href="javascript:testLElement_method_getPadding()">getPadding</a>
+            <a href="javascript:testLElement_method_getMargins()">getMargins</a>
+            <a href="javascript:testLElement_method_getComponent()">getComponent</a>
+        </div>
+        <input type="text" id="getValue" value="getValue">
+        <input type="text" id="setValue" value="">
+        <input type="checkbox" id="setChecked" value="">
+        <input type="text" id="remove" value="">
+        <input type="text" id="removeNode" value="">
+        <input type="text" id="enable" value="enable">
+        <input type="text" id="valid" value="valid">
+        <input type="text" id="getComponent" value="valid">
+        <div id="show" class="L-hide-display">show</div>
+        <div id="hide">hide</div>
+        <div id="isShow">isShow</div>
+        <div id="html"></div>
+        <div id="toggle">toggle</div>
+        <div id="removeChild">removeChild</div>
+        <div id="getLeft" style="position:absolute;left: 600px;top: 300px;">getLeft</div>
+        <div id="scroll" style="overflow:scroll;width: 100px;height: 100px;">scroll scroll scroll scroll scroll scroll scroll scroll scroll scroll scroll scroll scroll scroll scroll </div>
+        <div id="mask">mask</div>
+        <div id="isMask">isMask</div>
+        <div id="getDimensions" style="display:none">getDimensions</div>
+        <div id="autoHeight">autoHeight</div>
+        <div id="getPadding" style="padding: 5px">getPadding</div>
+        <div id="getMargins" style="margin: 5px">getMargins</div>
+    </div>
+</body>
+</html>

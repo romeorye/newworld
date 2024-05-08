@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- File Upload : 로컬 -->
+ 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- LOCAL -->
+		<property name="uploadTempDir" value="file:C:/iris_domain/fileupload/temp" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTempDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/temp" /> -->
+		<property name="maxInMemorySize" value="20000"/>
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="fileUpload" class="devonframe.fileupload.FileUpload">
+		<property name="globalPolicy" ref="globalPolicy"/>
+		<property name="optionalPolicyMap">
+			<map>
+				<entry key="anlPolicy" value-ref="anlPolicy"></entry>
+				<entry key="rlabPolicy" value-ref="rlabPolicy"></entry>
+				<entry key="spacePolicy" value-ref="spacePolicy"></entry>
+				<entry key="prjPolicy" value-ref="prjPolicy"></entry>
+				<entry key="mchnPolicy" value-ref="mchnPolicy"></entry>
+				<entry key="fxaPolicy" value-ref="fxaPolicy"></entry>
+				<entry key="knldPolicy" value-ref="knldPolicy"></entry>
+				<entry key="knldPolicy2" value-ref="knldPolicy2"></entry>
+				
+				<entry key="prsPolicy" value-ref="prsPolicy"></entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="globalPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+	    <!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/default" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/default" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}.{ext}" />
+		<property name="maxTotalFileSize" value="50MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+
+	<bean id="anlPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/anl" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/anl" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="50MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+
+	<bean id="rlabPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:C:/weblogic/user_projects/domains/iris_domain/fileupload/rlab" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/anl" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="50MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	<bean id="spacePolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:c:/weblogic/user_projects/domains/iris_domain/fileupload/space" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/anl" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="50MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	
+	<bean id="prjPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:c:/weblogic/user_projects/domains/iris_domain/fileupload/prj" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/prj" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+
+	<bean id="mchnPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:c:/weblogic/user_projects/domains/iris_domain/fileupload/mchn" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/mchn" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+
+	<bean id="fxaPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:c:/weblogic/user_projects/domains/iris_domain/fileupload/fxa" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/fxa" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+
+	<bean id="knldPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:C:/IRIS_DevonFrame/workspace/iris/src/main/webapp/resource/fileupload/knld" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/knld" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+
+
+	<bean id="knldPolicy2" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:c:/weblogic/user_projects/domains/iris_domain/fileupload/knld" />
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/knld" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+	<bean id="prsPolicy" class="devonframe.fileupload.policy.DefaultFileUploadPolicy">
+		<!-- LOCAL -->
+		<property name="uploadTargetDir" value="file:C:/IRIS_DevonFrame/workspace/newiris/src/main/resources/fileupload/prs" />
+<!-- 		<property name="uploadTargetDir" value="file:d:/weblogic/user_projects/domains/iris_domain/fileupload/prs" /> -->
+		<!-- DEV / PRD  -->
+		<!-- <property name="uploadTargetDir" value="file:D:/weblogic/user_projects/domains/iris_domain/config/deployments/iris/src/main/resources/fileupload/prsPolicy" /> -->
+		<property name="allowPattern" value="*"/>
+		<property name="denyPattern" value="*.jsp; *.js; *.java; *.dll; *.exe; *.class;"/>
+		<property name="renamePattern" value="{prefix}[{date:yyyyMMddHHmmssSSS}].{ext}" />
+		<property name="maxTotalFileSize" value="30MB"/>
+		<property name="maxFileSize" value="50MB" />
+		<property name="sequenceAllow" value="true"/>
+		<property name="zeroSizeAllow" value="true"/>
+	</bean>
+	
+
+</beans>

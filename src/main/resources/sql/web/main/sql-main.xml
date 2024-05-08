@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="main">
+	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+
+	<!-- 프로젝트메인 공지사항 조회  -->
+	<select id="retrievePrjMainNoticeList" resultType="hashmap">
+	<![CDATA[
+	-- retrievePrjMainNoticeList 프로젝트메인 공지사항 조회
+	SELECT TOP 5
+			PWI_ID											AS 'pwiId',
+			TITL_NM											AS 'titlNm',
+			(CASE WHEN UGY_YN = 'U' THEN '[긴급] ' + TITL_NM
+			      ELSE TITL_NM END)           				AS 'titlNm2',
+			PWI_SCN_CD										AS 'pwiScnCd',
+			dbo.fn_getComDtlNm('PWI_SCN_CD', A.PWI_SCN_CD)  AS 'pwiScnNm',
+			SBC_NM						    				AS 'sbcNm',
+			RTRV_CNT										AS 'rtrvCnt',
+			KEYWORD_NM										AS 'keywordNm',
+			(CASE
+				WHEN (select	count(1)
+					  from		IRIS_COM_ATTC_FIL
+					  where		ATTC_FIL_ID = A.ATTC_FILE_ID
+					  and		DEL_YN = 'N') = 0 THEN NULL
+				ELSE  A.ATTC_FILE_ID
+			END)                            				AS 'attcFilId',
+			UGY_YN						    				AS 'ugyYn',
+			(CASE WHEN UGY_YN = 'U' THEN
+			      '긴급' ELSE
+			      '일반' END)               				AS 'ugyYnNm',
+			RGST_ID						    				AS 'rgstId',
+			dbo.fn_getUserName(RGST_ID)						AS 'rgstNm',
+			RGST_OPS_ID										AS 'rgstOpsId',
+			convert(varchar(20),FRST_RGST_DT,23) 			AS 'frstRgstDt'
+
+		FROM	IRIS_KNLD_PWI_IMTR A
+		WHERE	DEL_YN = 'N'
+
+	 ORDER BY A.FRST_RGST_DT DESC
+	]]>
+	</select>
+
+	<!-- 프로젝트메인 QnA 조회  -->
+	<select id="retrievePrjMainQnaList" resultType="hashmap">
+	<![CDATA[
+	-- retrievePrjMainQnaList 프로젝트메인 QnA 조회
+		SELECT TOP 5
+					     QNA_ID                                                   AS 'qnaId'        /*QnAID*/
+					    ,QNA_CL_CD                                                AS 'qnaClCd'      /*QnA구분코드*/
+					    ,QUST_CL_CD                                               AS 'qustClCd'     /*질문유형코드*/
+					    ,dbo.fn_getComDtlNm('QUST_CL_CD', QUST_CL_CD)               AS 'qustClNm'     /*질문유형이름*/
+					    ,RLTD_WRTG_ID                                             AS 'rltdWrtgId'   /*댓글ID*/
+						,TITL_NM												  AS 'titlNm'       /*제목*/
+						,SBC_NM                                                   AS 'sbcNm'        /*내용*/
+						,RTRV_CNT                                                 AS 'rtrvCnt'      /*조회수*/
+						,KEYWORD_NM                                               AS 'keywordNm'    /*키워드*/
+						,ATTC_FILE_ID											  AS 'attcFilId'    /*첨부파일*/
+						,RGST_ID                                                  AS 'rgstId'       /*등록자ID*/
+						,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+						,RGST_OPS_ID                                              AS 'rgstOpsId'    /*등록자부서ID*/
+						,DEL_YN                                                   AS 'delYn'        /*삭제여부*/
+						,convert(varchar(20),FRST_RGST_DT,23)				      AS 'frstRgstDt'   /*등록일*/
+		FROM	IRIS_KNLD_QNA
+		WHERE	DEL_YN = 'N'
+		ORDER BY FRST_RGST_DT DESC
+       	]]>
+	</select>
+	
+	<!-- 프로젝트메인 KnowLedge 조회  -->
+	<select id="retrievePrjMainKnowLedgeList" resultType="hashmap">
+	<![CDATA[
+	-- retrievePrjMainKnowLedgeList 프로젝트메인 KnowLedge 조회
+		select  top 5
+                k.docId as docId
+                ,k.clGroup as clGroup
+                ,k.menuId as menuId
+		        ,k.menuNm as menuNm
+		        ,k.titlNm  as titlNm
+		        ,k.rgstNm  as rgstNm
+		        ,k.frstRgstDt as frstRgstDt
+		from (
+			    select 
+                RSST_DOC_ID as docId
+			          ,AFFR_CL_GROUP as clGroup                
+			          ,case when AFFR_CL_GROUP = 'molecule' then 'A'
+			                when AFFR_CL_GROUP = 'adhesion' then 'B'
+			                when AFFR_CL_GROUP = 'inorganic' then 'C'
+			                when AFFR_CL_GROUP = 'coating' then 'D'
+			                when AFFR_CL_GROUP = 'common' then 'E'
+			                when AFFR_CL_GROUP = 'industry' then 'F'
+			                when AFFR_CL_GROUP = 'techCenter' then 'G'
+			                when AFFR_CL_GROUP = 'pms' then 'H'
+			           end as menuId			
+			          ,case when AFFR_CL_GROUP = 'molecule' then '고분자재료Lab'
+			                when AFFR_CL_GROUP = 'adhesion' then '점착기술Lab'
+			                when AFFR_CL_GROUP = 'inorganic' then '무기소재Lab'
+			                when AFFR_CL_GROUP = 'coating' then '코딩기술Lab'
+			                when AFFR_CL_GROUP = 'common' then '연구소공통'
+			                when AFFR_CL_GROUP = 'industry' then 'LG화학연구소'
+			                when AFFR_CL_GROUP = 'techCenter' then 'LG화학 테크센터'
+			                when AFFR_CL_GROUP = 'pms' then 'LG하우시스 연구소'
+			           end as menuNm
+			          ,TITL_NM as titlNm
+			          
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_RSST_DOC
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                MRKT_TCLG_ID as docId
+                ,'' as clGroup
+                ,'I' as menuId
+			          ,'시장/기술정보' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_MRKT_TCLG
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                EDU_SMN_ID as docId
+                ,'' as clGroup
+                ,'J' as menuId
+			          ,'교육/세미나' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_EDU_SMN
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                CFRN_ID as docId
+                ,'' as clGroup
+                ,'K' as menuId
+			          ,'학회/컨퍼런스' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_CFRN
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                SWRM_ID as docId
+                ,'' as clGroup
+                ,'L' as menuId
+			          ,'전시회' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_SWRM
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                PTN_ID as docId
+                ,'' as clGroup
+                ,'M' as menuId
+			          ,'특허' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_PTN
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                STD_FMP_ID as docId
+                ,'' as clGroup
+                ,'N' as menuId
+			          ,'표준양식' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_STD_FMP
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                SFT_ENV_ID as docId
+                ,'' as clGroup
+                ,'O' as menuId
+			          ,'안전/환경/보건' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_SFTY_ENV
+			    where DEL_YN = 'N'
+			    UNION ALL
+			    select 
+                PRCP_MNL_ID as docId
+                ,'' as clGroup
+                ,'P' as menuId
+			          ,'규정/업무Manual' as menuNm
+			          ,TITL_NM as titlNm
+			          ,dbo.fn_getUserName(RGST_ID)                              AS 'rgstNm'
+			          ,FRST_RGST_DT							                  AS 'frstRgstDt'   /*등록일*/
+			    from IRIS_KNLD_PRCP_MNL
+			    where DEL_YN = 'N'
+		    ) k
+		order by  k.frstRgstDt desc
+	
+       	]]>
+	</select>	
+
+	<!-- 프로젝트메인 연구소 금주,차주일정 조회  -->
+	<select id="retrievePrjMainScheduleList" resultType="hashmap">
+	<![CDATA[
+	-- retrievePrjMainScheduleList 프로젝트메인 연구소 금주,차주일정 조회
+		SELECT TYPE          as type
+		     , LABT_ADSC_ID  as labtAdscId
+			 , ADSC_DT       as adscDt
+			 , DAY_NAME      as 'dayname'
+			 , ADSC_TIM      as adscTim
+			 , ADSC_TITL     as adscTitl
+			 , ADSC_STRT_TIM as adscStrtTim
+		  FROM (
+		        SELECT '1' as TYPE
+		             , KLA.LABT_ADSC_ID
+			         , KLA.ADSC_DT
+			         , DATENAME(DW, KLA.ADSC_DT) DAY_NAME
+			         , KLA.ADSC_STRT_TIM+':'+KLA.ADSC_STRT_MINU + '~' + KLA.ADSC_FNH_TIM+':'+KLA.ADSC_FNH_MINU AS ADSC_TIM
+			         , KLA.ADSC_TITL
+			         , KLA.ADSC_STRT_TIM
+		          FROM IRIS_KNLD_LABT_ADSC KLA
+		         WHERE KLA.DEL_YN = 'N'
+		           AND KLA.ADSC_DT  >=  convert(nvarchar(10), getdate(), 23)
+		        
+		       ) A
+		 ORDER BY TYPE, ADSC_DT,ADSC_STRT_TIM DESC
+       	]]>
+	</select>
+
+	<!-- 프로젝트 메인 GRS요청개수, 품의요청개수 조회 -->
+	<select id="retrieveUserTssReqCntInfo" resultType="hashmap">
+    <![CDATA[
+    -- retrieveUserTssReqCntInfo 프로젝트 메인 GRS요청개수, 품의요청개수 조회
+		SELECT
+			   ISNULL((SELECT SUM(A.REQ_GRS_CD) AS REQ_GRS
+						 FROM ( /*GRS 요청테이블에 존재하지만 GRS평가 테이블에 없으면 요청, 있으면 완료 */
+								SELECT IIF((SELECT COUNT(*) FROM IRIS_GRS_EV_STD_RSLT_RGST -- GRS평가
+											 WHERE TSS_CD = G.TSS_CD AND TSS_CD_SN = G.TSS_CD_SN) <= 0, 1, 0) AS REQ_GRS_CD
+								  FROM IRIS_GRS_EV_RSLT_RGST G  -- GRS요청
+									   INNER JOIN IRIS_TSS_MGMT_MST M
+											   ON G.TSS_CD = M.TSS_CD
+								 WHERE M.TSS_ST  = '101'
+	]]>
+								 <if test="tssRoleType == null or tssRoleType.equals('') or tssRoleType.equals('S1')">
+								   AND 1 = 1
+								</if>
+								<if test="tssRoleType != null and tssRoleType.equals('S2')">
+								   AND 1 = 2
+								</if>
+								<if test="tssRoleType != null and tssRoleType.equals('S3')">
+								   AND G.REQ_SABUN = #{_userSabun} -- 로그인유저로 요청한건 체크
+								</if>
+	<![CDATA[
+				       		  ) A
+			         ),0) AS reqGrs /*GRS요청건수*/
+			 , ISNULL((SELECT COUNT(1) AS REQ_CSUS
+						 FROM IRIS_COM_ITG_RDCS IR -- 결재
+					     	  INNER JOIN IRIS_TSS_MGMT_MST MM
+									  ON IR.AFFR_CD = MM.TSS_CD
+							  INNER JOIN IRIS_PRJ_RSST_MST A
+									  ON MM.PRJ_CD = A.PRJ_CD
+						WHERE SUBSTRING(IR.GUID,1,1) = 'T'
+						  AND IR.APRDOCSTATE = 'A01' -- 결재요청완료상태
+	]]>
+						<if test="tssRoleType == null or tssRoleType.equals('') or tssRoleType.equals('S1')">
+						  AND 1 = 1
+						</if>
+						<if test="tssRoleType.equals('S2')">
+						  AND (a.PL_EMP_NO = #{_userSabun}
+						   OR mm.SA_SABUN_NEW = #{_userSabun}
+						   OR mm.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW = #{_userSabun}))
+						</if>
+						<if test="tssRoleType.equals('S3')">
+						  AND mm.BIZ_DPT_CD IN
+							<foreach collection="tssRoleCd" item="item" open="(" close=")" separator=",">
+							   #{item}
+							</foreach>
+						</if>
+	<![CDATA[
+				     ),0) AS reqCsus /*결재요청완료건수*/
+    ]]>
+    </select>
+
+	<!-- 분석메인  접수대기, 분석진행, 결과검토 건수 조회  -->
+	<select id="getAnlCntInfo1" resultType="hashmap">
+	-- getAnlCntInfo1 분석메인  접수대기, 분석진행, 결과검토 건수 조회
+			SELECT	SUM(T.acpcCnt)		AS acpcCnt		-- 접수 대기
+				   ,SUM(T.rqprCnt)		AS rqprCnt		-- 분석 진행
+			       ,SUM(T.completeCnt)	AS completeCnt	-- 결과검토
+			FROM	(SELECT  (CASE WHEN ARM.ACPC_ST_CD = '02' THEN COUNT(*)
+								   ELSE 0
+							  END ) AS acpcCnt
+							,(CASE WHEN ARM.ACPC_ST_CD = '03' THEN COUNT(*)
+								   ELSE 0
+							  END ) AS rqprCnt
+							,(CASE WHEN ARM.ACPC_ST_CD = '06' THEN COUNT(*)
+								   ELSE 0
+							  END ) AS completeCnt
+					 FROM  IRIS_ANL_RQPR_MST ARM
+					 WHERE ARM.DEL_YN = 'N'
+	        <choose>
+	        	<when test="isAnlChrg == 1">
+					 AND   ARM.ANL_CHRG_ID =  #{_userId}
+	        	</when>
+	        	<otherwise>
+					 AND   ARM.RGST_ID =  #{_userId}
+	        	</otherwise>
+	        </choose>
+					 AND   ARM.ACPC_ST_CD IN ( '02', '03', '06' )
+					 GROUP BY ARM.ACPC_ST_CD
+					) T
+	</select>
+
+	<!-- 분석메인  (전월 미완료, 이번달 접수, 이번달 진행, 이번달 완료) 건수, 분석완료율  조회  -->
+	<select id="getAnlCntInfo2" resultType="hashmap">
+		<![CDATA[
+		-- getAnlCntInfo2 분석메인  (전월 미완료, 이번달 접수, 이번달 진행, 이번달 완료) 건수, 분석완료율  조회
+		select  a.IncompleteCnt
+		       ,a.completeCnt
+			   ,case when a.IncompleteCnt + a.completeRate = 0 then 0
+			         else round(cast(a.completeCnt as float) / (cast(a.IncompleteCnt as float) + cast(a.completeRate as float)) * 100, 1)  end as completeRate
+			   ,isnull(a.avgCmplWkDdRate, 0) as avgCmplWkDdRate
+			   ,a.recpetCnt
+		from  (
+			select  (
+					SELECT	COUNT(*) AS TOTAL_CNT
+					FROM  IRIS_ANL_RQPR_MST ARM
+					WHERE ARM.DEL_YN = 'N'
+					AND  ARM.ANL_CHRG_ID = #{_userId}
+					AND	 ARM.ACPC_ST_CD IN ('03','06','07')
+					AND  ARM.ACPC_DT  BETWEEN ( DATEADD(MM, -1, CONVERT(NVARCHAR(7), GETDATE(), 23) +'-01')  )
+											AND	  ( DATEADD(MM, 0, CONVERT(NVARCHAR(7), GETDATE(), 23) +'-01') -1)
+					and  (convert(nvarchar(7), arm.ACPC_DT, 23) <> convert(nvarchar(7), arm.CMPL_DT, 23)
+					     or  arm.CMPL_DT is null
+					 	 or  arm.CMPL_DT = ''
+					 	 )
+				) AS IncompleteCnt	-- 전월 미완료건
+				,(
+					SELECT	COUNT(*) AS TOTAL_CNT
+					FROM  IRIS_ANL_RQPR_MST ARM
+					WHERE ARM.DEL_YN = 'N'
+					AND  ARM.ANL_CHRG_ID = #{_userId}
+					AND	 ARM.ACPC_ST_CD IN ('03','05','06','07')
+					AND  ARM.ACPC_DT  BETWEEN  ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()), 0)  ) AND ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()) + 1, 0)  -1)
+				  ) AS recpetCnt		-- 이번달 접수건
+		      ,(
+				SELECT	COUNT(*) AS TOTAL_CNT
+				FROM  IRIS_ANL_RQPR_MST ARM
+				WHERE ARM.DEL_YN = 'N'
+				AND  ARM.ANL_CHRG_ID = #{_userId}
+				AND	 ARM.ACPC_ST_CD IN ('03','05','06','07')
+				AND  ARM.CMPL_DT  BETWEEN  ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()), 0)  ) AND ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()) + 1, 0)  -1)
+				) AS completeCnt		-- 이번달 완료건
+			   ,(
+					SELECT	COUNT(*) AS TOTAL_CNT
+					FROM  IRIS_ANL_RQPR_MST ARM
+					WHERE ARM.DEL_YN = 'N'
+					AND  ARM.ANL_CHRG_ID = #{_userId}
+					AND	 ARM.ACPC_ST_CD IN ('03','05','06','07')
+					AND  ARM.ACPC_DT  BETWEEN  ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()), 0)  ) AND ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()) + 1, 0)  -1)
+				) AS completeRate		--  분석 완료율
+			 , (SELECT     (CASE WHEN SUM(B.ANL_07_CNT) = 0 THEN 0
+				  ELSE	ROUND( ( B.ANL_DIFF_COUNT / convert(float, SUM(B.ANL_07_CNT)) ) *100 , 1)
+				  END)										AS avgCmplWkDdRate	-- 결과 준수 율
+			FROM (
+				SELECT A.ANL_CHRG_ID
+					 ,(CASE WHEN A.ACPC_ST_CD = '07'  THEN
+						COUNT(*)
+					 ELSE 0
+					 END ) AS ANL_07_CNT   -- 완료
+					 ,(SELECT COUNT(*)
+						FROM IRIS_ANL_RQPR_MST ARM2
+						WHERE ARM2.DEL_YN = 'N'
+						AND	ARM2.CMPL_DT BETWEEN DATEADD(MM, 0, convert(nvarchar(7), getdate(), 23)+'-01'    ) AND ( DATEADD(MM, 1, convert(nvarchar(7), getdate(), 23)+'-01')  -1 ) -- FROM , TO
+						AND	ARM2.ACPC_ST_CD IN ('07' )
+						AND	ARM2.CMPL_PARR_DT >= ARM2.CMPL_DT
+						AND	ARM2.ANL_CHRG_ID = A.ANL_CHRG_ID
+					) AS ANL_DIFF_COUNT	-- 결과 준수 카운트
+			    FROM (
+					SELECT ARM.ANL_CHRG_ID
+						  ,ARM.ACPC_ST_CD
+						  ,(SELECT sum(SMPO_QTY)
+						   FROM IRIS_ANL_RQPR_EXPR ARE
+						   WHERE ARE.DEL_YN = 'N'
+						   AND	 ARE.RQPR_ID = ARM.RQPR_ID) AS EXPR_CNT
+					FROM IRIS_ANL_RQPR_MST ARM
+					WHERE ARM.DEL_YN = 'N'
+					and   arm.anl_chrg_id = #{_userId}
+					AND	  ARM.CMPL_DT BETWEEN DATEADD(MM, 0, convert(nvarchar(7), getdate(), 23)+'-01'    ) AND ( DATEADD(MM, 1, convert(nvarchar(7), getdate(), 23)+'-01')  -1 ) -- FROM , TO
+					AND	  ARM.ACPC_ST_CD IN ('03','05', '06', '07' )
+				) A
+				GROUP BY A.ANL_CHRG_ID, A.ACPC_ST_CD
+			) B
+			GROUP BY B.ANL_CHRG_ID ,B.ANL_DIFF_COUNT
+			) as avgCmplWkDdRate
+		) a
+		]]>
+	</select>
+
+	<!-- 분석메인 일반사용자 분석의뢰 리스트  조회  -->
+	<select id="getAnlRqprList" resultType="hashmap">
+	-- getAnlRqprList 분석메인 일반사용자 분석의뢰 리스트  조회
+		   SELECT  TOP 4 ARM.RQPR_ID								as rqprId
+				  ,ARM.ANL_NAME										as anlNm
+				  ,ARM.ACPC_NO										as acpcNo
+				  ,dbo.fn_getComDtlNm('ACPC_ST_CD', ARM.ACPC_ST_CD)	as acpcStNm
+			FROM  IRIS_ANL_RQPR_MST ARM
+			WHERE ARM.DEL_YN = 'N'
+			AND  ARM.RGST_ID = #{_userId}
+			AND  ARM.RQPR_DT  BETWEEN  ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()), 0)  ) AND ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()) + 1, 0)  -1)
+			ORDER BY ARM.RQPR_DT DESC
+
+	</select>
+
+	<!-- 분석메인 일반사용자 분석기기 교육신청 리스트  조회  -->
+	<select id="getAnlMchnEduReqList" resultType="hashmap">
+	-- getAnlMchnEduReqList 분석메인 일반사용자 분석기기 교육신청 리스트  조회
+		   SELECT  TOP 4 MEM.MCHN_EDU_ID								as mchnEduId
+				  ,MEM.EDU_NM	 	 									as eduNm
+				  ,dbo.fn_getComDtlNm('MCHN_EDU_ST_CD', MED.EDU_ST_CD)	as eduStNm
+				  ,MEM.EDU_DT											as eduDt
+				  ,MEM.EDU_FROM_TIM 									as eduFromTim
+				  ,MEM.EDU_TO_TIM										as eduToTim
+				  ,MEM.EDU_PL											as eduPl
+			FROM IRIS_MCHN_EDU_MST MEM
+				,IRIS_MCHN_EDU_DTL MED
+			WHERE MEM.DEL_YN = 'N'
+			AND  MEM.MCHN_EDU_ID = MED.MCHN_EDU_ID
+			AND  MED.RGST_ID = #{_userId}
+			AND  MED.RGST_DT  BETWEEN  ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()), 0)  ) AND ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()) + 1, 0)  -1)
+			ORDER BY MED.RGST_DT DESC
+
+	</select>
+
+	<!-- 분석메인 일반사용자 기기신청 리스트  조회  -->
+	<select id="getAnlMchnReqList" resultType="hashmap">
+	-- getAnlMchnReqList 분석메인 일반사용자 기기신청 리스트  조회
+		   SELECT  TOP 4 MPM.MCHN_PRCT_ID									as MchnPrctId
+			      ,MPM.PRCT_TITL											as prctTitl
+			      ,MPM.PRCT_DT 												as prctDt
+			      ,PRCT_FROM_TIM											as prctFromTim
+			      ,PRCT_TO_TIM    											as prctToTim
+			      ,MPM.PRCT_SCN_CD											as prctScnCd
+			      ,dbo.fn_getComDtlNm('MCHN_APPR_RQ_ST', MPM.PRCT_SCN_CD)	as prctScnNm
+			FROM IRIS_MCHN_INFO_MST MIM
+				,IRIS_MCHN_PRCT_MST MPM
+			WHERE MIM.DEL_YN = 'N'
+			AND MIM.MCHN_INFO_ID = MPM.MCHN_INFO_ID
+			AND  MPM.RGST_ID = #{_userId}
+			AND PRCT_DT  BETWEEN  ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()), 0)  ) AND ( DATEADD(mm, DATEDIFF(m, 0, GETDATE()) + 1, 0)  -1)
+			ORDER BY PRCT_DT DESC
+
+	</select>
+
+	<!-- 분석메인 공지사항 리스트  조회  -->
+	<select id="getAnlNoticeList" resultType="hashmap">
+	<![CDATA[
+	-- getAnlNoticeList 분석메인 공지사항 리스트  조회
+	      SELECT TOP 4
+				   BBS_ID                                                   AS bbsId        /*게시판ID*/
+				  ,BBS_CD                                                   AS bbsCd        /*분석게시판코드*/
+				  ,dbo.fn_getComDtlNm('ANL_BBS_CD', A.BBS_CD)               AS bbsNm        /*분석게시판명*/
+				  ,BBS_TITL                                                 AS bbsTitl      /*게시판제목*/
+				  ,BBS_SBC                                                  AS bbsSbc       /*게시판내용*/
+				  ,RGST_ID                                                  AS rgstId       /*등록자ID*/
+			      ,dbo.fn_getUserName(RGST_ID)                              AS rgstNm       /*등록자이름*/
+				  ,RTRV_CT                                                  AS rtrvCt       /*조회건수*/
+				  ,BBS_KWD                                                  AS bbsKwd       /*키워드*/
+				  ,ATTC_FILE_ID                                             AS attcFilId    /*첨부파일ID*/
+				  ,DOC_NO                                                   AS docNo        /*문서번호*/
+				  ,SOP_NO                                                   AS sopNo        /*SOP번호*/
+				  ,ANL_TLCG_CL_CD                                           AS anlTlcgClCd  /*분석기술정보분류코드*/
+				  ,dbo.fn_getComDtlNm('ANL_TLCG_CL_CD', A.ANL_TLCG_CL_CD)   AS anlTlcgClNm  /*분석기술정보분류이름*/
+				  ,QNA_CL_CD                                                AS qnaClCd      /*질문답변구분코드*/
+				  ,dbo.fn_getComDtlNm('QNA_CL_CD', A.QNA_CL_CD)             AS qnaClNm      /*질문답변구분이름*/
+				  ,convert(varchar(20),A.FRST_RGST_DT,23)                   AS frstRgstDt   /*등록일*/
+				  ,DEL_YN                                                   AS delYn        /*삭제여부*/
+			 FROM IRIS_ANL_BBS_MST A
+			WHERE DEL_YN = 'N'
+			AND BBS_CD in ('07','08','09')
+	        ORDER BY A.FRST_RGST_DT DESC
+       	]]>
+	</select>
+
+	<!-- 분석메인 설정된 분석기기 리스트  조회  -->
+	<select id="getAnlMchnSettingList" resultType="hashmap">
+	-- getAnlMchnSettingList 분석메인 설정된 분석기기 리스트  조회
+		    SELECT MIM.MCHN_INFO_ID								as mchnInfoId
+				  ,MIM.MCHN_EN_NM +' | '+ MIM.MCHN_HAN_NM 	as mchnNm
+			FROM IRIS_MCHN_INFO_MST MIM
+			WHERE MIM.DEL_YN = 'N'
+			AND   MIM.MN_SCRN_DSP_YN = 'Y'
+			ORDER BY MIM.MCHN_EN_NM
+
+	</select>
+
+	<!-- 분석메인 분석기기 예약현황 리스트  조회  -->
+	<select id="getAnlMchnReservList" resultType="hashmap">
+	-- getAnlMchnReservList 분석메인 분석기기 예약현황 리스트  조회
+		    SELECT TOP 4 MPM.MCHN_PRCT_ID					as mchnPrctId
+				  ,MPM.PRCT_FROM_TIM +'~'+ MPM.PRCT_TO_TIM	as prctTim
+				  ,MPM.RGST_ID								as rgstId
+				  ,concat(SU.sa_name, ' ',SU.sa_jobx_name)	as rgstNm
+				  ,SU.sa_dept_name							as rgstDeptNm
+			FROM IRIS_MCHN_PRCT_MST MPM
+				LEFT OUTER JOIN
+						IRIS_SSO_USER   SU
+					ON  MPM.RGST_ID = SU.SA_SABUN_NEW
+			WHERE MPM.DEL_YN = 'N'
+			AND MPM.MCHN_INFO_ID = ${mchnInfoId}
+			AND PRCT_SCN_CD = 'APPR'
+			AND	PRCT_DT = CONVERT(NVARCHAR(10), GETDATE(), 23)
+			ORDER BY PRCT_FROM_TIM DESC
+
+	</select>
+
+	<!-- 분석메인 교육 신청 리스트  조회  -->
+	<select id="getAnlEduReqList" resultType="hashmap">
+		<![CDATA[
+		-- getAnlEduReqList 분석메인 교육 신청 리스트  조회
+		   SELECT  TOP 4 MEM.MCHN_EDU_ID								as mchnEduId
+				  ,MEM.EDU_NM											as eduNm
+				  ,MEM.EDU_SCN_CD										as eduScnCd
+				  ,dbo.fn_getComDtlNm('MCHN_EDU_SCN', MEM.EDU_SCN_CD)	as eduScnNm
+				  ,MEM.PTT_FROM_DT										as pttFromDt
+				  ,MEM.PTT_TO_DT										as pttToDt
+				  ,MEM.EDU_DT											as eduDt
+				  ,MEM.EDU_PL											as eduPl
+				  ,(CASE
+				    WHEN (MEM.PTT_FROM_DT <= convert(nvarchar(10), getdate(), 23)  AND
+					MEM.PTT_TO_DT >= convert(nvarchar(10), getdate(), 23) ) THEN
+				       '접수중'
+				    ELSE
+				       '마감'
+				   END)													as eduPttStNm
+			FROM IRIS_MCHN_EDU_MST MEM
+			WHERE MEM.DEL_YN = 'N'
+			ORDER BY MEM.PTT_FROM_DT desc
+		 ]]>
+	</select>
+
+	<!-- 분석메인 주요 분석 자료 리스트  조회  -->
+	<select id="getAnlMainDataList" resultType="hashmap">
+	-- getAnlMainDataList 분석메인 주요 분석 자료 리스트  조회
+		   SELECT  TOP 6 ABM.BBS_ID												as bbsId
+				  ,ABM.BBS_CD													as bbsCd
+				  ,'[' + dbo.fn_getComDtlNm('ANL_BBS_CD', ABM.BBS_CD) + ']'		as bbsNm
+				  ,ABM.BBS_TITL													as bbsTitl
+				  ,ABM.BBS_SBC													as bbsSbc
+				  ,CONVERT(NVARCHAR(10),ABM.FRST_RGST_DT, 23)					as rgstDt
+			FROM  IRIS_ANL_BBS_MST ABM
+			WHERE ABM.DEL_YN = 'N'
+			AND	  BBS_CD IN ( '02','03','04')
+			ORDER BY ABM.FRST_RGST_DT DESC
+	</select>
+
+</mapper>

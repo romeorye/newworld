@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="knld.pub">
+
+	<select id="getTechnologyList" resultType="hashmap">
+		<![CDATA[
+		-- getTechnologyList
+			SELECT
+				MRKT_TCLG_ID                                                     AS 'techId'         /*시장기술정보ID*/
+				  ,TCLG_SCN_CD                                                   AS 'techScnCd'      /*분류코드*/
+				  ,dbo.fn_getComDtlNm('TCLG_SCN_CD', A.TCLG_SCN_CD)              AS 'techScnNm'      /*분류코드이름*/
+			  	  ,TITL_NM                                                       AS 'titlNm'         /*제목*/
+			      ,INFO_PRVN_KIND_CD                                             AS 'infoPrvnKindCd' /*출처코드*/
+			      ,dbo.fn_getComDtlNm('INFO_PRVN_KIND_CD', A.INFO_PRVN_KIND_CD)  AS 'infoPrvnKindNm' /*출처코드이름*/
+		          ,INFO_PRVN_NM                                                  AS 'infoPrvnNm'     /*출처제목*/
+		          ,SBC_NM                                                        AS 'sbcNm'          /*본문내용*/
+		          ,RTRV_CNT                                                      AS 'rtrvCnt'        /*조회수*/
+		          ,KEYWORD_NM                                                    AS 'keywordNm'      /*키워드*/
+				  ,(CASE
+					  WHEN (select	    count(1)
+						   	  from		IRIS_COM_ATTC_FIL
+						  	 where		ATTC_FIL_ID = A.ATTC_FILE_ID
+							   and		DEL_YN = 'N') = 0 THEN NULL
+					  ELSE  A.ATTC_FILE_ID
+				    END)                                                         AS 'attcFilId'       /*첨부파일*/
+		          ,RGST_ID                                                       AS 'rgstId'          /*등록자ID*/
+		          ,dbo.fn_getUserName(RGST_ID)                                   AS 'rgstNm'          /*등록자이름*/
+                  ,convert(varchar(20),A.FRST_RGST_DT,23)                        AS 'frstRgstDt'      /*등록일*/
+		          ,RGST_OPS_ID                                                   AS 'rgstOpsId'       /*부서ID*/
+		          ,DEL_YN                                                        AS 'delYn'           /*삭제여부*/
+           FROM     IRIS_KNLD_MRKT_TCLG A
+           WHERE    DEL_YN = 'N'
+		 ]]>
+        <if test="techScnCd != null and techScnCd != ''">
+			AND TCLG_SCN_CD = '${techScnCd}'
+		</if>
+		 <if test="infoPrvnKindCd != null and infoPrvnKindCd != ''">
+			AND INFO_PRVN_KIND_CD like '%${infoPrvnKindCd}%'
+		</if>
+        <if test="rgstNm != null and rgstNm != ''">
+			AND dbo.fn_getUserName(RGST_ID) like '%${rgstNm}%'
+		</if>
+        <if test="titlNm != null and titlNm != ''">
+			AND TITL_NM like '%${titlNm}%'
+		</if>
+		<if test="infoPrvnNm != null and infoPrvnNm != ''">
+			AND INFO_PRVN_NM like '%${infoPrvnNm}%'
+		</if>
+			ORDER BY MRKT_TCLG_ID DESC
+	</select>
+
+	<!-- 시장/기술정보 저장  -->
+	<insert id="insertTechnologyInfo">
+	<![CDATA[
+	-- insertTechnologyInfo 시장/기술정보 저장
+		insert into IRIS_KNLD_MRKT_TCLG
+		(     TITL_NM
+	        , TCLG_SCN_CD
+	        , INFO_PRVN_KIND_CD
+	        , INFO_PRVN_NM
+			, SBC_NM
+			, RTRV_CNT
+			, KEYWORD_NM
+			]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+            , ATTC_FILE_ID
+            </if>
+            <![CDATA[
+			, RGST_ID
+			, RGST_OPS_ID
+			, DEL_YN
+			, FRST_RGST_ID
+			, FRST_RGST_DT
+			, LAST_MDFY_ID
+			, LAST_MDFY_DT
+		)
+		values
+		(
+		      #{titlNm}
+		    , #{techScnCd}
+		    , #{infoPrvnKindCd}
+		    , #{infoPrvnNm}
+		    , #{sbcNm}
+		    , 0
+		    , #{keywordNm}
+		    ]]>
+			<if test="( attcFilId != null and attcFilId != '')">
+		    , #{attcFilId}
+		    </if>
+		     <![CDATA[
+		    , #{_userId}
+		    , ( SELECT sa_dept_new FROM IRIS_SSO_USER WHERE sa_user = #{_userId} )
+		    , 'N'
+		    , #{_userId}
+		    , getdate()
+		    , #{_userId}
+		    , getdate()
+		)
+	]]>
+	</insert>
+    <!-- 시장/기술정보 업데이트  -->
+	<update id="updateTechnologyInfo">
+	<![CDATA[
+	-- updateTechnologyInfo 시장/기술정보 업데이트
+		UPDATE IRIS_KNLD_MRKT_TCLG
+		   SET LAST_MDFY_ID = #{_userId}
+		     , LAST_MDFY_DT = getdate()
+		     , TITL_NM = #{titlNm}
+		     , TCLG_SCN_CD = #{techScnCd}
+	         , INFO_PRVN_KIND_CD = #{infoPrvnKindCd}
+	         , INFO_PRVN_NM = #{infoPrvnNm}
+		     , SBC_NM = #{sbcNm}
+		     , KEYWORD_NM = #{keywordNm}
+	]]>
+		<if test="( attcFilId != null and attcFilId != '')">
+			, ATTC_FILE_ID = #{attcFilId}
+	    </if>
+
+	<![CDATA[
+		 WHERE MRKT_TCLG_ID = #{techId}
+	]]>
+	</update>
+
+	<!-- 시장/기술정보 조회건수 업데이트  -->
+	<update id="updateTechnologyRtrvCnt">
+	<![CDATA[
+	-- updateTechnologyRtrvCnt 시장/기술정보 조회건수 업데이트
+		UPDATE IRIS_KNLD_MRKT_TCLG
+		   SET RTRV_CNT = RTRV_CNT + 1
+	]]>
+
+	<![CDATA[
+		 WHERE MRKT_TCLG_ID = #{techId}
+	]]>
+	</update>
+
+
+
+    <!-- 시장/기술정보 삭제  -->
+	<update id="deleteTechnologyInfo">
+	<![CDATA[
+	-- deleteTechnologyInfo 시장/기술정보 삭제
+		UPDATE IRIS_KNLD_MRKT_TCLG
+		   SET DEL_YN = 'Y'
+	]]>
+
+	<![CDATA[
+		 WHERE MRKT_TCLG_ID = #{techId}
+	]]>
+	</update>
+
+	<select id="getTechnologyInfo" resultType="hashmap">
+		<![CDATA[
+		-- getTechnologyInfo
+			SELECT
+					MRKT_TCLG_ID                           AS 'techId'               /*시장기술정보ID*/
+				   ,TCLG_SCN_CD                            AS 'techScnCd'            /*분류코드*/
+ 				   ,dbo.fn_getComDtlNm('TCLG_SCN_CD', A.TCLG_SCN_CD) AS 'techScnNm' /*분류코드이름*/
+			  	   ,TITL_NM                                AS 'titlNm'               /*제목*/
+			       ,INFO_PRVN_KIND_CD                      AS 'infoPrvnKindCd'       /*출처코드*/
+  				   ,dbo.fn_getComDtlNm('INFO_PRVN_KIND_CD', A.INFO_PRVN_KIND_CD) AS 'infoPrvnKindNm' /*출처코드이름*/
+		           ,INFO_PRVN_NM                           AS 'infoPrvnNm'           /*출처제목*/
+		           ,SBC_NM                                 AS 'sbcNm'                /*본문내용*/
+		           ,RTRV_CNT                               AS 'rtrvCnt'              /*조회수*/
+		           ,KEYWORD_NM                             AS 'keywordNm'            /*키워드*/
+		           ,ATTC_FILE_ID                           AS 'attcFilId'            /*첨부파일ID*/
+		           ,RGST_ID                                AS 'rgstId'               /*등록자ID*/
+		           ,dbo.fn_getUserName(RGST_ID)            AS 'rgstNm'               /*등록자이름*/
+                   ,convert(varchar(20),A.FRST_RGST_DT,23) AS 'frstRgstDt'           /*등록일*/
+		           ,RGST_OPS_ID                            AS 'rgstOpsId'            /*부서ID*/
+		           ,DEL_YN                                 AS 'delYn'                /*삭제여부*/
+           FROM     IRIS_KNLD_MRKT_TCLG A
+           WHERE    DEL_YN = 'N'
+			 AND    MRKT_TCLG_ID = '${techId}'
+		 ]]>
+
+	</select>
+</mapper>

@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="prj.tss.ousdcoo">
+
+	<!--========================== 대외협력과제_마스터 ==========================-->
+	<select id="retrieveOusdCooTssList" resultType="hashmap">
+    <![CDATA[
+/*대외협력과제 목록 retrieveOusdCooTssList*/
+        SELECT distinct  z.wbsCd        --과제코드
+				,z.pkWbsCd      --과제코드(PK)
+				,z.tssCd        --과제코드
+				,z.tssNm        --과제명
+				, SUBSTRING(z.prjNm,CHARINDEX('.',z.prjNm)+1,LEN(z.prjNm) ) as prjNm
+				,z.deptName
+				,z.tssStrtDd    --과제기간시작
+				,z.tssFnhDd     --과제기간종료
+				,z.cmplNxStrtDd --과제실적시작
+				,z.cmplNxFnhDd  --과제실적종료
+				,z.tssSt        --상태
+				,z.tssStNm        --상태명
+				,z.progressrate --진척율
+				,z.frstRgstDt   --최종실적등록일
+				,z.saUserName   --과제리더
+				,z.pgsStepCd    --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
+				,z.pgsStepNm    --진행상태명
+				,z.tssNosSt     --과제차수상태코드(1차년도, 2 차년도, 3 차년도, 4차년도, 5차년도:국책과제)
+				,z.tssNosStNm   --과제차수상태명
+				,z.grsEvSt --GRS상태
+				,z.myTss
+				,z.cmplBStrtDd  --완료전시작일
+				,z.cmplBFnhDd   --완료전종료일
+				,z.dcacBStrtDd  --중단전시작일
+				,z.dcacBFnhDd   --중단전종료일
+				,z.rsstExp             /*연구비(원)*/
+				,z.rsstExpConvertMil   /*연구비(억원)*/
+				,z.arslExp           /*실적연구비(원)*/
+				,z.arslExpConvertMil /*실적연구비(억원)*/
+				,z.bizDptCd
+				,z.prjCd
+        
+		FROM   (
+				select    M.WBS_CD                                        AS wbsCd        --과제코드
+						, M.PK_WBS_CD                                     AS pkWbsCd      --과제코드(PK)
+						, M.TSS_CD                                        AS tssCd        --과제코드
+						, M.TSS_NM                                        AS tssNm        --과제명
+						,case when m.PGS_STEP_CD = 'CM' then isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) 
+							  when m.PGS_STEP_CD = 'DC' then isnull(m.PRJ_NM, dbo.fn_getPrjName(m.PRJ_CD)) 
+							         else dbo.fn_getPrjName(m.PRJ_CD)  end prjNm   --소속명(프로젝트명)
+										, ISNULL(M.DEPT_NAME, dbo.fn_getUpperDeptNm(M.DEPT_CODE) ) AS deptName
+									, CASE WHEN M.PGS_STEP_CD != 'AL' THEN M.TSS_STRT_DD
+											ELSE (SELECT TOP 1 X.TSS_STRT_DD FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = M.PK_WBS_CD AND X.PGS_STEP_CD = 'PG') END AS tssStrtDd    --과제기간시작
+										, CASE WHEN M.PGS_STEP_CD != 'AL' THEN M.TSS_FNH_DD
+											ELSE (SELECT TOP 1 X.TSS_FNH_DD FROM IRIS_TSS_MGMT_MST X WHERE X.PK_WBS_CD = M.PK_WBS_CD AND X.PGS_STEP_CD = 'PG') END AS tssFnhDd     --과제기간종료
+						, M.CMPL_NX_STRT_DD                               AS cmplNxStrtDd --과제실적시작
+						, M.CMPL_NX_FNH_DD                                AS cmplNxFnhDd  --과제실적종료
+						, M.TSS_ST                                        AS tssSt        --상태
+						, dbo.fn_getComDtlNm('TSS_ST',M.TSS_ST)           AS tssStNm        --상태명
+						, ''                                              AS progressrate --진척율
+						, M.FRST_RGST_DT                                  AS frstRgstDt   --최종실적등록일
+						, ISNULL(dbo.fn_getNameOnTssPgsStep(M.TSS_CD, 'USER', M.SA_SABUN_NEW) , M.SA_SABUN_NAME) AS saUserName   --과제리더
+						, M.PGS_STEP_CD                                   AS pgsStepCd    --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
+						, dbo.fn_getComDtlNm('PGS_STEP_CD',M.PGS_STEP_CD) AS pgsStepNm    --진행상태명
+						, M.TSS_NOS_ST                                    AS tssNosSt     --과제차수상태코드(1차년도, 2 차년도, 3 차년도, 4차년도, 5차년도:국책과제)
+						, dbo.fn_getComDtlNm('TSS_NOS_ST',M.TSS_NOS_ST)   AS tssNosStNm   --과제차수상태명
+						, (SELECT TOP 1 RTRIM(X.GRS_EV_ST) FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS grsEvSt --GRS상태
+						, CASE WHEN  M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW =  #{_userSabun}) THEN 'Y'
+						       when  isnull(m.sa_sabun_name, dbo.fn_getSabunName(m.sa_sabun_new))  = #{_userNm} then 'Y'
+						       ELSE 'N' END AS myTss
+						, M.CMPL_B_STRT_DD                                AS cmplBStrtDd  --완료전시작일
+						, M.CMPL_B_FNH_DD                                 AS cmplBFnhDd   --완료전종료일
+						, M.DCAC_B_STRT_DD                                AS dcacBStrtDd  --중단전시작일
+						, M.DCAC_B_FNH_DD                                 AS dcacBFnhDd   --중단전종료일
+						, ISNULL(B.RSST_EXP,0)                            AS rsstExp             /*연구비(원)*/
+						, ROUND(ISNULL(B.RSST_EXP,0) / convert(float, 100000000), 2)       AS rsstExpConvertMil   /*연구비(억원)*/
+						, (ISNULL(C.YY_NOS_CASH1,0) + ISNULL(C.YY_NOS_CASH2,0) + ISNULL(C.YY_NOS_CASH3,0) + ISNULL(C.YY_NOS_CASH4,0))                      as arslExp           /*실적연구비(원)*/
+						, round(x.asrlExp / convert(float, 100000000), 3)  as arslExpConvertMil 
+						--, ROUND((ISNULL(C.YY_NOS_CASH1,0) + ISNULL(C.YY_NOS_CASH2,0) + ISNULL(C.YY_NOS_CASH3,0) + ISNULL(C.YY_NOS_CASH4,0)) / convert(float, 100000000), 2) as arslExpConvertMil /*실적연구비(억원)*/
+				        , M.BIZ_DPT_CD AS bizDptCd
+				        , M.prj_cd as prjCd
+				        ,g.DROP_YN
+				FROM	IRIS_TSS_MGMT_MST M  /*과제관리마스터*/
+				        left outer join vw_budg_s x on x.wbs_cd = m.wbs_cd 
+						LEFT JOIN IRIS_PRJ_RSST_MST A  /*프로젝트연구마스터*/
+						ON M.PRJ_CD = A.PRJ_CD
+						LEFT OUTER JOIN IRIS_TSS_OUSD_COO_SMRY B ON B.TSS_CD = M.TSS_CD /*대외협력과제 개요*/
+						LEFT OUTER JOIN IRIS_TSS_OUSD_EXP_STOA C ON C.TSS_CD = M.TSS_CD /*대외협력과제 비용*/
+						LEFT OUTER JOIN
+					   (SELECT  * FROM
+						 (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
+						 ON M.TSS_CD = g.TSS_CD
+						 
+						 and left(g.TSS_CD, 1) = 'O'
+						 
+				WHERE	M.TSS_CD IN (SELECT TSS_CD
+										FROM (SELECT WBS_CD, TSS_CD, STEPRANK
+													, RANK() OVER (PARTITION BY X.WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
+					    					FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' OR PGS_STEP_CD = 'DC' THEN 1
+																WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
+																WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102' OR TSS_ST = '301' OR TSS_ST = '302') THEN 3
+																WHEN PGS_STEP_CD = 'AL' THEN 4
+																WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 5
+																WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
+															, TSS_CD, PGS_STEP_CD, TSS_ST, WBS_CD
+													FROM IRIS_TSS_MGMT_MST
+													WHERE  DEL_YN ='N'
+													AND    TSS_SCN_CD = 'O'
+													) X) Y
+													WHERE OVER_STEP_RANK = 1)
+				AND M.TSS_SCN_CD = 'O'
+				AND M.DEL_YN = 'N' --삭제여부
+				--AND iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN)= 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='G1')
+				) Z
+                WHERE  1=1
+		    ]]>
+	        <if test="tssRoleType.equals('S2')">
+	        and  ( z.wbsCd in (select distinct wbs_cd
+								from   IRIS_TSS_MGMT_MST a
+								where   del_yn ='N'
+								and     tss_cd in (
+													select tss_cd
+													from  IRIS_TSS_PTC_RSST_MBR
+													where  sa_sabun_new = #{_userSabun}
+													)
+								and     tss_scn_cd ='O'
+
+								union
+								select  distinct wbs_cd
+								from    IRIS_TSS_MGMT_MST a
+								where  	del_yn ='N'
+								and     tss_scn_cd ='O'
+								and     sa_sabun_new = #{_userSabun}
+							)
+		       or  Z.prjCd in (select prj_cd  from iris_prj_rsst_mst where  pl_emp_no = #{_userSabun})
+			 )
+	        </if>
+	        <if test="tssRoleType.equals('S3')">
+	           AND z.bizDptCd IN
+	            <foreach collection="tssRoleCd" item="item" open="(" close=")" separator=",">
+	                #{item}
+	            </foreach>
+	        </if>
+			<if test="wbsCd != null and !wbsCd.equals('')">
+	            AND (z.wbsCd LIKE '%'+#{wbsCd}+'%'
+	             OR z.pgsStepCd = CASE WHEN #{wbsCd} = 'SEED' THEN 'PL' ELSE 'X' END)
+			</if>
+			<if test="tssNm != null and !tssNm.equals('')">
+				AND z.tssNm LIKE '%'+#{tssNm}+'%'
+			</if>
+			<if test="saUserName != null and !saUserName.equals('')">
+				AND z.saUserName LIKE '%'+#{saUserName}+'%'
+			</if>
+			<if test="deptName != null and !deptName.equals('')">
+				AND z.deptName LIKE '%'+#{deptName}+'%'
+			</if>
+			<if test="tssStrtDd != null and !tssStrtDd.equals('')">
+				<![CDATA[
+				AND #{tssStrtDd} <= convert(nvarchar(7), z.tssStrtDd )
+				]]>
+			</if>
+			<if test="tssFnhDd != null and !tssFnhDd.equals('')">
+				<![CDATA[
+				AND #{tssFnhDd} >=  convert(nvarchar(7), z.tssFnhDd )
+				]]>
+			</if>
+			<if test="tssSt != null and !tssSt.equals('')">
+				AND z.tssSt = #{tssSt}
+			</if>
+			<if test="prjNm != null and !prjNm.equals('')">
+				AND z.prjNm LIKE '%'+#{prjNm}+'%'
+			</if>
+			<if test="pgsStepCd != null and !pgsStepCd.equals('')">
+				AND z.pgsStepCd = #{pgsStepCd} --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
+			</if>
+			<if test="_roleId == 'WORK_IRI_T16' ">
+			  and z.deptName LIKE'%'+#{_userDeptName}+'%'
+			</if>
+
+			ORDER BY z.tssStrtDd DESC, z.tssFnhDd DESC
+	</select>
+
+	<!-- 계획단계 삭제 시작 -->
+    <!-- 계획단계 삭제 - 마스터테이블 YN -->
+	<update id="deleteOusdCooTssPlnMst1">
+	<![CDATA[
+	-- deleteOusdCooTssPlnMst1 계획단계 삭제
+		UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
+		   SET DEL_YN = 'Y'
+		 WHERE TSS_CD = #{tssCd}
+	]]>
+	</update>
+    <!-- 계획단계 삭제 - row 삭제 -->
+	<delete id="deleteOusdCooTssPlnMst2">
+	<![CDATA[
+--deleteOusdCooTssPlnMst2 계획단계 삭제 - row 삭제
+		 DELETE FROM IRIS_GRS_EV_RSLT_RGST
+		 WHERE TSS_CD = #{tssCd}
+	]]>
+	</delete>
+    <!-- 계획단계 삭제 - row 삭제 -->
+	<delete id="deleteOusdCooTssPlnMst3">
+	<![CDATA[
+--deleteOusdCooTssPlnMst3 계획단계 삭제 - row 삭제
+		DELETE FROM IRIS_GRS_EV_STD_RSLT_RGST
+		 WHERE TSS_CD = #{tssCd}
+	]]>
+	</delete>
+	<!-- 계획단계 삭제 끝 -->
+
+	<!--========================== 대외협력과제_개요 ==========================-->
+    <!-- 대외협력과제 계획 개요 조회 -->
+    <select id="retrieveOusdCooTssSmry" resultType="hashmap">
+    <![CDATA[
+    -- retrieveOusdCooTssSmry 대외협력과제 계획 개요 조회
+		SELECT A.TSS_CD	             as tssCd             /*과제코드*/
+		     , A.OUCM_PLN_TXT        as oucmPlnTxt        /*목표기술 성과 계획*/
+		     , ISNULL(A.RSST_EXP,0)  as rsstExp          /*연구비(원)*/
+		     , round(ISNULL(A.RSST_EXP,0) / convert(float, 100000000), 4) as rsstExpConvertMil /*연구비(억원)*/
+		     , RTRIM(A.CNTT_TYPE_CD) as cnttTypeCd        /*계약유형코드*/
+		     , RTRIM(A.MONO_CD)	     as monoCd            /*독점권코드*/
+		     , A.RSST_EXP_FNSH_CND   as rsstExpFnshCnd    /*연구비 지급조건*/
+		     , A.RVW_RSLT_TXT	     as rvwRsltTxt        /*법무팀 검토결과*/
+		     , A.SURR_NCSS_TXT	     as surrNcssTxt       /*연구과제 배경 및 필요성*/
+		     , A.SBC_SMRY_TXT	     as sbcSmryTxt        /*주요 연구개발 내용 요약*/
+		     , A.STTS_TXT	         as sttsTxt           /*지재권 출원현황*/
+		     , A.CTQ_TXT	         as ctqTxt            /*핵심 CTQ/ 품질 수준*/
+		     , A.EFF_SPHE_TXT	     as effSpheTxt        /*파급효과 및 응용분야*/
+		     , A.FNO_PLN_TXT	     as fnoPlnTxt         /*결론 및 향후 계획*/
+		     , A.ALTR_RSON	         as altrRson          /*변경사유*/
+		     , A.ADD_RSON	         as addRson           /*추가사유*/
+		     , A.DCAC_RSON	         as dcacRson          /*중단사유*/
+		     , A.ATTC_FIL_ID         as attcFilId         /*첨부파일ID*/
+			 , A.ALTR_ATTC_FIL_ID    as altrAttcFilId     /*변경첨부파일ID*/
+			 , A.CMPL_ATTC_FIL_ID    as cmplAttcFilId     /*완료첨부파일ID*/
+			 , A.DCAC_ATTC_FIL_ID    as dcacAttcFilId     /*중단첨부파일ID*/
+		     , dbo.fn_getComDtlNm('CNTT_TYPE_CD', A.CNTT_TYPE_CD) as cnttTypeNm /*계약유형명*/
+		     , dbo.fn_getComDtlNm('COMM_YN_T', A.MONO_CD)         as monoNm     /*독점권명*/
+		     , A.FRST_RGST_DT            AS frstRgstDt          --최초등록일시
+             , A.FRST_RGST_ID            AS frstRgstId          --최초등록자
+             , A.LAST_MDFY_DT            AS lastMdfyDt          --최종수정일시
+             , A.LAST_MDFY_ID            AS lastMdfyId          --최종수정자
+		  FROM IRIS_TSS_OUSD_COO_SMRY A                 /* 대외협력과제개요 */
+		 WHERE A.TSS_CD = #{tssCd}
+    ]]>
+    </select>
+
+    <!-- 개요 신규 -->
+    <insert id="insertOusdCooTssSmry">
+    <![CDATA[
+    -- insertOusdCooTssSmry 개요 신규
+		INSERT
+			INTO IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
+			(
+			   TSS_CD
+		     , OUCM_PLN_TXT
+		     , RSST_EXP
+		     , CNTT_TYPE_CD
+		     , MONO_CD
+		     , RSST_EXP_FNSH_CND
+		     , RVW_RSLT_TXT
+		     , SURR_NCSS_TXT
+		     , SBC_SMRY_TXT
+		     , STTS_TXT
+		     , CTQ_TXT
+		     , EFF_SPHE_TXT
+		     , FNO_PLN_TXT
+		     , ALTR_RSON
+		     , ADD_RSON
+		     , DCAC_RSON
+		     , ATTC_FIL_ID
+		     , A.ALTR_ATTC_FIL_ID
+			 , A.CMPL_ATTC_FIL_ID
+			 , A.DCAC_ATTC_FIL_ID
+			 , FRST_RGST_DT
+		     , FRST_RGST_ID
+		     , LAST_MDFY_DT
+		     , LAST_MDFY_ID
+			)
+		    VALUES
+		    (
+			    #{tssCd}             /*과제코드*/
+			  , #{oucmPlnTxt}        /*목표기술 성과 계획*/
+			  , CONVERT(numeric(15, 0), CASE WHEN #{rsstExp} = '' THEN '0' ELSE #{rsstExp} END) /*연구비*/
+			  , #{cnttTypeCd}        /*계약유형코드*/
+			  , #{monoCd}            /*독점권코드*/
+			  , #{rsstExpFnshCnd}    /*연구비 지급조건*/
+			  , #{rvwRsltTxt}        /*법무팀 검토결과*/
+			  , #{surrNcssTxt}       /*연구과제 배경 및 필요성*/
+			  , #{sbcSmryTxt}        /*주요 연구개발 내용 요약*/
+			  , #{sttsTxt}           /*지재권 출원현황*/
+			  , #{ctqTxt}            /*핵심 CTQ/ 품질 수준*/
+			  , #{effSpheTxt}        /*파급효과 및 응용분야*/
+			  , #{fnoPlnTxt}         /*결o론 및 향후 계획*/
+			  , #{altrRson}          /*변경사유*/
+			  , #{addRson}           /*추가사유*/
+			  , #{dcacRson}          /*중단사유*/
+			  , #{attcFilId}         /*첨부파일ID*/
+			  , #{altrAttcFilId}     /*변경첨부파일ID*/
+			  , #{cmplAttcFilId}     /*완료첨부파일ID*/
+			  , #{dcacAttcFilId}     /*중단첨부파일ID*/
+			  , GETDATE()
+		      , #{userId}
+		      , GETDATE()
+		      , #{userId}
+		    )
+    ]]>
+    </insert>
+
+    <!-- 개요 복사 -->
+    <insert id="insertCopyOusdCooTssSmry">
+    <![CDATA[
+    -- insertCopyOusdCooTssSmry 개요 복사
+		INSERT
+			INTO IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
+			(
+			   TSS_CD
+		     , OUCM_PLN_TXT
+		     , RSST_EXP
+		     , CNTT_TYPE_CD
+		     , MONO_CD
+		     , RSST_EXP_FNSH_CND
+		     , RVW_RSLT_TXT
+		     , SURR_NCSS_TXT
+		     , SBC_SMRY_TXT
+		     , STTS_TXT
+		     , CTQ_TXT
+		     , EFF_SPHE_TXT
+		     , FNO_PLN_TXT
+		     , ALTR_RSON
+		     , ADD_RSON
+		     , DCAC_RSON
+		     , ATTC_FIL_ID
+		     , ALTR_ATTC_FIL_ID
+			 , CMPL_ATTC_FIL_ID
+			 , DCAC_ATTC_FIL_ID
+			 , FRST_RGST_DT
+		     , FRST_RGST_ID
+		     , LAST_MDFY_DT
+		     , LAST_MDFY_ID
+			)
+		SELECT #{tssCd}
+		     , OUCM_PLN_TXT
+		     , RSST_EXP
+		     , CNTT_TYPE_CD
+		     , MONO_CD
+		     , RSST_EXP_FNSH_CND
+		     , RVW_RSLT_TXT
+		     , SURR_NCSS_TXT
+		     , SBC_SMRY_TXT
+		     , STTS_TXT
+		     , CTQ_TXT
+		     , EFF_SPHE_TXT
+		     , FNO_PLN_TXT
+		     , ALTR_RSON
+		     , ADD_RSON
+		     , DCAC_RSON
+		     , CASE WHEN ISNULL(#{attcFilId}, '') = '' THEN ATTC_FIL_ID ELSE #{attcFilId} END
+		     , ALTR_ATTC_FIL_ID
+			 , CMPL_ATTC_FIL_ID
+			 , DCAC_ATTC_FIL_ID
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+         FROM IRIS_TSS_OUSD_COO_SMRY
+        WHERE TSS_CD = #{pgTssCd}
+	]]>
+    </insert>
+
+    <!-- 개요 수정 -->
+    <update id="updateOusdCooTssSmry">
+    <![CDATA[
+    -- updateOusdCooTssSmry 개요 수정
+		UPDATE IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
+		   SET OUCM_PLN_TXT = #{oucmPlnTxt}             /*목표기술 성과 계획*/
+		     , RSST_EXP = CONVERT(numeric(15, 0), CASE WHEN #{rsstExp} = '' THEN '0' ELSE #{rsstExp} END) /*연구비*/
+		     , CNTT_TYPE_CD = #{cnttTypeCd}             /*계약유형코드*/
+		     , MONO_CD = #{monoCd}                      /*독점권코드*/
+		     , RSST_EXP_FNSH_CND = #{rsstExpFnshCnd}    /*연구비 지급조건*/
+		     , RVW_RSLT_TXT = #{rvwRsltTxt}             /*법무팀 검토결과*/
+		     , SURR_NCSS_TXT = #{surrNcssTxt}           /*연구과제 배경 및 필요성*/
+		     , SBC_SMRY_TXT = #{sbcSmryTxt}             /*주요 연구개발 내용 요약*/
+		     , STTS_TXT = #{sttsTxt}                    /*지재권 출원현황*/
+		     , CTQ_TXT = #{ctqTxt}                      /*핵심 CTQ/ 품질 수준*/
+		     , EFF_SPHE_TXT = #{effSpheTxt}             /*파급효과 및 응용분야*/
+		     , FNO_PLN_TXT = #{fnoPlnTxt}               /*결론 및 향후 계획*/
+		     , ALTR_RSON = #{altrRson}                  /*변경사유*/
+		     , ADD_RSON = #{addRson}                    /*추가사유*/
+		     , DCAC_RSON = #{dcacRson}                  /*중단사유*/
+		     , ATTC_FIL_ID = #{attcFilId}               /*첨부파일ID*/
+		     , ALTR_ATTC_FIL_ID = #{altrAttcFilId}     /*변경첨부파일ID*/
+			 , CMPL_ATTC_FIL_ID = #{cmplAttcFilId}     /*완료첨부파일ID*/
+			 , DCAC_ATTC_FIL_ID = #{dcacAttcFilId}     /*중단첨부파일ID*/
+		     , LAST_MDFY_DT = GETDATE()
+		     , LAST_MDFY_ID = #{userId}
+		 WHERE TSS_CD = #{tssCd}
+    ]]>
+    </update>
+
+    <!-- 개요 수정(개요탭) -->
+    <update id="updateOusdCooTssPlnSmry">
+    <![CDATA[
+    -- updateOusdCooTssPlnSmry 개요 수정(개요탭)
+		UPDATE IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
+		   SET OUCM_PLN_TXT = #{oucmPlnTxt}             /*목표기술 성과 계획*/
+		     , RSST_EXP = CONVERT(numeric(15, 0), CASE WHEN #{rsstExp} = '' THEN '0' ELSE #{rsstExp} END) /*연구비*/
+		     , CNTT_TYPE_CD = #{cnttTypeCd}             /*계약유형코드*/
+		     , MONO_CD = #{monoCd}                      /*독점권코드*/
+		     , RSST_EXP_FNSH_CND = #{rsstExpFnshCnd}    /*연구비 지급조건*/
+		     , RVW_RSLT_TXT = #{rvwRsltTxt}             /*법무팀 검토결과*/
+		     , SURR_NCSS_TXT = #{surrNcssTxt}           /*연구과제 배경 및 필요성*/
+		     , SBC_SMRY_TXT = #{sbcSmryTxt}             /*주요 연구개발 내용 요약*/
+		     , ATTC_FIL_ID = #{attcFilId}               /*첨부파일ID*/
+		     , LAST_MDFY_DT = GETDATE()
+		     , LAST_MDFY_ID = #{userId}
+		 WHERE TSS_CD = #{tssCd}
+    ]]>
+    </update>
+
+    <!-- 개요 수정 - 완료 -->
+    <update id="updateOusdCooTssCmplSmry">
+    <![CDATA[
+    -- updateOusdCooTssCmplSmry 개요 수정 - 완료
+        UPDATE IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
+           SET SURR_NCSS_TXT = #{surrNcssTxt}           /*연구과제 배경 및 필요성*/
+             , SBC_SMRY_TXT = #{sbcSmryTxt}             /*주요 연구개발 내용 요약*/
+             , STTS_TXT = #{sttsTxt}                    /*지재권 출원현황*/
+             , CTQ_TXT = #{ctqTxt}                      /*핵심 CTQ/ 품질 수준*/
+             , EFF_SPHE_TXT = #{effSpheTxt}             /*파급효과 및 응용분야*/
+             , FNO_PLN_TXT = #{fnoPlnTxt}               /*결론 및 향후 계획*/
+             , CMPL_ATTC_FIL_ID = #{cmplAttcFilId}      /*완료첨부파일ID*/
+             , LAST_MDFY_DT     = GETDATE()
+             , LAST_MDFY_ID     = #{userId}
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+    </update>
+
+    <!-- 개요 수정 - 변경사유 -->
+    <update id="updateOusdCooTssAltrSmry">
+    <![CDATA[
+    -- updateOusdCooTssAltrSmry 개요 수정 - 변경사유
+        UPDATE IRIS_TSS_OUSD_COO_SMRY  /*대외협력과제개요*/
+           SET ALTR_RSON = #{altrRson}
+             , ADD_RSON = #{addRson}
+             , ALTR_ATTC_FIL_ID = #{altrAttcFilId}     /*변경첨부파일ID*/
+             , LAST_MDFY_DT     = GETDATE()
+             , LAST_MDFY_ID     = #{userId}
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+    </update>
+
+
+    <update id="updateOusdTssSmryToSelect">
+
+    <!-- updateOusdTssSmryToSelect -->
+    -- updateOusdTssSmryToSelect
+    UPDATE T1 SET
+			t1.OUCM_PLN_TXT			= t2.OUCM_PLN_TXT
+		   ,t1.RSST_EXP             = t2.RSST_EXP
+		   ,t1.CNTT_TYPE_CD         = t2.CNTT_TYPE_CD
+		   ,t1.MONO_CD              = t2.MONO_CD
+		   ,t1.RSST_EXP_FNSH_CND    = t2.RSST_EXP_FNSH_CND
+		   ,t1.RVW_RSLT_TXT         = t2.RVW_RSLT_TXT
+		   ,t1.SURR_NCSS_TXT        = t2.SURR_NCSS_TXT
+		   ,t1.SBC_SMRY_TXT         = t2.SBC_SMRY_TXT
+		   ,t1.ATTC_FIL_ID          = t2.ATTC_FIL_ID
+		   ,t1.LAST_MDFY_DT         = GETDATE()
+           ,t1.LAST_MDFY_ID         = #{userId}
+		FROM (SELECT OUCM_PLN_TXT
+					,RSST_EXP
+					,CNTT_TYPE_CD
+					,MONO_CD
+					,RSST_EXP_FNSH_CND
+					,RVW_RSLT_TXT
+					,SURR_NCSS_TXT
+					,SBC_SMRY_TXT
+					,ATTC_FIL_ID
+					,LAST_MDFY_DT
+					,LAST_MDFY_ID
+				FROM IRIS_TSS_OUSD_COO_SMRY
+ 				WHERE  tss_cd =  #{psTssCd}	)  T1
+				, IRIS_TSS_OUSD_COO_SMRY T2
+		WHERE t2.TSS_CD = #{tssCd}
+
+    </update>
+
+    <!--========================== 대외협력과제_개요 끝 ==========================-->
+
+    <!--========================== 대외협력과제_비용지급 ==========================-->
+    <!-- 대외협력과제 비용지급 조회 -->
+    <select id="retrieveOusdCooTssExpStoa" resultType="hashmap">
+    <![CDATA[
+    -- retrieveOusdCooTssExpStoa 대외협력과제 비용지급 조회
+		select wbs_cd as wbsCd
+	          ,isnull(round(sum(mm1), 2) , 0) as mm1
+			  ,isnull(round(sum(mm2), 2) , 0) as mm2
+			  ,isnull(round(sum(mm3), 2) , 0) as mm3
+			  ,isnull(round(sum(mm4), 2) , 0) as mm4
+			  ,isnull(round(sum(mm5), 2) , 0) as mm5
+			  ,isnull(round(sum(mm6), 2) , 0) as mm6
+			  ,isnull(round(sum(mm7), 2) , 0) as mm7
+			  ,isnull(round(sum(mm8), 2) , 0) as mm8
+			  ,isnull(round(sum(mm9), 2) , 0) as mm9
+			  ,isnull(round(sum(mm10), 2), 0) as mm10
+			  ,isnull(round(sum(mm11), 2), 0) as mm11
+			  ,isnull(round(sum(mm12), 2), 0) as mm12
+			  ,isnull(round(sum(arsl_exp), 2), 0) as totSum
+		from  (					   
+				select  wbs_Cd
+						,case when right(a.yyyymm, 2) = '01' then sum(a.ARSL_EXP) end 'mm1'
+						,case when right(a.yyyymm, 2) = '02' then sum(a.ARSL_EXP) end 'mm2'
+						,case when right(a.yyyymm, 2) = '03' then sum(a.ARSL_EXP) end 'mm3'
+						,case when right(a.yyyymm, 2) = '04' then sum(a.ARSL_EXP) end 'mm4'
+						,case when right(a.yyyymm, 2) = '05' then sum(a.ARSL_EXP) end 'mm5'
+						,case when right(a.yyyymm, 2) = '06' then sum(a.ARSL_EXP) end 'mm6'
+						,case when right(a.yyyymm, 2) = '07' then sum(a.ARSL_EXP) end 'mm7'
+						,case when right(a.yyyymm, 2) = '08' then sum(a.ARSL_EXP) end 'mm8'
+						,case when right(a.yyyymm, 2) = '09' then sum(a.ARSL_EXP) end 'mm9'
+						,case when right(a.yyyymm, 2) = '10' then sum(a.ARSL_EXP) end 'mm10'
+						,case when right(a.yyyymm, 2) = '11' then sum(a.ARSL_EXP) end 'mm11'
+						,case when right(a.yyyymm, 2) = '12' then sum(a.ARSL_EXP) end 'mm12'
+						,sum(arsl_exp) as arsl_exp
+				from  (
+						select RANK() OVER (PARTITION BY erp_cd, yyyymm, S_GROUP ORDER BY FRST_RGST_DT  DESC) AS OVER_STEP_RANK
+								 ,erp_cd as wbs_cd
+								 ,yyyymm
+								 ,S_GROUP
+								 ,convert(numeric(20,2), convert(numeric(20),KO_RSLT)/1000000)  as arsl_exp
+								-- ,convert(numeric(20,6), convert(numeric(20),KO_RSLT))   as arsl_exp
+						from   IRIS_SAP_BUDG_S_COST
+						where  erp_cd in ( select wbs_cd
+										   from   IRIS_TSS_MGMT_MST
+										   where  tss_scn_cd ='O'
+										   and     pgs_step_cd ='PG'
+										   )	
+						  ) 	a	
+				where   a.OVER_STEP_RANK = 1
+				and     a.WBS_CD = #{wbsCd}   
+    ]]>
+				<if test="searchYear != null and !searchYear.equals('')">
+				AND     left(a.yyyymm, 4) = #{searchYear}  
+				</if>
+				group by  a.wbs_cd, a.yyyymm
+	         ) aa
+		group by 	aa.wbs_cd								   
+    </select>
+
+	<!--실적년도 조회  -->
+	<select id="retrieveYear"  resultType="hashmap" >
+		select distinct yyyy
+		from (
+				select left(yyyymm, 4) as yyyy
+				from   IRIS_SAP_BUDG_S_COST
+				where  erp_cd in ( select wbs_cd
+										   from   IRIS_TSS_MGMT_MST
+										   where  tss_scn_cd ='O'
+										   and     pgs_step_cd ='PG'
+										   )
+									  
+				and   erp_CD =#{wbsCd}
+				) a
+		order by yyyy
+	</select>
+	
+    <!-- 대외협력과제 비용지급 저장 -->
+    <insert id="insertOusdCooTssExpStoa">
+    <![CDATA[
+    -- insertOusdCooTssExpStoa 대외협력과제 비용지급 저장
+ 		INSERT
+			INTO IRIS_TSS_OUSD_EXP_STOA  /*대외협력과제비용지급*/
+			(
+               TSS_CD
+             , TTL_CASH
+             , YY_NOS_CASH1
+             , YY_NOS_DT1
+             , YY_NOS_CASH2
+             , YY_NOS_DT2
+             , YY_NOS_CASH3
+             , YY_NOS_DT3
+             , YY_NOS_CASH4
+             , YY_NOS_DT4
+             , FRST_RGST_DT
+             , FRST_RGST_ID
+             , LAST_MDFY_DT
+             , LAST_MDFY_ID
+			)
+		    VALUES
+		    (
+			    #{tssCd}             /*과제코드*/
+              , (CASE WHEN #{ttlCash} = NULL OR #{ttlCash} = '' THEN NULL ELSE CONVERT(numeric, #{ttlCash}) END)
+              , (CASE WHEN #{yyNosCash1} = NULL OR #{yyNosCash1} = '' THEN NULL ELSE CONVERT(numeric, #{yyNosCash1}) END)
+              , #{yyNosDt1}
+              , (CASE WHEN #{yyNosCash2} = NULL OR #{yyNosCash2} = '' THEN NULL ELSE CONVERT(numeric, #{yyNosCash2}) END)
+              , #{yyNosDt2}
+              , (CASE WHEN #{yyNosCash3} = NULL OR #{yyNosCash3} = '' THEN NULL ELSE CONVERT(numeric, #{yyNosCash3}) END)
+              , #{yyNosDt3}
+              , (CASE WHEN #{yyNosCash4} = NULL OR #{yyNosCash4} = '' THEN NULL ELSE CONVERT(numeric, #{yyNosCash4}) END)
+              , #{yyNosDt4}
+			  , GETDATE()
+		      , #{userId}
+		      , GETDATE()
+		      , #{userId}
+		    )
+    ]]>
+    </insert>
+
+    <!-- 대외협력과제 비용지급 수정 -->
+    <update id="updateOusdCooTssExpStoa">
+    <![CDATA[
+    -- updateOusdCooTssExpStoa 대외협력과제 비용지급 수정
+		UPDATE IRIS_TSS_OUSD_EXP_STOA              /*대외협력과제비용지급*/
+           SET TTL_CASH = (CASE WHEN #{ttlCash} = NULL OR #{ttlCash} = '' THEN NULL ELSE CONVERT(numeric, #{ttlCash}) END)
+             , YY_NOS_CASH1 = (CASE WHEN #{yyNosCash1} = NULL OR #{yyNosCash1} = '' THEN NULL ELSE CONVERT(numeric, #{yyNosCash1}) END)
+             , YY_NOS_DT1 = #{yyNosDt1}
+             , YY_NOS_CASH2 = (CASE WHEN #{yyNosCash2} = NULL OR #{yyNosCash2} = '' THEN NULL ELSE CONVERT(numeric, #{yyNosCash2}) END)
+             , YY_NOS_DT2 = #{yyNosDt2}
+             , YY_NOS_CASH3 = (CASE WHEN #{yyNosCash3} = NULL OR #{yyNosCash3} = '' THEN NULL ELSE CONVERT(numeric, #{yyNosCash3}) END)
+             , YY_NOS_DT3 = #{yyNosDt3}
+             , YY_NOS_CASH4 = (CASE WHEN #{yyNosCash4} = NULL OR #{yyNosCash4} = '' THEN NULL ELSE CONVERT(numeric, #{yyNosCash4}) END)
+             , YY_NOS_DT4 = #{yyNosDt4}
+             , LAST_MDFY_DT = GETDATE()
+             , LAST_MDFY_ID = #{userId}
+		 WHERE TSS_CD = #{tssCd}
+    ]]>
+    </update>
+
+    <!-- 대외협력과제 비용지급 삭제 -->
+    <delete id="deleteOusdCooTssExpStoa">
+    <![CDATA[
+    -- deleteOusdCooTssExpStoa 대외협력과제 비용지급 삭제
+		DELETE FROM IRIS_TSS_OUSD_EXP_STOA              /*대외협력과제비용지급*/
+		 WHERE TSS_CD = #{tssCd}
+    ]]>
+    </delete>
+
+    <!-- 대외협력과제 비용지급 복사 -->
+    <insert id="insertCopyOusdCooTssExpStoa">
+    <![CDATA[
+    -- insertCopyOusdCooTssExpStoa 대외협력과제 비용지급 복사
+        INSERT
+          INTO IRIS_TSS_OUSD_EXP_STOA  /*대외협력과제비용지급*/
+             (
+               TSS_CD
+             , TTL_CASH
+             , YY_NOS_CASH1
+             , YY_NOS_DT1
+             , YY_NOS_CASH2
+             , YY_NOS_DT2
+             , YY_NOS_CASH3
+             , YY_NOS_DT3
+             , YY_NOS_CASH4
+             , YY_NOS_DT4
+             , FRST_RGST_DT
+             , FRST_RGST_ID
+             , LAST_MDFY_DT
+             , LAST_MDFY_ID
+             )
+        SELECT #{tssCd}
+             , TTL_CASH
+             , YY_NOS_CASH1
+             , YY_NOS_DT1
+             , YY_NOS_CASH2
+             , YY_NOS_DT2
+             , YY_NOS_CASH3
+             , YY_NOS_DT3
+             , YY_NOS_CASH4
+             , YY_NOS_DT4
+             , GETDATE()
+             , #{userId}
+             , GETDATE()
+             , #{userId}
+          FROM IRIS_TSS_OUSD_EXP_STOA
+         WHERE TSS_CD = #{pgTssCd}
+    ]]>
+    </insert>
+
+    <!--  완료 대외협력과제 비용지급 조회 -->
+    <select id="retrieveCmplOusdCooTssExpStoa" resultType="hashmap">
+    <![CDATA[
+    -- retrieveCmplOusdCooTssExpStoa 완료 대외협력과제 비용지급 조회
+		SELECT A.TSS_CD        as tssCd
+			 , A.TTL_CASH	   as ttlCash	 /*총액*/
+			 , A.YY_NOS_CASH1  as yyNosCash1 /*1차현금*/
+			 , A.YY_NOS_DT1	   as yyNosDt1	 /*1차지급일자*/
+			 , (CASE WHEN C.YY_NOS_CASH1 IS NULL OR C.YY_NOS_CASH1 = 0 THEN 'N' ELSE 'Y' END)  as pgYyNosCash1Yn /*진행 1차현금입력여부*/
+			 , A.YY_NOS_CASH2  as yyNosCash2 /*2차현금*/
+			 , A.YY_NOS_DT2	   as yyNosDt2	 /*2차지급일자*/
+			 , (CASE WHEN C.YY_NOS_CASH2 IS NULL OR C.YY_NOS_CASH2 = 0 THEN 'N' ELSE 'Y' END)  as pgYyNosCash2Yn /*진행 2차현금입력여부*/
+			 , A.YY_NOS_CASH3  as yyNosCash3 /*3차현금*/
+			 , A.YY_NOS_DT3	   as yyNosDt3	 /*3차지급일자*/
+			 , (CASE WHEN C.YY_NOS_CASH3 IS NULL OR C.YY_NOS_CASH3 = 0 THEN 'N' ELSE 'Y' END)  as pgYyNosCash3Yn /*진행 3차현금입력여부*/
+			 , A.YY_NOS_CASH4  as yyNosCash4 /*4차현금*/
+			 , A.YY_NOS_DT4	   as yyNosDt4	 /*4차지급일자*/
+			 , (CASE WHEN C.YY_NOS_CASH4 IS NULL OR C.YY_NOS_CASH4 = 0 THEN 'N' ELSE 'Y' END)  as pgYyNosCash4Yn /*진행 4차현금입력여부*/
+			 , ISNULL(B.RSST_EXP,0) as rsstExp    /*연구비(원)*/
+			 , round(ISNULL(B.RSST_EXP,0) / convert(float, 100000000), 2) as rsstExpConvertMil           /*연구비(억원)*/
+			 , (ISNULL(B.RSST_EXP,0) - ISNULL(A.TTL_CASH,0)) as remainCash     /*잔액*/
+		  FROM IRIS_TSS_OUSD_EXP_STOA A   /*대외협력과제비용지급*/
+		       INNER JOIN IRIS_TSS_OUSD_COO_SMRY B ON A.TSS_CD = B.TSS_CD
+		       LEFT OUTER JOIN IRIS_TSS_OUSD_EXP_STOA C ON C.TSS_CD = #{pgTssCd}
+		 WHERE A.TSS_CD = #{tssCd}
+    ]]>
+    </select>
+
+    <!--========================== 대외협력과제_비용지급 끝 ==========================-->
+
+    <!--========================== 대외협력과제_기타 시작 ==========================-->
+    <!-- 품의서 필요 기타정보 -->
+    <select id="retrieveOusdCooRqEtcInfo" resultType="hashmap">
+    <![CDATA[
+    -- retrieveOusdCooRqEtcInfo 품의서 필요 기타정보
+        SELECT CONVERT(VARCHAR, GETDATE(), 23)            as nowDate
+             , ISNULL(dbo.fn_getTssPtcRsstMbrPrsnNames(#{tssCd}),'') as mbrNmList
+    ]]>
+    </select>
+    <!--========================== 대외협력과제_기타 끝 ==========================-->
+
+
+
+    <!-- 개요 첨부파일 ID -->
+    <select id="getOudsTssFileId" resultType="hashmap">
+    -- getOudsTssFileId 개요 첨부파일 ID
+        SELECT ATTC_FIL_ID AS attcFilId
+          FROM IRIS_TSS_OUSD_COO_SMRY
+         WHERE TSS_CD = #{pgTssCd}
+    </select>
+
+
+    <!-- 대외협력과제 개요 삭제 -->
+    <delete id="deleteOusdCooTssSmryOfTssCd">
+    <![CDATA[
+    -- deleteOusdCooTssSmryOfTssCd 대외협력과제 개요 삭제
+        DELETE FROM IRIS_TSS_OUSD_COO_SMRY /*대외협력과제 개요*/
+         WHERE TSS_CD = #{tssCd}
+    ]]>
+    </delete>
+
+    <!--목표기술성과 조회 -->
+     <select id="retrieveOusdCooTssCmplGoalCheck"  resultType="String">
+     	<![CDATA[
+     	-- retrieveOusdCooTssCmplGoalCheck 목표기술성과 조회
+     	select  case when a.arslCnt > 0 then 'N'
+		             else 'Y' end as chkYn
+		from (
+				SELECT  count(*)  as arslCnt
+				FROM  IRIS_TSS_GOAL_ARSL  /*과제목표_실적*/
+				WHERE TSS_CD = left(#{tssCd}, 9)+'2'
+				and  (convert(nvarchar(max), ARSL) = '' or convert(nvarchar(max), ARSL) is null)
+			) a
+		]]>
+    </select>
+
+    <!-- 필수산출물 count 조회 -->
+     <select id="retrieveOusdCooTssCmplItmCheck"  resultType="String">
+     	<![CDATA[
+     	-- retrieveOusdCooTssCmplItmCheck 필수산출물 count 조회
+     	SELECT  CASE WHEN COUNT(*)>0 THEN 'Y' ELSE 'N' END checkItm
+		FROM    IRIS_TSS_YLD_ITM
+		WHERE   TSS_CD in (select tss_cd   
+				           from IRIS_TSS_MGMT_MST 
+				           where wbs_cd =#{wbsCd}
+				           and  tss_scn_cd ='O' 
+				           and pgs_step_cd ='PG')
+		and     YLD_ITM_TYPE = '05'		           
+        ]]>
+    </select>
+    
+    <!-- 필수산출물 count 조회 -->
+     <select id="chkOusdCooTssSmry"  resultType="int">
+     	<![CDATA[
+     	-- chkOusdCooTssSmry smryinfo 여부
+     	SELECT  COUNT(*) as checkItm
+		FROM    IRIS_TSS_OUSD_COO_SMRY
+		WHERE   TSS_CD = #{tssCd}
+        ]]>
+    </select>
+
+
+
+</mapper>
