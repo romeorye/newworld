@@ -2,275 +2,276 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="prj.rsstCls">
-	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+    <cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
 
-	<!-- 프로젝트 월마감 목록 조회  -->
-	<select id="retrievePrjClsList" resultType="hashmap" >
-	<![CDATA[
-	-- retrievePrjClsList 프로젝트 월마감 목록 조회
-	SELECT *
-	FROM  (
-			SELECT AA.PRJ_CD       as prjCd
-				 , AA.WBS_CD       as wbsCd
-				 , AA.deptNm
-				 , AA.PRJ_NM       as prjNm
-				 , AA.PRJ_STR_DT   as prjStrDt
-				 , AA.PRJ_END_DT   as prjEndDt
-				 , AA.PGS_STAT_CD  as pgsStatCd
-				 , AA.pgsStatNm
-				 , AA.plEmpNm
-				 , AA.PRJ_CLS_YYMM as prjClsYymm
-				 , (CASE WHEN AA.prjPgsYn = 'Y' THEN AA.prjClsYn
-				         WHEN AA.prjPgsYn = 'N' AND AA.lastClsYymm IS NOT NULL AND AA.lastClsYymm != '' THEN 'Y'
-						 ELSE 'N'
-				    END )          as prjClsYn
-				 , (CASE WHEN AA.prjPgsYn = 'Y' THEN AA.prjClsYnNm
-				         WHEN AA.prjPgsYn = 'N' AND AA.lastClsYymm IS NOT NULL AND AA.lastClsYymm != '' THEN '마감완료'
-						 ELSE '진행'
-				    END )          as prjClsYnNm
-				 , AA.DEPT_CD      as deptCd
-				 , AA.prjPgsYn
-				 , AA.lastClsYymm
-				 ,AA.frstRgstDt
-		 		,AA.lastMdfyDt
-		 		,case when befprjClsYymm <> '' then '완료'
-		 		      else '' end as befprjClsYymm
-		 		,case when befpgsStatNm = 'ON' then 'On Track'
-		 		      when befpgsStatNm = 'OF' then 'Off Track'
-		 		      else  '' end befpgsStatNm
-			  FROM (
-					SELECT A.PRJ_CD
-						 , A.WBS_CD
-						 , [dbo].[fn_getDeptName](A.DEPT_UPER)         as deptNm
-						 , A.PRJ_NM
-						 , A.PRJ_STR_DT
-						 , A.PRJ_END_DT
-						 , C.PGS_STAT_CD
-						 , dbo.fn_getComDtlNm('PGS_STAT_CD', C.PGS_STAT_CD)                                      as pgsStatNm          /*진척상태명*/
-						 , (SELECT SA_NAME  FROM  IRIS_SSO_USER Y WHERE  Y.SA_SABUN_NEW = A.PL_EMP_NO)           as "plEmpNm"
-						 , C.PRJ_CLS_YYMM
-						 , (CASE WHEN C.PRJ_CLS_YN IS NULL OR C.PRJ_CLS_YN= '' THEN 'N' ELSE 'Y' END)            as prjClsYn
-						 , (CASE WHEN C.PRJ_CLS_YN IS NULL OR C.PRJ_CLS_YN= '' THEN '진행' ELSE '마감완료' END)  as prjClsYnNm
-						 , A.DEPT_CD
-						 , (CASE WHEN SUBSTRING((convert(varchar(20),GETDATE(),23)),1,7) BETWEEN SUBSTRING(A.PRJ_STR_DT,1,7)
-					                  AND (CASE WHEN A.PRJ_END_DT IS NULL OR A.PRJ_END_DT = '' THEN '9999-12' ELSE SUBSTRING(A.PRJ_END_DT,1,7) END) THEN 'Y'
-					        ELSE 'N' END) AS prjPgsYn /* 현재월 프로젝트 진행여부 */
-					     , D.PRJ_CLS_YYMM as lastClsYymm
-					     , A.FRST_RGST_DT as frstRgstDt
-				 		 , A.LAST_MDFY_DT as lastMdfyDt
-				 		 , isnull(e.PRJ_CLS_YYMM, '') as befprjClsYymm
-				 		 , isnull(e.PGS_STAT_CD, '') as befpgsStatNm
-					  FROM IRIS_PRJ_RSST_MST A
-						   LEFT OUTER JOIN IRIS_PRJ_RSST_CLS C /*현재월 프로젝트 월마감*/
-							            ON A.PRJ_CD = C.PRJ_CD
-										   AND C.PRJ_CLS_YYMM = SUBSTRING((convert(varchar(20),  GETDATE() ,23)),1,7) /*현재월기준으로 가져오기*/
-										   AND C.PRJ_CLS_YN = 'Y'
-						   LEFT OUTER JOIN IRIS_PRJ_RSST_CLS D /*최종월 프로젝트 월마감*/
-							            ON A.PRJ_CD = D.PRJ_CD
-										   AND D.PRJ_CLS_YYMM IN (SELECT MAX(PRJ_CLS_YYMM) FROM IRIS_PRJ_RSST_CLS WHERE PRJ_CD = D.PRJ_CD)
-										   AND D.PRJ_CLS_YN = 'Y'
-							LEFT OUTER JOIN IRIS_PRJ_RSST_CLS e
-								ON   e.PRJ_CD = a.PRJ_CD
-								AND  e.PRJ_CLS_YYMM =CONVERT(NVARCHAR(7), DATEADD(MM, -1, GETDATE()), 23)
-					 WHERE 1=1
-					 AND (A.LAST_MDFY_ID <> 'MIG_DATA' AND  A.WBS_CD <> 'R16TS0')   -- 기술팀 기술전략팀 제외
-					 and   A.TCLG_YN != 'Y'
-					 and   (a.PRJ_END_DT is null OR a.PRJ_END_DT = '')
-			]]>
-			<if test="( roleCheck != 'ADM'   )"><!-- Admin 사용자 아니면 로그인 사용자의 팀코드(조직)로 조회 -->
-					AND  A.DEPT_CD =  ( case when '00206840' = #{_userSabun}  then '58189985'
-					                    else  #{_teamDept}  end)
-			</if> 
-			<![CDATA[
-				) AA
-				WHERE   (aa.prjPgsYn ='Y'  or (prjPgsYn ='N' and lastClsYymm is not null)  )
-			]]>
-			) a
-			where 1=1
-			<if test="_roleId == 'WORK_IRI_T16' ">
-			 and   a.deptNm LIKE'%'+#{_userDeptName}+'%'
-			</if>
-			ORDER BY a.frstRgstDt desc , a.lastMdfyDt DESC, a.deptNm
-	</select>
+    <!-- 프로젝트 월마감 목록 조회  -->
+    <select id="retrievePrjClsList" resultType="hashmap" >
+    <![CDATA[
+    -- retrievePrjClsList 프로젝트 월마감 목록 조회
+    SELECT *
+    FROM  (
+            SELECT AA.PRJ_CD       as prjCd
+                 , AA.WBS_CD       as wbsCd
+                 , AA.deptNm
+                 , AA.PRJ_NM       as prjNm
+                 , AA.PRJ_STR_DT   as prjStrDt
+                 , AA.PRJ_END_DT   as prjEndDt
+                 , AA.PGS_STAT_CD  as pgsStatCd
+                 , AA.pgsStatNm
+                 , AA.plEmpNm
+                 , AA.PRJ_CLS_YYMM as prjClsYymm
+                 , (CASE WHEN AA.prjPgsYn = 'Y' THEN AA.prjClsYn
+                         WHEN AA.prjPgsYn = 'N' AND AA.lastClsYymm IS NOT NULL AND AA.lastClsYymm != '' THEN 'Y'
+                         ELSE 'N'
+                    END )          as prjClsYn
+                 , (CASE WHEN AA.prjPgsYn = 'Y' THEN AA.prjClsYnNm
+                         WHEN AA.prjPgsYn = 'N' AND AA.lastClsYymm IS NOT NULL AND AA.lastClsYymm != '' THEN '마감완료'
+                         ELSE '진행'
+                    END )          as prjClsYnNm
+                 , AA.DEPT_CD      as deptCd
+                 , AA.prjPgsYn
+                 , AA.lastClsYymm
+                 ,AA.frstRgstDt
+                 ,AA.lastMdfyDt
+                 ,case when befprjClsYymm <> '' then '완료'
+                       else '' end as befprjClsYymm
+                 ,case when befpgsStatNm = 'ON' then 'On Track'
+                       when befpgsStatNm = 'OF' then 'Off Track'
+                       else  '' end befpgsStatNm
+              FROM (
+                    SELECT A.PRJ_CD
+                         , A.WBS_CD
+                         , [dbo].[fn_getDeptName](A.DEPT_UPER)         as deptNm
+                         , A.PRJ_NM
+                         , A.PRJ_STR_DT
+                         , A.PRJ_END_DT
+                         , C.PGS_STAT_CD
+                         , dbo.fn_getComDtlNm('PGS_STAT_CD', C.PGS_STAT_CD)                                      as pgsStatNm          /*진척상태명*/
+                         , (SELECT SA_NAME  FROM  IRIS_SSO_USER Y WHERE  Y.SA_SABUN_NEW = A.PL_EMP_NO)           as "plEmpNm"
+                         , C.PRJ_CLS_YYMM
+                         , (CASE WHEN C.PRJ_CLS_YN IS NULL OR C.PRJ_CLS_YN= '' THEN 'N' ELSE 'Y' END)            as prjClsYn
+                         , (CASE WHEN C.PRJ_CLS_YN IS NULL OR C.PRJ_CLS_YN= '' THEN '진행' ELSE '마감완료' END)  as prjClsYnNm
+                         , A.DEPT_CD
+                         , (CASE WHEN SUBSTRING((convert(varchar(20),GETDATE(),23)),1,7) BETWEEN SUBSTRING(A.PRJ_STR_DT,1,7)
+                                      AND (CASE WHEN A.PRJ_END_DT IS NULL OR A.PRJ_END_DT = '' THEN '9999-12' ELSE SUBSTRING(A.PRJ_END_DT,1,7) END) THEN 'Y'
+                            ELSE 'N' END) AS prjPgsYn /* 현재월 프로젝트 진행여부 */
+                         , D.PRJ_CLS_YYMM as lastClsYymm
+                         , A.FRST_RGST_DT as frstRgstDt
+                          , A.LAST_MDFY_DT as lastMdfyDt
+                          , isnull(e.PRJ_CLS_YYMM, '') as befprjClsYymm
+                          , isnull(e.PGS_STAT_CD, '') as befpgsStatNm
+                      FROM IRIS_PRJ_RSST_MST A
+                           LEFT OUTER JOIN IRIS_PRJ_RSST_CLS C /*현재월 프로젝트 월마감*/
+                                        ON A.PRJ_CD = C.PRJ_CD
+                                           AND C.PRJ_CLS_YYMM = SUBSTRING((convert(varchar(20),  GETDATE() ,23)),1,7) /*현재월기준으로 가져오기*/
+                                           AND C.PRJ_CLS_YN = 'Y'
+                           LEFT OUTER JOIN IRIS_PRJ_RSST_CLS D /*최종월 프로젝트 월마감*/
+                                        ON A.PRJ_CD = D.PRJ_CD
+                                           AND D.PRJ_CLS_YYMM IN (SELECT MAX(PRJ_CLS_YYMM) FROM IRIS_PRJ_RSST_CLS WHERE PRJ_CD = D.PRJ_CD)
+                                           AND D.PRJ_CLS_YN = 'Y'
+                            LEFT OUTER JOIN IRIS_PRJ_RSST_CLS e
+                                ON   e.PRJ_CD = a.PRJ_CD
+                                AND  e.PRJ_CLS_YYMM =CONVERT(NVARCHAR(7), DATEADD(MM, -1, GETDATE()), 23)
+                     WHERE 1=1
+                     AND (A.LAST_MDFY_ID <> 'MIG_DATA' AND  A.WBS_CD <> 'R16TS0')   -- 기술팀 기술전략팀 제외
+                     and   A.TCLG_YN != 'Y'
+                     and   (a.PRJ_END_DT is null OR a.PRJ_END_DT = '')
+            ]]>
+            <if test="( roleCheck != 'ADM'   )"><!-- Admin 사용자 아니면 로그인 사용자의 팀코드(조직)로 조회 00206840:최태이, 00207030:유다영-->
+                    AND  A.DEPT_CD =  ( case when '00206840' = #{_userSabun}  then '58189985'
+                                             when '00207030' = #{_userSabun}  then '58204567'
+                                        else  #{_teamDept}  end)
+            </if>
+            <![CDATA[
+                ) AA
+                WHERE   (aa.prjPgsYn ='Y'  or (prjPgsYn ='N' and lastClsYymm is not null)  )
+            ]]>
+            ) a
+            where 1=1
+            <if test="_roleId == 'WORK_IRI_T16' ">
+             and   a.deptNm LIKE'%'+#{_userDeptName}+'%'
+            </if>
+            ORDER BY a.frstRgstDt desc , a.lastMdfyDt DESC, a.deptNm
+    </select>
 
-	<!-- 프로젝트 월마감 상세조회  -->
-	<select id="retrievePrjClsDtl" resultType="hashmap" >
-		<![CDATA[
-		-- retrievePrjClsDtl 프로젝트 월마감 상세조회
-		SELECT A.PRJ_CD       as "prjCd"
-		     , A.WBS_CD       as "wbsCd"
-		     , ISNULL(A.PRJ_CLS_YN,'N') as "prjClsYn" /*마감여부*/
-		     , A.PGS_STAT_CD  as "pgsStatCd"          /*진척상태*/
-		     --, dbo.fn_getComDtlNm('PGS_STAT_CD', C.PGS_STAT_CD) as "pgsStatNm"          /*진척상태명*/
-			 , A.PRJ_CLS_YYMM as "prjClsYymm"         /*마감월*/
-			 , A.PRJ_CLS_SBC  as "prjClsSbc"          /*마감내용*/
-			 , A.FNO_PLN  as "fnoPln"          /*지연내역 및 향후계획*/
-			 , A.ATTC_FIL_ID  as "attcFilId"          /*첨부파일ID*/
-		  FROM IRIS_PRJ_RSST_CLS A
-		 WHERE A.PRJ_CD = #{prjCd}
-		  AND  A.PRJ_CLS_YYMM = #{searchMonth}
-		]]>
-	</select>
+    <!-- 프로젝트 월마감 상세조회  -->
+    <select id="retrievePrjClsDtl" resultType="hashmap" >
+        <![CDATA[
+        -- retrievePrjClsDtl 프로젝트 월마감 상세조회
+        SELECT A.PRJ_CD       as "prjCd"
+             , A.WBS_CD       as "wbsCd"
+             , ISNULL(A.PRJ_CLS_YN,'N') as "prjClsYn" /*마감여부*/
+             , A.PGS_STAT_CD  as "pgsStatCd"          /*진척상태*/
+             --, dbo.fn_getComDtlNm('PGS_STAT_CD', C.PGS_STAT_CD) as "pgsStatNm"          /*진척상태명*/
+             , A.PRJ_CLS_YYMM as "prjClsYymm"         /*마감월*/
+             , A.PRJ_CLS_SBC  as "prjClsSbc"          /*마감내용*/
+             , A.FNO_PLN  as "fnoPln"          /*지연내역 및 향후계획*/
+             , A.ATTC_FIL_ID  as "attcFilId"          /*첨부파일ID*/
+          FROM IRIS_PRJ_RSST_CLS A
+         WHERE A.PRJ_CD = #{prjCd}
+          AND  A.PRJ_CLS_YYMM = #{searchMonth}
+        ]]>
+    </select>
 
 
-	<!--   -->
-	<insert id="insertPrjRsstCls">
-	<![CDATA[
-	-- insertPrjRsstCls 프로젝트 월마감 등록
-		insert into IRIS_PRJ_RSST_CLS
-		(
-		   PRJ_CD
-		 , WBS_CD
-		 , PRJ_CLS_YN
-		 , PGS_STAT_CD
-		 , PRJ_CLS_SBC
-		 , PRJ_CLS_YYMM
-		 , FNO_PLN
-		 , ATTC_FIL_ID
-		 , FRST_RGST_ID
-		 , FRST_RGST_DT
-		 , LAST_MDFY_ID
-		 , LAST_MDFY_DT
-		)
-		values
-		(
-		   #{prjCd}
-		 , #{wbsCd}
-		 , 'Y'
-		 , #{pgsStatCd}
-		 , #{prjClsSbc}
-		 , #{prjClsYymm}
-		 , #{fnoPln}
-		 , #{attcFilId}
-		 , #{_userId}
-		 , getdate()
-		 , #{_userId}
-		 , getdate()
-		)
-	]]>
-	</insert>
+    <!--   -->
+    <insert id="insertPrjRsstCls">
+    <![CDATA[
+    -- insertPrjRsstCls 프로젝트 월마감 등록
+        insert into IRIS_PRJ_RSST_CLS
+        (
+           PRJ_CD
+         , WBS_CD
+         , PRJ_CLS_YN
+         , PGS_STAT_CD
+         , PRJ_CLS_SBC
+         , PRJ_CLS_YYMM
+         , FNO_PLN
+         , ATTC_FIL_ID
+         , FRST_RGST_ID
+         , FRST_RGST_DT
+         , LAST_MDFY_ID
+         , LAST_MDFY_DT
+        )
+        values
+        (
+           #{prjCd}
+         , #{wbsCd}
+         , 'Y'
+         , #{pgsStatCd}
+         , #{prjClsSbc}
+         , #{prjClsYymm}
+         , #{fnoPln}
+         , #{attcFilId}
+         , #{_userId}
+         , getdate()
+         , #{_userId}
+         , getdate()
+        )
+    ]]>
+    </insert>
 
-	<!-- 프로젝트 월마감 수정  -->
-	<update id="updatePrjRsstCls">
-	<![CDATA[
-	-- updatePrjRsstCls 프로젝트 월마감 수정
-		UPDATE IRIS_PRJ_RSST_CLS
-	       SET LAST_MDFY_ID = #{_userId}
-		     , LAST_MDFY_DT = getdate()
-		]]>
-		<if test="( pgsStatCd != null and pgsStatCd != '')">
-		     , PGS_STAT_CD = #{pgsStatCd}
-		</if>
-		     , FNO_PLN = #{fnoPln}
-		     , PRJ_CLS_SBC = #{prjClsSbc}
-		     , ATTC_FIL_ID = #{attcFilId}
-	<![CDATA[
-		WHERE PRJ_CD = #{prjCd}
-		  AND PRJ_CLS_YYMM = #{prjClsYymm}
-	]]>
-	</update>
+    <!-- 프로젝트 월마감 수정  -->
+    <update id="updatePrjRsstCls">
+    <![CDATA[
+    -- updatePrjRsstCls 프로젝트 월마감 수정
+        UPDATE IRIS_PRJ_RSST_CLS
+           SET LAST_MDFY_ID = #{_userId}
+             , LAST_MDFY_DT = getdate()
+        ]]>
+        <if test="( pgsStatCd != null and pgsStatCd != '')">
+             , PGS_STAT_CD = #{pgsStatCd}
+        </if>
+             , FNO_PLN = #{fnoPln}
+             , PRJ_CLS_SBC = #{prjClsSbc}
+             , ATTC_FIL_ID = #{attcFilId}
+    <![CDATA[
+        WHERE PRJ_CD = #{prjCd}
+          AND PRJ_CLS_YYMM = #{prjClsYymm}
+    ]]>
+    </update>
 
    <select id="retrieveTssPgsSearchInfo" resultType="hashmap">
     <![CDATA[
     -- retrieveTssPgsSearchInfo
         SELECT Z.PRJ_CD AS prjCd
              , Z.WBS_CD                                                                         AS wbsCd        --WBS CODE(보여주기)
-		     , Z.PK_WBS_CD                                                                      AS pkWbsCd      --WBS CODE(내부관리)
-		     , Z.TSS_CD                                                                         AS tssCd        --과제코드
-		     , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.TSS_NM ELSE Z.AL_TSS_NM END               AS tssNm        --과제명
-		     , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.PRJ_NM ELSE Z.AL_PRJ_NM END               AS prjNm        --소속명(프로젝트명)
-		     , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN SUBSTRING(Z.DEPT_NAME, 1, CASE WHEN CHARINDEX('.', Z.DEPT_NAME) <= 0 THEN LEN(Z.DEPT_NAME) ELSE CHARINDEX('.', Z.DEPT_NAME)-1 END)
-		                                       ELSE SUBSTRING(Z.AL_DEPT_NAME, 1, CASE WHEN CHARINDEX('.', Z.AL_DEPT_NAME) <= 0 THEN LEN(Z.AL_DEPT_NAME) ELSE CHARINDEX('.', Z.AL_DEPT_NAME)-1 END) END AS deptName     --조직
-		     , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.TSS_STRT_DD ELSE Z.AL_TSS_STRT_DD END     AS tssStrtDd    --과제기간시작
-		     , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.TSS_FNH_DD  ELSE Z.AL_TSS_FNH_DD END      AS tssFnhDd     --과제기간종료
-		     , CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_STRT_DD
-		            WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_STRT_DD END                         AS cmplNxStrtDd --과제실적시작
-		     , CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_FNH_DD
-		            WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_FNH_DD END                          AS cmplNxFnhDd  --과제실적종료
-		     , Z.TSS_ST                                                                         AS tssSt        --상태
-		     , dbo.fn_getComDtlNm('TSS_ST', Z.TSS_ST)                                           AS tssStNm      --상태명
-		     , Z.FRST_RGST_DT                                                                   AS frstRgstDt   --최종실적등록일
-		     , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.SA_SABUN_NAME ELSE Z.AL_SA_SABUN_NAME END AS saUserName   --과제리더명
-		     , Z.PGS_STEP_CD                                                                    AS pgsStepCd    --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
-		     , dbo.fn_getComDtlNm('PGS_STEP_CD',Z.PGS_STEP_CD)                                  AS pgsStepNm    --진행상태명
-		     , Z.TSS_NOS_ST                                                                     AS tssNosSt     --과제차수상태코드(1차년도, 2 차년도, 3 차년도, 4차년도, 5차년도:국책과제)
-		     , dbo.fn_getComDtlNm('TSS_NOS_ST',Z.TSS_NOS_ST)                                    AS tssNosStNm   --과제차수상태명
-		     , Z.GRS_EV_ST                                                                      AS grsEvSt      --GRS상태
-		     , Z.MY_TSS                                                                         AS myTss
-		     , Z.PROGRESSRATEREAL                                                               AS progressrateReal
-		     , Z.PROGRESSRATE                                                                   AS progressrate
-		  FROM (SELECT M.PRJ_CD
-		             , M.WBS_CD    AS WBS_CD
-		             , M.PK_WBS_CD AS PK_WBS_CD
-		             , M.TSS_CD    AS TSS_CD
-		             , M.TSS_NM    AS TSS_NM
-		             , B.TSS_NM    AS AL_TSS_NM
-		             , SUBSTRING(ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(M.TSS_CD, 'PRJ', M.PRJ_CD), M.PRJ_NM)
-		                            , CHARINDEX('.', ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(M.TSS_CD, 'PRJ', M.PRJ_CD), M.PRJ_NM))+1
-		                            , LEN(ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(M.TSS_CD, 'PRJ', M.PRJ_CD), M.PRJ_NM))) AS PRJ_NM
-		             , SUBSTRING(DBO.FN_GETPRJNAME(B.PRJ_CD), CHARINDEX('.', DBO.FN_GETPRJNAME(B.PRJ_CD))+1, LEN(DBO.FN_GETPRJNAME(B.PRJ_CD))) AS AL_PRJ_NM
-		             , SUBSTRING(M.PRJ_NM, CHARINDEX('.', M.PRJ_NM)+1, LEN(M.PRJ_NM)) AS CM_PRJ_NM
-		             , ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(M.TSS_CD, 'DEPT', M.DEPT_CODE), M.DEPT_NAME) AS DEPT_NAME
-		             , ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(B.TSS_CD, 'DEPT', B.DEPT_CODE), B.DEPT_NAME) AS AL_DEPT_NAME
-		             , M.TSS_STRT_DD    AS TSS_STRT_DD
-		             , B.TSS_STRT_DD    AS AL_TSS_STRT_DD
-		             , M.TSS_FNH_DD     AS TSS_FNH_DD
-		             , B.TSS_FNH_DD     AS AL_TSS_FNH_DD
-		             , M.DCAC_B_STRT_DD AS DCAC_B_STRT_DD
-		             , M.CMPL_B_STRT_DD AS CMPL_B_STRT_DD
-		             , M.DCAC_B_FNH_DD  AS DCAC_B_FNH_DD
-		             , M.CMPL_B_FNH_DD  AS CMPL_B_FNH_DD
-		             , M.TSS_ST         AS TSS_ST
-		             , M.FRST_RGST_DT   AS FRST_RGST_DT
-		             , ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(M.TSS_CD, 'USER', M.SA_SABUN_NEW), M.SA_SABUN_NAME) AS SA_SABUN_NAME
-		             , ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(B.TSS_CD, 'USER', B.SA_SABUN_NEW), B.SA_SABUN_NAME) AS AL_SA_SABUN_NAME
-		             , M.PGS_STEP_CD AS PGS_STEP_CD
-		             , M.TSS_NOS_ST  AS TSS_NOS_ST
-		             , (SELECT TOP 1 X.GRS_EV_ST FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS GRS_EV_ST
-		             , CASE WHEN A.PL_EMP_NO = #{_userSabun}
-		                      OR M.SA_SABUN_NEW = #{_userSabun}
-		                      OR B.SA_SABUN_NEW = #{_userSabun}
-		                      OR M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW = #{_userSabun})
-		               THEN 'Y' ELSE 'N' END AS MY_TSS
-		             -- 실적(WBS) /목표 -진척율
-		             , CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , ROUND( A.ARSL_CD,1))
-		                                FROM IRIS_TSS_GEN_WBS A
-		                               WHERE A.TSS_CD = (SELECT MAX(PG.TSS_CD) --다건발생경우  ERROR발생
-		                                                   FROM IRIS_TSS_MGMT_MST PG
-		                                                  WHERE PG.PK_WBS_CD = M.PK_WBS_CD AND PG.PGS_STEP_CD = 'PG')
-		                                 AND A.WBS_SN = 1), 0),
-		                      '/',
-		                      --목표 (전달의 마지막날로 계산)
-		                      (SELECT ISNULL(SUM(IIF(A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126)), A.WGVL,
-		                                    ROUND(CONVERT(FLOAT,A.WGVL / DATEDIFF(DD, CONVERT(DATE, STRT_DT), CONVERT(DATE, FNH_DT))) *
-		                                          IIF(DATEDIFF(DD, CONVERT(DATE, STRT_DT),GETDATE() ) <0 , 0 ,  DATEDIFF(DD, CONVERT(DATE, STRT_DT),GETDATE())), 1)
-		                                       )), 100) -- 전달의 마지막날로 계산
-		                         FROM IRIS_TSS_GEN_WBS A
-		                        WHERE A.TSS_CD = M.TSS_CD
-		                          AND A.DEPTH = 1
-		                          AND ((CONVERT(VARCHAR(10), GETDATE(), 126) BETWEEN A.STRT_DT AND A.FNH_DT)
-		                           OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126))))) AS PROGRESSRATE --진척율
-		             -- 실적(WBS) /목표 -신호등
-		             , CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , A.ARSL_CD)
-		                                FROM IRIS_TSS_GEN_WBS A
-		                               WHERE A.TSS_CD = (SELECT MAX(PG.TSS_CD)
-		                                                   FROM IRIS_TSS_MGMT_MST PG
-		                                                  WHERE PG.PK_WBS_CD = M.PK_WBS_CD AND PG.PGS_STEP_CD = 'PG')
-		                                 AND A.WBS_SN=1),0),
-		                      '/',
-		                      --목표 (전달의 마지막날로 계산)
-		                      (SELECT ISNULL(SUM(IIF(A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126)) , A.WGVL ,
-		                                    ROUND(CONVERT(FLOAT,A.WGVL /DATEDIFF(DD, CONVERT(DATE, STRT_DT), CONVERT(DATE, FNH_DT)))
-		                                            *
-		                                            IIF( DATEDIFF(DD, CONVERT(DATE, STRT_DT), DATEADD(D,-DAY(GETDATE()),GETDATE())  ) <0 , 0 ,  DATEDIFF(DD, CONVERT(DATE, STRT_DT), DATEADD(D,-DAY(GETDATE()),GETDATE())  ))
-		                                            ,1)
-		                                        ) ),100) -- 전달의 마지막날로 계산
-		                         FROM IRIS_TSS_GEN_WBS A
-		                        WHERE A.TSS_CD = M.TSS_CD
-		                          AND A.DEPTH= 1
-		                          AND ((CONVERT(VARCHAR(10), GETDATE(), 126) BETWEEN A.STRT_DT  AND A.FNH_DT)
-		                           OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126))))) AS PROGRESSRATEREAL  --진척(신호등)
-		             , CASE WHEN SUBSTRING(M.PK_WBS_CD, 1, 1) = 'G' THEN 1 ELSE 2 END AS R_NUM
+             , Z.PK_WBS_CD                                                                      AS pkWbsCd      --WBS CODE(내부관리)
+             , Z.TSS_CD                                                                         AS tssCd        --과제코드
+             , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.TSS_NM ELSE Z.AL_TSS_NM END               AS tssNm        --과제명
+             , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.PRJ_NM ELSE Z.AL_PRJ_NM END               AS prjNm        --소속명(프로젝트명)
+             , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN SUBSTRING(Z.DEPT_NAME, 1, CASE WHEN CHARINDEX('.', Z.DEPT_NAME) <= 0 THEN LEN(Z.DEPT_NAME) ELSE CHARINDEX('.', Z.DEPT_NAME)-1 END)
+                                               ELSE SUBSTRING(Z.AL_DEPT_NAME, 1, CASE WHEN CHARINDEX('.', Z.AL_DEPT_NAME) <= 0 THEN LEN(Z.AL_DEPT_NAME) ELSE CHARINDEX('.', Z.AL_DEPT_NAME)-1 END) END AS deptName     --조직
+             , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.TSS_STRT_DD ELSE Z.AL_TSS_STRT_DD END     AS tssStrtDd    --과제기간시작
+             , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.TSS_FNH_DD  ELSE Z.AL_TSS_FNH_DD END      AS tssFnhDd     --과제기간종료
+             , CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_STRT_DD
+                    WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_STRT_DD END                         AS cmplNxStrtDd --과제실적시작
+             , CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_FNH_DD
+                    WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_FNH_DD END                          AS cmplNxFnhDd  --과제실적종료
+             , Z.TSS_ST                                                                         AS tssSt        --상태
+             , dbo.fn_getComDtlNm('TSS_ST', Z.TSS_ST)                                           AS tssStNm      --상태명
+             , Z.FRST_RGST_DT                                                                   AS frstRgstDt   --최종실적등록일
+             , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.SA_SABUN_NAME ELSE Z.AL_SA_SABUN_NAME END AS saUserName   --과제리더명
+             , Z.PGS_STEP_CD                                                                    AS pgsStepCd    --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
+             , dbo.fn_getComDtlNm('PGS_STEP_CD',Z.PGS_STEP_CD)                                  AS pgsStepNm    --진행상태명
+             , Z.TSS_NOS_ST                                                                     AS tssNosSt     --과제차수상태코드(1차년도, 2 차년도, 3 차년도, 4차년도, 5차년도:국책과제)
+             , dbo.fn_getComDtlNm('TSS_NOS_ST',Z.TSS_NOS_ST)                                    AS tssNosStNm   --과제차수상태명
+             , Z.GRS_EV_ST                                                                      AS grsEvSt      --GRS상태
+             , Z.MY_TSS                                                                         AS myTss
+             , Z.PROGRESSRATEREAL                                                               AS progressrateReal
+             , Z.PROGRESSRATE                                                                   AS progressrate
+          FROM (SELECT M.PRJ_CD
+                     , M.WBS_CD    AS WBS_CD
+                     , M.PK_WBS_CD AS PK_WBS_CD
+                     , M.TSS_CD    AS TSS_CD
+                     , M.TSS_NM    AS TSS_NM
+                     , B.TSS_NM    AS AL_TSS_NM
+                     , SUBSTRING(ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(M.TSS_CD, 'PRJ', M.PRJ_CD), M.PRJ_NM)
+                                    , CHARINDEX('.', ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(M.TSS_CD, 'PRJ', M.PRJ_CD), M.PRJ_NM))+1
+                                    , LEN(ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(M.TSS_CD, 'PRJ', M.PRJ_CD), M.PRJ_NM))) AS PRJ_NM
+                     , SUBSTRING(DBO.FN_GETPRJNAME(B.PRJ_CD), CHARINDEX('.', DBO.FN_GETPRJNAME(B.PRJ_CD))+1, LEN(DBO.FN_GETPRJNAME(B.PRJ_CD))) AS AL_PRJ_NM
+                     , SUBSTRING(M.PRJ_NM, CHARINDEX('.', M.PRJ_NM)+1, LEN(M.PRJ_NM)) AS CM_PRJ_NM
+                     , ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(M.TSS_CD, 'DEPT', M.DEPT_CODE), M.DEPT_NAME) AS DEPT_NAME
+                     , ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(B.TSS_CD, 'DEPT', B.DEPT_CODE), B.DEPT_NAME) AS AL_DEPT_NAME
+                     , M.TSS_STRT_DD    AS TSS_STRT_DD
+                     , B.TSS_STRT_DD    AS AL_TSS_STRT_DD
+                     , M.TSS_FNH_DD     AS TSS_FNH_DD
+                     , B.TSS_FNH_DD     AS AL_TSS_FNH_DD
+                     , M.DCAC_B_STRT_DD AS DCAC_B_STRT_DD
+                     , M.CMPL_B_STRT_DD AS CMPL_B_STRT_DD
+                     , M.DCAC_B_FNH_DD  AS DCAC_B_FNH_DD
+                     , M.CMPL_B_FNH_DD  AS CMPL_B_FNH_DD
+                     , M.TSS_ST         AS TSS_ST
+                     , M.FRST_RGST_DT   AS FRST_RGST_DT
+                     , ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(M.TSS_CD, 'USER', M.SA_SABUN_NEW), M.SA_SABUN_NAME) AS SA_SABUN_NAME
+                     , ISNULL(DBO.FN_GETNAMEONTSSPGSSTEP(B.TSS_CD, 'USER', B.SA_SABUN_NEW), B.SA_SABUN_NAME) AS AL_SA_SABUN_NAME
+                     , M.PGS_STEP_CD AS PGS_STEP_CD
+                     , M.TSS_NOS_ST  AS TSS_NOS_ST
+                     , (SELECT TOP 1 X.GRS_EV_ST FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS GRS_EV_ST
+                     , CASE WHEN A.PL_EMP_NO = #{_userSabun}
+                              OR M.SA_SABUN_NEW = #{_userSabun}
+                              OR B.SA_SABUN_NEW = #{_userSabun}
+                              OR M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW = #{_userSabun})
+                       THEN 'Y' ELSE 'N' END AS MY_TSS
+                     -- 실적(WBS) /목표 -진척율
+                     , CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , ROUND( A.ARSL_CD,1))
+                                        FROM IRIS_TSS_GEN_WBS A
+                                       WHERE A.TSS_CD = (SELECT MAX(PG.TSS_CD) --다건발생경우  ERROR발생
+                                                           FROM IRIS_TSS_MGMT_MST PG
+                                                          WHERE PG.PK_WBS_CD = M.PK_WBS_CD AND PG.PGS_STEP_CD = 'PG')
+                                         AND A.WBS_SN = 1), 0),
+                              '/',
+                              --목표 (전달의 마지막날로 계산)
+                              (SELECT ISNULL(SUM(IIF(A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126)), A.WGVL,
+                                            ROUND(CONVERT(FLOAT,A.WGVL / DATEDIFF(DD, CONVERT(DATE, STRT_DT), CONVERT(DATE, FNH_DT))) *
+                                                  IIF(DATEDIFF(DD, CONVERT(DATE, STRT_DT),GETDATE() ) <0 , 0 ,  DATEDIFF(DD, CONVERT(DATE, STRT_DT),GETDATE())), 1)
+                                               )), 100) -- 전달의 마지막날로 계산
+                                 FROM IRIS_TSS_GEN_WBS A
+                                WHERE A.TSS_CD = M.TSS_CD
+                                  AND A.DEPTH = 1
+                                  AND ((CONVERT(VARCHAR(10), GETDATE(), 126) BETWEEN A.STRT_DT AND A.FNH_DT)
+                                   OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126))))) AS PROGRESSRATE --진척율
+                     -- 실적(WBS) /목표 -신호등
+                     , CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , A.ARSL_CD)
+                                        FROM IRIS_TSS_GEN_WBS A
+                                       WHERE A.TSS_CD = (SELECT MAX(PG.TSS_CD)
+                                                           FROM IRIS_TSS_MGMT_MST PG
+                                                          WHERE PG.PK_WBS_CD = M.PK_WBS_CD AND PG.PGS_STEP_CD = 'PG')
+                                         AND A.WBS_SN=1),0),
+                              '/',
+                              --목표 (전달의 마지막날로 계산)
+                              (SELECT ISNULL(SUM(IIF(A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126)) , A.WGVL ,
+                                            ROUND(CONVERT(FLOAT,A.WGVL /DATEDIFF(DD, CONVERT(DATE, STRT_DT), CONVERT(DATE, FNH_DT)))
+                                                    *
+                                                    IIF( DATEDIFF(DD, CONVERT(DATE, STRT_DT), DATEADD(D,-DAY(GETDATE()),GETDATE())  ) <0 , 0 ,  DATEDIFF(DD, CONVERT(DATE, STRT_DT), DATEADD(D,-DAY(GETDATE()),GETDATE())  ))
+                                                    ,1)
+                                                ) ),100) -- 전달의 마지막날로 계산
+                                 FROM IRIS_TSS_GEN_WBS A
+                                WHERE A.TSS_CD = M.TSS_CD
+                                  AND A.DEPTH= 1
+                                  AND ((CONVERT(VARCHAR(10), GETDATE(), 126) BETWEEN A.STRT_DT  AND A.FNH_DT)
+                                   OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126))))) AS PROGRESSRATEREAL  --진척(신호등)
+                     , CASE WHEN SUBSTRING(M.PK_WBS_CD, 1, 1) = 'G' THEN 1 ELSE 2 END AS R_NUM
           FROM IRIS_TSS_MGMT_MST M  /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST A  /*프로젝트연구마스터*/
             ON M.PRJ_CD = A.PRJ_CD
@@ -281,105 +282,105 @@
                     ) B
             ON M.PK_WBS_CD = B.PK_WBS_CD
          WHERE M.TSS_CD IN (SELECT TSS_CD
-							  FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
+                              FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
                                          , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
-							          FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' OR PGS_STEP_CD = 'DC' THEN 1
-							                            WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
+                                      FROM (SELECT CASE WHEN PGS_STEP_CD = 'CM' OR PGS_STEP_CD = 'DC' THEN 1
+                                                        WHEN PGS_STEP_CD = 'PG' AND TSS_ST = '100' THEN 2
                                                         WHEN PGS_STEP_CD = 'PG' AND (TSS_ST = '101' OR TSS_ST = '102') THEN 3
-							                            WHEN PGS_STEP_CD = 'AL' THEN 4
-							                            WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 5
-							                            WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
-							                     , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
-							                  FROM IRIS_TSS_MGMT_MST) X) Y
-							 WHERE OVER_STEP_RANK = 1)
+                                                        WHEN PGS_STEP_CD = 'AL' THEN 4
+                                                        WHEN PGS_STEP_CD = 'PG' AND TSS_ST != '100' THEN 5
+                                                        WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
+                                                 , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
+                                              FROM IRIS_TSS_MGMT_MST) X) Y
+                             WHERE OVER_STEP_RANK = 1)
         ]]>
-		   AND M.TSS_SCN_CD = ISNULL(#{tssScnCd}, 'G') --과제구분코드(G:일반, N , O)
-		   AND M.DEL_YN = 'N' --삭제여부
-		   AND 1 = 1
-			AND M.PGS_STEP_CD IN ('PG', 'AL')  --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
-		) Z
-		WHERE   1=1
-			AND Z.PRJ_CD = #{prjCd}
-		order by z.TSS_STRT_DD  desc, z.TSS_FNH_DD desc
-	</select>
+           AND M.TSS_SCN_CD = ISNULL(#{tssScnCd}, 'G') --과제구분코드(G:일반, N , O)
+           AND M.DEL_YN = 'N' --삭제여부
+           AND 1 = 1
+            AND M.PGS_STEP_CD IN ('PG', 'AL')  --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
+        ) Z
+        WHERE   1=1
+            AND Z.PRJ_CD = #{prjCd}
+        order by z.TSS_STRT_DD  desc, z.TSS_FNH_DD desc
+    </select>
 
 
     <!-- 프로젝트 전월마감 체크    -->
-	<select id="retrieveToMonPrj" resultType="int" >
-		<![CDATA[
-		-- retrieveToMonPrj 프로젝트 전월마감 체크
-		SELECT  COUNT(PRJ_STR_DT) AS cnt
-		FROM   IRIS_PRJ_RSST_MST
-		WHERE  PRJ_CD = #{prjCd}
-		AND    PRJ_STR_DT > CONVERT(NVARCHAR(7), DATEADD(MM, -1,  getdate()), 23)
-		]]>
-	</select>
+    <select id="retrieveToMonPrj" resultType="int" >
+        <![CDATA[
+        -- retrieveToMonPrj 프로젝트 전월마감 체크
+        SELECT  COUNT(PRJ_STR_DT) AS cnt
+        FROM   IRIS_PRJ_RSST_MST
+        WHERE  PRJ_CD = #{prjCd}
+        AND    PRJ_STR_DT > CONVERT(NVARCHAR(7), DATEADD(MM, -1,  getdate()), 23)
+        ]]>
+    </select>
 
     <!-- 프로젝트 전월마감 체크  -->
-	<select id="retrievePrjMmCls" resultType="int" >
-		<![CDATA[
-		-- retrievePrjMmCls 프로젝트 전월마감 체크
-		SELECT  COUNT(PRJ_CLS_YYMM) AS cnt
-		FROM   IRIS_PRJ_RSST_CLS
-		WHERE  PRJ_CD = #{prjCd}
-		AND    PRJ_CLS_YYMM = CONVERT(NVARCHAR(7), DATEADD(MM, -1,  #{searchMonth}+'-01'), 23)
-		]]>
-	</select>
+    <select id="retrievePrjMmCls" resultType="int" >
+        <![CDATA[
+        -- retrievePrjMmCls 프로젝트 전월마감 체크
+        SELECT  COUNT(PRJ_CLS_YYMM) AS cnt
+        FROM   IRIS_PRJ_RSST_CLS
+        WHERE  PRJ_CD = #{prjCd}
+        AND    PRJ_CLS_YYMM = CONVERT(NVARCHAR(7), DATEADD(MM, -1,  #{searchMonth}+'-01'), 23)
+        ]]>
+    </select>
 
     <!-- 프로젝트 월마감 상세조회  -->
-	<select id="retrievePrjClsProgSearchInfo" resultType="hashmap" >
-		<![CDATA[
-		-- retrievePrjClsProgSearchInfo 프로젝트 월마감 상세조회
-		SELECT 	 TSS_NM   			as tssNm
-				,SA_USER_NAME 		as saUserName
-				,DEPT_NAME   		as deptName
-				,TSS_STRT_DD  		as tssStrtDd
-				,TSS_FNH_DD   		as tssFnhDd
-				,PROGRESSRATE 	as progressrateReal 
-		FROM   iris_prj_cls_prog
-		WHERE  PRJ_CD = #{prjCd}
-		AND    PRJ_CLS_YYMM = #{searchMonth}
-		]]>
-	</select>
+    <select id="retrievePrjClsProgSearchInfo" resultType="hashmap" >
+        <![CDATA[
+        -- retrievePrjClsProgSearchInfo 프로젝트 월마감 상세조회
+        SELECT      TSS_NM               as tssNm
+                ,SA_USER_NAME         as saUserName
+                ,DEPT_NAME           as deptName
+                ,TSS_STRT_DD          as tssStrtDd
+                ,TSS_FNH_DD           as tssFnhDd
+                ,PROGRESSRATE     as progressrateReal
+        FROM   iris_prj_cls_prog
+        WHERE  PRJ_CD = #{prjCd}
+        AND    PRJ_CLS_YYMM = #{searchMonth}
+        ]]>
+    </select>
 
-	<insert id="insertPrjClsProg">
-	-- insertPrjClsProg
-		insert into iris_prj_cls_prog
-		(
-		 PRJ_CD
-		,WBS_CD
-		,PRJ_CLS_YN
-		,PRJ_CLS_YYMM
-		,TSS_NM
-		,SA_USER_NAME
-		,DEPT_NAME
-		,TSS_STRT_DD
-		,TSS_FNH_DD
-		,PROGRESSRATE
-		,FRST_RGST_DT
-		,FRST_RGST_ID
-		,LAST_MDFY_DT
-		,LAST_MDFY_ID
-		)
-		values
-		(
-		 #{prjCd}
-		,#{wbsCd}
-		,'Y'
-		,#{prjClsYymm}
-		,#{tssNm}
-		,#{saUserName}
-		,#{deptName}
-		,#{tssStrtDd}
-		,#{tssFnhDd}
-		,#{progressrateReal}
-		,GETDATE()
-		,#{_userId}
-		,GETDATE()
-		,#{_userId}
-		)
+    <insert id="insertPrjClsProg">
+    -- insertPrjClsProg
+        insert into iris_prj_cls_prog
+        (
+         PRJ_CD
+        ,WBS_CD
+        ,PRJ_CLS_YN
+        ,PRJ_CLS_YYMM
+        ,TSS_NM
+        ,SA_USER_NAME
+        ,DEPT_NAME
+        ,TSS_STRT_DD
+        ,TSS_FNH_DD
+        ,PROGRESSRATE
+        ,FRST_RGST_DT
+        ,FRST_RGST_ID
+        ,LAST_MDFY_DT
+        ,LAST_MDFY_ID
+        )
+        values
+        (
+         #{prjCd}
+        ,#{wbsCd}
+        ,'Y'
+        ,#{prjClsYymm}
+        ,#{tssNm}
+        ,#{saUserName}
+        ,#{deptName}
+        ,#{tssStrtDd}
+        ,#{tssFnhDd}
+        ,#{progressrateReal}
+        ,GETDATE()
+        ,#{_userId}
+        ,GETDATE()
+        ,#{_userId}
+        )
 
 
-	</insert>
+    </insert>
 
 </mapper>
