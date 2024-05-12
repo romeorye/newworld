@@ -7,7 +7,7 @@
     <!-- M/M 입력 목록조회 (내가 참여중인  과제)  -->
     <select id="retrieveMmInSearchInfo" resultType="hashmap" >
     <![CDATA[
-    -- retrieveMmInSearchInfo M/M 입력 목록조회 (내가 참여중인  과제)
+    -- retrieveMmInSearchInfo M/M 입력 목록조회 (당월) (내가 참여중인  과제)
        with tmp_tssInfo as (
              SELECT DISTINCT a.wbs_cd, a.tss_cd
                FROM IRIS_TSS_MGMT_MST a /* 과제관리마스터 */
@@ -153,15 +153,15 @@
 
     <select id="retrieveMmInBeforeSearchInfo"  resultType="hashmap">
     <![CDATA[
-    -- retrieveMmInBeforeSearchInfo
+    -- retrieveMmInBeforeSearchInfo (전월)
         select   DISTINCT 0 as 'chk'
                 ,a.PRJ_CD as prjCd
-                ,b.prj_nm as prjNm
+                ,dbo.fn_getPrjName(a.prj_cd) as prjNm
                 ,a.sa_sabun_new as saSabunNew
-                ,isnull(c.TSS_CD, b.prj_cd) as tssCd
-                ,isnull(c.TSS_NM, b.prj_nm) as tssNm
-                ,isnull(c.TSS_STRT_DD, b.prj_str_dt) as tssStrtDd
-                ,isnull(c.TSS_FNH_DD, b.prj_end_dt) as tssFnhDd
+                ,isnull(b.prj_cd, c.TSS_CD) as tssCd
+                ,isnull(b.prj_nm, c.TSS_NM) as tssNm
+                ,isnull(b.prj_str_dt, c.TSS_STRT_DD) as tssStrtDd
+                ,isnull(b.prj_end_dt, c.TSS_FNH_DD) as tssFnhDd
                 ,isnull(f.PTC_PRO, 0) as prePtcPro
                 ,a.PTC_PRO as ptcPro
                 ,'Y' as clsDataYn
@@ -169,20 +169,47 @@
                 ,a.CLS_YN as clsYn
                 ,a.OUSD_TSS_YN as ousdTssYn
                 ,a.TO_DO_YN as toDoYn
-                ,isnull(c.WBS_CD, b.wbs_cd) as tssWbsCd
+                ,isnull(b.wbs_cd, c.WBS_CD) as tssWbsCd
+                ,isnull(b.seq, 0) as seq
         from    IRIS_MM_CLS a
-                left outer join IRIS_PRJ_RSST_MST b
+        left outer join (
+                     SELECT bb.PRJ_CD
+                           ,bb.WBS_CD
+                           ,bb.PRJ_NM
+                           ,bb.PRJ_STR_DT
+                           ,bb.PRJ_END_DT
+                           ,0 AS seq
+                       FROM IRIS_MM_CLS aa
+                       JOIN IRIS_PRJ_RSST_MST bb ON (aa.PRJ_CD = bb.PRJ_CD AND aa.WBS_CD = bb.WBS_CD)
+                    WHERE 1 = 1
+                    UNION
+                     SELECT bb.PRJ_CD
+                           ,dd.WBS_CD_P AS WBS_CD
+                           ,bb.PRJ_NM + dd.wbs_cd_p_nm AS PRJ_NM
+                           ,bb.PRJ_STR_DT
+                           ,bb.PRJ_END_DT
+                           ,seq
+                       FROM IRIS_MM_CLS aa
+                       JOIN IRIS_PRJ_RSST_MST bb ON (aa.PRJ_CD = bb.PRJ_CD AND aa.WBS_CD = bb.WBS_CD)
+                       JOIN IRIS_PRJ_RSST_DST dd ON (bb.PRJ_CD = dd.PRJ_CD AND bb.WBS_CD = dd.WBS_CD AND dd.DEL_YN = 'N' AND #{searchMonth} >= left(dd.PATC_STR_DT, 7) )
+                    WHERE aa.WBS_CD IN (bb.WBS_CD, dd.WBS_CD_P)
+                      AND bb.PRJ_CD = dd.PRJ_CD
+                      AND bb.WBS_CD = dd.WBS_CD
+                ) b
                 on b.PRJ_CD = a.PRJ_CD
-                left outer join IRIS_TSS_MGMT_MST c
+                AND  b.WBS_CD = a.WBS_CD
+        left outer join IRIS_TSS_MGMT_MST c
                 on   c.DEL_YN ='N'
                 and  c.TSS_CD = a.TSS_CD
-                LEFT OUTER JOIN IRIS_MM_CLS F
-                ON   F.TSS_CD = A.TSS_CD
-                and  F.prj_cd = a.prj_cd
+        LEFT OUTER JOIN IRIS_MM_CLS F
+                ON  F.prj_cd = a.prj_cd
+                AND  F.WBS_CD = A.WBS_CD
+                AND  F.TSS_CD = A.TSS_CD
                 AND  F.SA_SABUN_NEW = A.SA_SABUN_NEW
                 AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)
         where   a.MM_YYMM = #{searchMonth}
         and     a.sa_sabun_new = #{_userSabun}
+        ORDER BY prjCd, seq
     ]]>
     </select>
 
@@ -393,7 +420,7 @@
     <!-- M/M 마감 목록조회  -->
     <select id="retrieveMmClsSearchInfo" resultType="hashmap" >
      <![CDATA[
-     -- retrieveMmClsSearchInfo M/M 마감 목록조회
+     -- retrieveMmClsSearchInfo M/M 마감 목록조회 (당월)
       with tmp_mmInfo as (
             select m.prjCd
                   ,m.prjNm
@@ -578,14 +605,14 @@
 
     <select id="retrieveMmOutBeforeSearchInfo"  resultType="hashmap">
     <![CDATA[
-    -- retrieveMmOutBeforeSearchInfo
+    -- retrieveMmOutBeforeSearchInfo (전월)
         select DISTINCT m.*
         from   (
                 select  case when left(a.TSS_CD, 3) = 'PRJ' then 2
                              else 1 end as type
                        ,a.prj_cd as prjCd
                        ,isnull(c.TSS_CD, b.PRJ_CD) as tssCd
-                       ,b.PRJ_NM as prjNm
+                       ,dbo.fn_getPrjName(a.prj_cd) as prjNm
                        ,isnull(c.tss_nm, b.prj_nm ) as tssNm
                        ,a.sa_sabun_new as saSabunNew
                        ,a.CLS_DT as clsDt
@@ -603,19 +630,46 @@
                        ,(select team_dept_code from VW_SSO_DEPT where dept_code = u.sa_dept_new) as deptCode
                        ,(select dept_name from IRIS_SSO_DEPT where dept_code = b.DEPT_UPER ) as uperdeptName
                 from    IRIS_MM_CLS a
-                        left outer join IRIS_SSO_USER u
+                left outer join IRIS_SSO_USER u
                         on   u.sa_exps <> 'D'
                         and  u.sa_sabun_new = a.sa_sabun_new
-                        left outer join IRIS_PRJ_RSST_MST b
-                        on  b.PRJ_CD = a.PRJ_CD
-                        left outer join IRIS_TSS_MGMT_MST c
-                        on   c.DEL_YN ='N'
-                        and  c.TSS_CD = a.TSS_CD
-                        LEFT OUTER JOIN IRIS_MM_CLS F
-                        ON   F.TSS_CD = A.TSS_CD
-                        and  F.prj_cd = a.prj_cd
-                        AND  F.SA_SABUN_NEW = A.SA_SABUN_NEW
-                        AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)
+                left outer join  (
+                     SELECT bb.PRJ_CD
+                           ,bb.WBS_CD
+                           ,bb.PRJ_NM
+                           ,bb.PRJ_STR_DT
+                           ,bb.PRJ_END_DT
+                           ,bb.DEPT_UPER
+                           ,0 AS seq
+                       FROM IRIS_MM_CLS aa
+                       JOIN IRIS_PRJ_RSST_MST bb ON (aa.PRJ_CD = bb.PRJ_CD AND aa.WBS_CD = bb.WBS_CD)
+                    WHERE 1 = 1
+                    UNION
+                     SELECT bb.PRJ_CD
+                           ,dd.WBS_CD_P AS WBS_CD
+                           ,bb.PRJ_NM + dd.wbs_cd_p_nm AS PRJ_NM
+                           ,bb.PRJ_STR_DT
+                           ,bb.PRJ_END_DT
+                           ,bb.DEPT_UPER
+                           ,seq
+                       FROM IRIS_MM_CLS aa
+                       JOIN IRIS_PRJ_RSST_MST bb ON (aa.PRJ_CD = bb.PRJ_CD AND aa.WBS_CD = bb.WBS_CD)
+                       JOIN IRIS_PRJ_RSST_DST dd ON (bb.PRJ_CD = dd.PRJ_CD AND bb.WBS_CD = dd.WBS_CD AND dd.DEL_YN = 'N' AND #{searchMonth} >= left(dd.PATC_STR_DT, 7) )
+                    WHERE aa.WBS_CD IN (bb.WBS_CD, dd.WBS_CD_P)
+                      AND bb.PRJ_CD = dd.PRJ_CD
+                      AND bb.WBS_CD = dd.WBS_CD
+                ) b
+                     on  b.PRJ_CD = a.PRJ_CD
+                     AND  b.WBS_CD = a.WBS_CD
+                left outer join IRIS_TSS_MGMT_MST c
+                     on   c.DEL_YN ='N'
+                     and  c.TSS_CD = a.TSS_CD
+                LEFT OUTER JOIN IRIS_MM_CLS F
+                     ON   F.TSS_CD = A.TSS_CD
+                     and  F.prj_cd = a.prj_cd
+                     and  F.WBS_CD = a.WBS_CD
+                     AND  F.SA_SABUN_NEW = A.SA_SABUN_NEW
+                     AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)
 
                 where   a.MM_YYMM = #{searchMonth}
                 ) m
