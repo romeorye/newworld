@@ -662,6 +662,12 @@
                 btnModifyItem.hide();
             }
         }; */
+        
+        //[20240508.siseo]임시로 버튼 막음
+        btnClearItemContents.hide();
+        btnDeleteItem.hide();
+        btnModifyItem.hide();
+        btnAddPurRq.hide();
 
         fncSave = function(){
             if( prItemListDataSet.getCount() == 0  ){
@@ -816,7 +822,6 @@
         };
 
         /*첨부파일 다운로드*/
-                /*첨부파일 다운로드*/
         /* downloadAttachFile = function(attcFilId, seq) {
             downloadForm.action = '<c:url value="/system/attach/downloadAttachFile.do"/>';
             $('#attcFilId').val(attcFilId);
