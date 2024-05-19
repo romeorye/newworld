@@ -280,7 +280,7 @@ nG.saveExcel(encodeURIComponent('신뢰성시험장비 예약관리_') + new Dat
 						<table>
 							<colgroup>
 								<col style="width:120px" />
-								<col style="width:200px" /
+								<col style="width:200px" />
 						        <col style="width:120px" />
 						        <col style="width:300px" />
 						        <col style="" />

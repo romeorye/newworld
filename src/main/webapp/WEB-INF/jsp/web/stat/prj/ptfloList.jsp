@@ -285,7 +285,7 @@ var strNowMonth = createDashMonthToString(nowDate);
 		               <table>
 		                    <colgroup>
 		                        <col style="width:120px;"/>
-		                        <col style=""
+		                        <col style=""/>
 		                    </colgroup>
 		                    <tbody>
 		                        <tr>

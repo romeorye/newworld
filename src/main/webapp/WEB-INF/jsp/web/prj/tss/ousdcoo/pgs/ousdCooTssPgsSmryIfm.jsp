@@ -306,7 +306,7 @@
                 </tr>
                 <tr>
                     <th align="right">독점권</th>
-                    <td colspan="3"><span id="monoNm" name="monoNm"></divspan</td>
+                    <td colspan="3"><span id="monoNm" name="monoNm"></span></td>
                 </tr>
                 <tr>
                     <th align="right">연구비 지급조건</th>
