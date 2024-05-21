@@ -2,7 +2,6 @@
 /* 20180828수정
 */
 
-
 /* ==========================================================================
   common
    ========================================================================== */
@@ -52,7 +51,7 @@
 .date_txt {display:inline-block; padding:0 3px 0 33px;}
 .form_bd input {border:0 none !important; line-height:25px;}
 .LblockButton button, div.LblockButton button:hover  {
-    *overflow: visible;
+    overflow: visible;
     padding:0 18px;
     height:28px;
     line-height:26px;
@@ -359,7 +358,7 @@ div.gnb_search .name_info a:hover span.icon_search {width:20px; height:22px;    
 .btn_menu #tmpMenu .Mgnb_wrap .Mgnb .menu_mm li {width:175px !important; padding: 0 0 0 10px; margin-top:12px;}
 .btn_menu #tmpMenu .Mgnb_wrap .Mgnb .menu_mm li span {margin-top:0; margin-bottom:4px;}
 .btn_menu #tmpMenu .Mgnb_wrap .Mgnb .menu_mm li ul li {padding:0;margin-top:12px;}
-.btn_menu #tmpMenu .Mgnb_wrap .Mgnb .menu_mm li ul li ul li {margin-top:1px;}}
+.btn_menu #tmpMenu .Mgnb_wrap .Mgnb .menu_mm li ul li ul li {margin-top:1px;}
 .btn_menu #tmpMenu .Mgnb_wrap .Mgnb .menu_mm li ul li ul li a {display:block; line-height:1.2; margin-bottom:6px; padding-right:10px;}
 .btn_menu #tmpMenu .Mgnb_wrap .Mgnb {
 scrollbar-arrow-color: #f3f3f3;
@@ -956,7 +955,7 @@ table.L-grid-header-table thead td:last-child {border-right:1px solid #bcbcbc !i
    TAB
    ========================================================================== */
 #tabView {margin-bottom:10px;}
-#tabView .L-tabview.L-navset {margin-bottom;10px;}
+#tabView .L-tabview.L-navset {margin-bottom:10px;}
 .L-navset ul.L-nav:before {box-sizing: border-box;}
 .L-navset ul.L-nav:after {clear:both;}
 .L-navset ul.L-nav {margin-top: 10px;margin-bottom: 0; display:block; border-bottom: 1px solid #999;box-sizing: border-box; height: 33px;}
@@ -1098,7 +1097,7 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 .nav.nav-tabs > li.active > a:hover {
     background: #fff;
     color: #575757;
-    border: 1px solid #999t;
+    border: 1px solid #999;
     border-bottom-color: transparent;
     position: relative;
     display: block;
