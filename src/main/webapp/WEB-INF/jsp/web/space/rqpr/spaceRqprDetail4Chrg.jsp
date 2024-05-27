@@ -647,6 +647,7 @@
                     ,{ value: 'vickim', text: '김형근' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
                     ,{ value: 'sdcha', text: '차순도' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
                     ,{ value: 'jiytre', text: '조인영' }  // [2024.04.11]jiytre(조인영) 추가
+                    ,{ value: 'leebom', text: '이봄' }  // [2024.05.28]leebom(이봄) 추가
                 ]
             });
 
