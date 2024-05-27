@@ -99,7 +99,7 @@
 								<tbody>
 									<tr>
 										<td>
-											<div><img src="/iris/resource/web/images/newIris/img_tachincal_new.png" ></div>
+											<div><img src="/iris/resource/web/images/newIris/img_tachincal_new1.png" ></div>
 										</td>
 									</tr>
 								</tbody>
@@ -108,7 +108,7 @@
 					</div>
 					<!--  //평가분야 -->
 
-<!-- 
+<!--
 					평가 담당자
 					<div class="tab-pane fade" id="tab1" >
 						<div>
