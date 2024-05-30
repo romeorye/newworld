@@ -16,13 +16,35 @@
 --%>
 <%@ page language ="java"  pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+    pageContext.setAttribute("crlf", "\r\n");
+    pageContext.setAttribute("blank", " ");
+
+    String contextPath = request.getContextPath();
+
+    if ("/".equals(contextPath)) {
+        contextPath = "";
+    }
+    String scriptPath       = contextPath + "/resource/web/js";
+%>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>::::::IRIS::::::</title>
+<script type="text/javascript" src="<%=scriptPath%>/jquery.js"></script>
+<script type="text/javascript" src="<%=scriptPath%>/jquery.iframeResizer.min.js"></script>
 <script type="text/javascript">
+    //[출처] [jQuery] Input에서 엔터시 Submit 이벤트 발생 방지|작성자 lovekod2hj
+    $(document).ready(function(){
+        $('#ssoid').keyup(function(e){
+            if( e.keyCode == 13 && $('#ssoid').val()!=""){
+                //alert("Enter Event Define!");
+                setCookie('InitechEamUID', '', '1');
+            }
+        });
+    });
 
     function setCookie(cookieName, value, exdays){
 
