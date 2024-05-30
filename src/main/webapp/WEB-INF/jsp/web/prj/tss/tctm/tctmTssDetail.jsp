@@ -36,7 +36,7 @@
         var pgsStepNm = "";
         var pgsStepCd = "";
         var grsBtnYn = "";
-
+        
         var dataSet;
 
         var isEditable = false;
@@ -461,7 +461,7 @@
                 // }
 
                 isFirst = gvTssSt == "";
-
+                
                 isEditable =
                     isFirst
                     || pgsStepCd == "PL" && gvTssSt == "302"
@@ -685,9 +685,9 @@
                 setReadonly("rsstSphe");
                 setReadonly("tssAttrCd");
                 setReadonly("tssType");
-
+            	
             }
-
+            
             function setViewform() {
                 setReadonly("wbsCd");
                 setReadonly("tssNm");
@@ -716,7 +716,7 @@
                         setEditable("cmplBStrtDd");
                         setEditable("cmplBFnhDd");
                     }
-
+                	
                     if (isDc()) {
                         //품의 요청시 개발완기간 수정가능
                         setEditable("dcacBStrtDd");
@@ -907,7 +907,7 @@
                 } else {
                     tcd = pgTssCd;
                     frmName = "tabContent3";    //개요
-                   /*
+                   /* 
                     if (  grsEvSt == "G2" && (gvTssSt == "102" || gvTssSt == "302" )  ){
 	                    frmName = "tabContent0";    //완료
                     }else if ( grsEvSt == "D" &&  (gvTssSt == "102" || gvTssSt == "302" ) ){
@@ -917,25 +917,12 @@
                     }else {
 	                    frmName = "tabContent3";    //개요
                     }
-                    */
+                    */ 
                 }
 
-console.log("[tabContent4]('01').length", $("#tabContent4").contents().find("[yldType='01']").length);
-console.log("[tabContent4]('01')", $("#tabContent4").contents().find("[yldType='01']:contains('Y')").size());
-console.log("[tabContent4]('02').length", $("#tabContent4").contents().find("[yldType='02']").length);
-console.log("[tabContent4]('02')", $("#tabContent4").contents().find("[yldType='02']:contains('Y')").size());
-console.log("[tabContent4]('05').length", $("#tabContent4").contents().find("[yldType='05']").length);
-console.log("[tabContent4]('05')", $("#tabContent4").contents().find("[yldType='05']:contains('Y')").size());
-
                 if (pgsStepCd == "CM" || pgsStepCd == "DC"){
-                    //if ($("#tabContent4").contents().find("[yldType='01']:contains('N'),[yldType='02']:contains('N'),[yldType='05']:contains('N')").size()>0){
-                    if (  ( $("#tabContent4").contents().find("[yldType='02']").length == 0 )
-                        ||( $("#tabContent4").contents().find("[yldType='01']").length>0 && $("#tabContent4").contents().find("[yldType='01']:contains('Y')").size()==0 )
-                        ||( $("#tabContent4").contents().find("[yldType='02']").length>0 && $("#tabContent4").contents().find("[yldType='02']:contains('Y')").size()==0 )
-                        ||( $("#tabContent4").contents().find("[yldType='05']").length>0 && $("#tabContent4").contents().find("[yldType='05']:contains('Y')").size()==0 ) ) {
-
-                        //Rui.alert("필수산출물을 모두 등록하셔야 합니다.");
-                        Rui.alert("산출물 탭의 필수산출물이 모두 등록되었는지<br/>또는 첨부파일 유무가 'Y'인지 확인하시기 바랍니다.");
+                    if ($("#tabContent4").contents().find("[yldType='01']:contains('N'),[yldType='02']:contains('N'),[yldType='05']:contains('N')").size()>0){
+                        Rui.alert("필수산출물을 모두 등록하셔야 합니다.");
                         return;
                     }
                 }

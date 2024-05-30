@@ -50,9 +50,9 @@
     var dataSet;
     var altrHistDialog;
     var rtnMsg = "${inputData.rtnMsg}";
-    var itmFlag ="N";	//필수산출물 체크
+    var itmFlag ="N";	//필수산출물 체크 
     var gvWbsCd   = "";
-
+    
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -201,22 +201,22 @@
                     return;
                 }
             }
-
+            
 
           	if (!Rui.isEmpty( dataSet.getNameValue(0, 'evDt')   )    )  {
           		var evDt  =  dataSet.getNameValue(0, 'evDt').replace(/\-/g, "").toDate();
                 var fnhDt =  cmplBFnhDd.getValue().replace(/\-/g, "").toDate();
-
+            
                 var rtnValue = ((fnhDt - evDt) / 60 / 60 / 24 / 1000) + 1;
-
+                
                 if(rtnValue <= 0) {
                     Rui.alert("GRS 회의일보다 실적종료일이 빠를 수 없습니다.");
                     cmplBFnhDd.setValue("");
                     cmplBFnhDd.focus();
                     return;
                 }
-          	}
-
+          	}      	
+          	
         });
 
         altrHistDialog = new Rui.ui.LFrameDialog({
@@ -234,7 +234,7 @@
         disableFields = function() {
             //버튼여부
             btnCsusRq.hide();
-            
+
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
                 if(gvTssSt == "100") btnCsusRq.show(); //GRS - 100:작성중
                 if(gvTssSt == "102") btnCsusRq.show(); //GRS - 100:작성중
@@ -487,46 +487,11 @@
         ============================================================================*/
         //품의서요청
         btnCsusRq = new Rui.ui.LButton('btnCsusRq');
-
+        
         btnCsusRq.on('click', function() {
-            document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
-            document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
-
-            var pgsStepCd = document.mstForm.pgsStepCd.value;
-console.log("[pgsStepCd]", pgsStepCd);
-
-/* console.log("[tabContent5]('01').length", $("#tabContent5").contents().find("[yldType='01']").length);
-console.log("[tabContent5]('01')", $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size());
-console.log("[tabContent5]('03').length", $("#tabContent5").contents().find("[yldType='03']").length);
-console.log("[tabContent5]('03')", $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size());
-console.log("[tabContent5]('06').length", $("#tabContent5").contents().find("[yldType='06']").length);
-console.log("[tabContent5]('06')", $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size());
-console.log("[tabContent5]('10').length", $("#tabContent5").contents().find("[yldType='10']").length);
-console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size()); */
-
-console.log("[tabContent5]('01').length", $("#tabContent5").contents().find("[yldType='01']").length);
-console.log("[tabContent5]('01')", $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size());
-console.log("[tabContent5]('03').length", $("#tabContent5").contents().find("[yldType='03']").length);
-console.log("[tabContent5]('03')", $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size());
-console.log("[tabContent5]('06').length", $("#tabContent5").contents().find("[yldType='06']").length);
-console.log("[tabContent5]('06')", $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size());
-console.log("[tabContent5]('10').length", $("#tabContent5").contents().find("[yldType='10']").length);
-console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size());
-
-            if (pgsStepCd == "CM" || pgsStepCd == "DC"){
-                //if ($("#tabContent5").contents().find("[yldItmType='01']:contains('Y'),[yldItmType='03']:contains('Y'),[yldItmType='06']:contains('Y'),[yldItmType='10']:contains('Y')").size()<4){
-                if (  ( $("#tabContent5").contents().find("[yldType='01']").length == 0 )
-                	||( $("#tabContent5").contents().find("[yldType='01']").length>0 && $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size()==0 )
-                    ||( $("#tabContent5").contents().find("[yldType='03']").length>0 && $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size()==0 )
-                    ||( $("#tabContent5").contents().find("[yldType='06']").length>0 && $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size()==0 )
-                    ||( $("#tabContent5").contents().find("[yldType='10']").length>0 && $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size()==0 ) ) {
-
-                    //Rui.alert("필수산출물을 모두 등록하셔야 합니다.");
-                    Rui.alert("목표및산출물 탭의 필수산출물이 모두 등록되었는지<br/>또는 첨부파일 유무가 'Y'인지 확인하시기 바랍니다.");
-                    return;
-                }
-            }
-
+        	document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
+          	document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
+          	
           	Rui.confirm({
                 text: '품의서요청을 하시겠습니까?',
                 handlerYes: function() {
@@ -535,7 +500,7 @@ console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='
                 handlerNo: Rui.emptyFn
             });
         });
-
+        
         //저장
         fnSave = function() {
             cmplBStrtDd.blur();
@@ -612,7 +577,7 @@ console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='
     	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#btnCsusRq").hide();
 		}
-
+        
     });
 
     function fncGenTssAltrDetail(cd) {

@@ -9,7 +9,6 @@
  * VER  DATE        AUTHOR      DESCRIPTION
  * ---  ----------- ----------  -----------------------------------------
  * 1.0  2020.03.31
- * 2.0  2024.05.16  siseo      투입인원, 투입비용: 3차년도 부터는 0 입력 허용되도록 수정.
  * ---  ----------- ----------  -----------------------------------------
  * IRIS 프로젝트
  *************************************************************************
@@ -809,99 +808,99 @@ var exSabun = '${inputData._userSabun}';
          fncInputChk = function(){
              if (chkVaild ==2 ){
                 //인원체크
-                if(  ptcCpsnCurY1.getValue() < 0 ||   Rui.isEmpty( ptcCpsnCurY1.getValue() )   ){
+                if(  ptcCpsnCurY1.getValue() == 0 ||   Rui.isEmpty( ptcCpsnCurY1.getValue() )   ){
                     alert("2차년도 투입인원을 입력하세요");
                     return true;
                 }
 
                 // 투입비용
-                if(  expArslCurY1.getValue() < 0 ||   Rui.isEmpty( expArslCurY1.getValue() )   ){
+                if(  expArslCurY1.getValue() == 0 ||   Rui.isEmpty( expArslCurY1.getValue() )   ){
                     alert("2차년도 투입비용을 입력하세요");
                     return true;
                 }
              }else if (  chkVaild ==3 ){
                 //인원체크
-                if(  ptcCpsnCurY1.getValue() < 0 ||   Rui.isEmpty( ptcCpsnCurY1.getValue() )   ){
+                if(  ptcCpsnCurY1.getValue() == 0 ||   Rui.isEmpty( ptcCpsnCurY1.getValue() )   ){
                     alert("2차년도 투입인원을 입력하세요");
                     return true;
                 }
-                if(  ptcCpsnCurY2.getValue() < 0 ||   Rui.isEmpty( ptcCpsnCurY2.getValue() )   ){
+                if(  ptcCpsnCurY2.getValue() == 0 ||   Rui.isEmpty( ptcCpsnCurY2.getValue() )   ){
                     alert("3차년도 투입인원을 입력하세요");
                     return true;
                 }
 
                 // 투입비용
-                if(  expArslCurY1.getValue() < 0 ||   Rui.isEmpty( expArslCurY1.getValue() )   ){
+                if(  expArslCurY1.getValue() == 0 ||   Rui.isEmpty( expArslCurY1.getValue() )   ){
                     alert("2차년도 투입비용을 입력하세요");
                     return true;
                 }
-                if(  expArslCurY2.getValue() < 0 ||   Rui.isEmpty( expArslCurY2.getValue() )   ){
+                if(  expArslCurY2.getValue() == 0 ||   Rui.isEmpty( expArslCurY2.getValue() )   ){
                     alert("3차년도 투입비용을 입력하세요");
                     return true;
                 }
 
              }else if (  chkVaild == 4 ){
                 //인원체크
-                if(  ptcCpsnCurY1.getValue() < 0 ||   Rui.isEmpty( ptcCpsnCurY1.getValue() )   ){
+                if(  ptcCpsnCurY1.getValue() == 0 ||   Rui.isEmpty( ptcCpsnCurY1.getValue() )   ){
                     alert("2차년도 투입인원을 입력하세요");
                     return true;
                 }
-                if(  ptcCpsnCurY2.getValue() < 0 ||   Rui.isEmpty( ptcCpsnCurY2.getValue() )   ){
+                if(  ptcCpsnCurY2.getValue() == 0 ||   Rui.isEmpty( ptcCpsnCurY2.getValue() )   ){
                     alert("3차년도 투입인원을 입력하세요");
                     return true;
                 }
-                if(  ptcCpsnCurY3.getValue() < 0 ||   Rui.isEmpty( ptcCpsnCurY3.getValue() )   ){
+                if(  ptcCpsnCurY3.getValue() == 0 ||   Rui.isEmpty( ptcCpsnCurY3.getValue() )   ){
                     alert("4차년도 투입인원을 입력하세요");
                     return true;
                 }
 
                 // 투입비용
-                if(  expArslCurY1.getValue() < 0 ||   Rui.isEmpty( expArslCurY1.getValue() )   ){
+                if(  expArslCurY1.getValue() == 0 ||   Rui.isEmpty( expArslCurY1.getValue() )   ){
                     alert("2차년도 투입비용을 입력하세요");
                     return true;
                 }
-                if(  expArslCurY2.getValue() < 0 ||   Rui.isEmpty( expArslCurY2.getValue() )   ){
+                if(  expArslCurY2.getValue() == 0 ||   Rui.isEmpty( expArslCurY2.getValue() )   ){
                     alert("3차년도 투입비용을 입력하세요");
                     return true;
                 }
-                if(  expArslCurY3.getValue() < 0 ||   Rui.isEmpty( expArslCurY3.getValue() )   ){
+                if(  expArslCurY3.getValue() == 0 ||   Rui.isEmpty( expArslCurY3.getValue() )   ){
                     alert("4차년도 투입비용을 입력하세요");
                     return true;
                 }
 
              }else if (  chkVaild > 4 ){
                 //인원체크
-                if(  ptcCpsnCurY1.getValue() < 0 ||   Rui.isEmpty( ptcCpsnCurY1.getValue() )   ){
+                if(  ptcCpsnCurY1.getValue() == 0 ||   Rui.isEmpty( ptcCpsnCurY1.getValue() )   ){
                     alert("2차년도 투입인원을 입력하세요");
                     return true;
                 }
-                if(  ptcCpsnCurY2.getValue() < 0 ||   Rui.isEmpty( ptcCpsnCurY2.getValue() )   ){
+                if(  ptcCpsnCurY2.getValue() == 0 ||   Rui.isEmpty( ptcCpsnCurY2.getValue() )   ){
                     alert("3차년도 투입인원을 입력하세요");
                     return true;
                 }
-                if(  ptcCpsnCurY3.getValue() < 0 ||   Rui.isEmpty( ptcCpsnCurY3.getValue() )   ){
+                if(  ptcCpsnCurY3.getValue() == 0 ||   Rui.isEmpty( ptcCpsnCurY3.getValue() )   ){
                     alert("4차년도 투입인원을 입력하세요");
                     return true;
                 }
-                if(  ptcCpsnCurY4.getValue() < 0 ||   Rui.isEmpty( ptcCpsnCurY4.getValue() )   ){
+                if(  ptcCpsnCurY4.getValue() == 0 ||   Rui.isEmpty( ptcCpsnCurY4.getValue() )   ){
                     alert("5차년도 투입인원을 입력하세요");
                     return true;
                 }
 
                 // 투입비용
-                if(  expArslY1.getValue() < 0 ||   Rui.isEmpty( expArslY1.getValue() )   ){
+                if(  expArslY1.getValue() == 0 ||   Rui.isEmpty( expArslY1.getValue() )   ){
                     alert("2차년도 투입비용을 입력하세요");
                     return true;
                 }
-                if(  expArslY2.getValue() < 0 ||   Rui.isEmpty( expArslY2.getValue() )   ){
+                if(  expArslY2.getValue() == 0 ||   Rui.isEmpty( expArslY2.getValue() )   ){
                     alert("3차년도 투입비용을 입력하세요");
                     return true;
                 }
-                if(  expArslY3.getValue() < 0 ||   Rui.isEmpty( expArslY3.getValue() )   ){
+                if(  expArslY3.getValue() == 0 ||   Rui.isEmpty( expArslY3.getValue() )   ){
                     alert("4차년도 투입비용을 입력하세요");
                     return true;
                 }
-                if(  expArslY4.getValue() < 0 ||   Rui.isEmpty( expArslY4.getValue() )   ){
+                if(  expArslY4.getValue() == 0 ||   Rui.isEmpty( expArslY4.getValue() )   ){
                     alert("5차년도 투입비용을 입력하세요");
                     return true;
                 }

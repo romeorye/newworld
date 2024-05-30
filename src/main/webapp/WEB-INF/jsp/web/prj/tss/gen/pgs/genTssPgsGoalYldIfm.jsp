@@ -202,10 +202,8 @@
                   }
                } }
               , { field: 'yldItmNm', label: '산출물명', sortable: false, align:'left', width: 300, editor: new Rui.ui.form.LTextBox() }
-              , { field: 'yldItmYn', label: '첨부파일 유무', sortable: false, align:'center', width: 60, renderer: function(val, p, record, row, i) {
-	                  return '<span yldType="'+record.data.yldItmType+'">'+val+'</span>';
-	              } }
-	          , { field: 'attcFilId', label: '첨부파일', sortable: false, align:'center', width: 100, renderer: function(val, p, record, row, i) {
+              , { field: 'yldItmYn', label: '첨부파일 유무', sortable: false, align:'center', width: 60 }
+              , { field: 'attcFilId', label: '첨부파일', sortable: false, align:'center', width: 100, renderer: function(val, p, record, row, i) {
                   if(record.data.qgateLinkUrl!=undefined){
                       return '<button type="button" class="L-grid-button" onclick="window.open(\''+record.data.qgateLinkUrl+'\',\''+record.data.yldItmType+'\',\'width=484,height=355,toolbar=no,scrollbars=no,resizable=no\')">첨부파일</button>';
                   }else{
@@ -398,7 +396,7 @@
 
 
         disableFields();
-
+        
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#btnGoalSave").hide();
         	$("#btnYldSave").hide();
@@ -406,12 +404,12 @@
         	$("#btnGoalSave").hide();
         	$("#btnYldSave").hide();
 		}
-
+        
     });
 </script>
 <script>
 $(window).load(function() {
-		initFrameSetHeight();
+    initFrameSetHeight();
 });
 </script>
 </head>
@@ -427,7 +425,7 @@ $(window).load(function() {
   <div class="LblockButton">
       <button type="button" id="btnGoalSave">저장</button>
   </div>
- </div>
+ </div> 
 <div id="goalGrid"></div>
 
 <div class="titArea">

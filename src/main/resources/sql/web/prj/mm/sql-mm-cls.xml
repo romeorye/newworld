@@ -9,23 +9,15 @@
     <![CDATA[
     -- retrieveMmInSearchInfo M/M 입력 목록조회 (당월) (내가 참여중인  과제)
        with tmp_tssInfo as (
-                select  DISTINCT a.wbs_cd
-                        ,a.tss_cd
-                from   (
-                            select  a.wbs_cd
-                                     , a.tss_cd
-                            from   IRIS_TSS_MGMT_MST a
-                            where  a.del_yn ='N'
-                            and    a.tss_scn_cd ='G'
-                            and    a.PGS_STEP_CD = 'PG'
-                            and    a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059', 'PRJ00090','PRJ00102' )
-                            ) a
-                where 1=1
-                and   a.tss_cd in  (    select  a.tss_cd
-                                                from   IRIS_TSS_PTC_RSST_MBR  a
-                                                where   a.sa_sabun_new = #{_userSabun}
-                                                and     #{searchMonth} between left(a.PTC_STRT_DT, 7) and left(a.PTC_FNH_DT, 7)
-                                                )
+             SELECT DISTINCT a.wbs_cd, a.tss_cd
+               FROM IRIS_TSS_MGMT_MST a /* 과제관리마스터 */
+              INNER JOIN IRIS_TSS_PTC_RSST_MBR b /* 과제참여연구원 */ ON (a.TSS_CD = b.TSS_CD)
+              WHERE a.del_yn = 'N'
+                AND a.tss_scn_cd = 'G'
+                AND a.PGS_STEP_CD = 'PG'
+                AND a.prj_cd not in ('PRJ00004','PRJ00014','PRJ00022','PRJ00038','PRJ00059', 'PRJ00090','PRJ00102' )
+                AND #{searchMonth} between left(b.PTC_STRT_DT, 7) and left(b.PTC_FNH_DT, 7)
+                AND a.sa_sabun_new = #{_userSabun}
                 )
 
                 SELECT 0 as chk
@@ -106,7 +98,7 @@
                                on b.TSS_CD = a.TSS_CD
                         WHERE  a.sa_sabun_new = #{_userSabun}
                         AND    a.MM_YYMM = #{searchMonth}
-                        /*AND    a.OUSD_TSS_YN = 'Y' --[20240514.siseo 주석처리] */
+                        AND    a.OUSD_TSS_YN = 'Y'
 
                         UNION
 
@@ -500,7 +492,7 @@
                            on c.sa_sabun_new = a.sa_sabun_new
                            and  c.sso_ex_flag <> 'D'
                     WHERE  a.MM_YYMM =  #{searchMonth}
-                    /*AND    a.OUSD_TSS_YN ='Y'  --[20240514.siseo 주석처리] */
+                    AND    a.OUSD_TSS_YN ='Y'
 
                     UNION
 
