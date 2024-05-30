@@ -265,7 +265,7 @@ nG.saveExcel(encodeURIComponent('통계_프로젝트') + new Date().format('%Y%m
 
             };
 
-            fnSearch();
+            //fnSearch(); //[20240530.siseo]Table이 없어 오류가 발생하여 초기 검색을 막음
 
         });
 
