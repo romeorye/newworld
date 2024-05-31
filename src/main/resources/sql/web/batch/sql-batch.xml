@@ -283,7 +283,7 @@
 					else '' end  as tssScnNm
 			 , (select sa_name from iris_sso_user where sa_sabun_new = mm.sa_sabun_new) as tssSaNm
 			 , 'spacekyk@lxhausys.com'+','+'parkjuyong@lxhausys.com'+','+'kimmmyj@lxhausys.com' as receMailAdd
-			, 'ideaman@lxhausys.com'+','+'plsen@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'singkro@hausyspartner.com'+','+'keunjung@lxhausys.com'+','+'jihyunlee@lxhausys.com'   
+			, 'ideaman@lxhausys.com'+','+'plsen@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'siseo@hausyspartner.com'+','+'keunjung@lxhausys.com'+','+'jihyunlee@lxhausys.com'   
 			 as ccMailAddr
 			 , isnull(dbo.fn_getComDtlNm('PROD_G',mm.PROD_G), '') AS prodGNm
 		 from IRIS_TSS_MGMT_MST mm
@@ -316,7 +316,7 @@
                     else '' end  as tssScnNm
                  , (select sa_name from iris_sso_user where sa_sabun_new = mm.sa_sabun_new) as tssSaNm
                  , 'spacekyk@lxhausys.com'+','+'parkjuyong@lxhausys.com'+','+'kimmmyj@lxhausys.com' as receMailAdd
-				, 'ideaman@lxhausys.com'+','+'plsen@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'singkro@hausyspartner.com'+','+'keunjung@lxhausys.com'+','+'jihyunlee@lxhausys.com'   
+				, 'ideaman@lxhausys.com'+','+'plsen@lxhausys.com'+','+'kwonbin@lxhausys.com'+','+'siseo@hausyspartner.com'+','+'keunjung@lxhausys.com'+','+'jihyunlee@lxhausys.com'   
 			     as ccMailAddr
 			     , isnull(dbo.fn_getComDtlNm('PROD_G',mm.PROD_G), '') AS prodGNm
 		  from IRIS_TSS_MGMT_MST mm
@@ -389,11 +389,11 @@
 	<!-- 과제 리더 사번 조회 -->
    	 <select id="getChgTssSabunNew" resultType="String">
    	 -- getChgTssSabunNew 과제 리더 사번 조회
-   	 	select sa_sabun_new as chgTssSabun
+   	 	select TOP 1 sa_sabun_new as chgTssSabun
 		from  IRIS_TSS_PTC_RSST_MBR
 		where  tss_cd = #{pgTssCd}
 		and    PTC_ROLE = '01'
-		and    (PTC_FNH_DT >= convert(nvarchar(10), getdate(), 23) or PTC_FNH_DT is null or PTC_FNH_DT = '')
+		-- and    (PTC_FNH_DT >= convert(nvarchar(10), getdate(), 23) or PTC_FNH_DT is null or PTC_FNH_DT = '')
    	 </select>
 
 	<!-- 변경시 연구원권한으로 모두  업데이트 처리   -->
