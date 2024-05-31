@@ -39,7 +39,7 @@
     var dataSet1;
     var dataSet2;
     var dsmActionGrid = "";
-    
+
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -70,7 +70,7 @@
         cboGoalY.getDataSet().on('load', function(e) {
             console.log('cboGoalY :: load');
         });
-        
+
         //산출물유형
         cbYldItmType = new Rui.ui.form.LCombo({
             name: 'cbYldItmType',
@@ -92,16 +92,16 @@
             maskValue:true
         });
 
-        
+
         //그리드 TextArea
         gridTextArea = new Rui.ui.form.LTextArea({
             disabled: !isEditable
         });
-        
+
         //Form 비활성화
         disableFields = function() {
             if(isEditable) return;
-            
+
             butGoalAdd.hide();
             butGoalDel.hide();
             btnGoalSave.hide();
@@ -120,9 +120,9 @@
                 }
             }
         };
-        
-        
-        
+
+
+
         /*============================================================================
         =================================    DataSet     =============================
         ============================================================================*/
@@ -175,24 +175,24 @@
         });
 
         grid1.render('goalGrid');
-        
-        
-        
+
+
+
         //산출물DS
         dataSet2 = new Rui.data.LJsonDataSet({
             id: 'yldDataSet',
             remainRemoved: true,
             writeFieldFormater: { date: Rui.util.LRenderer.dateRenderer('%Y-%m-%d') },
             fields: [
-                  { id:'tssCd' }      //과제코드            
-                , { id:'yldItmSn' }   //과제산출물일련번호       
-                , { id:'goalY' }      //목표년도            
-                , { id:'yldItmType' } //산출물유형           
-                , { id:'goalCt' }     //목표개수            
+                  { id:'tssCd' }      //과제코드
+                , { id:'yldItmSn' }   //과제산출물일련번호
+                , { id:'goalY' }      //목표년도
+                , { id:'yldItmType' } //산출물유형
+                , { id:'goalCt' }     //목표개수
                 , { id:'arslYymm' }   //실적년월
                 , { id:'yldItmYn' }   //산출물유무
-                , { id:'yldItmNm' }   //산출물명            
-                , { id:'yldItmTxt' }  //산출물내용           
+                , { id:'yldItmNm' }   //산출물명
+                , { id:'yldItmTxt' }  //산출물내용
                 , { id:'userId' }     //사용자ID
                 , { id:'attcFilId' }  //파일ID
                 , { id:'qgateLinkUrl' }  //Qgate 팝업 URL
@@ -303,14 +303,14 @@
 
 
         grid2.render('yldGrid');
-        
+
         //서버전송용
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         dm.on('success', function(e) {
             var data = dataSet1.getReadData(e);
-            
+
             Rui.alert(data.records[0].rtVal);
-            
+
             //if(data.records[0].rtCd == "SUCCESS") {
             //    fnSearch(data.records[0].targetDs);
             //}
@@ -319,38 +319,38 @@
             var data = dataSet1.getReadData(e);
             Rui.alert(data.records[0].rtVal);
         });
-        
+
         //유효성 설정
         vm1 = new Rui.validate.LValidatorManager({
-            validators: [  
+            validators: [
                   { id:'tssCd',      validExp: '과제코드:false' }
-                , { id:'goalArslSn', validExp: '과제목표일련번호:false' }       
-                , { id:'prvs',       validExp: '항목:true' } 
-                , { id:'cur',        validExp: '현재:true' } 
-                , { id:'goal',       validExp: '목표:true' } 
-                , { id:'arsl',       validExp: '실적:false' } 
-                , { id:'step',       validExp: '단계:false' } 
-                , { id:'utm',        validExp: '단위:false' } 
+                , { id:'goalArslSn', validExp: '과제목표일련번호:false' }
+                , { id:'prvs',       validExp: '항목:true' }
+                , { id:'cur',        validExp: '현재:true' }
+                , { id:'goal',       validExp: '목표:true' }
+                , { id:'arsl',       validExp: '실적:false' }
+                , { id:'step',       validExp: '단계:false' }
+                , { id:'utm',        validExp: '단위:false' }
                 , { id:'evWay',      validExp: '평가방법:false' }
                 , { id:'userId',     validExp: '사용자ID:false' }
             ]
         });
         vm2 = new Rui.validate.LValidatorManager({
-            validators: [  
-                  { id:'tssCd',      validExp: '과제코드:false' } 
-                , { id:'yldItmSn',   validExp: '과제산출물일련번호:false' }      
-                , { id:'goalY',      validExp: '목표년도:true' } 
-                , { id:'yldItmType', validExp: '산출물유형:true' }  
-                , { id:'goalCt',     validExp: '목표개수:false' } 
-                , { id:'arslYymm',   validExp: '실적년월:false' } 
-                , { id:'yldItmNm',   validExp: '산출물명:false' } 
-                , { id:'yldItmTxt',  validExp: '산출물내용:false' }  
+            validators: [
+                  { id:'tssCd',      validExp: '과제코드:false' }
+                , { id:'yldItmSn',   validExp: '과제산출물일련번호:false' }
+                , { id:'goalY',      validExp: '목표년도:true' }
+                , { id:'yldItmType', validExp: '산출물유형:true' }
+                , { id:'goalCt',     validExp: '목표개수:false' }
+                , { id:'arslYymm',   validExp: '실적년월:false' }
+                , { id:'yldItmNm',   validExp: '산출물명:false' }
+                , { id:'yldItmTxt',  validExp: '산출물내용:false' }
                 , { id:'userId',     validExp: '사용자ID:false' }
             ]
         });
-        
-        
-        
+
+
+
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
@@ -374,14 +374,14 @@
         butGoalAdd.on('click', function() {
             var row = dataSet1.newRecord();
             var record = dataSet1.getAt(row);
-            
+
             record.set("tssCd",  lvTssCd);
             record.set("userId", lvUserId);
         });
-        
+
         //목표삭제
         var butGoalDel = new Rui.ui.LButton('butGoalDel');
-        butGoalDel.on('click', function() {                
+        butGoalDel.on('click', function() {
             Rui.confirm({
                 text: Rui.getMessageManager().get('$.base.msg107'),
                 handlerYes: function() {
@@ -394,21 +394,21 @@
                             break;
                         }
                     }
-                    
+
                     if(dataSet1.getMarkedCount() > 0) {
                         dataSet1.removeMarkedRows();
                     } else {
                         var row = dataSet1.getRow();
-                        if(row < 0) return;                        
+                        if(row < 0) return;
                         dataSet1.removeAt(row);
                     }
-                    
+
                     if(dbCallYN) {
                         //삭제된 레코드 외 상태 정상처리
                         for(var i = 0; i < dataSet1.getCount(); i++) {
                             if(dataSet1.getState(i) != 3) dataSet1.setState(i, Rui.data.LRecord.STATE_NORMAL);
                         }
-                        
+
                         dm.updateDataSet({
                             url:'<c:url value="/prj/tss/gen/deleteGenTssPlnGoal.do"/>',
                             dataSets:[dataSet1]
@@ -418,20 +418,20 @@
                 handlerNo: Rui.emptyFn
             });
         });
-        
+
         //목표저장
         var btnGoalSave = new Rui.ui.LButton('btnGoalSave');
         btnGoalSave.on('click', function() {
-            if(!vm1.validateDataSet(dataSet1, dataSet1.getRow())) { 
+            if(!vm1.validateDataSet(dataSet1, dataSet1.getRow())) {
                 Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm1.getMessageList().join('<br>'));
                 return false;
             }
-            
+
             if(!dataSet1.isUpdated()) {
                 Rui.alert("변경된 데이터가 없습니다.");
                 return;
             }
-            
+
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
@@ -443,20 +443,20 @@
                 handlerNo: Rui.emptyFn
             });
         });
-        
+
         //산출물추가
         var butYldAdd = new Rui.ui.LButton('butYldAdd');
         butYldAdd.on('click', function() {
             var row = dataSet2.newRecord();
             var record = dataSet2.getAt(row);
-            
+
             record.set("tssCd",  lvTssCd);
             record.set("userId", lvUserId);
         });
-        
+
         //산출물삭제
         var butYldDel = new Rui.ui.LButton('butYldDel');
-        butYldDel.on('click', function() {  
+        butYldDel.on('click', function() {
             var chkRows = dataSet2.getMarkedRange().items;
 
             if(chkRows.length==0){
@@ -478,7 +478,7 @@
                     return;
                 }
             }
-            
+
             Rui.confirm({
                 text: Rui.getMessageManager().get('$.base.msg107'),
                 handlerYes: function() {
@@ -491,21 +491,21 @@
                             break;
                         }
                     }
-                    
+
                     if(dataSet2.getMarkedCount() > 0) {
                         dataSet2.removeMarkedRows();
                     } else {
                         var row = dataSet2.getRow();
-                        if(row < 0) return;                        
+                        if(row < 0) return;
                         dataSet2.removeAt(row);
                     }
-                    
+
                     if(dbCallYN) {
                         //삭제된 레코드 외 상태 정상처리
                         for(var i = 0; i < dataSet2.getCount(); i++) {
                             if(dataSet2.getState(i) != 3) dataSet2.setState(i, Rui.data.LRecord.STATE_NORMAL);
                         }
-                        
+
                         dm.updateDataSet({
                             url:'<c:url value="/prj/tss/gen/deleteGenTssPlnYld.do"/>',
                             dataSets:[dataSet2]
@@ -515,20 +515,20 @@
                 handlerNo: Rui.emptyFn
             });
         });
-        
+
         //산출물저장
         btnYldSave = new Rui.ui.LButton('btnYldSave');
         btnYldSave.on('click', function() {
-            if(!vm2.validateDataSet(dataSet2, dataSet2.getRow())) { 
+            if(!vm2.validateDataSet(dataSet2, dataSet2.getRow())) {
                 Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm2.getMessageList().join('<br>'));
                 return false;
             }
-            
+
             if(!dataSet2.isUpdated()) {
                 Rui.alert("변경된 데이터가 없습니다.");
                 return;
             }
-            
+
             dm.updateDataSet({
                 url:'<c:url value="/prj/tss/gen/updateGenTssPlnYld.do"/>',
                 dataSets:[dataSet2]
@@ -562,7 +562,7 @@
                 });
             }
         };
-        
+
         //데이터 셋팅
         if(${resultGoalCnt} > 0) {
             console.log("goal searchData1");
@@ -582,45 +582,45 @@
             //버튼 비활성화 셋팅
             disableFields();
         }
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#butYldAdd").hide();
-        	$("#butYldDel").hide();
-        	$("#btnGoalSave").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#butYldAdd").hide();
-        	$("#butYldDel").hide();
-        	$("#btnGoalSave").hide();
-		}
+            $("#butYldAdd").hide();
+            $("#butYldDel").hide();
+            $("#btnGoalSave").hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $("#butYldAdd").hide();
+            $("#butYldDel").hide();
+            $("#btnGoalSave").hide();
+        }
     });
-    
-    
+
+
     //validation
     function fnIfmIsUpdate(gbn) {
-        if(!vm1.validateDataSet(dataSet1, dataSet1.getRow())) { 
+        if(!vm1.validateDataSet(dataSet1, dataSet1.getRow())) {
             Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm1.getMessageList().join('<br>'));
             return false;
         }
-        
-        if(!vm2.validateDataSet(dataSet2, dataSet2.getRow())) { 
+
+        if(!vm2.validateDataSet(dataSet2, dataSet2.getRow())) {
              Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm2.getMessageList().join('<br>'));
              return false;
         }
-        
+
         if(dataSet1.isUpdated() || dataSet2.isUpdated()) {
             Rui.alert("목표및산출물 탭 저장을 먼저 해주시기 바랍니다.");
             return false;
         }
-        
+
         return true;
     }
 </script>
 <script>
 $(window).load(function() {
-	setTimeout(() => {
-		initFrameSetHeight();	
-	}, 500);
-	//	initFrameSetHeight("smryFormDiv");
+    setTimeout(() => {
+        initFrameSetHeight();
+    }, 500);
+    //    initFrameSetHeight("smryFormDiv");
 });
 </script>
 </head>
@@ -679,6 +679,8 @@ $(window).load(function() {
     </div>
 </div>
 --%>
-
+    <br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/><br/>
+    <br/><br/><br/><br/><br/>
 </body>
 </html>
