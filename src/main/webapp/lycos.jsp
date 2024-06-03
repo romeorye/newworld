@@ -36,7 +36,7 @@
 <script type="text/javascript" src="<%=scriptPath%>/jquery.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/jquery.iframeResizer.min.js"></script>
 <script type="text/javascript">
-    //[출처] [jQuery] Input에서 엔터시 Submit 이벤트 발생 방지|작성자 lovekod2hj
+    //[출처] [jQuery] Input에서 엔터시 Submit 이벤트 발생|작성자 lovekod2hj
     $(document).ready(function(){
         $('#ssoid').keyup(function(e){
             if( e.keyCode == 13 && $('#ssoid').val()!=""){
