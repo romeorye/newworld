@@ -6,7 +6,7 @@
     <!--  -->
     <select id="retrieveCodeValueList" resultType="HashMap">
         <![CDATA[
-/*retrieveCodeValueList 과제 상태 코드 목록*/
+        /*retrieveCodeValueList 과제 상태 코드 목록*/
         SELECT A.COM_DTL_CD
              , A.COM_DTL_NM
           FROM IRIS_ADM_COM_CD A
@@ -19,24 +19,27 @@
     <select id="retrieveCodeValue" resultType="String">
         <![CDATA[
         /*retrieveCodeValue 과제 상태 코드*/
-        SELECT
-            A.COM_DTL_NM as comDtlNm
+        SELECT A.COM_DTL_NM as comDtlNm
           FROM IRIS_ADM_COM_CD A
-         WHERE
-         A.COM_CD_CD = #{comCdCd}
-         AND A.COM_DTL_CD = #{comDtlCd}
+         WHERE A.COM_CD_CD = #{comCdCd}
+           AND A.COM_DTL_CD = #{comDtlCd}
            AND A.DEL_YN = 'N'
         ]]>
     </select>
 
 
- <select id="retrieveCodeValueAllList" resultType="HashMap">
+    <select id="retrieveCodeValueAllList" resultType="HashMap">
         <![CDATA[
         /*retrieveCodeValueAllList  코드*/
-                SELECT A.COM_DTL_CD
+        SELECT A.COM_DTL_CD
              , A.COM_DTL_NM
           FROM IRIS_ADM_COM_CD A
-         WHERE A.COM_CD_CD = #{comCd}
+         WHERE 1 = 1
+         ]]>
+         <if test="comCd != null and comCd != ''">
+         AND A.COM_CD_CD = #{comCd}
+         </if>
+         <![CDATA[
          ORDER BY COM_ORD
         ]]>
     </select>

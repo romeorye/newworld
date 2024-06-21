@@ -39,13 +39,13 @@ public class CodeController extends IrisBaseController  {
 
     @Resource(name="messageSourceAccessor")
     private MessageSourceAccessor messageSourceAccessor;
-    
+
     @Resource(name = "codeCacheManager")
-    private CodeCacheManager codeCacheManager;    
-    
+    private CodeCacheManager codeCacheManager;
+
     static final Logger LOGGER = LogManager.getLogger(CodeController.class);
 
-    
+
     @RequestMapping(value="/common/code/retrieveCodeListForCache.do")
     public ModelAndView retrieveCodeListForCache(
             @RequestParam HashMap<String, String> input,
@@ -59,18 +59,18 @@ public class CodeController extends IrisBaseController  {
         LOGGER.debug("CodeController - retrieveCodeListForCache [공통코드 캐쉬조회]");
         LOGGER.debug("input = > " + input);
         LOGGER.debug("###########################################################");
-        
-        
+
+
         ModelAndView modelAndView = new ModelAndView("ruiView");
-            
+
         // 공통코드 캐쉬조회
         List codeList = codeCacheManager.retrieveCodeValueListForCache(NullUtil.nvl(input.get("comCd"), ""));
-         
+
         modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", codeList));
 
         return modelAndView;
-    }   
-    
+    }
+
     @RequestMapping(value="/common/code/retrieveCodeAllListForCache.do")
     public ModelAndView retrieveCodeAllListForCache(
             @RequestParam HashMap<String, String> input,
@@ -84,15 +84,42 @@ public class CodeController extends IrisBaseController  {
         LOGGER.debug("CodeController - retrieveCodeAllListForCache [공통코드 캐쉬조회]");
         LOGGER.debug("input = > " + input);
         LOGGER.debug("###########################################################");
-        
-        
+
+
         ModelAndView modelAndView = new ModelAndView("ruiView");
-            
+
         // 공통코드 캐쉬조회
         List codeList = codeCacheManager.retrieveCodeAllListForCache(NullUtil.nvl(input.get("comCd"), ""));
-         
+
         modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", codeList));
 
         return modelAndView;
-    }   
+    }
+
+    @RequestMapping(value="/common/code/refresh.do")
+    public ModelAndView refresh(
+            @RequestParam HashMap<String, String> input,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            HttpSession session,
+            ModelMap model
+            ){
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("CodeController - retrieveCodeAllListForCache [공통코드 캐시제거]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        input.put("comCd", "");
+
+        ModelAndView modelAndView = new ModelAndView("ruiView");
+
+        // 공통코드 캐시제거 및 재조회
+        List codeList = codeCacheManager.refresh(NullUtil.nvl(input.get("comCd"), ""));
+
+        modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", codeList));
+
+        return modelAndView;
+    }
+
 }
