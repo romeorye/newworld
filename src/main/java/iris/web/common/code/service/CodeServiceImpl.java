@@ -18,6 +18,7 @@
  */
 package iris.web.common.code.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,16 +40,17 @@ import devonframe.dataaccess.CommonDao;
 @Service("codeService")
 public class CodeServiceImpl implements CodeService {
 
-	@Resource(name="commonDao")
-	private CommonDao commonDao;
+    @Resource(name="commonDao")
+    private CommonDao commonDao;
 
     @Override
     public List<Map<String, Object>> retrieveCodeValueList(String string) {
         return commonDao.selectList("common.code.retrieveCodeValueList",string);
     }
-    
+
     @Override
-    public List<Map<String, Object>> retrieveCodeValueAllList(String string) {
-    	return commonDao.selectList("common.code.retrieveCodeValueAllList",string);
+    public List<Map<String, Object>> retrieveCodeValueAllList(HashMap<String, String> input) {
+        return commonDao.selectList("common.code.retrieveCodeValueAllList",input);
     }
+
 }

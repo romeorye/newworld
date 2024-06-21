@@ -7,8 +7,8 @@
     <select id="retrieveCodeValueList" resultType="HashMap">
         <![CDATA[
         /*retrieveCodeValueList 과제 상태 코드 목록*/
-        SELECT A.COM_DTL_CD
-             , A.COM_DTL_NM
+        SELECT  A.COM_DTL_CD
+              , A.COM_DTL_NM
           FROM IRIS_ADM_COM_CD A
          WHERE A.COM_CD_CD = #{param1}
            AND A.DEL_YN = 'N'
@@ -31,8 +31,8 @@
     <select id="retrieveCodeValueAllList" resultType="HashMap">
         <![CDATA[
         /*retrieveCodeValueAllList  코드*/
-        SELECT A.COM_DTL_CD
-             , A.COM_DTL_NM
+        SELECT  A.COM_DTL_CD
+              , A.COM_DTL_NM
           FROM IRIS_ADM_COM_CD A
          WHERE 1 = 1
          ]]>

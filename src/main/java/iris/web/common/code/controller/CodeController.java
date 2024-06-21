@@ -89,7 +89,7 @@ public class CodeController extends IrisBaseController  {
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
         // 공통코드 캐쉬조회
-        List codeList = codeCacheManager.retrieveCodeAllListForCache(NullUtil.nvl(input.get("comCd"), ""));
+        List codeList = codeCacheManager.retrieveCodeAllListForCache(input);
 
         modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", codeList));
 
@@ -115,8 +115,8 @@ public class CodeController extends IrisBaseController  {
         ModelAndView modelAndView = new ModelAndView("ruiView");
 
         // 공통코드 캐시제거 및 재조회
-        List codeList = codeCacheManager.refresh(NullUtil.nvl(input.get("comCd"), ""));
-
+        codeCacheManager.refresh();
+        List codeList = codeCacheManager.retrieveCodeAllListForCache(input).subList(0, 1); //임시로 넣기
         modelAndView.addObject("radioDataSet", RuiConverter.createDataset("codeList", codeList));
 
         return modelAndView;

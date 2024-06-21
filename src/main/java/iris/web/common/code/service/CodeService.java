@@ -18,6 +18,7 @@
  */
 package iris.web.common.code.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,6 @@ public interface CodeService {
 
     public List<Map<String, Object>> retrieveCodeValueList(String string);
 
-	public List<Map<String, Object>> retrieveCodeValueAllList(String input);
-    
+    public List<Map<String, Object>> retrieveCodeValueAllList(HashMap<String, String> input);
 
 }

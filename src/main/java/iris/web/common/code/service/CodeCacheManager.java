@@ -13,6 +13,7 @@
  *------------------------------------------------------------------------------*/
 package iris.web.common.code.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,14 +55,13 @@ public class CodeCacheManager {
     }
 
     @Cacheable(value="codeListForCache")
-    public List<Map<String, Object>> retrieveCodeAllListForCache(String input) {
+    public List<Map<String, Object>> retrieveCodeAllListForCache(HashMap<String, String> input) {
         // TODO Auto-generated method stub
         return codeService.retrieveCodeValueAllList(input);
     }
 
-    @CacheEvict(value="codeListForCache") //해당 캐시 삭제
-    public List<Map<String, Object>> refresh(String input) {
-        return codeService.retrieveCodeValueAllList(input);
+    @CacheEvict(value="codeListForCache", allEntries=true) //해당 캐시 삭제
+    public void refresh() {
     }
 }
 
