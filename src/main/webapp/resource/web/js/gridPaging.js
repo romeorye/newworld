@@ -1,6 +1,6 @@
 
-var aCnt = 10;		//게시물수
-var pCnt = 10;		//페이지 수
+var aCnt = 10;        //게시물수
+var pCnt = 10;        //페이지 수
 var pDs;
 var pId;
 var nowP = 1;
@@ -13,25 +13,25 @@ function paging(dsSet,gridId){
     $("#pageNum").remove();
 
     var total = pDs.getCount(); // 전체 게시물수
-    totalPCnt = Math.ceil(total/aCnt);	//전체 페이지수
+    totalPCnt = Math.ceil(total/aCnt);    //전체 페이지수
     if(totalPCnt<1)totalPCnt = 1;
 
 
     $("#"+gridId).after("<div id='paging'></div>");
     $("#paging").css("padding-top","10px");
     $("#paging").css("text-align","center");
-    
+
     if(mPageNum==""||mPageNum=="undifine"){
-    	pagingSetPage(1);
+        pagingSetPage(1);
     }else{
-    	pagingSetPage(mPageNum);
+        pagingSetPage(mPageNum);
     }
 
 }
 
 function pagingSetList(){
     $("#paging").children().remove();
-    var startP = Math.floor((nowP-1)/10)*10+1
+    var startP = Math.floor((nowP-1)/aCnt)*aCnt+1
     var endP = startP+ pCnt;
     if(endP>totalPCnt)endP = totalPCnt+1;
 
@@ -48,8 +48,8 @@ function pagingSetList(){
 }
 
 function pagingSetPage(p){
-	$("#pageNum").remove();
-	$(".search-content").append("<input type='hidden' id='pageNum' name='pageNum' value=''/>");
+    $("#pageNum").remove();
+    $(".search-content").append("<input type='hidden' id='pageNum' name='pageNum' value=''/>");
     if(p=="befor")p=nowP-1;
     if(p=="next")p=nowP+1;
 
