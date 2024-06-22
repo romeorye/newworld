@@ -63,18 +63,20 @@ db.iris.encoding=utf-8
 db.iris.initialSize=1
 
 
-#TODO DB DB(DEV) 연결 X
+###TODO DB DB(DEV) 연결 X
 ##db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
 ##db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
-##db.todo.url=jdbc:sqlserver://165.244.161.204:1433;databasename=TODO
-##db.todo.username=irisapp
-##db.todo.password=lghausys123!
-##db.todo.encoding=utf-8
+#db.todo.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+#db.todo.url=jdbc:log4jdbc:sqlserver://165.244.161.204:1433;databasename=TODO
+#db.todo.username=irisapp
+#db.todo.password=lghausys123!
+#db.todo.encoding=utf-8
 
 #TODO DB DB(DEV) [2024.03.14]Cloud로 연결 -- 완료되면 주석 풀기
 ##db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
 ##db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
-##db.todo.url=jdbc:sqlserver://nonprod-b2b-tot3.cl4tnwsbivfl.ap-northeast-2.rds.amazonaws.com:1433;databasename=TODO
+#db.todo.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+#db.todo.url=jdbc:log4jdbc:sqlserver://nonprod-b2b-tot3.cl4tnwsbivfl.ap-northeast-2.rds.amazonaws.com:1433;databasename=TODO
 #db.todo.username=todouser
 #db.todo.password=lghausys123!
 #db.todo.encoding=utf-8
@@ -129,10 +131,11 @@ db.salStat.username=iris_user
 db.salStat.password=irisuser123!
 db.salStat.encoding=utf-8
 
-#MSSQL SALSTAT DB(PRD)
-#db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
-#db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
-#db.salStat.url=jdbc:sqlserver://10.39.184.141:1433;databasename=LGHSDW
+###MSSQL SALSTAT DB(PRD)
+##db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+##db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
+#db.salStat.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+#db.salStat.url=jdbc:log4jdbc:sqlserver://10.39.184.141:1433;databasename=LGHSDW
 #db.salStat.username=iris_user
 #db.salStat.password=irisuser123!
 #db.salStat.encoding=utf-8
