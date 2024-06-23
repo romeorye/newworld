@@ -324,13 +324,13 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
                     <div class="titArea">
                         <span class=table_summay_number id="cnt_text"></span>
                         <div class="LblockButton">
+                            <button type="button" id="butCodeRefresh"  name="butCodeRefresh" class="redBtn">Cache Refresh</button>
+                            <button type="button" id="butSqlRefresh"   name="butSqlRefresh" class="redBtn">Xml Refresh</button>
+                            &nbsp;&nbsp;
                             <button type="button" id="butRgst"         name="butRgst" >신규등록</button>
                             <button type="button" id="butAdd"          name="butAdd" >추가</button>
                             <button type="button" id="butUpdate"       name="butUpdate" >저장</button>
                             <button type="button" id="butExcl"         name="butExcl">EXCEL</button>
-                            &nbsp;&nbsp;
-                            <button type="button" id="butCodeRefresh"  name="butCodeRefresh" class="redBtn">Cache Refresh</button>
-                            <button type="button" id="butSqlRefresh"   name="butSqlRefresh" class="redBtn">Xml Refresh</button>
                         </div>
                     </div>
                     <div id="defaultGrid"></div>
