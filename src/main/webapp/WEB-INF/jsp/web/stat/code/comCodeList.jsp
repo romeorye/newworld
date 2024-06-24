@@ -153,8 +153,8 @@ var codeRegDialog;
             });
         }
 
-        // 화면로드시 조회
-        fnSearch();
+        // 화면로드시 조회 [20240624.siseo]속도가 느려  주석처리
+        //fnSearch();
 
         //코드 등록
         codeRegDialog = new Rui.ui.LFrameDialog({
@@ -314,6 +314,7 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
                                         <input type="text" class="" id="codeNm" >
                                     </td>
                                     <td class="txt-right">
+                                        <input style="cursor: pointer;" type="reset" value='초기화'>
                                         <a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
                                     </td>
                                 </tr>
@@ -327,6 +328,7 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
                             <button type="button" id="butCodeRefresh"  name="butCodeRefresh" class="redBtn">Cache Refresh</button>
                             <button type="button" id="butSqlRefresh"   name="butSqlRefresh" class="redBtn">Xml Refresh</button>
                             &nbsp;&nbsp;
+                            <button type="button" id="butRgst"         name="butRgst" >신규등록</button>
                             <button type="button" id="butRgst"         name="butRgst" >신규등록</button>
                             <button type="button" id="butAdd"          name="butAdd" >추가</button>
                             <button type="button" id="butUpdate"       name="butUpdate" >저장</button>
