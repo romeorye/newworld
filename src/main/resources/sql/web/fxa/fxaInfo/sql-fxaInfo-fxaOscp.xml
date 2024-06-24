@@ -2,116 +2,116 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fxaInfo.fxaOscp">
-	<cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
+    <cache eviction="FIFO" flushInterval="10000" size="512" readOnly="true"/>
 
-	<!-- 사외자산이관 목록 조회  -->
-	<select id="retrieveFxaOscpSearchList" resultType="hashmap" >
-		<![CDATA[
-		-- retrieveFxaOscpSearchList 사외자산이관 목록 조회
-		select    b.fxa_nm 		as fxaNm
-		         ,b.fxa_no 		as fxaNo
-				 ,b.FXA_QTY 	as fxaQty
-				 ,b.FXA_UTM_NM 	as fxaUtmNm
-				 ,b.BKP_PCE     as bkpPce
-				 ,a.OSCP_RQ_DT 	as oscpRqDt
-				 ,a.OSCP_APPR_DT as oscpApprDt
-				 ,dbo.fn_getComDtlNm('TRSF_ST_CD', a.OSCP_ST_CD) as oscpStNm
-		         ,b.FXA_LOC 	as fxaLoc
-				 ,a.OSCP_ST_CD 	as oscpStCd
-		         ,a.FXA_INFO_ID as fxaInfoId
-		         ,a.FXA_OSCP_ID as fxaOscpId
-		         ,b.wbs_cd 		as wbsCd
-				 ,b.prj_cd 		as prjCd
-		from  IRIS_FXA_OSCP_LIST a
-		         inner join IRIS_FXA_INFO_MST b
-				 on b.FXA_INFO_ID = a.FXA_INFO_ID
-				 left outer join IRIS_PRJ_RSST_MST c
-		         on c.PRJ_cd = b.prj_cd
-		where   a.DEL_YN ='N'
-		 and    a.OSCP_ST_CD in ('RQ', 'APPR')
-		]]>
-		<if test="( wbsCd != null and wbsCd != '')">
-			AND  a.WBS_CD = #{wbsCd}
-	    </if>
-	    <if test="( fxaNm != null and fxaNm != '')">
-			AND a.FXA_NM LIKE '%'+#{fxaNm}+'%'
-	    </if>
-		<if test="(fxaNo != null and fxaNo != '')">
-			AND a.FXA_NO = #{fxaNo}
-	    </if>
-		<if test="( prjNm != null and prjNm != '')">
-			AND C.PRJ_NM LIKE '%'+#{prjNm}+'%' 
-	    </if>
-	</select>
+    <!-- 사외자산이관 목록 조회  -->
+    <select id="retrieveFxaOscpSearchList" resultType="hashmap" >
+        <![CDATA[
+        -- retrieveFxaOscpSearchList 사외자산이관 목록 조회
+        select    b.fxa_nm         as fxaNm
+                 ,b.fxa_no         as fxaNo
+                 ,b.FXA_QTY     as fxaQty
+                 ,b.FXA_UTM_NM     as fxaUtmNm
+                 ,b.BKP_PCE     as bkpPce
+                 ,a.OSCP_RQ_DT     as oscpRqDt
+                 ,a.OSCP_APPR_DT as oscpApprDt
+                 ,dbo.fn_getComDtlNm('TRSF_ST_CD', a.OSCP_ST_CD) as oscpStNm
+                 ,b.FXA_LOC     as fxaLoc
+                 ,a.OSCP_ST_CD     as oscpStCd
+                 ,a.FXA_INFO_ID as fxaInfoId
+                 ,a.FXA_OSCP_ID as fxaOscpId
+                 ,b.wbs_cd         as wbsCd
+                 ,b.prj_cd         as prjCd
+        from  IRIS_FXA_OSCP_LIST a
+                 inner join IRIS_FXA_INFO_MST b
+                 on b.FXA_INFO_ID = a.FXA_INFO_ID
+                 left outer join IRIS_PRJ_RSST_MST c
+                 on c.PRJ_cd = b.prj_cd
+        where   a.DEL_YN ='N'
+         and    a.OSCP_ST_CD in ('RQ', 'APPR')
+        ]]>
+        <if test="( wbsCd != null and wbsCd != '')">
+            AND  B.WBS_CD = #{wbsCd}
+        </if>
+        <if test="( fxaNm != null and fxaNm != '')">
+            AND B.FXA_NM LIKE '%'+#{fxaNm}+'%'
+        </if>
+        <if test="(fxaNo != null and fxaNo != '')">
+            AND B.FXA_NO = #{fxaNo}
+        </if>
+        <if test="( prjNm != null and prjNm != '')">
+            AND C.PRJ_NM LIKE '%'+#{prjNm}+'%'
+        </if>
+    </select>
 
-	<!-- 사외자산이관정보 저장 -->
-	<insert id="insertFxaOscpInfo" >
-		-- insertFxaOscpInfo 사외자산이관정보 저장
-		insert IRIS_FXA_OSCP_LIST
-		(   FXA_INFO_ID  
-		    ,OSCP_ST_CD   
-		    ,OSCP_RQ_DT   
-			,DEL_YN      
-		    ,GUID       
-		    ,FRST_RGST_DT
-		    ,FRST_RGST_ID
-		    ,LAST_MDFY_DT
-		    ,LAST_MDFY_ID
-		) values
-		(
-		#{fxaInfoId}
-		,'RQ'
-		,convert(nvarchar(10), getdate(), 23)
-		,'Y'
-		,#{guid}
-		,GETDATE()
-		,#{_userId}
-		,GETDATE()
-		,#{_userId}
-		)	
-	</insert>
+    <!-- 사외자산이관정보 저장 -->
+    <insert id="insertFxaOscpInfo" >
+        -- insertFxaOscpInfo 사외자산이관정보 저장
+        insert IRIS_FXA_OSCP_LIST
+        (   FXA_INFO_ID
+            ,OSCP_ST_CD
+            ,OSCP_RQ_DT
+            ,DEL_YN
+            ,GUID
+            ,FRST_RGST_DT
+            ,FRST_RGST_ID
+            ,LAST_MDFY_DT
+            ,LAST_MDFY_ID
+        ) values
+        (
+        #{fxaInfoId}
+        ,'RQ'
+        ,convert(nvarchar(10), getdate(), 23)
+        ,'Y'
+        ,#{guid}
+        ,GETDATE()
+        ,#{_userId}
+        ,GETDATE()
+        ,#{_userId}
+        )
+    </insert>
 
-	<update id="updateFxaLoc"  >
-		update IRIS_FXA_INFO_MST
-		set    FXA_LOC = #{fxaLoc} 
-		where  FXA_INFO_ID = #{fxaInfoId}  
-	</update>
-	
-	<!-- 사외자산이관 목록 조회  -->
-	<select id="retrieveFxaOscpPopList" resultType="hashmap" >
-		<![CDATA[
-		-- retrieveFxaOscpPopList 사외자산이관 목록 조회
-		select  a.fxa_info_id as fxaInfoId
-		          ,a.fxa_no as fxaNo
-			 	  ,a.fxa_nm as fxaNm
-				  ,a.fxa_qty as fxaQty
-				  ,a.FXA_UTM_NM as fxaUtmNm
-		          ,a.obt_pce as obtPce
-				  ,isnull(a.fxa_loc, '') as fxaLoc
-				  ,a.bkp_pce as bkpPce
-		from   IRIS_FXA_INFO_MST a
-		where   1=1
-		]]>
-		and    a.fxa_info_id in
-		<foreach collection="fxaInfoIdArr" item="item" separator="," open="(" close=")">
-				#{item}
-	 	</foreach>
-	 	
-	</select>
-	
-	
-	<select id="retrieveOscpGuid" resultType="String">
-		<![CDATA[
-		SELECT 'O'
-			 + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
-			 + REPLICATE('0', 4 - LEN(CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)))
-			 + CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)
-		  FROM IRIS_COM_ITG_RDCS X
-		 WHERE SUBSTRING(X.GUID, 1, 7) = 'O' + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
-		 ]]>
-	</select>
-	
-	
-	
-	
+    <update id="updateFxaLoc"  >
+        update IRIS_FXA_INFO_MST
+        set    FXA_LOC = #{fxaLoc}
+        where  FXA_INFO_ID = #{fxaInfoId}
+    </update>
+
+    <!-- 사외자산이관 목록 조회  -->
+    <select id="retrieveFxaOscpPopList" resultType="hashmap" >
+        <![CDATA[
+        -- retrieveFxaOscpPopList 사외자산이관 목록 조회
+        select  a.fxa_info_id as fxaInfoId
+                  ,a.fxa_no as fxaNo
+                   ,a.fxa_nm as fxaNm
+                  ,a.fxa_qty as fxaQty
+                  ,a.FXA_UTM_NM as fxaUtmNm
+                  ,a.obt_pce as obtPce
+                  ,isnull(a.fxa_loc, '') as fxaLoc
+                  ,a.bkp_pce as bkpPce
+        from   IRIS_FXA_INFO_MST a
+        where   1=1
+        ]]>
+        and    a.fxa_info_id in
+        <foreach collection="fxaInfoIdArr" item="item" separator="," open="(" close=")">
+                #{item}
+         </foreach>
+
+    </select>
+
+
+    <select id="retrieveOscpGuid" resultType="String">
+        <![CDATA[
+        SELECT 'O'
+             + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
+             + REPLICATE('0', 4 - LEN(CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)))
+             + CONVERT(VARCHAR, ISNULL(MAX(CONVERT(INT, SUBSTRING(X.GUID, 8, 4))), 0) + 1)
+          FROM IRIS_COM_ITG_RDCS X
+         WHERE SUBSTRING(X.GUID, 1, 7) = 'O' + SUBSTRING(CONVERT(VARCHAR, GETDATE(), 112), 3, 6)
+         ]]>
+    </select>
+
+
+
+
 </mapper>
