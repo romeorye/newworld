@@ -116,13 +116,13 @@
 
 
                 // if( !Rui.isEmpty(tssStrtDd.getValue()) && !Rui.isEmpty(tssFnhDd.getValue()) ){
-                // 	document.getElementById('tabContent0').contentWindow.fncPtcCpsnYDisable(tssStrtDd.getValue(), tssFnhDd.getValue());
+                //     document.getElementById('tabContent0').contentWindow.fncPtcCpsnYDisable(tssStrtDd.getValue(), tssFnhDd.getValue());
                 // }
             });
 
             tssStrtDd.on('changed', function () {
                 // if( !Rui.isEmpty(tssStrtDd.getValue()) && !Rui.isEmpty(tssFnhDd.getValue()) ){
-                // 	document.getElementById('tabContent0').contentWindow.fncPtcCpsnYDisable(tssStrtDd.getValue(), tssFnhDd.getValue());
+                //     document.getElementById('tabContent0').contentWindow.fncPtcCpsnYDisable(tssStrtDd.getValue(), tssFnhDd.getValue());
                 // }
             });
 
@@ -143,13 +143,13 @@
                     }
                 }
                 // if( !Rui.isEmpty(tssStrtDd.getValue()) && !Rui.isEmpty(tssFnhDd.getValue()) ){
-                // 	document.getElementById('tabContent0').contentWindow.fncPtcCpsnYDisable(tssStrtDd.getValue(), tssFnhDd.getValue());
+                //     document.getElementById('tabContent0').contentWindow.fncPtcCpsnYDisable(tssStrtDd.getValue(), tssFnhDd.getValue());
                 // }
             });
 
             tssFnhDd.on('changed', function () {
                 // if( !Rui.isEmpty(tssStrtDd.getValue()) &&  !Rui.isEmpty(tssFnhDd.getValue()) ){
-                // 	document.getElementById('tabContent0').contentWindow.fncPtcCpsnYDisable(tssStrtDd.getValue(), tssFnhDd.getValue());
+                //     document.getElementById('tabContent0').contentWindow.fncPtcCpsnYDisable(tssStrtDd.getValue(), tssFnhDd.getValue());
                 // }
             });
 
@@ -165,18 +165,18 @@
 
 
             function setBtn() {
-                btnDelRq.hide();	//삭제
-                btnAltrRq.hide();	//변경요청
-                btnStepPg.hide();	//변경취소
-                // btnGrsRq.hide();	//GRS요청
-                btnCsusRq.hide();	//품의서요청
+                btnDelRq.hide();    //삭제
+                btnAltrRq.hide();    //변경요청
+                btnStepPg.hide();    //변경취소
+                // btnGrsRq.hide();    //GRS요청
+                btnCsusRq.hide();    //품의서요청
                 btnCsusRq2.hide();//내부품의서요청
 
                 if (isOwner()) {
 
                     // if(pgsStepCd=="PL" && gvTssSt=="100"){
                     //     //계획 진행중
-                    //     btnDelRq.show();	// 삭제
+                    //     btnDelRq.show();    // 삭제
                     // }
 
                     if (
@@ -184,22 +184,22 @@
                         || (pgsStepCd == "PG" && gvTssSt == "100")
                     ) {
                         //진행중
-                        // btnGrsRq.show();	//GRS  요청
+                        // btnGrsRq.show();    //GRS  요청
                     }
 
                     if (
-                        (pgsStepCd == "PL" && grsYn == "N" && gvTssSt == "100")			//GRS N(계획) 인경우 바로 품의서 요청
-                        || (pgsStepCd == "PL" && grsYn == "Y" && gvTssSt == "302")	//GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
-                        //|| (pgsStepCd == "PG" && gvTssSt == "302")							//진행인 경우 GRS 평가완료
-                        || (pgsStepCd == "AL" && gvTssSt == "100" && isGrsAl=="Y")							//완료진행인 경우 GRS 평가완료
-                        || (pgsStepCd == "CM" && gvTssSt == "100")							//완료진행인 경우 GRS 평가완료
-                        || (pgsStepCd == "DC" && gvTssSt == "100")							//중단진행인 경우 GRS 평가완료
+                        (pgsStepCd == "PL" && grsYn == "N" && gvTssSt == "100")            //GRS N(계획) 인경우 바로 품의서 요청
+                        || (pgsStepCd == "PL" && grsYn == "Y" && (gvTssSt == "102" || gvTssSt == "302"))    //GRS Y(계획) 인경우 GRS 품의완료시 품의서 요청
+                        //|| (pgsStepCd == "PG" && gvTssSt == "302")                            //진행인 경우 GRS 평가완료
+                        || (pgsStepCd == "AL" && gvTssSt == "100" && isGrsAl=="Y")                            //완료진행인 경우 GRS 평가완료
+                        || (pgsStepCd == "CM" && gvTssSt == "100")                            //완료진행인 경우 GRS 평가완료
+                        || (pgsStepCd == "DC" && gvTssSt == "100")                            //중단진행인 경우 GRS 평가완료
                     ) {
-                        btnCsusRq.show();	// 품의서요청
+                        btnCsusRq.show();    // 품의서요청
                     }
 
                     if (pgsStepCd == "PG" && gvTssSt == "100") {
-                        btnAltrRq.show();		//변경 요청
+                        btnAltrRq.show();        //변경 요청
                     }
 
 
@@ -319,13 +319,13 @@
                     , {id: 'pgTssCd'}  //진행 과제코드
                     , {id: 'alTssCd'}  //변경 과제코드
                     , {id: 'cmTssCd'} //완료 과제코드
-                    , {id: 'dcTssCd'}	//중단 과제코드
+                    , {id: 'dcTssCd'}    //중단 과제코드
 
-                    , {id: 'tssStepNm'}	//관제 단계
-                    , {id: 'grsStepNm'}	//GRS 단계
-                    , {id: 'qgateStepNm'}	//Qgate 단계
-                    , {id: 'grsYn'}	//grs(G1) 사용여부
-                    , {id: 'isGrsAl'}	//GRS변경 여부 Y/N
+                    , {id: 'tssStepNm'}    //관제 단계
+                    , {id: 'grsStepNm'}    //GRS 단계
+                    , {id: 'qgateStepNm'}    //Qgate 단계
+                    , {id: 'grsYn'}    //grs(G1) 사용여부
+                    , {id: 'isGrsAl'}    //GRS변경 여부 Y/N
 
 
                 ]
@@ -365,9 +365,9 @@
                     , {id: 'custSqlt', ctrlId: 'custSqlt', value: 'value'}
                     , {id: 'tssSmryTxt', ctrlId: 'tssSmryTxt', value: 'value'}
 
-                    , {id: 'tssStepNm', ctrlId: 'tssStepNm', value: 'value'}				//과제 단계명
-                    , {id: 'grsStepNm', ctrlId: 'grsStepNm', value: 'value'}				// GRS 단계명
-                    , {id: 'qgateStepNm', ctrlId: 'qgateStepNm', value: 'value'}		//Qgate 단계명
+                    , {id: 'tssStepNm', ctrlId: 'tssStepNm', value: 'value'}                //과제 단계명
+                    , {id: 'grsStepNm', ctrlId: 'grsStepNm', value: 'value'}                // GRS 단계명
+                    , {id: 'qgateStepNm', ctrlId: 'qgateStepNm', value: 'value'}        //Qgate 단계명
                 ]
             });
 
@@ -437,11 +437,11 @@
 
 
                 //단계별 과제코드
-                plTssCd = stringNullChk(dataSet.getNameValue(0, "plTssCd"));	//계획
-                pgTssCd = stringNullChk(dataSet.getNameValue(0, "pgTssCd"));	//진행
-                alTssCd = stringNullChk(dataSet.getNameValue(0, "alTssCd"));	//변경
-                cmTssCd = stringNullChk(dataSet.getNameValue(0, "cmTssCd"));	//완료
-                dcTssCd = stringNullChk(dataSet.getNameValue(0, "dcTssCd"));	//중단
+                plTssCd = stringNullChk(dataSet.getNameValue(0, "plTssCd"));    //계획
+                pgTssCd = stringNullChk(dataSet.getNameValue(0, "pgTssCd"));    //진행
+                alTssCd = stringNullChk(dataSet.getNameValue(0, "alTssCd"));    //변경
+                cmTssCd = stringNullChk(dataSet.getNameValue(0, "cmTssCd"));    //완료
+                dcTssCd = stringNullChk(dataSet.getNameValue(0, "dcTssCd"));    //중단
 
                 //최초 로그인사용자 정보 셋팅
                 if (gvTssCd == "") {
@@ -464,16 +464,16 @@
 
                 isEditable =
                     isFirst
-                    || pgsStepCd == "PL" && gvTssSt == "302"
+                    || pgsStepCd == "PL" && (gvTssSt == "102" || gvTssSt == "302")
                     || pgsStepCd == "PL" && gvTssSt == "100" && grsYn == "N"
                 ;
 
 
                 disableFields();
 
-                setTab();				//Tab 생성
-                setStepNm();			// 진행상태명 생성
-                setValidation();		// Validation Rule 생성
+                setTab();                //Tab 생성
+                setStepNm();            // 진행상태명 생성
+                setValidation();        // Validation Rule 생성
                 if (isFirst) {
                     $("#tssNm > input").focus();
                     $("#grsYnTd0101").show();
@@ -488,9 +488,9 @@
 
                     // $("#grsYnTd02").hide();
                 }
-                if (!isEditable) setViewform();		//읽기용 뷰로 변경
+                if (!isEditable) setViewform();        //읽기용 뷰로 변경
                 serDisableForm();
-                setBtn()					//버튼 표시
+                setBtn()                    //버튼 표시
 
                 if (isAl() && (gvTssSt=="" || gvTssSt=="100" || gvTssSt=="102")){
                     reqAltr();
@@ -668,11 +668,11 @@
             }
 
             function isOwner() {
-            	return "TR01" == gvRoleId || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew") || "TR11" == gvRoleId || "Y" == grsBtnYn;
+                return "TR01" == gvRoleId || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew") || "TR11" == gvRoleId || "Y" == grsBtnYn;
             }
 
             function serDisableForm(){
-            	setReadonly("wbsCd");
+                setReadonly("wbsCd");
                 setReadonly("tssNm");
                 setReadonly("prjNm");
                 setReadonly("prodG");
@@ -711,7 +711,7 @@
 
 
                 if (gvTssSt == "102" || gvTssSt == "100" || gvTssSt == "302") {
-                	if (isCm()) {
+                    if (isCm()) {
                         //품의 요청시 개발완기간 수정가능
                         setEditable("cmplBStrtDd");
                         setEditable("cmplBFnhDd");
@@ -823,8 +823,8 @@
 
 
                 if (errMsg == "") {
-                    if (regCntMap.gbn != "GRS") {		//GRS 요청
-                        if (regCntMap.gbn == "CSUS") {	//품의서 요청
+                    if (regCntMap.gbn != "GRS") {        //GRS 요청
+                        if (regCntMap.gbn == "CSUS") {    //품의서 요청
                             nwinsActSubmit(document.mstForm, "<%=request.getContextPath()+TctmUrl.doCsusView%>" + "?tssCd=" + tcd + "&pgsStepCd=" + pgsStepCd + "&userId=" + gvUserId + "&appCode=APP00332");
                         }
                     } else {
@@ -909,13 +909,13 @@
                     frmName = "tabContent3";    //개요
                    /*
                     if (  grsEvSt == "G2" && (gvTssSt == "102" || gvTssSt == "302" )  ){
-	                    frmName = "tabContent0";    //완료
+                        frmName = "tabContent0";    //완료
                     }else if ( grsEvSt == "D" &&  (gvTssSt == "102" || gvTssSt == "302" ) ){
-	                    frmName = "tabContent1";    //중단
+                        frmName = "tabContent1";    //중단
                     }else if (grsEvSt == "M" &&  (gvTssSt == "102" || gvTssSt == "302" ) ){
-	                    frmName = "tabContent2";    //변경
+                        frmName = "tabContent2";    //변경
                     }else {
-	                    frmName = "tabContent3";    //개요
+                        frmName = "tabContent3";    //개요
                     }
                     */
                 }
@@ -1144,21 +1144,21 @@ console.log("[tabContent4]('05')", $("#tabContent4").contents().find("[yldType='
                     return;
                 }
                 if (confirm('저장하시겠습니까?')) {
-                    dataSet.setNameValue(0, "tssCd", gvTssCd); 		//과제코드
-                    dataSet.setNameValue(0, "pgsStepCd", "CM"); 	//진행단계: CM(완료)
-                    dataSet.setNameValue(0, "tssScnCd", "D");   		//과제구분: D
-                    dataSet.setNameValue(0, "tssSt", "100");    			//과제상태: 100(진행중)
-                    dataSet.setNameValue(0, "userId", gvUserId);  	//사용자ID
-                    dataSet.setNameValue(0, "tssRoleType", "W"); 	//화면권한
+                    dataSet.setNameValue(0, "tssCd", gvTssCd);         //과제코드
+                    dataSet.setNameValue(0, "pgsStepCd", "CM");     //진행단계: CM(완료)
+                    dataSet.setNameValue(0, "tssScnCd", "D");           //과제구분: D
+                    dataSet.setNameValue(0, "tssSt", "100");                //과제상태: 100(진행중)
+                    dataSet.setNameValue(0, "userId", gvUserId);      //사용자ID
+                    dataSet.setNameValue(0, "tssRoleType", "W");     //화면권한
 
 
-                    smryDs.setNameValue(0, "tssCd", gvTssCd); 		//현재코드
-                    smryDs.setNameValue(0, "plTssCd", plTssCd); 	//계획코드
-                    smryDs.setNameValue(0, "pgTssCd", pgTssCd); 	//진행코드
-                    smryDs.setNameValue(0, "alTssCd", alTssCd); 	//변경코드
+                    smryDs.setNameValue(0, "tssCd", gvTssCd);         //현재코드
+                    smryDs.setNameValue(0, "plTssCd", plTssCd);     //계획코드
+                    smryDs.setNameValue(0, "pgTssCd", pgTssCd);     //진행코드
+                    smryDs.setNameValue(0, "alTssCd", alTssCd);     //변경코드
                     smryDs.setNameValue(0, "cmTssCd", cmTssCd);//완료코드
                     smryDs.setNameValue(0, "dcTssCd", dcTssCd);  //중단코드
-                    smryDs.setNameValue(0, "userId", gvUserId);  		//사용자ID
+                    smryDs.setNameValue(0, "userId", gvUserId);          //사용자ID
 
                     dm.updateDataSet({
                         modifiedOnly: false,
@@ -1575,16 +1575,16 @@ console.log("[tabContent4]('05')", $("#tabContent4").contents().find("[yldType='
     });
 
     //고객 특성 ->사업유형
-   	var custSqlt = new Rui.ui.form.LCombo({
-   		applyTo : 'custSqlt',
-   		name: 'custSqlt',
-   		emptyText: '전체',
-   		//url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=CUST_SQLT"/>',
-   		url: '<c:url value="/common/code/retrieveCodeAllListForCache.do?comCd=CUST_SQLT"/>',
-   		displayField: 'COM_DTL_NM',
+       var custSqlt = new Rui.ui.form.LCombo({
+           applyTo : 'custSqlt',
+           name: 'custSqlt',
+           emptyText: '전체',
+           //url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=CUST_SQLT"/>',
+           url: '<c:url value="/common/code/retrieveCodeAllListForCache.do?comCd=CUST_SQLT"/>',
+           displayField: 'COM_DTL_NM',
            valueField: 'COM_DTL_CD',
            width: 150
-   	});
+       });
 
 
     //Concept
@@ -1742,10 +1742,10 @@ console.log("[tabContent4]('05')", $("#tabContent4").contents().find("[yldType='
         });
 
         function setRsstSpheVal() {
-            //		창호 01/장식재 03 > 건장재01
-            //		자동차 05 > 자동차04
-            //		표면소재 06(데코 P11,가전 P12,S&G P13) > 산업용필름02
-            //		표면소재 06(그외) > 건장재01
+            //        창호 01/장식재 03 > 건장재01
+            //        자동차 05 > 자동차04
+            //        표면소재 06(데코 P11,가전 P12,S&G P13) > 산업용필름02
+            //        표면소재 06(그외) > 건장재01
             var bdc = bizDptCd.getValue();
             var pdg = prodG.getValue();
             var result = "";
@@ -1763,8 +1763,8 @@ console.log("[tabContent4]('05')", $("#tabContent4").contents().find("[yldType='
             rsstSphe.setValue(result);
         }
 
-        ppslMbdCd.setValue('02');	//사업부 fix
-        grsYn.setValue('N');	// G1 수행하지 않음(기본값)
+        ppslMbdCd.setValue('02');    //사업부 fix
+        grsYn.setValue('N');    // G1 수행하지 않음(기본값)
     }
 
 </script>
