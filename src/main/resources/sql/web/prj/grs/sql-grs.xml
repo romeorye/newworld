@@ -126,6 +126,7 @@
                 ,m.evDt
                 ,m.dlbrCrgr
                 ,m.tssType
+                ,dbo.fn_getComDtlNm('TSS_TYPE',m.tssType) AS tssTypeNm
                 ,m.tssScnCd
         from   tmp_grs m
         where  1=1
