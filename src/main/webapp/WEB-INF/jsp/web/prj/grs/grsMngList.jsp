@@ -128,7 +128,8 @@ var grsUserChk = '${inputData.grsUserChk}';
                  { id: 'dropYn'},
                  { id: 'evResult'},
                  { id: 'guid'},
-                 { id: 'fcCd'}
+                 { id: 'fcCd'},
+                 { id: 'tssTypeNm'}
               ]
          });
 
@@ -184,6 +185,7 @@ var grsUserChk = '${inputData.grsUserChk}';
                      { field: 'tssNm',      label: '과제명',       align:'left',      width: 200  , vMerge: true , renderer: function(val, p, record, row, i){
                          return "<a href='javascript:fncTssPop("+row+");'><u>" + val +"<u></a>";
                      } },
+                     { field: 'tssTypeNm',      label: '등급',  align:'center',  width: 60 },
                      { field: 'prjNm',   label: '프로젝트명',  align:'center',  width: 120 },
                      { field: 'leaderNm',   label: '과제리더',  align:'center',  width: 60},
                      { field: 'dlbrCrgrNm',   label: '심의담당자',  align:'center',  width: 60},
@@ -442,6 +444,7 @@ var grsUserChk = '${inputData.grsUserChk}';
                          { field: 'tssScnNm',        label: '과제구분', sortable: true, align:'center', width: 120 }
                         ,{ field: 'wbsCd',      label: 'WBS코드', sortable: true, align:'center', width: 85}
                      , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 240 }
+                     , { field: 'tssTypeNm',        label: '등급', sortable: true, align:'left', width: 80 }
                      , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
                      , { field: 'leaderNm',   label: '과제리더', sortable: true, align:'center', width: 80 }
                      , { field: 'dlbrCrgrNm',     label: '심의담당자', sortable: true, align:'center', width: 100 }
