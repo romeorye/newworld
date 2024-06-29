@@ -37,14 +37,14 @@
 <script type="text/javascript" src="<%=scriptPath%>/jquery.iframeResizer.min.js"></script>
 <script type="text/javascript">
     //[출처] [jQuery] Input에서 엔터시 Submit 이벤트 발생|작성자 lovekod2hj
-    $(document).ready(function(){
+    /* $(document).ready(function(){
         $('#ssoid').keyup(function(e){
             if( e.keyCode == 13 && $('#ssoid').val()!=""){
                 //alert("Enter Event Define!");
                 setCookie('InitechEamUID', '', '1');
             }
         });
-    });
+    }); */
 
     function setCookie(cookieName, value, exdays){
 
@@ -89,7 +89,7 @@
     }
 </script>
 </head>
-<body>
+<body onkeypress="if(event.keyCode==13) {setCookie('InitechEamUID', '', '1');}">
 
 <input name="name" type="button"  value="시스템관리자" onClick="setCookie('InitechEamUID', 'siseo', '1');"><br/>
 <input name="name" type="button"  value="일반연구원" onClick="setCookie('InitechEamUID', 'aerioh', '1');"><br/>
