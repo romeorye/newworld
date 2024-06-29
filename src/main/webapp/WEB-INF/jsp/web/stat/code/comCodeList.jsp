@@ -92,7 +92,7 @@ var codeRegDialog;
                         { field: 'comCdCd'         , label: '코드구분',      align:'center', width: 180}
                      , { field: 'comCdNm'       , label: '코드명',         align:'left',     width: 220}
                      , { field: 'comOrd'        , label: '순서',         editor: new Rui.ui.form.LNumberBox(),     align:'center', width: 80}
-                     , { field: 'comDtlCd'      , label: '코드',          editor: new Rui.ui.form.LTextBox(),  align:'center', width: 100 , renderer: function(value, p, record){
+                     , { field: 'comDtlCd'      , label: '상세코드',          editor: new Rui.ui.form.LTextBox(),  align:'center', width: 100 , renderer: function(value, p, record){
                              if(Rui.isEmpty(record.get("comId"))  ){    //추가일 경우  수정가능
                                   p.editable = true;
                              }else{
@@ -101,7 +101,7 @@ var codeRegDialog;
                              return value
                           }
                       }
-                     , { field: 'comDtlNm'      , label: '코드값',      editor: new Rui.ui.form.LTextBox(),     align:'left',     width:215}
+                     , { field: 'comDtlNm'      , label: '상세코드값',      editor: new Rui.ui.form.LTextBox(),     align:'left',     width:215}
                      , { field: 'delYn'          , label: '삭제여부',      editor: delYnCombo,     align:'center'}
                      , { field: 'frstRgstDt'       , label: '등록일',      align:'center', width: 100}
                      , { field: 'frstRgstId'    , label: '등록자',      align:'center', width: 100}
@@ -127,31 +127,65 @@ var codeRegDialog;
 
         //code
          var code = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
-             applyTo: 'code',                           // 해당 DOM Id 위치에 텍스트박스를 적용
+             applyTo: 'code',                             // 해당 DOM Id 위치에 텍스트박스를 적용
              emptyValue : '',
              width: 200,                                    // 텍스트박스 폭을 설정
              placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
              invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
          });
 
-       //code name
+         //code name
          var codeNm = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
-             applyTo: 'codeNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
+             applyTo: 'codeNm',                             // 해당 DOM Id 위치에 텍스트박스를 적용
              emptyValue : '',
              width: 200,                                    // 텍스트박스 폭을 설정
              placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
              invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
          });
 
-        fnSearch = function() {
-            dataSet.load({
-                url: '<c:url value="/stat/code/retrieveCcomCodeList.do"/>' ,
-                params :{
-                    code     : code.getValue(),         // wbsCd
-                    codeNm     : encodeURIComponent(codeNm.getValue())    //자산명
-                }
-            });
-        }
+         //code dtl code
+         var codeDCd = new Rui.ui.form.LTextBox({            // LTextBox개체를 선언
+             applyTo: 'codeDCd',                             // 해당 DOM Id 위치에 텍스트박스를 적용
+             emptyValue : '',
+             width: 200,                                    // 텍스트박스 폭을 설정
+             placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
+             invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
+         });
+
+         //code dtl name
+         var codeDNm = new Rui.ui.form.LTextBox({          // LTextBox개체를 선언
+             applyTo: 'codeDNm',                           // 해당 DOM Id 위치에 텍스트박스를 적용
+             emptyValue : '',
+             width: 200,                                   // 텍스트박스 폭을 설정
+             placeholder: '',     // [옵션] 입력 값이 없을 경우 기본 표시 메시지를 설정
+             invalidBlur: false                            // [옵션] invalid시 blur를 할 수 있을지 여부를 설정
+         });
+
+         // 마감 여부 combo
+         var selDelYn = new Rui.ui.form.LCombo({
+             applyTo : 'selDelYn',
+             name : 'selDelYn',
+             //defaultValue: '<c:out value="${inputData.selDelYn}"/>',
+             emptyValue : '',
+             emptyText: '선택하세요',
+                 items: [
+                       { text: 'Y', value: 'Y' }
+                     , { text: 'N', value: 'N' }
+                     ]
+         });
+
+         fnSearch = function() {
+             dataSet.load({
+                 url: '<c:url value="/stat/code/retrieveCcomCodeList.do"/>' ,
+                 params :{
+                       code    : code.getValue()                          //IRIS_ADM_COM_CD.COM_CD_CD
+                     , codeNm  : encodeURIComponent(codeNm.getValue())    //IRIS_ADM_COM_CD.COM_CD_NM
+                     , codeDCd : codeDCd.getValue()                       //IRIS_ADM_COM_CD.COM_DTL_CD
+                     , codeDNm : encodeURIComponent(codeDNm.getValue())   //IRIS_ADM_COM_CD.COM_DTL_NM
+                     , delYn   : selDelYn.getValue()                      //IRIS_ADM_COM_CD.DEL_YN
+                 }
+             });
+         }
 
         // 화면로드시 조회 [20240624.siseo]속도가 느려  주석처리
         //fnSearch();
@@ -299,11 +333,12 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
                                 <col style="width:280px"/>
                                 <col style="width:80px"/>
                                 <col style="width:280px"/>
-                                <col style=""/>
+                                <col style="width:80px"/>
+                                <col style="width:280px"/>
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th align="right">코드</th>
+                                    <th align="right">코드구분</th>
                                        <td>
                                            <span>
                                             <input type="text" class="" id="code" >
@@ -313,7 +348,22 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
                                     <td>
                                         <input type="text" class="" id="codeNm" >
                                     </td>
-                                    <td class="txt-right">
+                                    <th align="right">삭제여부</th>
+                                    <td>
+                                        <select id="selDelYn">전체</select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th align="right">상세코드</th>
+                                    <td>
+                                        <input type="text" class="" id="codeDCd" >
+                                    </td>
+
+                                    <th align="right">상세코드값</th>
+                                    <td>
+                                        <input type="text" class="" id="codeDNm" >
+                                    </td>
+                                    <td class="txt-right" colspan="2">
                                         <input style="cursor: pointer;" type="reset" value='초기화'>
                                         <a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a>
                                     </td>
@@ -343,3 +393,6 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
             </div><!-- //contents -->
     </body>
     </html>
+
+
+

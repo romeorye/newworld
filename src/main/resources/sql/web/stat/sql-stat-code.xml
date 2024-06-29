@@ -30,6 +30,15 @@
         <if test="( codeNm != null and codeNm != '')">
             AND  COM_CD_NM LIKE '%'+#{codeNm}+'%'
         </if>
+        <if test="( codeDCd != null and codeDCd != '')">
+            AND  COM_DTL_CD LIKE '%'+#{codeDCd}+'%'
+        </if>
+        <if test="( codeDNm != null and codeDNm != '')">
+            AND  COM_DTL_NM LIKE '%'+#{codeDNm}+'%'
+        </if>
+        <if test="( delYn != null and delYn != '')">
+            AND  DEL_YN LIKE '%'+#{delYn}+'%'
+        </if>
         <![CDATA[
         ORDER BY COM_CD_CD, COM_DTL_CD
         ]]>
