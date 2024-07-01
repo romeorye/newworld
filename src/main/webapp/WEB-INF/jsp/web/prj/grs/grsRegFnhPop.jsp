@@ -1126,7 +1126,7 @@ var exSabun = '${inputData._userSabun}';
                  ,{ id: 'bizPrftCurY1'      , validExp:'영업이익1:true:minNumber=0.01'}
                  ,{ id: 'bizPrftCurY2'      , validExp:'영업이익2:true:minNumber=0.01'}
                  ,{ id: 'ptcCpsnCurY'       , validExp:'투입인원:true:minNumber=0.1'}
-                 ,{ id: 'ptcCpsnCurY1'      , validExp:'투입인원1:true:minNumber=0.1'}
+                 ,{ id: 'ptcCpsnCurY1'      , validExp:'투입인원1:true:'}
                  ,{ id: 'ptcCpsnCurY2'      , validExp:'투입인원2:true'}
                  ,{ id: 'ptcCpsnCurY3'      , validExp:'투입인원3:true'}
                  ,{ id: 'ptcCpsnCurY4'      , validExp:'투입인원4:true'}
