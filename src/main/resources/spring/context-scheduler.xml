@@ -471,8 +471,8 @@
 
 
                 <!-- MAIL -->
-                <!-- <ref bean="mailBatchArslTrigger"/>
-                <ref bean="mailBatchCmTssTrigger"/>
+                <!-- <ref bean="mailBatchArslTrigger"/> --> <!-- [20240627]송권빈CH 요청으로 주석처리함 -->
+                <!-- <ref bean="mailBatchCmTssTrigger"/>
                 <ref bean="mailBatchGrsTrigger"/>
                 <ref bean="mailBatchWbsCdTrigger"/> -->
 
