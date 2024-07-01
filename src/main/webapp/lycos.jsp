@@ -97,7 +97,7 @@
 <input name="name" type="button"  value="일반연구원PL안승현" onClick="setCookie('InitechEamUID', 'shahn', '1');"><br/>
 <input name="name" type="button"  value="일반연구원PL김희준" onClick="setCookie('InitechEamUID', 'heejune_kim', '1');"><br/>
 <input name="name" type="button"  value="일반연구원PL박현옥" onClick="setCookie('InitechEamUID', 'ykokck', '1');"><br/>
-<input name="name" type="button"  value="과제담당자" onClick="setCookie('InitechEamUID', 'minjeong', '1');"><br/>
+<input name="name" type="button"  value="과제담당자" onClick="setCookie('InitechEamUID', 'yunany', '1');"><br/>
 <input name="name" type="button"  value="자산담당자" onClick="setCookie('InitechEamUID', 'eunjoomyung', '1');"><br/>
 <input name="name" type="button"  value="PRS담당자" onClick="setCookie('InitechEamUID', 'tansam', '1');"><br/>
 <input name="name" type="button"  value="MM담당자" onClick="setCookie('InitechEamUID', 'sojeongm', '1');"><br/>

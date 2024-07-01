@@ -88,15 +88,14 @@
                         ,m.al_TSS_FNH_DD
                         ,m.TSS_TYPE
 
-                       /*, (SELECT TOP 1 X.GRS_EV_ST FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS GRS_EV_ST
-                       , (SELECT TOP 1 X.CTY_OT_PLN_M FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS CTY_OT_PLN_M
+                       , (SELECT TOP 1 X.GRS_EV_ST FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS GRS_EV_ST
+                       /*, (SELECT TOP 1 X.CTY_OT_PLN_M FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS CTY_OT_PLN_M
                        , (SELECT TOP 1 X.ANCP_OT_PLN_DT FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS ANCP_OT_PLN_DT*/
 
                        , CASE WHEN  M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW =  #{_userSabun})  THEN 'Y'
                                  when  isnull(m.al_sa_sabun_name, m.sa_sabun_name)  = #{_userNm} then 'Y'
                               ELSE 'N' END AS MY_TSS
 
-                       ,'' AS GRS_EV_ST
                        ,'' AS CTY_OT_PLN_M
                        ,'' AS ANCP_OT_PLN_DT
 
