@@ -36,7 +36,9 @@
     var lvPageMode = window.parent.gvPageMode;
     var lvCount ;
 
-    var pageMode = (lvPgsCd == "PG" || lvPgsCd == "CM" || lvPgsCd == "DC") && lvTssSt == "100" && lvPageMode == "W" ? "W" : "R";
+    //[20240702]TSS_ST(과제상태) 체크하지 않음. [R23SA1, ASA 대체 소재 개발]
+    //var pageMode = (lvPgsCd == "PG" || lvPgsCd == "CM" || lvPgsCd == "DC") && lvTssSt == "100" && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvPgsCd == "PG" || lvPgsCd == "CM" || lvPgsCd == "DC") && lvPageMode == "W" ? "W" : "R";
 
     var dataSet1;
     var dataSet2;
@@ -66,6 +68,11 @@
             maskPlaceholder: '_',
             maskValue:true
         });
+
+    console.log("[lvPgsCd]", lvPgsCd);
+    console.log("[lvTssSt]", lvTssSt);
+    console.log("[lvPageMode]", lvPageMode);
+    console.log("<pageMode>", pageMode);
 
         //Form 비활성화
         disableFields = function() {
@@ -161,7 +168,7 @@
             console.log("goal load dataSet Success");
 
             for(var i=0; i<dataSet2.getCount(); i++){
-            	var uploadedFile = dataSet2.getNameValue(i,"attcFilId");
+                var uploadedFile = dataSet2.getNameValue(i,"attcFilId");
                 var qgateURL = dataSet2.getNameValue(i,"qgateLinkUrl");
 
                 if(uploadedFile!=undefined || qgateURL!=undefined){
@@ -203,9 +210,9 @@
                } }
               , { field: 'yldItmNm', label: '산출물명', sortable: false, align:'left', width: 300, editor: new Rui.ui.form.LTextBox() }
               , { field: 'yldItmYn', label: '첨부파일 유무', sortable: false, align:'center', width: 60, renderer: function(val, p, record, row, i) {
-	                  return '<span yldType="'+record.data.yldItmType+'">'+val+'</span>';
-	              } }
-	          , { field: 'attcFilId', label: '첨부파일', sortable: false, align:'center', width: 100, renderer: function(val, p, record, row, i) {
+                      return '<span yldType="'+record.data.yldItmType+'">'+val+'</span>';
+                  } }
+              , { field: 'attcFilId', label: '첨부파일', sortable: false, align:'center', width: 100, renderer: function(val, p, record, row, i) {
                   if(record.data.qgateLinkUrl!=undefined){
                       return '<button type="button" class="L-grid-button" onclick="window.open(\''+record.data.qgateLinkUrl+'\',\''+record.data.yldItmType+'\',\'width=484,height=355,toolbar=no,scrollbars=no,resizable=no\')">첨부파일</button>';
                   }else{
@@ -296,30 +303,30 @@
 
             lvCount = attachFileList.length ;
             if(lvCount > 0) {
-				dataSet2.setNameValue(popupRow,"yldItmYn","Y");
+                dataSet2.setNameValue(popupRow,"yldItmYn","Y");
             }else {
-				dataSet2.setNameValue(popupRow,"yldItmYn","N");
+                dataSet2.setNameValue(popupRow,"yldItmYn","N");
             }
         };
 
         //조회
         fnSearch = function(targetDs) {
-        	if(targetDs == "GOAL") {
-	            dataSet1.load({
-	                url: "<c:url value='/prj/tss/gen/retrieveGenTssPgsGoal.do'/>"
-	              , params : {
-	                    tssCd : lvTssCd
-	                }
-	            });
-        	}
-        	else {
-	            dataSet2.load({
-	                url: "<c:url value='/prj/tss/gen/retrieveGenTssPgsYld.do'/>"
-	              , params : {
-	                    tssCd : lvTssCd
-	                }
-	            });
-        	}
+            if(targetDs == "GOAL") {
+                dataSet1.load({
+                    url: "<c:url value='/prj/tss/gen/retrieveGenTssPgsGoal.do'/>"
+                  , params : {
+                        tssCd : lvTssCd
+                    }
+                });
+            }
+            else {
+                dataSet2.load({
+                    url: "<c:url value='/prj/tss/gen/retrieveGenTssPgsYld.do'/>"
+                  , params : {
+                        tssCd : lvTssCd
+                    }
+                });
+            }
         };
 
 
@@ -339,10 +346,10 @@
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
-		            dm.updateDataSet({
-		                url:'<c:url value="/prj/tss/gen/updateGenTssPgsGoal.do"/>',
-		                dataSets:[dataSet1]
-		            });
+                    dm.updateDataSet({
+                        url:'<c:url value="/prj/tss/gen/updateGenTssPgsGoal.do"/>',
+                        dataSets:[dataSet1]
+                    });
                 },
                 handlerNo: Rui.emptyFn
             });
@@ -365,12 +372,12 @@
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
-		            dm.updateDataSet({
-		                url:'<c:url value="/prj/tss/gen/updateGenTssPgsYld.do"/>',
-		                dataSets:[dataSet2]
-		            });
+                    dm.updateDataSet({
+                        url:'<c:url value="/prj/tss/gen/updateGenTssPgsYld.do"/>',
+                        dataSets:[dataSet2]
+                    });
                 },
-		        handlerNo: Rui.emptyFn
+                handlerNo: Rui.emptyFn
             });
         });
 
@@ -400,18 +407,18 @@
         disableFields();
 
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#btnGoalSave").hide();
-        	$("#btnYldSave").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#btnGoalSave").hide();
-        	$("#btnYldSave").hide();
-		}
+            $("#btnGoalSave").hide();
+            $("#btnYldSave").hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $("#btnGoalSave").hide();
+            $("#btnYldSave").hide();
+        }
 
     });
 </script>
 <script>
 $(window).load(function() {
-		initFrameSetHeight();
+        initFrameSetHeight();
 });
 </script>
 </head>
