@@ -38,7 +38,7 @@
 
     //[20240702]TSS_ST(과제상태) 체크하지 않음. [R23SA1, ASA 대체 소재 개발]
     //var pageMode = (lvPgsCd == "PG" || lvPgsCd == "CM" || lvPgsCd == "DC") && lvTssSt == "100" && lvPageMode == "W" ? "W" : "R";
-    var pageMode = lvPgsCd == "PG" && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvPgsCd == "PG" || lvPgsCd == "CM" || lvPgsCd == "DC") && lvPageMode == "W" ? "W" : "R";
 
     var dataSet1;
     var dataSet2;
