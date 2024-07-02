@@ -6,7 +6,7 @@
 /*
  *************************************************************************
  * $Id      : genTssPlnCsusRq.jsp
- * @desc    : 
+ * @desc    :
  *------------------------------------------------------------------------
  * VER  DATE        AUTHOR      DESCRIPTION
  * ---  ----------- ----------  -----------------------------------------
@@ -68,33 +68,33 @@
                 , { id: 'userId'}       //사용자ID
                 , { id: 'tssSt'}        //과제상태
                 , { id: 'affrGbn'}      //과제구분
-                
-                , {id: 'guid' }         //고유코드      
-                , {id: 'affrCd' }       //업무코드      
-                , {id: 'aprdocstate' }  //결재상태코드    
-                , {id: 'approvalUserid' }//결재 요청자 ID 
-                , {id: 'approvalUsername' }//결재 요청자명   
-                , {id: 'approvalJobtitle' }//결재 요청자 직위 
+
+                , {id: 'guid' }         //고유코드
+                , {id: 'affrCd' }       //업무코드
+                , {id: 'aprdocstate' }  //결재상태코드
+                , {id: 'approvalUserid' }//결재 요청자 ID
+                , {id: 'approvalUsername' }//결재 요청자명
+                , {id: 'approvalJobtitle' }//결재 요청자 직위
                 , {id: 'approvalDeptname' }//결재 요청자 부서명
-                , {id: 'approvalProcessdate' }//결재 요청 일자  
-                , {id: 'approverProcessdate' }//승인일자      
-                , {id: 'body' }         //결재 내용     
-                , {id: 'title' }        //결재 제목     
-                , {id: 'updateDate' }   //수정일       
-                , {id: 'url' }          //결재문서 url  
+                , {id: 'approvalProcessdate' }//결재 요청 일자
+                , {id: 'approverProcessdate' }//승인일자
+                , {id: 'body' }         //결재 내용
+                , {id: 'title' }        //결재 제목
+                , {id: 'updateDate' }   //수정일
+                , {id: 'url' }          //결재문서 url
                 , { id: 'pmisTxt' }       //지적재산권 통보
             ]
         });
-        
-        
+
+
         /* [DataSet] 서버전송용 */
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         dm.on('success', function(e) {
             var data = dataSet.getReadData(e);
-            
+
             if(data.records[0].rtCd == "SUCCESS") {
                 gvGuid = data.records[0].guid;
-                
+
                 if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03") {
                     var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00332&from=iris&guid="+gvGuid;
                     window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
@@ -103,32 +103,32 @@
                 Rui.alert(data.records[0].rtVal);
             }
         });
-        
-        
+
+
         /* [버튼] 결재품의 */
         var butCsur = new Rui.ui.LButton('butCsur');
         butCsur.on('click', function() {
             if(stringNullChk(gvAprdocState) != "" ){
-             	if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {
-                	Rui.alert("이미 품의가 요청되었습니다.");
-                	return;
-        		} 
+                 if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {
+                    Rui.alert("이미 품의가 요청되었습니다.");
+                    return;
+                }
             }
-            
+
             Rui.confirm({
                 text: '결재품의 하시겠습니까?',
                 handlerYes: function() {
                     var row = 0;
                     var record;
-        
+
                     if(dataSet.getCount() <= 0) row = dataSet.newRecord();
 
                     record = dataSet.getAt(row);
-                    
+
                     record.set("tssCd",   "${inputData.tssCd}");
                     record.set("userId",  "${inputData._userId}");
                     record.set("affrGbn", "T"); //T:과제
-                    
+
                     record.set("guid",             gvGuid);
                     record.set("affrCd",           "${inputData.tssCd}");
                     record.set("approvalUserid",   "${inputData._userId}");
@@ -136,19 +136,19 @@
                     record.set("approvalJobtitle", "${inputData._userJobxName}");
                     record.set("approvalDeptname", "${inputData._userDeptName}");
                     record.set("body", Rui.get('csusContents').getHtml().trim());
-                    
+
                     var url = "";
-                    
+
                     if(gvGuid == ""){
-                    	url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
+                        url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
                     }else{
-                    	if(gvAprdocState == "A03" || gvAprdocState == "A04" ){
-                    		url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
-                    	}else{
-		                    url = '<c:url value="/prj/tss/gen/updateGenTssCsusRq.do"/>';
-                    	}
+                        if(gvAprdocState == "A03" || gvAprdocState == "A04" ){
+                            url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
+                        }else{
+                            url = '<c:url value="/prj/tss/gen/updateGenTssCsusRq.do"/>';
+                        }
                     }
-                    
+
                     dm.updateDataSet({
                         modifiedOnly: false,
                         url: url,
@@ -158,25 +158,25 @@
                 handlerNo: Rui.emptyFn
             });
         });
-        
-        
+
+
         /* [버튼] 인쇄 */
         var btnPrint = new Rui.ui.LButton('btnPrint');
         btnPrint.on('click', function() {
             print();
         });
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#butCsur").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#butCsur").hide();
-		}
+            $("#butCsur").hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $("#butCsur").hide();
+        }
         /* [버튼] 목록 */
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {                
+        btnList.on('click', function() {
             nwinsActSubmit(window.document.aform, "<c:url value='/prj/tss/gen/genTssList.do'/>");
         });
-        
+
 //         fnCsusContentsCreate();
     });
 </script>
@@ -188,50 +188,50 @@
         <div class="sub-content">
             <form name="aform" id="aform" method="post">
                 <div id="csusContents">
-                    
+
                     <div class="docu_box">
-						<p class="txt">아래와 같이, 연구/개발과제의 GRS 심의결과를 보고드리오니, 검토 후 재가 부탁드립니다. </p>
-						
-						<div class="docu_con">
-							<p class="txt2">- 아&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;래 -</p>
-							<div class="titArea"><h2>1. 일시 :${resultGrs.evDt}</h2></div>
-							<div class="titArea"><h2>2. 장소 : ${resultGrs.evTitl}</h2></div>
-							<div class="titArea"><h2>3. 참석자 : ${resultGrs.cfrnAtdtCdTxtNm}</h2></div>
-							<div class="titArea"><h2>4. Agenda 및 심의결과</h2></div>
-							<table class="table">
-								<colgroup>
-									<col style="width:6%;">
-									<col style="width:26%;">
-									<col style="width:;">
-									<col style="width:9%;">
-									<col style="width:6%;">
-									<col style="width:6%;">
-									<col style="width:6%;">
-								</colgroup>
-								<thead>
-									<tr>
-										<th rowspan="2">심의<br>단계</th>
-										<th rowspan="2">PJT</th>
-										<th rowspan="2">과제명</th>
-										<th rowspan="2">과제<br>책임자</th>
-										<th rowspan="2">개발<br>유형</th>
-										<th colspan="2">심의결과</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>${resultGrs.grsEvStNm}</td>
-										<td>${resultGrs.prjNm}</td>
-										<td>${resultGrs.tssNm}</td>
-										<td>${resultGrs.saSabunName}</td>
-										<td>${resultGrs.tssTypeNm}</td>
-										<td colspan="2">${resultGrs.dropYn}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-                    
+                        <p class="txt">&nbsp;&nbsp;아래와 같이, 연구/개발과제의 GRS 심의결과를 보고드리오니, 검토 후 재가 부탁드립니다. </p>
+
+                        <div class="docu_con">
+                            <p class="txt2">- 아&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;래 -</p>
+                            <div class="titArea"><h2>1. 일시 :${resultGrs.evDt}</h2></div>
+                            <div class="titArea"><h2>2. 장소 : ${resultGrs.evTitl}</h2></div>
+                            <div class="titArea"><h2>3. 참석자 : ${resultGrs.cfrnAtdtCdTxtNm}</h2></div>
+                            <div class="titArea"><h2>4. Agenda 및 심의결과</h2></div>
+                            <table class="table">
+                                <colgroup>
+                                    <col style="width:6%;">
+                                    <col style="width:26%;">
+                                    <col style="width:;">
+                                    <col style="width:9%;">
+                                    <col style="width:6%;">
+                                    <col style="width:6%;">
+                                    <col style="width:6%;">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">심의<br>단계</th>
+                                        <th rowspan="2">PJT</th>
+                                        <th rowspan="2">과제명</th>
+                                        <th rowspan="2">과제<br>책임자</th>
+                                        <th rowspan="2">개발<br>유형</th>
+                                        <th colspan="2">심의결과</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>${resultGrs.grsEvStNm}</td>
+                                        <td>${resultGrs.prjNm}</td>
+                                        <td>${resultGrs.tssNm}</td>
+                                        <td>${resultGrs.saSabunName}</td>
+                                        <td>${resultGrs.tssTypeNm}</td>
+                                        <td colspan="2">${resultGrs.dropYn}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <div class="titArea"><h3>5. 개요</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
@@ -404,10 +404,10 @@
                                         <c:out value="${resultSmry.bizPrftPlnY2}" />
                                     </td>
                                     <td class="alignR">
-                                        
+
                                     </td>
                                     <td class="alignR">
-                                        
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -471,7 +471,7 @@
                                     <td class="alignR">${resultSmry.expArslY3}</td>
                                     <td class="alignR">${resultSmry.expArslY4}</td>
                                 </tr>
-                            </tbody>    
+                            </tbody>
                         </table>
                     <div class="titArea"><h3>10.목표기술성과</h3></div>
                         <table class="table">
@@ -490,10 +490,10 @@
                                     <c:when test="${fn:length(resultGoal) == 0}">
                                         <tr><td align="center" colspan="3"></td></tr>
                                     </c:when>
-                                    <c:otherwise>    
+                                    <c:otherwise>
                                         <c:forEach var="resultGoal" items="${resultGoal}">
                                             <tr>
-                                          		<td valign="top"><c:out value="${fn:replace(fn:replace(fn:replace(fn:replace(resultGoal.prvs, cn, br), n1, b1), n2, b2), n3, b3)}" escapeXml="false"/></td>
+                                                  <td valign="top"><c:out value="${fn:replace(fn:replace(fn:replace(fn:replace(resultGoal.prvs, cn, br), n1, b1), n2, b2), n3, b3)}" escapeXml="false"/></td>
                                                 <td valign="top"><c:out value="${fn:replace(fn:replace(fn:replace(fn:replace(resultGoal.cur, cn, br), n1, b1), n2, b2), n3, b3)}" escapeXml="false"/></td>
                                                 <td valign="top"><c:out value="${fn:replace(fn:replace(fn:replace(fn:replace(resultGoal.goal, cn, br), n1, b1), n2, b2), n3, b3)}" escapeXml="false"/></td>
                                             </tr>
@@ -502,15 +502,15 @@
                                 </c:choose>
                             </tbody>
                         </table>
-                
-      				<div class="titArea"><h3>11. 지적재산팀 검토의견</h3></div>
+
+                      <div class="titArea"><h3>11. 지적재산팀 검토의견</h3></div>
                         <table class="table">
-                        	<tbody>
-                        		<tr>
-									<td><c:out value="${resultSmry.pmisTxt}" escapeXml="false"/></td>                       		
-                        		</tr>
-                        	</tbody>
-                        </table>        
+                            <tbody>
+                                <tr>
+                                    <td><c:out value="${resultSmry.pmisTxt}" escapeXml="false"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     <div class="titArea"><h3>12. 첨부파일</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
@@ -520,12 +520,12 @@
                                 <tr><td>
                                     <c:forEach var="resultAttc" items="${resultAttc}">
                                         <a href="http://<spring:eval expression='@jspProperties[defaultUrl]'/>:<spring:eval expression='@jspProperties[serverPort]'/>/<spring:eval expression='@jspProperties[contextPath]'/>/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=${resultAttc.attcFilId}&seq=${resultAttc.seq}">${resultAttc.filNm} (${resultAttc.filSize}byte)</a><br/>
-                                    </c:forEach> 
+                                    </c:forEach>
                                 </td></tr>
                             </tbody>
                         </table>
-	      				
-                        
+
+
                 </div>
             </form>
             <div class="titArea">
