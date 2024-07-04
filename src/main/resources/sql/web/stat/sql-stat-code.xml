@@ -7,22 +7,23 @@
     <select id="retrieveCcomCodeList"  resultType="hashmap">
            <![CDATA[
            -- retrieveCcomCodeList 공통코드 조회
-        SELECT   COM_ID           AS comId
-                ,COM_CD_CD        AS comCdCd
-                ,COM_CD_NM        AS comCdNm
-                ,COM_CD_EXPL    AS comCdExpl
-                ,COM_DTL_CD        AS comDtlCd
-                ,COM_DTL_NM        AS comDtlNm
-                ,DEL_YN            AS delYn
-                ,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23)    AS frstRgstDt
-                ,FRST_RGST_ID    AS frstRgstId
-                ,CONVERT(NVARCHAR(10), LAST_MDFY_DT, 23)    AS lastMdfyDt
-                ,LAST_MDFY_ID    AS lastMdfyId
-                ,COM_ORD        AS comOrd
-                ,dbo.fn_getUserName(FRST_RGST_ID) AS frstRgstNm
-                ,dbo.fn_getUserName(LAST_MDFY_ID) AS lastMdfyNm
-        FROM      IRIS_ADM_COM_CD
-        WHERE  1=1
+            SELECT   COM_ID           AS comId
+                    ,COM_CD_CD        AS comCdCd
+                    ,COM_CD_NM        AS comCdNm
+                    ,COM_CD_EXPL    AS comCdExpl
+                    ,COM_DTL_CD        AS comDtlCd
+                    ,COM_DTL_NM        AS comDtlNm
+                    ,DEL_YN            AS delYn
+                    ,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23)    AS frstRgstDt
+                    ,FRST_RGST_ID    AS frstRgstId
+                    ,CONVERT(NVARCHAR(10), iif(LAST_MDFY_DT<>'',LAST_MDFY_DT, FRST_RGST_DT) , 23)    AS lastMdfyDt
+                    ,iif(LAST_MDFY_ID<>'',LAST_MDFY_ID, FRST_RGST_ID)    AS lastMdfyId
+                    ,COM_ORD        AS comOrd
+                    ,CONVERT(NVARCHAR(10), BATCH_EXEC_DT, 23)    AS batchExecDt
+                    --,dbo.fn_getUserName(FRST_RGST_ID) AS frstRgstNm
+                    --,dbo.fn_getUserName(LAST_MDFY_ID) AS lastMdfyNm
+              FROM  IRIS_ADM_COM_CD
+             WHERE  1 = 1
         ]]>
         <if test="( code != null and code != '')">
             AND  COM_CD_CD  LIKE '%'+#{code}+'%'
@@ -44,7 +45,7 @@
         ]]>
     </select>
 
-       <!-- 공통코드 등록, 수정 -->
+    <!-- 공통코드 등록, 수정 -->
     <update id="saveCodeInfo" >
         <![CDATA[
         -- saveCodeInfo 공통코드 등록, 수정
@@ -52,13 +53,20 @@
             USING ( SELECT #{comId} AS COM_ID ) AS Tab1
             ON  (MEM.COM_ID = Tab1.COM_ID)
             WHEN MATCHED THEN
-    UPDATE SET     COM_DTL_NM        = #{comDtlNm}
+        UPDATE
+           SET   COM_CD_EXPL      = #{comCdExpl}
+                ,COM_DTL_NM       = #{comDtlNm}
                 ,COM_ORD          = #{comOrd}
-                ,DEL_YN              = #{delYn}
+                ,DEL_YN           = #{delYn}
                 ,LAST_MDFY_DT     = GETDATE()
                 ,LAST_MDFY_ID     = #{_userId}
+                ]]>
+                <if test="( batchYn != null and batchYn != '' and batchYn == 'Y'.toString() )">
+                    ,BATCH_EXEC_DT = GETDATE()
+                </if>
+                <![CDATA[
         WHEN NOT MATCHED THEN
-        INSERT (
+         INSERT (
                  COM_CD_CD
                 ,COM_CD_NM
                 ,COM_CD_EXPL

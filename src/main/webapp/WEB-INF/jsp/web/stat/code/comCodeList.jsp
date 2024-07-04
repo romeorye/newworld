@@ -70,10 +70,11 @@ var codeRegDialog;
                  , { id: 'comDtlCd'}
                  , { id: 'comDtlNm'}
                  , { id: 'delYn'}
-                 , { id: 'frstRgstDt'}
-                 , { id: 'frstRgstId'}
+                 //, { id: 'frstRgstDt'}
+                 //, { id: 'frstRgstId'}
                  , { id: 'lastMdfyDt'}
                  , { id: 'lastMdfyId'}
+                 , { id: 'batchExecDt'}
                  , { id: 'comOrd'}
                  , { id: 'comId'}
                  , { id: '_userId'}
@@ -89,10 +90,11 @@ var codeRegDialog;
          var columnModel = new Rui.ui.grid.LColumnModel({
              columns: [
                   new Rui.ui.grid.LSelectionColumn(),
-                        { field: 'comCdCd'         , label: '코드구분',      align:'center', width: 180}
-                     , { field: 'comCdNm'       , label: '코드명',         align:'left',     width: 220}
+                       { field: 'comCdCd'       , label: '코드구분',      align:'left', width: 155}
+                     , { field: 'comCdNm'       , label: '코드명',       align:'left',     width: 200}
+                     , { field: 'comCdExpl'     , label: '코드설명',      editor: new Rui.ui.form.LTextBox(), align:'left',     width: 200}
                      , { field: 'comOrd'        , label: '순서',         editor: new Rui.ui.form.LNumberBox(),     align:'center', width: 80}
-                     , { field: 'comDtlCd'      , label: '상세코드',          editor: new Rui.ui.form.LTextBox(),  align:'center', width: 100 , renderer: function(value, p, record){
+                     , { field: 'comDtlCd'      , label: '상세코드',      editor: new Rui.ui.form.LTextBox(),  align:'center', width: 80 , renderer: function(value, p, record){
                              if(Rui.isEmpty(record.get("comId"))  ){    //추가일 경우  수정가능
                                   p.editable = true;
                              }else{
@@ -101,14 +103,14 @@ var codeRegDialog;
                              return value
                           }
                       }
-                     , { field: 'comDtlNm'      , label: '상세코드값',      editor: new Rui.ui.form.LTextBox(),     align:'left',     width:215}
-                     , { field: 'delYn'          , label: '삭제여부',      editor: delYnCombo,     align:'center'}
-                     , { field: 'frstRgstDt'       , label: '등록일',      align:'center', width: 100}
-                     , { field: 'frstRgstId'    , label: '등록자',      align:'center', width: 100}
-                     , { field: 'lastMdfyDt'     , label: '수정일',         align:'center', width: 100}
-                     , { field: 'lastMdfyId'     , label: '수정자',      align:'center', width: 100}
+                     , { field: 'comDtlNm'       , label: '상세코드값',    editor: new Rui.ui.form.LTextBox(),     align:'left',     width:200}
+                     , { field: 'delYn'          , label: '삭제여부',     editor: delYnCombo,     align:'center',     width:80}
+                     , { field: 'lastMdfyId'     , label: '수정자ID',       align:'center', width: 100}
+                     , { field: 'lastMdfyDt'     , label: '수정일',       align:'center', width: 100}
+                     , { field: 'batchExecDt'    , label: '배치실행일',    align:'center'}
+                     //, { field: 'frstRgstDt'     , hidden:true}
+                     //, { field: 'frstRgstId'     , hidden:true}
                      , { field: 'comId'     , hidden:true}
-                     , { field: 'comCdExpl'     , hidden:true}
                      , { field: '_userId'     , hidden:true}
              ]
          });
