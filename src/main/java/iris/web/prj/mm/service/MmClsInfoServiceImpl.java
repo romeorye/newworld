@@ -142,7 +142,7 @@ public class MmClsInfoServiceImpl implements MmClsInfoService {
                         table.setValue("PERNR", data.get("saSabunNew"));// 사원번호
                         table.setValue("BEGDA" , data.get("mmYymm").toString().replace("-", "")+""+"01");
                         table.setValue("ENDDA" , "99991231");
-                        table.setValue("ORGEH" ,  commonDao.select("prj.mm.cls.retrieveMmClsRealDeptCode", data.get("saSabunNew")));
+                        table.setValue("ORGEH" ,  NullUtil.nvl(commonDao.select("prj.mm.cls.retrieveMmClsRealDeptCode", data.get("saSabunNew")),""));
                         //table.setValue("ORGEH" , data.get("deptCode"));
                         table.setValue("KOKRS" , "C100");
                         table.setValue("POSNR" , data.get("tssWbsCd"));
