@@ -205,7 +205,7 @@ var codeRegDialog;
         codeRegDialog.render(document.body);
 
 
-           /* [버튼] : 코드 정보 저장  */
+        /* [버튼] : 코드 정보 저장  */
         var butUpdate = new Rui.ui.LButton('butUpdate');
 
         butUpdate.on('click', function(){
@@ -299,6 +299,16 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
             }
         });
 
+        /* [버튼] : sql refresh  */
+        var butBatchExec = new Rui.ui.LButton('butBatchExec');
+        butBatchExec.on('click', function(){
+            if(confirm("tssStCopyBatch(과제 상태 반영 배치) 수동실행 하시겠습니까?")){
+                var popUrl = '<c:url value="/system/batch/tssStCopyBatch.do"/>';
+                var popupOption = "";
+                goRefreshPop(popUrl, popupOption);
+            }
+        });
+
     });        //end ready
 
     function goRefreshPop(popUrl, popupOption){
@@ -379,6 +389,8 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
                         <div class="LblockButton">
                             <button type="button" id="butCodeRefresh"  name="butCodeRefresh" class="redBtn">Cache Refresh</button>
                             <button type="button" id="butSqlRefresh"   name="butSqlRefresh" class="redBtn">Xml Refresh</button>
+                            &nbsp;&nbsp;
+                            <button type="button" id="butBatchExec"   name="butBatchExec" class="redBtn">tssStCopyBatch</button>
                             &nbsp;&nbsp;
                             <button type="button" id="butRgst"         name="butRgst" >신규등록</button>
                             <button type="button" id="butRgst"         name="butRgst" >신규등록</button>
