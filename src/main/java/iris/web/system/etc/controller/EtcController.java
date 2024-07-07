@@ -7,8 +7,7 @@
  *------------------------------------------------------------------------------
  *    DATE     AUTHOR                      DESCRIPTION
  * ----------  ------  ---------------------------------------------------------
- * 2018.08.09 정현웅    최초생성
- * 2024.07.05 서성일   spring batch 수동실행을 위한 RequestMapping 추가
+ * 2018.08.09 정현웅   최초생성
  *********************************************************************************/
 
 package iris.web.system.etc.controller;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,10 +31,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.StringUtil;
-import iris.web.fxaInfoBatch.FxaInfoIFBatch;
-import iris.web.fxaInfoBatch.WbsPjtIFBatch;
-import iris.web.insaBatch.SsoDeptInfoBatch;
-import iris.web.insaBatch.SsoUserInfoBatch;
 import iris.web.prj.rsst.service.PrjRsstMstInfoService;
 import iris.web.system.base.IrisBaseController;
 import iris.web.system.etc.service.EtcService;
@@ -52,18 +46,6 @@ public class EtcController  extends IrisBaseController {
 
     @Resource(name = "prjRsstMstInfoService")
     private PrjRsstMstInfoService prjRsstMstInfoService;
-
-    @Autowired
-    private WbsPjtIFBatch wbsPjtIFBatch;
-
-    @Autowired
-    private FxaInfoIFBatch fxaInfoIFBatch;
-
-    @Autowired
-    private SsoUserInfoBatch ssoUserInfoBatch;
-
-    @Autowired
-    private SsoDeptInfoBatch ssoDeptInfoBatch;
 
     static final Logger LOGGER = LogManager.getLogger(EtcController.class);
 
@@ -116,92 +98,4 @@ public class EtcController  extends IrisBaseController {
         return modelAndView;
     }
 
-    /*******************************************************/
-    //[20240705][RFC] WBS PRJ INFO 배치
-    @RequestMapping(value="/system/etc/WbsPjtIFBatch.do")
-    public void WbsPjtIFBatch(
-            @RequestParam HashMap<String, Object> input,
-            HttpServletRequest request,
-            HttpSession session,
-            ModelMap model
-            ){
-
-        /* 반드시 공통 호출 후 작업 */
-        checkSessionObjRUI(input, session, model);
-
-        input = StringUtil.toUtf8(input);
-
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("EtcController - WbsPjtIFBatch 수동 실행");
-        LOGGER.debug("input = > " + input);
-        LOGGER.debug("###########################################################");
-
-        wbsPjtIFBatch.batchProcess();
-    }
-
-    //[20240705][RFC] 고정자산 배치
-    @RequestMapping(value="/system/etc/FxaInfoIFBatch.do")
-    public void FxaInfoIFBatch(
-            @RequestParam HashMap<String, Object> input,
-            HttpServletRequest request,
-            HttpSession session,
-            ModelMap model
-            ){
-
-        /* 반드시 공통 호출 후 작업 */
-        checkSessionObjRUI(input, session, model);
-
-        input = StringUtil.toUtf8(input);
-
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("EtcController - FxaInfoIFBatch 수동 실행");
-        LOGGER.debug("input = > " + input);
-        LOGGER.debug("###########################################################");
-
-        fxaInfoIFBatch.batchProcess();
-    }
-
-    //[20240705] sso user if 배치
-    @RequestMapping(value="/system/etc/SsoUserInfoBatch.do")
-    public void SsoUserInfoBatch(
-            @RequestParam HashMap<String, Object> input,
-            HttpServletRequest request,
-            HttpSession session,
-            ModelMap model
-            ){
-
-        /* 반드시 공통 호출 후 작업 */
-        checkSessionObjRUI(input, session, model);
-
-        input = StringUtil.toUtf8(input);
-
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("EtcController - SsoUserInfoBatch 수동 실행");
-        LOGGER.debug("input = > " + input);
-        LOGGER.debug("###########################################################");
-
-        ssoUserInfoBatch.batchProcess();
-    }
-
-    //[20240705] sso dept if 배치
-    @RequestMapping(value="/system/etc/SsoDeptInfoBatch.do")
-    public void SsoDeptInfoBatch(
-            @RequestParam HashMap<String, Object> input,
-            HttpServletRequest request,
-            HttpSession session,
-            ModelMap model
-            ){
-
-        /* 반드시 공통 호출 후 작업 */
-        checkSessionObjRUI(input, session, model);
-
-        input = StringUtil.toUtf8(input);
-
-        LOGGER.debug("###########################################################");
-        LOGGER.debug("EtcController - SsoDeptInfoBatch 수동 실행");
-        LOGGER.debug("input = > " + input);
-        LOGGER.debug("###########################################################");
-
-        ssoDeptInfoBatch.batchProcess();
-    }
 }
