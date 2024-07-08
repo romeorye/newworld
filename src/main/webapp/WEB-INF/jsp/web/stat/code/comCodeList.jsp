@@ -390,7 +390,7 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
                             <button type="button" id="butCodeRefresh"  name="butCodeRefresh" class="redBtn">Cache Refresh</button>
                             <button type="button" id="butSqlRefresh"   name="butSqlRefresh" class="redBtn">Xml Refresh</button>
                             &nbsp;&nbsp;
-                            <button type="button" id="butBatchExec"   name="butBatchExec" class="redBtn">tssStCopyBatch</button>
+                            <button type="button" id="butBatchExec"   name="butBatchExec"><b>tssStCopyBatch</b></button>
                             &nbsp;&nbsp;
                             <button type="button" id="butRgst"         name="butRgst" >신규등록</button>
                             <button type="button" id="butRgst"         name="butRgst" >신규등록</button>
