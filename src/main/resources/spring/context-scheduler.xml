@@ -294,7 +294,8 @@
     <!--프로젝트 참여연구원 변경사항 반영-->
     <bean id="prjTmmrBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="prjTmmrBatchJob"/>
-        <property name="cronExpression" value="0 0 6 * * ?"/>  <!-- 매일 새벽 6시    -->
+        <!-- <property name="cronExpression" value="0 0 6 * * ?"/> -->  <!-- 매일 새벽 6시    -->
+        <property name="cronExpression" value="0 3 6 * * ?"/>  <!-- 매일 새벽 6시 3분   -->
     </bean>
 
 
@@ -402,7 +403,8 @@
     <!-- sso user , dept -->
     <bean id="insaInfoBatchTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="insaInfoBatchJob"/>
-        <property name="cronExpression" value="0 0 6 * * ?"/>   <!-- 매일 새벽 6시-->
+        <!-- <property name="cronExpression" value="0 0 6 * * ?"/> -->   <!-- 매일 새벽 6시-->
+        <property name="cronExpression" value="0 1 6 * * ?"/>   <!-- 매일 새벽 6시 1분-->
     </bean>
 
     <!-- IRIS_NEW_PRDT_SAL_STAT 배치 -->
