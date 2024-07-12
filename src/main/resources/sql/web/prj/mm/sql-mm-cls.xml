@@ -77,19 +77,23 @@
                                 SELECT a.prj_cd
                                       ,dbo.fn_getPrjName(a.prj_cd) as prj_nm
                                       ,a.prj_cd as tss_cd
-                                      /*,dbo.fn_getPrjName(a.prj_cd) as tss_nm*/
                                       ,a.wbs_cd
                                       ,a.PATC_STR_DT
                                       ,case when a.PATC_END_DT = '' or a.PATC_END_DT is null then '9999-12-31'
                                             else a.PATC_END_DT end as PATC_END_DT
                                 FROM   IRIS_PRJ_TMMR_INFO a /* 프로젝트 인원정보 */
+                                JOIN ( SELECT MAX(TMMR_ID) AS TMMR_ID, PRJ_CD, WBS_CD, TMMR_EMP_NO
+                                           FROM IRIS_PRJ_TMMR_INFO a /* 프로젝트 인원정보(현재월만 가져오기) */
+                                          WHERE 1 = 1
+                                            AND #{searchMonth} between left(PATC_STR_DT, 7) and left(isNull(PATC_END_DT,'2999-12-31'), 7)
+                                         GROUP BY PRJ_CD, WBS_CD, TMMR_EMP_NO ) bb
+                                  ON (a.TMMR_ID = bb.TMMR_ID)
                                 WHERE  a.TMMR_EMP_NO = #{_userSabun}
                                 AND    a.prj_cd in (
                                          select prj_cd from iris_prj_rsst_mst where tclg_yn = 'N'
                                         )
                                 ) b
                         WHERE 1=1
-                        AND    #{searchMonth} between left(b.PATC_STR_DT, 7) and left(b.PATC_END_DT, 7)
 
                         UNION
 
@@ -106,7 +110,7 @@
                                on b.TSS_CD = a.TSS_CD
                         WHERE  a.sa_sabun_new = #{_userSabun}
                         AND    a.MM_YYMM = #{searchMonth}
-                        /*AND    a.OUSD_TSS_YN = 'Y' --[20240514.siseo 주석처리] */
+                        -- AND    a.OUSD_TSS_YN = 'Y' --[20240514.siseo 주석처리]
 
                         UNION
 
@@ -128,19 +132,23 @@
                                 SELECT a.prj_cd
                                       ,dbo.fn_getPrjName(a.prj_cd) as prj_nm
                                       ,a.prj_cd as tss_cd
-                                      /*,dbo.fn_getPrjName(a.prj_cd) as tss_nm*/
                                       ,a.wbs_cd
                                       ,a.PATC_STR_DT
                                       ,case when a.PATC_END_DT = '' or a.PATC_END_DT is null then '9999-12-31'
                                             else a.PATC_END_DT end as PATC_END_DT
                                 FROM   IRIS_PRJ_TMMR_INFO a
+                                JOIN ( SELECT MAX(TMMR_ID) AS TMMR_ID, PRJ_CD, WBS_CD, TMMR_EMP_NO
+                                           FROM IRIS_PRJ_TMMR_INFO a /* 프로젝트 인원정보(현재월만 가져오기) */
+                                          WHERE 1 = 1
+                                            AND #{searchMonth} between left(PATC_STR_DT, 7) and left(isNull(PATC_END_DT,'2999-12-31'), 7)
+                                         GROUP BY PRJ_CD, WBS_CD, TMMR_EMP_NO ) bb
+                                  ON (a.TMMR_ID = bb.TMMR_ID)
                                 WHERE  a.TMMR_EMP_NO = #{_userSabun}
                                 AND    a.prj_cd in (
                                          select prj_cd from iris_prj_rsst_mst where tclg_yn = 'N'
                                         )
                                 ) b ON (a.PRJ_CD = b.PRJ_CD AND a.WBS_CD = b.WBS_CD)
                           WHERE 1=1
-                          AND    #{searchMonth} between left(b.PATC_STR_DT, 7) and left(b.PATC_END_DT, 7)
 
                         ) m
                     LEFT OUTER JOIN IRIS_MM_CLS b
@@ -500,7 +508,7 @@
                            on c.sa_sabun_new = a.sa_sabun_new
                            and  c.sso_ex_flag <> 'D'
                     WHERE  a.MM_YYMM =  #{searchMonth}
-                    /*AND    a.OUSD_TSS_YN ='Y'  --[20240514.siseo 주석처리] */
+                    --AND    a.OUSD_TSS_YN ='Y'  --[20240514.siseo 주석처리]
 
                     UNION
 
