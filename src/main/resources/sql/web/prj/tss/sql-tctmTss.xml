@@ -1102,6 +1102,7 @@ MERGE INTO dbo.IRIS_TSS_MGMT_MST tbl
 
     <!-- 개요 업로드 파일 산출물 연결-->
     <update id="updateYldFile">
+        --updateYldFile 기술팀과제 산출물 연결
         UPDATE Y
         SET
             Y.YLD_ITM_NM     = F.FIL_NM

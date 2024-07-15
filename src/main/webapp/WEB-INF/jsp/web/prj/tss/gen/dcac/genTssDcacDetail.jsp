@@ -49,7 +49,7 @@
     var dcacTssCd   = "";
     var dataSet;
     var rtnMsg = "${inputData.rtnMsg}";
-    var itmFlag ="Y";	//필수산출물 체크 
+    var itmFlag ="Y";    //필수산출물 체크
     var altrHistDialog;
 
     Rui.onReady(function() {
@@ -203,15 +203,15 @@
         });
 
         altrHistDialog = new Rui.ui.LFrameDialog({
-   	        id: 'altrHistDialog',
-   	        title: '변경이력상세',
-   	        width: 800,
-   	        height: 650,
-   	        modal: true,
-   	        visible: false
-   	    });
+               id: 'altrHistDialog',
+               title: '변경이력상세',
+               width: 800,
+               height: 650,
+               modal: true,
+               visible: false
+           });
 
-       	altrHistDialog.render(document.body);
+           altrHistDialog.render(document.body);
 
         //Form 비활성화 여부
         disableFields = function() {
@@ -274,14 +274,14 @@
                 , { id: 'tssRoleType' }
                 , { id: 'tssRoleId' }
                 , { id: 'mbrCnt' }
-                , {id: 'tssStepNm'}	//관제 단계
-                , {id: 'grsStepNm'}	//GRS 단계
-                , {id: 'qgateStepNm'}	//Qgate 단계
+                , {id: 'tssStepNm'}    //관제 단계
+                , {id: 'grsStepNm'}    //GRS 단계
+                , {id: 'qgateStepNm'}    //Qgate 단계
             ]
         });
         dataSet.on('load', function(e) {
             gvTssCd    = stringNullChk(dataSet.getNameValue(0, "pgTssCd")); //진행단계 과제코드
-            gvTssSt    = stringNullChk(dataSet.getNameValue(0, "pgTssSt")); //진행단계 과제코드
+            gvTssSt    = stringNullChk(dataSet.getNameValue(0, "pgTssSt")); //진행단계 코드
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvPkWbsCd  = dataSet.getNameValue(0, "pkWbsCd");
             gvWbsCd  = dataSet.getNameValue(0, "wbsCd");
@@ -295,10 +295,13 @@
                 dcacTssCd = "";  //중단단계 과제코드
                 gvTssSt = ""; //과제상태
             }
-            //DC:중단단계
-            else if(pPgsStepCd == "DC") {
+            //DC:중단단계, HD:보류단계 추가
+            else if(pPgsStepCd == "DC" || pPgsStepCd == "HD") {
                 dcacTssCd = dataSet.getNameValue(0, "tssCd"); //중단단계 과제코드
                 gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt")); //과제상태
+                if (gvTssCd == "" ) {
+                    gvTssCd = dcacTssCd; //중단단계 과제코드
+                }
             }
 
             //document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
@@ -308,11 +311,11 @@
             tabView.selectTab(0);
 
             if(!Rui.isEmpty(rtnMsg)){
-            	if(rtnMsg == "G"){
-            		Rui.alert("목표기술성과 실적값을 모두 입력하셔야 합니다.");
-            	}else if(rtnMsg == "I"){
-            		Rui.alert("필수산출물을 모두 등록하셔야 합니다.");
-            	}
+                if(rtnMsg == "G"){
+                    Rui.alert("목표기술성과 실적값을 모두 입력하셔야 합니다.");
+                }else if(rtnMsg == "I"){
+                    Rui.alert("필수산출물을 모두 등록하셔야 합니다.");
+                }
             }
         });
 
@@ -338,9 +341,9 @@
                 , { id: 'prodGNm',     ctrlId: 'prodGNm',     value: 'value' }
                 , { id: 'rsstSpheNm', ctrlId: 'rsstSpheNm', value: 'value' }
                 , { id: 'tssTypeNm',  ctrlId: 'tssTypeNm',  value: 'value' }
-                , { id: 'tssStepNm',    ctrlId: 'tssStepNm',    value: 'html' }				//과제 단계명
-                , { id: 'grsStepNm',    ctrlId: 'grsStepNm',    value: 'html' }				// GRS 단계명
-                , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }		//Qgate 단계명
+                , { id: 'tssStepNm',    ctrlId: 'tssStepNm',    value: 'html' }                //과제 단계명
+                , { id: 'grsStepNm',    ctrlId: 'grsStepNm',    value: 'html' }                // GRS 단계명
+                , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }        //Qgate 단계명
 
 
             ]
@@ -421,8 +424,8 @@
             //참여연구원
             case 2:
                 if(e.isFirst) {
-                	tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?tssCd=" + gvTssCd + "'/>" + "&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=PG";
-                	/* tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?pkWbsCd=" + gvPkWbsCd +"&pgsStepCd=PG'/>"; */
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?tssCd=" + gvTssCd + "'/>" + "&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=PG";
+                    /* tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?pkWbsCd=" + gvPkWbsCd +"&pgsStepCd=PG'/>"; */
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
                 break;
@@ -502,32 +505,32 @@
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
-	                dataSet.setNameValue(0, "pgsStepCd", "DC"); //진행단계: DC(중단)
-	                dataSet.setNameValue(0, "tssScnCd", "G");   //과제구분: G(일반)
-	                dataSet.setNameValue(0, "tssSt", "100");    //과제상태: 100(작성중)
-	                dataSet.setNameValue(0, "tssCd",  dcacTssCd); //과제코드
-	                dataSet.setNameValue(0, "userId", gvUserId);  //사용자ID
-	                dataSet.setNameValue(0, "tssRoleType", "W"); //화면권한
+                    dataSet.setNameValue(0, "pgsStepCd", "DC"); //진행단계: DC(중단)
+                    dataSet.setNameValue(0, "tssScnCd", "G");   //과제구분: G(일반)
+                    dataSet.setNameValue(0, "tssSt", "100");    //과제상태: 100(작성중)
+                    dataSet.setNameValue(0, "tssCd",  dcacTssCd); //과제코드
+                    dataSet.setNameValue(0, "userId", gvUserId);  //사용자ID
+                    dataSet.setNameValue(0, "tssRoleType", "W"); //화면권한
 
-	                smryDs.setNameValue(0, "tssCd",  dcacTssCd); //과제코드
-	                smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
+                    smryDs.setNameValue(0, "tssCd",  dcacTssCd); //과제코드
+                    smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
 
-	                //신규
-	                if(dcacTssCd == "") {
-	                    dm.updateDataSet({
-	                        modifiedOnly: false,
-	                        url:'<c:url value="/prj/tss/gen/insertGenTssDcacMst.do"/>',
-	                        dataSets:[dataSet, smryDs]
-	                    });
-	                }
-	                //수정
-	                else {
-	                    dm.updateDataSet({
-	                        modifiedOnly: false,
-	                        url:'<c:url value="/prj/tss/gen/updateGenTssDcacMst.do"/>',
-	                        dataSets:[dataSet, smryDs]
-	                    });
-	                }
+                    //신규
+                    if(dcacTssCd == "") {
+                        dm.updateDataSet({
+                            modifiedOnly: false,
+                            url:'<c:url value="/prj/tss/gen/insertGenTssDcacMst.do"/>',
+                            dataSets:[dataSet, smryDs]
+                        });
+                    }
+                    //수정
+                    else {
+                        dm.updateDataSet({
+                            modifiedOnly: false,
+                            url:'<c:url value="/prj/tss/gen/updateGenTssDcacMst.do"/>',
+                            dataSets:[dataSet, smryDs]
+                        });
+                    }
                 },
                 handlerNo: Rui.emptyFn
             });
@@ -543,51 +546,51 @@
       //목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
-			$('#searchForm > input[name=tssNm]').val(encodeURIComponent($('#searchForm > input[name=tssNm]').val()));
-			$('#searchForm > input[name=saUserName]').val(encodeURIComponent($('#searchForm > input[name=saUserName]').val()));
-			$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
+            $('#searchForm > input[name=tssNm]').val(encodeURIComponent($('#searchForm > input[name=tssNm]').val()));
+            $('#searchForm > input[name=saUserName]').val(encodeURIComponent($('#searchForm > input[name=saUserName]').val()));
+            $('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
 
             nwinsActSubmit(document.searchForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
         });
 
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#btnCsusRq").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#btnCsusRq").hide();
-		}
+            $("#btnCsusRq").hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $("#btnCsusRq").hide();
+        }
 
     });
 
     function fncGenTssAltrDetail(cd) {
-    	var params = "?tssCd="+cd;
-   		altrHistDialog.setUrl('<c:url value="/prj/tss/gen/genTssAltrDetailPopup.do"/>'+params);
-   		altrHistDialog.show();
+        var params = "?tssCd="+cd;
+           altrHistDialog.setUrl('<c:url value="/prj/tss/gen/genTssAltrDetailPopup.do"/>'+params);
+           altrHistDialog.show();
     }
 </script>
 </head>
 <body>
 <form name="searchForm" id="searchForm"  method="post">
-	<input type="hidden" name="wbsCd" value="${inputData.wbsCd}"/>
-	<input type="hidden" name="tssNm" value="${inputData.tssNm}"/>
-	<input type="hidden" name=saUserName value="${inputData.saUserName}"/>
-	<input type="hidden" name="deptName" value="${inputData.deptName}"/>
-	<input type="hidden" name="tssStrtDd" value="${inputData.tssStrtDd}"/>
-	<input type="hidden" name="tssFnhDd" value="${inputData.tssFnhDd}"/>
-	<input type="hidden" name="prjNm" value="${inputData.prjNm}"/>
-	<input type="hidden" name="pgsStepCd" value="${inputData.pgsStepCd}"/>
-	<input type="hidden" name="tssSt" value="${inputData.tssSt}"/>
-	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
+    <input type="hidden" name="wbsCd" value="${inputData.wbsCd}"/>
+    <input type="hidden" name="tssNm" value="${inputData.tssNm}"/>
+    <input type="hidden" name=saUserName value="${inputData.saUserName}"/>
+    <input type="hidden" name="deptName" value="${inputData.deptName}"/>
+    <input type="hidden" name="tssStrtDd" value="${inputData.tssStrtDd}"/>
+    <input type="hidden" name="tssFnhDd" value="${inputData.tssFnhDd}"/>
+    <input type="hidden" name="prjNm" value="${inputData.prjNm}"/>
+    <input type="hidden" name="pgsStepCd" value="${inputData.pgsStepCd}"/>
+    <input type="hidden" name="tssSt" value="${inputData.tssSt}"/>
+    <input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 </form>
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">
-	    <div class="titleArea">
-	    	<a class="leftCon" href="#">
-			        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
-			        <span class="hidden">Toggle 버튼</span>
-				</a>
-	        <h2>연구팀 과제 &gt;&gt; 중단</h2>
-	    </div>
+        <div class="titleArea">
+            <a class="leftCon" href="#">
+                    <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+                    <span class="hidden">Toggle 버튼</span>
+                </a>
+            <h2>연구팀 과제 &gt;&gt; 중단</h2>
+        </div>
         <div class="sub-content">
             <div class="titArea mt0">
                 <div class="LblockButton">
@@ -616,13 +619,13 @@
                                         <input type="text" id="deptName" />
                                     </td>
                                 </tr>
-                              	<tr>
-                                	<th align="right">WBSCode / 과제명</th>
+                                  <tr>
+                                    <th align="right">WBSCode / 과제명</th>
                                     <td class="tssLableCss" colspan="3">
                                         <input type="text" id="wbsCd" />  /  <em class="gab"> <input type="text" id="tssNm" style="width:900px;padding:0px 5px" />
                                     </td>
                                 </tr>
-								<tr>
+                                <tr>
                                     <th align="right">과제리더</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="saUserName" />
@@ -633,7 +636,7 @@
                                     </td>
 
                                 </tr>
-								<tr>
+                                <tr>
                                     <th align="right">발의주체</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="ppslMbdNm" />
@@ -644,7 +647,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                	 <th align="right">과제속성</th>
+                                     <th align="right">과제속성</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="tssAttrNm"></div>
                                     </td>
@@ -692,8 +695,8 @@
             <div id="tabView"></div>
 
             <form name="tabForm" id="tabForm" method="post">
-            	<input type="hidden" id="tssSt" name="tssSt" value=""/>
-            	<input type="hidden" id="pgsStepCd" name="pgsStepCd" value=""/>
+                <input type="hidden" id="tssSt" name="tssSt" value=""/>
+                <input type="hidden" id="pgsStepCd" name="pgsStepCd" value=""/>
                 <iframe name="tabContent0" id="tabContent0" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent1" id="tabContent1" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent2" id="tabContent2" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>

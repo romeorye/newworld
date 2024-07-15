@@ -44,7 +44,7 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
 
-    var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "102" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
 
     var dataSet;
     var vm;
@@ -251,7 +251,7 @@
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-        	window.parent.fnSave();
+            window.parent.fnSave();
         });
 
 
@@ -286,7 +286,7 @@
            return false;
         }
 
-        
+
         return true;
     }
 </script>
