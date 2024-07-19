@@ -139,13 +139,13 @@ db.salStat.initialSize=0
 
 
 ##SAP Connect Infomation : pasSapPool(prd)
-SAP.pasSapPool.POOL_SIZE=300
-SAP.pasSapPool.SAP_CLIENT=100
-SAP.pasSapPool.USER_ID=SH9033
-SAP.pasSapPool.PASSWORD=80311061
-SAP.pasSapPool.LANGUAGE=KO
-SAP.pasSapPool.HOST_NAME=sap.lxhausys.com
-SAP.pasSapPool.SYSTEM_NO=00
+#SAP.pasSapPool.POOL_SIZE=300
+#SAP.pasSapPool.SAP_CLIENT=100
+#SAP.pasSapPool.USER_ID=SH9033
+#SAP.pasSapPool.PASSWORD=80311061
+#SAP.pasSapPool.LANGUAGE=KO
+#SAP.pasSapPool.HOST_NAME=sap.lxhausys.com
+#SAP.pasSapPool.SYSTEM_NO=00
 
 
 ##SAP Connect Infomation : sappool(prd)

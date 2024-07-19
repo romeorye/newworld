@@ -3,7 +3,7 @@ serverEnv=DEV
 serverIp=10.39.169.208
 serverPort=7030
 contextPath=iris
-defaultUrl=test-iris.lxhausys.com
+defaultUrl=irisdev.lxhausys.com
 #configService.getString("template.root_path")
 lghausysPath=http://uapproval.lxhausys.com:7010
 lghausysReportPath=http://irisdev.lxhausys.com:7030/iris/resource/aireport/report
@@ -63,34 +63,34 @@ db.iris.encoding=utf-8
 db.iris.initialSize=1
 
 
-###TODO DB DB(DEV) 연결 X
+#TODO DB DB(DEV) 연결 X
 ##db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
 ##db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
-#db.todo.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-#db.todo.url=jdbc:log4jdbc:sqlserver://165.244.161.204:1433;databasename=TODO
-#db.todo.username=irisapp
-#db.todo.password=lghausys123!
-#db.todo.encoding=utf-8
+##db.todo.url=jdbc:sqlserver://165.244.161.204:1433;databasename=TODO
+##db.todo.username=irisapp
+##db.todo.password=lghausys123!
+##db.todo.encoding=utf-8
 
 #TODO DB DB(DEV) [2024.03.14]Cloud로 연결 -- 완료되면 주석 풀기
+#db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
+db.todo.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+db.todo.url=jdbc:log4jdbc:sqlserver://nonprod-b2b-tot3.cl4tnwsbivfl.ap-northeast-2.rds.amazonaws.com:1433;databasename=TODO
+db.todo.username=todouser
+db.todo.password=lghausys123!
+db.todo.encoding=utf-8
+db.todo.initialSize=1
+
+##TODO DB DB(DEV) [2024.03.13]부평서버 다운. 임시로 IRIS DB로 바꿔놓음
 ##db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
 ##db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
 #db.todo.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-#db.todo.url=jdbc:log4jdbc:sqlserver://nonprod-b2b-tot3.cl4tnwsbivfl.ap-northeast-2.rds.amazonaws.com:1433;databasename=TODO
-#db.todo.username=todouser
+#db.todo.url=jdbc:log4jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
+#db.todo.username=irisapp
 #db.todo.password=lghausys123!
 #db.todo.encoding=utf-8
 #db.todo.initialSize=1
 
-#TODO DB DB(DEV) [2024.03.13]부평서버 다운. 임시로 IRIS DB로 바꿔놓음
-#db.todo.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
-#db.todo.driver=core.log.jdbc.driver.Mssql2005Driver
-db.todo.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-db.todo.url=jdbc:log4jdbc:sqlserver://10.39.174.13:1433;databasename=IRISDB
-db.todo.username=irisapp
-db.todo.password=lghausys123!
-db.todo.encoding=utf-8
-db.todo.initialSize=1
 
 #ORACLE PIMS DB(PRD) N/A
 #db.pims.driver=core.log.jdbc.driver.OracleDriver
@@ -131,43 +131,32 @@ db.salStat.username=iris_user
 db.salStat.password=irisuser123!
 db.salStat.encoding=utf-8
 
-###MSSQL SALSTAT DB(PRD)
-##db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
-##db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
-#db.salStat.driver=net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-#db.salStat.url=jdbc:log4jdbc:sqlserver://10.39.184.141:1433;databasename=LGHSDW
+#MSSQL SALSTAT DB(PRD)
+#db.salStat.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#db.salStat.driver=core.log.jdbc.driver.Mssql2005Driver
+#db.salStat.url=jdbc:sqlserver://10.39.184.141:1433;databasename=LGHSDW
 #db.salStat.username=iris_user
 #db.salStat.password=irisuser123!
 #db.salStat.encoding=utf-8
 #db.salStat.initialSize=0
 
-#SAP Connect Infomation : pasSapPool(dev)
-SAP.pasSapPool.POOL_SIZE=300
-SAP.pasSapPool.SAP_CLIENT=100
-SAP.pasSapPool.USER_ID=SH9020
-SAP.pasSapPool.PASSWORD=SH9020
-SAP.pasSapPool.LANGUAGE=KO
-SAP.pasSapPool.HOST_NAME=10.39.170.172
-SAP.pasSapPool.SYSTEM_NO=01
-
-
-##SAP Connect Infomation : sappool(prd)
-#SAP.sappool.POOL_SIZE=300
-#SAP.sappool.SAP_CLIENT=100
-#SAP.sappool.USER_ID=SH9020
-#SAP.sappool.PASSWORD=SH9020
-#SAP.sappool.LANGUAGE=KO
-#SAP.sappool.HOST_NAME=10.39.170.172
-#SAP.sappool.SYSTEM_NO=10
+##SAP Connect Infomation : pasSapPool(dev)
+#SAP.pasSapPool.POOL_SIZE=300
+#SAP.pasSapPool.SAP_CLIENT=100
+#SAP.pasSapPool.USER_ID=SH9020
+#SAP.pasSapPool.PASSWORD=SH9020!
+#SAP.pasSapPool.LANGUAGE=KO
+#SAP.pasSapPool.HOST_NAME=10.39.170.172
+#SAP.pasSapPool.SYSTEM_NO=10
 
 #SAP Connect Infomation : sappool(dev)
 SAP.sappool.POOL_SIZE=300
-SAP.sappool.SAP_CLIENT=310
+SAP.sappool.SAP_CLIENT=100
 SAP.sappool.USER_ID=SH9020
-SAP.sappool.PASSWORD=SH9020
+SAP.sappool.PASSWORD=SH9020!
 SAP.sappool.LANGUAGE=KO
 SAP.sappool.HOST_NAME=10.39.170.172
-SAP.sappool.SYSTEM_NO=01
+SAP.sappool.SYSTEM_NO=10
 
 # RND포탈용 암호 해독용 KEY & IV
 RND_KEY=3wYcrxSs4ijt+NEeHTr9wQ==
