@@ -1510,7 +1510,7 @@
     <!-- 과제신규 연구원 지적재산권 삭제 -->
     <delete id="deleteTmpTss">
     -- deleteTmpTss 과제날짜 임시 테이블정보 삭제
-           delete iris_tmp_tss where tss_cd = #{pgTss_cd}
+           delete iris_tmp_tss where tss_cd = #{pgTssCd}
     </delete>
 
         <!-- GRS 품의요청 내역 조회 -->
