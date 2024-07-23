@@ -10,7 +10,7 @@
  *------------------------------------------------------------------------
  * VER  DATE        AUTHOR      DESCRIPTION
  * ---  ----------- ----------  -----------------------------------------
- * 1.0  2017.09.19  IRIS04		최초생성
+ * 1.0  2017.09.19  IRIS04        최초생성
  * ---  ----------- ----------  -----------------------------------------
  * IRIS 프로젝트
  *************************************************************************
@@ -63,16 +63,16 @@
             maskValue:true
         });
 
-      	//그리드 TextArea
+          //그리드 TextArea
         gridTextArea = new Rui.ui.form.LTextArea({
             disabled: pageMode == "W" ? false : true
         });
 
         //Form 비활성화
         disableFields = function() {
+            btnGoalSave.hide(); //[20240722.siseo]등록 과제 중 진행상태의 과제 목표 변경 불가
             if(pageMode == "W") return;
 
-            btnGoalSave.hide();
             btnYldSave.hide();
 
             //grid1.setEditable(false);
@@ -169,13 +169,13 @@
             console.log("goal load dataSet Success");
 
             for(var i=0; i<dataSet2.getCount(); i++){
-            	var yldItmYn = dataSet2.getNameValue(i,"attcFilId");
+                var yldItmYn = dataSet2.getNameValue(i,"attcFilId");
 
-	            if(Rui.isUndefined(yldItmYn)){
-	            	dataSet2.setNameValue(i,"yldItmYn","N");
-	            }else{
-	            	dataSet2.setNameValue(i,"yldItmYn","Y");
-	            }
+                if(Rui.isUndefined(yldItmYn)){
+                    dataSet2.setNameValue(i,"yldItmYn","N");
+                }else{
+                    dataSet2.setNameValue(i,"yldItmYn","Y");
+                }
             }
         });
 
@@ -230,7 +230,7 @@
 
             var filId = dataSet2.getNameValue(popupRow, "attcFilId");
 
-            openAttachFileDialog(setAttachFileInfo, stringNullChk(filId), 'prjPolicy', '*', pageMode)	// 첨부파일오픈팝업 2로 변경
+            openAttachFileDialog(setAttachFileInfo, stringNullChk(filId), 'prjPolicy', '*', pageMode)    // 첨부파일오픈팝업 2로 변경
         });
         grid2.render('yldGrid');
 
@@ -270,46 +270,46 @@
         ============================================================================*/
         // 목표 valid
         fnGoalValid = function(vm, dataSet){
-        	var goalDataSet = dataSet;
+            var goalDataSet = dataSet;
 
-        	// 1. 기본
-		 	if(vm.validateDataSet(goalDataSet) == false) {
-		 		Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>') );
-		 		return true;
-		 	}
+            // 1. 기본
+             if(vm.validateDataSet(goalDataSet) == false) {
+                 Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>') );
+                 return true;
+             }
 
-        	return false;
+            return false;
         };
 
         // 산출물 valid
         fnYldValid = function(vm, dataSet){
-        	var yldDataSet = dataSet;
+            var yldDataSet = dataSet;
 
-        	// 1. 기본
-		 	if(vm.validateDataSet(yldDataSet) == false) {
-		 		Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>') );
-		 		return true;
-		 	}
+            // 1. 기본
+             if(vm.validateDataSet(yldDataSet) == false) {
+                 Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>') );
+                 return true;
+             }
 
-//         	//2. 산출물명, 첨부파일 입력체크
-//         	for(var i=0; i < yldDataSet.getCount(); i++){
-//         		var yldItmNm  = yldDataSet.getNameValue(0 , 'yldItmNm');
-//         		var attcFilId = yldDataSet.getNameValue(0 , 'attcFilId');
+//             //2. 산출물명, 첨부파일 입력체크
+//             for(var i=0; i < yldDataSet.getCount(); i++){
+//                 var yldItmNm  = yldDataSet.getNameValue(0 , 'yldItmNm');
+//                 var attcFilId = yldDataSet.getNameValue(0 , 'attcFilId');
 
-//         		if( (yldItmNm != "" &&  yldItmNm != null)  &&
+//                 if( (yldItmNm != "" &&  yldItmNm != null)  &&
 //                     (attcFilId == "" || attcFilId == null) ){
-//                 		Rui.alert( (i+1) + "번째 필수산출물의 첨부파일을 등록하세요.");
+//                         Rui.alert( (i+1) + "번째 필수산출물의 첨부파일을 등록하세요.");
 //                         return true;
 //                 }
 
-//         		if( (yldItmNm == "" &&  yldItmNm == null)  &&
+//                 if( (yldItmNm == "" &&  yldItmNm == null)  &&
 //                     (attcFilId != "" || attcFilId != null) ){
-//                 		Rui.alert( (i+1) + "번째 필수산출물의 산출물명을 입력하세요.");
+//                         Rui.alert( (i+1) + "번째 필수산출물의 산출물명을 입력하세요.");
 //                         return true;
 //                 }
-//         	}
+//             }
 
-//         	return false;
+//             return false;
         };
 
         //첨부파일
@@ -320,30 +320,30 @@
 
             lvCount = attachFileList.length ;
             if(lvCount > 0) {
-				dataSet2.setNameValue(popupRow,"yldItmYn","Y");
+                dataSet2.setNameValue(popupRow,"yldItmYn","Y");
             }else {
-				dataSet2.setNameValue(popupRow,"yldItmYn","N");
+                dataSet2.setNameValue(popupRow,"yldItmYn","N");
             }
         };
 
         //조회
         fnSearch = function(targetDs) {
-        	if(targetDs == "GOAL") {
-	            dataSet1.load({
-	                url: "<c:url value='/prj/tss/ousdcoo/retrieveOusdCooTssPgsGoal.do'/>"
-	              , params : {
-	                    tssCd : lvTssCd
-	                }
-	            });
-        	}
-        	else {
-	            dataSet2.load({
-	                url: "<c:url value='/prj/tss/ousdcoo/retrieveOusdCooTssPgsYld.do'/>"
-	              , params : {
-	                    tssCd : lvTssCd
-	                }
-	            });
-        	}
+            if(targetDs == "GOAL") {
+                dataSet1.load({
+                    url: "<c:url value='/prj/tss/ousdcoo/retrieveOusdCooTssPgsGoal.do'/>"
+                  , params : {
+                        tssCd : lvTssCd
+                    }
+                });
+            }
+            else {
+                dataSet2.load({
+                    url: "<c:url value='/prj/tss/ousdcoo/retrieveOusdCooTssPgsYld.do'/>"
+                  , params : {
+                        tssCd : lvTssCd
+                    }
+                });
+            }
         };
 
         //목표저장
@@ -354,18 +354,18 @@
                 return;
             }
 
-         	// valid check
+             // valid check
             if( fnGoalValid(goalVm,dataSet1) ) {
-	            return;
-			}
+                return;
+            }
 
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
-		            dm.updateDataSet({
-		                url:'<c:url value="/prj/tss/ousdcoo/updateOusdCooTssPgsGoal.do"/>',
-		                dataSets:[dataSet1]
-		            });
+                    dm.updateDataSet({
+                        url:'<c:url value="/prj/tss/ousdcoo/updateOusdCooTssPgsGoal.do"/>',
+                        dataSets:[dataSet1]
+                    });
                 },
                 handlerNo: Rui.emptyFn
             });
@@ -379,17 +379,17 @@
                 return;
             }
 
-         	// valid check
+             // valid check
             if( fnYldValid(yldVm,dataSet2) ) {
-	            return;
-			}
+                return;
+            }
 
             dm.updateDataSet({
                 url:'<c:url value="/prj/tss/ousdcoo/updateOusdCooTssPgsYld.do"/>',
                 dataSets:[dataSet2]
             });
         });
-/* 
+/*
         //목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
@@ -413,15 +413,15 @@
 
 
         disableFields();
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#btnGoalSave").hide();
-        	$("#btnYldSave").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#btnGoalSave").hide();
-        	$("#btnYldSave").hide();
-		}
-        
+            $("#btnGoalSave").hide();
+            $("#btnYldSave").hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $("#btnGoalSave").hide();
+            $("#btnYldSave").hide();
+        }
+
     });
 
     // 내부 스크롤 제거
@@ -462,7 +462,7 @@
         <button type="button" id="btnYldSave">저장</button>
     </div>
 </div>
-<!-- 
+<!--
 <div class="titArea">
     <div class="LblockButton">
         <button type="button" id="btnList" name="btnList">목록</button>

@@ -64,9 +64,9 @@
 
         //Form 비활성화
         disableFields = function() {
+            btnGoalSave.hide(); //[20240722.siseo]등록 과제 중 진행상태의 과제 목표 변경 불가
             if(pageMode == "W") return;
 
-            btnGoalSave.hide();
             btnYldSave.hide();
 
             grid1.setEditable(false);
@@ -158,13 +158,13 @@
             console.log("goal load dataSet Success");
 
             for(var i=0; i<dataSet2.getCount(); i++){
-            	var yldItmYn = dataSet2.getNameValue(i,"attcFilId");
+                var yldItmYn = dataSet2.getNameValue(i,"attcFilId");
 
-	            if(Rui.isUndefined(yldItmYn)){
-	            	dataSet2.setNameValue(i,"yldItmYn","N");
-	            }else{
-	            	dataSet2.setNameValue(i,"yldItmYn","Y");
-	            }
+                if(Rui.isUndefined(yldItmYn)){
+                    dataSet2.setNameValue(i,"yldItmYn","N");
+                }else{
+                    dataSet2.setNameValue(i,"yldItmYn","Y");
+                }
             }
         });
 
@@ -286,31 +286,31 @@
 
             lvCount = attachFileList.length ;
             if(lvCount > 0) {
-				dataSet2.setNameValue(popupRow,"yldItmYn","Y");
+                dataSet2.setNameValue(popupRow,"yldItmYn","Y");
             }else {
-				dataSet2.setNameValue(popupRow,"yldItmYn","N");
+                dataSet2.setNameValue(popupRow,"yldItmYn","N");
             }
         };
 
 
         //조회
         fnSearch = function(targetDs) {
-        	if(targetDs == "GOAL") {
-	            dataSet1.load({
-	                url: "<c:url value='/prj/tss/nat/retrieveNatTssPgsGoal.do'/>"
-	              , params : {
-	                    tssCd : lvTssCd
-	                }
-	            });
-        	}
-        	else {
-	            dataSet2.load({
-	                url: "<c:url value='/prj/tss/nat/retrieveNatTssPgsYld.do'/>"
-	              , params : {
-	                    tssCd : lvTssCd
-	                }
-	            });
-        	}
+            if(targetDs == "GOAL") {
+                dataSet1.load({
+                    url: "<c:url value='/prj/tss/nat/retrieveNatTssPgsGoal.do'/>"
+                  , params : {
+                        tssCd : lvTssCd
+                    }
+                });
+            }
+            else {
+                dataSet2.load({
+                    url: "<c:url value='/prj/tss/nat/retrieveNatTssPgsYld.do'/>"
+                  , params : {
+                        tssCd : lvTssCd
+                    }
+                });
+            }
         };
 
 
@@ -330,10 +330,10 @@
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
-		            dm.updateDataSet({
-		                url:'<c:url value="/prj/tss/nat/updateNatTssPgsGoal.do"/>',
-		                dataSets:[dataSet1]
-		            });
+                    dm.updateDataSet({
+                        url:'<c:url value="/prj/tss/nat/updateNatTssPgsGoal.do"/>',
+                        dataSets:[dataSet1]
+                    });
                 },
                 handlerNo: Rui.emptyFn
             });
@@ -356,10 +356,10 @@
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
-		            dm.updateDataSet({
-		                url:'<c:url value="/prj/tss/nat/updateNatTssPgsYld.do"/>',
-		                dataSets:[dataSet2]
-		            });
+                    dm.updateDataSet({
+                        url:'<c:url value="/prj/tss/nat/updateNatTssPgsYld.do"/>',
+                        dataSets:[dataSet2]
+                    });
                 },
                 handlerNo: Rui.emptyFn
             });
@@ -389,14 +389,14 @@
 
 
         disableFields();
-        
+
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#btnGoalSave").hide();
-        	$("#btnYldSave").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#btnGoalSave").hide();
-        	$("#btnYldSave").hide();
-		}
+            $("#btnGoalSave").hide();
+            $("#btnYldSave").hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $("#btnGoalSave").hide();
+            $("#btnYldSave").hide();
+        }
     });
 </script>
 <script>
@@ -435,7 +435,7 @@ $(window).load(function() {
         <button type="button" id="btnYldSave">저장</button>
     </div>
 </div>
-<!-- 
+<!--
 <div class="titArea">
     <div class="LblockButton">
         <button type="button" id="btnList" name="btnList">목록</button>

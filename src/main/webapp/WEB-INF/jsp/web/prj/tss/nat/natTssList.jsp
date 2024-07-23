@@ -29,7 +29,7 @@
 
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
-	<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
+    <script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
 
@@ -40,8 +40,8 @@
 </style>
 
 <script type="text/javascript">
-	var pageRoleType = '${inputData.tssRoleType}';
-	var pageRoleId   = '${inputData.tssRoleId}';
+    var pageRoleType = '${inputData.tssRoleType}';
+    var pageRoleId   = '${inputData.tssRoleId}';
 
     var wbsCd;
     var tssNm;
@@ -108,7 +108,7 @@
             editable: false,
             enterToPopup: true
         });
-		*/
+        */
 
         //과제기간 시작일
         ttlCrroStrtDt = new Rui.ui.form.LMonthBox({
@@ -117,7 +117,7 @@
             width: 100,
             dateType: 'string'
         });
-		/*
+        /*
         ttlCrroStrtDt = new Rui.ui.form.LDateBox({
             applyTo: 'ttlCrroStrtDt',
             mask: '9999-99-99',
@@ -221,10 +221,10 @@
                 , { id: 'cmplNxStrtDd'}  //과제기간시작
                 , { id: 'cmplNxFnhDd'}   //과제기간종료
                 , { id: 'tssSt'}         //상태
-                , { id: 'pgsStepNm'} 	 //처리상태
+                , { id: 'pgsStepNm'}      //처리상태
                 , { id: 'tssNosStNm'}    //단계
                 , { id: 'frstRgstDt'}    //최종실적등록일
-                , { id: 'tssCd'}		 //과제코드
+                , { id: 'tssCd'}         //과제코드
                 , { id: 'myTss'}
                 , { id: 'tssNosSt'}
                 // , { id: 'qgateStepNm'}
@@ -257,7 +257,7 @@
                 , { field: 'cmplNxStrtDd',  label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 90 }
                 , { field: 'cmplNxFnhDd',   label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 90 }
                 , { field: 'pgsStepNm',     label: '상태', sortable: true, align:'center', width: 50 }
-                , { field: 'tssSt',	        label: '처리상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
+                , { field: 'tssSt',            label: '처리상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
                     p.editable = false;
                     return value;
                 } }
@@ -276,75 +276,84 @@
             autoWidth: true
         });
 
+        grid.render('defaultGrid');
+
         grid.on('cellClick', function(e) {
             if(e.colId == "tssNosStNm") {
-                var pTssCd     = dataSet.getNameValue(e.row, "tssCd");     //과제코드
-                var pPgsStepCd = dataSet.getNameValue(e.row, "pgsStepCd"); //진행상태코드
-                var pTssSt     = dataSet.getNameValue(e.row, "tssSt");     //과제상태
-                var pGrsEvSt   = dataSet.getNameValue(e.row, "grsEvSt");   //GRS상태
+                var pTssCd     = dataSet.getNameValue(e.row, "tssCd");       //과제코드
+                var pPgsStepCd = dataSet.getNameValue(e.row, "pgsStepCd");   //진행상태코드
+                var pTssSt     = dataSet.getNameValue(e.row, "tssSt");       //과제상태
+                var pWbsCd     = ""; //dataSet.getNameValue(e.row, "wbsCd"); //WBS코드, 오류가 발생하여 주석처리
+                var pGrsEvSt   = dataSet.getNameValue(e.row, "grsEvSt");     //GRS상태
+
+                var urlParam = "?tssCd="+pTssCd+"&wbsCd="+pWbsCd;
 
                 //계획
                 if(pPgsStepCd == "PL") {
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssPlnDetail.do?tssCd="+pTssCd+"'/>");
+                    //nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssPlnDetail.do?tssCd="+pTssCd+"'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssPlnDetail.do'/>"+urlParam);
                 }
                 //진행
                 else if(pPgsStepCd == "PG") {
                     if(pTssSt == "102") {
                         //진행_GRS완료_중단
                         if(pGrsEvSt == "D") {
-                            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssDcacDetail.do?tssCd="+pTssCd+"'/>");
+                            //nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssDcacDetail.do?tssCd="+pTssCd+"'/>");
+                            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssDcacDetail.do'/>"+urlParam);
                         }
                         //진행_GRS완료_완료
                         else if(pGrsEvSt == "G2") {
-                            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssCmplDetail.do?tssCd="+pTssCd+"'/>");
+                            //nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssCmplDetail.do?tssCd="+pTssCd+"'/>");
+                            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssCmplDetail.do'/>"+urlParam);
                         }
                         //진행_GRS완료_변경
                         else {
-                            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssAltrDetail.do?tssCd="+pTssCd+"'/>");
+                            //nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssAltrDetail.do?tssCd="+pTssCd+"'/>");
+                            nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssAltrDetail.do'/>"+urlParam);
                         }
                     } else {
-                        nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssPgsDetail.do?tssCd="+pTssCd+"'/>");
+                        //nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssPgsDetail.do?tssCd="+pTssCd+"'/>");
+                        nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssPgsDetail.do'/>"+urlParam);
                     }
                 }
                 //완료
                 else if(pPgsStepCd == "CM") {
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssCmplDetail.do?tssCd="+pTssCd+"'/>");
+                    //nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssCmplDetail.do?tssCd="+pTssCd+"'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssCmplDetail.do'/>"+urlParam);
                 }
                 //변경
                 else if(pPgsStepCd == "AL") {
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssAltrDetail.do?tssCd="+pTssCd+"'/>");
+                    //nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssAltrDetail.do?tssCd="+pTssCd+"'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssAltrDetail.do'/>"+urlParam);
                 }
                 //중단
                 else if(pPgsStepCd == "DC") {
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssDcacDetail.do?tssCd="+pTssCd+"'/>");
+                    //nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssDcacDetail.do?tssCd="+pTssCd+"'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/nat/natTssDcacDetail.do'/>"+urlParam);
                 }
             }
         });
 
-        grid.render('defaultGrid');
+        /** 총 건수 표시 **/
+        dataSet.on('load', function(e){
+            var seatCnt = 0;
+            var sumOrd = 0;
+            var sumMoOrd = 0;
+            var tmp;
+            var tmpArray;
+            var str = "";
 
-        /**
-    	총 건수 표시
-    	**/
-    	dataSet.on('load', function(e){
-    		var seatCnt = 0;
-    	    var sumOrd = 0;
-    	    var sumMoOrd = 0;
-    	    var tmp;
-    	    var tmpArray;
-    		var str = "";
+            document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
 
-    		document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
-
-    		if( '${inputData._roleId}' == "WORK_IRI_T16" ){
-            	deptName.setValue('${inputData._userDeptName}');
-            	deptName.disable();
+            if( '${inputData._roleId}' == "WORK_IRI_T16" ){
+                deptName.setValue('${inputData._userDeptName}');
+                deptName.disable();
             }
 
             // 목록 페이징
             paging(dataSet,"defaultGrid");
 
-    	});
+        });
         /* [버튼] 조회 */
         fnSearch = function() {
             dataSet.load({
@@ -358,7 +367,7 @@
                   , ttlCrroStrtDt : nwinsReplaceAll(ttlCrroStrtDt.getValue(), "-","") //과제기간(시작일)
                   , ttlCrroFnhDt : nwinsReplaceAll(ttlCrroFnhDt.getValue(), "-","")   //과제기간(종료일)
                   , tssSt : document.aform.tssSt.value                        //상태
-                  , pgsStepCd : document.aform.pgsStepCd.value				  //진행상태
+                  , pgsStepCd : document.aform.pgsStepCd.value                  //진행상태
                   , prjNm : encodeURIComponent(document.aform.prjNm.value)    //프로젝트명
                   , tssScnCd : "N" // 프로젝트 구분
                   , saUserName : encodeURIComponent(document.aform.saUserName.value)    //과제리더명
@@ -377,7 +386,7 @@
         /* [버튼] 엑셀 */
         var butExcel = new Rui.ui.LButton('butExcel');
         butExcel.on('click', function() {
-			// 엑셀 다운로드시 전체 다운로드를 위해 추가
+            // 엑셀 다운로드시 전체 다운로드를 위해 추가
             dataSet.clearFilter();
             if(dataSet.getCount() > 0) {
                 var excelColumnModel = columnModel.createExcelColumnModel(false);
@@ -392,40 +401,40 @@ nG.saveExcel(encodeURIComponent('과제관리_국책과제') + new Date().format
             paging(dataSet,"defaultGrid");
         });
 /*
-	    setDeptInfo = function(deptInfo) {
-	    	deptName.setValue(deptInfo.deptNm);
-	    };
+        setDeptInfo = function(deptInfo) {
+            deptName.setValue(deptInfo.deptNm);
+        };
  */
 
-	    //fnSearch();
-	    disableFields();
+        //fnSearch();
+        disableFields();
 
-	    if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-    		$('#butTssNew').hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-    		$('#butTssNew').hide();
-    	}
+        if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
+            $('#butTssNew').hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $('#butTssNew').hide();
+        }
 
         butTssNew.hide();
 
 
         init = function() {
-     	   var wbsCd='${inputData.wbsCd}';
-     	   var tssNm='${inputData.tssNm}';
-     	   var saUserName='${inputData.saUserName}';
-     	   var deptName='${inputData.deptName}';
-     	   var prjNm='${inputData.prjNm}';
-           	dataSet.load({
+            var wbsCd='${inputData.wbsCd}';
+            var tssNm='${inputData.tssNm}';
+            var saUserName='${inputData.saUserName}';
+            var deptName='${inputData.deptName}';
+            var prjNm='${inputData.prjNm}';
+               dataSet.load({
                  url: '<c:url value="/prj/tss/nat/retrieveNatTssList.do"/>',
                  params :{
-                	 wbsCd : escape(encodeURIComponent(wbsCd)),
-                	 tssNm : escape(encodeURIComponent(tssNm)),
-                	 saUserName : escape(encodeURIComponent(saUserName)),
-                	 deptName : escape(encodeURIComponent(deptName)),
-                	 prjNm : escape(encodeURIComponent(prjNm)),
-                 	ttlCrroStrtDt : '${inputData.ttlCrroStrtDt}',
-                 	ttlCrroFnhDt : '${inputData.ttlCrroFnhDt}',
-                 	pgsStepCd : '${inputData.pgsStepCd}'
+                     wbsCd : escape(encodeURIComponent(wbsCd)),
+                     tssNm : escape(encodeURIComponent(tssNm)),
+                     saUserName : escape(encodeURIComponent(saUserName)),
+                     deptName : escape(encodeURIComponent(deptName)),
+                     prjNm : escape(encodeURIComponent(prjNm)),
+                     ttlCrroStrtDt : '${inputData.ttlCrroStrtDt}',
+                     ttlCrroFnhDt : '${inputData.ttlCrroFnhDt}',
+                     pgsStepCd : '${inputData.pgsStepCd}'
                  }
              });
          }
@@ -445,71 +454,71 @@ nG.saveExcel(encodeURIComponent('과제관리_국책과제') + new Date().format
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">
-		<div class="titleArea">
-			<a class="leftCon" href="#">
-		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
-		        <span class="hidden">Toggle 버튼</span>
-			</a>
-			<h2>국책과제</h2>
-	    </div>
+        <div class="titleArea">
+            <a class="leftCon" href="#">
+                <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+                <span class="hidden">Toggle 버튼</span>
+            </a>
+            <h2>국책과제</h2>
+        </div>
         <div class="sub-content">
             <form name="aform" id="aform" method="post">
                 <input type="hidden" id="deptCode" value="">
                 <input type="hidden" id="saSabunNew" value="">
-				<div class="search">
-					<div class="search-content">
-		                <table>
-		                    <colgroup>
-		                        <col style="width: 120px;" />
-		                        <col style="width: 330px;" />
-		                        <col style="width: 120px;" />
-		                        <col style="width: 300px;" />
-		                        <col style=" " />
-		                    </colgroup>
-		                    <tbody>
-		                        <tr>
-		                            <th>과제코드</th>
-		                            <td><input type="text" id="wbsCd" /></td>
-		                            <th>과제명</th>
-		                            <td><input type="text" id="tssNm" /></td>
-		                            <td></td>
-		                        </tr>
-		                        <tr>
-		                            <th>과제리더</th>
-		                            <td><input type="text" id="saUserName" /></td>
-		                            <th>조직</th>
-		                            <td><input type="text" id="deptName" /></td>
-		                            <td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-		                        </tr>
-		                        <tr>
-		                            <th>과제기간</th>
-		                            <td><input type="text" id="ttlCrroStrtDt" /><em class="gab"> ~ </em>
-		                                <input type="text" id="ttlCrroFnhDt" /></td>
-		                            <th>프로젝트명</th>
-		                            <td>
-		                                <input type="text" id="prjNm" />
-		                            </td>
-		                            <td></td>
-		                        </tr>
-		                        <tr>
-		                            <th>상태</th>
-		                            <td>
-		                                <div id="pgsStepCd"></div>
-		                            </td>
-		                            <th>처리상태</th>
-		                            <td>
-		                                <div id="tssSt"></div>
-		                            </td>
-		                            <td></td>
-		                        </tr>
-		                    </tbody>
-		                </table>
-	                </div>
+                <div class="search">
+                    <div class="search-content">
+                        <table>
+                            <colgroup>
+                                <col style="width: 120px;" />
+                                <col style="width: 330px;" />
+                                <col style="width: 120px;" />
+                                <col style="width: 300px;" />
+                                <col style=" " />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th>과제코드</th>
+                                    <td><input type="text" id="wbsCd" /></td>
+                                    <th>과제명</th>
+                                    <td><input type="text" id="tssNm" /></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>과제리더</th>
+                                    <td><input type="text" id="saUserName" /></td>
+                                    <th>조직</th>
+                                    <td><input type="text" id="deptName" /></td>
+                                    <td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+                                </tr>
+                                <tr>
+                                    <th>과제기간</th>
+                                    <td><input type="text" id="ttlCrroStrtDt" /><em class="gab"> ~ </em>
+                                        <input type="text" id="ttlCrroFnhDt" /></td>
+                                    <th>프로젝트명</th>
+                                    <td>
+                                        <input type="text" id="prjNm" />
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>상태</th>
+                                    <td>
+                                        <div id="pgsStepCd"></div>
+                                    </td>
+                                    <th>처리상태</th>
+                                    <td>
+                                        <div id="tssSt"></div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </form>
 
             <div class="titArea">
-             	<span class="Ltotal" id="cnt_text">총 : 0 </span>
+                 <span class="Ltotal" id="cnt_text">총 : 0 </span>
                 <div class="LblockButton">
                     <button type="button" id="butTssNew" name="itemCreate" class="redBtn">과제등록</button>
                     <button type="button" id="butExcel" name="butExcel">EXCEL다운로드</button>

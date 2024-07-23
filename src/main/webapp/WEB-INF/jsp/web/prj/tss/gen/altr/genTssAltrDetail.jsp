@@ -29,26 +29,31 @@
  border: 0px
  }
 </style>
-
+<%
+    response.setHeader("Pragma", "No-cache");
+    response.setDateHeader("Expires", 0);
+    response.setHeader("Cache-Control", "no-cache");
+%>
 <script type="text/javascript">
     var gvTssCd     = "";
     var gvUserId    = "${inputData._userId}";
-    var gbnCd    	= "${inputData.gbnCd}";
+    var gbnCd        = "${inputData.gbnCd}";
     var gvTssSt     = "";
     var gvPgsStepCd = "AL"; //진행상태:AL(변경)
     var gvPkWbsCd   = "";
     var gvPageMode  = "";
     var gvPgTssCd   = "";
-    var gvWbsCd   	= "";
+    var gvPgTssSt   = "";
+    var gvWbsCd       = "";
     var altrTssCd   = "";
     var dataSet;
-    
+
     var tssAttrCd;
     var bizDptCd;
     var tssStrtDd;
     var tssFnhDd;
     var tssNm;
-    
+
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -60,11 +65,13 @@
             btnCsusRq.hide();
             btnCsusRq2.hide();
 
+            gvPgTssSt = dataSet.getNameValue(0, "pgTssSt");
+
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "pgSaSabunNew")) {
                 if(gvTssSt == "100") {
-                    if (stringNullChk(dataSet.getNameValue(0, "pgTssSt")) == "202") {
+                    if (stringNullChk(gvPgTssSt) == "202") {
                         btnCsusRq.show();
-                    } else if (stringNullChk(dataSet.getNameValue(0, "pgTssSt")) == "201") {
+                    } else if (stringNullChk(gvPgTssSt) == "201") {
                         btnStepPg.show();
                         btnCsusRq2.show();
                     }
@@ -134,9 +141,9 @@
                 , { id: 'tssTypeNm' }      //유형
                 , { id: 'tssRoleType' }
                 , { id: 'tssRoleId' }
-                , {id: 'tssStepNm'}	//관제 단계
-                , {id: 'grsStepNm'}	//GRS 단계
-                // , {id: 'qgateStepNm'}	//Qgate 단계
+                , {id: 'tssStepNm'}    //관제 단계
+                , {id: 'grsStepNm'}    //GRS 단계
+                // , {id: 'qgateStepNm'}    //Qgate 단계
             ]
         });
         dataSet.on('load', function(e) {
@@ -144,16 +151,17 @@
             gvPkWbsCd = dataSet.getNameValue(0, "pkWbsCd");
             var pPgsStepCd = dataSet.getNameValue(0, "pgsStepCd");
             gvPgTssCd = dataSet.getNameValue(0, "pgTssCd");
+            gvPgTssSt = dataSet.getNameValue(0, "pgTssSt"); //진행상태의상태값
 
             tssAttrCd = dataSet.getNameValue(0, 'tssAttrCd');
             bizDptCd = dataSet.getNameValue(0, 'bizDptCd');
             bizDptNm = dataSet.getNameValue(0, 'bizDptNm');
-            
+
             tssStrtDd = dataSet.getNameValue(0, 'tssStrtDd');
             tssFnhDd  = dataSet.getNameValue(0, 'tssFnhDd');
             tssNm  = dataSet.getNameValue(0, 'tssNm');
             gvWbsCd = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
-            
+
             //PG:진행단계
             if(pPgsStepCd == "PG") {
                 gvTssCd = ""; //과제코드
@@ -164,7 +172,7 @@
                 gvTssCd = stringNullChk(dataSet.getNameValue(0, "tssCd")); //과제코드
                 gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt")); //과제상태
             }
-            
+
             disableFields(false);
 
             tabView.selectTab(0);
@@ -195,10 +203,10 @@
                 , { id: 'rsstSphe',   ctrlId: 'rsstSphe',   value: 'html' }
                 , { id: 'tssType',    ctrlId: 'tssType',    value: 'html' }
                 , { id: 'tssTypeNm',    ctrlId: 'tssTypeNm',    value: 'html' }
-                , { id: 'tssStepNm',    ctrlId: 'tssStepNm',    value: 'html' }				//과제 단계명
-                , { id: 'grsStepNm',    ctrlId: 'grsStepNm',    value: 'html' }				// GRS 단계명
-                , { id: 'ppslMbdNm',    ctrlId: 'ppslMbdNm',    value: 'html' }				// GRS 단계명
-                // , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }		//Qgate 단계명
+                , { id: 'tssStepNm',    ctrlId: 'tssStepNm',    value: 'html' }                //과제 단계명
+                , { id: 'grsStepNm',    ctrlId: 'grsStepNm',    value: 'html' }                // GRS 단계명
+                , { id: 'ppslMbdNm',    ctrlId: 'ppslMbdNm',    value: 'html' }                // GRS 단계명
+                // , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }        //Qgate 단계명
             ]
         });
 
@@ -283,12 +291,15 @@
                 }
             }
 
-            var tabUrl = ""; 
+            var tabUrl = "";
+            var urlParam = "?tssCd="+gvTssCd+"&wbsCd="+gvWbsCd+"&pgTssSt="+gvPgTssSt;
+
             switch(e.activeIndex) {
             //변경개요
             case 0:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrIfm.do?tssCd=" + gvTssCd +"&pgTssCd="+gvPgTssCd+" '/>";
+                    //tabUrl = "<c:url value='/prj/tss/gen/genTssAltrIfm.do?tssCd=" + gvTssCd +"&pgTssCd="+gvPgTssCd+" '/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrIfm.do'/>"+urlParam;
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent0');
                 } else {
                     disableFields(false);
@@ -297,7 +308,8 @@
             //개요
             case 1:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrSmryIfm.do?tssCd=" + gvTssCd + "&pgTssCd="+gvPgTssCd+"'/>";
+                    //tabUrl = "<c:url value='/prj/tss/gen/genTssAltrSmryIfm.do?tssCd=" + gvTssCd + "&pgTssCd="+gvPgTssCd+"'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrSmryIfm.do'/>"+urlParam;
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
                 }
                 disableFields(true);
@@ -305,7 +317,8 @@
             //참여연구원
             case 2:
                 if(e.isFirst) {
-                	tabUrl = "<c:url value='/prj/tss/gen/genTssAltrPtcRsstMbrIfm.do?tssCd="+gvTssCd+"&wbsCd="+gvWbsCd+" '/>";
+                    //tabUrl = "<c:url value='/prj/tss/gen/genTssAltrPtcRsstMbrIfm.do?tssCd="+gvTssCd+"&wbsCd="+gvWbsCd+" '/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrPtcRsstMbrIfm.do'/>"+urlParam;
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
                 disableFields(true);
@@ -314,14 +327,16 @@
             case 3:
                 if(e.isFirst) {
                 }
-                tabUrl = "<c:url value='/prj/tss/gen/genTssAltrWBSIfm.do?tssCd=" + gvTssCd + "'/>";
+                //tabUrl = "<c:url value='/prj/tss/gen/genTssAltrWBSIfm.do?tssCd=" + gvTssCd + "'/>";
+                tabUrl = "<c:url value='/prj/tss/gen/genTssAltrWBSIfm.do'/>"+urlParam;
                 nwinsActSubmit(document.tabForm, tabUrl, 'tabContent3');
                 disableFields(true);
                 break;
             //개발비
             case 4:
                 if(e.isFirst) {
-                	tabUrl = "<c:url value='/prj/tss/gen/genTssPgsTrwiBudgIfm.do?tssCd=" + gvPgTssCd + "'/>";
+                    //tabUrl = "<c:url value='/prj/tss/gen/genTssPgsTrwiBudgIfm.do?tssCd=" + gvPgTssCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssPgsTrwiBudgIfm.do'/>"+urlParam;
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent4');
                 }
                 disableFields(true);
@@ -329,7 +344,8 @@
             //목표 및 산출물
             case 5:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrGoalYldIfm.do?tssCd=" + gvTssCd + "'/>";
+                    //tabUrl = "<c:url value='/prj/tss/gen/genTssAltrGoalYldIfm.do?tssCd=" + gvTssCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssAltrGoalYldIfm.do'/>"+urlParam;
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent5');
                 }
                 disableFields(true);
@@ -337,7 +353,8 @@
             //변경이력
             case 6:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssPgsAltrHistIfm.do?pkWbsCd=" + gvPkWbsCd + "'/>";
+                    //tabUrl = "<c:url value='/prj/tss/gen/genTssPgsAltrHistIfm.do?pkWbsCd=" + gvPkWbsCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssPgsAltrHistIfm.do'/>"+urlParam;
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent6');
                 }
                 disableFields(true);
@@ -360,17 +377,17 @@
                 nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsDetail.do'/>"+"?tssCd="+gvTssCd+"&pgTssCd="+gvPgTssCd+"&userId="+gvUserId);
             }
         });
-        
-        
+
+
         //품의서요청-GRS품의
         btnCsusRq = new Rui.ui.LButton('btnCsusRq');
         btnCsusRq.on('click', function() {
-        	if(confirm('품의서요청을 하시겠습니까?')) {
+            if(confirm('품의서요청을 하시겠습니까?')) {
                 nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssAltrCsusRq.do'/>"+"?tssCd="+gvTssCd+"&pgTssCd="+gvPgTssCd+"&userId="+gvUserId+"&appCode=APP00332");
             }
         });
-        
-        
+
+
         //품의서요청-내부품의
         btnCsusRq2 = new Rui.ui.LButton('btnCsusRq2');
         btnCsusRq2.on('click', function() {
@@ -388,39 +405,39 @@
             }
 
             var ifmUpdate = document.getElementById('tabContent0').contentWindow.fnIfmIsUpdate("SAVE");
-           
+
             if(!ifmUpdate) return false;
 
             var smryDs = document.getElementById('tabContent0').contentWindow.dataSet1; //개요탭 DS
             var altrDs = document.getElementById('tabContent0').contentWindow.dataSet2; //개요탭 DS
-   
+
             if(confirm('저장하시겠습니까?')) {
-	            dataSet.setNameValue(0, "pgsStepCd", "AL"); //진행단계: AL(변경)
-	            dataSet.setNameValue(0, "tssScnCd", "G");   //과제구분: G(일반)
-	            dataSet.setNameValue(0, "tssSt", "100");    //과제상태: 100(작성중)
-	            dataSet.setNameValue(0, "tssCd",  gvTssCd);  //과제코드
-	            dataSet.setNameValue(0, "userId", gvUserId); //사용자ID
-	            dataSet.setNameValue(0, "tssRoleType", "W"); //화면권한
-	
-	            smryDs.setNameValue(0, "tssCd",  gvTssCd); //과제코드
-	            smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
-	            //신규
-	            if(gvTssCd == "") {
-	                dm.updateDataSet({
-	                    modifiedOnly: false,
-	                    url:'<c:url value="/prj/tss/gen/insertGenTssAltrMst.do"/>',
-	                    dataSets:[dataSet, smryDs, altrDs]
-	                });
-	            }
-	            //수정
-	            else {
-	                dm.updateDataSet({
-	                    modifiedOnly: false,
-	                    url:'<c:url value="/prj/tss/gen/updateGenTssAltrMst.do"/>',
-	                    dataSets:[dataSet, smryDs, altrDs]
-	                });
-	            }
-	        }
+                dataSet.setNameValue(0, "pgsStepCd", "AL"); //진행단계: AL(변경)
+                dataSet.setNameValue(0, "tssScnCd", "G");   //과제구분: G(일반)
+                dataSet.setNameValue(0, "tssSt", "100");    //과제상태: 100(작성중)
+                dataSet.setNameValue(0, "tssCd",  gvTssCd);  //과제코드
+                dataSet.setNameValue(0, "userId", gvUserId); //사용자ID
+                dataSet.setNameValue(0, "tssRoleType", "W"); //화면권한
+
+                smryDs.setNameValue(0, "tssCd",  gvTssCd); //과제코드
+                smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
+                //신규
+                if(gvTssCd == "") {
+                    dm.updateDataSet({
+                        modifiedOnly: false,
+                        url:'<c:url value="/prj/tss/gen/insertGenTssAltrMst.do"/>',
+                        dataSets:[dataSet, smryDs, altrDs]
+                    });
+                }
+                //수정
+                else {
+                    dm.updateDataSet({
+                        modifiedOnly: false,
+                        url:'<c:url value="/prj/tss/gen/updateGenTssAltrMst.do"/>',
+                        dataSets:[dataSet, smryDs, altrDs]
+                    });
+                }
+            }
         };
 
 
@@ -434,19 +451,19 @@
             visible: false
         });
         prjSearchDialog.on('cancel', function(e) {
-        	try{
-        		tabContent1.$('object').css('visibility', 'visible');
-        	}catch(e){}
+            try{
+                tabContent1.$('object').css('visibility', 'visible');
+            }catch(e){}
         });
         prjSearchDialog.on('submit', function(e) {
-        	try{
-        		tabContent1.$('object').css('visibility', 'visible');
-        	}catch(e){}
+            try{
+                tabContent1.$('object').css('visibility', 'visible');
+            }catch(e){}
         });
         prjSearchDialog.on('show', function(e) {
-        	try{
-        		tabContent1.$('object').css('visibility', 'hidden');
-        	}catch(e){}
+            try{
+                tabContent1.$('object').css('visibility', 'hidden');
+            }catch(e){}
         });
 
         prjSearchDialog.render(document.body);
@@ -465,25 +482,25 @@
 
 
         openPrjSearchDialog2 = function(f, p) {
-	    	_callback = f;
+            _callback = f;
 
-	    	 var param = '?searchType=';
-	            if(!Rui.isNull(p) && p != '') {
-	                param += p;
-	            }
+             var param = '?searchType=';
+                if(!Rui.isNull(p) && p != '') {
+                    param += p;
+                }
 
-	   		var loadingUrl = '<c:url value="/prj/rsst/mst/retrievePrjSearchPopup2.do"/>'+param;
+               var loadingUrl = '<c:url value="/prj/rsst/mst/retrievePrjSearchPopup2.do"/>'+param;
 
- 	   		var sFeatures = "dialogHeight: 500px; dialogWidth:600px";
+                var sFeatures = "dialogHeight: 500px; dialogWidth:600px";
 
-	         if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+             if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
 
-		   		 window.showModalDialog(loadingUrl, self, sFeatures);
-	         }else{
-         		alert("Internet Explorer browser인지 확인해 주세요");
-          	}
+                    window.showModalDialog(loadingUrl, self, sFeatures);
+             }else{
+                 alert("Internet Explorer browser인지 확인해 주세요");
+              }
 
-   	    };
+           };
 
 
         //데이터 셋팅
@@ -505,7 +522,7 @@ function setPrjInfo(prjInfo) {
     dataSet.setNameValue(0, "deptName", prjInfo.upDeptName);
     dataSet.setNameValue(0, "prjCd", prjInfo.prjCd);
     dataSet.setNameValue(0, "prjNm", prjInfo.prjNm);
-//     dataSet.setNameValue(0, "saSabunNew", prjInfo.plEmpNo);   //과제리더사번      
+//     dataSet.setNameValue(0, "saSabunNew", prjInfo.plEmpNo);   //과제리더사번
 //     dataSet.setNameValue(0, "saUserName", prjInfo.plEmpName); //과제리더명
 }
 </script>
@@ -514,13 +531,13 @@ function setPrjInfo(prjInfo) {
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">
-	    <div class="titleArea">
-	    	<a class="leftCon" href="#">
-			<img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
-			<span class="hidden">Toggle 버튼</span>
-			</a>   
-	        <h2>연구팀 과제 &gt;&gt; 변경</h2>
-	    </div>
+        <div class="titleArea">
+            <a class="leftCon" href="#">
+            <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+            <span class="hidden">Toggle 버튼</span>
+            </a>
+            <h2>연구팀 과제 &gt;&gt; 변경</h2>
+        </div>
         <div class="sub-content">
             <div class="titArea mt0">
                 <div class="LblockButton">
@@ -556,8 +573,8 @@ function setPrjInfo(prjInfo) {
                                         <span id="wbsCd"></span> / <span id="tssNm"></span>
                                     </td>
                                  </tr>
-                                 <tr> 
-                                 	<th align="right">과제리더</th>
+                                 <tr>
+                                     <th align="right">과제리더</th>
                                     <td class="tssLableCss">
                                         <span id="saUserName" />
                                     </td>

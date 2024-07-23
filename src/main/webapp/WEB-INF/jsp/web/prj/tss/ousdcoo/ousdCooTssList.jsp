@@ -337,13 +337,15 @@
             useRightActionMenu: false
         });
 
+        grid.render('defaultGrid');
+
          grid.on('cellClick', function(e) {
         	 if(e.colId == "tssNm") {
                 var pTssCd     = dataSet.getNameValue(e.row, "tssCd");     //과제코드
                 var pPgsStepCd = dataSet.getNameValue(e.row, "pgsStepCd"); //진행상태코드
                 var pTssSt     = dataSet.getNameValue(e.row, "tssSt");     //과제상태
                 var pGrsEvSt   = dataSet.getNameValue(e.row, "grsEvSt");   //GRS상태
-                var pWbsCd   = dataSet.getNameValue(e.row, "wbsCd");   //GRS상태
+                var pWbsCd     = dataSet.getNameValue(e.row, "wbsCd");     //WBS코드
 				
                 var urlParam = "?tssCd="+pTssCd+"&wbsCd="+pWbsCd;
                 
@@ -402,12 +404,9 @@
         	 
         });
 
-        grid.render('defaultGrid');
         var gridView = grid.getView();
 
-        /**
-    	총 건수 표시
-    	**/
+        /** 총 건수 표시 **/
     	dataSet.on('load', function(e){
     		var seatCnt = 0;
     	    var sumOrd = 0;

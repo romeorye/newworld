@@ -76,8 +76,8 @@
 
         //Form 비활성화
         disableFields = function() {
+            btnGoalSave.hide(); //[20240722.siseo]등록 과제 중 진행상태의 과제 목표 변경 불가
             if(pageMode == "R") {
-                btnGoalSave.hide();
                 btnYldSave.hide();
 
                 grid1.setEditable(true);

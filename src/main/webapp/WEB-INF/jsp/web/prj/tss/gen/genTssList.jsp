@@ -372,7 +372,8 @@
 
                 //계획
                 if(pPgsStepCd == "PL") {
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssPlnDetail.do?tssCd="+pTssCd+"'/>");
+                    //nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssPlnDetail.do?tssCd="+pTssCd+"'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssPlnDetail.do'/>"+urlParam);
                 }
                 //진행
                 else if(pPgsStepCd == "PG" || pPgsStepCd == "HD") {
@@ -399,7 +400,8 @@
                 }
                 //변경
                 else if(pPgsStepCd == "AL") {
-                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssAltrDetail.do?tssCd="+pTssCd+"'/>");
+                    //nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssAltrDetail.do?tssCd="+pTssCd+"'/>");
+                    nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssAltrDetail.do'/>"+urlParam);
                 }
                 //중단
                 else if(pPgsStepCd == "DC") {
@@ -409,9 +411,7 @@
         });
 
 
-        /**
-        총 건수 표시
-        **/
+        /** 총 건수 표시 **/
         dataSet.on('load', function(e){
             var seatCnt = 0;
             var sumOrd = 0;
