@@ -1310,6 +1310,7 @@ var exSabun = '${inputData._userSabun}';
                  expArslY4.enable();
                  chkVaild =5;
              }
+             console.log("[chkVaild]", chkVaild);
          }
 
     });
