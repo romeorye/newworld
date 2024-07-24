@@ -606,7 +606,7 @@ $(window).load(function() {
 	  				<th class="alignC">실적</th>
 	  			</tr>
 	  			<tr id="trPtcCpsn" >
-	  				<th>투입인원(명)</th>
+	  				<th>투입인원(M/M)</th>
 	  				<td class="alignR" ><span id="ptcCpsnY"/></td>
 	  				<td class="alignR"  bgcolor='#E6E6E6'><span id="ptcCpsnCurY"/></td>
 	  				<td class="alignR" ><span id="ptcCpsnY1"/></td>

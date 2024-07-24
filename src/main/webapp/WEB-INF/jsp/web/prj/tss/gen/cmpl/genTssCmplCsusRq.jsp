@@ -356,7 +356,7 @@
                                       <th class="alignC">실적</th>
                                   </tr>
                                   <tr>
-                                      <th>투입인원(명)</th>
+                                      <th>투입인원(M/M)</th>
                                       <td>${resultSmry.ptcCpsnY}</td>
                                       <td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnCurY}</td>
                                       <td>${resultSmry.ptcCpsnY1}</td>

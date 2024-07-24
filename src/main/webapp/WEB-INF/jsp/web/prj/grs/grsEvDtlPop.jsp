@@ -727,7 +727,7 @@ var userIds;
 	  				<td class="alignR" ><span id="nprodSalsPlnY4"/></td>
 	  			</tr>
 				<tr id="trPtcCpsnHead">
-	  				<th rowspan="2">투입인원(명)</th>
+	  				<th rowspan="2">투입인원(M/M)</th>
 	  				<th class="alignC">과제시작년도</th>
 	  				<th class="alignC">과제시작년도+1</th>
 	  				<th class="alignC">과제시작년도+2</th>

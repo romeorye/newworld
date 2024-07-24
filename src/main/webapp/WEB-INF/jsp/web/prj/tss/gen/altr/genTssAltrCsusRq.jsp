@@ -350,7 +350,7 @@
                                       <th class="alignC">변경 後</th>
                                   </tr>
                                   <tr id="trPtcCpsn" >
-                                      <th>투입인원(명)</th>
+                                      <th>투입인원(M/M)</th>
                                       <td>${resultSmry.ptcCpsnYBefore}</td>
                                       <td bgcolor='#E6E6E6'>${resultSmry.ptcCpsnY}</td>
                                       <td>${resultSmry.ptcCpsnY1Before}</td>

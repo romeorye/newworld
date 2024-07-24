@@ -748,7 +748,7 @@ function initFrameSetHeight2(pId) {
                       <th class="alignC">실적</th>
                   </tr>
                   <tr id="trPtcCpsn" style="display:none;">
-                      <th>투입인원(명)</th>
+                      <th>투입인원(M/M)</th>
                       <td><span id="ptcCpsnY"/></td>
                       <td><span id="ptcCpsnCurY"/></td>
                       <td><span id="ptcCpsnY1"/></td>

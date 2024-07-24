@@ -676,7 +676,7 @@ console.log("[lvPgTssSt]", lvPgTssSt);
                       <th class="alignC">변경 後</th>
                   </tr>
                   <tr id="trPtcCpsn" >
-                      <th>투입인원(명)</th>
+                      <th>투입인원(M/M)</th>
                       <td class="alignR"><span id="ptcCpsnYBefore"/></td>
                       <td class="alignR" bgcolor='#E6E6E6'><span id="ptcCpsnY" /></td>
                       <td class="alignR"><span id="ptcCpsnY1Before"/></td>
