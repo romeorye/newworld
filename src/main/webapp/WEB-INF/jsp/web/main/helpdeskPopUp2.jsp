@@ -3,7 +3,7 @@
     pageEncoding="EUC-KR"%>
 <HTML><HEAD><BASE id=__Activesquare_base_url__>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<META content=IE=5 http-equiv=X-UA-Compatible><LINK rel=stylesheet type=text/css 
+<META content=IE=5 http-equiv=X-UA-Compatible><LINK rel=stylesheet type=text/css
 href="http://165.244.161.87:7030/iris/resource/web/css/com_itg.css">
 <META name=GENERATOR content=ActiveSquare></HEAD>
 <BODY style="OVERFLOW: auto; FONT-SIZE: 10pt; FONT-FAMILY: 굴림">
@@ -11,7 +11,7 @@ href="http://165.244.161.87:7030/iris/resource/web/css/com_itg.css">
 <DIV class=sub-content>
 <H3 class=docu_tit>문서제목 : 연구/개발과제 GRS 평가결과 보고의 件 </H3>
 <DIV class=docu_box>
-<P class=txt>아래와 같이, 연구/개발과제의 GRS 심의결과를 보고드리오니, 검토 후 재가 부탁드립니다. </P>
+<P class=txt>[test]아래와 같이, 연구/개발과제의 GRS 심의결과를 보고드리오니, 검토 후 재가 부탁드립니다. </P>
 <DIV class=docu_con>
 <P class=txt2>- 아래 -</P>
 <H4>1. Agenda 및 심의결과</H4>
@@ -65,5 +65,5 @@ href="http://165.244.161.87:7030/iris/resource/web/css/com_itg.css">
   <P class=analyze_s_txt><B>일시, 장소 : </B>회의</P>
   <P class=analyze_s_txt><B>참석자 :</B>회의</P>
   <P class=analyze_s_txt><B>주요 Comment :</B>코멘트</P>
-  <P class=analyze_s_txt><B>첨부파일 :</B><A 
+  <P class=analyze_s_txt><B>첨부파일 :</B><A
   href="http://local.lxhausys.com:8080/iris/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&amp;attcFilId=201806100&amp;seq=1">11.xls</A></P></LI></UL></DIV></DIV></DIV></DIV></BODY></HTML>

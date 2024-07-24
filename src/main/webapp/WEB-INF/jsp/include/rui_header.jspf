@@ -206,7 +206,7 @@
 <link rel="stylesheet" type="text/css" href="<%=ruiPathCss%>/rui.css" />
 <!-- link rel="stylesheet" type="text/css" href="<%=ruiPathCss%>/ui_ie6.css" /-->
 <link rel="stylesheet" type="text/css" href="<%=ruiPathCss%>/rui_skin_new.css" />
-<link rel="stylesheet" type="text/css" href="<%=cssPath%>/common.css?ver=20240411" />
+<link rel="stylesheet" type="text/css" href="<%=cssPath%>/common.css?ver=20240724" />
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/LFrameDialog.css" />
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LPopupTextBox.css" />
 
@@ -240,7 +240,7 @@
 
 <script type="text/javascript" src="<%=scriptPath%>/nwins_common.js"></script>
 
-<script type="text/javascript" src="<%=scriptPath%>/iris_common.js?ver=20240418"></script>
+<script type="text/javascript" src="<%=scriptPath%>/iris_common.js?ver=20240724"></script>
 <script type="text/javascript" src="<%=scriptPath%>/javascript-aes.js"></script>
 <script type="text/javascript" src="<%=namoPath%>/js/namo_scripteditor.js"></script>
 

@@ -189,11 +189,11 @@
                 <div id="csusContents">
 
                     <div class="docu_box">
-                        <p class="txt">&nbsp;&nbsp;아래와 같이, 연구/개발과제의 GRS 심의결과를 보고드리오니, 검토 후 재가 부탁드립니다. </p>
+                        <p class="txt"><font color="white">(2)</font>아래와 같이, 연구/개발과제의 GRS 심의결과를 보고드리오니, 검토 후 재가 부탁드립니다.</p>
 
                         <div class="docu_con">
                             <p class="txt2">- 아&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;래 -</p>
-                            <div class="titArea"><h2>1. 일시 :${resultGrs.evDt}</h2></div>
+                            <div class="titArea"><h2>1. 일시 : ${resultGrs.evDt}</h2></div>
                             <div class="titArea"><h2>2. 장소 : ${resultGrs.evTitl}</h2></div>
                             <div class="titArea"><h2>3. 참석자 : ${resultGrs.cfrnAtdtCdTxtNm}</h2></div>
                             <div class="titArea"><h2>4. Agenda 및 심의결과</h2></div>
@@ -230,7 +230,7 @@
                             </table>
                         </div>
                     </div>
-                    <br/>
+                    <br/><br/>
                         <table class="table">
                             <colgroup>
                                 <col style="width:30%"/>
@@ -252,7 +252,7 @@
                                 </c:forEach>
                             </tbody>
                         </table>
-                    <br/>
+                    <br/><br/>
 
                         <table class="table" id="tbDlView">
                             <colgroup>
@@ -391,7 +391,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <br/>
+                    <br/><br/>
                         <table class="table">
                             <colgroup>
                                 <col style="width:100%"/>
@@ -405,7 +405,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <br/>
+                    <br/><br/>
                         <table class="table">
                             <colgroup>
                                 <col style="width:20%"/>

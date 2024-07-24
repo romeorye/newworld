@@ -1194,7 +1194,8 @@ table .L-navset .L-nav > li.L-nav-selected > a, table .L-navset .L-nav > li.L-na
 
 .docu_tit {font-size:15px; font-weight:bold; line-height:1.2; margin-bottom:24px; border: 1px solid #ddd; padding:15px 20px; box-sizing:border-box; }
 .docu_box .txt { font-size:14px; font-weight:bold;line-height:2;margin-bottom:16px;  text-indent:18px; color:#777; position:relative;}
-.docu_box .txt:before {content:""; position:absolute; left:0; top:8px; width:16px; height:16px; background: url(/iris/resource/web/images/newIris/i_bullet.png) left center no-repeat;}
+#.docu_box .txt:before {content:""; position:absolute; left:0; top:8px; width:16px; height:16px; background: url(/iris/resource/web/images/newIris/i_bullet.png) left center no-repeat;}
+.docu_box .txt:before {content:""; position:absolute; left:0; top:8px; width:16px; height:16px;}
 .docu_box .txt2 {font-size:16px; font-weight:bold;line-height:2;text-align:center;}
 .docu_con .table {margin-bottom:40px;}
 .docu_con .table th, .docu_con .table td {text-align:center !important;}

@@ -30,6 +30,47 @@ function addDashMonthToString(dashMonth, i){
     return addMonthDate.getFullYear() + '-' + pad(addMonthDate.getMonth()+1);
 }
 
+/**
+ * <pre>
+ * 현재날짜 가져오기 YYYY-MM-DD
+ * </pre>
+ *
+ * @author 서성일
+ * @create 2024.07.24
+ */
+function getToday(){
+    var now = new Date();
+    var y= now.getFullYear();
+    var m = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+    var d = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+
+    return y+"-"+m+"-"+d;
+}
+
+/**
+ * <pre>
+ * 날짜형 더하기 YYYY-MM-DD
+ * </pre>
+ *
+ * @author 서성일
+ * @create 2024.07.24
+ * ex) fnDateAdd(getToday(), -5) //5일전
+ */
+function fnDateAdd(sDate, nDays) {
+    var yy = parseInt(sDate.substr(0, 4), 10);
+    var mm = parseInt(sDate.substr(5, 2), 10);
+    var dd = parseInt(sDate.substr(8), 10);
+
+    d = new Date(yy, mm - 1, dd + nDays);
+
+    yy = d.getFullYear();
+    mm = d.getMonth() + 1; mm = (mm < 10) ? '0' + mm : mm;
+    dd = d.getDate(); dd = (dd < 10) ? '0' + dd : dd;
+
+    return '' + yy + '-' +  mm  + '-' + dd;
+}
+
+
 /********************************************************************
  *  Function Name : stringNullChk(str)
  *  Description   : 문자열을 null체크 후 공백 또는 input값으로 반환
