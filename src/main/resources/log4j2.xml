@@ -73,40 +73,18 @@ ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF
         <root level="INFO" additivity="true">
             <AppenderRef ref="console" />
             <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
+            <AppenderRef ref="RollingFileError" level="WARN" />
         </root>
 
         <!-- Application Loggers -->
         <logger name="iris.web" level="DEBUG" additivity="false">
             <AppenderRef ref="console" />
             <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
+            <AppenderRef ref="RollingFileError" level="WARN" />
         </logger>
-
-        <!-- 3rdparty Loggers -->
-        <!-- <logger name="org.springframework.core" level="INFO">
-            <AppenderRef ref="console" />
-            <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
-        </logger>
-        <logger name="org.springframework.beans" level="INFO">
-            <AppenderRef ref="console" />
-            <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
-        </logger>
-        <logger name="org.springframework.context" level="INFO">
-            <AppenderRef ref="console" />
-            <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
-        </logger>
-        <logger name="org.springframework.web" level="INFO">
-            <AppenderRef ref="console" />
-            <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
-        </logger> -->
 
         <!-- log4j2 -->
-        <Logger name="log4jdbc.log4j2" level="error" additivity="false">
+        <Logger name="log4jdbc.log4j2" level="WARN" additivity="false">
             <appender-ref ref="console" />
         </Logger>
 
@@ -115,41 +93,41 @@ ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF
         <Logger name="jdbc.sqlonly" level="INFO" additivity="false">
             <AppenderRef ref="console" />
             <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
+            <AppenderRef ref="RollingFileError" level="WARN" />
         </Logger>
 
         <!-- RESULTSET TABLE -->
         <Logger name="jdbc.resultsettable" level="OFF">
             <AppenderRef ref="console" />
             <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
+            <AppenderRef ref="RollingFileError" level="WARN" />
         </Logger>
 
         <!-- query + time -->
         <Logger name="jdbc.sqltiming" level="WARN" additivity="false">
             <AppenderRef ref="console" />
             <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
+            <AppenderRef ref="RollingFileError" level="WARN" />
         </Logger>
 
         <!-- Full Log (The amount has increased significantly) -->
         <Logger name="jdbc.audit" level="OFF">
             <AppenderRef ref="console" />
             <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
+            <AppenderRef ref="RollingFileError" level="WARN" />
         </Logger>
 
         <!-- connection log -->
         <Logger name="jdbc.connection" level="WARN" additivity="false">
             <AppenderRef ref="console" />
             <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
+            <AppenderRef ref="RollingFileError" level="WARN" />
         </Logger>
 
         <Logger name="jdbc.resultset" level="OFF">
             <AppenderRef ref="console" />
             <AppenderRef ref="RollingFile" />
-            <AppenderRef ref="RollingFileError" level="ERROR" />
+            <AppenderRef ref="RollingFileError" level="WARN" />
         </Logger>
 
     </Loggers>
