@@ -38,13 +38,17 @@
                 , Z.TSS_NOS_ST                                              AS tssNosSt     --과제차수상태코드(1차년도, 2 차년도, 3 차년도, 4차년도, 5차년도:국책과제)
                 , dbo.fn_getComDtlNm('TSS_NOS_ST',Z.TSS_NOS_ST)             AS tssNosStNm   --과제차수상태명
                 , Z.GRS_EV_ST                                               AS grsEvSt      --GRS상태
-                , isNull(iif(Z.CTY_OT_PLN_M='',NULL, Z.CTY_OT_PLN_M), Z.ANCP_OT_PLN_DT)     AS ctyOtPlnM    --상품출시일(이상함)
                 , Z.MY_TSS                                                  AS myTss
                 , Z.PROGRESSRATEREAL                                        AS progressrateReal
                 , Z.PROGRESSRATE                                            as progressrate
                 , Z.PRJ_CD                                                    AS prjCd
                 ,dbo.fn_getQgateStepNm(z.wbs_cd,'0') as qgateStepNm
                 ,dbo.fn_getComDtlNm('TSS_TYPE',z.tss_type) as tssTypeNm
+                ,z.NPROD_SALS_CUR_Y AS nprodSalsCurY
+                ,z.NPROD_SALS_CUR_Y_1 AS nprodSalsCurY1
+                ,z.NPROD_SALS_CUR_Y_2 AS nprodSalsCurY2
+                ,isNull(z.CTY_OT_PLN_M,ANCP_OT_PLN_DT) AS ctyOtPlnM
+                ,z.PTC_CPSN_CUR_Y AS ptcCpsnCurY
         from  (
                 select   m.PRJ_CD
                         ,case when m.prj_cd in ('PRJ00021','PRJ00015','PRJ00002', 'PRJ00025','PRJ00026') then m.prj_nm
@@ -87,17 +91,13 @@
                         ,m.al_TSS_STRT_DD
                         ,m.al_TSS_FNH_DD
                         ,m.TSS_TYPE
-
+                        ,NPROD_SALS_PLN_Y, NPROD_SALS_PLN_Y_1, NPROD_SALS_PLN_Y_2, CTY_OT_PLN_M, PTC_CPSN_Y
+                        ,NPROD_SALS_CUR_Y, NPROD_SALS_CUR_Y_1, NPROD_SALS_CUR_Y_2, ANCP_OT_PLN_DT, PTC_CPSN_CUR_Y
                        , (SELECT TOP 1 X.GRS_EV_ST FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS GRS_EV_ST
-                       /*, (SELECT TOP 1 X.CTY_OT_PLN_M FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS CTY_OT_PLN_M
-                       , (SELECT TOP 1 X.ANCP_OT_PLN_DT FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS ANCP_OT_PLN_DT*/
 
                        , CASE WHEN  M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW =  #{_userSabun})  THEN 'Y'
                                  when  isnull(m.al_sa_sabun_name, m.sa_sabun_name)  = #{_userNm} then 'Y'
                               ELSE 'N' END AS MY_TSS
-
-                       ,'' AS CTY_OT_PLN_M
-                       ,'' AS ANCP_OT_PLN_DT
 
                        , CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , ROUND( A.ARSL_CD,1))
                                         FROM IRIS_TSS_GEN_WBS A
@@ -205,11 +205,12 @@
                                                   )
                         ) m
                         LEFT OUTER JOIN
-                      (SELECT  * FROM
-                      (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
-                          ON m.TSS_CD = g.TSS_CD
-                          and left(m.TSS_CD, 1) = 'G'
-                          WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='G1')
+                          (SELECT  * FROM
+                          (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
+                            ON m.TSS_CD = g.TSS_CD
+                            and left(m.TSS_CD, 1) = 'G'
+                        LEFT OUTER JOIN IRIS_TSS_GEN_SMRY s ON (s.tss_cd = m.tss_cd)
+                        WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='G1')
                 ) z
         where  1=1
         ]]>

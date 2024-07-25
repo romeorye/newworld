@@ -233,8 +233,9 @@
                 , { id: 'tssCd'}        //과제코드
                 , { id: 'pgsStepCd'}    //진행단계코드
                 , { id: 'grsEvSt'}      //GRS상태
-                , { id: 'myTss'}
-                , { id: 'qgateStepNm'}
+                , { id: 'myTss'}        //나의과제
+                , { id: 'qgateStepNm'}  //Q-gate상태
+                , { id: 'tssTypeNm'}    //등급
             ]
         });
 
@@ -251,16 +252,17 @@
                     if(record.get("myTss") == "Y") p.css.push('font-bold');
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
-                , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 180 }
-                , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
-                , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 100 }
+                , { field: 'tssTypeNm',    label: '등급',  align:'center',  width: 60 }
+                , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 160 }
                 , { id: 'G1', label: '과제기간(계획일)' }
                 , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 80 }
                 , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 80 }
                 , { id: 'G2', label: '과제실적일' }
                 , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
                 , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
-                , { field: 'pgsStepCd',    label: '진행단계', sortable: true, align:'center', width: 65, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
+                , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
+                //, { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 140 }
+                , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 60, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
                     p.editable = false;
                     return value;
                 } }
@@ -334,6 +336,7 @@
                 var pTssCd = dataSet.getNameValue(e.row, "tssCd");     //과제코드
                 var pPgsStepCd = dataSet.getNameValue(e.row, "pgsStepCd"); //진행상태코드
                 var pTssSt = dataSet.getNameValue(e.row, "tssSt");     //과제상태
+                var pWbsCd     = dataSet.getNameValue(e.row, "wbsCd");     //WBS코드
                 var pGrsEvSt = stringNullChk(dataSet.getNameValue(e.row, "grsEvSt")); //GRS상태
 
                 //진척률
@@ -345,16 +348,18 @@
                 var rWgvl = numberNullChk(arrPrg[0]) ; //실적
                 var gWgvl = numberNullChk(arrPrg[1]) ; //목표
 
-                if(rWgvl > gWgvl) progressrate = "S";
-                else if(rWgvl < gWgvl) progressrate = "D";
-                else if(rWgvl = gWgvl) progressrate = "N";
-
+                if(rWgvl > gWgvl) {
+                	progressrate = "S";
+                } else if(rWgvl < gWgvl) {
+                	progressrate = "D";
+                } else if(rWgvl = gWgvl) {
+                	progressrate = "N";
+				}
+				
                 var urlParam = "?tssCd="+pTssCd+"&progressrateReal="+progressrateReal+"&progressrate="+progressrate;
                 nwinsActSubmit(document.aform, "<%=request.getContextPath()+ TctmUrl.doView%>?tssCd="+pTssCd);
 
-/*
-
-                //계획
+				/*//계획
                 if(pPgsStepCd == "PL") {
                     nwinsActSubmit(document.aform, "<%=request.getContextPath()+ TctmUrl.doView%>?tssCd="+pTssCd);
                 }
@@ -388,17 +393,12 @@
                 //중단
                 else if(pPgsStepCd == "DC") {
                     nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssDcacDetail.do'/>"+urlParam);
-                }
-*/
-
-
+                }*/
             }
         });
 
 
-        /**
-        총 건수 표시
-        **/
+        /** 총 건수 표시 **/
         dataSet.on('load', function(e){
             var seatCnt = 0;
             var sumOrd = 0;
@@ -431,7 +431,7 @@
                   , tssStrtDd : tssStrtDd.getValue() //과제기간(시작일)
                   , tssFnhDd : tssFnhDd.getValue()   //과제기간(종료일)
                   , tssSt : tssSt.getValue()                        //상태
-                 , tssSt : document.aform.tssSt.value                        //상태
+//                 , tssSt : document.aform.tssSt.value                        //상태
                   , prjNm : encodeURIComponent(document.aform.prjNm.value)    //프로젝트명
                   , saUserName : encodeURIComponent(document.aform.saUserName.value)    //과제리더명
                   , pgsStepCd : document.aform.pgsStepCd.value                //상태
@@ -464,6 +464,7 @@
                          if(record.get("myTss") == "Y") p.css.push('font-bold');
                          return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                      }}
+                        , { field: 'tssTypeNm',    label: '등급',  align:'center',  width: 60 }
                         , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 180 }
                         , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
                         , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 100 }
@@ -473,7 +474,7 @@
                         , { id: 'G2', label: '과제실적일' }
                         , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
                         , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
-                        , { field: 'pgsStepCd',    label: '진행단계', sortable: true, align:'center', width: 65, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
+                        , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 65, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
                                 p.editable = false;
                                 return value;
                             } }

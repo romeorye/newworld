@@ -448,7 +448,7 @@ var grsUserChk = '${inputData.grsUserChk}';
                      , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
                      , { field: 'leaderNm',   label: '과제리더', sortable: true, align:'center', width: 80 }
                      , { field: 'dlbrCrgrNm',     label: '심의담당자', sortable: true, align:'center', width: 100 }
-                     , { id: 'G1', label: '과제기간(계획일)' }
+                     //, { id: 'G1', label: '과제기간(계획일)' }
                      , { field: 'tssDd',    label: '과제기간', sortable: true, align:'center', width: 73 }
                      , { field: 'grsEvStNm',    label: '심의단계', sortable: true, align:'center', width: 50 }
                      , { field: 'grsStNm',        label: 'GRS상태', sortable: true, align:'center', width: 80}

@@ -242,8 +242,14 @@
                 , { id: 'tssCd'}        //과제코드
                 , { id: 'pgsStepCd'}    //진행단계코드
                 , { id: 'grsEvSt'}      //GRS상태
-                , { id: 'myTss'}
-                , { id: 'qgateStepNm'}
+                , { id: 'myTss'}        //나의과제
+                , { id: 'qgateStepNm'}  //Q-gate상태
+                , { id: 'tssTypeNm'}    //등급
+                , { id: 'nprodSalsCurY'}    //매출액Y
+                , { id: 'nprodSalsCurY1'}    //매출액Y+1
+                , { id: 'nprodSalsCurY2'}    //매출액Y+2
+                , { id: 'ctyOtPlnM'}    //상품출시(계획)
+                , { id: 'ptcCpsnCurY'}    //투입인원(M/M)
             ]
         });
 
@@ -256,20 +262,38 @@
                         if(stepCd == "PL") return "SEED-" + value;
                         return value;
                   }}
-                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 278 , renderer: function(value, p, record, row, col){
+                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 290 , renderer: function(value, p, record, row, col){
                     if(record.get("myTss") == "Y") p.css.push('font-bold');
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
+                , { field: 'tssTypeNm',    label: '등급',  align:'center',  width: 60 }
                 , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 160 }
-                , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
-                , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 139 }
                 , { id: 'G1', label: '과제기간(계획일)' }
                 , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 80 }
                 , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 80 }
                 , { id: 'G2', label: '과제실적일' }
                 , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
                 , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
-                <%-- , { field: 'progressrateReal', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 80 }
+                , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
+
+                , { id: 'SAL', label: '매출액' }
+                , { field: 'nprodSalsCurY', label: '출시년도',  groupId: 'SAL', align:'right', width: 70 }
+                , { field: 'nprodSalsCurY1',  label: '출시년도+1', groupId: 'SAL', align:'right', width: 70 }
+                , { field: 'nprodSalsCurY2',  label: '출시년도+2', groupId: 'SAL', align:'right', width: 70 }
+                , { field: 'ctyOtPlnM',  label: '상품출시<br/>(계획)', align:'center', width: 80 }
+                , { field: 'ptcCpsnCurY',  label: '투입인원<br/>(M/M)', align:'right', width: 60 }
+
+                //, { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 140 }
+                , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 60, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
+                        p.editable = false;
+                        return value;
+                    } }
+                , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
+                        p.editable = false;
+                        return value;
+                    } }
+                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 120 }
+<%--                 , { field: 'progressrateReal', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 65 }
                 , { id: 'pg', label: '진척도', align:'center', width: 50 ,renderer :function(value, p, record, row, col) {
 
                     var pgN =' <img src="<%=contextPath%>/resource/images/icon/sign_green.png"/> ';
@@ -300,16 +324,6 @@
                     }
                     return pg;
                 }} --%>
-                , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 60, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
-                        p.editable = false;
-                        return value;
-                    } }
-                , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
-                        p.editable = false;
-                        return value;
-                    } }
-
-                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 117 }
             ]
         });
 
@@ -342,8 +356,9 @@
                 var pTssCd     = dataSet.getNameValue(e.row, "tssCd");     //과제코드
                 var pPgsStepCd = dataSet.getNameValue(e.row, "pgsStepCd"); //진행상태코드
                 var pTssSt     = dataSet.getNameValue(e.row, "tssSt");     //과제상태
-                var pWbsCd     = dataSet.getNameValue(e.row, "wbsCd");     //과제상태
+                var pWbsCd     = dataSet.getNameValue(e.row, "wbsCd");     //WBS코드
                 var pGrsEvSt   = stringNullChk(dataSet.getNameValue(e.row, "grsEvSt")); //GRS상태
+
                 //진척률
                 var progressrateReal = dataSet.getNameValue(e.row, "progressrateReal");
                 var progressrate = dataSet.getNameValue(e.row, "progressrate");
@@ -353,18 +368,11 @@
                 var rWgvl = numberNullChk(arrPrg[0]) ; //실적
                 var gWgvl = numberNullChk(arrPrg[1]) ; //목표
 
-                if(rWgvl > gWgvl){
+                if(rWgvl > gWgvl) {
                     progressrate = "S";
-                }else if(rWgvl < gWgvl){
-                    rWgvl = rWgvl;
-
-                    if( rWgvl < gWgvl ){
-                        progressrate = "D";
-                    }else{
-                        progressrate = "N";
-                    }
-
-                }else if(rWgvl = gWgvl){
+                } else if(rWgvl < gWgvl) {
+                    progressrate = "D";
+                } else if(rWgvl = gWgvl) {
                     progressrate = "N";
                 }
 
@@ -427,6 +435,7 @@
                 deptName.disable();
             }
 
+            // 목록 페이징
             paging(dataSet,"defaultGrid");
         });
 
@@ -488,16 +497,25 @@
                          if(record.get("myTss") == "Y") p.css.push('font-bold');
                          return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                      }}
-                     , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
-                     , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
-                     , { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 100 }
+                     , { field: 'tssTypeNm',    label: '등급',  align:'center',  width: 60 }
+                     , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 180 }
+                     //, { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 100 }
                      , { id: 'G1', label: '과제기간(계획일)' }
-                     , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 73 }
-                     , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 73 }
+                     , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 80 }
+                     , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 80 }
                      , { id: 'G2', label: '과제실적일' }
-                     , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 73 }
-                     , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 73 }
-                     , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 50, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
+                     , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
+                     , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
+
+                     , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
+                     , { id: 'SAL', label: '매출액' }
+                     , { field: 'nprodSalsCurY', label: '출시년도',  groupId: 'SAL', align:'right', width: 70 }
+                     , { field: 'nprodSalsCurY1',  label: '출시년도+1', groupId: 'SAL', align:'right', width: 70 }
+                     , { field: 'nprodSalsCurY2',  label: '출시년도+2', groupId: 'SAL', align:'right', width: 70 }
+                     , { field: 'ctyOtPlnM',  label: '상품출시(계획)', align:'center', width: 80 }
+                     , { field: 'ptcCpsnCurY',  label: '투입인원(M/M)', align:'right', width: 60 }
+
+                     , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 65, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
                          p.editable = false;
                          return value;
                      } }
@@ -505,7 +523,8 @@
                          p.editable = false;
                          return value;
                      } }
-                     , { id: 'G3', label: '현재 진척율' }
+                     , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 120 }
+                     /*, { id: 'G3', label: '현재 진척율' }
                      , { id: 'progressrateReal', groupId: 'G3', label: '계획', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
                          var arrPrg = record.get("progressrateReal").split('/');
 
@@ -552,12 +571,11 @@
                             pg = '';
                          }
                          return pg;
-                     }}
-                     , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 117 }
+                     }}*/
                  ]
              });
                 duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('과제관리_연구팀과제_') + new Date().format('%Y%m%d') + '.xls', {
+                nG.saveExcel(encodeURIComponent('과제관리_연구팀과제_') + new Date().format('%Y%m%d') + '.xls', {
                     columnModel: excelColumnModel
                 });
 
