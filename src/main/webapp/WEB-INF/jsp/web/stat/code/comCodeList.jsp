@@ -299,11 +299,21 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
             }
         });
 
-        /* [버튼] : sql refresh  */
-        var butBatchExec = new Rui.ui.LButton('butBatchExec');
-        butBatchExec.on('click', function(){
+        /* [버튼] : scheduler tssStCopyBatch exec  */
+        var butTssStCopyBatchExec = new Rui.ui.LButton('butTssStCopyBatchExec');
+        butTssStCopyBatchExec.on('click', function(){
             if(confirm("tssStCopyBatch(과제 상태 반영 배치) 수동실행 하시겠습니까?")){
                 var popUrl = '<c:url value="/system/batch/tssStCopyBatch.do"/>';
+                var popupOption = "";
+                goRefreshPop(popUrl, popupOption);
+            }
+        });
+
+        /* [버튼] : scheduler sapBudgSCostInsertBatch exec  */
+        var butSapBudgSCostInsertBatchExec = new Rui.ui.LButton('butSapBudgSCostInsertBatchExec');
+        butSapBudgSCostInsertBatchExec.on('click', function(){
+            if(confirm("sapBudgSCostInsertBatch([SAP]예산 정보 S_COST(실적 집계) 배치) 수동실행 하시겠습니까?")){
+                var popUrl = '<c:url value="/system/batch/sapBudgSCostInsertBatch.do"/>';
                 var popupOption = "";
                 goRefreshPop(popUrl, popupOption);
             }
@@ -390,7 +400,8 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
                             <button type="button" id="butCodeRefresh"  name="butCodeRefresh" class="redBtn">Cache Refresh</button>
                             <button type="button" id="butSqlRefresh"   name="butSqlRefresh" class="redBtn">Xml Refresh</button>
                             &nbsp;&nbsp;
-                            <button type="button" id="butBatchExec"   name="butBatchExec"><b>tssStCopyBatch</b></button>
+                            <button type="button" id="butTssStCopyBatchExec"   name="butTssStCopyBatchExec"><b>tssStCopyBatch</b></button>
+                            <button type="button" id="butSapBudgSCostInsertBatchExec"   name="butSapBudgSCostInsertBatchExec"><b>sapBudgSCostInsertBatch</b></button>
                             &nbsp;&nbsp;
                             <button type="button" id="butRgst"         name="butRgst" >신규등록</button>
                             <button type="button" id="butRgst"         name="butRgst" >신규등록</button>
