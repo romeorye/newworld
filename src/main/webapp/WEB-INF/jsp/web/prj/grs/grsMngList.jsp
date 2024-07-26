@@ -442,16 +442,16 @@ var grsUserChk = '${inputData.grsUserChk}';
                     gridView: listColumnModel,
                     columns: [
                          { field: 'tssScnNm',        label: '과제구분', sortable: true, align:'center', width: 120 }
-                        ,{ field: 'wbsCd',      label: 'WBS코드', sortable: true, align:'center', width: 85}
+                        ,{ field: 'wbsCd',      label: '과제코드', sortable: true, align:'center', width: 85}
                      , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 240 }
                      , { field: 'tssTypeNm',        label: '등급', sortable: true, align:'left', width: 80 }
                      , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
                      , { field: 'leaderNm',   label: '과제리더', sortable: true, align:'center', width: 80 }
                      , { field: 'dlbrCrgrNm',     label: '심의담당자', sortable: true, align:'center', width: 100 }
                      //, { id: 'G1', label: '과제기간(계획일)' }
-                     , { field: 'tssDd',    label: '과제기간', sortable: true, align:'center', width: 73 }
-                     , { field: 'grsEvStNm',    label: '심의단계', sortable: true, align:'center', width: 50 }
-                     , { field: 'grsStNm',        label: 'GRS상태', sortable: true, align:'center', width: 80}
+                     , { field: 'tssDd',    label: '과제기간', sortable: true, align:'center', width: 200 }
+                     , { field: 'grsEvStNm',    label: '심의단계', sortable: true, align:'center', width: 70 }
+                     , { field: 'grsStNm',        label: 'GRS상태', sortable: true, align:'center', width: 100}
                      , { field: 'evResult', label: '평가결과',  sortable: true, align:'center', width: 117 }
                  ]
                  });

@@ -512,14 +512,14 @@
                      , { field: 'nprodSalsCurY', label: '출시년도',  groupId: 'SAL', align:'right', width: 70 }
                      , { field: 'nprodSalsCurY1',  label: '출시년도+1', groupId: 'SAL', align:'right', width: 70 }
                      , { field: 'nprodSalsCurY2',  label: '출시년도+2', groupId: 'SAL', align:'right', width: 70 }
-                     , { field: 'ctyOtPlnM',  label: '상품출시(계획)', align:'center', width: 80 }
-                     , { field: 'ptcCpsnCurY',  label: '투입인원(M/M)', align:'right', width: 60 }
+                     , { field: 'ctyOtPlnM',  label: '상품출시 (계획)', align:'center', width: 75 }
+                     , { field: 'ptcCpsnCurY',  label: '투입인원 (M/M)', align:'right', width: 60 }
 
-                     , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 65, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
+                     , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 70, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
                          p.editable = false;
                          return value;
                      } }
-                     , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
+                     , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 100, editor: tssSt, renderer: function(value, p, record, row, col) {
                          p.editable = false;
                          return value;
                      } }

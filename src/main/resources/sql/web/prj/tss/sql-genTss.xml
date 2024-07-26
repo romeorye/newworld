@@ -9,7 +9,7 @@
     SET ARITHABORT OFF
 
     /*retrieveGenTssList 일반과제 목록*/
-        select  distinct  z.wbs_cd                                                      as wbsCd
+        select   distinct  z.wbs_cd                                                      as wbsCd
                 ,z.PK_WBS_CD                                                 as pkWbsCd
                 ,z.tss_cd as tssCd
                 ,case when z.PGS_STEP_CD = 'AL' then Z.al_TSS_NM
@@ -22,33 +22,33 @@
                       else z.TSS_STRT_DD end                                 as tssStrtDd
                 ,case when z.PGS_STEP_CD = 'AL' then Z.al_TSS_FNH_DD
                       else z.TSS_FNH_DD end                                 as tssFnhDd
-                   ,z.TSS_STRT_DD
-                   ,z.TSS_FNH_DD
-                , CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_STRT_DD
+                ,z.TSS_STRT_DD
+                ,z.TSS_FNH_DD
+                ,CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_STRT_DD
                        WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_STRT_DD END  AS cmplNxStrtDd --과제실적시작
-                , CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_FNH_DD
+                ,CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_FNH_DD
                        WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_FNH_DD END      AS cmplNxFnhDd  --과제실적종료
-                , Z.TSS_ST                                                  AS tssSt        --상태
+                ,Z.TSS_ST                                                  AS tssSt        --상태
 
-                , Z.FRST_RGST_DT
-                , CASE WHEN Z.PGS_STEP_CD = 'AL' THEN Z.AL_SA_SABUN_NAME
+                ,Z.FRST_RGST_DT
+                ,CASE WHEN Z.PGS_STEP_CD = 'AL' THEN Z.AL_SA_SABUN_NAME
                        ELSE Z.SA_SABUN_NAME END                             AS saUserName   --과제리더명
-                , Z.PGS_STEP_CD                                             AS pgsStepCd    --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
-                , dbo.fn_getComDtlNm('PGS_STEP_CD',Z.PGS_STEP_CD)           AS pgsStepNm    --진행상태명
-                , Z.TSS_NOS_ST                                              AS tssNosSt     --과제차수상태코드(1차년도, 2 차년도, 3 차년도, 4차년도, 5차년도:국책과제)
-                , dbo.fn_getComDtlNm('TSS_NOS_ST',Z.TSS_NOS_ST)             AS tssNosStNm   --과제차수상태명
-                , Z.GRS_EV_ST                                               AS grsEvSt      --GRS상태
-                , Z.MY_TSS                                                  AS myTss
-                , Z.PROGRESSRATEREAL                                        AS progressrateReal
-                , Z.PROGRESSRATE                                            as progressrate
-                , Z.PRJ_CD                                                    AS prjCd
+                ,Z.PGS_STEP_CD                                             AS pgsStepCd    --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
+                ,dbo.fn_getComDtlNm('PGS_STEP_CD',Z.PGS_STEP_CD)           AS pgsStepNm    --진행상태명
+                ,Z.TSS_NOS_ST                                              AS tssNosSt     --과제차수상태코드(1차년도, 2 차년도, 3 차년도, 4차년도, 5차년도:국책과제)
+                ,dbo.fn_getComDtlNm('TSS_NOS_ST',Z.TSS_NOS_ST)             AS tssNosStNm   --과제차수상태명
+                ,Z.GRS_EV_ST                                               AS grsEvSt      --GRS상태
+                ,Z.MY_TSS                                                  AS myTss
+                ,Z.PROGRESSRATEREAL                                        AS progressrateReal
+                ,Z.PROGRESSRATE                                            as progressrate
+                ,Z.PRJ_CD                                                    AS prjCd
                 ,dbo.fn_getQgateStepNm(z.wbs_cd,'0') as qgateStepNm
                 ,dbo.fn_getComDtlNm('TSS_TYPE',z.tss_type) as tssTypeNm
-                ,z.NPROD_SALS_CUR_Y AS nprodSalsCurY
-                ,z.NPROD_SALS_CUR_Y_1 AS nprodSalsCurY1
-                ,z.NPROD_SALS_CUR_Y_2 AS nprodSalsCurY2
-                ,isNull(z.CTY_OT_PLN_M,ANCP_OT_PLN_DT) AS ctyOtPlnM
-                ,z.PTC_CPSN_CUR_Y AS ptcCpsnCurY
+                ,dbo.FN_ISEMPTY(z.NPROD_SALS_CUR_Y, z.NPROD_SALS_PLN_Y) AS nprodSalsCurY
+                ,dbo.FN_ISEMPTY(z.NPROD_SALS_CUR_Y_1, z.NPROD_SALS_PLN_Y_1) AS nprodSalsCurY1
+                ,dbo.FN_ISEMPTY(z.NPROD_SALS_CUR_Y_2, z.NPROD_SALS_PLN_Y_2) AS nprodSalsCurY2
+                ,dbo.FN_ISEMPTY(z.ANCP_OT_PLN_DT, z.CTY_OT_PLN_M) AS ctyOtPlnM
+                ,dbo.FN_ISEMPTY(z.PTC_CPSN_CUR_Y, z.PTC_CPSN_Y) AS ptcCpsnCurY
         from  (
                 select   m.PRJ_CD
                         ,case when m.prj_cd in ('PRJ00021','PRJ00015','PRJ00002', 'PRJ00025','PRJ00026') then m.prj_nm
@@ -93,13 +93,13 @@
                         ,m.TSS_TYPE
                         ,NPROD_SALS_PLN_Y, NPROD_SALS_PLN_Y_1, NPROD_SALS_PLN_Y_2, CTY_OT_PLN_M, PTC_CPSN_Y
                         ,NPROD_SALS_CUR_Y, NPROD_SALS_CUR_Y_1, NPROD_SALS_CUR_Y_2, ANCP_OT_PLN_DT, PTC_CPSN_CUR_Y
-                       , (SELECT TOP 1 X.GRS_EV_ST FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS GRS_EV_ST
+                        ,(SELECT TOP 1 X.GRS_EV_ST FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS GRS_EV_ST
 
-                       , CASE WHEN  M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW =  #{_userSabun})  THEN 'Y'
+                        ,CASE WHEN  M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW =  #{_userSabun})  THEN 'Y'
                                  when  isnull(m.al_sa_sabun_name, m.sa_sabun_name)  = #{_userNm} then 'Y'
                               ELSE 'N' END AS MY_TSS
 
-                       , CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , ROUND( A.ARSL_CD,1))
+                        ,CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , ROUND( A.ARSL_CD,1))
                                         FROM IRIS_TSS_GEN_WBS A
                                         WHERE A.TSS_CD = (SELECT MAX(PG.TSS_CD) --다건발생경우  ERROR발생
                                                           FROM IRIS_TSS_MGMT_MST PG
@@ -118,7 +118,7 @@
                                          AND ((CONVERT(VARCHAR(10), GETDATE(), 126) BETWEEN A.STRT_DT AND A.FNH_DT)
                                                    OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126))))) AS PROGRESSRATEREAL --진척율
                         -- 실적(WBS) /목표 -신호등
-                        , CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , A.ARSL_CD)
+                        ,CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , A.ARSL_CD)
                                          FROM IRIS_TSS_GEN_WBS A
                                          WHERE A.TSS_CD = (SELECT MAX(PG.TSS_CD)
                                                            FROM IRIS_TSS_MGMT_MST PG
@@ -137,48 +137,48 @@
                                                   AND A.DEPTH= 1
                                                   AND ((CONVERT(VARCHAR(10), GETDATE(), 126) BETWEEN A.STRT_DT  AND A.FNH_DT)
                                                    OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126))))) AS PROGRESSRATE --진척(신호등)
-                        , CASE WHEN SUBSTRING(M.PK_WBS_CD, 1, 1) = 'G' THEN 1 ELSE 2 END AS R_NUM
+                        ,CASE WHEN SUBSTRING(M.PK_WBS_CD, 1, 1) = 'G' THEN 1 ELSE 2 END AS R_NUM
                 from   (
-                        select  a.PRJ_CD
-                               ,case when a.PGS_STEP_CD = 'CM' then isnull(a.PRJ_NM,dbo.fn_getPrjName(a.PRJ_CD))
-                                     when a.PGS_STEP_CD = 'DC' then isnull(a.PRJ_NM,dbo.fn_getPrjName(a.PRJ_CD))
-                                     else dbo.fn_getPrjName(a.PRJ_CD)  end prj_nm
-                               ,a.TSS_CD
-                               ,a.PGS_STEP_CD
-                               ,a.TSS_SCN_CD
-                               ,a.WBS_CD
-                               ,a.PK_WBS_CD
-                               ,isnull(a.dept_name, dbo.fn_getUpperDeptNm(a.dept_code))  as dept_nm
-                               ,isnull(b.dept_name, dbo.fn_getUpperDeptNm(b.dept_code))  as al_dept_nm
-                               ,a.biz_dpt_cd
-                               ,a.tss_nm
-                               ,isnull(dbo.fn_getSabunName(a.sa_sabun_new), a.sa_sabun_name) as sa_sabun_name
-                               ,isnull(dbo.fn_getSabunName(b.sa_sabun_new), b.sa_sabun_name) as al_sa_sabun_name
-                               ,a.TSS_STRT_DD
-                               ,a.TSS_FNH_DD
-                               ,a.ALTR_B_STRT_DD
-                               ,a.ALTR_B_FNH_DD
-                               ,a.ALTR_NX_STRT_DD
-                               ,a.ALTR_NX_FNH_DD
-                               ,a.CMPL_B_STRT_DD
-                               ,a.CMPL_B_FNH_DD
-                               ,a.CMPL_NX_STRT_DD
-                               ,a.CMPL_NX_FNH_DD
-                               ,a.DCAC_B_STRT_DD
-                               ,a.DCAC_B_FNH_DD
-                               ,a.DCAC_NX_STRT_DD
-                               ,a.DCAC_NX_FNH_DD
-                               ,a.TSS_ST
-                               ,a.TSS_NOS_ST
-                               ,a.FRST_RGST_DT
-                               ,a.FRST_RGST_ID
-                               ,a.LAST_MDFY_DT
-                               ,a.LAST_MDFY_ID
-                              , a.sa_sabun_new
-                               ,b.tss_nm as al_tss_nm
+                       select  a.PRJ_CD
+                              ,case when a.PGS_STEP_CD = 'CM' then isnull(a.PRJ_NM,dbo.fn_getPrjName(a.PRJ_CD))
+                                    when a.PGS_STEP_CD = 'DC' then isnull(a.PRJ_NM,dbo.fn_getPrjName(a.PRJ_CD))
+                                    else dbo.fn_getPrjName(a.PRJ_CD)  end prj_nm
+                              ,a.TSS_CD
+                              ,a.PGS_STEP_CD
+                              ,a.TSS_SCN_CD
+                              ,a.WBS_CD
+                              ,a.PK_WBS_CD
+                              ,isnull(a.dept_name, dbo.fn_getUpperDeptNm(a.dept_code))  as dept_nm
+                              ,isnull(b.dept_name, dbo.fn_getUpperDeptNm(b.dept_code))  as al_dept_nm
+                              ,a.biz_dpt_cd
+                              ,a.tss_nm
+                              ,isnull(dbo.fn_getSabunName(a.sa_sabun_new), a.sa_sabun_name) as sa_sabun_name
+                              ,isnull(dbo.fn_getSabunName(b.sa_sabun_new), b.sa_sabun_name) as al_sa_sabun_name
+                              ,a.TSS_STRT_DD
+                              ,a.TSS_FNH_DD
+                              ,a.ALTR_B_STRT_DD
+                              ,a.ALTR_B_FNH_DD
+                              ,a.ALTR_NX_STRT_DD
+                              ,a.ALTR_NX_FNH_DD
+                              ,a.CMPL_B_STRT_DD
+                              ,a.CMPL_B_FNH_DD
+                              ,a.CMPL_NX_STRT_DD
+                              ,a.CMPL_NX_FNH_DD
+                              ,a.DCAC_B_STRT_DD
+                              ,a.DCAC_B_FNH_DD
+                              ,a.DCAC_NX_STRT_DD
+                              ,a.DCAC_NX_FNH_DD
+                              ,a.TSS_ST
+                              ,a.TSS_NOS_ST
+                              ,a.FRST_RGST_DT
+                              ,a.FRST_RGST_ID
+                              ,a.LAST_MDFY_DT
+                              ,a.LAST_MDFY_ID
+                              ,a.sa_sabun_new
+                              ,b.tss_nm as al_tss_nm
                               ,isnull(b.PRJ_NM, dbo.fn_getPrjName(b.PRJ_CD)) as al_prj_nm
-                              , b.TSS_STRT_DD as al_TSS_STRT_DD
-                              , b.TSS_FNH_DD as al_TSS_FNH_DD
+                              ,b.TSS_STRT_DD as al_TSS_STRT_DD
+                              ,b.TSS_FNH_DD as al_TSS_FNH_DD
                               ,a.TSS_TYPE
                         from   IRIS_TSS_MGMT_MST a
                                LEFT JOIN (SELECT PK_WBS_CD, WBS_CD, TSS_STRT_DD, TSS_FNH_DD, TSS_NM, PRJ_CD, DEPT_CODE, DEPT_NAME, TSS_CD, SA_SABUN_NAME, SA_SABUN_NEW, prj_nm

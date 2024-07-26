@@ -29,7 +29,7 @@
 <%-- <script type="text/javascript" src="<%=scriptPath%>/lgHs_common.js"></script> --%>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/calendar/LMonthCalendar.js"></script>
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
-	<script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
+    <script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
 
 <style>
@@ -103,7 +103,7 @@
         saSabunNew.on('keyup', function(e){
             document.aform.saSabunName.value = "";
         });
-		*/
+        */
 
         //조직
         deptName = new Rui.ui.form.LTextBox({
@@ -111,7 +111,7 @@
             defaultValue: '<c:out value="${inputData.deptName}"/>',
             width: 200
         });
-		/*
+        /*
         deptName = new Rui.ui.form.LPopupTextBox({
             applyTo: 'deptName',
             width: 200,
@@ -121,7 +121,7 @@
         deptName.on('popup', function(e){
             openDeptSearchDialog(setDeptInfo, 'prj');
         });
- 		*/
+         */
         //과제기간 시작일
         tssStrtDd = new Rui.ui.form.LMonthBox({
             applyTo: 'tssStrtDd',
@@ -243,16 +243,16 @@
         /* [Grid] 컬럼설정 */
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
-                  { field: 'wbsCd',      label: '과제코드', sortable: true, align:'center', width: 90, renderer: function(value, p, record, row, col) {
+                  { field: 'wbsCd',      label: '과제코드', sortable: true, align:'center', width: 100, renderer: function(value, p, record, row, col) {
                         var stepCd = record.get("pgsStepCd");
                         if(stepCd == "PL") return "SEED-" + value;
                         return value;
                   }}
-                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 290 , renderer: function(value, p, record, row, col){
+                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 300 , renderer: function(value, p, record, row, col){
                     if(record.get("myTss") == "Y") p.css.push('font-bold');
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
-                , { field: 'tssTypeNm',    label: '등급',  align:'center',  width: 60 }
+                , { field: 'tssTypeNm',    label: '등급',  align:'center',  width: 70 }
                 , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 160 }
                 , { id: 'G1', label: '과제기간(계획일)' }
                 , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 80 }
@@ -262,15 +262,15 @@
                 , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
                 , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
                 //, { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 140 }
-                , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 60, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
+                , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 70, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
                     p.editable = false;
                     return value;
                 } }
-                , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
+                , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 90, editor: tssSt, renderer: function(value, p, record, row, col) {
                     p.editable = false;
                     return value;
                 } }
-                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 120 }
+                , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 130 }
 <%--                 , { field: 'progressrateReal', label: '진척율<br>(실적/계획)', sortable: true, align:'center', width: 65 }
                 , { id: 'pg', label: '진척도', align:'center', width: 50 ,renderer :function(value, p, record, row, col) {
 
@@ -297,7 +297,7 @@
                     var pgsStepCd= record.get('pgsStepCd');
 
                     if(pgsStepCd=='PL'){
-                    	pg = '';
+                        pg = '';
                     }
                     return pg;
                 }} --%>
@@ -349,17 +349,17 @@
                 var gWgvl = numberNullChk(arrPrg[1]) ; //목표
 
                 if(rWgvl > gWgvl) {
-                	progressrate = "S";
+                    progressrate = "S";
                 } else if(rWgvl < gWgvl) {
-                	progressrate = "D";
+                    progressrate = "D";
                 } else if(rWgvl = gWgvl) {
-                	progressrate = "N";
-				}
-				
+                    progressrate = "N";
+                }
+
                 var urlParam = "?tssCd="+pTssCd+"&progressrateReal="+progressrateReal+"&progressrate="+progressrate;
                 nwinsActSubmit(document.aform, "<%=request.getContextPath()+ TctmUrl.doView%>?tssCd="+pTssCd);
 
-				/*//계획
+                /*//계획
                 if(pPgsStepCd == "PL") {
                     nwinsActSubmit(document.aform, "<%=request.getContextPath()+ TctmUrl.doView%>?tssCd="+pTssCd);
                 }
@@ -410,8 +410,8 @@
             document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
 
             if( '${inputData._roleId}' == "WORK_IRI_T16" ){
-            	deptName.setValue('${inputData._userDeptName}');
-            	deptName.disable();
+                deptName.setValue('${inputData._userDeptName}');
+                deptName.disable();
             }
 
             // 목록 페이징
@@ -422,7 +422,7 @@
         /* [버튼] 조회 */
         fnSearch = function() {
 
-        	dataSet.load({
+            dataSet.load({
                 url: '<%=request.getContextPath()+TctmUrl.doSelectList%>'
               , params : {
                     wbsCd : document.aform.wbsCd.value                        //과제코드
@@ -449,13 +449,13 @@
         /* [버튼] 엑셀 */
         var butExcel = new Rui.ui.LButton('butExcel');
         butExcel.on('click', function() {
-			// 엑셀 다운로드시 전체 다운로드를 위해 추가
+            // 엑셀 다운로드시 전체 다운로드를 위해 추가
             dataSet.clearFilter();
             if(dataSet.getCount() > 0) {
-            	var excelColumnModel = new Rui.ui.grid.LColumnModel({
+                var excelColumnModel = new Rui.ui.grid.LColumnModel({
                     gridView: columnModel,
                     columns: [
-                    	 { field: 'wbsCd',      label: '과제코드', sortable: true, align:'center', width: 85, renderer: function(value, p, record, row, col) {
+                         { field: 'wbsCd',      label: '과제코드', sortable: true, align:'center', width: 85, renderer: function(value, p, record, row, col) {
                              var stepCd = record.get("pgsStepCd");
                              if(stepCd == "PL") return "SEED-" + value;
                              return value;
@@ -474,21 +474,21 @@
                         , { id: 'G2', label: '과제실적일' }
                         , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
                         , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
-                        , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 65, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
+                        , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 70, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
                                 p.editable = false;
                                 return value;
                             } }
-                        , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
+                        , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 100, editor: tssSt, renderer: function(value, p, record, row, col) {
                                 p.editable = false;
                                 return value;
                             } }
                         , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 120 }
                  ]
              });
-            	duplicateExcelGrid(excelColumnModel);
-				nG.saveExcel(encodeURIComponent('과제관리_기술팀과제_') + new Date().format('%Y%m%d') + '.xls', {
-		            columnModel: excelColumnModel
-		        });
+                duplicateExcelGrid(excelColumnModel);
+                nG.saveExcel(encodeURIComponent('과제관리_기술팀과제_') + new Date().format('%Y%m%d') + '.xls', {
+                    columnModel: excelColumnModel
+                });
             } else {
                 Rui.alert("조회 후 엑셀 다운로드 해주세요.");
             }
@@ -501,32 +501,32 @@
         disableFields();
 
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#butTssNew").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#butTssNew").hide();
-		}
+            $("#butTssNew").hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $("#butTssNew").hide();
+        }
 
 
         butTssNew.hide();
 
         init = function() {
-     	   var wbsCd='${inputData.wbsCd}';
-     	   var tssNm='${inputData.tssNm}';
-     	   var saUserName='${inputData.saUserName}';
-     	   var deptName='${inputData.deptName}';
-     	   var prjNm='${inputData.prjNm}';
-           	dataSet.load({
+            var wbsCd='${inputData.wbsCd}';
+            var tssNm='${inputData.tssNm}';
+            var saUserName='${inputData.saUserName}';
+            var deptName='${inputData.deptName}';
+            var prjNm='${inputData.prjNm}';
+               dataSet.load({
                  url: '<%=request.getContextPath()+TctmUrl.doSelectList%>',
                  params :{
-                	 wbsCd : escape(encodeURIComponent(wbsCd)),
-                	 tssNm : escape(encodeURIComponent(tssNm)),
-                	 saUserName : escape(encodeURIComponent(saUserName)),
-                	 deptName : escape(encodeURIComponent(deptName)),
-                	 prjNm : escape(encodeURIComponent(prjNm)),
-                 	tssStrtDd : '${inputData.tssStrtDd}',
-                 	tssFnhDd : '${inputData.tssFnhDd}',
-                 	pgsStepCd : '${inputData.pgsStepCd}',
-                 	tssSt : '${inputData.tssSt}',
+                     wbsCd : escape(encodeURIComponent(wbsCd)),
+                     tssNm : escape(encodeURIComponent(tssNm)),
+                     saUserName : escape(encodeURIComponent(saUserName)),
+                     deptName : escape(encodeURIComponent(deptName)),
+                     prjNm : escape(encodeURIComponent(prjNm)),
+                     tssStrtDd : '${inputData.tssStrtDd}',
+                     tssFnhDd : '${inputData.tssFnhDd}',
+                     pgsStepCd : '${inputData.pgsStepCd}',
+                     tssSt : '${inputData.tssSt}',
                  }
              });
          }
@@ -551,10 +551,10 @@ function setDeptInfo(deptInfo) {
     <%--<!--  sayMessage 사용시 필요 -->--%>
     <div class="contents">
         <div class="titleArea">
-        	<a class="leftCon" href="#">
-		        <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
-		        <span class="hidden">Toggle 버튼</span>
-			</a>
+            <a class="leftCon" href="#">
+                <img src="/iris/resource/web/images/img_uxp/ico_leftCon.png" alt="Left Navigation Control">
+                <span class="hidden">Toggle 버튼</span>
+            </a>
             <h2>기술팀 과제관리</h2>
         </div>
 
@@ -562,63 +562,63 @@ function setDeptInfo(deptInfo) {
             <form name="aform" id="aform" method="post">
             <input type="hidden" id="deptCode" value="">
                 <div class="search">
-					<div class="search-content">
-		                <table>
-		                    <colgroup>
-		                        <col style="width:120px" />
-								<col style="width:330px" />
-								<col style="width:120px" />
-								<col style="width:200px" />
-								<col style="" />
-		                    </colgroup>
-		                    <tbody>
-		                        <tr>
-		                            <th>과제코드</th>
-		                            <td>
-		                                <input type="text" id="wbsCd" value="">
-		                            </td>
-		                            <th>과제명</th>
-		                            <td>
-		                                <input type="text" id="tssNm" value="">
-		                            </td>
-		                            <td></td>
-		                        </tr>
-		                        <tr>
-		                            <th>과제리더</th>
-		                            <td>
-		                                <input type="text" id="saUserName" value="">
-		                            </td>
-		                            <th>조직</th>
-		                            <td>
-		                                <input type="text" id="deptName" value="">
-		                            </td>
-		                            <td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
-		                        </tr>
-		                        <tr>
-		                            <th>과제기간</th>
-		                            <td>
-		                            	<input type="text" id="tssStrtDd" /><em class="gab"> ~ </em><input type="text" id="tssFnhDd" />
-		                            </td>
-		                            <th>프로젝트명</th>
-		                            <td>
-		                                <input type="text" id="prjNm" value="">
-		                            </td>
-		                            <td></td>
-		                        </tr>
-		                        <tr>
-		                            <th>상태</th>
-		                            <td>
-		                                <div id="pgsStepCd"></div>
-		                            </td>
-		                            <th>처리상태</th>
-		                            <td>
-		                                <div id="tssSt"></div>
-		                            </td>
-		                            <td></td>
-		                        </tr>
-		                    </tbody>
-		                </table>
-		            </div>
+                    <div class="search-content">
+                        <table>
+                            <colgroup>
+                                <col style="width:120px" />
+                                <col style="width:330px" />
+                                <col style="width:120px" />
+                                <col style="width:200px" />
+                                <col style="" />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th>과제코드</th>
+                                    <td>
+                                        <input type="text" id="wbsCd" value="">
+                                    </td>
+                                    <th>과제명</th>
+                                    <td>
+                                        <input type="text" id="tssNm" value="">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>과제리더</th>
+                                    <td>
+                                        <input type="text" id="saUserName" value="">
+                                    </td>
+                                    <th>조직</th>
+                                    <td>
+                                        <input type="text" id="deptName" value="">
+                                    </td>
+                                    <td class="txt-right"><a style="cursor: pointer;" onclick="fnSearch();" class="btnL">검색</a></td>
+                                </tr>
+                                <tr>
+                                    <th>과제기간</th>
+                                    <td>
+                                        <input type="text" id="tssStrtDd" /><em class="gab"> ~ </em><input type="text" id="tssFnhDd" />
+                                    </td>
+                                    <th>프로젝트명</th>
+                                    <td>
+                                        <input type="text" id="prjNm" value="">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th>상태</th>
+                                    <td>
+                                        <div id="pgsStepCd"></div>
+                                    </td>
+                                    <th>처리상태</th>
+                                    <td>
+                                        <div id="tssSt"></div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </form>
 
