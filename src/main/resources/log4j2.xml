@@ -90,7 +90,7 @@ ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF
 
         <!-- SQL Loggers -->
         <!-- QUERY LOG -->
-        <Logger name="jdbc.sqlonly" level="INFO" additivity="false">
+        <Logger name="jdbc.sqlonly" level="OFF" additivity="false">
             <AppenderRef ref="console" />
             <AppenderRef ref="RollingFile" />
             <AppenderRef ref="RollingFileError" level="WARN" />
@@ -104,7 +104,7 @@ ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF
         </Logger>
 
         <!-- query + time -->
-        <Logger name="jdbc.sqltiming" level="WARN" additivity="false">
+        <Logger name="jdbc.sqltiming" level="INFO" additivity="false">
             <AppenderRef ref="console" />
             <AppenderRef ref="RollingFile" />
             <AppenderRef ref="RollingFileError" level="WARN" />
