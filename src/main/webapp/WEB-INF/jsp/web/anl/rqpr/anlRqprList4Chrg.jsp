@@ -39,9 +39,6 @@
      var tmpAcpcStCd = '${inputData.acpcStCd}';
 
         Rui.onReady(function() {
-            /*******************
-             * 변수 및 객체 선언
-             *******************/
              /*******************
               * 변수 및 객체 선언
              *******************/
@@ -69,19 +66,20 @@
 
              var anlRqprColumnModel = new Rui.ui.grid.LColumnModel({
                  columns: [
-                       { field: 'acpcNo',        label: '접수번호',        sortable: true,    align:'center',    width: 80 }
-                     , { field: 'anlScnNm',        label: '분석구분',        sortable: false,    align:'center',    width: 80 }
-                     , { field: 'anlNm',        label: '분석명',        sortable: false,    align:'left',    width: 409 }
-                     , { field: 'smpoCnt',        label: '시료수',        sortable: false,    align:'center',    width: 40 }
-                     , { field: 'rgstNm',        label: '의뢰자',        sortable: false,    align:'center',    width: 70 }
-                      , { field: 'anlChrgNm',    label: '담당자',        sortable: false,     align:'center',    width: 70 }
-                      , { field: 'realRgstNm',    label: '실의뢰자',        sortable: false,     align:'center',    width: 70 }
-                      , { field: 'rqprDt',        label: '의뢰일',        sortable: true,     align:'center',    width: 90 }
-                      , { field: 'acpcDt',        label: '접수일',        sortable: true,     align:'center',    width: 90 }
-                      , { field: 'cmplParrDt',    label: '완료예정일',    sortable: true,     align:'center',    width: 90 }
-                     , { field: 'cmplDt',        label: '완료일',        sortable: true,     align:'center',    width: 90 }
-                     , { field: 'anlUgyYnNm',    label: '긴급',        sortable: false,      align:'center',    width: 55 }
-                      , { field: 'acpcStNm',        label: '상태',        sortable: false,     align:'center',    width: 90 }
+					  { field: 'rqprId',        label: '의뢰ID',        sortable: true,    align:'center',    width: 75 }
+					, { field: 'acpcNo',        label: '접수번호',        sortable: true,    align:'center',    width: 80 }
+					, { field: 'anlScnNm',        label: '분석구분',        sortable: false,    align:'center',    width: 100 }
+					, { field: 'anlNm',        label: '분석명',        sortable: false,    align:'left',    width: 330 }
+					, { field: 'smpoCnt',        label: '시료수',        sortable: false,    align:'center',    width: 50 }
+					, { field: 'rgstNm',        label: '의뢰자',        sortable: false,    align:'center',    width: 70 }
+					, { field: 'anlChrgNm',    label: '담당자',        sortable: false,     align:'center',    width: 70 }
+					, { field: 'realRgstNm',    label: '실의뢰자',        sortable: false,     align:'center',    width: 70 }
+					, { field: 'rqprDt',        label: '의뢰일',        sortable: true,     align:'center',    width: 80 }
+					, { field: 'acpcDt',        label: '접수일',        sortable: true,     align:'center',    width: 80 }
+					, { field: 'cmplParrDt',    label: '완료예정일',    sortable: true,     align:'center',    width: 80 }
+					, { field: 'cmplDt',        label: '완료일',        sortable: true,     align:'center',    width: 80 }
+					, { field: 'anlUgyYnNm',    label: '긴급',        sortable: false,      align:'center',    width: 60 }
+					, { field: 'acpcStNm',        label: '상태',        sortable: false,     align:'center',    width: 80 }
                  ]
              });
 
@@ -271,17 +269,15 @@
                 nwinsActSubmit(aform, "<c:url value='/anl/anlRqprDetail4Chrg.do'/>");
             });
 
-
-
             /* 분석의뢰 담당자용 리스트 엑셀 다운로드 */
             downloadAnlRqprListExcel = function() {
                 // 엑셀 다운로드시 전체 다운로드를 위해 추가
                 anlRqprDataSet.clearFilter();
                 var excelColumnModel = anlRqprColumnModel.createExcelColumnModel(false);
                 duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('분석의뢰_') + new Date().format('%Y%m%d') + '.xls');
-             // 목록 페이징
-                paging(anlRqprDataSet,"anlRqprGrid");
+                nG.saveExcel(encodeURIComponent('분석목록_') + new Date().format('%Y%m%d') + '.xls');
+                // 목록 페이징
+                //paging(anlRqprDataSet,"anlRqprGrid");
             };
 
             /*

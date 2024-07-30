@@ -3,9 +3,9 @@
 <!-- [출처]https://blog.naver.com/ambion/220055219702 log level 정리 잘됨 -->
 
 <!-- [출처]https://mine-it-record.tistory.com/205 [나만의 기록들:티스토리] -->
-<!-- 일반적으로 log level은 
+<!-- 일반적으로 log level은
 ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF
-순으로 볼 수 있다. ( 낮은거에서 높은순으로 ALL → OFF )
+순으로 볼 수 있다. ( 낮은거에서 높은순으로 ALL → OFF)
  -->
 
 <!-- [출처]https://tlatmsrud.tistory.com/m/32 -->
@@ -35,7 +35,8 @@ ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF
         <!-- 파일  -->
         <RollingFile name ="RollingFile">
             <FileName>${logDir}/${name}/${name}.out.log</FileName>
-            <FilePattern>D:/logs001/iris/%d{yyyyMM}/%d{dd}/%d{yyyyMMddHH}_${name}.out.zip</FilePattern>
+            <!-- <FilePattern>D:/logs001/iris/%d{yyyyMM}/%d{dd}/%d{yyyyMMddHH}_${name}.out.zip</FilePattern> -->
+            <FilePattern>D:/logs001/iris/%d{yyyy}/%d{MM}/%d{yyyyMMdd}_${name}.out.log</FilePattern>
             <PatternLayout>
                 <Pattern>${pattern}</Pattern>
             </PatternLayout>
@@ -46,7 +47,8 @@ ALL > TRACE > DEBUG > INFO > WARN > ERROR > FATAL > OFF
 
         <RollingFile name ="RollingFileError">
             <FileName>${logDir}/${name}/${name}.error.log</FileName>
-            <FilePattern>D:/logs001/iris/%d{yyyyMM}/%d{dd}/%d{yyyyMMddHH}_${name}.error.zip</FilePattern>
+            <!-- <FilePattern>D:/logs001/iris/%d{yyyyMM}/%d{dd}/%d{yyyyMMddHH}_${name}.error.zip</FilePattern> -->
+            <FilePattern>D:/logs001/iris/%d{yyyy}/%d{MM}/%d{yyyyMMdd}_${name}.error.log</FilePattern>
             <PatternLayout>
                 <Pattern>${pattern}</Pattern>
             </PatternLayout>

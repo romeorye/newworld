@@ -195,16 +195,17 @@
 
             var spaceRqprColumnModel = new Rui.ui.grid.LColumnModel({
                 columns: [
-					  { field: 'acpcNo',		label: '접수번호',		sortable: true,		align:'center',	width: 90 }
-					, { field: 'spaceScnNm',	label: '평가목적',		sortable: false,	align:'center',	width: 90 }
-					, { field: 'spaceNm',		label: '평가명',			sortable: false,	align:'left',	width: 400 }
-					, { field: 'CtrgNames',		label: '평가카테고리',	sortable: false,	align:'center',	width: 150 }
-					, { field: 'PrvsNames',		label: '평가항목',		sortable: false,	align:'center',	width: 150 }
-					, { field: 'rgstNm',		label: '의뢰자',			sortable: false, 	align:'center',	width: 80 }
+					  { field: 'rqprId',		label: '의뢰ID',			sortable: true,		align:'center',	width: 80 }
+					, { field: 'acpcNo',		label: '접수번호',		sortable: true,		align:'center',	width: 90 }
+					, { field: 'spaceScnNm',	label: '평가목적',		sortable: false,	align:'center',	width: 80 }
+					, { field: 'spaceNm',		label: '평가명',			sortable: false,	align:'left',	width: 430 }
+					, { field: 'CtrgNames',		label: '평가카테고리',	sortable: false,	align:'center',	width: 110 }
+					, { field: 'PrvsNames',		label: '평가항목',		sortable: false,	align:'center',	width: 90 }
+					, { field: 'rgstNm',		label: '의뢰자',			sortable: false, 	align:'center',	width: 70 }
 					, { field: 'rqprDt',		label: '의뢰일',			sortable: true, 	align:'center',	width: 80 }
 					, { field: 'cmplDt',		label: '완료일',			sortable: true, 	align:'center',	width: 80 }
-					, { field: 'spaceUgyYnNm',	label: '긴급',			sortable: false,  	align:'center',	width: 45 }
-					, { field: 'oppbScpCd',		label: '비밀',			sortable: true, 	align:'center',	width: 80 }
+					, { field: 'spaceUgyYnNm',	label: '긴급',			sortable: false,  	align:'center',	width: 60 }
+					, { field: 'oppbScpCd',		label: '비밀',			sortable: true, 	align:'center',	width: 60 }
 					, { field: 'acpcStNm',		label: '상태',			sortable: false, 	align:'center',	width: 80 }
            		]
             });
@@ -260,13 +261,19 @@
 
             /* 평가의뢰 리스트 엑셀 다운로드 */
         	downloadSpaceRqprListExcel = function() {
-        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
-        		spaceRqprDataSet.clearFilter();
-        		var excelColumnModel = spaceRqprColumnModel.createExcelColumnModel(false);
-                duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') + '.xls');
-             // 목록 페이징
-   	    		paging(spaceRqprDataSet,"spaceRqprGrid");
+        		if (spaceRqprDataSet.getCount()>0) {
+	        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+	        		spaceRqprDataSet.clearFilter();
+	        		
+	        		var excelColumnModel = spaceRqprColumnModel.createExcelColumnModel(false);
+	                duplicateExcelGrid(excelColumnModel);
+					nG.saveExcel(encodeURIComponent('평가의뢰_') + new Date().format('%Y%m%d') + '.xls');
+	             	
+					// 목록 페이징
+	   	    		paging(spaceRqprDataSet,"spaceRqprGrid");
+        		} else {
+        			Rui.alert("조회 후 엑셀 다운로드 해주세요.");
+        		}
             };
 
             //getSpaceRqprList();

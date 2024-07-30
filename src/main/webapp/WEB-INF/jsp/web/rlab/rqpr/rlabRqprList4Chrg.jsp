@@ -39,9 +39,6 @@
 	 var tmpAcpcStCd = '${inputData.rlabAcpcStCd}';
 
 		Rui.onReady(function() {
-            /*******************
-             * 변수 및 객체 선언
-             *******************/
              /*******************
               * 변수 및 객체 선언
              *******************/
@@ -65,10 +62,6 @@
  					, { id: 'smpoCnt' }
                  ]
              });
-
-             rlabRqprDataSet.on('load', function(e) {
-    	    		$("#cnt_text").html('총 ' + rlabRqprDataSet.getCount() + '건');
-    	      	});
 
              var rlabRqprColumnModel = new Rui.ui.grid.LColumnModel({
                  columns: [
@@ -98,12 +91,16 @@
 
              rlabRqprGrid.render('rlabRqprGrid');
 
+             rlabRqprDataSet.on('load', function(e) {
+    	    		$("#cnt_text").html('총 ' + rlabRqprDataSet.getCount() + '건');
+    	      	});
+
             var rlabNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rlabNm',
                 placeholder: '검색할 시험명을 입력해주세요.',
                 defaultValue: '<c:out value="${inputData.rlabNm}"/>',
                 emptyValue: '',
-                width: 200
+                width: 400
             });
           
             var rqprDeptNm = new Rui.ui.form.LTextBox({
@@ -191,7 +188,7 @@
                 defaultValue: '<c:out value="${inputData.rlabChrgNm}"/>',
                 emptyValue: '',
                 displayField: 'name',
-                width: 200,
+                width: 400,
                 valueField: 'userId'
             });
 
@@ -219,16 +216,15 @@
             	nwinsActSubmit(aform, "<c:url value='/rlab/rlabRqprDetail4Chrg.do'/>");
             });
 
-
-
             /* 시험의뢰 담당자용 리스트 엑셀 다운로드 */
         	downloadRlabRqprListExcel = function() {
         		// 엑셀 다운로드시 전체 다운로드를 위해 추가
         		rlabRqprDataSet.clearFilter();
-        		var excelColumnModel = rlabRqprColumnModel.createExcelColumnModel(false);
+                var excelColumnModel = rlabRqprColumnModel.createExcelColumnModel(false);
+console.log("[excelColumnModel]", excelColumnModel);
                 duplicateExcelGrid(excelColumnModel);
-				nG.saveExcel(encodeURIComponent('시험의뢰_') + new Date().format('%Y%m%d') + '.xls');
-             // 목록 페이징
+                nG.saveExcel(encodeURIComponent('시험목록_') + new Date().format('%Y%m%d') + '.xls');
+             	// 목록 페이징
                 //paging(rlabRqprDataSet,"rlabRqprGrid");
             };
 
