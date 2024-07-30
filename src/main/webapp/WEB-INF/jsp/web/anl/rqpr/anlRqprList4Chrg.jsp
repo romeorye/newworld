@@ -70,7 +70,7 @@
 					, { field: 'acpcNo',        label: '접수번호',        sortable: true,    align:'center',    width: 80 }
 					, { field: 'anlScnNm',        label: '분석구분',        sortable: false,    align:'center',    width: 100 }
 					, { field: 'anlNm',        label: '분석명',        sortable: false,    align:'left',    width: 330 }
-					, { field: 'smpoCnt',        label: '시료수',        sortable: false,    align:'center',    width: 50 }
+					, { field: 'smpoCnt',        label: '시료수',        sortable: false,    align:'center',    width: 60 }
 					, { field: 'rgstNm',        label: '의뢰자',        sortable: false,    align:'center',    width: 70 }
 					, { field: 'anlChrgNm',    label: '담당자',        sortable: false,     align:'center',    width: 70 }
 					, { field: 'realRgstNm',    label: '실의뢰자',        sortable: false,     align:'center',    width: 70 }
@@ -97,7 +97,7 @@
              anlRqprDataSet.on('load', function(e) {
                  $("#cnt_text").html('총 ' + anlRqprDataSet.getCount() + '건');
                  // 목록 페이징
-                 aCnt =20;
+                 //aCnt =20;
                  paging(anlRqprDataSet,"anlRqprGrid");
                });
 
@@ -271,13 +271,17 @@
 
             /* 분석의뢰 담당자용 리스트 엑셀 다운로드 */
             downloadAnlRqprListExcel = function() {
-                // 엑셀 다운로드시 전체 다운로드를 위해 추가
-                anlRqprDataSet.clearFilter();
-                var excelColumnModel = anlRqprColumnModel.createExcelColumnModel(false);
-                duplicateExcelGrid(excelColumnModel);
-                nG.saveExcel(encodeURIComponent('분석목록_') + new Date().format('%Y%m%d') + '.xls');
-                // 목록 페이징
-                //paging(anlRqprDataSet,"anlRqprGrid");
+            	if (anlRqprDataSet.getCount()>0) {
+	                // 엑셀 다운로드시 전체 다운로드를 위해 추가
+	                anlRqprDataSet.clearFilter();
+	                var excelColumnModel = anlRqprColumnModel.createExcelColumnModel(false);
+	                duplicateExcelGrid(excelColumnModel);
+	                nG.saveExcel(encodeURIComponent('분석목록_') + new Date().format('%Y%m%d') + '.xls');
+	                // 목록 페이징
+	                paging(anlRqprDataSet,"anlRqprGrid");
+        		} else {
+        			Rui.alert("조회 후 엑셀 다운로드 해주세요.");
+        		}
             };
 
             /*

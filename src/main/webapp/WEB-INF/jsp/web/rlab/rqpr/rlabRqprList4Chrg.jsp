@@ -65,18 +65,19 @@
 
              var rlabRqprColumnModel = new Rui.ui.grid.LColumnModel({
                  columns: [
-                       { field: 'acpcNo',		label: '접수번호',	sortable: true,		align:'center',	width: 80 }
-                     , { field: 'rlabScnNm',	label: '시험구분',	sortable: true,	align:'center',	width: 90 }
-                     , { field: 'rlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 435 }
-                     , { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 40 }
-                     , { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
- 					 , { field: 'rlabChrgNm',	label: '담당자',		sortable: false, 	align:'center',	width: 80 }
- 					 , { field: 'rqprDt',		label: '의뢰일',		sortable: true, 	align:'center',	width: 90 }
- 					 , { field: 'acpcDt',		label: '접수일',		sortable: true, 	align:'center',	width: 90 }
- 					 , { field: 'cmplParrDt',	label: '완료예정일',	sortable: true, 	align:'center',	width: 90 }
-                     , { field: 'cmplDt',		label: '완료일',		sortable: true, 	align:'center',	width: 90 }
-                     , { field: 'rlabUgyYnNm',	label: '긴급',		sortable: false,  	align:'center',	width: 50 }
- 					 , { field: 'acpcStNm',		label: '상태',		sortable: true, 	align:'center',	width: 90 }
+					  { field: 'rqprId',		label: '의뢰ID',		sortable: true,		align:'center',	width: 75 }
+					, { field: 'acpcNo',		label: '접수번호',		sortable: true,		align:'center',	width: 80 }
+					, { field: 'rlabScnNm',		label: '시험구분',		sortable: true,		align:'center',	width: 90 }
+					, { field: 'rlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 340 }
+					, { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 50 }
+					, { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
+					, { field: 'rlabChrgNm',	label: '담당자',		sortable: false, 	align:'center',	width: 80 }
+					, { field: 'rqprDt',		label: '의뢰일',		sortable: true, 	align:'center',	width: 90 }
+					, { field: 'acpcDt',		label: '접수일',		sortable: true, 	align:'center',	width: 90 }
+					, { field: 'cmplParrDt',	label: '완료예정일',	sortable: true, 	align:'center',	width: 90 }
+					, { field: 'cmplDt',		label: '완료일',		sortable: true, 	align:'center',	width: 90 }
+					, { field: 'rlabUgyYnNm',	label: '긴급',			sortable: false,  	align:'center',	width: 60 }
+					, { field: 'acpcStNm',		label: '상태',			sortable: true, 	align:'center',	width: 90 }
                  ]
              });
 
@@ -84,23 +85,25 @@
                  columnModel: rlabRqprColumnModel,
                  dataSet: rlabRqprDataSet,
                  width: 600,
-                 height: 320,
+                 height: 400,
                  autoToEdit: false,
                  autoWidth: true
              });
 
              rlabRqprGrid.render('rlabRqprGrid');
 
-             rlabRqprDataSet.on('load', function(e) {
-    	    		$("#cnt_text").html('총 ' + rlabRqprDataSet.getCount() + '건');
-    	      	});
+			rlabRqprDataSet.on('load', function(e) {
+				$("#cnt_text").html('총 ' + rlabRqprDataSet.getCount() + '건');
+				// 목록 페이징
+				paging(rlabRqprDataSet,"rlabRqprGrid");
+			});
 
             var rlabNm = new Rui.ui.form.LTextBox({
                 applyTo: 'rlabNm',
                 placeholder: '검색할 시험명을 입력해주세요.',
                 defaultValue: '<c:out value="${inputData.rlabNm}"/>',
                 emptyValue: '',
-                width: 400
+                width: 200
             });
           
             var rqprDeptNm = new Rui.ui.form.LTextBox({
@@ -188,7 +191,7 @@
                 defaultValue: '<c:out value="${inputData.rlabChrgNm}"/>',
                 emptyValue: '',
                 displayField: 'name',
-                width: 400,
+                width: 200,
                 valueField: 'userId'
             });
 
@@ -218,14 +221,18 @@
 
             /* 시험의뢰 담당자용 리스트 엑셀 다운로드 */
         	downloadRlabRqprListExcel = function() {
-        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
-        		rlabRqprDataSet.clearFilter();
-                var excelColumnModel = rlabRqprColumnModel.createExcelColumnModel(false);
-console.log("[excelColumnModel]", excelColumnModel);
-                duplicateExcelGrid(excelColumnModel);
-                nG.saveExcel(encodeURIComponent('시험목록_') + new Date().format('%Y%m%d') + '.xls');
-             	// 목록 페이징
-                //paging(rlabRqprDataSet,"rlabRqprGrid");
+        		if (rlabRqprDataSet.getCount()>0) {
+                    rlabRqprDataSet.clearFilter();
+    
+                    var excelColumnModel = rlabRqprColumnModel.createExcelColumnModel(false);
+                    duplicateExcelGrid(excelColumnModel);
+                    nG.saveExcel(encodeURIComponent('시험목록_') + new Date().format('%Y%m%d') + '.xls');
+    
+                    //목록 페이징
+                    paging(rlabRqprDataSet,"defaultGrid");
+                } else {
+                    Rui.alert("조회 후 엑셀 다운로드 해주세요.");
+                }
             };
 
             /* 조회 */
