@@ -73,7 +73,7 @@ Rui.onReady(function() {
     });
     /* lmbSearchMonth.on('blur', function(){
         if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(lmbSearchMonth.getValue(),"-","")+'01' ) ) )  {
-            alert('날자형식이 올바르지 않습니다.!!');
+            alert('날짜형식이 올바르지 않습니다.!!');
             lmbSearchMonth.setValue(new Date());
         }
     });    */

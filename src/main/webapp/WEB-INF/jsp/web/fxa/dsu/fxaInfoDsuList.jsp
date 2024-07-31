@@ -244,7 +244,7 @@ var adminChk = "N";
 
 		fromDate.on('blur', function(){
 			if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(fromDate.getValue(),"-","")) ) )  {
-				alert('날자형식이 올바르지 않습니다.!!');
+				alert('날짜형식이 올바르지 않습니다.!!');
 				fromDate.setValue(new Date());
 			}
 		});
@@ -269,7 +269,7 @@ var adminChk = "N";
 
 		toDate.on('blur', function(){
 			if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toDate.getValue(),"-","")) ) )  {
-				alert('날자형식이 올바르지 않습니다.!!');
+				alert('날짜형식이 올바르지 않습니다.!!');
 				toDate.setValue(new Date());
 			}
 		});

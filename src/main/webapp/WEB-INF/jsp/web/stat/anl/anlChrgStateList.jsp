@@ -78,7 +78,7 @@
 
             fromAcpcDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(fromAcpcDt.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
+					alert('날짜형식이 올바르지 않습니다.!!');
 					fromAcpcDt.setValue(new Date());
 				}
 
@@ -100,7 +100,7 @@
 
 			toAcpcDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toAcpcDt.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
+					alert('날짜형식이 올바르지 않습니다.!!');
 					toAcpcDt.setValue(new Date());
 				}
 

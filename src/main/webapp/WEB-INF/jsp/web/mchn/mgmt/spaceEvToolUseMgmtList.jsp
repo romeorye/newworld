@@ -138,7 +138,7 @@
                 return;
             }
             if(!Rui.util.LDate.isDate(Rui.util.LString.toDate(nwinsReplaceAll(prctToDt.getValue(),"-","")))) {
-                Rui.alert('날자형식이 올바르지 않습니다.!!');
+                Rui.alert('날짜형식이 올바르지 않습니다.!!');
                 prctToDt.setValue(new Date());
             }
         });
@@ -156,7 +156,7 @@
                 return;
             }
             if(!Rui.util.LDate.isDate(Rui.util.LString.toDate(nwinsReplaceAll(prctFromDt.getValue(),"-","")))) {
-                Rui.alert('날자형식이 올바르지 않습니다.!!');
+                Rui.alert('날짜형식이 올바르지 않습니다.!!');
                 prctFromDt.setValue(new Date());
             }
         });

@@ -49,7 +49,7 @@
 
             fromExprStrtDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(fromExprStrtDt.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
+					alert('날짜형식이 올바르지 않습니다.!!');
 					fromExprStrtDt.setValue(new Date());
 				}
 
@@ -71,7 +71,7 @@
 
 			toExprStrtDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toExprStrtDt.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
+					alert('날짜형식이 올바르지 않습니다.!!');
 					toExprStrtDt.setValue(new Date());
 				}
 

@@ -67,7 +67,7 @@
 
 			fromDate.on('blur', function(){
 				if( nwinsReplaceAll(fromDate.getValue(),"-","") != "" && ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(fromDate.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
+					alert('날짜형식이 올바르지 않습니다.!!');
 					fromDate.setValue(new Date());
 				}
 			});
@@ -83,7 +83,7 @@
 
 			toDate.on('blur', function(){
 				if( nwinsReplaceAll(toDate.getValue(),"-","") != "" && ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toDate.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
+					alert('날짜형식이 올바르지 않습니다.!!');
 					toDate.setValue(new Date());
 				}
 			});

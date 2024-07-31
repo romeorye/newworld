@@ -135,7 +135,7 @@
                 return;
             }
             if(!Rui.util.LDate.isDate(Rui.util.LString.toDate(nwinsReplaceAll(tssStrtDd.getValue(),"-","")))) {
-                Rui.alert('날자형식이 올바르지 않습니다.!!');
+                Rui.alert('날짜형식이 올바르지 않습니다.!!');
                 //tssStrtDd.setValue(new Date());
             }
         });

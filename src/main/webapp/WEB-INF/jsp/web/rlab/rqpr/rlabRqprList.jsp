@@ -103,7 +103,7 @@
 
             fromRqprDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(fromRqprDt.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
+					alert('날짜형식이 올바르지 않습니다.!!');
 					fromRqprDt.setValue(new Date());
 				}
 
@@ -116,8 +116,8 @@
             var toRqprDt = new Rui.ui.form.LDateBox({
 				applyTo: 'toRqprDt',
 				mask: '9999-99-99',
-				displayValue: '%Y-%m-%d',
 				defaultValue: '<c:out value="${inputData.toRqprDt}"/>',
+				displayValue: '%Y-%m-%d',
 				editable: false,
 				width: 100,
 				dateType: 'string'
@@ -125,7 +125,7 @@
 
 			toRqprDt.on('blur', function(){
 				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toRqprDt.getValue(),"-","")) ) )  {
-					alert('날자형식이 올바르지 않습니다.!!');
+					alert('날짜형식이 올바르지 않습니다.!!');
 					toRqprDt.setValue(new Date());
 				}
 
@@ -141,7 +141,7 @@
                 placeholder: '검색할 담당자를 입력해주세요.',
                 defaultValue: '<c:out value="${inputData.rlabChrgNm}"/>',
                 emptyValue: '',
-                width: 400
+                width: 200
             });
 
 
@@ -322,10 +322,10 @@
 					<div class="search-content">
 						<table>
 							<colgroup>
-								<col style="width:120px" />
-								<col style="width:200px" />
-								<col style="width:120px" />
-								<col style="width:400px" />
+								<col style="width:110px" />
+								<col style="width:350px" />
+								<col style="width:80px" />
+								<col style="width:350px" />
 								<col style="" />
 							</colgroup>
 		   					<tbody>

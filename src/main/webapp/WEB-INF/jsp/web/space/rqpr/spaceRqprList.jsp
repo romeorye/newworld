@@ -80,7 +80,7 @@
 
             fromRqprDt.on('blur', function(){
  				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(fromRqprDt.getValue(),"-","")) ) )  {
- 					alert('날자형식이 올바르지 않습니다.!!');
+ 					alert('날짜형식이 올바르지 않습니다.!!');
  					fromRqprDt.setValue(new Date());
  				}
  				/* if( fromRqprDt.getValue() > toRqprDt.getValue() ) {
@@ -101,7 +101,7 @@
 
  			toRqprDt.on('blur', function(){
  				if( ! Rui.util.LDate.isDate( Rui.util.LString.toDate(nwinsReplaceAll(toRqprDt.getValue(),"-","")) ) )  {
- 					alert('날자형식이 올바르지 않습니다.!!');
+ 					alert('날짜형식이 올바르지 않습니다.!!');
  					toRqprDt.setValue(new Date());
  				}
 
@@ -136,7 +136,7 @@
                 placeholder: '검색할 의뢰자를 입력해주세요.',
                 defaultValue: '<c:out value="${inputData.rgstNm}"/>',
                 emptyValue: '',
-                width: 400
+                width: 200
             });
 
             var acpcNo = new Rui.ui.form.LTextBox({
@@ -144,7 +144,7 @@
                 placeholder: '검색할 접수번호를 입력해주세요.',
                 defaultValue: '<c:out value="${inputData.acpcNo}"/>',
                 emptyValue: '',
-                width: 400
+                width: 200
             });
             acpcNo.on('blur', function(e) {
             	acpcNo.setValue(acpcNo.getValue().trim());
@@ -155,7 +155,7 @@
                 placeholder: '검색할 담당자를 입력해주세요.',
                 defaultValue: '<c:out value="${inputData.spaceChrgNm}"/>',
                 emptyValue: '',
-                width: 400
+                width: 200
             });
 
             var spaceAcpcStCd = new Rui.ui.form.LCombo({
@@ -322,11 +322,11 @@
 				<div class="search-content">
    				<table>
    					<colgroup>
-   						<col style="width:110px;"/>
-   						<col style="width:350px;"/>
-   						<col style="width:110px%;"/>
-   						<col style="width:350px;"/>
-   						<col style=";"/>
+   						<col style="width:110px"/>
+   						<col style="width:350px"/>
+   						<col style="width:80px"/>
+   						<col style="width:350px"/>
+   						<col style="" />
    					</colgroup>
    					<tbody>
    						<tr>
