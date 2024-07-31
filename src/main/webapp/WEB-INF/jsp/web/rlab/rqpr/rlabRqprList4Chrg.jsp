@@ -67,7 +67,7 @@
                  columns: [
 					  { field: 'rqprId',		label: '의뢰ID',		sortable: true,		align:'center',	width: 75 }
 					, { field: 'acpcNo',		label: '접수번호',		sortable: true,		align:'center',	width: 80 }
-					, { field: 'rlabScnNm',		label: '시험구분',		sortable: true,		align:'center',	width: 90 }
+					, { field: 'rlabScnNm',		label: '시험구분',		sortable: true,		align:'center',	width: 105 }
 					, { field: 'rlabNm',		label: '시험명',		sortable: false,	align:'left',	width: 340 }
 					, { field: 'smpoCnt',		label: '시료수',		sortable: false,	align:'center',	width: 50 }
 					, { field: 'rgstNm',		label: '의뢰자',		sortable: false,	align:'center',	width: 80 }
@@ -298,18 +298,18 @@
 			<div class="sub-content">
    				<div class="search">
 					<div class="search-content">
-						<table>
+						<table class="rqprlist_sch">
 							<colgroup>
-								<col style="width:120px" />
-								<col style="width:280px" />
-								<col style="width:120px" />
-								<col style="width:360px" />
+								<col style="width:110px" />
+								<col style="width:350px" />
+								<col style="width:80px" />
+								<col style="width:350px" />
 								<col style="" />
 							</colgroup>
 		   					<tbody>
 		   						<tr>
 		   							<th align="right">시험명</th>
-		   							<td>
+		   							<td class="tdin_w100">
 		   								<input type="text" id="rlabNm">
 		   							</td>
 		   							<th align="right">의뢰일자</th>
@@ -321,12 +321,12 @@
 		   						</tr>
 		   						<tr>
 		   							<th align="right">의뢰팀</th>
-		   							<td>
+		   							<td class="tdin_w100">
 		   								<input type="text" id="rqprDeptNm">
 		                                <a href="javascript:openDeptSearchDialog(setRqprDeptInfo);" class="icoBtn">검색</a>
 		   							</td>
 		   							<th align="right">담당자</th>
-		    						<td>
+		    						<td class="tdin_w100">
 		    							<input type="text" id=rlabChrgNm>
 		                                <!-- <div id="rlabChrgNm"></div> -->
 		    						</td>
@@ -336,7 +336,7 @@
 		   						</tr>
 		   						<tr>
 		   							<th align="right">의뢰자</th>
-		   							<td>
+		   							<td class="tdin_w100">
 		   								<input type="text" id="rgstNm">
 		                                <!-- <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'rlab');" class="icoBtn">검색</a> -->
 		   							</td>
@@ -349,7 +349,7 @@
 		   						</tr>
 		   						<tr>
 		   							<th align="right">접수번호</th>
-		   							<td>
+		   							<td class="tdin_w100">
 		   								<input type="text" id="acpcNo">
 		   							</td>
 		   							<th align="right"></th>

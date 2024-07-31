@@ -320,7 +320,7 @@
 			<div class="sub-content">
 				<div class="search">
 				<div class="search-content">
-   				<table>
+   				<table class="rqprlist_sch">
    					<colgroup>
    						<col style="width:110px"/>
    						<col style="width:350px"/>
@@ -344,11 +344,11 @@
 
    						<tr>
    							<th align="right">접수번호</th>
-   							<td class="space_tain">
+   							<td class="tdin_w100">
    								<input type="text" id="acpcNo">
    							</td>
    							<th align="right">의뢰자</th>
-    						<td class="space_tain">
+    						<td class="tdin_w100">
     							<input type="text" id="rgstNm">
     						</td>
     						<td class="t_center" rowspan="4">
@@ -358,11 +358,11 @@
 
    						<tr>
    							<th align="right">평가명</th>
-   							<td class="space_tain">
+   							<td class="tdin_w100">
    								<input type="text" id="spaceNm">
    							</td>
    							<th align="right">담당자</th>
-    						<td class="space_tain">
+    						<td class="tdin_w100">
     							<input type="text" id="spaceChrgNm">
     						</td>
     						<td></td>

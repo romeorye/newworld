@@ -137,7 +137,7 @@
                  placeholder: '검색할 의뢰자를 입력해주세요.',
                  defaultValue: '<c:out value="${inputData.rgstNm}"/>',
                  emptyValue: '',
-                 width: 400
+                 width: 200
              });
 
              var acpcNo = new Rui.ui.form.LTextBox({
@@ -145,7 +145,7 @@
                  placeholder: '검색할 접수번호를 입력해주세요.',
                  defaultValue: '<c:out value="${inputData.acpcNo}"/>',
                  emptyValue: '',
-                 width: 400
+                 width: 200
              });
              acpcNo.on('blur', function(e) {
              	acpcNo.setValue(acpcNo.getValue().trim());
@@ -156,7 +156,7 @@
                  placeholder: '검색할 담당자를 입력해주세요.',
                  defaultValue: '<c:out value="${inputData.spaceChrgNm}"/>',
                  emptyValue: '',
-                 width: 400
+                 width: 200
              });
 
              var spaceAcpcStCd = new Rui.ui.form.LCombo({
@@ -319,12 +319,12 @@
 			<div class="sub-content">
 				<div class="search">
 					<div class="search-content">
-		   				<table>
+		   				<table class="rqprlist_sch">
 		   					<colgroup>
-		   						<col style="width:120px;"/>
-		   						<col style="width:300px;"/>
-		   						<col style="width:120px;"/>
-		   						<col style="width:300px;"/>
+		   						<col style="width:110px;"/>
+		   						<col style="width:350px;"/>
+		   						<col style="width:80px;"/>
+		   						<col style="width:350px;"/>
 		   						<col style=""/>
 		   					</colgroup>
 		   					<tbody>
@@ -343,25 +343,25 @@
 
 		   						<tr>
 		   							<th align="right">접수번호</th>
-		   							<td>
+		   							<td class="tdin_w100">
 		   								<input type="text" id="acpcNo">
 		   							</td>
 		   							<th align="right">의뢰자</th>
-		    						<td class="spacerq_sch">
+		    						<td class="tdin_w100">
 		    							<input type="text" id="rgstNm">
 		    						</td>
-		    						<td class="txt-right">
+		    						<td class="t_center" rowspan="4">
 		   								<a style="cursor: pointer;" onclick="getSpaceRqprList();" class="btnL">검색</a>
 		   							</td>
 		   						</tr>
 
 		   						<tr>
 		   							<th align="right">평가명</th>
-		   							<td>
+		   							<td class="tdin_w100">
 		   								<input type="text" id="spaceNm">
 		   							</td>
 		   							<th align="right">담당자</th>
-		    						<td>
+		    						<td class="tdin_w100">
 		    							<input type="text" id="spaceChrgNm">
 		    						</td>
 		    						<td></td>

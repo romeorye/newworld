@@ -35,13 +35,12 @@
 </style>
 
     <script type="text/javascript">
-     var getAnlRqprList;
-     var tmpAcpcStCd = '${inputData.acpcStCd}';
 
         Rui.onReady(function() {
              /*******************
               * 변수 및 객체 선언
              *******************/
+             
              var anlRqprDataSet = new Rui.data.LJsonDataSet({
                  id: 'anlRqprDataSet',
                  remainRemoved: true,
@@ -106,7 +105,7 @@
                 placeholder: '검색할 분석명을 입력해주세요.',
                 defaultValue: '<c:out value="${inputData.anlNm}"/>',
                 emptyValue: '',
-                width: 200
+                width: 400
             });
            /*
             anlNm.on('blur', function(e) {
@@ -353,18 +352,18 @@
                <div class="sub-content">
                    <div class="search">
                     <div class="search-content">
-                        <table>
+                        <table class="rqprlist_sch">
                                <colgroup>
-                                   <col style="width:120px" />
-                                <col style="width:300px" />
-                                <col style="width:120px" />
+                                   <col style="width:110px" />
+                                <col style="width:350px" />
+                                <col style="width:80px" />
                                 <col style="width:350px" />
                                 <col style="" />
                                </colgroup>
                                <tbody>
                                    <tr>
                                        <th align="right">분석명</th>
-                                       <td>
+                                       <td class="tdin_w100">
                                            <input type="text" id="anlNm">
                                        </td>
                                        <th align="right">의뢰일자</th>
@@ -376,12 +375,12 @@
                                    </tr>
                                    <tr>
                                        <th align="right">의뢰팀</th>
-                                       <td>
+                                       <td class="tdin_w100">
                                            <input type="text" id="rqprDeptNm">
                                         <a href="javascript:openDeptSearchDialog(setRqprDeptInfo);" class="icoBtn">검색</a>
                                        </td>
                                        <th align="right">담당자</th>
-                                    <td>
+                                    <td class="tdin_w100">
                                         <input type="text" id=anlChrgNm>
                                         <!-- <div id="anlChrgNm"></div> -->
                                     </td>
@@ -391,7 +390,7 @@
                                    </tr>
                                    <tr>
                                        <th align="right">의뢰자</th>
-                                       <td>
+                                       <td class="tdin_w100">
                                            <input type="text" id="rgstNm">
                                         <!-- <a href="javascript:openUserSearchDialog(setRgstInfo, 1, '', 'anl');" class="icoBtn">검색</a> -->
                                        </td>
@@ -404,7 +403,7 @@
                                    </tr>
                                    <tr>
                                        <th align="right">접수번호</th>
-                                       <td>
+                                       <td class="tdin_w100">
                                            <input type="text" id="acpcNo">
                                        </td>
                                        <th align="right"></th>
