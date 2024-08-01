@@ -6,7 +6,8 @@
     <select id="getAnlRqprList" resultType="hashmap">
         <![CDATA[
             -- anlRqprList 분석의뢰 리스트 조회
-            select   a.ACPC_NO    as acpcNo
+            select   a.RQPR_ID            as rqprId
+                    ,a.ACPC_NO    as acpcNo
                     ,a.anlScnNm
                     ,a.ANL_NAME            as anlNm
                     ,(select isnull(sum(smpo_qty), 0)
@@ -22,7 +23,6 @@
                     ,a.CMPL_DT            as cmplDt
                     ,a.anlUgyYnNm
                     ,a.acpcStNm
-                    ,a.RQPR_ID            as rqprId
                     ,a.realRgstNm
             from   (
                     select   MST.RQPR_ID
@@ -93,7 +93,7 @@
         </if>
 
 
-        ORDER BY ACPC_NO DESC
+        ORDER BY RQPR_ID DESC
     </select>
 
     <select id="getAnlChrgList" resultType="hashmap">
