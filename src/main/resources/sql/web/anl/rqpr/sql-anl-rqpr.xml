@@ -83,7 +83,7 @@
             AND anlChrgNm like '%${anlChrgNm}%'
         </if>
         <if test="acpcNo != null and acpcNo != ''">
-            AND ACPC_NO like '${acpcNo}%'
+            AND (ACPC_NO like '%${acpcNo}%' OR RQPR_ID like '%${acpcNo}%')
         </if>
         <if test="acpcStCd != null and acpcStCd != ''">
             AND ACPC_ST_CD = #{acpcStCd}

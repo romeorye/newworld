@@ -44,7 +44,7 @@
 			AND RLAB_CHRG_ID IN (SELECT SA_USER FROM IRIS_SSO_USER WHERE SA_NAME like '%${rlabChrgNm}%')
 		</if>
         <if test="acpcNo != null and acpcNo != ''">
-			AND ACPC_NO like '${acpcNo}%'
+			AND (ACPC_NO like '%${acpcNo}%' OR RQPR_ID like '%${acpcNo}%')
 		</if>
         <if test="rlabAcpcStCd != null and rlabAcpcStCd != ''">
 			AND RLAB_ACPC_ST_CD = #{rlabAcpcStCd}

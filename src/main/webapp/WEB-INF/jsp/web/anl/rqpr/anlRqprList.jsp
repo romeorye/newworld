@@ -75,7 +75,7 @@
              */
             var acpcNo = new Rui.ui.form.LTextBox({
                 applyTo: 'acpcNo',
-                placeholder: '검색할 접수번호를 입력해주세요.',
+                placeholder: '검색할 의뢰ID 또는 접수번호를 입력해주세요.',
                 defaultValue: '<c:out value="${inputData.acpcNo}"/>',
                 emptyValue: '',
                 width: 400
