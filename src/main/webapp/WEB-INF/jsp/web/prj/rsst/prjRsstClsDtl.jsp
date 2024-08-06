@@ -297,6 +297,7 @@
         tssPgsGrid.render('tssPgsGrid');
 
         tssPgsDataSet.on('load', function(e){
+
             if (tssPgsDataSet.getCount() > 0 ){
                 for(var i=0; i < tssPgsDataSet.getCount(); i++){
                     var pgN ="달성";
@@ -355,9 +356,10 @@
         });
 
         var fncPgsProcess = function(val){
-
-            if (!Rui.isEmpty(clsDataSet.getNameValue(0, 'pgsStatCd'))){
-                lcbPgsStatCd.setValue(clsDataSet.getNameValue(0, 'pgsStatCd'));
+            var pgsStatCd = clsDataSet.getNameValue(0, 'pgsStatCd');
+console.log("[pgsStatCd]", pgsStatCd);
+            if (!Rui.isEmpty( pgsStatCd )){
+                lcbPgsStatCd.setValue( pgsStatCd );
                 lcbPgsStatCd.disable();
 
                 if( val == "OF"){
@@ -367,12 +369,14 @@
                 }
             }else{
                 lcbPgsStatCd.setValue(val);
-                lcbPgsStatCd.disable();
+                //lcbPgsStatCd.disable(); //[20240806.siseo]진척상태 비활성화 주석후 하단에 조건 체크
 
                 if( val == "OF"){
                     fnoPln.enable();
+                    lcbPgsStatCd.disable();
                 }else{
                     fnoPln.disable();
+                    lcbPgsStatCd.enable();
                 }
             }
         }
@@ -610,6 +614,8 @@
               , searchMonth : lmbSearchMonth.getValue()
             }
         });
+        
+        lcbPgsStatCd.enable(); //[20240806.siseo]진척상태 초기화
     }
 
     <%--/*******************************************************************************
