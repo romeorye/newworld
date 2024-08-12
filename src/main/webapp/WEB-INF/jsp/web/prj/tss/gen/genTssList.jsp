@@ -262,12 +262,12 @@
                         if(stepCd == "PL") return "SEED-" + value;
                         return value;
                   }}
-                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 290 , renderer: function(value, p, record, row, col){
+                , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 180 , renderer: function(value, p, record, row, col){
                     if(record.get("myTss") == "Y") p.css.push('font-bold');
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
                 , { field: 'tssTypeNm',    label: '등급',  align:'center',  width: 60 }
-                , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 160 }
+                , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 100 }
                 , { id: 'G1', label: '과제기간(계획일)' }
                 , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 80 }
                 , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 80 }
