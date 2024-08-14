@@ -450,8 +450,8 @@
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> <!--운영반영시 트리거 주석제거 후 반영해야 함 -->
         <property name="triggers">
             <list>
-                <!-- <ref bean="tssStCopyBatchTrigger"/>
-
+                <ref bean="tssStCopyBatchTrigger"/>
+                <!-- 
                 <ref bean="mailBatchGrsReqTrigger"/>
                 <ref bean="sapBudgSCostInsertBatchTrigger"/>
                 <ref bean="sapBudgTCostInsertBatchTrigger"/>

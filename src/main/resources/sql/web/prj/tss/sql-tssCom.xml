@@ -864,13 +864,13 @@
         VALUES
              ( #{guid}
              , #{affrCd}
-             , #{aprdocstate}
+             , dbo.fn_isEmpty(#{aprdocstate}, 'A01')
              , #{approvalUserid}
              , #{approvalUsername}
              , #{approvalJobtitle}
              , #{approvalDeptname}
              , GETDATE()
-             , ''
+             , null
              , #{body}
              , #{title}
              , GETDATE()
