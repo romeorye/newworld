@@ -179,7 +179,7 @@
             var tmpArray;
 			var str = "";
 
-        	document.getElementById("cnt_text").innerHTML = '총: '+mGridDataSet.getCount();
+        	document.getElementById("cnt_text").innerHTML = '총: '+mGridDataSet.getCount() + '건';
         	// 목록 페이징
 	    	paging(mGridDataSet,"masterGrid");
         });
@@ -290,7 +290,7 @@
 
 			</form>
     		<div class="titArea">
-	    		<span class="Ltotal" id="cnt_text">총 : 0 </span>
+	    		<span class="Ltotal" id="cnt_text">총 : 0건</span>
     			<div class="LblockButton">
     				<button type="button" id="butNew" name="itemCreate" class="redBtn">GRS템플릿등록</button>
     			</div>

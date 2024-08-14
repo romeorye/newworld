@@ -199,7 +199,7 @@
             var tmp;
             var tmpArray;
             var str = "";
-            document.getElementById("cnt_text").innerHTML = '총: '+deptDataSet.getCount();
+            document.getElementById("cnt_text").innerHTML = '총: '+deptDataSet.getCount() + '건';
             // 목록 페이징
 	    	paging(deptDataSet,"deptGrid");
         });
@@ -321,7 +321,7 @@
 
 
                 <div class="titArea">
-                    <span class="Ltotal" id="cnt_text">총 : 0 </span>
+                    <span class="Ltotal" id="cnt_text">총 : 0건</span>
                     <div class="LblockButton">
                         <button type="button" onclick="javascript:fnExcel()">Excel다운로드</button>
                     </div>

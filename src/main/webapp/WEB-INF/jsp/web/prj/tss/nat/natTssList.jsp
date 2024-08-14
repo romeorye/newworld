@@ -343,7 +343,7 @@
             var tmpArray;
             var str = "";
 
-            document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
+            document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount() + '건';
 
             if( '${inputData._roleId}' == "WORK_IRI_T16" ){
                 deptName.setValue('${inputData._userDeptName}');
@@ -518,7 +518,7 @@ nG.saveExcel(encodeURIComponent('과제관리_국책과제') + new Date().format
             </form>
 
             <div class="titArea">
-                 <span class="Ltotal" id="cnt_text">총 : 0 </span>
+                 <span class="Ltotal" id="cnt_text">총 : 0건</span>
                 <div class="LblockButton">
                     <button type="button" id="butTssNew" name="itemCreate" class="redBtn">과제등록</button>
                     <button type="button" id="butExcel" name="butExcel">EXCEL다운로드</button>

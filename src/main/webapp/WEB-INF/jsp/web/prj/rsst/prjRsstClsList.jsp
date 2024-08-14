@@ -142,7 +142,7 @@
                 var tmpArray;
                 var str = "";
 
-                document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
+                document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount() + '건';
                 // 목록 페이징
                 aCnt = 15;        //게시물수
                 paging(dataSet,"mainGrid");
@@ -199,7 +199,7 @@
                 </div>
 
                    <div class="titArea" style="margin-top:0;">
-                       <span class="table_summay_number" id="cnt_text">총 : 0 </span>
+                       <span class="table_summay_number" id="cnt_text">총 : 0건</span>
                    </div>
                 <form id="aform" name="aform" method="post">
                     <input type="hidden" id="prjCd"  name="prjCd" />

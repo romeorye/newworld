@@ -82,7 +82,7 @@
 	        var tmp;
 	        var tmpArray;
 			var str = "";
-	    	document.getElementById("cnt_text").innerHTML = '총: '+dataSet.getCount();
+	    	document.getElementById("cnt_text").innerHTML = '총: '+dataSet.getCount() + '건';
 	    	// 목록 페이징
 	    	paging(dataSet,"Grid");
 	    });
@@ -180,7 +180,7 @@
 	    <!-- 컨텐츠 영역 -->
 
 
-	    	<span class="Ltotal" id="cnt_text">총 : 0 </span>
+	    	<span class="Ltotal" id="cnt_text">총 : 0건</span>
 	    	<div class="LblockButton">
 	    	 <button type="button" id="butBudgPopup" class="redBtn"  name="butBudgPopup">1인당 총 비용등록</button>
 	        </div>

@@ -324,7 +324,7 @@ Rui.onReady(function() {
         var tmpArray;
         var str = "";
 
-        document.getElementById("cnt_text").innerHTML = '총: '+ mmClsDataSet.getCount();
+        document.getElementById("cnt_text").innerHTML = '총: '+ mmClsDataSet.getCount() + '건';
 
     });
 

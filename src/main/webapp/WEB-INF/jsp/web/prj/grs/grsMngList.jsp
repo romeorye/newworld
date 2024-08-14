@@ -134,7 +134,7 @@ var grsUserChk = '${inputData.grsUserChk}';
          });
 
          listDataSet.on('load', function(e) {
-             document.getElementById("cnt_text").innerHTML = '총: '+ listDataSet.getCount();
+             document.getElementById("cnt_text").innerHTML = '총: '+ listDataSet.getCount() + '건';
              paging(listDataSet,"listGrid");
 
                  if(  (roleId.indexOf("WORK_IRI_T01") > -1            //시스템관리자
@@ -538,7 +538,7 @@ var grsUserChk = '${inputData.grsUserChk}';
             </div>
         </form>
             <div class="titArea">
-                    <span class="Ltotal" id="cnt_text">총 : 0 </span>
+                    <span class="Ltotal" id="cnt_text">총 : 0건 </span>
                     <div class="LblockButton">
                         <button type="button" id="butTssNew" class="redBtn" onClick="fncTssRegPop();">신규과제등록</button>
                         <button type="button" id="butAppr"  onClick="fncGrsAppr();">품의요청</button>

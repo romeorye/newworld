@@ -146,7 +146,7 @@
             var tmpArray;
 			var str = "";
 
-        	document.getElementById("cnt_text").innerHTML = '총: '+mGridDataSet.getCount();
+        	document.getElementById("cnt_text").innerHTML = '총: '+mGridDataSet.getCount() + '건';
         	// 목록 페이징
 	    	paging(mGridDataSet,"masterGrid");
         });
@@ -244,7 +244,7 @@
    				</div>
 			</form>
     		<div class="titArea">
-	    		<span class="Ltotal" id="cnt_text">총 : 0 </span>
+	    		<span class="Ltotal" id="cnt_text">총 : 0건</span>
     		</div>
 
 			<div id="masterGrid"></div>

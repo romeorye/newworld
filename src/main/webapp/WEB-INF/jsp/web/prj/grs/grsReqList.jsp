@@ -200,7 +200,7 @@
             var tmpArray;
             var str = "";
 
-            document.getElementById("cnt_text").innerHTML = '총: '+mGridDataSet.getCount();
+            document.getElementById("cnt_text").innerHTML = '총: '+mGridDataSet.getCount() + '건';
 
         });
 
@@ -338,7 +338,7 @@
                 </table>
             </form>
             <div class="titArea">
-                <span class="Ltotal" id="cnt_text">총 : 0 </span>
+                <span class="Ltotal" id="cnt_text">총 : 0건</span>
                 <div class="LblockButton">
                     <button type="button" onclick="javascript:fnExcel()">Excel다운로드</button>
                 </div>

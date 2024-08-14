@@ -228,7 +228,7 @@ Rui.onReady(function() {
 	총 건수 표시
 	**/
 	dataSet.on('load', function(e){
-		document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
+		document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount() + '건';
 		// 목록 페이징
     	paging(dataSet,"defaultGrid");
 	});

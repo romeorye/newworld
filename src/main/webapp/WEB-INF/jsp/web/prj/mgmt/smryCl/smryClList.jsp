@@ -255,7 +255,7 @@
             var tmpArray;
             var str = "";
 
-            document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
+            document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount() + '건';
         	// 목록 페이징
 	    	paging(dataSet,"defaultGrid");
         });
@@ -397,7 +397,7 @@ function setDeptInfo(deptInfo) {
             </form>
 
             <div class="titArea">
-                <span class="Ltotal" id="cnt_text">총 : 0 </span>
+                <span class="Ltotal" id="cnt_text">총 : 0건</span>
                 <div class="LblockButton">
                 </div>
             </div>

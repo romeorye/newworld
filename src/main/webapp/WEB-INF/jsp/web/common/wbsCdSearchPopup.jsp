@@ -190,7 +190,7 @@
 			총 건수 표시
 			**/
 			wbsCdDataset.on('load', function(e){
-				document.getElementById("cnt_text").innerHTML = '총: '+ wbsCdDataset.getCount();
+				document.getElementById("cnt_text").innerHTML = '총: '+ wbsCdDataset.getCount() + '건';
 			});
 
 			// 조회

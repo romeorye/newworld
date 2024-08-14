@@ -210,7 +210,7 @@ var roleUserId = '${inputData._userId}';
 	        var tmpArray;
 	        var str = "";
 	
-	        document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount();
+	        document.getElementById("cnt_text").innerHTML = '총: '+ dataSet.getCount() + '건';
 	
 	        paging(dataSet,"defaultGrid");
 	    });
@@ -416,7 +416,7 @@ nG.saveExcel(encodeURIComponent('과제관리_제조혁신과제_') + new Date()
 			</form>	
 		
 			<div class="titArea">
-                <span class="Ltotal" id="cnt_text">총 : 0 </span>
+                <span class="Ltotal" id="cnt_text">총 : 0건</span>
                 <div class="LblockButton">
                     <button type="button" id="butReg" name="butReg" onClick="fncMkInnoRegPop()">신규과제등록</button>
                     <button type="button" id="butExcel" name="butExcel">EXCEL다운로드</button>
