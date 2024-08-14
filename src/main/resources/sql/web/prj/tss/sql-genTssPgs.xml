@@ -30,7 +30,8 @@
              , #{_userId}      AS userId
           FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
          WHERE TSS_CD = #{tssCd} 
-         ORDER BY saUserName
+         --ORDER BY saUserName
+         ORDER BY PTC_ROLE, PTC_RSST_MBR_SN
     ]]>
     </select>
 
