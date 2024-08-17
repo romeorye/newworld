@@ -71,7 +71,7 @@ public class TssStCopyBatch extends IrisBaseController {
 			//1. 과제 및 통합결재 조회 결제 (결제 요청상태 과제 목록 103,503)
 			List<Map<String, Object>> retrieveTssComItgRdcs = tssStCopyService.retrieveTssComItgRdcs();
 
-			LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>retrieveTssComItgRdcs  : " + 1);
+			LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>retrieveTssComItgRdcs  : " + retrieveTssComItgRdcs.size());
 			//2. 과제 상태 변경 -> 104
 			for (Map<String, Object> data : retrieveTssComItgRdcs) {
 				LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>과재 품의 대상  : " + data);
