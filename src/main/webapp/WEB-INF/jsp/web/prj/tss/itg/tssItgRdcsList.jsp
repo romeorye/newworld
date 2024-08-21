@@ -151,18 +151,20 @@
 
 
         var mGridColumnModel = new Rui.ui.grid.LColumnModel({  //masterGrid column
+        	autoWidth: true,
             columns: [
                     { field: 'tssScnNm',     label: '과제구분',    align:'center',     width: 120 },
                       { field: 'pgsStepNm',    label: '진행단계',       align:'center',      width: 75  },
-                      { field: 'tssNm',          label: '과제명',         align:'left',     width: 460 , renderer: function(value){
+                      { field: 'tssNm',          label: '과제명',         align:'left',     width: 380 , renderer: function(value){
                         return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                     }},
-                      { field: 'wbsCd',          label: 'WBS 코드',        align:'center',          width: 85 },
+                      { field: 'wbsCd',          label: 'WBS 코드',        align:'center',          width: 100 },
                       //{ field: 'title',           label: '결재 제목',   align:'left',     width: 220 },
-                      { field: 'approvalProcessdate',   label: '결재 요청 일자',   align:'left',      width: 180 },
-                      { field: 'aprdocstateNm',            label: '결재상태코드',    align:'center',      width: 125 },
-                      { field: 'approverProcessdate',   label: '결재 승인 일자',   align:'left',      width: 180 },
-                      { field: 'approvalUsername',      label: '요청자명',        align:'center',      width: 100 }
+                      { field: 'approvalProcessdate',   label: '결재 요청 일자',   align:'left',      width: 150 },
+                      { field: 'aprdocstateNm',            label: '결재상태코드',    align:'center',      width: 100 },
+                      { field: 'approverProcessdate',   label: '결재 승인 일자',   align:'left',      width: 150 },
+                      { field: 'approvalUsername',      label: '요청자명',        align:'center',      width: 120 },
+                      { field: 'itgRdcsId',   label: '전자결재번호',   align:'center',      width: 100 }
 
             ]
         });
