@@ -629,19 +629,6 @@ console.log("[lvPgTssSt]", lvPgTssSt);
                       <td class="alignR"></td>
                       <td class="alignR" bgcolor='#E6E6E6'></td>
                   </tr>
-                  <tr id="trNprodSal"  >
-                      <th>매출액(억원)</th>
-                      <td class="alignR"><span id="nprodSalsPlnYBefore" /></td>
-                      <td class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsPlnY"  /></td>
-                      <td class="alignR"><span id="nprodSalsPlnY1Before"/></td>
-                      <td class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsPlnY1" /></td>
-                      <td class="alignR"><span id="nprodSalsPlnY2Before"/></td>
-                      <td class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsPlnY2" /></td>
-                      <td class="alignR"></td>
-                      <td class="alignR" bgcolor='#E6E6E6'></td>
-                      <td class="alignR"></td>
-                      <td class="alignR" bgcolor='#E6E6E6'></td>
-                  </tr>
                   <tr id="trbizPrftPln" >
                       <th>영업이익(억원)</th>
                       <td class="alignR"><span id="bizPrftPlnYBefore"/></td>
@@ -650,6 +637,19 @@ console.log("[lvPgTssSt]", lvPgTssSt);
                       <td class="alignR" bgcolor='#E6E6E6'><span id="bizPrftPlnY1" /></td>
                       <td class="alignR"><span id="bizPrftPlnY2Before"/></td>
                       <td class="alignR" bgcolor='#E6E6E6'><span id="bizPrftPlnY2" /></td>
+                      <td class="alignR"></td>
+                      <td class="alignR" bgcolor='#E6E6E6'></td>
+                      <td class="alignR"></td>
+                      <td class="alignR" bgcolor='#E6E6E6'></td>
+                  </tr>
+                  <tr id="trNprodSal"  >
+                      <th>매출액(억원)</th>
+                      <td class="alignR"><span id="nprodSalsPlnYBefore" /></td>
+                      <td class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsPlnY"  /></td>
+                      <td class="alignR"><span id="nprodSalsPlnY1Before"/></td>
+                      <td class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsPlnY1" /></td>
+                      <td class="alignR"><span id="nprodSalsPlnY2Before"/></td>
+                      <td class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsPlnY2" /></td>
                       <td class="alignR"></td>
                       <td class="alignR" bgcolor='#E6E6E6'></td>
                       <td class="alignR"></td>

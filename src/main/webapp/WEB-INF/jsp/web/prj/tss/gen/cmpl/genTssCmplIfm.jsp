@@ -612,19 +612,6 @@ $(window).load(function() {
                       <td class="alignR" ></td>
                       <td class="alignR" ></td>
                   </tr>
-                  <tr id="trNprodSal"  >
-                      <th>매출액(억원)</th>
-                      <td class="alignR" ><span id="nprodSalsPlnY" /></td>
-                      <td  class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsCurY"  style="font-weight:bold;"/></td>
-                      <td class="alignR" ><span id="nprodSalsPlnY1"/></td>
-                      <td class="alignR"  bgcolor='#E6E6E6'><span id="nprodSalsCurY1" style="font-weight:bold;"/></td>
-                      <td class="alignR" ><span id="nprodSalsPlnY2"/></td>
-                      <td class="alignR"  bgcolor='#E6E6E6'><span id="nprodSalsCurY2" style="font-weight:bold;"/></td>
-                      <td class="alignR" ></td>
-                      <td class="alignR" ></td>
-                      <td class="alignR" ></td>
-                      <td class="alignR" ></td>
-                  </tr>
                   <tr id="trbizPrftPln" >
                       <th>영업이익(억원)</th>
                       <td class="alignR" ><span id="bizPrftPlnY"/></td>
@@ -633,6 +620,19 @@ $(window).load(function() {
                       <td class="alignR"  bgcolor='#E6E6E6'><span id="bizPrftCurY1" style="font-weight:bold;"/></td>
                       <td class="alignR" ><span id="bizPrftPlnY2"/></td>
                       <td class="alignR"  bgcolor='#E6E6E6'><span id="bizPrftCurY2" style="font-weight:bold;"/></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                      <td class="alignR" ></td>
+                  </tr>
+                  <tr id="trNprodSal"  >
+                      <th>매출액(억원)</th>
+                      <td class="alignR" ><span id="nprodSalsPlnY" /></td>
+                      <td  class="alignR" bgcolor='#E6E6E6'><span id="nprodSalsCurY"  style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="nprodSalsPlnY1"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="nprodSalsCurY1" style="font-weight:bold;"/></td>
+                      <td class="alignR" ><span id="nprodSalsPlnY2"/></td>
+                      <td class="alignR"  bgcolor='#E6E6E6'><span id="nprodSalsCurY2" style="font-weight:bold;"/></td>
                       <td class="alignR" ></td>
                       <td class="alignR" ></td>
                       <td class="alignR" ></td>
