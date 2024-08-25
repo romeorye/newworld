@@ -971,6 +971,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
     </insert>
 
     <update id="updateGrsDefInfo02">
+        /* updateGrsDefInfo02 */
         UPDATE IRIS_TSS_MGMT_MST
         SET
             PPSL_MBD_CD = #{ppslMbdCd}
@@ -1302,6 +1303,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
     </select>
 
        <update id="updateGrsDecode">
+       /* updateGrsDecode */
         update IRIS_GRS_EV_RSLT_RGST
         set    EV_TITL = #{evTitl}
               ,COMM_TXT = #{commTxt}
@@ -1310,6 +1312,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
     </update>
 
     <select id="retrieveGrsDecodeList"  resultType="hashmap">
+        /* retrieveGrsDecodeList */
         select  '0' as chk
               , tss_cd   as tssCd
               ,tss_cd_sn as tssCdSn
@@ -1323,6 +1326,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
     </select>
 
     <select id="retrieveTssInfo" resultType="hashmap">
+        /* retrieveTssInfo */
         select   m.TSS_SCN_CD    as  tssScnCd
                 ,m.grs_yn        as  grsYn
                 ,m.prj_nm        as  prjNm
@@ -1475,6 +1479,10 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 ,dbo.fn_getComDtlNm('GRS_EV_ST',rtrim(m.GRS_EV_ST))  AS grsEvStNm
                 ,dbo.fn_getComDtlNm('TSS_TYPE',rtrim(m.tssType))  AS tssTypeNm
                 ,m.custSqlt
+                ,m.INIT_FLOW_YN         as initFlowYn
+                --,m.INIT_FLOW_STRT_DT    as initFlowStrtDt
+                --,m.INIT_FLOW_FNH_DT     as initFlowFnhDt
+                --,m.INIT_FLOW_GUID       as initFlowGuid
         from    (
                 select   dbo.fn_getPrjName(b.PRJ_CD)                        as prjNm
                         ,dbo.fn_getComDtlNm('BIZ_DPT_CD', b.BIZ_DPT_CD)        AS bizDptNm
@@ -1545,7 +1553,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                         ,b.BIZ_DPT_CD
                         ,b.TSS_ATTR_CD
                         ,b.TSS_STRT_DD
-                        ,isnull((select  tss_fnh_dd from iris_tmp_tss where tss_cd =#{tssCd}), b.TSS_FNH_DD ) as TSS_FNH_DD
+                        ,isnull((select  tss_fnh_dd from IRIS_TMP_TSS where tss_cd =#{tssCd}), b.TSS_FNH_DD ) as TSS_FNH_DD
                         ,a.CFRN_ATDT_CD_TXT
                         ,a.ATTC_FIL_ID
                         ,b.TSS_CD
@@ -1564,7 +1572,11 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                         ,a.EV_DT as evDt
                         ,b.tss_Type as tssType
                         ,b.cust_sqlt as custSqlt
-                from    iris_grs_ev_rslt_rgst a
+                        ,a.INIT_FLOW_YN
+                        --,a.INIT_FLOW_STRT_DT
+                        --,a.INIT_FLOW_FNH_DT
+                        --,a.INIT_FLOW_GUID
+                from    IRIS_GRS_EV_RSLT_RGST a
                 ]]>
                 <choose>
                     <when test="grsEvSt == 'G1' and grsStCd == '101' ">
@@ -1584,6 +1596,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
     </select>
 
     <update id="saveTmpGrsInfo">
+        /* saveTmpGrsInfo */
         update IRIS_GRS_EV_RSLT_RGST
         set  EV_TITL             = #{evTitl}
             ,CFRN_ATDT_CD_TXT    = #{cfrnAtdtCdTxt}
@@ -1621,6 +1634,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             ,EXP_ARSL_CUR_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY2} = '' THEN '0' ELSE #{expArslCurY2} END)
             ,EXP_ARSL_CUR_Y_3    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY3} = '' THEN '0' ELSE #{expArslCurY3} END)
             ,EXP_ARSL_CUR_Y_4    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY4} = '' THEN '0' ELSE #{expArslCurY4} END)
+            ,INIT_FLOW_YN        = dbo.fn_isEmpty(#{initFlowYn}, NULL) --초기유동관리여부
         </when>
         <otherwise>
             ,NPROD_SALS_PLN_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)
@@ -1652,7 +1666,8 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
     </update>
 
     <update id="saveGrsInfo">
-    update IRIS_GRS_EV_RSLT_RGST
+        /* saveGrsInfo */
+        update IRIS_GRS_EV_RSLT_RGST
         set  EV_TITL             = #{evTitl}
             ,CFRN_ATDT_CD_TXT    = #{cfrnAtdtCdTxt}
             ,COMM_TXT            = #{commTxt}
@@ -1733,6 +1748,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
 
 
     <select id="retrieveGrsUserChk" resultType="String">
+        /* retrieveGrsUserChk */
         select case when count(*) > 0 then 'Y'
                else 'N' end as  grsUserChk
         from   IRIS_ADM_COM_CD

@@ -74,7 +74,7 @@
             ,dbo.fn_getTssStepNm(#{tssCd}) as tssStepNm
             ,dbo.fn_getGrsStepNm(#{tssCd},'1') as grsStepNm
             ,dbo.fn_getQgateStepNm(A.WBS_CD,'1') as qgateStepNm
-            , ( select ATTC_FIL_ID
+            /*, ( select ATTC_FIL_ID
                 from IRIS_GRS_EV_RSLT_RGST
                 where TSS_CD = a.TSS_CD
                 and   TSS_CD_SN = (select max(tss_cd_sn) from IRIS_GRS_EV_RSLT_RGST where tss_cd = a.TSS_CD)
@@ -83,15 +83,30 @@
                from  IRIS_GRS_EV_RSLT_RGST x
                where tss_cd = ( select  y.tss_cd
                                   from  iris_tss_mgmt_mst y
-                                  where y.wbs_cd = #{wbsCd}
+                                  where y.wbs_cd = #@@@{wbsCd}
                                   and   y.pgs_Step_Cd = 'PG'
                                )
                and  x.grs_ev_st = 'G2'
-               ) as evDt
-
+               ) as evDt*/
+            ,C.tss_cd AS pgTssCd
+            ,C.ATTC_FIL_ID AS attcFilId
+            --,null AS attcFilId
+            ,C.EV_DT AS evDt
+            ,C.INIT_FLOW_YN AS initFlowYn
+            --,C.INIT_FLOW_STRT_DT AS initFlowStrtDt
+            --,C.INIT_FLOW_FNH_DT AS initFlowFnhDt
+            ,A.INIT_FLOW_GUID AS initFlowGuid
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
             ON A.PRJ_CD = B.PRJ_CD
+          LEFT JOIN IRIS_GRS_EV_RSLT_RGST C  /*GRS평가결과등록*/
+            ON C.TSS_CD = ( SELECT Y.TSS_CD
+                              FROM IRIS_TSS_MGMT_MST Y
+                             WHERE Y.WBS_CD = #{wbsCd}
+                               AND Y.PGS_STEP_CD = 'PG'
+                           ) 
+               AND GRS_EV_ST = 'G2'
+               AND TSS_CD_SN = (select max(tss_cd_sn) from IRIS_GRS_EV_RSLT_RGST where tss_cd = c.TSS_CD)
          WHERE A.TSS_CD = #{tssCd}
     ]]>
     </select>
@@ -370,6 +385,7 @@
              , tss_cd as tssCd
           FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
          WHERE TSS_CD = #{tssCd}
+         ORDER BY PTC_ROLE, PTC_RSST_MBR_SN
     ]]>
     </select>
 
@@ -416,8 +432,8 @@
         UPDATE
            SET A.SA_SABUN_NEW = #{saSabunNew}
              , A.DEPT_CODE    = #{deptCode}
-             , A.PTC_STRT_DT  = CASE WHEN #{ptcStrtDt} = '' OR #{ptcStrtDt} IS NULL THEN #{oldStrtDt} ELSE #{ptcStrtDt} END
-             , A.PTC_FNH_DT   = CASE WHEN #{ptcFnhDt} = '' OR #{ptcFnhDt} IS NULL THEN #{oldFnhDt} ELSE #{ptcFnhDt} END
+             , A.PTC_STRT_DT  = dbo.fn_isEmpty(#{ptcStrtDt},dbo.fn_isEmpty(#{oldStrtDt}, null))
+             , A.PTC_FNH_DT   = dbo.fn_isEmpty(#{ptcFnhDt},dbo.fn_isEmpty(#{oldFnhDt}, null))
              , A.PTC_ROLE     = #{ptcRole}
              , A.PTC_ROLE_DTL = #{ptcRoleDtl}
              , A.PTC_PRO      = #{ptcPro}

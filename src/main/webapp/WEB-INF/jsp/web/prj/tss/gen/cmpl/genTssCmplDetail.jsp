@@ -95,7 +95,7 @@
          tssNm = new Rui.ui.form.LTextBox({
              applyTo: 'tssNm',
              editable: false,
-             width: 500
+             width: 400
          });
 
         //wbs code
@@ -227,7 +227,7 @@
    	        modal: true,
    	        visible: false
    	    });
-
+        
        	altrHistDialog.render(document.body);
 
         //Form 비활성화 여부
@@ -292,10 +292,12 @@
                 , { id: 'tssRoleType' }
                 , { id: 'mbrCnt' }
                 , { id: 'tssRoleId' }
-                , {id: 'tssStepNm'}	//관제 단계
-                , {id: 'grsStepNm'}	//GRS 단계
-                , {id: 'qgateStepNm'}	//Qgate 단계
-                , {id: 'evDt'}	//Qgate 단계
+                , { id: 'tssStepNm'}	//관제 단계
+                , { id: 'grsStepNm'}	//GRS 단계
+                , { id: 'qgateStepNm'}	//Qgate 단계
+                , { id: 'evDt'}	//Qgate 단계
+                , { id: 'initFlowYn'}	//초기유동관리여부
+                , { id: 'initFlowGuid'}		//초기유동관리결재고유코드
             ]
         });
         dataSet.on('load', function(e) {
@@ -319,6 +321,15 @@
                 gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt")); //과제상태
             }
 
+            tmpTssStrtDd = dataSet.getNameValue(0, 'tssStrtDd');
+            tmpTssFnhDd =  dataSet.getNameValue(0, 'tssFnhDd');
+            
+            /* 초기유동관리 여부*/
+            $("#initFlowYn").val(dataSet.getNameValue(0, "initFlowYn"));
+
+            /* 유동관리결재고유코드*/
+            $("#initFlowGuid").val(dataSet.getNameValue(0, "initFlowGuid"));
+        
             //document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
             //document.getElementById('wbsNm').innerHTML = dataSet.getNameValue(0, "wbsNm");
 
@@ -363,6 +374,8 @@
                 , { id: 'tssStepNm',    ctrlId: 'tssStepNm',    value: 'html' }				//과제 단계명
                 , { id: 'grsStepNm',    ctrlId: 'grsStepNm',    value: 'html' }				// GRS 단계명
                 , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }		//Qgate 단계명
+                , { id: 'initFlowYn',    ctrlId: 'initFlowYn',    value: 'value' }		//초기유동관리여부
+                , { id: 'initFlowGuid',    ctrlId: 'initFlowGuid',    value: 'value' }		//초기유동관리결재고유코드
 
 
             ]
@@ -403,18 +416,28 @@
         ============================================================================*/
         var tabView = new Rui.ui.tab.LTabView({
             tabs: [
-                { label: '완료', content: '<div id="div-content-test0"></div>' },
-                { label: '개요', content: '<div id="div-content-test1"></div>' },
-                { label: '참여연구원', content: '<div id="div-content-test2"></div>' },
-                { label: 'WBS', content: '<div id="div-content-test3"></div>' },
-                { label: '개발비', content: '<div id="div-content-test4"></div>' },
-                { label: '목표 및 산출물', content: '<div id="div-content-test5"></div>' },
-                { label: '변경이력', content: '<div id="div-content-test6"></div>' }
+                 { label: '완료', content: '<div id="div-content-test0"></div>' }
+                ,{ label: '개요', content: '<div id="div-content-test1"></div>' }
+                ,{ label: '참여연구원', content: '<div id="div-content-test2"></div>' }
+                ,{ label: 'WBS', content: '<div id="div-content-test3"></div>' }
+                ,{ label: '개발비', content: '<div id="div-content-test4"></div>' }
+                ,{ label: '목표 및 산출물', content: '<div id="div-content-test5"></div>' }
+                ,{ label: '변경이력', content: '<div id="div-content-test6"></div>' }
+                ,{ label: '초기유동관리', content: '<div id="div-content-test7"></div>' }
             ]
         });
+        //console.log("tabView.length", tabView.length);
+		if ($("#initFlowGuid").val()!="" || $("#initFlowGuid").val().length>0) {
+			
+		} else {
+            console.log("hide");
+           	$("#tabContent7").hide();
+           	//$("#tabContent7").attr("disabled", true); //비활성화
+           	//tabContent7.setAttribute('style', 'height:0;width:0;border:0;border:none;visibility:hidden;');
+		}
         tabView.on('activeTabChange', function(e) {
             //iframe 숨기기
-            for(var i = 0; i < 7; i++) {
+            for(var i = 0; i < 8; i++) {
                 if(i == e.activeIndex) {
                     Rui.get('tabContent' + i).show();
                 } else {
@@ -472,6 +495,23 @@
                 if(e.isFirst) {
                     tabUrl = "<c:url value='/prj/tss/gen/genTssPgsAltrHistIfm.do?pkWbsCd=" + gvPkWbsCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent6');
+                }
+                break;
+            //초기유동관리
+            case 7:
+                if(e.isFirst) {
+                	console.log("[$(\"#initFlowGuid\").val()]", $("#initFlowGuid").val());
+                    console.log("[$(\"#initFlowGuid\").val().length]", $("#initFlowGuid").val().length);
+                	if ($("#initFlowGuid").val()!="" || $("#initFlowGuid").val().length>0) {
+                        //tabUrl = "<c:url value='/prj/tss/gen/genTssCmplinitFlowIfm.do?tssCd="+cmplTssCd+"&pgTssCd="+gvTssCd+"'/>";
+                        tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=PG'/>";
+                        nwinsActSubmit(document.tabForm, tabUrl, 'tabContent7');
+                    } else {
+                    	//console.log("hide");
+                    	//$("#tabContent7").hide();
+                    	//$("#tabContent7").attr("disabled", true); //비활성화
+                    	//tabContent7.setAttribute('style', 'height:0;width:0;border:0;border:none;visibility:hidden;');
+                    }
                 }
                 break;
             default:
@@ -634,6 +674,8 @@ console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='
 	<input type="hidden" name="pgsStepCd" value="${inputData.pgsStepCd}"/>
 	<input type="hidden" name="tssSt" value="${inputData.tssSt}"/>
 	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
+	<input type="hidden" id="initFlowYn" name="initFlowYn" />
+	<input type="hidden" id="initFlowGuid" name="initFlowGuid" />
 </form>
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
@@ -659,10 +701,10 @@ console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 12%;" />
-                                <col style="width: 38%;" />
-                                <col style="width: 12%;" />
-                                <col style="width: 38%;" />
+                                <col style="width: 14%;" />
+                                <col style="width: 36%;" />
+                                <col style="width: 14%;" />
+                                <col style="width: 36%;" />
                             </colgroup>
                             <tbody>
                                 <tr>
@@ -678,7 +720,7 @@ console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='
                                 <tr>
                                 	<th align="right">WBSCode / 과제명</th>
                                     <td class="tssLableCss" colspan="3">
-                                        <input type="text" id="wbsCd" />  /  <em class="gab"> <input type="text" id="tssNm" style="width:900px;padding:0px 5px" />
+                                        <input type="text" id="wbsCd" /> / <em class="gab"> <input type="text" id="tssNm" style="width:900px;padding:0px 5px" />
                                     </td>
                                 </tr>
                                  <tr>
@@ -758,6 +800,7 @@ console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='
                 <iframe name="tabContent4" id="tabContent4" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent5" id="tabContent5" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent6" id="tabContent6" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
+                <iframe name="tabContent7" id="tabContent7" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
             </form>
         </div>
     </div>

@@ -40,8 +40,9 @@
     var gvPageMode  = "";
     var progressrateReal = "${inputData.progressrateReal}";
     var progressrate     = "${inputData.progressrate}";
-
     var pgsStepNm = "";
+    var gvInitFlowYn   = ""; //초기유동관리
+    
     var dataSet;
 
     //Form
@@ -240,6 +241,8 @@
             gvPkWbsCd = stringNullChk(dataSet.getNameValue(0, "pkWbsCd"));
             gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvWbsCd = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
+            gvInitFlowYn = stringNullChk(dataSet.getNameValue(0, "gvInitFlowYn"));
+            
             disableFields();
 
             tabView.selectTab(0);

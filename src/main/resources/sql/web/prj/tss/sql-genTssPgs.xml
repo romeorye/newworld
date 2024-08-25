@@ -21,6 +21,8 @@
              , DEPT_CODE       AS deptCode     --소속              
              , PTC_STRT_DT     AS ptcStrtDt    --참여시작일        
              , PTC_FNH_DT      AS ptcFnhDt     --참여종료일        
+             , PTC_STRT_DT     AS oldStrtDt
+             , PTC_FNH_DT      AS oldFnhDt
              , PTC_ROLE        AS ptcRole      --참여역할          
              , PTC_ROLE_DTL    AS ptcRoleDtl   --참여역할상세      
              , PTC_PRO         AS ptcPro       --참여율
