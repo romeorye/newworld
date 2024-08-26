@@ -263,6 +263,25 @@
             });
         }
 
+        var butExcel = new Rui.ui.LButton('butExcel');
+        butExcel.on('click', function(){
+    		if (mGridDataSet.getCount()>0) {
+        		// 엑셀 다운로드시 전체 다운로드를 위해 추가
+        		mGridDataSet.clearFilter();
+        		
+        		var excelColumnModel = mGridColumnModel.createExcelColumnModel(false);
+                duplicateExcelGrid(excelColumnModel);
+				nG.saveExcel(encodeURIComponent('과제통합_결재결과목록_') + new Date().format('%Y%m%d') + '.xls');
+             	
+				// 목록 페이징
+   	    		paging(mGridDataSet,"masterGrid");
+    		} else {
+    			Rui.alert("조회 후 엑셀 다운로드 해주세요.");
+    		}
+            
+        });
+        
+        butExcel.hide();
    });
 
 
@@ -348,7 +367,9 @@
             </form>
             <div class="titArea">
                 <span class="Ltotal" id="cnt_text">총 : 0건</span>
-
+                <div class="LblockButton">
+                    <button type="button" id="butExcel" name="butExcel">EXCEL다운로드</button>
+                </div>
             </div>
 
             <div id="masterGrid"></div>
