@@ -1477,8 +1477,12 @@ var exSabun = '${inputData._userSabun}';
                       <td><span id="nprodSalsPlnY3"></td>
                       <td><span id="nprodSalsPlnY4"></td>
                   </tr>
-                <tr id="trPtcCpsnHead">
-                      <th rowspan="2"><span style="color:red;">* </span>투입인원(M/M)</th>
+                  <tr id="trPtcCpsnHead">
+                      <th rowspan="2">
+                          <span style="color:red;">* </span>투입인원(M/M)
+                          <br/><br/>
+                          ※투입율기준 입력<br/>(개발기간을 고려하지 않음)
+                      </th>
                       <th class="alignC">과제시작년도</th>
                       <th class="alignC">과제시작년도+1</th>
                       <th class="alignC">과제시작년도+2</th>

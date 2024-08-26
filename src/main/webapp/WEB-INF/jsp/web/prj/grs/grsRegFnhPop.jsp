@@ -1524,7 +1524,11 @@ var exSabun = '${inputData._userSabun}';
                       <th class="alignC">실적</th>
                   </tr>
                   <tr id="trPtcCpsn"">
-                      <th><span style="color:red;">* </span>투입인원(M/M)</th>
+                      <th>
+                          <span style="color:red;">* </span>투입인원(M/M)
+                          <br/>
+                          ※투입율기준 입력<br/>(개발기간을 고려하지 않음)
+                      </th>
                       <td><span id="ptcCpsnY"/></td>
                       <td><input type="text" id="ptcCpsnCurY"/></td>
                       <td><span id="ptcCpsnY1"/></td>
