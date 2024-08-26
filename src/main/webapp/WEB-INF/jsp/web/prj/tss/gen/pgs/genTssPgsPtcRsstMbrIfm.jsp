@@ -424,7 +424,7 @@ $(window).load(function() {
     <div><span style="color:red; font-weight:bold" >참여 연구원 변경 시, 연구원 History 관리를 위해 참여 시작일과 종료일을 수정하시길 바랍니다.</span>
    	    <span class="LblockButton" id="spInitFlow">
     	초기유동관리여부: <span id="spInitFlowYn"></span>
-    	/ 초기유동관리승인번호: <span id="spInitFlowGuid"></span>
+    	/ 초기유동관리결재고유코드: <span id="spInitFlowGuid"></span>
     	</span>
     </div>
     </br>
