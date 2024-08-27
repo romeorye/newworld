@@ -175,8 +175,6 @@ var exSabun = '${inputData._userSabun}';
                 ,{ id: 'evDt'}
                 ,{ id: 'grsEvStNm'}
                 ,{ id: 'tssTypeNm'}
-
-                ,{ id: 'initFlowYn'}
                  ]
         });
 
@@ -195,17 +193,10 @@ var exSabun = '${inputData._userSabun}';
                 }
             }
 
-            if(dataSet.getNameValue(0, "initFlowYn") == "Y"){
-                chkInitFlowYn.setValue(true);
-            }else{
-                chkInitFlowYn.setValue(false);
-            }
-            
             //일반과제일 경우
             if( dataSet.getNameValue(0, 'tssScnCd') == "G"  ){
                 $("#grsDev").show();
-                $("#chkInitFlowYnDev").show(); //초기유동관리여부
-                
+
                 strDt = dataSet.getNameValue(0, 'tssStrtDd');
                 endDt = dataSet.getNameValue(0, 'tssFnhDd');
 
@@ -225,7 +216,6 @@ var exSabun = '${inputData._userSabun}';
                 }else{
                     $("#grsDev").hide();
                 }
-                $("#chkInitFlowYnDev").hide(); //초기유동관리여부
             }
 
             //평가요청일 경우
@@ -400,20 +390,13 @@ var exSabun = '${inputData._userSabun}';
          */
 
         //회의일자
-        var evDt = new Rui.ui.form.LDateBox({
-            applyTo: 'evDt',
-            mask: '9999-99-99',
-            width: 100,
-            listPosition : 'down',
-            dateType: 'string'
-        });
-
-        /* 초기유동관리 여부*/
-        var chkInitFlowYn = new Rui.ui.form.LCheckBox({ // 체크박스를 생성
-             applyTo: 'chkInitFlowYn',
-             checked : true,
-             value : "Y"
-        });
+            var evDt = new Rui.ui.form.LDateBox({
+                applyTo: 'evDt',
+                mask: '9999-99-99',
+                width: 100,
+                listPosition : 'down',
+                dateType: 'string'
+            });
 
         var evTitl = new Rui.ui.form.LTextBox({
             applyTo: 'evTitl',
@@ -617,7 +600,6 @@ var exSabun = '${inputData._userSabun}';
                 ,{ id: 'tssDd'             , ctrlId : 'tssDd'            ,value : 'html' }
                 ,{ id: 'dlbrCrgrNm'        , ctrlId : 'dlbrCrgrNm'       ,value : 'html' }
                 ,{ id: 'commTxt'           , ctrlId : 'commTxt'          ,value : 'value' }
-                ,{ id: 'initFlowYn'        , ctrlId : 'chkInitFlowYn'    ,value : 'value' }
                 ,{ id: 'evTitl'            , ctrlId : 'evTitl'           ,value : 'value' }
                 ,{ id: 'evDt'              , ctrlId : 'evDt'             ,value : 'value' }
                 ,{ id: 'cfrnAtdtCdTxtNm'   , ctrlId : 'cfrnAtdtCdTxtNm'  ,value : 'value' }
@@ -1407,10 +1389,6 @@ var exSabun = '${inputData._userSabun}';
                 <th align="right"><span style="color:red;">* </span>첨부파일</th>
                 <td  colspan="2" id="attchFileView" />
                 <td ><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
-            </tr>
-            <tr id="chkInitFlowYnDev">
-                <th align="right">초기유동관리여부</th>
-                <td  colspan="3"><input type="checkbox" id="chkInitFlowYn"> Y</td>
             </tr>
             <tr id="trEvResult" style="display:none;">
                     <th align="right">평가결과</th>

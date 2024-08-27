@@ -117,7 +117,6 @@ var lvAttcFilId;
 		    	,{ id: 'evDt'}
 		    	,{ id: 'grsEvStNm'}
 		    	,{ id: 'tssTypeNm'}
-		    	,{ id: 'initFlowYn'}
 	             ]
         });
 		
@@ -126,7 +125,6 @@ var lvAttcFilId;
 			//일반과제일 경우
 			if( dataSet.getNameValue(0, 'tssScnCd') == "G"  ){
 				$("#grsDev").show();
-				$("#chkInitFlowYnDev").show(); //초기유동관리여부
 			}else{
 				if ( dataSet.getNameValue(0, 'tssScnCd') == "D" ){
 					if ( dataSet.getNameValue(0, 'bizDptCd') == "05" && dataSet.getNameValue(0, 'custSqlt') == "05"    ){
@@ -137,23 +135,8 @@ var lvAttcFilId;
 				}else{
 					$("#grsDev").hide();
 				}
-				$("#chkInitFlowYnDev").hide(); //초기유동관리여부
 			}
 
-	        /* 초기유동관리 여부*/
-	        var chkInitFlowYn = new Rui.ui.form.LCheckBox({ // 체크박스를 생성
-	             applyTo: 'chkInitFlowYn',
-	             checked : true,
-	             value : "Y"
-	        });
-	        
-            if(dataSet.getNameValue(0, "initFlowYn") == "Y"){
-            	chkInitFlowYn.setValue(true);
-            }else{
-            	chkInitFlowYn.setValue(false);
-            }
-            chkInitFlowYn.disable();
-            
 			$("#trEv").hide();
 			$("#trEvResult").show();
 			commTxt.setEditable(false);
@@ -647,10 +630,6 @@ var lvAttcFilId;
 			<tr id="trEvResult" style="display:none;">
 					<th align="right">평가결과</th>
 					<td colspan="3"><span id="evResult"/></td>
-			</tr>
-			<tr id="chkInitFlowYnDev">
-				<th align="right">초기유동관리여부</th>
-				<td  colspan="3"><input type="checkbox" id="chkInitFlowYn"> Y</td>
 			</tr>
 			</tbody>
 		</table>

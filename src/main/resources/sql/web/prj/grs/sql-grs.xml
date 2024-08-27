@@ -1479,7 +1479,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
                 ,dbo.fn_getComDtlNm('GRS_EV_ST',rtrim(m.GRS_EV_ST))  AS grsEvStNm
                 ,dbo.fn_getComDtlNm('TSS_TYPE',rtrim(m.tssType))  AS tssTypeNm
                 ,m.custSqlt
-                ,m.INIT_FLOW_YN         as initFlowYn
+                --,m.INIT_FLOW_YN         as initFlowYn
                 --,m.INIT_FLOW_STRT_DT    as initFlowStrtDt
                 --,m.INIT_FLOW_FNH_DT     as initFlowFnhDt
                 --,m.INIT_FLOW_GUID       as initFlowGuid
@@ -1634,7 +1634,7 @@ MERGE INTO dbo.IRIS_GRS_MGMT_MST tbl
             ,EXP_ARSL_CUR_Y_2    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY2} = '' THEN '0' ELSE #{expArslCurY2} END)
             ,EXP_ARSL_CUR_Y_3    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY3} = '' THEN '0' ELSE #{expArslCurY3} END)
             ,EXP_ARSL_CUR_Y_4    = CONVERT(numeric(15, 2), CASE WHEN #{expArslCurY4} = '' THEN '0' ELSE #{expArslCurY4} END)
-            ,INIT_FLOW_YN        = dbo.fn_isEmpty(#{initFlowYn}, NULL) --초기유동관리여부
+            --,INIT_FLOW_YN        = dbo.fn_isEmpty(#{initFlowYn}, NULL) --초기유동관리여부
         </when>
         <otherwise>
             ,NPROD_SALS_PLN_Y    = CONVERT(numeric(15, 2), CASE WHEN #{nprodSalsPlnY} = '' THEN '0' ELSE #{nprodSalsPlnY} END)
