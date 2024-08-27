@@ -52,7 +52,7 @@
             placeholder: '검색할 과제명을 입력해주세요.',
             defaultValue: '${inputData.tssNm}',
             emptyValue: '',
-            width: 500
+            width: 300
        });
 
         var wbsCd = new Rui.ui.form.LTextBox({
@@ -60,7 +60,7 @@
             placeholder: '검색할 WBS코드를 입력해주세요.',
             defaultValue: '${inputData.wbsCd}',
             emptyValue: '',
-            width: 300
+            width: 200
        });
 
            var tssScnCd = new Rui.ui.form.LCombo({ // 검색용 G : 일반 , O:대외 ,  N: 국책
@@ -71,7 +71,8 @@
             useEmptyText: true,
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=TSS_SCN_CD"/>',
             displayField: 'COM_DTL_NM',
-            valueField: 'COM_DTL_CD'
+            valueField: 'COM_DTL_CD',
+            width: 150
            });
 
            var aprdocstate = new Rui.ui.form.LCombo({ //
@@ -82,7 +83,8 @@
             useEmptyText: true,
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=APRDOCSTATE"/>',
             displayField: 'COM_DTL_NM',
-            valueField: 'COM_DTL_CD'
+            valueField: 'COM_DTL_CD',
+            width: 150
            });
 
          approvalUsername = new Rui.ui.form.LTextBox({
@@ -127,6 +129,8 @@
              focusFirstRow: 0,
              lazyLoad: true,
              fields: [
+                     { id: 'guid' }, //결재고유코드
+                     { id: 'affrCd' }, //과제코드
                      { id: 'aprdocstate' }, //결재상태코드
                      { id: 'aprdocstateNm' }, //결재상태코드
                      { id: 'approvalUserid' },
@@ -134,11 +138,11 @@
                      { id: 'approvalDeptname' }, //결재 요청자 부서명
                      { id: 'approvalJobtitle' }, //결재 요청자 직위
                      { id: 'approvalProcessdate' } ,  //결재 요청 일자
-                      { id: 'approverProcessdate' } ,  //결재 승인일자
+                     { id: 'approverProcessdate' } ,  //결재 승인일자
 
                      { id: 'title' } , //결재 제목
                      { id: 'updateDate' }, //승인일자
-                     { id: 'wbsCd' },
+                     { id: 'wbsCd' }, //WBS 코드
                      { id: 'tssScnCd' }, //과제구분코드
                      { id: 'tssScnNm' }, //과제구분코드
                      { id: 'pgsStepCd' } ,  //진행단계코드
@@ -153,18 +157,20 @@
         var mGridColumnModel = new Rui.ui.grid.LColumnModel({  //masterGrid column
         	autoWidth: true,
             columns: [
-                    { field: 'tssScnNm',     label: '과제구분',    align:'center',     width: 120 },
-                      { field: 'pgsStepNm',    label: '진행단계',       align:'center',      width: 75  },
-                      { field: 'tssNm',          label: '과제명',         align:'left',     width: 380 , renderer: function(value){
+                    { field: 'tssScnNm',     label: '과제구분',    align:'center',     width: 100 },
+                    { field: 'wbsCd',          label: 'WBS 코드',        align:'center',          width: 100 },
+                    { field: 'tssNm',          label: '과제명',         align:'left',     width: 300 , renderer: function(value){
                         return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                     }},
-                      { field: 'wbsCd',          label: 'WBS 코드',        align:'center',          width: 100 },
-                      //{ field: 'title',           label: '결재 제목',   align:'left',     width: 220 },
-                      { field: 'approvalProcessdate',   label: '결재 요청 일자',   align:'left',      width: 150 },
-                      { field: 'aprdocstateNm',            label: '결재상태코드',    align:'center',      width: 100 },
-                      { field: 'approverProcessdate',   label: '결재 승인 일자',   align:'left',      width: 150 },
-                      { field: 'approvalUsername',      label: '요청자명',        align:'center',      width: 120 },
-                      { field: 'itgRdcsId',   label: '전자결재번호',   align:'center',      width: 100 }
+                    { field: 'pgsStepNm',    label: '진행단계',       align:'center',      width: 80  },
+                    { field: 'approvalUsername',      label: '요청자명',        align:'center',      width: 80 },
+                    //{ field: 'title',           label: '결재 제목',   align:'left',     width: 220 },
+                    { field: 'approvalProcessdate',   label: '결재 요청 일자',   align:'right',      width: 120 },
+                    { field: 'aprdocstateNm',            label: '결재상태코드',    align:'center',      width: 100 },
+                    { field: 'approverProcessdate',   label: '결재 승인 일자',   align:'right',      width: 120 },
+                    { field: 'guid',        label: 'GUID',     align:'center',          width: 90 },
+                    { field: 'affrCd',         label: 'TSS_CD',     align:'center',          width: 90 },
+                    { field: 'itgRdcsId',   label: 'ITG_RDCS_ID',   align:'center',      width: 90}
 
             ]
         });
@@ -206,13 +212,14 @@
         });
 
         masterGrid.on('cellClick', function(e){
-
-            var itgRdcsId = mGridDataSet.getNameValue(e.row, "itgRdcsId");
-
-            var winUrl = "<%=lghausysPath%>/lgchem/approval.front.approval.RetrieveAppTargetCmd.lgc?seq="+itgRdcsId
-            var sFeatures = "dialogHeight: 300px; dialogWidth:800px";
-            //window.showModalDialog(winUrl, "", sFeatures);
-            openWindow(winUrl, 'tssItgRdcs', 800, 300, 'yes');
+        	if(e.colId == "tssNm") {
+            	var itgRdcsId = mGridDataSet.getNameValue(e.row, "itgRdcsId");
+	
+	            var winUrl = "<%=lghausysPath%>/lgchem/approval.front.approval.RetrieveAppTargetCmd.lgc?seq="+itgRdcsId
+	            var sFeatures = "dialogHeight: 300px; dialogWidth:800px";
+	            //window.showModalDialog(winUrl, "", sFeatures);
+	            openWindow(winUrl, 'tssItgRdcs', 800, 300, 'yes');
+        	}
         });
 
 
@@ -281,7 +288,7 @@
             
         });
         
-        butExcel.hide();
+        //butExcel.hide();
    });
 
 
