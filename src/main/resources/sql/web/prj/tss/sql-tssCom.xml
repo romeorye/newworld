@@ -92,10 +92,9 @@
             ,C.ATTC_FIL_ID AS attcFilId
             --,null AS attcFilId
             ,C.EV_DT AS evDt
-            ,C.INIT_FLOW_YN AS initFlowYn
-            --,C.INIT_FLOW_STRT_DT AS initFlowStrtDt
-            --,C.INIT_FLOW_FNH_DT AS initFlowFnhDt
-            ,A.INIT_FLOW_GUID AS initFlowGuid
+            ,A.INIT_FLOW_YN AS initFlowYn
+            ,A.INIT_FLOW_STRT_DT AS initFlowStrtDt
+            ,A.INIT_FLOW_FNH_DT AS initFlowFnhDt
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
             ON A.PRJ_CD = B.PRJ_CD
