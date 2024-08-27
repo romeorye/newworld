@@ -793,6 +793,11 @@ console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='
             <form name="tabForm" id="tabForm" method="post">
             	<input type="hidden" id="tssSt" name="tssSt" value=""/>
             	<input type="hidden" id="pgsStepCd" name="pgsStepCd" value=""/>
+            	
+            	<input type="hidden" id="initFlowYn" name="initFlowYn" value=""/>
+            	<input type="hidden" id="initFlowStrtDt" name="initFlowStrtDt" value=""/>
+            	<input type="hidden" id="initFlowFnhDt" name="initFlowFnhDt" value=""/>
+                
                 <iframe name="tabContent0" id="tabContent0" scrolling="yes" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent1" id="tabContent1" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent2" id="tabContent2" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>

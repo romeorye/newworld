@@ -105,7 +105,23 @@
             width: 600
         });
 
-       //과제개요_주요연구개발내용
+        //초기유동관리시작일
+        initFlowStrtDt =  new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowStrtDt',
+            mask: '9999-99-99',
+            width: 100,
+            dateType: 'string'
+        });
+
+        //초기유동관리종료일
+        initFlowFnhDt =  new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowFnhDt',
+            mask: '9999-99-99',
+            width: 100,
+            dateType: 'string'
+        });
+        
+        //과제개요_주요연구개발내용
         pmisCmplTxt = new Rui.ui.form.LTextArea({
             applyTo: 'pmisCmplTxt',
             height: 80,
@@ -783,6 +799,16 @@ $(window).load(function() {
                 <tr>
                     <th align="right">향후 계획</th>
                     <td colspan="2"><input type="text" id="fnoPlnTxt" /></td>
+                </tr>
+                <tr>
+                    <th align="right">초기유동관리여부</th>
+                    <td colspan="2">
+                    	<input type="checkbox" id="chkInitFlowYn"> Y
+                    	&nbsp;&nbsp;
+                        <input type="text" id="initFlowStrtDt" value="" />
+                        <em class="gab"> ~ </em>
+                        <input type="text" id="initFlowFnhDt" value="" />
+                    </td>
                 </tr>
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
