@@ -243,6 +243,9 @@
             gvWbsCd = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
             gvInitFlowYn = stringNullChk(dataSet.getNameValue(0, "gvInitFlowYn"));
             
+            tmpTssStrtDd = dataSet.getNameValue(0, 'tssStrtDd');
+            tmpTssFnhDd =  dataSet.getNameValue(0, 'tssFnhDd');
+            
             disableFields();
 
             tabView.selectTab(0);

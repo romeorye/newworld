@@ -30,6 +30,7 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvWbsCd    = window.parent.gvWbsCd;
     var lvPageMode = window.parent.gvPageMode;
+    var roleId     = '${inputData._roleId}';
     
     var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" || lvTssSt == "102" ) && lvPageMode == "W" ? "W" : "R";
     
@@ -277,12 +278,20 @@
             }
             
             //과제리더 건수 확인
+            var rdSb = 0;
             var rdSnt = 0;
             var rdDt = 0;
             for(var i = 0; i < dataSet.getCount(); i++) {
+            	if(!Rui.isEmpty(dataSet.getNameValue(i, "saSabunNew"))) rdSb++;
                 if(dataSet.getNameValue(i, "ptcRole") == "01") rdSnt++;
             	if(!Rui.isEmpty(dataSet.getNameValue(i, "ptcFnhDt"))   )  rdDt++;
+            	dataSet.setNameValue(i, 'tssCd', lvTssCd );
                 
+            	console.log("dataSet.tssCd=", dataSet.getNameValue(i, "tssCd"));
+            }
+            if(dataSet.getCount() != rdSb) {
+                Rui.alert("연구원은 필수입니다.");
+                return;
             }
             if(rdSnt != 1) {
                 Rui.alert("과제리더는 1명으로 지정해야 합니다.");
@@ -293,11 +302,17 @@
                 return;
             }
             
-            dm.updateDataSet({
-                url:'<c:url value="/prj/tss/gen/updateGenTssPlnPtcRsstMbr.do"/>',
-                dataSets:[dataSet]
+            Rui.confirm({
+                text: '저장하시겠습니까?',
+                handlerYes: function() {
+                    dm.updateDataSet({
+                        url:'<c:url value="/prj/tss/gen/updateGenTssPlnPtcRsstMbr.do"/>',
+                        dataSets:[dataSet]
+                    });
+                },
+                handlerNo: Rui.emptyFn
             });
-        });
+       });
        /*  
         //목록
         var btnList = new Rui.ui.LButton('btnList');
@@ -318,14 +333,17 @@
             disableFields();
         }
         
-        if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
+        if( roleId.indexOf('WORK_IRI_T15') > -1 ) {
         	$("#butRecordNew").hide();
         	$("#butRecordDel").hide();
         	$("#btnSave").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+    	}else if( roleId.indexOf('WORK_IRI_T16') > -1 ) {
         	$("#butRecordNew").hide();
         	$("#butRecordDel").hide();
         	$("#btnSave").hide();
+        } else if( roleId.indexOf("WORK_IRI_T01") > -1 ) {           //시스템관리자
+        	$("#butRecordNew").show();
+        	$("#btnSave").show();
 		}
     });
     

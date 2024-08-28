@@ -34,18 +34,15 @@
     var lvTssSt    = window.parent.gvTssSt;     //과제상태
     var lvWbsCd    = window.parent.gvWbsCd;
     var lvPageMode = window.parent.gvPageMode;
-    var initFlowYn = "";
-    var initFlowGuid = "";
-    if (window.parent.initFlowYn) initFlowYn = window.parent.initFlowYn.value; //초기유동관리여부
-    if (window.parent.initFlowGuid) initFlowGuid = window.parent.initFlowGuid.value; //초기유동관리결재고유코드
+    var roleId     = '${inputData._roleId}';
     
-    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" || lvTssSt == "102" ) && lvPageMode == "W" && (initFlowGuid.length>0) ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" || lvTssSt == "102" ) && lvPageMode == "W" ? "W" : "R";
+    pageMode = (roleId.indexOf("WORK_IRI_T01") > -1) ? "W" : pageMode; //시스템관리자
 
     console.log("[lvTssCd]", lvTssCd);
+    console.log("[lvUserId]", lvUserId);
     console.log("[lvPgsCd]", lvPgsCd, "[lvTssSt]", lvTssSt, "[lvPageMode]", lvPageMode);
     console.log("[pageMode]", pageMode);
-    console.log("[initFlowYn]", initFlowYn);
-    console.log("[initFlowGuid]", initFlowGuid);
 
     var dataSet;
     var popupRow;
@@ -81,19 +78,9 @@
         	$("#btnSave").hide();
         	$("#butRecordNew").hide();
         	$("#butRecordDel").hide();
-        	$("#spInitFlow").hide();
-        	
-        	
         	
             grid.setEditable(false);
         };
-        
-        
-        /* $("#spInitFlowYn").val(initFlowYn);
-        $("#spInitFlowGuid").val(initFlowGuid); */
-        
-        document.getElementById("spInitFlowYn").innerHTML = initFlowYn;
-        document.getElementById("spInitFlowGuid").innerHTML = initFlowGuid;
         
         /*============================================================================
         =================================    DataSet     =============================
@@ -306,6 +293,7 @@
             }
             
             //과제리더 건수 확인
+            var rdSb = 0;
             var rdSnt = 0;
             var rdDt = 0;
             for(var i = 0; i < dataSet.getCount(); i++) {
@@ -339,11 +327,6 @@
                 },
                 handlerNo: Rui.emptyFn
             });
-            
-            /* dm.updateDataSet({
-                url:'<c:url value="/prj/tss/gen/updateGenTssPlnPtcRsstMbr.do"/>',
-                dataSets:[dataSet]
-            }); */
         });
        /*  
         //목록 
@@ -365,14 +348,17 @@
             disableFields();
         }
         
-        if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
+        if( roleId.indexOf('WORK_IRI_T15') > -1 ) {
         	$("#butRecordNew").hide();
         	$("#butRecordDel").hide();
         	$("#btnSave").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+    	}else if( roleId.indexOf('WORK_IRI_T16') > -1 ) {
         	$("#butRecordNew").hide();
         	$("#butRecordDel").hide();
         	$("#btnSave").hide();
+        } else if( roleId.indexOf("WORK_IRI_T01") > -1 ) {           //시스템관리자
+        	$("#butRecordNew").show();
+        	$("#btnSave").show();
         }
     });
     
@@ -418,16 +404,8 @@ $(window).load(function() {
     <form name="mbrForm" id="mbrForm" method="post">
         <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
         <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
-        <input type="hidden" id="initFlowYn" name="initFlowYn" value=""> <!-- 초기유동관리여부 -->
-        <input type="hidden" id="initFlowGuid" name="initFlowGuid" value=""> <!-- 초기유동관리결재승인번호 -->
     </form>
-    <div><span style="color:red; font-weight:bold" >참여 연구원 변경 시, 연구원 History 관리를 위해 참여 시작일과 종료일을 수정하시길 바랍니다.</span>
-   	    <span class="LblockButton" id="spInitFlow">
-    	초기유동관리여부: <span id="spInitFlowYn"></span>
-    	/ 초기유동관리결재고유코드: <span id="spInitFlowGuid"></span>
-    	</span>
-    </div>
-    </br>
+	    <div><span style="color:red; font-weight:bold" >참여 연구원 변경 시, 연구원 History 관리를 위해 참여 시작일과 종료일을 수정하시길 바랍니다. (연구원 삭제 하지 말 것)</span></div></br>
     <div id="defaultGrid"></div>
 </div>
 </div>

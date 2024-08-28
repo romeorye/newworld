@@ -53,9 +53,9 @@
     var itmFlag ="N";	//필수산출물 체크
     var gvWbsCd   = "";
 
-    var initFlowYn        = "";
-    var initFlowStrtDt    = "";
-    var initFlowFnhDt     = "";
+    var initFlowYn     = "";
+    var initFlowStrtDt = "";
+    var initFlowFnhDt  = "";
     
     var gvGuid        = "${resultCsus.guid}";
     var gvAprdocState = "${resultCsus.aprdocstate}";
@@ -510,8 +510,6 @@
             //초기유동관리
             case 7:
                 if(e.isFirst) {
-                	console.log("[$(\"#initFlowGuid\").val()]", $("#initFlowGuid").val());
-                    console.log("[$(\"#initFlowGuid\").val().length]", $("#initFlowGuid").val().length);
                 	if ($("#initFlowGuid").val()!="" || $("#initFlowGuid").val().length>0) {
                         //tabUrl = "<c:url value='/prj/tss/gen/genTssCmplinitFlowIfm.do?tssCd="+cmplTssCd+"&pgTssCd="+gvTssCd+"'/>";
                         tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=PG'/>";
@@ -645,6 +643,9 @@ console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='
         if(${resultCnt} > 0) {
             console.log("mst searchData1");
             dataSet.loadData(${result});
+            initFlowYn = stringNullChk(dataSet.getNameValue(0, "initFlowYn"));
+            initFlowStrtDt = stringNullChk(dataSet.getNameValue(0, "initFlowStrtDt"));
+            initFlowFnhDt = stringNullChk(dataSet.getNameValue(0, "initFlowFnhDt"));
         }
 
       //목록
@@ -685,7 +686,8 @@ console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='
 	<input type="hidden" name="tssSt" value="${inputData.tssSt}"/>
 	<input type="hidden" name="pageNum" value="${inputData.pageNum}"/>
 	<input type="hidden" id="initFlowYn" name="initFlowYn" />
-	<input type="hidden" id="initFlowGuid" name="initFlowGuid" />
+	<input type="hidden" id="initFlowStrtDt" name="initFlowStrtDt" />
+	<input type="hidden" id="initFlowFnhDt" name="initFlowFnhDt" />
 </form>
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
