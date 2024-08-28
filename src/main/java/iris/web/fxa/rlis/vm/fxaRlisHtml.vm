@@ -1,0 +1,33 @@
+<br/>
+<h4> - 자산실사처리 To_do</h4>
+ <br/> 
+    <table class="table">
+        <colgroup>
+            <col width="24%" />
+            <col width="7%" />
+            <col width="28%" />
+            <col width="4%" />
+            <col width="5%" />
+            <col width="10%" />
+            <col width="10%" />
+            <col width="3%" />
+            <col width="9%" />
+        </colgroup>
+        <thead>
+            <tr>
+	            <th>프로젝트</th>
+	            <th>자산번호</th>
+	            <th>자산명</th>
+	            <th>수량</th>
+	            <th>단위</th>
+	            <th>담당자</th>
+	            <th>최근실사일</th>
+	            <th>자산확인</th>
+	            <th>비고</th>
+            </tr>
+        </thead>
+        <tbody>
+		       ${fxaTodoList}
+        </tbody>
+    </table>
+
