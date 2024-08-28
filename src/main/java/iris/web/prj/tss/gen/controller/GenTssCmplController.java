@@ -102,14 +102,17 @@ public class GenTssCmplController  extends IrisBaseController {
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             list.add(result);
 
+            Map<String, Object> resultCsus        = genTssService.retrieveGenTssCsus(result); //품의서
+            resultCsus = StringUtil.toUtf8Output((HashMap) resultCsus);
+            
             JSONObject obj = new JSONObject();
             obj.put("records", list);
 
-            
-            
             request.setAttribute("inputData", input);
             request.setAttribute("resultCnt", result == null ? 0 : result.size());
             request.setAttribute("result", obj);
+
+            request.setAttribute("resultCsus", resultCsus);
         }
 
         return "web/prj/tss/gen/cmpl/genTssCmplDetail";

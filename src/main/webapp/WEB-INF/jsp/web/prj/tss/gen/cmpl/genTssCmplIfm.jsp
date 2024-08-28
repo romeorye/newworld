@@ -28,6 +28,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
+<script type="text/javascript" src="<%=scriptPath%>/custom.js"></script>
 <style>
  .L-tssLable {
  border: 0px
@@ -39,6 +40,11 @@
     var lvUserId   = window.parent.gvUserId;
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
+    
+    var initFlowYn = "";
+    var initFlowGuid = "";
+    if (window.parent.initFlowYn) initFlowYn = window.parent.initFlowYn.value; //초기유동관리여부
+    
     var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
     var dataSet;
     var lvAttcFilId;
@@ -113,12 +119,61 @@
             dateType: 'string'
         });
 
-        //초기유동관리종료일
+        /* //초기유동관리종료일
         initFlowFnhDt =  new Rui.ui.form.LDateBox({
             applyTo: 'initFlowFnhDt',
             mask: '9999-99-99',
             width: 100,
             dateType: 'string'
+        });
+        
+        //초기유동관리시작일
+        initFlowStrtDt = new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowStrtDt',
+            mask: '9999-99-99',
+            width: 100,
+            dateType: 'string'
+        }); */
+        initFlowStrtDt.on('blur', function() {
+            if(Rui.isEmpty(initFlowStrtDt.getValue())) return;
+
+            if(!Rui.isEmpty(initFlowFnhDt.getValue())) {
+                var startDt = initFlowStrtDt.getValue().replace(/\-/g, "").toDate();
+                var fnhDt   = initFlowFnhDt.getValue().replace(/\-/g, "").toDate();
+
+                var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
+
+                if(rtnValue <= 0) {
+                    Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
+                    initFlowStrtDt.setValue("");
+                    return;
+                }
+            }
+        });
+
+        //초기유동관리종료일
+        initFlowFnhDt = new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowFnhDt',
+            mask: '9999-99-99',
+            width: 100,
+            dateType: 'string'
+        });
+        initFlowFnhDt.on('blur', function() {
+            if(Rui.isEmpty(initFlowFnhDt.getValue())) return;
+
+            if(!Rui.isEmpty(initFlowStrtDt.getValue())) {
+                var startDt = initFlowStrtDt.getValue().replace(/\-/g, "").toDate();
+                var fnhDt   = initFlowFnhDt.getValue().replace(/\-/g, "").toDate();
+
+                var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
+
+                if(rtnValue <= 0) {
+                    Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
+                    initFlowFnhDt.setValue("");
+                    return;
+                }
+            }
+
         });
         
         //과제개요_주요연구개발내용
@@ -773,7 +828,7 @@ $(window).load(function() {
                     <td colspan="2">
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 150px;" />
+                                <col style="width: 220px;" />
                                 <col style="width: *;" />
                             </colgroup>
                             <tbody>

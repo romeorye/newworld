@@ -53,6 +53,13 @@
     var itmFlag ="N";	//필수산출물 체크
     var gvWbsCd   = "";
 
+    var initFlowYn        = "";
+    var initFlowStrtDt    = "";
+    var initFlowFnhDt     = "";
+    
+    var gvGuid        = "${resultCsus.guid}";
+    var gvAprdocState = "${resultCsus.aprdocstate}";
+    
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -77,7 +84,7 @@
             width: 300
         });
 
-      //참여연구원 수
+        //참여연구원 수
         mbrCnt = new Rui.ui.form.LTextBox({
             applyTo: 'mbrCnt',
             editable: false,
@@ -92,18 +99,18 @@
         });
 
         //과제명
-         tssNm = new Rui.ui.form.LTextBox({
-             applyTo: 'tssNm',
-             editable: false,
-             width: 400
-         });
+        tssNm = new Rui.ui.form.LTextBox({
+            applyTo: 'tssNm',
+            editable: false,
+            width: 400
+        });
 
         //wbs code
-         wbsCd = new Rui.ui.form.LTextBox({
-             applyTo: 'wbsCd',
-             editable: false,
-             width: 100
-         });
+        wbsCd = new Rui.ui.form.LTextBox({
+            applyTo: 'wbsCd',
+            editable: false,
+            width: 100
+        });
 
         //과제리더
         saUserName = new Rui.ui.form.LTextBox({
@@ -217,6 +224,7 @@
                 }
           	}
 
+          	
         });
 
         altrHistDialog = new Rui.ui.LFrameDialog({
@@ -297,7 +305,8 @@
                 , { id: 'qgateStepNm'}	//Qgate 단계
                 , { id: 'evDt'}	//Qgate 단계
                 , { id: 'initFlowYn'}	//초기유동관리여부
-                , { id: 'initFlowGuid'}		//초기유동관리결재고유코드
+                , { id: 'initFlowStrtDt'}	//초기유동관리시작일
+                , { id: 'initFlowFnhDt'}	//초기유동관리종료일
             ]
         });
         dataSet.on('load', function(e) {
@@ -324,11 +333,12 @@
             tmpTssStrtDd = dataSet.getNameValue(0, 'tssStrtDd');
             tmpTssFnhDd =  dataSet.getNameValue(0, 'tssFnhDd');
             
-            /* 초기유동관리 여부*/
+            /* 초기유동관리 여부 */
             $("#initFlowYn").val(dataSet.getNameValue(0, "initFlowYn"));
-
-            /* 유동관리결재고유코드*/
-            $("#initFlowGuid").val(dataSet.getNameValue(0, "initFlowGuid"));
+            /* 초기유동관리시작일 */
+            $("#initFlowStrtDt").val(dataSet.getNameValue(0, "initFlowStrtDt"));
+            /* 초기유동관리종료일 */
+            $("#initFlowFnhDt").val(dataSet.getNameValue(0, "initFlowFnhDt"));
         
             //document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
             //document.getElementById('wbsNm').innerHTML = dataSet.getNameValue(0, "wbsNm");

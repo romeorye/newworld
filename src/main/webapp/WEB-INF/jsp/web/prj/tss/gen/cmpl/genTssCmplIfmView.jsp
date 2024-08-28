@@ -28,6 +28,7 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/form/LMonthBox.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/form/LMonthBox.css"/>
+<script type="text/javascript" src="<%=scriptPath%>/custom.js"></script>
 <style>
  .L-tssLable {
  border: 0px
@@ -53,7 +54,42 @@
         =================================    Form     ================================
         ============================================================================*/
       
+        //초기유동관리종료일
+        initFlowFnhDt =  new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowFnhDt',
+            mask: '9999-99-99',
+            width: 100,
+            dateType: 'string'
+        });
+        
+        //초기유동관리시작일
+        initFlowStrtDt = new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowStrtDt',
+            mask: '9999-99-99',
+            width: 100,
+            dateType: 'string'
+        });
+        
+        //Form 비활성화 여부
+        disableFields = function() {
+            //버튼여부
+            /* btnCsusRq.hide();
+            
+            if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
+                if(gvTssSt == "100") btnCsusRq.show(); //GRS - 100:작성중
+                if(gvTssSt == "102") btnCsusRq.show(); //GRS - 100:작성중
+            }
 
+            if(gvTssSt=="104"){ */
+                setReadonly("initFlowFnhDt");
+                setReadonly("initFlowStrtDt");
+                $('.gab').hide();
+            /* }
+
+            Rui.select('.tssLableCss input').addClass('L-tssLable');
+            Rui.select('.tssLableCss div').addClass('L-tssLable');
+            Rui.select('.tssLableCss div').removeClass('L-disabled'); */
+        }
      
         /*============================================================================
         =================================    DataSet     =============================
@@ -123,6 +159,9 @@
             ]
         });
         dataSet.on('load', function(e) {
+        	
+        	disableFields();
+        	
             console.log("smry load DataSet Success");
             lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
             if(lvAttcFilId != "") getAttachFileList();
@@ -708,7 +747,7 @@ $(window).load(function() {
                     <td colspan="2">
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 150px;" />
+                                <col style="width: 220px;" />
                                 <col style="width: *;" />
                             </colgroup>
                             <tbody>
@@ -734,6 +773,16 @@ $(window).load(function() {
                 <tr>
                     <th align="right">향후 계획</th>
                     <td colspan="2"><span id="fnoPlnTxt" /></td>
+                </tr>
+                <tr>
+                    <th align="right">초기유동관리여부</th>
+                    <td colspan="2">
+                    	<input type="checkbox" id="chkInitFlowYn"> Y
+                    	&nbsp;&nbsp;
+                        <input type="text" id="initFlowStrtDt" value="" />
+                        <em class="gab"> ~ </em>
+                        <input type="text" id="initFlowFnhDt" value="" />
+                    </td>
                 </tr>
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>

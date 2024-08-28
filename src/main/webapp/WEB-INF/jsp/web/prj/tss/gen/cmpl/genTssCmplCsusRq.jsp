@@ -33,6 +33,12 @@
 <script type="text/javascript" src="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=ruiPathPlugins%>/ui/grid/LGridStatusBar.css"/>
 
+<script type="text/javascript" src="<%=scriptPath%>/custom.js"></script>
+<style>
+ .L-tssLable {
+ border: 0px
+ }
+</style>
 <%
     response.setHeader("Pragma", "No-cache");
     response.setDateHeader("Expires", 0);
