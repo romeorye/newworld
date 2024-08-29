@@ -30,7 +30,6 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvWbsCd    = window.parent.gvWbsCd;
     var lvPageMode = window.parent.gvPageMode;
-    var roleId     = '${inputData._roleId}';
     
     var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" || lvTssSt == "102" ) && lvPageMode == "W" ? "W" : "R";
     
@@ -333,17 +332,14 @@
             disableFields();
         }
         
-        if( roleId.indexOf('WORK_IRI_T15') > -1 ) {
+        if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
         	$("#butRecordNew").hide();
         	$("#butRecordDel").hide();
         	$("#btnSave").hide();
-    	}else if( roleId.indexOf('WORK_IRI_T16') > -1 ) {
+    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#butRecordNew").hide();
         	$("#butRecordDel").hide();
         	$("#btnSave").hide();
-        } else if( roleId.indexOf("WORK_IRI_T01") > -1 ) {           //시스템관리자
-        	$("#butRecordNew").show();
-        	$("#btnSave").show();
 		}
     });
     

@@ -41,9 +41,21 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
     
-    var initFlowYn = "";
-    var initFlowGuid = "";
-    if (window.parent.initFlowYn) initFlowYn = window.parent.initFlowYn.value; //초기유동관리여부
+    var initFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
+    var initFlowStrtDt = (window.parent.initFlowStrtDt) ? window.parent.initFlowStrtDt : ""; //초기유동관리시작일
+    var initFlowFnhDt = (window.parent.initFlowFnhDt) ? window.parent.initFlowFnhDt : ""; //초기유동관리종료일
+    /* if (window.parent.initFlowYn) initFlowYn = window.parent.initFlowYn; //초기유동관리여부
+    if (window.parent.initFlowStrtDt) initFlowStrtDt = window.parent.initFlowStrtDt; //초기유동관리시작일
+    if (window.parent.initFlowFnhDt) initFlowFnhDt = window.parent.initFlowFnhDt; //초기유동관리종료일 */
+    
+    console.log("[lvTssCd]", lvTssCd);
+    console.log("[lvUserId]", lvUserId);
+    console.log("[lvTssSt]", lvTssSt);
+    console.log("[lvPageMode]", lvPageMode);
+
+    console.log("[initFlowYn]", initFlowYn);
+    console.log("[initFlowStrtDt]", initFlowStrtDt);
+    console.log("[initFlowFnhDt]", initFlowFnhDt);
     
     var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
     var dataSet;
