@@ -8,8 +8,8 @@
 		-- retrieveTssItgRdcsList
 			select ir.GUID as guid --결재고유코드
 				 ,ir.AFFR_CD  			as affrCd --업무코드(과제일때.TSS_CD)
-				 ,ir.APRDOCSTATE  		as aprdocstate			--결재상태코드
-				 ,dbo.fn_getComDtlNm('APRDOCSTATE',ir.APRDOCSTATE)  		as aprdocstateNm			--결재상태코드명
+				 ,dbo.fn_isEmpty(ir.APRDOCSTATE,'A01')  		as aprdocstate			--결재상태코드
+				 ,dbo.fn_getComDtlNm('APRDOCSTATE', dbo.fn_isEmpty(ir.APRDOCSTATE,'A01'))  		as aprdocstateNm			--결재상태코드명
 				 ,ir.APPROVAL_USERID 	as approvalUserid	 	--결재 요청자 ID
 				 ,ir.APPROVAL_USERNAME  as approvalUsername 	--결재 요청자명
 				 ,ir.APPROVAL_DEPTNAME  as approvalDeptname  	--결재 요청자 부서명
@@ -34,7 +34,7 @@
 					ON mm.PRJ_CD = A.PRJ_CD
 		   where substring(ir.GUID,1,1) in ('T', 'H')
 		   and   APPROVAL_USERNAME <>'관리자'
-		   and   APRDOCSTATE <> ''
+		   --and   APRDOCSTATE <> ''
 		 ]]>
 
 		<if test="tssRoleType == null or tssRoleType.equals('') or tssRoleType.equals('S1')">
@@ -61,13 +61,11 @@
 			AND ir.APPROVAL_USERNAME like  '%${approvalUsername}%'
 		</if>
 		 <if test="aprdocstate != null and aprdocstate != ''">
-			AND ir.APRDOCSTATE = #{aprdocstate}
+			AND dbo.fn_isEmpty(ir.APRDOCSTATE,'A01') = #{aprdocstate}
 		</if>
 		 <if test="approvalProcessdate != null and approvalProcessdate != ''">
 			--AND ir.APPROVAL_PROCESSDATE = '${approvalProcessdate}'
-
-			AND  CONVERT(VARCHAR(20),  ir.APPROVAL_PROCESSDATE, 112) = REPLACE('${approvalProcessdate}','-','')
-
+			AND  CONVERT(VARCHAR(20),  ir.APPROVAL_PROCESSDATE, 112) &gt;= REPLACE('${approvalProcessdate}','-','')
 		</if>
 		 <if test="wbsCd != null and wbsCd != ''">
 			AND mm.WBS_CD = #{wbsCd}
