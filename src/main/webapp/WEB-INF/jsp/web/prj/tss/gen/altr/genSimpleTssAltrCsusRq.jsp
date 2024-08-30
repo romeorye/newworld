@@ -64,7 +64,7 @@
                 , { id: 'userId'}               //사용자ID
                 , { id: 'tssSt'}                //과제상태
                 , { id: 'affrGbn'}              //과제구분
-                , { id: 'appCode'}              //과제구분
+                , { id: 'appCode'}              //결재양식코드
 
                 , {id: 'guid' }                 //고유코드
                 , {id: 'affrCd' }               //업무코드

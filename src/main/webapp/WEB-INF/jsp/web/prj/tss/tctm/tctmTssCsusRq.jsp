@@ -58,7 +58,9 @@
 <script type="text/javascript">
     var gvGuid        = "${resultCsus.guid}";
     var gvAprdocState = "${resultCsus.aprdocstate}";
-    var csusCont = "";
+    var gvItgRdcsId   = "${resultCsus.itgRdcsId}";
+    var appCode       = "APP00332";
+    var csusCont      = "";
     var dm
 
     Rui.onReady(function() {
@@ -100,7 +102,7 @@
                 gvGuid = data.records[0].guid;
                 
                 if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03") {
-                    var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00332&from=iris&guid="+gvGuid;
+                    var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode="+ appCode +"&from=iris&guid="+gvGuid;
                     window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
                 }
             }else {
@@ -113,7 +115,9 @@
         var butCsur = new Rui.ui.LButton('butCsur');
         butCsur.on('click', function() {
             if(stringNullChk(gvAprdocState) != "" ){
-             	if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {    //결제요청, 최종승인완료
+                //[20240830.siseo] 품의 체크로직 - 수정
+                //if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {    //결제요청, 최종승인완료
+                if ( (gvAprdocState == "A01" && stringNullChk(gvItgRdcsId) != "") || gvAprdocState == "A02" ) {    //결제요청(&GUID!=""), 최종승인완료
                 	Rui.alert("이미 품의가 요청되었습니다.");
                 	return;
         		} 
@@ -140,6 +144,7 @@
                     record.set("approvalJobtitle", "${inputData._userJobxName}");
                     record.set("approvalDeptname", "${inputData._userDeptName}");
                     record.set("body", Rui.get('csusContents').getHtml().trim());
+                    record.set("appCode",          appCode);
                     
                     var url = "";
                     

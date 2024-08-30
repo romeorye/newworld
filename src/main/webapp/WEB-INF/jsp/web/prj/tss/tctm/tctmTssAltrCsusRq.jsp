@@ -86,8 +86,8 @@
                 gvGuid = data.records[0].guid;
 
                 if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03") {
-	                var pAppCode = data.records[0].appCode;
-	                var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode="+pAppCode+"&from=iris&guid="+gvGuid;
+                    var pAppCode = data.records[0].appCode;
+                    var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode="+pAppCode+"&from=iris&guid="+gvGuid;
 
 	                window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
                 }

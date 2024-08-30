@@ -59,6 +59,7 @@
                 , { id: 'userId'}               //사용자ID
                 , { id: 'tssSt'}                //과제상태
                 , { id: 'affrGbn'}              //과제구분
+                , { id: 'appCode'}              //결재양식코드
                 
                 , {id: 'guid' }                 //고유코드      
                 , {id: 'affrCd' }               //업무코드      
@@ -86,7 +87,8 @@
                 gvGuid = data.records[0].guid;
                 
                 if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03" ||  gvAprdocState == "A04") {
-	                var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00332&from=iris&guid="+gvGuid;
+                    var pAppCode = data.records[0].appCode;                	
+                    var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode="+ pAppCode +"&from=iris&guid="+gvGuid;
 	                window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
                 }
             } else {
@@ -118,6 +120,7 @@
                     record.set("tssCd",   "${inputData.tssCd}");
                     record.set("userId",  "${inputData._userId}");
                     record.set("affrGbn", "T"); //T:과제
+                    record.set("appCode", "${inputData.appCode}");
                     
                     record.set("guid",             gvGuid);
                     record.set("affrCd",           "${inputData.tssCd}");
