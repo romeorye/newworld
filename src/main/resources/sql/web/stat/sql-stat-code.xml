@@ -41,7 +41,7 @@
             AND  DEL_YN LIKE '%'+#{delYn}+'%'
         </if>
         <![CDATA[
-        ORDER BY COM_CD_CD, COM_DTL_CD
+        ORDER BY COM_CD_CD, COM_ORD, COM_DTL_CD
         ]]>
     </select>
 
@@ -72,6 +72,7 @@
                 ,COM_CD_EXPL
                 ,COM_DTL_CD
                 ,COM_DTL_NM
+                ,COM_ORD
                 ,DEL_YN
                 ,FRST_RGST_DT
                 ,FRST_RGST_ID
@@ -83,6 +84,7 @@
                 ,#{comCdExpl}
                 ,#{comDtlCd}
                 ,#{comDtlNm}
+                ,#{comOrd}
                 ,'N'
                 ,GETDATE()
                 ,#{_userId}

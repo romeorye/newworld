@@ -83,11 +83,12 @@ var codeRegDialog;
 
          dataSet.on('load', function(e){
              document.getElementById("cnt_text").innerHTML = '총 ' + dataSet.getCount() + '건';
-         // 목록 페이징
-             paging(dataSet,"defaultGrid");
+             // 목록 페이징
+             //paging(dataSet,"defaultGrid");
          });
 
          var columnModel = new Rui.ui.grid.LColumnModel({
+             autoWidth: true,
              columns: [
                   new Rui.ui.grid.LSelectionColumn(),
                        { field: 'comCdCd'       , label: '코드구분',      align:'left', width: 155}
@@ -403,7 +404,6 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
                             <button type="button" id="butTssStCopyBatchExec"   name="butTssStCopyBatchExec"><b>tssStCopyBatch</b></button>
                             <button type="button" id="butSapBudgSCostInsertBatchExec"   name="butSapBudgSCostInsertBatchExec"><b>sapBudgSCostInsertBatch</b></button>
                             &nbsp;&nbsp;
-                            <button type="button" id="butRgst"         name="butRgst" >신규등록</button>
                             <button type="button" id="butRgst"         name="butRgst" >신규등록</button>
                             <button type="button" id="butAdd"          name="butAdd" >추가</button>
                             <button type="button" id="butUpdate"       name="butUpdate" >저장</button>
