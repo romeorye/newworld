@@ -149,7 +149,7 @@
                      { id: 'pgsStepNm' } ,  //진행단계코드
                      { id: 'tssNosSt' }, //과제차수상태
                      { id: 'tssNm' }, //과제명
-                     { id: 'itgRdcsId' } //결재번호
+                     { id: 'itgRdcsId' } //결재리턴번호
               ]
         });
 
@@ -165,12 +165,12 @@
                     { field: 'pgsStepNm',    label: '진행단계',       align:'center',      width: 80  },
                     { field: 'approvalUsername',      label: '요청자명',        align:'center',      width: 80 },
                     //{ field: 'title',           label: '결재 제목',   align:'left',     width: 220 },
-                    { field: 'approvalProcessdate',   label: '결재 요청 일자',   align:'right',      width: 120 },
+                    { field: 'approvalProcessdate',   label: '결재요청일시',   align:'right',      width: 120 },
                     { field: 'aprdocstateNm',            label: '결재상태코드',    align:'center',      width: 100 },
-                    { field: 'approverProcessdate',   label: '결재 승인 일자',   align:'right',      width: 120 },
+                    { field: 'approverProcessdate',   label: '결재승인일시',   align:'right',      width: 120 },
                     { field: 'guid',        label: 'GUID',     align:'center',          width: 90 },
-                    { field: 'affrCd',         label: 'TSS_CD',     align:'center',          width: 90 },
-                    { field: 'itgRdcsId',   label: 'ITG_RDCS_ID',   align:'center',      width: 90}
+                    { field: 'affrCd',         label: '과제코드',     align:'center',          width: 90 },
+                    { field: 'itgRdcsId',   label: '결재리턴번호',   align:'center',      width: 90}
 
             ]
         });

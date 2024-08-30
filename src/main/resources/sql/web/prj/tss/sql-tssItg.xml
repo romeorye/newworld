@@ -25,6 +25,7 @@
 				 ,dbo.fn_getComDtlNm('PGS_STEP_CD',mm.PGS_STEP_CD) pgsStepNm
 				 ,mm.TSS_NOS_ST 	    as tssNosSt 			--과제차수상태
 				 ,mm.TSS_NM 		    as tssNm 				--과제명
+				 ,ir.APP_CODE			as appCode				--결재양식코드
 				 ,ir.itg_rdcs_id				as itgRdcsId					--결재리턴번호
 			from IRIS_COM_ITG_RDCS ir
 				  inner join IRIS_TSS_MGMT_MST mm
