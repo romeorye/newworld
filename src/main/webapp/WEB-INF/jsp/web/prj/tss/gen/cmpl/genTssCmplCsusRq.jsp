@@ -499,8 +499,10 @@
                                 <tr>
                                     <th>초기유동관리여부</th>
                                     <td colspan="3">
-                                    	${resultMst.initFlowYn}&nbsp;&nbsp;
-                                    	${resultMst.initFlowStrtDd} <em class="gab"> ~ </em> ${resultMst.initFlowFnhDd}
+                                    	${resultMst.initFlowYn}&nbsp;&nbsp;&nbsp;&nbsp;
+                                    	<c:if test="${resultMst.initFlowYn eq 'Y'}">
+                                    		${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
+                                    	</c:if>
                                     </td>
                                 </tr>
                             </tbody>

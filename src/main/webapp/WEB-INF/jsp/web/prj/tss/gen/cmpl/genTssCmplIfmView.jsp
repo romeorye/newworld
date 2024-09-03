@@ -271,9 +271,9 @@
                 ,{ id: 'fwdPlnTxt'         , ctrlId: 'fwdPlnTxt'         , value: 'html'}
                 ,{ id: 'fnoPlnTxt'         , ctrlId: 'fnoPlnTxt'         , value: 'html'}
                 
-                ,{ id: 'initFlowYn'        , ctrlId: 'spInitFlowYn'        , value: 'html'}
-                ,{ id: 'initFlowStrtDt'    , ctrlId: 'spInitFlowStrtDt'    , value: 'html'}
-                ,{ id: 'initFlowFnhDt'     , ctrlId: 'spInitFlowFnhDt'     , value: 'html'}
+                ,{ id: 'initFlowYn'        , ctrlId: 'initFlowYn'        , value: 'html'}
+                ,{ id: 'initFlowStrtDt'    , ctrlId: 'initFlowStrtDt'    , value: 'html'}
+                ,{ id: 'initFlowFnhDt'     , ctrlId: 'initFlowFnhDt'     , value: 'html'}
                 
                 ,{ id: 'pmisCmplTxt'       , ctrlId: 'pmisCmplTxt'       , value: 'html'}
                 ,{ id: 'nprodNm'           , ctrlId: 'nprodNm'           , value: 'html'}
@@ -798,11 +798,10 @@ $(window).load(function() {
                 <tr>
                     <th align="right">초기유동관리여부</th>
                     <td colspan="2">
-                    	<span id="spInitFlowYn" />
-                    	&nbsp;&nbsp;
-                        <span id="spInitFlowStrtDt" />
-                        <em class="gab"> ~ </em>
-                        <span id="spInitFlowFnhDt" />
+                        ${resultMst.initFlowYn}&nbsp;&nbsp;&nbsp;&nbsp;
+                        <c:if test="${resultMst.initFlowYn eq 'Y'}">
+                            ${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
+                        </c:if>
                     </td>
                 </tr>
                 <tr>

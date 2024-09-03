@@ -44,6 +44,9 @@
     var lvInitFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
     var lvInitFlowStrtDt = (window.parent.initFlowStrtDt) ? window.parent.initFlowStrtDt : ""; //초기유동관리시작일
     var lvInitFlowFnhDt = (window.parent.initFlowFnhDt) ? window.parent.initFlowFnhDt : ""; //초기유동관리종료일
+
+    var tmpInitFlowStrtDt = (window.parent.tmpInitFlowStrtDt) ? window.parent.tmpInitFlowStrtDt : "";
+    var tmpInitFlowFnhDt =  (window.parent.tmpInitFlowFnhDt) ? window.parent.tmpInitFlowFnhDt : "";
     
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);
@@ -178,19 +181,23 @@
 
         if(lvInitFlowYn == "Y"){
             chkInitFlowYn.setValue(true);
-            //initFlowStrtDt.disabled = false;
-            //initFlowFnhDt.disabled = false;
-            //document.getElementById('initFlowStrtDt').setAttribute('disabled',false);
-            //document.getElementById('initFlowFnhDt').setAttribute('disabled',false);
         }else{
             chkInitFlowYn.setValue(false);
-            //initFlowStrtDt.disabled = true;
-            //initFlowFnhDt.disabled = true;
-            //document.getElementById('initFlowStrtDt').setAttribute('disabled',true);
-            //document.getElementById('initFlowFnhDt').setAttribute('disabled',true);
         }
         initFlowStrtDt.setValue(lvInitFlowStrtDt); 
         initFlowFnhDt.setValue(lvInitFlowFnhDt); 
+
+        
+        $("input[name=chkInitFlowYn]").click(function(){
+        	console.log($("input[name=chkInitFlowYn]").prop("checked"));
+      		if($("input[name=chkInitFlowYn]").prop("checked")){
+      			initFlowStrtDt.setValue(tmpInitFlowStrtDt);
+      			initFlowFnhDt.setValue(tmpInitFlowFnhDt);
+      		}else{
+      			initFlowStrtDt.setValue("");
+      			initFlowFnhDt.setValue("");
+      		}
+      	});
 
         //과제개요_주요연구개발내용
         pmisCmplTxt = new Rui.ui.form.LTextArea({
@@ -581,7 +588,6 @@
             aForm.submit();
         };
 
-
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
@@ -591,8 +597,25 @@
             	lvInitFlowStrtDt= (lvInitFlowYn=="Y")?initFlowStrtDt.getValue() : ""; 
             	lvInitFlowFnhDt = (lvInitFlowYn=="Y")?initFlowFnhDt.getValue() : "";  
             	
-            	console.log("[lvInitFlowYn]", lvInitFlowYn, "[lvInitFlowStrtDt]", lvInitFlowStrtDt, "[lvInitFlowFnhDt]", lvInitFlowFnhDt);
+            	/* window.parent.initFlowYn = lvInitFlowYn; 
+            	window.parent.initFlowStrtDt = lvInitFlowStrtDt; 
+            	window.parent.initFlowFnhDt = lvInitFlowFnhDt;  */
             	
+            	console.log("[lvInitFlowYn]", lvInitFlowYn, "[lvInitFlowStrtDt]", lvInitFlowStrtDt, "[lvInitFlowFnhDt]", lvInitFlowFnhDt);
+            	console.log("[$(\"input[name=chkInitFlowYn]\").prop(\"checked\")]", $("input[name=chkInitFlowYn]").prop("checked"));
+            	if ($("input[name=chkInitFlowYn]").prop("checked")) {
+            		if(Rui.isEmpty(initFlowStrtDt.getValue())) {
+            			Rui.alert("초기유동관리 시작일: 필수 입력 항목입니다.");
+            			$("#initFlowStrtDt").focus();
+            			return false;
+            		} else if(Rui.isEmpty(initFlowFnhDt.getValue())) {
+            			Rui.alert("초기유동관리 종료일: 필수 입력 항목입니다.");
+            			$("#initFlowFnhDt").focus();
+            			return false;
+            		}
+            	}
+            	
+                window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowStrtDt, lvInitFlowFnhDt);
                 window.parent.fnSave();
             }
         });

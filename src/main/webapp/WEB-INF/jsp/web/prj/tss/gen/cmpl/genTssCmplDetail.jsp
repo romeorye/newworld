@@ -321,9 +321,9 @@
             
             document.tabForm.tssSt.value = dataSet.getNameValue(0, "tssSt");
             document.tabForm.pgsStepCd.value = dataSet.getNameValue(0, "pgsStepCd");
-            document.tabForm.initFlowYn.value = initFlowYn;
+            /* document.tabForm.initFlowYn.value = initFlowYn;
             document.tabForm.initFlowStrtDt.value = initFlowStrtDt;
-            document.tabForm.initFlowFnhDt.value = initFlowFnhDt;
+            document.tabForm.initFlowFnhDt.value = initFlowFnhDt; */
             
             var pPgsStepCd = dataSet.getNameValue(0, "pgsStepCd");
 
@@ -351,6 +351,9 @@
             //document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
             //document.getElementById('wbsNm').innerHTML = dataSet.getNameValue(0, "wbsNm");
 
+            tmpInitFlowStrtDt = dataSet.getNameValue(0, 'initFlowStrtDt');
+            tmpInitFlowFnhDt =  dataSet.getNameValue(0, 'initFlowFnhDt');
+            
             disableFields();
 
             tabView.selectTab(0);
@@ -394,7 +397,7 @@
                 , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }		//Qgate 단계명
                 
                 , { id: 'initFlowYn',    ctrlId: 'initFlowYn',    value: 'value' }
-                , { id: 'initFlowStrtDt',    ctrlId: 'initFlowFnhDt',    value: 'value' }
+                , { id: 'initFlowStrtDt',    ctrlId: 'initFlowStrtDt',    value: 'value' }
                 , { id: 'initFlowFnhDt',    ctrlId: 'initFlowFnhDt',    value: 'value' }
             ]
         });
@@ -441,6 +444,7 @@
                 ,{ label: '개발비', content: '<div id="div-content-test4"></div>' }
                 ,{ label: '목표 및 산출물', content: '<div id="div-content-test5"></div>' }
                 ,{ label: '변경이력', content: '<div id="div-content-test6"></div>' }
+                //TODO json을 변환하여 초기유동관리여부 추가할 것
                 <c:if test="${resultCsus.aprdocstate == 'A02'}">
                 ,{ label: '초기유동관리', content: '<div id="div-content-test7"></div>' }
                 </c:if>
@@ -530,9 +534,9 @@
         btnCsusRq.on('click', function() {
             document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
             document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
-            document.mstForm.initFlowYn.value = dataSet.getNameValue(0, 'initFlowYn');
+            /* document.mstForm.initFlowYn.value = dataSet.getNameValue(0, 'initFlowYn');
             document.mstForm.initFlowStrtDt.value = dataSet.getNameValue(0, 'initFlowStrtDt');
-            document.mstForm.initFlowFnhDt.value = dataSet.getNameValue(0, 'initFlowFnhDt');
+            document.mstForm.initFlowFnhDt.value = dataSet.getNameValue(0, 'initFlowFnhDt'); */
 
             var pgsStepCd = document.mstForm.pgsStepCd.value;
             console.log("[pgsStepCd]", pgsStepCd);
@@ -569,6 +573,16 @@
             });
         });
 
+        fnInitFlow = function(initFlowYn, initFlowStrtDt, initFlowFnhDt) {
+        	$("#initFlowYn").val(initFlowYn);
+        	$("#initFlowStrtDt").val(initFlowStrtDt);
+        	$("#initFlowFnhDt").val(initFlowFnhDt);
+        	
+        	tmpInitFlowStrtDt = Rui.isEmpty(initFlowStrtDt) ? tmpInitFlowStrtDt : initFlowStrtDt;
+        	tmpInitFlowFnhDt  = Rui.isEmpty(initFlowFnhDt) ? tmpInitFlowFnhDt : initFlowFnhDt;
+        	
+        }
+        
         //저장
         fnSave = function() {
             cmplBStrtDd.blur();
@@ -580,6 +594,10 @@
             }
 
             //개요탭 validation
+            dataSet.setNameValue(0, "initFlowYn",     $("#initFlowYn").val()); 
+            dataSet.setNameValue(0, "initFlowStrtDt", $("#initFlowStrtDt").val());
+            dataSet.setNameValue(0, "initFlowFnhDt",  $("#initFlowFnhDt").val());
+
             var ifmUpdate = document.getElementById('tabContent0').contentWindow.fnIfmIsUpdate("SAVE");
             if(!ifmUpdate) return false;
 
@@ -600,6 +618,8 @@
 	                dataSet.setNameValue(0, "userId", gvUserId);  //사용자ID
 	                dataSet.setNameValue(0, "tssRoleType", "W"); //화면권한
 
+	                //return ;
+	                
 	                smryDs.setNameValue(0, "tssCd",  cmplTssCd); //과제코드
 	                smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
 	                
@@ -690,9 +710,11 @@
                 <form name="mstForm" id="mstForm" method="post">
                 	<input type="hidden" id="pgsStepCd" name="pgsStepCd" />
                 	<input type="hidden" id="tssSt" name="tssSt" />
+                	
                 	<input type="hidden" id="initFlowYn" name="initFlowYn" />
                 	<input type="hidden" id="initFlowStrtDt" name="initFlowStrtDt" />
                 	<input type="hidden" id="initFlowFnhDt" name="initFlowFnhDt" />
+                	
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
@@ -789,9 +811,9 @@
             	<input type="hidden" id="tssSt" name="tssSt" value=""/>
             	<input type="hidden" id="pgsStepCd" name="pgsStepCd" value=""/>
             	
-            	<input type="hidden" name="initFlowYn" value=""/>
+            	<!-- <input type="hidden" name="initFlowYn" value=""/>
             	<input type="hidden" name="initFlowStrtDt" value=""/>
-            	<input type="hidden" name="initFlowFnhDt" value=""/>
+            	<input type="hidden" name="initFlowFnhDt" value=""/> -->
                 
                 <iframe name="tabContent0" id="tabContent0" scrolling="yes" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent1" id="tabContent1" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
