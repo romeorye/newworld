@@ -10,37 +10,41 @@
 		INSERT INTO IRIS_COM_ITG_RDCS
 	           (GUID
 	           ,AFFR_CD
-	           ,APRDOCSTATE
-	           ,DOCKIND
+	           --,APRDOCSTATE
+	           --,DOCKIND
 	           ,APPROVAL_USERID
 	           ,APPROVAL_USERNAME
 	           ,APPROVAL_JOBTITLE
 	           ,APPROVAL_DEPTNAME
 	           ,APPROVAL_PROCESSDATE
-	           ,APPROVER_PROCESSDATE
+	           --,APPROVER_PROCESSDATE
 	           ,BODY
 	           ,TITLE
-	           ,FILENAME
+	           --,FILENAME
 	           ,UPDATE_DATE
-	           ,URL
-	           ,ITG_RDCS_ID)
+	           --,URL
+	           --,ITG_RDCS_ID
+               ,APP_CODE                --결재양식코드
+            )
 	     VALUES
 	           (#{guId}
 	           ,''
-	           ,'' -- APRDOCSTATE
-	           ,''
+	           --,'' -- APRDOCSTATE
+	           --,''
 	           ,#{approvalUserid}
 	           ,#{approvalUsername}
 	           ,#{approvalJobtitle}
 	           ,#{approvalDeptname}
 	           ,GETDATE()
-	           ,'' -- APPROVER_PROCESSDATE
+	           --,'' -- APPROVER_PROCESSDATE
 	           ,#{body}
 	           ,#{title}
-	           ,''
+	           --,''
 	           ,GETDATE()
-	           ,''
-	           ,''  )
+	           --,''
+	           --,''  
+               ,#{appCode}
+            )
 	]]>
 	</insert>
 

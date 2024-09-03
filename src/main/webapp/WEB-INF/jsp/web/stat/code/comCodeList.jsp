@@ -265,11 +265,12 @@ var codeRegDialog;
         var saveExcelBtn = new Rui.ui.LButton('butExcl');
         saveExcelBtn.on('click', function(){
             // 엑셀 다운로드시 전체 다운로드를 위해 추가
-            dataSet.clearFilter();
+            //dataSet.clearFilter();
             if(dataSet.getCount() > 0 ) {
                 var excelColumnModel = columnModel.createExcelColumnModel(false);
-                duplicateExcelGrid(excelColumnModel);
-nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') + '.xls', {
+                //duplicateExcelGrid(excelColumnModel);
+//nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') + '.xls', {
+                grid.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') + '.xls', {
                     columnModel: excelColumnModel
                 });
             }else{
@@ -277,7 +278,7 @@ nG.saveExcel(encodeURIComponent('공통코드_') + new Date().format('%Y%m%d') +
                 return;
             }
             // 목록 페이징
-            paging(dataSet,"defaultGrid");
+            //paging(dataSet,"defaultGrid");
         });
 
         /* [버튼] : 공통코드 cache refresh  */
