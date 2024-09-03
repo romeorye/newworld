@@ -124,6 +124,11 @@
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
            SET CMPL_B_STRT_DD = #{cmplBStrtDd}
              , CMPL_B_FNH_DD  = #{cmplBFnhDd}
+             
+             , INIT_FLOW_YN      = #{initFlowYn}
+             , INIT_FLOW_STRT_DT = #{initFlowStrtDt}
+             , INIT_FLOW_FNH_DT  = #{initFlowFnhDt}
+             
              , LAST_MDFY_DT   = GETDATE()
              , LAST_MDFY_ID   = #{userId}
          WHERE TSS_CD = #{tssCd}

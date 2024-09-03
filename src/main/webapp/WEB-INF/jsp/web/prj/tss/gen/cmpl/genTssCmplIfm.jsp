@@ -41,21 +41,18 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
     
-    var initFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
-    var initFlowStrtDt = (window.parent.initFlowStrtDt) ? window.parent.initFlowStrtDt : ""; //초기유동관리시작일
-    var initFlowFnhDt = (window.parent.initFlowFnhDt) ? window.parent.initFlowFnhDt : ""; //초기유동관리종료일
-    /* if (window.parent.initFlowYn) initFlowYn = window.parent.initFlowYn; //초기유동관리여부
-    if (window.parent.initFlowStrtDt) initFlowStrtDt = window.parent.initFlowStrtDt; //초기유동관리시작일
-    if (window.parent.initFlowFnhDt) initFlowFnhDt = window.parent.initFlowFnhDt; //초기유동관리종료일 */
+    var lvInitFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
+    var lvInitFlowStrtDt = (window.parent.initFlowStrtDt) ? window.parent.initFlowStrtDt : ""; //초기유동관리시작일
+    var lvInitFlowFnhDt = (window.parent.initFlowFnhDt) ? window.parent.initFlowFnhDt : ""; //초기유동관리종료일
     
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);
     console.log("[lvTssSt]", lvTssSt);
     console.log("[lvPageMode]", lvPageMode);
 
-    console.log("[initFlowYn]", initFlowYn);
-    console.log("[initFlowStrtDt]", initFlowStrtDt);
-    console.log("[initFlowFnhDt]", initFlowFnhDt);
+    console.log("[lvInitFlowYn]", lvInitFlowYn);
+    console.log("[lvInitFlowStrtDt]", lvInitFlowStrtDt);
+    console.log("[lvInitFlowFnhDt]", lvInitFlowFnhDt);
     
     var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
     var dataSet;
@@ -123,6 +120,13 @@
             width: 600
         });
 
+        /* 초기유동관리 여부*/
+        var chkInitFlowYn = new Rui.ui.form.LCheckBox({ // 체크박스를 생성
+            applyTo: 'chkInitFlowYn',
+            checked : true,
+            value : "Y"
+        });
+        
         //초기유동관리시작일
         initFlowStrtDt =  new Rui.ui.form.LDateBox({
             applyTo: 'initFlowStrtDt',
@@ -130,22 +134,6 @@
             width: 100,
             dateType: 'string'
         });
-
-        /* //초기유동관리종료일
-        initFlowFnhDt =  new Rui.ui.form.LDateBox({
-            applyTo: 'initFlowFnhDt',
-            mask: '9999-99-99',
-            width: 100,
-            dateType: 'string'
-        });
-        
-        //초기유동관리시작일
-        initFlowStrtDt = new Rui.ui.form.LDateBox({
-            applyTo: 'initFlowStrtDt',
-            mask: '9999-99-99',
-            width: 100,
-            dateType: 'string'
-        }); */
         initFlowStrtDt.on('blur', function() {
             if(Rui.isEmpty(initFlowStrtDt.getValue())) return;
 
@@ -162,7 +150,7 @@
                 }
             }
         });
-
+        
         //초기유동관리종료일
         initFlowFnhDt = new Rui.ui.form.LDateBox({
             applyTo: 'initFlowFnhDt',
@@ -187,7 +175,23 @@
             }
 
         });
-        
+
+        if(lvInitFlowYn == "Y"){
+            chkInitFlowYn.setValue(true);
+            //initFlowStrtDt.disabled = false;
+            //initFlowFnhDt.disabled = false;
+            //document.getElementById('initFlowStrtDt').setAttribute('disabled',false);
+            //document.getElementById('initFlowFnhDt').setAttribute('disabled',false);
+        }else{
+            chkInitFlowYn.setValue(false);
+            //initFlowStrtDt.disabled = true;
+            //initFlowFnhDt.disabled = true;
+            //document.getElementById('initFlowStrtDt').setAttribute('disabled',true);
+            //document.getElementById('initFlowFnhDt').setAttribute('disabled',true);
+        }
+        initFlowStrtDt.setValue(lvInitFlowStrtDt); 
+        initFlowFnhDt.setValue(lvInitFlowFnhDt); 
+
         //과제개요_주요연구개발내용
         pmisCmplTxt = new Rui.ui.form.LTextArea({
             applyTo: 'pmisCmplTxt',
@@ -582,6 +586,13 @@
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
             if (fnIfmIsUpdate("SAVE") ){
+            	
+            	lvInitFlowYn = (stringNullChk(chkInitFlowYn.getValue())=="")?"N":"Y"; 
+            	lvInitFlowStrtDt= (lvInitFlowYn=="Y")?initFlowStrtDt.getValue() : ""; 
+            	lvInitFlowFnhDt = (lvInitFlowYn=="Y")?initFlowFnhDt.getValue() : "";  
+            	
+            	console.log("[lvInitFlowYn]", lvInitFlowYn, "[lvInitFlowStrtDt]", lvInitFlowStrtDt, "[lvInitFlowFnhDt]", lvInitFlowFnhDt);
+            	
                 window.parent.fnSave();
             }
         });

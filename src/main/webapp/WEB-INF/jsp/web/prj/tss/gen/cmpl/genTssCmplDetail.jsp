@@ -392,8 +392,10 @@
                 , { id: 'tssStepNm',    ctrlId: 'tssStepNm',    value: 'html' }				//과제 단계명
                 , { id: 'grsStepNm',    ctrlId: 'grsStepNm',    value: 'html' }				// GRS 단계명
                 , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }		//Qgate 단계명
-
-
+                
+                , { id: 'initFlowYn',    ctrlId: 'initFlowYn',    value: 'value' }
+                , { id: 'initFlowStrtDt',    ctrlId: 'initFlowFnhDt',    value: 'value' }
+                , { id: 'initFlowFnhDt',    ctrlId: 'initFlowFnhDt',    value: 'value' }
             ]
         });
 
@@ -533,25 +535,16 @@
             document.mstForm.initFlowFnhDt.value = dataSet.getNameValue(0, 'initFlowFnhDt');
 
             var pgsStepCd = document.mstForm.pgsStepCd.value;
-console.log("[pgsStepCd]", pgsStepCd);
+            console.log("[pgsStepCd]", pgsStepCd);
 
-/* console.log("[tabContent5]('01').length", $("#tabContent5").contents().find("[yldType='01']").length);
-console.log("[tabContent5]('01')", $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size());
-console.log("[tabContent5]('03').length", $("#tabContent5").contents().find("[yldType='03']").length);
-console.log("[tabContent5]('03')", $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size());
-console.log("[tabContent5]('06').length", $("#tabContent5").contents().find("[yldType='06']").length);
-console.log("[tabContent5]('06')", $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size());
-console.log("[tabContent5]('10').length", $("#tabContent5").contents().find("[yldType='10']").length);
-console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size()); */
-
-console.log("[tabContent5]('01').length", $("#tabContent5").contents().find("[yldType='01']").length);
-console.log("[tabContent5]('01')", $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size());
-console.log("[tabContent5]('03').length", $("#tabContent5").contents().find("[yldType='03']").length);
-console.log("[tabContent5]('03')", $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size());
-console.log("[tabContent5]('06').length", $("#tabContent5").contents().find("[yldType='06']").length);
-console.log("[tabContent5]('06')", $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size());
-console.log("[tabContent5]('10').length", $("#tabContent5").contents().find("[yldType='10']").length);
-console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size());
+            console.log("[tabContent5]('01').length", $("#tabContent5").contents().find("[yldType='01']").length);
+            console.log("[tabContent5]('01')", $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size());
+            console.log("[tabContent5]('03').length", $("#tabContent5").contents().find("[yldType='03']").length);
+            console.log("[tabContent5]('03')", $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size());
+            console.log("[tabContent5]('06').length", $("#tabContent5").contents().find("[yldType='06']").length);
+            console.log("[tabContent5]('06')", $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size());
+            console.log("[tabContent5]('10').length", $("#tabContent5").contents().find("[yldType='10']").length);
+            console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size());
 
             if (pgsStepCd == "CM" || pgsStepCd == "DC"){
                 //if ($("#tabContent5").contents().find("[yldItmType='01']:contains('Y'),[yldItmType='03']:contains('Y'),[yldItmType='06']:contains('Y'),[yldItmType='10']:contains('Y')").size()<4){
@@ -609,6 +602,7 @@ console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='
 
 	                smryDs.setNameValue(0, "tssCd",  cmplTssCd); //과제코드
 	                smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
+	                
 	                //신규
 	                if(cmplTssCd == "") {
 	                    dm.updateDataSet({

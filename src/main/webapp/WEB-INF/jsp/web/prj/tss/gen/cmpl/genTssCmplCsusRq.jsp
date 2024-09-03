@@ -496,6 +496,13 @@
                                     <th>예상출시일(계획)</th>
                                     <td>${resultSmry.ancpOtPlnDt}</td>
                                 </tr>
+                                <tr>
+                                    <th>초기유동관리여부</th>
+                                    <td colspan="3">
+                                    	${resultMst.initFlowYn}&nbsp;&nbsp;
+                                    	${resultMst.initFlowStrtDd} <em class="gab"> ~ </em> ${resultMst.initFlowFnhDd}
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <br/><br/>
