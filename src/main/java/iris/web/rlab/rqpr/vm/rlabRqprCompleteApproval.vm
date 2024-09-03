@@ -1,0 +1,161 @@
+<div class="contents">
+    <h5>의뢰정보</h5>
+        <table class="table table_txt_right">
+            <colgroup>
+                <col width="15%" />
+                <col width="35%" />
+                <col width="15%" />
+                <col width="35%" />
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>시험명</th>
+                    <td class="txt_layout">${rlabNm}</td>
+                    <th>접수번호</th>
+                    <td class="txt_layout">${acpcNo}</td>
+                </tr>
+                <tr>
+                    <th>시험목적</th>
+                    <td colspan="3" class="txt_layout">${rlabSbc}</td>
+                </tr>
+                <tr>
+                    <th>의뢰자</th>
+                    <td class="txt_layout">${rgstNm}</td>
+                    <th>부서</th>
+                    <td class="txt_layout">${rqprDeptNm}</td>
+                </tr>
+                <tr>
+                    <th>작성일</th>
+                    <td class="txt_layout">${rqprDt}</td>
+                    <th>접수일</th>
+                    <td class="txt_layout">${acpcDt}</td>
+                </tr>
+                <tr>
+                    <th>완료예정일</th>
+                    <td class="txt_layout">${cmplParrDt}</td>
+                    <th>완료일</th>
+                    <td class="txt_layout"></td>
+                </tr>
+                <tr>
+                    <th>시험구분</th>
+                    <td class="txt_layout">${rlabScnNm}</td>
+                    <th>시험담당자</th>
+                    <td class="txt_layout">${rlabChrgNm}</td>
+                </tr>
+                <tr>
+                    <th>긴급유무</th>
+                    <td class="txt_layout">${rlabUgyYnNm}</td>
+                    <th>통보유형</th>
+                    <td class="txt_layout">${infmTypeNm}</td>
+                </tr>
+                <tr>
+                    <th>시료처리</th>
+                    <td class="txt_layout">${smpoTrtmNm}</td>
+                    <th>통보자</th>
+                    <td class="txt_layout">${rlabRqprInfmView}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br/>
+    <h5>실험정보</h5>
+        <table class="table">
+            <colgroup>
+                <col width="60%" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="16%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>실험명</th>
+                    <th>시료수</th>
+                    <th>실험시간</th>
+                    <th>수가</th>
+                </tr>
+            </thead>
+            <tbody>
+            	${rlabRqprExatList}
+            </tbody>
+        </table>
+        <br/>
+    <h5>시험결과</h5>
+        <table class="table">
+            <colgroup>
+                <col width="15%" />
+                <col width="*" />
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th>시험결과</th>
+                    <td class="txt_layout">${rlabRsltSbc}</td>
+                </tr>
+                <tr>
+                    <th>시험결과서</th>
+                    <td class="txt_layout">${rsltAttachFileList}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br/>
+    <h5>시료정보</h5>
+        <table class="table">
+            <colgroup>
+                <col width="30%" />
+                <col width="20%" />
+                <col width="45%" />
+                <col width="5%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>시료명</th>
+                    <th>제조사</th>
+                    <th>모델명</th>
+                    <th>수량</th>
+                </tr>
+            </thead>
+            <tbody>
+            	${rlabRqprSmpoList}
+            </tbody>
+        </table>
+
+           <!-- left table contents start -->
+            <h5>관련시험</h5>
+                <table class="table">
+                    <colgroup>
+                        <col width="15%" />
+                        <col width="*" />
+                        <col width="15%" />
+                        <col width="15%" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>접수번호</th>
+                            <th>시험명</th>
+                            <th>의뢰자</th>
+                            <th>시험담당자</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	${rlabRqprRltdList}
+                    </tbody>
+                </table>
+           <!-- left table contents end -->
+           <!-- right table contents start -->
+            <h5>시료사진/첨부파일</h5>
+                <table class="table">
+                    <colgroup>
+                        <col width="5%" />
+                        <col width="*" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>파일명</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	${rqprAttachFileList}
+                    </tbody>
+                </table>
+            <!-- right table contents end -->
+    <!-- 가로 2개 테이블 end -->
+</div>
