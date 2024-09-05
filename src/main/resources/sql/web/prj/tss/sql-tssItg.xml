@@ -63,10 +63,17 @@
 		 <if test="aprdocstate != null and aprdocstate != ''">
 			AND dbo.fn_isEmpty(ir.APRDOCSTATE,'A01') = #{aprdocstate}
 		</if>
-		 <if test="approvalProcessdate != null and approvalProcessdate != ''">
+		<if test="approvalProcessdate != null and approvalProcessdate != ''">
+		<![CDATA[
 			--AND ir.APPROVAL_PROCESSDATE = '${approvalProcessdate}'
-			AND  CONVERT(VARCHAR(20),  ir.APPROVAL_PROCESSDATE, 112) &gt;= REPLACE('${approvalProcessdate}','-','')
+			AND  CONVERT(VARCHAR(20),  ir.APPROVAL_PROCESSDATE, 112) >= REPLACE('${approvalProcessdate}','-','')
+		]]>
 		</if>
+        <!-- <if test="approvalProcessdate != null and approvalProcessdate != ''">
+        <![CDATA[
+            AND CONVERT(VARCHAR(20),  ir.APPROVAL_PROCESSDATE, 112) <= REPLACE('${approvalProcessdate}','-','')
+        ]]>	
+        </if> -->
 		 <if test="wbsCd != null and wbsCd != ''">
 			AND mm.WBS_CD = #{wbsCd}
 		</if>
