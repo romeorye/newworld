@@ -914,7 +914,7 @@
     <select id="retrieveTssCsus" resultType="hashmap">
 --retrieveTssCsus 통합결제 조회
         SELECT  TOP 1
-                GUID AS guid
+                icir.GUID AS guid
               , AFFR_CD AS affrCd
               , APRDOCSTATE AS aprdocstate
               , APPROVAL_USERID AS approvalUserid
@@ -932,7 +932,10 @@
               , UPDATE_USERID AS updateUserid
               , APP_CODE AS appCode
               , dbo.fn_getComDtlNm('APP_CODE', APP_CODE) AS appCodeNm
-          FROM IRIS_COM_ITG_RDCS
+              , itmm.TSS_ST AS tssSt
+              , itmm.INIT_FLOW_YN AS initFlowYn
+          FROM IRIS_COM_ITG_RDCS icir
+          LEFT OUTER JOIN IRIS_TSS_MGMT_MST itmm ON (AFFR_CD = TSS_CD)
          WHERE AFFR_CD = #{tssCd}
          ORDER BY GUID DESC
     </select>

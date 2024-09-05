@@ -28,6 +28,7 @@ import iris.web.common.converter.RuiConverter;
 import iris.web.common.util.StringUtil;
 import iris.web.prj.tss.com.service.TssUserService;
 import iris.web.prj.tss.gen.service.GenTssCmplService;
+import iris.web.prj.tss.gen.service.GenTssPgsService;
 import iris.web.prj.tss.gen.service.GenTssService;
 import iris.web.system.base.IrisBaseController;
 
@@ -57,6 +58,9 @@ public class GenTssCmplController  extends IrisBaseController {
     @Resource(name = "genTssService")
     private GenTssService genTssService;
 
+    @Resource(name = "genTssPgsService")
+    private GenTssPgsService genTssPgsService;
+    
     @Resource(name = "genTssCmplService")
     private GenTssCmplService genTssCmplService;
 
@@ -397,6 +401,47 @@ public class GenTssCmplController  extends IrisBaseController {
         return modelAndView;
     }
 
+    //================================================================================================ 참여연구원
+    /**
+     * 과제관리 > 일반과제 > 계획 > 초기유동관리 iframe 화면
+     *
+     * @param input HashMap<String, String>
+     * @param request HttpServletRequest
+     * @param session HttpSession
+     * @param model ModelMap
+     * @return String
+     * @throws JSONException
+     * */
+    @RequestMapping(value="/prj/tss/gen/genTssCmplPtcRsstMbrIfm.do")
+    public String genTssPgsPtcRsstMbrIfm(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+            HttpSession session, ModelMap model) throws JSONException {
+
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("GenTssController - genTssPgsPtcRsstMbrIfm [과제관리 > 일반과제 > 계획 > 참여연구원 iframe 화면 ]");
+        LOGGER.debug("input = > " + input);
+        LOGGER.debug("###########################################################");
+
+        checkSession(input, session, model);
+
+        if(pageMoveChkSession(input.get("_userId"))) {
+            List <Map<String, Object>> codeRtcRole  = codeService.retrieveCodeValueList("PTC_ROLE"); //참여역할
+
+            model.addAttribute("codeRtcRole", codeRtcRole);
+
+            //데이터 있을 경우
+            List<Map<String, Object>> result = genTssPgsService.retrieveGenTssPgsPtcRsstMbr(input);
+
+            JSONObject obj = new JSONObject();
+            obj.put("records", result);
+
+            request.setAttribute("resultCnt", result == null ? 0 : result.size());
+            request.setAttribute("result", obj);
+
+            model.addAttribute("inputData", input);
+        }
+
+        return "web/prj/tss/gen/cmpl/genTssCmplPtcRsstMbrIfm";
+    }
 
     /**
      * 페이지 이동시 세션체크

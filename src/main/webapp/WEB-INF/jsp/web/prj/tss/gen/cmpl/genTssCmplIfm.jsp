@@ -181,8 +181,12 @@
 
         if(lvInitFlowYn == "Y"){
             chkInitFlowYn.setValue(true);
+            initFlowStrtDt.enable();
+            initFlowFnhDt.enable();
         }else{
             chkInitFlowYn.setValue(false);
+            initFlowStrtDt.disable();
+            initFlowFnhDt.disable();
         }
         initFlowStrtDt.setValue(lvInitFlowStrtDt); 
         initFlowFnhDt.setValue(lvInitFlowFnhDt); 
@@ -193,9 +197,13 @@
       		if($("input[name=chkInitFlowYn]").prop("checked")){
       			initFlowStrtDt.setValue(tmpInitFlowStrtDt);
       			initFlowFnhDt.setValue(tmpInitFlowFnhDt);
+                initFlowStrtDt.enable();
+                initFlowFnhDt.enable();
       		}else{
       			initFlowStrtDt.setValue("");
       			initFlowFnhDt.setValue("");
+                initFlowStrtDt.disable();
+                initFlowFnhDt.disable();
       		}
       	});
 

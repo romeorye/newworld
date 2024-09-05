@@ -445,7 +445,7 @@
                 ,{ label: '목표 및 산출물', content: '<div id="div-content-test5"></div>' }
                 ,{ label: '변경이력', content: '<div id="div-content-test6"></div>' }
                 //TODO json을 변환하여 초기유동관리여부 추가할 것
-                <c:if test="${resultCsus.aprdocstate == 'A02'}">
+                <c:if test="${resultCsus.aprdocstate == 'A02' && resultCsus.initFlowYn == 'Y' && resultCsus.tssSt == '104'}">
                 ,{ label: '초기유동관리', content: '<div id="div-content-test7"></div>' }
                 </c:if>
             ]
@@ -515,7 +515,7 @@
             //초기유동관리
             case 7:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=CM'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssCmplPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=CM'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent7');
                 }
                 break;

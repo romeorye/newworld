@@ -47,9 +47,6 @@
     var initFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
     var initFlowStrtDt = (window.parent.initFlowStrtDt) ? window.parent.initFlowStrtDt : ""; //초기유동관리시작일
     var initFlowFnhDt = (window.parent.initFlowFnhDt) ? window.parent.initFlowFnhDt : ""; //초기유동관리종료일
-    /* if (window.parent.initFlowYn) initFlowYn = window.parent.initFlowYn; //초기유동관리여부
-    if (window.parent.initFlowStrtDt) initFlowStrtDt = window.parent.initFlowStrtDt; //초기유동관리시작일
-    if (window.parent.initFlowFnhDt) initFlowFnhDt = window.parent.initFlowFnhDt; //초기유동관리종료일 */
     
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);
@@ -69,18 +66,21 @@
         /*============================================================================
         =================================    Form     ================================
         ============================================================================*/
-      
-        /* //초기유동관리종료일
-        initFlowFnhDt =  new Rui.ui.form.LDateBox({
-            applyTo: 'initFlowFnhDt',
+        
+        /* $("#initFlowYn").val(initFlowYn);
+        $("#initFlowStrtDt").val(initFlowStrtDt);
+        $("#initFlowFnhDt").val(initFlowFnhDt); */
+        
+        /* //초기유동관리시작일
+        initFlowStrtDt = new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowStrtDt',
             mask: '9999-99-99',
             width: 100,
             dateType: 'string'
         });
-        
-        //초기유동관리시작일
-        initFlowStrtDt = new Rui.ui.form.LDateBox({
-            applyTo: 'initFlowStrtDt',
+        //초기유동관리종료일
+        initFlowFnhDt =  new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowFnhDt',
             mask: '9999-99-99',
             width: 100,
             dateType: 'string'
@@ -97,9 +97,9 @@
             }
 
             if(gvTssSt=="104"){ */
-                setReadonly("initFlowFnhDt");
+                /* setReadonly("initFlowFnhDt");
                 setReadonly("initFlowStrtDt");
-                $('.gab').hide();
+                $('.gab').hide(); */
             /* }
 
             Rui.select('.tssLableCss input').addClass('L-tssLable');
@@ -181,6 +181,14 @@
             console.log("smry load DataSet Success");
             lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
             if(lvAttcFilId != "") getAttachFileList();
+            
+            spInfo = "";
+            spInfo = spInfo + initFlowYn;
+            if (initFlowYn == 'Y') {
+            	spInfo = spInfo +' '+initFlowStrtDt +' ~ '+ initFlowFnhDt
+            }
+            $("#spInitFlowInfo").text(spInfo);
+            
         });
 
         /*============================================================================
@@ -798,10 +806,7 @@ $(window).load(function() {
                 <tr>
                     <th align="right">초기유동관리여부</th>
                     <td colspan="2">
-                        ${resultMst.initFlowYn}&nbsp;&nbsp;&nbsp;&nbsp;
-                        <c:if test="${resultMst.initFlowYn eq 'Y'}">
-                            ${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
-                        </c:if>
+                    	<span id="spInitFlowInfo" />
                     </td>
                 </tr>
                 <tr>
