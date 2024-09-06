@@ -403,7 +403,7 @@ public class GenTssCmplController  extends IrisBaseController {
 
     //================================================================================================ 참여연구원
     /**
-     * 과제관리 > 일반과제 > 계획 > 초기유동관리 iframe 화면
+     * 과제관리 > 일반과제 > 완료 > 초기유동관리 iframe 화면
      *
      * @param input HashMap<String, String>
      * @param request HttpServletRequest
@@ -413,11 +413,11 @@ public class GenTssCmplController  extends IrisBaseController {
      * @throws JSONException
      * */
     @RequestMapping(value="/prj/tss/gen/genTssCmplPtcRsstMbrIfm.do")
-    public String genTssPgsPtcRsstMbrIfm(@RequestParam HashMap<String, String> input, HttpServletRequest request,
+    public String genTssCmplPtcRsstMbrIfm(@RequestParam HashMap<String, String> input, HttpServletRequest request,
             HttpSession session, ModelMap model) throws JSONException {
 
         LOGGER.debug("###########################################################");
-        LOGGER.debug("GenTssController - genTssPgsPtcRsstMbrIfm [과제관리 > 일반과제 > 계획 > 참여연구원 iframe 화면 ]");
+        LOGGER.debug("GenTssCmplController - genTssCmplPtcRsstMbrIfm [과제관리 > 일반과제 > 완료 > 초기유동관리 iframe 화면 ]");
         LOGGER.debug("input = > " + input);
         LOGGER.debug("###########################################################");
 

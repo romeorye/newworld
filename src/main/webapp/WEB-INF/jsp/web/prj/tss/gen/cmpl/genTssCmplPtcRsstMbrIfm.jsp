@@ -5,12 +5,12 @@
 <%--
 /*
  *************************************************************************
- * $Id      : genTssPgsPtcRsstMbrIfm.jsp
+ * $Id      : genTssCmplPtcRsstMbrIfm.jsp
  * @desc    : 
  *------------------------------------------------------------------------
  * VER  DATE        AUTHOR      DESCRIPTION
  * ---  ----------- ----------  -----------------------------------------
- * 1.0  2017.08.08
+ * 1.0  2024.09.05              초기유동관리
  * ---  ----------- ----------  -----------------------------------------
  * IRIS 프로젝트
  *************************************************************************
@@ -36,7 +36,7 @@
     var lvPageMode = window.parent.gvPageMode;
     var roleId     = '${inputData._roleId}';
     
-    var pageMode = lvPgsCd == "PG" && lvTssSt == "100" && lvPageMode == "W" ? "W" : "R";
+    var pageMode = lvPgsCd == "CM" && lvTssSt == "104" && lvPageMode == "W" ? "W" : "R";
 
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);
