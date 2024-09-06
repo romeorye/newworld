@@ -901,7 +901,12 @@
     <![CDATA[
 -- updateTssCsusRq 통합결제 수정
         UPDATE IRIS_COM_ITG_RDCS
-           SET BODY        = #{body}
+           SET APPROVAL_USERID        = #{approvalUserid} --결재 요청자 ID
+             , APPROVAL_USERNAME      = #{approvalUsername} --결재 요청자명
+             , APPROVAL_JOBTITLE      = #{approvalJobtitle} --결재 요청자 직위
+             , APPROVAL_DEPTNAME      = #{approvalDeptname} --결재 요청자 부서명
+             , APPROVAL_PROCESSDATE   = GETDATE() --결재 요청 일자
+             , BODY        = #{body}
              , TITLE       = #{title}
              , UPDATE_DATE = GETDATE()
              , UPDATE_USERID = #{approvalUserid}
