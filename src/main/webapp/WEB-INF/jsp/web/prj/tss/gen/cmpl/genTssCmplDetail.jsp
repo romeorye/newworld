@@ -528,6 +528,41 @@
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
+		 var confirmDialog = new Rui.ui.LFrameDialog({
+		     id: 'confirmDialog',
+		     title: '변경요청',
+		     width: 550,
+		     height: 320,
+		     modal: true,
+		     visible: false,
+		     buttons: [
+		             { text: '단순변경', handler: function(){
+		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&gbnCd=DL");
+		             }},
+		             { text: 'GRS심의요청', handler: function(){
+		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&callPageId=genTss");
+		             }},
+		             { text: 'Close', handler: function(){
+		                 this.cancel();
+		             }},
+		         ]
+		 });
+
+		 confirmDialog.render(document.body);
+
+		 openDialog = function(url){
+			 confirmDialog.setUrl('<c:url value="/prj/tss/gen/confirmPopup.do?tssCd="/>' + gvTssCd + '&userIds=' + gvUserId);
+			 confirmDialog.show();
+         };
+
+		 //변경요청
+        btnAltrRq = new Rui.ui.LButton('btnAltrRq');
+        btnAltrRq.on('click', function() {
+        	openDialog();
+        });
+
+
+
         //품의서요청
         btnCsusRq = new Rui.ui.LButton('btnCsusRq');
 
@@ -703,6 +738,7 @@
             <div class="titArea mt0">
                 <div class="LblockButton">
                     <button type="button" id="btnCsusRq" name="btnCsusRq">품의서요청</button>
+                    <button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button>
                     <button type="button" id="btnList" name="btnList">목록</button>
                 </div>
             </div>

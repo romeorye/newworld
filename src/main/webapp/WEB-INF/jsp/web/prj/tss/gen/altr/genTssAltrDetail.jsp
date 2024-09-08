@@ -421,6 +421,7 @@
 
                 smryDs.setNameValue(0, "tssCd",  gvTssCd); //과제코드
                 smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
+                
                 //신규
                 if(gvTssCd == "") {
                     dm.updateDataSet({
@@ -431,6 +432,7 @@
                 }
                 //수정
                 else {
+                    altrDs.setNameValue(0, "tssCd",  gvTssCd);  //과제코드
                     dm.updateDataSet({
                         modifiedOnly: false,
                         url:'<c:url value="/prj/tss/gen/updateGenTssAltrMst.do"/>',
