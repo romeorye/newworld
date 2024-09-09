@@ -41,21 +41,21 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
     
-    var lvInitFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
+    /* var lvInitFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
     var lvInitFlowStrtDt = (window.parent.initFlowStrtDt) ? window.parent.initFlowStrtDt : ""; //초기유동관리시작일
     var lvInitFlowFnhDt = (window.parent.initFlowFnhDt) ? window.parent.initFlowFnhDt : ""; //초기유동관리종료일
 
     var tmpInitFlowStrtDt = (window.parent.tmpInitFlowStrtDt) ? window.parent.tmpInitFlowStrtDt : "";
-    var tmpInitFlowFnhDt =  (window.parent.tmpInitFlowFnhDt) ? window.parent.tmpInitFlowFnhDt : "";
+    var tmpInitFlowFnhDt =  (window.parent.tmpInitFlowFnhDt) ? window.parent.tmpInitFlowFnhDt : ""; */
     
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);
     console.log("[lvTssSt]", lvTssSt);
     console.log("[lvPageMode]", lvPageMode);
 
-    console.log("[lvInitFlowYn]", lvInitFlowYn);
+    /* console.log("[lvInitFlowYn]", lvInitFlowYn);
     console.log("[lvInitFlowStrtDt]", lvInitFlowStrtDt);
-    console.log("[lvInitFlowFnhDt]", lvInitFlowFnhDt);
+    console.log("[lvInitFlowFnhDt]", lvInitFlowFnhDt); */
     
     var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
     var dataSet;
@@ -123,7 +123,7 @@
             width: 600
         });
 
-        /* 초기유동관리 여부*/
+        /*// 초기유동관리 여부
         var chkInitFlowYn = new Rui.ui.form.LCheckBox({ // 체크박스를 생성
             applyTo: 'chkInitFlowYn',
             checked : true,
@@ -205,7 +205,7 @@
                 initFlowStrtDt.disable();
                 initFlowFnhDt.disable();
       		}
-      	});
+      	}); */
 
         //과제개요_주요연구개발내용
         pmisCmplTxt = new Rui.ui.form.LTextArea({
@@ -601,13 +601,13 @@
         btnSave.on('click', function() {
             if (fnIfmIsUpdate("SAVE") ){
             	
-            	lvInitFlowYn = (stringNullChk(chkInitFlowYn.getValue())=="")?"N":"Y"; 
+            	/* lvInitFlowYn = (stringNullChk(chkInitFlowYn.getValue())=="")?"N":"Y"; 
             	lvInitFlowStrtDt= (lvInitFlowYn=="Y")?initFlowStrtDt.getValue() : ""; 
             	lvInitFlowFnhDt = (lvInitFlowYn=="Y")?initFlowFnhDt.getValue() : "";  
             	
-            	/* window.parent.initFlowYn = lvInitFlowYn; 
-            	window.parent.initFlowStrtDt = lvInitFlowStrtDt; 
-            	window.parent.initFlowFnhDt = lvInitFlowFnhDt;  */
+            	// window.parent.initFlowYn = lvInitFlowYn; 
+            	//window.parent.initFlowStrtDt = lvInitFlowStrtDt; 
+            	//window.parent.initFlowFnhDt = lvInitFlowFnhDt;
             	
             	console.log("[lvInitFlowYn]", lvInitFlowYn, "[lvInitFlowStrtDt]", lvInitFlowStrtDt, "[lvInitFlowFnhDt]", lvInitFlowFnhDt);
             	console.log("[$(\"input[name=chkInitFlowYn]\").prop(\"checked\")]", $("input[name=chkInitFlowYn]").prop("checked"));
@@ -623,7 +623,7 @@
             		}
             	}
             	
-                window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowStrtDt, lvInitFlowFnhDt);
+                window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowStrtDt, lvInitFlowFnhDt); */
                 window.parent.fnSave();
             }
         });
@@ -909,7 +909,7 @@ $(window).load(function() {
                     <th align="right">향후 계획</th>
                     <td colspan="2"><input type="text" id="fnoPlnTxt" /></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <th align="right">초기유동관리여부</th>
                     <td colspan="2">
                     	<input type="checkbox" id="chkInitFlowYn"> Y
@@ -918,7 +918,7 @@ $(window).load(function() {
                         <em class="gab"> ~ </em>
                         <input type="text" id="initFlowFnhDt" value="" />
                     </td>
-                </tr>
+                </tr> -->
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
                     <td id="attchFileView" colspan="2">&nbsp;</td>

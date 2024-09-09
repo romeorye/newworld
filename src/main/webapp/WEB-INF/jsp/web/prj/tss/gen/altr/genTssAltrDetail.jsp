@@ -53,6 +53,8 @@
     var tssStrtDd;
     var tssFnhDd;
     var tssNm;
+    
+    var urlParam;
 
     Rui.onReady(function() {
         /*============================================================================
@@ -292,7 +294,7 @@
             }
 
             var tabUrl = "";
-            var urlParam = "?tssCd="+gvTssCd+"&wbsCd="+gvWbsCd+"&pgTssSt="+gvPgTssSt;
+            urlParam = "?tssCd="+gvTssCd+"&wbsCd="+gvWbsCd+"&pgTssSt="+gvPgTssSt +"&pgTssCd="+gvPgTssCd;
 
             switch(e.activeIndex) {
             //변경개요
@@ -373,7 +375,7 @@
         //진행으로 회귀
         btnStepPg = new Rui.ui.LButton('btnStepPg');
         btnStepPg.on('click', function() {
-            if(confirm('진행단계로 이동하시겠습니까?\r\n변경에서 작성한 데이터는 삭제됩니다.')) {
+        	if(confirm('진행단계로 이동하시겠습니까?\r\n변경에서 작성한 데이터는 삭제됩니다.')) {
                 nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsDetail.do'/>"+"?tssCd="+gvTssCd+"&pgTssCd="+gvPgTssCd+"&userId="+gvUserId);
             }
         });
@@ -439,6 +441,8 @@
                         dataSets:[dataSet, smryDs, altrDs]
                     });
                 }
+                console.log("[urlParam]", urlParam);
+                nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssList.do'/>"+urlParam);
             }
         };
 

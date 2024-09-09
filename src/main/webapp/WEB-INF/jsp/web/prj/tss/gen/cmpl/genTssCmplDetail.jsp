@@ -46,16 +46,16 @@
     var progressrate     = "${inputData.progressrate}";
     var pGrsEvSt     = "${inputData.pGrsEvSt}";
 
+    /* var initFlowYn     = "";
+    var initFlowStrtDt = "";
+    var initFlowFnhDt  = ""; */
+
     var cmplTssCd   = "";
     var dataSet;
     var altrHistDialog;
     var rtnMsg = "${inputData.rtnMsg}";
     var itmFlag ="N";	//필수산출물 체크
     var gvWbsCd   = "";
-
-    var initFlowYn     = "";
-    var initFlowStrtDt = "";
-    var initFlowFnhDt  = "";
     
     var gvGuid        = "${resultCsus.guid}";
     var gvAprdocState = "${resultCsus.aprdocstate}";
@@ -226,6 +226,62 @@
 
         });
 
+        /* 초기유동관리 여부*/
+        var chkInitFlowYn = new Rui.ui.form.LCheckBox({ // 체크박스를 생성
+            applyTo: 'chkInitFlowYn',
+            checked : true,
+            value : "Y"
+        });
+        
+        //초기유동관리시작일
+        initFlowStrtDt =  new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowStrtDt',
+            mask: '9999-99-99',
+            width: 100,
+            dateType: 'string'
+        });
+        initFlowStrtDt.on('blur', function() {
+            if(Rui.isEmpty(initFlowStrtDt.getValue())) return;
+
+            if(!Rui.isEmpty(initFlowFnhDt.getValue())) {
+                var startDt = initFlowStrtDt.getValue().replace(/\-/g, "").toDate();
+                var fnhDt   = initFlowFnhDt.getValue().replace(/\-/g, "").toDate();
+
+                var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
+
+                if(rtnValue <= 0) {
+                    Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
+                    initFlowStrtDt.setValue("");
+                    return;
+                }
+            }
+        });
+        
+        //초기유동관리종료일
+        initFlowFnhDt = new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowFnhDt',
+            mask: '9999-99-99',
+            width: 100,
+            dateType: 'string'
+        });
+        initFlowFnhDt.on('blur', function() {
+            if(Rui.isEmpty(initFlowFnhDt.getValue())) return;
+
+            if(!Rui.isEmpty(initFlowStrtDt.getValue())) {
+                var startDt = initFlowStrtDt.getValue().replace(/\-/g, "").toDate();
+                var fnhDt   = initFlowFnhDt.getValue().replace(/\-/g, "").toDate();
+
+                var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
+
+                if(rtnValue <= 0) {
+                    Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
+                    initFlowFnhDt.setValue("");
+                    return;
+                }
+            }
+
+        });
+
         altrHistDialog = new Rui.ui.LFrameDialog({
    	        id: 'altrHistDialog',
    	        title: '변경이력상세',
@@ -243,13 +299,16 @@
             btnCsusRq.hide();
             
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
-                if(gvTssSt == "100") btnCsusRq.show(); //GRS - 100:작성중
-                if(gvTssSt == "102") btnCsusRq.show(); //GRS - 100:작성중
+                if(gvTssSt == "100" || gvTssSt == "102") btnCsusRq.show(); //100: 작성중, 102: GRS평가완료
             }
 
             if(gvTssSt=="104"){
                 setReadonly("cmplBStrtDd");
                 setReadonly("cmplBFnhDd");
+                
+                chkInitFlowYn.disable();
+                setReadonly("initFlowStrtDt");
+                setReadonly("initFlowFnhDt");
             }
 
             Rui.select('.tssLableCss input').addClass('L-tssLable');
@@ -257,9 +316,6 @@
             Rui.select('.tssLableCss div').removeClass('L-disabled');
             
         }
-
-
-
 
         /*============================================================================
         =================================    DataSet     =============================
@@ -315,9 +371,9 @@
             gvPkWbsCd  = dataSet.getNameValue(0, "pkWbsCd");
             gvWbsCd = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
             
-            initFlowYn = stringNullChk(dataSet.getNameValue(0, "initFlowYn"));
-            initFlowStrtDt = stringNullChk(dataSet.getNameValue(0, "initFlowStrtDt"));
-            initFlowFnhDt = stringNullChk(dataSet.getNameValue(0, "initFlowFnhDt"));
+            gvInitFlowYn = stringNullChk(dataSet.getNameValue(0, "initFlowYn"));
+            /*initFlowStrtDt = stringNullChk(dataSet.getNameValue(0, "initFlowStrtDt"));
+            initFlowFnhDt = stringNullChk(dataSet.getNameValue(0, "initFlowFnhDt")); */
             
             document.tabForm.tssSt.value = dataSet.getNameValue(0, "tssSt");
             document.tabForm.pgsStepCd.value = dataSet.getNameValue(0, "pgsStepCd");
@@ -355,6 +411,35 @@
             tmpInitFlowFnhDt =  dataSet.getNameValue(0, 'initFlowFnhDt');
             
             disableFields();
+			
+            
+            if(gvInitFlowYn == "Y"){
+                chkInitFlowYn.setValue(true);
+                initFlowStrtDt.enable();
+                initFlowFnhDt.enable();
+            }else{
+                chkInitFlowYn.setValue(false);
+                initFlowStrtDt.disable();
+                initFlowFnhDt.disable();
+            }
+            /* initFlowStrtDt.setValue(lvInitFlowStrtDt); 
+            initFlowFnhDt.setValue(lvInitFlowFnhDt);  */
+
+            $("input[name=chkInitFlowYn]").click(function(){
+            	//console.log($("input[name=chkInitFlowYn]").prop("checked"));
+          		if($("input[name=chkInitFlowYn]").prop("checked")){
+          			initFlowStrtDt.setValue(tmpInitFlowStrtDt);
+          			initFlowFnhDt.setValue(tmpInitFlowFnhDt);
+          			initFlowStrtDt.enable();
+          			initFlowFnhDt.enable();
+          		}else{
+          			initFlowStrtDt.setValue("");
+          			initFlowFnhDt.setValue("");
+          			initFlowStrtDt.disable();
+          			initFlowFnhDt.disable();
+          		}
+          	});
+            
 
             tabView.selectTab(0);
 
@@ -629,10 +714,22 @@
             }
 
             //개요탭 validation
-            dataSet.setNameValue(0, "initFlowYn",     $("#initFlowYn").val()); 
-            dataSet.setNameValue(0, "initFlowStrtDt", $("#initFlowStrtDt").val());
-            dataSet.setNameValue(0, "initFlowFnhDt",  $("#initFlowFnhDt").val());
+            dataSet.setNameValue(0, "initFlowYn",     $("#chkInitFlowYn").val()); 
+            /* dataSet.setNameValue(0, "initFlowStrtDt", $("#initFlowStrtDt").val());
+            dataSet.setNameValue(0, "initFlowFnhDt",  $("#initFlowFnhDt").val()); */
 
+            if ($("input[name=chkInitFlowYn]").prop("checked")) {
+        		if(Rui.isEmpty(initFlowStrtDt.getValue())) {
+        			Rui.alert("초기유동관리 시작일: 필수 입력 항목입니다.");
+        			$("#initFlowStrtDt").focus();
+        			return false;
+        		} else if(Rui.isEmpty(initFlowFnhDt.getValue())) {
+        			Rui.alert("초기유동관리 종료일: 필수 입력 항목입니다.");
+        			$("#initFlowFnhDt").focus();
+        			return false;
+        		}
+        	}
+            
             var ifmUpdate = document.getElementById('tabContent0').contentWindow.fnIfmIsUpdate("SAVE");
             if(!ifmUpdate) return false;
 
@@ -652,9 +749,8 @@
 	                dataSet.setNameValue(0, "tssCd",  cmplTssCd); //과제코드
 	                dataSet.setNameValue(0, "userId", gvUserId);  //사용자ID
 	                dataSet.setNameValue(0, "tssRoleType", "W"); //화면권한
+	                dataSet.setNameValue(0, "initFlowYn", (stringNullChk(chkInitFlowYn.getValue())=="")?"N":"Y"); //초기유동관리여부
 
-	                //return ;
-	                
 	                smryDs.setNameValue(0, "tssCd",  cmplTssCd); //과제코드
 	                smryDs.setNameValue(0, "userId", gvUserId);  //사용자ID
 	                
@@ -747,9 +843,9 @@
                 	<input type="hidden" id="pgsStepCd" name="pgsStepCd" />
                 	<input type="hidden" id="tssSt" name="tssSt" />
                 	
-                	<input type="hidden" id="initFlowYn" name="initFlowYn" />
+                	<!-- <input type="hidden" id="initFlowYn" name="initFlowYn" />
                 	<input type="hidden" id="initFlowStrtDt" name="initFlowStrtDt" />
-                	<input type="hidden" id="initFlowFnhDt" name="initFlowFnhDt" />
+                	<input type="hidden" id="initFlowFnhDt" name="initFlowFnhDt" /> -->
                 	
                     <fieldset>
                         <table class="table table_txt_right">
@@ -797,16 +893,6 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">연구분야</th>
-                                    <td class="tssLableCss">
-                                        <div id="rsstSpheNm">
-                                    </td>
-                                    <th align="right">개발등급</th>
-                                    <td class="tssLableCss">
-                                        <div id="tssTypeNm">
-                                    </td>
-                                </tr>
-                                <tr>
                                 	<th align="right">과제속성</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="tssAttrNm"></div>
@@ -814,6 +900,16 @@
                                     <th align="right">참여인원</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="mbrCnt" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th align="right">연구분야</th>
+                                    <td class="tssLableCss">
+                                        <div id="rsstSpheNm">
+                                    </td>
+                                    <th align="right">개발등급</th>
+                                    <td class="tssLableCss">
+                                        <div id="tssTypeNm">
                                     </td>
                                 </tr>
                                 <tr>
@@ -829,10 +925,22 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">진행단계 / GRS</th>
-                                    <td><span id="tssStepNm"/> / <span id="grsStepNm"/></td>
-                                    <th align="right">Q-gate 단계</th>
-                                    <td><span id="qgateStepNm"/> </td>
+                                    <th align="right">진행단계 | GRS | Q-gate 단계</th>
+                                    <td>
+                                    	<div style="float:left;"><span id="tssStepNm"/></div>
+                                    	<div style="float:left;">&nbsp;|&nbsp;</div>
+                                    	<div style="float:left;"><span id="grsStepNm"/></div>
+                                    	<div style="float:left;">&nbsp;|&nbsp;</div>
+                                    	<div style="float:left;"><span id="qgateStepNm"/></div>
+                                    </td>
+                                    <th align="right">초기유동관리여부</th>
+                                    <td>
+                                        <input type="checkbox" id="chkInitFlowYn"> Y
+                                        &nbsp;&nbsp;
+                                        <input type="text" id="initFlowStrtDt" name="initFlowStrtDt" value="" />
+                                        <em class="gab"> ~ </em>
+                                        <input type="text" id="initFlowFnhDt" name="initFlowFnhDt" value="" />
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -847,8 +955,8 @@
             	<input type="hidden" id="tssSt" name="tssSt" value=""/>
             	<input type="hidden" id="pgsStepCd" name="pgsStepCd" value=""/>
             	
-            	<!-- <input type="hidden" name="initFlowYn" value=""/>
-            	<input type="hidden" name="initFlowStrtDt" value=""/>
+            	<input type="hidden" id="initFlowYn" name="initFlowYn" value=""/>
+            	<!-- <input type="hidden" name="initFlowStrtDt" value=""/>
             	<input type="hidden" name="initFlowFnhDt" value=""/> -->
                 
                 <iframe name="tabContent0" id="tabContent0" scrolling="yes" width="100%" height="100%" frameborder="0" ></iframe>

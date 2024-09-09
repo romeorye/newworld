@@ -161,6 +161,7 @@ console.log("[lvPgTssSt]", lvPgTssSt);
             });
 
             lvAttcFilId = stringNullChk(dataSet1.getNameValue(0, "altrAttcFilId"));
+            console.log("[lvAttcFilId]2", lvAttcFilId);
             if(lvAttcFilId != "") getAttachFileList();
         });
 
@@ -181,7 +182,7 @@ console.log("[lvPgTssSt]", lvPgTssSt);
                 }
             }
                 ,{ id: 'bizPrftProY1Before',     ctrlId: 'bizPrftProY1Before',     value: 'html' , renderer: function(value) {
-                        return Rui.util.LFormat.numberFormat(parseFloat(value));
+                    return Rui.util.LFormat.numberFormat(value);
                 }
             }
                 ,{ id: 'bizPrftProY2',     ctrlId: 'bizPrftProY2',     value: 'html' , renderer: function(value) {
@@ -480,7 +481,7 @@ console.log("[lvPgTssSt]", lvPgTssSt);
             dataSet2.add(record);
         });
 
-        if(lvAttcFilId != "") getAttachFileList();
+        /////if(lvAttcFilId != "") getAttachFileList();
 
         //삭제
         var butRecordDel = new Rui.ui.LButton('butRecordDel');

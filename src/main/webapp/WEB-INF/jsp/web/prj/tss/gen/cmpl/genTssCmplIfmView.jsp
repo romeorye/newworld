@@ -44,18 +44,18 @@
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
 
-    var initFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
+    /* var initFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
     var initFlowStrtDt = (window.parent.initFlowStrtDt) ? window.parent.initFlowStrtDt : ""; //초기유동관리시작일
-    var initFlowFnhDt = (window.parent.initFlowFnhDt) ? window.parent.initFlowFnhDt : ""; //초기유동관리종료일
+    var initFlowFnhDt = (window.parent.initFlowFnhDt) ? window.parent.initFlowFnhDt : ""; //초기유동관리종료일 */
     
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);
     console.log("[lvTssSt]", lvTssSt);
     console.log("[lvPageMode]", lvPageMode);
 
-    console.log("[initFlowYn]", initFlowYn);
+    /* console.log("[initFlowYn]", initFlowYn);
     console.log("[initFlowStrtDt]", initFlowStrtDt);
-    console.log("[initFlowFnhDt]", initFlowFnhDt);
+    console.log("[initFlowFnhDt]", initFlowFnhDt); */
 
     var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
 
@@ -66,25 +66,6 @@
         /*============================================================================
         =================================    Form     ================================
         ============================================================================*/
-        
-        /* $("#initFlowYn").val(initFlowYn);
-        $("#initFlowStrtDt").val(initFlowStrtDt);
-        $("#initFlowFnhDt").val(initFlowFnhDt); */
-        
-        /* //초기유동관리시작일
-        initFlowStrtDt = new Rui.ui.form.LDateBox({
-            applyTo: 'initFlowStrtDt',
-            mask: '9999-99-99',
-            width: 100,
-            dateType: 'string'
-        });
-        //초기유동관리종료일
-        initFlowFnhDt =  new Rui.ui.form.LDateBox({
-            applyTo: 'initFlowFnhDt',
-            mask: '9999-99-99',
-            width: 100,
-            dateType: 'string'
-        }); */
         
         //Form 비활성화 여부
         disableFields = function() {
@@ -182,12 +163,12 @@
             lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
             if(lvAttcFilId != "") getAttachFileList();
             
-            spInfo = "";
+            /* spInfo = "";
             spInfo = spInfo + initFlowYn;
             if (initFlowYn == 'Y') {
             	spInfo = spInfo +' '+initFlowStrtDt +' ~ '+ initFlowFnhDt
             }
-            $("#spInitFlowInfo").text(spInfo);
+            $("#spInitFlowInfo").text(spInfo); */
             
         });
 
@@ -803,12 +784,12 @@ $(window).load(function() {
                     <th align="right">향후 계획</th>
                     <td colspan="2"><span id="fnoPlnTxt" /></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <th align="right">초기유동관리여부</th>
                     <td colspan="2">
                     	<span id="spInitFlowInfo" />
                     </td>
-                </tr>
+                </tr> -->
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
                     <td id="attchFileView" colspan="2">&nbsp;</td>
