@@ -88,7 +88,7 @@
         mbrCnt = new Rui.ui.form.LTextBox({
             applyTo: 'mbrCnt',
             editable: false,
-            width: 100
+            width: 50
         });
 
         //사업부문(Funding기준)
@@ -144,7 +144,7 @@
         tssTypeNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssTypeNm',
             editable: false,
-            width: 200
+            width: 100
         });
 
 
@@ -296,7 +296,8 @@
         //Form 비활성화 여부
         disableFields = function() {
             //버튼여부
-            btnCsusRq.hide();
+            btnCsusRq.hide(); //[춤의서요청]
+            btnAltrRq.hide(); //[변경요청]
             
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
                 if(gvTssSt == "100" || gvTssSt == "102") btnCsusRq.show(); //100: 작성중, 102: GRS평가완료
@@ -309,6 +310,7 @@
                 chkInitFlowYn.disable();
                 setReadonly("initFlowStrtDt");
                 setReadonly("initFlowFnhDt");
+                if (gvInitFlowYn == "Y")  btnAltrRq.show(); //[변경요청]
             }
 
             Rui.select('.tssLableCss input').addClass('L-tssLable');
@@ -897,9 +899,10 @@
                                     <td class="tssLableCss">
                                         <input type="text" id="tssAttrNm"></div>
                                     </td>
-                                    <th align="right">참여인원</th>
+                                    <th align="right">참여인원 / 개발등급</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="mbrCnt" />
+                                        <input type="text" id="mbrCnt" /> / <em class="gab">
+                                        <input type="text" id="tssTypeNm" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -907,9 +910,13 @@
                                     <td class="tssLableCss">
                                         <div id="rsstSpheNm">
                                     </td>
-                                    <th align="right">개발등급</th>
-                                    <td class="tssLableCss">
-                                        <div id="tssTypeNm">
+                                    <th align="right">초기유동관리여부 <input type="checkbox" id="chkInitFlowYn"></th>
+                                    <td>
+                                         <!-- Y
+                                        &nbsp;&nbsp; -->
+                                        <input type="text" id="initFlowStrtDt" name="initFlowStrtDt" value="" />
+                                        <em class="gab"> ~ </em>
+                                        <input type="text" id="initFlowFnhDt" name="initFlowFnhDt" value="" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -925,21 +932,15 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th align="right">진행단계 | GRS | Q-gate 단계</th>
-                                    <td>
+                                    <th align="right">진행단계 / GRS</th>
+                                    <td class="tssLableCss">
                                     	<div style="float:left;"><span id="tssStepNm"/></div>
-                                    	<div style="float:left;">&nbsp;|&nbsp;</div>
+                                    	<div style="float:left;"><em class="gab">/<em class="gab"></div>
                                     	<div style="float:left;"><span id="grsStepNm"/></div>
-                                    	<div style="float:left;">&nbsp;|&nbsp;</div>
-                                    	<div style="float:left;"><span id="qgateStepNm"/></div>
                                     </td>
-                                    <th align="right">초기유동관리여부</th>
-                                    <td>
-                                        <input type="checkbox" id="chkInitFlowYn"> Y
-                                        &nbsp;&nbsp;
-                                        <input type="text" id="initFlowStrtDt" name="initFlowStrtDt" value="" />
-                                        <em class="gab"> ~ </em>
-                                        <input type="text" id="initFlowFnhDt" name="initFlowFnhDt" value="" />
+                                    <th align="right">Q-gate단계</th>
+                                    <td                                                                                                                                                                         class="tssLableCss">  
+                                        <span  id="qgateStepNm"   />
                                     </td>
                                 </tr>
                             </tbody>
