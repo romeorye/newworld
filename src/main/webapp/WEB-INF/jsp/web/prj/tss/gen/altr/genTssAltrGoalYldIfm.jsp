@@ -187,7 +187,7 @@ console.log("[lvTssSt]", lvTssSt, "[lvPgTssSt]", lvPgTssSt, "[pageMode]", pageMo
             columnModel: columnModel2,
             dataSet: dataSet2,
             width: 600,
-            height: 200,
+            height: 350,
             autoToEdit: true,
             clickToEdit: true,
             enterToEdit: true,

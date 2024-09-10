@@ -226,7 +226,7 @@
             columnModel: columnModel2,
             dataSet: dataSet2,
             width: 600,
-            height: 200,
+            height: 350,
             autoToEdit: true,
             multiLineEditor: true,
             useRightActionMenu: false,
