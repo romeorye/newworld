@@ -77,6 +77,8 @@ var codeRegDialog;
                  , { id: 'batchExecDt'}
                  , { id: 'comOrd'}
                  , { id: 'comId'}
+                 , { id: 'comAttr1'}
+                 , { id: 'comAttr2'}
                  , { id: '_userId'}
              ]
          });
@@ -91,11 +93,10 @@ var codeRegDialog;
              autoWidth: true,
              columns: [
                   new Rui.ui.grid.LSelectionColumn(),
-                       { field: 'comCdCd'       , label: '코드구분',      align:'left', width: 155}
-                     , { field: 'comCdNm'       , label: '코드명',       align:'left',     width: 200}
-                     , { field: 'comCdExpl'     , label: '코드설명',      editor: new Rui.ui.form.LTextBox(), align:'left',     width: 200}
-                     , { field: 'comOrd'        , label: '순서',         editor: new Rui.ui.form.LNumberBox(),     align:'center', width: 80}
-                     , { field: 'comDtlCd'      , label: '상세코드',      editor: new Rui.ui.form.LTextBox(),  align:'center', width: 80 , renderer: function(value, p, record){
+                       { field: 'comCdCd'       , label: '코드구분',      align:'left'}
+                     , { field: 'comCdNm'       , label: '코드명',       align:'left'}
+                     , { field: 'comCdExpl'     , label: '코드설명',      editor: new Rui.ui.form.LTextBox(), align:'left'}
+                     , { field: 'comDtlCd'      , label: '상세코드',      editor: new Rui.ui.form.LTextBox(),  align:'center', width: 50, renderer: function(value, p, record){
                              if(Rui.isEmpty(record.get("comId"))  ){    //추가일 경우  수정가능
                                   p.editable = true;
                              }else{
@@ -104,11 +105,14 @@ var codeRegDialog;
                              return value
                           }
                       }
-                     , { field: 'comDtlNm'       , label: '상세코드값',    editor: new Rui.ui.form.LTextBox(),     align:'left',     width:200}
-                     , { field: 'delYn'          , label: '삭제여부',     editor: delYnCombo,     align:'center',     width:80}
-                     , { field: 'lastMdfyId'     , label: '수정자ID',       align:'center', width: 100}
-                     , { field: 'lastMdfyDt'     , label: '수정일',       align:'center', width: 100}
-                     , { field: 'batchExecDt'    , label: '배치실행일',    align:'center'}
+                     , { field: 'comDtlNm'       , label: '상세코드값',    editor: new Rui.ui.form.LTextBox(),     align:'left'}
+                     , { field: 'comOrd'         , label: '순서',         editor: new Rui.ui.form.LNumberBox(),     align:'center', width: 30}
+                     , { field: 'delYn'          , label: '삭제여부',     editor: delYnCombo,     align:'center', width: 30}
+                     , { field: 'comAttr1'       , label: '속성1',        editor: new Rui.ui.form.LTextBox(), align:'left', width: 50}
+                     , { field: 'comAttr2'       , label: '속성2',        editor: new Rui.ui.form.LTextBox(), align:'left', width: 50}
+                     , { field: 'lastMdfyId'     , label: '수정자ID',     align:'center', width: 50}
+                     , { field: 'lastMdfyDt'     , label: '수정일',       align:'center', width: 50}
+                     , { field: 'batchExecDt'    , label: '배치실행일',    align:'left', width: 30}
                      //, { field: 'frstRgstDt'     , hidden:true}
                      //, { field: 'frstRgstId'     , hidden:true}
                      , { field: 'comId'     , hidden:true}
@@ -208,7 +212,6 @@ var codeRegDialog;
 
         /* [버튼] : 코드 정보 저장  */
         var butUpdate = new Rui.ui.LButton('butUpdate');
-
         butUpdate.on('click', function(){
             if(confirm("저장 하시겠습니까?")){
                 var dm = new Rui.data.LDataSetManager();
@@ -258,6 +261,8 @@ var codeRegDialog;
                 record.set('delYn', 'N');
                 record.set('comCdExpl', beforeRecord.get("comCdExpl"));
                 record.set('_userId', '${inputData._userId}');
+                
+                console.log("[record("+row+")]", record);
             }
         });
 

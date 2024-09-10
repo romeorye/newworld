@@ -39,6 +39,12 @@
          <if test="comCd != null and comCd != ''">
          AND A.COM_CD_CD = #{comCd}
          </if>
+         <if test="comAttr1 != null and comAttr1 != ''">
+         AND A.COM_ATTR1 = #{comAttr1}
+         </if>
+         <if test="comAttr2 != null and comAttr2 != ''">
+         AND A.COM_ATTR2 = #{comAttr2}
+         </if>
          <![CDATA[
          ORDER BY COM_ORD
         ]]>

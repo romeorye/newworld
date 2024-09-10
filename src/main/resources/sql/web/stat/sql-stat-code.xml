@@ -10,15 +10,17 @@
             SELECT   COM_ID           AS comId
                     ,COM_CD_CD        AS comCdCd
                     ,COM_CD_NM        AS comCdNm
-                    ,COM_CD_EXPL    AS comCdExpl
-                    ,COM_DTL_CD        AS comDtlCd
-                    ,COM_DTL_NM        AS comDtlNm
-                    ,DEL_YN            AS delYn
+                    ,COM_CD_EXPL      AS comCdExpl
+                    ,COM_DTL_CD       AS comDtlCd
+                    ,COM_DTL_NM       AS comDtlNm
+                    ,DEL_YN           AS delYn
                     ,CONVERT(NVARCHAR(10), FRST_RGST_DT, 23)    AS frstRgstDt
-                    ,FRST_RGST_ID    AS frstRgstId
+                    ,FRST_RGST_ID     AS frstRgstId
                     ,CONVERT(NVARCHAR(10), iif(LAST_MDFY_DT<>'',LAST_MDFY_DT, FRST_RGST_DT) , 23)    AS lastMdfyDt
                     ,iif(LAST_MDFY_ID<>'',LAST_MDFY_ID, FRST_RGST_ID)    AS lastMdfyId
-                    ,COM_ORD        AS comOrd
+                    ,COM_ORD          AS comOrd
+                    ,COM_ATTR1        AS comAttr1
+                    ,COM_ATTR2        AS comAttr2
                     ,CONVERT(NVARCHAR(10), BATCH_EXEC_DT, 23)    AS batchExecDt
                     --,dbo.fn_getUserName(FRST_RGST_ID) AS frstRgstNm
                     --,dbo.fn_getUserName(LAST_MDFY_ID) AS lastMdfyNm
@@ -57,6 +59,8 @@
            SET   COM_CD_EXPL      = #{comCdExpl}
                 ,COM_DTL_NM       = #{comDtlNm}
                 ,COM_ORD          = #{comOrd}
+                ,COM_ATTR1        = #{comAttr1}
+                ,COM_ATTR2        = #{comAttr2}
                 ,DEL_YN           = #{delYn}
                 ,LAST_MDFY_DT     = GETDATE()
                 ,LAST_MDFY_ID     = #{_userId}
@@ -73,6 +77,8 @@
                 ,COM_DTL_CD
                 ,COM_DTL_NM
                 ,COM_ORD
+                ,COM_ATTR1
+                ,COM_ATTR2
                 ,DEL_YN
                 ,FRST_RGST_DT
                 ,FRST_RGST_ID
@@ -85,7 +91,9 @@
                 ,#{comDtlCd}
                 ,#{comDtlNm}
                 ,#{comOrd}
-                ,'N'
+                ,#{comAttr1}
+                ,#{comAttr2}
+                ,#{delYn}
                 ,GETDATE()
                 ,#{_userId}
                 ,GETDATE()

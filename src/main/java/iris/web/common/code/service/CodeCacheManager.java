@@ -46,7 +46,7 @@ public class CodeCacheManager {
     /**
      * Cache에서 코드목록정보를 조회한다.
      *
-     * @param cache에서 조회할 그룹코드
+     * @param cache에서 조회할 그룹코드(String)
      * @return 그룹코드로 조회된 하위코드정보목록
      */
     @Cacheable(value="codeListForCache")
@@ -54,6 +54,12 @@ public class CodeCacheManager {
         return codeService.retrieveCodeValueList(input);
     }
 
+    /**
+     * Cache에서 코드목록정보를 조회한다.
+     *
+     * @param cache에서 조회할 HashMap
+     * @return 그룹코드로 조회된 하위코드정보목록
+     */
     @Cacheable(value="codeListForCache")
     public List<Map<String, Object>> retrieveCodeAllListForCache(HashMap<String, String> input) {
         // TODO Auto-generated method stub

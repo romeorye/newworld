@@ -158,6 +158,10 @@ public class ComCodeController extends IrisBaseController {
             try{
                 codeList = RuiConverter.convertToDataSet(request,"dataSet");
 
+                for(Map<String, Object> data : codeList) {
+                    data.put("_userId", input.get("_userId"));
+                };
+                
                 if(codeList.size() > 0 ){
                     comCodeService.saveCodeInfo(codeList);
                 }else{
