@@ -624,8 +624,14 @@ function setPrjInfo(prjInfo) {
                                     <td class="tssLableCss">
                                         <span id="tssStrtDd"></span> ~ <span id="tssFnhDd"></span>
                                     </td>
+                                    <!-- <th align="right">진행단계 / GRS</th>
+                                    <td colspan="3"><span id="tssStepNm"/> / <span id="grsStepNm"/></td> -->
                                     <th align="right">진행단계 / GRS</th>
-                                    <td colspan="3"><span id="tssStepNm"/> / <span id="grsStepNm"/></td>
+                                    <td class="tssLableCss">
+                                    	<div style="float:left;"><span id="tssStepNm"/></div>
+                                    	<div style="float:left;"><em class="gab">/<em class="gab"></div>
+                                    	<div style="float:left;"><span id="grsStepNm"/></div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

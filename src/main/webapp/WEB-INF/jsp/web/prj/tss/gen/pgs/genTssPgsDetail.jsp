@@ -167,6 +167,9 @@
             //btnGrsRq.hide();
             btnAltrRq.hide();
 
+console.log("[dataSet.getNameValue(0, \"tssRoleId\")]", dataSet.getNameValue(0, "tssRoleId"));
+console.log("[gvTssSt]", gvTssSt, "[saSabunNew]", dataSet.getNameValue(0, "saSabunNew"));
+
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
 	            if(gvTssSt == "100") {
 	                //btnGrsRq.show();
@@ -546,9 +549,15 @@
                                 </tr>
                                 <tr>
                                     <th align="right">진행단계 / GRS</th>
-                                    <td><span id="tssStepNm"/> / <span id="grsStepNm"/></td>
-                                    <th align="right">Q-gate 단계</th>
-                                    <td><span id="qgateStepNm"/> </td>
+                                    <td class="tssLableCss">
+                                    	<div style="float:left;"><span id="tssStepNm"/></div>
+                                    	<div style="float:left;"><em class="gab">/<em class="gab"></div>
+                                    	<div style="float:left;"><span id="grsStepNm"/></div>
+                                    </td>
+                                    <th align="right">Q-gate단계</th>
+                                    <td                                                                                                                                                                         class="tssLableCss">  
+                                        <span  id="qgateStepNm"   />
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

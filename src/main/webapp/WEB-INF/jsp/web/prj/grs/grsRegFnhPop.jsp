@@ -963,7 +963,8 @@ var exSabun = '${inputData._userSabun}';
                          return;
                      }
                  }else if (  dataSet.getNameValue(0, 'bizDptCd') == "01" || dataSet.getNameValue(0, 'bizDptCd') == "03" || dataSet.getNameValue(0, 'bizDptCd') == "06"){
-                    if(valid1.validateGroup('aform') == false) {
+                    console.log("[dataSet.getNameValue(0, 'bizDptCd')]", dataSet.getNameValue(0, 'bizDptCd'));
+                	 if(valid1.validateGroup('aform') == false) {
                             alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid1.getMessageList().join(''));
                          return;
                     }
