@@ -963,7 +963,6 @@ var exSabun = '${inputData._userSabun}';
                          return;
                      }
                  }else if (  dataSet.getNameValue(0, 'bizDptCd') == "01" || dataSet.getNameValue(0, 'bizDptCd') == "03" || dataSet.getNameValue(0, 'bizDptCd') == "06"){
-                    console.log("[dataSet.getNameValue(0, 'bizDptCd')]", dataSet.getNameValue(0, 'bizDptCd'));
                 	 if(valid1.validateGroup('aform') == false) {
                             alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid1.getMessageList().join(''));
                          return;
@@ -1127,15 +1126,15 @@ var exSabun = '${inputData._userSabun}';
                  ,{ id: 'bizPrftCurY1'      , validExp:'영업이익1:true:minNumber=0.01'}
                  ,{ id: 'bizPrftCurY2'      , validExp:'영업이익2:true:minNumber=0.01'}
                  ,{ id: 'ptcCpsnCurY'       , validExp:'투입인원:true:minNumber=0.1'}
-                 ,{ id: 'ptcCpsnCurY1'      , validExp:'투입인원1:true:'}
-                 ,{ id: 'ptcCpsnCurY2'      , validExp:'투입인원2:true'}
-                 ,{ id: 'ptcCpsnCurY3'      , validExp:'투입인원3:true'}
-                 ,{ id: 'ptcCpsnCurY4'      , validExp:'투입인원4:true'}
+                 //,{ id: 'ptcCpsnCurY1'      , validExp:'투입인원1:true:'}
+                 //,{ id: 'ptcCpsnCurY2'      , validExp:'투입인원2:true'}
+                 //,{ id: 'ptcCpsnCurY3'      , validExp:'투입인원3:true'}
+                 //,{ id: 'ptcCpsnCurY4'      , validExp:'투입인원4:true'}
                  ,{ id: 'expArslCurY'       , validExp:'투입비용:true:minNumber=0.01'}
-                 ,{ id: 'expArslCurY1'      , validExp:'투입비용1:true'}
-                 ,{ id: 'expArslCurY2'      , validExp:'투입비용2:true'}
-                 ,{ id: 'expArslCurY3'      , validExp:'투입비용3:true'}
-                 ,{ id: 'expArslCurY4'      , validExp:'투입비용4:true'}
+                 //,{ id: 'expArslCurY1'      , validExp:'투입비용1:true'}
+                 //,{ id: 'expArslCurY2'      , validExp:'투입비용2:true'}
+                 //,{ id: 'expArslCurY3'      , validExp:'투입비용3:true'}
+                 //,{ id: 'expArslCurY4'      , validExp:'투입비용4:true'}
              ]
          });
 

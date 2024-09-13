@@ -1480,7 +1480,7 @@ var exSabun = '${inputData._userSabun}';
                   <tr id="trPtcCpsnHead">
                       <th rowspan="2">
                           <span style="color:red;">* </span>투입인원(M/M)
-                          <br/><br/>
+                        <br/>
                           ※투입율기준 입력<br/>(개발기간을 고려하지 않음)
                       </th>
                       <th class="alignC">과제시작년도</th>
