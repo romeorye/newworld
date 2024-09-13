@@ -264,7 +264,14 @@
                                 </tr>
                                 <tr>
                                     <th>참여연구원</th>
-                                    <td colspan="3">${resultCmpl.mbrNmList}</td>
+                                    <td>${resultCmpl.mbrNmList}</td>
+                                    <th>초기유동관리여부</th>
+                                    <td>
+                                        ${resultMst.initFlowYn}&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <c:if test="${resultMst.initFlowYn eq 'Y'}">
+                                            ${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
+                                        </c:if>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -450,23 +457,13 @@
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th>지적재산권</th>
-                                    <td colspan="2">
-                                        <table  class="table table_txt_right">
-                                            <colgroup>
-                                                <col style="width:20%"/>
-                                                <col style="width:80%"/>
-                                            </colgroup>
-                                            <tr>
-                                                <th align="right">지재권 출원현황<br/>(국내/해외)</th>
-                                                <td><c:out value="${fn:replace(resultSmry.rsstDvlpOucmTxt, cn, br)}" escapeXml="false"/></td>
-                                            </tr>
-                                            <tr>
-                                                <th align="right">특허 Risk 검토결과</th>
-                                                <td><c:out value="${fn:replace(resultSmry.pmisCmplTxt, cn, br)}" escapeXml="false"/></td>
-                                            </tr>
-                                        </table>
-                                    </td>
+                                    <th rowspan="2">지적재산권</th>
+                                    <th align="right">지재권 출원현황<br/>(국내/해외)</th>
+                                    <td><c:out value="${fn:replace(resultSmry.rsstDvlpOucmTxt, cn, br)}" escapeXml="false"/></td>
+                                </tr>
+                                <tr>
+                                    <th align="right">특허 Risk 검토결과</th>
+                                    <td><c:out value="${fn:replace(resultSmry.pmisCmplTxt, cn, br)}" escapeXml="false"/></td>
                                 </tr>
                                 <tr>
                                     <th>목표 기술성과</th>
@@ -483,10 +480,10 @@
                     <div class="titArea"><h3>6. 향후 계획</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width:25%"/>
-                                <col style="width:25%"/>
-                                <col style="width:25%"/>
-                                <col style="width:25%"/>
+                                <col style="width:15%"/>
+                                <col style="width:35%"/>
+                                <col style="width:15%"/>
+                                <col style="width:35%"/>
                             </colgroup>
                             <tbody>
                                 <tr>
@@ -495,15 +492,6 @@
                                     <c:out value="${fn:replace(resultSmry.fnoPlnTxt, cn, br)}" escapeXml="false"/></td>
                                     <th>예상출시일(계획)</th>
                                     <td>${resultSmry.ancpOtPlnDt}</td>
-                                </tr>
-                                <tr>
-                                    <th>초기유동관리여부</th>
-                                    <td colspan="3">
-                                    	${resultMst.initFlowYn}&nbsp;&nbsp;&nbsp;&nbsp;
-                                    	<c:if test="${resultMst.initFlowYn eq 'Y'}">
-                                    		${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
-                                    	</c:if>
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>

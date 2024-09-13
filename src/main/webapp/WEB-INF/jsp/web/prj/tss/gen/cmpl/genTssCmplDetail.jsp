@@ -88,7 +88,7 @@
         mbrCnt = new Rui.ui.form.LTextBox({
             applyTo: 'mbrCnt',
             editable: false,
-            width: 50
+            width: 100
         });
 
         //사업부문(Funding기준)
@@ -102,7 +102,7 @@
         tssNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssNm',
             editable: false,
-            width: 400
+            width: 500
         });
 
         //wbs code
@@ -144,7 +144,7 @@
         tssTypeNm = new Rui.ui.form.LTextBox({
             applyTo: 'tssTypeNm',
             editable: false,
-            width: 100
+            width: 200
         });
 
 
@@ -316,8 +316,10 @@
             Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
             Rui.select('.tssLableCss div').removeClass('L-disabled');
-            
         }
+
+
+            
 
         /*============================================================================
         =================================    DataSet     =============================
@@ -539,7 +541,7 @@
         });
         tabView.on('activeTabChange', function(e) {
             //iframe 숨기기
-            for(var i = 0; i < 8; i++) {
+            for(var i = 0; i < 7; i++) {
                 if(i == e.activeIndex) {
                     Rui.get('tabContent' + i).show();
                 } else {
@@ -599,13 +601,13 @@
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent6');
                 }
                 break;
-            //초기유동관리
+            /*//초기유동관리
             case 7:
                 if(e.isFirst) {
                     tabUrl = "<c:url value='/prj/tss/gen/genTssCmplPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=CM'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent7');
                 }
-                break;
+                break;*/
             default:
                 break;
             }
@@ -716,8 +718,8 @@
             }
 
             //개요탭 validation
-            dataSet.setNameValue(0, "initFlowYn",     $("#chkInitFlowYn").val()); 
-            /* dataSet.setNameValue(0, "initFlowStrtDt", $("#initFlowStrtDt").val());
+            /*//dataSet.setNameValue(0, "initFlowYn",     $("#chkInitFlowYn").val()); 
+            dataSet.setNameValue(0, "initFlowStrtDt", $("#initFlowStrtDt").val());
             dataSet.setNameValue(0, "initFlowFnhDt",  $("#initFlowFnhDt").val()); */
 
             if ($("input[name=chkInitFlowYn]").prop("checked")) {
@@ -737,7 +739,7 @@
 
             //수정여부
             var smryDs = document.getElementById('tabContent0').contentWindow.dataSet; //개요탭 DS
-            if(!dataSet.isUpdated() && !smryDs.isUpdated()) {
+            if( !(dataSet.isUpdated() && smryDs.isUpdated()) ) {
                 Rui.alert("변경된 데이터가 없습니다.");
                 return;
             }
@@ -852,10 +854,10 @@
                     <fieldset>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 14%;" />
-                                <col style="width: 36%;" />
-                                <col style="width: 14%;" />
-                                <col style="width: 36%;" />
+                                <col style="width: 12%;" />
+                                <col style="width: 38%;" />
+                                <col style="width: 12%;" />
+                                <col style="width: 38%;" />
                             </colgroup>
                             <tbody>
                                 <tr>
@@ -895,28 +897,23 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                	<th align="right">과제속성</th>
-                                    <td class="tssLableCss">
-                                        <input type="text" id="tssAttrNm"></div>
-                                    </td>
-                                    <th align="right">참여인원 / 개발등급</th>
-                                    <td class="tssLableCss">
-                                        <input type="text" id="mbrCnt" /> / <em class="gab">
-                                        <input type="text" id="tssTypeNm" />
-                                    </td>
-                                </tr>
-                                <tr>
                                     <th align="right">연구분야</th>
                                     <td class="tssLableCss">
                                         <div id="rsstSpheNm">
                                     </td>
-                                    <th align="right">초기유동관리여부 <input type="checkbox" id="chkInitFlowYn"></th>
-                                    <td>
-                                         <!-- Y
-                                        &nbsp;&nbsp; -->
-                                        <input type="text" id="initFlowStrtDt" name="initFlowStrtDt" value="" />
-                                        <em class="gab"> ~ </em>
-                                        <input type="text" id="initFlowFnhDt" name="initFlowFnhDt" value="" />
+                                    <th align="right">개발등급</th>
+                                    <td class="tssLableCss">
+                                        <div id="tssTypeNm">
+                                    </td>
+                                </tr>
+                                <tr>
+                                	<th align="right">과제속성</th>
+                                    <td class="tssLableCss">
+                                        <input type="text" id="tssAttrNm"></div>
+                                    </td>
+                                    <th align="right">참여인원</th>
+                                    <td class="tssLableCss">
+                                        <input type="text" id="mbrCnt" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -929,6 +926,20 @@
                                     <td>
                                         <input type="text" id="cmplBStrtDd" value="" /><em class="gab"> ~ </em>
                                         <input type="text" id="cmplBFnhDd" value="" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th align="right"></th>
+                                    <td class="tssLableCss">
+                                        <div></div>
+                                    </td>
+                                    <th align="right">초기유동관리여부 <input type="checkbox" id="chkInitFlowYn"></th>
+                                    <td>
+                                         <!-- Y
+                                        &nbsp;&nbsp; -->
+                                        <input type="text" id="initFlowStrtDt" name="initFlowStrtDt" value="" />
+                                        <em class="gab"> ~ </em>
+                                        <input type="text" id="initFlowFnhDt" name="initFlowFnhDt" value="" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -956,8 +967,8 @@
             	<input type="hidden" id="tssSt" name="tssSt" value=""/>
             	<input type="hidden" id="pgsStepCd" name="pgsStepCd" value=""/>
             	
-            	<input type="hidden" id="initFlowYn" name="initFlowYn" value=""/>
-            	<!-- <input type="hidden" name="initFlowStrtDt" value=""/>
+            	<!-- <input type="hidden" id="initFlowYn" name="initFlowYn" value=""/>
+            	<input type="hidden" name="initFlowStrtDt" value=""/>
             	<input type="hidden" name="initFlowFnhDt" value=""/> -->
                 
                 <iframe name="tabContent0" id="tabContent0" scrolling="yes" width="100%" height="100%" frameborder="0" ></iframe>
@@ -967,7 +978,7 @@
                 <iframe name="tabContent4" id="tabContent4" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent5" id="tabContent5" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent6" id="tabContent6" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
-                <iframe name="tabContent7" id="tabContent7" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
+                <!--<iframe name="tabContent7" id="tabContent7" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>-->
             </form>
         </div>
     </div>

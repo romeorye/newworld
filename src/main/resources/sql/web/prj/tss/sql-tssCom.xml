@@ -909,7 +909,6 @@
              , BODY        = #{body}
              , TITLE       = #{title}
              , UPDATE_DATE = GETDATE()
-             , UPDATE_USERID = #{approvalUserid}
              , APP_CODE    = #{appCode}
          WHERE GUID = #{guid}
     ]]>
@@ -934,7 +933,6 @@
               , URL AS url
               , (SELECT COUNT(*) FROM IRIS_COM_ITG_RDCS WHERE AFFR_CD = #{tssCd}) AS csusCnt
               , ITG_RDCS_ID AS itgRdcsId
-              , UPDATE_USERID AS updateUserid
               , APP_CODE AS appCode
               , dbo.fn_getComDtlNm('APP_CODE', APP_CODE) AS appCodeNm
               , itmm.TSS_ST AS tssSt

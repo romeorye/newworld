@@ -700,11 +700,11 @@ $(window).load(function() {
                             <tbody>
                                 <tr>
                                     <th align="right">연구과제 배경<br/>및 필요성</th>
-                                    <td><span id="tssSmryTxt" /></td>
+                                    <td><pre><span id="tssSmryTxt" /></pre></td>
                                 </tr>
                                 <tr>
                                     <th align="right">주요 연구 개발 내용</th>
-                                    <td><span id="tssSmryDvlpTxt" /></td>
+                                    <td><pre><span id="tssSmryDvlpTxt" /></pre></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -721,32 +721,22 @@ $(window).load(function() {
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th align="right">지적재산권</th>
-									<td colspan="2">
-										<table class="table table_txt_right">
-											<colgroup>
-				                                <col style="width: 20%;" />
-				                                <col style="width: 80%;" />
-				                            </colgroup>
-											<tr>
-												<th align="right">지재권 출원현황<br/>(국내/해외)</th>
-                                    			<td><span id="rsstDvlpOucmTxt" /></td>
-											</tr>
-											<tr>
-												<th align="right">특허 Risk 검토결과</th>
-				                    			<td ><span  id="pmisCmplTxt" name="pmisCmplTxt"></td>
-											</tr>
-										</table>
-									</td>
+                                    <th rowspan="2" align="right">지적재산권</th>
+                                    <th align="right">지재권 출원현황<br/>(국내/해외)</th>
+                                    <td><pre><span id="rsstDvlpOucmTxt" /></pre></td>
+                                </tr>
+                                <tr>
+                                <th align="right">특허 Risk 검토결과</th>
+                                    <td><pre><span id="pmisCmplTxt" name="pmisCmplTxt"></pre></td>
                                 </tr>
                                 <tr>
                                     <th align="right">목표기술성과</th>
                                     <th align="right">핵심 CTQ/품질 수준<br/>(경쟁사 비교)</th>
-                                    <td><span id="rsstDvlpOucmCtqTxt" /></td>
+                                    <td><pre><span id="rsstDvlpOucmCtqTxt" /></pre></td>
                                 </tr>
                                 <tr>
                                     <th align="right" colspan="2">파급효과 및 응용분야</th>
-                                    <td><span id="rsstDvlpOucmEffTxt" /></td>
+                                    <td><pre><span id="rsstDvlpOucmEffTxt" /></pre></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -757,7 +747,7 @@ $(window).load(function() {
                     <td colspan="2">
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 220px;" />
+                                <col style="width: 150px;" />
                                 <col style="width: *;" />
                             </colgroup>
                             <tbody>
@@ -778,18 +768,12 @@ $(window).load(function() {
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2"><span id="fwdPlnTxt" /></td>
+                    <td colspan="2"><pre><span id="fwdPlnTxt" /></pre></td>
                 </tr>
                 <tr>
                     <th align="right">향후 계획</th>
-                    <td colspan="2"><span id="fnoPlnTxt" /></td>
+                    <td colspan="2"><pre><span id="fnoPlnTxt" /></pre></td>
                 </tr>
-                <!-- <tr>
-                    <th align="right">초기유동관리여부</th>
-                    <td colspan="2">
-                    	<span id="spInitFlowInfo" />
-                    </td>
-                </tr> -->
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
                     <td id="attchFileView" colspan="2">&nbsp;</td>

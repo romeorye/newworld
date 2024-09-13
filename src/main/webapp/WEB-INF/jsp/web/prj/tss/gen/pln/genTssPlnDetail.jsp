@@ -148,7 +148,7 @@ var gvWbsCd;
             
             //최초 로그인사용자 정보 셋팅
             if(stringNullChk(dataSet.getNameValue(0, "wbsCd")) != "") {
-                document.getElementById("seed").innerHTML = "SEED -";
+                document.getElementById("seed").innerHTML = "SEED-";
             } else {
                 document.getElementById("seed").innerHTML = "";
             }

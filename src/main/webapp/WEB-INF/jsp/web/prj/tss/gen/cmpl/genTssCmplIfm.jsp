@@ -850,19 +850,13 @@ $(window).load(function() {
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th align="right">지적재산권</th>
-                                    <td colspan="2">
-                                        <table>
-                                            <tr>
-                                                <th align="right">지재권 출원현황<br/>(국내/해외)</th>
-                                                <td><input type="text" id="rsstDvlpOucmTxt" /></td>
-                                            </tr>
-                                            <tr>
-                                                <th align="right">특허 Risk 검토결과</th>
-                                                <td ><input type="text"  id="pmisCmplTxt" name="pmisCmplTxt"></td>
-                                            </tr>
-                                        </table>
-                                    </td>
+                                    <th rowspan="2" align="right">지적재산권</th>
+                                    <th align="right">지재권 출원현황<br/>(국내/해외)</th>
+                                    <td><input type="text" id="rsstDvlpOucmTxt" /></td>
+                                </tr>
+                                <tr>
+                                    <th align="right">특허 Risk 검토결과</th>
+                                    <td><input type="text"  id="pmisCmplTxt" name="pmisCmplTxt"></td>
                                 </tr>
                                 <tr>
                                     <th align="right">목표기술성과</th>
@@ -882,7 +876,7 @@ $(window).load(function() {
                     <td colspan="2">
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width: 220px;" />
+                                <col style="width: 150px;" />
                                 <col style="width: *;" />
                             </colgroup>
                             <tbody>
