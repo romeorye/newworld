@@ -99,7 +99,7 @@
                                  when  isnull(m.al_sa_sabun_name, m.sa_sabun_name)  = #{_userNm} then 'Y'
                               ELSE 'N' END AS MY_TSS
 
-                        ,CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , ROUND( A.ARSL_CD,1))
+                        ,/*CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , ROUND( A.ARSL_CD,1))
                                         FROM IRIS_TSS_GEN_WBS A
                                         WHERE A.TSS_CD = (SELECT MAX(PG.TSS_CD) --다건발생경우  ERROR발생
                                                           FROM IRIS_TSS_MGMT_MST PG
@@ -116,9 +116,9 @@
                                          WHERE A.TSS_CD = M.TSS_CD
                                          AND A.DEPTH = 1
                                          AND ((CONVERT(VARCHAR(10), GETDATE(), 126) BETWEEN A.STRT_DT AND A.FNH_DT)
-                                                   OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126))))) AS PROGRESSRATEREAL --진척율
+                                                   OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126)))))*/ '0.1'+'/'+'0.1' AS PROGRESSRATEREAL --진척율
                         -- 실적(WBS) /목표 -신호등
-                        ,CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , A.ARSL_CD)
+                        ,/*CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , A.ARSL_CD)
                                          FROM IRIS_TSS_GEN_WBS A
                                          WHERE A.TSS_CD = (SELECT MAX(PG.TSS_CD)
                                                            FROM IRIS_TSS_MGMT_MST PG
@@ -136,7 +136,7 @@
                                                 WHERE A.TSS_CD = M.TSS_CD
                                                   AND A.DEPTH= 1
                                                   AND ((CONVERT(VARCHAR(10), GETDATE(), 126) BETWEEN A.STRT_DT  AND A.FNH_DT)
-                                                   OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126))))) AS PROGRESSRATE --진척(신호등)
+                                                   OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126)))))*/ '0.1'+'/'+'0.1' AS PROGRESSRATE --진척(신호등)
                         ,CASE WHEN SUBSTRING(M.PK_WBS_CD, 1, 1) = 'G' THEN 1 ELSE 2 END AS R_NUM
                 from   (
                        select  a.PRJ_CD
