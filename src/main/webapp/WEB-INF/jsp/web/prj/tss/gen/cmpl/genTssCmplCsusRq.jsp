@@ -204,22 +204,21 @@
                             <div class="titArea"><h2>4. Agenda 및 심의결과</h2></div>
                             <table class="table">
                                 <colgroup>
-                                    <col style="width:6%;">
-                                    <col style="width:26%;">
+                                    <col style="width:10%;">
+                                    <col style="width:14%;">
                                     <col style="width:;">
-                                    <col style="width:9%;">
-                                    <col style="width:6%;">
-                                    <col style="width:6%;">
-                                    <col style="width:6%;">
+                                    <col style="width:14%;">
+                                    <col style="width:14%;">
+                                    <col style="width:10%;">
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th rowspan="2">심의<br>단계</th>
-                                        <th rowspan="2">PJT</th>
-                                        <th rowspan="2">과제명</th>
-                                        <th rowspan="2">과제<br>책임자</th>
-                                        <th rowspan="2">개발<br>유형</th>
-                                        <th colspan="2">심의결과</th>
+                                        <th>심의단계</th>
+                                        <th>PJT</th>
+                                        <th>과제명</th>
+                                        <th>과제책임자</th>
+                                        <th>개발유형</th>
+                                        <th>심의결과</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -229,7 +228,7 @@
                                         <td>${resultGrs.tssNm}</td>
                                         <td>${resultGrs.saSabunName}</td>
                                         <td>${resultGrs.tssTypeNm}</td>
-                                        <td colspan="2">${resultGrs.dropYn}</td>
+                                        <td>${resultGrs.dropYn}</td>
                                     </tr>
                                 </tbody>
                             </table>
