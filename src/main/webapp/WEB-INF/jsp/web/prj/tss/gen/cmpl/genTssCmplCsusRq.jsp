@@ -61,11 +61,11 @@
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-                  { id: 'tssCd'}                //과제코드
-                , { id: 'userId'}               //사용자ID
-                , { id: 'tssSt'}                //과제상태
-                , { id: 'affrGbn'}              //과제구분
-                , { id: 'appCode'}              //결재양식코드
+                  {id: 'tssCd' }                //과제코드
+                , {id: 'userId' }               //사용자ID
+                , {id: 'tssSt' }                //과제상태
+                , {id: 'affrGbn' }              //과제구분
+                , {id: 'appCode' }              //결재양식코드
 
                 , {id: 'guid' }                 //고유코드
                 , {id: 'affrCd' }               //업무코드
@@ -80,9 +80,13 @@
                 , {id: 'title' }                //결재 제목
                 , {id: 'updateDate' }           //수정일
                 , {id: 'url' }                  //결재문서 url
+                
+                , {id: 'initFlowYn' }           //초기유동관리여부
+                , {id: 'initFlowStrtDt' }       //초기유동관리시작일
+                , {id: 'initFlowFnhDt' }        //초기유동관리종료일
+                
             ]
         });
-
 
         /* [DataSet] 서버전송용 */
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
@@ -136,8 +140,11 @@
                     record.set("approvalDeptname", "${inputData._userDeptName}");
                     record.set("body", Rui.get('csusContents').getHtml().trim());
 
-                    var url = "";
+                    record.set("initFlowYn",       "${resultMst.initFlowYn}");
+                    record.set("initFlowStrtDt",   "${resultMst.initFlowStrtDt}");
+                    record.set("initFlowFnhDt",    "${resultMst.initFlowFnhDt}");
 
+                    var url = "";
                     if(gvGuid == ""){
                         url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
                     }else{
@@ -205,20 +212,20 @@
                             <table class="table">
                                 <colgroup>
                                     <col style="width:10%;">
-                                    <col style="width:14%;">
+                                    <col style="width:20%;">
                                     <col style="width:;">
-                                    <col style="width:14%;">
-                                    <col style="width:14%;">
+                                    <col style="width:10%;">
+                                    <col style="width:10%;">
                                     <col style="width:10%;">
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th>심의단계</th>
+                                        <th>심의<br/>단계</th>
                                         <th>PJT</th>
                                         <th>과제명</th>
-                                        <th>과제책임자</th>
-                                        <th>개발유형</th>
-                                        <th>심의결과</th>
+                                        <th>과제<br/>책임자</th>
+                                        <th>개발<br/>유형</th>
+                                        <th>심의<br/>결과</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -266,9 +273,9 @@
                                     <td>${resultCmpl.mbrNmList}</td>
                                     <th>초기유동관리여부</th>
                                     <td>
-                                        ${resultMst.initFlowYn}&nbsp;&nbsp;&nbsp;&nbsp;
+                                        ${resultMst.initFlowYn}
                                         <c:if test="${resultMst.initFlowYn eq 'Y'}">
-                                            ${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
+                                            / ${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
                                         </c:if>
                                     </td>
                                 </tr>
@@ -450,8 +457,8 @@
                     <div class="titArea"><h3>5. 연구개발 성과</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width:15%"/>
-                                <col style="width:15%"/>
+                                <col style="width:20%"/>
+                                <col style="width:20%"/>
                                 <col style="width:*"/>
                             </colgroup>
                             <tbody>
@@ -479,10 +486,10 @@
                     <div class="titArea"><h3>6. 향후 계획</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
-                                <col style="width:15%"/>
-                                <col style="width:35%"/>
-                                <col style="width:15%"/>
-                                <col style="width:35%"/>
+                                <col style="width:20%"/>
+                                <col style="width:30%"/>
+                                <col style="width:20%"/>
+                                <col style="width:30%"/>
                             </colgroup>
                             <tbody>
                                 <tr>
