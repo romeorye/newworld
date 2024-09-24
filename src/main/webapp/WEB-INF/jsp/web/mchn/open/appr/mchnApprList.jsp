@@ -150,7 +150,7 @@
 			name : 'prctScnCd',
 			defaultValue: '<c:out value="${inputData.prctScnCd}"/>',
 			useEmptyText: true,
-	           emptyText: '전체',
+	           emptyText: '(전체)',
 	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=MCHN_APPR_RQ_ST"/>',
 	    	displayField: 'COM_DTL_NM',
 	    	valueField: 'COM_DTL_CD',

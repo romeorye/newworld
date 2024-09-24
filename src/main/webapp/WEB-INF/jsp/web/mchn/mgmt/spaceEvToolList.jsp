@@ -126,7 +126,7 @@
 			name : 'mchnClCd',
 			defaultValue: '<c:out value="${inputData.mchnClCd}"/>',
 			useEmptyText: true,
-	           emptyText: '전체',
+	           emptyText: '(전체)',
 	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_EV_CTGR"/>',
 	    	displayField: 'COM_DTL_NM',
 	    	valueField: 'COM_DTL_CD',
@@ -143,7 +143,7 @@
 			name : 'mchnUsePsblYn',
 			defaultValue: '<c:out value="${inputData.mchnUsePsblYn}"/>',
 			useEmptyText: true,
-	           emptyText: '전체',
+	           emptyText: '(전체)',
 	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=MCHN_PRCT_ST"/>',
 	    	displayField: 'COM_DTL_NM',
 	    	valueField: 'COM_DTL_CD',
@@ -160,7 +160,7 @@
 			name : 'opnYn',
 			defaultValue: '<c:out value="${inputData.opnYn}"/>',
 			width : 200,
-			emptyText: '전체',
+			emptyText: '(전체)',
 				items: [
 	                   { code: 'Y', value: 'Y' }, // value는 생략 가능하며, 생략시 code값을 그대로 사용한다.
 	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.

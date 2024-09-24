@@ -164,7 +164,7 @@
             var adscKindCd = new Rui.ui.form.LCombo({
                 applyTo: 'adscKindCd',
                 name: 'adscKindCd',
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 110,

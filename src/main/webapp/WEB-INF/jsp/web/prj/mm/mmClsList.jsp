@@ -107,7 +107,7 @@ Rui.onReady(function() {
         applyTo : 'selClsYn',
         name : 'selClsYn',
         defaultValue: '<c:out value="${inputData.selClsYn}"/>',
-        emptyText: '선택하세요',
+        emptyText: '(선택)',
             items: [
                 { text: '마감전', value: 'N'},
                 { text: '마감', value: 'Y' }

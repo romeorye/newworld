@@ -44,7 +44,7 @@ var lvAttcFilId;
                 applyTo: 'qustClCd',
                 name: 'qustClCd',
                 useEmptyText: true,
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '<c:out value="${inputData.qustClCd}"/>',
                 emptyValue: '',
                 width: 200,

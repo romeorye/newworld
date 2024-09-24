@@ -87,7 +87,7 @@
             var spaceChrgId = new Rui.ui.form.LCombo({
                 applyTo: 'spaceChrgId',
                 name: 'spaceChrgId',
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 url: '<c:url value="/space/getSpaceChrgList.do"/>',
@@ -98,7 +98,7 @@
             var spaceAcpcStCd = new Rui.ui.form.LCombo({
                 applyTo: 'spaceAcpcStCd',
                 name: 'spaceAcpcStCd',
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_ACPC_ST_CD"/>',

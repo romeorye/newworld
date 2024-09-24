@@ -89,7 +89,7 @@
             var cmbCtgr0Cd = new Rui.ui.form.LCombo({
                 applyTo: 'cmbCtgr0Cd',
                 name: 'cmbCtgr0Cd',
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 200,
@@ -120,7 +120,7 @@
             var cmbCtgr1Cd = new Rui.ui.form.LCombo({
                 applyTo: 'cmbCtgr1Cd',
                 name: 'cmbCtgr1Cd',
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 200,
@@ -149,7 +149,7 @@
             var cmbCtgr2Cd = new Rui.ui.form.LCombo({
                 applyTo: 'cmbCtgr2Cd',
                 name: 'cmbCtgr2Cd',
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 200,

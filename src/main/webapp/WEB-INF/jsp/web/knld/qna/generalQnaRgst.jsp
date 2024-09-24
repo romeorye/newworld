@@ -54,7 +54,7 @@
 	                applyTo: 'qustClCd',
 	                name: 'qustClCd',
 	                useEmptyText: true,
-	                emptyText: '선택',
+	                emptyText: '(선택)',
 	                defaultValue: '',
 	                emptyValue: '',
 	                listPosition: 'up',

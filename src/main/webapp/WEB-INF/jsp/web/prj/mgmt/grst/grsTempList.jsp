@@ -76,7 +76,7 @@
 
         var grsTypeSch = new Rui.ui.form.LCombo({ // 검색용 유형
 			applyTo: 'grsTypeSch',
-       		emptyText: '전체',
+       		emptyText: '(전체)',
        		emptyValue: '',
        	  	defaultValue: '${inputData.grsTypeSch}',
        		useEmptyText: true,
@@ -88,7 +88,7 @@
 
 	   	var useYnSch = new Rui.ui.form.LCombo({ // 검색용 성태
 			applyTo : 'useYnSch',
-			emptyText: '전체',
+			emptyText: '(전체)',
 			emptyValue: '',
 			defaultValue: '${inputData.useYnSch}',
 			useEmptyText: true,

@@ -47,7 +47,7 @@ Rui.onReady(function() {
     /* COMBO : 목표년도 2011년~2030년 => prptGoalYear */
     var lcbPrptGoalYear = new Rui.ui.form.LCombo({
     	useEmptyText: true,
-        emptyText: '선택',
+        emptyText: '(선택)',
         emptyValue: '',
         autoMapping: true,
         items: [
@@ -75,7 +75,7 @@ Rui.onReady(function() {
 	/* COMBO : 특허구분(PRMW_TYPE_CD) => frnwScn */
     var lcbFrnwScn = new Rui.ui.form.LCombo({
         useEmptyText: true,
-        emptyText: '선택',
+        emptyText: '(선택)',
         emptyValue: '',
         url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PRMW_TYPE_CD"/>',
         displayField: 'COM_DTL_NM',

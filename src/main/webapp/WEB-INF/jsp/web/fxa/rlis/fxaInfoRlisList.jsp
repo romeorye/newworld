@@ -136,7 +136,7 @@ var fxaRlisApprDialog;
 			name : 'rlisTrmId',
 			width: 200,
 			useEmptyText: true,
-	           emptyText: '전체',
+	           emptyText: '(전체)',
 	        url: '<c:url value="/fxa/rlis/retrieveFxaRlisTitlCombo.do?comCd=MCHN_PRCT_ST"/>',
 	    	displayField: 'COM_DTL_NM',
 	    	valueField: 'COM_DTL_CD',

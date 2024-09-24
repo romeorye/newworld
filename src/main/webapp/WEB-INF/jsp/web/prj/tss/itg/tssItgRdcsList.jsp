@@ -65,7 +65,7 @@
 
            var tssScnCd = new Rui.ui.form.LCombo({ // 검색용 G : 일반 , O:대외 ,  N: 국책
             applyTo : 'tssScnCd',
-            emptyText: '전체',
+            emptyText: '(전체)',
             emptyValue: '',
             defaultValue: '${inputData.tssScnCd}',
             useEmptyText: true,
@@ -77,7 +77,7 @@
 
            var aprdocstate = new Rui.ui.form.LCombo({ //
             applyTo : 'aprdocstate',
-            emptyText: '전체',
+            emptyText: '(전체)',
             emptyValue: '',
             defaultValue: '${inputData.aprdocstate}',
             useEmptyText: true,

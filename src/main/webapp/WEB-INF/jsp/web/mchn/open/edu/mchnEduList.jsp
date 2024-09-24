@@ -102,7 +102,7 @@
 			applyTo : 'pttYn',
 			name : 'pttYn',
 			defaultValue: '<c:out value="${inputData.pttYn}"/>',
-			emptyText: '선택하세요',
+			emptyText: '(선택)',
 				items: [
 					{ text: '접수중', value: 'IN'},
                     { text: '마감', value: 'CLS' }

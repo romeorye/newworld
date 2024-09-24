@@ -40,7 +40,7 @@ function nCombo(id, comCd) {
 		applyTo : id,
 		name : id,
 		useEmptyText : true,
-		emptyText : '선택',
+		emptyText : '(선택)',
 		width : 140,
 		url : '/iris/common/code/retrieveCodeListForCache.do?comCd='+ comCd,
 		displayField : 'COM_DTL_NM',

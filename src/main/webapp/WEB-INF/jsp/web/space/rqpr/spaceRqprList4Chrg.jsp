@@ -163,7 +163,7 @@
                  applyTo: 'spaceAcpcStCd',
                  name: 'spaceAcpcStCd',
                  useEmptyText: true,
-                 emptyText: '전체',
+                 emptyText: '(전체)',
                  defaultValue: '<c:out value="${inputData.spaceAcpcStCd}"/>',
                  emptyValue: '',
                  url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_ACPC_ST_CD"/>',

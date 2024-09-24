@@ -49,7 +49,7 @@
         grsType = new Rui.ui.form.LCombo({
             applyTo: 'grsType',
             useEmptyText: true,
-            emptyText: '선택',
+            emptyText: '(선택)',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=GRS_TYPE"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD',
@@ -62,7 +62,7 @@
         useYn = new Rui.ui.form.LCombo({
             applyTo: 'useYn',
             useEmptyText: true,
-            emptyText: '선택',
+            emptyText: '(선택)',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=COMM_YN"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD',

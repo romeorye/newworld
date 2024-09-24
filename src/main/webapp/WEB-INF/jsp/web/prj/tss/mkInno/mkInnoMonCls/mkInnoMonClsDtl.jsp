@@ -52,7 +52,7 @@ var lvAttcFilId;
 		mkStCd = new Rui.ui.form.LCombo({
 	    	applyTo:'mkStCd',
 	        useEmptyText: true,
-	        emptyText: '선택',
+	        emptyText: '(선택)',
 	        url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=MK_ST_CD"/>',
 	        displayField: 'COM_DTL_NM',
 	        valueField: 'COM_DTL_CD'

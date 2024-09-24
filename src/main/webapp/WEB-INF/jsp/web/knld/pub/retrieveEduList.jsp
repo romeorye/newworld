@@ -44,7 +44,7 @@ var lvAttcFilId;
                 applyTo: 'eduPlScnCd',
                 name: 'eduPlScnCd',
                 useEmptyText: true,
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '<c:out value="${inputData.eduPlScnCd}"/>',
                 emptyValue: '',
                 width: 200,

@@ -1578,7 +1578,7 @@ console.log("[tabContent4]('05')", $("#tabContent4").contents().find("[yldType='
        var custSqlt = new Rui.ui.form.LCombo({
            applyTo : 'custSqlt',
            name: 'custSqlt',
-           emptyText: '전체',
+           emptyText: '(전체)',
            //url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=CUST_SQLT"/>',
            url: '<c:url value="/common/code/retrieveCodeAllListForCache.do?comCd=CUST_SQLT"/>',
            displayField: 'COM_DTL_NM',

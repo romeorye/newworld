@@ -104,7 +104,7 @@
             var spaceScnCd = new Rui.ui.form.LCombo({
                 applyTo: 'spaceScnCd',
                 name: 'spaceScnCd',
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 110,
@@ -130,7 +130,7 @@
             var spaceUgyYn = new Rui.ui.form.LCombo({
                 applyTo: 'spaceUgyYn',
                 name: 'spaceUgyYn',
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 110,
@@ -142,7 +142,7 @@
             var oppbScpCd = new Rui.ui.form.LCombo({
                 applyTo: 'oppbScpCd',
                 name: 'oppbScpCd',
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 80,
@@ -196,7 +196,7 @@
             var sbmpCd = new Rui.ui.form.LCombo({
                 applyTo: 'sbmpCd',
                 name: 'sbmpCd',
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 120,

@@ -119,7 +119,7 @@
             var anlScnCd = new Rui.ui.form.LCombo({
                 applyTo: 'anlScnCd',
                 name: 'anlScnCd',
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 110,
@@ -131,7 +131,7 @@
             var anlUgyYn = new Rui.ui.form.LCombo({
                 applyTo: 'anlUgyYn',
                 name: 'anlUgyYn',
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 110,

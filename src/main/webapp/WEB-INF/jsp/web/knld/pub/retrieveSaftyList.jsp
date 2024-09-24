@@ -44,7 +44,7 @@ var lvAttcFilId;
                 applyTo: 'sftEnvScnCd',
                 name: 'sftEnvScnCd',
                 useEmptyText: true,
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '<c:out value="${inputData.sftEnvScnCd}"/>',
                 emptyValue: '',
                 width: 200,

@@ -56,7 +56,7 @@
                 applyTo: 'swrmNatCd',
                 name: 'swrmNatCd',
                 useEmptyText: true,
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 listPosition: 'up',

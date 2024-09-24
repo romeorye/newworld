@@ -75,7 +75,7 @@
             applyTo: 'bizDptCd',
             name: 'bizDptCd',
             useEmptyText: true,
-            emptyText: '전체',
+            emptyText: '(전체)',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=BIZ_DPT_CD"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD',

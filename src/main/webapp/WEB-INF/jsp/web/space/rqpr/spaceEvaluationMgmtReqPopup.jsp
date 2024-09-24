@@ -90,7 +90,7 @@
     			name : 'ottpYn',
     			defaultValue: '<c:out value="${inputData.ottpYn}"/>',
     			width : 100,
-    			emptyText: '선택하세요',
+    			emptyText: '(선택)',
     				items: [
     	                   { code: 'Y', value: 'Y' }, // value는 생략 가능하며, 생략시 code값을 그대로 사용한다.
     	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
@@ -103,7 +103,7 @@
     			name : 'sndEmlYn',
     			defaultValue: '<c:out value="${inputData.sndEmlYn}"/>',
     			width : 100,
-    			emptyText: '선택하세요',
+    			emptyText: '(선택)',
     				items: [
     	                   { code: 'Y', value: 'Y' }, // value는 생략 가능하며, 생략시 code값을 그대로 사용한다.
     	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.

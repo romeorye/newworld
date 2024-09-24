@@ -45,7 +45,7 @@ var anlQnaGrid;       // 그리드
               applyTo: 'searchCd',
               name: 'searchCd',
               useEmptyText: true,
-              emptyText: '선택',
+              emptyText: '(선택)',
               width: 150,
               items: [
                   { value: 'bbsTitlCode',text: '제목'},

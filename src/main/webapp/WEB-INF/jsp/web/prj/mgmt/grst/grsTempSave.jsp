@@ -94,7 +94,7 @@
         
         var grsTypeCombo = new Rui.ui.form.LCombo({ // 검색용 유형
 			applyTo: 'grsType',
-       		emptyText: '전체',		
+       		emptyText: '(전체)',		
        		emptyValue: '',
        		useEmptyText: true,
 			url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=GRS_TYPE"/>',
@@ -104,7 +104,7 @@
 
 	   	var useYnCombo = new Rui.ui.form.LCombo({ // 검색용 성태
 			applyTo : 'useYn',
-			emptyText: '전체',		
+			emptyText: '(전체)',		
 			emptyValue: '',
 			useEmptyText: true,
 			url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=comm_YN"/>',

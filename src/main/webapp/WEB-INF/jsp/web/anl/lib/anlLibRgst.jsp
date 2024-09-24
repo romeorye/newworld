@@ -62,7 +62,7 @@
 	                applyTo: 'anlTlcgClCd',
 	                name: 'anlTlcgClCd',
 	                useEmptyText: true,
-	                emptyText: '선택',
+	                emptyText: '(선택)',
 	                defaultValue: '',
 	                emptyValue: '',
 	                listPosition: 'up',

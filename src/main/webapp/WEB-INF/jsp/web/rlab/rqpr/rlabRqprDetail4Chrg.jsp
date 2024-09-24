@@ -210,7 +210,7 @@
             var rlabScnCd = new Rui.ui.form.LCombo({
                 applyTo: 'rlabScnCd',
                 name: 'rlabScnCd',
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 150,
@@ -238,7 +238,7 @@
             var rlabDzdvCd = new Rui.ui.form.LCombo({
                 applyTo: 'rlabDzdvCd',
                 name: 'rlabDzdvCd',
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 150,
@@ -264,7 +264,7 @@
             var rlabUgyYn = new Rui.ui.form.LCombo({
                 applyTo: 'rlabUgyYn',
                 name: 'rlabUgyYn',
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 110,
@@ -495,7 +495,7 @@
    	        	rlabProdCd = new Rui.ui.form.LCombo({
                     applyTo: 'rlabProdCd',
                     name: 'rlabProdCd',
-                    emptyText: '선택',
+                    emptyText: '(선택)',
                     defaultValue: '',
                     emptyValue: '',
                     width: 150,

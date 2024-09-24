@@ -87,7 +87,7 @@
             var rlabChrgId = new Rui.ui.form.LCombo({
                 applyTo: 'rlabChrgId',
                 name: 'rlabChrgId',
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 url: '<c:url value="/rlab/getRlabChrgList.do"/>',
@@ -98,7 +98,7 @@
             var rlabAcpcStCd = new Rui.ui.form.LCombo({
                 applyTo: 'rlabAcpcStCd',
                 name: 'rlabAcpcStCd',
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RLAB_ACPC_ST_CD"/>',

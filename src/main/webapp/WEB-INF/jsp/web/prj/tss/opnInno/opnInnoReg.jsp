@@ -286,7 +286,7 @@ var openRfpDetailViewDialog;
 			name : 'pgsStepCd',
 			defaultValue: '<c:out value="${inputData.pgsStepCd}"/>',
 			useEmptyText: true,
-	           emptyText: '선택하세요',
+	           emptyText: '(선택)',
 	           url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=OPEN_INNO_PGS"/>',
 	    	displayField: 'COM_DTL_NM',
 	    	valueField: 'COM_DTL_CD',

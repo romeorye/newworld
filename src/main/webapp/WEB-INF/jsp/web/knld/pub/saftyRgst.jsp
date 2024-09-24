@@ -52,7 +52,7 @@
                 applyTo: 'sftEnvScnCd',
                 name: 'sftEnvScnCd',
                 useEmptyText: true,
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 listPosition: 'up',

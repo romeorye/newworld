@@ -80,7 +80,7 @@
         lcbPgsStatCd = new Rui.ui.form.LCombo({
             applyTo:'pgsStatCd',
             useEmptyText: true,
-            emptyText: '선택',
+            emptyText: '(선택)',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PGS_STAT_CD"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD'

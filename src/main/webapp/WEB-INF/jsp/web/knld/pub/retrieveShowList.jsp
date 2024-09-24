@@ -44,7 +44,7 @@ var lvAttcFilId;
                 applyTo: 'swrmNatCd',
                 name: 'swrmNatCd',
                 useEmptyText: true,
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '<c:out value="${inputData.swrmNatCd}"/>',
                 emptyValue: '',
                 width: 200,

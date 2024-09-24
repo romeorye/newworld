@@ -150,7 +150,7 @@ var firstLoad = "Y";	//화면오픈
 		 	applyTo : 'evCtgr',
 			name : 'evCtgr',
 			useEmptyText: true,
-		    emptyText: '선택하세요',
+		    emptyText: '(선택)',
 		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=SPACE_EV_CTGR"/>',
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD'
