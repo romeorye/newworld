@@ -185,9 +185,9 @@
              , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.TSS_STRT_DD ELSE Z.AL_TSS_STRT_DD END     AS tssStrtDd    --과제기간시작
              , CASE WHEN Z.PGS_STEP_CD != 'AL' THEN Z.TSS_FNH_DD  ELSE Z.AL_TSS_FNH_DD END      AS tssFnhDd     --과제기간종료
              , CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_STRT_DD
-                    WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_STRT_DD END                         AS cmplNxStrtDd --과제실적시작
+                    WHEN Z.PGS_STEP_CD = 'CM' OR Z.PGS_STEP_CD = 'IF' THEN Z.CMPL_B_STRT_DD END                         AS cmplNxStrtDd --과제실적시작
              , CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_FNH_DD
-                    WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_FNH_DD END                          AS cmplNxFnhDd  --과제실적종료
+                    WHEN Z.PGS_STEP_CD = 'CM' OR Z.PGS_STEP_CD = 'IF' THEN Z.CMPL_B_FNH_DD END                          AS cmplNxFnhDd  --과제실적종료
              , Z.TSS_ST                                                                         AS tssSt        --상태
              , dbo.fn_getComDtlNm('TSS_ST', Z.TSS_ST)                                           AS tssStNm      --상태명
              , Z.FRST_RGST_DT                                                                   AS frstRgstDt   --최종실적등록일
@@ -234,43 +234,9 @@
                               OR M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW = #{_userSabun})
                        THEN 'Y' ELSE 'N' END AS MY_TSS
                      -- 실적(WBS) /목표 -진척율
-                     , /*CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , ROUND( A.ARSL_CD,1))
-                                        FROM IRIS_TSS_GEN_WBS A
-                                       WHERE A.TSS_CD = (SELECT MAX(PG.TSS_CD) --다건발생경우  ERROR발생
-                                                           FROM IRIS_TSS_MGMT_MST PG
-                                                          WHERE PG.PK_WBS_CD = M.PK_WBS_CD AND PG.PGS_STEP_CD = 'PG')
-                                         AND A.WBS_SN = 1), 0),
-                              '/',
-                              --목표 (전달의 마지막날로 계산)
-                              (SELECT ISNULL(SUM(IIF(A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126)), A.WGVL,
-                                            ROUND(CONVERT(FLOAT,A.WGVL / DATEDIFF(DD, CONVERT(DATE, STRT_DT), CONVERT(DATE, FNH_DT))) *
-                                                  IIF(DATEDIFF(DD, CONVERT(DATE, STRT_DT),GETDATE() ) <0 , 0 ,  DATEDIFF(DD, CONVERT(DATE, STRT_DT),GETDATE())), 1)
-                                               )), 100) -- 전달의 마지막날로 계산
-                                 FROM IRIS_TSS_GEN_WBS A
-                                WHERE A.TSS_CD = M.TSS_CD
-                                  AND A.DEPTH = 1
-                                  AND ((CONVERT(VARCHAR(10), GETDATE(), 126) BETWEEN A.STRT_DT AND A.FNH_DT)
-                                   OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126)))))*/ '0.1'+'/'+'0.1' AS PROGRESSRATE --진척율
+                     ,'0.1'+'/'+'0.2' AS PROGRESSRATE --진척율
                      -- 실적(WBS) /목표 -신호등
-                     , /*CONCAT(ISNULL((SELECT IIF(A.ARSL_CD='','0' , A.ARSL_CD)
-                                        FROM IRIS_TSS_GEN_WBS A
-                                       WHERE A.TSS_CD = (SELECT MAX(PG.TSS_CD)
-                                                           FROM IRIS_TSS_MGMT_MST PG
-                                                          WHERE PG.PK_WBS_CD = M.PK_WBS_CD AND PG.PGS_STEP_CD = 'PG')
-                                         AND A.WBS_SN=1),0),
-                              '/',
-                              --목표 (전달의 마지막날로 계산)
-                              (SELECT ISNULL(SUM(IIF(A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126)) , A.WGVL ,
-                                            ROUND(CONVERT(FLOAT,A.WGVL /DATEDIFF(DD, CONVERT(DATE, STRT_DT), CONVERT(DATE, FNH_DT)))
-                                                    *
-                                                    IIF( DATEDIFF(DD, CONVERT(DATE, STRT_DT), DATEADD(D,-DAY(GETDATE()),GETDATE())  ) <0 , 0 ,  DATEDIFF(DD, CONVERT(DATE, STRT_DT), DATEADD(D,-DAY(GETDATE()),GETDATE())  ))
-                                                    ,1)
-                                                ) ),100) -- 전달의 마지막날로 계산
-                                 FROM IRIS_TSS_GEN_WBS A
-                                WHERE A.TSS_CD = M.TSS_CD
-                                  AND A.DEPTH= 1
-                                  AND ((CONVERT(VARCHAR(10), GETDATE(), 126) BETWEEN A.STRT_DT  AND A.FNH_DT)
-                                   OR A.FNH_DT < (CONVERT(VARCHAR(10), GETDATE(), 126)))))*/ '0.1'+'/'+'0.1' AS PROGRESSRATEREAL  --진척(신호등)
+                     ,'0.2'+'/'+'0.4' AS PROGRESSRATEREAL  --진척(신호등)
                      , CASE WHEN SUBSTRING(M.PK_WBS_CD, 1, 1) = 'G' THEN 1 ELSE 2 END AS R_NUM
           FROM IRIS_TSS_MGMT_MST M  /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST A  /*프로젝트연구마스터*/
