@@ -39,7 +39,7 @@
     var gvTssCd     = "";
     var gvUserId    = "${inputData._userId}";
     var gvTssSt     = "";
-    var gvPgsStepCd = "CM"; //진행상태:CM(완료)
+    var gvPgsStepCd = "";
     var gvPkWbsCd   = "";
     var gvPageMode  = "";
     var progressrateReal = "${inputData.progressrateReal}";
@@ -309,10 +309,11 @@
             ]
         });
         dataSet.on('load', function(e) {
-            gvTssCd    = stringNullChk(dataSet.getNameValue(0, "pgTssCd")); //진행단계 과제코드
-            gvPageMode = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
-            gvPkWbsCd  = dataSet.getNameValue(0, "pkWbsCd");
-            gvWbsCd = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
+            gvTssCd     = stringNullChk(dataSet.getNameValue(0, "pgTssCd")); //진행단계 과제코드
+            gvPageMode  = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
+            gvPkWbsCd   = dataSet.getNameValue(0, "pkWbsCd");
+            gvWbsCd     = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
+            gvPgsStepCd = stringNullChk(dataSet.getNameValue(0, "pgsStepCd"));
             
             initFlowYn = stringNullChk(dataSet.getNameValue(0, "initFlowYn"));
             initFlowStrtDt = stringNullChk(dataSet.getNameValue(0, "initFlowStrtDt"));
@@ -332,7 +333,7 @@
                 gvTssSt = ""; //과제상태
             }
             //CM:완료단계
-            else if(pPgsStepCd == "CM") {
+            else if(pPgsStepCd == "CM"||pPgsStepCd == "IF") {
                 cmplTssCd = dataSet.getNameValue(0, "tssCd"); //완료단계 과제코드
                 gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt")); //과제상태
             }
@@ -644,7 +645,10 @@
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
-	                dataSet.setNameValue(0, "pgsStepCd", "CM"); //진행단계: CM(완료)
+                	
+console.log("pPgsStepCd",pPgsStepCd);
+
+	                dataSet.setNameValue(0, "pgsStepCd", pPgsStepCd); //진행단계: CM(완료)
 	                dataSet.setNameValue(0, "tssScnCd", "G");   //과제구분: G(일반)
 	                dataSet.setNameValue(0, "tssSt", "100");    //과제상태: 100(작성중)
 	                dataSet.setNameValue(0, "tssCd",  cmplTssCd); //과제코드

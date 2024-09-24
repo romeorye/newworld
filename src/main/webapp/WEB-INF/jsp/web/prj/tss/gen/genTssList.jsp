@@ -403,7 +403,7 @@
                     }
                 }
                 //완료
-                else if(pPgsStepCd == "CM") {
+                else if(pPgsStepCd == "CM" || pPgsStepCd == "IF") {
                     nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssCmplDetail.do'/>"+urlParam);
                 }
                 //변경
