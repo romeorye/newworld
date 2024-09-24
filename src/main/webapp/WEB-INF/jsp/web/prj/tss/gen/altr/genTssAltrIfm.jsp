@@ -710,7 +710,7 @@ console.log("[lvPgTssSt]", lvPgTssSt);
                     <col style="width: 80%;" />
                 </colgroup>
                 <tr>
-                    <th align="right">변경사유</th>
+                    <th align="right"><span style="color:red;">* </span>변경사유</th>
                     <td colspan="2">
                         <input type="text" id="altrRsonTxt" />
                     </td>

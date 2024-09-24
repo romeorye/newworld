@@ -830,11 +830,11 @@ $(window).load(function() {
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th align="right">연구과제 배경<br/>및 필요성</th>
+                                    <th align="right"><span style="color:red;">* </span>연구과제 배경<br/>및 필요성</th>
                                     <td><input type="text" id="tssSmryTxt" /></td>
                                 </tr>
                                 <tr>
-                                    <th align="right">주요 연구 개발 내용</th>
+                                    <th align="right"><span style="color:red;">* </span>주요 연구 개발 내용</th>
                                     <td><input type="text" id="tssSmryDvlpTxt" /></td>
                                 </tr>
                             </tbody>
@@ -853,11 +853,11 @@ $(window).load(function() {
                             <tbody>
                                 <tr>
                                     <th rowspan="2" align="right">지적재산권</th>
-                                    <th align="right">지재권 출원현황<br/>(국내/해외)</th>
+                                    <th align="right"><span style="color:red;">* </span>지재권 출원현황<br/>(국내/해외)</th>
                                     <td><input type="text" id="rsstDvlpOucmTxt" /></td>
                                 </tr>
                                 <tr>
-                                    <th align="right">특허 Risk 검토결과</th>
+                                    <th align="right"><span style="color:red;">* </span>특허 Risk 검토결과</th>
                                     <td><input type="text"  id="pmisCmplTxt" name="pmisCmplTxt"></td>
                                 </tr>
                                 <tr>
@@ -874,7 +874,7 @@ $(window).load(function() {
                     </td>
                 </tr>
                 <tr>
-                    <th align="right" rowspan="2">사업화 출시 계획</th>
+                    <th align="right" rowspan="2"><span style="color:red;">* </span>사업화 출시 계획</th>
                     <td colspan="2">
                         <table class="table table_txt_right">
                             <colgroup>
@@ -902,7 +902,7 @@ $(window).load(function() {
                     <td colspan="2"><input type="text" id="fwdPlnTxt" /></td>
                 </tr>
                 <tr>
-                    <th align="right">향후 계획</th>
+                    <th align="right"><span style="color:red;">* </span>향후 계획</th>
                     <td colspan="2"><input type="text" id="fnoPlnTxt" /></td>
                 </tr>
                 <tr>

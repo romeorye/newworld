@@ -39,7 +39,7 @@
     var gvTssCd     = "";
     var gvUserId    = "${inputData._userId}";
     var gvTssSt     = "";
-    var gvPgsStepCd = "";
+    var gvPgsStepCd = "CM"; //진행상태:CM(완료)
     var gvPkWbsCd   = "";
     var gvPageMode  = "";
     var progressrateReal = "${inputData.progressrateReal}";
@@ -60,6 +60,8 @@
     var gvGuid        = "${resultCsus.guid}";
     var gvAprdocState = "${resultCsus.aprdocstate}";
     
+    var pPgsStepCd     = "";
+
     Rui.onReady(function() {
         /*============================================================================
         =================================    Form     ================================
@@ -244,7 +246,13 @@
             btnAltrRq.hide(); //[변경요청]
             
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
-                if(gvTssSt == "100" || gvTssSt == "102") btnCsusRq.show(); //100: 작성중, 102: GRS평가완료
+                if(gvTssSt == "100" || gvTssSt == "102") {
+                	$('#btnList').trigger('click'); //실행하자마자 click이벤트를 트리거 함
+                	$("#btnList").click() //실행하자마자 click이벤트를 트리거 함
+
+                	btnCsusRq.show(); //100: 작성중, 102: GRS평가완료
+                	btnAltrRq.show(); //100: 작성중, 102: GRS평가완료
+                }
             }
 
             if(gvTssSt=="104"){
@@ -313,7 +321,7 @@
             gvPageMode  = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvPkWbsCd   = dataSet.getNameValue(0, "pkWbsCd");
             gvWbsCd     = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
-            gvPgsStepCd = stringNullChk(dataSet.getNameValue(0, "pgsStepCd"));
+            //gvPgsStepCd = stringNullChk(dataSet.getNameValue(0, "pgsStepCd"));
             
             initFlowYn = stringNullChk(dataSet.getNameValue(0, "initFlowYn"));
             initFlowStrtDt = stringNullChk(dataSet.getNameValue(0, "initFlowStrtDt"));
@@ -325,7 +333,7 @@
             document.tabForm.initFlowStrtDt.value = initFlowStrtDt;
             document.tabForm.initFlowFnhDt.value = initFlowFnhDt; */
             
-            var pPgsStepCd = dataSet.getNameValue(0, "pgsStepCd");
+            pPgsStepCd = dataSet.getNameValue(0, "pgsStepCd");
 
             //PG:진행단계
             if(pPgsStepCd == "PG") {
@@ -561,8 +569,6 @@
         	openDialog();
         });
 
-
-
         //품의서요청
         btnCsusRq = new Rui.ui.LButton('btnCsusRq');
         btnCsusRq.on('click', function() {
@@ -614,7 +620,6 @@
         	
         	tmpInitFlowStrtDt = Rui.isEmpty(initFlowStrtDt) ? tmpInitFlowStrtDt : initFlowStrtDt;
         	tmpInitFlowFnhDt  = Rui.isEmpty(initFlowFnhDt) ? tmpInitFlowFnhDt : initFlowFnhDt;
-        	
         }
         
         //저장
@@ -645,10 +650,7 @@
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
-                	
-console.log("pPgsStepCd",pPgsStepCd);
-
-	                dataSet.setNameValue(0, "pgsStepCd", pPgsStepCd); //진행단계: CM(완료)
+	                dataSet.setNameValue(0, "pgsStepCd", "CM"); //진행단계: CM(완료)
 	                dataSet.setNameValue(0, "tssScnCd", "G");   //과제구분: G(일반)
 	                dataSet.setNameValue(0, "tssSt", "100");    //과제상태: 100(작성중)
 	                dataSet.setNameValue(0, "tssCd",  cmplTssCd); //과제코드
@@ -686,13 +688,13 @@ console.log("pPgsStepCd",pPgsStepCd);
             dataSet.loadData(${result});
         }
 
-      //목록
+        //목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
 			$('#searchForm > input[name=tssNm]').val(encodeURIComponent($('#searchForm > input[name=tssNm]').val()));
 			$('#searchForm > input[name=saUserName]').val(encodeURIComponent($('#searchForm > input[name=saUserName]').val()));
 			$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
-
+console.log("[btnList]", "click");
             nwinsActSubmit(document.searchForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
         });
 
@@ -822,7 +824,7 @@ console.log("pPgsStepCd",pPgsStepCd);
                                         <input type="text" id="tssStrtDd" value="" /><em class="gab"> ~ </em>
                                         <input type="text" id="tssFnhDd" value="" />
                                     </td>
-                                    <th align="right">실적(개발완료시점)</th>
+                                    <th align="right"><span style="color:red;">* </span>실적(개발완료시점)</th>
                                     <td>
                                         <input type="text" id="cmplBStrtDd" value="" /><em class="gab"> ~ </em>
                                         <input type="text" id="cmplBFnhDd" value="" />
@@ -850,11 +852,6 @@ console.log("pPgsStepCd",pPgsStepCd);
             <form name="tabForm" id="tabForm" method="post">
             	<input type="hidden" id="tssSt" name="tssSt" value=""/>
             	<input type="hidden" id="pgsStepCd" name="pgsStepCd" value=""/>
-            	
-            	<!-- <input type="hidden" name="initFlowYn" value=""/>
-            	<input type="hidden" name="initFlowStrtDt" value=""/>
-            	<input type="hidden" name="initFlowFnhDt" value=""/> -->
-                
                 <iframe name="tabContent0" id="tabContent0" scrolling="yes" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent1" id="tabContent1" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent2" id="tabContent2" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>

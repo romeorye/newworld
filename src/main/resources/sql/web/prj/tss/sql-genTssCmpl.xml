@@ -59,6 +59,10 @@
              , TSS_SMRY_TXT
              , FC_CD
              , GRS_YN
+             , INIT_FLOW_YN
+             , INIT_FLOW_STRT_DT
+             , INIT_FLOW_FNH_DT
+             
              , FRST_RGST_DT      --최초등록일시
              , FRST_RGST_ID      --최초등록자
              , LAST_MDFY_DT      --최종수정일시
@@ -107,6 +111,10 @@
              , TSS_SMRY_TXT
              , FC_CD
              , GRS_YN
+             , #{initFlowYn}
+             , #{initFlowStrtDt}
+             , #{initFlowFnhDt}
+             
              , GETDATE()
              , #{userId}
              , GETDATE()
