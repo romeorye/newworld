@@ -44,7 +44,7 @@ var lvAttcFilId;
                 applyTo: 'prcpMnlScnCd',
                 name: 'prcpMnlScnCd',
                 useEmptyText: true,
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '<c:out value="${inputData.prcpMnlScnCd}"/>',
                 emptyValue: '',
                 width: 200,

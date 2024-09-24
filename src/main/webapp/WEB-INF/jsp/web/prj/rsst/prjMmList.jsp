@@ -40,7 +40,7 @@ Rui.onReady(function() {
      lcbSearchYear = new Rui.ui.form.LCombo({
         applyTo: 'cbSearchYear',
     	useEmptyText: true,
-        emptyText: '선택',
+        emptyText: '(선택)',
         emptyValue: '',
         items: [
         	<c:forEach var="i" begin="0" varStatus="status" end="19">

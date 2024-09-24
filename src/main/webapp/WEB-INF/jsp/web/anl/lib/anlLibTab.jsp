@@ -54,7 +54,7 @@ var target = "${inputData.target}";
                name: 'searchCd',
                defaultValue: '<c:out value="${inputData.searchCd}"/>',
                useEmptyText: false,
-//                emptyText: '선택',
+//                emptyText: '(선택)',
                width: 150,
                items: [
             	   { value: 'bbsTitlCode',    text: '제목'},
@@ -70,7 +70,7 @@ var target = "${inputData.target}";
 	               name: 'anlTlcgClCd',
 	               defaultValue: '<c:out value="${inputData.anlTlcgClCd}"/>',
 	               useEmptyText: true,
-	               emptyText: '전체',
+	               emptyText: '(전체)',
 	               defaultValue: '',
 	               emptyValue: '',
 	               url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ANL_TLCG_CL_CD"/>',

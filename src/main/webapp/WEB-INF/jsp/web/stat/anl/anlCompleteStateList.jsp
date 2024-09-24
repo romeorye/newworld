@@ -85,7 +85,7 @@
                 applyTo: 'anlChrgId',
                 name: 'anlChrgId',
                 useEmptyText: true,
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 url: '<c:url value="/anl/getAnlChrgList.do"/>',
@@ -95,7 +95,7 @@
 
             var infmTypeCd = new Rui.ui.form.LCombo({
                 applyTo: 'infmTypeCd',
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 110,

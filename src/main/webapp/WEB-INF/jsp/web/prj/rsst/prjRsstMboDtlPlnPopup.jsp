@@ -42,7 +42,7 @@ Rui.onReady(function() {
 	var lcbMboGoalYear = new Rui.ui.form.LCombo({
 		applyTo: 'mboGoalYear',
     	useEmptyText: true,
-        emptyText: '선택',
+        emptyText: '(선택)',
         defaultValue: nYear,
         items: [
         	<c:forEach var="i" begin="0" varStatus="status" end="19">

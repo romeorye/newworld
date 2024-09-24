@@ -53,7 +53,7 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
         	   applyTo: 'searchCd',
                name: 'searchCd',
                useEmptyText: false,
-//                emptyText: '선택',
+//                emptyText: '(선택)',
                width: 150,
                items: [
             	   { value: 'bbsTitlSbcCode',    text: '제목 + 내용'},
@@ -67,7 +67,7 @@ var roleIdIndex = roleId.indexOf("WORK_IRI_T06");
 	               applyTo: 'anlTlcgClCd',
 	               name: 'anlTlcgClCd',
 	               useEmptyText: true,
-	               emptyText: '전체',
+	               emptyText: '(전체)',
 	               defaultValue: '',
 	               emptyValue: '',
 	               url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ANL_TLCG_CL_CD"/>',

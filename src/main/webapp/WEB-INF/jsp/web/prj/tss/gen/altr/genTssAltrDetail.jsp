@@ -68,15 +68,15 @@
             btnCsusRq2.hide();
 
             gvPgTssSt = dataSet.getNameValue(0, "pgTssSt");
-
+console.log("[gvPgTssSt]",gvPgTssSt, "", dataSet.getNameValue(0, "tssRoleId"));
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "pgSaSabunNew")) {
                 if(gvTssSt == "100") {
-                    if (stringNullChk(gvPgTssSt) == "202") {
+                    //if (stringNullChk(gvPgTssSt) == "202") {
                         btnCsusRq.show();
-                    } else if (stringNullChk(gvPgTssSt) == "201") {
+                    //} else if (stringNullChk(gvPgTssSt) == "201") {
                         btnStepPg.show();
                         btnCsusRq2.show();
-                    }
+                    //}
                 }
             }
         }

@@ -95,7 +95,7 @@
         	var fbRsltCtgr = new Rui.ui.form.LCombo({
                 applyTo: 'fbRsltCtgr',
                 name: 'fbRsltCtgr',
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 300,
@@ -117,7 +117,7 @@
           	var fbTssPgsStep = new Rui.ui.form.LCombo({
                   applyTo: 'fbTssPgsStep',
                   name: 'fbTssPgsStep',
-                  emptyText: '선택',
+                  emptyText: '(선택)',
                   defaultValue: '',
                   emptyValue: '',
                   width: 400,
@@ -130,7 +130,7 @@
          	var fbRsltScn = new Rui.ui.form.LCombo({
                  applyTo: 'fbRsltScn',
                  name: 'fbRsltScn',
-                 emptyText: '선택',
+                 emptyText: '(선택)',
                  defaultValue: '',
                  emptyValue: '',
                  width: 300,

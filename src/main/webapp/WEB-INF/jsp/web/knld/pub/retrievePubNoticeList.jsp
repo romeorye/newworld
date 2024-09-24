@@ -42,7 +42,7 @@ var lvAttcFilId;
             var pwiScnCd = new Rui.ui.form.LCombo({
                 applyTo: 'pwiScnCd',
                 useEmptyText: true,
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: "${inputData.pwiScnCd}",
                 emptyValue: '',
                 width: 200,

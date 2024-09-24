@@ -72,7 +72,7 @@
 
         var bizDtpCd = new Rui.ui.form.LCombo({ // 검색용 과제유형
             applyTo: 'bizDtpCd',
-            emptyText: '전체',
+            emptyText: '(전체)',
             emptyValue: '',
             defaultValue: '${inputData.bizDtpCd}',
             useEmptyText: true,
@@ -83,7 +83,7 @@
 
         var grsEvStSch = new Rui.ui.form.LCombo({ // 검색용 상태
             applyTo: 'grsEvStSch',
-            emptyText: '전체',
+            emptyText: '(전체)',
             emptyValue: '',
             defaultValue: '${inputData.grsEvStSch}',
             useEmptyText: true,
@@ -94,7 +94,7 @@
 
         var tssScnCd = new Rui.ui.form.LCombo({ // 검색용 과제유형
             applyTo : 'tssScnCd',
-            emptyText: '전체',
+            emptyText: '(전체)',
             emptyValue: '',
             defaultValue: '${inputData.tssScnCd}',
             useEmptyText: true,
@@ -106,7 +106,7 @@
         var grsSt =  new Rui.ui.form.LCombo({
             applyTo : 'grsSt',
             emptyValue: '',
-            emptyText: '선택하세요',
+            emptyText: '(선택)',
             defaultValue: '${inputData.grsSt}',
 			items: [
 				{ text: 'GRS요청', value: '101'},

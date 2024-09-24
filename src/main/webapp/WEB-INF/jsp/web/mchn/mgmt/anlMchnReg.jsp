@@ -132,7 +132,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		 	applyTo : 'mchnClCd',
 			name : 'mchnClCd',
 			useEmptyText: true,
-		    emptyText: '선택하세요',
+		    emptyText: '(선택)',
 		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=MCHN_CL_CD"/>',
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD'
@@ -143,7 +143,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		 	applyTo : 'mchnUsePsblYn',
 			name : 'mchnUsePsblYn',
 			useEmptyText: true,
-		    emptyText: '선택하세요',
+		    emptyText: '(선택)',
 		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=MCHN_PRCT_ST"/>',
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD'
@@ -157,7 +157,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		var cbOpnYn = new Rui.ui.form.LCombo({
 			applyTo : 'opnYn',
 			name : 'opnYn',
-			emptyText: '선택하세요',
+			emptyText: '(선택)',
 				items: [
 	                   { code: 'Y', value: 'Y' }, // value는 생략 가능하며, 생략시 code값을 그대로 사용한다.
 	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.
@@ -180,7 +180,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		var cbDelYn = new Rui.ui.form.LCombo({
 			applyTo : 'delYn',
 			name : 'delYn',
-			emptyText: '선택하세요',
+			emptyText: '(선택)',
 				items: [
 					   { value: 'N', text: '미삭제'},
 				       { value: 'Y', text: '삭제'}
@@ -191,7 +191,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 		var cbMnScrnDspYn = new Rui.ui.form.LCombo({
 			applyTo : 'mnScrnDspYn',
 			name : 'mnScrnDspYn',
-			emptyText: '선택하세요',
+			emptyText: '(선택)',
 				items: [
 					   { value: 'N', text: 'N'},
 				       { value: 'Y', text: 'Y'}
@@ -203,7 +203,7 @@ var faxInfoDialog;	//고정자산관리 팝업
 			applyTo : 'mchnUfeClCd',
 			name : 'mchnUfeClCd',
 			useEmptyText: true,
-		    emptyText: '선택하세요',
+		    emptyText: '(선택)',
 		    url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=MCHN_UFE_CL_CD"/>',
 			displayField: 'COM_DTL_NM',
 			valueField: 'COM_DTL_CD'

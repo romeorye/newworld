@@ -126,7 +126,7 @@
 			name : 'cmplYn',
 			defaultValue: '<c:out value="${inputData.cmplYn}"/>',
 			width : 200,
-			emptyText: '전체',
+			emptyText: '(전체)',
 				items: [
 	                   { code: 'Y', value: 'Y' }, // value는 생략 가능하며, 생략시 code값을 그대로 사용한다.
 	                   { code: 'N', value: 'N' }  // code명과 value명 변경은 config의 valueField와 displayField로 변경된다.

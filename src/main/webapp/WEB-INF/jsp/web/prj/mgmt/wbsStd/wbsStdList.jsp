@@ -66,7 +66,7 @@
 
 	   	var wbsScnCd = new Rui.ui.form.LCombo({ //WBS
 			applyTo : 'wbsScnCd',
-			emptyText: '전체',
+			emptyText: '(전체)',
 			emptyValue: '',
 			 defaultValue: '${inputData.wbsScnCd}',
 			useEmptyText: true,

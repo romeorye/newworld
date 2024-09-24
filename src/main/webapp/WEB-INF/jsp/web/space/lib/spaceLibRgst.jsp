@@ -69,7 +69,7 @@
 	                name: 'anlBbsCd',
 	                width: 200,
 	                useEmptyText: true,
-	                emptyText: '선택',
+	                emptyText: '(선택)',
 	                defaultValue: '',
 	                emptyValue: '',
 	                listPosition: 'up',

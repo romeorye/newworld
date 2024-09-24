@@ -41,7 +41,7 @@
             applyTo: 'grsY',
             name: 'grsY',
             useEmptyText: true,
-            emptyText: '선택',
+            emptyText: '(선택)',
             items: [
                 <c:forEach var="grsYList" items="${grsYList}">
                 { code: '${grsYList.grsY}', value: '${grsYList.grsY}' },
@@ -55,7 +55,7 @@
             name: 'grsType',
             autoMapping: true,
             useEmptyText: true,
-            emptyText: '선택',
+            emptyText: '(선택)',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=GRS_TYPE"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD',
@@ -70,7 +70,7 @@
             name: 'useYn',
             autoMapping: true,
             useEmptyText: true,
-            emptyText: '선택',
+            emptyText: '(선택)',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=COMM_YN"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD',

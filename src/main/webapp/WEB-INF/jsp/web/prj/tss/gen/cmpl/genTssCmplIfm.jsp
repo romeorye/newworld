@@ -36,10 +36,11 @@
 </style>
 
 <script type="text/javascript">
-    var lvTssCd    = window.parent.cmplTssCd;
-    var lvUserId   = window.parent.gvUserId;
-    var lvTssSt    = window.parent.gvTssSt;
-    var lvPageMode = window.parent.gvPageMode;
+    var lvTssCd     = window.parent.cmplTssCd;
+    var lvUserId    = window.parent.gvUserId;
+    var lvTssSt     = window.parent.gvTssSt;
+    var lvPgsStepCd = window.parent.gvPgsStepCd;
+    var lvPageMode  = window.parent.gvPageMode;
     
     var lvInitFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
     var lvInitFlowStrtDt = (window.parent.initFlowStrtDt) ? window.parent.initFlowStrtDt : ""; //초기유동관리시작일
@@ -51,6 +52,7 @@
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);
     console.log("[lvTssSt]", lvTssSt);
+    console.log("[lvPgsStepCd]", lvPgsStepCd);
     console.log("[lvPageMode]", lvPageMode);
 
     console.log("[lvInitFlowYn]", lvInitFlowYn);
@@ -915,10 +917,8 @@ $(window).load(function() {
                 </tr>
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
-                    <td id="attchFileView" colspan="2">&nbsp;</td>
-               <!--
+                    <td id="attchFileView">&nbsp;</td>
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
-                 -->
                 </tr>
             </tbody>
         </table>

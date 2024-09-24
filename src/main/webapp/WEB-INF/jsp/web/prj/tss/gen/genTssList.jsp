@@ -174,7 +174,7 @@
             useEmptyText: true,
             width: 150,
             defaultValue: '<c:out value="${inputData.tssSt}"/>',
-            emptyText: '전체',
+            emptyText: '(전체)',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=TSS_ST"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD',
@@ -204,7 +204,7 @@
             emptyValue: '',
             useEmptyText: true,
             defaultValue: '<c:out value="${inputData.pgsStepCd}"/>',
-            emptyText: '전체',
+            emptyText: '(전체)',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PGS_STEP_CD"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD',
@@ -403,7 +403,7 @@
                     }
                 }
                 //완료
-                else if(pPgsStepCd == "CM") {
+                else if(pPgsStepCd == "CM" || pPgsStepCd == "IF") {
                     nwinsActSubmit(document.aform, "<c:url value='/prj/tss/gen/genTssCmplDetail.do'/>"+urlParam);
                 }
                 //변경

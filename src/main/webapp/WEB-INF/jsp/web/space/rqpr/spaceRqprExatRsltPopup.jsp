@@ -200,7 +200,7 @@
             var mchnInfoId = new Rui.ui.form.LCombo({
                 applyTo: 'mchnInfoId',
                 name: 'mchnInfoId',
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 310,

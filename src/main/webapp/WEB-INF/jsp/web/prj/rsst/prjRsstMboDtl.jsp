@@ -43,7 +43,7 @@ Rui.onReady(function() {
 	/* COMBO : 목표년도 2011년~2030년 */ //pduGoalYear
     var lcbGoalYear = new Rui.ui.form.LCombo({
     	useEmptyText: true,
-        emptyText: '선택',
+        emptyText: '(선택)',
         items: [
         	<c:forEach var="i" begin="0" varStatus="status" end="19">
      		{ value : "${ 2030 - i }" , text : "${ 2030 - i }" } ,

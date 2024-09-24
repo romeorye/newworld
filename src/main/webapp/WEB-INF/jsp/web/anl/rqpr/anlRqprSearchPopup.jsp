@@ -87,7 +87,7 @@
             var anlChrgId = new Rui.ui.form.LCombo({
                 applyTo: 'anlChrgId',
                 name: 'anlChrgId',
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 url: '<c:url value="/anl/getAnlChrgList.do"/>',
@@ -98,7 +98,7 @@
             var acpcStCd = new Rui.ui.form.LCombo({
                 applyTo: 'acpcStCd',
                 name: 'acpcStCd',
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '',
                 emptyValue: '',
                 url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ACPC_ST_CD"/>',

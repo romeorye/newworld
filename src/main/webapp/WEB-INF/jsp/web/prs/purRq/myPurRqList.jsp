@@ -114,7 +114,7 @@ var adminChk = "N";
             applyTo: 'prsFlag',
             width: 100,
             useEmptyText: true,
-            emptyText: '전체',
+            emptyText: '(전체)',
             url: '<c:url value="/common/prsCode/retrievePrsFlagInfo.do"/>',
             displayField: 'CODE_NM',
             valueField: 'CODE'

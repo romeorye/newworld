@@ -174,7 +174,7 @@ var codeRegDialog;
              name : 'selDelYn',
              //defaultValue: '<c:out value="${inputData.selDelYn}"/>',
              emptyValue : '',
-             emptyText: '선택하세요',
+             emptyText: '(선택)',
                  items: [
                        { text: 'Y', value: 'Y' }
                      , { text: 'N', value: 'N' }

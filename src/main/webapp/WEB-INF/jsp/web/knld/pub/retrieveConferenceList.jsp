@@ -46,7 +46,7 @@ var lvAttcFilId;
                 applyTo: 'cfrnLocScnCd',
                 name: 'cfrnLocScnCd',
                 useEmptyText: true,
-                emptyText: '전체',
+                emptyText: '(전체)',
                 defaultValue: '<c:out value="${inputData.cfrnLocScnCd}"/>',
                 emptyValue: '',
                 width: 200,

@@ -45,7 +45,7 @@ Rui.onReady(function() {
 	/* COMBO : PRJ_PDU_TYPE_CD(산출물유형) => yldType */
     lcbYldType = new Rui.ui.form.LCombo({
         useEmptyText: true,
-        emptyText: '선택',
+        emptyText: '(선택)',
         url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PRJ_PDU_TYPE_CD"/>',
         displayField: 'COM_DTL_NM',
         valueField: 'COM_DTL_CD',
@@ -60,7 +60,7 @@ Rui.onReady(function() {
     /* COMBO : 목표년도 2011년~2030년 */ //pduGoalYear
     var lcbGoalYear = new Rui.ui.form.LCombo({
     	useEmptyText: true,
-        emptyText: '선택',
+        emptyText: '(선택)',
         items: [
         	<c:forEach var="i" begin="0" varStatus="status" end="19">
      		{ value : "${ 2030 - i }" , text : "${ 2030 - i }" } ,

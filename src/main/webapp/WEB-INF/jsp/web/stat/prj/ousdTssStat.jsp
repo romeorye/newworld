@@ -49,7 +49,7 @@
             lcbSearchYear = new Rui.ui.form.LCombo({
             	applyTo: 'cbSearchYear',
            		useEmptyText: true,
-               	//emptyText: '선택',
+               	//emptyText: '(선택)',
                	//emptyValue: '',
                	useEmptyText: false,
                	defaultValue : new Date().format('%Y'),

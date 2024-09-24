@@ -100,7 +100,7 @@
             var expCrtnScnCd = new Rui.ui.form.LCombo({
                 name: 'expCrtnScnCd',
                 autoMapping: true,
-                emptyText: '선택',
+                emptyText: '(선택)',
                 defaultValue: '',
                 emptyValue: '',
                 width: 80,

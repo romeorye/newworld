@@ -89,7 +89,7 @@
             autoMapping: true,
             useEmptyText: true,
             rendererField: 'value',
-            emptyText: '선택',
+            emptyText: '(선택)',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=ARSL_CD"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD'
