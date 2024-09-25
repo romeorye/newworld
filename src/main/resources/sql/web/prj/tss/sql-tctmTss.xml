@@ -21,9 +21,9 @@
                 ,case when z.PGS_STEP_CD = 'AL' then Z.al_TSS_FNH_DD
                       else z.TSS_FNH_DD end                                 as tssFnhDd
                 ,CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_STRT_DD
-                      WHEN Z.PGS_STEP_CD = 'CM' OR Z.PGS_STEP_CD = 'IF' THEN Z.CMPL_B_STRT_DD END  AS cmplNxStrtDd --과제실적시작
+                      WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_STRT_DD END  AS cmplNxStrtDd --과제실적시작
                 ,CASE WHEN Z.PGS_STEP_CD = 'DC' THEN Z.DCAC_B_FNH_DD
-                      WHEN Z.PGS_STEP_CD = 'CM' OR Z.PGS_STEP_CD = 'IF' THEN Z.CMPL_B_FNH_DD END      AS cmplNxFnhDd  --과제실적종료
+                      WHEN Z.PGS_STEP_CD = 'CM' THEN Z.CMPL_B_FNH_DD END      AS cmplNxFnhDd  --과제실적종료
                 ,Z.TSS_ST                                                  AS tssSt        --상태
                 ,dbo.fn_getComDtlNm('TSS_ST', Z.TSS_ST)                    AS tssStNm      --상태명
                 ,dbo.fn_getTssStepNm(z.tss_cd) as tssStepNm
