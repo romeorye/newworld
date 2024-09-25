@@ -247,9 +247,6 @@
             
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
                 if(gvTssSt == "100" || gvTssSt == "102") {
-                	$('#btnList').trigger('click'); //실행하자마자 click이벤트를 트리거 함
-                	$("#btnList").click() //실행하자마자 click이벤트를 트리거 함
-
                 	btnCsusRq.show(); //100: 작성중, 102: GRS평가완료
                 	btnAltrRq.show(); //100: 작성중, 102: GRS평가완료
                 }
@@ -341,7 +338,7 @@
                 gvTssSt = ""; //과제상태
             }
             //CM:완료단계
-            else if(pPgsStepCd == "CM"||pPgsStepCd == "IF") {
+            else if(pPgsStepCd == "CM") {
                 cmplTssCd = dataSet.getNameValue(0, "tssCd"); //완료단계 과제코드
                 gvTssSt = stringNullChk(dataSet.getNameValue(0, "tssSt")); //과제상태
             }
@@ -637,11 +634,16 @@
             dataSet.setNameValue(0, "initFlowStrtDt", $("#initFlowStrtDt").val());
             dataSet.setNameValue(0, "initFlowFnhDt",  $("#initFlowFnhDt").val());
 
+            console.log("[ifmUpdate]",ifmUpdate);
+            console.log("[dataSet]",dataSet);
+
             var ifmUpdate = document.getElementById('tabContent0').contentWindow.fnIfmIsUpdate("SAVE");
             if(!ifmUpdate) return false;
 
             //수정여부
             var smryDs = document.getElementById('tabContent0').contentWindow.dataSet; //개요탭 DS
+            console.log("[smryDs]",smryDs);
+
             if( !(dataSet.isUpdated() && smryDs.isUpdated()) ) {
                 Rui.alert("변경된 데이터가 없습니다.");
                 return;
@@ -667,6 +669,8 @@
 	                        url:'<c:url value="/prj/tss/gen/insertGenTssCmplMst.do"/>',
 	                        dataSets:[dataSet, smryDs]
 	                    });
+	                    
+	                    btnList.click(); //신규일때 TSS_CD가 새로 부여되므로 목록으로 보내기 [아주중요]
 	                }
 	                //수정
 	                else {
@@ -680,7 +684,6 @@
                 handlerNo: Rui.emptyFn
             });
         };
-
 
         //데이터 셋팅
         if(${resultCnt} > 0) {
