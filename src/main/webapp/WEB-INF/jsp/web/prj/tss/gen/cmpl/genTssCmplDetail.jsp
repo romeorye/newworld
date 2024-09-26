@@ -250,7 +250,7 @@
                 if(gvTssSt == "100" || gvTssSt == "102") {
                 	btnCsusRq.show(); //100: 작성중, 102: GRS평가완료
                 	//btnAltrRq.show(); //100: 작성중, 102: GRS평가완료
-                } else if (gvTssSt == "151") { //151: 초기유동품의요청
+                } else if (gvTssSt == "104") { //104:품의완료, 151: 초기유동품의요청
                 	btnCsusRq2.show();
                 }
             }

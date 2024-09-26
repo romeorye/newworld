@@ -193,7 +193,6 @@
         initFlowStrtDt.setValue(lvInitFlowStrtDt); 
         initFlowFnhDt.setValue(lvInitFlowFnhDt); 
 
-        
         $("input[name=chkInitFlowYn]").click(function(){
         	console.log($("input[name=chkInitFlowYn]").prop("checked"));
       		if($("input[name=chkInitFlowYn]").prop("checked")){
@@ -224,6 +223,8 @@
             if(pageMode == "W") return;
 
             btnSave.hide();
+            
+            initFlowAttch.hide(); //초기유동관리 완료보고서 및 기타
 
             document.getElementById('attchFileMngBtn').style.display = "none";
         };
@@ -251,6 +252,7 @@
                 ,{ id: 'fnoPlnTxt'}
                 ,{ id: 'ancpOtPlnDt'}
                 ,{ id: 'cmplAttcFilId'}
+                ,{ id: 'initFlowAttcFilId'}
                 ,{ id: 'pmisCmplTxt'}
                 ,{ id: 'bizPrftProY'}
                 ,{ id: 'bizPrftProY1'}
@@ -917,7 +919,11 @@ $(window).load(function() {
                 </tr>
                 <tr>
                     <th align="right">과제완료보고서 및 기타</th>
-                    <td id="attchFileView">&nbsp;</td>
+                    <td id="attchFileView" colspan="2">&nbsp;</td>
+                </tr>
+                <tr id="initFlowAttch" style="display:none;">
+                    <th align="right">초기유동관리 <br/>완료보고서 및 기타</th>
+                    <td id="initFlowAttchFileView">&nbsp;</td>
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
                 </tr>
             </tbody>

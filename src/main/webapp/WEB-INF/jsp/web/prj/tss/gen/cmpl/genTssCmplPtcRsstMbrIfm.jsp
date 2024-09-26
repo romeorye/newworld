@@ -73,7 +73,6 @@
                 grid.setEditable(false);
                 butRecordNew.hide();
                 btnSave.hide();
-                butRecordDel.hide();
             }
         };
         
@@ -384,7 +383,7 @@ $(window).load(function() {
 	    <div class="LblockButton" style="float:right;">
 	        <button type="button" id="butRecordNew">추가</button>
 	        <button type="button" id="btnSave" name="btnSave">저장</button>
-	        <button type="button" id="butRecordDel">삭제</button>
+	        <!-- <button type="button" id="butRecordDel">삭제</button> -->
 	    </div>
 	</div>
 	<div id="mbrFormDiv">

@@ -53,6 +53,10 @@
     var gvAprdocState = "${resultCsus.aprdocstate}";
     var csusCont = "";
 
+    var gvPgsStepCd   = "${inputData.pgsStepCd}";
+    var gvTssSt       = "${inputData.tssSt}";
+    var gvInitFlowYn  = "${inputData.initFlowYn}";
+
     Rui.onReady(function() {
 
         /* [DataSet] 설정 */
@@ -111,7 +115,11 @@
         var butCsur = new Rui.ui.LButton('butCsur');
         butCsur.on('click', function() {
             if(stringNullChk(gvAprdocState) != "" ){
-                if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {    //결제요청, 최종승인완료
+            	
+            	if (gvTssSt=="104" && gvInitFlowYn == "Y") {
+            		console.log("[gvTssSt]", gvTssSt, "[gvInitFlowYn]", gvInitFlowYn);
+            	} else if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {    //결제요청, 최종승인완료
+            		console.log("[gvAprdocState]", gvAprdocState);
                     Rui.alert("이미 품의가 요청되었습니다.");
                     return;
                 }
