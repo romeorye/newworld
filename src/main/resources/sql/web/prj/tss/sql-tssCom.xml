@@ -442,10 +442,10 @@
     ]]>
     </update>
 
-    <!-- 참여연구원 삭제 -->
+    <!-- 참여연구원(과제코드, 참여연구원일련번호) 삭제 -->
     <delete id="deleteTssPtcRsstMbr">
     <![CDATA[
--- deleteTssPtcRsstMbr 참여연구원 삭제
+        -- deleteTssPtcRsstMbr 참여연구원(과제코드, 참여연구원일련번호) 삭제
         DELETE
           FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
          WHERE TSS_CD          = #{tssCd}
@@ -455,7 +455,7 @@
 
     <delete id="deleteTssPtcRsstMbrAllOfTssCd">
     <![CDATA[
--- deleteTssPtcRsstMbrAllOfTssCd
+        -- deleteTssPtcRsstMbrAllOfTssCd 참여연구원(과제코드) 삭제
         DELETE
           FROM IRIS_TSS_PTC_RSST_MBR  /*과제참여연구원*/
          WHERE TSS_CD          = #{tssCd}
@@ -488,6 +488,23 @@
          WHERE TSS_CD = #{tssCd}
     ]]>
     </select>
+
+    <!-- /참여연구원 이력 등록 -->
+    <insert id="insertTssPtcRsstMbrHist">
+        <![CDATA[
+          -- insertTssPtcRsstMbrHist 참여연구원 이력 등록
+          INSERT
+            INTO  IRIS_TSS_PTC_RSST_MBR_HIST (
+                  TSS_CD, PTC_RSST_MBR_SN, SA_SABUN_NEW, DEPT_CODE, PTC_STRT_DT
+                , PTC_FNH_DT, PTC_ROLE, PTC_ROLE_DTL, PTC_PRO, FRST_RGST_DT
+                , FRST_RGST_ID, LAST_MDFY_DT, LAST_MDFY_ID, SA_SABUN_NAME, DEPT_NAME, OUT_FLAG)
+         SELECT   TSS_CD, PTC_RSST_MBR_SN, SA_SABUN_NEW, DEPT_CODE, PTC_STRT_DT
+                , PTC_FNH_DT, PTC_ROLE, PTC_ROLE_DTL, PTC_PRO, FRST_RGST_DT
+                , FRST_RGST_ID, LAST_MDFY_DT, LAST_MDFY_ID, SA_SABUN_NAME, DEPT_NAME, OUT_FLAG
+           FROM   IRIS_TSS_PTC_RSST_MBR
+          WHERE   TSS_CD = #{tssCd}
+        ]]>
+    </insert>
 
 
     <!--========================== 과제_공통_목표및산출물 ========================== -->

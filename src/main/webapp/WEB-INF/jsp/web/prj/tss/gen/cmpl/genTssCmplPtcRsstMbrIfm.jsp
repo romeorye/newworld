@@ -71,6 +71,9 @@
         disableFields = function() {
             if(pageMode == "R") {
                 grid.setEditable(false);
+                butRecordNew.hide();
+                btnSave.hide();
+                butRecordDel.hide();
             }
         };
         
@@ -376,21 +379,22 @@ $(window).load(function() {
 </head>
 <body style="overflow: hidden">
 <div id="formDiv">
-<div class="titArea">
-    <div class="LblockButton">
-        <button type="button" id="butRecordNew">추가</button>
-        <button type="button" id="btnSave" name="btnSave">저장</button>
-        <!-- <button type="button" id="butRecordDel">삭제</button> -->
-    </div>
-</div>
-<div id="mbrFormDiv">
-    <form name="mbrForm" id="mbrForm" method="post">
-        <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
-        <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
-    </form>
-	    <div><span style="color:red; font-weight:bold" >참여 연구원 변경 시, 연구원 History 관리를 위해 참여 시작일과 종료일을 수정하시길 바랍니다. (연구원 삭제 하지 말 것)</span></div></br>
-    <div id="defaultGrid"></div>
-</div>
+	<div class="titArea">
+    	<div style="float:left;"><span style="color:red; font-weight:bold;">참여 연구원 변경 시, 연구원 History 관리를 위해 참여 시작일과 종료일을 수정하시길 바랍니다. (연구원 삭제 하지 말 것)</span></div>
+	    <div class="LblockButton" style="float:right;">
+	        <button type="button" id="butRecordNew">추가</button>
+	        <button type="button" id="btnSave" name="btnSave">저장</button>
+	        <button type="button" id="butRecordDel">삭제</button>
+	    </div>
+	</div>
+	<div id="mbrFormDiv">
+	    <form name="mbrForm" id="mbrForm" method="post">
+	        <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
+	        <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
+	    </form>
+	    <div id="defaultGrid"></div>
+	</div>
+	<br/><br/><br/><br/><br/><br/>
 </div>
 </body>
 </html>

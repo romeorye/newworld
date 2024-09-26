@@ -243,12 +243,15 @@
         disableFields = function() {
             //버튼여부
             btnCsusRq.hide(); //[춤의서요청]
-            btnAltrRq.hide(); //[변경요청]
+            btnCsusRq2.hide(); //[초기유동 품의서요청]
+            //btnAltrRq.hide(); //[변경요청]
             
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
                 if(gvTssSt == "100" || gvTssSt == "102") {
                 	btnCsusRq.show(); //100: 작성중, 102: GRS평가완료
-                	btnAltrRq.show(); //100: 작성중, 102: GRS평가완료
+                	//btnAltrRq.show(); //100: 작성중, 102: GRS평가완료
+                } else if (gvTssSt == "151") { //151: 초기유동품의요청
+                	btnCsusRq2.show();
                 }
             }
 
@@ -449,10 +452,6 @@
                 ,{ label: '개발비', content: '<div id="div-content-test4"></div>' }
                 ,{ label: '목표 및 산출물', content: '<div id="div-content-test5"></div>' }
                 ,{ label: '변경이력', content: '<div id="div-content-test6"></div>' }
-                //TODO json을 변환하여 초기유동관리여부 추가할 것
-                /* <c:if test="${resultCsus.aprdocstate == 'A02' && resultCsus.initFlowYn == 'Y' && resultCsus.tssSt == '104'}">
-                ,{ label: '초기유동관리', content: '<div id="div-content-test7"></div>' }
-                </c:if> */
             ]
         });
         tabView.on('activeTabChange', function(e) {
@@ -482,10 +481,12 @@
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
                 }
                 break;
-            //참여연구원
+                //참여연구원
             case 2:
                 if(e.isFirst) {
-                	tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=PG'/>";
+                	//[2024.09.26]초기유동관리 단계가 추가되면 변경함
+                	//tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=PG'/>";
+                	tabUrl = "<c:url value='/prj/tss/gen/genTssCmplPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=CM'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
                 break;
@@ -560,56 +561,83 @@
 			 confirmDialog.show();
          };
 
-		 //변경요청
-        btnAltrRq = new Rui.ui.LButton('btnAltrRq');
-        btnAltrRq.on('click', function() {
-        	openDialog();
-        });
+		//변경요청
+		if($("#btnAltrRq").length > 0){
+	        btnAltrRq = new Rui.ui.LButton('btnAltrRq');
+	        btnAltrRq.on('click', function() {
+	        	openDialog();
+	        });
+		}
 
-        //품의서요청
-        btnCsusRq = new Rui.ui.LButton('btnCsusRq');
-        btnCsusRq.on('click', function() {
-            document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
-            document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
-            /* document.mstForm.initFlowYn.value = dataSet.getNameValue(0, 'initFlowYn');
-            document.mstForm.initFlowStrtDt.value = dataSet.getNameValue(0, 'initFlowStrtDt');
-            document.mstForm.initFlowFnhDt.value = dataSet.getNameValue(0, 'initFlowFnhDt'); */
-
-            var pgsStepCd = document.mstForm.pgsStepCd.value;
-            console.log("[pgsStepCd]", pgsStepCd);
-
-            console.log("[tabContent5]('01').length", $("#tabContent5").contents().find("[yldType='01']").length);
-            console.log("[tabContent5]('01')", $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size());
-            console.log("[tabContent5]('03').length", $("#tabContent5").contents().find("[yldType='03']").length);
-            console.log("[tabContent5]('03')", $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size());
-            console.log("[tabContent5]('06').length", $("#tabContent5").contents().find("[yldType='06']").length);
-            console.log("[tabContent5]('06')", $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size());
-            console.log("[tabContent5]('10').length", $("#tabContent5").contents().find("[yldType='10']").length);
-            console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size());
-
-            if (pgsStepCd == "CM" || pgsStepCd == "DC"){
-                //if ($("#tabContent5").contents().find("[yldItmType='01']:contains('Y'),[yldItmType='03']:contains('Y'),[yldItmType='06']:contains('Y'),[yldItmType='10']:contains('Y')").size()<4){
-                if (  ( $("#tabContent5").contents().find("[yldType='01']").length == 0 )
-                	||( $("#tabContent5").contents().find("[yldType='01']").length>0 && $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size()==0 )
-                    ||( $("#tabContent5").contents().find("[yldType='03']").length>0 && $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size()==0 )
-                    ||( $("#tabContent5").contents().find("[yldType='06']").length>0 && $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size()==0 )
-                    ||( $("#tabContent5").contents().find("[yldType='10']").length>0 && $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size()==0 ) ) {
-
-                    //Rui.alert("필수산출물을 모두 등록하셔야 합니다.");
-                    Rui.alert("목표및산출물 탭의 필수산출물이 모두 등록되었는지<br/>또는 첨부파일 유무가 'Y'인지 확인하시기 바랍니다.");
-                    return;
-                }
-            }
-
-          	Rui.confirm({
-                text: '품의서요청을 하시겠습니까?',
-                handlerYes: function() {
-                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00332"+"&appCode=APP00332"+"&pgTssCd="+gvTssCd);
-                },
-                handlerNo: Rui.emptyFn
-            });
-        });
-
+        //[품의서요청]
+        if($("#btnCsusRq").length > 0){
+	        btnCsusRq = new Rui.ui.LButton('btnCsusRq');
+	        btnCsusRq.on('click', function() {
+	            document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
+	            document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
+	            /* document.mstForm.initFlowYn.value = dataSet.getNameValue(0, 'initFlowYn');
+	            document.mstForm.initFlowStrtDt.value = dataSet.getNameValue(0, 'initFlowStrtDt');
+	            document.mstForm.initFlowFnhDt.value = dataSet.getNameValue(0, 'initFlowFnhDt'); */
+	
+	            var pgsStepCd = document.mstForm.pgsStepCd.value;
+	            console.log("[pgsStepCd]", pgsStepCd);
+	
+	            console.log("[tabContent5]('01').length", $("#tabContent5").contents().find("[yldType='01']").length);
+	            console.log("[tabContent5]('01')", $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size());
+	            console.log("[tabContent5]('03').length", $("#tabContent5").contents().find("[yldType='03']").length);
+	            console.log("[tabContent5]('03')", $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size());
+	            console.log("[tabContent5]('06').length", $("#tabContent5").contents().find("[yldType='06']").length);
+	            console.log("[tabContent5]('06')", $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size());
+	            console.log("[tabContent5]('10').length", $("#tabContent5").contents().find("[yldType='10']").length);
+	            console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size());
+	
+	            if (pgsStepCd == "CM" || pgsStepCd == "DC"){
+	                //if ($("#tabContent5").contents().find("[yldItmType='01']:contains('Y'),[yldItmType='03']:contains('Y'),[yldItmType='06']:contains('Y'),[yldItmType='10']:contains('Y')").size()<4){
+	                if (  ( $("#tabContent5").contents().find("[yldType='01']").length == 0 )
+	                	||( $("#tabContent5").contents().find("[yldType='01']").length>0 && $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size()==0 )
+	                    ||( $("#tabContent5").contents().find("[yldType='03']").length>0 && $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size()==0 )
+	                    ||( $("#tabContent5").contents().find("[yldType='06']").length>0 && $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size()==0 )
+	                    ||( $("#tabContent5").contents().find("[yldType='10']").length>0 && $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size()==0 ) ) {
+	
+	                    //Rui.alert("필수산출물을 모두 등록하셔야 합니다.");
+	                    Rui.alert("목표및산출물 탭의 필수산출물이 모두 등록되었는지<br/>또는 첨부파일 유무가 'Y'인지 확인하시기 바랍니다.");
+	                    return;
+	                }
+	            }
+	
+	          	Rui.confirm({
+	                text: '품의서요청을 하시겠습니까?',
+	                handlerYes: function() {
+	                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00332"+"&pgTssCd="+gvTssCd);
+	                },
+	                handlerNo: Rui.emptyFn
+	            });
+	        });
+	    }
+	    
+        //[초기유동 품의서요청]
+        if($("#btnCsusRq2").length > 0){
+        	btnCsusRq2 = new Rui.ui.LButton('btnCsusRq2');
+	        btnCsusRq2.on('click', function() {
+	            document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
+	            document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
+	
+	            var pgsStepCd = document.mstForm.pgsStepCd.value;
+	
+	            if (pgsStepCd == "CM" || pgsStepCd == "DC"){
+	            }
+	
+	          	Rui.confirm({
+	                text: '초기유동 품의서요청을 하시겠습니까?',
+	                handlerYes: function() {
+	                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00332"+"&pgTssCd="+gvTssCd);
+	                },
+	                handlerNo: Rui.emptyFn
+	            });
+	        });
+        }
+	        
+	        
         fnInitFlow = function(initFlowYn, initFlowStrtDt, initFlowFnhDt) {
         	$("#initFlowYn").val(initFlowYn);
         	$("#initFlowStrtDt").val(initFlowStrtDt);
@@ -743,7 +771,8 @@ console.log("[btnList]", "click");
             <div class="titArea mt0">
                 <div class="LblockButton">
                     <button type="button" id="btnCsusRq" name="btnCsusRq">품의서요청</button>
-                    <button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button>
+                    <button type="button" id="btnCsusRq2" name="btnCsusRq2">초기유동 품의서요청</button>
+                    <!-- <button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button> -->
                     <button type="button" id="btnList" name="btnList">목록</button>
                 </div>
             </div>
@@ -862,7 +891,6 @@ console.log("[btnList]", "click");
                 <iframe name="tabContent4" id="tabContent4" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent5" id="tabContent5" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent6" id="tabContent6" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
-                <!--<iframe name="tabContent7" id="tabContent7" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>-->
             </form>
         </div>
     </div>
