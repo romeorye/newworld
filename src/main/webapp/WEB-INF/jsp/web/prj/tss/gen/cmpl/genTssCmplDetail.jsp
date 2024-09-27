@@ -670,9 +670,10 @@
 
             //수정여부
             var smryDs = document.getElementById('tabContent0').contentWindow.dataSet; //개요탭 DS
-            console.log("[smryDs]",smryDs);
-
-            if( !(dataSet.isUpdated() && smryDs.isUpdated()) ) {
+            console.log("[smryDs.isUpdated()]",smryDs.isUpdated());
+            console.log("[dataSet.isUpdated()]",dataSet.isUpdated());
+            
+            if( !(dataSet.isUpdated() || smryDs.isUpdated()) ) {
                 Rui.alert("변경된 데이터가 없습니다.");
                 return;
             }

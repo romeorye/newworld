@@ -42,6 +42,7 @@
     var lvTssCd    = window.parent.cmplTssCd;
     var lvUserId   = window.parent.gvUserId;
     var lvTssSt    = window.parent.gvTssSt;
+    var lvPgsStepCd = window.parent.gvPgsStepCd;
     var lvPageMode = window.parent.gvPageMode;
 
     var initFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
@@ -109,6 +110,7 @@
              	,{ id: 'fnoPlnTxt'}
              	,{ id: 'ancpOtPlnDt'} 
              	,{ id: 'cmplAttcFilId'} 
+             	,{ id: 'initFlowAttcFilId'}
              	,{ id: 'pmisCmplTxt'}
              	,{ id: 'bizPrftProY'}
              	,{ id: 'bizPrftProY1'}  

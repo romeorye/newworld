@@ -221,10 +221,10 @@
             Rui.select('.tssLableCss div').addClass('L-tssLable');
 
             if(pageMode == "W") return;
-
+            
             btnSave.hide();
             
-            initFlowAttch.hide(); //초기유동관리 완료보고서 및 기타
+            $('#initFlowAttch').hide(); ////초기유동관리 완료보고서 및 기타 첨부파일
 
             document.getElementById('attchFileMngBtn').style.display = "none";
         };
@@ -921,7 +921,7 @@ $(window).load(function() {
                     <th align="right">과제완료보고서 및 기타</th>
                     <td id="attchFileView" colspan="2">&nbsp;</td>
                 </tr>
-                <tr id="initFlowAttch" style="display:none;">
+                <tr id="initFlowAttch">
                     <th align="right">초기유동관리 <br/>완료보고서 및 기타</th>
                     <td id="initFlowAttchFileView">&nbsp;</td>
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
