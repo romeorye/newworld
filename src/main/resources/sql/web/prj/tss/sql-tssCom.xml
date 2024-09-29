@@ -913,6 +913,48 @@
     ]]>
     </insert>
 
+    <!-- 통합결제이력 등록 -->
+    <insert id="insertTssCsusRqHist">
+    <![CDATA[
+-- insertTssCsusRqHist 통합결제 등록
+        INSERT
+          INTO IRIS_COM_ITG_RDCS_HIST
+             ( GUID                    --고유코드
+             , AFFR_CD                 --업무코드
+             , DOCKIND
+             , APRDOCSTATE             --결재상태코드
+             , APPROVAL_USERID         --결재 요청자 ID
+             , APPROVAL_USERNAME       --결재 요청자명
+             , APPROVAL_JOBTITLE       --결재 요청자 직위
+             , APPROVAL_DEPTNAME       --결재 요청자 부서명
+             , APPROVAL_PROCESSDATE    --결재 요청 일자
+             , APPROVER_PROCESSDATE    --승인일자
+             , FILENAME
+             , UPDATE_DATE             --수정일
+             , URL
+             , ITG_RDCS_ID             --결재리턴번호
+             , APP_CODE                --결재양식코드
+             )
+       SELECT GUID                    --고유코드
+             , AFFR_CD                 --업무코드
+             , DOCKIND
+             , APRDOCSTATE             --결재상태코드
+             , APPROVAL_USERID         --결재 요청자 ID
+             , APPROVAL_USERNAME       --결재 요청자명
+             , APPROVAL_JOBTITLE       --결재 요청자 직위
+             , APPROVAL_DEPTNAME       --결재 요청자 부서명
+             , APPROVAL_PROCESSDATE    --결재 요청 일자
+             , APPROVER_PROCESSDATE    --승인일자
+             , FILENAME
+             , UPDATE_DATE             --수정일
+             , URL
+             , ITG_RDCS_ID             --결재리턴번호
+             , APP_CODE                --결재양식코드
+       FROM   IRIS_COM_ITG_RDCS  
+       WHERE  GUID = #{guid}
+    ]]>
+    </insert>
+
     <!-- 통합결제 수정 -->
     <update id="updateTssCsusRq">
     <![CDATA[
@@ -925,6 +967,7 @@
              , APPROVAL_PROCESSDATE   = GETDATE() --결재 요청 일자
              , BODY        = #{body}
              , TITLE       = #{title}
+             , APRDOCSTATE = DBO.FN_ISEMPTY(TRIM(#{aprdocstate}), APRDOCSTATE)  --결재상태코드
              , UPDATE_DATE = GETDATE()
              , APP_CODE    = #{appCode}
          WHERE GUID = #{guid}

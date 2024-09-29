@@ -219,14 +219,32 @@
         disableFields = function() {
             Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
+            
+            if (lvTssSt == '' || lvTssSt == '100' || lvTssSt == '104' || lvTssSt == '151') { //100:진행중
+                btnSave.show();
+            } else {
+                btnSave.hide();
+            }
+            
+            if(lvTssSt=="104" || lvTssSt=="151" || lvTssSt=="152"){
+                setReadonly("chkInitFlowYn");
+                setReadonly("initFlowStrtDt");
+                setReadonly("initFlowFnhDt");
+            }
+            
+            if (lvTssSt == '' || lvTssSt == '100' || lvTssSt == '101' || lvTssSt == '102' || lvTssSt == '103') { //100:진행중
+            
+                $('#initFlowAttch').hide(); ////초기유동관리 완료보고서 및 기타 첨부파일
 
+                //document.getElementById('attchFileMngBtn').style.display = "none";
+                $('#attchFileMngBtn').hide(); ////첨부파일 버튼
+            } else {
+            	$('#attchFileTr').hide(); ////과제완료보고서 및 기타
+            	$('#initFlowAttch').show(); ////초기유동관리 완료보고서 및 기타
+            }
+            
             if(pageMode == "W") return;
-            
-            btnSave.hide();
-            
-            $('#initFlowAttch').hide(); ////초기유동관리 완료보고서 및 기타 첨부파일
 
-            document.getElementById('attchFileMngBtn').style.display = "none";
         };
 
 
@@ -252,7 +270,6 @@
                 ,{ id: 'fnoPlnTxt'}
                 ,{ id: 'ancpOtPlnDt'}
                 ,{ id: 'cmplAttcFilId'}
-                ,{ id: 'initFlowAttcFilId'}
                 ,{ id: 'pmisCmplTxt'}
                 ,{ id: 'bizPrftProY'}
                 ,{ id: 'bizPrftProY1'}
@@ -918,14 +935,17 @@ $(window).load(function() {
                     </td>
                 </tr>
                 <tr>
-                    <th align="right">과제완료보고서 및 기타</th>
-                    <td id="attchFileView" colspan="2">&nbsp;</td>
+                    <th align="right">과제완료보고서 및 기타
+                       <br/>초기유동관리
+                    </th>
+                    <td id="attchFileView">&nbsp;</td>
+                    <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
                 </tr>
-                <tr id="initFlowAttch">
+                <!-- <tr id="initFlowAttchFileTr">
                     <th align="right">초기유동관리 <br/>완료보고서 및 기타</th>
                     <td id="initFlowAttchFileView">&nbsp;</td>
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
 

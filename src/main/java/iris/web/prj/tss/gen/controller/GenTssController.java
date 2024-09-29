@@ -357,13 +357,13 @@ public class GenTssController  extends IrisBaseController {
             Map<String, Object> resultMst = genTssPlnService.retrieveGenTssPlnMst(mstMap);
             String pgsStepCd = String.valueOf(resultMst.get("pgsStepCd"));
             String tssSt     = String.valueOf(resultMst.get("tssSt"));
-
+            
             boolean setpYn = true;
             if("DC".equals(pgsStepCd) || "CM".equals(pgsStepCd)) {
                 if(!"100".equals(tssSt) && !"102".equals(tssSt) && !"500".equals(tssSt)) {
                     setpYn = false;
                     ds.get(0).put("rtCd", "FAIL");
-                    ds.get(0).put("rtVal", "이미 품의가 요청되었습니다.");
+                    ds.get(0).put("rtVal", "이미 품의가 요청되었습니다.(in.server)");
                 }
             }
 
@@ -399,7 +399,7 @@ public class GenTssController  extends IrisBaseController {
             HttpSession session, ModelMap model) {
 
         LOGGER.debug("###########################################################");
-        LOGGER.debug("updateGenTssCsusRq [과제관리 > 일반과제 > 품의서요청 생성]");
+        LOGGER.debug("updateGenTssCsusRq [과제관리 > 일반과제 > 품의서요청 수정]");
         LOGGER.debug("input = > " + input);
         LOGGER.debug("###########################################################");
 
@@ -418,13 +418,14 @@ public class GenTssController  extends IrisBaseController {
             Map<String, Object> resultMst = genTssPlnService.retrieveGenTssPlnMst(mstMap);
             String pgsStepCd = String.valueOf(resultMst.get("pgsStepCd"));
             String tssSt     = String.valueOf(resultMst.get("tssSt"));
+            String initFlowYn = String.valueOf(resultMst.get("initFlowYn"));
 
             boolean setpYn = true;
             if("DC".equals(pgsStepCd) || "CM".equals(pgsStepCd)) {
-                if(!"100".equals(tssSt) && !"500".equals(tssSt)) {
+                if(!"100".equals(tssSt) && !"500".equals(tssSt) && !"500".equals(tssSt) && !"Y".equals(initFlowYn)) {
                     setpYn = false;
                     ds.get(0).put("rtCd", "FAIL");
-                    ds.get(0).put("rtVal", "이미 품의가 요청되었습니다.");
+                    ds.get(0).put("rtVal", "이미 품의가 요청되었습니다.(up.server)");
                 }
             }
 

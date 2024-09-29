@@ -70,12 +70,14 @@ public class TssStCopyBatch extends IrisBaseController {
 		try {
 			//1. 과제 및 통합결재 조회 결제 (결제 요청상태 과제 목록 103,503)
 			List<Map<String, Object>> retrieveTssComItgRdcs = tssStCopyService.retrieveTssComItgRdcs();
-
 			LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>retrieveTssComItgRdcs  : " + retrieveTssComItgRdcs.size());
+			
 			//2. 과제 상태 변경 -> 104
 			for (Map<String, Object> data : retrieveTssComItgRdcs) {
 				LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>과재 품의 대상  : " + data);
-				String aprdocstate = String.valueOf(data.get("aprdocstate")); //결재상태코드 A01 : 결재요청, A02 : 최종승인완료 ,A03 : 반려, A04 : 취소
+				
+				//결재상태코드 A01: 결재요청, A02: 최종승인완료 , A03: 반려, A04: 취소, A05: 초기유동 결재요청, A05: 초기유동 결재완료
+				String aprdocstate = String.valueOf(data.get("aprdocstate")); 
 
 				if (!StringUtil.isNullString(aprdocstate)) {
 					String tssSt = "103";							//103	품의요청

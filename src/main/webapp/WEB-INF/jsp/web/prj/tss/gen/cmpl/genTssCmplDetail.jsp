@@ -250,12 +250,12 @@
                 if(gvTssSt == "100" || gvTssSt == "102") {
                 	btnCsusRq.show(); //100: 작성중, 102: GRS평가완료
                 	//btnAltrRq.show(); //100: 작성중, 102: GRS평가완료
-                } else if (gvTssSt == "104") { //104:품의완료, 151: 초기유동품의요청
+                } else if ((gvTssSt == "104" || gvTssSt == "151") && stringNullChk(initFlowYn) == "Y") { //104:품의완료, 151: 초기유동품의요청
                 	btnCsusRq2.show();
                 }
             }
 
-            if(gvTssSt=="104"){
+            if(gvTssSt=="104" || gvTssSt=="151" || gvTssSt=="152"){
                 setReadonly("cmplBStrtDd");
                 setReadonly("cmplBFnhDd");
             }
@@ -698,6 +698,9 @@
 	                        url:'<c:url value="/prj/tss/gen/insertGenTssCmplMst.do"/>',
 	                        dataSets:[dataSet, smryDs]
 	                    });
+	                    
+	                    document.searchForm.tssSt.value = "";
+	    	            document.searchForm.pgsStepCd.value = "";
 	                    
 	                    btnList.click(); //신규일때 TSS_CD가 새로 부여되므로 목록으로 보내기 [아주중요]
 	                }

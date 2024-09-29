@@ -51,11 +51,11 @@
 <script type="text/javascript">
     var gvGuid        = "${resultCsus.guid}";
     var gvAprdocState = "${resultCsus.aprdocstate}";
+    var gvTssSt       = "${resultCsus.tssSt}";
+    var gvInitFlowYn  = "${resultCsus.initFlowYn}";
     var csusCont = "";
 
     var gvPgsStepCd   = "${inputData.pgsStepCd}";
-    var gvTssSt       = "${inputData.tssSt}";
-    var gvInitFlowYn  = "${inputData.initFlowYn}";
 
     Rui.onReady(function() {
 
@@ -100,7 +100,7 @@
             if(data.records[0].rtCd == "SUCCESS") {
                 gvGuid = data.records[0].guid;
 
-                if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03"|| gvAprdocState == "A04") {
+                if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03"|| gvAprdocState == "A04" || gvAprdocState == "A05") {
                     var pAppCode = data.records[0].appCode;                	
                     var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode="+ pAppCode +"&from=iris&guid="+gvGuid;
                     window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
@@ -114,10 +114,13 @@
         /* [버튼] 결재품의 */
         var butCsur = new Rui.ui.LButton('butCsur');
         butCsur.on('click', function() {
+        	console.log("[gvPgsStepCd]", gvPgsStepCd, "[gvTssSt]", gvTssSt, "[gvInitFlowYn]", gvInitFlowYn);
+        	
             if(stringNullChk(gvAprdocState) != "" ){
             	
-            	if (gvTssSt=="104" && gvInitFlowYn == "Y") {
-            		console.log("[gvTssSt]", gvTssSt, "[gvInitFlowYn]", gvInitFlowYn);
+            	if (gvPgsStepCd=="CM" && gvTssSt=="104" && gvInitFlowYn == "Y" && gvAprdocState == "A02") {
+            		gvAprdocState = "A05" //초기유동결재요청
+            		console.log("[gvAprdocState]", gvAprdocState);
             	} else if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {    //결제요청, 최종승인완료
             		console.log("[gvAprdocState]", gvAprdocState);
                     Rui.alert("이미 품의가 요청되었습니다.");
@@ -142,6 +145,7 @@
 
                     record.set("guid",             gvGuid);
                     record.set("affrCd",           "${inputData.tssCd}");
+                    record.set("aprdocstate",      gvAprdocState);
                     record.set("approvalUserid",   "${inputData._userId}");
                     record.set("approvalUsername", "${inputData._userNm}");
                     record.set("approvalJobtitle", "${inputData._userJobxName}");
@@ -154,11 +158,14 @@
 
                     var url = "";
                     if(gvGuid == ""){
+                    	console.log(1);
                         url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
                     }else{
-                        if(gvAprdocState == "A03" || gvAprdocState == "A04" ){
+                        if(gvAprdocState == "A03" || gvAprdocState == "A04" || !(gvTssSt=="151" && gvTssSt=="152")){
+                        	console.log(2);
                             url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
                         }else{
+                        	console.log(3);
                             url = '<c:url value="/prj/tss/gen/updateGenTssCsusRq.do"/>';
                         }
                     }
