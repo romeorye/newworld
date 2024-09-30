@@ -114,7 +114,7 @@ var linkUrl;
                  	if( frm.tabId.value == "EM"){
                  	   linkUrl = "<c:url value='/prs/purRq/purRqDetail.do'/>";
                     }else if(frm.tabId.value == "EF"){
-                    	linkUrl = "<c:url value='/prs/purRq/purRqLabEquipDetail.do'/>";
+                 	   linkUrl = "<c:url value='/prs/purRq/purRqLabEquipDetail.do'/>";
                     }else if(frm.tabId.value == "CR"){
                  	   linkUrl = "<c:url value='/prs/purRq/purRqWorkDetail.do'/>";
                     }else if(frm.tabId.value == "OM"){
