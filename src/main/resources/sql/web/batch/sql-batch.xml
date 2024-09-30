@@ -10,7 +10,7 @@
           , ir.AFFR_CD      as affrCd      --과제코드
           , ir.APRDOCSTATE  as aprdocstate --결재상태코드 A01 : 결재요청, A02 : 최종승인완료, A03 : 반려, A04 : 취소
           , mm.PGS_STEP_CD  as pgsStepCd   --진행단계코드 PL : 계획, PG:진행, CM:완료, IF:초기유동, AL: 변경, DC:중단
-          , mm.TSS_ST       as tssSt       --과제상태 100 작성중, 101 GRS요청, 102 GRS완료, 103 품의요청, 104 품의완료, 900 반려, 500 정산작성중, 503 정산품의요청, 504 정산품의완료
+          , mm.TSS_ST       as tssSt       --과제상태 100 작성중, 101 GRS요청, 102 GRS완료, 103 품의요청, 104 품의완료, 600 초기유동작성중, 603 초기유동품의요청, 604 초기유동품의완료  , 900 반려, 500 정산작성중, 503 정산품의요청, 504 정산품의완료
           , mm.TSS_NOS_ST   as tssNosSt    --과제차수상태
           , mm.TSS_SCN_CD   as tssScnCd    --과제구분코드 G : 연구팀, O:대외, N: 국책, D : 기술팀
           , mm.WBS_CD       as wbsCd
@@ -31,7 +31,7 @@
       INNER JOIN IRIS_TSS_MGMT_MST mm
          ON ir.AFFR_CD = mm.TSS_CD
       WHERE 1=1
-        AND mm.tss_st in ('103' , '503') --결재요청
+        AND mm.tss_st in ('103' , '503', '603') --결재요청
         AND mm.DEL_YN = 'N'
         AND IR.GUID IN (SELECT MAX(IR.GUID) FROM IRIS_COM_ITG_RDCS IR GROUP BY IR.AFFR_CD)
         ]]>

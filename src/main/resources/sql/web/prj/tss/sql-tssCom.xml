@@ -967,7 +967,7 @@
              , APPROVAL_PROCESSDATE   = GETDATE() --결재 요청 일자
              , BODY        = #{body}
              , TITLE       = #{title}
-             , APRDOCSTATE = DBO.FN_ISEMPTY(TRIM(#{aprdocstate}), APRDOCSTATE)  --결재상태코드
+             , APRDOCSTATE = DBO.FN_ISEMPTY(RTRIM(#{aprdocstate}), APRDOCSTATE)  --결재상태코드
              , UPDATE_DATE = GETDATE()
              , APP_CODE    = #{appCode}
          WHERE GUID = #{guid}

@@ -66,7 +66,7 @@ public class GenTssServiceImpl implements GenTssService {
     @Override
     public void updateGenTssCsusRq(Map<String, Object> map) {
         String tssSt = String.valueOf(map.get("tssSt"));
-        if("104".equals(tssSt) || "151".equals(tssSt) || "152".equals(tssSt)) { //과제상태 104: 품의완료, 151: 초기유동품의요청, 152: 초기유동품의완료
+        if("104".equals(tssSt) || "600".equals(tssSt) || "603".equals(tssSt) || "604".equals(tssSt)) { //과제상태 104 품의완료, 600 초기유동작성중, 603 초기유동품의요청, 604 초기유동품의완료
             //전자결재 이력 저장
             commonDao.insert("prj.tss.com.insertTssCsusRqHist", map);
         }

@@ -214,19 +214,46 @@
             height: 80,
             width: 600
         });
-
+        
         //Form 비활성화
         disableFields = function() {
             Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
             
-            if (lvTssSt == '' || lvTssSt == '100' || lvTssSt == '104' || lvTssSt == '151') { //100:진행중
+            $('#tr1').show(); //완료첨부파일
+            $('#tr2').hide(); //초기유동첨부파일
+            
+            if (lvTssSt == '' || lvTssSt == '100' || lvTssSt == '101' || lvTssSt == '102') { //100:진행중
+            	
+            } else {
+                setReadonly("chkInitFlowYn");
+                setReadonly("initFlowStrtDt");
+                setReadonly("initFlowFnhDt");
+            }
+            
+            if(pageMode == "W") return;
+
+            btnSave.hide();
+
+            $('#attchFileMngBtn').hide(); ////첨부파일 버튼
+            
+            ////초기유동관리 완료보고서 및 기타
+            if(lvTssSt.indexOf("60") > -1) {
+            	$('#tr1').hide();
+            	$('#tr2').show();
+			} else {
+				$('#tr1').show();
+				$('#tr2').hide();
+			}
+                
+            
+            /*if (lvTssSt == '' || lvTssSt == '100' || lvTssSt == '104' || lvTssSt == '600') { //100:진행중
                 btnSave.show();
             } else {
                 btnSave.hide();
             }
             
-            if(lvTssSt=="104" || lvTssSt=="151" || lvTssSt=="152"){
+            if(lvTssSt=="104" || lvTssSt=="600" || lvTssSt=="603" || lvTssSt=="604"){
                 setReadonly("chkInitFlowYn");
                 setReadonly("initFlowStrtDt");
                 setReadonly("initFlowFnhDt");
@@ -243,7 +270,7 @@
             	$('#initFlowAttch').show(); ////초기유동관리 완료보고서 및 기타
             }
             
-            if(pageMode == "W") return;
+            if(pageMode == "W") return;*/
 
         };
 
@@ -269,6 +296,7 @@
                 ,{ id: 'fwdPlnTxt'}
                 ,{ id: 'fnoPlnTxt'}
                 ,{ id: 'ancpOtPlnDt'}
+                ,{ id: 'attcFilId' }       //첨부파일
                 ,{ id: 'cmplAttcFilId'}
                 ,{ id: 'pmisCmplTxt'}
                 ,{ id: 'bizPrftProY'}
@@ -545,6 +573,8 @@
                 , { id: 'rsstDvlpOucmEffTxt', validExp: '파급효과 및 응용분야:false' }
                 , { id: 'fnoPlnTxt',          validExp: '향후 계획:true' }
                 , { id: 'qgate3Dt',           validExp: 'Qgate3(품질평가단계) 패스일자:false' }
+                , { id: 'attcFilId',          validExp: '초기유동첨부파일:false' }
+                , { id: 'cmplAttcFilId',      validExp: '첨부파일:false' }
                 , { id: 'fwdPlnTxt',          validExp: '사업화출시계획:true' }
             ]
         });
@@ -554,7 +584,7 @@
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
-        //첨부파일 조회
+        //첨부파일 조회 
         var attachFileDataSet = new Rui.data.LJsonDataSet({
             id: 'attachFileDataSet',
             remainRemoved: true,
@@ -569,7 +599,7 @@
         attachFileDataSet.on('load', function(e) {
             getAttachFileInfoList();
         });
-
+        
         getAttachFileList = function() {
             attachFileDataSet.load({
                 url: '<c:url value="/system/attach/getAttachFileList.do"/>' ,
@@ -578,45 +608,48 @@
                 }
             });
         };
-
+        
         getAttachFileInfoList = function() {
             var attachFileInfoList = [];
-
+            
             for( var i = 0, size = attachFileDataSet.getCount(); i < size ; i++ ) {
                 attachFileInfoList.push(attachFileDataSet.getAt(i).clone());
             }
-
+            
             setAttachFileInfo(attachFileInfoList);
         };
-
+        
         //첨부파일 등록 팝업
         getAttachFileId = function() {
             return stringNullChk(lvAttcFilId);
         };
-
+            
         setAttachFileInfo = function(attachFileList) {
             $('#attchFileView').html('');
-
+            
             for(var i = 0; i < attachFileList.length; i++) {
                 $('#attchFileView').append($('<a/>', {
                     href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
                     text: attachFileList[i].data.filNm + '(' + attachFileList[i].data.filSize + 'byte)'
                 })).append('<br/>');
             }
-
+            
             if(attachFileList.length > 0) {
-                lvAttcFilId = attachFileList[0].data.attcFilId;
-                dataSet.setNameValue(0, "attcFilId", lvAttcFilId)
+                lvAttcFilId = attachFileList[0].data.attcFilId;    
+                dataSet.setNameValue(0, "cmplAttcFilId", lvAttcFilId);
+                dataSet.setNameValue(0, "attcFilId", lvAttcFilId);
+                initFrameSetHeight();
 
                 tmpAttchFileList = attachFileList;
             }
         };
-
+        
         downloadAttachFile = function(attcFilId, seq) {
             aForm.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
             aForm.submit();
         };
-
+        
+        
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
@@ -627,8 +660,6 @@
             	lvInitFlowFnhDt = (lvInitFlowYn=="Y")?initFlowFnhDt.getValue() : "";  
             	
             	window.parent.initFlowYn = lvInitFlowYn; 
-            	//window.parent.initFlowStrtDt = lvInitFlowStrtDt; 
-            	//window.parent.initFlowFnhDt = lvInitFlowFnhDt;
             	
             	console.log("[lvInitFlowYn]", lvInitFlowYn, "[lvInitFlowStrtDt]", lvInitFlowStrtDt, "[lvInitFlowFnhDt]", lvInitFlowFnhDt);
             	console.log("[$(\"input[name=chkInitFlowYn]\").prop(\"checked\")]", $("input[name=chkInitFlowYn]").prop("checked"));
@@ -648,22 +679,21 @@
                 window.parent.fnSave();
             }
         });
-
-        //데이터 셋팅
-        if(${resultCnt} > 0) {
+        
+        //데이터 셋팅 
+        if(${resultCnt} > 0) { 
             console.log("smry searchData1");
-            dataSet.loadData(${result});
+            dataSet.loadData(${result}); 
         } else {
             console.log("smry searchData2");
             dataSet.newRecord();
         }
-
+        
         disableFields();
-
-        if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
+        		
+       	if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1 || "<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
             $("#btnSave").hide();
-        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-            $("#btnSave").hide();
+            $('#attchFileMngBtn').hide(); ////첨부파일 버튼
         }
 
     });
@@ -671,7 +701,7 @@
 
     //validation
     function fnIfmIsUpdate(gbn) {
-        if(!vm.validateGroup("aForm")) {
+        if(!vm.validateGroup("aForm")) {            
             Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>'));
             return false;
         }
@@ -700,13 +730,13 @@
 </script>
 <script type="text/javascript">
 $(window).load(function() {
-    initFrameSetHeight();
-});
+    initFrameSetHeight("aFormDiv");
+}); 
 </script>
 </head>
 <body>
 <div id="aFormDiv">
-    <form name="aForm" id="aForm" method="post" style="padding: 20px 1px 0 0;">
+    <form name="aForm" id="aForm" method="post" style="padding: 20px 1px 0px 0;">
         <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
         <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
 
@@ -934,18 +964,16 @@ $(window).load(function() {
                         <input type="text" id="initFlowFnhDt" value="" />
                     </td>
                 </tr>
-                <tr>
-                    <th align="right">과제완료보고서 및 기타
-                       <br/>초기유동관리
-                    </th>
+                <tr id="tr1">
+                    <th align="right">과제완료보고서 및 기타</th>
                     <td id="attchFileView">&nbsp;</td>
-                    <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
+                    <td><!-- <button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button> --></td>
                 </tr>
-                <!-- <tr id="initFlowAttchFileTr">
+                <tr id="tr2">
                     <th align="right">초기유동관리 <br/>완료보고서 및 기타</th>
                     <td id="initFlowAttchFileView">&nbsp;</td>
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
-                </tr> -->
+                </tr>
             </tbody>
         </table>
 

@@ -100,7 +100,7 @@
             if(data.records[0].rtCd == "SUCCESS") {
                 gvGuid = data.records[0].guid;
 
-                if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03"|| gvAprdocState == "A04" || gvAprdocState == "A05") {
+                if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03"|| gvAprdocState == "A04") {
                     var pAppCode = data.records[0].appCode;                	
                     var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode="+ pAppCode +"&from=iris&guid="+gvGuid;
                     window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
@@ -117,6 +117,7 @@
         	console.log("[gvPgsStepCd]", gvPgsStepCd, "[gvTssSt]", gvTssSt, "[gvInitFlowYn]", gvInitFlowYn);
         	
             if(stringNullChk(gvAprdocState) != "" ){
+                if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {}    //결제요청, 최종승인완료
             	
             	if (gvPgsStepCd=="CM" && gvTssSt=="104" && gvInitFlowYn == "Y" && gvAprdocState == "A02") {
             		gvAprdocState = "A05" //초기유동결재요청
@@ -161,7 +162,7 @@
                     	console.log(1);
                         url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
                     }else{
-                        if(gvAprdocState == "A03" || gvAprdocState == "A04" || !(gvTssSt=="151" && gvTssSt=="152")){
+                    	if(gvAprdocState == "A03" || gvAprdocState == "A04"){
                         	console.log(2);
                             url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
                         }else{

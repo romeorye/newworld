@@ -72,7 +72,8 @@
             editable: false,
             width: 300
         });
-        //조직코드
+
+        //조직
         deptName = new Rui.ui.form.LTextBox({
             applyTo: 'deptName',
             editable: false,
@@ -236,7 +237,7 @@
    	        modal: true,
    	        visible: false
    	    });
-        
+
        	altrHistDialog.render(document.body);
 
         //Form 비활성화 여부
@@ -250,12 +251,13 @@
                 if(gvTssSt == "100" || gvTssSt == "102") {
                 	btnCsusRq.show(); //100: 작성중, 102: GRS평가완료
                 	//btnAltrRq.show(); //100: 작성중, 102: GRS평가완료
-                } else if ((gvTssSt == "104" || gvTssSt == "151") && stringNullChk(initFlowYn) == "Y") { //104:품의완료, 151: 초기유동품의요청
+                } else if (gvTssSt == "600") { // 600: 초기유동작성중
                 	btnCsusRq2.show();
                 }
             }
 
-            if(gvTssSt=="104" || gvTssSt=="151" || gvTssSt=="152"){
+            //if(gvTssSt=="104" || gvTssSt=="600" || gvTssSt=="603" || gvTssSt=="604"){
+            if(gvTssSt != "100" && gvTssSt != "") {
                 setReadonly("cmplBStrtDd");
                 setReadonly("cmplBFnhDd");
             }
@@ -264,7 +266,6 @@
             Rui.select('.tssLableCss div').addClass('L-tssLable');
             Rui.select('.tssLableCss div').removeClass('L-disabled');
         }
-
 
 
 
@@ -434,6 +435,9 @@
                 //신규저장일 경우 pk값 전역으로 셋팅
                 if(data.records[0].rtType == "I") {
                     dataSet.loadData(data);
+                }
+                else {
+                    disableFields();
                 }
             }
         });
@@ -652,6 +656,7 @@
             cmplBStrtDd.blur();
             cmplBFnhDd.blur();
 
+            //마스터 vm
             if(!vm.validateGroup("mstForm")) {
                 Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>'));
                 return;
@@ -673,7 +678,8 @@
             console.log("[smryDs.isUpdated()]",smryDs.isUpdated());
             console.log("[dataSet.isUpdated()]",dataSet.isUpdated());
             
-            if( !(dataSet.isUpdated() || smryDs.isUpdated()) ) {
+            //if( !(dataSet.isUpdated() || smryDs.isUpdated()) ) {
+            if(!dataSet.isUpdated() && !smryDs.isUpdated()) {
                 Rui.alert("변경된 데이터가 없습니다.");
                 return;
             }
@@ -681,6 +687,8 @@
             Rui.confirm({
                 text: '저장하시겠습니까?',
                 handlerYes: function() {
+	                var smryTssCd = stringNullChk(smryDs.getNameValue(0, "tssCd"));
+
 	                dataSet.setNameValue(0, "pgsStepCd", "CM"); //진행단계: CM(완료)
 	                dataSet.setNameValue(0, "tssScnCd", "G");   //과제구분: G(일반)
 	                dataSet.setNameValue(0, "tssSt", "100");    //과제상태: 100(작성중)
@@ -717,25 +725,23 @@
             });
         };
 
-        //데이터 셋팅
-        if(${resultCnt} > 0) {
-            console.log("mst searchData1");
-            dataSet.loadData(${result});
-        }
-
         //목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
 			$('#searchForm > input[name=tssNm]').val(encodeURIComponent($('#searchForm > input[name=tssNm]').val()));
 			$('#searchForm > input[name=saUserName]').val(encodeURIComponent($('#searchForm > input[name=saUserName]').val()));
 			$('#searchForm > input[name=prjNm]').val(encodeURIComponent($('#searchForm > input[name=prjNm]').val()));
-console.log("[btnList]", "click");
+
             nwinsActSubmit(document.searchForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
         });
 
-        if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#btnCsusRq").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+        //데이터 셋팅
+        if(${resultCnt} > 0) {
+            console.log("mst searchData1");
+            dataSet.loadData(${result});
+        }
+
+        if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1 || "<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#btnCsusRq").hide();
 		}
 
@@ -809,12 +815,12 @@ console.log("[btnList]", "click");
                                     </td>
                                 </tr>
                                 <tr>
-                                	<th align="right">WBSCode / 과제명</th>
+                                    <th align="right">WBSCode / 과제명</th>
                                     <td class="tssLableCss" colspan="3">
                                         <input type="text" id="wbsCd" /> / <em class="gab"> <input type="text" id="tssNm" style="width:900px;padding:0px 5px" />
                                     </td>
                                 </tr>
-                                 <tr>
+                                <tr>
                                     <th align="right">과제리더</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="saUserName" />
@@ -825,7 +831,7 @@ console.log("[btnList]", "click");
                                     </td>
                                 </tr>
                                 <tr>
-                                	<th align="right">발의주체</th>
+                                    <th align="right">발의주체</th>
                                     <td class="tssLableCss">
                                         <input type="text" id="ppslMbdNm" />
                                     </td>

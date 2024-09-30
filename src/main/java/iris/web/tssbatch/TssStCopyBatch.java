@@ -68,7 +68,7 @@ public class TssStCopyBatch extends IrisBaseController {
 		Map<String, Object> rtnMap = new HashMap<String, Object>(); // 메시지
 
 		try {
-			//1. 과제 및 통합결재 조회 결제 (결제 요청상태 과제 목록 103,503)
+			//1. 과제 및 통합결재 조회 결제 (결제 요청상태 과제 목록 103,503, 603)
 			List<Map<String, Object>> retrieveTssComItgRdcs = tssStCopyService.retrieveTssComItgRdcs();
 			LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>retrieveTssComItgRdcs  : " + retrieveTssComItgRdcs.size());
 			
@@ -76,8 +76,11 @@ public class TssStCopyBatch extends IrisBaseController {
 			for (Map<String, Object> data : retrieveTssComItgRdcs) {
 				LOGGER.debug(">>>>>>>>>>>>>>>>>>>>>>>과재 품의 대상  : " + data);
 				
-				//결재상태코드 A01: 결재요청, A02: 최종승인완료 , A03: 반려, A04: 취소, A05: 초기유동 결재요청, A05: 초기유동 결재완료
+				//결재상태코드 A01: 결재요청, A02: 최종승인완료 , A03: 반려, A04: 취소
 				String aprdocstate = String.valueOf(data.get("aprdocstate")); 
+
+				//초기유동관리여부
+				String initFlowYn = String.valueOf(data.get("initFlowYn"));
 
 				if (!StringUtil.isNullString(aprdocstate)) {
 					String tssSt = "103";							//103	품의요청
@@ -86,8 +89,12 @@ public class TssStCopyBatch extends IrisBaseController {
 					input.put("tssCd", data.get("affrCd")); //과제코드
 
 					if ("A02".equals(aprdocstate)) {	//최종승인완료(IRIS_COM_ITG_RDCS)
-						if ("503".equals(String.valueOf(data.get("tssSt")))) {	//정산품의 요청
+						if ("503".equals(String.valueOf(data.get("tssSt")))) {	//정산품의요청
 							tssSt = "504"; //504 정산품의완료,
+						} else if ("603".equals(String.valueOf(data.get("tssSt")))) { //초기유동품의요청
+						    tssSt = "604"; //604 초기유동품의완료,
+						} else if ("103".equals(String.valueOf(data.get("tssSt"))) && "Y".equals(initFlowYn)) {
+						    tssSt = "600"; //600 초기유동작성중,
 						} else {
 							tssSt = "104"; //104 품의완료,
 							rst = true;

@@ -36,7 +36,7 @@
     var lvPageMode = window.parent.gvPageMode;
     var roleId     = '${inputData._roleId}';
     
-    var pageMode = lvPgsCd == "CM" && lvTssSt == "151" && lvPageMode == "W" ? "W" : "R";
+    var pageMode = lvPgsCd == "CM" && lvTssSt == "600" && lvPageMode == "W" ? "W" : "R";
 
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);
