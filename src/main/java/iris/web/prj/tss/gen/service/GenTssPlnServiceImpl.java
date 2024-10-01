@@ -221,9 +221,6 @@ public class GenTssPlnServiceImpl implements GenTssPlnService {
 
     @Override
     public int updateGenTssPlnPtcRsstMbr(List<Map<String, Object>> input) {
-        //참여연구원 이력 등록
-        commonDao.batchUpdate("prj.tss.com.insertTssPtcRsstMbrHist", input);
-        
         return commonDao.batchUpdate("prj.tss.com.updateTssPtcRsstMbr", input);
     }
     

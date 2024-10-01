@@ -489,7 +489,7 @@
     ]]>
     </select>
 
-    <!-- /참여연구원 이력 등록 -->
+    <!-- 참여연구원 이력 등록(ing) -->
     <insert id="insertTssPtcRsstMbrHist">
         <![CDATA[
           -- insertTssPtcRsstMbrHist 참여연구원 이력 등록

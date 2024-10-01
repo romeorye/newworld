@@ -78,7 +78,7 @@
                 if(gvTssSt == "102") btnCsusRq.show(); //GRS - 100:작성중
             }
 
-            if(gvTssSt=="104"){ */
+            if(gvTssSt=="104" || lvTssSt.indexOf("60") > -1){ */
                 /* setReadonly("initFlowFnhDt");
                 setReadonly("initFlowStrtDt");
                 $('.gab').hide(); */
@@ -109,8 +109,8 @@
              	,{ id: 'fwdPlnTxt'}
              	,{ id: 'fnoPlnTxt'}
              	,{ id: 'ancpOtPlnDt'} 
-             	,{ id: 'cmplAttcFilId'} 
-             	,{ id: 'initFlowAttcFilId'}
+             	,{ id: 'cmplAttcFilId'}     //완료첨부파일
+             	,{ id: 'initFlowAttcFilId'} //초기유동첨부파일
              	,{ id: 'pmisCmplTxt'}
              	,{ id: 'bizPrftProY'}
              	,{ id: 'bizPrftProY1'}  
@@ -158,11 +158,15 @@
             ]
         });
         dataSet.on('load', function(e) {
+            console.log("smry load DataSet Success");
         	
         	disableFields();
         	
-            console.log("smry load DataSet Success");
-            lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
+            if(lvTssSt.indexOf("60") > -1) {
+                lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "initFlowAttcFilId"));
+            } else {
+                lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
+            }
             if(lvAttcFilId != "") getAttachFileList();
             
             spInfo = "";

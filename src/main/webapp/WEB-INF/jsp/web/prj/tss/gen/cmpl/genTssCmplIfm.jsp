@@ -233,17 +233,19 @@
             
             if(pageMode == "W") return;
 
-            btnSave.hide();
-
-            $('#attchFileMngBtn').hide(); ////첨부파일 버튼
-            
             ////초기유동관리 완료보고서 및 기타
             if(lvTssSt.indexOf("60") > -1) {
             	$('#tr1').hide();
             	$('#tr2').show();
+            	$('#attchFileMngBtn').show(); ////첨부파일 버튼
+                
+            	btnSave.show();
 			} else {
 				$('#tr1').show();
 				$('#tr2').hide();
+				$('#attchFileMngBtn').hide(); ////첨부파일 버튼
+
+				btnSave.hide();
 			}
                 
             
@@ -253,7 +255,7 @@
                 btnSave.hide();
             }
             
-            if(lvTssSt=="104" || lvTssSt=="600" || lvTssSt=="603" || lvTssSt=="604"){
+            if(lvTssSt=="104" || lvTssSt.indexOf("60") > -1){
                 setReadonly("chkInitFlowYn");
                 setReadonly("initFlowStrtDt");
                 setReadonly("initFlowFnhDt");
@@ -296,8 +298,9 @@
                 ,{ id: 'fwdPlnTxt'}
                 ,{ id: 'fnoPlnTxt'}
                 ,{ id: 'ancpOtPlnDt'}
-                ,{ id: 'attcFilId' }       //첨부파일
-                ,{ id: 'cmplAttcFilId'}
+                ,{ id: 'attcFilId' }        //첨부파일
+                ,{ id: 'cmplAttcFilId'}     //완료첨부파일
+                ,{ id: 'initFlowAttcFilId'} //초기유동첨부파일
                 ,{ id: 'pmisCmplTxt'}
                 ,{ id: 'bizPrftProY'}
                 ,{ id: 'bizPrftProY1'}
@@ -348,9 +351,13 @@
         dataSet.on('load', function(e) {
             console.log("smry load DataSet Success");
 
-            lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
+            if(lvTssSt.indexOf("60") > -1) {
+                lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "initFlowAttcFilId"));
+            } else {
+            	lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
+            }
             if(lvAttcFilId != "") {
-                dataSet.setNameValue(0, 'attcFilId', dataSet.getNameValue(0, "cmplAttcFilId") );
+                dataSet.setNameValue(0, 'attcFilId', lvAttcFilId );
                 getAttachFileList();
             }
         });
@@ -557,6 +564,7 @@
                 }
             }
                 ,{ id: 'cmplAttcFilId'     , ctrlId: 'cmplAttcFilId'     , value: 'html'}
+                ,{ id: 'initFlowAttcFilId'     , ctrlId: 'initFlowAttcFilId'     , value: 'html'}
             ]
         });
 
@@ -573,8 +581,9 @@
                 , { id: 'rsstDvlpOucmEffTxt', validExp: '파급효과 및 응용분야:false' }
                 , { id: 'fnoPlnTxt',          validExp: '향후 계획:true' }
                 , { id: 'qgate3Dt',           validExp: 'Qgate3(품질평가단계) 패스일자:false' }
-                , { id: 'attcFilId',          validExp: '초기유동첨부파일:false' }
-                , { id: 'cmplAttcFilId',      validExp: '첨부파일:false' }
+                , { id: 'attcFilId',          validExp: '첨부파일:false' }
+                , { id: 'cmplAttcFilId',      validExp: '완료첨부파일:false' }
+                , { id: 'initFlowAttcFilId',  validExp: '초기유동첨부파일:true' }
                 , { id: 'fwdPlnTxt',          validExp: '사업화출시계획:true' }
             ]
         });
@@ -625,24 +634,39 @@
         };
             
         setAttachFileInfo = function(attachFileList) {
-            $('#attchFileView').html('');
-            
-            for(var i = 0; i < attachFileList.length; i++) {
-                $('#attchFileView').append($('<a/>', {
-                    href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
-                    text: attachFileList[i].data.filNm + '(' + attachFileList[i].data.filSize + 'byte)'
-                })).append('<br/>');
-            }
+        	if(lvTssSt.indexOf("60") > -1) {
+	            $('#initFlowAttchFileView').html('');
+	            
+	            for(var i = 0; i < attachFileList.length; i++) {
+	                $('#initFlowAttchFileView').append($('<a/>', {
+	                    href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
+	                    text: attachFileList[i].data.filNm + '(' + attachFileList[i].data.filSize + 'byte)'
+	                })).append('<br/>');
+	            }
+        	} else {
+	            $('#attchFileView').html('');
+	            
+	            for(var i = 0; i < attachFileList.length; i++) {
+	                $('#attchFileView').append($('<a/>', {
+	                    href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
+	                    text: attachFileList[i].data.filNm + '(' + attachFileList[i].data.filSize + 'byte)'
+	                })).append('<br/>');
+	            }
+        	}
             
             if(attachFileList.length > 0) {
-                lvAttcFilId = attachFileList[0].data.attcFilId;    
-                dataSet.setNameValue(0, "cmplAttcFilId", lvAttcFilId);
-                dataSet.setNameValue(0, "attcFilId", lvAttcFilId);
+                lvAttcFilId = attachFileList[0].data.attcFilId;
+                if(lvTssSt.indexOf("60") > -1) {
+                    dataSet.setNameValue(0, "initFlowAttcFilId", lvAttcFilId);
+                } else {
+                    dataSet.setNameValue(0, "cmplAttcFilId", lvAttcFilId);
+                }
                 initFrameSetHeight();
 
                 tmpAttchFileList = attachFileList;
             }
         };
+        /*==========================================================================*/
         
         downloadAttachFile = function(attcFilId, seq) {
             aForm.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
@@ -730,7 +754,7 @@
 </script>
 <script type="text/javascript">
 $(window).load(function() {
-    initFrameSetHeight("aFormDiv");
+    initFrameSetHeight();
 }); 
 </script>
 </head>
