@@ -61,7 +61,8 @@
     var lvPrateReal = window.parent.progressrateReal;
     var lvPrate     = window.parent.progressrate;
     var pageMode = lvPgsCd == "PG" || lvPgsCd == "CM" || lvPgsCd == "DC" && lvTssSt == "100" && lvPageMode == "W" ? "W" : "R";
-
+    pageMode = (pageMode == "W" && lvTssSt.indexOf("60") > -1) ? pageMode="R" : pageMode;
+    
     var dataSet;
     var popupRow;
     var popupRecord;

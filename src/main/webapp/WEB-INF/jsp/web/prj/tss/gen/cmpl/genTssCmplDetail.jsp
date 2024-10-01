@@ -577,6 +577,14 @@
         if($("#btnCsusRq").length > 0){
 	        btnCsusRq = new Rui.ui.LButton('btnCsusRq');
 	        btnCsusRq.on('click', function() {
+
+				/* var chkNum =   document.getElementById('tabContent0').contentWindow.fnAttchValid();  
+				
+	        	if(chkNum == 0){
+	        		Rui.alert("평가 결과서 첨부파일을 추가하셔야 합니다.");
+	        		return;
+	        	} */
+	        	
 	            document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
 	            document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
 	            /* document.mstForm.initFlowYn.value = dataSet.getNameValue(0, 'initFlowYn');
@@ -586,14 +594,14 @@
 	            var pgsStepCd = document.mstForm.pgsStepCd.value;
 	            console.log("[pgsStepCd]", pgsStepCd);
 	
-	            console.log("[tabContent5]('01').length", $("#tabContent5").contents().find("[yldType='01']").length);
+	            /* console.log("[tabContent5]('01').length", $("#tabContent5").contents().find("[yldType='01']").length);
 	            console.log("[tabContent5]('01')", $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size());
 	            console.log("[tabContent5]('03').length", $("#tabContent5").contents().find("[yldType='03']").length);
 	            console.log("[tabContent5]('03')", $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size());
 	            console.log("[tabContent5]('06').length", $("#tabContent5").contents().find("[yldType='06']").length);
 	            console.log("[tabContent5]('06')", $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size());
 	            console.log("[tabContent5]('10').length", $("#tabContent5").contents().find("[yldType='10']").length);
-	            console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size());
+	            console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size()); */
 	
 	            if (pgsStepCd == "CM" || pgsStepCd == "DC"){
 	                //if ($("#tabContent5").contents().find("[yldItmType='01']:contains('Y'),[yldItmType='03']:contains('Y'),[yldItmType='06']:contains('Y'),[yldItmType='10']:contains('Y')").size()<4){

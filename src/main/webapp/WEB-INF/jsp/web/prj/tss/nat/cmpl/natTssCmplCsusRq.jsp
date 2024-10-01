@@ -57,42 +57,42 @@
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-                  { id: 'tssCd'}                //과제코드
-                , { id: 'userId'}               //사용자ID
-                , { id: 'tssSt'}                //과제상태
-                , { id: 'affrGbn'}              //과제구분
+                  {id: 'tssCd' }                //과제코드
+                , {id: 'userId' }               //사용자ID
+                , {id: 'tssSt' }                //과제상태
+                , {id: 'affrGbn' }              //과제구분
+                , {id: 'appCode' }              //결재양식코드
                 
-                , {id: 'guid' }                 //고유코드      
-                , {id: 'affrCd' }               //업무코드      
-                , {id: 'aprdocstate' }          //결재상태코드    
-                , {id: 'approvalUserid' }       //결재 요청자 ID 
-                , {id: 'approvalUsername' }     //결재 요청자명   
-                , {id: 'approvalJobtitle' }     //결재 요청자 직위 
+                , {id: 'guid' }                 //고유코드
+                , {id: 'affrCd' }               //업무코드
+                , {id: 'aprdocstate' }          //결재상태코드
+                , {id: 'approvalUserid' }       //결재 요청자 ID
+                , {id: 'approvalUsername' }     //결재 요청자명
+                , {id: 'approvalJobtitle' }     //결재 요청자 직위
                 , {id: 'approvalDeptname' }     //결재 요청자 부서명
-                , {id: 'approvalProcessdate' }  //결재 요청 일자  
-                , {id: 'approverProcessdate' }  //승인일자      
-                , {id: 'body' }                 //결재 내용     
-                , {id: 'title' }                //결재 제목     
-                , {id: 'updateDate' }           //수정일       
-                , {id: 'url' }                  //결재문서 url  
+                , {id: 'approvalProcessdate' }  //결재 요청 일자
+                , {id: 'approverProcessdate' }  //승인일자
+                , {id: 'body' }                 //결재 내용
+                , {id: 'title' }                //결재 제목
+                , {id: 'updateDate' }           //수정일
+                , {id: 'url' }                  //결재문서 url
             ]
         });
-        
-        
+
         /* [DataSet] 서버전송용 */
         var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
         dm.on('success', function(e) {
             var data = dataSet.getReadData(e);
-            
+
             if(data.records[0].rtCd == "SUCCESS") {
                 gvGuid = data.records[0].guid;
-                
+
+                var pAppCode = data.records[0].appCode;
                 if(gvTssSt == "100") gvCsusCnt = "1"; //완료작성중단계
                 else if(gvTssSt == "500") {
                     if(gvCsusCnt == "1" && gvAprdocState != "") gvAprdocState = "";
                     gvCsusCnt = "2";
                 } 
-                
                 if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03" || gvAprdocState == "A04") {
 	                var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00332&from=iris&guid="+gvGuid;
 	                window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
@@ -101,8 +101,8 @@
                 Rui.alert(data.records[0].rtVal);
             }
         });
-        
-        
+
+
         /* [버튼] 결재품의 */
         var butCsur = new Rui.ui.LButton('butCsur');
         butCsur.on('click', function() {
@@ -110,23 +110,23 @@
                 Rui.alert("이미 품의가 요청되었습니다.");
                 return;
             }
-            
+
             Rui.confirm({
                 text: '결재품의 하시겠습니까?',
                 handlerYes: function() {
                     var row = 0;
                     var record;
-        
+
                     if(dataSet.getCount() <= 0) row = dataSet.newRecord();
 
                     record = dataSet.getAt(row);
-                    
+
 //                     fnCsusContentsCreate("SAVE");
-                    
+
                     record.set("tssCd",   "${inputData.tssCd}");
                     record.set("userId",  "${inputData._userId}");
                     record.set("affrGbn", "T"); //T:과제
-                    
+                    record.set("appCode",          "${inputData.appCode}");
                     record.set("guid",             gvGuid);
                     record.set("affrCd",           "${inputData.tssCd}");
                     record.set("approvalUserid",   "${inputData._userId}");
@@ -135,6 +135,7 @@
                     record.set("approvalDeptname", "${inputData._userDeptName}");
                     record.set("body", Rui.get('csusContents').getHtml().trim());
                     
+                    var url = "";
                     //완료작성중단계
                     if(gvTssSt == "100" || gvTssSt == "102") {
                         if(gvCsusCnt == "" || gvCsusCnt == "0") {
@@ -144,12 +145,12 @@
                     }
                     //정산작성중단계
                     else if(gvTssSt == "500") {
-                        if(gvCsusCnt == "1") {
+                        if(gvCsusCnt == "" || gvCsusCnt == "1") {
                             url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
                         }
                         else url = '<c:url value="/prj/tss/gen/updateGenTssCsusRq.do"/>';
                     }
-                    
+
                     dm.updateDataSet({
                         modifiedOnly: false,
                         url: url,
@@ -159,29 +160,33 @@
                 handlerNo: Rui.emptyFn
             });
         });
-        
-        
+
+
         /* [버튼] 인쇄 */
         var btnPrint = new Rui.ui.LButton('btnPrint');
         btnPrint.on('click', function() {
             print();
         });
-        
-        
+
+
         /* [버튼] 목록 */
         var btnList = new Rui.ui.LButton('btnList');
-        btnList.on('click', function() {    
+        btnList.on('click', function() {
             nwinsActSubmit(window.document.aform, "<c:url value='/prj/tss/nat/natTssList.do'/>");
         }); 
-        
-        
+
         downloadAttachFile = function(attcFilId, seq) {
             aform.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
             aform.submit();
         };
-        
-        
-        fnCsusContentsCreate = function(gbn) {
+
+        if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
+            $("#butCsur").hide();
+        }else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
+            $("#butCsur").hide();
+        }
+
+        fnCsusContentsCreate = function(gbn) { //사용X
             var resultJson = ${resultJson};
             var tssSmryTxt      = stringNullChk(resultJson.jsonSmry.tssSmryTxt)      == "" ? "" : resultJson.jsonSmry.tssSmryTxt.replace(/\n/g, "<p>");            
             var rsstDvlpOucmTxt = stringNullChk(resultJson.jsonSmry.rsstDvlpOucmTxt) == "" ? "" : resultJson.jsonSmry.rsstDvlpOucmTxt.replace(/\n/g, "<p>");          
@@ -345,11 +350,6 @@
         
 //         fnCsusContentsCreate();
 
-		if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1) {
-        	$("#butCsur").hide();
-    	}else if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
-        	$("#butCsur").hide();
-		}	
     });
 </script>
 </head>
