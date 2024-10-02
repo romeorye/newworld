@@ -117,11 +117,11 @@
                   new Rui.ui.grid.LSelectionColumn({selectionType: 'radio', syncRow: true })
                 , new Rui.ui.grid.LNumberColumn()
                 //, { field: 'grsY',    label: '년도', sortable: false, align:'center', width: 50 }
-                , { field: 'grsType', label: '유형', sortable: false, align:'center', width: 250, editor: grsType, renderer: function(value, p, record, row, col) {
+                , { field: 'grsType', label: '유형', sortable: false, align:'left', width: 200, editor: grsType, renderer: function(value, p, record, row, col) {
                     p.editable = false;
                     return value;
                 } }
-                , { field: 'evSbcNm', label: '평가명', sortable: false, align:'left', width: 410 }
+                , { field: 'evSbcNm', label: '평가명', sortable: false, align:'left', width: 380 }
                 //, { field: 'useYn',   label: '상태', sortable: false, align:'center', width: 50, editor: useYn, renderer: function(value, p, record, row, col) {
                  //   p.editable = false;
                  //   return value;

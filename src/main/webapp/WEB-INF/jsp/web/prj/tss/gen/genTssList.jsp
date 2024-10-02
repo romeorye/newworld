@@ -267,20 +267,20 @@
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
                 , { field: 'tssTypeNm',    label: '등급',  align:'center',  width: 60 }
-                , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 100 }
+                , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
                 , { id: 'G1', label: '과제기간(계획일)' }
-                , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 80 }
-                , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 80 }
+                , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 70 }
+                , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 70 }
                 , { id: 'G2', label: '과제실적일' }
-                , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
-                , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
+                , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 70 }
+                , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 70 }
                 , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
 
                 , { id: 'SAL', label: '매출액' }
                 , { field: 'nprodSalsCurY', label: '출시년도',  groupId: 'SAL', align:'right', width: 70 }
                 , { field: 'nprodSalsCurY1',  label: '출시년도+1', groupId: 'SAL', align:'right', width: 70 }
                 , { field: 'nprodSalsCurY2',  label: '출시년도+2', groupId: 'SAL', align:'right', width: 70 }
-                , { field: 'ctyOtPlnM',  label: '상품출시<br/>(계획)', align:'center', width: 80 }
+                , { field: 'ctyOtPlnM',  label: '상품출시<br/>(계획)', align:'center', width: 70 }
                 , { field: 'ptcCpsnCurY',  label: '투입인원<br/>(M/M)', align:'right', width: 60 }
 
                 //, { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 140 }
@@ -288,7 +288,7 @@
                         p.editable = false;
                         return value;
                     } }
-                , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 80, editor: tssSt, renderer: function(value, p, record, row, col) {
+                , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 110, editor: tssSt, renderer: function(value, p, record, row, col) {
                         p.editable = false;
                         return value;
                     } }

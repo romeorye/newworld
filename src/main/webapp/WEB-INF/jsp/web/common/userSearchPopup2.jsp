@@ -115,9 +115,9 @@
                 <c:if test="${inputData.cnt != 1}">
               	  	  new Rui.ui.grid.LSelectionColumn(),
               	</c:if>
-                      { field : 'saName',		label : '이름',		sortable : false,	align :'center',	width : 80 }
-                    , { field : 'saJobxName',	label : '직위',		sortable : false,	align :'center',	width : 80 }
-                    , { field : 'deptName',		label : '분석',		sortable : false,	align :'center',	width : 300 }
+                      { field : 'saName',		label : '이름',		sortable : false,	align :'center',	width : 120 }
+                    , { field : 'saJobxName',	label : '직위',		sortable : false,	align :'center',	width : 100 }
+                    , { field : 'deptName',		label : '분석',		sortable : false,	align :'center',	width : 330 }
                     , { field : 'uperDeptCd',	hidden: true }
                     , { field : 'prjCd',		hidden: true }
                     , { field : 'saSabun',		hidden: true }
