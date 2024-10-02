@@ -49,11 +49,12 @@
     pageContext.setAttribute("br", "<br/>"); //br 태그
 %>
 <script type="text/javascript">
-    var gvGuid        = "${resultCsus.guid}";
-    var gvAprdocState = "${resultCsus.aprdocstate}";
-    var gvTssSt       = "${resultCsus.tssSt}";
-    var gvInitFlowYn  = "${resultCsus.initFlowYn}";
-    var csusCont = "";
+	var gvTssSt       = "${resultMst.tssSt}";
+	var gvCsusCnt     = stringNullChk("${resultCsus.csusCnt}");
+	var gvGuid        = "${resultCsus.guid}";
+    var gvAprdocState = stringNullChk("${resultCsus.aprdocstate}");
+	var gvInitFlowYn  = "${resultCsus.initFlowYn}";
+    var csusCont = ""; //전자결재 내용이므로 여기에는 필요없는 변수임.
 
     var gvPgsStepCd   = "${inputData.pgsStepCd}";
 
@@ -70,7 +71,7 @@
                 , {id: 'tssSt' }                //과제상태
                 , {id: 'affrGbn' }              //과제구분
                 , {id: 'appCode' }              //결재양식코드
-
+                
                 , {id: 'guid' }                 //고유코드
                 , {id: 'affrCd' }               //업무코드
                 , {id: 'aprdocstate' }          //결재상태코드
@@ -100,10 +101,21 @@
             if(data.records[0].rtCd == "SUCCESS") {
                 gvGuid = data.records[0].guid;
 
-                if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03" || gvAprdocState == "A04" || gvAprdocState == "A05") {
+                /*if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03" || gvAprdocState == "A04" || gvAprdocState == "A05") {
                     var pAppCode = data.records[0].appCode;                	
                     var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode="+ pAppCode +"&from=iris&guid="+gvGuid;
                     window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
+                }*/
+                var pAppCode = data.records[0].appCode;
+                if(gvTssSt == "100") gvCsusCnt = "1"; //완료작성중단계
+                else if(gvTssSt == "600") {
+                    if(gvCsusCnt == "1" && gvAprdocState != "") gvAprdocState = "";
+                    gvCsusCnt = "2";
+                } 
+                
+                if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03" || gvAprdocState == "A04") {
+	                var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode="+ pAppCode +"&from=iris&guid="+gvGuid;
+	                window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
                 }
             } else {
                 Rui.alert(data.records[0].rtVal);
@@ -114,19 +126,9 @@
         /* [버튼] 결재품의 */
         var butCsur = new Rui.ui.LButton('butCsur');
         butCsur.on('click', function() {
-        	console.log("[gvPgsStepCd]", gvPgsStepCd, "[gvTssSt]", gvTssSt, "[gvInitFlowYn]", gvInitFlowYn);
-        	
-            if(stringNullChk(gvAprdocState) != "" ){
-                //if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {}    //결제요청, 최종승인완료
-            	
-            	if (gvPgsStepCd=="CM" && gvTssSt.indexOf("60") > -1 && gvAprdocState == "A02") {
-            		gvAprdocState = "A05"
-            		//console.log("[gvAprdocState]", gvAprdocState);
-            	} else if (gvAprdocState == "A01" || gvAprdocState == "A02" ) {    //결제요청, 최종승인완료
-            		console.log("[gvAprdocState]", gvAprdocState);
-                    Rui.alert("이미 품의가 요청되었습니다.");
-                    return;
-                }
+            if(stringNullChk(gvAprdocState) != "" && gvCsusCnt == "2") {
+                Rui.alert("이미 품의가 요청되었습니다.");
+                return;
             }
 
             Rui.confirm({
@@ -146,7 +148,6 @@
 
                     record.set("guid",             gvGuid);
                     record.set("affrCd",           "${inputData.tssCd}");
-                    record.set("aprdocstate",      gvAprdocState);
                     record.set("approvalUserid",   "${inputData._userId}");
                     record.set("approvalUsername", "${inputData._userNm}");
                     record.set("approvalJobtitle", "${inputData._userJobxName}");
@@ -158,17 +159,19 @@
                     record.set("initFlowFnhDt",    "${resultMst.initFlowFnhDt}");
 
                     var url = "";
-                    if(gvGuid == ""){
-                    	console.log(1);
-                        url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
-                    }else{
-                    	if(gvAprdocState == "A03" || gvAprdocState == "A04"){
-                        	console.log(2);
+                    //완료작성중단계
+                    if(gvTssSt == "100" || gvTssSt == "102") {
+                        if(gvCsusCnt == "" || gvCsusCnt == "0") {
                             url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
-                        }else{
-                        	console.log(3);
-                            url = '<c:url value="/prj/tss/gen/updateGenTssCsusRq.do"/>';
                         }
+                        else url = '<c:url value="/prj/tss/gen/updateGenTssCsusRq.do"/>';
+                    }
+                    //정산작성중단계
+                    else if(gvTssSt == "500") {
+                        if(gvCsusCnt == "" || gvCsusCnt == "1") {
+                            url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
+                        }
+                        else url = '<c:url value="/prj/tss/gen/updateGenTssCsusRq.do"/>';
                     }
 
                     dm.updateDataSet({
@@ -287,7 +290,7 @@
                                 <tr>
                                     <th>참여연구원</th>
                                     <td>${resultCmpl.mbrNmList}</td>
-                                    <th>초기유동관리여부</th>
+                                    <th>초기유동관리</th>
                                     <td>
                                         ${resultMst.initFlowYn}
                                         <c:if test="${resultMst.initFlowYn eq 'Y'}">
