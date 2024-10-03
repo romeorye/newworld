@@ -38,15 +38,15 @@
     response.setDateHeader("Expires", 0);
     response.setHeader("Cache-Control", "no-cache");
     
-  	//치환 변수 선언
+      //치환 변수 선언
     pageContext.setAttribute("cn", "\n");    //Enter
     pageContext.setAttribute("br", "<br/>"); //br 태그
 %>
 <script type="text/javascript">
-	var gvTssSt       = "${resultMst.tssSt}";
-	var gvCsusCnt     = stringNullChk("${resultCsus.csusCnt}");
-	var gvGuid        = "${resultCsus.guid}";
-	var gvAprdocState = stringNullChk("${resultCsus.aprdocstate}");
+    var gvTssSt       = "${resultMst.tssSt}";
+    var gvCsusCnt     = stringNullChk("${resultCsus.csusCnt}");
+    var gvGuid        = "${resultCsus.guid}";
+    var gvAprdocState = stringNullChk("${resultCsus.aprdocstate}");
     var csusCont = "";
 
     Rui.onReady(function() {
@@ -94,8 +94,8 @@
                     gvCsusCnt = "2";
                 } 
                 if(stringNullChk(gvAprdocState) == "" || gvAprdocState == "A03" || gvAprdocState == "A04") {
-	                var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00332&from=iris&guid="+gvGuid;
-	                window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
+                    var pUrl = "<%=lghausysPath%>/lgchem/approval.front.document.RetrieveDocumentFormCmd.lgc?appCode=APP00332&from=iris&guid="+gvGuid;
+                    window.open(pUrl, "_blank", "width=900,height=700,scrollbars=yes");
                 }
             } else {
                 Rui.alert(data.records[0].rtVal);
@@ -356,15 +356,15 @@
 <body>
     <Tag:saymessage />
     <%--<!--  sayMessage 사용시 필요 -->--%>
+
     <div class="contents">
+        <div class="sub-content">
             <form name="aform" id="aform" method="post">
                 <div id="csusContents">
-            <div class="titleArea"><h2>${resultMst.tssNm}</h2></div>
-            <br/>
-            <div class="titArea alignR">
-                        과제리더: ${resultMst.saUserName}, 작성일: ${resultInfo.createDate}
-            </div>
-            <div class="titArea"><h3>1. 개요기본 사항</h3></div>
+                    <div class="titleArea"><h2>${resultMst.tssNm}</h2></div>
+                    <br/>
+                    <div class="titArea alignR">과제리더: ${resultMst.saUserName}, 작성일: ${resultInfo.createDate}</div>
+                    <div class="titArea"><h3>1. 개요기본 사항</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:15%"/>
@@ -505,14 +505,16 @@
                 </div>
             </form>
 
-        <div class="sub-content">
-            <div class="titArea">
-                <div class="LblockButton">
-                    <button type="button" id="butCsur" name="butCsur">결재품의</button>
-                    <button type="button" id="btnPrint" name="btnPrint">인쇄</button>
-                    <button type="button" id="btnList" name="btnList">목록</button> 
+            <div class="sub-content">
+                <div class="titArea">
+                    <div class="LblockButton">
+                        <button type="button" id="butCsur" name="butCsur">결재품의</button>
+                        <button type="button" id="btnPrint" name="btnPrint">인쇄</button>
+                        <button type="button" id="btnList" name="btnList">목록</button> 
+                    </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </body>
