@@ -69,10 +69,15 @@
         
         //Form 비활성화
         disableFields = function() {
-            if(pageMode == "R") {
+        	console.log("[roleId]", roleId);
+            if(pageMode == "R" && !(roleId.indexOf("WORK_IRI_T01") > -1)) {
                 grid.setEditable(false);
                 butRecordNew.hide();
                 btnSave.hide();
+            } else if (roleId.indexOf("WORK_IRI_T01") > -1) { //시스템관리자 역할
+                grid.setEditable(true);
+                butRecordNew.show();
+                btnSave.show();
             }
         };
         

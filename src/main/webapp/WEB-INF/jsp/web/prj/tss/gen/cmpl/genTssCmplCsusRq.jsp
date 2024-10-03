@@ -160,14 +160,15 @@
 
                     var url = "";
                     //완료작성중단계
+console.log("[gvTssSt]", gvTssSt, "[gvCsusCnt]", gvCsusCnt);
                     if(gvTssSt == "100" || gvTssSt == "102") {
                         if(gvCsusCnt == "" || gvCsusCnt == "0") {
                             url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
                         }
                         else url = '<c:url value="/prj/tss/gen/updateGenTssCsusRq.do"/>';
                     }
-                    //정산작성중단계
-                    else if(gvTssSt == "500") {
+                    //초기유동작성중단계
+                    else if(gvTssSt == "600") {
                         if(gvCsusCnt == "" || gvCsusCnt == "1") {
                             url = '<c:url value="/prj/tss/gen/insertGenTssCsusRq.do"/>';
                         }

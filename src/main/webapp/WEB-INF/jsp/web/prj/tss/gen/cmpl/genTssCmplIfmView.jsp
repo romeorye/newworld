@@ -72,21 +72,6 @@
         disableFields = function() {
             //버튼여부
             /* btnCsusRq.hide();
-            
-            if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
-                if(gvTssSt == "100") btnCsusRq.show(); //GRS - 100:작성중
-                if(gvTssSt == "102") btnCsusRq.show(); //GRS - 100:작성중
-            }
-
-            if(gvTssSt=="104" || lvTssSt.indexOf("60") > -1){ */
-                /* setReadonly("initFlowFnhDt");
-                setReadonly("initFlowStrtDt");
-                $('.gab').hide(); */
-            /* }
-
-            Rui.select('.tssLableCss input').addClass('L-tssLable');
-            Rui.select('.tssLableCss div').addClass('L-tssLable');
-            Rui.select('.tssLableCss div').removeClass('L-disabled'); */
         }
      
         /*============================================================================

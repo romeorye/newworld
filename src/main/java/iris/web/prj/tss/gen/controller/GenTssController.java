@@ -360,7 +360,7 @@ public class GenTssController  extends IrisBaseController {
             
             boolean setpYn = true;
             if("DC".equals(pgsStepCd) || "CM".equals(pgsStepCd)) {
-                if(!"100".equals(tssSt) && !"102".equals(tssSt) && !"500".equals(tssSt)) {
+                if(!"100".equals(tssSt) && !"102".equals(tssSt) && !"500".equals(tssSt) && !"600".equals(tssSt)) {
                     setpYn = false;
                     ds.get(0).put("rtCd", "FAIL");
                     ds.get(0).put("rtVal", "이미 품의가 요청되었습니다.(in.server)");
@@ -422,7 +422,7 @@ public class GenTssController  extends IrisBaseController {
 
             boolean setpYn = true;
             if("DC".equals(pgsStepCd) || "CM".equals(pgsStepCd)) {
-                if(!"100".equals(tssSt) && !"500".equals(tssSt) && !"500".equals(tssSt) && !"Y".equals(initFlowYn)) {
+                if(!"100".equals(tssSt) && !"500".equals(tssSt) && !"600".equals(tssSt)) {
                     setpYn = false;
                     ds.get(0).put("rtCd", "FAIL");
                     ds.get(0).put("rtVal", "이미 품의가 요청되었습니다.(up.server)");

@@ -237,42 +237,20 @@
             if(lvTssSt.indexOf("60") > -1) {
             	$('#tr1').hide();
             	$('#tr2').show();
-            	$('#attchFileMngBtn').show(); ////첨부파일 버튼
-                
-            	btnSave.show();
+            	if (lvTssSt == "600") {
+            	    $('#attchFileMngBtn').show(); ////첨부파일 버튼
+            	    btnSave.show();
+            	} else {
+            	    $('#attchFileMngBtn').hide();
+            	    btnSave.hide();
+            	}
 			} else {
 				$('#tr1').show();
 				$('#tr2').hide();
-				$('#attchFileMngBtn').hide(); ////첨부파일 버튼
+				$('#attchFileMngBtn').hide();
 
 				btnSave.hide();
 			}
-                
-            
-            /*if (lvTssSt == '' || lvTssSt == '100' || lvTssSt == '104' || lvTssSt == '600') { //100:진행중
-                btnSave.show();
-            } else {
-                btnSave.hide();
-            }
-            
-            if(lvTssSt=="104" || lvTssSt.indexOf("60") > -1){
-                setReadonly("chkInitFlowYn");
-                setReadonly("initFlowStrtDt");
-                setReadonly("initFlowFnhDt");
-            }
-            
-            if (lvTssSt == '' || lvTssSt == '100' || lvTssSt == '101' || lvTssSt == '102' || lvTssSt == '103') { //100:진행중
-            
-                $('#initFlowAttch').hide(); ////초기유동관리 완료보고서 및 기타 첨부파일
-
-                //document.getElementById('attchFileMngBtn').style.display = "none";
-                $('#attchFileMngBtn').hide(); ////첨부파일 버튼
-            } else {
-            	$('#attchFileTr').hide(); ////과제완료보고서 및 기타
-            	$('#initFlowAttch').show(); ////초기유동관리 완료보고서 및 기타
-            }
-            
-            if(pageMode == "W") return;*/
 
         };
 
@@ -677,6 +655,13 @@
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
+        	
+        	
+        	if (fnAttchValid()<=0) {
+        		Rui.alert("첨부파일은 필수입력 입니다.");
+        		return;
+        	}
+        	
             if (fnIfmIsUpdate("SAVE") ){
             	
             	lvInitFlowYn = (stringNullChk(chkInitFlowYn.getValue())=="")?"N":"Y"; 
