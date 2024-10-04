@@ -119,7 +119,7 @@
               	</c:if>
                       { field : 'saName',		label : '이름',		sortable : false,	align :'center',	width : 120 }
                     , { field : 'saJobxName',	label : '직위',		sortable : false,	align :'center',	width : 100 }
-                    , { field : 'deptName',		label : '부서',		sortable : false,	align :'center',	width : (cnt == 1 ? 350 : 330) }
+                    , { field : 'deptName',		label : '부서',		sortable : false,	align :'center',	width : (cnt == 1 ? 250 : 230) }
                     , { field : 'uperDeptCd',	hidden: true }
                     , { field : 'prjCd',		hidden: true }
                     , { field : 'saSabun',		hidden: true }
@@ -174,7 +174,7 @@
 	          	  	  new Rui.ui.grid.LSelectionColumn()
 	                , { field : 'saName',		label : '이름',		sortable : false,	align :'center',	width : 120 }
 	                , { field : 'saJobxName',	label : '직위',		sortable : false,	align :'center',	width : 100 }
-	                , { field : 'deptName',		label : '부서',		sortable : false,	align :'center',	width : (cnt == 1 ? 350 : 330) }
+	                , { field : 'deptName',		label : '부서',		sortable : false,	align :'center',	width : (cnt == 1 ? 250 : 230) }
 	            ]
 	        });
 
