@@ -10,7 +10,7 @@
           , ir.AFFR_CD      as affrCd      --과제코드
           , ir.APRDOCSTATE  as aprdocstate --결재상태코드 A01 : 결재요청, A02 : 최종승인완료, A03 : 반려, A04 : 취소
           , mm.PGS_STEP_CD  as pgsStepCd   --진행단계코드 PL : 계획, PG:진행, CM:완료, IF:초기유동, AL: 변경, DC:중단
-          , mm.TSS_ST       as tssSt       --과제상태 100 작성중, 101 GRS요청, 102 GRS완료, 103 품의요청, 104 품의완료, 600 초기유동작성중, 603 초기유동품의요청, 604 초기유동품의완료  , 900 반려, 500 정산작성중, 503 정산품의요청, 504 정산품의완료
+          , mm.TSS_ST       as tssSt       --과제상태 100 작성중, 101 GRS요청, 102 GRS완료, 103 품의요청, 104 품의완료, 900 반려, 500 정산작성중, 503 정산품의요청, 504 정산품의완료, 600 초기유동작성중, 603 초기유동품의요청, 604 초기유동품의완료
           , mm.TSS_NOS_ST   as tssNosSt    --과제차수상태
           , mm.TSS_SCN_CD   as tssScnCd    --과제구분코드 G : 연구팀, O:대외, N: 국책, D : 기술팀
           , mm.WBS_CD       as wbsCd
@@ -325,7 +325,7 @@
           from IRIS_TSS_MGMT_MST mm
          inner join IRIS_PRJ_RSST_MST pm
             on mm.PRJ_CD = pm.PRJ_CD
-         where mm.pgs_step_cd in( 'CM' ,'DC' ) and mm.TSS_ST = '104'
+         where mm.pgs_step_cd in( 'CM' ,'DC' ) and mm.TSS_ST IN ('104','604')
            AND MM.DEL_YN = 'N'
            and mm.TSS_SCN_CD in ('G' , 'O')
            and mm.TSS_CD in (select  tss_cd
