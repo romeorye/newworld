@@ -71,7 +71,7 @@
         //Form 비활성화 여부
         disableFields = function() {
             //버튼여부
-            /* btnCsusRq.hide();
+            /* btnCsusRq.hide();*/
         }
      
         /*============================================================================
@@ -158,6 +158,8 @@
             spInfo = spInfo + initFlowYn;
             if (initFlowYn == 'Y') {
             	spInfo = spInfo +'     '+initFlowStrtDt +' ~ '+ initFlowFnhDt
+            } else {
+            	spInfo = (spInfo == '')?spInfo = 'N': spInfo;
             }
             $("#spInitFlowInfo").text(spInfo);
             

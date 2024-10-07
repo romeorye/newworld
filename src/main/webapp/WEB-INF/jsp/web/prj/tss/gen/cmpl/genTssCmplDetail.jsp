@@ -473,7 +473,15 @@
             switch(e.activeIndex) {
             //완료
             case 0:
-                if(e.isFirst) {
+                if(e.isFirst) { gvTssSt.indexOf("60") > -1
+                	if( gvTssSt.indexOf("60") > -1 ) {
+                        tabView.getActiveTab().setLabel("초기유동관리");
+                        //tabUrl = "<c:url value='/prj/tss/gen/genTssCmplIfm.do?tssCd="+cmplTssCd+"&pgTssCd="+gvTssCd+"'/>";
+                    } else {
+                    	tabView.getActiveTab().setLabel("완료");
+                        //tabUrl = "<c:url value='/prj/tss/gen/genTssCmplIfm.do?tssCd="+cmplTssCd+"&pgTssCd="+gvTssCd+"'/>";
+                    }
+                	
                     tabUrl = "<c:url value='/prj/tss/gen/genTssCmplIfm.do?tssCd="+cmplTssCd+"&pgTssCd="+gvTssCd+"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent0');
                 }
