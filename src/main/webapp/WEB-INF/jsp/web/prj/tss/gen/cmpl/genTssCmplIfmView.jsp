@@ -95,7 +95,7 @@
              	,{ id: 'fnoPlnTxt'}
              	,{ id: 'ancpOtPlnDt'} 
              	,{ id: 'cmplAttcFilId'}     //완료첨부파일
-             	,{ id: 'initFlowAttcFilId'} //초기유동첨부파일
+             	//,{ id: 'initFlowAttcFilId'} //초기유동첨부파일
              	,{ id: 'pmisCmplTxt'}
              	,{ id: 'bizPrftProY'}
              	,{ id: 'bizPrftProY1'}  
@@ -147,11 +147,7 @@
         	
         	disableFields();
         	
-            if(lvTssSt.indexOf("60") > -1) {
-                lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "initFlowAttcFilId"));
-            } else {
-                lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
-            }
+        	lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
             if(lvAttcFilId != "") getAttachFileList();
             
             spInfo = "";

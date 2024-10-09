@@ -45,7 +45,7 @@
     var progressrateReal = "${inputData.progressrateReal}";
     var progressrate     = "${inputData.progressrate}";
     var pGrsEvSt     = "${inputData.pGrsEvSt}";
-
+    var pTssSt       = "${inputData.tssSt}";
     var initFlowYn     = "";
     var initFlowStrtDt = "";
     var initFlowFnhDt  = "";
@@ -443,11 +443,13 @@
         });
 
 
+        console.log("[{inputData.tssSt}]", pTssSt);
 
         /*============================================================================
         =================================      Tab       =============================
         ============================================================================*/
         var tabView = new Rui.ui.tab.LTabView({
+        	
             tabs: [
                  { label: '완료', content: '<div id="div-content-test0"></div>' }
                 ,{ label: '개요', content: '<div id="div-content-test1"></div>' }
@@ -456,11 +458,14 @@
                 ,{ label: '개발비', content: '<div id="div-content-test4"></div>' }
                 ,{ label: '목표 및 산출물', content: '<div id="div-content-test5"></div>' }
                 ,{ label: '변경이력', content: '<div id="div-content-test6"></div>' }
+                <c:if test="${resultCsus.tssSt == '600' || resultCsus.tssSt == '603' || resultCsus.tssSt == '604'}">
+                    ,{ label: '초기유동관리', content: '<div id="div-content-test7"></div>' }
+                </c:if>
             ]
         });
         tabView.on('activeTabChange', function(e) {
             //iframe 숨기기
-            for(var i = 0; i < 7; i++) {
+            for(var i = 0; i < 8; i++) {
                 if(i == e.activeIndex) {
                     Rui.get('tabContent' + i).show();
                 } else {
@@ -474,14 +479,6 @@
             //완료
             case 0:
                 if(e.isFirst) { gvTssSt.indexOf("60") > -1
-                	if( gvTssSt.indexOf("60") > -1 ) {
-                        tabView.getActiveTab().setLabel("초기유동관리");
-                        //tabUrl = "<c:url value='/prj/tss/gen/genTssCmplIfm.do?tssCd="+cmplTssCd+"&pgTssCd="+gvTssCd+"'/>";
-                    } else {
-                    	tabView.getActiveTab().setLabel("완료");
-                        //tabUrl = "<c:url value='/prj/tss/gen/genTssCmplIfm.do?tssCd="+cmplTssCd+"&pgTssCd="+gvTssCd+"'/>";
-                    }
-                	
                     tabUrl = "<c:url value='/prj/tss/gen/genTssCmplIfm.do?tssCd="+cmplTssCd+"&pgTssCd="+gvTssCd+"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent0');
                 }
@@ -493,11 +490,9 @@
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent1');
                 }
                 break;
-                //참여연구원
+            //참여연구원
             case 2:
                 if(e.isFirst) {
-                	//[2024.09.26]초기유동관리 단계가 추가되면 변경함
-                	//tabUrl = "<c:url value='/prj/tss/gen/genTssPgsPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=PG'/>";
                 	tabUrl = "<c:url value='/prj/tss/gen/genTssCmplPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=CM'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 }
@@ -530,13 +525,13 @@
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent6');
                 }
                 break;
-            /*//초기유동관리
+            //초기유동관리
             case 7:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssCmplPtcRsstMbrIfm.do?tssCd="+ gvTssCd+"&pkWbsCd=" + gvPkWbsCd + "&pgsStepCd=CM'/>";
+                    tabUrl = "<c:url value='/prj/tss/nat/natTssStoaIfm.do?tssCd=" + gvTssCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent7');
                 }
-                break;*/
+                break;
             default:
                 break;
             }
@@ -917,6 +912,7 @@
                 <iframe name="tabContent4" id="tabContent4" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent5" id="tabContent5" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
                 <iframe name="tabContent6" id="tabContent6" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
+                <iframe name="tabContent7" id="tabContent7" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe>
             </form>
         </div>
     </div>

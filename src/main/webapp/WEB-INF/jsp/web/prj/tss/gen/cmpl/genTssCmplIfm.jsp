@@ -220,7 +220,7 @@
             Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
             
-            $('#tr1').show(); //완료첨부파일
+            /*$('#tr1').show(); //완료첨부파일
             $('#tr2').hide(); //초기유동첨부파일
             
             if (lvTssSt == '' || lvTssSt == '100' || lvTssSt == '101' || lvTssSt == '102') { //100:진행중
@@ -229,28 +229,28 @@
                 setReadonly("chkInitFlowYn");
                 setReadonly("initFlowStrtDt");
                 setReadonly("initFlowFnhDt");
-            }
+            }*/
             
             if(pageMode == "W") return;
 
             ////초기유동관리 완료보고서 및 기타
-            if(lvTssSt.indexOf("60") > -1) {
+            /*if(lvTssSt.indexOf("60") > -1) {
             	$('#tr1').hide();
             	$('#tr2').show();
             	if (lvTssSt == "600") {
             	    $('#attchFileMngBtn').show(); ////첨부파일 버튼
             	    btnSave.show();
-            	} else {
+            	} else {*/
             	    $('#attchFileMngBtn').hide();
             	    btnSave.hide();
-            	}
+            	/*}
 			} else {
 				$('#tr1').show();
 				$('#tr2').hide();
 				$('#attchFileMngBtn').hide();
 
 				btnSave.hide();
-			}
+			}*/
 
         };
 
@@ -329,11 +329,11 @@
         dataSet.on('load', function(e) {
             console.log("smry load DataSet Success");
 
-            if(lvTssSt.indexOf("60") > -1) {
+            /*if(lvTssSt.indexOf("60") > -1) {
                 lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "initFlowAttcFilId"));
-            } else {
+            } else {*/
             	lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
-            }
+            /*}*/
             if(lvAttcFilId != "") {
                 dataSet.setNameValue(0, 'attcFilId', lvAttcFilId );
                 getAttachFileList();
@@ -542,7 +542,7 @@
                 }
             }
                 ,{ id: 'cmplAttcFilId'     , ctrlId: 'cmplAttcFilId'     , value: 'html'}
-                ,{ id: 'initFlowAttcFilId'     , ctrlId: 'initFlowAttcFilId'     , value: 'html'}
+                /*,{ id: 'initFlowAttcFilId'     , ctrlId: 'initFlowAttcFilId'     , value: 'html'}*/
             ]
         });
 
@@ -559,9 +559,9 @@
                 , { id: 'rsstDvlpOucmEffTxt', validExp: '파급효과 및 응용분야:false' }
                 , { id: 'fnoPlnTxt',          validExp: '향후 계획:true' }
                 , { id: 'qgate3Dt',           validExp: 'Qgate3(품질평가단계) 패스일자:false' }
-                , { id: 'attcFilId',          validExp: '첨부파일:false' }
+                /*, { id: 'attcFilId',          validExp: '첨부파일:false' }
                 , { id: 'cmplAttcFilId',      validExp: '완료첨부파일:false' }
-                , { id: 'initFlowAttcFilId',  validExp: '초기유동첨부파일:true' }
+                , { id: 'initFlowAttcFilId',  validExp: '초기유동첨부파일:true' }*/
                 , { id: 'fwdPlnTxt',          validExp: '사업화출시계획:true' }
             ]
         });
@@ -612,7 +612,7 @@
         };
             
         setAttachFileInfo = function(attachFileList) {
-        	if(lvTssSt.indexOf("60") > -1) {
+            /*if(lvTssSt.indexOf("60") > -1) {
 	            $('#initFlowAttchFileView').html('');
 	            
 	            for(var i = 0; i < attachFileList.length; i++) {
@@ -621,7 +621,7 @@
 	                    text: attachFileList[i].data.filNm + '(' + attachFileList[i].data.filSize + 'byte)'
 	                })).append('<br/>');
 	            }
-        	} else {
+        	} else {*/
 	            $('#attchFileView').html('');
 	            
 	            for(var i = 0; i < attachFileList.length; i++) {
@@ -630,15 +630,15 @@
 	                    text: attachFileList[i].data.filNm + '(' + attachFileList[i].data.filSize + 'byte)'
 	                })).append('<br/>');
 	            }
-        	}
+        	/*}*/
             
             if(attachFileList.length > 0) {
                 lvAttcFilId = attachFileList[0].data.attcFilId;
-                if(lvTssSt.indexOf("60") > -1) {
+                /*if(lvTssSt.indexOf("60") > -1) {
                     dataSet.setNameValue(0, "initFlowAttcFilId", lvAttcFilId);
-                } else {
+                } else {*/
                     dataSet.setNameValue(0, "cmplAttcFilId", lvAttcFilId);
-                }
+                /*}*/
                 initFrameSetHeight();
 
                 tmpAttchFileList = attachFileList;
@@ -657,10 +657,10 @@
         btnSave.on('click', function() {
         	
         	
-        	if (fnAttchValid()<=0) {
+        	/*if (fnAttchValid()<=0) {
         		Rui.alert("첨부파일은 필수입력 입니다.");
         		return;
-        	}
+        	}*/
         	
             if (fnIfmIsUpdate("SAVE") ){
             	
@@ -749,7 +749,7 @@ $(window).load(function() {
         <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
         <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
 
-<table class="table table_txt_right" id="grsDev">
+        <table class="table table_txt_right" id="grsDev">
             <colgroup>
                 <col style="width: 20%;" />
                 <col style="width: 8%;" />
@@ -978,11 +978,11 @@ $(window).load(function() {
                     <td id="attchFileView">&nbsp;</td>
                     <td><!-- <button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button> --></td>
                 </tr>
-                <tr id="tr2">
+                <!-- <tr id="tr2">
                     <th align="right">초기유동관리 <br/>완료보고서 및 기타</th>
                     <td id="initFlowAttchFileView">&nbsp;</td>
                     <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
 
