@@ -1200,7 +1200,11 @@ var exSabun = '${inputData._userSabun}';
              //[20240320.siseo] 무조건 PASS 로직을 변경함.
              /*if ( dataSet.getNameValue(0, 'tssType') == "CB" || dataSet.getNameValue(0, 'tssType') =="BB" || dataSet.getNameValue(0, 'tssType') =="TT" || dataSet.getNameValue(0, 'custSqlt') =="05"
                  || dataSet.getNameValue(0, 'tssType') =="IA" || dataSet.getNameValue(0, 'tssType') =="IB" || dataSet.getNameValue(0, 'tssType') =="IC"    ){*/
-             if (dataSet.getNameValue(0, 'custSqlt') =="05") { //과제 GRS 기본 정보 마스터(추가).고객특성[05:B2B(수주형)]은 무조건 PASS되도록 함.
+             //if (dataSet.getNameValue(0, 'custSqlt') =="05") { //과제 GRS 기본 정보 마스터(추가).고객특성[05:B2B(수주형)]은 무조건 PASS되도록 함.
+
+             //[2024.10.10] 기술팀만 해당되도록 로직 변경
+             console.log("[tssScnCd]", dataSet.getNameValue(0, 'tssScnCd'));
+             if (dataSet.getNameValue(0, 'tssScnCd') == "D" && dataSet.getNameValue(0, 'custSqlt') =="05") { //기술팀만 해당되도록 로직 변경. 고객특성[05:B2B(수주형)]은 무조건 PASS되도록 함.
                  dataSet.setNameValue(0, 'dropYn', "N");
              }else{ //그외에는 평균점수에 따라 PASS/DROP이 결정됨.
                  if( evPoint < 70  ){

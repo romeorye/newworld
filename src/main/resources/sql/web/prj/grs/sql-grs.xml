@@ -33,6 +33,7 @@
                    ,m.prjCd
                    ,m.evDt
                    ,m.tssType
+                   ,m.custSqlt
             from   (
             select  dbo.fn_getComDtlNm('TSS_SCN_CD',b.tss_scn_cd) AS tssScnNm
                    ,iif(b.PGS_STEP_CD='PL' AND (select count(*) from IRIS_TSS_MGMT_MST where PK_WBS_CD = b.pk_wbs_cd)=1,'SEED-'+b.wbs_cd  , b.wbs_cd) as wbsCd
@@ -64,6 +65,7 @@
                    ,b.PRJ_CD as prjCd
                    ,a.EV_DT as evDt
                    ,b.TSS_TYPE as tssType
+                   ,b.CUST_SQLT as custSqlt
             from    iris_grs_ev_rslt_rgst  a
                     inner join IRIS_TSS_MGMT_MST b
                     on b.TSS_CD = a.TSS_CD
@@ -97,6 +99,7 @@
                    ,b.PRJ_CD as prjCd
                    ,a.EV_DT as evDt
                    ,b.TSS_TYPE as tssType
+                   ,b.CUST_SQLT as custSqlt
             from   iris_grs_ev_rslt_rgst a
                    inner join iris_grs_mgmt_mst b
                    on a.tss_cd = b.tss_cd
@@ -128,6 +131,7 @@
                 ,m.tssType
                 ,dbo.fn_getComDtlNm('TSS_TYPE',m.tssType) AS tssTypeNm
                 ,m.tssScnCd
+                ,dbo.fn_getComDtlNm('CUST_SQLT',m.custSqlt) as custSqlt
         from   tmp_grs m
         where  1=1
          ]]>

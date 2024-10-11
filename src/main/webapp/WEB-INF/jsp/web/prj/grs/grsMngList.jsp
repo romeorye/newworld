@@ -129,7 +129,8 @@ var grsUserChk = '${inputData.grsUserChk}';
                  { id: 'evResult'},
                  { id: 'guid'},
                  { id: 'fcCd'},
-                 { id: 'tssTypeNm'}
+                 { id: 'tssTypeNm'},
+                 { id: 'custSqlt'}
               ]
          });
 
@@ -186,10 +187,11 @@ var grsUserChk = '${inputData.grsUserChk}';
                          return "<a href='javascript:fncTssPop("+row+");'><u>" + val +"<u></a>";
                      } },
                      { field: 'tssTypeNm',      label: '등급',  align:'center',  width: 60 },
-                     { field: 'prjNm',   label: '프로젝트명',  align:'center',  width: 120 },
+                     { field: 'custSqlt',      label: '사업유형',  align:'center',  width: 80 },
+                     { field: 'prjNm',   label: '프로젝트명',  align:'left',  width: 120 },
                      { field: 'leaderNm',   label: '과제리더',  align:'center',  width: 60},
                      { field: 'dlbrCrgrNm',   label: '심의담당자',  align:'center',  width: 60},
-                     { field: 'tssDd',   label: '과제기간',  align:'center',  width: 140 },
+                     { field: 'tssDd',   label: '과제기간',  align:'center',  width: 120 },
                      { field: 'grsEvStNm',   label: '심의단계',  align:'center',  width: 55 },
                      { field: 'grsStNm',   label: 'GRS상태',  align:'center',  width: 65 },
                      { field: 'evResult',   label: '평가결과',  align:'center',  width: 60 },
@@ -445,6 +447,7 @@ var grsUserChk = '${inputData.grsUserChk}';
                         ,{ field: 'wbsCd',      label: '과제코드', sortable: true, align:'center', width: 85}
                      , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 240 }
                      , { field: 'tssTypeNm',        label: '등급', sortable: true, align:'left', width: 80 }
+                     , { field: 'custSqlt',      label: '사업유형',  align:'center',  width: 80 }
                      , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'center', width: 120 }
                      , { field: 'leaderNm',   label: '과제리더', sortable: true, align:'center', width: 80 }
                      , { field: 'dlbrCrgrNm',     label: '심의담당자', sortable: true, align:'center', width: 100 }
