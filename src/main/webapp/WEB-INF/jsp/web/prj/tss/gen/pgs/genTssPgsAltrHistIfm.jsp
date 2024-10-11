@@ -190,7 +190,7 @@
 </script>
 <script>
 $(window).load(function() {
-    initFrameSetHeight();
+    initFrameSetHeight("formDiv");
 }); 
 </script>
 </head>
@@ -200,20 +200,23 @@ $(window).load(function() {
         <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
         <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
     </form>
-</div>
-<div class="titArea">
-  
-    <div class="LblockButton">
-        <button type="button" id="butExcel" name="">Excel다운로드</button>
-    </div>
-</div>
 
-<div id="defaultGrid"></div>
-
-<!-- <div class="titArea">
-    <div class="LblockButton">
-        <button type="button" id="btnList" name="btnList">목록</button>
-    </div>
-</div> -->
+	<div class="titArea">
+	  
+	    <div class="LblockButton">
+	        <button type="button" id="butExcel" name="">Excel다운로드</button>
+	    </div>
+	</div>
+	
+	<div id="defaultGrid"></div>
+	
+	<!-- <div class="titArea">
+	    <div class="LblockButton">
+	        <button type="button" id="btnList" name="btnList">목록</button>
+	    </div>
+	</div> -->
+	
+	<br/><br/><br/>
+</div>
 </body>
 </html>

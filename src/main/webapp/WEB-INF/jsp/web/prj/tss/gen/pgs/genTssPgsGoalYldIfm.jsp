@@ -39,8 +39,7 @@
     //[20240702]TSS_ST(과제상태) 체크하지 않음. [R23SA1, ASA 대체 소재 개발]
     //var pageMode = (lvPgsCd == "PG" || lvPgsCd == "CM" || lvPgsCd == "DC") && lvTssSt == "100" && lvPageMode == "W" ? "W" : "R";
     var pageMode = (lvPgsCd == "PG" || lvPgsCd == "CM" || lvPgsCd == "DC") && lvPageMode == "W" ? "W" : "R";
-    pageMode = (pageMode == "W" && lvTssSt.indexOf("60") > -1) ? pageMode="R" : pageMode;
-    
+
     var dataSet1;
     var dataSet2;
     var popupRow;
@@ -77,7 +76,12 @@
 
         //Form 비활성화
         disableFields = function() {
-            btnGoalSave.hide(); //[20240722.siseo]등록 과제 중 진행상태의 과제 목표 변경 불가
+            if ((lvPgsCd == "CM" || lvPgsCd == "DC") && lvTssSt == "100" && pageMode == "W") { //[20241011.siseo]시스템 관리자, 완료, 중단일때 [저장]버튼 활성화
+                btnGoalSave.show();
+            } else {
+                btnGoalSave.hide(); //[20240722.siseo]등록 과제 중 진행상태의 과제 목표 변경 불가
+            }
+
             if(pageMode == "R") {
                 btnYldSave.hide();
 
@@ -419,7 +423,7 @@
 </script>
 <script>
 $(window).load(function() {
-        initFrameSetHeight();
+        initFrameSetHeight("formDiv");
 });
 </script>
 </head>
@@ -429,28 +433,30 @@ $(window).load(function() {
         <input type="hidden" id="tssCd"  name="tssCd"  value=""> <!-- 과제코드 -->
         <input type="hidden" id="userId" name="userId" value=""> <!-- 사용자ID -->
     </form>
+
+	<div class="titArea">
+	    <h4>목표기술성과 등록</h4>
+	  <div class="LblockButton">
+	      <button type="button" id="btnGoalSave">저장</button>
+	  </div>
+	 </div>
+	<div id="goalGrid"></div>
+	
+	<div class="titArea">
+	    <h4>필수산출물 등록</h4>
+	    <div class="LblockButton">
+	        <button type="button" id="btnYldSave">저장</button>
+	    </div>
+	</div>
+	<div id="yldGrid"></div>
+	
+	<br/><br/><br/>
+	<!-- <div class="titArea">
+	    <div class="LblockButton">
+	        <button type="button" id="btnList" name="btnList">목록</button>
+	    </div>
+	</div> -->
 </div>
-<div class="titArea">
-    <h4>목표기술성과 등록</h4>
-  <div class="LblockButton">
-      <button type="button" id="btnGoalSave">저장</button>
-  </div>
- </div>
-<div id="goalGrid"></div>
 
-<div class="titArea">
-    <h4>필수산출물 등록</h4>
-    <div class="LblockButton">
-        <button type="button" id="btnYldSave">저장</button>
-    </div>
-</div>
-<div id="yldGrid"></div>
-
-
-<!-- <div class="titArea">
-    <div class="LblockButton">
-        <button type="button" id="btnList" name="btnList">목록</button>
-    </div>
-</div> -->
 </body>
 </html>
