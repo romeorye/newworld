@@ -290,14 +290,14 @@ console.log("[gvTssSt]", gvTssSt, "[gvCsusCnt]", gvCsusCnt);
                                 </tr>
                                 <tr>
                                     <th>참여연구원</th>
-                                    <td>${resultCmpl.mbrNmList}</td>
-                                    <th>초기유동관리</th>
+                                    <td colspan="3">${resultCmpl.mbrNmList}</td>
+                                    <%-- <th>초기유동관리</th>
                                     <td>
                                         ${resultMst.initFlowYn}
                                         <c:if test="${resultMst.initFlowYn eq 'Y'}">
                                             / ${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
                                         </c:if>
-                                    </td>
+                                    </td> --%>
                                 </tr>
                             </tbody>
                         </table>
@@ -518,6 +518,15 @@ console.log("[gvTssSt]", gvTssSt, "[gvCsusCnt]", gvCsusCnt);
                                     <c:out value="${fn:replace(resultSmry.fnoPlnTxt, cn, br)}" escapeXml="false"/></td>
                                     <th>예상출시일(계획)</th>
                                     <td>${resultSmry.ancpOtPlnDt}</td>
+                                </tr>
+                                <tr>
+                                    <th>초기유동관리여부</th>
+                                    <td colspan="3">
+                                        ${resultMst.initFlowYn}
+                                        <c:if test="${resultMst.initFlowYn eq 'Y'}">
+                                            / ${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
+                                        </c:if>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

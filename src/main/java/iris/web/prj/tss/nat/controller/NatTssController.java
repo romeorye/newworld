@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import devonframe.message.saymessage.SayMessage;
@@ -122,7 +123,7 @@ public class NatTssController  extends IrisBaseController {
     //================================================================================================ 정산
     /**
      * 과제관리 > 국책과제 > 정산 iframe 조회
-     *
+     * [20241010]siseo.초기유동관리 추가
      * @param input HashMap<String, String>
      * @param request HttpServletRequest
      * @param session HttpSession
@@ -130,13 +131,17 @@ public class NatTssController  extends IrisBaseController {
      * @return String
      * @throws JSONException
      * */
-    @RequestMapping(value="/prj/tss/nat/natTssStoaIfm.do")
+    //@RequestMapping(value="/prj/tss/nat/natTssStoaIfm.do")
+    @RequestMapping(value = {"/prj/tss/nat/natTssStoaIfm.do", "/prj/tss/gen/genTssCmplInitFlowIfm.do"})
     public String natTssStoaIfm(@RequestParam HashMap<String, String> input, HttpServletRequest request,
             HttpSession session, ModelMap model) throws JSONException {
 
+        String reqUrl = (String)request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+        
         LOGGER.debug("###########################################################");
         LOGGER.debug("natTssCmplStoaIfm [과제관리 > 국책과제 > 정산 iframe 조회]");
         LOGGER.debug("input = > " + input);
+        LOGGER.debug("req url = > " + reqUrl);
         LOGGER.debug("###########################################################");
 
         checkSession(input, session, model);
@@ -154,8 +159,12 @@ public class NatTssController  extends IrisBaseController {
             request.setAttribute("resultCnt", result == null ? 0 : result.size());
             request.setAttribute("result", obj);
         }
-
-        return "web/prj/tss/nat/stoa/natTssStoaIfm";
+        
+        String rtnUrl = "web/prj/tss/nat/stoa/natTssStoaIfm";
+        if (reqUrl.indexOf("/prj/tss/gen/")>-1) {
+            rtnUrl = "web/prj/tss/gen/cmpl/genTssCmplInitFlowIfm";
+        }
+        return rtnUrl;
     }
 
 

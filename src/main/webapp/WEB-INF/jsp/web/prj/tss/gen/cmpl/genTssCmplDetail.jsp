@@ -528,7 +528,7 @@
             //초기유동관리
             case 7:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/nat/natTssStoaIfm.do?tssCd=" + gvTssCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssCmplInitFlowIfm.do?tssCd=" + gvTssCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent7');
                 }
                 break;
@@ -721,7 +721,7 @@
 	                    document.searchForm.tssSt.value = "";
 	    	            document.searchForm.pgsStepCd.value = "";
 	                    
-	                    btnList.click(); //신규일때 TSS_CD가 새로 부여되므로 목록으로 보내기 [아주중요]
+	                    btnList.click(); //[아주중요] 신규일때 TSS_CD가 새로 부여되므로 목록으로 보내기 
 	                }
 	                //수정
 	                else {
@@ -736,6 +736,13 @@
             });
         };
 
+
+        //데이터 셋팅
+        if(${resultCnt} > 0) {
+            console.log("mst searchData1");
+            dataSet.loadData(${result});
+        }
+
         //목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
@@ -745,12 +752,6 @@
 
             nwinsActSubmit(document.searchForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
         });
-
-        //데이터 셋팅
-        if(${resultCnt} > 0) {
-            console.log("mst searchData1");
-            dataSet.loadData(${result});
-        }
 
         if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1 || "<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
         	$("#btnCsusRq").hide();

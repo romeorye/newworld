@@ -165,9 +165,7 @@
 	             , a.FRST_RGST_ID            AS frstRgstId          --최초등록자
 	             , a.LAST_MDFY_DT            AS lastMdfyDt          --최종수정일시
 	             , a.LAST_MDFY_ID            AS lastMdfyId          --최종수정자
-	             --, isnull(a.CMPL_ATTC_FIL_ID ,  b.ATTC_FIL_ID )  AS cmplAttcFilId       --첨부파일
-	             , isnull(iif(c.tss_st LIKE '60%', a.INIT_FLOW_ATTC_FIL_ID, a.CMPL_ATTC_FIL_ID),  b.ATTC_FIL_ID )  AS cmplAttcFilId       --첨부파일
-	             , a.INIT_FLOW_ATTC_FIL_ID AS initFlowAttcFilId     --초기유동첨부파일
+	             , isnull(a.CMPL_ATTC_FIL_ID ,  b.ATTC_FIL_ID )  AS cmplAttcFilId       --첨부파일
 	             , isnull(a.NPROD_NM, b.NPROD_NM )   AS nprodNm             --신제품명
 				, case when b.ANCP_OT_PLN_DT is null or b.ANCP_OT_PLN_DT = '' then  a.ANCP_OT_PLN_DT
 				       else b.ANCP_OT_PLN_DT end as ancpOtPlnDt         --예상출시일(계획)
@@ -213,13 +211,11 @@
 				, isnull(a.EXP_ARSL_CUR_Y_2	   , b.EXP_ARSL_CUR_Y_2	) 	as expArslCurY2
 				, isnull(a.EXP_ARSL_CUR_Y_3	   , b.EXP_ARSL_CUR_Y_3	) 	as expArslCurY3
 				, isnull(a.EXP_ARSL_CUR_Y_4	   , b.EXP_ARSL_CUR_Y_4	) 	as expArslCurY4
-          FROM IRIS_TSS_GEN_SMRY  A/*일반과제개요*/
-		  LEFT OUTER JOIN IRIS_GRS_EV_RSLT_RGST B
-			   ON B.TSS_CD = A.TSS_CD
-			   AND B.GRS_EV_ST = 'G2'
-          LEFT OUTER JOIN IRIS_TSS_MGMT_MST C
-               ON C.TSS_CD = A.TSS_CD
-         WHERE A.TSS_CD = #{tssCd}
+          FROM IRIS_TSS_GEN_SMRY  a/*일반과제개요*/
+		       left outer join IRIS_GRS_EV_RSLT_RGST b
+			   on b.tss_cd = a.TSS_CD
+			   and b.grs_ev_st = 'G2'
+         WHERE a.TSS_CD = #{tssCd}
     ]]>
     </select>
 
@@ -365,11 +361,6 @@
              , FWD_PLN_TXT             = #{fwdPlnTxt}           --사업화출시계획
              , FNO_PLN_TXT             = #{fnoPlnTxt}           --향후 계획
              , PMIS_CMPL_TXT           = #{pmisCmplTxt}         --지적재산권 risk 검토 
-             ]]>
-             <if test="initFlowAttcFilId != null and !initFlowAttcFilId.equals('')">
-                 , INIT_FLOW_ATTC_FIL_ID  = #{initFlowAttcFilId}
-             </if>
-             <![CDATA[
              , LAST_MDFY_DT            = GETDATE()
              , LAST_MDFY_ID            = #{userId}
          WHERE TSS_CD = #{tssCd}
