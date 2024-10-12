@@ -109,12 +109,12 @@
 		</if>
 		<if test="tssStrtDd != null and !tssStrtDd.equals('')">
 			<![CDATA[
-				AND convert(nvarchar(7), m.TSS_STRT_DD ) >= #{tssStrtDd}
+				AND convert(nvarchar(10), m.TSS_STRT_DD ) >= #{tssStrtDd}
 			]]>
 			</if>
 			<if test="tssFnhDd != null and !tssFnhDd.equals('')">
 			<![CDATA[
-				AND convert(nvarchar(7), m.TSS_FNH_DD ) <= #{tssFnhDd}
+				AND convert(nvarchar(10), m.TSS_FNH_DD ) <= #{tssFnhDd}
 			]]>
 		</if>
 		<if test="prjNm != null and !prjNm.equals('')">

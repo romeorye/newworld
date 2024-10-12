@@ -76,7 +76,7 @@
 
         //Form 비활성화
         disableFields = function() {
-            if ((lvPgsCd == "CM" || lvPgsCd == "DC") && lvTssSt == "100" && pageMode == "W") { //[20241011.siseo]시스템 관리자, 완료, 중단일때 [저장]버튼 활성화
+            if (lvPgsCd == "DC" && lvTssSt == "100" && pageMode == "W") { //[20241011.siseo]중단일때 [저장]버튼 활성화
                 btnGoalSave.show();
             } else {
                 btnGoalSave.hide(); //[20240722.siseo]등록 과제 중 진행상태의 과제 목표 변경 불가

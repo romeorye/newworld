@@ -222,12 +222,12 @@
         </if>
         <if test="tssStrtDd != null and !tssStrtDd.equals('')">
         <![CDATA[
-            AND convert(nvarchar(7), z.TSS_STRT_DD ) >= #{tssStrtDd}
+            AND convert(nvarchar(10), z.TSS_STRT_DD ) >= #{tssStrtDd}
         ]]>
         </if>
         <if test="tssFnhDd != null and !tssFnhDd.equals('')">
         <![CDATA[
-            AND convert(nvarchar(7), z.TSS_FNH_DD ) <= #{tssFnhDd}
+            AND convert(nvarchar(10), z.TSS_FNH_DD ) <= #{tssFnhDd}
         ]]>
         </if>
         <if test="saUserName != null and !saUserName.equals('')">
