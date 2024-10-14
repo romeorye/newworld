@@ -51,8 +51,13 @@
         ============================================================================*/
         //Form 비활성화 여부
         disableFields = function() {
-            if(lvMstTssSt == "104" || lvMstTssSt == "500") btnSave.show();
-            else btnSave.hide();
+        	if(lvMstTssSt == "104" || lvMstTssSt == "500" || lvMstTssSt == "600") {
+                $('#attchFileMngBtn').show(); 
+                btnSave.show();
+            } else {
+                $('#attchFileMngBtn').hide(); 
+                btnSave.hide();
+            }
 
             Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
@@ -116,7 +121,7 @@
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-            if(!fncVaild) return ;
+            if(!fncVaild()) return ;
 
              if(confirm("저장하시겠습니까?")) {
             	 dataSet.setNameValue(0, "tssCd",  lvTssCd);  //과제코드
@@ -247,7 +252,8 @@ $(window).load(function() {
         <table class="table table_txt_right">
             <colgroup>
                 <col style="width: 150px;" />
-                <col style="width: 850px;" />
+                <col style="width: auto;" />
+                <col style="width: 150px;" />
             </colgroup>
             <tbody>
                 <tr>
