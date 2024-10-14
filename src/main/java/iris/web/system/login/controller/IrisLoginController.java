@@ -239,6 +239,9 @@ public class IrisLoginController {
         		try {
         			List list = eamUtil.eamCall("EAM_USER", reqData);
         			if(list!=null && list.size()>0) {
+
+                        LOGGER.debug("eamUtil.eamCall(\"EAM_USER\", reqData) => " + list);
+
         				UserVO userVO = (UserVO)list.get(0);
         				String retCd = userVO.getRetCd();
         				if(!"Y".equals(retCd)) {
@@ -251,7 +254,9 @@ public class IrisLoginController {
         					reqData.put("ROLE_ID", "");
         					
                 			List roleUserInfoList = eamUtil.eamCall("EAM_ROLE_USER_INFO", reqData);
-                			
+
+                            LOGGER.debug("eamUtil.eamCall(\"EAM_ROLE_USER_INFO\", reqData) => " + roleUserInfoList);
+
                 			if(roleUserInfoList!=null && roleUserInfoList.size()>0) {
                 				RoleUserInfoVO roleUserInfoVO = null;
                 				
@@ -312,7 +317,7 @@ public class IrisLoginController {
         			SayMessage.setMessage(alertMsg);
         		}            	    		
     			
-        		//LOGGER.debug("topMenuList:" + topMenuList);
+        		LOGGER.debug("eamUtil.eamCall(\"EAM_TOP\", reqData) => " + topMenuList);
             	//[EAM추가] - TOP 메뉴 정보 조회 End =============================================================
         		
         		//[EAM추가] - EAM 관리 전체 메뉴 URL 조회 Start ===========================================================
@@ -330,6 +335,9 @@ public class IrisLoginController {
         		try {
         			eamLeftMenuList = eamUtil.eamCall("EAM_LEFT", reqData);
         			if(eamLeftMenuList!=null && eamLeftMenuList.size()>0) {
+
+                        LOGGER.debug("eamUtil.eamCall(\"EAM_LEFT\", reqData) => " + eamLeftMenuList);
+
         				for(int i=0; i<eamLeftMenuList.size(); i++) {
         					LeftMenuVO leftMenuVO = (LeftMenuVO)eamLeftMenuList.get(i);
         					
