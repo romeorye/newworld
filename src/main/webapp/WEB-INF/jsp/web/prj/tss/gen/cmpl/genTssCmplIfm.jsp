@@ -59,7 +59,7 @@
     console.log("[lvInitFlowStrtDt]", lvInitFlowStrtDt);
     console.log("[lvInitFlowFnhDt]", lvInitFlowFnhDt);
 
-    var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "600" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
     var dataSet;
     var lvAttcFilId;
     var tmpAttchFileList;
@@ -739,7 +739,7 @@
 </script>
 <script type="text/javascript">
 $(window).load(function() {
-    initFrameSetHeight();
+    initFrameSetHeight("aFormDiv");
 }); 
 </script>
 </head>
@@ -988,15 +988,16 @@ $(window).load(function() {
 
         <!-- [2024.03.12] 밑으로 스크롤이 안되어 추가함-->
         <br/><br/><br/>
-
     </form>
-</div>
-<div class="titArea">
-    <!-- <div><font color="red">첨부 : 과제완료보고서(word파일), 심의보고서(ppt), 심의회의록</font></div> -->
-    <div class="LblockButton">
-        <button type="button" id="btnSave" name="btnSave">저장</button>
-        <!-- <button type="button" id="btnList" name="btnList">목록</button> -->
-    </div>
+
+	<div class="titArea">
+	    <!-- <div><font color="red">첨부 : 과제완료보고서(word파일), 심의보고서(ppt), 심의회의록</font></div> -->
+	    <div class="LblockButton">
+	        <button type="button" id="btnSave" name="btnSave">저장</button>
+	        <!-- <button type="button" id="btnList" name="btnList">목록</button> -->
+	    </div>
+	</div>
+	
 </div>
 </body>
 </html>

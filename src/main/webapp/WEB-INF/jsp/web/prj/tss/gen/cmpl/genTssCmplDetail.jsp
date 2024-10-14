@@ -244,15 +244,14 @@
         disableFields = function() {
             //버튼여부
             btnCsusRq.hide(); //[춤의서요청]
-            btnCsusRq2.hide(); //[초기유동 품의서요청]
+            btnInitFlowRq.hide(); //[초기유동 품의서요청]
             //btnAltrRq.hide(); //[변경요청]
             
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
-                if(gvTssSt == "100" || gvTssSt == "102") {
-                	btnCsusRq.show(); //100: 작성중, 102: GRS평가완료
-                	//btnAltrRq.show(); //100: 작성중, 102: GRS평가완료
+                if(gvTssSt == "100" || gvTssSt == "102") { //100: 작성중, 102: GRS평가완료
+                	btnCsusRq.show();
                 } else if (gvTssSt == "600") { // 600: 초기유동작성중
-                	btnCsusRq2.show();
+                	btnInitFlowRq.show();
                 }
             }
 
@@ -478,7 +477,7 @@
             switch(e.activeIndex) {
             //완료
             case 0:
-                if(e.isFirst) { gvTssSt.indexOf("60") > -1
+                if(e.isFirst) { //gvTssSt.indexOf("60") > -1
                     tabUrl = "<c:url value='/prj/tss/gen/genTssCmplIfm.do?tssCd="+cmplTssCd+"&pgTssCd="+gvTssCd+"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent0');
                 }
@@ -631,9 +630,9 @@
 	    }
 	    
         //[초기유동 품의서요청]
-        if($("#btnCsusRq2").length > 0){
-        	btnCsusRq2 = new Rui.ui.LButton('btnCsusRq2');
-	        btnCsusRq2.on('click', function() {
+        if($("#btnInitFlowRq").length > 0){
+        	btnInitFlowRq = new Rui.ui.LButton('btnInitFlowRq');
+	        btnInitFlowRq.on('click', function() {
 	            document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
 	            document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
 	
@@ -793,7 +792,7 @@
             <div class="titArea mt0">
                 <div class="LblockButton">
                     <button type="button" id="btnCsusRq" name="btnCsusRq">품의서요청</button>
-                    <button type="button" id="btnCsusRq2" name="btnCsusRq2">초기유동 품의서요청</button>
+                    <button type="button" id="btnInitFlowRq" name="btnInitFlowRq">초기유동 품의서요청</button>
                     <!-- <button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button> -->
                     <button type="button" id="btnList" name="btnList">목록</button>
                 </div>

@@ -51,8 +51,13 @@
         ============================================================================*/
         //Form 비활성화 여부
         disableFields = function() {
-            if(lvMstTssSt == "104" || lvMstTssSt == "500") btnSave.show();
-            else btnSave.hide();
+            if(lvMstTssSt == "104" || lvMstTssSt == "500" || lvMstTssSt == "600") {
+                $('#attchFileMngBtn').show(); 
+                btnSave.show();
+            } else {
+                $('#attchFileMngBtn').hide(); 
+                btnSave.hide();
+            }
 
             Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
@@ -97,7 +102,7 @@
                 dataSet.setState(0, 1);
             }
             else {
-                window.parent.btnStoaRq.show();
+                window.parent.btnInitFlowRq.show();
             }
         });
 
@@ -106,23 +111,23 @@
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
-       /*  //목록
+        /*  //목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
             nwinsActSubmit(window.parent.document.mstForm, "<c:url value='/prj/tss/nat/natTssList.do'/>");
         });
-         */
-
+        */
+        
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-            if(!fncVaild) return ;
+            if(!fncVaild()) return ;
 
              if(confirm("저장하시겠습니까?")) {
             	 dataSet.setNameValue(0, "tssCd",  lvTssCd);  //과제코드
 	                dataSet.setNameValue(0, "userId", lvUserId); //사용자ID
-	                dataSet.setNameValue(0, "tssSt", "500"); //500:정산작성중
-	                dataSet.setNameValue(0, "remTxt", Wec.GetBodyValue()); //500:정산작성중
+	                dataSet.setNameValue(0, "tssSt", "600"); //600:초기유동작성중
+	                dataSet.setNameValue(0, "remTxt", Wec.GetBodyValue());
 
 	                dm.updateDataSet({
 	                    modifiedOnly: false,
@@ -133,7 +138,7 @@
         });
 
         var fncVaild = function(){
-    	    var frm = document.stoaForm;
+        	var frm = document.stoaForm;
 
     		dataSet.setNameValue(0, 'remTxt', Wec.GetBodyValue());
 
@@ -247,12 +252,13 @@ $(window).load(function() {
         <table class="table table_txt_right">
             <colgroup>
                 <col style="width: 150px;" />
-                <col style="width: 850px;" />
+                <col style="width: auto;" />
+                <col style="width: 150px;" />
             </colgroup>
             <tbody>
                 <tr>
-                    <th align="center">초기유동관리</th>
-					<td colspan="3">
+                    <th align="center">초기유동내역</th>
+					<td colspan="2">
 						<div id="namoHtml_DIV">
 							<textarea id="remTxt" name="remTxt"></textarea>
 							<script>
@@ -275,7 +281,7 @@ $(window).load(function() {
                 <tr>
                     <th align="center">첨부파일</th>
                     <td id="attchFileView">&nbsp;</td>
-                    <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
+                    <td align="center"><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
                 </tr>
             </tbody>
         </table>
