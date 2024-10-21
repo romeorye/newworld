@@ -245,7 +245,6 @@
             //버튼여부
             btnCsusRq.hide(); //[춤의서요청]
             btnInitFlowRq.hide(); //[초기유동 품의서요청]
-            //btnAltrRq.hide(); //[변경요청]
             
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
                 if(gvTssSt == "100" || gvTssSt == "102") { //100: 작성중, 102: GRS평가완료
@@ -540,41 +539,6 @@
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
-		 var confirmDialog = new Rui.ui.LFrameDialog({
-		     id: 'confirmDialog',
-		     title: '변경요청',
-		     width: 550,
-		     height: 320,
-		     modal: true,
-		     visible: false,
-		     buttons: [
-		             { text: '단순변경', handler: function(){
-		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssPgsAltrCsus.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&gbnCd=DL");
-		             }},
-		             { text: 'GRS심의요청', handler: function(){
-		            	 nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do' />"+"?tssCd="+gvTssCd+"&userId="+gvUserId+"&callPageId=genTss");
-		             }},
-		             { text: 'Close', handler: function(){
-		                 this.cancel();
-		             }},
-		         ]
-		 });
-
-		 confirmDialog.render(document.body);
-
-		 openDialog = function(url){
-			 confirmDialog.setUrl('<c:url value="/prj/tss/gen/confirmPopup.do?tssCd="/>' + gvTssCd + '&userIds=' + gvUserId);
-			 confirmDialog.show();
-         };
-
-		//변경요청
-		if($("#btnAltrRq").length > 0){
-	        btnAltrRq = new Rui.ui.LButton('btnAltrRq');
-	        btnAltrRq.on('click', function() {
-	        	openDialog();
-	        });
-		}
-
         //[품의서요청]
         if($("#btnCsusRq").length > 0){
 	        btnCsusRq = new Rui.ui.LButton('btnCsusRq');
@@ -595,15 +559,6 @@
 	
 	            var pgsStepCd = document.mstForm.pgsStepCd.value;
 	            console.log("[pgsStepCd]", pgsStepCd);
-	
-	            /* console.log("[tabContent5]('01').length", $("#tabContent5").contents().find("[yldType='01']").length);
-	            console.log("[tabContent5]('01')", $("#tabContent5").contents().find("[yldType='01']:contains('Y')").size());
-	            console.log("[tabContent5]('03').length", $("#tabContent5").contents().find("[yldType='03']").length);
-	            console.log("[tabContent5]('03')", $("#tabContent5").contents().find("[yldType='03']:contains('Y')").size());
-	            console.log("[tabContent5]('06').length", $("#tabContent5").contents().find("[yldType='06']").length);
-	            console.log("[tabContent5]('06')", $("#tabContent5").contents().find("[yldType='06']:contains('Y')").size());
-	            console.log("[tabContent5]('10').length", $("#tabContent5").contents().find("[yldType='10']").length);
-	            console.log("[tabContent5]('10')", $("#tabContent5").contents().find("[yldType='10']:contains('Y')").size()); */
 	
 	            if (pgsStepCd == "CM" || pgsStepCd == "DC"){
 	                //if ($("#tabContent5").contents().find("[yldItmType='01']:contains('Y'),[yldItmType='03']:contains('Y'),[yldItmType='06']:contains('Y'),[yldItmType='10']:contains('Y')").size()<4){
@@ -793,7 +748,6 @@
                 <div class="LblockButton">
                     <button type="button" id="btnCsusRq" name="btnCsusRq">품의서요청</button>
                     <button type="button" id="btnInitFlowRq" name="btnInitFlowRq">초기유동 품의서요청</button>
-                    <!-- <button type="button" id="btnAltrRq" name="btnAltrRq">변경요청</button> -->
                     <button type="button" id="btnList" name="btnList">목록</button>
                 </div>
             </div>
