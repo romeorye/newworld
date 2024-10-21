@@ -250,15 +250,18 @@ Rui.onReady(function() {
             new Rui.ui.grid.LSelectionColumn({
                 /*label: '체크',*/ width: 30,  align:'cneter'
                 })
+            //,new Rui.ui.grid.LNumberColumn() /*label: 'No.'*/
             , { field: 'clsYn',         label: '마감여부',   align:'center', width: 55 }
             , { field: 'clsDt',         label: '마감일자',   align:'center', width: 80 }
            // , { field: 'saUser',        label: '아이디',     align:'center', width: 60 , vMerge: true }
-            , { field: 'saName',        label: '성명',       align:'center', width: 50 , vMerge: true }
+            , { field: 'saName',        label: '성명',       align:'center', width: 70 , vMerge: true }
+            , { field: 'saSabunNew',    label: '사번',       align:'center', width: 70 , vMerge: true }
            // , { field: 'uperdeptName',  label: '조직',       align:'center', width: 150 , vMerge: true }
-            , { field: 'prjNm',         label: '프로젝트명', sortable: true,  align:'left', width: 220 , vMerge: true }
+            , { field: 'prjCd',         label: '프로젝트코드', align:'center', width: 80 , vMerge: true }
+            , { field: 'prjNm',         label: '프로젝트명', sortable: true,  align:'left', width: 210 , vMerge: true }
             , { field: 'tssWbsCd',      label: '과제코드',   sortable: true, align:'center', width: 70 }
-            , { field: 'tssNm',         label: '과제명',     align:'left', width: 300  }
-            , { field: 'prePtcPro',     label: '전월참여율', align:'right', width: 80
+            , { field: 'tssNm',         label: '과제명',     align:'left', width: 270  }
+            , { field: 'prePtcPro',     label: '전월참여율', align:'right', width: 60
                 , renderer: function(value, p, record){
                     if( !Rui.isEmpty(value) )    return value + '%'; }
               }
@@ -268,8 +271,8 @@ Rui.onReady(function() {
                     return value + '%';
                   }
               }
-            , { field: 'ilckSt',        label: '연동상태',   align:'center', width: 60 }
-            , { field: 'commTxt',       label: '메모',   align:'left', width: 300, editor: new Rui.ui.form.LTextBox({ attrs: { maxLength: 60 } })
+            , { field: 'ilckSt',        label: '연동상태',   align:'center', width: 50 }
+            , { field: 'commTxt',       label: '메모',   align:'left', width: 200, editor: new Rui.ui.form.LTextBox({ attrs: { maxLength: 60 } })
                 , renderer: function(value, p, record){
                     if(record.get("clsYn") == "Y"){  p.editable = false; }    // 마감여부 Y이면 수정불가
                     return value;
@@ -294,14 +297,16 @@ Rui.onReady(function() {
         columns: [
               { field: 'clsYn',         label: '마감여부',    align:'center', width: 55 }
             , { field: 'clsDt',         label: '마감일자',    align:'center', width: 80 }
-            , { field: 'saName',        label: '성명',       align:'center', width: 50 }
+            , { field: 'saName',        label: '성명',       align:'center', width: 70 }
+            , { field: 'saSabunNew',    label: '사번',       align:'center', width: 70 }
+            , { field: 'prjCd',         label: '프로젝트코드',   align:'left', width: 90 }
             , { field: 'prjNm',         label: '프로젝트명',   align:'left', width: 220 }
             , { field: 'tssWbsCd',      label: '과제코드',    align:'center', width: 70 }
             , { field: 'tssNm',         label: '과제명',         align:'left', width: 300  }
-            , { field: 'prePtcPro',     label: '전월참여율',     align:'right', width: 80}
+            , { field: 'prePtcPro',     label: '전월참여율',     align:'right', width: 60}
             , { field: 'ptcPro',        label: '참여율',         align:'right', width: 60 }
             , { field: 'ilckSt',        label: '연동상태',       align:'center', width: 60 }
-            , { field: 'commTxt',       label: '메모',           align:'left', width: 300}
+            , { field: 'commTxt',       label: '메모',           align:'left', width: 200}
         ]
     });
 
