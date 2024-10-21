@@ -382,7 +382,7 @@ console.log("[gvTssSt]", gvTssSt, "[saSabunNew]", dataSet.getNameValue(0, "saSab
 		     id: 'confirmDialog',
 		     title: '변경요청',
 		     width: 550,
-		     height: 320,
+		     height: 400,
 		     modal: true,
 		     visible: false,
 		     buttons: [
