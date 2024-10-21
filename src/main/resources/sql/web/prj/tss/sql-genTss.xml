@@ -49,6 +49,10 @@
                 ,dbo.FN_ISEMPTY(z.NPROD_SALS_CUR_Y_2, z.NPROD_SALS_PLN_Y_2) AS nprodSalsCurY2
                 ,dbo.FN_ISEMPTY(z.ANCP_OT_PLN_DT, z.CTY_OT_PLN_M) AS ctyOtPlnM
                 ,dbo.FN_ISEMPTY(z.PTC_CPSN_CUR_Y, z.PTC_CPSN_Y) AS ptcCpsnCurY
+                ,dbo.FN_ISEMPTY(z.PTC_CPSN_CUR_Y_1, z.PTC_CPSN_Y_1) AS ptcCpsnCurY1
+                ,dbo.FN_ISEMPTY(z.PTC_CPSN_CUR_Y_2, z.PTC_CPSN_Y_2) AS ptcCpsnCurY2
+                ,dbo.FN_ISEMPTY(z.PTC_CPSN_CUR_Y_3, z.PTC_CPSN_Y_3) AS ptcCpsnCurY3
+                ,dbo.FN_ISEMPTY(z.PTC_CPSN_CUR_Y_4, z.PTC_CPSN_Y_4) AS ptcCpsnCurY4
         from  (
                 select   m.PRJ_CD
                         ,case when m.prj_cd in ('PRJ00021','PRJ00015','PRJ00002', 'PRJ00025','PRJ00026') then m.prj_nm
@@ -91,8 +95,8 @@
                         ,m.al_TSS_STRT_DD
                         ,m.al_TSS_FNH_DD
                         ,m.TSS_TYPE
-                        ,NPROD_SALS_PLN_Y, NPROD_SALS_PLN_Y_1, NPROD_SALS_PLN_Y_2, CTY_OT_PLN_M, PTC_CPSN_Y
-                        ,NPROD_SALS_CUR_Y, NPROD_SALS_CUR_Y_1, NPROD_SALS_CUR_Y_2, ANCP_OT_PLN_DT, PTC_CPSN_CUR_Y
+                        ,NPROD_SALS_PLN_Y, NPROD_SALS_PLN_Y_1, NPROD_SALS_PLN_Y_2, CTY_OT_PLN_M, PTC_CPSN_Y, PTC_CPSN_Y_1, PTC_CPSN_Y_2, PTC_CPSN_Y_3, PTC_CPSN_Y_4
+                        ,NPROD_SALS_CUR_Y, NPROD_SALS_CUR_Y_1, NPROD_SALS_CUR_Y_2, ANCP_OT_PLN_DT, PTC_CPSN_CUR_Y, PTC_CPSN_CUR_Y_1, PTC_CPSN_CUR_Y_2, PTC_CPSN_CUR_Y_3, PTC_CPSN_CUR_Y_4
                         ,(SELECT TOP 1 X.GRS_EV_ST FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS GRS_EV_ST
 
                         ,CASE WHEN  M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW =  #{_userSabun})  THEN 'Y'
