@@ -298,7 +298,10 @@ Rui.onReady(function() {
               { field: 'clsYn',         label: '마감여부',    align:'center', width: 55 }
             , { field: 'clsDt',         label: '마감일자',    align:'center', width: 80 }
             , { field: 'saName',        label: '성명',       align:'center', width: 70 }
-            , { field: 'saSabunNew',    label: '사번',       align:'center', width: 70 }
+            , { field: 'saSabunNew',    label: '사번',       align:'center', width: 70 
+                , renderer: function(value, p, record){
+                    if( !Rui.isEmpty(value) )    return '\''+ value; }
+              }
             , { field: 'prjCd',         label: '프로젝트코드',   align:'left', width: 90 }
             , { field: 'prjNm',         label: '프로젝트명',   align:'left', width: 220 }
             , { field: 'tssWbsCd',      label: '과제코드',    align:'center', width: 70 }

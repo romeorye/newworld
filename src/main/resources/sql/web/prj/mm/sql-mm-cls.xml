@@ -615,7 +615,7 @@
             ]]>
             </if>
 
-            order by prjCd, saName, type
+            order by prjCd, saName, saSabunNew, type
     </select>
 
 
@@ -647,8 +647,8 @@
                        ,(select dept_name from IRIS_SSO_DEPT where dept_code = b.DEPT_UPER ) as uperdeptName
                 FROM    IRIS_MM_CLS a
                 LEFT OUTER JOIN IRIS_SSO_USER u
-                        on   u.sa_exps <> 'D'
-                        and  u.sa_sabun_new = a.sa_sabun_new
+                        on   u.sa_sabun_new = a.sa_sabun_new
+                        --and  u.sa_exps <> 'D' /*20241023.송권빈CH 요청으로 퇴사 조건 주석처리*/
                 LEFT OUTER JOIN  (
                      SELECT bb.PRJ_CD
                            ,bb.WBS_CD
@@ -690,7 +690,7 @@
                 WHERE   a.MM_YYMM = #{searchMonth}
                 ) m
                 WHERE 1=1
-                AND  (m.saName <> '' or m.saName is not null)
+                --AND  (m.saName <> '' or m.saName is not null) /*20241023.송권빈CH 요청으로 성명 조건 주석처리*/
     ]]>
                 <if test="( roleCheck != 'ADM'   )">
                        AND m.deptCode = (select team_dept_code from vw_sso_dept where dept_code = #{_userDept})
@@ -708,7 +708,7 @@
                  AND   m.clsYn = #{selClsYn}
                 ]]>
                 </if>
-                 ORDER BY  m.prjCd, m.saName
+                 ORDER BY  m.prjCd, m.saName, m.saSabunNew
     </select>
 
 
