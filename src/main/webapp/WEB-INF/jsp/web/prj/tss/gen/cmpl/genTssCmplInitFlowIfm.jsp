@@ -43,7 +43,7 @@
     var pageMode = lvMstPgsCd == "PG" && lvMstTssSt == "100" ? "W" : "R";
 
     var dataSet;
-    var lvAttcFilId;
+    var lvAttcFilId = "";
 
     Rui.onReady(function() {
         /*============================================================================
@@ -147,6 +147,12 @@
 				Wec.SetFocusEditor(); // 크로스에디터 Focus 이동
      		    return false;
      		}
+    		
+    		console.log("[lvAttcFilId]", lvAttcFilId);
+    		if ( lvAttcFilId == "" ) {
+    			alert("첨부파일을 등록하세요.");
+    			return false;
+    		}
 
     		return true;
  		}
