@@ -688,11 +688,11 @@ $(window).load(function() {
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <th align="right">연구과제 배경<br/>및 필요성</th>
+                                    <th align="right"><span style="color:red;">* </span>연구과제 배경<br/>및 필요성</th>
                                     <td><pre><span id="tssSmryTxt" /></pre></td>
                                 </tr>
                                 <tr>
-                                    <th align="right">주요 연구 개발 내용</th>
+                                    <th align="right"><span style="color:red;">* </span>주요 연구 개발 내용</th>
                                     <td><pre><span id="tssSmryDvlpTxt" /></pre></td>
                                 </tr>
                             </tbody>
@@ -711,11 +711,11 @@ $(window).load(function() {
                             <tbody>
                                 <tr>
                                     <th rowspan="2" align="right">지적재산권</th>
-                                    <th align="right">지재권 출원현황<br/>(국내/해외)</th>
+                                    <th align="right"><span style="color:red;">* </span>지재권 출원현황<br/>(국내/해외)</th>
                                     <td><pre><span id="rsstDvlpOucmTxt" /></pre></td>
                                 </tr>
                                 <tr>
-                                <th align="right">특허 Risk 검토결과</th>
+                                <th align="right"><span style="color:red;">* </span>특허 Risk 검토결과</th>
                                     <td><pre><span id="pmisCmplTxt" name="pmisCmplTxt"></pre></td>
                                 </tr>
                                 <tr>
@@ -732,7 +732,7 @@ $(window).load(function() {
                     </td>
                 </tr>
                 <tr>
-                    <th align="right" rowspan="2">사업화 출시 계획</th>
+                    <th align="right" rowspan="2"><span style="color:red;">* </span>사업화 출시 계획</th>
                     <td colspan="2">
                         <table class="table table_txt_right">
                             <colgroup>
@@ -760,7 +760,7 @@ $(window).load(function() {
                     <td colspan="2"><pre><span id="fwdPlnTxt" /></pre></td>
                 </tr>
                 <tr>
-                    <th align="right">향후 계획</th>
+                    <th align="right"><span style="color:red;">* </span>향후 계획</th>
                     <td colspan="2"><pre><span id="fnoPlnTxt" /></pre></td>
                 </tr>
                 <tr>

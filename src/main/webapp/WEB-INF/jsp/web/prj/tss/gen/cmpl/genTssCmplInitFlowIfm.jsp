@@ -257,7 +257,7 @@ $(window).load(function() {
             </colgroup>
             <tbody>
                 <tr>
-                    <th align="center">초기유동내역</th>
+                    <th align="center">초기유동관리내역</th>
 					<td colspan="2">
 						<div id="namoHtml_DIV">
 							<textarea id="remTxt" name="remTxt"></textarea>

@@ -25,11 +25,13 @@ import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
 import iris.web.common.code.service.CodeService;
 import iris.web.common.converter.RuiConverter;
+import iris.web.common.util.CommonUtil;
 import iris.web.common.util.StringUtil;
 import iris.web.prj.tss.com.service.TssUserService;
 import iris.web.prj.tss.gen.service.GenTssCmplService;
 import iris.web.prj.tss.gen.service.GenTssPgsService;
 import iris.web.prj.tss.gen.service.GenTssService;
+import iris.web.prj.tss.nat.service.NatTssCmplService;
 import iris.web.system.base.IrisBaseController;
 
 
@@ -64,6 +66,9 @@ public class GenTssCmplController  extends IrisBaseController {
     @Resource(name = "genTssCmplService")
     private GenTssCmplService genTssCmplService;
 
+    @Resource(name = "natTssCmplService")
+    private NatTssCmplService natTssCmplService;
+    
     @Resource(name = "codeService")
     private CodeService codeService;
 
@@ -318,7 +323,7 @@ public class GenTssCmplController  extends IrisBaseController {
         }
         
         if(pageMoveChkSession(input.get("_userId"))) {
-        	Map<String, Object> resultGrs         = genTssService.retrieveGenGrs(input); //마스터
+        	Map<String, Object> resultGrs         = genTssService.retrieveGenGrs(input); //GRS
         	Map<String, Object> resultMst         = genTssCmplService.retrieveGenTssCmplMst(input); //마스터
             Map<String, Object> resultCsus        = genTssService.retrieveGenTssCsus(resultMst); //품의서
             Map<String, Object> resultSmry        = genTssCmplService.retrieveGenTssCmplIfm(input); //개요
@@ -329,7 +334,14 @@ public class GenTssCmplController  extends IrisBaseController {
             inputInfo.put("pgTssCd",   String.valueOf(resultMst.get("pgTssCd")));
             inputInfo.put("tssStrtDd", String.valueOf(resultMst.get("tssStrtDd")));
             inputInfo.put("tssFnhDd",  String.valueOf(resultMst.get("tssFnhDd")));
-            inputInfo.put("attcFilId", String.valueOf(resultSmry.get("cmplAttcFilId")));
+            inputInfo.put("tssSt",     String.valueOf(resultMst.get("tssSt")));
+            
+            if( input.get("tssSt").indexOf("60")>=-1 ){
+                String resultStorAttchId = natTssCmplService.retrieveNatTssStoal(input); //정산 첨부파일
+                inputInfo.put("attcFilId", CommonUtil.isNullGetInput(resultStorAttchId, ""));   
+            }else{
+                inputInfo.put("attcFilId", String.valueOf(resultSmry.get("cmplAttcFilId")));
+            }
 
             Map<String, Object> resultCmpl        = genTssCmplService.retrieveGenTssCmplInfo(inputInfo);
             List<Map<String, Object>> resultAttc  = genTssCmplService.retrieveGenTssCmplAttc(inputInfo);
@@ -354,6 +366,17 @@ public class GenTssCmplController  extends IrisBaseController {
 
             request.setAttribute("jsonSmry", obj);
             
+            //초기유동관리내역
+            if(input.get("tssSt").indexOf("60")>=-1) {
+                Map<String, Object> resultStoa  = natTssCmplService.retrieveNatTssCmplStoa(inputInfo);
+
+                StringUtil.toUtf8Output((HashMap)resultStoa);
+
+                model.addAttribute("resultStoa", resultStoa);
+                obj.put("jsonStoa", resultStoa);
+            }
+
+            request.setAttribute("resultJson", obj);
         	
         }
         return "web/prj/tss/gen/cmpl/genTssCmplCsusRq";

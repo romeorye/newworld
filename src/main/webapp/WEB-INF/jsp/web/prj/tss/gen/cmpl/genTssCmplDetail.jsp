@@ -59,7 +59,7 @@
     
     var gvGuid        = "${resultCsus.guid}";
     var gvAprdocState = "${resultCsus.aprdocstate}";
-    
+    var gvInitFlowYn  = "${resultCsus.initFlowYn}";
     var pPgsStepCd     = "";
 
     Rui.onReady(function() {
@@ -332,6 +332,8 @@
             document.tabForm.initFlowStrtDt.value = initFlowStrtDt;
             document.tabForm.initFlowFnhDt.value = initFlowFnhDt; */
             
+            console.log("@@initFlowYn=", initFlowYn);
+            
             pPgsStepCd = dataSet.getNameValue(0, "pgsStepCd");
 
             //PG:진행단계
@@ -451,12 +453,12 @@
             tabs: [
                  { label: '완료', content: '<div id="div-content-test0"></div>' }
                 ,{ label: '개요', content: '<div id="div-content-test1"></div>' }
-                ,{ label: '참여연구원', content: '<div id="div-content-test2"></div>' }
+                ,{ label: '참여연구원', content: '<div id="div-content-test2"></div>', active: true }
                 ,{ label: 'WBS', content: '<div id="div-content-test3"></div>' }
                 ,{ label: '개발비', content: '<div id="div-content-test4"></div>' }
                 ,{ label: '목표 및 산출물', content: '<div id="div-content-test5"></div>' }
                 ,{ label: '변경이력', content: '<div id="div-content-test6"></div>' }
-                <c:if test="${resultCsus.tssSt == '600' || resultCsus.tssSt == '603' || resultCsus.tssSt == '604'}">
+                <c:if test="${resultCsus.initFlowYn == 'Y' || resultCsus.tssSt == '600' || resultCsus.tssSt == '603' || resultCsus.tssSt == '604'}">
                     ,{ label: '초기유동관리', content: '<div id="div-content-test7"></div>' }
                 </c:if>
             ]
@@ -526,7 +528,7 @@
             //초기유동관리
             case 7:
                 if(e.isFirst) {
-                    tabUrl = "<c:url value='/prj/tss/gen/genTssCmplInitFlowIfm.do?tssCd=" + gvTssCd + "'/>";
+                    tabUrl = "<c:url value='/prj/tss/gen/genTssCmplInitFlowIfm.do?tssCd=" + cmplTssCd + "'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent7');
                 }
                 break;

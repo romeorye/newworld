@@ -220,6 +220,10 @@ console.log("[gvTssSt]", gvTssSt, "[gvCsusCnt]", gvCsusCnt);
         <div class="sub-content">
             <form name="aform" id="aform" method="post">
                 <div id="csusContents">
+                
+            <c:choose>
+                <c:when test="${fn:indexOf(resultMst.tssSt, '60') < 0}">
+                    <!-- 일반 품의요청서 시작 -->
                     <div class="docu_box">
                         <p class="txt"><font color="white">(3)</font>아래와 같이, 연구/개발과제의 GRS 심의결과를 보고드리오니, 검토 후 재가 부탁드립니다.</p>
 
@@ -291,13 +295,6 @@ console.log("[gvTssSt]", gvTssSt, "[gvCsusCnt]", gvCsusCnt);
                                 <tr>
                                     <th>참여연구원</th>
                                     <td colspan="3">${resultCmpl.mbrNmList}</td>
-                                    <%-- <th>초기유동관리</th>
-                                    <td>
-                                        ${resultMst.initFlowYn}
-                                        <c:if test="${resultMst.initFlowYn eq 'Y'}">
-                                            / ${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
-                                        </c:if>
-                                    </td> --%>
                                 </tr>
                             </tbody>
                         </table>
@@ -544,7 +541,106 @@ console.log("[gvTssSt]", gvTssSt, "[gvCsusCnt]", gvCsusCnt);
                                </td></tr>
                             </tbody>
                         </table>
+
+                    <!-- 일반 품의요청서 끝 -->
+                    </c:when>
+                    <c:otherwise>
+                    <!-- 초기유동관리 품의요청서 시작 -->
+                    
+                    <div class="titleArea"><h2>${resultMst.tssNm}</h2></div>
+                    <br/>
+                    <div class="titArea alignR">과제리더: ${resultMst.saUserName}, 작성일: ${resultCmpl.createDate}</div>
+                    <div class="titArea"><h3>1. 개요기본 사항</h3></div>
+                        <table class="table table_txt_right">
+                            <colgroup>
+                                <col style="width:20%"/>
+                                <col style="width:30%"/>
+                                <col style="width:20%"/>
+                                <col style="width:30%"/>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th>프로젝트명</th>
+                                    <td>${resultMst.prjNm}</td>
+                                    <th>조직</th>
+                                    <td>${resultMst.deptName}</td>
+                                </tr>
+                                <tr>
+                                    <th>발의주체</th>
+                                    <td>${resultMst.ppslMbdNm}</td>
+                                    <th>사업부문(Funding기준)</th>
+                                    <td>${resultMst.bizDptNm}</td>
+                                </tr>
+                                <tr>
+                                    <th>과제명</th>
+                                    <td>${resultMst.tssNm}</td>
+                                    <th>과제코드</th>
+                                    <td>${resultMst.wbsCd}</td>
+                                </tr>
+                                <tr>
+                                    <th>참여연구원</th>
+                                    <td colspan="3">${resultCmpl.mbrNmList}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        
+                        <div class="titArea"><h3>2. 향후 계획</h3></div>
+                        <table class="table table_txt_right">
+                            <colgroup>
+                                <col style="width:20%"/>
+                                <col style="width:30%"/>
+                                <col style="width:20%"/>
+                                <col style="width:30%"/>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th>사업화(출시) 및 양산이관계획</th>
+                                    <td><c:out value="${fn:replace(resultSmry.fwdPlnTxt, cn, br)}" escapeXml="false"/><br/>
+                                    <c:out value="${fn:replace(resultSmry.fnoPlnTxt, cn, br)}" escapeXml="false"/></td>
+                                    <th>예상출시일(계획)</th>
+                                    <td>${resultSmry.ancpOtPlnDt}</td>
+                                </tr>
+                                <tr>
+                                    <th>초기유동관리여부</th>
+                                    <td colspan="3">
+                                        ${resultMst.initFlowYn}
+                                        <c:if test="${resultMst.initFlowYn eq 'Y'}">
+                                            / ${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
+                                        </c:if>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>초기유동관리내역</th>
+                                    <td class="txt_layout" colspan="3"><c:out value="${resultStoa.remTxt}" escapeXml="false"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/><br/>
+                    <div class="titArea"><h3>3. 첨부파일</h3></div>
+                        <table class="table table_txt_right">
+                            <colgroup>
+                                <col style="width:100%"/>
+                            </colgroup>
+                            <tbody>
+                                <tr><td>
+                                    <c:forEach var="resultAttc" items="${resultAttc}">
+                                        <a href="http://<spring:eval expression='@jspProperties[defaultUrl]'/>:<spring:eval expression='@jspProperties[serverPort]'/>/<spring:eval expression='@jspProperties[contextPath]'/>/common/login/irisDirectLogin.do?reUrl=/system/attach/downloadAttachFile.do&attcFilId=${resultAttc.attcFilId}&seq=${resultAttc.seq}">${resultAttc.filNm} (${resultAttc.filSize}byte)</a><br/>
+                                    </c:forEach>
+                               </td></tr>
+                            </tbody>
+                        </table>
+                        
+                    <!-- 초기유동관리 품의요청서 끝 -->
+                    </c:otherwise>
+                </c:choose>
+
+
                 </div>
+                
+                
+                
+                
             </form>
             <div class="titArea">
                 <div class="LblockButton">
