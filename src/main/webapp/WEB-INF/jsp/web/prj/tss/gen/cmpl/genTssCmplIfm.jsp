@@ -59,7 +59,7 @@
     console.log("[lvInitFlowStrtDt]", lvInitFlowStrtDt);
     console.log("[lvInitFlowFnhDt]", lvInitFlowFnhDt);
 
-    var pageMode = (lvTssSt == "100" || lvTssSt == "600" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "104" || lvTssSt == "600" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
     var dataSet;
     var lvAttcFilId;
     var tmpAttchFileList;

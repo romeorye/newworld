@@ -453,7 +453,7 @@
             tabs: [
                  { label: '완료', content: '<div id="div-content-test0"></div>' }
                 ,{ label: '개요', content: '<div id="div-content-test1"></div>' }
-                ,{ label: '참여연구원', content: '<div id="div-content-test2"></div>', active: true }
+                ,{ label: '참여연구원', content: '<div id="div-content-test2"></div>' }
                 ,{ label: 'WBS', content: '<div id="div-content-test3"></div>' }
                 ,{ label: '개발비', content: '<div id="div-content-test4"></div>' }
                 ,{ label: '목표 및 산출물', content: '<div id="div-content-test5"></div>' }
@@ -677,7 +677,6 @@
 	                    document.searchForm.tssSt.value = "";
 	    	            document.searchForm.pgsStepCd.value = "";
 	                    
-	                    btnList.click(); //[아주중요] 신규일때 TSS_CD가 새로 부여되므로 목록으로 보내기 
 	                }
 	                //수정
 	                else {
@@ -687,6 +686,9 @@
 	                        dataSets:[dataSet, smryDs]
 	                    });
 	                }
+
+	                btnList.click(); //[아주중요] 신규일때 TSS_CD가 새로 부여되므로 목록으로 보내기 
+
                 },
                 handlerNo: Rui.emptyFn
             });

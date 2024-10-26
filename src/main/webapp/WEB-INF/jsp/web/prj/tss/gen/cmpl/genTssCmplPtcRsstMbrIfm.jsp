@@ -34,9 +34,10 @@
     var lvTssSt    = window.parent.gvTssSt;     //과제상태
     var lvWbsCd    = window.parent.gvWbsCd;
     var lvPageMode = window.parent.gvPageMode;
+    var lvInitFlowYn = window.parent.gvInitFlowYn;
     var roleId     = '${inputData._roleId}';
     
-    var pageMode = lvPgsCd == "CM" && lvTssSt == "600" && lvPageMode == "W" ? "W" : "R";
+    var pageMode = lvPgsCd == "CM" && ((lvTssSt == "104" && lvInitFlowYn != "N") || lvTssSt == "600") && lvPageMode == "W" ? "W" : "R";
 
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);

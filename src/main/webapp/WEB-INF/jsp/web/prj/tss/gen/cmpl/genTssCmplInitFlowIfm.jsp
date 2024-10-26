@@ -263,7 +263,7 @@ $(window).load(function() {
             </colgroup>
             <tbody>
                 <tr>
-                    <th align="center">초기유동관리내역</th>
+                    <th align="center"><span style="color:red;">* </span>초기유동관리내역</th>
 					<td colspan="2">
 						<div id="namoHtml_DIV">
 							<textarea id="remTxt" name="remTxt"></textarea>
@@ -285,7 +285,7 @@ $(window).load(function() {
 					</td>
                 </tr>
                 <tr>
-                    <th align="center">첨부파일</th>
+                    <th align="center"><span style="color:red;">* </span>첨부파일</th>
                     <td id="attchFileView">&nbsp;</td>
                     <td align="center"><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
                 </tr>
