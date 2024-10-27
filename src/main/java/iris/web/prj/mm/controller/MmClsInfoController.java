@@ -142,6 +142,7 @@ public class MmClsInfoController extends IrisBaseController {
                 for(Map<String,Object> dataSetMap : dataSetList) {
 
                     dataSetMap.put("_userId"    , NullUtil.nvl(input.get("_userId"), ""));
+                    dataSetMap.put("_userNm" ,    NullUtil.nvl(input.get("_userNm"), "")); //[20241028.siseo]마감 시점의 성명을 저장
 //                    dataSetMap.put("saSabunNew" , testSabun);
                     dataSetMap.put("saSabunNew" , NullUtil.nvl(input.get("_userSabun"), ""));
                     dataSetMap.put("mmYymm"     , NullUtil.nvl(input.get("searchMonth"), ""));

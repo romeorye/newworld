@@ -163,7 +163,7 @@ Rui.onReady(function() {
     });
     mmClsDataSet.on('load', function(e){
         /*권한체크
-          1. 연동버튼(ADMIN, MM담당자만)7
+          1. 연동버튼(ADMIN, MM담당자만)
          */
         if( lmbSearchMonth.getValue() ==  createDashMonthToString(new Date) ){
             if( roleId.indexOf("WORK_IRI_T01") > -1 || roleId.indexOf("WORK_IRI_T05")  > -1 || roleId.indexOf("WORK_IRI_T03")  > -1 ){
@@ -185,7 +185,7 @@ Rui.onReady(function() {
                     lbButExcl.hide();
                 }
 
-                if ('${inputData._userSabun}' == "00208577"){
+                if ('${inputData._userSabun}' == "00208577"){ //김채훈 책임 ??? [2023-01-18 하드코딩]
                     lbButClsClose.show();
                     lbButClsOpen.show();
                     lbButExcl.show();

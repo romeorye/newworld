@@ -207,7 +207,7 @@
                            ,seq
                        FROM IRIS_MM_CLS aa
                        JOIN IRIS_PRJ_RSST_MST bb ON (aa.PRJ_CD = bb.PRJ_CD AND aa.WBS_CD = bb.WBS_CD)
-                       JOIN IRIS_PRJ_RSST_DST dd ON (bb.PRJ_CD = dd.PRJ_CD AND bb.WBS_CD = dd.WBS_CD AND dd.DEL_YN = 'N' AND #{searchMonth} >= left(dd.PATC_STR_DT, 7) )
+                       JOIN IRIS_PRJ_RSST_DST dd ON (bb.PRJ_CD = dd.PRJ_CD AND bb.WBS_CD = dd.WBS_CD AND dd.DEL_YN = 'N' AND AA.MM_YYMM >= left(dd.PATC_STR_DT, 7) )
                     WHERE aa.WBS_CD IN (bb.WBS_CD, dd.WBS_CD_P)
                       AND bb.PRJ_CD = dd.PRJ_CD
                       AND bb.WBS_CD = dd.WBS_CD
@@ -222,7 +222,7 @@
                 AND  F.WBS_CD = A.WBS_CD
                 AND  F.TSS_CD = A.TSS_CD
                 AND  F.SA_SABUN_NEW = A.SA_SABUN_NEW
-                AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)
+                AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   A.MM_YYMM+'-01')), 23)
         WHERE   a.MM_YYMM = #{searchMonth}
         AND     a.sa_sabun_new = #{_userSabun}
         ORDER BY prjCd, seq
@@ -250,6 +250,7 @@
          , LAST_MDFY_ID
          , LAST_MDFY_DT
          , WBS_CD
+         , sa_sabun_name
     ]]>
          <if test="( toDoYn != null and toDoYn != '')"><!-- todo완료여부 -->
          , TO_DO_YN
@@ -272,6 +273,7 @@
          , #{_userId}
          , getdate()
          , #{tssWbsCd}
+         , #{_userNm}
     ]]>
          <if test="( toDoYn != null and toDoYn != '')"><!-- todo완료여부 -->
          , #{toDoYn}
@@ -396,6 +398,7 @@
                  , LAST_MDFY_ID
                  , LAST_MDFY_DT
                  , WBS_CD
+                 , sa_sabun_name
         ]]>
                  <if test="( clsDt != null and clsDt != '')"><!-- 마감일자 -->
                  , CLS_DT
@@ -421,6 +424,7 @@
                  , #{_userId}
                  , getdate()
                  , #{tssWbsCd}
+                 , #{_userNm}
         ]]>
                  <if test="( clsDt != null and clsDt != '')"><!-- 마감일자 -->
                  , CONVERT(NVARCHAR(10), GETDATE(), 23)
@@ -495,7 +499,7 @@
                           ,b.wbs_cd as tssWbsCd
                           ,b.tss_nm as tssNm
                           ,a.sa_sabun_new as saSabunNew
-                          ,dbo.fn_getSabunName(a.sa_sabun_new) as saName
+                          ,isNull(a.sa_sabun_name, dbo.fn_getSabunName(a.sa_sabun_new)) as saName
                           ,(select dept_cd from iris_prj_rsst_mst where prj_cd = b.prj_cd) as deptCode
                           ,(select distinct dept_name from iris_sso_dept where dept_code = b.dept_code and ps_flag <> 'D') as uperdeptName
                           ,c.sa_user as saUser
@@ -641,7 +645,7 @@
                        ,isnull(c.WBS_CD, b.WBS_CD) as tssWbsCd
                        ,u.sa_user as mailUser
                        ,u.sa_user as saUser
-                       ,u.sa_name as saName
+                       ,isNull(a.sa_sabun_name, u.sa_name) as saName
                        ,isnull(f.PTC_PRO, 0) as prePtcPro
                        ,(select team_dept_code from VW_SSO_DEPT where dept_code = u.sa_dept_new) as deptCode
                        ,(select dept_name from IRIS_SSO_DEPT where dept_code = b.DEPT_UPER ) as uperdeptName
@@ -685,7 +689,7 @@
                      and  F.prj_cd = a.prj_cd
                      and  F.WBS_CD = a.WBS_CD
                      AND  F.SA_SABUN_NEW = A.SA_SABUN_NEW
-                     AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime,   #{searchMonth}+'-01')), 23)
+                     AND  F.MM_YYMM = convert(nvarchar(7), dateadd(mm, -1, convert(datetime, a.MM_YYMM+'-01')), 23)
 
                 WHERE   a.MM_YYMM = #{searchMonth}
                 ) m
