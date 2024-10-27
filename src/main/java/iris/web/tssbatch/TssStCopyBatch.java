@@ -79,9 +79,6 @@ public class TssStCopyBatch extends IrisBaseController {
 				//결재상태코드 A01: 결재요청, A02: 최종승인완료 , A03: 반려, A04: 취소
 				String aprdocstate = String.valueOf(data.get("aprdocstate")); 
 
-				//초기유동관리여부
-				String initFlowYn = String.valueOf(data.get("initFlowYn"));
-
 				if (!StringUtil.isNullString(aprdocstate)) {
 					String tssSt = "103";							//103	품의요청
 					boolean rst = false;
@@ -93,8 +90,6 @@ public class TssStCopyBatch extends IrisBaseController {
 							tssSt = "504"; //504 정산품의완료,
 						} else if ("603".equals(String.valueOf(data.get("tssSt")))) { //초기유동품의요청
 						    tssSt = "604"; //604 초기유동품의완료,
-						/*} else if ("103".equals(String.valueOf(data.get("tssSt"))) && "Y".equals(initFlowYn)) {
-						    tssSt = "600"; //600 초기유동작성중,*/
 						} else {
 							tssSt = "104"; //104 품의완료,
 							rst = true;
@@ -136,7 +131,7 @@ public class TssStCopyBatch extends IrisBaseController {
 				}
 			}
 
-			LOGGER.debug("GenTssCopyBatch_End-" + toDate);
+			LOGGER.debug("TssStCopyBatch_End-" + toDate);
 
 		} catch (Exception e) {
 			e.printStackTrace();

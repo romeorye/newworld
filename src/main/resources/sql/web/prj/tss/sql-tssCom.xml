@@ -311,16 +311,21 @@
         --updateTssMstTssSt 마스터 과제상태 수정
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
            SET TSS_ST       = #{tssSt}
+            ]]>
+            <if test="tssSt == '600'"><!-- 초기유동작성중: 초기유동관리등록일시 업데이트 -->
+             , INIT_FLOW_RGST_DT = GETDATE()
+            </if>
+            <![CDATA[
              , LAST_MDFY_DT = GETDATE()
              , LAST_MDFY_ID = #{userId}
          WHERE TSS_CD = #{tssCd}
     ]]>
     </update>
 
-        <!-- 마스터 과제상태 수정 -->
+        <!-- 마스터 과제상태(HD) 수정 -->
     <update id="updateTssMstHdTssSt">
     <![CDATA[
-        --updateTssMstTssSt 마스터 과제상태 수정
+        --updateTssMstHdTssSt 마스터 과제상태(HD) 수정
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
            SET TSS_ST       = #{tssSt}
               ,PGS_STEP_CD  = #{pgsStepCd}

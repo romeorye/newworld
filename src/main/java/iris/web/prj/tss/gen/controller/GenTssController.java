@@ -81,7 +81,7 @@ public class GenTssController  extends IrisBaseController {
 
         checkSessionObjRUI(input, session, model);
         LOGGER.debug("###########################################################");
-        LOGGER.debug("GenTssController - genTssList [과제관리 > 일반과제 리스트 화면]");
+        LOGGER.debug("genTssList [과제관리 > 일반과제 리스트 화면]");
         LOGGER.debug("###########################################################");
 
         input = StringUtil.toUtf8(input);
@@ -116,7 +116,7 @@ public class GenTssController  extends IrisBaseController {
     	checkSessionObjRUI(input, session, model);
     	
         LOGGER.debug("###########################################################");
-        LOGGER.debug("retrievefGenTssList - retrieveGenTssList [과제관리 > 일반과제 리스트 조회]");
+        LOGGER.debug("retrieveGenTssList [과제관리 > 일반과제 리스트 조회]");
         LOGGER.debug("input = > " + input);
         LOGGER.debug("###########################################################");
 

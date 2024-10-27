@@ -161,7 +161,6 @@ console.log("[lvPgTssSt]", lvPgTssSt);
             });
 
             lvAttcFilId = stringNullChk(dataSet1.getNameValue(0, "altrAttcFilId"));
-            console.log("[lvAttcFilId]2", lvAttcFilId);
             if(lvAttcFilId != "") getAttachFileList();
         });
 

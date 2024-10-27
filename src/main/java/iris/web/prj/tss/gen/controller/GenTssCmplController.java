@@ -304,7 +304,7 @@ public class GenTssCmplController  extends IrisBaseController {
 
 
     	LOGGER.debug("###########################################################");
-        LOGGER.debug("GenTssController - genTssCmplCsusRq [과제관리 > 일반과제 > 완료 > 품의서요청 화면 ]=== : " + input );
+        LOGGER.debug("genTssCmplCsusRq [과제관리 > 일반과제 > 완료 > 품의서요청 화면 ]=== : " + input );
         LOGGER.debug("###########################################################");
 
         checkSession(input, session, model);
@@ -441,7 +441,7 @@ public class GenTssCmplController  extends IrisBaseController {
             HttpSession session, ModelMap model) throws JSONException {
 
         LOGGER.debug("###########################################################");
-        LOGGER.debug("GenTssCmplController - genTssCmplPtcRsstMbrIfm [과제관리 > 일반과제 > 완료 > 초기유동관리 iframe 화면 ]");
+        LOGGER.debug("genTssCmplPtcRsstMbrIfm [과제관리 > 일반과제 > 완료 > 초기유동관리 iframe 화면 ]");
         LOGGER.debug("input = > " + input);
         LOGGER.debug("###########################################################");
 

@@ -478,7 +478,7 @@
             switch(e.activeIndex) {
             //완료
             case 0:
-                if(e.isFirst) { //gvTssSt.indexOf("60") > -1
+                if(e.isFirst) {
                     tabUrl = "<c:url value='/prj/tss/gen/genTssCmplIfm.do?tssCd="+cmplTssCd+"&pgTssCd="+gvTssCd+"'/>";
                     nwinsActSubmit(document.tabForm, tabUrl, 'tabContent0');
                 }
