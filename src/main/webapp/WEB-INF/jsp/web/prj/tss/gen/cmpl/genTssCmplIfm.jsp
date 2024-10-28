@@ -682,10 +682,17 @@
             			$("#initFlowFnhDt").focus();
             			return false;
             		}
+            		
+            		window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowStrtDt, lvInitFlowFnhDt);
+                    window.parent.fnSave();
+                    
+            	} else {
+            		if(confirm("초기유동관리여부 확인하셨습니까?")){ //\n저장후에는 수정/삭제가 불가능합니다.
+                    	window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowStrtDt, lvInitFlowFnhDt);
+                        window.parent.fnSave();
+                	}
             	}
             	
-                window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowStrtDt, lvInitFlowFnhDt);
-                window.parent.fnSave();
             }
         });
         
