@@ -77,9 +77,9 @@
                      and   A.TCLG_YN != 'Y'
                      and   (a.PRJ_END_DT is null OR a.PRJ_END_DT = '')
             ]]>
-            <if test="( roleCheck != 'ADM'   )"><!-- Admin 사용자 아니면 로그인 사용자의 팀코드(조직)로 조회 00206840:최태이, 00207030:유다영-->
+            <if test="( roleCheck != 'ADM'   )"><!-- Admin 사용자 아니면 로그인 사용자의 팀코드(조직)로 조회 00206840:최태이, 00207982:김원-->
                     AND  A.DEPT_CD =  ( case when '00206840' = #{_userSabun}  then '58189985'
-                                             when '00207030' = #{_userSabun}  then '58204567'
+                                             when '00207982' = #{_userSabun}  then '58204567'
                                         else  #{_teamDept}  end)
             </if>
             <![CDATA[
