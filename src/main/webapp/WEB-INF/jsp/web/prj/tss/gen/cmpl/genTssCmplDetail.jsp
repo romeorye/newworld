@@ -254,8 +254,8 @@
                 }
             }
 
-            //if(gvTssSt=="104" || gvTssSt=="600" || gvTssSt=="603" || gvTssSt=="604"){
-            if(gvTssSt != "100" && gvTssSt != "") {
+            if(gvTssSt=="104" || gvTssSt=="600" || gvTssSt=="603" || gvTssSt=="604"){
+            //if(gvTssSt != "100" && gvTssSt != "") {
                 setReadonly("cmplBStrtDd");
                 setReadonly("cmplBFnhDd");
             }
@@ -458,7 +458,7 @@
                 ,{ label: '개발비', content: '<div id="div-content-test4"></div>' }
                 ,{ label: '목표 및 산출물', content: '<div id="div-content-test5"></div>' }
                 ,{ label: '변경이력', content: '<div id="div-content-test6"></div>' }
-                <c:if test="${resultCsus.initFlowYn == 'Y' || resultCsus.tssSt == '600' || resultCsus.tssSt == '603' || resultCsus.tssSt == '604'}">
+                <c:if test="${resultCsus.initFlowYn == 'Y' && (resultCsus.tssSt == '600' || resultCsus.tssSt == '603' || resultCsus.tssSt == '604')}">
                     ,{ label: '초기유동관리', content: '<div id="div-content-test7"></div>' }
                 </c:if>
             ]
@@ -686,8 +686,10 @@
 	                        dataSets:[dataSet, smryDs]
 	                    });
 	                }
-
-	                btnList.click(); //[아주중요] 신규일때 TSS_CD가 새로 부여되므로 목록으로 보내기 
+                    /* if (dataSet.getNameValue(0, 'tssSt') == "104") (
+	                    ////btnList.click(); //[아주중요] 신규일때 TSS_CD가 새로 부여되므로 목록으로 보내기 
+                    } */
+                    //window.location.reload();
 
                 },
                 handlerNo: Rui.emptyFn

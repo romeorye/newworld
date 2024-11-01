@@ -251,8 +251,8 @@ public class GenTssCmplController  extends IrisBaseController {
         checkSession(input, session, model);
         
         String rtnUrl ="";
-        //if((input.get("tssSt").equals("104") || input.get("tssSt").indexOf("60")>-1) && (input.get("pgsStepCd").equals("CM") || input.get("pgsStepCd").equals("DC")) ){
-        if((input.get("tssSt").indexOf("60")>-1) && (input.get("pgsStepCd").equals("CM") || input.get("pgsStepCd").equals("DC")) ){
+        if((input.get("tssSt").equals("104") || input.get("tssSt").indexOf("60")>-1) && (input.get("pgsStepCd").equals("CM") || input.get("pgsStepCd").equals("DC")) ){
+        //if((input.get("tssSt").indexOf("60")>-1) && (input.get("pgsStepCd").equals("CM") || input.get("pgsStepCd").equals("DC")) ){
             rtnUrl = "web/prj/tss/gen/cmpl/genTssCmplIfmView";
         }else{
         	rtnUrl = "web/prj/tss/gen/cmpl/genTssCmplIfm";

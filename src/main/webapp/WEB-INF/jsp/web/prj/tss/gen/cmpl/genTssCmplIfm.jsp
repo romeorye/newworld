@@ -59,7 +59,7 @@
     console.log("[lvInitFlowStrtDt]", lvInitFlowStrtDt);
     console.log("[lvInitFlowFnhDt]", lvInitFlowFnhDt);
 
-    var pageMode = (lvTssSt == "100" || lvTssSt == "104" || lvTssSt == "600" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
+    var pageMode = (lvTssSt == "100" || lvTssSt == "600" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
     var dataSet;
     var lvAttcFilId;
     var tmpAttchFileList;
@@ -687,7 +687,7 @@
                     window.parent.fnSave();
                     
             	} else {
-            		if(confirm("초기유동관리여부 확인하셨습니까?")){ //\n저장후에는 수정/삭제가 불가능합니다.
+            		if(confirm("초기유동관리여부 확인하셨습니까?\n저장후에는 수정/삭제가 불가능합니다.")){ //TODO
                     	window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowStrtDt, lvInitFlowFnhDt);
                         window.parent.fnSave();
                 	}
