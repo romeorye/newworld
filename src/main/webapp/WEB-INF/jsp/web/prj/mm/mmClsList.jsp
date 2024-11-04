@@ -292,16 +292,18 @@ Rui.onReady(function() {
     });
     mmClsGrid.render('defaultGrid');
 
-
+    // 출력용 컬럼모델 재정의  및 데이터 포맷 지정 (참조: http://seevaa.net/397)
+    // cellStyle: 'mso-number-format:\\@' ==> 지정된 문자열로 표시
+    // cellStyle: 'mso-number-format:0\\.0' ==> 소수점이하 한자리까지만 표시 (반올림 처리됨)
+    // cellStyle: 'mso-number-format:0\\.000' ==> 소수점이하 세자리까지만 표시 (반올림 처리됨)
+    // cellStyle: 'mso-number-format:\\#\\,\\#\\#0\\.0' ==> 천단위구분(,) 포함하여 소수점이하 한자리까지만 표시 (반올림 처리됨)
+    // cellStyle: 'mso-number-format:Percent' ==> % 서식
     mmClsColumnModel2 = new Rui.ui.grid.LColumnModel({
         columns: [
               { field: 'clsYn',         label: '마감여부',    align:'center', width: 55 }
             , { field: 'clsDt',         label: '마감일자',    align:'center', width: 80 }
             , { field: 'saName',        label: '성명',       align:'center', width: 70 }
-            , { field: 'saSabunNew',    label: '사번',       align:'center', width: 70 
-                , renderer: function(value, p, record){
-                    if( !Rui.isEmpty(value) )    return '\''+ value; }
-              }
+            , { field: 'saSabunNew',    label: '사번',       align:'center', width: 70, cellStyle: 'mso-number-format:\\@' }
             , { field: 'prjCd',         label: '프로젝트코드',   align:'left', width: 90 }
             , { field: 'prjNm',         label: '프로젝트명',   align:'left', width: 220 }
             , { field: 'tssWbsCd',      label: '과제코드',    align:'center', width: 70 }
