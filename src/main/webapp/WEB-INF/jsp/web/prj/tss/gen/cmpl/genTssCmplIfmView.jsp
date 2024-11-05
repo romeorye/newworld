@@ -539,7 +539,7 @@
 </script>
 <script type="text/javascript">
 $(window).load(function() {
-    initFrameSetHeight();
+    initFrameSetHeight("aFormDiv");
 });
 </script>
 </head>

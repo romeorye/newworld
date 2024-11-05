@@ -91,7 +91,11 @@ public class TssStCopyBatch extends IrisBaseController {
 						} else if ("603".equals(String.valueOf(data.get("tssSt")))) { //초기유동품의요청
 						    tssSt = "604"; //604 초기유동품의완료,
 						} else {
-							tssSt = "104"; //104 품의완료,
+						    if ("Y".equals(String.valueOf(data.get("initFlowYn")))) { //초기유동작성중
+						        tssSt = "600"; //600 초기유동작성중,
+						    } else {
+						        tssSt = "104"; //104 품의완료,
+						    }
 							rst = true;
 						}
 

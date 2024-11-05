@@ -337,7 +337,7 @@ public class GenTssCmplController  extends IrisBaseController {
             inputInfo.put("tssFnhDd",  String.valueOf(resultMst.get("tssFnhDd")));
             inputInfo.put("tssSt",     String.valueOf(resultMst.get("tssSt")));
             
-            if( input.get("tssSt").indexOf("60")>=-1 ){
+            if( input.get("tssSt").indexOf("60")>-1 ){
                 String resultStorAttchId = natTssCmplService.retrieveNatTssStoal(input); //정산 첨부파일
                 inputInfo.put("attcFilId", CommonUtil.isNullGetInput(resultStorAttchId, ""));   
             }else{
@@ -368,7 +368,7 @@ public class GenTssCmplController  extends IrisBaseController {
             request.setAttribute("jsonSmry", obj);
             
             //초기유동관리내역
-            if(input.get("tssSt").indexOf("60")>=-1) {
+            if(input.get("tssSt").indexOf("60")>-1) {
                 Map<String, Object> resultStoa  = natTssCmplService.retrieveNatTssCmplStoa(inputInfo);
 
                 StringUtil.toUtf8Output((HashMap)resultStoa);
