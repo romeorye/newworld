@@ -601,7 +601,7 @@
 	          	Rui.confirm({
 	                text: '초기유동 품의서요청을 하시겠습니까?',
 	                handlerYes: function() {
-	                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00332"+"&pgTssCd="+gvTssCd);
+	                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00339"+"&pgTssCd="+gvTssCd);
 	                },
 	                handlerNo: Rui.emptyFn
 	            });
