@@ -153,7 +153,7 @@
             spInfo = "";
             spInfo = spInfo + initFlowYn;
             if (initFlowYn == 'Y') {
-            	spInfo = spInfo +'     '+initFlowStrtDt +' ~ '+ initFlowFnhDt
+            	spInfo = spInfo +' / '+initFlowStrtDt +' ~ '+ initFlowFnhDt
             } else {
             	spInfo = (spInfo == '')?spInfo = 'N': spInfo;
             }

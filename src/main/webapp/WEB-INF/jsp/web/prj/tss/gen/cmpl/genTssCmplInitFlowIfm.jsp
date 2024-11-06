@@ -149,15 +149,15 @@
      		}
     		
     		console.log("[lvAttcFilId]", lvAttcFilId);
-    		/* if ( lvAttcFilId == "" ) {
+    		if ( lvAttcFilId == "" ) {
     			alert("첨부파일을 등록하세요.");
     			return false;
-    		} */
+    		}
 
     		return true;
  		}
 
-      //첨부파일 조회
+        //첨부파일 조회
         var attachFileDataSet = new Rui.data.LJsonDataSet({
             id: 'attachFileDataSet',
             remainRemoved: true,
@@ -285,7 +285,7 @@ $(window).load(function() {
 					</td>
                 </tr>
                 <tr>
-                    <th align="center"><!-- <span style="color:red;">* </span> -->첨부파일</th>
+                    <th align="center"><span style="color:red;">* </span>첨부파일</th>
                     <td id="attchFileView">&nbsp;</td>
                     <td align="center"><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
                 </tr>
