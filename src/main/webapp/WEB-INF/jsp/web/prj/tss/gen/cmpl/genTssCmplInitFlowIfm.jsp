@@ -35,12 +35,12 @@
  }
 </style>
 <script type="text/javascript">
-    var lvTssCd    = "${inputData.tssCd}";
     var lvUserId   = window.parent.gvUserId;    //로그인ID
     var lvMstPgsCd = window.parent.gvPgsStepCd; //진행코드
     var lvMstTssSt = window.parent.gvTssSt;     //과제상태
+    var lvSaSabunNew = window.parent.gvSaSabunNew; //과제리더사번
 
-    var pageMode = lvMstPgsCd == "PG" && lvMstTssSt == "100" ? "W" : "R";
+    var pageMode = lvMstPgsCd == "CM" && lvMstTssSt == "600" ? "W" : "R";
 
     var dataSet;
     var lvAttcFilId = "";
@@ -51,7 +51,7 @@
         ============================================================================*/
         //Form 비활성화 여부
         disableFields = function() {
-            if(lvMstTssSt == "104" || lvMstTssSt == "500" || lvMstTssSt == "600") {
+        	if(pageMode == "W" && ("${inputData._roleId}".indexOf("T01")>-1||"${inputData._userSabun}" == lvSaSabunNew)) {
                 $('#attchFileMngBtn').show(); 
                 btnSave.show();
             } else {
@@ -123,17 +123,17 @@
         btnSave.on('click', function() {
             if(!fncVaild()) return ;
 
-             if(confirm("저장하시겠습니까?")) {
-            	 dataSet.setNameValue(0, "tssCd",  lvTssCd);  //과제코드
-	                dataSet.setNameValue(0, "userId", lvUserId); //사용자ID
-	                dataSet.setNameValue(0, "tssSt", "600"); //600:초기유동작성중
-	                dataSet.setNameValue(0, "remTxt", Wec.GetBodyValue());
+            if(confirm("저장하시겠습니까?")) {
+                dataSet.setNameValue(0, "tssCd",  lvTssCd);  //과제코드
+                dataSet.setNameValue(0, "userId", lvUserId); //사용자ID
+                dataSet.setNameValue(0, "tssSt", "600"); //600:초기유동작성중
+                dataSet.setNameValue(0, "remTxt", Wec.GetBodyValue());
 
-	                dm.updateDataSet({
-	                    modifiedOnly: false,
-	                    url:'<c:url value="/prj/tss/nat/updateNatTssStoa.do"/>',
-	                    dataSets:[dataSet]
-	                });
+                dm.updateDataSet({
+                    modifiedOnly: false,
+                    url:'<c:url value="/prj/tss/nat/updateNatTssStoa.do"/>',
+                    dataSets:[dataSet]
+                });
              }
         });
 

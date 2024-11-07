@@ -60,8 +60,8 @@
              , FC_CD
              , GRS_YN
              , INIT_FLOW_YN
-             , INIT_FLOW_STRT_DT
-             , INIT_FLOW_FNH_DT
+             , INIT_FLOW_STRT_DD
+             , INIT_FLOW_FNH_DD
              
              , FRST_RGST_DT      --최초등록일시
              , FRST_RGST_ID      --최초등록자
@@ -112,8 +112,8 @@
              , FC_CD
              , GRS_YN
              , #{initFlowYn}
-             , #{initFlowStrtDt}
-             , #{initFlowFnhDt}
+             , #{initFlowStrtDd}
+             , #{initFlowFnhDd}
              
              , GETDATE()
              , #{userId}
@@ -134,8 +134,8 @@
              , CMPL_B_FNH_DD  = #{cmplBFnhDd}
              
              , INIT_FLOW_YN      = #{initFlowYn}
-             , INIT_FLOW_STRT_DT = #{initFlowStrtDt}
-             , INIT_FLOW_FNH_DT  = #{initFlowFnhDt}
+             , INIT_FLOW_STRT_DD = #{initFlowStrtDd}
+             , INIT_FLOW_FNH_DD  = #{initFlowFnhDd}
 
              , LAST_MDFY_DT   = GETDATE()
              , LAST_MDFY_ID   = #{userId}

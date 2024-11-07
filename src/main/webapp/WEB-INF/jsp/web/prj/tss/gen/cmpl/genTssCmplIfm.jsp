@@ -43,11 +43,11 @@
     var lvPageMode  = window.parent.gvPageMode;
     
     var lvInitFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
-    var lvInitFlowStrtDt = (window.parent.initFlowStrtDt) ? window.parent.initFlowStrtDt : ""; //초기유동관리시작일
-    var lvInitFlowFnhDt = (window.parent.initFlowFnhDt) ? window.parent.initFlowFnhDt : ""; //초기유동관리종료일
+    var lvInitFlowFnhDd = (window.parent.initFlowStrtDd) ? window.parent.initFlowStrtDd : ""; //초기유동관리시작일
+    var lvInitFlowFnhDd = (window.parent.initFlowFnhDd) ? window.parent.initFlowFnhDd : ""; //초기유동관리종료일
 
-    var tmpInitFlowStrtDt = (window.parent.tmpInitFlowStrtDt) ? window.parent.tmpInitFlowStrtDt : "";
-    var tmpInitFlowFnhDt =  (window.parent.tmpInitFlowFnhDt) ? window.parent.tmpInitFlowFnhDt : "";
+    var tmpInitFlowFnhDd = (window.parent.tmpInitFlowFnhDd) ? window.parent.tmpInitFlowFnhDd : "";
+    var tmpInitFlowFnhDd =  (window.parent.tmpInitFlowFnhDd) ? window.parent.tmpInitFlowFnhDd : "";
     
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);
@@ -56,8 +56,8 @@
     console.log("[lvPageMode]", lvPageMode);
 
     console.log("[lvInitFlowYn]", lvInitFlowYn);
-    console.log("[lvInitFlowStrtDt]", lvInitFlowStrtDt);
-    console.log("[lvInitFlowFnhDt]", lvInitFlowFnhDt);
+    console.log("[lvInitFlowFnhDd]", lvInitFlowFnhDd);
+    console.log("[lvInitFlowFnhDd]", lvInitFlowFnhDd);
 
     var pageMode = (lvTssSt == "100" || lvTssSt == "600" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
     var dataSet;
@@ -133,48 +133,48 @@
         });
         
         //초기유동관리시작일
-        initFlowStrtDt =  new Rui.ui.form.LDateBox({
-            applyTo: 'initFlowStrtDt',
+        initFlowStrtDd =  new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowStrtDd',
             mask: '9999-99-99',
             width: 100,
             dateType: 'string'
         });
-        initFlowStrtDt.on('blur', function() {
-            if(Rui.isEmpty(initFlowStrtDt.getValue())) return;
+        initFlowStrtDd.on('blur', function() {
+            if(Rui.isEmpty(initFlowStrtDd.getValue())) return;
 
-            if(!Rui.isEmpty(initFlowFnhDt.getValue())) {
-                var startDt = initFlowStrtDt.getValue().replace(/\-/g, "").toDate();
-                var fnhDt   = initFlowFnhDt.getValue().replace(/\-/g, "").toDate();
+            if(!Rui.isEmpty(initFlowFnhDd.getValue())) {
+                var startDt = initFlowStrtDd.getValue().replace(/\-/g, "").toDate();
+                var fnhDt   = initFlowFnhDd.getValue().replace(/\-/g, "").toDate();
 
                 var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
 
                 if(rtnValue <= 0) {
                     Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
-                    initFlowStrtDt.setValue("");
+                    initFlowStrtDd.setValue("");
                     return;
                 }
             }
         });
         
         //초기유동관리종료일
-        initFlowFnhDt = new Rui.ui.form.LDateBox({
-            applyTo: 'initFlowFnhDt',
+        initFlowFnhDd = new Rui.ui.form.LDateBox({
+            applyTo: 'initFlowFnhDd',
             mask: '9999-99-99',
             width: 100,
             dateType: 'string'
         });
-        initFlowFnhDt.on('blur', function() {
-            if(Rui.isEmpty(initFlowFnhDt.getValue())) return;
+        initFlowFnhDd.on('blur', function() {
+            if(Rui.isEmpty(initFlowFnhDd.getValue())) return;
 
-            if(!Rui.isEmpty(initFlowStrtDt.getValue())) {
-                var startDt = initFlowStrtDt.getValue().replace(/\-/g, "").toDate();
-                var fnhDt   = initFlowFnhDt.getValue().replace(/\-/g, "").toDate();
+            if(!Rui.isEmpty(initFlowStrtDd.getValue())) {
+                var startDt = initFlowStrtDd.getValue().replace(/\-/g, "").toDate();
+                var fnhDt   = initFlowFnhDd.getValue().replace(/\-/g, "").toDate();
 
                 var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
 
                 if(rtnValue <= 0) {
                     Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
-                    initFlowFnhDt.setValue("");
+                    initFlowFnhDd.setValue("");
                     return;
                 }
             }
@@ -183,28 +183,28 @@
 
         if(lvInitFlowYn == "Y"){
             chkInitFlowYn.setValue(true);
-            initFlowStrtDt.enable();
-            initFlowFnhDt.enable();
+            initFlowStrtDd.enable();
+            initFlowFnhDd.enable();
         }else{
             chkInitFlowYn.setValue(false);
-            initFlowStrtDt.disable();
-            initFlowFnhDt.disable();
+            initFlowStrtDd.disable();
+            initFlowFnhDd.disable();
         }
-        initFlowStrtDt.setValue(lvInitFlowStrtDt); 
-        initFlowFnhDt.setValue(lvInitFlowFnhDt); 
+        initFlowStrtDd.setValue(lvInitFlowFnhDd); 
+        initFlowFnhDd.setValue(lvInitFlowFnhDd); 
 
         $("input[name=chkInitFlowYn]").click(function(){
         	console.log($("input[name=chkInitFlowYn]").prop("checked"));
       		if($("input[name=chkInitFlowYn]").prop("checked")){
-      			initFlowStrtDt.setValue(tmpInitFlowStrtDt);
-      			initFlowFnhDt.setValue(tmpInitFlowFnhDt);
-                initFlowStrtDt.enable();
-                initFlowFnhDt.enable();
+      			initFlowStrtDd.setValue(tmpInitFlowFnhDd);
+      			initFlowFnhDd.setValue(tmpInitFlowFnhDd);
+                initFlowStrtDd.enable();
+                initFlowFnhDd.enable();
       		}else{
-      			initFlowStrtDt.setValue("");
-      			initFlowFnhDt.setValue("");
-                initFlowStrtDt.disable();
-                initFlowFnhDt.disable();
+      			initFlowStrtDd.setValue("");
+      			initFlowFnhDd.setValue("");
+                initFlowStrtDd.disable();
+                initFlowFnhDd.disable();
       		}
       	});
 
@@ -227,8 +227,8 @@
             	
             } else {
                 setReadonly("chkInitFlowYn");
-                setReadonly("initFlowStrtDt");
-                setReadonly("initFlowFnhDt");
+                setReadonly("initFlowStrtDd");
+                setReadonly("initFlowFnhDd");
             }*/
             
             if(pageMode == "W") return;
@@ -665,30 +665,30 @@
             if (fnIfmIsUpdate("SAVE") ){
             	
             	lvInitFlowYn = (stringNullChk(chkInitFlowYn.getValue())=="")?"N":"Y"; 
-            	lvInitFlowStrtDt= (lvInitFlowYn=="Y")?initFlowStrtDt.getValue() : ""; 
-            	lvInitFlowFnhDt = (lvInitFlowYn=="Y")?initFlowFnhDt.getValue() : "";  
+            	lvInitFlowFnhDd= (lvInitFlowYn=="Y")?initFlowStrtDd.getValue() : ""; 
+            	lvInitFlowFnhDd = (lvInitFlowYn=="Y")?initFlowFnhDd.getValue() : "";  
             	
             	window.parent.initFlowYn = lvInitFlowYn; 
             	
-            	console.log("[lvInitFlowYn]", lvInitFlowYn, "[lvInitFlowStrtDt]", lvInitFlowStrtDt, "[lvInitFlowFnhDt]", lvInitFlowFnhDt);
+            	console.log("[lvInitFlowYn]", lvInitFlowYn, "[lvInitFlowFnhDd]", lvInitFlowFnhDd, "[lvInitFlowFnhDd]", lvInitFlowFnhDd);
             	console.log("[$(\"input[name=chkInitFlowYn]\").prop(\"checked\")]", $("input[name=chkInitFlowYn]").prop("checked"));
             	if ($("input[name=chkInitFlowYn]").prop("checked")) {
-            		if(Rui.isEmpty(initFlowStrtDt.getValue())) {
+            		if(Rui.isEmpty(initFlowStrtDd.getValue())) {
             			Rui.alert("초기유동관리 시작일: 필수 입력 항목입니다.");
-            			$("#initFlowStrtDt").focus();
+            			$("#initFlowStrtDd").focus();
             			return false;
-            		} else if(Rui.isEmpty(initFlowFnhDt.getValue())) {
+            		} else if(Rui.isEmpty(initFlowFnhDd.getValue())) {
             			Rui.alert("초기유동관리 종료일: 필수 입력 항목입니다.");
-            			$("#initFlowFnhDt").focus();
+            			$("#initFlowFnhDd").focus();
             			return false;
             		}
             		
-            		window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowStrtDt, lvInitFlowFnhDt);
+            		window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowFnhDd, lvInitFlowFnhDd);
                     window.parent.fnSave();
                     
             	} else {
             		if(confirm("초기유동관리여부 확인하셨습니까?")){ //TODO\n저장후에는 수정/삭제가 불가능합니다.
-                    	window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowStrtDt, lvInitFlowFnhDt);
+                    	window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowFnhDd, lvInitFlowFnhDd);
                         window.parent.fnSave();
                 	}
             	}
@@ -975,9 +975,9 @@ $(window).load(function() {
                     <td colspan="2">
                     	<input type="checkbox" id="chkInitFlowYn"> Y
                     	&nbsp;&nbsp;
-                        <input type="text" id="initFlowStrtDt" value="" />
+                        <input type="text" id="initFlowStrtDd" value="" />
                         <em class="gab"> ~ </em>
-                        <input type="text" id="initFlowFnhDt" value="" />
+                        <input type="text" id="initFlowFnhDd" value="" />
                     </td>
                 </tr>
                 <tr id="tr1">

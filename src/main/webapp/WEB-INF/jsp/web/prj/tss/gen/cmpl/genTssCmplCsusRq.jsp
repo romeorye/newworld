@@ -87,8 +87,8 @@
                 , {id: 'url' }                  //결재문서 url
                 
                 , {id: 'initFlowYn' }           //초기유동관리여부
-                , {id: 'initFlowStrtDt' }       //초기유동관리시작일
-                , {id: 'initFlowFnhDt' }        //초기유동관리종료일
+                , {id: 'initFlowStrtDd' }       //초기유동관리시작일
+                , {id: 'initFlowFnhDd' }        //초기유동관리종료일
                 
             ]
         });
@@ -155,8 +155,8 @@
                     record.set("body", Rui.get('csusContents').getHtml().trim());
 
                     record.set("initFlowYn",       "${resultMst.initFlowYn}");
-                    record.set("initFlowStrtDt",   "${resultMst.initFlowStrtDt}");
-                    record.set("initFlowFnhDt",    "${resultMst.initFlowFnhDt}");
+                    record.set("initFlowStrtDd",   "${resultMst.initFlowStrtDd}");
+                    record.set("initFlowFnhDd",    "${resultMst.initFlowFnhDd}");
 
                     var url = "";
                     //완료작성중단계
@@ -521,7 +521,7 @@ console.log("[gvTssSt]", gvTssSt, "[gvCsusCnt]", gvCsusCnt);
                                     <td colspan="3">
                                         ${resultMst.initFlowYn}
                                         <c:if test="${resultMst.initFlowYn eq 'Y'}">
-                                            / ${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
+                                            / ${resultMst.initFlowStrtDd} ~ ${resultMst.initFlowFnhDd}
                                         </c:if>
                                     </td>
                                 </tr>
@@ -606,7 +606,7 @@ console.log("[gvTssSt]", gvTssSt, "[gvCsusCnt]", gvCsusCnt);
                                     <td colspan="3">
                                         ${resultMst.initFlowYn}
                                         <c:if test="${resultMst.initFlowYn eq 'Y'}">
-                                            / ${resultMst.initFlowStrtDt} ~ ${resultMst.initFlowFnhDt}
+                                            / ${resultMst.initFlowStrtDd} ~ ${resultMst.initFlowFnhDd}
                                         </c:if>
                                     </td>
                                 </tr>

@@ -47,8 +47,8 @@
     var pGrsEvSt     = "${inputData.pGrsEvSt}";
     var pTssSt       = "${inputData.tssSt}";
     var initFlowYn     = "";
-    var initFlowStrtDt = "";
-    var initFlowFnhDt  = "";
+    var initFlowStrtDd = "";
+    var initFlowFnhDd  = "";
 
     var cmplTssCd   = "";
     var dataSet;
@@ -311,8 +311,8 @@
                 , { id: 'qgateStepNm'}	//Qgate 단계
                 , { id: 'evDt'}	//Qgate 단계
                 , { id: 'initFlowYn'}	//초기유동관리여부
-                , { id: 'initFlowStrtDt'}	//초기유동관리시작일
-                , { id: 'initFlowFnhDt'}	//초기유동관리종료일
+                , { id: 'initFlowStrtDd'}	//초기유동관리시작일
+                , { id: 'initFlowFnhDd'}	//초기유동관리종료일
             ]
         });
         dataSet.on('load', function(e) {
@@ -320,17 +320,17 @@
             gvPageMode  = stringNullChk(dataSet.getNameValue(0, "tssRoleType"));
             gvPkWbsCd   = dataSet.getNameValue(0, "pkWbsCd");
             gvWbsCd     = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
-            //gvPgsStepCd = stringNullChk(dataSet.getNameValue(0, "pgsStepCd"));
+            gvSaSabunNew = stringNullChk(dataSet.getNameValue(0, "saSabunNew")); //[20241107.siseo]추가
             
             initFlowYn = stringNullChk(dataSet.getNameValue(0, "initFlowYn"));
-            initFlowStrtDt = stringNullChk(dataSet.getNameValue(0, "initFlowStrtDt"));
-            initFlowFnhDt = stringNullChk(dataSet.getNameValue(0, "initFlowFnhDt"));
+            initFlowStrtDd = stringNullChk(dataSet.getNameValue(0, "initFlowStrtDd"));
+            initFlowFnhDd = stringNullChk(dataSet.getNameValue(0, "initFlowFnhDd"));
             
             document.tabForm.tssSt.value = dataSet.getNameValue(0, "tssSt");
             document.tabForm.pgsStepCd.value = dataSet.getNameValue(0, "pgsStepCd");
             /* document.tabForm.initFlowYn.value = initFlowYn;
-            document.tabForm.initFlowStrtDt.value = initFlowStrtDt;
-            document.tabForm.initFlowFnhDt.value = initFlowFnhDt; */
+            document.tabForm.initFlowStrtDd.value = initFlowStrtDd;
+            document.tabForm.initFlowFnhDd.value = initFlowFnhDd; */
             
             console.log("@@initFlowYn=", initFlowYn);
             
@@ -350,18 +350,8 @@
             tmpTssStrtDd = dataSet.getNameValue(0, 'tssStrtDd');
             tmpTssFnhDd =  dataSet.getNameValue(0, 'tssFnhDd');
             
-            /* 초기유동관리 여부 */
-            //$("#initFlowYn").val(dataSet.getNameValue(0, "initFlowYn"));
-            /* 초기유동관리시작일 */
-            //$("#initFlowStrtDt").val(dataSet.getNameValue(0, "initFlowStrtDt"));
-            /* 초기유동관리종료일 */
-            //$("#initFlowFnhDt").val(dataSet.getNameValue(0, "initFlowFnhDt"));
-        
-            //document.getElementById('tssNm').innerHTML = dataSet.getNameValue(0, "tssNm");
-            //document.getElementById('wbsNm').innerHTML = dataSet.getNameValue(0, "wbsNm");
-
-            tmpInitFlowStrtDt = dataSet.getNameValue(0, 'initFlowStrtDt');
-            tmpInitFlowFnhDt =  dataSet.getNameValue(0, 'initFlowFnhDt');
+            tmpInitFlowFnhDd = dataSet.getNameValue(0, 'initFlowStrtDd');
+            tmpInitFlowFnhDd =  dataSet.getNameValue(0, 'initFlowFnhDd');
             
             disableFields();
 
@@ -406,8 +396,8 @@
                 , { id: 'qgateStepNm',    ctrlId: 'qgateStepNm',    value: 'html' }		//Qgate 단계명
                 
                 , { id: 'initFlowYn',    ctrlId: 'initFlowYn',    value: 'value' }
-                , { id: 'initFlowStrtDt',    ctrlId: 'initFlowStrtDt',    value: 'value' }
-                , { id: 'initFlowFnhDt',    ctrlId: 'initFlowFnhDt',    value: 'value' }
+                , { id: 'initFlowStrtDd',    ctrlId: 'initFlowStrtDd',    value: 'value' }
+                , { id: 'initFlowFnhDd',    ctrlId: 'initFlowFnhDd',    value: 'value' }
             ]
         });
 
@@ -556,8 +546,8 @@
 	            document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
 	            document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
 	            /* document.mstForm.initFlowYn.value = dataSet.getNameValue(0, 'initFlowYn');
-	            document.mstForm.initFlowStrtDt.value = dataSet.getNameValue(0, 'initFlowStrtDt');
-	            document.mstForm.initFlowFnhDt.value = dataSet.getNameValue(0, 'initFlowFnhDt'); */
+	            document.mstForm.initFlowStrtDd.value = dataSet.getNameValue(0, 'initFlowStrtDd');
+	            document.mstForm.initFlowFnhDd.value = dataSet.getNameValue(0, 'initFlowFnhDd'); */
 	
 	            var pgsStepCd = document.mstForm.pgsStepCd.value;
 	            console.log("[pgsStepCd]", pgsStepCd);
@@ -594,14 +584,14 @@
 	            document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
 	
 	            var pgsStepCd = document.mstForm.pgsStepCd.value;
-	
-	            if (pgsStepCd == "CM" || pgsStepCd == "DC"){
-	            }
+	            var initFlowVaild = document.getElementById('tabContent7').contentWindow.fncVaild();
+	            if (!initFlowVaild) return;
 	
 	          	Rui.confirm({
 	                text: '초기유동 품의서요청을 하시겠습니까?',
 	                handlerYes: function() {
-	                    nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00361"+"&pgTssCd="+gvTssCd);
+	                    //nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00361"+"&pgTssCd="+gvTssCd);
+	                	nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00361"+"&pgTssCd="+gvTssCd);
 	                },
 	                handlerNo: Rui.emptyFn
 	            });
@@ -609,13 +599,13 @@
         }
 	        
 	        
-        fnInitFlow = function(initFlowYn, initFlowStrtDt, initFlowFnhDt) {
+        fnInitFlow = function(initFlowYn, initFlowStrtDd, initFlowFnhDd) {
         	$("#initFlowYn").val(initFlowYn);
-        	$("#initFlowStrtDt").val(initFlowStrtDt);
-        	$("#initFlowFnhDt").val(initFlowFnhDt);
+        	$("#initFlowStrtDd").val(initFlowStrtDd);
+        	$("#initFlowFnhDd").val(initFlowFnhDd);
         	
-        	tmpInitFlowStrtDt = Rui.isEmpty(initFlowStrtDt) ? tmpInitFlowStrtDt : initFlowStrtDt;
-        	tmpInitFlowFnhDt  = Rui.isEmpty(initFlowFnhDt) ? tmpInitFlowFnhDt : initFlowFnhDt;
+        	tmpInitFlowFnhDd = Rui.isEmpty(initFlowStrtDd) ? tmpInitFlowFnhDd : initFlowStrtDd;
+        	tmpInitFlowFnhDd  = Rui.isEmpty(initFlowFnhDd) ? tmpInitFlowFnhDd : initFlowFnhDd;
         }
         
         //저장
@@ -631,8 +621,8 @@
 
             //개요탭 validation
             dataSet.setNameValue(0, "initFlowYn",     $("#initFlowYn").val()); 
-            dataSet.setNameValue(0, "initFlowStrtDt", $("#initFlowStrtDt").val());
-            dataSet.setNameValue(0, "initFlowFnhDt",  $("#initFlowFnhDt").val());
+            dataSet.setNameValue(0, "initFlowStrtDd", $("#initFlowStrtDd").val());
+            dataSet.setNameValue(0, "initFlowFnhDd",  $("#initFlowFnhDd").val());
 
             console.log("[ifmUpdate]",ifmUpdate);
             console.log("[dataSet]",dataSet);
@@ -763,8 +753,8 @@
                 	<input type="hidden" id="tssSt" name="tssSt" />
                 	
                 	<input type="hidden" id="initFlowYn" name="initFlowYn" />
-                	<input type="hidden" id="initFlowStrtDt" name="initFlowStrtDt" />
-                	<input type="hidden" id="initFlowFnhDt" name="initFlowFnhDt" />
+                	<input type="hidden" id="initFlowStrtDd" name="initFlowStrtDd" />
+                	<input type="hidden" id="initFlowFnhDd" name="initFlowFnhDd" />
                 	
                     <fieldset>
                         <table class="table table_txt_right">

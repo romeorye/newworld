@@ -46,8 +46,8 @@
     var lvPageMode = window.parent.gvPageMode;
 
     var initFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
-    var initFlowStrtDt = (window.parent.initFlowStrtDt) ? window.parent.initFlowStrtDt : ""; //초기유동관리시작일
-    var initFlowFnhDt = (window.parent.initFlowFnhDt) ? window.parent.initFlowFnhDt : ""; //초기유동관리종료일
+    var initFlowStrtDd = (window.parent.initFlowStrtDd) ? window.parent.initFlowStrtDd : ""; //초기유동관리시작일
+    var initFlowFnhDd = (window.parent.initFlowFnhDd) ? window.parent.initFlowFnhDd : ""; //초기유동관리종료일
     
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);
@@ -55,8 +55,8 @@
     console.log("[lvPageMode]", lvPageMode);
 
     console.log("[initFlowYn]", initFlowYn);
-    console.log("[initFlowStrtDt]", initFlowStrtDt);
-    console.log("[initFlowFnhDt]", initFlowFnhDt);
+    console.log("[initFlowStrtDd]", initFlowStrtDd);
+    console.log("[initFlowFnhDd]", initFlowFnhDd);
 
     var pageMode = (lvTssSt == "100" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
 
@@ -153,7 +153,7 @@
             spInfo = "";
             spInfo = spInfo + initFlowYn;
             if (initFlowYn == 'Y') {
-            	spInfo = spInfo +' / '+initFlowStrtDt +' ~ '+ initFlowFnhDt
+            	spInfo = spInfo +' / '+initFlowStrtDd +' ~ '+ initFlowFnhDd
             } else {
             	spInfo = (spInfo == '')?spInfo = 'N': spInfo;
             }
@@ -250,8 +250,8 @@
                 ,{ id: 'fnoPlnTxt'         , ctrlId: 'fnoPlnTxt'         , value: 'html'}
                 
                 ,{ id: 'initFlowYn'        , ctrlId: 'initFlowYn'        , value: 'html'}
-                ,{ id: 'initFlowStrtDt'    , ctrlId: 'initFlowStrtDt'    , value: 'html'}
-                ,{ id: 'initFlowFnhDt'     , ctrlId: 'initFlowFnhDt'     , value: 'html'}
+                ,{ id: 'initFlowStrtDd'    , ctrlId: 'initFlowStrtDd'    , value: 'html'}
+                ,{ id: 'initFlowFnhDd'     , ctrlId: 'initFlowFnhDd'     , value: 'html'}
                 
                 ,{ id: 'pmisCmplTxt'       , ctrlId: 'pmisCmplTxt'       , value: 'html'}
                 ,{ id: 'nprodNm'           , ctrlId: 'nprodNm'           , value: 'html'}

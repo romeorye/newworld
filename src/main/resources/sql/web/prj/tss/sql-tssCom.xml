@@ -93,8 +93,8 @@
             --,null AS attcFilId
             ,C.EV_DT AS evDt
             ,A.INIT_FLOW_YN AS initFlowYn
-            ,A.INIT_FLOW_STRT_DT AS initFlowStrtDt
-            ,A.INIT_FLOW_FNH_DT AS initFlowFnhDt
+            ,A.INIT_FLOW_STRT_DD AS initFlowStrtDd
+            ,A.INIT_FLOW_FNH_DD AS initFlowFnhDd
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
             ON A.PRJ_CD = B.PRJ_CD
@@ -312,8 +312,8 @@
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
            SET TSS_ST       = #{tssSt}
             ]]>
-            <if test="tssSt == '600'"><!-- 초기유동작성중: 초기유동관리등록일시 업데이트 -->
-             , INIT_FLOW_RGST_DT = GETDATE()
+            <if test="tssSt == '604'"><!-- 초기유동품의완료: 초기유동관리완료일시 업데이트 -->
+             , INIT_FLOW_CMPL_DT = GETDATE()
             </if>
             <![CDATA[
              , LAST_MDFY_DT = GETDATE()

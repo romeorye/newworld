@@ -33,16 +33,20 @@
     var lvPgsCd    = window.parent.gvPgsStepCd; //진행코드
     var lvTssSt    = window.parent.gvTssSt;     //과제상태
     var lvWbsCd    = window.parent.gvWbsCd;
+    var lvSaSabunNew = window.parent.gvSaSabunNew; //과제리더사번
     var lvPageMode = window.parent.gvPageMode;
     var lvInitFlowYn = window.parent.gvInitFlowYn;
-    var roleId     = '${inputData._roleId}';
-    
-    var pageMode = lvPgsCd == "CM" && lvTssSt == "600" && lvPageMode == "W" ? "W" : "R";
+    var roleId     = "${inputData._roleId}";
+    var pageMode = (lvPgsCd == "CM" && lvTssSt == "600" && lvPageMode == "W") ? "W" : "R";
 
-    console.log("[lvTssCd]", lvTssCd);
-    console.log("[lvUserId]", lvUserId);
-    console.log("[lvPgsCd]", lvPgsCd, "[lvTssSt]", lvTssSt, "[lvPageMode]", lvPageMode);
-    console.log("[pageMode]", pageMode);
+    console.log("[lvPageMode]", lvPageMode);
+    //console.log("[lvSaSabunNew]", lvSaSabunNew);
+    //console.log("[lvPageMode]", lvPageMode);
+    //console.log("[lvTssCd]", lvTssCd);
+    //console.log("[lvUserId]", lvUserId);
+    //console.log("[lvPgsCd]", lvPgsCd, "[lvTssSt]", lvTssSt, "[lvPageMode]", lvPageMode);
+    //console.log("[pageMode]", pageMode);
+    //console.log("[roleId]", roleId);
 
     var dataSet;
     var popupRow;
@@ -70,17 +74,16 @@
         
         //Form 비활성화
         disableFields = function() {
-        	console.log("[roleId]", roleId);
-            //if(pageMode == "R" && !(roleId.indexOf("WORK_IRI_T01") > -1)) { //TODO
-            if(pageMode == "R") {
-                grid.setEditable(false);
-                butRecordNew.hide();
-                btnSave.hide();
-            //} else if (roleId.indexOf("WORK_IRI_T01") > -1) { //시스템관리자 역할  //TODO
-            } else {
+            if(pageMode == "W" && (roleId.indexOf("T01")>-1||"${inputData._userSabun}" == lvSaSabunNew)) {
                 grid.setEditable(true);
+                $("#spText").show();
                 butRecordNew.show();
                 btnSave.show();
+            } else {
+                grid.setEditable(false);
+                $("#spText").hide();
+                butRecordNew.hide();
+                btnSave.hide();
             }
         };
         
@@ -387,7 +390,7 @@ $(window).load(function() {
 <body style="overflow: hidden">
 <div id="formDiv">
 	<div class="titArea">
-    	<div style="float:left;"><span style="color:red; font-weight:bold;">참여 연구원 변경 시, 연구원 History 관리를 위해 참여 시작일과 종료일을 수정하시길 바랍니다. (연구원 삭제 하지 말 것)</span></div>
+    	<div style="float:left;"><span id="spText" style="color:red; font-weight:bold;">참여 연구원의 참여 시작일과 종료일을 수정 가능합니다.</span></div>
 	    <div class="LblockButton" style="float:right;">
 	        <button type="button" id="butRecordNew">추가</button>
 	        <button type="button" id="btnSave" name="btnSave">저장</button>
