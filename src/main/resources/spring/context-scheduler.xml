@@ -19,66 +19,66 @@
 <!--     </bean> -->
 
     <!--과제 비용예산 -->
-    <bean id="sapBudgSCostInsertBatch" class="iris.web.sapBatch.SapBudgSCostInsertBatch" />
-    <bean id="sapBudgTCostInsertBatch" class="iris.web.sapBatch.SapBudgTCostInsertBatch" />
+    <bean id="sapBudgSCostInsertBatch" class="iris.web.batch.sap.SapBudgSCostInsertBatch" />
+    <bean id="sapBudgTCostInsertBatch" class="iris.web.batch.sap.SapBudgTCostInsertBatch" />
 
     <!--과제 상태 반영-->
-    <bean id="tssStCopyBatch" class="iris.web.tssbatch.TssStCopyBatch" />
+    <bean id="tssStCopyBatch" class="iris.web.batch.tss.TssStCopyBatch" />
     <!--과제 참여연구원 반영-->
-    <bean id="tssPgPtcMbrBatch" class="iris.web.tssbatch.TssPgPtcMbrBatch" />
+    <bean id="tssPgPtcMbrBatch" class="iris.web.batch.tss.TssPgPtcMbrBatch" />
     <!--프로젝트 참여연구원 변경사항 반영-->
-    <bean id="prjTmmrBatch" class="iris.web.tssbatch.PrjTmmrBatch" />
+    <bean id="prjTmmrBatch" class="iris.web.batch.tss.PrjTmmrBatch" />
 
     <!-- 고정자산 배치  -->
-    <bean id="fxaInfoIFBatch" class="iris.web.fxaInfoBatch.FxaInfoIFBatch" />
+    <bean id="fxaInfoIFBatch" class="iris.web.batch.fxaInfo.FxaInfoIFBatch" />
 
     <!-- M/M 입력/마감 To-Do생성 배치  -->
-    <bean id="mmTodoCalBatch" class="iris.web.prj.mmBatch.MmTodoCalBatch" />
+    <bean id="mmTodoCalBatch" class="iris.web.batch.prj.MmTodoCalBatch" />
 
     <!-- 고정자산 배치(이관건)  -->
-    <bean id="fxaTrsfIFBactch" class="iris.web.fxaInfoBatch.FxaTrsfIFBactch" />
+    <bean id="fxaTrsfIFBactch" class="iris.web.batch.fxaInfo.FxaTrsfIFBactch" />
 
     <!-- 분석 결재 이메일 발송  -->
-    <bean id="anlApprMailBatch" class="iris.web.anl.batch.AnlApprMailBatch"/>
+    <bean id="anlApprMailBatch" class="iris.web.batch.anl.AnlApprMailBatch"/>
 
 
     <!-- 신뢰성 결재 이메일 발송  -->
-    <bean id="rlabApprMailBatch" class="iris.web.rlab.batch.RlabApprMailBatch"/>
+    <bean id="rlabApprMailBatch" class="iris.web.batch.rlab.RlabApprMailBatch"/>
 
     <!-- 공간평가 결재 이메일 발송  -->
-    <bean id="spaceApprMailBatch" class="iris.web.space.batch.SpaceApprMailBatch"/>
+    <bean id="spaceApprMailBatch" class="iris.web.batch.space.SpaceApprMailBatch"/>
 
     <!-- WBS PRJ INFO 배치  -->
-    <bean id="wbsPjtIFBatch" class="iris.web.fxaInfoBatch.WbsPjtIFBatch" />
+    <bean id="wbsPjtIFBatch" class="iris.web.batch.fxaInfo.WbsPjtIFBatch" />
 
 
     <!-- 메일 발송 -->
-    <bean id="mailBatchArsl" class="iris.web.mailBatch.MailBatchArsl" />
-    <bean id="mailBatchCmTss" class="iris.web.mailBatch.MailBatchCmTss" />
-    <bean id="mailBatchGrs" class="iris.web.mailBatch.MailBatchGrs" />
-    <bean id="mailBatchMfr" class="iris.web.mailBatch.MailBatchMfr" />
-    <bean id="mailBatchMm" class="iris.web.mailBatch.MailBatchMm" />
-    <bean id="mailBatchMmCls" class="iris.web.mailBatch.MailBatchMmCls" />
-    <bean id="mailBatchWbsCd" class="iris.web.mailBatch.MailBatchWbsCd" />
-    <bean id="mailBatchGrsReq" class="iris.web.mailBatch.MailBatchGrsReq" />
+    <bean id="mailBatchArsl" class="iris.web.batch.mail.MailBatchArsl" />
+    <bean id="mailBatchCmTss" class="iris.web.batch.mail.MailBatchCmTss" />
+    <bean id="mailBatchGrs" class="iris.web.batch.mail.MailBatchGrs" />
+    <bean id="mailBatchMfr" class="iris.web.batch.mail.MailBatchMfr" />
+    <bean id="mailBatchMm" class="iris.web.batch.mail.MailBatchMm" />
+    <bean id="mailBatchMmCls" class="iris.web.batch.mail.MailBatchMmCls" />
+    <bean id="mailBatchWbsCd" class="iris.web.batch.mail.MailBatchWbsCd" />
+    <bean id="mailBatchGrsReq" class="iris.web.batch.mail.MailBatchGrsReq" />
 
     <!-- sso user, dept-->
-    <bean id="insaInfoBatch" class="iris.web.insaBatch.InsaInfoBatch" />
+    <bean id="insaInfoBatch" class="iris.web.batch.insa.InsaInfoBatch" />
 
     <!-- IRIS_NEW_PRDT_SAL_STAT 배치-->
-    <bean id="genTssStatBatch" class="iris.web.genTssStatBatch.GenTssStatBatch" />
+    <bean id="genTssStatBatch" class="iris.web.batch.genTssStat.GenTssStatBatch" />
 
     <!-- QAS배치-->
-    <bean id="qasBatch" class="iris.web.qasBatch.QasBatch" />
+    <bean id="qasBatch" class="iris.web.batch.qas.QasBatch" />
 
     <!-- SpaceEvRnewMailBatch 배치-->
-    <bean id="spaceEvRnewBatch" class="iris.web.space.batch.SpaceEvRnewMailBatch" />
+    <bean id="spaceEvRnewBatch" class="iris.web.batch.space.SpaceEvRnewMailBatch" />
 
     <!-- sso user if-->
-    <bean id="ssoUserInfoBatch" class="iris.web.insaBatch.SsoUserInfoBatch" />
+    <bean id="ssoUserInfoBatch" class="iris.web.batch.insa.SsoUserInfoBatch" />
 
     <!-- sso dept if -->
-    <bean id="ssoDeptInfoBatch" class="iris.web.insaBatch.SsoDeptInfoBatch" />
+    <bean id="ssoDeptInfoBatch" class="iris.web.batch.insa.SsoDeptInfoBatch" />
 
 
 
@@ -451,8 +451,8 @@
         <property name="triggers">
             <list>
                 <ref bean="tssStCopyBatchTrigger"/>
-                <!-- 
-                <ref bean="mailBatchGrsReqTrigger"/>
+                
+                <!-- <ref bean="mailBatchGrsReqTrigger"/> -->
                 <ref bean="sapBudgSCostInsertBatchTrigger"/>
                 <ref bean="sapBudgTCostInsertBatchTrigger"/>
                 <ref bean="tssPgPtcMbrBatchTrigger"/>
@@ -465,11 +465,11 @@
                 <ref bean="wbsPjtIFBatchTrigger"/>
                 <ref bean="sapFxaInfoInsertBatchTrigger"/>
                 <ref bean="sapFxaTrsfBatchTrigger"/>
-                <ref bean="mmTodoCalBatchTrigger"/>
+                <!-- <ref bean="mmTodoCalBatchTrigger"/> -->
                 <ref bean="genTssStatBatchTrigger"/>
                 <ref bean="QasTrigger"/>
                 <ref bean="ssoUserInfoBatchTrigger"/>
-                <ref bean="ssoDeptInfoBatchTrigger"/> -->
+                <ref bean="ssoDeptInfoBatchTrigger"/>
 
 
                 <!-- MAIL -->

@@ -16,8 +16,8 @@ import devonframe.dataaccess.CommonDao;
 import devonframe.mail.MailSender;
 import devonframe.mail.MailSenderFactory;
 import devonframe.util.NullUtil;
+import iris.web.batch.mail.vo.ReplacementVo;
 import iris.web.common.util.CommonUtil;
-import iris.web.mailBatch.vo.ReplacementVo;
 import iris.web.prj.grs.vo.GrsSendMailInfoVo;
 import iris.web.prj.mm.mail.service.MmMailService;
 /*********************************************************************************
