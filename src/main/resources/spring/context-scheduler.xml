@@ -451,8 +451,8 @@
         <property name="triggers">
             <list>
                 <ref bean="tssStCopyBatchTrigger"/>
-                
-                <!-- <ref bean="mailBatchGrsReqTrigger"/> -->
+                <!-- 
+                <ref bean="mailBatchGrsReqTrigger"/>
                 <ref bean="sapBudgSCostInsertBatchTrigger"/>
                 <ref bean="sapBudgTCostInsertBatchTrigger"/>
                 <ref bean="tssPgPtcMbrBatchTrigger"/>
@@ -465,11 +465,11 @@
                 <ref bean="wbsPjtIFBatchTrigger"/>
                 <ref bean="sapFxaInfoInsertBatchTrigger"/>
                 <ref bean="sapFxaTrsfBatchTrigger"/>
-                <!-- <ref bean="mmTodoCalBatchTrigger"/> -->
+                <ref bean="mmTodoCalBatchTrigger"/>
                 <ref bean="genTssStatBatchTrigger"/>
                 <ref bean="QasTrigger"/>
                 <ref bean="ssoUserInfoBatchTrigger"/>
-                <ref bean="ssoDeptInfoBatchTrigger"/>
+                <ref bean="ssoDeptInfoBatchTrigger"/> -->
 
 
                 <!-- MAIL -->
