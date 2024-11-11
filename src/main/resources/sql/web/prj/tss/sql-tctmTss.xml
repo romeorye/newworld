@@ -334,22 +334,22 @@
              , (SELECT INST_NM + ' / ' +  OPS_NM  + ' / ' +  SPLT_NM+ ' '+ POA_NM FROM IRIS_KNLD_OSCP_SPLT WHERE DEL_YN = 'N' AND OSCP_SPLT_ID = A.COO_INST_CD ) AS cooInstNm --협력기관명
              , DATEDIFF ( month , CONVERT(DATE, A.TSS_STRT_DD) , CONVERT(DATE, A.TSS_FNH_DD) )  AS ttsDifMonth -- 과제소요기간
              , (SELECT TOP 1 X.GRS_EV_ST FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = A.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS grsEvSt --GRS 상태
-             ,(SELECT COUNT(TSS_CD) FROM IRIS_TSS_MGMT_MST X where A.PK_WBS_CD=X.PK_WBS_CD AND  X.PGS_STEP_CD='AL') as hasAltr -- 변경 내역 여부
-            ,(SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'PL' AND PK_WBS_CD=A.PK_WBS_CD) as plTssCd
-            ,(SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'PG' AND PK_WBS_CD=A.PK_WBS_CD) as pgTssCd
-            ,(SELECT  TOP 1  TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'AL' AND PK_WBS_CD=A.PK_WBS_CD) as alTssCd
-            ,(SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'CM' AND PK_WBS_CD=A.PK_WBS_CD) as cmTssCd
-            ,(SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'DC' AND PK_WBS_CD=A.PK_WBS_CD) as dcTssCd
-            ,dbo.fn_getTssStepNm(#{tssCd}) as tssStepNm
-            ,dbo.fn_getGrsStepNm(#{tssCd},'1') as grsStepNm
-            ,dbo.fn_getQgateStepNm(A.WBS_CD,'1') as qgateStepNm
-            ,a.GRS_YN as grsYn
-            ,(select top 1  iif(TSS_CD_SN>0,'Y','N') from IRIS_GRS_EV_RSLT_RGST where TSS_CD=substring(#{tssCd},1,9)+'2' and DROP_YN!='Y' and GRS_EV_M_TYPE='AL' order by  TSS_CD_SN desc) as isGrsAl
-            ,(select case when count(tss_cd)  > 0 then 'Y' else 'N' end
-              from IRIS_GRS_EV_RSLT_RGST
-              where DLBR_CRGR = #{_userSabun}
-              and   TSS_CD_SN =  (select max(TSS_CD_SN) from IRIS_GRS_EV_RSLT_RGST where DLBR_CRGR = #{_userSabun})
-              ) as grsBtnYn
+             , (SELECT COUNT(TSS_CD) FROM IRIS_TSS_MGMT_MST X where A.PK_WBS_CD=X.PK_WBS_CD AND  X.PGS_STEP_CD='AL') as hasAltr -- 변경 내역 여부
+             , (SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'PL' AND PK_WBS_CD=A.PK_WBS_CD) as plTssCd
+             , (SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'PG' AND PK_WBS_CD=A.PK_WBS_CD) as pgTssCd
+             , (SELECT TOP 1 TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'AL' AND PK_WBS_CD=A.PK_WBS_CD) as alTssCd
+             , (SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'CM' AND PK_WBS_CD=A.PK_WBS_CD) as cmTssCd
+             , (SELECT TOP 1 TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'DC' AND PK_WBS_CD=A.PK_WBS_CD ORDER BY TSS_CD DESC) as dcTssCd
+             , dbo.fn_getTssStepNm(#{tssCd}) as tssStepNm
+             , dbo.fn_getGrsStepNm(#{tssCd},'1') as grsStepNm
+             , dbo.fn_getQgateStepNm(A.WBS_CD,'1') as qgateStepNm
+             , a.GRS_YN as grsYn
+             , (select top 1  iif(TSS_CD_SN>0,'Y','N') from IRIS_GRS_EV_RSLT_RGST where TSS_CD=substring(#{tssCd},1,9)+'2' and DROP_YN!='Y' and GRS_EV_M_TYPE='AL' order by  TSS_CD_SN desc) as isGrsAl
+             , (select case when count(tss_cd)  > 0 then 'Y' else 'N' end
+                from IRIS_GRS_EV_RSLT_RGST
+                where DLBR_CRGR = #{_userSabun}
+                and   TSS_CD_SN =  (select max(TSS_CD_SN) from IRIS_GRS_EV_RSLT_RGST where DLBR_CRGR = #{_userSabun})
+                ) as grsBtnYn
 
           FROM IRIS_TSS_MGMT_MST A /*과제관리마스터*/
           LEFT JOIN IRIS_PRJ_RSST_MST B  /*프로젝트연구마스터*/
@@ -1094,9 +1094,9 @@ MERGE INTO dbo.IRIS_TSS_MGMT_MST tbl
             SELECT
             (SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'PL' AND PK_WBS_CD=substring(#{tssCd},1,6)) as plTssCd,
             (SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'PG' AND PK_WBS_CD=substring(#{tssCd},1,6)) as pgTssCd,
-            (SELECT  TOP 1  TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'AL' AND PK_WBS_CD=substring(#{tssCd},1,6)) as alTssCd,
+            (SELECT TOP 1  TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'AL' AND PK_WBS_CD=substring(#{tssCd},1,6)) as alTssCd,
             (SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'CM' AND PK_WBS_CD=substring(#{tssCd},1,6)) as cmTssCd,
-            (SELECT TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'DC' AND PK_WBS_CD=substring(#{tssCd},1,6)) as dcTssCd
+            (SELECT TOP 1 TSS_CD FROM IRIS_TSS_MGMT_MST WHERE PGS_STEP_CD = 'DC' AND PK_WBS_CD=substring(#{tssCd},1,6) ORDER BY TSS_CD DESC) as dcTssCd
         ]]>
     </select>
 
