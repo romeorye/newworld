@@ -9,8 +9,6 @@
 
 <%@ include file="/WEB-INF/jsp/include/rui_header.jspf"%>
 
-
-<link rel="stylesheet" href="<%=cssPath%>/common.css" type="text/css" />
 <script type="text/javascript" src="<%=scriptPath%>/jquery.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/common.js"></script>
 <script type="text/javascript" src="<%=scriptPath%>/jquery.iframeResizer.min.js"></script>
