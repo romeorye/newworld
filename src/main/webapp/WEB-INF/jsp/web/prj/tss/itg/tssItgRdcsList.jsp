@@ -39,6 +39,8 @@
     <!-- 그리드 소스 -->
 <script type="text/javascript" src="<%=scriptPath%>/gridPaging.js"></script>
 <script type="text/javascript">
+var searchDate = addDashMonthToString(createDashMonthToString(new Date()), -13)+"-01"; // 화면로딩시 요청일(최근 1년)
+
     Rui.onReady(function() {
 
 
@@ -106,15 +108,16 @@
             openUserSearchDialog(setUserInfo, 1, '');
         });
  */
-        //과제기간 시작일
+        //요청일
         approvalProcessdate = new Rui.ui.form.LDateBox({
             applyTo: 'approvalProcessdate',
             mask: '9999-99-99',
             displayValue: '%Y-%m-%d',
+            defaultValue: searchDate,
             width: 100,
             dateType: 'string'
         });
-
+ 
         /*******************
           * 변수 및 객체 선언 END
         *******************/
