@@ -43,11 +43,11 @@
     var lvPageMode  = window.parent.gvPageMode;
     
     var lvInitFlowYn = (window.parent.initFlowYn) ? window.parent.initFlowYn : ""; //초기유동관리여부
-    var lvInitFlowFnhDd = (window.parent.initFlowStrtDd) ? window.parent.initFlowStrtDd : ""; //초기유동관리시작일
-    var lvInitFlowFnhDd = (window.parent.initFlowFnhDd) ? window.parent.initFlowFnhDd : ""; //초기유동관리종료일
+    var lvInitFlowStrtDd = (window.parent.initFlowStrtDd) ? window.parent.initFlowStrtDd : ""; //초기유동관리시작일
+    var lvInitFlowFnhDd  = (window.parent.initFlowFnhDd) ? window.parent.initFlowFnhDd : ""; //초기유동관리종료일
 
-    var tmpInitFlowFnhDd = (window.parent.tmpInitFlowFnhDd) ? window.parent.tmpInitFlowFnhDd : "";
-    var tmpInitFlowFnhDd =  (window.parent.tmpInitFlowFnhDd) ? window.parent.tmpInitFlowFnhDd : "";
+    var tmpInitFlowStrtDd = (window.parent.tmpInitFlowStrtDd) ? window.parent.tmpInitFlowStrtDd : "";
+    var tmpInitFlowFnhDd  = (window.parent.tmpInitFlowFnhDd) ? window.parent.tmpInitFlowFnhDd : "";
     
     console.log("[lvTssCd]", lvTssCd);
     console.log("[lvUserId]", lvUserId);
@@ -56,7 +56,7 @@
     console.log("[lvPageMode]", lvPageMode);
 
     console.log("[lvInitFlowYn]", lvInitFlowYn);
-    console.log("[lvInitFlowFnhDd]", lvInitFlowFnhDd);
+    console.log("[lvInitFlowStrtDd]", lvInitFlowStrtDd);
     console.log("[lvInitFlowFnhDd]", lvInitFlowFnhDd);
 
     var pageMode = (lvTssSt == "100" || lvTssSt == "600" || lvTssSt == "") && lvPageMode == "W" ? "W" : "R";
@@ -142,7 +142,7 @@
         initFlowStrtDd.on('blur', function() {
             if(Rui.isEmpty(initFlowStrtDd.getValue())) return;
 
-            if(!Rui.isEmpty(initFlowFnhDd.getValue())) {
+            if(!Rui.isEmpty(initFlowStrtDd.getValue())) {
                 var startDt = initFlowStrtDd.getValue().replace(/\-/g, "").toDate();
                 var fnhDt   = initFlowFnhDd.getValue().replace(/\-/g, "").toDate();
 
@@ -190,13 +190,13 @@
             initFlowStrtDd.disable();
             initFlowFnhDd.disable();
         }
-        initFlowStrtDd.setValue(lvInitFlowFnhDd); 
+        initFlowStrtDd.setValue(lvInitFlowStrtDd); 
         initFlowFnhDd.setValue(lvInitFlowFnhDd); 
 
         $("input[name=chkInitFlowYn]").click(function(){
         	console.log($("input[name=chkInitFlowYn]").prop("checked"));
       		if($("input[name=chkInitFlowYn]").prop("checked")){
-      			initFlowStrtDd.setValue(tmpInitFlowFnhDd);
+      			initFlowStrtDd.setValue(tmpInitFlowStrtDd);
       			initFlowFnhDd.setValue(tmpInitFlowFnhDd);
                 initFlowStrtDd.enable();
                 initFlowFnhDd.enable();
@@ -219,39 +219,12 @@
         disableFields = function() {
             Rui.select('.tssLableCss input').addClass('L-tssLable');
             Rui.select('.tssLableCss div').addClass('L-tssLable');
-            
-            /*$('#tr1').show(); //완료첨부파일
-            $('#tr2').hide(); //초기유동첨부파일
-            
-            if (lvTssSt == '' || lvTssSt == '100' || lvTssSt == '101' || lvTssSt == '102') { //100:진행중
-            	
-            } else {
-                setReadonly("chkInitFlowYn");
-                setReadonly("initFlowStrtDd");
-                setReadonly("initFlowFnhDd");
-            }*/
-            
+
             if(pageMode == "W") return;
 
-            ////초기유동관리 완료보고서 및 기타
-            /*if(lvTssSt.indexOf("60") > -1) {
-            	$('#tr1').hide();
-            	$('#tr2').show();
-            	if (lvTssSt == "600") {
-            	    $('#attchFileMngBtn').show(); ////첨부파일 버튼
-            	    btnSave.show();
-            	} else {*/
-            	    $('#attchFileMngBtn').hide();
-            	    btnSave.hide();
-            	/*}
-			} else {
-				$('#tr1').show();
-				$('#tr2').hide();
-				$('#attchFileMngBtn').hide();
+            btnSave.hide();
 
-				btnSave.hide();
-			}*/
-
+            $('#attchFileMngBtn').hide();
         };
 
 
@@ -276,9 +249,7 @@
                 ,{ id: 'fwdPlnTxt'}
                 ,{ id: 'fnoPlnTxt'}
                 ,{ id: 'ancpOtPlnDt'}
-                ,{ id: 'attcFilId' }        //첨부파일
-                ,{ id: 'cmplAttcFilId'}     //완료첨부파일
-                ,{ id: 'initFlowAttcFilId'} //초기유동첨부파일
+                ,{ id: 'cmplAttcFilId'}
                 ,{ id: 'pmisCmplTxt'}
                 ,{ id: 'bizPrftProY'}
                 ,{ id: 'bizPrftProY1'}
@@ -329,11 +300,7 @@
         dataSet.on('load', function(e) {
             console.log("smry load DataSet Success");
 
-            /*if(lvTssSt.indexOf("60") > -1) {
-                lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "initFlowAttcFilId"));
-            } else {*/
-            	lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
-            /*}*/
+            lvAttcFilId = stringNullChk(dataSet.getNameValue(0, "cmplAttcFilId"));
             if(lvAttcFilId != "") {
                 dataSet.setNameValue(0, 'attcFilId', lvAttcFilId );
                 getAttachFileList();
@@ -542,7 +509,6 @@
                 }
             }
                 ,{ id: 'cmplAttcFilId'     , ctrlId: 'cmplAttcFilId'     , value: 'html'}
-                /*,{ id: 'initFlowAttcFilId'     , ctrlId: 'initFlowAttcFilId'     , value: 'html'}*/
             ]
         });
 
@@ -559,9 +525,6 @@
                 , { id: 'rsstDvlpOucmEffTxt', validExp: '파급효과 및 응용분야:false' }
                 , { id: 'fnoPlnTxt',          validExp: '향후 계획:true' }
                 , { id: 'qgate3Dt',           validExp: 'Qgate3(품질평가단계) 패스일자:false' }
-                /*, { id: 'attcFilId',          validExp: '첨부파일:false' }
-                , { id: 'cmplAttcFilId',      validExp: '완료첨부파일:false' }
-                , { id: 'initFlowAttcFilId',  validExp: '초기유동첨부파일:true' }*/
                 , { id: 'fwdPlnTxt',          validExp: '사업화출시계획:true' }
             ]
         });
@@ -571,7 +534,7 @@
         /*============================================================================
         =================================    기능     ================================
         ============================================================================*/
-        //첨부파일 조회 
+        //첨부파일 조회
         var attachFileDataSet = new Rui.data.LJsonDataSet({
             id: 'attachFileDataSet',
             remainRemoved: true,
@@ -586,7 +549,7 @@
         attachFileDataSet.on('load', function(e) {
             getAttachFileInfoList();
         });
-        
+
         getAttachFileList = function() {
             attachFileDataSet.load({
                 url: '<c:url value="/system/attach/getAttachFileList.do"/>' ,
@@ -595,82 +558,58 @@
                 }
             });
         };
-        
+
         getAttachFileInfoList = function() {
             var attachFileInfoList = [];
-            
+
             for( var i = 0, size = attachFileDataSet.getCount(); i < size ; i++ ) {
                 attachFileInfoList.push(attachFileDataSet.getAt(i).clone());
             }
-            
+
             setAttachFileInfo(attachFileInfoList);
         };
-        
+
         //첨부파일 등록 팝업
         getAttachFileId = function() {
             return stringNullChk(lvAttcFilId);
         };
-            
+
         setAttachFileInfo = function(attachFileList) {
-            /*if(lvTssSt.indexOf("60") > -1) {
-	            $('#initFlowAttchFileView').html('');
-	            
-	            for(var i = 0; i < attachFileList.length; i++) {
-	                $('#initFlowAttchFileView').append($('<a/>', {
-	                    href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
-	                    text: attachFileList[i].data.filNm + '(' + attachFileList[i].data.filSize + 'byte)'
-	                })).append('<br/>');
-	            }
-        	} else {*/
-	            $('#attchFileView').html('');
-	            
-	            for(var i = 0; i < attachFileList.length; i++) {
-	                $('#attchFileView').append($('<a/>', {
-	                    href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
-	                    text: attachFileList[i].data.filNm + '(' + attachFileList[i].data.filSize + 'byte)'
-	                })).append('<br/>');
-	            }
-        	/*}*/
-            
+            $('#attchFileView').html('');
+
+            for(var i = 0; i < attachFileList.length; i++) {
+                $('#attchFileView').append($('<a/>', {
+                    href: 'javascript:downloadAttachFile("' + attachFileList[i].data.attcFilId + '", "' + attachFileList[i].data.seq + '")',
+                    text: attachFileList[i].data.filNm + '(' + attachFileList[i].data.filSize + 'byte)'
+                })).append('<br/>');
+            }
+
             if(attachFileList.length > 0) {
                 lvAttcFilId = attachFileList[0].data.attcFilId;
-                /*if(lvTssSt.indexOf("60") > -1) {
-                    dataSet.setNameValue(0, "initFlowAttcFilId", lvAttcFilId);
-                } else {*/
-                    dataSet.setNameValue(0, "cmplAttcFilId", lvAttcFilId);
-                /*}*/
+                dataSet.setNameValue(0, "attcFilId", lvAttcFilId);
                 initFrameSetHeight();
-
                 tmpAttchFileList = attachFileList;
             }
         };
-        /*==========================================================================*/
-        
+
         downloadAttachFile = function(attcFilId, seq) {
             aForm.action = "<c:url value='/system/attach/downloadAttachFile.do'/>" + "?attcFilId=" + attcFilId + "&seq=" + seq;
             aForm.submit();
         };
-        
-        
+
+
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-        	
-        	
-        	/*if (fnAttchValid()<=0) {
-        		Rui.alert("첨부파일은 필수입력 입니다.");
-        		return;
-        	}*/
-        	
             if (fnIfmIsUpdate("SAVE") ){
             	
             	lvInitFlowYn = (stringNullChk(chkInitFlowYn.getValue())=="")?"N":"Y"; 
-            	lvInitFlowFnhDd= (lvInitFlowYn=="Y")?initFlowStrtDd.getValue() : ""; 
-            	lvInitFlowFnhDd = (lvInitFlowYn=="Y")?initFlowFnhDd.getValue() : "";  
+            	lvInitFlowStrtDd = (lvInitFlowYn=="Y")?initFlowStrtDd.getValue() : ""; 
+            	lvInitFlowFnhDd  = (lvInitFlowYn=="Y")?initFlowFnhDd.getValue() : "";  
             	
             	window.parent.initFlowYn = lvInitFlowYn; 
             	
-            	console.log("[lvInitFlowYn]", lvInitFlowYn, "[lvInitFlowFnhDd]", lvInitFlowFnhDd, "[lvInitFlowFnhDd]", lvInitFlowFnhDd);
+            	console.log("[lvInitFlowYn]", lvInitFlowYn, "[lvInitFlowStrtDd]", lvInitFlowStrtDd, "[lvInitFlowFnhDd]", lvInitFlowFnhDd);
             	console.log("[$(\"input[name=chkInitFlowYn]\").prop(\"checked\")]", $("input[name=chkInitFlowYn]").prop("checked"));
             	if ($("input[name=chkInitFlowYn]").prop("checked")) {
             		if(Rui.isEmpty(initFlowStrtDd.getValue())) {
@@ -683,33 +622,33 @@
             			return false;
             		}
             		
-            		window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowFnhDd, lvInitFlowFnhDd);
+            		window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowStrtDd, lvInitFlowFnhDd);
                     window.parent.fnSave();
                     
             	} else {
             		if(confirm("초기유동관리여부 확인하셨습니까?")){ //TODO\n저장후에는 수정/삭제가 불가능합니다.
-                    	window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowFnhDd, lvInitFlowFnhDd);
+                    	window.parent.fnInitFlow(lvInitFlowYn, lvInitFlowStrtDd, lvInitFlowFnhDd);
                         window.parent.fnSave();
                 	}
             	}
             	
             }
         });
-        
-        //데이터 셋팅 
-        if(${resultCnt} > 0) { 
+
+        //데이터 셋팅
+        if(${resultCnt} > 0) {
             console.log("smry searchData1");
-            dataSet.loadData(${result}); 
+            dataSet.loadData(${result});
         } else {
             console.log("smry searchData2");
             dataSet.newRecord();
         }
-        
+
         disableFields();
-        		
+
        	if("<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T15') > -1 || "<c:out value='${inputData._roleId}'/>".indexOf('WORK_IRI_T16') > -1) {
             $("#btnSave").hide();
-            $('#attchFileMngBtn').hide(); ////첨부파일 버튼
+            //$('#attchFileMngBtn').hide(); ////첨부파일 버튼
         }
 
     });
@@ -717,7 +656,7 @@
 
     //validation
     function fnIfmIsUpdate(gbn) {
-        if(!vm.validateGroup("aForm")) {            
+        if(!vm.validateGroup("aForm")) {
             Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>'));
             return false;
         }
@@ -747,7 +686,7 @@
 <script type="text/javascript">
 $(window).load(function() {
     initFrameSetHeight("aFormDiv");
-}); 
+});
 </script>
 </head>
 <body>
@@ -982,19 +921,15 @@ $(window).load(function() {
                 </tr>
                 <tr id="tr1">
                     <th align="right">과제완료보고서 및 기타</th>
-                    <td id="attchFileView">&nbsp;</td>
-                    <td><!-- <button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button> --></td>
+                    <td id="attchFileView" colspan="2">&nbsp;</td>
+                    <!-- <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td> -->
                 </tr>
-                <!-- <tr id="tr2">
-                    <th align="right">초기유동관리 <br/>완료보고서 및 기타</th>
-                    <td id="initFlowAttchFileView">&nbsp;</td>
-                    <td><button type="button" class="btn" id="attchFileMngBtn" name="attchFileMngBtn" onclick="openAttachFileDialog(setAttachFileInfo, getAttachFileId(), 'prjPolicy', '*')">첨부파일등록</button></td>
-                </tr> -->
             </tbody>
         </table>
 
         <!-- [2024.03.12] 밑으로 스크롤이 안되어 추가함-->
         <br/><br/><br/>
+
     </form>
 
 	<div class="titArea">

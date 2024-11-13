@@ -35,9 +35,10 @@
  }
 </style>
 <script type="text/javascript">
-    var lvUserId   = window.parent.gvUserId;    //로그인ID
-    var lvMstPgsCd = window.parent.gvPgsStepCd; //진행코드
-    var lvMstTssSt = window.parent.gvTssSt;     //과제상태
+    var lvTssCd      = "${inputData.tssCd}";        //과제상세코드
+    var lvUserId     = window.parent.gvUserId;    //로그인ID
+    var lvMstPgsCd   = window.parent.gvPgsStepCd; //진행코드
+    var lvMstTssSt   = window.parent.gvTssSt;     //과제상태
     var lvSaSabunNew = window.parent.gvSaSabunNew; //과제리더사번
 
     var pageMode = lvMstPgsCd == "CM" && lvMstTssSt == "600" ? "W" : "R";
@@ -51,8 +52,12 @@
         ============================================================================*/
         //Form 비활성화 여부
         disableFields = function() {
-        	if(pageMode == "W" && ("${inputData._roleId}".indexOf("T01")>-1||"${inputData._userSabun}" == lvSaSabunNew)) {
-                $('#attchFileMngBtn').show(); 
+            //버튼여부
+            $('#attchFileMngBtn').hide();  //[첨부파일]
+            btnSave.hide();  //[저장]
+            
+            if(pageMode == "W" && ("${inputData._roleId}".indexOf("T01")>-1||"${inputData._userSabun}" == lvSaSabunNew)) {
+                $('#attchFileMngBtn').show();
                 btnSave.show();
             } else {
                 $('#attchFileMngBtn').hide(); 
@@ -121,23 +126,25 @@
         //저장
         var btnSave = new Rui.ui.LButton('btnSave');
         btnSave.on('click', function() {
-            if(!fncVaild()) return ;
-
-            if(confirm("저장하시겠습니까?")) {
-                dataSet.setNameValue(0, "tssCd",  lvTssCd);  //과제코드
-                dataSet.setNameValue(0, "userId", lvUserId); //사용자ID
-                dataSet.setNameValue(0, "tssSt", "600"); //600:초기유동작성중
-                dataSet.setNameValue(0, "remTxt", Wec.GetBodyValue());
-
-                dm.updateDataSet({
-                    modifiedOnly: false,
-                    url:'<c:url value="/prj/tss/nat/updateNatTssStoa.do"/>',
-                    dataSets:[dataSet]
-                });
-             }
+            if (fnIfmIsUpdate("SAVE") ){
+	            if(!fncVaild()) return ;
+	
+	            if(confirm("저장하시겠습니까?")) {
+	                dataSet.setNameValue(0, "tssCd",  lvTssCd);  //과제코드
+	                dataSet.setNameValue(0, "userId", lvUserId); //사용자ID
+	                dataSet.setNameValue(0, "tssSt", "600"); //600:초기유동작성중
+	                dataSet.setNameValue(0, "remTxt", Wec.GetBodyValue());
+	
+	                dm.updateDataSet({
+	                    modifiedOnly: false,
+	                    url:'<c:url value="/prj/tss/nat/updateNatTssStoa.do"/>',
+	                    dataSets:[dataSet]
+	                });
+	            }
+	        }
         });
 
-        var fncVaild = function(){
+        /* var fncVaild = function(){
         	var frm = document.stoaForm;
 
     		dataSet.setNameValue(0, 'remTxt', Wec.GetBodyValue());
@@ -155,7 +162,7 @@
     		}
 
     		return true;
- 		}
+ 		} */
 
         //첨부파일 조회
         var attachFileDataSet = new Rui.data.LJsonDataSet({
@@ -238,6 +245,41 @@
 		}
 
     });
+    
+    //validation
+    function fnIfmIsUpdate(gbn) {
+        /* if(!vm.validateGroup("aForm")) {            
+            Rui.alert(Rui.getMessageManager().get('$.base.msg052') + '<br>' + vm.getMessageList().join('<br>'));
+            return false;
+        } */
+
+        if(gbn != "SAVE" && dataSet.isUpdated()) {
+           Rui.alert("초기유동관리탭 저장을 먼저 해주시기 바랍니다.");
+           return false;
+        }
+
+        return true;
+    }
+
+    function fncVaild(){
+    	var frm = document.stoaForm;
+
+		dataSet.setNameValue(0, 'remTxt', Wec.GetBodyValue());
+
+		if( Wec.GetBodyValue() == "<p><br></p>" || Wec.GetBodyValue() == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
+			alert('내용을 입력하여 주십시요.');
+			Wec.SetFocusEditor(); // 크로스에디터 Focus 이동
+ 		    return false;
+ 		}
+		
+		console.log("[lvAttcFilId]", lvAttcFilId);
+		if ( lvAttcFilId == "" ) {
+			alert("첨부파일을 등록하세요.");
+			return false;
+		}
+
+		return true;
+	}
 </script>
 <script type="text/javascript">
 $(window).load(function() {
@@ -267,7 +309,7 @@ $(window).load(function() {
 					<td colspan="2">
 						<div id="namoHtml_DIV">
 							<textarea id="remTxt" name="remTxt"></textarea>
-							<script>
+							<script type="text/javascript" language="javascript">
                                 Wec = new NamoSE('remTxt');
                                 Wec.params.Width = "100%";
                                 Wec.params.UserLang = "auto";
@@ -278,7 +320,7 @@ $(window).load(function() {
                                 Wec.EditorStart();
 
                                 function OnInitCompleted(e){
-	                                e.editorTarget.SetBodyValue(document.getElementById("divWec").value);
+	                                e.editorTarget.SetBodyValue(document.getElementById("remTxt").value);
 	                            }
                             </script>
 						</div>

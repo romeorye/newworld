@@ -72,7 +72,6 @@
             editable: false,
             width: 300
         });
-
         //조직
         deptName = new Rui.ui.form.LTextBox({
             applyTo: 'deptName',
@@ -243,7 +242,7 @@
         //Form 비활성화 여부
         disableFields = function() {
             //버튼여부
-            btnCsusRq.hide(); //[춤의서요청]
+            btnCsusRq.hide(); //[품의서요청]
             btnInitFlowRq.hide(); //[초기유동 품의서요청]
             
             if("TR01" == dataSet.getNameValue(0, "tssRoleId") || "${inputData._userSabun}" == dataSet.getNameValue(0, "saSabunNew")) {
@@ -355,7 +354,11 @@
             
             disableFields();
 
-            tabView.selectTab(0);
+            /* if (gvTssSt=="600") { //초기유동관리 탭으로 이동 
+                tabView.selectTab(7);
+            } else { //나머지는 완료 탭으로 이동 */
+                tabView.selectTab(0);
+            /* } */
 
             if(!Rui.isEmpty(rtnMsg)){
             	if(rtnMsg == "G"){
@@ -367,7 +370,6 @@
             	}
             }
         });
-
 
         //폼에 출력
         var bind = new Rui.data.LBind({
@@ -580,18 +582,21 @@
         if($("#btnInitFlowRq").length > 0){
         	btnInitFlowRq = new Rui.ui.LButton('btnInitFlowRq');
 	        btnInitFlowRq.on('click', function() {
+	        	
 	            document.mstForm.tssSt.value = dataSet.getNameValue(0, 'tssSt');
 	            document.mstForm.pgsStepCd.value = dataSet.getNameValue(0, 'pgsStepCd');
 	
 	            var pgsStepCd = document.mstForm.pgsStepCd.value;
-	            var initFlowVaild = document.getElementById('tabContent7').contentWindow.fncVaild();
-	            if (!initFlowVaild) return;
+
+	            //tabView.selectTab(7); //실페
+	            /* var initFlowVaild = document.getElementById('tabContent7').contentWindow.fncVaild();
+	            if (!initFlowVaild) return; */
 	
 	          	Rui.confirm({
 	                text: '초기유동 품의서요청을 하시겠습니까?',
 	                handlerYes: function() {
 	                    //nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00361"+"&pgTssCd="+gvTssCd);
-	                	nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00361"+"&pgTssCd="+gvTssCd);
+	                	nwinsActSubmit(document.mstForm, "<c:url value='/prj/tss/gen/genTssCmplCsusRq.do'/>" + "?tssCd="+cmplTssCd+"&userId="+gvUserId+"&wbsCd="+gvWbsCd+"&itmFlag="+itmFlag+"&appCode=APP00332"+"&pgTssCd="+gvTssCd);
 	                },
 	                handlerNo: Rui.emptyFn
 	            });
@@ -604,7 +609,7 @@
         	$("#initFlowStrtDd").val(initFlowStrtDd);
         	$("#initFlowFnhDd").val(initFlowFnhDd);
         	
-        	tmpInitFlowFnhDd = Rui.isEmpty(initFlowStrtDd) ? tmpInitFlowFnhDd : initFlowStrtDd;
+        	tmpInitFlowStrtDd = Rui.isEmpty(initFlowStrtDd) ? tmpInitFlowStrtDd : initFlowStrtDd;
         	tmpInitFlowFnhDd  = Rui.isEmpty(initFlowFnhDd) ? tmpInitFlowFnhDd : initFlowFnhDd;
         }
         
