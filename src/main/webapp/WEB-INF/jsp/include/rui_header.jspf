@@ -54,6 +54,7 @@
     //[20240409.siseo]시스템 환경설정 title에 보여주기 추가//////////////////////
     String serverEnv = configService.getString("serverEnv");
     serverEnv = NullUtil.nvl(serverEnv, "").toUpperCase();
+    serverEnv = (serverEnv!="" && serverEnv.indexOf("PROD")>-1 ? "" : serverEnv);
     String documentTitle = serverEnv + "  :::  연구정보통합시스템(IRIS)  :::  ";
     ///////////////////////////////////////////////////////////////////////////
 
