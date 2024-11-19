@@ -613,12 +613,14 @@ public class GenTssPlnController  extends IrisBaseController {
      * @return String
      * @throws JSONException
      * */
-    @RequestMapping(value="/prj/tss/gen/genTssPlnWBSIfm.do")
+    //@RequestMapping(value="/prj/tss/gen/genTssPlnWBSIfm.do")
+    @RequestMapping(value = {"/prj/tss/gen/genTssPlnWBSIfm.do", "/prj/tss/gen/genTssPlnWBSV2Ifm.do"})
     public String genTssPlnWBSIfm(@RequestParam HashMap<String, String> input, HttpServletRequest request,
             HttpSession session, ModelMap model) throws JSONException {
 
         LOGGER.debug("###########################################################");
         LOGGER.debug("GenTssController - genTssPlnWBSIfm [과제관리 > 일반과제 > 계획 > WBS iframe 화면 ]");
+        LOGGER.debug("  request.getRequestURI() - " + request.getRequestURI());
         LOGGER.debug("###########################################################");
 
         checkSession(input, session, model);
@@ -638,8 +640,13 @@ public class GenTssPlnController  extends IrisBaseController {
 
             model.addAttribute("inputData", input);
         }
-
-        return "web/prj/tss/gen/pln/genTssPlnWBSIfm";
+        
+        String rsltJsp = "web/prj/tss/gen/pln/genTssPlnWBSIfm";
+        String WBSV2 = "WBSV2";
+        if (request.getRequestURI().indexOf(WBSV2)>-1) 
+        	return rsltJsp.replaceAll("WBS", WBSV2);
+        else 
+            return rsltJsp;
     }
 
 

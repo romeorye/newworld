@@ -315,6 +315,10 @@
              , FRST_RGST_ID    --최초등록자
              , LAST_MDFY_DT    --최종수정일시
              , LAST_MDFY_ID    --최종수정자
+             , QRT_MLST_GOAL_TXT
+             , MONTH_GOAL_TXT
+             , WBS_GOAL_DD
+             , WBS_CLS_RSLT_CD
              )
         SELECT #{tssCd}
              , WBS_SN
@@ -336,6 +340,11 @@
              , #{userId}
              , GETDATE()
              , #{userId}
+
+             , QRT_MLST_GOAL_TXT
+             , MONTH_GOAL_TXT
+             , WBS_GOAL_DD
+             , WBS_CLS_RSLT_CD
           FROM IRIS_TSS_GEN_WBS
          WHERE TSS_CD = #{pgTssCd}
     ]]>
@@ -374,6 +383,11 @@ WITH w_WBS AS (
                                             AND Y.WBS_SN = (SELECT X.PID_SN FROM IRIS_TSS_GEN_WBS X WHERE X.TSS_CD = #{tssCd} AND X.WBS_SN = A.PID_SN))
                     END AS pidSeq
              , #{_userId}   AS userId
+
+             , QRT_MLST_GOAL_TXT  AS qrtMlstGoalTxt  --분기마일스톤
+             , MONTH_GOAL_TXT     AS monthGoalTxt    --월별목표
+             , WBS_GOAL_DD        AS wbsGoalDd       --WBS목표일자
+             , WBS_CLS_RSLT_CD    AS wbsClsRsltCd    --WBS마감결과코드
           FROM IRIS_TSS_GEN_WBS A  /*일반과제WBS*/
          WHERE A.TSS_CD = #{tssCd}
     --     ORDER BY pidSeq, depthSeq

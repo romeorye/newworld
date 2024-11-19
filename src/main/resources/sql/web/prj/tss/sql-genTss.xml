@@ -364,6 +364,11 @@
              , FRST_RGST_ID
              , LAST_MDFY_DT
              , LAST_MDFY_ID
+             
+             , QRT_MLST_GOAL_TXT
+             , MONTH_GOAL_TXT
+             , WBS_GOAL_DD
+             , WBS_CLS_RSLT_CD
              )
         VALUES
              ( #{tssCd}
@@ -386,6 +391,11 @@
              , #{userId}
              , GETDATE()
              , #{userId}
+             
+             , #{qrtMlstGoalTxt}
+             , #{monthGoalTxt}
+             , #{wbsGoalDd}
+             , #{wbsClsRsltCd}
              )
           WHEN MATCHED THEN
         UPDATE
@@ -406,7 +416,12 @@
              , ATTC_FIL_ID  = #{attcFilId}
              , LAST_MDFY_DT = GETDATE()
              , LAST_MDFY_ID = #{userId}
-             ;
+             
+             , QRT_MLST_GOAL_TXT = #{qrtMlstGoalTxt}
+             , MONTH_GOAL_TXT    = #{monthGoalTxt}
+             , WBS_GOAL_DD       = #{wbsGoalDd}
+             , WBS_CLS_RSLT_CD   = #{wbsClsRsltCd}
+        ;
     ]]>
     </update>
 
