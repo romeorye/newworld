@@ -10,7 +10,7 @@
  *------------------------------------------------------------------------
  * VER  DATE        AUTHOR      DESCRIPTION
  * ---  ----------- ----------  -----------------------------------------
- * 1.0  2024.11.18  siseo       WBS 입력 운영 방식 전환 (정근 책임요청)
+ * 1.0  2024.11.18  siseo       WBS 입력 운영 방식 전환 (정근책임 요청)
  * ---  ----------- ----------  -----------------------------------------
  * IRIS 프로젝트
  *************************************************************************
@@ -40,7 +40,8 @@
     var lvUserId   = window.parent.gvUserId;
     var lvTssSt    = window.parent.gvTssSt;
     var lvPageMode = window.parent.gvPageMode;
-
+    var wbsClsRsltCd;
+    
     var pageMode = (lvTssSt == "100" || lvTssSt == "" || lvTssSt == "302" ) && lvPageMode == "W" ? "W" : "R";
 
     var dataSet;
@@ -49,18 +50,20 @@
         /*============================================================================
         =================================    Form     ================================
         ============================================================================*/
-        //담당연구원
-        var chargeMbr = new Rui.ui.form.LCombo({
-            name: 'chargeMbr',
-            url: '<c:url value="/prj/tss/gen/retrieveChargeMbr.do?tssCd=' + lvTssCd + '"/>',
-            displayField: 'mbrUserNm',
-            valueField: 'mbrUserId',
+
+        //WBS마감결과코드
+        var wbsClsRsltCdCombo = new Rui.ui.form.LCombo({
+            name: 'wbsClsRsltCd',
+            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=WBS_CLS_RSLT_CD"/>',
+            displayField: 'COM_DTL_NM',
+            valueField: 'COM_DTL_CD',
+            emptyText: '(선택)',
             rendererField: 'value',
             autoMapping: true
         });
-        /* chargeMbr.getDataSet().on('load', function(e) {
-            console.log('chargeMbr :: load');
-        }); */
+        wbsClsRsltCdCombo.getDataSet().on('load', function(e) {
+            console.log('wbsClsRsltCd :: load');
+        });
         
         //Form 비활성화
         disableFields = function() {
@@ -144,7 +147,12 @@
                             return Rui.util.LFormat.dateToString(value, {format: '%x (%a)'});
                         }
                   } }
-
+                , { field: 'wbsClsRsltCd', label: '마감결과', sortable: false, align:'left', width: 120, editor: wbsClsRsltCdCombo
+                    , renderer: function(val, p, record, row, col){
+                        //console.log("[val]",val, "[p]",p, "[record]",record, "[row]",row, "[col]",col, record.data.wbsClsRsltCd);
+                        /////record.data.wbsClsRsltCd == '30' ? butRecordInsert.click() : '';
+                        return val; }
+                }
             ]
         });
         
@@ -152,7 +160,7 @@
             columnModel: columnModel,
             dataSet: dataSet,
             width: 600,
-            height: 308,
+            height: 400,
             autoToEdit: true,
             clickToEdit: true,
             enterToEdit: true,
@@ -318,6 +326,7 @@
                     return false;
                 }
 
+                var wbsSort = 1;
                 for(var i = 0; i < dataSet.getCount(); i++) {
                 	if(dataSet.getState(i) != 3) {
                         dataSet.setNameValue(i, "depthSeq", wbsSort++);
@@ -347,6 +356,26 @@
                     },
                     handlerNo: Rui.emptyFn
                 });
+            });
+        }
+        
+        /*
+        //목록
+        var btnList = new Rui.ui.LButton('btnList');
+        btnList.on('click', function() {
+            nwinsActSubmit(window.parent.document.mstForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
+        });
+ */
+
+        //엑셀다운
+        if($("#butExcel").length > 0){
+            var butExcel = new Rui.ui.LButton('butExcel');
+            butExcel.on('click', function() {
+                if(dataSet.getCount() > 0) {
+                    grid.saveExcel(toUTF8('과제관리_연구팀과제_WBS_') + new Date().format('%Y%m%d') + '.xls');
+                } else {
+                    Rui.alert('조회된 데이타가 없습니다.');
+                }
             });
         }
         
@@ -406,6 +435,7 @@ $(window).load(function() {
             <button type="button" id="butRecordInsert">삽입</button>
             <button type="button" id="btnSave" name="btnSave">저장</button>
             <button type="button" id="butRecordDel">삭제</button>
+            <button type="button" id="butExcel" name="">Excel다운로드</button>
         </div>
     </div>
     <div id="wbsFormDiv">
