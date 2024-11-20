@@ -126,12 +126,12 @@
             columns: [
                   new Rui.ui.grid.LSelectionColumn()
                 , new Rui.ui.grid.LStateColumn()
-                , new Rui.ui.grid.LNumberColumn()
+                //, new Rui.ui.grid.LNumberColumn()
                 , { field: 'wbsCd', label: '과제코드', sortable: false, align:'center', width: 100
                     , renderer: function(value, p, record) {
                         return window.parent.gvWbsCd;
                     } }
-                , { field: 'tssNm', label: '과제명', sortable: false, align:'left', width: 200
+                , { field: 'tssNm', label: '과제명', sortable: false, align:'left', width: 250
                     , renderer: function(value, p, record) {
                         return window.parent.tssNm;
                     } }
@@ -139,20 +139,31 @@
                 , { field: 'monthGoalTxt', label: '중간목표', sortable: false, align:'left', width: 200, editor: new Rui.ui.form.LTextBox() }
                 , { field: 'wbsGoalDd', label: '목표일정', sortable: false, align:'center', width: 120, editor: new Rui.ui.form.LDateBox()
                     , renderer: function(value, p, record) {
-                        if(record.data.wbsGoalDd != null) {
+                        if(!Rui.isEmpty(record.data.wbsGoalDd)) {
                             var valDate = Rui.util.LFormat.stringToDate(record.data.wbsGoalDd, {format: '%x'});
                             return Rui.util.LFormat.dateToString(valDate, {format: '%x (%a)'});
                         }
                         if(value!="") {
                             return Rui.util.LFormat.dateToString(value, {format: '%x (%a)'});
                         }
-                  } }
-                , { field: 'wbsClsRsltCd', label: '마감결과', sortable: false, align:'left', width: 120, editor: wbsClsRsltCdCombo
+                    } }
+                , { field: 'oldStrtDt', label: '이월전일정', sortable: false, align:'center', width: 120, editor: new Rui.ui.form.LDateBox()
+                    , renderer: function(value, p, record) {
+                        if(!Rui.isEmpty(record.data.oldStrtDt)) {
+                            var valDate = Rui.util.LFormat.stringToDate(record.data.oldStrtDt, {format: '%x'});
+                            return Rui.util.LFormat.dateToString(valDate, {format: '%x (%a)'});
+                        }
+                        if(value!="") {
+                            return Rui.util.LFormat.dateToString(value, {format: '%x (%a)'});
+                        }
+                    } }
+                , { field: 'wbsClsRsltCd', label: '마감결과', sortable: false, align:'left', width: 80, editor: wbsClsRsltCdCombo
                     , renderer: function(val, p, record, row, col){
                         //console.log("[val]",val, "[p]",p, "[record]",record, "[row]",row, "[col]",col, record.data.wbsClsRsltCd);
                         /////record.data.wbsClsRsltCd == '30' ? butRecordInsert.click() : '';
-                        return val; }
-                }
+                        return val;
+                    } }
+                , { field: 'yldItmNm', label: '산출물명', sortable: false, renderRow: true, align:'left', width: 150, renderer: Rui.util.LRenderer.popupRenderer() }
             ]
         });
         
@@ -202,7 +213,7 @@
                   , { id: 'pidSn',            validExp: 'PID:false' }
                   , { id: 'depth',            validExp: 'DEPTH:false' }
                   , { id: 'depthSeq',         validExp: '순서:false' }
-                  , { id: 'wbsGoalDd',        validExp: '목표일정:true' }
+                  //, { id: 'wbsGoalDd',        validExp: '목표일정:true' }
             ]
         });
         
@@ -243,6 +254,10 @@
                 var rowBef = dataSet.getAt(dataSet.getRow());
                 console.log("[rowBef]", rowBef)
                 var lvWbsGoalDd = rowBef.get("wbsGoalDd");
+                
+                //var valDate = Rui.util.LFormat.stringToDate(rowBef.get("wbsGoalDd"), {format: '%x'});
+                lvWbsGoalDd = Rui.util.LFormat.dateToString(lvWbsGoalDd, {format: '%x (%a)'});
+                
                 var row = dataSet.newRecord(dataSet.getRow()+1);
                 if (rowBef !== false && row !== false) {
                     var record = dataSet.getAt(row);
@@ -252,6 +267,7 @@
                     record.set("depthSeq", rowBef.get("depthSeq")+1); //순서
                     record.set('qrtMlstGoalTxt', rowBef.get("qrtMlstGoalTxt"));
                     record.set('monthGoalTxt', rowBef.get("monthGoalTxt"));
+                    //console.log("[lvWbsGoalDd]", lvWbsGoalDd);
                     (!Rui.isEmpty(lvWbsGoalDd))?record.set('wbsGoalDd', lvWbsGoalDd.replace(/\-/g, "").toDate()):"";
                 }
             });
@@ -270,9 +286,9 @@
                 for(var i = 0; i < dataSet.getCount(); i++) {
                      dataSet.setNameValue(i, 'tssCd', lvTssCd );
                 }
-                Rui.confirm({
+                /* Rui.confirm({
                     text: Rui.getMessageManager().get('$.base.msg107'),
-                    handlerYes: function() {
+                    handlerYes: function() { */
                         //실제 DB삭제건이 있는지 확인
                         var dbCallYN = false;
                         var chkRows = dataSet.getMarkedRange().items;
@@ -301,9 +317,9 @@
                                 dataSets:[dataSet]
                             });
                         } */
-                    },
-                    handlerNo: Rui.emptyFn
-                });
+                        /*,}
+                     handlerNo: Rui.emptyFn
+                }); */
             });
         }
         
@@ -359,13 +375,12 @@
             });
         }
         
-        /*
-        //목록
+        
+        /*//목록
         var btnList = new Rui.ui.LButton('btnList');
         btnList.on('click', function() {
             nwinsActSubmit(window.parent.document.mstForm, "<c:url value='/prj/tss/gen/genTssList.do'/>");
-        });
- */
+        }); */
 
         //엑셀다운
         if($("#butExcel").length > 0){
@@ -431,8 +446,14 @@ $(window).load(function() {
 <div id="formDiv">
     <div class="titArea">
         <div class="LblockButton">
+            <span>
+                진척 계획(%) &nbsp;|&nbsp;
+                진척 실적(%) &nbsp;|&nbsp;
+                진척 평가
+            </span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" id="butRecordNew">추가</button>
-            <button type="button" id="butRecordInsert">삽입</button>
+            <!-- <button type="button" id="butRecordInsert">삽입</button> -->
             <button type="button" id="btnSave" name="btnSave">저장</button>
             <button type="button" id="butRecordDel">삭제</button>
             <button type="button" id="butExcel" name="">Excel다운로드</button>
