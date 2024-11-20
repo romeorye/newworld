@@ -130,8 +130,19 @@
         fnSearch();
         
         
-      //과제 수정
+        //과제 수정
         fncTssUpdate = function(){
+        
+            if(!dataSet.isUpdated()) {
+                Rui.alert("변경된 데이터가 없습니다.");
+                return;
+            }
+    	    
+            if(!valid.validateGroup("aform")) {
+        		alert(Rui.getMessageManager().get('$.base.msg052') + '\n' + valid.getMessageList().join(''));
+                return;
+        	}
+            
         	var dm = new Rui.data.LDataSetManager({defaultFailureHandler: false});
             dm.on('success', function (e) {      // 업데이트 성공시
                 var resultData = resultDataSet.getReadData(e);
