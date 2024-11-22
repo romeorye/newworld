@@ -251,6 +251,7 @@
          , LAST_MDFY_DT
          , WBS_CD
          , sa_sabun_name
+         , TSS_NM
     ]]>
          <if test="( toDoYn != null and toDoYn != '')"><!-- todo완료여부 -->
          , TO_DO_YN
@@ -274,6 +275,7 @@
          , getdate()
          , #{tssWbsCd}
          , #{_userNm}
+         , #{tssNm}
     ]]>
          <if test="( toDoYn != null and toDoYn != '')"><!-- todo완료여부 -->
          , #{toDoYn}
@@ -359,6 +361,9 @@
                 <if test="( tssWbsCd != null and tssWbsCd != '')"><!-- wbs코드 -->
                      , WBS_CD =  #{tssWbsCd}
                 </if>
+                <if test="( tssNm != null and tssNm != '')"><!-- 과제명 -->
+                     , TSS_NM =  #{tssNm}
+                </if>
                 <if test="( ptcPro != null and ptcPro != '')"><!-- 참여율 -->
                      , PTC_PRO = #{ptcPro}
                 </if>
@@ -399,6 +404,7 @@
                  , LAST_MDFY_DT
                  , WBS_CD
                  , sa_sabun_name
+                 , TSS_NM
         ]]>
                  <if test="( clsDt != null and clsDt != '')"><!-- 마감일자 -->
                  , CLS_DT
@@ -424,7 +430,8 @@
                  , #{_userId}
                  , getdate()
                  , #{tssWbsCd}
-                 , #{_userNm}
+                 , #{saName}
+                 , #{tssNm}
         ]]>
                  <if test="( clsDt != null and clsDt != '')"><!-- 마감일자 -->
                  , CONVERT(NVARCHAR(10), GETDATE(), 23)

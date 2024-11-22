@@ -275,20 +275,25 @@ public class MmClsInfoController extends IrisBaseController {
 
 
             for(Map<String,Object> dataSetMap : dataSetList) {
-                inputParamMap = new HashMap<String,Object>();
+                //inputParamMap = new HashMap<String,Object>();
+                inputParamMap = dataSetList.get(totCnt);
+
                 inputParamMap.put("_userId"    , NullUtil.nvl(input.get("_userId"), ""));           // 유저ID
-                inputParamMap.put("tssCd", dataSetMap.get("tssCd"));
+                inputParamMap.put("ilckSt", "N");
+                inputParamMap.put("toDoYn", "Y");
+                inputParamMap.put("ousdTssYn", NullUtil.nvl(dataSetMap.get("ousdTssYn"), "N"));
+                inputParamMap.put("clsDt", NullUtil.nvl(dataSetMap.get("clsDt"), ""));
+
+                /*inputParamMap.put("tssCd", dataSetMap.get("tssCd"));
                 inputParamMap.put("prjCd", dataSetMap.get("prjCd"));
                 inputParamMap.put("saSabunNew", dataSetMap.get("saSabunNew"));
                 inputParamMap.put("ptcPro", dataSetMap.get("ptcPro"));
                 inputParamMap.put("mmYymm", dataSetMap.get("mmYymm"));
                 inputParamMap.put("commTxt", dataSetMap.get("commTxt"));
-                inputParamMap.put("ousdTssYn", NullUtil.nvl(dataSetMap.get("ousdTssYn"), "N"));
-                inputParamMap.put("clsDt", NullUtil.nvl(dataSetMap.get("clsDt"), ""));
                 inputParamMap.put("tssWbsCd", dataSetMap.get("tssWbsCd"));
                 inputParamMap.put("wbsCd", dataSetMap.get("tssWbsCd"));
-                inputParamMap.put("ilckSt", "N");
-                inputParamMap.put("toDoYn", "Y");
+                inputParamMap.put("saName", dataSetMap.get("saName"));
+                inputParamMap.put("tssNm", dataSetMap.get("tssNm"));*/
 
                 mmClsInfoService.saveMmCls(inputParamMap);
 
@@ -355,27 +360,31 @@ public class MmClsInfoController extends IrisBaseController {
 
             for(Map<String,Object> dataSetMap : dataSetList) {
                 // 업데이트 파라미터 처리
-                inputParamMap = new HashMap<String,Object>();
-                inputParamMap.put("_userId"    , NullUtil.nvl(input.get("_userId"), ""));           // 유저ID
+                //inputParamMap = new HashMap<String,Object>();
+                inputParamMap = dataSetList.get(totCnt);
 
-                // KEY
-                inputParamMap.put("tssCd"      , NullUtil.nvl(dataSetMap.get("tssCd"), ""));       // 과제코드
-                inputParamMap.put("saSabunNew" , NullUtil.nvl(dataSetMap.get("saSabunNew"), ""));  // 사번
-                inputParamMap.put("mmYymm"     , NullUtil.nvl(dataSetMap.get("mmYymm"), ""));       // 마감월
-
-                // DATA
-                inputParamMap.put("clsYn"      , NullUtil.nvl(dataSetMap.get("clsYn"), ""));       // 마감여부
-                inputParamMap.put("ptcPro"     , NullUtil.nvl(dataSetMap.get("ptcPro"), ""));       // 참여율
-                inputParamMap.put("commTxt"    , NullUtil.nvl(dataSetMap.get("commTxt"), ""));       // 메모
-                inputParamMap.put("prjCd"      , NullUtil.nvl(dataSetMap.get("prjCd"), ""));       // 프로젝트코드
-                inputParamMap.put("tssWbsCd"      , NullUtil.nvl(dataSetMap.get("tssWbsCd"), ""));       // WBS코드
-                inputParamMap.put("wbsCd"      , NullUtil.nvl(dataSetMap.get("tssWbsCd"), ""));       // WBS코드2
+                inputParamMap.put("_userId"    , NullUtil.nvl(input.get("_userId"), ""));             // 유저ID
 
                 // 마감
                 if("Y".equals(NullUtil.nvl(dataSetMap.get("clsYn"),""))) {
-                    inputParamMap.put("clsDt"      , NullUtil.nvl(dataSetMap.get("clsDt"), ""));    // 마감일자
+                    inputParamMap.put("clsDt"      , NullUtil.nvl(dataSetMap.get("clsDt"), ""));      // 마감일자
                     inputParamMap.put("toDoYn"     , "Y");                                            // TO-DO 완료여부
                 }
+
+                /*// KEY
+                inputParamMap.put("tssCd"      , NullUtil.nvl(dataSetMap.get("tssCd"), ""));          // 과제코드
+                inputParamMap.put("saSabunNew" , NullUtil.nvl(dataSetMap.get("saSabunNew"), ""));     // 사번
+                inputParamMap.put("mmYymm"     , NullUtil.nvl(dataSetMap.get("mmYymm"), ""));         // 마감월
+
+                // DATA
+                inputParamMap.put("clsYn"      , NullUtil.nvl(dataSetMap.get("clsYn"), ""));          // 마감여부
+                inputParamMap.put("ptcPro"     , NullUtil.nvl(dataSetMap.get("ptcPro"), ""));         // 참여율
+                inputParamMap.put("commTxt"    , NullUtil.nvl(dataSetMap.get("commTxt"), ""));        // 메모
+                inputParamMap.put("prjCd"      , NullUtil.nvl(dataSetMap.get("prjCd"), ""));          // 프로젝트코드
+                inputParamMap.put("tssWbsCd"   , NullUtil.nvl(dataSetMap.get("tssWbsCd"), ""));       // WBS코드
+                inputParamMap.put("wbsCd"      , NullUtil.nvl(dataSetMap.get("tssWbsCd"), ""));       // WBS코드2
+                inputParamMap.put("saName"     , NullUtil.nvl(dataSetMap.get("saName"), ""));         // 사원명
+                inputParamMap.put("tssNm"      , NullUtil.nvl(dataSetMap.get("tssNm"), ""));          // 과제명*/
 
                 mmClsInfoService.saveMmCls(inputParamMap);
 
