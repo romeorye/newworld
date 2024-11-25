@@ -354,11 +354,11 @@
             
             disableFields();
 
-            /* if (gvTssSt=="600") { //초기유동관리 탭으로 이동 
+            if (gvTssSt=="600") { //초기유동관리 탭으로 이동 
                 tabView.selectTab(7);
-            } else { //나머지는 완료 탭으로 이동 */
+            } else { //나머지는 완료 탭으로 이동
                 tabView.selectTab(0);
-            /* } */
+            }
 
             if(!Rui.isEmpty(rtnMsg)){
             	if(rtnMsg == "G"){
@@ -589,8 +589,8 @@
 	            var pgsStepCd = document.mstForm.pgsStepCd.value;
 
 	            //tabView.selectTab(7); //실페
-	            /* var initFlowVaild = document.getElementById('tabContent7').contentWindow.fncVaild();
-	            if (!initFlowVaild) return; */
+	            var initFlowVaild = document.getElementById('tabContent7').contentWindow.fncVaild();
+	            if (!initFlowVaild) return;
 	
 	          	Rui.confirm({
 	                text: '초기유동 품의서요청을 하시겠습니까?',
