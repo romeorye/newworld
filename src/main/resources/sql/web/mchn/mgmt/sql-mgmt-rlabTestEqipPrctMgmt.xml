@@ -146,7 +146,7 @@
 
 	<insert id="insertMailHist" >
 	<![CDATA[
-	-- insertMailHist
+	-- insertMailHist [rlabTest]메일발송 내역 저장
 	INSERT INTO IRIS_COM_MAIL_SND_HIS
 		(
 		 MENU_TYPE
@@ -162,7 +162,7 @@
 		)
 	VALUES
 		(
-		 #{menuType}
+		 dbo.fn_isEmpty(#{menuType},'rlabTest')
 		,#{adreMail}
 		,#{rfpMail}
 		,#{_userEmail}

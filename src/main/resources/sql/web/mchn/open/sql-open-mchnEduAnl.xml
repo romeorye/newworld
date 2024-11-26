@@ -291,11 +291,10 @@
 
 	<insert id="insertMailHis" >
 		<![CDATA[
-/*insertMailHis 메일 발송내역 등록*/
+/*insertMailHis [mchnEdu]메일 발송내역 등록*/
 		INSERT INTO IRIS_COM_MAIL_SND_HIS
 			(
 			 MENU_TYPE
-			,SEQ
 			,ADRE_MAIL
 			,RFP_MAIL
 			,TRR_MAIL
@@ -308,8 +307,7 @@
 			)
 		VALUES
 			(
-			 #{menuType}
-			,#{seq}
+			 dbo.fn_isEmpty(#{menuType},'mchnEdu') 
 			,#{adreMail}
 			,#{rfpMail}
 			,#{trrMail}

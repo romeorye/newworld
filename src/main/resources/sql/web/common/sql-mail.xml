@@ -5,7 +5,7 @@
 
 	<insert id="insertMailSndHist" >
 		<![CDATA[
---insertMailSndHist  메일발송 내역 저장
+		--insertMailSndHist [common]메일발송 내역 저장
 		INSERT INTO IRIS_COM_MAIL_SND_HIS
 			(
 			 MENU_TYPE
@@ -21,7 +21,7 @@
 			)
 		VALUES
 			(
-			 #{menuType}
+			 dbo.fn_isEmpty(#{menuType},'common')
 			,#{adreMail}
 			,#{rfpMail}
 			,#{trrMail}
