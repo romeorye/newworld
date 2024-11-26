@@ -446,7 +446,7 @@ public class IrisLoginController {
             
             input.put("serverIp",    InetAddress.getLocalHost().getHostAddress());
             input.put("headerInfo",  CommonUtil.getHeaderValues(request));
-            input.put("successYn",   "Y");
+            input.put("successYn",   (validation == "9999") ? "Y" : "N");
             input.put("errorMsg",    rtnMsg);
             input.put("refererUrl",  request.getHeader("referer"));
             input.put("servletPath", request.getServletPath());
