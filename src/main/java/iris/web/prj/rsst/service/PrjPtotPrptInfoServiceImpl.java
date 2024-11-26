@@ -1,5 +1,6 @@
 package iris.web.prj.rsst.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,8 +46,8 @@ public class PrjPtotPrptInfoServiceImpl implements PrjPtotPrptInfoService {
 		// 1. 계획 지적재산권 리스트 조회
 	    List<Map<String, Object>> resultList = commonDao.selectList("prj.rsst.ptotprpt.retrievePrjPtotPrptSearchInfo", input);
 	    
-	    // 2. 실적 지적재산권 년도별 개수 조회
-	    List<Map<String, Object>> ptptYearList = commonDaoPims.selectList("prj.rsst.ptotprpt.oracle.retrievePrjErpPrptByYearList", input);
+	    // 2. 실적 지적재산권 년도별 개수 조회[20241126.siseo]주석으로 막기
+	    /////List<Map<String, Object>> ptptYearList = commonDaoPims.selectList("prj.rsst.ptotprpt.oracle.retrievePrjErpPrptByYearList", input);
 	    
 	    // 3. 년도별 개수 입력처리
 	    for(int i=0; i< resultList.size(); i++){
@@ -54,11 +55,11 @@ public class PrjPtotPrptInfoServiceImpl implements PrjPtotPrptInfoService {
 	    	
 	    	prptGoalYear = NullUtil.nvl(resultMap.get("prptGoalYear"), "");
 	    	
-	    	for(Map<String, Object> ptptYearMap : ptptYearList) {
-	    		if( prptGoalYear != "" && prptGoalYear.equals( NullUtil.nvl(ptptYearMap.get("patYear"), "") ) ) {
-	    			resultList.get(i).put("patCnt", ptptYearMap.get("patCnt"));
-	    		}
-	    	}
+            /*for(Map<String, Object> ptptYearMap : ptptYearList) { /////[20241126.siseo]주석으로 막기
+            	if( prptGoalYear != "" && prptGoalYear.equals( NullUtil.nvl(ptptYearMap.get("patYear"), "") ) ) {
+            		resultList.get(i).put("patCnt", ptptYearMap.get("patCnt"));
+            	}
+            }*/
 	    }
 	    
 	    return resultList;
@@ -84,7 +85,8 @@ public class PrjPtotPrptInfoServiceImpl implements PrjPtotPrptInfoService {
 	/* 실적 지적재산권 목록 조회 */
 	@Override
 	public List<Map<String, Object>> retrievePrjErpPrptInfo(HashMap<String, Object> input){
-	    List<Map<String, Object>> resultList = commonDaoPims.selectList("prj.rsst.ptotprpt.oracle.retrievePrjErpPrptSearchInfo", input);
+	    /////List<Map<String, Object>> resultList = commonDaoPims.selectList("prj.rsst.ptotprpt.oracle.retrievePrjErpPrptSearchInfo", input); //[20241126.siseo]주석으로 막기
+	    List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 	    return resultList;
 	}
 }
