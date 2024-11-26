@@ -98,14 +98,22 @@ public class IrisLoginServiceImpl implements IrisLoginService {
     public void updateContractInfo(HashMap<String, String> input) {
     	commonDao.update("irisLogin.updateContractInfo", input);
     } 
-/*    
-    private Map<String, Object> convertListToMap(List<Map<String, Object>> codeList) {
+    
+    /*private Map<String, Object> convertListToMap(List<Map<String, Object>> codeList) {
         Map<String, Object> codeMap = new HashMap<String, Object>();
         for(Map<String, Object> map : codeList) {
             codeMap.put((String)map.get("code"), map.get("value"));
         }
         return codeMap;
-    } 
-*/
+    }*/
+    
+    /**
+     * [20241126]로그인 정보를 등록한다.
+     * @param HashMap<String, String> input
+     * @return void
+     */
+    public void insertLoginLog(HashMap<String, String> input) {
+        commonDao.insert("irisLogin.insertLoginLog", input);
+    }
     
 }

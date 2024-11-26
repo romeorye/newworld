@@ -4,6 +4,7 @@ import java.net.URLDecoder;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -888,5 +889,62 @@ public class CommonUtil {
 		return sabun;
     }
    
-		  
+    /**
+     * [20241126]접속한 클라이언트 IP 반환.
+     * <p>사용예 :</p>
+     * <pre>
+     * 1) String clientIP = CommonUtil.getClienIP(req);
+     * </pre>
+     *
+     * @param req HttpServletRequest 객체
+     * @return String
+     */
+    public static String getClientIP(HttpServletRequest req) {
+        String clientIP;
+
+        clientIP = req.getHeader("WL-Proxy-Client-IP");
+        if (!"".equals(nullToString(clientIP))) {
+            return clientIP;
+        }
+
+        clientIP = req.getHeader("Proxy-Client-IP");
+        if (!"".equals(nullToString(clientIP))) {
+            return clientIP;
+        }
+
+        clientIP = req.getHeader("X-Forwarded-For");
+        if (!"".equals(nullToString(clientIP))) {
+            return clientIP;
+        }
+        
+        clientIP = req.getHeader("HTTP_CLIENT_IP");
+        if (!"".equals(nullToString(clientIP))) {
+            return clientIP;
+        }
+        clientIP = req.getHeader("HTTP_X_FORWARDED_FOR");
+        if (!"".equals(nullToString(clientIP))) {
+            return clientIP;
+        }
+
+        return req.getRemoteAddr();
+    }
+
+    /**
+     * [20241126]요청 헤더 값들 반환
+     *
+     * @param req
+     * @return
+     */
+    public static String getHeaderValues(HttpServletRequest req) {
+        StringBuffer sb = new StringBuffer();
+
+        Enumeration names = req.getHeaderNames();
+        while (names.hasMoreElements()) {
+            String name = (String)names.nextElement();
+            sb.append(name + " : " + req.getHeader(name) + "\r\n");
+        }
+
+        return sb.toString();
+    }
+    
 }

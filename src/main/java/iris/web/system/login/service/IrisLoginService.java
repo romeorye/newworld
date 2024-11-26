@@ -42,5 +42,7 @@ public interface IrisLoginService {
     public int updatePassDo(HashMap<String, String> input);
     
     public void updateContractInfo(HashMap<String, String> input);
+    
+    public void insertLoginLog(HashMap<String, String> input);
 
 }

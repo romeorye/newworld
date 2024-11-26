@@ -192,4 +192,38 @@
 	     , AGRE_DATE = SYSDATE
 	 WHERE CUST_CODE = #{xcmkCd}
     ]]></update>
+    
+    
+    <!-- 로그인 정보 저장 -->
+    <insert id="insertLoginLog">
+    --insertLoginLog 로그인 정보 저장
+    INSERT INTO IRIS_SYS_USER_LOGIN /*사용자 로그인*/ 
+        (     LOGIN_ID
+            , LOGIN_DATETIME
+            , LOGIN_VALID
+            , LOGIN_IP
+            , SA_SABUN_NEW
+            , SA_SABUN_NAME
+            , SERVER_IP
+            , HEADER_INFO
+            , SUCCESS_YN
+            , ERROR_MSG
+            , REFERER_URL
+            , SERVLET_PATH
+        ) VALUES ( 
+              #{loginId}
+            , GETDATE()
+            , #{loginValid}
+            , #{userIp}
+            , #{saSabunNew}
+            , #{saSabunName}
+            , #{serverIp}
+            , #{headerInfo}
+            , #{successYn}
+            , #{errorMsg}
+            , #{refererUrl}
+            , #{servletPath}
+        )
+    </insert>
+    
 </mapper>

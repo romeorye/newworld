@@ -1,5 +1,6 @@
 package iris.web.system.login.controller;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +31,7 @@ import com.lghausys.eam.exception.EAMException;
 
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
+import iris.web.common.util.CommonUtil;
 import iris.web.common.util.FormatHelper;
 import iris.web.system.login.service.IrisEncryptionService;
 import iris.web.system.login.service.IrisLoginService;
@@ -164,6 +166,8 @@ public class IrisLoginController {
         boolean userOk = true;      // 유효한 사용자인지
         String validation = null;   // 로그인 validation 값. 
         ArrayList loginInfo = new ArrayList();
+        HashMap lsession = null;
+        String rtnMsg = "";
         
         //세션 생성
         HashMap resultData = null;    // 세션 생성을 하기 위한 정보 조회         
@@ -370,7 +374,7 @@ public class IrisLoginController {
         		}
         		//[EAM추가] - EAM 관리 전체 메뉴 URL 조회 End ===========================================================
         		
-            	HashMap lsession = new HashMap();
+            	lsession = new HashMap();
   
                 lsession.put("_userId"   , NullUtil.nvl(resultData.get("sa_user"), ""));  
 //                lsession.put("_userSabun"   , NullUtil.nvl(resultData.get("sa_sabun_new"), ""));
@@ -415,8 +419,6 @@ public class IrisLoginController {
         
         } else if(validation == "0001" || validation == "0002" ){            // 사용자 정보가 없을 때 
 
-        	String rtnMsg = "";
-        	
         	rtnMsg = messageSourceAccessor.getMessage("msg.alert.login.warning");
         	SayMessage.setMessage(rtnMsg);
 
@@ -425,13 +427,34 @@ public class IrisLoginController {
             return "common/error/ssoError";
             
         }else if (validation == "0008"){
-        	String rtnMsg = "";
-        	
         	rtnMsg = "정상적인 접속대상이 아닙니다.";
         	SayMessage.setMessage(rtnMsg);
 
             SayMessage.setMessage(rtnMsg);
             //LOGGER.debug("##### rtnMsg => " + rtnMsg);
+        }
+        
+        try {
+            
+            // 로그인 정보 저장
+            input.put("loginId",     ""+lsession.get("_userId"));
+            input.put("loginValid",    validation);
+            input.put("userIp",      CommonUtil.getClientIP(request));
+            
+            input.put("saSabunNew",     ""+lsession.get("_userSabun"));
+            input.put("saSabunName",     ""+lsession.get("_userNm"));
+            
+            input.put("serverIp",    InetAddress.getLocalHost().getHostAddress());
+            input.put("headerInfo",  CommonUtil.getHeaderValues(request));
+            input.put("successYn",   "Y");
+            input.put("errorMsg",    rtnMsg);
+            input.put("refererUrl",  request.getHeader("referer"));
+            input.put("servletPath", request.getServletPath());
+            
+            loginService.insertLoginLog(input);
+            
+        } catch(Exception e) {
+            e.printStackTrace();
         }
         
         String reUrl = input.get("reUrl");
