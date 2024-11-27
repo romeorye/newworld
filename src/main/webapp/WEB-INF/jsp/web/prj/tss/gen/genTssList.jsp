@@ -284,7 +284,7 @@
                 , { field: 'nprodSalsCurY',   label: 'Y',  groupId: 'SAL', align:'right', width: 40 }
                 , { field: 'nprodSalsCurY1',  label: 'Y1', groupId: 'SAL', align:'right', width: 40 }
                 , { field: 'nprodSalsCurY2',  label: 'Y2', groupId: 'SAL', align:'right', width: 40 }
-                , { field: 'ctyOtPlnM',  label: '상품출시<br/>(계획)', align:'center', width: 70 }
+                , { field: 'ctyOtPlnM',  label: '상품출시<br/>(계획)', align:'center', width: 70, cellStyle: 'mso-number-format:\\@' }
                 , { id: 'CPSN', label: '투입인원(M/M)' }
                 , { field: 'ptcCpsnCurY',   label: 'Y',  groupId: 'CPSN', align:'right', width: 30 }
                 , { field: 'ptcCpsnCurY1',  label: 'Y1', groupId: 'CPSN', align:'right', width: 30 }
@@ -292,7 +292,6 @@
                 , { field: 'ptcCpsnCurY3',  label: 'Y3', groupId: 'CPSN', align:'right', width: 30 }
                 , { field: 'ptcCpsnCurY4',  label: 'Y4', groupId: 'CPSN', align:'right', width: 30 }
 
-                //, { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 140 }
                 , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 60, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
                         p.editable = false;
                         return value;
@@ -465,6 +464,7 @@
                   , prjNm : encodeURIComponent(document.aform.prjNm.value)    //프로젝트명
                   , saUserName : encodeURIComponent(document.aform.saUserName.value)    //과제리더명
                   , pgsStepCd : document.aform.pgsStepCd.value                //상태
+                  , tssScnCd : 'G' //과제구분코드 - G:연구팀과제 / D:기술팀과제
                 }
             });
         };
@@ -480,123 +480,19 @@
         /* [버튼] 엑셀 */
         var butExcel = new Rui.ui.LButton('butExcel');
         butExcel.on('click', function() {
-            dataSet.clearFilter();
-            var dataSet2 = dataSet.clone('dataSet2');
-            /* [Grid] 엑셀 */
-            var grid2 = new Rui.ui.grid.LGridPanel({
-                columnModel: columnModel,
-                dataSet: dataSet2,
-                width: 0,
-                height: 0
-            });
-            grid2.render('defaultGrid2');
-             // 목록 페이징
-            paging(dataSet,"defaultGrid");
             if(dataSet.getCount() > 0) {
-
-                var excelColumnModel = new Rui.ui.grid.LColumnModel({
-                    gridView: columnModel,
-                    columns: [
-                         { field: 'wbsCd',      label: '과제코드', sortable: true, align:'center', width: 85, renderer: function(value, p, record, row, col) {
-                             var stepCd = record.get("pgsStepCd");
-                             if(stepCd == "PL") return "SEED-" + value;
-                             return value;
-                       }}
-                     , { field: 'tssNm',        label: '과제명', sortable: true, align:'left', width: 240 , renderer: function(value, p, record, row, col){
-                         if(record.get("myTss") == "Y") p.css.push('font-bold');
-                         return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
-                     }}
-                     , { field: 'tssTypeNm',    label: '등급',  align:'center',  width: 60 }
-                     , { field: 'prjNm',        label: '프로젝트명', sortable: true, align:'left', width: 180 }
-                     //, { field: 'deptName',     label: '조직', sortable: true, align:'center', width: 100 }
-                     , { id: 'G1', label: '과제기간(계획일)' }
-                     , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: true, align:'center', width: 80 }
-                     , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: true, align:'center', width: 80 }
-                     , { id: 'G2', label: '과제실적일' }
-                     , { field: 'cmplNxStrtDd', label: '시작일', groupId: 'G2', sortable: true, align:'center', width: 80 }
-                     , { field: 'cmplNxFnhDd',  label: '종료일', groupId: 'G2', sortable: true, align:'center', width: 80 }
-                     , { field: 'saUserName',   label: '과제리더', sortable: true, align:'center', width: 80 }
-
-                     , { id: 'SAL', label: '매출액' }
-                     , { field: 'nprodSalsCurY',   label: 'Y',  groupId: 'SAL', align:'right', width: 40 }
-                     , { field: 'nprodSalsCurY1',  label: 'Y1', groupId: 'SAL', align:'right', width: 40 }
-                     , { field: 'nprodSalsCurY2',  label: 'Y2', groupId: 'SAL', align:'right', width: 40 }
-                     , { field: 'ctyOtPlnM',  label: '상품출시<br/>(계획)', align:'center', width: 100 }
-                     , { id: 'CPSN', label: '투입인원(M/M)' }
-                     , { field: 'ptcCpsnCurY',   label: 'Y',  groupId: 'CPSN', align:'right', width: 40 }
-                     , { field: 'ptcCpsnCurY1',  label: 'Y1', groupId: 'CPSN', align:'right', width: 40 }
-                     , { field: 'ptcCpsnCurY2',  label: 'Y2', groupId: 'CPSN', align:'right', width: 40 }
-                     , { field: 'ptcCpsnCurY3',  label: 'Y3', groupId: 'CPSN', align:'right', width: 40 }
-                     , { field: 'ptcCpsnCurY4',  label: 'Y4', groupId: 'CPSN', align:'right', width: 40 }
-
-                     , { field: 'pgsStepCd',    label: '상태', sortable: true, align:'center', width: 70, editor: pgsStepCd, renderer: function(value, p, record, row, col) {
-                         p.editable = false;
-                         return value;
-                     } }
-                     , { field: 'tssSt',        label: '처리상태', sortable: true, align:'center', width: 100, editor: tssSt, renderer: function(value, p, record, row, col) {
-                         p.editable = false;
-                         return value;
-                     } }
-                     , { field: 'qgateStepNm', label: 'Q-gate 상태',  sortable: true, align:'center', width: 120 }
-                     /*, { id: 'G3', label: '현재 진척율' }
-                     , { id: 'progressrateReal', groupId: 'G3', label: '계획', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
-                         var arrPrg = record.get("progressrateReal").split('/');
-
-                         return arrPrg[1];
-                     } }
-                     , { id: 'progressrate', groupId: 'G3', label: '실적', sortable: true, align:'center', width: 65, renderer :function(value, p, record, row, col) {
-                         var arrPrg = record.get("progressrate").split('/');
-
-                         return arrPrg[0];
-                     } }
-
-                     , { id: 'pg', label: '진척도', align:'center', width: 70 ,renderer :function(value, p, record, row, col) {
-
-                         var pgN ="달성";
-                         var pgS ="초과";
-                         var pgD ="미달";
-
-                         var progressrateReal= record.get('progressrateReal');
-
-                         var arrPrg = progressrateReal.split('/')
-
-                         var rWgvl = floatNullChk(arrPrg[0]) ; // 실적
-                         var gWgvl  = floatNullChk(arrPrg[1]) ; //목표
-
-                         var pg = pgN ;
-
-                         if(rWgvl > gWgvl){
-                             pg = pgS ;
-                         }else if(rWgvl < gWgvl){
-                            rWgvl = rWgvl;
-
-                            if( rWgvl < gWgvl ){
-                                pg = pgD ;
-                            }else{
-                                pg = pgN ;
-                            }
-                         }else if(rWgvl = gWgvl){
-                             pg = pgN ;
-                         }
-
-                         var pgsStepCd= record.get('pgsStepCd');
-
-                         if(pgsStepCd=='PL'){
-                            pg = '';
-                         }
-                         return pg;
-                     }}*/
-                 ]
-             });
+                // 엑셀 다운로드시 전체 다운로드를 위해 추가
+                dataSet.clearFilter();
+        		
+        		var excelColumnModel = columnModel.createExcelColumnModel(false);
                 duplicateExcelGrid(excelColumnModel);
-                nG.saveExcel(encodeURIComponent('과제관리_연구팀과제_') + new Date().format('%Y%m%d') + '.xls', {
-                    columnModel: excelColumnModel
-                });
-
+                nG.saveExcel(encodeURIComponent('과제관리_연구팀과제_') + new Date().format('%Y%m%d') + '.xls');
+             	
+				// 목록 페이징
+   	    		paging(dataSet,"defaultGrid");
             } else {
                 Rui.alert("조회 후 엑셀 다운로드 해주세요.");
             }
-
         });
 
 
@@ -613,26 +509,27 @@
 
         // setGridFullHeight(grid,"defaultGrid");
         init = function() {
-       var wbsCd='${inputData.wbsCd}';
-       var tssNm='${inputData.tssNm}';
-       var saUserName='${inputData.saUserName}';
-       var prjNm='${inputData.prjNm}';
-       var deptName='${inputData.deptName}';
-        dataSet.load({
-             url: '<c:url value="/prj/tss/gen/retrieveGenTssList.do"/>',
-             params :{
-                 wbsCd : escape(encodeURIComponent(wbsCd)),
-                 tssNm : escape(encodeURIComponent(tssNm)),
-                 saUserName : escape(encodeURIComponent(saUserName)),
-                 deptName : escape(encodeURIComponent(deptName)),
-                 tssStrtDd : '${inputData.tssStrtDd}',
-                tssFnhDd : '${inputData.tssFnhDd}',
-               prjNm : escape(encodeURIComponent(prjNm)),
-              pgsStepCd : '${inputData.pgsStepCd}',
-             tssSt : '${inputData.tssSt}'
-             }
-         });
-     }
+            var wbsCd='${inputData.wbsCd}';
+            var tssNm='${inputData.tssNm}';
+            var saUserName='${inputData.saUserName}';
+            var prjNm='${inputData.prjNm}';
+            var deptName='${inputData.deptName}';
+            dataSet.load({
+                url: '<c:url value="/prj/tss/gen/retrieveGenTssList.do"/>',
+                params :{
+                      wbsCd : escape(encodeURIComponent(wbsCd))
+                    , tssNm : escape(encodeURIComponent(tssNm))
+                    , saUserName : escape(encodeURIComponent(saUserName))
+                    , deptName : escape(encodeURIComponent(deptName))
+                    , tssStrtDd : '${inputData.tssStrtDd}'
+                    , tssFnhDd : '${inputData.tssFnhDd}'
+                    , prjNm : escape(encodeURIComponent(prjNm))
+                    , pgsStepCd : '${inputData.pgsStepCd}'
+                    , tssSt : '${inputData.tssSt}'
+                    , tssScnCd : 'G' //과제구분코드 - G:연구팀과제 / D:기술팀과제
+                }
+            });
+        }
 
     });
 

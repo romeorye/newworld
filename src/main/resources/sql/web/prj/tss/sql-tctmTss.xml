@@ -31,7 +31,7 @@
                 ,dbo.fn_getQgateStepNm(z.wbs_cd,'0') as qgateStepNm
                 ,Z.FRST_RGST_DT
                 ,CASE WHEN Z.PGS_STEP_CD = 'AL' THEN Z.AL_SA_SABUN_NAME
-                       ELSE Z.SA_SABUN_NAME END                             AS saUserName   --과제리더명
+                       ELSE Z.SA_SABUN_NAME END                            AS saUserName   --과제리더명
                 ,Z.PGS_STEP_CD                                             AS pgsStepCd    --진행상태코드(PL:계획, PG:진행, CM:완료, AL: 변경, DC:중단)
                 ,dbo.fn_getComDtlNm('PGS_STEP_CD',Z.PGS_STEP_CD)           AS pgsStepNm    --진행상태명
                 ,Z.TSS_NOS_ST                                              AS tssNosSt     --과제차수상태코드(1차년도, 2 차년도, 3 차년도, 4차년도, 5차년도:국책과제)
@@ -42,6 +42,7 @@
                 ,Z.PROGRESSRATE                                            AS progressrate
                 ,Z.PRJ_CD                                                  AS prjCd
                 ,dbo.fn_getComDtlNm('TSS_TYPE',z.tss_type)                 AS tssTypeNm
+                ,round(NPROD_SALS_PLN_Y/100000000, 2)                      AS nprodSalsPlnY
                 ,dbo.FN_ISEMPTY(z.ANCP_OT_PLN_DT, z.CTY_OT_PLN_M)          AS ctyOtPlnM
         from  (
                 select   m.PRJ_CD
@@ -83,6 +84,7 @@
                         ,m.al_TSS_STRT_DD
                         ,m.al_TSS_FNH_DD
                         ,m.TSS_TYPE
+                        ,NPROD_SALS_PLN_Y
                         ,CTY_OT_PLN_M, ANCP_OT_PLN_DT
                         ,(SELECT TOP 1 X.GRS_EV_ST FROM IRIS_GRS_EV_RSLT_RGST X WHERE X.TSS_CD = M.TSS_CD ORDER BY X.TSS_CD_SN DESC) AS GRS_EV_ST
                         ,CASE WHEN  M.TSS_CD IN (SELECT X.TSS_CD FROM IRIS_TSS_PTC_RSST_MBR X WHERE X.SA_SABUN_NEW =  #{_userSabun})  THEN 'Y'
@@ -91,7 +93,7 @@
                         ,'0.1'+'/'+'0.2' AS PROGRESSRATEREAL --진척율
                         -- 실적(WBS) /목표 -신호등
                         ,'0.2'+'/'+'0.4' AS PROGRESSRATE --진척(신호등)
-                        ,CASE WHEN SUBSTRING(M.PK_WBS_CD, 1, 1) = 'D' THEN 1 ELSE 2 END AS R_NUM
+                        ,CASE WHEN SUBSTRING(M.PK_WBS_CD, 1, 1) = #{tssScnCd} THEN 1 ELSE 2 END AS R_NUM
                 from   (
                        select  a.PRJ_CD
                               ,dbo.FN_isEmpty(a.PRJ_NM, dbo.fn_getPrjName(a.PRJ_CD)) as prj_nm
@@ -136,11 +138,11 @@
                                LEFT JOIN (SELECT PK_WBS_CD, WBS_CD, TSS_STRT_DD, TSS_FNH_DD, TSS_NM, PRJ_CD, DEPT_CODE, DEPT_NAME, TSS_CD, SA_SABUN_NAME, SA_SABUN_NEW, prj_nm
                                           FROM IRIS_TSS_MGMT_MST
                                           WHERE PGS_STEP_CD = 'PG'
-                                          AND TSS_SCN_CD = 'D'
+                                          AND TSS_SCN_CD = #{tssScnCd}
                                          ) B
                                on a.PK_WBS_CD = B.PK_WBS_CD
                         where  a.DEL_YN ='N'
-                        and    a.TSS_SCN_CD = 'D'
+                        and    a.TSS_SCN_CD = #{tssScnCd}
                         and    a.TSS_CD IN (SELECT TSS_CD
                                             FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
                                                        , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
@@ -152,7 +154,7 @@
                                                                     WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
                                                                , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
                                                          FROM IRIS_TSS_MGMT_MST
-                                                         where tss_scn_cd ='D' ) X) Y
+                                                         where tss_scn_cd = #{tssScnCd} ) X) Y
                                                   WHERE OVER_STEP_RANK = 1
                                                   )
                         ) m
@@ -175,13 +177,13 @@
             where  1=1
             and    sa_sabun_new = #{_userSabun}
             )
-            and   tss_scn_cd = 'D'
+            and   tss_scn_cd = #{tssScnCd}
 
             union
             select  distinct wbs_cd
             from    IRIS_TSS_MGMT_MST a
             where      del_yn ='N'
-            and     tss_scn_cd ='D'
+            and     tss_scn_cd = #{tssScnCd}
             and     sa_sabun_new = #{_userSabun}
 
             union

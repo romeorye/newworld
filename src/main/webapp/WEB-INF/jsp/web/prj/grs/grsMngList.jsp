@@ -182,7 +182,7 @@ var grsUserChk = '${inputData.grsUserChk}';
              columns: [
                  new Rui.ui.grid.LSelectionColumn(),
                      { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 65 },
-                     { field: 'wbsCd',       label: '과제코드',  align:'center',  width: 60, vMerge: true },
+                     { field: 'wbsCd',       label: '과제코드',  align:'center',  width: 70, vMerge: true },
                      { field: 'tssNm',      label: '과제명',       align:'left',      width: 200  , vMerge: true , renderer: function(val, p, record, row, i){
                          return "<a href='javascript:fncTssPop("+row+");'><u>" + val +"<u></a>";
                      } },

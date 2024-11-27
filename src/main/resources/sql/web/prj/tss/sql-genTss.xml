@@ -106,7 +106,7 @@
                         ,'0.1'+'/'+'0.2' AS PROGRESSRATEREAL --진척율
                         -- 실적(WBS) /목표 -신호등
                         ,'0.2'+'/'+'0.4' AS PROGRESSRATE --진척(신호등)
-                        ,CASE WHEN SUBSTRING(M.PK_WBS_CD, 1, 1) = 'G' THEN 1 ELSE 2 END AS R_NUM
+                        ,CASE WHEN SUBSTRING(M.PK_WBS_CD, 1, 1) = #{tssScnCd} THEN 1 ELSE 2 END AS R_NUM
                 from   (
                        select  a.PRJ_CD
                               ,dbo.FN_isEmpty(a.PRJ_NM, dbo.fn_getPrjName(a.PRJ_CD)) as prj_nm
@@ -151,11 +151,11 @@
                                LEFT JOIN (SELECT PK_WBS_CD, WBS_CD, TSS_STRT_DD, TSS_FNH_DD, TSS_NM, PRJ_CD, DEPT_CODE, DEPT_NAME, TSS_CD, SA_SABUN_NAME, SA_SABUN_NEW, prj_nm
                                           FROM IRIS_TSS_MGMT_MST
                                           WHERE PGS_STEP_CD = 'PG'
-                                          AND TSS_SCN_CD = 'G'
+                                          AND TSS_SCN_CD = #{tssScnCd}
                                          ) B
                                on a.PK_WBS_CD = B.PK_WBS_CD
                         where  a.DEL_YN ='N'
-                        and    a.TSS_SCN_CD = 'G'
+                        and    a.TSS_SCN_CD = #{tssScnCd}
                         and    a.TSS_CD IN (SELECT TSS_CD
                                             FROM (SELECT PK_WBS_CD, TSS_CD, STEPRANK
                                                        , RANK() OVER (PARTITION BY X.PK_WBS_CD ORDER BY X.STEPRANK ASC, TSS_CD DESC) AS OVER_STEP_RANK
@@ -167,7 +167,7 @@
                                                                     WHEN PGS_STEP_CD = 'PL' THEN 6 END AS STEPRANK
                                                                , TSS_CD, PGS_STEP_CD, TSS_ST, PK_WBS_CD
                                                          FROM IRIS_TSS_MGMT_MST
-                                                         where tss_scn_cd ='G' ) X) Y
+                                                         where tss_scn_cd =#{tssScnCd} ) X) Y
                                                   WHERE OVER_STEP_RANK = 1
                                                   )
                         ) m
@@ -175,7 +175,7 @@
                           (SELECT  * FROM
                           (SELECT DISTINCT TSS_CD, GRS_EV_ST, DROP_YN FROM IRIS_GRS_EV_RSLT_RGST) t) g
                             ON m.TSS_CD = g.TSS_CD
-                            and left(m.TSS_CD, 1) = 'G'
+                            and left(m.TSS_CD, 1) = #{tssScnCd}
                         LEFT OUTER JOIN IRIS_TSS_GEN_SMRY s ON (s.tss_cd = m.tss_cd)
                         WHERE  iif(g.DROP_YN is null or g.DROP_YN='','N',g.DROP_YN) = 'N' OR (g.DROP_YN='Y' AND g.GRS_EV_ST!='G1')
                 ) z
@@ -191,13 +191,13 @@
                                             where  1=1
                                             and    sa_sabun_new = #{_userSabun}
                                             )
-                        and   tss_scn_cd = 'G'
+                        and   tss_scn_cd = #{tssScnCd}
 
                         union
                         select  distinct wbs_cd
                         from    IRIS_TSS_MGMT_MST a
                         where      del_yn ='N'
-                        and     tss_scn_cd ='G'
+                        and     tss_scn_cd =#{tssScnCd}
                         and     sa_sabun_new = #{_userSabun}
                         )
                or  Z.PRJ_CD in (select prj_cd  from iris_prj_rsst_mst where  pl_emp_no = #{_userSabun})
