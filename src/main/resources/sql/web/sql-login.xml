@@ -199,7 +199,7 @@
     --insertLoginLog 로그인 정보 저장
     INSERT INTO IRIS_SYS_USER_LOGIN /*사용자 로그인*/ 
         (     LOGIN_ID
-            , LOGIN_DATETIME
+            , LOGIN_DT
             , LOGIN_VALID
             , LOGIN_IP
             , SA_SABUN_NEW
