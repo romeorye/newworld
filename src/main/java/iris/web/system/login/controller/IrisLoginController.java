@@ -437,21 +437,22 @@ public class IrisLoginController {
         try {
             
             // 로그인 정보 저장
-            input.put("loginId",     ""+lsession.get("_userId"));
-            input.put("loginValid",    validation);
-            input.put("userIp",      CommonUtil.getClientIP(request));
+            HashMap<String, String> param = (HashMap<String, String>) input.clone();
+            param.put("loginId",     ""+lsession.get("_userId"));
+            param.put("loginValid",  validation);
+            param.put("userIp",      CommonUtil.getClientIP(request));
             
-            input.put("saSabunNew",     ""+lsession.get("_userSabun"));
-            input.put("saSabunName",     ""+lsession.get("_userNm"));
+            param.put("saSabunNew",  ""+lsession.get("_userSabun"));
+            param.put("saSabunName", ""+lsession.get("_userNm"));
             
-            input.put("serverIp",    InetAddress.getLocalHost().getHostAddress());
-            input.put("headerInfo",  CommonUtil.getHeaderValues(request));
-            input.put("successYn",   (validation == "9999") ? "Y" : "N");
-            input.put("errorMsg",    rtnMsg);
-            input.put("refererUrl",  request.getHeader("referer"));
-            input.put("servletPath", request.getServletPath());
+            param.put("serverIp",    InetAddress.getLocalHost().getHostAddress());
+            param.put("headerInfo",  CommonUtil.getHeaderValues(request));
+            param.put("successYn",   (validation == "9999") ? "Y" : "N");
+            param.put("errorMsg",    rtnMsg);
+            param.put("refererUrl",  request.getHeader("referer"));
+            param.put("servletPath", request.getServletPath());
             
-            loginService.insertLoginLog(input);
+            loginService.insertLoginLog(param);
             
         } catch(Exception e) {
             e.printStackTrace();
