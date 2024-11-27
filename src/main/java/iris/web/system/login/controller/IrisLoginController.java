@@ -1,6 +1,5 @@
 package iris.web.system.login.controller;
 
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,7 +30,6 @@ import com.lghausys.eam.exception.EAMException;
 
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
-import iris.web.common.util.CommonUtil;
 import iris.web.common.util.FormatHelper;
 import iris.web.system.login.service.IrisEncryptionService;
 import iris.web.system.login.service.IrisLoginService;
@@ -434,7 +432,7 @@ public class IrisLoginController {
             //LOGGER.debug("##### rtnMsg => " + rtnMsg);
         }
         
-        try {
+        /*try {
             
             // 로그인 정보 저장
             HashMap<String, String> param = (HashMap<String, String>) input.clone();
@@ -456,7 +454,7 @@ public class IrisLoginController {
             
         } catch(Exception e) {
             e.printStackTrace();
-        }
+        }*/
         
         String reUrl = input.get("reUrl");
         
