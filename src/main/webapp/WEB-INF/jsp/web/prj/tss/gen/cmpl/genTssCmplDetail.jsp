@@ -61,6 +61,9 @@
     var gvAprdocState = "${resultCsus.aprdocstate}";
     var gvInitFlowYn  = "${resultCsus.initFlowYn}";
     var pPgsStepCd     = "";
+    
+    var tmpInitFlowStrtDd = "";
+    var tmpInitFlowFnhDd = "";
 
     Rui.onReady(function() {
         /*============================================================================
@@ -349,7 +352,7 @@
             tmpTssStrtDd = dataSet.getNameValue(0, 'tssStrtDd');
             tmpTssFnhDd =  dataSet.getNameValue(0, 'tssFnhDd');
             
-            tmpInitFlowFnhDd = dataSet.getNameValue(0, 'initFlowStrtDd');
+            tmpInitFlowStrtDd = dataSet.getNameValue(0, 'initFlowStrtDd');
             tmpInitFlowFnhDd =  dataSet.getNameValue(0, 'initFlowFnhDd');
             
             disableFields();
@@ -588,7 +591,7 @@
 	
 	            var pgsStepCd = document.mstForm.pgsStepCd.value;
 
-	            //tabView.selectTab(7); //실페
+	            //tabView.selectTab(7);
 	            var initFlowVaild = document.getElementById('tabContent7').contentWindow.fncVaild();
 	            if (!initFlowVaild) return;
 	

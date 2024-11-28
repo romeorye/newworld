@@ -144,26 +144,6 @@
 	        }
         });
 
-        /* var fncVaild = function(){
-        	var frm = document.stoaForm;
-
-    		dataSet.setNameValue(0, 'remTxt', Wec.GetBodyValue());
-
-    		if( Wec.GetBodyValue() == "<p><br></p>" || Wec.GetBodyValue() == "" ){ // 크로스에디터 안의 컨텐츠 입력 확인
-    			alert('내용을 입력하여 주십시요.');
-				Wec.SetFocusEditor(); // 크로스에디터 Focus 이동
-     		    return false;
-     		}
-    		
-    		console.log("[lvAttcFilId]", lvAttcFilId);
-    		if ( lvAttcFilId == "" ) {
-    			alert("첨부파일을 등록하세요.");
-    			return false;
-    		}
-
-    		return true;
- 		} */
-
         //첨부파일 조회
         var attachFileDataSet = new Rui.data.LJsonDataSet({
             id: 'attachFileDataSet',
