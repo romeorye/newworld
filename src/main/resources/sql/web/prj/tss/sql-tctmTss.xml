@@ -42,7 +42,7 @@
                 ,Z.PROGRESSRATE                                            AS progressrate
                 ,Z.PRJ_CD                                                  AS prjCd
                 ,dbo.fn_getComDtlNm('TSS_TYPE',z.tss_type)                 AS tssTypeNm
-                ,round(NPROD_SALS_PLN_Y/100000000, 2)                      AS nprodSalsPlnY
+                ,FORMAT(ROUND(NPROD_SALS_PLN_Y/100000000, 2), '0.00')      AS nprodSalsPlnY
                 ,dbo.FN_ISEMPTY(z.ANCP_OT_PLN_DT, z.CTY_OT_PLN_M)          AS ctyOtPlnM
         from  (
                 select   m.PRJ_CD
