@@ -226,11 +226,12 @@
             }
 
             dataSet.setNameValue(0, "userId", gvUserId);
-
-            dm.updateDataSet({
-                url:'<c:url value="/prj/mgmt/smryCl/updateSmryCl.do"/>',
-                dataSets:[dataSet]
-            });
+            if(confirm('저장하시겠습니까?')) {
+	            dm.updateDataSet({
+	                url:'<c:url value="/prj/mgmt/smryCl/updateSmryCl.do"/>',
+	                dataSets:[dataSet]
+	            });
+            }
         });
 
 
@@ -261,6 +262,7 @@
 	<input type="hidden" name=tssSt value="${inputData.tssSt}"/>
 	<input type="hidden" name=pgsStepCd value="${inputData.pgsStepCd}"/>
 	<input type="hidden" name=pageNum value="${inputData.pageNum}"/>
+	<input type="hidden" name=tssScnCd value="${inputData.tssScnCd}"/>
 </form>
     <div class="contents">
 	    <div class="titleArea">

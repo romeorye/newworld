@@ -9,7 +9,9 @@
     SET ARITHABORT OFF
 
     /*retrieveGenTssList 일반과제 목록*/
-        select   distinct  z.wbs_cd                                                      as wbsCd
+        select   distinct  z.TSS_SCN_CD                                      as tssScnCd
+                ,dbo.fn_getComDtlNm('TSS_SCN_CD',Z.TSS_SCN_CD)               as tssScnNm
+                ,z.wbs_cd                                                    as wbsCd
                 ,z.PK_WBS_CD                                                 as pkWbsCd
                 ,z.tss_cd as tssCd
                 ,case when z.PGS_STEP_CD = 'AL' then Z.al_TSS_NM

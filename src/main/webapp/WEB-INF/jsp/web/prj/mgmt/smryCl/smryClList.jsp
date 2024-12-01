@@ -39,6 +39,7 @@
     var tssFnhDd;
     var tssSt;
     var prjNm;
+    var tssScnCd;
 
     Rui.onReady(function() {
         //WBS Code
@@ -138,7 +139,30 @@
             valueField: 'COM_DTL_CD',
             autoMapping: true
         });
+        
+        //과제구분
+        tssScnCd = new Rui.ui.form.LCombo({
+            applyTo: 'tssScnCd',
+            name: 'tssScnCd',
+            emptyValue: '',
+            useEmptyText: true,
+            defaultValue: '<c:out value="${inputData.tssScnCd}"/>',
+            emptyText: '(선택)',
+            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=TSS_SCN_CD"/>',
+            displayField: 'COM_DTL_NM',
+            valueField: 'COM_DTL_CD',
+            autoMapping: true
+        });
+        tssScnCd.getDataSet().on('load', function(e) {
+            var tssScnCdDs = tssScnCd.getDataSet();
+            for(var i = tssScnCdDs.getCount()-1; i > -1; i--) {
+                if( !(stringNullChk(tssScnCdDs.getNameValue(i, "COM_DTL_CD")) == "G" || stringNullChk(tssScnCdDs.getNameValue(i, "COM_DTL_CD")) == "D") ) {
+                    tssScnCdDs.removeAt(i);
+                }
+            }
+        });
 
+        
         //과제명
         prjNm = new Rui.ui.form.LTextBox({
             applyTo: 'prjNm',
@@ -166,7 +190,9 @@
             remainRemoved: true,
             lazyLoad: true,
             fields: [
-                  { id: 'wbsCd'}        //과제코드
+                  { id: 'tssScnCd'}
+                , { id: 'tssScnNm'}
+                , { id: 'wbsCd'}        //과제코드
                 , { id: 'pkWbsCd'}      //wbs코드
                 , { id: 'tssNm'}        //과제명
                 , { id: 'prjNm'}        //소속명(프로젝트명)
@@ -190,18 +216,19 @@
         /* [Grid] 컬럼설정 */
         var columnModel = new Rui.ui.grid.LColumnModel({
             columns: [
-                  { field: 'wbsCd',        label: '과제코드', sortable: false, align:'center', width: 100, renderer: function(value, p, record, row, col) {
+                  { field: 'tssScnNm',   label: '과제구분',  align:'center',  width: 80 },
+                , { field: 'wbsCd',        label: '과제코드', sortable: false, align:'center', width: 90, renderer: function(value, p, record, row, col) {
                         var stepCd = record.get("pgsStepCd");
                         if(stepCd == "PL") return "SEED-" + value;
                         return value;
                   }}
-                , { field: 'tssNm',        label: '과제명', sortable: false, align:'left', width: 260 , renderer: function(value, p, record, row, col){
+                , { field: 'tssNm',        label: '과제명', sortable: false, align:'left', width: 265 , renderer: function(value, p, record, row, col){
                     if(record.get("myTss") == "Y") p.css.push('font-bold');
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
-                , { field: 'prjNm',        label: '소속명', sortable: false, align:'center', width: 200 }
+                , { field: 'prjNm',        label: '소속명', sortable: false, align:'center', width: 160 }
                 , { field: 'saUserName',   label: '과제리더', sortable: false, align:'center', width: 90 }
-                , { field: 'deptName',     label: '조직', sortable: false, align:'center', width: 160 }
+                , { field: 'deptName',     label: '조직', sortable: false, align:'center', width: 120 }
                 , { id: 'G1', label: '과제기간(계획일)' }
                 , { field: 'tssStrtDd',    label: '시작일', groupId: 'G1', sortable: false, align:'center', width: 90 }
                 , { field: 'tssFnhDd',     label: '종료일', groupId: 'G1', sortable: false, align:'center', width: 90 }
@@ -243,10 +270,7 @@
 
         grid.render('defaultGrid');
 
-
-        /**
-        총 건수 표시
-        **/
+        /** 총 건수 표시 **/
         dataSet.on('load', function(e){
             var seatCnt = 0;
             var sumOrd = 0;
@@ -263,6 +287,12 @@
 
         /* [버튼] 조회 */
         fnSearch = function() {
+        
+    		if( Rui.isEmpty(tssScnCd.getValue())){
+    			Rui.alert("과제구분은 필수항목입니다");
+    			return false;
+    		}
+        	
             dataSet.load({
                 url: '<c:url value="/prj/mgmt/smryCl/retrieveSmryClList.do"/>'
               , params : {
@@ -276,6 +306,7 @@
                   , prjNm : encodeURIComponent(document.aform.prjNm.value)    //프로젝트명
                   , saUserName : encodeURIComponent(saSabunNew.getValue())    //과제리더명
                   , pgsStepCd : document.aform.pgsStepCd.value                //상태
+                  , tssScnCd:  document.aform.tssScnCd.value                  //과제구분
                 }
             });
         };
@@ -283,26 +314,31 @@
 
         //fnSearch();
         init = function() {
-        	   var wbsCd='${inputData.wbsCd}';
-        	   var tssNm='${inputData.tssNm}';
-        	   var saSabunNew='${inputData.saSabunNew}';
-        	   var deptName='${inputData.deptName}';
-        	   var prjNm='${inputData.prjNm}';
-              	dataSet.load({
-                    url: '<c:url value="/prj/mgmt/smryCl/retrieveSmryClList.do"/>',
-                    params :{
-                    	wbsCd : escape(encodeURIComponent(wbsCd)),
-                    	tssNm : escape(encodeURIComponent(tssNm)),
-                    	saSabunNew : escape(encodeURIComponent(saSabunNew)),
-                    	deptName : escape(encodeURIComponent(deptName)),
-                    	prjNm : escape(encodeURIComponent(prjNm)),
-                    	tssStrtDd : '${inputData.tssStrtDd}',
-                    	tssFnhDd : '${inputData.tssFnhDd}',
-                    	pgsStepCd : '${inputData.pgsStepCd}',
-                    	tssSt : '${inputData.tssSt}'
-                    }
-                });
-            }
+            var wbsCd='${inputData.wbsCd}';
+            var tssNm='${inputData.tssNm}';
+            var saSabunNew='${inputData.saSabunNew}';
+            var deptName='${inputData.deptName}';
+            var prjNm='${inputData.prjNm}';
+            var tssScnCd='${inputData.tssScnCd}';
+            
+            if (tssScnCd=="") return; //[20241129.siseo]과제구분이 없으면 조회 안 되게 막음.
+            
+            dataSet.load({
+               url: '<c:url value="/prj/mgmt/smryCl/retrieveSmryClList.do"/>',
+               params :{
+                   wbsCd : escape(encodeURIComponent(wbsCd))
+                 , tssNm : escape(encodeURIComponent(tssNm))
+                 , saSabunNew : escape(encodeURIComponent(saSabunNew))
+                 , deptName : escape(encodeURIComponent(deptName))
+                 , prjNm : escape(encodeURIComponent(prjNm))
+                 , tssStrtDd : '${inputData.tssStrtDd}'
+                 , tssFnhDd : '${inputData.tssFnhDd}'
+                 , pgsStepCd : '${inputData.pgsStepCd}'
+                 , tssSt : '${inputData.tssSt}'
+                 , tssScnCd : escape(encodeURIComponent(tssScnCd))
+               }
+           });
+        }
     });
 </script>
 <script>
@@ -348,7 +384,7 @@ function setDeptInfo(deptInfo) {
 		                    <tbody>
 		                        <tr>
 		                            <th>과제코드</th>
-		                            <td>
+		                            <td><select id="tssScnCd"></select> <!-- 과제구분 -->
 		                                <input type="text" id="wbsCd" value="">
 		                            </td>
 		                            <th>과제명</th>
