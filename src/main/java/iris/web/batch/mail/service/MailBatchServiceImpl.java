@@ -63,22 +63,24 @@ public class MailBatchServiceImpl implements MailBatchService{
     static final Logger LOGGER = LogManager.getLogger(MailBatchServiceImpl.class);
     
     /**
-     * Wbs code생성 폐지 메일 발송
+     * Wbs code생성/폐지/종료예정/종료지연 메일 발송
      */
     @SuppressWarnings("null")
     @Override
     public void makeMailSendWbs(HashMap<String, Object> input) {
     	MailSender mailSender = mailSenderFactory.createMailSender();
         ReplacementVo replacementVo = new ReplacementVo();
+        String subject = "";
         
-        //WBS 생성
+        //1) WBS 코드 생성
         List<Map<String, Object>>  retrieveWbsCdCreateReq = commonDao.selectList("batch.retrieveWbsCdCreateReq", "");
-
+        subject = "WBS 코드 생성의 件";
+        
         for(Map<String, Object> context : retrieveWbsCdCreateReq) {
-        	mailSender.setFromMailAddress("iris@lxhausys.com");
+            mailSender.setFromMailAddress("iris@lxhausys.com");
             mailSender.setToMailAddress(context.get("receMailAdd").toString().split(","));
             mailSender.setCcMailAddress(context.get("ccMailAddr").toString().split(","));
-            mailSender.setSubject("WBS 코드 생성의 件");
+            mailSender.setSubject(subject);
             
             replacementVo.setPrjNm(NullUtil.nvl(context.get("prjNm").toString(), ""));
             replacementVo.setTssNm(NullUtil.nvl(context.get("tssNm").toString(), ""));
@@ -92,7 +94,7 @@ public class MailBatchServiceImpl implements MailBatchService{
             mailSender.send(); 
             
             HashMap<String, Object> mailMap = new HashMap<String, Object>();
-            mailMap.put("mailTitl", " WBS 코드 생성의 件");
+            mailMap.put("mailTitl", subject);
             mailMap.put("adreMail", context.get("receMailAdd"));
             mailMap.put("rfpMail", context.get("ccMailAddr"));
             mailMap.put("trrMail", "iris@lxhausys.com");
@@ -101,15 +103,16 @@ public class MailBatchServiceImpl implements MailBatchService{
             mailInfoService.insertMailSndHist(mailMap);
         }
 
-        //WBS_cd 폐기
+        //2) WBS 코드 폐기
         List<Map<String, Object>>  retrieveWbsCdDeleteReq = commonDao.selectList("batch.retrieveWbsCdDeleteReq", "");
-
+        subject = "WBS 코드 폐지의 件";
+        
         ReplacementVo wbcCdDelVo = new ReplacementVo();
         for(Map<String, Object> context : retrieveWbsCdDeleteReq) {
         	mailSender.setFromMailAddress("iris@lxhausys.com");
             mailSender.setToMailAddress(context.get("receMailAdd").toString().split(","));
             mailSender.setCcMailAddress(context.get("ccMailAddr").toString().split(","));
-            mailSender.setSubject(" WBS 코드 폐지의 件");
+            mailSender.setSubject(subject);
             
             wbcCdDelVo.setPrjNm(NullUtil.nvl(context.get("prjNm").toString(), ""));
             wbcCdDelVo.setTssNm(NullUtil.nvl(context.get("tssNm").toString(), ""));
@@ -123,7 +126,7 @@ public class MailBatchServiceImpl implements MailBatchService{
             mailSender.send(); 
             
             HashMap<String, Object> mailMap = new HashMap<String, Object>();
-            mailMap.put("mailTitl", " WBS 코드 폐지의 件");
+            mailMap.put("mailTitl", subject);
             mailMap.put("adreMail", context.get("receMailAdd") );
             mailMap.put("rfpMail", context.get("ccMailAddr") );
             mailMap.put("trrMail", "iris@lxhausys.com");
@@ -131,6 +134,70 @@ public class MailBatchServiceImpl implements MailBatchService{
            
             mailInfoService.insertMailSndHist(mailMap);
         }
+        
+        //3) WBS 코드 종료예정 안내
+        List<Map<String, Object>>  retrieveWbsCdClosingReq = commonDao.selectList("batch.retrieveWbsCdClosingReq", "");
+        subject = "연구과제 종료 예정 사전 안내의 건";
+        replacementVo = new ReplacementVo();
+        for(Map<String, Object> context : retrieveWbsCdClosingReq) {
+            mailSender.setFromMailAddress("iris@lxhausys.com", "기술전략팀");
+            mailSender.setToMailAddress(context.get("receMailAdd").toString().split(","));
+            mailSender.setCcMailAddress(context.get("ccMailAddr").toString().split(","));
+            mailSender.setSubject(subject);
+            
+            replacementVo.setPrjNm(NullUtil.nvl(context.get("prjNm").toString(), ""));
+            replacementVo.setTssNm(NullUtil.nvl(context.get("tssNm").toString(), ""));
+            replacementVo.setWbsCd(NullUtil.nvl(context.get("wbsCd").toString(), ""));
+            replacementVo.setBizDptNm(NullUtil.nvl(context.get("bizDptNm").toString(), ""));
+            replacementVo.setTssScnNm(NullUtil.nvl(context.get("tssScnNm").toString(), ""));
+            replacementVo.setTssSaNm(NullUtil.nvl(context.get("tssSaNm").toString(), ""));
+            replacementVo.setProdGNm(NullUtil.nvl(context.get("prodGNm").toString(), ""));
+            
+            mailSender.setHtmlTemplate("mailBatchWbsCdClosinghtml", replacementVo);
+            mailSender.send(); 
+            
+            HashMap<String, Object> mailMap = new HashMap<String, Object>();
+            mailMap.put("mailTitl", subject);
+            mailMap.put("adreMail", context.get("receMailAdd"));
+            mailMap.put("rfpMail", context.get("ccMailAddr"));
+            mailMap.put("trrMail", "iris@lxhausys.com");
+            mailMap.put("_userId", input.get("userId").toString());
+           
+            mailInfoService.insertMailSndHist(mailMap);
+        }
+
+        //4) WBS 코드 종료지연 안내
+        List<Map<String, Object>>  retrieveWbsCdDelayReq = commonDao.selectList("batch.retrieveWbsCdDelayReq", "");
+        subject = "연구과제 종료 지연 안내의 건";
+        replacementVo = new ReplacementVo();
+        for(Map<String, Object> context : retrieveWbsCdDelayReq) {
+            mailSender.setFromMailAddress("iris@lxhausys.com", "기술전략팀");
+            mailSender.setToMailAddress(context.get("receMailAdd").toString().split(","));
+            mailSender.setCcMailAddress(context.get("ccMailAddr").toString().split(","));
+            mailSender.setSubject(subject);
+            
+            replacementVo.setPrjNm(NullUtil.nvl(context.get("prjNm").toString(), ""));
+            replacementVo.setTssNm(NullUtil.nvl(context.get("tssNm").toString(), ""));
+            replacementVo.setWbsCd(NullUtil.nvl(context.get("wbsCd").toString(), ""));
+            replacementVo.setBizDptNm(NullUtil.nvl(context.get("bizDptNm").toString(), ""));
+            replacementVo.setTssScnNm(NullUtil.nvl(context.get("tssScnNm").toString(), ""));
+            replacementVo.setTssSaNm(NullUtil.nvl(context.get("tssSaNm").toString(), ""));
+            replacementVo.setProdGNm(NullUtil.nvl(context.get("prodGNm").toString(), ""));
+            
+            mailSender.setHtmlTemplate("mailBatchWbsCdDelayhtml", replacementVo);
+            mailSender.send(); 
+            
+            HashMap<String, Object> mailMap = new HashMap<String, Object>();
+            mailMap.put("mailTitl", subject);
+            mailMap.put("adreMail", context.get("receMailAdd"));
+            mailMap.put("rfpMail", context.get("ccMailAddr"));
+            mailMap.put("trrMail", "iris@lxhausys.com");
+            mailMap.put("_userId", input.get("userId").toString());
+           
+            mailInfoService.insertMailSndHist(mailMap);
+        }
+
+        
     }
 
 
