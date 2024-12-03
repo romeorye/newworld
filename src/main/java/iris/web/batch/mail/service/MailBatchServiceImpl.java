@@ -145,13 +145,13 @@ public class MailBatchServiceImpl implements MailBatchService{
             mailSender.setCcMailAddress(context.get("ccMailAddr").toString().split(","));
             mailSender.setSubject(subject);
             
-            replacementVo.setPrjNm(NullUtil.nvl(context.get("prjNm").toString(), ""));
-            replacementVo.setTssNm(NullUtil.nvl(context.get("tssNm").toString(), ""));
-            replacementVo.setWbsCd(NullUtil.nvl(context.get("wbsCd").toString(), ""));
-            replacementVo.setBizDptNm(NullUtil.nvl(context.get("bizDptNm").toString(), ""));
-            replacementVo.setTssScnNm(NullUtil.nvl(context.get("tssScnNm").toString(), ""));
-            replacementVo.setTssSaNm(NullUtil.nvl(context.get("tssSaNm").toString(), ""));
-            replacementVo.setProdGNm(NullUtil.nvl(context.get("prodGNm").toString(), ""));
+            replacementVo.setPrjNm(NullUtil.nvl(""+context.get("prjNm"), ""));
+            replacementVo.setTssNm(NullUtil.nvl(""+context.get("tssNm"), ""));
+            replacementVo.setWbsCd(NullUtil.nvl(""+context.get("wbsCd"), ""));
+            replacementVo.setBizDptNm(NullUtil.nvl(""+context.get("bizDptNm"), ""));
+            replacementVo.setTssScnNm(NullUtil.nvl(""+context.get("tssScnNm"), ""));
+            replacementVo.setTssSaNm(NullUtil.nvl(""+context.get("tssSaNm"), ""));
+            replacementVo.setProdGNm(NullUtil.nvl(""+context.get("prodGNm"), ""));
             
             mailSender.setHtmlTemplate("mailBatchWbsCdClosinghtml", replacementVo);
             mailSender.send(); 
@@ -176,13 +176,13 @@ public class MailBatchServiceImpl implements MailBatchService{
             mailSender.setCcMailAddress(context.get("ccMailAddr").toString().split(","));
             mailSender.setSubject(subject);
             
-            replacementVo.setPrjNm(NullUtil.nvl(context.get("prjNm").toString(), ""));
-            replacementVo.setTssNm(NullUtil.nvl(context.get("tssNm").toString(), ""));
-            replacementVo.setWbsCd(NullUtil.nvl(context.get("wbsCd").toString(), ""));
-            replacementVo.setBizDptNm(NullUtil.nvl(context.get("bizDptNm").toString(), ""));
-            replacementVo.setTssScnNm(NullUtil.nvl(context.get("tssScnNm").toString(), ""));
-            replacementVo.setTssSaNm(NullUtil.nvl(context.get("tssSaNm").toString(), ""));
-            replacementVo.setProdGNm(NullUtil.nvl(context.get("prodGNm").toString(), ""));
+            replacementVo.setPrjNm(NullUtil.nvl(""+context.get("prjNm"), ""));
+            replacementVo.setTssNm(NullUtil.nvl(""+context.get("tssNm"), ""));
+            replacementVo.setWbsCd(NullUtil.nvl(""+context.get("wbsCd"), ""));
+            replacementVo.setBizDptNm(NullUtil.nvl(""+context.get("bizDptNm"), ""));
+            replacementVo.setTssScnNm(NullUtil.nvl(""+context.get("tssScnNm"), ""));
+            replacementVo.setTssSaNm(NullUtil.nvl(""+context.get("tssSaNm"), ""));
+            replacementVo.setProdGNm(NullUtil.nvl(""+context.get("prodGNm"), ""));
             
             mailSender.setHtmlTemplate("mailBatchWbsCdDelayhtml", replacementVo);
             mailSender.send(); 

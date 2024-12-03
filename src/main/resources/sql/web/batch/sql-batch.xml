@@ -343,76 +343,55 @@
         <![CDATA[
             -- retrieveWbsCdClosingReq 3. 과제코드 종료예정
             SELECT PRJWBSCD PRJ_WBS_CD
-                , TSS_SCN_NM
-                , WBS_CD
-                , SEED_WBS_CD
-                , TSS_NM
-                , SA_NM
-                , a.SA_SABUN_NEW
-                , TSS_STRT_DD
-                , TSS_FNH_DD
+                , dbo.fn_getComDtlNm('TSS_SCN_CD', A.TSS_SCN_CD) AS TSSSCNNM
+                , iif(PGS_STEP_CD='PL','SEED-', '') +WBS_CD
                 , PGSSTEPNM PGS_STEP_NM
+                , dbo.fn_getComDtlNm('TSS_SCN_CD', A.TSS_SCN_CD) AS TSS_ST_NM
+                , TSS_NM
+                , sa_name as tssSaNm
+                , a.SA_SABUN_NEW
+                , a.TSS_STRT_DD
+                , a.TSS_FNH_DD
                 , FUNDING
                 , QGATENM QGATE_NM
-                , sa_name as tssSaNm
                 --, sa_user+'@lxhausys.com' as receMailAdd
                 , 'siseo@hausyspartner.com' as receMailAdd
-                --, 'kwonbin@lxhausys.com'+','+'siseo@hausyspartner.com'+','+'keunjung@lxhausys.com' as ccMailAddr
-                , 'siseo@hausyspartner.com' as ccMailAddr
-                
-                , tss_cd as tssCd
-                , ''  as prjNm
-                , TSS_NM     as tssNm
-                , WBS_CD     as wbsCd
-                , FUNDING AS bizDptNm
-                , TSS_SCN_NM  as tssScnNm
-                , SA_NM as tssSaNm
-                , '' AS prodGNm
+                , 'kwonbin@lxhausys.com'+','+'keunjung@lxhausys.com'+','+'siseo@hausyspartner.com' as ccMailAddr
             FROM VW_TSS_INFO a
             JOIN IRIS_SSO_USER u ON (a.sa_sabun_new = u.sa_sabun_new)
             WHERE dbo.fn_isEmpty(TSS_FNH_DD, NULL) IS NOT NULL
+            AND EXISTS (SELECT 1 FROM IRIS_TSS_MGMT_MST m WHERE a.tss_cd = m.tss_cd AND m.DEL_YN = 'N')
             AND NOT (PGS_STEP_CD IN ('CM', 'DC', 'HD') AND (TSS_ST = '104' OR TSS_ST LIKE '5%' OR TSS_ST LIKE '6%'))
-            AND TSS_FNH_DD > CONVERT(NVARCHAR(10), GETDATE()-1, 23)
-            --AND TSS_FNH_DD = CONVERT(NVARCHAR(10), GETDATE()-1, 23)
+            AND ( TSS_FNH_DD = CONVERT(NVARCHAR(10), GETDATE()+3, 23) OR TSS_FNH_DD = CONVERT(NVARCHAR(10), GETDATE()+10, 23) )
         ]]>
     </select>
 
     <!-- 4. 과제코드 종료지연 -->
     <select id="retrieveWbsCdDelayReq"  resultType="hashmap">
         <![CDATA[
-            -- retrieveWbsCdClosingReq 4. 과제코드 종료지연
+            -- retrieveWbsCdDelayReq 4. 과제코드 종료지연
             SELECT PRJWBSCD PRJ_WBS_CD
-                , TSS_SCN_NM
-                , WBS_CD
-                , SEED_WBS_CD
-                , TSS_NM
-                , SA_NM
-                , a.SA_SABUN_NEW
-                , TSS_STRT_DD
-                , TSS_FNH_DD
+                , dbo.fn_getComDtlNm('TSS_SCN_CD', A.TSS_SCN_CD) AS TSSSCNNM
+                , iif(PGS_STEP_CD='PL','SEED-', '') +WBS_CD
                 , PGSSTEPNM PGS_STEP_NM
+                , dbo.fn_getComDtlNm('TSS_SCN_CD', A.TSS_SCN_CD) AS TSS_ST_NM
+                , TSS_NM
+                , sa_name as tssSaNm
+                , a.SA_SABUN_NEW
+                , a.TSS_STRT_DD
+                , a.TSS_FNH_DD
                 , FUNDING
                 , QGATENM QGATE_NM
-                , sa_name as tssSaNm
-                --, sa_user+'@lxhausys.com' as receMailAdd
+                -----, sa_user+'@lxhausys.com' as receMailAdd
                 , 'siseo@hausyspartner.com' as receMailAdd
-                --, 'kwonbin@lxhausys.com'+','+'siseo@hausyspartner.com'+','+'keunjung@lxhausys.com' as ccMailAddr
-                , 'siseo@hausyspartner.com' as ccMailAddr
-                
-                , tss_cd as tssCd
-                , ''  as prjNm
-                , TSS_NM     as tssNm
-                , WBS_CD     as wbsCd
-                , FUNDING AS bizDptNm
-                , TSS_SCN_NM  as tssScnNm
-                , SA_NM as tssSaNm
-                , '' AS prodGNm
+                , 'kwonbin@lxhausys.com'+','+'keunjung@lxhausys.com'+','+'siseo@hausyspartner.com' as ccMailAddr
+                --, 'siseo@hausyspartner.com' as ccMailAddr
             FROM VW_TSS_INFO a
             JOIN IRIS_SSO_USER u ON (a.sa_sabun_new = u.sa_sabun_new)
             WHERE dbo.fn_isEmpty(TSS_FNH_DD, NULL) IS NOT NULL
-            AND NOT (PGS_STEP_CD IN ('CM', 'DC', 'HD') AND (TSS_ST = '104' OR TSS_ST LIKE '5%' OR TSS_ST LIKE '6%'))
+            AND NOT ( PGS_STEP_CD IN ('CM', 'DC', 'HD') AND (TSS_ST = '104' OR TSS_ST LIKE '5%' OR TSS_ST LIKE '6%') )
             AND TSS_FNH_DD < CONVERT(NVARCHAR(10), GETDATE()-1, 23)
-            AND RIGHT(CONVERT(NVARCHAR(10), GETDATE()-1, 23), 2) % 5 = 0 --5일마다
+            AND RIGHT(CONVERT(NVARCHAR(10), GETDATE(), 23), 2) % 5 = 0 --5일마다
         ]]>
     </select>
     
