@@ -343,20 +343,22 @@
         <![CDATA[
             -- retrieveWbsCdClosingReq 3. 과제코드 종료예정
             SELECT PRJWBSCD PRJ_WBS_CD
-                , dbo.fn_getComDtlNm('TSS_SCN_CD', A.TSS_SCN_CD) AS TSSSCNNM
-                , iif(PGS_STEP_CD='PL','SEED-', '') +WBS_CD
+                , dbo.fn_getComDtlNm('TSS_SCN_CD', A.TSS_SCN_CD) AS TSS_SCN_NM
+                , iif(PGS_STEP_CD='PL','SEED-', '') +WBS_CD AS wbsCd
                 , PGSSTEPNM PGS_STEP_NM
                 , dbo.fn_getComDtlNm('TSS_SCN_CD', A.TSS_SCN_CD) AS TSS_ST_NM
-                , TSS_NM
+                , TSS_NM as tssNm
                 , sa_name as tssSaNm
                 , a.SA_SABUN_NEW
                 , a.TSS_STRT_DD
                 , a.TSS_FNH_DD
                 , FUNDING
                 , QGATENM QGATE_NM
-                --, sa_user+'@lxhausys.com' as receMailAdd
-                , 'siseo@hausyspartner.com' as receMailAdd
+                , isnull(dbo.fn_getComDtlNm('PROD_G',PROD_G), '') AS prodGNm
+                , sa_user+'@lxhausys.com' as receMailAdd
+                --, 'siseo@hausyspartner.com' as receMailAdd
                 , 'kwonbin@lxhausys.com'+','+'keunjung@lxhausys.com'+','+'siseo@hausyspartner.com' as ccMailAddr
+                --, 'siseo@hausyspartner.com' as ccMailAddr
             FROM VW_TSS_INFO a
             JOIN IRIS_SSO_USER u ON (a.sa_sabun_new = u.sa_sabun_new)
             WHERE dbo.fn_isEmpty(TSS_FNH_DD, NULL) IS NOT NULL
@@ -371,19 +373,20 @@
         <![CDATA[
             -- retrieveWbsCdDelayReq 4. 과제코드 종료지연
             SELECT PRJWBSCD PRJ_WBS_CD
-                , dbo.fn_getComDtlNm('TSS_SCN_CD', A.TSS_SCN_CD) AS TSSSCNNM
-                , iif(PGS_STEP_CD='PL','SEED-', '') +WBS_CD
+                , dbo.fn_getComDtlNm('TSS_SCN_CD', A.TSS_SCN_CD) AS TSS_SCN_NM
+                , iif(PGS_STEP_CD='PL','SEED-', '') +WBS_CD AS wbsCd
                 , PGSSTEPNM PGS_STEP_NM
                 , dbo.fn_getComDtlNm('TSS_SCN_CD', A.TSS_SCN_CD) AS TSS_ST_NM
-                , TSS_NM
+                , TSS_NM as tssNm
                 , sa_name as tssSaNm
                 , a.SA_SABUN_NEW
                 , a.TSS_STRT_DD
                 , a.TSS_FNH_DD
                 , FUNDING
                 , QGATENM QGATE_NM
-                -----, sa_user+'@lxhausys.com' as receMailAdd
-                , 'siseo@hausyspartner.com' as receMailAdd
+                , isnull(dbo.fn_getComDtlNm('PROD_G',PROD_G), '') AS prodGNm
+                , sa_user+'@lxhausys.com' as receMailAdd
+                --, 'siseo@hausyspartner.com' as receMailAdd
                 , 'kwonbin@lxhausys.com'+','+'keunjung@lxhausys.com'+','+'siseo@hausyspartner.com' as ccMailAddr
                 --, 'siseo@hausyspartner.com' as ccMailAddr
             FROM VW_TSS_INFO a
