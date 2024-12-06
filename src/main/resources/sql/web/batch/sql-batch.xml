@@ -363,6 +363,7 @@
             JOIN IRIS_SSO_USER u ON (a.sa_sabun_new = u.sa_sabun_new)
             WHERE dbo.fn_isEmpty(TSS_FNH_DD, NULL) IS NOT NULL
             AND EXISTS (SELECT 1 FROM IRIS_TSS_MGMT_MST m WHERE a.tss_cd = m.tss_cd AND m.DEL_YN = 'N')
+            AND PGS_STEP_CD <> 'PL' --계획제외
             AND NOT (PGS_STEP_CD IN ('CM', 'DC', 'HD') AND (TSS_ST = '104' OR TSS_ST LIKE '5%' OR TSS_ST LIKE '6%'))
             AND ( TSS_FNH_DD = CONVERT(NVARCHAR(10), GETDATE()+3, 23) OR TSS_FNH_DD = CONVERT(NVARCHAR(10), GETDATE()+10, 23) )
         ]]>
@@ -392,6 +393,8 @@
             FROM VW_TSS_INFO a
             JOIN IRIS_SSO_USER u ON (a.sa_sabun_new = u.sa_sabun_new)
             WHERE dbo.fn_isEmpty(TSS_FNH_DD, NULL) IS NOT NULL
+            AND EXISTS (SELECT 1 FROM IRIS_TSS_MGMT_MST m WHERE a.tss_cd = m.tss_cd AND m.DEL_YN = 'N')
+            AND PGS_STEP_CD <> 'PL' --계획제외
             AND NOT ( PGS_STEP_CD IN ('CM', 'DC', 'HD') AND (TSS_ST = '104' OR TSS_ST LIKE '5%' OR TSS_ST LIKE '6%') )
             AND TSS_FNH_DD < CONVERT(NVARCHAR(10), GETDATE()-1, 23)
             AND RIGHT(CONVERT(NVARCHAR(10), GETDATE(), 23), 2) % 5 = 0 --5일마다
