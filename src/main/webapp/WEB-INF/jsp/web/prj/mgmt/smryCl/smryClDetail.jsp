@@ -63,10 +63,20 @@
         });
 
         //사업부문(Funding기준)
-        bizDptNm = new Rui.ui.form.LTextBox({
+        /* bizDptNm = new Rui.ui.form.LTextBox({
             applyTo: 'bizDptNm',
             editable: false,
             width: 200
+        }); */
+        bizDptCd = new Rui.ui.form.LCombo({
+            applyTo: 'bizDptCd',
+            name: 'bizDptCd',
+            useEmptyText: true,
+            emptyText: '(선택)',
+            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=BIZ_DPT_CD"/>',
+            displayField: 'COM_DTL_NM',
+            valueField: 'COM_DTL_CD',
+            width: 150
         });
 
         //WBS Code
@@ -91,10 +101,20 @@
         });
 
         //제품군
-        prodGNm = new Rui.ui.form.LTextBox({
-            applyTo: 'prodGNm',
+        /* prodGCdNm = new Rui.ui.form.LTextBox({
+            applyTo: 'prodGCdNm',
             editable: false,
             width: 200
+        }); */
+        prodGCd = new Rui.ui.form.LCombo({
+            applyTo: 'prodGCd',
+            name: 'prodGCd',
+            useEmptyText: true,
+            emptyText: '(선택)',
+            url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=PROD_G"/>',
+            displayField: 'COM_DTL_NM',
+            valueField: 'COM_DTL_CD',
+            width: 150
         });
 
         //과제기간 시작일
@@ -116,7 +136,7 @@
             applyTo: 'rsstSphe',
             name: 'rsstSphe',
             useEmptyText: true,
-            emptyText: '(전체)',
+            emptyText: '(선택)',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=RSST_SPHE"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD',
@@ -128,7 +148,7 @@
             applyTo: 'tssType',
             name: 'tssType',
             useEmptyText: true,
-            emptyText: '(전체)',
+            emptyText: '(선택)',
             url: '<c:url value="/common/code/retrieveCodeListForCache.do?comCd=TSS_TYPE"/>',
             displayField: 'COM_DTL_NM',
             valueField: 'COM_DTL_CD',
@@ -163,7 +183,9 @@
                 , { id: 'pkWbsCd' }     //WBS Code
                 , { id: 'saUserName' }  //과제리더
                 , { id: 'tssAttrNm' }   //과제속성
-                , { id: 'prodGNm' }     //제품군
+                , { id: 'bizDptCd' }     //사업부문(Funding기준)Code
+                , { id: 'prodGCd' }     //제품군Code
+                , { id: 'prodGCdNm' }     //제품군
                 , { id: 'tssStrtDd' }   //과제기간 시작일
                 , { id: 'tssFnhDd' }    //과제기간 종료일
                 , { id: 'rsstSphe' }    //연구분야
@@ -192,7 +214,9 @@
                 , { id: 'tssStrtDd',  ctrlId: 'tssStrtDd',  value: 'value' }
                 , { id: 'tssFnhDd',   ctrlId: 'tssFnhDd',   value: 'value' }
                 , { id: 'mbrCnt',     ctrlId: 'mbrCnt',     value: 'value' }
-                , { id: 'prodGNm',    ctrlId: 'prodGNm',    value: 'value' }
+                , { id: 'bizDptCd',    ctrlId: 'bizDptCd',    value: 'value' }
+                , { id: 'prodGCd',    ctrlId: 'prodGCd',    value: 'value' }
+                , { id: 'prodGCdNm',    ctrlId: 'prodGCdNm',    value: 'value' }
                 , { id: 'rsstSphe',   ctrlId: 'rsstSphe',    value: 'value' }
                 , { id: 'tssType',    ctrlId: 'tssType',    value: 'value' }
             ]
@@ -302,7 +326,8 @@
                                     </td>
                                     <th align="right">사업부문(Funding기준)</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="bizDptNm" />
+                                        <!-- <input type="text" id="bizDptNm" /> -->
+                                        <div id="bizDptCd">
                                     </td>
                                 </tr>
                                 <tr>
@@ -319,7 +344,8 @@
                                     </td>
                                     <th align="right">제품군</th>
                                     <td class="tssLableCss">
-                                        <input type="text" id="prodGNm" />
+                                        <!-- <input type="text" id="prodGCdNm" /> -->
+                                        <div id="prodGCd">
                                     </td>
                                 </tr>
                                 <tr>

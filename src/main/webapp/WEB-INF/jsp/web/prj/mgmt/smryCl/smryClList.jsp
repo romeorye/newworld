@@ -195,6 +195,7 @@
                 , { id: 'wbsCd'}        //과제코드
                 , { id: 'pkWbsCd'}      //wbs코드
                 , { id: 'tssNm'}        //과제명
+                , { id: 'tssTypeNm'}    //등급
                 , { id: 'prjNm'}        //소속명(프로젝트명)
                 , { id: 'saUserName'}   //과제리더
                 , { id: 'deptName'}     //조직
@@ -226,7 +227,8 @@
                     if(record.get("myTss") == "Y") p.css.push('font-bold');
                     return "<a href='javascript:void(0);'><u>" + value + "<u></a>";
                 }}
-                , { field: 'prjNm',        label: '소속명', sortable: false, align:'center', width: 160 }
+                , { field: 'tssTypeNm',    label: '등급',  align:'center',  width: 60 }
+                , { field: 'prjNm',        label: '소속명', sortable: false, align:'center', width: 100 }
                 , { field: 'saUserName',   label: '과제리더', sortable: false, align:'center', width: 90 }
                 , { field: 'deptName',     label: '조직', sortable: false, align:'center', width: 120 }
                 , { id: 'G1', label: '과제기간(계획일)' }
@@ -339,6 +341,25 @@
                }
            });
         }
+        
+        /* [버튼] 엑셀 */
+        var butExcel = new Rui.ui.LButton('butExcel');
+        butExcel.on('click', function() {
+            if(dataSet.getCount() > 0) {
+                // 엑셀 다운로드시 전체 다운로드를 위해 추가
+                dataSet.clearFilter();
+                
+                var excelColumnModel = columnModel.createExcelColumnModel(false);
+                duplicateExcelGrid(excelColumnModel);
+                nG.saveExcel(encodeURIComponent('일반과제개요관리_') + new Date().format('%Y%m%d') + '.xls');
+                
+                // 목록 페이징
+                paging(dataSet,"defaultGrid");
+            } else {
+                Rui.alert("조회 후 엑셀 다운로드 해주세요.");
+            }
+        });
+        
     });
 </script>
 <script>
@@ -435,6 +456,7 @@ function setDeptInfo(deptInfo) {
             <div class="titArea">
                 <span class="Ltotal" id="cnt_text">총 : 0건</span>
                 <div class="LblockButton">
+                    <button type="button" id="butExcel" name="butExcel">EXCEL다운로드</button>
                 </div>
             </div>
 

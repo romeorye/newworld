@@ -8,6 +8,10 @@
         UPDATE IRIS_TSS_MGMT_MST  /*과제관리마스터*/
            SET RSST_SPHE    = #{rsstSphe}
              , TSS_TYPE     = #{tssType}
+
+             , BIZ_DPT_CD   = #{bizDptCd}
+             , PROD_G       = #{prodGCd}
+             
              , LAST_MDFY_DT = GETDATE()
              , LAST_MDFY_ID = #{userId}
          WHERE PK_WBS_CD = #{pkWbsCd}
