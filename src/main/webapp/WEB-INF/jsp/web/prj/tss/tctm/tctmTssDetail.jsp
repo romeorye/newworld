@@ -42,7 +42,8 @@
         var isEditable = false;
 
         var isGrsAl="";
-
+        var gvWbsCd;
+        
         Rui.onReady(function () {
             var isInsert = false;
             var form = new Rui.ui.form.LForm('mstForm');
@@ -382,7 +383,7 @@
                         , {id: 'deptCode', validExp: '조직코드:false'}
                         , {id: 'deptName', validExp: '조직명:false'}
                         , {id: 'ppslMbdCd', validExp: '발의주체:true'}
-                        , {id: 'bizDptCd', validExp: '사업부문(Funding기준):true'}
+                        , {id: 'bizDptCd', validExp: '사업부문(Funding기준):false'} //true
                         , {id: 'wbsCd', validExp: 'WBSCode:false'}
                         , {id: 'tssNm', validExp: '과제명:true:maxLength=1000'}
                         , {id: 'saSabunNew', validExp: '과제리더사번:false'}
@@ -401,9 +402,9 @@
                         , {id: 'tssSt', validExp: '과제상태:false'}
                         , {id: 'pgsStepCd', validExp: '진행단계:false'}
                         , {id: 'tssScnCd', validExp: '과제구분:false'}
-                        , {id: 'prodG', validExp: '제품군:true'}
-                        , {id: 'rsstSphe', validExp: '연구분야:true'}
-                        , {id: 'tssType', validExp: '유형:true'}
+                        , {id: 'prodG', validExp: '제품군:false'} //true
+                        , {id: 'rsstSphe', validExp: '연구분야:false'} //true
+                        , {id: 'tssType', validExp: '유형:false'} //true
                     ]
                 });
             }
@@ -423,7 +424,7 @@
                 grsYn = stringNullChk(dataSet.getNameValue(0, "grsYn"));
                 isGrsAl = stringNullChk(dataSet.getNameValue(0, "isGrsAl"));
                 grsBtnYn = stringNullChk(dataSet.getNameValue(0, "grsBtnYn"));
-
+                gvWbsCd  = dataSet.getNameValue(0, "wbsCd");
 
                 //계획 단계의 경우 SEED 표현, width 조정
                 var wbsCdStr = stringNullChk(dataSet.getNameValue(0, "wbsCd"));
@@ -825,7 +826,7 @@
                 if (errMsg == "") {
                     if (regCntMap.gbn != "GRS") {        //GRS 요청
                         if (regCntMap.gbn == "CSUS") {    //품의서 요청
-                            nwinsActSubmit(document.mstForm, "<%=request.getContextPath()+TctmUrl.doCsusView%>" + "?tssCd=" + tcd + "&pgsStepCd=" + pgsStepCd + "&userId=" + gvUserId + "&appCode=APP00332");
+                            nwinsActSubmit(document.mstForm, "<%=request.getContextPath()+TctmUrl.doCsusView%>" + "?tssCd=" + tcd + "&pgsStepCd=" + pgsStepCd +"&pgTssCd="+gvTssCd + "&userId=" + gvUserId + "&appCode=APP00332");
                         }
                     } else {
                         nwinsActSubmit(document.mstForm, "<c:url value='/prj/grs/grsEvRslt.do?tssCd="+gvTssCd+"&userId="+gvUserId+"'/>");
@@ -952,7 +953,6 @@ console.log("[tabContent4]('05')", $("#tabContent4").contents().find("[yldType='
                     }
                 }
             });
-
 
             //변경요청
             btnAltrRq = new Rui.ui.LButton('btnAltrRq');
