@@ -613,8 +613,8 @@ public class GenTssPlnController  extends IrisBaseController {
      * @return String
      * @throws JSONException
      * */
-    //@RequestMapping(value="/prj/tss/gen/genTssPlnWBSIfm.do")
-    @RequestMapping(value = {"/prj/tss/gen/genTssPlnWBSIfm.do", "/prj/tss/gen/genTssPlnWBSV2Ifm.do"})
+    @RequestMapping(value="/prj/tss/gen/genTssPlnWBSIfm.do")
+    //@RequestMapping(value = {"/prj/tss/gen/genTssPlnWBSIfm.do", "/prj/tss/gen/genTssPlnWBSV2Ifm.do"})
     public String genTssPlnWBSIfm(@RequestParam HashMap<String, String> input, HttpServletRequest request,
             HttpSession session, ModelMap model) throws JSONException {
 
@@ -642,11 +642,12 @@ public class GenTssPlnController  extends IrisBaseController {
         }
         
         String rsltJsp = "web/prj/tss/gen/pln/genTssPlnWBSIfm";
-        String WBSV2 = "WBSV2";
+        /*String WBSV2 = "WBSV2";
         if (request.getRequestURI().indexOf(WBSV2)>-1) 
         	return rsltJsp.replaceAll("WBS", WBSV2);
-        else 
-            return rsltJsp;
+        else*/ 
+        
+        return rsltJsp;
     }
 
 

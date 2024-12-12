@@ -312,8 +312,8 @@ var gvWbsCd;
             case 2:
                 if(e.isFirst) {
                 }
-                //tabUrl = "<c:url value='/prj/tss/gen/genTssPlnWBSIfm.do?tssCd=" + gvTssCd + "'/>";
-                tabUrl = "<c:url value='/prj/tss/gen/genTssPlnWBSV2Ifm.do?tssCd=" + gvTssCd + "'/>";
+                tabUrl = "<c:url value='/prj/tss/gen/genTssPlnWBSIfm.do?tssCd=" + gvTssCd + "'/>";
+                //tabUrl = "<c:url value='/prj/tss/gen/genTssPlnWBSV2Ifm.do?tssCd=" + gvTssCd + "'/>";
                 nwinsActSubmit(document.tabForm, tabUrl, 'tabContent2');
                 disableFields(true);
                 break;
