@@ -241,7 +241,7 @@
                         </div>
                     </div>
                     
-                    <div class="titArea"><h3>1. 개요</h3></div>
+                    <div class="titArea"><h3>5. 개요</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:15%"/>
@@ -274,7 +274,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>2. 개발기간</h3></div>
+                    <div class="titArea"><h3>6. 개발기간</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:15%"/>
@@ -291,7 +291,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    <div class="titArea"><h3>3. 주요 concept</h3></div>
+                    <div class="titArea"><h3>7. 주요 concept</h3></div>
                         <table class="table">
                             <colgroup>
                                 <col style="width:100%"/>
@@ -313,7 +313,7 @@
                             </tbody>
                         </table>
 
-                    <div class="titArea"><h3>4. 기대성과<span class="h3_stitle">(상품출시(계획), 신제품 매출계획)</span></h3></div>
+                    <div class="titArea"><h3>8. 기대성과<span class="h3_stitle">(상품출시(계획), 신제품 매출계획)</span></h3></div>
                         <table class="table">
                             <colgroup>
                                 <col style="width:15%"/>
@@ -339,7 +339,7 @@
                         </table>
 
 
-                    <div class="titArea"><h3>5. 첨부파일</h3></div>
+                    <div class="titArea"><h3>9. 첨부파일</h3></div>
                         <table class="table table_txt_right">
                             <colgroup>
                                 <col style="width:100%"/>
