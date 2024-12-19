@@ -142,14 +142,14 @@
         initFlowStrtDd.on('blur', function() {
             if(Rui.isEmpty(initFlowStrtDd.getValue())) return;
 
-            if(!Rui.isEmpty(initFlowStrtDd.getValue())) {
+            if(!Rui.isEmpty(initFlowFnhDd.getValue())) {
                 var startDt = initFlowStrtDd.getValue().replace(/\-/g, "").toDate();
                 var fnhDt   = initFlowFnhDd.getValue().replace(/\-/g, "").toDate();
 
                 var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
 
                 if(rtnValue <= 0) {
-                    Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
+                    Rui.alert("초기유동관리 시작일보다 종료일이 빠를 수 없습니다.");
                     initFlowStrtDd.setValue("");
                     return;
                 }
@@ -173,7 +173,7 @@
                 var rtnValue = ((fnhDt - startDt) / 60 / 60 / 24 / 1000) + 1;
 
                 if(rtnValue <= 0) {
-                    Rui.alert("시작일보다 종료일이 빠를 수 없습니다.");
+                    Rui.alert("초기유동관리 시작일보다 종료일이 빠를 수 없습니다.");
                     initFlowFnhDd.setValue("");
                     return;
                 }
