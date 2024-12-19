@@ -349,7 +349,7 @@
             tmpTssStrtDd = dataSet.getNameValue(0, 'tssStrtDd');
             tmpTssFnhDd =  dataSet.getNameValue(0, 'tssFnhDd');
             
-            tmpInitFlowFnhDd = dataSet.getNameValue(0, 'initFlowStrtDd');
+            tmpInitFlowStrtDd = dataSet.getNameValue(0, 'initFlowStrtDd');
             tmpInitFlowFnhDd =  dataSet.getNameValue(0, 'initFlowFnhDd');
             
             disableFields();

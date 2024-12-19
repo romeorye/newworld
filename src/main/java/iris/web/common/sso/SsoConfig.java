@@ -77,7 +77,7 @@ public class SsoConfig {
 	//private String SSO_DOMAIN = ".lghausys.com";
 	private String SSO_DOMAIN = ".lxhausys.com";
 
-	private static final int timeout = 15000;
+	private static final int timeout = 150000; //org:15000;
 	private static NXContext context = null;
 	static{
 		//PropertyConfigurator.configureAndWatch("D:/INISafeNexess/site/4.1.0/src/Web/WebContent/WEB-INF/logger.properties");

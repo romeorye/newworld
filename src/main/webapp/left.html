@@ -1,0 +1,867 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<link rel="stylesheet" type="text/css" href="/iris/rui/resources/rui.css" />
+<!-- link rel="stylesheet" type="text/css" href="/iris/rui/resources/ui_ie6.css" /-->
+<link rel="stylesheet" type="text/css" href="/iris/rui/resources/rui_skin_new.css" />
+
+
+    <link rel="stylesheet" type="text/css" href="/iris/resource/web/css/common_dev.css?ver=20241111" />
+
+
+<link rel="stylesheet" type="text/css" href="/iris/rui/plugins/ui/LFrameDialog.css" />
+<link rel="stylesheet" type="text/css" href="/iris/rui/plugins/ui/form/LPopupTextBox.css" />
+
+<script type="text/javascript">
+    var contextPath = "/iris";
+
+    
+</script>
+
+<!-- script type="text/javascript" src="/iris/resource/web/js/prototype.js"></script  -->
+<script type="text/javascript" src="/iris/rui/js/rui_base.js"></script>
+<script type="text/javascript" src="/iris/rui/js/rui_core.js"></script>
+<script type="text/javascript" src="/iris/rui/js/rui_ui.js"></script>
+<script type="text/javascript" src="/iris/rui/js/rui_form.js"></script>
+<script type="text/javascript" src="/iris/rui/js/rui_grid.js"></script>
+<script type="text/javascript" src="/iris/rui/resources/rui_config.js"></script>
+<script type="text/javascript" src="/iris/rui/resources/rui_license.js"></script>
+<script type="text/javascript" src="/iris/rui/plugins/ui/LFrameDialog.js"></script>
+<script type="text/javascript" src="/iris/rui/plugins/ui/form/LPopupTextBox.js"></script>
+<script type="text/javascript" src="/iris/rui/plugins/ui/grid/LGridView.js"></script>
+<script type="text/javascript" src="/iris/rui/plugins/ui/grid/LGridPanelExt.js"></script>
+<script type="text/javascript" src="/iris/rui/plugins/validate/LCustomValidator.js"></script>
+
+
+<script type="text/javascript" src="/iris/resource/web/js/jquery.js"></script>
+<script type="text/javascript" src="/iris/resource/web/js/jquery.iframeResizer.min.js"></script>
+<script type="text/javascript" src="/iris/resource/web/js/common.js"></script>
+<script type="text/javascript" src="/iris/resource/web/js/commonFont.js"></script>
+
+<script type="text/javascript" src="/iris/resource/web/js/nwins_common.js"></script>
+
+<script type="text/javascript" src="/iris/resource/web/js/iris_common.js?ver=20240724"></script>
+<script type="text/javascript" src="/iris/resource/web/js/javascript-aes.js"></script>
+<script type="text/javascript" src="/iris/namo/js/namo_scripteditor.js"></script>
+
+<script type="text/javascript">
+var fontParam = {"맑은 고딕" : "맑은 고딕","돋움" : "돋움","굴림" : "굴림","바탕" : "바탕","궁서" : "궁서","David" : "David","LG스마트체" : "LG스마트체", "LG스마트체2.0" : "LG스마트체2.0","MS PGothic" : "MS PGothic","New MingLiu" : "New MingLiu","Simplified Arabic" : "Simplified Arabic","simsun" : "simsun","Arial" : "Arial","Courier New" : "Courier New","Tahoma" : "Tahoma","Times New Roman" : "Times New Roman","Verdana" : "Verdana" };
+    var _callback;
+    var agent = navigator.userAgent.toLowerCase();
+    var mPageNum='';
+    Rui.onReady(function() {
+
+        /*******************
+         * 변수 및 객체 선언
+         *******************/
+        // 사용자 조회 공통팝업 시작
+        var _userSearchApply = function(){
+            var frameWindow = this.getFrameWindow();        // Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
+
+            var userList = frameWindow.getSelectUser();
+
+            _callback(userList);
+
+            this.submit(true);
+        };
+
+        _userSearchDialog = new Rui.ui.LFrameDialog({
+            id: '_userSearchDialog',
+            title: '사용자 조회',
+            width: 550,
+            height: 400,
+            modal: true,
+            visible: false
+        });
+
+        var _userSearchDialogMulti = new Rui.ui.LFrameDialog({
+            id: '_userSearchDialogMulti',
+            title: '사용자 조회',
+            width: 650,
+            height: 600,
+            modal: true,
+            visible: false,
+            buttons: [
+                { text: '적용', handler: _userSearchApply, isDefault: true },
+                { text: '닫기', handler: function(){
+                    this.cancel();
+                } }
+            ]
+        });
+
+        _userSearchDialog.render(document.body);
+        _userSearchDialogMulti.render(document.body);
+
+        openUserSearchDialog = function(f, cnt, userIds, task, width, height) {
+            _callback = f;
+
+            if(cnt == 1) {
+                if(stringNullChk(width) > 0) _userSearchDialog.setWidth(width);
+                if(stringNullChk(height) > 0) _userSearchDialog.setHeight(height);
+
+                _userSearchDialog.setUrl('/iris/system/user/userSearchPopup.do?cnt=1&userIds=&task=' + task);
+                _userSearchDialog.show();
+            } else {
+                if(stringNullChk(width) > 0) _userSearchDialogMulti.setWidth(width);
+                if(stringNullChk(height) > 0) _userSearchDialogMulti.setHeight(height);
+
+                _userSearchDialogMulti.setUrl('/iris/system/user/userSearchPopup.do?cnt=' + cnt + '&userIds=' + userIds + '&task=' + task);
+                _userSearchDialogMulti.show();
+            }
+        };
+
+        openUserSearchNmDialog = function(f, userNm, width, height) {
+            _callback = f;
+            if(stringNullChk(width) > 0) _userSearchDialogMulti.setWidth(width);
+            if(stringNullChk(height) > 0) _userSearchDialogMulti.setHeight(height);
+            _userSearchDialog.setUrl('/iris/system/user/userSearchPopup.do?cnt=1&userIds=&task=&userNm='+encodeURIComponent(userNm));
+            _userSearchDialog.show();
+        }
+
+        //사용자 popup Dialog
+        openUserSearchDialog2 = function(f, cnt, userIds, task) {
+             var params = '?cnt=1&userIds=&task=' + task;
+                var loadingUrl = '/iris/system/user/userSearchPopup2.do'+params;
+
+                 var sFeatures = "dialogHeight: 600px; dialogWidth:544px";
+                 if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+                 window.showModalDialog(loadingUrl, self, sFeatures);
+              }else{
+                alert("Internet Explorer browser인지 확인해 주세요");
+             }
+        };
+
+
+        // 사용자 조회 공통팝업 끝
+
+        // 부서 조회 공통팝업 시작
+        _deptSearchDialog = new Rui.ui.LFrameDialog({
+            id: '_deptSearchDialog',
+            title: '부서 조회',
+            width: 450,
+            height: 325,
+            modal: true,
+            visible: false
+        });
+
+        _deptSearchDialog.render(document.body);
+
+        openDeptSearchDialog = function(f, task) {
+            _callback = f;
+
+            _deptSearchDialog.setUrl('/iris/system/dept/deptSearchPopup.do?task=' + task);
+            _deptSearchDialog.show();
+        };
+        // 부서 조회 공통팝업 끝
+
+
+        // WBS 코드 조회 공통팝업 시작
+        _wbsCdSearchDialog = new Rui.ui.LFrameDialog({
+            id: '_wbsCdSearchDialog',
+            title: 'WBS 코드 조회',
+            width: 1050,
+            height: 600,
+            modal: true,
+            visible: false
+        });
+
+        _wbsCdSearchDialog.render(document.body);
+
+        openWbsCdSearchDialog = function(f, deptYn) {
+            _callback = f;
+
+            _wbsCdSearchDialog.setUrl('/iris/system/etc/wbsCdSearchPopup.do?deptYn=' + deptYn);
+            _wbsCdSearchDialog.show();
+        };
+        // WBS 코드 조회 공통팝업 끝
+
+
+        // 첨부파일 공통팝업 시작
+        var _attachFileApply = function(){
+            var frameWindow = _attachFileDialog.getFrameWindow();        // Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
+
+            var attachFileList = frameWindow.getAttachFileInfoList();
+
+            _callback(attachFileList);
+
+            this.submit(true);
+        };
+
+        var _attachFileApply2 = function(){
+            var frameWindow = _attachFileDialog.getFrameWindow();        // Dialog 내부 Content에 접근할 때 사용할 수 있는 Dialog내 IFrame의 window 객체
+
+            var attachFileList = frameWindow.getAttachFileInfoList();
+
+              if(attachFileList != ''){
+                  _callback(attachFileList);
+              }
+
+        };
+
+        _attachFileDialog = new Rui.ui.LFrameDialog({
+            id: '_attachFileDialog',
+            title: '첨부파일',
+            width: 440,
+            height: 500,
+            modal: true,
+            visible: false,
+            buttons: [
+                { text: '적용', handler: _attachFileApply, isDefault: true },
+                { text: '닫기', handler: function(){
+                    this.cancel();
+                } }
+            ]
+        });
+
+        _attachFileDialog.on('cancel', function(e) {
+            _attachFileApply2();
+        });
+
+        _attachFileDialog.render(document.body);
+
+        openAttachFileDialog = function(f, attcFilId, policy, ext, openMode, title) {
+            _callback = f;
+
+            if(openMode == "R") {
+                _attachFileDialog.setWidth(450);
+                _attachFileDialog.setHeight(400);
+                _attachFileDialog.setButtons();
+            }
+
+            var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
+
+            if(Rui.isEmpty(title) == false) {
+                $('#_attachFileDialog_h').html(title);
+            }
+            _attachFileDialog.setUrl('/iris/system/attach/attachFilePopup.do' + params);
+            _attachFileDialog.show();
+        };
+
+        openAttachFileDialog2 = function(f, attcFilId, policy, ext, openMode) {
+            _callback = f;
+
+            var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
+               var loadingUrl = '/iris/system/attach/attachFilePopup2.do'+params;
+
+                var sFeatures = "dialogHeight: 500px; dialogWidth:430px";
+
+                if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+
+                window.showModalDialog(loadingUrl, self, sFeatures);
+                 }else{
+             alert("Internet Explorer browser인지 확인해 주세요");
+            }
+//                var win =  window.open(loadingUrl ,'win' , 'modal=1,Height=450 , width=400');
+//                win.focus();
+
+           };
+        openAttachFileDialog3 = function(f, attcFilId, policy, ext, openMode, title) {
+            _callback = f;
+
+            if(openMode == "R") {
+                _attachFileDialog.setWidth(450);
+                _attachFileDialog.setHeight(400);
+                _attachFileDialog.setButtons();
+            }
+
+            var params = '?attcFilId=' + attcFilId + '&policy=' + policy + '&ext=' + ext + '&openMode=' + openMode;
+
+            if(Rui.isEmpty(title) == false) {
+                $('#_attachFileDialog_h').html(title);
+            }
+            _attachFileDialog.setUrl('/iris/system/attach/attachFilePopup3.do' + params);
+            _attachFileDialog.show();
+        };
+    // 첨부파일 공통팝업 끝
+
+
+    });
+
+</script>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="/iris/resource/web/css/common.css" type="text/css" />
+<script type="text/javascript" src="/iris/resource/web/js/jquery.js"></script>
+<style type="text/css">
+.lnbBanner {height:35px; background-color:#f9f4ef; border-bottom:1px solid #d9d9d9;}
+.lnbBanner h2 {padding:0px 10px;line-height:35px;font-size:14px;color:#000000;font-weight:normal;cursor:pointer;font-weight:bold;margin:0!important;}
+</style>
+<script>
+$(function(){
+
+	$(".split_l").bind("click", function(){
+
+		 var _this = $(this);
+		 var pth = $(this).find('img')[0];
+		 var obj = parent.document.getElementById('main_frameset');
+
+		 if(obj.cols == '202,*'){
+
+			obj.cols='47,*';
+		 	$('.lnbArea').css("left", "-148px");
+		 	$('.lnbMenuArea').css('display', 'none');
+		 	$('.accordionBtn').css('display', 'none');
+		 	$('.lnbTitle').css('display', 'none');
+		 	$(pth).attr('src', $(pth).attr('src').replace(/lnb_off./g, 'lnb_on.'));
+		 }else if(obj.cols == '47,*'){
+
+			obj.cols='211,*';
+			$('.lnbArea').css("left", "0");
+			$('.lnbMenuArea').css("display", "block");
+			$('.accordionBtn').css("display", "block");
+			$('.lnbTitle').css("display", "block");
+			$(pth).attr('src', $(pth).attr('src').replace(/lnb_on./g, 'lnb_off.'));
+		 }
+
+	});
+
+	
+		var _this = $(this);
+	    var pth = $(this).find('img')[0];
+	    var obj = parent.document.getElementById('main_frameset');
+
+		obj.cols='211,*';
+		$('.lnbArea').css("left", "0");
+		$('.lnbMenuArea').css("display", "block");
+		$('.accordionBtn').css("display", "block");
+		$('.lnbTitle').css("display", "block");
+		$(pth).attr('src', $(pth).attr('src').replace(/lnb_on./g, 'lnb_off.'));
+
+	
+
+
+	//아코디언
+	var accordion_all = "close";
+
+	$('.accordion > dt').on('click', function () {
+
+	    $this = $(this);
+	    $target = $this.next();
+
+	    
+// 	    $('.accordion').find('li').removeClass('on');
+
+	    if(!$this.hasClass('accordion-active')){
+	      $this.parent().children('dd').hide(); 
+	      $('.accordion > dt').removeClass('accordion-active');
+	      $this.addClass('accordion-active');
+	      $target.addClass('active').show();   
+// 	      $target.children('ul').children('li').first().addClass('on'); 하위메뉴 중 첫번째
+	    }else{
+	      $this.parent().children('dd').hide(); 
+	      $('.accordion > dt').removeClass('accordion-active');
+	    }
+	   // return false;
+	});
+
+	$('.accordion > dd > ul > li').on('click', function () {
+
+	    $this = $(this);
+	    $target = $this.next();
+
+	    if(!$this.hasClass('on')){
+    		$('.accordion > dd > ul > li').removeClass('on');
+    		$this.addClass('on');
+	    }
+
+	});
+
+
+	// 아코디언 전체 열고 닫기
+
+	$(".accordionBtn").click(function(){
+
+		var dlc = $(".accordion").children();
+
+		dlc.each(function (i) {
+	    if (this.nodeName == "DD") {
+	    	if (accordion_all == "close") {
+	    		$(this).addClass('active').show();
+	    	}
+	    	else{
+	    		$(this).addClass('active').hide();
+	    	}
+	   	 }
+
+		});
+
+		if (accordion_all == "close") {
+  			accordion_all = "open";
+	  	}
+	  	else{
+	  		accordion_all = "close";
+	  	}
+		//$(".lnbMenuArea dl.accordion dd").toggleClass("open");
+
+	});
+
+
+
+
+
+
+	
+		
+			moveMenu("PJ", "/prj/tss/gen/genTssList.do", "IRIPJ0201");
+
+			setMenuView('IRIPJ0200');
+
+    		$('.accordion > dd > ul > li').removeClass('on');
+			$('#lvl3_IRIPJ0201').addClass('on');
+		
+		
+		
+	
+
+
+
+});
+
+
+function goHelpDesk(){
+	var popUrl =  'https://itms.lgstation.com/hausys';
+    var popupOption = "width=1200, height=700, top=200, left=400";
+
+    alert("IRIS+ 문의사항은 02-6987-7396 으로 연락바랍니다.");
+    popUrl = popUrl;
+    window.open(popUrl,"",popupOption);
+}
+
+
+function moveMenu(vMenuId, scrnUrl, menuId){
+	if(scrnUrl == "")  return;
+	var target = 'contentFrame';
+
+	if('IRIAN0001|IRIPJ0001'.indexOf(menuId) > -1) {
+		target = '_top';
+	}
+
+	if( '' != "" ||   '' != null ||   '' != undefined ){
+		var urlString = scrnUrl.split("&");
+
+		if(urlString.length > 1 ){
+			var nmString = urlString[1].split("=");
+			scrnUrl = urlString[0];
+			$("#menuForm").find("#anlChrgNm").val('서성일');
+		}
+	}
+/* 
+	if( '' != "" ||   '' != null ||   '' != undefined ){
+		$("#menuForm").find("#progressrateReal").val('');
+	}
+
+	if( '' != "" ||   '' != null ||   '' != undefined ){
+		$("#menuForm").find("#progressrate").val('');
+	}
+
+ */	
+ 	//[EAM추가] - 변수 Start
+	$("#menuForm").find("#subSysId").val(vMenuId);
+	$("#menuForm").find("#menuPath").val(scrnUrl);
+	$("#menuForm").find("#menuId").val(menuId);
+	//[EAM추가] - 변수 Start
+
+	$("#vMenuId").val(vMenuId);
+	$("#menuForm").attr("target", target);
+	$("#menuForm").attr("action", contextPath + scrnUrl);
+	$("#menuForm").submit();
+
+	$("#menuForm").find("#anlChrgNm").val('');
+	//$("#menuForm").find("#progressrateReal").val('');
+	//$("#menuForm").find("#progressrate").val('');
+}
+
+
+function setMenuView(menuId) {
+	if(!$("#lvl2_" + menuId).hasClass('accordion-active')) {
+		$("#lvl2_" + menuId).parent().children('dd').hide();
+		$('.accordion > dt').removeClass('accordion-active');
+		$("#lvl2_" + menuId).addClass('accordion-active');
+		$("#lvl2_" + menuId).next().addClass('active').show();
+		$("#lvl2_" + menuId).next().children('ul').children('li').first().addClass('on');
+	}else{
+		$("#lvl2_" + menuId).parent().children('dd').hide();
+		$('.accordion > dt').removeClass('accordion-active');
+	}
+}
+
+</script>
+</head>
+<body style="background:#f8f8f8;>
+<form  name="mainForm2" method="post" >
+ 
+</form>
+
+<form id="menuForm" name="menuForm" method="post">
+<input type="hidden" id="vMenuId" name="vMenuId" value="" />
+<input type="hidden" id="menuMoveYn" name="menuMoveYn" value="N"/>
+<input type="hidden" id="anlChrgNm" name="anlChrgNm"/>
+/* <input type="hidden" id="progressrateReal" name="progressrateReal"/>
+<input type="hidden" id="progressrate" name="progressrate"/> */
+<!-- [EAM추가]Start ===================================================================================== -->
+<input type="hidden" id="menuId" name="menuId"/>
+<input type="hidden" id="menuPath" name="menuPath"/>
+<!-- [EAM추가]End ======================================================================================= -->
+
+</form>
+	<div class="lnbArea">
+		<div class="inner">
+			<div class="lnbTitle">
+				<h2>Project</h2>
+				<a href="#none" class="accordionBtn"></a>
+			</div>
+			<div class="lnbMenuArea">
+				<dl class="accordion lnbMenu">
+					
+					
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+							
+							<dt id="lvl2_IRIPJ0001">
+							 <a href="javascript:moveMenu('PJ', '/prj/main.do', 'IRIPJ0001')">Main</a>  <!-- [EAM변경] -->
+							</dt>
+						
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+							
+							<dt id="lvl2_IRIPJ0100">
+							 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0100')">연구팀(Project)</a>  <!-- [EAM변경] -->
+							</dt>
+						
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+							<dd>
+								<ul class="submenu">
+									<li id="lvl3_IRIPJ0101"><a href="javascript:moveMenu('PJ', '/prj/rsst/mst/retrievePrjRsstMstInfoList.do', 'IRIPJ0101')">현황</a></li>  <!-- [EAM변경] -->
+							
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0102"><a href="javascript:moveMenu('PJ', '/prj/rsst/retrievePrjClsList.do', 'IRIPJ0102')">월마감</a></li> <!-- [EAM변경] -->
+							
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+							
+								</ul>
+								</dd>
+							
+							<dt id="lvl2_IRIPJ0600">
+							 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0600')">GRS</a>  <!-- [EAM변경] -->
+							</dt>
+						
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+							<dd>
+								<ul class="submenu">
+									<li id="lvl3_IRIPJ0601"><a href="javascript:moveMenu('PJ', '/prj/grs//listGrsMngInfo.do', 'IRIPJ0601')">GRS관리</a></li>  <!-- [EAM변경] -->
+							
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+							
+								</ul>
+								</dd>
+							
+							<dt id="lvl2_IRIPJ0200">
+							 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0200')">연구과제</a>  <!-- [EAM변경] -->
+							</dt>
+						
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+							<dd>
+								<ul class="submenu">
+									<li id="lvl3_IRIPJ0201"><a href="javascript:moveMenu('PJ', '/prj/tss/gen/genTssList.do', 'IRIPJ0201')">연구팀과제</a></li>  <!-- [EAM변경] -->
+							
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0202"><a href="javascript:moveMenu('PJ', '/prj/tss/ousdcoo/ousdCooTssList.do', 'IRIPJ0202')">대외협력과제</a></li> <!-- [EAM변경] -->
+							
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0203"><a href="javascript:moveMenu('PJ', '/prj/tss/nat/natTssList.do', 'IRIPJ0203')">국책과제</a></li> <!-- [EAM변경] -->
+							
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0207"><a href="javascript:moveMenu('PJ', '/prj/tss/tctm/tctmTssList.do', 'IRIPJ0207')">기술팀과제</a></li> <!-- [EAM변경] -->
+							
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0204"><a href="javascript:moveMenu('PJ', '/prj/tss/itg/tssItgRdcsList.do', 'IRIPJ0204')">결재현황</a></li> <!-- [EAM변경] -->
+							
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+							
+								</ul>
+								</dd>
+							
+							<dt id="lvl2_IRIPJ0300">
+							 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0300')">제조혁신</a>  <!-- [EAM변경] -->
+							</dt>
+						
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+							<dd>
+								<ul class="submenu">
+									<li id="lvl3_IRIPJ0301"><a href="javascript:moveMenu('PJ', '/prj/tss/mkInnoMonCls/mkInnoTssMonClsList.do', 'IRIPJ0301')">제조혁신월마감</a></li>  <!-- [EAM변경] -->
+							
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0302"><a href="javascript:moveMenu('PJ', '/prj/tss/mkInno/mkInnoTssList.do', 'IRIPJ0302')">제조혁신과제</a></li> <!-- [EAM변경] -->
+							
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0303"><a href="javascript:moveMenu('PJ', '/prj/tss/mkInnoStat/mkInnoTssPgsList.do', 'IRIPJ0303')">과제진행현황</a></li> <!-- [EAM변경] -->
+							
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+							
+								</ul>
+								</dd>
+							
+							<dt id="lvl2_IRIPJ0400">
+							 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0400')">M/M관리</a>  <!-- [EAM변경] -->
+							</dt>
+						
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+							<dd>
+								<ul class="submenu">
+									<li id="lvl3_IRIPJ0401"><a href="javascript:moveMenu('PJ', '/prj/mm/retrieveMmInInfo.do', 'IRIPJ0401')">M/M입력</a></li>  <!-- [EAM변경] -->
+							
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0402"><a href="javascript:moveMenu('PJ', '/prj/mm/retrieveMmClsInfo.do', 'IRIPJ0402')">M/M마감</a></li> <!-- [EAM변경] -->
+							
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+							
+								</ul>
+								</dd>
+							
+							<dt id="lvl2_IRIPJ0500">
+							 <a href="javascript:moveMenu('PJ', '', 'IRIPJ0500')">관리</a>  <!-- [EAM변경] -->
+							</dt>
+						
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+							<dd>
+								<ul class="submenu">
+									<li id="lvl3_IRIPJ0501"><a href="javascript:moveMenu('PJ', '/prj/mgmt/wbsStd/wbsStdList.do', 'IRIPJ0501')">표준WBS관리</a></li>  <!-- [EAM변경] -->
+							
+						
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0502"><a href="javascript:moveMenu('PJ', '/prj/mgmt/grst/grsTempList.do', 'IRIPJ0502')">GRS템플릿관리</a></li> <!-- [EAM변경] -->
+							
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0503"><a href="javascript:moveMenu('PJ', '/prj/mgmt/trwiBudg/trwiBudgList.do', 'IRIPJ0503')">투입예산관리</a></li> <!-- [EAM변경] -->
+							
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0504"><a href="javascript:moveMenu('PJ', '/system/dept/upperDeptCdAList.do', 'IRIPJ0504')">조직코드약어관리</a></li> <!-- [EAM변경] -->
+							
+						
+						
+						
+					
+									<!-- [EAM변경] level 하나씩 낮춤-->
+						
+						
+						
+						
+									<li id="lvl3_IRIPJ0505"><a href="javascript:moveMenu('PJ', '/prj/mgmt/smryCl/smryClList.do', 'IRIPJ0505')">일반과제개요/분류관리</a></li> <!-- [EAM변경] -->
+							
+									</ul>
+									</dd>
+							
+						
+						
+						
+					
+					
+				</dl>
+				</div>
+				<div class="left_phone""><img src="/iris/resource/web/images/common/sub_left_m_contact.png" style="cursor: pointer;" onclick="goHelpDesk()" /></div>
+			</div>
+		<div class="split_l" ><img src="/iris/resource/web/images/common/lnb_off.png" /></div>
+	</div><!-- //lnbArea -->
+
+
+</body>
+</html>

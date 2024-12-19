@@ -1,0 +1,29 @@
+[IRIS Report 호출 URL]
+
+1. anlRqprReportRslt
+ http://165.244.161.87:7030/iris/resource/aireport/report/anlRqprReportRslt.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=14 
+
+2. anlRqprTestRslt
+ http://165.244.161.87:7030/iris/resource/aireport/report/anlRqprTestRslt.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&RQPR_ID=14
+
+3. getSmryReportPopup
+ http://165.244.161.87:7030/iris/resource/aireport/report/genSmryReportPopup.jsp?reportMode=HTML&clientURIEncoding=UTF-8&reportParams=skip_decimal_point:true&menu=old&tss_cd=I17BP10001&year=2017
+
+
+
+[파라미터 정보]
+1 anlRqprReportRslt, anlRqprTestRslt 호출시 사용 파라미터
+RQPR_ID = 14
+
+2 getSmryReportPopup 보고서 호출시 사용 파라미터 
+tss_cd=I17BP10001
+year=2017
+
+
+[참고 파라미터]
+- ppt 버튼 활성화
+  menu = old 
+
+- 소수점 생략 파라미터 
+  reportParams = skip_decimal_point:true
+

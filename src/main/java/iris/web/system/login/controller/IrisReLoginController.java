@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.LogManager; import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
@@ -17,13 +18,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import iris.web.common.listener.IrisLoginManagerListener;
-import iris.web.common.util.FormatHelper;
-import iris.web.common.util.LoginUtil;
-import iris.web.system.login.service.IrisEncryptionService;
-import iris.web.system.login.service.IrisLoginService;
 import devonframe.message.saymessage.SayMessage;
 import devonframe.util.NullUtil;
+import iris.web.common.listener.IrisLoginManagerListener;
+import iris.web.common.util.FormatHelper;
+import iris.web.system.login.service.IrisEncryptionService;
+import iris.web.system.login.service.IrisLoginService;
 
 /********************************************************************************
  * NAME : IrisReLoginController.java 
