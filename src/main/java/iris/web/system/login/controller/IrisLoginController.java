@@ -164,8 +164,6 @@ public class IrisLoginController {
         boolean userOk = true;      // 유효한 사용자인지
         String validation = null;   // 로그인 validation 값. 
         ArrayList loginInfo = new ArrayList();
-        HashMap lsession = null;
-        String rtnMsg = "";
         
         //세션 생성
         HashMap resultData = null;    // 세션 생성을 하기 위한 정보 조회         
@@ -276,10 +274,10 @@ public class IrisLoginController {
         		}
         		
         		if(errFlag) {
-        			LOGGER.error(logMsg);
+        			//LOGGER.error(logMsg);
         			SayMessage.setMessage(alertMsg);
         			//return "redirect:/index.do";
-        			/////return "common/error/error";
+        			return "common/error/error";
         		}
         		//[EAM추가] - 사용자 시스템 권한 확인 END ===========================================================
         		
@@ -365,16 +363,17 @@ public class IrisLoginController {
         			alertMsg = eamUtil.getDefaultAlertMessage();
         		}
         		if(errFlag) {
-        			LOGGER.error(logMsg);
+        			//LOGGER.error(logMsg);
         			SayMessage.setMessage(alertMsg);
         			//return "redirect:/common/login/itgLoginForm.do";
-        			/////return "web/system/main";
+        			return "web/system/main";
         		}
         		//[EAM추가] - EAM 관리 전체 메뉴 URL 조회 End ===========================================================
         		
-            	lsession = new HashMap();
+            	HashMap lsession = new HashMap();
   
                 lsession.put("_userId"   , NullUtil.nvl(resultData.get("sa_user"), ""));  
+//                lsession.put("_userSabun"   , NullUtil.nvl(resultData.get("sa_sabun_new"), ""));
                 lsession.put("_userSabun"   , userSabun);
                 lsession.put("_userGubun"   , NullUtil.nvl(resultData.get("sa_gubun"), ""));
                 lsession.put("_userNm"   , NullUtil.nvl(resultData.get("sa_name"), ""));
@@ -386,12 +385,13 @@ public class IrisLoginController {
                 lsession.put("_userFuncName"   , NullUtil.nvl(resultData.get("sa_func_name"), ""));
                 lsession.put("_userEmail"   , NullUtil.nvl(resultData.get("sa_mail"), ""));
                 lsession.put("_teamDept"   , NullUtil.nvl(resultData.get("team_dept"), ""));
-                lsession.put("_roleId",      "WORK_IRI_T01"); //roleIds.substring(1));
+                lsession.put("_roleId", roleIds.substring(1));
+                //lsession.put("_ssoUserId", input.get("ssoUserId"));
+                
                 lsession.put("_loginTime",  FormatHelper.curTime());  //로그인 시간
                 lsession.put("rowsPerPage",  "100");      // 그리드 리스트에서 한 화면에 보이는 row 수                                
-                lsession.put("sessionID",  session.getId());
                 
-                LOGGER.debug("[lsession]", lsession);
+                lsession.put("sessionID",  session.getId());
                 
                 //세션 시간 설정
                 session.setAttribute("irisSession", lsession);     
@@ -415,6 +415,8 @@ public class IrisLoginController {
         
         } else if(validation == "0001" || validation == "0002" ){            // 사용자 정보가 없을 때 
 
+        	String rtnMsg = "";
+        	
         	rtnMsg = messageSourceAccessor.getMessage("msg.alert.login.warning");
         	SayMessage.setMessage(rtnMsg);
 
@@ -423,36 +425,14 @@ public class IrisLoginController {
             return "common/error/ssoError";
             
         }else if (validation == "0008"){
+        	String rtnMsg = "";
+        	
         	rtnMsg = "정상적인 접속대상이 아닙니다.";
         	SayMessage.setMessage(rtnMsg);
 
             SayMessage.setMessage(rtnMsg);
             //LOGGER.debug("##### rtnMsg => " + rtnMsg);
         }
-        
-        /*try {
-            
-            // 로그인 정보 저장
-            HashMap<String, String> param = (HashMap<String, String>) input.clone();
-            param.put("loginId",     ""+lsession.get("_userId"));
-            param.put("loginValid",  validation);
-            param.put("userIp",      CommonUtil.getClientIP(request));
-            
-            param.put("saSabunNew",  ""+lsession.get("_userSabun"));
-            param.put("saSabunName", ""+lsession.get("_userNm"));
-            
-            param.put("serverIp",    InetAddress.getLocalHost().getHostAddress());
-            param.put("headerInfo",  CommonUtil.getHeaderValues(request));
-            param.put("successYn",   (validation == "9999") ? "Y" : "N");
-            param.put("errorMsg",    rtnMsg);
-            param.put("refererUrl",  request.getHeader("referer"));
-            param.put("servletPath", request.getServletPath());
-            
-            loginService.insertLoginLog(param);
-            
-        } catch(Exception e) {
-            e.printStackTrace();
-        }*/
         
         String reUrl = input.get("reUrl");
         
@@ -489,8 +469,7 @@ public class IrisLoginController {
         	} else {
                 LOGGER.debug("##### /prj/main.do 로 이동");
                 
-                /////return "redirect:/prj/main.do";
-                return "redirect:/index.html";
+                return "redirect:/prj/main.do";
         	}
         }
 	}
