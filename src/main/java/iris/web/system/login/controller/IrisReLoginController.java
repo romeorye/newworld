@@ -34,79 +34,79 @@ import iris.web.system.login.service.IrisLoginService;
  *------------------------------------------------------------------------------
  *    DATE     AUTHOR                      DESCRIPTION                        
  * ----------  ------  --------------------------------------------------------- 
- * 2016.07.08  조종민	최초생성            
+ * 2016.07.08  조종민  최초생성            
  *********************************************************************************/
 
 @Controller
 public class IrisReLoginController {
 
-	@Resource(name = "irisLoginService")
-	private IrisLoginService loginService;
-	
-	@Resource(name = "irisEncryptionService")
-	private IrisEncryptionService irisEncryptionService;	
-	
-	@Resource(name="messageSource")
-	MessageSource messageSource;
+    @Resource(name = "irisLoginService")
+    private IrisLoginService loginService;
+    
+    @Resource(name = "irisEncryptionService")
+    private IrisEncryptionService irisEncryptionService;    
+    
+    @Resource(name="messageSource")
+    MessageSource messageSource;
 
     @Resource(name="messageSourceAccessor")
     private MessageSourceAccessor messageSourceAccessor;
     
     //static final Logger LOGGER = LoggerFactory.getLogger(IrisReLoginController.class);
-    static final Logger LOGGER = LogManager.getLogger(IrisReLoginController.class);	
-	
-	@RequestMapping(value="/common/login/tryTwmsReLogin.do")
-	public String doLogin( 
-			String xcmkCd, 
-			String eeId , 
-			String pwd, 
-			String vowFlag,
-			String securityFlag,
-			@RequestParam HashMap<String, String> input,
-			HttpServletRequest request, 
-			HttpServletResponse response, 
-			HttpSession session, 
-			//RedirectAttributes redirectAttributes,
-			ModelMap model){
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("IrisReLoginController - doLogin [로긴 시작]");
-		LOGGER.debug("xcmkCd => " + xcmkCd);
-		LOGGER.debug("eeId => " + eeId);
-		LOGGER.debug("pwd => " + pwd);
-		LOGGER.debug("xcmkCd => " + input.get("xcmkCd"));
-		LOGGER.debug("vowFlag => " + input.get("vowFlag"));	
-		LOGGER.debug("###########################################################");
-		
-		String userIP = request.getRemoteAddr();
-		
+    static final Logger LOGGER = LogManager.getLogger(IrisReLoginController.class); 
+    
+    @RequestMapping(value="/common/login/tryTwmsReLogin.do")
+    public String doLogin( 
+            String xcmkCd, 
+            String eeId , 
+            String pwd, 
+            String vowFlag,
+            String securityFlag,
+            @RequestParam HashMap<String, String> input,
+            HttpServletRequest request, 
+            HttpServletResponse response, 
+            HttpSession session, 
+            //RedirectAttributes redirectAttributes,
+            ModelMap model){
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("IrisReLoginController - doLogin [로긴 시작]");
+        LOGGER.debug("xcmkCd => " + xcmkCd);
+        LOGGER.debug("eeId => " + eeId);
+        LOGGER.debug("pwd => " + pwd);
+        LOGGER.debug("xcmkCd => " + input.get("xcmkCd"));
+        LOGGER.debug("vowFlag => " + input.get("vowFlag")); 
+        LOGGER.debug("###########################################################");
         
-		//LoginManager loginTool = LoginManager.getInstance();
-		IrisLoginManagerListener loginManager = IrisLoginManagerListener.getInstance();
-		
-		
+        String userIP = request.getRemoteAddr();
+        
+        
+        //LoginManager loginTool = LoginManager.getInstance();
+        IrisLoginManagerListener loginManager = IrisLoginManagerListener.getInstance();
+        
+        
         //LData inputData = LCollectionUtility.getData(request);
-		
+        
         //사용자 로그인
-		/*
+        /*
         LData userCnt = null;       // 특/시판 모두 등록된 사용자인지 여부 확인
         LData loginUser = null;     // 사용자 마스터에서 해당 사용자 정보를 조회한 결과
         boolean userOk = true;      // 유효한 사용자인지
         String validation = null;   // 로그인 validation 값. 
-        LMultiData loginInfo = new LMultiData();		
+        LMultiData loginInfo = new LMultiData();        
         //세션 생성
         LData resultData = null;    // 영문 대문자가 붙은 대리점 코드로 사용자 상세 조회 - 세션 생성을 하기 위한 정보 조회         
-		*/
+        */
         HashMap userCnt = null;       // 특/시판 모두 등록된 사용자인지 여부 확인
         HashMap loginUser = null;     // 사용자 마스터에서 해당 사용자 정보를 조회한 결과
         boolean userOk = true;      // 유효한 사용자인지
         String validation = null;   // 로그인 validation 값. 
-        ArrayList loginInfo = new ArrayList();			
+        ArrayList loginInfo = new ArrayList();          
         //세션 생성
         HashMap resultData = null;    // 영문 대문자가 붙은 대리점 코드로 사용자 상세 조회 - 세션 생성을 하기 위한 정보 조회         
         
         if(userOk) {
-        	LOGGER.debug("ID         :----------> [" + input.get("eeId")+ "]");
-        	LOGGER.debug("Password   :----------> [" + input.get("pwd")+ "]");
+            LOGGER.debug("ID         :----------> [" + input.get("eeId")+ "]");
+            LOGGER.debug("Password   :----------> [" + input.get("pwd")+ "]");
             LOGGER.debug("Session ID :----------> [" + input.get("UseSession")+ "]");
         }        
         
@@ -138,7 +138,7 @@ public class IrisReLoginController {
                 loginService.sessionLog(sLogHm);
             }catch(Exception e){
                 //System.out.println("이미 만료된 세션("+sess[i]+") : " + data.getString("xcmkCd") + ":" + data.getString("eeId"));
-            	LOGGER.debug("이미 만료된 세션("+sess[i]+") : " + input.get("xcmkCd") + ":" + input.get("eeId")+":web");
+                LOGGER.debug("이미 만료된 세션("+sess[i]+") : " + input.get("xcmkCd") + ":" + input.get("eeId")+":web");
 //                validation = "0098";
 //                userOk = false;
             }
@@ -149,93 +149,93 @@ public class IrisReLoginController {
         
         if(userOk){
             //if(data.containsKey("securityFlag")){
-        	if(!NullUtil.isNull(securityFlag)){
-        		loginService.updateSecurityInfo(input);
+            if(!NullUtil.isNull(securityFlag)){
+                loginService.updateSecurityInfo(input);
             }
 
             //loginUser = loginService.evalUser(input);
             
             List loginUserList = loginService.evalUser(input);
-    		LOGGER.debug("###########################################################");
-    		LOGGER.debug("loginUserList size => " + loginUserList.size());
-    		LOGGER.debug("loginUserList => " + loginUserList);
+            LOGGER.debug("###########################################################");
+            LOGGER.debug("loginUserList size => " + loginUserList.size());
+            LOGGER.debug("loginUserList => " + loginUserList);
             
             
             // 사용자 정보가 없을 때
-    		if(NullUtil.isNull(loginUserList)|| loginUserList.size() < 1){
+            if(NullUtil.isNull(loginUserList)|| loginUserList.size() < 1){
                 userOk = false;
-                validation = "0001";    			
-    		} else {	
+                validation = "0001";                
+            } else {    
                 loginUser = (HashMap)loginUserList.get(0);
-        		LOGGER.debug("loginUserList.get(0) => " + loginUser);
-        		LOGGER.debug("###########################################################");
-        		
-	            if(loginUser.get("xcmkCd") == null || loginUser.get("eeId") == null) {
-        		//if(loginUser.get("XCMK_CD") == null || loginUser.get("EE_ID") == null) {
-	                userOk = false;
-	                validation = "0001";
-	            }else if(loginUser.get("loginLock").toString().equals("Y")){
-        		//}else if(loginUser.get("LOGIN_LOCK").toString().equals("Y")){
-	                userOk = false;
-	                validation = "L001";
-	            }
-    		}
-            LOGGER.debug("사용자 조회 완료");        	
+                LOGGER.debug("loginUserList.get(0) => " + loginUser);
+                LOGGER.debug("###########################################################");
+                
+                if(loginUser.get("xcmkCd") == null || loginUser.get("eeId") == null) {
+                //if(loginUser.get("XCMK_CD") == null || loginUser.get("EE_ID") == null) {
+                    userOk = false;
+                    validation = "0001";
+                }else if(loginUser.get("loginLock").toString().equals("Y")){
+                //}else if(loginUser.get("LOGIN_LOCK").toString().equals("Y")){
+                    userOk = false;
+                    validation = "L001";
+                }
+            }
+            LOGGER.debug("사용자 조회 완료");          
         }
         
-		LOGGER.debug("###########################################################");
-		LOGGER.debug("userOk => " + userOk);
-		LOGGER.debug("validation => " + validation);
-		LOGGER.debug("###########################################################");
-		
-		
+        LOGGER.debug("###########################################################");
+        LOGGER.debug("userOk => " + userOk);
+        LOGGER.debug("validation => " + validation);
+        LOGGER.debug("###########################################################");
+        
+        
         if(userOk){
             // 비밀번호 확인 (암호화된 비밀번호 일치여부 확인)
-        	try {
+            try {
             //if(!EncryptionBiz.isMatchingSHA512Password(loginUser.getString("pw2"), data.getString("pwd"))){
-        	if(!irisEncryptionService.isMatchingSHA512Password(loginUser.get("pw2").toString(), input.get("pwd").toString())){
-	        		LOGGER.debug("패스워드 불일치");
-	                userOk = false;
-	                validation = "0002";
-	            }else{
-	            	LOGGER.debug("비밀번호 확인 완료");
-	            }
-        	} catch(Exception e) {
-        		LOGGER.debug("패스워드 알고리즘 오류");
+            if(!irisEncryptionService.isMatchingSHA512Password(loginUser.get("pw2").toString(), input.get("pwd").toString())){
+                    LOGGER.debug("패스워드 불일치");
+                    userOk = false;
+                    validation = "0002";
+                }else{
+                    LOGGER.debug("비밀번호 확인 완료");
+                }
+            } catch(Exception e) {
+                LOGGER.debug("패스워드 알고리즘 오류");
                 userOk = false;
-                validation = "0002";        		
-        	}
+                validation = "0002";                
+            }
         }
         
         LOGGER.debug("######################### 로그인 정보 확인 #########################");
         LOGGER.debug(loginUser);
-        LOGGER.debug("######################### 로그인 정보 확인 #########################");		
-		
-		
+        LOGGER.debug("######################### 로그인 정보 확인 #########################");      
+        
+        
         // 퇴직 직원의 경우 
         if(userOk){
             //if(loginUser.getString("retrYn").equals("Y")){
-        	if(loginUser.get("retrYn").toString().equals("Y")){
+            if(loginUser.get("retrYn").toString().equals("Y")){
                 userOk = false;
                 validation = "0006";
             }
-        	LOGGER.debug("퇴직 직원 여부  확인 완료");
+            LOGGER.debug("퇴직 직원 여부  확인 완료");
         }        
         
         //패스워드변경
         if(userOk){
             //LData chkData = loginBiz.retrievePassDt(loginUser);
-        	HashMap chkData = loginService.retrievePassDt(loginUser);
+            HashMap chkData = loginService.retrievePassDt(loginUser);
             //if(chkData.getInt("cnt") > 0){
-        	if(Integer.parseInt( chkData.get("cnt").toString()) > 0){
+            if(Integer.parseInt( chkData.get("cnt").toString()) > 0){
                 //LNavigationAlter.setReturnUrlName("repass");
-        		//return "redirect:/repass.do";
-        		//redirectAttributes.addAttribute("eeId", input.get("eeId").toString());
-        		//redirectAttributes.addAttribute("_xcmkCd", input.get("xcmkCd").toString());
-        		//return "redirect:/common/login/itgRepassLoginForm.do";
-        		model.addAttribute("eeId", loginUser.get("eeId").toString());
-        		model.addAttribute("_xcmkCd", loginUser.get("xcmkCd").toString());
-        		return "redirect:/common/login/itgRepassLoginForm.do";
+                //return "redirect:/repass.do";
+                //redirectAttributes.addAttribute("eeId", input.get("eeId").toString());
+                //redirectAttributes.addAttribute("_xcmkCd", input.get("xcmkCd").toString());
+                //return "redirect:/common/login/itgRepassLoginForm.do";
+                model.addAttribute("eeId", loginUser.get("eeId").toString());
+                model.addAttribute("_xcmkCd", loginUser.get("xcmkCd").toString());
+                return "redirect:/common/login/itgRepassLoginForm.do";
             }
         }
         
@@ -243,22 +243,22 @@ public class IrisReLoginController {
         if(userOk) {
             
             //if("Y".equals(loginUser.getString("sec1")) && "Y".equals(loginUser.getString("sec2"))){
-        	if("Y".equals(loginUser.get("sec1").toString()) && "Y".equals(loginUser.get("sec2").toString())){
+            if("Y".equals(loginUser.get("sec1").toString()) && "Y".equals(loginUser.get("sec2").toString())){
                 
             }else{
                 //LActionContext.setAttribute("data", data);
-            	model.addAttribute("data", input); 
+                model.addAttribute("data", input); 
                 //LActionContext.setAttribute("loginUser", loginUser);
-            	model.addAttribute("loginUser", loginUser);
+                model.addAttribute("loginUser", loginUser);
                 //LNavigationAlter.setReturnUrlName("sConfirm");
-            	//return "redirect:/sConfirm.do";
-            	return "web/system/security/WINS_Security_Confirm";
+                //return "redirect:/sConfirm.do";
+                return "web/system/security/WINS_Security_Confirm";
             }
             
             //System.out.println("ID       :----------> [" + data.getString("eeId")+ "]");
             //System.out.println("Password :----------> [" + data.getString("pwd")+ "]");
-        	LOGGER.debug("ID       :----------> [" + input.get("eeId")+ "]");
-        	LOGGER.debug("Password :----------> [" + input.get("pwd")+ "]");        	
+            LOGGER.debug("ID       :----------> [" + input.get("eeId")+ "]");
+            LOGGER.debug("Password :----------> [" + input.get("pwd")+ "]");            
         }        
         
         if(userOk) {
@@ -272,9 +272,9 @@ public class IrisReLoginController {
         
         if(validation == "9999"){
             //request.setAttribute("validation", validation);
-        	model.put("validation", validation);
+            model.put("validation", validation);
             //request.setAttribute("userInfo", data);
-        	model.put("userInfo", input);
+            model.put("userInfo", input);
 
             // 세션 생성하기 위한 사용자 정보 조회 
             resultData = loginService.retrieveUserDetail(loginUser);
@@ -282,7 +282,7 @@ public class IrisReLoginController {
             if(!resultData.isEmpty()) {
                 
                 //LData lsession = new LData();
-            	HashMap lsession = new HashMap();
+                HashMap lsession = new HashMap();
                 // 세션 변경 과도기 기간을 위한 임시. 장대일K 요청 . 10.03.25
                 //lsession.setString("userId"   , resultData.getString("eeId")); 2010.04.23 주석처리 (박은영)
 
@@ -350,17 +350,17 @@ public class IrisReLoginController {
                        || NullUtil.nvl(resultData.get("eeId"), "").equals("oasis")
                        || NullUtil.nvl(resultData.get("eeId"), "").equals("rltlt")
                        || NullUtil.nvl(resultData.get("eeId"), "").equals("leeminu")    //otp 테스트용
-                    ){                    	
+                    ){                      
                         //lsession.setString("_adminYn", "Y");
-                    	lsession.put("_adminYn", "Y");
+                        lsession.put("_adminYn", "Y");
                     } else {
                         //lsession.setString("_adminYn", "N");
-                    	lsession.put("_adminYn", "N");
+                        lsession.put("_adminYn", "N");
                     }
                 }
                 else {
                     //lsession.setString("_adminYn", "N");
-                	lsession.put("_adminYn", "N");
+                    lsession.put("_adminYn", "N");
                 }
                 
                 //if(resultData.getString("xcmkCd").equals("C777777")) {
@@ -404,7 +404,7 @@ public class IrisReLoginController {
                 /* [사용안함]
                 if(lsession.get("_adminYn").toString().equals("Y")){
                     //LNavigationAlter.setReturnUrlName("otp");
-                	return "redirect:/otp.do";
+                    return "redirect:/otp.do";
                 }
                 */
             }
@@ -413,42 +413,42 @@ public class IrisReLoginController {
 
             //로그인 실패 카운터 --> 이 메소드를 통해 일정 회수 이상 실패시 아이디 Lock
             //LData result = new LData();
-        	HashMap resultHm = new HashMap();
-        	String rtnMsg = "";
-        	
+            HashMap resultHm = new HashMap();
+            String rtnMsg = "";
+            
             if(validation.equals("0002")){
 
                 //result = loginBiz.loginFailureCount(data);
-            	// msg.alert.login.warning
-            	// msg.alert.login.lock.warning
-            	//result = loginService.loginFailureCount(input);
-            	
-            	HashMap inMap = new HashMap();
-            	//inMap.put("P_AGEN_CD", loginUser.get("xcmkCd").toString());
-            	//inMap.put("P_USER_ID", loginUser.get("eeId").toString());
-            	inMap.put("xcmkCd", input.get("xcmkCd").toString());
-            	inMap.put("eeId", input.get("eeId").toString());            	
-            	//resultHm = loginService.loginFailureCount(inMap);
-            	loginService.loginFailureCount(inMap);
-            	
-            	//resultHm = loginService.loginFailureCount(loginUser);
+                // msg.alert.login.warning
+                // msg.alert.login.lock.warning
+                //result = loginService.loginFailureCount(input);
+                
+                HashMap inMap = new HashMap();
+                //inMap.put("P_AGEN_CD", loginUser.get("xcmkCd").toString());
+                //inMap.put("P_USER_ID", loginUser.get("eeId").toString());
+                inMap.put("xcmkCd", input.get("xcmkCd").toString());
+                inMap.put("eeId", input.get("eeId").toString());                
+                //resultHm = loginService.loginFailureCount(inMap);
+                loginService.loginFailureCount(inMap);
+                
+                //resultHm = loginService.loginFailureCount(loginUser);
                 
                 
                 //String rtnMsg = LMessage.getInstance().getMessage(result.getString("returnCode"));
                 //String rtnMsg = messageSource.getMessage(result.get("returnCode").toString(), null, Locale.KOREA); 
-            	LOGGER.debug("######################### 패스워드불일치#########################");	
-            	LOGGER.debug("######### result => " + resultHm);
-            	LOGGER.debug("######### inMap => " + inMap);
-            	LOGGER.debug("######### input => " + input);
-            	LOGGER.debug("##### loginUser => " + loginUser);
-            	//LOGGER.debug("#########" + result.get("returnCode"));
-            	LOGGER.debug("######################### 패스워드불일치 #########################");
+                LOGGER.debug("######################### 패스워드불일치#########################"); 
+                LOGGER.debug("######### result => " + resultHm);
+                LOGGER.debug("######### inMap => " + inMap);
+                LOGGER.debug("######### input => " + input);
+                LOGGER.debug("##### loginUser => " + loginUser);
+                //LOGGER.debug("#########" + result.get("returnCode"));
+                LOGGER.debug("######################### 패스워드불일치 #########################");
                 rtnMsg = messageSourceAccessor.getMessage(inMap.get("returnCode").toString());
                 
                 //if(result.getString("lock").equals("N")){
                 if(inMap.get("lock").toString().equals("N")){
                     //rtnMsg += "\n총 5회중 "+result.getString("failCnt")+"회 실패하셨습니다!";
-                	rtnMsg += "\\n총 5회중 "+inMap.get("failCnt")+"회 실패하셨습니다!";
+                    rtnMsg += "\\n총 5회중 "+inMap.get("failCnt")+"회 실패하셨습니다!";
                 }
 
                 //LMessageParameter.setMessageParameter(rtnMsg);
@@ -458,11 +458,11 @@ public class IrisReLoginController {
             }else{
                 //LSayMessage.setMessageCode("msg.alert.login.warning");
                 //LMessageParameter.setMessageParameter(LMessage.getInstance().getMessage("msg.alert.login.warning"));
-            	//String rtnMsg = messageSource.getMessage("msg.alert.login.warning", null, Locale.KOREA);
-            	rtnMsg = messageSourceAccessor.getMessage("msg.alert.login.warning");
-            	//redirectAttributes.addAttribute("errorMsg",rtnMsg);
-            	//model.addAttribute("errorMsg",rtnMsg);
-            	SayMessage.setMessage(rtnMsg);
+                //String rtnMsg = messageSource.getMessage("msg.alert.login.warning", null, Locale.KOREA);
+                rtnMsg = messageSourceAccessor.getMessage("msg.alert.login.warning");
+                //redirectAttributes.addAttribute("errorMsg",rtnMsg);
+                //model.addAttribute("errorMsg",rtnMsg);
+                SayMessage.setMessage(rtnMsg);
             }
             //LNavigationAlter.setReturnUrl("/common/page_Navi/itgLoginForm.dev");
             //LNavigationAlter.setReturnHandler("alertAndMoveUrlHandler");
@@ -478,31 +478,31 @@ public class IrisReLoginController {
 //            LNavigationAlter.setReturnUrl("1");  
         } else if(validation == "0006"){             // 퇴직직원인 경우
             //LMessageParameter.setMessageParameter(LMessage.getInstance().getMessage("msg.alert.login.notEmployee"));
-        	//String rtnMsg = messageSource.getMessage("msg.alert.login.notEmployee", null, Locale.KOREA);
-        	String rtnMsg = messageSourceAccessor.getMessage("msg.alert.login.notEmployee");
-        	//redirectAttributes.addAttribute("errorMsg",rtnMsg);
-        	//model.addAttribute("errorMsg",rtnMsg);
-        	SayMessage.setMessage(rtnMsg);
+            //String rtnMsg = messageSource.getMessage("msg.alert.login.notEmployee", null, Locale.KOREA);
+            String rtnMsg = messageSourceAccessor.getMessage("msg.alert.login.notEmployee");
+            //redirectAttributes.addAttribute("errorMsg",rtnMsg);
+            //model.addAttribute("errorMsg",rtnMsg);
+            SayMessage.setMessage(rtnMsg);
             //LNavigationAlter.setReturnHandler("alertAndBack");
             //LNavigationAlter.setReturnUrl("1");
-        	//return "/common/login/itgLoginForm.do";
-        	return "redirect:/common/login/itgLoginForm.do";
+            //return "/common/login/itgLoginForm.do";
+            return "redirect:/common/login/itgLoginForm.do";
         } else if(validation == "0007"){             // get 방식으로 로그인한 경우 
             //LMessageParameter.setMessageParameter(LMessage.getInstance().getMessage("msg.alert.wrongAccess"));
-        	//String rtnMsg = messageSource.getMessage("msg.alert.wrongAccess", null, Locale.KOREA);
-        	String rtnMsg = messageSourceAccessor.getMessage("msg.alert.wrongAccess");
-        	//redirectAttributes.addAttribute("errorMsg",rtnMsg);
-        	//model.addAttribute("errorMsg",rtnMsg);
-        	SayMessage.setMessage(rtnMsg);
+            //String rtnMsg = messageSource.getMessage("msg.alert.wrongAccess", null, Locale.KOREA);
+            String rtnMsg = messageSourceAccessor.getMessage("msg.alert.wrongAccess");
+            //redirectAttributes.addAttribute("errorMsg",rtnMsg);
+            //model.addAttribute("errorMsg",rtnMsg);
+            SayMessage.setMessage(rtnMsg);
             //LNavigationAlter.setReturnHandler("alertAndBack");
             //LNavigationAlter.setReturnUrl("1");
-        	//return "/common/login/itgLoginForm.do";
-        	return "redirect:/common/login/itgLoginForm.do";
+            //return "/common/login/itgLoginForm.do";
+            return "redirect:/common/login/itgLoginForm.do";
         }        
-		
+        
         //메인화면 이동 필요
-		//return "web/system/login/session_test";
+        //return "web/system/login/session_test";
         //return "redirect:/esti/list/estiList.do";
         return "redirect:/index.do";
-	}		
+    }       
 }
