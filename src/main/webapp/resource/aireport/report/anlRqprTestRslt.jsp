@@ -509,7 +509,7 @@ class ReportHandler{
 			//데이터 변수 할당
 			sheet10_A31="대외비";
 			sheet10_D31="    #PAGE";
-			sheet10_H31="연구소.고객사용안전.무해성검증PJT";
+			sheet10_H31="           연구소.분석연구팀";
 		}   //end if(bIsFirst)
 
 		//AI 스크립트 출력
@@ -1004,7 +1004,7 @@ class ReportHandler{
 			//데이터 변수 할당
 			sheet20_A5="대외비";
 			sheet20_D5="#PAGE";
-			sheet20_G5="연구소.고객사용안전.무해성검증PJT";
+			sheet20_G5="           연구소.분석연구팀";
 		}   //end if(bIsFirst)
 
 		//AI 스크립트 출력

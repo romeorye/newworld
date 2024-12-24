@@ -553,7 +553,7 @@ class ReportHandler{
 			//데이터 변수 할당
 			sheet10_A23="대외비";
 			sheet10_D23="#PAGE";
-			sheet10_H23="연구소.고객사용안전.무해성검증PJT";
+			sheet10_H23="           연구소.분석연구팀";
 		}   //end if(bIsFirst)
 
 		//AI 스크립트 출력
@@ -712,7 +712,7 @@ class ReportHandler{
 			//데이터 변수 할당
 			sheet20_A15="대외비";
 			sheet20_D15="#PAGE";
-			sheet20_H15="             연구소.고객사용안전.무해성검증PJT ";
+			sheet20_H15="                         연구소.분석연구팀 ";
 		}   //end if(bIsFirst)
 
 		//AI 스크립트 출력
@@ -1339,7 +1339,7 @@ class ReportHandler{
 			//데이터 변수 할당
 			sheet30_A7="대외비";
 			sheet30_D7="#PAGE";
-			sheet30_H7="연구소.고객사용안전.무해성검증PJT";
+			sheet30_H7="           연구소.분석연구팀";
 		}   //end if(bIsFirst)
 
 		//AI 스크립트 출력
@@ -1482,7 +1482,7 @@ class ReportHandler{
 			//데이터 변수 할당
 			sheet40_A5="대외비";
 			sheet40_D5="#PAGE";
-			sheet40_H5="연구소.고객사용안전.무해성검증PJT";
+			sheet40_H5="           연구소.분석연구팀";
 		}   //end if(bIsFirst)
 
 		//AI 스크립트 출력
