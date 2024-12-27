@@ -276,10 +276,10 @@ public class IrisLoginController {
                 }
                 
                 if(errFlag) {
-                    //LOGGER.error(logMsg);
+                    LOGGER.error(logMsg);
                     SayMessage.setMessage(alertMsg);
                     //return "redirect:/index.do";
-                    return "common/error/error";
+                    /////return "common/error/error";
                 }
                 //[EAM추가] - 사용자 시스템 권한 확인 END ===========================================================
                 
@@ -365,17 +365,16 @@ public class IrisLoginController {
                     alertMsg = eamUtil.getDefaultAlertMessage();
                 }
                 if(errFlag) {
-                    //LOGGER.error(logMsg);
+                    LOGGER.error(logMsg);
                     SayMessage.setMessage(alertMsg);
                     //return "redirect:/common/login/itgLoginForm.do";
-                    return "web/system/main";
+                    /////return "web/system/main";
                 }
                 //[EAM추가] - EAM 관리 전체 메뉴 URL 조회 End ===========================================================
                 
                 lsession = new HashMap();
   
                 lsession.put("_userId"   , NullUtil.nvl(resultData.get("sa_user"), ""));  
-//                lsession.put("_userSabun"   , NullUtil.nvl(resultData.get("sa_sabun_new"), ""));
                 lsession.put("_userSabun"   , userSabun);
                 lsession.put("_userGubun"   , NullUtil.nvl(resultData.get("sa_gubun"), ""));
                 lsession.put("_userNm"   , NullUtil.nvl(resultData.get("sa_name"), ""));
@@ -387,13 +386,12 @@ public class IrisLoginController {
                 lsession.put("_userFuncName"   , NullUtil.nvl(resultData.get("sa_func_name"), ""));
                 lsession.put("_userEmail"   , NullUtil.nvl(resultData.get("sa_mail"), ""));
                 lsession.put("_teamDept"   , NullUtil.nvl(resultData.get("team_dept"), ""));
-                lsession.put("_roleId", roleIds.substring(1));
-                //lsession.put("_ssoUserId", input.get("ssoUserId"));
-                
+                lsession.put("_roleId",      "WORK_IRI_T01"); //roleIds.substring(1));
                 lsession.put("_loginTime",  FormatHelper.curTime());  //로그인 시간
                 lsession.put("rowsPerPage",  "100");      // 그리드 리스트에서 한 화면에 보이는 row 수                                
-                
                 lsession.put("sessionID",  session.getId());
+                
+                LOGGER.debug("[lsession]", lsession);
                 
                 //세션 시간 설정
                 session.setAttribute("irisSession", lsession);     
@@ -491,7 +489,8 @@ public class IrisLoginController {
             } else {
                 LOGGER.debug("##### /prj/main.do 로 이동");
                 
-                return "redirect:/prj/main.do";
+                /////return "redirect:/prj/main.do";
+                return "redirect:/menu/index.html";
             }
         }
     }
